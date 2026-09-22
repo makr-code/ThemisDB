@@ -68,10 +68,10 @@ This document defines **mandatory production requirements** for the vector searc
 - Status: ✅ VERIFIED
 - Regression tolerance: ≤ 10% vs. baseline
 
-**MUST:** Memory overhead must remain < 40% of raw vector storage.
+**Memory overhead must remain < 40% of raw vector storage.
 - Evidence: Benchmark memory profiling
 - Status: ✅ VERIFIED
-- Implication: 1M 128-dim vectors (~512 MB) + index ≤ ~716 MB
+- Implication: 1M 128-dim vectors (~512 MB) + index ≤ ~717 MB (512 MB base + 40% ≈ 205 MB overhead)
 
 ### 4. Concurrency & Thread Safety
 
@@ -97,6 +97,7 @@ This document defines **mandatory production requirements** for the vector searc
   - E5402: Index is empty
   - E5403: Search returned no results
   - E5404: Index corruption detected
+  - E5405: Invalid distance metric
   - **Note:** Out-of-memory conditions preserve the index and return caller-specific allocation error codes (not E5404).
 - Status: ✅ DOCUMENTED
 

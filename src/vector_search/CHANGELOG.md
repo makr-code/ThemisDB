@@ -191,7 +191,7 @@ Phase 1 API contracts are functionally complete and frozen for forward compatibi
 | Version | Date | Status | Phase(s) |
 |---|---|---|---|
 | 2.0.0 | 2026-09-22 | Production-Ready | Wave D Complete |
-| 1.4.0 | 2026-08-10 | Wave D Complete | Phase 5 (Batch) |
+| 1.4.0 | 2026-08-10 | Complete (Wave D Batch) | Phase 5 |
 | 1.3.0 | 2026-07-15 | Complete | Phase 4 |
 | 1.2.0 | 2026-06-20 | Complete | Phase 3 |
 | 1.1.0 | 2026-05-30 | Complete | Phase 2 |

@@ -9,7 +9,7 @@
 |---|---|---|
 | Malicious vectors corrupting index structure | Denial of service, incorrect results | Dimension validation, NaN/inf detection, integrity checks |
 | Excessive memory consumption via large vectors | Memory exhaustion, system crash | Vector size limits, batch operation bounds |
-| Invalid distance metric selection | Incorrect similarity rankings | Metric enum validation, error returns (E5401) |
+| Invalid distance metric selection | Incorrect similarity rankings | Metric enum validation, error returns (E5405) |
 | Concurrent modification races | Index corruption, undefined behavior | Read-write mutex protection, atomic flags |
 | Serialized index tampering | Trust boundary violation | Index checksums (planned Phase 6), integrity validation |
 
@@ -50,7 +50,7 @@
 **Protection:** Validate metric enum values; return error on unsupported metrics  
 **Enforced on:**
 - COSINE, L2, INNER_PRODUCT only
-- Invalid metrics rejected with error code E5401
+- Invalid metrics rejected with error code E5405
 
 **Rationale:** Ensures consistent similarity semantics across search operations. Input validation is caller's responsibility; no silent fallback occurs.
 
@@ -104,6 +104,7 @@ All error conditions return explicit error codes (E5400–E5499):
 - E5402: Index is empty (operational)
 - E5403: Search returned no results (operational)
 - E5404: Index corruption detected (security-relevant)
+- E5405: Invalid distance metric (security-relevant)
 
 No silent failures; all error conditions logged.
 
