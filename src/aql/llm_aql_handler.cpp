@@ -568,14 +568,12 @@ class LLMAQLHandler::Impl {
             llm_client_ = cfg.llm_client;
             spdlog::info("LLMAQLHandler: Custom LLM client injected");
         } else {
-            // Create default mock LLM client for testing/development
-            /**
-             * @brief Create Default LLMClient.
-             * @return Return value.
-             */
+            // Create the default client; it will prefer a real plugin and only
+            // fall back to the deterministic keyword path when no model-backed
+            // backend is available at runtime.
             extern std::shared_ptr<llm::LLMClient> createDefaultLLMClient();
             llm_client_ = createDefaultLLMClient();
-            spdlog::info("LLMAQLHandler: Default (mock) LLM client initialized");
+            spdlog::info("LLMAQLHandler: Default LLM client initialized (plugin bootstrap deferred until first inference)");
         }
         
         // Wire the validation pipeline with parser + LLM client

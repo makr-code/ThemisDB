@@ -53,6 +53,10 @@ foreach(_src IN LISTS LLAMA_CPP_PREFIX_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
+
+    if(MSVC)
+        target_link_options(${_target} PRIVATE /OPT:NOREF)
+    endif()
     
     # Enable stub mode for test builds to preserve existing test behavior
     # Group D, N6 tests rely on stub echo responses

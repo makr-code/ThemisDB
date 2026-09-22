@@ -15,6 +15,7 @@
 #include "llm/llama_wrapper.h"
 #include "llm/embedded_llm.h"
 #include "llm/ssm_state_rocksdb_store.h"
+#include "llama_cpp/llama_cpp_plugin.h"
 #include "utils/logger.h"
 #include "utils/error_registry.h"
 #include <spdlog/spdlog.h>
@@ -817,21 +818,39 @@ bool createLlamaWrapper(
 ) {
 #ifdef THEMIS_LLAMA_CPP_STUB_MODE
     // STUB/SIMULATION NOTE (STUB #LPM-01 — llama.cpp stub mode):
-    // Purpose:           Allow LLMPluginManager to compile and link on environments
-    //                    where llama.cpp is not available or not desired (e.g., CI
-    //                    pipelines, cross-compilation targets, or test builds).
+    // Purpose:           Keep the llama.cpp plugin available in test/CI builds
+    //                    even when no real model file is configured, so the default
+    //                    LLM client does not silently fall back to the keyword mock.
     // Activation:        Compiled when THEMIS_LLAMA_CPP_STUB_MODE is defined.
     //                    Never set in production release CMake presets.
-    // Production Delta:  Returns true immediately without creating any real LLM
-    //                    plugin. All llama.cpp inference calls will subsequently
-    //                    fail-closed via the EmbeddedLLM no-backend path.
+    // Production Delta:  Registers a lightweight LlamaCppPlugin instance whose
+    //                    generate() path echoes the prompt in stub mode, instead of
+    //                    returning success without any backend.
     // Removal Plan:      Do not set THEMIS_LLAMA_CPP_STUB_MODE in production builds.
     //                    Tracking: src/llm/ROADMAP.md § "llama.cpp Integration"
-    (void)name;
-    (void)model_path;
-    (void)config;
-    return true;
+    try {
+        auto plugin = std::make_unique<themis::llamacpp::LlamaCppPlugin>();
+        plugin->loadModel(model_path, config);
+        LLMPluginManager::instance().registerPlugin(name.empty() ? "llamacpp" : name,
+                                                  std::move(plugin));
+        spdlog::info("Stub llama.cpp plugin '{}' registered for offline/test execution",
+                     name.empty() ? "llamacpp" : name);
+        return true;
+    } catch (const std::exception& e) {
+        spdlog::error("Failed to register stub llama.cpp plugin '{}': {}",
+                      name, e.what());
+        return false;
+    }
 #else
+    // Fail closed: a wrapper without a real model is not a usable runtime backend.
+    // Registering an uninitialized LlamaWrapper leaves the default plugin in an
+    // UNINITIALIZED state and causes downstream "LlamaWrapper not ready for inference"
+    // failures even though the plugin manager reports a default plugin exists.
+    if (model_path.empty()) {
+        spdlog::warn("createLlamaWrapper: refusing to register '{}' without a valid model_path; backend stays unavailable until a real model is configured",
+                     name.empty() ? "llamacpp" : name);
+        return false;
+    }
     try {
         // Create llama.cpp plugin with config
         LlamaWrapper::Config plugin_config;

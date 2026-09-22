@@ -877,6 +877,11 @@ target_sources(themis_tests PRIVATE
     ${THEMIS_ROOT_DIR}/src/performance/hardware_accelerator.cpp
     ${THEMIS_ROOT_DIR}/src/transaction/distributed_transaction_manager.cpp
     ${THEMIS_ROOT_DIR}/src/network/udp_server.cpp
+    ${THEMIS_ROOT_DIR}/src/aql/aql_lora_finetuner.cpp
+    ${THEMIS_ROOT_DIR}/src/aql/aql_model_router.cpp
+    ${THEMIS_ROOT_DIR}/src/aql/aql_query_diff_explainer.cpp
+    ${THEMIS_ROOT_DIR}/src/aql/aql_rollback_suggester.cpp
+    ${THEMIS_ROOT_DIR}/src/auth/http_auth_async.cpp
     ${THEMIS_ROOT_DIR}/src/training/ada_lora_adapter.cpp
     ${THEMIS_ROOT_DIR}/src/training/adalora_tt_bridge.cpp
     ${THEMIS_ROOT_DIR}/src/training/knowledge_graph_enricher.cpp

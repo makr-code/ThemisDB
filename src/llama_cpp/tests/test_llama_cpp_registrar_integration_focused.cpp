@@ -19,6 +19,9 @@ using json = nlohmann::json;
 using namespace themis::llamacpp;
 using namespace themis::llm;
 
+extern "C" void themis_llama_cpp_registrar_integration_tests_force_link() {}
+#pragma comment(linker, "/include:themis_llama_cpp_registrar_integration_tests_force_link")
+
 // ── Group W — Server-startup registrar integration ────────────────────────────
 
 // W1: No "llm" key → no-op, must return true
@@ -76,8 +79,31 @@ TEST(LlamaCppRegistrarIntegrationTests, W7_InitFromServerConfig_WithModelPath) {
     EXPECT_TRUE(LlamaCppPluginRegistrar::initFromServerConfig(config));
 }
 
-// W8: initFromServerConfig is idempotent (calling twice is safe)
-TEST(LlamaCppRegistrarIntegrationTests, W8_InitFromServerConfig_Idempotent) {
+// W8: createLlamaWrapper must register a plugin in stub mode, not just
+// report success without a real backend.
+#ifdef THEMIS_LLAMA_CPP_STUB_MODE
+TEST(LlamaCppRegistrarIntegrationTests, W8_CreateLlamaWrapper_RegistersStubPlugin) {
+    auto& mgr = LLMPluginManager::instance();
+    const std::string plugin_name = "stub_registration_probe";
+
+    const bool ok = createLlamaWrapper(plugin_name, "", json::object());
+    EXPECT_TRUE(ok);
+    EXPECT_TRUE(mgr.hasPlugin(plugin_name));
+    EXPECT_NE(mgr.getDefaultPlugin(), nullptr);
+}
+#else
+TEST(LlamaCppRegistrarIntegrationTests, W8_CreateLlamaWrapper_EmptyModelPath_FailsClosed) {
+    auto& mgr = LLMPluginManager::instance();
+    const std::string plugin_name = "unloaded_backend_probe";
+
+    const bool ok = createLlamaWrapper(plugin_name, "", json::object());
+    EXPECT_FALSE(ok);
+    EXPECT_FALSE(mgr.hasPlugin(plugin_name));
+}
+#endif
+
+// W9: initFromServerConfig is idempotent (calling twice is safe)
+TEST(LlamaCppRegistrarIntegrationTests, W9_InitFromServerConfig_Idempotent) {
     json config = {{"llm", {{"model_path", ""}}}};
     EXPECT_TRUE(LlamaCppPluginRegistrar::initFromServerConfig(config));
     EXPECT_TRUE(LlamaCppPluginRegistrar::initFromServerConfig(config));

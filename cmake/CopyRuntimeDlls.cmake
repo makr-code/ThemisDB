@@ -28,6 +28,29 @@ function(_is_windows_system_path INPUT_PATH OUT_VAR)
     endif()
 endfunction()
 
+function(_is_known_optional_windows_runtime_dll DLL_NAME OUT_VAR)
+    if(NOT DLL_NAME OR "${DLL_NAME}" STREQUAL "")
+        set(${OUT_VAR} FALSE PARENT_SCOPE)
+        return()
+    endif()
+
+    string(TOLOWER "${DLL_NAME}" _dll_lower)
+    set(_known_optional_windows_runtime_dlls
+        "azureattestmanager.dll"
+        "azureattestnormal.dll"
+        "hvsifiletrust.dll"
+        "pdmutilities.dll"
+        "wpaxholder.dll"
+    )
+
+    list(FIND _known_optional_windows_runtime_dlls "${_dll_lower}" _known_idx)
+    if(_known_idx GREATER -1)
+        set(${OUT_VAR} TRUE PARENT_SCOPE)
+    else()
+        set(${OUT_VAR} FALSE PARENT_SCOPE)
+    endif()
+endfunction()
+
 function(_copy_single_file_if_needed SOURCE_PATH DEST_DIR)
     if(NOT SOURCE_PATH OR "${SOURCE_PATH}" STREQUAL "")
         return()
@@ -189,12 +212,23 @@ if(DEFINED TARGET_FILE AND NOT "${TARGET_FILE}" STREQUAL "")
         endif()
     endforeach()
 
+    set(_suppressed_unresolved_optional_windows)
     foreach(_dep IN LISTS _unresolved_deps)
         if(_dep MATCHES "^(api-ms-|ext-ms-)")
             continue()
         endif()
+        _is_known_optional_windows_runtime_dll("${_dep}" _is_known_optional_windows_dll)
+        if(_is_known_optional_windows_dll)
+            list(APPEND _suppressed_unresolved_optional_windows "${_dep}")
+            continue()
+        endif()
         message(WARNING "[CopyRuntimeDlls] Unresolved runtime dependency for ${TARGET_FILE}: ${_dep}")
     endforeach()
+
+    if(_suppressed_unresolved_optional_windows)
+        list(REMOVE_DUPLICATES _suppressed_unresolved_optional_windows)
+        message(STATUS "[CopyRuntimeDlls] Suppressed known optional Windows runtime dependencies for ${TARGET_FILE}: ${_suppressed_unresolved_optional_windows}")
+    endif()
 
     if(DEFINED _conflicting_deps_FILENAMES)
         foreach(_dll_name IN LISTS _conflicting_deps_FILENAMES)

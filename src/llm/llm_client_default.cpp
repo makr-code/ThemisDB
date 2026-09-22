@@ -20,13 +20,63 @@
 #include "llm/llm_plugin_manager.h"
 #include "llm/llm_plugin_interface.h"
 #include <spdlog/spdlog.h>
+#include <array>
+#include <filesystem>
 
 namespace themis::llm {
+
+namespace {
+
+bool tryBootstrapDefaultLLMBackend() {
+    auto& manager = LLMPluginManager::instance();
+    if (manager.getDefaultPlugin() != nullptr) {
+        return true;
+    }
+
+    // Pre-register the backend when LLM support is compiled in and a model path
+    // is configured. This avoids the default keyword fallback masking a valid
+    // runtime backend that has not been registered yet.
+#if defined(THEMIS_ENABLE_LLM)
+    if (themis::llm::createLlamaWrapper("llamacpp", "", nlohmann::json::object())) {
+        if (manager.getDefaultPlugin() != nullptr) {
+            return true;
+        }
+    }
+
+    const std::array<const char*, 2> model_envs = {
+        "THEMIS_DEMO_LLM_MODEL_PATH",
+        "THEMIS_LLM_DEFAULT_MODEL_PATH"
+    };
+
+    for (const char* env_name : model_envs) {
+        const char* env_value = std::getenv(env_name);
+        if (!env_value || env_value[0] == '\0') {
+            continue;
+        }
+
+        const std::filesystem::path model_path(env_value);
+        if (!std::filesystem::exists(model_path)) {
+            spdlog::warn("DefaultLLMClient: {} points to a missing model path '{}'",
+                         env_name, model_path.string());
+            continue;
+        }
+
+        if (themis::llm::createLlamaWrapper("llamacpp", "", nlohmann::json::object()) &&
+            manager.loadModel("default", model_path.string())) {
+            return true;
+        }
+    }
+#endif
+
+    return manager.getDefaultPlugin() != nullptr;
+}
+
+} // namespace
 
 class DefaultLLMClient : public LLMClient {
 public:
     DefaultLLMClient() : ready_(true) {
-        spdlog::debug("DefaultLLMClient initialized");
+        spdlog::debug("DefaultLLMClient initialized (real plugin bootstrap attempted before keyword fallback)");
     }
 
     ~DefaultLLMClient() override = default;
@@ -45,13 +95,14 @@ public:
         }
 
         // ── Production path: delegate to registered plugin via LLMPluginManager ──
-        ILLMPlugin* plugin = LLMPluginManager::instance().getDefaultPlugin();
-        if (plugin != nullptr) {
-            InferenceRequest req;
-            req.prompt      = prompt;
-            req.model_id    = "default";
-            req.max_tokens  = options.max_tokens;
-            req.temperature = options.temperature;
+        if (tryBootstrapDefaultLLMBackend()) {
+            ILLMPlugin* plugin = LLMPluginManager::instance().getDefaultPlugin();
+            if (plugin != nullptr && plugin->isModelLoaded()) {
+                InferenceRequest req;
+                req.prompt      = prompt;
+                req.model_id    = "default";
+                req.max_tokens  = options.max_tokens;
+                req.temperature = options.temperature;
 
             try {
                 InferenceResponse resp = LLMPluginManager::instance().generate(req);
@@ -63,15 +114,16 @@ public:
                 result.completion_tokens = estimateTokens(resp.text);
                 result.finish_reason     = resp.success ? "stop" : "error";
 
-                spdlog::debug("DefaultLLMClient: plugin generate() ok, {} completion tokens",
-                              result.completion_tokens);
-                return result;
-            } catch (const std::exception& e) {
-                spdlog::error("DefaultLLMClient: plugin generate() threw: {}", e.what());
-                result.success       = false;
-                result.error_message = e.what();
-                result.finish_reason = "error";
-                return result;
+                    spdlog::debug("DefaultLLMClient: plugin generate() ok, {} completion tokens",
+                                  result.completion_tokens);
+                    return result;
+                } catch (const std::exception& e) {
+                    spdlog::error("DefaultLLMClient: plugin generate() threw: {}", e.what());
+                    result.success       = false;
+                    result.error_message = e.what();
+                    result.finish_reason = "error";
+                    return result;
+                }
             }
         }
 
