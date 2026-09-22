@@ -1,50 +1,50 @@
-# Direct Doxygen Check: rag
+# Direct Doxygen Check: llm_wiki
 
 - Source mode: direct_doxygen_markers
-- Source files scanned: 200
-- Source symbols (raw/filter): 1419 / 1400
-- Doxygen members (raw/filter): 3149 / 1867
-- Unique source symbol names: 915
-- Unique doxygen symbol names: 1216
-- Symbol presence ratio: 0.8678
-- Ownership (internal/external): {'internal': 1400, 'external': 0}
+- Source files scanned: 20
+- Source symbols (raw/filter): 86 / 83
+- Doxygen members (raw/filter): 115 / 82
+- Unique source symbol names: 67
+- Unique doxygen symbol names: 70
+- Symbol presence ratio: 0.4776
+- Ownership (internal/external): {'internal': 83, 'external': 0}
 
 ## Rule counts
-- missing_symbol: 121
-- missing_brief: 466
-- missing_param_docs: 308
-- missing_return_docs: 322
+- missing_symbol: 35
+- missing_brief: 43
+- missing_param_docs: 24
+- missing_return_docs: 27
 
 ## Scope counts
-- src: 182
-- tests: 223
-- benchmarks: 38
-- include: 667
-- other: 107
+- src: 56
+- tests: 0
+- benchmarks: 6
+- include: 60
+- other: 4
 
 ## Sample missing symbols
-- ABTestStatus
-- AdversarialStrategy
-- AggregationMethod
-- AggregationStrategy
-- AlertSeverity
-- BiasMitigationStrategy
-- BiasType
-- CalibrationMethod
-- ComparisonWinner
-- ConstantScorer
-- ConstitutionalStrategy
-- CriticVerdict
-- DepthLevel
-- DetectionMode
-- DeterministicEngine
-- DomainType
-- EntityType
-- EvaluationDimension
-- EvaluationMode
-- FallbackMode
-- FallbackStrategy
-- FeedbackType
-- GapType
-- HTTPMethod
-- InjectionSeverity
+- Code
+- Edition
+- ProcessSchedule
+- RocksDbWikiStore
+- appendLog
+- close
+- containsUnsafePattern
+- get
+- hasContradictionCue
+- hashEmbed
+- ifs
+- init
+- isOpen
+- isoTimestamp
+- loadProcessPolicy_locked
+- loadState
+- lock
+- log_ofs
+- matchGlob
+- maybeReloadProcessPolicy_locked
+- mkdirP
+- ofs
+- open
+- parseStringList
+- put
