@@ -111,9 +111,9 @@ Wave D closure includes these Phase 5 deliverables. Phase 5 hardening continues 
   - E5401: Vector contains NaN or inf
   - Skip insertion with warning logged
 - [x] Empty index and no-results handling
-  - E5402: Index is empty
-  - E5403: Search returned no results
-  - Return empty results without error
+  - E5402: Index is empty (error returned)
+  - E5403: Search returned no results (error code returned)
+  - Empty result sets signaled via explicit error codes
 - [x] Index rebuilding and rebalancing
   - Automatic rebalancing on parameter changes
   - Rebuild triggers and progress tracking

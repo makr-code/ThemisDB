@@ -68,7 +68,7 @@ This document defines **mandatory production requirements** for the vector searc
 - Status: ✅ VERIFIED
 - Regression tolerance: ≤ 10% vs. baseline
 
-**Memory overhead must remain < 40% of raw vector storage.**
+**MUST:** Memory overhead must remain < 40% of raw vector storage.
 - Evidence: Benchmark memory profiling
 - Status: ✅ VERIFIED
 - Implication: 1M 128-dim vectors (~512 MB) + index ≤ ~717 MB (512 MB base + 40% ≈ 205 MB overhead)
