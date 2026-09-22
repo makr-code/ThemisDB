@@ -1,4 +1,4 @@
-/*
+/**
  * @file test_execution_highcardinality_stress.cpp
  * @brief Wave D — Execution Engine High-Cardinality Stress Tests.
  *

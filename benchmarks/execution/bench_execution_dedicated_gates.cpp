@@ -1,4 +1,4 @@
-/*
+/**
  * @file bench_execution_dedicated_gates.cpp
  * @brief Wave D — Execution Engine Dedicated Benchmark Gates.
  *
