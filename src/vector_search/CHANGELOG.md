@@ -162,15 +162,15 @@ All error codes reserved and documented for vector search error taxonomy.
 
 ## [1.0.0] — 2026-05-01 – Phase 1 Design & API Contract
 
-### Phase 1 Deliverables ✓ COMPLETE
+### Phase 1 Deliverables ✓ FUNCTIONALLY COMPLETE
 
-- [x] Vector index abstraction and query interface
+- [~] Vector index abstraction and query interface
   - `include/vector_search/vector_index.h` (planned; currently via `include/index/`)
   - Core contracts: `add()`, `search()`, `delete()` operations
-- [x] Similarity query API
+- [~] Similarity query API
   - `include/vector_search/similarity_search.h` (planned; currently via similarity interfaces)
   - K-nearest neighbor search interface
-- [x] Distance metric definitions
+- [~] Distance metric definitions
   - `include/vector_search/distance_metric.h` (planned; currently via utils)
   - Cosine, L2, inner product support
 - [x] Error taxonomy (E5400–E5499)
@@ -179,9 +179,9 @@ All error codes reserved and documented for vector search error taxonomy.
 
 ### Completed Milestone
 
-Phase 1 API contracts frozen and finalized for forward compatibility.
+Phase 1 API contracts functionally frozen and finalized for forward compatibility. Canonical header consolidation planned for Phase 6.
 
-### Status: ✓ PHASE 1 COMPLETE
+### Status: ✓ PHASE 1 FUNCTIONALLY COMPLETE (canonical headers Phase 6)
 
 ---
 

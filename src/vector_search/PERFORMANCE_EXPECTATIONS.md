@@ -125,8 +125,6 @@ If a target uses a proxy benchmark (not direct measurement), follow-up hardening
 ## Issue Scope Traceability
 
 - Vector search production release: `https://github.com/makr-code/ThemisDB/issues/6479` (this issue)
-- Wave D evidence closure: `https://github.com/makr-code/ThemisDB/issues/<wave-d-tracking>`
-- Follow-on Phase 6 (distributed): `https://github.com/makr-code/ThemisDB/issues/<phase-6-tracking>`
 
 ---
 
