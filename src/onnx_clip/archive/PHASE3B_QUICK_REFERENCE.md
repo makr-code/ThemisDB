@@ -207,7 +207,7 @@ cat test_phase3b_reload.cpp
 
 ## Next Steps
 
-1. **Integration:** Merge Phase 3B implementation into main branch
+1. **Integration:** Merge Phase 3B implementation into `community` branch
 2. **Testing:** Run comprehensive test suite and thread-safety tools
 3. **Load Testing:** Verify performance under concurrent reload scenarios
 4. **Documentation:** Update API docs and deployment guides

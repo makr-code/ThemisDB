@@ -1,7 +1,7 @@
 > ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
 
-<!-- Status: current | validated: 2026-04-15 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+<!-- Status: current | validated: 2026-09-22 -->
+<!-- Links: README.md · ARCHITECTURE.md · PRODUCTION_REQUIREMENTS.md · ROADMAP.md -->
 
 # Changelog — ONNX CLIP Plugin
 
