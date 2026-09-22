@@ -274,8 +274,7 @@ jobs:
             --base develop \
             --head "$BRANCH" \
             --title "docs(wiki): review generated publish state" \
-            --body "$PR_BODY" \
-            --draft false
+            --body "$PR_BODY"
 
           NEW_PR=$(gh pr list --base develop --state open --json number,headRefName \
             --jq "[.[] | select(.headRefName == \"$BRANCH\")] | .[0].number // empty" | head -n 1 || echo "")
