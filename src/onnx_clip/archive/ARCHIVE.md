@@ -44,7 +44,9 @@ The authoritative module documentation is located in `src/onnx_clip/`:
 If any archived document is needed for reference:
 
 1. Check the git history: `git log --follow src/onnx_clip/archive/PHASE3B_*.md`
-2. Restore from git if needed: `git show <commit>:src/onnx_clip/PHASE3B_*.md`
+2. Restore from git if needed: `git checkout <commit> -- src/onnx_clip/archive/PHASE3B_*.md`
+
+**Note on Branch References:** Some archived documents may reference branch names that are no longer canonical (e.g., "main" instead of "community"). These are historical references preserved from when the documents were created. Refer to `BRANCHING_STRATEGY.md` for current canonical branch names.
 
 ---
 

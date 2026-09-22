@@ -22,7 +22,7 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für die CLIP-b
 
 - **MUST:** Plugin wird über `initialize(config, backend)` mit vollständiger `PluginConfig` initialisiert; keine Defaults ohne explizite Übergabe.
 - **MUST:** Konfigurationswerte werden beim Start validiert; ungültige Konfigurationen führen zu `initialize()`-Fehler.
-- **MUST:** `model.name`, `model.embedding_dim`, und `max_batch_size` müssen explicitly gesetzt sein.
+- **MUST:** `model.name`, `model.embedding_dim`, und `max_batch_size` müssen explizit gesetzt sein.
 - **MUST NOT:** Standard-Defaults (z.B. `clip-vit-base-patch32` mit 512 Dimensionen) in Produktionsdeployments ohne explizite Validierung verwenden.
 
 ### Backend-Selektion und -Verfügbarkeit
@@ -49,7 +49,7 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für die CLIP-b
 ### Batch-Verarbeitung
 
 - **MUST:** Batches werden automatisch in Sub-Batches aufgeteilt, wenn die Eingabegröße `max_batch_size` überschreitet.
-- **MUST:** `max_batch_size` wird aus der Konfiguration gelesen; Standard ist 16 (CPU) oder 64 (GPU).
+- **MUST:** `max_batch_size` wird aus der Konfiguration gelesen; Standard ist 16 (CPU) oder 64 (GPU). <!-- source: src/onnx_clip/onnx_clip_plugin.cpp Impl struct -->
 - **MUST:** Leere Batches oder Batches mit `null`-Bildern führen zu `EmbeddingResult{ok=false}` für betroffene Einträge.
 
 ### Modell-Neuladen (Hot-Swap) – Phase 3B
@@ -57,7 +57,7 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für die CLIP-b
 - **MUST:** `reloadModel(new_config)` lädt das Modell neu, ohne den Server zu stoppen oder bestehende Anfragen zu unterbrechen.
 - **MUST:** In-Flight-Anfragen werden auf Completion gewartet (30-Sekunden-Timeout); keine Anfrage wird abgebrochen.
 - **MUST:** Das neue Modell wird validiert (Konfiguration, Integrität, Backend-Verifikation) vor dem Swap.
-- **MUST:** Auf Fehler während des Neuladen wird rollback ausgeführt; das alte Modell bleibt aktiv.
+- **MUST:** Auf Fehler (Validierung, Integrität, Konfiguration) oder Drain-Timeout wird Rollback ausgeführt; das alte Modell bleibt aktiv, und `reloadModel()` gibt `false` zurück.
 - **MUST NOT:** `reloadModel()` aufrufen während das Plugin nicht initialisiert ist; `isReady()` muss `true` sein.
 
 ### Speicher-Gemapte Modellladung – Phase 4B
@@ -84,7 +84,7 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für die CLIP-b
 ### GPU-Ressourcen und Speicherschutz
 
 - **MUST:** GPU-Memory wird durch die feste Input-Größe und `max_batch_size`-Limit begrenzt.
-- **MUST:** Keine Anfrage kann mehr als ~1-2 GB GPU-Memory verbrauchen (typisch 100-400 MB pro Batch).
+- **MUST:** Keine Anfrage kann mehr als ~600 MB GPU-Memory verbrauchen (typisch 400-600 MB für ViT-base Modell mit Batch-Größe bis 64).
 - **MUST:** Out-of-Memory-Fehler führen zu `EmbeddingResult{ok=false}`, nicht zu Prozess-Crash.
 
 ### Datenblöcke und Biometric-Sensitivität
@@ -109,7 +109,7 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für die CLIP-b
 ### Ressource-Limits
 
 - RAM: ~500-800 MB für Modellgewichte (ViT-base), ~200-300 MB für Aktivierungen pro Batch.
-- GPU-Memory: ~400-600 MB (ViT-base), skaliert mit Batch-Größe.
+- GPU-Memory: ~400-600 MB (ViT-base), skaliert mit Batch-Größe bis zu ~600 MB bei max_batch_size.
 - Thread-Serialisierung: Maximal 1 gleichzeitige Inference pro Plugin-Instanz.
 
 ## Minimaler Produktions-Check (Audit-fähig)
