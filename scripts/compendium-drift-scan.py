@@ -3,17 +3,20 @@
 scripts/compendium-drift-scan.py
 ---------------------------------
 Detects stale compendium chapters relative to the ThemisDB v2.4.0-alpha
-ROADMAP.md and FUTURE_ENHANCEMENTS.md sources.
+ROADMAP.md and FUTURE_ENHANCEMENTS.md sources, and proposes new chapters
+for roadmap topics that have no existing coverage.
 
 Operating model (human-in-the-loop):
   1. This script DETECTS and CLASSIFIES drift; it never rewrites content.
-  2. Results are written to a JSON report and a human-readable Markdown summary.
-  3. The GitHub Actions workflow reads the report and opens/updates tracker issues.
-  4. Humans review, assign, and approve chapter update PRs.
+  2. It also evaluates `gap_topics` from CHAPTER_ROADMAP_MAPPING.yml and
+     proposes new chapters when roadmap topics have no existing coverage.
+  3. Results are written to a JSON report and a human-readable Markdown summary.
+  4. The GitHub Actions workflow reads the report and opens/updates tracker issues.
+  5. Humans review, assign, and approve chapter update or creation PRs.
 
 Exit codes:
-  0  No stale chapters detected (or --dry-run with no errors).
-  1  One or more stale chapters detected.
+  0  No stale chapters and no new-chapter proposals.
+  1  One or more stale chapters detected, or new chapters proposed.
   2  Fatal error (missing files, parse failure).
 
 Usage:
@@ -155,7 +158,7 @@ def _sot_mentions_topics(
 
 
 # ---------------------------------------------------------------------------
-# Scan logic
+# Scan logic — existing chapters
 # ---------------------------------------------------------------------------
 
 def scan_chapter(
@@ -171,6 +174,7 @@ def scan_chapter(
     result: dict = {
         "file": fname,
         "title": entry.get("title", fname),
+        "chapter_number": entry.get("chapter_number", ""),
         "priority": entry.get("priority", "medium"),
         "sot_paths": entry.get("sot_paths", []),
         "roadmap_topics": entry.get("roadmap_topics", []),
@@ -240,11 +244,64 @@ def scan_chapter(
 
 
 # ---------------------------------------------------------------------------
+# Gap topic evaluation — new chapter proposals
+# ---------------------------------------------------------------------------
+
+def evaluate_gap_topic(
+    gap_entry: dict,
+    sot_cache: dict[str, str],
+    prio_threshold: int,
+    verbose: bool = False,
+) -> dict | None:
+    """
+    Evaluate one gap_topics entry.  Return a proposal dict if the topic is
+    active in the SOTs (i.e., it appears in at least one SOT file) and its
+    priority passes the threshold — or None if it should be skipped.
+    """
+    prio = PRIORITY_ORDER.get(gap_entry.get("priority", "medium"), 1)
+    if prio > prio_threshold:
+        return None
+
+    topic = gap_entry.get("topic", "")
+    keywords: list[str] = gap_entry.get("keywords", [])
+    sot_paths: list[str] = gap_entry.get("sot_paths", [])
+
+    # Find which keywords appear in the SOT files
+    active_keywords = _sot_mentions_topics(sot_cache, sot_paths, keywords)
+
+    if not active_keywords:
+        # Topic not yet mentioned in any SOT — no proposal needed
+        if verbose:
+            print(
+                f"  [GAP_SKIP] {topic!r} — no keywords found in SOTs",
+                file=sys.stderr,
+            )
+        return None
+
+    proposal: dict = {
+        "topic": topic,
+        "priority": gap_entry.get("priority", "medium"),
+        "suggested_file": gap_entry.get("suggested_file", ""),
+        "rationale": gap_entry.get("rationale", ""),
+        "active_keywords": active_keywords,
+        "sot_paths": sot_paths,
+    }
+    if verbose:
+        print(
+            f"  [PROPOSE ] {topic!r}  → {gap_entry.get('suggested_file', '?')}  "
+            f"keywords={active_keywords[:3]}",
+            file=sys.stderr,
+        )
+    return proposal
+
+
+# ---------------------------------------------------------------------------
 # Report generation
 # ---------------------------------------------------------------------------
 
 def _write_markdown_summary(
     results: list[dict],
+    proposals: list[dict],
     out_path: Path,
     target_version: str,
     run_ts: str,
@@ -259,15 +316,17 @@ def _write_markdown_summary(
         f"**Generated:** {run_ts}  ",
         f"**Target version:** `{target_version}`  ",
         f"**Total chapters scanned:** {len(results)}  ",
-        f"**Stale:** {len(stale)}  **Missing:** {len(missing)}  **OK:** {len(ok)}",
+        f"**Stale:** {len(stale)}  **Missing:** {len(missing)}  **OK:** {len(ok)}  "
+        f"**New chapter proposals:** {len(proposals)}",
         "",
         "---",
         "",
     ]
 
-    if not stale and not missing:
+    if not stale and not missing and not proposals:
         lines += [
-            "✅ **No drift detected.** All scanned chapters appear current.",
+            "✅ **No drift detected and no new chapters needed.** "
+            "All scanned chapters appear current.",
             "",
         ]
     else:
@@ -294,6 +353,35 @@ def _write_markdown_summary(
                 lines.append(f"- `{r['file']}` — {r['title']}")
             lines.append("")
 
+        if proposals:
+            lines += [
+                "## 🟢 New Chapter Proposals",
+                "",
+                "These roadmap topics appear in the SOT files but have no dedicated",
+                "compendium chapter yet. A maintainer should decide whether to create",
+                "a new chapter or extend an existing one.",
+                "",
+                "| Priority | Suggested File | Topic | Active Keywords |",
+                "|----------|----------------|-------|-----------------|",
+            ]
+            for p in sorted(proposals, key=lambda x: PRIORITY_ORDER.get(x["priority"], 9)):
+                kw_short = ", ".join(p["active_keywords"][:4])
+                lines.append(
+                    f"| {p['priority']} | `{p['suggested_file']}` "
+                    f"| {p['topic']} | {kw_short} |"
+                )
+            lines.append("")
+            lines += [
+                "### How to action a proposal",
+                "",
+                "1. Confirm the topic warrants a standalone chapter (vs. extending an existing one).",
+                "2. Agree on the filename with the team and update `CHAPTER_ROADMAP_MAPPING.yml`:",
+                "   - Move the entry from `gap_topics` into `chapters` with the confirmed `file` name.",
+                "3. Create the new chapter file under `docs/compendium/docs/`.",
+                "4. Follow the update procedure in `docs/compendium/COMPENDIUM_SYNC_PROCESS.md`.",
+                "",
+            ]
+
     lines += [
         "---",
         "",
@@ -303,7 +391,8 @@ def _write_markdown_summary(
         "2. For each stale chapter, open or update the tracker issue created by the",
         "   `maintenance-compendium-sync` workflow.",
         "3. Assign a reviewer / author and create a draft PR for the chapter update.",
-        "4. Apply the changes, request human review, and merge on approval.",
+        "4. Review new chapter proposals — confirm, assign, and create draft PRs.",
+        "5. Apply changes, request human review, and merge on approval.",
         "",
         "See `docs/compendium/COMPENDIUM_SYNC_PROCESS.md` for the full operating model.",
         "",
@@ -319,7 +408,10 @@ def _write_markdown_summary(
 
 def _parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(
-        description="Detect stale compendium chapters vs ROADMAP/FUTURE_ENHANCEMENTS"
+        description=(
+            "Detect stale compendium chapters vs ROADMAP/FUTURE_ENHANCEMENTS "
+            "and propose new chapters for uncovered roadmap topics"
+        )
     )
     p.add_argument(
         "--mapping",
@@ -339,7 +431,7 @@ def _parse_args() -> argparse.Namespace:
         "--priority",
         default="medium",
         choices=["high", "medium", "low"],
-        help="Minimum priority level to report",
+        help="Minimum priority level to report (chapters and gap topics)",
     )
     p.add_argument(
         "--target-version",
@@ -378,12 +470,15 @@ def main() -> int:
     mapping = _load_yaml(mapping_path)
     target_version = args.target_version
 
-    # Gather all SOT paths referenced in mapping
+    # Gather all SOT paths referenced in mapping (chapters + gap_topics)
     all_entries: list[dict] = list(mapping.get("chapters", [])) + list(
         mapping.get("appendices", [])
     )
+    gap_entries: list[dict] = list(mapping.get("gap_topics", []))
+    all_sot_sources = all_entries + gap_entries
+
     sot_paths_all: list[str] = list(
-        {p for entry in all_entries for p in entry.get("sot_paths", [])}
+        {p for entry in all_sot_sources for p in entry.get("sot_paths", [])}
     )
     # Always include root SOT files
     for root_sot in [args.roadmap, args.future]:
@@ -400,10 +495,16 @@ def main() -> int:
 
     run_ts = datetime.now(tz=timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     results: list[dict] = []
+    proposals: list[dict] = []
 
     if args.verbose:
-        print(f"Scanning {len(all_entries)} entries ...", file=sys.stderr)
+        print(
+            f"Scanning {len(all_entries)} chapter entries, "
+            f"{len(gap_entries)} gap-topic entries ...",
+            file=sys.stderr,
+        )
 
+    # Scan existing chapters
     for entry in all_entries:
         prio = PRIORITY_ORDER.get(entry.get("priority", "medium"), 1)
         if prio > prio_threshold:
@@ -417,9 +518,23 @@ def main() -> int:
         )
         results.append(r)
 
+    # Evaluate gap topics → new-chapter proposals
+    if args.verbose:
+        print("Evaluating gap topics ...", file=sys.stderr)
+    for gap_entry in gap_entries:
+        proposal = evaluate_gap_topic(
+            gap_entry,
+            sot_cache,
+            prio_threshold,
+            verbose=args.verbose,
+        )
+        if proposal is not None:
+            proposals.append(proposal)
+
     stale_count = sum(1 for r in results if r["verdict"] == "stale")
     missing_count = sum(1 for r in results if r["verdict"] == "missing")
-    total_issues = stale_count + missing_count
+    proposals_count = len(proposals)
+    total_issues = stale_count + missing_count + proposals_count
 
     # Write JSON report
     report = {
@@ -429,7 +544,9 @@ def main() -> int:
         "stale_count": stale_count,
         "missing_count": missing_count,
         "ok_count": len(results) - stale_count - missing_count,
+        "proposals_count": proposals_count,
         "results": results,
+        "proposals": proposals,
     }
     out_json = Path(args.out_json)
     out_json.parent.mkdir(parents=True, exist_ok=True)
@@ -438,7 +555,7 @@ def main() -> int:
 
     # Write Markdown summary
     out_md = Path(args.out_md)
-    _write_markdown_summary(results, out_md, target_version, run_ts)
+    _write_markdown_summary(results, proposals, out_md, target_version, run_ts)
     print(f"Markdown summary written to: {out_md}", file=sys.stderr)
 
     # GitHub Actions outputs
@@ -447,6 +564,7 @@ def main() -> int:
         output_lines = [
             f"stale_count={stale_count}",
             f"missing_count={missing_count}",
+            f"proposals_count={proposals_count}",
             f"total_issues={total_issues}",
             f"report_json={out_json}",
             f"report_md={out_md}",
@@ -463,6 +581,7 @@ def main() -> int:
     print(
         f"\nDrift scan complete: {stale_count} stale, "
         f"{missing_count} missing, "
+        f"{proposals_count} new-chapter proposals, "
         f"{len(results) - stale_count - missing_count} ok "
         f"(out of {len(results)} chapters scanned, "
         f"priority >= {args.priority})",

@@ -9,11 +9,29 @@
 # Schema per chapter entry:
 #   file:           Path relative to docs/compendium/docs/
 #   title:          Human-readable chapter title
+#   chapter_number: Display number used in mkdocs-nav (e.g. "16a", "16b")
+#                   — used to clarify cases where multiple files share the same
+#                     numeric prefix (e.g. chapter_16_ml.md = 16a,
+#                     chapter_16_sharding.md = 16b). See INTEGRATION_MAPPING.md.
 #   target_version: Version the chapter should reflect
 #   roadmap_topics: Keywords from ROADMAP.md that indicate this chapter is relevant
 #   sot_paths:      Root SOT files most relevant to this chapter
 #   priority:       high | medium | low
 #   notes:          Free text for maintainers
+#
+# Naming note: appendix_literatur.md uses correct German spelling
+# (Literatur = literature) and matches the actual filename on disk.
+#
+# Duplicate-number chapters (e.g. chapter_16_ml.md / chapter_16_sharding.md):
+# The compendium intentionally reuses chapter numbers with topic suffixes for
+# closely related sub-topics. These are addressed in mkdocs-nav.yml as "16a / 16b"
+# entries. See docs/compendium/docs/INTEGRATION_MAPPING.md §Konsolidierte
+# Kapitelzuordnung for the canonical a/b assignments.
+#
+# gap_topics section:
+#   Top-level list of roadmap/FUTURE_ENHANCEMENTS topics not yet covered by any
+#   existing chapter. The drift scan uses this list to emit new-chapter proposals
+#   in the report. Add entries here as new roadmap areas emerge.
 
 target_version: "2.4.0-alpha"
 
@@ -147,6 +165,7 @@ chapters:
 
   - file: chapter_16_ml.md
     title: "Machine Learning Integration"
+    chapter_number: "16a"  # 16a/16b: ML-Grundlagen vs. Sharding; see INTEGRATION_MAPPING.md §Konsolidierte Kapitelzuordnung
     target_version: "2.4.0-alpha"
     roadmap_topics: [ML, training, model, inference, acceleration]
     sot_paths:
@@ -158,6 +177,7 @@ chapters:
 
   - file: chapter_16_sharding.md
     title: "Sharding & Distribution"
+    chapter_number: "16b"  # 16a/16b: ML-Grundlagen vs. Sharding; see INTEGRATION_MAPPING.md §Konsolidierte Kapitelzuordnung
     target_version: "2.4.0-alpha"
     roadmap_topics: [sharding, distribution, partition, replication, cluster]
     sot_paths: [ROADMAP.md, src/FUTURE_ENHANCEMENTS.md]
@@ -165,6 +185,7 @@ chapters:
 
   - file: chapter_17_llm_integration.md
     title: "LLM Integration"
+    chapter_number: "17a"  # 17a/17b: LLM-Integration vs. Scaling
     target_version: "2.4.0-alpha"
     roadmap_topics: [LLM, language model, Ollama, plugin, RAG, llm_wiki]
     sot_paths:
@@ -177,6 +198,7 @@ chapters:
 
   - file: chapter_17_scaling.md
     title: "Scaling"
+    chapter_number: "17b"  # 17a/17b: LLM-Integration vs. Scaling
     target_version: "2.4.0-alpha"
     roadmap_topics: [scaling, horizontal, vertical, hyperscaler, load balancing]
     sot_paths: [ROADMAP.md, FUTURE_ENHANCEMENTS.md]
@@ -184,6 +206,7 @@ chapters:
 
   - file: chapter_18_ha.md
     title: "High Availability"
+    chapter_number: "18a"  # 18a/18b: HA vs. ML Operations
     target_version: "2.4.0-alpha"
     roadmap_topics: [high availability, HA, failover, replication, chaos]
     sot_paths: [ROADMAP.md, src/FUTURE_ENHANCEMENTS.md]
@@ -191,6 +214,7 @@ chapters:
 
   - file: chapter_18_ml.md
     title: "ML Operations"
+    chapter_number: "18b"  # 18a/18b: HA vs. ML Operations
     target_version: "2.4.0-alpha"
     roadmap_topics: [MLOps, training, pipeline, model management]
     sot_paths: [src/training/ROADMAP.md, src/FUTURE_ENHANCEMENTS.md]
@@ -198,6 +222,7 @@ chapters:
 
   - file: chapter_19_monitoring.md
     title: "Monitoring (Core)"
+    chapter_number: "19a"  # 19a/19b: Monitoring-Kern vs. volle Observability
     target_version: "2.4.0-alpha"
     roadmap_topics: [monitoring, metrics, Prometheus, health]
     sot_paths: [src/FUTURE_ENHANCEMENTS.md]
@@ -205,6 +230,7 @@ chapters:
 
   - file: chapter_19_monitoring_observability.md
     title: "Monitoring & Observability"
+    chapter_number: "19b"  # 19a/19b: Monitoring-Kern vs. volle Observability
     target_version: "2.4.0-alpha"
     roadmap_topics: [observability, tracing, OpenTelemetry, SRE, alerting]
     sot_paths: [ROADMAP.md, src/FUTURE_ENHANCEMENTS.md]
@@ -212,6 +238,7 @@ chapters:
 
   - file: chapter_20_backup.md
     title: "Backup & Recovery"
+    chapter_number: "20a"  # 20a/20b: Backup vs. Performance-Überblick
     target_version: "2.4.0-alpha"
     roadmap_topics: [backup, recovery, restore, snapshot]
     sot_paths: [src/FUTURE_ENHANCEMENTS.md]
@@ -219,6 +246,7 @@ chapters:
 
   - file: chapter_20_performance.md
     title: "Performance Overview"
+    chapter_number: "20b"  # 20a/20b: Backup vs. Performance-Überblick
     target_version: "2.4.0-alpha"
     roadmap_topics: [performance, benchmark, p95, p99, throughput, latency]
     sot_paths: [ROADMAP.md, FUTURE_ENHANCEMENTS.md]
@@ -226,6 +254,7 @@ chapters:
 
   - file: chapter_21_auth.md
     title: "Authentication & Authorization"
+    chapter_number: "21a"  # 21a/21b: Auth vs. Performance-Tuning
     target_version: "2.4.0-alpha"
     roadmap_topics: [auth, RBAC, JWT, authentication, authorization]
     sot_paths: [ROADMAP.md, src/auth/ROADMAP.md]
@@ -233,6 +262,7 @@ chapters:
 
   - file: chapter_21_performance.md
     title: "Performance Tuning"
+    chapter_number: "21b"  # 21a/21b: Auth vs. Performance-Tuning
     target_version: "2.4.0-alpha"
     roadmap_topics: [performance, tuning, optimization, cache, index]
     sot_paths: [ROADMAP.md, FUTURE_ENHANCEMENTS.md]
@@ -240,6 +270,7 @@ chapters:
 
   - file: chapter_22_clients.md
     title: "Client Libraries & APIs"
+    chapter_number: "22a"  # 22a/22b: Clients vs. Encryption
     target_version: "2.4.0-alpha"
     roadmap_topics: [client, SDK, REST, gRPC, API, protocol]
     sot_paths: [src/FUTURE_ENHANCEMENTS.md]
@@ -247,6 +278,7 @@ chapters:
 
   - file: chapter_22_encryption.md
     title: "Encryption & Data Security"
+    chapter_number: "22b"  # 22a/22b: Clients vs. Encryption
     target_version: "2.4.0-alpha"
     roadmap_topics: [encryption, TLS, at-rest, at-transit, security]
     sot_paths: [ROADMAP.md, src/FUTURE_ENHANCEMENTS.md]
@@ -317,6 +349,7 @@ chapters:
 
   - file: chapter_32_api_design_rest_principles.md
     title: "API Design & REST Principles"
+    chapter_number: "32a"  # 32a/32b: REST-Design vs. AQL-OOP
     target_version: "2.4.0-alpha"
     roadmap_topics: [REST, API design, OpenAPI, HTTP]
     sot_paths: [src/FUTURE_ENHANCEMENTS.md]
@@ -324,6 +357,7 @@ chapters:
 
   - file: chapter_32_aql_oop_implementation.md
     title: "AQL OOP Implementation"
+    chapter_number: "32b"  # 32a/32b: REST-Design vs. AQL-OOP
     target_version: "2.4.0-alpha"
     roadmap_topics: [AQL, OOP, object-oriented, language]
     sot_paths: [src/FUTURE_ENHANCEMENTS.md]
@@ -466,3 +500,97 @@ appendices:
     roadmap_topics: [references, literature, research, papers]
     sot_paths: [research/README.md, ROADMAP.md]
     priority: low
+    notes: >
+      Filename uses correct German spelling: "Literatur" = literature.
+      Matches the actual file on disk; do not rename.
+
+# ---------------------------------------------------------------------------
+# Gap Topics — Roadmap areas not yet covered by any compendium chapter
+# ---------------------------------------------------------------------------
+# The drift scan will check each entry's `sot_paths` for `keywords`, and when
+# they appear, will emit a "new chapter proposed" item in the report.
+#
+# Format per entry:
+#   topic:       Short descriptive name for the gap
+#   keywords:    Terms to look for in the SOT files
+#   sot_paths:   SOT files most likely to describe this topic
+#   priority:    high | medium | low
+#   rationale:   Why a dedicated chapter is warranted
+#   suggested_file:  Proposed filename (maintainer can rename before creating)
+
+gap_topics:
+  - topic: "Voice & Streaming Interface"
+    keywords: [voice, speech, audio, stream, voice session, anti-spoof, liveness]
+    sot_paths: [ROADMAP.md, src/voice/ROADMAP.md, FUTURE_ENHANCEMENTS.md]
+    priority: high
+    rationale: >
+      Voice module is Wave-A complete (40 tests, all PASS); a dedicated chapter
+      would cover the real-time voice ingestion pipeline, session lifecycle,
+      fail-closed behavior, and adversarial hardening — topics not covered by
+      chapter_11_realtime.md or chapter_38_observability_sre.md.
+    suggested_file: "chapter_43_voice_streaming.md"
+
+  - topic: "Plugin Architecture & Private Plugin SDK"
+    keywords: [plugin, SDK, private plugin, plugin boundary, plugin-boundary, edition plugin]
+    sot_paths: [ROADMAP.md, FUTURE_ENHANCEMENTS.md]
+    priority: high
+    rationale: >
+      The private plugin externalization program is now a first-class roadmap item
+      (Wave C policy gates complete). There is no standalone chapter explaining the
+      public plugin SDK, plugin boundary governance, or how community vs. enterprise
+      plugins are structured.
+    suggested_file: "chapter_44_plugin_sdk.md"
+
+  - topic: "Federated Learning & AI Governance"
+    keywords: [federated learning, federated, CAI safety, AI safety, responsible AI wave]
+    sot_paths: [ROADMAP.md, src/ai/ROADMAP.md, FUTURE_ENHANCEMENTS.md]
+    priority: medium
+    rationale: >
+      Wave C AI safety (CAI / federated learning / graph phase gate) is complete.
+      The existing chapter_24_ai_ethics.md covers ethics at a high level but not
+      the concrete federated learning architecture or AI governance hooks.
+    suggested_file: "chapter_45_federated_ai.md"
+
+  - topic: "WASM Kernel Sandbox"
+    keywords: [WASM, WebAssembly, sandbox, kernel sandbox, wasm kernel]
+    sot_paths: [ROADMAP.md, src/gpu/ROADMAP.md, FUTURE_ENHANCEMENTS.md]
+    priority: medium
+    rationale: >
+      WASMKernelSandbox is listed as complete in the source-validated roadmap.
+      No existing chapter covers the WASM execution sandbox for user-defined
+      kernels, its security boundary, or its integration with the GPU acceleration
+      path.
+    suggested_file: "chapter_46_wasm_sandbox.md"
+
+  - topic: "Multi-Tenancy & Isolation"
+    keywords: [multi-tenant, tenant isolation, namespace isolation, tenant, quota]
+    sot_paths: [ROADMAP.md, FUTURE_ENHANCEMENTS.md, src/llm/ROADMAP.md]
+    priority: medium
+    rationale: >
+      Multi-tenant isolation is explicitly mentioned as remaining work in the LLM
+      module roadmap and appears in the FUTURE_ENHANCEMENTS. There is no dedicated
+      chapter for multi-tenancy patterns, namespace isolation, or per-tenant quota
+      enforcement.
+    suggested_file: "chapter_47_multitenancy.md"
+
+  - topic: "Change Data Capture & CDC Integration"
+    keywords: [CDC, change data capture, change stream, event sourcing, WAL replication]
+    sot_paths: [FUTURE_ENHANCEMENTS.md, src/FUTURE_ENHANCEMENTS.md]
+    priority: low
+    rationale: >
+      CDC / change-stream patterns are referenced in the future-enhancements backlog
+      but have no dedicated compendium coverage. As the replication and streaming
+      modules mature, a CDC chapter would cover integration patterns for downstream
+      consumers.
+    suggested_file: "chapter_48_cdc.md"
+
+  - topic: "Wave Closure & Evidence Governance"
+    keywords: [Wave A, Wave B, Wave C, Wave D, closure manifest, evidence bundle, GA sign-off]
+    sot_paths: [ROADMAP.md, FUTURE_ENHANCEMENTS.md, docs/governance/GA_PROMOTION_SIGN_OFF.md]
+    priority: low
+    rationale: >
+      The v2.4.0 release process is driven by a multi-wave gate model with explicit
+      closure manifests and evidence bundles. A reference chapter or appendix
+      explaining this model would help contributors and integrators understand
+      what "GA-ready" means for ThemisDB without having to read the raw ROADMAP.md.
+    suggested_file: "appendix_j_wave_governance.md"

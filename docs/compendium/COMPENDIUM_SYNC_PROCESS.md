@@ -122,7 +122,44 @@ Use the SOT files listed in `CHAPTER_ROADMAP_MAPPING.yml` as your input sources:
 
 ---
 
-## 4. Manual Trigger
+## 4. New Chapter Proposals
+
+The drift scan also evaluates `gap_topics` entries in `CHAPTER_ROADMAP_MAPPING.yml`.
+When a gap topic's keywords appear in its mapped SOT files, the scan emits a
+**new chapter proposal** in the report.
+
+### When a new chapter is proposed
+
+1. **Confirm scope**: decide whether the topic warrants a standalone chapter or
+   whether an existing chapter should be extended. Discuss in the tracker issue.
+2. **Choose the filename**: use the `suggested_file` from the proposal as a
+   starting point. Rename as needed to fit the compendium numbering scheme.
+3. **Update `CHAPTER_ROADMAP_MAPPING.yml`**:
+   - Move the entry from `gap_topics` into the `chapters` list with the confirmed
+     `file` name.
+   - Set `priority`, `roadmap_topics`, and `sot_paths` appropriately.
+4. **Create the chapter file** under `docs/compendium/docs/`.
+   - Follow the existing chapter structure (version header, sections, cross-links).
+   - Use the SOT files from the mapping entry as primary sources.
+   - Ensure the version header reads `2.4.0-alpha`.
+5. **Register in `mkdocs-nav.yml`**: add the new file to the navigation. If the
+   chapter number is already in use, assign the next available `a/b` suffix and
+   document it in `docs/compendium/docs/INTEGRATION_MAPPING.md`.
+6. **Open a draft PR against `develop`** and follow the standard review process.
+
+### Adding a new gap topic
+
+When a new roadmap area emerges that has no existing chapter:
+
+1. Add an entry to the `gap_topics` section of `CHAPTER_ROADMAP_MAPPING.yml`.
+2. Fill in: `topic`, `keywords`, `sot_paths`, `priority`, `rationale`,
+   `suggested_file`.
+3. The next drift scan will automatically propose the new chapter if the keywords
+   are found in the SOT files.
+
+---
+
+## 5. Manual Trigger
 
 Maintainers can run the drift scan on demand:
 
@@ -140,7 +177,7 @@ Available inputs:
 
 ---
 
-## 5. Running the Drift Scan Locally
+## 6. Running the Drift Scan Locally
 
 ```bash
 # Install dependency
@@ -158,7 +195,7 @@ cat /tmp/compendium-drift.json
 
 ---
 
-## 6. Adding or Updating Chapter Mappings
+## 7. Adding or Updating Chapter Mappings
 
 When a new compendium chapter is created or an existing chapter changes scope:
 
@@ -166,6 +203,7 @@ When a new compendium chapter is created or an existing chapter changes scope:
 2. Add or update the chapter entry with:
    - `file` — relative path under `docs/compendium/docs/`
    - `title` — human-readable title
+   - `chapter_number` — optional display number (e.g. `"43"` or `"16a"`) for duplicate-prefix clarity
    - `target_version` — the version this entry targets
    - `roadmap_topics` — keywords from ROADMAP.md / FUTURE_ENHANCEMENTS.md
    - `sot_paths` — SOT files most relevant to this chapter
@@ -174,7 +212,7 @@ When a new compendium chapter is created or an existing chapter changes scope:
 
 ---
 
-## 7. Governance Alignment
+## 8. Governance Alignment
 
 - This process targets `develop` only. Never target `community` or `military`
   branches with compendium draft PRs unless explicitly requested.
@@ -186,12 +224,12 @@ When a new compendium chapter is created or an existing chapter changes scope:
 
 ---
 
-## 8. Related Files
+## 9. Related Files
 
 | File | Purpose |
 |------|---------|
-| `docs/compendium/CHAPTER_ROADMAP_MAPPING.yml` | Chapter ↔ SOT mapping |
-| `scripts/compendium-drift-scan.py` | Drift detection script |
+| `docs/compendium/CHAPTER_ROADMAP_MAPPING.yml` | Chapter ↔ SOT mapping + gap topics |
+| `scripts/compendium-drift-scan.py` | Drift detection and new-chapter proposal script |
 | `.github/workflows/maintenance-compendium-sync.yml` | Automation workflow |
 | `docs/compendium/docs/INTEGRATION_MAPPING.md` | Chapter structure / consolidation notes |
 | `ROADMAP.md` | Root SOT for v2.4.0-alpha status |

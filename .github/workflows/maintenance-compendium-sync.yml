@@ -57,6 +57,7 @@ jobs:
     outputs:
       stale_count: ${{ steps.scan.outputs.stale_count }}
       missing_count: ${{ steps.scan.outputs.missing_count }}
+      proposals_count: ${{ steps.scan.outputs.proposals_count }}
       total_issues: ${{ steps.scan.outputs.total_issues }}
       report_md: ${{ steps.scan.outputs.report_md }}
       report_json: ${{ steps.scan.outputs.report_json }}
@@ -147,10 +148,12 @@ jobs:
         run: |
           STALE="${{ needs.drift-scan.outputs.stale_count }}"
           MISSING="${{ needs.drift-scan.outputs.missing_count }}"
+          PROPOSALS="${{ needs.drift-scan.outputs.proposals_count }}"
           TOTAL="${{ needs.drift-scan.outputs.total_issues }}"
           {
             echo "stale=${STALE}"
             echo "missing=${MISSING}"
+            echo "proposals=${PROPOSALS}"
             echo "total=${TOTAL}"
           } >> "$GITHUB_OUTPUT"
 
@@ -181,7 +184,8 @@ jobs:
 
             - **Stale chapters:** ${{ steps.report.outputs.stale }}
             - **Missing chapters:** ${{ steps.report.outputs.missing }}
-            - **Total issues:** ${{ steps.report.outputs.total }}
+            - **New chapter proposals:** ${{ steps.report.outputs.proposals }}
+            - **Total items:** ${{ steps.report.outputs.total }}
 
             **Target version:** `${{ inputs.target_version || '2.4.0-alpha' }}`
             **Priority filter:** `${{ inputs.priority || 'medium' }}`
@@ -201,9 +205,10 @@ jobs:
             1. Download the `compendium-drift-report` artifact from the [workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).
             2. Review `compendium-drift-summary.md` and `compendium-drift.json` for chapter-level details.
             3. For each stale chapter, open a focused PR against `develop` that updates the chapter content to reflect the v2.4.0-alpha state.
-            4. Use `docs/compendium/CHAPTER_ROADMAP_MAPPING.yml` as the chapter ↔ SOT mapping reference.
-            5. Follow `docs/compendium/COMPENDIUM_SYNC_PROCESS.md` for the full update procedure.
-            6. Request human review and merge only after approval.
+            4. For each new chapter proposal, confirm whether a new chapter is warranted, then follow the proposal workflow in `COMPENDIUM_SYNC_PROCESS.md §4`.
+            5. Use `docs/compendium/CHAPTER_ROADMAP_MAPPING.yml` as the chapter ↔ SOT mapping reference.
+            6. Follow `docs/compendium/COMPENDIUM_SYNC_PROCESS.md` for the full update procedure.
+            7. Request human review and merge only after approval.
 
             **⚠ Do not auto-merge or silently overwrite chapter content.**
 
