@@ -85,7 +85,7 @@ on:
 
 permissions:
   actions: write
-  contents: read
+  contents: write
 
 concurrency:
   group: publish-wiki-${{ github.ref }}
