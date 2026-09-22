@@ -219,9 +219,22 @@ static void tbbWaitWithTimeout(
     // Therefore, join_watcher's blocking on watchdog.join() is bounded by the
     // watchdog's timeout duration (captured in timeout_ms parameter).
     //
+    // Thread safety and lifetime: The watchdog captures tg by reference (&tg).
+    // This is safe because:
+    // 1. We set done->store(true) immediately after tg.wait() (line 208).
+    // 2. The watchdog thread's while loop condition is "!done->load()" (line 197).
+    // 3. Watchdog only accesses tg inside "if (deadline fired)" block (line 198-201).
+    // 4. Once done=true, the watchdog exits the loop without accessing tg again.
+    // 5. Even if joinThreadWithin() times out and detached watcher is waiting,
+    //    the watchdog will exit within 50ms of done being set (50ms sleep cycle).
+    // 6. Therefore, tg remains valid throughout the watchdog's execution.
+    //    The caller retains tg's lifetime (it's a parameter), and the watchdog
+    //    exits before tg can be destroyed.
+    //
     // Thread safety: joinThreadWithin() uses std::move(watchdog) and passes it
-    // into a detached watcher lambda. This ensures no concurrent join/detach calls
-    // on the same std::thread object. The watcher owns the thread exclusively.
+    // into a detached watcher lambda via promise/future. This ensures no concurrent
+    // join/detach calls on the same std::thread object. The watcher owns the thread
+    // exclusively via the lambda capture.
     constexpr auto kWatchdogJoinDeadline = std::chrono::milliseconds(1000);
     bool joined = themis::utils::joinThreadWithin(watchdog, kWatchdogJoinDeadline);
     

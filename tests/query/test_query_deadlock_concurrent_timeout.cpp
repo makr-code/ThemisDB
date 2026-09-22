@@ -179,7 +179,10 @@ TEST_F(ParallelExecutorDeadlockTest, ConcurrentScansNoDeadlock) {
     
     // Run 4 concurrent scans in separate threads
     std::vector<std::thread> threads;
-    std::vector<std::atomic<bool>> results(4, false);
+    std::vector<std::atomic<bool>> results(4);  // Default-init atomics (via default ctor)
+    for (auto& r : results) {
+        r.store(false, std::memory_order_release);  // Explicitly initialize each to false
+    }
     
     for (int t = 0; t < 4; ++t) {
         threads.emplace_back([&, t]() {
