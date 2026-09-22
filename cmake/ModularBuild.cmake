@@ -1619,6 +1619,7 @@ set(THEMIS_CONTENT_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/markdown_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/content_validator.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/deduplication_checker.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/cache/bounded_lru_cache.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/image_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/mock_clip_processor.cpp>
     $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/mime_detector.cpp>
@@ -2679,6 +2680,7 @@ function(themis_build_modular)
     # Optional modules
     if(THEMIS_MODULE_SHARDING)
         themis_add_module(sharding
+            DISABLE_AUTO_EXPORT
             SOURCES ${THEMIS_SHARDING_SOURCES}
             DEPENDENCIES 
                 themis_base 

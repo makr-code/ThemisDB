@@ -153,12 +153,14 @@ jobs:
         run: python3 -m pip install --disable-pip-version-check pyyaml
 
       - name: Resolve payload list
+        id: resolve-payloads
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p /tmp/ga-signoff-final /tmp/ga-signoff-final-results
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             printf '%s\n' "${{ inputs.payload_path }}" > /tmp/ga-signoff-files.txt
+            echo "has_payloads=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
@@ -167,11 +169,14 @@ jobs:
           git diff --name-only --diff-filter=ACMR "origin/${BASE_REF}...HEAD" \
             | grep -E '^docs/governance/ga_signoff_requests/.*\.(json|ya?ml)$' > /tmp/ga-signoff-files.txt || true
           if [ ! -s /tmp/ga-signoff-files.txt ]; then
-            echo "::error::No GA sign-off request payload changes were found in this PR."
-            exit 1
+            echo "No GA sign-off request payload changes were found in this PR — skipping finalization."
+            echo "has_payloads=false" >> "$GITHUB_OUTPUT"
+            exit 0
           fi
+          echo "has_payloads=true" >> "$GITHUB_OUTPUT"
 
       - name: Validate signer and generate final manifests
+        if: steps.resolve-payloads.outputs.has_payloads == 'true'
         shell: bash
         env:
           EVENT_SIGNED_AT: ${{ github.event_name == 'pull_request_review' && github.event.review.submitted_at || inputs.signed_at }}
@@ -269,7 +274,7 @@ jobs:
           PY
 
       - name: Upload final sign-off artifacts
-        if: always()
+        if: (success() || failure()) && steps.resolve-payloads.outputs.has_payloads == 'true'
         uses: actions/upload-artifact@v4  # v7.0.1
         with:
           name: ga-signoff-${{ github.run_number }}
@@ -277,4 +282,4 @@ jobs:
             /tmp/ga-signoff-final
             /tmp/ga-signoff-final-results
           retention-days: 90
-          if-no-files-found: error
+          if-no-files-found: warn
