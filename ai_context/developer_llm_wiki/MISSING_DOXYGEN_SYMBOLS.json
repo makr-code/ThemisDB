@@ -1,607 +1,79 @@
 {
-  "module": "access_model",
+  "module": "execution",
   "generated_from": "check_module_direct_doxygen.py",
   "source_mode": "direct_doxygen_markers",
   "findings": [
     {
       "rule": "missing_symbol",
-      "symbol": "lock",
-      "count": 14,
-      "scope": "src",
+      "symbol": "BoundedQueue",
+      "count": 1,
+      "scope": "benchmarks",
       "scope_breakdown": {
-        "src": 14
+        "benchmarks": 1
       },
       "source_examples": [
         {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/access_coordinator.cpp",
-          "line": 80,
-          "kind": "function",
-          "name": "lock",
-          "scope": "src"
-        },
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/access_coordinator.cpp",
-          "line": 92,
-          "kind": "function",
-          "name": "lock",
-          "scope": "src"
-        },
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/access_coordinator.cpp",
-          "line": 125,
-          "kind": "function",
-          "name": "lock",
-          "scope": "src"
+          "file": "/home/runner/work/ThemisDB/ThemisDB/benchmarks/execution/bench_execution_dedicated_gates.cpp",
+          "line": 43,
+          "kind": "class",
+          "name": "BoundedQueue",
+          "scope": "benchmarks"
         }
       ]
     },
     {
       "rule": "missing_symbol",
-      "symbol": "now",
-      "count": 3,
+      "symbol": "SLAPriority",
+      "count": 1,
       "scope": "include",
       "scope_breakdown": {
-        "include": 3
+        "include": 1
       },
       "source_examples": [
         {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/include/access_model/promotion_demotion.h",
-          "line": 65,
-          "kind": "function",
-          "name": "now",
-          "scope": "include"
-        },
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/include/access_model/promotion_demotion.h",
-          "line": 68,
-          "kind": "function",
-          "name": "now",
-          "scope": "include"
-        },
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/include/access_model/promotion_demotion.h",
-          "line": 97,
-          "kind": "function",
-          "name": "now",
+          "file": "/home/runner/work/ThemisDB/ThemisDB/include/execution/query_scheduler.h",
+          "line": 41,
+          "kind": "class",
+          "name": "SLAPriority",
           "scope": "include"
         }
       ]
     },
     {
-      "rule": "missing_brief",
-      "symbol": "AccessCoordinator",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessCoordinatorConcurrencyTest",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessCoordinatorFocusedTest",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessCoordinatorImpl",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "allTiers",
-      "kind": "function",
-      "file": "tests/access_model/test_access_coordinator.cpp",
-      "line": 104,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "allTiers",
-      "kind": "function",
-      "file": "tests/access_model/test_access_coordinator.cpp",
-      "line": 104,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessCoordinatorTest",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessModelE2ETest",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessModelLogger",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessTier",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "BenchAccessCoordinator",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "BenchmarkAccessTier",
-      "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 151,
-      "scope": "benchmarks"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "BenchmarkAccessTier",
-      "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 151,
-      "scope": "benchmarks",
-      "param_total": 2,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "setCurrentSize",
-      "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 154,
-      "scope": "benchmarks"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "setCurrentSize",
-      "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 154,
-      "scope": "benchmarks",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "BenchmarkAccessTier",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "CacheTier",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "DefaultAccessModelLogger",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "LatencyHistogram",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "LoggingTest",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "MockAccessTier",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "ObservabilityIntegrationTest",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "PromotionDemotionTest",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "StorageTier",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TestAccessTier",
-      "kind": "function",
-      "file": "tests/access_model/test_access_coordinator.cpp",
-      "line": 33,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "TestAccessTier",
-      "kind": "function",
-      "file": "tests/access_model/test_access_coordinator.cpp",
-      "line": 33,
+      "rule": "missing_symbol",
+      "symbol": "StubBoundedQueue",
+      "count": 1,
       "scope": "tests",
-      "param_total": 2,
-      "param_docs_count": 0
+      "scope_breakdown": {
+        "tests": 1
+      },
+      "source_examples": [
+        {
+          "file": "/home/runner/work/ThemisDB/ThemisDB/tests/execution/test_execution_highcardinality_stress.cpp",
+          "line": 43,
+          "kind": "class",
+          "name": "StubBoundedQueue",
+          "scope": "tests"
+        }
+      ]
     },
     {
-      "rule": "missing_brief",
-      "symbol": "TestAccessTier",
-      "kind": "function",
-      "file": "tests/access_model/test_access_coordinator_focused.cpp",
-      "line": 39,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "TestAccessTier",
-      "kind": "function",
-      "file": "tests/access_model/test_access_coordinator_focused.cpp",
-      "line": 39,
-      "scope": "tests",
-      "param_total": 2,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TestAccessTier",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TraceContextManager",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "ScopedContext",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TraceContextTest",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "CacheStorageIntegrationTest",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "MockAccessTier",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "MockEvictionListener",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "MockPromotionListener",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "key_dist",
-      "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 221,
-      "scope": "benchmarks"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "key_dist",
-      "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 221,
-      "scope": "benchmarks",
-      "param_total": 2,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "key_dist",
-      "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 221,
-      "scope": "benchmarks"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "for",
-      "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 225,
-      "scope": "benchmarks"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "for",
-      "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 225,
-      "scope": "benchmarks",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "SetItemsProcessed",
-      "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 244,
-      "scope": "benchmarks"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "SetItemsProcessed",
-      "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 244,
-      "scope": "benchmarks",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "SetItemsProcessed",
-      "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 244,
-      "scope": "benchmarks"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "reportViolation",
-      "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 57,
-      "scope": "benchmarks"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "reportViolation",
-      "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 57,
-      "scope": "benchmarks",
-      "param_total": 5,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "DemotionEvent",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessEvent",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessMetrics",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessOperationCounters",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessTransitionEvent",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AgeBasedPolicy",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "CoordinatorLifecycleLog",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "EvictionEvent",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "EvictionEventLog",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "EvictionListener",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "PromotionDecisionLog",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "PromotionListener",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "PromotionResult",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TierAccessOptions",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TierGetResult",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TierPromotionResult",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TierPutResult",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TierTransitionLog",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TraceContext",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
+      "rule": "missing_symbol",
+      "symbol": "operator",
+      "count": 1,
+      "scope": "include",
+      "scope_breakdown": {
+        "include": 1
+      },
+      "source_examples": [
+        {
+          "file": "/home/runner/work/ThemisDB/ThemisDB/include/execution/query_scheduler.h",
+          "line": 198,
+          "kind": "function",
+          "name": "operator",
+          "scope": "include"
+        }
+      ]
     }
   ]
 }
