@@ -21,13 +21,14 @@ The GGUF loader implements **real quantization** instead of synthetic weights. Q
 
 `GGUFLoader::isFormatSupported()` accepts the following types. Tensors with any other
 type cause `parseFile()` to return `false` and set `getLastError()` with a descriptive
-message (e.g. `"Unsupported quantization format Q6_K … Download a Q4_K_M or Q8_0 variant"`).
+message (e.g. `"Unsupported quantization format Q5_K … Download a Q4_K_M, Q6_K, or Q8_0 variant"`).
 
 | GGUF Format | Internal Format | Block Size | Elements/Block | Conversion Method |
 |-------------|-----------------|------------|----------------|-------------------|
 | **F32** | FP32 | 4 bytes | 1 | Direct copy |
 | **F16** | FP32 | 2 bytes | 1 | FP16→FP32 conversion |
 | **Q4_K_M** | NF4 | 144 bytes | 256 | **Direct** Q4_K→NF4 |
+| **Q6_K** | Raw GGUF-compatible parsing | 210 bytes | 256 | Accepted by loader validation gate |
 | **Q8_0** | INT8 | 34 bytes | 32 | **Direct** Q8_0→INT8 |
 | Q4_0 | - | 18 bytes | 32 | Not yet supported |
 | Q4_1 | - | 20 bytes | 32 | Not yet supported |
@@ -35,7 +36,6 @@ message (e.g. `"Unsupported quantization format Q6_K … Download a Q4_K_M or Q8
 | Q5_1 | - | 24 bytes | 32 | Not yet supported |
 | Q8_1 | - | 36 bytes | 32 | Not yet supported |
 | Q5_K | - | 176 bytes | 256 | Not yet supported |
-| Q6_K | - | 210 bytes | 256 | Not yet supported |
 
 ## Direct Quantization Conversion
 
@@ -89,7 +89,7 @@ GGUF Q4_K → NF4 (direct block copy)
 | Wrong magic bytes | `false` | *(empty)* |
 | GGUF version ≠ 3 | `false` | *(empty)* |
 | Unreasonable tensor/kv count (> 100 000 / > 10 000) | `false` | *(empty)* |
-| Unsupported quantization type in any tensor | `false` | `"Unsupported quantization format <type> in tensor '<name>'. Supported formats: F32, F16, Q4_K_M, Q8_0. Download a Q4_K_M or Q8_0 variant of this model."` |
+| Unsupported quantization type in any tensor | `false` | `"Unsupported quantization format <type> in tensor '<name>'. Supported formats: F32, F16, Q4_K_M, Q6_K, Q8_0. Download a Q4_K_M, Q6_K, or Q8_0 variant of this model."` |
 | Tensor offset out of file bounds | `false` | set via `validateQuantizationMetadata()` |
 | Corrupt block size / dimension mismatch | `false` | set via `validateQuantizationMetadata()` |
 

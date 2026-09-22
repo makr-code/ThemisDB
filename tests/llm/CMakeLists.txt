@@ -487,7 +487,8 @@ foreach(_src IN LISTS LLM_AUTOGEN_PREFIX_TEST_SOURCES)
      if(_stem STREQUAL "test_llm_wiki_phase3_edge_cases_focused"
          OR _stem STREQUAL "test_llm_wiki_phase3_features_focused"
          OR _stem STREQUAL "test_llm_wiki_plugin_phase3_phase4_focused"
-         OR _stem STREQUAL "test_llm_multi_model_integration")
+         OR _stem STREQUAL "test_llm_multi_model_integration"
+         OR _stem STREQUAL "test_llm_plugin")
         continue()
     endif()
 

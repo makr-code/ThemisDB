@@ -307,6 +307,7 @@ TEST_F(GGUFLoaderTest, IsFormatSupported_SupportedTypes) {
     EXPECT_TRUE(GGUFLoader::isFormatSupported(GGMLType::F32));
     EXPECT_TRUE(GGUFLoader::isFormatSupported(GGMLType::F16));
     EXPECT_TRUE(GGUFLoader::isFormatSupported(GGMLType::Q4_K));
+    EXPECT_TRUE(GGUFLoader::isFormatSupported(GGMLType::Q6_K));
     EXPECT_TRUE(GGUFLoader::isFormatSupported(GGMLType::Q8_0));
 }
 
@@ -317,7 +318,6 @@ TEST_F(GGUFLoaderTest, IsFormatSupported_UnsupportedTypes) {
     EXPECT_FALSE(GGUFLoader::isFormatSupported(GGMLType::Q5_1));
     EXPECT_FALSE(GGUFLoader::isFormatSupported(GGMLType::Q8_1));
     EXPECT_FALSE(GGUFLoader::isFormatSupported(GGMLType::Q5_K));
-    EXPECT_FALSE(GGUFLoader::isFormatSupported(GGMLType::Q6_K));
     EXPECT_FALSE(GGUFLoader::isFormatSupported(GGMLType::Q2_K));
     EXPECT_FALSE(GGUFLoader::isFormatSupported(GGMLType::Q3_K));
 }
@@ -439,6 +439,17 @@ TEST_F(GGUFLoaderTest, ParseFile_AcceptsQ4_K_M) {
     // tensor data, but the failure must NOT be due to an unsupported format.
     loader.parseFile(tmp.str());
     // If it failed, the error must not mention "Unsupported quantization format"
+    EXPECT_EQ(loader.getLastError().find("Unsupported quantization format"), std::string::npos);
+}
+
+TEST_F(GGUFLoaderTest, ParseFile_AcceptsQ6_K) {
+    // A mock GGUF with Q6_K should pass format validation; if parsing fails,
+    // it must not be because the quantization type is rejected.
+    ScopedTempFile tmp("q6k_supported.gguf");
+    tmp.write(makeMockGGUF(GGMLType::Q6_K));
+
+    GGUFLoader loader;
+    loader.parseFile(tmp.str());
     EXPECT_EQ(loader.getLastError().find("Unsupported quantization format"), std::string::npos);
 }
 

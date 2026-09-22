@@ -605,11 +605,19 @@ if(THEMIS_BUILD_TESTS OR THEMIS_BUILD_BENCHMARKS)
     if(THEMIS_PERF_AUTO_ENABLE)
         message(STATUS "Auto-enabling Phase 1 performance optimizations for tests/benchmarks")
         message(STATUS "  (Disable with: cmake -DTHEMIS_PERF_AUTO_ENABLE=OFF)")
-        
-        # Only auto-enable if not explicitly set by user
-        if(NOT THEMIS_ENABLE_MIMALLOC)
-            set(THEMIS_ENABLE_MIMALLOC ON CACHE BOOL "Auto-enabled for tests/benchmarks" FORCE)
-            message(STATUS "  → THEMIS_ENABLE_MIMALLOC=ON (auto)")
+
+        if(WIN32)
+            if(THEMIS_ENABLE_MIMALLOC)
+                message(WARNING "Requested mimalloc enablement is unsupported on Windows: vcpkg mimalloc redirection is not loader-safe in this environment")
+            endif()
+            set(THEMIS_ENABLE_MIMALLOC OFF CACHE BOOL "Auto-disabled on Windows: vcpkg mimalloc redirection is not loader-safe" FORCE)
+            message(STATUS "  → THEMIS_ENABLE_MIMALLOC=OFF (auto, Windows)")
+        else()
+            # Only auto-enable if not explicitly set by user
+            if(NOT THEMIS_ENABLE_MIMALLOC)
+                set(THEMIS_ENABLE_MIMALLOC ON CACHE BOOL "Auto-enabled for tests/benchmarks" FORCE)
+                message(STATUS "  → THEMIS_ENABLE_MIMALLOC=ON (auto)")
+            endif()
         endif()
         
         if(NOT THEMIS_ENABLE_RCU_INDEX)
@@ -661,10 +669,10 @@ if(THEMIS_ENABLE_MIMALLOC)
     if(WIN32)
         # The vcpkg Windows mimalloc package still links its DLL to
         # mimalloc-redirect.dll even when MI_DISABLE_REDIRECT is defined,
-        # which causes the loader to abort before GTest runs.  Keep the fast
+        # which causes the loader to abort before GTest runs. Keep the fast
         # allocator enabled elsewhere, but disable it on Windows until a static
         # or redirect-safe package is available.
-        message(WARNING "Disabling mimalloc on Windows: vcpkg mimalloc redirection is not loader-safe in this environment")
+        message(WARNING "THEMIS_ENABLE_MIMALLOC=ON is unsupported on Windows: vcpkg mimalloc redirection is not loader-safe in this environment")
         set(THEMIS_ENABLE_MIMALLOC OFF CACHE BOOL "Windows mimalloc redirection is unstable; disabled" FORCE)
     else()
         message(STATUS "Enabling mimalloc allocator optimization (+10-20% performance)")
