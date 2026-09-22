@@ -179,13 +179,13 @@ TEST_F(ParallelExecutorDeadlockTest, ConcurrentScansNoDeadlock) {
     
     // Run 4 concurrent scans in separate threads
     std::vector<std::thread> threads;
-    std::vector<bool> results(4, false);
+    std::vector<std::atomic<bool>> results(4, false);
     
     for (int t = 0; t < 4; ++t) {
         threads.emplace_back([&, t]() {
             ParallelExecutor executor(defaultConfig());
             auto result = executor.parallelScan(input, filter, 2);
-            results[t] = result.has_value() && result->size() > 0;
+            results[t].store(result.has_value() && result->size() > 0, std::memory_order_release);
         });
     }
     
@@ -198,7 +198,7 @@ TEST_F(ParallelExecutorDeadlockTest, ConcurrentScansNoDeadlock) {
     
     // All scans should succeed
     for (int t = 0; t < 4; ++t) {
-        EXPECT_TRUE(results[t]) << "Concurrent scan " << t << " should succeed";
+        EXPECT_TRUE(results[t].load(std::memory_order_acquire)) << "Concurrent scan " << t << " should succeed";
     }
     EXPECT_LT(elapsed.count(), 30000) << "All 4 concurrent scans should complete within 30 seconds";
 }
