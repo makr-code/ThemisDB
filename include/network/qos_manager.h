@@ -77,6 +77,7 @@ public:
 
     /**
      * @brief Attempt to consume `bytes` from the bucket without blocking.
+     * @param bytes Number of bytes the caller wants to consume immediately.
      * @return true if tokens were available, false if not enough tokens.
      */
     bool tryConsume(uint64_t bytes);
@@ -101,13 +102,22 @@ public:
      */
     void reconfigure(uint64_t rate_bps, uint64_t burst_bytes);
 
-    /** @brief Current available tokens (bytes). */
+    /**
+     * @brief Current available tokens (bytes).
+     * @return Estimated token count currently available for immediate consumption.
+     */
     double availableBytes() const;
 
-    /** @brief Configured rate in bps. */
+    /**
+     * @brief Configured rate in bps.
+     * @return Sustained refill rate in bits per second.
+     */
     uint64_t rateBps() const;
 
-    /** @brief Configured burst size in bytes. */
+    /**
+     * @brief Configured burst size in bytes.
+     * @return Maximum number of bytes the bucket may accumulate.
+     */
     uint64_t burstBytes() const;
 
 private:
@@ -161,6 +171,7 @@ public:
      *
      * Does NOT consume tokens; use `add()` to actually commit the send.
      *
+     * @param bytes Number of bytes the caller wants to test against the bucket.
      * @return true if sending `bytes` would not overflow the bucket.
      */
     bool tryConform(uint64_t bytes) const;
@@ -172,13 +183,22 @@ public:
      */
     void reconfigure(uint64_t drain_rate_bps, uint64_t capacity_bytes);
 
-    /** @brief Current bucket fill in bytes. */
+    /**
+     * @brief Current bucket fill in bytes.
+     * @return Number of bytes currently accumulated in the shaper bucket.
+     */
     double currentFill() const;
 
-    /** @brief Configured bucket capacity in bytes. */
+    /**
+     * @brief Configured bucket capacity in bytes.
+     * @return Maximum number of bytes the bucket can hold before overflow.
+     */
     uint64_t capacityBytes() const;
 
-    /** @brief Configured drain rate in bps. */
+    /**
+     * @brief Configured drain rate in bps.
+     * @return Sustained drain rate in bits per second.
+     */
     uint64_t drainRateBps() const;
 
 private:
@@ -233,13 +253,22 @@ public:
      */
     void recordLoss();
 
-    /** @brief Current congestion window in bytes. */
+    /**
+     * @brief Current congestion window in bytes.
+     * @return Active congestion-window size in bytes.
+     */
     uint64_t cwnd() const;
 
-    /** @brief Current slow-start threshold in bytes. */
+    /**
+     * @brief Current slow-start threshold in bytes.
+     * @return Slow-start threshold that separates exponential from linear growth.
+     */
     uint64_t ssthresh() const;
 
-    /** @brief Smoothed RTT estimate. */
+    /**
+     * @brief Smoothed RTT estimate.
+     * @return Current smoothed round-trip-time estimate used by the controller.
+     */
     std::chrono::microseconds smoothedRtt() const;
 
     /** @brief Reset to initial state. */
@@ -549,9 +578,14 @@ public:
      * returns false without doing anything.
      *
      * Requires the process to have sufficient privileges (CAP_NET_ADMIN).
+     * Interface names are validated before any command execution and names that
+     * are empty, longer than Linux `IFNAMSIZ - 1` (15 usable characters), start
+     * with `-`, or contain characters outside `[A-Za-z0-9._-]` are rejected.
      *
      * @param tc_config  tc configuration parameters.
-     * @return true if tc commands succeeded; false otherwise.
+     * @return true if tc commands succeeded; false if tc is disabled, the
+     *         interface name is invalid, the `tc` binary is unavailable, or a
+     *         spawned `tc` command fails.
      */
     bool configureTc(const TcConfig& tc_config);
 

@@ -17,6 +17,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cerrno>
 #include <cctype>
 #include <cinttypes>
 #include <cstdio>

@@ -17,8 +17,8 @@ name: "Publish: GitHub Wiki"
 #            - document sorting by currency (freshness + modification date)
 #       3. Validate internal [[links]] (scripts/validate_wiki_links.py)
 #       4. [Optional] AI enrichment via GitHub Models API (workflow_dispatch opt-in)
-#       5. Dispatch the human-review PR gate workflow
-#       6. The PR gate updates an existing review PR and keeps merge human-controlled
+#       5. Dispatch the human-review issue gate workflow
+#       6. The gate upserts a single tracking issue and adds a per-run comment
 #
 # Wiki Features:
 #   - Breadcrumbs: Every page shows "Home > Category > ... > Page" navigation
@@ -300,7 +300,7 @@ jobs:
       # -----------------------------------------------------------------------
       # Phase 3: Hand off to the human-review PR gate
       # -----------------------------------------------------------------------
-      - name: Dispatch wiki PR gate
+      - name: Dispatch wiki review gate
         id: review_dispatch
         if: steps.build.outputs.is_dry_run != 'true'
         env:
@@ -339,7 +339,6 @@ jobs:
           LINK_WARNINGS="${{ steps.link_metrics.outputs.link_warnings || '0' }}"
           LINKS_CHECKED="${{ steps.link_metrics.outputs.links_checked || '0' }}"
           REVIEW_DISPATCHED="${{ steps.review_dispatch.outputs.review_gate_dispatched || 'false' }}"
-          REVIEW_BRANCH="${{ steps.review_dispatch.outputs.review_source_branch || 'n/a' }}"
 
           TOTAL_SOURCES=$((PRIMARY + SECONDARY + METADATA))
           EVIDENCE_SCORE="n/a"
@@ -371,8 +370,7 @@ jobs:
             echo "- Trigger: \`${{ github.event_name }}\`"
             echo "- Source branch for blob links: \`${{ steps.build.outputs.source_branch }}\`"
             echo "- Commit: \`${{ github.sha }}\`"
-            echo "- Review gate dispatched: **${REVIEW_DISPATCHED}**"
-            echo "- Review branch: **${REVIEW_BRANCH}**"
+            echo "- Review gate dispatched: **${REVIEW_DISPATCHED}** (issue-based — no PR branch created)"
             echo ""
             echo "### Reader KPIs"
             echo "- Evidence quality score (0-100): **${EVIDENCE_SCORE}**"
