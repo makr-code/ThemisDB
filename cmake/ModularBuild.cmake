@@ -484,6 +484,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/metadata/schema_consistency_checker.cpp
     ../src/metadata/catalog_exporter.cpp
     ../src/metadata/er_diagram_exporter.cpp
+    ../src/storage/online_schema_migration.cpp
     # ../src/metadata/distributed_catalog.cpp
     # Temporarily excluded in modular build: depends on MetadataShardRouter
     # symbols from sharding module and introduces unresolved externals in
@@ -499,6 +500,7 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/learnable_rope.cpp
     ../src/index/lora_rope.cpp
     ../src/index/property_graph.cpp
+    ../src/index/edge_types.cpp
     ../src/index/process_graph.cpp
     ../src/index/hnsw_layer_optimizer.cpp
     ../src/index/hnsw_parameter_tuner.cpp
@@ -639,7 +641,23 @@ set(THEMIS_QUERY_SOURCES
     # Query engine
     ../src/query/query_engine.cpp
     ../src/search/hybrid_search.cpp
+    ../src/search/query_expander.cpp
+    ../src/search/fuzzy_matcher.cpp
+    ../src/search/faceted_search.cpp
     ../src/search/search_highlighter.cpp
+    ../src/search/search_analytics.cpp
+    ../src/search/autocomplete.cpp
+    ../src/search/learning_to_rank.cpp
+    ../src/search/multi_modal_search.cpp
+    ../src/search/llm_query_rewriter.cpp
+    ../src/search/llm_reranker.cpp
+    ../src/search/llm_reranker_factory_stub.cpp
+    ../src/search/personalized_ranker.cpp
+    ../src/search/multi_field_search.cpp
+    ../src/search/cross_lingual_search.cpp
+    ../src/search/neural_sparse_retrieval.cpp
+    ../src/search/negative_keyword_filter.cpp
+    ../src/search/layered_retrieval_orchestrator.cpp
     ../src/query/query_optimizer.cpp
     ../src/query/adaptive_optimizer.cpp
     ../src/query/adaptive_join.cpp
@@ -717,6 +735,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/tensor_contraction_engine.cpp
     ../src/rag/ontology_aware_retriever.cpp
     ../src/rag/graph_truth_validator.cpp
+    ../src/rag/explainability_reason_builder.cpp
     ../src/query/functions/process_mining_functions.cpp
     ../src/query/functions/udf_registry.cpp
     
@@ -730,6 +749,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/analytics/process_mining.cpp
     ../src/analytics/process_pattern_matcher.cpp
     ../src/analytics/nlp_text_analyzer.cpp
+    ../src/analytics/llm_process_analyzer.cpp
     ../src/analytics/cep_engine.cpp
     ../src/analytics/streaming_window.cpp
     ../src/analytics/incremental_view.cpp
@@ -1064,6 +1084,7 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/capability_matcher.cpp
     ../src/utils/capability_auto_generator.cpp
     ../src/sharding/metadata_shard.cpp
+    ../src/metadata/distributed_catalog.cpp
     ../src/sharding/metadata_wal.cpp
     ../src/sharding/metadata_snapshot.cpp
     ../src/cache/bounded_lru_cache.cpp
@@ -2681,6 +2702,7 @@ function(themis_build_modular)
     if(THEMIS_MODULE_SHARDING)
         themis_add_module(sharding
             DISABLE_AUTO_EXPORT
+            STATIC_MODULE
             SOURCES ${THEMIS_SHARDING_SOURCES}
             DEPENDENCIES 
                 themis_base 

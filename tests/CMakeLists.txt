@@ -1731,23 +1731,20 @@ if(THEMIS_BUILD_MODULAR)
                 list(REMOVE_ITEM _themis_test_extra_sources
                     ${THEMIS_ROOT_DIR}/src/storage/pitr_manager.cpp
                 )
+                list(REMOVE_ITEM _themis_test_extra_sources
+                    ${THEMIS_ROOT_DIR}/src/llm/lora_framework/gpu_tensor.cpp
+                    ${THEMIS_ROOT_DIR}/src/llm/lora_framework/vram_allocator.cpp
+                    ${THEMIS_ROOT_DIR}/src/llm/lora_framework/gpu_lora_layers.cpp
+                    ${THEMIS_ROOT_DIR}/src/llm/lora_framework/paged_memory_manager.cpp
+                    ${THEMIS_ROOT_DIR}/src/llm/lora_framework/custom_allreduce.cpp
+                    ${THEMIS_ROOT_DIR}/src/llm/lora_framework/multi_gpu.cpp
+                    ${THEMIS_ROOT_DIR}/src/llm/lora_framework/multi_gpu_trainer.cpp
+                    ${THEMIS_ROOT_DIR}/src/llm/lora_framework/multi_gpu_lora_layer.cpp
+                    ${THEMIS_ROOT_DIR}/src/index/gpu_vector_index.cpp
+                    ${THEMIS_ROOT_DIR}/src/index/multi_gpu_vector_index.cpp
+                    ${THEMIS_ROOT_DIR}/src/gpu/cuda_operations.cpp
+                )
             endif()
-        endif()
-
-        if(THEMIS_ENABLE_GPU AND NOT TARGET themis_llm)
-            list(APPEND _themis_test_extra_sources
-                ${THEMIS_ROOT_DIR}/src/llm/lora_framework/gpu_tensor.cpp
-                ${THEMIS_ROOT_DIR}/src/llm/lora_framework/vram_allocator.cpp
-                ${THEMIS_ROOT_DIR}/src/llm/lora_framework/gpu_lora_layers.cpp
-                ${THEMIS_ROOT_DIR}/src/llm/lora_framework/paged_memory_manager.cpp
-                ${THEMIS_ROOT_DIR}/src/llm/lora_framework/custom_allreduce.cpp
-                ${THEMIS_ROOT_DIR}/src/llm/lora_framework/multi_gpu.cpp
-                ${THEMIS_ROOT_DIR}/src/llm/lora_framework/multi_gpu_trainer.cpp
-                ${THEMIS_ROOT_DIR}/src/llm/lora_framework/multi_gpu_lora_layer.cpp
-                ${THEMIS_ROOT_DIR}/src/index/gpu_vector_index.cpp
-                ${THEMIS_ROOT_DIR}/src/index/multi_gpu_vector_index.cpp
-                ${THEMIS_ROOT_DIR}/src/gpu/cuda_operations.cpp
-            )
         elseif(THEMIS_ENABLE_GPU)
             message(STATUS "themis_tests: skipping extra GPU sources (linked via themis_llm module)")
         endif()
@@ -1950,6 +1947,16 @@ if(_themis_tests_sources_final)
     set_property(TARGET themis_tests PROPERTY SOURCES ${_themis_tests_sources_final})
 endif()
 
+# Keep postgres importer in the aggregate binary. Basename-only dedup can
+# over-prune this translation unit when static module sources contain the same
+# basename, which causes unresolved constructor symbols in
+# test_importers_phase3_high_gaps.
+if(EXISTS "${THEMIS_ROOT_DIR}/src/importers/postgres_importer.cpp")
+    target_sources(themis_tests PRIVATE
+        ${THEMIS_ROOT_DIR}/src/importers/postgres_importer.cpp
+    )
+endif()
+
 # Keep a small whitelist of focused implementations compiled directly into the
 # aggregate test binary even when broad server/network pruning is active for the
 # static themis_network module.
@@ -1999,6 +2006,32 @@ foreach(_force_src
     if(NOT "${_force_src}" IN_LIST _themis_tests_src_check)
         target_sources(themis_tests PRIVATE "${_force_src}")
         message(STATUS "themis_tests: force-added ${_force_src} (required by THEMIS_BASE_EXPORTS)")
+    endif()
+endforeach()
+
+# Keep selected tensor/rag/search bridge implementations in the aggregate test
+# binary. These sources are required by test_tensor_phase3/test_tensor_recompress/
+# test_neural_sparse_retrieval and may be over-pruned by module dedup in modular builds.
+get_target_property(_themis_tests_src_tensor_rag_check themis_tests SOURCES)
+foreach(_force_tensor_rag_src
+        "${THEMIS_ROOT_DIR}/src/search/neural_sparse_retrieval.cpp"
+    "${THEMIS_ROOT_DIR}/src/search/search_analytics.cpp"
+    "${THEMIS_ROOT_DIR}/src/rag/adaptive_retrieval.cpp"
+    "${THEMIS_ROOT_DIR}/src/rag/multi_hop_reasoner.cpp"
+        "${THEMIS_ROOT_DIR}/src/query/tensor_aware_query_optimizer.cpp"
+        "${THEMIS_ROOT_DIR}/src/rag/targ_retrieval.cpp"
+        "${THEMIS_ROOT_DIR}/src/rag/flare_retrieval.cpp"
+        "${THEMIS_ROOT_DIR}/src/rag/tensor_rag_pipeline.cpp"
+    "${THEMIS_ROOT_DIR}/src/index/temporal_graph.cpp"
+        "${THEMIS_ROOT_DIR}/src/storage/tensor_compaction_filter.cpp"
+    "${THEMIS_ROOT_DIR}/src/storage/hierarchical_tucker_decomposer.cpp"
+        "${THEMIS_ROOT_DIR}/src/tensor/tensor_butterfly_operator.cpp"
+    "${THEMIS_ROOT_DIR}/src/tensor/ht_index.cpp"
+        "${THEMIS_ROOT_DIR}/src/tensor/tensor_fingerprint_graph.cpp"
+        "${THEMIS_ROOT_DIR}/src/tensor/adapter_repository.cpp")
+    if(EXISTS "${_force_tensor_rag_src}" AND NOT "${_force_tensor_rag_src}" IN_LIST _themis_tests_src_tensor_rag_check)
+        target_sources(themis_tests PRIVATE "${_force_tensor_rag_src}")
+        message(STATUS "themis_tests: force-added ${_force_tensor_rag_src} (tensor/rag/search bridge)")
     endif()
 endforeach()
 
@@ -2093,7 +2126,7 @@ target_compile_definitions(themis_tests PRIVATE
 # Link common themis module libraries when they exist to resolve
 # unresolved externals for the aggregated themis_tests binary.
 if(TARGET themis_tests)
-foreach(_mod IN LISTS
+foreach(_mod IN ITEMS
     themis_tensor
     themis_retrieval
     themis_evaluation
@@ -23268,7 +23301,10 @@ endif()
 if(TARGET themis_tests)
     get_target_property(_themis_tests_sources_final themis_tests SOURCES)
     if(_themis_tests_sources_final)
-        list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]src[\\/]importers[\\/]postgres_importer\\.cpp$")
+        # Keep postgres_importer.cpp in the aggregate target to satisfy
+        # PostgreSQLImporter constructor references in importer focused tests.
+        # Only the dedicated MDM variant stays excluded to avoid plugin-symbol
+        # collisions in the monolithic themis_tests link.
         list(FILTER _themis_tests_sources_final EXCLUDE REGEX ".*[\\/]src[\\/]importers[\\/]postgres_importer_mdm\\.cpp$")
         # Remove any source file entries that do not exist on disk to avoid
         # configure-time errors when optional test modules are not yet present.

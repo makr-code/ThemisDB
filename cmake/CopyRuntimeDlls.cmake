@@ -159,6 +159,13 @@ if(DEFINED TARGET_FILE AND NOT "${TARGET_FILE}" STREQUAL "")
     endforeach()
     list(REMOVE_DUPLICATES _expanded_dep_dirs)
 
+    # Normalize runtime-dependency paths consistently to avoid noisy dev warnings
+    # on newer CMake versions when matching post-exclude regexes.
+    if(POLICY CMP0207)
+        cmake_policy(PUSH)
+        cmake_policy(SET CMP0207 NEW)
+    endif()
+
     file(GET_RUNTIME_DEPENDENCIES
         EXECUTABLES "${TARGET_FILE}"
         RESOLVED_DEPENDENCIES_VAR _resolved_deps
@@ -167,6 +174,10 @@ if(DEFINED TARGET_FILE AND NOT "${TARGET_FILE}" STREQUAL "")
         DIRECTORIES ${_expanded_dep_dirs}
         POST_EXCLUDE_REGEXES "^api-ms-win-.*" "^ext-ms-win-.*"
     )
+
+    if(POLICY CMP0207)
+        cmake_policy(POP)
+    endif()
 
     foreach(_dep IN LISTS _resolved_deps)
         if(EXISTS "${_dep}")
