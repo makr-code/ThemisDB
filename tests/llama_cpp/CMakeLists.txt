@@ -31,13 +31,14 @@ foreach(_src IN LISTS LLAMA_CPP_PREFIX_TEST_SOURCES)
     add_executable(${_target}
         "${_src}"
         ${_extra_sources}
+        ${CMAKE_CURRENT_LIST_DIR}/llama_cpp_focused_test_main.cpp
     )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
         ${THEMIS_ROOT_DIR}/tests
     )
-    
+
     # Link GTest and core dependencies
     set(_gmock_link "")
     if(TARGET GTest::gmock)
@@ -45,24 +46,17 @@ foreach(_src IN LISTS LLAMA_CPP_PREFIX_TEST_SOURCES)
     elseif(TARGET gmock::gmock)
         set(_gmock_link gmock::gmock)
     endif()
-    
+
+    target_compile_definitions(${_target} PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_LLAMA_CPP_STUB_MODE
+    )
     target_link_libraries(${_target} PRIVATE
-        ${TEST_LIBS}
+        GTest::gtest
         ${_gmock_link}
         themis_core
         spdlog::spdlog
         Threads::Threads
-    )
-
-    if(MSVC)
-        target_link_options(${_target} PRIVATE /OPT:NOREF)
-    endif()
-    
-    # Enable stub mode for test builds to preserve existing test behavior
-    # Group D, N6 tests rely on stub echo responses
-    target_compile_definitions(${_target} PRIVATE
-        THEMIS_TEST_BUILD=1
-        THEMIS_LLAMA_CPP_STUB_MODE
     )
 
     themis_register_module_focused_test(

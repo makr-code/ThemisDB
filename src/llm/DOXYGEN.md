@@ -22130,7 +22130,7 @@ Status: active
   - `model_path` (const std::string &): Path to the model.
   - `config` (const json &): Input parameter.
 - Return: True when the operation succeeds.
-- Details: name Input parameter. model_path Path to the model. config Input parameter. True when the operation succeeds. Calls: THEMIS_LLAMA_CPP_STUB_MODE(), contains(), std::chrono::seconds(), empty(), loadModel(), errors::logError(), LLMPluginManager::instance(), registerPlugin().
+- Details: name Input parameter. model_path Path to the model. config Input parameter. True when the operation succeeds. In the production build path, an empty model_path is rejected and no plugin is registered; the helper fails closed until a real model path is supplied. Calls: THEMIS_LLAMA_CPP_STUB_MODE(), contains(), std::chrono::seconds(), empty(), loadModel(), errors::logError(), LLMPluginManager::instance(), registerPlugin().
 
 #### `std::shared_ptr< themis::llm::lora::ILoRAOrchestrator > createLoRAOrchestrator()`
 - Source: `src/llm/llm_factory_stub.cpp`:136

@@ -29,6 +29,7 @@
 #include "llama_cpp/llama_cpp_plugin.h"
 #include "utils/logger.h"
 #include <chrono>
+#include <fstream>
 #include <algorithm>
 #include <exception>
 #include <atomic>

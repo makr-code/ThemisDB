@@ -427,6 +427,22 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             TIMEOUT 180
             LABELS wave_a_flow_server_llm llm integration multi_model
         )
+    elseif(_stem STREQUAL "test_llm_plugin")
+        themis_register_module_focused_test(
+            MODULE llm
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER unit
+            TIMEOUT 300
+        )
+    elseif(_stem STREQUAL "test_llm_plugin")
+        themis_register_module_focused_test(
+            MODULE llm
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER unit
+            TIMEOUT 300
+        )
     elseif(_stem STREQUAL "test_subagent_orchestration_focused" OR
            _stem STREQUAL "test_wiki_crossdep_focused")
         themis_register_module_focused_test(
