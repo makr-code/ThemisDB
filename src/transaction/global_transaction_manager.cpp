@@ -392,8 +392,8 @@ bool GlobalTransactionManager::abort(const std::string& txn_id) {
         
         // Merge back acked flags from the snapshot (runPhase2 updates the copy).
         for (auto& [region_id, snap_rrec] : rec_snapshot.region_records) {
-            if (auto it = rec.region_records.find(region_id); it != rec.region_records.end()) {
-                it->second.phase2_acked = snap_rrec.phase2_acked;
+            if (auto region_it = rec.region_records.find(region_id); region_it != rec.region_records.end()) {
+                region_it->second.phase2_acked = snap_rrec.phase2_acked;
             }
         }
         rec.state = GlobalTxnState::COMPLETED;
@@ -541,7 +541,7 @@ size_t GlobalTransactionManager::recoverInDoubtTransactions() {
                     continue;
                 }
                 
-                rec_snapshot = transactions_.at(tid);  // snapshot under lock
+                rec_snapshot = rec;  // snapshot under lock
             }
 
             // Deliver Phase-2 outside the lock
@@ -564,8 +564,8 @@ size_t GlobalTransactionManager::recoverInDoubtTransactions() {
                 
                 // Merge back acked flags from the snapshot
                 for (auto& [region_id, snap_rrec] : rec_snapshot.region_records) {
-                    if (auto it = rec.region_records.find(region_id); it != rec.region_records.end()) {
-                        it->second.phase2_acked = snap_rrec.phase2_acked;
+                    if (auto region_it = rec.region_records.find(region_id); region_it != rec.region_records.end()) {
+                        region_it->second.phase2_acked = snap_rrec.phase2_acked;
                     }
                 }
                 rec.state = GlobalTxnState::COMPLETED;
