@@ -36,7 +36,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Status: ✓ WAVE D CLOSED (2026-09-22)
 
-All production-readiness checklist items from Phase 6 acceptance are complete. Vector search module is **production-ready** and available for deployment.
+All production-readiness checklist items through Phase 4 are complete. Vector search module is **production-ready** and available for deployment. Phase 5 hardening continues in parallel.
 
 ---
 
