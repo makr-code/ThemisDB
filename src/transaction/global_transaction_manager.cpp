@@ -380,7 +380,16 @@ bool GlobalTransactionManager::abort(const std::string& txn_id) {
     // Re-acquire to persist the COMPLETED state.
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        auto& rec = transactions_.at(txn_id);
+        auto it = transactions_.find(txn_id);
+        if (it == transactions_.end()) {
+            return false; // Transaction was removed (concurrent cleanup)
+        }
+        
+        auto& rec = it->second;
+        if (rec.state == GlobalTxnState::COMPLETED) {
+            return true; // Already completed by concurrent caller
+        }
+        
         // Merge back acked flags from the snapshot (runPhase2 updates the copy).
         for (auto& [region_id, snap_rrec] : rec_snapshot.region_records) {
             if (auto it = rec.region_records.find(region_id); it != rec.region_records.end()) {
@@ -518,6 +527,20 @@ size_t GlobalTransactionManager::recoverInDoubtTransactions() {
             GlobalTxnRecord rec_snapshot;
             {
                 std::lock_guard<std::mutex> lock(mutex_);
+                auto it = transactions_.find(tid);
+                if (it == transactions_.end()) {
+                    // Transaction was removed, skip
+                    continue;
+                }
+                
+                auto& rec = it->second;
+                // Check if state is still COMMIT_DECIDED or ABORT_DECIDED (not completed by concurrent caller)
+                if (rec.state == GlobalTxnState::COMPLETED) {
+                    // Already processed by concurrent path (e.g., abort() or another recovery)
+                    ++resolved;
+                    continue;
+                }
+                
                 rec_snapshot = transactions_.at(tid);  // snapshot under lock
             }
 
@@ -527,7 +550,18 @@ size_t GlobalTransactionManager::recoverInDoubtTransactions() {
             // Re-acquire to persist the COMPLETED state
             {
                 std::lock_guard<std::mutex> lock(mutex_);
-                auto& rec = transactions_.at(tid);
+                auto it = transactions_.find(tid);
+                if (it == transactions_.end()) {
+                    continue;
+                }
+                
+                auto& rec = it->second;
+                // Double-check state hasn't been finalized by concurrent caller
+                if (rec.state == GlobalTxnState::COMPLETED) {
+                    ++resolved;
+                    continue;
+                }
+                
                 // Merge back acked flags from the snapshot
                 for (auto& [region_id, snap_rrec] : rec_snapshot.region_records) {
                     if (auto it = rec.region_records.find(region_id); it != rec.region_records.end()) {
