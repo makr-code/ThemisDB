@@ -1,23 +1,23 @@
 {
-  "module": "onnx_clip",
+  "module": "rag",
   "source_mode": "direct_doxygen_markers",
   "source_graph_used": false,
   "source_graph_path": "/home/runner/work/ThemisDB/ThemisDB/ai_working/sourcecode_graph.json",
-  "source_files_scanned": 8,
-  "source_symbols_total": 82,
-  "source_symbols_after_filter": 46,
-  "doxygen_members_total": 171,
-  "doxygen_members_after_filter": 96,
-  "source_symbol_names": 42,
-  "doxygen_symbol_names": 67,
-  "source_not_in_doxygen_count": 7,
-  "doxygen_not_in_source_count": 32,
+  "source_files_scanned": 200,
+  "source_symbols_total": 1419,
+  "source_symbols_after_filter": 1400,
+  "doxygen_members_total": 3149,
+  "doxygen_members_after_filter": 1867,
+  "source_symbol_names": 915,
+  "doxygen_symbol_names": 1216,
+  "source_not_in_doxygen_count": 121,
+  "doxygen_not_in_source_count": 422,
   "coverage": {
-    "symbol_presence_ratio": 0.8333,
-    "missing_symbol_count": 7,
-    "missing_brief_count": 35,
-    "missing_param_docs_count": 23,
-    "missing_return_docs_count": 32
+    "symbol_presence_ratio": 0.8678,
+    "missing_symbol_count": 121,
+    "missing_brief_count": 466,
+    "missing_param_docs_count": 308,
+    "missing_return_docs_count": 322
   },
   "ownership": {
     "path_policy": {
@@ -49,367 +49,560 @@
       "classification_rule": "everything outside internal roots is treated as external / third-party boundary"
     },
     "source_symbols": {
-      "internal": 46,
+      "internal": 1400,
       "external": 0
     },
     "doxygen_members": {
-      "internal": 71,
-      "external": 25
+      "internal": 1422,
+      "external": 445
     },
     "externally_scoped_symbols": []
   },
   "by_rule": {
-    "missing_symbol": 7,
-    "missing_brief": 35,
-    "missing_param_docs": 23,
-    "missing_return_docs": 32
+    "missing_symbol": 121,
+    "missing_brief": 466,
+    "missing_param_docs": 308,
+    "missing_return_docs": 322
   },
   "by_rule_scope": {
     "missing_symbol": {
-      "src": 7
+      "include": 46,
+      "tests": 7,
+      "src": 66,
+      "benchmarks": 2
     },
     "missing_brief": {
-      "benchmarks": 14,
-      "other": 5,
-      "src": 16
+      "benchmarks": 12,
+      "other": 107,
+      "tests": 76,
+      "include": 220,
+      "src": 51
     },
     "missing_param_docs": {
-      "benchmarks": 12,
-      "src": 6,
-      "tests": 5
+      "benchmarks": 14,
+      "tests": 63,
+      "include": 192,
+      "src": 39
     },
     "missing_return_docs": {
-      "benchmarks": 17,
-      "src": 9,
-      "tests": 6
+      "benchmarks": 10,
+      "tests": 77,
+      "include": 209,
+      "src": 26
     }
   },
   "by_scope": {
-    "src": 38,
-    "tests": 11,
-    "benchmarks": 43,
-    "include": 0,
-    "other": 5
+    "src": 182,
+    "tests": 223,
+    "benchmarks": 38,
+    "include": 667,
+    "other": 107
   },
   "samples": {
     "source_not_in_doxygen": [
-      "backendToString",
-      "fnv1a64",
-      "fnv1a64_str",
-      "mixMetadata",
-      "nextFloat01",
-      "sha256HexOfFile",
-      "tokenize"
+      "ABTestStatus",
+      "AdversarialStrategy",
+      "AggregationMethod",
+      "AggregationStrategy",
+      "AlertSeverity",
+      "BiasMitigationStrategy",
+      "BiasType",
+      "CalibrationMethod",
+      "ComparisonWinner",
+      "ConstantScorer",
+      "ConstitutionalStrategy",
+      "CriticVerdict",
+      "DepthLevel",
+      "DetectionMode",
+      "DeterministicEngine",
+      "DomainType",
+      "EntityType",
+      "EvaluationDimension",
+      "EvaluationMode",
+      "FallbackMode",
+      "FallbackStrategy",
+      "FeedbackType",
+      "GapType",
+      "HTTPMethod",
+      "InjectionSeverity"
     ],
     "doxygen_not_in_source": [
-      "CreateMockModelFile",
-      "CreateTestImageData",
-      "GetRSSBytes",
-      "Impl",
-      "ONNXClipPlugin",
-      "OnnxClipHotSwapTest",
-      "OnnxClipMmapTest",
-      "RequestGuard",
-      "UseRealTime",
-      "backend",
-      "cleanupMmap",
-      "compareBatchVsSequential",
-      "computeEmbedding",
-      "computeL2Distance",
-      "computeTextEmbedding",
-      "createTestConfig",
-      "cudaAvailable",
-      "for",
-      "generateEmbedding",
-      "generateEmbeddingBatch",
-      "getBackend",
-      "getInfo",
-      "getStatistics",
-      "if",
-      "isReady"
+      "AdversarialFullRunTest",
+      "AgenticRAGIntegrationTest",
+      "AgenticRAGRetrievalTest",
+      "AgenticRAGRunTest",
+      "AgenticRAGSecurityTest",
+      "Arg",
+      "BiasDetectorTest",
+      "CitationHighlightTest",
+      "CoTEvaluatorTest",
+      "CoherenceEvaluatorTest",
+      "CompletenessEvaluatorTest",
+      "ComponentInfo",
+      "ContextWindowFillerTest",
+      "CountingScorer",
+      "DeterministicBenchmarkVectorizer",
+      "DocumentSummarizerTest",
+      "EntityLinkerTest",
+      "FaithfulnessEvaluatorTest",
+      "FixedScorer",
+      "FixedSplitterTest",
+      "FlareStats",
+      "GEvalEvaluatorTest",
+      "GEvalPhase3Test",
+      "GateStats",
+      "HybridRetrieverLinearTest"
     ],
     "findings": [
       {
         "rule": "missing_symbol",
-        "symbol": "backendToString",
+        "symbol": "ABTestStatus",
         "count": 1,
-        "scope": "src",
+        "scope": "include",
         "scope_breakdown": {
-          "src": 1
+          "include": 1
         },
         "source_examples": [
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/src/onnx_clip/onnx_clip_plugin.cpp",
-            "line": 68,
-            "kind": "function",
-            "name": "backendToString",
-            "scope": "src"
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/ab_testing_framework.h",
+            "line": 25,
+            "kind": "class",
+            "name": "ABTestStatus",
+            "scope": "include"
           }
         ]
       },
       {
         "rule": "missing_symbol",
-        "symbol": "fnv1a64",
+        "symbol": "AdversarialStrategy",
         "count": 1,
-        "scope": "src",
+        "scope": "include",
         "scope_breakdown": {
-          "src": 1
+          "include": 1
         },
         "source_examples": [
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/src/onnx_clip/onnx_clip_plugin.cpp",
-            "line": 141,
-            "kind": "function",
-            "name": "fnv1a64",
-            "scope": "src"
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/adversarial_tester.h",
+            "line": 34,
+            "kind": "class",
+            "name": "AdversarialStrategy",
+            "scope": "include"
           }
         ]
       },
       {
         "rule": "missing_symbol",
-        "symbol": "fnv1a64_str",
+        "symbol": "AggregationMethod",
         "count": 1,
-        "scope": "src",
+        "scope": "include",
         "scope_breakdown": {
-          "src": 1
+          "include": 1
         },
         "source_examples": [
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/src/onnx_clip/onnx_clip_plugin.cpp",
-            "line": 156,
-            "kind": "function",
-            "name": "fnv1a64_str",
-            "scope": "src"
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/geval_evaluator.h",
+            "line": 23,
+            "kind": "class",
+            "name": "AggregationMethod",
+            "scope": "include"
           }
         ]
       },
       {
         "rule": "missing_symbol",
-        "symbol": "mixMetadata",
+        "symbol": "AggregationStrategy",
         "count": 1,
-        "scope": "src",
+        "scope": "include",
         "scope_breakdown": {
-          "src": 1
+          "include": 1
         },
         "source_examples": [
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/src/onnx_clip/onnx_clip_plugin.cpp",
-            "line": 172,
-            "kind": "function",
-            "name": "mixMetadata",
-            "scope": "src"
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/distributed_rag_evaluator.h",
+            "line": 29,
+            "kind": "class",
+            "name": "AggregationStrategy",
+            "scope": "include"
           }
         ]
       },
       {
         "rule": "missing_symbol",
-        "symbol": "nextFloat01",
+        "symbol": "AlertSeverity",
         "count": 1,
-        "scope": "src",
+        "scope": "include",
         "scope_breakdown": {
-          "src": 1
+          "include": 1
         },
         "source_examples": [
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/src/onnx_clip/onnx_clip_plugin.cpp",
-            "line": 188,
-            "kind": "function",
-            "name": "nextFloat01",
-            "scope": "src"
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/hallucination_dashboard.h",
+            "line": 41,
+            "kind": "class",
+            "name": "AlertSeverity",
+            "scope": "include"
           }
         ]
       },
       {
         "rule": "missing_symbol",
-        "symbol": "sha256HexOfFile",
+        "symbol": "BiasMitigationStrategy",
         "count": 1,
-        "scope": "src",
+        "scope": "include",
         "scope_breakdown": {
-          "src": 1
+          "include": 1
         },
         "source_examples": [
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/src/onnx_clip/onnx_clip_plugin.cpp",
-            "line": 91,
-            "kind": "function",
-            "name": "sha256HexOfFile",
-            "scope": "src"
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/pairwise_comparator.h",
+            "line": 32,
+            "kind": "class",
+            "name": "BiasMitigationStrategy",
+            "scope": "include"
           }
         ]
       },
       {
         "rule": "missing_symbol",
-        "symbol": "tokenize",
+        "symbol": "BiasType",
         "count": 1,
-        "scope": "src",
+        "scope": "include",
         "scope_breakdown": {
-          "src": 1
+          "include": 1
         },
         "source_examples": [
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/src/onnx_clip/onnx_clip_plugin.cpp",
-            "line": 204,
-            "kind": "function",
-            "name": "tokenize",
-            "scope": "src"
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/bias_detector.h",
+            "line": 23,
+            "kind": "class",
+            "name": "BiasType",
+            "scope": "include"
           }
         ]
       },
       {
-        "rule": "missing_brief",
-        "symbol": "for",
-        "kind": "function",
-        "file": "benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp",
-        "line": 322,
-        "scope": "benchmarks"
+        "rule": "missing_symbol",
+        "symbol": "CalibrationMethod",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/calibration_manager.h",
+            "line": 24,
+            "kind": "class",
+            "name": "CalibrationMethod",
+            "scope": "include"
+          }
+        ]
       },
       {
-        "rule": "missing_param_docs",
-        "symbol": "for",
-        "kind": "function",
-        "file": "benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp",
-        "line": 322,
-        "scope": "benchmarks",
-        "param_total": 1,
-        "param_docs_count": 0
+        "rule": "missing_symbol",
+        "symbol": "ComparisonWinner",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/pairwise_comparator.h",
+            "line": 23,
+            "kind": "class",
+            "name": "ComparisonWinner",
+            "scope": "include"
+          }
+        ]
       },
       {
-        "rule": "missing_brief",
-        "symbol": "UseRealTime",
-        "kind": "function",
-        "file": "benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp",
-        "line": 328,
-        "scope": "benchmarks"
+        "rule": "missing_symbol",
+        "symbol": "ConstantScorer",
+        "count": 1,
+        "scope": "tests",
+        "scope_breakdown": {
+          "tests": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/tests/rag/test_lora_enhanced_retriever.cpp",
+            "line": 103,
+            "kind": "class",
+            "name": "ConstantScorer",
+            "scope": "tests"
+          }
+        ]
       },
       {
-        "rule": "missing_brief",
-        "symbol": "reserve",
-        "kind": "function",
-        "file": "benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp",
-        "line": 462,
-        "scope": "benchmarks"
+        "rule": "missing_symbol",
+        "symbol": "ConstitutionalStrategy",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/rlaif_trainer.h",
+            "line": 31,
+            "kind": "class",
+            "name": "ConstitutionalStrategy",
+            "scope": "include"
+          }
+        ]
       },
       {
-        "rule": "missing_param_docs",
-        "symbol": "reserve",
-        "kind": "function",
-        "file": "benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp",
-        "line": 462,
-        "scope": "benchmarks",
-        "param_total": 1,
-        "param_docs_count": 0
+        "rule": "missing_symbol",
+        "symbol": "CriticVerdict",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/self_rag.h",
+            "line": 42,
+            "kind": "class",
+            "name": "CriticVerdict",
+            "scope": "include"
+          }
+        ]
       },
       {
-        "rule": "missing_return_docs",
-        "symbol": "reserve",
-        "kind": "function",
-        "file": "benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp",
-        "line": 462,
-        "scope": "benchmarks"
+        "rule": "missing_symbol",
+        "symbol": "DepthLevel",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/completeness_evaluator.h",
+            "line": 33,
+            "kind": "class",
+            "name": "DepthLevel",
+            "scope": "include"
+          }
+        ]
       },
       {
-        "rule": "missing_brief",
-        "symbol": "if",
-        "kind": "function",
-        "file": "benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp",
-        "line": 474,
-        "scope": "benchmarks"
+        "rule": "missing_symbol",
+        "symbol": "DetectionMode",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/knowledge_gap_detector.h",
+            "line": 50,
+            "kind": "class",
+            "name": "DetectionMode",
+            "scope": "include"
+          }
+        ]
       },
       {
-        "rule": "missing_param_docs",
-        "symbol": "if",
-        "kind": "function",
-        "file": "benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp",
-        "line": 474,
-        "scope": "benchmarks",
-        "param_total": 2,
-        "param_docs_count": 0
+        "rule": "missing_symbol",
+        "symbol": "DeterministicEngine",
+        "count": 1,
+        "scope": "tests",
+        "scope_breakdown": {
+          "tests": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/tests/rag/test_rag_phase_b_e2e.cpp",
+            "line": 69,
+            "kind": "struct",
+            "name": "DeterministicEngine",
+            "scope": "tests"
+          }
+        ]
       },
       {
-        "rule": "missing_brief",
-        "symbol": "initialize",
-        "kind": "function",
-        "file": "benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp",
-        "line": 655,
-        "scope": "benchmarks"
+        "rule": "missing_symbol",
+        "symbol": "DomainType",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/delegate_evaluator.h",
+            "line": 36,
+            "kind": "class",
+            "name": "DomainType",
+            "scope": "include"
+          }
+        ]
       },
       {
-        "rule": "missing_return_docs",
-        "symbol": "initialize",
-        "kind": "function",
-        "file": "benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp",
-        "line": 655,
-        "scope": "benchmarks"
+        "rule": "missing_symbol",
+        "symbol": "EntityType",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/knowledge_graph_retriever.h",
+            "line": 35,
+            "kind": "class",
+            "name": "EntityType",
+            "scope": "include"
+          }
+        ]
       },
       {
-        "rule": "missing_brief",
-        "symbol": "for",
-        "kind": "function",
-        "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
-        "line": 355,
-        "scope": "benchmarks"
+        "rule": "missing_symbol",
+        "symbol": "EvaluationDimension",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/rag_judge.h",
+            "line": 27,
+            "kind": "class",
+            "name": "EvaluationDimension",
+            "scope": "include"
+          }
+        ]
       },
       {
-        "rule": "missing_param_docs",
-        "symbol": "for",
-        "kind": "function",
-        "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
-        "line": 355,
-        "scope": "benchmarks",
-        "param_total": 1,
-        "param_docs_count": 0
+        "rule": "missing_symbol",
+        "symbol": "EvaluationMode",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/rag_judge.h",
+            "line": 49,
+            "kind": "class",
+            "name": "EvaluationMode",
+            "scope": "include"
+          }
+        ]
       },
       {
-        "rule": "missing_brief",
-        "symbol": "UseRealTime",
-        "kind": "function",
-        "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
-        "line": 367,
-        "scope": "benchmarks"
+        "rule": "missing_symbol",
+        "symbol": "FallbackMode",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/tensor_rag_pipeline.h",
+            "line": 129,
+            "kind": "class",
+            "name": "FallbackMode",
+            "scope": "include"
+          }
+        ]
       },
       {
-        "rule": "missing_brief",
-        "symbol": "MockOnnxClipBackendModel",
-        "kind": "function",
-        "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
-        "line": 91,
-        "scope": "benchmarks"
+        "rule": "missing_symbol",
+        "symbol": "FallbackStrategy",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/knowledge_gap_detector.h",
+            "line": 38,
+            "kind": "class",
+            "name": "FallbackStrategy",
+            "scope": "include"
+          }
+        ]
       },
       {
-        "rule": "missing_param_docs",
-        "symbol": "encodeSingleImage",
-        "kind": "function",
-        "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
-        "line": 101,
-        "scope": "benchmarks",
-        "param_total": 1,
-        "param_docs_count": 0
+        "rule": "missing_symbol",
+        "symbol": "FeedbackType",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/learning_metrics.h",
+            "line": 30,
+            "kind": "class",
+            "name": "FeedbackType",
+            "scope": "include"
+          }
+        ]
       },
       {
-        "rule": "missing_return_docs",
-        "symbol": "encodeSingleImage",
-        "kind": "function",
-        "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
-        "line": 101,
-        "scope": "benchmarks"
+        "rule": "missing_symbol",
+        "symbol": "GapType",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/knowledge_gap_detector.h",
+            "line": 24,
+            "kind": "class",
+            "name": "GapType",
+            "scope": "include"
+          }
+        ]
       },
       {
-        "rule": "missing_param_docs",
-        "symbol": "encodeBatch",
-        "kind": "function",
-        "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
-        "line": 116,
-        "scope": "benchmarks",
-        "param_total": 3,
-        "param_docs_count": 0
+        "rule": "missing_symbol",
+        "symbol": "HTTPMethod",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/http_metrics_client.h",
+            "line": 28,
+            "kind": "class",
+            "name": "HTTPMethod",
+            "scope": "include"
+          }
+        ]
       },
       {
-        "rule": "missing_return_docs",
-        "symbol": "encodeBatch",
-        "kind": "function",
-        "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
-        "line": 116,
-        "scope": "benchmarks"
+        "rule": "missing_symbol",
+        "symbol": "InjectionSeverity",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/prompt_injection_detector.h",
+            "line": 24,
+            "kind": "class",
+            "name": "InjectionSeverity",
+            "scope": "include"
+          }
+        ]
       }
     ]
   }
