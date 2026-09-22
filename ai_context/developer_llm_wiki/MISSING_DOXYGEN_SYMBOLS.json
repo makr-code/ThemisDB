@@ -1,79 +1,899 @@
 {
-  "module": "execution",
+  "module": "onnx_clip",
   "generated_from": "check_module_direct_doxygen.py",
   "source_mode": "direct_doxygen_markers",
   "findings": [
     {
       "rule": "missing_symbol",
-      "symbol": "BoundedQueue",
+      "symbol": "backendToString",
       "count": 1,
-      "scope": "benchmarks",
+      "scope": "src",
       "scope_breakdown": {
-        "benchmarks": 1
+        "src": 1
       },
       "source_examples": [
         {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/benchmarks/execution/bench_execution_dedicated_gates.cpp",
-          "line": 43,
-          "kind": "class",
-          "name": "BoundedQueue",
-          "scope": "benchmarks"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "SLAPriority",
-      "count": 1,
-      "scope": "include",
-      "scope_breakdown": {
-        "include": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/include/execution/query_scheduler.h",
-          "line": 41,
-          "kind": "class",
-          "name": "SLAPriority",
-          "scope": "include"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "StubBoundedQueue",
-      "count": 1,
-      "scope": "tests",
-      "scope_breakdown": {
-        "tests": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/tests/execution/test_execution_highcardinality_stress.cpp",
-          "line": 43,
-          "kind": "class",
-          "name": "StubBoundedQueue",
-          "scope": "tests"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "operator",
-      "count": 1,
-      "scope": "include",
-      "scope_breakdown": {
-        "include": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/include/execution/query_scheduler.h",
-          "line": 198,
+          "file": "/home/runner/work/ThemisDB/ThemisDB/src/onnx_clip/onnx_clip_plugin.cpp",
+          "line": 68,
           "kind": "function",
-          "name": "operator",
-          "scope": "include"
+          "name": "backendToString",
+          "scope": "src"
         }
       ]
+    },
+    {
+      "rule": "missing_symbol",
+      "symbol": "fnv1a64",
+      "count": 1,
+      "scope": "src",
+      "scope_breakdown": {
+        "src": 1
+      },
+      "source_examples": [
+        {
+          "file": "/home/runner/work/ThemisDB/ThemisDB/src/onnx_clip/onnx_clip_plugin.cpp",
+          "line": 141,
+          "kind": "function",
+          "name": "fnv1a64",
+          "scope": "src"
+        }
+      ]
+    },
+    {
+      "rule": "missing_symbol",
+      "symbol": "fnv1a64_str",
+      "count": 1,
+      "scope": "src",
+      "scope_breakdown": {
+        "src": 1
+      },
+      "source_examples": [
+        {
+          "file": "/home/runner/work/ThemisDB/ThemisDB/src/onnx_clip/onnx_clip_plugin.cpp",
+          "line": 156,
+          "kind": "function",
+          "name": "fnv1a64_str",
+          "scope": "src"
+        }
+      ]
+    },
+    {
+      "rule": "missing_symbol",
+      "symbol": "mixMetadata",
+      "count": 1,
+      "scope": "src",
+      "scope_breakdown": {
+        "src": 1
+      },
+      "source_examples": [
+        {
+          "file": "/home/runner/work/ThemisDB/ThemisDB/src/onnx_clip/onnx_clip_plugin.cpp",
+          "line": 172,
+          "kind": "function",
+          "name": "mixMetadata",
+          "scope": "src"
+        }
+      ]
+    },
+    {
+      "rule": "missing_symbol",
+      "symbol": "nextFloat01",
+      "count": 1,
+      "scope": "src",
+      "scope_breakdown": {
+        "src": 1
+      },
+      "source_examples": [
+        {
+          "file": "/home/runner/work/ThemisDB/ThemisDB/src/onnx_clip/onnx_clip_plugin.cpp",
+          "line": 188,
+          "kind": "function",
+          "name": "nextFloat01",
+          "scope": "src"
+        }
+      ]
+    },
+    {
+      "rule": "missing_symbol",
+      "symbol": "sha256HexOfFile",
+      "count": 1,
+      "scope": "src",
+      "scope_breakdown": {
+        "src": 1
+      },
+      "source_examples": [
+        {
+          "file": "/home/runner/work/ThemisDB/ThemisDB/src/onnx_clip/onnx_clip_plugin.cpp",
+          "line": 91,
+          "kind": "function",
+          "name": "sha256HexOfFile",
+          "scope": "src"
+        }
+      ]
+    },
+    {
+      "rule": "missing_symbol",
+      "symbol": "tokenize",
+      "count": 1,
+      "scope": "src",
+      "scope_breakdown": {
+        "src": 1
+      },
+      "source_examples": [
+        {
+          "file": "/home/runner/work/ThemisDB/ThemisDB/src/onnx_clip/onnx_clip_plugin.cpp",
+          "line": 204,
+          "kind": "function",
+          "name": "tokenize",
+          "scope": "src"
+        }
+      ]
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "for",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp",
+      "line": 322,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "for",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp",
+      "line": 322,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "UseRealTime",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp",
+      "line": 328,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "reserve",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp",
+      "line": 462,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "reserve",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp",
+      "line": 462,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "reserve",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp",
+      "line": 462,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "if",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp",
+      "line": 474,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "if",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp",
+      "line": 474,
+      "scope": "benchmarks",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "initialize",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp",
+      "line": 655,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "initialize",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp",
+      "line": 655,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "for",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 355,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "for",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 355,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "UseRealTime",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 367,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "MockOnnxClipBackendModel",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 91,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "encodeSingleImage",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 101,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "encodeSingleImage",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 101,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "encodeBatch",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 116,
+      "scope": "benchmarks",
+      "param_total": 3,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "encodeBatch",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 116,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "loadModelAndMeasureMemory",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 134,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "measureRuntimeMemory",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 150,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "measureRuntimeMemory",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 150,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "measureBatchSplittingOverhead",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 173,
+      "scope": "benchmarks",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "measureBatchSplittingOverhead",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 173,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "backend",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 187,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "backend",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 187,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "cudaAvailable",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 188,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "cudaAvailable",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 188,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "OnnxClipHotSwapTest",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "OnnxClipMmapTest",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "MockOnnxClipBackendModel",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 91,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "encodeSingleImage",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 101,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "encodeSingleImage",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 101,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "encodeBatch",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 116,
+      "scope": "benchmarks",
+      "param_total": 3,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "encodeBatch",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 116,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "loadModelAndMeasureMemory",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 134,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "measureRuntimeMemory",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 150,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "measureRuntimeMemory",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 150,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "measureBatchSplittingOverhead",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 173,
+      "scope": "benchmarks",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "measureBatchSplittingOverhead",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 173,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "backend",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 187,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "backend",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 187,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "cudaAvailable",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 188,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "cudaAvailable",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_vit_backend.cpp",
+      "line": 188,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "MockOnnxClipModel",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp",
+      "line": 66,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "healthCheck",
+      "kind": "function",
+      "file": "benchmarks/onnx_clip/bench_onnx_clip_cpu.cpp",
+      "line": 138,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "ONNXClipPlugin",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.h",
+      "line": 29,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "~ONNXClipPlugin",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.h",
+      "line": 30,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "getInfo",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.h",
+      "line": 33,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "getInfo",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.h",
+      "line": 33,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "isReady",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.h",
+      "line": 36,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "isReady",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.h",
+      "line": 36,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "getBackend",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.h",
+      "line": 37,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "getBackend",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.h",
+      "line": 37,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "healthCheck",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.h",
+      "line": 52,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "healthCheck",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.h",
+      "line": 52,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "getStatistics",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.h",
+      "line": 53,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "getStatistics",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.h",
+      "line": 53,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "ONNXClipPlugin",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "~RequestGuard",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.cpp",
+      "line": 531,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "RequestGuard",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.cpp",
+      "line": 540,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "RequestGuard",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.cpp",
+      "line": 540,
+      "scope": "src",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "operator=",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.cpp",
+      "line": 541,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "operator=",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.cpp",
+      "line": 541,
+      "scope": "src",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "operator=",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.cpp",
+      "line": 541,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "RequestGuard",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.cpp",
+      "line": 542,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "RequestGuard",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.cpp",
+      "line": 542,
+      "scope": "src",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "operator=",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.cpp",
+      "line": 543,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "operator=",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.cpp",
+      "line": 543,
+      "scope": "src",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "operator=",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.cpp",
+      "line": 543,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "RequestGuard",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "cleanupMmap",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.cpp",
+      "line": 403,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "~Impl",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.cpp",
+      "line": 434,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "computeEmbedding",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.cpp",
+      "line": 438,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "computeEmbedding",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.cpp",
+      "line": 438,
+      "scope": "src",
+      "param_total": 4,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "computeEmbedding",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.cpp",
+      "line": 438,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "computeTextEmbedding",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.cpp",
+      "line": 474,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "computeTextEmbedding",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.cpp",
+      "line": 474,
+      "scope": "src",
+      "param_total": 3,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "computeTextEmbedding",
+      "kind": "function",
+      "file": "src/onnx_clip/onnx_clip_plugin.cpp",
+      "line": 474,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "Impl",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "generateTestImage",
+      "kind": "function",
+      "file": "tests/onnx_clip/test_onnx_clip_hot_swap_focused.cpp",
+      "line": 39,
+      "scope": "tests",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "generateTestImage",
+      "kind": "function",
+      "file": "tests/onnx_clip/test_onnx_clip_hot_swap_focused.cpp",
+      "line": 39,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "createTestConfig",
+      "kind": "function",
+      "file": "tests/onnx_clip/test_onnx_clip_hot_swap_focused.cpp",
+      "line": 48,
+      "scope": "tests",
+      "param_total": 3,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "createTestConfig",
+      "kind": "function",
+      "file": "tests/onnx_clip/test_onnx_clip_hot_swap_focused.cpp",
+      "line": 48,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "GetRSSBytes",
+      "kind": "function",
+      "file": "tests/onnx_clip/test_onnx_clip_mmap_focused.cpp",
+      "line": 65,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "CreateMockModelFile",
+      "kind": "function",
+      "file": "tests/onnx_clip/test_onnx_clip_mmap_focused.cpp",
+      "line": 96,
+      "scope": "tests",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "CreateMockModelFile",
+      "kind": "function",
+      "file": "tests/onnx_clip/test_onnx_clip_mmap_focused.cpp",
+      "line": 96,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "DeleteMockModelFile",
+      "kind": "function",
+      "file": "tests/onnx_clip/test_onnx_clip_mmap_focused.cpp",
+      "line": 134,
+      "scope": "tests",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "DeleteMockModelFile",
+      "kind": "function",
+      "file": "tests/onnx_clip/test_onnx_clip_mmap_focused.cpp",
+      "line": 134,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "CreateTestImageData",
+      "kind": "function",
+      "file": "tests/onnx_clip/test_onnx_clip_mmap_focused.cpp",
+      "line": 146,
+      "scope": "tests",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "CreateTestImageData",
+      "kind": "function",
+      "file": "tests/onnx_clip/test_onnx_clip_mmap_focused.cpp",
+      "line": 146,
+      "scope": "tests"
     }
   ]
 }

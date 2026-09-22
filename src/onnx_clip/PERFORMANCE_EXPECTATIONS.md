@@ -1,3 +1,6 @@
+<!-- Status: current | validated: 2026-09-22 -->
+<!-- Links: README.md · PRODUCTION_REQUIREMENTS.md · ROADMAP.md · ARCHITECTURE.md -->
+
 # PERFORMANCE_EXPECTATIONS — src/onnx_clip
 
 ## Scope

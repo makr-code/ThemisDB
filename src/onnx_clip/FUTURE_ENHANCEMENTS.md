@@ -1,7 +1,7 @@
 > **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
 
-<!-- Status: current | validated: 2026-04-06 -->
-<!-- Links: README.md · ROADMAP.md · ARCHITECTURE.md -->
+<!-- Status: current | validated: 2026-09-22 -->
+<!-- Links: README.md · PRODUCTION_REQUIREMENTS.md · ROADMAP.md · ARCHITECTURE.md -->
 
 # Future Enhancements — ONNX CLIP Plugin
 

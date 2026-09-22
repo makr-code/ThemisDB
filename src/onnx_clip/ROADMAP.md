@@ -1,7 +1,7 @@
 > **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
 
-<!-- Status: current | validated: 2026-04-15 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: current | validated: 2026-09-22 -->
+<!-- Links: README.md · ARCHITECTURE.md · PRODUCTION_REQUIREMENTS.md · SECURITY.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 # ONNX CLIP Plugin Roadmap

@@ -1,7 +1,7 @@
 > **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
 
-<!-- Status: current | validated: 2026-04-06 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+<!-- Status: current | validated: 2026-09-22 -->
+<!-- Links: README.md · ARCHITECTURE.md · PRODUCTION_REQUIREMENTS.md · ROADMAP.md -->
 
 # Security — ONNX CLIP Plugin
 
