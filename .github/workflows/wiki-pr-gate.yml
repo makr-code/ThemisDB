@@ -1,15 +1,15 @@
 name: "Maintenance: Wiki PR Gate"
 
-# Auto-generated wiki review flow: no direct push to the default branch.
-# The workflow builds/wiki-validates, creates or updates a PR branch, and
-# comments into the open PR while it remains active. If generation fails, it
-# opens an issue instead of silently failing.
+# Auto-generated wiki review flow: human-in-the-loop via issue comments.
+# The workflow builds/wiki-validates and then upserts a single persistent
+# tracking issue with a run-level comment so stakeholders can review the
+# wiki state before any manual publish action. No PR branches are created.
 #
 # Review model:
 #   - build + validate in automation
-#   - open PR for human review/merge
-#   - follow-up changes update the same PR with a comment
-#   - merge remains user-controlled
+#   - upsert a single tracking issue (one issue, many run comments)
+#   - each run appends a comment with current metrics and a link to the run
+#   - any publish/merge action remains fully user-controlled
 
 on:
   workflow_run:
@@ -43,8 +43,8 @@ on:
     - cron: '0 3 * * *'
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
+  pull-requests: read
   issues: write
 
 concurrency:
@@ -158,179 +158,77 @@ jobs:
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
 
-      - name: Generate review-state artifact
+      - name: Upsert wiki review tracking issue
+        id: tracking_issue
         if: steps.build.outcome == 'success'
-        env:
-          SOURCE_BRANCH: ${{ github.event.inputs.source_branch || github.event.workflow_run.head_branch || github.ref_name }}
-          WORKFLOW_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: |
-          if [ -z "$SOURCE_BRANCH" ]; then
-            export SOURCE_BRANCH="develop"
-          fi
-          export WORKFLOW_RUN_URL
-          python3 - <<'PY'
-          import json
-          import os
-          from pathlib import Path
-
-          manifest = {}
-          manifest_path = Path('/tmp/wiki-manifest.json')
-          if manifest_path.exists():
-              manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
-
-          report_text = Path('/tmp/wiki-link-report.txt').read_text(encoding='utf-8', errors='replace') if Path('/tmp/wiki-link-report.txt').exists() else ''
-          state = {
-              'generated_at': __import__('datetime').datetime.utcnow().isoformat() + 'Z',
-              'source_branch': os.environ.get('SOURCE_BRANCH', 'develop'),
-              'pages_written': manifest.get('stats', {}).get('pages_written', 0),
-              'blocked_private': manifest.get('stats', {}).get('blocked_private', 0),
-              'source_class_totals': manifest.get('stats', {}).get('source_class_totals', {}),
-              'link_report': report_text,
-              'workflow_run_url': os.environ.get('WORKFLOW_RUN_URL', ''),
-          }
-
-          target = Path('ai_working/wiki_publish/last_run.json')
-          target.parent.mkdir(parents=True, exist_ok=True)
-          target.write_text(json.dumps(state, indent=2), encoding='utf-8')
-          PY
-
-      - name: Create or update wiki PR branch
-        id: pr
-        if: steps.build.outcome == 'success'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PAGES_WRITTEN: ${{ steps.build.outputs.pages_written || 0 }}
-          BLOCKED_PRIVATE: ${{ steps.build.outputs.blocked_private || 0 }}
-          PRIMARY_SOURCES: ${{ steps.build.outputs.primary_sources || 0 }}
-          SECONDARY_SOURCES: ${{ steps.build.outputs.secondary_sources || 0 }}
-          METADATA_SOURCES: ${{ steps.build.outputs.metadata_sources || 0 }}
-          WORKFLOW_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: |
-          set -euo pipefail
-
-          DRY_RUN="${{ github.event.inputs.dry_run }}"
-          if [ -z "$DRY_RUN" ]; then
-            DRY_RUN="false"
-          fi
-          if [ "$DRY_RUN" = "true" ]; then
-            echo "dry_run=true" >> "$GITHUB_OUTPUT"
-            echo "::notice::Dry run enabled — build and validation succeeded, but no PR branch will be created."
-            exit 0
-          fi
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          REF_NAME="${{ github.ref_name }}"
-          if [ -z "$REF_NAME" ]; then
-            REF_NAME="develop"
-          fi
-          BRANCH="wiki-review/${REF_NAME}-${GITHUB_RUN_ID}"
-          git checkout -b "$BRANCH" 2>/dev/null || git checkout "$BRANCH"
-          git add ai_working/wiki_publish/last_run.json
-
-          if git diff --cached --quiet; then
-            echo "has_changes=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::No wiki state change to commit; no PR will be opened."
-            exit 0
-          fi
-
-          git commit -m "docs(wiki): sync wiki publish state [skip ci]"
-          git push --force-with-lease origin "$BRANCH"
-          echo "has_changes=true" >> "$GITHUB_OUTPUT"
-          echo "branch=$BRANCH" >> "$GITHUB_OUTPUT"
-
-          EXISTING=$(gh pr list --base develop --state open --json number,headRefName \
-            --jq "[.[] | select(.headRefName == \"$BRANCH\")] | .[0].number // empty" | head -n 1 || echo "")
-
-          if [ -n "$EXISTING" ]; then
-            echo "pr_number=$EXISTING" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          PR_BODY=$(cat <<EOF
-          ## Wiki publish review
-
-          This PR was automatically opened by the wiki review workflow.
-
-          It contains the generated wiki publish state snapshot for human verification before merge.
-
-          ### Included evidence
-          - wiki build manifest snapshot
-          - link-validation summary
-          - source-class totals and block counts
-
-          ### Review guidance
-          - Confirm the generated source-level evidence matches the intended branch.
-          - Check that the wiki state still reflects the accepted documentation sources.
-          - Merge only after human sign-off; this automation does not directly merge.
-
-          ### Workflow run
-          ${WORKFLOW_RUN_URL}
-          EOF
-          )
-
-          gh pr create \
-            --base develop \
-            --head "$BRANCH" \
-            --title "docs(wiki): review generated publish state" \
-            --body "$PR_BODY"
-
-          NEW_PR=$(gh pr list --base develop --state open --json number,headRefName \
-            --jq "[.[] | select(.headRefName == \"$BRANCH\")] | .[0].number // empty" | head -n 1 || echo "")
-          echo "pr_number=$NEW_PR" >> "$GITHUB_OUTPUT"
-
-      - name: Sync wiki PR status labels
-        if: steps.build.outcome == 'success' && steps.pr.outputs.pr_number != ''
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          operation: replace_status_group
-          issue-number: ${{ steps.pr.outputs.pr_number }}
-          labels-to-add: 'wiki-review'
-          status-group: 'wiki-review,wiki-failed'
+          operation: upsert_issue
+          issue-title: "Wiki publish review: human sign-off tracker"
+          issue-marker: '<!-- wiki-review-tracker -->'
+          issue-body: |
+            ## Wiki publish review tracker
+
+            This issue is the single human-in-the-loop sign-off tracker for automated
+            wiki publish runs. Each run appends a comment below with the current metrics.
+
+            **No action is needed on this issue unless you want to trigger or block a publish.**
+            Close this issue once the wiki state is accepted; it will be re-opened by the
+            next automation run that requires review.
+
+            - Automation behavior: **one issue, one comment per run**
+            - No PR branches are created; publish action is fully user-controlled.
+
+            <!-- wiki-review-tracker -->
+          labels-to-add: 'wiki-review,documentation'
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
 
-      - name: Comment wiki PR update
-        if: steps.build.outcome == 'success' && steps.pr.outputs.pr_number != ''
+      - name: Comment run metrics on tracking issue
+        if: steps.build.outcome == 'success' && steps.tracking_issue.outputs.issue-number != ''
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           operation: comment_issue
-          issue-number: ${{ steps.pr.outputs.pr_number }}
-          issue-marker: '<!-- wiki-pr-review -->'
-          target-type: 'pr'
+          issue-number: ${{ steps.tracking_issue.outputs.issue-number }}
+          issue-marker: '<!-- wiki-run-${{ github.run_id }} -->'
+          target-type: 'issue'
           issue-body: |
-            ## Wiki publish updated
+            ## Wiki publish run — review required
 
-            The generated wiki state was refreshed for review.
+            A new wiki build has completed and is ready for human review.
 
-            - Pages written: ${{ steps.build.outputs.pages_written || '0' }}
-            - Private blocks: ${{ steps.build.outputs.blocked_private || '0' }}
-            - Primary sources: ${{ steps.build.outputs.primary_sources || '0' }}
-            - Secondary sources: ${{ steps.build.outputs.secondary_sources || '0' }}
-            - Metadata sources: ${{ steps.build.outputs.metadata_sources || '0' }}
-            - Workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            | Metric | Value |
+            |--------|-------|
+            | Pages written | ${{ steps.build.outputs.pages_written || '0' }} |
+            | Private blocks | ${{ steps.build.outputs.blocked_private || '0' }} |
+            | Primary sources | ${{ steps.build.outputs.primary_sources || '0' }} |
+            | Secondary sources | ${{ steps.build.outputs.secondary_sources || '0' }} |
+            | Metadata sources | ${{ steps.build.outputs.metadata_sources || '0' }} |
+            | Source branch | `${{ github.event.inputs.source_branch || github.event.workflow_run.head_branch || github.ref_name }}` |
+            | Trigger | `${{ github.event_name }}` |
+            | Workflow run | ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} |
+            | Commit | `${{ github.sha }}` |
 
-            This PR is still open for human review and merge.
+            **Next step:** Review the linked workflow run and confirm the wiki state matches
+            the intended branch. When satisfied, trigger the publish action manually.
 
-            <!-- wiki-pr-review -->
+            <!-- wiki-run-${{ github.run_id }} -->
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
 
-      - name: Write PR summary
-        if: steps.build.outcome == 'success' && steps.pr.outputs.has_changes == 'true'
+      - name: Write run summary
+        if: steps.build.outcome == 'success'
         run: |
           {
-            echo "## Wiki PR Review"
-            echo "- PR branch: **${{ steps.pr.outputs.branch }}**"
-            echo "- PR number: **${{ steps.pr.outputs.pr_number || 'n/a' }}**"
+            echo "## Wiki Review Issue Updated"
+            echo "- Issue: **${{ steps.tracking_issue.outputs.issue-number || 'n/a' }}**"
             echo "- Pages written: **${{ steps.build.outputs.pages_written || '0' }}**"
             echo "- Private blocks: **${{ steps.build.outputs.blocked_private || '0' }}**"
             echo "- Source classes: primary=${{ steps.build.outputs.primary_sources || '0' }}, secondary=${{ steps.build.outputs.secondary_sources || '0' }}, metadata=${{ steps.build.outputs.metadata_sources || '0' }}"
-            echo "- Human merge required: **yes**"
-            echo "- Automation behavior: **updates existing PR and comments**"
+            echo "- Human sign-off required: **yes** (see tracking issue)"
+            echo "- Automation behavior: **one issue, one comment per run — no PR branches**"
           } >> "$GITHUB_STEP_SUMMARY"
