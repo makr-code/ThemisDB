@@ -155,15 +155,16 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
           # Embed the Markdown summary as issue body (truncated to 60 KB)
+          # Use heredoc delimiter to safely handle multi-line and special characters
           MD_BODY=""
           if [ -f /tmp/drift-report/compendium-drift-summary.md ]; then
             MD_BODY=$(head -c 60000 /tmp/drift-report/compendium-drift-summary.md)
           fi
-          # Escape for GitHub Actions multiline output
-          MD_BODY="${MD_BODY//'%'/'%25'}"
-          MD_BODY="${MD_BODY//$'\n'/'%0A'}"
-          MD_BODY="${MD_BODY//$'\r'/'%0D'}"
-          echo "md_body=${MD_BODY}" >> "$GITHUB_OUTPUT"
+          {
+            echo "md_body<<COMPENDIUM_DRIFT_EOF"
+            echo "${MD_BODY}"
+            echo "COMPENDIUM_DRIFT_EOF"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Open or update compendium drift tracker issue
         uses: ./.github/actions/status-flags-and-issues

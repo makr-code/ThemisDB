@@ -392,8 +392,11 @@ def main() -> int:
 
     sot_cache = _build_sot_cache(repo_root, sot_paths_all)
 
-    # Priority filter
-    min_prio = PRIORITY_ORDER.get(args.priority, 1)
+    # Priority filter.
+    # PRIORITY_ORDER maps high=0, medium=1, low=2, so a higher numeric value
+    # means lower priority. prio_threshold is the maximum numeric value still
+    # considered "at or above" the requested minimum priority level.
+    prio_threshold = PRIORITY_ORDER.get(args.priority, 1)
 
     run_ts = datetime.now(tz=timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
     results: list[dict] = []
@@ -403,7 +406,7 @@ def main() -> int:
 
     for entry in all_entries:
         prio = PRIORITY_ORDER.get(entry.get("priority", "medium"), 1)
-        if prio > min_prio:
+        if prio > prio_threshold:
             continue
         r = scan_chapter(
             entry,
