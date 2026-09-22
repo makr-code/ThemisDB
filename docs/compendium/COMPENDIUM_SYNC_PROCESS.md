@@ -48,7 +48,7 @@ Weekly Monday 06:30 UTC
                │
                ▼
         Upsert tracker issue
-        Label: documentation, compendium, status/needs-attention
+        Labels: area:docs, priority:medium, type:documentation, status:open, queue/copilot
                │
                ▼
         Human maintainer reviews issue + artifact report
@@ -119,6 +119,76 @@ Use the SOT files listed in `CHAPTER_ROADMAP_MAPPING.yml` as your input sources:
 - Assign at least one human reviewer.
 - Merge only after approval.
 - Close the per-chapter sub-task in the tracker issue after merge.
+
+---
+
+## 3a. Issue & PR Governance Compliance
+
+All issues and PRs produced by or related to this process must comply with
+`.github/GOVERNANCE.md`. This section summarises the mandatory requirements.
+
+### Tracker issue (created by workflow)
+
+The workflow creates and maintains one tracker issue with this label set (all four
+categories mandatory per GOVERNANCE.md):
+
+| Category | Label |
+|----------|-------|
+| Area     | `area:docs` |
+| Priority | `priority:medium` |
+| Type     | `type:documentation` |
+| Status   | `status:open` → `status:in_progress` (when work starts) |
+| Dispatcher | `queue/copilot` (added on drift; allows Copilot to pick up the task) |
+
+**Milestone (mandatory):** Assign the current quarterly milestone
+(`Q3 2026` or `Q4 2026`) to the tracker issue after it is created. The workflow
+cannot set milestones automatically; this is a required manual step.
+
+### Copilot Dispatcher integration
+
+The tracker issue carries `queue/copilot` when drift is detected. The
+**Copilot Issue Dispatcher** (`copilot-dispatcher.yml`) picks up this issue
+within ≤ 30 minutes and delegates it to the GitHub Copilot Coding Agent by
+posting a delegation comment and assigning the `copilot` user.
+
+Copilot then implements the changes (chapter updates) and opens a draft PR
+that `Closes #<tracker-issue-number>`.
+
+To block auto-delegation for a specific run (e.g. when the changes require
+sensitive human judgment):
+- Add `status:blocked` to the tracker issue before the dispatcher runs.
+- Remove it once you are ready for Copilot to proceed.
+
+To force immediate delegation without waiting for the schedule:
+```
+GitHub → Actions → Copilot Issue Dispatcher → Run workflow
+```
+
+### Chapter update PRs
+
+Every PR that updates a compendium chapter must comply with the standard
+pull request template (`.github/pull_request_template.md`). Key requirements:
+
+| Field | Requirement |
+|-------|-------------|
+| **Target Version** | `v2.4.0-alpha` (or the active milestone version) |
+| **Type of Change** | ☑ Documentation |
+| **Security Tiering** | ☑ N/A (docs-only / non-runtime) |
+| **AI Review Workflow** | Fill in if AI-assisted (see below) |
+| **Linked Issues** | `Closes #<tracker-issue>` or `Part of #<tracker-issue>` |
+| **Labels** | `area:docs`, `priority:medium`, `type:documentation`, `status:review` |
+| **Milestone** | Same as the tracker issue |
+
+**AI-assisted PRs** (e.g. Copilot-generated chapter content) additionally require:
+
+- Label `ai-generated` on the PR.
+- The **AI Review Workflow** checklist in the PR description:
+  - Findings-first review with `.github/prompts/pr-diff-findings-review.prompt.md`.
+  - All Critical/High findings resolved or explicitly accepted with rationale.
+  - Residual risks documented.
+- No automatic merge; human reviewer must approve all AI-generated content.
+- The PR body must include the **AI Findings Summary** block from
+  `.github/copilot/PR_AI_REPORT_TEMPLATE.md`.
 
 ---
 

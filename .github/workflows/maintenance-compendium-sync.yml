@@ -174,23 +174,54 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           operation: upsert_issue
-          issue-title: '[Compendium] v2.4.0-alpha drift detected — chapters need update'
+          issue-title: 'Update compendium chapters to v2.4.0-alpha'
           issue-marker: '<!-- compendium-drift:v2.4.0-alpha -->'
           issue-body: |
             <!-- compendium-drift:v2.4.0-alpha -->
-            ## Compendium Drift Report — v2.4.0-alpha
 
-            The scheduled compendium sync scan found documentation drift:
+            ### Context
+
+            The scheduled compendium sync scan (`maintenance-compendium-sync`) detected that
+            one or more `docs/compendium/docs/*.md` chapters are stale relative to the
+            `v2.4.0-alpha` ROADMAP.md and FUTURE_ENHANCEMENTS.md sources.
+
+            Scan results — priority filter `${{ inputs.priority || 'medium' }}`:
 
             - **Stale chapters:** ${{ steps.report.outputs.stale }}
             - **Missing chapters:** ${{ steps.report.outputs.missing }}
             - **New chapter proposals:** ${{ steps.report.outputs.proposals }}
             - **Total items:** ${{ steps.report.outputs.total }}
 
-            **Target version:** `${{ inputs.target_version || '2.4.0-alpha' }}`
-            **Priority filter:** `${{ inputs.priority || 'medium' }}`
+            Full artifact report: [compendium-drift-report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
 
-            See the [workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) for the full artifact report (`compendium-drift-report`).
+            ### Goal
+
+            Update all stale and missing compendium chapters so that each chapter
+            accurately reflects the v2.4.0-alpha feature set, architecture, and status
+            as defined in `ROADMAP.md` and `FUTURE_ENHANCEMENTS.md`.
+
+            ### Acceptance Criteria
+
+            - [ ] All chapters flagged **stale** in the scan artifact are updated to v2.4.0-alpha.
+            - [ ] All chapters flagged **missing** are created or the gap is documented with rationale.
+            - [ ] Each chapter update PR references this issue with `Closes #<N>` or `Part of #<N>`.
+            - [ ] Each chapter update PR passes `gate-pr-doc-metadata` and `gate-pr-doxygen-governance`.
+            - [ ] New chapter proposals (if any) are reviewed and either actioned or deferred with rationale.
+            - [ ] `CHAPTER_ROADMAP_MAPPING.yml` is updated to reflect any new chapters added.
+            - [ ] No chapter content is overwritten without human review and PR approval.
+
+            ### Relationships
+
+            - Relates to [ROADMAP.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/ROADMAP.md) — v2.4.0-alpha section
+            - Relates to [FUTURE_ENHANCEMENTS.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/FUTURE_ENHANCEMENTS.md)
+
+            ### References
+
+            - Drift scan artifact: [compendium-drift-report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            - Mapping: [`docs/compendium/CHAPTER_ROADMAP_MAPPING.yml`](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/docs/compendium/CHAPTER_ROADMAP_MAPPING.yml)
+            - Process: [`docs/compendium/COMPENDIUM_SYNC_PROCESS.md`](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/docs/compendium/COMPENDIUM_SYNC_PROCESS.md)
+            - Scan run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            - Branch: `${{ github.ref_name }}`
 
             ---
 
@@ -200,24 +231,13 @@ jobs:
 
             ---
 
-            ### How to proceed (human-in-the-loop)
-
-            1. Download the `compendium-drift-report` artifact from the [workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).
-            2. Review `compendium-drift-summary.md` and `compendium-drift.json` for chapter-level details.
-            3. For each stale chapter, open a focused PR against `develop` that updates the chapter content to reflect the v2.4.0-alpha state.
-            4. For each new chapter proposal, confirm whether a new chapter is warranted, then follow the proposal workflow in `COMPENDIUM_SYNC_PROCESS.md §4`.
-            5. Use `docs/compendium/CHAPTER_ROADMAP_MAPPING.yml` as the chapter ↔ SOT mapping reference.
-            6. Follow `docs/compendium/COMPENDIUM_SYNC_PROCESS.md` for the full update procedure.
-            7. Request human review and merge only after approval.
-
-            **⚠ Do not auto-merge or silently overwrite chapter content.**
-
-            ---
-            - Scheduled scan: `maintenance-compendium-sync`
-            - Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-            - Branch: `${{ github.ref_name }}`
-          labels-to-add: 'quality,documentation,status/needs-attention'
-          status-group: 'quality,documentation,status/needs-attention,status/resolved'
+            > **⚠ Human-in-the-loop gate:** Do not auto-merge or silently overwrite chapter content.
+            > All write-back steps require explicit PR review and human approval.
+            > See `docs/compendium/COMPENDIUM_SYNC_PROCESS.md` for the full operating model.
+          # Governance-compliant label schema (GOVERNANCE.md mandatory four-category set).
+          # queue/copilot enables the Copilot Dispatcher to delegate chapter-update work.
+          labels-to-add: 'area:docs,priority:medium,type:documentation,status:open,queue/copilot'
+          status-group: 'area:docs,priority:medium,type:documentation,status:open,status:in_progress,status:blocked,queue/copilot,copilot/delegated'
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
@@ -245,18 +265,30 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           operation: upsert_issue
-          issue-title: '[Compendium] v2.4.0-alpha drift detected — chapters need update'
+          issue-title: 'Update compendium chapters to v2.4.0-alpha'
           issue-marker: '<!-- compendium-drift:v2.4.0-alpha -->'
           issue-body: |
             <!-- compendium-drift:v2.4.0-alpha -->
-            ## Compendium Drift Report — ✅ No drift detected
 
-            The scheduled compendium sync scan found **no stale or missing chapters** at priority `${{ inputs.priority || 'medium' }}` or above.
+            ### Context
 
-            - Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            The scheduled compendium sync scan (`maintenance-compendium-sync`) found
+            **no stale or missing chapters** at priority `${{ inputs.priority || 'medium' }}` or above.
+
+            ### Goal
+
+            No action required at this time. The compendium is aligned with v2.4.0-alpha sources.
+
+            ### Acceptance Criteria
+
+            - [x] All chapters at priority `${{ inputs.priority || 'medium' }}` and above are current.
+
+            ### References
+
+            - Scan run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
             - Branch: `${{ github.ref_name }}`
-          labels-to-add: 'quality,documentation,status/resolved'
-          status-group: 'quality,documentation,status/needs-attention,status/resolved'
+          labels-to-add: 'area:docs,priority:low,type:documentation,status:open'
+          status-group: 'area:docs,priority:low,priority:medium,type:documentation,status:open,status:in_progress,status:blocked,queue/copilot,copilot/delegated'
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
