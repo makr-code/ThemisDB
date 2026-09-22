@@ -347,6 +347,7 @@ bool GlobalTransactionManager::abort(const std::string& txn_id) {
     // Phase-2 delivery. This prevents holding the global mutex while blocking
     // on potentially slow region abort RPCs.
     GlobalTxnRecord rec_snapshot;
+    GlobalTxnState original_state;
     {
         std::lock_guard<std::mutex> lock(mutex_);
 
@@ -363,14 +364,15 @@ bool GlobalTransactionManager::abort(const std::string& txn_id) {
             return true; // already done
         }
 
+        original_state = rec.state;
         rec_snapshot = rec;  // snapshot under lock
-        rec_snapshot.state = GlobalTxnState::ABORT_DECIDED;
     }
 
     // Broadcast ABORT to all participants that may have PREPAREd
     // (outside the global lock — no mutex held during RPC calls).
-    if (rec_snapshot.state == GlobalTxnState::PREPARING ||
-        rec_snapshot.state == GlobalTxnState::ABORT_DECIDED)
+    if (original_state == GlobalTxnState::PREPARING ||
+        original_state == GlobalTxnState::COMMIT_DECIDED ||
+        original_state == GlobalTxnState::ABORT_DECIDED)
     {
         runPhase2(rec_snapshot, /*do_commit=*/false);
     }
