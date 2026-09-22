@@ -205,7 +205,38 @@ static void tbbWaitWithTimeout(
         std::chrono::high_resolution_clock::now() - t0);
 
     done->store(true, std::memory_order_release);
-    watchdog.join();
+
+    // [WAVE3B-DEADLOCK-FIX: Timed watchdog join to prevent deadlock]
+    // Attempt to join the watchdog thread with a short deadline (1 second).
+    // If the watchdog thread doesn't finish within the deadline, detach it to
+    // prevent deadlock in the query engine. Log a warning as this indicates
+    // unexpected blocking in the watchdog logic.
+    constexpr auto kWatchdogJoinDeadline = std::chrono::seconds(1);
+    const auto join_deadline = std::chrono::steady_clock::now() + kWatchdogJoinDeadline;
+    
+    // Use a helper thread to detect if the join times out.
+    bool joined = false;
+    std::thread join_watcher([&watchdog, &joined]() noexcept {
+        if (watchdog.joinable()) {
+            watchdog.join();
+            joined = true;
+        }
+    });
+    
+    // Wait for the join_watcher to complete (via joinable check after timeout).
+    while (std::chrono::steady_clock::now() < join_deadline && !joined) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+    
+    if (!joined) {
+        // Watchdog did not complete within deadline.  Detach join_watcher
+        // to avoid deadlocking the query engine.
+        THEMIS_WARN("Query phase '{}' watchdog thread join timed out after 1s; "
+                    "detaching to avoid deadlock. query_id='{}'", phase, query_id);
+        join_watcher.detach();
+    } else if (join_watcher.joinable()) {
+        join_watcher.join();
+    }
 
     if (elapsed > timeout_ms) {
         THEMIS_WARN("Query phase '{}' exceeded timeout: elapsed={}ms limit={}ms query_id='{}'",
