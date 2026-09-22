@@ -2,9 +2,11 @@
 
 ## Purpose
 
-This directory contains delivery reports and implementation summaries that were produced during Phase 3B (Hot-Swap Model Reloading) and Phase 4B (Memory-Mapped Model Loading) development.
+This directory contains delivery reports and implementation summaries from completed feature phases that were produced during development.
 
 These documents are historical and are no longer part of the canonical module governance set.
+
+When new feature phases (e.g., Phase 4B) are completed, their delivery reports will be archived here as well.
 
 ## Archived Documents
 
@@ -15,6 +17,12 @@ These documents are historical and are no longer part of the canonical module go
 - **PHASE3B_QUICK_REFERENCE.md** — Quick reference guide for developers
 
 **Rationale:** Phase 3B features (`reloadModel()`, request draining, atomic swap) have been merged into the main production codebase. The delivery report serves as historical evidence and is not needed for ongoing operations.
+
+### Phase 4B – Memory-Mapped Model Loading
+
+*Status:* Phase 4B is currently in progress. When Phase 4B delivery reports are completed, they will be archived in this directory alongside Phase 3B documentation.
+
+See `ROADMAP.md` for current Phase 4B status and completion timeline.
 
 ## Canonical Governance Documents
 
