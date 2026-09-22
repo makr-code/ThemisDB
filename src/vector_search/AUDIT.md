@@ -39,17 +39,27 @@
 
 ### Test Artifacts Verified
 
+**Wave D / Active Tests** (3 files, verified passing):
+
 | Test File | Type | Path | Status | Gate |
 |---|---|---|---|---|
 | test_vector_search_highcardinality_stress.cpp | Unit/Stress | tests/vector_search/ | ✓ Passing | High-cardinality (10k vectors, 8-thread) |
 | test_vector_search_soak.cpp | Integration/Soak | tests/integration/ | ✓ Passing | 2000 ops/sec, recall ≥ 0.9, no corruption |
 | bench_vector_search_dedicated_gates.cpp | Benchmark | benchmarks/vector_search/ | ✓ Passing | VS-BM-01 to VS-BM-04 gates |
-| bench_vector_search_gates.cpp | Benchmark | benchmarks/search/ | ✓ Verified | Generic vector search gates |
-| bench_vector_search.cpp | Benchmark | benchmarks/ann/ | ✓ Verified | ANN algorithm benchmarks |
 
-**Total Test Artifacts:** 8 (including multiple test cases per file)  
+**Additional Benchmark & Legacy Tests** (5 additional artifacts):
+
+| Test File | Type | Path | Status |
+|---|---|---|---|
+| bench_vector_search_gates.cpp | Benchmark | benchmarks/search/ | ✓ Verified |
+| bench_vector_search.cpp | Benchmark | benchmarks/ann/ | ✓ Verified |
+| test_filtered_vector_search.cpp | Legacy test | tests/legacy/filtered/ | ✓ Verified |
+| test_kge_vector_search.cpp | Legacy test | tests/legacy/kge/ | ✓ Verified |
+| test_multi_vector_search.cpp | Legacy test | tests/legacy/multi/ | ✓ Verified |
+
+**Total Test Artifacts:** 8 (3 active Wave D + 5 additional/legacy)  
 **All Tests Passing:** ✓ Verified via issue metadata  
-**Benchmark Artifacts:** 3 (dedicated + generic + ANN-specific)
+**Benchmark Suites:** 3 (dedicated gates + generic + ANN-specific)
 
 ### Verified Behavior Surfaces
 

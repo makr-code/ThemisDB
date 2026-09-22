@@ -40,9 +40,9 @@ All production-readiness checklist items through Phase 4 are complete. Vector se
 
 ---
 
-## [1.4.0] — 2026-08-10 – Phase 5 Performance & Hardening
+## [1.4.0] — 2026-08-10 – Phase 5 Performance & Hardening (Wave D Delivery)
 
-### Phase 5 Deliverables ✓ COMPLETE
+### Phase 5 Deliverables (Wave D Batch) ✓ DELIVERED
 
 - [x] SIMD optimization for distance computation
   - Vectorized cosine and L2 distance kernels via `include/utils/simd_distance.cpp`
@@ -67,9 +67,9 @@ All production-readiness checklist items through Phase 4 are complete. Vector se
 - ✓ Memory efficiency: < 40% overhead (verified)
 - ✓ Concurrent queries: ≥ 100 with < 5% overhead (verified)
 
-### Status: IN PROGRESS (Phase 5 continuing)
+### Status: ✓ PHASE 5 WAVE D BATCH COMPLETE
 
-Phase 5 hardening continues in parallel with Phase 6 documentation and acceptance activities.
+Wave D closure includes these Phase 5 deliverables. Phase 5 hardening continues beyond Wave D (target Q4 2026) with additional lock-free optimization and adaptive tuning work.
 
 ---
 
