@@ -1,10 +1,10 @@
 # Module Doxygen Coverage Summary
 
-- Module: execution
+- Module: rag
 - Source mode: direct_doxygen_markers
-- Symbol presence ratio: 0.8462
-- Ownership: {'internal': 39, 'external': 0}
-- missing_symbol: 4
-- missing_brief: 0
-- missing_param_docs: 0
-- missing_return_docs: 0
+- Symbol presence ratio: 0.8676
+- Ownership: {'internal': 1399, 'external': 0}
+- missing_symbol: 121
+- missing_brief: 466
+- missing_param_docs: 308
+- missing_return_docs: 322

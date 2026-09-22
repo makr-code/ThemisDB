@@ -1,23 +1,23 @@
 {
-  "module": "execution",
+  "module": "rag",
   "source_mode": "direct_doxygen_markers",
   "source_graph_used": false,
   "source_graph_path": "/home/runner/work/ThemisDB/ThemisDB/ai_working/sourcecode_graph.json",
-  "source_files_scanned": 6,
-  "source_symbols_total": 39,
-  "source_symbols_after_filter": 39,
-  "doxygen_members_total": 39,
-  "doxygen_members_after_filter": 39,
-  "source_symbol_names": 26,
-  "doxygen_symbol_names": 27,
-  "source_not_in_doxygen_count": 4,
-  "doxygen_not_in_source_count": 5,
+  "source_files_scanned": 200,
+  "source_symbols_total": 1418,
+  "source_symbols_after_filter": 1399,
+  "doxygen_members_total": 3149,
+  "doxygen_members_after_filter": 1867,
+  "source_symbol_names": 914,
+  "doxygen_symbol_names": 1216,
+  "source_not_in_doxygen_count": 121,
+  "doxygen_not_in_source_count": 423,
   "coverage": {
-    "symbol_presence_ratio": 0.8462,
-    "missing_symbol_count": 4,
-    "missing_brief_count": 0,
-    "missing_param_docs_count": 0,
-    "missing_return_docs_count": 0
+    "symbol_presence_ratio": 0.8676,
+    "missing_symbol_count": 121,
+    "missing_brief_count": 466,
+    "missing_param_docs_count": 308,
+    "missing_return_docs_count": 322
   },
   "ownership": {
     "path_policy": {
@@ -49,68 +49,114 @@
       "classification_rule": "everything outside internal roots is treated as external / third-party boundary"
     },
     "source_symbols": {
-      "internal": 39,
+      "internal": 1399,
       "external": 0
     },
     "doxygen_members": {
-      "internal": 29,
-      "external": 10
+      "internal": 1422,
+      "external": 445
     },
     "externally_scoped_symbols": []
   },
   "by_rule": {
-    "missing_symbol": 4
+    "missing_symbol": 121,
+    "missing_brief": 466,
+    "missing_param_docs": 308,
+    "missing_return_docs": 322
   },
   "by_rule_scope": {
     "missing_symbol": {
-      "benchmarks": 1,
-      "include": 2,
-      "tests": 1
+      "include": 46,
+      "tests": 7,
+      "src": 66,
+      "benchmarks": 2
+    },
+    "missing_brief": {
+      "benchmarks": 12,
+      "other": 107,
+      "tests": 76,
+      "include": 220,
+      "src": 51
+    },
+    "missing_param_docs": {
+      "benchmarks": 14,
+      "tests": 63,
+      "include": 192,
+      "src": 39
+    },
+    "missing_return_docs": {
+      "benchmarks": 10,
+      "tests": 77,
+      "include": 209,
+      "src": 26
     }
   },
   "by_scope": {
-    "src": 0,
-    "tests": 1,
-    "benchmarks": 1,
-    "include": 2,
-    "other": 0
+    "src": 182,
+    "tests": 223,
+    "benchmarks": 38,
+    "include": 667,
+    "other": 107
   },
   "samples": {
     "source_not_in_doxygen": [
-      "BoundedQueue",
-      "SLAPriority",
-      "StubBoundedQueue",
-      "operator"
+      "ABTestStatus",
+      "AdversarialStrategy",
+      "AggregationMethod",
+      "AggregationStrategy",
+      "AlertSeverity",
+      "BiasMitigationStrategy",
+      "BiasType",
+      "CalibrationMethod",
+      "ComparisonWinner",
+      "ConstantScorer",
+      "ConstitutionalStrategy",
+      "CriticVerdict",
+      "DepthLevel",
+      "DetectionMode",
+      "DeterministicEngine",
+      "DomainType",
+      "EntityType",
+      "EvaluationDimension",
+      "EvaluationMode",
+      "FallbackMode",
+      "FallbackStrategy",
+      "FeedbackType",
+      "GapType",
+      "HTTPMethod",
+      "InjectionSeverity"
     ],
     "doxygen_not_in_source": [
-      "enqueue",
-      "operator()",
-      "operator=",
-      "reportCompletion",
-      "submit"
+      "AdversarialFullRunTest",
+      "AgenticRAGIntegrationTest",
+      "AgenticRAGRetrievalTest",
+      "AgenticRAGRunTest",
+      "AgenticRAGSecurityTest",
+      "Arg",
+      "BiasDetectorTest",
+      "CitationHighlightTest",
+      "CoTEvaluatorTest",
+      "CoherenceEvaluatorTest",
+      "CompletenessEvaluatorTest",
+      "ComponentInfo",
+      "ContextWindowFillerTest",
+      "CountingScorer",
+      "DeterministicBenchmarkVectorizer",
+      "DocumentSummarizerTest",
+      "EntityLinkerTest",
+      "FaithfulnessEvaluatorTest",
+      "FixedScorer",
+      "FixedSplitterTest",
+      "FlareStats",
+      "GEvalEvaluatorTest",
+      "GEvalPhase3Test",
+      "GateStats",
+      "HybridRetrieverLinearTest"
     ],
     "findings": [
       {
         "rule": "missing_symbol",
-        "symbol": "BoundedQueue",
-        "count": 1,
-        "scope": "benchmarks",
-        "scope_breakdown": {
-          "benchmarks": 1
-        },
-        "source_examples": [
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/benchmarks/execution/bench_execution_dedicated_gates.cpp",
-            "line": 43,
-            "kind": "class",
-            "name": "BoundedQueue",
-            "scope": "benchmarks"
-          }
-        ]
-      },
-      {
-        "rule": "missing_symbol",
-        "symbol": "SLAPriority",
+        "symbol": "ABTestStatus",
         "count": 1,
         "scope": "include",
         "scope_breakdown": {
@@ -118,17 +164,161 @@
         },
         "source_examples": [
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/include/execution/query_scheduler.h",
-            "line": 41,
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/ab_testing_framework.h",
+            "line": 25,
             "kind": "class",
-            "name": "SLAPriority",
+            "name": "ABTestStatus",
             "scope": "include"
           }
         ]
       },
       {
         "rule": "missing_symbol",
-        "symbol": "StubBoundedQueue",
+        "symbol": "AdversarialStrategy",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/adversarial_tester.h",
+            "line": 34,
+            "kind": "class",
+            "name": "AdversarialStrategy",
+            "scope": "include"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "AggregationMethod",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/geval_evaluator.h",
+            "line": 23,
+            "kind": "class",
+            "name": "AggregationMethod",
+            "scope": "include"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "AggregationStrategy",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/distributed_rag_evaluator.h",
+            "line": 29,
+            "kind": "class",
+            "name": "AggregationStrategy",
+            "scope": "include"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "AlertSeverity",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/hallucination_dashboard.h",
+            "line": 41,
+            "kind": "class",
+            "name": "AlertSeverity",
+            "scope": "include"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "BiasMitigationStrategy",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/pairwise_comparator.h",
+            "line": 32,
+            "kind": "class",
+            "name": "BiasMitigationStrategy",
+            "scope": "include"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "BiasType",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/bias_detector.h",
+            "line": 23,
+            "kind": "class",
+            "name": "BiasType",
+            "scope": "include"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "CalibrationMethod",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/calibration_manager.h",
+            "line": 24,
+            "kind": "class",
+            "name": "CalibrationMethod",
+            "scope": "include"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "ComparisonWinner",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/pairwise_comparator.h",
+            "line": 23,
+            "kind": "class",
+            "name": "ComparisonWinner",
+            "scope": "include"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "ConstantScorer",
         "count": 1,
         "scope": "tests",
         "scope_breakdown": {
@@ -136,17 +326,17 @@
         },
         "source_examples": [
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/tests/execution/test_execution_highcardinality_stress.cpp",
-            "line": 43,
+            "file": "/home/runner/work/ThemisDB/ThemisDB/tests/rag/test_lora_enhanced_retriever.cpp",
+            "line": 103,
             "kind": "class",
-            "name": "StubBoundedQueue",
+            "name": "ConstantScorer",
             "scope": "tests"
           }
         ]
       },
       {
         "rule": "missing_symbol",
-        "symbol": "operator",
+        "symbol": "ConstitutionalStrategy",
         "count": 1,
         "scope": "include",
         "scope_breakdown": {
@@ -154,10 +344,262 @@
         },
         "source_examples": [
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/include/execution/query_scheduler.h",
-            "line": 198,
-            "kind": "function",
-            "name": "operator",
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/rlaif_trainer.h",
+            "line": 31,
+            "kind": "class",
+            "name": "ConstitutionalStrategy",
+            "scope": "include"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "CriticVerdict",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/self_rag.h",
+            "line": 38,
+            "kind": "class",
+            "name": "CriticVerdict",
+            "scope": "include"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "DepthLevel",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/completeness_evaluator.h",
+            "line": 33,
+            "kind": "class",
+            "name": "DepthLevel",
+            "scope": "include"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "DetectionMode",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/knowledge_gap_detector.h",
+            "line": 50,
+            "kind": "class",
+            "name": "DetectionMode",
+            "scope": "include"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "DeterministicEngine",
+        "count": 1,
+        "scope": "tests",
+        "scope_breakdown": {
+          "tests": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/tests/rag/test_rag_phase_b_e2e.cpp",
+            "line": 69,
+            "kind": "struct",
+            "name": "DeterministicEngine",
+            "scope": "tests"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "DomainType",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/delegate_evaluator.h",
+            "line": 36,
+            "kind": "class",
+            "name": "DomainType",
+            "scope": "include"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "EntityType",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/knowledge_graph_retriever.h",
+            "line": 35,
+            "kind": "class",
+            "name": "EntityType",
+            "scope": "include"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "EvaluationDimension",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/rag_judge.h",
+            "line": 27,
+            "kind": "class",
+            "name": "EvaluationDimension",
+            "scope": "include"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "EvaluationMode",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/rag_judge.h",
+            "line": 49,
+            "kind": "class",
+            "name": "EvaluationMode",
+            "scope": "include"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "FallbackMode",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/tensor_rag_pipeline.h",
+            "line": 129,
+            "kind": "class",
+            "name": "FallbackMode",
+            "scope": "include"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "FallbackStrategy",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/knowledge_gap_detector.h",
+            "line": 38,
+            "kind": "class",
+            "name": "FallbackStrategy",
+            "scope": "include"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "FeedbackType",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/learning_metrics.h",
+            "line": 30,
+            "kind": "class",
+            "name": "FeedbackType",
+            "scope": "include"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "GapType",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/knowledge_gap_detector.h",
+            "line": 24,
+            "kind": "class",
+            "name": "GapType",
+            "scope": "include"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "HTTPMethod",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/http_metrics_client.h",
+            "line": 28,
+            "kind": "class",
+            "name": "HTTPMethod",
+            "scope": "include"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "InjectionSeverity",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/prompt_injection_detector.h",
+            "line": 24,
+            "kind": "class",
+            "name": "InjectionSeverity",
             "scope": "include"
           }
         ]
