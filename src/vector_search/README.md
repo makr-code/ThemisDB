@@ -40,22 +40,26 @@ Out of scope:
 - search operations return ranked results with distance/similarity scores
 - performance depends on index structure, query distribution, and hardware availability
 
-## Sourcecode Verification (Module: vector_search/readme)
+## Implementation Integration
 
-- Verified files:
-  - src/vector_search/ann_index.cpp
-  - src/vector_search/distance_metrics.cpp
-  - src/vector_search/index_builder.cpp
-  - src/vector_search/query_executor.cpp
-  - src/vector_search/index_partitioner.cpp
-  - src/vector_search/recall_optimizer.cpp
-  - src/vector_search/vector_quantization.cpp
-  - src/vector_search/search_cache.cpp
-- Verified behavior surfaces:
-  - ANN indexing and efficient similarity search paths
-  - distance computation and scoring
-  - partitioning and distributed query coordination
-  - recall tuning and memory optimization
-- Note:
-  - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
-  - historical completion remains in CHANGELOG.md
+The vector search module provides high-level abstractions for similarity search. Core algorithm implementations (HNSW, IVF) and distance computation kernels are **integrated from**:
+- `include/index/` — HNSW/IVF algorithm foundations and index structures
+- `include/utils/` — SIMD-accelerated distance computation helpers
+- `include/storage/` — Planned index persistence (Phase 6)
+
+Tests and benchmarks verify the complete end-to-end vector search pipeline:
+- Integration tests: `tests/integration/test_vector_search_soak.cpp` (60-sec durability, recall ≥ 0.9)
+- Stress tests: `tests/vector_search/test_vector_search_highcardinality_stress.cpp` (10k vectors, concurrent operations)
+- Benchmarks: `benchmarks/vector_search/bench_vector_search_dedicated_gates.cpp`, `benchmarks/ann/bench_vector_search.cpp`, `benchmarks/search/bench_vector_search_gates.cpp`
+
+## Documentation References
+
+- **Implementation Phases & Status:** [ROADMAP.md](ROADMAP.md)
+- **Delivered Artefacts & History:** [CHANGELOG.md](CHANGELOG.md)
+- **Future Planning:** [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md)
+- **Architecture & Design:** [ARCHITECTURE.md](ARCHITECTURE.md)
+- **Module Audit & Compliance:** [AUDIT.md](AUDIT.md)
+- **Security & Threat Model:** [SECURITY.md](SECURITY.md)
+- **Operational Constraints:** [PRODUCTION_REQUIREMENTS.md](PRODUCTION_REQUIREMENTS.md)
+- **Performance Baselines:** [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md)
+- **Known Gaps & Limitations:** [MODULE_GAPS.md](MODULE_GAPS.md)
