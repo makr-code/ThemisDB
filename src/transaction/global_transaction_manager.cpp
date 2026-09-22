@@ -343,30 +343,62 @@ GlobalTxnOutcome GlobalTransactionManager::commit(const std::string& txn_id) {
  * @details Calls: lock(), find(), end(), THEMIS_WARN(), runPhase2(), fetch_add(), logToWAL(), THEMIS_INFO().
  */
 bool GlobalTransactionManager::abort(const std::string& txn_id) {
-    std::lock_guard<std::mutex> lock(mutex_);
+    // Wave 4C T3: Snapshot the record under the lock, then release before
+    // Phase-2 delivery. This prevents holding the global mutex while blocking
+    // on potentially slow region abort RPCs.
+    GlobalTxnRecord rec_snapshot;
+    GlobalTxnState original_state;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
 
-    auto it = transactions_.find(txn_id);
-    if (it == transactions_.end()) {
-        THEMIS_WARN("GlobalTransactionManager [{}] abort: unknown txn {}",
-                    coordinator_id_, txn_id);
-        return false;
-    }
+        auto it = transactions_.find(txn_id);
+        if (it == transactions_.end()) {
+            THEMIS_WARN("GlobalTransactionManager [{}] abort: unknown txn {}",
+                        coordinator_id_, txn_id);
+            return false;
+        }
 
-    auto& rec = it->second;
+        auto& rec = it->second;
 
-    if (rec.state == GlobalTxnState::COMPLETED) {
-        return true; // already done
+        if (rec.state == GlobalTxnState::COMPLETED) {
+            return true; // already done
+        }
+
+        original_state = rec.state;
+        rec_snapshot = rec;  // snapshot under lock
     }
 
     // Broadcast ABORT to all participants that may have PREPAREd
-    if (rec.state == GlobalTxnState::PREPARING ||
-        rec.state == GlobalTxnState::COMMIT_DECIDED ||
-        rec.state == GlobalTxnState::ABORT_DECIDED)
+    // (outside the global lock — no mutex held during RPC calls).
+    if (original_state == GlobalTxnState::PREPARING ||
+        original_state == GlobalTxnState::COMMIT_DECIDED ||
+        original_state == GlobalTxnState::ABORT_DECIDED)
     {
-        runPhase2(rec, /*do_commit=*/false);
+        runPhase2(rec_snapshot, /*do_commit=*/false);
     }
 
-    rec.state = GlobalTxnState::COMPLETED;
+    // Re-acquire to persist the COMPLETED state.
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        auto it = transactions_.find(txn_id);
+        if (it == transactions_.end()) {
+            return false; // Transaction was removed (concurrent cleanup)
+        }
+        
+        auto& rec = it->second;
+        if (rec.state == GlobalTxnState::COMPLETED) {
+            return true; // Already completed by concurrent caller
+        }
+        
+        // Merge back acked flags from the snapshot (runPhase2 updates the copy).
+        for (auto& [region_id, snap_rrec] : rec_snapshot.region_records) {
+            if (auto region_it = rec.region_records.find(region_id); region_it != rec.region_records.end()) {
+                region_it->second.phase2_acked = snap_rrec.phase2_acked;
+            }
+        }
+        rec.state = GlobalTxnState::COMPLETED;
+    }
+
     total_aborts_.fetch_add(1, std::memory_order_relaxed);
 
     logToWAL(themis::sharding::WALEntryType::ABORT_TX, txn_id, {
@@ -454,36 +486,90 @@ size_t GlobalTransactionManager::recoverInDoubtTransactions() {
             }
         }
 
-        std::lock_guard<std::mutex> lock(mutex_);
+        // Wave 4C T3: Process each transaction's Phase-2 outside the global mutex.
+        // Collect those needing Phase-2 while holding lock, then release.
+        std::vector<std::pair<std::string, bool>> phase2_list;  // (txn_id, do_commit)
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
 
-        for (auto& [tid, rec] : recovered) {
-            if (rec.state == GlobalTxnState::COMPLETED) {
+            for (auto& [tid, rec] : recovered) {
+                if (rec.state == GlobalTxnState::COMPLETED) {
+                    transactions_[tid] = rec;
+                    continue;
+                }
+
+                const auto dit = decisions.find(tid);
+                if (dit == decisions.end()) {
+                    THEMIS_WARN("GlobalTransactionManager [{}] in-doubt txn {} has no "
+                                "decision – marking ABORT (manual resolution may be required)",
+                                coordinator_id_, tid);
+                    rec.state         = GlobalTxnState::ABORT_DECIDED;
+                    transactions_[tid] = rec;
+                    continue;
+                }
+
+                const bool do_commit = dit->second;
+                rec.state = do_commit
+                    ? GlobalTxnState::COMMIT_DECIDED
+                    : GlobalTxnState::ABORT_DECIDED;
+
+                THEMIS_WARN("GlobalTransactionManager [{}] re-driving in-doubt txn {} "
+                            "with decision {}",
+                            coordinator_id_, tid, do_commit ? "COMMIT" : "ABORT");
+
                 transactions_[tid] = rec;
-                continue;
+                phase2_list.push_back({tid, do_commit});
+            }
+        }
+
+        // Now process Phase-2 calls outside the global mutex
+        for (const auto& [tid, do_commit] : phase2_list) {
+            GlobalTxnRecord rec_snapshot;
+            {
+                std::lock_guard<std::mutex> lock(mutex_);
+                auto it = transactions_.find(tid);
+                if (it == transactions_.end()) {
+                    // Transaction was removed, skip
+                    continue;
+                }
+                
+                auto& rec = it->second;
+                // Check if state is still COMMIT_DECIDED or ABORT_DECIDED (not completed by concurrent caller)
+                if (rec.state == GlobalTxnState::COMPLETED) {
+                    // Already processed by concurrent path (e.g., abort() or another recovery)
+                    ++resolved;
+                    continue;
+                }
+                
+                rec_snapshot = rec;  // snapshot under lock
             }
 
-            const auto dit = decisions.find(tid);
-            if (dit == decisions.end()) {
-                THEMIS_WARN("GlobalTransactionManager [{}] in-doubt txn {} has no "
-                            "decision – marking ABORT (manual resolution may be required)",
-                            coordinator_id_, tid);
-                rec.state         = GlobalTxnState::ABORT_DECIDED;
-                transactions_[tid] = rec;
-                continue;
+            // Deliver Phase-2 outside the lock
+            runPhase2(rec_snapshot, do_commit);
+
+            // Re-acquire to persist the COMPLETED state
+            {
+                std::lock_guard<std::mutex> lock(mutex_);
+                auto it = transactions_.find(tid);
+                if (it == transactions_.end()) {
+                    continue;
+                }
+                
+                auto& rec = it->second;
+                // Double-check state hasn't been finalized by concurrent caller
+                if (rec.state == GlobalTxnState::COMPLETED) {
+                    ++resolved;
+                    continue;
+                }
+                
+                // Merge back acked flags from the snapshot
+                for (auto& [region_id, snap_rrec] : rec_snapshot.region_records) {
+                    if (auto region_it = rec.region_records.find(region_id); region_it != rec.region_records.end()) {
+                        region_it->second.phase2_acked = snap_rrec.phase2_acked;
+                    }
+                }
+                rec.state = GlobalTxnState::COMPLETED;
             }
-
-            const bool do_commit = dit->second;
-            rec.state = do_commit
-                ? GlobalTxnState::COMMIT_DECIDED
-                : GlobalTxnState::ABORT_DECIDED;
-
-            THEMIS_WARN("GlobalTransactionManager [{}] re-driving in-doubt txn {} "
-                        "with decision {}",
-                        coordinator_id_, tid, do_commit ? "COMMIT" : "ABORT");
-
-            runPhase2(rec, do_commit);
-            rec.state         = GlobalTxnState::COMPLETED;
-            transactions_[tid] = rec;
 
             logToWAL(
                 do_commit ? themis::sharding::WALEntryType::COMMIT_TX
