@@ -30,6 +30,8 @@
 #include <thread>
 #include <vector>
 
+/// @cond DOXYGEN_IGNORE
+
 // ─────────────────────────────────────────────────────────────────────────────
 // STUB / SIMULATION NOTE
 // In-process stubs model the execution engine.  Not for production use.
@@ -261,3 +263,5 @@ TEST_F(ExecutionHighCardinalityStress, WorkStealingUnderLoad) {
     EXPECT_EQ(pool.processed(), pool.submitted())
         << "All submitted tasks must be processed (no starvation/loss)";
 }
+
+/// @endcond

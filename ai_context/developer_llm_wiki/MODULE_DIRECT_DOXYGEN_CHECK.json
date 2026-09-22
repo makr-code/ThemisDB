@@ -1,23 +1,23 @@
 {
-  "module": "image_analysis",
+  "module": "execution",
   "source_mode": "direct_doxygen_markers",
   "source_graph_used": false,
   "source_graph_path": "/home/runner/work/ThemisDB/ThemisDB/ai_working/sourcecode_graph.json",
-  "source_files_scanned": 7,
-  "source_symbols_total": 15,
-  "source_symbols_after_filter": 15,
-  "doxygen_members_total": 139,
-  "doxygen_members_after_filter": 67,
-  "source_symbol_names": 9,
-  "doxygen_symbol_names": 33,
-  "source_not_in_doxygen_count": 3,
-  "doxygen_not_in_source_count": 27,
+  "source_files_scanned": 6,
+  "source_symbols_total": 39,
+  "source_symbols_after_filter": 39,
+  "doxygen_members_total": 39,
+  "doxygen_members_after_filter": 39,
+  "source_symbol_names": 26,
+  "doxygen_symbol_names": 27,
+  "source_not_in_doxygen_count": 4,
+  "doxygen_not_in_source_count": 5,
   "coverage": {
-    "symbol_presence_ratio": 0.6667,
-    "missing_symbol_count": 3,
-    "missing_brief_count": 59,
-    "missing_param_docs_count": 31,
-    "missing_return_docs_count": 35
+    "symbol_presence_ratio": 0.8462,
+    "missing_symbol_count": 4,
+    "missing_brief_count": 0,
+    "missing_param_docs_count": 0,
+    "missing_return_docs_count": 0
   },
   "ownership": {
     "path_policy": {
@@ -49,345 +49,118 @@
       "classification_rule": "everything outside internal roots is treated as external / third-party boundary"
     },
     "source_symbols": {
-      "internal": 15,
+      "internal": 39,
       "external": 0
     },
     "doxygen_members": {
-      "internal": 60,
-      "external": 7
+      "internal": 29,
+      "external": 10
     },
     "externally_scoped_symbols": []
   },
   "by_rule": {
-    "missing_symbol": 3,
-    "missing_param_docs": 31,
-    "missing_return_docs": 35,
-    "missing_brief": 59
+    "missing_symbol": 4
   },
   "by_rule_scope": {
     "missing_symbol": {
-      "src": 3
-    },
-    "missing_param_docs": {
-      "benchmarks": 29,
-      "src": 2
-    },
-    "missing_return_docs": {
-      "benchmarks": 33,
-      "src": 2
-    },
-    "missing_brief": {
-      "benchmarks": 51,
-      "other": 6,
-      "src": 2
+      "benchmarks": 1,
+      "include": 2,
+      "tests": 1
     }
   },
   "by_scope": {
-    "src": 9,
-    "tests": 0,
-    "benchmarks": 113,
-    "include": 0,
-    "other": 6
+    "src": 0,
+    "tests": 1,
+    "benchmarks": 1,
+    "include": 2,
+    "other": 0
   },
   "samples": {
     "source_not_in_doxygen": [
-      "lk",
-      "loadLabels",
-      "reloadModel"
+      "BoundedQueue",
+      "SLAPriority",
+      "StubBoundedQueue",
+      "operator"
     ],
     "doxygen_not_in_source": [
-      "Arg",
-      "Args",
-      "BenchmarkMockPlugin",
-      "Impl",
-      "Iterations",
-      "RealisticLatencyPlugin",
-      "TesseractPluginTest",
-      "Threads",
-      "YOLOv8PluginTest",
-      "generateCaption",
-      "generateEmbedding",
-      "generateEmbeddingBatch",
-      "generateRandomImage",
-      "generateRandomImages",
-      "generate_test_image",
-      "getBackend",
-      "getInferenceCount",
-      "getInfo",
-      "getStatistics",
-      "healthCheck",
-      "initialize",
-      "isReady",
-      "postprocess",
-      "preprocess",
-      "runInference"
+      "enqueue",
+      "operator()",
+      "operator=",
+      "reportCompletion",
+      "submit"
     ],
     "findings": [
       {
         "rule": "missing_symbol",
-        "symbol": "lk",
-        "count": 5,
-        "scope": "src",
+        "symbol": "BoundedQueue",
+        "count": 1,
+        "scope": "benchmarks",
         "scope_breakdown": {
-          "src": 5
+          "benchmarks": 1
         },
         "source_examples": [
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/tesseract_ocr_plugin.cpp",
-            "line": 405,
-            "kind": "function",
-            "name": "lk",
-            "scope": "src"
-          },
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/yolov8_onnx_plugin.cpp",
-            "line": 540,
-            "kind": "function",
-            "name": "lk",
-            "scope": "src"
-          },
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/yolov8_onnx_plugin.cpp",
-            "line": 550,
-            "kind": "function",
-            "name": "lk",
-            "scope": "src"
+            "file": "/home/runner/work/ThemisDB/ThemisDB/benchmarks/execution/bench_execution_dedicated_gates.cpp",
+            "line": 43,
+            "kind": "class",
+            "name": "BoundedQueue",
+            "scope": "benchmarks"
           }
         ]
       },
       {
         "rule": "missing_symbol",
-        "symbol": "loadLabels",
+        "symbol": "SLAPriority",
         "count": 1,
-        "scope": "src",
+        "scope": "include",
         "scope_breakdown": {
-          "src": 1
+          "include": 1
         },
         "source_examples": [
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/yolov8_onnx_plugin.cpp",
-            "line": 86,
-            "kind": "function",
-            "name": "loadLabels",
-            "scope": "src"
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/execution/query_scheduler.h",
+            "line": 41,
+            "kind": "class",
+            "name": "SLAPriority",
+            "scope": "include"
           }
         ]
       },
       {
         "rule": "missing_symbol",
-        "symbol": "reloadModel",
+        "symbol": "StubBoundedQueue",
         "count": 1,
-        "scope": "src",
+        "scope": "tests",
         "scope_breakdown": {
-          "src": 1
+          "tests": 1
         },
         "source_examples": [
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/yolov8_onnx_plugin.cpp",
-            "line": 668,
-            "kind": "function",
-            "name": "reloadModel",
-            "scope": "src"
+            "file": "/home/runner/work/ThemisDB/ThemisDB/tests/execution/test_execution_highcardinality_stress.cpp",
+            "line": 43,
+            "kind": "class",
+            "name": "StubBoundedQueue",
+            "scope": "tests"
           }
         ]
       },
       {
-        "rule": "missing_param_docs",
-        "symbol": "generate_mock_image",
-        "kind": "function",
-        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
-        "line": 189,
-        "scope": "benchmarks",
-        "param_total": 3,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_return_docs",
-        "symbol": "generate_mock_image",
-        "kind": "function",
-        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
-        "line": 189,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "generate_mock_jpeg",
-        "kind": "function",
-        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
-        "line": 213,
-        "scope": "benchmarks",
-        "param_total": 2,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_return_docs",
-        "symbol": "generate_mock_jpeg",
-        "kind": "function",
-        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
-        "line": 213,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "Arg",
-        "kind": "function",
-        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
-        "line": 256,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "Arg",
-        "kind": "function",
-        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
-        "line": 256,
-        "scope": "benchmarks",
-        "param_total": 1,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "Arg",
-        "kind": "function",
-        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
-        "line": 298,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "Arg",
-        "kind": "function",
-        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
-        "line": 298,
-        "scope": "benchmarks",
-        "param_total": 1,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "Arg",
-        "kind": "function",
-        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
-        "line": 358,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "Arg",
-        "kind": "function",
-        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
-        "line": 358,
-        "scope": "benchmarks",
-        "param_total": 1,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "Threads",
-        "kind": "function",
-        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
-        "line": 410,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "Threads",
-        "kind": "function",
-        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
-        "line": 410,
-        "scope": "benchmarks",
-        "param_total": 1,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "Args",
-        "kind": "function",
-        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
-        "line": 503,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "Args",
-        "kind": "function",
-        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
-        "line": 503,
-        "scope": "benchmarks",
-        "param_total": 1,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "simulate_computation",
-        "kind": "function",
-        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
-        "line": 49,
-        "scope": "benchmarks",
-        "param_total": 1,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "generate_test_image",
-        "kind": "function",
-        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
-        "line": 64,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "generate_test_image",
-        "kind": "function",
-        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
-        "line": 64,
-        "scope": "benchmarks",
-        "param_total": 2,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_return_docs",
-        "symbol": "generate_test_image",
-        "kind": "function",
-        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
-        "line": 64,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "Arg",
-        "kind": "function",
-        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
-        "line": 284,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "Arg",
-        "kind": "function",
-        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
-        "line": 284,
-        "scope": "benchmarks",
-        "param_total": 1,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "Iterations",
-        "kind": "function",
-        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
-        "line": 329,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "Iterations",
-        "kind": "function",
-        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
-        "line": 329,
-        "scope": "benchmarks",
-        "param_total": 1,
-        "param_docs_count": 0
+        "rule": "missing_symbol",
+        "symbol": "operator",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/execution/query_scheduler.h",
+            "line": 198,
+            "kind": "function",
+            "name": "operator",
+            "scope": "include"
+          }
+        ]
       }
     ]
   }

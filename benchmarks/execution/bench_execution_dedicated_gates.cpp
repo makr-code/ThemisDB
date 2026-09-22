@@ -30,6 +30,8 @@
 #include <thread>
 #include <vector>
 
+/// @cond DOXYGEN_IGNORE
+
 // ─────────────────────────────────────────────────────────────────────────────
 // In-process stubs — model execution hot paths without external backends.
 // MUST NOT be used in production code paths.
@@ -232,3 +234,5 @@ BENCHMARK(BM_EX_BM_04_ConcurrentDispatchThroughput)
     ->Unit(benchmark::kMillisecond);
 
 BENCHMARK_MAIN();
+
+/// @endcond

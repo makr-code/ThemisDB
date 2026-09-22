@@ -1,8 +1,6 @@
 /**
  * @file query_scheduler.cpp
- * @brief Phase 3 P3-04-C/D: SLA-aware query scheduler — implementation.
- * @version 1.0.0
- * @note Status: Block B P3-04-C/D delivery
+ * @brief Implementation of the bounded execution query scheduler.
  */
 
 #include "execution/query_scheduler.h"
@@ -32,14 +30,14 @@ QueryScheduler::~QueryScheduler() {
 // ---------------------------------------------------------------------------
 
 /**
- * @brief Enqueue.
- * @param[in] execute Input parameter.
- * @param[in] priority Input parameter.
- * @param[in] sla_ms Input parameter.
- * @param[in] name Input parameter.
- * @param[in] timeout Input parameter.
- * @return Return value.
- * @details Calls: load(), std::chrono::steady_clock::now(), std::chrono::milliseconds(), lk(), wait_until(), size(), fetch_add(), std::move().
+ * @brief Enqueue one execution request after waiting for bounded capacity.
+ * @param[in] execute Callable stored in the queued entry.
+ * @param[in] priority SLA label used for metrics and shedding decisions.
+ * @param[in] sla_ms Relative deadline budget in milliseconds.
+ * @param[in] name Optional diagnostic name.
+ * @param[in] timeout Maximum time to wait for queue capacity.
+ * @return A non-zero query id on success, or `0` if the queue stays full, the
+ *         scheduler is shutting down, or a LOW-priority item is shed.
  */
 std::uint64_t QueryScheduler::enqueue(
     QueryEntry::ExecuteFn execute,
@@ -109,11 +107,10 @@ std::uint64_t QueryScheduler::enqueue(
 // ---------------------------------------------------------------------------
 
 /**
- * @brief Dequeue.
- * @param[in,out] out Input/output parameter.
- * @param[in] timeout Input parameter.
- * @return True when the operation succeeds.
- * @details Calls: std::chrono::steady_clock::now(), lk(), wait_until(), empty(), load(), std::move(), top(), pop().
+ * @brief Dequeue the next query ordered by absolute deadline.
+ * @param[out] out Receives the dequeued entry on success.
+ * @param[in] timeout Maximum time to wait for queued work.
+ * @return `true` when an entry was dequeued, otherwise `false`.
  */
 bool QueryScheduler::dequeue(QueryEntry& out, std::chrono::milliseconds timeout) {
     const auto t0 = std::chrono::steady_clock::now();
@@ -158,10 +155,9 @@ bool QueryScheduler::dequeue(QueryEntry& out, std::chrono::milliseconds timeout)
 // ---------------------------------------------------------------------------
 
 /**
- * @brief Report Completion.
- * @param[in] query_id Identifier of the query.
- * @param[in] completion_time Input parameter.
- * @details Calls: lk(), find(), end(), erase().
+ * @brief Record the observed completion time for a previously queued query.
+ * @param[in] query_id Identifier returned by enqueue().
+ * @param[in] completion_time Completion timestamp used for SLA accounting.
  */
 void QueryScheduler::reportCompletion(
     std::uint64_t query_id,
@@ -183,11 +179,6 @@ void QueryScheduler::reportCompletion(
 
 QueryScheduler::Metrics QueryScheduler::metrics() const noexcept {
     Metrics m;
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(mutex_);
     m.queue_depth_high   = count_high_;
     m.queue_depth_medium = count_medium_;
@@ -216,11 +207,6 @@ QueryScheduler::Metrics QueryScheduler::metrics() const noexcept {
 // ---------------------------------------------------------------------------
 
 std::size_t QueryScheduler::size() const noexcept {
-    /**
-     * @brief Lk.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(mutex_);
     return queue_.size();
 }

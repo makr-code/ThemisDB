@@ -124,6 +124,8 @@ jobs:
       pull-requests: write
       issues: write
     steps:
+      - uses: actions/checkout@v4
+
       - name: Set failure label and comment
         uses: ./.github/actions/status-flags-and-issues
         with:
