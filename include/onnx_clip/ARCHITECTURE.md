@@ -1,7 +1,7 @@
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 <!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/onnx_clip/ARCHITECTURE.md -->
+<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/onnx_clip/ARCHITECTURE.md · ../../src/onnx_clip/PRODUCTION_REQUIREMENTS.md -->
 
 # ONNX CLIP Module — Public Header Architecture
 

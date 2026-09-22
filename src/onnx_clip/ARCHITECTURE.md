@@ -1,7 +1,7 @@
 > **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
 
-<!-- Status: current | validated: 2026-04-06 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: current | validated: 2026-09-22 -->
+<!-- Links: README.md · PRODUCTION_REQUIREMENTS.md · ROADMAP.md · SECURITY.md · FUTURE_ENHANCEMENTS.md -->
 
 # ONNX CLIP Plugin — Architecture Guide
 

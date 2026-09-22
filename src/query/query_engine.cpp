@@ -43,6 +43,7 @@
 #include <numbers>
 #include <limits>
 #include <exception>
+#include "utils/thread_join_utils.h"
 
 #if defined(__has_include)
 #if __has_include(<tbb/parallel_invoke.h>)
@@ -205,7 +206,42 @@ static void tbbWaitWithTimeout(
         std::chrono::high_resolution_clock::now() - t0);
 
     done->store(true, std::memory_order_release);
-    watchdog.join();
+
+    // [WAVE3B-DEADLOCK-FIX: Timed watchdog join to prevent deadlock]
+    // Attempt to join the watchdog thread with a short deadline (1 second).
+    // If the watchdog thread doesn't finish within the deadline, return promptly
+    // to prevent deadlock in the query engine. The detached join_watcher will
+    // continue to wait for watchdog completion asynchronously.
+    //
+    // Watchdog bounded-ness: The watchdog thread (defined at line 189) is simple:
+    // it polls every 50ms and calls tg.cancel() if the deadline fires, then returns.
+    // No locks are taken, so it cannot deadlock on synchronization primitives.
+    // Therefore, join_watcher's blocking on watchdog.join() is bounded by the
+    // watchdog's timeout duration (captured in timeout_ms parameter).
+    //
+    // Thread safety and lifetime: The watchdog captures tg by reference (&tg).
+    // This is safe because:
+    // 1. We set done->store(true) immediately after tg.wait() (line 208).
+    // 2. The watchdog thread's while loop condition is "!done->load()" (line 197).
+    // 3. Watchdog only accesses tg inside "if (deadline fired)" block (line 198-201).
+    // 4. Once done=true, the watchdog exits the loop without accessing tg again.
+    // 5. Even if joinThreadWithin() times out and detached watcher is waiting,
+    //    the watchdog will exit within 50ms of done being set (50ms sleep cycle).
+    // 6. Therefore, tg remains valid throughout the watchdog's execution.
+    //    The caller retains tg's lifetime (it's a parameter), and the watchdog
+    //    exits before tg can be destroyed.
+    //
+    // Thread safety: joinThreadWithin() uses std::move(watchdog) and passes it
+    // into a detached watcher lambda via promise/future. This ensures no concurrent
+    // join/detach calls on the same std::thread object. The watcher owns the thread
+    // exclusively via the lambda capture.
+    constexpr auto kWatchdogJoinDeadline = std::chrono::milliseconds(1000);
+    bool joined = themis::utils::joinThreadWithin(watchdog, kWatchdogJoinDeadline);
+    
+    if (!joined) {
+        THEMIS_WARN("Query phase '{}' watchdog thread join timed out after 1s; "
+                    "detaching to avoid deadlock. query_id='{}'", phase, query_id);
+    }
 
     if (elapsed > timeout_ms) {
         THEMIS_WARN("Query phase '{}' exceeded timeout: elapsed={}ms limit={}ms query_id='{}'",
