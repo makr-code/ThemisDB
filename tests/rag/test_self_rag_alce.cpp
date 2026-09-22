@@ -92,8 +92,17 @@ SelfRAGController::RetrievalCallback makeFixedRetrievalWithSpinDelay(
         std::vector<SelfRAGDocument> docs,
         std::chrono::microseconds delay)
 {
-    return [docs = std::move(docs), delay](const std::string& query, size_t top_k) {
-        auto result = makeFixedRetrieval(docs)(query, top_k);
+    return [docs = std::move(docs), delay](const std::string& /*query*/, size_t top_k) {
+        // Inline retrieval logic to avoid extra lambda creation and document copying.
+        // This avoids the overhead of makeFixedRetrieval() creating another lambda
+        // that would capture docs by value again.
+        std::vector<SelfRAGDocument> result;
+        result.reserve(std::min(top_k, docs.size()));
+        for (size_t i = 0; i < std::min(top_k, docs.size()); ++i) {
+            result.push_back(docs[i]);
+        }
+        
+        // Spin-wait for the requested delay to simulate retrieval latency.
         const auto start = std::chrono::steady_clock::now();
         while (std::chrono::steady_clock::now() - start < delay) {
         }
