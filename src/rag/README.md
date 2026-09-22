@@ -11,6 +11,7 @@ The RAG module provides retrieval-augmented generation runtime surfaces for docu
 
 | Interface / File | Role |
 |---|---|
+| self_rag.cpp | Self-RAG retrieval controller with critic-based document refinement (Wave B B1) |
 | rag_judge.cpp | multi-dimensional evaluation orchestration |
 | hybrid_retriever.cpp | BM25 plus vector fusion retrieval |
 | streaming_retriever.cpp | token-budget-aware context streaming |
@@ -43,7 +44,7 @@ Out of scope:
 - environment-dependent integrations may affect end-to-end latency envelopes
 
 **Production Readiness Status (Batch 3 verified 2026-08-14):**
-- **Ready for production:** Hybrid retrieval (BM25 + vector), streaming context assembly, retrieval quality gates, ingestion bridge
+- **Ready for production:** Hybrid retrieval (BM25 + vector), streaming context assembly, retrieval quality gates, ingestion bridge, Self-RAG (Wave B B1 with ALCE acceptance gates)
 - **Production-ready with limits:** Multi-step RAG (iterative, map-reduce), adaptive retrieval depth control, prompt-injection detection
 - **Not yet production-ready:** WikiIndexStore Phase B (RocksDB integration, BM25+, HNSW, RRF fusion) — Wave B target Q4 2026
 - **Pending:** release-grade benchmark evidence for persistent embedding cache + per-query retrieval guardrails

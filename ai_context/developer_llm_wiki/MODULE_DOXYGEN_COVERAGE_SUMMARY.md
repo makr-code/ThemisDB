@@ -2,8 +2,8 @@
 
 - Module: rag
 - Source mode: direct_doxygen_markers
-- Symbol presence ratio: 0.8676
-- Ownership: {'internal': 1399, 'external': 0}
+- Symbol presence ratio: 0.8678
+- Ownership: {'internal': 1400, 'external': 0}
 - missing_symbol: 121
 - missing_brief: 466
 - missing_param_docs: 308

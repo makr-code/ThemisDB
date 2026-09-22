@@ -4,16 +4,16 @@
   "source_graph_used": false,
   "source_graph_path": "/home/runner/work/ThemisDB/ThemisDB/ai_working/sourcecode_graph.json",
   "source_files_scanned": 200,
-  "source_symbols_total": 1418,
-  "source_symbols_after_filter": 1399,
+  "source_symbols_total": 1419,
+  "source_symbols_after_filter": 1400,
   "doxygen_members_total": 3149,
   "doxygen_members_after_filter": 1867,
-  "source_symbol_names": 914,
+  "source_symbol_names": 915,
   "doxygen_symbol_names": 1216,
   "source_not_in_doxygen_count": 121,
-  "doxygen_not_in_source_count": 423,
+  "doxygen_not_in_source_count": 422,
   "coverage": {
-    "symbol_presence_ratio": 0.8676,
+    "symbol_presence_ratio": 0.8678,
     "missing_symbol_count": 121,
     "missing_brief_count": 466,
     "missing_param_docs_count": 308,
@@ -49,7 +49,7 @@
       "classification_rule": "everything outside internal roots is treated as external / third-party boundary"
     },
     "source_symbols": {
-      "internal": 1399,
+      "internal": 1400,
       "external": 0
     },
     "doxygen_members": {
@@ -363,7 +363,7 @@
         "source_examples": [
           {
             "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/self_rag.h",
-            "line": 38,
+            "line": 42,
             "kind": "class",
             "name": "CriticVerdict",
             "scope": "include"

@@ -2,12 +2,12 @@
 
 - Source mode: direct_doxygen_markers
 - Source files scanned: 200
-- Source symbols (raw/filter): 1418 / 1399
+- Source symbols (raw/filter): 1419 / 1400
 - Doxygen members (raw/filter): 3149 / 1867
-- Unique source symbol names: 914
+- Unique source symbol names: 915
 - Unique doxygen symbol names: 1216
-- Symbol presence ratio: 0.8676
-- Ownership (internal/external): {'internal': 1399, 'external': 0}
+- Symbol presence ratio: 0.8678
+- Ownership (internal/external): {'internal': 1400, 'external': 0}
 
 ## Rule counts
 - missing_symbol: 121

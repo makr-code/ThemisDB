@@ -212,7 +212,7 @@
       "source_examples": [
         {
           "file": "/home/runner/work/ThemisDB/ThemisDB/include/rag/self_rag.h",
-          "line": 38,
+          "line": 42,
           "kind": "class",
           "name": "CriticVerdict",
           "scope": "include"
