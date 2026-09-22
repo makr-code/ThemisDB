@@ -9,7 +9,7 @@
 |---|---|---|
 | Malicious vectors corrupting index structure | Denial of service, incorrect results | Dimension validation, NaN/inf detection, integrity checks |
 | Excessive memory consumption via large vectors | Memory exhaustion, system crash | Vector size limits, batch operation bounds |
-| Invalid distance metric selection | Incorrect similarity rankings | Metric enum validation, fallback defaults |
+| Invalid distance metric selection | Incorrect similarity rankings | Metric enum validation, error returns (E5401) |
 | Concurrent modification races | Index corruption, undefined behavior | Read-write mutex protection, atomic flags |
 | Serialized index tampering | Trust boundary violation | Index checksums (planned Phase 6), integrity validation |
 
@@ -47,12 +47,12 @@
 
 #### Boundary 4: Distance Metric Validation
 **Location:** Index creation and query setup  
-**Protection:** Validate metric enum values; reject unsupported metrics  
+**Protection:** Validate metric enum values; return error on unsupported metrics  
 **Enforced on:**
 - COSINE, L2, INNER_PRODUCT only
-- Fallback to COSINE on invalid metric
+- Invalid metrics rejected with error code E5401
 
-**Rationale:** Ensures consistent similarity semantics across search operations.
+**Rationale:** Ensures consistent similarity semantics across search operations. Input validation is caller's responsibility; no silent fallback occurs.
 
 ### Concurrency & Thread Safety
 
