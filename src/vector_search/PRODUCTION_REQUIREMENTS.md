@@ -97,6 +97,7 @@ This document defines **mandatory production requirements** for the vector searc
   - E5402: Index is empty
   - E5403: Search returned no results
   - E5404: Index corruption detected
+  - **Note:** Out-of-memory conditions preserve the index and return caller-specific allocation error codes (not E5404).
 - Status: ✅ DOCUMENTED
 
 **MUST NOT:** Silently ignore errors or proceed with corrupted state.

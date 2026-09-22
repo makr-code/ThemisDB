@@ -118,8 +118,9 @@ Wave D closure includes these Phase 5 deliverables. Phase 5 hardening continues 
   - Automatic rebalancing on parameter changes
   - Rebuild triggers and progress tracking
 - [x] Out-of-memory graceful degradation
-  - E5404: Index corruption detected
-  - Preserve existing index on allocation failure
+  - No allocation on insufficient memory (index preserved)
+  - Caller receives allocation failure code (not E5404)
+  - E5404 reserved for corruption detection only
 
 ### Error Codes (E5400–E5499)
 
