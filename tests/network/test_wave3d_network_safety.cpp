@@ -151,6 +151,28 @@ TEST(Wave3DNetworkSafety, W3D02_QosManager_valid_iface_accepted) {
 }
 
 // =============================================================================
+// W3D-02b QosManager: overlong or whitespace names are rejected
+// =============================================================================
+
+TEST(Wave3DNetworkSafety, W3D02b_QosManager_non_posix_iface_rejected) {
+    QoSManager qos;
+    QoSManager::TcConfig cfg;
+    cfg.enabled = true;
+
+    cfg.interface_name = "abcdefghijklmnop";  // 16 chars; Linux max is 15 + NUL
+    EXPECT_FALSE(qos.configureTc(cfg));
+
+    cfg.interface_name = "eth0\nroot";
+    EXPECT_FALSE(qos.configureTc(cfg));
+
+    cfg.interface_name = "eth0 space";
+    EXPECT_FALSE(qos.configureTc(cfg));
+
+    cfg.interface_name = "-eth0";
+    EXPECT_FALSE(qos.configureTc(cfg));
+}
+
+// =============================================================================
 // W3D-03  RaftLoadBalancer: health check on a dead port returns false
 // =============================================================================
 
