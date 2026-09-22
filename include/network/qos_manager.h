@@ -550,8 +550,8 @@ public:
      *
      * Requires the process to have sufficient privileges (CAP_NET_ADMIN).
      * Interface names are validated before any command execution and names that
-     * are empty, longer than the Linux interface-name limit, start with `-`, or
-     * contain characters outside `[A-Za-z0-9._-]` are rejected.
+     * are empty, longer than Linux `IFNAMSIZ - 1` (15 usable characters), start
+     * with `-`, or contain characters outside `[A-Za-z0-9._-]` are rejected.
      *
      * @param tc_config  tc configuration parameters.
      * @return true if tc commands succeeded; false if tc is disabled, the

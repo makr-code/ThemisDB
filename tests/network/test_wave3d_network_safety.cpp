@@ -167,6 +167,9 @@ TEST(Wave3DNetworkSafety, W3D02b_QosManager_non_posix_iface_rejected) {
 
     cfg.interface_name = "eth0 space";
     EXPECT_FALSE(qos.configureTc(cfg));
+
+    cfg.interface_name = "-eth0";
+    EXPECT_FALSE(qos.configureTc(cfg));
 }
 
 // =============================================================================
