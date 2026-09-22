@@ -114,7 +114,8 @@ This document defines **mandatory production requirements** for the vector searc
 - Maximum vector dimension: 4096 (practical limit; runtime enforcement planned Phase 6)
   - **Note:** Currently no hard runtime check; relies on pre-validation. See MODULE_GAPS.md for tracking.
 - Minimum vector dimension: 1
-- Typical memory per vector: 0.1–0.5 MB (HNSW), 0.05–0.2 MB (IVF)
+- Typical memory per vector: 0.5–2 KB (HNSW with M=16), 0.5–1 KB (IVF)
+  - Example: 1M 128-dim float32 vectors (~512 MB base) + HNSW overhead (~1.5× = ~768 MB total)
 
 **Search Operation Limits:**
 - Maximum k (neighbors requested): 10 000 (validated at query time)

@@ -164,24 +164,24 @@ All error codes reserved and documented for vector search error taxonomy.
 
 ### Phase 1 Deliverables ✓ FUNCTIONALLY COMPLETE
 
-- [~] Vector index abstraction and query interface
-  - `include/vector_search/vector_index.h` (planned; currently via `include/index/`)
-  - Core contracts: `add()`, `search()`, `delete()` operations
-- [~] Similarity query API
-  - `include/vector_search/similarity_search.h` (planned; currently via similarity interfaces)
-  - K-nearest neighbor search interface
-- [~] Distance metric definitions
-  - `include/vector_search/distance_metric.h` (planned; currently via utils)
-  - Cosine, L2, inner product support
+- [x] Vector index abstraction and query interface
+  - Functional via `include/index/` (canonical header `include/vector_search/vector_index.h` planned Phase 6)
+  - Core contracts: `add()`, `search()`, `delete()` operations ✓ IMPLEMENTED
+- [x] Similarity query API
+  - Functional via similarity interfaces (canonical header `include/vector_search/similarity_search.h` planned Phase 6)
+  - K-nearest neighbor search interface ✓ IMPLEMENTED
+- [x] Distance metric definitions
+  - Functional via utils (canonical header `include/vector_search/distance_metric.h` planned Phase 6)
+  - Cosine, L2, inner product support ✓ IMPLEMENTED
 - [x] Error taxonomy (E5400–E5499)
-  - Vector search error codes reserved
-  - Error handling strategy documented
+  - Vector search error codes reserved ✓ COMPLETE
+  - Error handling strategy documented ✓ COMPLETE
 
 ### Completed Milestone
 
-Phase 1 API contracts functionally frozen and finalized for forward compatibility. Canonical header consolidation planned for Phase 6.
+Phase 1 API contracts are functionally complete and frozen for forward compatibility. Implementation is delivered and operational. Canonical header consolidation and public API refactoring are planned for Phase 6.
 
-### Status: ✓ PHASE 1 FUNCTIONALLY COMPLETE (canonical headers Phase 6)
+### Status: ✓ PHASE 1 FUNCTIONALLY COMPLETE
 
 ---
 
