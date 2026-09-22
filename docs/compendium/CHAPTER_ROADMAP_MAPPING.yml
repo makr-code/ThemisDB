@@ -1,0 +1,468 @@
+# docs/compendium/CHAPTER_ROADMAP_MAPPING.yml
+#
+# Canonical mapping between compendium chapters and ThemisDB v2.4.0-alpha
+# roadmap/future-enhancement topics.
+#
+# Used by: scripts/compendium-drift-scan.py
+#          .github/workflows/maintenance-compendium-sync.yml
+#
+# Schema per chapter entry:
+#   file:           Path relative to docs/compendium/docs/
+#   title:          Human-readable chapter title
+#   target_version: Version the chapter should reflect
+#   roadmap_topics: Keywords from ROADMAP.md that indicate this chapter is relevant
+#   sot_paths:      Root SOT files most relevant to this chapter
+#   priority:       high | medium | low
+#   notes:          Free text for maintainers
+
+target_version: "2.4.0-alpha"
+
+chapters:
+  - file: chapter_00_genesis.md
+    title: "Genesis & Project Vision"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [ThemisDB, multi-model, vision, overview]
+    sot_paths: [ROADMAP.md, FUTURE_ENHANCEMENTS.md]
+    priority: medium
+
+  - file: chapter_01_introduction.md
+    title: "Introduction"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [v2.4.0, alpha, current release, overview]
+    sot_paths: [ROADMAP.md, CHANGELOG.md]
+    priority: high
+
+  - file: chapter_02_architecture.md
+    title: "Architecture"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [architecture, module, integration, core, storage]
+    sot_paths:
+      - ROADMAP.md
+      - FUTURE_ENHANCEMENTS.md
+      - docs/architecture/MODULE_ARCHITECTURE.md
+      - docs/architecture/MODULE_INTEGRATION_CONTRACTS.md
+    priority: high
+
+  - file: chapter_03_multimodel.md
+    title: "Multi-Model Database Design"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [multi-model, relational, graph, document, vector, time-series]
+    sot_paths: [ROADMAP.md, src/FUTURE_ENHANCEMENTS.md]
+    priority: high
+
+  - file: chapter_04_installation.md
+    title: "Installation & Setup"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [installation, setup, deployment, docker, cmake]
+    sot_paths: [ROADMAP.md, CHANGELOG.md]
+    priority: medium
+
+  - file: chapter_05_relational.md
+    title: "Relational Model"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [relational, SQL, ACID, transactions]
+    sot_paths: [src/FUTURE_ENHANCEMENTS.md, src/transaction/ROADMAP.md]
+    priority: high
+
+  - file: chapter_06_graph.md
+    title: "Graph Model"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [graph, knowledge graph, AQL, traversal]
+    sot_paths: [src/FUTURE_ENHANCEMENTS.md]
+    priority: medium
+
+  - file: chapter_07_document.md
+    title: "Document Model"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [document, JSON, schema, flexible]
+    sot_paths: [src/FUTURE_ENHANCEMENTS.md]
+    priority: medium
+
+  - file: chapter_08_vector.md
+    title: "Vector Search Model"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [vector, embedding, ANN, HNSW, FAISS, GPU, index]
+    sot_paths:
+      - src/FUTURE_ENHANCEMENTS.md
+      - src/index/ROADMAP.md
+    priority: high
+
+  - file: chapter_08_storage_layer.md
+    title: "Storage Layer"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [storage, RocksDB, columnar, WAL, LSM, compression]
+    sot_paths:
+      - ROADMAP.md
+      - src/storage/ROADMAP.md
+    priority: high
+
+  - file: chapter_09_timeseries.md
+    title: "Time-Series Model"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [time-series, timeseries, HLC, retention]
+    sot_paths: [src/FUTURE_ENHANCEMENTS.md]
+    priority: medium
+
+  - file: chapter_10_enterprise.md
+    title: "Enterprise Features"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [enterprise, edition, license, RBAC, audit, compliance]
+    sot_paths: [ROADMAP.md, FUTURE_ENHANCEMENTS.md]
+    priority: medium
+
+  - file: chapter_11_realtime.md
+    title: "Real-Time Processing"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [realtime, streaming, pub-sub, voice, WebSocket]
+    sot_paths: [src/FUTURE_ENHANCEMENTS.md]
+    priority: medium
+
+  - file: chapter_12_computervision.md
+    title: "Computer Vision"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [computer vision, CV, CUDA, GPU, image, object detection]
+    sot_paths: [src/FUTURE_ENHANCEMENTS.md, src/gpu/ROADMAP.md]
+    priority: medium
+
+  - file: chapter_13_fulltext.md
+    title: "Full-Text Search"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [full-text, FTS, search, BM25, inverted index]
+    sot_paths: [src/FUTURE_ENHANCEMENTS.md, src/search/ROADMAP.md]
+    priority: high
+
+  - file: chapter_14_geospatial.md
+    title: "Geospatial Features"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [geospatial, WGS84, spatial, geography, geo]
+    sot_paths: [src/FUTURE_ENHANCEMENTS.md]
+    priority: medium
+
+  - file: chapter_15_analytics.md
+    title: "Analytics"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [analytics, OLAP, columnar, aggregation]
+    sot_paths: [src/FUTURE_ENHANCEMENTS.md]
+    priority: medium
+
+  - file: chapter_16_ml.md
+    title: "Machine Learning Integration"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [ML, training, model, inference, acceleration]
+    sot_paths:
+      - ROADMAP.md
+      - src/FUTURE_ENHANCEMENTS.md
+      - src/training/ROADMAP.md
+      - src/acceleration/ROADMAP.md
+    priority: high
+
+  - file: chapter_16_sharding.md
+    title: "Sharding & Distribution"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [sharding, distribution, partition, replication, cluster]
+    sot_paths: [ROADMAP.md, src/FUTURE_ENHANCEMENTS.md]
+    priority: high
+
+  - file: chapter_17_llm_integration.md
+    title: "LLM Integration"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [LLM, language model, Ollama, plugin, RAG, llm_wiki]
+    sot_paths:
+      - ROADMAP.md
+      - FUTURE_ENHANCEMENTS.md
+      - src/llm/ROADMAP.md
+      - src/rag/ROADMAP.md
+      - src/llm_wiki/ROADMAP.md
+    priority: high
+
+  - file: chapter_17_scaling.md
+    title: "Scaling"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [scaling, horizontal, vertical, hyperscaler, load balancing]
+    sot_paths: [ROADMAP.md, FUTURE_ENHANCEMENTS.md]
+    priority: medium
+
+  - file: chapter_18_ha.md
+    title: "High Availability"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [high availability, HA, failover, replication, chaos]
+    sot_paths: [ROADMAP.md, src/FUTURE_ENHANCEMENTS.md]
+    priority: high
+
+  - file: chapter_18_ml.md
+    title: "ML Operations"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [MLOps, training, pipeline, model management]
+    sot_paths: [src/training/ROADMAP.md, src/FUTURE_ENHANCEMENTS.md]
+    priority: medium
+
+  - file: chapter_19_monitoring.md
+    title: "Monitoring (Core)"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [monitoring, metrics, Prometheus, health]
+    sot_paths: [src/FUTURE_ENHANCEMENTS.md]
+    priority: medium
+
+  - file: chapter_19_monitoring_observability.md
+    title: "Monitoring & Observability"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [observability, tracing, OpenTelemetry, SRE, alerting]
+    sot_paths: [ROADMAP.md, src/FUTURE_ENHANCEMENTS.md]
+    priority: high
+
+  - file: chapter_20_backup.md
+    title: "Backup & Recovery"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [backup, recovery, restore, snapshot]
+    sot_paths: [src/FUTURE_ENHANCEMENTS.md]
+    priority: medium
+
+  - file: chapter_20_performance.md
+    title: "Performance Overview"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [performance, benchmark, p95, p99, throughput, latency]
+    sot_paths: [ROADMAP.md, FUTURE_ENHANCEMENTS.md]
+    priority: high
+
+  - file: chapter_21_auth.md
+    title: "Authentication & Authorization"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [auth, RBAC, JWT, authentication, authorization]
+    sot_paths: [ROADMAP.md, src/auth/ROADMAP.md]
+    priority: high
+
+  - file: chapter_21_performance.md
+    title: "Performance Tuning"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [performance, tuning, optimization, cache, index]
+    sot_paths: [ROADMAP.md, FUTURE_ENHANCEMENTS.md]
+    priority: medium
+
+  - file: chapter_22_clients.md
+    title: "Client Libraries & APIs"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [client, SDK, REST, gRPC, API, protocol]
+    sot_paths: [src/FUTURE_ENHANCEMENTS.md]
+    priority: medium
+
+  - file: chapter_22_encryption.md
+    title: "Encryption & Data Security"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [encryption, TLS, at-rest, at-transit, security]
+    sot_paths: [ROADMAP.md, src/FUTURE_ENHANCEMENTS.md]
+    priority: high
+
+  - file: chapter_23_testing_qa.md
+    title: "Testing & QA"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [testing, QA, sanitizer, chaos, integration test, Wave]
+    sot_paths: [ROADMAP.md, FUTURE_ENHANCEMENTS.md]
+    priority: high
+
+  - file: chapter_24_ai_ethics.md
+    title: "AI Ethics & Governance"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [AI ethics, governance, compliance, bias, responsible AI]
+    sot_paths: [ROADMAP.md, FUTURE_ENHANCEMENTS.md]
+    priority: medium
+
+  - file: chapter_25_devops_infrastructure.md
+    title: "DevOps & Infrastructure"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [DevOps, CI/CD, Docker, Kubernetes, infrastructure]
+    sot_paths: [ROADMAP.md, FUTURE_ENHANCEMENTS.md]
+    priority: medium
+
+  - file: chapter_26_migration_legacy.md
+    title: "Migration & Legacy"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [migration, upgrade, legacy, backward compatibility]
+    sot_paths: [CHANGELOG.md, ROADMAP.md]
+    priority: medium
+
+  - file: chapter_27_troubleshooting.md
+    title: "Troubleshooting"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [troubleshooting, debugging, error, runbook]
+    sot_paths: [ROADMAP.md, docs/architecture/MODULE_ARCHITECTURE.md]
+    priority: medium
+
+  - file: chapter_28_aql_reference.md
+    title: "AQL Reference"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [AQL, query language, syntax, grammar]
+    sot_paths: [src/FUTURE_ENHANCEMENTS.md]
+    priority: medium
+
+  - file: chapter_29_analytics_process_mining.md
+    title: "Analytics & Process Mining"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [process mining, analytics, workflow, event log]
+    sot_paths: [src/FUTURE_ENHANCEMENTS.md]
+    priority: low
+
+  - file: chapter_30_deployment_operations.md
+    title: "Deployment & Operations"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [deployment, operations, runbook, operator, Wave D]
+    sot_paths: [ROADMAP.md, FUTURE_ENHANCEMENTS.md]
+    priority: high
+
+  - file: chapter_31_api_protocols.md
+    title: "API Protocols"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [API, protocol, REST, gRPC, WebSocket]
+    sot_paths: [src/FUTURE_ENHANCEMENTS.md]
+    priority: medium
+
+  - file: chapter_32_api_design_rest_principles.md
+    title: "API Design & REST Principles"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [REST, API design, OpenAPI, HTTP]
+    sot_paths: [src/FUTURE_ENHANCEMENTS.md]
+    priority: medium
+
+  - file: chapter_32_aql_oop_implementation.md
+    title: "AQL OOP Implementation"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [AQL, OOP, object-oriented, language]
+    sot_paths: [src/FUTURE_ENHANCEMENTS.md]
+    priority: low
+
+  - file: chapter_33_best_practices.md
+    title: "Best Practices"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [best practices, patterns, guidelines]
+    sot_paths: [ROADMAP.md, FUTURE_ENHANCEMENTS.md]
+    priority: medium
+
+  - file: chapter_34_query_optimization.md
+    title: "Query Optimization"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [query, optimization, planner, index, FTS, performance]
+    sot_paths:
+      - ROADMAP.md
+      - src/query/ROADMAP.md
+      - src/FUTURE_ENHANCEMENTS.md
+    priority: high
+
+  - file: chapter_35_data_modeling_patterns.md
+    title: "Data Modeling Patterns"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [data modeling, schema, pattern, design]
+    sot_paths: [src/FUTURE_ENHANCEMENTS.md]
+    priority: medium
+
+  - file: chapter_36_security_hardening.md
+    title: "Security Hardening"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [security, hardening, pentest, CVE, WAF, audit, Wave C]
+    sot_paths:
+      - ROADMAP.md
+      - FUTURE_ENHANCEMENTS.md
+      - src/security/ROADMAP.md
+    priority: high
+
+  - file: chapter_37_ecosystem_integration.md
+    title: "Ecosystem Integration"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [ecosystem, integration, plugin, third-party]
+    sot_paths: [src/FUTURE_ENHANCEMENTS.md]
+    priority: medium
+
+  - file: chapter_38_observability_sre.md
+    title: "Observability & SRE"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [SRE, SLO, SLA, observability, reliability, Wave D]
+    sot_paths: [ROADMAP.md, FUTURE_ENHANCEMENTS.md]
+    priority: high
+
+  - file: chapter_39_performance_tuning_cookbook.md
+    title: "Performance Tuning Cookbook"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [performance, tuning, cookbook, recipe, benchmark]
+    sot_paths: [ROADMAP.md, FUTURE_ENHANCEMENTS.md]
+    priority: high
+
+  - file: chapter_40_data_governance_compliance.md
+    title: "Data Governance & Compliance"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [governance, compliance, GDPR, audit, data lineage]
+    sot_paths: [ROADMAP.md, FUTURE_ENHANCEMENTS.md]
+    priority: medium
+
+  - file: chapter_41_hands_on_labs.md
+    title: "Hands-On Labs"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [lab, exercise, tutorial, example]
+    sot_paths: [ROADMAP.md]
+    priority: low
+
+  - file: chapter_42_docs_assistant_usage.md
+    title: "Docs Assistant Usage"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [AI assistant, Copilot, documentation, LLM, wiki]
+    sot_paths: [AI_WIKI_INTEGRATION_PLAYBOOK.md, ROADMAP.md]
+    priority: medium
+
+  - file: chapter_mvcc_hlc.md
+    title: "MVCC & HLC"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [MVCC, HLC, concurrency, transaction, consistency]
+    sot_paths:
+      - ROADMAP.md
+      - src/transaction/ROADMAP.md
+    priority: high
+
+appendices:
+  - file: appendix_d_feature_status.md
+    title: "Feature Status Matrix"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [feature status, implementation, roadmap, Wave]
+    sot_paths: [ROADMAP.md, FUTURE_ENHANCEMENTS.md]
+    priority: high
+    notes: >
+      This appendix should reflect the current Wave A/B/C/D gate posture and
+      source-verified implementation levels from ROADMAP.md.
+
+  - file: appendix_e_incident_runbooks.md
+    title: "Incident Runbooks"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [incident, runbook, recovery, SRE, Wave D]
+    sot_paths: [ROADMAP.md, FUTURE_ENHANCEMENTS.md]
+    priority: medium
+
+  - file: appendix_f_aql_cheatsheet.md
+    title: "AQL Cheat Sheet"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [AQL, cheatsheet, query, syntax]
+    sot_paths: [src/FUTURE_ENHANCEMENTS.md]
+    priority: medium
+
+  - file: appendix_g_configuration.md
+    title: "Configuration Reference"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [configuration, settings, environment, tuning]
+    sot_paths: [ROADMAP.md, FUTURE_ENHANCEMENTS.md]
+    priority: medium
+
+  - file: appendix_h_glossary.md
+    title: "Glossary"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [glossary, terminology, definition]
+    sot_paths: [ROADMAP.md]
+    priority: low
+
+  - file: appendix_i_troubleshooting.md
+    title: "Troubleshooting Reference"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [troubleshooting, error, fix, FAQ]
+    sot_paths: [ROADMAP.md]
+    priority: medium
+
+  - file: appendix_literatur.md
+    title: "References & Literature"
+    target_version: "2.4.0-alpha"
+    roadmap_topics: [references, literature, research, papers]
+    sot_paths: [research/README.md, ROADMAP.md]
+    priority: low

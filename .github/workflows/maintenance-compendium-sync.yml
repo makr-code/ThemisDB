@@ -1,0 +1,256 @@
+name: "Maintenance: Compendium Sync"
+
+# Rechenaufwand-Score: R=2 (K=2, L=2, N=2) | last-calibrated: 2026-09-22
+# Human-in-the-loop automation for recurring compendium refresh.
+#
+# Operating model:
+#   DETECT → CLASSIFY → CREATE ISSUE (or UPDATE) → HUMAN REVIEW → APPLY
+#
+# This workflow NEVER auto-merges or silently rewrites compendium chapters.
+# All write-back and publication steps require explicit human approval.
+#
+# Reuses patterns from maintenance-docs.yml (upsert_issue via
+# .github/actions/status-flags-and-issues) to keep the issue/PR control surface
+# consistent with the rest of the maintenance toolchain.
+
+on:
+  schedule:
+    # Weekly Monday 06:30 UTC — compendium drift scan
+    # (offset from existing 04:00/05:00 maintenance schedules to avoid runner contention)
+    - cron: '30 6 * * 1'
+  workflow_dispatch:
+    inputs:
+      priority:
+        description: 'Minimum chapter priority to scan (high|medium|low)'
+        type: choice
+        default: medium
+        options:
+          - high
+          - medium
+          - low
+      target_version:
+        description: 'Target version to check against chapter headers'
+        type: string
+        default: '2.4.0-alpha'
+      verbose:
+        description: 'Verbose output (print per-chapter detail)'
+        type: boolean
+        default: false
+      dry_run:
+        description: 'Dry run: detect and report drift but skip issue creation'
+        type: boolean
+        default: false
+
+concurrency:
+  group: maintenance-compendium-sync-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  drift-scan:
+    name: Compendium Drift Scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      stale_count: ${{ steps.scan.outputs.stale_count }}
+      missing_count: ${{ steps.scan.outputs.missing_count }}
+      total_issues: ${{ steps.scan.outputs.total_issues }}
+      report_md: ${{ steps.scan.outputs.report_md }}
+      report_json: ${{ steps.scan.outputs.report_json }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Resolve scan parameters
+        id: params
+        run: |
+          PRIORITY="${{ inputs.priority || 'medium' }}"
+          TARGET_VERSION="${{ inputs.target_version || '2.4.0-alpha' }}"
+          VERBOSE_FLAG=""
+          if [ "${{ inputs.verbose }}" = "true" ]; then
+            VERBOSE_FLAG="--verbose"
+          fi
+          {
+            echo "priority=${PRIORITY}"
+            echo "target_version=${TARGET_VERSION}"
+            echo "verbose_flag=${VERBOSE_FLAG}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Run compendium drift scan
+        id: scan
+        run: |
+          python3 scripts/compendium-drift-scan.py \
+            --priority "${{ steps.params.outputs.priority }}" \
+            --target-version "${{ steps.params.outputs.target_version }}" \
+            --out-json /tmp/compendium-drift.json \
+            --out-md /tmp/compendium-drift-summary.md \
+            --github-output \
+            ${{ steps.params.outputs.verbose_flag }} || true
+          # Note: script exits 1 on findings; we capture via outputs, not exit code.
+
+      - name: Upload drift report artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: compendium-drift-report
+          path: |
+            /tmp/compendium-drift.json
+            /tmp/compendium-drift-summary.md
+          retention-days: 14
+
+      - name: Print Markdown summary to workflow log
+        run: |
+          if [ -f /tmp/compendium-drift-summary.md ]; then
+            cat /tmp/compendium-drift-summary.md
+          fi
+
+  open-tracker-issue:
+    name: Open / Update Tracker Issue
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: drift-scan
+    if: >
+      needs.drift-scan.outputs.total_issues != '0' &&
+      inputs.dry_run != true
+    permissions:
+      contents: read
+      issues: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Download drift report
+        uses: actions/download-artifact@v4
+        with:
+          name: compendium-drift-report
+          path: /tmp/drift-report
+
+      - name: Read report summary
+        id: report
+        run: |
+          STALE="${{ needs.drift-scan.outputs.stale_count }}"
+          MISSING="${{ needs.drift-scan.outputs.missing_count }}"
+          TOTAL="${{ needs.drift-scan.outputs.total_issues }}"
+          {
+            echo "stale=${STALE}"
+            echo "missing=${MISSING}"
+            echo "total=${TOTAL}"
+          } >> "$GITHUB_OUTPUT"
+
+          # Embed the Markdown summary as issue body (truncated to 60 KB)
+          MD_BODY=""
+          if [ -f /tmp/drift-report/compendium-drift-summary.md ]; then
+            MD_BODY=$(head -c 60000 /tmp/drift-report/compendium-drift-summary.md)
+          fi
+          # Escape for GitHub Actions multiline output
+          MD_BODY="${MD_BODY//'%'/'%25'}"
+          MD_BODY="${MD_BODY//$'\n'/'%0A'}"
+          MD_BODY="${MD_BODY//$'\r'/'%0D'}"
+          echo "md_body=${MD_BODY}" >> "$GITHUB_OUTPUT"
+
+      - name: Open or update compendium drift tracker issue
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: upsert_issue
+          issue-title: '[Compendium] v2.4.0-alpha drift detected — chapters need update'
+          issue-marker: '<!-- compendium-drift:v2.4.0-alpha -->'
+          issue-body: |
+            <!-- compendium-drift:v2.4.0-alpha -->
+            ## Compendium Drift Report — v2.4.0-alpha
+
+            The scheduled compendium sync scan found documentation drift:
+
+            - **Stale chapters:** ${{ steps.report.outputs.stale }}
+            - **Missing chapters:** ${{ steps.report.outputs.missing }}
+            - **Total issues:** ${{ steps.report.outputs.total }}
+
+            **Target version:** `${{ inputs.target_version || '2.4.0-alpha' }}`
+            **Priority filter:** `${{ inputs.priority || 'medium' }}`
+
+            See the [workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) for the full artifact report (`compendium-drift-report`).
+
+            ---
+
+            ### Full Scan Summary
+
+            ${{ steps.report.outputs.md_body }}
+
+            ---
+
+            ### How to proceed (human-in-the-loop)
+
+            1. Download the `compendium-drift-report` artifact from the [workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}).
+            2. Review `compendium-drift-summary.md` and `compendium-drift.json` for chapter-level details.
+            3. For each stale chapter, open a focused PR against `develop` that updates the chapter content to reflect the v2.4.0-alpha state.
+            4. Use `docs/compendium/CHAPTER_ROADMAP_MAPPING.yml` as the chapter ↔ SOT mapping reference.
+            5. Follow `docs/compendium/COMPENDIUM_SYNC_PROCESS.md` for the full update procedure.
+            6. Request human review and merge only after approval.
+
+            **⚠ Do not auto-merge or silently overwrite chapter content.**
+
+            ---
+            - Scheduled scan: `maintenance-compendium-sync`
+            - Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            - Branch: `${{ github.ref_name }}`
+          labels-to-add: 'quality,documentation,status/needs-attention'
+          status-group: 'quality,documentation,status/needs-attention,status/resolved'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+  no-drift-close-issue:
+    name: Close Tracker Issue (no drift)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: drift-scan
+    if: >
+      needs.drift-scan.outputs.total_issues == '0' &&
+      inputs.dry_run != true
+    permissions:
+      contents: read
+      issues: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Resolve or close tracker issue
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: upsert_issue
+          issue-title: '[Compendium] v2.4.0-alpha drift detected — chapters need update'
+          issue-marker: '<!-- compendium-drift:v2.4.0-alpha -->'
+          issue-body: |
+            <!-- compendium-drift:v2.4.0-alpha -->
+            ## Compendium Drift Report — ✅ No drift detected
+
+            The scheduled compendium sync scan found **no stale or missing chapters** at priority `${{ inputs.priority || 'medium' }}` or above.
+
+            - Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            - Branch: `${{ github.ref_name }}`
+          labels-to-add: 'quality,documentation,status/resolved'
+          status-group: 'quality,documentation,status/needs-attention,status/resolved'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
