@@ -318,7 +318,7 @@ jobs:
 
           WIKI_REPO="${{ github.repository }}.wiki.git"
           WIKI_CLONE_DIR="/tmp/wiki-publish-clone"
-          WIKI_STAGING_DIR="/tmp/wiki-staging"
+          WIKI_STAGING_DIR="${{ steps.build.outputs.staging_dir }}"
 
           echo "::notice::Publishing wiki to GitHub repository: $WIKI_REPO"
 
@@ -329,11 +329,12 @@ jobs:
           fi
 
           # Set up secure git credentials via .netrc (avoids embedding token in config)
-          cat > ~/.netrc << EOF
-          machine github.com
-          login github-actions[bot]
-          password ${GH_TOKEN}
-          EOF
+          # Using tab-indented here-doc (<<-) to ensure no leading whitespace in .netrc file
+          cat > ~/.netrc <<-EOF
+          	machine github.com
+          	login github-actions[bot]
+          	password ${GH_TOKEN}
+          	EOF
           chmod 600 ~/.netrc
 
           # Clone the wiki repository
