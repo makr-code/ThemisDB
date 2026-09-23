@@ -27,7 +27,7 @@
     "docs/**/documentation-history/**",
     "docs/_standards/**",
     ".github/ISSUE_TEMPLATE/**/*.md",
-    "ai_working/**",
+    "**/ai_working/**",
     "ai_context/developer_llm_wiki/**"
   ],
   "max_scan_lines": 40,
