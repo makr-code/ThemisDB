@@ -96,7 +96,7 @@ jobs:
   build-and-push:
     name: "Build & Push Docker Image"
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 360
     # For workflow_dispatch and workflow_call: always run.
     if: >
       github.event_name == 'workflow_dispatch' ||
