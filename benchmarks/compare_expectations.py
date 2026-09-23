@@ -11,8 +11,7 @@ Usage:
     python3 benchmarks/compare_expectations.py \
         --src-dir src \
         --results-dir benchmarks/results \
-        --output benchmark_comparison_report.md \
-        [--regression-threshold 0.20]
+        --output benchmark_comparison_report.md
 
 Exit codes:
     0 — all covered targets PASS or WARN
@@ -112,11 +111,32 @@ def _parse_constraint(text: str) -> tuple[Optional[str], Optional[float], Option
 
 
 def _split_benchmark_cases(raw: str) -> list[str]:
-    """Split a comma/space-separated list of benchmark case names."""
-    # Each case typically looks like BM_Foo_Bar or Fixture/CaseName
+    """Split a comma/space-separated list of benchmark case names.
+
+    Handles both plain identifiers (``BM_Foo_Bar``, ``Fixture/CaseName``) and
+    Google Benchmark macro invocations such as ``BENCHMARK_F(Fixture, Case)``
+    or ``BENCHMARK(FuncName)``.  The latter are normalised to ``Fixture/Case``
+    or ``FuncName`` respectively so that they match Google Benchmark JSON
+    output names.  Trailing parametric annotations (e.g. ``/100``, ``/BM_*``)
+    are preserved as part of the identifier.
+    """
+    # Normalise BENCHMARK_F(Fixture, Case) → Fixture/Case
+    def _normalise_macro(token: str) -> str:
+        # BENCHMARK_F(Fixture, CaseName) or BENCHMARK_DEFINE_F(...)
+        m = re.match(r"BENCHMARK(?:_DEFINE)?_F\(\s*(\w+)\s*,\s*(\w+)\s*\)", token)
+        if m:
+            return f"{m.group(1)}/{m.group(2)}"
+        # BENCHMARK(FuncName)
+        m = re.match(r"BENCHMARK\(\s*(\w+)\s*\)", token)
+        if m:
+            return m.group(1)
+        return token
+
     parts = [p.strip().strip("`") for p in re.split(r"[,\n]+", raw) if p.strip()]
     result: list[str] = []
     for p in parts:
+        # Normalise macro notation before any further splitting
+        p = _normalise_macro(p.strip())
         # Further split on spaces only if they don't look like a single compound name
         for tok in p.split():
             cleaned = tok.strip("`")
@@ -132,6 +152,10 @@ def _parse_performance_expectations(path: Path, module: str) -> list[Expectation
 
     in_specific_table = False
     header_seen = False
+    # Column index map: populated from the header row
+    col_target_id: int = 0
+    col_expectation: int = 1
+    col_benchmark: int = 2
 
     for line in lines:
         # Detect the "Specific Expectations" section (English and German variants)
@@ -141,6 +165,7 @@ def _parse_performance_expectations(path: Path, module: str) -> list[Expectation
         ):
             in_specific_table = True
             header_seen = False
+            col_target_id, col_expectation, col_benchmark = 0, 1, 2
             continue
 
         # Exit section when a new ## heading starts
@@ -163,18 +188,34 @@ def _parse_performance_expectations(path: Path, module: str) -> list[Expectation
         if all(re.match(r"^[-:]+$", c) for c in cols if c):
             continue
 
-        # First content row after separator is the header
+        # First content row after separator is the header — detect column positions
         if not header_seen:
             header_seen = True
+            # Map header names to indices (case-insensitive, flexible naming)
+            _id_keywords = {"target id", "ziel-id", "gate id", "target-id", "ziel id", "id"}
+            _exp_keywords = {
+                "expectation", "erwartung", "target", "threshold",
+                "p95 target", "p99 target", "p50 target",
+            }
+            _bench_keywords = {"benchmark", "bench", "case", "test case"}
+            for idx, header in enumerate(cols):
+                h = header.lower().strip()
+                if h in _id_keywords:
+                    col_target_id = idx
+                elif any(k in h for k in _exp_keywords):
+                    col_expectation = idx
+                elif any(k in h for k in _bench_keywords):
+                    col_benchmark = idx
             continue
 
-        # We need at least 3 columns: Target ID | Expectation | Benchmark case
-        if len(cols) < 3:
+        # We need at least enough columns to satisfy all three mapped indices
+        needed = max(col_target_id, col_expectation, col_benchmark) + 1
+        if len(cols) < needed:
             continue
 
-        target_id = cols[0]
-        expectation_text = cols[1]
-        cases_raw = cols[2]
+        target_id = cols[col_target_id]
+        expectation_text = cols[col_expectation]
+        cases_raw = cols[col_benchmark]
 
         # Skip empty / header-looking rows
         if not target_id or target_id.lower() in (
@@ -283,15 +324,21 @@ def _evaluate_expectation(
     )
 
     # Match benchmark cases (exact name or prefix match for parametric cases)
+    seen_names: set[str] = set()
     matched: list[BenchmarkResult] = []
     for case_name in exp.benchmark_cases:
         if case_name in all_results:
-            matched.append(all_results[case_name])
+            if case_name not in seen_names:
+                seen_names.add(case_name)
+                matched.append(all_results[case_name])
         else:
             # Prefix match for parametric benchmarks like BM_Foo/100
             prefix_matches = [r for n, r in all_results.items()
-                              if n == case_name or n.startswith(case_name + "/")]
-            matched.extend(prefix_matches)
+                              if (n == case_name or n.startswith(case_name + "/"))
+                              and n not in seen_names]
+            for r in prefix_matches:
+                seen_names.add(r.name)
+                matched.append(r)
 
     verdict.matched_results = matched
 
@@ -581,12 +628,6 @@ def main() -> int:
         "--repo",
         default=os.environ.get("GITHUB_REPOSITORY", "makr-code/ThemisDB"),
         help="GitHub repository slug (owner/repo).",
-    )
-    parser.add_argument(
-        "--regression-threshold",
-        type=float,
-        default=0.20,
-        help="Regression tolerance for unconstrained baselines (default: 0.20 = 20%%).",
     )
     args = parser.parse_args()
 

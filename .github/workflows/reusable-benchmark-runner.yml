@@ -154,7 +154,8 @@ jobs:
           echo "FAIL_COUNT=${FAIL_COUNT}" >> "$GITHUB_ENV"
 
           echo "Completed: ${RUN_COUNT} benchmark(s) run, ${FAIL_COUNT} non-zero exit(s)."
-        continue-on-error: true   # Individual benchmark failures must not abort the pipeline
+        # Harness-level errors (e.g. missing build dir, failed find/mapfile) should fail the step.
+        # Individual benchmark binary failures are recorded in FAIL_COUNT but do not abort the loop.
 
       - name: Write run manifest
         run: |

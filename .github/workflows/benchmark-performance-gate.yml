@@ -94,11 +94,16 @@ jobs:
           if [[ -d "benchmark-artifacts/results" ]]; then
             COUNT=$(find benchmark-artifacts/results -name "*.json" | wc -l)
             echo "result_count=${COUNT}" >> "$GITHUB_OUTPUT"
+            if [[ "${COUNT}" -eq 0 ]]; then
+              echo "::error::Benchmark artifact present but contains 0 JSON result files; treating run as FAIL."
+              exit 1
+            fi
             echo "::notice::Found ${COUNT} benchmark result file(s)."
           else
             echo "result_count=0" >> "$GITHUB_OUTPUT"
-            echo "::warning::No benchmark results artifact found; report will show all targets as NOT_RUN."
+            echo "::error::No benchmark results artifact found; cannot produce a meaningful report."
             mkdir -p benchmark-artifacts/results
+            exit 1
           fi
 
       - name: Set up Python
@@ -127,6 +132,10 @@ jobs:
 
       - name: Upsert benchmark results tracker issue
         id: tracker
+        # Skip upsert when all targets pass and force_create_issue is not set
+        if: >-
+          steps.compare.outputs.compare_status == 'FAIL' ||
+          inputs.force_create_issue == true
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
