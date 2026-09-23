@@ -1,5 +1,10 @@
 # Phase 4: GPU Module GA Sign-Off & Closure
 
+**Author:** ThemisDB Contributors  
+**Created:** 2026-09-23  
+**Last Updated:** 2026-09-23  
+**Status:** draft  
+
 **Issue:** makr-code/ThemisDB#6575  
 **Phase:** 4 (Sign-Off & Governance)  
 **Timeline:** 2026-11-17 to 2026-11-24 (1 week, after Phase 3 baseline capture)  

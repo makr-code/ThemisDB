@@ -1,5 +1,10 @@
 # Phase 1: GPU Infrastructure Deployment — CPU Fallback Strategy
 
+**Author:** ThemisDB Contributors  
+**Created:** 2026-09-23  
+**Last Updated:** 2026-09-23  
+**Status:** approved  
+
 **Issue:** makr-code/ThemisDB#6575  
 **Phase:** 1 (Infrastructure Deployment)  
 **Status:** ✅ **COMPLETE** (with CPU fallback)  

@@ -1,5 +1,10 @@
 # ThemisDB GA Promotion — Final Governance Sign-Off
 
+**Author:** ThemisDB Contributors  
+**Created:** 2026-07-20  
+**Last Updated:** 2026-08-18  
+**Status:** review  
+
 **Document Type:** GA Gate Closure — Final Governance and Promotion Sign-Off  
 **Scope:** v2.4.0-rc1 → v2.4.0 GA — Batch D (Final)  
 **Date Opened:** 2026-07-20  
