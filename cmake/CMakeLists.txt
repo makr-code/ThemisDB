@@ -5402,6 +5402,16 @@ target_link_libraries(themis_demo
         themis_core
 )
 
+if(THEMIS_ENABLE_MIMALLOC AND mimalloc_FOUND)
+    if(WIN32 AND TARGET mimalloc)
+        target_link_libraries(themis_demo PRIVATE mimalloc)
+    elseif(TARGET mimalloc-static)
+        target_link_libraries(themis_demo PRIVATE mimalloc-static)
+    elseif(TARGET mimalloc)
+        target_link_libraries(themis_demo PRIVATE mimalloc)
+    endif()
+endif()
+
 # Encryption demo executable
 add_executable(themis_demo_encryption
     ../src/demo_encryption.cpp
