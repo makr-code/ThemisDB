@@ -1,6 +1,6 @@
 # Developer LLM Wiki -- Canonical AI Metadata and Provenance
 
-Datum: 2026-08-21
+Datum: 2026-09-23
 Status: Active
 Bezug: ThemisDB-weites Provenienz- und Degradationsmodell fuer menschliche, hybride und LLM-synthetische Inhalte
 Primary (Quelle der Wahrheit): include/llm_wiki/llm_wiki_plugin_interface.h, ai_working/AI_WIKI_INTEGRATION_PLAYBOOK.md, plugins/themisdb_llm_wiki/FUTURE_ENHANCEMENTS.md, plugins/themisdb_llm_wiki/ROADMAP.md

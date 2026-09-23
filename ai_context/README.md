@@ -1,6 +1,6 @@
 # ai_context
 
-Datum: 2026-07-28
+Datum: 2026-09-23
 Status: Active
 Bezug: Persistente Wissensbasis fuer AI-Agenten in ThemisDB
 Primary (Quelle der Wahrheit): ai_context/COPILOT_INSTRUCTIONS.md, DOCUMENTATION_GOVERNANCE.md, AI_WIKI_INTEGRATION_PLAYBOOK.md

@@ -1,3 +1,7 @@
+Datum: 2026-09-23
+Status: Generated
+Bezug: Automated module doxygen analysis and documentation inventory
+
 # Direct Doxygen Check: llm_wiki
 
 - Source mode: direct_doxygen_markers
