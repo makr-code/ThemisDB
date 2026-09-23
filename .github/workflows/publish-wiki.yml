@@ -103,6 +103,11 @@ concurrency:
   group: publish-wiki-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  # Single source of truth for tracking issue title
+  # Shared by wiki-pr-gate.yml and publish-wiki.yml to prevent drift
+  TRACKER_ISSUE_TITLE: "Wiki publish review: human sign-off tracker"
+
 jobs:
   publish-wiki:
     name: Build, validate and publish wiki
@@ -402,14 +407,13 @@ jobs:
           set -euo pipefail
 
           # Find and close the tracking issue by exact title match
-          # Use jq to filter for exact title match against all open issues up to limit
-          # Omit --search to avoid indexing delays; rely solely on jq filtering
+          # Use TRACKER_ISSUE_TITLE env var to ensure consistency with wiki-pr-gate.yml
           ISSUE_NUMBER=$(gh issue list \
             --repo "${{ github.repository }}" \
             --state open \
             --limit 500 \
             --json number,title \
-            --jq '.[] | select(.title == "Wiki publish review: human sign-off tracker") | .number' | head -1)
+            --jq ".[] | select(.title == \"${{ env.TRACKER_ISSUE_TITLE }}\") | .number" | head -1)
 
           if [ -z "$ISSUE_NUMBER" ]; then
             echo "::warning::Could not find open tracking issue to close"
