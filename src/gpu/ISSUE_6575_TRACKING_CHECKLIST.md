@@ -97,7 +97,8 @@
 |-------|------|----------|--------|-------------------|
 | 1 | Infrastructure Prep | 2–4 weeks | ✅ **COMPLETE** | GitHub Actions CI/CD, health check, test wrapper, CPU fallback (no GPU hardware required) |
 | 2 | CUDA Reduction | 3–6 weeks | ✅ **COMPLETE** | 75% reduction (255 calls), wrapper migration, measurement validated |
-| 3 | Baseline Capture | 1–2 weeks | 🟡 **READY** | Test orchestration ready, GPU/CPU modes, Phase 1 infrastructure unblocked |
+| 3 | Baseline Capture | 1–2 weeks | 🟡 **READY TO EXECUTE** | Phase 3 measurement orchestrator, Phase 3 CI/CD workflow, CPU fallback validation |
+| 4 | GA Sign-Off | 1 week | 🟡 **READY TO EXECUTE** | Phase 4 sign-off validator, governance sync, issue closure |
 | 4 | Sign-Off | 1 week | 🟡 **READY** | GA validator, governance sync, Phase 3 baseline unblocked |
 
 ---

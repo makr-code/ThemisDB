@@ -26,7 +26,15 @@ This document tracks the progress toward the Wave A GPU requirement: **reduce CU
 - **Remaining unchecked calls:** 85 (down from 340 baseline)
 - **Wave A Exit Status:** ✅ **PASS** — 75% > 40% target threshold
 - **Phase C Pre-Requisite:** ✅ **SATISFIED** — Wave A acceptance criteria met
-- **Phase 3 Ready:** ✅ **YES** — Framework ready (GPU optional, CPU guaranteed)
+- **Phase 3 Ready:** ✅ **YES** — Baseline measurement orchestrator deployed (GPU optional, CPU guaranteed)
+  - Phase 3 orchestrator: `scripts/phase3_baseline_measurement_orchestrator.py` (16.8 KB)
+  - Phase 3 workflow: `.github/workflows/wave-a-gpu-phase3-baseline-execution.yml` (17.8 KB)
+  - Execution modes: GPU (if hardware available), hybrid (GPU + CPU parallel), CPU-only (fallback)
+  - Output: `benchmarks/wave8/GPU_BASELINES_2026_Q4_MEASURED.json` (latency, throughput, CUDA metrics)
+- **Phase 4 Ready:** ✅ **YES** — GA sign-off validator deployed
+  - Phase 4 validator: `scripts/phase4_ga_sign_off_validator.py` (14.4 KB)
+  - Validates Phase 1-3 criteria, updates `docs/governance/GA_PROMOTION_SIGN_OFF.md` §Wave D
+  - Generates sign-off summary and approval checklist
 - **Phase D Target:** 85→51 calls required for full GA maturity (requires 34 more optimizations)
 
 ---
