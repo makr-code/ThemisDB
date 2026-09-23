@@ -95,6 +95,17 @@ class DocMetadataGateTests(unittest.TestCase):
         self.assertEqual(report.verdict, "PASS")
         self.assertEqual(report.files_checked, 0)
 
+    def test_gemini_exports_are_skipped(self) -> None:
+        file_path = self.root / "ai_context" / "research" / "gemini_exports" / "report.md"
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+        file_path.write_text("# Exported Report\n", encoding="utf-8")
+
+        report = gate.build_report(
+            ["ai_context/research/gemini_exports/report.md"], self.root, self.config
+        )
+        self.assertEqual(report.verdict, "PASS")
+        self.assertEqual(report.files_checked, 0)
+
 
 if __name__ == "__main__":
     unittest.main()
