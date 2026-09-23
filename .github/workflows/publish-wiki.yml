@@ -329,10 +329,15 @@ jobs:
           fi
 
           # Clone the wiki repository with OAuth2 credentials
-          # Token visible in process list only for the duration of this command
           git clone "https://oauth2:${GH_TOKEN}@github.com/${WIKI_REPO}" "$WIKI_CLONE_DIR"
 
           cd "$WIKI_CLONE_DIR"
+
+          # Remove credentials from the remote URL to avoid storing token in .git/config
+          # Configure git to provide credentials from environment for push operations
+          git remote set-url origin "https://github.com/${WIKI_REPO}"
+          git config credential.helper store
+          git config --add credential.helper '!f() { test "$1" = get && echo "username=oauth2\npassword='${GH_TOKEN}'"; }; f'
 
           # Configure git for commit
           git config user.name "github-actions[bot]"
@@ -366,8 +371,8 @@ jobs:
             git commit -m "$COMMIT_MSG"
 
             echo "::notice::Pushing $CHANGES file(s) to wiki repository"
-            # Push to origin remote with inline OAuth2 credentials
-            git push "https://oauth2:${GH_TOKEN}@github.com/${WIKI_REPO}" "$DEFAULT_BRANCH"
+            # Push to origin remote (credentials provided by credential helper)
+            git push origin "$DEFAULT_BRANCH"
 
             {
               echo "wiki_published=true"
