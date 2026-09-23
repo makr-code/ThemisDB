@@ -169,6 +169,24 @@ Der Zweck dieser Rollenaufteilung ist eine saubere Release-Kette:
 - `.github/workflows/security-fuzzing.yml`
   — Fuzz testing (libFuzzer targets: aql_parser, gguf_loader, grammar, …); schedule Sunday + dispatch
 
+### Approval & Synchronization Workflows (Extended)
+- `.github/workflows/release-mainline-approval.yml`
+  — GitHub Release approval & sign-off gate for promoted releases; maintainer-gated manual trigger
+- `.github/workflows/release-docker-approval.yml`
+  — Docker container image build approval gate; human-gated workflow_dispatch before docker push
+- `.github/workflows/release-windows-distro-approval.yml`
+  — Windows distribution (Scoop/Chocolatey) approval gate; maintainer confirmation before package submission
+- `.github/workflows/release-linux-distro-approval.yml`
+  — Linux distribution (DEB/RPM/apt) approval gate; maintainer confirmation before distro metadata publish
+- `.github/workflows/release-winget-approval.yml`
+  — WinGet community package approval gate; human-gated before fork-PR submission to microsoft/winget-pkgs
+- `.github/workflows/maintenance-compendium-sync.yml`
+  — Weekly compendium/knowledge-base synchronization; scans repository structure + metadata, updates cross-index references; schedule Monday
+- `.github/workflows/wiki-publish-from-issue.yml`
+  — Wiki publication approval + automation; triggered from issue comments or manual dispatch; routes to publish-wiki.yml via workflow_call with approval state
+- `.github/workflows/release-wordpress-press.yml`
+  — Press release / announcement generator and publisher; dispatch-only; generates markdown → WordPress API submission
+
 ## Governance fuer neue Workflows
 Neue Workflow-Dateien sind nur erlaubt, wenn mindestens einer der Punkte zutrifft:
 - Erforderlich fuer ein neues Release-Artefakt oder ein verpflichtendes Compliance-Gate.
@@ -219,7 +237,7 @@ Geplante Dateinamen-Harmonisierung (Soll-Format aus Workflow-Design):
 - `.github/docs/WORKFLOW_FILENAME_RENAME_MATRIX.md`
 
 ## Stand
-- Aktive Workflows im Verzeichnis `.github/workflows/`: 56
+- Aktive Workflows im Verzeichnis `.github/workflows/`: 73
 - Deaktivierte Workflows in `.github/no_workflows/`: 31
 - Strategie: Lean + harte Triggergrenzen + Quarantaene fuer uebertriggernde CI
 - Der 21er-Zähler war im vorherigen Dokumentationsstand veraltet; der aktuelle Stand wird durch die kanonische Liste in diesem Registry-Dokument und die zugehörigen Workflow-Dateien definiert.
