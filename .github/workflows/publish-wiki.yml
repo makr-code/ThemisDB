@@ -82,6 +82,12 @@ on:
         default: 'true'
         type: choice
         options: ['false', 'true']
+      approve_and_publish:
+        description: 'Human approval: approve review and publish to GitHub wiki repository'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['false', 'true']
 
 permissions:
   actions: write
@@ -298,11 +304,91 @@ jobs:
             || echo "::warning::AI enrichment failed or partially completed; continuing."
 
       # -----------------------------------------------------------------------
-      # Phase 3: Hand off to the human-review PR gate
+      # Phase 3: Publish to GitHub wiki repository (on human approval)
+      # -----------------------------------------------------------------------
+      - name: Publish wiki to GitHub repository
+        id: publish
+        if: |
+          steps.build.outputs.is_dry_run != 'true' &&
+          github.event.inputs.approve_and_publish == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          WIKI_REPO="${{ github.repository }}.wiki.git"
+          WIKI_CLONE_DIR="/tmp/wiki-publish-clone"
+          WIKI_STAGING_DIR="${{ steps.build.outputs.staging_dir }}"
+
+          echo "::notice::Publishing wiki to GitHub repository: $WIKI_REPO"
+
+          # Verify staging directory exists and is non-empty
+          if [ ! -d "$WIKI_STAGING_DIR" ] || [ -z "$(find "$WIKI_STAGING_DIR" -type f 2>/dev/null | head -1)" ]; then
+            echo "::error::Wiki staging directory is empty or missing: $WIKI_STAGING_DIR"
+            exit 1
+          fi
+
+          # Clone the wiki repository with OAuth2 credentials
+          git clone "https://oauth2:${GH_TOKEN}@github.com/${WIKI_REPO}" "$WIKI_CLONE_DIR"
+
+          cd "$WIKI_CLONE_DIR"
+
+          # Configure git for commit
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Detect the default branch (handles both master and main conventions)
+          # Primary method: git remote show origin | awk
+          # Fallback: git symbolic-ref, then master
+          DEFAULT_BRANCH=$(git remote show origin 2>/dev/null | awk '/HEAD branch/ {print $NF}' || echo "")
+          if [ -z "$DEFAULT_BRANCH" ]; then
+            # Only fall back to symbolic-ref if remote show returned nothing
+            DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' || echo "master")
+          fi
+          echo "::notice::Detected wiki default branch: $DEFAULT_BRANCH"
+
+          # Remove all old files and directories at top level (staging will provide complete content)
+          # This includes .md files, images, attachments, .nojekyll, etc.
+          find . -maxdepth 1 -type f -delete
+          # Remove subdirectories one at a time with -r flag for xargs to handle empty input
+          find . -maxdepth 1 -type d -not -name '.' -not -name '.git' -print0 | xargs -r -0 rm -rf
+
+          # Copy new pages from staging (complete set including all file types)
+          # Using /. syntax to copy all contents including dotfiles reliably
+          cp -r "$WIKI_STAGING_DIR"/. .
+
+          # Check for changes using a reliable method that counts files, not newlines
+          git add .
+          CHANGES=$(git diff --cached --name-only | wc -l)
+
+          if [ "$CHANGES" -gt 0 ]; then
+            COMMIT_MSG="docs: update wiki from repository (run ${{ github.run_number }}, commit ${{ github.sha }})"
+            git commit -m "$COMMIT_MSG"
+
+            echo "::notice::Pushing $CHANGES file(s) to wiki repository"
+            # Push to origin remote with inline OAuth2 credentials
+            git push "https://oauth2:${GH_TOKEN}@github.com/${WIKI_REPO}" "$DEFAULT_BRANCH"
+
+            {
+              echo "wiki_published=true"
+              echo "changes_pushed=$CHANGES"
+            } >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::No changes to publish"
+            {
+              echo "wiki_published=no_changes"
+              echo "changes_pushed=0"
+            } >> "$GITHUB_OUTPUT"
+          fi
+
+      # -----------------------------------------------------------------------
+      # Phase 3a: Hand off to the human-review PR gate (if not published)
       # -----------------------------------------------------------------------
       - name: Dispatch wiki review gate
         id: review_dispatch
-        if: steps.build.outputs.is_dry_run != 'true'
+        if: |
+          steps.build.outputs.is_dry_run != 'true' &&
+          github.event.inputs.approve_and_publish != 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
