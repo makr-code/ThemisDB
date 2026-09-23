@@ -385,6 +385,9 @@ def main() -> int:
     coverage_summary_path: Path | None = None
     waived_gates: List[str] = []
     waiver_active = False
+    threshold = load_coverage_threshold(repo_root)
+    base_ref = args.base_ref
+    release_lane = base_ref in RELEASE_BRANCHES
 
     try:
         changed_files = get_changed_files(repo_root, args.base_ref)
@@ -398,9 +401,6 @@ def main() -> int:
             if _phase6_complete(repo_root / "src" / module / "ROADMAP.md")
         ]
 
-        threshold = load_coverage_threshold(repo_root)
-        base_ref = args.base_ref
-        release_lane = base_ref in RELEASE_BRANCHES
         waived_gates = sorted(
             {
                 gate.strip().upper()
