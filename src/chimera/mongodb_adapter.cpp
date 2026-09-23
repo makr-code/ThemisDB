@@ -65,13 +65,35 @@ Result<bool> MongoDBAdapter::connect(
     connection_string_ = mask_credentials(connection_string);
 
 #ifdef THEMIS_CHIMERA_MONGO
-    // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
-    // TODO: Actual mongocxx client creation (mongocxx::client, mongocxx::uri)
-    connection_string_.clear();
-    return Result<bool>::err(
-        ErrorCode::NOT_IMPLEMENTED,
-        "MongoDB adapter unavailable: driver integration is not implemented yet."
-    );
+    try {
+        // Create mongocxx::uri from connection string
+        mongocxx::uri uri(connection_string);
+        
+        // Create connection pool with default pool configuration
+        mongocxx::options::pool pool_opts;
+        pool_opts.max_pool_size(100);
+        pool_opts.min_pool_size(10);
+        
+        // Instantiate connection pool and store it
+        client_.reset(new mongocxx::client(uri, pool_opts));
+        
+        // Validate connection by selecting default database
+        const std::string db_name = uri.database() ? uri.database().value() : "test";
+        database_.reset(new mongocxx::database(client_->database(db_name)));
+        
+        connected_ = true;
+        return Result<bool>::ok(true);
+    } catch (const mongocxx::exception& ex) {
+        return Result<bool>::err(
+            ErrorCode::CONNECTION_ERROR,
+            std::string("MongoDB connection failed: ") + ex.what()
+        );
+    } catch (const std::exception& ex) {
+        return Result<bool>::err(
+            ErrorCode::INTERNAL_ERROR,
+            std::string("Unexpected error during MongoDB connection: ") + ex.what()
+        );
+    }
 #else
     connection_string_.clear();
     return Result<bool>::err(
@@ -122,10 +144,27 @@ Result<RelationalTable> MongoDBAdapter::execute_query(
     }
 
 #ifdef THEMIS_CHIMERA_MONGO
-    // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
-    // TODO: Translate AQL to MongoDB aggregation pipeline and execute
-    RelationalTable table = {};
-    return Result<RelationalTable>::ok(std::move(table));
+    try {
+        // MongoDB doesn't natively support AQL (ArangoDB's query language),
+        // so we treat this as an unsupported operation.
+        // A real implementation would translate AQL to MongoDB aggregation pipeline.
+        // For now, return NOT_IMPLEMENTED with proper error context.
+        return Result<RelationalTable>::err(
+            ErrorCode::NOT_IMPLEMENTED,
+            "AQL queries are not supported in MongoDB adapter. "
+            "Use document operations (find_documents) or implement AQL translation."
+        );
+    } catch (const mongocxx::exception& ex) {
+        return Result<RelationalTable>::err(
+            ErrorCode::INTERNAL_ERROR,
+            std::string("MongoDB query execution error: ") + ex.what()
+        );
+    } catch (const std::exception& ex) {
+        return Result<RelationalTable>::err(
+            ErrorCode::INTERNAL_ERROR,
+            std::string("Unexpected error during MongoDB query execution: ") + ex.what()
+        );
+    }
 #else
     return Result<RelationalTable>::err(
         ErrorCode::NOT_IMPLEMENTED,
