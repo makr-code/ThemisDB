@@ -1,0 +1,961 @@
+{
+  "workflows": [
+    {
+      "filename": "build-benchmarks.yml",
+      "current_name": "Build: Benchmarks",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "schedule",
+      "secondary_tags": [
+        "testing"
+      ],
+      "recommended_emoji": "\ud83d\udcc5\ud83e\uddea",
+      "new_name": "\ud83d\udcc5\ud83e\uddea Build: Benchmarks"
+    },
+    {
+      "filename": "build-content-regression.yml",
+      "current_name": "Build: Content Regression [Wave D]",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "schedule",
+      "secondary_tags": [
+        "testing"
+      ],
+      "recommended_emoji": "\ud83d\udcc5\ud83e\uddea",
+      "new_name": "\ud83d\udcc5\ud83e\uddea Build: Content Regression [Wave D]"
+    },
+    {
+      "filename": "build-llm-inference.yml",
+      "current_name": "Build: LLM Inferencing [TinyLlama + doku.db RAG + AdaLoRA]",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "schedule",
+      "secondary_tags": [],
+      "recommended_emoji": "\ud83d\udcc5",
+      "new_name": "\ud83d\udcc5 Build: LLM Inferencing [TinyLlama + doku.db RAG + AdaLoRA]"
+    },
+    {
+      "filename": "compliance-governance-gates.yml",
+      "current_name": "Compliance: Governance Gates",
+      "triggers": [
+        "pull_request",
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "schedule",
+      "secondary_tags": [
+        "governance",
+        "testing"
+      ],
+      "recommended_emoji": "\ud83d\udcc5\ud83c\udfaf\ud83e\uddea",
+      "new_name": "\ud83d\udcc5\ud83c\udfaf\ud83e\uddea Compliance: Governance Gates"
+    },
+    {
+      "filename": "compliance-supply-chain.yml",
+      "current_name": "Compliance: Supply Chain",
+      "triggers": [
+        "release",
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "schedule",
+      "secondary_tags": [
+        "governance",
+        "testing"
+      ],
+      "recommended_emoji": "\ud83d\udcc5\ud83c\udfaf\ud83e\uddea",
+      "new_name": "\ud83d\udcc5\ud83c\udfaf\ud83e\uddea Compliance: Supply Chain"
+    },
+    {
+      "filename": "maintenance-build-issues.yml",
+      "current_name": "Maintenance: Build Error Issues",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "schedule",
+      "secondary_tags": [
+        "maintenance"
+      ],
+      "recommended_emoji": "\ud83d\udcc5\ud83d\udd27",
+      "new_name": "\ud83d\udcc5\ud83d\udd27 Maintenance: Build Error Issues"
+    },
+    {
+      "filename": "maintenance-docs-db-build.yml",
+      "current_name": "Maintenance: Docs-to-ThemisDB Database Build",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "schedule",
+      "secondary_tags": [
+        "documentation",
+        "maintenance"
+      ],
+      "recommended_emoji": "\ud83d\udcc5\ud83d\udcdd\ud83d\udd27",
+      "new_name": "\ud83d\udcc5\ud83d\udcdd\ud83d\udd27 Maintenance: Docs-to-ThemisDB Database Build"
+    },
+    {
+      "filename": "maintenance-docs.yml",
+      "current_name": "Maintenance: Docs",
+      "triggers": [
+        "push",
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "schedule",
+      "secondary_tags": [
+        "documentation",
+        "maintenance"
+      ],
+      "recommended_emoji": "\ud83d\udcc5\ud83d\udcdd\ud83d\udd27",
+      "new_name": "\ud83d\udcc5\ud83d\udcdd\ud83d\udd27 Maintenance: Docs"
+    },
+    {
+      "filename": "maintenance-soll-ist-gap-issues.yml",
+      "current_name": "maintenance-soll-ist-gap-issues",
+      "triggers": [
+        "schedule"
+      ],
+      "primary_trigger": "schedule",
+      "secondary_tags": [
+        "maintenance"
+      ],
+      "recommended_emoji": "\ud83d\udcc5\ud83d\udd27",
+      "new_name": "\ud83d\udcc5\ud83d\udd27 maintenance-soll-ist-gap-issues"
+    },
+    {
+      "filename": "maintenance-workflow-guardrails-observe.yml",
+      "current_name": "Maintenance: Workflow Guardrails [Observe]",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "schedule",
+      "secondary_tags": [
+        "maintenance"
+      ],
+      "recommended_emoji": "\ud83d\udcc5\ud83d\udd27",
+      "new_name": "\ud83d\udcc5\ud83d\udd27 Maintenance: Workflow Guardrails [Observe]"
+    },
+    {
+      "filename": "publish-wiki.yml",
+      "current_name": "Publish: GitHub Wiki",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch",
+        "workflow_run"
+      ],
+      "primary_trigger": "schedule",
+      "secondary_tags": [
+        "documentation"
+      ],
+      "recommended_emoji": "\ud83d\udcc5\ud83d\udcdd",
+      "new_name": "\ud83d\udcc5\ud83d\udcdd Publish: GitHub Wiki"
+    },
+    {
+      "filename": "security-codeql.yml",
+      "current_name": "Security: CodeQL",
+      "triggers": [
+        "pull_request",
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "schedule",
+      "secondary_tags": [
+        "security"
+      ],
+      "recommended_emoji": "\ud83d\udcc5\ud83d\udee1\ufe0f",
+      "new_name": "\ud83d\udcc5\ud83d\udee1\ufe0f Security: CodeQL"
+    },
+    {
+      "filename": "security-pentest-quarterly.yml",
+      "current_name": "Security: Quarterly Pentest Cadence",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "schedule",
+      "secondary_tags": [
+        "security",
+        "testing"
+      ],
+      "recommended_emoji": "\ud83d\udcc5\ud83d\udee1\ufe0f\ud83e\uddea",
+      "new_name": "\ud83d\udcc5\ud83d\udee1\ufe0f\ud83e\uddea Security: Quarterly Pentest Cadence"
+    },
+    {
+      "filename": "wiki-pr-gate.yml",
+      "current_name": "Maintenance: Wiki PR Gate",
+      "triggers": [
+        "schedule",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "schedule",
+      "secondary_tags": [
+        "documentation",
+        "governance",
+        "testing"
+      ],
+      "recommended_emoji": "\ud83d\udcc5\ud83d\udcdd\ud83c\udfaf\ud83e\uddea",
+      "new_name": "\ud83d\udcc5\ud83d\udcdd\ud83c\udfaf\ud83e\uddea Maintenance: Wiki PR Gate"
+    },
+    {
+      "filename": "copilot-code-review.yml",
+      "current_name": "Copilot: Code Review Setup",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "primary_trigger": "push",
+      "secondary_tags": [],
+      "recommended_emoji": "\ud83d\udd04",
+      "new_name": "\ud83d\udd04 Copilot: Code Review Setup"
+    },
+    {
+      "filename": "edition-hyperscaler-ci.yml",
+      "current_name": "Edition: Hyperscaler [CI]",
+      "triggers": [
+        "push"
+      ],
+      "primary_trigger": "push",
+      "secondary_tags": [],
+      "recommended_emoji": "\ud83d\udd04",
+      "new_name": "\ud83d\udd04 Edition: Hyperscaler [CI]"
+    },
+    {
+      "filename": "gate-pr-community-failclosed.yml",
+      "current_name": "Gate: PR Core [Community Fail-Closed]",
+      "triggers": [
+        "pull_request",
+        "push",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "push",
+      "secondary_tags": [
+        "governance",
+        "testing"
+      ],
+      "recommended_emoji": "\ud83d\udd04\ud83c\udfaf\ud83e\uddea",
+      "new_name": "\ud83d\udd04\ud83c\udfaf\ud83e\uddea Gate: PR Core [Community Fail-Closed]"
+    },
+    {
+      "filename": "gate-pr-core.yml",
+      "current_name": "Gate: PR Core",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "push",
+      "secondary_tags": [
+        "governance",
+        "testing"
+      ],
+      "recommended_emoji": "\ud83d\udd04\ud83c\udfaf\ud83e\uddea",
+      "new_name": "\ud83d\udd04\ud83c\udfaf\ud83e\uddea Gate: PR Core"
+    },
+    {
+      "filename": "gate-pr-doc-metadata.yml",
+      "current_name": "Gate: PR Doc Metadata",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "push",
+      "secondary_tags": [
+        "governance",
+        "testing"
+      ],
+      "recommended_emoji": "\ud83d\udd04\ud83c\udfaf\ud83e\uddea",
+      "new_name": "\ud83d\udd04\ud83c\udfaf\ud83e\uddea Gate: PR Doc Metadata"
+    },
+    {
+      "filename": "gate-pr-edition-license.yml",
+      "current_name": "Gate: PR Core [Edition & License]",
+      "triggers": [
+        "pull_request",
+        "push",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "push",
+      "secondary_tags": [
+        "governance",
+        "testing"
+      ],
+      "recommended_emoji": "\ud83d\udd04\ud83c\udfaf\ud83e\uddea",
+      "new_name": "\ud83d\udd04\ud83c\udfaf\ud83e\uddea Gate: PR Core [Edition & License]"
+    },
+    {
+      "filename": "gate-pr-hash-sbom.yml",
+      "current_name": "Gate: PR Core [Hash & SBOM Integrity]",
+      "triggers": [
+        "pull_request",
+        "push",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "push",
+      "secondary_tags": [
+        "governance",
+        "testing"
+      ],
+      "recommended_emoji": "\ud83d\udd04\ud83c\udfaf\ud83e\uddea",
+      "new_name": "\ud83d\udd04\ud83c\udfaf\ud83e\uddea Gate: PR Core [Hash & SBOM Integrity]"
+    },
+    {
+      "filename": "gate-pr-plugin-boundary.yml",
+      "current_name": "Gate: PR Core [Plugin Boundary]",
+      "triggers": [
+        "pull_request",
+        "push",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "push",
+      "secondary_tags": [
+        "governance",
+        "testing"
+      ],
+      "recommended_emoji": "\ud83d\udd04\ud83c\udfaf\ud83e\uddea",
+      "new_name": "\ud83d\udd04\ud83c\udfaf\ud83e\uddea Gate: PR Core [Plugin Boundary]"
+    },
+    {
+      "filename": "gate-wave-closure.yml",
+      "current_name": "Gate: Wave Closure Governance",
+      "triggers": [
+        "pull_request",
+        "push"
+      ],
+      "primary_trigger": "push",
+      "secondary_tags": [
+        "governance",
+        "testing"
+      ],
+      "recommended_emoji": "\ud83d\udd04\ud83c\udfaf\ud83e\uddea",
+      "new_name": "\ud83d\udd04\ud83c\udfaf\ud83e\uddea Gate: Wave Closure Governance"
+    },
+    {
+      "filename": "maintenance-ai-working.yml",
+      "current_name": "Maintenance: AI Working Cleanup - LLM Wiki",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "push",
+      "secondary_tags": [
+        "maintenance"
+      ],
+      "recommended_emoji": "\ud83d\udd04\ud83d\udd27",
+      "new_name": "\ud83d\udd04\ud83d\udd27 Maintenance: AI Working Cleanup - LLM Wiki"
+    },
+    {
+      "filename": "maintenance-architecture-ci.yml",
+      "current_name": "Maintenance: Architecture CI",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "push",
+      "secondary_tags": [
+        "maintenance"
+      ],
+      "recommended_emoji": "\ud83d\udd04\ud83d\udd27",
+      "new_name": "\ud83d\udd04\ud83d\udd27 Maintenance: Architecture CI"
+    },
+    {
+      "filename": "maintenance-housekeeping.yml",
+      "current_name": "Maintenance: Housekeeping",
+      "triggers": [
+        "pull_request",
+        "push",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "push",
+      "secondary_tags": [
+        "maintenance"
+      ],
+      "recommended_emoji": "\ud83d\udd04\ud83d\udd27",
+      "new_name": "\ud83d\udd04\ud83d\udd27 Maintenance: Housekeeping"
+    },
+    {
+      "filename": "release-docker-image.yml",
+      "current_name": "Release: Docker Image Consumer",
+      "triggers": [
+        "push",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "push",
+      "secondary_tags": [],
+      "recommended_emoji": "\ud83d\udd04",
+      "new_name": "\ud83d\udd04 Release: Docker Image Consumer"
+    },
+    {
+      "filename": "release-mainline.yml",
+      "current_name": "Release: Packaging",
+      "triggers": [
+        "push",
+        "release",
+        "workflow_call",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "push",
+      "secondary_tags": [],
+      "recommended_emoji": "\ud83d\udd04",
+      "new_name": "\ud83d\udd04 Release: Packaging"
+    },
+    {
+      "filename": "build-ollama-router.yml",
+      "current_name": "Build: Copilot Ollama Router",
+      "triggers": [
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "pull_request",
+      "secondary_tags": [],
+      "recommended_emoji": "\ud83d\udd04",
+      "new_name": "\ud83d\udd04 Build: Copilot Ollama Router"
+    },
+    {
+      "filename": "ga-promotion-signoff.yml",
+      "current_name": "Governance: GA Promotion Sign-Off",
+      "triggers": [
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "pull_request",
+      "secondary_tags": [
+        "governance"
+      ],
+      "recommended_emoji": "\ud83d\udd04\ud83c\udfaf",
+      "new_name": "\ud83d\udd04\ud83c\udfaf Governance: GA Promotion Sign-Off"
+    },
+    {
+      "filename": "gate-distributed-knowledge.yml",
+      "current_name": "Gate: Module Validation [distributed_knowledge]",
+      "triggers": [
+        "pull_request",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "pull_request",
+      "secondary_tags": [
+        "governance",
+        "testing"
+      ],
+      "recommended_emoji": "\ud83d\udd04\ud83c\udfaf\ud83e\uddea",
+      "new_name": "\ud83d\udd04\ud83c\udfaf\ud83e\uddea Gate: Module Validation [distributed_knowledge]"
+    },
+    {
+      "filename": "benchmark-performance-gate.yml",
+      "current_name": "Benchmark: Performance Gate",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "workflow_dispatch",
+      "secondary_tags": [
+        "governance",
+        "testing"
+      ],
+      "recommended_emoji": "\u23f1\ufe0f\ud83c\udfaf\ud83e\uddea",
+      "new_name": "\u23f1\ufe0f\ud83c\udfaf\ud83e\uddea Benchmark: Performance Gate"
+    },
+    {
+      "filename": "build-clang-fast.yml",
+      "current_name": "Build: Clang Fast",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "workflow_dispatch",
+      "secondary_tags": [],
+      "recommended_emoji": "\u23f1\ufe0f",
+      "new_name": "\u23f1\ufe0f Build: Clang Fast"
+    },
+    {
+      "filename": "build-mainline.yml",
+      "current_name": "Build: Mainline",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "workflow_dispatch",
+      "secondary_tags": [],
+      "recommended_emoji": "\u23f1\ufe0f",
+      "new_name": "\u23f1\ufe0f Build: Mainline"
+    },
+    {
+      "filename": "build-sanitizer-nightly.yml",
+      "current_name": "Build: Sanitizer Nightly",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "workflow_dispatch",
+      "secondary_tags": [],
+      "recommended_emoji": "\u23f1\ufe0f",
+      "new_name": "\u23f1\ufe0f Build: Sanitizer Nightly"
+    },
+    {
+      "filename": "build-wave-a-gpu.yml",
+      "current_name": "Build: Wave A GPU",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "workflow_dispatch",
+      "secondary_tags": [],
+      "recommended_emoji": "\u23f1\ufe0f",
+      "new_name": "\u23f1\ufe0f Build: Wave A GPU"
+    },
+    {
+      "filename": "build-wave-b-transaction.yml",
+      "current_name": "Build: Wave B Transaction",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "workflow_dispatch",
+      "secondary_tags": [],
+      "recommended_emoji": "\u23f1\ufe0f",
+      "new_name": "\u23f1\ufe0f Build: Wave B Transaction"
+    },
+    {
+      "filename": "gate-copilot-regression.yml",
+      "current_name": "Gate: Copilot Regression",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "workflow_dispatch",
+      "secondary_tags": [
+        "governance",
+        "testing"
+      ],
+      "recommended_emoji": "\u23f1\ufe0f\ud83c\udfaf\ud83e\uddea",
+      "new_name": "\u23f1\ufe0f\ud83c\udfaf\ud83e\uddea Gate: Copilot Regression"
+    },
+    {
+      "filename": "gate-pr-doxygen-governance.yml",
+      "current_name": "Gate: PR Doxygen Governance",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "workflow_dispatch",
+      "secondary_tags": [
+        "documentation",
+        "governance",
+        "testing"
+      ],
+      "recommended_emoji": "\u23f1\ufe0f\ud83d\udcdd\ud83c\udfaf\ud83e\uddea",
+      "new_name": "\u23f1\ufe0f\ud83d\udcdd\ud83c\udfaf\ud83e\uddea Gate: PR Doxygen Governance"
+    },
+    {
+      "filename": "gate-pr-module-doxygen-xml.yml",
+      "current_name": "Gate: PR Module Doxygen XML",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "workflow_dispatch",
+      "secondary_tags": [
+        "documentation",
+        "governance",
+        "testing"
+      ],
+      "recommended_emoji": "\u23f1\ufe0f\ud83d\udcdd\ud83c\udfaf\ud83e\uddea",
+      "new_name": "\u23f1\ufe0f\ud83d\udcdd\ud83c\udfaf\ud83e\uddea Gate: PR Module Doxygen XML"
+    },
+    {
+      "filename": "gate-pr-primary-doc-structure.yml",
+      "current_name": "Gate: PR Primary Doc Structure",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "workflow_dispatch",
+      "secondary_tags": [
+        "governance",
+        "testing"
+      ],
+      "recommended_emoji": "\u23f1\ufe0f\ud83c\udfaf\ud83e\uddea",
+      "new_name": "\u23f1\ufe0f\ud83c\udfaf\ud83e\uddea Gate: PR Primary Doc Structure"
+    },
+    {
+      "filename": "maintenance-ci-health.yml",
+      "current_name": "Maintenance: CI Health Dashboard",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "workflow_dispatch",
+      "secondary_tags": [
+        "maintenance"
+      ],
+      "recommended_emoji": "\u23f1\ufe0f\ud83d\udd27",
+      "new_name": "\u23f1\ufe0f\ud83d\udd27 Maintenance: CI Health Dashboard"
+    },
+    {
+      "filename": "maintenance-compendium-sync.yml",
+      "current_name": "Maintenance: Compendium Sync",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "workflow_dispatch",
+      "secondary_tags": [
+        "maintenance"
+      ],
+      "recommended_emoji": "\u23f1\ufe0f\ud83d\udd27",
+      "new_name": "\u23f1\ufe0f\ud83d\udd27 Maintenance: Compendium Sync"
+    },
+    {
+      "filename": "maintenance-issues.yml",
+      "current_name": "Maintenance: Issues [GS3 + Security Alerts]",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "workflow_dispatch",
+      "secondary_tags": [
+        "maintenance"
+      ],
+      "recommended_emoji": "\u23f1\ufe0f\ud83d\udd27",
+      "new_name": "\u23f1\ufe0f\ud83d\udd27 Maintenance: Issues [GS3 + Security Alerts]"
+    },
+    {
+      "filename": "maintenance-pr-failure-diagnosis.yml",
+      "current_name": "Maintenance: PR Failure Diagnosis [Recommend-Only]",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "workflow_dispatch",
+      "secondary_tags": [
+        "maintenance"
+      ],
+      "recommended_emoji": "\u23f1\ufe0f\ud83d\udd27",
+      "new_name": "\u23f1\ufe0f\ud83d\udd27 Maintenance: PR Failure Diagnosis [Recommend-Only]"
+    },
+    {
+      "filename": "release-linux-distribution.yml",
+      "current_name": "Release: Linux Distribution Consumer",
+      "triggers": [
+        "release",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "workflow_dispatch",
+      "secondary_tags": [],
+      "recommended_emoji": "\u23f1\ufe0f",
+      "new_name": "\u23f1\ufe0f Release: Linux Distribution Consumer"
+    },
+    {
+      "filename": "release-nightly.yml",
+      "current_name": "Release: Nightly",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "workflow_dispatch",
+      "secondary_tags": [],
+      "recommended_emoji": "\u23f1\ufe0f",
+      "new_name": "\u23f1\ufe0f Release: Nightly"
+    },
+    {
+      "filename": "release-promote.yml",
+      "current_name": "Release: Promote (Semi-Automatic)",
+      "triggers": [
+        "release",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "workflow_dispatch",
+      "secondary_tags": [],
+      "recommended_emoji": "\u23f1\ufe0f",
+      "new_name": "\u23f1\ufe0f Release: Promote (Semi-Automatic)"
+    },
+    {
+      "filename": "release-windows-distribution.yml",
+      "current_name": "Release: Windows Distribution Consumer",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "workflow_dispatch",
+      "secondary_tags": [],
+      "recommended_emoji": "\u23f1\ufe0f",
+      "new_name": "\u23f1\ufe0f Release: Windows Distribution Consumer"
+    },
+    {
+      "filename": "release-winget.yml",
+      "current_name": "Release: WinGet Consumer",
+      "triggers": [
+        "release",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "workflow_dispatch",
+      "secondary_tags": [],
+      "recommended_emoji": "\u23f1\ufe0f",
+      "new_name": "\u23f1\ufe0f Release: WinGet Consumer"
+    },
+    {
+      "filename": "release-wordpress-press.yml",
+      "current_name": "Release: WordPress Press",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "workflow_dispatch",
+      "secondary_tags": [],
+      "recommended_emoji": "\u23f1\ufe0f",
+      "new_name": "\u23f1\ufe0f Release: WordPress Press"
+    },
+    {
+      "filename": "security-consolidated.yml",
+      "current_name": "Security: Consolidated Scans",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "workflow_dispatch",
+      "secondary_tags": [
+        "security"
+      ],
+      "recommended_emoji": "\u23f1\ufe0f\ud83d\udee1\ufe0f",
+      "new_name": "\u23f1\ufe0f\ud83d\udee1\ufe0f Security: Consolidated Scans"
+    },
+    {
+      "filename": "security-dast-zap.yml",
+      "current_name": "Security: OWASP ZAP DAST",
+      "triggers": [
+        "workflow_call",
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "workflow_dispatch",
+      "secondary_tags": [
+        "security"
+      ],
+      "recommended_emoji": "\u23f1\ufe0f\ud83d\udee1\ufe0f",
+      "new_name": "\u23f1\ufe0f\ud83d\udee1\ufe0f Security: OWASP ZAP DAST"
+    },
+    {
+      "filename": "security-fortify.yml",
+      "current_name": "Security: Fortify AST Scan [Scheduled]",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "workflow_dispatch",
+      "secondary_tags": [
+        "security"
+      ],
+      "recommended_emoji": "\u23f1\ufe0f\ud83d\udee1\ufe0f",
+      "new_name": "\u23f1\ufe0f\ud83d\udee1\ufe0f Security: Fortify AST Scan [Scheduled]"
+    },
+    {
+      "filename": "security-fuzzing.yml",
+      "current_name": "Security: Fuzzing",
+      "triggers": [
+        "workflow_dispatch"
+      ],
+      "primary_trigger": "workflow_dispatch",
+      "secondary_tags": [
+        "security"
+      ],
+      "recommended_emoji": "\u23f1\ufe0f\ud83d\udee1\ufe0f",
+      "new_name": "\u23f1\ufe0f\ud83d\udee1\ufe0f Security: Fuzzing"
+    },
+    {
+      "filename": "release-changelog.yml",
+      "current_name": "Release: Changelog",
+      "triggers": [
+        "release",
+        "workflow_call"
+      ],
+      "primary_trigger": "workflow_call",
+      "secondary_tags": [],
+      "recommended_emoji": "\ud83d\udd17",
+      "new_name": "\ud83d\udd17 Release: Changelog"
+    },
+    {
+      "filename": "automation-community.yml",
+      "current_name": "Automation: Community",
+      "triggers": [],
+      "primary_trigger": null,
+      "secondary_tags": [],
+      "recommended_emoji": "",
+      "new_name": "Automation: Community"
+    },
+    {
+      "filename": "build-wave-b-llm-benchmarks.yml",
+      "current_name": "Build: Wave B LLM Benchmarks",
+      "triggers": [],
+      "primary_trigger": null,
+      "secondary_tags": [
+        "testing"
+      ],
+      "recommended_emoji": "\ud83e\uddea",
+      "new_name": "\ud83e\uddea Build: Wave B LLM Benchmarks"
+    },
+    {
+      "filename": "build-widget.yml",
+      "current_name": "Build: WinGet E2E Validation",
+      "triggers": [],
+      "primary_trigger": null,
+      "secondary_tags": [],
+      "recommended_emoji": "",
+      "new_name": "Build: WinGet E2E Validation"
+    },
+    {
+      "filename": "gate-pr-merge-readiness.yml",
+      "current_name": "Gate: PR Merge Readiness",
+      "triggers": [],
+      "primary_trigger": null,
+      "secondary_tags": [
+        "governance",
+        "testing"
+      ],
+      "recommended_emoji": "\ud83c\udfaf\ud83e\uddea",
+      "new_name": "\ud83c\udfaf\ud83e\uddea Gate: PR Merge Readiness"
+    },
+    {
+      "filename": "gate-pr-version-targeting.yml",
+      "current_name": "Gate: PR Version Targeting",
+      "triggers": [],
+      "primary_trigger": null,
+      "secondary_tags": [
+        "governance",
+        "testing"
+      ],
+      "recommended_emoji": "\ud83c\udfaf\ud83e\uddea",
+      "new_name": "\ud83c\udfaf\ud83e\uddea Gate: PR Version Targeting"
+    },
+    {
+      "filename": "release-build-matrix.yml",
+      "current_name": "Release: Build Matrix",
+      "triggers": [],
+      "primary_trigger": null,
+      "secondary_tags": [],
+      "recommended_emoji": "",
+      "new_name": "Release: Build Matrix"
+    },
+    {
+      "filename": "release-docker-approval.yml",
+      "current_name": "Release: Docker Approval Gate",
+      "triggers": [],
+      "primary_trigger": null,
+      "secondary_tags": [
+        "governance"
+      ],
+      "recommended_emoji": "\ud83c\udfaf",
+      "new_name": "\ud83c\udfaf Release: Docker Approval Gate"
+    },
+    {
+      "filename": "release-linux-distro-approval.yml",
+      "current_name": "Release: Linux Distro Approval Gate",
+      "triggers": [],
+      "primary_trigger": null,
+      "secondary_tags": [
+        "governance"
+      ],
+      "recommended_emoji": "\ud83c\udfaf",
+      "new_name": "\ud83c\udfaf Release: Linux Distro Approval Gate"
+    },
+    {
+      "filename": "release-mainline-approval.yml",
+      "current_name": "Release: GitHub Release Approval Gate",
+      "triggers": [],
+      "primary_trigger": null,
+      "secondary_tags": [
+        "governance"
+      ],
+      "recommended_emoji": "\ud83c\udfaf",
+      "new_name": "\ud83c\udfaf Release: GitHub Release Approval Gate"
+    },
+    {
+      "filename": "release-rollback.yml",
+      "current_name": "Release: Rollback",
+      "triggers": [],
+      "primary_trigger": null,
+      "secondary_tags": [],
+      "recommended_emoji": "",
+      "new_name": "Release: Rollback"
+    },
+    {
+      "filename": "release-windows-distro-approval.yml",
+      "current_name": "Release: Windows Distro Approval Gate",
+      "triggers": [],
+      "primary_trigger": null,
+      "secondary_tags": [
+        "governance"
+      ],
+      "recommended_emoji": "\ud83c\udfaf",
+      "new_name": "\ud83c\udfaf Release: Windows Distro Approval Gate"
+    },
+    {
+      "filename": "release-winget-approval.yml",
+      "current_name": "Release: WinGet Approval Gate",
+      "triggers": [],
+      "primary_trigger": null,
+      "secondary_tags": [
+        "governance"
+      ],
+      "recommended_emoji": "\ud83c\udfaf",
+      "new_name": "\ud83c\udfaf Release: WinGet Approval Gate"
+    },
+    {
+      "filename": "reusable-benchmark-runner.yml",
+      "current_name": "Reusable: Benchmark Runner",
+      "triggers": [],
+      "primary_trigger": null,
+      "secondary_tags": [
+        "testing"
+      ],
+      "recommended_emoji": "\ud83e\uddea",
+      "new_name": "\ud83e\uddea Reusable: Benchmark Runner"
+    },
+    {
+      "filename": "reusable-cmake-build.yml",
+      "current_name": "Reusable CMake Build Pipeline",
+      "triggers": [],
+      "primary_trigger": null,
+      "secondary_tags": [],
+      "recommended_emoji": "",
+      "new_name": "Reusable CMake Build Pipeline"
+    },
+    {
+      "filename": "reusable-docs-db-builder.yml",
+      "current_name": "Reusable: Docs-to-ThemisDB Database Builder",
+      "triggers": [],
+      "primary_trigger": null,
+      "secondary_tags": [
+        "documentation"
+      ],
+      "recommended_emoji": "\ud83d\udcdd",
+      "new_name": "\ud83d\udcdd Reusable: Docs-to-ThemisDB Database Builder"
+    },
+    {
+      "filename": "reusable-status-flags-and-issues.yml",
+      "current_name": "Reusable: Status Flags and Issues",
+      "triggers": [],
+      "primary_trigger": null,
+      "secondary_tags": [],
+      "recommended_emoji": "",
+      "new_name": "Reusable: Status Flags and Issues"
+    },
+    {
+      "filename": "wiki-publish-from-issue.yml",
+      "current_name": "Wiki: Publish from Issue Approval",
+      "triggers": [],
+      "primary_trigger": null,
+      "secondary_tags": [
+        "documentation"
+      ],
+      "recommended_emoji": "\ud83d\udcdd",
+      "new_name": "\ud83d\udcdd Wiki: Publish from Issue Approval"
+    }
+  ],
+  "emoji_scheme": {
+    "\ud83d\udcc5": "Schedule-based (cron)",
+    "\ud83d\udd04": "Event-driven (push/PR)",
+    "\u23f1\ufe0f": "Manual dispatch",
+    "\ud83d\udd17": "Reusable (workflow_call)",
+    "\ud83d\ude80": "Release/Publication",
+    "\ud83d\udee1\ufe0f": "Security",
+    "\ud83e\uddea": "Testing/Benchmark",
+    "\ud83d\udd27": "Maintenance/Infra",
+    "\ud83d\udcdd": "Documentation",
+    "\ud83c\udfaf": "Governance/Gates"
+  },
+  "trigger_distribution": {
+    "schedule": 14,
+    "push": 14,
+    "pull_request": 3,
+    "workflow_dispatch": 24,
+    "workflow_call": 1,
+    "null": 17
+  }
+}
