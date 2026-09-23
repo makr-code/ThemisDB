@@ -20,7 +20,7 @@ on:
       push_to_registry:
         description: "Push built images to Docker registry"
         required: false
-        default: true
+        default: false
         type: boolean
       registry:
         description: "Docker registry to push to"

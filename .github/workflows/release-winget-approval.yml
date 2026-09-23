@@ -1,0 +1,198 @@
+name: "Release: WinGet Approval Gate"
+
+# Publishes ThemisDB to WinGet community repository when a maintainer approves
+# via issue comment on the WinGet release tracking issue.
+#
+# Approval keywords: /publish-winget, /approve-winget, @publish-winget
+#
+# Flow:
+#   1. release-mainline.yml succeeds and creates stable release
+#   2. Automatic tracking issue is created with WinGet release metrics
+#   3. Maintainer reviews release quality and posts: "/publish-winget"
+#   4. This workflow (release-winget-approval.yml) reacts and publishes to WinGet
+#   5. Closes the tracking issue if successful
+#
+# Rationale:
+#   - Human-controlled: maintainer decides when/if to submit to WinGet
+#   - Tracking: every submission is recorded in a persistent issue
+#   - Reversible: approval can be deferred or rejected if issues arise
+#   - Reduces risk: prevents accidental submission of incomplete releases
+
+on:
+  issue_comment:
+    types: [created, edited]
+
+permissions:
+  issues: write
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: winget-publish-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  winget_publish_from_issue:
+    name: Publish to WinGet on approval comment
+    if: |
+      contains(github.event.issue.labels.*.name, 'winget-release') &&
+      (
+        contains(github.event.comment.body, '/publish-winget') ||
+        contains(github.event.comment.body, '/approve-winget') ||
+        contains(github.event.comment.body, '@publish-winget')
+      )
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+
+    steps:
+      - name: Verify commenter is a maintainer
+        id: check_maintainer
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const comment = context.payload.comment;
+            const issue = context.payload.issue;
+            const user = comment.user.login;
+            
+            // Check if commenter is a maintainer or repo owner
+            try {
+              const { data: permission } = await github.rest.repos.getCollaboratorPermissionLevel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                username: user,
+              });
+              
+              if (!['admin', 'maintain'].includes(permission.permission)) {
+                core.setFailed(`User ${user} does not have maintainer permissions`);
+                return;
+              }
+              
+              core.info(`✓ User ${user} has ${permission.permission} permission`);
+              core.setOutput('is_maintainer', 'true');
+            } catch (error) {
+              core.setFailed(`Failed to check permissions: ${error.message}`);
+            }
+
+      - name: React to approval comment
+        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: '+1',
+            });
+
+      - name: Extract version from issue body
+        id: extract_version
+        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issueBody = context.payload.issue.body;
+            // Match "## Release Version: X.Y.Z"
+            const versionMatch = issueBody.match(/##\s+Release Version:\s+v?(\d+\.\d+\.\d+)/);
+            if (versionMatch) {
+              const version = versionMatch[1];
+              core.setOutput('version', version);
+              core.info(`✓ Extracted version: ${version}`);
+            } else {
+              core.setFailed('Could not extract version from issue body');
+            }
+
+      - name: Checkout repository
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.extract_version.outputs.version != ''
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Verify release tag exists
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.extract_version.outputs.version != ''
+        id: verify_tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.extract_version.outputs.version }}
+        run: |
+          set -euo pipefail
+          TAG="v${VERSION}"
+          
+          # Check if tag exists
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "✓ Tag $TAG exists locally"
+          else
+            echo "Tag $TAG not found locally; checking GitHub"
+            if gh release view "$TAG" --repo "${{ github.repository }}" >/dev/null 2>&1; then
+              echo "✓ Release $TAG exists on GitHub"
+            else
+              echo "::error::Release $TAG not found"
+              exit 1
+            fi
+          fi
+
+      - name: Trigger WinGet submission workflow
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.extract_version.outputs.version != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.extract_version.outputs.version }}
+        run: |
+          set -euo pipefail
+          
+          echo "Triggering WinGet submission for version: $VERSION"
+          
+          # Trigger release-winget workflow via workflow_dispatch
+          gh workflow run release-winget.yml \
+            --repo "${{ github.repository }}" \
+            --ref develop \
+            -f version="$VERSION" \
+            -f fork_owner="${{ vars.WINGET_FORK_OWNER }}"
+          
+          echo "✓ WinGet submission workflow dispatched"
+
+      - name: Comment approval status
+        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const version = '${{ steps.extract_version.outputs.version }}';
+            const user = context.payload.comment.user.login;
+            
+            const comment = `✅ **WinGet Submission Approved**\n\n**Approved By:** @$${user}\n**Version:** ${version}\n**Status:** Dispatched to \`release-winget.yml\` workflow\n\n**Next Steps:**\n1. Monitor the WinGet workflow run in Actions\n2. PR will be created in [microsoft/winget-pkgs](https://github.com/microsoft/winget-pkgs)\n3. Community reviewers will validate the manifest\n4. Once merged, the package is available via \`winget install ThemisDB.ThemisDB\`\n\n**Tracking:** This issue will auto-close when WinGet submission succeeds.`;
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              body: comment,
+            });
+
+      - name: Update issue on success
+        if: success() && steps.check_maintainer.outputs.is_maintainer == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              state: 'closed',
+              state_reason: 'completed',
+            });
+
+      - name: Update issue on failure
+        if: failure() && steps.check_maintainer.outputs.is_maintainer == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const failureReason = `${{ job.status }}`;
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              body: `❌ **WinGet Submission Failed**\n\nJob Status: ${failureReason}\n\nPlease check the workflow logs and try again.`,
+            });
