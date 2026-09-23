@@ -395,20 +395,21 @@ jobs:
         if: |
           steps.build.outputs.is_dry_run != 'true' &&
           github.event.inputs.approve_and_publish == 'true' &&
-          steps.publish.outputs.wiki_published != 'false'
+          steps.publish.outputs.wiki_published == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
 
-          # Find and close the tracking issue by its title (open issues only)
+          # Find and close the tracking issue by exact title match
+          # Use jq to filter for exact title match to avoid false positives from full-text search
           ISSUE_NUMBER=$(gh issue list \
             --state open \
-            --search "title:\"Wiki publish review: human sign-off tracker\"" \
-            --json number \
-            --jq ".[0].number" || echo "")
+            --search "Wiki publish review" \
+            --json number,title \
+            --jq '.[] | select(.title == "Wiki publish review: human sign-off tracker") | .number' | head -1)
 
-          if [ -z "$ISSUE_NUMBER" ] || [ "$ISSUE_NUMBER" = "null" ]; then
+          if [ -z "$ISSUE_NUMBER" ]; then
             echo "::warning::Could not find open tracking issue to close"
             exit 0
           fi
