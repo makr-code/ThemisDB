@@ -318,14 +318,25 @@ jobs:
 
           WIKI_REPO="${{ github.repository }}.wiki.git"
           WIKI_CLONE_DIR="/tmp/wiki-publish-clone"
+          WIKI_STAGING_DIR="/tmp/wiki-staging"
 
           echo "::notice::Publishing wiki to GitHub repository: $WIKI_REPO"
 
-          # Configure git credential helper to avoid token leakage in logs
-          git config --global url."https://${GH_TOKEN}@github.com/".insteadOf "https://github.com/"
-          git config --global credential.helper store
+          # Verify staging directory exists and is non-empty
+          if [ ! -d "$WIKI_STAGING_DIR" ] || [ -z "$(find "$WIKI_STAGING_DIR" -type f 2>/dev/null | head -1)" ]; then
+            echo "::error::Wiki staging directory is empty or missing: $WIKI_STAGING_DIR"
+            exit 1
+          fi
 
-          # Clone the wiki repository using safe URL (token hidden by credential helper)
+          # Set up secure git credentials via .netrc (avoids embedding token in config)
+          cat > ~/.netrc << EOF
+          machine github.com
+          login github-actions[bot]
+          password ${GH_TOKEN}
+          EOF
+          chmod 600 ~/.netrc
+
+          # Clone the wiki repository
           git clone "https://github.com/${WIKI_REPO}" "$WIKI_CLONE_DIR"
 
           cd "$WIKI_CLONE_DIR"
@@ -338,12 +349,12 @@ jobs:
           DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
           echo "::notice::Detected wiki default branch: $DEFAULT_BRANCH"
 
-          # Remove old pages (but keep git history)
+          # Remove old pages (but keep git history), including nested directories
           find . -maxdepth 1 -name '*.md' -not -name '_Sidebar.md' -not -name '_Footer.md' -delete
-          find . -maxdepth 1 -type d -not -name '.git' -delete
+          find . -maxdepth 1 -type d -not -name '.' -not -name '.git' -exec rm -rf {} + 2>/dev/null || true
 
           # Copy new pages from staging
-          cp -r /tmp/wiki-staging/* . || true
+          cp -r "$WIKI_STAGING_DIR"/* .
 
           # Check for changes
           git add .
