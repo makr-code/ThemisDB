@@ -403,21 +403,20 @@ jobs:
           steps.publish.outputs.wiki_published == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TRACKER_ISSUE_TITLE: ${{ env.TRACKER_ISSUE_TITLE }}
         run: |
           set -euo pipefail
 
           # Find and close the tracking issue by exact title match
-          # Use --arg to safely pass title to jq (prevents injection/escaping issues)
+          # Pipe gh output to jq and use --arg to safely pass title (prevents injection/escaping issues)
           ISSUE_NUMBER=$(gh issue list \
             --repo "${{ github.repository }}" \
             --state open \
             --limit 500 \
-            --json number,title \
-            --arg title "$TRACKER_ISSUE_TITLE" \
-            --jq '.[] | select(.title == $title) | .number' | head -1)
+            --json number,title | \
+            jq --arg title "${{ env.TRACKER_ISSUE_TITLE }}" \
+            '.[] | select(.title == $title) | .number' | head -1)
 
-          if [ -z "$ISSUE_NUMBER" ]; then
+          if [ -z "$ISSUE_NUMBER" ] || [ "$ISSUE_NUMBER" = "null" ]; then
             echo "::warning::Could not find open tracking issue to close"
             exit 0
           fi
