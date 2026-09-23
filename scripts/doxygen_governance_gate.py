@@ -365,171 +365,186 @@ def main() -> int:
     artifact_dir = Path(args.artifact_dir).resolve()
     artifact_dir.mkdir(parents=True, exist_ok=True)
 
-    changed_files = get_changed_files(repo_root, args.base_ref)
-    changed_code_files = [path for path in changed_files if _is_cpp_file(path)]
-    changed_public_header_files = [path for path in changed_code_files if _is_public_header(path)]
-    changed_non_code_files = [path for path in changed_files if path not in changed_code_files]
-    scoped_modules = sorted({name for path in changed_public_header_files if (name := _module_name(path))})
-    phase6_modules = [
-        module
-        for module in scoped_modules
-        if _phase6_complete(repo_root / "src" / module / "ROADMAP.md")
-    ]
-
-    threshold = load_coverage_threshold(repo_root)
-    base_ref = args.base_ref
-    release_lane = base_ref in RELEASE_BRANCHES
-    waived_gates = sorted(
-        {
-            gate.strip().upper()
-            for gate in args.waived_gates.split(",")
-            if gate.strip()
-        }
-    )
-    waiver_active = DOXYGEN_COVERAGE_GATE_ID in waived_gates
-    coverage_enforced = bool(changed_public_header_files) and (release_lane or bool(phase6_modules))
-
+    # Initialize report variables early to ensure we can always write a report
+    verdict = "PASS"
+    changed_code_files: List[str] = []
+    changed_public_header_files: List[str] = []
+    changed_non_code_files: List[str] = []
+    scoped_modules: List[str] = []
+    phase6_modules: List[str] = []
+    coverage_enforced = False
+    coverage_percent: float | None = None
+    structural_findings: List[dict] = []
+    advisory_findings: List[dict] = []
+    doxygen_warnings: List[str] = []
+    blocking_doxygen_warnings: List[str] = []
+    doxygen_exit_code: int | None = None
+    xml_index_exists = False
     generated_config: Path | None = None
     warning_log: Path | None = None
     coverage_summary_path: Path | None = None
-    coverage_verify_path = artifact_dir / "doxygen-coverage-verify.txt"
-    xml_index: Path | None = None
-    doxygen_exit_code: int | None = None
-    xml_index_exists = False
-    coverage_percent: float | None = None
-    doxygen_warnings: List[str] = []
-    blocking_doxygen_warnings: List[str] = []
-    structural_findings: List[dict] = []
-    advisory_findings: List[dict] = []
-    verdict = "PASS"
+    waived_gates: List[str] = []
+    waiver_active = False
+    threshold = load_coverage_threshold(repo_root)
+    base_ref = args.base_ref
+    release_lane = base_ref in RELEASE_BRANCHES
 
-    if changed_code_files:
-        scan_findings = ThemisCppDoxygenPolicyRulesScan(str(repo_root)).scan_files(
-            [Path(path) for path in changed_public_header_files]
-        )
-        structural_findings = [
-            finding for finding in scan_findings if finding.get("pattern") in BLOCKING_PATTERNS
+    try:
+        changed_files = get_changed_files(repo_root, args.base_ref)
+        changed_code_files = [path for path in changed_files if _is_cpp_file(path)]
+        changed_public_header_files = [path for path in changed_code_files if _is_public_header(path)]
+        changed_non_code_files = [path for path in changed_files if path not in changed_code_files]
+        scoped_modules = sorted({name for path in changed_public_header_files if (name := _module_name(path))})
+        phase6_modules = [
+            module
+            for module in scoped_modules
+            if _phase6_complete(repo_root / "src" / module / "ROADMAP.md")
         ]
-        advisory_findings = [
-            finding for finding in scan_findings if finding.get("pattern") in ADVISORY_PATTERNS
-        ]
-        scope_paths = _selected_scope_paths(
-            repo_root,
-            changed_public_header_files,
-            expand_to_module_scope=coverage_enforced,
-        )
-        generated_config, warning_log, xml_index = write_scoped_doxyfile(
-            repo_root, artifact_dir, scope_paths
-        )
 
-        doxygen_proc = _run(["doxygen", str(generated_config)], repo_root)
-        doxygen_exit_code = doxygen_proc.returncode
+        waived_gates = sorted(
+            {
+                gate.strip().upper()
+                for gate in args.waived_gates.split(",")
+                if gate.strip()
+            }
+        )
+        waiver_active = DOXYGEN_COVERAGE_GATE_ID in waived_gates
+        coverage_enforced = bool(changed_public_header_files) and (release_lane or bool(phase6_modules))
 
-        if warning_log.exists():
-            doxygen_warnings = parse_warning_lines(warning_log.read_text(encoding="utf-8", errors="ignore").splitlines())
-        else:
-            combined = (doxygen_proc.stdout or "") + "\n" + (doxygen_proc.stderr or "")
-            doxygen_warnings = parse_warning_lines(
-                line for line in combined.splitlines() if "warning:" in line.lower()
+        coverage_verify_path = artifact_dir / "doxygen-coverage-verify.txt"
+
+        if changed_code_files:
+            scan_findings = ThemisCppDoxygenPolicyRulesScan(str(repo_root)).scan_files(
+                [Path(path) for path in changed_public_header_files]
+            )
+            structural_findings = [
+                finding for finding in scan_findings if finding.get("pattern") in BLOCKING_PATTERNS
+            ]
+            advisory_findings = [
+                finding for finding in scan_findings if finding.get("pattern") in ADVISORY_PATTERNS
+            ]
+            scope_paths = _selected_scope_paths(
+                repo_root,
+                changed_public_header_files,
+                expand_to_module_scope=coverage_enforced,
+            )
+            generated_config, warning_log, xml_index = write_scoped_doxyfile(
+                repo_root, artifact_dir, scope_paths
             )
 
-        xml_index_exists = bool(xml_index and xml_index.exists())
-        coverage_summary_path = artifact_dir / "doxygen-coverage-summary.txt"
+            doxygen_proc = _run(["doxygen", str(generated_config)], repo_root)
+            doxygen_exit_code = doxygen_proc.returncode
 
-        if coverage_enforced and doxygen_exit_code == 0 and xml_index_exists:
-            coverage_proc = _run(build_coverage_command(xml_index.parent, repo_root, coverage_summary_path), repo_root)
-            coverage_summary_path.write_text(
-                (
-                    coverage_summary_path.read_text(encoding="utf-8", errors="ignore")
-                    if coverage_summary_path.exists()
-                    else ""
+            if warning_log.exists():
+                doxygen_warnings = parse_warning_lines(warning_log.read_text(encoding="utf-8", errors="ignore").splitlines())
+            else:
+                combined = (doxygen_proc.stdout or "") + "\n" + (doxygen_proc.stderr or "")
+                doxygen_warnings = parse_warning_lines(
+                    line for line in combined.splitlines() if "warning:" in line.lower()
                 )
-                + (coverage_proc.stdout or "")
-                + (coverage_proc.stderr or ""),
-                encoding="utf-8",
-            )
-            if coverage_proc.returncode == 0:
-                coverage_percent = extract_coverage_percent(coverage_summary_path.read_text(encoding="utf-8", errors="ignore"))
-                verify_proc = _run(
-                    [
-                        "python3",
-                        str(repo_root / "scripts" / "verify_docs.py"),
-                        "--summary-file",
-                        str(coverage_summary_path),
-                        "--threshold",
-                        str(threshold),
-                    ],
-                    repo_root,
-                )
-                coverage_verify_path.write_text(
-                    (verify_proc.stdout or "") + (verify_proc.stderr or ""),
+
+            xml_index_exists = bool(xml_index and xml_index.exists())
+            coverage_summary_path = artifact_dir / "doxygen-coverage-summary.txt"
+
+            if coverage_enforced and doxygen_exit_code == 0 and xml_index_exists:
+                coverage_proc = _run(build_coverage_command(xml_index.parent, repo_root, coverage_summary_path), repo_root)
+                coverage_summary_path.write_text(
+                    (
+                        coverage_summary_path.read_text(encoding="utf-8", errors="ignore")
+                        if coverage_summary_path.exists()
+                        else ""
+                    )
+                    + (coverage_proc.stdout or "")
+                    + (coverage_proc.stderr or ""),
                     encoding="utf-8",
                 )
-                if verify_proc.returncode not in (0, 1):
-                    doxygen_warnings.append(
-                        f"verify_docs.py failed with exit code {verify_proc.returncode}"
+                if coverage_proc.returncode == 0:
+                    coverage_percent = extract_coverage_percent(coverage_summary_path.read_text(encoding="utf-8", errors="ignore"))
+                    verify_proc = _run(
+                        [
+                            "python3",
+                            str(repo_root / "scripts" / "verify_docs.py"),
+                            "--summary-file",
+                            str(coverage_summary_path),
+                            "--threshold",
+                            str(threshold),
+                        ],
+                        repo_root,
                     )
-            else:
-                doxygen_warnings.append(
-                    f"coverxygen failed with exit code {coverage_proc.returncode}"
-                )
+                    coverage_verify_path.write_text(
+                        (verify_proc.stdout or "") + (verify_proc.stderr or ""),
+                        encoding="utf-8",
+                    )
+                    if verify_proc.returncode not in (0, 1):
+                        doxygen_warnings.append(
+                            f"verify_docs.py failed with exit code {verify_proc.returncode}"
+                        )
+                else:
+                    doxygen_warnings.append(
+                        f"coverxygen failed with exit code {coverage_proc.returncode}"
+                    )
 
-        blocking_doxygen_warnings = filter_blocking_doxygen_warnings(
-            repo_root,
-            doxygen_warnings,
-            changed_public_header_files,
+            blocking_doxygen_warnings = filter_blocking_doxygen_warnings(
+                repo_root,
+                doxygen_warnings,
+                changed_public_header_files,
+            )
+
+            if structural_findings or doxygen_exit_code != 0 or not xml_index_exists or blocking_doxygen_warnings:
+                verdict = "FAIL"
+            elif coverage_enforced and coverage_percent is not None and coverage_percent + 1e-9 < threshold:
+                verdict = "WARN" if waiver_active else "FAIL"
+            elif coverage_percent is None and coverage_enforced:
+                verdict = "FAIL"
+            elif advisory_findings:
+                verdict = "WARN"
+            elif not coverage_enforced and coverage_percent is not None and coverage_percent + 1e-9 < threshold:
+                verdict = "WARN"
+        else:
+            doxygen_warnings = ["No changed C/C++ files in scope; Doxygen gate skipped."]
+
+    except Exception as e:
+        # Ensure we still write a report even if the gate script encounters an error
+        verdict = "FAIL"
+        doxygen_warnings = [f"Gate script error: {str(e)}"]
+
+    finally:
+        # Always write the report, regardless of success or error
+        report = GateReport(
+            verdict=verdict,
+            base_ref=args.base_ref,
+            release_lane=args.base_ref in RELEASE_BRANCHES,
+            changed_code_files=changed_code_files,
+            changed_public_header_files=changed_public_header_files,
+            changed_non_code_files=changed_non_code_files,
+            scoped_modules=scoped_modules,
+            phase6_modules=phase6_modules,
+            coverage_threshold=threshold,
+            coverage_enforced=coverage_enforced,
+            coverage_waived=waiver_active and verdict == "WARN",
+            waived_gates=waived_gates,
+            coverage_percent=coverage_percent,
+            structural_findings=structural_findings,
+            advisory_findings=advisory_findings,
+            doxygen_warnings=doxygen_warnings,
+            blocking_doxygen_warnings=blocking_doxygen_warnings,
+            suppressed_doxygen_warning_count=max(0, len(doxygen_warnings) - len(blocking_doxygen_warnings)),
+            doxygen_exit_code=doxygen_exit_code,
+            xml_index_exists=xml_index_exists,
+            generated_config=str(generated_config) if generated_config else None,
+            warning_log=str(warning_log) if warning_log else None,
+            coverage_summary=str(coverage_summary_path) if coverage_summary_path else None,
+            summary_markdown="",
         )
+        report.summary_markdown = build_summary(report)
 
-        if structural_findings or doxygen_exit_code != 0 or not xml_index_exists or blocking_doxygen_warnings:
-            verdict = "FAIL"
-        elif coverage_enforced and coverage_percent is not None and coverage_percent + 1e-9 < threshold:
-            verdict = "WARN" if waiver_active else "FAIL"
-        elif coverage_percent is None and coverage_enforced:
-            verdict = "FAIL"
-        elif advisory_findings:
-            verdict = "WARN"
-        elif not coverage_enforced and coverage_percent is not None and coverage_percent + 1e-9 < threshold:
-            verdict = "WARN"
-    else:
-        doxygen_warnings = ["No changed C/C++ files in scope; Doxygen gate skipped."]
+        Path(args.report_json).write_text(
+            json.dumps(asdict(report), indent=2, ensure_ascii=False),
+            encoding="utf-8",
+        )
+        Path(args.summary_md).write_text(report.summary_markdown, encoding="utf-8")
 
-    report = GateReport(
-        verdict=verdict,
-        base_ref=base_ref,
-        release_lane=release_lane,
-        changed_code_files=changed_code_files,
-        changed_public_header_files=changed_public_header_files,
-        changed_non_code_files=changed_non_code_files,
-        scoped_modules=scoped_modules,
-        phase6_modules=phase6_modules,
-        coverage_threshold=threshold,
-        coverage_enforced=coverage_enforced,
-        coverage_waived=waiver_active and verdict == "WARN",
-        waived_gates=waived_gates,
-        coverage_percent=coverage_percent,
-        structural_findings=structural_findings,
-        advisory_findings=advisory_findings,
-        doxygen_warnings=doxygen_warnings,
-        blocking_doxygen_warnings=blocking_doxygen_warnings,
-        suppressed_doxygen_warning_count=max(0, len(doxygen_warnings) - len(blocking_doxygen_warnings)),
-        doxygen_exit_code=doxygen_exit_code,
-        xml_index_exists=xml_index_exists,
-        generated_config=str(generated_config) if generated_config else None,
-        warning_log=str(warning_log) if warning_log else None,
-        coverage_summary=str(coverage_summary_path) if coverage_summary_path else None,
-        summary_markdown="",
-    )
-    report.summary_markdown = build_summary(report)
-
-    Path(args.report_json).write_text(
-        json.dumps(asdict(report), indent=2, ensure_ascii=False),
-        encoding="utf-8",
-    )
-    Path(args.summary_md).write_text(report.summary_markdown, encoding="utf-8")
-
-    if verdict == "FAIL":
-        return 1
-    return 0
+    return 1 if verdict == "FAIL" else 0
 
 
 if __name__ == "__main__":
