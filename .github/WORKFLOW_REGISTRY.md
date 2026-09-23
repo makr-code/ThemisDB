@@ -56,6 +56,10 @@ Der Zweck dieser Rollenaufteilung ist eine saubere Release-Kette:
   — Tag-/Dispatch-gesteuerte Release-Builds; CPack-Packaging (TGZ/DEB/RPM/ZIP/MSI); Manifest-Validierung, GitHub-Release-Erstellung und Publish-Lanes (community + private); Changelog-Automation
 - `.github/workflows/build-benchmarks.yml`
   — Entkoppelte schwere Benchmark-Lanes (voice, GPU matrix, nightly sweep)
+- `.github/workflows/benchmark-performance-gate.yml`
+  — Wöchentlicher Performance-Gate: baut alle core bench_*-Targets, führt sie aus, vergleicht Messwerte gegen src/<module>/PERFORMANCE_EXPECTATIONS.md und upsert Ergebnisse in Issue '[Perf] Benchmark Results Tracker'
+- `.github/workflows/reusable-benchmark-runner.yml`
+  — Reusable Build–Run–Upload-Zyklus für bench_*-Targets; called by benchmark-performance-gate.yml
 - `.github/workflows/release-changelog.yml`
   — Reusable/manual changelog update & backfill (artifact-backed proposal, keine Branch-Mutation)
 - `.github/workflows/security-consolidated.yml`

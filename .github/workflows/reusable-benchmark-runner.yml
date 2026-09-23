@@ -1,0 +1,184 @@
+name: "Reusable: Benchmark Runner"
+
+# Rechenaufwand-Score: R=4 (K=4, L=4, N=3) | last-calibrated: 2026-09-23
+# Reusable workflow: builds all bench_* targets, runs each binary, uploads
+# results as an artifact. Called by benchmark-performance-gate.yml.
+
+on:
+  workflow_call:
+    inputs:
+      configure_flags:
+        description: 'CMake configure flags (appended after base flags)'
+        required: true
+        type: string
+      benchmark_filter:
+        description: 'Google Benchmark filter regex (empty = run all)'
+        required: false
+        default: ''
+        type: string
+      benchmark_format:
+        description: 'Google Benchmark output format (json|csv|console)'
+        required: false
+        default: 'json'
+        type: string
+      timeout_minutes:
+        description: 'Job timeout in minutes'
+        required: false
+        default: 90
+        type: number
+      runs_on:
+        description: 'Runner label'
+        required: false
+        default: 'ubuntu-latest'
+        type: string
+      artifact_retention_days:
+        description: 'Artifact retention in days'
+        required: false
+        default: '14'
+        type: string
+    outputs:
+      artifact_name:
+        description: 'Name of the uploaded benchmark results artifact'
+        value: ${{ jobs.run-benchmarks.outputs.artifact_name }}
+
+permissions:
+  contents: read
+
+jobs:
+  run-benchmarks:
+    name: Build & Run Benchmarks
+    runs-on: ${{ inputs.runs_on }}
+    timeout-minutes: ${{ inputs.timeout_minutes }}
+    outputs:
+      artifact_name: ${{ steps.set-artifact-name.outputs.artifact_name }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            build-essential \
+            ninja-build \
+            pkg-config \
+            librocksdb-dev \
+            libgtest-dev \
+            libgmock-dev \
+            libssl-dev \
+            zlib1g-dev \
+            libfmt-dev \
+            libspdlog-dev \
+            libtbb-dev \
+            nlohmann-json3-dev \
+            libbenchmark-dev \
+            libboost-dev \
+            libboost-system-dev
+
+      - name: Set artifact name
+        id: set-artifact-name
+        run: |
+          ARTIFACT="benchmark-results-${{ github.run_id }}-${{ github.run_attempt }}"
+          echo "artifact_name=${ARTIFACT}" >> "$GITHUB_OUTPUT"
+
+      - name: CMake configure
+        id: cmake_configure
+        run: |
+          set -euo pipefail
+          cmake -S . -B build/bench -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            ${{ inputs.configure_flags }}
+        continue-on-error: false
+
+      - name: Build all bench_* targets
+        id: cmake_build
+        run: |
+          set -euo pipefail
+          # Build everything with benchmarks enabled; bench_* targets are
+          # included via the THEMIS_BUILD_BENCHMARKS=ON configure flag.
+          cmake --build build/bench --config Release -j"$(nproc)"
+        continue-on-error: false
+
+      - name: Run benchmarks
+        id: run_benchmarks
+        run: |
+          set -euo pipefail
+          mkdir -p benchmark-artifacts/results
+
+          FILTER="${{ inputs.benchmark_filter }}"
+          FORMAT="${{ inputs.benchmark_format }}"
+          FAIL_COUNT=0
+          RUN_COUNT=0
+
+          # Collect all bench_* executables produced by the build
+          mapfile -t BINARIES < <(find build/bench -maxdepth 6 -type f \
+            -name "bench_*" -not -name "*.cmake" -not -name "*.txt" \
+            | sort)
+
+          if [[ ${#BINARIES[@]} -eq 0 ]]; then
+            echo "::warning::No bench_* binaries found under build/bench"
+          fi
+
+          for BIN in "${BINARIES[@]}"; do
+            if [[ ! -x "$BIN" ]]; then
+              continue
+            fi
+            NAME="$(basename "$BIN")"
+            OUT="benchmark-artifacts/results/${NAME}.${FORMAT}"
+
+            ARGS=(
+              "--benchmark_format=${FORMAT}"
+              "--benchmark_out=${OUT}"
+              "--benchmark_out_format=${FORMAT}"
+              "--benchmark_color=false"
+            )
+            if [[ -n "${FILTER}" ]]; then
+              ARGS+=("--benchmark_filter=${FILTER}")
+            fi
+
+            echo "::group::Running ${NAME}"
+            if "${BIN}" "${ARGS[@]}"; then
+              echo "  ✅ ${NAME} completed"
+              RUN_COUNT=$((RUN_COUNT + 1))
+            else
+              echo "  ⚠️  ${NAME} exited with non-zero status (recorded)"
+              FAIL_COUNT=$((FAIL_COUNT + 1))
+            fi
+            echo "::endgroup::"
+          done
+
+          echo "RUN_COUNT=${RUN_COUNT}" >> "$GITHUB_ENV"
+          echo "FAIL_COUNT=${FAIL_COUNT}" >> "$GITHUB_ENV"
+
+          echo "Completed: ${RUN_COUNT} benchmark(s) run, ${FAIL_COUNT} non-zero exit(s)."
+        continue-on-error: true   # Individual benchmark failures must not abort the pipeline
+
+      - name: Write run manifest
+        run: |
+          python3 - <<'PYEOF'
+          import json, os, glob, pathlib
+
+          results_dir = pathlib.Path("benchmark-artifacts/results")
+          manifest = {
+              "run_id": os.environ.get("GITHUB_RUN_ID", "local"),
+              "sha": os.environ.get("GITHUB_SHA", "HEAD"),
+              "repository": os.environ.get("GITHUB_REPOSITORY", ""),
+              "run_count": int(os.environ.get("RUN_COUNT", "0")),
+              "fail_count": int(os.environ.get("FAIL_COUNT", "0")),
+              "result_files": sorted(str(p.name) for p in results_dir.glob("*.json")),
+          }
+          out = pathlib.Path("benchmark-artifacts/manifest.json")
+          out.write_text(json.dumps(manifest, indent=2))
+          print(f"Manifest written: {len(manifest['result_files'])} result file(s).")
+          PYEOF
+
+      - name: Upload benchmark artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.set-artifact-name.outputs.artifact_name }}
+          path: benchmark-artifacts/
+          retention-days: ${{ inputs.artifact_retention_days }}
+          if-no-files-found: warn

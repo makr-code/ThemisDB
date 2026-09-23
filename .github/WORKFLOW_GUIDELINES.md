@@ -19,7 +19,7 @@ Die maschinenlesbaren Governance-Policy-Dateien unter `.github/` sind der Index-
 
 Diese Dateien sollen die menschlich lesbaren Governance-Regeln und CI-Policies ergänzen, nicht ersetzen. Aenderungen dort muessen mit den Workflow-Guidelines und den dokumentierten Governance-Sources synchron gehalten werden.
 
-## Aktive Workflows (45)
+## Aktive Workflows (47)
 Die aktuelle kanonische Liste steht in `.github/WORKFLOW_REGISTRY.md`; der alte 21er-Stand war veraltet und wird hier durch den aktuellen, im Repository geltenden Zustand ersetzt.
 
 Kernliste der aktiven Workflows:
@@ -29,6 +29,8 @@ Kernliste der aktiven Workflows:
 - `.github/workflows/gate-pr-plugin-boundary.yml`
 - `.github/workflows/automation-community.yml`
 - `.github/workflows/build-benchmarks.yml`
+- `.github/workflows/benchmark-performance-gate.yml`
+- `.github/workflows/reusable-benchmark-runner.yml`
 - `.github/workflows/build-mainline.yml`
 - `.github/workflows/build-clang-fast.yml`
 - `.github/workflows/build-content-regression.yml`
