@@ -519,7 +519,7 @@ def main() -> int:
             changed_non_code_files=changed_non_code_files,
             scoped_modules=scoped_modules,
             phase6_modules=phase6_modules,
-            coverage_threshold=load_coverage_threshold(repo_root),
+            coverage_threshold=threshold,
             coverage_enforced=coverage_enforced,
             coverage_waived=waiver_active and verdict == "WARN",
             waived_gates=waived_gates,
