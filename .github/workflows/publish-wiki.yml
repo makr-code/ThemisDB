@@ -82,6 +82,12 @@ on:
         default: 'true'
         type: choice
         options: ['false', 'true']
+      approve_and_publish:
+        description: 'Human approval: approve review and publish to GitHub wiki repository'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['false', 'true']
 
 permissions:
   actions: write
@@ -298,11 +304,71 @@ jobs:
             || echo "::warning::AI enrichment failed or partially completed; continuing."
 
       # -----------------------------------------------------------------------
-      # Phase 3: Hand off to the human-review PR gate
+      # Phase 3: Publish to GitHub wiki repository (on human approval)
+      # -----------------------------------------------------------------------
+      - name: Publish wiki to GitHub repository
+        id: publish
+        if: |
+          steps.build.outputs.is_dry_run != 'true' &&
+          github.event.inputs.approve_and_publish == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          WIKI_REPO="${{ github.repository }}.wiki.git"
+          WIKI_URL="https://${{ secrets.GITHUB_TOKEN }}@github.com/${WIKI_REPO}"
+          WIKI_CLONE_DIR="/tmp/wiki-publish-clone"
+
+          echo "::notice::Publishing wiki to GitHub repository: $WIKI_REPO"
+
+          # Clone the wiki repository
+          git clone "$WIKI_URL" "$WIKI_CLONE_DIR" 2>&1 | sed 's|'"$WIKI_URL"'|<redacted>|g'
+
+          cd "$WIKI_CLONE_DIR"
+
+          # Configure git for commit
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Remove old pages (but keep git history)
+          find . -maxdepth 1 -name '*.md' -not -name '_Sidebar.md' -not -name '_Footer.md' -delete
+          find . -maxdepth 1 -type d -not -name '.git' -delete
+
+          # Copy new pages from staging
+          cp -r /tmp/wiki-staging/* . || true
+
+          # Check for changes
+          git add .
+          CHANGES=$(git status --porcelain | wc -l)
+
+          if [ "$CHANGES" -gt 0 ]; then
+            COMMIT_MSG="docs: update wiki from repository (run ${{ github.run_number }}, commit ${{ github.sha }})"
+            git commit -m "$COMMIT_MSG"
+
+            echo "::notice::Pushing $CHANGES file(s) to wiki repository"
+            git push origin master 2>&1 | sed 's|'"$WIKI_URL"'|<redacted>|g'
+
+            {
+              echo "wiki_published=true"
+              echo "changes_pushed=$CHANGES"
+            } >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::No changes to publish"
+            {
+              echo "wiki_published=true"
+              echo "changes_pushed=0"
+            } >> "$GITHUB_OUTPUT"
+          fi
+
+      # -----------------------------------------------------------------------
+      # Phase 3a: Hand off to the human-review PR gate (if not published)
       # -----------------------------------------------------------------------
       - name: Dispatch wiki review gate
         id: review_dispatch
-        if: steps.build.outputs.is_dry_run != 'true'
+        if: |
+          steps.build.outputs.is_dry_run != 'true' &&
+          github.event.inputs.approve_and_publish != 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
