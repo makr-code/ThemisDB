@@ -95,7 +95,28 @@ The following files are kept for historical reference and are no longer actively
 - **Doxygen & Module Analysis**: MODULE_DIRECT_DOXYGEN_CHECK.md, MODULE_DOXYGEN_BASELINE_SUMMARY.md, MODULE_DOXYGEN_BATCH_.md, MODULE_DOXYGEN_COVERAGE_SUMMARY.md, MODULE_DOXYGEN_SMOKE_SUMMARY.md, RETRIEVAL_DIRECT_DOXYGEN_CHECK.md, SOLL_IST_GAP_SUMMARY.md, WIKI_DELTA_REPORT.md
 - **Closure & Issue Reports**: ISSUE_5647_CLOSURE_SUMMARY.md, MODULE_DOCUMENTATION_REMEDIATION_CHECKLIST.md
 - **Developer LLM Wiki Framework** (2026-08-14): DEVELOPER_LLM_WIKI_FRAMEWORK.md
-- **Research Exports** (2026-02 — 2026-11): research/gemini_exports/ (external research and analysis documents)
+- **Research Exports** (2026-02 — 2026-11): research/gemini_exports/ (external research and analysis documents including:
+  - Architektur der verteilten Intelligenz: Vorzüge des Themis-Sharding für militärische Operationsführung
+  - Die Architektur der digitalen Souveränität (Datenökonomie 2025/2026)
+  - Forschungsbericht ThemisDB 2025 (PUBLIC_REPORT)
+  - Gemini-Exports (2025-11-02)
+  - Hybride Datenbankarchitektur C++/Rust
+  - Hyperscaler-Einordnung für ThemisDB-Bericht
+  - KI-Strategie: ThemisDB, Hyperscaler, Ethik
+  - Konvergente Datenarchitekturen für souveräne KI
+  - Strategische Analysen: Multi-Modell-Architektur, ACID-Fundament für RAG-LLM
+  - Technische Tiefenanalyse: ThemisDB v1.0.0 vs. Hyperscaler
+  - ThemisDB: Skalpell vs. Schweizer Taschenmesser für deutsche Verwaltung
+  - Themis vs. Hyperscaler Datenbanken Vergleich
+  - Themis, Llama.cpp und KMU-Cloud-Vergleich
+  - ThemisDB Dokumentation und Berichtsanalyse
+  - ThemisDB Marktanalyse & Validierung
+  - ThemisDB Recherche: Fehlende Dokumentation
+  - ThemisDB Retry-Strategien und MVCC
+  - ThemisDB Skalierbarkeit mit RAID-Sharding
+  - ThemisDB v1.0.0 Strategische und Technische Gesamtanalyse
+  - VCCDB Design
+)
 
 ---
 
