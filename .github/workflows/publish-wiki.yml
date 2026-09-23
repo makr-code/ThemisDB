@@ -333,12 +333,6 @@ jobs:
 
           cd "$WIKI_CLONE_DIR"
 
-          # Remove credentials from the remote URL to avoid storing token in .git/config
-          # Configure git to provide credentials from environment for push operations
-          git remote set-url origin "https://github.com/${WIKI_REPO}"
-          git config credential.helper store
-          git config --add credential.helper '!f() { test "$1" = get && echo "username=oauth2\npassword='${GH_TOKEN}'"; }; f'
-
           # Configure git for commit
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -353,12 +347,13 @@ jobs:
           fi
           echo "::notice::Detected wiki default branch: $DEFAULT_BRANCH"
 
-          # Remove all old pages and directories (staging will provide complete content including _Sidebar.md and _Footer.md)
-          find . -maxdepth 1 -name '*.md' -delete
+          # Remove all old files and directories at top level (staging will provide complete content)
+          # This includes .md files, images, attachments, .nojekyll, etc.
+          find . -maxdepth 1 -type f -delete
           # Remove subdirectories one at a time with -r flag for xargs to handle empty input
           find . -maxdepth 1 -type d -not -name '.' -not -name '.git' -print0 | xargs -r -0 rm -rf
 
-          # Copy new pages from staging (complete set including _Sidebar.md and _Footer.md)
+          # Copy new pages from staging (complete set including all file types)
           # Using /. syntax to copy all contents including dotfiles reliably
           cp -r "$WIKI_STAGING_DIR"/. .
 
@@ -371,8 +366,8 @@ jobs:
             git commit -m "$COMMIT_MSG"
 
             echo "::notice::Pushing $CHANGES file(s) to wiki repository"
-            # Push to origin remote (credentials provided by credential helper)
-            git push origin "$DEFAULT_BRANCH"
+            # Push to origin remote with inline OAuth2 credentials
+            git push "https://oauth2:${GH_TOKEN}@github.com/${WIKI_REPO}" "$DEFAULT_BRANCH"
 
             {
               echo "wiki_published=true"
