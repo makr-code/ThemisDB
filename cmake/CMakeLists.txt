@@ -5403,8 +5403,10 @@ target_link_libraries(themis_demo
 )
 
 if(THEMIS_ENABLE_MIMALLOC AND mimalloc_FOUND)
-    if(WIN32 AND TARGET mimalloc)
-        target_link_libraries(themis_demo PRIVATE mimalloc)
+    if(WIN32)
+        if(TARGET mimalloc)
+            target_link_libraries(themis_demo PRIVATE mimalloc)
+        endif()
     elseif(TARGET mimalloc-static)
         target_link_libraries(themis_demo PRIVATE mimalloc-static)
     elseif(TARGET mimalloc)
