@@ -1,5 +1,28 @@
 name: "Build: Wave B LLM Benchmarks"
 
+# Rechenaufwand-Score: R=8 (K=8, L=8, N=8) | last-calibrated: 2026-09-23
+# Trigger policy: Manual dispatch-only; hardware-intensive benchmark execution.
+# Experimental Wave-B LLM inference + wiki embedding benchmarking.
+#
+# Purpose: Validate performance of:
+#   - TinyLlama inference (Q4_K_M quantization)
+#   - doku.db vector similarity search (HNSW index)
+#   - AdaLoRA fine-tuning integration
+#   - Multi-GPU index operations (Wave A GPU bridge)
+#
+# Scenarios:
+#   - small_10k:  10k documents, validate inference + embedding baseline
+#   - medium_1m:  1M documents, stress test retrieval latency
+#   - large_10m:  10M documents, measure scaling limits
+#   - all:        Run all scenarios sequentially (6–8 hours total)
+#
+# Inputs:
+#   - scenario: Benchmark scale (small_10k/medium_1m/large_10m/all)
+#
+# Output: Benchmark results uploaded as workflow artifact + optional issue comment
+# Trigger: Manual `gh workflow run` or GitHub UI dispatch
+# Non-blocking: Does not affect releases or PR gates
+
 permissions:
   contents: read
 
