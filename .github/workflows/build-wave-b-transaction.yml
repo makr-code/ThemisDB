@@ -48,7 +48,7 @@ jobs:
       build-dir: ${{ steps.configure.outputs.build-dir }}
       config-status: ${{ steps.configure.outputs.status }}
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v4
         with:
           submodules: false
           fetch-depth: 0
@@ -114,7 +114,7 @@ jobs:
       matrix:
         phase: [phase1, phase2, phase3, wave-a]
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v4
         with:
           submodules: false
 
@@ -182,7 +182,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v4
         with:
           submodules: false
 
@@ -261,7 +261,7 @@ jobs:
     timeout-minutes: 45
     if: github.event_name == 'push' || github.event.inputs.phase == 'all'
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v4
         with:
           submodules: false
 
@@ -363,7 +363,7 @@ jobs:
     timeout-minutes: 30
     if: github.event_name == 'push' || github.event.inputs.phase == 'all' || github.event.inputs.phase == 'wave-a'
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v4
         with:
           submodules: false
 
@@ -435,7 +435,7 @@ jobs:
     timeout-minutes: 60
     if: github.event_name == 'push' || github.event.inputs.phase == 'all' || github.event.inputs.phase == 'phase4'
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v4
         with:
           submodules: false
 

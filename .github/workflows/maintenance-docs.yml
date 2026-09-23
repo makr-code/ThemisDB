@@ -115,7 +115,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4  # v7.0.1
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -140,7 +140,7 @@ jobs:
 
       - name: Upload lint artifacts
         if: always()
-        uses: actions/upload-artifact@v4  # v7.0.1
+        uses: actions/upload-artifact@v4
         with:
           name: ai-context-lint-${{ github.run_number }}
           path: |
@@ -168,7 +168,7 @@ jobs:
       issues: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4  # v7.0.1
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -200,7 +200,7 @@ jobs:
 
       - name: Upload developer LLM wiki artifacts
         if: always()
-        uses: actions/upload-artifact@v4  # v7.0.1
+        uses: actions/upload-artifact@v4
         with:
           name: developer-llm-wiki-${{ github.run_number }}
           path: |
@@ -283,7 +283,7 @@ jobs:
       header_report_path: ${{ steps.mode.outputs.header_report_path }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4  # v7.0.1
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
@@ -365,7 +365,7 @@ jobs:
 
       - name: Upload maturity report
         if: always()
-        uses: actions/upload-artifact@v4  # v7.0.1
+        uses: actions/upload-artifact@v4
         with:
           name: code-maturity-report-${{ github.run_number }}
           path: |
@@ -402,7 +402,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4  # v7.0.1
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
@@ -531,7 +531,7 @@ jobs:
       issues: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4  # v7.0.1
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5  # v5.3.0
@@ -547,7 +547,7 @@ jobs:
 
       - name: Upload orphan-check reports
         if: always()
-        uses: actions/upload-artifact@v4  # v7.0.1
+        uses: actions/upload-artifact@v4
         with:
           name: docs-orphan-check-${{ github.run_number }}
           path: |
@@ -601,7 +601,7 @@ jobs:
       issues: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4  # v7.0.1
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5  # v5.3.0
@@ -617,7 +617,7 @@ jobs:
 
       - name: Upload hygiene reports
         if: always()
-        uses: actions/upload-artifact@v4  # v7.0.1
+        uses: actions/upload-artifact@v4
         with:
           name: root-docs-hygiene-${{ github.run_number }}
           path: |
@@ -673,7 +673,7 @@ jobs:
       issues: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4  # v7.0.1
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5  # v5.3.0
@@ -689,7 +689,7 @@ jobs:
 
       - name: Upload alignment reports
         if: always()
-        uses: actions/upload-artifact@v4  # v7.0.1
+        uses: actions/upload-artifact@v4
         with:
           name: src-include-docs-align-${{ github.run_number }}
           path: |
@@ -752,7 +752,7 @@ jobs:
       issues: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4  # v7.0.1
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -892,7 +892,7 @@ jobs:
 
       - name: Upload hygiene report
         if: always()
-        uses: actions/upload-artifact@v4  # v7.0.1
+        uses: actions/upload-artifact@v4
         with:
           name: ai-hygiene-report-${{ github.run_number }}
           path: |
@@ -945,7 +945,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4  # v7.0.1
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -997,7 +997,7 @@ jobs:
 
       - name: Upload extraction report
         if: always()
-        uses: actions/upload-artifact@v4  # v7.0.1
+        uses: actions/upload-artifact@v4
         with:
           name: doxygen-extraction-${{ github.run_number }}
           path: |

@@ -66,7 +66,7 @@ jobs:
       security-events: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4  # v7.0.1
+        uses: actions/checkout@v4
 
       - name: Run Trivy scan (human-readable summary)
         uses: aquasecurity/trivy-action@v0.36.0
@@ -79,6 +79,7 @@ jobs:
           vuln-type: os,library
           exit-code: '0'
           version: 'v0.64.0'  # Pin to stable release; v0.70.0 download was broken on CI
+          github-pat: ${{ secrets.GITHUB_TOKEN }}  # Authenticate GitHub API to avoid rate-limit download failures
 
       - name: Run Trivy scan (SARIF)
         uses: aquasecurity/trivy-action@v0.36.0
@@ -92,6 +93,7 @@ jobs:
           vuln-type: os,library
           exit-code: '0'
           version: 'v0.64.0'  # Pin to stable release; v0.70.0 download was broken on CI
+          github-pat: ${{ secrets.GITHUB_TOKEN }}  # Authenticate GitHub API to avoid rate-limit download failures
 
       - name: Upload Trivy SARIF to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v4
@@ -115,7 +117,7 @@ jobs:
       security-events: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4  # v7.0.1
+        uses: actions/checkout@v4
 
       - name: Run Gitleaks and generate SARIF
         run: |
@@ -182,7 +184,7 @@ jobs:
       security-events: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4  # v7.0.1
+        uses: actions/checkout@v4
 
       - name: Run kubesec scanner
         uses: controlplaneio/kubesec-action@43d0ddff5ffee89a6bb9f29b64cd865411137b14
@@ -193,7 +195,7 @@ jobs:
           exit-code: "0"
 
       - name: Upload Kubesec JSON results
-        uses: actions/upload-artifact@v4  # v7.0.1
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: kubesec-results-${{ github.run_number }}

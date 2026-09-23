@@ -86,7 +86,7 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4  # v7.0.1
+        uses: actions/checkout@v4
         with:
           # Use PAT or GITHUB_TOKEN; push requires write access
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -155,7 +155,7 @@ jobs:
 
       - name: Upload compact run log
         if: always()
-        uses: actions/upload-artifact@v4  # v7.0.1
+        uses: actions/upload-artifact@v4
         with:
           name: ai-working-compact-${{ github.run_number }}
           path: |
@@ -267,7 +267,7 @@ jobs:
       (github.event_name == 'push' && contains(github.event.head_commit.message, '[wiki]'))
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4  # v7.0.1
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
@@ -297,7 +297,7 @@ jobs:
 
       - name: Upload LLM wiki sync artifacts
         if: always()
-        uses: actions/upload-artifact@v4  # v7.0.1
+        uses: actions/upload-artifact@v4
         with:
           name: developer-llm-wiki-${{ github.run_number }}
           path: |

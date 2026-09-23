@@ -135,7 +135,7 @@ jobs:
         echo "============================================================"
 
     - name: Checkout
-      uses: actions/checkout@v4  # v7.0.1
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
         ref: ${{ github.sha }}
@@ -449,7 +449,7 @@ jobs:
 
     - name: Upload docker errors
       if: always() && hashFiles('docker-errors.json') != ''
-      uses: actions/upload-artifact@v4  # v7.0.1
+      uses: actions/upload-artifact@v4
       with:
         name: docker-errors-${{ github.run_number }}
         path: docker-errors.json
