@@ -91,7 +91,6 @@ jobs:
           cmake -S . -B build/bench -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
             ${{ inputs.configure_flags }}
-        continue-on-error: false
 
       - name: Build all bench_* targets
         id: cmake_build
@@ -100,7 +99,6 @@ jobs:
           # Build everything with benchmarks enabled; bench_* targets are
           # included via the THEMIS_BUILD_BENCHMARKS=ON configure flag.
           cmake --build build/bench --config Release -j"$(nproc)"
-        continue-on-error: false
 
       - name: Run benchmarks
         id: run_benchmarks

@@ -64,7 +64,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: [build-and-run]
-    # Run even when build-and-run had individual benchmark failures (continue-on-error)
+    # Run even when build-and-run failed so artifact-check and error reporting still execute
     if: ${{ always() && needs.build-and-run.result != 'skipped' }}
     permissions:
       contents: read
