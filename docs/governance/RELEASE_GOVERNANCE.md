@@ -1,7 +1,10 @@
 # Release Publishing Approval Governance
 
-> Status: Active (2026)
-> Purpose: Centralized reference for all release publishing approval workflows, keywords, and tracking
+Author: ThemisDB Contributors
+Created: 2026-09-23
+Last Updated: 2026-09-23
+Status: active
+Purpose: Centralized reference for all release publishing approval workflows, keywords, and tracking
 
 This document is the single source of truth for:
 - All approval gate workflows and their triggers
@@ -498,4 +501,3 @@ A: Change password, revoke session tokens, and review recent approval comments. 
 - Documented all approval keywords
 - Added permission grant procedures
 - Approved by: [Release Governance Committee]
-
