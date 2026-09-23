@@ -1,6 +1,6 @@
 # KNOWLEDGE Lint Report
 
-Datum: 2026-08-09
+Datum: 2026-09-23
 Status: Active
 Bezug: Automatisierter AI-Context-Lintlauf mit Findings
 Primary (Quelle der Wahrheit): AI_WIKI_INTEGRATION_PLAYBOOK.md, DOCUMENTATION_GOVERNANCE.md, ai_context/COPILOT_INSTRUCTIONS.md
@@ -11,13 +11,13 @@ Primary (Quelle der Wahrheit): AI_WIKI_INTEGRATION_PLAYBOOK.md, DOCUMENTATION_GO
 
 - Geltungsbereich: ai_context/, INDEX.md, AI_WIKI_INTEGRATION_PLAYBOOK.md
 - Laufart: scheduled oder ad-hoc
-- Datenstand: 2026-07-28
+- Datenstand: 2026-09-23
 
 ---
 
 ## Execution Metadata
 
-- Run-ID: auto-2026-08-09
+- Run-ID: auto-2026-09-23
 - Ausfuehrungszeit: 2026-08-09T06:15:00+00:00
 - Ausfuehrender Agent/Reviewer: Copilot Documentation Sync
 - Branch: develop (copilot/update-documentation-src-root)

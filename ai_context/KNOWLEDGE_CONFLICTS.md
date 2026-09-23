@@ -1,6 +1,6 @@
 # KNOWLEDGE Conflicts Register
 
-Datum: 2026-07-28
+Datum: 2026-09-23
 Status: Active
 Bezug: Zentrales Konfliktregister fuer AI-Wiki-Widersprueche und Klaerungen
 Primary (Quelle der Wahrheit): AI_WIKI_INTEGRATION_PLAYBOOK.md, DOCUMENTATION_GOVERNANCE.md
