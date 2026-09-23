@@ -45,8 +45,8 @@ Three specific evidence blockers identified, root-caused, and addressed:
 | TBD | wave-a-gpu-ci | develop | pending | awaiting Wave-A-GPU-001 execution + hw availability | 2026-09-23 |
 
 **Tracker Issues (Hardening Phase 1 — 2026-09-23):**
-1. **Wave-B-TX-001 (CRITICAL):** Transaction `release_critical` CI lane + representative-hardware baseline evidence (latency/throughput/failover). Blocks v2.4.0 GA CPU-path promotion.
-2. **Wave-A-GPU-001 (HIGH):** GPU CUDA reduction + representative-hardware baseline (sm_80/sm_89/sm_90). Required for Q4 2026 Wave A delivery; deferred if GPU infrastructure unavailable.
+1. **[Wave-B-TX-001 (CRITICAL)](https://github.com/makr-code/ThemisDB/issues/6576):** Transaction `release_critical` CI lane + representative-hardware baseline evidence (latency/throughput/failover). Blocks v2.4.0 GA CPU-path promotion. Issue: makr-code/ThemisDB#6576
+2. **[Wave-A-GPU-001 (HIGH)](https://github.com/makr-code/ThemisDB/issues/6575):** GPU CUDA reduction + representative-hardware baseline (sm_80/sm_89/sm_90). Required for Q4 2026 Wave A delivery; deferred if GPU infrastructure unavailable. Issue: makr-code/ThemisDB#6575
 
 
 ---
