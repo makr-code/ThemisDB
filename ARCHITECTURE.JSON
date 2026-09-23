@@ -985,7 +985,7 @@
     {
       "category": "governance",
       "path": "ARCHITECTURE.md",
-      "sha256_prefix": "cb412dcabd4fcbb4"
+      "sha256_prefix": "cc095532204c475f"
     },
     {
       "category": "governance",
@@ -1350,7 +1350,7 @@
     {
       "category": "docs",
       "path": "docs/README.md",
-      "sha256_prefix": "bca6f8e7f2cc8b2d"
+      "sha256_prefix": "0ba9190eec4bfcb5"
     },
     {
       "category": "docs",
@@ -1630,17 +1630,17 @@
     {
       "category": "docs",
       "path": "docs/ai_working/API.md",
-      "sha256_prefix": "9ef495d44bb2b10e"
+      "sha256_prefix": "b2dbdaa66e733b6b"
     },
     {
       "category": "docs",
       "path": "docs/ai_working/README.md",
-      "sha256_prefix": "e7a68e463b2a53b9"
+      "sha256_prefix": "6bdff89cda5e83aa"
     },
     {
       "category": "docs",
       "path": "docs/ai_working/ROADMAP.md",
-      "sha256_prefix": "f7026e3df5baf461"
+      "sha256_prefix": "af479f256a13696a"
     },
     {
       "category": "docs",
@@ -2190,7 +2190,7 @@
     {
       "category": "docs",
       "path": "docs/audit/DOCS_INVENTORY_2026-Q3.md",
-      "sha256_prefix": "4c6577d3c4c46546"
+      "sha256_prefix": "fcab86e592c2f1bd"
     },
     {
       "category": "docs",
@@ -2710,7 +2710,7 @@
     {
       "category": "docs",
       "path": "docs/code_maturity_report.md",
-      "sha256_prefix": "0e60e1c3a23beddc"
+      "sha256_prefix": "ccfe199bd8a0b236"
     },
     {
       "category": "docs",
@@ -2761,6 +2761,11 @@
       "category": "docs",
       "path": "docs/compendium/CHAPTER_IMPROVEMENT_ROADMAP.md",
       "sha256_prefix": "63d1d40eecc9ea27"
+    },
+    {
+      "category": "docs",
+      "path": "docs/compendium/COMPENDIUM_SYNC_PROCESS.md",
+      "sha256_prefix": "0db5981a1cf58ca0"
     },
     {
       "category": "docs",
@@ -3645,7 +3650,7 @@
     {
       "category": "docs",
       "path": "docs/governance/GA_PROMOTION_SIGN_OFF.md",
-      "sha256_prefix": "93d3d2f5ee80d5ba"
+      "sha256_prefix": "b4dfd6a1f74d9e6b"
     },
     {
       "category": "docs",
@@ -5016,6 +5021,16 @@
       "category": "docs",
       "path": "docs/migration/v1.7-to-v1.8.md",
       "sha256_prefix": "ceaaf20376be1e56"
+    },
+    {
+      "category": "docs",
+      "path": "docs/model_cards/MODEL_CARD_LLM.md",
+      "sha256_prefix": "d7dd8358772dac15"
+    },
+    {
+      "category": "docs",
+      "path": "docs/model_cards/MODEL_CARD_RAG.md",
+      "sha256_prefix": "553769559f6ed2c7"
     },
     {
       "category": "docs",
@@ -7123,14 +7138,14 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-09-21T02:06:38.965856+00:00",
+  "generated_at": "2026-09-23T05:01:13.603023+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
-    "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-09-14\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `bc0ab72465c851ff`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
+    "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-09-21\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `bc0ab72465c851ff`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
     "module_api_count": 80,
-    "source_count": 7731,
-    "wiki_generated_at": "2026-09-14T03:02:45+00:00",
-    "wiki_source_hash": "9a805478cf58d137362d55087ac8c5583424d80aa9b6705807af48fe42b8ff5e"
+    "source_count": 7810,
+    "wiki_generated_at": "2026-09-21T03:02:32+00:00",
+    "wiki_source_hash": "05f6e5b05fff83503029d732f38036aae3c7ec95487fdfd3e4f2d3895d856706"
   },
   "modules": [
     {
@@ -9199,19 +9214,19 @@
   ],
   "schema_version": "1.0.0",
   "source_hashes": {
-    "ARCHITECTURE.md": "cb412dcabd4fcbb4",
+    "ARCHITECTURE.md": "cc095532204c475f",
     "FUTURE_ENHANCEMENTS.md": "de552eeef9d1ac51",
     "ROADMAP.md": "ff88365b88af13a4",
     "ai_context/ARCHITECTURE_CLASSIFICATION.md": "57a7f2182a1193c8",
     "ai_context/MODULES_AND_NAMESPACES.md": "bf42dba44a39f8cb",
-    "ai_context/api_contracts/": "327db5382688c4b9",
-    "ai_context/developer_llm_wiki/": "ad03442f6966f378",
-    "ai_working/": "aab8e13a407c24a2",
-    "docs/": "847e0f858a020bcb"
+    "ai_context/api_contracts/": "6384de3aba1abb3b",
+    "ai_context/developer_llm_wiki/": "083b2ff7936d3d6c",
+    "ai_working/": "e6d5ae9172c1efa6",
+    "docs/": "6ffb73a48197aa84"
   },
   "statistics": {
     "ai_working_artifact_count": 68,
-    "documentation_source_count": 1228,
+    "documentation_source_count": 1231,
     "isolated_module_count": 30,
     "modules_with_api_contracts": 6,
     "modules_with_private_plugin": 4,
