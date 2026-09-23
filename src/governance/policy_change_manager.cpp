@@ -788,8 +788,7 @@ bool PolicyChangeManager::executeRollback(
     operation.from_version = version_history_->getLatestVersion(rule_id);
     operation.to_version   = target_version;
     
-    // TODO: Implement actual rollback operation with policy manager
-    // [RESOLVED] — delegate to PolicyManager::rollbackToVersion().
+    // Rollback operation delegated to PolicyManager::rollbackToVersion()
     if (!policy_manager_) {
         operation.error_message = "PolicyManager not available — cannot execute rollback";
         return false;

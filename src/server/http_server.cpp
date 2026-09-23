@@ -110,7 +110,7 @@
 #include "server/branch_api_handler.h"
 #include "server/merge_api_handler.h"
 #include "server/feedback_api_handler.h"
-#include "server/http_type_adapter.h"  // TODO: Remove after migration to cpp-httplib (see HTTP_SERVER_REFACTORING_ACTION_PLAN.md)
+#include "server/http_type_adapter.h"  // TECHNICAL DEBT: cpp-httplib migration in progress; adapter required until complete (see HTTP_SERVER_REFACTORING_ACTION_PLAN.md)
 #include "server/mcp_server.h"
 #include "analytics/diff_engine.h"
 #include "storage/pitr_manager.h"

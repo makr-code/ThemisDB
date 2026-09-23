@@ -575,9 +575,8 @@ void AuditBatchWriter::recordMetrics(int64_t submission_latency_us) {
         (metrics_.avg_submission_latency_us * (metrics_.total_entries_submitted - 1) +
          submission_latency_us) / metrics_.total_entries_submitted;
     
-    // TODO: Implement proper p95/p99 tracking with histogram
-    // [RESOLVED] — uses a rolling window of up to 1 000 samples; percentiles
-    // computed by partial sort each time recordMetrics() is called.
+    // Proper p95/p99 tracking with rolling-window histogram (1000 samples)
+    // Percentiles computed by partial sort for efficient O(n) computation
     static constexpr size_t kLatencyWindowSize = 1'000;
     latency_samples_us_.push_back(static_cast<double>(submission_latency_us));
     if (latency_samples_us_.size() > kLatencyWindowSize) {

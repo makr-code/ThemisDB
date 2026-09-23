@@ -6,11 +6,97 @@
 #include "tensor/tensor_routing_strategy.h"
 
 #include <algorithm>
+#include <chrono>
 #include <cmath>
+#include <ctime>
+#include <iomanip>
+#include <limits>
+#include <sstream>
 #include <unordered_map>
 
 namespace themis {
 namespace tensor {
+
+// ============================================================================
+// Helper: Parse ISO-8601 timestamp and compute freshness decay
+// ============================================================================
+
+/**
+ * @brief Parse ISO-8601 timestamp string and return seconds since Unix epoch.
+ * 
+ * Supports formats: "2026-09-23T18:19:50Z" or "2026-09-23T18:19:50.728Z"
+ * 
+ * @param iso_timestamp ISO-8601 timestamp string
+ * @return Time as seconds since Unix epoch, or 0 if parsing fails
+ */
+static double parseISO8601(const std::string& iso_timestamp) noexcept {
+    if (iso_timestamp.empty()) {
+        return 0.0;
+    }
+    
+    std::tm tm = {};
+    std::istringstream ss(iso_timestamp);
+    
+    // Try parsing with fractional seconds
+    ss >> std::get_time(&tm, "%Y-%m-%dT%H:%M:%S");
+    if (ss.fail()) {
+        return 0.0;  // Parsing failed
+    }
+    
+    // Convert to time_t (seconds since epoch)
+    time_t t = std::mktime(&tm);
+    if (t == -1) {
+        return 0.0;  // mktime failed
+    }
+    
+    return static_cast<double>(t);
+}
+
+/**
+ * @brief Compute freshness score based on age of tensor (0.0=stale, 1.0=fresh).
+ * 
+ * Freshness decay model:
+ * - Younger than 1 hour: freshness = 1.0
+ * - 1 to 24 hours: linear decay from 1.0 to 0.5
+ * - 24+ hours: linear decay from 0.5 to 0.0 over next 24 hours
+ * - Older than 48 hours: freshness = 0.0
+ * 
+ * @param created_at_timestamp Creation time in seconds since epoch
+ * @return Freshness score in [0.0, 1.0]
+ */
+static float computeFreshnessDecay(double created_at_timestamp) noexcept {
+    if (created_at_timestamp <= 0.0) {
+        return 0.0f;  // Invalid timestamp
+    }
+    
+    auto now = std::chrono::system_clock::now();
+    auto now_timestamp = std::chrono::system_clock::to_time_t(now);
+    double age_seconds = static_cast<double>(now_timestamp) - created_at_timestamp;
+    
+    if (age_seconds < 0.0) {
+        return 0.0f;  // Future timestamp (invalid)
+    }
+    
+    constexpr double ONE_HOUR_SECONDS = 3600.0;
+    constexpr double ONE_DAY_SECONDS = 86400.0;
+    constexpr double TWO_DAYS_SECONDS = 172800.0;
+    
+    if (age_seconds < ONE_HOUR_SECONDS) {
+        // Very fresh: < 1 hour
+        return 1.0f;
+    } else if (age_seconds < ONE_DAY_SECONDS) {
+        // Moderately fresh: 1-24 hours, linear decay from 1.0 to 0.5
+        double fraction = (age_seconds - ONE_HOUR_SECONDS) / (ONE_DAY_SECONDS - ONE_HOUR_SECONDS);
+        return 1.0f - (0.5f * static_cast<float>(fraction));
+    } else if (age_seconds < TWO_DAYS_SECONDS) {
+        // Becoming stale: 24-48 hours, linear decay from 0.5 to 0.0
+        double fraction = (age_seconds - ONE_DAY_SECONDS) / (TWO_DAYS_SECONDS - ONE_DAY_SECONDS);
+        return 0.5f * (1.0f - static_cast<float>(fraction));
+    } else {
+        // Very stale: > 48 hours
+        return 0.0f;
+    }
+}
 
 // ============================================================================
 // SimilarityBasedPrioritization implementation
@@ -78,9 +164,8 @@ std::vector<float> RankBasedPrioritization::prioritize(
         }
 
         // Compute freshness score (0.0 if very old, 1.0 if very recent)
-        // TODO(tracked): Parse created_at and compute age-based freshness decay
-        //   — see src/tensor/ROADMAP.md § "Routing Freshness Scoring"
-        float freshness = 1.0f;
+        double created_at_timestamp = parseISO8601(summary->created_at);
+        float freshness = computeFreshnessDecay(created_at_timestamp);
         
         float score = (summary->similarity_score * rank_weight) +
                      (freshness * freshness_weight);
@@ -95,10 +180,12 @@ bool RankBasedPrioritization::sort(
 
     std::sort(summaries.begin(), summaries.end(),
               [this](const BaseTensorSummary& a, const BaseTensorSummary& b) {
-                  // TODO(tracked): Compute age-based freshness from timestamp
-                  //   — see src/tensor/ROADMAP.md § "Routing Freshness Scoring"
-                  float freshness_a = 1.0f;
-                  float freshness_b = 1.0f;
+                  // Compute age-based freshness from timestamp
+                  double created_at_a = parseISO8601(a.created_at);
+                  double created_at_b = parseISO8601(b.created_at);
+                  float freshness_a = computeFreshnessDecay(created_at_a);
+                  float freshness_b = computeFreshnessDecay(created_at_b);
+                  
                   float score_a = (a.similarity_score * rank_weight) +
                                  (freshness_a * freshness_weight);
                   float score_b = (b.similarity_score * rank_weight) +
@@ -284,17 +371,58 @@ RoutingDecision AdaptiveRouting::route(
     float                                 compression_ratio,
     const index::AnnQueryContext&         query_context) const {
 
+    (void)query_context;  // May be used for context-specific adaptations in future
+    (void)candidate_count;
+
     RoutingDecision decision;
     
-    // For now, use a simple heuristic based on learned metrics
-    // TODO(tracked): Implement adaptive learning with metrics tracking
-    //   — see src/tensor/ROADMAP.md § "Adaptive Routing Learning"
+    // Implement adaptive learning based on observed performance metrics
+    float best_success_rate = 0.0f;
+    float best_avg_latency = std::numeric_limits<float>::max();
+    std::string best_target = "GRAPH_VALIDATION";  // Default fallback
     
-    decision.primary_target = "GRAPH_VALIDATION";
-    decision.fallback_target = "FALLBACK";
-    decision.confidence = 0.8f;
-    decision.reason = "Adaptive routing with performance learning";
-    decision.reason_code = "ADAPTIVE_SELECTED";
+    // Analyze learned metrics from past routing decisions
+    for (const auto& [target, metrics] : metrics_) {
+        // Weighting formula: prefer targets with high success rate and low latency
+        // Score = success_rate - (normalized_latency * 0.1)
+        float normalized_latency = metrics.avg_latency_ms > 0.0f ? 
+            std::min(1.0f, metrics.avg_latency_ms / 1000.0f) : 0.0f;
+        float target_score = metrics.success_rate - (normalized_latency * 0.1f);
+        
+        if (target_score > best_success_rate - (best_avg_latency / 1000.0f) * 0.1f) {
+            best_target = target;
+            best_success_rate = metrics.success_rate;
+            best_avg_latency = metrics.avg_latency_ms;
+        }
+    }
+    
+    // Compute confidence based on observed success rate and number of observations
+    float confidence = best_success_rate;
+    if (!metrics_.empty()) {
+        auto it = metrics_.find(best_target);
+        if (it != metrics_.end() && it->second.observation_count > 0) {
+            // Confidence increases with more observations (up to a cap at 100 observations)
+            int obs_count = std::min(100, it->second.observation_count);
+            confidence = best_success_rate * (0.5f + 0.5f * obs_count / 100.0f);
+        }
+    }
+    
+    decision.primary_target = best_target;
+    decision.fallback_target = (best_target == "GRAPH_VALIDATION") ? "FALLBACK" : "GRAPH_VALIDATION";
+    decision.confidence = std::clamp(confidence, 0.5f, 0.95f);  // Keep in reasonable range
+    decision.expected_latency_ms = best_avg_latency;
+    decision.reason = "Adaptive routing based on " + std::to_string(
+        metrics_.empty() ? 0 : metrics_[best_target].observation_count) + " learned observations";
+    decision.reason_code = "ADAPTIVE_LEARNED";
+    
+    // Cache based on high confidence in learned routing
+    decision.enable_caching = (confidence >= 0.8f);
+    decision.cache_ttl_seconds = decision.enable_caching ? 1800 : 600;
+    
+    // Priority reflects compression efficiency + confidence
+    decision.priority = static_cast<uint8_t>(std::clamp(
+        confidence * 100.0f * std::max(0.1f, compression_ratio) / 2.0f, 
+        10.0f, 100.0f));
 
     return decision;
 }
