@@ -9,6 +9,7 @@ vcpkg_from_github(
         fix-redefinition-function.patch
         install-tools.patch
         gcc14.patch
+        disable-cmake-tests-when-build-testing-off.patch
 )
 
 vcpkg_replace_string(
