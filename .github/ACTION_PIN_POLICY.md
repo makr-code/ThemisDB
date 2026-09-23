@@ -36,14 +36,14 @@ Version pinning for third-party GitHub Actions is governed by a **4-tier classif
 
 ### Tier 2: SHOULD PIN (Reliability Critical)
 
-**Requirement:** Semantic version tag (e.g., `@v4`) or broken SHA pin  
+**Requirement:** Semantic version tag (e.g., `@v5`) or broken SHA pin  
 **Format:** `uses: owner/action@v<major> # <semver description>`
 
 **Actions:**
-- `actions/checkout` — Repo state is critical to all builds
-- `actions/upload-artifact` — Test/build artifacts; may break if format changes
+- `actions/checkout` — Repo state is critical to all builds (currently @v5, Node.js 24 compatible)
+- `actions/upload-artifact` — Test/build artifacts; may break if format changes (currently @v5, Node.js 24 compatible)
 - `actions/download-artifact` — Artifact consumption
-- `actions/setup-python` — Runtime selection for Python-based CI jobs
+- `actions/setup-python` — Runtime selection for Python-based CI jobs (currently @v6, Node.js 24 compatible)
 - `actions/setup-node` — Runtime selection for Node.js CI jobs
 - `mozilla-actions/sccache-action` — Compiler cache setup
 
@@ -52,14 +52,17 @@ Version pinning for third-party GitHub Actions is governed by a **4-tier classif
 - Compatibility: Patch and minor updates typically fix bugs and improve reliability
 - Reduces maintenance burden: No need to chase every point release
 - Allows cross-platform registry servers to resolve tags independently
+- Node.js 24 compatibility: GitHub deprecated Node.js 20 on 2025-09-19; upgraded to v5/v6 for compatibility
 
 **Review Cadence:** Semi-annually; upgrade on major version changes or security advisories
 
+**Latest Upgrade:** 2026-09-23 (Node.js 20 EOL: checkout v4→v5, upload-artifact v4→v5, setup-python v5→v6)
+
 **Example:**
 ```yaml
-- uses: actions/checkout@v4
-  # Allows v4.0.0, v4.1.0, v4.2.2, etc.
-  # Pin to v4 to auto-receive fixes within major version
+- uses: actions/checkout@v5
+  # Allows v5.0.0, v5.1.0, v5.2.x, etc.
+  # Pin to v5 to auto-receive fixes within major version
 ```
 
 ---

@@ -82,7 +82,7 @@ jobs:
       should-submit: ${{ steps.detect.outputs.should-submit }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Detect release details
         id: detect
@@ -179,7 +179,7 @@ jobs:
       checksums-json: ${{ steps.checksums.outputs.checksums-json }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Generate checksums
         id: checksums
@@ -191,7 +191,7 @@ jobs:
             -IncludeSBOM
 
       - name: Upload checksums
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: winget-checksums
           path: ${{ runner.temp }}/checksums/checksums.json
@@ -206,7 +206,7 @@ jobs:
       manifest-dir: ${{ steps.generate.outputs.manifest-dir }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Download checksums
         uses: actions/download-artifact@v4.1.3
@@ -320,7 +320,7 @@ jobs:
           echo "manifest-dir=$ManifestDir" >> $env:GITHUB_OUTPUT
 
       - name: Upload WinGet manifests
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: winget-manifests-${{ needs.detect-release.outputs.version }}
           path: ${{ steps.generate.outputs.manifest-dir }}
@@ -333,7 +333,7 @@ jobs:
     if: needs.generate-manifests.outputs.manifest-dir != ''
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Validate manifests with winget
         shell: pwsh
@@ -359,7 +359,7 @@ jobs:
     if: needs.generate-manifests.outputs.manifest-dir != '' && needs.detect-release.outputs.should-submit == 'true'
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Download generated WinGet manifests
         uses: actions/download-artifact@v4.1.3

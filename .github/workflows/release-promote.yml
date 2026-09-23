@@ -88,7 +88,7 @@ jobs:
       should-run: ${{ steps.extract.outputs.should-run }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -162,7 +162,7 @@ jobs:
       old-version: ${{ steps.bump.outputs.old-version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -219,7 +219,7 @@ jobs:
     if: needs.extract-release-context.outputs.should-run == 'true'
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -278,7 +278,7 @@ jobs:
       pull_request_url: ${{ steps.pr.outputs.pull-request-url }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 

@@ -37,7 +37,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Detect Hardware
         id: detect
@@ -61,7 +61,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Prepare Data
         shell: bash
@@ -83,7 +83,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Execute Benchmark
         shell: bash
@@ -93,7 +93,7 @@ jobs:
           echo '{"status": "phase_1_skeleton", "scenario": "${{ matrix.scenario }}"}' > ${{ env.WAVE_B_RESULTS_DIR }}/results_${{ matrix.scenario }}.json
 
       - name: Upload Results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: wave-b-results-${{ matrix.scenario }}
           path: ${{ env.WAVE_B_RESULTS_DIR }}/
