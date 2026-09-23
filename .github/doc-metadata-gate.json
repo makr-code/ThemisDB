@@ -4,6 +4,7 @@
     "audit/**/*.md",
     "security/**/*.md",
     "ai_context/**/*.md",
+    ".github/**/*.md",
     "tests/**/*.md"
   ],
   "exclude": [
@@ -24,7 +25,8 @@
     ".github/prompts/**/*.md",
     ".github/instructions/**/*.md",
     "ai_working/**",
-    "ai_context/developer_llm_wiki/**"
+    "ai_context/developer_llm_wiki/**",
+    "ai_context/research/gemini_exports/**"
   ],
   "max_scan_lines": 40,
   "allowed_statuses": [
