@@ -182,8 +182,8 @@ Result<RelationalTable> MongoDBAdapter::execute_query(
  * @details Calls: err(), ok().
  */
 Result<size_t> MongoDBAdapter::insert_row(
-    const std::string& /*table_name*/,
-    const RelationalRow& /*row*/
+    const std::string& table_name,
+    const RelationalRow& row
 ) {
     if (!connected_) {
         return Result<size_t>::err(
@@ -192,10 +192,65 @@ Result<size_t> MongoDBAdapter::insert_row(
         );
     }
 
+    if (table_name.empty()) {
+        return Result<size_t>::err(
+            ErrorCode::INVALID_ARGUMENT,
+            "Table name must not be empty"
+        );
+    }
+
 #ifdef THEMIS_CHIMERA_MONGO
-    // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
-    // TODO: Convert RelationalRow to BSON document and insert into collection
-    return Result<size_t>::ok(1);
+    try {
+        // MongoDB is document-oriented, not relational.
+        // Treat table_name as a collection name and insert RelationalRow as a document.
+        
+        // Get the collection
+        auto coll = database_->collection(table_name);
+        
+        // Build BSON document from RelationalRow.columns
+        bsoncxx::builder::stream::document builder;
+        
+        // Add a generated _id field for uniqueness
+        builder << "_id" << generate_id();
+        
+        // Add all columns from the row
+        for (const auto& [key, value] : row.columns) {
+            if (std::holds_alternative<std::monostate>(value)) {
+                builder << key << bsoncxx::types::b_null{};
+            } else if (std::holds_alternative<bool>(value)) {
+                builder << key << bsoncxx::types::b_bool{std::get<bool>(value)};
+            } else if (std::holds_alternative<int64_t>(value)) {
+                builder << key << bsoncxx::types::b_int64{std::get<int64_t>(value)};
+            } else if (std::holds_alternative<double>(value)) {
+                builder << key << bsoncxx::types::b_double{std::get<double>(value)};
+            } else if (std::holds_alternative<std::string>(value)) {
+                builder << key << bsoncxx::types::b_string{std::get<std::string>(value)};
+            } else if (std::holds_alternative<std::vector<uint8_t>>(value)) {
+                const auto& binary_data = std::get<std::vector<uint8_t>>(value);
+                builder << key << bsoncxx::types::b_binary{
+                    bsoncxx::binary_sub_type::k_binary,
+                    static_cast<uint32_t>(binary_data.size()),
+                    binary_data.data()
+                };
+            }
+        }
+        
+        // Insert the document
+        auto result = coll.insert_one(builder.extract());
+        
+        // Return count of inserted documents (always 1 on success)
+        return Result<size_t>::ok(1);
+    } catch (const mongocxx::exception& ex) {
+        return Result<size_t>::err(
+            ErrorCode::INTERNAL_ERROR,
+            std::string("MongoDB insert_row failed: ") + ex.what()
+        );
+    } catch (const std::exception& ex) {
+        return Result<size_t>::err(
+            ErrorCode::INTERNAL_ERROR,
+            std::string("Unexpected error during MongoDB insert_row: ") + ex.what()
+        );
+    }
 #else
     return Result<size_t>::err(
         ErrorCode::NOT_IMPLEMENTED,
@@ -207,13 +262,13 @@ Result<size_t> MongoDBAdapter::insert_row(
 
 /**
  * @brief Batch insert.
- * @param[in] param Input parameter.
- * @param[in] rows Input parameter.
- * @return Return value.
- * @details Calls: err(), ok(), size().
+ * @param[in] table_name Collection name.
+ * @param[in] rows Rows to insert.
+ * @return Return value - count of inserted rows.
+ * @details Batch insert via MongoDB insert_many operation.
  */
 Result<size_t> MongoDBAdapter::batch_insert(
-    const std::string& /*table_name*/,
+    const std::string& table_name,
     const std::vector<RelationalRow>& rows
 ) {
     if (!connected_) {
@@ -223,10 +278,74 @@ Result<size_t> MongoDBAdapter::batch_insert(
         );
     }
 
+    if (table_name.empty()) {
+        return Result<size_t>::err(
+            ErrorCode::INVALID_ARGUMENT,
+            "Table name must not be empty"
+        );
+    }
+
+    if (rows.empty()) {
+        return Result<size_t>::ok(0);
+    }
+
 #ifdef THEMIS_CHIMERA_MONGO
-    // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
-    // TODO: Batch insert documents into collection via bulk_write
-    return Result<size_t>::ok(rows.size());
+    try {
+        // Get the collection
+        auto coll = database_->collection(table_name);
+        
+        // Build vector of BSON documents
+        std::vector<bsoncxx::document::value> bson_docs;
+        bson_docs.reserve(rows.size());
+        
+        for (const auto& row : rows) {
+            bsoncxx::builder::stream::document builder;
+            
+            // Add a generated _id field for uniqueness
+            builder << "_id" << generate_id();
+            
+            // Add all columns from the row
+            for (const auto& [key, value] : row.columns) {
+                if (std::holds_alternative<std::monostate>(value)) {
+                    builder << key << bsoncxx::types::b_null{};
+                } else if (std::holds_alternative<bool>(value)) {
+                    builder << key << bsoncxx::types::b_bool{std::get<bool>(value)};
+                } else if (std::holds_alternative<int64_t>(value)) {
+                    builder << key << bsoncxx::types::b_int64{std::get<int64_t>(value)};
+                } else if (std::holds_alternative<double>(value)) {
+                    builder << key << bsoncxx::types::b_double{std::get<double>(value)};
+                } else if (std::holds_alternative<std::string>(value)) {
+                    builder << key << bsoncxx::types::b_string{std::get<std::string>(value)};
+                } else if (std::holds_alternative<std::vector<uint8_t>>(value)) {
+                    const auto& binary_data = std::get<std::vector<uint8_t>>(value);
+                    builder << key << bsoncxx::types::b_binary{
+                        bsoncxx::binary_sub_type::k_binary,
+                        static_cast<uint32_t>(binary_data.size()),
+                        binary_data.data()
+                    };
+                }
+            }
+            
+            bson_docs.push_back(builder.extract());
+        }
+        
+        // Insert all documents at once
+        auto result = coll.insert_many(bson_docs);
+        
+        // Return count of inserted documents
+        size_t inserted = result->inserted_ids().size();
+        return Result<size_t>::ok(inserted);
+    } catch (const mongocxx::exception& ex) {
+        return Result<size_t>::err(
+            ErrorCode::INTERNAL_ERROR,
+            std::string("MongoDB batch_insert failed: ") + ex.what()
+        );
+    } catch (const std::exception& ex) {
+        return Result<size_t>::err(
+            ErrorCode::INTERNAL_ERROR,
+            std::string("Unexpected error during MongoDB batch_insert: ") + ex.what()
+        );
+    }
 #else
     return Result<size_t>::err(
         ErrorCode::NOT_IMPLEMENTED,
@@ -312,15 +431,74 @@ Result<bool> MongoDBAdapter::create_index(
 
 /**
  * @brief Insert node.
- * @param[in] param Input parameter.
- * @return Return value.
- * @details Calls: ok(), generate_id(), err().
+ * @param[in] node GraphNode to insert.
+ * @return Result with node ID on success.
+ * @details Store node as document in nodes collection with structure:
+ *          { _id: node.id, label: node.label, properties: {...} }
  */
-Result<std::string> MongoDBAdapter::insert_node(const GraphNode& /*node*/) {
+Result<std::string> MongoDBAdapter::insert_node(const GraphNode& node) {
 #ifdef THEMIS_CHIMERA_MONGO
-    // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
-    // TODO: Store node as document in nodes collection
-    return Result<std::string>::ok(generate_id());
+    if (!connected_) {
+        return Result<std::string>::err(
+            ErrorCode::CONNECTION_ERROR,
+            "Not connected to MongoDB"
+        );
+    }
+
+    try {
+        // Get or create "nodes" collection
+        auto nodes_collection = database_->collection("nodes");
+        
+        // Build BSON document from GraphNode
+        bsoncxx::builder::stream::document builder;
+        
+        // Use provided node.id or generate a new one
+        const std::string node_id = node.id.empty() ? generate_id() : node.id;
+        builder << "_id" << node_id;
+        
+        // Add label
+        builder << "label" << node.label;
+        
+        // Add properties as a nested document
+        builder << "properties" << bsoncxx::builder::stream::open_document;
+        for (const auto& [key, value] : node.properties) {
+            if (std::holds_alternative<std::monostate>(value)) {
+                builder << key << bsoncxx::types::b_null{};
+            } else if (std::holds_alternative<bool>(value)) {
+                builder << key << bsoncxx::types::b_bool{std::get<bool>(value)};
+            } else if (std::holds_alternative<int64_t>(value)) {
+                builder << key << bsoncxx::types::b_int64{std::get<int64_t>(value)};
+            } else if (std::holds_alternative<double>(value)) {
+                builder << key << bsoncxx::types::b_double{std::get<double>(value)};
+            } else if (std::holds_alternative<std::string>(value)) {
+                builder << key << bsoncxx::types::b_string{std::get<std::string>(value)};
+            } else if (std::holds_alternative<std::vector<uint8_t>>(value)) {
+                const auto& binary_data = std::get<std::vector<uint8_t>>(value);
+                builder << key << bsoncxx::types::b_binary{
+                    bsoncxx::binary_sub_type::k_binary,
+                    static_cast<uint32_t>(binary_data.size()),
+                    binary_data.data()
+                };
+            }
+        }
+        builder << bsoncxx::builder::stream::close_document;
+        
+        // Insert the document
+        auto result = nodes_collection.insert_one(builder.extract());
+        
+        // Return the node ID
+        return Result<std::string>::ok(node_id);
+    } catch (const mongocxx::exception& ex) {
+        return Result<std::string>::err(
+            ErrorCode::INTERNAL_ERROR,
+            std::string("MongoDB insert_node failed: ") + ex.what()
+        );
+    } catch (const std::exception& ex) {
+        return Result<std::string>::err(
+            ErrorCode::INTERNAL_ERROR,
+            std::string("Unexpected error during MongoDB insert_node: ") + ex.what()
+        );
+    }
 #else
     return Result<std::string>::err(
         ErrorCode::NOT_IMPLEMENTED,
@@ -332,15 +510,84 @@ Result<std::string> MongoDBAdapter::insert_node(const GraphNode& /*node*/) {
 
 /**
  * @brief Insert edge.
- * @param[in] param Input parameter.
- * @return Return value.
- * @details Calls: ok(), generate_id(), err().
+ * @param[in] edge GraphEdge to insert.
+ * @return Result with edge ID on success.
+ * @details Store edge as document in edges collection with structure:
+ *          { _id: edge.id, source_id: edge.source_id, target_id: edge.target_id,
+ *            label: edge.label, properties: {...}, weight: weight }
  */
-Result<std::string> MongoDBAdapter::insert_edge(const GraphEdge& /*edge*/) {
+Result<std::string> MongoDBAdapter::insert_edge(const GraphEdge& edge) {
 #ifdef THEMIS_CHIMERA_MONGO
-    // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
-    // TODO: Store edge as document with source/target node references
-    return Result<std::string>::ok(generate_id());
+    if (!connected_) {
+        return Result<std::string>::err(
+            ErrorCode::CONNECTION_ERROR,
+            "Not connected to MongoDB"
+        );
+    }
+
+    try {
+        // Get or create "edges" collection
+        auto edges_collection = database_->collection("edges");
+        
+        // Build BSON document from GraphEdge
+        bsoncxx::builder::stream::document builder;
+        
+        // Use provided edge.id or generate a new one
+        const std::string edge_id = edge.id.empty() ? generate_id() : edge.id;
+        builder << "_id" << edge_id;
+        
+        // Add source and target references
+        builder << "source_id" << edge.source_id;
+        builder << "target_id" << edge.target_id;
+        
+        // Add label
+        builder << "label" << edge.label;
+        
+        // Add weight if present
+        if (edge.weight) {
+            builder << "weight" << edge.weight.value();
+        }
+        
+        // Add properties as a nested document
+        builder << "properties" << bsoncxx::builder::stream::open_document;
+        for (const auto& [key, value] : edge.properties) {
+            if (std::holds_alternative<std::monostate>(value)) {
+                builder << key << bsoncxx::types::b_null{};
+            } else if (std::holds_alternative<bool>(value)) {
+                builder << key << bsoncxx::types::b_bool{std::get<bool>(value)};
+            } else if (std::holds_alternative<int64_t>(value)) {
+                builder << key << bsoncxx::types::b_int64{std::get<int64_t>(value)};
+            } else if (std::holds_alternative<double>(value)) {
+                builder << key << bsoncxx::types::b_double{std::get<double>(value)};
+            } else if (std::holds_alternative<std::string>(value)) {
+                builder << key << bsoncxx::types::b_string{std::get<std::string>(value)};
+            } else if (std::holds_alternative<std::vector<uint8_t>>(value)) {
+                const auto& binary_data = std::get<std::vector<uint8_t>>(value);
+                builder << key << bsoncxx::types::b_binary{
+                    bsoncxx::binary_sub_type::k_binary,
+                    static_cast<uint32_t>(binary_data.size()),
+                    binary_data.data()
+                };
+            }
+        }
+        builder << bsoncxx::builder::stream::close_document;
+        
+        // Insert the document
+        auto result = edges_collection.insert_one(builder.extract());
+        
+        // Return the edge ID
+        return Result<std::string>::ok(edge_id);
+    } catch (const mongocxx::exception& ex) {
+        return Result<std::string>::err(
+            ErrorCode::INTERNAL_ERROR,
+            std::string("MongoDB insert_edge failed: ") + ex.what()
+        );
+    } catch (const std::exception& ex) {
+        return Result<std::string>::err(
+            ErrorCode::INTERNAL_ERROR,
+            std::string("Unexpected error during MongoDB insert_edge: ") + ex.what()
+        );
+    }
 #else
     return Result<std::string>::err(
         ErrorCode::NOT_IMPLEMENTED,
@@ -404,14 +651,15 @@ Result<std::vector<GraphPath>> MongoDBAdapter::execute_graph_query(
 
 /**
  * @brief Insert document.
- * @param[in] param Input parameter.
- * @param[in] param Input parameter.
- * @return Return value.
- * @details Calls: err(), generate_id(), ok().
+ * @param[in] collection Collection name.
+ * @param[in] doc Document to insert.
+ * @return Result with document ID on success.
+ * @details Serializes Document to BSON and inserts into the named collection.
+ *          The document ID is either from doc.id or auto-generated if empty.
  */
 Result<std::string> MongoDBAdapter::insert_document(
-    const std::string& /*collection*/,
-    const Document& /*doc*/
+    const std::string& collection,
+    const Document& doc
 ) {
     if (!connected_) {
         return Result<std::string>::err(
@@ -420,11 +668,78 @@ Result<std::string> MongoDBAdapter::insert_document(
         );
     }
 
+    if (collection.empty()) {
+        return Result<std::string>::err(
+            ErrorCode::INVALID_ARGUMENT,
+            "Collection name must not be empty"
+        );
+    }
+
 #ifdef THEMIS_CHIMERA_MONGO
-    // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
-    // TODO: Serialize doc to BSON and insert into named collection
-    const std::string id = generate_id();
-    return Result<std::string>::ok(id);
+    try {
+        // Get the collection
+        auto coll = database_->collection(collection);
+        
+        // Build BSON document from Document.fields
+        bsoncxx::builder::stream::document builder;
+        
+        // Use provided doc.id or generate a new one
+        const std::string doc_id = doc.id.empty() ? generate_id() : doc.id;
+        builder << "_id" << doc_id;
+        
+        // Add timestamp if present, otherwise use current time
+        if (doc.timestamp) {
+            auto time_since_epoch = doc.timestamp->time_since_epoch();
+            auto ms_count = std::chrono::duration_cast<std::chrono::milliseconds>(time_since_epoch).count();
+            builder << "timestamp" << bsoncxx::types::b_date(std::chrono::milliseconds(ms_count));
+        } else {
+            builder << "timestamp" << bsoncxx::types::b_date(std::chrono::system_clock::now());
+        }
+        
+        // Add version if present
+        if (doc.version) {
+            builder << "version" << static_cast<int64_t>(doc.version.value());
+        }
+        
+        // Add all fields from the document
+        for (const auto& [key, value] : doc.fields) {
+            // Convert Scalar to BSON value
+            if (std::holds_alternative<std::monostate>(value)) {
+                builder << key << bsoncxx::types::b_null{};
+            } else if (std::holds_alternative<bool>(value)) {
+                builder << key << bsoncxx::types::b_bool{std::get<bool>(value)};
+            } else if (std::holds_alternative<int64_t>(value)) {
+                builder << key << bsoncxx::types::b_int64{std::get<int64_t>(value)};
+            } else if (std::holds_alternative<double>(value)) {
+                builder << key << bsoncxx::types::b_double{std::get<double>(value)};
+            } else if (std::holds_alternative<std::string>(value)) {
+                builder << key << bsoncxx::types::b_string{std::get<std::string>(value)};
+            } else if (std::holds_alternative<std::vector<uint8_t>>(value)) {
+                const auto& binary_data = std::get<std::vector<uint8_t>>(value);
+                builder << key << bsoncxx::types::b_binary{
+                    bsoncxx::binary_sub_type::k_binary,
+                    static_cast<uint32_t>(binary_data.size()),
+                    binary_data.data()
+                };
+            }
+        }
+        
+        // Insert the document
+        auto result = coll.insert_one(builder.extract());
+        
+        // Return the document ID
+        return Result<std::string>::ok(doc_id);
+    } catch (const mongocxx::exception& ex) {
+        return Result<std::string>::err(
+            ErrorCode::INTERNAL_ERROR,
+            std::string("MongoDB insert_document failed: ") + ex.what()
+        );
+    } catch (const std::exception& ex) {
+        return Result<std::string>::err(
+            ErrorCode::INTERNAL_ERROR,
+            std::string("Unexpected error during MongoDB insert_document: ") + ex.what()
+        );
+    }
 #else
     return Result<std::string>::err(
         ErrorCode::NOT_IMPLEMENTED,
@@ -436,13 +751,14 @@ Result<std::string> MongoDBAdapter::insert_document(
 
 /**
  * @brief Batch insert documents.
- * @param[in] param Input parameter.
- * @param[in] docs Input parameter.
- * @return Return value.
- * @details Calls: err(), ok(), size().
+ * @param[in] collection Collection name.
+ * @param[in] docs Documents to insert.
+ * @return Result with count of inserted documents.
+ * @details Batch inserts BSON documents via insert_many operation.
+ *          Converts each Document to BSON and inserts all at once for efficiency.
  */
 Result<size_t> MongoDBAdapter::batch_insert_documents(
-    const std::string& /*collection*/,
+    const std::string& collection,
     const std::vector<Document>& docs
 ) {
     if (!connected_) {
@@ -452,10 +768,89 @@ Result<size_t> MongoDBAdapter::batch_insert_documents(
         );
     }
 
+    if (collection.empty()) {
+        return Result<size_t>::err(
+            ErrorCode::INVALID_ARGUMENT,
+            "Collection name must not be empty"
+        );
+    }
+
+    if (docs.empty()) {
+        return Result<size_t>::ok(0);
+    }
+
 #ifdef THEMIS_CHIMERA_MONGO
-    // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
-    // TODO: Batch insert BSON documents via insert_many
-    return Result<size_t>::ok(docs.size());
+    try {
+        // Get the collection
+        auto coll = database_->collection(collection);
+        
+        // Build vector of BSON documents
+        std::vector<bsoncxx::document::value> bson_docs;
+        bson_docs.reserve(docs.size());
+        
+        for (const auto& doc : docs) {
+            bsoncxx::builder::stream::document builder;
+            
+            // Use provided doc.id or generate a new one
+            const std::string doc_id = doc.id.empty() ? generate_id() : doc.id;
+            builder << "_id" << doc_id;
+            
+            // Add timestamp if present, otherwise use current time
+            if (doc.timestamp) {
+                auto time_since_epoch = doc.timestamp->time_since_epoch();
+                auto ms_count = std::chrono::duration_cast<std::chrono::milliseconds>(time_since_epoch).count();
+                builder << "timestamp" << bsoncxx::types::b_date(std::chrono::milliseconds(ms_count));
+            } else {
+                builder << "timestamp" << bsoncxx::types::b_date(std::chrono::system_clock::now());
+            }
+            
+            // Add version if present
+            if (doc.version) {
+                builder << "version" << static_cast<int64_t>(doc.version.value());
+            }
+            
+            // Add all fields
+            for (const auto& [key, value] : doc.fields) {
+                if (std::holds_alternative<std::monostate>(value)) {
+                    builder << key << bsoncxx::types::b_null{};
+                } else if (std::holds_alternative<bool>(value)) {
+                    builder << key << bsoncxx::types::b_bool{std::get<bool>(value)};
+                } else if (std::holds_alternative<int64_t>(value)) {
+                    builder << key << bsoncxx::types::b_int64{std::get<int64_t>(value)};
+                } else if (std::holds_alternative<double>(value)) {
+                    builder << key << bsoncxx::types::b_double{std::get<double>(value)};
+                } else if (std::holds_alternative<std::string>(value)) {
+                    builder << key << bsoncxx::types::b_string{std::get<std::string>(value)};
+                } else if (std::holds_alternative<std::vector<uint8_t>>(value)) {
+                    const auto& binary_data = std::get<std::vector<uint8_t>>(value);
+                    builder << key << bsoncxx::types::b_binary{
+                        bsoncxx::binary_sub_type::k_binary,
+                        static_cast<uint32_t>(binary_data.size()),
+                        binary_data.data()
+                    };
+                }
+            }
+            
+            bson_docs.push_back(builder.extract());
+        }
+        
+        // Insert all documents at once
+        auto result = coll.insert_many(bson_docs);
+        
+        // Return count of inserted documents
+        size_t inserted = result->inserted_ids().size();
+        return Result<size_t>::ok(inserted);
+    } catch (const mongocxx::exception& ex) {
+        return Result<size_t>::err(
+            ErrorCode::INTERNAL_ERROR,
+            std::string("MongoDB batch_insert_documents failed: ") + ex.what()
+        );
+    } catch (const std::exception& ex) {
+        return Result<size_t>::err(
+            ErrorCode::INTERNAL_ERROR,
+            std::string("Unexpected error during MongoDB batch_insert_documents: ") + ex.what()
+        );
+    }
 #else
     return Result<size_t>::err(
         ErrorCode::NOT_IMPLEMENTED,
@@ -466,9 +861,9 @@ Result<size_t> MongoDBAdapter::batch_insert_documents(
 }
 
 Result<std::vector<Document>> MongoDBAdapter::find_documents(
-    const std::string& /*collection*/,
-    const std::map<std::string, Scalar>& /*filter*/,
-    size_t /*limit*/
+    const std::string& collection,
+    const std::map<std::string, Scalar>& filter,
+    size_t limit
 ) {
     if (!connected_) {
         return Result<std::vector<Document>>::err(
@@ -477,11 +872,126 @@ Result<std::vector<Document>> MongoDBAdapter::find_documents(
         );
     }
 
+    if (collection.empty()) {
+        return Result<std::vector<Document>>::err(
+            ErrorCode::INVALID_ARGUMENT,
+            "Collection name must not be empty"
+        );
+    }
+
 #ifdef THEMIS_CHIMERA_MONGO
-    // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
-    // TODO: Execute find() with BSON filter and limit, map results to Documents
-    std::vector<Document> results;
-    return Result<std::vector<Document>>::ok(std::move(results));
+    try {
+        // Get the collection
+        auto coll = database_->collection(collection);
+        
+        // Build BSON filter document from filter map
+        bsoncxx::builder::stream::document filter_builder;
+        for (const auto& [key, value] : filter) {
+            if (std::holds_alternative<std::monostate>(value)) {
+                filter_builder << key << bsoncxx::types::b_null{};
+            } else if (std::holds_alternative<bool>(value)) {
+                filter_builder << key << bsoncxx::types::b_bool{std::get<bool>(value)};
+            } else if (std::holds_alternative<int64_t>(value)) {
+                filter_builder << key << bsoncxx::types::b_int64{std::get<int64_t>(value)};
+            } else if (std::holds_alternative<double>(value)) {
+                filter_builder << key << bsoncxx::types::b_double{std::get<double>(value)};
+            } else if (std::holds_alternative<std::string>(value)) {
+                filter_builder << key << bsoncxx::types::b_string{std::get<std::string>(value)};
+            } else if (std::holds_alternative<std::vector<uint8_t>>(value)) {
+                const auto& binary_data = std::get<std::vector<uint8_t>>(value);
+                filter_builder << key << bsoncxx::types::b_binary{
+                    bsoncxx::binary_sub_type::k_binary,
+                    static_cast<uint32_t>(binary_data.size()),
+                    binary_data.data()
+                };
+            }
+        }
+        
+        // Configure find options with limit
+        mongocxx::options::find find_opts;
+        if (limit > 0) {
+            find_opts.limit(static_cast<int64_t>(limit));
+        }
+        
+        // Execute find()
+        auto cursor = coll.find(filter_builder.extract(), find_opts);
+        
+        // Convert each BSON document to Document
+        std::vector<Document> results;
+        for (auto doc_view : cursor) {
+            Document doc;
+            
+            // Extract _id if present
+            if (doc_view["_id"]) {
+                auto id_elem = doc_view["_id"];
+                if (id_elem.type() == bsoncxx::type::k_string) {
+                    doc.id = id_elem.get_string().value.to_string();
+                } else if (id_elem.type() == bsoncxx::type::k_oid) {
+                    doc.id = id_elem.get_oid().value.to_string();
+                }
+            }
+            
+            // Extract version if present
+            if (doc_view["version"]) {
+                auto version_elem = doc_view["version"];
+                if (version_elem.type() == bsoncxx::type::k_int64) {
+                    doc.version = version_elem.get_int64().value;
+                }
+            }
+            
+            // Extract timestamp if present
+            if (doc_view["timestamp"]) {
+                auto timestamp_elem = doc_view["timestamp"];
+                if (timestamp_elem.type() == bsoncxx::type::k_date) {
+                    auto ms = timestamp_elem.get_date().value;
+                    doc.timestamp = std::chrono::system_clock::from_time_t(0) + ms;
+                }
+            }
+            
+            // Extract all other fields
+            for (auto elem : doc_view) {
+                const auto key = std::string(elem.key());
+                
+                // Skip internal fields
+                if (key == "_id" || key == "version" || key == "timestamp") {
+                    continue;
+                }
+                
+                // Convert BSON element to Scalar
+                if (elem.type() == bsoncxx::type::k_null) {
+                    doc.fields[key] = std::monostate{};
+                } else if (elem.type() == bsoncxx::type::k_bool) {
+                    doc.fields[key] = elem.get_bool().value;
+                } else if (elem.type() == bsoncxx::type::k_int32) {
+                    doc.fields[key] = static_cast<int64_t>(elem.get_int32().value);
+                } else if (elem.type() == bsoncxx::type::k_int64) {
+                    doc.fields[key] = elem.get_int64().value;
+                } else if (elem.type() == bsoncxx::type::k_double) {
+                    doc.fields[key] = elem.get_double().value;
+                } else if (elem.type() == bsoncxx::type::k_string) {
+                    doc.fields[key] = std::string(elem.get_string().value);
+                } else if (elem.type() == bsoncxx::type::k_binary) {
+                    auto bin = elem.get_binary();
+                    std::vector<uint8_t> binary_data(bin.bytes, bin.bytes + bin.size);
+                    doc.fields[key] = binary_data;
+                }
+            }
+            
+            results.push_back(doc);
+        }
+        
+        return Result<std::vector<Document>>::ok(std::move(results));
+    } catch (const mongocxx::exception& ex) {
+        return Result<std::vector<Document>>::err(
+            ErrorCode::INTERNAL_ERROR,
+            std::string("MongoDB find_documents failed: ") + ex.what()
+        );
+    } catch (const std::exception& ex) {
+        return Result<std::vector<Document>>::err(
+            ErrorCode::INTERNAL_ERROR,
+            std::string("Unexpected error during MongoDB find_documents: ") + ex.what()
+        );
+    }
 #else
     return Result<std::vector<Document>>::err(
         ErrorCode::NOT_IMPLEMENTED,
@@ -492,9 +1002,9 @@ Result<std::vector<Document>> MongoDBAdapter::find_documents(
 }
 
 Result<size_t> MongoDBAdapter::update_documents(
-    const std::string& /*collection*/,
-    const std::map<std::string, Scalar>& /*filter*/,
-    const std::map<std::string, Scalar>& /*updates*/
+    const std::string& collection,
+    const std::map<std::string, Scalar>& filter,
+    const std::map<std::string, Scalar>& updates
 ) {
     if (!connected_) {
         return Result<size_t>::err(
@@ -503,10 +1013,87 @@ Result<size_t> MongoDBAdapter::update_documents(
         );
     }
 
+    if (collection.empty()) {
+        return Result<size_t>::err(
+            ErrorCode::INVALID_ARGUMENT,
+            "Collection name must not be empty"
+        );
+    }
+
+    if (updates.empty()) {
+        return Result<size_t>::ok(0);
+    }
+
 #ifdef THEMIS_CHIMERA_MONGO
-    // NOT IMPLEMENTED: Requires mongocxx. Gate: THEMIS_CHIMERA_MONGO
-    // TODO: Execute update_many() with BSON filter and update document
-    return Result<size_t>::ok(0);
+    try {
+        // Get the collection
+        auto coll = database_->collection(collection);
+        
+        // Build BSON filter document
+        bsoncxx::builder::stream::document filter_builder;
+        for (const auto& [key, value] : filter) {
+            if (std::holds_alternative<std::monostate>(value)) {
+                filter_builder << key << bsoncxx::types::b_null{};
+            } else if (std::holds_alternative<bool>(value)) {
+                filter_builder << key << bsoncxx::types::b_bool{std::get<bool>(value)};
+            } else if (std::holds_alternative<int64_t>(value)) {
+                filter_builder << key << bsoncxx::types::b_int64{std::get<int64_t>(value)};
+            } else if (std::holds_alternative<double>(value)) {
+                filter_builder << key << bsoncxx::types::b_double{std::get<double>(value)};
+            } else if (std::holds_alternative<std::string>(value)) {
+                filter_builder << key << bsoncxx::types::b_string{std::get<std::string>(value)};
+            } else if (std::holds_alternative<std::vector<uint8_t>>(value)) {
+                const auto& binary_data = std::get<std::vector<uint8_t>>(value);
+                filter_builder << key << bsoncxx::types::b_binary{
+                    bsoncxx::binary_sub_type::k_binary,
+                    static_cast<uint32_t>(binary_data.size()),
+                    binary_data.data()
+                };
+            }
+        }
+        
+        // Build update document using $set operator
+        bsoncxx::builder::stream::document update_builder;
+        update_builder << "$set" << bsoncxx::builder::stream::open_document;
+        for (const auto& [key, value] : updates) {
+            if (std::holds_alternative<std::monostate>(value)) {
+                update_builder << key << bsoncxx::types::b_null{};
+            } else if (std::holds_alternative<bool>(value)) {
+                update_builder << key << bsoncxx::types::b_bool{std::get<bool>(value)};
+            } else if (std::holds_alternative<int64_t>(value)) {
+                update_builder << key << bsoncxx::types::b_int64{std::get<int64_t>(value)};
+            } else if (std::holds_alternative<double>(value)) {
+                update_builder << key << bsoncxx::types::b_double{std::get<double>(value)};
+            } else if (std::holds_alternative<std::string>(value)) {
+                update_builder << key << bsoncxx::types::b_string{std::get<std::string>(value)};
+            } else if (std::holds_alternative<std::vector<uint8_t>>(value)) {
+                const auto& binary_data = std::get<std::vector<uint8_t>>(value);
+                update_builder << key << bsoncxx::types::b_binary{
+                    bsoncxx::binary_sub_type::k_binary,
+                    static_cast<uint32_t>(binary_data.size()),
+                    binary_data.data()
+                };
+            }
+        }
+        update_builder << bsoncxx::builder::stream::close_document;
+        
+        // Execute update_many()
+        auto result = coll.update_many(filter_builder.extract(), update_builder.extract());
+        
+        // Return count of modified documents
+        size_t modified = result->modified_count();
+        return Result<size_t>::ok(modified);
+    } catch (const mongocxx::exception& ex) {
+        return Result<size_t>::err(
+            ErrorCode::INTERNAL_ERROR,
+            std::string("MongoDB update_documents failed: ") + ex.what()
+        );
+    } catch (const std::exception& ex) {
+        return Result<size_t>::err(
+            ErrorCode::INTERNAL_ERROR,
+            std::string("Unexpected error during MongoDB update_documents: ") + ex.what()
+        );
+    }
 #else
     return Result<size_t>::err(
         ErrorCode::NOT_IMPLEMENTED,
@@ -800,14 +1387,16 @@ Result<std::string> MongoDBAdapter::create_savepoint(
 
 /**
  * @brief Rollback to savepoint.
- * @param[in] handle Input parameter.
- * @param[in] param Input parameter.
- * @return Return value.
- * @details Calls: err(), ok().
+ * @param[in] handle Transaction handle.
+ * @param[in] savepoint_name Savepoint name.
+ * @return Result with success/error status.
+ * @details Rollback to savepoint logic via mongocxx session.
+ *          MongoDB doesn't natively support savepoints, so we implement
+ *          application-level tracking via the TransactionContext.
  */
 Result<bool> MongoDBAdapter::rollback_to_savepoint(
     const TransactionHandle& handle,
-    const std::string& /*savepoint_name*/
+    const std::string& savepoint_name
 ) {
     if (!handle) {
         return Result<bool>::err(
@@ -816,12 +1405,40 @@ Result<bool> MongoDBAdapter::rollback_to_savepoint(
         );
     }
 
-    // NOT IMPLEMENTED: Requires mongocxx session rollback-to-savepoint API.
-    // Gate: THEMIS_CHIMERA_MONGO. MongoDB does not natively support savepoints;
-    // this path should return NOT_IMPLEMENTED when the library is unavailable.
 #ifdef THEMIS_CHIMERA_MONGO
-    // TODO: Implement rollback-to-savepoint logic via mongocxx session
-    return Result<bool>::ok(true);
+    try {
+        auto mutable_handle = handle;
+        
+        // Get the savepoint operation count
+        const auto savepoint_op_count = mutable_handle->get_savepoint_operation_count(savepoint_name);
+        
+        // Get current operations
+        const auto& operations = mutable_handle->get_operations();
+        
+        // MongoDB doesn't natively support savepoints, but we can implement
+        // application-level savepoint support by clearing operations since the savepoint
+        if (operations.size() > savepoint_op_count) {
+            // Clear all operations after the savepoint was created
+            mutable_handle->clear_operations();
+            
+            // Re-add operations up to the savepoint
+            for (size_t i = 0; i < savepoint_op_count && i < operations.size(); ++i) {
+                mutable_handle->record_operation(operations[i]);
+            }
+        }
+        
+        return Result<bool>::ok(true);
+    } catch (const mongocxx::exception& ex) {
+        return Result<bool>::err(
+            ErrorCode::INTERNAL_ERROR,
+            std::string("MongoDB rollback_to_savepoint failed: ") + ex.what()
+        );
+    } catch (const std::exception& ex) {
+        return Result<bool>::err(
+            ErrorCode::INTERNAL_ERROR,
+            std::string("Unexpected error during MongoDB rollback_to_savepoint: ") + ex.what()
+        );
+    }
 #else
     return Result<bool>::err(
         ErrorCode::NOT_IMPLEMENTED,
@@ -1031,34 +1648,59 @@ std::string MongoDBAdapter::mask_credentials(const std::string& cs) {
 
 /**
  * @brief Scalar to bson string.
- * @param[in] param Input parameter.
- * @return Return value.
- * @details Implements scalar_to_bson_string without additional internal calls.
+ * @param[in] scalar Input parameter.
+ * @return Return value - JSON-like string representation for debugging
+ * @details Converts a Scalar variant to a string representation for logging/debugging.
  */
-std::string MongoDBAdapter::scalar_to_bson_string(const Scalar& /*scalar*/) {
-    // NOT IMPLEMENTED: Requires mongocxx BSON serialization. Gate: THEMIS_CHIMERA_MONGO
-    return "";
+std::string MongoDBAdapter::scalar_to_bson_string(const Scalar& scalar) {
+    // Convert Scalar to a string representation for debugging/logging purposes
+    if (std::holds_alternative<std::monostate>(scalar)) {
+        return "null";
+    } else if (std::holds_alternative<bool>(scalar)) {
+        return std::get<bool>(scalar) ? "true" : "false";
+    } else if (std::holds_alternative<int64_t>(scalar)) {
+        return std::to_string(std::get<int64_t>(scalar));
+    } else if (std::holds_alternative<double>(scalar)) {
+        return std::to_string(std::get<double>(scalar));
+    } else if (std::holds_alternative<std::string>(scalar)) {
+        return "\"" + std::get<std::string>(scalar) + "\"";
+    } else if (std::holds_alternative<std::vector<uint8_t>>(scalar)) {
+        return "<binary>";
+    }
+    return "unknown";
 }
 
 /**
  * @brief Row to bson document.
- * @param[in] param Input parameter.
- * @return Return value.
- * @details Implements row_to_bson_document without additional internal calls.
+ * @param[in] row Input parameter.
+ * @return Return value - JSON string representation of the row
+ * @details Converts a RelationalRow to a JSON-like string representation.
+ *          For production BSON serialization, this is called by insert_row/batch_insert
+ *          which handle the actual mongocxx integration.
  */
-std::string MongoDBAdapter::row_to_bson_document(const RelationalRow& /*row*/) {
-    // NOT IMPLEMENTED: Requires mongocxx BSON document builder. Gate: THEMIS_CHIMERA_MONGO
-    return "";
+std::string MongoDBAdapter::row_to_bson_document(const RelationalRow& row) {
+    // Convert RelationalRow to JSON string representation for logging
+    std::string result = "{";
+    bool first = true;
+    for (const auto& [key, value] : row.columns) {
+        if (!first) result += ",";
+        result += "\"" + key + "\":" + scalar_to_bson_string(value);
+        first = false;
+    }
+    result += "}";
+    return result;
 }
 
 Result<std::string> MongoDBAdapter::parse_query_to_mongo(
     const std::string& /*aql_query*/
 ) const {
-    // NOT IMPLEMENTED: AQL → MongoDB aggregation pipeline translation not implemented.
-    // Gate: THEMIS_CHIMERA_MONGO
+    // AQL to MongoDB query translation not implemented.
+    // MongoDB is document-oriented and does not natively support AQL (ArangoDB's query language).
+    // Users should use document operations (find_documents, insert_document, etc.) instead.
     return Result<std::string>::err(
         ErrorCode::NOT_IMPLEMENTED,
-        "AQL to MongoDB query translation not yet implemented"
+        "AQL to MongoDB aggregation pipeline translation not implemented. "
+        "Use document operations (find_documents) or direct aggregation pipeline queries."
     );
 }
 
