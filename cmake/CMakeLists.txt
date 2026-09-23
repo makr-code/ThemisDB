@@ -5397,10 +5397,29 @@ add_executable(themis_demo
     ../src/main.cpp
 )
 
+function(themis_link_mimalloc_if_enabled _target_name)
+    if(THEMIS_ENABLE_MIMALLOC)
+        if(WIN32)
+            if(TARGET mimalloc)
+                target_link_libraries(${_target_name} PRIVATE mimalloc)
+            else()
+                message(FATAL_ERROR "THEMIS_ENABLE_MIMALLOC=ON for ${_target_name} on Windows but target 'mimalloc' is unavailable")
+            endif()
+        elseif(TARGET mimalloc-static)
+            target_link_libraries(${_target_name} PRIVATE mimalloc-static)
+        elseif(TARGET mimalloc)
+            target_link_libraries(${_target_name} PRIVATE mimalloc)
+        else()
+            message(FATAL_ERROR "THEMIS_ENABLE_MIMALLOC=ON for ${_target_name} but no usable mimalloc target is available (expected mimalloc-static or mimalloc)")
+        endif()
+    endif()
+endfunction()
+
 target_link_libraries(themis_demo
     PRIVATE
         themis_core
 )
+themis_link_mimalloc_if_enabled(themis_demo)
 
 # Encryption demo executable
 add_executable(themis_demo_encryption
@@ -5411,6 +5430,7 @@ target_link_libraries(themis_demo_encryption
     PRIVATE
         themis_core
 )
+themis_link_mimalloc_if_enabled(themis_demo_encryption)
 
 # API Server executable
 add_executable(themis_server
