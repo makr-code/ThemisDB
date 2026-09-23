@@ -157,9 +157,13 @@ bool GGUFLoader::isFormatSupported(GGMLType type) {
         [[fallthrough]];
         case GGMLType::Q4_K:  // Q4_K_M and Q4_K_S share the same enum value
         [[fallthrough]];
+        case GGMLType::Q5_K:
+        [[fallthrough]];
         case GGMLType::Q6_K:
         [[fallthrough]];
         case GGMLType::Q8_0:
+        [[fallthrough]];
+        case GGMLType::Q8_K:
             return true;
         default:
             return false;
@@ -708,8 +712,8 @@ bool GGUFLoader::parseTensorInfo() {
         if (!isFormatSupported(tensor.type)) {
             last_error_ = "Unsupported quantization format " + tensor.type_string()
                           + " in tensor '" + tensor.name + "'"
-                          + ". Supported formats: F32, F16, Q4_K_M, Q6_K, Q8_0."
-                          + " Download a Q4_K_M, Q6_K, or Q8_0 variant of this model.";
+                          + ". Supported formats: F32, F16, Q4_K, Q5_K, Q6_K, Q8_0, Q8_K."
+                          + " Download a common K-quant or FP32/FP16 variant of this model.";
             spdlog::error("GGUFLoader: {}", last_error_);
             return false;
         }

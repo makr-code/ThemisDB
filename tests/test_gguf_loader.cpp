@@ -311,13 +311,19 @@ TEST_F(GGUFLoaderTest, IsFormatSupported_SupportedTypes) {
     EXPECT_TRUE(GGUFLoader::isFormatSupported(GGMLType::Q8_0));
 }
 
+TEST_F(GGUFLoaderTest, IsFormatSupported_CommonKQuantTypes) {
+    EXPECT_TRUE(GGUFLoader::isFormatSupported(GGMLType::Q4_K));
+    EXPECT_TRUE(GGUFLoader::isFormatSupported(GGMLType::Q5_K));
+    EXPECT_TRUE(GGUFLoader::isFormatSupported(GGMLType::Q6_K));
+    EXPECT_TRUE(GGUFLoader::isFormatSupported(GGMLType::Q8_0));
+}
+
 TEST_F(GGUFLoaderTest, IsFormatSupported_UnsupportedTypes) {
     EXPECT_FALSE(GGUFLoader::isFormatSupported(GGMLType::Q4_0));
     EXPECT_FALSE(GGUFLoader::isFormatSupported(GGMLType::Q4_1));
     EXPECT_FALSE(GGUFLoader::isFormatSupported(GGMLType::Q5_0));
     EXPECT_FALSE(GGUFLoader::isFormatSupported(GGMLType::Q5_1));
     EXPECT_FALSE(GGUFLoader::isFormatSupported(GGMLType::Q8_1));
-    EXPECT_FALSE(GGUFLoader::isFormatSupported(GGMLType::Q5_K));
     EXPECT_FALSE(GGUFLoader::isFormatSupported(GGMLType::Q2_K));
     EXPECT_FALSE(GGUFLoader::isFormatSupported(GGMLType::Q3_K));
 }
@@ -417,14 +423,13 @@ TEST_F(GGUFLoaderTest, ParseFile_RejectsUnsupportedFormat_Q4_0) {
     EXPECT_NE(err.find("Supported formats"), std::string::npos);
 }
 
-TEST_F(GGUFLoaderTest, ParseFile_RejectsUnsupportedFormat_Q5_K) {
-    ScopedTempFile tmp("q5k_unsupported.gguf");
+TEST_F(GGUFLoaderTest, ParseFile_AcceptsQ5_K) {
+    ScopedTempFile tmp("q5k_supported.gguf");
     tmp.write(makeMockGGUF(GGMLType::Q5_K));
-    
+
     GGUFLoader loader;
-    EXPECT_FALSE(loader.parseFile(tmp.str()));
-    EXPECT_FALSE(loader.getLastError().empty());
-    EXPECT_NE(loader.getLastError().find("Q5_K"), std::string::npos);
+    loader.parseFile(tmp.str());
+    EXPECT_EQ(loader.getLastError().find("Unsupported quantization format"), std::string::npos);
 }
 
 TEST_F(GGUFLoaderTest, ParseFile_AcceptsQ4_K_M) {
