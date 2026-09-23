@@ -406,7 +406,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
-          TRACKER_ISSUE_TITLE: ${{ env.TRACKER_ISSUE_TITLE }}
           SOURCE_BRANCH: ${{ steps.build.outputs.source_branch }}
           FALLBACK_REF: ${{ github.sha }}
           RUN_NUMBER: ${{ github.run_number }}
@@ -504,7 +503,7 @@ jobs:
           fi
 
           TRACKER_STATUS="Not closed (pending review)"
-          if [ -n "$CLOSED_ISSUE" ] && [ "$CLOSED_ISSUE" != "" ]; then
+          if [ -n "$CLOSED_ISSUE" ]; then
             TRACKER_STATUS="Closed (#${CLOSED_ISSUE})"
           fi
 
