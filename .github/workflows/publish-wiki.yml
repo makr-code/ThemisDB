@@ -17,14 +17,20 @@ name: "Publish: GitHub Wiki"
 #            - document sorting by currency (freshness + modification date)
 #       3. Validate internal [[links]] (scripts/validate_wiki_links.py)
 #       4. [Optional] AI enrichment via GitHub Models API (workflow_dispatch opt-in)
-#       5. Dispatch the human-review issue gate workflow
-#       6. The gate upserts a single tracking issue and adds a per-run comment
+#       5. Either dispatch human-review gate OR publish wiki:
+#          - Without approve_and_publish: dispatch wiki-pr-gate to create tracking issue for review
+#          - With approve_and_publish: publish to GitHub wiki and close tracking issue
+#   Phase 3 (tracking issue lifecycle):
+#       - wiki-pr-gate.yml: creates/updates a single tracking issue for human sign-off
+#       - This workflow: closes the issue when wiki is published with human approval
+#       - Issue auto-reopens on next review run if needed
 #
 # Wiki Features:
 #   - Breadcrumbs: Every page shows "Home > Category > ... > Page" navigation
 #   - Currency Sorting: Fresh documents (0-30 days) sorted first for visibility
 #   - Community Guardrails: Blocks private content paths before publishing
 #   - Link Validation: Ensures all [[wiki links]] point to valid pages
+#   - Issue-based review: Single tracking issue per review cycle, human-controlled publish
 #
 # Workflow interplay:
 #   - maintenance-docs.yml fires first (on push to develop when ai_context/** or
@@ -41,7 +47,7 @@ name: "Publish: GitHub Wiki"
 #   1. GitHub Wiki must be enabled (Settings -> Features -> Wikis).
 #   2. Wiki must be initialized with at least one page before this workflow
 #      can push (create one page once via the GitHub UI).
-#   3. GITHUB_TOKEN with contents:write scope for the wiki push.
+#   3. GITHUB_TOKEN with contents:write and issues:write scope for wiki push and issue closure.
 
 on:
   # SoC chain: this publisher runs after documentation-producing workflows finish successfully.
@@ -96,6 +102,13 @@ permissions:
 concurrency:
   group: publish-wiki-${{ github.ref }}
   cancel-in-progress: true
+
+env:
+  # Tracking issue title - coordinated between wiki-pr-gate.yml and publish-wiki.yml
+  # If this needs to change, update in both workflows to maintain consistency.
+  # For true single-source-of-truth without duplication, consider using GitHub repository
+  # variables (vars.TRACKER_ISSUE_TITLE), but this requires admin setup.
+  TRACKER_ISSUE_TITLE: "Wiki publish review: human sign-off tracker"
 
 jobs:
   publish-wiki:
@@ -384,6 +397,48 @@ jobs:
       # -----------------------------------------------------------------------
       # Phase 3a: Hand off to the human-review PR gate (if not published)
       # -----------------------------------------------------------------------
+      - name: Close tracking issue after publish
+        id: close_tracker
+        if: |
+          steps.build.outputs.is_dry_run != 'true' &&
+          github.event.inputs.approve_and_publish == 'true' &&
+          steps.publish.outputs.wiki_published == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          SOURCE_BRANCH: ${{ steps.build.outputs.source_branch }}
+          FALLBACK_REF: ${{ github.sha }}
+          RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          set -euo pipefail
+
+          # Find and close the tracking issue by exact title match
+          # Pipe gh output to jq and use --arg to safely pass title (prevents injection/escaping issues)
+          ISSUE_NUMBER=$(gh issue list \
+            --repo "$GH_REPO" \
+            --state open \
+            --limit 500 \
+            --json number,title | \
+            jq --arg title "$TRACKER_ISSUE_TITLE" \
+            '.[] | select(.title == $title) | .number' | head -1)
+
+          if [ -z "$ISSUE_NUMBER" ] || [ "$ISSUE_NUMBER" = "null" ]; then
+            echo "::warning::Could not find open tracking issue to close"
+            exit 0
+          fi
+
+          # Use source_branch if available, otherwise use workflow trigger sha
+          PUBLISHED_REF="${SOURCE_BRANCH}"
+          if [ -z "$PUBLISHED_REF" ]; then
+            PUBLISHED_REF="${FALLBACK_REF}"
+          fi
+
+          gh issue close "$ISSUE_NUMBER" \
+            --repo "$GH_REPO" \
+            --comment "✅ Wiki published successfully (run #${RUN_NUMBER}, source: ${PUBLISHED_REF}). This issue will be re-opened by the next automation run that requires review."
+
+          echo "closed_issue=$ISSUE_NUMBER" >> "$GITHUB_OUTPUT"
+
       - name: Dispatch wiki review gate
         id: review_dispatch
         if: |
@@ -415,6 +470,8 @@ jobs:
 
       - name: Write publish summary
         if: always()
+        env:
+          CLOSED_ISSUE: ${{ steps.close_tracker.outputs.closed_issue }}
         run: |
           PAGE_COUNT=$(find /tmp/wiki-staging -maxdepth 1 -name '*.md' 2>/dev/null | wc -l || echo 0)
           BLOCKED_COUNT="${{ steps.build.outputs.blocked_private || '0' }}"
@@ -445,6 +502,11 @@ jobs:
             LINK_HEALTH="WARN"
           fi
 
+          TRACKER_STATUS="Not closed (pending review)"
+          if [ -n "$CLOSED_ISSUE" ]; then
+            TRACKER_STATUS="Closed (#${CLOSED_ISSUE})"
+          fi
+
           {
             echo "## Wiki Publish Summary"
             echo "- Pages generated: **$PAGE_COUNT**"
@@ -456,6 +518,7 @@ jobs:
             echo "- Trigger: \`${{ github.event_name }}\`"
             echo "- Source branch for blob links: \`${{ steps.build.outputs.source_branch }}\`"
             echo "- Commit: \`${{ github.sha }}\`"
+            echo "- Tracking issue status: **${TRACKER_STATUS}**"
             echo "- Review gate dispatched: **${REVIEW_DISPATCHED}** (issue-based — no PR branch created)"
             echo ""
             echo "### Reader KPIs"

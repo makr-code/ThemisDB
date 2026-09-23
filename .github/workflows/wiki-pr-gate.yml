@@ -51,6 +51,13 @@ concurrency:
   group: wiki-pr-gate-${{ github.ref }}
   cancel-in-progress: false
 
+env:
+  # Tracking issue title - coordinated between publish-wiki.yml and wiki-pr-gate.yml
+  # If this needs to change, update in both workflows to maintain consistency.
+  # For true single-source-of-truth without duplication, consider using GitHub repository
+  # variables (vars.TRACKER_ISSUE_TITLE), but this requires admin setup.
+  TRACKER_ISSUE_TITLE: "Wiki publish review: human sign-off tracker"
+
 jobs:
   wiki_pr_gate:
     name: Build, validate and open a human review PR
@@ -165,7 +172,7 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           operation: upsert_issue
-          issue-title: "Wiki publish review: human sign-off tracker"
+          issue-title: ${{ env.TRACKER_ISSUE_TITLE }}
           issue-marker: '<!-- wiki-review-tracker -->'
           issue-body: |
             ## Wiki publish review tracker
