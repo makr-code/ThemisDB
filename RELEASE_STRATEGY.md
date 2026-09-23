@@ -749,9 +749,10 @@ Closes tracking issue on success
 **Action:**
 1. Validates commenter permissions
 2. Extracts version from issue body
-3. Confirms release is published (visible on GitHub)
-4. Creates comment with next-steps guidance
-5. Auto-closes tracking issue
+3. Fetches the existing release by tag and creates downstream tracking issues
+4. Ensures the release is publicly visible on GitHub (idempotent if already published)
+5. Creates comment with next-steps guidance
+6. Auto-closes tracking issue
 
 **Example approval:**
 ```
@@ -761,14 +762,14 @@ I've verified the checksums, signatures, and CHANGELOG.
 Ready to publish.
 ```
 
-### GitHub Release → Downstream Triggers
+### GitHub Release → Downstream Approval Paths
 
-When GitHub Release is published, these are automatically triggered (but still require approval):
+After the GitHub Release exists, maintainers can independently approve these downstream publication paths:
 
 1. **WinGet submission** (`release-winget-approval.yml`)
 2. **Docker build + push** (`release-docker-approval.yml`)
-3. **Linux distro bundle** (`release-linux-distribution.yml`)
-4. **Windows distro bundle** (`release-windows-distribution.yml`)
+3. **Linux distro bundle** (`release-linux-distro-approval.yml`)
+4. **Windows distro bundle** (`release-windows-distro-approval.yml`)
 
 ### WinGet Community Publication (`release-winget-approval.yml`)
 

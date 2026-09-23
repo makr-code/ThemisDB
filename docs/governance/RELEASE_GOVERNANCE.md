@@ -18,7 +18,7 @@ This document is the single source of truth for:
 - [RELEASE_STRATEGY.md](../../RELEASE_STRATEGY.md) — Release process overview
 - [BRANCHING_STRATEGY.md](../../BRANCHING_STRATEGY.md) — Branch governance
 - [VERSIONING.md](../../VERSIONING.md) — Version numbering
-- [ACTION_PIN_POLICY.md](../.github/ACTION_PIN_POLICY.md) — Workflow action pinning
+- [ACTION_PIN_POLICY.md](../../.github/ACTION_PIN_POLICY.md) — Workflow action pinning
 
 ## Approval Gate Workflows
 
@@ -31,17 +31,18 @@ This document is the single source of truth for:
 | Trigger Labels | `release-review` |
 | Trigger Keywords | `/publish-release`, `/approve-release`, `@publish-release` |
 | Requires Permission | `admin` or `maintain` |
-| Action | Publishes draft release to GitHub + creates tracking issues for downstream registries |
+| Action | Ensures the GitHub Release is public and creates tracking issues for downstream registries |
 | Downstream | Creates 4 tracking issues for independent approval of each registry (WinGet, Docker, Linux Distro, Windows Distro) |
 | Auto-close Issue | No - issue stays open as central release coordination point |
 
 **Workflow Steps:**
 1. Validate maintainer permission via GitHub API
 2. Extract version from issue body (pattern: `## Release Version: X.Y.Z`)
-3. Verify release tag exists
-4. Publish release (calls `gh release edit <tag> --draft=false`)
-5. Comment approval status with next-steps
-6. Close tracking issue with success status
+3. Fetch existing release by tag
+4. Create tracking issues for downstream registries (WinGet, Docker, Linux Distro, Windows Distro)
+5. Ensure the release is public (`gh release edit <tag> --draft=false`; safe no-op if already public)
+6. Comment approval status with next-steps
+7. Close tracking issue with success status
 
 **Tracking Issue Template:**
 ```markdown
@@ -483,7 +484,7 @@ A: GitHub Release publication triggers creation of separate tracking issues for 
 A: Yes. Each approval gate is independent. Post `/publish-docker` alone without `/publish-winget`.
 
 **Q: What's the difference between `/publish-release` and `/publish-docker`?**
-A: `/publish-release` publishes the GitHub Release (makes it public). Each downstream registry (Docker, WinGet, Linux/Windows distro) has its own independent approval gate. No automatic triggering of downstream workflows; maintainers must explicitly approve each registry via its own gate.
+A: `/publish-release` ensures the GitHub Release is public and opens the downstream tracking issues. Each downstream registry (Docker, WinGet, Linux/Windows distro) has its own independent approval gate; maintainers must explicitly approve each registry via its own gate.
 
 **Q: Who should approve releases?**
 A: Typically the release manager or project lead. Must have `maintain` or `admin` permission.
@@ -494,8 +495,7 @@ A: Change password, revoke session tokens, and review recent approval comments. 
 ## Changelog
 
 ### 2026-09-23 (Initial Release)
-- Added 3 approval gate workflows: release-mainline, release-winget, release-docker
-- Added tracking jobs to release-linux-distro and release-windows-distro workflows
+- Added 5 approval gate workflows: release-mainline, release-winget, release-docker, release-linux-distro, release-windows-distro
 - Implemented permission model (admin/maintain only)
 - Created tracking issue pattern with labels and templates
 - Documented all approval keywords
