@@ -1,6 +1,6 @@
 # API Contracts (machine-readable)
 
-Datum: 2026-07-28
+Datum: 2026-09-23
 Status: Active
 Bezug: Maschinenlesbare API-Vertragsuebersichten fuer AI-Agenten
 Primary (Quelle der Wahrheit): include/**, src/**, tests/**

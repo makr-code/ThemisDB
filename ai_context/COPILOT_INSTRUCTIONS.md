@@ -1,6 +1,6 @@
 # Copilot Instructions (Repository-wide)
 
-Datum: 2026-08-07  
+Datum: 2026-09-23
 Status: Active  
 Bezug: Repository-weite AI-/Copilot-Arbeitsregeln fuer Dokumentation, Governance und Release-Sync; Module-Klassifizierung (T0–T5) aktualisiert  
 Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, .github/copilot-instructions.md, BRANCHING_STRATEGY.md, RELEASE_STRATEGY.md, ARCHITECTURE_CLASSIFICATION.md

@@ -1,6 +1,6 @@
 # ThemisDB Root Index
 
-Datum: 2026-07-28
+Datum: 2026-09-23
 Status: Active
 Bezug: Root-Navigation, Onboarding-Reihenfolge und AI-Wiki-Betrieb
 Primary (Quelle der Wahrheit): README.md, ROADMAP.md, DOCUMENTATION_GOVERNANCE.md, AI_WIKI_INTEGRATION_PLAYBOOK.md
@@ -56,6 +56,49 @@ Primary (Quelle der Wahrheit): README.md, ROADMAP.md, DOCUMENTATION_GOVERNANCE.m
 
 ---
 
+## AI Context Reference Library
+
+### Developer LLM Wiki
+
+- [ai_context/developer_llm_wiki/INDEX.md](ai_context/developer_llm_wiki/INDEX.md) — hub for module-level API and operational documentation
+- [ai_context/developer_llm_wiki/MODULES_AND_APIS.md](ai_context/developer_llm_wiki/MODULES_AND_APIS.md) — API contracts, module boundaries, and symbol relationships
+- [ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md](ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md) — CI/CD workflows, test infrastructure, and operational runbooks
+- [ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md](ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md) — governance rules, release gates, and roadmap tracking
+- [ai_context/developer_llm_wiki/AI_METADATA_AND_PROVENANCE.md](ai_context/developer_llm_wiki/AI_METADATA_AND_PROVENANCE.md) — AI decision history and knowledge evolution
+
+### API Contracts
+
+- [ai_context/api_contracts/](ai_context/api_contracts/) — API contract specifications by module:
+  - [api_contracts/api.md](ai_context/api_contracts/api.md)
+  - [api_contracts/auth.md](ai_context/api_contracts/auth.md)
+  - [api_contracts/index.md](ai_context/api_contracts/index.md)
+  - [api_contracts/llm.md](ai_context/api_contracts/llm.md)
+  - [api_contracts/storage.md](ai_context/api_contracts/storage.md)
+  - [api_contracts/transaction.md](ai_context/api_contracts/transaction.md)
+
+### Core Development Policies
+
+- [ai_context/memory_management_policy.md](ai_context/memory_management_policy.md) — RAII, ownership, and resource management guidelines
+- [ai_context/OOP_AND_SOC_PRINCIPLES.md](ai_context/OOP_AND_SOC_PRINCIPLES.md) — object-oriented design and separation of concerns
+- [ai_context/FUNCTION_CLASSIFICATION.md](ai_context/FUNCTION_CLASSIFICATION.md) — function categorization (hot-path, concurrency, plugin boundaries)
+- [ai_context/COPILOT_INSTRUCTIONS.md](ai_context/COPILOT_INSTRUCTIONS.md) — (also cross-listed above)
+
+### AI Context Archive
+
+The following files are kept for historical reference and are no longer actively maintained:
+
+- **Module Status Reports** (2026-07-18 — 2026-08-09): GOVERNANCE_MODULE_STATUS_2026_07_18.md, API_MODULE_STATUS_2026_07_18.md, UTILS_MODULE_STATUS_2026_07_18.md, INDEX_MODULE_STATUS_2026_08_02.md, INDEX_MODULE_STATUS_2026_08_09.md
+- **Implementation Reports** (2026-08-09): DOCUMENTATION_UPDATE_EXECUTION_SUMMARY_2026_08_09.md, RESEARCH_INTEGRATION_AUDIT_2026_08_09.md
+- **Governance Phase Reports** (2026-07-18 — 2026-08-09): GOVERNANCE_PHASE2_3_IMPLEMENTATION_REPORT.md, GOVERNANCE_PHASE2B_3A_3B_IMPLEMENTATION_REPORT.md
+- **Analysis & Classification** (2026-07-28): AI_CONTEXT_NAMESPACE_INDEX.md, API_CONTRACT_TEMPLATES.md, ARCHITECTURE_CLASSIFICATION.md, MODULES_AND_NAMESPACES.md, OOP_AND_SOC_PRINCIPLES.md (core version also above)
+- **Phase Checklists** (2026-08-23 — 2026-08-26): PHASE_1_6_CHECKLIST.md, PHASE_1_6_IMPLEMENTATION_FRAMEWORK.md
+- **Doxygen & Module Analysis**: MODULE_DIRECT_DOXYGEN_CHECK.md, MODULE_DOXYGEN_BASELINE_SUMMARY.md, MODULE_DOXYGEN_BATCH_.md, MODULE_DOXYGEN_COVERAGE_SUMMARY.md, MODULE_DOXYGEN_SMOKE_SUMMARY.md, RETRIEVAL_DIRECT_DOXYGEN_CHECK.md, SOLL_IST_GAP_SUMMARY.md, WIKI_DELTA_REPORT.md
+- **Closure & Issue Reports**: ISSUE_5647_CLOSURE_SUMMARY.md, MODULE_DOCUMENTATION_REMEDIATION_CHECKLIST.md
+- **Developer LLM Wiki Framework** (2026-08-14): DEVELOPER_LLM_WIKI_FRAMEWORK.md
+- **Research Exports** (2026-02 — 2026-11): research/gemini_exports/ (external research and analysis documents)
+
+---
+
 ## Documentation & Review/Audit References
 
 - [docs/Home.md](docs/Home.md)
@@ -66,4 +109,4 @@ Primary (Quelle der Wahrheit): README.md, ROADMAP.md, DOCUMENTATION_GOVERNANCE.m
 - [audit/docs/audit-framework/AUDIT_RUNBOOK.md](audit/docs/audit-framework/AUDIT_RUNBOOK.md)
 
 ---
-Zuletzt geprueft (Root-Sync): 2026-08-28
+Zuletzt geprueft (Root-Sync): 2026-09-23
