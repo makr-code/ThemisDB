@@ -139,3 +139,23 @@ Forward-looking enhancements for retrieval quality, context reliability, evaluat
 - Calibration infrastructure in place
 - Adversarial regression scenarios: test_rag_prompt_injection.cpp
 - Additional edge-case coverage: test_rag_error_handling_edge_cases_focused.cpp (malformed context tests)
+
+## RAG-Readiness Audit Backlog (2026-09-23)
+
+- [ ] RAG Eval Contract v1 ueber Modulgrenzen verankern (Target: Q4 2026)
+  - Rationale: Der Codepfad ist stark, aber Qualitaetsaussagen sind nicht einheitlich release-gebunden.
+  - Umsetzungsschritte: (1) goldene Datensaetze pro Domaintyp definieren, (2) Pflichtmetriken `Recall@10`, `nDCG@10`, `MRR@10`, `Faithfulness`, `p95 latency`, `cost/query` zentral sammeln, (3) release_critical-Gate mit Fail-on-regression aktivieren.
+  - Abhaengigkeiten: `src/llm`, `src/query`, `src/observability`, `tests/rag`, `tests/integration`.
+  - Messbares DoD: 100% der release-kritischen RAG-Laeufe publizieren den kompletten Metrik-Satz; keine Regression >2 Prozentpunkte bei Recall@10 gg. Baseline.
+
+- [ ] Zitier-/Provenance-Stabilitaet fuer Antwortkontext absichern (Target: Q4 2026)
+  - Rationale: Produktions-RAG benoetigt reproduzierbare Quellenbindung je Antwort.
+  - Umsetzungsschritte: (1) verpflichtende source-hint IDs in jedem Kontextblock, (2) deterministic ordering bei gleichwertigen Scores, (3) Negative-Tests fuer fehlende/duplizierte Quellen.
+  - Abhaengigkeiten: `src/rag/rag_context_assembler.cpp`, `src/llm/wiki_index_store.cpp`, `tests/rag`.
+  - Messbares DoD: Citation-Stabilitaet >=99.5% auf identischen Inputs ueber 100 Wiederholungen.
+
+- [ ] Budget-aware Re-Ranking Trigger standardisieren (Target: Q1 2027)
+  - Rationale: Re-Ranking verbessert Qualitaet, darf aber Latenz-/Kostenbudgets nicht verletzen.
+  - Umsetzungsschritte: (1) Trigger nur bei Uncertainty/Intent-Features, (2) Hard-Caps fuer TTFT und total latency, (3) Fallback auf baseline fusion bei Budgetbruch.
+  - Abhaengigkeiten: `src/query`, `src/llm`, `src/observability`.
+  - Messbares DoD: +5% nDCG@10 bei <=10% p95-Latenzanstieg auf definierter Eval-Suite.

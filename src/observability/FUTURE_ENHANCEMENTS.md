@@ -151,3 +151,16 @@
 **Document Signed Off:** 2026-08-08  
 **Verification Timestamp:** 2026-08-08 14:02:00 UTC  
 **Next Review Target:** 2026-10-08 (Q4 2026 release)
+## RAG-Readiness Audit Backlog (2026-09-23)
+
+- [ ] End-to-End RAG SLO Pack standardisieren (Target: Q4 2026)
+  - Rationale: Einzelmetriken existieren, aber RAG benoetigt gekoppelte Qualitaet/Latenz/Kosten-SLOs.
+  - Umsetzungsschritte: (1) SLOs fuer `TTFT`, `p95 latency`, `Recall@10`, `cost/query` einfuehren, (2) gemeinsame Korrelationsansicht fuer retrieval->generation Pipeline, (3) Alert-Regeln mit Runbook-Verknuepfung.
+  - Abhaengigkeiten: `src/rag`, `src/llm`, `src/query`, `src/index`.
+  - Messbares DoD: 99% der RAG-Requests innerhalb SLO-Budget in stabilen Lasttests; Alert-MTTR < 15 Minuten.
+
+- [ ] Gate-Telemetrie fuer Quarantaene/Skip-Faelle sichtbar machen (Target: Q1 2027)
+  - Rationale: Quarantaenierte Tests muessen im Release-Risiko explizit sichtbar sein.
+  - Umsetzungsschritte: (1) CMake skip/quarantine Ereignisse als CI-Metrik exportieren, (2) Dashboard je Modul und Grund, (3) Exit-Zieltermine tracken.
+  - Abhaengigkeiten: `tests/*/CMakeLists.txt`, `.github/workflows/*`.
+  - Messbares DoD: 100% Quarantaene-Faelle mit technischem Grund, Owner und Zieltermin im Dashboard erfasst.

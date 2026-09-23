@@ -69,3 +69,16 @@
 - preserve explicit fallback signaling for backend capability failures.
 - enforce bounded lifecycle behavior under degraded runtime conditions.
 - keep diagnostics actionable for production index incidents.
+## RAG-Readiness Audit Backlog (2026-09-23)
+
+- [ ] Representative-Hardware Parity Gates fuer ANN/GPU aktivieren (Target: Q4 2026)
+  - Rationale: RAG-Produktivfaehigkeit haengt an reproduzierbarer ANN/GPU-Paritaet unter Realhardware.
+  - Umsetzungsschritte: (1) CUDA/HIP/Vulkan Paritaetsmatrix definieren, (2) p95/p99 + recall-Paritaet je Backend messen, (3) fail-closed bei nicht erreichter Paritaet.
+  - Abhaengigkeiten: `src/index`, `src/gpu`, `benchmarks/index`, `tests/index`.
+  - Messbares DoD: Recall-Differenz CPU vs GPU <=1 Prozentpunkt bei Top-10; p95-Latenzbudget pro Backend dokumentiert und gate-gebunden.
+
+- [ ] Embedding-/Index-Schema-Versionvertrag erzwingen (Target: Q1 2027)
+  - Rationale: Ohne strikt versionierte Lifecycle-Regeln drohen stille Retrieval-Regressions bei Modellwechseln.
+  - Umsetzungsschritte: (1) `embedding_model_id`, `embedding_dim`, `chunking_profile`, `index_schema_version` verpflichtend persistieren, (2) Reindex-Trigger-Regeln implementieren, (3) dual-read migration path fuer Releases.
+  - Abhaengigkeiten: `src/llm/wiki_index_store.cpp`, `src/ingestion`, `src/storage`.
+  - Messbares DoD: 100% neu geschriebener Vektor-Entitaeten tragen vollständige Version-Metadaten; Reindex-Entscheid deterministisch nachvollziehbar.

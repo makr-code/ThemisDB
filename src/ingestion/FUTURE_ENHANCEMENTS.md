@@ -51,3 +51,16 @@
 - preserve explicit failure signaling for connector capability issues.
 - enforce bounded workflow behavior under malformed/partial inputs.
 - keep diagnostics actionable for production ingestion incidents.
+## RAG-Readiness Audit Backlog (2026-09-23)
+
+- [ ] Chunking-/Embedding-Lifecycle als verbindlichen Vertrag abbilden (Target: Q4 2026)
+  - Rationale: Retrieval-Qualitaet steht/faellt mit konsistentem Ingestion-Profil fuer Chunking und Embeddings.
+  - Umsetzungsschritte: (1) Canonical chunking_profile IDs definieren, (2) Embedding-Modellversion in ingest metadata schreiben, (3) Re-ingest/reindex Trigger bei Profilwechsel.
+  - Abhaengigkeiten: `src/rag/rag_ingestion_bridge.cpp`, `src/llm/wiki_index_store.cpp`, `src/index`.
+  - Messbares DoD: 100% ingestierter RAG-Dokumente enthalten `chunking_profile` + `embedding_model_id`; kein silent-mix unterschiedlicher Profile im gleichen Index.
+
+- [ ] Freshness-SLA fuer ingestion-to-index Pipeline etablieren (Target: Q1 2027)
+  - Rationale: Produktions-RAG benoetigt messbare Aktualitaet bei CDC/API/Object-Storage Ingestion.
+  - Umsetzungsschritte: (1) End-to-end Delay-Metrik erfassen, (2) Priorisierungsstrategie fuer hot documents, (3) Alarmierung bei SLA-Verletzung.
+  - Abhaengigkeiten: `src/observability`, `src/index`, `src/server`.
+  - Messbares DoD: p95 delay ingest->searchable < 5 Minuten (tier-konfigurierbar), Alert bei Ueberschreitung innerhalb 1 Minute.

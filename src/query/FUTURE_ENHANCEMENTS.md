@@ -108,3 +108,17 @@
 ### Scenario C: Federation-first lane
 - Prioritize distributed query resilience and bounded-failure behavior.
 - Promote only with fault-injection gate pass.
+
+## RAG-Readiness Audit Backlog (2026-09-23)
+
+- [ ] Hybrid Retrieval Planner Contract fuer AQL/FTS/Vector zusammenfuehren (Target: Q4 2026)
+  - Rationale: RAG-Workloads brauchen konsistente Planentscheidungen zwischen lexical, vector und graph/query Filtern.
+  - Umsetzungsschritte: (1) planner-cost Features fuer lexical+vector+rerank definieren, (2) explainable plan annotations erweitern, (3) fallback-contract bei fehlenden ANN Features.
+  - Abhaengigkeiten: `src/index`, `src/rag`, `src/llm`, `src/aql`.
+  - Messbares DoD: Explain-Ausgabe enthaelt fuer 100% Hybrid-Queries den gewaehlten Retrieval-Plan inkl. Fallback-Grund; keine ungekennzeichneten Planner-Downgrades.
+
+- [ ] Budget-aware Re-Ranking Trigger in Query-Ausfuehrung integrieren (Target: Q1 2027)
+  - Rationale: Re-Ranking soll qualitaetsorientiert sein, aber Query-SLOs nicht brechen.
+  - Umsetzungsschritte: (1) Triggerkriterien als Policy im optimizer, (2) harte latency/cost guardrails, (3) telemetry fuer trigger hit-rate und abort reasons.
+  - Abhaengigkeiten: `src/observability`, `src/llm`, `src/security`.
+  - Messbares DoD: <=2% SLO-Verletzungen auf Hybrid-Benchmarksuite bei aktivem Re-Ranking Trigger.
