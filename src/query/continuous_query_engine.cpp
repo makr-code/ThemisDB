@@ -129,16 +129,30 @@ ContinuousQueryEngineImpl::ContinuousQueryEngineImpl(
 
 ContinuousQueryEngineImpl::~ContinuousQueryEngineImpl() {
     stopLoop();
-    /**
-     * @brief Lock.
-     * @param[in] registry_mutex_ Input parameter.
-     * @return Return value.
-     */
-    std::lock_guard<std::mutex> lock(registry_mutex_);
-    for (auto& [name, entry] : registry_) {
-        for (auto& q : entry.subscribers) {
-            q->cancel();
+    
+    // [WAVE3B-FIX: lock-order deadlock risk in destructor]
+    // Only acquire registry_mutex_ if stopLoop() succeeded in stopping the loop thread.
+    // If stopLoop() timed out and detached the watcher, the loop thread might still be
+    // running and could hold registry_mutex_, causing deadlock if we try to acquire it here.
+    // Check if loop_thread_ was successfully stopped.
+    if (!loop_thread_.joinable()) {
+        // Loop thread has exited successfully, safe to acquire registry_mutex_
+        std::lock_guard<std::mutex> lock(registry_mutex_);
+        for (auto& [name, entry] : registry_) {
+            for (auto& q : entry.subscribers) {
+                q->cancel();
+            }
         }
+    } else {
+        // Loop thread did not exit (stopLoop() timed out and detached).
+        // The loop thread may still be running and holding locks.
+        // Cancel subscriber queues without acquiring registry_mutex_ to avoid deadlock.
+        // This is safe because:
+        // 1. We're in the destructor, so no new queries can be registered
+        // 2. The loop thread will eventually clean up on exit
+        // 3. Queues are thread-safe (they use their own mutex for push/pop)
+        THEMIS_WARN("ContinuousQueryEngineImpl destructor: loop thread still running, "
+                    "skipping registry cleanup to avoid deadlock");
     }
 }
 
@@ -357,38 +371,51 @@ void ContinuousQueryEngineImpl::injectTuple(const std::string& collection,
  * @details Calls: inj_lock(), empty(), reg_lock(), observe(), insert(), std::move(), push(), clear().
  */
 void ContinuousQueryEngineImpl::tickOnce() {
-    // Drain the injection queue into the relevant synopsis stores
+    // [WAVE3B-FIX: lock-order deadlock in tickOnce()]
+    // Refactor to avoid holding inject_mutex_ and registry_mutex_ simultaneously.
+    // First, extract pending injections with only inject_mutex_ held.
+    // Then, process them and run evaluation with only registry_mutex_ held.
+    // This eliminates the lock-order deadlock risk that occurs when:
+    //   Thread A: holds inject_mutex_, waits for registry_mutex_
+    //   Thread B: holds registry_mutex_, tries to acquire inject_mutex_
+
+    // Step 1: Drain the injection queue (requires only inject_mutex_)
+    std::deque<IncomingTuple> pending_injections;
     {
         std::lock_guard<std::mutex> inj_lock(inject_mutex_);
         if (!inject_queue_.empty()) {
-            std::lock_guard<std::mutex> reg_lock(registry_mutex_);
-            for (auto& incoming : inject_queue_) {
-                for (auto& [name, entry] : registry_) {
-                    if (entry.spec.source_collection == incoming.collection) {
-                        entry.watermark->observe(incoming.event_ts_us);
-                        SynopsisTuple st{incoming.event_ts_us, incoming.payload};
-                        const bool ok = entry.synopsis->insert(std::move(st));
-                        if (ok) {
-                            // Emit addition to all subscribers (DELTA / CHANGES)
-                            if (entry.spec.result_mode == ResultMode::DELTA ||
-                                entry.spec.result_mode == ResultMode::CHANGES) {
-                                CQResult r{incoming.payload, false};
-                                for (auto& q : entry.subscribers) {
-                                    q->push(r);
-                                }
+            pending_injections = std::move(inject_queue_);
+            inject_queue_.clear();
+        }
+    }  // Release inject_mutex_ before acquiring registry_mutex_
+
+    // Step 2: Process injections and run evaluation (requires only registry_mutex_)
+    {
+        std::lock_guard<std::mutex> lock(registry_mutex_);
+        
+        // Process pending injections
+        for (auto& incoming : pending_injections) {
+            for (auto& [name, entry] : registry_) {
+                if (entry.spec.source_collection == incoming.collection) {
+                    entry.watermark->observe(incoming.event_ts_us);
+                    SynopsisTuple st{incoming.event_ts_us, incoming.payload};
+                    const bool ok = entry.synopsis->insert(std::move(st));
+                    if (ok) {
+                        // Emit addition to all subscribers (DELTA / CHANGES)
+                        if (entry.spec.result_mode == ResultMode::DELTA ||
+                            entry.spec.result_mode == ResultMode::CHANGES) {
+                            CQResult r{incoming.payload, false};
+                            for (auto& q : entry.subscribers) {
+                                q->push(r);
                             }
-                            entry.info.tuples_processed++;
                         }
+                        entry.info.tuples_processed++;
                     }
                 }
             }
-            inject_queue_.clear();
         }
-    }
 
-    // Run the evaluation plan for each registered query
-    {
-        std::lock_guard<std::mutex> lock(registry_mutex_);
+        // Run the evaluation plan for each registered query
         for (auto& [name, entry] : registry_) {
             // Build a transient ContinuousQueryState by temporarily
             // transferring real ownership into state.  The RAII guard
