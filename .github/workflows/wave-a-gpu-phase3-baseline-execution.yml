@@ -17,6 +17,9 @@ name: "Wave A GPU Phase 3: Baseline Capture & Measurement"
 # Output: benchmarks/wave8/GPU_BASELINES_2026_Q4_MEASURED.json
 # ============================================================================
 
+permissions:
+  contents: read
+
 on:
   workflow_dispatch:
     inputs:
