@@ -3939,6 +3939,22 @@ if(THEMIS_BUILD_MODULAR)
         target_link_libraries(themis_core INTERFACE Threads::Threads)
     endif()
 
+    if(THEMIS_ENABLE_MIMALLOC AND mimalloc_FOUND)
+        if(WIN32)
+            if(TARGET mimalloc)
+                target_link_libraries(themis_core INTERFACE mimalloc)
+            else()
+                message(FATAL_ERROR "THEMIS_ENABLE_MIMALLOC=ON on Windows but target 'mimalloc' is unavailable")
+            endif()
+        elseif(TARGET mimalloc-static)
+            target_link_libraries(themis_core INTERFACE mimalloc-static)
+        elseif(TARGET mimalloc)
+            target_link_libraries(themis_core INTERFACE mimalloc)
+        else()
+            message(FATAL_ERROR "THEMIS_ENABLE_MIMALLOC=ON but no usable mimalloc target is available (expected mimalloc-static or mimalloc)")
+        endif()
+    endif()
+
     # HTTP/3 / QUIC linkage for modular build.
     # QUIC code uses helpers from ngtcp2_crypto_ossl (e.g. ngtcp2_crypto_encrypt_cb)
     # that are not provided by ngtcp2::ngtcp2 alone.
