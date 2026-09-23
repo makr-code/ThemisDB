@@ -43,8 +43,6 @@ on:
         description: "GitHub Release URL (for context)"
         required: false
         type: string
-  release:
-    types: [published]
   workflow_dispatch:
     inputs:
       version:

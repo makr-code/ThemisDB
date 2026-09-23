@@ -135,9 +135,52 @@ jobs:
             echo "::error::Release $TAG not found"
             exit 1
           fi
-          
+           
           echo "release_json=$RELEASE_JSON" >> "$GITHUB_OUTPUT"
           echo "✓ Retrieved release: $TAG"
+
+      - name: Create tracking issues for downstream registries
+        id: create_tracking
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.extract_version.outputs.version != ''
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const version = '${{ steps.extract_version.outputs.version }}';
+            const releaseUrl = `https://github.com/${{ github.repository }}/releases/tag/v${version}`;
+            
+            const registries = [
+              { name: 'WinGet', keyword: 'publish-winget', label: 'winget-review', distro_label: 'winget' },
+              { name: 'Docker', keyword: 'publish-docker', label: 'docker-review', distro_label: 'docker' },
+              { name: 'Linux Distro', keyword: 'publish-linux', label: 'linux-distro-review', distro_label: 'linux-distro' },
+              { name: 'Windows Distro', keyword: 'publish-windows', label: 'windows-distro-review', distro_label: 'windows-distro' },
+            ];
+            
+            const createdIssues = [];
+            
+            for (const registry of registries) {
+              const title = `📦 ${registry.name} Release: v${version}`;
+              const body = `## Release Version: v${version}\n\n**Registry:** ${registry.name}\n**GitHub Release:** [v${version}](${releaseUrl})\n**Status:** Awaiting approval for publication\n\n### Review Checklist\n- [ ] Download and verify release artifacts\n- [ ] Verify checksums and signatures\n- [ ] Confirm metadata is accurate\n- [ ] Review changelog\n- [ ] Test package/image if applicable\n\n### Approval\nOnce review is complete, comment with:\n\n\`/${registry.keyword}\`\n\nApproval will dispatch the ${registry.name} publication workflow.`;
+              
+              try {
+                const created = await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: title,
+                  body: body,
+                  labels: [registry.label, registry.distro_label, 'release-review'],
+                });
+                createdIssues.push({
+                  name: registry.name,
+                  number: created.data.number,
+                  keyword: registry.keyword
+                });
+                core.info(`✓ Created tracking issue #${created.data.number} for ${registry.name}`);
+              } catch (error) {
+                core.warning(`⚠ Could not create ${registry.name} tracking issue: ${error.message}`);
+              }
+            }
+            
+            core.setOutput('tracking_issues', JSON.stringify(createdIssues));
 
       - name: Publish release (set draft=false)
         id: publish_release
@@ -157,7 +200,7 @@ jobs:
           echo "✓ Release $TAG published"
           echo "::notice::GitHub Release ${TAG} is now publicly visible"
 
-      - name: Comment approval status
+      - name: Comment approval status and tracking issues
         if: steps.check_maintainer.outputs.is_maintainer == 'true'
         uses: actions/github-script@v7
         with:
@@ -165,28 +208,27 @@ jobs:
             const issue = context.payload.issue;
             const version = '${{ steps.extract_version.outputs.version }}';
             const user = context.payload.comment.user.login;
+            const trackingJson = '${{ steps.create_tracking.outputs.tracking_issues }}' || '[]';
             
-            const comment = `✅ **GitHub Release Published**\n\n**Approved By:** @$${user}\n**Version:** ${version}\n**Status:** Release is now publicly visible on GitHub\n\n**Access Release:**\n- Release URL: https://github.com/${{ github.repository }}/releases/tag/v${version}\n- Download artifacts from the release page\n- All signatures and checksums are included\n\n**Next Steps:**\n1. Downstream packaging workflows will be triggered automatically:\n   - \`release-winget.yml\` — WinGet submission (awaits maintainer approval)\n   - \`release-docker-image.yml\` — Docker build (awaits maintainer approval)\n   - \`release-linux-distribution.yml\` — Linux distro packaging\n   - \`release-windows-distribution.yml\` — Windows distro packaging\n\n2. Monitor artifact downloads and user reports\n\n**Tracking:** This issue will now close. Release audit trail is complete.`;
+            let trackingIssues = [];
+            try {
+              trackingIssues = JSON.parse(trackingJson);
+            } catch (e) {
+              core.warning('Could not parse tracking issues: ' + e.message);
+            }
+            
+            let nextStepsList = 'Each registry requires explicit approval:\n';
+            for (const t of trackingIssues) {
+              nextStepsList += `   - ${t.name}: Comment \`/${t.keyword}\` on #${t.number}\n`;
+            }
+            
+            const comment = `✅ **GitHub Release Published**\n\n**Approved By:** @${user}\n**Version:** ${version}\n**Status:** Release is now publicly visible on GitHub\n\n**Access Release:**\n- Release URL: https://github.com/${{ github.repository }}/releases/tag/v${version}\n- Download artifacts from the release page\n- All signatures and checksums are included\n\n**Next Steps:**\n1. Tracking issues created for downstream registries:\n${nextStepsList}\n2. No automatic downstream triggering; each registry requires independent maintainer approval via its tracking issue\n3. Monitor artifact downloads and user reports\n\n**Tracking:** Release audit trail is complete.`;
             
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: issue.number,
               body: comment,
-            });
-
-      - name: Update issue on success
-        if: success() && steps.check_maintainer.outputs.is_maintainer == 'true'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const issue = context.payload.issue;
-            await github.rest.issues.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issue.number,
-              state: 'closed',
-              state_reason: 'completed',
             });
 
       - name: Update issue on failure

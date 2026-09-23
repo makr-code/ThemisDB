@@ -28,9 +28,9 @@ This document is the single source of truth for:
 | Trigger Labels | `release-review` |
 | Trigger Keywords | `/publish-release`, `/approve-release`, `@publish-release` |
 | Requires Permission | `admin` or `maintain` |
-| Action | Publishes draft release to GitHub (sets `draft=false`) |
-| Downstream | Triggers WinGet, Docker, Linux/Windows distro workflows |
-| Auto-close Issue | Yes, on success |
+| Action | Publishes draft release to GitHub + creates tracking issues for downstream registries |
+| Downstream | Creates 4 tracking issues for independent approval of each registry (WinGet, Docker, Linux Distro, Windows Distro) |
+| Auto-close Issue | No - issue stays open as central release coordination point |
 
 **Workflow Steps:**
 1. Validate maintainer permission via GitHub API
@@ -73,12 +73,13 @@ This document is the single source of truth for:
 2. Extract version from issue
 3. Verify corresponding GitHub Release exists
 4. Dispatch `release-winget.yml` with version and fork owner
-5. Downstream workflow generates WinGet manifests
+5. Maintainers approve WinGet publication via release-winget-approval.yml gate
+6. Gate dispatches release-winget.yml to generate and submit WinGet manifest
 6. PR created in fork (author: github-actions[bot])
 7. Comment approval status
 8. Close tracking issue
 
-**Downstream: `release-winget.yml` (triggered by this gate)**
+**Workflow Dispatch Only:** `release-winget.yml` is triggered exclusively by the `release-winget-approval.yml` gate (via `workflow_call`). It does not auto-trigger on release events.
 - Downloads release assets (ZIP/MSI)
 - Generates checksums
 - Creates WinGet manifest files (3-part YAML)
@@ -127,12 +128,13 @@ After approval, community reviewers will validate and merge the PR to microsoft/
    - `push_to_registry=true`
    - `registry=ghcr.io`
    - `include_tinyllama=true`
-5. Downstream workflow builds multi-arch images
+5. Maintainers approve Docker publication via release-docker-approval.yml gate
+6. Gate dispatches release-docker-image.yml to build and push multi-arch images
 6. Push to GHCR
 7. Comment approval status with pull commands
 8. Close tracking issue
 
-**Downstream: `release-docker-image.yml` (triggered by this gate)**
+**Workflow Dispatch Only:** `release-docker-image.yml` is triggered exclusively by the `release-docker-approval.yml` gate (via `workflow_call`). It does not auto-trigger on release events.
 - Builds Dockerfile for each architecture (amd64, arm64)
 - Attaches build provenance attestation (SLSA Level 2)
 - Pushes images tagged as:
@@ -164,28 +166,37 @@ docker pull ghcr.io/makr-code/themisdb:latest
 \`\`\`
 ```
 
-### 4. Linux Distribution Bundle Tracking
-**Workflow:** `.github/workflows/release-linux-distribution.yml`
+### 4. Linux Distro Publication Approval
+**Workflow:** `.github/workflows/release-linux-distro-approval.yml`
 
 | Property | Value |
 |----------|-------|
-| Trigger Type | Automatic (after GitHub Release published) |
-| Trigger Labels | `distro-tracking` |
-| Requires Permission | None (automatic) |
-| Action | Prepares DEB/RPM packages, creates tracking issue |
-| Manual Gate | Optional: `publish_bundle=true` for automated endpoint |
-| Auto-close Issue | No (remains open for manual review) |
+| Trigger Type | Issue comment |
+| Trigger Labels | `linux-distro-review` |
+| Trigger Keywords | `/publish-linux`, `/approve-linux`, `@publish-linux` |
+| Requires Permission | `admin` or `maintain` |
+| Action | Dispatches `release-linux-distribution.yml` with `publish_bundle=true` |
+| Target Repositories | Linux distro endpoints (Debian/Ubuntu, RHEL/Fedora) |
+| Auto-close Issue | Yes, on success |
 
 **Workflow Steps:**
-1. Detects release type (stable/testing/nightly)
-2. Downloads GitHub Release assets
-3. Generates DEB packages (Debian/Ubuntu)
-4. Generates RPM packages (RHEL/Fedora/Rocky/AlmaLinux)
-5. Generates TGZ source bundles
-6. Creates repository metadata (Release file, repomd.xml)
-7. Optional: Signs metadata with GPG
-8. Uploads bundle as artifact
-9. Creates/updates tracking issue with `distro-tracking` + `linux-distro` labels
+1. Validate maintainer permission
+2. Extract version from issue
+3. Verify corresponding GitHub Release exists
+4. Dispatch `release-linux-distribution.yml` with version and publish flag
+5. Comment approval status
+6. Close tracking issue
+
+**Workflow Dispatch Only:** `release-linux-distribution.yml` is triggered exclusively by the `release-linux-distro-approval.yml` gate (via `workflow_call`). It does not auto-trigger on release events.
+- Detects release type (stable/testing/nightly)
+- Downloads GitHub Release assets
+- Generates DEB packages (Debian/Ubuntu)
+- Generates RPM packages (RHEL/Fedora/Rocky/AlmaLinux)
+- Generates TGZ source bundles
+- Creates repository metadata (Release file, repomd.xml)
+- Optional: Signs metadata with GPG
+- Uploads bundle as artifact
+- Publishes to distro endpoints if `publish_bundle=true`
 
 **Tracking Issue Template:**
 ```markdown
@@ -226,26 +237,35 @@ sudo yum install themisdb
 \`\`\`
 ```
 
-### 5. Windows Distribution Bundle Tracking
-**Workflow:** `.github/workflows/release-windows-distribution.yml`
+### 5. Windows Distro Publication Approval
+**Workflow:** `.github/workflows/release-windows-distro-approval.yml`
 
 | Property | Value |
 |----------|-------|
-| Trigger Type | Automatic (after GitHub Release published) |
-| Trigger Labels | `distro-tracking` |
-| Requires Permission | None (automatic) |
-| Action | Prepares Scoop/Chocolatey manifests, creates tracking issue |
-| Manual Gate | Optional: `publish_bundle=true` (requires environment secrets) |
-| Auto-close Issue | No (remains open for manual review) |
+| Trigger Type | Issue comment |
+| Trigger Labels | `windows-distro-review` |
+| Trigger Keywords | `/publish-windows`, `/approve-windows`, `@publish-windows` |
+| Requires Permission | `admin` or `maintain` |
+| Action | Dispatches `release-windows-distribution.yml` with `publish_bundle=true` |
+| Target Repositories | Windows distro endpoints (Scoop, Chocolatey) |
+| Auto-close Issue | Yes, on success |
 
 **Workflow Steps:**
-1. Detects release channel (stable/testing/nightly)
-2. Downloads GitHub Release assets
-3. Generates Scoop manifest candidates
-4. Generates Chocolatey manifest candidates
-5. Validates manifests (manifest validation tools)
-6. Uploads bundle as artifact
-7. Creates/updates tracking issue with `distro-tracking` + `windows-distro` labels
+1. Validate maintainer permission
+2. Extract version from issue
+3. Verify corresponding GitHub Release exists
+4. Dispatch `release-windows-distribution.yml` with version and publish flag
+5. Comment approval status
+6. Close tracking issue
+
+**Workflow Dispatch Only:** `release-windows-distribution.yml` is triggered exclusively by the `release-windows-distro-approval.yml` gate (via `workflow_call`). It does not auto-trigger on release events.
+- Detects release channel (stable/testing/nightly)
+- Downloads GitHub Release assets
+- Generates Scoop manifest candidates
+- Generates Chocolatey manifest candidates
+- Validates manifests with manifest validation tools
+- Uploads bundle as artifact
+- Publishes to distro endpoints if `publish_bundle=true`
 
 **Tracking Issue Template:**
 ```markdown
@@ -460,7 +480,7 @@ A: GitHub Release publication triggers creation of separate tracking issues for 
 A: Yes. Each approval gate is independent. Post `/publish-docker` alone without `/publish-winget`.
 
 **Q: What's the difference between `/publish-release` and `/publish-docker`?**
-A: `/publish-release` publishes the GitHub Release (makes it public). Downstream workflows (Docker, WinGet) are triggered automatically after that, but each has its own approval gate to prevent accidental registry publication.
+A: `/publish-release` publishes the GitHub Release (makes it public). Each downstream registry (Docker, WinGet, Linux/Windows distro) has its own independent approval gate. No automatic triggering of downstream workflows; maintainers must explicitly approve each registry via its own gate.
 
 **Q: Who should approve releases?**
 A: Typically the release manager or project lead. Must have `maintain` or `admin` permission.
