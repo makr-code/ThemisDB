@@ -317,19 +317,26 @@ jobs:
           set -euo pipefail
 
           WIKI_REPO="${{ github.repository }}.wiki.git"
-          WIKI_URL="https://${{ secrets.GITHUB_TOKEN }}@github.com/${WIKI_REPO}"
           WIKI_CLONE_DIR="/tmp/wiki-publish-clone"
 
           echo "::notice::Publishing wiki to GitHub repository: $WIKI_REPO"
 
-          # Clone the wiki repository
-          git clone "$WIKI_URL" "$WIKI_CLONE_DIR" 2>&1 | sed 's|'"$WIKI_URL"'|<redacted>|g'
+          # Configure git credential helper to avoid token leakage in logs
+          git config --global url."https://${GH_TOKEN}@github.com/".insteadOf "https://github.com/"
+          git config --global credential.helper store
+
+          # Clone the wiki repository using safe URL (token hidden by credential helper)
+          git clone "https://github.com/${WIKI_REPO}" "$WIKI_CLONE_DIR"
 
           cd "$WIKI_CLONE_DIR"
 
           # Configure git for commit
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Detect the default branch (handles both master and main conventions)
+          DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
+          echo "::notice::Detected wiki default branch: $DEFAULT_BRANCH"
 
           # Remove old pages (but keep git history)
           find . -maxdepth 1 -name '*.md' -not -name '_Sidebar.md' -not -name '_Footer.md' -delete
@@ -347,7 +354,7 @@ jobs:
             git commit -m "$COMMIT_MSG"
 
             echo "::notice::Pushing $CHANGES file(s) to wiki repository"
-            git push origin master 2>&1 | sed 's|'"$WIKI_URL"'|<redacted>|g'
+            git push origin "$DEFAULT_BRANCH"
 
             {
               echo "wiki_published=true"
@@ -356,7 +363,7 @@ jobs:
           else
             echo "::notice::No changes to publish"
             {
-              echo "wiki_published=true"
+              echo "wiki_published=no_changes"
               echo "changes_pushed=0"
             } >> "$GITHUB_OUTPUT"
           fi
