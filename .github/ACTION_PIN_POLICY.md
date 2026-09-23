@@ -233,8 +233,44 @@ A: Always use SHA pins (Tier 1). They're part of the codebase and subject to git
 
 ---
 
+## Release Publishing Approval Workflows (2026)
+
+**Implementation Note:** New release publishing approval gates introduced 2026-09-23 require specific action pinning:
+
+### Approval Gate Workflows
+- `release-mainline-approval.yml`
+- `release-winget-approval.yml`
+- `release-docker-approval.yml`
+- `wiki-publish-from-issue.yml`
+
+**Common Pin Requirements:**
+```yaml
+# GitHub Script (Tier 2: reliability-critical for permission checks)
+- uses: actions/github-script@v7
+  # Fixed to v7 for stable GitHub API client behavior
+
+# Checkout and Setup (Tier 2: compatibility critical)
+- uses: actions/checkout@v5      # Node.js 24 compatible
+- uses: actions/setup-python@v6  # Node.js 24 compatible
+```
+
+**Security Model:**
+- All approval gates enforce permission checks via `github.rest.repos.getCollaboratorPermissionLevel()`
+- Comments from users with `push` permission or lower are rejected
+- Only `admin` and `maintain` roles can trigger publication
+- This permission model is enforced in the GitHub Script action (do not weaken)
+
+**Policy:**
+- Never downgrade `actions/github-script` below v7 in approval workflows
+- Never weaken permission checks (`admin` and `maintain` only)
+- All approval workflows must be validated with actionlint before merge
+- Approval keywords are case-sensitive and environment-variable-free
+
+---
+
 ## References
 
 - `.github/WORKFLOW_GUIDELINES.md` — General workflow policy
 - `.github/actions/` — Composite actions (all require SHA pins)
 - `VERSIONING.md` — ThemisDB semantic versioning
+- `docs/governance/RELEASE_GOVERNANCE.md` — Release publishing approval gates and keywords

@@ -717,6 +717,175 @@ For historical reassignment work, also verify:
 - legacy branch references are documented or removed as planned
 - no published tag is rewritten without explicit approval
 
+## 11.4 Release Publishing Approval Gates (2026 Security Hardening)
+
+All external registry publishing (GitHub Releases, WinGet, Docker, Linux/Windows distributions) now requires explicit human maintainer approval via issue comment keywords. This prevents accidental publication of incomplete or problematic releases.
+
+### Flow Overview
+
+```
+release-mainline.yml (builds + signs artifacts)
+        ↓
+Creates draft GitHub Release + tracking issue
+        ↓
+Maintainer reviews metrics, checksums, signatures
+        ↓
+Posts approval comment: /publish-release, /publish-docker, /publish-winget, etc.
+        ↓
+Corresponding approval workflow publishes atomically
+        ↓
+Closes tracking issue on success
+```
+
+### GitHub Release Publication (`release-mainline-approval.yml`)
+
+**Trigger:** Issue comment containing `/publish-release`, `/approve-release`, or `@publish-release`
+
+**Requirements:**
+- Comment author must have `admin` or `maintain` role in repository
+- Issue must have `release-review` label
+- Release must exist as draft on GitHub
+
+**Action:**
+1. Validates commenter permissions
+2. Extracts version from issue body
+3. Publishes draft release (sets `draft=false`)
+4. Creates comment with next-steps guidance
+5. Auto-closes tracking issue
+
+**Example approval:**
+```
+/publish-release
+
+I've verified the checksums, signatures, and CHANGELOG.
+Ready to publish.
+```
+
+### GitHub Release → Downstream Triggers
+
+When GitHub Release is published, these are automatically triggered (but still require approval):
+
+1. **WinGet submission** (`release-winget-approval.yml`)
+2. **Docker build + push** (`release-docker-approval.yml`)
+3. **Linux distro bundle** (`release-linux-distribution.yml`)
+4. **Windows distro bundle** (`release-windows-distribution.yml`)
+
+### WinGet Community Publication (`release-winget-approval.yml`)
+
+**Trigger:** Issue comment containing `/publish-winget`, `/approve-winget`, or `@publish-winget`
+
+**Requirements:**
+- Comment author must have `admin` or `maintain` role
+- Issue must have `winget-release` label
+- Corresponding GitHub Release must exist
+
+**Action:**
+1. Validates commenter permissions
+2. Extracts version from issue
+3. Dispatches `release-winget.yml` workflow
+4. Workflow generates WinGet manifests and creates PR to `microsoft/winget-pkgs`
+5. Community reviewers validate and merge
+6. Package becomes available via `winget install ThemisDB.ThemisDB`
+
+**Policy:**
+- Submit only stable releases to WinGet first
+- Pre-release versions follow after stable PR is merged
+- Community reviewers control merge timing (not automatic)
+
+### Docker Registry Publication (`release-docker-approval.yml`)
+
+**Trigger:** Issue comment containing `/publish-docker`, `/approve-docker`, or `@publish-docker`
+
+**Requirements:**
+- Comment author must have `admin` or `maintain` role
+- Issue must have `docker-release` label
+- Corresponding GitHub Release must exist
+
+**Action:**
+1. Validates commenter permissions
+2. Dispatches `release-docker-image.yml` with `push_to_registry=true`
+3. Builds multi-arch images (amd64, arm64)
+4. Publishes to GHCR (primary) and optional Docker Hub
+5. Creates comment with pull command
+6. Auto-closes tracking issue
+
+**Security Note:**
+- `release-docker-image.yml` defaults to `push_to_registry=false` in `workflow_dispatch` (manual safety)
+- Must be explicitly set to `true` via approval gate
+- OIDC-based auth to GHCR (no long-lived secrets)
+
+### Linux Distribution Bundle (`release-linux-distribution.yml`)
+
+**Trigger:** Automatic after GitHub Release creation (for stable channel)
+
+**Action:**
+1. Prepares DEB, RPM, and TGZ packages
+2. Generates repository metadata
+3. Creates tracking issue (`distro-tracking` label)
+4. Bundles as artifact for semi-automated or manual deployment
+5. Can optionally publish to configured endpoint if `publish_bundle=true`
+
+**Policy:**
+- Stable channel requires `publish_bundle=false` by default (manual gate)
+- Testing/nightly can auto-publish if endpoint is configured
+- GPG signing optional (via secrets)
+
+### Windows Distribution Bundle (`release-windows-distribution.yml`)
+
+**Trigger:** Automatic after GitHub Release creation (for stable channel)
+
+**Action:**
+1. Prepares Scoop and Chocolatey manifest candidates
+2. Validates manifests on Windows
+3. Creates tracking issue (`distro-tracking` label)
+4. Bundles as artifact for community review
+5. Can optionally publish if `publish_bundle=true`
+
+**Policy:**
+- Requires community review before submission to Scoop/Chocolatey
+- Official publication must be done by maintainer with proper credentials
+- Candidates remain in artifacts for manual PR submission if desired
+
+### Approval Workflow Permission Model
+
+All approval gates enforce the same permission model:
+
+| User Role | Can Approve? | Reason |
+|-----------|--------------|--------|
+| `admin` | ✅ Yes | Repository owner |
+| `maintain` | ✅ Yes | Release maintainer |
+| `push` | ❌ No | Contributor, not maintainer |
+| `triage` | ❌ No | Issue triager, not maintainer |
+| `pull` | ❌ No | Read-only contributor |
+| Not collaborator | ❌ No | External user |
+
+### Tracking Issues
+
+Each major publishing action creates or updates a corresponding tracking issue with:
+
+- Release version and channel
+- Build/bundle metrics (checksums, artifact counts)
+- Run number and action link
+- Approval timestamp and approver identity
+- Status comment trail for audit
+
+**Labels:**
+- `release-review` — GitHub Release approval tracking
+- `winget-release` — WinGet submission approval tracking
+- `docker-release` — Docker publication approval tracking
+- `distro-tracking` — Linux/Windows bundle tracking
+
+### Emergency Override Procedure
+
+If a critical security issue requires immediate publication without normal review:
+
+1. Contact release maintainer or repository owner (async escalation)
+2. Approve normally via issue comment
+3. Document the emergency context in the issue
+4. Post-release incident review (within 48 hours)
+
+**Note:** This procedure is for genuine security emergencies only. Habitual use indicates process problems that need fixing.
+
 ## 12. Manual Checklist
 
 If a release must be reverted:
