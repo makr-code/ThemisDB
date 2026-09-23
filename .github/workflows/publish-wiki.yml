@@ -402,14 +402,12 @@ jobs:
           set -euo pipefail
 
           # Find and close the tracking issue by exact title match
-          # Use jq to filter for exact title match to avoid false positives from full-text search
-          # Use --limit 500 to ensure we search enough open issues
-          # Use --repo to ensure we target the correct repository
+          # Use jq to filter for exact title match against all open issues up to limit
+          # Omit --search to avoid indexing delays; rely solely on jq filtering
           ISSUE_NUMBER=$(gh issue list \
             --repo "${{ github.repository }}" \
             --state open \
             --limit 500 \
-            --search "Wiki publish review" \
             --json number,title \
             --jq '.[] | select(.title == "Wiki publish review: human sign-off tracker") | .number' | head -1)
 
@@ -418,9 +416,15 @@ jobs:
             exit 0
           fi
 
+          # Use source_branch if available, otherwise use workflow trigger sha
+          PUBLISHED_REF="${{ steps.build.outputs.source_branch }}"
+          if [ -z "$PUBLISHED_REF" ]; then
+            PUBLISHED_REF="${{ github.sha }}"
+          fi
+
           gh issue close "$ISSUE_NUMBER" \
             --repo "${{ github.repository }}" \
-            --comment "✅ Wiki published successfully (run #${{ github.run_number }}, commit ${{ github.sha }}). This issue will be re-opened by the next automation run that requires review."
+            --comment "✅ Wiki published successfully (run #${{ github.run_number }}, source: $PUBLISHED_REF). This issue will be re-opened by the next automation run that requires review."
 
           echo "closed_issue=$ISSUE_NUMBER" >> "$GITHUB_OUTPUT"
 
