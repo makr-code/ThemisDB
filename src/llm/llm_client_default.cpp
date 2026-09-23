@@ -194,10 +194,14 @@ private:
 } // namespace themis::llm
 
 /**
- * @brief Factory function for creating default LLM client
- * @return Return value.
+ * @brief Factory function for creating default LLM client, defined in the
+ *        themis::aql namespace to match the extern forward-declaration used in
+ *        llm_aql_handler.cpp.
+ * @return A shared pointer to the default LLMClient implementation.
  * @details Implements createDefaultLLMClient without additional internal calls.
  */
+namespace themis::aql {
 std::shared_ptr<themis::llm::LLMClient> createDefaultLLMClient() {
     return std::make_shared<themis::llm::DefaultLLMClient>();
 }
+} // namespace themis::aql
