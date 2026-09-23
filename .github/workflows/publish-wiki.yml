@@ -328,13 +328,9 @@ jobs:
             exit 1
           fi
 
-          # Set up secure git credentials via .netrc (avoids embedding token in config)
-          mkdir -p ~/.ssh
-          printf "machine github.com\nlogin github-actions[bot]\npassword ${GH_TOKEN}\n" > ~/.netrc
-          chmod 600 ~/.netrc
-
-          # Clone the wiki repository
-          git clone "https://github.com/${WIKI_REPO}" "$WIKI_CLONE_DIR"
+          # Clone the wiki repository with inline credentials (token not persisted to disk)
+          # Using oauth2 scheme for git authentication
+          git clone "https://oauth2:${GH_TOKEN}@github.com/${WIKI_REPO}" "$WIKI_CLONE_DIR"
 
           cd "$WIKI_CLONE_DIR"
 
@@ -343,10 +339,11 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           # Detect the default branch (handles both master and main conventions)
-          # Use git remote show as fallback if symbolic-ref fails
-          DEFAULT_BRANCH=$(git remote show origin 2>/dev/null | awk '/HEAD branch/ {print $NF}' || echo "master")
-          if [ -z "$DEFAULT_BRANCH" ] || [ "$DEFAULT_BRANCH" = "master" ]; then
-            # Fallback to symbolic-ref if remote show doesn't work, with master as ultimate fallback
+          # Primary method: git remote show origin | awk
+          # Fallback: git symbolic-ref, then master
+          DEFAULT_BRANCH=$(git remote show origin 2>/dev/null | awk '/HEAD branch/ {print $NF}' || echo "")
+          if [ -z "$DEFAULT_BRANCH" ]; then
+            # Only fall back to symbolic-ref if remote show returned nothing
             DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' || echo "master")
           fi
           echo "::notice::Detected wiki default branch: $DEFAULT_BRANCH"
@@ -367,7 +364,8 @@ jobs:
             git commit -m "$COMMIT_MSG"
 
             echo "::notice::Pushing $CHANGES file(s) to wiki repository"
-            git push origin "$DEFAULT_BRANCH"
+            # Push with inline credentials (not persisted to disk)
+            git push "https://oauth2:${GH_TOKEN}@github.com/${WIKI_REPO}" "$DEFAULT_BRANCH"
 
             {
               echo "wiki_published=true"
