@@ -329,12 +329,8 @@ jobs:
           fi
 
           # Set up secure git credentials via .netrc (avoids embedding token in config)
-          # Using tab-indented here-doc (<<-) to ensure no leading whitespace in .netrc file
-          cat > ~/.netrc <<-EOF
-          	machine github.com
-          	login github-actions[bot]
-          	password ${GH_TOKEN}
-          	EOF
+          mkdir -p ~/.ssh
+          printf "machine github.com\nlogin github-actions[bot]\npassword ${GH_TOKEN}\n" > ~/.netrc
           chmod 600 ~/.netrc
 
           # Clone the wiki repository
@@ -347,7 +343,12 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           # Detect the default branch (handles both master and main conventions)
-          DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
+          # Use git remote show as fallback if symbolic-ref fails
+          DEFAULT_BRANCH=$(git remote show origin 2>/dev/null | awk '/HEAD branch/ {print $NF}' || echo "master")
+          if [ -z "$DEFAULT_BRANCH" ] || [ "$DEFAULT_BRANCH" = "master" ]; then
+            # Fallback to symbolic-ref if remote show doesn't work, with master as ultimate fallback
+            DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' || echo "master")
+          fi
           echo "::notice::Detected wiki default branch: $DEFAULT_BRANCH"
 
           # Remove old pages (but keep git history), including nested directories
