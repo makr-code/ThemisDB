@@ -58,7 +58,7 @@ jobs:
       commit-count: ${{ steps.check.outputs.commit-count }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -106,7 +106,7 @@ jobs:
       github.event_name == 'workflow_dispatch' && github.event.inputs.force == 'true'
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Update RELEASE_TYPE to nightly
         run: |
@@ -130,7 +130,7 @@ jobs:
       docker-labels: ${{ steps.metadata.outputs.docker-labels }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Override RELEASE_TYPE for nightly metadata
         run: |
@@ -157,7 +157,7 @@ jobs:
           echo "::notice::Nightly tag: $NIGHTLY_TAG"
 
       - name: Upload build metadata as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: build-metadata
           path: build-metadata.json
@@ -169,7 +169,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -264,7 +264,7 @@ jobs:
       id-token: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Download build artifacts
         uses: actions/download-artifact@v4.1.3

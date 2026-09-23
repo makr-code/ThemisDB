@@ -40,7 +40,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Post build failure comment on triggering PR
         if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'failure' && github.event.workflow_run.name == 'Docker Image CI/CD'
@@ -641,7 +641,7 @@ jobs:
 
       - name: Upload metrics artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: error-metrics
           path: /tmp/error-metrics/

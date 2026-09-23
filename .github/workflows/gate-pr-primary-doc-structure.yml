@@ -36,11 +36,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
@@ -105,7 +105,7 @@ jobs:
 
       - name: Upload gate artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: primary-doc-structure-gate-${{ github.run_number }}
           path: |
@@ -124,7 +124,7 @@ jobs:
       pull-requests: write
       issues: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set failure label and comment
         uses: ./.github/actions/status-flags-and-issues

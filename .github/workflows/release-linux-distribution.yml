@@ -61,8 +61,6 @@ on:
         required: false
       linux_distro_gpg_key_id:
         required: false
-  release:
-    types: [published]
   workflow_dispatch:
     inputs:
       version:
@@ -474,7 +472,7 @@ jobs:
           fi
 
       - name: Upload distro bundle artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: ${{ steps.bundle.outputs.bundle_name }}
           path: linux-distro-bundle/
@@ -517,3 +515,4 @@ jobs:
             "${PUBLISH_URL%/}/${TAR_NAME}"
 
           echo "Published bundle: ${PUBLISH_URL%/}/${TAR_NAME}"
+

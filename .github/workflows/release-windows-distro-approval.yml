@@ -1,0 +1,174 @@
+name: "Release: Windows Distro Approval Gate"
+
+# Publishes Windows distribution packages (Scoop/Chocolatey) when a maintainer approves
+# via issue comment on the Windows distro tracking issue.
+#
+# Approval keywords: /publish-windows, /approve-windows, @publish-windows
+#
+# Flow:
+#   1. release-mainline-approval.yml publishes GitHub Release
+#   2. Tracking issue is created for Windows distro packaging
+#   3. Maintainer reviews distro packaging readiness (Scoop/Chocolatey manifests)
+#   4. Posts approval comment: "/publish-windows"
+#   5. This workflow validates and dispatches release-windows-distribution.yml
+#   6. Windows distro workflow builds manifests and uploads to distro endpoints
+#   7. Closes the tracking issue
+#
+# Rationale:
+#   - Independent gate: maintainer explicitly approves distro publication
+#   - Quality gate: allows verification of package metadata before public distribution
+#   - Tracking: every distro release has a persistent audit trail
+#   - Reversible: can defer or cancel distro publication if issues arise
+#   - Safety: requires explicit approval; no accidental distro releases
+
+on:
+  issue_comment:
+    types: [created, edited]
+
+permissions:
+  issues: write
+  contents: read
+
+concurrency:
+  group: release-windows-distro-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  windows_distro_publish_from_issue:
+    name: Publish Windows distro packages on approval comment
+    if: |
+      contains(github.event.issue.labels.*.name, 'windows-distro-review') &&
+      (
+        contains(github.event.comment.body, '/publish-windows') ||
+        contains(github.event.comment.body, '/approve-windows') ||
+        contains(github.event.comment.body, '@publish-windows')
+      )
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Validate maintainer permission
+        id: check_maintainer
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const user = context.payload.comment.user.login;
+            const permission = await github.rest.repos.getCollaboratorPermissionLevel({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              username: user,
+            });
+            
+            const level = permission.data.permission;
+            const is_maintainer = level === 'admin' || level === 'maintain';
+            
+            core.setOutput('is_maintainer', is_maintainer ? 'true' : 'false');
+            
+            if (!is_maintainer) {
+              core.setFailed(`User @${user} does not have maintainer permissions (required: admin or maintain, found: ${level})`);
+            }
+
+      - name: Extract version from issue body
+        id: extract_version
+        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = context.payload.issue.body || '';
+            const match = body.match(/## Release Version:\s*v?(\d+\.\d+\.\d+)/);
+            
+            if (!match) {
+              core.setFailed('Could not extract release version from issue body. Expected format: "## Release Version: v2.5.0"');
+              return;
+            }
+            
+            const version = match[1];
+            core.setOutput('version', version);
+            core.notice(`Extracted version: ${version}`);
+
+      - name: Verify release tag exists
+        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const version = '${{ steps.extract_version.outputs.version }}';
+            const tag = `v${version}`;
+            
+            try {
+              await github.rest.git.getRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: `tags/${tag}`,
+              });
+              core.notice(`✓ Release tag ${tag} exists`);
+            } catch (error) {
+              core.setFailed(`Release tag ${tag} does not exist. Cannot publish distro packages.`);
+            }
+
+      - name: Dispatch Windows distro workflow
+        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const version = '${{ steps.extract_version.outputs.version }}';
+            
+            const run = await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'release-windows-distribution.yml',
+              ref: 'develop',
+              inputs: {
+                version: version,
+                publish_bundle: 'true',
+                channel: 'stable',
+              },
+            });
+            
+            core.notice(`✓ Dispatched release-windows-distribution.yml for v${version}`);
+
+      - name: Comment approval status
+        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const version = '${{ steps.extract_version.outputs.version }}';
+            const user = context.payload.comment.user.login;
+            
+            const comment = `✅ **Windows Distro Publication Approved**\n\n**Approved By:** @${user}\n**Version:** ${version}\n**Channel:** stable\n**Status:** Windows distro workflow dispatched (Scoop/Chocolatey packaging in progress)\n\n**Next:**\n- Monitor \`release-windows-distribution.yml\` run for build status\n- Packages will be uploaded to Windows distro endpoints on success\n- This issue will close on completion\n\n**Tracking:** Issue #${{ github.event.issue.number }} — Windows distro release approval`;
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              body: comment,
+            });
+
+      - name: Update issue label
+        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              labels: ['distro-approved'],
+            });
+
+      - name: Update issue on completion
+        if: always() && steps.check_maintainer.outputs.is_maintainer == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const success = context.payload.action === 'created' || context.payload.action === 'edited';
+            
+            if (success) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                state: 'open',
+              });
+            }

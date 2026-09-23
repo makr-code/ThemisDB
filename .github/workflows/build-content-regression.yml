@@ -97,7 +97,7 @@ jobs:
       (github.event_name == 'workflow_dispatch' && (inputs.run_soak == false || inputs.run_soak == 'false'))
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           submodules: false
@@ -159,7 +159,7 @@ jobs:
             2>&1 | tee content-regression-results.txt
 
       - name: Upload test results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: always()
         with:
           name: content-regression-results-${{ github.run_number }}
@@ -188,7 +188,7 @@ jobs:
       ARTIFACT_DIR: wave-d-soak-artifacts
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           submodules: false
@@ -261,7 +261,7 @@ jobs:
           echo '```' >> "${GITHUB_STEP_SUMMARY}"
 
       - name: Upload soak artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: always()
         with:
           name: wave-d-soak-results-${{ github.run_number }}

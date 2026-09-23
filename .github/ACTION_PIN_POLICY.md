@@ -36,14 +36,14 @@ Version pinning for third-party GitHub Actions is governed by a **4-tier classif
 
 ### Tier 2: SHOULD PIN (Reliability Critical)
 
-**Requirement:** Semantic version tag (e.g., `@v4`) or broken SHA pin  
+**Requirement:** Semantic version tag (e.g., `@v5`) or broken SHA pin  
 **Format:** `uses: owner/action@v<major> # <semver description>`
 
 **Actions:**
-- `actions/checkout` — Repo state is critical to all builds
-- `actions/upload-artifact` — Test/build artifacts; may break if format changes
+- `actions/checkout` — Repo state is critical to all builds (currently @v5, Node.js 24 compatible)
+- `actions/upload-artifact` — Test/build artifacts; may break if format changes (currently @v5, Node.js 24 compatible)
 - `actions/download-artifact` — Artifact consumption
-- `actions/setup-python` — Runtime selection for Python-based CI jobs
+- `actions/setup-python` — Runtime selection for Python-based CI jobs (currently @v6, Node.js 24 compatible)
 - `actions/setup-node` — Runtime selection for Node.js CI jobs
 - `mozilla-actions/sccache-action` — Compiler cache setup
 
@@ -52,14 +52,17 @@ Version pinning for third-party GitHub Actions is governed by a **4-tier classif
 - Compatibility: Patch and minor updates typically fix bugs and improve reliability
 - Reduces maintenance burden: No need to chase every point release
 - Allows cross-platform registry servers to resolve tags independently
+- Node.js 24 compatibility: GitHub deprecated Node.js 20 on 2025-09-19; upgraded to v5/v6 for compatibility
 
 **Review Cadence:** Semi-annually; upgrade on major version changes or security advisories
 
+**Latest Upgrade:** 2026-09-23 (Node.js 20 EOL: checkout v4→v5, upload-artifact v4→v5, setup-python v5→v6)
+
 **Example:**
 ```yaml
-- uses: actions/checkout@v4
-  # Allows v4.0.0, v4.1.0, v4.2.2, etc.
-  # Pin to v4 to auto-receive fixes within major version
+- uses: actions/checkout@v5
+  # Allows v5.0.0, v5.1.0, v5.2.x, etc.
+  # Pin to v5 to auto-receive fixes within major version
 ```
 
 ---
@@ -230,8 +233,44 @@ A: Always use SHA pins (Tier 1). They're part of the codebase and subject to git
 
 ---
 
+## Release Publishing Approval Workflows (2026)
+
+**Implementation Note:** New release publishing approval gates introduced 2026-09-23 require specific action pinning:
+
+### Approval Gate Workflows
+- `release-mainline-approval.yml`
+- `release-winget-approval.yml`
+- `release-docker-approval.yml`
+- `wiki-publish-from-issue.yml`
+
+**Common Pin Requirements:**
+```yaml
+# GitHub Script (Tier 2: reliability-critical for permission checks)
+- uses: actions/github-script@v7
+  # Fixed to v7 for stable GitHub API client behavior
+
+# Checkout and Setup (Tier 2: compatibility critical)
+- uses: actions/checkout@v5      # Node.js 24 compatible
+- uses: actions/setup-python@v6  # Node.js 24 compatible
+```
+
+**Security Model:**
+- All approval gates enforce permission checks via `github.rest.repos.getCollaboratorPermissionLevel()`
+- Comments from users with `push` permission or lower are rejected
+- Only `admin` and `maintain` roles can trigger publication
+- This permission model is enforced in the GitHub Script action (do not weaken)
+
+**Policy:**
+- Never downgrade `actions/github-script` below v7 in approval workflows
+- Never weaken permission checks (`admin` and `maintain` only)
+- All approval workflows must be validated with actionlint before merge
+- Approval keywords are case-sensitive and environment-variable-free
+
+---
+
 ## References
 
 - `.github/WORKFLOW_GUIDELINES.md` — General workflow policy
 - `.github/actions/` — Composite actions (all require SHA pins)
 - `VERSIONING.md` — ThemisDB semantic versioning
+- `docs/governance/RELEASE_GOVERNANCE.md` — Release publishing approval gates and keywords

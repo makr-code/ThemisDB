@@ -1,0 +1,289 @@
+name: "Wiki: Publish from Issue Approval"
+
+# Publishes the staged wiki to GitHub Wiki repository when a maintainer approves
+# via issue comment on the wiki review tracking issue.
+#
+# Approval keywords: /publish, /approve, @publish-wiki
+#
+# Flow:
+#   1. maintenance-docs.yml succeeds → triggers wiki-pr-gate.yml
+#   2. wiki-pr-gate.yml validates + creates tracking issue
+#   3. Maintainer reviews metrics and posts: "/publish" (or /approve, @publish-wiki)
+#   4. This workflow (wiki-publish-from-issue.yml) reacts and publishes to wiki
+#   5. Closes the tracking issue if successful
+#
+# Rationale:
+#   - Single source of truth: one tracking issue with run-level comments
+#   - Human-controlled: maintainer decides when/if to publish (via issue comment)
+#   - Async-friendly: doesn't block the build workflow
+#   - Requires user action: prevents accidental wiki overwrites
+
+on:
+  issue_comment:
+    types: [created, edited]
+
+permissions:
+  issues: write
+  contents: write
+
+concurrency:
+  group: wiki-publish-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  wiki_publish_from_issue:
+    name: Publish wiki on approval comment
+    if: |
+      contains(github.event.issue.labels.*.name, 'wiki-review') &&
+      (
+        contains(github.event.comment.body, '/publish') ||
+        contains(github.event.comment.body, '/approve') ||
+        contains(github.event.comment.body, '@publish-wiki')
+      )
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+
+    steps:
+      - name: Verify commenter is a maintainer
+        id: check_maintainer
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const comment = context.payload.comment;
+            const issue = context.payload.issue;
+            const user = comment.user.login;
+            
+            // Check if commenter is a maintainer or repo owner
+            try {
+              const { data: permission } = await github.rest.repos.getCollaboratorPermissionLevel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                username: user,
+              });
+              
+              if (!['admin', 'maintain'].includes(permission.permission)) {
+                core.setFailed(`User ${user} does not have maintainer permissions`);
+                return;
+              }
+              
+              core.info(`✓ User ${user} has ${permission.permission} permission`);
+              core.setOutput('is_maintainer', 'true');
+            } catch (error) {
+              core.setFailed(`Failed to check permissions: ${error.message}`);
+            }
+
+      - name: React to approval comment
+        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: '+1',
+            });
+
+      - name: Checkout repository
+        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Extract source branch from tracking issue
+        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        id: extract_branch
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: issue } = await github.rest.issues.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+            });
+            
+            // Find the most recent wiki-run comment in this issue
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              per_page: 50,
+            });
+            
+            let sourceBranch = 'develop';
+            let foundRunComment = false;
+            
+            for (const comment of comments.reverse()) {
+              if (comment.body.includes('Source branch')) {
+                const match = comment.body.match(/Source branch\s*\|\s*`([^`]+)`/);
+                if (match) {
+                  sourceBranch = match[1];
+                  foundRunComment = true;
+                  core.info(`Extracted source branch from comment: ${sourceBranch}`);
+                  break;
+                }
+              }
+            }
+            
+            if (!foundRunComment) {
+              core.warning(`Could not find source branch in issue comments, using default: ${sourceBranch}`);
+            }
+            
+            core.setOutput('source_branch', sourceBranch);
+
+      - name: Build wiki staging
+        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        id: build
+        run: |
+          SOURCE_BRANCH="${{ steps.extract_branch.outputs.source_branch }}"
+          if [ -z "$SOURCE_BRANCH" ]; then
+            SOURCE_BRANCH="develop"
+          fi
+          
+          python scripts/build_wiki.py \
+            --repo-root . \
+            --output /tmp/wiki-staging \
+            --enable-breadcrumbs \
+            --sort-by currency \
+            --source-branch "$SOURCE_BRANCH" \
+            --manifest /tmp/wiki-manifest.json
+          
+          python scripts/validate_wiki_links.py \
+            --wiki-dir /tmp/wiki-staging \
+            --report /tmp/wiki-link-report.txt
+          
+          {
+            echo "staging_dir=/tmp/wiki-staging"
+            echo "source_branch=$SOURCE_BRANCH"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Publish wiki to GitHub repository
+        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        id: publish
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          
+          WIKI_REPO="${{ github.repository }}.wiki.git"
+          WIKI_CLONE_DIR="/tmp/wiki-publish-clone"
+          WIKI_STAGING_DIR="${{ steps.build.outputs.staging_dir }}"
+          
+          echo "::notice::Publishing wiki to GitHub repository: $WIKI_REPO"
+          
+          # Verify staging directory exists and is non-empty
+          if [ ! -d "$WIKI_STAGING_DIR" ] || [ -z "$(find "$WIKI_STAGING_DIR" -type f 2>/dev/null | head -1)" ]; then
+            echo "::error::Wiki staging directory is empty or missing: $WIKI_STAGING_DIR"
+            exit 1
+          fi
+          
+          # Clone the wiki repository with OAuth2 credentials
+          git clone "https://oauth2:${GH_TOKEN}@github.com/${WIKI_REPO}" "$WIKI_CLONE_DIR"
+          
+          cd "$WIKI_CLONE_DIR"
+          
+          # Configure git for commit
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Detect the default branch
+          DEFAULT_BRANCH=$(git remote show origin 2>/dev/null | awk '/HEAD branch/ {print $NF}' || echo "")
+          if [ -z "$DEFAULT_BRANCH" ]; then
+            DEFAULT_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' || echo "master")
+          fi
+          echo "::notice::Detected wiki default branch: $DEFAULT_BRANCH"
+          
+          # Remove all old files and directories at top level
+          find . -maxdepth 1 -type f -delete
+          find . -maxdepth 1 -type d -not -name '.' -not -name '.git' -print0 | xargs -r -0 rm -rf
+          
+          # Copy new pages from staging
+          cp -r "$WIKI_STAGING_DIR"/. .
+          
+          # Check for changes
+          git add .
+          CHANGES=$(git diff --cached --name-only | wc -l)
+          
+          if [ "$CHANGES" -gt 0 ]; then
+            COMMIT_MSG="docs: update wiki from approved publish request (issue #${{ github.event.issue.number }}, commit ${{ github.sha }})"
+            git commit -m "$COMMIT_MSG"
+            
+            echo "::notice::Pushing $CHANGES file(s) to wiki repository"
+            git push "https://oauth2:${GH_TOKEN}@github.com/${WIKI_REPO}" "$DEFAULT_BRANCH"
+            
+            {
+              echo "wiki_published=true"
+              echo "changes_pushed=$CHANGES"
+            } >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::No changes to publish"
+            {
+              echo "wiki_published=no_changes"
+              echo "changes_pushed=0"
+            } >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Comment success on tracking issue
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.publish.outcome == 'success'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const moment = new Date().toISOString();
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              body: `## ✅ Wiki Published\n\nThe wiki has been successfully published!\n\n| Metric | Value |\n|--------|-------|\n| Triggered by | @$${context.payload.comment.user.login} |\n| Source branch | \\\`${{ steps.extract_branch.outputs.source_branch }}\\\` |\n| Files published | ${{ steps.publish.outputs.changes_pushed || '0' }} |\n| Status | ${{ steps.publish.outputs.wiki_published }} |\n| Run | [${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) |\n| Time | ${moment} |`,
+            });
+
+
+      - name: Close tracking issue if published
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.publish.outputs.wiki_published == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              state: 'closed',
+              state_reason: 'completed',
+            });
+
+      - name: Comment failure on tracking issue
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.publish.outcome == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const moment = new Date().toISOString();
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              body: `## ❌ Wiki Publish Failed\n\nThe wiki publish attempt failed. Check the workflow logs.\n\n| Item | Value |\n|------|-------|\n| Requested by | @$${context.payload.comment.user.login} |\n| Run | [${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) |\n| Time | ${moment} |\n\nSee the [workflow logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for troubleshooting.`,
+            });
+
+      - name: Comment permission denied
+        if: steps.check_maintainer.outputs.is_maintainer != 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              body: `❌ Permission denied: @${{ github.event.comment.user.login }} does not have maintainer permissions.\n\nOnly users with admin or maintain permissions can publish the wiki.`,
+            });
+            
+            await github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: '-1',
+            });

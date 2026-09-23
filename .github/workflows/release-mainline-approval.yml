@@ -1,0 +1,247 @@
+name: "Release: GitHub Release Approval Gate"
+
+# Publishes the final GitHub Release when a maintainer approves
+# via issue comment on the GitHub Release tracking issue.
+#
+# Approval keywords: /publish-release, /approve-release, @publish-release
+#
+# Flow:
+#   1. release-build-matrix.yml completes build + test + sign all artifacts
+#   2. Staging release is created (draft=true, not visible to users)
+#   3. Automatic tracking issue is created with release metrics and artifact checksums
+#   4. Maintainer reviews release quality, changelog, and signing certificates
+#   5. Posts approval comment: "/publish-release"
+#   6. This workflow (release-mainline-approval.yml) reacts and publishes release
+#   7. Sets draft=false, making release publicly visible
+#   8. Closes the tracking issue
+#
+# Rationale:
+#   - Human-controlled: maintainer decides when/if to publish to users
+#   - Quality gate: allows last-minute verification before public release
+#   - Tracking: every release has a persistent audit trail
+#   - Reversible: can defer or cancel release if issues arise
+#   - Safe default: release-mainline.yml creates draft release, not visible to users
+#   - Prevents accidental public releases: requires explicit maintainer approval
+#
+# Security:
+#   - Only maintainers (admin/maintain role) can approve
+#   - Validates release tag before publishing
+#   - Preserves all artifact signatures and checksums
+#   - Records approver identity for audit trail
+
+on:
+  issue_comment:
+    types: [created, edited]
+
+permissions:
+  issues: write
+  contents: write
+
+concurrency:
+  group: release-publish-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  release_publish_from_issue:
+    name: Publish GitHub Release on approval comment
+    if: |
+      contains(github.event.issue.labels.*.name, 'release-review') &&
+      (
+        contains(github.event.comment.body, '/publish-release') ||
+        contains(github.event.comment.body, '/approve-release') ||
+        contains(github.event.comment.body, '@publish-release')
+      )
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+
+    steps:
+      - name: Verify commenter is a maintainer
+        id: check_maintainer
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const comment = context.payload.comment;
+            const issue = context.payload.issue;
+            const user = comment.user.login;
+            
+            // Check if commenter is a maintainer or repo owner
+            try {
+              const { data: permission } = await github.rest.repos.getCollaboratorPermissionLevel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                username: user,
+              });
+              
+              if (!['admin', 'maintain'].includes(permission.permission)) {
+                core.setFailed(`User ${user} does not have maintainer permissions`);
+                return;
+              }
+              
+              core.info(`✓ User ${user} has ${permission.permission} permission`);
+              core.setOutput('is_maintainer', 'true');
+            } catch (error) {
+              core.setFailed(`Failed to check permissions: ${error.message}`);
+            }
+
+      - name: React to approval comment
+        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: '+1',
+            });
+
+      - name: Extract version from issue body
+        id: extract_version
+        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issueBody = context.payload.issue.body;
+            // Match "## Release Version: X.Y.Z"
+            const versionMatch = issueBody.match(/##\s+Release Version:\s+v?(\d+\.\d+\.\d+)/);
+            if (versionMatch) {
+              const version = versionMatch[1];
+              core.setOutput('version', version);
+              core.info(`✓ Extracted version: ${version}`);
+            } else {
+              core.setFailed('Could not extract version from issue body');
+            }
+
+      - name: Checkout repository
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.extract_version.outputs.version != ''
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Fetch release draft
+        id: fetch_release
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.extract_version.outputs.version != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.extract_version.outputs.version }}
+        run: |
+          set -euo pipefail
+          TAG="v${VERSION}"
+          
+          # Get release by tag
+          RELEASE_JSON=$(gh release view "$TAG" --repo "${{ github.repository }}" --json id,isDraft,tagName,name,body --jq '@json')
+          
+          if [ -z "$RELEASE_JSON" ]; then
+            echo "::error::Release $TAG not found"
+            exit 1
+          fi
+           
+          echo "release_json=$RELEASE_JSON" >> "$GITHUB_OUTPUT"
+          echo "✓ Retrieved release: $TAG"
+
+      - name: Create tracking issues for downstream registries
+        id: create_tracking
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.extract_version.outputs.version != ''
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const version = '${{ steps.extract_version.outputs.version }}';
+            const releaseUrl = `https://github.com/${{ github.repository }}/releases/tag/v${version}`;
+            
+            const registries = [
+              { name: 'WinGet', keyword: 'publish-winget', label: 'winget-review', distro_label: 'winget' },
+              { name: 'Docker', keyword: 'publish-docker', label: 'docker-review', distro_label: 'docker' },
+              { name: 'Linux Distro', keyword: 'publish-linux', label: 'linux-distro-review', distro_label: 'linux-distro' },
+              { name: 'Windows Distro', keyword: 'publish-windows', label: 'windows-distro-review', distro_label: 'windows-distro' },
+            ];
+            
+            const createdIssues = [];
+            
+            for (const registry of registries) {
+              const title = `📦 ${registry.name} Release: v${version}`;
+              const body = `## Release Version: v${version}\n\n**Registry:** ${registry.name}\n**GitHub Release:** [v${version}](${releaseUrl})\n**Status:** Awaiting approval for publication\n\n### Review Checklist\n- [ ] Download and verify release artifacts\n- [ ] Verify checksums and signatures\n- [ ] Confirm metadata is accurate\n- [ ] Review changelog\n- [ ] Test package/image if applicable\n\n### Approval\nOnce review is complete, comment with:\n\n\`/${registry.keyword}\`\n\nApproval will dispatch the ${registry.name} publication workflow.`;
+              
+              try {
+                const created = await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: title,
+                  body: body,
+                  labels: [registry.label, registry.distro_label, 'release-review'],
+                });
+                createdIssues.push({
+                  name: registry.name,
+                  number: created.data.number,
+                  keyword: registry.keyword
+                });
+                core.info(`✓ Created tracking issue #${created.data.number} for ${registry.name}`);
+              } catch (error) {
+                core.warning(`⚠ Could not create ${registry.name} tracking issue: ${error.message}`);
+              }
+            }
+            
+            core.setOutput('tracking_issues', JSON.stringify(createdIssues));
+
+      - name: Publish release (set draft=false)
+        id: publish_release
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.extract_version.outputs.version != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.extract_version.outputs.version }}
+        run: |
+          set -euo pipefail
+          TAG="v${VERSION}"
+          
+          # Update release to set draft=false
+          gh release edit "$TAG" \
+            --repo "${{ github.repository }}" \
+            --draft=false
+          
+          echo "✓ Release $TAG published"
+          echo "::notice::GitHub Release ${TAG} is now publicly visible"
+
+      - name: Comment approval status and tracking issues
+        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const version = '${{ steps.extract_version.outputs.version }}';
+            const user = context.payload.comment.user.login;
+            const trackingJson = '${{ steps.create_tracking.outputs.tracking_issues }}' || '[]';
+            
+            let trackingIssues = [];
+            try {
+              trackingIssues = JSON.parse(trackingJson);
+            } catch (e) {
+              core.warning('Could not parse tracking issues: ' + e.message);
+            }
+            
+            let nextStepsList = 'Each registry requires explicit approval:\n';
+            for (const t of trackingIssues) {
+              nextStepsList += `   - ${t.name}: Comment \`/${t.keyword}\` on #${t.number}\n`;
+            }
+            
+            const comment = `✅ **GitHub Release Published**\n\n**Approved By:** @${user}\n**Version:** ${version}\n**Status:** Release is now publicly visible on GitHub\n\n**Access Release:**\n- Release URL: https://github.com/${{ github.repository }}/releases/tag/v${version}\n- Download artifacts from the release page\n- All signatures and checksums are included\n\n**Next Steps:**\n1. Tracking issues created for downstream registries:\n${nextStepsList}\n2. No automatic downstream triggering; each registry requires independent maintainer approval via its tracking issue\n3. Monitor artifact downloads and user reports\n\n**Tracking:** Release audit trail is complete.`;
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              body: comment,
+            });
+
+      - name: Update issue on failure
+        if: failure() && steps.check_maintainer.outputs.is_maintainer == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const failureReason = `${{ job.status }}`;
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              body: `❌ **GitHub Release Publication Failed**\n\nJob Status: ${failureReason}\n\nThe draft release remains unpublished. Please check the workflow logs and try again.`,
+            });

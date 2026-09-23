@@ -88,7 +88,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # ── Layer 2: Content hash check ─────────────────────────────────────
       # Computes a stable SHA-256 fingerprint of the entire input folder tree.
@@ -138,7 +138,7 @@ jobs:
 
       - name: Set up Python
         if: steps.check.outputs.skip != 'true'
-        uses: actions/setup-python@v5 # v5.6.0
+        uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 
@@ -234,7 +234,7 @@ jobs:
 
       - name: Upload RocksDB database artifact
         if: always() && (steps.check.outputs.skip != 'true' || steps.cache.outputs.cache-hit == 'true')
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: ${{ inputs.output_name }}
           path: output-db/${{ inputs.output_name }}.db
@@ -242,7 +242,7 @@ jobs:
 
       - name: Upload JSON artifact (for incremental rebuilds / debugging)
         if: steps.check.outputs.skip != 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: ${{ inputs.output_name }}-json
           path: output-db/docs_artifact.json

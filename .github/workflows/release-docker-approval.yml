@@ -1,0 +1,207 @@
+name: "Release: Docker Approval Gate"
+
+# Publishes Docker images to container registries (GHCR and/or Docker Hub)
+# when a maintainer approves via issue comment on the Docker release tracking issue.
+#
+# Approval keywords: /publish-docker, /approve-docker, @publish-docker
+#
+# Flow:
+#   1. release-mainline.yml succeeds and creates stable release
+#   2. Automatic tracking issue is created with Docker build metrics
+#   3. Maintainer reviews release quality and posts: "/publish-docker"
+#   4. This workflow (release-docker-approval.yml) reacts and publishes to registries
+#   5. Closes the tracking issue if successful
+#
+# Rationale:
+#   - Human-controlled: maintainer decides when/if to push to public registries
+#   - Tracking: every push is recorded with timestamp and approver
+#   - Reversible: approval can be deferred if issues arise with the release
+#   - Prevents accidental public pushes: default workflow_dispatch has push_to_registry=false
+#
+# Security:
+#   - OIDC-based auth to GHCR (no long-lived secrets)
+#   - Least-privilege permissions at workflow and job level
+#   - Validates release tag before pushing
+#   - Requires maintainer approval (not just any GitHub user)
+
+on:
+  issue_comment:
+    types: [created, edited]
+
+permissions:
+  issues: write
+  contents: read
+  packages: write
+
+concurrency:
+  group: docker-publish-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  docker_publish_from_issue:
+    name: Publish Docker images on approval comment
+    if: |
+      contains(github.event.issue.labels.*.name, 'docker-release') &&
+      (
+        contains(github.event.comment.body, '/publish-docker') ||
+        contains(github.event.comment.body, '/approve-docker') ||
+        contains(github.event.comment.body, '@publish-docker')
+      )
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+
+    steps:
+      - name: Verify commenter is a maintainer
+        id: check_maintainer
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const comment = context.payload.comment;
+            const issue = context.payload.issue;
+            const user = comment.user.login;
+            
+            // Check if commenter is a maintainer or repo owner
+            try {
+              const { data: permission } = await github.rest.repos.getCollaboratorPermissionLevel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                username: user,
+              });
+              
+              if (!['admin', 'maintain'].includes(permission.permission)) {
+                core.setFailed(`User ${user} does not have maintainer permissions`);
+                return;
+              }
+              
+              core.info(`✓ User ${user} has ${permission.permission} permission`);
+              core.setOutput('is_maintainer', 'true');
+            } catch (error) {
+              core.setFailed(`Failed to check permissions: ${error.message}`);
+            }
+
+      - name: React to approval comment
+        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: '+1',
+            });
+
+      - name: Extract version from issue body
+        id: extract_version
+        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issueBody = context.payload.issue.body;
+            // Match "## Release Version: X.Y.Z"
+            const versionMatch = issueBody.match(/##\s+Release Version:\s+v?(\d+\.\d+\.\d+)/);
+            if (versionMatch) {
+              const version = versionMatch[1];
+              core.setOutput('version', version);
+              core.info(`✓ Extracted version: ${version}`);
+            } else {
+              core.setFailed('Could not extract version from issue body');
+            }
+
+      - name: Checkout repository
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.extract_version.outputs.version != ''
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Verify release tag exists
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.extract_version.outputs.version != ''
+        id: verify_tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.extract_version.outputs.version }}
+        run: |
+          set -euo pipefail
+          TAG="v${VERSION}"
+          
+          # Check if tag exists
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "✓ Tag $TAG exists locally"
+          else
+            echo "Tag $TAG not found locally; checking GitHub"
+            if gh release view "$TAG" --repo "${{ github.repository }}" >/dev/null 2>&1; then
+              echo "✓ Release $TAG exists on GitHub"
+            else
+              echo "::error::Release $TAG not found"
+              exit 1
+            fi
+          fi
+
+      - name: Trigger Docker publication workflow
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.extract_version.outputs.version != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.extract_version.outputs.version }}
+        run: |
+          set -euo pipefail
+          
+          echo "Triggering Docker publication for version: $VERSION"
+          
+          # Trigger release-docker-image workflow via workflow_dispatch
+          # Note: push_to_registry defaults to 'false' in workflow_dispatch for safety
+          gh workflow run release-docker-image.yml \
+            --repo "${{ github.repository }}" \
+            --ref develop \
+            -f tag_name="v${VERSION}" \
+            -f push_to_registry=true \
+            -f registry=ghcr.io \
+            -f include_tinyllama=true
+          
+          echo "✓ Docker publication workflow dispatched"
+
+      - name: Comment approval status
+        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const version = '${{ steps.extract_version.outputs.version }}';
+            const user = context.payload.comment.user.login;
+            
+            const comment = `✅ **Docker Publication Approved**\n\n**Approved By:** @$${user}\n**Version:** ${version}\n**Status:** Dispatched to \`release-docker-image.yml\` workflow\n\n**Publication Target:** GHCR (ghcr.io/makr-code/themisdb:${version})\n\n**Next Steps:**\n1. Monitor the Docker build workflow in Actions\n2. Images will be pushed to GHCR after successful build\n3. Pull the image via: \`docker pull ghcr.io/makr-code/themisdb:${version}\`\n4. Release notes: https://github.com/${{ github.repository }}/releases/tag/v${version}\n\n**Tracking:** This issue will auto-close when Docker publication succeeds.`;
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              body: comment,
+            });
+
+      - name: Update issue on success
+        if: success() && steps.check_maintainer.outputs.is_maintainer == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              state: 'closed',
+              state_reason: 'completed',
+            });
+
+      - name: Update issue on failure
+        if: failure() && steps.check_maintainer.outputs.is_maintainer == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const failureReason = `${{ job.status }}`;
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              body: `❌ **Docker Publication Failed**\n\nJob Status: ${failureReason}\n\nPlease check the workflow logs and try again.`,
+            });

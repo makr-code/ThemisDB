@@ -92,7 +92,7 @@ jobs:
       (github.event_name == 'workflow_dispatch' && inputs.run_labels == true)
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Install js-yaml
         run: npm install js-yaml@4
@@ -193,7 +193,7 @@ jobs:
       (github.event_name == 'workflow_dispatch' && inputs.run_milestones == true)
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Install js-yaml
         run: npm install js-yaml@4
@@ -281,7 +281,7 @@ jobs:
     if: github.event_name == 'issues' || github.event_name == 'pull_request_target'
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Install js-yaml
         run: npm install js-yaml@4

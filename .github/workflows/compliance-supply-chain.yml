@@ -66,10 +66,10 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v5  # v5.3.0
+        uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 
@@ -88,7 +88,7 @@ jobs:
           PY
 
       - name: Checkout vcpkg ports at pinned baseline
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: microsoft/vcpkg
           ref: ${{ steps.baseline.outputs.sha }}
@@ -107,7 +107,7 @@ jobs:
         run: cat artifacts/license-compliance/license-summary.md >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload license artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: license-compliance-${{ github.run_id }}
           path: |
@@ -151,7 +151,7 @@ jobs:
       id-token: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Verify vcpkg baseline commit signature
         env:
@@ -217,7 +217,7 @@ jobs:
           sha256sum -c sbom-source.SHA256SUMS
 
       - name: Upload SBOM artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: sbom-${{ github.run_id }}
           path: |
@@ -267,7 +267,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Resolve release identifier
         id: release_id
@@ -308,7 +308,7 @@ jobs:
             --output-md "c5-evidence/manifest.md"
 
       - name: Upload C5 evidence manifest
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: c5-evidence-manifest-${{ steps.release_id.outputs.value }}
           path: c5-evidence/
@@ -350,10 +350,10 @@ jobs:
           echo "============================================================"
 
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Python
-        uses: actions/setup-python@v5  # v5.3.0
+        uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 
@@ -464,7 +464,7 @@ jobs:
           category: dependency-freshness
       - name: Upload freshness report artifact
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: dependency-freshness-${{ github.run_id }}
           path: dependency-freshness.sarif
@@ -557,7 +557,7 @@ jobs:
       THEMIS_ADMIN_ENDPOINT: 'https://localhost:8443'
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Start ThemisDB container
         env:
@@ -598,7 +598,7 @@ jobs:
 
       - name: Upload evidence bundle artifact
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: soc2-evidence-${{ github.run_id }}-${{ github.run_number }}
           path: evidence-bundle-*.json

@@ -47,7 +47,7 @@ jobs:
     steps:
       # Check out source code
       - name: Check Out Source Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       # configuration, the Fortify GitHub Action can optionally set up the application version/release, generate
       # job summaries and Pull Request comments, and/or export SAST results to the GitHub code scanning dashboard.
       # The Fortify GitHub Action provides many customization capabilities, but in case further customization is
