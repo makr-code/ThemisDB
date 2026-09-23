@@ -350,7 +350,8 @@ jobs:
 
           # Remove old pages (but keep git history), including nested directories
           find . -maxdepth 1 -name '*.md' -not -name '_Sidebar.md' -not -name '_Footer.md' -delete
-          find . -maxdepth 1 -type d -not -name '.' -not -name '.git' -exec rm -rf {} + 2>/dev/null || true
+          # Remove subdirectories one at a time to avoid issues with find -exec rm -rf {} +
+          find . -maxdepth 1 -type d -not -name '.' -not -name '.git' -print0 | xargs -0 rm -rf
 
           # Copy new pages from staging
           cp -r "$WIKI_STAGING_DIR"/* .
