@@ -5398,7 +5398,7 @@ add_executable(themis_demo
 )
 
 function(themis_link_mimalloc_if_enabled _target_name)
-    if(THEMIS_ENABLE_MIMALLOC AND mimalloc_FOUND)
+    if(THEMIS_ENABLE_MIMALLOC)
         if(WIN32)
             if(TARGET mimalloc)
                 target_link_libraries(${_target_name} PRIVATE mimalloc)
