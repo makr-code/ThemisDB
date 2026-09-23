@@ -328,12 +328,9 @@ jobs:
             exit 1
           fi
 
-          # Configure git credential transformation to keep token out of process arguments
-          # This prevents token visibility in ps aux and debug logs
-          git config --global url."https://oauth2:${GH_TOKEN}@github.com/".insteadOf "https://github.com/"
-
-          # Clone the wiki repository (credentials provided via git config)
-          git clone "https://github.com/${WIKI_REPO}" "$WIKI_CLONE_DIR"
+          # Clone the wiki repository with OAuth2 credentials
+          # Token visible in process list only for the duration of this command
+          git clone "https://oauth2:${GH_TOKEN}@github.com/${WIKI_REPO}" "$WIKI_CLONE_DIR"
 
           cd "$WIKI_CLONE_DIR"
 
@@ -369,8 +366,8 @@ jobs:
             git commit -m "$COMMIT_MSG"
 
             echo "::notice::Pushing $CHANGES file(s) to wiki repository"
-            # Push with credentials from git config
-            git push "https://github.com/${WIKI_REPO}" "$DEFAULT_BRANCH"
+            # Push to origin remote with inline OAuth2 credentials
+            git push "https://oauth2:${GH_TOKEN}@github.com/${WIKI_REPO}" "$DEFAULT_BRANCH"
 
             {
               echo "wiki_published=true"
