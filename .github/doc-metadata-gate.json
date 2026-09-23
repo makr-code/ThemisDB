@@ -4,17 +4,7 @@
     "audit/**/*.md",
     "security/**/*.md",
     "ai_context/**/*.md",
-    ".github/**/*.md",
-    "tests/**/*.md",
-    "README.md",
-    "QUICKSTART.md",
-    "SETUP.md",
-    "CONTRIBUTING.md",
-    "SUPPORT.md",
-    "INDEX.md",
-    "LOG.md",
-    "AI_WIKI_INTEGRATION_PLAYBOOK.md",
-    "DOCUMENTATION_GOVERNANCE.md"
+    "tests/**/*.md"
   ],
   "exclude": [
     "CHANGELOG.md",
@@ -27,7 +17,13 @@
     "docs/**/documentation-history/**",
     "docs/_standards/**",
     ".github/ISSUE_TEMPLATE/**/*.md",
-    "**/ai_working/**",
+    ".github/actions/**/*.md",
+    ".github/agents/**/*.md",
+    ".github/PULL_REQUEST_TEMPLATE/**/*.md",
+    ".github/copilot/**/*.md",
+    ".github/prompts/**/*.md",
+    ".github/instructions/**/*.md",
+    "ai_working/**",
     "ai_context/developer_llm_wiki/**"
   ],
   "max_scan_lines": 40,
