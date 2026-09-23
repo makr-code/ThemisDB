@@ -3,8 +3,8 @@
 **Document Type:** GA Gate Closure — Final Governance and Promotion Sign-Off  
 **Scope:** v2.4.0-rc1 → v2.4.0 GA — Batch D (Final)  
 **Date Opened:** 2026-07-20  
-**Last Updated:** 2026-08-18  
-**Status:** 🟢 BATCH E COMPLETE — All technical gates D-1..D-10 + E-1..E-5 PASS (2026-08-07); Module Phase 5-6 closure complete; **Wave D D4-00 CI fixes shipped 2026-08-18** (libfmt-dev + benchmark CI unblocked); Section 9 human sign-off required for final promotion
+**Last Updated:** 2026-09-23 (synced with hardening Phase 1)  
+**Status:** 🟢 BATCH E COMPLETE — All technical gates D-1..D-10 + E-1..E-5 PASS (2026-08-07); Module Phase 5-6 closure complete; **Wave D D4-00 CI fixes shipped 2026-08-18** (libfmt-dev + benchmark CI unblocked); **Wave-B Transaction & Wave-A GPU tracker issues created 2026-09-23**; Section 9 human sign-off required for final promotion
 **Owner:** platform-release@themisdb
 
 ---
@@ -36,11 +36,17 @@ Three specific evidence blockers identified, root-caused, and addressed:
 - **Action required (human):** Bring up ≥1 `self-hosted gpu-cuda` runner with CUDA 12.x for Wave A GPU baseline capture (`bench_gpu_a8_baselines`, `bench_voice_a8_baselines` p95/p99 latency baselines).
 - **Scope note:** GPU evidence is required only for Wave A GPU/Voice Q4 2026 items — it is **not a blocker for v2.4.0 GA CPU-path promotion** (Transaction, Sharding, Replication modules).
 
-**Pending CI Runs (2026-08-18 19:30 UTC):**
-| Run ID | Workflow | Branch | Commit | Status |
-|--------|---------|--------|--------|--------|
-| 32175323929 | ci-build | develop | 450e74c | 🟡 pending |
-| 32098439614 | ci-benchmarks | develop | 3655b79 | 🟡 pending (nightly queue) |
+**Pending CI Runs (2026-09-23 Updated Status):**
+| Run ID | Workflow | Branch | Commit | Status | Last Check |
+|--------|---------|--------|--------|--------|------------|
+| 32175323929 | ci-build | develop | 450e74c | 🟡 pending | 2026-08-18 19:30 UTC |
+| 32098439614 | ci-benchmarks | develop | 3655b79 | 🟡 pending (nightly queue) | 2026-08-18 19:30 UTC |
+| TBD | wave-b-transaction-ci | develop | pending | awaiting Wave-B-TX-001 execution | 2026-09-23 |
+| TBD | wave-a-gpu-ci | develop | pending | awaiting Wave-A-GPU-001 execution + hw availability | 2026-09-23 |
+
+**Tracker Issues (Hardening Phase 1 — 2026-09-23):**
+1. **Wave-B-TX-001 (CRITICAL):** Transaction `release_critical` CI lane + representative-hardware baseline evidence (latency/throughput/failover). Blocks v2.4.0 GA CPU-path promotion.
+2. **Wave-A-GPU-001 (HIGH):** GPU CUDA reduction + representative-hardware baseline (sm_80/sm_89/sm_90). Required for Q4 2026 Wave A delivery; deferred if GPU infrastructure unavailable.
 
 
 ---
