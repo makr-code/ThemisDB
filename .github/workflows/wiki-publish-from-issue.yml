@@ -239,7 +239,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.payload.issue.number,
-              body: `## ✅ Wiki Published\n\nThe wiki has been successfully published!\n\n| Metric | Value |\n|--------|-------|\n| Triggered by | @$${context.payload.comment.user.login} |\n| Source branch | \\\`${{ steps.extract_branch.outputs.source_branch }}\\\` |\n| Files published | ${{ steps.publish.outputs.changes_pushed || '0' }} |\n| Status | ${{ steps.publish.outputs.wiki_published }} |\n| Run | [${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) |\n| Time | ${moment} |`,
+              body: `## ✅ Wiki Published\n\nThe wiki has been successfully published!\n\n| Metric | Value |\n|--------|-------|\n| Triggered by | @${context.payload.comment.user.login} |\n| Source branch | \\\`${{ steps.extract_branch.outputs.source_branch }}\\\` |\n| Files published | ${{ steps.publish.outputs.changes_pushed || '0' }} |\n| Status | ${{ steps.publish.outputs.wiki_published }} |\n| Run | [${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) |\n| Time | ${moment} |`,
             });
 
 
@@ -266,7 +266,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.payload.issue.number,
-              body: `## ❌ Wiki Publish Failed\n\nThe wiki publish attempt failed. Check the workflow logs.\n\n| Item | Value |\n|------|-------|\n| Requested by | @$${context.payload.comment.user.login} |\n| Run | [${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) |\n| Time | ${moment} |\n\nSee the [workflow logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for troubleshooting.`,
+              body: `## ❌ Wiki Publish Failed\n\nThe wiki publish attempt failed. Check the workflow logs.\n\n| Item | Value |\n|------|-------|\n| Requested by | @${context.payload.comment.user.login} |\n| Run | [${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) |\n| Time | ${moment} |\n\nSee the [workflow logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for troubleshooting.`,
             });
 
       - name: Comment permission denied

@@ -32,6 +32,7 @@ permissions:
   issues: write
   contents: read
   packages: write
+  actions: write
 
 concurrency:
   group: docker-publish-${{ github.event.issue.number }}
@@ -168,7 +169,7 @@ jobs:
             const version = '${{ steps.extract_version.outputs.version }}';
             const user = context.payload.comment.user.login;
             
-            const comment = `✅ **Docker Publication Approved**\n\n**Approved By:** @$${user}\n**Version:** ${version}\n**Status:** Dispatched to \`release-docker-image.yml\` workflow\n\n**Publication Target:** GHCR (ghcr.io/makr-code/themisdb:${version})\n\n**Next Steps:**\n1. Monitor the Docker build workflow in Actions\n2. Images will be pushed to GHCR after successful build\n3. Pull the image via: \`docker pull ghcr.io/makr-code/themisdb:${version}\`\n4. Release notes: https://github.com/${{ github.repository }}/releases/tag/v${version}\n\n**Tracking:** This issue will auto-close when Docker publication succeeds.`;
+            const comment = `✅ **Docker Publication Approved**\n\n**Approved By:** @${user}\n**Version:** ${version}\n**Status:** Dispatched to \`release-docker-image.yml\` workflow\n\n**Publication Target:** GHCR (ghcr.io/makr-code/themisdb:${version})\n\n**Next Steps:**\n1. Monitor the Docker build workflow in Actions\n2. Images will be pushed to GHCR after successful build\n3. Pull the image via: \`docker pull ghcr.io/makr-code/themisdb:${version}\`\n4. Release notes: https://github.com/${{ github.repository }}/releases/tag/v${version}\n\n**Tracking:** This issue will auto-close when Docker publication succeeds.`;
             
             await github.rest.issues.createComment({
               owner: context.repo.owner,

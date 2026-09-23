@@ -1,8 +1,11 @@
 # GitHub Action Pinning Policy
 
-> **Status:** Active (2026-09-01)  
-> **Scope:** All ThemisDB CI/CD workflows  
-> **Objective:** Balance security, reliability, and cross-platform compatibility
+Author: ThemisDB Contributors
+Created: 2026-09-23
+Last Updated: 2026-09-23
+Status: active
+Scope: All ThemisDB CI/CD workflows
+Objective: Balance security, reliability, and cross-platform compatibility
 
 ## Overview
 
@@ -36,7 +39,7 @@ Version pinning for third-party GitHub Actions is governed by a **4-tier classif
 
 ### Tier 2: SHOULD PIN (Reliability Critical)
 
-**Requirement:** Semantic version tag (e.g., `@v5`) or broken SHA pin  
+**Requirement:** Semantic version tag (e.g., `@v5`) or pinned SHA
 **Format:** `uses: owner/action@v<major> # <semver description>`
 
 **Actions:**

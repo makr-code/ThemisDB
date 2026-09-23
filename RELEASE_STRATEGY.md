@@ -726,13 +726,13 @@ All external registry publishing (GitHub Releases, WinGet, Docker, Linux/Windows
 ```
 release-mainline.yml (builds + signs artifacts)
         ↓
-Creates draft GitHub Release + tracking issue
+Creates GitHub Release + tracking issue
         ↓
 Maintainer reviews metrics, checksums, signatures
         ↓
 Posts approval comment: /publish-release, /publish-docker, /publish-winget, etc.
         ↓
-Corresponding approval workflow publishes atomically
+Corresponding approval workflow continues with external publishing
         ↓
 Closes tracking issue on success
 ```
@@ -744,14 +744,15 @@ Closes tracking issue on success
 **Requirements:**
 - Comment author must have `admin` or `maintain` role in repository
 - Issue must have `release-review` label
-- Release must exist as draft on GitHub
+- Release must exist on GitHub
 
 **Action:**
 1. Validates commenter permissions
 2. Extracts version from issue body
-3. Publishes draft release (sets `draft=false`)
-4. Creates comment with next-steps guidance
-5. Auto-closes tracking issue
+3. Fetches the existing release by tag and creates downstream tracking issues
+4. Ensures the release is publicly visible on GitHub (idempotent if already published)
+5. Creates comment with next-steps guidance
+6. Auto-closes tracking issue
 
 **Example approval:**
 ```
@@ -761,14 +762,14 @@ I've verified the checksums, signatures, and CHANGELOG.
 Ready to publish.
 ```
 
-### GitHub Release → Downstream Triggers
+### GitHub Release → Downstream Approval Paths
 
-When GitHub Release is published, these are automatically triggered (but still require approval):
+After the GitHub Release exists, maintainers can independently approve these downstream publication paths:
 
 1. **WinGet submission** (`release-winget-approval.yml`)
 2. **Docker build + push** (`release-docker-approval.yml`)
-3. **Linux distro bundle** (`release-linux-distribution.yml`)
-4. **Windows distro bundle** (`release-windows-distribution.yml`)
+3. **Linux distro bundle** (`release-linux-distro-approval.yml`)
+4. **Windows distro bundle** (`release-windows-distro-approval.yml`)
 
 ### WinGet Community Publication (`release-winget-approval.yml`)
 

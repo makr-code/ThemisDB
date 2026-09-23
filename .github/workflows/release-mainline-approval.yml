@@ -149,8 +149,8 @@ jobs:
             const releaseUrl = `https://github.com/${{ github.repository }}/releases/tag/v${version}`;
             
             const registries = [
-              { name: 'WinGet', keyword: 'publish-winget', label: 'winget-review', distro_label: 'winget' },
-              { name: 'Docker', keyword: 'publish-docker', label: 'docker-review', distro_label: 'docker' },
+              { name: 'WinGet', keyword: 'publish-winget', label: 'winget-release', distro_label: 'winget' },
+              { name: 'Docker', keyword: 'publish-docker', label: 'docker-release', distro_label: 'docker' },
               { name: 'Linux Distro', keyword: 'publish-linux', label: 'linux-distro-review', distro_label: 'linux-distro' },
               { name: 'Windows Distro', keyword: 'publish-windows', label: 'windows-distro-review', distro_label: 'windows-distro' },
             ];
