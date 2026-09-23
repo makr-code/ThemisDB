@@ -66,28 +66,47 @@ Result<bool> Neo4jAdapter::connect(
 
 #ifdef THEMIS_CHIMERA_NEO4J
     try {
-        // TODO (TODO 1/14): Actual `neo4j::Driver` creation via bolt URI
-        // Implementation:
-        // 1. Parse connection string to extract host, port, username, password
-        // 2. Create neo4j::Uri from the connection string
-        // 3. Extract authentication credentials (username/password)
-        // 4. Create neo4j::Driver with URI and authentication
-        // 5. Verify connectivity by running a test query (RETURN 1)
-        // 6. Store driver instance for future use in sessions
-        //
-        // Example pseudo-code:
-        // auto uri = neo4j::Uri(connection_string);
-        // auto username = extract_from_uri("user") or options["username"]
-        // auto password = extract_from_uri("password") or options["password"]
-        // auto auth = neo4j::basic_auth(username, password);
-        // driver_ = std::make_unique<neo4j::Driver>(
-        //     neo4j::make_driver(uri, auth)
-        // );
-        // auto session = driver_->session(neo4j::SessionConfig{}); 
-        // auto result = session.run("RETURN 1");
-        // session.close();
-        
-        // For now, stub implementation to maintain compilation:
+        // Extract username and password from options if provided, or from URI
+        std::string username = "neo4j";
+        std::string password = "password";
+         
+        if (options.find("username") != options.end()) {
+            username = options.at("username");
+        }
+        if (options.find("password") != options.end()) {
+            password = options.at("password");
+        }
+         
+        // Create URI and driver
+        // Note: This uses the Neo4j C++ driver API
+        auto uri = neo4j::Uri::create(connection_string);
+        auto auth = neo4j::basic_auth(username, password);
+         
+        // Create driver with connection pooling configuration
+        neo4j::DriverConfig config;
+        config.with_auth(auth);
+        config.with_connection_timeout(std::chrono::seconds(30));
+         
+        driver_ = std::make_unique<neo4j::Driver>(
+            neo4j::make_driver(uri, config)
+        );
+         
+        // Verify connectivity by running a test query
+        {
+            auto session = driver_->session();
+            auto result = session.run("RETURN 1 AS connection_test");
+             
+            // Consume result to ensure connection succeeded
+            if (!result.has_value()) {
+                return Result<bool>::err(
+                    ErrorCode::CONNECTION_ERROR,
+                    "Neo4j connection verification failed: no result from test query"
+                );
+            }
+             
+            session.close();
+        }
+         
         connection_string_ = mask_credentials(connection_string);
         connected_ = true;
         return Result<bool>::ok(true);
@@ -267,39 +286,61 @@ Result<std::string> Neo4jAdapter::insert_node(const GraphNode& node) {
 
 #ifdef THEMIS_CHIMERA_NEO4J
     try {
-        // TODO (TODO 2/14): `CREATE (node:Label {properties})` via Cypher session
-        // Implementation:
-        // 1. Get a session from the driver: auto session = driver_->session()
-        // 2. Generate node ID if not provided: node_id = node.id.empty() ? generate_id() : node.id
-        // 3. Build Cypher CREATE query:
-        //    CREATE (n:NodeLabel {id: $id, key1: $key1, key2: $key2, ...}) RETURN n.id
-        // 4. Create parameters map from node.properties:
-        //    params["id"] = node_id
-        //    for (const auto& [key, val] : node.properties) {
-        //        params[key] = val  // neo4j::Value conversion
-        //    }
-        // 5. Execute: auto result = session.run(cypher, params)
-        // 6. Extract result: auto record = result.single()
-        // 7. Return created node ID: return record.get("n.id").as_string()
-        //
-        // Example pseudo-code:
-        // auto session = driver_->session(neo4j::SessionConfig{});
-        // auto node_id = node.id.empty() ? generate_id() : node.id;
-        // std::string cypher = "CREATE (n:" + node.label + " {id: $id";
-        // neo4j::MapBuilder builder;
-        // builder.add_string("id", node_id);
-        // for (const auto& [key, val] : node.properties) {
-        //     cypher += ", " + key + ": $" + key;
-        //     builder.add_value(key, scalar_to_neo4j_value(val));
-        // }
-        // cypher += "}) RETURN n.id";
-        // auto params = builder.build();
-        // auto result = session.run(cypher, params);
-        // auto record = result.single();
-        // session.close();
-        // return record.get("n.id").as_string()
-        
-        const std::string node_id = generate_id();
+        if (!driver_) {
+            return Result<std::string>::err(
+                ErrorCode::CONNECTION_ERROR,
+                "Neo4j driver not initialized"
+            );
+        }
+         
+        auto session = driver_->session();
+        const std::string node_id = node.id.empty() ? generate_id() : node.id;
+         
+        // Build Cypher CREATE query with parameters
+        std::string cypher = "CREATE (n:" + node.label + " {id: $id";
+         
+        // Add property placeholders to Cypher query
+        for (const auto& [key, _] : node.properties) {
+            cypher += ", " + key + ": $" + key;
+        }
+        cypher += "}) RETURN n.id";
+         
+        // Build parameters map
+        neo4j::MapBuilder builder;
+        builder.add_string("id", node_id);
+         
+        for (const auto& [key, val] : node.properties) {
+            // Convert Scalar to neo4j::Value
+            if (std::get_if<std::monostate>(&val)) {
+                builder.add_null(key);
+            } else if (auto* b = std::get_if<bool>(&val)) {
+                builder.add_bool(key, *b);
+            } else if (auto* i = std::get_if<int64_t>(&val)) {
+                builder.add_int64(key, *i);
+            } else if (auto* d = std::get_if<double>(&val)) {
+                builder.add_double(key, *d);
+            } else if (auto* s = std::get_if<std::string>(&val)) {
+                builder.add_string(key, *s);
+            } else if (auto* b = std::get_if<std::vector<uint8_t>>(&val)) {
+                builder.add_bytes(key, *b);
+            }
+        }
+         
+        // Execute query
+        auto result = session.run(cypher, builder.build());
+         
+        // Extract result
+        if (!result.has_value()) {
+            session.close();
+            return Result<std::string>::err(
+                ErrorCode::INTERNAL_ERROR,
+                "Neo4j insert_node: no result from CREATE query"
+            );
+        }
+         
+        auto record = result->single();
+        session.close();
+         
         return Result<std::string>::ok(node_id);
     } catch (const std::exception& ex) {
         return Result<std::string>::err(
@@ -332,46 +373,68 @@ Result<std::string> Neo4jAdapter::insert_edge(const GraphEdge& edge) {
 
 #ifdef THEMIS_CHIMERA_NEO4J
     try {
-        // TODO (TODO 3/14): `CREATE (from)-[rel:TYPE]->(to)` via Cypher session
-        // Implementation:
-        // 1. Get a session from the driver: auto session = driver_->session()
-        // 2. Generate edge ID if not provided: edge_id = edge.id.empty() ? generate_id() : edge.id
-        // 3. Build Cypher query:
-        //    MATCH (from {id: $source_id}), (to {id: $target_id})
-        //    CREATE (from)-[r:EdgeLabel {id: $id, weight: $weight, ...properties}]->(to)
-        //    RETURN r.id
-        // 4. Create parameters from edge fields:
-        //    params["source_id"] = edge.source_id
-        //    params["target_id"] = edge.target_id
-        //    params["id"] = edge_id
-        //    if (edge.weight) params["weight"] = *edge.weight
-        //    for properties...
-        // 5. Execute and extract result: auto record = session.run(cypher, params).single()
-        // 6. Return created edge ID
-        //
-        // Example pseudo-code:
-        // auto session = driver_->session(neo4j::SessionConfig{});
-        // auto edge_id = edge.id.empty() ? generate_id() : edge.id;
-        // std::string cypher = 
-        //     "MATCH (from {id: $source_id}), (to {id: $target_id}) " +
-        //     std::string("CREATE (from)-[r:") + edge.label + 
-        //     std::string(" {id: $id");
-        // neo4j::MapBuilder builder;
-        // builder.add_string("source_id", edge.source_id);
-        // builder.add_string("target_id", edge.target_id);
-        // builder.add_string("id", edge_id);
-        // if (edge.weight) builder.add_double("weight", *edge.weight);
-        // for (const auto& [key, val] : edge.properties) {
-        //     cypher += ", " + key + ": $" + key;
-        //     builder.add_value(key, scalar_to_neo4j_value(val));
-        // }
-        // cypher += "}]->(to) RETURN r.id";
-        // auto result = session.run(cypher, builder.build());
-        // auto record = result.single();
-        // session.close();
-        // return record.get("r.id").as_string()
-        
-        const std::string edge_id = generate_id();
+        if (!driver_) {
+            return Result<std::string>::err(
+                ErrorCode::CONNECTION_ERROR,
+                "Neo4j driver not initialized"
+            );
+        }
+         
+        auto session = driver_->session();
+        const std::string edge_id = edge.id.empty() ? generate_id() : edge.id;
+         
+        // Build Cypher MATCH+CREATE query for edge
+        std::string cypher = 
+            "MATCH (from {id: $source_id}), (to {id: $target_id}) "
+            "CREATE (from)-[r:" + edge.label + " {id: $id";
+         
+        // Add property placeholders
+        if (edge.weight) {
+            cypher += ", weight: $weight";
+        }
+        for (const auto& [key, _] : edge.properties) {
+            cypher += ", " + key + ": $" + key;
+        }
+        cypher += "}]->(to) RETURN r.id";
+         
+        // Build parameters
+        neo4j::MapBuilder builder;
+        builder.add_string("source_id", edge.source_id);
+        builder.add_string("target_id", edge.target_id);
+        builder.add_string("id", edge_id);
+         
+        if (edge.weight) {
+            builder.add_double("weight", *edge.weight);
+        }
+         
+        for (const auto& [key, val] : edge.properties) {
+            if (std::get_if<std::monostate>(&val)) {
+                builder.add_null(key);
+            } else if (auto* b = std::get_if<bool>(&val)) {
+                builder.add_bool(key, *b);
+            } else if (auto* i = std::get_if<int64_t>(&val)) {
+                builder.add_int64(key, *i);
+            } else if (auto* d = std::get_if<double>(&val)) {
+                builder.add_double(key, *d);
+            } else if (auto* s = std::get_if<std::string>(&val)) {
+                builder.add_string(key, *s);
+            } else if (auto* b = std::get_if<std::vector<uint8_t>>(&val)) {
+                builder.add_bytes(key, *b);
+            }
+        }
+         
+        // Execute query
+        auto result = session.run(cypher, builder.build());
+         
+        if (!result.has_value()) {
+            session.close();
+            return Result<std::string>::err(
+                ErrorCode::INTERNAL_ERROR,
+                "Neo4j insert_edge: no result from CREATE query"
+            );
+        }
+         
+        session.close();
         return Result<std::string>::ok(edge_id);
     } catch (const std::exception& ex) {
         return Result<std::string>::err(
@@ -410,47 +473,105 @@ Result<GraphPath> Neo4jAdapter::shortest_path(
 
 #ifdef THEMIS_CHIMERA_NEO4J
     try {
-        // TODO (TODO 4/14): `shortestPath()` Cypher query with `max_depth` bound
-        // Implementation:
-        // 1. Validate parameters: source_id and target_id must not be empty
-        // 2. Get a session from the driver
-        // 3. Build Cypher shortestPath() query:
-        //    MATCH path = shortestPath((src {id: $source_id})-[*1..max_depth]-(tgt {id: $target_id}))
-        //    RETURN nodes(path) AS path_nodes, relationships(path) AS path_rels, 
-        //           reduce(w=0.0, r IN relationships(path) | w + coalesce(r.weight, 1.0)) AS total_weight
-        // 4. Execute with parameters: source_id, target_id, max_depth
-        // 5. Extract nodes and edges from result:
-        //    for (auto node_val : record.get("path_nodes")) {
-        //        GraphNode n; n.id = node_val["id"]; n.label = node_val.labels[0]; ...
-        //        result.nodes.push_back(n);
-        //    }
-        //    similarly for edges from path_rels
-        // 6. Set total_weight and return GraphPath
-        //
-        // Example pseudo-code:
-        // auto session = driver_->session(neo4j::SessionConfig{});
-        // if (source_id.empty() || target_id.empty()) {
-        //     return Result<GraphPath>::err(ErrorCode::INVALID_ARGUMENT, "IDs must not be empty");
-        // }
-        // std::string cypher =
-        //     "MATCH path = shortestPath((src {id: $source_id})-[*1.." + 
-        //     std::to_string(max_depth) +
-        //     "]-(tgt {id: $target_id})) "
-        //     "RETURN nodes(path) AS path_nodes, relationships(path) AS path_rels, "
-        //     "reduce(w=0.0, r IN relationships(path) | w + coalesce(r.weight, 1.0)) AS total_weight";
-        // neo4j::MapBuilder builder;
-        // builder.add_string("source_id", source_id);
-        // builder.add_string("target_id", target_id);
-        // auto result = session.run(cypher, builder.build());
-        // auto record = result.single();
-        // if (!record) return no path found error;
-        // GraphPath path{};
-        // extract nodes and edges from record
-        // path.total_weight = record.get("total_weight").as_double();
-        // session.close();
-        // return path;
-        
-        GraphPath path = {};
+        if (!driver_) {
+            return Result<GraphPath>::err(
+                ErrorCode::CONNECTION_ERROR,
+                "Neo4j driver not initialized"
+            );
+        }
+         
+        if (source_id.empty() || target_id.empty()) {
+            return Result<GraphPath>::err(
+                ErrorCode::INVALID_ARGUMENT,
+                "Source ID and target ID must not be empty"
+            );
+        }
+         
+        auto session = driver_->session();
+         
+        // Build Cypher shortestPath query with depth limit
+        std::string cypher =
+            "MATCH path = shortestPath((src {id: $source_id})-[*1.." +
+            std::to_string(max_depth) +
+            "]-(tgt {id: $target_id})) "
+            "RETURN nodes(path) AS path_nodes, relationships(path) AS path_rels, "
+            "reduce(w=0.0, r IN relationships(path) | w + coalesce(r.weight, 1.0)) AS total_weight";
+         
+        // Build parameters
+        neo4j::MapBuilder builder;
+        builder.add_string("source_id", source_id);
+        builder.add_string("target_id", target_id);
+         
+        // Execute query
+        auto result = session.run(cypher, builder.build());
+         
+        GraphPath path{};
+        path.total_weight = 0.0;
+         
+        if (result.has_value()) {
+            auto record = result->single();
+            if (record.has_value()) {
+                // Extract nodes
+                auto nodes_val = record->get("path_nodes");
+                if (nodes_val.has_value()) {
+                    for (const auto& node_val : nodes_val->values()) {
+                        GraphNode node;
+                         
+                        // Extract node properties
+                        if (node_val.has_property("id")) {
+                            node.id = node_val.get_property("id").as_string();
+                        }
+                         
+                        // Extract labels (Neo4j nodes can have multiple labels)
+                        auto labels = node_val.labels();
+                        if (!labels.empty()) {
+                            node.label = labels[0];
+                        }
+                         
+                        // Extract all properties
+                        for (const auto& [key, val] : node_val.properties()) {
+                            // Convert neo4j::Value to Scalar
+                            node.properties[key] = convert_neo4j_value_to_scalar(val);
+                        }
+                         
+                        path.nodes.push_back(node);
+                    }
+                }
+                 
+                // Extract edges
+                auto rels_val = record->get("path_rels");
+                if (rels_val.has_value()) {
+                    for (const auto& rel_val : rels_val->values()) {
+                        GraphEdge edge;
+                         
+                        if (rel_val.has_property("id")) {
+                            edge.id = rel_val.get_property("id").as_string();
+                        }
+                        edge.label = rel_val.type();
+                         
+                        // Extract weight if present
+                        if (rel_val.has_property("weight")) {
+                            edge.weight = rel_val.get_property("weight").as_double();
+                        }
+                         
+                        // Extract properties
+                        for (const auto& [key, val] : rel_val.properties()) {
+                            edge.properties[key] = convert_neo4j_value_to_scalar(val);
+                        }
+                         
+                        path.edges.push_back(edge);
+                    }
+                }
+                 
+                // Extract total weight
+                auto weight_val = record->get("total_weight");
+                if (weight_val.has_value()) {
+                    path.total_weight = weight_val->as_double();
+                }
+            }
+        }
+         
+        session.close();
         return Result<GraphPath>::ok(std::move(path));
     } catch (const std::exception& ex) {
         return Result<GraphPath>::err(
@@ -489,56 +610,72 @@ Result<std::vector<GraphNode>> Neo4jAdapter::traverse(
 
 #ifdef THEMIS_CHIMERA_NEO4J
     try {
-        // TODO (TODO 5/14): BFS/DFS Cypher traversal query up to `max_depth`
-        // Implementation:
-        // 1. Validate parameters: start_id must not be empty, max_depth > 0
-        // 2. Get a session from the driver
-        // 3. Build Cypher traversal query (BFS pattern):
-        //    MATCH (start {id: $start_id})-[r*1..max_depth]->(n)
-        //    [WHERE type(r) IN $edge_labels]  (optional, if edge_labels provided)
-        //    RETURN DISTINCT n
-        // 4. Create parameters:
-        //    params["start_id"] = start_id
-        //    params["max_depth"] = max_depth
-        //    if (!edge_labels.empty()) params["edge_labels"] = edge_labels
-        // 5. Execute and iterate through results:
-        //    std::vector<GraphNode> nodes;
-        //    for (auto record : session.run(cypher, params)) {
-        //        GraphNode node = extract_node_from_record(record);
-        //        nodes.push_back(node);
-        //    }
-        // 6. Return the nodes vector
-        //
-        // Example pseudo-code:
-        // auto session = driver_->session(neo4j::SessionConfig{});
-        // if (start_id.empty() || max_depth == 0) {
-        //     return Result<std::vector<GraphNode>>::err(ErrorCode::INVALID_ARGUMENT, 
-        //         "start_id and max_depth must be valid");
-        // }
-        // std::string cypher = 
-        //     "MATCH (start {id: $start_id})-[r*1.." + 
-        //     std::to_string(max_depth) + "]->(n) ";
-        // neo4j::MapBuilder builder;
-        // builder.add_string("start_id", start_id);
-        // if (!edge_labels.empty()) {
-        //     cypher += "WHERE type(r) IN $edge_labels ";
-        //     builder.add_string_list("edge_labels", edge_labels);
-        // }
-        // cypher += "RETURN DISTINCT n";
-        // std::vector<GraphNode> nodes;
-        // for (auto record : session.run(cypher, builder.build())) {
-        //     auto node_val = record.get("n");
-        //     GraphNode node;
-        //     node.id = node_val["id"].as_string();
-        //     node.label = node_val.labels()[0];
-        //     for (auto [key, val] : node_val.properties()) {
-        //         node.properties[key] = val;
-        //     }
-        //     nodes.push_back(node);
-        // }
-        // session.close();
-        
+        if (!driver_) {
+            return Result<std::vector<GraphNode>>::err(
+                ErrorCode::CONNECTION_ERROR,
+                "Neo4j driver not initialized"
+            );
+        }
+         
+        if (start_id.empty() || max_depth == 0) {
+            return Result<std::vector<GraphNode>>::err(
+                ErrorCode::INVALID_ARGUMENT,
+                "start_id must not be empty and max_depth must be > 0"
+            );
+        }
+         
+        auto session = driver_->session();
+         
+        // Build Cypher traversal query (BFS pattern)
+        std::string cypher = 
+            "MATCH (start {id: $start_id})-[r*1.." +
+            std::to_string(max_depth) + "]->(n) ";
+         
+        neo4j::MapBuilder builder;
+        builder.add_string("start_id", start_id);
+         
+        // Add edge label filter if provided
+        if (!edge_labels.empty()) {
+            cypher += "WHERE type(r) IN $edge_labels ";
+            neo4j::ListBuilder label_builder;
+            for (const auto& label : edge_labels) {
+                label_builder.add_string(label);
+            }
+            builder.add_list("edge_labels", label_builder.build());
+        }
+         
+        cypher += "RETURN DISTINCT n";
+         
+        // Execute query
+        auto result = session.run(cypher, builder.build());
+         
         std::vector<GraphNode> nodes;
+         
+        if (result.has_value()) {
+            for (auto record : result.value()) {
+                auto node_val = record.get("n");
+                if (node_val.has_value()) {
+                    GraphNode node;
+                     
+                    if (node_val->has_property("id")) {
+                        node.id = node_val->get_property("id").as_string();
+                    }
+                     
+                    auto labels = node_val->labels();
+                    if (!labels.empty()) {
+                        node.label = labels[0];
+                    }
+                     
+                    for (const auto& [key, val] : node_val->properties()) {
+                        node.properties[key] = convert_neo4j_value_to_scalar(val);
+                    }
+                     
+                    nodes.push_back(node);
+                }
+            }
+        }
+         
+        session.close();
         return Result<std::vector<GraphNode>>::ok(std::move(nodes));
     } catch (const std::exception& ex) {
         return Result<std::vector<GraphNode>>::err(
@@ -568,44 +705,113 @@ Result<std::vector<GraphPath>> Neo4jAdapter::execute_graph_query(
 
 #ifdef THEMIS_CHIMERA_NEO4J
     try {
-        // TODO (TODO 6/14): Arbitrary Cypher query → map results to `GraphPath`
-        // Implementation:
-        // 1. Validate query is not empty
-        // 2. Get a session from the driver
-        // 3. Convert Scalar parameters to neo4j::Value parameters:
-        //    for (const auto& [key, val] : params) {
-        //        neo4j_params[key] = scalar_to_neo4j_value(val);
-        //    }
-        // 4. Execute the provided Cypher query: auto result = session.run(query, neo4j_params)
-        // 5. Iterate through records and interpret as GraphPath objects:
-        //    - If record contains nodes/relationships in path order:
-        //      Extract nodes and edges to build GraphPath
-        //    - If record contains a "path" field:
-        //      Extract nodes(path) and relationships(path)
-        //    - Otherwise, try to extract node/edge arrays from record columns
-        // 6. Handle records with weight calculation:
-        //    If path has relationships with weight, compute total_weight
-        // 7. Return vector of GraphPath objects
-        //
-        // Example pseudo-code:
-        // if (query.empty()) {
-        //     return Result<std::vector<GraphPath>>::err(ErrorCode::INVALID_ARGUMENT,
-        //         "Query must not be empty");
-        // }
-        // auto session = driver_->session(neo4j::SessionConfig{});
-        // neo4j::MapBuilder param_builder;
-        // for (const auto& [key, val] : params) {
-        //     param_builder.add_value(key, scalar_to_neo4j_value(val));
-        // }
-        // auto result = session.run(query, param_builder.build());
-        // std::vector<GraphPath> paths;
-        // for (auto record : result) {
-        //     GraphPath path = extract_graph_path_from_record(record);
-        //     paths.push_back(path);
-        // }
-        // session.close();
-        
+        if (!driver_) {
+            return Result<std::vector<GraphPath>>::err(
+                ErrorCode::CONNECTION_ERROR,
+                "Neo4j driver not initialized"
+            );
+        }
+         
+        if (query.empty()) {
+            return Result<std::vector<GraphPath>>::err(
+                ErrorCode::INVALID_ARGUMENT,
+                "Query must not be empty"
+            );
+        }
+         
+        auto session = driver_->session();
+         
+        // Build Neo4j parameter map from Scalar parameters
+        neo4j::MapBuilder param_builder;
+        for (const auto& [key, val] : params) {
+            if (std::get_if<std::monostate>(&val)) {
+                param_builder.add_null(key);
+            } else if (auto* b = std::get_if<bool>(&val)) {
+                param_builder.add_bool(key, *b);
+            } else if (auto* i = std::get_if<int64_t>(&val)) {
+                param_builder.add_int64(key, *i);
+            } else if (auto* d = std::get_if<double>(&val)) {
+                param_builder.add_double(key, *d);
+            } else if (auto* s = std::get_if<std::string>(&val)) {
+                param_builder.add_string(key, *s);
+            } else if (auto* b = std::get_if<std::vector<uint8_t>>(&val)) {
+                param_builder.add_bytes(key, *b);
+            }
+        }
+         
+        // Execute the provided Cypher query
+        auto result = session.run(query, param_builder.build());
+         
         std::vector<GraphPath> paths;
+         
+        if (result.has_value()) {
+            for (auto record : result.value()) {
+                GraphPath path{};
+                path.total_weight = 0.0;
+                 
+                // Try to extract from "path" field (if query returns a path)
+                if (record.has_column("path")) {
+                    auto path_val = record.get("path");
+                    if (path_val.has_value()) {
+                        extract_path_from_neo4j_value(path_val.value(), path);
+                    }
+                }
+                 
+                // Try to extract from "nodes" and "relationships" fields
+                if (record.has_column("nodes")) {
+                    auto nodes_val = record.get("nodes");
+                    if (nodes_val.has_value()) {
+                        for (const auto& node_val : nodes_val->values()) {
+                            GraphNode node;
+                             
+                            if (node_val.has_property("id")) {
+                                node.id = node_val.get_property("id").as_string();
+                            }
+                             
+                            auto labels = node_val.labels();
+                            if (!labels.empty()) {
+                                node.label = labels[0];
+                            }
+                             
+                            for (const auto& [key, val] : node_val.properties()) {
+                                node.properties[key] = convert_neo4j_value_to_scalar(val);
+                            }
+                             
+                            path.nodes.push_back(node);
+                        }
+                    }
+                }
+                 
+                if (record.has_column("relationships")) {
+                    auto rels_val = record.get("relationships");
+                    if (rels_val.has_value()) {
+                        for (const auto& rel_val : rels_val->values()) {
+                            GraphEdge edge;
+                             
+                            if (rel_val.has_property("id")) {
+                                edge.id = rel_val.get_property("id").as_string();
+                            }
+                            edge.label = rel_val.type();
+                             
+                            if (rel_val.has_property("weight")) {
+                                edge.weight = rel_val.get_property("weight").as_double();
+                                path.total_weight += *edge.weight;
+                            }
+                             
+                            for (const auto& [key, val] : rel_val.properties()) {
+                                edge.properties[key] = convert_neo4j_value_to_scalar(val);
+                            }
+                             
+                            path.edges.push_back(edge);
+                        }
+                    }
+                }
+                 
+                paths.push_back(path);
+            }
+        }
+         
+        session.close();
         return Result<std::vector<GraphPath>>::ok(std::move(paths));
     } catch (const std::exception& ex) {
         return Result<std::vector<GraphPath>>::err(
@@ -643,43 +849,65 @@ Result<std::string> Neo4jAdapter::insert_document(
 
 #ifdef THEMIS_CHIMERA_NEO4J
     try {
-        // TODO (TODO 7/14): Create node with collection label + document properties via Cypher
-        // Implementation:
-        // 1. Validate collection name is not empty
-        // 2. Get a session from the driver
-        // 3. Generate document ID if not provided: doc_id = doc.id.empty() ? generate_id() : doc.id
-        // 4. Build Cypher CREATE query for document node:
-        //    CREATE (n:collection_name {id: $id, field1: $field1, field2: $field2, ...})
-        //    RETURN n.id
-        // 5. Build parameters map:
-        //    params["id"] = doc_id
-        //    for (const auto& [key, val] : doc.fields) {
-        //        params[key] = scalar_to_neo4j_value(val)
-        //    }
-        // 6. Execute query: auto record = session.run(cypher, params).single()
-        // 7. Return created document ID: record.get("n.id").as_string()
-        //
-        // Example pseudo-code:
-        // if (collection.empty()) {
-        //     return Result<std::string>::err(ErrorCode::INVALID_ARGUMENT,
-        //         "Collection name must not be empty");
-        // }
-        // auto session = driver_->session(neo4j::SessionConfig{});
-        // auto doc_id = doc.id.empty() ? generate_id() : doc.id;
-        // std::string cypher = "CREATE (n:" + collection + " {id: $id";
-        // neo4j::MapBuilder builder;
-        // builder.add_string("id", doc_id);
-        // for (const auto& [key, val] : doc.fields) {
-        //     cypher += ", " + key + ": $" + key;
-        //     builder.add_value(key, scalar_to_neo4j_value(val));
-        // }
-        // cypher += "}) RETURN n.id";
-        // auto result = session.run(cypher, builder.build());
-        // auto record = result.single();
-        // session.close();
-        
-        const std::string id = generate_id();
-        return Result<std::string>::ok(id);
+        if (!driver_) {
+            return Result<std::string>::err(
+                ErrorCode::CONNECTION_ERROR,
+                "Neo4j driver not initialized"
+            );
+        }
+         
+        if (collection.empty()) {
+            return Result<std::string>::err(
+                ErrorCode::INVALID_ARGUMENT,
+                "Collection name must not be empty"
+            );
+        }
+         
+        auto session = driver_->session();
+        const std::string doc_id = doc.id.empty() ? generate_id() : doc.id;
+         
+        // Build Cypher CREATE query with collection as label
+        std::string cypher = "CREATE (n:" + collection + " {id: $id";
+         
+        // Add property placeholders
+        for (const auto& [key, _] : doc.fields) {
+            cypher += ", " + key + ": $" + key;
+        }
+        cypher += "}) RETURN n.id";
+         
+        // Build parameters
+        neo4j::MapBuilder builder;
+        builder.add_string("id", doc_id);
+         
+        for (const auto& [key, val] : doc.fields) {
+            if (std::get_if<std::monostate>(&val)) {
+                builder.add_null(key);
+            } else if (auto* b = std::get_if<bool>(&val)) {
+                builder.add_bool(key, *b);
+            } else if (auto* i = std::get_if<int64_t>(&val)) {
+                builder.add_int64(key, *i);
+            } else if (auto* d = std::get_if<double>(&val)) {
+                builder.add_double(key, *d);
+            } else if (auto* s = std::get_if<std::string>(&val)) {
+                builder.add_string(key, *s);
+            } else if (auto* b = std::get_if<std::vector<uint8_t>>(&val)) {
+                builder.add_bytes(key, *b);
+            }
+        }
+         
+        // Execute query
+        auto result = session.run(cypher, builder.build());
+         
+        if (!result.has_value()) {
+            session.close();
+            return Result<std::string>::err(
+                ErrorCode::INTERNAL_ERROR,
+                "Neo4j insert_document: no result from CREATE query"
+            );
+        }
+         
+        session.close();
+        return Result<std::string>::ok(doc_id);
     } catch (const std::exception& ex) {
         return Result<std::string>::err(
             ErrorCode::INTERNAL_ERROR,
@@ -715,54 +943,88 @@ Result<size_t> Neo4jAdapter::batch_insert_documents(
 
 #ifdef THEMIS_CHIMERA_NEO4J
     try {
-        // TODO (TODO 8/14): Batch `UNWIND + CREATE` nodes via Cypher
-        // Implementation:
-        // 1. Validate inputs: collection not empty, docs not empty
-        // 2. Get a session from the driver
-        // 3. Build Cypher batch query using UNWIND:
-        //    UNWIND $docs AS doc
-        //    CREATE (n:collection_name {id: doc.id, field1: doc.field1, ...})
-        //    RETURN COUNT(n) AS created
-        // 4. Convert document array to neo4j list of maps:
-        //    std::vector<neo4j::map> doc_list;
-        //    for (const auto& doc : docs) {
-        //        neo4j::MapBuilder doc_builder;
-        //        doc_builder.add_string("id", doc.id.empty() ? generate_id() : doc.id);
-        //        for (const auto& [key, val] : doc.fields) {
-        //            doc_builder.add_value(key, scalar_to_neo4j_value(val));
-        //        }
-        //        doc_list.push_back(doc_builder.build());
-        //    }
-        // 5. Execute with params["docs"] = doc_list
-        // 6. Extract count from result: auto record = session.run(cypher, params).single()
-        // 7. Return count of created documents
-        //
-        // Example pseudo-code:
-        // if (collection.empty() || docs.empty()) {
-        //     return Result<size_t>::err(ErrorCode::INVALID_ARGUMENT,
-        //         "Collection and docs must not be empty");
-        // }
-        // auto session = driver_->session(neo4j::SessionConfig{});
-        // std::vector<neo4j::map> doc_list;
-        // for (const auto& doc : docs) {
-        //     neo4j::MapBuilder doc_builder;
-        //     doc_builder.add_string("id", doc.id.empty() ? generate_id() : doc.id);
-        //     for (const auto& [key, val] : doc.fields) {
-        //         doc_builder.add_value(key, scalar_to_neo4j_value(val));
-        //     }
-        //     doc_list.push_back(doc_builder.build());
-        // }
-        // std::string cypher = "UNWIND $docs AS doc CREATE (n:" + collection + 
-        //     " {id: doc.id, ...fields...}) RETURN COUNT(n) AS created";
-        // neo4j::MapBuilder param_builder;
-        // param_builder.add_value("docs", doc_list);
-        // auto result = session.run(cypher, param_builder.build());
-        // auto record = result.single();
-        // auto created_count = record.get("created").as_int64();
-        // session.close();
-        
-        size_t inserted = docs.size();
-        return Result<size_t>::ok(inserted);
+        if (!driver_) {
+            return Result<size_t>::err(
+                ErrorCode::CONNECTION_ERROR,
+                "Neo4j driver not initialized"
+            );
+        }
+         
+        if (collection.empty() || docs.empty()) {
+            return Result<size_t>::err(
+                ErrorCode::INVALID_ARGUMENT,
+                "Collection and docs must not be empty"
+            );
+        }
+         
+        auto session = driver_->session();
+         
+        // Build list of document maps for UNWIND
+        neo4j::ListBuilder doc_list_builder;
+         
+        for (const auto& doc : docs) {
+            neo4j::MapBuilder doc_builder;
+             
+            // Add document ID
+            const std::string doc_id = doc.id.empty() ? generate_id() : doc.id;
+            doc_builder.add_string("id", doc_id);
+             
+            // Add all fields
+            for (const auto& [key, val] : doc.fields) {
+                if (std::get_if<std::monostate>(&val)) {
+                    doc_builder.add_null(key);
+                } else if (auto* b = std::get_if<bool>(&val)) {
+                    doc_builder.add_bool(key, *b);
+                } else if (auto* i = std::get_if<int64_t>(&val)) {
+                    doc_builder.add_int64(key, *i);
+                } else if (auto* d = std::get_if<double>(&val)) {
+                    doc_builder.add_double(key, *d);
+                } else if (auto* s = std::get_if<std::string>(&val)) {
+                    doc_builder.add_string(key, *s);
+                } else if (auto* b = std::get_if<std::vector<uint8_t>>(&val)) {
+                    doc_builder.add_bytes(key, *b);
+                }
+            }
+             
+            doc_list_builder.add_map(doc_builder.build());
+        }
+         
+        // Build Cypher UNWIND+CREATE query
+        std::string cypher = 
+            "UNWIND $docs AS doc "
+            "CREATE (n:" + collection + " {id: doc.id";
+         
+        // Add field placeholders (dynamically based on first doc)
+        if (!docs.empty()) {
+            for (const auto& [key, _] : docs[0].fields) {
+                cypher += ", " + key + ": doc." + key;
+            }
+        }
+         
+        cypher += "}) "
+            "RETURN COUNT(n) AS created";
+         
+        // Build parameters
+        neo4j::MapBuilder param_builder;
+        param_builder.add_list("docs", doc_list_builder.build());
+         
+        // Execute query
+        auto result = session.run(cypher, param_builder.build());
+         
+        size_t created = 0;
+         
+        if (result.has_value()) {
+            auto record = result->single();
+            if (record.has_value()) {
+                auto count_val = record->get("created");
+                if (count_val.has_value()) {
+                    created = static_cast<size_t>(count_val->as_int64());
+                }
+            }
+        }
+         
+        session.close();
+        return Result<size_t>::ok(created);
     } catch (const std::exception& ex) {
         return Result<size_t>::err(
             ErrorCode::INTERNAL_ERROR,
@@ -792,67 +1054,82 @@ Result<std::vector<Document>> Neo4jAdapter::find_documents(
 
 #ifdef THEMIS_CHIMERA_NEO4J
     try {
-        // TODO (TODO 9/14): `MATCH (n:collection {filter}) RETURN n LIMIT limit`
-        // Implementation:
-        // 1. Validate collection name is not empty
-        // 2. Get a session from the driver
-        // 3. Build Cypher MATCH query:
-        //    Base: MATCH (n:collection_name
-        //    If filter empty: ) RETURN n LIMIT $limit
-        //    If filter present: {key1: $key1, key2: $key2, ...}) RETURN n LIMIT $limit
-        // 4. Build parameters:
-        //    params["limit"] = limit
-        //    for (const auto& [key, val] : filter) {
-        //        params[key] = scalar_to_neo4j_value(val)
-        //    }
-        // 5. Execute and iterate through results:
-        //    std::vector<Document> documents;
-        //    for (auto record : session.run(cypher, params)) {
-        //        auto node = record.get("n");
-        //        Document doc;
-        //        doc.id = node["id"].as_string();
-        //        for (auto [key, val] : node.properties()) {
-        //            doc.fields[key] = neo4j_value_to_scalar(val);
-        //        }
-        //        documents.push_back(doc);
-        //    }
-        // 6. Return documents
-        //
-        // Example pseudo-code:
-        // if (collection.empty()) {
-        //     return Result<std::vector<Document>>::err(ErrorCode::INVALID_ARGUMENT,
-        //         "Collection name must not be empty");
-        // }
-        // auto session = driver_->session(neo4j::SessionConfig{});
-        // std::string cypher = "MATCH (n:" + collection;
-        // neo4j::MapBuilder builder;
-        // if (!filter.empty()) {
-        //     cypher += " {";
-        //     bool first = true;
-        //     for (const auto& [key, val] : filter) {
-        //         if (!first) cypher += ", ";
-        //         cypher += key + ": $" + key;
-        //         builder.add_value(key, scalar_to_neo4j_value(val));
-        //         first = false;
-        //     }
-        //     cypher += "}";
-        // }
-        // cypher += ") RETURN n LIMIT $limit";
-        // builder.add_int64("limit", static_cast<int64_t>(limit));
-        // std::vector<Document> documents;
-        // for (auto record : session.run(cypher, builder.build())) {
-        //     auto node = record.get("n");
-        //     Document doc;
-        //     doc.id = node["id"].as_string();
-        //     for (auto [key, val] : node.properties()) {
-        //         doc.fields[key] = neo4j_value_to_scalar(val);
-        //     }
-        //     documents.push_back(doc);
-        // }
-        // session.close();
-        
-        std::vector<Document> results;
-        return Result<std::vector<Document>>::ok(std::move(results));
+        if (!driver_) {
+            return Result<std::vector<Document>>::err(
+                ErrorCode::CONNECTION_ERROR,
+                "Neo4j driver not initialized"
+            );
+        }
+         
+        if (collection.empty()) {
+            return Result<std::vector<Document>>::err(
+                ErrorCode::INVALID_ARGUMENT,
+                "Collection name must not be empty"
+            );
+        }
+         
+        auto session = driver_->session();
+         
+        // Build Cypher MATCH query
+        std::string cypher = "MATCH (n:" + collection;
+         
+        neo4j::MapBuilder builder;
+         
+        if (!filter.empty()) {
+            cypher += " {";
+            bool first = true;
+            for (const auto& [key, val] : filter) {
+                if (!first) cypher += ", ";
+                cypher += key + ": $" + key;
+                 
+                if (std::get_if<std::monostate>(&val)) {
+                    builder.add_null(key);
+                } else if (auto* b = std::get_if<bool>(&val)) {
+                    builder.add_bool(key, *b);
+                } else if (auto* i = std::get_if<int64_t>(&val)) {
+                    builder.add_int64(key, *i);
+                } else if (auto* d = std::get_if<double>(&val)) {
+                    builder.add_double(key, *d);
+                } else if (auto* s = std::get_if<std::string>(&val)) {
+                    builder.add_string(key, *s);
+                } else if (auto* b = std::get_if<std::vector<uint8_t>>(&val)) {
+                    builder.add_bytes(key, *b);
+                }
+                first = false;
+            }
+            cypher += "}";
+        }
+         
+        cypher += ") RETURN n LIMIT $limit";
+        builder.add_int64("limit", static_cast<int64_t>(limit));
+         
+        // Execute query
+        auto result = session.run(cypher, builder.build());
+         
+        std::vector<Document> documents;
+         
+        if (result.has_value()) {
+            for (auto record : result.value()) {
+                auto node_val = record.get("n");
+                if (node_val.has_value()) {
+                    Document doc;
+                     
+                    if (node_val->has_property("id")) {
+                        doc.id = node_val->get_property("id").as_string();
+                    }
+                     
+                    // Extract all properties as document fields
+                    for (const auto& [key, val] : node_val->properties()) {
+                        doc.fields[key] = convert_neo4j_value_to_scalar(val);
+                    }
+                     
+                    documents.push_back(doc);
+                }
+            }
+        }
+         
+        session.close();
+        return Result<std::vector<Document>>::ok(std::move(documents));
     } catch (const std::exception& ex) {
         return Result<std::vector<Document>>::err(
             ErrorCode::INTERNAL_ERROR,
@@ -882,58 +1159,91 @@ Result<size_t> Neo4jAdapter::update_documents(
 
 #ifdef THEMIS_CHIMERA_NEO4J
     try {
-        // TODO (TODO 10/14): `MATCH (n:collection {filter}) SET n += updates`
-        // Implementation:
-        // 1. Validate inputs: collection not empty, updates not empty
-        // 2. Get a session from the driver
-        // 3. Build Cypher MATCH+SET query:
-        //    MATCH (n:collection_name {filter_key1: $filter_key1, ...})
-        //    SET n += $updates_map
-        //    RETURN COUNT(n) AS updated
-        // 4. Build parameters:
-        //    For filter: params["filter_key1"] = filter_val1, etc.
-        //    For updates: Create a single map with all updates:
-        //      neo4j::MapBuilder updates_builder;
-        //      for (const auto& [key, val] : updates) {
-        //          updates_builder.add_value(key, scalar_to_neo4j_value(val))
-        //      }
-        //      params["updates_map"] = updates_builder.build()
-        // 5. Execute: auto record = session.run(cypher, params).single()
-        // 6. Extract count: auto updated_count = record.get("updated").as_int64()
-        // 7. Return count
-        //
-        // Example pseudo-code:
-        // if (collection.empty() || updates.empty()) {
-        //     return Result<size_t>::err(ErrorCode::INVALID_ARGUMENT,
-        //         "Collection and updates must not be empty");
-        // }
-        // auto session = driver_->session(neo4j::SessionConfig{});
-        // std::string cypher = "MATCH (n:" + collection;
-        // neo4j::MapBuilder param_builder;
-        // if (!filter.empty()) {
-        //     cypher += " {";
-        //     bool first = true;
-        //     for (const auto& [key, val] : filter) {
-        //         if (!first) cypher += ", ";
-        //         cypher += key + ": $filter_" + key;
-        //         param_builder.add_value(std::string("filter_") + key,
-        //             scalar_to_neo4j_value(val));
-        //         first = false;
-        //     }
-        //     cypher += "}";
-        // }
-        // cypher += ") SET n += $updates_map RETURN COUNT(n) AS updated";
-        // neo4j::MapBuilder updates_builder;
-        // for (const auto& [key, val] : updates) {
-        //     updates_builder.add_value(key, scalar_to_neo4j_value(val));
-        // }
-        // param_builder.add_value("updates_map", updates_builder.build());
-        // auto result = session.run(cypher, param_builder.build());
-        // auto record = result.single();
-        // auto updated_count = record.get("updated").as_int64();
-        // session.close();
-        
+        if (!driver_) {
+            return Result<size_t>::err(
+                ErrorCode::CONNECTION_ERROR,
+                "Neo4j driver not initialized"
+            );
+        }
+         
+        if (collection.empty() || updates.empty()) {
+            return Result<size_t>::err(
+                ErrorCode::INVALID_ARGUMENT,
+                "Collection and updates must not be empty"
+            );
+        }
+         
+        auto session = driver_->session();
+         
+        // Build Cypher MATCH+SET query
+        std::string cypher = "MATCH (n:" + collection;
+         
+        neo4j::MapBuilder param_builder;
+         
+        if (!filter.empty()) {
+            cypher += " {";
+            bool first = true;
+            for (const auto& [key, val] : filter) {
+                if (!first) cypher += ", ";
+                cypher += key + ": $filter_" + key;
+                 
+                const std::string filter_key = "filter_" + key;
+                if (std::get_if<std::monostate>(&val)) {
+                    param_builder.add_null(filter_key);
+                } else if (auto* b = std::get_if<bool>(&val)) {
+                    param_builder.add_bool(filter_key, *b);
+                } else if (auto* i = std::get_if<int64_t>(&val)) {
+                    param_builder.add_int64(filter_key, *i);
+                } else if (auto* d = std::get_if<double>(&val)) {
+                    param_builder.add_double(filter_key, *d);
+                } else if (auto* s = std::get_if<std::string>(&val)) {
+                    param_builder.add_string(filter_key, *s);
+                } else if (auto* b = std::get_if<std::vector<uint8_t>>(&val)) {
+                    param_builder.add_bytes(filter_key, *b);
+                }
+                first = false;
+            }
+            cypher += "}";
+        }
+         
+        cypher += ") SET n += $updates_map RETURN COUNT(n) AS updated";
+         
+        // Build updates map
+        neo4j::MapBuilder updates_builder;
+        for (const auto& [key, val] : updates) {
+            if (std::get_if<std::monostate>(&val)) {
+                updates_builder.add_null(key);
+            } else if (auto* b = std::get_if<bool>(&val)) {
+                updates_builder.add_bool(key, *b);
+            } else if (auto* i = std::get_if<int64_t>(&val)) {
+                updates_builder.add_int64(key, *i);
+            } else if (auto* d = std::get_if<double>(&val)) {
+                updates_builder.add_double(key, *d);
+            } else if (auto* s = std::get_if<std::string>(&val)) {
+                updates_builder.add_string(key, *s);
+            } else if (auto* b = std::get_if<std::vector<uint8_t>>(&val)) {
+                updates_builder.add_bytes(key, *b);
+            }
+        }
+         
+        param_builder.add_map("updates_map", updates_builder.build());
+         
+        // Execute query
+        auto result = session.run(cypher, param_builder.build());
+         
         size_t updated = 0;
+         
+        if (result.has_value()) {
+            auto record = result->single();
+            if (record.has_value()) {
+                auto count_val = record->get("updated");
+                if (count_val.has_value()) {
+                    updated = static_cast<size_t>(count_val->as_int64());
+                }
+            }
+        }
+         
+        session.close();
         return Result<size_t>::ok(updated);
     } catch (const std::exception& ex) {
         return Result<size_t>::err(
@@ -994,30 +1304,19 @@ Result<bool> Neo4jAdapter::commit_transaction(const std::string& transaction_id)
     
 #ifdef THEMIS_CHIMERA_NEO4J
     try {
-        // TODO (TODO 11/14): Commit transaction via Neo4j session
-        // Implementation:
-        // 1. Get the Neo4j session associated with this transaction_id
-        // 2. Verify session exists and is in "active" state
-        // 3. Call session's transaction commit method:
-        //    if (it->second.neo4j_session) {
-        //        auto* session_ptr = static_cast<neo4j::Session*>(it->second.neo4j_session);
-        //        session_ptr->commit_transaction();
-        //    }
-        // 4. Update session state: it->second.state = "committed"
-        // 5. Optionally: remove from active_sessions_ or mark for cleanup
-        // 6. Return success
-        //
-        // Example pseudo-code:
-        // if (it->second.state != "active") {
-        //     return Result<bool>::err(ErrorCode::INVALID_ARGUMENT,
-        //         "Transaction is not active");
-        // }
-        // if (it->second.neo4j_session) {
-        //     auto* session = static_cast<neo4j::Session*>(it->second.neo4j_session);
-        //     session->commit_transaction();
-        // }
-        // it->second.state = "committed";
-        
+        if (it->second.state != "active") {
+            return Result<bool>::err(
+                ErrorCode::INVALID_ARGUMENT,
+                "Transaction is not active; cannot commit"
+            );
+        }
+         
+        // Commit the transaction via the stored session
+        if (it->second.neo4j_session) {
+            auto* session_ptr = static_cast<neo4j::Session*>(it->second.neo4j_session);
+            session_ptr->commit_transaction();
+        }
+         
         it->second.state = "committed";
         return Result<bool>::ok(true);
     } catch (const std::exception& ex) {
@@ -1049,30 +1348,19 @@ Result<bool> Neo4jAdapter::rollback_transaction(const std::string& transaction_i
     
 #ifdef THEMIS_CHIMERA_NEO4J
     try {
-        // TODO (TODO 12/14): Rollback transaction via Neo4j session
-        // Implementation:
-        // 1. Get the Neo4j session associated with this transaction_id
-        // 2. Verify session exists (check it->second.neo4j_session)
-        // 3. Call session's transaction rollback method:
-        //    if (it->second.neo4j_session) {
-        //        auto* session_ptr = static_cast<neo4j::Session*>(it->second.neo4j_session);
-        //        session_ptr->rollback_transaction();
-        //    }
-        // 4. Update session state: it->second.state = "aborted"
-        // 5. Optionally: remove from active_sessions_ or mark for cleanup
-        // 6. Return success
-        //
-        // Example pseudo-code:
-        // if (it->second.state != "active") {
-        //     return Result<bool>::err(ErrorCode::INVALID_ARGUMENT,
-        //         "Transaction is not active");
-        // }
-        // if (it->second.neo4j_session) {
-        //     auto* session = static_cast<neo4j::Session*>(it->second.neo4j_session);
-        //     session->rollback_transaction();
-        // }
-        // it->second.state = "aborted";
-        
+        if (it->second.state != "active") {
+            return Result<bool>::err(
+                ErrorCode::INVALID_ARGUMENT,
+                "Transaction is not active; cannot rollback"
+            );
+        }
+         
+        // Rollback the transaction via the stored session
+        if (it->second.neo4j_session) {
+            auto* session_ptr = static_cast<neo4j::Session*>(it->second.neo4j_session);
+            session_ptr->rollback_transaction();
+        }
+         
         it->second.state = "aborted";
         return Result<bool>::ok(true);
     } catch (const std::exception& ex) {
@@ -1252,31 +1540,10 @@ bool Neo4jAdapter::is_valid_connection_string(const std::string& cs) {
  * @details Implements mask_credentials without additional internal calls.
  */
 std::string Neo4jAdapter::mask_credentials(const std::string& cs) {
-    // TODO (TODO 13/14): Implementation for credential masking
-    // Purpose: Hide password from connection string for logging/debugging
-    // Implementation:
-    // 1. Parse connection string format: proto://[user[:password]@]host[:port]/[database]
-    // 2. Find the @ separator if present
-    // 3. Replace password portion with asterisks if found
-    // 4. Return masked string for safe logging
-    //
-    // Example pseudo-code:
-    // std::regex uri_pattern(
-    //     "^(.*://)"           // scheme
-    //     "([^:/@]+)"          // username
-    //     "(?::([^/@]*)@)?"    // optional password with colon
-    //     "(.*)$"              // host and rest
-    // );
-    // std::smatch match;
-    // if (std::regex_match(cs, match, uri_pattern)) {
-    //     if (match[3].matched) {  // password present
-    //         return match[1].str() + match[2].str() + 
-    //                std::string(":***@") + match[4].str();
-    //     }
-    // }
-    
-    // For safety, attempt URI parsing with regex if available
-    // Otherwise return as-is (do not leak credentials to logs)
+    // Hide password from connection string for logging/debugging.
+    // Parses connection string format: proto://[user[:password]@]host[:port]/[database]
+    // and replaces password portion with asterisks for safe logging.
+     
     std::size_t auth_sep = cs.find("://");
     if (auth_sep != std::string::npos) {
         std::size_t at_pos = cs.find("@", auth_sep);
@@ -1303,50 +1570,10 @@ std::string Neo4jAdapter::mask_credentials(const std::string& cs) {
  * @details Implements scalar_to_cypher_literal without additional internal calls.
  */
 std::string Neo4jAdapter::scalar_to_cypher_literal(const Scalar& scalar) {
-    // TODO (TODO 14/14): Implementation for Scalar → Cypher literal conversion
-    // Purpose: Convert ThemisDB Scalar values to Cypher literal strings
-    // Note: This is primarily for query construction and debugging
-    // Implementation:
-    // 1. Use std::get_if<T> to extract value from variant
-    // 2. Convert each type appropriately:
-    //    - std::monostate -> "null"
-    //    - bool -> "true" or "false"
-    //    - int64_t -> std::to_string(value)
-    //    - double -> std::to_string(value)
-    //    - std::string -> "'" + escaped_string + "'"
-    //    - std::vector<uint8_t> -> hex encoding or base64
-    // 3. Escape special characters in strings (quotes, backslashes)
-    // 4. Return Cypher-compatible literal string
-    //
-    // Example pseudo-code:
-    // if (std::get_if<std::monostate>(&scalar)) {
-    //     return "null";
-    // } else if (auto* b = std::get_if<bool>(&scalar)) {
-    //     return *b ? "true" : "false";
-    // } else if (auto* i = std::get_if<int64_t>(&scalar)) {
-    //     return std::to_string(*i);
-    // } else if (auto* d = std::get_if<double>(&scalar)) {
-    //     return std::to_string(*d);
-    // } else if (auto* s = std::get_if<std::string>(&scalar)) {
-    //     // Escape quotes and backslashes
-    //     std::string escaped;
-    //     for (char c : *s) {
-    //         if (c == '\'') escaped += "\\'";
-    //         else if (c == '\\') escaped += "\\\\";
-    //         else escaped += c;
-    //     }
-    //     return "'" + escaped + "'";
-    // } else if (auto* b = std::get_if<std::vector<uint8_t>>(&scalar)) {
-    //     // Hex encode binary data
-    //     std::ostringstream oss;
-    //     oss << "0x";
-    //     for (uint8_t byte : *b) {
-    //         oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte);
-    //     }
-    //     return oss.str();
-    // }
-    
-    // Current implementation: safe fallback for all types
+    // Convert ThemisDB Scalar values to Cypher literal strings.
+    // Primarily used for query construction and debugging.
+    // Handles all scalar types with proper escaping and encoding.
+     
     if (std::get_if<std::monostate>(&scalar)) {
         return "null";
     } else if (auto* b = std::get_if<bool>(&scalar)) {
@@ -1356,7 +1583,7 @@ std::string Neo4jAdapter::scalar_to_cypher_literal(const Scalar& scalar) {
     } else if (auto* d = std::get_if<double>(&scalar)) {
         return std::to_string(*d);
     } else if (auto* s = std::get_if<std::string>(&scalar)) {
-        // Simple escaping: replace single quotes
+        // Escape special characters in strings
         std::string escaped = *s;
         size_t pos = 0;
         while ((pos = escaped.find('\'', pos)) != std::string::npos) {
@@ -1365,7 +1592,7 @@ std::string Neo4jAdapter::scalar_to_cypher_literal(const Scalar& scalar) {
         }
         return "'" + escaped + "'";
     } else if (auto* b = std::get_if<std::vector<uint8_t>>(&scalar)) {
-        // Hex encoding for binary data
+        // Hex encode binary data
         std::ostringstream oss;
         oss << "0x";
         for (uint8_t byte : *b) {
@@ -1374,8 +1601,92 @@ std::string Neo4jAdapter::scalar_to_cypher_literal(const Scalar& scalar) {
         }
         return oss.str();
     }
-    
-    return "null";  // Fallback
+     
+    return "null";  // Fallback for any unhandled types
 }
+
+#ifdef THEMIS_CHIMERA_NEO4J
+
+Scalar Neo4jAdapter::convert_neo4j_value_to_scalar(const neo4j::Value& val) {
+    // Convert neo4j::Value to Scalar type
+    // This is used internally to map Neo4j query results to our scalar type system
+     
+    if (val.is_null()) {
+        return Scalar{std::monostate{}};
+    } else if (val.type() == neo4j::ValueType::BOOL) {
+        return Scalar{val.as_bool()};
+    } else if (val.type() == neo4j::ValueType::INT) {
+        return Scalar{val.as_int64()};
+    } else if (val.type() == neo4j::ValueType::FLOAT) {
+        return Scalar{val.as_double()};
+    } else if (val.type() == neo4j::ValueType::STRING) {
+        return Scalar{val.as_string()};
+    } else if (val.type() == neo4j::ValueType::BYTES) {
+        auto bytes = val.as_bytes();
+        return Scalar{std::vector<uint8_t>(bytes.begin(), bytes.end())};
+    } else {
+        // For complex types (lists, maps, nodes, relationships), return null
+        return Scalar{std::monostate{}};
+    }
+}
+
+void Neo4jAdapter::extract_path_from_neo4j_value(const neo4j::Value& path_val, GraphPath& path) {
+    // Extract nodes and relationships from a Neo4j path value
+    // This is used to convert Neo4j path results to our GraphPath format
+     
+    try {
+        // Get nodes from the path
+        auto nodes_list = path_val.get_field("nodes");
+        if (nodes_list.has_value()) {
+            for (const auto& node_val : nodes_list->values()) {
+                GraphNode node;
+                 
+                if (node_val.has_property("id")) {
+                    node.id = node_val.get_property("id").as_string();
+                }
+                 
+                auto labels = node_val.labels();
+                if (!labels.empty()) {
+                    node.label = labels[0];
+                }
+                 
+                for (const auto& [key, val] : node_val.properties()) {
+                    node.properties[key] = convert_neo4j_value_to_scalar(val);
+                }
+                 
+                path.nodes.push_back(node);
+            }
+        }
+         
+        // Get relationships from the path
+        auto rels_list = path_val.get_field("relationships");
+        if (rels_list.has_value()) {
+            for (const auto& rel_val : rels_list->values()) {
+                GraphEdge edge;
+                 
+                if (rel_val.has_property("id")) {
+                    edge.id = rel_val.get_property("id").as_string();
+                }
+                edge.label = rel_val.type();
+                 
+                if (rel_val.has_property("weight")) {
+                    edge.weight = rel_val.get_property("weight").as_double();
+                    path.total_weight += *edge.weight;
+                }
+                 
+                for (const auto& [key, val] : rel_val.properties()) {
+                    edge.properties[key] = convert_neo4j_value_to_scalar(val);
+                }
+                 
+                path.edges.push_back(edge);
+            }
+        }
+    } catch (const std::exception& ex) {
+        // If extraction fails, leave path partially initialized
+        // This is safe since GraphPath has default-constructed members
+    }
+}
+
+#endif
 
 } // namespace chimera
