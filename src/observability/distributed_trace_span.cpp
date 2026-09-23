@@ -8,6 +8,7 @@
 #include "observability/distributed_trace_span.h"
 #include "observability/distributed_tracing_sdk.h"
 
+#include <mutex>
 #include <random>
 #include <iomanip>
 #include <sstream>
