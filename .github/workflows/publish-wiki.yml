@@ -348,17 +348,17 @@ jobs:
           fi
           echo "::notice::Detected wiki default branch: $DEFAULT_BRANCH"
 
-          # Remove old pages (but keep git history), including nested directories
-          find . -maxdepth 1 -name '*.md' -not -name '_Sidebar.md' -not -name '_Footer.md' -delete
+          # Remove all old pages and directories (staging will provide complete content including _Sidebar.md and _Footer.md)
+          find . -maxdepth 1 -name '*.md' -delete
           # Remove subdirectories one at a time to avoid issues with find -exec rm -rf {} +
           find . -maxdepth 1 -type d -not -name '.' -not -name '.git' -print0 | xargs -0 rm -rf
 
-          # Copy new pages from staging
+          # Copy new pages from staging (complete set including _Sidebar.md and _Footer.md)
           cp -r "$WIKI_STAGING_DIR"/* .
 
-          # Check for changes
+          # Check for changes using a reliable method that counts files, not newlines
           git add .
-          CHANGES=$(git status --porcelain | wc -l)
+          CHANGES=$(git diff --cached --name-only | wc -l)
 
           if [ "$CHANGES" -gt 0 ]; then
             COMMIT_MSG="docs: update wiki from repository (run ${{ github.run_number }}, commit ${{ github.sha }})"
