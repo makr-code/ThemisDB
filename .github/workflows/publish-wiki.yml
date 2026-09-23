@@ -401,9 +401,10 @@ jobs:
         run: |
           set -euo pipefail
 
-          # Find and close the tracking issue by its title
+          # Find and close the tracking issue by its title (open issues only)
           ISSUE_NUMBER=$(gh issue list \
-            --search "title:\"Wiki publish review: human sign-off tracker\" state:open" \
+            --state open \
+            --search "title:\"Wiki publish review: human sign-off tracker\"" \
             --json number \
             --jq ".[0].number" || echo "")
 
