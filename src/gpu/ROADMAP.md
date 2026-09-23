@@ -30,6 +30,11 @@ Production GPU runtime exists across device discovery, allocation/governance, ba
 
 ## Planned Features
 
+> **Wave A GPU CUDA Reduction Target:** ≥40% reduction vs Wave 7 baseline (Phase C pre-requisite)  
+> **Tracking Document:** `GPU_CUDA_REDUCTION_TRACKING.md` (comprehensive progress tracking)  
+> **Infrastructure Requirements:** `docs/governance/GPU_SELF_HOSTED_RUNNER_REQUIREMENTS.md`  
+> **Baseline Evidence:** `benchmarks/wave8/GPU_BASELINES_2026_Q4.json` (template ready for execution)
+
 ### Hybrid Retrieval Rollout Gates (issue #5468)
 - [~] Phase C pre-requisite: fix 50% of unchecked CUDA calls (340 → 170) — CRITICAL (Target: Q3 2026)
   - 2026-08-24: CUDA-call audit complete for `src/gpu/` + `include/gpu/`; `include/gpu/cuda_raii.h` added with `CudaStreamGuard`, `CudaEventGuard`, `CudaDeviceMemoryGuard`; all raw call sites catalogued in `WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`; wrapper coverage confirmed for stream/event/memory; remaining destructor-only `cudaFree` sites documented as acceptable
