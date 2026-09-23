@@ -403,8 +403,10 @@ jobs:
 
           # Find and close the tracking issue by exact title match
           # Use jq to filter for exact title match to avoid false positives from full-text search
+          # Use --limit 500 to ensure we search enough open issues
           ISSUE_NUMBER=$(gh issue list \
             --state open \
+            --limit 500 \
             --search "Wiki publish review" \
             --json number,title \
             --jq '.[] | select(.title == "Wiki publish review: human sign-off tracker") | .number' | head -1)
