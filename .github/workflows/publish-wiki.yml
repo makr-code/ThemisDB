@@ -471,6 +471,8 @@ jobs:
 
       - name: Write publish summary
         if: always()
+        env:
+          CLOSED_ISSUE: ${{ steps.close_tracker.outputs.closed_issue }}
         run: |
           PAGE_COUNT=$(find /tmp/wiki-staging -maxdepth 1 -name '*.md' 2>/dev/null | wc -l || echo 0)
           BLOCKED_COUNT="${{ steps.build.outputs.blocked_private || '0' }}"
@@ -502,8 +504,8 @@ jobs:
           fi
 
           TRACKER_STATUS="Not closed (pending review)"
-          if [ "${{ steps.close_tracker.outputs.closed_issue }}" != "" ]; then
-            TRACKER_STATUS="Closed (#${{ steps.close_tracker.outputs.closed_issue }})"
+          if [ -n "$CLOSED_ISSUE" ] && [ "$CLOSED_ISSUE" != "" ]; then
+            TRACKER_STATUS="Closed (#${CLOSED_ISSUE})"
           fi
 
           {
