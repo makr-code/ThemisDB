@@ -367,15 +367,16 @@ def _evaluate_expectation(
 
         passed = op_fn(measured, exp.constraint_value)
         if not passed:
-            # Check if within warning margin
-            margin_val = exp.constraint_value * (1 + _WARN_MARGIN)
+            # Check if within warning margin of the threshold.
+            # Upper-bound constraints (<=, <): warn when measured ≤ threshold * (1 + margin).
+            # Lower-bound constraints (>=, >): warn when measured ≥ threshold * (1 - margin).
             near_op = {
-                "<=": lambda a, b: a <= b,
-                "<":  lambda a, b: a < b,
+                "<=": lambda a, b: a <= b * (1 + _WARN_MARGIN),
+                "<":  lambda a, b: a < b * (1 + _WARN_MARGIN),
                 ">=": lambda a, b: a >= b * (1 - _WARN_MARGIN),
                 ">":  lambda a, b: a > b * (1 - _WARN_MARGIN),
             }.get(exp.constraint_op)
-            in_margin = near_op and near_op(measured, exp.constraint_value)
+            in_margin = near_op is not None and near_op(measured, exp.constraint_value)
             msg = (
                 f"{r.name}: measured={measured:.3f}{unit} "
                 f"(expected {exp.constraint_op} {exp.constraint_value}{unit})"

@@ -125,52 +125,6 @@ jobs:
             echo "compare_status=FAIL" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Build issue tracker body
-        id: tracker_body
-        run: |
-          # Build a compact tracker body with the fixed marker; the full
-          # comparison report is posted as a comment in the next step.
-          python3 - <<'PYEOF'
-          import json, pathlib, os
-
-          manifest_path = pathlib.Path("benchmark-artifacts/manifest.json")
-          m = {}
-          if manifest_path.exists():
-              m = json.loads(manifest_path.read_text())
-
-          compare_status = os.environ.get("COMPARE_STATUS", "UNKNOWN")
-          icon = "✅" if compare_status == "PASS" else ("❌" if compare_status == "FAIL" else "⚠️")
-          run_id = os.environ.get("GITHUB_RUN_ID", "?")
-          sha = os.environ.get("GITHUB_SHA", "HEAD")
-          repo = os.environ.get("GITHUB_REPOSITORY", "makr-code/ThemisDB")
-
-          body_lines = [
-              "<!-- ci-benchmark:type:perf-results -->",
-              f"## {icon} ThemisDB Benchmark Performance Tracker",
-              "",
-              f"**Latest run:** [{run_id}](https://github.com/{repo}/actions/runs/{run_id})  ",
-              f"**SHA:** `{sha}`  ",
-              f"**Status:** {icon} {compare_status}  ",
-          ]
-          if m:
-              body_lines += [
-                  f"**Binaries run:** {m.get('run_count', '?')}  ",
-                  f"**Non-zero exits:** {m.get('fail_count', '?')}  ",
-              ]
-          body_lines += [
-              "",
-              "_Full comparison report is posted as a comment on each run._",
-              "_Download artifact for raw JSON benchmark results._",
-          ]
-
-          pathlib.Path("benchmark-artifacts/tracker_body.md").write_text(
-              "\n".join(body_lines), encoding="utf-8"
-          )
-          print("Tracker body written.")
-          PYEOF
-        env:
-          COMPARE_STATUS: ${{ steps.compare.outputs.compare_status }}
-
       - name: Upsert benchmark results tracker issue
         id: tracker
         uses: ./.github/actions/status-flags-and-issues
