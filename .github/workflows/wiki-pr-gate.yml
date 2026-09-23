@@ -52,8 +52,10 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  # Single source of truth for tracking issue title
-  # Shared by publish-wiki.yml and wiki-pr-gate.yml to prevent drift
+  # Tracking issue title - coordinated between publish-wiki.yml and wiki-pr-gate.yml
+  # If this needs to change, update in both workflows to maintain consistency.
+  # For true single-source-of-truth without duplication, consider using GitHub repository
+  # variables (vars.TRACKER_ISSUE_TITLE), but this requires admin setup.
   TRACKER_ISSUE_TITLE: "Wiki publish review: human sign-off tracker"
 
 jobs:
