@@ -404,7 +404,9 @@ jobs:
           # Find and close the tracking issue by exact title match
           # Use jq to filter for exact title match to avoid false positives from full-text search
           # Use --limit 500 to ensure we search enough open issues
+          # Use --repo to ensure we target the correct repository
           ISSUE_NUMBER=$(gh issue list \
+            --repo "${{ github.repository }}" \
             --state open \
             --limit 500 \
             --search "Wiki publish review" \
@@ -417,6 +419,7 @@ jobs:
           fi
 
           gh issue close "$ISSUE_NUMBER" \
+            --repo "${{ github.repository }}" \
             --comment "✅ Wiki published successfully (run #${{ github.run_number }}, commit ${{ github.sha }}). This issue will be re-opened by the next automation run that requires review."
 
           echo "closed_issue=$ISSUE_NUMBER" >> "$GITHUB_OUTPUT"
