@@ -1,0 +1,206 @@
+name: "Benchmark: Performance Gate"
+
+# Rechenaufwand-Score: R=4 (K=4, L=4, N=3) | last-calibrated: 2026-09-23
+# Trigger policy: weekly schedule + manual dispatch only; no PR trigger.
+#
+# Orchestrates the core benchmark pipeline:
+#   1. build-and-run  — calls reusable-benchmark-runner.yml
+#   2. report         — downloads results, compares against
+#                       src/<module>/PERFORMANCE_EXPECTATIONS.md,
+#                       and upserts the findings into a GitHub Issue.
+#
+# Issue marker: <!-- ci-benchmark:type:perf-results -->
+# Issue title:  [Perf] Benchmark Results Tracker
+#
+# Decision gate: if compare_expectations.py exits 1 (FAILs detected) the
+# "report" job sets conclusion=failure so the run is marked red, prompting
+# maintainers to decide whether a performance task is required.
+
+on:
+  schedule:
+    - cron: '0 2 * * 1'    # Mondays 02:00 UTC — weekly performance signal
+  workflow_dispatch:
+    inputs:
+      benchmark_filter:
+        description: 'Google Benchmark filter regex (empty = all)'
+        required: false
+        default: ''
+        type: string
+      force_create_issue:
+        description: 'Force issue upsert even when all targets pass'
+        required: false
+        default: 'false'
+        type: boolean
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: ci-benchmark-gate-${{ github.ref }}
+  cancel-in-progress: false   # Queue, never cancel an in-progress run
+
+# ─────────────────────────────────────────────────────────────────────────────
+jobs:
+
+  # ─── Job 1: Build all bench_* targets and run them ─────────────────────────
+  build-and-run:
+    name: Build & Run Benchmarks
+    uses: ./.github/workflows/reusable-benchmark-runner.yml
+    with:
+      configure_flags: >-
+        -DTHEMIS_BUILD_BENCHMARKS=ON
+        -DTHEMIS_BUILD_TESTS=OFF
+        -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON
+      benchmark_filter: ${{ inputs.benchmark_filter || '' }}
+      benchmark_format: 'json'
+      timeout_minutes: 90
+      runs_on: 'ubuntu-latest'
+      artifact_retention_days: '14'
+
+  # ─── Job 2: Compare results against PERFORMANCE_EXPECTATIONS.md ────────────
+  report:
+    name: Compare Expectations & Report
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: [build-and-run]
+    # Run even when build-and-run failed so artifact-check and error reporting still execute
+    if: ${{ always() && needs.build-and-run.result != 'skipped' }}
+    permissions:
+      contents: read
+      issues: write
+
+    steps:
+      - name: Checkout (sparse — scripts + src expectations only)
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            benchmarks/compare_expectations.py
+            src
+            .github/actions
+          sparse-checkout-cone-mode: false
+
+      - name: Download benchmark artifact
+        uses: actions/download-artifact@v4.1.3
+        with:
+          name: ${{ needs.build-and-run.outputs.artifact_name }}
+          path: benchmark-artifacts/
+        continue-on-error: true   # Missing artifact handled below
+
+      - name: Verify artifact presence
+        id: artifact_check
+        run: |
+          if [[ -d "benchmark-artifacts/results" ]]; then
+            COUNT=$(find benchmark-artifacts/results -name "*.json" | wc -l)
+            echo "result_count=${COUNT}" >> "$GITHUB_OUTPUT"
+            if [[ "${COUNT}" -eq 0 ]]; then
+              echo "::error::Benchmark artifact present but contains 0 JSON result files; treating run as FAIL."
+              exit 1
+            fi
+            echo "::notice::Found ${COUNT} benchmark result file(s)."
+          else
+            echo "result_count=0" >> "$GITHUB_OUTPUT"
+            echo "::error::No benchmark results artifact found; cannot produce a meaningful report."
+            mkdir -p benchmark-artifacts/results
+            exit 1
+          fi
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Compare results against PERFORMANCE_EXPECTATIONS.md
+        id: compare
+        run: |
+          set +e
+          python3 benchmarks/compare_expectations.py \
+            --src-dir src \
+            --results-dir benchmark-artifacts/results \
+            --output benchmark-artifacts/comparison_report.md \
+            --run-id "${{ github.run_id }}" \
+            --sha "${{ github.sha }}" \
+            --repo "${{ github.repository }}"
+          COMPARE_EXIT=$?
+          echo "compare_exit=${COMPARE_EXIT}" >> "$GITHUB_OUTPUT"
+          if [[ ${COMPARE_EXIT} -eq 0 ]]; then
+            echo "compare_status=PASS" >> "$GITHUB_OUTPUT"
+          else
+            echo "compare_status=FAIL" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Upsert benchmark results tracker issue
+        id: tracker
+        # Skip upsert when all targets pass and force_create_issue is not set
+        if: >-
+          steps.compare.outputs.compare_status == 'FAIL' ||
+          inputs.force_create_issue == true
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: upsert_issue
+          issue-title: '[Perf] Benchmark Results Tracker'
+          issue-marker: '<!-- ci-benchmark:type:perf-results -->'
+          issue-body: |
+            <!-- ci-benchmark:type:perf-results -->
+            ## ${{ steps.compare.outputs.compare_status == 'FAIL' && '❌' || '✅' }} ThemisDB Benchmark Performance Tracker
+
+            **Latest run:** [${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            **SHA:** `${{ github.sha }}`
+            **Status:** ${{ steps.compare.outputs.compare_status }}
+
+            _Full comparison report is posted as a comment on each run._
+            _Download artifact `${{ needs.build-and-run.outputs.artifact_name }}` for raw JSON benchmark results._
+          labels-to-add: 'performance,benchmark,ci/benchmark-results'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Post full comparison report as issue comment
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ steps.tracker.outputs.issue-number }}
+        run: |
+          if [[ -z "${ISSUE_NUMBER}" ]]; then
+            echo "::warning::No issue number resolved; skipping comment."
+            exit 0
+          fi
+
+          REPORT_FILE="benchmark-artifacts/comparison_report.md"
+          if [[ ! -f "${REPORT_FILE}" ]]; then
+            echo "::warning::No comparison report generated; skipping comment."
+            exit 0
+          fi
+
+          # Prepend a run header to the report before posting
+          HEADER="### Run \`${{ github.run_id }}\` — ${{ steps.compare.outputs.compare_status == 'FAIL' && '❌ FAIL — performance regressions detected' || '✅ PASS — all targets within thresholds' }}"$'\n\n'
+          HEADER+="SHA: \`${{ github.sha }}\` | Trigger: \`${{ github.event_name }}\`"$'\n\n'
+          HEADER+="---"$'\n\n'
+
+          COMMENT_FILE="$(mktemp)"
+          printf '%s\n' "${HEADER}" > "${COMMENT_FILE}"
+          cat "${REPORT_FILE}" >> "${COMMENT_FILE}"
+
+          gh issue comment "${ISSUE_NUMBER}" \
+            --repo "${{ github.repository }}" \
+            --body-file "${COMMENT_FILE}"
+
+          rm -f "${COMMENT_FILE}"
+
+      - name: Upload comparison report artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: benchmark-comparison-report-${{ github.run_id }}
+          path: benchmark-artifacts/comparison_report.md
+          retention-days: 30
+          if-no-files-found: warn
+
+      - name: Set gate conclusion
+        if: steps.compare.outputs.compare_status == 'FAIL'
+        run: |
+          echo "::error::Performance gate FAILED — one or more targets exceed their " \
+               "PERFORMANCE_EXPECTATIONS.md thresholds. Review the '[Perf] Benchmark " \
+               "Results Tracker' issue and determine whether a performance task is required."
+          exit 1
