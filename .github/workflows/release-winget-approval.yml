@@ -26,6 +26,7 @@ permissions:
   issues: write
   contents: read
   pull-requests: write
+  actions: write
 
 concurrency:
   group: winget-publish-${{ github.event.issue.number }}
@@ -159,7 +160,7 @@ jobs:
             const version = '${{ steps.extract_version.outputs.version }}';
             const user = context.payload.comment.user.login;
             
-            const comment = `✅ **WinGet Submission Approved**\n\n**Approved By:** @$${user}\n**Version:** ${version}\n**Status:** Dispatched to \`release-winget.yml\` workflow\n\n**Next Steps:**\n1. Monitor the WinGet workflow run in Actions\n2. PR will be created in [microsoft/winget-pkgs](https://github.com/microsoft/winget-pkgs)\n3. Community reviewers will validate the manifest\n4. Once merged, the package is available via \`winget install ThemisDB.ThemisDB\`\n\n**Tracking:** This issue will auto-close when WinGet submission succeeds.`;
+            const comment = `✅ **WinGet Submission Approved**\n\n**Approved By:** @${user}\n**Version:** ${version}\n**Status:** Dispatched to \`release-winget.yml\` workflow\n\n**Next Steps:**\n1. Monitor the WinGet workflow run in Actions\n2. PR will be created in [microsoft/winget-pkgs](https://github.com/microsoft/winget-pkgs)\n3. Community reviewers will validate the manifest\n4. Once merged, the package is available via \`winget install ThemisDB.ThemisDB\`\n\n**Tracking:** This issue will auto-close when WinGet submission succeeds.`;
             
             await github.rest.issues.createComment({
               owner: context.repo.owner,

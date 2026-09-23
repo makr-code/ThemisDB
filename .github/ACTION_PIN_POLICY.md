@@ -36,7 +36,7 @@ Version pinning for third-party GitHub Actions is governed by a **4-tier classif
 
 ### Tier 2: SHOULD PIN (Reliability Critical)
 
-**Requirement:** Semantic version tag (e.g., `@v5`) or broken SHA pin  
+**Requirement:** Semantic version tag (e.g., `@v5`) or pinned SHA
 **Format:** `uses: owner/action@v<major> # <semver description>`
 
 **Actions:**

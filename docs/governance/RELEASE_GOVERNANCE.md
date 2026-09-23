@@ -12,10 +12,10 @@ This document is the single source of truth for:
 - Implementation details for automation
 
 **Related Documents:**
-- [RELEASE_STRATEGY.md](../RELEASE_STRATEGY.md) — Release process overview
-- [BRANCHING_STRATEGY.md](../BRANCHING_STRATEGY.md) — Branch governance
-- [VERSIONING.md](../VERSIONING.md) — Version numbering
-- [ACTION_PIN_POLICY.md](.github/ACTION_PIN_POLICY.md) — Workflow action pinning
+- [RELEASE_STRATEGY.md](../../RELEASE_STRATEGY.md) — Release process overview
+- [BRANCHING_STRATEGY.md](../../BRANCHING_STRATEGY.md) — Branch governance
+- [VERSIONING.md](../../VERSIONING.md) — Version numbering
+- [ACTION_PIN_POLICY.md](../.github/ACTION_PIN_POLICY.md) — Workflow action pinning
 
 ## Approval Gate Workflows
 
@@ -491,7 +491,8 @@ A: Change password, revoke session tokens, and review recent approval comments. 
 ## Changelog
 
 ### 2026-09-23 (Initial Release)
-- Added 5 approval gate workflows: release-mainline, release-winget, release-docker, release-linux-distro, release-windows-distro
+- Added 3 approval gate workflows: release-mainline, release-winget, release-docker
+- Added tracking jobs to release-linux-distro and release-windows-distro workflows
 - Implemented permission model (admin/maintain only)
 - Created tracking issue pattern with labels and templates
 - Documented all approval keywords

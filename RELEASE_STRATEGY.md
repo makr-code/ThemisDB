@@ -726,13 +726,13 @@ All external registry publishing (GitHub Releases, WinGet, Docker, Linux/Windows
 ```
 release-mainline.yml (builds + signs artifacts)
         ↓
-Creates draft GitHub Release + tracking issue
+Creates GitHub Release + tracking issue
         ↓
 Maintainer reviews metrics, checksums, signatures
         ↓
 Posts approval comment: /publish-release, /publish-docker, /publish-winget, etc.
         ↓
-Corresponding approval workflow publishes atomically
+Corresponding approval workflow continues with external publishing
         ↓
 Closes tracking issue on success
 ```
@@ -744,12 +744,12 @@ Closes tracking issue on success
 **Requirements:**
 - Comment author must have `admin` or `maintain` role in repository
 - Issue must have `release-review` label
-- Release must exist as draft on GitHub
+- Release must exist on GitHub
 
 **Action:**
 1. Validates commenter permissions
 2. Extracts version from issue body
-3. Publishes draft release (sets `draft=false`)
+3. Confirms release is published (visible on GitHub)
 4. Creates comment with next-steps guidance
 5. Auto-closes tracking issue
 
