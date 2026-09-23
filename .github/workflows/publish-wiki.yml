@@ -328,9 +328,12 @@ jobs:
             exit 1
           fi
 
-          # Clone the wiki repository with inline credentials (token not persisted to disk)
-          # Using oauth2 scheme for git authentication
-          git clone "https://oauth2:${GH_TOKEN}@github.com/${WIKI_REPO}" "$WIKI_CLONE_DIR"
+          # Configure git credential transformation to keep token out of process arguments
+          # This prevents token visibility in ps aux and debug logs
+          git config --global url."https://oauth2:${GH_TOKEN}@github.com/".insteadOf "https://github.com/"
+
+          # Clone the wiki repository (credentials provided via git config)
+          git clone "https://github.com/${WIKI_REPO}" "$WIKI_CLONE_DIR"
 
           cd "$WIKI_CLONE_DIR"
 
@@ -350,11 +353,12 @@ jobs:
 
           # Remove all old pages and directories (staging will provide complete content including _Sidebar.md and _Footer.md)
           find . -maxdepth 1 -name '*.md' -delete
-          # Remove subdirectories one at a time to avoid issues with find -exec rm -rf {} +
-          find . -maxdepth 1 -type d -not -name '.' -not -name '.git' -print0 | xargs -0 rm -rf
+          # Remove subdirectories one at a time with -r flag for xargs to handle empty input
+          find . -maxdepth 1 -type d -not -name '.' -not -name '.git' -print0 | xargs -r -0 rm -rf
 
           # Copy new pages from staging (complete set including _Sidebar.md and _Footer.md)
-          cp -r "$WIKI_STAGING_DIR"/* .
+          # Using /. syntax to copy all contents including dotfiles reliably
+          cp -r "$WIKI_STAGING_DIR"/. .
 
           # Check for changes using a reliable method that counts files, not newlines
           git add .
@@ -365,8 +369,8 @@ jobs:
             git commit -m "$COMMIT_MSG"
 
             echo "::notice::Pushing $CHANGES file(s) to wiki repository"
-            # Push with inline credentials (not persisted to disk)
-            git push "https://oauth2:${GH_TOKEN}@github.com/${WIKI_REPO}" "$DEFAULT_BRANCH"
+            # Push with credentials from git config
+            git push "https://github.com/${WIKI_REPO}" "$DEFAULT_BRANCH"
 
             {
               echo "wiki_published=true"
