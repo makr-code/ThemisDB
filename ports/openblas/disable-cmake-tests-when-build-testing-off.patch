@@ -1,6 +1,8 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 2006604..4f4f4d1 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -323,31 +323,33 @@
+@@ -323,31 +323,33 @@ if (USE_THREAD)
    endif()
  endif()
  
@@ -25,10 +27,10 @@
 +    if (NOT ONLY_CBLAS)
 +    # Broken without fortran on unix
 +      add_subdirectory(utest)
++    endif()
    endif()
 -endif()
 -  if(NOT NO_CBLAS)
-+  endif()
 +
 +  if (NOT NOFORTRAN)
     if (NOT ONLY_CBLAS)
@@ -39,18 +41,15 @@
 +   if (BUILD_TESTING AND NOT BUILD_WITHOUT_LAPACK)
 +      add_subdirectory(lapack-netlib/TESTING)
 +    endif()
-   endif()
--  if (CPP_THREAD_SAFETY_TEST OR CPP_THREAD_SAFETY_GEMV)
--    add_subdirectory(cpp_thread_test)
--  endif()
-+    if(NOT NO_CBLAS)
-+     if (NOT ONLY_CBLAS)
++  endif()
++  if(NOT NO_CBLAS)
++    if (NOT ONLY_CBLAS)
 +      add_subdirectory(ctest)
-+     endif()
 +    endif()
-+    if (CPP_THREAD_SAFETY_TEST OR CPP_THREAD_SAFETY_GEMV)
-+      add_subdirectory(cpp_thread_test)
-+    endif()
+   endif()
+   if (CPP_THREAD_SAFETY_TEST OR CPP_THREAD_SAFETY_GEMV)
+     add_subdirectory(cpp_thread_test)
+   endif()
 +endif()
  
  if (NOT FIXED_LIBNAME)
