@@ -1,5 +1,10 @@
 # Wiki Publish Review Tracking System
 
+**Author:** ThemisDB Contributors
+**Created:** 2026-09-23
+**Last Updated:** 2026-09-23
+**Status:** active
+
 ## Overview
 
 This system implements a human-in-the-loop approval workflow for publishing documentation to the GitHub Wiki repository. It uses a single persistent tracking issue where each wiki build generates a comment with metrics and links, allowing maintainers to review and approve publication.
