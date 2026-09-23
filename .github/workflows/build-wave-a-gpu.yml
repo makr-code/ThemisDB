@@ -57,7 +57,7 @@ jobs:
       build-dir: ${{ steps.configure.outputs.build-dir }}
       config-status: ${{ steps.configure.outputs.status }}
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           submodules: false
@@ -135,7 +135,7 @@ jobs:
       matrix:
         phase: [baseline, fallback, memory, determinism]
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           submodules: false
@@ -221,7 +221,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           submodules: false
@@ -321,7 +321,7 @@ jobs:
       reduction_pct: ${{ steps.audit.outputs.reduction_pct }}
       audit_status: ${{ steps.audit.outputs.audit_status }}
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v4
 
       - name: "Run CUDA-call audit"
         id: audit
@@ -377,7 +377,7 @@ jobs:
     timeout-minutes: 90
     if: github.event.inputs.run_representative_hardware == 'true'
     steps:
-      - uses: actions/checkout@v4.2.2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           submodules: false

@@ -40,7 +40,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4  # v7.0.1
+        uses: actions/checkout@v4
 
       - name: Post build failure comment on triggering PR
         if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'failure' && github.event.workflow_run.name == 'Docker Image CI/CD'

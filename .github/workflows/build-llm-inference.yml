@@ -116,7 +116,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4  # v7.0.1
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
@@ -157,7 +157,7 @@ jobs:
           echo "Model OK: ${{ env.TINYLLAMA_GGUF }}"
 
       - name: Upload model artifact
-        uses: actions/upload-artifact@v4  # v7.0.1
+        uses: actions/upload-artifact@v4
         with:
           name: tinyllama-gguf-${{ github.run_number }}
           path: ${{ env.MODEL_DIR }}/tinyllama.gguf
@@ -175,7 +175,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4  # v7.0.1
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
           submodules: false
@@ -219,7 +219,7 @@ jobs:
               module_llm_test_llm_adalora_doku_training_focused
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v4  # v7.0.1
+        uses: actions/upload-artifact@v4
         with:
           name: llm-inference-build-${{ github.run_number }}
           path: |
@@ -240,7 +240,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4  # v7.0.1
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
 
@@ -282,7 +282,7 @@ jobs:
           fi
 
       - name: Upload doku.db artifact
-        uses: actions/upload-artifact@v4  # v7.0.1
+        uses: actions/upload-artifact@v4
         with:
           name: doku-db-${{ github.run_number }}
           path: ${{ env.DOKU_DB_DIR }}/doku.db.json
@@ -331,7 +331,7 @@ jobs:
 
       - name: Upload inference test results
         if: always()
-        uses: actions/upload-artifact@v4  # v7.0.1
+        uses: actions/upload-artifact@v4
         with:
           name: inference-results-${{ github.run_number }}
           path: |
@@ -383,7 +383,7 @@ jobs:
 
       - name: Upload RAG test results
         if: always()
-        uses: actions/upload-artifact@v4  # v7.0.1
+        uses: actions/upload-artifact@v4
         with:
           name: rag-results-${{ github.run_number }}
           path: |
@@ -435,7 +435,7 @@ jobs:
 
       - name: Upload AdaLoRA test results
         if: always()
-        uses: actions/upload-artifact@v4  # v7.0.1
+        uses: actions/upload-artifact@v4
         with:
           name: adalora-results-${{ github.run_number }}
           path: |

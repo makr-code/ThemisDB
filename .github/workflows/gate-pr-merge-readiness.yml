@@ -58,7 +58,7 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-      - uses: actions/checkout@v4  # v7.0.1
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 1
 

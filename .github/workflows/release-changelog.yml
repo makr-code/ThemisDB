@@ -187,7 +187,7 @@ jobs:
       changed: ${{ steps.run-updater.outputs.changed }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4  # v7.0.1
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -240,7 +240,7 @@ jobs:
         if: >-
           inputs.dry-run == false &&
           steps.run-updater.outputs.changed == 'true'
-        uses: actions/upload-artifact@v4  # v7.0.1
+        uses: actions/upload-artifact@v4
         with:
           name: changelog-update-proposal-${{ github.run_number }}
           path: /tmp/changelog-update.patch
@@ -275,7 +275,7 @@ jobs:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4  # v7.0.1
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -320,7 +320,7 @@ jobs:
         if: >-
           inputs.dry-run == false &&
           steps.backfill.outputs.changed == 'true'
-        uses: actions/upload-artifact@v4  # v7.0.1
+        uses: actions/upload-artifact@v4
         with:
           name: changelog-backfill-proposal-${{ github.run_number }}
           path: /tmp/changelog-backfill.patch
