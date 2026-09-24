@@ -531,6 +531,17 @@ std::string DocsAssistant::generateAnswer(const std::string& query,
         context_docs.size(),
         impl_->config.llm_model_id.empty() ? std::string{"default"} : impl_->config.llm_model_id);
 
+    // [W3-SEC-07] Defensive sanitization: even though query() should have already
+    // sanitized, apply an additional length limit here to prevent prompt injection
+    // through the LLM prompt construction.
+    constexpr size_t kMaxSafeQueryLen = 1024;
+    std::string safe_query = query;
+    if (safe_query.size() > kMaxSafeQueryLen) {
+        safe_query.resize(kMaxSafeQueryLen);
+        THEMIS_WARN("DocsAssistant::generateAnswer: truncated query to {} chars for LLM prompt safety", 
+                    kMaxSafeQueryLen);
+    }
+
     // Build a conservative fallback prompt used only when plugin RAG is unavailable.
     std::stringstream fallback_context = {};
     fallback_context << "# ThemisDB Documentation Context\n\n";
@@ -552,7 +563,7 @@ std::string DocsAssistant::generateAnswer(const std::string& query,
     fallback_prompt << "Answer the user's question based on the provided documentation context. ";
     fallback_prompt << "Be concise, accurate, and provide specific references to configuration options or commands when applicable.\n\n";
     fallback_prompt << fallback_context.str();
-    fallback_prompt << "\nUser Question: " << query << "\n\n";
+    fallback_prompt << "\nUser Question: " << safe_query << "\n\n";
     fallback_prompt << "Answer:";
     
     // Generate answer using LLM
@@ -562,7 +573,7 @@ std::string DocsAssistant::generateAnswer(const std::string& query,
         // context mode to avoid monolithic prompt growth.
         {
             RAGContext rag_context;
-            rag_context.query = query;
+            rag_context.query = safe_query;
             rag_context.collection_name = "docs-assistant";
             rag_context.top_k = context_docs.size();
             rag_context.max_context_tokens = 4096;
@@ -580,7 +591,7 @@ std::string DocsAssistant::generateAnswer(const std::string& query,
             }
 
             InferenceRequest rag_request;
-            rag_request.prompt = query;
+            rag_request.prompt = safe_query;
             rag_request.max_tokens = 512;
             rag_request.temperature = 0.2f;
             if (!impl_->config.llm_model_id.empty()) {
@@ -700,6 +711,35 @@ DocsQueryResult DocsAssistant::query(const std::string& query) {
         return result;
     }
     
+    // [W3-SEC-06] Prompt injection guard: validate query length and content before use
+    constexpr size_t kMaxQueryLen = 2048;
+    if (query.empty()) {
+        result.generated_answer = "Query cannot be empty. Please provide a valid question.";
+        result.confidence_score = 0.0f;
+        return result;
+    }
+    
+    if (query.size() > kMaxQueryLen) {
+        THEMIS_WARN("DocsAssistant::query: rejecting query longer than {} chars (size={})", 
+                    kMaxQueryLen, query.size());
+        result.generated_answer = "Query is too long. Please provide a shorter question (maximum " + std::to_string(kMaxQueryLen) + " characters).";
+        result.confidence_score = 0.0f;
+        return result;
+    }
+    
+    // Sanitize query for safety
+    std::string safe_query = query;
+    std::string blocked_rule = {};
+    std::string blocked_reason = {};
+    if (!prompt_safety::sanitizePromptWithSharedPolicy(safe_query, safe_query,
+                                                       &blocked_rule, &blocked_reason)) {
+        THEMIS_WARN("DocsAssistant::query: query blocked by prompt safety policy [{}]: {}",
+                    blocked_rule, blocked_reason);
+        result.generated_answer = "Your query was blocked by content safety policy. Please rephrase your question.";
+        result.confidence_score = 0.0f;
+        return result;
+    }
+    
     // Check cache
     if (impl_->config.enable_caching) {
         auto cache_it = impl_->cache.find(query);
@@ -714,8 +754,8 @@ DocsQueryResult DocsAssistant::query(const std::string& query) {
         return static_cast<int>(value > max_int ? max_int : value);
     };
     
-    // Search for relevant documents
-    result.relevant_docs = searchDocs(query, impl_->config.max_context_docs);
+    // Search for relevant documents using sanitized query
+    result.relevant_docs = searchDocs(safe_query, impl_->config.max_context_docs);
     result.total_docs_searched = saturating_to_int(impl_->documents.size());
     result.docs_included_in_context = saturating_to_int(result.relevant_docs.size());
     
@@ -728,9 +768,9 @@ DocsQueryResult DocsAssistant::query(const std::string& query) {
         return result;
     }
     
-    // Generate answer using LLM with RAG
+    // Generate answer using LLM with RAG using sanitized query
     auto gen_start = std::chrono::high_resolution_clock::now();
-    result.generated_answer = generateAnswer(query, result.relevant_docs);
+    result.generated_answer = generateAnswer(safe_query, result.relevant_docs);
     auto gen_end = std::chrono::high_resolution_clock::now();
     result.generation_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(gen_end - gen_start);
     

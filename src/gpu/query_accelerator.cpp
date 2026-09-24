@@ -306,6 +306,7 @@ GPUQueryAccelerator::ScanResult GPUQueryAccelerator::scan(const std::vector<Row>
             // Generate row indices [0, 1, ..., n-1] on device.
             thrust::device_vector<uint64_t> d_idx(n);
             thrust::sequence(thrust::device, d_idx.begin(), d_idx.end(), uint64_t{0});
+            CHECKED_CUDA(cudaDeviceSynchronize());
 
             // Device-side select with always-true predicate (copy_if).
             struct AlwaysTrue {
@@ -316,11 +317,13 @@ GPUQueryAccelerator::ScanResult GPUQueryAccelerator::scan(const std::vector<Row>
 
             thrust::device_vector<uint64_t> d_selected(n);
             auto d_end = thrust::copy_if(thrust::device, d_idx.begin(), d_idx.end(), d_selected.begin(), AlwaysTrue{});
+            CHECKED_CUDA(cudaDeviceSynchronize());
             const size_t selected_count = static_cast<size_t>(d_end - d_selected.begin());
 
             // Copy selected indices back to host.
             std::vector<uint64_t> h_idx(selected_count);
             thrust::copy(thrust::device, d_selected.begin(), d_end, h_idx.begin());
+            CHECKED_CUDA(cudaDeviceSynchronize());
 
             result.rows.reserve(selected_count);
             for (uint64_t i : h_idx) {
@@ -443,19 +446,25 @@ GPUQueryAccelerator::SortResult GPUQueryAccelerator::sort(std::vector<Row> rows,
             }
 
             // 2. Upload to device.
+            CHECKED_CUDA(cudaDeviceSynchronize());  // pre-check device state
             thrust::device_vector<double> d_keys(h_keys.begin(), h_keys.end());
+            CHECKED_CUDA(cudaDeviceSynchronize());  // verify upload
             thrust::device_vector<uint64_t> d_idx(h_idx.begin(), h_idx.end());
+            CHECKED_CUDA(cudaDeviceSynchronize());  // verify upload
 
             // 3. Stable sort indices by key (ascending or descending).
             if (order == SortOrder::ASC) {
                 thrust::stable_sort_by_key(d_keys.begin(), d_keys.end(), d_idx.begin());
+                CHECKED_CUDA(cudaDeviceSynchronize());
             } else {
                 thrust::stable_sort_by_key(d_keys.begin(), d_keys.end(), d_idx.begin(), thrust::greater<double>());
+                CHECKED_CUDA(cudaDeviceSynchronize());
             }
 
             // 4. Copy sorted indices back to host.
             std::vector<uint64_t> sorted_idx(n);
             thrust::copy(d_idx.begin(), d_idx.end(), sorted_idx.begin());
+            CHECKED_CUDA(cudaDeviceSynchronize());
             THEMIS_GPU_QUERY_ACCEL_SYNC();
 
             // 5. Gather rows into sorted order.
@@ -577,23 +586,28 @@ GPUQueryAccelerator::AggResult GPUQueryAccelerator::aggregate(const std::vector<
 
             // 2. Upload to device.
             thrust::device_vector<double> d_values(h_values.begin(), h_values.end());
+            CHECKED_CUDA(cudaDeviceSynchronize());  // verify upload
 
             // 3. Reduce on device.
             double gpu_result = 0.0;
             switch (func) {
                 case AggFunc::SUM:
                     gpu_result = thrust::reduce(d_values.begin(), d_values.end(), 0.0, thrust::plus<double>());
+                    CHECKED_CUDA(cudaDeviceSynchronize());
                     break;
                 case AggFunc::MIN:
                     gpu_result = thrust::reduce(d_values.begin(), d_values.end(), std::numeric_limits<double>::max(),
                                                 thrust::minimum<double>());
+                    CHECKED_CUDA(cudaDeviceSynchronize());
                     break;
                 case AggFunc::MAX:
                     gpu_result = thrust::reduce(d_values.begin(), d_values.end(), std::numeric_limits<double>::lowest(),
                                                 thrust::maximum<double>());
+                    CHECKED_CUDA(cudaDeviceSynchronize());
                     break;
                 case AggFunc::AVG: {
                     double s   = thrust::reduce(d_values.begin(), d_values.end(), 0.0, thrust::plus<double>());
+                    CHECKED_CUDA(cudaDeviceSynchronize());
                     gpu_result = s / static_cast<double>(n);
                     break;
                 }
@@ -765,15 +779,21 @@ GPUQueryAccelerator::JoinResult GPUQueryAccelerator::hashJoin(const std::vector<
             }
 
             // Upload build-side keys and sort on device.
+            CHECKED_CUDA(cudaDeviceSynchronize());  // pre-check device state
             thrust::device_vector<uint64_t> d_bkeys(h_build_keys.begin(), h_build_keys.end());
+            CHECKED_CUDA(cudaDeviceSynchronize());  // verify upload
             thrust::device_vector<uint64_t> d_bidx(h_build_idx.begin(), h_build_idx.end());
+            CHECKED_CUDA(cudaDeviceSynchronize());  // verify upload
             thrust::stable_sort_by_key(d_bkeys.begin(), d_bkeys.end(), d_bidx.begin());
+            CHECKED_CUDA(cudaDeviceSynchronize());  // verify sort
 
             // Download sorted build keys and indices for probe phase.
             std::vector<uint64_t> sorted_bkeys(bn);
             std::vector<uint64_t> sorted_bidx(bn);
             thrust::copy(d_bkeys.begin(), d_bkeys.end(), sorted_bkeys.begin());
+            CHECKED_CUDA(cudaDeviceSynchronize());  // verify copy
             thrust::copy(d_bidx.begin(), d_bidx.end(), sorted_bidx.begin());
+            CHECKED_CUDA(cudaDeviceSynchronize());  // verify copy
             THEMIS_GPU_QUERY_ACCEL_SYNC();
 
             // Probe phase: for each probe key binary-search the host-side

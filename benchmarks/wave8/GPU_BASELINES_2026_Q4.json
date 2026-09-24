@@ -1,0 +1,143 @@
+{
+  "metadata": {
+    "document_type": "GPU_BASELINES_REPRESENTATIVE_HARDWARE",
+    "version": "1.0",
+    "generated_at": "2026-09-23T16:31:45Z",
+    "status": "TEMPLATE_PENDING_EXECUTION",
+    "wave": "Wave A",
+    "target_hardware": "NVIDIA A100/H100 (A8-class)",
+    "cuda_version": "12.x",
+    "note": "This is a template document. Actual measurements require execution on representative GPU hardware."
+  },
+  "baseline_metadata": {
+    "execution_date": "PENDING",
+    "hardware_specification": {
+      "gpu_model": "NVIDIA A100 or H100",
+      "compute_capability": "sm_80 or sm_90",
+      "vram_gb": 40,
+      "cuda_version": "12.x",
+      "nccl_version": "2.20+",
+      "grpc_version": "1.50+"
+    },
+    "execution_environment": {
+      "runner_name": "gpu-cuda (self-hosted)",
+      "os": "Linux x86_64",
+      "cmake_preset": "community-release",
+      "build_type": "Release"
+    }
+  },
+  "cuda_reduction_metrics": {
+    "measurement_methodology": "Profiling with CUDA API call tracking via NVIDIA nsys profiler",
+    "wave7_baseline_unchecked_calls": 340,
+    "wave7_baseline_total_runtime_us": "PENDING",
+    "current_unchecked_calls": "PENDING",
+    "current_total_runtime_us": "PENDING",
+    "reduction_percentage": "PENDING",
+    "target_reduction_percentage": 40,
+    "phase_c_target_unchecked_calls": 170,
+    "phase_d_target_unchecked_calls": 51,
+    "wrapper_coverage_percentage": "PENDING",
+    "note": "Reduction percentage calculated as: (Wave7_UncheckedCalls - Current_UncheckedCalls) / Wave7_UncheckedCalls * 100"
+  },
+  "latency_baselines": {
+    "p50_us": "PENDING",
+    "p95_us": "PENDING",
+    "p99_us": "PENDING",
+    "max_us": "PENDING",
+    "mean_us": "PENDING",
+    "stddev_us": "PENDING",
+    "measurement_window": "PENDING",
+    "sample_count": "PENDING",
+    "note": "Latency measured for GPU acceleration paths (e.g., kernel dispatch, memory transfer) vs CPU fallback"
+  },
+  "throughput_baselines": {
+    "operations_per_sec": "PENDING",
+    "vectors_per_sec": "PENDING",
+    "bandwidth_gbps": "PENDING",
+    "utilization_percentage": "PENDING",
+    "measurement_workload": "PENDING",
+    "note": "Throughput for core GPU operations: vector similarity, query acceleration"
+  },
+  "cpu_fallback_validation": {
+    "all_error_classes_fallback": "PENDING",
+    "fallback_latency_us": "PENDING",
+    "fallback_determinism_ok": "PENDING",
+    "test_coverage": ["GPU-FALLBACK-01", "GPU-FALLBACK-02", "GPU-FALLBACK-03", "GPU-FALLBACK-04", "GPU-FALLBACK-05", "GPU-FALLBACK-06", "GPU-FALLBACK-07", "GPU-FALLBACK-08", "GPU-FALLBACK-09", "GPU-FALLBACK-10", "GPU-FALLBACK-11", "GPU-FALLBACK-12"],
+    "note": "Verification that all GPU errors degrade cleanly to CPU path"
+  },
+  "kernel_sla_validation": {
+    "timeout_duration_seconds": 5,
+    "timeout_enforcement_confirmed": "PENDING",
+    "test_coverage": ["GPU-TIMEOUT-01", "GPU-TIMEOUT-02", "GPU-TIMEOUT-03", "GPU-TIMEOUT-04", "GPU-TIMEOUT-05", "GPU-TIMEOUT-06", "GPU-TIMEOUT-07", "GPU-TIMEOUT-08", "GPU-TIMEOUT-09", "GPU-TIMEOUT-10", "GPU-TIMEOUT-11", "GPU-TIMEOUT-12"],
+    "note": "KernelSLAGuard enforces 5-second hard limit on kernel execution"
+  },
+  "resource_exhaustion_validation": {
+    "exhaustion_injection_ok": "PENDING",
+    "fail_closed_behavior_confirmed": "PENDING",
+    "test_coverage": ["GPU-EXHAUST-01", "GPU-EXHAUST-02", "GPU-EXHAUST-03", "GPU-EXHAUST-04", "GPU-EXHAUST-05", "GPU-EXHAUST-06", "GPU-EXHAUST-07", "GPU-EXHAUST-08", "GPU-EXHAUST-09", "GPU-EXHAUST-10", "GPU-EXHAUST-11", "GPU-EXHAUST-12"],
+    "note": "Verification that resource exhaustion triggers controlled degradation, not panic"
+  },
+  "multi_gpu_scaling": {
+    "peer_to_peer_latency_us": "PENDING",
+    "multi_device_dispatch_latency_us": "PENDING",
+    "scaling_efficiency_percentage": "PENDING",
+    "note": "Multi-GPU performance characteristics on A8-class hardware"
+  },
+  "breakeven_analysis": {
+    "cuda_overhead_us": "PENDING",
+    "cpu_fallback_overhead_us": "PENDING",
+    "breakeven_computation_size": "PENDING",
+    "note": "Minimum computation size where GPU acceleration provides measurable benefit"
+  },
+  "test_execution_summary": {
+    "total_tests_run": "PENDING",
+    "tests_passed": "PENDING",
+    "tests_failed": "PENDING",
+    "tests_skipped": "PENDING",
+    "test_suite_files": [
+      "tests/gpu/test_gpu_wave_a_timeout_closure.cpp",
+      "tests/gpu/test_gpu_resource_exhaustion.cpp",
+      "tests/gpu/test_gpu_fallback_all_paths.cpp",
+      "tests/gpu/test_gpu_phase2_phase3_focused.cpp",
+      "tests/gpu/test_gpu_highcardinality_stress.cpp",
+      "tests/gpu/test_gpu_manager_soak.cpp"
+    ]
+  },
+  "benchmark_execution_summary": {
+    "benchmarks_run": "PENDING",
+    "benchmark_suite_files": [
+      "benchmarks/gpu/bench_gpu_a8_baselines.cpp",
+      "benchmarks/gpu/bench_gpu_cpu_breakeven_category_a.cpp",
+      "benchmarks/gpu/bench_gpu_cpu_breakeven_category_b.cpp",
+      "benchmarks/gpu/bench_gpu_phase2_phase3_gates.cpp",
+      "benchmarks/gpu/bench_gpu_dedicated_gates.cpp"
+    ]
+  },
+  "acceptance_checklist": {
+    "cuda_reduction_gte_40_percent": false,
+    "fallback_validation_complete": false,
+    "kernel_sla_enforcement_confirmed": false,
+    "representative_hardware_p95_p99_captured": false,
+    "all_tests_pass": false,
+    "all_benchmarks_pass": false,
+    "no_new_crashes": false,
+    "latency_within_sla": false,
+    "throughput_baseline_documented": false
+  },
+  "sign_off": {
+    "status": "PENDING",
+    "signed_by": "PENDING",
+    "signed_date": "PENDING",
+    "hardware_validation_timestamp": "PENDING",
+    "ci_run_id": "PENDING",
+    "pr_number": "PENDING",
+    "notes": "Awaiting representative GPU hardware execution to complete baseline capture"
+  },
+  "related_documents": {
+    "gpu_module_roadmap": "src/gpu/ROADMAP.md",
+    "cuda_reduction_tracking": "src/gpu/GPU_CUDA_REDUCTION_TRACKING.md",
+    "closure_evidence": "src/gpu/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md",
+    "ga_sign_off": "docs/governance/GA_PROMOTION_SIGN_OFF.md",
+    "root_roadmap": "ROADMAP.md"
+  }
+}

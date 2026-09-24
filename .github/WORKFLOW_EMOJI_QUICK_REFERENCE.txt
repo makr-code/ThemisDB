@@ -1,0 +1,190 @@
+╔═══════════════════════════════════════════════════════════════════════════════════════════════╗
+║               THEMISDB WORKFLOW TRIGGER CLASSIFICATION - QUICK REFERENCE                    ║
+║                                    73 Workflows Analyzed                                     ║
+╚═══════════════════════════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────┐
+│ PRIMARY TRIGGERS (6 types)                                                                  │
+└─────────────────────────────────────────────────────────────────────────────────────────────┘
+
+📅 SCHEDULE (14 workflows - 19.2%)
+   └─ Cron-based automation: builds, compliance checks, maintenance
+   └─ Usually run overnight to avoid congestion
+   ├─ build-benchmarks.yml, build-content-regression.yml, security-codeql.yml
+   ├─ compliance-governance-gates.yml, compliance-supply-chain.yml
+   ├─ maintenance-docs.yml, maintenance-build-issues.yml, publish-wiki.yml
+   └─ ... and 6 more
+
+🔄 PUSH (14 workflows - 19.2%)
+   └─ Triggered on code push to branch
+   └─ Provides fast post-merge feedback
+   ├─ gate-pr-core.yml, gate-pr-doc-metadata.yml, maintenance-architecture-ci.yml
+   ├─ release-mainline.yml, edition-hyperscaler-ci.yml
+   └─ ... and 9 more
+
+🔄 PULL_REQUEST (3 workflows - 4.1%)
+   └─ Triggered specifically on PR events
+   ├─ build-ollama-router.yml, ga-promotion-signoff.yml
+   └─ gate-distributed-knowledge.yml
+
+⏱️  WORKFLOW_DISPATCH (24 workflows - 32.9%)
+   └─ Manual trigger via GitHub Actions UI
+   └─ Often long-running builds or security scans
+   ├─ build-mainline.yml, build-wave-a-gpu.yml, build-sanitizer-nightly.yml
+   ├─ security-fortify.yml, security-fuzzing.yml, security-dast-zap.yml
+   ├─ release-nightly.yml, release-windows-distribution.yml, release-winget.yml
+   └─ ... and 15 more
+
+🔗 WORKFLOW_CALL (1 workflow - 1.4%)
+   └─ Reusable workflow called by others
+   └─ release-changelog.yml
+
+❓ COMPOSITE/NONE (17 workflows - 23.3%)
+   └─ Reusable components or approval gates without direct triggers
+   ├─ reusable-cmake-build.yml, reusable-benchmark-runner.yml
+   ├─ release-*-approval.yml (approval gates)
+   ├─ gate-pr-merge-readiness.yml, gate-pr-version-targeting.yml
+   └─ ... and 12 more
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────┐
+│ SECONDARY CHARACTERISTICS (5 types)                                                         │
+└─────────────────────────────────────────────────────────────────────────────────────────────┘
+
+🎯 GOVERNANCE/GATES (24 workflows - 32.9%)
+   └─ Multi-layered approval and quality gates
+   ├─ PR-level gates: gate-pr-core.yml, gate-pr-edition-license.yml, gate-pr-hash-sbom.yml
+   ├─ Document gates: gate-pr-doxygen-governance.yml, gate-pr-module-doxygen-xml.yml
+   ├─ Release gates: release-*-approval.yml (5 approval workflows)
+   ├─ Special gates: gate-wave-closure.yml, gate-copilot-regression.yml
+   └─ Compliance: compliance-governance-gates.yml, compliance-supply-chain.yml
+
+🧪 TESTING/BENCHMARK (23 workflows - 31.5%)
+   └─ Tests, performance benchmarks, regressions
+   ├─ build-benchmarks.yml, build-content-regression.yml
+   ├─ benchmark-performance-gate.yml
+   ├─ Security testing: security-pentest-quarterly.yml
+   └─ ... and 19 more workflows with testing component
+
+🔧 MAINTENANCE/INFRASTRUCTURE (12 workflows - 16.4%)
+   └─ CI/CD health, housekeeping, diagnostics
+   ├─ maintenance-ci-health.yml, maintenance-housekeeping.yml
+   ├─ maintenance-pr-failure-diagnosis.yml, maintenance-build-issues.yml
+   ├─ maintenance-docs-db-build.yml, maintenance-workflow-guardrails-observe.yml
+   └─ ... and 6 more
+
+📝 DOCUMENTATION (8 workflows - 11.0%)
+   └─ Docs generation, wiki management
+   ├─ maintenance-docs.yml, maintenance-docs-db-build.yml
+   ├─ gate-pr-doxygen-governance.yml, gate-pr-module-doxygen-xml.yml
+   ├─ publish-wiki.yml, wiki-pr-gate.yml
+   └─ ... and 2 more
+
+🛡️  SECURITY (6 workflows - 8.2%)
+   └─ Code scanning, threat detection, compliance
+   ├─ Continuous: security-codeql.yml (📅 scheduled)
+   ├─ On-demand: security-fortify.yml, security-dast-zap.yml, security-fuzzing.yml
+   ├─ Quarterly: security-pentest-quarterly.yml (📅 scheduled)
+   └─ Consolidated: security-consolidated.yml (⏱️ manual)
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────┐
+│ KEY PATTERNS                                                                                │
+└─────────────────────────────────────────────────────────────────────────────────────────────┘
+
+✓ MULTI-TRIGGER WORKFLOWS (34/73 workflows = 46.6%)
+  └─ Most common: schedule + workflow_dispatch (8 workflows)
+     Allows both automated + manual execution
+  
+  Example patterns:
+  • 📅 + ⏱️  (Schedule + Manual)    - Automated runs + emergency manual override
+  • 🔄 + ⏱️  (Push + Manual)        - Post-merge + on-demand execution
+  • 🔄 + 🔄 (PR + Push)            - Different event types
+  • 🚀 + ⏱️  (Release + Manual)     - Release events + manual trigger
+
+✓ GATE-HEAVY ARCHITECTURE
+  └─ 21 workflows (28.8%) specifically for governance/approval
+  └─ Multi-stage validation: PR → Document → Release
+  └─ Supports compliance and quality requirements
+
+✓ SECURITY-FIRST APPROACH
+  └─ 6 dedicated security workflows
+  └─ Mix of continuous (CodeQL) and on-demand (DAST, Fortify, Fuzzing)
+
+✓ MODULAR DESIGN
+  └─ 18 reusable/composite workflows (24.7%)
+  └─ Supports workflow chaining and parameterization
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────┐
+│ DISTRIBUTION SUMMARY                                                                        │
+└─────────────────────────────────────────────────────────────────────────────────────────────┘
+
+Automation Level:
+  • 38.4% Fully Automated (📅 + 🔄 push): 28 workflows
+  • 32.9% Manual Dispatch (⏱️):            24 workflows
+  • 23.3% Composite/Reusable (❓):         18 workflows
+  • 5.5% Pull Request Specific (🔄):        4 workflows
+  • 1.4% Workflow Call (🔗):                1 workflow
+
+Functional Areas:
+  • 32.9% Governance & Quality Gates
+  • 31.5% Testing & Performance
+  • 16.4% Maintenance & Infrastructure
+  • 11.0% Documentation
+  • 8.2% Security
+
+Execution Timing:
+  • 📅 Scheduled (14): Typically 2-4 AM overnight
+  • 🔄 Push-triggered (14): On code merge (fast feedback)
+  • 🔄 PR-triggered (3): On pull request events
+  • ⏱️ Manual dispatch (24): On-demand via UI
+  • 🔗 Reusable (1): Called by other workflows
+  • ❓ No primary trigger (17): Approval/reusable
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────┐
+│ DATA FILES GENERATED                                                                        │
+└─────────────────────────────────────────────────────────────────────────────────────────────┘
+
+1. workflow-emoji-mapping.json
+   └─ Full JSON mapping with all 73 workflows
+   └─ Fields: filename, name, triggers, primary_trigger, secondary_tags, emoji, new_name
+   └─ Emoji scheme definition and trigger distribution
+
+2. workflow-trigger-map-summary.md
+   └─ Comprehensive markdown documentation
+   └─ 15+ sections with detailed breakdowns
+   └─ Suitable for team documentation/wiki
+
+3. workflow-analysis-report.txt
+   └─ Detailed report with all 73 workflows
+   └─ Each entry includes all metadata
+   └─ Good for maintenance tracking
+
+4. QUICK_REFERENCE.txt (this file)
+   └─ At-a-glance summary
+   └─ Key patterns and observations
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────┐
+│ EMOJI LEGEND                                                                                │
+└─────────────────────────────────────────────────────────────────────────────────────────────┘
+
+PRIMARY TRIGGER EMOJIS:
+  📅 = Schedule-based automation (cron)
+  🔄 = Event-driven (push/PR)
+  ⏱️  = Manual dispatch (workflow_dispatch)
+  🔗 = Reusable (workflow_call)
+  🚀 = Release events (not heavily used)
+
+SECONDARY TAG EMOJIS (combined with primary):
+  🛡️  = Security workflows
+  🧪 = Testing/Benchmark workflows
+  🔧 = Maintenance/Infrastructure
+  📝 = Documentation workflows
+  🎯 = Governance/Gates
+
+EXAMPLES:
+  📅🧪 = Schedule-based testing
+  🔄🎯🧪 = Push-triggered governance with testing
+  ⏱️🛡️ = Manual security scan
+  🔧 = Maintenance infrastructure
+
+END OF QUICK REFERENCE
+═══════════════════════════════════════════════════════════════════════════════════════════════════

@@ -29,7 +29,7 @@ The system consists of three interdependent workflows:
 **Key Steps:**
 1. Checkout repository
 2. Build wiki staging directory (306-806 pages)
-3. Validate internal [[wiki links]]
+3. Validate internal `[[WikiPage]]` links
 4. Create or update single tracking issue with build metrics
 5. Append a comment with run-level metrics and links
 
@@ -276,7 +276,7 @@ All `[[wiki links]]` are validated:
 ### Issue: Broken wiki links reported
 
 **Solution:**
-1. Fix broken [[links]] in source docs
+1. Fix broken `[[WikiPage]]` links in source docs
 2. Commit changes to develop
 3. Trigger new wiki build
 4. Rerun link validation

@@ -7,6 +7,11 @@ Status: review
 
 # ThemisDB GA Promotion — Final Governance Sign-Off
 
+**Author:** ThemisDB Contributors  
+**Created:** 2026-07-20  
+**Last Updated:** 2026-08-18  
+**Status:** review  
+
 **Document Type:** GA Gate Closure — Final Governance and Promotion Sign-Off  
 **Scope:** v2.4.0-rc1 → v2.4.0 GA — Batch D (Final)  
 **Date Opened:** 2026-07-20  
@@ -42,6 +47,16 @@ Three specific evidence blockers identified, root-caused, and addressed:
 - GPU jobs (`CUDA sm_80/sm_89/sm_90`, `HIP/ROCm`) have been **cancelled** every nightly run since 2026-08-15; no `gpu-cuda`/`gpu-hip` self-hosted runners are online.
 - **Action required (human):** Bring up ≥1 `self-hosted gpu-cuda` runner with CUDA 12.x for Wave A GPU baseline capture (`bench_gpu_a8_baselines`, `bench_voice_a8_baselines` p95/p99 latency baselines).
 - **Scope note:** GPU evidence is required only for Wave A GPU/Voice Q4 2026 items — it is **not a blocker for v2.4.0 GA CPU-path promotion** (Transaction, Sharding, Replication modules).
+
+**Wave A GPU CUDA Reduction Tracking (2026-09-23):**
+- **Target:** ≥40% CUDA kernel call reduction vs Wave 7 baseline
+- **Status:** Audit complete (2026-08-24); wrapper infrastructure deployed; pending representative hardware execution
+- **Documentation:**
+  - CUDA Reduction Tracking: `src/gpu/GPU_CUDA_REDUCTION_TRACKING.md` (comprehensive progress tracking)
+  - Infrastructure Requirements: `docs/governance/GPU_SELF_HOSTED_RUNNER_REQUIREMENTS.md` (runner configuration guide)
+  - Baseline Template: `benchmarks/wave8/GPU_BASELINES_2026_Q4.json` (evidence structure ready for execution)
+- **Infrastructure Requirement:** `gpu-cuda` self-hosted runner with NVIDIA A100/H100 (A8-class), CUDA 12.x, ≥40 GB VRAM
+- **Expected Execution:** Q4 2026 (after infrastructure deployment)
 
 **Pending CI Runs (2026-09-23 Updated Status):**
 | Run ID | Workflow | Branch | Commit | Status | Last Check |

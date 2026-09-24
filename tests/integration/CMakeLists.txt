@@ -876,9 +876,15 @@ foreach(_soak_test IN ITEMS
         if(_soak_test STREQUAL "test_graph_engine_soak")
             set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
         endif()
-        # Wave D: LLM pipeline soak uses in-process stubs; CI timeout 120 s.
-        if(_soak_test STREQUAL "test_llm_pipeline_soak")
-            set_tests_properties(${_soak_test} PROPERTIES TIMEOUT 120)
+        # Wave D: LLM soak tests use in-process stubs and must avoid the
+        # default 60 s per-test window in CI; keep them below the 120 s gate.
+        if(_soak_test STREQUAL "test_llm_pipeline_soak" OR
+           _soak_test STREQUAL "test_llm_wiki_soak" OR
+           _soak_test STREQUAL "test_llm_streaming_soak")
+            set_tests_properties(${_soak_test} PROPERTIES
+                TIMEOUT 120
+                ENVIRONMENT "THEMIS_SOAK_DURATION_MS=5000"
+            )
         endif()
         # Wave D: query engine soak uses in-process stubs; CI timeout 120 s.
         if(_soak_test STREQUAL "test_query_engine_soak")

@@ -3,11 +3,14 @@
  * @brief Implementation of GPU memory allocator with move semantics and double-free prevention
  * @version 0.1.0
  * @note Gap Fix: CWE-415 (double-free), CWE-672 (use-after-free)
+ * @note Refactored to use RAII wrapper guards for automatic resource management
  */
 
 #include "gpu/gpu_memory_allocator.h"
 #include "gpu/gpu_backend_dispatch_contract.h"
 #include "gpu/gpu_backend_dispatch_diagnostics.h"
+#include "gpu/cuda_raii.h"
+#include "gpu/gpu_safe_raii.h"
 #include <cuda_runtime.h>
 #include <algorithm>
 #include <utility>
@@ -42,24 +45,24 @@ GPUMemoryAllocator::GPUMemoryAllocator(const Config& config)
 
     // Pre-allocate pool if configured
     if (config.pool_size > 0) {
-        try {
-            void* pool_ptr = nullptr;
-            err = cudaMalloc(&pool_ptr, config.pool_size);
-            if (err != cudaSuccess) {
-                throw std::runtime_error("Failed to allocate memory pool: " + std::string(cudaGetErrorString(err)));
-            }
-            // Store as allocation for tracking
-            MemoryAllocation pool_alloc;
-            pool_alloc.device_ptr = pool_ptr;
-            pool_alloc.host_ptr = nullptr;
-            pool_alloc.size = config.pool_size;
-            pool_alloc.device_id = config.device_id;
-            pool_alloc.is_unified = false;
-            pool_alloc.allocation_id = next_alloc_id_++;
-            allocations_.push_back(pool_alloc);
-        } catch (...) {
-            throw;
+        // Use RAII guard to ensure pool allocation is exception-safe
+        CudaDeviceMemoryGuard pool_guard(config.pool_size);
+        if (!pool_guard.isValid()) {
+            throw std::runtime_error("Failed to allocate memory pool: cudaMalloc returned null");
         }
+        
+        // Store as allocation for tracking (guard prevents double-free)
+        MemoryAllocation pool_alloc;
+        pool_alloc.device_ptr = pool_guard.ptr;  // Transfer ownership (guard will not free it)
+        pool_alloc.host_ptr = nullptr;
+        pool_alloc.size = config.pool_size;
+        pool_alloc.device_id = config.device_id;
+        pool_alloc.is_unified = false;
+        pool_alloc.allocation_id = next_alloc_id_++;
+        allocations_.push_back(pool_alloc);
+        
+        // Release guard ownership since we've transferred to allocations_
+        pool_guard.release();
     }
 }
 
@@ -101,15 +104,6 @@ GPUMemoryAllocator& GPUMemoryAllocator::operator=(GPUMemoryAllocator&& other) no
     return *this;
 }
 
-/**
- * @brief Allocate.
- * @param[in] size Input parameter.
- * @return Return value.
- * @throws std::logic_error if an error occurs.
- * @throws std::invalid_argument if an error occurs.
- * @throws std::runtime_error if an error occurs.
- * @details Calls: std::chrono::high_resolution_clock::now(), time_since_epoch(), count(), GPUBackendDispatchDiagnostics::emitDiagnostic(), std::to_string(), cudaMalloc(), std::string(), cudaGetErrorString().
- */
 MemoryAllocation GPUMemoryAllocator::allocate(size_t size) {
     uint64_t start_time = std::chrono::duration_cast<std::chrono::microseconds>(
         std::chrono::high_resolution_clock::now().time_since_epoch()).count();
@@ -141,33 +135,31 @@ MemoryAllocation GPUMemoryAllocator::allocate(size_t size) {
         throw std::invalid_argument("Allocation size exceeds limit");
     }
 
-    void* device_ptr = nullptr;
+    // Use RAII guards for automatic cleanup on exception
+    CudaDeviceMemoryGuard device_guard(size);
+    if (!device_guard.isValid()) {
+        GPUBackendDispatchDiagnostics::emitDiagnostic(
+            GPUDispatchErrorCode::ALLOC_DEVICE_FAILURE,
+            config_.device_id,
+            "cudaMalloc failed for device memory");
+        throw std::runtime_error("Device allocation failed");
+    }
+
+    // Allocate pinned host memory for transfers
     void* host_ptr = nullptr;
+    cudaError_t err = cudaMallocHost(&host_ptr, size);
+    if (err != cudaSuccess) {
+        // device_guard will automatically free device_ptr on destruction
+        GPUBackendDispatchDiagnostics::emitDiagnostic(
+            GPUDispatchErrorCode::ALLOC_DEVICE_FAILURE,
+            config_.device_id,
+            "cudaMallocHost failed: " + std::string(cudaGetErrorString(err)));
+        throw std::runtime_error("Host allocation failed: " + std::string(cudaGetErrorString(err)));
+    }
 
     try {
-        // Allocate device memory
-        cudaError_t err = cudaMalloc(&device_ptr, size);
-        if (err != cudaSuccess) {
-            GPUBackendDispatchDiagnostics::emitDiagnostic(
-                GPUDispatchErrorCode::ALLOC_DEVICE_FAILURE,
-                config_.device_id,
-                "cudaMalloc failed: " + std::string(cudaGetErrorString(err)));
-            throw std::runtime_error("Device allocation failed: " + std::string(cudaGetErrorString(err)));
-        }
-
-        // Allocate pinned host memory for transfers
-        err = cudaMallocHost(&host_ptr, size);
-        if (err != cudaSuccess) {
-            cudaFree(device_ptr);
-            GPUBackendDispatchDiagnostics::emitDiagnostic(
-                GPUDispatchErrorCode::ALLOC_DEVICE_FAILURE,
-                config_.device_id,
-                "cudaMallocHost failed: " + std::string(cudaGetErrorString(err)));
-            throw std::runtime_error("Host allocation failed: " + std::string(cudaGetErrorString(err)));
-        }
-
         MemoryAllocation alloc;
-        alloc.device_ptr = device_ptr;
+        alloc.device_ptr = device_guard.ptr;  // Transfer ownership from guard
         alloc.host_ptr = host_ptr;
         alloc.size = size;
         alloc.device_id = config_.device_id;
@@ -175,6 +167,9 @@ MemoryAllocation GPUMemoryAllocator::allocate(size_t size) {
         alloc.allocation_id = next_alloc_id_++;
 
         allocations_.push_back(alloc);
+        
+        // Release guard ownership since we've transferred to allocations_
+        device_guard.release();
         
         // Verify bounded runtime contract
         uint64_t elapsed_us = std::chrono::duration_cast<std::chrono::microseconds>(
@@ -196,11 +191,9 @@ MemoryAllocation GPUMemoryAllocator::allocate(size_t size) {
         return alloc;
 
     } catch (...) {
-        if (device_ptr) {
-          cudaFree(device_ptr);
-        }
+        // device_guard will automatically cleanup device_ptr
         if (host_ptr) {
-          cudaFreeHost(host_ptr);
+            cudaFreeHost(host_ptr);
         }
         throw;
     }
@@ -218,11 +211,18 @@ void GPUMemoryAllocator::deallocate(const MemoryAllocation& alloc) noexcept {
                           });
 
     if (it != allocations_.end()) {
+        // Use RAII guard for device memory cleanup (swallows errors in noexcept context)
         if (it->device_ptr) {
-          cudaFree(it->device_ptr);
+            CudaDeviceMemoryGuard cleanup_guard;
+            cleanup_guard.ptr = it->device_ptr;
+            cleanup_guard.bytes = it->size;
+            // Guard destructor will safely cleanup
+            it->device_ptr = nullptr;
         }
+        // Cleanup host memory manually (errors swallowed in noexcept)
         if (it->host_ptr) {
-          cudaFreeHost(it->host_ptr);
+            cudaFreeHost(it->host_ptr);
+            it->host_ptr = nullptr;
         }
         allocations_.erase(it);
     }
@@ -341,8 +341,12 @@ size_t GPUMemoryAllocator::allocation_count() const noexcept {
 void GPUMemoryAllocator::cleanup() noexcept {
     if (!is_moved_from_) {
         for (auto& alloc : allocations_) {
+            // Use RAII guards to safely cleanup with error swallowing
             if (alloc.device_ptr) {
-                cudaFree(alloc.device_ptr);
+                CudaDeviceMemoryGuard temp_guard;
+                temp_guard.ptr = alloc.device_ptr;
+                temp_guard.bytes = alloc.size;
+                // Guard will cleanup on destruction; errors are swallowed
                 alloc.device_ptr = nullptr;
             }
             if (alloc.host_ptr) {

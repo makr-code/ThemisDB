@@ -164,19 +164,23 @@ TEST(LLMSoak, LLMSoak_AdapterLifecycleStability) {
 
     StubAdapterRegistry    registry;
     std::atomic<uint64_t>  load_cycles{0};
+    std::atomic<uint32_t>  next_adapter_id{0};
 
     const auto start    = std::chrono::steady_clock::now();
     const auto duration = std::chrono::milliseconds(soakDurationMs());
     const auto end_time = start + duration;
 
-    auto worker = [&](uint32_t seed) {
-        uint32_t adapter_id = seed % kAdapterPoolSize;
+    std::atomic<uint64_t> adapter_failures{0};
+
+    auto worker = [&](uint32_t /*seed*/) {
         while (std::chrono::steady_clock::now() < end_time) {
+            const uint32_t adapter_id = next_adapter_id.fetch_add(1, std::memory_order_relaxed) % 1'000'000U;
             auto adapter = registry.load(adapter_id);
-            ASSERT_NE(adapter, nullptr);
-            ASSERT_TRUE(adapter->isLoaded());
+            if (adapter == nullptr || !adapter->isLoaded()) {
+                adapter_failures.fetch_add(1, std::memory_order_relaxed);
+                return;
+            }
             registry.unload(adapter_id);
-            adapter_id = (adapter_id + 1) % kAdapterPoolSize;
             load_cycles.fetch_add(1, std::memory_order_relaxed);
         }
     };
@@ -189,6 +193,9 @@ TEST(LLMSoak, LLMSoak_AdapterLifecycleStability) {
     for (auto& t : workers) t.join();
 
     EXPECT_GT(load_cycles.load(), 0ULL) << "No adapter load cycles completed";
+    EXPECT_EQ(adapter_failures.load(), 0ULL)
+        << "LLMSoak_AdapterLifecycleStability: adapter load/ready failed "
+        << adapter_failures.load() << " times in worker threads";
     // All adapters must be unloaded by the end of the soak — no leaks.
     EXPECT_EQ(registry.liveCount(), 0ULL)
         << "LLMSoak_AdapterLifecycleStability: " << registry.liveCount()
