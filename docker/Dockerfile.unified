@@ -66,7 +66,7 @@ RUN --mount=type=cache,id=apt-cache-base-${TARGETARCH},target=/var/cache/apt,sha
     ${VCPKG_ROOT}/vcpkg version --disable-metrics
 
 # ============================================================================
-# Stage 2: deps - Install edition-specific dependencies
+# Stage 2: deps - Install edition-specific dependencies (hybrid: apt + vcpkg)
 # ============================================================================
 FROM base AS deps
 
@@ -75,6 +75,44 @@ ARG TARGETARCH
 ARG VCPKG_MANIFEST_HASH=""
 
 WORKDIR /build
+
+# ──────────────────────────────────────────────────────────────────────────
+# Stage 2a: System libraries via apt (fast, pre-compiled for all architectures)
+# ──────────────────────────────────────────────────────────────────────────
+# Installs commonly-used libraries that have high compilation cost when built
+# from source (Boost, OpenSSL, etc.), especially problematic under ARM64 QEMU
+# emulation. By using pre-compiled apt packages, we reduce multi-arch Docker
+# build time from 3h to ~60min.
+RUN --mount=type=cache,id=apt-cache-deps-${TARGETARCH},target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,id=apt-lib-deps-${TARGETARCH},target=/var/lib/apt,sharing=locked \
+    apt-get update && apt-get install -y --no-install-recommends \
+        libboost-all-dev \
+        libssl-dev \
+        libfmt-dev \
+        libspdlog-dev \
+        nlohmann-json3-dev \
+        libcurl4-openssl-dev \
+        libzstd-dev \
+        liblz4-dev \
+        libsnappy-dev \
+        libtbb-dev \
+        libyaml-cpp-dev \
+        libmimalloc-dev \
+        libpugixml-dev \
+        libgrpc++-dev \
+        libprotobuf-dev \
+        protobuf-compiler-grpc && \
+    rm -rf /var/lib/apt/lists/* && \
+    echo "System libraries installed via apt for ${TARGETARCH}"
+
+# ──────────────────────────────────────────────────────────────────────────
+# Stage 2b: Specialized libraries via vcpkg (custom patches, versioning)
+# ──────────────────────────────────────────────────────────────────────────
+# vcpkg is retained for libraries that require:
+# - Custom patches (rocksdb)
+# - Specific version pinning
+# - Build-flag customization
+# - Less commonly available in Ubuntu repos (simdjson, tl-expected)
 
 # Copy vcpkg manifests
 COPY docker/vcpkg-minimal.json docker/vcpkg-community.json \
@@ -109,7 +147,7 @@ COPY vcpkg-configuration.json ./
 RUN mkdir -p /build/ports
 COPY ports ./ports
 
-# Install dependencies (with cache mounts for downloads/packages)
+# Install only specialized vcpkg dependencies (reduced from ~30 to ~5-8 libs)
 RUN --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked \
     --mount=type=cache,target=/opt/vcpkg/packages,sharing=locked \
     set -eux; \
@@ -126,23 +164,19 @@ RUN --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked \
     mkdir -p /build/vcpkg_installed; \
     mkdir -p /build/ports; \
     find /opt/vcpkg/downloads -name '*.part' -delete || true; \
-    # PATCH: Modify boost-context portfile to build release-only (Debug fails in container)
-    if [ -f "${VCPKG_ROOT}/ports/boost-context/portfile.cmake" ]; then \
-        # Add early return for boost-context to skip Debug build attempt
-        sed -i '1i # Docker container patch: skip Debug build\\nif(VCPKG_BUILD_TYPE STREQUAL \"release\")\\n  set(VCPKG_BUILD_TYPE \"release\")\\nendif()' \
-            "${VCPKG_ROOT}/ports/boost-context/portfile.cmake"; \
-    fi; \
-    echo "Installing packages for ${TRIPLET} with aria2..."; \
+    echo "Installing specialized vcpkg packages for ${TRIPLET}..."; \
     ${VCPKG_ROOT}/vcpkg install \
         --triplet="${TRIPLET}" \
         --x-manifest-root=/build \
         --x-install-root=/build/vcpkg_installed \
         --allow-unsupported \
         --clean-after-build; \
-    test -d "/build/vcpkg_installed/${TRIPLET}/lib"; \
-    find "/build/vcpkg_installed/${TRIPLET}/lib" -maxdepth 1 \( -name 'libspdlog*' -o -name 'spdlog*' \) | head -20; \
-    ls -la /build/vcpkg_installed/lib/ || echo "WARNING: No lib dir"; \
-    find /build/vcpkg_installed -name "*openssl*" -o -name "*curl*" | head -20
+    if ! test -d "/build/vcpkg_installed/${TRIPLET}/lib"; then \
+        echo "ERROR: vcpkg install did not produce expected lib directory at /build/vcpkg_installed/${TRIPLET}/lib"; \
+        exit 1; \
+    fi; \
+    ls -la /build/vcpkg_installed/${TRIPLET}/lib/ | head -20 || echo "INFO: vcpkg lib dir listing failed"; \
+    echo "Hybrid dependency installation complete (apt + vcpkg)"
 
 # ============================================================================
 # Stage 3: llama - Build llama.cpp (optional, for LLM support)
