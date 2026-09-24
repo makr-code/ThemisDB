@@ -6,14 +6,14 @@
 #include <chrono>
 #include <cstdint>
 #include <map>
+#include <memory>
 #include <optional>
 #include <string>
 #include <vector>
 
-namespace themis::rag {
+#include "rag/common_types.h"
 
-// Forward declarations
-struct Document;
+namespace themis::rag {
 
 /// @brief Orchestrates batch cross-encoder re-ranking with efficiency optimization.
 ///

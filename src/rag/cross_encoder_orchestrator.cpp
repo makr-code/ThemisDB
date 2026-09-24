@@ -1,7 +1,7 @@
 // Copyright ThemisDB Contributors
 // SPDX-License-Identifier: Apache-2.0
 
-#include "cross_encoder_orchestrator.h"
+#include "rag/cross_encoder_orchestrator.h"
 
 #include <algorithm>
 #include <chrono>

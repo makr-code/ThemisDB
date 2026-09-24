@@ -1,7 +1,7 @@
 // Copyright ThemisDB Contributors
 // SPDX-License-Identifier: Apache-2.0
 
-#include "reranker_budget_gate.h"
+#include "rag/reranker_budget_gate.h"
 
 #include <algorithm>
 #include <cmath>

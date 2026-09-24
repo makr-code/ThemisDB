@@ -1,7 +1,7 @@
 // Copyright ThemisDB Contributors
 // SPDX-License-Identifier: Apache-2.0
 
-#include "adaptive_hybrid_router.h"
+#include "rag/adaptive_hybrid_router.h"
 
 #include <algorithm>
 #include <cmath>

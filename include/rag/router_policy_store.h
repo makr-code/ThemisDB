@@ -6,31 +6,22 @@
 #include <chrono>
 #include <cstdint>
 #include <map>
+#include <memory>
 #include <optional>
 #include <string>
 #include <vector>
 
-#include "query_intent_classifier.h"
-#include "rocksdb/db.h"
+#include "rag/query_intent_classifier.h"
 
 namespace themis::rag {
 
-/// @brief Persistent, versioned routing policy store backed by RocksDB.
+/// @brief Persistent, versioned routing policy store backed by in-memory storage.
 ///
 /// Stores adaptive routing policies (weight allocations) per intent with
 /// version management, history tracking, and rollback capability.
-///
-/// @details
-/// Schema (RocksDB column families):
-/// - default CF: active policies and metrics
-///   - "active_policy_version" → uint32 (current version number)
-///   - "policy:{intent}:{version}" → PolicySpec JSON
-///   - "policy_metrics:{intent}:{version}" → MetricsSnapshot JSON
-/// - policy_history CF: version history with big-endian timestamps
-///   - be64(timestamp_us) → HistoryEntry JSON
-///
-/// All writes are atomic per intent (transaction isolation).
-/// History is append-only and immutable.
+/// 
+/// NOTE: This is a placeholder implementation using in-memory storage.
+/// Production version would use RocksDB for persistence and atomic updates.
 class RouterPolicyStore {
  public:
   /// @brief Routing policy specification.
@@ -164,8 +155,12 @@ class RouterPolicyStore {
   bool IsHealthy() const;
 
  private:
-  rocksdb::DB* db_;
+  void* db_;  // Opaque pointer to RocksDB handle (to avoid rocksdb dependency in header)
   std::string db_path_;
+
+  // In-memory storage for initial implementation
+  std::map<QueryIntentClassifier::Intent, std::vector<PolicySpec>> policy_history_;
+  std::map<QueryIntentClassifier::Intent, PolicySpec> current_policies_;
 
   // Key construction helpers
   static std::string MakePolicyKey(QueryIntentClassifier::Intent intent,

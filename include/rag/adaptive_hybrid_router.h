@@ -4,17 +4,16 @@
 #pragma once
 
 #include <cstdint>
+#include <memory>
 #include <optional>
 #include <string>
 #include <vector>
 
-#include "query_intent_classifier.h"
+#include "rag/common_types.h"
+#include "rag/query_intent_classifier.h"
+#include "rag/router_policy_store.h"
 
 namespace themis::rag {
-
-// Forward declarations
-class RouterPolicyStore;
-struct Document;
 
 /// @brief Adaptive hybrid retrieval routing based on learned per-intent weights.
 ///

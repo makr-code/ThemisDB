@@ -1,7 +1,7 @@
 // Copyright ThemisDB Contributors
 // SPDX-License-Identifier: Apache-2.0
 
-#include "reranker_cost_analyzer.h"
+#include "rag/reranker_cost_analyzer.h"
 
 #include <algorithm>
 #include <cmath>
@@ -136,7 +136,7 @@ RerankerCostAnalyzer::GetCostTrends(const std::string& tenant_id,
       continue;
     }
 
-    int64_t hour_bucket = record.timestamp_us / (3600 * 1000000);
+    int64_t hour_bucket = record.timestamp_us / (3600LL * 1000000LL);
     hourly_records[hour_bucket].push_back(record);
   }
 
@@ -260,7 +260,7 @@ void RerankerCostAnalyzer::AggregateHourly() {
   std::map<int64_t, std::vector<CostRecord>> hourly_groups;
 
   for (const auto& record : records_) {
-    int64_t hour_bucket = record.timestamp_us / (3600 * 1000000);
+    int64_t hour_bucket = record.timestamp_us / (3600LL * 1000000LL);
     hourly_groups[hour_bucket].push_back(record);
   }
 

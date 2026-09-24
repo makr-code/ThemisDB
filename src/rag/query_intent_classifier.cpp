@@ -1,7 +1,7 @@
 // Copyright ThemisDB Contributors
 // SPDX-License-Identifier: Apache-2.0
 
-#include "query_intent_classifier.h"
+#include "rag/query_intent_classifier.h"
 
 #include <algorithm>
 #include <cmath>
