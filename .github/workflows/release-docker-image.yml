@@ -309,9 +309,8 @@ jobs:
           echo "Fetching llama.cpp at pinned revision ${LLAMA_CPP_GIT_TAG}"
           rm -rf llama.cpp
           if [[ "${LLAMA_CPP_GIT_TAG}" =~ ^[0-9a-fA-F]{40}$ ]]; then
-            # Use --depth 1 with blob filter for faster SHA-based checkouts
-            git clone --filter=blob:none --depth 1 https://github.com/ggerganov/llama.cpp.git llama.cpp 2>/dev/null || \
-            git clone --filter=blob:none https://github.com/ggerganov/llama.cpp.git llama.cpp
+            # For commit SHA: clone without depth to ensure commit is available, then fetch with blob filter
+            git clone --filter=blob:none --no-checkout https://github.com/ggerganov/llama.cpp.git llama.cpp
             git -C llama.cpp checkout "${LLAMA_CPP_GIT_TAG}"
             ACTUAL_LLAMA_CPP_COMMIT="$(git -C llama.cpp rev-parse HEAD)"
             if [[ ! "${ACTUAL_LLAMA_CPP_COMMIT}" == "${LLAMA_CPP_GIT_TAG}"* ]]; then
@@ -319,6 +318,7 @@ jobs:
               exit 1
             fi
           else
+            # For tag-based: use shallow clone for speed
             git clone --depth 1 --branch "${LLAMA_CPP_GIT_TAG}" https://github.com/ggerganov/llama.cpp.git llama.cpp
             ACTUAL_LLAMA_CPP_TAG="$(git -C llama.cpp describe --tags --exact-match HEAD 2>/dev/null || true)"
             if [ "${ACTUAL_LLAMA_CPP_TAG}" != "${LLAMA_CPP_GIT_TAG}" ]; then
@@ -364,9 +364,10 @@ jobs:
         
         echo "is_release=${IS_RELEASE}" >> "${GITHUB_OUTPUT}"
         
-        # Detect base image tag for cache invalidation
+        # Sanitize base image tag for use in GHA cache scope (replace : with -)
         BASE_IMAGE="ubuntu:24.04"
-        echo "base_image=${BASE_IMAGE}" >> "${GITHUB_OUTPUT}"
+        BASE_IMAGE_SAFE="${BASE_IMAGE//:/-}"
+        echo "base_image=${BASE_IMAGE_SAFE}" >> "${GITHUB_OUTPUT}"
 
     - name: Build and push Docker image
       id: build
@@ -395,10 +396,12 @@ jobs:
         # Stable scope maximizes cross-run reuse; branch scope accelerates rapid iteration.
         # Enhanced cache strategy with BASE_IMAGE tag for automatic invalidation.
         cache-from: |
-          type=gha,scope=themisdb-docker-unified-${{ steps.release-context.outputs.base_image }}-sha
+          type=gha,scope=themisdb-docker-unified-${{ steps.release-context.outputs.base_image }}-base
           type=gha,scope=themisdb-docker-unified
           type=gha,scope=themisdb-docker-unified-${{ github.ref_name || 'detached' }}
-        cache-to: type=gha,mode=max,scope=themisdb-docker-unified
+        cache-to: |
+          type=gha,mode=max,scope=themisdb-docker-unified-${{ steps.release-context.outputs.base_image }}-base
+          type=gha,mode=max,scope=themisdb-docker-unified
         # Only generate SBOM and provenance for release builds to save ~5-10 min in non-release runs.
         provenance: ${{ steps.release-context.outputs.is_release == 'true' }}
         sbom: ${{ steps.release-context.outputs.is_release == 'true' }}
