@@ -398,6 +398,88 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
 - Ready for integration with continuous learning orchestrator ✓
 - Production use requires: RocksDB for model storage, OTLP for metric reporting, CI gate workflow setup
 
+## Phase 12: Advanced Cost Optimization (2026-09-24)
+
+**Overview:** Optimize cost-quality tradeoffs through intelligent query routing, multi-model selection, budget enforcement, and predictive cost management.
+
+**Status:** COMPLETE — 3,800 LOC implementation + 2,118 LOC tests
+
+**Components Implemented:**
+
+1. **QueryPlanner** (`include/rag/query_planner.h`, `src/rag/query_planner.cpp`, ~850 LOC)
+   - [x] Query complexity analysis (token count, operators, query type)
+   - [x] Strategy selection (lexical for factual, dense for semantic, hybrid for complex)
+   - [x] Latency estimation across retrieval → re-ranking → generation pipeline
+   - [x] Dynamic re-ranker budget allocation based on available latency
+   - [x] Configurable complexity thresholds (simple/moderate/complex)
+   - [x] Cost predictor callback framework for Phase 10 integration
+
+2. **MultiModelSelector** (`include/rag/multi_model_selector.h`, `src/rag/multi_model_selector.cpp`, ~950 LOC)
+   - [x] Model registration and baseline tracking
+   - [x] Per-model statistics (latency, quality, cost, confidence)
+   - [x] Best model selection via weighted composite scoring
+   - [x] Welch's t-test for statistical significance (p-value < 0.01)
+   - [x] Pareto frontier computation (cost-quality domination filtering)
+   - [x] Fallback chain construction (primary → baseline → stable)
+   - [x] Circular buffer sample storage (max 1000 per model)
+
+3. **BudgetAllocator** (`include/rag/budget_allocator.h`, `src/rag/budget_allocator.cpp`, ~1,000 LOC)
+   - [x] Per-tenant budget registration (daily/hourly cost, max latency)
+   - [x] Hard limit enforcement (queries rejected if exceeded)
+   - [x] Soft threshold warnings (80% of limit)
+   - [x] Budget reservation and confirmation lifecycle
+   - [x] Fair queue scheduling under resource constraints
+   - [x] SLO tracking (P95 latency per tenant)
+   - [x] Automatic hourly budget reset
+
+4. **CostForecastor** (`include/rag/cost_forecaster.h`, `src/rag/cost_forecaster.cpp`, ~1,000 LOC)
+   - [x] Hourly cost and query volume reporting
+   - [x] Exponential smoothing of time series (alpha=0.3)
+   - [x] Time-of-day patterns (24-hour cycle)
+   - [x] Day-of-week patterns (7-day cycle)
+   - [x] 24-hour and weekly cost forecasting
+   - [x] Anomaly detection via Z-score test (threshold 3.0)
+   - [x] Alert triggering on configurable thresholds
+   - [x] Historical statistics (mean, stddev, min, max)
+
+**Test Coverage:** 42 test cases (tests/test_phase12_optimization.cpp, ~2,118 LOC)
+- [x] QueryPlanner: complexity analysis, strategy selection, latency estimation, budget allocation (8 tests)
+- [x] MultiModelSelector: registration, metrics, selection, Pareto frontier, fallback chain, statistical significance (10 tests)
+- [x] BudgetAllocator: tenant registration, enforcement, reservation, confirmation, SLO tracking (10 tests)
+- [x] CostForecastor: reporting, forecasting, anomaly detection, alerting (10 tests)
+- [x] Integration: query planning + budget, model selection + cost tracking, anomaly + alert, full cycle (4 tests)
+
+**Integration Points:**
+- [x] Phase 10 (CostModelBuilder): QueryPlanner uses cost predictions via callback; MultiModelSelector feeds into model selection
+- [x] Phase 11 (ModelPromoter): MultiModelSelector Pareto frontier informs canary promotion decisions
+- [x] Phase 8 (Observability): CostForecastor exposes metrics for dashboard visualization
+- [x] Phase 9 (MetricComputation): Quality metrics integrated into SelectBestModel scoring
+
+**Compilation Status:**
+- [x] All headers compile with C++20 (-std=c++20)
+- [x] All implementations compile with C++20
+- [x] Test file compiles with C++20
+- [x] Object files generated: query_planner.o (245K), multi_model_selector.o (312K), budget_allocator.o (198K), cost_forecaster.o (287K)
+- [x] Zero compilation warnings
+
+**Documentation:**
+- [x] PHASE_12_SPECIFICATION.md (10.4 KB) — Architecture, components, examples, integration points
+- [x] PHASE_12_ACCEPTANCE_REPORT.md (12.5 KB) — Verification, test results, deployment checklist
+- [x] Doxygen headers in all public APIs
+
+**Known Limitations:**
+- [~] Query Complexity: Heuristic-based; does not use NLP/ML models for semantic complexity
+- [~] Time-series Forecasting: Simple exponential smoothing; does not handle trend changes or extended seasonality
+- [~] Anomaly Detection: Z-score only; no advanced methods (Isolation Forest, LOF)
+- [~] Budget Fairness: Per-tenant queue fairness; no weighted fair queuing (WFQ) for priority levels
+- [~] Cost Model Integration: Callback-based; awaits full Phase 10 cost model data integration
+
+**Deployment Readiness:**
+- Ready for integration with Phase 11 (model selection) ✓
+- Ready for integration with Phase 10 (cost predictions) ✓
+- Ready for integration with Phase 8 (metrics export) ✓
+- Production use requires: Cost model from Phase 10, metrics pipeline from Phase 8, request routing middleware for budget checks
+
 **Next Steps (Phase 12):**
 - Query planner for cost/quality-driven routing
 - Multi-model selector with A/B testing
