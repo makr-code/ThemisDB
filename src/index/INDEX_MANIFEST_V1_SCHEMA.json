@@ -1,0 +1,344 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ThemisDB Index Manifest Schema v1.0",
+  "description": "Canonical schema for index version manifests in RAG systems",
+  "type": "object",
+  "required": ["manifest_version", "index_id", "current_version"],
+  "properties": {
+    "manifest_version": {
+      "type": "string",
+      "description": "Version of this manifest schema (e.g., 1.0.0)",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "index_id": {
+      "type": "string",
+      "description": "Unique identifier for this index (e.g., wiki-index-main)",
+      "minLength": 5,
+      "maxLength": 100
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC timestamp when this index was created"
+    },
+    "last_updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC timestamp of last index write or metadata update"
+    },
+    "current_version": {
+      "$ref": "#/definitions/IndexVersion",
+      "description": "Current active version of the index"
+    },
+    "version_history": {
+      "type": "array",
+      "description": "Historical version records",
+      "items": {
+        "$ref": "#/definitions/VersionHistoryEntry"
+      },
+      "minItems": 0
+    },
+    "reindex_tracking": {
+      "$ref": "#/definitions/ReindexTracking",
+      "description": "Reindex operation history and status"
+    },
+    "governance": {
+      "$ref": "#/definitions/Governance",
+      "description": "Governance and contract tracking"
+    }
+  },
+  "definitions": {
+    "IndexVersion": {
+      "type": "object",
+      "required": ["version_number", "timestamp"],
+      "properties": {
+        "version_number": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Monotonically increasing version number"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "UTC timestamp of this version"
+        },
+        "embedding_metadata": {
+          "$ref": "#/definitions/EmbeddingMetadata",
+          "description": "Embedding model and configuration"
+        },
+        "chunking_metadata": {
+          "$ref": "#/definitions/ChunkingMetadata",
+          "description": "Text chunking configuration"
+        },
+        "index_schema": {
+          "$ref": "#/definitions/IndexSchema",
+          "description": "Index structure schema (BM25, HNSW, etc.)"
+        },
+        "document_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of documents in this index version"
+        },
+        "index_size_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total size of index on disk in bytes"
+        },
+        "last_indexed_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of last write operation"
+        }
+      }
+    },
+    "EmbeddingMetadata": {
+      "type": "object",
+      "required": ["embedding_model_id", "embedding_dim"],
+      "properties": {
+        "embedding_model_id": {
+          "type": "string",
+          "description": "Unique model identifier (e.g., all-minilm-l6-v2-1.0)",
+          "pattern": "^[a-z0-9\\-\\.]+$"
+        },
+        "embedding_model_name": {
+          "type": "string",
+          "description": "Human-readable model name"
+        },
+        "embedding_model_version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+(\\.\\d+)?$",
+          "description": "Semantic version of the model"
+        },
+        "embedding_dim": {
+          "type": "integer",
+          "minimum": 32,
+          "maximum": 4096,
+          "description": "Dimensionality of embedding vectors"
+        },
+        "embedding_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{32}$",
+          "description": "SHA256 hash of model weights for integrity verification"
+        },
+        "embedding_normalized": {
+          "type": "boolean",
+          "description": "Whether embeddings are L2-normalized"
+        },
+        "embedding_provider": {
+          "type": "string",
+          "enum": ["huggingface", "openai", "anthropic", "custom"],
+          "description": "Provider of the embedding model"
+        },
+        "embedding_commit_hash": {
+          "type": "string",
+          "description": "Git commit hash of model release (for HuggingFace)"
+        }
+      }
+    },
+    "ChunkingMetadata": {
+      "type": "object",
+      "required": ["chunking_profile_id", "chunk_size_bytes"],
+      "properties": {
+        "chunking_profile_id": {
+          "type": "string",
+          "description": "Unique identifier for this chunking configuration"
+        },
+        "chunk_size_bytes": {
+          "type": "integer",
+          "minimum": 64,
+          "maximum": 8192,
+          "description": "Target size of text chunks in bytes"
+        },
+        "chunk_overlap_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Overlap between consecutive chunks"
+        },
+        "chunking_strategy": {
+          "type": "string",
+          "enum": ["sliding_window", "semantic", "sentence_aware"],
+          "description": "Strategy used for text chunking"
+        },
+        "preserve_sentence_boundaries": {
+          "type": "boolean",
+          "description": "Whether to preserve sentence boundaries"
+        },
+        "min_chunk_size": {
+          "type": "integer",
+          "minimum": 32,
+          "description": "Minimum chunk size in bytes"
+        },
+        "max_chunk_size": {
+          "type": "integer",
+          "description": "Maximum chunk size in bytes"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+(\\.\\d+)?$",
+          "description": "Version of chunking profile"
+        }
+      }
+    },
+    "IndexSchema": {
+      "type": "object",
+      "required": ["schema_version", "index_type"],
+      "properties": {
+        "schema_version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+(\\.\\d+)?$",
+          "description": "Version of index schema"
+        },
+        "index_type": {
+          "type": "string",
+          "enum": ["bm25_only", "hnsw_only", "hybrid_bm25_hnsw"],
+          "description": "Type of index structure"
+        },
+        "bm25_params": {
+          "$ref": "#/definitions/BM25Params"
+        },
+        "hnsw_params": {
+          "$ref": "#/definitions/HNSWParams"
+        },
+        "rrf_fusion_k": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Reciprocal Rank Fusion parameter k"
+        }
+      }
+    },
+    "BM25Params": {
+      "type": "object",
+      "properties": {
+        "k1": {
+          "type": "number",
+          "minimum": 0,
+          "description": "BM25 k1 parameter (term saturation)"
+        },
+        "b": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "BM25 b parameter (length normalization)"
+        },
+        "delta": {
+          "type": "number",
+          "minimum": 0,
+          "description": "BM25 delta parameter (idf slope)"
+        }
+      }
+    },
+    "HNSWParams": {
+      "type": "object",
+      "properties": {
+        "m": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 64,
+          "description": "Maximum number of connections per node"
+        },
+        "ef_construction": {
+          "type": "integer",
+          "minimum": 10,
+          "description": "ef parameter during index construction"
+        },
+        "ef_search": {
+          "type": "integer",
+          "minimum": 10,
+          "description": "ef parameter during search"
+        },
+        "metric": {
+          "type": "string",
+          "enum": ["l2", "cosine", "inner_product"],
+          "description": "Distance metric"
+        }
+      }
+    },
+    "VersionHistoryEntry": {
+      "type": "object",
+      "required": ["version_number", "timestamp"],
+      "properties": {
+        "version_number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "embedding_model_id": {
+          "type": "string"
+        },
+        "chunking_profile_id": {
+          "type": "string"
+        },
+        "schema_version": {
+          "type": "string"
+        },
+        "action": {
+          "type": "string",
+          "enum": ["incremental_update", "reindex_complete", "rollback"],
+          "description": "Type of operation"
+        },
+        "reason": {
+          "type": "string",
+          "description": "Reason for this version (e.g., embedding_model_upgrade)"
+        },
+        "documents_added": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "documents_removed": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "ReindexTracking": {
+      "type": "object",
+      "properties": {
+        "last_reindex_reason": {
+          "type": "string",
+          "description": "Reason for last reindex operation"
+        },
+        "last_reindex_start": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "last_reindex_end": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "last_reindex_status": {
+          "type": "string",
+          "enum": ["success", "failed", "in_progress"],
+          "description": "Status of last reindex operation"
+        },
+        "atomic_rollback_available": {
+          "type": "boolean",
+          "description": "Whether atomic rollback to previous version is available"
+        },
+        "previous_version_accessible": {
+          "type": "boolean",
+          "description": "Whether previous version is still accessible"
+        }
+      }
+    },
+    "Governance": {
+      "type": "object",
+      "properties": {
+        "contract_version": {
+          "type": "string",
+          "description": "Reference to governing specification document (e.g., EMBEDDING_VERSION_GOVERNANCE.md)"
+        },
+        "audit_trail_enabled": {
+          "type": "boolean",
+          "description": "Whether audit trail is enabled for this index"
+        },
+        "canary_deployments_enabled": {
+          "type": "boolean",
+          "description": "Whether canary deployment mode is enabled"
+        }
+      }
+    }
+  }
+}
