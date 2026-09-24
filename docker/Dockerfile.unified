@@ -112,7 +112,7 @@ RUN --mount=type=cache,id=apt-cache-deps-${TARGETARCH},target=/var/cache/apt,sha
 # - Custom patches (rocksdb)
 # - Specific version pinning
 # - Build-flag customization
-# - Less commonly available in Ubuntu repos (mimalloc, simdjson, tl-expected)
+# - Less commonly available in Ubuntu repos (simdjson, tl-expected)
 
 # Copy vcpkg manifests
 COPY docker/vcpkg-minimal.json docker/vcpkg-community.json \
@@ -164,15 +164,18 @@ RUN --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked \
     mkdir -p /build/vcpkg_installed; \
     mkdir -p /build/ports; \
     find /opt/vcpkg/downloads -name '*.part' -delete || true; \
-    echo "Installing specialized packages for ${TRIPLET} via vcpkg (rocksdb, grpc, simdjson, etc.)..."; \
+    echo "Installing specialized vcpkg packages for ${TRIPLET}..."; \
     ${VCPKG_ROOT}/vcpkg install \
         --triplet="${TRIPLET}" \
         --x-manifest-root=/build \
         --x-install-root=/build/vcpkg_installed \
         --allow-unsupported \
         --clean-after-build; \
-    test -d "/build/vcpkg_installed/${TRIPLET}/lib" || mkdir -p "/build/vcpkg_installed/${TRIPLET}/lib"; \
-    ls -la /build/vcpkg_installed/${TRIPLET}/lib/ | head -20 || echo "INFO: vcpkg lib dir"; \
+    if ! test -d "/build/vcpkg_installed/${TRIPLET}/lib"; then \
+        echo "ERROR: vcpkg install did not produce expected lib directory at /build/vcpkg_installed/${TRIPLET}/lib"; \
+        exit 1; \
+    fi; \
+    ls -la /build/vcpkg_installed/${TRIPLET}/lib/ | head -20 || echo "INFO: vcpkg lib dir listing failed"; \
     echo "Hybrid dependency installation complete (apt + vcpkg)"
 
 # ============================================================================

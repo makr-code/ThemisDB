@@ -14,12 +14,5 @@
     "libzip"
   ],
 
-  "comments": [
-    "Hybrid dependency strategy:",
-    "- apt-installed (Stage 2a): boost, openssl, fmt, spdlog, nlohmann-json, curl, zstd, lz4, snappy, tbb, yaml-cpp, mimalloc, pugixml, grpc, protobuf",
-    "- vcpkg-installed (Stage 2b): rocksdb (custom patches), gtest, benchmark, simdjson, tl-expected, msgpack, libzip",
-    "- Rationale: apt packages are pre-compiled and available for all platforms (amd64, arm64, etc.)",
-    "             vcpkg packages require custom version control or build flags"
-  ]
 }
 

@@ -9,10 +9,5 @@
     "simdjson",
     "tl-expected"
   ],
-  "comments": [
-    "Hybrid dependency strategy (apt + vcpkg):",
-    "- apt-installed: openssl, boost-asio, boost-beast, spdlog, nlohmann-json, curl, zstd, mimalloc",
-    "- vcpkg-installed: rocksdb (custom patches), simdjson, tl-expected"
-  ]
 }
 
