@@ -120,12 +120,22 @@ Der Zweck dieser Rollenaufteilung ist eine saubere Release-Kette:
   — Wave-B Transaction CI: build + test distributed transaction targets on push to develop; schedule/dispatch only – no PR trigger (SOC boundary)
 - `.github/workflows/build-wave-b-llm-benchmarks.yml`
   — Wave-B LLM Wiki Phase-B benchmark validation; dispatch-only; hardware-detection → data-preparation → benchmark-execution matrix
+    * Inputs: `scenario` (small_10k/medium_1m/large_10m/all)
+    * Purpose: Validate TinyLlama inference + doku.db HNSW search performance
+    * Output: Benchmark artifacts + optional issue comment
+    * Duration: 6–8 hours for full scenario
+    * Non-blocking utility workflow; no impact on releases or PR gates
 - `.github/workflows/build-content-regression.yml`
   — Content Regression (Wave D): push-triggered ctest --label-include content on develop; Sunday soak run; dispatch manual
 - `.github/workflows/build-llm-inference.yml`
   — LLM Inferencing CI lane (TinyLlama + doku.db RAG + AdaLoRA); push + schedule + dispatch
 - `.github/workflows/build-widget.yml`
   — WinGet E2E Release Path: download release assets → SHA256 checksums → 4 manifests (ManifestVersion 1.6.0) → winget validate → fork-PR to microsoft/winget-pkgs; dispatch-only (dry_run=true default)
+    * Inputs: `dry_run` (default=true; false submits real PR to microsoft/winget-pkgs)
+    * Purpose: Validate and submit ThemisDB packages to Windows Package Manager
+    * Requires: WINGET_FORK_PAT secret (for real submissions)
+    * Output: Fork PR link in workflow summary; real PR on microsoft/winget-pkgs if dry_run=false
+    * Part of release distribution chain (consumed by release-mainline.yml)
 - `.github/workflows/gate-distributed-knowledge.yml`
   — Module validation gate for distributed_knowledge; push + PR + dispatch
 - `.github/workflows/gate-pr-community-failclosed.yml`
@@ -148,6 +158,11 @@ Der Zweck dieser Rollenaufteilung ist eine saubere Release-Kette:
   — Build error issue tracking; workflow_run + schedule + dispatch
 - `.github/workflows/maintenance-pr-failure-diagnosis.yml`
   — PR failure diagnosis (recommend-only, non-destructive); workflow_run + dispatch
+    * Purpose: Analyze failed PR workflow runs and provide diagnostic comments
+    * Behavior: NEVER mutates code/labels/issues; ONLY posts diagnostic PR comments
+    * Trigger: Automatic on failed build-mainline runs + manual workflow_dispatch
+    * Output: Human-readable failure diagnostics as PR comment
+    * Safety: Non-blocking; designed to assist maintainers, not enforce policy
 - `.github/workflows/maintenance-workflow-guardrails-observe.yml`
   — Workflow boundary guard observation; PR + schedule + dispatch
 - `.github/workflows/release-build-matrix.yml`
@@ -158,6 +173,12 @@ Der Zweck dieser Rollenaufteilung ist eine saubere Release-Kette:
   — Semi-automatic stable/rc/alpha release triggering via PR labels or dispatch
 - `.github/workflows/release-rollback.yml`
   — Manual release rollback (delete artifacts, revert version); dispatch-only
+    * ⚠️ CRITICAL: Requires explicit manual trigger; no automatic rollbacks
+    * Inputs: `version` to rollback; optional flags for artifact deletion + PR creation
+    * Purpose: Emergency release artifact cleanup and version revert
+    * Actions: Delete GitHub Release, revert VERSION/RELEASE_TYPE, delete Docker tags, create rollback PR
+    * Safety: Dispatch-only to prevent accidental invocation; audit trail via workflow logs
+    * Used for: Emergency release fixes or broken release recovery
 - `.github/workflows/release-winget.yml`
   — Automated WinGet community package submission after stable release; release-event consumer plus workflow_call/dispatch for explicit maintainer runs
 - `.github/workflows/release-windows-distribution.yml`
@@ -168,6 +189,30 @@ Der Zweck dieser Rollenaufteilung ist eine saubere Release-Kette:
   — Reusable: status flags and issue/PR comment/label interface; workflow_call only
 - `.github/workflows/security-fuzzing.yml`
   — Fuzz testing (libFuzzer targets: aql_parser, gguf_loader, grammar, …); schedule Sunday + dispatch
+
+### Approval & Synchronization Workflows (Extended)
+- `.github/workflows/release-mainline-approval.yml`
+  — GitHub Release approval & sign-off gate for promoted releases; maintainer-gated manual trigger
+- `.github/workflows/release-docker-approval.yml`
+  — Docker container image build approval gate; human-gated workflow_dispatch before docker push
+- `.github/workflows/release-windows-distro-approval.yml`
+  — Windows distribution (Scoop/Chocolatey) approval gate; maintainer confirmation before package submission
+- `.github/workflows/release-linux-distro-approval.yml`
+  — Linux distribution (DEB/RPM/apt) approval gate; maintainer confirmation before distro metadata publish
+- `.github/workflows/release-winget-approval.yml`
+  — WinGet community package approval gate; human-gated before fork-PR submission to microsoft/winget-pkgs
+- `.github/workflows/maintenance-compendium-sync.yml`
+  — Weekly compendium/knowledge-base synchronization; scans repository structure + metadata, updates cross-index references; schedule Monday
+- `.github/workflows/wiki-publish-from-issue.yml`
+  — Wiki publication approval + automation; triggered from issue comments or manual dispatch; routes to publish-wiki.yml via workflow_call with approval state
+- `.github/workflows/release-wordpress-press.yml`
+  — Press release / announcement generator and publisher; dispatch-only + release event consumer
+    * Purpose: Automated press release / blog announcement generation and WordPress REST API publication
+    * Triggers: Manual `workflow_dispatch` + automatic on GitHub `release` published events
+    * Inputs: Release version; optional press release template/customizations
+    * Output: Markdown announcement generated → pushed to WordPress blog via REST API
+    * Integration: Part of release distribution chain for communications/marketing
+    * Non-blocking utility; no impact on package/artifact generation
 
 ## Governance fuer neue Workflows
 Neue Workflow-Dateien sind nur erlaubt, wenn mindestens einer der Punkte zutrifft:
@@ -219,7 +264,7 @@ Geplante Dateinamen-Harmonisierung (Soll-Format aus Workflow-Design):
 - `.github/docs/WORKFLOW_FILENAME_RENAME_MATRIX.md`
 
 ## Stand
-- Aktive Workflows im Verzeichnis `.github/workflows/`: 56
+- Aktive Workflows im Verzeichnis `.github/workflows/`: 73
 - Deaktivierte Workflows in `.github/no_workflows/`: 31
 - Strategie: Lean + harte Triggergrenzen + Quarantaene fuer uebertriggernde CI
 - Der 21er-Zähler war im vorherigen Dokumentationsstand veraltet; der aktuelle Stand wird durch die kanonische Liste in diesem Registry-Dokument und die zugehörigen Workflow-Dateien definiert.
