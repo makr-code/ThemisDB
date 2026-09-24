@@ -27,6 +27,13 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
   - **Build**: standalone g++ -std=c++20, commit f94af4f0c2, 2026-08-24
   - **Run**: 15/15 tests passed (Groups A–E), suite `RagBudgetConsistencyFocusedTests`
 - [~] Benchmark and regression gate consolidation for RAG-heavy release profiles (Target: Q3 2026)
+- [~] **Phase C: RAG Evaluation Contract v1** (Target: Q4 2026)
+  - **Specification Document**: `src/rag/EVALUATION_CONTRACT_V1.md` (2026-09-24 CREATED)
+  - **Baseline Metrics Registry**: `benchmarks/rag/data/baselines_v1.json` with 4 datasets and acceptance criteria
+  - **Acceptance Report Template**: `src/rag/RAG_EVAL_ACCEPTANCE_REPORT_TEMPLATE.md` (2026-09-24 CREATED)
+  - **Metrics Defined**: Recall@10, nDCG@10, MRR@10, Faithfulness, Relevance, p95/p99 latency, cost/query
+  - **Datasets**: Wikipedia RAG 2K, Code RAG 1K, MultiHop QA 500, CrossLingual IR 500
+  - **Release Gate**: All `release_critical` RAG runs must produce complete metric sets; regression blocks promotion
 
 ## Planned Features
 
