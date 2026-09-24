@@ -211,8 +211,25 @@ private:
      * @return Return value.
      */
     static std::string scalar_to_cypher_literal(const Scalar& scalar);
+
+#ifdef THEMIS_CHIMERA_NEO4J
+    /**
+     * @brief Convert neo4j::Value to Scalar.
+     * @param[in] val Input neo4j value.
+     * @return Converted Scalar value.
+     */
+    static Scalar convert_neo4j_value_to_scalar(const neo4j::Value& val);
+
+    /**
+     * @brief Extract graph path from neo4j value.
+     * @param[in] path_val Input neo4j path value.
+     * @param[out] path Output graph path.
+     */
+    static void extract_path_from_neo4j_value(const neo4j::Value& path_val, GraphPath& path);
+
+    // Neo4j driver instance
+    std::unique_ptr<neo4j::Driver> driver_;
+#endif
 };
 
 } // namespace chimera
-
-#endif // CHIMERA_NEO4J_ADAPTER_HPP

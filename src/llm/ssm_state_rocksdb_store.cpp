@@ -292,33 +292,55 @@ std::string SSMStateRocksDBStore::makeSSMStateKey(
  * @brief Serialize Snapshot.
  * @param[in] snapshot Input parameter.
  * @return Return value.
- * @details Calls: push_back(), physical(), logical(), std::setw(), std::setfill(), str(), dump(), append().
+ * @details Binary serialization format: version(1) | physical(8) | logical(8) | fingerprint_size(4) | fingerprint | seq_counter(8) | data_size(4) | data
  */
 std::string SSMStateRocksDBStore::serializeSnapshot(
     const SSMStateSnapshot& snapshot) {
     
-    // Format: [version:1][data...]
+    // Format: [version:1][physical:8][logical:8][fp_len:4][fingerprint][seq:8][data_len:4][data...]
     std::string result = {};
-    result.push_back(1);  // Version 1
-
-    // Serialize snapshot to JSON and then to binary
-    // TODO(tracked): Migrate to binary/protobuf serialization — see src/llm/ROADMAP.md
-    nlohmann::json j;
-    j["snapshot_ts_physical"] = snapshot.snapshot_ts.physical();
-    j["snapshot_ts_logical"] = snapshot.snapshot_ts.logical();
-    j["state_fingerprint"] = snapshot.state_fingerprint;
-    j["sequence_counter"] = snapshot.sequence_counter;
-
-    // Serialize binary state as hex string
-    std::ostringstream hex = {};
-    for (auto b : snapshot.state_data) {
-        hex << std::hex << std::setw(2) << std::setfill('0') << (static_cast<int>(b) & 0xFF);
+    result.push_back(2);  // Version 2 (binary format)
+    
+    // Serialize HLC timestamp (physical + logical components)
+    uint64_t physical = snapshot.snapshot_ts.physical();
+    uint64_t logical = snapshot.snapshot_ts.logical();
+    
+    // Add physical timestamp (8 bytes, big-endian)
+    for (int i = 7; i >= 0; --i) {
+        result.push_back(static_cast<char>((physical >> (i * 8)) & 0xFF));
     }
-    j["state_data_hex"] = hex.str();
-
-    std::string state_json = j.dump();
-    result.append(state_json);
-
+    
+    // Add logical timestamp (8 bytes, big-endian)
+    for (int i = 7; i >= 0; --i) {
+        result.push_back(static_cast<char>((logical >> (i * 8)) & 0xFF));
+    }
+    
+    // Add fingerprint length (4 bytes, big-endian)
+    uint32_t fp_len = snapshot.state_fingerprint.size();
+    for (int i = 3; i >= 0; --i) {
+        result.push_back(static_cast<char>((fp_len >> (i * 8)) & 0xFF));
+    }
+    
+    // Add fingerprint data
+    result.append(snapshot.state_fingerprint);
+    
+    // Add sequence counter (8 bytes, big-endian)
+    uint64_t seq_counter = snapshot.sequence_counter;
+    for (int i = 7; i >= 0; --i) {
+        result.push_back(static_cast<char>((seq_counter >> (i * 8)) & 0xFF));
+    }
+    
+    // Add state data length (4 bytes, big-endian)
+    uint32_t data_len = snapshot.state_data.size();
+    for (int i = 3; i >= 0; --i) {
+        result.push_back(static_cast<char>((data_len >> (i * 8)) & 0xFF));
+    }
+    
+    // Add state data
+    for (auto b : snapshot.state_data) {
+        result.push_back(static_cast<char>(b));
+    }
+    
     return result;
 }
 
@@ -326,7 +348,7 @@ std::string SSMStateRocksDBStore::serializeSnapshot(
  * @brief Deserialize Snapshot.
  * @param[in] data Input parameter.
  * @return Return value.
- * @details Calls: empty(), nlohmann::json::parse(), substr(), HLCTimestamp::from(), value(), std::string(), clear(), reserve().
+ * @details Supports both version 1 (JSON, legacy) and version 2 (binary, current).
  */
 std::optional<SSMStateSnapshot> SSMStateRocksDBStore::deserializeSnapshot(
     const std::string& data) {
@@ -338,30 +360,95 @@ std::optional<SSMStateSnapshot> SSMStateRocksDBStore::deserializeSnapshot(
     try {
         // Version check
         uint8_t version = static_cast<uint8_t>(data[0]);
-        if (version != 1) {
-            return std::nullopt;
+        
+        if (version == 1) {
+            // Legacy JSON format (for backward compatibility)
+            nlohmann::json j = nlohmann::json::parse(data.substr(1));
+
+            SSMStateSnapshot snapshot;
+            int64_t physical = j["snapshot_ts_physical"].get<int64_t>();
+            int64_t logical = j["snapshot_ts_logical"].get<int64_t>();
+            snapshot.snapshot_ts = HLCTimestamp::from(static_cast<uint64_t>(physical), static_cast<uint32_t>(logical));
+            snapshot.state_fingerprint = j.value("state_fingerprint", std::string());
+            snapshot.sequence_counter = j.value("sequence_counter", 0);
+            std::string hex = j.value("state_data_hex", std::string());
+            snapshot.state_data.clear();
+            snapshot.state_data.reserve(hex.size() / 2);
+            for (size_t i = 0; i + 1 < hex.size(); i += 2) {
+                unsigned int byte = 0;
+                std::istringstream iss(hex.substr(i,2));
+                iss >> std::hex >> byte;
+                snapshot.state_data.push_back(static_cast<uint8_t>(byte));
+            }
+            return snapshot;
+        } else if (version == 2) {
+            // Binary format (current)
+            if (data.size() < 1 + 8 + 8 + 4 + 8 + 4) {
+                return std::nullopt;  // Not enough data for header
+            }
+            
+            SSMStateSnapshot snapshot;
+            size_t offset = 1;  // Skip version byte
+            
+            // Parse physical timestamp (8 bytes, big-endian)
+            uint64_t physical = 0;
+            for (int i = 0; i < 8; ++i) {
+                physical = (physical << 8) | static_cast<uint8_t>(data[offset++]);
+            }
+            
+            // Parse logical timestamp (8 bytes, big-endian)
+            uint64_t logical = 0;
+            for (int i = 0; i < 8; ++i) {
+                logical = (logical << 8) | static_cast<uint8_t>(data[offset++]);
+            }
+            snapshot.snapshot_ts = HLCTimestamp::from(physical, static_cast<uint32_t>(logical));
+            
+            // Parse fingerprint length (4 bytes, big-endian)
+            uint32_t fp_len = 0;
+            for (int i = 0; i < 4; ++i) {
+                fp_len = (fp_len << 8) | static_cast<uint8_t>(data[offset++]);
+            }
+            
+            // Parse fingerprint data
+            if (offset + fp_len > data.size()) {
+                return std::nullopt;
+            }
+            snapshot.state_fingerprint = data.substr(offset, fp_len);
+            offset += fp_len;
+            
+            // Parse sequence counter (8 bytes, big-endian)
+            uint64_t seq_counter = 0;
+            if (offset + 8 > data.size()) {
+                return std::nullopt;
+            }
+            for (int i = 0; i < 8; ++i) {
+                seq_counter = (seq_counter << 8) | static_cast<uint8_t>(data[offset++]);
+            }
+            snapshot.sequence_counter = seq_counter;
+            
+            // Parse state data length (4 bytes, big-endian)
+            uint32_t data_len = 0;
+            if (offset + 4 > data.size()) {
+                return std::nullopt;
+            }
+            for (int i = 0; i < 4; ++i) {
+                data_len = (data_len << 8) | static_cast<uint8_t>(data[offset++]);
+            }
+            
+            // Parse state data
+            if (offset + data_len != data.size()) {
+                return std::nullopt;
+            }
+            snapshot.state_data.clear();
+            snapshot.state_data.reserve(data_len);
+            for (uint32_t i = 0; i < data_len; ++i) {
+                snapshot.state_data.push_back(static_cast<uint8_t>(data[offset + i]));
+            }
+            
+            return snapshot;
+        } else {
+            return std::nullopt;  // Unsupported version
         }
-
-        // Parse JSON (skip version byte)
-        nlohmann::json j = nlohmann::json::parse(data.substr(1));
-
-        SSMStateSnapshot snapshot;
-        int64_t physical = j["snapshot_ts_physical"].get<int64_t>();
-        int64_t logical = j["snapshot_ts_logical"].get<int64_t>();
-        snapshot.snapshot_ts = HLCTimestamp::from(static_cast<uint64_t>(physical), static_cast<uint32_t>(logical));
-        snapshot.state_fingerprint = j.value("state_fingerprint", std::string());
-        snapshot.sequence_counter = j.value("sequence_counter", 0);
-        std::string hex = j.value("state_data_hex", std::string());
-        snapshot.state_data.clear();
-        snapshot.state_data.reserve(hex.size() / 2);
-        for (size_t i = 0; i + 1 < hex.size(); i += 2) {
-            unsigned int byte = 0;
-            std::istringstream iss(hex.substr(i,2));
-            iss >> std::hex >> byte;
-            snapshot.state_data.push_back(static_cast<uint8_t>(byte));
-        }
-
-        return snapshot;
     } catch (...) {
         return std::nullopt;
     }

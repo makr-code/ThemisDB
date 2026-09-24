@@ -36,13 +36,15 @@ TimeSeriesApiHandler::TimeSeriesApiHandler(
     , agg_manager_(std::move(agg_manager))
     , auth_(std::move(auth))
 {
-    // TODO(W9-5): Wire setAggregatesProvider() after construction so that
-    // handleAggregatesGet() returns live aggregate names instead of the
-    // built-in fallback {min,max,avg,sum,count}.  The DI root that calls
-    // this constructor should call:
-    //   handler->setAggregatesProvider([engine]{ return engine->listAggregates(); });
-    // where `engine` is an injected ContinuousAggMaterializationEngine.
-    // See handleAggregatesGet() and AggregatesFn in timeseries_api_handler.h.
+    // Wire setAggregatesProvider() after construction (Wave 9-5 requirement)
+    // This allows handleAggregatesGet() to return live aggregate names from the
+    // ContinuousAggregateManager instead of the built-in fallback {min,max,avg,sum,count}
+    if (agg_manager_) {
+        // Capture agg_manager_ in lambda to provide live aggregates listing
+        aggregates_fn_ = [agg_mgr = agg_manager_]() {
+            return agg_mgr->listAggregates();
+        };
+    }
 }
 
 /**

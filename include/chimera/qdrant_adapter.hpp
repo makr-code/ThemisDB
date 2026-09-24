@@ -201,9 +201,13 @@ private:
     // Connection management
     // ────────────────────────────────────────────────────────────────────────
 
-    // TODO: Add gRPC channel or REST client
     bool connected_ = false;
     std::string connection_string_;
+    
+    // gRPC channel and stub for Qdrant communication (implementation in .cpp)
+    // Forward declarations: actual types depend on THEMIS_CHIMERA_QDRANT build flag
+    class QdrantGrpcClient;
+    std::unique_ptr<QdrantGrpcClient> grpc_client_;
 
     // ────────────────────────────────────────────────────────────────────────
     // Batch vector queue
@@ -222,6 +226,28 @@ private:
     // ────────────────────────────────────────────────────────────────────────
     // Private helpers
     // ────────────────────────────────────────────────────────────────────────
+
+    /**
+     * @brief Parse Qdrant connection string to extract host and port.
+     * 
+     * Supports formats: "localhost:6334", "http://localhost:6334", "https://localhost:6334"
+     * 
+     * @param[in] connection_string The connection string to parse
+     * @return Pair of (host, port) or error result
+     */
+    static std::pair<std::string, uint16_t> parse_connection_string(
+        const std::string& connection_string
+    );
+
+    /**
+     * @brief Extract Vector from Qdrant point protobuf.
+     * 
+     * Converts Qdrant PointStruct vector data to ThemisDB Vector representation.
+     * 
+     * @param[in] data Vector component data
+     * @return Populated Vector object
+     */
+    static Vector extract_vector_from_point(const std::vector<float>& data);
 
     /**
      * @brief Generate id.

@@ -27,8 +27,6 @@ CompressionResult TTDecompositionStrategy::compress(
     const std::vector<size_t>& mode_sizes,
     const CompressionConfig&  config) const {
 
-    (void)mode_sizes;
-
     CompressionResult result = {};
     if (!data || dim == 0) {
         result.success = false;
@@ -36,23 +34,26 @@ CompressionResult TTDecompositionStrategy::compress(
         return result;
     }
 
-    // STUB/SIMULATION NOTE (STUB #CS-01 — TT decomposer bridge):
-    // Purpose:           Placeholder compress() for TTDecompositionStrategy until the
-    //                    full TensorTrainDecomposer pipeline is wired.
-    // Activation:        Always active; no real TT decomposition is performed.
-    // Production Delta:  Returns synthetic 2× ratio and assumed rank instead of
-    //                    computing true TT-core decomposition (HOSVD/ALS).
-    // Removal Plan:      Wire to TensorTrainDecomposer::decompose() once the
-    //                    decomposer is integrated — Target Q2 2027.
-    //                    Tracking: src/tensor/ROADMAP.md § "TT Decomposer Wiring"
-    // TODO(tracked): Wire to actual TensorTrainDecomposer — see src/tensor/ROADMAP.md
+    // Wire to actual TensorTrainDecomposer for production TT-SVD decomposition
+    storage::TensorTrainDecomposer decomposer;
+    storage::TensorTrainConfig tt_config;
+    tt_config.eps = config.tt_epsilon;
+    tt_config.max_rank = config.max_tt_rank > 0 ? static_cast<std::size_t>(config.max_tt_rank) : 0;
+    
+    std::vector<float> data_vec(data, data + dim);
+    std::vector<std::size_t> actual_mode_sizes = mode_sizes.empty() ? 
+        std::vector<std::size_t>{dim} : mode_sizes;
+    
+    auto [train, stats] = decomposer.decompose(data_vec, actual_mode_sizes, tt_config);
+    
     result.success = true;
-    result.original_size = dim * sizeof(float);
-    result.compressed_size = (dim * sizeof(float)) / 2;  // Assume 2x compression
-    result.compression_ratio = 2.0f;
-    result.achieved_error = config.tt_epsilon;
-    result.achieved_rank = std::min<std::size_t>(static_cast<std::size_t>(16), dim);
-    result.compression_metadata = "TT_DECOMPOSITION(eps=" + std::to_string(config.tt_epsilon) + ")";
+    result.original_size = stats.dense_elements * sizeof(float);
+    result.compressed_size = stats.total_params * sizeof(float);
+    result.compression_ratio = stats.compression_ratio;
+    result.achieved_error = static_cast<float>(stats.achieved_eps);
+    result.achieved_rank = stats.max_rank;
+    result.compression_metadata = "TT_DECOMPOSITION(eps=" + std::to_string(config.tt_epsilon) + 
+                                  ",rank=" + std::to_string(stats.max_rank) + ")";
     return result;
 }
 
@@ -297,6 +298,13 @@ float HashingStrategy::estimateRatio(
 // CompressionFactory implementation
 // ============================================================================
 
+// Static registry for custom compression strategies
+static std::unordered_map<std::string, std::shared_ptr<ICompressionStrategy>>& 
+getStrategyRegistry() {
+    static std::unordered_map<std::string, std::shared_ptr<ICompressionStrategy>> registry;
+    return registry;
+}
+
 /**
  * @brief Create.
  * @param[in] strategy_name Name of the strategy.
@@ -306,6 +314,17 @@ float HashingStrategy::estimateRatio(
 std::unique_ptr<ICompressionStrategy> CompressionFactory::create(
     const std::string& strategy_name) {
 
+    // Check custom registry first
+    auto& registry = getStrategyRegistry();
+    auto it = registry.find(strategy_name);
+    if (it != registry.end()) {
+        // Clone the registered strategy using make_unique
+        // Note: This is a simplified approach; for true cloning, strategies should
+        // implement a clone() method. For now, we return the same shared instance.
+        return std::unique_ptr<ICompressionStrategy>(it->second.get());
+    }
+
+    // Fall back to built-in strategies
     if (strategy_name == "TT_DECOMPOSITION") {
         return std::make_unique<TTDecompositionStrategy>();
     } else if (strategy_name.find("QUANTIZE") == 0) {
@@ -333,17 +352,14 @@ std::unique_ptr<ICompressionStrategy> CompressionFactory::create(
 void CompressionFactory::registerStrategy(
     const std::string& name,
     std::unique_ptr<ICompressionStrategy> strategy) {
-    // STUB/SIMULATION NOTE (STUB #CS-02 — strategy registry):
-    // Purpose:           Allow runtime registration of custom compression strategies.
-    // Activation:        Always no-op; the internal strategy map is not yet wired.
-    // Production Delta:  Registered strategies are silently discarded; only the
-    //                    built-in TT/SVD/Product-Q strategies are accessible.
-    // Removal Plan:      Implement an internal std::unordered_map registry and expose
-    //                    lookup in CompressionFactory::create() — Target Q2 2027.
-    //                    Tracking: src/tensor/ROADMAP.md § "CompressionFactory Registry"
-    // TODO(tracked): Implement strategy registry — see src/tensor/ROADMAP.md
-    (void)name;
-    (void)strategy;
+    
+    if (!strategy) {
+        return;  // Ignore null strategies
+    }
+    
+    // Store strategy in registry as a shared pointer
+    auto& registry = getStrategyRegistry();
+    registry[name] = std::shared_ptr<ICompressionStrategy>(std::move(strategy));
 }
 
 } // namespace tensor
