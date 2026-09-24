@@ -4,7 +4,7 @@ name: "Build: Mainline"
 # Trigger policy: repo framework score calibration for workflow cost controls.
 # ──────────────────────────────────────────────────────────────────────────────
 # Trigger policy: push to develop only (no pull_request trigger).
-# Heavy C++ builds (up to 180 min) run post-merge, not on every PR push.
+# Heavy C++ builds (up to 360 min) run post-merge, not on every PR push.
 # PR-level feedback is provided by lightweight gate-pr-core.yml and gate-pr-*.yml.
 # Concurrency: cancel-in-progress is false to allow builds to queue rather than cancel.
 # This prevents interruption of long-running Windows vcpkg builds.

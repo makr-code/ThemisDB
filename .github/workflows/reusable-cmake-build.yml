@@ -105,7 +105,7 @@ jobs:
   build:
     name: ${{ inputs.summary_title }}
     runs-on: ${{ inputs.runs_on }}
-    timeout-minutes: 180
+    timeout-minutes: 360
     env:
       SCCACHE_GHA_ENABLED: ${{ inputs.enable_sccache_gha }}
     outputs:
