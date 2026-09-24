@@ -17,6 +17,7 @@
 | Connection/request flooding | connection limits, rate-limiting checks, timeout manager and adaptive breaker |
 | Timing side channels in token compare | constant-time compare path (`CRYPTO_memcmp`) in auth validation |
 | Transport downgrade or unsafe deployment mode | transport security preflight via `validateTransportSecurity(...)` |
+| Shell command injection via tc interface configuration | strict interface name validation (`isValidInterfaceName()`) + safe `posix_spawn()` with argv array (never shell-based `std::system()`) in `qos_manager.cpp` |
 
 ## Security Controls
 
@@ -25,6 +26,7 @@
 - Per-connection/per-IP protection paths and timeout-based cleanup.
 - Structured rejection/error responses for invalid payloads and unauthorized access.
 - Network-side audit/event hooks for operational security monitoring.
+- **Command Injection Prevention**: QoS manager validates interface names with whitelist-based character validation (alphanumeric, hyphen, underscore, dot; max 15 chars; no leading hyphen) and uses safe `posix_spawn()` with direct argv array (never shell metacharacter interpretation). All tc command arguments are passed as separate argv elements, preventing shell-based injection attacks.
 
 ## Known Limitations
 
@@ -41,8 +43,12 @@
   - `src/network/network_audit_log.cpp`
   - `src/network/quic_transport.cpp`
   - `src/network/grpc_transport.cpp`
+  - `src/network/qos_manager.cpp` (command injection mitigation)
 - Verified controls:
   - auth/session checks and request rejection behavior
   - startup-time transport-security guardrails
   - rate/timeout/breaker overload protections
   - security event/audit logging surfaces
+  - command injection prevention (interface name validation + safe posix_spawn)
+- Test coverage:
+  - `tests/network/test_qos_manager_command_injection.cpp` (comprehensive regression tests for command injection vulnerability)
