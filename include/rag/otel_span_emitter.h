@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <map>
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -83,12 +84,11 @@ class OTELSpanEmitter {
     /// @brief End span with error.
     void EndSpanWithError(const std::string& error_type, const std::string& message);
 
+    /// @brief Constructor.
+    Span(const std::string& span_name, std::shared_ptr<OTELSpanEmitter> emitter);
+
    private:
     friend class OTELSpanEmitter;
-
-    Span(
-        const std::string& span_name,
-        std::shared_ptr<OTELSpanEmitter> emitter);
 
     std::string span_name_;
     std::string span_id_;

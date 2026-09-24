@@ -12,9 +12,9 @@
 
 namespace themis::rag {
 
-// Forward declarations
-class CostModelBuilder;
-class GradientDescentOptimizer;
+// Forward declarations (not currently used)
+// class CostModelBuilder;
+// class GradientDescentOptimizer;
 
 /// @brief Optimization recommendations for cost reduction.
 ///
@@ -156,7 +156,6 @@ class OptimizationRecommendationEngine {
   Context context_;
   std::vector<std::map<std::string, float>> cost_data_;
   std::map<std::string, float> constraints_;
-  std::unique_ptr<CostModelBuilder> cost_model_;
 
   std::vector<Recommendation> GenerateConfigRecommendations();
   std::vector<Recommendation> GenerateRefreshRecommendations();

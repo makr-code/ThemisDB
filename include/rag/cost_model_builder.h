@@ -70,7 +70,7 @@ class CostModelBuilder {
 
     /// @brief Get model coefficients.
     /// @return Map of variable_name -> coefficient.
-    std::map<std::string, float> GetCoefficients();
+    std::map<std::string, float> GetCoefficients() const;
 
     /// @brief Evaluate on test data.
     /// @param test_data Test data points.
