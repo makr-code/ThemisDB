@@ -1,10 +1,17 @@
+---
+Author: platform-release@themisdb
+Created: 2026-07-20
+Last Updated: 2026-09-23
+Status: review
+---
+
 # ThemisDB GA Promotion — Final Governance Sign-Off
 
 **Document Type:** GA Gate Closure — Final Governance and Promotion Sign-Off  
 **Scope:** v2.4.0-rc1 → v2.4.0 GA — Batch D (Final)  
 **Date Opened:** 2026-07-20  
-**Last Updated:** 2026-09-23 (synced with hardening Phase 1)  
-**Status:** 🟢 BATCH E COMPLETE — All technical gates D-1..D-10 + E-1..E-5 PASS (2026-08-07); Module Phase 5-6 closure complete; **Wave D D4-00 CI fixes shipped 2026-08-18** (libfmt-dev + benchmark CI unblocked); **Wave-B Transaction & Wave-A GPU tracker issues created 2026-09-23**; Section 9 human sign-off required for final promotion
+**Last Updated:** 2026-09-23  
+**Promotion Status:** BATCH E COMPLETE — All technical gates D-1..D-10 + E-1..E-5 PASS (2026-08-07); Module Phase 5-6 closure complete; Wave D D4-00 CI fixes shipped 2026-08-18 (libfmt-dev + benchmark CI unblocked); Wave-B Transaction & Wave-A GPU tracker issues created 2026-09-23; Section 9 human sign-off required for final promotion
 **Owner:** platform-release@themisdb
 
 ---
