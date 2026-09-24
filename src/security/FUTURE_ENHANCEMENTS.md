@@ -1,6 +1,6 @@
 > **Hinweis:** Vage Eintraege ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-09-24 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Security Module - Future Enhancements

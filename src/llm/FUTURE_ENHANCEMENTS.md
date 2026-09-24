@@ -1,6 +1,6 @@
 # LLM Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-07-19 -->
+<!-- Status: current | validated: 2026-09-24 -->
 <!-- Links: README.md · ROADMAP.md · ARCHITECTURE.md -->
 
 ## Scope

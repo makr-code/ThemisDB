@@ -1,13 +1,14 @@
 # Retrieval Module Documentation
 
-<!-- Status: PRODUCTION_CANDIDATE | Phase 1-3 complete | aligned with docs/IMPLEMENTATION_ROADMAP.md | validated: 2026-08-10 -->
+<!-- Status: PRODUCTION_CANDIDATE | Phase 1-3 complete | aligned with docs/IMPLEMENTATION_ROADMAP.md | validated: 2026-09-24 -->
 
 ## Purpose
 
 `src/retrieval` is the EPIC 1 implementation surface for the layered retrieval stack
 (ANN frontdoor → tensor mid-layer → graph validation → model/governance controls).
-The module currently provides reviewed API contracts and skeleton translation units,
-so downstream work can proceed in a controlled seven-phase delivery model.
+The module provides both production API contracts AND core implementation translation units;
+Phase 1-3 core delivery is complete, with Phase 4+ (hardening/integration) in progress 
+per the seven-phase delivery model documented in ROADMAP.md and FUTURE_ENHANCEMENTS.md.
 
 ## Development-Plan Alignment (EPIC 1)
 
@@ -26,19 +27,20 @@ so downstream work can proceed in a controlled seven-phase delivery model.
 ## Current Delivery State
 
 - Wave A complete: architecture and per-sub-issue contract docs exist under `docs/EPIC1_*.md`.
-- Wave B partial: module structure (`README.md`, `include/README.md`, `src/README.md`, `CMakeLists.txt`) is in place. Header and source files (`*.h`, `*.cc`) are out of scope for this PR and will be added in a dedicated implementation PR.
-- Wave C pending: tests/benchmarks and production behavior are tracked outside this scaffold
+- Wave B complete: module structure (`README.md`, `include/README.md`, `src/README.md`, `CMakeLists.txt`) and core translation units are in place. Phase 1-3 implementation is delivered; Phase 2 skeleton and Phase 3 error-handling are present in source files.
+- Wave C partial: tests/benchmarks and production hardening are in progress
   (`tests/epic1_retrieval/`, `benchmarks/epic1_retrieval/` per roadmap).
+- Production readiness: Phases 1-3 are source-validated (2026-08-08+ per ROADMAP.md); Phases 4-7 (tests, performance, integration) remain in Wave C/D.
 
 ## Seven-Phase Gate (module view)
 
-- [x] Phase 1: design and API contracts defined in EPIC docs and headers
-- [ ] Phase 2: skeleton translation units and factory entry points (deferred to implementation PR)
-- [ ] Phase 3: runtime error handling and edge-case behavior
-- [ ] Phase 4: contract tests and scenario coverage
-- [ ] Phase 5: performance hardening and instrumentation depth
-- [ ] Phase 6: acceptance documentation from real behavior (not scaffold intent)
-- [ ] Phase 7: integration into production build/test pipelines
+- [x] Phase 1: design and API contracts defined in EPIC docs and headers (COMPLETE 2026-06)
+- [x] Phase 2: skeleton translation units and factory entry points delivered (COMPLETE 2026-08)
+- [x] Phase 3: runtime error handling and edge-case behavior (COMPLETE 2026-09 per ROADMAP.md line 44)
+- [~] Phase 4: contract tests and scenario coverage (IN PROGRESS, target Q4 2026)
+- [ ] Phase 5: performance hardening and instrumentation depth (PLANNED Q1 2027)
+- [ ] Phase 6: acceptance documentation from real behavior (PLANNED Q1 2027)
+- [ ] Phase 7: integration into production build/test pipelines (PLANNED Q1 2027)
 
 ## Module Boundaries
 
@@ -48,9 +50,9 @@ In scope:
 - observability/governance contract points for retrieval decisions
 
 Out of scope (until later phases):
-- production retrieval algorithms and backend-specific optimizations
-- final benchmark tuning and SLO enforcement
-- rollout gating in default build targets
+- final performance tuning and SLO enforcement (Phase 5-6, target Q1 2027)
+- full integration into all default build targets (Phase 7, target Q1 2027)
+- distributed multi-shard orchestration hardening (Phase 4-5 multi-shard testing, Phase C gate per ROADMAP.md)
 
 ## Installation
 
