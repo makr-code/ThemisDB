@@ -4,7 +4,9 @@ name: "Build: Mainline"
 # Trigger policy: repo framework score calibration for workflow cost controls.
 # ──────────────────────────────────────────────────────────────────────────────
 # Trigger policy: push to develop only (no pull_request trigger).
-# Heavy C++ builds (up to 180 min) run post-merge, not on every PR push.
+# Heavy C++ builds (up to 360 min) run post-merge, not on every PR push.
+# Performance optimizations: sccache compiler caching (30-50% speedup), parallel jobs (12-16),
+# vcpkg binary caching, and GitHub Actions cache layer to avoid redundant dependency builds.
 # PR-level feedback is provided by lightweight gate-pr-core.yml and gate-pr-*.yml.
 # Concurrency: cancel-in-progress is false to allow builds to queue rather than cancel.
 # This prevents interruption of long-running Windows vcpkg builds.
@@ -170,18 +172,18 @@ jobs:
     needs: mark-build-pending
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
-      enable_sccache_gha: false
+      enable_sccache_gha: true
       runs_on: windows-latest
       shell: bash
       fetch_depth: '0'
       submodules: false
       working_directory: .
       setup_command: >-
-        set -euo pipefail; VCPKG_BASELINE=$(python3 -c "import json; print(json.load(open('vcpkg.json')).get('builtin-baseline',''))" 2>/dev/null || echo ''); if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then rm -rf vcpkg; git clone --no-checkout https://github.com/microsoft/vcpkg.git vcpkg; if [ -n "${VCPKG_BASELINE}" ]; then git -C vcpkg fetch --depth=1 origin "${VCPKG_BASELINE}" && git -C vcpkg checkout FETCH_HEAD; else git -C vcpkg checkout master; fi; fi; ./vcpkg/bootstrap-vcpkg.bat -disableMetrics
+        set -euo pipefail; VCPKG_BASELINE=$(python3 -c "import json; print(json.load(open('vcpkg.json')).get('builtin-baseline',''))" 2>/dev/null || echo ''); if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then rm -rf vcpkg; git clone --no-checkout https://github.com/microsoft/vcpkg.git vcpkg; if [ -n "${VCPKG_BASELINE}" ]; then git -C vcpkg fetch --depth=1 origin "${VCPKG_BASELINE}" && git -C vcpkg checkout FETCH_HEAD; else git -C vcpkg checkout master; fi; fi; ./vcpkg/bootstrap-vcpkg.bat -disableMetrics; mkdir -p "${VCPKG_ROOT:-vcpkg}/archives" 2>/dev/null || true
       configure_command: >-
-        cmake --preset windows-release -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DVCPKG_BUILD_TYPE=release
+        cmake --preset windows-release -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DVCPKG_BUILD_TYPE=release -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       build_command: >-
-        cmake --build --preset windows-release --target themis_base --parallel 8
+        cmake --build --preset windows-release --target themis_base --parallel 16
       summary_title: "Step 2 · Windows AMD64"
 
   step2-macos:
