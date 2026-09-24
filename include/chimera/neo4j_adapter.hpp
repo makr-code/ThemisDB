@@ -233,5 +233,3 @@ private:
 };
 
 } // namespace chimera
-
-#endif // CHIMERA_NEO4J_ADAPTER_HPP
