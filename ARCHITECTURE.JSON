@@ -985,12 +985,12 @@
     {
       "category": "governance",
       "path": "ARCHITECTURE.md",
-      "sha256_prefix": "cc095532204c475f"
+      "sha256_prefix": "f51100877cf86d7c"
     },
     {
       "category": "governance",
       "path": "ROADMAP.md",
-      "sha256_prefix": "ff88365b88af13a4"
+      "sha256_prefix": "a1c1416a142caab4"
     },
     {
       "category": "governance",
@@ -1005,7 +1005,7 @@
     {
       "category": "governance",
       "path": "RELEASE_STRATEGY.md",
-      "sha256_prefix": "80f9b3c0de685a81"
+      "sha256_prefix": "fc17c7c399a0da60"
     },
     {
       "category": "governance",
@@ -2710,7 +2710,7 @@
     {
       "category": "docs",
       "path": "docs/code_maturity_report.md",
-      "sha256_prefix": "ccfe199bd8a0b236"
+      "sha256_prefix": "edb2ed3dde65668c"
     },
     {
       "category": "docs",
@@ -3650,7 +3650,7 @@
     {
       "category": "docs",
       "path": "docs/governance/GA_PROMOTION_SIGN_OFF.md",
-      "sha256_prefix": "b4dfd6a1f74d9e6b"
+      "sha256_prefix": "f2a8a53a10f37ffe"
     },
     {
       "category": "docs",
@@ -3661,6 +3661,11 @@
       "category": "docs",
       "path": "docs/governance/GOVERNANCE_POLICIES_PHASE1.md",
       "sha256_prefix": "f74986d81f21b089"
+    },
+    {
+      "category": "docs",
+      "path": "docs/governance/GPU_SELF_HOSTED_RUNNER_REQUIREMENTS.md",
+      "sha256_prefix": "99db2566cb82fff9"
     },
     {
       "category": "docs",
@@ -3694,6 +3699,26 @@
     },
     {
       "category": "docs",
+      "path": "docs/governance/PHASE_1_INFRASTRUCTURE_DEPLOYMENT.md",
+      "sha256_prefix": "e7e16f9a6c670430"
+    },
+    {
+      "category": "docs",
+      "path": "docs/governance/PHASE_1_INFRASTRUCTURE_DEPLOYMENT_COMPLETE.md",
+      "sha256_prefix": "74babd9042f78bdc"
+    },
+    {
+      "category": "docs",
+      "path": "docs/governance/PHASE_3_BASELINE_CAPTURE.md",
+      "sha256_prefix": "288cb087f32dd821"
+    },
+    {
+      "category": "docs",
+      "path": "docs/governance/PHASE_4_SIGN_OFF_AND_CLOSURE.md",
+      "sha256_prefix": "813f2f6b99097a19"
+    },
+    {
+      "category": "docs",
       "path": "docs/governance/PHASE_CLOSURE_POLICY.md",
       "sha256_prefix": "621cd6e85bbc11b2"
     },
@@ -3724,6 +3749,11 @@
     },
     {
       "category": "docs",
+      "path": "docs/governance/PUBLISH_WORKFLOW_AUDIT_2026-09-23.md",
+      "sha256_prefix": "5539045ed9ccfa30"
+    },
+    {
+      "category": "docs",
       "path": "docs/governance/QUERY_MODULE_STATUS.md",
       "sha256_prefix": "89dea7f8e55fb1be"
     },
@@ -3731,6 +3761,11 @@
       "category": "docs",
       "path": "docs/governance/README.md",
       "sha256_prefix": "16f923896b427b76"
+    },
+    {
+      "category": "docs",
+      "path": "docs/governance/RELEASE_GOVERNANCE.md",
+      "sha256_prefix": "dcfd450c2626361d"
     },
     {
       "category": "docs",
@@ -3801,6 +3836,11 @@
       "category": "docs",
       "path": "docs/governance/WAVE_C_POLICY_GATE_EVIDENCE.md",
       "sha256_prefix": "ceeec75317e511d9"
+    },
+    {
+      "category": "docs",
+      "path": "docs/governance/WIKI_PUBLISH_TRACKING_GUIDE.md",
+      "sha256_prefix": "fe8bc525b15b9f10"
     },
     {
       "category": "docs",
@@ -7138,7 +7178,7 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-09-23T05:01:13.603023+00:00",
+  "generated_at": "2026-09-24T04:39:38.467987+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
     "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-09-21\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `bc0ab72465c851ff`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
@@ -9214,19 +9254,19 @@
   ],
   "schema_version": "1.0.0",
   "source_hashes": {
-    "ARCHITECTURE.md": "cc095532204c475f",
+    "ARCHITECTURE.md": "f51100877cf86d7c",
     "FUTURE_ENHANCEMENTS.md": "de552eeef9d1ac51",
-    "ROADMAP.md": "ff88365b88af13a4",
+    "ROADMAP.md": "a1c1416a142caab4",
     "ai_context/ARCHITECTURE_CLASSIFICATION.md": "57a7f2182a1193c8",
     "ai_context/MODULES_AND_NAMESPACES.md": "bf42dba44a39f8cb",
     "ai_context/api_contracts/": "6384de3aba1abb3b",
     "ai_context/developer_llm_wiki/": "083b2ff7936d3d6c",
     "ai_working/": "e6d5ae9172c1efa6",
-    "docs/": "6ffb73a48197aa84"
+    "docs/": "62347fae2ef8531a"
   },
   "statistics": {
     "ai_working_artifact_count": 68,
-    "documentation_source_count": 1231,
+    "documentation_source_count": 1239,
     "isolated_module_count": 30,
     "modules_with_api_contracts": 6,
     "modules_with_private_plugin": 4,
