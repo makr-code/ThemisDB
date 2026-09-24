@@ -26,6 +26,10 @@ The RAG module implements retrieval, context construction, evaluation, and guard
 | Safety and sanitization | src/rag/prompt_injection_detector.cpp, src/rag/bias_detector.cpp | PROD | ✅ |
 | Metrics and reporting | src/rag/hallucination_dashboard.cpp, src/rag/evaluation_report_exporter.cpp | PROD | ⚠️ |
 | Reliability benchmarking | src/rag/delegate_evaluator.cpp, src/rag/batch_evaluator.cpp | EVAL | ⚠️ |
+| **Phase 7: Freshness SLA** | src/rag/ingestion_latency_monitor.cpp, src/rag/staleness_aware_router.cpp, src/rag/index_refresh_scheduler.cpp, src/rag/freshness_sla_enforcer.cpp | PROD | ✅ |
+| **Phase 8: Observability SLO** | src/rag/realtime_slo_tracker.cpp, src/rag/otel_span_emitter.cpp, src/rag/cost_attribution_tracker.cpp | PROD | ✅ |
+| **Phase 9: Research Evaluation** | src/rag/benchmark_suite.cpp, src/rag/metric_computation.cpp, src/rag/evaluation_result_store.cpp | PROD | ✅ |
+| **Phase 10: Cost Optimizer** | src/rag/gradient_descent_optimizer.cpp, src/rag/cost_model_builder.cpp, src/rag/recommendation_engine.cpp | PROD | ✅ |
 
 **Legend:** PROD = Production-Ready, EVAL = Evaluation-Only, ✅ = Thread-Safe, ⚠️ = See concurrency model
 
@@ -139,6 +143,10 @@ All public APIs now have comprehensive Doxygen documentation:
 - ✅ src/rag/rag_ingestion_bridge.cpp (thread-safe, 86% maturity, fail-closed validation)
 - ✅ src/rag/prompt_injection_detector.cpp (thread-safe, safety-critical)
 - ✅ src/rag/delegate_evaluator.cpp (evaluated)
+- **Phase 7:** ✅ ingestion_latency_monitor.cpp, staleness_aware_router.cpp, index_refresh_scheduler.cpp, freshness_sla_enforcer.cpp
+- **Phase 8:** ✅ realtime_slo_tracker.cpp, otel_span_emitter.cpp, cost_attribution_tracker.cpp
+- **Phase 9:** ✅ benchmark_suite.cpp, metric_computation.cpp, evaluation_result_store.cpp
+- **Phase 10:** ✅ gradient_descent_optimizer.cpp, cost_model_builder.cpp, recommendation_engine.cpp
 
 ### References
 - **Issue Tracking:** 
@@ -149,7 +157,185 @@ All public APIs now have comprehensive Doxygen documentation:
 - **Production Checklist:** PRODUCTION_REQUIREMENTS.md (mandatory requirements + evidence)
 - **Changelog:** CHANGELOG.md (version history, phase milestones)
 
-## 10. Phase 6 Acceptance Sign-Off
+## 9.1 Phase 7-10 Subsystem Architecture
+
+### Phase 7: Freshness SLA Monitoring & Enforcement
+
+**Purpose:** Monitor index freshness (ingestion latency), enforce SLA compliance, trigger automatic refresh when needed.
+
+**Components:**
+1. **IngestionLatencyMonitor** — T-Digest percentile aggregation (p50/p75/p95/p99), shard status tracking
+   - RecordIngestionTime(shard_id, delay_ms) → updates digest
+   - GetPercentiles() → returns LatencyPercentiles struct
+   - IsCompliant(target_p95_ms) → checks p95 against target
+   - GetCriticalShards() → identifies shards exceeding threshold
+
+2. **StalenessAwareRouter** — Query routing based on index freshness
+   - RouteQuery(query, freshness) → Routes to healthy/degraded/fallback shard
+   - UpdateShardHealth(shard_id, freshness_ms) → Updates health state
+   - Confidence scoring: 1.0 (healthy) → 0.5 (degraded) → 0.0 (critical)
+
+3. **IndexRefreshScheduler** — Emergency refresh orchestration
+   - ScheduleRefresh(shard_id, priority) → Queues background refresh
+   - TriggerEmergencyRefresh(shard_id) → Immediate high-priority refresh
+   - IsRefreshRunning(shard_id) → Status check
+
+4. **FreshnessSLAEnforcer** — State machine with hysteresis
+   - State transitions: Healthy → (p95 > target) → Degraded → (p95 > critical) → Critical
+   - Recovery: Requires p95 ≤ target for 60+ seconds (hysteresis prevents flapping)
+   - UpdateCompliance(latency_percentiles) → Checks state transition
+   - IsBreach() → Current breach status
+   - GetHealthScore() → 0-1 health value
+
+**Data Flow:**
+```
+IndexUpdate Event
+    ↓
+IngestionLatencyMonitor.RecordIngestionTime()
+    ↓
+FreshnessSLAEnforcer.UpdateCompliance()
+    ↓ (if breach)
+IndexRefreshScheduler.TriggerEmergencyRefresh()
+    ↓
+StalenessAwareRouter.UpdateShardHealth()
+    ↓
+Query routed to healthy shard
+```
+
+### Phase 8: Observability & SLO Tracking
+
+**Purpose:** Track multi-metric SLO compliance in real-time, emit distributed tracing spans, attribute costs to tenants.
+
+**Components:**
+1. **RealtimeSLOTracker** — Multi-metric compliance tracking across time windows
+   - RecordQuery(query_latency, quality_score, cost) → Records query metrics
+   - IsCompliant(slo_config) → Checks compliance over (5-min, 1-hour, daily)
+   - UpdateCompliance(metric_name, window) → Updates per-metric tracking
+   - GetHealthScore() → 0-1 aggregated health
+   - Metrics: latency_p95, throughput_qps, quality_ndcg, cost_per_query
+
+2. **OTELSpanEmitter** — W3C Trace Context spans for distributed tracing
+   - StartSpan(operation) → Creates new span with trace ID propagation
+   - SetAttribute(key, value) → Sets span attributes
+   - RecordEvent(event_name) → Records span event
+   - EndSpan(status) → Ends span, marks success/error
+   - Span types: rag.query, rag.retrieve, rag.rerank, rag.refresh, rag.sla_check
+
+3. **CostAttributionTracker** — Multi-tenant cost tracking and budgeting
+   - RecordCost(tenant_id, operation, cost_ms) → Records per-tenant cost
+   - GetTenantCost(tenant_id, period) → Hourly/daily/30-day aggregates
+   - ForecastTenantCost(tenant_id, days_ahead) → Linear extrapolation
+   - IsBudgetExceeded(tenant_id, budget) → Checks 10% reserve enforcement
+   - Alert on 90% consumption for proactive budgeting
+
+**Data Flow:**
+```
+Query Request
+    ↓
+OTELSpanEmitter.StartSpan("rag.query")
+    ↓ (execute retrieval)
+RealtimeSLOTracker.RecordQuery()
+CostAttributionTracker.RecordCost()
+    ↓ (check compliance)
+OTELSpanEmitter.SetAttribute("slo.compliant", ...)
+    ↓
+OTELSpanEmitter.EndSpan("success")
+    ↓
+Response + trace context
+```
+
+### Phase 9: Research Evaluation Harness
+
+**Purpose:** Benchmark RAG systems against research datasets, compute standard IR metrics, store/compare results.
+
+**Components:**
+1. **BenchmarkSuite** — Scenario execution harness
+   - LoadDataset(path) → Loads queries + ground truth
+   - RegisterQuery(query_text, ground_truth_ids) → Adds to scenario
+   - RunQuery(retriever, query) → Executes and records results
+   - ExportResults(format="json") → Exports scenario results
+   - Supports multi-retriever comparison (A/B testing)
+
+2. **MetricComputation** — Standard IR metrics
+   - ComputeNDCG(rankings, relevances, k) → Normalized DCG@k
+   - ComputeMRR(rankings, relevant_ids, k) → Mean Reciprocal Rank@k
+   - ComputeMAP(rankings, relevant_ids, k) → Mean Average Precision@k
+   - ComputePrecision(rankings, relevant_ids, k) → Precision@k
+   - ComputeRecall(rankings, relevant_ids, k) → Recall@k
+   - ComputeAll() → Returns all metrics in one struct
+   - Supports graded relevance (TREC 0-3 scale) for NDCG
+
+3. **EvaluationResultStore** — Persistent result storage
+   - StoreResult(scenario_name, result) → Last-write-wins persistence
+   - GetResult(scenario_name) → Retrieves stored result
+   - CompareResults(scenario_name, baseline_name) → Compares metrics
+   - GetTrends(scenario_name, days) → Trend analysis over time
+   - No automatic versioning (manual scenario name tagging required)
+
+**Metrics Implemented:**
+- NDCG: `Σ(2^rel_i - 1) / log2(i+1)` normalized by ideal DCG
+- MRR: `Σ(1 / rank of first relevant doc) / |queries|`
+- MAP: `Σ(P@k where rank k is relevant) / num_relevant`
+- Precision/Recall: Standard definitions with configurable k
+
+### Phase 10: Cost Optimization Engine
+
+**Purpose:** Optimize RAG configuration parameters and routing strategies to minimize costs while maintaining quality.
+
+**Components:**
+1. **GradientDescentOptimizer** — Stochastic gradient descent with constraints
+   - Optimize(objective_fn, constraints) → SGD loop
+   - SetObjective(fn) → Sets loss function
+   - RegisterParameter(name, bounds) → Declares parameter
+   - AddConstraint(constraint) → Adds quality/latency constraint
+   - Features: Finite difference gradient estimation, learning rate decay (0.999x), convergence detection
+   - Constraint handling: Quality breach = +1000 penalty to loss
+
+2. **CostModelBuilder** — Linear/polynomial cost model fitting
+   - BuildModel(data, model_type="linear") → Trains cost model
+   - Predict(features) → Predicts cost for feature vector
+   - Evaluate(test_data) → Returns RMSE/R² metrics
+   - CrossValidationSplit(data, k=3) → 70/15/15 train/val/test split
+   - Features: L2 regularization (alpha tunable), feature importance ranking
+
+3. **RecommendationEngine** — ROI-driven optimization recommendations
+   - GenerateRecommendations(model, config, constraints) → Top-k recommendations
+   - ROI scoring: `ROI = (Impact% × Confidence) / (Effort × Risk)`
+   - 4 recommendation categories: config changes, refresh strategy, tenant routing, budget reallocation
+   - SimulateRecommendation(rec) → Estimates impact before applying
+   - GetRationale(rec) → Explains reasoning
+
+**Optimization Workflow:**
+```
+Historical RAG data
+    ↓
+CostModelBuilder.BuildModel()
+    ↓ (train cost model)
+GradientDescentOptimizer.Optimize()
+    ↓ (minimize cost subject to quality constraints)
+RecommendationEngine.GenerateRecommendations()
+    ↓ (rank by ROI: (Impact × Confidence) / (Effort × Risk))
+Recommendations sorted by ROI, returned to operator
+```
+
+### Phase 7-10 Integration Points
+
+**SLA → Routing → Cost Tracking:**
+1. Phase 7 (SLA enforcement) detects freshness degradation
+2. Phase 8 (cost tracking) records cost of SLA-triggered refreshes
+3. Phase 10 (cost optimization) recommends parameter changes to minimize refresh costs
+
+**Evaluation → Optimization:**
+1. Phase 9 (evaluation harness) computes quality metrics (NDCG, MRR) on benchmarks
+2. Phase 10 (cost optimizer) uses quality constraints to ensure optimization doesn't degrade retrieval quality
+
+**End-to-End SLO Compliance:**
+- Phase 7 monitors SLA: p95 < 5 min target
+- Phase 8 tracks SLO: 99%+ compliance over 1-hour windows
+- Phase 9 validates quality: NDCG ≥ 0.8@10 baseline
+- Phase 10 optimizes cost: Minimize cost while maintaining all above constraints
+
+## 9.2 Phase 6 Acceptance Sign-Off
 
 | Criterion | Status | Evidence |
 |---|---|---|
