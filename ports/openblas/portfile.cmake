@@ -12,11 +12,17 @@ vcpkg_from_github(
         disable-cmake-tests-when-build-testing-off.patch
 )
 
-vcpkg_replace_string(
-    "${SOURCE_PATH}/ctest/CMakeLists.txt"
-    "if (USE_OPENMP AND (\${CMAKE_Fortran_COMPILER_ID} STREQUAL GNU) AND (\${CMAKE_C_COMPILER_ID} STREQUAL Clang))"
-    "if (USE_OPENMP AND (\"\${CMAKE_Fortran_COMPILER_ID}\" STREQUAL \"GNU\") AND (\"\${CMAKE_C_COMPILER_ID}\" STREQUAL \"Clang\"))"
-)
+# Overwrite ALL CMakeLists.txt files inside ctest/, test/, and utest/ (including any
+# nested subdirectories) so that add_subdirectory() calls produce no build targets
+# even if the disable-cmake-tests-when-build-testing-off.patch guard does not apply.
+# This is belt-and-suspenders alongside -DBUILD_TESTING=OFF and the patch.
+foreach(_test_dir ctest test utest)
+    file(GLOB_RECURSE _cmake_files "${SOURCE_PATH}/${_test_dir}/CMakeLists.txt")
+    foreach(_cmake_file IN LISTS _cmake_files)
+        file(WRITE "${_cmake_file}"
+             "# Test directory disabled by vcpkg overlay (BUILD_TESTING=OFF)\n")
+    endforeach()
+endforeach()
 
 find_program(GIT NAMES git git.cmd)
 
@@ -62,6 +68,10 @@ elseif(NOT (VCPKG_TARGET_IS_WINDOWS AND NOT VCPKG_TARGET_IS_MINGW))
                 -DNOFORTRAN=ON
                 -DBU=_  # Required for all BLAS functions to append extra _ using NAME
     )
+else()
+    # Windows MSVC: no Fortran compiler available; disable Fortran routines to prevent
+    # ctest/test/utest executables from referencing unresolved Fortran symbols at link time.
+    list(APPEND OPENBLAS_EXTRA_OPTIONS -DNOFORTRAN=ON)
 endif()
 
 if (VCPKG_TARGET_IS_WINDOWS AND VCPKG_TARGET_ARCHITECTURE STREQUAL "arm64")
