@@ -84,3 +84,17 @@ This document covers forward-looking hardening and capability expansion for the 
 - Distributed optimization regressions under heterogeneous backend availability.
 - Cache consistency edge cases during rapid model/adapter lifecycle operations.
 - Operational drift between documented and deployed backend feature combinations.
+
+## RAG-Readiness Audit Backlog (2026-09-23)
+
+- [ ] Embedding- und Query-Cache Version Governance vereinheitlichen (Target: Q4 2026)
+  - Rationale: Persistente Embedding-Caches sind vorhanden, aber Lifecycle-Vertraege ueber Modellwechsel muessen fail-safe sein.
+  - Umsetzungsschritte: (1) Cache-Key um Modell-/Tokenizer-Fingerprint erweitern, (2) invalidate-on-model-change als Standard, (3) Migrationspfad fuer Legacy-Caches.
+  - Abhaengigkeiten: `src/llm/wiki_index_store.cpp`, `src/rag`, `src/index`.
+  - Messbares DoD: 0 stale-cache Treffer nach bewusstem Modellwechsel in Regressionstests; hit-rate Berichte bleiben reproduzierbar.
+
+- [ ] Optionalen Cross-Encoder Re-Ranker als budget-aware Stage integrieren (Target: Q1 2027)
+  - Rationale: Hybrid Retrieval braucht qualitaetsgetriebene, aber kostenkontrollierte zweite Ranking-Stufe.
+  - Umsetzungsschritte: (1) Re-Ranker API in inference path, (2) Aktivierung ueber query intent + budget guard, (3) telemetry fuer gain/cost ratio.
+  - Abhaengigkeiten: `src/rag`, `src/query`, `src/observability`.
+  - Messbares DoD: mindestens 80% der Re-Ranking-Aufrufe liefern messbaren Qualitätsgewinn; Kostenbudget pro Query nicht verletzt.

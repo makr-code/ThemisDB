@@ -108,3 +108,17 @@
 ### Scenario C: Performance-first lane
 - Prioritize bounded-overhead improvements for security hot paths with parity checks.
 - Promote only after benchmark and correctness gate pass.
+
+## RAG-Readiness Audit Backlog (2026-09-23)
+
+- [ ] Tenant-isolierte Retrieval Policy Enforcement fuer RAG durchgaengig absichern (Target: Q4 2026)
+  - Rationale: RAG darf keine Cross-Tenant-Dokumente vor oder waehrend Re-Ranking exponieren.
+  - Umsetzungsschritte: (1) pre-retrieval policy filter verpflichtend, (2) post-retrieval enforcement vor context assembly, (3) deny-by-default bei unvollstaendigem Policy-Kontext.
+  - Abhaengigkeiten: `src/query`, `src/rag`, `src/server`, `src/index`.
+  - Messbares DoD: 0 bestaetigte Cross-Tenant-Leaks in Security-/Integration-Gates; alle deny-Faelle auditierbar.
+
+- [ ] Prompt-/Context-Exfiltration Guardrails fuer Retrieval-Antwortpfad erweitern (Target: Q1 2027)
+  - Rationale: Prompt-Injection Schutz muss auf Retrieval-Kontext und Tool-Rueckkanal erweitert werden.
+  - Umsetzungsschritte: (1) sensitive-data classifier vor Kontextfreigabe, (2) response policy checks fuer citation payloads, (3) red-team Regression Suite.
+  - Abhaengigkeiten: `src/rag/prompt_injection_detector.cpp`, `src/llm`, `tests/security`, `tests/rag`.
+  - Messbares DoD: False-Negative-Rate bei Exfiltration-Tests <= 1%; alle geblockten Faelle mit klassifiziertem deny reason.
