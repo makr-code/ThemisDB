@@ -20,6 +20,7 @@
 
 #include "security/retrieval_policy.h"
 #include <memory>
+#include <nlohmann/json.hpp>
 #include <chrono>
 #include <map>
 

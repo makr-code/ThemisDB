@@ -25,6 +25,8 @@
 #include <map>
 #include <memory>
 #include <cstdint>
+#include <regex>
+#include <nlohmann/json.hpp>
 
 namespace themis::security {
 

@@ -51,6 +51,7 @@
 #include <cstdint>
 #include <chrono>
 #include <memory>
+#include <nlohmann/json.hpp>
 #include <optional>
 
 namespace rocksdb {
