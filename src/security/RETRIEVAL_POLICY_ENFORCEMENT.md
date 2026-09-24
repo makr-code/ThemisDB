@@ -174,16 +174,16 @@ class RetrievalPolicyEnforcer {
       const TenantRetrievalPolicy& policy,
       const std::string& tenant_id) const;
   
+  // Apply masking rules to retrieved documents
+  std::vector<Document> applyMasking(
+      const std::vector<Document>& documents,
+      const std::vector<MaskingRule>& rules) const;
+  
  private:
   // Range validation
   bool validateIndexRanges(
       const std::vector<IndexRange>& requested_ranges,
       const std::vector<IndexRange>& allowed_ranges) const;
-  
-  // Apply masking rules to retrieved documents
-  std::vector<Document> applyMasking(
-      const std::vector<Document>& documents,
-      const std::vector<MaskingRule>& rules) const;
 };
 
 // Implementation logic:
