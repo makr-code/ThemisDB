@@ -466,19 +466,19 @@ TEST_F(AccessModelE2ETest, T15_LongRunning_1000OperationsOver10sWithoutDeadlock)
     // Setup: Extended test over 10 seconds
     // Action: Emit 1000 events (promotions and demotions) over 10 seconds
     // Expected: No deadlock, all events processed, coordinator responsive
-    
+
     auto start_time = std::chrono::steady_clock::now();
-    int event_count = 0;
-    
+    std::atomic<int> event_count{0};
+
     std::vector<std::thread> threads;
     std::atomic<bool> stop_flag{false};
-    
+
     auto worker = [this, &event_count, &stop_flag]() {
         int local_count = 0;
-        while (!stop_flag && local_count < 100) {
+        while (!stop_flag.load(std::memory_order_acquire) && local_count < 100) {
             std::string key = "longrun_" + std::to_string(local_count);
-            
-            // Alternate between promotions and demotions
+
+            // Alternate between promotions and demotions.
             if (local_count % 2 == 0) {
                 coordinator_->onStorageAccess(key, TierLevel::STORAGE_COLD, 5,
                                              std::chrono::seconds(10));
@@ -486,34 +486,35 @@ TEST_F(AccessModelE2ETest, T15_LongRunning_1000OperationsOver10sWithoutDeadlock)
                 coordinator_->onCacheEvicted(key, TierLevel::L1_WORKING, 5000,
                                             2, std::chrono::seconds(30), "lru");
             }
-            
+
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
             local_count++;
         }
-        event_count += local_count;
+        event_count.fetch_add(local_count, std::memory_order_release);
     };
-    
-    // 10 threads × 100 events = 1000 total
+
+    // 10 threads × 100 events = 1000 total.
     for (int i = 0; i < 10; ++i) {
         threads.emplace_back(worker);
     }
-    
-    // Wait up to 15 seconds
+
     auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(15);
-    while (std::chrono::steady_clock::now() < deadline && 
-           event_count < 1000) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    while (std::chrono::steady_clock::now() < deadline &&
+           event_count.load(std::memory_order_acquire) < 1000) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
-    
-    stop_flag = true;
-    
+
+    stop_flag.store(true, std::memory_order_release);
+
     for (auto& t : threads) {
-        t.join();
+        if (t.joinable()) {
+            t.join();
+        }
     }
-    
+
     auto elapsed = std::chrono::steady_clock::now() - start_time;
-    
-    // Should complete within 15 seconds with no deadlock
+
+    // Should complete within 15 seconds with no deadlock.
     EXPECT_LT(elapsed, std::chrono::seconds(15));
     EXPECT_TRUE(coordinator_->isRunning());
 }

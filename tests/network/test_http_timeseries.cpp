@@ -381,8 +381,8 @@ TEST_F(HttpTimeSeriesTest, GetAggregates_ReturnsList) {
     ASSERT_TRUE(response.contains("materialized_aggregates"));
     EXPECT_TRUE(response["materialized_aggregates"].is_array());
     ASSERT_TRUE(response.contains("materialized_count"));
-    EXPECT_EQ(response["source"].get<std::string>(), "builtin");
-    EXPECT_TRUE(response["degraded_mode"].get<bool>());
+    EXPECT_EQ(response["source"].get<std::string>(), "provider");
+    EXPECT_FALSE(response["degraded_mode"].get<bool>());
 }
 
 // Test: Get retention policies

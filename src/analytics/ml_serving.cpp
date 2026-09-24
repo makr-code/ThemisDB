@@ -128,7 +128,7 @@ std::string nextMlServingOperationId() {
  * @details Calls: empty().
  */
 std::string classifyServingFailure(const MLServingResponse& response) {
-    if (!response.failure_class.empty()) {
+    if (!response.failure_class.empty() && response.failure_class != "none") {
         return response.failure_class;
     }
 

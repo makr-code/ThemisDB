@@ -50,7 +50,7 @@ std::string nextExportOperationId() {
  * @details Calls: empty(), find().
  */
 std::string classifyExportFailure(const ExportResult& result) {
-    if (!result.failure_class.empty()) {
+    if (!result.failure_class.empty() && result.failure_class != "none") {
         return result.failure_class;
     }
 

@@ -250,6 +250,19 @@ public:
      */
     static std::string derivedMetricName(const std::string& base, std::chrono::milliseconds win);
 
+    /**
+     * @brief List the aggregate functions supported by the manager.
+     *
+     * This manager represents the core aggregate computations over TSStore
+     * data points. The built-in family is the standard min/max/avg/sum/count
+     * set used by the API surface and by downstream query planning.
+     *
+     * @return Canonical aggregate names supported by the manager.
+     */
+    std::vector<std::string> listAggregates() const {
+        return {"min", "max", "avg", "sum", "count"};
+    }
+
 private:
     TSStore* store_;
 };

@@ -2622,6 +2622,9 @@ set(THEMIS_CORE_SOURCES
     ../src/temporal/temporal_tier_manager.cpp
     
     ../src/timeseries/timeseries.cpp
+    ../src/timeseries/timeseries_incident_taxonomy.cpp
+    ../src/timeseries/ts_edge_case_handler.cpp
+    ../src/timeseries/ts_operator_diagnostics.cpp
     ../src/timeseries/timeseries_metrics.cpp
     ../src/timeseries/tsstore.cpp
     ../src/timeseries/gorilla.cpp

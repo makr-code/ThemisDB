@@ -178,9 +178,9 @@ public:
 
 private:
     IncidentCallback      on_incident_;
-    std::atomic<uint64_t> remote_write_timeout_count_{0};
-    std::atomic<uint64_t> key_rotation_count_{0};
-    std::atomic<uint64_t> validation_failure_count_{0};
+    mutable std::atomic<uint64_t> remote_write_timeout_count_{0};
+    mutable std::atomic<uint64_t> key_rotation_count_{0};
+    mutable std::atomic<uint64_t> validation_failure_count_{0};
 
     static constexpr std::size_t kMaxEndpointLength = 2048;
 

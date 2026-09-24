@@ -1718,6 +1718,9 @@ endforeach()
 set(THEMIS_TIMESERIES_SOURCES
     # Time-series storage
     ../src/timeseries/timeseries.cpp
+    ../src/timeseries/timeseries_incident_taxonomy.cpp
+    ../src/timeseries/ts_edge_case_handler.cpp
+    ../src/timeseries/ts_operator_diagnostics.cpp
     ../src/timeseries/tsstore.cpp
     ../src/timeseries/gorilla.cpp
     ../src/timeseries/gorilla_simd.cpp
