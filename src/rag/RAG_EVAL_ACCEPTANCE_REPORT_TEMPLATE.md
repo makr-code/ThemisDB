@@ -170,7 +170,7 @@ p99.9: ${P999_LATENCY}ms
 
 ### Acceptance Criteria Checklist
 
-- [${METRIC_COMPLETE_CHECK}] All 6 core metrics present
+- [${METRIC_COMPLETE_CHECK}] All 7 core metrics present
 - [${RECALL_CHECK}] Recall@10 regression ≤ 2pp
 - [${NDCG_CHECK}] nDCG@10 regression ≤ 0.05
 - [${MRR_CHECK}] MRR@10 regression ≤ 0.05

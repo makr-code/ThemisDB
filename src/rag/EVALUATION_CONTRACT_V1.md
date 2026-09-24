@@ -87,7 +87,7 @@ All `release_critical` runs must validate against at least one dataset from each
 
 ### Mandatory Pass Conditions
 
-1. **Complete Metric Coverage:** All six core metrics (Recall@10, nDCG@10, MRR@10, Faithfulness, Relevance, p95 latency, cost/query) must be present in test output
+1. **Complete Metric Coverage:** All seven core metrics (Recall@10, nDCG@10, MRR@10, Faithfulness, Relevance, p95 latency, cost/query) must be present in test output
 2. **No Single-Metric Regressions:** Any individual metric regression > threshold blocks release
 3. **Cross-Dataset Consistency:** Metric deltas across datasets must not exceed 5pp (percentage points) without investigation
 4. **Latency Bounds:** Both p95 and p99 must remain within SLA
@@ -106,14 +106,21 @@ All `release_critical` runs must validate against at least one dataset from each
 ### Pre-Test Setup
 
 ```bash
-# 1. Load baseline metrics
-benchmarks/rag/load_baseline_config.py --config baselines_v1.json
+# 1. Load baseline metrics from config file
+#    (baselines_v1.json is located at benchmarks/rag/data/baselines_v1.json)
+export BASELINE_CONFIG="benchmarks/rag/data/baselines_v1.json"
+echo "Using baseline config: ${BASELINE_CONFIG}"
 
 # 2. Provision test datasets
-scripts/provision_eval_datasets.sh wikipedia_rag_2k code_rag_1k multihop_qa_500
+#    Ensure the following dataset files are available under benchmarks/rag/eval_datasets_v1/:
+#      wikipedia_rag_2k.json, code_rag_1k.json, multihop_qa_500.json
+#    Download or generate them according to your environment's data provisioning process.
+ls benchmarks/rag/eval_datasets_v1/
 
 # 3. Warm up caches and indices
-benchmarks/rag/warmup_cache.py
+#    Start the ThemisDB server and run a small pre-warm query batch before timed tests.
+#    Example: ctest -L warmup -R "^rag_warmup" --verbose
+ctest -L warmup -R "^rag_warmup" --verbose || echo "No warmup target defined yet; proceed without warmup."
 ```
 
 ### Test Execution

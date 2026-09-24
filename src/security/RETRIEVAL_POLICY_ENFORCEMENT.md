@@ -231,10 +231,11 @@ RetrievalPolicyEnforcer::enforceRetrievalPolicy(
   };
 }
 
-void applyMasking(
-    std::vector<Document>& docs,
-    const std::vector<MaskingRule>& rules) {
-  for (auto& doc : docs) {
+std::vector<Document> RetrievalPolicyEnforcer::applyMasking(
+    const std::vector<Document>& documents,
+    const std::vector<MaskingRule>& rules) const {
+  std::vector<Document> result = documents;
+  for (auto& doc : result) {
     for (const auto& rule : rules) {
       if (doc.fields.count(rule.field_name)) {
         std::string& field_value = doc.fields[rule.field_name];
@@ -242,6 +243,7 @@ void applyMasking(
       }
     }
   }
+  return result;
 }
 ```
 
@@ -312,7 +314,7 @@ TEST(RetrievalTenantIsolation, MaskingRules_Applied_Correctly) {
     Document{.fields = {{"email", "user@example.com"}, {"phone", "555-1234"}}}
   };
   
-  enforcer.applyMasking(docs, rules);
+  docs = enforcer.applyMasking(docs, rules);
   
   EXPECT_EQ(docs[0].fields["email"], "[REDACTED]");
   EXPECT_TRUE(docs[0].fields["phone"].find("***") != std::string::npos);

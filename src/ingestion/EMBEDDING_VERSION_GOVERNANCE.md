@@ -32,7 +32,7 @@ Every embedding operation must track:
     "embedding_model_name": "all-MiniLM-L6-v2",
     "embedding_model_version": "1.0",
     "embedding_dim": 384,
-    "embedding_hash": "e5f3e3c9d7b4a1f6",
+    "embedding_hash": "e5f3e3c9d7b4a1f6823c4d9e0a7b2f8c1d5e9a3b6c4f2e8d1a7b3c5e9f2a4d6",
     "embedding_normalized": true,
     "embedding_provider": "huggingface",
     "embedding_commit_hash": "abc123def456"

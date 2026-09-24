@@ -117,8 +117,8 @@
         },
         "embedding_hash": {
           "type": "string",
-          "pattern": "^[a-f0-9]{32}$",
-          "description": "SHA256 hash of model weights for integrity verification"
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA256 hash of model weights for integrity verification (64 hex characters)"
         },
         "embedding_normalized": {
           "type": "boolean",

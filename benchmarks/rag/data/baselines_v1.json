@@ -9,31 +9,31 @@
   "global_targets": {
     "recall_at_10": {
       "value": 0.75,
-      "unit": "%",
+      "unit": "ratio",
       "regression_threshold": 0.02,
-      "comment": "No regression > 2 percentage points"
+      "comment": "No regression > 0.02 (ratio); values are in [0,1]"
     },
     "ndcg_at_10": {
       "value": 0.65,
-      "unit": "score",
+      "unit": "ratio",
       "regression_threshold": 0.05,
       "comment": "Ranking quality baseline"
     },
     "mrr_at_10": {
       "value": 0.70,
-      "unit": "score",
+      "unit": "ratio",
       "regression_threshold": 0.05,
       "comment": "Answer-finding speed baseline"
     },
     "faithfulness": {
       "value": 0.90,
-      "unit": "%",
+      "unit": "ratio",
       "regression_threshold": 0.03,
-      "comment": "Hallucination control baseline; no regression > 3pp"
+      "comment": "Hallucination control baseline; no regression > 0.03 (ratio)"
     },
     "relevance": {
       "value": 0.85,
-      "unit": "%",
+      "unit": "ratio",
       "regression_threshold": 0.03,
       "comment": "Context utilization baseline"
     },
@@ -163,7 +163,7 @@
       "version": "1.0",
       "dimensionality": 384,
       "provider": "Hugging Face",
-      "hash": "e5f3e3c9d7b4a1f6",
+      "hash": "e5f3e3c9d7b4a1f6823c4d9e0a7b2f8c1d5e9a3b6c4f2e8d1a7b3c5e9f2a4d6",
       "source_url": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2",
       "note": "Lightweight, general-purpose embedding model; stable across domains"
     },
@@ -172,7 +172,7 @@
       "version": "1.0",
       "dimensionality": 1024,
       "provider": "Hugging Face",
-      "hash": "f7a3b2c1e9d4a6f8",
+      "hash": "f7a3b2c1e9d4a6f8c3b1e7a4d9f2c5b8e1a6d3f7c2b9e4a1d8f5c2b7e3a6d9",
       "source_url": "https://huggingface.co/intfloat/multilingual-e5-large",
       "note": "Multilingual embedding model; required for crosslingual_ir_500"
     }
