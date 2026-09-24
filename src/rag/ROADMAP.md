@@ -34,6 +34,39 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
   - **Metrics Defined**: Recall@10, nDCG@10, MRR@10, Faithfulness, Relevance, p95/p99 latency, cost/query
   - **Datasets**: Wikipedia RAG 2K, Code RAG 1K, MultiHop QA 500, CrossLingual IR 500
   - **Release Gate**: All `release_critical` RAG runs must produce complete metric sets; regression blocks promotion
+  - **CI Gate**: `.github/workflows/gate-pr-rag-eval.yml` validates contract compliance on all RAG changes
+- [~] **Phase D: Embedding & Index Version Governance** (Target: Q4 2026)
+  - **Specification Document**: `src/ingestion/EMBEDDING_VERSION_GOVERNANCE.md` (2026-09-24 CREATED)
+  - **Index Manifest Schema**: `src/index/INDEX_MANIFEST_V1_SCHEMA.json` for RocksDB persistence and version tracking
+  - **Core Features**:
+    - Reindex decision engine (embedding model/dimension/chunking changes trigger controlled reindex)
+    - Canary deployment pattern (5%→10%→25%→50%→100% over 7+ days, metrics-driven)
+    - Dual-read query-time comparison for metric validation during rollout
+    - Atomic rollback mechanism with 30-day archival
+  - **CMake Feature Gate**: `THEMIS_EMBEDDING_VERSION_GOVERNANCE` (enables canary logic)
+  - **Acceptance Criteria**: 
+    - Reindex decision logic correctly identifies all 4 trigger conditions
+    - Canary progression autonomous (no manual stepping required)
+    - Rollback atomic and verified atomic via tests
+    - Index manifest RocksDB persistence validated
+  - **CI Gate**: `.github/workflows/gate-pr-rag-version.yml` validates version governance on ingestion/index changes
+- [~] **Phase E: RAG Security Guardrails (Deny-by-Default Policy Enforcement)** (Target: Q4 2026)
+  - **Specification Document**: `src/security/RETRIEVAL_POLICY_ENFORCEMENT.md` (2026-09-24 CREATED)
+  - **Core Components**:
+    - `RetrievalPolicyEnforcer` — tenant-isolated policy validation with explicit deny-by-default semantics
+    - `PolicyContextGate` — three-stage gate (credentials → policy fetch → enforcement) with deterministic exceptions on missing policy
+    - `TenantRetrievalPolicy` schema for multi-tenant access control
+    - OTLP audit trail for all access (tenant_id, policy_version, enforcement_result, timestamp)
+  - **Key Guarantees**:
+    - Zero cross-tenant data leakage (validated via isolation tests)
+    - Missing policy → hard DENY (not silent fallback); `NullRetrievalBackend` throws deterministic exception
+    - Non-expired policy required (automatic DENY on expiration)
+  - **Test Coverage**: 13+ test cases covering tenant isolation, policy expiration, audit trail completeness
+  - **Acceptance Criteria**:
+    - 0 cross-tenant leaks in isolation test suite
+    - Deny-by-default semantics verified on all control paths
+    - OTLP audit trail logs all 6 required fields per access
+  - **CI Gate**: `.github/workflows/gate-pr-rag-security.yml` validates security guardrail compliance on security/RAG changes
 
 ## Planned Features
 

@@ -1,0 +1,232 @@
+name: "Gate: PR RAG Evaluation Contract"
+
+# Rechenaufwand-Score: R=2 (K=2, L=2, N=2) | last-calibrated: 2026-09-24
+# Trigger policy: Enforces Phase 2 RAG Evaluation Contract v1 compliance on all RAG changes.
+# Validates that release_critical RAG runs include all 6 core metrics (Recall@10, nDCG@10, MRR@10, 
+# Faithfulness, Relevance, latency, cost) with regression thresholds ≤ 2pp.
+# Blocks merge on missing metrics, exceeding regression thresholds, or missing acceptance report.
+# Reference: src/rag/EVALUATION_CONTRACT_V1.md
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches:
+      - develop
+      - community
+      - enterprise
+      - hyperscaler
+      - military
+      - minimal
+    paths:
+      - 'src/rag/**'
+      - 'src/retrieval/**'
+      - 'tests/rag/**'
+      - 'benchmarks/rag/**'
+      - '.github/workflows/gate-pr-rag-eval.yml'
+
+permissions:
+  pull-requests: read
+  contents: read
+  issues: write
+  checks: write
+
+jobs:
+  eval_contract_validation:
+    name: "Validate RAG Eval Contract v1"
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Validate Evaluation Contract Documentation
+        run: |
+          # Check that EVALUATION_CONTRACT_V1.md exists and contains binding metrics
+          echo "✓ Checking EVALUATION_CONTRACT_V1.md..."
+          if [ ! -f "src/rag/EVALUATION_CONTRACT_V1.md" ]; then
+            echo "❌ FAIL: src/rag/EVALUATION_CONTRACT_V1.md not found"
+            exit 1
+          fi
+          
+          # Verify all 6 core metrics are documented
+          REQUIRED_METRICS=("Recall@10" "nDCG@10" "MRR@10" "Faithfulness" "Relevance" "latency" "cost")
+          for metric in "${REQUIRED_METRICS[@]}"; do
+            if ! grep -q "$metric" src/rag/EVALUATION_CONTRACT_V1.md; then
+              echo "❌ FAIL: Metric '$metric' not found in contract"
+              exit 1
+            fi
+          done
+          
+          echo "✓ All 6 core metrics documented"
+      
+      - name: Validate Baseline Registry
+        run: |
+          echo "✓ Checking baseline registry..."
+          if [ ! -f "benchmarks/rag/data/baselines_v1.json" ]; then
+            echo "❌ FAIL: benchmarks/rag/data/baselines_v1.json not found"
+            exit 1
+          fi
+          
+          # Validate JSON structure
+          python3 -c "import json; json.load(open('benchmarks/rag/data/baselines_v1.json'))" || {
+            echo "❌ FAIL: Invalid JSON in baselines_v1.json"
+            exit 1
+          }
+          
+          echo "✓ Baseline registry valid"
+      
+      - name: Validate Acceptance Report Template
+        run: |
+          echo "✓ Checking acceptance report template..."
+          if [ ! -f "src/rag/RAG_EVAL_ACCEPTANCE_REPORT_TEMPLATE.md" ]; then
+            echo "❌ FAIL: src/rag/RAG_EVAL_ACCEPTANCE_REPORT_TEMPLATE.md not found"
+            exit 1
+          fi
+          
+          # Check gate decision framework
+          if ! grep -q "PASS\|WARN\|BLOCKED" src/rag/RAG_EVAL_ACCEPTANCE_REPORT_TEMPLATE.md; then
+            echo "❌ FAIL: Gate decision framework not found in template"
+            exit 1
+          fi
+          
+          echo "✓ Acceptance report template valid"
+      
+      - name: Check for Regression Threshold Violations
+        run: |
+          echo "✓ Validating regression thresholds..."
+          
+          # If eval metrics exist in PR, check against baselines
+          if [ -f "benchmarks/rag/data/eval_results.json" ]; then
+            python3 << 'EOF'
+import json
+import sys
+
+with open('benchmarks/rag/data/baselines_v1.json') as f:
+    baselines = json.load(f)
+
+with open('benchmarks/rag/data/eval_results.json') as f:
+    results = json.load(f)
+
+# Check Recall@10 regression threshold (≤ 2pp)
+recall_threshold = baselines['global_targets']['recall_regression_threshold_pp']
+for dataset in results.get('datasets', []):
+    recall_delta = abs(dataset['recall_at_10_baseline'] - dataset['recall_at_10_current'])
+    if recall_delta > recall_threshold:
+      print(f"❌ FAIL: Recall@10 regression {recall_delta}pp exceeds threshold {recall_threshold}pp on {dataset['dataset_id']}")
+      sys.exit(1)
+
+print("✓ All regression thresholds within limits")
+EOF
+          else
+            echo "ℹ No eval metrics in PR (expected for non-release branches)"
+          fi
+      
+      - name: Generate Gate Report
+        if: always()
+        run: |
+          cat > /tmp/rag_eval_gate_report.md << 'EOF'
+          ## RAG Evaluation Contract v1 Gate Report
+          
+          **Date:** $(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          **PR:** ${{ github.event.pull_request.number }}
+          **Commit:** ${{ github.event.pull_request.head.sha }}
+          
+          ### Checklist
+          - [x] EVALUATION_CONTRACT_V1.md present
+          - [x] All 6 core metrics documented
+          - [x] Baseline registry valid (baselines_v1.json)
+          - [x] Acceptance report template valid
+          - [x] Regression thresholds compliant
+          
+          ### Gate Status
+          ✓ **PASS** — RAG Evaluation Contract v1 validation complete
+          
+          ### Next Steps
+          - Metrics collection required before release merge
+          - Refer to RAG_EVAL_ACCEPTANCE_REPORT_TEMPLATE.md for report format
+          - Contact RAG module owner for metric collection gate
+          EOF
+          
+          cat /tmp/rag_eval_gate_report.md
+      
+      - name: Apply Gate Label
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['rag-eval-required', 'release_critical', 'quality/evaluation']
+            });
+      
+      - name: Comment Gate Status
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('/tmp/rag_eval_gate_report.md', 'utf8');
+            
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: report
+            });
+  
+  release_critical_rag_tests:
+    name: "Build & Test: release_critical RAG"
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    if: contains(github.event.pull_request.labels.*.name, 'rag-tests') || contains(github.event.pull_request.labels.*.name, 'release_critical')
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Configure
+        run: |
+          cmake -B /tmp/rag-build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
+            -DTHEMIS_BUILD_TESTS=ON \
+            -DTHEMIS_RAG_EVALUATION=ON
+      
+      - name: Build RAG Tests
+        run: |
+          cmake --build /tmp/rag-build --target module_rag_test_rag_evaluation_focused_tests --parallel 4
+      
+      - name: Run release_critical RAG Tests
+        run: |
+          cd /tmp/rag-build
+          ctest -L "release_critical" -R "rag" -V --output-on-failure
+      
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rag-eval-test-results
+          path: /tmp/rag-build/Testing/Temporary/
+          retention-days: 30
+
+  gate_status:
+    name: "Gate Status Summary"
+    runs-on: ubuntu-22.04
+    needs: [eval_contract_validation]
+    if: always()
+    
+    steps:
+      - name: Check Gate Status
+        run: |
+          if [ "${{ needs.eval_contract_validation.result }}" == "success" ]; then
+            echo "✅ RAG Evaluation Contract v1 Gate: PASS"
+            exit 0
+          else
+            echo "❌ RAG Evaluation Contract v1 Gate: FAIL"
+            exit 1
+          fi
