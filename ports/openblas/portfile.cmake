@@ -12,15 +12,16 @@ vcpkg_from_github(
         disable-cmake-tests-when-build-testing-off.patch
 )
 
-# Overwrite test subdirectory CMakeLists.txt files with empty content so that
-# add_subdirectory(ctest/test/utest) produces no build targets even if the
-# disable-cmake-tests-when-build-testing-off.patch guard does not apply.
+# Overwrite ALL CMakeLists.txt files inside ctest/, test/, and utest/ (including any
+# nested subdirectories) so that add_subdirectory() calls produce no build targets
+# even if the disable-cmake-tests-when-build-testing-off.patch guard does not apply.
 # This is belt-and-suspenders alongside -DBUILD_TESTING=OFF and the patch.
 foreach(_test_dir ctest test utest)
-    if(EXISTS "${SOURCE_PATH}/${_test_dir}/CMakeLists.txt")
-        file(WRITE "${SOURCE_PATH}/${_test_dir}/CMakeLists.txt"
+    file(GLOB_RECURSE _cmake_files "${SOURCE_PATH}/${_test_dir}/CMakeLists.txt")
+    foreach(_cmake_file IN LISTS _cmake_files)
+        file(WRITE "${_cmake_file}"
              "# Test directory disabled by vcpkg overlay (BUILD_TESTING=OFF)\n")
-    endif()
+    endforeach()
 endforeach()
 
 find_program(GIT NAMES git git.cmd)
