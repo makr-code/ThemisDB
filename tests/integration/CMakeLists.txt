@@ -34,7 +34,14 @@ function(add_integration_test TEST_NAME TEST_SOURCE)
         THEMIS_TEST_BUILD=1
     )
     
-    add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
+    if(COMMAND themis_register_test_target)
+        themis_register_test_target(
+            NAME ${TEST_NAME}
+            TARGET ${TEST_NAME}
+        )
+    else()
+        add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
+    endif()
     
     set_tests_properties(${TEST_NAME} PROPERTIES
         LABELS "integration"

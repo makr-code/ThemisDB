@@ -23,9 +23,21 @@ function(themis_register_test_target)
         return()
     endif()
 
+    string(REPLACE ";" "|" _trt_joined_args "${TRT_ARGS}")
+
     add_test(
         NAME ${TRT_NAME}
-        COMMAND $<TARGET_FILE:${TRT_TARGET}> ${TRT_ARGS}
+        COMMAND ${CMAKE_COMMAND}
+            -DTEST_NAME=${TRT_NAME}
+            -DTARGET_NAME=${TRT_TARGET}
+            -DTARGET_FILE=$<TARGET_FILE:${TRT_TARGET}>
+            -DBUILD_DIR=${CMAKE_BINARY_DIR}
+            -DBUILD_CONFIG=$<CONFIG>
+                -DHOST_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+            -DHOST_INCLUDE_PATHS=${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES}
+            -DHOST_LIBRARY_PATHS=${CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES}
+            -DTEST_ARGS=${_trt_joined_args}
+            -P ${THEMIS_ROOT_DIR}/tests/cmake/RunRegisteredTest.cmake
     )
 
     if(TRT_WORKING_DIRECTORY)

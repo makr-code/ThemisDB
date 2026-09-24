@@ -70,20 +70,28 @@ protected:
 // ═══════════════════════════════════════════════════════════
 
 TEST_F(ModelLoaderErrorHandlingTest, NewErrorCodesRegistered) {
+    std::fprintf(stderr, "[probe] before getInstance\n");
     auto& registry = ErrorRegistry::getInstance();
+    std::fprintf(stderr, "[probe] after getInstance\n");
     
     // Verify new error codes are registered
+    std::fprintf(stderr, "[probe] before batch_error\n");
     auto batch_error = registry.getError(ErrorCode::ERR_LLM_BATCH_SIZE_EXCEEDED);
+    std::fprintf(stderr, "[probe] after batch_error\n");
     EXPECT_EQ(batch_error.code, ErrorCode::ERR_LLM_BATCH_SIZE_EXCEEDED);
     EXPECT_EQ(batch_error.category, "LLM");
     EXPECT_FALSE(batch_error.message_template.empty());
     
+    std::fprintf(stderr, "[probe] before adapter_conflict\n");
     auto adapter_conflict = registry.getError(ErrorCode::ERR_LORA_ADAPTER_CONFLICT);
+    std::fprintf(stderr, "[probe] after adapter_conflict\n");
     EXPECT_EQ(adapter_conflict.code, ErrorCode::ERR_LORA_ADAPTER_CONFLICT);
     EXPECT_EQ(adapter_conflict.category, "LoRA");
     EXPECT_FALSE(adapter_conflict.solution.empty());
     
+    std::fprintf(stderr, "[probe] before training_diverged\n");
     auto training_diverged = registry.getError(ErrorCode::ERR_LORA_TRAINING_DIVERGED);
+    std::fprintf(stderr, "[probe] after training_diverged\n");
     EXPECT_EQ(training_diverged.code, ErrorCode::ERR_LORA_TRAINING_DIVERGED);
     EXPECT_EQ(training_diverged.category, "LoRA");
     EXPECT_EQ(training_diverged.severity, "Critical");

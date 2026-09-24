@@ -35,7 +35,14 @@ if(TARGET epic2_evaluation_lib AND TARGET GTest::gtest_main)
             )
         endif()
         target_compile_features(${test_name} PRIVATE cxx_std_17)
-        add_test(NAME ${test_name} COMMAND ${test_name})
+        if(COMMAND themis_register_test_target)
+            themis_register_test_target(
+                NAME ${test_name}
+                TARGET ${test_name}
+            )
+        else()
+            add_test(NAME ${test_name} COMMAND ${test_name})
+        endif()
     endforeach()
 endif()
 
@@ -98,10 +105,17 @@ if(NOT TARGET benchmark_matrix_test)
 
         target_compile_features(benchmark_matrix_test PRIVATE cxx_std_17)
 
-        add_test(
-            NAME benchmark_matrix_test
-            COMMAND benchmark_matrix_test
-        )
+        if(COMMAND themis_register_test_target)
+            themis_register_test_target(
+                NAME benchmark_matrix_test
+                TARGET benchmark_matrix_test
+            )
+        else()
+            add_test(
+                NAME benchmark_matrix_test
+                COMMAND benchmark_matrix_test
+            )
+        endif()
     else()
         message(STATUS "benchmark_matrix_test: GTest or themis_evaluation not available – skipped")
     endif()
@@ -129,10 +143,17 @@ if(NOT TARGET retrieval_metrics_test)
 
         target_compile_features(retrieval_metrics_test PRIVATE cxx_std_17)
 
-        add_test(
-            NAME retrieval_metrics_test
-            COMMAND retrieval_metrics_test
-        )
+        if(COMMAND themis_register_test_target)
+            themis_register_test_target(
+                NAME retrieval_metrics_test
+                TARGET retrieval_metrics_test
+            )
+        else()
+            add_test(
+                NAME retrieval_metrics_test
+                COMMAND retrieval_metrics_test
+            )
+        endif()
         set_tests_properties(retrieval_metrics_test PROPERTIES
             LABELS "evaluation;epic2;metrics"
         )
@@ -163,10 +184,17 @@ if(NOT TARGET artifact_lifecycle_test)
 
         target_compile_features(artifact_lifecycle_test PRIVATE cxx_std_17)
 
-        add_test(
-            NAME artifact_lifecycle_test
-            COMMAND artifact_lifecycle_test
-        )
+        if(COMMAND themis_register_test_target)
+            themis_register_test_target(
+                NAME artifact_lifecycle_test
+                TARGET artifact_lifecycle_test
+            )
+        else()
+            add_test(
+                NAME artifact_lifecycle_test
+                COMMAND artifact_lifecycle_test
+            )
+        endif()
         set_tests_properties(artifact_lifecycle_test PROPERTIES
             LABELS "evaluation;epic2;lifecycle"
         )
@@ -197,10 +225,17 @@ if(NOT TARGET ablation_framework_test)
 
         target_compile_features(ablation_framework_test PRIVATE cxx_std_17)
 
-        add_test(
-            NAME ablation_framework_test
-            COMMAND ablation_framework_test
-        )
+        if(COMMAND themis_register_test_target)
+            themis_register_test_target(
+                NAME ablation_framework_test
+                TARGET ablation_framework_test
+            )
+        else()
+            add_test(
+                NAME ablation_framework_test
+                COMMAND ablation_framework_test
+            )
+        endif()
         set_tests_properties(ablation_framework_test PROPERTIES
             LABELS "evaluation;epic2;ablation"
         )
@@ -238,10 +273,17 @@ if(NOT TARGET test_query_planner_cache)
         target_compile_features(test_query_planner_cache PRIVATE cxx_std_17)
         target_compile_definitions(test_query_planner_cache PRIVATE THEMIS_TEST_BUILD=1)
 
-        add_test(
-            NAME test_query_planner_cache
-            COMMAND test_query_planner_cache
-        )
+        if(COMMAND themis_register_test_target)
+            themis_register_test_target(
+                NAME test_query_planner_cache
+                TARGET test_query_planner_cache
+            )
+        else()
+            add_test(
+                NAME test_query_planner_cache
+                COMMAND test_query_planner_cache
+            )
+        endif()
         set_tests_properties(test_query_planner_cache PROPERTIES
             LABELS "phase3;p3-01;query_optimization;evaluation"
         )
