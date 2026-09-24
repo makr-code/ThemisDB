@@ -5,10 +5,7 @@
   "description": "ThemisDB HYPERSCALER Edition - GPU + LLM + Full features",
   "builtin-baseline": "10b7a178346f3f0abef60cecd5130e295afd8da4",
   "dependencies": [
-    "openssl",
     "rocksdb",
-    "simdjson",
-    "tbb",
     "arrow",
     "hnswlib",
     "gtest",
@@ -16,20 +13,17 @@
     "faiss",
     "openblas",
     "lapack",
-    "boost-asio",
-    "boost-beast",
-    "spdlog",
-    "nlohmann-json",
     "c-ares",
-    "grpc",
-    "protobuf",
     "opentelemetry-cpp",
-    "curl",
-    "yaml-cpp",
-    "zstd",
-    "mimalloc",
     "prometheus-cpp",
     "libzip",
-    "pugixml"
+    "simdjson",
+    "tl-expected"
+  ],
+  "comments": [
+    "Hybrid dependency strategy (apt + vcpkg):",
+    "- apt-installed: openssl, tbb, boost-asio, boost-beast, spdlog, nlohmann-json, grpc, protobuf-compiler-grpc, curl, yaml-cpp, zstd, mimalloc, pugixml",
+    "- vcpkg-installed: rocksdb (custom), arrow, hnswlib, gtest, benchmark, faiss, openblas, lapack, c-ares, opentelemetry-cpp, prometheus-cpp, libzip, simdjson, tl-expected"
   ]
 }
+

@@ -139,9 +139,9 @@ jobs:
       submodules: false
       working_directory: .
       setup_command: >-
-        set -euo pipefail; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libssl-dev zlib1g-dev libzstd-dev libtbb-dev libyaml-cpp-dev libboost-dev libboost-system-dev libboost-filesystem-dev libcurl4-openssl-dev; if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then rm -rf vcpkg; git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg; fi; ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
+        set -euo pipefail; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libssl-dev zlib1g-dev libzstd-dev libtbb-dev libyaml-cpp-dev libboost-dev libboost-system-dev libboost-filesystem-dev libcurl4-openssl-dev libgtest-dev libgmock-dev; echo "Linux AMD64 dependencies installed via apt (optimized for hybrid builds)"
       configure_command: >-
-        export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}"; cmake -S . -B build-step2-linux-amd64 -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
+        cmake -S . -B build-step2-linux-amd64 -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       build_command: >-
         cmake --build build-step2-linux-amd64 --target themis_base --parallel 8
       summary_title: "Step 2 · Linux AMD64"
@@ -158,9 +158,9 @@ jobs:
       submodules: false
       working_directory: .
       setup_command: >-
-        set -euo pipefail; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libssl-dev zlib1g-dev libzstd-dev libtbb-dev libyaml-cpp-dev libboost-dev libboost-system-dev libboost-filesystem-dev libcurl4-openssl-dev; if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then rm -rf vcpkg; git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg; fi; ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
+        set -euo pipefail; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libssl-dev zlib1g-dev libzstd-dev libtbb-dev libyaml-cpp-dev libboost-dev libboost-system-dev libboost-filesystem-dev libcurl4-openssl-dev libgtest-dev libgmock-dev; echo "Linux ARM64 dependencies installed via apt (optimized for hybrid builds)"
       configure_command: >-
-        export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}"; cmake -S . -B build-step2-linux-arm64 -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
+        cmake -S . -B build-step2-linux-arm64 -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       build_command: >-
         cmake --build build-step2-linux-arm64 --target themis_base --parallel 8
       summary_title: "Step 2 · Linux ARM64"
@@ -237,11 +237,10 @@ jobs:
       submodules: false
       working_directory: .
       setup_command: >-
-        set -euo pipefail; echo "CI — Build wrapper delegating to reusable CMake build pipeline"; git config --file .git/config --remove-section submodule.plugins/private/themisdb_ethic_ai || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_importer || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_storage || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_llm_wiki || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_plugin_signer || true; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libgtest-dev libgmock-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc libcpp-httplib-dev libboost-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev dpkg-dev rpm; if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then rm -rf vcpkg; git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg; fi; test -f vcpkg/scripts/buildsystems/vcpkg.cmake || { echo "::error::vcpkg toolchain missing before bootstrap"; exit 1; }; export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}"; ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
+        set -euo pipefail; echo "CI — Build wrapper delegating to reusable CMake build pipeline"; git config --file .git/config --remove-section submodule.plugins/private/themisdb_ethic_ai || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_importer || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_storage || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_llm_wiki || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_plugin_signer || true; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libgtest-dev libgmock-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc libcpp-httplib-dev libboost-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev dpkg-dev rpm; echo "All dependencies installed via apt (optimized hybrid build)"
       configure_command: >-
-        export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}"; export SCCACHE_GHA_ENABLED=true; cmake -S . -B build -G Ninja -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
+        export SCCACHE_GHA_ENABLED=true; cmake -S . -B build -G Ninja -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       build_command: >-
-        export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}";
         export SCCACHE_GHA_ENABLED=true;
         set -euo pipefail;
         sccache --show-stats || true;
@@ -254,7 +253,6 @@ jobs:
         set -e;
         if [ "${BUILD_EXIT}" -ne 0 ] && grep -Eq 'sccache: error: Server startup failed|cache storage failed to read' "${BUILD_LOG}"; then
           echo "::warning::Transient sccache backend failure detected; retrying build once without compiler launcher";
-          export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}";
           cmake -S . -B build -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER=;
           cmake --build build --parallel 16;
         else
@@ -262,7 +260,7 @@ jobs:
           exit "${BUILD_EXIT}";
         fi
       validation_command: >-
-        export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}"; ctest --test-dir build --output-on-failure -j 1 --timeout 60
+        ctest --test-dir build --output-on-failure -j 1 --timeout 60
       artifact_name: ctest-results-${{ github.run_number }}
       artifact_paths: |
         build/Testing

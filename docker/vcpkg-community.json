@@ -2,37 +2,24 @@
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
   "name": "themisdb-community",
   "version": "1.4.0",
-  "description": "ThemisDB COMMUNITY Edition - Standard deployment (optimized deps)",
+  "description": "ThemisDB COMMUNITY Edition - Specialized vcpkg dependencies (apt-installed libs excluded)",
 
   "dependencies": [
-    "boost-filesystem",
-    "boost-beast",
-    "boost-uuid",
-    "cpp-httplib",
-    "fmt",
-    "spdlog",
-    "nlohmann-json",
-    "simdjson",
-    "tbb",
-    "tl-expected",
-    "yaml-cpp",
-    {
-      "name": "rocksdb",
-      "features": ["lz4", "snappy", "zlib", "zstd"]
-    },
-    "protobuf",
-    "grpc",
-    "curl",
-    "openssl",
-    "zlib",
-    "zstd",
-    "lz4",
-    "libzip",
-    "pugixml",
-    "snappy",
-    "msgpack",
-    "mimalloc",
+    "rocksdb",
     "gtest",
-    "benchmark"
+    "benchmark",
+    "simdjson",
+    "tl-expected",
+    "msgpack",
+    "libzip"
+  ],
+
+  "comments": [
+    "Hybrid dependency strategy:",
+    "- apt-installed (Stage 2a): boost, openssl, fmt, spdlog, nlohmann-json, curl, zstd, lz4, snappy, tbb, yaml-cpp, mimalloc, pugixml, grpc, protobuf",
+    "- vcpkg-installed (Stage 2b): rocksdb (custom patches), gtest, benchmark, simdjson, tl-expected, msgpack, libzip",
+    "- Rationale: apt packages are pre-compiled and available for all platforms (amd64, arm64, etc.)",
+    "             vcpkg packages require custom version control or build flags"
   ]
 }
+
