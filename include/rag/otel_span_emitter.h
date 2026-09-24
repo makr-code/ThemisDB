@@ -52,7 +52,7 @@ namespace themis::rag {
 ///   span->EndSpan();  // Automatically emitted to OTLP
 /// }
 /// @endcode
-class OTELSpanEmitter {
+class OTELSpanEmitter : public std::enable_shared_from_this<OTELSpanEmitter> {
  public:
   /// @brief Span context for distributed tracing.
   struct SpanContext {
@@ -144,13 +144,37 @@ class OTELSpanEmitter {
  private:
   friend class Span;
 
+  /// @brief Internal span buffer entry.
+  struct SpanBuffer {
+    std::string span_name;
+    std::string trace_id;
+    std::string span_id;
+    std::string parent_span_id;
+    int64_t start_time_us;
+    int64_t end_time_us;
+    std::map<std::string, std::string> string_attributes;
+    std::map<std::string, uint64_t> numeric_attributes;
+    std::map<std::string, bool> bool_attributes;
+  };
+
   std::string service_name_;
   std::string otlp_endpoint_;
   std::string baggage_;
-  void* otel_exporter_;  ///< TODO: Opaque OTEL exporter handle
+  void* otel_exporter_;  ///< Opaque OTEL exporter handle (nullptr = no-op)
   bool batch_export_enabled_;
   uint32_t batch_export_size_;
   uint32_t pending_spans_;
-};
+  uint64_t emitted_spans_;     ///< Total spans exported
+  uint64_t dropped_spans_;     ///< Spans dropped (buffer overflow/errors)
+  std::vector<SpanBuffer> pending_span_buffer_;
+
+  /// @brief Emit single span to buffer for batched export.
+  void EmitSpan(Span* span);
+
+  /// @brief Export buffered spans to OTLP collector.
+   /// @return true if export successful.
+   bool ExportSpans();
+
+ };
 
 }  // namespace themis::rag

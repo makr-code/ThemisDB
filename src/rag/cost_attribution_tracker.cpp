@@ -10,7 +10,46 @@
 
 namespace themis::rag {
 
-CostAttributionTracker::CostAttributionTracker() {}
+CostAttributionTracker::CostAttributionTracker()
+    : db_path_(""), has_rocksdb_(false), db_(nullptr) {}
+
+bool CostAttributionTracker::Initialize(const std::string& db_path) {
+  db_path_ = db_path;
+  has_rocksdb_ = false;
+  db_ = nullptr;
+
+  if (db_path.empty()) {
+    // In-memory only, no RocksDB
+    return true;
+  }
+
+  // Attempt RocksDB initialization
+  // Note: Actual RocksDB integration would use rocksdb::DB::Open()
+  // For now, we use opaque pointer pattern to avoid RocksDB dependency at build time
+  try {
+    // TODO: Replace with actual RocksDB initialization:
+    // rocksdb::Options options;
+    // options.create_if_missing = true;
+    // rocksdb::DB* db = nullptr;
+    // rocksdb::Status status = rocksdb::DB::Open(options, db_path, &db);
+    // if (status.ok()) {
+    //   db_ = db;
+    //   has_rocksdb_ = true;
+    //   return true;
+    // }
+    
+    // Graceful fallback to in-memory if RocksDB unavailable
+    // Production must handle this by ensuring RocksDB is available
+    return false;  // Not initialized with persistence
+  } catch (...) {
+    // Fallback to in-memory on any exception
+    return false;
+  }
+}
+
+bool CostAttributionTracker::IsPersistentStorageAvailable() const {
+  return has_rocksdb_;
+}
 
 void CostAttributionTracker::RecordCost(
     const std::string& tenant_id,

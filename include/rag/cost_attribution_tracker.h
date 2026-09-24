@@ -101,6 +101,18 @@ class CostAttributionTracker {
   /// @brief Constructor.
   CostAttributionTracker();
 
+  /// @brief Initialize with optional RocksDB persistence.
+  /// @param db_path Path to RocksDB database (optional).
+  /// @return true if initialization successful (or not using persistence).
+  /// @details If db_path is empty, cost tracking uses in-memory storage.
+  ///          If db_path is provided but RocksDB unavailable, falls back
+  ///          to in-memory and returns false (non-fatal).
+  bool Initialize(const std::string& db_path = "");
+
+  /// @brief Check if persistent storage is available.
+  /// @return true if RocksDB is initialized and available.
+  bool IsPersistentStorageAvailable() const;
+
   /// @brief Record cost event.
   /// @param tenant_id Tenant identifier.
   /// @param operation_type Operation type.
@@ -172,6 +184,9 @@ class CostAttributionTracker {
   std::vector<CostRecord> cost_records_;
   std::map<std::string, float> tenant_budgets_;
   std::map<std::string, std::vector<BudgetAlert>> budget_alerts_;
+  std::string db_path_;           ///< RocksDB path (empty = in-memory only)
+  bool has_rocksdb_;              ///< true if RocksDB initialized successfully
+  void* db_;                      ///< Opaque RocksDB handle (nullptr if unavailable)
 };
 
 }  // namespace themis::rag

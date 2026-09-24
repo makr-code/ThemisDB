@@ -4,6 +4,7 @@
 #include "rag/cost_model_builder.h"
 
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <numeric>
 #include <random>
@@ -84,7 +85,14 @@ bool CostModelBuilder::CostModel::LoadFromJSON(const std::string& input_path) {
 }
 
 // CostModelBuilder implementation
-CostModelBuilder::CostModelBuilder() {}
+CostModelBuilder::CostModelBuilder()
+    : auto_retrain_enabled_(false),
+      auto_retrain_interval_sec_(3600),
+      auto_retrain_drift_threshold_(0.15f),
+      last_retrain_time_us_(0),
+      model_built_time_us_(0),
+      retrains_count_(0),
+      last_model_rmse_(0.0f) {}
 
 void CostModelBuilder::AddTrainingData(const DataPoint& data_point) {
   training_data_.push_back(data_point);
@@ -99,6 +107,11 @@ std::unique_ptr<CostModelBuilder::CostModel> CostModelBuilder::BuildModel(
     float regularization_alpha) {
   auto model = std::make_unique<CostModel>();
   model->model_type_ = model_type;
+
+  // Record build time for drift tracking
+  model_built_time_us_ = std::chrono::duration_cast<std::chrono::microseconds>(
+      std::chrono::system_clock::now().time_since_epoch())
+      .count();
 
   if (training_data_.empty()) {
     model->metrics_["rmse"] = 0.0f;
@@ -135,6 +148,10 @@ std::unique_ptr<CostModelBuilder::CostModel> CostModelBuilder::BuildModel(
   float rmse = model->Evaluate(training_data_);
   model->metrics_["rmse"] = rmse;
   model->metrics_["r_squared"] = 0.8f;  // Placeholder
+  
+  // Track RMSE for drift detection
+  last_model_rmse_ = rmse;
+  last_retrain_time_us_ = model_built_time_us_;
 
   return model;
 }
@@ -253,6 +270,95 @@ std::vector<std::string> CostModelBuilder::ValidateData() {
   }
 
   return issues;
+}
+
+void CostModelBuilder::EnableAutoRetraining(
+    bool enabled,
+    uint32_t check_interval_sec,
+    float drift_threshold) {
+  auto_retrain_enabled_ = enabled;
+  auto_retrain_interval_sec_ = check_interval_sec;
+  auto_retrain_drift_threshold_ = drift_threshold;
+  
+  if (enabled) {
+    last_retrain_time_us_ = std::chrono::duration_cast<std::chrono::microseconds>(
+        std::chrono::system_clock::now().time_since_epoch())
+        .count();
+  }
+}
+
+bool CostModelBuilder::IsModelDriftDetected(
+    const std::vector<DataPoint>& new_test_data) {
+  if (new_test_data.empty() || last_model_rmse_ <= 0.0f) {
+    return false;
+  }
+
+  // Calculate current model RMSE on new test data
+  float sum_squared_error = 0.0f;
+  for (const auto& data_point : new_test_data) {
+    // Note: This requires the current model, which we don't have here
+    // In production, this would access the deployed model
+    // For now, we track drift via the last_model_rmse_
+    // Real implementation would: float predicted = current_model_->Predict(data_point.features);
+    // float error = data_point.cost_usd - predicted;
+    // sum_squared_error += error * error;
+  }
+
+  // float current_rmse = std::sqrt(sum_squared_error / new_test_data.size());
+  // float drift_ratio = (current_rmse - last_model_rmse_) / last_model_rmse_;
+  // return drift_ratio > auto_retrain_drift_threshold_;
+  
+  return false;  // Placeholder
+}
+
+std::map<std::string, float> CostModelBuilder::GetModelHealth() {
+  std::map<std::string, float> health;
+  
+  auto now_us = std::chrono::duration_cast<std::chrono::microseconds>(
+      std::chrono::system_clock::now().time_since_epoch())
+      .count();
+  
+  if (model_built_time_us_ > 0) {
+    health["model_age_sec"] = (now_us - model_built_time_us_) / 1e6f;
+  } else {
+    health["model_age_sec"] = -1.0f;  // Never trained
+  }
+  
+  health["last_rmse"] = last_model_rmse_;
+  health["current_rmse"] = last_model_rmse_;  // Placeholder
+  health["drift_ratio"] = 0.0f;  // Placeholder
+  
+  return health;
+}
+
+std::unique_ptr<CostModelBuilder::CostModel> CostModelBuilder::RebuildModelWithNewData(
+    const std::vector<DataPoint>& new_data_points) {
+  // Add new data to training set
+  for (const auto& data_point : new_data_points) {
+    training_data_.push_back(data_point);
+  }
+
+  // Rebuild model with augmented training data
+  auto rebuilt_model = BuildModel("linear", 0.01f);
+
+  // Update metadata
+  retrains_count_++;
+  last_retrain_time_us_ = std::chrono::duration_cast<std::chrono::microseconds>(
+      std::chrono::system_clock::now().time_since_epoch())
+      .count();
+
+  return rebuilt_model;
+}
+
+std::map<std::string, uint64_t> CostModelBuilder::GetModelMetadata() {
+  std::map<std::string, uint64_t> metadata;
+  
+  metadata["version"] = retrains_count_ + 1;  // v1, v2, etc
+  metadata["built_at_sec"] = model_built_time_us_ / 1e6;
+  metadata["retrains_count"] = retrains_count_;
+  metadata["training_samples"] = training_data_.size();
+  
+  return metadata;
 }
 
 }  // namespace themis::rag

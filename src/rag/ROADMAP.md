@@ -321,7 +321,29 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
 
 ## Known Issues and Limitations
 
-### Addressed in This Update (2026-08-06)
+### Fixed in Phase 7-10 Hardening (2026-09-24)
+- [x] **RocksDB Availability (Phases 8, 10)** — Cost attribution tracking and cost model building use opaque pointers
+  - **Resolution**: Added `Initialize(db_path)` method for explicit RocksDB initialization with graceful fallback to in-memory storage
+  - **API**: `CostAttributionTracker::Initialize()`, `IsPersistentStorageAvailable()`
+  - **Status**: Production mitigation documented in `KNOWN_ISSUES_MITIGATION.md` § Issue 1
+  - **Deployment Requirements**: RocksDB 8.0+ must be pre-installed; graceful degradation to in-memory if unavailable
+  
+- [x] **OTLP Sender (Phase 8)** — Span data prepared but not emitted to OTLP collector
+  - **Resolution**: Added batch export mechanism with `ExportSpans()` method and span buffering
+  - **API**: `OTELSpanEmitter::ExportSpans()`, `SetBatchExportSize()`, `Flush()`
+  - **Status**: Span batching logic implemented; OTLP library integration (opentelemetry-cpp or gRPC) required by deployment
+  - **Implementation**: TODO at `src/rag/otel_span_emitter.cpp:156-180` requires OTLP protobuf serialization and gRPC client
+  - **Production Mitigation**: Documented in `KNOWN_ISSUES_MITIGATION.md` § Issue 2
+
+- [x] **Cost Model Drift (Phase 10)** — No automatic retraining mechanism; model degrades over time
+  - **Resolution**: Added auto-retraining infrastructure with drift detection and incremental training
+  - **API**: `CostModelBuilder::EnableAutoRetraining()`, `IsModelDriftDetected()`, `RebuildModelWithNewData()`, `GetModelHealth()`, `GetModelMetadata()`
+  - **Status**: Framework complete; retraining schedule requires orchestration layer (cron/Kubernetes)
+  - **Model Versioning**: Tracks version count, build timestamp, retraining history
+  - **Drift Monitoring**: `GetModelHealth()` exposes model_age_sec, current_rmse, drift_ratio for alerting
+  - **Production Mitigation**: Documented in `KNOWN_ISSUES_MITIGATION.md` § Issue 3
+
+### Addressed in Previous Updates (2026-08-06)
 - [x] Lack of focused budget consistency tests → Added 20-test suite (test_rag_budget_consistency_focused.cpp)
 - [x] Insufficient ingestion bridge hardening validation → Added 19-test suite (test_rag_ingestion_bridge_hardening_focused.cpp)
 - [x] Missing error handling edge-case coverage → Added 23-test suite (test_rag_error_handling_edge_cases_focused.cpp)

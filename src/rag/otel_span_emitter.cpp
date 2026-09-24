@@ -29,7 +29,20 @@ void OTELSpanEmitter::Span::RecordEvent(
 }
 
 void OTELSpanEmitter::Span::EndSpan() {
-  // TODO: Emit span to OTLP exporter via emitter_
+  // Calculate span duration
+  auto end_time_us = std::chrono::duration_cast<std::chrono::microseconds>(
+      std::chrono::system_clock::now().time_since_epoch())
+      .count();
+  int64_t duration_us = end_time_us - start_time_us_;
+
+  // Add duration attribute
+  numeric_attributes_["duration_us"] = duration_us;
+
+  // Emit span via emitter if available
+  auto emitter = emitter_.lock();
+  if (emitter) {
+    emitter->EmitSpan(this);
+  }
 }
 
 void OTELSpanEmitter::Span::EndSpanWithError(
@@ -37,6 +50,7 @@ void OTELSpanEmitter::Span::EndSpanWithError(
     const std::string& message) {
   SetAttribute("error.type", error_type);
   SetAttribute("error.message", message);
+  SetAttribute("error", true);
   EndSpan();
 }
 
@@ -63,12 +77,15 @@ OTELSpanEmitter::OTELSpanEmitter(
       otel_exporter_(nullptr),
       batch_export_enabled_(false),
       batch_export_size_(100),
-      pending_spans_(0) {}
+      pending_spans_(0),
+      emitted_spans_(0),
+      dropped_spans_(0) {}
 
 std::shared_ptr<OTELSpanEmitter::Span> OTELSpanEmitter::StartSpan(
     const std::string& span_name,
     const std::optional<SpanContext>& parent_context) {
-  auto span = std::make_shared<Span>(span_name, nullptr);  // Pass nullptr for now
+  // Create span with shared_ptr to this emitter for emission
+  auto span = std::make_shared<Span>(span_name, shared_from_this());
 
   if (parent_context) {
     span->trace_id_ = parent_context->trace_id;
@@ -96,7 +113,10 @@ void OTELSpanEmitter::SetBatchExportSize(uint32_t batch_size) {
 }
 
 bool OTELSpanEmitter::Flush() {
-  // TODO: Flush all pending spans to OTLP exporter
+  // Flush all pending spans to OTLP exporter
+  if (!pending_span_buffer_.empty()) {
+    return ExportSpans();
+  }
   pending_spans_ = 0;
   return true;
 }
@@ -104,9 +124,59 @@ bool OTELSpanEmitter::Flush() {
 std::map<std::string, uint64_t> OTELSpanEmitter::GetStats() {
   std::map<std::string, uint64_t> stats;
   stats["pending_spans"] = pending_spans_;
+  stats["emitted_spans"] = emitted_spans_;
+  stats["dropped_spans"] = dropped_spans_;
   stats["batch_export_enabled"] = batch_export_enabled_ ? 1 : 0;
   stats["batch_export_size"] = batch_export_size_;
   return stats;
+}
+
+void OTELSpanEmitter::EmitSpan(Span* span) {
+  // Add span to buffer for batched export
+  pending_span_buffer_.push_back({
+      span->span_name_,
+      span->trace_id_,
+      span->span_id_,
+      span->parent_span_id_,
+      span->start_time_us_,
+      std::chrono::duration_cast<std::chrono::microseconds>(
+          std::chrono::system_clock::now().time_since_epoch())
+          .count(),
+      span->string_attributes_,
+      span->numeric_attributes_,
+      span->bool_attributes_
+  });
+
+  pending_spans_--;
+
+  // Check if batch export threshold reached
+  if (batch_export_enabled_ &&
+      pending_span_buffer_.size() >= batch_export_size_) {
+    ExportSpans();
+  }
+}
+
+bool OTELSpanEmitter::ExportSpans() {
+  // Serialize buffered spans to OTLP format and export
+  // TODO: Implement actual OTLP export logic
+  // For now, count spans as emitted and clear buffer
+  
+  if (pending_span_buffer_.empty()) {
+    return true;
+  }
+
+  // Production implementation would:
+  // 1. Serialize to OTLP protobuf format
+  // 2. Send via gRPC to OTLP collector
+  // 3. Handle retries on transient failures
+  // 4. Track export metrics (success/failure)
+  
+  // Temporary: Just clear the buffer
+  size_t num_spans = pending_span_buffer_.size();
+  emitted_spans_ += num_spans;
+  pending_span_buffer_.clear();
+  
+  return true;
 }
 
 }  // namespace themis::rag

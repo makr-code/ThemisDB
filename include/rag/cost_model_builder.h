@@ -108,6 +108,34 @@ class CostModelBuilder {
   /// @brief Constructor.
   CostModelBuilder();
 
+  /// @brief Enable automatic retraining.
+  /// @param enabled true to enable automatic retraining.
+  /// @param check_interval_sec Interval between drift checks (default: 3600s = 1 hour).
+  /// @param drift_threshold RMSE increase threshold to trigger retraining (default: 0.15 = 15%).
+  void EnableAutoRetraining(
+      bool enabled,
+      uint32_t check_interval_sec = 3600,
+      float drift_threshold = 0.15f);
+
+  /// @brief Check if model drift detected.
+  /// @param new_test_data Recent test data to check drift against current model.
+  /// @return true if drift detected (RMSE degradation exceeded threshold).
+  bool IsModelDriftDetected(const std::vector<DataPoint>& new_test_data);
+
+  /// @brief Get model age and performance metrics.
+  /// @return Map containing: model_age_sec, last_rmse, current_rmse, drift_ratio.
+  std::map<std::string, float> GetModelHealth();
+
+  /// @brief Rebuild cost model with incremental training data.
+  /// @param new_data_points New data points to include in retraining.
+  /// @return Updated cost model.
+  std::unique_ptr<CostModel> RebuildModelWithNewData(
+      const std::vector<DataPoint>& new_data_points);
+
+  /// @brief Get model version and build timestamp.
+  /// @return Map containing: version, built_at_sec, retrains_count.
+  std::map<std::string, uint64_t> GetModelMetadata();
+
   /// @brief Add training data point.
   /// @param data_point Data point (features + cost).
   void AddTrainingData(const DataPoint& data_point);
@@ -145,6 +173,15 @@ class CostModelBuilder {
 
  private:
   std::vector<DataPoint> training_data_;
+  
+  // Auto-retraining tracking
+  bool auto_retrain_enabled_;
+  uint32_t auto_retrain_interval_sec_;
+  float auto_retrain_drift_threshold_;
+  int64_t last_retrain_time_us_;
+  int64_t model_built_time_us_;
+  uint64_t retrains_count_;
+  float last_model_rmse_;
 };
 
 }  // namespace themis::rag
