@@ -68,9 +68,10 @@ class DockerRuntimePackageRegressionTests(unittest.TestCase):
             self.assertIn(package_name, debug_packages)
 
     def test_runtime_and_debug_stages_do_not_reintroduce_legacy_runtime_packages(self) -> None:
+        dockerfile_text = self._dockerfile_text()
         runtime_and_debug_packages = (
-            extract_installed_packages(extract_stage(self._dockerfile_text(), "runtime"))
-            | extract_installed_packages(extract_stage(self._dockerfile_text(), "debug"))
+            extract_installed_packages(extract_stage(dockerfile_text, "runtime"))
+            | extract_installed_packages(extract_stage(dockerfile_text, "debug"))
         )
 
         for package_name in LEGACY_RUNTIME_PACKAGES:
