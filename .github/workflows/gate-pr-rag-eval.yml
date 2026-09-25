@@ -205,12 +205,11 @@ jobs:
             -DCMAKE_BUILD_TYPE=Debug \
             -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
             -DTHEMIS_DIAGNOSTIC_MODE=ON \
-            -DTHEMIS_BUILD_TESTS=ON \
-            -DTHEMIS_RAG_EVALUATION=ON
+            -DTHEMIS_BUILD_TESTS=ON
       
       - name: Build RAG Tests
         run: |
-          cmake --build /tmp/rag-build --target module_rag_test_rag_evaluation_focused_tests --parallel 4
+          cmake --build /tmp/rag-build --parallel 4
       
       - name: Run release_critical RAG Tests
         run: |
