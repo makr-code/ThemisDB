@@ -202,7 +202,7 @@ jobs:
       - name: Configure
         run: |
           cmake -B /tmp/rag-build \
-            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_BUILD_TYPE=Debug \
             -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
             -DTHEMIS_DIAGNOSTIC_MODE=ON \
             -DTHEMIS_BUILD_TESTS=ON \
