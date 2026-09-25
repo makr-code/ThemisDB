@@ -21,8 +21,9 @@ LEGACY_UBUNTU_2204_RUNTIME_PACKAGE_TOKENS = frozenset(
         "librocksdb7",
         "libgrpc++1",
         "libprotobuf32",
-        # Keep the bare libcurl4 token out of the Noble runtime/debug stages so the
-        # Dockerfile stays pinned to the explicit Ubuntu 24.04 t64 package family.
+        # Exact-token guard: keep the bare libcurl4 package token out of the
+        # Noble runtime/debug stages so the Dockerfile stays pinned to the
+        # explicit Ubuntu 24.04 t64 package family.
         "libcurl4",
     }
 )
@@ -65,7 +66,6 @@ def extract_installed_packages(stage_text: str, stage_name: str) -> set[str]:
                 break
             if not stripped.endswith("\\"):
                 break
-        break
 
     if not packages:
         raise AssertionError(f"Docker stage {stage_name!r} did not yield any parsed apt package tokens")
