@@ -51,6 +51,14 @@ struct FdGuard {
     int fd_;
 };
 
+inline void flushFdToDisk(int fd) noexcept {
+#if defined(__APPLE__)
+    (void)::fsync(fd);
+#else
+    (void)::fdatasync(fd);
+#endif
+}
+
 } // anonymous namespace
 #endif
 
@@ -249,7 +257,7 @@ void AuditLogger::appendJsonLine(const nlohmann::json& j) {
         int fd = ::open(cfg_.log_path.c_str(), O_WRONLY | O_APPEND | O_CREAT, 0600);
         if (fd >= 0) {
             FdGuard guard(fd);
-            ::fdatasync(guard.fd_);
+            flushFdToDisk(guard.fd_);
         }
 #else
         HANDLE h = CreateFileA(cfg_.log_path.c_str(), GENERIC_WRITE,
@@ -275,7 +283,7 @@ void AuditLogger::appendJsonLine(const nlohmann::json& j) {
             int fd2 = ::open(cfg_.secondary_log_path.c_str(), O_WRONLY | O_APPEND | O_CREAT, 0600);
             if (fd2 >= 0) {
                 FdGuard guard2(fd2);
-                ::fdatasync(guard2.fd_);
+                flushFdToDisk(guard2.fd_);
             }
 #else
             HANDLE h2 = CreateFileA(cfg_.secondary_log_path.c_str(), GENERIC_WRITE,
@@ -1945,7 +1953,7 @@ void HashChainAuditWriter::saveChainHead() {
             int fd = ::open(cfg_.chain_head_path.c_str(), O_RDONLY);
             if (fd >= 0) {
                 FdGuard guard(fd);
-                ::fdatasync(guard.fd_);
+                flushFdToDisk(guard.fd_);
             }
         }
 #endif
