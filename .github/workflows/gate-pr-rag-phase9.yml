@@ -28,6 +28,10 @@ on:
       - 'tests/rag/test_evaluation_result_store.cpp'
       - '.github/workflows/gate-pr-rag-phase9.yml'
 
+concurrency:
+  group: rag-phase9-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   pull-requests: read
   contents: read

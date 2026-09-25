@@ -28,6 +28,10 @@ on:
       - 'tests/rag/test_cost_attribution_tracker.cpp'
       - '.github/workflows/gate-pr-rag-phase8.yml'
 
+concurrency:
+  group: rag-phase8-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   pull-requests: read
   contents: read

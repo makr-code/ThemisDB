@@ -25,6 +25,10 @@ on:
       - 'tests/llm/**'
       - '.github/workflows/gate-pr-rag-version.yml'
 
+concurrency:
+  group: rag-version-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   pull-requests: read
   contents: read
@@ -71,35 +75,35 @@ jobs:
           fi
           
           # Validate JSON Schema structure
-          python3 << 'EOF'
-import json
-import sys
+          python3 - <<'PYEOF'
+          import json
+          import sys
 
-try:
-    with open('src/index/INDEX_MANIFEST_V1_SCHEMA.json') as f:
-        schema = json.load(f)
-    
-    # Verify $schema and definitions
-    if '$schema' not in schema:
-        print("❌ FAIL: $schema not defined in JSON Schema")
-        sys.exit(1)
-    
-    if 'definitions' not in schema:
-        print("❌ FAIL: definitions not found in JSON Schema")
-        sys.exit(1)
-    
-    # Check for required definitions
-    required_defs = ['IndexVersion', 'EmbeddingMetadata', 'ChunkingMetadata', 'IndexSchema']
-    for defn in required_defs:
-        if defn not in schema['definitions']:
-            print(f"❌ FAIL: Required definition '{defn}' not found")
+          try:
+            with open('src/index/INDEX_MANIFEST_V1_SCHEMA.json') as f:
+                schema = json.load(f)
+
+            # Verify $schema and definitions
+            if '$schema' not in schema:
+                print("FAIL: $schema not defined in JSON Schema")
+                sys.exit(1)
+
+            if 'definitions' not in schema:
+                print("FAIL: definitions not found in JSON Schema")
+                sys.exit(1)
+
+            # Check for required definitions
+            required_defs = ['IndexVersion', 'EmbeddingMetadata', 'ChunkingMetadata', 'IndexSchema']
+            for defn in required_defs:
+                if defn not in schema['definitions']:
+                    print(f"FAIL: Required definition '{defn}' not found")
+                    sys.exit(1)
+
+            print("INDEX_MANIFEST_V1_SCHEMA.json valid")
+          except Exception as e:
+            print(f"FAIL: Schema validation error: {e}")
             sys.exit(1)
-    
-    print("✓ INDEX_MANIFEST_V1_SCHEMA.json valid")
-except Exception as e:
-    print(f"❌ FAIL: Schema validation error: {e}")
-    sys.exit(1)
-EOF
+          PYEOF
       
       - name: Validate Reindex Decision Logic
         run: |

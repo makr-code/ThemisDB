@@ -28,6 +28,10 @@ on:
       - 'tests/rag/test_recommendation_engine.cpp'
       - '.github/workflows/gate-pr-rag-phase10.yml'
 
+concurrency:
+  group: rag-phase10-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   pull-requests: read
   contents: read

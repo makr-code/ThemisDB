@@ -25,6 +25,10 @@ on:
       - 'tests/rag/**'
       - '.github/workflows/gate-pr-rag-security.yml'
 
+concurrency:
+  group: rag-security-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   pull-requests: read
   contents: read

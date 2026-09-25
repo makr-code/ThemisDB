@@ -24,6 +24,10 @@ on:
       - 'benchmarks/rag/**'
       - '.github/workflows/gate-pr-rag-eval.yml'
 
+concurrency:
+  group: rag-eval-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   pull-requests: read
   contents: read
@@ -100,26 +104,26 @@ jobs:
           
           # If eval metrics exist in PR, check against baselines
           if [ -f "benchmarks/rag/data/eval_results.json" ]; then
-            python3 << 'EOF'
-import json
-import sys
+            python3 - <<'PYEOF'
+          import json
+          import sys
 
-with open('benchmarks/rag/data/baselines_v1.json') as f:
-    baselines = json.load(f)
+          with open('benchmarks/rag/data/baselines_v1.json') as f:
+              baselines = json.load(f)
 
-with open('benchmarks/rag/data/eval_results.json') as f:
-    results = json.load(f)
+          with open('benchmarks/rag/data/eval_results.json') as f:
+              results = json.load(f)
 
-# Check Recall@10 regression threshold (≤ 2pp)
-recall_threshold = baselines['global_targets']['recall_regression_threshold_pp']
-for dataset in results.get('datasets', []):
-    recall_delta = abs(dataset['recall_at_10_baseline'] - dataset['recall_at_10_current'])
-    if recall_delta > recall_threshold:
-      print(f"❌ FAIL: Recall@10 regression {recall_delta}pp exceeds threshold {recall_threshold}pp on {dataset['dataset_id']}")
-      sys.exit(1)
+          # Check Recall@10 regression threshold (<=2pp)
+          recall_threshold = baselines['global_targets']['recall_regression_threshold_pp']
+          for dataset in results.get('datasets', []):
+              recall_delta = abs(dataset['recall_at_10_baseline'] - dataset['recall_at_10_current'])
+              if recall_delta > recall_threshold:
+                  print(f"FAIL: Recall@10 regression {recall_delta}pp exceeds threshold {recall_threshold}pp on {dataset['dataset_id']}")
+                  sys.exit(1)
 
-print("✓ All regression thresholds within limits")
-EOF
+          print("All regression thresholds within limits")
+          PYEOF
           else
             echo "ℹ No eval metrics in PR (expected for non-release branches)"
           fi

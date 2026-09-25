@@ -31,6 +31,10 @@ on:
       - 'tests/rag/test_freshness_sla_enforcer.cpp'
       - '.github/workflows/gate-pr-rag-phase7.yml'
 
+concurrency:
+  group: rag-phase7-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   pull-requests: read
   contents: read
