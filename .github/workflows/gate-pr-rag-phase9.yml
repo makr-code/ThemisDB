@@ -148,7 +148,7 @@ jobs:
           fi
           
           # Check result store
-          if ! grep -q "StoreResult\|GetResult\|CompareResults\|GetTrends" "src/rag/evaluation_result_store.cpp"; then
+          if ! grep -q "StoreRun\|LoadResults\|Compare\|GetTrend\|GenerateReport\|ExportRun" "src/rag/evaluation_result_store.cpp"; then
             echo "❌ FAIL: Result storage core methods not implemented"
             exit 1
           fi
@@ -168,9 +168,9 @@ jobs:
           )
           
           for impl in "${impls[@]}"; do
-            echo "  Compiling $(basename $impl)..."
-            g++ -std=c++20 -I${GITHUB_WORKSPACE}/include -c "$impl" -o "$(basename $impl .cpp).o" || {
-              echo "❌ FAIL: Compilation error in $(basename $impl)"
+            echo "  Compiling $(basename "$impl")..."
+            g++ -std=c++20 -I"${GITHUB_WORKSPACE}/include" -c "$impl" -o "$(basename "$impl" .cpp).o" || {
+              echo "❌ FAIL: Compilation error in $(basename "$impl")"
               exit 1
             }
           done
@@ -221,6 +221,7 @@ jobs:
       
       - name: Apply Gate Label
         if: success()
+        continue-on-error: true
         uses: actions/github-script@v7
         with:
           script: |
@@ -233,6 +234,7 @@ jobs:
       
       - name: Comment Gate Status
         if: always()
+        continue-on-error: true
         uses: actions/github-script@v7
         with:
           script: |
