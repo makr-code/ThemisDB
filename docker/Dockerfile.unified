@@ -374,12 +374,12 @@ ENV THEMIS_DEFAULT_GGUF_PATH=/models/default.gguf
 WORKDIR /app
 
 # Install minimal runtime dependencies (removed librocksdb-dev, kept only needed libs)
-# Note: librocksdb7 is the runtime library; librocksdb-dev (build headers) is not needed here.
+# Note: Ubuntu 24.04 ships versioned runtime packages such as librocksdb8.9/libgrpc++1.51t64.
 # Using runtime-only lib reduces layer size by ~5-10% compared to including dev packages.
 RUN --mount=type=cache,id=apt-cache-runtime-${TARGETARCH},target=/var/cache/apt,sharing=locked \
     --mount=type=cache,id=apt-lib-runtime-${TARGETARCH},target=/var/lib/apt,sharing=locked \
     apt-get update && apt-get install -y --no-install-recommends \
-        ca-certificates librocksdb7 libgrpc++1 libprotobuf32 libcurl4 && \
+        ca-certificates librocksdb8.9 libgrpc++1.51t64 libprotobuf32t64 libcurl4t64 && \
     rm -rf /var/lib/apt/lists/*
 
 # Copy binary
@@ -413,11 +413,11 @@ ENV THEMIS_DEFAULT_GGUF_PATH=/models/default.gguf
 
 WORKDIR /app
 
-# Install debug tools (use librocksdb7 instead of librocksdb-dev, added ca-certificates early)
+# Install debug tools with Ubuntu 24.04 runtime package names, added ca-certificates early
 RUN --mount=type=cache,id=apt-cache-debug-${TARGETARCH},target=/var/cache/apt,sharing=locked \
     --mount=type=cache,id=apt-lib-debug-${TARGETARCH},target=/var/lib/apt,sharing=locked \
     apt-get update && apt-get install -y --no-install-recommends \
-        ca-certificates librocksdb7 libgrpc++1 libprotobuf32 libcurl4 \
+        ca-certificates librocksdb8.9 libgrpc++1.51t64 libprotobuf32t64 libcurl4t64 \
         gdb strace htop less nano git telnet netcat-openbsd && \
     rm -rf /var/lib/apt/lists/*
 
