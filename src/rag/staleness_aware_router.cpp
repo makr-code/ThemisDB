@@ -39,8 +39,8 @@ StalenessAwareRouter::RoutingDecision StalenessAwareRouter::Route(
     decision.fallback_shards = {};
     decision.use_fallback = false;
     decision.freshness_confidence =
-        1.0f - (last_staleness_ms_ - staleness_target_ms_) /
-                   (staleness_critical_ms_ - staleness_target_ms_) * 0.3f;
+        1.0f - (static_cast<float>(last_staleness_ms_ - staleness_target_ms_) /
+                static_cast<float>(staleness_critical_ms_ - staleness_target_ms_)) * 0.3f;
     decision.rationale = "Primary degraded (staleness > target, < 2x)";
   } else {
     // Critical: fall back to replicas

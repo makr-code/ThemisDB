@@ -66,13 +66,13 @@ TEST_F(IngestionLatencyMonitorTest, GetShardStatuses) {
                     .count();
 
   monitor_->RecordIngestionTime("shard_1", now_us - 10000 * 1000);   // healthy
-  monitor_->RecordIngestionTime("shard_2", now_us - 350000 * 1000);  // critical
+  monitor_->RecordIngestionTime("shard_2", now_us - 350000 * 1000);  // stale
 
   auto statuses = monitor_->GetShardStatuses();
 
   EXPECT_EQ(statuses.size(), 2);
   EXPECT_EQ(statuses["shard_1"].status, "healthy");
-  EXPECT_EQ(statuses["shard_2"].status, "critical");
+  EXPECT_EQ(statuses["shard_2"].status, "stale");
 }
 
 TEST_F(IngestionLatencyMonitorTest, GetCriticalShards) {

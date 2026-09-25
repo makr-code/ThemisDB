@@ -30,6 +30,7 @@ FreshnessSLAEnforcer::ComplianceStatus FreshnessSLAEnforcer::GetComplianceStatus
   ComplianceStatus status;
   auto percentiles = monitor_->GetPercentiles();
 
+  status.sla_name = sla_name_;
   status.p95_latency_ms = percentiles.p95_latency_ms;
   status.sla_target_ms = target_p95_ms_;
   status.is_compliant = (status.p95_latency_ms <= target_p95_ms_);

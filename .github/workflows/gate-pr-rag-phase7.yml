@@ -235,7 +235,7 @@ jobs:
       - name: Install Build Dependencies
         run: |
           sudo apt-get update && sudo apt-get install -y \
-            cmake ninja-build g++-13 libfmt-dev libspdlog-dev nlohmann-json3-dev libboost-filesystem-dev libboost-system-dev
+            cmake ninja-build g++-13 libfmt-dev libspdlog-dev nlohmann-json3-dev libboost-filesystem-dev libboost-system-dev libgtest-dev
           cargo install sccache || (curl -L https://github.com/mozilla/sccache/releases/download/v0.7.7/sccache-v0.7.7-x86_64-unknown-linux-musl.tar.gz | tar -xz -C /tmp && sudo mv /tmp/sccache-v0.7.7-x86_64-unknown-linux-musl/sccache /usr/local/bin/)
       
       - name: Configure CMake
@@ -249,15 +249,51 @@ jobs:
       
       - name: Build Phase 7 Tests
         run: |
-          cmake --build /tmp/phase7-build --target \
-            module_rag_test_freshness_sla_enforcer \
-            --parallel 4
-      
+          mkdir -p /tmp/phase7-build
+          build_phase7_test() {
+            local test_name="$1"
+            shift
+
+            echo "Building ${test_name}..."
+            g++-13 -std=c++20 -pthread \
+              -I"${GITHUB_WORKSPACE}/include" \
+              "$@" \
+              -lgtest -lgtest_main \
+              -o "/tmp/phase7-build/${test_name}"
+          }
+
+          build_phase7_test \
+            test_ingestion_latency_monitor \
+            "${GITHUB_WORKSPACE}/tests/rag/test_ingestion_latency_monitor.cpp" \
+            "${GITHUB_WORKSPACE}/src/rag/ingestion_latency_monitor.cpp"
+
+          build_phase7_test \
+            test_staleness_aware_router \
+            "${GITHUB_WORKSPACE}/tests/rag/test_staleness_aware_router.cpp" \
+            "${GITHUB_WORKSPACE}/src/rag/staleness_aware_router.cpp" \
+            "${GITHUB_WORKSPACE}/src/rag/ingestion_latency_monitor.cpp"
+
+          build_phase7_test \
+            test_index_refresh_scheduler \
+            "${GITHUB_WORKSPACE}/tests/rag/test_index_refresh_scheduler.cpp" \
+            "${GITHUB_WORKSPACE}/src/rag/index_refresh_scheduler.cpp"
+
+          build_phase7_test \
+            test_freshness_sla_enforcer \
+            "${GITHUB_WORKSPACE}/tests/rag/test_freshness_sla_enforcer.cpp" \
+            "${GITHUB_WORKSPACE}/src/rag/freshness_sla_enforcer.cpp" \
+            "${GITHUB_WORKSPACE}/src/rag/ingestion_latency_monitor.cpp"
+
       - name: Run Phase 7 Tests
         run: |
-          cd /tmp/phase7-build
-          ctest -R "freshness_sla_enforcer\|ingestion_latency_monitor\|staleness_aware_router\|index_refresh_scheduler" \
-            -V --output-on-failure || true
+          for test_binary in \
+            /tmp/phase7-build/test_ingestion_latency_monitor \
+            /tmp/phase7-build/test_staleness_aware_router \
+            /tmp/phase7-build/test_index_refresh_scheduler \
+            /tmp/phase7-build/test_freshness_sla_enforcer; do
+            echo "Running $(basename "${test_binary}")..."
+            "${test_binary}" --gtest_color=yes
+          done
 
   gate_status:
     name: "Gate Status Summary"

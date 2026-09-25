@@ -51,6 +51,7 @@ class FreshnessSLAEnforcer {
   /// @brief SLA compliance status.
   struct ComplianceStatus {
     bool is_compliant;              ///< true if within SLA
+    std::string sla_name;           ///< SLA identifier for this compliance snapshot
     uint64_t p95_latency_ms;        ///< Current p95 staleness
     uint64_t sla_target_ms;         ///< Target p95 staleness
     float compliance_percentage;    ///< % of time compliant (1-hour window)
