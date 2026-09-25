@@ -48,3 +48,47 @@ Use this README to track ownership, implementation status, and phase-gate progre
 - `docs/IMPLEMENTATION_ROADMAP.md`
 - `docs/EPIC1_2_3_DEPENDENCIES.md`
 - `src/retrieval/README.md`
+
+---
+
+## Zweck
+
+Enthält die Implementierungsdateien des Retrieval-Moduls. Jede `.cc`-Datei entspricht einem Header-Vertrag aus `include/retrieval/`.
+
+## Scope
+
+Enthält: `lora_package.cc` sowie geplante Phase-2/3-Implementierungen.  
+Nicht enthalten: Tests, Header-Definitionen, Benchmark-Treiber.
+
+## Quickstart (Build/Run)
+
+```bash
+cmake -S ../.. -B /tmp/retrieval-build -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON -DTHEMIS_DIAGNOSTIC_MODE=ON -DTHEMIS_ENABLE_COMPILER_CACHE=OFF
+cmake --build /tmp/retrieval-build --target retrieval_tests
+```
+
+## API/CLI Einstieg
+
+Direkter Einstieg über `include/retrieval/retrieval_engine.h`. Implementierungsdetails sind modulintern und nicht zur direkten Verwendung vorgesehen.
+
+## Integrationsueberblick
+
+```mermaid
+flowchart TD
+    Header["include/retrieval/*.h"] --> Impl["src/retrieval/src/*.cc"]
+    Impl --> Tests["tests/retrieval/"]
+    Impl --> Benchmarks["benchmarks/retrieval/"]
+```
+
+**Kurzinterpretation:** Die Implementierungsdateien sind strikt auf die Header-Verträge abgestimmt. Tests und Benchmarks validieren das Verhalten gegen die öffentliche API.
+
+## Known Limitations
+
+- `lora_package.cc` ist die einzige vollständig implementierte Datei (Phase 3).
+- Übrige Module (Phase 2-3) sind noch nicht erstellt; Status: Geplant.
+
+## Verweise
+
+- `include/retrieval/` — Header-Verträge
+- `src/retrieval/README.md` — Modul-Übersicht
+- `tests/retrieval/` — Testabdeckung

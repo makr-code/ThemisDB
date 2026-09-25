@@ -142,6 +142,7 @@ jobs:
               -DTHEMIS_ENABLE_CUDA=ON \
               -DTHEMIS_DIAGNOSTIC_MODE=ON \
               -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
+              -DTHEMIS_ENABLE_COMPILER_CACHE=OFF \
               ..
           else
             echo "Configuring CPU-only mode (GPU fallback)"
@@ -151,6 +152,7 @@ jobs:
               -DTHEMIS_ENABLE_CUDA=OFF \
               -DTHEMIS_DIAGNOSTIC_MODE=ON \
               -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
+              -DTHEMIS_ENABLE_COMPILER_CACHE=OFF \
               ..
           fi
 
@@ -220,7 +222,7 @@ jobs:
 
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-results-${{ matrix.test_suite }}-${{ needs.phase1-health-check.outputs.execution_mode }}
           path: test_results_*.json
@@ -261,7 +263,7 @@ jobs:
 
       - name: Upload baseline validation report
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: baseline-validation-report
           path: phase4_validation_report.json
@@ -327,7 +329,7 @@ jobs:
           cat phase1_completion_status.json
 
       - name: Upload Phase 1 completion status
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: phase1-completion-status
           path: phase1_completion_status.json

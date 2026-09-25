@@ -73,3 +73,53 @@ Use this module documentation to:
 - `docs/EPIC1_2_3_DEPENDENCIES.md`
 - `src/retrieval/include/README.md`
 - `src/retrieval/src/README.md`
+
+---
+
+## Zweck
+
+Das Retrieval-Modul stellt die dokumentenbasierte Suchinfrastruktur für ThemisDB bereit. Es koppelt Vektorsuche, semantisches Re-Ranking und policy-gesteuertes Filtern zu einer konsistenten Retrieval-Pipeline.
+
+## Scope
+
+Enthält: Vektorindex-Zugriff, Dual-Read-Validator, Policy-Enforcement, Re-Ranking und Freshness-Routing.  
+Nicht enthalten: LLM-Inferenz, Embedding-Generierung, Ingestion-Pipeline.
+
+## Quickstart (Build/Run)
+
+```bash
+cmake -S . -B build -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON -DTHEMIS_DIAGNOSTIC_MODE=ON -DTHEMIS_ENABLE_COMPILER_CACHE=OFF
+cmake --build build --target retrieval_tests
+ctest --test-dir build -R retrieval
+```
+
+## API/CLI Einstieg
+
+Die zentrale Schnittstelle ist `RetrievalEngine::query(QueryRequest)`. Policy-Konfiguration erfolgt über `RetrievalPolicyEnforcer`. Für Batch-Auswertungen steht `DualReadValidator` zur Verfügung.
+
+## Integrationsueberblick
+
+```mermaid
+flowchart LR
+    Client --> RetrievalEngine
+    RetrievalEngine --> VectorIndex
+    RetrievalEngine --> PolicyEnforcer
+    RetrievalEngine --> Reranker
+    Reranker --> LLMPlugin
+    PolicyEnforcer --> MaskingLayer
+```
+
+**Kurzinterpretation:** Anfragen durchlaufen zuerst den VectorIndex für Kandidatensuche, dann den PolicyEnforcer für Zugriffsfilterung und schließlich den Reranker zur semantischen Verbesserung. LLM-Integration ist optional und entkoppelt.
+
+## Known Limitations
+
+- RocksDB-basierter Persistenzpfad erfordert explizite Initialisierung im Produktionsbetrieb.
+- OTLP-Span-Emission noch nicht vollständig in opentelemetry-cpp integriert.
+- Reranking-Modell muss manuell geladen werden; kein automatisches Modell-Management.
+
+## Verweise
+
+- `src/retrieval/src/` — Implementierungsdetails
+- `include/retrieval/` — Public API Header
+- `src/rag/ARCHITECTURE.md` — RAG-übergreifende Architektur
+- `src/rag/FRESHNESS_SLA_SPECIFICATION.md` — Freshness-SLA-Vertrag

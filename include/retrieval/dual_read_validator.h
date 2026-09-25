@@ -177,31 +177,31 @@ class DualReadValidator {
                                   const std::vector<std::string>& ground_truth);
 
   /**
-   * @brief Compute recall@k
+   * @brief Compute recall@@k
    * @param results Results (must be sorted by rank)
    * @param ground_truth Relevant docs
    * @param k Cutoff rank (typically 10)
-   * @return Recall@k (fraction of relevant docs retrieved)
+   * @return Recall@@k (fraction of relevant docs retrieved)
    */
   static double ComputeRecallAtK(const std::vector<RetrievalResult>& results,
                                  const std::vector<std::string>& ground_truth, int k);
 
   /**
-   * @brief Compute nDCG@k (normalized DCG)
+   * @brief Compute nDCG@@k (normalized DCG)
    * @param results Results (must be sorted by rank)
    * @param ground_truth Relevant docs
    * @param k Cutoff rank (typically 10)
-   * @return Normalized DCG@k (0.0-1.0)
+   * @return Normalized DCG@@k (0.0-1.0)
    */
   static double ComputeNdcgAtK(const std::vector<RetrievalResult>& results,
                                const std::vector<std::string>& ground_truth, int k);
 
   /**
-   * @brief Compute MRR@k (mean reciprocal rank)
+   * @brief Compute MRR@@k (mean reciprocal rank)
    * @param results Results (must be sorted by rank)
    * @param ground_truth Relevant docs
    * @param k Cutoff rank (typically 10)
-   * @return MRR@k (reciprocal of rank of first relevant doc)
+   * @return MRR@@k (reciprocal of rank of first relevant doc)
    */
   static double ComputeMrrAtK(const std::vector<RetrievalResult>& results,
                               const std::vector<std::string>& ground_truth, int k);

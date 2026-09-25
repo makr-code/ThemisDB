@@ -414,3 +414,94 @@ Recommendations sorted by ROI, returned to operator
 **Status:** PENDING — hardware p95/p99 latency gates and Wikipedia ABI wiring not yet signed off.
 **Tracking:** RAG Phase completion: https://github.com/makr-code/ThemisDB/issues/5665
 
+
+---
+
+## Kontext
+
+Das RAG-Modul (Retrieval-Augmented Generation) ist das Kernsystem für wissensgestützte Antwortgenerierung in ThemisDB. Es verbindet Dokumentenretrieval, semantisches Re-Ranking, Freshness-Überwachung, SLO-Tracking und Evaluierungsinfrastruktur zu einer integrierten Pipeline für produktive LLM-Anwendungen.
+
+## Komponenten
+
+| Komponente | Beschreibung |
+|---|---|
+| `IngestionLatencyMonitor` | T-Digest-basierte Latenzperzentil-Schätzung für Indexier-Operationen |
+| `StalenessAwareRouter` | Routing mit Freshness-Score-Bewertung |
+| `IndexRefreshScheduler` | Periodische Trigger für Indexaktualisierungen |
+| `FreshnessSLAEnforcer` | SLA-Zustandsmaschine (Normal/Warning/Critical) |
+| `RealtimeSLOTracker` | Multi-Metrik SLO-Tracking (5 min/1 h/täglich) |
+| `OTelSpanEmitter` | W3C-konformes Span-Lifecycle-Management |
+| `CostAttributionTracker` | Multi-Tenant Kosten-Tracking |
+| `BenchmarkSuite` | Standard-IR-Metrik-Berechnung (NDCG, MRR, MAP) |
+| `MetricComputation` | Mathematische Kern-Metriken |
+| `EvaluationResultStore` | Persistente Ergebnisspeicherung |
+| `GradientDescentOptimizer` | Lernraten-Zerfall, Konvergenzprüfung |
+| `CostModelBuilder` | L2-Regularisierung, Kreuzvalidierung |
+| `RecommendationEngine` | ROI-Scoring und Optimierungsempfehlungen |
+
+## Schnittstellen
+
+- **Eingehend:** `RAGPipeline::query()`, `RAGIngestionEngine::ingest()`
+- **Ausgehend:** LLM-Plugin-Interface, VectorIndex-API, RocksDB-Persistenz
+- **Monitoring:** OpenTelemetry OTLP Exporter, Prometheus-Metriken
+- **Konfiguration:** `RAGConfig`, `SLAConfig`, `CostModelConfig`
+
+## Datenfluss
+
+```mermaid
+flowchart LR
+    Ingestion --> LatencyMonitor
+    LatencyMonitor --> StalenessRouter
+    StalenessRouter --> FreshnessEnforcer
+    FreshnessEnforcer --> QueryPipeline
+    QueryPipeline --> SLOTracker
+    QueryPipeline --> CostTracker
+    SLOTracker --> OTelSpan
+    CostTracker --> BillingStore
+    QueryPipeline --> BenchmarkSuite
+    BenchmarkSuite --> ResultStore
+    ResultStore --> Optimizer
+    Optimizer --> RecommendationEngine
+```
+
+**Kurzinterpretation:** Daten fließen von der Ingestion über Latenz- und Freshness-Kontrolle zur Abfragepipeline. Parallel laufen SLO-Tracking, Kosten-Attribution und Evaluierungsmetriken. Die Ergebnisse fließen in den Gradientenabstieg-Optimierer und erzeugen ROI-Empfehlungen.
+
+## Sequenz (kritischer Ablauf)
+
+```mermaid
+sequenceDiagram
+    Client->>QueryPipeline: query(request)
+    QueryPipeline->>StalenessRouter: route(docs)
+    StalenessRouter->>FreshnessEnforcer: checkSLA()
+    FreshnessEnforcer-->>StalenessRouter: SLA_OK / WARNING / CRITICAL
+    QueryPipeline->>SLOTracker: recordLatency(ms)
+    SLOTracker->>OTelSpan: emitSpan(context)
+    QueryPipeline->>CostTracker: attributeCost(tenant)
+    QueryPipeline-->>Client: QueryResult
+```
+
+**Kurzinterpretation:** Jede Anfrage wird zuerst durch Freshness-Prüfung geleitet. Bei SLA-Verletzung wird der Zustand auf WARNING/CRITICAL gesetzt und der Refresh-Scheduler benachrichtigt. Gleichzeitig werden Latenz, SLO-Status und Tenant-Kosten erfasst.
+
+## Fehlerpfade und Resilienz
+
+- **SLA-Verletzung (CRITICAL):** FreshnessSLAEnforcer löst Hysterese-Schutz aus; Routing wird auf nicht-veraltete Shards eingeschränkt.
+- **RocksDB nicht verfügbar:** In-Memory-Fallback für EvaluationResultStore und CostAttributionTracker.
+- **OTLP-Sender-Ausfall:** Spans werden lokal gepuffert (Ring-Buffer); kein Datenverlust bei kurzen Ausfällen.
+- **Optimierer-Divergenz:** GradientDescentOptimizer erkennt Nicht-Konvergenz nach max_iterations; gibt letzte stabile Parameter zurück.
+
+## Nicht-Ziele
+
+- Kein direkter LLM-Modell-Download oder -Update innerhalb des RAG-Moduls.
+- Kein eigenes Netzwerk-Stack; OTLP-Emission erfordert opentelemetry-cpp-Integration.
+- Keine direkte User-Authentifizierung; wird vom Server-Layer delegiert.
+- Kein grafisches Dashboard; Metriken werden als Prometheus-Exposition bereitgestellt.
+
+## Verweise
+
+- `src/rag/FRESHNESS_SLA_SPECIFICATION.md` — Phase-7-SLA-Vertrag
+- `src/rag/OBSERVABILITY_SLO_SPECIFICATION.md` — Phase-8-SLO-Vertrag
+- `src/rag/RESEARCH_EVAL_HARNESS_SPECIFICATION.md` — Phase-9-Evaluierungsvertrag
+- `src/rag/COST_OPTIMIZER_SPECIFICATION.md` — Phase-10-Kostenoptimierung
+- `src/rag/ROADMAP.md` — Phasenstatus und Implementierungsfortschritt
+- `include/rag/` — Öffentliche Header-Verträge
+- `.github/workflows/gate-pr-rag-phase7.yml` — CI-Gate Phase 7

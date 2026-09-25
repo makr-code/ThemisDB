@@ -244,6 +244,7 @@ jobs:
             -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
             -DTHEMIS_DIAGNOSTIC_MODE=ON \
             -DTHEMIS_BUILD_TESTS=ON \
+            -DTHEMIS_ENABLE_COMPILER_CACHE=OFF \
             -G Ninja
       
       - name: Build Phase 7 Tests

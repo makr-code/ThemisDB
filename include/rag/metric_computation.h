@@ -19,11 +19,11 @@ namespace themis::rag {
 ///
 /// @details
 /// Metrics:
-/// - NDCG@K: Normalized Discounted Cumulative Gain (standard in TREC)
-/// - MRR@K: Mean Reciprocal Rank (for finding first relevant doc)
-/// - MAP@K: Mean Average Precision (average of precisions at each relevant doc)
-/// - Precision@K: % of top K results that are relevant
-/// - Recall@K: % of all relevant docs found in top K
+/// - NDCG@@K: Normalized Discounted Cumulative Gain (standard in TREC)
+/// - MRR@@K: Mean Reciprocal Rank (for finding first relevant doc)
+/// - MAP@@K: Mean Average Precision (average of precisions at each relevant doc)
+/// - Precision@@K: % of top K results that are relevant
+/// - Recall@@K: % of all relevant docs found in top K
 ///
 /// Relevance models:
 /// - Binary: relevant/not-relevant (0/1)
@@ -35,9 +35,9 @@ namespace themis::rag {
 /// - Custom: User-provided relevance function
 ///
 /// Computation:
-/// - DCG@K: Sum(rel_i / log2(i+1)) for i=1 to K
-/// - IDCG@K: DCG@K of perfect ranking
-/// - NDCG@K: DCG@K / IDCG@K
+/// - DCG@@K: Sum(rel_i / log2(i+1)) for i=1 to K
+/// - IDCG@@K: DCG@@K of perfect ranking
+/// - NDCG@@K: DCG@@K / IDCG@@K
 ///
 /// @code
 /// auto computer = std::make_unique<MetricComputer>();
@@ -83,51 +83,51 @@ class MetricComputer {
       uint32_t min_grade = 0,
       uint32_t max_grade = 3);
 
-  /// @brief Compute NDCG@K.
+  /// @brief Compute NDCG@@K.
   /// @param ranked_doc_ids Ranked document IDs (best to worst).
   /// @param relevance_judgments Map of doc_id → relevance grade.
   /// @param k Cutoff (typically 10 or 100).
-  /// @return NDCG@K score [0, 1].
+  /// @return NDCG@@K score [0, 1].
   float ComputeNDCG(
       const std::vector<std::string>& ranked_doc_ids,
       const std::map<std::string, uint32_t>& relevance_judgments,
       uint32_t k);
 
-  /// @brief Compute MRR@K.
+  /// @brief Compute MRR@@K.
   /// @param ranked_doc_ids Ranked document IDs.
   /// @param relevance_judgments Relevance map.
   /// @param k Cutoff.
-  /// @return MRR@K score [0, 1].
+  /// @return MRR@@K score [0, 1].
   float ComputeMRR(
       const std::vector<std::string>& ranked_doc_ids,
       const std::map<std::string, uint32_t>& relevance_judgments,
       uint32_t k);
 
-  /// @brief Compute MAP@K.
+  /// @brief Compute MAP@@K.
   /// @param ranked_doc_ids Ranked document IDs.
   /// @param relevance_judgments Relevance map.
   /// @param k Cutoff.
-  /// @return MAP@K score [0, 1].
+  /// @return MAP@@K score [0, 1].
   float ComputeMAP(
       const std::vector<std::string>& ranked_doc_ids,
       const std::map<std::string, uint32_t>& relevance_judgments,
       uint32_t k);
 
-  /// @brief Compute Precision@K.
+  /// @brief Compute Precision@@K.
   /// @param ranked_doc_ids Ranked document IDs.
   /// @param relevance_judgments Relevance map.
   /// @param k Cutoff.
-  /// @return Precision@K score [0, 1].
+  /// @return Precision@@K score [0, 1].
   float ComputePrecision(
       const std::vector<std::string>& ranked_doc_ids,
       const std::map<std::string, uint32_t>& relevance_judgments,
       uint32_t k);
 
-  /// @brief Compute Recall@K.
+  /// @brief Compute Recall@@K.
   /// @param ranked_doc_ids Ranked document IDs.
   /// @param relevance_judgments Relevance map.
   /// @param k Cutoff.
-  /// @return Recall@K score [0, 1].
+  /// @return Recall@@K score [0, 1].
   float ComputeRecall(
       const std::vector<std::string>& ranked_doc_ids,
       const std::map<std::string, uint32_t>& relevance_judgments,
@@ -149,7 +149,7 @@ class MetricComputer {
   /// @brief Compute idear DCG (for NDCG normalization).
   /// @param relevance_judgments All relevant documents with grades.
   /// @param k Cutoff.
-  /// @return Ideal DCG@K.
+  /// @return Ideal DCG@@K.
   float ComputeIdealDCG(
       const std::map<std::string, uint32_t>& relevance_judgments,
       uint32_t k);
