@@ -88,7 +88,7 @@ class MetricsReporter {
   /**
    * @brief Constructor
    *
-   * @param historical_window Keep this much historical data (default 30 days)
+   * @param historical_window_days Keep this much historical data (default 30 days)
    */
   explicit MetricsReporter(uint32_t historical_window_days = 30);
   ~MetricsReporter();

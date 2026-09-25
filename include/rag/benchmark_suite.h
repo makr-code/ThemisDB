@@ -40,7 +40,7 @@ namespace themis::rag {
 /// Evaluation workflow:
 /// 1. Load dataset or stream (query, ground truth relevance)
 /// 2. Execute RAG system (retrieve, rerank)
-/// 3. Compute metrics (NDCG@K, MRR@K, MAP@K)
+/// 3. Compute metrics (NDCG@@K, MRR@@K, MAP@@K)
 /// 4. Compare vs baseline
 /// 5. Report regressions and wins
 ///

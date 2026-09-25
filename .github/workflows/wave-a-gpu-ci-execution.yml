@@ -29,7 +29,7 @@ on:
 
 concurrency:
   group: wave-a-gpu-ci-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   # Phase 1: Health Check & Environment Detection
@@ -126,6 +126,7 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq cmake ninja-build gcc g++ build-essential
+          curl -L https://github.com/mozilla/sccache/releases/download/v0.7.7/sccache-v0.7.7-x86_64-unknown-linux-musl.tar.gz | tar -xz -C /tmp && sudo mv /tmp/sccache-v0.7.7-x86_64-unknown-linux-musl/sccache /usr/local/bin/
 
       - name: Configure CMake (GPU optional, CPU fallback)
         shell: bash
@@ -142,7 +143,6 @@ jobs:
               -DTHEMIS_ENABLE_CUDA=ON \
               -DTHEMIS_DIAGNOSTIC_MODE=ON \
               -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
-              -DTHEMIS_ENABLE_COMPILER_CACHE=OFF \
               ..
           else
             echo "Configuring CPU-only mode (GPU fallback)"
@@ -152,7 +152,6 @@ jobs:
               -DTHEMIS_ENABLE_CUDA=OFF \
               -DTHEMIS_DIAGNOSTIC_MODE=ON \
               -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
-              -DTHEMIS_ENABLE_COMPILER_CACHE=OFF \
               ..
           fi
 

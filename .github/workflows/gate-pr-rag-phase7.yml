@@ -236,6 +236,7 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get install -y \
             cmake ninja-build g++-13 libfmt-dev libspdlog-dev nlohmann-json3-dev
+          cargo install sccache || (curl -L https://github.com/mozilla/sccache/releases/download/v0.7.7/sccache-v0.7.7-x86_64-unknown-linux-musl.tar.gz | tar -xz -C /tmp && sudo mv /tmp/sccache-v0.7.7-x86_64-unknown-linux-musl/sccache /usr/local/bin/)
       
       - name: Configure CMake
         run: |
@@ -244,7 +245,6 @@ jobs:
             -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
             -DTHEMIS_DIAGNOSTIC_MODE=ON \
             -DTHEMIS_BUILD_TESTS=ON \
-            -DTHEMIS_ENABLE_COMPILER_CACHE=OFF \
             -G Ninja
       
       - name: Build Phase 7 Tests

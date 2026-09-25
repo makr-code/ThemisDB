@@ -24,7 +24,7 @@ namespace themis::rag {
 /// - p95 latency: staleness percentile
 /// - query throughput: QPS
 /// - rerank success rate: % queries reranked successfully
-/// - retrieval recall: NDCG@K
+/// - retrieval recall: NDCG@@K
 /// - cost per query: average $/query
 ///
 /// Windows:

@@ -47,7 +47,6 @@ class QueryPlanner {
   /**
    * @brief Constructor
    *
-   * @param cost_model_predictor Callback to get cost predictions from Phase 10
    * @param enable_adaptive_budget true to enable dynamic budget adjustment
    */
   QueryPlanner(bool enable_adaptive_budget = true);
