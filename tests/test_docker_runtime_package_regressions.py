@@ -20,6 +20,8 @@ LEGACY_UBUNTU_2204_RUNTIME_PACKAGE_TOKENS = frozenset(
     {
         # Exact package tokens only: the Ubuntu 24.04 Noble runtime/debug stages
         # intentionally use the distinct t64 package names instead.
+        # In particular, libprotobuf32 and libprotobuf32t64 are treated as
+        # different exact tokens by this regression guard.
         "librocksdb7",
         "libgrpc++1",
         "libprotobuf32",
@@ -55,11 +57,14 @@ def extract_installed_packages(stage_text: str, stage_name: str) -> set[str]:
             if not token.startswith("-"):
                 packages.add(token)
 
+        continuation_open = line.rstrip().endswith("\\")
         for candidate in lines[index + 1 :]:
+            if not continuation_open:
+                break
+
             stripped = candidate.strip()
             if not stripped:
-                break
-            if "&&" not in stripped and not stripped.endswith("\\"):
+                continuation_open = False
                 break
 
             cleaned = stripped.rstrip("\\").strip()
@@ -68,8 +73,7 @@ def extract_installed_packages(stage_text: str, stage_name: str) -> set[str]:
                 packages.update(token for token in before_and.split() if not token.startswith("-"))
             if "&&" in cleaned:
                 break
-            if not stripped.endswith("\\"):
-                break
+            continuation_open = stripped.endswith("\\")
 
     if not packages:
         raise AssertionError(f"Docker stage {stage_name!r} did not yield any parsed apt package tokens")
