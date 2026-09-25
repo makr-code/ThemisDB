@@ -18,6 +18,7 @@ LEGACY_RUNTIME_PACKAGES = (
     "librocksdb7",
     "libgrpc++1",
     "libprotobuf32",
+    "libcurl4",
 )
 
 
@@ -32,14 +33,14 @@ def extract_stage(text: str, stage_name: str) -> str:
     return match.group("body")
 
 
-def extract_installed_packages(stage_text: str) -> set[str]:
+def extract_installed_packages(stage_text: str, stage_name: str) -> set[str]:
     match = re.search(
         r"apt-get install -y --no-install-recommends \\\n(?P<body>.*?)(?=\s*&& \\\n\s*rm -rf /var/lib/apt/lists/\*)",
         stage_text,
         re.DOTALL,
     )
     if match is None:
-        raise AssertionError("Could not find apt-get install package block")
+        raise AssertionError(f"Could not find apt-get install package block in Docker stage {stage_name!r}")
 
     packages: set[str] = set()
     for line in match.group("body").splitlines():
@@ -55,14 +56,14 @@ class DockerRuntimePackageRegressionTests(unittest.TestCase):
 
     def test_runtime_stage_uses_ubuntu_2404_runtime_packages(self) -> None:
         runtime_stage = extract_stage(self._dockerfile_text(), "runtime")
-        runtime_packages = extract_installed_packages(runtime_stage)
+        runtime_packages = extract_installed_packages(runtime_stage, "runtime")
 
         for package_name in EXPECTED_UBUNTU_2404_RUNTIME_PACKAGES:
             self.assertIn(package_name, runtime_packages)
 
     def test_debug_stage_uses_ubuntu_2404_runtime_packages(self) -> None:
         debug_stage = extract_stage(self._dockerfile_text(), "debug")
-        debug_packages = extract_installed_packages(debug_stage)
+        debug_packages = extract_installed_packages(debug_stage, "debug")
 
         for package_name in EXPECTED_UBUNTU_2404_RUNTIME_PACKAGES:
             self.assertIn(package_name, debug_packages)
@@ -70,8 +71,8 @@ class DockerRuntimePackageRegressionTests(unittest.TestCase):
     def test_runtime_and_debug_stages_do_not_reintroduce_legacy_runtime_packages(self) -> None:
         dockerfile_text = self._dockerfile_text()
         runtime_and_debug_packages = (
-            extract_installed_packages(extract_stage(dockerfile_text, "runtime"))
-            | extract_installed_packages(extract_stage(dockerfile_text, "debug"))
+            extract_installed_packages(extract_stage(dockerfile_text, "runtime"), "runtime")
+            | extract_installed_packages(extract_stage(dockerfile_text, "debug"), "debug")
         )
 
         for package_name in LEGACY_RUNTIME_PACKAGES:
