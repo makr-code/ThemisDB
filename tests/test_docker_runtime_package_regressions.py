@@ -21,6 +21,8 @@ LEGACY_UBUNTU_2204_RUNTIME_PACKAGE_TOKENS = frozenset(
         "librocksdb7",
         "libgrpc++1",
         "libprotobuf32",
+        # Keep the bare libcurl4 token out of the Noble runtime/debug stages so the
+        # Dockerfile stays pinned to the explicit Ubuntu 24.04 t64 package family.
         "libcurl4",
     }
 )
@@ -53,12 +55,12 @@ def extract_installed_packages(stage_text: str, stage_name: str) -> set[str]:
         for candidate in lines[index + 1 :]:
             stripped = candidate.strip()
             if not stripped:
-                continue
+                break
 
             cleaned = stripped.rstrip("\\").strip()
             before_and = cleaned.split("&&", 1)[0].strip()
             if before_and:
-                packages.update(before_and.split())
+                packages.update(token for token in before_and.split() if not token.startswith("-"))
             if "&&" in cleaned:
                 break
             if not stripped.endswith("\\"):
