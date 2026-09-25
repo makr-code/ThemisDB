@@ -25,13 +25,15 @@ cmake -S "$REPO_ROOT" -B "$BUILD_DIR" \
   -DCMAKE_BUILD_TYPE=Debug \
   -DTHEMIS_ENABLE_GPU=ON \
   -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
+  -DTHEMIS_DIAGNOSTIC_MODE=ON \
   -DCMAKE_CXX_FLAGS="-Wall -Wextra -Werror=format" \
   || {
     echo "CMake configure failed. Trying with CPU-only fallback..."
     cmake -S "$REPO_ROOT" -B "$BUILD_DIR" \
       -DCMAKE_BUILD_TYPE=Debug \
       -DTHEMIS_ENABLE_GPU=OFF \
-      -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON
+      -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
+      -DTHEMIS_DIAGNOSTIC_MODE=ON
   }
 
 echo "[2/4] Building test targets..."
