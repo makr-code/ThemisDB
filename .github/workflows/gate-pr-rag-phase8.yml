@@ -33,7 +33,7 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  pull-requests: read
+  pull-requests: write
   contents: read
   issues: write
   checks: write
