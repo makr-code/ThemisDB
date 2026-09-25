@@ -234,6 +234,7 @@ jobs:
       
       - name: Apply Gate Label
         if: success()
+        continue-on-error: true
         uses: actions/github-script@v7
         with:
           script: |
@@ -246,6 +247,7 @@ jobs:
       
       - name: Comment Gate Status
         if: always()
+        continue-on-error: true
         uses: actions/github-script@v7
         with:
           script: |
