@@ -18,6 +18,8 @@ EXPECTED_UBUNTU_2404_RUNTIME_PACKAGE_TOKENS = frozenset(
 )
 LEGACY_UBUNTU_2204_RUNTIME_PACKAGE_TOKENS = frozenset(
     {
+        # Exact package tokens only: the Ubuntu 24.04 Noble runtime/debug stages
+        # intentionally use the distinct t64 package names instead.
         "librocksdb7",
         "libgrpc++1",
         "libprotobuf32",
@@ -56,6 +58,8 @@ def extract_installed_packages(stage_text: str, stage_name: str) -> set[str]:
         for candidate in lines[index + 1 :]:
             stripped = candidate.strip()
             if not stripped:
+                break
+            if "&&" not in stripped and not stripped.endswith("\\"):
                 break
 
             cleaned = stripped.rstrip("\\").strip()
