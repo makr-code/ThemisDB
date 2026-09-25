@@ -138,6 +138,11 @@ class CostForecastor {
     double max_value = 0.0;
     uint32_t sample_count = 0;
   };
+
+  /**
+   * @brief Get historical latency statistics for this forecaster.
+   * @return Statistics struct with mean, stddev, min, max, and sample count.
+   */
   Statistics GetHistoricalStats() const;
 
   /**

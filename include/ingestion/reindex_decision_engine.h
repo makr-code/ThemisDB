@@ -36,11 +36,14 @@ struct EmbeddingMetadata {
 
   /**
    * @brief Convert to JSON for RocksDB persistence
+   * @return JSON object with all EmbeddingMetadata fields.
    */
   nlohmann::json to_json() const;
 
   /**
    * @brief Load from JSON for RocksDB retrieval
+   * @param j JSON object to parse.
+   * @return Deserialized EmbeddingMetadata.
    */
   static EmbeddingMetadata from_json(const nlohmann::json& j);
 };
@@ -63,11 +66,14 @@ struct ChunkingMetadata {
 
   /**
    * @brief Convert to JSON
+   * @return JSON object with all ChunkingMetadata fields.
    */
   nlohmann::json to_json() const;
 
   /**
    * @brief Load from JSON
+   * @param j JSON object to parse.
+   * @return Deserialized ChunkingMetadata.
    */
   static ChunkingMetadata from_json(const nlohmann::json& j);
 };
@@ -104,11 +110,14 @@ struct IndexSchema {
 
   /**
    * @brief Convert to JSON
+   * @return JSON object with all IndexSchema fields.
    */
   nlohmann::json to_json() const;
 
   /**
    * @brief Load from JSON
+   * @param j JSON object to parse.
+   * @return Deserialized IndexSchema.
    */
   static IndexSchema from_json(const nlohmann::json& j);
 };
@@ -128,6 +137,7 @@ struct ReindexDecision {
 
   /**
    * @brief Convert to JSON for logging/audit trail
+   * @return JSON object with all ReindexDecision fields.
    */
   nlohmann::json to_json() const;
 };

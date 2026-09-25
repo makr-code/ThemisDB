@@ -105,6 +105,11 @@ class DeploymentGateController {
     std::vector<std::string> enabled_metrics;
     std::vector<std::pair<std::string, std::pair<double, double>>> metric_thresholds;
   };
+
+  /**
+   * @brief Get the current gate configuration.
+   * @return GateConfig struct with thresholds, enabled metrics, and metric ranges.
+   */
   GateConfig GetGateConfig() const;
 
   /**

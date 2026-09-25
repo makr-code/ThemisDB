@@ -106,6 +106,11 @@ class QueryPlanner {
    * @param predictor Callback: (operation, params) -> estimated_ms
    */
   using CostPredictor = std::function<double(const std::string&, const std::string&)>;
+
+  /**
+   * @brief Set the cost model predictor callback.
+   * @param predictor Callback: (operation, params) -> estimated_ms
+   */
   void SetCostPredictor(const CostPredictor& predictor);
 
   /**

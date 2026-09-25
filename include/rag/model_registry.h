@@ -194,6 +194,7 @@ class ModelRegistry {
 
   /**
    * @brief Get total number of registered models
+   * @return Count of models stored in this registry.
    */
   uint32_t Count() const;
 

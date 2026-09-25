@@ -130,6 +130,13 @@ class QualityMetricsCollector {
     bool is_regression = false;  ///< true if any metric degraded
     double worst_regression_pct = 0.0;
   };
+
+  /**
+   * @brief Compare current metrics against a saved baseline.
+   * @param current Aggregated metrics from the current evaluation window.
+   * @param baseline Reference baseline to compare against.
+   * @return RegressionAnalysis with delta percentages and regression flag.
+   */
   RegressionAnalysis CompareToBaseline(const AggregatedMetrics& current,
                                        const AggregatedMetrics& baseline);
 

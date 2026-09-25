@@ -100,7 +100,12 @@ struct PolicyRule {
   bool Matches(PolicyAction action, const std::string& resource,
                const std::string& principal) const;
 
+  /// @brief Serialize this struct to JSON.
+  /// @return JSON object with all PolicyRule fields.
   nlohmann::json to_json() const;
+  /// @brief Deserialize from JSON.
+  /// @param j JSON object to parse.
+  /// @return Deserialized PolicyRule.
   static PolicyRule from_json(const nlohmann::json& j);
 };
 

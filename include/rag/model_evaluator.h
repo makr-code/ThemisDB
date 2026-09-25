@@ -109,6 +109,7 @@ class ModelEvaluator {
 
   /**
    * @brief Get minimum improvement threshold
+   * @return Minimum required improvement ratio for model promotion.
    */
   double GetMinImprovementThreshold() const;
 

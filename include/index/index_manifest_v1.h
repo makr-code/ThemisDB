@@ -43,7 +43,12 @@ struct IndexVersionInfo {
   uint64_t index_size_bytes = 0;       ///< Approximate index size
   std::string last_indexed_at;         ///< Last write timestamp
 
+  /// @brief Serialize this struct to JSON.
+  /// @return JSON object with all fields.
   nlohmann::json to_json() const;
+  /// @brief Deserialize from JSON.
+  /// @param j JSON object to parse.
+  /// @return Deserialized IndexVersionInfo.
   static IndexVersionInfo from_json(const nlohmann::json& j);
 };
 
@@ -65,7 +70,12 @@ struct VersionHistoryEntry {
   uint64_t documents_added = 0;
   uint64_t documents_removed = 0;
 
+  /// @brief Serialize this struct to JSON.
+  /// @return JSON object with all fields.
   nlohmann::json to_json() const;
+  /// @brief Deserialize from JSON.
+  /// @param j JSON object to parse.
+  /// @return Deserialized VersionHistoryEntry.
   static VersionHistoryEntry from_json(const nlohmann::json& j);
 };
 
@@ -85,7 +95,12 @@ struct ReindexTrackingInfo {
   bool previous_version_accessible = true; ///< Is previous version still stored?
   std::string error_message;               ///< Error details if status = "failed"
 
+  /// @brief Serialize this struct to JSON.
+  /// @return JSON object with all fields.
   nlohmann::json to_json() const;
+  /// @brief Deserialize from JSON.
+  /// @param j JSON object to parse.
+  /// @return Deserialized ReindexTrackingInfo.
   static ReindexTrackingInfo from_json(const nlohmann::json& j);
 };
 
@@ -101,7 +116,12 @@ struct IndexManifestGovernance {
   bool audit_trail_enabled = true;     ///< Whether all operations are logged
   bool canary_deployments_enabled = false; ///< Whether canary phases are active
 
+  /// @brief Serialize this struct to JSON.
+  /// @return JSON object with all fields.
   nlohmann::json to_json() const;
+  /// @brief Deserialize from JSON.
+  /// @param j JSON object to parse.
+  /// @return Deserialized IndexManifestGovernance.
   static IndexManifestGovernance from_json(const nlohmann::json& j);
 };
 

@@ -79,7 +79,12 @@ struct KeyMetadata {
    */
   std::string DeriveKey(const std::string& master_key) const;
 
+  /// @brief Serialize this struct to JSON.
+  /// @return JSON object with all KeyMetadata fields.
   nlohmann::json to_json() const;
+  /// @brief Deserialize from JSON.
+  /// @param j JSON object to parse.
+  /// @return Deserialized KeyMetadata.
   static KeyMetadata from_json(const nlohmann::json& j);
 };
 
@@ -94,7 +99,12 @@ struct RotationMapping {
   std::chrono::system_clock::time_point migrated_at;
   bool validated{false};
 
+  /// @brief Serialize this struct to JSON.
+  /// @return JSON object with all RotationMapping fields.
   nlohmann::json to_json() const;
+  /// @brief Deserialize from JSON.
+  /// @param j JSON object to parse.
+  /// @return Deserialized RotationMapping.
   static RotationMapping from_json(const nlohmann::json& j);
 };
 
@@ -124,7 +134,12 @@ struct RotationState {
   std::chrono::system_clock::time_point started_at;
   std::chrono::system_clock::time_point validation_deadline;
 
+  /// @brief Serialize this struct to JSON.
+  /// @return JSON object with all RotationState fields.
   nlohmann::json to_json() const;
+  /// @brief Deserialize from JSON.
+  /// @param j JSON object to parse.
+  /// @return Deserialized RotationState.
   static RotationState from_json(const nlohmann::json& j);
 };
 

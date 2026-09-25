@@ -65,12 +65,18 @@ class OTELSpanEmitter : public std::enable_shared_from_this<OTELSpanEmitter> {
   class Span {
    public:
     /// @brief Set string attribute.
+    /// @param key Attribute name.
+    /// @param value String value to set.
     void SetAttribute(const std::string& key, const std::string& value);
 
     /// @brief Set numeric attribute.
+    /// @param key Attribute name.
+    /// @param value Numeric value to set.
     void SetAttribute(const std::string& key, uint64_t value);
 
     /// @brief Set boolean attribute.
+    /// @param key Attribute name.
+    /// @param value Boolean value to set.
     void SetAttribute(const std::string& key, bool value);
 
     /// @brief Record event with attributes.
@@ -82,9 +88,13 @@ class OTELSpanEmitter : public std::enable_shared_from_this<OTELSpanEmitter> {
     void EndSpan();
 
     /// @brief End span with error.
+    /// @param error_type Short error type label.
+    /// @param message Detailed error message to attach to the span.
     void EndSpanWithError(const std::string& error_type, const std::string& message);
 
     /// @brief Constructor.
+    /// @param span_name Name identifying this span.
+    /// @param emitter Parent OTELSpanEmitter that owns this span.
     Span(const std::string& span_name, std::shared_ptr<OTELSpanEmitter> emitter);
 
    private:

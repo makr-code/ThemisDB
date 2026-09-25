@@ -155,11 +155,13 @@ class ModelPromoter {
 
   /**
    * @brief Get current canary phase
+   * @return Active CanaryPhase enum value.
    */
   CanaryPhase GetCurrentPhase() const;
 
   /**
    * @brief Check if canary deployment is active
+   * @return true if a canary deployment is currently in progress.
    */
   bool IsCanaryActive() const;
 

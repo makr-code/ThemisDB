@@ -96,6 +96,12 @@ class QueryIntentClassifier {
     float dense_weight;
     float graph_weight;
   };
+
+  /**
+   * @brief Get routing hints for a classified intent.
+   * @param intent Classified query intent.
+   * @return RoutingHints with suggested weights for retrieval strategy selection.
+   */
   static RoutingHints GetRoutingHints(Intent intent);
 
  private:
