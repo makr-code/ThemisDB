@@ -16,6 +16,7 @@ This document defines the security boundary enforcement for multi-tenant RAG sys
 2. **Deny-by-Default:** All retrieval operations default to DENIED unless explicit policy allows
 3. **Audit Trail:** All retrieval access is logged with tenant context, query content, and decision rationale
 4. **Policy Enforcement:** Malformed or missing policy contexts result in hard failures, not silent fallback
+5. **Cross-Tenant Leak Prevention:** Credential boundary checks and per-tenant policy scopes prevent cross-tenant retrieval leaks
 
 ---
 
@@ -390,7 +391,7 @@ PolicyContextGate::checkPolicyContext(
     const QueryRequest& query,
     const AuthzStore& authz_store) const {
   
-  // 1. Extract tenant_id from credentials
+  // Stage 1 / Step 1: Extract tenant_id from credentials
   std::optional<std::string> tenant_id = 
       extractTenantIdFromApiKey(query.api_key);
   
@@ -403,7 +404,7 @@ PolicyContextGate::checkPolicyContext(
     };
   }
   
-  // 2. Fetch policy from AuthzStore (deny if missing)
+  // Stage 2 / Step 2: Fetch policy from AuthzStore (deny if missing)
   auto policy = authz_store.getTenantPolicy(tenant_id.value());
   
   if (!policy.has_value()) {
@@ -415,7 +416,7 @@ PolicyContextGate::checkPolicyContext(
     };
   }
   
-  // 3. Validate policy is current and non-expired
+  // Stage 3 / Step 3: Validate policy is current and non-expired
   if (!authz_store.isPolicyValid(policy.value())) {
     logAccessDecision(tenant_id.value(), "DENY", "POLICY_EXPIRED");
     return {
@@ -572,7 +573,9 @@ TEST(SecurityPolicy, NullBackendThrowsException) {
 
 ---
 
-## OTLP Observability Integration
+## OTLP Audit Trail
+
+### OTLP Observability Integration
 
 ### Retrieval Access Event Schema
 
@@ -596,6 +599,7 @@ void emitRetrievalAccessEvent(
   
   // Access decision
   span->SetAttribute("access.decision", decision);
+  span->SetAttribute("enforcement_result", decision);
   span->SetAttribute("access.reason", reason);
   
   // Retrieval details
@@ -627,7 +631,9 @@ void emitRetrievalAccessEvent(
               "attributes": {
                 "tenant.id": "tenant-a",
                 "policy.id": "policy-tenant-a-v1",
+                "policy_version": "1.0.0",
                 "access.decision": "ALLOW",
+                "enforcement_result": "ALLOW",
                 "access.reason": "POLICY_MATCHED",
                 "retrieval.allowed_ranges": "[0:1000]",
                 "retrieval.result_count": 25,
