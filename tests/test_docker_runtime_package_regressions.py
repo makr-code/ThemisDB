@@ -14,7 +14,7 @@ EXPECTED_UBUNTU_2404_RUNTIME_PACKAGES = (
     "libprotobuf32t64",
     "libcurl4t64",
 )
-LEGACY_RUNTIME_PACKAGES = (
+LEGACY_UBUNTU_2204_RUNTIME_PACKAGES = (
     "librocksdb7",
     "libgrpc++1",
     "libprotobuf32",
@@ -35,7 +35,7 @@ def extract_stage(text: str, stage_name: str) -> str:
 
 def extract_installed_packages(stage_text: str, stage_name: str) -> set[str]:
     match = re.search(
-        r"apt-get install -y --no-install-recommends \\\n(?P<body>.*?)(?=\s*&& \\\n\s*rm -rf /var/lib/apt/lists/\*)",
+        r"apt-get install[^\n]*\\\n(?P<body>.*?)(?=\s*&& \\\n\s*rm -rf /var/lib/apt/lists/\*)",
         stage_text,
         re.DOTALL,
     )
@@ -46,6 +46,8 @@ def extract_installed_packages(stage_text: str, stage_name: str) -> set[str]:
     for line in match.group("body").splitlines():
         for token in line.strip().rstrip("\\").split():
             packages.add(token)
+    if not packages:
+        raise AssertionError(f"Docker stage {stage_name!r} did not yield any parsed apt package tokens")
     return packages
 
 
@@ -75,7 +77,7 @@ class DockerRuntimePackageRegressionTests(unittest.TestCase):
             | extract_installed_packages(extract_stage(dockerfile_text, "debug"), "debug")
         )
 
-        for package_name in LEGACY_RUNTIME_PACKAGES:
+        for package_name in LEGACY_UBUNTU_2204_RUNTIME_PACKAGES:
             self.assertNotIn(package_name, runtime_and_debug_packages)
 
 
