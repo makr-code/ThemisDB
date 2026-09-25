@@ -61,6 +61,8 @@ def extract_installed_packages(stage_text: str, stage_name: str) -> set[str]:
                 packages.update(before_and.split())
             if "&&" in cleaned:
                 break
+            if not stripped.endswith("\\"):
+                break
         break
 
     if not packages:
@@ -89,16 +91,23 @@ class DockerRuntimePackageRegressionTests(unittest.TestCase):
 
     def test_runtime_and_debug_stages_do_not_reintroduce_legacy_runtime_packages(self) -> None:
         dockerfile_text = self._dockerfile_text()
-        runtime_and_debug_packages = (
-            extract_installed_packages(extract_stage(dockerfile_text, "runtime"), "runtime")
-            | extract_installed_packages(extract_stage(dockerfile_text, "debug"), "debug")
-        )
+        runtime_packages = extract_installed_packages(extract_stage(dockerfile_text, "runtime"), "runtime")
+        debug_packages = extract_installed_packages(extract_stage(dockerfile_text, "debug"), "debug")
+        legacy_runtime_overlap = runtime_packages & LEGACY_UBUNTU_2204_RUNTIME_PACKAGE_TOKENS
+        legacy_debug_overlap = debug_packages & LEGACY_UBUNTU_2204_RUNTIME_PACKAGE_TOKENS
 
         self.assertFalse(
-            runtime_and_debug_packages & LEGACY_UBUNTU_2204_RUNTIME_PACKAGE_TOKENS,
+            legacy_runtime_overlap,
             msg=(
-                "Runtime/debug stages must not reinstall Ubuntu 22.04 runtime package tokens: "
-                f"{sorted(runtime_and_debug_packages & LEGACY_UBUNTU_2204_RUNTIME_PACKAGE_TOKENS)}"
+                "Runtime stage must not reinstall Ubuntu 22.04 runtime package tokens: "
+                f"{sorted(legacy_runtime_overlap)}"
+            ),
+        )
+        self.assertFalse(
+            legacy_debug_overlap,
+            msg=(
+                "Debug stage must not reinstall Ubuntu 22.04 runtime package tokens: "
+                f"{sorted(legacy_debug_overlap)}"
             ),
         )
 
