@@ -772,7 +772,8 @@ std::string ComplianceReporter::PolicySummaryReport::toHTML() const {
     html << "th,td{border:1px solid #ddd;padding:8px;text-align:left;}";
     html << "th{background-color:#4CAF50;color:white;}</style></head><body>";
     html << "<h1>Policy Summary Report</h1>";
-    html << "<p>Generated: " << std::put_time(std::localtime(&generated_at), "%Y-%m-%d %H:%M:%S") << "</p>";
+    const std::time_t gen_time = static_cast<std::time_t>(generated_at);
+    html << "<p>Generated: " << std::put_time(std::localtime(&gen_time), "%Y-%m-%d %H:%M:%S") << "</p>";
     
     html << "<h2>Overview</h2><table><tr><th>Metric</th><th>Value</th></tr>";
     html << "<tr><td>Total Rules</td><td>" << total_rules << "</td></tr>";
