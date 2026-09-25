@@ -327,8 +327,10 @@ TEST_F(ES256ValidatorTest, UnsupportedAlgHS256_Rejected) {
         {"exp", (int64_t)(std::chrono::duration_cast<std::chrono::seconds>(
             std::chrono::system_clock::now().time_since_epoch()).count() + 300)}
     };
-    auto h = b64url(std::vector<uint8_t>(header.dump().begin(), header.dump().end()));
-    auto p = b64url(std::vector<uint8_t>(payload.dump().begin(), payload.dump().end()));
+    const std::string header_str = header.dump();
+    const std::string payload_str = payload.dump();
+    auto h = b64url(std::vector<uint8_t>(header_str.begin(), header_str.end()));
+    auto p = b64url(std::vector<uint8_t>(payload_str.begin(), payload_str.end()));
     std::string fake_sig = b64url(std::vector<uint8_t>(32, 0));
     EXPECT_THROW(validator_->parseAndValidate(h + "." + p + "." + fake_sig),
                  std::runtime_error);
@@ -341,8 +343,10 @@ TEST_F(ES256ValidatorTest, AlgNoneAttack_Rejected) {
         {"exp", (int64_t)(std::chrono::duration_cast<std::chrono::seconds>(
             std::chrono::system_clock::now().time_since_epoch()).count() + 300)}
     };
-    auto h = b64url(std::vector<uint8_t>(header.dump().begin(), header.dump().end()));
-    auto p = b64url(std::vector<uint8_t>(payload.dump().begin(), payload.dump().end()));
+    const std::string header_str = header.dump();
+    const std::string payload_str = payload.dump();
+    auto h = b64url(std::vector<uint8_t>(header_str.begin(), header_str.end()));
+    auto p = b64url(std::vector<uint8_t>(payload_str.begin(), payload_str.end()));
     EXPECT_THROW(validator_->parseAndValidate(h + "." + p + "."), std::runtime_error);
 }
 

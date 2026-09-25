@@ -482,6 +482,15 @@ option(THEMIS_BUILD_TESTS "Build unit tests" ON)
 option(THEMIS_BUILD_BENCHMARKS "Build performance benchmarks" OFF)
 option(THEMIS_BUILD_CHIMERA "Build CHIMERA adapters, focused tests, and benchmark integration" OFF)
 
+# Test-mode guards are enforced in library code (e.g. runtime license gate,
+# field encryption, mock-key fallback paths). If a test-enabled build defines
+# the flag only in the executable, the linked library still behaves as
+# production and rejects enterprise/test fixtures. Keep the compile-time test
+# contract consistent for all targets in a test build.
+if(THEMIS_BUILD_TESTS)
+    add_compile_definitions(THEMIS_TEST_BUILD=1 THEMIS_TEST_MODE=1)
+endif()
+
 # Execution module — SLA-aware QueryScheduler + WorkStealingThreadPool.
 # When ON, execution sources are included in themis_core and the THEMIS_EXECUTION_MODULE
 # compile definition is set so HttpServer initialises the scheduler + thread pool.

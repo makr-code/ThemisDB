@@ -226,8 +226,8 @@ void JWTKeyRotationManager::checkAndRotate() {
         if (info.status != JWKKeyInfo::Status::PASSIVE) {
             continue;
         }
-        auto age = std::chrono::duration_cast<std::chrono::seconds>(now - info.demoted_at);
-        if (age > config_.passive_grace_period) {
+        const auto age = now - info.demoted_at;
+        if (age >= config_.passive_grace_period) {
             to_revoke.push_back(kid);
         }
     }

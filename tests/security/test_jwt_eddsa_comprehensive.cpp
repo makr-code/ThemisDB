@@ -192,7 +192,7 @@ TEST(JWTEdDSA, ExpiredEdDSATokenIsRejected) {
     JWTValidator validator("https://unused.example.com/jwks");
     validator.setJWKSForTesting(buildJwks(fix.buildJwk("kid1")));
 
-    auto token = buildToken(fix, "kid1", -10);  // expired 10 s ago
+    auto token = buildToken(fix, "kid1", -3600);  // expired well beyond clock-skew tolerance
     EXPECT_THROW(validator.parseAndValidate(token), std::runtime_error);
 }
 
@@ -202,9 +202,15 @@ TEST(JWTEdDSA, WrongSignatureIsRejected) {
     validator.setJWKSForTesting(buildJwks(fix.buildJwk("kid1")));
 
     auto token = buildToken(fix, "kid1");
-    // Corrupt the last byte of the signature part
-    auto dot1 = token.rfind('.');
-    token.back() ^= 'X';  // flip a character in the signature
+    // Corrupt the signature segment in the middle so decoded signature bytes
+    // definitely change (mutating the last base64url char can be a no-op).
+    const auto dot = token.rfind('.');
+    ASSERT_NE(dot, std::string::npos);
+    const size_t sig_start = dot + 1;
+    const size_t sig_len = token.size() - sig_start;
+    ASSERT_GT(sig_len, 4u);
+    const size_t mutate_at = sig_start + (sig_len / 2);
+    token[mutate_at] = (token[mutate_at] == 'A') ? 'B' : 'A';
     EXPECT_THROW(validator.parseAndValidate(token), std::runtime_error);
 }
 

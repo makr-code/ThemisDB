@@ -192,14 +192,14 @@ TEST(SecurityWaveCPhase2Validation, HsmStubNeedsExplicitOptInInProdLikeEnvironme
 TEST(SecurityWaveCPhase2Validation, HsmStubInitializesWithExplicitDevelopmentOptIn) {
     ScopedUnsetEnvVar prod_mode("THEMIS_PRODUCTION_MODE");
     ScopedUnsetEnvVar node_env("NODE_ENV");
-    ScopedUnsetEnvVar env_type("ENVIRONMENT");
+    ScopedUnsetEnvVar env_type("THEMIS_ENVIRONMENT");
     ScopedEnvVar allow_stub("THEMIS_ALLOW_HSM_STUB", "1");
 
     HSMConfig cfg;
     cfg.library_path = "";
     HSMProvider hsm(cfg);
 
-    ASSERT_TRUE(hsm.initialize());
+    ASSERT_TRUE(hsm.initialize()) << hsm.getLastError();
     EXPECT_TRUE(hsm.isStubProvider());
     hsm.finalize();
 }

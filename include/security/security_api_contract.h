@@ -313,6 +313,7 @@ enum class SecurityErrorCode : int {
         case SecurityErrorCode::INTERNAL_ERROR:
         case SecurityErrorCode::ACCESS_DENIED:
         case SecurityErrorCode::CERT_VALIDATION_FAILED:
+        case SecurityErrorCode::CERT_UNTRUSTED_CA:
         case SecurityErrorCode::CERT_REVOKED:
             return true;
         default:

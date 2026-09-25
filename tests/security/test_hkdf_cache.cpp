@@ -68,7 +68,8 @@ TEST(HKDFCache, PurgeByIkmHashClearsEntry) {
 
     // Purge accepts any string; after purge the entry must be re-derived (miss)
     cache.purge_by_ikm_hash("some_rotation_id");
-    cache.clear(); // ensure clean slate for counting
+    const auto misses_before = cache.stats().misses;
+    cache.clear(); // clears cache entries; stats remain cumulative
     cache.derive_cached(ikm, salt, info, 16);
-    EXPECT_EQ(cache.stats().misses, 1u);
+    EXPECT_EQ(cache.stats().misses, misses_before + 1);
 }

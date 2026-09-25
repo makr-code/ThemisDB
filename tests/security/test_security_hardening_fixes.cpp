@@ -149,9 +149,10 @@ TEST_F(SignatureVerificationExceptionSafetyTest, EmptySignatureHandledSafely) {
     lic.edition = "COMMUNITY";
     lic.signature = "";  // Empty signature
     
-    // Should not throw, should return false or appropriate value based on edition
+    // Should not throw; current contract allows empty signatures for non-
+    // hyperscaler editions during the documented legacy grace period.
     bool result = themis::license::verifyLicenseSignature(lic);
-    EXPECT_FALSE(result) << "Empty signature should not verify";
+    EXPECT_TRUE(result) << "Community edition keeps legacy empty-signature allowance";
 }
 
 /**

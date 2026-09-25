@@ -153,8 +153,21 @@ if(NOT EXISTS "${TARGET_FILE}")
     endif()
 endif()
 
+set(_run_working_dir "${BUILD_DIR}")
+if(EXISTS "${BUILD_DIR}/CMakeCache.txt")
+    file(STRINGS "${BUILD_DIR}/CMakeCache.txt" _home_dir_line
+        REGEX "^CMAKE_HOME_DIRECTORY:INTERNAL=")
+    if(_home_dir_line)
+        string(REPLACE "CMAKE_HOME_DIRECTORY:INTERNAL=" "" _cmake_home_dir "${_home_dir_line}")
+        if(EXISTS "${_cmake_home_dir}")
+            set(_run_working_dir "${_cmake_home_dir}")
+        endif()
+    endif()
+endif()
+
 execute_process(
     COMMAND "${TARGET_FILE}" ${_argv}
+    WORKING_DIRECTORY "${_run_working_dir}"
     RESULT_VARIABLE _test_rc
 )
 

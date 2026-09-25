@@ -403,12 +403,16 @@ TEST_F(SafeIteratorStressTest, ManyAdvanceOperations) {
     for (int i = 0; i < 1000; ++i) {
         vec[i] = i;
     }
-    
+
     auto it = vec.begin();
     for (int i = 0; i < 100; ++i) {
         EXPECT_NO_THROW(AdvanceSafe::advance(it, 10, vec.begin(), vec.end()));
     }
-    EXPECT_EQ(*it, 1000 - 1);  // Should be at the last position after 1000 advances
+
+    // Exact 1000-step progression lands on end(); validating the end position is
+    // the safe assertion here. Dereferencing end() would be UB.
+    EXPECT_EQ(std::distance(vec.begin(), it), 1000);
+    EXPECT_EQ(it, vec.end());
 }
 
 TEST_F(SafeIteratorStressTest, InterleavedBoundsChecks) {

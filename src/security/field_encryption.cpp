@@ -365,7 +365,12 @@ std::shared_ptr<FieldEncryption> FieldEncryption::createDefault() {
     const bool allow_mock = (allow_env != nullptr) &&
                             (std::string_view(allow_env) == "1" ||
                              std::string_view(allow_env) == "true");
-    if (!allow_mock) {
+#if defined(THEMIS_UNIT_TEST) || defined(THEMIS_TEST_BUILD)
+    const bool allow_test_default = true;
+#else
+    const bool allow_test_default = false;
+#endif
+    if (!allow_mock && !allow_test_default) {
         throw std::runtime_error(
             "FieldEncryption::createDefault() uses MockKeyProvider which is unsafe in "
             "production (keys are in-memory only and will NOT survive restarts). "

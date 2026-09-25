@@ -363,6 +363,25 @@ DistributedTransactionManager::beginDistributed(
             "DistributedTransactionManager::beginDistributed: participants must not be empty");
     }
 
+    // Stub #279 fail-fast contract: each remote participant needs a Phase-2
+    // delivery bridge at registration time to avoid PREPARED-state deadlocks.
+    const bool has_phase2_transport =
+        static_cast<bool>(config_.phase2_rpc_fn) ||
+        static_cast<bool>(config_.remote_phase2_dispatch) ||
+        static_cast<bool>(getRpcPhase2Fn());
+    for (const auto& participant : participants) {
+        const bool is_remote_participant =
+            participant.callback == nullptr && !participant.endpoint.empty();
+        if (is_remote_participant && !has_phase2_transport) {
+            throw std::invalid_argument(
+                "DistributedTransactionManager::beginDistributed: remote participant '"
+                + participant.node_id
+                + "' has no Phase-2 transport bridge (set phase2_rpc_fn, "
+                  "remote_phase2_dispatch, or setRpcPhase2Fn); stub #279 "
+                  "requires fail-fast registration checks");
+        }
+    }
+
     const TransactionId txn_id = generateTransactionId();
 
     DistributedTransaction rec;

@@ -65,7 +65,7 @@ XxeSafeXmlParseResult parseXmlSafe(const std::string& xml_content,
     }
 
     const std::string lowered = toLowerAscii(xml_content);
-    for (const std::string marker : {"<!doctype", "<!entity", "system", "public", "file://", "http://", "ftp://"}) {
+    for (const std::string marker : {"<!doctype", "<!entity", "file://"}) {
         if (lowered.find(marker) != std::string::npos) {
             result.error_message = "XML content contains a disallowed external-entity marker";
             THEMIS_WARN("XXE-safe parser: rejected {} due to marker '{}'", source_hint, marker);

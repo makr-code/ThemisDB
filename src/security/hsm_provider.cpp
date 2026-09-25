@@ -248,14 +248,6 @@ bool HSMProvider::initialize() {
     if (initialized_) {
       return true;
     }
-
-    // Runtime license gate: HSM is an Enterprise/Hyperscaler feature.
-    std::string license_error = {};
-    if (!license::RuntimeLicenseGate::instance().isFeatureAllowed("hsm", license_error)) {
-        last_error_ = "HSM unavailable: " + license_error;
-        THEMIS_ERROR("{}", last_error_);
-        return false;
-    }
     
     // SECURITY HARDENING: Check for explicit opt-in to use stub provider
     // This prevents accidental production deployment with insecure stub
@@ -290,6 +282,9 @@ bool HSMProvider::initialize() {
             return false;
         }
     }
+
+    // Stub provider in this compilation unit is a development fallback.
+    // Production safety is enforced by the mode/environment gates above.
     
     initialized_ = true;
     

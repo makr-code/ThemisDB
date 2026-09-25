@@ -541,25 +541,43 @@ bool InputValidator::isValidUtf8(std::string_view input) {
       // Single-byte character (ASCII)
       i++;
     } else if ((c & 0xE0) == 0xC0) {
-      // Two-byte character
-      if (i + 1 >= input.size() || (input[i + 1] & 0xC0) != 0x80) {
+      // Two-byte character: reject overlong forms (C0/C1).
+      if (c < 0xC2 || i + 1 >= input.size()) {
+        return false;
+      }
+      const unsigned char b1 = static_cast<unsigned char>(input[i + 1]);
+      if ((b1 & 0xC0) != 0x80) {
         return false;
       }
       i += 2;
     } else if ((c & 0xF0) == 0xE0) {
-      // Three-byte character
-      if (i + 2 >= input.size() ||
-          (input[i + 1] & 0xC0) != 0x80 ||
-          (input[i + 2] & 0xC0) != 0x80) {
+      // Three-byte character: reject overlongs and UTF-16 surrogate range.
+      if (i + 2 >= input.size()) {
+        return false;
+      }
+      const unsigned char b1 = static_cast<unsigned char>(input[i + 1]);
+      const unsigned char b2 = static_cast<unsigned char>(input[i + 2]);
+      if ((b1 & 0xC0) != 0x80 || (b2 & 0xC0) != 0x80) {
+        return false;
+      }
+      if ((c == 0xE0 && b1 < 0xA0) || (c == 0xED && b1 >= 0xA0)) {
         return false;
       }
       i += 3;
     } else if ((c & 0xF8) == 0xF0) {
-      // Four-byte character
-      if (i + 3 >= input.size() ||
-          (input[i + 1] & 0xC0) != 0x80 ||
-          (input[i + 2] & 0xC0) != 0x80 ||
-          (input[i + 3] & 0xC0) != 0x80) {
+      // Four-byte character: valid Unicode range U+10000..U+10FFFF.
+      if (c > 0xF4 || i + 3 >= input.size()) {
+        return false;
+      }
+      const unsigned char b1 = static_cast<unsigned char>(input[i + 1]);
+      const unsigned char b2 = static_cast<unsigned char>(input[i + 2]);
+      const unsigned char b3 = static_cast<unsigned char>(input[i + 3]);
+      if ((b1 & 0xC0) != 0x80 ||
+          (b2 & 0xC0) != 0x80 ||
+          (b3 & 0xC0) != 0x80) {
+        return false;
+      }
+      if ((c == 0xF0 && b1 < 0x90) || (c == 0xF4 && b1 > 0x8F)) {
         return false;
       }
       i += 4;
