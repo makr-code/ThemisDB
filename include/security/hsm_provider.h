@@ -286,127 +286,20 @@ private:
      * @return Return value.
      * @details Implements signHashFnMutex without additional internal calls.
      */
-    static std::mutex& signHashFnMutex() {
-        static std::mutex m;
-        return m;
-    }
-    /**
-     * @brief Sign Hash Fn Storage.
-     * @return Return value.
-     * @details Implements signHashFnStorage without additional internal calls.
-     */
-    static SignHashFn& signHashFnStorage() {
-        static SignHashFn fn;
-        return fn;
-    }
-    /**
-     * @brief Verify Fn Mutex.
-     * @return Return value.
-     * @details Implements verifyFnMutex without additional internal calls.
-     */
-    static std::mutex& verifyFnMutex() {
-        static std::mutex m;
-        return m;
-    }
-    /**
-     * @brief Verify Fn Storage.
-     * @return Return value.
-     * @details Implements verifyFnStorage without additional internal calls.
-     */
-    static VerifyFn& verifyFnStorage() {
-        static VerifyFn fn;
-        return fn;
-    }
-    /**
-     * @brief Encrypt Data Fn Mutex.
-     * @return Return value.
-     * @details Implements encryptDataFnMutex without additional internal calls.
-     */
-    static std::mutex& encryptDataFnMutex() {
-        static std::mutex m;
-        return m;
-    }
-    /**
-     * @brief Encrypt Data Fn Storage.
-     * @return Return value.
-     * @details Implements encryptDataFnStorage without additional internal calls.
-     */
-    static EncryptDataFn& encryptDataFnStorage() {
-        static EncryptDataFn fn;
-        return fn;
-    }
-    /**
-     * @brief Decrypt Data Fn Mutex.
-     * @return Return value.
-     * @details Implements decryptDataFnMutex without additional internal calls.
-     */
-    static std::mutex& decryptDataFnMutex() {
-        static std::mutex m;
-        return m;
-    }
-    /**
-     * @brief Decrypt Data Fn Storage.
-     * @return Return value.
-     * @details Implements decryptDataFnStorage without additional internal calls.
-     */
-    static DecryptDataFn& decryptDataFnStorage() {
-        static DecryptDataFn fn;
-        return fn;
-    }
-    /**
-     * @brief Generate Key Pair Fn Mutex.
-     * @return Return value.
-     * @details Implements generateKeyPairFnMutex without additional internal calls.
-     */
-    static std::mutex& generateKeyPairFnMutex() {
-        static std::mutex m;
-        return m;
-    }
-    /**
-     * @brief Generate Key Pair Fn Storage.
-     * @return Return value.
-     * @details Implements generateKeyPairFnStorage without additional internal calls.
-     */
-    static GenerateKeyPairFn& generateKeyPairFnStorage() {
-        static GenerateKeyPairFn fn;
-        return fn;
-    }
-    /**
-     * @brief Import Certificate Fn Mutex.
-     * @return Return value.
-     * @details Implements importCertificateFnMutex without additional internal calls.
-     */
-    static std::mutex& importCertificateFnMutex() {
-        static std::mutex m;
-        return m;
-    }
-    /**
-     * @brief Import Certificate Fn Storage.
-     * @return Return value.
-     * @details Implements importCertificateFnStorage without additional internal calls.
-     */
-    static ImportCertificateFn& importCertificateFnStorage() {
-        static ImportCertificateFn fn;
-        return fn;
-    }
-    /**
-     * @brief Get Certificate Fn Mutex.
-     * @return Return value.
-     * @details Implements getCertificateFnMutex without additional internal calls.
-     */
-    static std::mutex& getCertificateFnMutex() {
-        static std::mutex m;
-        return m;
-    }
-    /**
-     * @brief Get Certificate Fn Storage.
-     * @return Return value.
-     * @details Implements getCertificateFnStorage without additional internal calls.
-     */
-    static GetCertificateFn& getCertificateFnStorage() {
-        static GetCertificateFn fn;
-        return fn;
-    }
+    static std::mutex& signHashFnMutex();
+    static SignHashFn& signHashFnStorage();
+    static std::mutex& verifyFnMutex();
+    static VerifyFn& verifyFnStorage();
+    static std::mutex& encryptDataFnMutex();
+    static EncryptDataFn& encryptDataFnStorage();
+    static std::mutex& decryptDataFnMutex();
+    static DecryptDataFn& decryptDataFnStorage();
+    static std::mutex& generateKeyPairFnMutex();
+    static GenerateKeyPairFn& generateKeyPairFnStorage();
+    static std::mutex& importCertificateFnMutex();
+    static ImportCertificateFn& importCertificateFnStorage();
+    static std::mutex& getCertificateFnMutex();
+    static GetCertificateFn& getCertificateFnStorage();
 
     class Impl;
     std::unique_ptr<Impl> impl_;

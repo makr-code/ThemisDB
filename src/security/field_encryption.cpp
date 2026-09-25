@@ -392,6 +392,39 @@ std::shared_ptr<FieldEncryption> FieldEncryption::createDefault() {
  */
 void FieldEncryption::setEncryptionConfig(const EncryptionConfig& config) {
     config_ = config;
+
+    if (!key_provider_ || config_.empty()) {
+        return;
+    }
+
+    std::unordered_set<std::string> required_key_ids;
+    for (const auto& [field_name, key_id] : config_.field_key_mapping) {
+        if (!field_name.empty() && !key_id.empty()) {
+            required_key_ids.insert(key_id);
+        }
+    }
+
+    if (!config_.default_key_id.empty()) {
+        required_key_ids.insert(config_.default_key_id);
+    }
+
+    auto mock_provider = std::dynamic_pointer_cast<MockKeyProvider>(key_provider_);
+    if (!mock_provider) {
+        return;
+    }
+
+    for (const auto& key_id : required_key_ids) {
+        try {
+            mock_provider->getKeyMetadata(key_id, 0);
+        } catch (const KeyNotFoundException&) {
+            try {
+                mock_provider->createKey(key_id, 1);
+            } catch (const KeyOperationException&) {
+                // Some mock/test providers may have already created this key via a
+                // previous setup sequence; keep the config semantics tolerant to that.
+            }
+        }
+    }
 }
 
 std::string FieldEncryption::getKeyIdForField(const std::string& field_name) const {

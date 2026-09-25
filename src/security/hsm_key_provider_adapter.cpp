@@ -87,26 +87,27 @@ HSMKeyProviderAdapter::HSMKeyProviderAdapter(
  * @details Calls: lock(), find(), end(), empty().
  */
 std::vector<uint8_t> HSMKeyProviderAdapter::getKey(const std::string& key_id) {
-    // Get latest version
-    std::lock_guard<std::mutex> lock(store_mutex_);
-    
-    auto it = key_store_.find(key_id);
-    if (it == key_store_.end() || it->second.empty()) {
-        throw KeyNotFoundException(key_id, 0);
-    }
-    
-    // Find latest ACTIVE version
     uint32_t latest_version = 0;
-    for (const auto& [version, data] : it->second) {
-        if (data.metadata.status == KeyStatus::ACTIVE && version > latest_version) {
-            latest_version = version;
+    {
+        std::lock_guard<std::mutex> lock(store_mutex_);
+
+        auto it = key_store_.find(key_id);
+        if (it == key_store_.end() || it->second.empty()) {
+            throw KeyNotFoundException(key_id, 0);
+        }
+
+        // Find latest ACTIVE version
+        for (const auto& [version, data] : it->second) {
+            if (data.metadata.status == KeyStatus::ACTIVE && version > latest_version) {
+                latest_version = version;
+            }
         }
     }
-    
+
     if (latest_version == 0) {
         throw KeyOperationException("No active version found for key: " + key_id);
     }
-    
+
     return getKey(key_id, latest_version);
 }
 
@@ -130,28 +131,36 @@ std::vector<uint8_t> HSMKeyProviderAdapter::getKey(const std::string& key_id, ui
     }
      
     stats_.cache_misses++;
-     
-    // Retrieve encrypted DEK from store
-    std::lock_guard<std::mutex> lock(store_mutex_);
-     
-    auto key_it = key_store_.find(key_id);
-    if (key_it == key_store_.end()) {
-        throw KeyNotFoundException(key_id, version);
-    }
-     
-    auto version_it = key_it->second.find(version);
-    if (version_it == key_it->second.end()) {
-        throw KeyNotFoundException(key_id, version);
-    }
-     
-    // Check if key is deleted
-    if (version_it->second.metadata.status == KeyStatus::DELETED) {
-        throw KeyOperationException("Key is deleted: " + key_id + " v" + std::to_string(version));
+
+    std::vector<uint8_t> encrypted_dek;
+    KeyStatus status = KeyStatus::ACTIVE;
+    {
+        // Retrieve encrypted DEK from store without holding the store mutex during
+        // the HSM unwrap call. The HSM call can trigger bridge logic and must not be
+        // nested inside the adapter's in-memory store lock.
+        std::lock_guard<std::mutex> lock(store_mutex_);
+
+        auto key_it = key_store_.find(key_id);
+        if (key_it == key_store_.end()) {
+            throw KeyNotFoundException(key_id, version);
+        }
+
+        auto version_it = key_it->second.find(version);
+        if (version_it == key_it->second.end()) {
+            throw KeyNotFoundException(key_id, version);
+        }
+
+        status = version_it->second.metadata.status;
+        if (status == KeyStatus::DELETED) {
+            throw KeyOperationException("Key is deleted: " + key_id + " v" + std::to_string(version));
+        }
+
+        encrypted_dek = version_it->second.encrypted_dek;
     }
      
     // Unwrap DEK using HSM
     try {
-        dek = unwrapDEK(version_it->second.encrypted_dek);
+        dek = unwrapDEK(encrypted_dek);
     } catch (const KeyOperationException&) {
         throw;
     } catch (const std::exception& e) {
@@ -174,15 +183,17 @@ std::vector<uint8_t> HSMKeyProviderAdapter::getKey(const std::string& key_id, ui
  * @details Calls: lock(), getLatestVersion(), generateRandomDEK(), wrapDEK(), std::string(), what(), find(), end().
  */
 uint32_t HSMKeyProviderAdapter::rotateKey(const std::string& key_id) {
-    std::lock_guard<std::mutex> lock(store_mutex_);
-     
-    // Get current latest version
-    uint32_t new_version = getLatestVersion(key_id) + 1;
-     
-    // Generate new DEK
+    // Compute the next version under the store lock, but perform the HSM wrap call
+    // outside the lock to avoid lock-order recursion and deadlock risk when the
+    // bridge or HSM provider re-enters adapter-owned state.
+    uint32_t new_version = 0;
+    {
+        std::lock_guard<std::mutex> lock(store_mutex_);
+        new_version = getLatestVersion(key_id) + 1;
+    }
+
     auto dek = generateRandomDEK();
-     
-    // Wrap DEK with HSM KEK
+
     std::vector<uint8_t> encrypted_dek;
     try {
         encrypted_dek = wrapDEK(dek);
@@ -191,27 +202,31 @@ uint32_t HSMKeyProviderAdapter::rotateKey(const std::string& key_id) {
     } catch (const std::exception& e) {
         throw KeyOperationException("Failed to wrap DEK for rotation: " + std::string(e.what()));
     }
-     
-    // Mark old version as DEPRECATED
-    if (key_store_.find(key_id) != key_store_.end()) {
-        for (auto& [version, data] : key_store_[key_id]) {
-            if (data.metadata.status == KeyStatus::ACTIVE) {
-                data.metadata.status = KeyStatus::DEPRECATED;
+
+    {
+        std::lock_guard<std::mutex> lock(store_mutex_);
+
+        // Mark old version as DEPRECATED
+        if (key_store_.find(key_id) != key_store_.end()) {
+            for (auto& [version, data] : key_store_[key_id]) {
+                if (data.metadata.status == KeyStatus::ACTIVE) {
+                    data.metadata.status = KeyStatus::DEPRECATED;
+                }
             }
         }
+
+        // Store new version
+        KeyVersionData new_data;
+        new_data.encrypted_dek = encrypted_dek;
+        new_data.metadata.key_id = key_id;
+        new_data.metadata.version = new_version;
+        new_data.metadata.algorithm = "AES-256-GCM";
+        new_data.metadata.status = KeyStatus::ACTIVE;
+        new_data.metadata.created_at_ms = getCurrentTimeMs();
+        new_data.metadata.expires_at_ms = 0; // Never expires
+
+        key_store_[key_id][new_version] = new_data;
     }
-     
-    // Store new version
-    KeyVersionData new_data;
-    new_data.encrypted_dek = encrypted_dek;
-    new_data.metadata.key_id = key_id;
-    new_data.metadata.version = new_version;
-    new_data.metadata.algorithm = "AES-256-GCM";
-    new_data.metadata.status = KeyStatus::ACTIVE;
-    new_data.metadata.created_at_ms = getCurrentTimeMs();
-    new_data.metadata.expires_at_ms = 0; // Never expires
-     
-    key_store_[key_id][new_version] = new_data;
      
     stats_.key_rotations++;
      
@@ -355,14 +370,16 @@ uint32_t HSMKeyProviderAdapter::createKeyFromBytes(
         throw std::invalid_argument("Key must be exactly 32 bytes for AES-256");
     }
      
-    std::lock_guard<std::mutex> lock(store_mutex_);
-     
     uint32_t version = metadata.version;
-    if (version == 0) {
-        version = getLatestVersion(key_id) + 1;
+    {
+        std::lock_guard<std::mutex> lock(store_mutex_);
+        if (version == 0) {
+            version = getLatestVersion(key_id) + 1;
+        }
     }
-     
-    // Wrap DEK with HSM KEK
+
+    // Wrap DEK with HSM KEK outside the store lock, since HSM bridge logic must not
+    // execute while the adapter's state mutex is still held.
     std::vector<uint8_t> encrypted_dek;
     try {
         encrypted_dek = wrapDEK(key_bytes);
@@ -371,30 +388,34 @@ uint32_t HSMKeyProviderAdapter::createKeyFromBytes(
     } catch (const std::exception& e) {
         throw KeyOperationException("Failed to wrap key material: " + std::string(e.what()));
     }
-     
-    // Store encrypted DEK
-    KeyVersionData new_data;
-    new_data.encrypted_dek = encrypted_dek;
-    new_data.metadata = metadata;
-    new_data.metadata.key_id = key_id;
-    new_data.metadata.version = version;
-     
-    if (new_data.metadata.algorithm.empty()) {
-        new_data.metadata.algorithm = "AES-256-GCM";
-    }
-    if (new_data.metadata.created_at_ms == 0) {
-        new_data.metadata.created_at_ms = getCurrentTimeMs();
-    }
-    if (new_data.metadata.status == KeyStatus::ACTIVE) {
-        // Mark other active versions as deprecated
-        for (auto& [v, data] : key_store_[key_id]) {
-            if (data.metadata.status == KeyStatus::ACTIVE) {
-                data.metadata.status = KeyStatus::DEPRECATED;
+
+    {
+        std::lock_guard<std::mutex> lock(store_mutex_);
+
+        // Store encrypted DEK
+        KeyVersionData new_data;
+        new_data.encrypted_dek = encrypted_dek;
+        new_data.metadata = metadata;
+        new_data.metadata.key_id = key_id;
+        new_data.metadata.version = version;
+
+        if (new_data.metadata.algorithm.empty()) {
+            new_data.metadata.algorithm = "AES-256-GCM";
+        }
+        if (new_data.metadata.created_at_ms == 0) {
+            new_data.metadata.created_at_ms = getCurrentTimeMs();
+        }
+        if (new_data.metadata.status == KeyStatus::ACTIVE) {
+            // Mark other active versions as deprecated
+            for (auto& [v, data] : key_store_[key_id]) {
+                if (data.metadata.status == KeyStatus::ACTIVE) {
+                    data.metadata.status = KeyStatus::DEPRECATED;
+                }
             }
         }
+
+        key_store_[key_id][version] = new_data;
     }
-     
-    key_store_[key_id][version] = new_data;
      
     spdlog::info("Created key {} version {} from bytes", key_id, version);
      

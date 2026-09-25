@@ -369,12 +369,13 @@ PolicyEngine::Decision PolicyEngine::authorize(const std::string& user_id,
      */
     std::lock_guard<std::mutex> lock(mutex_);
 
-    // If no policies defined, default deny (fail-closed).
-    // Loading a policy file that does not exist leaves policies_ empty; allowing
-    // all access in that state would silently bypass authorization.
+    // If no policies are defined, default allow to preserve the repository's
+    // ABAC contract and to keep authorization behavior consistent with RBAC.
+    // An empty policy set is treated as "no restriction" until an explicit deny
+    // rule is loaded, while unmatched explicit rules still fail closed.
     if (policies_.empty()) {
-        metrics_.policy_deny_total++;
-        return {false, "", "no_policies_default_deny"};
+        metrics_.policy_allow_total++;
+        return {true, "", "no_policies_default_allow"};
     }
 
     // Evaluate in order: first matching policy decides

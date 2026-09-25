@@ -48,6 +48,76 @@
 
 namespace themis { namespace security {
 
+std::mutex& HSMProvider::signHashFnMutex() {
+    static std::mutex m;
+    return m;
+}
+
+HSMProvider::SignHashFn& HSMProvider::signHashFnStorage() {
+    static SignHashFn fn;
+    return fn;
+}
+
+std::mutex& HSMProvider::verifyFnMutex() {
+    static std::mutex m;
+    return m;
+}
+
+HSMProvider::VerifyFn& HSMProvider::verifyFnStorage() {
+    static VerifyFn fn;
+    return fn;
+}
+
+std::mutex& HSMProvider::encryptDataFnMutex() {
+    static std::mutex m;
+    return m;
+}
+
+HSMProvider::EncryptDataFn& HSMProvider::encryptDataFnStorage() {
+    static EncryptDataFn fn;
+    return fn;
+}
+
+std::mutex& HSMProvider::decryptDataFnMutex() {
+    static std::mutex m;
+    return m;
+}
+
+HSMProvider::DecryptDataFn& HSMProvider::decryptDataFnStorage() {
+    static DecryptDataFn fn;
+    return fn;
+}
+
+std::mutex& HSMProvider::generateKeyPairFnMutex() {
+    static std::mutex m;
+    return m;
+}
+
+HSMProvider::GenerateKeyPairFn& HSMProvider::generateKeyPairFnStorage() {
+    static GenerateKeyPairFn fn;
+    return fn;
+}
+
+std::mutex& HSMProvider::importCertificateFnMutex() {
+    static std::mutex m;
+    return m;
+}
+
+HSMProvider::ImportCertificateFn& HSMProvider::importCertificateFnStorage() {
+    static ImportCertificateFn fn;
+    return fn;
+}
+
+std::mutex& HSMProvider::getCertificateFnMutex() {
+    static std::mutex m;
+    return m;
+}
+
+HSMProvider::GetCertificateFn& HSMProvider::getCertificateFnStorage() {
+    static GetCertificateFn fn;
+    return fn;
+}
+
 namespace {
 
 // ── RAII Wrappers for OpenSSL objects ─────────────────────────────────────────
