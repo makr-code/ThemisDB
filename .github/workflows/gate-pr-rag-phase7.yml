@@ -242,6 +242,7 @@ jobs:
           cmake -B /tmp/phase7-build \
             -DCMAKE_BUILD_TYPE=Debug \
             -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
+            -DTHEMIS_DIAGNOSTIC_MODE=ON \
             -DTHEMIS_BUILD_TESTS=ON \
             -G Ninja
       
