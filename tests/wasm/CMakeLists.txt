@@ -8,12 +8,22 @@ foreach(_src IN LISTS WASM_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_wasm_${_stem}_focused")
     set(_ctest "${_stem}_wasm_FocusedTests")
+    set(_extra_sources)
 
     if(TARGET ${_target})
         continue()
     endif()
 
-    add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_wasm_runtime_injector")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/plugins/wasm_plugin_loader.cpp
+        )
+    endif()
+
+    add_executable(${_target}
+        "${_src}"
+        ${_extra_sources}
+    )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
@@ -25,7 +35,10 @@ foreach(_src IN LISTS WASM_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
-    target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
+    target_compile_definitions(${_target} PRIVATE
+        THEMIS_TEST_BUILD=1
+        THEMIS_WASM_SUPPORT=1
+    )
 
     themis_register_module_focused_test(
         MODULE wasm

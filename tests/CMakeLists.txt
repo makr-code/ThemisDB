@@ -27767,6 +27767,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/wasm/test_wasm_runtime_injector.cpp")
         ${THEMIS_ROOT_DIR}/tests/wasm/test_wasm_runtime_injector.cpp
         ${THEMIS_ROOT_DIR}/src/plugins/wasm_plugin_loader.cpp
     )
+    target_compile_definitions(test_wasm_runtime_injector PRIVATE THEMIS_WASM_SUPPORT)
     target_link_libraries(test_wasm_runtime_injector
         PRIVATE themis_core GTest::gtest GTest::gtest_main
     )

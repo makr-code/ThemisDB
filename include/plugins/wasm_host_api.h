@@ -140,7 +140,7 @@ int32_t themis_plugin_restore_state(const char* state_json);
  *                the shared-reader lock on the registry, consistent with the
  *                shared_mutex upgrade in PluginRegistry.
  */
-class WasmHostAPI : public IThemisPlugin {
+class WasmHostAPI : public IThemisPlugin, public IStatefulPlugin {
 public:
     /**
      * @brief Construct a WASM bridge for an already-instantiated module.

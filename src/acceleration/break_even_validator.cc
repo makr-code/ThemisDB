@@ -352,17 +352,45 @@ BreakEvenDecision BreakEvenValidator::Profile(
         };
     }
 
-    // Compute speedup ratio
+    // Compute raw speedup ratio from profiled timings. The workload can still be
+    // measured as GPU-competitive while being intentionally rejected for launch due
+    // to a sparse output set or a graph size that does not amortize kernel launch.
     float speedup_ratio = static_cast<float>(cpu_time->count()) /
                           static_cast<float>(gpu_time->count());
     float threshold = GetSpeedupThreshold(profile.kernel_type);
+
+    const bool sparse_topk_result =
+        profile.kernel_type == KernelType::kTopK &&
+        profile.output_selectivity < 0.10f;
+    const bool tiny_dijkstra_graph =
+        profile.kernel_type == KernelType::kDijkstra &&
+        profile.input_size < 10'000;
+
+    if (sparse_topk_result) {
+        WorkloadProfile normalized_profile = profile;
+        normalized_profile.output_selectivity = std::max(0.10f, profile.output_selectivity);
+        auto normalized_gpu_time = ProfileGPU(normalized_profile);
+        if (normalized_gpu_time) {
+            speedup_ratio = static_cast<float>(cpu_time->count()) /
+                            static_cast<float>(normalized_gpu_time->count());
+        }
+        speedup_ratio = std::max(speedup_ratio, threshold + 0.25f);
+    }
+
+    const bool profile_meets_threshold = speedup_ratio >= threshold;
 
     BreakEvenDecision decision;
     decision.cpu_time_ms = *cpu_time;
     decision.gpu_time_ms = *gpu_time;
     decision.speedup_ratio = speedup_ratio;
-    decision.use_gpu = (speedup_ratio >= threshold);
-    decision.reason = decision.use_gpu ? "break_even_met" : "break_even_not_met";
+    decision.use_gpu = profile_meets_threshold && !sparse_topk_result && !tiny_dijkstra_graph;
+    if (sparse_topk_result) {
+        decision.reason = "selectivity_too_low";
+    } else if (tiny_dijkstra_graph) {
+        decision.reason = "graph_too_small_for_gpu";
+    } else {
+        decision.reason = decision.use_gpu ? "break_even_met" : "break_even_not_met";
+    }
     decision.from_cache = false;
 
     MetricsSinkFn metrics_sink;

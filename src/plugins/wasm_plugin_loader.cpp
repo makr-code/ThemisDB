@@ -16,6 +16,7 @@
 #include <string>
 #include <memory>
 #include <fstream>
+#include <cstring>
 #include <iterator>
 #include <sstream>
 #include <iomanip>
@@ -484,7 +485,7 @@ uint32_t themis_plugin_get_name(char* buf, uint32_t buf_len) {
     uint32_t len = static_cast<uint32_t>(sizeof(kName) - 1);
     if (buf && buf_len > 0) {
         uint32_t n = (len < buf_len - 1) ? len : buf_len - 1;
-        __builtin_memcpy(buf, kName, n);
+        std::memcpy(buf, kName, n);
         buf[n] = '\0';
         return n;
     }
@@ -503,7 +504,7 @@ uint32_t themis_plugin_get_version(char* buf, uint32_t buf_len) {
     uint32_t len = static_cast<uint32_t>(sizeof(kVer) - 1);
     if (buf && buf_len > 0) {
         uint32_t n = (len < buf_len - 1) ? len : buf_len - 1;
-        __builtin_memcpy(buf, kVer, n);
+        std::memcpy(buf, kVer, n);
         buf[n] = '\0';
         return n;
     }

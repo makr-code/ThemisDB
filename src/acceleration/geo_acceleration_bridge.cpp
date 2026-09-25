@@ -466,6 +466,9 @@ std::vector<bool> GeoAccelerationBridge::batchPointInPolygon(
         THEMIS_WARN("GeoAccelerationBridge::batchPointInPolygon: invalid WGS84 polygon batch input");
         return {};
     }
+    if (numPolygonVertices < 3) {
+        return std::vector<bool>(numPoints, false);
+    }
 
     // Build the polygon GeometryInfo once.
     themis::geo::GeometryInfo poly(themis::geo::GeometryType::Polygon);

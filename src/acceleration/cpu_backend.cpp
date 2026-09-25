@@ -368,6 +368,9 @@ std::vector<bool> CPUGeoBackend::batchPointInPolygon(const double *pointLats, co
                                                      numPolygonVertices, sink)) {
         return {};
     }
+    if (numPolygonVertices < 3) {
+        return std::vector<bool>(numPoints, false);
+    }
 
     std::vector<bool> results(numPoints);
 

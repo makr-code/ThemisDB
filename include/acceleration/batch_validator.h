@@ -192,7 +192,7 @@ struct BatchValidator {
             onError(ErrorContextHelpers::createValidationError(
                 backendName,
                 AccelerationErrorCode::InvalidInputShape,
-                "numPolygonVertices must be >= 3 to form a valid polygon"));
+                "polygon must contain at least 3 vertices"));
             return false;
         }
         for (size_t i = 0; i < numPoints; ++i) {

@@ -68,10 +68,7 @@ public:
     // -----------------------------------------------------------------------
     // Singleton
     // -----------------------------------------------------------------------
-    static GPUKernelValidator& GetInstance() {
-        static GPUKernelValidator inst;
-        return inst;
-    }
+    static GPUKernelValidator& GetInstance();
 
     // -----------------------------------------------------------------------
     // Registry management

@@ -20,6 +20,11 @@
 namespace themis {
 namespace gpu {
 
+GPUKernelValidator& GPUKernelValidator::GetInstance() {
+    static GPUKernelValidator inst;
+    return inst;
+}
+
 /**
  * @brief ============================================================================ Checksum — FNV-1a 64-bit ============================================================================
  * @param[in] data Input parameter.
