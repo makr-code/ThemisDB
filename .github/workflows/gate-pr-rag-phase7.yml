@@ -235,7 +235,7 @@ jobs:
       - name: Install Build Dependencies
         run: |
           sudo apt-get update && sudo apt-get install -y \
-            cmake ninja-build g++-13 libfmt-dev libspdlog-dev nlohmann-json3-dev libboost-filesystem-dev libboost-system-dev libgtest-dev
+            cmake ninja-build g++ libfmt-dev libspdlog-dev nlohmann-json3-dev libboost-filesystem-dev libboost-system-dev libgtest-dev
           cargo install sccache || (curl -L https://github.com/mozilla/sccache/releases/download/v0.7.7/sccache-v0.7.7-x86_64-unknown-linux-musl.tar.gz | tar -xz -C /tmp && sudo mv /tmp/sccache-v0.7.7-x86_64-unknown-linux-musl/sccache /usr/local/bin/)
       
       - name: Configure CMake
@@ -255,7 +255,7 @@ jobs:
             shift
 
             echo "Building ${test_name}..."
-            g++-13 -std=c++20 -pthread \
+            g++ -std=c++20 -pthread \
               -I"${GITHUB_WORKSPACE}/include" \
               "$@" \
               -lgtest -lgtest_main \
