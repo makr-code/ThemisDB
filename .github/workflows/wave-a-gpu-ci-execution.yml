@@ -28,7 +28,7 @@ on:
       - 'scripts/validate_gpu_baselines.py'
 
 concurrency:
-  group: wave-a-gpu-ci-exec-${{ github.ref }}
+  group: wave-a-gpu-ci-exec-${{ github.ref }}-${{ github.run_id }}
   cancel-in-progress: false
 
 jobs:

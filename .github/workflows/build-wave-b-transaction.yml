@@ -22,7 +22,7 @@ on:
         default: "4"
 
 concurrency:
-  group: wave-b-transaction-ci-${{ github.ref }}
+  group: wave-b-transaction-ci-${{ github.ref }}-${{ github.run_id }}
   cancel-in-progress: false
 
 permissions:

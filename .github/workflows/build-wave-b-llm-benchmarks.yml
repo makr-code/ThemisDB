@@ -42,7 +42,7 @@ on:
 
 
 concurrency:
-  group: build-wave-b-llm-${{ github.ref }}
+  group: build-wave-b-llm-${{ github.ref }}-${{ github.run_id }}
   cancel-in-progress: false
 env:
   WAVE_B_DATA_DIR: benchmarks/wave_b_data

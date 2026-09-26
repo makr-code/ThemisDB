@@ -31,7 +31,7 @@ on:
         default: "false"
 
 concurrency:
-  group: wave-a-gpu-ci-${{ github.ref }}
+  group: wave-a-gpu-ci-${{ github.ref }}-${{ github.run_id }}
   cancel-in-progress: false
 
 permissions:

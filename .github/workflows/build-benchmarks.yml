@@ -60,8 +60,8 @@ on:
         default: false
 
 concurrency:
-  group: ci-benchmarks-${{ github.ref }}
-  cancel-in-progress: false  # Protect scheduled runs; queue newer runs on same ref
+  group: ci-benchmarks-${{ github.ref }}-${{ github.run_id }}
+  cancel-in-progress: false  # Keep explicit policy while isolating runs
 
 permissions:
   contents: write  # For baseline commit-back on community push
