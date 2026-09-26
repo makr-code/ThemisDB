@@ -14,6 +14,7 @@
 #include <chrono>
 #include <cstring>
 #include <fstream>
+#include <sstream>
 
 #include <spdlog/spdlog.h>
 
