@@ -61,7 +61,7 @@ on:
 
 concurrency:
   group: ci-benchmarks-${{ github.ref }}
-  cancel-in-progress: false  # Protect scheduled runs; matrix-qualified group prevents cross-cell cancellation
+  cancel-in-progress: false  # Protect scheduled runs; queue newer runs on same ref
 
 permissions:
   contents: write  # For baseline commit-back on community push
