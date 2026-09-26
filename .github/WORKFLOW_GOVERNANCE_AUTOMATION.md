@@ -1,5 +1,8 @@
 # Workflow Governance Automation — Phase 3 Implementation
 
+> Author: ThemisDB Contributors
+> Created: 2026-09-26
+> Last Updated: 2026-09-26
 > Implemented: 2026-09-26
 > Status: ACTIVE
 > Scope: Automated enforcement of WORKFLOW_GUIDELINES.md and WORKFLOW_REGISTRY.md

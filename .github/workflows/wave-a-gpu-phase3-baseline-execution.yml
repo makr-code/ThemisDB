@@ -1,4 +1,4 @@
-name: "Wave A GPU Phase 3: Baseline Capture & Measurement"
+name: "Build: Wave A GPU Phase 3 Baseline Capture & Measurement"
 # ============================================================================
 # Wave A GPU Phase 3 Execution
 #
@@ -177,7 +177,7 @@ jobs:
 
       - name: Upload GPU measurement results
         if: always()
-        uses: actions/upload-artifact@5d5d22a31266ced592b4a4e15cbb3cff6cdb7c46
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: gpu-measurements-${{ github.run_id }}
           path: ${{ needs.phase3-setup.outputs.measurement_output_dir }}/gpu_*.json
@@ -251,7 +251,7 @@ jobs:
 
       - name: Upload CPU measurement results
         if: always()
-        uses: actions/upload-artifact@5d5d22a31266ced592b4a4e15cbb3cff6cdb7c46
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: cpu-measurements-${{ github.run_id }}
           path: ${{ needs.phase3-setup.outputs.measurement_output_dir }}/cpu_*.json
@@ -405,7 +405,7 @@ jobs:
           cat benchmarks/wave8/PHASE_3_COMPLETION_SUMMARY.md
 
       - name: Upload baseline evidence
-        uses: actions/upload-artifact@5d5d22a31266ced592b4a4e15cbb3cff6cdb7c46
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: phase3-baseline-evidence
           path: |

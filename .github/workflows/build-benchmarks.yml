@@ -259,7 +259,7 @@ jobs:
             libpugixml-dev libcpp-httplib-dev
 
       - name: Cache sccache
-        uses: actions/cache@a9e10dcf69a7f3e89de08b13b4141dd478633dee
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: ${{ github.workspace }}/.cache/sccache
           key: sccache-critical-baselines-${{ hashFiles('benchmarks/auth/**', 'benchmarks/voice/**', 'benchmarks/rag/**', 'src/auth/**', 'src/voice/**', 'src/query/**') }}-${{ runner.os }}
@@ -442,7 +442,7 @@ jobs:
             libpugixml-dev libcpp-httplib-dev
 
       - name: Cache sccache
-        uses: actions/cache@a9e10dcf69a7f3e89de08b13b4141dd478633dee
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: ${{ github.workspace }}/.cache/sccache
           key: sccache-wave-a-benchmarks-${{ matrix.flow_name }}-${{ hashFiles('benchmarks/**', 'src/**', 'cmake/**', 'CMakeLists.txt', 'CMakePresets.json') }}-${{ runner.os }}
@@ -552,7 +552,7 @@ jobs:
             libpugixml-dev libcpp-httplib-dev libgtest-dev libgmock-dev
 
       - name: Cache sccache
-        uses: actions/cache@a9e10dcf69a7f3e89de08b13b4141dd478633dee
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: ${{ github.workspace }}/.cache/sccache
           key: sccache-wave-a-longrun-${{ matrix.flow_name }}-${{ hashFiles('tests/**', 'src/**', 'cmake/**', 'CMakeLists.txt', 'CMakePresets.json') }}-${{ runner.os }}

@@ -66,7 +66,7 @@ jobs:
             libcpp-httplib-dev
 
       - name: "Cache sccache"
-        uses: actions/cache@a9e10dcf69a7f3e89de08b13b4141dd478633dee
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
@@ -131,7 +131,7 @@ jobs:
             libcpp-httplib-dev
 
       - name: "Cache sccache"
-        uses: actions/cache@a9e10dcf69a7f3e89de08b13b4141dd478633dee
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
@@ -199,7 +199,7 @@ jobs:
             libcpp-httplib-dev
 
       - name: "Cache sccache"
-        uses: actions/cache@a9e10dcf69a7f3e89de08b13b4141dd478633dee
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
@@ -278,7 +278,7 @@ jobs:
             libcpp-httplib-dev
 
       - name: "Cache sccache"
-        uses: actions/cache@a9e10dcf69a7f3e89de08b13b4141dd478633dee
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
@@ -379,7 +379,7 @@ jobs:
             libcpp-httplib-dev
 
       - name: "Cache sccache"
-        uses: actions/cache@a9e10dcf69a7f3e89de08b13b4141dd478633dee
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
@@ -454,7 +454,7 @@ jobs:
             libcpp-httplib-dev
 
       - name: "Cache sccache"
-        uses: actions/cache@a9e10dcf69a7f3e89de08b13b4141dd478633dee
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}

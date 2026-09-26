@@ -1,4 +1,4 @@
-name: maintenance-soll-ist-gap-issues
+name: "Maintenance: Soll-Ist Gap Issues"
 
 "on":
   workflow_dispatch:

@@ -1,4 +1,4 @@
-name: Reusable CMake Build Pipeline
+name: "Reusable: CMake Build Pipeline"
 
 # Rechenaufwand-Score: R=5 (K=5, L=5, N=5) | last-calibrated: 2026-08-25
 # Trigger policy: repo framework score calibration for workflow cost controls.
@@ -140,7 +140,7 @@ jobs:
           } >> "$GITHUB_ENV"
 
       - name: Restore CMake build caches
-        uses: actions/cache@a9e10dcf69a7f3e89de08b13b4141dd478633dee
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: |
             ${{ github.workspace }}/.cache/sccache

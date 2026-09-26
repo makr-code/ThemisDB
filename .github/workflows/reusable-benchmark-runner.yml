@@ -175,7 +175,7 @@ jobs:
           PYEOF
 
       - name: Upload benchmark artifact
-        uses: actions/upload-artifact@5d5d22a31266ced592b4a4e15cbb3cff6cdb7c46
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: ${{ steps.set-artifact-name.outputs.artifact_name }}
           path: benchmark-artifacts/
