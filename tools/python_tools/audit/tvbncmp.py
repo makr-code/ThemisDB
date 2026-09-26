@@ -21,7 +21,11 @@ def _load_canonical_module():
     if spec is None or spec.loader is None:
         raise RuntimeError(f"Unable to load benchmark mapping verifier: {canonical_path}")
     module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
+    sys.modules[spec.name] = module
+    try:
+        spec.loader.exec_module(module)
+    except Exception as exc:
+        raise RuntimeError(f"Unable to load benchmark mapping verifier: {canonical_path}") from exc
     return module
 
 
