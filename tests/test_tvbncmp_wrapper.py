@@ -22,7 +22,7 @@ class TvbncmpWrapperTest(unittest.TestCase):
         combined_output = f"{result.stdout}\n{result.stderr}"
         self.assertEqual(result.returncode, 0, combined_output)
         self.assertIn("perf_audit check 7a: PASS", result.stdout)
-        self.assertNotIn("tools/python_tools/benchmarks", combined_output)
+        self.assertIn("[5a] Check coverage_summary.total vs PERFORMANCE_EXPECTATIONS.md", result.stdout)
 
 
 if __name__ == "__main__":
