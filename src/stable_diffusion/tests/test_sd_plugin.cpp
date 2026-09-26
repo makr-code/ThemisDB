@@ -153,7 +153,7 @@ TEST(SDPluginFocusedTests, D2_SanitizeMultipleOccurrences) {
 }
 
 TEST(SDPluginFocusedTests, D3_SanitizeEmptyListReturnsUnchanged) {
-    SDPromptSanitizer s({});
+    SDPromptSanitizer s(std::vector<std::string>{});
     EXPECT_EQ(s.sanitize("hello world"), "hello world");
 }
 

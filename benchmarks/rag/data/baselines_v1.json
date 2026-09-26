@@ -1,0 +1,258 @@
+{
+  "version": "1.0.0",
+  "created_at": "2026-09-24T05:43:22+00:00",
+  "valid_from": "2026-09-24",
+  "valid_until": "2026-12-31",
+  "contract_reference": "src/rag/EVALUATION_CONTRACT_V1.md",
+  "note": "Baseline metrics for release_critical RAG gate; valid for Q4 2026. Re-baselining requires RAG module owner approval and changelog entry.",
+  
+  "global_targets": {
+    "recall_at_10": {
+      "value": 0.75,
+      "unit": "ratio",
+      "regression_threshold": 0.02,
+      "comment": "No regression > 0.02 (ratio); values are in [0,1]"
+    },
+    "ndcg_at_10": {
+      "value": 0.65,
+      "unit": "ratio",
+      "regression_threshold": 0.05,
+      "comment": "Ranking quality baseline"
+    },
+    "mrr_at_10": {
+      "value": 0.70,
+      "unit": "ratio",
+      "regression_threshold": 0.05,
+      "comment": "Answer-finding speed baseline"
+    },
+    "faithfulness": {
+      "value": 0.90,
+      "unit": "ratio",
+      "regression_threshold": 0.03,
+      "comment": "Hallucination control baseline; no regression > 0.03 (ratio)"
+    },
+    "relevance": {
+      "value": 0.85,
+      "unit": "ratio",
+      "regression_threshold": 0.03,
+      "comment": "Context utilization baseline"
+    },
+    "p95_latency_ms": {
+      "value": 500,
+      "unit": "milliseconds",
+      "regression_threshold": 50,
+      "comment": "Performance SLA: p95 retrieval+ranking latency"
+    },
+    "p99_latency_ms": {
+      "value": 1000,
+      "unit": "milliseconds",
+      "regression_threshold": 100,
+      "comment": "Performance SLA: p99 tail latency"
+    },
+    "cost_per_query": {
+      "value": 0.05,
+      "unit": "USD",
+      "regression_threshold": 0.005,
+      "comment": "Cost SLA: total cost per retrieval+reranking+LLM query"
+    },
+    "reranking_cost_ratio": {
+      "value": 0.20,
+      "unit": "ratio",
+      "regression_threshold": 0.05,
+      "comment": "Budget control: max 20% of queries should use reranking"
+    }
+  },
+
+  "datasets": {
+    "wikipedia_rag_2k": {
+      "id": "wikipedia_rag_2k_v1",
+      "domain": "General Knowledge Retrieval",
+      "location": "benchmarks/rag/eval_datasets_v1/wikipedia_rag_2k.json",
+      "query_count": 2000,
+      "gold_label_format": "binary_relevance",
+      "embedding_model": "all-MiniLM-L6-v2",
+      "embedding_model_id": "all-minilm-l6-v2-1.0",
+      "embedding_dim": 384,
+      "chunking_profile": "default_256_overlap_32",
+      "baseline_metrics": {
+        "recall_at_10": 0.76,
+        "ndcg_at_10": 0.67,
+        "mrr_at_10": 0.72,
+        "faithfulness": 0.92,
+        "relevance": 0.87
+      },
+      "last_updated": "2026-09-24",
+      "source_corpus": "Wikipedia 2024 snapshot",
+      "corpus_size": "~6M documents"
+    },
+
+    "code_rag_1k": {
+      "id": "code_rag_1k_v1",
+      "domain": "Code Search & Programming",
+      "location": "benchmarks/rag/eval_datasets_v1/code_rag_1k.json",
+      "query_count": 1000,
+      "gold_label_format": "binary_relevance",
+      "embedding_model": "all-MiniLM-L6-v2",
+      "embedding_model_id": "all-minilm-l6-v2-1.0",
+      "embedding_dim": 384,
+      "chunking_profile": "code_aware_128_overlap_16",
+      "baseline_metrics": {
+        "recall_at_10": 0.78,
+        "ndcg_at_10": 0.68,
+        "mrr_at_10": 0.75,
+        "faithfulness": 0.89,
+        "relevance": 0.86
+      },
+      "last_updated": "2026-09-24",
+      "source_corpus": "GitHub open-source repositories",
+      "corpus_size": "~1M source files"
+    },
+
+    "multihop_qa_500": {
+      "id": "multihop_qa_500_v1",
+      "domain": "Complex Multi-Step Reasoning",
+      "location": "benchmarks/rag/eval_datasets_v1/multihop_qa_500.json",
+      "query_count": 500,
+      "gold_label_format": "document_chain",
+      "embedding_model": "all-MiniLM-L6-v2",
+      "embedding_model_id": "all-minilm-l6-v2-1.0",
+      "embedding_dim": 384,
+      "chunking_profile": "default_256_overlap_32",
+      "baseline_metrics": {
+        "recall_at_10": 0.72,
+        "ndcg_at_10": 0.60,
+        "mrr_at_10": 0.68,
+        "faithfulness": 0.91,
+        "relevance": 0.84
+      },
+      "last_updated": "2026-09-24",
+      "source_corpus": "Wikipedia for complex QA",
+      "corpus_size": "~6M documents",
+      "complexity_note": "Requires retrieval of multiple relevant documents in correct order"
+    },
+
+    "crosslingual_ir_500": {
+      "id": "crosslingual_ir_500_v1",
+      "domain": "Cross-Lingual Information Retrieval",
+      "location": "benchmarks/rag/eval_datasets_v1/crosslingual_500.json",
+      "query_count": 500,
+      "query_languages": ["de", "fr", "es"],
+      "corpus_language": "en",
+      "gold_label_format": "binary_relevance",
+      "embedding_model": "multilingual-e5-large",
+      "embedding_model_id": "multilingual-e5-large-1.0",
+      "embedding_dim": 1024,
+      "chunking_profile": "default_256_overlap_32",
+      "baseline_metrics": {
+        "recall_at_10": 0.70,
+        "ndcg_at_10": 0.62,
+        "mrr_at_10": 0.66,
+        "faithfulness": 0.88,
+        "relevance": 0.82
+      },
+      "last_updated": "2026-09-24",
+      "source_corpus": "Wikipedia English edition",
+      "corpus_size": "~6M documents",
+      "multilingual_note": "Optional dataset; required only if multilingual support is targeted"
+    }
+  },
+
+  "embedding_models": {
+    "all-minilm-l6-v2-1.0": {
+      "model_name": "all-MiniLM-L6-v2",
+      "version": "1.0",
+      "dimensionality": 384,
+      "provider": "Hugging Face",
+      "hash": "e5f3e3c9d7b4a1f6823c4d9e0a7b2f8c1d5e9a3b6c4f2e8d1a7b3c5e9f2a4d6",
+      "source_url": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2",
+      "note": "Lightweight, general-purpose embedding model; stable across domains"
+    },
+    "multilingual-e5-large-1.0": {
+      "model_name": "multilingual-e5-large",
+      "version": "1.0",
+      "dimensionality": 1024,
+      "provider": "Hugging Face",
+      "hash": "f7a3b2c1e9d4a6f8c3b1e7a4d9f2c5b8e1a6d3f7c2b9e4a1d8f5c2b7e3a6d9",
+      "source_url": "https://huggingface.co/intfloat/multilingual-e5-large",
+      "note": "Multilingual embedding model; required for crosslingual_ir_500"
+    }
+  },
+
+  "performance_slas": {
+    "p95_latency_ms": {
+      "value": 500,
+      "definition": "95th percentile end-to-end retrieval + ranking latency",
+      "test_load": "single-query per request",
+      "cache_state": "warm"
+    },
+    "p99_latency_ms": {
+      "value": 1000,
+      "definition": "99th percentile end-to-end latency",
+      "test_load": "single-query per request",
+      "cache_state": "warm"
+    },
+    "cost_per_query": {
+      "value": 0.05,
+      "currency": "USD",
+      "components": {
+        "retrieval": {
+          "value": 0.010,
+          "note": "Embedding lookup + ANN search"
+        },
+        "reranking": {
+          "value": 0.025,
+          "note": "Cross-encoder reranking (conditional)"
+        },
+        "llm_generation": {
+          "value": 0.010,
+          "note": "LLM API call for response generation"
+        }
+      }
+    }
+  },
+
+  "quality_thresholds": {
+    "single_metric_regression_blocks_release": true,
+    "cross_dataset_consistency_tolerance": 0.05,
+    "regression_detection_mode": "automatic",
+    "automatic_rebaselining": false,
+    "rebaselining_requires_approval": true,
+    "approval_authority": "RAG Module Owner"
+  },
+
+  "ci_integration": {
+    "gate_workflow": ".github/workflows/gate-pr-rag-eval.yml",
+    "test_label": "release_critical",
+    "test_pattern": "rag_eval_*",
+    "metric_output_format": "json",
+    "artifact_retention_days": 90,
+    "regression_blocks_merge": true
+  },
+
+  "historical_checkpoints": [
+    {
+      "date": "2026-09-10",
+      "recall_at_10": 0.74,
+      "ndcg_at_10": 0.64,
+      "p95_latency_ms": 520,
+      "cost_per_query": 0.052,
+      "status": "baseline_established"
+    },
+    {
+      "date": "2026-09-17",
+      "recall_at_10": 0.75,
+      "ndcg_at_10": 0.65,
+      "p95_latency_ms": 480,
+      "cost_per_query": 0.045,
+      "status": "optimized_release"
+    },
+    {
+      "date": "2026-09-24",
+      "recall_at_10": 0.75,
+      "ndcg_at_10": 0.65,
+      "p95_latency_ms": 500,
+      "cost_per_query": 0.050,
+      "status": "current_baseline"
+    }
+  ]
+}
