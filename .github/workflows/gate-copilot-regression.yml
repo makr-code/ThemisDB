@@ -47,7 +47,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Set up Python
-        uses: actions/setup-python@f677139bbe7f9c59b41efee25c33b52b59b6626b
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
         with:
           python-version: '3.12'
 
@@ -150,7 +150,7 @@ jobs:
 
       - name: Upload guard artifacts
         if: always()
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: copilot-regression-guard-${{ github.run_number }}
           path: artifacts/copilot-regression-guard/
