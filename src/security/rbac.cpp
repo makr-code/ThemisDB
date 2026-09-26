@@ -134,6 +134,7 @@ std::vector<Role> RBAC::getBuiltinRoles() {
         "readonly",
         "Read-only user with limited access",
         {
+            {"data", "read"},
             {"metrics", "read"},
             {"health", "read"}
         },

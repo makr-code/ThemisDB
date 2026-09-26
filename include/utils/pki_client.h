@@ -114,32 +114,14 @@ public:
     // Requires key_path to be set in the configuration.
     std::string generateCSR() const;
 
-    static void setSignHashFn(SignHashFn fn) {
-        std::lock_guard<std::mutex> lock(signHashFnMutex());
-        signHashFnStorage() = std::move(fn);
-    }
-    static void setVerifyHashFn(VerifyHashFn fn) {
-        std::lock_guard<std::mutex> lock(verifyHashFnMutex());
-        verifyHashFnStorage() = std::move(fn);
-    }
+    static void setSignHashFn(SignHashFn fn);
+    static void setVerifyHashFn(VerifyHashFn fn);
 
 private:
-    static std::mutex& signHashFnMutex() {
-        static std::mutex m;
-        return m;
-    }
-    static SignHashFn& signHashFnStorage() {
-        static SignHashFn fn;
-        return fn;
-    }
-    static std::mutex& verifyHashFnMutex() {
-        static std::mutex m;
-        return m;
-    }
-    static VerifyHashFn& verifyHashFnStorage() {
-        static VerifyHashFn fn;
-        return fn;
-    }
+    static std::mutex& signHashFnMutex();
+    static SignHashFn& signHashFnStorage();
+    static std::mutex& verifyHashFnMutex();
+    static VerifyHashFn& verifyHashFnStorage();
 
     PKIConfig cfg_;
 

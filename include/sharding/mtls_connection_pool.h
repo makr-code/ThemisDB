@@ -212,6 +212,8 @@ private:
     
     // Background cleanup thread
     std::thread cleanup_thread_;
+    std::mutex cleanup_mutex_;
+    std::condition_variable cleanup_cv_;
     std::atomic<bool> running_{false};
 };
 

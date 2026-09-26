@@ -358,9 +358,8 @@ TEST(KerberosSecurityValidatorTest, TokenSizeVariations) {
     EXPECT_TRUE(validator.validateASN1Structure(small_token));
     
     // Medium token
-    std::vector<uint8_t> medium_token(100);
-    medium_token[0] = 0x30;  // SEQUENCE
-    medium_token[1] = 0x60;  // length 96
+    std::vector<uint8_t> medium_token = {0x30, 0x62, 0x04, 0x60};
+    medium_token.resize(100, 0x00);
     EXPECT_TRUE(validator.validateASN1Structure(medium_token));
 }
 

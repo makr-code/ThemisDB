@@ -206,7 +206,9 @@ TEST(MTLSConnectionPoolManagerTest, GetPoolCreatesDifferentPoolsForDifferentEndp
 }
 
 TEST(MTLSConnectionPoolManagerTest, GetConnectionReturnsNulloptForStubImplementation) {
-    auto manager = std::make_unique<MTLSConnectionPoolManager>();
+    MTLSConnectionPoolManager::Config config;
+    config.endpoint_config.enable_health_checks = false;
+    auto manager = std::make_unique<MTLSConnectionPoolManager>(config);
     
     // In stub implementation, this will return nullopt
     auto conn = manager->getConnection("localhost:50051", std::chrono::milliseconds(100));
@@ -533,6 +535,7 @@ TEST(EndpointConnectionPoolTest, V2F06_FactoryErrorHandlingNullopt) {
     EndpointConnectionPool::Config cfg;
     cfg.min_connections = 0;
     cfg.max_connections = 3;
+    cfg.enable_health_checks = false;
     
     auto failing_factory = [](const std::string& /*ep*/)
         -> std::optional<std::unique_ptr<SSL, SSLDeleter>> {

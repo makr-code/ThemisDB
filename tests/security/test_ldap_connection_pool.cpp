@@ -84,16 +84,11 @@ TEST(LDAPConnectionPoolTest, CheckoutReturnsNullWhenServerUnreachable)
 {
     LDAPConnectionPool pool(makePoolConfig());
 
-    // With LDAP enabled the pool may still hand out a connection handle
-    // (liveness is validated on operation/bind). Without LDAP support it
-    // returns nullptr immediately.
+    // Fail closed when the server is unreachable: checkout returns nullptr
+    // and callers must surface the degraded state explicitly.
     auto conn = pool.checkout();
 
-#ifdef THEMIS_HAS_LDAP
-    EXPECT_NE(conn, nullptr);
-#else
     EXPECT_EQ(conn, nullptr);
-#endif
 }
 
 TEST(LDAPConnectionPoolTest, MetricsAfterFailedCheckout)

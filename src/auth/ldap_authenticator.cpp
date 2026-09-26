@@ -398,7 +398,22 @@ LDAPAuthResult LDAPAuthenticator::authenticate(const std::string& username,
         return LDAPAuthResult::Failed("Constructed DN exceeds maximum length");
     }
 
-    return performBind(username, dn, password);
+    try {
+        return performBind(username, dn, password);
+    } catch (const std::exception& ex) {
+        AuthAuditLogger audit(audit_logger_);
+        audit.logLDAPFailure(username, "bind_exception");
+        spdlog::error("LDAPAuthenticator: exception during bind for user '{}': {}",
+                      themis::security::PIIRedactionPolicy::get().redactForLog(username),
+                      ex.what());
+        return LDAPAuthResult::Failed(std::string("LDAP bind failed: ") + ex.what());
+    } catch (...) {
+        AuthAuditLogger audit(audit_logger_);
+        audit.logLDAPFailure(username, "bind_exception_unknown");
+        spdlog::error("LDAPAuthenticator: unknown exception during bind for user '{}'",
+                      themis::security::PIIRedactionPolicy::get().redactForLog(username));
+        return LDAPAuthResult::Failed("LDAP bind failed: unknown error");
+    }
 }
 
 /**

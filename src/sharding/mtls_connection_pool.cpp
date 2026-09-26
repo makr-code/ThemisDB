@@ -67,8 +67,9 @@ EndpointConnectionPool::EndpointConnectionPool(
 EndpointConnectionPool::~EndpointConnectionPool() {
     closeAll();
     
-    // Stop cleanup thread
+    // Stop cleanup thread and wake it if it is sleeping.
     running_ = false;
+    cleanup_cv_.notify_all();
     // thread_join_no_timeout (W4): bounded join via joinThreadWithin
     if (!themis::utils::joinThreadWithin(cleanup_thread_)) {
         THEMIS_WARN("[EndpointConnectionPool] cleanup thread did not finish within shutdown deadline; detaching.");
@@ -375,11 +376,14 @@ void EndpointConnectionPool::cleanupExpiredConnections() {
  * @details Calls: std::this_thread::sleep_for(), lock(), cleanupExpiredConnections().
  */
 void EndpointConnectionPool::cleanupLoop() {
+    std::unique_lock<std::mutex> stop_lock(cleanup_mutex_);
     while (running_) {
-        std::this_thread::sleep_for(config_.health_check_interval);
+        cleanup_cv_.wait_for(stop_lock, config_.health_check_interval, [this]() {
+            return !running_.load();
+        });
         
         if (!running_) {
-          break;
+            break;
         }
         
         std::unique_lock<std::shared_mutex> lock(pool_mutex_);

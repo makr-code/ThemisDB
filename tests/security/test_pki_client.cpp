@@ -7,6 +7,12 @@
 #include <openssl/x509_vfy.h>
 #include <openssl/rsa.h>
 
+#ifdef _WIN32
+extern "C" {
+#include <openssl/applink.c>
+}
+#endif
+
 #include <filesystem>
 #include <fstream>
 #include <vector>

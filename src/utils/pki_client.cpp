@@ -50,6 +50,56 @@
 namespace themis {
 namespace utils {
 
+namespace {
+
+std::mutex& global_sign_hash_fn_mutex() {
+    static std::mutex m;
+    return m;
+}
+
+VCCPKIClient::SignHashFn& global_sign_hash_fn_storage() {
+    static VCCPKIClient::SignHashFn fn;
+    return fn;
+}
+
+std::mutex& global_verify_hash_fn_mutex() {
+    static std::mutex m;
+    return m;
+}
+
+VCCPKIClient::VerifyHashFn& global_verify_hash_fn_storage() {
+    static VCCPKIClient::VerifyHashFn fn;
+    return fn;
+}
+
+} // namespace
+
+void VCCPKIClient::setSignHashFn(SignHashFn fn) {
+    std::lock_guard<std::mutex> lock(signHashFnMutex());
+    signHashFnStorage() = std::move(fn);
+}
+
+void VCCPKIClient::setVerifyHashFn(VerifyHashFn fn) {
+    std::lock_guard<std::mutex> lock(verifyHashFnMutex());
+    verifyHashFnStorage() = std::move(fn);
+}
+
+std::mutex& VCCPKIClient::signHashFnMutex() {
+    return global_sign_hash_fn_mutex();
+}
+
+VCCPKIClient::SignHashFn& VCCPKIClient::signHashFnStorage() {
+    return global_sign_hash_fn_storage();
+}
+
+std::mutex& VCCPKIClient::verifyHashFnMutex() {
+    return global_verify_hash_fn_mutex();
+}
+
+VCCPKIClient::VerifyHashFn& VCCPKIClient::verifyHashFnStorage() {
+    return global_verify_hash_fn_storage();
+}
+
 
 /**
  * @brief Base64 encode.

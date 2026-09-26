@@ -179,16 +179,18 @@ TEST_F(HSMSecurityCheckerTest, PeriodicWarning_ProductionWithStub) {
 
 TEST_F(HSMSecurityCheckerTest, IntegrationExample) {
     // This test demonstrates the complete flow
-    
-    // 1. Set production mode
-    setenv("THEMIS_PRODUCTION_MODE", "true", 1);
-    
-    // 2. Create stub HSM
+
+    // 1. Create and initialize stub HSM in development mode.
+    // Production mode is enabled afterwards for explicit safety checks.
+    unsetenv("THEMIS_PRODUCTION_MODE");
     HSMConfig config;
     config.library_path = "";  // Force stub
     HSMProvider hsm(config);
     ASSERT_TRUE(hsm.initialize());
     ASSERT_TRUE(hsm.isStubProvider());
+
+    // 2. Enable production mode before running startup safety validation.
+    setenv("THEMIS_PRODUCTION_MODE", "true", 1);
     
     // 3. Without override flag - should fail
     {

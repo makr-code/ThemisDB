@@ -100,8 +100,7 @@ static std::string sign_RS256(EVP_PKEY* pkey, const std::string& header_payload)
     if (EVP_DigestSign(mctx, nullptr, &siglen, nullptr, 0) <= 0)
         throw std::runtime_error("EVP_DigestSign failed");
     std::vector<uint8_t> sig(siglen);
-    if (EVP_DigestSign(mctx, sig.data(), &siglen, (const unsigned char*)header_payload.data(),
-                       header_payload.size()) <= 0)
+    if (EVP_DigestSignFinal(mctx, sig.data(), &siglen) <= 0)
         throw std::runtime_error("EVP_DigestSign failed");
     EVP_MD_CTX_free(mctx);
     return b64url(sig);
@@ -159,8 +158,10 @@ protected:
     }
     
     std::string createToken(const nlohmann::json& header, const nlohmann::json& payload) {
-        std::string header_b64 = b64url(std::vector<uint8_t>(header.dump().begin(), header.dump().end()));
-        std::string payload_b64 = b64url(std::vector<uint8_t>(payload.dump().begin(), payload.dump().end()));
+        const std::string header_json = header.dump();
+        const std::string payload_json = payload.dump();
+        std::string header_b64 = b64url(std::vector<uint8_t>(header_json.begin(), header_json.end()));
+        std::string payload_b64 = b64url(std::vector<uint8_t>(payload_json.begin(), payload_json.end()));
         std::string header_payload = header_b64 + "." + payload_b64;
         std::string sig = sign_RS256(rsa_fixture_->pkey, header_payload);
         return header_payload + "." + sig;
@@ -411,8 +412,10 @@ protected:
             {"exp", std::chrono::duration_cast<std::chrono::seconds>(exp.time_since_epoch()).count()}
         };
         
-        std::string header_b64 = b64url(std::vector<uint8_t>(header.dump().begin(), header.dump().end()));
-        std::string payload_b64 = b64url(std::vector<uint8_t>(payload.dump().begin(), payload.dump().end()));
+        const std::string header_json = header.dump();
+        const std::string payload_json = payload.dump();
+        std::string header_b64 = b64url(std::vector<uint8_t>(header_json.begin(), header_json.end()));
+        std::string payload_b64 = b64url(std::vector<uint8_t>(payload_json.begin(), payload_json.end()));
         std::string header_payload = header_b64 + "." + payload_b64;
         std::string sig = sign_RS256(rsa_fixture_->pkey, header_payload);
         return header_payload + "." + sig;

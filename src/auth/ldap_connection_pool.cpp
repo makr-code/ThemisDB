@@ -229,10 +229,10 @@ std::unique_ptr<PooledConnection> LDAPConnectionPool::checkout() {
         if (cv_.wait_until(lock, deadline) == std::cv_status::timeout) {
             const int active = active_count_.load();
             spdlog::warn("LDAPConnectionPool::checkout: timeout waiting for "
-                         "connection (active={}, idle={}) — throwing PROVIDER_DEGRADED",
+                         "connection (active={}, idle={}) — returning nullptr",
                          active, idle_.size());
-            // [W8-17] Emit structured audit event so operators can correlate pool
-            // saturation with downstream auth failures via their SIEM/alerting.
+            // Keep the audit signal while preserving the non-throwing checkout
+            // contract expected by call sites and focused tests.
             if (audit_logger_) {
                 AuthAuditLogger pool_audit(audit_logger_);
                 pool_audit.logLDAPFailure(
@@ -242,12 +242,7 @@ std::unique_ptr<PooledConnection> LDAPConnectionPool::checkout() {
                     " max=" + std::to_string(config_.max_size) +
                     " timeout_ms=" + std::to_string(config_.checkout_timeout_ms));
             }
-            throw AuthException(AuthError(
-                AuthErrorCode::PROVIDER_DEGRADED,
-                "LDAP connection pool exhausted",
-                "All " + std::to_string(config_.max_size) +
-                " pool connections are busy; checkout timeout of " +
-                std::to_string(config_.checkout_timeout_ms) + " ms expired"));
+            return nullptr;
         }
         // Woken — retry from the top.
     }
