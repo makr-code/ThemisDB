@@ -57,6 +57,21 @@ jobs:
         run: echo "..."
 ```
 
+## PR Reviewer Checklist (Quick Gate)
+- [ ] **Naming/SOC korrekt**: Jobs, Steps und Summaries nutzen konsistent `Build:` oder `Validate:` passend zur Verantwortung.
+- [ ] **Trigger sauber geschnitten**: `branches:` + `paths:` sind eng genug; keine verbotenen Broad-Patterns als alleinige Selektion.
+- [ ] **Concurrency korrekt**: kein `run_id` in `concurrency.group`, passendes `cancel-in-progress` je Workflow-Typ.
+- [ ] **Label-Governance eingehalten**: neue Labels zuerst in `.github/labels.yml`; Status-Änderungen über kanonische Status-/Label-Action.
+- [ ] **Least-Privilege**: minimale `permissions` gesetzt, keine unnötigen Schreibrechte.
+- [ ] **Registry/Guideline-Sync**: bei Strukturänderungen `WORKFLOW_REGISTRY.md` und Guideline gemeinsam aktualisiert.
+- [ ] **Lokale Vorprüfung dokumentiert**: mindestens `pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode lint`.
+
+## Quick Acceptance Criteria (Workflow-/Guideline-PRs)
+- Die Verantwortung ist im Actions-UI klar lesbar (Build vs Validate ohne Mischbegriffe).
+- Keine unbeabsichtigte Trigger-Ausweitung (keine zusätzlichen Branch-/Path-Flächen ohne Begründung).
+- Label-/Status-Verhalten bleibt kompatibel zur dokumentierten State-Machine.
+- Änderungen sind fokussiert und enthalten nur den notwendigen Scope (Naming/Governance/Usability).
+
 ## Machine-readable GitHub Compliance Guidelines
 Die maschinenlesbaren Governance-Policy-Dateien unter `.github/` sind der Index- und Handover-Punkt fuer issue-, PR-, Dokumentations- und Security-Compliance:
 - `.github/compliance-guidelines.json`
