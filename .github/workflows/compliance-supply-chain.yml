@@ -69,7 +69,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Set up Python
-        uses: actions/setup-python@f677139bbe7f9c59b41efee25c33b52b59b6626b
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
         with:
           python-version: '3.12'
 
@@ -107,7 +107,7 @@ jobs:
         run: cat artifacts/license-compliance/license-summary.md >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload license artifacts
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: license-compliance-${{ github.run_id }}
           path: |
@@ -217,7 +217,7 @@ jobs:
           sha256sum -c sbom-source.SHA256SUMS
 
       - name: Upload SBOM artifacts
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: sbom-${{ github.run_id }}
           path: |
@@ -308,7 +308,7 @@ jobs:
             --output-md "c5-evidence/manifest.md"
 
       - name: Upload C5 evidence manifest
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: c5-evidence-manifest-${{ steps.release_id.outputs.value }}
           path: c5-evidence/
@@ -353,7 +353,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Set up Python
-        uses: actions/setup-python@f677139bbe7f9c59b41efee25c33b52b59b6626b
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
         with:
           python-version: '3.12'
 
@@ -464,7 +464,7 @@ jobs:
           category: dependency-freshness
       - name: Upload freshness report artifact
         if: always()
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: dependency-freshness-${{ github.run_id }}
           path: dependency-freshness.sarif
@@ -606,7 +606,7 @@ jobs:
 
       - name: Upload evidence bundle artifact
         if: always()
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: soc2-evidence-${{ github.run_id }}-${{ github.run_number }}
           path: evidence-bundle-*.json
