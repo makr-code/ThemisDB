@@ -11,7 +11,7 @@
 #   --endpoint URL       ThemisDB admin endpoint (default: http://localhost:18080)
 #   --window-days N      Evidence window in days (default: 7)
 #   --output FILE        Output JSON file path (default: evidence-bundle-YYYYMMDD.json)
-#   --admin-token TOKEN  Admin ****** for authentication
+#   --admin-token TOKEN  Admin bearer token for authentication
 #
 # Exit codes:
 #   0  Success
@@ -58,9 +58,9 @@ if ! probe_health "${ENDPOINT}"; then
 fi
 
 # ── Build auth header ──────────────────────────────────────────────────────────
-AUTH_ARGS=()
+    AUTH_ARGS=(-H "Authorization: Bearer ${ADMIN_TOKEN}")
 if [[ -n "${ADMIN_TOKEN}" ]]; then
-    AUTH_ARGS=(-H "Authorization: ******")
+    AUTH_ARGS=(-H "Authorization: Bearer ${ADMIN_TOKEN}")
 fi
 
 # ── Trigger evidence export ────────────────────────────────────────────────────
