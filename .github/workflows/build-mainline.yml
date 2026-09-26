@@ -229,6 +229,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
   build:
+    name: "Build: Mainline (Linux)"
     needs: step2-architecture-summary
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
@@ -239,7 +240,7 @@ jobs:
       submodules: false
       working_directory: .
       setup_command: >-
-        set -euo pipefail; echo "CI — Build wrapper delegating to reusable CMake build pipeline"; git config --file .git/config --remove-section submodule.plugins/private/themisdb_ethic_ai || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_importer || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_storage || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_llm_wiki || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_plugin_signer || true; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libgtest-dev libgmock-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc libcpp-httplib-dev libboost-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev dpkg-dev rpm; echo "All dependencies installed via apt (optimized hybrid build)"
+        set -euo pipefail; echo "Build: Mainline wrapper delegating to reusable CMake build pipeline"; git config --file .git/config --remove-section submodule.plugins/private/themisdb_ethic_ai || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_importer || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_storage || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_llm_wiki || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_plugin_signer || true; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libgtest-dev libgmock-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc libcpp-httplib-dev libboost-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev dpkg-dev rpm; echo "All dependencies installed via apt (optimized hybrid build)"
       configure_command: >-
         export SCCACHE_GHA_ENABLED=true; cmake -S . -B build -G Ninja -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       build_command: >-
@@ -269,7 +270,7 @@ jobs:
         build/ctest-results.xml
         build/ctest-output.txt
       artifact_retention_days: '7'
-      summary_title: CI — Build
+      summary_title: Build: Mainline
 
   # ── macOS kqueue path validation ──────────────────────────────────────────
   # Validates that kqueue-backed file watchers (ConfigFileWatcher,
@@ -277,14 +278,14 @@ jobs:
   # Must be resilient to transient sccache/GHA-cache backend outages so that
   # infrastructure blips never block platform validation.
   macos-kqueue-validation:
-    name: 🍎 macOS kqueue Path Validation
+    name: "Validate: 🍎 macOS kqueue paths"
     runs-on: macos-latest
     timeout-minutes: 45
     needs: step2-architecture-summary
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
 
     steps:
-      - name: Print macOS kqueue job context
+      - name: Validate: Print macOS kqueue job context
         run: |
           echo "============================================================"
           echo " Build: Mainline  |  macOS kqueue Validation Job"
@@ -572,7 +573,7 @@ jobs:
             echo "::error::kqueue tests failed (exit ${EXIT_CODE}); see macos-kqueue-output.txt artifact"
           fi
           {
-            echo "### 🍎 macOS kqueue Results"
+            echo "### Validate: 🍎 macOS kqueue results"
             echo ""
             if [ "${EXIT_CODE}" -eq 0 ]; then
               echo "✅ Tests completed in **${SECS}s**. Check \`macos-kqueue-results\` artifact for details."
