@@ -196,9 +196,5 @@ jobs:
 
             core.setOutput('diagnosis_status', 'success');
             core.notice(`Diagnosis successfully posted to ${prRefs.length} PR(s).`);
-<<<<<<< HEAD
             return;
-=======
-            return;  // Explicit success
->>>>>>> 7a4c4e4728 (fix workflow review follow-ups)
 

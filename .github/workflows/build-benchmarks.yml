@@ -61,7 +61,7 @@ on:
 
 concurrency:
   group: ci-benchmarks-${{ github.ref }}-${{ matrix.os }}-${{ matrix.compiler }}
-  cancel-in-progress: true   # Weekly schedule; cancel stale dispatch-triggered runs
+  cancel-in-progress: false  # Protect scheduled runs; matrix-qualified group prevents cross-cell cancellation
 
 permissions:
   contents: write  # For baseline commit-back on community push
