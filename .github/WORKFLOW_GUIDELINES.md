@@ -35,7 +35,7 @@ Die maschinenlesbaren Governance-Policy-Dateien unter `.github/` sind der Index-
 
 Diese Dateien sollen die menschlich lesbaren Governance-Regeln und CI-Policies ergänzen, nicht ersetzen. Aenderungen dort muessen mit den Workflow-Guidelines und den dokumentierten Governance-Sources synchron gehalten werden.
 
-## Aktive Workflows (Source of Truth)
+## Aktive Workflows (Verweis auf Source of Truth)
 - Die kanonische, gepflegte Liste steht in `.github/WORKFLOW_REGISTRY.md`.
 - Die tatsächliche aktuelle Dateimenge liegt in `.github/workflows/`.
 - Diese Guideline führt **keine** statische Workflow-Dateiliste mehr, um Drift (z. B. veraltete/duplizierte Einträge) zu vermeiden.
@@ -307,8 +307,8 @@ Damit bleiben Ergebnisse reproduzierbar und lassen sich nach dem Lauf mit
 
 ### Kanonische Label-Definitionen
 Alle Repository-Labels sind in `.github/labels.yml` definiert (Name, Farbe, Beschreibung, Typ).
-Der Workflow `maintenance-housekeeping.yml` synchronisiert diese Labels wöchentlich und bei Änderungen
-an `.github/labels.yml`. Labels dürfen nur in `.github/labels.yml` hinzugefügt oder geändert werden.
+Der Workflow `maintenance-housekeeping.yml` synchronisiert diese Labels wöchentlich sowie bei Änderungen an `.github/labels.yml`.
+Labels dürfen nur in `.github/labels.yml` hinzugefügt oder geändert werden.
 `maintenance-labels.yml` wurde in Sprint-8-Konsolidierung ersetzt und ist nicht mehr als aktive Workflow-Datei im Repository vorhanden.
 
 Usability-Hinweis:
