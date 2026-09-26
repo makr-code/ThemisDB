@@ -252,6 +252,7 @@ jobs:
           sudo apt-get install -y --no-install-recommends dpkg-dev createrepo-c jq gnupg
 
       - name: Import signing key (optional)
+        id: import-key
         if: needs.detect-release.outputs.sign_requested == 'true'
         env:
           GPG_PRIVATE_KEY_B64: ${{ secrets.linux_distro_gpg_private_key_b64 }}
@@ -261,11 +262,13 @@ jobs:
           set -euo pipefail
           if [ -z "${GPG_PRIVATE_KEY_B64:-}" ] || [ -z "${GPG_PASSPHRASE:-}" ]; then
             echo "::warning::sign_metadata=true was requested but linux_distro_gpg_private_key_b64 and/or linux_distro_gpg_passphrase secrets are not configured. Skipping GPG signing; bundle will be produced unsigned."
+            echo "key_imported=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           echo "${GPG_PRIVATE_KEY_B64}" | base64 -d > /tmp/linux-distro-signing.key
           gpg --batch --import /tmp/linux-distro-signing.key
           rm -f /tmp/linux-distro-signing.key
+          echo "key_imported=true" >> "$GITHUB_OUTPUT"
 
       - name: Resolve distro metadata profile
         id: profile
@@ -442,18 +445,13 @@ jobs:
           echo "bundle_name=${BUNDLE_NAME}" >> "$GITHUB_OUTPUT"
 
       - name: Sign DEB/RPM metadata (optional)
-        if: needs.detect-release.outputs.sign_requested == 'true'
+        if: needs.detect-release.outputs.sign_requested == 'true' && steps.import-key.outputs.key_imported == 'true'
         env:
           GPG_PASSPHRASE: ${{ secrets.linux_distro_gpg_passphrase }}
           GPG_KEY_ID: ${{ secrets.linux_distro_gpg_key_id }}
         shell: bash
         run: |
           set -euo pipefail
-
-          if [ -z "${GPG_PASSPHRASE:-}" ]; then
-            echo "::warning::GPG passphrase secret is not configured. Skipping metadata signing."
-            exit 0
-          fi
 
           OUT_DIR="linux-distro-bundle"
           DEB_DIR="${OUT_DIR}/deb"
