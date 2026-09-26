@@ -3,7 +3,6 @@
   "name": "themisdb-community",
   "version": "1.4.0",
   "description": "ThemisDB COMMUNITY Edition - Specialized vcpkg dependencies (apt-installed libs excluded)",
-
   "dependencies": [
     "rocksdb",
     "gtest",
@@ -12,7 +11,6 @@
     "tl-expected",
     "msgpack",
     "libzip"
-  ],
-
+  ]
 }
 
