@@ -35,8 +35,9 @@ ENV VCPKG_KEEP_ENV_VARS=HTTP_PROXY,HTTPS_PROXY,ALL_PROXY,NO_PROXY,VCPKG_ENABLE_O
 ENV CMAKE_POLICY_VERSION_MINIMUM=3.5
 
 # Fetch pinned vcpkg source archive at Docker build time to avoid
-# a full in-container clone. A minimal in-container `git fetch` still
-# runs later to materialize builtin-baseline metadata required by vcpkg.
+# a full in-container clone. A synthetic git commit is created from the
+# extracted tarball so that vcpkg can resolve the builtin-baseline locally
+# without requiring network access to the upstream vcpkg git repository.
 ADD https://github.com/microsoft/vcpkg/archive/${VCPKG_COMMIT}.tar.gz /tmp/vcpkg.tar.gz
 
 # Install build essentials (combined layer for efficiency)
@@ -63,13 +64,12 @@ RUN --mount=type=cache,id=apt-cache-base-${TARGETARCH},target=/var/cache/apt,sha
     tar -xzf /tmp/vcpkg.tar.gz -C /opt && \
     mv /opt/vcpkg-${VCPKG_COMMIT} ${VCPKG_ROOT} && \
     git -C ${VCPKG_ROOT} init && \
-    git -C ${VCPKG_ROOT} remote add origin https://github.com/microsoft/vcpkg.git && \
-    if ! git -C ${VCPKG_ROOT} fetch --depth 1 origin ${VCPKG_COMMIT}; then \
-      git -C ${VCPKG_ROOT} fetch --depth 1 origin refs/heads/master:refs/remotes/origin/master || \
-      git -C ${VCPKG_ROOT} fetch --depth 1 origin refs/heads/main:refs/remotes/origin/main; \
-      git -C ${VCPKG_ROOT} fetch --depth 1 origin ${VCPKG_COMMIT}; \
-    fi && \
-    git -C ${VCPKG_ROOT} cat-file -e ${VCPKG_COMMIT}^{commit} && \
+    git -C ${VCPKG_ROOT} config user.email "vcpkg-build@docker" && \
+    git -C ${VCPKG_ROOT} config user.name "vcpkg Docker Build" && \
+    git -C ${VCPKG_ROOT} add versions && \
+    git -C ${VCPKG_ROOT} commit -m "vcpkg baseline from tarball at ${VCPKG_COMMIT}" --quiet && \
+    git -C ${VCPKG_ROOT} rev-parse HEAD > /opt/vcpkg-baseline-sha.txt && \
+    echo "Synthetic vcpkg baseline SHA: $(cat /opt/vcpkg-baseline-sha.txt)" && \
     ${VCPKG_ROOT}/bootstrap-vcpkg.sh -disableMetrics && \
     touch ${VCPKG_ROOT}/vcpkg.disable-metrics && \
     rm -f /tmp/vcpkg.tar.gz && \
@@ -133,7 +133,9 @@ RUN --mount=type=cache,id=apt-cache-deps-${TARGETARCH},target=/var/cache/apt,sha
 COPY docker/vcpkg-minimal.json docker/vcpkg-community.json \
      docker/vcpkg-enterprise.json docker/vcpkg-hyperscaler.json ./
 
-# Select edition manifest and detect architecture
+# Select edition manifest and detect architecture; patch builtin-baseline
+# to the synthetic SHA created in the base stage from the extracted tarball,
+# since the Docker build has no access to the remote vcpkg git history.
 RUN set -eux; \
     EDITION=$(echo "${THEMIS_EDITION}" | tr '[:upper:]' '[:lower:]'); \
     if [ -f "vcpkg-${EDITION}.json" ]; then \
@@ -142,6 +144,9 @@ RUN set -eux; \
     else \
         echo "ERROR: vcpkg-${EDITION}.json not found!"; exit 1; \
     fi && \
+    BASELINE_SHA=$(cat /opt/vcpkg-baseline-sha.txt) && \
+    echo "Patching builtin-baseline to synthetic SHA: ${BASELINE_SHA}" && \
+    sed -i "s/\"builtin-baseline\":[[:space:]]*\"[^\"]*\"/\"builtin-baseline\": \"${BASELINE_SHA}\"/" vcpkg.json && \
     ARCH="${TARGETARCH:-}"; \
     if [ -z "${ARCH}" ]; then ARCH="$(uname -m)"; fi; \
     TRIPLET="x64-linux"; \
