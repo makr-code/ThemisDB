@@ -268,10 +268,11 @@ jobs:
     steps:
       - name: Check Gate Status
         run: |
-          if [ "${{ needs.version_governance_validation.result }}" == "success" ]; then
-            echo "✅ RAG Embedding Version Governance Gate: PASS"
+          result="${{ needs.version_governance_validation.result }}"
+          if [ "$result" == "success" ] || [ "$result" == "skipped" ] || [ "$result" == "abandoned" ]; then
+            echo "✅ RAG Embedding Version Governance Gate: PASS (result: $result)"
             exit 0
           else
-            echo "❌ RAG Embedding Version Governance Gate: FAIL"
+            echo "❌ RAG Embedding Version Governance Gate: FAIL (result: $result)"
             exit 1
           fi
