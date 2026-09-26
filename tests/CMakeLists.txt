@@ -934,6 +934,7 @@ target_sources(themis_tests PRIVATE
     ${THEMIS_ROOT_DIR}/src/llm/lora_metadata_cache.cpp
     ${THEMIS_ROOT_DIR}/src/llm/production_validator.cpp
     ${THEMIS_ROOT_DIR}/src/llm/security/signature_verifier.cpp
+    ${THEMIS_ROOT_DIR}/src/chimera/qdrant_adapter.cpp
 )
 
 # Enforce feature-gated exclusions on the resolved target source list as a
@@ -2007,10 +2008,12 @@ get_target_property(_themis_tests_src_check themis_tests SOURCES)
 foreach(_force_src
         "${THEMIS_ROOT_DIR}/src/utils/logger.cpp"
         "${THEMIS_ROOT_DIR}/src/themis/license_info.cpp"
-        "${THEMIS_ROOT_DIR}/src/themis/build_info.cpp")
+        "${THEMIS_ROOT_DIR}/src/themis/build_info.cpp"
+        "${THEMIS_ROOT_DIR}/src/aql/aql_agent.cpp"
+        "${THEMIS_ROOT_DIR}/src/aql/llm_aql_handler.cpp")
     if(NOT "${_force_src}" IN_LIST _themis_tests_src_check)
         target_sources(themis_tests PRIVATE "${_force_src}")
-        message(STATUS "themis_tests: force-added ${_force_src} (required by THEMIS_BASE_EXPORTS)")
+        message(STATUS "themis_tests: force-added ${_force_src} (required by AQL/test bridge and THEMIS_BASE_EXPORTS)")
     endif()
 endforeach()
 
