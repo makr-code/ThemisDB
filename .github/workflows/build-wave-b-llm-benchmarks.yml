@@ -42,7 +42,7 @@ on:
 
 
 concurrency:
-  group: build-wave-b-llm-${{ github.ref }}-${{ matrix.scenario }}
+  group: build-wave-b-llm-${{ github.ref }}
   cancel-in-progress: false
 env:
   WAVE_B_DATA_DIR: benchmarks/wave_b_data
@@ -116,7 +116,7 @@ jobs:
           echo '{"status": "phase_1_skeleton", "scenario": "${{ matrix.scenario }}"}' > ${{ env.WAVE_B_RESULTS_DIR }}/results_${{ matrix.scenario }}.json
 
       - name: Upload Results
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: wave-b-results-${{ matrix.scenario }}
           path: ${{ env.WAVE_B_RESULTS_DIR }}/

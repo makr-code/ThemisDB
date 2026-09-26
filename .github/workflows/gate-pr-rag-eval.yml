@@ -42,7 +42,7 @@ jobs:
     
     steps:
       - name: Checkout
-        uses: actions/checkout@692973e3d937dc1785ba5b1e112e8e93a61d6f60
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
       
@@ -191,7 +191,7 @@ jobs:
     
     steps:
       - name: Checkout
-        uses: actions/checkout@692973e3d937dc1785ba5b1e112e8e93a61d6f60
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       
       - name: Install Build Dependencies
         run: |

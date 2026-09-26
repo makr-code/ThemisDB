@@ -195,7 +195,7 @@ jobs:
           exit-code: "0"
 
       - name: Upload Kubesec JSON results
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: kubesec-results-${{ github.run_number }}

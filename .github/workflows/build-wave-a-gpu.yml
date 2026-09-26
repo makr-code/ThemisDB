@@ -31,7 +31,7 @@ on:
         default: "false"
 
 concurrency:
-  group: wave-a-gpu-ci-${{ github.ref }}-${{ matrix.phase }}
+  group: wave-a-gpu-ci-${{ github.ref }}
   cancel-in-progress: false
 
 permissions:
@@ -120,7 +120,7 @@ jobs:
 
       - name: "Upload CMake configuration log"
         if: always()
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: gpu-cmake-configuration-log
           path: cmake-config.log
@@ -209,7 +209,7 @@ jobs:
 
       - name: "Upload compilation log"
         if: always()
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: compile-gpu-${{ matrix.phase }}-log
           path: compile-gpu-${{ matrix.phase }}.log
@@ -304,7 +304,7 @@ jobs:
 
       - name: "Upload GPU test results"
         if: always()
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: gpu-test-results
           path: |
@@ -365,7 +365,7 @@ jobs:
 
       - name: "Upload CUDA audit report"
         if: always()
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: cuda-audit-report
           path: cuda-audit-report.md
@@ -483,7 +483,7 @@ jobs:
           PY
 
       - name: "Upload representative GPU baseline artifacts"
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: gpu-representative-hardware
@@ -512,7 +512,7 @@ jobs:
           echo "Archive created: $(du -sh gpu-ci-results.zip | cut -f1)"
 
       - name: "Upload artifacts archive"
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: gpu-ci-results
           path: gpu-ci-results.zip
@@ -612,14 +612,14 @@ jobs:
           } > GPU_CI_REPORT.md
 
       - name: "Upload final GPU report"
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: GPU-CI-Report
           path: GPU_CI_REPORT.md
           retention-days: 90
 
       - name: "Upload Wave-A closure package"
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: gpu-wave-a-closure-package
           path: wave-closure/

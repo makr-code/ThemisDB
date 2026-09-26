@@ -28,7 +28,7 @@ on:
       - 'scripts/validate_gpu_baselines.py'
 
 concurrency:
-  group: wave-a-gpu-ci-exec-${{ github.ref }}-${{ matrix.test_suite }}
+  group: wave-a-gpu-ci-exec-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -42,7 +42,7 @@ jobs:
       cuda_version: ${{ steps.detect-gpu.outputs.cuda_version }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@692973e3d937dc1785ba5b1e112e8e93a61d6f60
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
 
@@ -136,7 +136,7 @@ jobs:
     needs: phase1-health-check
     steps:
       - name: Checkout repository
-        uses: actions/checkout@692973e3d937dc1785ba5b1e112e8e93a61d6f60
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Setup build environment
         shell: bash
@@ -203,7 +203,7 @@ jobs:
           - gpu-closure
     steps:
       - name: Checkout repository
-        uses: actions/checkout@692973e3d937dc1785ba5b1e112e8e93a61d6f60
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Setup test environment
         shell: bash
@@ -260,7 +260,7 @@ jobs:
     if: needs.phase1-health-check.outputs.execution_mode == 'gpu'
     steps:
       - name: Checkout repository
-        uses: actions/checkout@692973e3d937dc1785ba5b1e112e8e93a61d6f60
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Setup validation environment
         shell: bash

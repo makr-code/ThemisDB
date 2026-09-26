@@ -138,7 +138,7 @@ jobs:
 
       - name: Set up Python
         if: steps.check.outputs.skip != 'true'
-        uses: actions/setup-python@f677139bbe7f9c59b41efee25c33b52b59b6626b
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
         with:
           python-version: '3.12'
 
@@ -234,7 +234,7 @@ jobs:
 
       - name: Upload RocksDB database artifact
         if: always() && (steps.check.outputs.skip != 'true' || steps.cache.outputs.cache-hit == 'true')
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: ${{ inputs.output_name }}
           path: output-db/${{ inputs.output_name }}.db
@@ -242,7 +242,7 @@ jobs:
 
       - name: Upload JSON artifact (for incremental rebuilds / debugging)
         if: steps.check.outputs.skip != 'true'
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: ${{ inputs.output_name }}-json
           path: output-db/docs_artifact.json

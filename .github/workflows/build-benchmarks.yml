@@ -60,7 +60,7 @@ on:
         default: false
 
 concurrency:
-  group: ci-benchmarks-${{ github.ref }}-${{ matrix.os }}-${{ matrix.compiler }}
+  group: ci-benchmarks-${{ github.ref }}
   cancel-in-progress: false  # Protect scheduled runs; matrix-qualified group prevents cross-cell cancellation
 
 permissions:
@@ -197,7 +197,7 @@ jobs:
             echo "Generated candidate baseline artifact instead of mutating repository history."
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: voice-benchmark-${{ matrix.os }}-${{ github.run_number }}
@@ -380,7 +380,7 @@ jobs:
 
       - name: Upload broad baseline artifacts
         if: always()
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: critical-module-baselines-${{ github.run_number }}
           path: ${{ env.RESULTS_DIR }}/
@@ -486,7 +486,7 @@ jobs:
 
       - name: Upload Wave A benchmark artifacts
         if: always()
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: ${{ matrix.artifact_name }}-${{ github.run_number }}
           path: ${{ env.RESULTS_DIR }}/
@@ -601,7 +601,7 @@ jobs:
 
       - name: Upload Wave A long-run artifacts
         if: always()
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: ${{ matrix.artifact_name }}-${{ github.run_number }}
           path: ${{ env.RESULTS_DIR }}/
@@ -670,7 +670,7 @@ jobs:
           fi
           exit 0
 
-      - uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: gpu-cuda-results-${{ matrix.cuda_arch }}-${{ github.run_number }}
@@ -713,7 +713,7 @@ jobs:
           fi
           exit 0
 
-      - uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: gpu-hip-results-${{ github.run_number }}
@@ -840,7 +840,7 @@ jobs:
             --previous-dir artifacts/nightly-prev \
             2>&1 | tee -a "${ARTIFACT_DIR}/sweep_run.log" || true
 
-      - uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: nightly-benchmark-sweep-${{ github.run_number }}
@@ -956,7 +956,7 @@ jobs:
               sys.exit(1)
           "
 
-      - uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: wave-d-observability-gates-${{ github.run_number }}
@@ -1074,7 +1074,7 @@ jobs:
 
       - name: Upload benchmark results
         if: always()
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: sharding-release-gates-${{ github.run_number }}
           path: ${{ env.ARTIFACT_DIR }}/
@@ -1161,7 +1161,7 @@ jobs:
               sys.exit(1)
           "
 
-      - uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: wave-d-soak-tests-${{ github.run_number }}

@@ -589,7 +589,7 @@ jobs:
 
       - name: Upload macOS kqueue results
         if: always()
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: macos-kqueue-results-${{ github.run_number }}
           path: macos-kqueue-output.txt

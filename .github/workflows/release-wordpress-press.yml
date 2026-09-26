@@ -615,7 +615,7 @@ jobs:
 
       - name: Upload dryrun/generated post artifact
         if: steps.context.outputs.should_publish == 'true' && steps.generate.outputs.post_path != ''
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: wordpress-press-post-${{ github.run_number }}
           path: ${{ steps.generate.outputs.post_path }}

@@ -92,7 +92,7 @@ jobs:
 
       - name: Set up Python
         if: steps.check_maintainer.outputs.is_maintainer == 'true'
-        uses: actions/setup-python@f677139bbe7f9c59b41efee25c33b52b59b6626b
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
         with:
           python-version: '3.12'
 

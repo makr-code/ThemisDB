@@ -308,7 +308,7 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
-      - uses: actions/setup-python@f677139bbe7f9c59b41efee25c33b52b59b6626b
+      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
         with:
           python-version: '3.11'
 
@@ -446,7 +446,7 @@ jobs:
 
       - name: Upload release-critical triage bundle
         if: always()
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: release-critical-triage-${{ github.run_number }}
           path: |
@@ -514,7 +514,7 @@ jobs:
         with:
           fetch-depth: 1
 
-      - uses: actions/setup-python@f677139bbe7f9c59b41efee25c33b52b59b6626b
+      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
         with:
           python-version: '3.11'
 
@@ -572,7 +572,7 @@ jobs:
 
       - name: Upload delta report
         if: always()
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: scanner-delta-${{ github.run_number }}
           path: ai_working/delta/
@@ -641,7 +641,7 @@ jobs:
         with:
           fetch-depth: 1
 
-      - uses: actions/setup-python@f677139bbe7f9c59b41efee25c33b52b59b6626b
+      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
         with:
           python-version: '3.12'
 
@@ -1040,7 +1040,7 @@ jobs:
 
       - name: Upload TruffleHog results
         if: always()
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: trufflehog-results-${{ github.run_number }}
           path: trufflehog-results.json

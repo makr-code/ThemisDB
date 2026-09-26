@@ -51,7 +51,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-python@f677139bbe7f9c59b41efee25c33b52b59b6626b
+      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
         with:
           python-version: '3.11'
 
@@ -121,7 +121,7 @@ jobs:
 
       - name: Upload preview artifacts
         if: always()
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: ga-signoff-preview-${{ github.run_number }}
           path: |
@@ -145,7 +145,7 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.event_name == 'workflow_dispatch' && (inputs.ref != '' && inputs.ref || github.ref) || format('refs/pull/{0}/head', github.event.pull_request.number) }}
 
-      - uses: actions/setup-python@f677139bbe7f9c59b41efee25c33b52b59b6626b
+      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
         with:
           python-version: '3.11'
 
@@ -275,7 +275,7 @@ jobs:
 
       - name: Upload final sign-off artifacts
         if: (success() || failure()) && steps.resolve-payloads.outputs.has_payloads == 'true'
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: ga-signoff-${{ github.run_number }}
           path: |

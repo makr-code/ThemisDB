@@ -22,7 +22,7 @@ on:
         default: "4"
 
 concurrency:
-  group: wave-b-transaction-ci-${{ github.ref }}-${{ matrix.phase }}
+  group: wave-b-transaction-ci-${{ github.ref }}
   cancel-in-progress: false
 
 permissions:
@@ -99,7 +99,7 @@ jobs:
 
       - name: "Upload CMake configuration log"
         if: always()
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: cmake-configuration-log
           path: cmake-config.log
@@ -170,7 +170,7 @@ jobs:
 
       - name: "Upload compilation log"
         if: always()
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: compile-${{ matrix.phase }}-log
           path: compile-${{ matrix.phase }}.log
@@ -240,7 +240,7 @@ jobs:
 
       - name: "Upload smoke test results"
         if: always()
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: smoke-test-results
           path: ${{ needs.configure.outputs.build-dir }}/smoke-test-results.txt
@@ -248,7 +248,7 @@ jobs:
 
       - name: "Publish smoke test summary"
         if: always()
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: test-summary
           path: ${{ needs.configure.outputs.build-dir }}/smoke-test-results.txt
@@ -334,7 +334,7 @@ jobs:
 
       - name: "Upload test results"
         if: always()
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: transaction-test-results
           path: |
@@ -420,7 +420,7 @@ jobs:
 
       - name: "Upload chaos/recovery evidence"
         if: always()
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: transaction-chaos-recovery-evidence
           path: |
@@ -529,7 +529,7 @@ jobs:
 
       - name: "Upload Phase 4 benchmark artifacts"
         if: always()
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: transaction-phase4-benchmark
           path: |
@@ -563,7 +563,7 @@ jobs:
           echo "Archive created: $(du -sh transaction-ci-results.zip | cut -f1)"
 
       - name: "Upload artifacts archive"
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: transaction-ci-results
           path: transaction-ci-results.zip
@@ -661,14 +661,14 @@ jobs:
           } > CI_REPORT.md
 
       - name: "Upload final report"
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: CI-Report
           path: CI_REPORT.md
           retention-days: 90
 
       - name: "Upload Wave-B closure package"
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: transaction-wave-b-closure-package
           path: wave-closure/

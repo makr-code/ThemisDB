@@ -128,7 +128,7 @@ jobs:
           echo "artifact-dir=release-artifacts" >> "$GITHUB_OUTPUT"
 
       - name: Upload assets for downstream jobs
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: widget-release-assets-${{ github.run_number }}
           path: release-artifacts/
@@ -163,7 +163,7 @@ jobs:
             -OutputDir "${{ runner.temp }}/checksums"
 
       - name: Upload checksums
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: widget-checksums-${{ github.run_number }}
           path: ${{ runner.temp }}/checksums/checksums.json
@@ -357,7 +357,7 @@ jobs:
           "manifest-dir=$ManifestDir" >> $env:GITHUB_OUTPUT
 
       - name: Upload manifests
-        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: widget-manifests-${{ needs.download-release-assets.outputs.version }}-${{ github.run_number }}
           path: packaging/winget/manifests/t/ThemisDB/ThemisDB/${{ needs.download-release-assets.outputs.version }}/
