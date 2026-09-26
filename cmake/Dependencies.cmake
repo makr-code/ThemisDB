@@ -1074,10 +1074,14 @@ if(THEMIS_ENABLE_LDAP)
         # resolve.  Instead, require Homebrew openldap explicitly.
         find_library(LDAP_LIB NAMES ldap
             HINTS /opt/homebrew/lib /usr/local/lib
+                  /opt/homebrew/opt/openldap/lib
+                  /usr/local/opt/openldap/lib
             NO_DEFAULT_PATH
             DOC "Homebrew OpenLDAP library (macOS)")
         find_library(LBER_LIB NAMES lber
             HINTS /opt/homebrew/lib /usr/local/lib
+                  /opt/homebrew/opt/openldap/lib
+                  /usr/local/opt/openldap/lib
             NO_DEFAULT_PATH
             DOC "Homebrew OpenLDAP BER library (macOS)")
         find_path(LDAP_INCLUDE_DIR NAMES ldap.h
