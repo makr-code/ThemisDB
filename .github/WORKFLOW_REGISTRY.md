@@ -4,7 +4,7 @@
 > Created: 2026-09-09
 > Last Updated: 2026-09-26
 > Status: active
-> Total Workflows: 83 (verified Sept 26, 2026)
+> Total Workflows: 83 (verified 2026-09-26)
 
 ## Zielbild
 
