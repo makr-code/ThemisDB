@@ -260,8 +260,8 @@ jobs:
         run: |
           set -euo pipefail
           if [ -z "${GPG_PRIVATE_KEY_B64:-}" ] || [ -z "${GPG_PASSPHRASE:-}" ]; then
-            echo "::error::sign_metadata=true requires linux_distro_gpg_private_key_b64 and linux_distro_gpg_passphrase"
-            exit 1
+            echo "::warning::sign_metadata=true was requested but linux_distro_gpg_private_key_b64 and/or linux_distro_gpg_passphrase secrets are not configured. Skipping GPG signing; bundle will be produced unsigned."
+            exit 0
           fi
           echo "${GPG_PRIVATE_KEY_B64}" | base64 -d > /tmp/linux-distro-signing.key
           gpg --batch --import /tmp/linux-distro-signing.key
@@ -449,6 +449,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+
+          if [ -z "${GPG_PASSPHRASE:-}" ]; then
+            echo "::warning::GPG passphrase secret is not configured. Skipping metadata signing."
+            exit 0
+          fi
 
           OUT_DIR="linux-distro-bundle"
           DEB_DIR="${OUT_DIR}/deb"
