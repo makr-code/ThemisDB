@@ -42,8 +42,8 @@ on:
 
 
 concurrency:
-  group: build-wave-b-llm-${{ github.ref }}
-  cancel-in-progress: true
+  group: build-wave-b-llm-${{ github.ref }}-${{ matrix.scenario }}
+  cancel-in-progress: false
 env:
   WAVE_B_DATA_DIR: benchmarks/wave_b_data
   WAVE_B_RESULTS_DIR: benchmarks/wave_b_results
@@ -60,7 +60,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Detect Hardware
         id: detect
@@ -84,7 +84,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Prepare Data
         shell: bash
@@ -106,7 +106,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Execute Benchmark
         shell: bash
@@ -116,7 +116,7 @@ jobs:
           echo '{"status": "phase_1_skeleton", "scenario": "${{ matrix.scenario }}"}' > ${{ env.WAVE_B_RESULTS_DIR }}/results_${{ matrix.scenario }}.json
 
       - name: Upload Results
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         with:
           name: wave-b-results-${{ matrix.scenario }}
           path: ${{ env.WAVE_B_RESULTS_DIR }}/

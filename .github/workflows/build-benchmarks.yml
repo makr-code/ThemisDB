@@ -60,7 +60,7 @@ on:
         default: false
 
 concurrency:
-  group: ci-benchmarks-${{ github.ref }}
+  group: ci-benchmarks-${{ github.ref }}-${{ matrix.os }}-${{ matrix.compiler }}
   cancel-in-progress: true   # Weekly schedule; cancel stale dispatch-triggered runs
 
 permissions:
@@ -84,7 +84,7 @@ jobs:
     permissions:
       issues: write
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           sparse-checkout: .github/actions
           sparse-checkout-cone-mode: false
@@ -123,7 +123,7 @@ jobs:
             cxx: g++-12
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
 
@@ -197,7 +197,7 @@ jobs:
             echo "Generated candidate baseline artifact instead of mutating repository history."
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         if: always()
         with:
           name: voice-benchmark-${{ matrix.os }}-${{ github.run_number }}
@@ -222,7 +222,7 @@ jobs:
       BUILD_DIR: build/critical-module-baselines
       RESULTS_DIR: build/critical-module-baselines/results
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
           submodules: false
@@ -259,7 +259,7 @@ jobs:
             libpugixml-dev libcpp-httplib-dev
 
       - name: Cache sccache
-        uses: actions/cache@v4
+        uses: actions/cache@a9e10dcf69a7f3e89de08b13b4141dd478633dee
         with:
           path: ${{ github.workspace }}/.cache/sccache
           key: sccache-critical-baselines-${{ hashFiles('benchmarks/auth/**', 'benchmarks/voice/**', 'benchmarks/rag/**', 'src/auth/**', 'src/voice/**', 'src/query/**') }}-${{ runner.os }}
@@ -380,7 +380,7 @@ jobs:
 
       - name: Upload broad baseline artifacts
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         with:
           name: critical-module-baselines-${{ github.run_number }}
           path: ${{ env.RESULTS_DIR }}/
@@ -425,7 +425,7 @@ jobs:
       BUILD_DIR: build/wave-a-benchmarks
       RESULTS_DIR: benchmark-artifacts/${{ matrix.artifact_name }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
 
@@ -442,7 +442,7 @@ jobs:
             libpugixml-dev libcpp-httplib-dev
 
       - name: Cache sccache
-        uses: actions/cache@v4
+        uses: actions/cache@a9e10dcf69a7f3e89de08b13b4141dd478633dee
         with:
           path: ${{ github.workspace }}/.cache/sccache
           key: sccache-wave-a-benchmarks-${{ matrix.flow_name }}-${{ hashFiles('benchmarks/**', 'src/**', 'cmake/**', 'CMakeLists.txt', 'CMakePresets.json') }}-${{ runner.os }}
@@ -486,7 +486,7 @@ jobs:
 
       - name: Upload Wave A benchmark artifacts
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         with:
           name: ${{ matrix.artifact_name }}-${{ github.run_number }}
           path: ${{ env.RESULTS_DIR }}/
@@ -535,7 +535,7 @@ jobs:
       BUILD_DIR: build/wave-a-longrun
       RESULTS_DIR: benchmark-artifacts/${{ matrix.artifact_name }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
 
@@ -552,7 +552,7 @@ jobs:
             libpugixml-dev libcpp-httplib-dev libgtest-dev libgmock-dev
 
       - name: Cache sccache
-        uses: actions/cache@v4
+        uses: actions/cache@a9e10dcf69a7f3e89de08b13b4141dd478633dee
         with:
           path: ${{ github.workspace }}/.cache/sccache
           key: sccache-wave-a-longrun-${{ matrix.flow_name }}-${{ hashFiles('tests/**', 'src/**', 'cmake/**', 'CMakeLists.txt', 'CMakePresets.json') }}-${{ runner.os }}
@@ -601,7 +601,7 @@ jobs:
 
       - name: Upload Wave A long-run artifacts
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         with:
           name: ${{ matrix.artifact_name }}-${{ github.run_number }}
           path: ${{ env.RESULTS_DIR }}/
@@ -634,7 +634,7 @@ jobs:
             description: 'NVIDIA Hopper (H100)'
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Configure CUDA build
         run: |
@@ -670,7 +670,7 @@ jobs:
           fi
           exit 0
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         if: always()
         with:
           name: gpu-cuda-results-${{ matrix.cuda_arch }}-${{ github.run_number }}
@@ -690,7 +690,7 @@ jobs:
     timeout-minutes: 90
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Configure HIP build
         run: |
@@ -713,7 +713,7 @@ jobs:
           fi
           exit 0
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         if: always()
         with:
           name: gpu-hip-results-${{ github.run_number }}
@@ -732,7 +732,7 @@ jobs:
     timeout-minutes: 30
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Install build dependencies
         run: |
@@ -786,7 +786,7 @@ jobs:
       STORAGE_MODULE2_REQUIRED_CASE: BM_Storage_SustainedWrite_NoSync
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
 
@@ -840,7 +840,7 @@ jobs:
             --previous-dir artifacts/nightly-prev \
             2>&1 | tee -a "${ARTIFACT_DIR}/sweep_run.log" || true
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         if: always()
         with:
           name: nightly-benchmark-sweep-${{ github.run_number }}
@@ -865,7 +865,7 @@ jobs:
       ARTIFACT_DIR: benchmark-artifacts/wave-d-observability
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
 
@@ -956,7 +956,7 @@ jobs:
               sys.exit(1)
           "
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         if: always()
         with:
           name: wave-d-observability-gates-${{ github.run_number }}
@@ -979,7 +979,7 @@ jobs:
       (github.event_name == 'workflow_dispatch')
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
 
@@ -1074,7 +1074,7 @@ jobs:
 
       - name: Upload benchmark results
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         with:
           name: sharding-release-gates-${{ github.run_number }}
           path: ${{ env.ARTIFACT_DIR }}/
@@ -1098,7 +1098,7 @@ jobs:
       ARTIFACT_DIR: benchmark-artifacts/wave-d-soak
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
 
@@ -1161,7 +1161,7 @@ jobs:
               sys.exit(1)
           "
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         if: always()
         with:
           name: wave-d-soak-tests-${{ github.run_number }}

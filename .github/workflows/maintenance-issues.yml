@@ -95,7 +95,7 @@ permissions:
 
 concurrency:
   group: ci-maintenance-issues-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 # ──────────────────────────────────────────────────────────────────────────────
 jobs:
@@ -145,13 +145,13 @@ jobs:
           echo "============================================================"
 
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           ref: ${{ env.TARGET_BRANCH }}
           fetch-depth: 0
 
       - name: Setup Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@f677139bbe7f9c59b41efee25c33b52b59b6626b
         with:
           python-version: '3.11'
 
@@ -340,7 +340,7 @@ jobs:
 
       - name: Upload GS3 artifacts
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         with:
           name: gs3-gap-scan-${{ github.run_id }}
           path: |
@@ -591,14 +591,14 @@ jobs:
           echo "============================================================"
 
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           ref: ${{ env.TARGET_BRANCH }}
           fetch-depth: 0
 
       - name: Query code scanning alerts for SLA breaches
         id: query
-        uses: actions/github-script@v7  # v7.0.1
+        uses: actions/github-script@60a0d83039c74a4aee1596bacdf7f92d5fc98cc3  # v7.0.1
         with:
           script: |
             const slaDaysRaw = '${{ inputs.sla_days || 14 }}';
@@ -750,14 +750,14 @@ jobs:
           echo "============================================================"
 
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           ref: ${{ env.TARGET_BRANCH }}
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@f677139bbe7f9c59b41efee25c33b52b59b6626b
         with:
           python-version: '3.11'
 
@@ -881,7 +881,7 @@ jobs:
 
       - name: Upload doxygen artifacts
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         with:
           name: doxygen-autofix-${{ github.run_id }}
           path: |

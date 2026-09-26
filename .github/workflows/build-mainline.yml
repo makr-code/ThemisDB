@@ -103,7 +103,7 @@ jobs:
       issues: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Set build tracker pending label
         uses: ./.github/actions/status-flags-and-issues
@@ -296,7 +296,7 @@ jobs:
           echo "  Scope    : config_file_watcher + plugin_hot_plug_monitor kqueue paths"
           echo "============================================================"
 
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Install Homebrew dependencies
         run: |
@@ -589,7 +589,7 @@ jobs:
 
       - name: Upload macOS kqueue results
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         with:
           name: macos-kqueue-results-${{ github.run_number }}
           path: macos-kqueue-output.txt
@@ -613,7 +613,7 @@ jobs:
       issues: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Derive status payload
         id: status

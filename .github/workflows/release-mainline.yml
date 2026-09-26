@@ -47,6 +47,11 @@ on:
       - 'hyperscaler-v*'
       - 'military-v*'
       - 'minimal-v*'
+    branches:
+      - develop
+      - main
+      - community
+      - release/**
   release:
     types: [published, created]
   workflow_dispatch:
@@ -90,7 +95,7 @@ jobs:
       issues: write
     steps:
       - name: Checkout (sparse — actions)
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           sparse-checkout: .github/actions
           sparse-checkout-cone-mode: false
@@ -196,19 +201,19 @@ jobs:
       ) && needs.build-matrix.result == 'success'
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
 
       - name: Download all CPack packages
-        uses: actions/download-artifact@v4.1.3  # v4.1.3
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16.1.3  # v4.1.3
         with:
           pattern: packages-*-${{ github.run_number }}
           merge-multiple: true
           path: release/
 
       - name: Download Linux community binaries (fallback)
-        uses: actions/download-artifact@v4.1.3  # v4.1.3
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16.1.3  # v4.1.3
         with:
           pattern: build-community-release-${{ github.run_number }}
           merge-multiple: true
@@ -286,7 +291,7 @@ jobs:
           echo "--- Release manifest ---"
           cat RELEASE_MANIFEST.txt
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         with:
           name: release-packages-${{ github.run_number }}
           path: release/
@@ -298,7 +303,7 @@ jobs:
     needs: package
     steps:
       - name: Download release packages
-        uses: actions/download-artifact@v4.1.3  # v4.1.3
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16.1.3  # v4.1.3
         with:
           pattern: release-packages-*
           merge-multiple: true
@@ -474,17 +479,17 @@ jobs:
       actions: read
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Download release packages
-        uses: actions/download-artifact@v4.1.3  # v4.1.3
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16.1.3  # v4.1.3
         with:
           pattern: release-packages-*
           merge-multiple: true
           path: release/
 
       - name: Publish to GitHub Releases (community)
-        uses: actions/github-script@v7  # v9.0.0
+        uses: actions/github-script@60a0d83039c74a4aee1596bacdf7f92d5fc98cc3  # v9.0.0
         with:
           script: |
             const fs = require('fs');
@@ -581,10 +586,10 @@ jobs:
       actions: read
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Download release packages
-        uses: actions/download-artifact@v4.1.3  # v4.1.3
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16.1.3  # v4.1.3
         with:
           pattern: release-packages-*
           merge-multiple: true
@@ -683,13 +688,13 @@ jobs:
       )
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 1
 
       - name: Restore model cache
         id: cache-model
-        uses: actions/cache@v4
+        uses: actions/cache@a9e10dcf69a7f3e89de08b13b4141dd478633dee
         with:
           path: ${{ github.workspace }}/models
           key: tinyllama-gguf-q4km-${{ hashFiles('scripts/ci-download-tinyllama.sh') }}
@@ -761,7 +766,7 @@ jobs:
 
       - name: Upload gate results
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         with:
           name: llm-gate-results-${{ github.run_number }}
           path: |

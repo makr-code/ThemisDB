@@ -49,7 +49,7 @@ on:
 
 concurrency:
   group: compliance-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 permissions:
   contents: read
@@ -66,10 +66,10 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@f677139bbe7f9c59b41efee25c33b52b59b6626b
         with:
           python-version: '3.12'
 
@@ -88,7 +88,7 @@ jobs:
           PY
 
       - name: Checkout vcpkg ports at pinned baseline
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           repository: microsoft/vcpkg
           ref: ${{ steps.baseline.outputs.sha }}
@@ -107,7 +107,7 @@ jobs:
         run: cat artifacts/license-compliance/license-summary.md >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload license artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         with:
           name: license-compliance-${{ github.run_id }}
           path: |
@@ -125,7 +125,7 @@ jobs:
       contents: write
     steps:
       - name: Download license artifacts
-        uses: actions/download-artifact@v4.1.3  # v4.1.3
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16.1.3  # v4.1.3
         with:
           name: license-compliance-${{ github.run_id }}
           path: artifacts/license-compliance
@@ -151,7 +151,7 @@ jobs:
       id-token: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Verify vcpkg baseline commit signature
         env:
@@ -217,7 +217,7 @@ jobs:
           sha256sum -c sbom-source.SHA256SUMS
 
       - name: Upload SBOM artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         with:
           name: sbom-${{ github.run_id }}
           path: |
@@ -267,7 +267,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Resolve release identifier
         id: release_id
@@ -308,7 +308,7 @@ jobs:
             --output-md "c5-evidence/manifest.md"
 
       - name: Upload C5 evidence manifest
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         with:
           name: c5-evidence-manifest-${{ steps.release_id.outputs.value }}
           path: c5-evidence/
@@ -350,10 +350,10 @@ jobs:
           echo "============================================================"
 
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@f677139bbe7f9c59b41efee25c33b52b59b6626b
         with:
           python-version: '3.12'
 
@@ -464,7 +464,7 @@ jobs:
           category: dependency-freshness
       - name: Upload freshness report artifact
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         with:
           name: dependency-freshness-${{ github.run_id }}
           path: dependency-freshness.sarif
@@ -557,7 +557,7 @@ jobs:
       THEMIS_ADMIN_ENDPOINT: 'http://localhost:18080'
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Start ThemisDB container
         env:
@@ -606,7 +606,7 @@ jobs:
 
       - name: Upload evidence bundle artifact
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         with:
           name: soc2-evidence-${{ github.run_id }}-${{ github.run_number }}
           path: evidence-bundle-*.json

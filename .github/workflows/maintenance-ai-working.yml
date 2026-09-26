@@ -74,7 +74,7 @@ permissions:
 
 concurrency:
   group: maintenance-ai-working-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   # --------------------------------------------------------------------------
@@ -86,14 +86,14 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           # Use PAT or GITHUB_TOKEN; push requires write access
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@f677139bbe7f9c59b41efee25c33b52b59b6626b
         with:
           python-version: '3.12'
 
@@ -155,7 +155,7 @@ jobs:
 
       - name: Upload compact run log
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         with:
           name: ai-working-compact-${{ github.run_number }}
           path: |
@@ -267,7 +267,7 @@ jobs:
       (github.event_name == 'push' && contains(github.event.head_commit.message, '[wiki]'))
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
@@ -275,7 +275,7 @@ jobs:
           ref: ${{ github.ref_name }}
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@f677139bbe7f9c59b41efee25c33b52b59b6626b
         with:
           python-version: '3.12'
 
@@ -297,7 +297,7 @@ jobs:
 
       - name: Upload LLM wiki sync artifacts
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         with:
           name: developer-llm-wiki-${{ github.run_number }}
           path: |

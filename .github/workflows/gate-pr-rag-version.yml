@@ -27,7 +27,7 @@ on:
 
 concurrency:
   group: rag-version-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 permissions:
   pull-requests: write
@@ -43,7 +43,7 @@ jobs:
     
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937dc1785ba5b1e112e8e93a61d6f60
         with:
           fetch-depth: 0
       
@@ -230,7 +230,7 @@ jobs:
     
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937dc1785ba5b1e112e8e93a61d6f60
       
       - name: Install Build Dependencies
         run: |

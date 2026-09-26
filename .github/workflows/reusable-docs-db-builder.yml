@@ -88,7 +88,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       # ── Layer 2: Content hash check ─────────────────────────────────────
       # Computes a stable SHA-256 fingerprint of the entire input folder tree.
@@ -112,7 +112,7 @@ jobs:
 
       - name: Restore hash-based build cache
         id: cache
-        uses: actions/cache@v4
+        uses: actions/cache@a9e10dcf69a7f3e89de08b13b4141dd478633dee
         with:
           path: |
             .db-cache/${{ inputs.output_name }}.sha
@@ -138,7 +138,7 @@ jobs:
 
       - name: Set up Python
         if: steps.check.outputs.skip != 'true'
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@f677139bbe7f9c59b41efee25c33b52b59b6626b
         with:
           python-version: '3.12'
 
@@ -234,7 +234,7 @@ jobs:
 
       - name: Upload RocksDB database artifact
         if: always() && (steps.check.outputs.skip != 'true' || steps.cache.outputs.cache-hit == 'true')
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         with:
           name: ${{ inputs.output_name }}
           path: output-db/${{ inputs.output_name }}.db
@@ -242,7 +242,7 @@ jobs:
 
       - name: Upload JSON artifact (for incremental rebuilds / debugging)
         if: steps.check.outputs.skip != 'true'
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         with:
           name: ${{ inputs.output_name }}-json
           path: output-db/docs_artifact.json

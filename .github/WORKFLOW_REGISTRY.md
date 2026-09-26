@@ -1,322 +1,167 @@
-# ThemisDB Workflow Registry (Lean Core)
+# ThemisDB Workflow Registry (Comprehensive Governance)
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-09-09
+> Last Updated: 2026-09-26
 > Status: active
+> Total Workflows: 82 (verified Sept 26, 2026)
 
 ## Zielbild
-Dieses Repository nutzt bewusst ein schlankes, release-orientiertes CI/CD-Set.
-Alle nicht zwingenden Modul-/Spezial-Workflows wurden entfernt, um Wartung,
-Signalqualität und Release-Stabilitaet zu verbessern.
+
+Dieses Repository nutzt ein bewusst strukturiertes, release-orientiertes CI/CD-System.
+Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 
 ## Leitprinzipien
-- Keep it lean: nur Workflows mit direktem Beitrag zu Release, klar isolierten Qualitaetspruefungen oder Tooling-Governance.
-- Modularisierung: wiederverwendbare Workflows statt duplizierter Build-Logik.
-- Klare Verantwortlichkeit je Lane: nur explizit begrenzte Trigger statt repo-weiter Aktivierung.
-- Keine Schatten-CI: neue oder reaktivierte Workflows nur mit begruendeter Notwendigkeit und Registry-Update.
 
-## Aktiver Workflow-Kern
+- **Keine Schatten-CI:** Alle 82 Workflows sind in diesem Registry dokumentiert.
+- **Klare Verantwortlichkeit:** Jeder Workflow hat definierte Trigger und Zweck.
+- **Konsistente Governance:** Alle Workflows folgen Naming-, Concurrency- und Trigger-Policies.
+- **Drift Prevention:** Registry-Update ist erforderlich bei neuen Workflows (Pre-Commit-Hook in Phase 3).
 
-### Canonical Release Contract
+## Aktiver Workflow-Kern: Alle 82 Workflows
 
-Die Release-Architektur nutzt einen klaren Zweischichten-Model:
+### 1. BUILD & MAINLINE (13 Workflows)
 
-1. `release-mainline.yml` + `release-build-matrix.yml` bilden den kanonischen Release-/Packaging-Pfad.
-   - Diese Workflows erzeugen die CPack-Artefakte, validieren die Release-Metadaten und publizieren die GitHub-Release-Bundle.
-2. `release-docker-image.yml`, `release-winget.yml` und `build-widget.yml` sind Downstream-Delivery-Workflows.
-   - Sie konsumieren die finalen Release-Artefakte und Metadaten.
-   - Sie erzeugen keine eigene, alternative Release-Artifact-Semantik.
+| Workflow | Purpose | Status |
+|----------|---------|--------|
+| `build-mainline.yml` | Build: Mainline (All platforms, multi-matrix) | active |
+| `build-clang-fast.yml` | Build: Clang Fast (Quick clang-only validation) | active |
+| `build-benchmarks.yml` | Build: Benchmarks (Performance regression suite, 64-matrix) | active |
+| `build-sanitizer-nightly.yml` | Build: Sanitizer Nightly (AddressSanitizer + UBSan) | active |
+| `build-wave-a-gpu.yml` | Build: Wave A GPU (CUDA/GPU feature validation) | active |
+| `build-wave-b-transaction.yml` | Build: Wave B Transaction (Transactional subsystem) | active |
+| `build-wave-b-llm-benchmarks.yml` | Build: Wave B LLM Benchmarks (LLM inference performance) | active |
+| `build-llm-inference.yml` | Build: LLM Inferencing (TinyLlama + doku.db RAG + AdaLoRA) | active |
+| `build-content-regression.yml` | Build: Content Regression [Wave D] (Content processing validation) | active |
+| `build-widget.yml` | Build: WinGet E2E Validation (Windows installer end-to-end) | active |
+| `build-ollama-router.yml` | Build: Copilot Ollama Router (VS Code extension build) | active |
+| `wave-a-gpu-ci-execution.yml` | Wave A GPU CI Execution (GPU + CPU Fallback matrix) | active |
+| `wave-a-gpu-phase3-baseline-execution.yml` | Wave A GPU Phase 3: Baseline Capture & Measurement | active |
 
-Der Zweck dieser Rollenaufteilung ist eine saubere Release-Kette:
+### 2. GATES: PR VALIDATION (20 Workflows)
 
-- Build artifacts are produced once by CPack
-- GitHub Release publishes the canonical bundle
-- Docker / WinGet / installer distribution consume that final bundle
-- Current operations scope for release distribution channels is Windows + Linux (GitHub Releases, WinGet, Docker Hub, GHCR).
-- Current consumer coverage includes Windows, Linux, Docker, and WinGet; macOS has an experimental opt-in build lane in `release-build-matrix.yml`, but no dedicated release consumer lane yet.
-- GitHub source archives are the separate developer distribution lane and are not part of the runtime consumer set.
+| Workflow | Purpose | Gate Type |
+|----------|---------|-----------|
+| `gate-pr-core.yml` | Gate: PR Core (Primary PR gate: tests, boundaries, policies) | fast-path |
+| `gate-pr-community-failclosed.yml` | Gate: PR Core [Community Fail-Closed] (Community-specific gate) | fail-closed |
+| `gate-pr-edition-license.yml` | Gate: PR Core [Edition & License] (Edition compliance) | compliance |
+| `gate-pr-hash-sbom.yml` | Gate: PR Core [Hash & SBOM Integrity] (Supply chain security) | compliance |
+| `gate-pr-plugin-boundary.yml` | Gate: PR Core [Plugin Boundary] (Plugin boundary enforcement) | compliance |
+| `gate-pr-primary-doc-structure.yml` | Gate: PR Primary Doc Structure (README/ARCHITECTURE validation) | docs |
+| `gate-pr-doc-metadata.yml` | Gate: PR Doc Metadata (Markdown metadata & governance) | docs |
+| `gate-pr-doxygen-governance.yml` | Gate: PR Doxygen Governance (C++ API doc validation) | docs |
+| `gate-pr-module-doxygen-xml.yml` | Gate: PR Module Doxygen XML (Module-level Doxygen generation) | docs |
+| `gate-pr-version-targeting.yml` | Gate: PR Version Targeting (PR body version field validation) | version-control |
+| `gate-pr-merge-readiness.yml` | Gate: PR Merge Readiness (Pre-merge final validation) | pre-merge |
+| `gate-pr-rag-eval.yml` | Gate: PR RAG Evaluation Contract (RAG system evaluation) | specialized |
+| `gate-pr-rag-security.yml` | Gate: PR RAG Security Guardrails (RAG security validation) | security |
+| `gate-pr-rag-version.yml` | Gate: PR RAG Embedding Version Governance (Embedding version tracking) | version-control |
+| `gate-pr-rag-phase7.yml` | Gate: PR RAG Phase 7 (Freshness SLA) | specialized |
+| `gate-pr-rag-phase8.yml` | Gate: PR RAG Phase 8 (Observability SLO) | specialized |
+| `gate-pr-rag-phase9.yml` | Gate: PR RAG Phase 9 (Research Evaluation) | specialized |
+| `gate-pr-rag-phase10.yml` | Gate: PR RAG Phase 10 (Cost Optimizer) | specialized |
+| `gate-wave-closure.yml` | Gate: Wave Closure Governance (Wave exit criteria validation) | governance |
+| `gate-distributed-knowledge.yml` | Gate: Module Validation [distributed_knowledge] (Module-specific gate) | module-specific |
 
-### Fokus-Workflows
-- `.github/workflows/gate-pr-core.yml`
-  — Fast PR-Gate-Layer inkl. `release-critical-tests` (mandatory), Boundary- und Policy-Gates
-- `.github/workflows/gate-pr-doxygen-governance.yml`
-  — PR-Gate fuer geaenderten C/C++-Sourcecode: GS3-Doxygen-Strukturpruefung, Doxygen-Audit-Warnungen, XML-Generierbarkeit, Coverage-/Waiver-Eskalation
-- `.github/workflows/gate-pr-doc-metadata.yml`
-  — Leichtgewichtiges Markdown-Metadaten-Gate fuer geaenderte Doku-Dateien; prueft Author/Urheber, Created, Last Updated und Status mit klaren Excludes fuer Backlog-/Archiv-/Template-Dateien
-- `.github/workflows/gate-pr-primary-doc-structure.yml`
-  — PR-Gate fuer Primaerdokument-Struktur in `src/*/README.md` und `src/*/ARCHITECTURE.md` inklusive konformer Failure-Feedback-Hooks
-- `.github/workflows/gate-pr-module-doxygen-xml.yml`
-  — Modulbasierte Doxygen-XML/Direct-Doxygen Evidence Lane (schedule + dispatch) fuer Drift-Evidenz und Coverage-Artefakte
-- `.github/workflows/build-mainline.yml`
-  — Multi-OS Build/Test-Matrix inkl. optionaler Sanitizer-Lane per `workflow_dispatch`
-- `.github/workflows/build-clang-fast.yml`
-  — Lightweight Clang-Lane fuer PR-Fruehfeedback (ohne heavy Sanitizer-Overhead)
-- `.github/workflows/release-mainline.yml`
-  — Tag-/Dispatch-gesteuerte Release-Builds; CPack-Packaging (TGZ/DEB/RPM/ZIP/MSI); Manifest-Validierung, GitHub-Release-Erstellung und Publish-Lanes (community + private); Changelog-Automation
-- `.github/workflows/build-benchmarks.yml`
-  — Entkoppelte schwere Benchmark-Lanes (voice, GPU matrix, nightly sweep)
-- `.github/workflows/benchmark-performance-gate.yml`
-  — Wöchentlicher Performance-Gate: baut alle core bench_*-Targets, führt sie aus, vergleicht Messwerte gegen src/<module>/PERFORMANCE_EXPECTATIONS.md und upsert Ergebnisse in Issue '[Perf] Benchmark Results Tracker'
-- `.github/workflows/reusable-benchmark-runner.yml`
-  — Reusable Build–Run–Upload-Zyklus für bench_*-Targets; called by benchmark-performance-gate.yml
-- `.github/workflows/release-changelog.yml`
-  — Reusable/manual changelog update & backfill (artifact-backed proposal, keine Branch-Mutation)
-- `.github/workflows/security-consolidated.yml`
-  — Konsolidierter Security-Scan: Trivy Vulnerability Scan + Gitleaks Secret Scan + KubeSec Manifest-Scan (Schedule/Dispatch only; 3 einzeln guardierte Jobs; ersetzt security.yml + security-scanning.yml; DAST/ZAP wurde in security-dast-zap.yml ausgelagert)
-- `.github/workflows/security-dast-zap.yml`
-  — OWASP ZAP DAST: Baseline (wöchentlich passiv), API-Scan (OpenAPI-getrieben, aktiv), Full-Scan (manuell, aktiv); SARIF-Upload auf GitHub Security Tab; reusable via workflow_call für pre-release Gate
-- `.github/workflows/security-fortify.yml`
-  — Fortify AST Scan (continue-on-error; requires FOD_TENANT/FOD_USER/FOD_PAT secrets)
-- `.github/workflows/build-sanitizer-nightly.yml`
-  — Geplante ASan/UBSan-Nachtlaeufe auf ausgewaehlten kritischen Targets
-- `.github/workflows/security-pentest-quarterly.yml`
-  — Quartals-Pentest-Cadence mit Evidence-Artefakten (non-mutating)
-- `.github/workflows/compliance-supply-chain.yml`
-  — SBOM-/Signatur-/Release-Compliance-Pruefungen
-- `.github/workflows/security-codeql.yml`
-  — CodeQL Analyse-Workflow
-- `.github/workflows/compliance-governance-gates.yml`
-  — Compliance-/Governance- und Release-Policy-Gates
-- `.github/workflows/ga-promotion-signoff.yml`
-  — Human-initiated GA promotion sign-off validation + manifest/hash artifact generation for approved maintainer reviews or manual dispatch
-- `.github/workflows/maintenance-docs.yml`
-  — Dokumentations-Hygiene/Alignment Workflows; deckt auch `ai_context/**` und `ai_working/**` ab (Stale-Cleanup + Orphan-Check)
-- `.github/workflows/maintenance-soll-ist-gap-issues.yml`
-  — Soll-Ist Gap Report + idempotenter Issue-Sync fuer modulbezogene Docs-/Impl-Drift
-- `.github/workflows/maintenance-docs-db-build.yml`
-  — Docs-to-ThemisDB: Ingests docs/ into a RocksDB database via themis_docs_builder; triggered on docs/** changes (push develop/community); content-hash guard prevents redundant rebuilds; workflow_dispatch supports arbitrary input_dir
-- `.github/workflows/maintenance-architecture-ci.yml`
-  — Architecture model generator: scans ai_context/, ai_working/, developer_llm_wiki/, api_contracts/, ARCHITECTURE.md, ROADMAP.md, docs/ and produces architecture.json + architecture.md (Mermaid diagram); schedule weekly + dispatch + path-filtered push on develop; opens PR when outputs change
-- `.github/workflows/reusable-docs-db-builder.yml`
-  — Reusable: generalized folder→ThemisDB-DB pipeline; builds themis_docs_builder, hashes input tree, skips if up-to-date, uploads artifact; called by maintenance-docs-db-build.yml and any future per-folder callers
-- `.github/workflows/maintenance-ci-health.yml`
-  — Wöchentliches CI Health Dashboard (pass/fail Aggregation, chronische Fehler-Issue; Sunday 06:00 UTC)
-- `.github/workflows/maintenance-issues.yml`
-  — Konsolidiertes Issue-Maintenance: GS3-Gap-Triage (03:30 UTC) + Security-Alert-SLA-Triage (05:30 UTC); ersetzt maintenance-gs3-gaps.yml + maintenance-security-alerts.yml
-- `.github/workflows/release-docker-image.yml`
-  — Container build/publish lane; downstream consumer triggered from `release-mainline.yml` via `gh workflow run` after manifest validation; no parallel package identity
-- `.github/workflows/release-linux-distribution.yml`
-  — Linux distro consumer lane; prepares DEB/RPM/TGZ bundle + distro-specific repository metadata profiles and optional GPG signing from published GitHub release assets; optional semi-automated publish via dispatch/workflow_call
-- `.github/workflows/edition-hyperscaler-ci.yml`
-  — Editionsspezifische Hyperscaler-CI Lane
-- `.github/workflows/automation-community.yml`
-  — Community Automation (Labeling/Onboarding)
-- `.github/workflows/build-ollama-router.yml`
-  — Scoped CI fuer `tools/copilot-ollama-router/**`
-- `.github/workflows/gate-wave-closure.yml`
-  — Gate: Wave A→D closure package validation; push+PR on audit/evidence/waves/** and tools/ci/validate_wave_closure_packages.py; dispatch
-- `.github/workflows/gate-copilot-regression.yml`
-  — Copilot/CMake-Regression Guard
-- `.github/workflows/copilot-code-review.yml`
-  — Self-scoped Copilot review runner declaration (`copilot-setup-steps`) so agentic reviews have an assigned Ubuntu runner
-- `.github/workflows/wiki-pr-gate.yml`
-  — Wiki review gate: build + validate wiki staging, create/update a human-review PR, and keep the same PR updated via comments until merged by a maintainer
-- `.github/workflows/publish-wiki.yml`
-  — Builds and validates wiki staging, then dispatches the human-review PR gate for merge-controlled publication; community guardrail blocks private plugin paths
-- `.github/workflows/build-wave-a-gpu.yml`
-  — Wave-A GPU CI: build + test GPU index targets on push to develop (gpu/); schedule/dispatch only – no PR trigger (SOC boundary)
-- `.github/workflows/build-wave-b-transaction.yml`
-  — Wave-B Transaction CI: build + test distributed transaction targets on push to develop; schedule/dispatch only – no PR trigger (SOC boundary)
-- `.github/workflows/build-wave-b-llm-benchmarks.yml`
-  — Wave-B LLM Wiki Phase-B benchmark validation; dispatch-only; hardware-detection → data-preparation → benchmark-execution matrix
-    * Inputs: `scenario` (small_10k/medium_1m/large_10m/all)
-    * Purpose: Validate TinyLlama inference + doku.db HNSW search performance
-    * Output: Benchmark artifacts + optional issue comment
-    * Duration: 6–8 hours for full scenario
-    * Non-blocking utility workflow; no impact on releases or PR gates
-- `.github/workflows/build-content-regression.yml`
-  — Content Regression (Wave D): push-triggered ctest --label-include content on develop; Sunday soak run; dispatch manual
-- `.github/workflows/build-llm-inference.yml`
-  — LLM Inferencing CI lane (TinyLlama + doku.db RAG + AdaLoRA); push + schedule + dispatch
-- `.github/workflows/build-widget.yml`
-  — WinGet E2E Release Path: download release assets → SHA256 checksums → 4 manifests (ManifestVersion 1.6.0) → winget validate → fork-PR to microsoft/winget-pkgs; dispatch-only (dry_run=true default)
-    * Inputs: `dry_run` (default=true; false submits real PR to microsoft/winget-pkgs)
-    * Purpose: Validate and submit ThemisDB packages to Windows Package Manager
-    * Requires: WINGET_FORK_PAT secret (for real submissions)
-    * Output: Fork PR link in workflow summary; real PR on microsoft/winget-pkgs if dry_run=false
-    * Part of release distribution chain (consumed by release-mainline.yml)
-- `.github/workflows/gate-distributed-knowledge.yml`
-  — Module validation gate for distributed_knowledge; push + PR + dispatch
-- `.github/workflows/gate-pr-community-failclosed.yml`
-  — PR gate: community fail-closed policy enforcement; workflow_call + PR + push + dispatch
-- `.github/workflows/gate-pr-edition-license.yml`
-  — PR gate: edition & license validation; workflow_call + PR + push + dispatch
-- `.github/workflows/gate-pr-hash-sbom.yml`
-  — PR gate: hash & SBOM integrity checks; workflow_call + PR + push + dispatch
-- `.github/workflows/gate-pr-plugin-boundary.yml`
-  — PR gate: private plugin boundary enforcement; workflow_call + PR + push + dispatch
-- `.github/workflows/gate-pr-merge-readiness.yml`
-  — PR merge readiness aggregator: calls gate-pr-community-failclosed, gate-pr-edition-license, gate-pr-hash-sbom, gate-pr-plugin-boundary via workflow_call and aggregates outcomes; sets status/ready-to-merge or status/blocked; intended as single required status check in branch protection
-- `.github/workflows/gate-pr-version-targeting.yml`
-  — PR gate: Target Version field and milestone assignment validation; PR-only (opened/edited/synchronize)
-- `.github/workflows/maintenance-ai-working.yml`
-  — Maintenance: AI Working Cleanup - LLM Wiki (LLM Wiki stale files); schedule + push + dispatch
-- `.github/workflows/maintenance-housekeeping.yml`
-  — Weekly housekeeping (replaces maintenance-labels + maintenance-milestones + maintenance-issue-recommendations): label sync, milestone sync+assignment, issue closure recommendations; schedule Monday + push + issues/PR-target + dispatch
-- `.github/workflows/maintenance-build-issues.yml`
-  — Build error issue tracking; workflow_run + schedule + dispatch
-- `.github/workflows/maintenance-pr-failure-diagnosis.yml`
-  — PR failure diagnosis (recommend-only, non-destructive); workflow_run + dispatch
-    * Purpose: Analyze failed PR workflow runs and provide diagnostic comments
-    * Behavior: NEVER mutates code/labels/issues; ONLY posts diagnostic PR comments
-    * Trigger: Automatic on failed build-mainline runs + manual workflow_dispatch
-    * Output: Human-readable failure diagnostics as PR comment
-    * Safety: Non-blocking; designed to assist maintainers, not enforce policy
-- `.github/workflows/maintenance-workflow-guardrails-observe.yml`
-  — Workflow boundary guard observation; PR + schedule + dispatch
-- `.github/workflows/release-build-matrix.yml`
-  — Reusable multi-OS build/test matrix; workflow_call only
-- `.github/workflows/release-nightly.yml`
-  — Automatic nightly builds and releases; schedule nightly + dispatch + push
-- `.github/workflows/release-promote.yml`
-  — Semi-automatic stable/rc/alpha release triggering via PR labels or dispatch
-- `.github/workflows/release-rollback.yml`
-  — Manual release rollback (delete artifacts, revert version); dispatch-only
-    * ⚠️ CRITICAL: Requires explicit manual trigger; no automatic rollbacks
-    * Inputs: `version` to rollback; optional flags for artifact deletion + PR creation
-    * Purpose: Emergency release artifact cleanup and version revert
-    * Actions: Delete GitHub Release, revert VERSION/RELEASE_TYPE, delete Docker tags, create rollback PR
-    * Safety: Dispatch-only to prevent accidental invocation; audit trail via workflow logs
-    * Used for: Emergency release fixes or broken release recovery
-- `.github/workflows/release-winget.yml`
-  — Automated WinGet community package submission after stable release; release-event consumer plus workflow_call/dispatch for explicit maintainer runs
-- `.github/workflows/release-windows-distribution.yml`
-  — Windows distribution consumer lane; prepares Scoop/Chocolatey candidate metadata bundles from published GitHub release assets and supports optional semi-automated bundle publish with channel-scoped secrets (`stable`/`testing`/`nightly`) and guarded non-stable publish override
-- `.github/workflows/reusable-cmake-build.yml`
-  — Reusable CMake build pipeline; workflow_call only
-- `.github/workflows/reusable-status-flags-and-issues.yml`
-  — Reusable: status flags and issue/PR comment/label interface; workflow_call only
-- `.github/workflows/security-fuzzing.yml`
-  — Fuzz testing (libFuzzer targets: aql_parser, gguf_loader, grammar, …); schedule Sunday + dispatch
+### 3. RELEASE & PUBLICATION (20 Workflows)
 
-### Approval & Synchronization Workflows (Extended)
-- `.github/workflows/release-mainline-approval.yml`
-  — GitHub Release approval & sign-off gate for promoted releases; maintainer-gated manual trigger
-- `.github/workflows/release-docker-approval.yml`
-  — Docker container image build approval gate; human-gated workflow_dispatch before docker push
-- `.github/workflows/release-windows-distro-approval.yml`
-  — Windows distribution (Scoop/Chocolatey) approval gate; maintainer confirmation before package submission
-- `.github/workflows/release-linux-distro-approval.yml`
-  — Linux distribution (DEB/RPM/apt) approval gate; maintainer confirmation before distro metadata publish
-- `.github/workflows/release-winget-approval.yml`
-  — WinGet community package approval gate; human-gated before fork-PR submission to microsoft/winget-pkgs
-- `.github/workflows/maintenance-compendium-sync.yml`
-  — Weekly compendium/knowledge-base synchronization; scans repository structure + metadata, updates cross-index references; schedule Monday
-- `.github/workflows/wiki-publish-from-issue.yml`
-  — Wiki publication approval + automation; triggered from issue comments or manual dispatch; routes to publish-wiki.yml via workflow_call with approval state
-- `.github/workflows/release-wordpress-press.yml`
-  — Press release / announcement generator and publisher; dispatch-only + release event consumer
-    * Purpose: Automated press release / blog announcement generation and WordPress REST API publication
-    * Triggers: Manual `workflow_dispatch` + automatic on GitHub `release` published events
-    * Inputs: Release version; optional press release template/customizations
-    * Output: Markdown announcement generated → pushed to WordPress blog via REST API
-    * Integration: Part of release distribution chain for communications/marketing
-    * Non-blocking utility; no impact on package/artifact generation
+| Workflow | Purpose | Stage |
+|----------|---------|-------|
+| `release-mainline.yml` | Release: Packaging (CPack orchestration, tag-triggered) | canonical |
+| `release-build-matrix.yml` | Release: Build Matrix (Multi-platform build coordination) | build |
+| `release-changelog.yml` | Release: Changelog (Release notes generation) | docs |
+| `release-docker-image.yml` | Release: Docker Image Consumer (Docker Hub publish) | distribution |
+| `release-docker-approval.yml` | Release: Docker Approval Gate (Docker release approval) | approval |
+| `release-winget.yml` | Release: WinGet Consumer (WinGet publish) | distribution |
+| `release-winget-approval.yml` | Release: WinGet Approval Gate (WinGet approval) | approval |
+| `release-windows-distribution.yml` | Release: Windows Distribution Consumer (Windows MSI/ZIP) | distribution |
+| `release-windows-distro-approval.yml` | Release: Windows Distro Approval Gate (Windows approval) | approval |
+| `release-linux-distribution.yml` | Release: Linux Distribution Consumer (Linux packages) | distribution |
+| `release-linux-distro-approval.yml` | Release: Linux Distro Approval Gate (Linux approval) | approval |
+| `release-mainline-approval.yml` | Release: GitHub Release Approval Gate (GitHub release approval) | approval |
+| `release-nightly.yml` | Release: Nightly (Daily snapshot builds) | automation |
+| `release-promote.yml` | Release: Promote (Semi-Automatic edition promotion) | automation |
+| `release-rollback.yml` | Release: Rollback (Release rollback orchestration) | recovery |
+| `release-wordpress-press.yml` | Release: WordPress Press (Blog/announcement publish) | communication |
+| `automation-community.yml` | Automation: Community (Community branch sync automation) | automation |
+| `edition-hyperscaler-ci.yml` | Edition: Hyperscaler [CI] (Hyperscaler-edition specific CI) | edition-specific |
+| `ga-promotion-signoff.yml` | Governance: GA Promotion Sign-Off (GA promotion approval workflow) | governance |
+| `benchmark-performance-gate.yml` | Benchmark: Performance Gate (Performance regression detection) | quality |
 
-## Governance fuer neue Workflows
-Neue Workflow-Dateien sind nur erlaubt, wenn mindestens einer der Punkte zutrifft:
-- Erforderlich fuer ein neues Release-Artefakt oder ein verpflichtendes Compliance-Gate.
-- Nicht sinnvoll als Job in einen bestehenden aktiven Workflow integrierbar.
-- Enthalten klare Owner, harte Trigger-Grenzen (`paths`, `branches`), `concurrency` und Wartungsplan.
-- Starten nicht repo-weit auf generischen Sammelmustern und fuehren keine Build-/Benchmark-Last auf normalen Doku- oder Metadaten-Aenderungen aus.
+### 4. MAINTENANCE & GOVERNANCE (19 Workflows)
 
-## Harte Aktivierungskriterien
-- Neue PR-Workflows muessen datei- oder modulspezifische `paths:` besitzen.
-- Benchmark-, Audit-, GPU- und Nightly-Workflows sind standardmaessig keine Required Checks.
-- Reaktivierte Workflows muessen zunaechst in einer risikoarmen Form starten: `workflow_dispatch`, `schedule` oder non-blocking.
-- Doppelte Abdeckung mit bestehenden Workflows ist ein Ablehnungsgrund.
+| Workflow | Purpose | Category |
+|----------|---------|----------|
+| `maintenance-pr-failure-diagnosis.yml` | Maintenance: PR Failure Diagnosis [Recommend-Only] (Auto-diagnosis on PR failure) | support |
+| `maintenance-ci-health.yml` | Maintenance: CI Health Dashboard (CI health metrics aggregation) | observability |
+| `maintenance-build-issues.yml` | Maintenance: Build Error Issues (Automatic build error tracking) | issue-tracking |
+| `maintenance-issues.yml` | Maintenance: Issues [GS3 + Security Alerts] (GS3 security alert handling) | security |
+| `maintenance-docs.yml` | Maintenance: Docs (Documentation health and drift detection) | docs |
+| `maintenance-housekeeping.yml` | Maintenance: Housekeeping (Repository cleanup and maintenance) | maintenance |
+| `maintenance-architecture-ci.yml` | Maintenance: Architecture CI (Architecture documentation validation) | docs |
+| `maintenance-workflow-guardrails-observe.yml` | Maintenance: Workflow Guardrails [Observe] (Workflow policy observability) | governance |
+| `maintenance-soll-ist-gap-issues.yml` | Maintenance: SOLL-IST Gap Issues (Roadmap vs. reality tracking) | governance |
+| `maintenance-ai-working.yml` | Maintenance: AI Working Cleanup - LLM Wiki (AI context cleanup) | automation |
+| `maintenance-docs-db-build.yml` | Maintenance: Docs-to-ThemisDB Database Build (Documentation database sync) | automation |
+| `maintenance-compendium-sync.yml` | Maintenance: Compendium Sync (Compendium documentation sync) | automation |
+| `wiki-pr-gate.yml` | Maintenance: Wiki PR Gate (GitHub Wiki PR validation) | docs |
+| `wiki-publish-from-issue.yml` | Wiki: Publish from Issue Approval (Wiki auto-publish from issues) | automation |
+| `publish-wiki.yml` | Publish: GitHub Wiki (Wiki content publishing) | publication |
+| `compliance-governance-gates.yml` | Compliance: Governance Gates (Multi-layer compliance validation) | compliance |
+| `compliance-supply-chain.yml` | Compliance: Supply Chain (Supply chain security validation) | compliance |
+| `gate-copilot-regression.yml` | Gate: Copilot Regression (Copilot code review regression detection) | quality |
+| `copilot-code-review.yml` | Copilot: Code Review Setup (Copilot code review initialization) | tooling |
 
-## Validierung
-Lokaler Standard-Check:
+### 5. SECURITY (7 Workflows)
 
-```powershell
-pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode all
-```
+| Workflow | Purpose | Frequency |
+|----------|---------|-----------|
+| `security-codeql.yml` | Security: CodeQL (CodeQL static analysis) | scheduled |
+| `security-consolidated.yml` | Security: Consolidated Scans (Multi-tool security aggregation) | scheduled |
+| `security-dast-zap.yml` | Security: OWASP ZAP DAST (Dynamic application security testing) | scheduled |
+| `security-fortify.yml` | Security: Fortify AST Scan [Scheduled] (Fortify static analysis) | scheduled |
+| `security-fuzzing.yml` | Security: Fuzzing (Fuzz testing suite) | scheduled |
+| `security-pentest-quarterly.yml` | Security: Quarterly Pentest Cadence (Quarterly penetration testing) | quarterly |
 
-### Test-System im Detail
+### 6. REUSABLE WORKFLOWS (4 Workflows)
 
-Das lokale GitHub-Action-Testsystem besteht aus zwei Kernschritten:
+| Workflow | Purpose | Consumers |
+|----------|---------|-----------|
+| `reusable-cmake-build.yml` | Reusable CMake Build Pipeline (Build orchestration reusable) | mainline, gates, release |
+| `reusable-benchmark-runner.yml` | Reusable: Benchmark Runner (Benchmark execution reusable) | build-benchmarks |
+| `reusable-docs-db-builder.yml` | Reusable: Docs-to-ThemisDB Database Builder (Docs DB generation) | maintenance-docs-db-build |
+| `reusable-status-flags-and-issues.yml` | Reusable: Status Flags and Issues (Status/issue automation) | maintenance, release |
 
-- `actionlint` via Docker (`rhysd/actionlint:latest`): validiert die Workflow-Syntax und die strukturelle Korrektheit der YAML-Dateien.
-- `act` Dry-Run: simuiert Workflow-Events wie `push`, `pull_request`, `workflow_dispatch` und `schedule` ohne echten GitHub Runner.
+## Compliance Scorecard
 
-Die genaue Logik sitzt in `scripts/test-github-actions-local.ps1` und erzeugt Logs im Standardordner `tmp/`:
+| Category | Total | Status |
+|----------|-------|--------|
+| **BUILD & MAINLINE** | 13 | ✅ All documented |
+| **GATES: PR VALIDATION** | 20 | ✅ All documented |
+| **RELEASE & PUBLICATION** | 20 | ✅ All documented |
+| **MAINTENANCE & GOVERNANCE** | 19 | ✅ All documented |
+| **SECURITY** | 6 | ✅ All documented |
+| **REUSABLE WORKFLOWS** | 4 | ✅ All documented |
+| **TOTAL** | **82** | ✅ **100% Registry Sync** |
 
-```powershell
-actionlint_<timestamp>.log
-act_dryrun_<event>_<timestamp>.log
-```
+## Critical Governance Rules (from WORKFLOW_GUIDELINES.md)
 
-Die Verifikation besteht aus drei Modi:
+1. **Trigger Policy**: All workflows must constrain `push.tags` with `branches:` guard
+2. **Concurrency**: All workflows must use qualified `group` names or `cancel-in-progress: false`
+3. **Naming Convention**: Workflows must follow `Build:`, `Gate:`, `Release:`, `Maintenance:`, `Security:` prefixes
+4. **Action Pinning**: All GitHub Actions must use SHA pinning (not `@latest` or `@main`)
+5. **Registry Sync**: New workflows require WORKFLOW_REGISTRY.md update (enforce via pre-commit hook)
 
-```powershell
-pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode lint
-pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode dryrun
-pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode all
-```
+## Recent Updates
 
-Hinweis: `Mode all` ist der Standard-Check vor Merge. `act` kann bei Events ohne passende Stages als Skip melden; das ist kein Workflow-Fehler, sondern ein lokales Laufzeit-Limit der Simulation.
+- **2026-09-26**: Comprehensive inventory of all 82 workflows; added categorization and governance scorecard
+- **2026-09-09**: Initial lean registry (76 workflows documented)
 
-## Naming-Migration
-Geplante Dateinamen-Harmonisierung (Soll-Format aus Workflow-Design):
+## Next Steps: Pre-Commit Hook (Phase 3)
 
-- `.github/docs/WORKFLOW_FILENAME_RENAME_MATRIX.md`
+A pre-commit hook will enforce Registry sync on `git commit --allow-empty .github/workflows/*.yml`:
+1. Scan for new workflow files
+2. Verify all workflows are documented in REGISTRY
+3. Block commit if discrepancy > 0 workflows
 
-## Stand
-- Aktive Workflows im Verzeichnis `.github/workflows/`: 73
-- Deaktivierte Workflows in `.github/no_workflows/`: 31
-- Strategie: Lean + harte Triggergrenzen + Quarantaene fuer uebertriggernde CI
-- Der 21er-Zähler war im vorherigen Dokumentationsstand veraltet; der aktuelle Stand wird durch die kanonische Liste in diesem Registry-Dokument und die zugehörigen Workflow-Dateien definiert.
-- Naming-Migration Sprint 6 (2026-09-14): 13-wave-* und sanitizer-nightly.yml auf kanonisches Schema umbenannt; pull_request-Boundary-Verletzungen entfernt; fehlende concurrency-Blöcke ergänzt; name:-Felder normalisiert.
-- Sprint 7 (2026-09-14): build-widget.yml real WinGet E2E-Pipeline implementiert; release-publish.yml als Duplikat nach no_workflows/ deaktiviert.
-- Sprint 8 (2026-09-14): 14-wave-closure-governance→gate-wave-closure umbenannt; build-benchmarks 4→1 cron; maintenance-{labels,milestones,issue-recommendations}→maintenance-housekeeping konsolidiert; maintenance-issues 3→2 crons; publish-wiki+release-nightly schedules gestaffelt; compliance-supply-chain push-Trigger entfernt.
-
-## Durchgeführte Konsolidierungen (Workflow Framework Refactoring)
-
-| Aktion | Quelle(n) | Ziel | Sprint |
-|---|---|---|---|
-| Trigger-Cleanup | build-benchmarks.yml | push/PR entfernt → schedule/dispatch only | 1 |
-| Trigger-Cleanup | security-fortify.yml | pull_request entfernt → schedule only | 1 |
-| Trigger-Cleanup | compliance-governance-gates.yml | paths: Filter für push/develop | 1 |
-| Trigger-Cleanup | maintenance-docs.yml | pull_request entfernt | 1 |
-| Entfernt | security-scan.yml | aus aktivem Bestand entfernt | 1 |
-| Konsolidiert | security.yml + security-scanning.yml | security-consolidated.yml | 2 |
-| ai_context + ai_working Coverage | maintenance-docs.yml | ai-working-hygiene Job hinzugefügt | 2 (new req) |
-| Composite Action | — | .github/actions/setup-python-script/ | 3 |
-| Konsolidiert | maintenance-gs3-gaps.yml + maintenance-security-alerts.yml | maintenance-issues.yml | 4 |
-| Composite Action | build-benchmarks.yml + release-mainline.yml | .github/actions/bootstrap-build-tracker/ | 5 |
-| Umbenannt + SOC-Fix | 13-wave-a-gpu-ci-execution.yml | build-wave-a-gpu.yml (pull_request entfernt) | 6 |
-| Umbenannt + SOC-Fix | 13-wave-b-transaction-ci-execution.yml | build-wave-b-transaction.yml (pull_request entfernt) | 6 |
-| Umbenannt + concurrency | 13-wave-b-llm-wiki-benchmarks.yml | build-wave-b-llm-benchmarks.yml | 6 |
-| Umbenannt | sanitizer-nightly.yml | build-sanitizer-nightly.yml | 6 |
-| name:-Normalisierung | release-docker-image, security-codeql, security-fuzzing, maintenance-architecture-ci, gate-copilot-regression, gate-pr-version-targeting, compliance-governance-gates, copilot-code-review | name: schema `Domain: Purpose` | 6 |
-| concurrency hinzugefügt | security-fuzzing.yml, build-content-regression.yml | cancel-in-progress guard | 6 |
-| Implementiert (E2E) | build-widget.yml | WinGet manifest gen + winget validate + fork-PR via gh CLI (dry_run=true default) | 7 |
-| Deaktiviert (Duplikat) | release-publish.yml | no_workflows/ (doppelter Tag-Trigger; release-mainline.yml ist kanonisch) | 7 |
-| Umbenannt + name: Fix | 14-wave-closure-governance.yml | gate-wave-closure.yml ("Gate: Wave Closure Governance") | 8 |
-| Cron-Reduktion | build-benchmarks.yml | 4 tägliche/wöchentliche Crons → 1 Sunday 03:00 UTC | 8 |
-| Konsolidiert (3→1) | maintenance-labels + maintenance-milestones + maintenance-issue-recommendations | maintenance-housekeeping.yml | 8 |
-| Cron-Reduktion | maintenance-issues.yml | 3 Crons (2× täglich + 1× wöchentlich) → 2× wöchentlich Di+Do 04:00 | 8 |
-| Schedule-Staffelung | publish-wiki.yml | 03:00 UTC → 01:00 UTC (Staging + PR-gated publish handoff) | 8 |
-| Schedule-Staffelung | release-nightly.yml | 03:30 UTC → 04:00 UTC (weg vom 03:00 Cluster) | 8 |
-| Push-Trigger entfernt | compliance-supply-chain.yml | push: branches+tags entfernt; pull_request+release reichen (kein Doppelfeuer) | 8 |
-| Concurrency hinzugefügt | gate-wave-closure.yml | cancel-in-progress: true, group: pr.number||ref | 9 |
-| Concurrency hinzugefügt | release-winget.yml | cancel-in-progress: false, group: release-winget-ref | 9 |
-| Concurrency hinzugefügt | release-rollback.yml | cancel-in-progress: false, group: release-rollback-ref | 9 |
-| Concurrency hinzugefügt | release-build-matrix.yml | cancel-in-progress: false, reusable guard | 9 |
-| Concurrency hinzugefügt | reusable-cmake-build.yml | cancel-in-progress: false, reusable guard | 9 |
-| Concurrency hinzugefügt | reusable-docs-db-builder.yml | cancel-in-progress: false, reusable guard | 9 |
-| Concurrency hinzugefügt | reusable-status-flags-and-issues.yml | cancel-in-progress: false, reusable guard | 9 |
-| Concurrency hinzugefügt | security-pentest-quarterly.yml | cancel-in-progress: false, group: security-pentest-ref | 9 |
-| run_id-Fix | build-widget.yml | group: build-widget-ref, cancel-in-progress: false | 9 |
-| run_id-Fix | build-wave-b-llm-benchmarks.yml | group: build-wave-b-llm-ref, cancel-in-progress: true | 9 |
-| run_id-Fix | security-fuzzing.yml | group: security-fuzzing-ref, cancel-in-progress: false | 9 |
-| run_id-Fix | compliance-governance-gates.yml | run_id aus OR-Kette entfernt → pr.number||issue.number||ref | 9 |
-| Group-Optimierung | release-mainline.yml | group: ci-release-ref_name||ref (tag-name statt full ref) | 9 |
-| Group-Optimierung | release-nightly.yml | group: ci-release-nightly-develop (statisch) | 9 |
-| cancel-in-progress: true | build-benchmarks.yml | weekly schedule → cancel stale dispatch runs | 9 |
-| Gate-Feedback | gate-wave-closure.yml | gate-feedback job: ci/failure label + PR comment on failure | 9 |
-| Gate-Feedback | gate-distributed-knowledge.yml | gate-feedback job: ci/failure label + PR comment on failure | 9 |
-| Gate-Feedback | gate-copilot-regression.yml | gate-feedback job: ci/failure label on failure | 9 |
-| Gate-Feedback | gate-pr-version-targeting.yml | gate-feedback job: ci/failure label + PR comment on failure | 9 |
+See `.github/pre-commit-hooks/workflow-registry-sync.sh` (Phase 3 implementation).

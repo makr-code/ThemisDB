@@ -58,7 +58,7 @@ jobs:
       commit-count: ${{ steps.check.outputs.commit-count }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
 
@@ -106,7 +106,7 @@ jobs:
       github.event_name == 'workflow_dispatch' && github.event.inputs.force == 'true'
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Update RELEASE_TYPE to nightly
         run: |
@@ -130,7 +130,7 @@ jobs:
       docker-labels: ${{ steps.metadata.outputs.docker-labels }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Override RELEASE_TYPE for nightly metadata
         run: |
@@ -157,7 +157,7 @@ jobs:
           echo "::notice::Nightly tag: $NIGHTLY_TAG"
 
       - name: Upload build metadata as artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         with:
           name: build-metadata
           path: build-metadata.json
@@ -169,17 +169,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
 
       - name: Download build metadata
-        uses: actions/download-artifact@v4.1.3
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16.1.3
         with:
           name: build-metadata
 
       - name: Download build artifacts
-        uses: actions/download-artifact@v4.1.3
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16.1.3
         with:
           path: release-artifacts
 
@@ -264,10 +264,10 @@ jobs:
       id-token: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Download build artifacts
-        uses: actions/download-artifact@v4.1.3
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16.1.3
         with:
           name: build-community-release-${{ github.run_number }}
           path: ./build-artifacts

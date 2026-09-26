@@ -32,10 +32,10 @@ jobs:
     timeout-minutes: 20
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Setup Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@f677139bbe7f9c59b41efee25c33b52b59b6626b
         with:
           python-version: "3.13"
 
@@ -49,7 +49,7 @@ jobs:
             --summary-md ai_context/developer_llm_wiki/SOLL_IST_GAP_SUMMARY.md
 
       - name: Upload report artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         with:
           name: soll-ist-gap-report
           path: |
@@ -74,7 +74,7 @@ jobs:
 
       - name: Upload issue sync result
         if: github.event_name == 'schedule' || github.event.inputs.apply_changes == 'true'
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         with:
           name: soll-ist-gap-issue-sync
           path: |

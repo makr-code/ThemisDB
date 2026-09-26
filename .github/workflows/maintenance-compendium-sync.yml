@@ -64,12 +64,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 1
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@f677139bbe7f9c59b41efee25c33b52b59b6626b
         with:
           python-version: '3.11'
           cache: 'pip'
@@ -105,7 +105,7 @@ jobs:
           # Note: script exits 1 on findings; we capture via outputs, not exit code.
 
       - name: Upload drift report artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         with:
           name: compendium-drift-report
           path: |
@@ -133,12 +133,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 1
 
       - name: Download drift report
-        uses: actions/download-artifact@v4.1.3
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16.1.3
         with:
           name: compendium-drift-report
           path: /tmp/drift-report
@@ -256,7 +256,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 1
 

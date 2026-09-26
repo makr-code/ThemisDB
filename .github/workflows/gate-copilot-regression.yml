@@ -32,7 +32,7 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   copilot-regression-guard:
@@ -44,10 +44,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@f677139bbe7f9c59b41efee25c33b52b59b6626b
         with:
           python-version: '3.12'
 
@@ -150,7 +150,7 @@ jobs:
 
       - name: Upload guard artifacts
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         with:
           name: copilot-regression-guard-${{ github.run_number }}
           path: artifacts/copilot-regression-guard/
@@ -167,7 +167,7 @@ jobs:
       issues: write
     steps:
       - name: "Post failure feedback"
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee1596bacdf7f92d5fc98cc3
         with:
           script: |
             const label = 'ci/failure';

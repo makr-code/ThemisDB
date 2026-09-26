@@ -187,13 +187,13 @@ jobs:
       changed: ${{ steps.run-updater.outputs.changed }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@f677139bbe7f9c59b41efee25c33b52b59b6626b
         with:
           python-version: '3.11'
 
@@ -240,7 +240,7 @@ jobs:
         if: >-
           inputs.dry-run == false &&
           steps.run-updater.outputs.changed == 'true'
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         with:
           name: changelog-update-proposal-${{ github.run_number }}
           path: /tmp/changelog-update.patch
@@ -275,13 +275,13 @@ jobs:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@f677139bbe7f9c59b41efee25c33b52b59b6626b
         with:
           python-version: '3.11'
 
@@ -320,7 +320,7 @@ jobs:
         if: >-
           inputs.dry-run == false &&
           steps.backfill.outputs.changed == 'true'
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@6f51b1e991eae641e69d16477226994b16345ebf
         with:
           name: changelog-backfill-proposal-${{ github.run_number }}
           path: /tmp/changelog-backfill.patch

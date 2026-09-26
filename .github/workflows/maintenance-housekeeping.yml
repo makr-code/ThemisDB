@@ -71,7 +71,7 @@ on:
 
 concurrency:
   group: maintenance-housekeeping-${{ github.event_name }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 permissions:
   contents: read
@@ -92,13 +92,13 @@ jobs:
       (github.event_name == 'workflow_dispatch' && inputs.run_labels == true)
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Install js-yaml
         run: npm install js-yaml@4
 
       - name: Sync labels
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee1596bacdf7f92d5fc98cc3
         with:
           script: |
             const fs = require('fs');
@@ -193,13 +193,13 @@ jobs:
       (github.event_name == 'workflow_dispatch' && inputs.run_milestones == true)
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Install js-yaml
         run: npm install js-yaml@4
 
       - name: Reconcile milestones
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee1596bacdf7f92d5fc98cc3
         with:
           script: |
             const fs = require('fs');
@@ -281,13 +281,13 @@ jobs:
     if: github.event_name == 'issues' || github.event_name == 'pull_request_target'
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Install js-yaml
         run: npm install js-yaml@4
 
       - name: Resolve and assign milestone
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee1596bacdf7f92d5fc98cc3
         with:
           script: |
             const fs = require('fs');
@@ -470,7 +470,7 @@ jobs:
       (github.event_name == 'workflow_dispatch' && inputs.run_recommendations == true)
     steps:
       - name: Recommend issue closures
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee1596bacdf7f92d5fc98cc3
         env:
           LOOKBACK_DAYS: ${{ inputs.lookback_days || '21' }}
           TARGET_ISSUE: ${{ inputs.target_issue || '' }}

@@ -24,7 +24,7 @@ permissions:
 
 concurrency:
   group: ci-sanitizer-nightly-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   sanitizer-build:

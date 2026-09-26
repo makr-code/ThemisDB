@@ -30,7 +30,7 @@ on:
 
 concurrency:
   group: rag-phase10-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 permissions:
   pull-requests: read
@@ -46,7 +46,7 @@ jobs:
     
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937dc1785ba5b1e112e8e93a61d6f60
         with:
           fetch-depth: 0
       
@@ -235,7 +235,7 @@ jobs:
       - name: Apply Gate Label
         if: success()
         continue-on-error: true
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee1596bacdf7f92d5fc98cc3
         with:
           script: |
             github.rest.issues.addLabels({
@@ -248,7 +248,7 @@ jobs:
       - name: Comment Gate Status
         if: always()
         continue-on-error: true
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee1596bacdf7f92d5fc98cc3
         with:
           script: |
             const fs = require('fs');

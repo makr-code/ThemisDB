@@ -54,7 +54,7 @@ jobs:
     steps:
       - name: Verify commenter is a maintainer
         id: check_maintainer
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee1596bacdf7f92d5fc98cc3
         with:
           script: |
             const comment = context.payload.comment;
@@ -82,7 +82,7 @@ jobs:
 
       - name: React to approval comment
         if: steps.check_maintainer.outputs.is_maintainer == 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee1596bacdf7f92d5fc98cc3
         with:
           script: |
             await github.rest.reactions.createForIssueComment({
@@ -95,7 +95,7 @@ jobs:
       - name: Extract version from issue body
         id: extract_version
         if: steps.check_maintainer.outputs.is_maintainer == 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee1596bacdf7f92d5fc98cc3
         with:
           script: |
             const issueBody = context.payload.issue.body;
@@ -111,7 +111,7 @@ jobs:
 
       - name: Checkout repository
         if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.extract_version.outputs.version != ''
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
 
@@ -162,7 +162,7 @@ jobs:
 
       - name: Comment approval status
         if: steps.check_maintainer.outputs.is_maintainer == 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee1596bacdf7f92d5fc98cc3
         with:
           script: |
             const issue = context.payload.issue;
@@ -180,7 +180,7 @@ jobs:
 
       - name: Update issue on success
         if: success() && steps.check_maintainer.outputs.is_maintainer == 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee1596bacdf7f92d5fc98cc3
         with:
           script: |
             const issue = context.payload.issue;
@@ -194,7 +194,7 @@ jobs:
 
       - name: Update issue on failure
         if: failure() && steps.check_maintainer.outputs.is_maintainer == 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee1596bacdf7f92d5fc98cc3
         with:
           script: |
             const issue = context.payload.issue;
