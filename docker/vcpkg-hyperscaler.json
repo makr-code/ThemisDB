@@ -19,6 +19,6 @@
     "libzip",
     "simdjson",
     "tl-expected"
-  ],
+  ]
 }
 

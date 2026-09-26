@@ -8,6 +8,6 @@
     "rocksdb",
     "simdjson",
     "tl-expected"
-  ],
+  ]
 }
 
