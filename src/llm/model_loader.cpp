@@ -711,9 +711,9 @@ std::vector<std::string> LazyModelLoader::listLoadedModels() const {
  * @return Return value.
  * @details Calls: lock(), evictLRUUnlocked().
  */
-size_t LazyModelLoader::evictLRU(size_t /*target_vram_mb*/) {
+size_t LazyModelLoader::evictLRU(size_t target_vram_mb) {
     std::lock_guard<std::mutex> lock(mutex_);
-    return evictLRUUnlocked();
+    return evictLRUUnlocked(target_vram_mb);
 }
 
 /**

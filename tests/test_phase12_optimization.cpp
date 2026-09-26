@@ -437,7 +437,7 @@ TEST_F(Phase12IntegrationTest, ModelSelectionAndCostTracking) {
   EXPECT_GT(weekly_cost, 100.0);
 }
 
-TEST_F(Phase12IntegrationTest, CostAnomaly && BudgetAlert) {
+TEST_F(Phase12IntegrationTest, CostAnomalyAndBudgetAlert) {
   // Establish baseline
   for (int i = 0; i < 50; ++i) {
     forecaster_.ReportHourlyCost(10.0, 100);

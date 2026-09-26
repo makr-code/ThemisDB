@@ -104,9 +104,12 @@ bool KVCacheBuffer::appendTokens(int sequence_id, const std::vector<float>& keys
     }
 
     const size_t expected_elements = n_tokens * config_.embedding_dim;
+    const bool full_batch_shape =
+        (keys.size() == expected_elements && values.size() == expected_elements);
+    const bool single_token_shape =
+        (keys.size() == config_.embedding_dim && values.size() == config_.embedding_dim);
 
-    if (keys.size() != expected_elements ||
-        values.size() != expected_elements) {
+    if (!full_batch_shape && !single_token_shape) {
         throw std::invalid_argument("Keys/values size mismatch with n_tokens and embedding_dim");
     }
 
@@ -120,9 +123,16 @@ bool KVCacheBuffer::appendTokens(int sequence_id, const std::vector<float>& keys
         throw std::overflow_error("sequence token count overflow");
     }
     
-    // Append all keys and values
-    cache.keys.insert(cache.keys.end(), keys.begin(), keys.end());
-    cache.values.insert(cache.values.end(), values.begin(), values.end());
+    // Support both full batch payloads and a single-token payload repeated n_tokens times.
+    if (full_batch_shape) {
+        cache.keys.insert(cache.keys.end(), keys.begin(), keys.end());
+        cache.values.insert(cache.values.end(), values.begin(), values.end());
+    } else {
+        for (size_t i = 0; i < n_tokens; ++i) {
+            cache.keys.insert(cache.keys.end(), keys.begin(), keys.end());
+            cache.values.insert(cache.values.end(), values.begin(), values.end());
+        }
+    }
     cache.n_tokens += n_tokens;
     
     current_batch_tokens_ += n_tokens;

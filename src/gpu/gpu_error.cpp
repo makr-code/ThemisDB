@@ -44,7 +44,7 @@ void InitGPULogger() {
   std::call_once(g_logger_init, []() {
     auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
     std::vector<spdlog::sink_ptr> sinks{console_sink};
-    g_gpu_logger = std::make_shared<spdlog::logger>("gpu", sinks);
+    g_gpu_logger = std::make_shared<spdlog::logger>("gpu", sinks.begin(), sinks.end());
     g_gpu_logger->set_level(spdlog::level::info);
     spdlog::register_logger(g_gpu_logger);
   });
@@ -60,6 +60,7 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
  public:
   GPUErrorHandlerImpl() = default;
 
+#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED) || defined(THEMIS_ENABLE_CUDA)
   void logError(cudaError_t cuda_err, const std::string& context) noexcept override {
     /**
      * @brief Lock.
@@ -69,7 +70,9 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
     std::lock_guard<std::mutex> lock(mutex_);
     logErrorNoLock(cuda_err, context);
   }
+#endif
 
+#if defined(THEMIS_HIP_ENABLED) || defined(THEMIS_ENABLE_HIP) || defined(__HIP__)
   void logError(hipError_t hip_err, const std::string& context) noexcept override {
     /**
      * @brief Lock.
@@ -79,7 +82,9 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
     std::lock_guard<std::mutex> lock(mutex_);
     logErrorNoLock(hip_err, context);
   }
+#endif
 
+#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED) || defined(THEMIS_ENABLE_CUDA)
   void handleError(cudaError_t cuda_err,
                   const std::string& context,
                   const ErrorRecoveryPolicy* policy) override {
@@ -99,7 +104,9 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
     // Apply recovery policy
     applyRecoveryPolicy(error_class, recovery_policy, context);
   }
+#endif
 
+#if defined(THEMIS_HIP_ENABLED) || defined(THEMIS_ENABLE_HIP) || defined(__HIP__)
   void handleError(hipError_t hip_err,
                   const std::string& context,
                   const ErrorRecoveryPolicy* policy) override {
@@ -119,9 +126,11 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
     // Apply recovery policy
     applyRecoveryPolicy(error_class, recovery_policy, context);
   }
+#endif
 
+#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED) || defined(THEMIS_ENABLE_CUDA)
   GPUErrorClass classifyError(cudaError_t cuda_err) const noexcept override {
-#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED)
+#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED) || defined(THEMIS_ENABLE_CUDA)
     switch (cuda_err) {
       case cudaSuccess:
         return GPUErrorClass::kQuotaExceeded;  // Not really an error
@@ -162,9 +171,11 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
     return GPUErrorClass::kUnknown;
 #endif
   }
+#endif
 
+#if defined(THEMIS_HIP_ENABLED) || defined(THEMIS_ENABLE_HIP) || defined(__HIP__)
   GPUErrorClass classifyError(hipError_t hip_err) const noexcept override {
-#if defined(THEMIS_HIP_ENABLED) || defined(__HIP__)
+#if defined(THEMIS_HIP_ENABLED) || defined(THEMIS_ENABLE_HIP) || defined(__HIP__)
     // HIP error codes map similarly to CUDA
     // Note: Actual values differ; we use string comparison or numeric mapping
     switch (hip_err) {
@@ -199,6 +210,7 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
     return GPUErrorClass::kUnknown;
 #endif
   }
+#endif
 
   ErrorRecoveryPolicy defaultPolicy(GPUErrorClass error_class) const noexcept override {
     switch (error_class) {
@@ -241,7 +253,7 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
   }
 
   std::string cudaErrorName(cudaError_t cuda_err) const noexcept override {
-#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED)
+#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED) || defined(THEMIS_ENABLE_CUDA)
     return ::cudaGetErrorName(cuda_err);
 #else
     return "CUDA_DISABLED";
@@ -249,7 +261,7 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
   }
 
   std::string hipErrorName(hipError_t hip_err) const noexcept override {
-#if defined(THEMIS_HIP_ENABLED) || defined(__HIP__)
+#if defined(THEMIS_HIP_ENABLED) || defined(THEMIS_ENABLE_HIP) || defined(__HIP__)
     return ::hipGetErrorName(hip_err);
 #else
     return "HIP_DISABLED";
@@ -259,6 +271,7 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
  private:
   std::mutex mutex_ = {};
 
+#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED) || defined(THEMIS_ENABLE_CUDA)
   void logErrorNoLock(cudaError_t cuda_err, const std::string& context) noexcept {
     InitGPULogger();
     auto error_class = classifyError(cuda_err);
@@ -270,7 +283,9 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
                         static_cast<int>(cuda_err));
     }
   }
+#endif
 
+#if defined(THEMIS_HIP_ENABLED) || defined(THEMIS_ENABLE_HIP) || defined(__HIP__)
   void logErrorNoLock(hipError_t hip_err, const std::string& context) noexcept {
     InitGPULogger();
     auto error_class = classifyError(hip_err);
@@ -282,6 +297,7 @@ class GPUErrorHandlerImpl : public GPUErrorHandler {
                         static_cast<int>(hip_err));
     }
   }
+#endif
 
   void applyRecoveryPolicy(GPUErrorClass error_class,
                           ErrorRecoveryPolicy policy,

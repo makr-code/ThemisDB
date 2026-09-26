@@ -551,6 +551,7 @@ TEST(MemorySafetyHardening, MEM_20_ConcurrentQuotaAcquisition) {
   
   for (int i = 0; i < 10; ++i) {
     threads.emplace_back([&available]() {
+      available.fetch_sub(100);
       QuotaGuard quota(100, [&available](size_t a) {
         available.fetch_add(a);
       });
@@ -661,9 +662,11 @@ TEST(MemorySafetyHardening, MEM_26_QuotaPartialConsumption) {
   std::atomic<size_t> quota_remaining{1000};
   
   {
+    quota_remaining.fetch_sub(200);
     QuotaGuard q1(200, [&quota_remaining](size_t a) {
       quota_remaining.fetch_add(a);
     });
+    quota_remaining.fetch_sub(300);
     QuotaGuard q2(300, [&quota_remaining](size_t a) {
       quota_remaining.fetch_add(a);
     });

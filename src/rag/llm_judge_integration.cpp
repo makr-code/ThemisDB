@@ -111,6 +111,13 @@ ParsedResponse LLMJudgeIntegration::evaluateWithLLM(
         error_response.error_message = "Failed to generate prompt";
         return error_response;
     }
+
+    // Fail closed with actionable guidance before retry loop when no backend is configured.
+    if (!inference_fn_) {
+        return makeUnavailableJudgeResponse(
+            "llm_unavailable: no inference backend configured. "
+            "Provide ILLMBackend via constructor or setInferenceFunction().");
+    }
     
     // Call LLM with retries
     const themis::utils::RetryConfig llm_retry_cfg{
@@ -168,6 +175,11 @@ std::string LLMJudgeIntegration::evaluateDimension(
 
     THEMIS_DEBUG("LLMJudgeIntegration::evaluateDimension dim={} prompt_len={}",
                  static_cast<int>(dimension),prompt.size());
+
+    if (!inference_fn_) {
+        return makeUnavailableJudgeJson(
+            "llm_unavailable: no inference backend configured. Provide ILLMBackend via constructor or setInferenceFunction().");
+    }
 
     const themis::utils::RetryConfig dim_retry_cfg{
         /* max_attempts       */ static_cast<uint32_t>(config_.max_retries),

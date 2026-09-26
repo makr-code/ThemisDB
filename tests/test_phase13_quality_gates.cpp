@@ -12,6 +12,7 @@
  * @version 0.1.0
  */
 
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 #include <chrono>
@@ -446,13 +447,9 @@ TEST_F(MetricsReporterTest, AnomalyDetection) {
 class Phase13IntegrationTest : public ::testing::Test {
  protected:
   QualityMetricsCollector collector;
-  DeploymentGateController gate;
+  DeploymentGateController gate{5.0, 2.0};
   QualityAlertManager alerts;
   MetricsReporter reporter;
-  
-  void SetUp() override {
-    gate = DeploymentGateController(5.0, 2.0);
-  }
 };
 
 TEST_F(Phase13IntegrationTest, FullQualityGatingWorkflow) {

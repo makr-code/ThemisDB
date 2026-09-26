@@ -66,7 +66,7 @@
 #include <functional>
 #include <spdlog/spdlog.h>
 
-#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED)
+#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED) || defined(THEMIS_ENABLE_CUDA)
 #  include <cuda_runtime.h>
 #else
 /// @brief Stub type for non-CUDA builds so the GPUErrorHandler API compiles
@@ -76,7 +76,7 @@ using cudaError_t = int;
 inline constexpr cudaError_t cudaSuccess = 0;
 #endif
 
-#if defined(THEMIS_HIP_ENABLED) || defined(__HIP__)
+#if defined(THEMIS_HIP_ENABLED) || defined(THEMIS_ENABLE_HIP) || defined(__HIP__)
 #  include <hip/hip_runtime.h>
 #else
 /// @brief Stub type for non-HIP builds so the GPUErrorHandler API compiles
@@ -199,7 +199,7 @@ class GPUErrorHandler {
    * Behavior: Converts cuda_err to GPUErrorClass, formats message,
    * logs via spdlog. Does not apply recovery policy; caller is responsible.
    */
-#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED)
+#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED) || defined(THEMIS_ENABLE_CUDA)
   virtual void logError(cudaError_t cuda_err, const std::string& context) noexcept = 0;
 #endif
 
@@ -212,7 +212,7 @@ class GPUErrorHandler {
    * Behavior: Converts hip_err to GPUErrorClass, formats message,
    * logs via spdlog. Does not apply recovery policy.
    */
-#if defined(THEMIS_HIP_ENABLED) || defined(__HIP__)
+#if defined(THEMIS_HIP_ENABLED) || defined(THEMIS_ENABLE_HIP) || defined(__HIP__)
   virtual void logError(hipError_t hip_err, const std::string& context) noexcept = 0;
 #endif
 
@@ -227,7 +227,7 @@ class GPUErrorHandler {
    * May throw on critical errors depending on policy and configuration.
    * Thread-safe.
    */
-#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED)
+#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED) || defined(THEMIS_ENABLE_CUDA)
   virtual void handleError(cudaError_t cuda_err, 
                           const std::string& context,
                           const ErrorRecoveryPolicy* policy = nullptr) = 0;
@@ -244,7 +244,7 @@ class GPUErrorHandler {
    * May throw on critical errors depending on policy and configuration.
    * Thread-safe.
    */
-#if defined(THEMIS_HIP_ENABLED) || defined(__HIP__)
+#if defined(THEMIS_HIP_ENABLED) || defined(THEMIS_ENABLE_HIP) || defined(__HIP__)
   virtual void handleError(hipError_t hip_err,
                           const std::string& context,
                           const ErrorRecoveryPolicy* policy = nullptr) = 0;
@@ -258,7 +258,7 @@ class GPUErrorHandler {
    * 
    * Behavior: Pure lookup; no side effects. May be called frequently.
    */
-#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED)
+#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED) || defined(THEMIS_ENABLE_CUDA)
   virtual GPUErrorClass classifyError(cudaError_t cuda_err) const noexcept = 0;
 #endif
 
@@ -270,7 +270,7 @@ class GPUErrorHandler {
    * 
    * Behavior: Pure lookup; no side effects.
    */
-#if defined(THEMIS_HIP_ENABLED) || defined(__HIP__)
+#if defined(THEMIS_HIP_ENABLED) || defined(THEMIS_ENABLE_HIP) || defined(__HIP__)
   virtual GPUErrorClass classifyError(hipError_t hip_err) const noexcept = 0;
 #endif
 
@@ -379,7 +379,7 @@ class GPUErrorHandler {
  * @see ErrorRecoveryPolicy - Recovery action
  * @see GPUErrorHandler::handleError - Handler implementation
  */
-#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED)
+#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED) || defined(THEMIS_ENABLE_CUDA)
 #define CHECKED_CUDA(stmt) \
   do { \
     cudaError_t _cuda_err = (stmt); \
@@ -420,7 +420,7 @@ class GPUErrorHandler {
  *
  * @see CHECKED_CUDA - CUDA equivalent
  */
-#if defined(THEMIS_HIP_ENABLED) || defined(__HIP__)
+#if defined(THEMIS_HIP_ENABLED) || defined(THEMIS_ENABLE_HIP) || defined(__HIP__)
 #define CHECKED_HIP(stmt) \
   do { \
     hipError_t _hip_err = (stmt); \
@@ -468,7 +468,7 @@ class GPUErrorHandler {
  *
  * @see CHECKED_CUDA - For typical error handling
  */
-#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED)
+#if defined(__CUDACC__) || defined(THEMIS_CUDA_ENABLED) || defined(THEMIS_ENABLE_CUDA)
 #define TRY_CUDA(stmt, fallback_action) \
   do { \
     cudaError_t _cuda_err = (stmt); \
