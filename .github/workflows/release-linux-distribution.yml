@@ -490,7 +490,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download distro bundle artifact
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16.1.3
+        uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85
         with:
           name: ${{ needs.prepare-linux-distro-bundle.outputs.bundle_name }}
           path: linux-distro-bundle/

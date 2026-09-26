@@ -49,7 +49,6 @@ on:
       - 'minimal-v*'
     branches:
       - develop
-      - main
       - community
       - release/**
   release:
@@ -206,14 +205,14 @@ jobs:
           fetch-depth: 0
 
       - name: Download all CPack packages
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16.1.3  # v4.1.3
+        uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85  # v4.1.3
         with:
           pattern: packages-*-${{ github.run_number }}
           merge-multiple: true
           path: release/
 
       - name: Download Linux community binaries (fallback)
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16.1.3  # v4.1.3
+        uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85  # v4.1.3
         with:
           pattern: build-community-release-${{ github.run_number }}
           merge-multiple: true
@@ -303,7 +302,7 @@ jobs:
     needs: package
     steps:
       - name: Download release packages
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16.1.3  # v4.1.3
+        uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85  # v4.1.3
         with:
           pattern: release-packages-*
           merge-multiple: true
@@ -482,7 +481,7 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Download release packages
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16.1.3  # v4.1.3
+        uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85  # v4.1.3
         with:
           pattern: release-packages-*
           merge-multiple: true
@@ -589,7 +588,7 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Download release packages
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16.1.3  # v4.1.3
+        uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85  # v4.1.3
         with:
           pattern: release-packages-*
           merge-multiple: true

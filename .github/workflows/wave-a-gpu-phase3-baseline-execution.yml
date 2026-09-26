@@ -274,7 +274,7 @@ jobs:
           python-version: "3.11"
 
       - name: Download measurement artifacts
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16.1.3
+        uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85
         with:
           path: ${{ needs.phase3-setup.outputs.measurement_output_dir }}/artifacts
 
@@ -423,7 +423,7 @@ jobs:
         uses: actions/checkout@692973e3d937dc1785ba5b1e112e8e93a61d6f60
 
       - name: Download baseline evidence
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16.1.3
+        uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85
         with:
           name: phase3-baseline-evidence
           path: phase3-evidence

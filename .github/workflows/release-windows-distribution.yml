@@ -250,7 +250,7 @@ jobs:
       bundle_name: ${{ steps.bundle.outputs.bundle_name }}
     steps:
       - name: Download release assets artifact
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16.1.3
+        uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85
         with:
           name: windows-release-assets-${{ github.run_number }}
           path: release-assets/
@@ -387,7 +387,7 @@ jobs:
     environment: ${{ needs.detect-release.outputs.publish_environment }}
     steps:
       - name: Download windows distro bundle artifact
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16.1.3
+        uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85
         with:
           name: ${{ needs.prepare-windows-distro-bundle.outputs.bundle_name }}
           path: windows-distro-bundle/

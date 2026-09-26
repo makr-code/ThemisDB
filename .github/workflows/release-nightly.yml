@@ -174,12 +174,12 @@ jobs:
           fetch-depth: 0
 
       - name: Download build metadata
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16.1.3
+        uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85
         with:
           name: build-metadata
 
       - name: Download build artifacts
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16.1.3
+        uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85
         with:
           path: release-artifacts
 
@@ -267,7 +267,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Download build artifacts
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16.1.3
+        uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85
         with:
           name: build-community-release-${{ github.run_number }}
           path: ./build-artifacts

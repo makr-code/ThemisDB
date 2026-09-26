@@ -180,7 +180,7 @@ git commit -m "build: Add my-feature workflow"
 1. Open `.github/WORKFLOW_REGISTRY.md`
 2. Add a new row in the appropriate category table
 3. Format: `| \`workflow-name.yml\` | Workflow: Description | status |`
-4. Re-run commit: `git commit --no-verify` (to skip hooks) or `git commit` (to re-check)
+4. Re-run commit after updating the registry: `git commit`
 
 ### CI-Gate: "push.tags without branches guard"
 
@@ -190,7 +190,7 @@ git commit -m "build: Add my-feature workflow"
 ```yaml
 push:
   tags: ['v*', 'release-*']
-  branches: [develop, main, community, release/**]  # ← Add this
+  branches: [develop, community, release/**]  # ← Add this
 ```
 
 ### CI-Gate: "Matrix workflow without matrix-qualified concurrency"

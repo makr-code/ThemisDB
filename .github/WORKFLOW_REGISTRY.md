@@ -38,7 +38,7 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | `wave-a-gpu-ci-execution.yml` | Wave A GPU CI Execution (GPU + CPU Fallback matrix) | active |
 | `wave-a-gpu-phase3-baseline-execution.yml` | Wave A GPU Phase 3: Baseline Capture & Measurement | active |
 
-### 2. GATES: PR VALIDATION (20 Workflows)
+### 2. GATES: PR VALIDATION (21 Workflows)
 
 | Workflow | Purpose | Gate Type |
 |----------|---------|-----------|
