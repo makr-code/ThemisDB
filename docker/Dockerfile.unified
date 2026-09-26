@@ -35,7 +35,8 @@ ENV VCPKG_KEEP_ENV_VARS=HTTP_PROXY,HTTPS_PROXY,ALL_PROXY,NO_PROXY,VCPKG_ENABLE_O
 ENV CMAKE_POLICY_VERSION_MINIMUM=3.5
 
 # Fetch pinned vcpkg source archive at Docker build time to avoid
-# in-container git TLS/proxy trust-chain issues.
+# a full in-container clone. A minimal in-container `git fetch` still
+# runs later to materialize builtin-baseline metadata required by vcpkg.
 ADD https://github.com/microsoft/vcpkg/archive/${VCPKG_COMMIT}.tar.gz /tmp/vcpkg.tar.gz
 
 # Install build essentials (combined layer for efficiency)
