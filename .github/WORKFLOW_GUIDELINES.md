@@ -78,7 +78,7 @@ Diese Dateien sollen die menschlich lesbaren Governance-Regeln und CI-Policies e
 
 Kurzbeispiele:
 - **Build-Lane**: `Build: Mainline (Linux)`, `Build: Step 2 · Windows AMD64`, `Build: Update build-status labels`
-- **Validation-Lane**: `Validate: 🍎 macOS kqueue paths`
+- **Validate-Lane**: `Validate: 🍎 macOS kqueue paths`
 - **Nicht mehr verwenden**: gemischte/unscharfe Titel wie `CI — Build` neben `... Validation` ohne gemeinsames Prefix-Schema
 
 ## Best Practices
