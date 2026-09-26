@@ -63,7 +63,7 @@ jobs:
     steps:
       - name: Decide whether PR governance gates should run
         id: decide
-        uses: actions/github-script@60a0d83039c74a4aee1596bacdf7f92d5fc98cc3
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
             if (context.eventName !== 'pull_request_review') {
@@ -582,7 +582,7 @@ jobs:
 
       - name: Validate waiver approver permission
         id: approver
-        uses: actions/github-script@60a0d83039c74a4aee1596bacdf7f92d5fc98cc3  # v9.0.0
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v9.0.0
         with:
           script: |
             const owner = context.repo.owner;
@@ -1037,7 +1037,7 @@ jobs:
 
       - name: Validate branch protection for canonical branches
         id: drift
-        uses: actions/github-script@60a0d83039c74a4aee1596bacdf7f92d5fc98cc3  # v9.0.0
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v9.0.0
         with:
           script: |
             const CANONICAL = ['develop', 'minimal', 'community', 'enterprise', 'hyperscaler', 'military'];

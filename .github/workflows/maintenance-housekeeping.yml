@@ -98,7 +98,7 @@ jobs:
         run: npm install js-yaml@4
 
       - name: Sync labels
-        uses: actions/github-script@60a0d83039c74a4aee1596bacdf7f92d5fc98cc3
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
             const fs = require('fs');
@@ -199,7 +199,7 @@ jobs:
         run: npm install js-yaml@4
 
       - name: Reconcile milestones
-        uses: actions/github-script@60a0d83039c74a4aee1596bacdf7f92d5fc98cc3
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
             const fs = require('fs');
@@ -287,7 +287,7 @@ jobs:
         run: npm install js-yaml@4
 
       - name: Resolve and assign milestone
-        uses: actions/github-script@60a0d83039c74a4aee1596bacdf7f92d5fc98cc3
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
             const fs = require('fs');
@@ -470,7 +470,7 @@ jobs:
       (github.event_name == 'workflow_dispatch' && inputs.run_recommendations == true)
     steps:
       - name: Recommend issue closures
-        uses: actions/github-script@60a0d83039c74a4aee1596bacdf7f92d5fc98cc3
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         env:
           LOOKBACK_DAYS: ${{ inputs.lookback_days || '21' }}
           TARGET_ISSUE: ${{ inputs.target_issue || '' }}

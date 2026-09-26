@@ -64,7 +64,7 @@ jobs:
 
       - name: Collect workflow run statistics
         id: stats
-        uses: actions/github-script@60a0d83039c74a4aee1596bacdf7f92d5fc98cc3  # v9.0.0
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v9.0.0
         with:
           script: |
             const lookbackDays = parseInt('${{ inputs.lookback_days || 7 }}', 10);

@@ -198,7 +198,7 @@ jobs:
       
       - name: Apply Gate Label
         if: success()
-        uses: actions/github-script@60a0d83039c74a4aee1596bacdf7f92d5fc98cc3
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
             github.rest.issues.addLabels({
@@ -210,7 +210,7 @@ jobs:
       
       - name: Comment Gate Status
         if: always()
-        uses: actions/github-script@60a0d83039c74a4aee1596bacdf7f92d5fc98cc3
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
             const fs = require('fs');

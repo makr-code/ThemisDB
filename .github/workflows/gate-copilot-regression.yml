@@ -167,7 +167,7 @@ jobs:
       issues: write
     steps:
       - name: "Post failure feedback"
-        uses: actions/github-script@60a0d83039c74a4aee1596bacdf7f92d5fc98cc3
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
             const label = 'ci/failure';
