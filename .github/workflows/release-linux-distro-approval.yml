@@ -48,7 +48,7 @@ jobs:
     steps:
       - name: Validate maintainer permission
         id: check_maintainer
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
             const user = context.payload.comment.user.login;
@@ -70,7 +70,7 @@ jobs:
       - name: Extract version from issue body
         id: extract_version
         if: steps.check_maintainer.outputs.is_maintainer == 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
             const body = context.payload.issue.body || '';
@@ -87,7 +87,7 @@ jobs:
 
       - name: Verify release tag exists
         if: steps.check_maintainer.outputs.is_maintainer == 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
             const version = '${{ steps.extract_version.outputs.version }}';
@@ -106,7 +106,7 @@ jobs:
 
       - name: Dispatch Linux distro workflow
         if: steps.check_maintainer.outputs.is_maintainer == 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
             const version = '${{ steps.extract_version.outputs.version }}';
@@ -127,7 +127,7 @@ jobs:
 
       - name: Comment approval status
         if: steps.check_maintainer.outputs.is_maintainer == 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
             const issue = context.payload.issue;
@@ -145,7 +145,7 @@ jobs:
 
       - name: Update issue label
         if: steps.check_maintainer.outputs.is_maintainer == 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
             const issue = context.payload.issue;
@@ -158,7 +158,7 @@ jobs:
 
       - name: Update issue on completion
         if: always() && steps.check_maintainer.outputs.is_maintainer == 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
             const issue = context.payload.issue;

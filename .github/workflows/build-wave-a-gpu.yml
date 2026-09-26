@@ -31,8 +31,8 @@ on:
         default: "false"
 
 concurrency:
-  group: wave-a-gpu-ci-${{ github.ref }}
-  cancel-in-progress: true
+  group: wave-a-gpu-ci-${{ github.ref }}-${{ github.run_id }}
+  cancel-in-progress: false
 
 permissions:
   contents: read
@@ -57,7 +57,7 @@ jobs:
       build-dir: ${{ steps.configure.outputs.build-dir }}
       config-status: ${{ steps.configure.outputs.status }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
           submodules: false
@@ -87,7 +87,7 @@ jobs:
             libtbb-dev libcpp-httplib-dev
 
       - name: "Cache sccache"
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-gpu-${{ hashFiles('src/gpu/**') }}-${{ runner.os }}
@@ -120,7 +120,7 @@ jobs:
 
       - name: "Upload CMake configuration log"
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: gpu-cmake-configuration-log
           path: cmake-config.log
@@ -135,7 +135,7 @@ jobs:
       matrix:
         phase: [baseline, fallback, memory, determinism]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
           submodules: false
@@ -165,7 +165,7 @@ jobs:
             libtbb-dev libcpp-httplib-dev
 
       - name: "Cache sccache"
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-gpu-${{ hashFiles('src/gpu/**') }}-${{ runner.os }}
@@ -209,7 +209,7 @@ jobs:
 
       - name: "Upload compilation log"
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: compile-gpu-${{ matrix.phase }}-log
           path: compile-gpu-${{ matrix.phase }}.log
@@ -221,7 +221,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
           submodules: false
@@ -251,7 +251,7 @@ jobs:
             libtbb-dev libcpp-httplib-dev
 
       - name: "Cache sccache"
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-gpu-${{ hashFiles('src/gpu/**') }}-${{ runner.os }}
@@ -304,7 +304,7 @@ jobs:
 
       - name: "Upload GPU test results"
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: gpu-test-results
           path: |
@@ -321,7 +321,7 @@ jobs:
       reduction_pct: ${{ steps.audit.outputs.reduction_pct }}
       audit_status: ${{ steps.audit.outputs.audit_status }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: "Run CUDA-call audit"
         id: audit
@@ -365,7 +365,7 @@ jobs:
 
       - name: "Upload CUDA audit report"
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: cuda-audit-report
           path: cuda-audit-report.md
@@ -377,7 +377,7 @@ jobs:
     timeout-minutes: 90
     if: github.event.inputs.run_representative_hardware == 'true'
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
           submodules: false
@@ -405,7 +405,7 @@ jobs:
             libtbb-dev libcpp-httplib-dev
 
       - name: "Cache sccache"
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-gpu-bench-${{ hashFiles('src/gpu/**', 'benchmarks/gpu/**') }}-${{ runner.os }}
@@ -483,7 +483,7 @@ jobs:
           PY
 
       - name: "Upload representative GPU baseline artifacts"
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: gpu-representative-hardware
@@ -496,7 +496,7 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     steps:
-      - uses: actions/download-artifact@v4.1.3
+      - uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85
 
       - name: "Create artifact archive"
         run: |
@@ -512,7 +512,7 @@ jobs:
           echo "Archive created: $(du -sh gpu-ci-results.zip | cut -f1)"
 
       - name: "Upload artifacts archive"
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: gpu-ci-results
           path: gpu-ci-results.zip
@@ -525,10 +525,10 @@ jobs:
     if: always()
     steps:
       - name: "Checkout repository"
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: "Download all artifacts"
-        uses: actions/download-artifact@v4.1.3
+        uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85
 
       - name: "Generate Wave-A GPU closure package"
         run: |
@@ -612,14 +612,14 @@ jobs:
           } > GPU_CI_REPORT.md
 
       - name: "Upload final GPU report"
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: GPU-CI-Report
           path: GPU_CI_REPORT.md
           retention-days: 90
 
       - name: "Upload Wave-A closure package"
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: gpu-wave-a-closure-package
           path: wave-closure/

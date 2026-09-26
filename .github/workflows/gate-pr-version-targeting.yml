@@ -13,6 +13,12 @@ on:
       - hyperscaler
       - military
       - minimal
+    paths:
+      - 'VERSIONING.md'
+      - 'ROADMAP.md'
+      - 'CHANGELOG.md'
+      - 'RELEASE_STRATEGY.md'
+      - '.github/workflows/gate-pr-version-targeting.yml'
 
 permissions:
   pull-requests: read
@@ -29,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Extract Target Version from PR body
         id: extract_version
@@ -41,10 +47,25 @@ jobs:
           import re
 
           body = os.environ.get("PR_BODY", "")
-          match = re.search(r'^\*\*Target Version:\*\*\s*(?:\(([^)]+)\)|([^\n]+))\s*$', body, re.MULTILINE)
           version = ""
-          if match:
-              version = (match.group(1) or match.group(2) or "").strip()
+
+          # Multi-level fallback parsing strategy
+          # Level 1: Standard markdown bold format
+          patterns = [
+              r'^\*\*Target Version:\*\*\s*(?:\(([^)]+)\)|([^\n]+))\s*$',  # **Target Version:** (vX.Y.Z) or **Target Version:** vX.Y.Z
+              r'^\*Target Version:\*\s*(?:\(([^)]+)\)|([^\n]+))\s*$',      # *Target Version:* (vX.Y.Z) or *Target Version:* vX.Y.Z
+              r'^Target Version:\s*(?:\(([^)]+)\)|([^\n]+))\s*$',          # Target Version: (vX.Y.Z) or Target Version: vX.Y.Z
+              r'^### Target Version\s*(?:\(([^)]+)\)|([^\n]+))\s*$',       # ### Target Version (vX.Y.Z) or markdown heading
+              r'Target Version[:\s]+(?:\(([^)]+)\)|([^\n\s][^\n]+?))\s*(?:\n|$)',  # Flexible case-insensitive-like
+          ]
+
+          for pattern in patterns:
+              match = re.search(pattern, body, re.MULTILINE | re.IGNORECASE)
+              if match:
+                  version = (match.group(1) or match.group(2) or "").strip()
+                  if version:
+                      break
+
           print(version)
           PY
           )
@@ -110,7 +131,7 @@ jobs:
       issues: write
     steps:
       - name: "Post failure feedback"
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
             const label = 'ci/failure';

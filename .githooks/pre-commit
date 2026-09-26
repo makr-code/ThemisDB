@@ -1,0 +1,15 @@
+#!/bin/bash
+# Meta pre-commit hook dispatcher
+set -euo pipefail
+HOOKS_DIR="$(git rev-parse --show-toplevel)/.github/pre-commit-hooks"
+if [ -d "$HOOKS_DIR" ]; then
+    for hook in "$HOOKS_DIR"/*.sh; do
+        if [ -x "$hook" ]; then
+            echo "Running $(basename "$hook")..."
+            if ! "$hook"; then
+                exit 1
+            fi
+        fi
+    done
+fi
+exit 0

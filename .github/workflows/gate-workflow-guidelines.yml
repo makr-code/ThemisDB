@@ -1,0 +1,239 @@
+name: "Gate: Workflow Guidelines Compliance"
+
+# Automated validation of workflow compliance with WORKFLOW_GUIDELINES.md
+# Runs on: 
+#   - Every PR that modifies .github/workflows/*.yml
+#   - Scheduled nightly to detect drift in existing workflows
+#   - Manual dispatch for ad-hoc verification
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - community
+      - enterprise
+      - hyperscaler
+      - military
+      - minimal
+    paths:
+      - '.github/workflows/*.yml'
+      - '.github/WORKFLOW_GUIDELINES.md'
+      - '.github/WORKFLOW_REGISTRY.md'
+      - '.github/workflows/gate-workflow-guidelines.yml'
+  schedule:
+    - cron: '0 2 * * *'  # Daily 02:00 UTC
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: 'Validation scope (all|changed|registry-sync)'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - changed
+          - registry-sync
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: gate-workflow-guidelines-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-workflow-guidelines:
+    name: Workflow Guidelines Compliance Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c  # v6.0.0
+        with:
+          python-version: '3.11'
+
+      - name: Run workflow guidelines validation
+        id: validate
+        shell: python
+        env:
+          SCOPE: ${{ inputs.scope || (github.event_name == 'pull_request' && 'changed') || 'all' }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          import os
+          import re
+          import glob
+          import sys
+          import json
+          import subprocess
+
+          scope = os.environ.get('SCOPE', 'all')
+          pr_number = os.environ.get('PR_NUMBER', '')
+
+          # Get list of workflows to validate
+          if scope == 'changed' and pr_number:
+              # Use PR base/head SHAs from event payload to compute diff range
+              event_path = os.environ.get('GITHUB_EVENT_PATH', '')
+              base_sha = ''
+              head_sha = ''
+              if event_path and os.path.exists(event_path):
+                  with open(event_path, 'r') as ef:
+                      event = json.load(ef)
+                  base_sha = event.get('pull_request', {}).get('base', {}).get('sha', '')
+                  head_sha = event.get('pull_request', {}).get('head', {}).get('sha', '')
+
+              if base_sha and head_sha:
+                  result = subprocess.run(
+                      ['git', 'diff', '--name-only', f'{base_sha}...{head_sha}'],
+                      capture_output=True,
+                      text=True,
+                      cwd='.'
+                  )
+              else:
+                  # Fallback: validate all workflows when diff range is unavailable
+                  result = subprocess.run(
+                      ['git', 'diff', '--name-only', 'HEAD~1', 'HEAD'],
+                      capture_output=True,
+                      text=True,
+                      cwd='.'
+                  )
+              changed_files = [f for f in result.stdout.split('\n') if f.startswith('.github/workflows/')]
+              workflows = [f for f in changed_files if f.endswith('.yml')]
+              if not workflows:
+                  # No workflow files changed or diff unavailable – fall back to all
+                  workflows = glob.glob('.github/workflows/*.yml')
+          else:
+              # All workflows
+              workflows = glob.glob('.github/workflows/*.yml')
+
+          violations = []
+          warnings = []
+
+          print(f"Validating {len(workflows)} workflows (scope={scope})")
+
+          for wf in sorted(workflows):
+              with open(wf, 'r') as f:
+                  content = f.read()
+              wf_name = os.path.basename(wf)
+
+              # Check 1: Naming convention (Build:, Gate:, Release:, Maintenance:, Security:, Compliance:, Edition:, Automation:, Wiki:, Reusable:)
+              # Accept quoted (name: "..." / name: '...') and unquoted (name: ...) values
+              name_match = re.search(r'^name:\s*["\']?([^"\'#\n]+?)["\']?\s*(?:#.*)?$', content, re.MULTILINE)
+              if name_match:
+                  name = name_match.group(1).strip()
+                  valid_prefixes = ('Build:', 'Gate:', 'Release:', 'Maintenance:', 'Security:', 'Compliance:', 'Edition:', 'Automation:', 'Wiki:', 'Reusable:', 'Publish:', 'Benchmark:', 'Governance:')
+                  if not name.startswith(valid_prefixes):
+                      violations.append(f"{wf_name}: Invalid workflow name prefix. Name must start with one of {valid_prefixes}")
+              else:
+                  violations.append(f"{wf_name}: Missing or unparseable 'name:' field")
+
+              # Check 2: Concurrency must be defined
+              if 'concurrency:' not in content:
+                  warnings.append(f"{wf_name}: Missing concurrency block (recommended for all workflows)")
+
+              # Check 3: If has matrix, concurrency group must include matrix variables
+              if 'matrix:' in content and 'concurrency:' in content:
+                  if 'matrix.' not in content[content.find('concurrency:'):content.find('concurrency:') + 500]:
+                      warnings.append(f"{wf_name}: Matrix workflow without matrix-qualified concurrency group (may cause mutual cancellation)")
+
+              # Check 4: cancel-in-progress should be false (or qualified matrix)
+              if 'cancel-in-progress: true' in content:
+                  if 'matrix.' not in content[content.find('concurrency:'):content.find('concurrency:') + 500]:
+                      warnings.append(f"{wf_name}: cancel-in-progress: true without matrix qualification (can cancel unrelated jobs)")
+
+              # Check 5: GitHub Actions should use SHA pinning
+              floating_actions = re.findall(r'uses:\s+([a-zA-Z0-9_/-]+)@(v\d+|latest|main|master)', content)
+              if floating_actions:
+                  warnings.append(f"{wf_name}: {len(floating_actions)} GitHub Actions use floating versions (should use SHA for supply chain security)")
+
+              # Check 6: Trigger policy - push tags must have branches guard
+              if 'push:' in content and 'tags:' in content:
+                  # Extract push section
+                  push_match = re.search(r'push:\s*\n((?:  [^\n]+\n)*)', content, re.MULTILINE)
+                  if push_match:
+                      push_section = push_match.group(1)
+                      if 'tags:' in push_section and 'branches:' not in push_section:
+                          violations.append(f"{wf_name}: push.tags trigger without branches guard (security risk: any branch can trigger release)")
+
+          # Check 7: Registry sync
+          with open('.github/WORKFLOW_REGISTRY.md', 'r') as f:
+              registry = f.read()
+          documented = set(re.findall(r'\`([a-z0-9_-]+\.yml)\`', registry))
+          actual = set(os.path.basename(wf) for wf in glob.glob('.github/workflows/*.yml'))
+          missing = actual - documented
+          if missing:
+              violations.append(f"Registry Sync: {len(missing)} workflows not documented: {', '.join(sorted(missing))}")
+
+          # Output results
+          print(f"\n{'='*60}")
+          print(f"VALIDATION RESULTS")
+          print(f"{'='*60}")
+          
+          if violations:
+              print(f"\n❌ VIOLATIONS ({len(violations)}):")
+              for v in violations:
+                  print(f"   - {v}")
+          
+          if warnings:
+              print(f"\n⚠️  WARNINGS ({len(warnings)}):")
+              for w in warnings[:5]:  # Limit output
+                  print(f"   - {w}")
+              if len(warnings) > 5:
+                  print(f"   ... and {len(warnings) - 5} more warnings")
+          
+          if not violations:
+              print(f"\n✅ All workflows compliant with WORKFLOW_GUIDELINES.md")
+          
+          # Set output
+          with open(os.environ.get('GITHUB_OUTPUT', '/dev/null'), 'a') as f:
+              f.write(f"violations={len(violations)}\n")
+              f.write(f"warnings={len(warnings)}\n")
+
+          sys.exit(1 if violations else 0)
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request' && (success() || failure())
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v7.0.1
+        with:
+          script: |
+            const violations = ${{ steps.validate.outputs.violations || '0' }};
+            const warnings = ${{ steps.validate.outputs.warnings || '0' }};
+            
+            let status = '✅ PASS';
+            if (violations > 0) {
+              status = '❌ FAIL';
+            } else if (warnings > 0) {
+              status = '⚠️  WARNINGS';
+            }
+            
+            const body = `## Workflow Guidelines Compliance ${status}
+            
+            - **Violations**: ${violations}
+            - **Warnings**: ${warnings}
+            
+            See the job logs for details.
+            
+            **Reference**: [WORKFLOW_GUIDELINES.md](.github/WORKFLOW_GUIDELINES.md)`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            });
+
+      - name: Fail on violations
+        if: failure()
+        run: |
+          echo "❌ Workflow guidelines validation failed"
+          echo "See step 'Run workflow guidelines validation' for details"
+          exit 1

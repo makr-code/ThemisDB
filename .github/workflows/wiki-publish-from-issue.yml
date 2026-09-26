@@ -46,7 +46,7 @@ jobs:
     steps:
       - name: Verify commenter is a maintainer
         id: check_maintainer
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
             const comment = context.payload.comment;
@@ -74,7 +74,7 @@ jobs:
 
       - name: React to approval comment
         if: steps.check_maintainer.outputs.is_maintainer == 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
             await github.rest.reactions.createForIssueComment({
@@ -86,20 +86,20 @@ jobs:
 
       - name: Checkout repository
         if: steps.check_maintainer.outputs.is_maintainer == 'true'
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
 
       - name: Set up Python
         if: steps.check_maintainer.outputs.is_maintainer == 'true'
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
         with:
           python-version: '3.12'
 
       - name: Extract source branch from tracking issue
         if: steps.check_maintainer.outputs.is_maintainer == 'true'
         id: extract_branch
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
             const { data: issue } = await github.rest.issues.get({
@@ -231,7 +231,7 @@ jobs:
 
       - name: Comment success on tracking issue
         if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.publish.outcome == 'success'
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
             const moment = new Date().toISOString();
@@ -245,7 +245,7 @@ jobs:
 
       - name: Close tracking issue if published
         if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.publish.outputs.wiki_published == 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
             await github.rest.issues.update({
@@ -258,7 +258,7 @@ jobs:
 
       - name: Comment failure on tracking issue
         if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.publish.outcome == 'failure'
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
             const moment = new Date().toISOString();
@@ -271,7 +271,7 @@ jobs:
 
       - name: Comment permission denied
         if: steps.check_maintainer.outputs.is_maintainer != 'true'
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
             await github.rest.issues.createComment({

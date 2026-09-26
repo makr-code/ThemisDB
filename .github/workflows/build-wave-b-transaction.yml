@@ -22,8 +22,8 @@ on:
         default: "4"
 
 concurrency:
-  group: wave-b-transaction-ci-${{ github.ref }}
-  cancel-in-progress: true
+  group: wave-b-transaction-ci-${{ github.ref }}-${{ github.run_id }}
+  cancel-in-progress: false
 
 permissions:
   contents: read
@@ -48,7 +48,7 @@ jobs:
       build-dir: ${{ steps.configure.outputs.build-dir }}
       config-status: ${{ steps.configure.outputs.status }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           submodules: false
           fetch-depth: 0
@@ -66,7 +66,7 @@ jobs:
             libcpp-httplib-dev
 
       - name: "Cache sccache"
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
@@ -99,7 +99,7 @@ jobs:
 
       - name: "Upload CMake configuration log"
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: cmake-configuration-log
           path: cmake-config.log
@@ -114,7 +114,7 @@ jobs:
       matrix:
         phase: [phase1, phase2, phase3, wave-a]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           submodules: false
 
@@ -131,7 +131,7 @@ jobs:
             libcpp-httplib-dev
 
       - name: "Cache sccache"
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
@@ -170,7 +170,7 @@ jobs:
 
       - name: "Upload compilation log"
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: compile-${{ matrix.phase }}-log
           path: compile-${{ matrix.phase }}.log
@@ -182,7 +182,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           submodules: false
 
@@ -199,7 +199,7 @@ jobs:
             libcpp-httplib-dev
 
       - name: "Cache sccache"
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
@@ -240,7 +240,7 @@ jobs:
 
       - name: "Upload smoke test results"
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: smoke-test-results
           path: ${{ needs.configure.outputs.build-dir }}/smoke-test-results.txt
@@ -248,7 +248,7 @@ jobs:
 
       - name: "Publish smoke test summary"
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: test-summary
           path: ${{ needs.configure.outputs.build-dir }}/smoke-test-results.txt
@@ -261,7 +261,7 @@ jobs:
     timeout-minutes: 45
     if: github.event_name == 'push' || github.event.inputs.phase == 'all'
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           submodules: false
 
@@ -278,7 +278,7 @@ jobs:
             libcpp-httplib-dev
 
       - name: "Cache sccache"
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
@@ -334,7 +334,7 @@ jobs:
 
       - name: "Upload test results"
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: transaction-test-results
           path: |
@@ -344,7 +344,7 @@ jobs:
 
       - name: "Post test summary to PR"
         if: always() && github.event_name == 'pull_request'
-        uses: actions/github-script@v7
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
             const fs = require('fs');
@@ -363,7 +363,7 @@ jobs:
     timeout-minutes: 30
     if: github.event_name == 'push' || github.event.inputs.phase == 'all' || github.event.inputs.phase == 'wave-a'
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           submodules: false
 
@@ -379,7 +379,7 @@ jobs:
             libcpp-httplib-dev
 
       - name: "Cache sccache"
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
@@ -420,7 +420,7 @@ jobs:
 
       - name: "Upload chaos/recovery evidence"
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: transaction-chaos-recovery-evidence
           path: |
@@ -435,7 +435,7 @@ jobs:
     timeout-minutes: 60
     if: github.event_name == 'push' || github.event.inputs.phase == 'all' || github.event.inputs.phase == 'phase4'
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           submodules: false
 
@@ -454,7 +454,7 @@ jobs:
             libcpp-httplib-dev
 
       - name: "Cache sccache"
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: ${{ env.SCCACHE_DIR }}
           key: sccache-${{ hashFiles('src/transaction/**', 'benchmarks/transaction/**') }}-${{ runner.os }}
@@ -529,7 +529,7 @@ jobs:
 
       - name: "Upload Phase 4 benchmark artifacts"
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: transaction-phase4-benchmark
           path: |
@@ -545,7 +545,7 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     steps:
-      - uses: actions/download-artifact@v4.1.3
+      - uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85
 
       - name: "Create artifact archive"
         run: |
@@ -563,7 +563,7 @@ jobs:
           echo "Archive created: $(du -sh transaction-ci-results.zip | cut -f1)"
 
       - name: "Upload artifacts archive"
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: transaction-ci-results
           path: transaction-ci-results.zip
@@ -576,7 +576,7 @@ jobs:
     if: always()
     steps:
       - name: "Download all artifacts"
-        uses: actions/download-artifact@v4.1.3
+        uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85
 
       - name: "Generate Wave-B transaction closure package"
         run: |
@@ -661,14 +661,14 @@ jobs:
           } > CI_REPORT.md
 
       - name: "Upload final report"
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: CI-Report
           path: CI_REPORT.md
           retention-days: 90
 
       - name: "Upload Wave-B closure package"
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: transaction-wave-b-closure-package
           path: wave-closure/

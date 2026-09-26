@@ -25,7 +25,7 @@ permissions:
 
 concurrency:
   group: ci-maintenance-pr-failure-diagnosis-${{ github.event.workflow_run.id || github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false  # Maintenance jobs should not be cancelled
 
 jobs:
   diagnose-pr-failure:
@@ -52,7 +52,7 @@ jobs:
           echo "============================================================"
 
       - name: Generate and publish recommend-only diagnosis comment
-        uses: actions/github-script@v7  # v9.0.0
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v9.0.0
         env:
           RUN_ID_INPUT: ${{ inputs.run_id }}
         with:
@@ -89,22 +89,27 @@ jobs:
 
             const run = await determineRun();
             if (!run) {
+              core.notice('No run determined for diagnosis.');
+              core.setOutput('diagnosis_status', 'skipped');
               return;
             }
 
             if (run.conclusion !== 'failure') {
               core.notice(`Run ${run.id} conclusion is '${run.conclusion}', no failure diagnosis comment required.`);
+              core.setOutput('diagnosis_status', 'not-required');
               return;
             }
 
             if (run.event !== 'pull_request') {
-              core.notice(`Run ${run.id} is event '${run.event}', workflow comments are restricted to PR runs.`);
+              core.warning(`Run ${run.id} is event '${run.event}', expected 'pull_request'.`);
+              core.setOutput('diagnosis_status', 'no-pr-trigger');
               return;
             }
 
             const prRefs = Array.isArray(run.pull_requests) ? run.pull_requests : [];
             if (prRefs.length === 0) {
-              core.notice(`Run ${run.id} has no associated PR in payload.`);
+              core.warning(`Run ${run.id} has no associated PR refs in payload.`);
+              core.setOutput('diagnosis_status', 'no-pr-refs');
               return;
             }
 
@@ -188,3 +193,8 @@ jobs:
                 core.notice(`Created diagnose comment on PR #${issueNumber}.`);
               }
             }
+
+            core.setOutput('diagnosis_status', 'success');
+            core.notice(`Diagnosis successfully posted to ${prRefs.length} PR(s).`);
+            return;
+

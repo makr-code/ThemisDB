@@ -41,6 +41,10 @@ on:
   schedule:
     - cron: '0 3 * * *'
   push:
+    branches:
+      - develop
+      - community
+      - 'release/**'
     tags:
       - 'v*'
       - 'enterprise-v*'
@@ -90,7 +94,7 @@ jobs:
       issues: write
     steps:
       - name: Checkout (sparse — actions)
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           sparse-checkout: .github/actions
           sparse-checkout-cone-mode: false
@@ -196,19 +200,19 @@ jobs:
       ) && needs.build-matrix.result == 'success'
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
 
       - name: Download all CPack packages
-        uses: actions/download-artifact@v4.1.3  # v4.1.3
+        uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85  # v4.1.3
         with:
           pattern: packages-*-${{ github.run_number }}
           merge-multiple: true
           path: release/
 
       - name: Download Linux community binaries (fallback)
-        uses: actions/download-artifact@v4.1.3  # v4.1.3
+        uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85  # v4.1.3
         with:
           pattern: build-community-release-${{ github.run_number }}
           merge-multiple: true
@@ -286,7 +290,7 @@ jobs:
           echo "--- Release manifest ---"
           cat RELEASE_MANIFEST.txt
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: release-packages-${{ github.run_number }}
           path: release/
@@ -298,7 +302,7 @@ jobs:
     needs: package
     steps:
       - name: Download release packages
-        uses: actions/download-artifact@v4.1.3  # v4.1.3
+        uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85  # v4.1.3
         with:
           pattern: release-packages-*
           merge-multiple: true
@@ -474,17 +478,17 @@ jobs:
       actions: read
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Download release packages
-        uses: actions/download-artifact@v4.1.3  # v4.1.3
+        uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85  # v4.1.3
         with:
           pattern: release-packages-*
           merge-multiple: true
           path: release/
 
       - name: Publish to GitHub Releases (community)
-        uses: actions/github-script@v7  # v9.0.0
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v9.0.0
         with:
           script: |
             const fs = require('fs');
@@ -581,10 +585,10 @@ jobs:
       actions: read
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Download release packages
-        uses: actions/download-artifact@v4.1.3  # v4.1.3
+        uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85  # v4.1.3
         with:
           pattern: release-packages-*
           merge-multiple: true
@@ -683,13 +687,13 @@ jobs:
       )
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 1
 
       - name: Restore model cache
         id: cache-model
-        uses: actions/cache@v4
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: ${{ github.workspace }}/models
           key: tinyllama-gguf-q4km-${{ hashFiles('scripts/ci-download-tinyllama.sh') }}
@@ -761,7 +765,7 @@ jobs:
 
       - name: Upload gate results
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: llm-gate-results-${{ github.run_number }}
           path: |

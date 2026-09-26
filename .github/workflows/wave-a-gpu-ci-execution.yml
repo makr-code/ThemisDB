@@ -1,4 +1,4 @@
-name: Wave A GPU CI Execution (GPU + CPU Fallback)
+name: "Build: Wave A GPU CI Execution (GPU + CPU Fallback)"
 
 permissions:
   contents: read
@@ -28,7 +28,7 @@ on:
       - 'scripts/validate_gpu_baselines.py'
 
 concurrency:
-  group: wave-a-gpu-ci-${{ github.ref }}
+  group: wave-a-gpu-ci-exec-${{ github.ref }}-${{ github.run_id }}
   cancel-in-progress: true
 
 jobs:
@@ -42,7 +42,7 @@ jobs:
       cuda_version: ${{ steps.detect-gpu.outputs.cuda_version }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
 
@@ -136,7 +136,7 @@ jobs:
     needs: phase1-health-check
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Setup build environment
         shell: bash
@@ -203,7 +203,7 @@ jobs:
           - gpu-closure
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Setup test environment
         shell: bash
@@ -246,7 +246,7 @@ jobs:
 
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: test-results-${{ matrix.test_suite }}-${{ needs.phase1-health-check.outputs.execution_mode }}
           path: test_results_*.json
@@ -260,7 +260,7 @@ jobs:
     if: needs.phase1-health-check.outputs.execution_mode == 'gpu'
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
       - name: Setup validation environment
         shell: bash
@@ -287,7 +287,7 @@ jobs:
 
       - name: Upload baseline validation report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: baseline-validation-report
           path: phase4_validation_report.json
@@ -352,7 +352,7 @@ jobs:
           cat phase1_completion_status.json
 
       - name: Upload Phase 1 completion status
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: phase1-completion-status
           path: phase1_completion_status.json

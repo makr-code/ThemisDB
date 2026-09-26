@@ -101,7 +101,7 @@ permissions:
 
 concurrency:
   group: publish-wiki-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 env:
   # Tracking issue title - coordinated between wiki-pr-gate.yml and publish-wiki.yml
@@ -121,12 +121,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           fetch-depth: 0
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
         with:
           python-version: '3.12'
 
@@ -235,7 +235,7 @@ jobs:
 
       - name: Upload link validation report
         if: always() && steps.build.outputs.is_dry_run != 'true'
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: wiki-link-report-${{ github.run_number }}
           path: /tmp/wiki-link-report.txt
@@ -244,7 +244,7 @@ jobs:
 
       - name: Upload wiki build manifest
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: wiki-build-manifest-${{ github.run_number }}
           path: /tmp/wiki-manifest.json
