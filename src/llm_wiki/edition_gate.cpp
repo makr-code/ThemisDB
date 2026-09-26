@@ -67,8 +67,9 @@ PluginStatus enforcePluginGate(const char* operation_name) noexcept {
             logger->warn("LLM Wiki plugin operation '{}' blocked: not available in this edition",
                         operation_name);
         }
+        std::string op = operation_name ? operation_name : "unknown_operation";
         return PluginStatus::PermissionDenied(
-            std::string("LLM Wiki plugin operation '") + operation_name +
+            std::string("permission required: LLM Wiki plugin operation '") + op +
             "' is not available in this ThemisDB edition. "
             "Upgrade to enterprise, hyperscaler, or military edition to use this feature.");
     }
@@ -82,8 +83,9 @@ PluginStatus enforceFeatureGate(const char* feature_name) noexcept {
             logger->warn("LLM Wiki feature '{}' blocked: not available in this edition",
                         feature_name);
         }
+        std::string feature = feature_name ? feature_name : "unknown_feature";
         return PluginStatus::PermissionDenied(
-            std::string("LLM Wiki feature '") + feature_name +
+            std::string("permission required: LLM Wiki feature '") + feature +
             "' is not available in this ThemisDB edition. "
             "Upgrade to enterprise or higher to use this feature.");
     }

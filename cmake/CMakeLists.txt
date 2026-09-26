@@ -3196,6 +3196,7 @@ set(THEMIS_CORE_SOURCES
     ../src/analytics/olap.cpp
     ../src/gpu/gpu_safe_raii.cpp
     ../src/gpu/kernel_timeout_enforcer.cpp
+    ../src/gpu/gpu_error.cpp
     ../src/gpu/query_accelerator.cpp
     $<$<BOOL:${THEMIS_ENABLE_CUDA}>:../src/gpu/cuda_operations.cpp>$<$<NOT:$<BOOL:${THEMIS_ENABLE_CUDA}>>:../src/gpu/cuda_operations_stub.cpp>
     ../src/analytics/process_mining.cpp

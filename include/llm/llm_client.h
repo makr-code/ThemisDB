@@ -84,4 +84,19 @@ public:
     virtual bool isReady() const = 0;
 };
 
+/**
+ * @brief Create the default LLM client implementation.
+ * @return Shared ownership of the default client.
+ * @details The returned client prefers a model-backed plugin when available and
+ *          falls back to the deterministic keyword-based implementation when no
+ *          runtime backend is registered.
+ */
+std::shared_ptr<LLMClient> createDefaultLLMClient();
+
+/**
+ * @brief Compatibility alias for older callers that still use the snake_case factory name.
+ * @return Shared ownership of the default client.
+ */
+std::shared_ptr<LLMClient> create_default_llm_client();
+
 } // namespace themis::llm

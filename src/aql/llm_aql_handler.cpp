@@ -571,8 +571,7 @@ class LLMAQLHandler::Impl {
             // Create the default client; it will prefer a real plugin and only
             // fall back to the deterministic keyword path when no model-backed
             // backend is available at runtime.
-            extern std::shared_ptr<themis::llm::LLMClient> createDefaultLLMClient();
-            llm_client_ = createDefaultLLMClient();
+            llm_client_ = themis::llm::createDefaultLLMClient();
             spdlog::info("LLMAQLHandler: Default LLM client initialized (plugin bootstrap deferred until first inference)");
         }
         

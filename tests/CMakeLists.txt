@@ -1950,6 +1950,7 @@ if(_themis_tests_sources_final)
         endforeach()
         set(_themis_tests_sources_final ${_themis_tests_sources_final_dedup})
     endif()
+
     set_property(TARGET themis_tests PROPERTY SOURCES ${_themis_tests_sources_final})
 endif()
 
@@ -2010,10 +2011,13 @@ foreach(_force_src
         "${THEMIS_ROOT_DIR}/src/themis/license_info.cpp"
         "${THEMIS_ROOT_DIR}/src/themis/build_info.cpp"
         "${THEMIS_ROOT_DIR}/src/aql/aql_agent.cpp"
-        "${THEMIS_ROOT_DIR}/src/aql/llm_aql_handler.cpp")
+        "${THEMIS_ROOT_DIR}/src/aql/aql_autocomplete.cpp"
+        "${THEMIS_ROOT_DIR}/src/aql/llm_aql_handler.cpp"
+        "${THEMIS_ROOT_DIR}/src/llm/llm_client_default.cpp"
+        "${THEMIS_ROOT_DIR}/external/chimera/src/chimera/adapter_factory.cpp")
     if(NOT "${_force_src}" IN_LIST _themis_tests_src_check)
         target_sources(themis_tests PRIVATE "${_force_src}")
-        message(STATUS "themis_tests: force-added ${_force_src} (required by AQL/test bridge and THEMIS_BASE_EXPORTS)")
+        message(STATUS "themis_tests: force-added ${_force_src} (required by AQL/LLM/Chimera bridge and THEMIS_BASE_EXPORTS)")
     endif()
 endforeach()
 
