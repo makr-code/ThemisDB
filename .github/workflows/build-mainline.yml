@@ -130,7 +130,7 @@ jobs:
   # ── Step 2: Cross-architecture layout lane ───────────────────────────────
   # Keeps platform/architecture jobs visible side-by-side in GitHub UI.
   step2-linux-amd64:
-    name: "Step 2 · Linux AMD64"
+    name: "Build: Step 2 · Linux AMD64"
     needs: mark-build-pending
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
@@ -146,10 +146,10 @@ jobs:
         cmake -S . -B build-step2-linux-amd64 -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       build_command: >-
         cmake --build build-step2-linux-amd64 --target themis_base --parallel 8
-      summary_title: "Step 2 · Linux AMD64"
+      summary_title: "Build: Step 2 · Linux AMD64"
 
   step2-linux-arm64:
-    name: "Step 2 · Linux ARM64"
+    name: "Build: Step 2 · Linux ARM64"
     needs: mark-build-pending
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
@@ -165,10 +165,10 @@ jobs:
         cmake -S . -B build-step2-linux-arm64 -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       build_command: >-
         cmake --build build-step2-linux-arm64 --target themis_base --parallel 8
-      summary_title: "Step 2 · Linux ARM64"
+      summary_title: "Build: Step 2 · Linux ARM64"
 
   step2-windows-amd64:
-    name: "Step 2 · Windows AMD64"
+    name: "Build: Step 2 · Windows AMD64"
     needs: mark-build-pending
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
@@ -184,10 +184,10 @@ jobs:
         cmake --preset windows-release -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DVCPKG_BUILD_TYPE=release -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       build_command: >-
         cmake --build --preset windows-release --target themis_base --parallel 16
-      summary_title: "Step 2 · Windows AMD64"
+      summary_title: "Build: Step 2 · Windows AMD64"
 
   step2-macos:
-    name: "Step 2 · macOS"
+    name: "Build: Step 2 · macOS"
     needs: mark-build-pending
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
@@ -203,10 +203,10 @@ jobs:
         cmake -S . -B build-step2-macos -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON -DTHEMIS_DIAGNOSTIC_MODE=ON
       build_command: >-
         cmake --build build-step2-macos --target themis_base --parallel 8
-      summary_title: "Step 2 · macOS"
+      summary_title: "Build: Step 2 · macOS"
 
   step2-architecture-summary:
-    name: "Step 2 · Architecture Summary"
+    name: "Validate: Step 2 · Architecture Summary"
     needs:
       - step2-linux-amd64
       - step2-linux-arm64
@@ -216,7 +216,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Summarize Step 2 architecture lanes
+      - name: "Validate: Summarize Step 2 architecture lanes"
         shell: bash
         run: |
           {
@@ -229,6 +229,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
   build:
+    name: "Build: Mainline (Linux)"
     needs: step2-architecture-summary
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
@@ -239,7 +240,7 @@ jobs:
       submodules: false
       working_directory: .
       setup_command: >-
-        set -euo pipefail; echo "CI — Build wrapper delegating to reusable CMake build pipeline"; git config --file .git/config --remove-section submodule.plugins/private/themisdb_ethic_ai || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_importer || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_storage || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_llm_wiki || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_plugin_signer || true; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libgtest-dev libgmock-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc libcpp-httplib-dev libboost-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev dpkg-dev rpm; echo "All dependencies installed via apt (optimized hybrid build)"
+        set -euo pipefail; echo "Build: Mainline wrapper delegating to reusable CMake build pipeline"; git config --file .git/config --remove-section submodule.plugins/private/themisdb_ethic_ai || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_importer || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_storage || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_llm_wiki || true; git config --file .git/config --remove-section submodule.plugins/private/themisdb_plugin_signer || true; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libgtest-dev libgmock-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc libcpp-httplib-dev libboost-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev dpkg-dev rpm; echo "All dependencies installed via apt (optimized hybrid build)"
       configure_command: >-
         export SCCACHE_GHA_ENABLED=true; cmake -S . -B build -G Ninja -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       build_command: >-
@@ -269,7 +270,7 @@ jobs:
         build/ctest-results.xml
         build/ctest-output.txt
       artifact_retention_days: '7'
-      summary_title: CI — Build
+      summary_title: "Build: Mainline"
 
   # ── macOS kqueue path validation ──────────────────────────────────────────
   # Validates that kqueue-backed file watchers (ConfigFileWatcher,
@@ -277,17 +278,17 @@ jobs:
   # Must be resilient to transient sccache/GHA-cache backend outages so that
   # infrastructure blips never block platform validation.
   macos-kqueue-validation:
-    name: 🍎 macOS kqueue Path Validation
+    name: "Validate: 🍎 macOS kqueue paths"
     runs-on: macos-latest
     timeout-minutes: 45
     needs: step2-architecture-summary
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
 
     steps:
-      - name: Print macOS kqueue job context
+      - name: "Validate: Print macOS kqueue job context"
         run: |
           echo "============================================================"
-          echo " Build: Mainline  |  macOS kqueue Validation Job"
+          echo "  Build: Mainline  |  Validate: macOS kqueue paths"
           echo "============================================================"
           echo "  Trigger  : ${{ github.event_name }}"
           echo "  SHA      : ${{ github.sha }}"
@@ -572,7 +573,7 @@ jobs:
             echo "::error::kqueue tests failed (exit ${EXIT_CODE}); see macos-kqueue-output.txt artifact"
           fi
           {
-            echo "### 🍎 macOS kqueue Results"
+            echo "### Validate: 🍎 macOS kqueue results"
             echo ""
             if [ "${EXIT_CODE}" -eq 0 ]; then
               echo "✅ Tests completed in **${SECS}s**. Check \`macos-kqueue-results\` artifact for details."
@@ -600,7 +601,7 @@ jobs:
   # These labels are used by branch protection rules and downstream workflows.
   # ──────────────────────────────────────────────────────────────────────────
   update-build-labels:
-    name: Update build-status labels
+    name: "Build: Update build-status labels"
     runs-on: ubuntu-latest
     timeout-minutes: 5
     needs:

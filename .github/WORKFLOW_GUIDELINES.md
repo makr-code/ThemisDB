@@ -2,12 +2,132 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-09-09
+> Last Updated: 2026-09-26
 > Status: active
 
 ## Scope
 Diese Richtlinie gilt fuer den schlanken, release-zentrierten Workflow-Kern.
 Die kanonische Liste aktiver Workflows steht in `.github/WORKFLOW_REGISTRY.md`.
+
+## Quick Navigation (Usability)
+- **Ich will Workflow-Namen konsistent halten** → `## Naming Conventions`
+- **Ich will Trigger/Concurrency korrekt setzen** → `## Best Practices` + `### Trigger-Policy für Workflows`
+- **Ich will Labels korrekt setzen/entfernen** → `## Label Policy`
+- **Ich will lokal vor PR pruefen** → `## Lokales Testsystem fuer GitHub Actions` + `## Troubleshooting`
+- **Ich will wissen, welche Workflows kanonisch sind** → `.github/WORKFLOW_REGISTRY.md` (Source of Truth)
+
+## Thematische Workflow-Orchestrierung (Mermaid)
+Hinweis: Die Grafik ist eine thematische Übersicht der Lanes; die kanonische und vollständige Workflow-Liste bleibt `.github/WORKFLOW_REGISTRY.md`.
+
+```mermaid
+flowchart TD
+    E[Trigger Events<br/>push / pull_request / schedule / workflow_dispatch]
+
+    subgraph B[Build Lanes]
+      B1[build-mainline.yml]
+      B2[build-clang-fast.yml]
+      B3[build-content-regression.yml]
+    end
+
+    subgraph V[Validate / Gate Lanes]
+      V1[gate-pr-core.yml]
+      V2[gate-pr-merge-readiness.yml]
+      V3[gate-pr-doxygen-governance.yml]
+      V4[gate-pr-doc-metadata.yml]
+    end
+
+    subgraph G[Governance / Compliance]
+      G1[compliance-governance-gates.yml]
+      G2[compliance-supply-chain.yml]
+      G3[reusable-status-flags-and-issues.yml]
+    end
+
+    subgraph S[Security]
+      S1[security-codeql.yml]
+      S2[security-consolidated.yml]
+      S3[security-dast-zap.yml]
+    end
+
+    subgraph R[Release]
+      R1[release-mainline.yml]
+      R2[release-build-matrix.yml]
+      R3[release-docker-image.yml]
+      R4[release-winget.yml]
+    end
+
+    subgraph M[Maintenance]
+      M1[maintenance-housekeeping.yml]
+      M2[maintenance-ci-health.yml]
+      M3[maintenance-build-issues.yml]
+      M4[maintenance-docs.yml]
+    end
+
+    E --> B
+    E --> V
+    E --> G
+    E --> S
+    B --> G
+    V --> G
+    G --> R
+    G --> M
+    S --> G
+```
+
+## Schnell-Checkliste vor Workflow-Aenderungen
+1. Zweck bestaetigen: bestehender Workflow-Job statt neuer Datei, wenn moeglich.
+2. Trigger enger schneiden (`branches` + `paths`), keine breiten Sammelmuster.
+3. SOC pruefen: Build-Lane und Validate-Lane klar getrennt benennen.
+4. Naming anwenden: `Build: ...` vs `Validate: ...` fuer job/step/summary.
+5. Label-Operationen ueber kanonische Status-Action/State-Machine fuehren.
+6. Lokal validieren (`pwsh ... test-github-actions-local.ps1 -Mode lint`).
+7. Bei Struktur-/Governance-Aenderungen `WORKFLOW_REGISTRY.md` + diese Guideline synchron halten.
+
+## Do / Don't (Quick Reference)
+### Do
+- Nutze `Build: ...` fuer Build-/Packaging-/Build-Status-Lanes.
+- Nutze `Validate: ...` fuer Test-/Policy-/Plattform-Validierung.
+- Setze enge `paths:` + `branches:` und dokumentiere den Lane-Zweck kurz im Workflow.
+- Verwende die kanonische Status-/Label-Action statt ad-hoc Label-Mutationen.
+
+### Don't
+- Keine gemischten oder uneindeutigen Namen (`CI`, `Checks`, `Validation`) ohne `Build:`/`Validate:` Prefix.
+- Keine breiten Trigger-Muster als einzige Selektion (`src/**`, `include/**`, `**/*.md`).
+- Keine doppelten Push+PR Trigger fuer denselben Branch-Fall ohne klare Begruendung.
+- Keine neuen Labelnamen direkt in Workflows einführen; zuerst `.github/labels.yml` pflegen.
+
+## Minimales Job-Template (SOC-konform)
+```yaml
+jobs:
+  <job-id>:
+    name: "Build: <kurzer lane-name>" # oder "Validate: <kurzer lane-name>"
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    concurrency:
+      group: <workflow-key>-${{ github.event.pull_request.number || github.ref }}
+      cancel-in-progress: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: <Build|Validate>: <klare step-verantwortung>
+        run: echo "..."
+```
+
+## PR Reviewer Checklist (Quick Gate)
+- [ ] **Naming/SOC korrekt**: Jobs, Steps und Summaries nutzen konsistent `Build:` oder `Validate:` passend zur Verantwortung.
+- [ ] **Trigger sauber geschnitten**: `branches:` + `paths:` sind eng genug; keine verbotenen Broad-Patterns als alleinige Selektion.
+- [ ] **Concurrency korrekt**: kein `run_id` in `concurrency.group`, passendes `cancel-in-progress` je Workflow-Typ.
+- [ ] **Label-Governance eingehalten**: neue Labels zuerst in `.github/labels.yml`; Status-Änderungen über kanonische Status-/Label-Action.
+- [ ] **Least-Privilege**: minimale `permissions` gesetzt, keine unnötigen Schreibrechte.
+- [ ] **Registry/Guideline-Sync**: bei Strukturänderungen `WORKFLOW_REGISTRY.md` und Guideline gemeinsam aktualisiert.
+- [ ] **Lokale Vorprüfung dokumentiert**: mindestens `pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode lint`.
+
+## Quick Acceptance Criteria (Workflow-/Guideline-PRs)
+- Die Verantwortung ist im Actions-UI klar lesbar (Build vs Validate ohne Mischbegriffe).
+- Keine unbeabsichtigte Trigger-Ausweitung (keine zusätzlichen Branch-/Path-Flächen ohne Begründung).
+- Label-/Status-Verhalten bleibt kompatibel zur dokumentierten State-Machine.
+- Änderungen sind fokussiert und enthalten nur den notwendigen Scope (Naming/Governance/Usability).
 
 ## Machine-readable GitHub Compliance Guidelines
 Die maschinenlesbaren Governance-Policy-Dateien unter `.github/` sind der Index- und Handover-Punkt fuer issue-, PR-, Dokumentations- und Security-Compliance:
@@ -19,63 +139,11 @@ Die maschinenlesbaren Governance-Policy-Dateien unter `.github/` sind der Index-
 
 Diese Dateien sollen die menschlich lesbaren Governance-Regeln und CI-Policies ergänzen, nicht ersetzen. Aenderungen dort muessen mit den Workflow-Guidelines und den dokumentierten Governance-Sources synchron gehalten werden.
 
-## Aktive Workflows (47)
-Die aktuelle kanonische Liste steht in `.github/WORKFLOW_REGISTRY.md`; der alte 21er-Stand war veraltet und wird hier durch den aktuellen, im Repository geltenden Zustand ersetzt.
-
-Kernliste der aktiven Workflows:
-- `.github/workflows/gate-pr-community-failclosed.yml`
-- `.github/workflows/gate-pr-edition-license.yml`
-- `.github/workflows/gate-pr-hash-sbom.yml`
-- `.github/workflows/gate-pr-plugin-boundary.yml`
-- `.github/workflows/automation-community.yml`
-- `.github/workflows/build-benchmarks.yml`
-- `.github/workflows/benchmark-performance-gate.yml`
-- `.github/workflows/reusable-benchmark-runner.yml`
-- `.github/workflows/build-mainline.yml`
-- `.github/workflows/build-clang-fast.yml`
-- `.github/workflows/build-content-regression.yml`
-- `.github/workflows/build-llm-inference.yml`
-- `.github/workflows/gate-pr-core.yml`
-- `.github/workflows/gate-pr-doxygen-governance.yml`
-- `.github/workflows/gate-pr-doc-metadata.yml`
-- `.github/workflows/gate-pr-primary-doc-structure.yml`
-- `.github/workflows/gate-pr-module-doxygen-xml.yml`
-- `.github/workflows/release-build-matrix.yml`
-- `.github/workflows/release-mainline.yml`
-- `.github/workflows/wiki-pr-gate.yml`
-- `.github/workflows/build-widget.yml`
-- `.github/workflows/reusable-cmake-build.yml`
-- `.github/workflows/security-codeql.yml`
-- `.github/workflows/compliance-supply-chain.yml`
-- `.github/workflows/build-ollama-router.yml`
-- `.github/workflows/gate-copilot-regression.yml`
-- `.github/workflows/copilot-code-review.yml`
-- `.github/workflows/wiki-pr-gate.yml`
-- `.github/workflows/publish-wiki.yml`
-- `.github/workflows/release-docker-image.yml`
-- `.github/workflows/edition-hyperscaler-ci.yml`
-- `.github/workflows/security-fortify.yml`
-- `.github/workflows/security-fuzzing.yml`
-- `.github/workflows/build-sanitizer-nightly.yml`
-- `.github/workflows/compliance-governance-gates.yml`
-- `.github/workflows/maintenance-ai-working.yml`
-- `.github/workflows/maintenance-build-issues.yml`
-- `.github/workflows/maintenance-ci-health.yml`
-- `.github/workflows/maintenance-docs.yml`
-- `.github/workflows/maintenance-soll-ist-gap-issues.yml`
-- `.github/workflows/maintenance-issues.yml`
-- `.github/workflows/maintenance-issue-recommendations.yml`
-  — Recommend-only Issue Triage: kommentiert offene Issues mit merged-PR-Evidenz und schliesst nie automatisch
-- `.github/workflows/maintenance-labels.yml`
-- `.github/workflows/maintenance-housekeeping.yml`
-- `.github/workflows/maintenance-pr-failure-diagnosis.yml`
-- `.github/workflows/maintenance-workflow-guardrails-observe.yml`
-- `.github/workflows/release-changelog.yml`
-- `.github/workflows/reusable-status-flags-and-issues.yml`
-- `.github/workflows/security-consolidated.yml`
-- `.github/workflows/security-pentest-quarterly.yml`
-- `.github/workflows/gate-distributed-knowledge.yml`
-- `.github/workflows/gate-pr-version-targeting.yml`
+## Aktive Workflows (Verweis auf Source of Truth)
+- Die kanonische, gepflegte Liste steht in `.github/WORKFLOW_REGISTRY.md`.
+- Die tatsächliche aktuelle Dateimenge liegt in `.github/workflows/`.
+- Diese Guideline führt **keine** statische Workflow-Dateiliste mehr, um Drift (z. B. veraltete/duplizierte Einträge) zu vermeiden.
+- Bei Workflow-Änderungen müssen Registry und diese Guideline synchron aktualisiert werden.
 
 ## Harte Grenzen fuer neue oder reaktivierte CI
 - Default ist `kein neuer Workflow`. Bevorzuge einen neuen Job in einem bestehenden Workflow.
@@ -107,6 +175,15 @@ Kernliste der aktiven Workflows:
 - Behalte das kanonische, prefixfreie `<domain>-<purpose>[-<scope>].yml`-Schema aus `WORKFLOW_FRAMEWORK_DESIGN.md` bei.
 - Dateinamen muessen den Zweck klar beschreiben, lane-neutral bleiben und zu den registrierten Domain-Werten passen.
 - Neue oder reaktivierte Workflows bekommen nur nach Registry- und Guidelines-Update einen Dateinamen.
+- Workflow-/Job-/Summary-Namen müssen die Verantwortung klar trennen:
+  - `Build: ...` fuer Compile-/Package-orientierte Lanes
+  - `Validate: ...` fuer Test-/Policy-/Plattform-Validierungslanes
+- In Reusable-Workflows müssen `name:` und zugehörige `summary_title` konsistent dieselbe Verantwortungs-Prefix-Konvention nutzen.
+
+Kurzbeispiele:
+- **Build-Lane**: `Build: Mainline (Linux)`, `Build: Step 2 · Windows AMD64`, `Build: Update build-status labels`
+- **Validate-Lane**: `Validate: 🍎 macOS kqueue paths`
+- **Nicht mehr verwenden**: gemischte/unscharfe Titel wie `CI — Build` neben `... Validation` ohne gemeinsames Prefix-Schema
 
 ## Best Practices
 - Trigger nur fuer reale Gates/Release-Lanes definieren (keine Schatten-CI).
@@ -334,8 +411,13 @@ Damit bleiben Ergebnisse reproduzierbar und lassen sich nach dem Lauf mit
 
 ### Kanonische Label-Definitionen
 Alle Repository-Labels sind in `.github/labels.yml` definiert (Name, Farbe, Beschreibung, Typ).
-Der Workflow `maintenance-labels.yml` synchronisiert diese Labels wöchentlich und bei Änderungen
-an `.github/labels.yml`. Labels dürfen nur in `.github/labels.yml` hinzugefügt oder geändert werden.
+Der Workflow `maintenance-housekeeping.yml` synchronisiert diese Labels wöchentlich sowie bei Änderungen an `.github/labels.yml`.
+Labels dürfen nur in `.github/labels.yml` hinzugefügt oder geändert werden.
+`maintenance-labels.yml` wurde in Sprint-8-Konsolidierung ersetzt und ist nicht mehr als aktive Workflow-Datei im Repository vorhanden.
+
+Usability-Hinweis:
+- Labelnamen sind stable API fuer Automationen (Gates, Maintenance, Dashboards).
+- Vor Label-Änderungen immer prüfen: `labels.yml` + betroffene Workflow-Regeln + diese Guideline.
 
 ### Milestone-Automation (kanonisch)
 Milestones werden analog zentral verwaltet:
