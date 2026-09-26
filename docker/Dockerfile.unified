@@ -63,10 +63,11 @@ RUN --mount=type=cache,id=apt-cache-base-${TARGETARCH},target=/var/cache/apt,sha
     mv /opt/vcpkg-${VCPKG_COMMIT} ${VCPKG_ROOT} && \
     git -C ${VCPKG_ROOT} init && \
     git -C ${VCPKG_ROOT} remote add origin https://github.com/microsoft/vcpkg.git && \
-    (git -C ${VCPKG_ROOT} fetch --depth 1 origin ${VCPKG_COMMIT} || \
-     ((git -C ${VCPKG_ROOT} fetch --depth 1 origin refs/heads/master:refs/remotes/origin/master || \
-       git -C ${VCPKG_ROOT} fetch --depth 1 origin refs/heads/main:refs/remotes/origin/main) && \
-      git -C ${VCPKG_ROOT} fetch --depth 1 origin ${VCPKG_COMMIT})) && \
+    if ! git -C ${VCPKG_ROOT} fetch --depth 1 origin ${VCPKG_COMMIT}; then \
+      git -C ${VCPKG_ROOT} fetch --depth 1 origin refs/heads/master:refs/remotes/origin/master || \
+      git -C ${VCPKG_ROOT} fetch --depth 1 origin refs/heads/main:refs/remotes/origin/main; \
+      git -C ${VCPKG_ROOT} fetch --depth 1 origin ${VCPKG_COMMIT}; \
+    fi && \
     git -C ${VCPKG_ROOT} cat-file -e ${VCPKG_COMMIT}^{commit} && \
     ${VCPKG_ROOT}/bootstrap-vcpkg.sh -disableMetrics && \
     touch ${VCPKG_ROOT}/vcpkg.disable-metrics && \
