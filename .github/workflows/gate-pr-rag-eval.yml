@@ -208,7 +208,10 @@ jobs:
       
       - name: Build RAG Tests
         run: |
-          cmake --build /tmp/rag-build --parallel 4
+          cmake --build /tmp/rag-build --parallel 4 --target \
+            module_rag_test_wave7_bm25_positional_fts_focused \
+            module_rag_test_wave7_rag_costmodel_guardrail_focused \
+            rag_ai_pipeline_test
       
       - name: Run release_critical RAG Tests
         run: |
