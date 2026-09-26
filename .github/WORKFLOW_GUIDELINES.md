@@ -25,6 +25,38 @@ Die kanonische Liste aktiver Workflows steht in `.github/WORKFLOW_REGISTRY.md`.
 6. Lokal validieren (`pwsh ... test-github-actions-local.ps1 -Mode lint`).
 7. Bei Struktur-/Governance-Aenderungen `WORKFLOW_REGISTRY.md` + diese Guideline synchron halten.
 
+## Do / Don't (Quick Reference)
+### Do
+- Nutze `Build: ...` fuer Build-/Packaging-/Build-Status-Lanes.
+- Nutze `Validate: ...` fuer Test-/Policy-/Plattform-Validierung.
+- Setze enge `paths:` + `branches:` und dokumentiere den Lane-Zweck kurz im Workflow.
+- Verwende die kanonische Status-/Label-Action statt ad-hoc Label-Mutationen.
+
+### Don't
+- Keine gemischten oder uneindeutigen Namen (`CI`, `Checks`, `Validation`) ohne `Build:`/`Validate:` Prefix.
+- Keine breiten Trigger-Muster als einzige Selektion (`src/**`, `include/**`, `**/*.md`).
+- Keine doppelten Push+PR Trigger fuer denselben Branch-Fall ohne klare Begruendung.
+- Keine neuen Labelnamen direkt in Workflows einführen; zuerst `.github/labels.yml` pflegen.
+
+## Minimales Job-Template (SOC-konform)
+```yaml
+jobs:
+  <job-id>:
+    name: "Build: <kurzer lane-name>" # oder "Validate: <kurzer lane-name>"
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    concurrency:
+      group: <workflow-key>-${{ github.event.pull_request.number || github.ref }}
+      cancel-in-progress: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: <Build|Validate>: <klare step-verantwortung>
+        run: echo "..."
+```
+
 ## Machine-readable GitHub Compliance Guidelines
 Die maschinenlesbaren Governance-Policy-Dateien unter `.github/` sind der Index- und Handover-Punkt fuer issue-, PR-, Dokumentations- und Security-Compliance:
 - `.github/compliance-guidelines.json`
