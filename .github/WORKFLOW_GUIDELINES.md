@@ -2,12 +2,28 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-09-09
+> Last Updated: 2026-09-26
 > Status: active
 
 ## Scope
 Diese Richtlinie gilt fuer den schlanken, release-zentrierten Workflow-Kern.
 Die kanonische Liste aktiver Workflows steht in `.github/WORKFLOW_REGISTRY.md`.
+
+## Quick Navigation (Usability)
+- **Ich will Workflow-Namen konsistent halten** → `## Naming Conventions`
+- **Ich will Trigger/Concurrency korrekt setzen** → `## Best Practices` + `### Trigger-Policy für Workflows`
+- **Ich will Labels korrekt setzen/entfernen** → `## Label Policy`
+- **Ich will lokal vor PR pruefen** → `## Lokales Testsystem fuer GitHub Actions` + `## Troubleshooting`
+- **Ich will wissen, welche Workflows kanonisch sind** → `.github/WORKFLOW_REGISTRY.md` (Source of Truth)
+
+## Schnell-Checkliste vor Workflow-Aenderungen
+1. Zweck bestaetigen: bestehender Workflow-Job statt neuer Datei, wenn moeglich.
+2. Trigger enger schneiden (`branches` + `paths`), keine breiten Sammelmuster.
+3. SOC pruefen: Build-Lane und Validate-Lane klar getrennt benennen.
+4. Naming anwenden: `Build: ...` vs `Validate: ...` fuer job/step/summary.
+5. Label-Operationen ueber kanonische Status-Action/State-Machine fuehren.
+6. Lokal validieren (`pwsh ... test-github-actions-local.ps1 -Mode lint`).
+7. Bei Struktur-/Governance-Aenderungen `WORKFLOW_REGISTRY.md` + diese Guideline synchron halten.
 
 ## Machine-readable GitHub Compliance Guidelines
 Die maschinenlesbaren Governance-Policy-Dateien unter `.github/` sind der Index- und Handover-Punkt fuer issue-, PR-, Dokumentations- und Security-Compliance:
@@ -59,6 +75,11 @@ Diese Dateien sollen die menschlich lesbaren Governance-Regeln und CI-Policies e
   - `Build: ...` fuer Compile-/Package-orientierte Lanes
   - `Validate: ...` fuer Test-/Policy-/Plattform-Validierungslanes
 - In Reusable-Workflows müssen `name:` und zugehörige `summary_title` konsistent dieselbe Verantwortungs-Prefix-Konvention nutzen.
+
+Kurzbeispiele:
+- **Build-Lane**: `Build: Mainline (Linux)`, `Build: Step 2 · Windows AMD64`
+- **Validation-Lane**: `Validate: 🍎 macOS kqueue paths`, `Validate: Update build-status labels`
+- **Nicht mehr verwenden**: gemischte/unscharfe Titel wie `CI — Build` neben `... Validation` ohne gemeinsames Prefix-Schema
 
 ## Best Practices
 - Trigger nur fuer reale Gates/Release-Lanes definieren (keine Schatten-CI).
@@ -288,6 +309,10 @@ Damit bleiben Ergebnisse reproduzierbar und lassen sich nach dem Lauf mit
 Alle Repository-Labels sind in `.github/labels.yml` definiert (Name, Farbe, Beschreibung, Typ).
 Der Workflow `maintenance-housekeeping.yml` synchronisiert diese Labels wöchentlich und bei Änderungen
 an `.github/labels.yml`. Labels dürfen nur in `.github/labels.yml` hinzugefügt oder geändert werden.
+
+Usability-Hinweis:
+- Labelnamen sind stable API fuer Automationen (Gates, Maintenance, Dashboards).
+- Vor Label-Änderungen immer prüfen: `labels.yml` + betroffene Workflow-Regeln + diese Guideline.
 
 ### Milestone-Automation (kanonisch)
 Milestones werden analog zentral verwaltet:
