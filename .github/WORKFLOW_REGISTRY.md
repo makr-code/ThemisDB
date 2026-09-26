@@ -155,7 +155,7 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 
 ## Recent Updates
 
-- **2026-09-26**: Comprehensive inventory of all 82 workflows; added categorization and governance scorecard
+- **2026-09-26**: Comprehensive inventory of all 83 workflows; added categorization and governance scorecard
 - **2026-09-09**: Initial lean registry (76 workflows documented)
 
 ## Next Steps: Pre-Commit Hook (Phase 3)

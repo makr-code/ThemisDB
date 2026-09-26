@@ -116,7 +116,7 @@ All workflows must follow naming prefixes:
 
 ### 3. Trigger Policy
 - `push:` with `tags:` MUST include `branches:` guard
-  - Allowed: `develop`, `main`, `community`, `release/**`
+  - Allowed: `develop`, `community`, `release/**`
   - Prevents accidental release triggers from feature branches
 - All triggers must be explicitly scoped (no repo-wide wildcards)
 
@@ -212,7 +212,7 @@ concurrency:
 - Failed gate creates GitHub issue (via `upsert_issue` action)
 
 ### Compliance Coverage
-- All 82 workflows monitored
+- All 83 workflows monitored
 - Violations block PR merge
 - Warnings tracked for compliance reporting
 
@@ -227,7 +227,7 @@ concurrency:
 ## References
 
 - [WORKFLOW_GUIDELINES.md](.github/WORKFLOW_GUIDELINES.md) — Normative specification
-- [WORKFLOW_REGISTRY.md](.github/WORKFLOW_REGISTRY.md) — Workflow inventory (82 workflows)
+- [WORKFLOW_REGISTRY.md](.github/WORKFLOW_REGISTRY.md) — Workflow inventory (83 workflows)
 - [.github/workflows/gate-workflow-guidelines.yml](.github/workflows/gate-workflow-guidelines.yml) — CI-gate implementation
 - [.github/pre-commit-hooks/workflow-registry-sync.sh](.github/pre-commit-hooks/workflow-registry-sync.sh) — Pre-commit hook
 - [setup-git-hooks.sh](setup-git-hooks.sh) — Installation script
