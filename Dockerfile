@@ -10,10 +10,15 @@ ARG FORCE_CPU_ONLY=OFF
 ARG BUILD_TESTS=OFF
 ARG BUILD_BENCHMARKS=OFF
 ARG LLAMA_CPP_REF=1e8924fd65ad349d1d838412a2172292618f3bbf
+# Must match the builtin-baseline in all docker/vcpkg-*.json manifests.
+# Fetching at this exact commit ensures `git show <baseline>:versions/baseline.json` succeeds
+# even with a shallow clone (the baseline commit IS HEAD of the fetched history).
+ARG VCPKG_BASELINE=10b7a178346f3f0abef60cecd5130e295afd8da4
 
 FROM ubuntu:24.04 AS base
 
 ARG TARGETARCH
+ARG VCPKG_BASELINE
 
 ENV DEBIAN_FRONTEND=noninteractive \
     LANG=C.UTF-8 \
@@ -44,7 +49,9 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     if [ ! -d "${VCPKG_ROOT}/.git" ]; then \
         rm -rf "${VCPKG_ROOT}" && \
-        git clone --depth=1 https://github.com/microsoft/vcpkg.git "${VCPKG_ROOT}"; \
+        git init "${VCPKG_ROOT}" && \
+        git -C "${VCPKG_ROOT}" fetch --depth=1 https://github.com/microsoft/vcpkg.git "${VCPKG_BASELINE}" && \
+        git -C "${VCPKG_ROOT}" checkout FETCH_HEAD; \
     fi && \
     mkdir -p "${VCPKG_DOWNLOADS}" "${VCPKG_ROOT}/buildtrees" "${VCPKG_ROOT}/packages" && \
     cd "${VCPKG_ROOT}" && ./bootstrap-vcpkg.sh -disableMetrics
