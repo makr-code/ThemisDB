@@ -13,12 +13,12 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 
 ## Leitprinzipien
 
-- **Keine Schatten-CI:** Alle 82 Workflows sind in diesem Registry dokumentiert.
+- **Keine Schatten-CI:** Alle 83 Workflows sind in diesem Registry dokumentiert.
 - **Klare Verantwortlichkeit:** Jeder Workflow hat definierte Trigger und Zweck.
 - **Konsistente Governance:** Alle Workflows folgen Naming-, Concurrency- und Trigger-Policies.
 - **Drift Prevention:** Registry-Update ist erforderlich bei neuen Workflows (Pre-Commit-Hook in Phase 3).
 
-## Aktiver Workflow-Kern: Alle 82 Workflows
+## Aktiver Workflow-Kern: Alle 83 Workflows
 
 ### 1. BUILD & MAINLINE (13 Workflows)
 
@@ -113,7 +113,7 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | `gate-copilot-regression.yml` | Gate: Copilot Regression (Copilot code review regression detection) | quality |
 | `copilot-code-review.yml` | Copilot: Code Review Setup (Copilot code review initialization) | tooling |
 
-### 5. SECURITY (7 Workflows)
+### 5. SECURITY (6 Workflows)
 
 | Workflow | Purpose | Frequency |
 |----------|---------|-----------|

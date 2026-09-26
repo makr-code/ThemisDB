@@ -74,15 +74,36 @@ jobs:
 
           # Get list of workflows to validate
           if scope == 'changed' and pr_number:
-              # Get files changed in PR
-              result = subprocess.run(
-                  ['git', 'diff', '--name-only', 'origin/develop...HEAD'],
-                  capture_output=True,
-                  text=True,
-                  cwd='.'
-              )
+              # Use PR base/head SHAs from event payload to compute diff range
+              event_path = os.environ.get('GITHUB_EVENT_PATH', '')
+              base_sha = ''
+              head_sha = ''
+              if event_path and os.path.exists(event_path):
+                  with open(event_path, 'r') as ef:
+                      event = json.load(ef)
+                  base_sha = event.get('pull_request', {}).get('base', {}).get('sha', '')
+                  head_sha = event.get('pull_request', {}).get('head', {}).get('sha', '')
+
+              if base_sha and head_sha:
+                  result = subprocess.run(
+                      ['git', 'diff', '--name-only', f'{base_sha}...{head_sha}'],
+                      capture_output=True,
+                      text=True,
+                      cwd='.'
+                  )
+              else:
+                  # Fallback: validate all workflows when diff range is unavailable
+                  result = subprocess.run(
+                      ['git', 'diff', '--name-only', 'HEAD~1', 'HEAD'],
+                      capture_output=True,
+                      text=True,
+                      cwd='.'
+                  )
               changed_files = [f for f in result.stdout.split('\n') if f.startswith('.github/workflows/')]
               workflows = [f for f in changed_files if f.endswith('.yml')]
+              if not workflows:
+                  # No workflow files changed or diff unavailable – fall back to all
+                  workflows = glob.glob('.github/workflows/*.yml')
           else:
               # All workflows
               workflows = glob.glob('.github/workflows/*.yml')
@@ -98,12 +119,15 @@ jobs:
               wf_name = os.path.basename(wf)
 
               # Check 1: Naming convention (Build:, Gate:, Release:, Maintenance:, Security:, Compliance:, Edition:, Automation:, Wiki:, Reusable:)
-              name_match = re.search(r'^name:\s*["\']([^"\']+)["\']', content, re.MULTILINE)
+              # Accept quoted (name: "..." / name: '...') and unquoted (name: ...) values
+              name_match = re.search(r'^name:\s*["\']?([^"\'#\n]+?)["\']?\s*(?:#.*)?$', content, re.MULTILINE)
               if name_match:
-                  name = name_match.group(1)
+                  name = name_match.group(1).strip()
                   valid_prefixes = ('Build:', 'Gate:', 'Release:', 'Maintenance:', 'Security:', 'Compliance:', 'Edition:', 'Automation:', 'Wiki:', 'Reusable:', 'Publish:', 'Benchmark:', 'Governance:')
                   if not name.startswith(valid_prefixes):
                       violations.append(f"{wf_name}: Invalid workflow name prefix. Name must start with one of {valid_prefixes}")
+              else:
+                  violations.append(f"{wf_name}: Missing or unparseable 'name:' field")
 
               # Check 2: Concurrency must be defined
               if 'concurrency:' not in content:

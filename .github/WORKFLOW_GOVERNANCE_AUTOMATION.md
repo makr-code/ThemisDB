@@ -20,7 +20,7 @@ Phase 3 implements two key automation layers to prevent workflow governance drif
 ./setup-git-hooks.sh
 
 # Manual setup
-git config core.hooksPath .github/pre-commit-hooks
+git config core.hooksPath .githooks
 ```
 
 ### Hook Location

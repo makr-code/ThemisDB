@@ -18,7 +18,7 @@ if [ "$CONFIGURED_PATH" = ".githooks" ]; then
     echo "   core.hooksPath = $CONFIGURED_PATH"
     echo ""
     echo "Installed hooks:"
-    ls -1 "$HOOKS_DIR"/ | grep -E '\.(sh|py)$' | sed 's/^/  - /'
+    find "$HOOKS_DIR" -maxdepth 1 -type f -executable | sort | sed 's|.*/|  - |'
 else
     echo "❌ Failed to configure git hooks"
     exit 1
