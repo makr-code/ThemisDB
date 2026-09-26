@@ -47,10 +47,6 @@ on:
       - 'hyperscaler-v*'
       - 'military-v*'
       - 'minimal-v*'
-    branches:
-      - develop
-      - community
-      - release/**
   release:
     types: [published, created]
   workflow_dispatch:
