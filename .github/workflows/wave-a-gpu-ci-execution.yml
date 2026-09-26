@@ -52,34 +52,51 @@ jobs:
         run: |
           # Phase 1: GPU Infrastructure Detection
           echo "=== Phase 1: GPU Infrastructure Detection ==="
-          
-          # Check for self-hosted GPU runner (name-based heuristic; runner.labels is not available in expressions)
-          if [[ "${{ runner.name }}" == *"gpu"* ]]; then
-            echo "GPU-capable runner detected"
+
+          GPU_AVAILABLE="false"
+          EXECUTION_MODE="cpu"
+          CUDA_VERSION="N/A"
+
+          # Primary probe: check for nvidia-smi or rocm-smi (hardware-level detection)
+          # Secondary: honour GPU_RUNNER=true env var set on self-hosted runners
+          # Tertiary: name-based heuristic for backward compatibility
+          if command -v nvidia-smi &> /dev/null && nvidia-smi &> /dev/null; then
+            echo "nvidia-smi probe succeeded — NVIDIA GPU detected"
             GPU_AVAILABLE="true"
             EXECUTION_MODE="gpu"
-            
-            # Verify CUDA installation
+          elif command -v rocm-smi &> /dev/null && rocm-smi &> /dev/null; then
+            echo "rocm-smi probe succeeded — AMD GPU detected"
+            GPU_AVAILABLE="true"
+            EXECUTION_MODE="gpu"
+          elif [[ "${GPU_RUNNER:-}" == "true" ]]; then
+            echo "GPU_RUNNER=true env var set — treating runner as GPU-capable"
+            GPU_AVAILABLE="true"
+            EXECUTION_MODE="gpu"
+          elif [[ "${{ runner.name }}" == *"gpu"* ]]; then
+            echo "Runner name contains 'gpu' — using name-based heuristic"
+            GPU_AVAILABLE="true"
+            EXECUTION_MODE="gpu"
+          else
+            echo "No GPU indicators found — using CPU fallback mode"
+          fi
+
+          if [[ "${EXECUTION_MODE}" == "gpu" ]]; then
+            # Verify CUDA installation when in GPU mode
             if command -v nvcc &> /dev/null; then
               CUDA_VERSION=$(nvcc --version | grep -oP 'release \K[0-9.]+' || echo "12.x")
-              echo "CUDA $CUDA_VERSION detected"
+              echo "CUDA ${CUDA_VERSION} detected"
             else
-              echo "WARNING: GPU runner detected but nvcc not found, falling back to CPU"
+              echo "WARNING: GPU mode set but nvcc not found; falling back to CPU"
               GPU_AVAILABLE="false"
               EXECUTION_MODE="cpu"
               CUDA_VERSION="N/A"
             fi
-          else
-            echo "Standard GitHub Actions runner detected (no GPU)"
-            GPU_AVAILABLE="false"
-            EXECUTION_MODE="cpu"
-            CUDA_VERSION="N/A"
           fi
-          
-          echo "gpu_available=${GPU_AVAILABLE}" >> $GITHUB_OUTPUT
-          echo "execution_mode=${EXECUTION_MODE}" >> $GITHUB_OUTPUT
-          echo "cuda_version=${CUDA_VERSION}" >> $GITHUB_OUTPUT
-          
+
+          echo "gpu_available=${GPU_AVAILABLE}" >> "$GITHUB_OUTPUT"
+          echo "execution_mode=${EXECUTION_MODE}" >> "$GITHUB_OUTPUT"
+          echo "cuda_version=${CUDA_VERSION}" >> "$GITHUB_OUTPUT"
+
           echo "=== Phase 1 Health Check Results ==="
           echo "GPU Available: ${GPU_AVAILABLE}"
           echo "Execution Mode: ${EXECUTION_MODE}"
