@@ -77,8 +77,8 @@ Diese Dateien sollen die menschlich lesbaren Governance-Regeln und CI-Policies e
 - In Reusable-Workflows müssen `name:` und zugehörige `summary_title` konsistent dieselbe Verantwortungs-Prefix-Konvention nutzen.
 
 Kurzbeispiele:
-- **Build-Lane**: `Build: Mainline (Linux)`, `Build: Step 2 · Windows AMD64`
-- **Validation-Lane**: `Validate: 🍎 macOS kqueue paths`, `Validate: Update build-status labels`
+- **Build-Lane**: `Build: Mainline (Linux)`, `Build: Step 2 · Windows AMD64`, `Build: Update build-status labels`
+- **Validation-Lane**: `Validate: 🍎 macOS kqueue paths`
 - **Nicht mehr verwenden**: gemischte/unscharfe Titel wie `CI — Build` neben `... Validation` ohne gemeinsames Prefix-Schema
 
 ## Best Practices
@@ -309,7 +309,7 @@ Damit bleiben Ergebnisse reproduzierbar und lassen sich nach dem Lauf mit
 Alle Repository-Labels sind in `.github/labels.yml` definiert (Name, Farbe, Beschreibung, Typ).
 Der Workflow `maintenance-housekeeping.yml` synchronisiert diese Labels wöchentlich und bei Änderungen
 an `.github/labels.yml`. Labels dürfen nur in `.github/labels.yml` hinzugefügt oder geändert werden.
-`maintenance-labels.yml` ist durch die Konsolidierung in `maintenance-housekeeping.yml` ersetzt.
+`maintenance-labels.yml` wurde in Sprint-8-Konsolidierung ersetzt und ist nicht mehr als aktive Workflow-Datei im Repository vorhanden.
 
 Usability-Hinweis:
 - Labelnamen sind stable API fuer Automationen (Gates, Maintenance, Dashboards).

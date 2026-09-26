@@ -601,7 +601,7 @@ jobs:
   # These labels are used by branch protection rules and downstream workflows.
   # ──────────────────────────────────────────────────────────────────────────
   update-build-labels:
-    name: "Validate: Update build-status labels"
+    name: "Build: Update build-status labels"
     runs-on: ubuntu-latest
     timeout-minutes: 5
     needs:
