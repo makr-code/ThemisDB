@@ -19,63 +19,11 @@ Die maschinenlesbaren Governance-Policy-Dateien unter `.github/` sind der Index-
 
 Diese Dateien sollen die menschlich lesbaren Governance-Regeln und CI-Policies ergänzen, nicht ersetzen. Aenderungen dort muessen mit den Workflow-Guidelines und den dokumentierten Governance-Sources synchron gehalten werden.
 
-## Aktive Workflows (47)
-Die aktuelle kanonische Liste steht in `.github/WORKFLOW_REGISTRY.md`; der alte 21er-Stand war veraltet und wird hier durch den aktuellen, im Repository geltenden Zustand ersetzt.
-
-Kernliste der aktiven Workflows:
-- `.github/workflows/gate-pr-community-failclosed.yml`
-- `.github/workflows/gate-pr-edition-license.yml`
-- `.github/workflows/gate-pr-hash-sbom.yml`
-- `.github/workflows/gate-pr-plugin-boundary.yml`
-- `.github/workflows/automation-community.yml`
-- `.github/workflows/build-benchmarks.yml`
-- `.github/workflows/benchmark-performance-gate.yml`
-- `.github/workflows/reusable-benchmark-runner.yml`
-- `.github/workflows/build-mainline.yml`
-- `.github/workflows/build-clang-fast.yml`
-- `.github/workflows/build-content-regression.yml`
-- `.github/workflows/build-llm-inference.yml`
-- `.github/workflows/gate-pr-core.yml`
-- `.github/workflows/gate-pr-doxygen-governance.yml`
-- `.github/workflows/gate-pr-doc-metadata.yml`
-- `.github/workflows/gate-pr-primary-doc-structure.yml`
-- `.github/workflows/gate-pr-module-doxygen-xml.yml`
-- `.github/workflows/release-build-matrix.yml`
-- `.github/workflows/release-mainline.yml`
-- `.github/workflows/wiki-pr-gate.yml`
-- `.github/workflows/build-widget.yml`
-- `.github/workflows/reusable-cmake-build.yml`
-- `.github/workflows/security-codeql.yml`
-- `.github/workflows/compliance-supply-chain.yml`
-- `.github/workflows/build-ollama-router.yml`
-- `.github/workflows/gate-copilot-regression.yml`
-- `.github/workflows/copilot-code-review.yml`
-- `.github/workflows/wiki-pr-gate.yml`
-- `.github/workflows/publish-wiki.yml`
-- `.github/workflows/release-docker-image.yml`
-- `.github/workflows/edition-hyperscaler-ci.yml`
-- `.github/workflows/security-fortify.yml`
-- `.github/workflows/security-fuzzing.yml`
-- `.github/workflows/build-sanitizer-nightly.yml`
-- `.github/workflows/compliance-governance-gates.yml`
-- `.github/workflows/maintenance-ai-working.yml`
-- `.github/workflows/maintenance-build-issues.yml`
-- `.github/workflows/maintenance-ci-health.yml`
-- `.github/workflows/maintenance-docs.yml`
-- `.github/workflows/maintenance-soll-ist-gap-issues.yml`
-- `.github/workflows/maintenance-issues.yml`
-- `.github/workflows/maintenance-issue-recommendations.yml`
-  — Recommend-only Issue Triage: kommentiert offene Issues mit merged-PR-Evidenz und schliesst nie automatisch
-- `.github/workflows/maintenance-labels.yml`
-- `.github/workflows/maintenance-housekeeping.yml`
-- `.github/workflows/maintenance-pr-failure-diagnosis.yml`
-- `.github/workflows/maintenance-workflow-guardrails-observe.yml`
-- `.github/workflows/release-changelog.yml`
-- `.github/workflows/reusable-status-flags-and-issues.yml`
-- `.github/workflows/security-consolidated.yml`
-- `.github/workflows/security-pentest-quarterly.yml`
-- `.github/workflows/gate-distributed-knowledge.yml`
-- `.github/workflows/gate-pr-version-targeting.yml`
+## Aktive Workflows (Source of Truth)
+- Die kanonische, gepflegte Liste steht in `.github/WORKFLOW_REGISTRY.md`.
+- Die tatsächliche aktuelle Dateimenge liegt in `.github/workflows/`.
+- Diese Guideline führt **keine** statische Workflow-Dateiliste mehr, um Drift (z. B. veraltete/duplizierte Einträge) zu vermeiden.
+- Bei Workflow-Änderungen müssen Registry und diese Guideline synchron aktualisiert werden.
 
 ## Harte Grenzen fuer neue oder reaktivierte CI
 - Default ist `kein neuer Workflow`. Bevorzuge einen neuen Job in einem bestehenden Workflow.
@@ -107,6 +55,10 @@ Kernliste der aktiven Workflows:
 - Behalte das kanonische, prefixfreie `<domain>-<purpose>[-<scope>].yml`-Schema aus `WORKFLOW_FRAMEWORK_DESIGN.md` bei.
 - Dateinamen muessen den Zweck klar beschreiben, lane-neutral bleiben und zu den registrierten Domain-Werten passen.
 - Neue oder reaktivierte Workflows bekommen nur nach Registry- und Guidelines-Update einen Dateinamen.
+- Workflow-/Job-/Summary-Namen müssen die Verantwortung klar trennen:
+  - `Build: ...` fuer Compile-/Package-orientierte Lanes
+  - `Validate: ...` fuer Test-/Policy-/Plattform-Validierungslanes
+- In Reusable-Workflows müssen `name:` und zugehörige `summary_title` konsistent dieselbe Verantwortungs-Prefix-Konvention nutzen.
 
 ## Best Practices
 - Trigger nur fuer reale Gates/Release-Lanes definieren (keine Schatten-CI).
@@ -334,7 +286,7 @@ Damit bleiben Ergebnisse reproduzierbar und lassen sich nach dem Lauf mit
 
 ### Kanonische Label-Definitionen
 Alle Repository-Labels sind in `.github/labels.yml` definiert (Name, Farbe, Beschreibung, Typ).
-Der Workflow `maintenance-labels.yml` synchronisiert diese Labels wöchentlich und bei Änderungen
+Der Workflow `maintenance-housekeeping.yml` synchronisiert diese Labels wöchentlich und bei Änderungen
 an `.github/labels.yml`. Labels dürfen nur in `.github/labels.yml` hinzugefügt oder geändert werden.
 
 ### Milestone-Automation (kanonisch)

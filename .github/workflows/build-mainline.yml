@@ -130,7 +130,7 @@ jobs:
   # ── Step 2: Cross-architecture layout lane ───────────────────────────────
   # Keeps platform/architecture jobs visible side-by-side in GitHub UI.
   step2-linux-amd64:
-    name: "Step 2 · Linux AMD64"
+    name: "Build: Step 2 · Linux AMD64"
     needs: mark-build-pending
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
@@ -146,10 +146,10 @@ jobs:
         cmake -S . -B build-step2-linux-amd64 -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       build_command: >-
         cmake --build build-step2-linux-amd64 --target themis_base --parallel 8
-      summary_title: "Step 2 · Linux AMD64"
+      summary_title: "Build: Step 2 · Linux AMD64"
 
   step2-linux-arm64:
-    name: "Step 2 · Linux ARM64"
+    name: "Build: Step 2 · Linux ARM64"
     needs: mark-build-pending
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
@@ -165,10 +165,10 @@ jobs:
         cmake -S . -B build-step2-linux-arm64 -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       build_command: >-
         cmake --build build-step2-linux-arm64 --target themis_base --parallel 8
-      summary_title: "Step 2 · Linux ARM64"
+      summary_title: "Build: Step 2 · Linux ARM64"
 
   step2-windows-amd64:
-    name: "Step 2 · Windows AMD64"
+    name: "Build: Step 2 · Windows AMD64"
     needs: mark-build-pending
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
@@ -184,10 +184,10 @@ jobs:
         cmake --preset windows-release -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DVCPKG_BUILD_TYPE=release -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       build_command: >-
         cmake --build --preset windows-release --target themis_base --parallel 16
-      summary_title: "Step 2 · Windows AMD64"
+      summary_title: "Build: Step 2 · Windows AMD64"
 
   step2-macos:
-    name: "Step 2 · macOS"
+    name: "Build: Step 2 · macOS"
     needs: mark-build-pending
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
@@ -203,10 +203,10 @@ jobs:
         cmake -S . -B build-step2-macos -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON -DTHEMIS_DIAGNOSTIC_MODE=ON
       build_command: >-
         cmake --build build-step2-macos --target themis_base --parallel 8
-      summary_title: "Step 2 · macOS"
+      summary_title: "Build: Step 2 · macOS"
 
   step2-architecture-summary:
-    name: "Step 2 · Architecture Summary"
+    name: "Validate: Step 2 · Architecture Summary"
     needs:
       - step2-linux-amd64
       - step2-linux-arm64
@@ -216,7 +216,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Summarize Step 2 architecture lanes
+      - name: "Validate: Summarize Step 2 architecture lanes"
         shell: bash
         run: |
           {
@@ -270,7 +270,7 @@ jobs:
         build/ctest-results.xml
         build/ctest-output.txt
       artifact_retention_days: '7'
-      summary_title: Build: Mainline
+      summary_title: "Build: Mainline"
 
   # ── macOS kqueue path validation ──────────────────────────────────────────
   # Validates that kqueue-backed file watchers (ConfigFileWatcher,
@@ -285,10 +285,10 @@ jobs:
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
 
     steps:
-      - name: Validate: Print macOS kqueue job context
+      - name: "Validate: Print macOS kqueue job context"
         run: |
           echo "============================================================"
-          echo " Build: Mainline  |  macOS kqueue Validation Job"
+          echo "  Build: Mainline  |  Validate: macOS kqueue paths"
           echo "============================================================"
           echo "  Trigger  : ${{ github.event_name }}"
           echo "  SHA      : ${{ github.sha }}"
@@ -601,7 +601,7 @@ jobs:
   # These labels are used by branch protection rules and downstream workflows.
   # ──────────────────────────────────────────────────────────────────────────
   update-build-labels:
-    name: Update build-status labels
+    name: "Validate: Update build-status labels"
     runs-on: ubuntu-latest
     timeout-minutes: 5
     needs:
