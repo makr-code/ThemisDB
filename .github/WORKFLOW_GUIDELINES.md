@@ -309,6 +309,7 @@ Damit bleiben Ergebnisse reproduzierbar und lassen sich nach dem Lauf mit
 Alle Repository-Labels sind in `.github/labels.yml` definiert (Name, Farbe, Beschreibung, Typ).
 Der Workflow `maintenance-housekeeping.yml` synchronisiert diese Labels wöchentlich und bei Änderungen
 an `.github/labels.yml`. Labels dürfen nur in `.github/labels.yml` hinzugefügt oder geändert werden.
+`maintenance-labels.yml` ist durch die Konsolidierung in `maintenance-housekeeping.yml` ersetzt.
 
 Usability-Hinweis:
 - Labelnamen sind stable API fuer Automationen (Gates, Maintenance, Dashboards).
