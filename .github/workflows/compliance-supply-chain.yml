@@ -554,7 +554,7 @@ jobs:
       security-events: write
     env:
       EVIDENCE_WINDOW_DAYS: ${{ github.event.inputs.evidence_window_days || '7' }}
-      THEMIS_ADMIN_ENDPOINT: 'https://localhost:8443'
+      THEMIS_ADMIN_ENDPOINT: 'http://localhost:18080'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
@@ -571,12 +571,20 @@ jobs:
           fi
           docker compose --project-directory "${GITHUB_WORKSPACE}" -f "${GITHUB_WORKSPACE}/docker-compose.yml" build themis
           docker compose --project-directory "${GITHUB_WORKSPACE}" -f "${GITHUB_WORKSPACE}/docker-compose.yml" up -d --no-build themis
+          ready=0
           for _ in $(seq 1 30); do
-            if curl -sk "${THEMIS_ADMIN_ENDPOINT}/v1/health" | grep -q "ok"; then
-              echo "ThemisDB ready"; break
+            if curl -sf "${THEMIS_ADMIN_ENDPOINT}/api/health" | grep -qiE '"ok"|"HEALTHY"'; then
+              echo "ThemisDB ready"
+              ready=1
+              break
             fi
             sleep 2
           done
+          if [ "${ready}" -ne 1 ]; then
+            docker compose --project-directory "${GITHUB_WORKSPACE}" -f "${GITHUB_WORKSPACE}/docker-compose.yml" logs --tail=200 themis || true
+            echo "::error::ThemisDB did not become ready at ${THEMIS_ADMIN_ENDPOINT}/api/health"
+            exit 1
+          fi
 
       - name: Export SOC 2 evidence bundle
         env:
