@@ -2,9 +2,9 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-09-26
+> Last Updated: 2026-09-26 (Phase 3: Added gate-workflow-guidelines.yml)
 > Status: active
-> Total Workflows: 82 (verified Sept 26, 2026)
+> Total Workflows: 83 (verified Sept 26, 2026)
 
 ## Zielbild
 
@@ -62,6 +62,7 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | `gate-pr-rag-phase10.yml` | Gate: PR RAG Phase 10 (Cost Optimizer) | specialized |
 | `gate-wave-closure.yml` | Gate: Wave Closure Governance (Wave exit criteria validation) | governance |
 | `gate-distributed-knowledge.yml` | Gate: Module Validation [distributed_knowledge] (Module-specific gate) | module-specific |
+| `gate-workflow-guidelines.yml` | Gate: Workflow Guidelines Compliance (Automated workflow policy validation) | governance |
 
 ### 3. RELEASE & PUBLICATION (20 Workflows)
 
@@ -137,12 +138,12 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | Category | Total | Status |
 |----------|-------|--------|
 | **BUILD & MAINLINE** | 13 | ✅ All documented |
-| **GATES: PR VALIDATION** | 20 | ✅ All documented |
+| **GATES: PR VALIDATION** | 21 | ✅ All documented |
 | **RELEASE & PUBLICATION** | 20 | ✅ All documented |
 | **MAINTENANCE & GOVERNANCE** | 19 | ✅ All documented |
 | **SECURITY** | 6 | ✅ All documented |
 | **REUSABLE WORKFLOWS** | 4 | ✅ All documented |
-| **TOTAL** | **82** | ✅ **100% Registry Sync** |
+| **TOTAL** | **83** | ✅ **100% Registry Sync** |
 
 ## Critical Governance Rules (from WORKFLOW_GUIDELINES.md)
 
