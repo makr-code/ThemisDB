@@ -66,6 +66,7 @@ RUN --mount=type=cache,id=apt-cache-base-${TARGETARCH},target=/var/cache/apt,sha
     git -C ${VCPKG_ROOT} init && \
     git -C ${VCPKG_ROOT} config user.email "vcpkg-build@docker" && \
     git -C ${VCPKG_ROOT} config user.name "vcpkg Docker Build" && \
+    test -d ${VCPKG_ROOT}/versions || (echo "ERROR: vcpkg versions/ directory missing from tarball at ${VCPKG_COMMIT}"; exit 1) && \
     git -C ${VCPKG_ROOT} add versions && \
     git -C ${VCPKG_ROOT} commit -m "vcpkg baseline from tarball at ${VCPKG_COMMIT}" --quiet && \
     git -C ${VCPKG_ROOT} rev-parse HEAD > /opt/vcpkg-baseline-sha.txt && \
@@ -145,6 +146,7 @@ RUN set -eux; \
         echo "ERROR: vcpkg-${EDITION}.json not found!"; exit 1; \
     fi && \
     BASELINE_SHA=$(cat /opt/vcpkg-baseline-sha.txt) && \
+    test -n "${BASELINE_SHA}" || (echo "ERROR: /opt/vcpkg-baseline-sha.txt is empty or missing"; exit 1) && \
     echo "Patching builtin-baseline to synthetic SHA: ${BASELINE_SHA}" && \
     sed -i "s/\"builtin-baseline\":[[:space:]]*\"[^\"]*\"/\"builtin-baseline\": \"${BASELINE_SHA}\"/" vcpkg.json && \
     ARCH="${TARGETARCH:-}"; \
