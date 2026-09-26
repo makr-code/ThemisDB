@@ -335,14 +335,14 @@ TEST_F(QdrantAdapterProductionTest, GetPendingCount) {
 TEST_F(QdrantAdapterProductionTest, BatchConfigRoundtrip) {
     BatchConfig config;
     config.batch_size = 1000;
-    config.flush_interval_ms = 5000;
-    
+    config.timeout_ms = 5000;
+
     auto set_result = adapter_->set_batch_config(config);
     EXPECT_TRUE(set_result.is_ok());
-    
+
     auto retrieved = adapter_->get_batch_config();
     EXPECT_EQ(retrieved.batch_size, config.batch_size);
-    EXPECT_EQ(retrieved.flush_interval_ms, config.flush_interval_ms);
+    EXPECT_EQ(retrieved.timeout_ms, config.timeout_ms);
 }
 
 // ────────────────────────────────────────────────────────────────────────────

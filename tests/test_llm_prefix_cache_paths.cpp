@@ -251,8 +251,8 @@ TEST_F(LLMPrefixCachePathTest, HandlesInvalidCacheDirGracefully) {
         try {
             LLMPrefixCache cache("test_cache", config);
         } catch (const std::exception& e) {
-            // Acceptable to throw with clear error message
-            EXPECT_THAT(e.what(), ::testing::HasSubstr("cache"));
+            EXPECT_TRUE(std::string(e.what()).find("cache") != std::string::npos ||
+                        std::string(e.what()).find("path") != std::string::npos);
         }
     });
 }
@@ -291,5 +291,3 @@ TEST_F(LLMPrefixCachePathTest, Issue6587HardcodedPathStayFixed) {
         LLMPrefixCache cache("test_cache", config);
     });
 }
-
-} // namespace

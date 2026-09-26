@@ -316,5 +316,3 @@ TEST_F(ModelDownloaderSecurityTest, NormalDownloadStillWorks) {
     // Would normally call downloadFromOllama(config)
     // Should work without security rejections for valid inputs
 }
-
-} // namespace

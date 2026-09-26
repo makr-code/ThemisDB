@@ -224,5 +224,3 @@ TEST_F(AIOrchestrationDeadlockTest, Issue6587DeadlockStayFixed) {
     
     // Expected: Pass without timeout, no deadlock detected
 }
-
-} // namespace
