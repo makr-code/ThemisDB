@@ -16,6 +16,63 @@ Die kanonische Liste aktiver Workflows steht in `.github/WORKFLOW_REGISTRY.md`.
 - **Ich will lokal vor PR pruefen** → `## Lokales Testsystem fuer GitHub Actions` + `## Troubleshooting`
 - **Ich will wissen, welche Workflows kanonisch sind** → `.github/WORKFLOW_REGISTRY.md` (Source of Truth)
 
+## Thematische Workflow-Orchestrierung (Mermaid)
+Hinweis: Die Grafik ist eine thematische Übersicht der Lanes; die kanonische und vollständige Workflow-Liste bleibt `.github/WORKFLOW_REGISTRY.md`.
+
+```mermaid
+flowchart TD
+    E[Trigger Events<br/>push / pull_request / schedule / workflow_dispatch]
+
+    subgraph B[Build Lanes]
+      B1[build-mainline.yml]
+      B2[build-clang-fast.yml]
+      B3[build-content-regression.yml]
+    end
+
+    subgraph V[Validate / Gate Lanes]
+      V1[gate-pr-core.yml]
+      V2[gate-pr-merge-readiness.yml]
+      V3[gate-pr-doxygen-governance.yml]
+      V4[gate-pr-doc-metadata.yml]
+    end
+
+    subgraph G[Governance / Compliance]
+      G1[compliance-governance-gates.yml]
+      G2[compliance-supply-chain.yml]
+      G3[reusable-status-flags-and-issues.yml]
+    end
+
+    subgraph S[Security]
+      S1[security-codeql.yml]
+      S2[security-consolidated.yml]
+      S3[security-dast-zap.yml]
+    end
+
+    subgraph R[Release]
+      R1[release-mainline.yml]
+      R2[release-build-matrix.yml]
+      R3[release-docker-image.yml]
+      R4[release-winget.yml]
+    end
+
+    subgraph M[Maintenance]
+      M1[maintenance-housekeeping.yml]
+      M2[maintenance-ci-health.yml]
+      M3[maintenance-build-issues.yml]
+      M4[maintenance-docs.yml]
+    end
+
+    E --> B
+    E --> V
+    E --> G
+    E --> S
+    B --> G
+    V --> G
+    G --> R
+    G --> M
+    S --> G
+```
+
 ## Schnell-Checkliste vor Workflow-Aenderungen
 1. Zweck bestaetigen: bestehender Workflow-Job statt neuer Datei, wenn moeglich.
 2. Trigger enger schneiden (`branches` + `paths`), keine breiten Sammelmuster.
