@@ -8,6 +8,13 @@ name: "Gate: Workflow Guidelines Compliance"
 
 on:
   pull_request:
+    branches:
+      - develop
+      - community
+      - enterprise
+      - hyperscaler
+      - military
+      - minimal
     paths:
       - '.github/workflows/*.yml'
       - '.github/WORKFLOW_GUIDELINES.md'
@@ -33,7 +40,7 @@ permissions:
 
 concurrency:
   group: gate-workflow-guidelines-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   validate-workflow-guidelines:

@@ -16,7 +16,7 @@ permissions:
 
 concurrency:
   group: copilot-code-review-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   # The job name must remain `copilot-setup-steps` so Copilot can detect it.

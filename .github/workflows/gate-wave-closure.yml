@@ -28,7 +28,7 @@ permissions:
 
 concurrency:
   group: gate-wave-closure-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   validate-wave-closure-packages:

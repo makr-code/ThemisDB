@@ -13,6 +13,12 @@ on:
       - hyperscaler
       - military
       - minimal
+    paths:
+      - 'VERSIONING.md'
+      - 'ROADMAP.md'
+      - 'CHANGELOG.md'
+      - 'RELEASE_STRATEGY.md'
+      - '.github/workflows/gate-pr-version-targeting.yml'
 
 permissions:
   pull-requests: read
@@ -21,7 +27,7 @@ permissions:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   validate-target-version:

@@ -23,7 +23,7 @@ on:
 
 concurrency:
   group: primary-doc-structure-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 permissions:
   contents: read

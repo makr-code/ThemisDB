@@ -27,7 +27,7 @@ on:
 
 concurrency:
   group: rag-security-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 permissions:
   pull-requests: read

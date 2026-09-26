@@ -51,7 +51,7 @@ on:
 
 concurrency:
   group: gate-pr-merge-readiness-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 permissions:
   contents: read

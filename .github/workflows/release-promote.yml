@@ -73,7 +73,7 @@ permissions:
 
 concurrency:
   group: ci-release-promote-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
 
