@@ -17,6 +17,19 @@ Production ingestion runtime exists across multi-source connectors, orchestratio
 - [~] route filesystem ingestion through `WorkflowEngine` profile execution path when engine is configured (Target: Q4 2026)
   - [~] extend parity path: `workflow_engine_mode=filesystem` now enables workflow-based execution for plugin/object-storage sources that provide filesystem-backed locations (Target: Q4 2026)
   - [x] source-integrity remediation for workflow routing core completed: compile-breaking token corruption in `workflow_engine.cpp` and malformed method scoping/call tokens in `ingestion_manager.cpp` removed; workflow dispatch path is source-validated again (Delivered: 2026-09-07)
+- [~] **Phase D: Embedding & Index Version Governance** (Target: Q4 2026)
+  - **Specification Document**: `src/ingestion/EMBEDDING_VERSION_GOVERNANCE.md` (2026-09-24 CREATED)
+  - **Core Ingestion Changes**:
+    - Reindex decision engine triggered on embedding model/dimension/chunking changes
+    - Dual-read query-time comparison (read current index, compare against candidate index during canary)
+    - Safe embedding model migration without requiring full re-ingestion
+  - **Index Manifest V1 Schema**: `src/index/INDEX_MANIFEST_V1_SCHEMA.json` for RocksDB persistence
+  - **Acceptance Criteria**:
+    - Reindex triggers fire correctly on all 4 conditions (model_id, embedding_dim, chunking_profile_id, schema major version)
+    - Dual-read comparison produces bit-identical validation results
+    - Index manifest RocksDB persistence validated with data durability tests
+  - **CMake Feature Gate**: `THEMIS_EMBEDDING_VERSION_GOVERNANCE` enables canary deployment pattern
+  - **CI Gate**: `.github/workflows/gate-pr-rag-version.yml` validates version governance on ingestion changes
 
 ## Planned Features
 

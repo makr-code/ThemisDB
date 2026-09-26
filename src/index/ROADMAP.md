@@ -33,6 +33,24 @@ registered as first-class `AnnScopeKind` values with hot/cold routing and observ
 - [~] GPU vector index CUDA backend: L2, cosine, inner-product kernels (Target: Q4 2026)
 - [~] GPU vector index HIP backend: AMD ROCm support with feature-parity (Target: Q4 2026)
 - [~] hybrid retrieval rollout Phase B entry: buffer lifecycle RAII + concurrency hardening (Target: Q3 2026)
+- [~] **Phase D: Index Manifest V1 Schema & Version Governance** (Target: Q4 2026)
+   - **Specification Document**: `src/index/INDEX_MANIFEST_V1_SCHEMA.json` — JSON Schema for index metadata persistence (2026-09-24 CREATED)
+   - **Core Index Changes**:
+     - Index manifest persistence in RocksDB column family `"index_manifest"`
+     - Embedding/chunking/schema version tracking with history
+     - Reindex trigger detection (model_id/embedding_dim/chunking_profile_id/schema major version changes)
+     - Version-aware query routing (current index vs candidate index in canary deployment)
+   - **Acceptance Criteria**:
+     - Manifest JSON Schema valid and enforces all required fields
+     - RocksDB persistence reads/writes produce bit-identical manifests
+     - Reindex detection logic correctly identifies all 4 trigger conditions
+     - Version history archival maintains 30-day retention
+   - **Schema Definitions**:
+     - `IndexVersion` — version numbers, timestamps, metadata
+     - `EmbeddingMetadata` — model ID, dimension, hash
+     - `ChunkingMetadata` — profile ID, parameters
+     - `IndexSchema` — schema version with breaking change tracking
+   - **CI Gate**: `.github/workflows/gate-pr-rag-version.yml` validates manifest schema on index changes
 
 ## Planned Features
 

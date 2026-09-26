@@ -27,6 +27,7 @@
 #include <spdlog/spdlog.h>
 #include <stdexcept>
 #include <string>
+#include <thread>
 #include <vector>
 
 namespace themis {
