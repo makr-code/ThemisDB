@@ -105,7 +105,7 @@ struct AutoFailoverConfig {
     uint32_t adaptive_check_samples{20};
     std::chrono::milliseconds adaptive_check_interval_min{100};
     std::chrono::milliseconds adaptive_check_interval_max{5000};
-    uint32_t gc_grace_failure_count{3};
+    uint32_t gc_grace_failure_count{0};
     std::chrono::milliseconds gc_grace_window{1000};
     std::chrono::milliseconds gc_grace_period{2000};
 

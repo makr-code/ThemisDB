@@ -258,7 +258,7 @@ public:
 
 private:
     FederationConfig                         config_;
-    uint64_t                                 current_round_{1};
+    uint64_t                                 current_round_{0};
     std::map<std::string, EncryptedGradient> pending_gradients_; // shard_id → gradient
     std::optional<GlobalAdapterDelta>        last_delta_;
     std::function<void(const GlobalAdapterDelta&)> delta_callback_;

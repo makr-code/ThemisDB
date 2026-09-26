@@ -70,6 +70,11 @@ DisasterRecoveryResult DisasterRecoveryManager::executePlan(const DisasterRecove
         result.duration = std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::steady_clock::now() - started_at);
         updateStatistics(result);
+
+        if (!plan.plan_id.empty()) {
+            std::lock_guard<std::mutex> idem_lock(idempotency_mutex_);
+            completed_plans_[plan.plan_id] = result;
+        }
         return result;
     }
 

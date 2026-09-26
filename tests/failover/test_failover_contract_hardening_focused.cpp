@@ -185,17 +185,27 @@ TEST(FailoverContractHardeningFCH03, OldLeaderDeposedOnHigherEpoch) {
         nodes.push_back({"n" + std::to_string(i)});
 
     runElection(nodes, 1u);
-    int old_leader = -1;
-    for (int i = 0; i < 3; ++i) {
-        if (nodes[i].role == NodeRole::Leader) { old_leader = i; break; }
+    std::size_t old_leader_index = std::numeric_limits<std::size_t>::max();
+    for (std::size_t i = 0; i < nodes.size(); ++i) {
+        if (nodes[i].role == NodeRole::Leader) {
+            old_leader_index = i;
+            break;
+        }
     }
-    ASSERT_GE(old_leader, 0);
+    ASSERT_NE(old_leader_index, std::numeric_limits<std::size_t>::max());
+    const std::string old_leader_id = nodes[old_leader_index].node_id;
 
-    // Simulate new election with higher epoch
+    // Simulate a fresh election at a higher epoch where the old leader is not
+    // selected again. Rotating the candidate order ensures the previous winner is
+    // no longer the first alive node and therefore must step down.
+    std::rotate(nodes.begin(), nodes.begin() + ((old_leader_index + 1) % nodes.size()), nodes.end());
     runElection(nodes, 2u);
 
-    // Old leader must no longer hold Leader role
-    EXPECT_NE(nodes[old_leader].role, NodeRole::Leader)
+    const auto old_leader_it = std::find_if(nodes.begin(), nodes.end(),
+        [&](const MockNode& n) { return n.node_id == old_leader_id; });
+    ASSERT_NE(old_leader_it, nodes.end())
+        << "Original leader should still exist in the node set";
+    EXPECT_NE(old_leader_it->role, NodeRole::Leader)
         << "Old leader must be deposed when a higher epoch is observed";
     EXPECT_EQ(countLeaders(nodes), 1);
 }

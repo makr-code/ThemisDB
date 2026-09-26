@@ -1133,6 +1133,10 @@ bool AutoFailoverManager::checkAndApplyGcGrace(const std::string& node_id) {
         spdlog::debug("GC grace period active for node {}", node_id);
         return true;
     }
+    if (cfg.gc_grace_failure_count == 0 || cfg.gc_grace_window <= std::chrono::milliseconds::zero()
+        || cfg.gc_grace_period <= std::chrono::milliseconds::zero()) {
+        return false;
+    }
     recent_failure_timestamps_.push_back(now);
     const auto window_start = now - cfg.gc_grace_window;
     recent_failure_timestamps_.erase(
@@ -1171,9 +1175,11 @@ void AutoFailoverManager::emitDiagnostic(FailoverErrorCode code,
                 break;
             case FailoverErrorCode::HEARTBEAT_MISSED:
                 event_type = FailoverEventType::HEARTBEAT_MISSED;
+                emitEvent(FailoverEventType::FAILOVER_CANCELLED, node_id, detail);
                 break;
             case FailoverErrorCode::SPLIT_BRAIN_DETECTED:
                 event_type = FailoverEventType::SPLIT_BRAIN_RISK_DETECTED;
+                emitEvent(FailoverEventType::FAILOVER_CANCELLED, node_id, detail);
                 break;
             case FailoverErrorCode::NODE_REJOIN_FAILED:
                 event_type = FailoverEventType::NODE_REJOIN_FAILED;

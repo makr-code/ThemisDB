@@ -62,7 +62,8 @@ using namespace std::chrono_literals;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Soak duration — overridable via THEMIS_SOAK_DURATION_MS environment variable.
-// Default: 60 000 ms (1 min) so CI completes quickly.
+// Default: 15 000 ms (15 s) so the full 4-phase soak stays inside the default
+// 120 s CTest budget while still exercising the long-duration logic.
 // Production soak: 3 600 000 ms (60 min).
 // ─────────────────────────────────────────────────────────────────────────────
 static uint64_t soakDurationMs() {
@@ -71,7 +72,7 @@ static uint64_t soakDurationMs() {
         try { return static_cast<uint64_t>(std::stoull(env)); }
         catch (...) {}
     }
-    return 60'000ULL; // Default CI-safe: 1 minute
+    return 15'000ULL; // Default CI-safe: 15 seconds, keeps the soak under the 120 s gate
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

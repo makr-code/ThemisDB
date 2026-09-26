@@ -85,10 +85,6 @@ bool EpochFencingConfig::validate() const {
         spdlog::error("[EpochFencingConfig] shard_id must not be empty");
         return false;
     }
-    if (node_id.empty()) {
-        spdlog::error("[EpochFencingConfig] node_id must not be empty");
-        return false;
-    }
     if (stonith_timeout_ms.count() <= 0) {
         spdlog::error("[EpochFencingConfig] stonith_timeout_ms must be > 0");
         return false;
