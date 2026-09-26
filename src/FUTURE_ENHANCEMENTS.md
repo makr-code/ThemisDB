@@ -1,6 +1,6 @@
 # Future Enhancements - Source Root
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-09-24 -->
 <!-- Links: README.md · ROADMAP.md · ARCHITECTURE.md -->
 
 ## Scope

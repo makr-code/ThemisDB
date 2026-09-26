@@ -121,6 +121,18 @@ public:
     /**
      * @brief Generate a @c ProcessModelRecord from a free-text description.
      *
+     * Uses the default @c Config values.
+     *
+     * @param description  Natural language process description (DE or EN).
+     * @return             {true, record} on success; {false, {}} on failure.
+     */
+    [[nodiscard]] std::pair<bool, ProcessModelRecord> generateFromDescription(
+        std::string_view description
+    ) const;
+
+    /**
+     * @brief Generate a @c ProcessModelRecord from a free-text description.
+     *
      * Calls the LLM backend up to @c Config::max_retries times, validating
      * the result after each attempt and feeding errors back to the LLM.
      *
@@ -130,7 +142,23 @@ public:
      */
     [[nodiscard]] std::pair<bool, ProcessModelRecord> generateFromDescription(
         std::string_view description,
-        const Config&    cfg = {}
+        const Config&    cfg
+    ) const;
+
+    /**
+     * @brief Refine an existing @c ProcessModelRecord based on textual
+     *        feedback (e.g. from a user review).
+     *
+     * Uses the default @c Config values.
+     *
+     * @param existing  Current model to refine.
+     * @param feedback  Natural language correction instructions.
+     * @return          {true, refined_record} on success; {false, existing}
+     *                  on failure (original model unchanged).
+     */
+    [[nodiscard]] std::pair<bool, ProcessModelRecord> refine(
+        const ProcessModelRecord& existing,
+        std::string_view          feedback
     ) const;
 
     /**
@@ -149,7 +177,7 @@ public:
     [[nodiscard]] std::pair<bool, ProcessModelRecord> refine(
         const ProcessModelRecord& existing,
         std::string_view          feedback,
-        const Config&             cfg = {}
+        const Config&             cfg
     ) const;
 
     // ── Validation helpers (also usable standalone) ────────────────────────

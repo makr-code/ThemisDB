@@ -46,6 +46,25 @@ Production-grade security stack with transport/auth/access-control, encryption/k
       - [x] Export latency gate: ≤500ms per 1000-event batch (p99) (2026-08-18)
       - [x] Recovery time gate: ≤2s after disconnect (p99) (2026-08-18)
       - [x] Gate manifest baseline: benchmarks/wave9/audit_export_gate_manifest.json (2026-08-18)
+  - [~] **Phase 4b Retrieval Policy Enforcement (Deny-by-Default Security Guardrails)** (Target: Q4 2026)
+    - **Specification Document**: `src/security/RETRIEVAL_POLICY_ENFORCEMENT.md` (2026-09-24 CREATED)
+    - **Core Security Components**:
+      - `RetrievalPolicyEnforcer` — tenant-isolated policy validation with multi-tenant access control
+      - `PolicyContextGate` — three-stage gate (credentials validation → policy fetch → enforcement) with hard DENY on missing policy
+      - `TenantRetrievalPolicy` schema for multi-tenant retrieval control
+      - OTLP audit trail logging all access (tenant_id, policy_version, enforcement_result, timestamp, request_id)
+    - **Key Security Guarantees**:
+      - **Tenant Isolation**: Per-tenant credential and policy boundaries with zero cross-tenant leakage
+      - **Deny-by-Default**: Missing policy → hard DENY via `NullRetrievalBackend` (deterministic exception, never silent fallback)
+      - **Policy Expiration**: Expired policies automatically denied without grace period
+      - **Audit Completeness**: All retrieval access logged via OTLP with complete context trail
+    - **Test Coverage**: 13+ security-focused tests covering tenant isolation, policy expiration, audit trail completeness
+    - **Acceptance Criteria**:
+      - 0 cross-tenant data leaks verified via isolation test suite
+      - Deny-by-default semantics enforced on all control paths (no silent fallbacks)
+      - OTLP audit trail logs all 6 required fields per retrieval access
+      - Policy expiration enforcement validated via time-mocking tests
+    - **CI Gate**: `.github/workflows/gate-pr-rag-security.yml` validates security guardrail compliance on security/RAG changes
 
 ## Planned Features
 

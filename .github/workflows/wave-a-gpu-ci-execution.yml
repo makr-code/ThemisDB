@@ -29,7 +29,7 @@ on:
 
 concurrency:
   group: wave-a-gpu-ci-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   # Phase 1: Health Check & Environment Detection
@@ -52,34 +52,51 @@ jobs:
         run: |
           # Phase 1: GPU Infrastructure Detection
           echo "=== Phase 1: GPU Infrastructure Detection ==="
-          
-          # Check for self-hosted GPU runner (gpu-cuda label)
-          if [[ "${{ runner.name }}" == *"gpu"* ]] || [[ "${{ runner.labels }}" == *"gpu-cuda"* ]]; then
-            echo "GPU-capable runner detected"
+
+          GPU_AVAILABLE="false"
+          EXECUTION_MODE="cpu"
+          CUDA_VERSION="N/A"
+
+          # Primary probe: check for nvidia-smi or rocm-smi (hardware-level detection)
+          # Secondary: honour GPU_RUNNER=true env var set on self-hosted runners
+          # Tertiary: name-based heuristic for backward compatibility
+          if command -v nvidia-smi &> /dev/null && nvidia-smi &> /dev/null; then
+            echo "nvidia-smi probe succeeded — NVIDIA GPU detected"
             GPU_AVAILABLE="true"
             EXECUTION_MODE="gpu"
-            
-            # Verify CUDA installation
+          elif command -v rocm-smi &> /dev/null && rocm-smi &> /dev/null; then
+            echo "rocm-smi probe succeeded — AMD GPU detected"
+            GPU_AVAILABLE="true"
+            EXECUTION_MODE="gpu"
+          elif [[ "${GPU_RUNNER:-}" == "true" ]]; then
+            echo "GPU_RUNNER=true env var set — treating runner as GPU-capable"
+            GPU_AVAILABLE="true"
+            EXECUTION_MODE="gpu"
+          elif [[ "${{ runner.name }}" == *"gpu"* ]]; then
+            echo "Runner name contains 'gpu' — using name-based heuristic"
+            GPU_AVAILABLE="true"
+            EXECUTION_MODE="gpu"
+          else
+            echo "No GPU indicators found — using CPU fallback mode"
+          fi
+
+          if [[ "${EXECUTION_MODE}" == "gpu" ]]; then
+            # Verify CUDA installation when in GPU mode
             if command -v nvcc &> /dev/null; then
               CUDA_VERSION=$(nvcc --version | grep -oP 'release \K[0-9.]+' || echo "12.x")
-              echo "CUDA $CUDA_VERSION detected"
+              echo "CUDA ${CUDA_VERSION} detected"
             else
-              echo "WARNING: GPU runner detected but nvcc not found, falling back to CPU"
+              echo "WARNING: GPU mode set but nvcc not found; falling back to CPU"
               GPU_AVAILABLE="false"
               EXECUTION_MODE="cpu"
               CUDA_VERSION="N/A"
             fi
-          else
-            echo "Standard GitHub Actions runner detected (no GPU)"
-            GPU_AVAILABLE="false"
-            EXECUTION_MODE="cpu"
-            CUDA_VERSION="N/A"
           fi
-          
-          echo "gpu_available=${GPU_AVAILABLE}" >> $GITHUB_OUTPUT
-          echo "execution_mode=${EXECUTION_MODE}" >> $GITHUB_OUTPUT
-          echo "cuda_version=${CUDA_VERSION}" >> $GITHUB_OUTPUT
-          
+
+          echo "gpu_available=${GPU_AVAILABLE}" >> "$GITHUB_OUTPUT"
+          echo "execution_mode=${EXECUTION_MODE}" >> "$GITHUB_OUTPUT"
+          echo "cuda_version=${CUDA_VERSION}" >> "$GITHUB_OUTPUT"
+
           echo "=== Phase 1 Health Check Results ==="
           echo "GPU Available: ${GPU_AVAILABLE}"
           echo "Execution Mode: ${EXECUTION_MODE}"
@@ -125,7 +142,8 @@ jobs:
         shell: bash
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y -qq cmake ninja-build gcc g++ build-essential
+          sudo apt-get install -y -qq cmake ninja-build gcc g++ build-essential libboost-filesystem-dev libboost-system-dev libfmt-dev libspdlog-dev nlohmann-json3-dev
+          curl -L https://github.com/mozilla/sccache/releases/download/v0.7.7/sccache-v0.7.7-x86_64-unknown-linux-musl.tar.gz | tar -xz -C /tmp && sudo mv /tmp/sccache-v0.7.7-x86_64-unknown-linux-musl/sccache /usr/local/bin/
 
       - name: Configure CMake (GPU optional, CPU fallback)
         shell: bash
@@ -137,7 +155,7 @@ jobs:
           if [[ "${{ needs.phase1-health-check.outputs.execution_mode }}" == "gpu" ]]; then
             echo "Configuring with GPU support (CUDA 12.x)"
             cmake -GNinja \
-              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_BUILD_TYPE=Debug \
               -DTHEMIS_ENABLE_GPU=ON \
               -DTHEMIS_ENABLE_CUDA=ON \
               -DTHEMIS_DIAGNOSTIC_MODE=ON \
@@ -146,7 +164,7 @@ jobs:
           else
             echo "Configuring CPU-only mode (GPU fallback)"
             cmake -GNinja \
-              -DCMAKE_BUILD_TYPE=Release \
+              -DCMAKE_BUILD_TYPE=Debug \
               -DTHEMIS_ENABLE_GPU=OFF \
               -DTHEMIS_ENABLE_CUDA=OFF \
               -DTHEMIS_DIAGNOSTIC_MODE=ON \
@@ -158,8 +176,16 @@ jobs:
         shell: bash
         run: |
           cd build
-          ninja -j$(nproc) \
-            $(find ../src/gpu -name "*.cpp" -type f | sed 's|../||' | sed 's|\.cpp||' | sed 's|/|_|g' | awk '{print "gpu_" $0}' ORS=' ')
+          ninja -j$(nproc)
+          mapfile -t gpu_targets < <(
+            sed -n 's/^build \(cmake\/CMakeFiles\/[^:]*\/__\/src\/gpu\/[^:]*\.cpp\.o\):.*/\1/p' build.ninja | sort -u
+          )
+          if [[ "${#gpu_targets[@]}" -eq 0 ]]; then
+            echo "ERROR: No GPU object targets were generated by CMake"
+            exit 1
+          fi
+
+          cmake --build . --parallel "$(nproc)" --target "${gpu_targets[@]}"
           
           echo "✅ GPU module built (CUDA optional, CPU fallback available)"
 
@@ -183,10 +209,10 @@ jobs:
         shell: bash
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y -qq cmake ninja-build gcc g++ python3 python3-pip jq
+          sudo apt-get install -y -qq cmake ninja-build gcc g++ python3 python3-pip jq sccache libboost-filesystem-dev libboost-system-dev libfmt-dev libspdlog-dev nlohmann-json3-dev
           pip3 install -q pytest pyyaml jsonschema
 
-      - name: Run Wave A GPU tests (Execution Mode: ${{ needs.phase1-health-check.outputs.execution_mode }})
+      - name: "Run Wave A GPU tests (Execution Mode: ${{ needs.phase1-health-check.outputs.execution_mode }})"
         shell: bash
         run: |
           echo "=== Phase 3: Test Execution (Mode: ${{ needs.phase1-health-check.outputs.execution_mode }}) ==="
@@ -220,7 +246,7 @@ jobs:
 
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-results-${{ matrix.test_suite }}-${{ needs.phase1-health-check.outputs.execution_mode }}
           path: test_results_*.json
@@ -261,7 +287,7 @@ jobs:
 
       - name: Upload baseline validation report
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: baseline-validation-report
           path: phase4_validation_report.json
@@ -301,7 +327,7 @@ jobs:
       - name: Generate Phase 1 completion status
         shell: bash
         run: |
-          cat > phase1_completion_status.json << 'EOF'
+          cat > phase1_completion_status.json << EOF
           {
             "phase": 1,
             "status": "complete",
@@ -320,14 +346,13 @@ jobs:
             "cuda_reduction_achieved": "75%",
             "next_phase": 3,
             "next_phase_description": "Baseline Capture (1-2 weeks)",
-            "github_runner_info": "${{ runner.name }}",
-            "labels": "${{ runner.labels }}"
+            "github_runner_info": "${{ runner.name }}"
           }
           EOF
           cat phase1_completion_status.json
 
       - name: Upload Phase 1 completion status
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: phase1-completion-status
           path: phase1_completion_status.json

@@ -413,6 +413,13 @@ std::string ProcessModelGenerator::buildGenerationPrompt_(
 // ─────────────────────────────────────────────────────────────────────────────
 
 std::pair<bool, ProcessModelRecord> ProcessModelGenerator::generateFromDescription(
+    std::string_view description) const
+{
+    const Config default_cfg{};
+    return generateFromDescription(description, default_cfg);
+}
+
+std::pair<bool, ProcessModelRecord> ProcessModelGenerator::generateFromDescription(
     std::string_view description,
     const Config&    cfg) const
 {
@@ -462,6 +469,14 @@ std::pair<bool, ProcessModelRecord> ProcessModelGenerator::generateFromDescripti
 // ─────────────────────────────────────────────────────────────────────────────
 // refine
 // ─────────────────────────────────────────────────────────────────────────────
+
+std::pair<bool, ProcessModelRecord> ProcessModelGenerator::refine(
+    const ProcessModelRecord& existing,
+    std::string_view          feedback) const
+{
+    const Config default_cfg{};
+    return refine(existing, feedback, default_cfg);
+}
 
 std::pair<bool, ProcessModelRecord> ProcessModelGenerator::refine(
     const ProcessModelRecord& existing,
@@ -521,4 +536,3 @@ std::pair<bool, ProcessModelRecord> ProcessModelGenerator::refine(
 
 } // namespace process
 } // namespace themis
-
