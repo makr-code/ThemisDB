@@ -58,11 +58,10 @@ if ! probe_health "${ENDPOINT}"; then
 fi
 
 # ── Build auth header ──────────────────────────────────────────────────────────
-    AUTH_ARGS=(-H "Authorization: Bearer ${ADMIN_TOKEN}")
+AUTH_ARGS=()
 if [[ -n "${ADMIN_TOKEN}" ]]; then
     AUTH_ARGS=(-H "Authorization: Bearer ${ADMIN_TOKEN}")
 fi
-
 # ── Trigger evidence export ────────────────────────────────────────────────────
 echo "[soc2-evidence-export] Requesting evidence bundle (window: ${WINDOW_DAYS} days)..."
 HTTP_STATUS=$(curl -sk --write-out "%{http_code}" \
