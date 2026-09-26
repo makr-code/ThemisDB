@@ -1065,6 +1065,42 @@ if(THEMIS_ENABLE_LDAP)
         add_compile_definitions(THEMIS_HAS_LDAP=1)
         set(THEMIS_LDAP_LIBRARIES wldap32)
         set(THEMIS_LDAP_FOUND TRUE)
+    elseif(APPLE)
+        # On macOS, Apple's system libldap.dylib is a deprecated stub that does
+        # not provide OpenLDAP symbols (ldap_initialize, ldap_start_tls_s,
+        # ldap_unbind_ext_s, etc.) for arm64.  Searching default system paths
+        # would find the stub and set THEMIS_HAS_LDAP=1, causing the LDAP code
+        # to be compiled with OpenLDAP function calls that the linker cannot
+        # resolve.  Instead, require Homebrew openldap explicitly.
+        find_library(LDAP_LIB NAMES ldap
+            HINTS /opt/homebrew/lib /usr/local/lib
+            NO_DEFAULT_PATH
+            DOC "Homebrew OpenLDAP library (macOS)")
+        find_library(LBER_LIB NAMES lber
+            HINTS /opt/homebrew/lib /usr/local/lib
+            NO_DEFAULT_PATH
+            DOC "Homebrew OpenLDAP BER library (macOS)")
+        find_path(LDAP_INCLUDE_DIR NAMES ldap.h
+            HINTS /opt/homebrew/include /usr/local/include
+            /opt/homebrew/opt/openldap/include
+            /usr/local/opt/openldap/include
+            NO_DEFAULT_PATH)
+        if(LDAP_LIB AND LDAP_INCLUDE_DIR)
+            message(STATUS "Homebrew OpenLDAP found: ${LDAP_LIB}")
+            add_compile_definitions(THEMIS_HAS_LDAP=1)
+            set(THEMIS_LDAP_LIBRARIES ${LDAP_LIB})
+            if(LBER_LIB)
+                list(APPEND THEMIS_LDAP_LIBRARIES ${LBER_LIB})
+            endif()
+            set(THEMIS_LDAP_INCLUDE_DIRS ${LDAP_INCLUDE_DIR})
+            set(THEMIS_LDAP_FOUND TRUE)
+        else()
+            message(STATUS
+                "Homebrew OpenLDAP not found on macOS - LDAP/AD direct-bind "
+                "authentication will be compiled as a no-op stub.  "
+                "Install with: brew install openldap")
+            set(THEMIS_LDAP_FOUND FALSE)
+        endif()
     else()
         # Unix: try pkg-config first, then a plain find
         find_package(PkgConfig QUIET)
