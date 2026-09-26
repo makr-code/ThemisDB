@@ -61,7 +61,7 @@ on:
 
 concurrency:
   group: ci-benchmarks-${{ github.ref }}-${{ github.run_id }}
-  cancel-in-progress: false  # Keep explicit policy while isolating runs
+  cancel-in-progress: false  # Protect scheduled runs while keeping per-run isolation explicit
 
 permissions:
   contents: write  # For baseline commit-back on community push
