@@ -67,7 +67,8 @@ RUN --mount=type=cache,id=apt-cache-base-${TARGETARCH},target=/var/cache/apt,sha
     git -C ${VCPKG_ROOT} config user.email "vcpkg-build@docker" && \
     git -C ${VCPKG_ROOT} config user.name "vcpkg Docker Build" && \
     test -d ${VCPKG_ROOT}/versions || (echo "ERROR: vcpkg versions/ directory missing from tarball at ${VCPKG_COMMIT}"; exit 1) && \
-    git -C ${VCPKG_ROOT} add versions && \
+    # Stage full vcpkg snapshot so version database git-tree objects resolve locally.
+    git -C ${VCPKG_ROOT} add . && \
     git -C ${VCPKG_ROOT} commit -m "vcpkg baseline from tarball at ${VCPKG_COMMIT}" --quiet && \
     git -C ${VCPKG_ROOT} rev-parse HEAD > /opt/vcpkg-baseline-sha.txt && \
     echo "Synthetic vcpkg baseline SHA: $(cat /opt/vcpkg-baseline-sha.txt)" && \
