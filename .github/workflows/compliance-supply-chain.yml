@@ -185,15 +185,17 @@ jobs:
           bash scripts/verify-sbom.sh sbom-source.cyclonedx.json
 
       - name: Run Trivy vulnerability scan (SBOM output)
-        uses: aquasecurity/trivy-action@v0.36.0  # v0.36.0
-        with:
-          scan-type: 'fs'
-          scan-ref: '.'
-          format: 'cyclonedx'
-          output: 'sbom-trivy.cyclonedx.json'
-          exit-code: '0'
-          version: 'v0.64.0'  # Pin to stable release; v0.70.0 download was broken on CI
-          github-pat: ${{ secrets.GITHUB_TOKEN }}  # Authenticate GitHub API to avoid rate-limit download failures
+        run: |
+          docker run --rm \
+            --user "$(id -u):$(id -g)" \
+            -v "${PWD}:/work" \
+            -w /work \
+            aquasec/trivy:0.64.0 \
+            fs \
+            --format cyclonedx \
+            --output sbom-trivy.cyclonedx.json \
+            --exit-code 0 \
+            .
 
       - name: Install cosign
         if: startsWith(github.ref, 'refs/tags/v')
