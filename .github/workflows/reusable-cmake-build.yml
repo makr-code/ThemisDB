@@ -289,11 +289,19 @@ jobs:
               fi
               ;;
           esac
-          echo "resolved_configure_command=${CONFIGURE_COMMAND}" >> "$GITHUB_OUTPUT"
-          echo "resolved_build_command=${BUILD_COMMAND}" >> "$GITHUB_OUTPUT"
-          echo "resolved_validation_command=${VALIDATION_COMMAND}" >> "$GITHUB_OUTPUT"
-          echo "resolved_build_mode=${BUILD_MODE}" >> "$GITHUB_OUTPUT"
-          echo "resolved_build_dir=${BUILD_DIR}" >> "$GITHUB_OUTPUT"
+          {
+            echo "resolved_configure_command<<__HEREDOC__"
+            printf '%s\n' "${CONFIGURE_COMMAND}"
+            echo "__HEREDOC__"
+            echo "resolved_build_command<<__HEREDOC__"
+            printf '%s\n' "${BUILD_COMMAND}"
+            echo "__HEREDOC__"
+            echo "resolved_validation_command<<__HEREDOC__"
+            printf '%s\n' "${VALIDATION_COMMAND}"
+            echo "__HEREDOC__"
+            echo "resolved_build_mode=${BUILD_MODE}"
+            echo "resolved_build_dir=${BUILD_DIR}"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Configure
         id: configure
