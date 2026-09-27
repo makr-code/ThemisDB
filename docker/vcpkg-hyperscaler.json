@@ -10,6 +10,7 @@
     "hnswlib",
     "gtest",
     "benchmark",
+    "cpp-httplib",
     "faiss",
     "openblas",
     "lapack",
@@ -21,4 +22,3 @@
     "tl-expected"
   ]
 }
-

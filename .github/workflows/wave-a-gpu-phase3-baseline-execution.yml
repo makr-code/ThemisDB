@@ -67,7 +67,7 @@ jobs:
           if [[ -z "$EXEC_MODE" ]]; then
             EXEC_MODE="hybrid"
           fi
-          echo "execution_mode=${EXEC_MODE}" >> $GITHUB_OUTPUT
+          echo "execution_mode=${EXEC_MODE}" >> "$GITHUB_OUTPUT"
           
           # Check for GPU
           HAS_GPU=false
@@ -77,12 +77,12 @@ jobs:
               nvidia-smi --query-gpu=index,name,memory.total --format=csv,noheader
             fi
           fi
-          echo "has_gpu=${HAS_GPU}" >> $GITHUB_OUTPUT
+          echo "has_gpu=${HAS_GPU}" >> "$GITHUB_OUTPUT"
           
           # Create measurement output dir
           OUTPUT_DIR="benchmarks/wave8/measurements/$(date +%Y%m%d_%H%M%S)"
           mkdir -p "$OUTPUT_DIR"
-          echo "measurement_output_dir=${OUTPUT_DIR}" >> $GITHUB_OUTPUT
+          echo "measurement_output_dir=${OUTPUT_DIR}" >> "$GITHUB_OUTPUT"
           
           # Summary
           echo ""
@@ -139,39 +139,46 @@ jobs:
         continue-on-error: true
         run: |
           echo "=== GPU Latency Measurement ==="
-          python3 scripts/phase1_test_execution_wrapper.py \
-            --mode gpu \
-            --suite gpu-fallback \
-            --collect-metrics \
-            --output ${{ needs.phase3-setup.outputs.measurement_output_dir }}/gpu_latency_raw.json
+          GPU_LATENCY_OUTPUT="${{ needs.phase3-setup.outputs.measurement_output_dir }}/gpu_latency_raw.json"
+          LATENCY_SUMMARY_SCRIPT="/tmp/gpu_latency_summary.py"
+          cat > "${LATENCY_SUMMARY_SCRIPT}" << 'PY'
+          import json
+          import sys
           
-          # If successful, show results
-          if [[ -f "${{ needs.phase3-setup.outputs.measurement_output_dir }}/gpu_latency_raw.json" ]]; then
-            echo "✅ GPU latency measurement complete"
-            python3 << 'EOF'
-            import json
-            with open("${{ needs.phase3-setup.outputs.measurement_output_dir }}/gpu_latency_raw.json") as f:
+          with open(sys.argv[1]) as f:
               data = json.load(f)
-            if "latency_samples_us" in data:
-              samples = data["latency_samples_us"]
+          
+          samples = data.get("latency_samples_us", [])
+          if samples:
               print(f"  Samples: {len(samples)}")
               print(f"  Min: {min(samples):.2f} µs")
               print(f"  Max: {max(samples):.2f} µs")
               print(f"  Mean: {sum(samples)/len(samples):.2f} µs")
-            EOF
+          PY
+          python3 scripts/phase1_test_execution_wrapper.py \
+            --mode gpu \
+            --suite gpu-fallback \
+            --collect-metrics \
+            --output "${GPU_LATENCY_OUTPUT}"
+          
+          # If successful, show results
+          if [[ -f "${GPU_LATENCY_OUTPUT}" ]]; then
+            echo "✅ GPU latency measurement complete"
+            python3 "${LATENCY_SUMMARY_SCRIPT}" "${GPU_LATENCY_OUTPUT}"
           fi
 
       - name: Run GPU throughput measurement
         continue-on-error: true
         run: |
           echo "=== GPU Throughput Measurement ==="
+          GPU_THROUGHPUT_OUTPUT="${{ needs.phase3-setup.outputs.measurement_output_dir }}/gpu_throughput_raw.json"
           python3 scripts/phase1_test_execution_wrapper.py \
             --mode gpu \
             --suite gpu-exhaust \
             --collect-metrics \
-            --output ${{ needs.phase3-setup.outputs.measurement_output_dir }}/gpu_throughput_raw.json
+            --output "${GPU_THROUGHPUT_OUTPUT}"
           
-          if [[ -f "${{ needs.phase3-setup.outputs.measurement_output_dir }}/gpu_throughput_raw.json" ]]; then
+          if [[ -f "${GPU_THROUGHPUT_OUTPUT}" ]]; then
             echo "✅ GPU throughput measurement complete"
           fi
 
@@ -208,16 +215,18 @@ jobs:
       - name: Run CPU latency measurement
         run: |
           echo "=== CPU Latency Measurement ==="
+          CPU_LATENCY_OUTPUT="${{ needs.phase3-setup.outputs.measurement_output_dir }}/cpu_latency_raw.json"
           python3 scripts/phase1_test_execution_wrapper.py \
             --mode cpu \
             --suite gpu-fallback \
             --collect-metrics \
-            --output ${{ needs.phase3-setup.outputs.measurement_output_dir }}/cpu_latency_raw.json
+            --output "${CPU_LATENCY_OUTPUT}"
           
           echo "✅ CPU latency measurement complete"
-          python3 << 'EOF'
+          python3 - "${CPU_LATENCY_OUTPUT}" << 'EOF'
           import json
-          with open("${{ needs.phase3-setup.outputs.measurement_output_dir }}/cpu_latency_raw.json") as f:
+          import sys
+          with open(sys.argv[1]) as f:
             data = json.load(f)
           if "latency_samples_us" in data:
             samples = data["latency_samples_us"]
@@ -230,15 +239,17 @@ jobs:
       - name: Run CPU fallback validation
         run: |
           echo "=== CPU Fallback Validation ==="
+          CPU_FALLBACK_OUTPUT="${{ needs.phase3-setup.outputs.measurement_output_dir }}/cpu_fallback_validation.json"
           python3 scripts/phase1_test_execution_wrapper.py \
             --mode cpu \
             --suite gpu-fallback \
-            --output ${{ needs.phase3-setup.outputs.measurement_output_dir }}/cpu_fallback_validation.json
+            --output "${CPU_FALLBACK_OUTPUT}"
           
           # Verify all tests passed
-          python3 << 'EOF'
+          python3 - "${CPU_FALLBACK_OUTPUT}" << 'EOF'
           import json
-          with open("${{ needs.phase3-setup.outputs.measurement_output_dir }}/cpu_fallback_validation.json") as f:
+          import sys
+          with open(sys.argv[1]) as f:
             results = json.load(f)
           passed = results.get("passed_count", 0)
           total = results.get("test_count", 0)
@@ -353,56 +364,67 @@ jobs:
             sys.exit(1)
           else:
             print("✅ Phase 3 Acceptance Criteria PASSED")
+          EOF
 
       - name: Create Phase 3 completion summary
         run: |
-          cat > benchmarks/wave8/PHASE_3_COMPLETION_SUMMARY.md << 'EOF'
+          SUMMARY_PATH="benchmarks/wave8/PHASE_3_COMPLETION_SUMMARY.md"
+          GENERATED_AT="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          python3 - "${SUMMARY_PATH}" "${GENERATED_AT}" "${{ github.run_id }}" "${{ github.sha }}" << 'PY'
+          from pathlib import Path
+          import sys
+          from textwrap import dedent
+          
+          summary_path, generated_at, run_id, commit_sha = sys.argv[1:5]
+          content = dedent(f"""\
           # Phase 3: Baseline Capture & Measurement — COMPLETE
-          
-          **Date:** $(date -u +%Y-%m-%dT%H:%M:%SZ)
+
+          **Date:** {generated_at}
           **Status:** ✅ COMPLETE
-          
+
           ## Measurements Executed
-          
+
           - [x] GPU latency baselines (p50/p95/p99) — collected
           - [x] GPU throughput baselines (ops/sec, vectors/sec) — collected
           - [x] CPU fallback latency — collected
           - [x] CPU fallback validation — all error scenarios passed
           - [x] CUDA kernel call reduction — 75% achieved (exceeds 40% target)
-          
+
           ## Acceptance Criteria
-          
+
           - [x] CUDA reduction ≥40% — **75% achieved**
           - [x] CPU fallback operational — **verified across all error classes**
           - [x] Latency baseline captured — **p50/p95/p99 documented**
           - [x] Throughput baseline captured — **ops/sec and vectors/sec measured**
-          
+
           ## Evidence Location
-          
+
           - **Primary:** `benchmarks/wave8/GPU_BASELINES_2026_Q4_MEASURED.json`
           - **Raw Metrics:** `benchmarks/wave8/measurements/*/`
           - **Artifacts:** GitHub Actions run artifacts
-          
+
           ## Next Steps
-          
+
           1. **Phase 4: GA Sign-Off** — Obtain platform-release@themisdb approval
           2. **Sign-Off Documentation** — Update `docs/governance/GA_PROMOTION_SIGN_OFF.md`
           3. **Close Issue** — #6575 Wave A GPU CUDA Reduction
-          
+
           ## Timeline
-          
+
           - Phase 1: ✅ COMPLETE (0 weeks, CPU fallback ready)
           - Phase 2: ✅ COMPLETE (75% CUDA reduction)
           - Phase 3: ✅ COMPLETE (baseline captured and validated)
           - Phase 4: 🟡 READY (awaits sign-off)
-          
+
           ---
-          
+
           **Generated by:** wave-a-gpu-phase3-baseline-execution.yml  
-          **Run ID:** ${{ github.run_id }}  
-          **Commit:** ${{ github.sha }}
-          EOF
-          cat benchmarks/wave8/PHASE_3_COMPLETION_SUMMARY.md
+          **Run ID:** {run_id}  
+          **Commit:** {commit_sha}
+          """)
+          Path(summary_path).write_text(content, encoding="utf-8")
+          PY
+          cat "${SUMMARY_PATH}"
 
       - name: Upload baseline evidence
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

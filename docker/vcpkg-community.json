@@ -8,10 +8,10 @@
     "rocksdb",
     "gtest",
     "benchmark",
+    "cpp-httplib",
     "simdjson",
     "tl-expected",
     "msgpack",
     "libzip"
   ]
 }
-
