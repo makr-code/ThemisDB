@@ -124,8 +124,16 @@ jobs:
             VERSION_FILE="$(tr -d '\r\n' < VERSION 2>/dev/null || echo '2.4.0')"
             TARGET="v${VERSION_FILE}-nightly"
             echo "Nightly release tag computed as: ${TARGET}"
+          elif [ -n "${TAG_INPUT}" ]; then
+            TARGET="${TAG_INPUT}"
+          elif [ "${EVENT}" = "push" ] && echo "${REF_NAME}" | grep -Eq '^v'; then
+            # Tag push: validate the pushed tag
+            TARGET="${REF_NAME}"
+          elif [ "${EVENT}" = "workflow_dispatch" ]; then
+            TARGET="${REF_NAME}"
           else
-            TARGET="${TAG_INPUT:-$REF_NAME}"
+            # Branch push or release event: no tag to validate
+            TARGET=""
           fi
 
           CANONICAL_BRANCHES='^(develop|community|enterprise|hyperscaler|military|minimal)$'
