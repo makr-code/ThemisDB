@@ -147,24 +147,13 @@ def generate_cpp_direct_writer(docs_data: dict, output_path: str) -> str:
 #include <rocksdb/options.h>
 #include <iostream>
 #include <fstream>
-#include <memory>
 #include <nlohmann/json.hpp>
+#include <memory>
 #include <string>
 #include <vector>
 
 using json = nlohmann::json;
 using namespace rocksdb;
-
-template <typename DBType = rocksdb::DB>
-Status openDbCompat(const Options& options, const std::string& db_path, std::unique_ptr<DBType>* out_db) {
-    static_assert(std::is_same_v<DBType, rocksdb::DB>, "This generated helper targets the default RocksDB DB type.");
-    std::unique_ptr<DBType> db_guard;
-    Status status = DBType::Open(options, db_path, &db_guard);
-    if (status.ok()) {
-        *out_db = std::move(db_guard);
-    }
-    return status;
-}
 
 int main(int argc, char* argv[]) {
     if (argc < 3) {
@@ -193,12 +182,13 @@ int main(int argc, char* argv[]) {
     // Open RocksDB database
     Options options;
     options.create_if_missing = true;
-    std::unique_ptr<DB> db;
-    Status status = openDbCompat(options, db_path, &db);
+    DB* raw_db = nullptr;
+    Status status = DB::Open(options, db_path, &raw_db);
     if (!status.ok()) {
         std::cerr << "Error opening database: " << status.ToString() << std::endl;
         return 1;
     }
+    std::unique_ptr<DB> db(raw_db);
 
     std::cout << "[OK] Opened RocksDB database at " << db_path << std::endl;
 
