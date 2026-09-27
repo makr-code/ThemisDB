@@ -10,6 +10,7 @@
     "hnswlib",
     "gtest",
     "benchmark",
+    "cpp-httplib",
     "c-ares",
     "opentelemetry-cpp",
     "prometheus-cpp",
@@ -18,4 +19,3 @@
     "tl-expected"
   ]
 }
-
