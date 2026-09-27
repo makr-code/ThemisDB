@@ -199,6 +199,22 @@ RUN --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked \
         exit 1; \
     fi; \
     ls -la /build/vcpkg_installed/${TRIPLET}/lib/ | head -20 || echo "INFO: vcpkg lib dir listing failed"; \
+    # Ensure cpp-httplib header is present; vcpkg overlay resolution can silently
+    # skip the package when its version (0.36.0) is not in the registry version DB
+    # (baseline only tracks up to 0.18.0).  Fall back to a direct header download so
+    # the cmake fallback find-path in Dependencies.cmake can still locate httplib.h.
+    if ! test -f "/build/vcpkg_installed/${TRIPLET}/include/httplib.h"; then \
+        echo "INFO: cpp-httplib not installed by vcpkg; downloading httplib.h v0.36.0 directly..."; \
+        mkdir -p "/build/vcpkg_installed/${TRIPLET}/include"; \
+        curl -fsSL --retry 5 --retry-delay 3 \
+            "https://github.com/yhirose/cpp-httplib/raw/v0.36.0/httplib.h" \
+            -o "/build/vcpkg_installed/${TRIPLET}/include/httplib.h" || { \
+            echo "ERROR: Failed to download httplib.h"; exit 1; \
+        }; \
+        echo "INFO: httplib.h v0.36.0 downloaded to /build/vcpkg_installed/${TRIPLET}/include/httplib.h"; \
+    else \
+        echo "INFO: cpp-httplib installed by vcpkg at /build/vcpkg_installed/${TRIPLET}/include/httplib.h"; \
+    fi; \
     echo "Hybrid dependency installation complete (apt + vcpkg)"
 
 # ============================================================================
@@ -314,6 +330,27 @@ COPY --from=deps /build/vcpkg-configuration.json ./vcpkg-configuration.json
 
 # Copy vcpkg installed packages where Dependencies.cmake expects them
 COPY --from=deps /build/vcpkg_installed /src/vcpkg_installed
+
+# Validate that cpp-httplib was installed by the deps stage (required for HTTP server build).
+# Fail fast here rather than 1000+ compilation steps later with a cryptic error.
+RUN set -eux; \
+    ARCH="${TARGETARCH:-}"; \
+    if [ -z "${ARCH}" ]; then ARCH="$(uname -m)"; fi; \
+    TRIPLET="x64-linux"; \
+    case "${ARCH}" in \
+        amd64|x86_64) TRIPLET="x64-linux" ;; \
+        arm64|aarch64) TRIPLET="arm64-linux" ;; \
+        arm|armv7l) TRIPLET="arm-linux" ;; \
+    esac; \
+    if ! test -f "/src/vcpkg_installed/${TRIPLET}/include/httplib.h"; then \
+        echo "ERROR: httplib.h missing from /src/vcpkg_installed/${TRIPLET}/include/"; \
+        echo "cpp-httplib was not installed by the deps stage (vcpkg or fallback download)."; \
+        echo "The HTTP server build requires cpp-httplib v0.36.0."; \
+        echo "Contents of vcpkg_installed/${TRIPLET}/include (if it exists):"; \
+        ls -la "/src/vcpkg_installed/${TRIPLET}/include/" 2>/dev/null || echo "(directory missing)"; \
+        exit 1; \
+    fi; \
+    echo "OK: httplib.h present at /src/vcpkg_installed/${TRIPLET}/include/httplib.h"
 
 # Copy llama.cpp
 COPY --from=llama /opt/llama.cpp /opt/llama.cpp
