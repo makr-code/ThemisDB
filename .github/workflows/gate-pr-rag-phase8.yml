@@ -152,9 +152,11 @@ jobs:
           )
           
           for impl in "${impls[@]}"; do
-            echo "  Compiling $(basename $impl)..."
-            g++ -std=c++20 -I${GITHUB_WORKSPACE}/include -c "$impl" -o "$(basename $impl .cpp).o" || {
-              echo "❌ FAIL: Compilation error in $(basename $impl)"
+            src_name="$(basename "$impl")"
+            obj_name="$(basename "$impl" .cpp).o"
+            echo "  Compiling ${src_name}..."
+            g++ -std=c++20 -I"${GITHUB_WORKSPACE}/include" -c "$impl" -o "${obj_name}" || {
+              echo "❌ FAIL: Compilation error in ${src_name}"
               exit 1
             }
           done

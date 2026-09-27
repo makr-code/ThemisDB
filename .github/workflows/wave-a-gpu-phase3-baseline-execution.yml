@@ -67,7 +67,7 @@ jobs:
           if [[ -z "$EXEC_MODE" ]]; then
             EXEC_MODE="hybrid"
           fi
-          echo "execution_mode=${EXEC_MODE}" >> $GITHUB_OUTPUT
+          echo "execution_mode=${EXEC_MODE}" >> "$GITHUB_OUTPUT"
           
           # Check for GPU
           HAS_GPU=false
@@ -77,12 +77,12 @@ jobs:
               nvidia-smi --query-gpu=index,name,memory.total --format=csv,noheader
             fi
           fi
-          echo "has_gpu=${HAS_GPU}" >> $GITHUB_OUTPUT
+          echo "has_gpu=${HAS_GPU}" >> "$GITHUB_OUTPUT"
           
           # Create measurement output dir
           OUTPUT_DIR="benchmarks/wave8/measurements/$(date +%Y%m%d_%H%M%S)"
           mkdir -p "$OUTPUT_DIR"
-          echo "measurement_output_dir=${OUTPUT_DIR}" >> $GITHUB_OUTPUT
+          echo "measurement_output_dir=${OUTPUT_DIR}" >> "$GITHUB_OUTPUT"
           
           # Summary
           echo ""
@@ -139,39 +139,31 @@ jobs:
         continue-on-error: true
         run: |
           echo "=== GPU Latency Measurement ==="
+          GPU_LATENCY_OUTPUT="${{ needs.phase3-setup.outputs.measurement_output_dir }}/gpu_latency_raw.json"
           python3 scripts/phase1_test_execution_wrapper.py \
             --mode gpu \
             --suite gpu-fallback \
             --collect-metrics \
-            --output ${{ needs.phase3-setup.outputs.measurement_output_dir }}/gpu_latency_raw.json
+            --output "${GPU_LATENCY_OUTPUT}"
           
           # If successful, show results
-          if [[ -f "${{ needs.phase3-setup.outputs.measurement_output_dir }}/gpu_latency_raw.json" ]]; then
+          if [[ -f "${GPU_LATENCY_OUTPUT}" ]]; then
             echo "✅ GPU latency measurement complete"
-            python3 << 'EOF'
-            import json
-            with open("${{ needs.phase3-setup.outputs.measurement_output_dir }}/gpu_latency_raw.json") as f:
-              data = json.load(f)
-            if "latency_samples_us" in data:
-              samples = data["latency_samples_us"]
-              print(f"  Samples: {len(samples)}")
-              print(f"  Min: {min(samples):.2f} µs")
-              print(f"  Max: {max(samples):.2f} µs")
-              print(f"  Mean: {sum(samples)/len(samples):.2f} µs")
-            EOF
+            python3 -c 'import json, sys; data = json.load(open(sys.argv[1])); samples = data.get("latency_samples_us", []); print(f"  Samples: {len(samples)}") if samples else None; print(f"  Min: {min(samples):.2f} µs") if samples else None; print(f"  Max: {max(samples):.2f} µs") if samples else None; print(f"  Mean: {sum(samples)/len(samples):.2f} µs") if samples else None' "${GPU_LATENCY_OUTPUT}"
           fi
 
       - name: Run GPU throughput measurement
         continue-on-error: true
         run: |
           echo "=== GPU Throughput Measurement ==="
+          GPU_THROUGHPUT_OUTPUT="${{ needs.phase3-setup.outputs.measurement_output_dir }}/gpu_throughput_raw.json"
           python3 scripts/phase1_test_execution_wrapper.py \
             --mode gpu \
             --suite gpu-exhaust \
             --collect-metrics \
-            --output ${{ needs.phase3-setup.outputs.measurement_output_dir }}/gpu_throughput_raw.json
+            --output "${GPU_THROUGHPUT_OUTPUT}"
           
-          if [[ -f "${{ needs.phase3-setup.outputs.measurement_output_dir }}/gpu_throughput_raw.json" ]]; then
+          if [[ -f "${GPU_THROUGHPUT_OUTPUT}" ]]; then
             echo "✅ GPU throughput measurement complete"
           fi
 
@@ -208,16 +200,18 @@ jobs:
       - name: Run CPU latency measurement
         run: |
           echo "=== CPU Latency Measurement ==="
+          CPU_LATENCY_OUTPUT="${{ needs.phase3-setup.outputs.measurement_output_dir }}/cpu_latency_raw.json"
           python3 scripts/phase1_test_execution_wrapper.py \
             --mode cpu \
             --suite gpu-fallback \
             --collect-metrics \
-            --output ${{ needs.phase3-setup.outputs.measurement_output_dir }}/cpu_latency_raw.json
+            --output "${CPU_LATENCY_OUTPUT}"
           
           echo "✅ CPU latency measurement complete"
-          python3 << 'EOF'
+          python3 - "${CPU_LATENCY_OUTPUT}" << 'EOF'
           import json
-          with open("${{ needs.phase3-setup.outputs.measurement_output_dir }}/cpu_latency_raw.json") as f:
+          import sys
+          with open(sys.argv[1]) as f:
             data = json.load(f)
           if "latency_samples_us" in data:
             samples = data["latency_samples_us"]
@@ -230,15 +224,17 @@ jobs:
       - name: Run CPU fallback validation
         run: |
           echo "=== CPU Fallback Validation ==="
+          CPU_FALLBACK_OUTPUT="${{ needs.phase3-setup.outputs.measurement_output_dir }}/cpu_fallback_validation.json"
           python3 scripts/phase1_test_execution_wrapper.py \
             --mode cpu \
             --suite gpu-fallback \
-            --output ${{ needs.phase3-setup.outputs.measurement_output_dir }}/cpu_fallback_validation.json
+            --output "${CPU_FALLBACK_OUTPUT}"
           
           # Verify all tests passed
-          python3 << 'EOF'
+          python3 - "${CPU_FALLBACK_OUTPUT}" << 'EOF'
           import json
-          with open("${{ needs.phase3-setup.outputs.measurement_output_dir }}/cpu_fallback_validation.json") as f:
+          import sys
+          with open(sys.argv[1]) as f:
             results = json.load(f)
           passed = results.get("passed_count", 0)
           total = results.get("test_count", 0)
@@ -353,13 +349,15 @@ jobs:
             sys.exit(1)
           else:
             print("✅ Phase 3 Acceptance Criteria PASSED")
+          EOF
 
       - name: Create Phase 3 completion summary
         run: |
-          cat > benchmarks/wave8/PHASE_3_COMPLETION_SUMMARY.md << 'EOF'
-          # Phase 3: Baseline Capture & Measurement — COMPLETE
-          
-          **Date:** $(date -u +%Y-%m-%dT%H:%M:%SZ)
+          GENERATED_AT="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          {
+            printf '# Phase 3: Baseline Capture & Measurement — COMPLETE\n\n'
+            printf '**Date:** %s\n' "${GENERATED_AT}"
+            cat <<'EOF'
           **Status:** ✅ COMPLETE
           
           ## Measurements Executed
@@ -402,6 +400,7 @@ jobs:
           **Run ID:** ${{ github.run_id }}  
           **Commit:** ${{ github.sha }}
           EOF
+          } > benchmarks/wave8/PHASE_3_COMPLETION_SUMMARY.md
           cat benchmarks/wave8/PHASE_3_COMPLETION_SUMMARY.md
 
       - name: Upload baseline evidence

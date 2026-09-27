@@ -174,9 +174,9 @@ jobs:
               violations.append(f"Registry Sync: {len(missing)} workflows not documented: {', '.join(sorted(missing))}")
 
           # Output results
-          print(f"\n{'='*60}")
-          print(f"VALIDATION RESULTS")
-          print(f"{'='*60}")
+          print(f"\n{'=' * 60}")
+          print("VALIDATION RESULTS")
+          print("=" * 60)
           
           if violations:
               print(f"\n❌ VIOLATIONS ({len(violations)}):")
@@ -191,7 +191,7 @@ jobs:
                   print(f"   ... and {len(warnings) - 5} more warnings")
           
           if not violations:
-              print(f"\n✅ All workflows compliant with WORKFLOW_GUIDELINES.md")
+              print("\n✅ All workflows compliant with WORKFLOW_GUIDELINES.md")
           
           # Set output
           with open(os.environ.get('GITHUB_OUTPUT', '/dev/null'), 'a') as f:

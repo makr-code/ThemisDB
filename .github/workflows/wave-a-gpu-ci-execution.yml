@@ -56,6 +56,7 @@ jobs:
           GPU_AVAILABLE="false"
           EXECUTION_MODE="cpu"
           CUDA_VERSION="N/A"
+          RUNNER_NAME="$(printf '%s' '${{ runner.name }}' | tr '[:upper:]' '[:lower:]')"
 
           # Primary probe: check for nvidia-smi or rocm-smi (hardware-level detection)
           # Secondary: honour GPU_RUNNER=true env var set on self-hosted runners
@@ -72,7 +73,7 @@ jobs:
             echo "GPU_RUNNER=true env var set — treating runner as GPU-capable"
             GPU_AVAILABLE="true"
             EXECUTION_MODE="gpu"
-          elif [[ "${{ runner.name }}" == *"gpu"* ]]; then
+          elif [[ "${RUNNER_NAME}" == *gpu* ]]; then
             echo "Runner name contains 'gpu' — using name-based heuristic"
             GPU_AVAILABLE="true"
             EXECUTION_MODE="gpu"
@@ -93,9 +94,11 @@ jobs:
             fi
           fi
 
-          echo "gpu_available=${GPU_AVAILABLE}" >> "$GITHUB_OUTPUT"
-          echo "execution_mode=${EXECUTION_MODE}" >> "$GITHUB_OUTPUT"
-          echo "cuda_version=${CUDA_VERSION}" >> "$GITHUB_OUTPUT"
+          {
+            echo "gpu_available=${GPU_AVAILABLE}"
+            echo "execution_mode=${EXECUTION_MODE}"
+            echo "cuda_version=${CUDA_VERSION}"
+          } >> "$GITHUB_OUTPUT"
 
           echo "=== Phase 1 Health Check Results ==="
           echo "GPU Available: ${GPU_AVAILABLE}"
@@ -176,7 +179,7 @@ jobs:
         shell: bash
         run: |
           cd build
-          ninja -j$(nproc)
+          ninja -j"$(nproc)"
           mapfile -t gpu_targets < <(
             sed -n 's/^build \(cmake\/CMakeFiles\/[^:]*\/__\/src\/gpu\/[^:]*\.cpp\.o\):.*/\1/p' build.ninja | sort -u
           )
