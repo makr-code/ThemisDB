@@ -78,7 +78,7 @@ jobs:
 
   # ─────────────────────────────────────────────────────────────────────────
   merge-readiness:
-    name: "✅ Merge Readiness"
+    name: "Validate: Merge Readiness"
     needs:
       - call-community-failclosed
       - call-edition-license

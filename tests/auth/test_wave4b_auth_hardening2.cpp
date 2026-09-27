@@ -404,14 +404,20 @@ TEST_F(Wave4B2JWTKeyAuditTest, A5_KeyRotationFailedEventPresentEvenIfLogFlushedL
 // ===========================================================================
 
 TEST(Wave4B2LDAPRetry, B1_CheckoutHandlesUnreachableServer) {
+#ifndef THEMIS_HAS_LDAP
+    GTEST_SKIP() << "THEMIS_HAS_LDAP not defined — unreachable-server retry path is not applicable";
+#else
     LDAPPoolConfig cfg;
     cfg.server_url = "ldap://127.0.0.1:1";
     cfg.min_idle   = 0;
     cfg.max_size   = 1;
     LDAPConnectionPool pool(cfg);
-    auto conn = pool.checkout();
-    (void)conn;
-    // No crash — verifies the retry loop compiles and exits gracefully
+
+    EXPECT_THROW({
+        auto conn = pool.checkout();
+        (void)conn;
+    }, AuthException);
+#endif
 }
 
 // ===========================================================================

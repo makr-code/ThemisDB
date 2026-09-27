@@ -46,7 +46,7 @@ permissions:
 
 jobs:
   run-benchmarks:
-    name: Build & Run Benchmarks
+    name: "Validate: Benchmark Execution"
     runs-on: ${{ inputs.runs_on }}
     timeout-minutes: ${{ inputs.timeout_minutes }}
     outputs:

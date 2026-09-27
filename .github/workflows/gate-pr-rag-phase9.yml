@@ -40,7 +40,7 @@ permissions:
 
 jobs:
   phase9_validation:
-    name: "Validate Phase 9 Research Evaluation"
+    name: "Validate: Phase 9 Research Evaluation"
     runs-on: ubuntu-22.04
     timeout-minutes: 30
     
@@ -249,7 +249,7 @@ jobs:
             });
 
   gate_status:
-    name: "Gate Status Summary"
+    name: "Validate: Gate Status Summary"
     runs-on: ubuntu-22.04
     needs: [phase9_validation]
     if: always()

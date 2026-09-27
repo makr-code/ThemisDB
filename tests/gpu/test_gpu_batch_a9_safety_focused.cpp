@@ -80,6 +80,9 @@ TEST_F(GPUBatchA9SafetyTest, CUDA_CHECK_ThrowsOnError) {
  * @test DeviceMemoryGuard allocates and frees GPU memory correctly
  */
 TEST_F(GPUBatchA9SafetyTest, DeviceMemoryGuardAllocatesFrees) {
+    if (!themis::gpu::batch_a9::isGPUAvailable()) {
+        GTEST_SKIP() << "CUDA runtime unavailable; DeviceMemoryGuard allocation path not testable";
+    }
 #if THEMIS_GPU_SAFE_RAII_HAS_CUDA
     // Test allocation
     {
@@ -100,6 +103,9 @@ TEST_F(GPUBatchA9SafetyTest, DeviceMemoryGuardAllocatesFrees) {
  * @test DeviceMemoryGuard move semantics transfer ownership
  */
 TEST_F(GPUBatchA9SafetyTest, DeviceMemoryGuardMoveSemantics) {
+    if (!themis::gpu::batch_a9::isGPUAvailable()) {
+        GTEST_SKIP() << "CUDA runtime unavailable; DeviceMemoryGuard move path not testable";
+    }
 #if THEMIS_GPU_SAFE_RAII_HAS_CUDA
     {
         DeviceMemoryGuard<float> guard1(256);
@@ -176,6 +182,9 @@ TEST_F(GPUBatchA9SafetyTest, KernelTimeoutGuardDetectsTimeout) {
  * @test RAII memory guard prevents use-after-free
  */
 TEST_F(GPUBatchA9SafetyTest, RAIIPreventUseAfterFree) {
+    if (!themis::gpu::batch_a9::isGPUAvailable()) {
+        GTEST_SKIP() << "CUDA runtime unavailable; RAII use-after-free path not testable";
+    }
     // Use RAII wrapper to allocate GPU memory
     std::unique_ptr<DeviceMemoryGuard<float>> guard_ptr;
 
@@ -192,6 +201,9 @@ TEST_F(GPUBatchA9SafetyTest, RAIIPreventUseAfterFree) {
  * @test Nested RAII guards prevent resource leaks
  */
 TEST_F(GPUBatchA9SafetyTest, NestedRAIIGuardsNoLeaks) {
+    if (!themis::gpu::batch_a9::isGPUAvailable()) {
+        GTEST_SKIP() << "CUDA runtime unavailable; nested GPU RAII path not testable";
+    }
     // This test verifies exception safety with nested scopes
     try {
         {
@@ -459,6 +471,9 @@ class GPUBatchA9HardeningTest : public ::testing::Test {
  * @test GPUMemoryHandle RAII wrapper allocates and frees correctly
  */
 TEST_F(GPUBatchA9HardeningTest, GPUMemoryHandleRAII) {
+    if (!themis::gpu::batch_a9::isGPUAvailable()) {
+        GTEST_SKIP() << "CUDA runtime unavailable; GPUMemoryHandle RAII path not testable";
+    }
     try {
         {
             // Allocate GPU memory using new RAII wrapper
@@ -485,6 +500,9 @@ TEST_F(GPUBatchA9HardeningTest, GPUMemoryHandleRAII) {
  * @test GPUMemoryHandle move semantics work correctly
  */
 TEST_F(GPUBatchA9HardeningTest, GPUMemoryHandleMove) {
+    if (!themis::gpu::batch_a9::isGPUAvailable()) {
+        GTEST_SKIP() << "CUDA runtime unavailable; GPUMemoryHandle move path not testable";
+    }
     try {
         gpu::GPUMemoryHandle<float> mem1(512);
         void* ptr1 = mem1.get();
@@ -504,6 +522,9 @@ TEST_F(GPUBatchA9HardeningTest, GPUMemoryHandleMove) {
  * @test GPUStreamHandle creates and destroys streams
  */
 TEST_F(GPUBatchA9HardeningTest, GPUStreamHandleLifecycle) {
+    if (!themis::gpu::batch_a9::isGPUAvailable()) {
+        GTEST_SKIP() << "CUDA runtime unavailable; GPUStreamHandle lifecycle not testable";
+    }
     try {
         {
             gpu::GPUStreamHandle stream = gpu::makeGPUStream();
@@ -527,6 +548,9 @@ TEST_F(GPUBatchA9HardeningTest, GPUStreamHandleLifecycle) {
  * @test GPUEventHandle records and waits for events
  */
 TEST_F(GPUBatchA9HardeningTest, GPUEventHandleLifecycle) {
+    if (!themis::gpu::batch_a9::isGPUAvailable()) {
+        GTEST_SKIP() << "CUDA runtime unavailable; GPUEventHandle lifecycle not testable";
+    }
     try {
         {
             gpu::GPUEventHandle event = gpu::makeGPUEvent();
@@ -667,6 +691,9 @@ TEST_F(GPUBatchA9HardeningTest, StreamSyncWithTimeout) {
  * @test RAII-based GPU operation sequence
  */
 TEST_F(GPUBatchA9HardeningTest, RAIIGPUOperationSequence) {
+    if (!themis::gpu::batch_a9::isGPUAvailable()) {
+        GTEST_SKIP() << "CUDA runtime unavailable; GPU RAII operation sequence not testable";
+    }
     try {
         {
             // Allocate all resources with RAII

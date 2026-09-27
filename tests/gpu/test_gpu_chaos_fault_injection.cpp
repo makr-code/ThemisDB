@@ -297,10 +297,11 @@ TEST_F(GPUChaosTest, ErrorMessageConversion) {
         throw CudaError("cudaMalloc", cudaErrorMemoryAllocation, __FILE__, __LINE__);
     } catch (const CudaError& err) {
         std::string what_msg = err.what();
+        const std::string expected_description = cuda_error_to_string(cudaErrorMemoryAllocation);
         EXPECT_NE(what_msg.find("cudaMalloc"), std::string::npos)
             << "Exception message should contain the API call";
-        EXPECT_NE(what_msg.find("Memory allocation error"), std::string::npos)
-            << "Exception message should contain CUDA error description";
+        EXPECT_NE(what_msg.find(expected_description), std::string::npos)
+            << "Exception message should contain the CUDA error description";
     }
 }
 

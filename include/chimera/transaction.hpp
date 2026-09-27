@@ -26,7 +26,7 @@ enum class IsolationLevel : uint8_t {
     SERIALIZABLE = 3       ///< Highest isolation; acts as if transactions ran serially
 };
 
-enum class TransactionState : uint8_t {
+enum class ChimeraTransactionState : uint8_t {
     STARTED = 0,     ///< Transaction created but not yet active
     ACTIVE = 1,      ///< Actively executing operations
     COMMITTED = 2,   ///< Successfully committed
@@ -62,7 +62,7 @@ public:
      * @return Return value.
      * @note Exception safety: noexcept.
      */
-    TransactionState get_state() const noexcept;
+    ChimeraTransactionState get_state() const noexcept;
     /**
      * @brief Get isolation level.
      * @return Return value.
@@ -152,7 +152,7 @@ public:
 private:
     std::string transaction_id_;
     IsolationLevel isolation_level_;
-    TransactionState state_ = TransactionState::STARTED;
+    ChimeraTransactionState state_ = ChimeraTransactionState::STARTED;
     std::chrono::system_clock::time_point start_time_;
     std::vector<Operation> operations_;
     std::map<std::string, size_t> savepoints_;

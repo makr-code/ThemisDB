@@ -40,7 +40,7 @@ permissions:
 
 jobs:
   phase8_validation:
-    name: "Validate Phase 8 Observability SLO"
+    name: "Validate: Phase 8 Observability SLO"
     runs-on: ubuntu-22.04
     timeout-minutes: 30
     
@@ -223,7 +223,7 @@ jobs:
             });
 
   gate_status:
-    name: "Gate Status Summary"
+    name: "Validate: Gate Status Summary"
     runs-on: ubuntu-22.04
     needs: [phase8_validation]
     if: always()

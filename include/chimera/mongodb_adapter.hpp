@@ -177,29 +177,29 @@ public:
 
     Result<TransactionHandle> begin_transaction(
         IsolationLevel isolation_level = IsolationLevel::READ_COMMITTED
-    ) override;
+    );
 
     Result<bool> commit_transaction(
         const TransactionHandle& handle
-    ) override;
+    );
 
     Result<bool> rollback_transaction(
         const TransactionHandle& handle
-    ) override;
+    );
 
     Result<std::string> create_savepoint(
         const TransactionHandle& handle,
         const std::string& savepoint_name
-    ) override;
+    );
 
     Result<bool> rollback_to_savepoint(
         const TransactionHandle& handle,
         const std::string& savepoint_name
-    ) override;
+    );
 
-    TransactionState get_transaction_state(
+    ChimeraTransactionState get_transaction_state(
         const TransactionHandle& handle
-    ) const override;
+    ) const;
 
     // ────────────────────────────────────────────────────────────────────────
     // IBatchAdapter implementation

@@ -98,4 +98,4 @@ jobs:
       build_command: |
         set -euo pipefail
         cmake --build build-hyperscaler --config Release --parallel 4
-      summary_title: Build (hyperscaler)
+      summary_title: "Build: Hyperscaler"

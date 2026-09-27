@@ -145,4 +145,4 @@ jobs:
         /tmp/fuzz-out/*/hangs/
       artifact_retention_days: '30'
       artifact_retention_days_secondary: '30'
-      summary_title: AFL++ Fuzzing
+      summary_title: "Validate: AFL++ Fuzzing"

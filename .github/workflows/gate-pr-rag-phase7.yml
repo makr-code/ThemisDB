@@ -43,7 +43,7 @@ permissions:
 
 jobs:
   phase7_validation:
-    name: "Validate Phase 7 Freshness SLA"
+    name: "Validate: Phase 7 Freshness SLA"
     runs-on: ubuntu-22.04
     timeout-minutes: 30
     
@@ -224,7 +224,7 @@ jobs:
             });
 
   phase7_tests:
-    name: "Run Phase 7 Tests"
+    name: "Validate: Phase 7 Tests"
     runs-on: ubuntu-22.04
     timeout-minutes: 30
     
@@ -284,7 +284,7 @@ jobs:
             "${GITHUB_WORKSPACE}/src/rag/freshness_sla_enforcer.cpp" \
             "${GITHUB_WORKSPACE}/src/rag/ingestion_latency_monitor.cpp"
 
-      - name: Run Phase 7 Tests
+      - name: "Validate: Phase 7 Tests"
         run: |
           for test_binary in \
             /tmp/phase7-build/test_ingestion_latency_monitor \
@@ -296,7 +296,7 @@ jobs:
           done
 
   gate_status:
-    name: "Gate Status Summary"
+    name: "Validate: Gate Status Summary"
     runs-on: ubuntu-22.04
     needs: [phase7_validation]
     if: always()

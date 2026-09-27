@@ -2,10 +2,10 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-09-26
-> Update Note: Phase 3: Added gate-workflow-guidelines.yml
+> Last Updated: 2026-09-27
+> Update Note: Parameterized test/benchmark quality lanes via reusable-cmake-build.yml
 > Status: active
-> Total Workflows: 83 (verified 2026-09-26)
+> Total Workflows: 83 (verified 2026-09-27)
 
 ## Zielbild
 
@@ -145,6 +145,204 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | **SECURITY** | 6 | ✅ All documented |
 | **REUSABLE WORKFLOWS** | 4 | ✅ All documented |
 | **TOTAL** | **83** | ✅ **100% Registry Sync** |
+
+## Complete Workflow Redesign and Consolidation Plan
+
+> Status: active redesign target for the canonical CI/CD topology.
+> Goal: one reusable build core, one release orchestrator, one artifact contract, and one approval policy layer.
+
+### 1. Design principles
+
+- Keep one canonical reusable engine for CMake builds: [reusable-cmake-build.yml](.github/workflows/reusable-cmake-build.yml)
+- Keep one canonical release orchestrator: [release-mainline.yml](.github/workflows/release-mainline.yml)
+- Keep downstream distribution workflows as consumers only, not as independent artifact producers
+- Remove duplicate setup/configure/build logic from the top-level matrix files and standardize on a single parameterized contract
+- Split quality validation into named build lines that reuse the same engine with different parameters: PR release-critical tests and benchmark execution/reporting
+- Treat release approval and release packaging as separate concerns: approval = authorization; packaging = artifact assembly
+- Make gate workflows remain fast, non-blocking when appropriate, and scoped by file or module
+
+### 2. Canonical layered topology
+
+#### Layer 0 — policy and gate
+
+- [gate-pr-core.yml](.github/workflows/gate-pr-core.yml)
+- [gate-pr-merge-readiness.yml](.github/workflows/gate-pr-merge-readiness.yml)
+- [gate-workflow-guidelines.yml](.github/workflows/gate-workflow-guidelines.yml)
+- [compliance-governance-gates.yml](.github/workflows/compliance-governance-gates.yml)
+
+Purpose:
+- enforce repo policy
+- verify workflow compliance and metadata
+- gate PR merge and release readiness without heavy package work
+
+#### Layer 1 — build orchestration
+
+- [build-mainline.yml](.github/workflows/build-mainline.yml)
+- [reusable-cmake-build.yml](.github/workflows/reusable-cmake-build.yml)
+- [build-clang-fast.yml](.github/workflows/build-clang-fast.yml)
+- [build-content-regression.yml](.github/workflows/build-content-regression.yml)
+- specialized build lanes such as GPU/LLM/benchmarks remain in dedicated build workflows but must call the same reusable engine
+
+Purpose:
+- define build cost boundaries
+- reuse one build pipeline contract for all platform and architecture lanes
+- avoid copy-paste setup scripts for each entrypoint
+
+#### Layer 2 — release orchestration
+
+- [release-mainline.yml](.github/workflows/release-mainline.yml)
+- [release-build-matrix.yml](.github/workflows/release-build-matrix.yml)
+- [release-changelog.yml](.github/workflows/release-changelog.yml)
+- [release-promote.yml](.github/workflows/release-promote.yml)
+- [release-rollback.yml](.github/workflows/release-rollback.yml)
+
+Purpose:
+- define one official release pipeline
+- package the canonical release artifacts
+- validate tag and edition semantics before publication
+
+#### Layer 3 — downstream delivery consumers
+
+- [release-docker-image.yml](.github/workflows/release-docker-image.yml)
+- [release-winget.yml](.github/workflows/release-winget.yml)
+- [release-linux-distribution.yml](.github/workflows/release-linux-distribution.yml)
+- [release-windows-distribution.yml](.github/workflows/release-windows-distribution.yml)
+
+Purpose:
+- consume final package outputs from the release orchestrator
+- not create a second artifact identity or build path
+- remain downstream of the canonical release contract
+
+#### Layer 4 — security and compliance
+
+- [security-codeql.yml](.github/workflows/security-codeql.yml)
+- [security-consolidated.yml](.github/workflows/security-consolidated.yml)
+- [security-dast-zap.yml](.github/workflows/security-dast-zap.yml)
+- [security-fortify.yml](.github/workflows/security-fortify.yml)
+- [security-fuzzing.yml](.github/workflows/security-fuzzing.yml)
+- [security-pentest-quarterly.yml](.github/workflows/security-pentest-quarterly.yml)
+- [compliance-supply-chain.yml](.github/workflows/compliance-supply-chain.yml)
+
+Purpose:
+- keep security scanning isolated from product build speed
+- avoid mixing release build logic with scheduled security scans
+
+#### Layer 5 — maintenance and governance
+
+- [maintenance-ci-health.yml](.github/workflows/maintenance-ci-health.yml)
+- [maintenance-build-issues.yml](.github/workflows/maintenance-build-issues.yml)
+- [maintenance-housekeeping.yml](.github/workflows/maintenance-housekeeping.yml)
+- [maintenance-ai-working.yml](.github/workflows/maintenance-ai-working.yml)
+- [maintenance-docs.yml](.github/workflows/maintenance-docs.yml)
+
+Purpose:
+- operational housekeeping
+- build issue tracking and registry governance
+- repository hygiene without impacting build correctness
+
+### 3. Consolidation targets
+
+The following patterns are explicitly identified as duplicate or drift-prone and should be normalized into the canonical model above.
+
+#### 3.1 Build lane consolidation
+
+Current duplication:
+- [build-mainline.yml](.github/workflows/build-mainline.yml) defines repeated platform setup blocks in `step2-*` jobs
+- [release-build-matrix.yml](.github/workflows/release-build-matrix.yml) repeats a second matrix definition with largely parallel setup/configure/build commands
+
+Target:
+- one build matrix contract with `platform`, `preset`, `runner`, `setup_script`, `configure_command`, `build_command`, `artifact_name`
+- all platform jobs route through [reusable-cmake-build.yml](.github/workflows/reusable-cmake-build.yml)
+- no second shell-native configure logic outside the reusable engine
+
+#### 3.2 Release approval consolidation
+
+Current duplication:
+- [release-mainline-approval.yml](.github/workflows/release-mainline-approval.yml)
+- [release-docker-approval.yml](.github/workflows/release-docker-approval.yml)
+- [release-winget-approval.yml](.github/workflows/release-winget-approval.yml)
+- [release-linux-distro-approval.yml](.github/workflows/release-linux-distro-approval.yml)
+- [release-windows-distro-approval.yml](.github/workflows/release-windows-distro-approval.yml)
+
+Target:
+- canonical approval gateway with a single `approval_policy` and a shared artifact gate
+- downstream distribution jobs remain consumers only
+- downstream release consumers should not carry independent release-signoff logic
+
+#### 3.3 Artifact contract normalization
+
+Current drift:
+- artifact naming is split between `build-*`, `packages-*`, and `dist/*` flows
+- release packaging logic is spread between release orchestration and downstream package jobs
+
+Target:
+- canonical artifact naming:
+  - `themisdb-<edition>-<version>-<platform>-<arch>` for final release bundles
+  - `packages-<preset>-<run_number>` for package staging artifacts
+  - `build-<preset>-<run_number>` for raw build outputs
+- all downstream jobs must fetch from the canonical release artifact set only
+
+#### 3.4 Concurrency and trigger tightening
+
+The repo must enforce the following standard:
+- PR gate workflows: `cancel-in-progress: true`
+- release orchestrators: `cancel-in-progress: false`
+- scheduled maintenance jobs: low-frequency only and structured by day/time bucket
+- `paths` filters must be narrow and module- or file-specific; avoid broad repository-wide patterns unless explicitly justified
+
+### 4. Consolidated workflow map (target state)
+
+#### Canonical build and release chain
+
+- [reusable-cmake-build.yml](.github/workflows/reusable-cmake-build.yml) — universal build primitive
+- [gate-pr-core.yml](.github/workflows/gate-pr-core.yml) — parameterized PR release-critical test quality line consumer
+- [benchmark-performance-gate.yml](.github/workflows/benchmark-performance-gate.yml) — parameterized benchmark quality line consumer
+- [build-mainline.yml](.github/workflows/build-mainline.yml) — mainline build lane on develop
+- [release-mainline.yml](.github/workflows/release-mainline.yml) — release orchestrator
+- [release-build-matrix.yml](.github/workflows/release-build-matrix.yml) — matrix implementation of the release build contract
+- [release-docker-image.yml](.github/workflows/release-docker-image.yml) — downstream packaging consumer
+- [release-winget.yml](.github/workflows/release-winget.yml) — downstream delivery consumer
+- [release-linux-distribution.yml](.github/workflows/release-linux-distribution.yml) — downstream Linux package consumer
+- [release-windows-distribution.yml](.github/workflows/release-windows-distribution.yml) — downstream Windows package consumer
+
+#### Canonical governance and support chain
+
+- [gate-pr-core.yml](.github/workflows/gate-pr-core.yml)
+- [gate-pr-merge-readiness.yml](.github/workflows/gate-pr-merge-readiness.yml)
+- [gate-workflow-guidelines.yml](.github/workflows/gate-workflow-guidelines.yml)
+- [maintenance-ci-health.yml](.github/workflows/maintenance-ci-health.yml)
+- [maintenance-build-issues.yml](.github/workflows/maintenance-build-issues.yml)
+- [compliance-governance-gates.yml](.github/workflows/compliance-governance-gates.yml)
+
+### 5. Deprecation and retirement policy
+
+The following patterns are considered non-canonical and should be reduced or merged over time:
+
+- near-duplicate setup blocks across multiple top-level workflows
+- parallel release approval workflows with almost identical gating logic
+- release package assembly distributed across both central and downstream workflows
+- mixed build/release responsibilities in one file for packaging, governance, and publishing
+- any workflow that creates a second artifact lineage without a clear consumer contract
+
+### 6. Cutover rules
+
+1. No new top-level workflow may be introduced unless it fills a missing responsibility not already covered by the canonical layers.
+2. If a workflow duplicates another workflow's build or packaging logic, it must be merged or retired before release gating is considered complete.
+3. Any consolidation change must keep [WORKFLOW_GUIDELINES.md](.github/WORKFLOW_GUIDELINES.md) and [WORKFLOW_REGISTRY.md](.github/WORKFLOW_REGISTRY.md) in sync.
+4. Reusable workflows must remain the default choice for build and packaging logic; direct copy-paste implementation is a review blocker.
+5. Downstream delivery jobs must consume from the canonical release artifact set, not generate a distinct, competing release identity.
+
+### 7. Final target statement
+
+The intended end-state is a single, clear CI/CD topology:
+
+- fast policy gates at the top,
+- one reusable build engine underneath,
+- one canonical release orchestrator,
+- downstream delivery consumers only,
+- dedicated security and maintenance layers kept separate from runtime build and release logic.
+
+This is the reference design for future workflow changes and should remain the default baseline for all workflow refactors.
 
 ## Critical Governance Rules (from WORKFLOW_GUIDELINES.md)
 

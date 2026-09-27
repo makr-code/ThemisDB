@@ -24,7 +24,7 @@ std::string TransactionContext::get_id() const noexcept {
     return transaction_id_;
 }
 
-TransactionState TransactionContext::get_state() const noexcept {
+ChimeraTransactionState TransactionContext::get_state() const noexcept {
     return state_;
 }
 
@@ -38,29 +38,29 @@ TransactionContext::get_start_time() const noexcept {
 }
 
 void TransactionContext::mark_active() noexcept {
-    state_ = TransactionState::ACTIVE;
+    state_ = ChimeraTransactionState::ACTIVE;
 }
 
 void TransactionContext::mark_committed() noexcept {
-    state_ = TransactionState::COMMITTED;
+    state_ = ChimeraTransactionState::COMMITTED;
 }
 
 void TransactionContext::mark_aborted() noexcept {
-    state_ = TransactionState::ABORTED;
+    state_ = ChimeraTransactionState::ABORTED;
 }
 
 void TransactionContext::mark_failed() noexcept {
-    state_ = TransactionState::FAILED;
+    state_ = ChimeraTransactionState::FAILED;
 }
 
 bool TransactionContext::is_active() const noexcept {
-    return state_ == TransactionState::ACTIVE;
+    return state_ == ChimeraTransactionState::ACTIVE;
 }
 
 bool TransactionContext::is_terminal() const noexcept {
-    return state_ == TransactionState::COMMITTED ||
-           state_ == TransactionState::ABORTED ||
-           state_ == TransactionState::FAILED;
+    return state_ == ChimeraTransactionState::COMMITTED ||
+           state_ == ChimeraTransactionState::ABORTED ||
+           state_ == ChimeraTransactionState::FAILED;
 }
 
 void TransactionContext::record_operation(const Operation& op) noexcept {

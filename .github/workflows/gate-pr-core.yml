@@ -235,6 +235,28 @@ jobs:
           echo "::error::One or more Wave C policy gates FAILED — review implementation per CI_POLICY_GATES_WAVE_C.md"
           exit 1
 
+  quality-test-build:
+    name: "Build: PR Release-Critical Test Quality Line"
+    needs: preflight-ci-policy
+    if: github.event_name == 'pull_request' && github.base_ref != ''
+    uses: ./.github/workflows/reusable-cmake-build.yml
+    with:
+      build_mode: tests
+      preset: pr-release-critical
+      configure_flags: >-
+        -DTHEMIS_BUILD_TESTS=ON
+        -DTHEMIS_BUILD_BENCHMARKS=OFF
+        -DTHEMIS_ENABLE_LLM=OFF
+        -DTHEMIS_ENABLE_GPU=OFF
+      build_targets: themis_release_critical_tests
+      validation_mode: labels
+      ctest_label_filter: release_critical
+      runs_on: ubuntu-latest
+      shell: bash
+      fetch_depth: '0'
+      working_directory: .
+      summary_title: "Build: PR Release-Critical Test Quality Line"
+
   # ────────────────────────────────────────────────────────────────────────────
   # GATE 1 — Community Pipeline Policy (no private credentials in community CI)
   # Applies to: PRs targeting community and minimal only

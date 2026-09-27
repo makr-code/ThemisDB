@@ -42,12 +42,46 @@ on:
         default: ''
         type: string
       configure_command:
-        required: true
+        required: false
+        default: ''
         type: string
       build_command:
-        required: true
+        required: false
+        default: ''
         type: string
       validation_command:
+        required: false
+        default: ''
+        type: string
+      build_mode:
+        required: false
+        default: default
+        type: string
+      preset:
+        required: false
+        default: ''
+        type: string
+      configure_flags:
+        required: false
+        default: ''
+        type: string
+      build_targets:
+        required: false
+        default: ''
+        type: string
+      validation_mode:
+        required: false
+        default: auto
+        type: string
+      ctest_label_filter:
+        required: false
+        default: ''
+        type: string
+      ctest_filter:
+        required: false
+        default: ''
+        type: string
+      benchmark_filter:
         required: false
         default: ''
         type: string
@@ -105,6 +139,10 @@ on:
 
 permissions:
   contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -176,18 +214,97 @@ jobs:
           printf '%s\n' "$SETUP_COMMAND" > "$script_path"
           bash "$script_path"
 
+      - name: Resolve build line defaults
+        id: resolve_mode
+        shell: bash
+        env:
+          BUILD_MODE: ${{ inputs.build_mode }}
+          PRESET: ${{ inputs.preset }}
+          CONFIGURE_FLAGS: ${{ inputs.configure_flags }}
+          BUILD_TARGETS: ${{ inputs.build_targets }}
+          VALIDATION_MODE: ${{ inputs.validation_mode }}
+          CTEST_LABEL_FILTER: ${{ inputs.ctest_label_filter }}
+          CTEST_FILTER: ${{ inputs.ctest_filter }}
+          BENCHMARK_FILTER: ${{ inputs.benchmark_filter }}
+          CONFIGURE_COMMAND: ${{ inputs.configure_command }}
+          BUILD_COMMAND: ${{ inputs.build_command }}
+          VALIDATION_COMMAND: ${{ inputs.validation_command }}
+        run: |
+          set -euo pipefail
+          PRESET_NAME="${PRESET:-default}"
+          BUILD_DIR="build-${PRESET_NAME}"
+          case "$BUILD_MODE" in
+            tests)
+              MODE_SUFFIX="test"
+              if [ -z "$CONFIGURE_COMMAND" ]; then
+                CONFIGURE_COMMAND="cmake -S . -B ${BUILD_DIR} -G Ninja -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF ${CONFIGURE_FLAGS}"
+              fi
+              if [ -z "$BUILD_COMMAND" ]; then
+                if [ -n "$BUILD_TARGETS" ]; then
+                  BUILD_COMMAND="cmake --build ${BUILD_DIR} --target ${BUILD_TARGETS} --parallel 16"
+                else
+                  BUILD_COMMAND="cmake --build ${BUILD_DIR} --parallel 16"
+                fi
+              fi
+              if [ -z "$VALIDATION_COMMAND" ] && [ "$VALIDATION_MODE" != "none" ]; then
+                if [ -n "$CTEST_LABEL_FILTER" ]; then
+                  VALIDATION_COMMAND="ctest --test-dir ${BUILD_DIR} --output-on-failure -j 1 --timeout 60 --label-regex '${CTEST_LABEL_FILTER}'"
+                elif [ -n "$CTEST_FILTER" ]; then
+                  VALIDATION_COMMAND="ctest --test-dir ${BUILD_DIR} --output-on-failure -j 1 --timeout 60 --tests-regex '${CTEST_FILTER}'"
+                else
+                  VALIDATION_COMMAND="ctest --test-dir ${BUILD_DIR} --output-on-failure -j 1 --timeout 60"
+                fi
+              fi
+              ;;
+            benchmarks)
+              MODE_SUFFIX="benchmark"
+              if [ -z "$CONFIGURE_COMMAND" ]; then
+                CONFIGURE_COMMAND="cmake -S . -B ${BUILD_DIR} -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=ON ${CONFIGURE_FLAGS}"
+              fi
+              if [ -z "$BUILD_COMMAND" ]; then
+                if [ -n "$BUILD_TARGETS" ]; then
+                  BUILD_COMMAND="cmake --build ${BUILD_DIR} --target ${BUILD_TARGETS} --parallel 16"
+                else
+                  BUILD_COMMAND="cmake --build ${BUILD_DIR} --parallel 16"
+                fi
+              fi
+              if [ -z "$VALIDATION_COMMAND" ] && [ "$VALIDATION_MODE" != "none" ]; then
+                if [ -n "$BENCHMARK_FILTER" ]; then
+                  VALIDATION_COMMAND="ctest --test-dir ${BUILD_DIR} --output-on-failure -j 1 --timeout 60 --tests-regex '${BENCHMARK_FILTER}'"
+                else
+                  VALIDATION_COMMAND="ctest --test-dir ${BUILD_DIR} --output-on-failure -j 1 --timeout 60"
+                fi
+              fi
+              ;;
+            *)
+              MODE_SUFFIX="default"
+              if [ -z "$CONFIGURE_COMMAND" ]; then
+                CONFIGURE_COMMAND="cmake -S . -B ${BUILD_DIR} -G Ninja ${CONFIGURE_FLAGS}"
+              fi
+              if [ -z "$BUILD_COMMAND" ]; then
+                BUILD_COMMAND="cmake --build ${BUILD_DIR} --parallel 16"
+              fi
+              if [ -z "$VALIDATION_COMMAND" ]; then
+                VALIDATION_COMMAND=""
+              fi
+              ;;
+          esac
+          echo "resolved_configure_command=${CONFIGURE_COMMAND}" >> "$GITHUB_OUTPUT"
+          echo "resolved_build_command=${BUILD_COMMAND}" >> "$GITHUB_OUTPUT"
+          echo "resolved_validation_command=${VALIDATION_COMMAND}" >> "$GITHUB_OUTPUT"
+          echo "resolved_build_mode=${BUILD_MODE}" >> "$GITHUB_OUTPUT"
+          echo "resolved_build_dir=${BUILD_DIR}" >> "$GITHUB_OUTPUT"
+
       - name: Configure
         id: configure
         shell: bash
         env:
           WORKING_DIRECTORY: ${{ inputs.working_directory }}
-          CONFIGURE_COMMAND: ${{ inputs.configure_command }}
+          CONFIGURE_COMMAND: ${{ steps.resolve_mode.outputs.resolved_configure_command }}
           THEMIS_HYPERSCALER_LICENSE_B64: ${{ secrets.THEMIS_HYPERSCALER_LICENSE_B64 }}
           THEMIS_BUILD_SIG: ${{ secrets.THEMIS_BUILD_SIG }}
         run: |
           cd "$WORKING_DIRECTORY"
-          # Clean stale CMake cache entries before reconfiguring so a previous
-          # toolchain/bootstrap state cannot poison a later runner build.
           find . -maxdepth 2 \( -name CMakeCache.txt -o -name CMakeFiles \) -print
           find . -maxdepth 2 -name CMakeCache.txt -delete
           find . -maxdepth 2 -type d -name CMakeFiles -prune -exec rm -rf {} +
@@ -201,7 +318,7 @@ jobs:
         shell: bash
         env:
           WORKING_DIRECTORY: ${{ inputs.working_directory }}
-          BUILD_COMMAND: ${{ inputs.build_command }}
+          BUILD_COMMAND: ${{ steps.resolve_mode.outputs.resolved_build_command }}
           THEMIS_HYPERSCALER_LICENSE_B64: ${{ secrets.THEMIS_HYPERSCALER_LICENSE_B64 }}
           THEMIS_BUILD_SIG: ${{ secrets.THEMIS_BUILD_SIG }}
         run: |
@@ -212,12 +329,12 @@ jobs:
 
       - name: Validation
         id: validation
-        if: inputs.validation_command != ''
+        if: steps.resolve_mode.outputs.resolved_validation_command != ''
         continue-on-error: ${{ inputs.validation_continue_on_error }}
         shell: bash
         env:
           WORKING_DIRECTORY: ${{ inputs.working_directory }}
-          VALIDATION_COMMAND: ${{ inputs.validation_command }}
+          VALIDATION_COMMAND: ${{ steps.resolve_mode.outputs.resolved_validation_command }}
           THEMIS_HYPERSCALER_LICENSE_B64: ${{ secrets.THEMIS_HYPERSCALER_LICENSE_B64 }}
           THEMIS_BUILD_SIG: ${{ secrets.THEMIS_BUILD_SIG }}
         run: |

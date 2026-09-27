@@ -128,104 +128,85 @@ jobs:
           source-sha: ${{ github.sha }}
 
   # ── Step 2: Cross-architecture layout lane ───────────────────────────────
-  # Keeps platform/architecture jobs visible side-by-side in GitHub UI.
-  step2-linux-amd64:
-    name: "Build: Step 2 · Linux AMD64"
+  # Consolidated matrix reduces duplicated setup/configure/build blocks while
+  # keeping the platform matrix visible in the GitHub Actions UI.
+  step2-platform-matrix:
+    name: "Build: Step 2 · ${{ matrix.label }}"
     needs: mark-build-pending
-    uses: ./.github/workflows/reusable-cmake-build.yml
-    with:
-      enable_sccache_gha: true
-      runs_on: ubuntu-latest
-      shell: bash
-      fetch_depth: '0'
-      submodules: false
-      working_directory: .
-      setup_command: >-
-        set -euo pipefail; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libssl-dev zlib1g-dev libzstd-dev libtbb-dev libyaml-cpp-dev libboost-dev libboost-system-dev libboost-filesystem-dev libcurl4-openssl-dev libgtest-dev libgmock-dev; echo "Linux AMD64 dependencies installed via apt (optimized for hybrid builds)"
-      configure_command: >-
-        cmake -S . -B build-step2-linux-amd64 -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
-      build_command: >-
-        cmake --build build-step2-linux-amd64 --target themis_base --parallel 8
-      summary_title: "Build: Step 2 · Linux AMD64"
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: Linux AMD64
+            runs_on: ubuntu-latest
+            enable_sccache_gha: true
+            setup_command: >-
+              set -euo pipefail; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libssl-dev zlib1g-dev libzstd-dev libtbb-dev libyaml-cpp-dev libboost-dev libboost-system-dev libboost-filesystem-dev libcurl4-openssl-dev libgtest-dev libgmock-dev; echo "Linux AMD64 dependencies installed via apt (optimized for hybrid builds)"
+            configure_command: >-
+              cmake -S . -B build-step2-linux-amd64 -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
+            build_command: >-
+              cmake --build build-step2-linux-amd64 --target themis_base --parallel 8
+            summary_title: "Build: Step 2 · Linux AMD64"
 
-  step2-linux-arm64:
-    name: "Build: Step 2 · Linux ARM64"
-    needs: mark-build-pending
-    uses: ./.github/workflows/reusable-cmake-build.yml
-    with:
-      enable_sccache_gha: true
-      runs_on: ubuntu-24.04-arm
-      shell: bash
-      fetch_depth: '0'
-      submodules: false
-      working_directory: .
-      setup_command: >-
-        set -euo pipefail; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libssl-dev zlib1g-dev libzstd-dev libtbb-dev libyaml-cpp-dev libboost-dev libboost-system-dev libboost-filesystem-dev libcurl4-openssl-dev libgtest-dev libgmock-dev; echo "Linux ARM64 dependencies installed via apt (optimized for hybrid builds)"
-      configure_command: >-
-        cmake -S . -B build-step2-linux-arm64 -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
-      build_command: >-
-        cmake --build build-step2-linux-arm64 --target themis_base --parallel 8
-      summary_title: "Build: Step 2 · Linux ARM64"
+          - label: Linux ARM64
+            runs_on: ubuntu-24.04-arm
+            enable_sccache_gha: true
+            setup_command: >-
+              set -euo pipefail; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libssl-dev zlib1g-dev libzstd-dev libtbb-dev libyaml-cpp-dev libboost-dev libboost-system-dev libboost-filesystem-dev libcurl4-openssl-dev libgtest-dev libgmock-dev; echo "Linux ARM64 dependencies installed via apt (optimized for hybrid builds)"
+            configure_command: >-
+              cmake -S . -B build-step2-linux-arm64 -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
+            build_command: >-
+              cmake --build build-step2-linux-arm64 --target themis_base --parallel 8
+            summary_title: "Build: Step 2 · Linux ARM64"
 
-  step2-windows-amd64:
-    name: "Build: Step 2 · Windows AMD64"
-    needs: mark-build-pending
-    uses: ./.github/workflows/reusable-cmake-build.yml
-    with:
-      enable_sccache_gha: true
-      runs_on: windows-latest
-      shell: bash
-      fetch_depth: '0'
-      submodules: false
-      working_directory: .
-      setup_command: >-
-        set -euo pipefail; powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "choco install -y sccache"; VCPKG_BASELINE=$(python3 -c "import json; print(json.load(open('vcpkg.json')).get('builtin-baseline',''))" 2>/dev/null || echo ''); if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then rm -rf vcpkg; git clone --no-checkout https://github.com/microsoft/vcpkg.git vcpkg; if [ -n "${VCPKG_BASELINE}" ]; then git -C vcpkg fetch --depth=1 origin "${VCPKG_BASELINE}" && git -C vcpkg checkout FETCH_HEAD; else git -C vcpkg checkout master; fi; fi; ./vcpkg/bootstrap-vcpkg.bat -disableMetrics; mkdir -p "${VCPKG_ROOT:-vcpkg}/archives" 2>/dev/null || true
-      configure_command: >-
-        cmake --preset windows-release -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DVCPKG_BUILD_TYPE=release -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
-      build_command: >-
-        cmake --build --preset windows-release --target themis_base --parallel 16
-      summary_title: "Build: Step 2 · Windows AMD64"
+          - label: Windows AMD64
+            runs_on: windows-latest
+            enable_sccache_gha: true
+            setup_command: >-
+              set -euo pipefail; powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "choco install -y sccache"; VCPKG_BASELINE=$(python3 -c "import json; print(json.load(open('vcpkg.json')).get('builtin-baseline',''))" 2>/dev/null || echo ''); if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then rm -rf vcpkg; git clone --no-checkout https://github.com/microsoft/vcpkg.git vcpkg; if [ -n "${VCPKG_BASELINE}" ]; then git -C vcpkg fetch --depth=1 origin "${VCPKG_BASELINE}" && git -C vcpkg checkout FETCH_HEAD; else git -C vcpkg checkout master; fi; fi; ./vcpkg/bootstrap-vcpkg.bat -disableMetrics; mkdir -p "${VCPKG_ROOT:-vcpkg}/archives" 2>/dev/null || true
+            configure_command: >-
+              cmake --preset windows-release -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DVCPKG_BUILD_TYPE=release -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
+            build_command: >-
+              cmake --build --preset windows-release --target themis_base --parallel 16
+            summary_title: "Build: Step 2 · Windows AMD64"
 
-  step2-macos:
-    name: "Build: Step 2 · macOS"
-    needs: mark-build-pending
+          - label: macOS
+            runs_on: macos-latest
+            enable_sccache_gha: false
+            setup_command: >-
+              set -euo pipefail; brew update --quiet; brew install cmake ninja sccache fmt spdlog nlohmann-json boost yaml-cpp
+            configure_command: >-
+              cmake -S . -B build-step2-macos -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON -DTHEMIS_DIAGNOSTIC_MODE=ON
+            build_command: >-
+              cmake --build build-step2-macos --target themis_base --parallel 8
+            summary_title: "Build: Step 2 · macOS"
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
-      enable_sccache_gha: false
-      runs_on: macos-latest
+      enable_sccache_gha: ${{ matrix.enable_sccache_gha }}
+      runs_on: ${{ matrix.runs_on }}
       shell: bash
       fetch_depth: '0'
       submodules: false
       working_directory: .
-      setup_command: >-
-        set -euo pipefail; brew update --quiet; brew install cmake ninja sccache fmt spdlog nlohmann-json boost yaml-cpp
-      configure_command: >-
-        cmake -S . -B build-step2-macos -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON -DTHEMIS_DIAGNOSTIC_MODE=ON
-      build_command: >-
-        cmake --build build-step2-macos --target themis_base --parallel 8
-      summary_title: "Build: Step 2 · macOS"
+      setup_command: ${{ matrix.setup_command }}
+      configure_command: ${{ matrix.configure_command }}
+      build_command: ${{ matrix.build_command }}
+      summary_title: ${{ matrix.summary_title }}
 
   step2-architecture-summary:
     name: "Validate: Step 2 · Architecture Summary"
-    needs:
-      - step2-linux-amd64
-      - step2-linux-arm64
-      - step2-windows-amd64
-      - step2-macos
+    needs: step2-platform-matrix
     if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: "Validate: Summarize Step 2 architecture lanes"
+      - name: "Validate: Summarize Step 2 architecture matrix"
         shell: bash
         run: |
           {
             echo "### Step 2 · Architecture Matrix"
             echo ""
-            echo "- Linux AMD64: ${{ needs.step2-linux-amd64.result }}"
-            echo "- Linux ARM64: ${{ needs.step2-linux-arm64.result }}"
-            echo "- Windows AMD64: ${{ needs.step2-windows-amd64.result }}"
-            echo "- macOS: ${{ needs.step2-macos.result }}"
+            echo "- Matrix job result: ${{ needs.step2-platform-matrix.result }}"
           } >> "$GITHUB_STEP_SUMMARY"
 
   build:

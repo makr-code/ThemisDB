@@ -40,7 +40,7 @@ permissions:
 
 jobs:
   phase10_validation:
-    name: "Validate Phase 10 Cost Optimizer"
+    name: "Validate: Phase 10 Cost Optimizer"
     runs-on: ubuntu-22.04
     timeout-minutes: 30
     
@@ -262,7 +262,7 @@ jobs:
             });
 
   gate_status:
-    name: "Gate Status Summary"
+    name: "Validate: Gate Status Summary"
     runs-on: ubuntu-22.04
     needs: [phase10_validation]
     if: always()

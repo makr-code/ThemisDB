@@ -36,7 +36,7 @@ permissions:
 
 jobs:
   eval_contract_validation:
-    name: "Validate RAG Eval Contract v1"
+    name: "Validate: RAG Eval Contract v1"
     runs-on: ubuntu-22.04
     timeout-minutes: 30
     
@@ -184,7 +184,7 @@ jobs:
             });
   
   release_critical_rag_tests:
-    name: "Build & Test: release_critical RAG"
+    name: "Build: release_critical RAG Tests"
     runs-on: ubuntu-22.04
     timeout-minutes: 60
     if: contains(github.event.pull_request.labels.*.name, 'rag-tests') || contains(github.event.pull_request.labels.*.name, 'release_critical')
@@ -227,7 +227,7 @@ jobs:
           retention-days: 30
 
   gate_status:
-    name: "Gate Status Summary"
+    name: "Validate: Gate Status Summary"
     runs-on: ubuntu-22.04
     needs: [eval_contract_validation]
     if: always()

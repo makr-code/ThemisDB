@@ -1448,13 +1448,13 @@ Result<bool> MongoDBAdapter::rollback_to_savepoint(
 #endif
 }
 
-TransactionState MongoDBAdapter::get_transaction_state(
+ChimeraTransactionState MongoDBAdapter::get_transaction_state(
     const TransactionHandle& handle
 ) const {
     if (handle) {
         return handle->get_state();
     }
-    return TransactionState::ABORTED;
+    return ChimeraTransactionState::ABORTED;
 }
 
 // ---------------------------------------------------------------------------

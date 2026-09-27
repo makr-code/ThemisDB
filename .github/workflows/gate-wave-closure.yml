@@ -32,14 +32,14 @@ concurrency:
 
 jobs:
   validate-wave-closure-packages:
-    name: "Validate Wave A→D closure packages"
+    name: "Validate: Wave A→D closure packages"
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
 
-      - name: "Validate manifests and wave ordering"
+      - name: "Validate: manifests and wave ordering"
         run: |
           python3 tools/ci/validate_wave_closure_packages.py \
             --manifest-dir audit/evidence/waves/manifests \

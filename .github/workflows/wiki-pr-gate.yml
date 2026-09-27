@@ -60,7 +60,7 @@ env:
 
 jobs:
   wiki_pr_gate:
-    name: Build, validate and open a human review PR
+    name: "Validate: Wiki Human Review PR"
     if: |
       github.event_name != 'workflow_run' ||
       github.event.workflow_run.conclusion == 'success'

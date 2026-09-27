@@ -94,7 +94,7 @@ concurrency:
 
 jobs:
   build-and-push:
-    name: "Build & Push Docker Image"
+    name: "Release: Docker Image Build & Push"
     runs-on: ubuntu-latest
     timeout-minutes: 360
     # For workflow_dispatch and workflow_call: always run.

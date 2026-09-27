@@ -15695,8 +15695,11 @@ endif()
 if(THEMIS_BUILD_CHIMERA)
 
 # Common list of all CHIMERA adapter source files shared by every focused target.
+# Preserve the canonical adapter list from cmake/ChimeraAdapters.cmake and append
+# any project-local adapter implementations used by focused tests without
+# clobbering the external adapter definitions needed for the link step.
 set(CHIMERA_ADAPTER_SOURCES ${THEMIS_CHIMERA_SOURCES})
-set(CHIMERA_ADAPTER_SOURCES
+list(APPEND CHIMERA_ADAPTER_SOURCES
     ${THEMIS_ROOT_DIR}/src/chimera/adapter_factory.cpp
     ${THEMIS_ROOT_DIR}/src/chimera/themisdb_adapter.cpp
     ${THEMIS_ROOT_DIR}/src/chimera/mongodb_adapter.cpp

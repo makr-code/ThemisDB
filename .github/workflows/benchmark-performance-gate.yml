@@ -43,9 +43,29 @@ concurrency:
 # ─────────────────────────────────────────────────────────────────────────────
 jobs:
 
-  # ─── Job 1: Build all bench_* targets and run them ─────────────────────────
+  benchmark-quality-build:
+    name: "Build: Benchmark Quality Line"
+    uses: ./.github/workflows/reusable-cmake-build.yml
+    with:
+      build_mode: benchmarks
+      preset: benchmark-quality
+      configure_flags: >-
+        -DTHEMIS_BUILD_BENCHMARKS=ON
+        -DTHEMIS_BUILD_TESTS=OFF
+        -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON
+      build_targets: themis_benchmarks_all_eligible
+      validation_mode: none
+      benchmark_filter: ${{ inputs.benchmark_filter || '' }}
+      runs_on: ubuntu-latest
+      shell: bash
+      fetch_depth: '0'
+      working_directory: .
+      summary_title: "Build: Benchmark Quality Line"
+
+  # ─── Job 1: Build the benchmark quality line and execute benchmarks ────────
   build-and-run:
-    name: Build & Run Benchmarks
+    name: "Validate: Benchmark Execution"
+    needs: [benchmark-quality-build]
     uses: ./.github/workflows/reusable-benchmark-runner.yml
     with:
       configure_flags: >-
@@ -60,7 +80,7 @@ jobs:
 
   # ─── Job 2: Compare results against PERFORMANCE_EXPECTATIONS.md ────────────
   report:
-    name: Compare Expectations & Report
+    name: "Validate: Benchmark Report"
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: [build-and-run]

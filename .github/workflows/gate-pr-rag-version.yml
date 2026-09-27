@@ -37,7 +37,7 @@ permissions:
 
 jobs:
   version_governance_validation:
-    name: "Validate Embedding Version Governance"
+    name: "Validate: Embedding Version Governance"
     runs-on: ubuntu-22.04
     timeout-minutes: 30
     
@@ -260,7 +260,7 @@ jobs:
           }
 
   gate_status:
-    name: "Gate Status Summary"
+    name: "Validate: Gate Status Summary"
     runs-on: ubuntu-22.04
     needs: [version_governance_validation]
     if: always()

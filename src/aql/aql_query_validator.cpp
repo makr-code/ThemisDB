@@ -279,14 +279,19 @@ void checkTraversalDepthOrder(const std::string &query, ValidationResult &result
  */
 void checkNestedSubqueryDepth(const std::string &query, ValidationResult &result) {
     constexpr int kMaxAllowedDepth = 5;
-    // Track the maximum FOR subquery nesting depth.  A stack records, for each
-    // open parenthesis, whether it introduced a subquery (i.e. "(FOR …").  Only
+    // AQL queries always begin with a root FOR clause; count that level as depth 1
+    // so nested LET subqueries are measured relative to the actual query tree rather
+    // than only counting parenthesized subqueries. This preserves the intended point
+    // where depth > 5 is rejected, matching the policy tests and real query semantics.
+    const bool has_root_for = containsKeyword(query, "FOR");
+    int max_depth = has_root_for ? 1 : 0;
+    int depth     = has_root_for ? 1 : 0;
+    // Track the maximum FOR subquery nesting depth. A stack records, for each
+    // open parenthesis, whether it introduced a subquery (i.e. "(FOR …"). Only
     // the matching ")" of a subquery-opening "(" decrements the depth counter;
     // all other closing parentheses (function calls, grouping expressions, etc.)
-    // are ignored for depth accounting.  This prevents false under-counting when
+    // are ignored for depth accounting. This prevents false under-counting when
     // function calls appear inside subqueries.
-    int max_depth = 0;
-    int depth     = 0;
     std::string upper = query;
     std::transform(upper.begin(), upper.end(), upper.begin(),
                    [](unsigned char c) { return static_cast<char>(std::toupper(c)); });

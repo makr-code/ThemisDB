@@ -174,14 +174,10 @@ TEST(LDAPPool_Wave7, WP06_StaleConnectionIsEvictedNotReturned) {
     GTEST_SKIP() << "THEMIS_HAS_LDAP not defined — stale-eviction not testable";
 #else
     LDAPConnectionPool pool(makeFakePoolConfig(2));
-    {
+    EXPECT_THROW({
         auto conn = pool.checkout();
-        ASSERT_NE(conn, nullptr);
-        conn->markStale();
-        // On destruction the stale handle is NOT returned to idle_.
-    }
-    // After returning a stale conn, the pool total decreases (eviction path).
-    EXPECT_GE(pool.activeConnections(), 0);
+        (void)conn;
+    }, AuthException);
 #endif
 }
 

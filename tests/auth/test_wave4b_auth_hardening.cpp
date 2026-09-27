@@ -288,6 +288,9 @@ TEST_F(Wave4BJWTKeyRotationAuditTest, A6_UnknownKidRevokeEmitsAuditEvent) {
 #include "auth/ldap_connection_pool.h"
 
 TEST(Wave4BLDAPRetry, B1_CheckoutReturnsNullWhenNoLDAPSupport) {
+#ifdef THEMIS_HAS_LDAP
+    GTEST_SKIP() << "THEMIS_HAS_LDAP is defined — no-LDAP stub-path test not applicable";
+#else
     LDAPPoolConfig cfg;
     cfg.server_url  = "ldap://127.0.0.1:389";
     cfg.min_idle    = 0;
@@ -298,6 +301,7 @@ TEST(Wave4BLDAPRetry, B1_CheckoutReturnsNullWhenNoLDAPSupport) {
     auto conn = pool.checkout();
     // conn will be nullptr when LDAP is not compiled in — that's acceptable
     (void)conn;
+#endif
 }
 
 // ===========================================================================
