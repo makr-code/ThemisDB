@@ -59,7 +59,7 @@ permissions:
 # ──────────────────────────────────────────────────────────────────────────────
 jobs:
   license-gate:
-    name: License Policy Gate
+    name: "Compliance: License Policy Gate"
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -117,7 +117,7 @@ jobs:
 
   # ── Attach license artifacts to GitHub Release ──────────────────────────────
   license-release-assets:
-    name: Publish License Release Assets
+    name: "Publish: License Release Assets"
     if: github.event_name == 'release'
     needs: license-gate
     runs-on: ubuntu-latest
@@ -142,7 +142,7 @@ jobs:
   # Phase 6.1: CycloneDX + SPDX SBOM via syft; cosign signing on tag builds.
   # ──────────────────────────────────────────────────────────────────────────
   sbom:
-    name: SBOM Generation & Verification
+    name: "Compliance: SBOM Generation & Verification"
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
@@ -255,7 +255,7 @@ jobs:
             sbom-source.cyclonedx.json.sig
 
   c5-evidence-manifest:
-    name: C5 Evidence Manifest Packaging
+    name: "Compliance: C5 Evidence Manifest Packaging"
     runs-on: ubuntu-latest
     needs: [license-gate, sbom]
     timeout-minutes: 10
@@ -324,7 +324,7 @@ jobs:
   # Complements the path-triggered supply-chain compliance job.
   # ──────────────────────────────────────────────────────────────────────────
   dependency-freshness:
-    name: Dependency Freshness Gate
+    name: "Compliance: Dependency Freshness Gate"
     runs-on: ubuntu-latest
     timeout-minutes: 20
     # Run on monthly schedule (cron '0 4 1 * *'), workflow_dispatch, or release
@@ -547,7 +547,7 @@ jobs:
   # Runs on schedule and workflow_dispatch only — not on push/PR.
   # ──────────────────────────────────────────────────────────────────────────
   soc2-evidence:
-    name: SOC 2 Evidence Export
+    name: "Compliance: SOC 2 Evidence Export"
     runs-on: ubuntu-latest
     timeout-minutes: 30
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'

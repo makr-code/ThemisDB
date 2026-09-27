@@ -45,7 +45,7 @@ defaults:
 
 jobs:
   ci:
-    name: Compile · Lint · Test
+    name: "Build: Compile · Lint · Test"
     runs-on: ubuntu-latest
 
     steps:

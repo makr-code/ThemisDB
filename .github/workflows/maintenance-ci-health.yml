@@ -34,7 +34,7 @@ concurrency:
 
 jobs:
   ci-health-dashboard:
-    name: 📊 CI Health Dashboard
+    name: "Maintenance: CI Health Dashboard"
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:

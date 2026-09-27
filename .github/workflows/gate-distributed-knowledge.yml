@@ -97,7 +97,7 @@ concurrency:
 
 jobs:
   build-distributed-knowledge:
-    name: Build Producer (distributed_knowledge)
+    name: "Build: Producer (distributed_knowledge)"
     runs-on: ubuntu-latest
     timeout-minutes: 45
     permissions:
@@ -139,7 +139,7 @@ jobs:
           if-no-files-found: error
 
   validate-unit-tests:
-    name: Unit Tests Consumer
+    name: "Validate: Unit Tests Consumer"
     runs-on: ubuntu-latest
     timeout-minutes: 20
     needs: build-distributed-knowledge
@@ -170,7 +170,7 @@ jobs:
             --timeout 300
 
   validate-benchmarks:
-    name: Benchmark Consumer
+    name: "Benchmark: Consumer"
     runs-on: ubuntu-latest
     timeout-minutes: 25
     needs: build-distributed-knowledge
@@ -201,7 +201,7 @@ jobs:
             --timeout 600
 
   verify-gap-closure:
-    name: Verify Gap Closure Pattern
+    name: "Validate: Gap Closure Pattern"
     needs: [validate-unit-tests, validate-benchmarks]
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -262,7 +262,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
   gate-feedback:
-    name: "Gate Feedback (label + comment on failure)"
+    name: "Gate: Feedback (label + comment on failure)"
     needs:
       - build-distributed-knowledge
       - validate-unit-tests

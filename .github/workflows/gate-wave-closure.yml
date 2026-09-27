@@ -57,7 +57,7 @@ jobs:
           retention-days: 30
 
   gate-feedback:
-    name: "Gate Feedback (label + comment on failure)"
+    name: "Gate: Feedback (label + comment on failure)"
     needs:
       - validate-wave-closure-packages
     if: failure() && github.event_name == 'pull_request'

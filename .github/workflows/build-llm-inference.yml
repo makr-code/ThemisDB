@@ -108,7 +108,7 @@ jobs:
   # Job 1: Download TinyLlama GGUF model (cached across runs)
   # ─────────────────────────────────────────────────────────────────────────
   setup-and-download:
-    name: Download TinyLlama GGUF
+    name: "Build: Download TinyLlama GGUF"
     runs-on: ubuntu-latest
     timeout-minutes: 30
     outputs:
@@ -168,7 +168,7 @@ jobs:
   # Job 2: Build with LLM inference tests enabled
   # ─────────────────────────────────────────────────────────────────────────
   build-with-llm-tests:
-    name: Build (THEMIS_LLM_INFERENCE_TESTS=ON)
+    name: "Build: THEMIS_LLM_INFERENCE_TESTS=ON"
     runs-on: ubuntu-latest
     timeout-minutes: 60
     needs: setup-and-download
@@ -233,7 +233,7 @@ jobs:
   # Job 3: Build doku.db knowledge base
   # ─────────────────────────────────────────────────────────────────────────
   build-doku-db:
-    name: Build doku.db (documentation knowledge base)
+    name: "Build: doku.db (documentation knowledge base)"
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: setup-and-download
@@ -293,7 +293,7 @@ jobs:
   # Job 4: Run INFER-01..10 (llm_inference label)
   # ─────────────────────────────────────────────────────────────────────────
   run-inference-suite:
-    name: "CTest: llm_inference (INFER-01..10)"
+    name: "Validate: CTest llm_inference (INFER-01..10)"
     runs-on: ubuntu-latest
     timeout-minutes: 30
     needs: [build-with-llm-tests, setup-and-download]
@@ -344,7 +344,7 @@ jobs:
   # Job 5: Run RAG-01..07 (llm_rag_doku label)
   # ─────────────────────────────────────────────────────────────────────────
   run-rag-suite:
-    name: "CTest: llm_rag_doku (RAG-01..07)"
+    name: "Validate: CTest llm_rag_doku (RAG-01..07)"
     runs-on: ubuntu-latest
     timeout-minutes: 30
     needs: [build-with-llm-tests, build-doku-db]
@@ -396,7 +396,7 @@ jobs:
   # Job 6: Run LORA-01..07 (adalora_training label)
   # ─────────────────────────────────────────────────────────────────────────
   run-adalora-suite:
-    name: "CTest: adalora_training (LORA-01..07)"
+    name: "Validate: CTest adalora_training (LORA-01..07)"
     runs-on: ubuntu-latest
     timeout-minutes: 30
     needs: [build-with-llm-tests, build-doku-db]
@@ -448,7 +448,7 @@ jobs:
   # Job 7: Summary report and failure issue labelling
   # ─────────────────────────────────────────────────────────────────────────
   report:
-    name: Summary Report
+    name: "Automation: Summary Report"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     if: always()

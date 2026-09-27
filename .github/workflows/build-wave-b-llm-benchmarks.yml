@@ -50,7 +50,7 @@ env:
 
 jobs:
   hardware-detection:
-    name: 'Hardware Detection'
+    name: "Validate: Hardware Detection"
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -75,7 +75,7 @@ jobs:
           fi
 
   data-preparation:
-    name: 'Data Preparation'
+    name: "Build: Data Preparation"
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -94,7 +94,7 @@ jobs:
           echo "Data preparation for ${{ inputs.scenario }}"
 
   benchmark-execution:
-    name: 'Benchmark (${{ matrix.scenario }})'
+    name: "Benchmark: (${{ matrix.scenario }})"
     runs-on: ubuntu-latest
     permissions:
       contents: read

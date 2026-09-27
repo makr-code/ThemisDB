@@ -78,7 +78,7 @@ concurrency:
 jobs:
 
   extract-release-context:
-    name: Extract Release Context
+    name: "Release: Extract Context"
     runs-on: ubuntu-latest
     outputs:
       release-type: ${{ steps.extract.outputs.release-type }}
@@ -153,7 +153,7 @@ jobs:
           echo "  Should Run: $SHOULD_RUN"
 
   bump-version:
-    name: Bump Version and RELEASE_TYPE
+    name: "Release: Bump Version and RELEASE_TYPE"
     needs: extract-release-context
     runs-on: ubuntu-latest
     if: needs.extract-release-context.outputs.should-run == 'true'
@@ -213,7 +213,7 @@ jobs:
           echo "::notice::Version bump: $OLD_VERSION → $NEW_VERSION"
 
   update-changelog:
-    name: Update CHANGELOG
+    name: "Release: Update CHANGELOG"
     needs: [extract-release-context, bump-version]
     runs-on: ubuntu-latest
     if: needs.extract-release-context.outputs.should-run == 'true'
@@ -269,7 +269,7 @@ jobs:
           echo "✓ CHANGELOG.md updated with version $NEW_VERSION"
 
   create-release-pr:
-    name: Create Release PR
+    name: "Release: Create PR"
     needs: [extract-release-context, bump-version]
     runs-on: ubuntu-latest
     if: needs.extract-release-context.outputs.should-run == 'true'
@@ -371,7 +371,7 @@ jobs:
           echo "  Branch: ${{ steps.release-branch.outputs.branch }}"
 
   notify:
-    name: Notify Release Promotion
+    name: "Automation: Notify Release Promotion"
     needs: [extract-release-context, bump-version, create-release-pr]
     runs-on: ubuntu-latest
     if: needs.extract-release-context.outputs.should-run == 'true'

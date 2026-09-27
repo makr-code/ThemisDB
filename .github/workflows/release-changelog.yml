@@ -178,7 +178,7 @@ permissions:
 # ──────────────────────────────────────────────────────────────────────────────
 jobs:
   update:
-    name: Update CHANGELOG.md
+    name: "Release: Update CHANGELOG.md"
     runs-on: ubuntu-latest
     if: inputs.mode == 'update' || inputs.mode == ''
     permissions:
@@ -265,7 +265,7 @@ jobs:
   # BACKFILL job — historical reconstruction
   # ──────────────────────────────────────────────────────────────────────────
   backfill:
-    name: Changelog Backfill
+    name: "Release: Changelog Backfill"
     runs-on: ubuntu-latest
     if: inputs.mode == 'backfill'
     permissions:

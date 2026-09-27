@@ -99,7 +99,7 @@ jobs:
   # ZAP Baseline Scan (passive only — advisory, always non-blocking)
   # ────────────────────────────────────────────────────────────────────────────
   zap-baseline:
-    name: ZAP Baseline Scan (passive)
+    name: "Security: ZAP Baseline Scan (passive)"
     runs-on: ubuntu-latest
     timeout-minutes: 75
     if: >
@@ -249,7 +249,7 @@ jobs:
   # ZAP API Scan (OpenAPI-spec-driven active scan — can gate on findings)
   # ────────────────────────────────────────────────────────────────────────────
   zap-api-scan:
-    name: ZAP API Scan (OpenAPI-driven)
+    name: "Security: ZAP API Scan (OpenAPI-driven)"
     runs-on: ubuntu-latest
     timeout-minutes: 90
     if: inputs.scan_mode == 'api-scan'
@@ -401,7 +401,7 @@ jobs:
   # ZAP Full Scan (full active attack — manual-dispatch only, can be destructive)
   # ────────────────────────────────────────────────────────────────────────────
   zap-full-scan:
-    name: ZAP Full Scan (active attack — manual only)
+    name: "Security: ZAP Full Scan (active attack — manual only)"
     runs-on: ubuntu-latest
     timeout-minutes: 150
     # Full scan: only manual dispatch, only full-scan mode explicitly selected.

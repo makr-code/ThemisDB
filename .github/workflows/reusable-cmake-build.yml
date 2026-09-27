@@ -146,7 +146,7 @@ concurrency:
 
 jobs:
   build:
-    name: ${{ inputs.summary_title }}
+    name: "Reusable: ${{ inputs.summary_title }}"
     runs-on: ${{ inputs.runs_on }}
     timeout-minutes: 360
     env:

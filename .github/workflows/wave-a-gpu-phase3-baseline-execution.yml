@@ -44,7 +44,7 @@ concurrency:
 
 jobs:
   phase3-setup:
-    name: "Phase 3 Setup & Infrastructure Validation"
+    name: "Benchmark: Phase 3 Setup & Infrastructure Validation"
     runs-on: ubuntu-latest
     outputs:
       execution_mode: ${{ steps.setup.outputs.execution_mode }}
@@ -113,7 +113,7 @@ jobs:
           EOF
 
   phase3-gpu-measurement:
-    name: "Phase 3 GPU Measurement"
+    name: "Benchmark: Phase 3 GPU Measurement"
     needs: phase3-setup
     runs-on: ubuntu-latest  # Would use self-hosted gpu-cuda in production
     if: ${{ needs.phase3-setup.outputs.has_gpu == 'true' || needs.phase3-setup.outputs.execution_mode == 'gpu' || needs.phase3-setup.outputs.execution_mode == 'hybrid' }}
@@ -191,7 +191,7 @@ jobs:
           retention-days: 90
 
   phase3-cpu-measurement:
-    name: "Phase 3 CPU Fallback Measurement"
+    name: "Benchmark: Phase 3 CPU Fallback Measurement"
     needs: phase3-setup
     runs-on: ubuntu-latest
     timeout-minutes: 45
@@ -269,7 +269,7 @@ jobs:
           retention-days: 90
 
   phase3-consolidate:
-    name: "Phase 3 Consolidate & Generate Evidence"
+    name: "Automation: Phase 3 Consolidate & Generate Evidence"
     needs: [phase3-setup, phase3-gpu-measurement, phase3-cpu-measurement]
     runs-on: ubuntu-latest
     if: always()
@@ -436,7 +436,7 @@ jobs:
           retention-days: 90
 
   phase3-report:
-    name: "Phase 3 Completion Report"
+    name: "Automation: Phase 3 Completion Report"
     needs: phase3-consolidate
     runs-on: ubuntu-latest
     if: always()

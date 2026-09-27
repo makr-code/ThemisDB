@@ -78,7 +78,7 @@ concurrency:
 
 jobs:
   build-docs-db:
-    name: "Docs DB: docs/ → ThemisDB"
+    name: "Build: Docs DB: docs/ → ThemisDB"
     uses: ./.github/workflows/reusable-docs-db-builder.yml
     permissions:
       contents: read

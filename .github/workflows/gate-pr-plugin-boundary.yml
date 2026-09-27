@@ -84,7 +84,7 @@ permissions:
 
 jobs:
   private-plugin-boundary-check:
-    name: Private Plugin Boundary Enforcement
+    name: "Gate: Private Plugin Boundary Enforcement"
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:

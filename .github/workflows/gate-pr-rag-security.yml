@@ -37,7 +37,7 @@ permissions:
 
 jobs:
   security_guardrails_validation:
-    name: "Validate: RAG Security Guardrails"
+    name: "Gate: RAG Security Guardrails"
     runs-on: ubuntu-22.04
     timeout-minutes: 30
     
@@ -247,7 +247,7 @@ jobs:
             }
   
   isolation_tests:
-    name: "Test: Tenant Isolation & Policy Enforcement"
+    name: "Gate: Tenant Isolation & Policy Enforcement"
     runs-on: ubuntu-22.04
     timeout-minutes: 30
     if: contains(github.event.pull_request.labels.*.name, 'rag-tests') || contains(github.event.pull_request.labels.*.name, 'release_critical')

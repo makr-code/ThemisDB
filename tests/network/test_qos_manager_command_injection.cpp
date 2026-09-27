@@ -19,6 +19,7 @@
 #include <vector>
 
 using namespace themis::network;
+using TcConfig = QoSManager::TcConfig;
 
 // =============================================================================
 // Command Injection Regression Tests

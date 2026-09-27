@@ -81,7 +81,7 @@ jobs:
   # Job 1: Compact + archive + cleanup ai_working/
   # --------------------------------------------------------------------------
   ai-working-compact:
-    name: 🗜️ AI Working Compaction & Archive
+    name: "Maintenance: AI Working Compaction & Archive"
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -256,7 +256,7 @@ jobs:
   # Runs after compaction so compact pages are included in wiki source scan.
   # --------------------------------------------------------------------------
   llm-wiki-sync:
-    name: 📖 Developer LLM Wiki Sync
+    name: "Wiki: Developer LLM Wiki Sync"
     runs-on: ubuntu-latest
     timeout-minutes: 20
     needs: ai-working-compact

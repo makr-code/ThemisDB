@@ -36,7 +36,7 @@ concurrency:
 
 jobs:
   workflow-guardrails:
-    name: Workflow Guardrails Observe
+    name: "Maintenance: Workflow Guardrails Observe"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:

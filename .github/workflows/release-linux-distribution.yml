@@ -122,7 +122,7 @@ concurrency:
 
 jobs:
   detect-release:
-    name: Detect Release Context
+    name: "Release: Detect Context"
     runs-on: ubuntu-latest
     outputs:
       tag: ${{ steps.detect.outputs.tag }}
@@ -205,7 +205,7 @@ jobs:
           echo "Release context: tag=${TAG} version=${VERSION} channel=${CHANNEL} profile=${METADATA_PROFILE} prepare=${SHOULD_PREPARE} publish=${PUBLISH_REQUESTED} sign=${SIGN_REQUESTED}"
 
   download-assets:
-    name: Download Release Assets
+    name: "Release: Download Assets"
     needs: detect-release
     if: needs.detect-release.outputs.should_prepare == 'true'
     runs-on: ubuntu-latest
@@ -237,7 +237,7 @@ jobs:
           find release-assets -maxdepth 1 -type f -printf "%f\n" | sort
 
   prepare-linux-distro-bundle:
-    name: Prepare Linux Distro Bundle
+    name: "Build: Prepare Linux Distro Bundle"
     needs: [detect-release, download-assets]
     if: needs.detect-release.outputs.should_prepare == 'true'
     runs-on: ubuntu-latest
@@ -482,7 +482,7 @@ jobs:
           retention-days: 90
 
   publish-linux-distro-bundle:
-    name: Publish Linux Distro Bundle (semi-automated)
+    name: "Publish: Linux Distro Bundle (semi-automated)"
     needs: [detect-release, prepare-linux-distro-bundle]
     if: needs.detect-release.outputs.publish_requested == 'true'
     runs-on: ubuntu-latest

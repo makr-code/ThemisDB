@@ -50,7 +50,7 @@ env:
 
 jobs:
   configure:
-    name: "CMake Configuration (GPU)"
+    name: "Build: CMake Configuration (GPU)"
     runs-on: ubuntu-latest
     timeout-minutes: 30
     outputs:
@@ -127,7 +127,7 @@ jobs:
           retention-days: 30
 
   compile-tests:
-    name: "Compile GPU Tests"
+    name: "Build: Compile GPU Tests"
     needs: configure
     runs-on: ubuntu-latest
     timeout-minutes: 90
@@ -216,7 +216,7 @@ jobs:
           retention-days: 30
 
   full-gpu-test-suite:
-    name: "Full GPU Test Suite (36 tests)"
+    name: "Validate: Full GPU Test Suite (36 tests)"
     needs: [configure, compile-tests]
     runs-on: ubuntu-latest
     timeout-minutes: 45
@@ -313,7 +313,7 @@ jobs:
           retention-days: 30
 
   cuda-audit:
-    name: "CUDA-Call Audit Verification"
+    name: "Security: CUDA-Call Audit Verification"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:
@@ -372,7 +372,7 @@ jobs:
           retention-days: 30
 
   representative-hardware-baselines:
-    name: "Representative GPU Hardware Baselines"
+    name: "Benchmark: Representative GPU Hardware Baselines"
     runs-on: [self-hosted, gpu-cuda]
     timeout-minutes: 90
     if: github.event.inputs.run_representative_hardware == 'true'
@@ -491,7 +491,7 @@ jobs:
           retention-days: 30
 
   collect-artifacts:
-    name: "Collect GPU Build Artifacts"
+    name: "Automation: Collect GPU Build Artifacts"
     needs: [configure, compile-tests, cuda-audit, representative-hardware-baselines]
     runs-on: ubuntu-latest
     if: always()
@@ -519,7 +519,7 @@ jobs:
           retention-days: 90
 
   publish-results:
-    name: "Publish GPU CI Results"
+    name: "Publish: GPU CI Results"
     needs: [configure, compile-tests, full-gpu-test-suite, cuda-audit, representative-hardware-baselines, collect-artifacts]
     runs-on: ubuntu-latest
     if: always()
@@ -626,7 +626,7 @@ jobs:
           retention-days: 90
 
   verify-results:
-    name: "Verify GPU Test Results"
+    name: "Validate: GPU Test Results"
     needs: [full-gpu-test-suite, cuda-audit]
     runs-on: ubuntu-latest
     if: always()

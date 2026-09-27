@@ -50,7 +50,7 @@ permissions:
 
 jobs:
   doxygen-governance:
-    name: Doxygen Governance
+    name: "Gate: Doxygen Governance"
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:

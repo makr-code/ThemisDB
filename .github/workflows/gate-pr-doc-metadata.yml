@@ -71,7 +71,7 @@ permissions:
 
 jobs:
   doc-metadata-gate:
-    name: docs-metadata-gate
+    name: "Gate: Docs Metadata"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:

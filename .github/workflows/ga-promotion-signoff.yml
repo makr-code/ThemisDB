@@ -42,7 +42,7 @@ permissions:
 
 jobs:
   request-validation:
-    name: ga-signoff-request-validation
+    name: "Governance: GA Sign-Off Request Validation"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     if: github.event_name == 'pull_request'
@@ -131,7 +131,7 @@ jobs:
           if-no-files-found: ignore
 
   finalize-signoff:
-    name: ga-signoff-finalize
+    name: "Governance: GA Sign-Off Finalize"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     if: |

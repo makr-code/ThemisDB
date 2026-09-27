@@ -44,7 +44,7 @@ concurrency:
 
 jobs:
   validate-workflow-guidelines:
-    name: Workflow Guidelines Compliance Check
+    name: "Validate: Workflow Guidelines Compliance Check"
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:

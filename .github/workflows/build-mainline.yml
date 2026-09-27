@@ -94,7 +94,7 @@ concurrency:
 
 jobs:
   mark-build-pending:
-    name: Mark build pending state
+    name: "Build: Mark Pending State"
     runs-on: ubuntu-latest
     timeout-minutes: 5
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'

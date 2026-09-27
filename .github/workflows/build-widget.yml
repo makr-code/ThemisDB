@@ -67,7 +67,7 @@ jobs:
   # 1. Download Windows release assets from GitHub Release
   # ─────────────────────────────────────────────────────────────────────────────
   download-release-assets:
-    name: Download Release Assets
+    name: "Release: Download Release Assets"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:
@@ -138,7 +138,7 @@ jobs:
   # 2. Generate SHA256 checksums
   # ─────────────────────────────────────────────────────────────────────────────
   generate-checksums:
-    name: Generate Checksums
+    name: "Build: Generate Checksums"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     needs: download-release-assets
@@ -174,7 +174,7 @@ jobs:
   #    Structure mirrors PR #422182: NestedInstallerType portable + de-DE locale
   # ─────────────────────────────────────────────────────────────────────────────
   generate-manifests:
-    name: Generate WinGet Manifests
+    name: "Build: Generate WinGet Manifests"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     needs: [download-release-assets, generate-checksums]
@@ -368,7 +368,7 @@ jobs:
   # 4. Validate manifests with winget (windows-latest runner required)
   # ─────────────────────────────────────────────────────────────────────────────
   validate-manifests:
-    name: Validate WinGet Manifests
+    name: "Validate: WinGet Manifests"
     runs-on: windows-latest
     timeout-minutes: 15
     needs: [download-release-assets, generate-manifests]
@@ -404,7 +404,7 @@ jobs:
   #    Skipped when dry_run=true
   # ─────────────────────────────────────────────────────────────────────────────
   submit-winget-pr:
-    name: Submit to WinGet (fork PR)
+    name: "Publish: WinGet (fork PR)"
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: [download-release-assets, generate-manifests, validate-manifests]
@@ -489,7 +489,7 @@ jobs:
   # 6. Summary
   # ─────────────────────────────────────────────────────────────────────────────
   notify:
-    name: Widget Pipeline Summary
+    name: "Automation: Widget Pipeline Summary"
     runs-on: ubuntu-latest
     timeout-minutes: 5
     needs: [download-release-assets, generate-manifests, validate-manifests, submit-winget-pr]

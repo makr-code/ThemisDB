@@ -29,7 +29,7 @@ concurrency:
 
 jobs:
   diagnose-pr-failure:
-    name: PR Failure Diagnosebericht
+    name: "Maintenance: PR Failure Diagnosebericht"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:

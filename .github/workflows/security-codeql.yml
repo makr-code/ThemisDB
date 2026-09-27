@@ -160,7 +160,7 @@ concurrency:
 
 jobs:
   detect-default-setup:
-    name: Detect CodeQL setup mode
+    name: "Security: Detect CodeQL setup mode"
     runs-on: ubuntu-latest
     outputs:
       advanced_allowed: ${{ steps.detect.outputs.advanced_allowed }}
@@ -222,7 +222,7 @@ jobs:
           esac
 
   analyze:
-    name: Analyze (c-cpp)
+    name: "Security: Analyze (c-cpp)"
     needs: detect-default-setup
     if: needs.detect-default-setup.outputs.advanced_allowed == 'true'
     runs-on: ubuntu-latest
@@ -295,7 +295,7 @@ jobs:
           threads: 4
 
   analyze-csharp:
-    name: Analyze (csharp)
+    name: "Security: Analyze (csharp)"
     needs: detect-default-setup
     if: needs.detect-default-setup.outputs.advanced_allowed == 'true'
     runs-on: windows-latest
@@ -344,7 +344,7 @@ jobs:
           threads: 2
 
   analyze-rust:
-    name: Analyze (rust)
+    name: "Security: Analyze (rust)"
     needs: detect-default-setup
     if: needs.detect-default-setup.outputs.advanced_allowed == 'true'
     runs-on: ubuntu-latest

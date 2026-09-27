@@ -78,7 +78,7 @@ jobs:
   # on a broken tree.
   # ─────────────────────────────────────────────────────────────────────────
   preflight-build-status:
-    name: Preflight — Build Status Gate
+    name: "Validate: Preflight Build Status Gate"
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -106,7 +106,7 @@ jobs:
   # Implements PERFORMANCE_EXPECTATIONS.md §1.4, Maßnahme #4
   # ─────────────────────────────────────────────────────────────────────────
   voice-benchmarks:
-    name: Voice Benchmark (${{ matrix.os }})
+    name: "Benchmark: Voice (${{ matrix.os }})"
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     needs: [preflight-build-status]
@@ -211,7 +211,7 @@ jobs:
   # GPU/transaction blocker families.
   # ─────────────────────────────────────────────────────────────────────────
   critical-module-baselines:
-    name: Critical Module Baselines (auth/query/voice)
+    name: "Benchmark: Critical Module Baselines (auth/query/voice)"
     runs-on: ubuntu-latest
     timeout-minutes: 120
     needs: [preflight-build-status]
@@ -393,7 +393,7 @@ jobs:
   # canonical Wave A critical flows in a dependency-complete CI environment.
   # ─────────────────────────────────────────────────────────────────────────
   wave-a-flow-benchmark-gates:
-    name: Wave A Flow Benchmark Gates (${{ matrix.flow_name }})
+    name: "Benchmark: Wave A Flow Gates (${{ matrix.flow_name }})"
     runs-on: ubuntu-latest
     timeout-minutes: 90
     needs: [preflight-build-status]
@@ -499,7 +499,7 @@ jobs:
   # release_critical lanes.
   # ─────────────────────────────────────────────────────────────────────────
   wave-a-longrun-evidence:
-    name: Wave A Long-Run Evidence (${{ matrix.flow_name }})
+    name: "Benchmark: Wave A Long-Run Evidence (${{ matrix.flow_name }})"
     runs-on: ubuntu-latest
     timeout-minutes: 180
     needs: [preflight-build-status]
@@ -614,7 +614,7 @@ jobs:
   # Self-hosted GPU runners are optional; CPU fallback always runs on ubuntu-latest
   # ─────────────────────────────────────────────────────────────────────────
   gpu-bench-cuda:
-    name: GPU Benchmarks (CUDA, ${{ matrix.cuda_arch }})
+    name: "Benchmark: GPU (CUDA, ${{ matrix.cuda_arch }})"
     runs-on: [self-hosted, gpu-cuda]
     needs: [preflight-build-status]
     if: >
@@ -679,7 +679,7 @@ jobs:
           if-no-files-found: ignore
 
   gpu-bench-hip:
-    name: GPU Benchmarks (HIP/ROCm)
+    name: "Benchmark: GPU (HIP/ROCm)"
     runs-on: [self-hosted, gpu-hip]
     needs: [preflight-build-status]
     if: >
@@ -722,7 +722,7 @@ jobs:
           if-no-files-found: ignore
 
   gpu-bench-cpu-fallback:
-    name: GPU Benchmarks (CPU fallback — disabled-stub compile check)
+    name: "Benchmark: GPU (CPU fallback disabled-stub compile check)"
     runs-on: ubuntu-latest
     needs: [preflight-build-status]
     if: >
@@ -774,7 +774,7 @@ jobs:
   # Implements PERFORMANCE_EXPECTATIONS.md §1.4, Maßnahme #10
   # ─────────────────────────────────────────────────────────────────────────
   nightly-benchmark-sweep:
-    name: Nightly Benchmark Sweep (modules 2–35)
+    name: "Benchmark: Nightly Sweep (modules 2-35)"
     runs-on: ubuntu-latest
     timeout-minutes: 180
     needs: [preflight-build-status]
@@ -854,7 +854,7 @@ jobs:
   # metrics, and OTel exporter stress under production-like conditions.
   # ─────────────────────────────────────────────────────────────────────────
   wave-d-observability-gates:
-    name: Wave D Observability Gates (Trace, Metrics, Exporter Stress)
+    name: "Gate: Wave D Observability (Trace, Metrics, Exporter Stress)"
     runs-on: ubuntu-latest
     timeout-minutes: 120
     needs: [preflight-build-status]
@@ -970,7 +970,7 @@ jobs:
   # Runs SRG-01..06 benchmarks on every nightly schedule or on-demand.
   # ─────────────────────────────────────────────────────────────────────────
   sharding-release-gates:
-    name: Sharding Release-Gate Benchmarks (SRG-01..06)
+    name: "Gate: Sharding Release-Gate Benchmarks (SRG-01..06)"
     runs-on: ubuntu-latest
     timeout-minutes: 30
     needs: [preflight-build-status]
@@ -1087,7 +1087,7 @@ jobs:
   # for observability infrastructure under sustained production-like load.
   # ─────────────────────────────────────────────────────────────────────────
   wave-d-soak-tests:
-    name: Wave D Soak Tests (48-hour Endurance)
+    name: "Benchmark: Wave D Soak Tests (48-hour Endurance)"
     runs-on: ubuntu-latest
     timeout-minutes: 2880  # 48 hours
     needs: [preflight-build-status]

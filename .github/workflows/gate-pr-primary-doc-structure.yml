@@ -32,7 +32,7 @@ permissions:
 
 jobs:
   primary-doc-structure-gate:
-    name: primary-doc-structure-gate
+    name: "Gate: Primary Doc Structure"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -115,7 +115,7 @@ jobs:
           if-no-files-found: warn
 
   gate-feedback:
-    name: Gate Feedback (label + comment on failure)
+    name: "Gate: Feedback (label + comment on failure)"
     needs:
       - primary-doc-structure-gate
     if: failure() && github.event_name == 'pull_request'

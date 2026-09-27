@@ -31,7 +31,7 @@ concurrency:
 
 jobs:
   validate-target-version:
-    name: Validate PR Version Targeting
+    name: "Validate: PR Version Targeting"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -121,7 +121,7 @@ jobs:
           echo "  3. Confirm automation assigned the matching milestone on the PR"
 
   gate-feedback:
-    name: "Gate Feedback (label + comment on failure)"
+    name: "Gate: Feedback (label + comment on failure)"
     needs:
       - validate-target-version
     if: failure() && github.event_name == 'pull_request'

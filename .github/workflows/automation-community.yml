@@ -27,7 +27,7 @@ jobs:
   # Greet first-time contributors
   # ---------------------------------------------------------------------------
   greet-first-interaction:
-    name: Greet first-time contributors
+    name: "Automation: Greet first-time contributors"
     runs-on: ubuntu-latest
     if: |
       (github.event_name == 'pull_request_target' && github.event.action == 'opened') ||
@@ -48,7 +48,7 @@ jobs:
   # Auto-label pull requests based on changed paths (.github/labeler.yml)
   # ---------------------------------------------------------------------------
   auto-label:
-    name: Auto-label pull request
+    name: "Automation: Auto-label pull request"
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request_target'
     permissions:
@@ -64,7 +64,7 @@ jobs:
   # Summarize new issues with AI inference
   # ---------------------------------------------------------------------------
   summarize-issue:
-    name: Summarize new issue
+    name: "Automation: Summarize new issue"
     runs-on: ubuntu-latest
     if: github.event_name == 'issues' && github.event.action == 'opened'
     permissions:
@@ -104,7 +104,7 @@ jobs:
   # Uses GitHub's AI inference to analyze PR title and body for semantic meaning
   # ──────────────────────────────────────────────────────────────────────────────
   semantic-labeling:
-    name: Semantic labeling with AI
+    name: "Automation: Semantic labeling with AI"
     runs-on: ubuntu-latest
     if: |
       github.event_name == 'pull_request_target' &&
@@ -227,7 +227,7 @@ jobs:
   # pushes, not only the initial open event.
   # ---------------------------------------------------------------------------
   request-review:
-    name: Request maintainer review
+    name: "Automation: Request maintainer review"
     runs-on: ubuntu-latest
     if: >
       github.event_name == 'pull_request_target' &&

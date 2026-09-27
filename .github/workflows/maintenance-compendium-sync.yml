@@ -51,7 +51,7 @@ permissions:
 
 jobs:
   drift-scan:
-    name: Compendium Drift Scan
+    name: "Maintenance: Compendium Drift Scan"
     runs-on: ubuntu-latest
     timeout-minutes: 15
     outputs:
@@ -120,7 +120,7 @@ jobs:
           fi
 
   open-tracker-issue:
-    name: Open / Update Tracker Issue
+    name: "Maintenance: Open / Update Tracker Issue"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     needs: drift-scan
@@ -243,7 +243,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
   no-drift-close-issue:
-    name: Close Tracker Issue (no drift)
+    name: "Maintenance: Close Tracker Issue (no drift)"
     runs-on: ubuntu-latest
     timeout-minutes: 5
     needs: drift-scan

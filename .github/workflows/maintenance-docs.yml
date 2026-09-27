@@ -111,7 +111,7 @@ jobs:
 
   # 1. AI Context Wiki Sync
   ai-context-sync:
-    name: AI Context lint and sync
+    name: "Maintenance: AI Context lint and sync"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -161,7 +161,7 @@ jobs:
 
   # 2. Code Maturity Analysis
   developer-llm-wiki:
-    name: Developer LLM Wiki sync
+    name: "Maintenance: Developer LLM Wiki sync"
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -266,7 +266,7 @@ jobs:
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
   code-maturity:
-    name: Code Maturity Analysis
+    name: "Maintenance: Code Maturity Analysis"
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
@@ -393,7 +393,7 @@ jobs:
 
   # 3a. Commit Code Maturity Artifacts (write permission scoped to this job, skipped on PRs)
   code-maturity-commit:
-    name: Commit Code Maturity Artifacts
+    name: "Maintenance: Commit Code Maturity Artifacts"
     needs: code-maturity
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
@@ -524,7 +524,7 @@ jobs:
 
   # 4. Docs Orphan Check
   docs-orphan-check:
-    name: docs/de + docs/en Orphan Check
+    name: "Maintenance: docs/de + docs/en Orphan Check"
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -594,7 +594,7 @@ jobs:
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
   root-docs-hygiene:
-    name: Repo root markdown hygiene
+    name: "Maintenance: Repo root markdown hygiene"
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -666,7 +666,7 @@ jobs:
 
   # 6. src/include ↔ docs/de Alignment
   src-docs-alignment:
-    name: src/include ↔ docs/de Alignment
+    name: "Maintenance: src/include ↔ docs/de Alignment"
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -744,7 +744,7 @@ jobs:
   # This job is report-only: it never deletes files and never fails the workflow.
   # ────────────────────────────────────────────────────────────────────────────
   ai-working-hygiene:
-    name: ai_working + ai_context Hygiene
+    name: "Maintenance: ai_working + ai_context Hygiene"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -932,7 +932,7 @@ jobs:
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
   doxygen-api-extraction:
-    name: Doxygen XML → API Reference wiki pages
+    name: "Maintenance: Doxygen XML → API Reference wiki pages"
     runs-on: ubuntu-latest
     timeout-minutes: 20
     # Run only on schedule or explicit workflow_dispatch to keep costs low.

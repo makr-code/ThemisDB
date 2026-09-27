@@ -72,7 +72,7 @@ permissions:
 jobs:
 
   preflight-ci-policy:
-    name: Preflight CI Policy + Workflow Lint
+    name: "Validate: CI Policy + Workflow Lint"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -160,7 +160,7 @@ jobs:
   # Enforces security boundaries, edition compatibility, and supply-chain integrity
   # ────────────────────────────────────────────────────────────────────────────
   wavec-policy-gates-private-plugin:
-    name: Wave C Policy Gate — Private/Public Plugin Boundary
+    name: "Gate: Wave C — Private/Public Plugin Boundary"
     needs: preflight-ci-policy
     if: github.event_name == 'pull_request' && github.base_ref != ''
     permissions:
@@ -169,7 +169,7 @@ jobs:
     uses: ./.github/workflows/gate-pr-plugin-boundary.yml
 
   wavec-policy-gates-edition-license:
-    name: Wave C Policy Gate — Edition & License Validation
+    name: "Gate: Wave C — Edition & License Validation"
     needs: preflight-ci-policy
     if: github.event_name == 'pull_request' && github.base_ref != ''
     permissions:
@@ -178,7 +178,7 @@ jobs:
     uses: ./.github/workflows/gate-pr-edition-license.yml
 
   wavec-policy-gates-hash-sbom:
-    name: Wave C Policy Gate — Hash & SBOM Integrity
+    name: "Gate: Wave C — Hash & SBOM Integrity"
     needs: preflight-ci-policy
     if: github.event_name == 'pull_request' && github.base_ref != ''
     permissions:
@@ -187,7 +187,7 @@ jobs:
     uses: ./.github/workflows/gate-pr-hash-sbom.yml
 
   wavec-policy-gates-community-fail-closed:
-    name: Wave C Policy Gate — Community Fail-Closed Validation
+    name: "Gate: Wave C — Community Fail-Closed Validation"
     needs: preflight-ci-policy
     if: github.event_name == 'pull_request' && github.base_ref != ''
     permissions:
@@ -200,7 +200,7 @@ jobs:
   # Waits for all 4 policy gates to complete
   # ────────────────────────────────────────────────────────────────────────────
   wavec-policy-gates:
-    name: Wave C Policy Gates (Aggregated)
+    name: "Validate: Wave C Policy Gates (Aggregated)"
     runs-on: ubuntu-latest
     if: always()
     permissions:
@@ -262,7 +262,7 @@ jobs:
   # Applies to: PRs targeting community and minimal only
   # ────────────────────────────────────────────────────────────────────────────
   community-pipeline-policy:
-    name: Community Pipeline Policy
+    name: "Validate: Community Pipeline Policy"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -321,7 +321,7 @@ jobs:
   # Applies to: PRs targeting all protected branches
   # ────────────────────────────────────────────────────────────────────────────
   high-exception-record:
-    name: High Exception Record Guard
+    name: "Validate: High Exception Record Guard"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -348,7 +348,7 @@ jobs:
   # Applies to: PRs targeting all protected branches
   # ────────────────────────────────────────────────────────────────────────────
   private-plugin-boundary:
-    name: Private Plugin Boundary Guard
+    name: "Validate: Private Plugin Boundary Guard"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -424,7 +424,7 @@ jobs:
   # Applies to: PRs targeting develop + all edition branches
   # ────────────────────────────────────────────────────────────────────────────
   release-critical-tests:
-    name: Release-Critical Test Suite
+    name: "Validate: Release-Critical Test Suite"
     runs-on: ubuntu-latest
     timeout-minutes: 45
     needs: preflight-ci-policy
@@ -483,7 +483,7 @@ jobs:
   # Applies to: PRs and pushes targeting develop; cmake/build-system changes
   # ────────────────────────────────────────────────────────────────────────────
   reproducible-builds:
-    name: Reproducible Build Metadata
+    name: "Validate: Reproducible Build Metadata"
     runs-on: ubuntu-latest
     if: >
       github.event_name == 'push' ||
@@ -525,7 +525,7 @@ jobs:
   # Applies to: PRs targeting develop + community; scanner/tooling changes
   # ────────────────────────────────────────────────────────────────────────────
   scanner-delta-report:
-    name: Scanner Delta Report
+    name: "Validate: Scanner Delta Report"
     runs-on: ubuntu-latest
     timeout-minutes: 25
     if: >
@@ -606,7 +606,7 @@ jobs:
   # Applies to: PRs targeting all protected branches; .gitmodules changes
   # ────────────────────────────────────────────────────────────────────────────
   submodule-commit-pins:
-    name: Submodule Commit-Pin Gate
+    name: "Validate: Submodule Commit-Pin Gate"
     runs-on: ubuntu-latest
     timeout-minutes: 5
     if: >
@@ -652,7 +652,7 @@ jobs:
   # Applies to: PRs targeting community + develop; .github/workflows changes
   # ────────────────────────────────────────────────────────────────────────────
   workflow-boundary-guard:
-    name: Workflow Boundary Guard
+    name: "Validate: Workflow Boundary Guard"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     if: >
@@ -694,7 +694,7 @@ jobs:
   # Applies to: PRs targeting community/minimal branches
   # ────────────────────────────────────────────────────────────────────────────
   scoped-checkout-validation:
-    name: Scoped Checkout Validation (Wave C Batch 3)
+    name: "Validate: Scoped Checkout Validation (Wave C Batch 3)"
     runs-on: ubuntu-latest
     timeout-minutes: 5
     if: >
@@ -751,7 +751,7 @@ jobs:
   # Applies to: PRs targeting all protected branches
   # ────────────────────────────────────────────────────────────────────────────
   manifest-edition-gates:
-    name: Plugin Manifest Edition Gates (Wave C Batch 2)
+    name: "Validate: Plugin Manifest Edition Gates (Wave C Batch 2)"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     if: >
@@ -852,7 +852,7 @@ jobs:
   # Applies to: PRs targeting all protected branches
   # ────────────────────────────────────────────────────────────────────────────
   private-credential-scan:
-    name: Private-Credential Scanning (Wave C Batch 3)
+    name: "Validate: Private-Credential Scanning (Wave C Batch 3)"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     if: >
@@ -947,7 +947,7 @@ jobs:
   # Debug: prints install, scan scope, file count, and detailed result summary.
   # ────────────────────────────────────────────────────────────────────────────
   secret-scan:
-    name: 🔐 Secret Scanning (TruffleHog)
+    name: "Validate: Secret Scanning (TruffleHog)"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     if: github.event_name == 'pull_request'
@@ -1072,7 +1072,7 @@ jobs:
   # SUMMARY — Aggregates all gate results (always runs)
   # ────────────────────────────────────────────────────────────────────────────
   gates-summary:
-    name: PR Gates Summary
+    name: "Validate: PR Gates Summary"
     runs-on: ubuntu-latest
     if: always()
     needs:

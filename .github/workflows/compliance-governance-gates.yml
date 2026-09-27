@@ -56,7 +56,7 @@ concurrency:
 jobs:
 
   gate-event-context:
-    name: Governance Gate Event Context
+    name: "Governance: Gate Event Context"
     runs-on: ubuntu-latest
     outputs:
       run_pr_governance_gates: ${{ steps.decide.outputs.run_pr_governance_gates }}
@@ -110,7 +110,7 @@ jobs:
 
   # 1. Maturity Verification (push/approved review/schedule)
   maturity-verification:
-    name: Maturity Evidence & Gate Verification
+    name: "Validate: Maturity Evidence and Gate Verification"
     needs: gate-event-context
     runs-on: ubuntu-latest
     if: >
@@ -207,7 +207,7 @@ jobs:
 
   # 2. Module Phase Gate (approved review — ROADMAP.md changes)
   module-phase-gate:
-    name: Module Phase Closure Validation
+    name: "Validate: Module Phase Closure"
     needs: gate-event-context
     runs-on: ubuntu-latest
     # Intentionally review-only: phase closure is evaluated only for the final
@@ -247,7 +247,7 @@ jobs:
 
   # 3. Merge Gate Enforcer (approved PR review)
   merge-gate-enforcer:
-    name: Merge Gate Enforcer
+    name: "Gate: Merge Enforcer"
     needs: gate-event-context
     runs-on: ubuntu-latest
     # Intentionally review-only: merge gating should happen on the approval
@@ -316,7 +316,7 @@ jobs:
 
   # 4. RC Validation (RC tags + manual dispatch)
   rc-validation:
-    name: Release Candidate Validation
+    name: "Release: Candidate Validation"
     runs-on: ubuntu-latest
     if: >
       (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') && contains(github.ref, '-rc.')) ||
@@ -370,7 +370,7 @@ jobs:
 
   # 4. WAVE C BATCH 3 — SBOM/Hash Verification (release integrity)
   sbom-hash-verification:
-    name: SBOM/Hash Verification (Wave C Batch 3)
+    name: "Security: SBOM/Hash Verification (Wave C Batch 3)"
     runs-on: ubuntu-latest
     if: >
       (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') && contains(github.ref, '-rc.')) ||
@@ -504,7 +504,7 @@ jobs:
 
   # 5. Gate Audit Summary (weekly)
   gate-audit-summary:
-    name: Weekly Gate Audit Summary
+    name: "Compliance: Weekly Gate Audit Summary"
     runs-on: ubuntu-latest
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     steps:
@@ -566,7 +566,7 @@ jobs:
 
   # 6. Doxygen waiver command handling (PR comments)
   doxygen-waiver-commands:
-    name: Doxygen Waiver Commands
+    name: "Governance: Doxygen Waiver Commands"
     runs-on: ubuntu-latest
     if: >
       github.event_name == 'issue_comment' &&
@@ -755,7 +755,7 @@ jobs:
 
   # 7. Waiver Expiration Check (daily)
   waiver-expiration-check:
-    name: Waiver Expiration Check
+    name: "Governance: Waiver Expiration Check"
     runs-on: ubuntu-latest
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     steps:
@@ -853,7 +853,7 @@ jobs:
   # Debug: prints per-module status table, wave detection, and full summary.
   # ──────────────────────────────────────────────────────────────────────────
   wave-gate-automation:
-    name: 🌊 Wave Gate Automation (ROADMAP checkbox parser)
+    name: "Gate: Wave Automation (ROADMAP checkbox parser)"
     needs: gate-event-context
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -1011,7 +1011,7 @@ jobs:
   # Debug: prints per-branch protection status before comparison.
   # ──────────────────────────────────────────────────────────────────────────
   branch-protection-drift:
-    name: 🛡️ Branch Protection Drift Detection
+    name: "Governance: Branch Protection Drift Detection"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'

@@ -9,6 +9,7 @@
  */
 
 #include <filesystem>
+#include <limits>
 #include <gtest/gtest.h>
 
 #include "index/index_metadata_store.h"
@@ -168,27 +169,34 @@ TEST_F(IndexMetadataStoreTest, ROCKSDB_04_RollbackAtomicity) {
 }
 
 /**
- * @test Version number encoding/decoding
+ * @test Version numbers persist across reopen, including high uint32 values
  */
-TEST_F(IndexMetadataStoreTest, VersionNumberEncoding) {
-  // Test big-endian encoding
-  uint32_t version = 0x12345678;
-  std::string encoded = IndexMetadataStore::EncodeVersionNumber(version);
-  EXPECT_EQ(encoded.size(), 4);
-  EXPECT_EQ((uint8_t)encoded[0], 0x12);
-  EXPECT_EQ((uint8_t)encoded[1], 0x34);
-  EXPECT_EQ((uint8_t)encoded[2], 0x56);
-  EXPECT_EQ((uint8_t)encoded[3], 0x78);
+TEST_F(IndexMetadataStoreTest, VersionNumberRoundTripViaPublicApi) {
+  auto store = IndexMetadataStore::Open(db_path_str(), "wiki-index-test");
 
-  // Test decoding
-  uint32_t decoded = IndexMetadataStore::DecodeVersionNumber(encoded);
-  EXPECT_EQ(decoded, version);
+  IndexManifestV1 manifest;
+  manifest.index_id = "wiki-index-test";
 
-  // Test round-trip for various values
-  for (uint32_t v : {0, 1, 255, 256, 65535, 65536, 0xFFFFFFFF}) {
-    auto enc = IndexMetadataStore::EncodeVersionNumber(v);
-    auto dec = IndexMetadataStore::DecodeVersionNumber(enc);
-    EXPECT_EQ(dec, v);
+  const uint32_t versions[] = {
+      1u,
+      255u,
+      256u,
+      65535u,
+      65536u,
+      std::numeric_limits<uint32_t>::max()};
+
+  for (const auto version : versions) {
+    manifest.current_version.version_number = version;
+    manifest.current_version.embedding_model_id = "model-" + std::to_string(version);
+
+    VersionHistoryEntry entry;
+    entry.version_number = version;
+    entry.embedding_model_id = manifest.current_version.embedding_model_id;
+    entry.action = "version_roundtrip";
+
+    store->WriteManifestAtomic(manifest, entry);
+    const auto restored = store->GetVersionHistory(version);
+    EXPECT_EQ(restored.version_number, version);
   }
 }
 

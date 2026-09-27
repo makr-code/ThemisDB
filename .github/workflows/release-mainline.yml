@@ -88,7 +88,7 @@ concurrency:
 jobs:
 
   preflight-release-policy:
-    name: Preflight Release Policy
+    name: "Validate: Preflight Release Policy"
     runs-on: ubuntu-latest
     permissions:
       issues: write
@@ -188,7 +188,7 @@ jobs:
   # Package: consolidate CPack artifacts from all presets into a single release
   # ─────────────────────────────────────────────────────────────────────────────
   package:
-    name: Package Release Artifacts
+    name: "Build: Package Release Artifacts"
     runs-on: ubuntu-latest
     needs: build-matrix
     if: >
@@ -297,7 +297,7 @@ jobs:
           retention-days: 90
 
   validate-release-manifest:
-    name: Validate Release Manifest
+    name: "Validate: Release Manifest"
     runs-on: ubuntu-latest
     needs: package
     steps:
@@ -377,7 +377,7 @@ jobs:
           echo "Model distribution policy check passed."
 
   docker-image:
-    name: Trigger Docker Image Workflow (non-blocking)
+    name: "Automation: Trigger Docker Image Workflow (non-blocking)"
     runs-on: ubuntu-latest
     needs: validate-release-manifest
     if: >
@@ -415,7 +415,7 @@ jobs:
           exit 0
 
   ci-widget:
-    name: Trigger CI Widget Workflow (dry-run, non-blocking)
+    name: "Automation: Trigger CI Widget Workflow (dry-run, non-blocking)"
     runs-on: ubuntu-latest
     needs: validate-release-manifest
     if: >
@@ -457,7 +457,7 @@ jobs:
   # Community guardrail: RELEASE_STRATEGY.md §2.4
   # ─────────────────────────────────────────────────────────────────────────────
   publish-community:
-    name: Publish Community Release
+    name: "Publish: Community Release"
     runs-on: ubuntu-latest
     needs: validate-release-manifest
     # Only publish community on vX.Y.Z tags or explicit community dispatch.
@@ -561,7 +561,7 @@ jobs:
   # Requires PRIVATE_REGISTRY_TOKEN for private container/package registries
   # ─────────────────────────────────────────────────────────────────────────────
   publish-private:
-    name: Publish ${{ github.event_name == 'workflow_dispatch' && inputs.edition || 'private' }} Release
+    name: "Publish: ${{ github.event_name == 'workflow_dispatch' && inputs.edition || 'private' }} Release"
     runs-on: ubuntu-latest
     needs: validate-release-manifest
     if: >
@@ -641,7 +641,7 @@ jobs:
   # Changelog — update CHANGELOG.md after community release
   # ─────────────────────────────────────────────────────────────────────────────
   changelog:
-    name: Update Changelog
+    name: "Release: Update Changelog"
     needs: publish-community
     if: >
       always() &&
@@ -673,7 +673,7 @@ jobs:
   # HuggingFace TinyLlama GGUF model download path.
   # ─────────────────────────────────────────────────────────────────────────────
   llm-inference-gate:
-    name: LLM Inference Gate (optional)
+    name: "Gate: LLM Inference (optional)"
     runs-on: ubuntu-latest
     timeout-minutes: 90
     needs: validate-release-manifest

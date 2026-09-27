@@ -105,7 +105,7 @@ jobs:
   # Content lifted verbatim from maintenance-gs3-gaps.yml.
   # ────────────────────────────────────────────────────────────────────────────
   gs3-gap-triage:
-    name: 🧭 GS3 Gap Triage
+    name: "Maintenance: GS3 Gap Triage"
     runs-on: ubuntu-latest
     timeout-minutes: 35
     permissions:
@@ -564,7 +564,7 @@ jobs:
   # Content lifted verbatim from maintenance-security-alerts.yml.
   # ────────────────────────────────────────────────────────────────────────────
   security-alert-triage:
-    name: 🛡️ Security Alert SLA Triage
+    name: "Security: Alert SLA Triage"
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -723,7 +723,7 @@ jobs:
   # Runs weekly on Wednesday 02:30 UTC or on workflow_dispatch.
   # ────────────────────────────────────────────────────────────────────────────
   doxygen-header-update:
-    name: "📝 Doxygen Header Update (GS3-driven)"
+    name: "Maintenance: Doxygen Header Update (GS3-driven)"
     runs-on: ubuntu-latest
     timeout-minutes: 40
     permissions:

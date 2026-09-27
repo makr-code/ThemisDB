@@ -44,7 +44,7 @@ permissions:
 
 jobs:
   generate-architecture:
-    name: Generate Architecture Model
+    name: "Maintenance: Generate Architecture Model"
     runs-on: ubuntu-latest
     timeout-minutes: 15
 

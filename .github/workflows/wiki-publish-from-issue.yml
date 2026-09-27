@@ -32,7 +32,7 @@ concurrency:
 
 jobs:
   wiki_publish_from_issue:
-    name: Publish wiki on approval comment
+    name: "Wiki: Publish wiki on approval comment"
     if: |
       contains(github.event.issue.labels.*.name, 'wiki-review') &&
       (

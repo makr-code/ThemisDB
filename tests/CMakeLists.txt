@@ -2355,8 +2355,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_build_info.cpp" AND NOT TARGET modul
         WORKING_DIRECTORY $<TARGET_FILE_DIR:module_build_test_build_info_focused>
         TIMEOUT 60
     )
-else()
+elseif(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_build_info.cpp")
     message(WARNING "Build info focused source not found: tests/test_build_info.cpp")
+else()
+    message(STATUS "Build info focused target already defined elsewhere: module_build_test_build_info_focused")
 endif()
 
 # Edition and runtime-license focused test binary (decoupled from themis_tests)

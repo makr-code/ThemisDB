@@ -37,7 +37,7 @@ permissions:
 
 jobs:
   version_governance_validation:
-    name: "Validate: Embedding Version Governance"
+    name: "Gate: Embedding Version Governance"
     runs-on: ubuntu-22.04
     timeout-minutes: 30
     
@@ -223,7 +223,7 @@ jobs:
             });
   
   reindex_decision_tests:
-    name: "Test: Reindex Decision Logic"
+    name: "Gate: Reindex Decision Logic"
     runs-on: ubuntu-22.04
     timeout-minutes: 30
     if: contains(github.event.pull_request.labels.*.name, 'rag-tests') || contains(github.event.pull_request.labels.*.name, 'release_critical')

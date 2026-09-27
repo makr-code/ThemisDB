@@ -54,7 +54,7 @@ jobs:
   # Trivy — filesystem vulnerability scan (OS packages + libraries)
   # ────────────────────────────────────────────────────────────────────────────
   trivy:
-    name: Trivy Vulnerability Scan
+    name: "Security: Trivy Vulnerability Scan"
     runs-on: ubuntu-latest
     timeout-minutes: 30
     if: >
@@ -105,7 +105,7 @@ jobs:
   # Gitleaks — secret detection scan
   # ────────────────────────────────────────────────────────────────────────────
   gitleaks:
-    name: Gitleaks Secret Scan
+    name: "Security: Gitleaks Secret Scan"
     runs-on: ubuntu-latest
     timeout-minutes: 20
     if: >
@@ -172,7 +172,7 @@ jobs:
   # Kubesec — Kubernetes manifest security scan
   # ────────────────────────────────────────────────────────────────────────────
   kubesec:
-    name: Kubesec — Kubernetes Manifest Scan
+    name: "Security: Kubesec — Kubernetes Manifest Scan"
     runs-on: ubuntu-latest
     timeout-minutes: 20
     if: >

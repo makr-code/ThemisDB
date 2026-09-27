@@ -29,7 +29,7 @@ concurrency:
 
 jobs:
   aggregate-build-errors:
-    name: 📋 Aggregate & Create Build Error Issues
+    name: "Maintenance: Aggregate & Create Build Error Issues"
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:

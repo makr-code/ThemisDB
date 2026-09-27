@@ -21,7 +21,7 @@ concurrency:
 
 jobs:
   prepare-release-matrix:
-    name: Prepare Release Build Matrix
+    name: "Build: Prepare Release Build Matrix"
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.plan.outputs.matrix }}

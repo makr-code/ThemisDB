@@ -112,7 +112,7 @@ env:
 
 jobs:
   publish-wiki:
-    name: Build, validate and publish wiki
+    name: "Wiki: Build, validate and publish wiki"
     if: |
       (github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success') &&
       (github.event_name != 'workflow_run' || github.event.workflow_run.head_branch == 'develop' || github.event.workflow_run.head_branch == 'community')

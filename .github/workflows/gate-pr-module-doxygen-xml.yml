@@ -68,7 +68,7 @@ permissions:
 
 jobs:
   module-doxygen-xml:
-    name: Module Doxygen XML
+    name: "Validate: Module Doxygen XML"
     runs-on: ubuntu-latest
     timeout-minutes: 35
     steps:
@@ -406,7 +406,7 @@ jobs:
           if-no-files-found: warn
 
   gate-feedback:
-    name: Gate Feedback
+    name: "Gate: Feedback"
     needs: module-doxygen-xml
     if: failure() && github.event_name == 'pull_request'
     runs-on: ubuntu-latest

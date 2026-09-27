@@ -36,7 +36,7 @@ concurrency:
 
 jobs:
   copilot-regression-guard:
-    name: Copilot regression guard (build + pattern checks)
+    name: "Gate: Copilot regression guard (build + pattern checks)"
     runs-on: ubuntu-latest
 
     permissions:
@@ -157,7 +157,7 @@ jobs:
           retention-days: 14
 
   gate-feedback:
-    name: "Gate Feedback (label + comment on failure)"
+    name: "Gate: Feedback (label + comment on failure)"
     needs:
       - copilot-regression-guard
     if: failure() && github.event_name == 'pull_request'

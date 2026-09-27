@@ -40,7 +40,7 @@ concurrency:
 
 jobs:
   docker_publish_from_issue:
-    name: Publish Docker images on approval comment
+    name: "Publish: Docker Images on Approval Comment"
     if: |
       contains(github.event.issue.labels.*.name, 'docker-release') &&
       (

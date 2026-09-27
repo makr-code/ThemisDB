@@ -71,7 +71,7 @@ concurrency:
 jobs:
 
   detect-release:
-    name: Detect Release Type
+    name: "Release: Detect Type"
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.detect.outputs.version }}
@@ -141,7 +141,7 @@ jobs:
           echo "  Should Submit: $SHOULD_SUBMIT"
 
   download-artifacts:
-    name: Download Release Artifacts
+    name: "Release: Download Artifacts"
     needs: detect-release
     runs-on: ubuntu-latest
     if: needs.detect-release.outputs.should-submit == 'true'
@@ -169,7 +169,7 @@ jobs:
           find release-artifacts -type f | head -20
 
   generate-checksums:
-    name: Generate Checksums for Windows Binaries
+    name: "Validate: Checksums for Windows Binaries"
     needs: [detect-release, download-artifacts]
     runs-on: ubuntu-latest
     if: needs.detect-release.outputs.should-submit == 'true'
@@ -196,7 +196,7 @@ jobs:
           retention-days: 90
 
   generate-manifests:
-    name: Generate WinGet Manifests
+    name: "Build: Generate WinGet Manifests"
     needs: [detect-release, generate-checksums]
     runs-on: ubuntu-latest
     if: needs.detect-release.outputs.should-submit == 'true'
@@ -325,7 +325,7 @@ jobs:
           retention-days: 90
 
   validate-manifests:
-    name: Validate WinGet Manifests
+    name: "Validate: WinGet Manifests"
     needs: generate-manifests
     runs-on: windows-latest
     if: needs.generate-manifests.outputs.manifest-dir != ''
@@ -351,7 +351,7 @@ jobs:
           Write-Host "✓ Manifests are valid"
 
   create-fork-pr:
-    name: Create PR to WinGet Community Repository
+    name: "Publish: Create PR to WinGet Community Repository"
     needs: [detect-release, validate-manifests, generate-manifests]
     runs-on: windows-latest
     if: needs.generate-manifests.outputs.manifest-dir != '' && needs.detect-release.outputs.should-submit == 'true'
@@ -407,7 +407,7 @@ jobs:
           Write-Host "Review the draft PR in microsoft/winget-pkgs and remove draft status after approval."
 
   notify:
-    name: Notify WinGet Submission
+    name: "Automation: Notify WinGet Submission"
     needs: [detect-release, generate-manifests]
     runs-on: ubuntu-latest
     if: always()

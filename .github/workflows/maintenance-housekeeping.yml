@@ -83,7 +83,7 @@ permissions:
 # ─────────────────────────────────────────────────────────────────────────────
 jobs:
   sync-labels:
-    name: Sync labels from .github/labels.yml
+    name: "Maintenance: Sync labels from .github/labels.yml"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     if: |
@@ -184,7 +184,7 @@ jobs:
 # Job 2: Milestone sync + assignment
 # ─────────────────────────────────────────────────────────────────────────────
   sync-milestones:
-    name: Sync milestones from .github/milestones.yml
+    name: "Maintenance: Sync milestones from .github/milestones.yml"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     if: |
@@ -275,7 +275,7 @@ jobs:
                 ['Unchanged', String(unchanged)], ['Errors', String(errors)]]).write();
 
   assign-milestone:
-    name: Assign milestone by labels / Target Version
+    name: "Maintenance: Assign milestone by labels / Target Version"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     if: github.event_name == 'issues' || github.event_name == 'pull_request_target'
@@ -462,7 +462,7 @@ jobs:
 # Job 3: Issue closure recommendations
 # ─────────────────────────────────────────────────────────────────────────────
   recommend-closures:
-    name: Recommend Issue Closures
+    name: "Maintenance: Recommend Issue Closures"
     runs-on: ubuntu-latest
     timeout-minutes: 15
     if: |

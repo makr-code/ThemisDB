@@ -41,7 +41,7 @@ env:
 
 jobs:
   configure:
-    name: "CMake Configuration"
+    name: "Build: CMake Configuration"
     runs-on: ubuntu-latest
     timeout-minutes: 30
     outputs:
@@ -106,7 +106,7 @@ jobs:
           retention-days: 30
 
   compile-tests:
-    name: "Compile Transaction Tests"
+    name: "Build: Compile Transaction Tests"
     needs: configure
     runs-on: ubuntu-latest
     timeout-minutes: 90
@@ -177,7 +177,7 @@ jobs:
           retention-days: 30
 
   smoke-tests:
-    name: "Smoke Tests (Critical 3)"
+    name: "Validate: Smoke Tests (Critical 3)"
     needs: [configure, compile-tests]
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -255,7 +255,7 @@ jobs:
           retention-days: 30
 
   full-transaction-test-suite:
-    name: "Full Transaction Test Suite (86 tests)"
+    name: "Validate: Full Transaction Test Suite (86 tests)"
     needs: [configure, compile-tests]
     runs-on: ubuntu-latest
     timeout-minutes: 45
@@ -357,7 +357,7 @@ jobs:
             });
 
   chaos-recovery-evidence:
-    name: "Chaos and Recovery Evidence"
+    name: "Validate: Chaos and Recovery Evidence"
     needs: [configure, compile-tests]
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -429,7 +429,7 @@ jobs:
           retention-days: 30
 
   phase4-benchmark-baseline:
-    name: "Phase 4 Benchmark Baseline"
+    name: "Benchmark: Phase 4 Baseline"
     needs: configure
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -540,7 +540,7 @@ jobs:
           retention-days: 30
 
   collect-artifacts:
-    name: "Collect Build Artifacts"
+    name: "Automation: Collect Build Artifacts"
     needs: [configure, compile-tests, smoke-tests, chaos-recovery-evidence, phase4-benchmark-baseline]
     runs-on: ubuntu-latest
     if: always()
@@ -570,7 +570,7 @@ jobs:
           retention-days: 90
 
   publish-results:
-    name: "Publish CI Results"
+    name: "Publish: CI Results"
     needs: [configure, compile-tests, smoke-tests, full-transaction-test-suite, chaos-recovery-evidence, phase4-benchmark-baseline, collect-artifacts]
     runs-on: ubuntu-latest
     if: always()
@@ -675,7 +675,7 @@ jobs:
           retention-days: 90
 
   check-results:
-    name: "Verify Test Results"
+    name: "Gate: Verify Test Results"
     needs: [smoke-tests, chaos-recovery-evidence]
     runs-on: ubuntu-latest
     if: always()

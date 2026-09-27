@@ -65,7 +65,7 @@ concurrency:
 jobs:
 
   validate-rollback:
-    name: Validate Rollback Request
+    name: "Validate: Rollback Request"
     runs-on: ubuntu-latest
     outputs:
       proceed: ${{ steps.validate.outputs.proceed }}
@@ -105,7 +105,7 @@ jobs:
           echo "proceed=true" >> "$GITHUB_OUTPUT"
 
   delete-github-release:
-    name: Delete GitHub Release
+    name: "Release: Delete GitHub Release"
     needs: validate-rollback
     runs-on: ubuntu-latest
     if: github.event.inputs.delete-github-release == 'true'
@@ -151,7 +151,7 @@ jobs:
           echo "  Version: ${{ github.event.inputs.version }}"
 
   delete-docker-tags:
-    name: Delete Docker Image Tags
+    name: "Release: Delete Docker Image Tags"
     needs: validate-rollback
     runs-on: ubuntu-latest
     if: github.event.inputs.delete-docker-tags == 'true'
@@ -180,7 +180,7 @@ jobs:
           echo "  Version: ${{ github.event.inputs.version }}"
 
   revert-version:
-    name: Revert VERSION File
+    name: "Release: Revert VERSION File"
     needs: validate-rollback
     runs-on: ubuntu-latest
     if: github.event.inputs.revert-version == 'true'
@@ -256,7 +256,7 @@ jobs:
           echo "  To: ${{ steps.revert.outputs.reverted-to }}"
 
   notify-rollback:
-    name: Notify Rollback
+    name: "Automation: Notify Rollback"
     needs: [validate-rollback, delete-github-release, delete-docker-tags, revert-version]
     runs-on: ubuntu-latest
     if: always()

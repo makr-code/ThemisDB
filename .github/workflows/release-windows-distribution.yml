@@ -109,7 +109,7 @@ concurrency:
 
 jobs:
   detect-release:
-    name: Detect Release Context
+    name: "Release: Detect Context"
     runs-on: ubuntu-latest
     outputs:
       tag: ${{ steps.detect.outputs.tag }}
@@ -215,7 +215,7 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
   download-assets:
-    name: Download Windows Release Assets
+    name: "Release: Download Windows Assets"
     needs: detect-release
     runs-on: ubuntu-latest
     steps:
@@ -243,7 +243,7 @@ jobs:
           retention-days: 7
 
   prepare-windows-distro-bundle:
-    name: Prepare Windows Distro Bundle
+    name: "Build: Prepare Windows Distro Bundle"
     needs: [detect-release, download-assets]
     runs-on: ubuntu-latest
     outputs:
@@ -380,7 +380,7 @@ jobs:
           retention-days: 90
 
   publish-windows-distro-bundle:
-    name: Publish Windows Distro Bundle (semi-automated)
+    name: "Publish: Windows Distro Bundle (semi-automated)"
     needs: [detect-release, prepare-windows-distro-bundle]
     if: needs.detect-release.outputs.publish_requested == 'true'
     runs-on: ubuntu-latest

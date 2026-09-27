@@ -84,7 +84,7 @@ permissions:
 
 jobs:
   community-fail-closed-validation:
-    name: Community Fail-Closed Validation
+    name: "Gate: Community Fail-Closed Validation"
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
