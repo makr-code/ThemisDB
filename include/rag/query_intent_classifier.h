@@ -49,7 +49,7 @@ class QueryIntentClassifier {
   QueryIntentClassifier();
 
   /// @brief Destructor.
-  ~QueryIntentClassifier() = default;
+  ~QueryIntentClassifier();
 
   /// @brief Classify a single query.
   /// 
