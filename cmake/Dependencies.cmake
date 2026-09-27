@@ -984,7 +984,7 @@ else()
             "Searched paths:\n"
             "  \${VCPKG_INSTALLED_DIR}/\${VCPKG_TARGET_TRIPLET}/include\n"
             "  \${VCPKG_ROOT}/installed/\${VCPKG_TARGET_TRIPLET}/include\n"
-            "  \${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-linux/include\n"
+            "  \${CMAKE_SOURCE_DIR}/vcpkg_installed/\${VCPKG_TARGET_TRIPLET}/include\n"
         )
     endif()
 endif()
