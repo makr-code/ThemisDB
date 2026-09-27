@@ -140,20 +140,7 @@ jobs:
         run: |
           echo "=== GPU Latency Measurement ==="
           GPU_LATENCY_OUTPUT="${{ needs.phase3-setup.outputs.measurement_output_dir }}/gpu_latency_raw.json"
-          print_latency_summary() {
-            python3 - "$1" << 'EOF'
-          import json
-          import sys
-          with open(sys.argv[1]) as f:
-            data = json.load(f)
-          samples = data.get("latency_samples_us", [])
-          if samples:
-            print(f"  Samples: {len(samples)}")
-            print(f"  Min: {min(samples):.2f} µs")
-            print(f"  Max: {max(samples):.2f} µs")
-            print(f"  Mean: {sum(samples)/len(samples):.2f} µs")
-          EOF
-          }
+          LATENCY_SUMMARY_SCRIPT=$'import json\nimport sys\nwith open(sys.argv[1]) as f:\n    data = json.load(f)\nsamples = data.get("latency_samples_us", [])\nif samples:\n    print(f"  Samples: {len(samples)}")\n    print(f"  Min: {min(samples):.2f} µs")\n    print(f"  Max: {max(samples):.2f} µs")\n    print(f"  Mean: {sum(samples)/len(samples):.2f} µs")\n'
           python3 scripts/phase1_test_execution_wrapper.py \
             --mode gpu \
             --suite gpu-fallback \
@@ -163,7 +150,7 @@ jobs:
           # If successful, show results
           if [[ -f "${GPU_LATENCY_OUTPUT}" ]]; then
             echo "✅ GPU latency measurement complete"
-            print_latency_summary "${GPU_LATENCY_OUTPUT}"
+            python3 -c "${LATENCY_SUMMARY_SCRIPT}" "${GPU_LATENCY_OUTPUT}"
           fi
 
       - name: Run GPU throughput measurement
