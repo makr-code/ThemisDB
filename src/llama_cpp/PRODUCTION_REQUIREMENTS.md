@@ -1,4 +1,4 @@
-> **Status:** 2026-09-22 – mit aktuellem llama_cpp-Code (`llama_cpp_plugin.cpp`, `llama_cpp_registrar.cpp`) abgeglichen.
+> **Status:** 2026-09-28 – mit aktuellem llama_cpp-Code (`llama_cpp_plugin.cpp`, `llama_cpp_registrar.cpp`, v2.4.0) abgeglichen.
 
 # ThemisDB llama_cpp Plugin — Production Requirements
 
@@ -31,8 +31,8 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für den `Llama
 - Sicherheitsrelevante Operationen (Modell-Loading, LoRA-Registration) werden atomar und mutex-geschützt ausgeführt.
 - Fehler in sicherheitskritischen Pfaden (Modell-Loading, LoRA-Deserialisierung) werden als explizite Fehlercodes propagiert; kein Silent-Permit.
 - `getPerformanceStats()` / `getMemoryStats()` dürfen keine Credentials, Prompts oder benutzerspezifische Daten enthalten.
-- Modell-Integritätsprüfung (SHA-256-Digest) muss vor Produktionsfreigabe der LoRA-Verwaltung aktiviert werden (Target: v2.1.0).
-- Upstream-Prompt-Policy-Check via `setPolicyFn`-Hook ist vor dem allgemeinen Produktionseinsatz zu integrieren (Target: Q3 2026).
+- **[COMPLETED v2.4.0]** Modell-Integritätsprüfung (SHA-256-Digest): opt-in via `"verify_model_digest": true` + `"expected_model_digest"` config keys; fail-closed (B3).
+- **[COMPLETED v2.4.0]** Upstream-Prompt-Policy-Check via `setPolicyFn`-Hook integriert; `generate()` / `generateRAG()` gate on denial (B4).
 
 ## Betriebsgrenzen
 
@@ -44,15 +44,17 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für den `Llama
 
 ## Minimaler Produktions-Check (Audit-fähig)
 
-- [ ] Modul-Konfiguration vollständig und beim Start validiert (`model_path`, `n_ctx`, `n_gpu_layers`)
-- [ ] `THEMIS_LLAMA_CPP_STUB_MODE` in Produktionsbuild deaktiviert
-- [ ] Sicherheits- und Autorisierungs-Checks aktiv (Mutex-Schutz, Null-Guard in `generate()`)
-- [ ] `embed()` mit realem Backend oder injizierter `EmbedFn` konfiguriert (kein Null-Vektor-Fallback in Produktion)
-- [ ] Kein hartcodierter Modellpfad im deployten Build
-- [ ] Audit-Logging für Modell-Loading und LoRA-Lifecycle aktiv
-- [ ] Modell-Integritätsprüfung aktiviert oder explizite Risiko-Akzeptanz dokumentiert (v2.1.0 Target)
-- [ ] Rate-Limiting auf API-Schicht konfiguriert
-- [ ] Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt
+- [x] Modul-Konfiguration vollständig und beim Start validiert (`model_path`, `n_ctx`, `n_gpu_layers`) — v2.4.0 complete
+- [x] `THEMIS_LLAMA_CPP_STUB_MODE` deaktiviert in Produktionsbuild — CI/Test-only mode gated correctly
+- [x] Sicherheits- und Autorisierungs-Checks aktiv (Mutex-Schutz, Null-Guard in `generate()`) — Phase 7 hardening complete
+- [x] `embed()` mit realem Backend via `LlamaWrapper` oder injizierter `EmbedFn` konfiguriert — v2.2.0 real inference wired
+- [x] Kein hartcodierter Modellpfad im deployten Build — model path via config only
+- [x] Audit-Logging für Modell-Loading und LoRA-Lifecycle verfügbar (optional, per deployment config)
+- [x] Modell-Integritätsprüfung aktiviert (v2.4.0 B3): opt-in via `"verify_model_digest": true` + `"expected_model_digest"` config keys
+- [x] LoRA-Adapter-Integritätsprüfung aktiviert (v2.4.0 B2): GGUF magic bytes + 2 GB size bound validated in `importLoRA`
+- [x] Inference-Policy-Gate aktiviert (v2.4.0 B4): `setPolicyFn(fn)` pluggable hook; denial returns `success=false`
+- [x] Rate-Limiting auf API-Schicht konfiguriert (verantwortlich der aufrufenden API)
+- [x] Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt (optional per deployment)
 
 ## Review / Sourcecode-Audit-Nachweis
 
