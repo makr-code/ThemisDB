@@ -3,7 +3,7 @@
 
 # onnx_clip Module Headers
 
-<!-- Status: current | validated: 2026-05-13 | Primary: src/onnx_clip/ | Secondary: docs/de/onnx_clip/ -->
+<!-- Status: current | validated: 2026-09-28 | Primary: src/onnx_clip/ | Secondary: docs/de/onnx_clip/ -->
 <!-- Links: ../../src/onnx_clip/README.md · ../../src/onnx_clip/ROADMAP.md · ../../src/onnx_clip/FUTURE_ENHANCEMENTS.md -->
 
 This directory currently contains module-facing documentation only. The ONNX-CLIP public
