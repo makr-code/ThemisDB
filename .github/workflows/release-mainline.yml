@@ -59,9 +59,9 @@ on:
       build_matrix:
         description: 'Build matrix by OS/CPU architecture'
         required: false
-        default: 'all'
+        default: 'os'
         type: choice
-        options: [all, linux-amd64-only, linux-arm64-only, windows-amd64-only, macos-arm64-only]
+        options: [os, linux-amd64-only, linux-arm64-only, windows-amd64-only, macos-arm64-only]
       edition:
         description: 'Edition to publish (for dispatch)'
         required: false
@@ -191,7 +191,7 @@ jobs:
     needs: preflight-release-policy
     uses: ./.github/workflows/release-build-matrix.yml
     with:
-      build_matrix: ${{ inputs.build_matrix || 'all' }}
+      build_matrix: ${{ inputs.build_matrix || 'os' }}
     secrets: inherit
 
   # ─────────────────────────────────────────────────────────────────────────────
