@@ -211,6 +211,70 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_continuous_query_e2e.cpp")
     message(STATUS "  ContinuousQuery E2E: register, inject, stream, fan-out, late events, cancel/resume, drop/re-register")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_query_deadlock_concurrent_timeout.cpp")
+    message(STATUS "Adding Query: deadlock/timeout regression focused tests")
+
+    add_executable(test_query_deadlock_concurrent_timeout_focused
+        test_query_deadlock_concurrent_timeout.cpp
+    )
+
+    target_include_directories(test_query_deadlock_concurrent_timeout_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_query_deadlock_concurrent_timeout_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_query_deadlock_concurrent_timeout_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_focused_test(
+        MODULE query
+        NAME QueryDeadlockConcurrentTimeoutTests
+        TARGET test_query_deadlock_concurrent_timeout_focused
+        TIER unit
+        TIMEOUT 120
+        LABELS query deadlock timeout regression
+    )
+endif()
+
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_continuous_query_lock_order_deadlock.cpp")
+    message(STATUS "Adding Query: continuous lock-order deadlock regression focused tests")
+
+    add_executable(test_continuous_query_lock_order_deadlock_focused
+        test_continuous_query_lock_order_deadlock.cpp
+    )
+
+    target_include_directories(test_continuous_query_lock_order_deadlock_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+    )
+
+    target_link_libraries(test_continuous_query_lock_order_deadlock_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_continuous_query_lock_order_deadlock_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_focused_test(
+        MODULE query
+        NAME ContinuousQueryLockOrderDeadlockTests
+        TARGET test_continuous_query_lock_order_deadlock_focused
+        TIER unit
+        TIMEOUT 180
+        LABELS query continuous deadlock lock-order regression
+    )
+endif()
+
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_query_plan_visualizer.cpp")
     message(STATUS "Adding Query: QueryPlanVisualizer focused tests")
 

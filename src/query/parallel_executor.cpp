@@ -30,6 +30,7 @@
 #include <thread>
 #include <utility>
 #include <functional>
+#include <mutex>
 
 #if defined(__has_include)
 #if __has_include(<tbb/task_arena.h>)
@@ -60,7 +61,11 @@ public:
      * @details Calls: emplace_back().
      */
     void run(F&& f) {
-        if (!cancelled_) {
+        if (cancelled_.load(std::memory_order_acquire)) {
+            return;
+        }
+        std::lock_guard<std::mutex> lock(tasks_mutex_);
+        if (!cancelled_.load(std::memory_order_relaxed)) {
             tasks_.emplace_back(std::forward<F>(f));
         }
     }
@@ -70,20 +75,32 @@ public:
      * @details Calls: task(), clear().
      */
     void wait() {
-        for (auto& task : tasks_) {
+        std::vector<std::function<void()>> local_tasks;
+        {
+            std::lock_guard<std::mutex> lock(tasks_mutex_);
+            local_tasks.swap(tasks_);
+        }
+        for (auto& task : local_tasks) {
+            if (isCancelled()) {
+                break;
+            }
             if (task) {
                 task();
             }
         }
-        tasks_.clear();
     }
 
-    void cancel() noexcept {
-        cancelled_ = true;
+    void cancel() {
+        cancelled_.store(true, std::memory_order_release);
     }
 
 private:
-    bool cancelled_ = false;
+    bool isCancelled() const {
+        return cancelled_.load(std::memory_order_acquire);
+    }
+
+    std::atomic<bool> cancelled_{false};
+    mutable std::mutex tasks_mutex_;
     std::vector<std::function<void()>> tasks_;
 };
 
