@@ -66,9 +66,24 @@ Result<bool> Neo4jAdapter::connect(
 
 #ifdef THEMIS_CHIMERA_NEO4J
     try {
-        // Extract username and password from options if provided, or from URI
-        std::string username = "neo4j";
-        std::string password = "neo4j";
+        // Extract username and password from options if provided, or from URI.
+        std::string username;
+        std::string password;
+
+        const std::size_t auth_sep = connection_string.find("://");
+        if (auth_sep != std::string::npos) {
+            const std::size_t credential_start = auth_sep + 3;
+            const std::size_t at_pos = connection_string.find('@', credential_start);
+            if (at_pos != std::string::npos) {
+                const std::size_t colon_pos = connection_string.find(':', credential_start);
+                if (colon_pos != std::string::npos && colon_pos < at_pos) {
+                    username = connection_string.substr(credential_start, colon_pos - credential_start);
+                    password = connection_string.substr(colon_pos + 1, at_pos - colon_pos - 1);
+                } else {
+                    username = connection_string.substr(credential_start, at_pos - credential_start);
+                }
+            }
+        }
          
         if (options.find("username") != options.end()) {
             username = options.at("username");
@@ -76,15 +91,21 @@ Result<bool> Neo4jAdapter::connect(
         if (options.find("password") != options.end()) {
             password = options.at("password");
         }
+
+        if (!password.empty() && username.empty()) {
+            username = "neo4j";
+        }
          
         // Create URI and driver
         // Note: This uses the Neo4j C++ driver API
         auto uri = neo4j::Uri::create(connection_string);
-        auto auth = neo4j::basic_auth(username, password);
-         
+
         // Create driver with connection pooling configuration
         neo4j::DriverConfig config;
-        config.with_auth(auth);
+        if (!username.empty() || !password.empty()) {
+            auto auth = neo4j::basic_auth(username, password);
+            config.with_auth(auth);
+        }
         config.with_connection_timeout(std::chrono::seconds(30));
          
         driver_ = std::make_unique<neo4j::Driver>(
