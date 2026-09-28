@@ -1,8 +1,8 @@
 # Soll-Ist Gap Summary
 
-- Generated At: 2026-09-28T15:56:13Z
+- Generated At: 2026-09-28T16:29:22Z
 - Modules: 72
-- Modules with docs gaps: 8
+- Modules with docs gaps: 7
 - Modules with implementation gaps: 4
 - Modules with release-gate gaps (tests/benchmarks): 0
 
@@ -11,7 +11,7 @@
 | acceleration | OK | 100% | - | 0 | 0 | 0 | 0 | 24 | 6 | 0 | 0 |
 | access_model | OK | 100% | - | 0 | 0 | 0 | 0 | 7 | 1 | 0 | 0 |
 | ai | OK | 100% | - | 0 | 0 | 0 | 0 | 239 | 42 | 0 | 0 |
-| ai_working | LOW | 10% | README, ROADMAP, ARCH, AUDIT, CHANGELOG, FUTURE, PERF, PROD, SEC | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 |
+| ai_working | OK | 100% | - | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 |
 | analytics | OK | 100% | - | 0 | 0 | 0 | 0 | 49 | 14 | 0 | 0 |
 | api | OK | 100% | - | 0 | 0 | 0 | 0 | 120 | 4 | 0 | 0 |
 | aql | OK | 100% | - | 0 | 0 | 0 | 0 | 165 | 8 | 0 | 0 |

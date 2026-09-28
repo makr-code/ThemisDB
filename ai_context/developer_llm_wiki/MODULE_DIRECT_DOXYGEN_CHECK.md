@@ -1,32 +1,35 @@
-# Direct Doxygen Check: onnx_clip
+<<<<<<< HEAD
+# Direct Doxygen Check: ai_working
+
+- Source mode: no_cpp_files
+- Source files scanned: 0
+- Status: SKIP (no C/C++ files in include/src/tests/benchmarks module scope)
+=======
+# Direct Doxygen Check: access_model
 
 - Source mode: direct_doxygen_markers
-- Source files scanned: 8
-- Source symbols (raw/filter): 82 / 46
-- Doxygen members (raw/filter): 171 / 96
-- Unique source symbol names: 42
-- Unique doxygen symbol names: 67
-- Symbol presence ratio: 0.8333
-- Ownership (internal/external): {'internal': 46, 'external': 0}
+- Source files scanned: 21
+- Source symbols (raw/filter): 115 / 115
+- Doxygen members (raw/filter): 394 / 239
+- Unique source symbol names: 79
+- Unique doxygen symbol names: 149
+- Symbol presence ratio: 0.9747
+- Ownership (internal/external): {'internal': 115, 'external': 0}
 
 ## Rule counts
-- missing_symbol: 7
-- missing_brief: 35
-- missing_param_docs: 23
-- missing_return_docs: 32
+- missing_symbol: 2
+- missing_brief: 54
+- missing_param_docs: 8
+- missing_return_docs: 3
 
 ## Scope counts
-- src: 38
-- tests: 11
-- benchmarks: 43
-- include: 0
-- other: 5
+- src: 1
+- tests: 6
+- benchmarks: 14
+- include: 1
+- other: 45
 
 ## Sample missing symbols
-- backendToString
-- fnv1a64
-- fnv1a64_str
-- mixMetadata
-- nextFloat01
-- sha256HexOfFile
-- tokenize
+- lock
+- now
+>>>>>>> origin/develop

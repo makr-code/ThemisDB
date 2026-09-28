@@ -1,7 +1,7 @@
 > **Build (Linux):** `cmake --preset linux-release && cmake --build --preset linux-release`<br>
 > **Build (Windows):** `cmake --preset windows-release && cmake --build --preset windows-release`
 
-<!-- Status: current | validated: 2026-04-07 | Primary: src/llama_cpp/ -->
+<!-- Status: current | validated: 2026-09-28 | Primary: src/llama_cpp/ -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # llama_cpp LLM Backend Plugin

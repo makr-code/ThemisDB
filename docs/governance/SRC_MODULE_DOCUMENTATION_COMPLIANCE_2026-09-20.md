@@ -457,7 +457,7 @@ Legende: Y=vorhanden, N=fehlt. Score = Erfuellung des 10er Soll-Core-Sets in Pro
 | acceleration | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | 100% | OK |
 | access_model | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | 100% | OK |
 | ai | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | 100% | OK |
-| ai_working | N | N | N | N | N | N | Y | N | N | N | 10% | LOW |
+| ai_working | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | 100% | OK |
 | analytics | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | 100% | OK |
 | api | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | 100% | OK |
 | aql | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | 100% | OK |
