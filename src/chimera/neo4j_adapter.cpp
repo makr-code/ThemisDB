@@ -95,6 +95,13 @@ Result<bool> Neo4jAdapter::connect(
         if (!password.empty() && username.empty()) {
             username = "neo4j";
         }
+
+        if (!username.empty() && password.empty()) {
+            return Result<bool>::err(
+                ErrorCode::INVALID_ARGUMENT,
+                "Neo4j password must be provided when username is specified"
+            );
+        }
          
         // Create URI and driver
         // Note: This uses the Neo4j C++ driver API
