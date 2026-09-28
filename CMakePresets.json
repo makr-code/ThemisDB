@@ -179,6 +179,32 @@
       }
     },
     {
+      "name": "linux-arm64-release",
+      "displayName": "Linux ARM64: Release (vcpkg required)",
+      "description": "Production release build for Linux ARM64 with vcpkg. Requires: Linux ARM64, GCC 11+, Ninja, vcpkg. See SETUP.md for setup instructions.",
+      "inherits": "linux-base",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "binaryDir": "${sourceDir}/build-gcc-linux-arm64-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "VCPKG_TARGET_TRIPLET": "arm64-linux",
+        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "OFF",
+        "THEMIS_MODELS_MODE": "AUTO",
+        "THEMIS_MODELS_SOURCE_DIR": "${sourceDir}/models",
+        "THEMIS_PACKAGE_INCLUDE_TINYLLAMA": "ON",
+        "THEMIS_PACKAGE_INCLUDE_GEMMA": "OFF",
+        "THEMIS_CHAOS_ADMIN": "OFF",
+        "THEMIS_PLUGIN_SCRAPER": "ON",
+        "THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED": "ON"
+      }
+    },
+    {
       "name": "linux-debug",
       "displayName": "Linux x64: Debug (vcpkg required)",
       "description": "Development debug build for Linux with vcpkg. Requires: Linux, GCC 11+, Ninja, vcpkg. Fallback: Use community-release preset for system package builds. See SETUP.md for setup instructions.",
@@ -713,6 +739,10 @@
       "configurePreset": "linux-release"
     },
     {
+      "name": "linux-arm64-release",
+      "configurePreset": "linux-arm64-release"
+    },
+    {
       "name": "linux-debug",
       "configurePreset": "linux-debug"
     },
@@ -861,6 +891,18 @@
     {
       "name": "linux-release",
       "configurePreset": "linux-release",
+      "filter": {
+        "include": {
+          "label": "module:.*"
+        },
+        "exclude": {
+          "label": "(manual|disabled)"
+        }
+      }
+    },
+    {
+      "name": "linux-arm64-release",
+      "configurePreset": "linux-arm64-release",
       "filter": {
         "include": {
           "label": "module:.*"
@@ -1139,6 +1181,23 @@
         {
           "type": "test",
           "name": "linux-release"
+        }
+      ]
+    },
+    {
+      "name": "linux-arm64-release",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "linux-arm64-release"
+        },
+        {
+          "type": "build",
+          "name": "linux-arm64-release"
+        },
+        {
+          "type": "test",
+          "name": "linux-arm64-release"
         }
       ]
     },
