@@ -21,9 +21,9 @@ Status: review
 
 ---
 
-## Wave D D4-00 — Build Verification & Evidence Status (2026-08-18 Update)
+## Wave D D4-00 — Build Verification & Evidence Status (2026-09-28 Update)
 
-### Current Status: 🟡 CI FIXES SHIPPED — AWAITING RUN COMPLETION
+### Current Status: 🟡 CI FIXES SHIPPED — WAVE-B EVIDENCE AUTOMATION READY / RE-RUN REQUIRED
 
 **Root-Cause Analysis & Actions (2026-08-18):**
 
@@ -32,7 +32,7 @@ Three specific evidence blockers identified, root-caused, and addressed:
 #### Evidence Item 1 — Completed `develop` CI-build proof point
 - **Root cause:** `libfmt-dev` and companion system packages missing from `ci-build.yml` `setup-cpp-build` action, causing Build step to fail immediately (0 compile requests, configure succeeds in 34s then build exits non-zero).
 - **Fix:** PR #5999 (merged 2026-08-18 19:12 UTC) added full package list to the CI setup action.
-- **Status:** 🟡 CI run `32175323929` triggered on `develop` (commit `450e74c`) is pending. On successful completion this evidence item **closes**.
+- **Status:** 🟡 Historical CI run `32175323929` on `develop` (commit `450e74c`) is **cancelled**, not pending. The dependency fix shipped, but the run did not produce final evidence because later build/reporting failures interrupted closure capture. Current governance relies on a fresh `develop` re-run.
 
 #### Evidence Item 2 — Successful production-like benchmark binary builds
 - **Root cause 1 (nightly sweep):** `cmake --preset nightly-bench-sweep` uses `vcpkg-base` (sets `CMAKE_TOOLCHAIN_FILE` to `vcpkg/scripts/buildsystems/vcpkg.cmake`) but the CI job never checks out the vcpkg submodule — configure fails at `CMakeLists.txt:214 (include cmake/Dependencies.cmake)`.
@@ -41,6 +41,14 @@ Three specific evidence blockers identified, root-caused, and addressed:
   - nightly-benchmark-sweep: replaced `cmake --preset nightly-bench-sweep` with a direct cmake invocation (no vcpkg, system packages, `THEMIS_AUTO_BOOTSTRAP_DEPS=OFF`); added `libpugixml-dev libyaml-cpp-dev libmimalloc-dev` to install step.
   - gpu-bench-cpu-fallback: added `libboost-system-dev libboost-filesystem-dev libpugixml-dev zlib1g-dev`.
 - **Status:** 🟡 Next nightly ci-benchmarks run (02:00 UTC) or manual `workflow_dispatch` will validate. Green Voice + Nightly-Sweep = evidence item **closes** (CPU/OS-level; GPU hardware is separate).
+
+#### Evidence Item 2b — Wave-B transaction representative-hardware manifest
+- **Root cause:** the dedicated `build-wave-b-transaction.yml` lane did not publish a canonical representative-hardware manifest in `benchmarks/wave8/`, and its `publish-results` job attempted to call repository scripts without checking out the repository first.
+- **Fix (2026-09-28):**
+  - `publish-results` now checks out the repository before generating reports.
+  - Successful Phase-4 runs now emit `benchmarks/wave8/TRANSACTION_BASELINES_LATEST.json` + `.md` and upload them as the `transaction-baseline-evidence` artifact.
+  - The Wave-B closure manifest now records the representative baseline artifact and canonical JSON path.
+- **Status:** 🟡 Awaiting fresh `develop` execution of `build-wave-b-transaction.yml` to capture run-specific latency/throughput/recovery values and release sign-off metadata.
 
 #### Evidence Item 3 — Benchmark execution on representative hardware (GPU)
 - **Status:** 🔴 OPEN — requires self-hosted GPU runner.
@@ -58,12 +66,12 @@ Three specific evidence blockers identified, root-caused, and addressed:
 - **Infrastructure Requirement:** `gpu-cuda` self-hosted runner with NVIDIA A100/H100 (A8-class), CUDA 12.x, ≥40 GB VRAM
 - **Expected Execution:** Q4 2026 (after infrastructure deployment)
 
-**Pending CI Runs (2026-09-23 Updated Status):**
+**Pending / Corrected CI Runs (2026-09-28 Updated Status):**
 | Run ID | Workflow | Branch | Commit | Status | Last Check |
 |--------|---------|--------|--------|--------|------------|
-| 32175323929 | ci-build | develop | 450e74c | 🟡 pending | 2026-08-18 19:30 UTC |
-| 32098439614 | ci-benchmarks | develop | 3655b79 | 🟡 pending (nightly queue) | 2026-08-18 19:30 UTC |
-| TBD | wave-b-transaction-ci | develop | pending | awaiting Wave-B-TX-001 execution | 2026-09-23 |
+| 32175323929 | ci-build | develop | 450e74c | ⚠️ cancelled | 2026-09-28 audit correction |
+| 32098439614 | ci-benchmarks | develop | 3655b79 | ⚠️ cancelled | 2026-09-28 audit correction |
+| next `build-wave-b-transaction.yml` run | Build: Wave B Transaction | develop | auto-recorded in `benchmarks/wave8/TRANSACTION_BASELINES_LATEST.json` | 🟡 pending re-run after evidence automation fix | 2026-09-28 |
 | TBD | wave-a-gpu-ci | develop | pending | awaiting Wave-A-GPU-001 execution + hw availability | 2026-09-23 |
 
 **Tracker Issues (Hardening Phase 1 — 2026-09-23):**
