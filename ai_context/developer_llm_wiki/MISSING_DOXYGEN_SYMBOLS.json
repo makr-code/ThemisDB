@@ -1,344 +1,34 @@
 {
-  "module": "llm_wiki",
+  "module": "access_model",
   "generated_from": "check_module_direct_doxygen.py",
   "source_mode": "direct_doxygen_markers",
   "findings": [
     {
       "rule": "missing_symbol",
-      "symbol": "Code",
-      "count": 1,
-      "scope": "include",
-      "scope_breakdown": {
-        "include": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/include/llm_wiki/llm_wiki_status.h",
-          "line": 34,
-          "kind": "class",
-          "name": "Code",
-          "scope": "include"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "Edition",
-      "count": 1,
-      "scope": "src",
-      "scope_breakdown": {
-        "src": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/edition_gate.h",
-          "line": 50,
-          "kind": "class",
-          "name": "Edition",
-          "scope": "src"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "ProcessSchedule",
-      "count": 1,
-      "scope": "include",
-      "scope_breakdown": {
-        "include": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/include/llm_wiki/process_policy_manager.h",
-          "line": 58,
-          "kind": "class",
-          "name": "ProcessSchedule",
-          "scope": "include"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "RocksDbWikiStore",
-      "count": 1,
-      "scope": "include",
-      "scope_breakdown": {
-        "include": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/include/llm_wiki/rocksdb_wiki_store.h",
-          "line": 82,
-          "kind": "class",
-          "name": "RocksDbWikiStore",
-          "scope": "include"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "appendLog",
-      "count": 1,
-      "scope": "src",
-      "scope_breakdown": {
-        "src": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/wikipedia/wiki_workspace_orchestrator.cpp",
-          "line": 297,
-          "kind": "function",
-          "name": "appendLog",
-          "scope": "src"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "close",
-      "count": 2,
-      "scope": "mixed",
-      "scope_breakdown": {
-        "include": 1,
-        "src": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/include/llm_wiki/rocksdb_wiki_store.h",
-          "line": 112,
-          "kind": "function",
-          "name": "close",
-          "scope": "include"
-        },
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/rocksdb_wiki_store.cpp",
-          "line": 94,
-          "kind": "function",
-          "name": "close",
-          "scope": "src"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "containsUnsafePattern",
-      "count": 1,
-      "scope": "src",
-      "scope_breakdown": {
-        "src": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/wikipedia/llm_wiki_plugin_impl.cpp",
-          "line": 103,
-          "kind": "function",
-          "name": "containsUnsafePattern",
-          "scope": "src"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "get",
-      "count": 1,
-      "scope": "include",
-      "scope_breakdown": {
-        "include": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/include/llm_wiki/rocksdb_wiki_store.h",
-          "line": 136,
-          "kind": "function",
-          "name": "get",
-          "scope": "include"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "hasContradictionCue",
-      "count": 1,
-      "scope": "src",
-      "scope_breakdown": {
-        "src": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/wikipedia/wiki_workspace_orchestrator.cpp",
-          "line": 334,
-          "kind": "function",
-          "name": "hasContradictionCue",
-          "scope": "src"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "hashEmbed",
-      "count": 1,
-      "scope": "src",
-      "scope_breakdown": {
-        "src": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/wikipedia/llm_wiki_plugin_impl.cpp",
-          "line": 50,
-          "kind": "function",
-          "name": "hashEmbed",
-          "scope": "src"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "ifs",
-      "count": 3,
-      "scope": "src",
-      "scope_breakdown": {
-        "src": 3
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/workspace_state_manager.cpp",
-          "line": 168,
-          "kind": "function",
-          "name": "ifs",
-          "scope": "src"
-        },
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/workspace_state_manager.cpp",
-          "line": 291,
-          "kind": "function",
-          "name": "ifs",
-          "scope": "src"
-        },
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/workspace_state_manager.cpp",
-          "line": 336,
-          "kind": "function",
-          "name": "ifs",
-          "scope": "src"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "init",
-      "count": 1,
-      "scope": "src",
-      "scope_breakdown": {
-        "src": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/wikipedia/wiki_workspace_orchestrator.cpp",
-          "line": 355,
-          "kind": "function",
-          "name": "init",
-          "scope": "src"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "isOpen",
-      "count": 1,
-      "scope": "include",
-      "scope_breakdown": {
-        "include": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/include/llm_wiki/rocksdb_wiki_store.h",
-          "line": 115,
-          "kind": "function",
-          "name": "isOpen",
-          "scope": "include"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "isoTimestamp",
-      "count": 1,
-      "scope": "src",
-      "scope_breakdown": {
-        "src": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/wikipedia/wiki_workspace_orchestrator.cpp",
-          "line": 136,
-          "kind": "function",
-          "name": "isoTimestamp",
-          "scope": "src"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "loadProcessPolicy_locked",
-      "count": 1,
-      "scope": "src",
-      "scope_breakdown": {
-        "src": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/wikipedia/llm_wiki_plugin_impl.cpp",
-          "line": 363,
-          "kind": "function",
-          "name": "loadProcessPolicy_locked",
-          "scope": "src"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "loadState",
-      "count": 1,
-      "scope": "src",
-      "scope_breakdown": {
-        "src": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/wikipedia/wiki_workspace_orchestrator.cpp",
-          "line": 156,
-          "kind": "function",
-          "name": "loadState",
-          "scope": "src"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
       "symbol": "lock",
-      "count": 6,
+      "count": 14,
       "scope": "src",
       "scope_breakdown": {
-        "src": 6
+        "src": 14
       },
       "source_examples": [
         {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/wikipedia/llm_wiki_plugin_impl.cpp",
-          "line": 165,
+          "file": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/access_coordinator.cpp",
+          "line": 80,
           "kind": "function",
           "name": "lock",
           "scope": "src"
         },
         {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/wikipedia/llm_wiki_plugin_impl.cpp",
-          "line": 272,
+          "file": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/access_coordinator.cpp",
+          "line": 92,
           "kind": "function",
           "name": "lock",
           "scope": "src"
         },
         {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/wikipedia/llm_wiki_plugin_impl.cpp",
-          "line": 322,
+          "file": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/access_coordinator.cpp",
+          "line": 125,
           "kind": "function",
           "name": "lock",
           "scope": "src"
@@ -347,1153 +37,567 @@
     },
     {
       "rule": "missing_symbol",
-      "symbol": "log_ofs",
-      "count": 1,
-      "scope": "src",
-      "scope_breakdown": {
-        "src": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/workspace_state_manager.cpp",
-          "line": 267,
-          "kind": "function",
-          "name": "log_ofs",
-          "scope": "src"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "matchGlob",
-      "count": 1,
-      "scope": "src",
-      "scope_breakdown": {
-        "src": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/wikipedia/llm_wiki_plugin_impl.cpp",
-          "line": 124,
-          "kind": "function",
-          "name": "matchGlob",
-          "scope": "src"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "maybeReloadProcessPolicy_locked",
-      "count": 1,
-      "scope": "src",
-      "scope_breakdown": {
-        "src": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/wikipedia/llm_wiki_plugin_impl.cpp",
-          "line": 394,
-          "kind": "function",
-          "name": "maybeReloadProcessPolicy_locked",
-          "scope": "src"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "mkdirP",
-      "count": 1,
-      "scope": "src",
-      "scope_breakdown": {
-        "src": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/wikipedia/wiki_workspace_orchestrator.cpp",
-          "line": 100,
-          "kind": "function",
-          "name": "mkdirP",
-          "scope": "src"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "ofs",
+      "symbol": "now",
       "count": 3,
-      "scope": "src",
-      "scope_breakdown": {
-        "src": 3
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/wikipedia/wiki_workspace_orchestrator.cpp",
-          "line": 432,
-          "kind": "function",
-          "name": "ofs",
-          "scope": "src"
-        },
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/wikipedia/wiki_workspace_orchestrator.cpp",
-          "line": 563,
-          "kind": "function",
-          "name": "ofs",
-          "scope": "src"
-        },
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/workspace_state_manager.cpp",
-          "line": 241,
-          "kind": "function",
-          "name": "ofs",
-          "scope": "src"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "open",
-      "count": 2,
-      "scope": "mixed",
-      "scope_breakdown": {
-        "include": 1,
-        "src": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/include/llm_wiki/rocksdb_wiki_store.h",
-          "line": 105,
-          "kind": "function",
-          "name": "open",
-          "scope": "include"
-        },
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/rocksdb_wiki_store.cpp",
-          "line": 54,
-          "kind": "function",
-          "name": "open",
-          "scope": "src"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "parseStringList",
-      "count": 1,
-      "scope": "src",
-      "scope_breakdown": {
-        "src": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/process_policy_manager.cpp",
-          "line": 171,
-          "kind": "function",
-          "name": "parseStringList",
-          "scope": "src"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "put",
-      "count": 1,
       "scope": "include",
       "scope_breakdown": {
-        "include": 1
+        "include": 3
       },
       "source_examples": [
         {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/include/llm_wiki/rocksdb_wiki_store.h",
-          "line": 126,
+          "file": "/home/runner/work/ThemisDB/ThemisDB/include/access_model/promotion_demotion.h",
+          "line": 65,
           "kind": "function",
-          "name": "put",
-          "scope": "include"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "rebuildIndex",
-      "count": 1,
-      "scope": "src",
-      "scope_breakdown": {
-        "src": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/wikipedia/wiki_workspace_orchestrator.cpp",
-          "line": 311,
-          "kind": "function",
-          "name": "rebuildIndex",
-          "scope": "src"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "remove",
-      "count": 2,
-      "scope": "mixed",
-      "scope_breakdown": {
-        "include": 1,
-        "src": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/include/llm_wiki/rocksdb_wiki_store.h",
-          "line": 146,
-          "kind": "function",
-          "name": "remove",
+          "name": "now",
           "scope": "include"
         },
         {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/rocksdb_wiki_store.cpp",
-          "line": 161,
+          "file": "/home/runner/work/ThemisDB/ThemisDB/include/access_model/promotion_demotion.h",
+          "line": 68,
           "kind": "function",
-          "name": "remove",
-          "scope": "src"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "resolveExistingPath",
-      "count": 1,
-      "scope": "src",
-      "scope_breakdown": {
-        "src": 1
-      },
-      "source_examples": [
+          "name": "now",
+          "scope": "include"
+        },
         {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/process_policy_manager.cpp",
-          "line": 26,
+          "file": "/home/runner/work/ThemisDB/ThemisDB/include/access_model/promotion_demotion.h",
+          "line": 97,
           "kind": "function",
-          "name": "resolveExistingPath",
-          "scope": "src"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "saveState",
-      "count": 1,
-      "scope": "src",
-      "scope_breakdown": {
-        "src": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/wikipedia/wiki_workspace_orchestrator.cpp",
-          "line": 230,
-          "kind": "function",
-          "name": "saveState",
-          "scope": "src"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "slugify",
-      "count": 1,
-      "scope": "src",
-      "scope_breakdown": {
-        "src": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/wikipedia/wiki_workspace_orchestrator.cpp",
-          "line": 113,
-          "kind": "function",
-          "name": "slugify",
-          "scope": "src"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "src",
-      "count": 1,
-      "scope": "src",
-      "scope_breakdown": {
-        "src": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/wikipedia/wiki_workspace_orchestrator.cpp",
-          "line": 411,
-          "kind": "function",
-          "name": "src",
-          "scope": "src"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "themisdb_llm_wiki_create",
-      "count": 1,
-      "scope": "src",
-      "scope_breakdown": {
-        "src": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/wikipedia/llm_wiki_plugin_factory.cpp",
-          "line": 17,
-          "kind": "function",
-          "name": "themisdb_llm_wiki_create",
-          "scope": "src"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "themisdb_llm_wiki_destroy",
-      "count": 1,
-      "scope": "src",
-      "scope_breakdown": {
-        "src": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/wikipedia/llm_wiki_plugin_factory.cpp",
-          "line": 27,
-          "kind": "function",
-          "name": "themisdb_llm_wiki_destroy",
-          "scope": "src"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "toThemisError",
-      "count": 1,
-      "scope": "src",
-      "scope_breakdown": {
-        "src": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/rocksdb_wiki_store.cpp",
-          "line": 41,
-          "kind": "function",
-          "name": "toThemisError",
-          "scope": "src"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "writeIfAbsent",
-      "count": 1,
-      "scope": "src",
-      "scope_breakdown": {
-        "src": 1
-      },
-      "source_examples": [
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/wikipedia/wiki_workspace_orchestrator.cpp",
-          "line": 85,
-          "kind": "function",
-          "name": "writeIfAbsent",
-          "scope": "src"
+          "name": "now",
+          "scope": "include"
         }
       ]
     },
     {
       "rule": "missing_brief",
-      "symbol": "sharedIndex",
+      "symbol": "AccessCoordinator",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "AccessCoordinatorConcurrencyTest",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "AccessCoordinatorFocusedTest",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "AccessCoordinatorImpl",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "allTiers",
       "kind": "function",
-      "file": "benchmarks/llm_wiki/bench_llm_wiki_dedicated_gates.cpp",
-      "line": 86,
-      "scope": "benchmarks"
+      "file": "tests/access_model/test_access_coordinator.cpp",
+      "line": 104,
+      "scope": "tests"
     },
     {
       "rule": "missing_return_docs",
-      "symbol": "sharedIndex",
+      "symbol": "allTiers",
       "kind": "function",
-      "file": "benchmarks/llm_wiki/bench_llm_wiki_dedicated_gates.cpp",
-      "line": 86,
-      "scope": "benchmarks"
+      "file": "tests/access_model/test_access_coordinator.cpp",
+      "line": 104,
+      "scope": "tests"
     },
     {
       "rule": "missing_brief",
-      "symbol": "Threads",
+      "symbol": "AccessCoordinatorTest",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "AccessModelE2ETest",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "AccessModelLogger",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "AccessTier",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "BenchAccessCoordinator",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "BenchmarkAccessTier",
       "kind": "function",
-      "file": "benchmarks/llm_wiki/bench_llm_wiki_dedicated_gates.cpp",
-      "line": 110,
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "line": 151,
       "scope": "benchmarks"
     },
     {
       "rule": "missing_param_docs",
-      "symbol": "Threads",
+      "symbol": "BenchmarkAccessTier",
       "kind": "function",
-      "file": "benchmarks/llm_wiki/bench_llm_wiki_dedicated_gates.cpp",
-      "line": 110,
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "line": 151,
+      "scope": "benchmarks",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "setCurrentSize",
+      "kind": "function",
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "line": 154,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "setCurrentSize",
+      "kind": "function",
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "line": 154,
       "scope": "benchmarks",
       "param_total": 1,
       "param_docs_count": 0
     },
     {
       "rule": "missing_brief",
-      "symbol": "MinTime",
+      "symbol": "BenchmarkAccessTier",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "CacheTier",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "DefaultAccessModelLogger",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "LatencyHistogram",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "LoggingTest",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "MockAccessTier",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "ObservabilityIntegrationTest",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "PromotionDemotionTest",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "StorageTier",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "TestAccessTier",
       "kind": "function",
-      "file": "benchmarks/llm_wiki/bench_llm_wiki_dedicated_gates.cpp",
-      "line": 128,
+      "file": "tests/access_model/test_access_coordinator.cpp",
+      "line": 33,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "TestAccessTier",
+      "kind": "function",
+      "file": "tests/access_model/test_access_coordinator.cpp",
+      "line": 33,
+      "scope": "tests",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "TestAccessTier",
+      "kind": "function",
+      "file": "tests/access_model/test_access_coordinator_focused.cpp",
+      "line": 39,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "TestAccessTier",
+      "kind": "function",
+      "file": "tests/access_model/test_access_coordinator_focused.cpp",
+      "line": 39,
+      "scope": "tests",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "TestAccessTier",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "TraceContextManager",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "ScopedContext",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "TraceContextTest",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "CacheStorageIntegrationTest",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "MockAccessTier",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "MockEvictionListener",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "MockPromotionListener",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "key_dist",
+      "kind": "function",
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "line": 221,
       "scope": "benchmarks"
     },
     {
       "rule": "missing_param_docs",
-      "symbol": "MinTime",
+      "symbol": "key_dist",
       "kind": "function",
-      "file": "benchmarks/llm_wiki/bench_llm_wiki_dedicated_gates.cpp",
-      "line": 128,
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "line": 221,
+      "scope": "benchmarks",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "key_dist",
+      "kind": "function",
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "line": 221,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "for",
+      "kind": "function",
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "line": 225,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "for",
+      "kind": "function",
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "line": 225,
       "scope": "benchmarks",
       "param_total": 1,
       "param_docs_count": 0
     },
     {
       "rule": "missing_brief",
-      "symbol": "LlmWikiCoreTest",
-      "kind": "class",
+      "symbol": "SetItemsProcessed",
+      "kind": "function",
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "line": 244,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "SetItemsProcessed",
+      "kind": "function",
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "line": 244,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "SetItemsProcessed",
+      "kind": "function",
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "line": 244,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "reportViolation",
+      "kind": "function",
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "line": 57,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "reportViolation",
+      "kind": "function",
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "line": 57,
+      "scope": "benchmarks",
+      "param_total": 5,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "DemotionEvent",
+      "kind": "struct",
       "file": "",
       "line": 0,
       "scope": "other"
     },
     {
       "rule": "missing_brief",
-      "symbol": "LlmWikiEdgeCaseTest",
-      "kind": "class",
+      "symbol": "AccessEvent",
+      "kind": "struct",
       "file": "",
       "line": 0,
       "scope": "other"
     },
     {
       "rule": "missing_brief",
-      "symbol": "WikiGuardrails",
-      "kind": "function",
-      "file": "src/llm_wiki/guardrail_patterns.h",
-      "line": 133,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "~WikiGuardrails",
-      "kind": "function",
-      "file": "src/llm_wiki/guardrail_patterns.h",
-      "line": 134,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "WikiGuardrails",
-      "kind": "function",
-      "file": "src/llm_wiki/guardrail_patterns.h",
-      "line": 137,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "WikiGuardrails",
-      "kind": "function",
-      "file": "src/llm_wiki/guardrail_patterns.h",
-      "line": 137,
-      "scope": "src",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "operator=",
-      "kind": "function",
-      "file": "src/llm_wiki/guardrail_patterns.h",
-      "line": 138,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "operator=",
-      "kind": "function",
-      "file": "src/llm_wiki/guardrail_patterns.h",
-      "line": 138,
-      "scope": "src",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "operator=",
-      "kind": "function",
-      "file": "src/llm_wiki/guardrail_patterns.h",
-      "line": 138,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "WikiGuardrails",
-      "kind": "function",
-      "file": "src/llm_wiki/guardrail_patterns.h",
-      "line": 139,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "WikiGuardrails",
-      "kind": "function",
-      "file": "src/llm_wiki/guardrail_patterns.h",
-      "line": 139,
-      "scope": "src",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "operator=",
-      "kind": "function",
-      "file": "src/llm_wiki/guardrail_patterns.h",
-      "line": 140,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "operator=",
-      "kind": "function",
-      "file": "src/llm_wiki/guardrail_patterns.h",
-      "line": 140,
-      "scope": "src",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "operator=",
-      "kind": "function",
-      "file": "src/llm_wiki/guardrail_patterns.h",
-      "line": 140,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "isUnsafeQuery",
-      "kind": "function",
-      "file": "src/llm_wiki/guardrail_patterns.h",
-      "line": 142,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "isUnsafeQuery",
-      "kind": "function",
-      "file": "src/llm_wiki/guardrail_patterns.h",
-      "line": 142,
-      "scope": "src",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "isUnsafeQuery",
-      "kind": "function",
-      "file": "src/llm_wiki/guardrail_patterns.h",
-      "line": 142,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "isUnsafeContent",
-      "kind": "function",
-      "file": "src/llm_wiki/guardrail_patterns.h",
-      "line": 146,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "isUnsafeContent",
-      "kind": "function",
-      "file": "src/llm_wiki/guardrail_patterns.h",
-      "line": 146,
-      "scope": "src",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "isUnsafeContent",
-      "kind": "function",
-      "file": "src/llm_wiki/guardrail_patterns.h",
-      "line": 146,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "checkPatterns",
-      "kind": "function",
-      "file": "src/llm_wiki/guardrail_patterns.h",
-      "line": 153,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "checkPatterns",
-      "kind": "function",
-      "file": "src/llm_wiki/guardrail_patterns.h",
-      "line": 153,
-      "scope": "src",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "checkPatterns",
-      "kind": "function",
-      "file": "src/llm_wiki/guardrail_patterns.h",
-      "line": 153,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "WikiGuardrails",
-      "kind": "class",
+      "symbol": "AccessMetrics",
+      "kind": "struct",
       "file": "",
       "line": 0,
       "scope": "other"
     },
     {
       "rule": "missing_brief",
-      "symbol": "WorkspaceStateManager",
-      "kind": "function",
-      "file": "include/llm_wiki/workspace_state_manager.h",
-      "line": 144,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "WorkspaceStateManager",
-      "kind": "function",
-      "file": "include/llm_wiki/workspace_state_manager.h",
-      "line": 144,
-      "scope": "include",
-      "param_total": 1,
-      "param_docs_count": 0
+      "symbol": "AccessOperationCounters",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
     },
     {
       "rule": "missing_brief",
-      "symbol": "~WorkspaceStateManager",
-      "kind": "function",
-      "file": "include/llm_wiki/workspace_state_manager.h",
-      "line": 149,
-      "scope": "include"
+      "symbol": "AccessTransitionEvent",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
     },
     {
       "rule": "missing_brief",
-      "symbol": "WorkspaceStateManager",
-      "kind": "function",
-      "file": "include/llm_wiki/workspace_state_manager.h",
-      "line": 152,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "WorkspaceStateManager",
-      "kind": "function",
-      "file": "include/llm_wiki/workspace_state_manager.h",
-      "line": 152,
-      "scope": "include",
-      "param_total": 1,
-      "param_docs_count": 0
+      "symbol": "AgeBasedPolicy",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
     },
     {
       "rule": "missing_brief",
-      "symbol": "operator=",
-      "kind": "function",
-      "file": "include/llm_wiki/workspace_state_manager.h",
-      "line": 153,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "operator=",
-      "kind": "function",
-      "file": "include/llm_wiki/workspace_state_manager.h",
-      "line": 153,
-      "scope": "include",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "operator=",
-      "kind": "function",
-      "file": "include/llm_wiki/workspace_state_manager.h",
-      "line": 153,
-      "scope": "include"
+      "symbol": "CoordinatorLifecycleLog",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
     },
     {
       "rule": "missing_brief",
-      "symbol": "~ILLMWikiPlugin",
-      "kind": "function",
-      "file": "include/llm_wiki/llm_wiki_plugin_interface.h",
-      "line": 255,
-      "scope": "include"
+      "symbol": "EvictionEvent",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
     },
     {
       "rule": "missing_brief",
-      "symbol": "pluginId",
-      "kind": "function",
-      "file": "include/llm_wiki/llm_wiki_plugin_interface.h",
-      "line": 260,
-      "scope": "include"
+      "symbol": "EvictionEventLog",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
     },
     {
       "rule": "missing_brief",
-      "symbol": "pluginVersion",
-      "kind": "function",
-      "file": "include/llm_wiki/llm_wiki_plugin_interface.h",
-      "line": 262,
-      "scope": "include"
+      "symbol": "EvictionListener",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
     },
     {
       "rule": "missing_brief",
-      "symbol": "getType",
-      "kind": "function",
-      "file": "include/llm_wiki/llm_wiki_plugin_interface.h",
-      "line": 263,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "getType",
-      "kind": "function",
-      "file": "include/llm_wiki/llm_wiki_plugin_interface.h",
-      "line": 263,
-      "scope": "include"
+      "symbol": "PromotionDecisionLog",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
     },
     {
       "rule": "missing_brief",
-      "symbol": "computeSHA256",
-      "kind": "function",
-      "file": "src/llm_wiki/workspace_state_manager.cpp",
-      "line": 46,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "computeSHA256",
-      "kind": "function",
-      "file": "src/llm_wiki/workspace_state_manager.cpp",
-      "line": 46,
-      "scope": "src",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "computeSHA256",
-      "kind": "function",
-      "file": "src/llm_wiki/workspace_state_manager.cpp",
-      "line": 46,
-      "scope": "src"
+      "symbol": "PromotionListener",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
     },
     {
       "rule": "missing_brief",
-      "symbol": "serializeStateToJson",
-      "kind": "function",
-      "file": "src/llm_wiki/workspace_state_manager.cpp",
-      "line": 70,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "serializeStateToJson",
-      "kind": "function",
-      "file": "src/llm_wiki/workspace_state_manager.cpp",
-      "line": 70,
-      "scope": "src",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "serializeStateToJson",
-      "kind": "function",
-      "file": "src/llm_wiki/workspace_state_manager.cpp",
-      "line": 70,
-      "scope": "src"
+      "symbol": "PromotionResult",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
     },
     {
       "rule": "missing_brief",
-      "symbol": "deserializeJsonToState",
-      "kind": "function",
-      "file": "src/llm_wiki/workspace_state_manager.cpp",
-      "line": 95,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "deserializeJsonToState",
-      "kind": "function",
-      "file": "src/llm_wiki/workspace_state_manager.cpp",
-      "line": 95,
-      "scope": "src",
-      "param_total": 2,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "deserializeJsonToState",
-      "kind": "function",
-      "file": "src/llm_wiki/workspace_state_manager.cpp",
-      "line": 95,
-      "scope": "src"
+      "symbol": "TierAccessOptions",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
     },
     {
       "rule": "missing_brief",
-      "symbol": "ok",
-      "kind": "function",
-      "file": "include/llm_wiki/process_policy_manager.h",
-      "line": 36,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "ok",
-      "kind": "function",
-      "file": "include/llm_wiki/process_policy_manager.h",
-      "line": 36,
-      "scope": "include"
+      "symbol": "TierGetResult",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
     },
     {
       "rule": "missing_brief",
-      "symbol": "Ok",
-      "kind": "function",
-      "file": "include/llm_wiki/process_policy_manager.h",
-      "line": 38,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "Ok",
-      "kind": "function",
-      "file": "include/llm_wiki/process_policy_manager.h",
-      "line": 38,
-      "scope": "include"
+      "symbol": "TierPromotionResult",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
     },
     {
       "rule": "missing_brief",
-      "symbol": "InvalidFile",
-      "kind": "function",
-      "file": "include/llm_wiki/process_policy_manager.h",
-      "line": 42,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "InvalidFile",
-      "kind": "function",
-      "file": "include/llm_wiki/process_policy_manager.h",
-      "line": 42,
-      "scope": "include",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "InvalidFile",
-      "kind": "function",
-      "file": "include/llm_wiki/process_policy_manager.h",
-      "line": 42,
-      "scope": "include"
+      "symbol": "TierPutResult",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
     },
     {
       "rule": "missing_brief",
-      "symbol": "ParseError",
-      "kind": "function",
-      "file": "include/llm_wiki/process_policy_manager.h",
-      "line": 46,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "ParseError",
-      "kind": "function",
-      "file": "include/llm_wiki/process_policy_manager.h",
-      "line": 46,
-      "scope": "include",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "ParseError",
-      "kind": "function",
-      "file": "include/llm_wiki/process_policy_manager.h",
-      "line": 46,
-      "scope": "include"
+      "symbol": "TierTransitionLog",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
     },
     {
       "rule": "missing_brief",
-      "symbol": "ValidationError",
-      "kind": "function",
-      "file": "include/llm_wiki/process_policy_manager.h",
-      "line": 50,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "ValidationError",
-      "kind": "function",
-      "file": "include/llm_wiki/process_policy_manager.h",
-      "line": 50,
-      "scope": "include",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "ValidationError",
-      "kind": "function",
-      "file": "include/llm_wiki/process_policy_manager.h",
-      "line": 50,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "ok",
-      "kind": "function",
-      "file": "include/llm_wiki/workspace_state_manager.h",
-      "line": 75,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "ok",
-      "kind": "function",
-      "file": "include/llm_wiki/workspace_state_manager.h",
-      "line": 75,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "Ok",
-      "kind": "function",
-      "file": "include/llm_wiki/workspace_state_manager.h",
-      "line": 77,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "Ok",
-      "kind": "function",
-      "file": "include/llm_wiki/workspace_state_manager.h",
-      "line": 77,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "Error",
-      "kind": "function",
-      "file": "include/llm_wiki/workspace_state_manager.h",
-      "line": 81,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "Error",
-      "kind": "function",
-      "file": "include/llm_wiki/workspace_state_manager.h",
-      "line": 81,
-      "scope": "include",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "Error",
-      "kind": "function",
-      "file": "include/llm_wiki/workspace_state_manager.h",
-      "line": 81,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "CorruptState",
-      "kind": "function",
-      "file": "include/llm_wiki/workspace_state_manager.h",
-      "line": 85,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "CorruptState",
-      "kind": "function",
-      "file": "include/llm_wiki/workspace_state_manager.h",
-      "line": 85,
-      "scope": "include",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "CorruptState",
-      "kind": "function",
-      "file": "include/llm_wiki/workspace_state_manager.h",
-      "line": 85,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "ChecksumMismatch",
-      "kind": "function",
-      "file": "include/llm_wiki/workspace_state_manager.h",
-      "line": 89,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "ChecksumMismatch",
-      "kind": "function",
-      "file": "include/llm_wiki/workspace_state_manager.h",
-      "line": 89,
-      "scope": "include",
-      "param_total": 2,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "ChecksumMismatch",
-      "kind": "function",
-      "file": "include/llm_wiki/workspace_state_manager.h",
-      "line": 89,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "ok",
-      "kind": "function",
-      "file": "include/llm_wiki/llm_wiki_status.h",
-      "line": 45,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "ok",
-      "kind": "function",
-      "file": "include/llm_wiki/llm_wiki_status.h",
-      "line": 45,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "Ok",
-      "kind": "function",
-      "file": "include/llm_wiki/llm_wiki_status.h",
-      "line": 47,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "Ok",
-      "kind": "function",
-      "file": "include/llm_wiki/llm_wiki_status.h",
-      "line": 47,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "Error",
-      "kind": "function",
-      "file": "include/llm_wiki/llm_wiki_status.h",
-      "line": 48,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "Error",
-      "kind": "function",
-      "file": "include/llm_wiki/llm_wiki_status.h",
-      "line": 48,
-      "scope": "include",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "Error",
-      "kind": "function",
-      "file": "include/llm_wiki/llm_wiki_status.h",
-      "line": 48,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "PermissionDenied",
-      "kind": "function",
-      "file": "include/llm_wiki/llm_wiki_status.h",
-      "line": 50,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "PermissionDenied",
-      "kind": "function",
-      "file": "include/llm_wiki/llm_wiki_status.h",
-      "line": 50,
-      "scope": "include",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "PermissionDenied",
-      "kind": "function",
-      "file": "include/llm_wiki/llm_wiki_status.h",
-      "line": 50,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "InvalidArgument",
-      "kind": "function",
-      "file": "include/llm_wiki/llm_wiki_status.h",
-      "line": 52,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "InvalidArgument",
-      "kind": "function",
-      "file": "include/llm_wiki/llm_wiki_status.h",
-      "line": 52,
-      "scope": "include",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "InvalidArgument",
-      "kind": "function",
-      "file": "include/llm_wiki/llm_wiki_status.h",
-      "line": 52,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "NotInitialized",
-      "kind": "function",
-      "file": "include/llm_wiki/llm_wiki_status.h",
-      "line": 54,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "NotInitialized",
-      "kind": "function",
-      "file": "include/llm_wiki/llm_wiki_status.h",
-      "line": 54,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "EvaluationStats",
+      "symbol": "TraceContext",
       "kind": "struct",
       "file": "",
       "line": 0,
