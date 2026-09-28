@@ -79,8 +79,6 @@ Result<bool> Neo4jAdapter::connect(
                 if (colon_pos != std::string::npos && colon_pos < at_pos) {
                     username = connection_string.substr(credential_start, colon_pos - credential_start);
                     password = connection_string.substr(colon_pos + 1, at_pos - colon_pos - 1);
-                } else {
-                    username = connection_string.substr(credential_start, at_pos - credential_start);
                 }
             }
         }
