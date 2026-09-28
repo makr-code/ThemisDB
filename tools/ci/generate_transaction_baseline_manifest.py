@@ -60,7 +60,7 @@ def _parse_benchmarks(path: Path) -> tuple[list[dict[str, object]], dict[str, fl
         return min(values) if values else None
 
     summary = {
-        "benchmark_count": float(len(rows)),
+        "benchmark_count": len(rows),
         "best_ops_per_sec": _max_metric("txns_per_sec"),
         "lowest_ops_per_sec": _min_metric("txns_per_sec"),
         "worst_p50_ms": _max_metric("p50_ms"),
@@ -89,10 +89,6 @@ def _parse_chaos_log(path: Path | None) -> dict[str, object]:
         result["pass_rate_percent"] = int(passed_match.group(1))
         result["failed_tests"] = int(passed_match.group(2))
         result["total_tests"] = int(passed_match.group(3))
-    else:
-        total_match = re.search(r"Total Test time .*", text)
-        if total_match and result["status"] == "success":
-            result["total_tests"] = None
 
     return result
 
