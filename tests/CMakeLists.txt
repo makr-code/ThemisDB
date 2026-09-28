@@ -17020,6 +17020,15 @@ add_network_focused_test(
     "BandwidthManagementQoS: LeakyBucket shaping, set_bandwidth_limit, set_token_bucket, set_priority, priority queue scheduling, fair-queuing starvation guard, CongestionController AIMD, Linux tc configureTc"
 )
 
+# --- QoS Manager command injection regression ---
+add_network_focused_test(
+    test_qos_manager_command_injection_focused
+    network/test_qos_manager_command_injection.cpp
+    QoSManagerCommandInjectionFocusedTests
+    "network;qos;security;command-injection;linux-tc;focused;unit"
+    "QoSManager command injection hardening: interface-name validation rejects shell metacharacters and unsafe patterns before tc invocation"
+)
+
 # --- Network Timeout (SocketTimeoutManager) ---
 add_network_focused_test(
     test_network_timeout_focused

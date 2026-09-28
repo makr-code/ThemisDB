@@ -16,6 +16,7 @@
 #include "network/qos_manager.h"
 
 #include <string>
+#include <string_view>
 #include <vector>
 
 using namespace themis::network;
@@ -28,6 +29,22 @@ using TcConfig = QoSManager::TcConfig;
 class QoSManagerCommandInjectionTest : public ::testing::Test {
 protected:
     QoSManager manager_;
+
+    void expectRejected(std::string_view interface_name) {
+        TcConfig config;
+        config.enabled = true;
+        config.interface_name = std::string(interface_name);
+        config.total_rate_bps = 1'000'000;
+        EXPECT_FALSE(manager_.configureTc(config));
+    }
+
+    void expectAcceptedFormatNoThrow(std::string_view interface_name) {
+        TcConfig config;
+        config.enabled = true;
+        config.interface_name = std::string(interface_name);
+        config.total_rate_bps = 1'000'000;
+        EXPECT_NO_THROW((void)manager_.configureTc(config));
+    }
 };
 
 /**
@@ -62,19 +79,7 @@ TEST_F(QoSManagerCommandInjectionTest, ValidInterfaceNamesAccepted) {
     };
 
     for (const auto& name : valid_names) {
-        TcConfig config;
-        config.enabled = true;
-        config.interface_name = name;
-        config.total_rate_bps = 1'000'000;
-
-        // The function should not crash or reject based on interface validation.
-        // (Note: It may fail on non-Linux or if tc binary is missing, but not
-        // due to validation.)
-        // We just verify no exceptions are thrown during validation.
-        bool result = manager_.configureTc(config);
-        // Result may be false on non-Linux or if tc is unavailable, but the
-        // interface name itself should be considered valid.
-        // This test passes if no exception is thrown.
+        expectAcceptedFormatNoThrow(name);
     }
 }
 
@@ -108,20 +113,7 @@ TEST_F(QoSManagerCommandInjectionTest, ShellMetacharactersRejected) {
     };
 
     for (const auto& name : malicious_names) {
-        TcConfig config;
-        config.enabled = true;
-        config.interface_name = name;
-        config.total_rate_bps = 1'000'000;
-
-        // The configuration should be rejected due to invalid characters.
-        // Since we can't directly access isValidInterfaceName (it's static),
-        // we verify by attempting to configure and checking that we don't
-        // proceed with the potentially dangerous command.
-        bool result = manager_.configureTc(config);
-        // On Linux with tc available, this should return false due to
-        // validation failure. On other platforms, this may return false
-        // for other reasons, but the key is that the malicious string
-        // is rejected before any command execution.
+        expectRejected(name);
     }
 }
 
@@ -137,14 +129,7 @@ TEST_F(QoSManagerCommandInjectionTest, SqlInjectionPatternsRejected) {
     };
 
     for (const auto& name : sql_like_names) {
-        TcConfig config;
-        config.enabled = true;
-        config.interface_name = name;
-        config.total_rate_bps = 1'000'000;
-
-        // These patterns contain quotes and other characters that should be
-        // rejected by interface name validation.
-        bool result = manager_.configureTc(config);
+        expectRejected(name);
     }
 }
 
@@ -164,13 +149,7 @@ TEST_F(QoSManagerCommandInjectionTest, WhitespaceRejected) {
     };
 
     for (const auto& name : whitespace_names) {
-        TcConfig config;
-        config.enabled = true;
-        config.interface_name = name;
-        config.total_rate_bps = 1'000'000;
-
-        // Whitespace should be rejected.
-        bool result = manager_.configureTc(config);
+        expectRejected(name);
     }
 }
 
@@ -188,13 +167,7 @@ TEST_F(QoSManagerCommandInjectionTest, PathTraversalRejected) {
     };
 
     for (const auto& name : traversal_names) {
-        TcConfig config;
-        config.enabled = true;
-        config.interface_name = name;
-        config.total_rate_bps = 1'000'000;
-
-        // Forward slashes should be rejected by validation.
-        bool result = manager_.configureTc(config);
+        expectRejected(name);
     }
 }
 
@@ -213,15 +186,11 @@ TEST_F(QoSManagerCommandInjectionTest, LengthLimitEnforced) {
     };
 
     for (const auto& [name, expected_valid] : test_cases) {
-        TcConfig config;
-        config.enabled = true;
-        config.interface_name = name;
-        config.total_rate_bps = 1'000'000;
-
-        // Try to configure; the validation should reject names that are
-        // too long or empty.
-        bool result = manager_.configureTc(config);
-        // We expect result to be false for invalid names (on Linux with tc).
+        if (expected_valid) {
+            expectAcceptedFormatNoThrow(name);
+        } else {
+            expectRejected(name);
+        }
     }
 }
 
@@ -236,13 +205,7 @@ TEST_F(QoSManagerCommandInjectionTest, NoLeadingHyphen) {
     };
 
     for (const auto& name : bad_names) {
-        TcConfig config;
-        config.enabled = true;
-        config.interface_name = name;
-        config.total_rate_bps = 1'000'000;
-
-        // Leading hyphen should be rejected.
-        bool result = manager_.configureTc(config);
+        expectRejected(name);
     }
 }
 
@@ -259,13 +222,7 @@ TEST_F(QoSManagerCommandInjectionTest, HyphenUnderscoreInMiddleOk) {
     };
 
     for (const auto& name : valid_names) {
-        TcConfig config;
-        config.enabled = true;
-        config.interface_name = name;
-        config.total_rate_bps = 1'000'000;
-
-        // These should pass validation (may fail to configure for other reasons).
-        bool result = manager_.configureTc(config);
+        expectAcceptedFormatNoThrow(name);
     }
 }
 
@@ -305,13 +262,7 @@ TEST_F(QoSManagerCommandInjectionTest, OsCommandMetacharsRejected) {
     };
 
     for (const auto& name : bad_names) {
-        TcConfig config;
-        config.enabled = true;
-        config.interface_name = name;
-        config.total_rate_bps = 1'000'000;
-
-        // All these special characters should be rejected.
-        bool result = manager_.configureTc(config);
+        expectRejected(name);
     }
 }
 
@@ -337,13 +288,7 @@ TEST_F(QoSManagerCommandInjectionTest, ControlCharsRejected) {
     };
 
     for (const auto& name : bad_names) {
-        TcConfig config;
-        config.enabled = true;
-        config.interface_name = name;
-        config.total_rate_bps = 1'000'000;
-
-        // Control characters should be rejected.
-        bool result = manager_.configureTc(config);
+        expectRejected(name);
     }
 }
 
@@ -351,14 +296,7 @@ TEST_F(QoSManagerCommandInjectionTest, ControlCharsRejected) {
  * @brief Test: Empty interface name is rejected
  */
 TEST_F(QoSManagerCommandInjectionTest, EmptyInterfaceNameRejected) {
-    TcConfig config;
-    config.enabled = true;
-    config.interface_name = "";
-    config.total_rate_bps = 1'000'000;
-
-    // Empty interface name should be rejected immediately.
-    bool result = manager_.configureTc(config);
-    EXPECT_FALSE(result);
+    expectRejected("");
 }
 
 /**
@@ -371,8 +309,7 @@ TEST_F(QoSManagerCommandInjectionTest, DisabledConfigSkippedSafely) {
     config.total_rate_bps = 1'000'000;
 
     // Should return false early without validating interface name.
-    bool result = manager_.configureTc(config);
-    EXPECT_FALSE(result);
+    EXPECT_FALSE(manager_.configureTc(config));
 }
 
 /**
@@ -387,13 +324,7 @@ TEST_F(QoSManagerCommandInjectionTest, StrictAlphanumericValidation) {
     };
 
     for (const auto& name : valid_names) {
-        TcConfig config;
-        config.enabled = true;
-        config.interface_name = name;
-        config.total_rate_bps = 1'000'000;
-
-        // Alphanumeric names (case-insensitive) should be accepted.
-        bool result = manager_.configureTc(config);
+        expectAcceptedFormatNoThrow(name);
     }
 }
 
@@ -411,12 +342,6 @@ TEST_F(QoSManagerCommandInjectionTest, HighBitAsciiRejected) {
     };
 
     for (const auto& name : bad_names) {
-        TcConfig config;
-        config.enabled = true;
-        config.interface_name = name;
-        config.total_rate_bps = 1'000'000;
-
-        // High-bit characters should be rejected.
-        bool result = manager_.configureTc(config);
+        expectRejected(name);
     }
 }
