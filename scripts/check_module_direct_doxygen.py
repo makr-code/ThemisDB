@@ -398,12 +398,29 @@ def main() -> int:
 
     files = collect_module_files(repo_root, args.module)
 
-    source_graph_symbols = parse_source_graph(args.module, (repo_root / args.source_graph_json).resolve())
-    source_mode = "graph" if source_graph_symbols else "direct_doxygen_markers"
-
-    if not files and not source_graph_symbols:
+    if not files:
+        # No C/C++ source files in this module — write stub SKIP artifacts and exit cleanly
+        # so downstream CI steps that read these files do not fail on missing paths.
+        skip_report = {
+            "module": args.module,
+            "verdict": "SKIP",
+            "reason": "no C/C++ source files found for module",
+            "source_files_scanned": 0,
+        }
+        for dest, content in [
+            (args.report_json, json.dumps(skip_report, indent=2)),
+            (args.missing_report_json, json.dumps({"module": args.module, "verdict": "SKIP", "findings": []}, indent=2)),
+            (args.summary_md, f"# Direct Doxygen Check: {args.module}\n\nSKIP — no C/C++ source files found.\n"),
+            (args.coverage_summary_md, f"# Module Doxygen Coverage Summary\n\n- Module: {args.module}\n- Verdict: SKIP\n"),
+        ]:
+            out_path = repo_root / dest
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            out_path.write_text(content, encoding="utf-8")
         print(f"[SKIP] Module '{args.module}' has no C/C++ source files; nothing to validate.", file=sys.stderr)
         return 0
+
+    source_graph_symbols = parse_source_graph(args.module, (repo_root / args.source_graph_json).resolve())
+    source_mode = "graph" if source_graph_symbols else "direct_doxygen_markers"
 
     if source_graph_symbols:
         source_symbols = source_graph_symbols
