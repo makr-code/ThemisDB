@@ -401,6 +401,10 @@ def main() -> int:
     source_graph_symbols = parse_source_graph(args.module, (repo_root / args.source_graph_json).resolve())
     source_mode = "graph" if source_graph_symbols else "direct_doxygen_markers"
 
+    if not files and not source_graph_symbols:
+        print(f"[SKIP] Module '{args.module}' has no C/C++ source files; nothing to validate.", file=sys.stderr)
+        return 0
+
     if source_graph_symbols:
         source_symbols = source_graph_symbols
     else:
