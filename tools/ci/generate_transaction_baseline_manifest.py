@@ -51,21 +51,17 @@ def _parse_benchmarks(path: Path) -> tuple[list[dict[str, object]], dict[str, fl
         }
         rows.append(row)
 
-    def _max_metric(metric: str) -> float | None:
+    def _aggregate_metric(metric: str, reducer) -> float | None:
         values = [value for value in (_as_float(row.get(metric)) for row in rows) if value is not None]
-        return max(values) if values else None
-
-    def _min_metric(metric: str) -> float | None:
-        values = [value for value in (_as_float(row.get(metric)) for row in rows) if value is not None]
-        return min(values) if values else None
+        return reducer(values) if values else None
 
     summary = {
         "benchmark_count": len(rows),
-        "best_ops_per_sec": _max_metric("txns_per_sec"),
-        "lowest_ops_per_sec": _min_metric("txns_per_sec"),
-        "worst_p50_ms": _max_metric("p50_ms"),
-        "worst_p95_ms": _max_metric("p95_ms"),
-        "worst_p99_ms": _max_metric("p99_ms"),
+        "best_ops_per_sec": _aggregate_metric("txns_per_sec", max),
+        "lowest_ops_per_sec": _aggregate_metric("txns_per_sec", min),
+        "worst_p50_ms": _aggregate_metric("p50_ms", max),
+        "worst_p95_ms": _aggregate_metric("p95_ms", max),
+        "worst_p99_ms": _aggregate_metric("p99_ms", max),
     }
     return rows, summary
 

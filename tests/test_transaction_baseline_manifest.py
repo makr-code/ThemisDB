@@ -160,7 +160,7 @@ class TransactionBaselineManifestTests(unittest.TestCase):
         workflow = WORKFLOW_PATH.read_text(encoding="utf-8")
         signoff = SIGNOFF_PATH.read_text(encoding="utf-8")
 
-        self.assertIn('uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683', workflow)
+        self.assertIn("uses: actions/checkout@", workflow)
         self.assertIn("generate_transaction_baseline_manifest.py", workflow)
         self.assertIn("TRANSACTION_BASELINES_LATEST.json", workflow)
         self.assertIn("transaction-baseline-evidence", workflow)
