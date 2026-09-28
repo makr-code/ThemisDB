@@ -1,17 +1,18 @@
 # Developer LLM Wiki — Delta Report
 
-Datum: 2026-09-21
+Datum: 2026-09-28
 Status: Active
 
 ## Summary
 
-- Added: 7810
+- Added: 7907
 - Removed: 0
 - Changed: 0
 
 ## Added
 
 - .github/workflows/automation-community.yml
+- .github/workflows/benchmark-performance-gate.yml
 - .github/workflows/build-benchmarks.yml
 - .github/workflows/build-clang-fast.yml
 - .github/workflows/build-content-regression.yml
@@ -27,6 +28,7 @@ Status: Active
 - .github/workflows/compliance-supply-chain.yml
 - .github/workflows/copilot-code-review.yml
 - .github/workflows/edition-hyperscaler-ci.yml
+- .github/workflows/ga-promotion-signoff.yml
 - .github/workflows/gate-copilot-regression.yml
 - .github/workflows/gate-distributed-knowledge.yml
 - .github/workflows/gate-pr-community-failclosed.yml
@@ -39,12 +41,21 @@ Status: Active
 - .github/workflows/gate-pr-module-doxygen-xml.yml
 - .github/workflows/gate-pr-plugin-boundary.yml
 - .github/workflows/gate-pr-primary-doc-structure.yml
+- .github/workflows/gate-pr-rag-eval.yml
+- .github/workflows/gate-pr-rag-phase10.yml
+- .github/workflows/gate-pr-rag-phase7.yml
+- .github/workflows/gate-pr-rag-phase8.yml
+- .github/workflows/gate-pr-rag-phase9.yml
+- .github/workflows/gate-pr-rag-security.yml
+- .github/workflows/gate-pr-rag-version.yml
 - .github/workflows/gate-pr-version-targeting.yml
 - .github/workflows/gate-wave-closure.yml
+- .github/workflows/gate-workflow-guidelines.yml
 - .github/workflows/maintenance-ai-working.yml
 - .github/workflows/maintenance-architecture-ci.yml
 - .github/workflows/maintenance-build-issues.yml
 - .github/workflows/maintenance-ci-health.yml
+- .github/workflows/maintenance-compendium-sync.yml
 - .github/workflows/maintenance-docs-db-build.yml
 - .github/workflows/maintenance-docs.yml
 - .github/workflows/maintenance-housekeeping.yml
@@ -55,15 +66,21 @@ Status: Active
 - .github/workflows/publish-wiki.yml
 - .github/workflows/release-build-matrix.yml
 - .github/workflows/release-changelog.yml
+- .github/workflows/release-docker-approval.yml
 - .github/workflows/release-docker-image.yml
 - .github/workflows/release-linux-distribution.yml
+- .github/workflows/release-linux-distro-approval.yml
+- .github/workflows/release-mainline-approval.yml
 - .github/workflows/release-mainline.yml
 - .github/workflows/release-nightly.yml
 - .github/workflows/release-promote.yml
 - .github/workflows/release-rollback.yml
 - .github/workflows/release-windows-distribution.yml
+- .github/workflows/release-windows-distro-approval.yml
+- .github/workflows/release-winget-approval.yml
 - .github/workflows/release-winget.yml
 - .github/workflows/release-wordpress-press.yml
+- .github/workflows/reusable-benchmark-runner.yml
 - .github/workflows/reusable-cmake-build.yml
 - .github/workflows/reusable-docs-db-builder.yml
 - .github/workflows/reusable-status-flags-and-issues.yml
@@ -73,7 +90,10 @@ Status: Active
 - .github/workflows/security-fortify.yml
 - .github/workflows/security-fuzzing.yml
 - .github/workflows/security-pentest-quarterly.yml
+- .github/workflows/wave-a-gpu-ci-execution.yml
+- .github/workflows/wave-a-gpu-phase3-baseline-execution.yml
 - .github/workflows/wiki-pr-gate.yml
+- .github/workflows/wiki-publish-from-issue.yml
 - AI_WIKI_INTEGRATION_PLAYBOOK.md
 - BRANCHING_STRATEGY.md
 - CHANGELOG.md
@@ -119,6 +139,7 @@ Status: Active
 - ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md
 - ai_context/developer_llm_wiki/INDEX.md
 - ai_context/developer_llm_wiki/MODULES_AND_APIS.md
+- ai_context/developer_llm_wiki/MODULE_DIRECT_DOXYGEN_CHECK.md
 - ai_context/developer_llm_wiki/MODULE_DOXYGEN_BASELINE_SUMMARY.md
 - ai_context/developer_llm_wiki/MODULE_DOXYGEN_BATCH_.md
 - ai_context/developer_llm_wiki/MODULE_DOXYGEN_COVERAGE_SUMMARY.md
@@ -190,28 +211,7 @@ Status: Active
 - docs/ARCHIVED/ai-working-history/AUDIT_INTEGRITY_QUICK_REFERENCE.md
 - docs/ARCHIVED/ai-working-history/AUDIT_INTEGRITY_VERIFICATION_REPORT.md
 - docs/ARCHIVED/ai-working-history/BATCH1_COMPLETION_SUMMARY.md
-- docs/ARCHIVED/ai-working-history/BATCH1_CRITICAL_AGENT_COORDINATION_2026-08-18.md
-- docs/ARCHIVED/ai-working-history/BATCH1_CRITICAL_FINDINGS_REMEDIATION.md
-- docs/ARCHIVED/ai-working-history/BATCH1_DELIVERY_SUMMARY.md
-- docs/ARCHIVED/ai-working-history/BATCH1_EXECUTION_SUMMARY_2026-08-18.md
-- docs/ARCHIVED/ai-working-history/BATCH1_FINAL_CHECKLIST.md
-- docs/ARCHIVED/ai-working-history/BATCH1_IMPLEMENTATION_CHECKLIST.md
-- docs/ARCHIVED/ai-working-history/BATCH1_NULL_SAFETY_IMPLEMENTATION.md
-- docs/ARCHIVED/ai-working-history/BATCH1_SCOPE_MISMATCH_ANALYSIS.md
-- docs/ARCHIVED/ai-working-history/BATCH2_MANIFEST_VALIDATION_SUMMARY.md
-- docs/ARCHIVED/ai-working-history/BATCH2_RAII_DELIVERY_SUMMARY.md
-- docs/ARCHIVED/ai-working-history/BATCH2_RAII_IMPLEMENTATION_GUIDE.md
-- docs/ARCHIVED/ai-working-history/BATCH3_DELIVERY.md
-- docs/ARCHIVED/ai-working-history/BATCH3_ERROR_CODES.md
-- docs/ARCHIVED/ai-working-history/BATCH3_LEAK_PREVENTION_SUMMARY.md
-- docs/ARCHIVED/ai-working-history/BATCH3_PERFORMANCE_SUMMARY.md
-- docs/ARCHIVED/ai-working-history/BATCH3_QUICK_REFERENCE.md
-- docs/ARCHIVED/ai-working-history/BATCH3_THREAD_SAFETY_DELIVERY.md
-- docs/ARCHIVED/ai-working-history/BATCH4_1_BLOCKERS.md
-- docs/ARCHIVED/ai-working-history/BATCH4_1_FINAL_IMPLEMENTATION_SUMMARY.md
-- docs/ARCHIVED/ai-working-history/BATCH4_1_IMPLEMENTATION_COMPLETE.md
-- docs/ARCHIVED/ai-working-history/BATCH4_1_PHASE_A_COMPLETION_REPORT.md
-- ... truncated (7610 more)
+- ... truncated (7707 more)
 
 ## Removed
 

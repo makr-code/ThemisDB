@@ -1,6 +1,6 @@
 # Developer LLM Wiki — Governance and Roadmap
 
-Datum: 2026-09-24
+Datum: 2026-09-28
 Status: Active
 
 ## AI_WIKI_INTEGRATION_PLAYBOOK.md
@@ -50,16 +50,16 @@ Status: Active
 
 ## INDEX.md
 - Kategorie: governance_and_docs
-- Hash: `2aee9529c8dd99e8`
+- Hash: `ca37d8c82f40c996`
 - Titel: ThemisDB Root Index
 - Auszug:
-  - Datum: 2026-07-28
+  - Datum: 2026-09-23
   - Status: Active
   - Bezug: Root-Navigation, Onboarding-Reihenfolge und AI-Wiki-Betrieb
 
 ## RELEASE_STRATEGY.md
 - Kategorie: governance_and_docs
-- Hash: `80f9b3c0de685a81`
+- Hash: `fc17c7c399a0da60`
 - Titel: ThemisDB Release Strategy
 - Auszug:
   - > Status: Active
@@ -68,7 +68,7 @@ Status: Active
 
 ## ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `ff88365b88af13a4`
+- Hash: `a1c1416a142caab4`
 - Titel: ThemisDB Project Roadmap
 - Auszug:
   - <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
@@ -122,10 +122,10 @@ Status: Active
 
 ## ai_context/COPILOT_INSTRUCTIONS.md
 - Kategorie: governance_and_docs
-- Hash: `fefd90aa32143ac2`
+- Hash: `7711a40cb192319d`
 - Titel: Copilot Instructions (Repository-wide)
 - Auszug:
-  - Datum: 2026-08-07
+  - Datum: 2026-09-23
   - Status: Active
   - Bezug: Repository-weite AI-/Copilot-Arbeitsregeln fuer Dokumentation, Governance und Release-Sync; Module-Klassifizierung (T0–T5) aktualisiert
 
@@ -149,10 +149,10 @@ Status: Active
 
 ## ai_context/FUNCTION_CLASSIFICATION.md
 - Kategorie: governance_and_docs
-- Hash: `7b1c8a1d9416102d`
+- Hash: `4cfc920fbc8f70a7`
 - Titel: Function Classification Framework
 - Auszug:
-  - Datum: 2026-08-03
+  - Datum: 2026-09-23
   - **Status:** Active
   - **Primary:** src/*/ROADMAP.md, include/**/*.h
 
@@ -212,19 +212,19 @@ Status: Active
 
 ## ai_context/KNOWLEDGE_CONFLICTS.md
 - Kategorie: governance_and_docs
-- Hash: `37d99f2e08be6738`
+- Hash: `8164957c91f66f66`
 - Titel: KNOWLEDGE Conflicts Register
 - Auszug:
-  - Datum: 2026-07-28
+  - Datum: 2026-09-23
   - Status: Active
   - Bezug: Zentrales Konfliktregister fuer AI-Wiki-Widersprueche und Klaerungen
 
 ## ai_context/KNOWLEDGE_LINT_REPORT.md
 - Kategorie: governance_and_docs
-- Hash: `7149ffd612c2c935`
+- Hash: `8292ad3826b67d04`
 - Titel: KNOWLEDGE Lint Report
 - Auszug:
-  - Datum: 2026-08-09
+  - Datum: 2026-09-23
   - Status: Active
   - Bezug: Automatisierter AI-Context-Lintlauf mit Findings
 
@@ -248,10 +248,10 @@ Status: Active
 
 ## ai_context/OOP_AND_SOC_PRINCIPLES.md
 - Kategorie: governance_and_docs
-- Hash: `31e0d1f3b944f8cf`
+- Hash: `b9174431be9dd77e`
 - Titel: OOP & Separation of Concerns Principles
 - Auszug:
-  - Datum: 2026-08-03
+  - Datum: 2026-09-23
   - **Status:** Active
   - **Primary:** include/**/*.h, src/*/ARCHITECTURE.md
 
@@ -275,10 +275,10 @@ Status: Active
 
 ## ai_context/README.md
 - Kategorie: governance_and_docs
-- Hash: `53b267f757d8ed4d`
+- Hash: `3d7afc4738c660bf`
 - Titel: ai_context
 - Auszug:
-  - Datum: 2026-07-28
+  - Datum: 2026-09-23
   - Status: Active
   - Bezug: Persistente Wissensbasis fuer AI-Agenten in ThemisDB
 
@@ -302,181 +302,190 @@ Status: Active
 
 ## ai_context/api_contracts/README.md
 - Kategorie: governance_and_docs
-- Hash: `baebbb8e92767cd7`
+- Hash: `1db50fcdbbf6925f`
 - Titel: API Contracts (machine-readable)
 - Auszug:
-  - Datum: 2026-07-28
+  - Datum: 2026-09-23
   - Status: Active
   - Bezug: Maschinenlesbare API-Vertragsuebersichten fuer AI-Agenten
 
 ## ai_context/api_contracts/api.md
 - Kategorie: governance_and_docs
-- Hash: `607c60362177552f`
+- Hash: `c9365ece69509f09`
 - Titel: API Module Contract
 - Auszug:
-  - Datum: 2026-08-03
+  - Datum: 2026-09-23
   - **Status:** Active
   - **Module:** api (HTTP/gRPC/GraphQL transport)
 
 ## ai_context/api_contracts/auth.md
 - Kategorie: governance_and_docs
-- Hash: `14d2bacf9829abba`
+- Hash: `2f8821cfe230dd24`
 - Titel: Auth Module Contract
 - Auszug:
-  - Datum: 2026-08-03
+  - Datum: 2026-09-23
   - **Status:** Active
   - **Module:** auth (Authentication, authorization, principal contracts)
 
 ## ai_context/api_contracts/index.md
 - Kategorie: governance_and_docs
-- Hash: `d2ecd3a0cf52860e`
+- Hash: `43ac44b76584b5e2`
 - Titel: Index Module Contract
 - Auszug:
-  - Datum: 2026-08-03
+  - Datum: 2026-09-23
   - **Status:** Active
   - **Module:** index (HNSW, B-tree, R-tree, index lifecycle)
 
 ## ai_context/api_contracts/llm.md
 - Kategorie: governance_and_docs
-- Hash: `723647dab27f1172`
+- Hash: `3f5487d4b92a1dea`
 - Titel: LLM Module Contract
 - Auszug:
-  - Datum: 2026-08-03
+  - Datum: 2026-09-23
   - **Status:** Active
   - **Module:** llm (LLM inference, model switching, context mgmt)
 
 ## ai_context/api_contracts/storage.md
 - Kategorie: governance_and_docs
-- Hash: `d2fc67bd2b65d0b6`
+- Hash: `4ff8503558c2c3f9`
 - Titel: Storage Module Contract
 - Auszug:
-  - Datum: 2026-08-03
+  - Datum: 2026-09-23
   - **Status:** Active
   - **Module:** storage (RocksDB backend, K-V layer, LSM-tree)
 
 ## ai_context/api_contracts/transaction.md
 - Kategorie: governance_and_docs
-- Hash: `12bccfb9a3d33a81`
+- Hash: `5f43b54562a5a22b`
 - Titel: Transaction Module Contract
 - Auszug:
-  - Datum: 2026-08-03
+  - Datum: 2026-09-23
   - **Status:** Active
   - **Module:** transaction (Coordinator, 2PC/3PC/SAGA patterns)
 
 ## ai_context/developer_llm_wiki/AI_METADATA_AND_PROVENANCE.md
 - Kategorie: governance_and_docs
-- Hash: `41f3f76355f52007`
+- Hash: `244bf72eb10d5814`
 - Titel: Developer LLM Wiki -- Canonical AI Metadata and Provenance
 - Auszug:
-  - Datum: 2026-08-21
+  - Datum: 2026-09-23
   - Status: Active
   - Bezug: ThemisDB-weites Provenienz- und Degradationsmodell fuer menschliche, hybride und LLM-synthetische Inhalte
 
 ## ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md
 - Kategorie: governance_and_docs
-- Hash: `1e632407d5440204`
+- Hash: `3b9e8a1501ae4bf3`
 - Titel: Developer LLM Wiki — Build/Test/CI/Operations
 - Auszug:
-  - Datum: 2026-09-21
+  - Datum: 2026-09-28
   - Status: Active
   - - Kategorie: build_test_ci
 
 ## ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `522636c70f0e660e`
+- Hash: `363636ed6d0ca3e4`
 - Titel: Developer LLM Wiki — Governance and Roadmap
 - Auszug:
-  - Datum: 2026-09-14
+  - Datum: 2026-09-24
   - Status: Active
   - - Kategorie: governance_and_docs
 
 ## ai_context/developer_llm_wiki/INDEX.md
 - Kategorie: governance_and_docs
-- Hash: `8082d8944990f6c1`
+- Hash: `32f9f14aa33eaa35`
 - Titel: Developer LLM Wiki — Index
 - Auszug:
-  - Datum: 2026-09-21
+  - Datum: 2026-09-28
   - Status: Active
   - Bezug: CI-verwaltete Entwickler-Wissensbasis fuer Coder-LLMs
 
 ## ai_context/developer_llm_wiki/MODULES_AND_APIS.md
 - Kategorie: governance_and_docs
-- Hash: `1ba83673cd21b0de`
+- Hash: `552f8ea0ca3d4764`
 - Titel: Developer LLM Wiki — Modules and APIs
 - Auszug:
-  - Datum: 2026-09-21
+  - Datum: 2026-09-28
   - Status: Active
   - - Kategorie: modules_and_api
 
+## ai_context/developer_llm_wiki/MODULE_DIRECT_DOXYGEN_CHECK.md
+- Kategorie: governance_and_docs
+- Hash: `97b11036c4d6e09e`
+- Titel: Direct Doxygen Check: llm_wiki
+- Auszug:
+  - Datum: 2026-09-23
+  - Status: Generated
+  - Bezug: Automated module doxygen analysis and documentation inventory
+
 ## ai_context/developer_llm_wiki/MODULE_DOXYGEN_BASELINE_SUMMARY.md
 - Kategorie: governance_and_docs
-- Hash: `cf14b8ecb3be977c`
+- Hash: `70bdaabe9198cd9f`
 - Titel: Module Doxygen XML Artifact Summary
 - Auszug:
-  - - Generated At: 2026-09-20T09:10:36Z
-  - - Doxyfile: Doxyfile.audit
-  - - Modules Requested: 72
+  - Datum: 2026-09-23
+  - Status: Generated
+  - Bezug: Automated module doxygen analysis and documentation inventory
 
 ## ai_context/developer_llm_wiki/MODULE_DOXYGEN_BATCH_.md
 - Kategorie: governance_and_docs
-- Hash: `05a61e16cc763e8e`
+- Hash: `54bfc77e9f0da368`
 - Titel: Module Doxygen XML Artifact Summary
 - Auszug:
-  - - Generated At: 2026-09-20T08:31:26Z
-  - - Doxyfile: Doxyfile.audit
-  - - Modules Requested: 18
+  - Datum: 2026-09-23
+  - Status: Generated
+  - Bezug: Automated module doxygen analysis and documentation inventory
 
 ## ai_context/developer_llm_wiki/MODULE_DOXYGEN_COVERAGE_SUMMARY.md
 - Kategorie: governance_and_docs
-- Hash: `d64cc9536cd2c0c6`
+- Hash: `e407ac1ef0d72966`
 - Titel: Module Doxygen Coverage Summary
 - Auszug:
-  - - Module: retrieval
-  - - Source mode: direct_doxygen_markers
-  - - Symbol presence ratio: 0.8261
+  - Datum: 2026-09-23
+  - Status: Generated
+  - Bezug: Automated module doxygen analysis and documentation inventory
 
 ## ai_context/developer_llm_wiki/MODULE_DOXYGEN_SMOKE_SUMMARY.md
 - Kategorie: governance_and_docs
-- Hash: `915890f2e1b056c5`
+- Hash: `ac011d4137a51fd5`
 - Titel: Module Doxygen XML Artifact Summary
 - Auszug:
-  - - Generated At: 2026-09-20T08:28:30Z
-  - - Doxyfile: Doxyfile.audit
-  - - Modules Requested: 1
+  - Datum: 2026-09-23
+  - Status: Generated
+  - Bezug: Automated module doxygen analysis and documentation inventory
 
 ## ai_context/developer_llm_wiki/RETRIEVAL_DIRECT_DOXYGEN_CHECK.md
 - Kategorie: governance_and_docs
-- Hash: `8b28508703df1324`
+- Hash: `ff0a4aa5152fe57a`
 - Titel: Direct Doxygen Check: retrieval
 - Auszug:
-  - - Source mode: direct_doxygen_markers
-  - - Source files scanned: 8
-  - - Source symbols (raw/filter): 70 / 53
+  - Datum: 2026-09-23
+  - Status: Generated
+  - Bezug: Automated module doxygen analysis and documentation inventory
 
 ## ai_context/developer_llm_wiki/SOLL_IST_GAP_SUMMARY.md
 - Kategorie: governance_and_docs
-- Hash: `1961b054c86869fa`
+- Hash: `cc828d8cefedec97`
 - Titel: Soll-Ist Gap Summary
 - Auszug:
-  - - Generated At: 2026-09-20T15:48:20Z
-  - - Modules: 72
-  - - Modules with docs gaps: 9
+  - Datum: 2026-09-23
+  - Status: Generated
+  - Bezug: Automated module doxygen analysis and documentation inventory
 
 ## ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md
 - Kategorie: governance_and_docs
-- Hash: `6f56d96ed49a0ec2`
+- Hash: `1b201df668712607`
 - Titel: Developer LLM Wiki — Delta Report
 - Auszug:
-  - Datum: 2026-09-14
+  - Datum: 2026-09-21
   - Status: Active
-  - - Added: 7731
+  - - Added: 7810
 
 ## ai_context/memory_management_policy.md
 - Kategorie: governance_and_docs
-- Hash: `b7d720b368fce0fa`
+- Hash: `3d5216df571fe92e`
 - Titel: Memory Management Policy — Core Rules
 - Auszug:
-  - Datum: 2026-08-03
+  - Datum: 2026-09-23
   - **Status:** Active, Enforced
   - **Primary:** src/base/resource.h, include/base/*.h
 
@@ -713,12 +722,3 @@ Status: Active
   - **Version**: 1.0
   - **Date**: 2026-08-15
   - **Status**: ✅ READY FOR IMPLEMENTATION
-
-## docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE1_EXECUTION_LOG.md
-- Kategorie: governance_and_docs
-- Hash: `169b5c5dec2a2aec`
-- Titel: Phase 1 Execution Log — Analytics Critical Defect Fixes
-- Auszug:
-  - **Start Time**: 2026-08-15T07:36:55Z
-  - **Executor**: themisdb-implementer (background agent, ID: phase1-analytics-fixes)
-  - **Coordinator**: Code Review Agent (parallel oversight)
