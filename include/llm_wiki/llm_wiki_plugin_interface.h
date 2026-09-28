@@ -86,13 +86,15 @@ class ILLMWikiPlugin;
  * @note `embedding_provider` must be one of `"hash"` (default, no deps),
  *       `"mock"` (tests), `"sentence-transformers"` (requires Python bridge
  *       in enterprise builds), or `"openai"` (requires `OPENAI_API_KEY`).
+ *
+ * @see WikiIngestResult for the return type of ingest operations.
  */
 struct WikiIngestOptions {
     bool        recursive               = true;   ///< Recurse into subdirectories
     std::string file_glob               = "*.md"; ///< File glob filter (Markdown default)
     int         splitter_max_tokens     = 220;    ///< Max tokens per chunk
     int         splitter_overlap_tokens = 40;     ///< Overlap tokens between consecutive chunks
-    std::string embedding_provider      = "hash"; ///< Embedding provider name
+    std::string embedding_provider      = "hash"; ///< Embedding provider name (hash, mock, sentence-transformers, openai)
     std::string embedding_model;                  ///< Model name (used by sentence-transformers/openai)
     int         embedding_dim           = 128;    ///< Dimension for hash provider
     bool        skip_existing           = false;  ///< Skip files already present in the index
