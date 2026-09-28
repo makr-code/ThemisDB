@@ -448,6 +448,7 @@ jobs:
       - name: Scan for package advisories via Trivy
         # Trivy checks SBOMs and manifests against OSV/GitHub Advisory DB.
         # Non-fatal: produces a SARIF report but does not block the build.
+        # Trivy filesystem scans support single-file manifest targets such as lockfiles.
         run: |
           mkdir -p "${RUNNER_TEMP}/trivy-cache"
           docker run --rm \
