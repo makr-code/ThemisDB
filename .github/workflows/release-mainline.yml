@@ -97,11 +97,22 @@ on:
         default: 'all'
         type: choice
         options: [all, github, docker, winget, linux]
+      dry_run:
+        description: 'Dry-run for dispatch (build/package/validate only; skip publish/distribution)'
+        required: false
+        default: false
+        type: boolean
       tag_name:
         description: 'Tag for image version (for dispatch)'
         required: false
         type: string
-  workflow_call: {}
+  workflow_call:
+    inputs:
+      dry_run:
+        description: 'Dry-run mode for reusable invocations'
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -212,6 +223,23 @@ jobs:
           if [ "${EDITION_INPUT}" = "community" ]; then
             echo "Community lane selected: private credentials/submodules must remain disabled."
           fi
+
+      - name: Emit release mode summary
+        shell: bash
+        run: |
+          set -euo pipefail
+          DRY_RUN_FLAG="false"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.dry_run }}" = "true" ]; then
+            DRY_RUN_FLAG="true"
+          elif [ "${{ github.event_name }}" = "workflow_call" ] && [ "${{ inputs.dry_run }}" = "true" ]; then
+            DRY_RUN_FLAG="true"
+          fi
+          echo "Release dry-run mode: ${DRY_RUN_FLAG}"
+          {
+            echo "### Release Mode"
+            echo "- event: \`${{ github.event_name }}\`"
+            echo "- dry_run: \`${DRY_RUN_FLAG}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
 
   # ─────────────────────────────────────────────────────────────────────────────
   # Build Matrix: OS/CPU architecture lanes only
@@ -378,6 +406,10 @@ jobs:
     needs: validate-release-manifest
     if: >
       !cancelled() &&
+      (
+        (github.event_name != 'workflow_dispatch' && github.event_name != 'workflow_call') ||
+        inputs.dry_run != true
+      ) &&
       needs.validate-release-manifest.result == 'success' && (
         github.event_name == 'push' ||
         github.event_name == 'release' ||
@@ -417,6 +449,10 @@ jobs:
     needs: validate-release-manifest
     if: >
       !cancelled() &&
+      (
+        (github.event_name != 'workflow_dispatch' && github.event_name != 'workflow_call') ||
+        inputs.dry_run != true
+      ) &&
       needs.validate-release-manifest.result == 'success' && (
         github.event_name == 'push' ||
         github.event_name == 'release' ||
@@ -462,6 +498,10 @@ jobs:
     # Fail fast if the release did not produce a valid artifact set.
     if: >
       !cancelled() &&
+      (
+        (github.event_name != 'workflow_dispatch' && github.event_name != 'workflow_call') ||
+        inputs.dry_run != true
+      ) &&
       needs.validate-release-manifest.result == 'success' && (
         (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') &&
          !startsWith(github.ref_name, 'enterprise-') &&
@@ -564,6 +604,10 @@ jobs:
     needs: validate-release-manifest
     if: >
       !cancelled() &&
+      (
+        (github.event_name != 'workflow_dispatch' && github.event_name != 'workflow_call') ||
+        inputs.dry_run != true
+      ) &&
       needs.validate-release-manifest.result == 'success' && (
         (github.event_name == 'push' && (
           startsWith(github.ref_name, 'enterprise-v') ||
