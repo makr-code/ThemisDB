@@ -575,8 +575,28 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          submodules: false
+
       - name: "Download all artifacts"
         uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85
+
+      - name: "Generate representative-hardware baseline evidence"
+        if: ${{ needs.phase4-benchmark-baseline.result == 'success' }}
+        run: |
+          python3 tools/ci/generate_transaction_baseline_manifest.py \
+            --benchmark-json "transaction-phase4-benchmark/phase4_baseline.json" \
+            --chaos-log "transaction-chaos-recovery-evidence/chaos-recovery-results.txt" \
+            --lscpu "transaction-phase4-benchmark/lscpu.txt" \
+            --memory "transaction-phase4-benchmark/memory.txt" \
+            --chaos-hardware "transaction-chaos-recovery-evidence/TRANSACTION_CHAOS_HARDWARE.md" \
+            --workflow "build-wave-b-transaction.yml" \
+            --run-id "${{ github.run_id }}" \
+            --run-url "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            --commit-sha "${{ github.sha }}" \
+            --output-json "benchmarks/wave8/TRANSACTION_BASELINES_LATEST.json" \
+            --output-md "benchmarks/wave8/TRANSACTION_BASELINES_LATEST.md"
 
       - name: "Generate Wave-B transaction closure package"
         run: |
@@ -617,6 +637,8 @@ jobs:
             --evidence "artifacts_archive=transaction-ci-results.zip" \
             --evidence "chaos_recovery=transaction-chaos-recovery-evidence" \
             --evidence "phase4_baseline=transaction-phase4-benchmark" \
+            --evidence "representative_baseline=benchmarks/wave8/TRANSACTION_BASELINES_LATEST.json" \
+            --evidence "representative_baseline_artifact=transaction-baseline-evidence" \
             --evidence "ci_report=CI-Report" \
             --source-validation "code=${CODE_VALIDATED}" \
             --source-validation "tests=${TESTS_VALIDATED}" \
@@ -654,6 +676,11 @@ jobs:
             echo ""
             echo "## Artifacts"
             echo "- transaction-ci-results.zip"
+            if [ -f benchmarks/wave8/TRANSACTION_BASELINES_LATEST.md ]; then
+              echo "- transaction-baseline-evidence"
+              echo ""
+              cat benchmarks/wave8/TRANSACTION_BASELINES_LATEST.md
+            fi
             if [ -f transaction-phase4-benchmark/PHASE4_BASELINE_SUMMARY.md ]; then
               echo ""
               cat transaction-phase4-benchmark/PHASE4_BASELINE_SUMMARY.md
@@ -665,6 +692,16 @@ jobs:
         with:
           name: CI-Report
           path: CI_REPORT.md
+          retention-days: 90
+
+      - name: "Upload representative-hardware baseline evidence"
+        if: ${{ needs.phase4-benchmark-baseline.result == 'success' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: transaction-baseline-evidence
+          path: |
+            benchmarks/wave8/TRANSACTION_BASELINES_LATEST.json
+            benchmarks/wave8/TRANSACTION_BASELINES_LATEST.md
           retention-days: 90
 
       - name: "Upload Wave-B closure package"
