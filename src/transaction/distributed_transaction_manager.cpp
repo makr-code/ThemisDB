@@ -80,8 +80,21 @@ struct TransactionStateSnapshot {
 // ============================================================================
 
 namespace {
+DistributedTransactionManager::RpcPhase2Fn makeDefaultRpcPhase2Fn() {
+    return [](
+               const std::string& node_id,
+               const std::string& txn_id,
+               bool               do_commit) {
+        throw std::runtime_error(
+            "DistributedTransactionManager: no Phase-2 RPC bridge configured for remote participant '"
+            + node_id + "' while delivering " + (do_commit ? "COMMIT" : "ABORT")
+            + " for txn " + txn_id);
+    };
+}
+
 static std::mutex s_rpc_phase2_fn_mutex;
-static DistributedTransactionManager::RpcPhase2Fn s_rpc_phase2_fn;
+static DistributedTransactionManager::RpcPhase2Fn s_rpc_phase2_fn = makeDefaultRpcPhase2Fn();
+static bool s_rpc_phase2_fn_overridden = false;
 } // namespace
 
 /**
@@ -91,7 +104,9 @@ static DistributedTransactionManager::RpcPhase2Fn s_rpc_phase2_fn;
  */
 void DistributedTransactionManager::setRpcPhase2Fn(RpcPhase2Fn fn) {
     std::lock_guard<std::mutex> lock(s_rpc_phase2_fn_mutex);
-    s_rpc_phase2_fn = std::move(fn);
+    const bool has_override = static_cast<bool>(fn);
+    s_rpc_phase2_fn = has_override ? std::move(fn) : makeDefaultRpcPhase2Fn();
+    s_rpc_phase2_fn_overridden = has_override;
 }
 
 /**
@@ -100,7 +115,8 @@ void DistributedTransactionManager::setRpcPhase2Fn(RpcPhase2Fn fn) {
  */
 void DistributedTransactionManager::clearRpcPhase2Fn() {
     std::lock_guard<std::mutex> lock(s_rpc_phase2_fn_mutex);
-    s_rpc_phase2_fn = nullptr;
+    s_rpc_phase2_fn = makeDefaultRpcPhase2Fn();
+    s_rpc_phase2_fn_overridden = false;
 }
 
 /**
@@ -111,6 +127,11 @@ void DistributedTransactionManager::clearRpcPhase2Fn() {
 static DistributedTransactionManager::RpcPhase2Fn getRpcPhase2Fn() {
     std::lock_guard<std::mutex> lock(s_rpc_phase2_fn_mutex);
     return s_rpc_phase2_fn;
+}
+
+static bool hasExplicitRpcPhase2Fn() {
+    std::lock_guard<std::mutex> lock(s_rpc_phase2_fn_mutex);
+    return s_rpc_phase2_fn_overridden;
 }
 
 // ============================================================================
@@ -124,8 +145,21 @@ static DistributedTransactionManager::RpcPhase2Fn getRpcPhase2Fn() {
 // ============================================================================
 
 namespace {
+DistributedTransactionManager::RpcPhase1Fn makeDefaultRpcPhase1Fn() {
+    return [](
+               const std::string& node_id,
+               const std::string& txn_id,
+               const std::set<std::string>& /*affected_keys*/) {
+        THEMIS_WARN("DistributedTransactionManager: no Phase-1 RPC bridge configured for remote "
+                    "participant node={} txn={}; voting ABORT",
+                    node_id, txn_id);
+        return false;
+    };
+}
+
 static std::mutex s_rpc_phase1_fn_mutex;
-static DistributedTransactionManager::RpcPhase1Fn s_rpc_phase1_fn;
+static DistributedTransactionManager::RpcPhase1Fn s_rpc_phase1_fn = makeDefaultRpcPhase1Fn();
+static bool s_rpc_phase1_fn_overridden = false;
 } // namespace
 
 /**
@@ -135,7 +169,9 @@ static DistributedTransactionManager::RpcPhase1Fn s_rpc_phase1_fn;
  */
 void DistributedTransactionManager::setRpcPhase1Fn(RpcPhase1Fn fn) {
     std::lock_guard<std::mutex> lock(s_rpc_phase1_fn_mutex);
-    s_rpc_phase1_fn = std::move(fn);
+    const bool has_override = static_cast<bool>(fn);
+    s_rpc_phase1_fn = has_override ? std::move(fn) : makeDefaultRpcPhase1Fn();
+    s_rpc_phase1_fn_overridden = has_override;
 }
 
 /**
@@ -144,7 +180,8 @@ void DistributedTransactionManager::setRpcPhase1Fn(RpcPhase1Fn fn) {
  */
 void DistributedTransactionManager::clearRpcPhase1Fn() {
     std::lock_guard<std::mutex> lock(s_rpc_phase1_fn_mutex);
-    s_rpc_phase1_fn = nullptr;
+    s_rpc_phase1_fn = makeDefaultRpcPhase1Fn();
+    s_rpc_phase1_fn_overridden = false;
 }
 
 /**
@@ -155,6 +192,11 @@ void DistributedTransactionManager::clearRpcPhase1Fn() {
 static DistributedTransactionManager::RpcPhase1Fn getRpcPhase1Fn() {
     std::lock_guard<std::mutex> lock(s_rpc_phase1_fn_mutex);
     return s_rpc_phase1_fn;
+}
+
+static bool hasExplicitRpcPhase1Fn() {
+    std::lock_guard<std::mutex> lock(s_rpc_phase1_fn_mutex);
+    return s_rpc_phase1_fn_overridden;
 }
 
 // ============================================================================
@@ -287,7 +329,7 @@ DistributedTransactionManager::DistributedTransactionManager(
         const bool has_phase2_transport =
             static_cast<bool>(config_.phase2_rpc_fn) ||
             static_cast<bool>(config_.remote_phase2_dispatch) ||
-            static_cast<bool>(getRpcPhase2Fn());
+            hasExplicitRpcPhase2Fn();
         if (!has_phase2_transport) {
             throw std::invalid_argument(
                 "DistributedTransactionManager [" + coordinator_id_ + "]: "
@@ -368,7 +410,7 @@ DistributedTransactionManager::beginDistributed(
     const bool has_phase2_transport =
         static_cast<bool>(config_.phase2_rpc_fn) ||
         static_cast<bool>(config_.remote_phase2_dispatch) ||
-        static_cast<bool>(getRpcPhase2Fn());
+        hasExplicitRpcPhase2Fn();
     for (const auto& participant : participants) {
         const bool is_remote_participant =
             participant.callback == nullptr && !participant.endpoint.empty();
@@ -1153,8 +1195,8 @@ bool DistributedTransactionManager::isParticipantAlive(const std::string& node_i
         static_cast<bool>(config_.remote_phase1_dispatch) ||
         static_cast<bool>(config_.phase2_rpc_fn) ||
         static_cast<bool>(config_.remote_phase2_dispatch) ||
-        static_cast<bool>(getRpcPhase1Fn()) ||
-        static_cast<bool>(getRpcPhase2Fn());
+        hasExplicitRpcPhase1Fn() ||
+        hasExplicitRpcPhase2Fn();
     if (has_transport_bridge) {
         return true;
     }
