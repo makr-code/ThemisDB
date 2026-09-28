@@ -186,7 +186,7 @@ jobs:
             ${{ github.workspace }}/.cache/vcpkg-downloads
             ${{ github.workspace }}/.vcpkg-cache
             ${{ github.workspace }}/vcpkg_installed
-          key: cmake-cache-${{ runner.os }}-${{ inputs.runs_on }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'CMakePresets.json', 'cmake/**/*.cmake', 'ports/**', 'ports-overlays/**') }}
+          key: cmake-cache-${{ runner.os }}-${{ inputs.runs_on }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'CMakePresets.json', 'cmake/**/*.cmake', 'ports/**', 'ports-overlays/**', '.github/workflows/reusable-cmake-build.yml') }}
           restore-keys: |
             cmake-cache-${{ runner.os }}-${{ inputs.runs_on }}-
             cmake-cache-${{ runner.os }}-
