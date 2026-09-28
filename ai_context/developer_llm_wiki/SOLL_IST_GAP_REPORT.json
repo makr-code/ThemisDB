@@ -1,11 +1,11 @@
 {
   "tool": "sync_soll_ist_gaps.py",
-  "generated_at": "2026-09-28T15:58:57Z",
+  "generated_at": "2026-09-28T16:29:22Z",
   "totals": {
     "modules": 72,
-    "docs_gap_modules": 8,
-    "docs_gap_modules_by_status": 8,
-    "docs_gap_modules_by_alignment": 8,
+    "docs_gap_modules": 7,
+    "docs_gap_modules_by_status": 7,
+    "docs_gap_modules_by_alignment": 7,
     "impl_gap_modules": 4,
     "release_gate_gap_modules": 0
   },
@@ -141,23 +141,15 @@
     {
       "module": "access_model",
       "docs": {
-        "status": "LOW",
-        "score_percent": 30,
-        "missing_doc_types": [
-          "AUDIT",
-          "CHANGELOG",
-          "FUTURE",
-          "GAPS",
-          "PERF",
-          "PROD",
-          "SEC"
-        ],
-        "gap_open": true,
-        "gap_open_by_status": true,
-        "gap_open_by_alignment": true
+        "status": "OK",
+        "score_percent": 100,
+        "missing_doc_types": [],
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
-        "status": "stale",
+        "status": "ok",
         "required_core_docs": [
           "README.md",
           "ROADMAP.md",
@@ -182,7 +174,6 @@
             "src/access_model/FUTURE_ENHANCEMENTS.md",
             "src/access_model/MODULE_GAPS.md",
             "src/access_model/PERFORMANCE_EXPECTATIONS.md",
-            "src/access_model/PHASE_5_6_ACCEPTANCE_REPORT.md",
             "src/access_model/PRODUCTION_REQUIREMENTS.md",
             "src/access_model/README.md",
             "src/access_model/ROADMAP.md",
@@ -193,7 +184,7 @@
             "include/access_model/README.md"
           ]
         },
-        "gap_open": true
+        "gap_open": false
       },
       "implementation": {
         "actionable_total": 0,

@@ -5,7 +5,7 @@
 
 #include "rag/recommendation_engine.h"
 
-namespace themis::rag::testing {
+namespace themis::rag {
 
 class OptimizationRecommendationEngineTest : public ::testing::Test {
  protected:
@@ -28,7 +28,7 @@ TEST_F(OptimizationRecommendationEngineTest, LoadCostData) {
   };
   
   engine_.LoadCostData(cost_data);
-  EXPECT_NO_THROW({});
+  SUCCEED();
 }
 
 TEST_F(OptimizationRecommendationEngineTest, SetConstraints) {
@@ -36,7 +36,7 @@ TEST_F(OptimizationRecommendationEngineTest, SetConstraints) {
       {"min_ndcg", 0.80f}, {"max_latency_ms", 500.0f}};
   
   engine_.SetConstraints(constraints);
-  EXPECT_NO_THROW({});
+  SUCCEED();
 }
 
 TEST_F(OptimizationRecommendationEngineTest, GenerateRecommendations) {
@@ -62,7 +62,11 @@ TEST_F(OptimizationRecommendationEngineTest, RecommendationPriority) {
   
   // Check that recommendations have valid priorities
   for (const auto& rec : recommendations) {
-    EXPECT_NE(rec.priority, OptimizationRecommendationEngine::Recommendation::Priority::Unknown);
+    EXPECT_TRUE(
+        rec.priority == OptimizationRecommendationEngine::Recommendation::Priority::Low ||
+        rec.priority == OptimizationRecommendationEngine::Recommendation::Priority::Medium ||
+        rec.priority == OptimizationRecommendationEngine::Recommendation::Priority::High ||
+        rec.priority == OptimizationRecommendationEngine::Recommendation::Priority::Critical);
   }
 }
 
@@ -74,7 +78,7 @@ TEST_F(OptimizationRecommendationEngineTest, GetRecommendationsByCategory) {
   engine_.SetContext(context);
   
   auto config_recs = engine_.GetRecommendationsForCategory("retrieval");
-  EXPECT_GE(config_recs.size(), 0);
+  EXPECT_GE(config_recs.size(), 0u);
 }
 
 TEST_F(OptimizationRecommendationEngineTest, SimulateRecommendation) {
@@ -126,7 +130,7 @@ TEST_F(OptimizationRecommendationEngineTest, ExportReport) {
   engine_.SetContext(context);
   
   auto recommendations = engine_.GenerateRecommendations(5);
-  bool success = engine_.ExportReport(recommendations, "/tmp/recommendations.json");
+  bool success = engine_.ExportReport(recommendations, "recommendations.json");
   EXPECT_TRUE(success);
 }
 
@@ -160,4 +164,4 @@ TEST_F(OptimizationRecommendationEngineTest, RecommendationCost) {
   }
 }
 
-}  // namespace themis::rag::testing
+}  // namespace themis::rag

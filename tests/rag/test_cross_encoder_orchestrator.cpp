@@ -3,6 +3,8 @@
 
 #include <gtest/gtest.h>
 
+#include <stdexcept>
+
 #include "rag/cross_encoder_orchestrator.h"
 
 namespace themis::rag {
@@ -10,9 +12,10 @@ namespace themis::rag {
 class CrossEncoderOrchestratorTest : public ::testing::Test {
  protected:
   CrossEncoderOrchestratorTest() {
-    RerankerConfig config;
+    CrossEncoderOrchestrator::RerankerConfig config;
     config.model_name = "cross-encoder/ms-marco-MiniLM-L-12-v2";
     config.batch_size = 32;
+    config.confidence_threshold = 0.5f;
     orchestrator_ = std::make_unique<CrossEncoderOrchestrator>(config);
   }
 
@@ -20,31 +23,34 @@ class CrossEncoderOrchestratorTest : public ::testing::Test {
 };
 
 TEST_F(CrossEncoderOrchestratorTest, InitializeWithValidConfig) {
-  RerankerConfig config;
+  CrossEncoderOrchestrator::RerankerConfig config;
   config.model_name = "test-model";
   config.batch_size = 16;
+  config.confidence_threshold = 0.5f;
   
   EXPECT_NO_THROW(CrossEncoderOrchestrator orchestrator(config));
 }
 
 TEST_F(CrossEncoderOrchestratorTest, ThrowOnEmptyModelName) {
-  RerankerConfig config;
+  CrossEncoderOrchestrator::RerankerConfig config;
   config.model_name = "";
   config.batch_size = 16;
+  config.confidence_threshold = 0.5f;
   
   EXPECT_THROW(CrossEncoderOrchestrator orchestrator(config), std::invalid_argument);
 }
 
 TEST_F(CrossEncoderOrchestratorTest, ThrowOnZeroBatchSize) {
-  RerankerConfig config;
+  CrossEncoderOrchestrator::RerankerConfig config;
   config.model_name = "test";
   config.batch_size = 0;
+  config.confidence_threshold = 0.5f;
   
   EXPECT_THROW(CrossEncoderOrchestrator orchestrator(config), std::invalid_argument);
 }
 
 TEST_F(CrossEncoderOrchestratorTest, RerankReturnsTopK) {
-  std::vector<CrossEncoderOrchestrator::Document> docs = {
+  std::vector<Document> docs = {
       {1, "Document about machine learning", 0.7f},
       {2, "Document about deep learning", 0.6f},
       {3, "Document about AI", 0.5f},
@@ -66,7 +72,7 @@ TEST_F(CrossEncoderOrchestratorTest, RerankReturnsTopK) {
 }
 
 TEST_F(CrossEncoderOrchestratorTest, RerankWithFewDocuments) {
-  std::vector<CrossEncoderOrchestrator::Document> docs = {
+  std::vector<Document> docs = {
       {1, "Doc A", 0.8f},
       {2, "Doc B", 0.6f}
   };
@@ -78,10 +84,14 @@ TEST_F(CrossEncoderOrchestratorTest, RerankWithFewDocuments) {
 }
 
 TEST_F(CrossEncoderOrchestratorTest, BatchRerankingProducesCorrectSize) {
+  std::vector<Document> docs1 = {{1, "doc1", 0.8f}, {2, "doc2", 0.7f}};
+  std::vector<Document> docs2 = {{3, "doc3", 0.9f}, {4, "doc4", 0.6f}};
+  std::vector<Document> docs3 = {{5, "doc5", 0.7f}};
+
   std::vector<CrossEncoderOrchestrator::RerankerQuery> queries = {
-      {"query1", {{1, "doc1", 0.8f}, {2, "doc2", 0.7f}}},
-      {"query2", {{3, "doc3", 0.9f}, {4, "doc4", 0.6f}}},
-      {"query3", {{5, "doc5", 0.7f}}}
+      {"query1", "query one", docs1},
+      {"query2", "query two", docs2},
+      {"query3", "query three", docs3}
   };
 
   auto batch_results = orchestrator_->ReankBatch(queries);
@@ -102,7 +112,8 @@ TEST_F(CrossEncoderOrchestratorTest, CacheStatsInitialization) {
 }
 
 TEST_F(CrossEncoderOrchestratorTest, ClearCacheResetsStats) {
-  orchestrator_->Rerank("query", {{1, "doc", 0.8f}});
+  std::vector<Document> docs = {{1, "doc", 0.8f}};
+  orchestrator_->Rerank("query", docs);
   
   orchestrator_->ClearCache();
   
@@ -115,7 +126,8 @@ TEST_F(CrossEncoderOrchestratorTest, ModelLoadingState) {
   EXPECT_EQ(orchestrator_->GetModelName(), "cross-encoder/ms-marco-MiniLM-L-12-v2");
   
   // First rerank should trigger model load
-  orchestrator_->Rerank("query", {{1, "doc", 0.8f}});
+  std::vector<Document> docs = {{1, "doc", 0.8f}};
+  orchestrator_->Rerank("query", docs);
   
   EXPECT_TRUE(orchestrator_->IsModelLoaded());
   
@@ -124,7 +136,7 @@ TEST_F(CrossEncoderOrchestratorTest, ModelLoadingState) {
 }
 
 TEST_F(CrossEncoderOrchestratorTest, TokenCounting) {
-  std::vector<CrossEncoderOrchestrator::Document> docs = {
+  std::vector<Document> docs = {
       {1, "short doc", 0.8f}
   };
   

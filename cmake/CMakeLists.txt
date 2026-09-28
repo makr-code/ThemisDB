@@ -1747,9 +1747,15 @@ endif()
 # available.
 if(WIN32 AND DEFINED VCPKG_TARGET_TRIPLET AND NOT "${VCPKG_TARGET_TRIPLET}" STREQUAL "")
     set(_themis_vcpkg_lib_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/lib")
+    set(_themis_vcpkg_debug_lib_dir "${THEMIS_ROOT_DIR}/vcpkg_installed/${VCPKG_TARGET_TRIPLET}/debug/lib")
 
     if(EXISTS "${_themis_vcpkg_lib_dir}/lz4.lib")
-        set(THEMIS_LZ4_TARGET "${_themis_vcpkg_lib_dir}/lz4.lib")
+        if(EXISTS "${_themis_vcpkg_debug_lib_dir}/lz4d.lib")
+            set(THEMIS_LZ4_TARGET
+                "$<$<CONFIG:Debug>:${_themis_vcpkg_debug_lib_dir}/lz4d.lib>$<$<NOT:$<CONFIG:Debug>>:${_themis_vcpkg_lib_dir}/lz4.lib>")
+        else()
+            set(THEMIS_LZ4_TARGET "${_themis_vcpkg_lib_dir}/lz4.lib")
+        endif()
     endif()
 
     if(EXISTS "${_themis_vcpkg_lib_dir}/snappy.lib")

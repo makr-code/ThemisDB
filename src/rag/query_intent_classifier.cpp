@@ -57,6 +57,8 @@ QueryIntentClassifier::QueryIntentClassifier()
   impl_->intent_keywords[3]["cons"] = 0.7f;
 }
 
+QueryIntentClassifier::~QueryIntentClassifier() = default;
+
 QueryIntentClassifier::ClassificationResult QueryIntentClassifier::Classify(
     const std::string& query_text) {
   ClassificationResult result;
