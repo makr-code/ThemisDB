@@ -1,6 +1,6 @@
 # onnx_clip Module - Developer Gap Note
 
-> Auto-generated from ai_working\gap_scan_results.json.
+> Auto-generated from ai_working/gap_scan_results.json.
 > This file is overwritten on each regeneration.
 
 ## Scan Snapshot
