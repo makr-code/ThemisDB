@@ -1,10 +1,10 @@
 # Module Doxygen Coverage Summary
 
-- Module: execution
+- Module: llm_wiki
 - Source mode: direct_doxygen_markers
-- Symbol presence ratio: 0.9231
-- Ownership: {'internal': 39, 'external': 0}
-- missing_symbol: 2
-- missing_brief: 56
-- missing_param_docs: 22
-- missing_return_docs: 20
+- Symbol presence ratio: 0.4776
+- Ownership: {'internal': 83, 'external': 0}
+- missing_symbol: 35
+- missing_brief: 43
+- missing_param_docs: 24
+- missing_return_docs: 27

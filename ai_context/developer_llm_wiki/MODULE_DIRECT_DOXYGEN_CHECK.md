@@ -1,27 +1,50 @@
-# Direct Doxygen Check: execution
+# Direct Doxygen Check: llm_wiki
 
 - Source mode: direct_doxygen_markers
-- Source files scanned: 6
-- Source symbols (raw/filter): 39 / 39
-- Doxygen members (raw/filter): 76 / 68
-- Unique source symbol names: 26
-- Unique doxygen symbol names: 41
-- Symbol presence ratio: 0.9231
-- Ownership (internal/external): {'internal': 39, 'external': 0}
+- Source files scanned: 20
+- Source symbols (raw/filter): 86 / 83
+- Doxygen members (raw/filter): 115 / 82
+- Unique source symbol names: 67
+- Unique doxygen symbol names: 70
+- Symbol presence ratio: 0.4776
+- Ownership (internal/external): {'internal': 83, 'external': 0}
 
 ## Rule counts
-- missing_symbol: 2
-- missing_brief: 56
-- missing_param_docs: 22
-- missing_return_docs: 20
+- missing_symbol: 35
+- missing_brief: 43
+- missing_param_docs: 24
+- missing_return_docs: 27
 
 ## Scope counts
-- src: 0
-- tests: 27
-- benchmarks: 25
-- include: 33
-- other: 15
+- src: 56
+- tests: 0
+- benchmarks: 6
+- include: 60
+- other: 4
 
 ## Sample missing symbols
-- SLAPriority
-- operator
+- Code
+- Edition
+- ProcessSchedule
+- RocksDbWikiStore
+- appendLog
+- close
+- containsUnsafePattern
+- get
+- hasContradictionCue
+- hashEmbed
+- ifs
+- init
+- isOpen
+- isoTimestamp
+- loadProcessPolicy_locked
+- loadState
+- lock
+- log_ofs
+- matchGlob
+- maybeReloadProcessPolicy_locked
+- mkdirP
+- ofs
+- open
+- parseStringList
+- put
