@@ -7,11 +7,6 @@ Status: review
 
 # ThemisDB GA Promotion — Final Governance Sign-Off
 
-**Author:** ThemisDB Contributors  
-**Created:** 2026-07-20  
-**Last Updated:** 2026-08-18  
-**Status:** review  
-
 **Document Type:** GA Gate Closure — Final Governance and Promotion Sign-Off  
 **Scope:** v2.4.0-rc1 → v2.4.0 GA — Batch D (Final)  
 **Date Opened:** 2026-07-20  
@@ -32,7 +27,7 @@ Three specific evidence blockers identified, root-caused, and addressed:
 #### Evidence Item 1 — Completed `develop` CI-build proof point
 - **Root cause:** `libfmt-dev` and companion system packages missing from `ci-build.yml` `setup-cpp-build` action, causing Build step to fail immediately (0 compile requests, configure succeeds in 34s then build exits non-zero).
 - **Fix:** PR #5999 (merged 2026-08-18 19:12 UTC) added full package list to the CI setup action.
-- **Status:** 🟡 Historical CI run `32175323929` on `develop` (commit `450e74c`) is **cancelled**, not pending. The dependency fix shipped, but the run did not produce final evidence because later build/reporting failures interrupted closure capture. Current governance relies on a fresh `develop` re-run.
+- **Implementation Status:** 🟡 Historical CI run `32175323929` on `develop` (commit `450e74c`) is **cancelled**, not pending. The dependency fix shipped, but the run did not produce final evidence because later build/reporting failures interrupted closure capture. Current governance relies on a fresh `develop` re-run.
 
 #### Evidence Item 2 — Successful production-like benchmark binary builds
 - **Root cause 1 (nightly sweep):** `cmake --preset nightly-bench-sweep` uses `vcpkg-base` (sets `CMAKE_TOOLCHAIN_FILE` to `vcpkg/scripts/buildsystems/vcpkg.cmake`) but the CI job never checks out the vcpkg submodule — configure fails at `CMakeLists.txt:214 (include cmake/Dependencies.cmake)`.

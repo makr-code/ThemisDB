@@ -11,7 +11,7 @@ Status: draft
 **Phase:** 4 (Sign-Off & Governance)  
 **Timeline:** 2026-11-17 to 2026-11-24 (1 week, after Phase 3 baseline capture)  
 **Owner:** Platform Release Team  
-**Status:** 🔴 PENDING — Awaiting Phase 3 evidence completion  
+**Phase Status:** 🔴 PENDING — Awaiting Phase 3 evidence completion  
 
 ---
 

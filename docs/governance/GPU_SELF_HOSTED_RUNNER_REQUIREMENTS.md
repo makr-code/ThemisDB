@@ -8,7 +8,7 @@ Status: draft
 # GPU Self-Hosted Runner Infrastructure Requirements
 
 **Document Type:** Infrastructure Configuration — Wave A GPU Baseline Capture  
-**Status:** 🔴 NOT DEPLOYED — Requirements specification ready for implementation  
+**Deployment Status:** 🔴 NOT DEPLOYED — Requirements specification ready for implementation  
 **Target Completion:** Q4 2026
 
 ---
