@@ -1,50 +1,32 @@
-# Direct Doxygen Check: llm_wiki
+# Direct Doxygen Check: onnx_clip
 
 - Source mode: direct_doxygen_markers
-- Source files scanned: 20
-- Source symbols (raw/filter): 86 / 83
-- Doxygen members (raw/filter): 115 / 82
-- Unique source symbol names: 67
-- Unique doxygen symbol names: 70
-- Symbol presence ratio: 0.4776
-- Ownership (internal/external): {'internal': 83, 'external': 0}
+- Source files scanned: 8
+- Source symbols (raw/filter): 82 / 46
+- Doxygen members (raw/filter): 171 / 96
+- Unique source symbol names: 42
+- Unique doxygen symbol names: 67
+- Symbol presence ratio: 0.8333
+- Ownership (internal/external): {'internal': 46, 'external': 0}
 
 ## Rule counts
-- missing_symbol: 35
-- missing_brief: 43
-- missing_param_docs: 24
-- missing_return_docs: 27
+- missing_symbol: 7
+- missing_brief: 35
+- missing_param_docs: 23
+- missing_return_docs: 32
 
 ## Scope counts
-- src: 56
-- tests: 0
-- benchmarks: 6
-- include: 60
-- other: 4
+- src: 38
+- tests: 11
+- benchmarks: 43
+- include: 0
+- other: 5
 
 ## Sample missing symbols
-- Code
-- Edition
-- ProcessSchedule
-- RocksDbWikiStore
-- appendLog
-- close
-- containsUnsafePattern
-- get
-- hasContradictionCue
-- hashEmbed
-- ifs
-- init
-- isOpen
-- isoTimestamp
-- loadProcessPolicy_locked
-- loadState
-- lock
-- log_ofs
-- matchGlob
-- maybeReloadProcessPolicy_locked
-- mkdirP
-- ofs
-- open
-- parseStringList
-- put
+- backendToString
+- fnv1a64
+- fnv1a64_str
+- mixMetadata
+- nextFloat01
+- sha256HexOfFile
+- tokenize
