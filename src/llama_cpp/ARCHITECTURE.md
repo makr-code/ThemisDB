@@ -2,11 +2,11 @@
 
 # llama_cpp Plugin — Architecture Guide
 
-<!-- Status: current | validated: 2026-04-07 | Primary: src/llama_cpp/ -->
+<!-- Status: current | validated: 2026-09-28 | Primary: src/llama_cpp/ -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 **Version:** 1.0
-**Last Updated:** 2026-09-09
+**Last Updated:** 2026-09-28
 **Module Path:** `src/llama_cpp/`
 
 ---

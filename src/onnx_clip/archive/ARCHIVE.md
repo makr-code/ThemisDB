@@ -24,6 +24,14 @@ When new feature phases (e.g., Phase 4B) are completed, their delivery reports w
 
 See `ROADMAP.md` for current Phase 4B status and completion timeline.
 
+### Auto-Generated and Meta-Documentation (Archived 2026-09-28)
+
+- **DOXYGEN.md** — Snapshot of Doxygen XML output from module scanning. This is a meta-artifact generated during development and is superseded by the actual Doxygen output in the CI/CD pipeline.
+
+- **MODULE_GAPS.md** — Auto-generated gap scanner output from June 2026. This file was automatically generated and is now superseded by the compliance governance system. Original findings have been reviewed and addressed in the implementation.
+
+**Rationale:** These files are automatically generated and are not part of the canonical governance documentation set. Developers should consult the CI/CD compliance reports and the Doxygen governance workflow for current status.
+
 ## Canonical Governance Documents
 
 The authoritative module documentation is located in `src/onnx_clip/`:
@@ -37,7 +45,6 @@ The authoritative module documentation is located in `src/onnx_clip/`:
 - **FUTURE_ENHANCEMENTS.md** — Medium/long-term enhancements and research areas
 - **PERFORMANCE_EXPECTATIONS.md** — Performance targets and benchmarks
 - **CHANGELOG.md** — Version history, added/changed/fixed/removed items
-- **MODULE_GAPS.md** — Tracked implementation gaps and follow-up work
 
 ## Recovery
 
@@ -50,5 +57,5 @@ If any archived document is needed for reference:
 
 ---
 
-**Last Updated:** 2026-09-22  
-**Archivist:** Documentation Governance Update (Issue #6475)
+**Last Updated:** 2026-09-28  
+**Archivist:** Governance Documentation Alignment (Issue #6591)

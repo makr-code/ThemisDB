@@ -7,8 +7,8 @@ Status: active
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\onnx_clip\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\onnx_clip\doxygen-warnings.log`
+- XML index: `<local-build-temp>/module_doxygen_global_e2e/onnx_clip/xml/index.xml`
+- Warnings log: `<local-build-temp>/module_doxygen_global_e2e/onnx_clip/doxygen-warnings.log`
 
 ## Structure Metrics
 - C/C++ Files (scanned): 8
