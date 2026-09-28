@@ -74,7 +74,7 @@ jobs:
           import json
           import os
 
-          build_matrix = os.environ["BUILD_MATRIX"]
+          build_matrix = os.environ["BUILD_MATRIX"].strip().lower()
           os_selector = os.environ["OS_SELECTOR"].strip().lower()
           arch_selector = os.environ["ARCH_SELECTOR"].strip().lower()
           edition = os.environ["EDITION"].strip().lower()
@@ -82,6 +82,16 @@ jobs:
           packaging = os.environ["PACKAGING"].strip()
           distribution = os.environ["DISTRIBUTION"].strip().lower()
           run_number = os.environ["RUN_NUMBER"]
+          allowed_editions = {"minimal", "community", "enterprise", "hyperscaler", "military"}
+          allowed_build_types = {"Release", "Debug"}
+          allowed_packaging_generators = {"TGZ", "DEB", "RPM", "ZIP", "WIX", "DragNDrop", "DMG"}
+          allowed_distributions = {"all", "github", "docker", "winget", "linux"}
+          if edition not in allowed_editions:
+              raise ValueError(f"Unsupported edition selector: {edition}")
+          if build_type not in allowed_build_types:
+              raise ValueError(f"Unsupported build type selector: {build_type}")
+          if distribution not in allowed_distributions:
+              raise ValueError(f"Unsupported distribution selector: {distribution}")
           cmake_flags = f"-DTHEMIS_EDITION={edition.upper()} -DCMAKE_BUILD_TYPE={build_type} -DTHEMIS_DISTRIBUTION_TARGET={distribution}"
 
           def lane_enabled(lane_id: str) -> bool:
@@ -94,6 +104,9 @@ jobs:
               if build_matrix == "macos-arm64-only":
                   return lane_id == "macos-arm64"
 
+              if build_matrix not in ("os", "all"):
+                  return False
+
               if lane_id.startswith("linux"):
                   lane_os, lane_arch = "linux", lane_id.split("-")[1]
               elif lane_id.startswith("windows"):
@@ -105,7 +118,17 @@ jobs:
 
           def generators_for(lane_os: str) -> str:
               if packaging and packaging.lower() != "auto":
-                  return " ".join(tok.strip() for tok in packaging.split(",") if tok.strip())
+                  tokens = []
+                  for tok in packaging.split(","):
+                      token = tok.strip()
+                      if not token:
+                          continue
+                      if token not in allowed_packaging_generators:
+                          raise ValueError(f"Unsupported packaging generator: {token}")
+                      tokens.append(token)
+                  if not tokens:
+                      raise ValueError("Packaging selector resolved to empty generator set")
+                  return " ".join(tokens)
               if lane_os == "linux":
                   return "TGZ DEB RPM"
               if lane_os == "windows":
