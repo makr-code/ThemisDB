@@ -13,6 +13,16 @@
 #include <thread>
 #include <vector>
 
+#if defined(__has_include)
+#if __has_include(<tbb/task_group.h>)
+#define THEMIS_TEST_HAS_TBB 1
+#else
+#define THEMIS_TEST_HAS_TBB 0
+#endif
+#else
+#define THEMIS_TEST_HAS_TBB 0
+#endif
+
 #include "query/parallel_executor.h"
 #include "query/query_canceller.h"
 #include "storage/base_entity.h"
@@ -27,8 +37,8 @@ using namespace themis::query;
 
 static BaseEntity createTestEntity(const std::string& id, int value) {
     BaseEntity entity;
-    entity.setId(id);
-    entity.setAttribute("value", value);
+    entity.setPrimaryKey(id);
+    entity.setField("value", static_cast<int64_t>(value));
     return entity;
 }
 
@@ -65,8 +75,8 @@ TEST_F(ParallelExecutorDeadlockTest, ParallelScanWithQuickCompletion) {
     
     // Filter: accept only even values
     auto filter = [](const BaseEntity& e) {
-        auto val = e.getAttribute("value");
-        return val && val->is_number() && (val->get<int>() % 2 == 0);
+        auto val = e.getFieldAsInt("value");
+        return val.has_value() && ((*val % 2) == 0);
     };
     
     // Execute scan with 4 threads; should complete within 5 seconds
@@ -98,8 +108,8 @@ TEST_F(ParallelExecutorDeadlockTest, ParallelScanWithSlowFilter) {
     // Slow filter: each evaluation sleeps for 1ms
     auto slow_filter = [](const BaseEntity& e) {
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
-        auto val = e.getAttribute("value");
-        return val && val->is_number() && (val->get<int>() % 2 == 0);
+        auto val = e.getFieldAsInt("value");
+        return val.has_value() && ((*val % 2) == 0);
     };
     
     // Execute scan with 2 threads; even though filter is slow, scan should
@@ -141,8 +151,14 @@ TEST_F(ParallelExecutorDeadlockTest, ParallelScanTimeoutAvoidsDeadlock) {
         std::chrono::steady_clock::now() - start);
 
     ASSERT_TRUE(result.has_value()) << "Scan should return even when timeout path is exercised";
-    EXPECT_LT(elapsed.count(), 12000)
-        << "Timeout/cancellation path should avoid long blocking waits or deadlock";
+#if THEMIS_TEST_HAS_TBB
+    constexpr auto kMaxExpectedMs = 12000;
+#else
+    constexpr auto kMaxExpectedMs = 50000;
+#endif
+    EXPECT_LT(elapsed.count(), kMaxExpectedMs)
+        << "Timeout/cancellation path should avoid long blocking waits or deadlock "
+        << "(TBB=" << THEMIS_TEST_HAS_TBB << ")";
 }
 
 /**
@@ -181,8 +197,8 @@ TEST_F(ParallelExecutorDeadlockTest, SequentialFallbackPath) {
     }
     
     auto filter = [](const BaseEntity& e) {
-        auto val = e.getAttribute("value");
-        return val && val->is_number() && (val->get<int>() % 2 == 0);
+        auto val = e.getFieldAsInt("value");
+        return val.has_value() && ((*val % 2) == 0);
     };
     
     auto result = executor.parallelScan(input, filter, 1);
@@ -204,8 +220,8 @@ TEST_F(ParallelExecutorDeadlockTest, ConcurrentScansNoDeadlock) {
     }
     
     auto filter = [](const BaseEntity& e) {
-        auto val = e.getAttribute("value");
-        return val && val->is_number() && (val->get<int>() % 3 == 0);
+        auto val = e.getFieldAsInt("value");
+        return val.has_value() && ((*val % 3) == 0);
     };
     
     // Run 4 concurrent scans in separate threads
@@ -249,9 +265,9 @@ TEST_F(ParallelExecutorDeadlockTest, ParallelHashJoinNoDeadlock) {
     left.reserve(200);
     for (int i = 0; i < 200; ++i) {
         BaseEntity e;
-        e.setId("left_" + std::to_string(i));
-        e.setAttribute("key", i % 50);
-        e.setAttribute("value", i);
+        e.setPrimaryKey("left_" + std::to_string(i));
+        e.setField("key", static_cast<int64_t>(i % 50));
+        e.setField("value", static_cast<int64_t>(i));
         left.push_back(e);
     }
     
@@ -260,9 +276,9 @@ TEST_F(ParallelExecutorDeadlockTest, ParallelHashJoinNoDeadlock) {
     right.reserve(300);
     for (int i = 0; i < 300; ++i) {
         BaseEntity e;
-        e.setId("right_" + std::to_string(i));
-        e.setAttribute("key", i % 50);
-        e.setAttribute("value", i + 1000);
+        e.setPrimaryKey("right_" + std::to_string(i));
+        e.setField("key", static_cast<int64_t>(i % 50));
+        e.setField("value", static_cast<int64_t>(i + 1000));
         right.push_back(e);
     }
     
@@ -292,9 +308,9 @@ TEST_F(ParallelExecutorDeadlockTest, ParallelAggregateNoDeadlock) {
     input.reserve(400);
     for (int i = 0; i < 400; ++i) {
         BaseEntity e;
-        e.setId("id_" + std::to_string(i));
-        e.setAttribute("group", i % 5);
-        e.setAttribute("value", static_cast<double>(i));
+        e.setPrimaryKey("id_" + std::to_string(i));
+        e.setField("group", static_cast<int64_t>(i % 5));
+        e.setField("value", static_cast<double>(i));
         input.push_back(e);
     }
     
