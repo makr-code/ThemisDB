@@ -168,13 +168,14 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p "${GITHUB_WORKSPACE}/.cache/sccache"
+          mkdir -p "${GITHUB_WORKSPACE}/.cache/vcpkg-downloads"
           mkdir -p "${GITHUB_WORKSPACE}/.vcpkg-cache"
-          mkdir -p "${GITHUB_WORKSPACE}/vcpkg/downloads"
           {
             echo "SCCACHE_DIR=${GITHUB_WORKSPACE}/.cache/sccache"
             echo "SCCACHE_CACHE_SIZE=8G"
             echo "VCPKG_DEFAULT_BINARY_CACHE=${GITHUB_WORKSPACE}/.vcpkg-cache"
             echo "VCPKG_BINARY_SOURCES=clear;files,${GITHUB_WORKSPACE}/.vcpkg-cache,readwrite"
+            echo "VCPKG_DOWNLOADS=${GITHUB_WORKSPACE}/.cache/vcpkg-downloads"
           } >> "$GITHUB_ENV"
 
       - name: Restore CMake build caches
@@ -182,10 +183,10 @@ jobs:
         with:
           path: |
             ${{ github.workspace }}/.cache/sccache
+            ${{ github.workspace }}/.cache/vcpkg-downloads
             ${{ github.workspace }}/.vcpkg-cache
-            ${{ github.workspace }}/vcpkg/downloads
-            ${{ github.workspace }}/vcpkg/archives
-          key: cmake-cache-${{ runner.os }}-${{ inputs.runs_on }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'CMakePresets.json', 'cmake/**/*.cmake', 'ports/**', 'ports-overlays/**', '.github/workflows/reusable-cmake-build.yml') }}
+            ${{ github.workspace }}/vcpkg_installed
+          key: cmake-cache-${{ runner.os }}-${{ inputs.runs_on }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'CMakePresets.json', 'cmake/**/*.cmake', 'ports/**', 'ports-overlays/**') }}
           restore-keys: |
             cmake-cache-${{ runner.os }}-${{ inputs.runs_on }}-
             cmake-cache-${{ runner.os }}-

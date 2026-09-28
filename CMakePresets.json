@@ -66,7 +66,6 @@
       "inherits": "vcpkg-base",
       "cacheVariables": {
         "THEMIS_AUTO_BOOTSTRAP_DEPS": "ON",
-        "CMAKE_TOOLCHAIN_FILE": "",
         "CMAKE_C_COMPILER": "gcc",
         "CMAKE_CXX_COMPILER": "g++",
         "VCPKG_TARGET_TRIPLET": "x64-linux",
