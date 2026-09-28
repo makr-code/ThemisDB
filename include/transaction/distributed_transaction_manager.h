@@ -411,7 +411,7 @@ public:
     static void setRpcPhase2Fn(RpcPhase2Fn fn);
 
     /**
-     * @brief Clear Rpc Phase2 Fn.
+     * @brief Clear Rpc Phase2 Fn and restore the default fail-closed bridge.
      */
     static void clearRpcPhase2Fn();
 
@@ -428,7 +428,7 @@ public:
     static void setRpcPhase1Fn(RpcPhase1Fn fn);
 
     /**
-     * @brief Clear Rpc Phase1 Fn.
+     * @brief Clear Rpc Phase1 Fn and restore the default fail-closed bridge.
      */
     static void clearRpcPhase1Fn();
 

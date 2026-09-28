@@ -13,6 +13,16 @@
 #include <thread>
 #include <vector>
 
+#if defined(__has_include)
+#if __has_include(<tbb/task_group.h>)
+#define THEMIS_TEST_HAS_TBB 1
+#else
+#define THEMIS_TEST_HAS_TBB 0
+#endif
+#else
+#define THEMIS_TEST_HAS_TBB 0
+#endif
+
 #include "query/parallel_executor.h"
 #include "query/query_canceller.h"
 #include "storage/base_entity.h"
@@ -112,6 +122,43 @@ TEST_F(ParallelExecutorDeadlockTest, ParallelScanWithSlowFilter) {
     ASSERT_TRUE(result.has_value()) << "Parallel scan should succeed (no deadlock)";
     EXPECT_EQ(result->size(), 50u) << "Should have 50 even values";
     EXPECT_LT(elapsed.count(), 10000) << "Should complete within 10 seconds";
+}
+
+/**
+ * @test ParallelExecutorDeadlockTest::ParallelScanTimeoutAvoidsDeadlock
+ * @brief Verify timeout handling returns without hanging on long-running scan tasks.
+ */
+TEST_F(ParallelExecutorDeadlockTest, ParallelScanTimeoutAvoidsDeadlock) {
+    ParallelExecutor::ParallelConfig cfg = defaultConfig();
+    cfg.max_threads = 4;
+    cfg.morsel_size = 200;
+    ParallelExecutor executor(cfg);
+
+    ParallelExecutor::Table input;
+    input.reserve(4000);
+    for (int i = 0; i < 4000; ++i) {
+        input.push_back(createTestEntity("id_" + std::to_string(i), i));
+    }
+
+    auto very_slow_filter = [](const BaseEntity&) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        return true;
+    };
+
+    const auto start = std::chrono::steady_clock::now();
+    auto result = executor.parallelScan(input, very_slow_filter, 4);
+    const auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - start);
+
+    ASSERT_TRUE(result.has_value()) << "Scan should return even when timeout path is exercised";
+#if THEMIS_TEST_HAS_TBB
+    constexpr auto kMaxExpectedMs = 12000;
+#else
+    constexpr auto kMaxExpectedMs = 50000;
+#endif
+    EXPECT_LT(elapsed.count(), kMaxExpectedMs)
+        << "Timeout/cancellation path should avoid long blocking waits or deadlock "
+        << "(TBB=" << THEMIS_TEST_HAS_TBB << ")";
 }
 
 /**

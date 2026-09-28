@@ -62,7 +62,7 @@ on:
         default: false
 
 concurrency:
-  group: ci-pr-gates-${{ github.event.pull_request.number || github.ref }}
+  group: ci-pr-gates-matrix.${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 permissions:
@@ -241,8 +241,11 @@ jobs:
     if: github.event_name == 'pull_request' && github.base_ref != ''
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
+      enable_sccache_gha: true
       build_mode: tests
       preset: pr-release-critical
+      setup_command: >-
+        set -euo pipefail; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libgtest-dev libgmock-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libboost-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev libcpp-httplib-dev; echo "PR release-critical test dependencies installed via apt"
       configure_flags: >-
         -DTHEMIS_BUILD_TESTS=ON
         -DTHEMIS_BUILD_BENCHMARKS=OFF

@@ -977,6 +977,16 @@ if(httplib_FOUND)
     add_compile_definitions(THEMIS_HAS_HTTPLIB=1)
 else()
     message(WARNING "cpp-httplib not found - built-in HTTP server features may be limited")
+    if(THEMIS_ENABLE_HTTP_SERVER)
+        message(FATAL_ERROR
+            "THEMIS_ENABLE_HTTP_SERVER is ON but cpp-httplib (httplib.h) was not found.\n"
+            "Install cpp-httplib via vcpkg, system package manager, or set THEMIS_ENABLE_HTTP_SERVER=OFF.\n"
+            "Searched paths:\n"
+            "  \${VCPKG_INSTALLED_DIR}/\${VCPKG_TARGET_TRIPLET}/include\n"
+            "  \${VCPKG_ROOT}/installed/\${VCPKG_TARGET_TRIPLET}/include\n"
+            "  \${CMAKE_SOURCE_DIR}/vcpkg_installed/\${VCPKG_TARGET_TRIPLET}/include\n"
+        )
+    endif()
 endif()
 
 # MessagePack (binary buffer protocol)

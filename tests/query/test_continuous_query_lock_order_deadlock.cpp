@@ -49,8 +49,11 @@ protected:
         ContinuousQuerySpec spec;
         spec.name = name;
         spec.source_collection = "test_collection";
-        spec.aql = "FOR doc IN " + name + " RETURN doc";
-        spec.window = WindowSpec::TumblingWindow(std::chrono::seconds(1));
+        spec.aql_body = "FOR doc IN " + name + " RETURN doc";
+        spec.window.type = WindowSpec::Type::TUMBLING;
+        spec.window.range_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+                                   std::chrono::seconds(1))
+                                   .count();
         spec.max_window_tuples = 10000;
         spec.max_window_bytes = 10 * 1024 * 1024;  // 10 MB
         spec.result_mode = ResultMode::DELTA;

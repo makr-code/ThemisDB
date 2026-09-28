@@ -1,4 +1,29 @@
 # Doxygen Governance Gate Resolution Report
+
+## Issue #6617: Coverage gate failure — PR #6611 (copilot/implement-open-tasks-again)
+
+**Status**: ✅ **RESOLVED**
+
+---
+
+### Executive Summary
+
+PR #6611 (`copilot/implement-open-tasks-again`) initially triggered a Doxygen governance gate
+failure during a CI run. The gate subsequently recovered (PASS) on commit
+`6cfa4cb8153dc8f9f126bc16d62660c6cb2564fd`. PR #6611 was merged into `develop` on 2026-09-26.
+Issue #6617 was auto-created by the gate workflow to track the failure and was automatically
+updated to `status/resolved` once the gate passed.
+
+- **Workflow**: `Gate: PR Doxygen Governance`
+- **Recovery Run**: <https://github.com/makr-code/ThemisDB/actions/runs/36230946049>
+- **Recovery Commit**: `6cfa4cb8153dc8f9f126bc16d62660c6cb2564fd`
+- **PR Merged**: 2026-09-26
+
+No documentation gaps requiring further remediation were identified. The gate passes
+consistently on the `develop` branch after the merge. **No further action required.**
+
+---
+
 ## Issue #6520: Coverage gate failure — PR #6514
 
 **Status**: ✅ **RESOLVED**

@@ -391,12 +391,149 @@ def resolve_module_xml_dir(artifacts_root: Path, module: str) -> Path:
     raise FileNotFoundError(f"No XML directory found for module '{module}' under {artifacts_root}")
 
 
+def write_skip_artifacts(args: argparse.Namespace, repo_root: Path, *, source_files_scanned: int, reason: str) -> None:
+    source_graph_path = (repo_root / args.source_graph_json).resolve()
+    report = {
+        "module": args.module,
+        "status": "SKIP",
+        "reason": reason,
+        "source_mode": "no_cpp_files",
+        "source_graph_used": False,
+        "source_graph_path": str(source_graph_path),
+        "source_files_scanned": source_files_scanned,
+        "source_symbols_total": 0,
+        "source_symbols_after_filter": 0,
+        "doxygen_members_total": 0,
+        "doxygen_members_after_filter": 0,
+        "source_symbol_names": 0,
+        "doxygen_symbol_names": 0,
+        "source_not_in_doxygen_count": 0,
+        "doxygen_not_in_source_count": 0,
+        "coverage": {
+            "symbol_presence_ratio": 0.0,
+            "missing_symbol_count": 0,
+            "missing_brief_count": 0,
+            "missing_param_docs_count": 0,
+            "missing_return_docs_count": 0,
+        },
+        "ownership": {
+            "path_policy": {
+                "internal_roots": INTERNAL_ROOTS,
+                "external_hints": EXTERNAL_HINTS,
+                "classification_rule": "everything outside internal roots is treated as external / third-party boundary",
+            },
+            "source_symbols": {"internal": 0, "external": 0},
+            "doxygen_members": {"internal": 0, "external": 0},
+            "externally_scoped_symbols": [],
+        },
+        "by_rule": {},
+        "by_rule_scope": {},
+        "by_scope": {},
+        "samples": {
+            "source_not_in_doxygen": [],
+            "doxygen_not_in_source": [],
+            "findings": [],
+        },
+    }
+
+    report_path = repo_root / args.report_json
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    report_path.write_text(json.dumps(report, indent=2), encoding="utf-8")
+
+    missing_payload = {
+        "module": args.module,
+        "generated_from": "check_module_direct_doxygen.py",
+        "source_mode": "no_cpp_files",
+        "findings": [],
+    }
+    missing_path = repo_root / args.missing_report_json
+    missing_path.parent.mkdir(parents=True, exist_ok=True)
+    missing_path.write_text(json.dumps(missing_payload, indent=2), encoding="utf-8")
+
+    summary_path = repo_root / args.summary_md
+    summary_path.parent.mkdir(parents=True, exist_ok=True)
+    summary_path.write_text(
+        "\n".join(
+            [
+                f"# Direct Doxygen Check: {args.module}",
+                "",
+                "- Source mode: no_cpp_files",
+                f"- Source files scanned: {source_files_scanned}",
+                f"- Status: SKIP ({reason})",
+            ]
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+    cov_path = repo_root / args.coverage_summary_md
+    cov_path.parent.mkdir(parents=True, exist_ok=True)
+    cov_path.write_text(
+        "\n".join(
+            [
+                "# Module Doxygen Coverage Summary",
+                "",
+                f"- Module: {args.module}",
+                "- Source mode: no_cpp_files",
+                "- Symbol presence ratio: 0.0",
+                f"- Status: SKIP ({reason})",
+                "- missing_symbol: 0",
+                "- missing_brief: 0",
+                "- missing_param_docs: 0",
+                "- missing_return_docs: 0",
+            ]
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+
 def main() -> int:
     args = parse_args()
     repo_root = Path(args.repo_root).resolve()
     artifacts_root = (repo_root / args.doxygen_artifacts_root).resolve()
 
     files = collect_module_files(repo_root, args.module)
+    if not files:
+        write_skip_artifacts(
+            args,
+            repo_root,
+            source_files_scanned=0,
+            reason="no C/C++ files in include/src/tests/benchmarks module scope",
+        )
+        print("DIRECT_DOXYGEN_CHECK_SKIPPED")
+        print(f"module={args.module}")
+        print("source_mode=no_cpp_files")
+        print("source_symbols_after_filter=0")
+        print("doxygen_members_after_filter=0")
+        print("missing_symbol=0")
+        print("missing_brief=0")
+        print("missing_param_docs=0")
+        print("missing_return_docs=0")
+        return 0
+
+    if not files:
+        # No C/C++ source files in this module — write stub SKIP artifacts and exit cleanly
+        # so downstream CI steps that read these files do not fail on missing paths.
+        skip_report = {
+            "module": args.module,
+            "status": "SKIP",
+            "reason": "no C/C++ source files found for module",
+            "source_files_scanned": 0,
+        }
+        for dest, content in [
+            (args.report_json, json.dumps(skip_report, indent=2)),
+            (args.missing_report_json, json.dumps({"module": args.module, "status": "SKIP", "findings": []}, indent=2)),
+            (args.summary_md, f"# Direct Doxygen Check: {args.module}\n\nSKIP — no C/C++ source files found.\n"),
+            (args.coverage_summary_md, f"# Module Doxygen Coverage Summary\n\n- Module: {args.module}\n- Status: SKIP\n"),
+        ]:
+            out_path = repo_root / dest
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            out_path.write_text(content, encoding="utf-8")
+        print("DIRECT_DOXYGEN_CHECK_SKIPPED")
+        print(f"module={args.module}")
+        print(f"reason=no C/C++ source files found", file=sys.stderr)
+        return 0
 
     source_graph_symbols = parse_source_graph(args.module, (repo_root / args.source_graph_json).resolve())
     source_mode = "graph" if source_graph_symbols else "direct_doxygen_markers"

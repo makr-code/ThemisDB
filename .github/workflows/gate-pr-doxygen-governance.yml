@@ -127,6 +127,8 @@ jobs:
       - name: Export gate outputs
         id: gate_result
         if: always()
+        env:
+          GATE_OUTCOME: ${{ steps.gate.outcome }}
         run: |
           python3 - <<'PY'
           import json
@@ -135,14 +137,24 @@ jobs:
 
           report_path = Path('/tmp/doxygen-gate/report.json')
           if not report_path.exists():
-              # Gate script crashed before writing the report — treat as FAIL
-              report = {
-                  'verdict': 'FAIL',
-                  'coverage_enforced': False,
-                  'coverage_waived': False,
-                  'changed_code_files': [],
-                  'summary_markdown': 'Doxygen governance gate failed before producing a report.',
-              }
+              gate_outcome = os.environ.get('GATE_OUTCOME', '').strip().lower()
+              if gate_outcome == 'cancelled':
+                  report = {
+                      'verdict': 'CANCELLED',
+                      'coverage_enforced': False,
+                      'coverage_waived': False,
+                      'changed_code_files': [],
+                      'summary_markdown': 'Doxygen governance gate was cancelled before producing a report.',
+                  }
+              else:
+                  # Gate script crashed before writing the report — treat as FAIL
+                  report = {
+                      'verdict': 'FAIL',
+                      'coverage_enforced': False,
+                      'coverage_waived': False,
+                      'changed_code_files': [],
+                      'summary_markdown': 'Doxygen governance gate failed before producing a report.',
+                  }
           else:
               report = json.loads(report_path.read_text(encoding='utf-8'))
           with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as fh:
@@ -165,7 +177,7 @@ jobs:
           if-no-files-found: warn
 
       - name: Sync Doxygen waiver label
-        if: always() && github.event_name == 'pull_request' && steps.waiver_state.outputs.doxygen_coverage_active == 'true'
+        if: always() && !cancelled() && github.event_name == 'pull_request' && steps.waiver_state.outputs.doxygen_coverage_active == 'true'
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -175,7 +187,7 @@ jobs:
           status-group: 'governance/doxygen-waiver,status/needs-attention,status/needs-approval,status/resolved'
 
       - name: Clear stale Doxygen waiver label
-        if: always() && github.event_name == 'pull_request' && steps.waiver_state.outputs.doxygen_coverage_active != 'true'
+        if: always() && !cancelled() && github.event_name == 'pull_request' && steps.waiver_state.outputs.doxygen_coverage_active != 'true'
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -184,7 +196,7 @@ jobs:
           labels-to-remove: 'governance/doxygen-waiver,status/needs-approval'
 
       - name: Apply Doxygen failed state labels
-        if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'FAIL'
+        if: always() && !cancelled() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'FAIL'
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -194,7 +206,7 @@ jobs:
           status-group: 'quality/doxygen-failed,quality/doxygen-warning,status/needs-attention,status/needs-approval,status/resolved'
 
       - name: Apply Doxygen warning state labels
-        if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'WARN'
+        if: always() && !cancelled() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'WARN'
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -204,7 +216,7 @@ jobs:
           status-group: 'quality/doxygen-failed,quality/doxygen-warning,status/needs-attention,status/needs-approval,status/resolved'
 
       - name: Clear Doxygen result labels on pass
-        if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'PASS'
+        if: always() && !cancelled() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'PASS'
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -214,7 +226,7 @@ jobs:
           status-group: 'quality/doxygen-failed,quality/doxygen-warning,status/needs-attention,status/needs-approval,status/resolved'
 
       - name: Comment gate result on PR
-        if: always() && github.event_name == 'pull_request'
+        if: always() && !cancelled() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict != 'CANCELLED'
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -228,7 +240,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: Open tracker issue on Doxygen FAIL
-        if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'FAIL'
+        if: always() && !cancelled() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'FAIL'
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -257,7 +269,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: Open tracker issue on Doxygen WARN
-        if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'WARN'
+        if: always() && !cancelled() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'WARN'
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -286,7 +298,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: Resolve tracker issue on Doxygen PASS
-        if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'PASS'
+        if: always() && !cancelled() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'PASS'
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -310,7 +322,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: Fail on blocking Doxygen verdict
-        if: always() && steps.gate_result.outputs.verdict == 'FAIL'
+        if: always() && !cancelled() && steps.gate_result.outputs.verdict == 'FAIL'
         run: |
           echo "::error::Doxygen governance gate failed."
           exit 1
