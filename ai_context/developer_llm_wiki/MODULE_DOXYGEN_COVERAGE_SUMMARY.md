@@ -1,14 +1,10 @@
-Datum: 2026-09-23
-Status: Generated
-Bezug: Automated module doxygen analysis and documentation inventory
-
 # Module Doxygen Coverage Summary
 
-- Module: llm_wiki
-- Source mode: direct_doxygen_markers
-- Symbol presence ratio: 0.4776
-- Ownership: {'internal': 83, 'external': 0}
-- missing_symbol: 35
-- missing_brief: 43
-- missing_param_docs: 24
-- missing_return_docs: 27
+- Module: ai_working
+- Source mode: no_cpp_files
+- Symbol presence ratio: 0.0
+- Status: SKIP (no C/C++ files in include/src/tests/benchmarks module scope)
+- missing_symbol: 0
+- missing_brief: 0
+- missing_param_docs: 0
+- missing_return_docs: 0
