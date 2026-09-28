@@ -12,7 +12,7 @@ namespace themis::rag::testing {
 
 class MetricComputationTest : public ::testing::Test {
  protected:
-  MetricComputer engine_;
+  themis::rag::MetricComputer engine_;
 
   static std::vector<std::string> Ranked() {
     return {"d1", "d2", "d3", "d4", "d5"};

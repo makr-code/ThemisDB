@@ -40,8 +40,8 @@ class RerankerBudgetGate {
   struct BudgetContext {
     std::string tenant_id;
     std::string query_id;
-    const std::string& query_text;
-    const std::vector<Document>& hybrid_results;  ///< k=50 results
+    std::string query_text;
+    std::vector<Document> hybrid_results;  ///< k=50 results
     float available_budget;                       ///< ms or credits
   };
 

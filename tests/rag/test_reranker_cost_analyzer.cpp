@@ -7,19 +7,37 @@
 
 namespace themis::rag {
 
+namespace {
+
+RerankerCostAnalyzer::CostRecord MakeCostRecord(
+    const std::string& query_id,
+    const std::string& tenant_id,
+    uint64_t request_time_ms,
+    uint32_t tokens_used,
+    float quality_improvement,
+    bool was_beneficial,
+    const std::string& cost_breakdown = "") {
+  RerankerCostAnalyzer::CostRecord record{};
+  record.query_id = query_id;
+  record.tenant_id = tenant_id;
+  record.request_time_ms = request_time_ms;
+  record.tokens_used = tokens_used;
+  record.quality_improvement = quality_improvement;
+  record.was_beneficial = was_beneficial;
+  record.cost_breakdown = cost_breakdown;
+  record.timestamp_us = 0;
+  return record;
+}
+
+}  // namespace
+
 class RerankerCostAnalyzerTest : public ::testing::Test {
  protected:
   RerankerCostAnalyzer analyzer_;
 };
 
 TEST_F(RerankerCostAnalyzerTest, RecordCostAndRetrieve) {
-  RerankerCostAnalyzer::CostRecord record;
-  record.query_id = "q1";
-  record.tenant_id = "tenant_1";
-  record.request_time_ms = 50;
-  record.tokens_used = 100;
-  record.quality_improvement = 0.05f;
-  record.was_beneficial = true;
+  auto record = MakeCostRecord("q1", "tenant_1", 50, 100, 0.05f, true);
 
   analyzer_.RecordCostAndQuality(record);
   
@@ -30,9 +48,9 @@ TEST_F(RerankerCostAnalyzerTest, RecordCostAndRetrieve) {
 
 TEST_F(RerankerCostAnalyzerTest, MultipleRecordsPerTenant) {
   std::vector<RerankerCostAnalyzer::CostRecord> records = {
-      {"q1", "tenant_1", 30, 80, 0.03f, true, 0, ""},
-      {"q2", "tenant_1", 50, 100, 0.05f, true, 0, ""},
-      {"q3", "tenant_1", 70, 120, 0.02f, false, 0, ""}
+      MakeCostRecord("q1", "tenant_1", 30, 80, 0.03f, true),
+      MakeCostRecord("q2", "tenant_1", 50, 100, 0.05f, true),
+      MakeCostRecord("q3", "tenant_1", 70, 120, 0.02f, false)
   };
 
   for (const auto& record : records) {
@@ -51,14 +69,13 @@ TEST_F(RerankerCostAnalyzerTest, PercentileCalculation) {
   std::vector<uint64_t> latencies = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
   
   for (size_t i = 0; i < latencies.size(); ++i) {
-    RerankerCostAnalyzer::CostRecord record;
-    record.query_id = "q" + std::to_string(i);
-    record.tenant_id = "tenant_perc";
-    record.request_time_ms = latencies[i];
-    record.tokens_used = 100;
-    record.quality_improvement = 0.05f;
-    record.was_beneficial = true;
-    analyzer_.RecordCostAndQuality(record);
+    analyzer_.RecordCostAndQuality(
+        MakeCostRecord("q" + std::to_string(i),
+                       "tenant_perc",
+                       latencies[i],
+                       100,
+                       0.05f,
+                       true));
   }
 
   auto metrics = analyzer_.GetCostMetrics("tenant_perc");
@@ -70,19 +87,8 @@ TEST_F(RerankerCostAnalyzerTest, PercentileCalculation) {
 }
 
 TEST_F(RerankerCostAnalyzerTest, GetTenantAllocations) {
-  RerankerCostAnalyzer::CostRecord record1;
-  record1.query_id = "q1";
-  record1.tenant_id = "tenant_a";
-  record1.request_time_ms = 50;
-  record1.tokens_used = 100;
-  analyzer_.RecordCostAndQuality(record1);
-
-  RerankerCostAnalyzer::CostRecord record2;
-  record2.query_id = "q2";
-  record2.tenant_id = "tenant_b";
-  record2.request_time_ms = 40;
-  record2.tokens_used = 80;
-  analyzer_.RecordCostAndQuality(record2);
+  analyzer_.RecordCostAndQuality(MakeCostRecord("q1", "tenant_a", 50, 100, 0.04f, true));
+  analyzer_.RecordCostAndQuality(MakeCostRecord("q2", "tenant_b", 40, 80, 0.03f, true));
 
   auto allocations = analyzer_.GetTenantAllocations();
   
@@ -92,14 +98,13 @@ TEST_F(RerankerCostAnalyzerTest, GetTenantAllocations) {
 TEST_F(RerankerCostAnalyzerTest, BeneficialRateThreshold) {
   // Create records with varying beneficial rates
   for (int i = 0; i < 10; ++i) {
-    RerankerCostAnalyzer::CostRecord record;
-    record.query_id = "q" + std::to_string(i);
-    record.tenant_id = "tenant_rate";
-    record.request_time_ms = 50;
-    record.tokens_used = 100;
-    record.quality_improvement = 0.05f;
-    record.was_beneficial = i < 8;  // 80% beneficial
-    analyzer_.RecordCostAndQuality(record);
+    analyzer_.RecordCostAndQuality(
+        MakeCostRecord("q" + std::to_string(i),
+                       "tenant_rate",
+                       50,
+                       100,
+                       0.05f,
+                       i < 8));
   }
 
   bool above_80 = analyzer_.IsBeneficialRateAboveThreshold("tenant_rate", 0.8f);
@@ -110,14 +115,8 @@ TEST_F(RerankerCostAnalyzerTest, BeneficialRateThreshold) {
 }
 
 TEST_F(RerankerCostAnalyzerTest, GetCostComponentBreakdown) {
-  RerankerCostAnalyzer::CostRecord record;
-  record.query_id = "q1";
-  record.tenant_id = "tenant_breakdown";
-  record.request_time_ms = 100;
-  record.tokens_used = 1000;
-  record.quality_improvement = 0.05f;
-  record.was_beneficial = true;
-  analyzer_.RecordCostAndQuality(record);
+  analyzer_.RecordCostAndQuality(
+      MakeCostRecord("q1", "tenant_breakdown", 100, 1000, 0.05f, true));
 
   auto breakdown = analyzer_.GetCostComponentBreakdown("tenant_breakdown");
   

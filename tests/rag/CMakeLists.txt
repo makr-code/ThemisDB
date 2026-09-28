@@ -45,6 +45,30 @@ foreach(_src IN LISTS RAG_MODULE_TEST_SOURCES)
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/rag/metric_computation.cpp
         )
+    elseif("${_stem}" STREQUAL "test_cost_attribution_tracker")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/cost_attribution_tracker.cpp
+        )
+    elseif("${_stem}" STREQUAL "test_realtime_slo_tracker")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/realtime_slo_tracker.cpp
+        )
+    elseif("${_stem}" STREQUAL "test_recommendation_engine")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/recommendation_engine.cpp
+        )
+    elseif("${_stem}" STREQUAL "test_reranker_budget_gate")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/reranker_budget_gate.cpp
+        )
+    elseif("${_stem}" STREQUAL "test_reranker_cost_analyzer")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/reranker_cost_analyzer.cpp
+        )
+    elseif("${_stem}" STREQUAL "test_router_policy_store")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/router_policy_store.cpp
+        )
     elseif("${_stem}" STREQUAL "test_adaptive_hybrid_router")
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/rag/adaptive_hybrid_router.cpp
