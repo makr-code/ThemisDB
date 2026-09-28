@@ -33,9 +33,10 @@ name: "Release: Packaging"
 # credentials, private submodules, or private artefacts (RELEASE_STRATEGY.md §2.4).
 #
 # Packaging outputs per platform (via CPack):
-#   Linux community-release : fallback build lane / raw binaries
-#   Linux linux-release     : TGZ + DEB + RPM + ZIP
-#   Windows windows-release : ZIP + WIX/MSI (WiX v3 required on runner)
+#   Linux AMD64 release : TGZ + DEB + RPM + ZIP
+#   Linux ARM64 release : TGZ + DEB + RPM + ZIP
+#   Windows AMD64 release : ZIP + WIX/MSI (WiX v3 required on runner)
+#   macOS ARM64 release (opt-in): TGZ + DMG
 
 on:
   schedule:
@@ -56,11 +57,11 @@ on:
   workflow_dispatch:
     inputs:
       build_matrix:
-        description: 'Build matrix presets'
+        description: 'Build matrix by OS/CPU architecture'
         required: false
         default: 'all'
         type: choice
-        options: [all, community-only, linux-release-only, windows-release-only, macos-release-only]
+        options: [all, linux-amd64-only, linux-arm64-only, windows-amd64-only, macos-arm64-only]
       edition:
         description: 'Edition to publish (for dispatch)'
         required: false
@@ -184,7 +185,7 @@ jobs:
           fi
 
   # ─────────────────────────────────────────────────────────────────────────────
-  # Build Matrix: community-release, linux-release, windows-release, macos-release (experimental, opt-in)
+  # Build Matrix: OS/CPU architecture lanes only
   # ─────────────────────────────────────────────────────────────────────────────
   build-matrix:
     needs: preflight-release-policy
@@ -219,55 +220,6 @@ jobs:
           pattern: packages-*-${{ github.run_number }}
           merge-multiple: true
           path: release/
-
-      - name: Download Linux community binaries (fallback)
-        uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85  # v4.1.3
-        with:
-          pattern: build-community-release-${{ github.run_number }}
-          merge-multiple: true
-          path: dist/
-
-      - name: Determine edition and version from tag
-        id: version
-        shell: bash
-        run: |
-          TAG="${{ inputs.tag_name || github.ref_name }}"
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && echo "${TAG}" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$'; then
-            TAG="v${TAG}"
-          fi
-          if   echo "${TAG}" | grep -qE '^enterprise-v'; then
-            EDITION=enterprise; VERSION="${TAG#enterprise-}"
-          elif echo "${TAG}" | grep -qE '^hyperscaler-v'; then
-            EDITION=hyperscaler; VERSION="${TAG#hyperscaler-}"
-          elif echo "${TAG}" | grep -qE '^military-v'; then
-            EDITION=military; VERSION="${TAG#military-}"
-          elif echo "${TAG}" | grep -qE '^minimal-v'; then
-            EDITION=minimal; VERSION="${TAG#minimal-}"
-          elif echo "${TAG}" | grep -qE '^v[0-9]+\.[0-9]+\.[0-9]+-nightly$'; then
-            EDITION=community; VERSION="${TAG#v}"; VERSION="${VERSION%-nightly}"
-          else
-            EDITION=community; VERSION="${TAG#v}"
-          fi
-          {
-            echo "edition=${EDITION}"
-            echo "version=${VERSION}"
-            echo "archive_name=themisdb-${EDITION}-${VERSION}-nightly-linux-x64"
-          } >> "$GITHUB_OUTPUT"
-
-      - name: Create fallback archive if no CPack TGZ present
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p release
-          ARCHIVE="release/${{ steps.version.outputs.archive_name }}.tar.gz"
-          if ls release/*.tar.gz &>/dev/null || ls release/*.tgz &>/dev/null; then
-            echo "CPack TGZ already present — skipping fallback archive."
-          elif [ "$(ls -A dist/ 2>/dev/null)" ]; then
-            echo "Creating fallback archive from raw build artifacts."
-            tar -czf "${ARCHIVE}" -C dist/ . --exclude='*.a'
-          else
-            echo "::warning::No CPack packages and no raw artifacts found — release archive will be empty."
-          fi
 
       - name: Build release manifest
         shell: bash
