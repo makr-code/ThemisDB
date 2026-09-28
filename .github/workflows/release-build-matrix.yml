@@ -84,7 +84,15 @@ jobs:
           run_number = os.environ["RUN_NUMBER"]
           allowed_editions = {"minimal", "community", "enterprise", "hyperscaler", "military"}
           allowed_build_types = {"Release", "Debug"}
-          allowed_packaging_generators = {"TGZ", "DEB", "RPM", "ZIP", "WIX", "DragNDrop", "DMG"}
+          packaging_token_normalization = {
+              "TGZ": "TGZ",
+              "DEB": "DEB",
+              "RPM": "RPM",
+              "ZIP": "ZIP",
+              "WIX": "WIX",
+              "DRAGNDROP": "DragNDrop",
+              "DMG": "DragNDrop",
+          }
           allowed_distributions = {"all", "github", "docker", "winget", "linux"}
           if edition not in allowed_editions:
               raise ValueError(f"Unsupported edition selector: {edition}")
@@ -92,7 +100,7 @@ jobs:
               raise ValueError(f"Unsupported build type selector: {build_type}")
           if distribution not in allowed_distributions:
               raise ValueError(f"Unsupported distribution selector: {distribution}")
-          cmake_flags = f"-DTHEMIS_EDITION={edition.upper()} -DCMAKE_BUILD_TYPE={build_type} -DTHEMIS_DISTRIBUTION_TARGET={distribution}"
+          cmake_flags = f"-DTHEMIS_EDITION={edition.upper()} -DCMAKE_BUILD_TYPE={build_type}"
 
           def lane_enabled(lane_id: str) -> bool:
               if build_matrix == "linux-amd64-only":
@@ -123,9 +131,10 @@ jobs:
                       token = tok.strip()
                       if not token:
                           continue
-                      if token not in allowed_packaging_generators:
+                      normalized_token = packaging_token_normalization.get(token.upper())
+                      if normalized_token is None:
                           raise ValueError(f"Unsupported packaging generator: {token}")
-                      tokens.append(token)
+                      tokens.append(normalized_token)
                   if not tokens:
                       raise ValueError("Packaging selector resolved to empty generator set")
                   return " ".join(tokens)
