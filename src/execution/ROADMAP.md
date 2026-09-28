@@ -20,9 +20,6 @@ The execution module has a working bounded scheduler and a working bounded fixed
 - [x] Restore missing governance docs: `AUDIT.md`, `CHANGELOG.md`, `FUTURE_ENHANCEMENTS.md`, `MODULE_GAPS.md`, `PERFORMANCE_EXPECTATIONS.md`, `PRODUCTION_REQUIREMENTS.md`, `SECURITY.md` (Target: Q3 2026)
 - [x] Replace stale module claims about urgent buckets, fairness reservations, dynamic thread retirement, and live work stealing with source-verified descriptions (Target: Q3 2026)
 - [x] Refresh Doxygen comments on `include/execution/query_scheduler.h` and `include/execution/thread_pool_manager.h` so the public contract matches the implementation (Target: Q3 2026)
-
-## Planned Features
-
 - [ ] Activate per-worker queue population and actual cross-worker steal behavior (Target: Q1 2027)
 - [ ] Implement elastic worker growth/shrink semantics or narrow the public naming/contract accordingly (Target: Q1 2027)
 - [ ] Add queue-expiry / cancellation policy for stale scheduler entries where required by upstream consumers (Target: Q1 2027)
