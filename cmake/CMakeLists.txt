@@ -6115,7 +6115,7 @@ endif()
 # Central logs/ directory — all runtime log files are written here.
 # The server auto-creates logs/ at startup if it does not yet exist;
 # the install rule ensures the directory is present in the package.
-install(CODE "file(MAKE_DIRECTORY \"\${CMAKE_INSTALL_PREFIX}/logs\")"
+install(CODE "file(MAKE_DIRECTORY \"\$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/logs\")"
     COMPONENT runtime
 )
 # Compatibility: server is typically started from bin/, so logs/ must also be
