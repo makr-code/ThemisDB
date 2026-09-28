@@ -512,6 +512,29 @@ def main() -> int:
         print("missing_return_docs=0")
         return 0
 
+    if not files:
+        # No C/C++ source files in this module — write stub SKIP artifacts and exit cleanly
+        # so downstream CI steps that read these files do not fail on missing paths.
+        skip_report = {
+            "module": args.module,
+            "status": "SKIP",
+            "reason": "no C/C++ source files found for module",
+            "source_files_scanned": 0,
+        }
+        for dest, content in [
+            (args.report_json, json.dumps(skip_report, indent=2)),
+            (args.missing_report_json, json.dumps({"module": args.module, "status": "SKIP", "findings": []}, indent=2)),
+            (args.summary_md, f"# Direct Doxygen Check: {args.module}\n\nSKIP — no C/C++ source files found.\n"),
+            (args.coverage_summary_md, f"# Module Doxygen Coverage Summary\n\n- Module: {args.module}\n- Status: SKIP\n"),
+        ]:
+            out_path = repo_root / dest
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            out_path.write_text(content, encoding="utf-8")
+        print("DIRECT_DOXYGEN_CHECK_SKIPPED")
+        print(f"module={args.module}")
+        print(f"reason=no C/C++ source files found", file=sys.stderr)
+        return 0
+
     source_graph_symbols = parse_source_graph(args.module, (repo_root / args.source_graph_json).resolve())
     source_mode = "graph" if source_graph_symbols else "direct_doxygen_markers"
 
