@@ -1,191 +1,75 @@
 {
-  "module": "access_model",
+  "module": "execution",
   "generated_from": "check_module_direct_doxygen.py",
   "source_mode": "direct_doxygen_markers",
   "findings": [
     {
       "rule": "missing_symbol",
-      "symbol": "lock",
-      "count": 14,
-      "scope": "src",
+      "symbol": "SLAPriority",
+      "count": 1,
+      "scope": "include",
       "scope_breakdown": {
-        "src": 14
+        "include": 1
       },
       "source_examples": [
         {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/access_coordinator.cpp",
-          "line": 80,
-          "kind": "function",
-          "name": "lock",
-          "scope": "src"
-        },
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/access_coordinator.cpp",
-          "line": 92,
-          "kind": "function",
-          "name": "lock",
-          "scope": "src"
-        },
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/access_coordinator.cpp",
-          "line": 125,
-          "kind": "function",
-          "name": "lock",
-          "scope": "src"
+          "file": "/home/runner/work/ThemisDB/ThemisDB/include/execution/query_scheduler.h",
+          "line": 41,
+          "kind": "class",
+          "name": "SLAPriority",
+          "scope": "include"
         }
       ]
     },
     {
       "rule": "missing_symbol",
-      "symbol": "now",
-      "count": 3,
+      "symbol": "operator",
+      "count": 1,
       "scope": "include",
       "scope_breakdown": {
-        "include": 3
+        "include": 1
       },
       "source_examples": [
         {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/include/access_model/promotion_demotion.h",
-          "line": 65,
+          "file": "/home/runner/work/ThemisDB/ThemisDB/include/execution/query_scheduler.h",
+          "line": 198,
           "kind": "function",
-          "name": "now",
-          "scope": "include"
-        },
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/include/access_model/promotion_demotion.h",
-          "line": 68,
-          "kind": "function",
-          "name": "now",
-          "scope": "include"
-        },
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/include/access_model/promotion_demotion.h",
-          "line": 97,
-          "kind": "function",
-          "name": "now",
+          "name": "operator",
           "scope": "include"
         }
       ]
     },
     {
       "rule": "missing_brief",
-      "symbol": "AccessCoordinator",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessCoordinatorConcurrencyTest",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessCoordinatorFocusedTest",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessCoordinatorImpl",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "allTiers",
+      "symbol": "Name",
       "kind": "function",
-      "file": "tests/access_model/test_access_coordinator.cpp",
-      "line": 104,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "allTiers",
-      "kind": "function",
-      "file": "tests/access_model/test_access_coordinator.cpp",
-      "line": 104,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessCoordinatorTest",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessModelE2ETest",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessModelLogger",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessTier",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "BenchAccessCoordinator",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "BenchmarkAccessTier",
-      "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 151,
+      "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
+      "line": 125,
       "scope": "benchmarks"
     },
     {
       "rule": "missing_param_docs",
-      "symbol": "BenchmarkAccessTier",
+      "symbol": "Name",
       "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 151,
+      "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
+      "line": 125,
       "scope": "benchmarks",
-      "param_total": 2,
+      "param_total": 1,
       "param_docs_count": 0
     },
     {
       "rule": "missing_brief",
-      "symbol": "setCurrentSize",
+      "symbol": "Name",
       "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
       "line": 154,
       "scope": "benchmarks"
     },
     {
       "rule": "missing_param_docs",
-      "symbol": "setCurrentSize",
+      "symbol": "Name",
       "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
       "line": 154,
       "scope": "benchmarks",
       "param_total": 1,
@@ -193,267 +77,691 @@
     },
     {
       "rule": "missing_brief",
-      "symbol": "BenchmarkAccessTier",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "CacheTier",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "DefaultAccessModelLogger",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "LatencyHistogram",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "LoggingTest",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "MockAccessTier",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "ObservabilityIntegrationTest",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "PromotionDemotionTest",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "StorageTier",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TestAccessTier",
+      "symbol": "Name",
       "kind": "function",
-      "file": "tests/access_model/test_access_coordinator.cpp",
-      "line": 33,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "TestAccessTier",
-      "kind": "function",
-      "file": "tests/access_model/test_access_coordinator.cpp",
-      "line": 33,
-      "scope": "tests",
-      "param_total": 2,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TestAccessTier",
-      "kind": "function",
-      "file": "tests/access_model/test_access_coordinator_focused.cpp",
-      "line": 39,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "TestAccessTier",
-      "kind": "function",
-      "file": "tests/access_model/test_access_coordinator_focused.cpp",
-      "line": 39,
-      "scope": "tests",
-      "param_total": 2,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TestAccessTier",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TraceContextManager",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "ScopedContext",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TraceContextTest",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "CacheStorageIntegrationTest",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "MockAccessTier",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "MockEvictionListener",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "MockPromotionListener",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "key_dist",
-      "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 221,
+      "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
+      "line": 185,
       "scope": "benchmarks"
     },
     {
       "rule": "missing_param_docs",
-      "symbol": "key_dist",
+      "symbol": "Name",
       "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 221,
-      "scope": "benchmarks",
-      "param_total": 2,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "key_dist",
-      "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 221,
-      "scope": "benchmarks"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "for",
-      "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 225,
-      "scope": "benchmarks"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "for",
-      "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 225,
+      "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
+      "line": 185,
       "scope": "benchmarks",
       "param_total": 1,
       "param_docs_count": 0
     },
     {
       "rule": "missing_brief",
-      "symbol": "SetItemsProcessed",
+      "symbol": "Name",
       "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 244,
+      "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
+      "line": 228,
       "scope": "benchmarks"
     },
     {
       "rule": "missing_param_docs",
-      "symbol": "SetItemsProcessed",
+      "symbol": "Name",
       "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 244,
+      "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
+      "line": 228,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "BoundedQueue",
+      "kind": "function",
+      "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
+      "line": 43,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "BoundedQueue",
+      "kind": "function",
+      "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
+      "line": 43,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "enqueue",
+      "kind": "function",
+      "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
+      "line": 45,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "enqueue",
+      "kind": "function",
+      "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
+      "line": 45,
       "scope": "benchmarks",
       "param_total": 1,
       "param_docs_count": 0
     },
     {
       "rule": "missing_return_docs",
-      "symbol": "SetItemsProcessed",
+      "symbol": "enqueue",
       "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 244,
+      "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
+      "line": 45,
       "scope": "benchmarks"
     },
     {
       "rule": "missing_brief",
-      "symbol": "reportViolation",
+      "symbol": "dequeue",
       "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 57,
+      "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
+      "line": 52,
       "scope": "benchmarks"
     },
     {
       "rule": "missing_param_docs",
-      "symbol": "reportViolation",
+      "symbol": "dequeue",
       "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 57,
+      "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
+      "line": 52,
       "scope": "benchmarks",
-      "param_total": 5,
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "dequeue",
+      "kind": "function",
+      "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
+      "line": 52,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "size",
+      "kind": "function",
+      "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
+      "line": 60,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "size",
+      "kind": "function",
+      "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
+      "line": 60,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "BoundedQueue",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "ExecutionHighCardinalityStress",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "StealPool",
+      "kind": "function",
+      "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
+      "line": 76,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "StealPool",
+      "kind": "function",
+      "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
+      "line": 76,
+      "scope": "benchmarks",
+      "param_total": 1,
       "param_docs_count": 0
     },
     {
       "rule": "missing_brief",
-      "symbol": "DemotionEvent",
+      "symbol": "submit",
+      "kind": "function",
+      "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
+      "line": 79,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "submit",
+      "kind": "function",
+      "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
+      "line": 79,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "steal",
+      "kind": "function",
+      "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
+      "line": 85,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "steal",
+      "kind": "function",
+      "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
+      "line": 85,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "steal",
+      "kind": "function",
+      "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
+      "line": 85,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "StealPool",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "StubBoundedQueue",
+      "kind": "function",
+      "file": "tests/execution/test_execution_highcardinality_stress.cpp",
+      "line": 43,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "StubBoundedQueue",
+      "kind": "function",
+      "file": "tests/execution/test_execution_highcardinality_stress.cpp",
+      "line": 43,
+      "scope": "tests",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "enqueue",
+      "kind": "function",
+      "file": "tests/execution/test_execution_highcardinality_stress.cpp",
+      "line": 45,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "enqueue",
+      "kind": "function",
+      "file": "tests/execution/test_execution_highcardinality_stress.cpp",
+      "line": 45,
+      "scope": "tests",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "enqueue",
+      "kind": "function",
+      "file": "tests/execution/test_execution_highcardinality_stress.cpp",
+      "line": 45,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "dequeue",
+      "kind": "function",
+      "file": "tests/execution/test_execution_highcardinality_stress.cpp",
+      "line": 53,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "dequeue",
+      "kind": "function",
+      "file": "tests/execution/test_execution_highcardinality_stress.cpp",
+      "line": 53,
+      "scope": "tests",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "dequeue",
+      "kind": "function",
+      "file": "tests/execution/test_execution_highcardinality_stress.cpp",
+      "line": 53,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "size",
+      "kind": "function",
+      "file": "tests/execution/test_execution_highcardinality_stress.cpp",
+      "line": 62,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "size",
+      "kind": "function",
+      "file": "tests/execution/test_execution_highcardinality_stress.cpp",
+      "line": 62,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "enqueued",
+      "kind": "function",
+      "file": "tests/execution/test_execution_highcardinality_stress.cpp",
+      "line": 67,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "enqueued",
+      "kind": "function",
+      "file": "tests/execution/test_execution_highcardinality_stress.cpp",
+      "line": 67,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "dequeued",
+      "kind": "function",
+      "file": "tests/execution/test_execution_highcardinality_stress.cpp",
+      "line": 68,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "dequeued",
+      "kind": "function",
+      "file": "tests/execution/test_execution_highcardinality_stress.cpp",
+      "line": 68,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "overflow",
+      "kind": "function",
+      "file": "tests/execution/test_execution_highcardinality_stress.cpp",
+      "line": 69,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "overflow",
+      "kind": "function",
+      "file": "tests/execution/test_execution_highcardinality_stress.cpp",
+      "line": 69,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "StubBoundedQueue",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "StubWorkStealPool",
+      "kind": "function",
+      "file": "tests/execution/test_execution_highcardinality_stress.cpp",
+      "line": 85,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "StubWorkStealPool",
+      "kind": "function",
+      "file": "tests/execution/test_execution_highcardinality_stress.cpp",
+      "line": 85,
+      "scope": "tests",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "submit",
+      "kind": "function",
+      "file": "tests/execution/test_execution_highcardinality_stress.cpp",
+      "line": 88,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "submit",
+      "kind": "function",
+      "file": "tests/execution/test_execution_highcardinality_stress.cpp",
+      "line": 88,
+      "scope": "tests",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "drainStep",
+      "kind": "function",
+      "file": "tests/execution/test_execution_highcardinality_stress.cpp",
+      "line": 96,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "submitted",
+      "kind": "function",
+      "file": "tests/execution/test_execution_highcardinality_stress.cpp",
+      "line": 106,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "submitted",
+      "kind": "function",
+      "file": "tests/execution/test_execution_highcardinality_stress.cpp",
+      "line": 106,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "processed",
+      "kind": "function",
+      "file": "tests/execution/test_execution_highcardinality_stress.cpp",
+      "line": 107,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "processed",
+      "kind": "function",
+      "file": "tests/execution/test_execution_highcardinality_stress.cpp",
+      "line": 107,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "remaining",
+      "kind": "function",
+      "file": "tests/execution/test_execution_highcardinality_stress.cpp",
+      "line": 109,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "remaining",
+      "kind": "function",
+      "file": "tests/execution/test_execution_highcardinality_stress.cpp",
+      "line": 109,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "StubWorkStealPool",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "QueryScheduler",
+      "kind": "function",
+      "file": "include/execution/query_scheduler.h",
+      "line": 100,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "~QueryScheduler",
+      "kind": "function",
+      "file": "include/execution/query_scheduler.h",
+      "line": 109,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "QueryScheduler",
+      "kind": "function",
+      "file": "include/execution/query_scheduler.h",
+      "line": 112,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "QueryScheduler",
+      "kind": "function",
+      "file": "include/execution/query_scheduler.h",
+      "line": 112,
+      "scope": "include",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "operator=",
+      "kind": "function",
+      "file": "include/execution/query_scheduler.h",
+      "line": 113,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "operator=",
+      "kind": "function",
+      "file": "include/execution/query_scheduler.h",
+      "line": 113,
+      "scope": "include",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "operator=",
+      "kind": "function",
+      "file": "include/execution/query_scheduler.h",
+      "line": 113,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "metrics",
+      "kind": "function",
+      "file": "include/execution/query_scheduler.h",
+      "line": 130,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "size",
+      "kind": "function",
+      "file": "include/execution/query_scheduler.h",
+      "line": 132,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "is_shutdown",
+      "kind": "function",
+      "file": "include/execution/query_scheduler.h",
+      "line": 140,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "is_shutdown",
+      "kind": "function",
+      "file": "include/execution/query_scheduler.h",
+      "line": 140,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "QueryScheduler",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "WorkStealingThreadPool",
+      "kind": "function",
+      "file": "include/execution/thread_pool_manager.h",
+      "line": 74,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "~WorkStealingThreadPool",
+      "kind": "function",
+      "file": "include/execution/thread_pool_manager.h",
+      "line": 83,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "WorkStealingThreadPool",
+      "kind": "function",
+      "file": "include/execution/thread_pool_manager.h",
+      "line": 86,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "WorkStealingThreadPool",
+      "kind": "function",
+      "file": "include/execution/thread_pool_manager.h",
+      "line": 86,
+      "scope": "include",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "operator=",
+      "kind": "function",
+      "file": "include/execution/thread_pool_manager.h",
+      "line": 87,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "operator=",
+      "kind": "function",
+      "file": "include/execution/thread_pool_manager.h",
+      "line": 87,
+      "scope": "include",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "operator=",
+      "kind": "function",
+      "file": "include/execution/thread_pool_manager.h",
+      "line": 87,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "submit",
+      "kind": "function",
+      "file": "include/execution/thread_pool_manager.h",
+      "line": 92,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "submit",
+      "kind": "function",
+      "file": "include/execution/thread_pool_manager.h",
+      "line": 92,
+      "scope": "include",
+      "param_total": 3,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "submit",
+      "kind": "function",
+      "file": "include/execution/thread_pool_manager.h",
+      "line": 92,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "statistics",
+      "kind": "function",
+      "file": "include/execution/thread_pool_manager.h",
+      "line": 97,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "is_shutdown",
+      "kind": "function",
+      "file": "include/execution/thread_pool_manager.h",
+      "line": 101,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "is_shutdown",
+      "kind": "function",
+      "file": "include/execution/thread_pool_manager.h",
+      "line": 101,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "thread_count",
+      "kind": "function",
+      "file": "include/execution/thread_pool_manager.h",
+      "line": 105,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "thread_count",
+      "kind": "function",
+      "file": "include/execution/thread_pool_manager.h",
+      "line": 105,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "WorkStealingThreadPool",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "QueryEntry",
       "kind": "struct",
       "file": "",
       "line": 0,
@@ -461,7 +769,7 @@
     },
     {
       "rule": "missing_brief",
-      "symbol": "AccessEvent",
+      "symbol": "Config",
       "kind": "struct",
       "file": "",
       "line": 0,
@@ -469,7 +777,33 @@
     },
     {
       "rule": "missing_brief",
-      "symbol": "AccessMetrics",
+      "symbol": "operator()",
+      "kind": "function",
+      "file": "include/execution/query_scheduler.h",
+      "line": 147,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "operator()",
+      "kind": "function",
+      "file": "include/execution/query_scheduler.h",
+      "line": 147,
+      "scope": "include",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "operator()",
+      "kind": "function",
+      "file": "include/execution/query_scheduler.h",
+      "line": 147,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "EarliestDeadlineFirst",
       "kind": "struct",
       "file": "",
       "line": 0,
@@ -477,7 +811,7 @@
     },
     {
       "rule": "missing_brief",
-      "symbol": "AccessOperationCounters",
+      "symbol": "Metrics",
       "kind": "struct",
       "file": "",
       "line": 0,
@@ -485,7 +819,25 @@
     },
     {
       "rule": "missing_brief",
-      "symbol": "AccessTransitionEvent",
+      "symbol": "WorkItem",
+      "kind": "function",
+      "file": "include/execution/thread_pool_manager.h",
+      "line": 48,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "WorkItem",
+      "kind": "function",
+      "file": "include/execution/thread_pool_manager.h",
+      "line": 48,
+      "scope": "include",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "WorkItem",
       "kind": "struct",
       "file": "",
       "line": 0,
@@ -493,7 +845,7 @@
     },
     {
       "rule": "missing_brief",
-      "symbol": "AgeBasedPolicy",
+      "symbol": "Config",
       "kind": "struct",
       "file": "",
       "line": 0,
@@ -501,7 +853,7 @@
     },
     {
       "rule": "missing_brief",
-      "symbol": "CoordinatorLifecycleLog",
+      "symbol": "Statistics",
       "kind": "struct",
       "file": "",
       "line": 0,
@@ -509,95 +861,7 @@
     },
     {
       "rule": "missing_brief",
-      "symbol": "EvictionEvent",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "EvictionEventLog",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "EvictionListener",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "PromotionDecisionLog",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "PromotionListener",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "PromotionResult",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TierAccessOptions",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TierGetResult",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TierPromotionResult",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TierPutResult",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TierTransitionLog",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TraceContext",
+      "symbol": "ThreadQueue",
       "kind": "struct",
       "file": "",
       "line": 0,
