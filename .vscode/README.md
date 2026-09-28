@@ -231,6 +231,37 @@ To enable these tasks locally, copy both entries from `tasks.root-hygiene.json` 
 - `Repo Hygiene: Root Logs DryRun`
 - `Repo Hygiene: Move Root Logs`
 
+## Local CodeQL Tasks (VS Code)
+
+This workspace now includes local CodeQL tasks in `.vscode/tasks.json`:
+
+- `CodeQL: Create C++ DB (windows-release)`
+- `CodeQL: Analyze C++ (security-extended)`
+- `CodeQL: Analyze C++ (security-and-quality)`
+- `CodeQL: Analyze C++ (custom pack)`
+- `Workflow: CodeQL Fast (Create DB + Security)`
+- `Workflow: CodeQL Full (Create DB + Security+Quality + Custom)`
+
+They use these workspace settings in `.vscode/settings.json`:
+
+- `themis.codeql.cliPath`
+- `themis.codeql.databasePath`
+- `themis.codeql.securityResults`
+- `themis.codeql.qualityResults`
+- `themis.codeql.customResults`
+
+The workspace is preconfigured to use the CLI managed by the VS Code CodeQL extension. If your local path differs, update `themis.codeql.cliPath`, for example:
+
+```json
+"themis.codeql.cliPath": "C:/tools/codeql/codeql.exe"
+```
+
+Typical local flow:
+
+1. Run `Workflow: CodeQL Fast (Create DB + Security)` while iterating.
+2. Run `Workflow: CodeQL Full (Create DB + Security+Quality + Custom)` before PR.
+3. Open generated SARIF files in `.codeql/` for review.
+
 ## Additional Resources
 
 - [VSCode C++ Docs](https://code.visualstudio.com/docs/languages/cpp)

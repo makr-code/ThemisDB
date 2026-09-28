@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/github-branch-protection.json",
   "description": "ThemisDB Branch Protection Rules - Apply via GitHub Settings",
   "rules": {
-    "main": {
+    "community": {
       "protection": {
         "required_status_checks": {
           "strict": true,
@@ -12,7 +12,7 @@
             "test-unit",
             "test-integration",
             "static-analysis",
-            "security-scan",
+            "Security: CodeQL Gate",
             "validate-ai-guardrails",
             "validate-roadmap",
             "build-and-test"
@@ -49,7 +49,7 @@
             "build-linux-gcc",
             "test-unit",
             "static-analysis",
-            "security-scan",
+            "Security: CodeQL Gate",
             "validate-ai-guardrails",
             "validate-roadmap"
           ]
@@ -73,7 +73,7 @@
         "allow_fork_syncing": true
       }
     },
-    "release/*": {
+    "military": {
       "protection": {
         "required_status_checks": {
           "strict": true,
@@ -85,7 +85,7 @@
             "test-integration",
             "test-performance",
             "static-analysis",
-            "security-scan",
+            "Security: CodeQL Gate",
             "validate-ai-guardrails",
             "validate-roadmap",
             "build-and-test"
@@ -121,9 +121,9 @@
       "",
       "1. Navigate to GitHub Repository Settings",
       "2. Go to 'Branches' → 'Branch protection rules'",
-      "3. For each branch pattern (main, develop, release/*), create a rule with:",
+      "3. For each branch pattern (community, develop, military), create a rule with:",
       "",
-      "Main Branch:",
+      "Community Branch:",
       "  - Require pull request reviews (2 approvals)",
       "  - Require status checks to pass before merging",
       "  - Require branches to be up to date before merging",
@@ -136,7 +136,7 @@
       "  - Require branches to be up to date before merging",
       "  - Require conversation resolution before merging",
       "",
-      "Release/* Branches:",
+      "Military Branch:",
       "  - Require pull request reviews (2 approvals, last push)",
       "  - Require linear history",
       "  - Require status checks to pass before merging",
@@ -155,7 +155,7 @@
     "test-performance": "Performance/benchmark tests",
     "static-analysis": "Static analysis (clang-tidy, cppcheck)",
     "Doxygen Governance": "Doxygen source-governance gate for changed public C/C++ APIs",
-    "security-scan": "CodeQL security scanning",
+    "Security: CodeQL Gate": "Stable CodeQL gate status check (passes when advanced scans succeed or when default setup intentionally skips advanced workflow)",
     "validate-ai-guardrails": "AI-Guardrails validation workflow",
     "validate-roadmap": "Roadmap structure validation"
   },
@@ -164,10 +164,10 @@
     "This file serves as documentation and reference",
     "Update this file when changing protection rules",
     "Review protection rules quarterly for effectiveness",
-    "Commit signing (GPG) is required for main and release/* branches",
+    "Commit signing (GPG) is required for community and military branches",
     "Roadmap validation (validate-roadmap) is required before merge on all protected branches",
     "Add the 'Doxygen Governance' required check to protected branches that enforce source-governance before merge",
-    "Code owner review is required for main and release/* branches",
-    "Restricted push access on main and release/* to @makr-code/maintainers team"
+    "Code owner review is required for community and military branches",
+    "Restricted push access on community and military to @makr-code/maintainers team"
   ]
 }
