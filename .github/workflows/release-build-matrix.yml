@@ -45,10 +45,6 @@ permissions:
   contents: read
   actions: read
 
-concurrency:
-  group: release-build-matrix-${{ github.ref }}
-  cancel-in-progress: false
-
 jobs:
   prepare-release-matrix:
     name: "Build: Prepare Release Build Matrix"
@@ -230,6 +226,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.prepare-release-matrix.outputs.matrix) }}
+    concurrency:
+      group: release-build-matrix-${{ github.ref }}-${{ matrix.id }}
+      cancel-in-progress: false
 
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:

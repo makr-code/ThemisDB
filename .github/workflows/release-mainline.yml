@@ -122,7 +122,7 @@ permissions:
   issues: read
 
 concurrency:
-  group: ci-release-${{ github.ref_name || github.ref }}
+  group: ci-release-matrix.${{ github.ref_name || github.ref }}-${{ inputs.build_matrix || 'os' }}-${{ inputs.os || 'all' }}-${{ inputs.architecture || 'all' }}
   cancel-in-progress: false
 
 # ──────────────────────────────────────────────────────────────────────────────
