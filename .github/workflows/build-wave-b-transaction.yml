@@ -583,6 +583,7 @@ jobs:
         uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85
 
       - name: "Generate representative-hardware baseline evidence"
+        id: representative-baseline
         if: ${{ needs.phase4-benchmark-baseline.result == 'success' }}
         run: |
           python3 tools/ci/generate_transaction_baseline_manifest.py \
@@ -695,7 +696,7 @@ jobs:
           retention-days: 90
 
       - name: "Upload representative-hardware baseline evidence"
-        if: ${{ needs.phase4-benchmark-baseline.result == 'success' }}
+        if: ${{ needs.phase4-benchmark-baseline.result == 'success' && steps.representative-baseline.outcome == 'success' }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: transaction-baseline-evidence
