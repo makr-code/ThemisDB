@@ -224,6 +224,31 @@
       }
     },
     {
+      "name": "macos-arm64-release",
+      "displayName": "macOS ARM64: Release (system packages)",
+      "description": "Release build for macOS ARM64 using system packages (Homebrew), without vcpkg toolchain.",
+      "inherits": "base",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Darwin"
+      },
+      "binaryDir": "${sourceDir}/build-macos-arm64-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "THEMIS_EDITION": "COMMUNITY",
+        "THEMIS_BUILD_TESTS": "OFF",
+        "THEMIS_BUILD_BENCHMARKS": "OFF",
+        "THEMIS_MODELS_MODE": "AUTO",
+        "THEMIS_MODELS_SOURCE_DIR": "${sourceDir}/models",
+        "THEMIS_PACKAGE_INCLUDE_TINYLLAMA": "ON",
+        "THEMIS_PACKAGE_INCLUDE_GEMMA": "OFF",
+        "THEMIS_CHAOS_ADMIN": "OFF",
+        "THEMIS_PLUGIN_SCRAPER": "ON",
+        "THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED": "ON"
+      }
+    },
+    {
       "name": "community-release",
       "displayName": "Configure: Community Release (system packages, no vcpkg)",
       "description": "Fallback preset: Uses system-installed packages instead of vcpkg. Requires: Linux/macOS, GCC/Clang, Ninja, system development packages (librocksdb-dev, libssl-dev, zlib1g-dev, etc.). Use this when vcpkg is unavailable. See SETUP.md for system package installation guide.",
@@ -747,6 +772,11 @@
       "configurePreset": "linux-debug"
     },
     {
+      "name": "macos-arm64-release",
+      "configurePreset": "macos-arm64-release",
+      "jobs": 8
+    },
+    {
       "name": "community-release",
       "configurePreset": "community-release"
     },
@@ -915,6 +945,18 @@
     {
       "name": "community-release",
       "configurePreset": "community-release",
+      "filter": {
+        "include": {
+          "label": "module:.*"
+        },
+        "exclude": {
+          "label": "(manual|disabled)"
+        }
+      }
+    },
+    {
+      "name": "macos-arm64-release",
+      "configurePreset": "macos-arm64-release",
       "filter": {
         "include": {
           "label": "module:.*"
@@ -1215,6 +1257,23 @@
         {
           "type": "test",
           "name": "community-release"
+        }
+      ]
+    },
+    {
+      "name": "macos-arm64-release",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "macos-arm64-release"
+        },
+        {
+          "type": "build",
+          "name": "macos-arm64-release"
+        },
+        {
+          "type": "test",
+          "name": "macos-arm64-release"
         }
       ]
     },

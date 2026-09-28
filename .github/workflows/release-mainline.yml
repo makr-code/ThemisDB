@@ -36,7 +36,7 @@ name: "Release: Packaging"
 #   Linux AMD64 release : TGZ + DEB + RPM + ZIP
 #   Linux ARM64 release : TGZ + DEB + RPM + ZIP
 #   Windows AMD64 release : ZIP + WIX/MSI (WiX v3 required on runner)
-#   macOS ARM64 release (opt-in): TGZ + DMG
+#   macOS ARM64 release (experimental): TGZ + DMG
 
 on:
   schedule:
