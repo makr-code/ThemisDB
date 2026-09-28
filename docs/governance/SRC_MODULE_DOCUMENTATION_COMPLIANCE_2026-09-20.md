@@ -455,7 +455,7 @@ Legende: Y=vorhanden, N=fehlt. Score = Erfuellung des 10er Soll-Core-Sets in Pro
 | Modul | README | ROADMAP | ARCH | AUDIT | CHANGELOG | FUTURE | GAPS | PERF | PROD | SEC | Score | Status |
 |---|---|---|---|---|---|---|---|---|---|---|---:|---|
 | acceleration | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | 100% | OK |
-| access_model | Y | Y | Y | N | N | N | N | N | N | N | 30% | LOW |
+| access_model | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | 100% | OK |
 | ai | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | 100% | OK |
 | ai_working | N | N | N | N | N | N | Y | N | N | N | 10% | LOW |
 | analytics | Y | Y | Y | Y | Y | Y | Y | Y | Y | Y | 100% | OK |
@@ -557,7 +557,6 @@ Legende: Y=vorhanden, N=fehlt. Score = Erfuellung des 10er Soll-Core-Sets in Pro
 | evaluation | 4 | BASELINES.md, PHASE_4_6_ACCEPTANCE_CHECKLIST.md, PHASE_6_ACCEPTANCE_CHECKLIST.md |
 | observability | 4 | PHASE_3_5_6_ACCEPTANCE_CHECKLIST.md, PHASE_3_5_6_DELIVERY_SUMMARY.md, PHASE_6_ACCEPTANCE_CHECKLIST.md |
 | failover | 3 | WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md, WAVE_C_CLOSURE_EVIDENCE.md, WAVE_D_CLOSURE_EVIDENCE.md |
-| access_model | 1 | PHASE_5_6_ACCEPTANCE_REPORT.md |
 | ethics_ai | 2 | DEVELOPMENT_STATUS_2026_07_28.md, RETROSPECTIVE_CLOSURE_2026_08_18.md |
 | llm | 1 | STATUS.md |
 | llm_wiki | 1 | WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md |
