@@ -68,7 +68,7 @@ Result<bool> Neo4jAdapter::connect(
     try {
         // Extract username and password from options if provided, or from URI
         std::string username = "neo4j";
-        std::string password = "password";
+        std::string password = "neo4j";
          
         if (options.find("username") != options.end()) {
             username = options.at("username");
