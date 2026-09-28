@@ -1,9 +1,11 @@
-# Phase 3: GPU Baseline Capture & Evidence Collection
+---
+Author: platform-release@themisdb
+Created: 2026-09-23
+Last Updated: 2026-09-28
+Status: draft
+---
 
-**Author:** ThemisDB Contributors  
-**Created:** 2026-09-23  
-**Last Updated:** 2026-09-23  
-**Status:** draft  
+# Phase 3: GPU Baseline Capture & Evidence Collection
 
 **Issue:** makr-code/ThemisDB#6575  
 **Phase:** 3 (Baseline Capture)  
