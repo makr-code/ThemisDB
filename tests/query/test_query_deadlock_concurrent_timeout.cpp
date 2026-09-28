@@ -115,6 +115,37 @@ TEST_F(ParallelExecutorDeadlockTest, ParallelScanWithSlowFilter) {
 }
 
 /**
+ * @test ParallelExecutorDeadlockTest::ParallelScanTimeoutAvoidsDeadlock
+ * @brief Verify timeout handling returns without hanging on long-running scan tasks.
+ */
+TEST_F(ParallelExecutorDeadlockTest, ParallelScanTimeoutAvoidsDeadlock) {
+    ParallelExecutor::ParallelConfig cfg = defaultConfig();
+    cfg.max_threads = 4;
+    cfg.morsel_size = 200;
+    ParallelExecutor executor(cfg);
+
+    ParallelExecutor::Table input;
+    input.reserve(4000);
+    for (int i = 0; i < 4000; ++i) {
+        input.push_back(createTestEntity("id_" + std::to_string(i), i));
+    }
+
+    auto very_slow_filter = [](const BaseEntity&) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        return true;
+    };
+
+    const auto start = std::chrono::steady_clock::now();
+    auto result = executor.parallelScan(input, very_slow_filter, 4);
+    const auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - start);
+
+    ASSERT_TRUE(result.has_value()) << "Scan should return even when timeout path is exercised";
+    EXPECT_LT(elapsed.count(), 12000)
+        << "Timeout/cancellation path should avoid long blocking waits or deadlock";
+}
+
+/**
  * @test ParallelExecutorDeadlockTest::ParallelScanWithEmptyInput
  * @brief Verify parallel scan handles empty input correctly.
  * Tests the null guard on sequential fallback path.
