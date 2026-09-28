@@ -1,27 +1,28 @@
-# Direct Doxygen Check: access_model
+# Direct Doxygen Check: image_analysis
 
 - Source mode: direct_doxygen_markers
-- Source files scanned: 21
-- Source symbols (raw/filter): 115 / 115
-- Doxygen members (raw/filter): 394 / 239
-- Unique source symbol names: 79
-- Unique doxygen symbol names: 149
-- Symbol presence ratio: 0.9747
-- Ownership (internal/external): {'internal': 115, 'external': 0}
+- Source files scanned: 7
+- Source symbols (raw/filter): 15 / 15
+- Doxygen members (raw/filter): 139 / 67
+- Unique source symbol names: 9
+- Unique doxygen symbol names: 33
+- Symbol presence ratio: 0.6667
+- Ownership (internal/external): {'internal': 15, 'external': 0}
 
 ## Rule counts
-- missing_symbol: 2
-- missing_brief: 54
-- missing_param_docs: 8
-- missing_return_docs: 3
+- missing_symbol: 3
+- missing_brief: 59
+- missing_param_docs: 31
+- missing_return_docs: 35
 
 ## Scope counts
-- src: 1
-- tests: 6
-- benchmarks: 14
-- include: 1
-- other: 45
+- src: 9
+- tests: 0
+- benchmarks: 113
+- include: 0
+- other: 6
 
 ## Sample missing symbols
-- lock
-- now
+- lk
+- loadLabels
+- reloadModel

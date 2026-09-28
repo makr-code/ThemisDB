@@ -1,459 +1,1073 @@
 {
-  "module": "access_model",
+  "module": "image_analysis",
   "generated_from": "check_module_direct_doxygen.py",
   "source_mode": "direct_doxygen_markers",
   "findings": [
     {
       "rule": "missing_symbol",
-      "symbol": "lock",
-      "count": 14,
+      "symbol": "lk",
+      "count": 5,
       "scope": "src",
       "scope_breakdown": {
-        "src": 14
+        "src": 5
       },
       "source_examples": [
         {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/access_coordinator.cpp",
-          "line": 80,
+          "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/tesseract_ocr_plugin.cpp",
+          "line": 405,
           "kind": "function",
-          "name": "lock",
+          "name": "lk",
           "scope": "src"
         },
         {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/access_coordinator.cpp",
-          "line": 92,
+          "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/yolov8_onnx_plugin.cpp",
+          "line": 540,
           "kind": "function",
-          "name": "lock",
+          "name": "lk",
           "scope": "src"
         },
         {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/access_coordinator.cpp",
-          "line": 125,
+          "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/yolov8_onnx_plugin.cpp",
+          "line": 550,
           "kind": "function",
-          "name": "lock",
+          "name": "lk",
           "scope": "src"
         }
       ]
     },
     {
       "rule": "missing_symbol",
-      "symbol": "now",
-      "count": 3,
-      "scope": "include",
+      "symbol": "loadLabels",
+      "count": 1,
+      "scope": "src",
       "scope_breakdown": {
-        "include": 3
+        "src": 1
       },
       "source_examples": [
         {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/include/access_model/promotion_demotion.h",
-          "line": 65,
+          "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/yolov8_onnx_plugin.cpp",
+          "line": 86,
           "kind": "function",
-          "name": "now",
-          "scope": "include"
-        },
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/include/access_model/promotion_demotion.h",
-          "line": 68,
-          "kind": "function",
-          "name": "now",
-          "scope": "include"
-        },
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/include/access_model/promotion_demotion.h",
-          "line": 97,
-          "kind": "function",
-          "name": "now",
-          "scope": "include"
+          "name": "loadLabels",
+          "scope": "src"
         }
       ]
     },
     {
-      "rule": "missing_brief",
-      "symbol": "AccessCoordinator",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
+      "rule": "missing_symbol",
+      "symbol": "reloadModel",
+      "count": 1,
+      "scope": "src",
+      "scope_breakdown": {
+        "src": 1
+      },
+      "source_examples": [
+        {
+          "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/yolov8_onnx_plugin.cpp",
+          "line": 668,
+          "kind": "function",
+          "name": "reloadModel",
+          "scope": "src"
+        }
+      ]
     },
     {
-      "rule": "missing_brief",
-      "symbol": "AccessCoordinatorConcurrencyTest",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessCoordinatorFocusedTest",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessCoordinatorImpl",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "allTiers",
+      "rule": "missing_param_docs",
+      "symbol": "generate_mock_image",
       "kind": "function",
-      "file": "tests/access_model/test_access_coordinator.cpp",
-      "line": 104,
-      "scope": "tests"
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 189,
+      "scope": "benchmarks",
+      "param_total": 3,
+      "param_docs_count": 0
     },
     {
       "rule": "missing_return_docs",
-      "symbol": "allTiers",
+      "symbol": "generate_mock_image",
       "kind": "function",
-      "file": "tests/access_model/test_access_coordinator.cpp",
-      "line": 104,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessCoordinatorTest",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessModelE2ETest",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessModelLogger",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessTier",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "BenchAccessCoordinator",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "BenchmarkAccessTier",
-      "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 151,
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 189,
       "scope": "benchmarks"
     },
     {
       "rule": "missing_param_docs",
-      "symbol": "BenchmarkAccessTier",
+      "symbol": "generate_mock_jpeg",
       "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 151,
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 213,
       "scope": "benchmarks",
       "param_total": 2,
       "param_docs_count": 0
     },
     {
-      "rule": "missing_brief",
-      "symbol": "setCurrentSize",
+      "rule": "missing_return_docs",
+      "symbol": "generate_mock_jpeg",
       "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 154,
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 213,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "Arg",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 256,
       "scope": "benchmarks"
     },
     {
       "rule": "missing_param_docs",
-      "symbol": "setCurrentSize",
+      "symbol": "Arg",
       "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 154,
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 256,
       "scope": "benchmarks",
       "param_total": 1,
       "param_docs_count": 0
     },
     {
       "rule": "missing_brief",
-      "symbol": "BenchmarkAccessTier",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "CacheTier",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "DefaultAccessModelLogger",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "LatencyHistogram",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "LoggingTest",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "MockAccessTier",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "ObservabilityIntegrationTest",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "PromotionDemotionTest",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "StorageTier",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TestAccessTier",
+      "symbol": "Arg",
       "kind": "function",
-      "file": "tests/access_model/test_access_coordinator.cpp",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 298,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "Arg",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 298,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "Arg",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 358,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "Arg",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 358,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "Threads",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 410,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "Threads",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 410,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "Args",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 503,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "Args",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 503,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "simulate_computation",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 49,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "generate_test_image",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 64,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "generate_test_image",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 64,
+      "scope": "benchmarks",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "generate_test_image",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 64,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "Arg",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 284,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "Arg",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 284,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "Iterations",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 329,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "Iterations",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 329,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "Iterations",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 407,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "Iterations",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 407,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "Arg",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 452,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "Arg",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 452,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "Arg",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 494,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "Arg",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 494,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "generateRandomImage",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 126,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "generateRandomImage",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 126,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "generateRandomImage",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 126,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "generateRandomImages",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 136,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "generateRandomImages",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 136,
+      "scope": "benchmarks",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "generateRandomImages",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 136,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "Arg",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 221,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "Arg",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 221,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "BenchmarkMockPlugin",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 31,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "getInfo",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
       "line": 33,
-      "scope": "tests"
+      "scope": "benchmarks"
     },
     {
-      "rule": "missing_param_docs",
-      "symbol": "TestAccessTier",
+      "rule": "missing_return_docs",
+      "symbol": "getInfo",
       "kind": "function",
-      "file": "tests/access_model/test_access_coordinator.cpp",
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
       "line": 33,
-      "scope": "tests",
-      "param_total": 2,
-      "param_docs_count": 0
+      "scope": "benchmarks"
     },
     {
       "rule": "missing_brief",
-      "symbol": "TestAccessTier",
+      "symbol": "initialize",
       "kind": "function",
-      "file": "tests/access_model/test_access_coordinator_focused.cpp",
-      "line": 39,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "TestAccessTier",
-      "kind": "function",
-      "file": "tests/access_model/test_access_coordinator_focused.cpp",
-      "line": 39,
-      "scope": "tests",
-      "param_total": 2,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TestAccessTier",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TraceContextManager",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "ScopedContext",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TraceContextTest",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "CacheStorageIntegrationTest",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "MockAccessTier",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "MockEvictionListener",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "MockPromotionListener",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "key_dist",
-      "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 221,
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 47,
       "scope": "benchmarks"
     },
     {
       "rule": "missing_param_docs",
-      "symbol": "key_dist",
+      "symbol": "initialize",
       "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 221,
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 47,
       "scope": "benchmarks",
       "param_total": 2,
       "param_docs_count": 0
     },
     {
       "rule": "missing_return_docs",
-      "symbol": "key_dist",
+      "symbol": "initialize",
       "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 221,
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 47,
       "scope": "benchmarks"
     },
     {
       "rule": "missing_brief",
-      "symbol": "for",
+      "symbol": "shutdown",
       "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 225,
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 52,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "isReady",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 53,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "isReady",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 53,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "getBackend",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 54,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "getBackend",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 54,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "generateEmbedding",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 56,
       "scope": "benchmarks"
     },
     {
       "rule": "missing_param_docs",
-      "symbol": "for",
+      "symbol": "generateEmbedding",
       "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 225,
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 56,
       "scope": "benchmarks",
-      "param_total": 1,
+      "param_total": 2,
       "param_docs_count": 0
     },
     {
-      "rule": "missing_brief",
-      "symbol": "SetItemsProcessed",
+      "rule": "missing_return_docs",
+      "symbol": "generateEmbedding",
       "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 244,
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 56,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "generateCaption",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 82,
       "scope": "benchmarks"
     },
     {
       "rule": "missing_param_docs",
-      "symbol": "SetItemsProcessed",
+      "symbol": "generateCaption",
       "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 244,
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 82,
+      "scope": "benchmarks",
+      "param_total": 3,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "generateCaption",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 82,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "generateEmbeddingBatch",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 102,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "generateEmbeddingBatch",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 102,
       "scope": "benchmarks",
       "param_total": 1,
       "param_docs_count": 0
     },
     {
       "rule": "missing_return_docs",
-      "symbol": "SetItemsProcessed",
+      "symbol": "generateEmbeddingBatch",
       "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 244,
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 102,
       "scope": "benchmarks"
     },
     {
       "rule": "missing_brief",
-      "symbol": "reportViolation",
+      "symbol": "healthCheck",
       "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 57,
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 114,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "healthCheck",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 114,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "getStatistics",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 115,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "getStatistics",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 115,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "warmup",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/benchmark_image_analysis.cpp",
+      "line": 116,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "BenchmarkMockPlugin",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "MockImageAnalysisPlugin",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 33,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "getInfo",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 35,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "getInfo",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 35,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "initialize",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 60,
       "scope": "benchmarks"
     },
     {
       "rule": "missing_param_docs",
-      "symbol": "reportViolation",
+      "symbol": "initialize",
       "kind": "function",
-      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-      "line": 57,
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 60,
       "scope": "benchmarks",
-      "param_total": 5,
+      "param_total": 2,
       "param_docs_count": 0
     },
     {
+      "rule": "missing_return_docs",
+      "symbol": "initialize",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 60,
+      "scope": "benchmarks"
+    },
+    {
       "rule": "missing_brief",
-      "symbol": "DemotionEvent",
+      "symbol": "shutdown",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 66,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "isReady",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 70,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "isReady",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 70,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "getBackend",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 74,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "getBackend",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 74,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "generateEmbedding",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 78,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "generateEmbedding",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 78,
+      "scope": "benchmarks",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "generateEmbedding",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 78,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "generateCaption",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 111,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "generateCaption",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 111,
+      "scope": "benchmarks",
+      "param_total": 3,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "generateCaption",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 111,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "generateEmbeddingBatch",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 134,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "generateEmbeddingBatch",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 134,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "generateEmbeddingBatch",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 134,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "healthCheck",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 149,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "healthCheck",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 149,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "getStatistics",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 153,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "getStatistics",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 153,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "warmup",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 161,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "getInferenceCount",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 166,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "getInferenceCount",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+      "line": 166,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "RealisticLatencyPlugin",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 84,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "getInfo",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 86,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "getInfo",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 86,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "initialize",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 108,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "initialize",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 108,
+      "scope": "benchmarks",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "initialize",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 108,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "shutdown",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 115,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "isReady",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 120,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "isReady",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 120,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "getBackend",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 124,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "getBackend",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 124,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "generateEmbedding",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 128,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "generateEmbedding",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 128,
+      "scope": "benchmarks",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "generateEmbedding",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 128,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "generateCaption",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 184,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "generateCaption",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 184,
+      "scope": "benchmarks",
+      "param_total": 3,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "generateCaption",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 184,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "generateEmbeddingBatch",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 214,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "generateEmbeddingBatch",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 214,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "generateEmbeddingBatch",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 214,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "healthCheck",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 228,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "healthCheck",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 228,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "getStatistics",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 232,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "getStatistics",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 232,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "warmup",
+      "kind": "function",
+      "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+      "line": 240,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "RealisticLatencyPlugin",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "TesseractPluginTest",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "YOLOv8PluginTest",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "Impl",
       "kind": "struct",
       "file": "",
       "line": 0,
@@ -461,143 +1075,59 @@
     },
     {
       "rule": "missing_brief",
-      "symbol": "AccessEvent",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
+      "symbol": "preprocess",
+      "kind": "function",
+      "file": "src/image_analysis/yolov8_onnx_plugin.cpp",
+      "line": 245,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "preprocess",
+      "kind": "function",
+      "file": "src/image_analysis/yolov8_onnx_plugin.cpp",
+      "line": 245,
+      "scope": "src",
+      "param_total": 4,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "preprocess",
+      "kind": "function",
+      "file": "src/image_analysis/yolov8_onnx_plugin.cpp",
+      "line": 245,
+      "scope": "src"
     },
     {
       "rule": "missing_brief",
-      "symbol": "AccessMetrics",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
+      "symbol": "postprocess",
+      "kind": "function",
+      "file": "src/image_analysis/yolov8_onnx_plugin.cpp",
+      "line": 290,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "postprocess",
+      "kind": "function",
+      "file": "src/image_analysis/yolov8_onnx_plugin.cpp",
+      "line": 290,
+      "scope": "src",
+      "param_total": 4,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "postprocess",
+      "kind": "function",
+      "file": "src/image_analysis/yolov8_onnx_plugin.cpp",
+      "line": 290,
+      "scope": "src"
     },
     {
       "rule": "missing_brief",
-      "symbol": "AccessOperationCounters",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessTransitionEvent",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AgeBasedPolicy",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "CoordinatorLifecycleLog",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "EvictionEvent",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "EvictionEventLog",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "EvictionListener",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "PromotionDecisionLog",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "PromotionListener",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "PromotionResult",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TierAccessOptions",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TierGetResult",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TierPromotionResult",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TierPutResult",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TierTransitionLog",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TraceContext",
+      "symbol": "Impl",
       "kind": "struct",
       "file": "",
       "line": 0,

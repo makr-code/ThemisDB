@@ -1,23 +1,23 @@
 {
-  "module": "access_model",
+  "module": "image_analysis",
   "source_mode": "direct_doxygen_markers",
   "source_graph_used": false,
   "source_graph_path": "/home/runner/work/ThemisDB/ThemisDB/ai_working/sourcecode_graph.json",
-  "source_files_scanned": 21,
-  "source_symbols_total": 115,
-  "source_symbols_after_filter": 115,
-  "doxygen_members_total": 394,
-  "doxygen_members_after_filter": 239,
-  "source_symbol_names": 79,
-  "doxygen_symbol_names": 149,
-  "source_not_in_doxygen_count": 2,
-  "doxygen_not_in_source_count": 72,
+  "source_files_scanned": 7,
+  "source_symbols_total": 15,
+  "source_symbols_after_filter": 15,
+  "doxygen_members_total": 139,
+  "doxygen_members_after_filter": 67,
+  "source_symbol_names": 9,
+  "doxygen_symbol_names": 33,
+  "source_not_in_doxygen_count": 3,
+  "doxygen_not_in_source_count": 27,
   "coverage": {
-    "symbol_presence_ratio": 0.9747,
-    "missing_symbol_count": 2,
-    "missing_brief_count": 54,
-    "missing_param_docs_count": 8,
-    "missing_return_docs_count": 3
+    "symbol_presence_ratio": 0.6667,
+    "missing_symbol_count": 3,
+    "missing_brief_count": 59,
+    "missing_param_docs_count": 31,
+    "missing_return_docs_count": 35
   },
   "ownership": {
     "path_policy": {
@@ -49,331 +49,345 @@
       "classification_rule": "everything outside internal roots is treated as external / third-party boundary"
     },
     "source_symbols": {
-      "internal": 115,
+      "internal": 15,
       "external": 0
     },
     "doxygen_members": {
-      "internal": 191,
-      "external": 48
+      "internal": 60,
+      "external": 7
     },
     "externally_scoped_symbols": []
   },
   "by_rule": {
-    "missing_symbol": 2,
-    "missing_brief": 54,
-    "missing_return_docs": 3,
-    "missing_param_docs": 8
+    "missing_symbol": 3,
+    "missing_param_docs": 31,
+    "missing_return_docs": 35,
+    "missing_brief": 59
   },
   "by_rule_scope": {
     "missing_symbol": {
-      "src": 1,
-      "include": 1
-    },
-    "missing_brief": {
-      "other": 45,
-      "tests": 3,
-      "benchmarks": 6
-    },
-    "missing_return_docs": {
-      "tests": 1,
-      "benchmarks": 2
+      "src": 3
     },
     "missing_param_docs": {
-      "benchmarks": 6,
-      "tests": 2
+      "benchmarks": 29,
+      "src": 2
+    },
+    "missing_return_docs": {
+      "benchmarks": 33,
+      "src": 2
+    },
+    "missing_brief": {
+      "benchmarks": 51,
+      "other": 6,
+      "src": 2
     }
   },
   "by_scope": {
-    "src": 1,
-    "tests": 6,
-    "benchmarks": 14,
-    "include": 1,
-    "other": 45
+    "src": 9,
+    "tests": 0,
+    "benchmarks": 113,
+    "include": 0,
+    "other": 6
   },
   "samples": {
     "source_not_in_doxygen": [
-      "lock",
-      "now"
+      "lk",
+      "loadLabels",
+      "reloadModel"
     ],
     "doxygen_not_in_source": [
-      "AccessCoordinator",
-      "AccessCoordinatorConcurrencyTest",
-      "AccessCoordinatorFocusedTest",
-      "AccessCoordinatorImpl",
-      "AccessCoordinatorTest",
-      "AccessEvent",
-      "AccessMetrics",
-      "AccessModelE2ETest",
-      "AccessModelLogger",
-      "AccessOperationCounters",
-      "AccessTier",
-      "AccessTransitionEvent",
-      "AgeBasedPolicy",
-      "BenchAccessCoordinator",
-      "BenchmarkAccessTier",
-      "CacheStorageIntegrationTest",
-      "CacheTier",
-      "CoordinatorLifecycleLog",
-      "DefaultAccessModelLogger",
-      "DemotionEvent",
-      "EvictionEvent",
-      "EvictionEventLog",
-      "EvictionListener",
-      "LatencyHistogram",
-      "LoggingTest"
+      "Arg",
+      "Args",
+      "BenchmarkMockPlugin",
+      "Impl",
+      "Iterations",
+      "RealisticLatencyPlugin",
+      "TesseractPluginTest",
+      "Threads",
+      "YOLOv8PluginTest",
+      "generateCaption",
+      "generateEmbedding",
+      "generateEmbeddingBatch",
+      "generateRandomImage",
+      "generateRandomImages",
+      "generate_test_image",
+      "getBackend",
+      "getInferenceCount",
+      "getInfo",
+      "getStatistics",
+      "healthCheck",
+      "initialize",
+      "isReady",
+      "postprocess",
+      "preprocess",
+      "runInference"
     ],
     "findings": [
       {
         "rule": "missing_symbol",
-        "symbol": "lock",
-        "count": 14,
+        "symbol": "lk",
+        "count": 5,
         "scope": "src",
         "scope_breakdown": {
-          "src": 14
+          "src": 5
         },
         "source_examples": [
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/access_coordinator.cpp",
-            "line": 80,
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/tesseract_ocr_plugin.cpp",
+            "line": 405,
             "kind": "function",
-            "name": "lock",
+            "name": "lk",
             "scope": "src"
           },
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/access_coordinator.cpp",
-            "line": 92,
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/yolov8_onnx_plugin.cpp",
+            "line": 540,
             "kind": "function",
-            "name": "lock",
+            "name": "lk",
             "scope": "src"
           },
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/access_coordinator.cpp",
-            "line": 125,
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/yolov8_onnx_plugin.cpp",
+            "line": 550,
             "kind": "function",
-            "name": "lock",
+            "name": "lk",
             "scope": "src"
           }
         ]
       },
       {
         "rule": "missing_symbol",
-        "symbol": "now",
-        "count": 3,
-        "scope": "include",
+        "symbol": "loadLabels",
+        "count": 1,
+        "scope": "src",
         "scope_breakdown": {
-          "include": 3
+          "src": 1
         },
         "source_examples": [
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/include/access_model/promotion_demotion.h",
-            "line": 65,
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/yolov8_onnx_plugin.cpp",
+            "line": 86,
             "kind": "function",
-            "name": "now",
-            "scope": "include"
-          },
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/include/access_model/promotion_demotion.h",
-            "line": 68,
-            "kind": "function",
-            "name": "now",
-            "scope": "include"
-          },
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/include/access_model/promotion_demotion.h",
-            "line": 97,
-            "kind": "function",
-            "name": "now",
-            "scope": "include"
+            "name": "loadLabels",
+            "scope": "src"
           }
         ]
       },
       {
-        "rule": "missing_brief",
-        "symbol": "AccessCoordinator",
-        "kind": "class",
-        "file": "",
-        "line": 0,
-        "scope": "other"
+        "rule": "missing_symbol",
+        "symbol": "reloadModel",
+        "count": 1,
+        "scope": "src",
+        "scope_breakdown": {
+          "src": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/yolov8_onnx_plugin.cpp",
+            "line": 668,
+            "kind": "function",
+            "name": "reloadModel",
+            "scope": "src"
+          }
+        ]
       },
       {
-        "rule": "missing_brief",
-        "symbol": "AccessCoordinatorConcurrencyTest",
-        "kind": "class",
-        "file": "",
-        "line": 0,
-        "scope": "other"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "AccessCoordinatorFocusedTest",
-        "kind": "class",
-        "file": "",
-        "line": 0,
-        "scope": "other"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "AccessCoordinatorImpl",
-        "kind": "class",
-        "file": "",
-        "line": 0,
-        "scope": "other"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "allTiers",
+        "rule": "missing_param_docs",
+        "symbol": "generate_mock_image",
         "kind": "function",
-        "file": "tests/access_model/test_access_coordinator.cpp",
-        "line": 104,
-        "scope": "tests"
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 189,
+        "scope": "benchmarks",
+        "param_total": 3,
+        "param_docs_count": 0
       },
       {
         "rule": "missing_return_docs",
-        "symbol": "allTiers",
+        "symbol": "generate_mock_image",
         "kind": "function",
-        "file": "tests/access_model/test_access_coordinator.cpp",
-        "line": 104,
-        "scope": "tests"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "AccessCoordinatorTest",
-        "kind": "class",
-        "file": "",
-        "line": 0,
-        "scope": "other"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "AccessModelE2ETest",
-        "kind": "class",
-        "file": "",
-        "line": 0,
-        "scope": "other"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "AccessModelLogger",
-        "kind": "class",
-        "file": "",
-        "line": 0,
-        "scope": "other"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "AccessTier",
-        "kind": "class",
-        "file": "",
-        "line": 0,
-        "scope": "other"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "BenchAccessCoordinator",
-        "kind": "class",
-        "file": "",
-        "line": 0,
-        "scope": "other"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "BenchmarkAccessTier",
-        "kind": "function",
-        "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-        "line": 151,
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 189,
         "scope": "benchmarks"
       },
       {
         "rule": "missing_param_docs",
-        "symbol": "BenchmarkAccessTier",
+        "symbol": "generate_mock_jpeg",
         "kind": "function",
-        "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-        "line": 151,
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 213,
         "scope": "benchmarks",
         "param_total": 2,
         "param_docs_count": 0
       },
       {
-        "rule": "missing_brief",
-        "symbol": "setCurrentSize",
+        "rule": "missing_return_docs",
+        "symbol": "generate_mock_jpeg",
         "kind": "function",
-        "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-        "line": 154,
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 213,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "Arg",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 256,
         "scope": "benchmarks"
       },
       {
         "rule": "missing_param_docs",
-        "symbol": "setCurrentSize",
+        "symbol": "Arg",
         "kind": "function",
-        "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
-        "line": 154,
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 256,
         "scope": "benchmarks",
         "param_total": 1,
         "param_docs_count": 0
       },
       {
         "rule": "missing_brief",
-        "symbol": "BenchmarkAccessTier",
-        "kind": "class",
-        "file": "",
-        "line": 0,
-        "scope": "other"
+        "symbol": "Arg",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 298,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "Arg",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 298,
+        "scope": "benchmarks",
+        "param_total": 1,
+        "param_docs_count": 0
       },
       {
         "rule": "missing_brief",
-        "symbol": "CacheTier",
-        "kind": "class",
-        "file": "",
-        "line": 0,
-        "scope": "other"
+        "symbol": "Arg",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 358,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "Arg",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 358,
+        "scope": "benchmarks",
+        "param_total": 1,
+        "param_docs_count": 0
       },
       {
         "rule": "missing_brief",
-        "symbol": "DefaultAccessModelLogger",
-        "kind": "class",
-        "file": "",
-        "line": 0,
-        "scope": "other"
+        "symbol": "Threads",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 410,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "Threads",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 410,
+        "scope": "benchmarks",
+        "param_total": 1,
+        "param_docs_count": 0
       },
       {
         "rule": "missing_brief",
-        "symbol": "LatencyHistogram",
-        "kind": "class",
-        "file": "",
-        "line": 0,
-        "scope": "other"
+        "symbol": "Args",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 503,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "Args",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 503,
+        "scope": "benchmarks",
+        "param_total": 1,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "simulate_computation",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+        "line": 49,
+        "scope": "benchmarks",
+        "param_total": 1,
+        "param_docs_count": 0
       },
       {
         "rule": "missing_brief",
-        "symbol": "LoggingTest",
-        "kind": "class",
-        "file": "",
-        "line": 0,
-        "scope": "other"
+        "symbol": "generate_test_image",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+        "line": 64,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "generate_test_image",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+        "line": 64,
+        "scope": "benchmarks",
+        "param_total": 2,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_return_docs",
+        "symbol": "generate_test_image",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+        "line": 64,
+        "scope": "benchmarks"
       },
       {
         "rule": "missing_brief",
-        "symbol": "MockAccessTier",
-        "kind": "class",
-        "file": "",
-        "line": 0,
-        "scope": "other"
+        "symbol": "Arg",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+        "line": 284,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "Arg",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+        "line": 284,
+        "scope": "benchmarks",
+        "param_total": 1,
+        "param_docs_count": 0
       },
       {
         "rule": "missing_brief",
-        "symbol": "ObservabilityIntegrationTest",
-        "kind": "class",
-        "file": "",
-        "line": 0,
-        "scope": "other"
+        "symbol": "Iterations",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+        "line": 329,
+        "scope": "benchmarks"
       },
       {
-        "rule": "missing_brief",
-        "symbol": "PromotionDemotionTest",
-        "kind": "class",
-        "file": "",
-        "line": 0,
-        "scope": "other"
+        "rule": "missing_param_docs",
+        "symbol": "Iterations",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+        "line": 329,
+        "scope": "benchmarks",
+        "param_total": 1,
+        "param_docs_count": 0
       }
     ]
   }
