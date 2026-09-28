@@ -448,15 +448,21 @@ jobs:
       - name: Scan for package advisories via Trivy
         # Trivy checks SBOMs and manifests against OSV/GitHub Advisory DB.
         # Non-fatal: produces a SARIF report but does not block the build.
-        uses: aquasecurity/trivy-action@v0.36.0  # v0.36.0
-        with:
-          scan-type: 'fs'
-          scan-ref: 'vcpkg.json'
-          format: 'sarif'
-          output: 'dependency-freshness.sarif'
-          exit-code: '0'
-          version: 'v0.64.0'  # Pin to stable release; v0.70.0 download was broken on CI
-          github-pat: ${{ secrets.GITHUB_TOKEN }}  # Authenticate GitHub API to avoid rate-limit download failures
+        run: |
+          mkdir -p "${RUNNER_TEMP}/trivy-cache"
+          docker run --rm \
+            --user "$(id -u):$(id -g)" \
+            -v "${PWD}:/work" \
+            -v "${RUNNER_TEMP}/trivy-cache:/tmp/trivy-cache" \
+            -w /work \
+            aquasec/trivy:0.64.0 \
+            fs \
+            --cache-dir /tmp/trivy-cache \
+            --format sarif \
+            --output /work/dependency-freshness.sarif \
+            --scanners vuln \
+            --exit-code 0 \
+            vcpkg.json
 
       - name: Upload SARIF to GitHub Security tab
         if: always()
