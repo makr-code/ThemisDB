@@ -90,14 +90,17 @@ Result<bool> Neo4jAdapter::connect(
             password = options.at("password");
         }
 
-        if (!password.empty() && username.empty()) {
-            username = "neo4j";
-        }
-
         if (!username.empty() && password.empty()) {
             return Result<bool>::err(
                 ErrorCode::INVALID_ARGUMENT,
                 "Neo4j password must be provided when username is specified"
+            );
+        }
+
+        if (username.empty() && !password.empty()) {
+            return Result<bool>::err(
+                ErrorCode::INVALID_ARGUMENT,
+                "Neo4j username must be provided when password is specified"
             );
         }
          

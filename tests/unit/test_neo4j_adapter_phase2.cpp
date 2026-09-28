@@ -95,6 +95,16 @@ TEST_F(Neo4jAdapterPhase2Test, ConnectWithUsernameOnlyOptionFails) {
     EXPECT_EQ(result.error_code, ErrorCode::INVALID_ARGUMENT);
 }
 
+TEST_F(Neo4jAdapterPhase2Test, ConnectWithPasswordOnlyOptionFails) {
+    std::map<std::string, std::string> options;
+    options["password"] = "secret";
+
+    auto result = adapter_.connect("bolt://localhost:7687", options);
+
+    EXPECT_TRUE(result.is_err());
+    EXPECT_EQ(result.error_code, ErrorCode::INVALID_ARGUMENT);
+}
+
 TEST_F(Neo4jAdapterPhase2Test, DisconnectAfterConnection) {
     // Test: Disconnect from connected state
     auto connect_result = adapter_.connect("bolt://localhost:7687");
