@@ -62,9 +62,8 @@ on:
         default: false
 
 concurrency:
-  group: ci-pr-gates-${{ github.event.pull_request.number || github.ref }}
-  # Keep in-flight gate runs for auditability and to avoid dropping evidence from earlier commits.
-  cancel-in-progress: false
+  group: ci-pr-gates-matrix.${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
