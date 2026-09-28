@@ -1,4 +1,7 @@
-> **Status:** 2026-09-22 – mit aktuellem ONNX CLIP-Code (`onnx_clip_plugin.cpp`, `onnx_clip_plugin.h`) abgeglichen.
+> **Status:** 2026-09-28 – mit aktuellem ONNX CLIP-Code (`onnx_clip_plugin.cpp`, `onnx_clip_plugin.h`) abgeglichen.
+
+<!-- Status: current | validated: 2026-09-28 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · SECURITY.md · FUTURE_ENHANCEMENTS.md -->
 
 # ThemisDB ONNX CLIP Plugin - Production Requirements
 
