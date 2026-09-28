@@ -158,6 +158,8 @@ paths = [
   '''grafana/.*''',
   '''projects/.*''',
   '''scripts/.*''',
+  # Checked-in PKI test fixtures contain intentionally generated private keys
+  '''data/test_pki/.*''',
   # Test and benchmark directories contain intentional fake secrets for testing
   '''tests/.*''',
   '''benchmarks/.*''',
