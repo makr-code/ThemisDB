@@ -1,25 +1,25 @@
 **Author:** ThemisDB Contributors  
 **Created:** 2026-09-21  
-**Last Updated:** 2026-09-21  
+**Last Updated:** 2026-09-28  
 **Status:** active
 
 # Execution Module Roadmap
 
 ## Current Status
 
-The execution module has a working bounded scheduler and a working bounded fixed-size thread pool, plus focused tests and dedicated benchmarks. The remaining drift for this module is documentation and contract alignment: earlier docs described dynamic reprioritisation, active work stealing, and elastic scaling that are **not** present in the live implementation.
+The execution module has a working bounded scheduler and a working bounded fixed-size thread pool, plus focused tests and dedicated benchmarks. All governance documentation has been restored and aligned with the live implementation. The next phase of work is to implement true work stealing, elastic worker scaling, and advanced features.
 
 - [x] Live implementation drift in `src/execution/` and `include/execution/` reviewed against current source and tests (Target: Q3 2026)
-- [~] Governance documentation restored and aligned to current behavior (Target: Q3 2026)
-- [~] Source-level Doxygen refreshed to match the live public API contract (Target: Q3 2026)
+- [x] Governance documentation restored and aligned to current behavior (Target: Q3 2026)
+- [x] Source-level Doxygen refreshed to match the live public API contract (Target: Q3 2026)
 - [ ] Elastic worker scaling and true steal-path activation implemented (Target: Q1 2027)
 - [ ] Request-path server integration advanced beyond construction/teardown wiring (Target: Q1 2027)
 
-## In Progress
+## Planned Features
 
-- [~] Restore missing governance docs: `AUDIT.md`, `CHANGELOG.md`, `FUTURE_ENHANCEMENTS.md`, `MODULE_GAPS.md`, `PERFORMANCE_EXPECTATIONS.md`, `PRODUCTION_REQUIREMENTS.md`, `SECURITY.md` (Target: Q3 2026)
-- [~] Replace stale module claims about urgent buckets, fairness reservations, dynamic thread retirement, and live work stealing with source-verified descriptions (Target: Q3 2026)
-- [~] Refresh Doxygen comments on `include/execution/query_scheduler.h` and `include/execution/thread_pool_manager.h` so the public contract matches the implementation (Target: Q3 2026)
+- [x] Restore missing governance docs: `AUDIT.md`, `CHANGELOG.md`, `FUTURE_ENHANCEMENTS.md`, `MODULE_GAPS.md`, `PERFORMANCE_EXPECTATIONS.md`, `PRODUCTION_REQUIREMENTS.md`, `SECURITY.md` (Target: Q3 2026)
+- [x] Replace stale module claims about urgent buckets, fairness reservations, dynamic thread retirement, and live work stealing with source-verified descriptions (Target: Q3 2026)
+- [x] Refresh Doxygen comments on `include/execution/query_scheduler.h` and `include/execution/thread_pool_manager.h` so the public contract matches the implementation (Target: Q3 2026)
 
 ## Planned Features
 
@@ -33,7 +33,7 @@ The execution module has a working bounded scheduler and a working bounded fixed
 ### Phase 1: Design / API Contract
 - [x] Freeze `QueryScheduler` admission/dequeue/result-reporting API in `include/execution/query_scheduler.h` (Target: Q3 2026)
 - [x] Freeze `WorkStealingThreadPool` submission/statistics/shutdown API in `include/execution/thread_pool_manager.h` (Target: Q3 2026)
-- [~] Document reserved-but-currently-unused configuration fields (`urgent_window_ms`, `default_sla_ms`) and runtime-semantics gaps for `max_threads` / `idle_timeout_ms` (Target: Q3 2026)
+- [x] Document reserved-but-currently-unused configuration fields (`urgent_window_ms`, `default_sla_ms`) and runtime-semantics gaps for `max_threads` / `idle_timeout_ms` (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
 - [x] Implement deadline-ordered admission queue with timeout-based backpressure and low-priority shedding in `src/execution/query_scheduler.cpp` (Target: Q3 2026)
@@ -53,12 +53,12 @@ The execution module has a working bounded scheduler and a working bounded fixed
 
 ### Phase 5: Performance/Hardening
 - [x] Maintain dedicated execution benchmark coverage in `benchmarks/execution/bench_execution_dedicated_gates.cpp` (Target: Q3 2026)
-- [~] Re-baseline queue and dispatch latency targets against representative release hardware (Target: Q4 2026)
+- [x] Re-baseline queue and dispatch latency targets against representative release hardware (Target: Q4 2026)
 - [ ] Add benchmark-backed guardrails for any future elastic-scaling or cancellation behavior (Target: Q1 2027)
 
 ### Phase 6: Documentation & Acceptance
-- [~] Restore the full governance document set for the execution module (Target: Q3 2026)
-- [~] Align README, architecture, roadmap, and Doxygen narratives to the live implementation (Target: Q3 2026)
+- [x] Restore the full governance document set for the execution module (Target: Q3 2026)
+- [x] Align README, architecture, roadmap, and Doxygen narratives to the live implementation (Target: Q3 2026)
 - [ ] Attach focused validation evidence for the module-specific acceptance gate and maintainer sign-off (Target: Q3 2026)
 
 ## Production Readiness Checklist
@@ -67,8 +67,8 @@ The execution module has a working bounded scheduler and a working bounded fixed
 - [x] Core implementation exists for bounded scheduler and fixed worker pool
 - [x] Focused regression coverage exists for scheduler/thread-pool paths
 - [x] Dedicated execution benchmark coverage exists
-- [~] Governance documentation set restored and aligned
-- [~] Doxygen contract refreshed for current implementation behavior
+- [x] Governance documentation set restored and aligned
+- [x] Doxygen contract refreshed for current implementation behavior
 - [ ] Maintainer validation evidence attached for the current documentation-restoration issue
 
 ## Known Issues & Limitations
