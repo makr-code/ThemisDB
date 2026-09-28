@@ -1812,6 +1812,63 @@ TEST_F(DistributedTxnManagerTest, Stub279_StaticPhase1FnCommit) {
     DistributedTransactionManager::clearRpcPhase1Fn();
 }
 
+TEST_F(DistributedTxnManagerTest, Stub279_ClearedStaticPhase1FnFallsBackToAbortVote) {
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout = 2000ms;
+    cfg.commit_timeout  = 2000ms;
+    cfg.default_txn_timeout = 60s;
+    cfg.liveness_check_fn = [](const std::string&, const std::string&) { return true; };
+
+    std::atomic<int> static_p1_calls{0};
+    std::atomic<int> phase2_abort_calls{0};
+    cfg.remote_phase2_dispatch = [&phase2_abort_calls](
+            const std::string&, const std::string&, const std::string&, bool do_commit) {
+        if (!do_commit) {
+            ++phase2_abort_calls;
+        }
+        return true;
+    };
+
+    DistributedTransactionManager::setRpcPhase1Fn(
+        [&static_p1_calls](const std::string& /*node_id*/,
+                           const std::string& /*txn_id*/,
+                           const std::set<std::string>& /*keys*/) -> bool {
+            ++static_p1_calls;
+            return true;
+        });
+    DistributedTransactionManager::clearRpcPhase1Fn();
+
+    DistributedTransactionManager mgr2("coord-static-p1-cleared", cfg);
+    const auto tid = mgr2.beginDistributed({makeRemoteParticipant("remote-node")});
+
+    const auto prepare_result = mgr2.prepareDistributed(tid);
+    EXPECT_FALSE(prepare_result.ok)
+        << "Clearing the static Phase-1 bridge must restore the fail-closed ABORT vote";
+    EXPECT_EQ(static_p1_calls.load(), 0)
+        << "Cleared Phase-1 bridge must not keep invoking the previous override";
+    EXPECT_EQ(phase2_abort_calls.load(), 1)
+        << "Fail-closed Phase-1 default must trigger a remote ABORT delivery";
+}
+
+TEST_F(DistributedTxnManagerTest, Stub279_ClearedStaticPhase2FnDoesNotCountAsTransportBridge) {
+    DistributedTransactionManager::setRpcPhase2Fn(
+        [](const std::string& /*node_id*/,
+           const std::string& /*txn_id*/,
+           bool /*do_commit*/) {});
+    DistributedTransactionManager::clearRpcPhase2Fn();
+
+    DistributedTxnManagerConfig cfg;
+    cfg.prepare_timeout = 2000ms;
+    cfg.commit_timeout  = 2000ms;
+    cfg.default_txn_timeout = 60s;
+
+    DistributedTransactionManager mgr2("coord-static-p2-cleared", cfg);
+    EXPECT_THROW(
+        mgr2.beginDistributed({makeRemoteParticipant("remote-node")}),
+        std::invalid_argument)
+        << "Clearing the static Phase-2 bridge must restore fail-fast validation for remote participants";
+}
+
 // Phase-2 delivery must use 3-attempt retry with backoff before failing.
 TEST_F(DistributedTxnManagerTest, Stub279_RemotePhase2DispatchRetriesThreeTimesOnPersistentFailure) {
     DistributedTxnManagerConfig cfg;
