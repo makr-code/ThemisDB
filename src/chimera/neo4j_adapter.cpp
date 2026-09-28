@@ -102,7 +102,7 @@ Result<bool> Neo4jAdapter::connect(
 
         // Create driver with connection pooling configuration
         neo4j::DriverConfig config;
-        if (!username.empty() || !password.empty()) {
+        if (!username.empty() && !password.empty()) {
             auto auth = neo4j::basic_auth(username, password);
             config.with_auth(auth);
         }
