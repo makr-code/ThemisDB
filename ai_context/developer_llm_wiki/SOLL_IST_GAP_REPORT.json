@@ -1,13 +1,13 @@
 {
   "tool": "sync_soll_ist_gaps.py",
-  "generated_at": "2026-09-20T15:48:20Z",
+  "generated_at": "2026-09-28T15:58:57Z",
   "totals": {
     "modules": 72,
-    "docs_gap_modules": 9,
-    "docs_gap_modules_by_status": 9,
-    "docs_gap_modules_by_alignment": 9,
-    "impl_gap_modules": 5,
-    "release_gate_gap_modules": 1
+    "docs_gap_modules": 8,
+    "docs_gap_modules_by_status": 8,
+    "docs_gap_modules_by_alignment": 8,
+    "impl_gap_modules": 4,
+    "release_gate_gap_modules": 0
   },
   "rows": [
     {
@@ -167,20 +167,27 @@
         ],
         "found_core_docs": [
           "ARCHITECTURE.md",
+          "CHANGELOG.md",
+          "FUTURE_ENHANCEMENTS.md",
           "README.md",
           "ROADMAP.md"
         ],
-        "missing_core_docs": [
-          "CHANGELOG.md",
-          "FUTURE_ENHANCEMENTS.md"
-        ],
+        "missing_core_docs": [],
         "doc_files": {
           "src": [
             "src/access_model/ARCHITECTURE.md",
+            "src/access_model/AUDIT.md",
+            "src/access_model/CHANGELOG.md",
             "src/access_model/DOXYGEN.md",
+            "src/access_model/FUTURE_ENHANCEMENTS.md",
+            "src/access_model/MODULE_GAPS.md",
+            "src/access_model/PERFORMANCE_EXPECTATIONS.md",
             "src/access_model/PHASE_5_6_ACCEPTANCE_REPORT.md",
+            "src/access_model/PRODUCTION_REQUIREMENTS.md",
             "src/access_model/README.md",
-            "src/access_model/ROADMAP.md"
+            "src/access_model/ROADMAP.md",
+            "src/access_model/SECURITY.md",
+            "src/access_model/WAVE_B_BENCHMARK_EVIDENCE_BUNDLE.md"
           ],
           "include": [
             "include/access_model/README.md"
@@ -296,7 +303,7 @@
         "gap_open": false
       },
       "release_gates": {
-        "related_tests": 237,
+        "related_tests": 239,
         "related_benchmarks": 42,
         "failing_tests": 0,
         "failing_benchmarks": 0,
@@ -411,6 +418,7 @@
           "tests/legacy/schema/test_schema_constraints.cpp",
           "tests/legacy/schema/test_schema_constraints_persistence.cpp",
           "tests/legacy/shard/test_shard_repair_engine_focused.cpp",
+          "tests/llama_cpp/llama_cpp_focused_test_main.cpp",
           "tests/llm/test_ai_orchestrator.cpp",
           "tests/llm/test_llm_adalora_doku_training.cpp",
           "tests/llm/test_llm_aql_explain_stream_api.cpp",
@@ -488,6 +496,7 @@
           "tests/test_ingestion_legal_domain.cpp",
           "tests/test_inline_training_governance.cpp",
           "tests/test_legal_training_schema.cpp",
+          "tests/test_llm_ai_orchestrator_deadlock.cpp",
           "tests/test_llm_aql_explain_stream_api.cpp",
           "tests/test_llm_raid_data_push.cpp",
           "tests/test_llm_raid_integration.cpp",
@@ -595,25 +604,15 @@
     {
       "module": "ai_working",
       "docs": {
-        "status": "LOW",
-        "score_percent": 10,
-        "missing_doc_types": [
-          "README",
-          "ROADMAP",
-          "ARCH",
-          "AUDIT",
-          "CHANGELOG",
-          "FUTURE",
-          "PERF",
-          "PROD",
-          "SEC"
-        ],
-        "gap_open": true,
-        "gap_open_by_status": true,
-        "gap_open_by_alignment": true
+        "status": "OK",
+        "score_percent": 100,
+        "missing_doc_types": [],
+        "gap_open": false,
+        "gap_open_by_status": false,
+        "gap_open_by_alignment": false
       },
       "developer_docs_alignment": {
-        "status": "stale",
+        "status": "ok",
         "required_core_docs": [
           "README.md",
           "ROADMAP.md",
@@ -622,19 +621,25 @@
           "FUTURE_ENHANCEMENTS.md"
         ],
         "found_core_docs": [
+          "ARCHITECTURE.md",
+          "CHANGELOG.md",
+          "FUTURE_ENHANCEMENTS.md",
           "README.md",
           "ROADMAP.md"
         ],
-        "missing_core_docs": [
-          "ARCHITECTURE.md",
-          "CHANGELOG.md",
-          "FUTURE_ENHANCEMENTS.md"
-        ],
+        "missing_core_docs": [],
         "doc_files": {
           "src": [
-            "src/ai_working/BATCH1_ANALYTICS_HARDENING.md",
-            "src/ai_working/BATCH1_STATUS.md",
-            "src/ai_working/MODULE_GAPS.md"
+            "src/ai_working/ARCHITECTURE.md",
+            "src/ai_working/AUDIT.md",
+            "src/ai_working/CHANGELOG.md",
+            "src/ai_working/FUTURE_ENHANCEMENTS.md",
+            "src/ai_working/MODULE_GAPS.md",
+            "src/ai_working/PERFORMANCE_EXPECTATIONS.md",
+            "src/ai_working/PRODUCTION_REQUIREMENTS.md",
+            "src/ai_working/README.md",
+            "src/ai_working/ROADMAP.md",
+            "src/ai_working/SECURITY.md"
           ],
           "docs": [
             "docs/ai_working/API.md",
@@ -642,7 +647,7 @@
             "docs/ai_working/ROADMAP.md"
           ]
         },
-        "gap_open": true
+        "gap_open": false
       },
       "implementation": {
         "actionable_total": 0,
@@ -1694,7 +1699,7 @@
         "gap_open": false
       },
       "release_gates": {
-        "related_tests": 108,
+        "related_tests": 109,
         "related_benchmarks": 8,
         "failing_tests": 0,
         "failing_benchmarks": 0,
@@ -1800,6 +1805,7 @@
           "tests/test_kv_cache_buffer.cpp",
           "tests/test_lirs_cache.cpp",
           "tests/test_llm_prefix_cache.cpp",
+          "tests/test_llm_prefix_cache_paths.cpp",
           "tests/test_llm_response_cache.cpp",
           "tests/test_llm_response_cache_metrics.cpp",
           "tests/test_lru_cache.cpp",
@@ -2180,7 +2186,7 @@
         "gap_open": false
       },
       "release_gates": {
-        "related_tests": 6,
+        "related_tests": 8,
         "related_benchmarks": 4,
         "failing_tests": 0,
         "failing_benchmarks": 0,
@@ -2193,9 +2199,11 @@
           "tests/chimera/test_chimera_highcardinality_stress.cpp",
           "tests/chimera/test_chimera_prepared_statements.cpp",
           "tests/chimera/test_chimera_streaming.cpp",
+          "tests/chimera/test_mongodb_adapter_phase2.cpp",
           "tests/chimera/test_themisdb_adapter.cpp",
           "tests/chimera/themis_adapter_fallback.cpp",
-          "tests/integration/test_chimera_soak.cpp"
+          "tests/integration/test_chimera_soak.cpp",
+          "tests/unit/chimera/test_qdrant_adapter_production.cpp"
         ],
         "benchmark_files": [
           "benchmarks/chimera/CHIMERA_README.md",
@@ -3133,7 +3141,7 @@
         "gap_open": false
       },
       "release_gates": {
-        "related_tests": 18,
+        "related_tests": 19,
         "related_benchmarks": 12,
         "failing_tests": 0,
         "failing_benchmarks": 0,
@@ -3157,6 +3165,7 @@
           "tests/evaluation/test_evaluation_highcardinality_stress.cpp",
           "tests/evaluation/test_evaluation_retrieval_metrics_focused.cpp",
           "tests/integration/test_evaluation_framework_soak.cpp",
+          "tests/rag/test_evaluation_result_store.cpp",
           "tests/rag/test_rag_evaluation_cache.cpp",
           "tests/rag/test_rag_evaluation_report_exporter.cpp",
           "tests/test_rag_evaluation_cache.cpp",
@@ -3209,19 +3218,25 @@
         ],
         "found_core_docs": [
           "ARCHITECTURE.md",
+          "CHANGELOG.md",
+          "FUTURE_ENHANCEMENTS.md",
           "README.md",
           "ROADMAP.md"
         ],
-        "missing_core_docs": [
-          "CHANGELOG.md",
-          "FUTURE_ENHANCEMENTS.md"
-        ],
+        "missing_core_docs": [],
         "doc_files": {
           "src": [
             "src/execution/ARCHITECTURE.md",
+            "src/execution/AUDIT.md",
+            "src/execution/CHANGELOG.md",
             "src/execution/DOXYGEN.md",
+            "src/execution/FUTURE_ENHANCEMENTS.md",
+            "src/execution/MODULE_GAPS.md",
+            "src/execution/PERFORMANCE_EXPECTATIONS.md",
+            "src/execution/PRODUCTION_REQUIREMENTS.md",
             "src/execution/README.md",
-            "src/execution/ROADMAP.md"
+            "src/execution/ROADMAP.md",
+            "src/execution/SECURITY.md"
           ]
         },
         "gap_open": true
@@ -3711,20 +3726,29 @@
             "docs/governance/GA_PROMOTION_SIGN_OFF.md",
             "docs/governance/GITHUB_MILESTONES_SETUP.md",
             "docs/governance/GOVERNANCE_POLICIES_PHASE1.md",
+            "docs/governance/GPU_SELF_HOSTED_RUNNER_REQUIREMENTS.md",
+            "docs/governance/HARDENING_PHASE_1_2_SUMMARY_2026_09_23.md",
             "docs/governance/MATURITY_CLAIM_VERIFICATION_CHECKLIST.md",
             "docs/governance/MATURITY_EVIDENCE_REGISTRY.md",
             "docs/governance/MERGE_GATE_BOT_CONFIG.md",
             "docs/governance/MERGE_GATE_STATUS_LIVE.md",
             "docs/governance/PHASE3_ENFORCEMENT_RUNBOOK.md",
             "docs/governance/PHASE_1_CLOSURE_REPORT.md",
+            "docs/governance/PHASE_1_INFRASTRUCTURE_DEPLOYMENT.md",
+            "docs/governance/PHASE_1_INFRASTRUCTURE_DEPLOYMENT_COMPLETE.md",
+            "docs/governance/PHASE_3_BASELINE_CAPTURE.md",
+            "docs/governance/PHASE_3_REFINEMENT_SPEC.md",
+            "docs/governance/PHASE_4_SIGN_OFF_AND_CLOSURE.md",
             "docs/governance/PHASE_CLOSURE_POLICY.md",
             "docs/governance/PHASE_DEPENDENCY_GRAPH.md",
             "docs/governance/PLUGIN_SUBMODULE_ROLLBACK.md",
             "docs/governance/PRODUCTION_READY_2026_DELIVERY_PLAN.md",
             "docs/governance/PR_VERSION_TARGETING.md",
             "docs/governance/PR_VERSION_TARGETING_BACKFILL.md",
+            "docs/governance/PUBLISH_WORKFLOW_AUDIT_2026-09-23.md",
             "docs/governance/QUERY_MODULE_STATUS.md",
             "docs/governance/README.md",
+            "docs/governance/RELEASE_GOVERNANCE.md",
             "docs/governance/RELEASE_PROMOTION_GATE_POLICY.md",
             "docs/governance/RELEASE_VALIDATION_CHECKLIST.md",
             "docs/governance/ROOT_HYGIENE_POLICY.md",
@@ -3739,6 +3763,7 @@
             "docs/governance/WAVE_C_IMPLEMENTATION_PLAN.md",
             "docs/governance/WAVE_C_ML_EXIT_GATE_SIGN_OFF.md",
             "docs/governance/WAVE_C_POLICY_GATE_EVIDENCE.md",
+            "docs/governance/WIKI_PUBLISH_TRACKING_GUIDE.md",
             "docs/governance/documentation-history/CONTINUOUS_DOCUMENTATION_PROCESS.md",
             "docs/governance/documentation-history/DOCUMENTATION_ARCHIVAL_COMPLETE.md",
             "docs/governance/documentation-history/DOCUMENTATION_BUILD_SUMMARY_v1.3.5.md",
@@ -3878,15 +3903,22 @@
             "src/gpu/CLOSURE_CHECKLIST.md",
             "src/gpu/DOXYGEN.md",
             "src/gpu/FUTURE_ENHANCEMENTS.md",
+            "src/gpu/GPU_CUDA_REDUCTION_TRACKING.md",
             "src/gpu/GPU_PHASE23_HARDENING_SUMMARY.md",
+            "src/gpu/ISSUE_6575_TRACKING_CHECKLIST.md",
             "src/gpu/MODULE_EVIDENCE.md",
             "src/gpu/MODULE_GAPS.md",
             "src/gpu/PERFORMANCE_EXPECTATIONS.md",
+            "src/gpu/PHASE_1_2_COMPLETION_SUMMARY.md",
+            "src/gpu/PHASE_2_COMPLETION_SUMMARY.md",
+            "src/gpu/PHASE_3_4_EXECUTION_READINESS.md",
+            "src/gpu/PHASE_3_4_IMPLEMENTATION_SUMMARY.md",
             "src/gpu/PRODUCTION_REQUIREMENTS.md",
             "src/gpu/README.md",
             "src/gpu/ROADMAP.md",
             "src/gpu/SECURITY.md",
-            "src/gpu/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md"
+            "src/gpu/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md",
+            "src/gpu/WAVE_A_PHASE_IMPLEMENTATION_PLAN.md"
           ],
           "include": [
             "include/gpu/GPU_CONTRACT.md",
@@ -4338,19 +4370,25 @@
         ],
         "found_core_docs": [
           "ARCHITECTURE.md",
+          "CHANGELOG.md",
+          "FUTURE_ENHANCEMENTS.md",
           "README.md",
           "ROADMAP.md"
         ],
-        "missing_core_docs": [
-          "CHANGELOG.md",
-          "FUTURE_ENHANCEMENTS.md"
-        ],
+        "missing_core_docs": [],
         "doc_files": {
           "src": [
             "src/image_analysis/ARCHITECTURE.md",
+            "src/image_analysis/AUDIT.md",
+            "src/image_analysis/CHANGELOG.md",
             "src/image_analysis/DOXYGEN.md",
+            "src/image_analysis/FUTURE_ENHANCEMENTS.md",
+            "src/image_analysis/MODULE_GAPS.md",
+            "src/image_analysis/PERFORMANCE_EXPECTATIONS.md",
+            "src/image_analysis/PRODUCTION_REQUIREMENTS.md",
             "src/image_analysis/README.md",
-            "src/image_analysis/ROADMAP.md"
+            "src/image_analysis/ROADMAP.md",
+            "src/image_analysis/SECURITY.md"
           ]
         },
         "gap_open": true
@@ -4574,7 +4612,7 @@
         "gap_open": false
       },
       "release_gates": {
-        "related_tests": 104,
+        "related_tests": 108,
         "related_benchmarks": 15,
         "failing_tests": 0,
         "failing_benchmarks": 0,
@@ -4610,6 +4648,8 @@
           "tests/index/test_index_iterator_validity.cpp",
           "tests/index/test_index_maintenance.cpp",
           "tests/index/test_index_manager_di.cpp",
+          "tests/index/test_index_manifest_v1.cpp",
+          "tests/index/test_index_metadata_store_rocksdb.cpp",
           "tests/index/test_index_phase2_a2_iterator_safety.cpp",
           "tests/index/test_index_recommender.cpp",
           "tests/index/test_index_stats.cpp",
@@ -4620,6 +4660,7 @@
           "tests/index/test_tiered_index_migration.cpp",
           "tests/index/test_wave3c_index_raii.cpp",
           "tests/index/test_wave5_index_hardening.cpp",
+          "tests/ingestion/test_reindex_decision_engine.cpp",
           "tests/integration/pipeline/cross_module_ingest_index_query_test.cpp",
           "tests/integration/test_index_engine_soak.cpp",
           "tests/legacy/adaptive/test_adaptive_index.cpp",
@@ -4649,6 +4690,7 @@
           "tests/network/test_http_index_endpoints.cpp",
           "tests/network/test_http_range_index.cpp",
           "tests/query/test_fts_index_cache.cpp",
+          "tests/rag/test_index_refresh_scheduler.cpp",
           "tests/secondary/test_secondary_index.cpp",
           "tests/storage/test_storage_query_index_explicit_di.cpp",
           "tests/temporal/test_interval_tree_index.cpp",
@@ -4743,6 +4785,7 @@
             "src/ingestion/AUDIT.md",
             "src/ingestion/CHANGELOG.md",
             "src/ingestion/DOXYGEN.md",
+            "src/ingestion/EMBEDDING_VERSION_GOVERNANCE.md",
             "src/ingestion/FUTURE_ENHANCEMENTS.md",
             "src/ingestion/MODULE_GAPS.md",
             "src/ingestion/MODULE_GAPS_BATCH5.md",
@@ -4778,7 +4821,7 @@
         "gap_open": false
       },
       "release_gates": {
-        "related_tests": 78,
+        "related_tests": 81,
         "related_benchmarks": 7,
         "failing_tests": 0,
         "failing_benchmarks": 0,
@@ -4789,6 +4832,7 @@
       "release_gate_details": {
         "test_files": [
           "tests/content/test_content_streaming_ingestion.cpp",
+          "tests/ingestion/test_canary_deployment_manager.cpp",
           "tests/ingestion/test_ingestion_assembler_sinks.cpp",
           "tests/ingestion/test_ingestion_base_entity.cpp",
           "tests/ingestion/test_ingestion_builder.cpp",
@@ -4821,12 +4865,14 @@
           "tests/ingestion/test_ingestion_schema_validation.cpp",
           "tests/ingestion/test_ingestion_security.cpp",
           "tests/ingestion/test_ingestion_web_crawler.cpp",
+          "tests/ingestion/test_reindex_decision_engine.cpp",
           "tests/integration/pipeline/ingestion_pipeline_test.cpp",
           "tests/integration/test_ingestion_pipeline_soak.cpp",
           "tests/integration/test_scraper_ingestion_soak.cpp",
           "tests/legacy/async/test_async_ingestion_backpressure.cpp",
           "tests/legacy/async/test_async_ingestion_yaml_config.cpp",
           "tests/legacy/importer/test_wikipedia_ingestion_plugin.cpp",
+          "tests/rag/test_ingestion_latency_monitor.cpp",
           "tests/rag/test_rag_ingestion_bridge.cpp",
           "tests/rag/test_rag_ingestion_bridge_hardening_focused.cpp",
           "tests/tensor/test_tensor_ingestion_bridge.cpp",
@@ -4918,6 +4964,7 @@
             "src/llama_cpp/FUTURE_ENHANCEMENTS.md",
             "src/llama_cpp/MODULE_GAPS.md",
             "src/llama_cpp/PERFORMANCE_EXPECTATIONS.md",
+            "src/llama_cpp/PRODUCTION_REQUIREMENTS.md",
             "src/llama_cpp/README.md",
             "src/llama_cpp/ROADMAP.md",
             "src/llama_cpp/SECURITY.md"
@@ -4948,7 +4995,7 @@
         "gap_open": false
       },
       "release_gates": {
-        "related_tests": 5,
+        "related_tests": 6,
         "related_benchmarks": 2,
         "failing_tests": 0,
         "failing_benchmarks": 0,
@@ -4959,6 +5006,7 @@
       "release_gate_details": {
         "test_files": [
           "tests/integration/test_llama_cpp_soak.cpp",
+          "tests/llama_cpp/llama_cpp_focused_test_main.cpp",
           "tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp",
           "tests/llm/test_llama_cpp_plugin_validation_gates.cpp",
           "tests/llm/test_llama_cpp_real_inference.cpp",
@@ -5079,7 +5127,7 @@
         "gap_open": true
       },
       "release_gates": {
-        "related_tests": 204,
+        "related_tests": 208,
         "related_benchmarks": 28,
         "failing_tests": 0,
         "failing_benchmarks": 0,
@@ -5252,6 +5300,7 @@
           "tests/test_helpers_llm.h",
           "tests/test_ingestion_llm_adapter.cpp",
           "tests/test_ingestion_ner_llm.cpp",
+          "tests/test_llm_ai_orchestrator_deadlock.cpp",
           "tests/test_llm_api_handler_feedback.cpp",
           "tests/test_llm_api_handler_jwt.cpp",
           "tests/test_llm_aql_embedding_bridge.cpp",
@@ -5259,6 +5308,7 @@
           "tests/test_llm_aql_handler.cpp",
           "tests/test_llm_aql_streaming.cpp",
           "tests/test_llm_caching.cpp",
+          "tests/test_llm_docs_assistant_prompt_injection.cpp",
           "tests/test_llm_feedback.cpp",
           "tests/test_llm_grafana_metrics.cpp",
           "tests/test_llm_integration.cpp",
@@ -5266,9 +5316,11 @@
           "tests/test_llm_judge_is_mock.cpp",
           "tests/test_llm_lora_inline.cpp",
           "tests/test_llm_metrics.cpp",
+          "tests/test_llm_model_downloader_security.cpp",
           "tests/test_llm_multi_model_integration.cpp",
           "tests/test_llm_plugin.cpp",
           "tests/test_llm_prefix_cache.cpp",
+          "tests/test_llm_prefix_cache_paths.cpp",
           "tests/test_llm_query_rewriter.cpp",
           "tests/test_llm_query_rewriter_validator.cpp",
           "tests/test_llm_raid_data_push.cpp",
@@ -5434,22 +5486,25 @@
         ],
         "found_core_docs": [
           "ARCHITECTURE.md",
+          "CHANGELOG.md",
           "FUTURE_ENHANCEMENTS.md",
           "README.md",
           "ROADMAP.md"
         ],
-        "missing_core_docs": [
-          "CHANGELOG.md"
-        ],
+        "missing_core_docs": [],
         "doc_files": {
           "src": [
             "src/llm_wiki/ARCHITECTURE.md",
-            "src/llm_wiki/DOXYGEN.md",
+            "src/llm_wiki/AUDIT.md",
+            "src/llm_wiki/CHANGELOG.md",
             "src/llm_wiki/FUTURE_ENHANCEMENTS.md",
             "src/llm_wiki/KNOWLEDGE_SPHERES.md",
+            "src/llm_wiki/MODULE_GAPS.md",
+            "src/llm_wiki/PERFORMANCE_EXPECTATIONS.md",
+            "src/llm_wiki/PRODUCTION_REQUIREMENTS.md",
             "src/llm_wiki/README.md",
             "src/llm_wiki/ROADMAP.md",
-            "src/llm_wiki/WAVE_B_CLOSURE_EVIDENCE_BUNDLE.md"
+            "src/llm_wiki/SECURITY.md"
           ],
           "include": [
             "include/llm_wiki/README.md"
@@ -5687,7 +5742,7 @@
         "gap_open": false
       },
       "release_gates": {
-        "related_tests": 50,
+        "related_tests": 51,
         "related_benchmarks": 4,
         "failing_tests": 0,
         "failing_benchmarks": 0,
@@ -5697,6 +5752,7 @@
       },
       "release_gate_details": {
         "test_files": [
+          "tests/index/test_index_metadata_store_rocksdb.cpp",
           "tests/integration/test_metadata_store_soak.cpp",
           "tests/legacy/gguf/test_gguf_metadata.cpp",
           "tests/legacy/nlp/test_nlp_metadata_extractor.cpp",
@@ -5827,7 +5883,7 @@
         "gap_open": true
       },
       "release_gates": {
-        "related_tests": 80,
+        "related_tests": 81,
         "related_benchmarks": 4,
         "failing_tests": 0,
         "failing_benchmarks": 0,
@@ -5892,6 +5948,7 @@
           "tests/network/test_network_routing_hardening_focused.cpp",
           "tests/network/test_network_timeout.cpp",
           "tests/network/test_network_transport_resilience_focused.cpp",
+          "tests/network/test_qos_manager_command_injection.cpp",
           "tests/network/test_quic_server.cpp",
           "tests/network/test_quic_transport.cpp",
           "tests/network/test_socket_timeout.cpp",
@@ -6093,12 +6150,14 @@
             "src/onnx_clip/FUTURE_ENHANCEMENTS.md",
             "src/onnx_clip/MODULE_GAPS.md",
             "src/onnx_clip/PERFORMANCE_EXPECTATIONS.md",
-            "src/onnx_clip/PHASE3B_DELIVERY_REPORT.md",
-            "src/onnx_clip/PHASE3B_IMPLEMENTATION_SUMMARY.md",
-            "src/onnx_clip/PHASE3B_QUICK_REFERENCE.md",
+            "src/onnx_clip/PRODUCTION_REQUIREMENTS.md",
             "src/onnx_clip/README.md",
             "src/onnx_clip/ROADMAP.md",
-            "src/onnx_clip/SECURITY.md"
+            "src/onnx_clip/SECURITY.md",
+            "src/onnx_clip/archive/ARCHIVE.md",
+            "src/onnx_clip/archive/PHASE3B_DELIVERY_REPORT.md",
+            "src/onnx_clip/archive/PHASE3B_IMPLEMENTATION_SUMMARY.md",
+            "src/onnx_clip/archive/PHASE3B_QUICK_REFERENCE.md"
           ],
           "include": [
             "include/onnx_clip/ARCHITECTURE.md",
@@ -6937,7 +6996,7 @@
         "gap_open": true
       },
       "release_gates": {
-        "related_tests": 145,
+        "related_tests": 148,
         "related_benchmarks": 9,
         "failing_tests": 0,
         "failing_benchmarks": 0,
@@ -6996,6 +7055,7 @@
           "tests/query/test_continuous_query_e2e.cpp",
           "tests/query/test_continuous_query_engine.cpp",
           "tests/query/test_continuous_query_hardening.cpp",
+          "tests/query/test_continuous_query_lock_order_deadlock.cpp",
           "tests/query/test_fts_bm25_scorer.cpp",
           "tests/query/test_fts_executor.cpp",
           "tests/query/test_fts_index_cache.cpp",
@@ -7010,6 +7070,7 @@
           "tests/query/test_query_cache_manager.cpp",
           "tests/query/test_query_cancellation.cpp",
           "tests/query/test_query_cross_feature_matrix.cpp",
+          "tests/query/test_query_deadlock_concurrent_timeout.cpp",
           "tests/query/test_query_engine.cpp",
           "tests/query/test_query_engine_di.cpp",
           "tests/query/test_query_engine_error_handling.cpp",
@@ -7046,6 +7107,7 @@
           "tests/query/test_wave1_critical_gap_fixes.cpp",
           "tests/query/test_wave3b_query_timeout_fixes.cpp",
           "tests/query/test_wave9_block3_fixes.cpp",
+          "tests/rag/test_query_intent_classifier.cpp",
           "tests/server/test_query_iterator_safety.cpp",
           "tests/storage/test_storage_query_index_explicit_di.cpp",
           "tests/temporal/test_temporal_query_engine.cpp",
@@ -7137,19 +7199,37 @@
         "missing_core_docs": [],
         "doc_files": {
           "src": [
+            "src/rag/ADAPTIVE_ROUTING_SPECIFICATION.md",
             "src/rag/ARCHITECTURE.md",
             "src/rag/AUDIT.md",
+            "src/rag/BATCH_6_INTEGRATION_SUMMARY.md",
             "src/rag/CHANGELOG.md",
+            "src/rag/COST_OPTIMIZER_SPECIFICATION.md",
             "src/rag/DOXYGEN.md",
+            "src/rag/EVALUATION_CONTRACT_V1.md",
+            "src/rag/FRESHNESS_SLA_SPECIFICATION.md",
             "src/rag/FUTURE_ENHANCEMENTS.md",
             "src/rag/GATE_VERIFICATION_FRAMEWORK.md",
+            "src/rag/KNOWN_ISSUES_MITIGATION.md",
+            "src/rag/KNOWN_ISSUES_REMEDIATION_SUMMARY.md",
             "src/rag/MODULE_GAPS.md",
             "src/rag/MODULE_STATUS.md",
+            "src/rag/OBSERVABILITY_SLO_SPECIFICATION.md",
             "src/rag/PERFORMANCE_EXPECTATIONS.md",
+            "src/rag/PHASE_11_ACCEPTANCE_REPORT.md",
+            "src/rag/PHASE_11_SPECIFICATION.md",
+            "src/rag/PHASE_12_ACCEPTANCE_REPORT.md",
+            "src/rag/PHASE_12_SPECIFICATION.md",
+            "src/rag/PHASE_13_ACCEPTANCE_REPORT.md",
+            "src/rag/PHASE_13_SPECIFICATION.md",
             "src/rag/PHASE_5_6_ACCEPTANCE_REPORT.md",
             "src/rag/PRODUCTION_REQUIREMENTS.md",
             "src/rag/QUALITY_CONTROL_README.md",
+            "src/rag/RAG_EVAL_ACCEPTANCE_REPORT_TEMPLATE.md",
+            "src/rag/RAG_PHASES_1_10_COMPLETION_REPORT.md",
             "src/rag/README.md",
+            "src/rag/RERANKING_BUDGET_GATE_SPECIFICATION.md",
+            "src/rag/RESEARCH_EVAL_HARNESS_SPECIFICATION.md",
             "src/rag/ROADMAP.md",
             "src/rag/SECURITY.md",
             "src/rag/examples/README.md"
@@ -7177,16 +7257,16 @@
           "LOW": 0,
           "INFO": 0
         },
-        "gap_open": true
+        "gap_open": false
       },
       "release_gates": {
-        "related_tests": 167,
+        "related_tests": 186,
         "related_benchmarks": 29,
-        "failing_tests": 2,
+        "failing_tests": 0,
         "failing_benchmarks": 0,
         "tests_missing": false,
         "benchmarks_missing": false,
-        "gap_open": true
+        "gap_open": false
       },
       "release_gate_details": {
         "test_files": [
@@ -7220,11 +7300,24 @@
           "tests/llm/test_wiki_rag_quality.cpp",
           "tests/performance/phase4/test_pmem_storage.cpp",
           "tests/performance/test_rag_ttft_benchmark.cpp",
+          "tests/rag/test_adaptive_hybrid_router.cpp",
+          "tests/rag/test_benchmark_suite.cpp",
+          "tests/rag/test_cost_attribution_tracker.cpp",
+          "tests/rag/test_cost_model_builder.cpp",
+          "tests/rag/test_cross_encoder_orchestrator.cpp",
           "tests/rag/test_dpr_vectorizer.cpp",
+          "tests/rag/test_evaluation_result_store.cpp",
           "tests/rag/test_fairness_detector.cpp",
+          "tests/rag/test_freshness_sla_enforcer.cpp",
+          "tests/rag/test_gradient_descent_optimizer.cpp",
+          "tests/rag/test_index_refresh_scheduler.cpp",
+          "tests/rag/test_ingestion_latency_monitor.cpp",
           "tests/rag/test_knowledge_graph_retriever_reasoning.cpp",
           "tests/rag/test_lora_enhanced_retriever.cpp",
+          "tests/rag/test_metric_computation.cpp",
           "tests/rag/test_ontology_aware_retriever.cpp",
+          "tests/rag/test_otel_span_emitter.cpp",
+          "tests/rag/test_query_intent_classifier.cpp",
           "tests/rag/test_rag_adaptive_retrieval.cpp",
           "tests/rag/test_rag_adversarial_tester.cpp",
           "tests/rag/test_rag_agentic.cpp",
@@ -7264,8 +7357,14 @@
           "tests/rag/test_rag_rlaif_trainer.cpp",
           "tests/rag/test_rag_streaming_retriever.cpp",
           "tests/rag/test_rag_uncovered.cpp",
+          "tests/rag/test_realtime_slo_tracker.cpp",
+          "tests/rag/test_recommendation_engine.cpp",
+          "tests/rag/test_reranker_budget_gate.cpp",
+          "tests/rag/test_reranker_cost_analyzer.cpp",
+          "tests/rag/test_router_policy_store.cpp",
           "tests/rag/test_self_rag.cpp",
           "tests/rag/test_self_rag_alce.cpp",
+          "tests/rag/test_staleness_aware_router.cpp",
           "tests/rag/test_tensor_rag_provenance.cpp",
           "tests/rag/test_wave5_rag_hardening.cpp",
           "tests/rag/test_wave7_bm25_positional_fts.cpp",
@@ -7389,10 +7488,7 @@
           "benchmarks/wave8/WAVE8_BENCHMARK_COVERAGE.md",
           "benchmarks/wave9/WAVE9_BENCHMARK_COVERAGE.md"
         ],
-        "failing_tests": [
-          "SelfRAGALCETest.ALCE_01_LatencyRatioWithinBound",
-          "SelfRAGALCETest.ALCE_01_LatencyRatioWithinBound (46 ms)"
-        ],
+        "failing_tests": [],
         "failing_benchmarks": []
       }
     },
@@ -7594,7 +7690,7 @@
         "gap_open": false
       },
       "release_gates": {
-        "related_tests": 19,
+        "related_tests": 21,
         "related_benchmarks": 10,
         "failing_tests": 0,
         "failing_benchmarks": 0,
@@ -7614,12 +7710,14 @@
           "tests/legacy/knowledge/test_knowledge_gap_retrieval_callback.cpp",
           "tests/legacy/neural/test_neural_sparse_retrieval.cpp",
           "tests/rag/test_rag_adaptive_retrieval.cpp",
+          "tests/retrieval/test_dual_read_validator.cpp",
           "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
           "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
           "tests/retrieval/test_retrieval_llm_reranking_focused.cpp",
           "tests/retrieval/test_retrieval_lora_trust_boundary_focused.cpp",
           "tests/search/test_layered_retrieval_integration_phase4.cpp",
           "tests/search/test_search_edge_cases_retrieval.cpp",
+          "tests/security/test_retrieval_policy.cpp",
           "tests/test_knowledge_gap_retrieval_callback.cpp",
           "tests/test_neural_sparse_retrieval.cpp",
           "tests/test_rag_adaptive_retrieval.cpp"
@@ -7803,7 +7901,7 @@
         "gap_open": false
       },
       "release_gates": {
-        "related_tests": 34,
+        "related_tests": 35,
         "related_benchmarks": 5,
         "failing_tests": 0,
         "failing_benchmarks": 0,
@@ -7828,6 +7926,7 @@
           "tests/legacy/task/test_task_scheduler_slo_retry.cpp",
           "tests/legacy/task/test_task_scheduler_triggers.cpp",
           "tests/llm/bench_continuous_batch_scheduler.cpp",
+          "tests/rag/test_index_refresh_scheduler.cpp",
           "tests/scheduler/test_scheduler_concurrency_edge_cases.cpp",
           "tests/scheduler/test_scheduler_contract_hardening_focused.cpp",
           "tests/scheduler/test_scheduler_coordination_failures.cpp",
@@ -8158,6 +8257,7 @@
             "src/security/PHASE_6_ACCEPTANCE_CHECKLIST.md",
             "src/security/PRODUCTION_REQUIREMENTS.md",
             "src/security/README.md",
+            "src/security/RETRIEVAL_POLICY_ENFORCEMENT.md",
             "src/security/ROADMAP.md",
             "src/security/SECURITY.md",
             "src/security/WAVE_C_CLOSURE_EVIDENCE.md"
@@ -8209,7 +8309,7 @@
         "gap_open": false
       },
       "release_gates": {
-        "related_tests": 146,
+        "related_tests": 150,
         "related_benchmarks": 15,
         "failing_tests": 0,
         "failing_benchmarks": 0,
@@ -8260,6 +8360,7 @@
           "tests/security/test_aql_safety_validator.cpp",
           "tests/security/test_arrow_user_registration_plugin.cpp",
           "tests/security/test_audit_export_stress_focused.cpp",
+          "tests/security/test_audit_log_store.cpp",
           "tests/security/test_auth_anomaly_detection.cpp",
           "tests/security/test_auth_audit_logger.cpp",
           "tests/security/test_auth_error.cpp",
@@ -8297,6 +8398,7 @@
           "tests/security/test_jwt_validator.cpp",
           "tests/security/test_kdf_argon2_bridge.cpp",
           "tests/security/test_kerberos_security.cpp",
+          "tests/security/test_key_rotation_manager.cpp",
           "tests/security/test_keyprovider_signing.cpp",
           "tests/security/test_ldap_authenticator.cpp",
           "tests/security/test_ldap_bind_bridge.cpp",
@@ -8318,6 +8420,7 @@
           "tests/security/test_pki_shard_certificate.cpp",
           "tests/security/test_process_parser_hardening.cpp",
           "tests/security/test_rbac_comprehensive.cpp",
+          "tests/security/test_retrieval_policy.cpp",
           "tests/security/test_row_level_security.cpp",
           "tests/security/test_safe_iterator.cpp",
           "tests/security/test_safe_move.cpp",
@@ -8351,6 +8454,7 @@
           "tests/test_ingestion_security.cpp",
           "tests/test_jwks_security.cpp",
           "tests/test_kerberos_security.cpp",
+          "tests/test_llm_model_downloader_security.cpp",
           "tests/test_llm_security_audit.cpp",
           "tests/test_lora_security.cpp",
           "tests/test_metadata_security_provider.cpp",
@@ -10251,19 +10355,25 @@
         ],
         "found_core_docs": [
           "ARCHITECTURE.md",
+          "CHANGELOG.md",
+          "FUTURE_ENHANCEMENTS.md",
           "README.md",
           "ROADMAP.md"
         ],
-        "missing_core_docs": [
-          "CHANGELOG.md",
-          "FUTURE_ENHANCEMENTS.md"
-        ],
+        "missing_core_docs": [],
         "doc_files": {
           "src": [
             "src/vector_search/ARCHITECTURE.md",
+            "src/vector_search/AUDIT.md",
+            "src/vector_search/CHANGELOG.md",
             "src/vector_search/DOXYGEN.md",
+            "src/vector_search/FUTURE_ENHANCEMENTS.md",
+            "src/vector_search/MODULE_GAPS.md",
+            "src/vector_search/PERFORMANCE_EXPECTATIONS.md",
+            "src/vector_search/PRODUCTION_REQUIREMENTS.md",
             "src/vector_search/README.md",
-            "src/vector_search/ROADMAP.md"
+            "src/vector_search/ROADMAP.md",
+            "src/vector_search/SECURITY.md"
           ]
         },
         "gap_open": true
