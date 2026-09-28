@@ -61,13 +61,42 @@ on:
         required: false
         default: 'os'
         type: choice
-        options: [os, linux-amd64-only, linux-arm64-only, windows-amd64-only, macos-arm64-only]
+        options: [os, all, linux-amd64-only, linux-arm64-only, windows-amd64-only, macos-arm64-only]
+      os:
+        description: 'OS selector'
+        required: false
+        default: 'all'
+        type: choice
+        options: [all, linux, windows, macos]
+      architecture:
+        description: 'Architecture selector'
+        required: false
+        default: 'all'
+        type: choice
+        options: [all, amd64, arm64]
       edition:
         description: 'Edition to publish (for dispatch)'
         required: false
         default: 'community'
         type: choice
         options: [minimal, community, enterprise, hyperscaler, military]
+      build_type:
+        description: 'Build type passed to CMake'
+        required: false
+        default: 'Release'
+        type: choice
+        options: [Release, Debug]
+      packaging:
+        description: 'CPack generator selector (auto or comma-separated list, e.g. TGZ,ZIP)'
+        required: false
+        default: 'auto'
+        type: string
+      distribution:
+        description: 'Distribution selector (all/github/docker/winget/linux)'
+        required: false
+        default: 'all'
+        type: choice
+        options: [all, github, docker, winget, linux]
       tag_name:
         description: 'Tag for image version (for dispatch)'
         required: false
@@ -192,6 +221,12 @@ jobs:
     uses: ./.github/workflows/release-build-matrix.yml
     with:
       build_matrix: ${{ inputs.build_matrix || 'os' }}
+      os: ${{ inputs.os || 'all' }}
+      architecture: ${{ inputs.architecture || 'all' }}
+      edition: ${{ inputs.edition || 'community' }}
+      build_type: ${{ inputs.build_type || 'Release' }}
+      packaging: ${{ inputs.packaging || 'auto' }}
+      distribution: ${{ inputs.distribution || 'all' }}
     secrets: inherit
 
   # ─────────────────────────────────────────────────────────────────────────────
@@ -346,7 +381,8 @@ jobs:
       needs.validate-release-manifest.result == 'success' && (
         github.event_name == 'push' ||
         github.event_name == 'release' ||
-        github.event_name == 'workflow_dispatch'
+        (github.event_name == 'workflow_dispatch' &&
+         contains(fromJSON('["all","docker"]'), inputs.distribution))
       )
     permissions:
       contents: read
@@ -384,7 +420,8 @@ jobs:
       needs.validate-release-manifest.result == 'success' && (
         github.event_name == 'push' ||
         github.event_name == 'release' ||
-        github.event_name == 'workflow_dispatch'
+        (github.event_name == 'workflow_dispatch' &&
+         contains(fromJSON('["all","winget"]'), inputs.distribution))
       )
     permissions:
       contents: read
