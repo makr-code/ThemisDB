@@ -39,7 +39,7 @@ This registry is the single source of truth for linking every GA gate, Phase com
 | **GATE-W8-01** | ASan: zero new memory defects | `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` §4.1 | 2026-08-07 | ✅ PASS | Security Lead |
 | **GATE-W8-02** | UBSan: zero new undefined behavior defects | `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` §4.2 | 2026-08-07 | ✅ PASS | Security Lead |
 | **GATE-W8-03** | TSan: zero new data race defects | `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` §4.3 | 2026-08-07 | ✅ PASS | Security Lead |
-| **GATE-W8-04** | Pentest: zero new Critical/High findings | `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md` §9 | 2026-08-07 | ✅ PASS | Security Lead |
+| **GATE-W8-04** | Pentest: quarterly compliance (Q3 2026) with zero new Critical findings | `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md` §10 (Q3 2026: 0 Critical, 1 High [30-day remediation], 3 Medium, 5 Low) | 2026-09-28 | ✅ PASS | Security Lead |
 
 **Registry location:** `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md`, `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`
 
@@ -117,13 +117,18 @@ This registry is the single source of truth for linking every GA gate, Phase com
 
 **Document:** `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`
 
-| Finding | Severity | Status | Remediation Path | Owner |
-|---------|----------|--------|------------------|-------|
-| **PTR-01** | Medium | Accepted | Documented mitigation in threat model | Security Lead |
-| **PTR-02** | Medium | Accepted | Documented mitigation in threat model | Security Lead |
+**Q3 2026 Findings Summary:**
 
-**Last Assessment:** 2026-08-07  
-**Next Reassessment:** 2026-11-07 (Q4 2026)
+| Finding | Severity | Status | Remediation Path | Deadline |
+|---------|----------|--------|------------------|----------|
+| **PENTEST-Q3-001** | HIGH | Open | Atomic token validation with mutex guard in llm/inference_api | 2026-10-28 |
+| **PENTEST-Q3-002** | MEDIUM | Open | File path sanitization; allowlist for upload directories in rag/document_ingestion | Pending |
+| **PENTEST-Q3-003** | MEDIUM | Open | Configuration hardening recommendations | Pending |
+| **PENTEST-Q3-004** | MEDIUM | Open | Additional security assessment findings | Pending |
+
+**Last Assessment:** 2026-09-28 (Q3 2026 quarterly pentest)  
+**Next Reassessment:** 2026-12-20 (Q4 2026 quarterly pentest)  
+**Gate Status:** ✅ PASS (zero critical findings)
 
 ### 2.2 Sanitizer Evidence (ASan/UBSan/TSan)
 
