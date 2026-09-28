@@ -3,6 +3,8 @@
 
 #include <gtest/gtest.h>
 
+#include <chrono>
+
 #include "rag/evaluation_result_store.h"
 
 namespace themis::rag::testing {
@@ -10,133 +12,95 @@ namespace themis::rag::testing {
 class EvaluationResultStoreTest : public ::testing::Test {
  protected:
   EvaluationResultStore store_;
+
+  static EvaluationResultStore::BenchmarkRun MakeRun(const std::string& run_id,
+                                                     const std::string& version,
+                                                     float ndcg10,
+                                                     float latency_ms) {
+    EvaluationResultStore::BenchmarkRun run;
+    run.run_id = run_id;
+    run.dataset_name = "trec_covid";
+    run.scenario_name = "adaptive_rag";
+    run.version = version;
+    run.created_at_us = std::chrono::duration_cast<std::chrono::microseconds>(
+                           std::chrono::system_clock::now().time_since_epoch())
+                           .count();
+    run.mean_ndcg_10 = ndcg10;
+    run.mean_ndcg_100 = ndcg10;
+    run.mean_mrr_10 = 0.7f;
+    run.mean_map_10 = 0.6f;
+    run.mean_latency_ms = latency_ms;
+    run.mean_cost_usd = 0.01f;
+
+    EvaluationResultStore::QueryResult qr;
+    qr.query_id = "q1";
+    qr.scenario = "adaptive_rag";
+    qr.ndcg_10 = ndcg10;
+    qr.ndcg_100 = ndcg10;
+    qr.mrr_10 = 0.7f;
+    qr.map_10 = 0.6f;
+    qr.precision_10 = 0.5f;
+    qr.recall_10 = 0.5f;
+    qr.query_latency_ms = static_cast<uint64_t>(latency_ms);
+    qr.query_cost_usd = 0.01f;
+    qr.computed_at_us = run.created_at_us;
+    run.query_results.push_back(qr);
+    return run;
+  }
 };
 
-TEST_F(EvaluationResultStoreTest, StoreResult) {
-  EvaluationResultStore::Result result;
-  result.result_id = "r1";
-  result.scenario_name = "benchmark_v1";
-  result.retriever_name = "retriever_v1";
-  result.ndcg_10 = 0.85f;
-  
-  bool success = store_.StoreResult(result);
-  EXPECT_TRUE(success);
+TEST_F(EvaluationResultStoreTest, StoreAndLoadRun) {
+  auto run = MakeRun("run_1", "v1", 0.85f, 100.0f);
+  const auto run_id = store_.StoreRun(run);
+  EXPECT_EQ(run_id, "run_1");
+
+  auto loaded = store_.LoadResults("trec_covid", "adaptive_rag", "v1");
+  ASSERT_TRUE(loaded.has_value());
+  EXPECT_EQ(loaded->run_id, "run_1");
 }
 
-TEST_F(EvaluationResultStoreTest, RetrieveResult) {
-  EvaluationResultStore::Result result;
-  result.result_id = "r1";
-  result.scenario_name = "benchmark_v1";
-  result.retriever_name = "retriever_v1";
-  result.ndcg_10 = 0.85f;
-  
-  store_.StoreResult(result);
-  auto retrieved = store_.GetResult("r1");
-  
-  EXPECT_TRUE(retrieved.has_value());
-  EXPECT_EQ(retrieved->result_id, "r1");
-}
+TEST_F(EvaluationResultStoreTest, GetVersionsNewestFirst) {
+  store_.StoreRun(MakeRun("run_1", "v1", 0.80f, 120.0f));
+  store_.StoreRun(MakeRun("run_2", "v2", 0.85f, 110.0f));
 
-TEST_F(EvaluationResultStoreTest, ListResultsForScenario) {
-  EvaluationResultStore::Result result1, result2;
-  result1.result_id = "r1";
-  result1.scenario_name = "benchmark_v1";
-  result1.retriever_name = "retriever_v1";
-  result1.ndcg_10 = 0.85f;
-  
-  result2.result_id = "r2";
-  result2.scenario_name = "benchmark_v1";
-  result2.retriever_name = "retriever_v2";
-  result2.ndcg_10 = 0.90f;
-  
-  store_.StoreResult(result1);
-  store_.StoreResult(result2);
-  
-  auto results = store_.GetResultsForScenario("benchmark_v1");
-  EXPECT_EQ(results.size(), 2);
+  auto versions = store_.GetVersions("trec_covid", "adaptive_rag");
+  ASSERT_EQ(versions.size(), 2u);
+  EXPECT_EQ(versions[0], "v2");
+  EXPECT_EQ(versions[1], "v1");
 }
 
 TEST_F(EvaluationResultStoreTest, CompareResults) {
-  EvaluationResultStore::Result result1, result2;
-  result1.result_id = "r1";
-  result1.scenario_name = "benchmark_v1";
-  result1.retriever_name = "retriever_v1";
-  result1.ndcg_10 = 0.85f;
-  
-  result2.result_id = "r2";
-  result2.scenario_name = "benchmark_v1";
-  result2.retriever_name = "retriever_v2";
-  result2.ndcg_10 = 0.90f;
-  
-  store_.StoreResult(result1);
-  store_.StoreResult(result2);
-  
-  auto comparison = store_.CompareResults("r1", "r2");
-  EXPECT_GT(comparison["r2_ndcg_10_improvement"], 0.0f);
+  store_.StoreRun(MakeRun("run_1", "v1", 0.80f, 120.0f));
+  store_.StoreRun(MakeRun("run_2", "v2", 0.90f, 100.0f));
+
+  auto comparison = store_.Compare("run_1", "run_2");
+  EXPECT_GT(comparison.mean_ndcg_10_delta, 0.0f);
 }
 
-TEST_F(EvaluationResultStoreTest, GetTrends) {
-  EvaluationResultStore::Result result1, result2, result3;
-  result1.result_id = "r1";
-  result1.scenario_name = "benchmark_v1";
-  result1.retriever_name = "retriever_v1";
-  result1.ndcg_10 = 0.80f;
-  
-  result2.result_id = "r2";
-  result2.scenario_name = "benchmark_v1";
-  result2.retriever_name = "retriever_v1";
-  result2.ndcg_10 = 0.85f;
-  
-  result3.result_id = "r3";
-  result3.scenario_name = "benchmark_v1";
-  result3.retriever_name = "retriever_v1";
-  result3.ndcg_10 = 0.90f;
-  
-  store_.StoreResult(result1);
-  store_.StoreResult(result2);
-  store_.StoreResult(result3);
-  
-  auto trends = store_.GetTrends("retriever_v1", "benchmark_v1");
-  EXPECT_GE(trends.size(), 0);
+TEST_F(EvaluationResultStoreTest, GetTrend) {
+  store_.StoreRun(MakeRun("run_1", "v1", 0.80f, 120.0f));
+  store_.StoreRun(MakeRun("run_2", "v2", 0.85f, 110.0f));
+
+  auto trend = store_.GetTrend("trec_covid", "adaptive_rag", "ndcg_10");
+  EXPECT_EQ(trend.metric_name, "ndcg_10");
+  EXPECT_GE(trend.values.size(), 2u);
 }
 
-TEST_F(EvaluationResultStoreTest, DeleteResult) {
-  EvaluationResultStore::Result result;
-  result.result_id = "r1";
-  result.scenario_name = "benchmark_v1";
-  result.retriever_name = "retriever_v1";
-  result.ndcg_10 = 0.85f;
-  
-  store_.StoreResult(result);
-  bool success = store_.DeleteResult("r1");
-  EXPECT_TRUE(success);
-  
-  auto retrieved = store_.GetResult("r1");
-  EXPECT_FALSE(retrieved.has_value());
+TEST_F(EvaluationResultStoreTest, ExportRun) {
+  store_.StoreRun(MakeRun("run_1", "v1", 0.85f, 100.0f));
+  EXPECT_TRUE(store_.ExportRun("run_1", "eval_run.json"));
 }
 
-TEST_F(EvaluationResultStoreTest, MultipleRetrievers) {
-  EvaluationResultStore::Result result1, result2;
-  result1.result_id = "r1";
-  result1.scenario_name = "benchmark_v1";
-  result1.retriever_name = "retriever_v1";
-  result1.ndcg_10 = 0.85f;
-  
-  result2.result_id = "r2";
-  result2.scenario_name = "benchmark_v1";
-  result2.retriever_name = "retriever_v2";
-  result2.ndcg_10 = 0.90f;
-  
-  store_.StoreResult(result1);
-  store_.StoreResult(result2);
-  
-  auto results = store_.GetResultsForScenario("benchmark_v1");
-  EXPECT_EQ(results.size(), 2);
+TEST_F(EvaluationResultStoreTest, GetRunStats) {
+  store_.StoreRun(MakeRun("run_1", "v1", 0.85f, 100.0f));
+  auto stats = store_.GetRunStats("run_1");
+  EXPECT_GT(stats["mean_ndcg_10"], 0.0f);
+  EXPECT_EQ(stats["num_queries"], 1.0f);
 }
 
-TEST_F(EvaluationResultStoreTest, NonexistentResult) {
-  auto retrieved = store_.GetResult("nonexistent");
-  EXPECT_FALSE(retrieved.has_value());
+TEST_F(EvaluationResultStoreTest, PruneOldRunsKeepsRecent) {
+  store_.StoreRun(MakeRun("run_1", "v1", 0.85f, 100.0f));
+  EXPECT_EQ(store_.PruneOldRuns(3650), 0u);
 }
 
 }  // namespace themis::rag::testing

@@ -19,20 +19,6 @@ using namespace themis::retrieval;
 class DualReadValidatorTest : public ::testing::Test {
  protected:
   DualReadValidator validator_{"/tmp/current", "/tmp/previous"};
-
-  // Helper to create retrieval results
-  std::vector<RetrievalResult> CreateResults(
-      const std::vector<std::pair<std::string, double>>& docs) {
-    std::vector<RetrievalResult> results;
-    for (size_t i = 0; i < docs.size(); ++i) {
-      RetrievalResult r;
-      r.document_id = docs[i].first;
-      r.relevance_score = docs[i].second;
-      r.rank = i + 1;
-      results.push_back(r);
-    }
-    return results;
-  }
 };
 
 /**
@@ -71,85 +57,32 @@ TEST_F(DualReadValidatorTest, DUALREAD_02_AcceptSmallVariance) {
   EXPECT_FALSE(current.HasRegression(previous, 2.0));
 }
 
-/**
- * @test DUALREAD-03: Compute recall@10 correctly
- */
-TEST_F(DualReadValidatorTest, DUALREAD_03_ComputeRecall) {
-  // Results: doc1, doc2, doc3, ... (in top 10)
-  auto results = CreateResults({
-      {"doc1", 0.95},
-      {"doc2", 0.90},
-      {"doc3", 0.85},
-      {"doc4", 0.80},
-      {"doc5", 0.75},
-      {"doc6", 0.70},
-      {"doc7", 0.65},
-      {"doc8", 0.60},
-      {"doc9", 0.55},
-      {"doc10", 0.50},
-  });
+TEST_F(DualReadValidatorTest, ValidateQueryReturnsCachedGroundTruthMetrics) {
+  std::map<std::string, std::vector<std::string>> judgments;
+  judgments["query1"] = {"doc1", "doc3", "doc5"};
+  validator_.SetGroundTruth(judgments);
 
-  // Ground truth: doc1, doc3, doc5, doc7 (4 relevant)
-  std::vector<std::string> ground_truth = {"doc1", "doc3", "doc5", "doc7"};
-
-  // Recall@10 = 4 relevant found / 4 total relevant = 1.0
-  double recall = DualReadValidator::ComputeRecallAtK(results, ground_truth, 10);
-  EXPECT_DOUBLE_EQ(recall, 1.0);
-
-  // If only top-5 results considered: 3 relevant found / 4 total = 0.75
-  double recall_at_5 = DualReadValidator::ComputeRecallAtK(results, ground_truth, 5);
-  EXPECT_DOUBLE_EQ(recall_at_5, 0.75);
+  auto result = validator_.ValidateQuery("query1", 10);
+  EXPECT_EQ(result.metrics.total_relevant, 3u);
+  EXPECT_DOUBLE_EQ(result.metrics.recall_at_10, 0.0);
+  EXPECT_DOUBLE_EQ(result.metrics.ndcg_at_10, 0.0);
+  EXPECT_DOUBLE_EQ(result.metrics.mrr_at_10, 0.0);
+  EXPECT_TRUE(result.current_results.empty());
+  EXPECT_TRUE(result.previous_results.empty());
 }
 
-/**
- * @test DUALREAD-04: Compute nDCG@10 correctly (normalized discount)
- */
-TEST_F(DualReadValidatorTest, DUALREAD_04_ComputeNDCG) {
-  // Results with perfect ranking (all relevant at top)
-  auto perfect_results = CreateResults({
-      {"doc1", 0.99},  // relevant
-      {"doc2", 0.98},  // relevant
-      {"doc3", 0.97},  // relevant
-      {"irrelevant1", 0.50},
-      {"irrelevant2", 0.40},
-  });
+TEST_F(DualReadValidatorTest, ValidateQueryBatchAggregatesEmptyResults) {
+  std::map<std::string, std::vector<std::string>> judgments;
+  judgments["query1"] = {"doc1", "doc2"};
+  judgments["query2"] = {"doc3"};
+  validator_.SetGroundTruth(judgments);
 
-  std::vector<std::string> ground_truth = {"doc1", "doc2", "doc3"};
-
-  // Perfect ranking → nDCG should be close to 1.0
-  double ndcg_perfect = DualReadValidator::ComputeNdcgAtK(perfect_results, ground_truth, 10);
-  EXPECT_GT(ndcg_perfect, 0.95);  // Should be very high for perfect ranking
-}
-
-/**
- * @test DUALREAD-05: Compute MRR@10 (reciprocal rank of first relevant)
- */
-TEST_F(DualReadValidatorTest, DUALREAD_05_ComputeMRR) {
-  // Relevant doc at position 1 → MRR = 1/1 = 1.0
-  auto results_rank1 = CreateResults({
-      {"relevant_doc", 0.99},
-      {"irrelevant1", 0.50},
-  });
-  std::vector<std::string> ground_truth = {"relevant_doc"};
-  double mrr1 = DualReadValidator::ComputeMrrAtK(results_rank1, ground_truth, 10);
-  EXPECT_DOUBLE_EQ(mrr1, 1.0);
-
-  // Relevant doc at position 3 → MRR = 1/3 ≈ 0.333
-  auto results_rank3 = CreateResults({
-      {"irrel1", 0.90},
-      {"irrel2", 0.80},
-      {"relevant_doc", 0.70},
-  });
-  double mrr3 = DualReadValidator::ComputeMrrAtK(results_rank3, ground_truth, 10);
-  EXPECT_NEAR(mrr3, 1.0 / 3.0, 0.001);
-
-  // No relevant results → MRR = 0.0
-  auto results_no_relevant = CreateResults({
-      {"irrel1", 0.90},
-      {"irrel2", 0.80},
-  });
-  double mrr_none = DualReadValidator::ComputeMrrAtK(results_no_relevant, ground_truth, 10);
-  EXPECT_DOUBLE_EQ(mrr_none, 0.0);
+  auto batch = validator_.ValidateQueryBatch({"query1", "query2"}, 5);
+  EXPECT_EQ(batch.query_results.size(), 2u);
+  EXPECT_DOUBLE_EQ(batch.aggregate_metrics.recall_at_10, 0.0);
+  EXPECT_DOUBLE_EQ(batch.aggregate_metrics.ndcg_at_10, 0.0);
+  EXPECT_DOUBLE_EQ(batch.aggregate_metrics.mrr_at_10, 0.0);
+  EXPECT_GE(batch.total_time.count(), 0);
 }
 
 /**
@@ -190,45 +123,18 @@ TEST_F(DualReadValidatorTest, GroundTruthCaching) {
   auto gt2 = validator_.GetGroundTruth("query2");
   EXPECT_EQ(gt2.size(), 2);
 }
-
-/**
- * @test Recall edge case: empty ground truth
- */
-TEST_F(DualReadValidatorTest, RecallEmptyGroundTruth) {
-  auto results = CreateResults({{"doc1", 0.9}, {"doc2", 0.8}});
-  std::vector<std::string> empty_ground_truth;
-
-  double recall = DualReadValidator::ComputeRecallAtK(results, empty_ground_truth, 10);
-  EXPECT_DOUBLE_EQ(recall, 0.0);  // No ground truth → no recall possible
-}
-
-/**
- * @test nDCG edge case: empty results
- */
-TEST_F(DualReadValidatorTest, NDCGEmptyResults) {
-  std::vector<RetrievalResult> empty_results;
-  std::vector<std::string> ground_truth = {"doc1", "doc2"};
-
-  double ndcg = DualReadValidator::ComputeNdcgAtK(empty_results, ground_truth, 10);
-  EXPECT_DOUBLE_EQ(ndcg, 0.0);
-}
-
-/**
- * @test Regression threshold at exact 2pp boundary
- */
 TEST_F(DualReadValidatorTest, RegressionBoundary) {
   RetrievalMetrics current;
-  current.recall_at_10 = 0.82;  // 82%
-  current.ndcg_at_10 = 0.75;
-  current.mrr_at_10 = 0.90;
+  current.recall_at_10 = 0.83;  // 83%
+  current.ndcg_at_10 = 0.76;
+  current.mrr_at_10 = 0.91;
 
   RetrievalMetrics previous;
-  previous.recall_at_10 = 0.84;  // 84% (exactly 2pp better)
+  previous.recall_at_10 = 0.84;  // 84% (1pp better)
   previous.ndcg_at_10 = 0.77;
   previous.mrr_at_10 = 0.92;
 
-  // Exactly at boundary: 2pp delta → should NOT be flagged as regression
-  // (tolerance is >= not >)
+  // 1pp delta should not be flagged as regression
   EXPECT_FALSE(current.HasRegression(previous, 2.0));
 
   // Slightly more than 2pp

@@ -22,12 +22,12 @@ TEST_F(OTELSpanEmitterTest, CreateSpan) {
 
 TEST_F(OTELSpanEmitterTest, SetStringAttribute) {
   auto span = emitter_->StartSpan("rag.query");
-  EXPECT_NO_THROW(span->SetAttribute("query_id", "q123"));
+  EXPECT_NO_THROW(span->SetAttribute("query_id", std::string("q123")));
 }
 
 TEST_F(OTELSpanEmitterTest, SetNumericAttribute) {
   auto span = emitter_->StartSpan("rag.query");
-  EXPECT_NO_THROW(span->SetAttribute("latency_ms", 150UL));
+  EXPECT_NO_THROW(span->SetAttribute("latency_ms", static_cast<uint64_t>(150)));
 }
 
 TEST_F(OTELSpanEmitterTest, SetBooleanAttribute) {
@@ -55,8 +55,8 @@ TEST_F(OTELSpanEmitterTest, MultipleSpans) {
   auto span1 = emitter_->StartSpan("rag.retrieve");
   auto span2 = emitter_->StartSpan("rag.rerank");
   
-  span1->SetAttribute("doc_count", 100UL);
-  span2->SetAttribute("rerank_count", 50UL);
+  span1->SetAttribute("doc_count", static_cast<uint64_t>(100));
+  span2->SetAttribute("rerank_count", static_cast<uint64_t>(50));
   
   EXPECT_NO_THROW(span1->EndSpan());
   EXPECT_NO_THROW(span2->EndSpan());
@@ -99,8 +99,8 @@ TEST_F(OTELSpanEmitterTest, GetStats) {
 
 TEST_F(OTELSpanEmitterTest, SpanWithAttributes) {
   auto span = emitter_->StartSpan("rag.retrieve");
-  span->SetAttribute("query_id", "q789");
-  span->SetAttribute("doc_count", 20UL);
+  span->SetAttribute("query_id", std::string("q789"));
+  span->SetAttribute("doc_count", static_cast<uint64_t>(20));
   span->SetAttribute("success", true);
   
   EXPECT_NO_THROW(span->EndSpan());

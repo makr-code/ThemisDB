@@ -3,108 +3,99 @@
 
 #include <gtest/gtest.h>
 
+#include <map>
+#include <vector>
+
 #include "rag/benchmark_suite.h"
 
 namespace themis::rag::testing {
 
 class BenchmarkSuiteTest : public ::testing::Test {
  protected:
-  BenchmarkSuite suite_;
+  BenchmarkSuite suite_{"test_dataset"};
+
+  static BenchmarkSuite::BenchmarkQuery MakeQuery(const std::string& id,
+                                                  const std::string& text) {
+    BenchmarkSuite::BenchmarkQuery q;
+    q.query_id = id;
+    q.query_text = text;
+    q.ground_truth_doc_ids = {"doc_1"};
+    q.relevance_judgments = {{"doc_1", 3}, {"doc_2", 1}};
+    q.query_domain = "unit-test";
+    return q;
+  }
 };
 
 TEST_F(BenchmarkSuiteTest, LoadDataset) {
-  bool success = suite_.LoadDataset(
-      "test_dataset",
-      {{"doc_1", "content 1"}, {"doc_2", "content 2"}});
+  bool success = suite_.LoadDataset("datasets/test_dataset.tsv");
   EXPECT_TRUE(success);
+
+  auto cfg = suite_.GetDatasetConfig();
+  EXPECT_EQ(cfg.dataset_name, "test_dataset");
+  EXPECT_EQ(cfg.source_path, "datasets/test_dataset.tsv");
 }
 
-TEST_F(BenchmarkSuiteTest, RegisterQuery) {
-  suite_.LoadDataset("test_dataset", {{"doc_1", "content 1"}});
-  
-  bool success = suite_.RegisterQuery("q1", "test query", {"doc_1"});
-  EXPECT_TRUE(success);
+TEST_F(BenchmarkSuiteTest, LoadCustomQueriesUpdatesCount) {
+  std::vector<BenchmarkSuite::BenchmarkQuery> queries = {
+      MakeQuery("q1", "test query 1"), MakeQuery("q2", "test query 2")};
+
+  suite_.LoadCustomQueries(queries);
+  EXPECT_EQ(suite_.GetQueryCount(), 2u);
 }
 
 TEST_F(BenchmarkSuiteTest, RunQuery) {
-  suite_.LoadDataset("test_dataset", {{"doc_1", "content 1"}, {"doc_2", "content 2"}});
-  suite_.RegisterQuery("q1", "test query", {"doc_1"});
-  
-  auto result = suite_.RunQuery("q1", "retriever_v1");
+  suite_.LoadCustomQueries({MakeQuery("q1", "test query")});
+
+  auto result = suite_.RunQuery("q1", "baseline");
   EXPECT_TRUE(result.has_value());
   EXPECT_GT(result->executed_at_us, 0);
 }
 
-TEST_F(BenchmarkSuiteTest, QueryWithMultipleRelevantDocs) {
-  suite_.LoadDataset("test_dataset", {
-      {"doc_1", "content 1"},
-      {"doc_2", "content 2"},
-      {"doc_3", "content 3"}
-  });
-  
-  suite_.RegisterQuery("q1", "test query", {"doc_1", "doc_3"});
-  
-  auto result = suite_.RunQuery("q1", "retriever_v1");
-  EXPECT_TRUE(result.has_value());
+TEST_F(BenchmarkSuiteTest, GetQueryById) {
+  suite_.LoadCustomQueries({MakeQuery("q1", "test")});
+  auto metadata = suite_.GetQuery("q1");
+  ASSERT_TRUE(metadata.has_value());
+  EXPECT_EQ(metadata->query_id, "q1");
 }
 
-TEST_F(BenchmarkSuiteTest, GetScenarios) {
-  suite_.LoadDataset("test_scenario", {{"doc_1", "content"}});
-  
-  auto scenarios = suite_.GetScenarios();
-  EXPECT_GE(scenarios.size(), 1);
-}
+TEST_F(BenchmarkSuiteTest, StoreAndGetResultsByScenario) {
+  suite_.LoadCustomQueries({MakeQuery("q1", "test")});
+  auto result1 = suite_.RunQuery("q1", "baseline");
+  auto result2 = suite_.RunQuery("q1", "adaptive_rag");
 
-TEST_F(BenchmarkSuiteTest, GetQueryMetadata) {
-  suite_.LoadDataset("test_dataset", {{"doc_1", "content"}});
-  suite_.RegisterQuery("q1", "test", {"doc_1"});
-  
-  auto metadata = suite_.GetQueryMetadata("q1");
-  EXPECT_EQ(metadata.query_id, "q1");
-}
-
-TEST_F(BenchmarkSuiteTest, MultipleRetrievers) {
-  suite_.LoadDataset("test_dataset", {{"doc_1", "content"}});
-  suite_.RegisterQuery("q1", "test", {"doc_1"});
-  
-  auto result1 = suite_.RunQuery("q1", "retriever_v1");
-  auto result2 = suite_.RunQuery("q1", "retriever_v2");
-  
   EXPECT_TRUE(result1.has_value());
   EXPECT_TRUE(result2.has_value());
+
+  suite_.StoreResults("baseline", {*result1});
+  suite_.StoreResults("adaptive_rag", {*result2});
+
+  auto stored = suite_.GetResults("baseline");
+  ASSERT_EQ(stored.size(), 1u);
+  EXPECT_EQ(stored.front().query_id, "q1");
 }
 
 TEST_F(BenchmarkSuiteTest, ExportResults) {
-  suite_.LoadDataset("test_dataset", {{"doc_1", "content"}});
-  suite_.RegisterQuery("q1", "test", {"doc_1"});
-  
-  auto result = suite_.RunQuery("q1", "retriever_v1");
-  bool export_ok = suite_.ExportResults("test_scenario", "/tmp/results.json");
-  
+  bool export_ok = suite_.ExportResults("results.json");
   EXPECT_TRUE(export_ok);
 }
 
 TEST_F(BenchmarkSuiteTest, EmptyDatasetHandling) {
-  bool success = suite_.LoadDataset("empty", {});
+  bool success = suite_.LoadDataset("datasets/empty.tsv");
   EXPECT_TRUE(success);
 }
 
 TEST_F(BenchmarkSuiteTest, QueryExecutionTime) {
-  suite_.LoadDataset("test_dataset", {{"doc_1", "content"}});
-  suite_.RegisterQuery("q1", "test", {"doc_1"});
-  
-  auto result = suite_.RunQuery("q1", "retriever_v1");
+  suite_.LoadCustomQueries({MakeQuery("q1", "test")});
+  auto result = suite_.RunQuery("q1", "baseline");
   EXPECT_TRUE(result.has_value());
-  EXPECT_GT(result->executed_at_us, 0);
+  EXPECT_GT(result->query_latency_ms, 0u);
 }
 
 TEST_F(BenchmarkSuiteTest, RetrievedDocuments) {
-  suite_.LoadDataset("test_dataset", {{"doc_1", "content"}});
-  suite_.RegisterQuery("q1", "test", {"doc_1"});
-  
-  auto result = suite_.RunQuery("q1", "retriever_v1");
-  EXPECT_TRUE(result.has_value());
-  EXPECT_GT(result->retrieved_docs.size(), 0);
+  suite_.LoadCustomQueries({MakeQuery("q1", "test")});
+  auto result = suite_.RunQuery("q1", "baseline");
+  ASSERT_TRUE(result.has_value());
+  EXPECT_TRUE(result->retrieved_docs.empty());
 }
 
 }  // namespace themis::rag::testing

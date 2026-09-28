@@ -15,6 +15,11 @@ foreach(_src IN LISTS RETRIEVAL_MODULE_TEST_SOURCES)
     endif()
 
     add_executable(${_target} "${_src}")
+    if("${_stem}" STREQUAL "test_dual_read_validator")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/retrieval/dual_read_validator.cpp
+        )
+    endif()
     # Link against themis_core for retrieval module
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}

@@ -75,7 +75,7 @@ TEST_F(ParallelExecutorDeadlockTest, ParallelScanWithQuickCompletion) {
     
     // Filter: accept only even values
     auto filter = [](const BaseEntity& e) {
-        auto val = e.getFieldAsInt("value");
+        const auto val = e.getFieldAsInt("value");
         return val.has_value() && ((*val % 2) == 0);
     };
     
@@ -108,7 +108,7 @@ TEST_F(ParallelExecutorDeadlockTest, ParallelScanWithSlowFilter) {
     // Slow filter: each evaluation sleeps for 1ms
     auto slow_filter = [](const BaseEntity& e) {
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
-        auto val = e.getFieldAsInt("value");
+        const auto val = e.getFieldAsInt("value");
         return val.has_value() && ((*val % 2) == 0);
     };
     
@@ -197,7 +197,7 @@ TEST_F(ParallelExecutorDeadlockTest, SequentialFallbackPath) {
     }
     
     auto filter = [](const BaseEntity& e) {
-        auto val = e.getFieldAsInt("value");
+        const auto val = e.getFieldAsInt("value");
         return val.has_value() && ((*val % 2) == 0);
     };
     
@@ -220,7 +220,7 @@ TEST_F(ParallelExecutorDeadlockTest, ConcurrentScansNoDeadlock) {
     }
     
     auto filter = [](const BaseEntity& e) {
-        auto val = e.getFieldAsInt("value");
+        const auto val = e.getFieldAsInt("value");
         return val.has_value() && ((*val % 3) == 0);
     };
     
