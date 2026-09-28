@@ -121,5 +121,13 @@ public:
                              int64_t            event_ts) = 0;
 };
 
+/**
+ * @brief Create a continuous query engine with the given tick interval.
+ * @param[in] tick_interval Period between evaluation ticks.
+ * @return Owning pointer to a concrete engine instance.
+ */
+std::unique_ptr<ContinuousQueryEngine> makeContinuousQueryEngine(
+    std::chrono::milliseconds tick_interval);
+
 }  // namespace query
 }  // namespace themis
