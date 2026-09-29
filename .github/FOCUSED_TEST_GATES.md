@@ -138,7 +138,7 @@ cmake --build build --target themis_benchmarks_all_eligible --parallel 8
 
 ## Known Limitations
 
-- Focused test targets are not exhaustive (519 total, many module-specific)
+- Focused test targets are not exhaustive (496 focused module targets; broader CTest registry also includes non-focused targets)
 - Release-critical coverage focused on highest-priority paths
 - Benchmark gates run weekly, not on every commit (performance cost)
 - Some edge case validators (e.g., plugin boundary) have separate gate workflows
