@@ -408,6 +408,7 @@ RUN set -eux; \
         -DTHEMIS_DOCS_DB_MODE=OFF \
         -DCMAKE_TOOLCHAIN_FILE="${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" \
         -DVCPKG_MANIFEST_MODE=OFF \
+        -DVCPKG_MANIFEST_INSTALL=OFF \
         -DVCPKG_TARGET_TRIPLET="${TRIPLET}" \
         -DVCPKG_INSTALLED_DIR="/src/vcpkg_installed" \
         -DCMAKE_PREFIX_PATH="/src/vcpkg_installed/${TRIPLET};/src/vcpkg_installed/${TRIPLET}/share;/src/vcpkg_installed/${TRIPLET}/lib/cmake" \
