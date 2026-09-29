@@ -34,7 +34,7 @@ concurrency:
 
 jobs:
   winget_publish_from_issue:
-    name: "Build: WinGet on Approval Comment"
+    name: "Publish: WinGet on Approval Comment"
     if: |
       contains(github.event.issue.labels.*.name, 'winget-release') &&
       (

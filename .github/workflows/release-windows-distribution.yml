@@ -380,7 +380,7 @@ jobs:
           retention-days: 90
 
   publish-windows-distro-bundle:
-    name: "Build: Windows Distro Bundle (semi-automated)"
+    name: "Publish: Windows Distro Bundle (semi-automated)"
     needs: [detect-release, prepare-windows-distro-bundle]
     if: needs.detect-release.outputs.publish_requested == 'true'
     runs-on: ubuntu-latest
@@ -442,4 +442,3 @@ jobs:
             "${PUBLISH_URL%/}/${TAR_NAME}"
 
           echo "Published bundle: ${PUBLISH_URL%/}/${TAR_NAME}"
-
