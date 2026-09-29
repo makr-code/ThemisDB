@@ -1,3 +1,10 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-08-10
+Last Updated: 2026-09-29
+Status: active
+---
+
 # ThemisDB Maturity Evidence Registry
 
 **Document Type:** GA Gate Evidence Traceability Registry  
