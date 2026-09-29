@@ -263,7 +263,6 @@ jobs:
           BUILD_DIR="build-${PRESET_NAME}"
           case "$BUILD_MODE" in
             tests)
-              MODE_SUFFIX="test"
               if [ -z "$CONFIGURE_COMMAND" ]; then
                 CONFIGURE_COMMAND="cmake -S . -B ${BUILD_DIR} -G Ninja -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF ${CONFIGURE_FLAGS}"
               fi
@@ -285,7 +284,6 @@ jobs:
               fi
               ;;
             benchmarks)
-              MODE_SUFFIX="benchmark"
               if [ -z "$CONFIGURE_COMMAND" ]; then
                 CONFIGURE_COMMAND="cmake -S . -B ${BUILD_DIR} -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=ON ${CONFIGURE_FLAGS}"
               fi
@@ -305,7 +303,6 @@ jobs:
               fi
               ;;
             *)
-              MODE_SUFFIX="default"
               if [ -z "$CONFIGURE_COMMAND" ]; then
                 CONFIGURE_COMMAND="cmake -S . -B ${BUILD_DIR} -G Ninja ${CONFIGURE_FLAGS}"
               fi
