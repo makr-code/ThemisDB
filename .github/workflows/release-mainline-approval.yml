@@ -43,7 +43,7 @@ concurrency:
 
 jobs:
   release_publish_from_issue:
-    name: "Publish: GitHub Release on Approval Comment"
+    name: "Build: GitHub Release on Approval Comment"
     if: |
       contains(github.event.issue.labels.*.name, 'release-review') &&
       (

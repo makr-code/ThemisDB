@@ -482,7 +482,7 @@ jobs:
           retention-days: 90
 
   publish-linux-distro-bundle:
-    name: "Publish: Linux Distro Bundle (semi-automated)"
+    name: "Build: Linux Distro Bundle (semi-automated)"
     needs: [detect-release, prepare-linux-distro-bundle]
     if: needs.detect-release.outputs.publish_requested == 'true'
     runs-on: ubuntu-latest

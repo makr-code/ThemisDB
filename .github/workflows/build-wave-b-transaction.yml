@@ -570,7 +570,7 @@ jobs:
           retention-days: 90
 
   publish-results:
-    name: "Publish: CI Results"
+    name: "Build: CI Results"
     needs: [configure, compile-tests, smoke-tests, full-transaction-test-suite, chaos-recovery-evidence, phase4-benchmark-baseline, collect-artifacts]
     runs-on: ubuntu-latest
     if: always()

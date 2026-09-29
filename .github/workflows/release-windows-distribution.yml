@@ -380,7 +380,7 @@ jobs:
           retention-days: 90
 
   publish-windows-distro-bundle:
-    name: "Publish: Windows Distro Bundle (semi-automated)"
+    name: "Build: Windows Distro Bundle (semi-automated)"
     needs: [detect-release, prepare-windows-distro-bundle]
     if: needs.detect-release.outputs.publish_requested == 'true'
     runs-on: ubuntu-latest

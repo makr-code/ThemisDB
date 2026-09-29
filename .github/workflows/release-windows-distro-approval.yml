@@ -35,7 +35,7 @@ concurrency:
 
 jobs:
   windows_distro_publish_from_issue:
-    name: "Publish: Windows Distro Packages on Approval Comment"
+    name: "Build: Windows Distro Packages on Approval Comment"
     if: |
       contains(github.event.issue.labels.*.name, 'windows-distro-review') &&
       (

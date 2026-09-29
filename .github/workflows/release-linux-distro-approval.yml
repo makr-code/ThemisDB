@@ -35,7 +35,7 @@ concurrency:
 
 jobs:
   linux_distro_publish_from_issue:
-    name: "Publish: Linux Distro Packages on Approval Comment"
+    name: "Build: Linux Distro Packages on Approval Comment"
     if: |
       contains(github.event.issue.labels.*.name, 'linux-distro-review') &&
       (

@@ -351,7 +351,7 @@ jobs:
           Write-Host "✓ Manifests are valid"
 
   create-fork-pr:
-    name: "Publish: Create PR to WinGet Community Repository"
+    name: "Build: Create PR to WinGet Community Repository"
     needs: [detect-release, validate-manifests, generate-manifests]
     runs-on: windows-latest
     if: needs.generate-manifests.outputs.manifest-dir != '' && needs.detect-release.outputs.should-submit == 'true'

@@ -404,7 +404,7 @@ jobs:
   #    Skipped when dry_run=true
   # ─────────────────────────────────────────────────────────────────────────────
   submit-winget-pr:
-    name: "Publish: WinGet (fork PR)"
+    name: "Build: WinGet (fork PR)"
     runs-on: ubuntu-latest
     timeout-minutes: 15
     needs: [download-release-assets, generate-manifests, validate-manifests]

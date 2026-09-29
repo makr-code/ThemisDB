@@ -164,7 +164,7 @@ jobs:
           retention-days: 90
 
   publish-release:
-    name: "Publish: GitHub Release"
+    name: "Build: GitHub Release"
     needs: [check-changes, generate-metadata, build-matrix]
     runs-on: ubuntu-latest
     steps:
@@ -255,7 +255,7 @@ jobs:
             release-artifacts/**/*
 
   publish-docker:
-    name: "Publish: Docker Images"
+    name: "Build: Docker Images"
     needs: generate-metadata
     runs-on: ubuntu-latest
     permissions:

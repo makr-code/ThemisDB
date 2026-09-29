@@ -117,7 +117,7 @@ jobs:
 
   # ── Attach license artifacts to GitHub Release ──────────────────────────────
   license-release-assets:
-    name: "Publish: License Release Assets"
+    name: "Build: License Release Assets"
     if: github.event_name == 'release'
     needs: license-gate
     runs-on: ubuntu-latest

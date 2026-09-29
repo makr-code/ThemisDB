@@ -1,4 +1,4 @@
-name: "Publish: GitHub Wiki"
+name: "Build: GitHub Wiki"
 
 # Rechenaufwand-Score: R=1 (K=1, L=1, N=1) | last-calibrated: 2026-08-31
 # Publishes repository documentation to the GitHub Wiki with breadcrumb navigation
@@ -112,7 +112,7 @@ env:
 
 jobs:
   publish-wiki:
-    name: "Wiki: Build, validate and publish wiki"
+    name: "Build: Build, validate and publish wiki"
     if: |
       (github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success') &&
       (github.event_name != 'workflow_run' || github.event.workflow_run.head_branch == 'develop' || github.event.workflow_run.head_branch == 'community')

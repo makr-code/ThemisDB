@@ -519,7 +519,7 @@ jobs:
           retention-days: 90
 
   publish-results:
-    name: "Publish: GPU CI Results"
+    name: "Build: GPU CI Results"
     needs: [configure, compile-tests, full-gpu-test-suite, cuda-audit, representative-hardware-baselines, collect-artifacts]
     runs-on: ubuntu-latest
     if: always()
