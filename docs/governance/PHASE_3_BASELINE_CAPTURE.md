@@ -1,15 +1,17 @@
-# Phase 3: GPU Baseline Capture & Evidence Collection
+---
+Author: platform-release@themisdb
+Created: 2026-09-23
+Last Updated: 2026-09-28
+Status: draft
+---
 
-**Author:** ThemisDB Contributors  
-**Created:** 2026-09-23  
-**Last Updated:** 2026-09-23  
-**Status:** draft  
+# Phase 3: GPU Baseline Capture & Evidence Collection
 
 **Issue:** makr-code/ThemisDB#6575  
 **Phase:** 3 (Baseline Capture)  
 **Timeline:** 2026-11-03 to 2026-11-17 (1–2 weeks, after Phase 1 infrastructure + Phase 2 code changes)  
 **Owner:** GPU Module Team + Platform Release  
-**Status:** 🔴 BLOCKED — Awaiting Phase 1 infrastructure completion  
+**Phase Status:** 🔴 BLOCKED — Awaiting Phase 1 infrastructure completion  
 
 ---
 

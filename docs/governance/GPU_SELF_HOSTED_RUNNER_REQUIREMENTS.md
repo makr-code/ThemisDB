@@ -1,12 +1,14 @@
+---
+Author: platform-release@themisdb
+Created: 2026-09-23
+Last Updated: 2026-09-28
+Status: draft
+---
+
 # GPU Self-Hosted Runner Infrastructure Requirements
 
-**Author:** ThemisDB Contributors  
-**Created:** 2026-09-23  
-**Last Updated:** 2026-09-23  
-**Status:** draft  
-
 **Document Type:** Infrastructure Configuration — Wave A GPU Baseline Capture  
-**Status:** 🔴 NOT DEPLOYED — Requirements specification ready for implementation  
+**Deployment Status:** 🔴 NOT DEPLOYED — Requirements specification ready for implementation  
 **Target Completion:** Q4 2026
 
 ---

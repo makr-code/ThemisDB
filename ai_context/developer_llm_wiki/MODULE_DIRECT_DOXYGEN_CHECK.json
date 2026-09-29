@@ -18,6 +18,27 @@
     "missing_brief_count": 6,
     "missing_param_docs_count": 5,
     "missing_return_docs_count": 5
+  "module": "ai_working",
+  "status": "SKIP",
+  "reason": "no C/C++ files in include/src/tests/benchmarks module scope",
+  "source_mode": "no_cpp_files",
+  "source_graph_used": false,
+  "source_graph_path": "/home/runner/work/ThemisDB/ThemisDB/ai_working/sourcecode_graph.json",
+  "source_files_scanned": 0,
+  "source_symbols_total": 0,
+  "source_symbols_after_filter": 0,
+  "doxygen_members_total": 0,
+  "doxygen_members_after_filter": 0,
+  "source_symbol_names": 0,
+  "doxygen_symbol_names": 0,
+  "source_not_in_doxygen_count": 0,
+  "doxygen_not_in_source_count": 0,
+  "coverage": {
+    "symbol_presence_ratio": 0.0,
+    "missing_symbol_count": 0,
+    "missing_brief_count": 0,
+    "missing_param_docs_count": 0,
+    "missing_return_docs_count": 0
   },
   "ownership": {
     "path_policy": {
@@ -55,6 +76,22 @@
     "doxygen_members": {
       "internal": 6,
       "external": 1
+      "internal": 0,
+      "external": 0
+    },
+    "doxygen_members": {
+      "internal": 0,
+      "external": 0
+    },
+    "externally_scoped_symbols": []
+  },
+  "by_rule": {},
+  "by_rule_scope": {},
+  "by_scope": {},
+  "samples": {
+    "source_not_in_doxygen": [],
+    "doxygen_not_in_source": [],
+    "findings": []
     },
     "externally_scoped_symbols": []
   },

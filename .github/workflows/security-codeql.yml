@@ -387,3 +387,46 @@ jobs:
           output: codeql-results-rust
           ram: 4096
           threads: 2
+
+  codeql-gate:
+    name: "Security: CodeQL Gate"
+    needs:
+      - detect-default-setup
+      - analyze
+      - analyze-csharp
+      - analyze-rust
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate CodeQL workflow outcome
+        env:
+          ADVANCED_ALLOWED: ${{ needs.detect-default-setup.outputs.advanced_allowed }}
+          CPP_RESULT: ${{ needs.analyze.result }}
+          CSHARP_RESULT: ${{ needs.analyze-csharp.result }}
+          RUST_RESULT: ${{ needs.analyze-rust.result }}
+        run: |
+          set -euo pipefail
+
+          echo "advanced_allowed=${ADVANCED_ALLOWED}"
+          echo "analyze(c-cpp)=${CPP_RESULT}"
+          echo "analyze(csharp)=${CSHARP_RESULT}"
+          echo "analyze(rust)=${RUST_RESULT}"
+
+          if [[ "${ADVANCED_ALLOWED}" != "true" ]]; then
+            echo "Advanced CodeQL jobs were intentionally skipped because repository default setup is active or assumed active."
+            exit 0
+          fi
+
+          fail=0
+          for result in "${CPP_RESULT}" "${CSHARP_RESULT}" "${RUST_RESULT}"; do
+            if [[ "${result}" == "failure" || "${result}" == "cancelled" ]]; then
+              fail=1
+            fi
+          done
+
+          if [[ "${fail}" -ne 0 ]]; then
+            echo "One or more CodeQL analysis jobs failed or were cancelled."
+            exit 1
+          fi
+
+          echo "All CodeQL analysis jobs completed successfully (or were skipped by design)."

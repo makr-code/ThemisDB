@@ -1,5 +1,9 @@
 {
   "module": "vector_search",
+  "module": "ai_working",
+  "generated_from": "check_module_direct_doxygen.py",
+  "source_mode": "no_cpp_files",
+  "findings": []
   "generated_from": "check_module_direct_doxygen.py",
   "source_mode": "direct_doxygen_markers",
   "findings": [
