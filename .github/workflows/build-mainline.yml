@@ -3,11 +3,12 @@ name: "Build: Mainline"
 # Rechenaufwand-Score: R=7 (K=8, L=7, N=7) | last-calibrated: 2026-08-25
 # Trigger policy: repo framework score calibration for workflow cost controls.
 # ──────────────────────────────────────────────────────────────────────────────
-# Trigger policy: push to develop only (no pull_request trigger).
-# Heavy C++ builds (up to 360 min) run post-merge, not on every PR push.
+# Trigger policy: manual dispatch and nightly schedule only (no automatic push trigger).
+# Heavy C++ builds (up to 360 min) run on manual request or nightly, not on every develop push.
+# This prevents excessive cancellation of long-running builds from competing pushes.
 # Performance optimizations: sccache compiler caching (30-50% speedup), parallel jobs (12-16),
 # vcpkg binary caching, and GitHub Actions cache layer to avoid redundant dependency builds.
-# PR-level feedback is provided by lightweight gate-pr-core.yml and gate-pr-*.yml.
+# PR-level feedback is provided by lightweight build-clang-fast.yml and gate-pr-*.yml.
 # Concurrency is scoped per platform matrix lane so slower jobs are not cancelled by
 # newer pushes on other architectures. Each platform queues independently while the
 # branch continues to build in parallel lanes.
@@ -15,59 +16,8 @@ name: "Build: Mainline"
 # ──────────────────────────────────────────────────────────────────────────────
 
 on:
-  push:
-    branches:
-      - develop
-    paths:
-      - 'src/**/*.c'
-      - 'src/**/*.cc'
-      - 'src/**/*.cpp'
-      - 'src/**/*.cxx'
-      - 'src/**/*.h'
-      - 'src/**/*.hh'
-      - 'src/**/*.hpp'
-      - 'src/**/*.hxx'
-      - 'include/**/*.h'
-      - 'include/**/*.hh'
-      - 'include/**/*.hpp'
-      - 'include/**/*.hxx'
-      - 'include/**/*.ipp'
-      - 'include/**/*.tpp'
-      - 'tests/**/*.c'
-      - 'tests/**/*.cc'
-      - 'tests/**/*.cpp'
-      - 'tests/**/*.cxx'
-      - 'tests/**/*.h'
-      - 'tests/**/*.hh'
-      - 'tests/**/*.hpp'
-      - 'tests/**/*.hxx'
-      - 'tests/**/CMakeLists.txt'
-      - 'tests/**/*.cmake'
-      - 'tests/**/*.in'
-      - 'plugins/**/*.c'
-      - 'plugins/**/*.cc'
-      - 'plugins/**/*.cpp'
-      - 'plugins/**/*.cxx'
-      - 'plugins/**/*.h'
-      - 'plugins/**/*.hh'
-      - 'plugins/**/*.hpp'
-      - 'plugins/**/*.hxx'
-      - 'plugins/**/plugin.toml'
-      - 'plugins/**/plugin.json'
-      - 'plugins/**/CMakeLists.txt'
-      - 'plugins/**/*.cmake'
-      - 'plugins/**/*.in'
-      - 'plugins/**/*.txt'
-      - 'CMakeLists.txt'
-      - 'CMakePresets.json'
-      - 'cmake/**/*.cmake'
-      - 'cmake/**/*.txt'
-      - 'cmake/**/*.in'
-      - 'vcpkg.json'
-      - 'vcpkg-configuration.json'
-      - '.github/actions/**/action.yml'
-      - '.github/actions/**/*.js'
-      - '.github/workflows/build-mainline.yml'
+  schedule:
+    - cron: '0 4 * * *'   # Nightly 04:00 UTC (synchronized with release-nightly)
   workflow_dispatch:
     inputs:
       sanitizer:
@@ -94,7 +44,7 @@ jobs:
     name: "Build: Mark Pending State"
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     permissions:
       contents: read
       issues: write
@@ -263,7 +213,7 @@ jobs:
     runs-on: macos-latest
     timeout-minutes: 45
     needs: step2-architecture-summary
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
 
     steps:
       - name: "Validate: Print macOS kqueue job context"
@@ -588,7 +538,7 @@ jobs:
     needs:
       - build
       - macos-kqueue-validation
-    if: always() && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    if: always() && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
     permissions:
       contents: read
       issues: write
