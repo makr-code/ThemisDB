@@ -1,3 +1,10 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-09-29
+Last Updated: 2026-09-29
+Status: active
+---
+
 # Focused Test Gates and Benchmark Gates Architecture
 
 ## Overview
