@@ -8,8 +8,9 @@ name: "Build: Mainline"
 # Performance optimizations: sccache compiler caching (30-50% speedup), parallel jobs (12-16),
 # vcpkg binary caching, and GitHub Actions cache layer to avoid redundant dependency builds.
 # PR-level feedback is provided by lightweight gate-pr-core.yml and gate-pr-*.yml.
-# Concurrency: cancel-in-progress is false to allow builds to queue rather than cancel.
-# This prevents interruption of long-running Windows vcpkg builds.
+# Concurrency is scoped per platform matrix lane so slower jobs are not cancelled by
+# newer pushes on other architectures. Each platform queues independently while the
+# branch continues to build in parallel lanes.
 # See: https://github.com/makr-code/ThemisDB/issues/xxxx
 # ──────────────────────────────────────────────────────────────────────────────
 
@@ -88,10 +89,6 @@ permissions:
   pull-requests: write
   checks: read
 
-concurrency:
-  group: ci-build-mainline-${{ github.ref }}
-  cancel-in-progress: false
-
 jobs:
   mark-build-pending:
     name: "Build: Mark Pending State"
@@ -133,6 +130,9 @@ jobs:
   step2-platform-matrix:
     name: "Build: Step 2 · ${{ matrix.label }}"
     needs: mark-build-pending
+    concurrency:
+      group: ci-build-mainline-${{ github.ref }}-${{ matrix.label }}
+      cancel-in-progress: false
     strategy:
       fail-fast: false
       matrix:
