@@ -215,6 +215,33 @@ jobs:
           printf '%s\n' "$SETUP_COMMAND" > "$script_path"
           bash "$script_path"
 
+      - name: Ensure vcpkg baseline commit is available
+        shell: bash
+        env:
+          WORKING_DIRECTORY: ${{ inputs.working_directory }}
+        run: |
+          set -euo pipefail
+          cd "$WORKING_DIRECTORY"
+          if [ ! -f "vcpkg.json" ] || [ ! -e "vcpkg/.git" ]; then
+            exit 0
+          fi
+
+          BASELINE_COMMIT="$(python -c 'import json, pathlib; print(json.loads(pathlib.Path("vcpkg.json").read_text(encoding="utf-8")).get("builtin-baseline", ""))')"
+
+          if [ -z "${BASELINE_COMMIT}" ]; then
+            exit 0
+          fi
+
+          if ! git -C vcpkg cat-file -e "${BASELINE_COMMIT}^{commit}" 2>/dev/null; then
+            echo "Fetching missing vcpkg builtin-baseline commit: ${BASELINE_COMMIT}"
+            if git -C vcpkg rev-parse --is-shallow-repository | grep -qi '^true$'; then
+              git -C vcpkg fetch --unshallow origin
+            else
+              git -C vcpkg fetch origin master
+            fi
+            git -C vcpkg cat-file -e "${BASELINE_COMMIT}^{commit}"
+          fi
+
       - name: Resolve build line defaults
         id: resolve_mode
         shell: bash
