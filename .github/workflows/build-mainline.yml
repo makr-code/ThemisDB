@@ -143,7 +143,7 @@ jobs:
             setup_command: >-
               set -euo pipefail; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libssl-dev zlib1g-dev libzstd-dev libtbb-dev libyaml-cpp-dev libboost-dev libboost-system-dev libboost-filesystem-dev libcurl4-openssl-dev libgtest-dev libgmock-dev; echo "Linux AMD64 dependencies installed via apt (optimized for hybrid builds)"
             configure_command: >-
-              cmake -S . -B build-step2-linux-amd64 -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
+              cmake -S . -B build-step2-linux-amd64 -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_ENABLE_HTTP_SERVER=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
             build_command: >-
               cmake --build build-step2-linux-amd64 --target themis_base --parallel 8
             summary_title: "Build: Step 2 · Linux AMD64"
@@ -154,7 +154,7 @@ jobs:
             setup_command: >-
               set -euo pipefail; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libssl-dev zlib1g-dev libzstd-dev libtbb-dev libyaml-cpp-dev libboost-dev libboost-system-dev libboost-filesystem-dev libcurl4-openssl-dev libgtest-dev libgmock-dev; echo "Linux ARM64 dependencies installed via apt (optimized for hybrid builds)"
             configure_command: >-
-              cmake -S . -B build-step2-linux-arm64 -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
+              cmake -S . -B build-step2-linux-arm64 -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_ENABLE_HTTP_SERVER=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
             build_command: >-
               cmake --build build-step2-linux-arm64 --target themis_base --parallel 8
             summary_title: "Build: Step 2 · Linux ARM64"
@@ -165,7 +165,7 @@ jobs:
             setup_command: >-
               set -euo pipefail; powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "choco install -y sccache"; VCPKG_BASELINE=$(python3 -c "import json; print(json.load(open('vcpkg.json')).get('builtin-baseline',''))" 2>/dev/null || echo ''); if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then rm -rf vcpkg; git clone --no-checkout https://github.com/microsoft/vcpkg.git vcpkg; if [ -n "${VCPKG_BASELINE}" ]; then git -C vcpkg fetch --depth=1 origin "${VCPKG_BASELINE}" && git -C vcpkg checkout FETCH_HEAD; else git -C vcpkg checkout master; fi; fi; ./vcpkg/bootstrap-vcpkg.bat -disableMetrics; mkdir -p "${VCPKG_ROOT:-vcpkg}/archives" 2>/dev/null || true
             configure_command: >-
-              cmake --preset windows-release -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DVCPKG_BUILD_TYPE=release -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
+              cmake --preset windows-release -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_ENABLE_HTTP_SERVER=OFF -DVCPKG_BUILD_TYPE=release -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
             build_command: >-
               cmake --build --preset windows-release --target themis_base --parallel 16
             summary_title: "Build: Step 2 · Windows AMD64"
@@ -176,7 +176,7 @@ jobs:
             setup_command: >-
               set -euo pipefail; brew update --quiet; brew install cmake ninja sccache fmt spdlog nlohmann-json boost yaml-cpp
             configure_command: >-
-              cmake -S . -B build-step2-macos -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON -DTHEMIS_DIAGNOSTIC_MODE=ON
+              cmake -S . -B build-step2-macos -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_ENABLE_HTTP_SERVER=OFF -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON -DTHEMIS_DIAGNOSTIC_MODE=ON
             build_command: >-
               cmake --build build-step2-macos --target themis_base --parallel 8
             summary_title: "Build: Step 2 · macOS"
