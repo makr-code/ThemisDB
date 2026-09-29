@@ -6,6 +6,51 @@
 All notable changes to the vector search module are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [2.1.0] — 2026-Q4 – Phase 5 Hardening (In Progress)
+
+**Status:** In Progress (Phase 5 hardening, Q4 2026 target)
+
+### Phase 5 Deliverables
+
+- [ ] **SIMD Kernel Completion:** Multi-architecture support (AVX-512, NEON, WASM, scalar fallback)
+  - Components: `include/utils/simd_distance_kernels.h`, `src/utils/simd_distance_kernels.cpp`
+  - Runtime CPUID detection for optimal kernel selection
+  - Targets: 3-5x speedup AVX-512, 2-3x speedup NEON
+  
+- [ ] **Lock-Free Concurrent Search:** Hazard pointer implementation for read-write separation
+  - Components: `include/utils/hazard_pointers.h`, `src/utils/hazard_pointers.cpp`
+  - POC phase Q4 2026, full implementation Q1 2027
+  - Target: 5-10x throughput improvement on high concurrency (100+ threads)
+  
+- [ ] **Adaptive Parameter Tuning:** Auto-tuning HNSW M and ef_construction parameters
+  - Algorithm: Dataset profiling + workload-based tuning
+  - Target: Memory overhead reduction to 25% (from 31%)
+  
+- [ ] **Persistent Index Caching:** Checksum-validated cached indices for fast cold starts
+  - Components: `src/vector_search/index_cache.cpp` (new)
+  - Storage: HDF5 or custom binary format with CRC32/SHA256 validation
+  - Target: 50-80% faster cold start vs. full rebuild
+
+### Performance Targets (Phase 5)
+
+| Metric | Current | Target | Improvement |
+|---|---|---|---|
+| Query latency P99 (k=10, 128-dim) | 8.2 ms | 6.0 ms | -25% |
+| Insert throughput | 1,800 ops/sec | 2,500 ops/sec | +39% |
+| Memory overhead | 31% | 25% | -19% |
+| Concurrent throughput (100+ threads) | 500 ops/sec | 1,000 ops/sec | +100% |
+
+### Infrastructure Changes
+
+- Added `include/utils/simd_distance_kernels.h` — Multi-architecture SIMD kernel abstraction
+- Added `src/utils/simd_distance_kernels.cpp` — Runtime architecture detection and kernel dispatch
+- Added `include/utils/hazard_pointers.h` — Lock-free memory reclamation framework
+- Added `src/utils/hazard_pointers.cpp` — Hazard pointer implementation
+- Added `src/vector_search/PHASE_7_DISTRIBUTED_INDEXING.md` — Phase 7 roadmap (Q1 2027)
+- Updated `src/vector_search/ROADMAP.md` — Mark Phase 6 complete, add Phase 7 definition
+
+---
+
 ## [2.0.0] — 2026-09-22 – Wave D Closure: Production-Ready Vector Search Infrastructure
 
 ### Delivered Artefacts (Wave D)

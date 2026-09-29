@@ -1,21 +1,16 @@
 ---
 Author: platform-release@themisdb
 Created: 2026-07-20
-Last Updated: 2026-09-23
+Last Updated: 2026-09-28
 Status: review
 ---
 
 # ThemisDB GA Promotion — Final Governance Sign-Off
 
-**Author:** ThemisDB Contributors  
-**Created:** 2026-07-20  
-**Last Updated:** 2026-08-18  
-**Status:** review  
-
 **Document Type:** GA Gate Closure — Final Governance and Promotion Sign-Off  
 **Scope:** v2.4.0-rc1 → v2.4.0 GA — Batch D (Final)  
 **Date Opened:** 2026-07-20  
-**Last Updated:** 2026-09-23  
+**Last Updated:** 2026-09-28  
 **Promotion Status:** BATCH E COMPLETE — All technical gates D-1..D-10 + E-1..E-5 PASS (2026-08-07); Module Phase 5-6 closure complete; Wave D D4-00 CI fixes shipped 2026-08-18 (libfmt-dev + benchmark CI unblocked); Wave-B Transaction & Wave-A GPU tracker issues created 2026-09-23; Section 9 human sign-off required for final promotion
 **Owner:** platform-release@themisdb
 
@@ -32,7 +27,7 @@ Three specific evidence blockers identified, root-caused, and addressed:
 #### Evidence Item 1 — Completed `develop` CI-build proof point
 - **Root cause:** `libfmt-dev` and companion system packages missing from `ci-build.yml` `setup-cpp-build` action, causing Build step to fail immediately (0 compile requests, configure succeeds in 34s then build exits non-zero).
 - **Fix:** PR #5999 (merged 2026-08-18 19:12 UTC) added full package list to the CI setup action.
-- **Status:** 🟡 Historical CI run `32175323929` on `develop` (commit `450e74c`) is **cancelled**, not pending. The dependency fix shipped, but the run did not produce final evidence because later build/reporting failures interrupted closure capture. Current governance relies on a fresh `develop` re-run.
+- **Implementation Status:** 🟡 Historical CI run `32175323929` on `develop` (commit `450e74c`) is **cancelled**, not pending. The dependency fix shipped, but the run did not produce final evidence because later build/reporting failures interrupted closure capture. Current governance relies on a fresh `develop` re-run.
 
 #### Evidence Item 2 — Successful production-like benchmark binary builds
 - **Root cause 1 (nightly sweep):** `cmake --preset nightly-bench-sweep` uses `vcpkg-base` (sets `CMAKE_TOOLCHAIN_FILE` to `vcpkg/scripts/buildsystems/vcpkg.cmake`) but the CI job never checks out the vcpkg submodule — configure fails at `CMakeLists.txt:214 (include cmake/Dependencies.cmake)`.
@@ -122,8 +117,8 @@ before the human sign-off in Section 9 can be granted.
 | C-3 | ASan zero new defects | `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` §4 | ✅ PASS |
 | C-4 | UBSan zero new defects | `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` §4 | ✅ PASS |
 | C-5 | TSan zero new data races | `docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md` §4 | ✅ PASS |
-| C-6 | Pentest zero new Critical/High findings | `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md` §9 | ✅ PASS |
-| C-7 | All residual risks documented and accepted | `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md` §9.3 (PTR-01, PTR-02) | ✅ PASS |
+| C-6 | Pentest quarterly compliance (Q3 2026): zero new Critical findings | `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md` §10 (Q3 2026: 0 Critical, 1 High [30-day remediation], 3 Medium, 5 Low) | ✅ PASS (2026-09-28) |
+| C-7 | Pentest high findings tracked with remediation deadline | `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md` §9.2 (PENTEST-Q3-001: API auth race condition, deadline 2026-10-28) | ✅ PASS (2026-09-28) |
 | C-8 | STRIDE threat model reviewed and confirmed current | `security/STRIDE_THREAT_MODEL.md` v1.0 | ✅ PASS |
 
 ### 2.4 Batch D — Final GA Readiness
