@@ -413,7 +413,7 @@ def main() -> int:
 
         coverage_verify_path = artifact_dir / "doxygen-coverage-verify.txt"
 
-        if changed_code_files:
+        if changed_code_files and (changed_public_header_files or coverage_enforced):
             scan_findings = ThemisCppDoxygenPolicyRulesScan(str(repo_root)).scan_files(
                 [Path(path) for path in changed_public_header_files]
             )
@@ -500,6 +500,8 @@ def main() -> int:
                 verdict = "WARN"
             elif not coverage_enforced and coverage_percent is not None and coverage_percent + 1e-9 < threshold:
                 verdict = "WARN"
+        elif changed_code_files:
+            doxygen_warnings = ["No changed public header files in scope; Doxygen gate skipped."]
         else:
             doxygen_warnings = ["No changed C/C++ files in scope; Doxygen gate skipped."]
 
