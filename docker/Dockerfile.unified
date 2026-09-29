@@ -309,7 +309,9 @@ COPY include ./include
 COPY src ./src
 COPY proto ./proto
 COPY ports ./ports
-COPY vcpkg ./vcpkg
+# Use the normalized vcpkg tree from the base stage so /src/vcpkg has a real
+# git repository (required when vcpkg resolves builtin-baseline commits).
+COPY --from=base /opt/vcpkg ./vcpkg
 COPY whisper.cpp ./whisper.cpp
 COPY stable-diffusion.cpp ./stable-diffusion.cpp
 COPY ffmpeg ./ffmpeg
