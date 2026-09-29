@@ -27336,6 +27336,9 @@ if(THEMIS_ENABLE_LLM)
                 GTest::gtest
                 GTest::gtest_main
         )
+        if(WIN32)
+            themis_sync_runtime_dlls_for_target(test_phase1_flash_attention)
+        endif()
         gtest_discover_tests(test_phase1_flash_attention
             DISCOVERY_MODE POST_BUILD
             WORKING_DIRECTORY $<TARGET_FILE_DIR:test_phase1_flash_attention>
@@ -27355,6 +27358,9 @@ if(THEMIS_ENABLE_LLM)
                 GTest::gtest
                 GTest::gtest_main
         )
+        if(WIN32)
+            themis_sync_runtime_dlls_for_target(test_phase1_kv_cache_reuse)
+        endif()
         gtest_discover_tests(test_phase1_kv_cache_reuse
             DISCOVERY_MODE POST_BUILD
             WORKING_DIRECTORY $<TARGET_FILE_DIR:test_phase1_kv_cache_reuse>

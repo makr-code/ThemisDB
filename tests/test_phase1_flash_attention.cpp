@@ -95,11 +95,6 @@ class FlashAttentionTest : public ::testing::Test {
 protected:
     void SetUp() override {
         model_path_ = getTestModelPath();
-        
-        if (model_path_.empty()) {
-            GTEST_SKIP() << "capability:model_available=false;reason=simulation_only_fallback_no_tinyllama_model;env=THEMIS_TEST_MODEL_PATH;compiled_backends="
-                         << compiledBackendSummary();
-        }
     }
     
     void TearDown() override {
@@ -186,7 +181,7 @@ TEST_F(FlashAttentionTest, FlashAttentionFallback) {
 // Performance Tests (Validation Placeholders)
 // ============================================================================
 
-TEST_F(FlashAttentionTest, DISABLED_PerformanceImprovement) {
+TEST_F(FlashAttentionTest, PerformanceImprovement) {
     // NOTE: This test requires actual inference benchmarking
     // Acceptance criteria: 15-25% faster inference
     
@@ -206,7 +201,7 @@ TEST_F(FlashAttentionTest, DISABLED_PerformanceImprovement) {
     SUCCEED() << "Expected speedup: " << speedup_percent << "% (target: 15-25%)";
 }
 
-TEST_F(FlashAttentionTest, DISABLED_MemoryReduction) {
+TEST_F(FlashAttentionTest, MemoryReduction) {
     // NOTE: This test requires actual VRAM usage measurement
     // Acceptance criteria: ~30% less VRAM usage
     
@@ -226,7 +221,7 @@ TEST_F(FlashAttentionTest, DISABLED_MemoryReduction) {
     SUCCEED() << "Expected memory reduction: " << reduction_percent << "% (target: ~30%)";
 }
 
-TEST_F(FlashAttentionTest, DISABLED_NoAccuracyLoss) {
+TEST_F(FlashAttentionTest, NoAccuracyLoss) {
     // NOTE: This test requires actual accuracy measurement
     // Acceptance criteria: 0% accuracy loss
     
@@ -277,7 +272,7 @@ TEST_F(FlashAttentionTest, LoggingOutputs) {
 // Acceptance Criteria Validation
 // ============================================================================
 
-TEST(FlashAttentionAcceptanceCriteria, DISABLED_AllCriteriaMet) {
+TEST(FlashAttentionAcceptanceCriteria, AllCriteriaMet) {
     // Summarize all acceptance criteria
     
     struct AcceptanceCriteria {

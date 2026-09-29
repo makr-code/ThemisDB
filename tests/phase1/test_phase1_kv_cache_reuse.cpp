@@ -101,11 +101,6 @@ protected:
     void SetUp() override {
         model_path_ = getTestModelPath();
         
-        if (model_path_.empty()) {
-            GTEST_SKIP() << "capability:model_available=false;reason=simulation_only_fallback_no_tinyllama_model;env=THEMIS_TEST_MODEL_PATH;compiled_backends="
-                         << compiledBackendSummary();
-        }
-        
         // Create mock clock for deterministic testing
         mock_clock_ = std::make_shared<MockClock>();
         
