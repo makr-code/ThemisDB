@@ -938,6 +938,20 @@ target_sources(themis_tests PRIVATE
     ${THEMIS_ROOT_DIR}/src/llm/production_validator.cpp
     ${THEMIS_ROOT_DIR}/src/llm/security/signature_verifier.cpp
     ${THEMIS_ROOT_DIR}/src/chimera/qdrant_adapter.cpp
+    # RAG phase 11/12/13 integration tests in themis_tests depend on these
+    # implementations and otherwise fail with unresolved externals on Windows.
+    ${THEMIS_ROOT_DIR}/src/rag/model_registry.cpp
+    ${THEMIS_ROOT_DIR}/src/rag/model_evaluator.cpp
+    ${THEMIS_ROOT_DIR}/src/rag/model_promoter.cpp
+    ${THEMIS_ROOT_DIR}/src/rag/retraining_scheduler.cpp
+    ${THEMIS_ROOT_DIR}/src/rag/query_planner.cpp
+    ${THEMIS_ROOT_DIR}/src/rag/multi_model_selector.cpp
+    ${THEMIS_ROOT_DIR}/src/rag/budget_allocator.cpp
+    ${THEMIS_ROOT_DIR}/src/rag/cost_forecaster.cpp
+    ${THEMIS_ROOT_DIR}/src/rag/quality_metrics_collector.cpp
+    ${THEMIS_ROOT_DIR}/src/rag/deployment_gate_controller.cpp
+    ${THEMIS_ROOT_DIR}/src/rag/quality_alert_manager.cpp
+    ${THEMIS_ROOT_DIR}/src/rag/metrics_reporter.cpp
 )
 
 # Enforce feature-gated exclusions on the resolved target source list as a
@@ -1022,15 +1036,20 @@ endforeach()
 # Re-include prompt_engineering tests that depend on the LLM subsystem (llm/
 # headers) and are therefore only valid when THEMIS_ENABLE_LLM is ON.
 if(THEMIS_ENABLE_LLM)
-    target_sources(themis_tests PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/prompt/test_prompt_evaluator.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/prompt/test_prompt_policy.cpp
+    set(_themis_llm_prompt_tests
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_evaluator.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_policy.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/rag/test_rag_prompt_injection.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/feedback/test_feedback_store.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/feedback/test_feedback_plugin_modify.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/prompt/test_prompt_engineering_api_handler.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/prompt/test_prompt_engineering_grpc_service.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_feedback_store.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_feedback_plugin_modify.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_engineering_api_handler.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_engineering_grpc_service.cpp
     )
+    foreach(_themis_llm_prompt_test IN LISTS _themis_llm_prompt_tests)
+        if(EXISTS "${_themis_llm_prompt_test}")
+            target_sources(themis_tests PRIVATE "${_themis_llm_prompt_test}")
+        endif()
+    endforeach()
 endif()
 
 # Re-include the ROCm/HIP backend test excluded by the broad ".*test_gpu_.*\\.cpp$"
@@ -1052,15 +1071,19 @@ if(THEMIS_ENABLE_GPU)
     )
 endif()
 
-# Re-include multi/test_multi_gpu_backend.cpp which tests the acceleration module's
-# multi-GPU sharding backend (MultiGPUVectorBackend + ShardDescriptor).
-# This test does NOT depend on LLM, but is caught by the broad LLM exclusion
-# pattern ".*test_multi_gpu.*\\.cpp$" that targets multi/test_multi_gpu_training.cpp,
-# test_multi_gpu_lora*.cpp, etc. Re-adding it unconditionally ensures it always
-# compiles and runs; it uses only CPU sub-backends so no GPU hardware is required.
-target_sources(themis_tests PRIVATE
+# Re-include the multi-GPU backend test which exercises the acceleration module's
+# sharding/backend selection path without requiring hardware. The historical legacy
+# path under tests/multi/ was removed; the active source now lives at the root
+# tests/ directory and can be omitted when the file is not present in a trimmed tree.
+set(_themis_multi_gpu_backend_tests
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_multi_gpu_backend.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/multi/test_multi_gpu_backend.cpp
 )
+foreach(_themis_multi_gpu_backend_test IN LISTS _themis_multi_gpu_backend_tests)
+    if(EXISTS "${_themis_multi_gpu_backend_test}")
+        target_sources(themis_tests PRIVATE "${_themis_multi_gpu_backend_test}")
+    endif()
+endforeach()
 
 # Re-include acceleration module tests excluded by the explicit patterns
 # ".*test_acceleration\\.cpp$" and ".*test_acceleration_dispatch\\.cpp$".
@@ -1119,9 +1142,18 @@ endif()
 #  - Hash registration, strict/non-strict verification modes
 #  - Manifest file parsing
 # No GPU hardware is required.
-target_sources(themis_tests PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/shader/test_shader_integrity.cpp
-)
+set(_shader_integrity_test_src "")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/shader/test_shader_integrity.cpp")
+    set(_shader_integrity_test_src "${CMAKE_CURRENT_SOURCE_DIR}/shader/test_shader_integrity.cpp")
+elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_shader_integrity.cpp")
+    set(_shader_integrity_test_src "${CMAKE_CURRENT_SOURCE_DIR}/test_shader_integrity.cpp")
+endif()
+
+if(_shader_integrity_test_src)
+    target_sources(themis_tests PRIVATE
+        ${_shader_integrity_test_src}
+    )
+endif()
 
 # Re-include the GPU memory pool test excluded by the broad ".*test_gpu_.*\\.cpp$"
 # pattern.  This test validates the slab-based pre-allocator and the

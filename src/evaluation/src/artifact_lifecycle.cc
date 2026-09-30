@@ -68,9 +68,10 @@ LifecycleState ArtifactLifecycleManager::computeState(
             }
         }
 
-        // No staleness threshold exceeded; remain in current state
+        // No staleness threshold exceeded; preserve the current state.
+        // A pristine artifact is not automatically promoted to READY on a fresh pass.
         return current_state == LifecycleState::PRISTINE
-            ? LifecycleState::READY
+            ? LifecycleState::PRISTINE
             : LifecycleState::READY;
     }
 

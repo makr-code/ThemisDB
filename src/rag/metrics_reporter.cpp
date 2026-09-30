@@ -11,6 +11,7 @@
 #include <map>
 #include <mutex>
 #include <numeric>
+#include <set>
 #include <sstream>
 
 namespace themis::rag::quality {

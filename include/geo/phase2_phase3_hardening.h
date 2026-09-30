@@ -61,14 +61,18 @@ public:
      * @return true if the deadline has passed; cached after first call.
      */
     [[nodiscard]] bool expired() const noexcept {
-        if (checked_.load(std::memory_order_acquire)) {
-            return expired_cached_.load(std::memory_order_relaxed);
-        }
         const auto now = std::chrono::high_resolution_clock::now();
-        const bool is_expired = (now >= deadline_);
-        if (!checked_.exchange(true, std::memory_order_acq_rel)) {
-            expired_cached_.store(is_expired, std::memory_order_relaxed);
+        const bool previously_checked = checked_.load(std::memory_order_acquire);
+        const bool cached = expired_cached_.load(std::memory_order_relaxed);
+        const bool should_recompute = !previously_checked || (!cached && now >= deadline_);
+
+        if (!should_recompute) {
+            return cached;
         }
+
+        const bool is_expired = (now >= deadline_);
+        expired_cached_.store(is_expired, std::memory_order_relaxed);
+        checked_.store(true, std::memory_order_release);
         return is_expired;
     }
 

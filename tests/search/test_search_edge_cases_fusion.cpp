@@ -37,7 +37,7 @@ class FusionEdgeCasesTest : public ::testing::Test {
     std::vector<SearchResult> bm25_results;
     std::vector<SearchResult> vector_results;
     std::vector<SearchResult> fused_results;
-    HybridSearch::SearchStats stats;
+    themis::HybridSearch::SearchStats stats;
     uint32_t error_code = 0x0000;
   };
   

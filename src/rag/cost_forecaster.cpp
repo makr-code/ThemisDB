@@ -6,6 +6,7 @@
 #include "rag/cost_forecaster.h"
 
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <deque>
 #include <mutex>

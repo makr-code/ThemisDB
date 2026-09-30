@@ -4,6 +4,7 @@
  */
 
 #include "rag/deployment_gate_controller.h"
+#include "rag/quality_metrics_collector.h"
 
 #include <algorithm>
 #include <cmath>

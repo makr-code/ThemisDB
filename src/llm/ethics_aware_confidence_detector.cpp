@@ -132,24 +132,31 @@ ConfidenceResult EthicsAwareConfidenceDetector::detectConfidence(
     const std::string& text,
     const std::vector<TokenConfidence>& token_confidences
 ) {
-    std::lock_guard<std::mutex> lock(impl_->mutex);
-    impl_->stats.total_detections++;
+    EthicsAwareConfidenceConfig config_snapshot;
+    {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        impl_->stats.total_detections++;
+        config_snapshot = impl_->config;
+    }
     
     // Check cache
-    if (impl_->config.cache_results) {
+    if (config_snapshot.cache_results) {
         std::string cache_key = generateCacheKey(text);
         ConfidenceResult cached = {};
-        if (getCachedResult(cache_key, cached)) {
-            impl_->stats.cache_hits++;
-            return cached;
+        {
+            std::lock_guard<std::mutex> lock(impl_->mutex);
+            if (getCachedResult(cache_key, cached)) {
+                impl_->stats.cache_hits++;
+                return cached;
+            }
+            impl_->stats.cache_misses++;
         }
-        impl_->stats.cache_misses++;
     }
     
     ConfidenceResult result;
     
     // Evaluate individual dimensions
-    if (impl_->config.enable_entropy_analysis && !token_confidences.empty()) {
+    if (config_snapshot.enable_entropy_analysis && !token_confidences.empty()) {
         result.technical_confidence = evaluateTechnicalConfidence(text, token_confidences);
         result.avg_token_entropy = calculateTokenEntropy(token_confidences);
         result.perplexity = calculatePerplexity(token_confidences);
@@ -158,7 +165,7 @@ ConfidenceResult EthicsAwareConfidenceDetector::detectConfidence(
         result.technical_confidence = 0.7f;
     }
     
-    if (impl_->config.enable_patronizing_detection) {
+    if (config_snapshot.enable_patronizing_detection) {
         result.autonomy_respect_score = evaluateAutonomyRespect(text);
         result.patronizing_phrases = detectPatronizingLanguage(text);
         result.imperatives = detectImperatives(text);
@@ -169,7 +176,7 @@ ConfidenceResult EthicsAwareConfidenceDetector::detectConfidence(
         result.preserves_human_choice = true;
     }
     
-    if (impl_->config.enable_uncertainty_detection) {
+    if (config_snapshot.enable_uncertainty_detection) {
         result.transparency_score = evaluateTransparency(text);
         result.hedge_words = detectUncertaintyAcknowledgment(text);
         result.acknowledges_uncertainty = !result.hedge_words.empty();
@@ -186,37 +193,41 @@ ConfidenceResult EthicsAwareConfidenceDetector::detectConfidence(
     
     // Quality assessment
     result.meets_quality_threshold = 
-        result.combined_confidence >= impl_->config.min_technical_confidence &&
-        result.autonomy_respect_score >= impl_->config.min_autonomy_respect &&
-        result.transparency_score >= impl_->config.min_transparency;
+        result.combined_confidence >= config_snapshot.min_technical_confidence &&
+        result.autonomy_respect_score >= config_snapshot.min_autonomy_respect &&
+        result.transparency_score >= config_snapshot.min_transparency;
     
     // Generate reasoning
     result.reasoning = generateReasoning(result);
     
     // Update statistics
-    if (result.has_patronizing_language) {
-        impl_->stats.patronizing_detected++;
+    {
+        std::lock_guard<std::mutex> lock(impl_->mutex);
+        if (result.has_patronizing_language) {
+            impl_->stats.patronizing_detected++;
+        }
+        if (result.combined_confidence < config_snapshot.min_technical_confidence) {
+            impl_->stats.low_confidence_detected++;
+        }
+
+        impl_->stats.avg_technical_confidence =
+            (impl_->stats.avg_technical_confidence * (impl_->stats.total_detections - 1) +
+             result.technical_confidence) / impl_->stats.total_detections;
+        impl_->stats.avg_autonomy_respect =
+            (impl_->stats.avg_autonomy_respect * (impl_->stats.total_detections - 1) +
+             result.autonomy_respect_score) / impl_->stats.total_detections;
+        impl_->stats.avg_transparency =
+            (impl_->stats.avg_transparency * (impl_->stats.total_detections - 1) +
+             result.transparency_score) / impl_->stats.total_detections;
+        impl_->stats.avg_combined_confidence =
+            (impl_->stats.avg_combined_confidence * (impl_->stats.total_detections - 1) +
+             result.combined_confidence) / impl_->stats.total_detections;
     }
-    if (result.combined_confidence < impl_->config.min_technical_confidence) {
-        impl_->stats.low_confidence_detected++;
-    }
-    
-    impl_->stats.avg_technical_confidence = 
-        (impl_->stats.avg_technical_confidence * (impl_->stats.total_detections - 1) + 
-         result.technical_confidence) / impl_->stats.total_detections;
-    impl_->stats.avg_autonomy_respect = 
-        (impl_->stats.avg_autonomy_respect * (impl_->stats.total_detections - 1) + 
-         result.autonomy_respect_score) / impl_->stats.total_detections;
-    impl_->stats.avg_transparency = 
-        (impl_->stats.avg_transparency * (impl_->stats.total_detections - 1) + 
-         result.transparency_score) / impl_->stats.total_detections;
-    impl_->stats.avg_combined_confidence = 
-        (impl_->stats.avg_combined_confidence * (impl_->stats.total_detections - 1) + 
-         result.combined_confidence) / impl_->stats.total_detections;
     
     // Cache result
-    if (impl_->config.cache_results) {
+    if (config_snapshot.cache_results) {
         std::string cache_key = generateCacheKey(text);
+        std::lock_guard<std::mutex> lock(impl_->mutex);
         cacheResult(cache_key, result);
     }
     
