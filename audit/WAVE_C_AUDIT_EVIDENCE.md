@@ -18,7 +18,8 @@
 
 ## Executive Summary
 
-The Audit module has successfully completed Wave C production validation. All three audit work streams are complete and validated:
+The Audit module has strong focused Wave-C validation evidence on the production logger path.  
+This document is treated as historical/design-level validation evidence and not as standalone final release certification.
 
 1. ✅ **Tamper-Evidence Integrity Validation** — Cryptographic hash chain integrity proven under concurrent write load
 2. ✅ **High-Volume Export Reliability** — 10,000-event sustained load; zero data loss
@@ -422,8 +423,8 @@ Security workflow with three linked events:
 
 ## Sign-Off
 
-**Audit Module:** Wave C Validation Complete
-**Exit Criteria:** ALL PASS
+**Audit Module:** Wave C focused validation evidence available
+**Exit Criteria:** Focused test-level criteria PASS; end-to-end production certification remains governance/artifact dependent
 **Evidence Collected By:** Automated test suite
 **Date:** 2026-08-18
 **Next Phase:** Wave D (Operability Hardening, Q1 2027)
@@ -453,4 +454,4 @@ All audit Wave C tests are registered in `tests/CMakeLists.txt` and run as part 
 **Location:** `/audit/`
 **Canonical Source:** WAVE_C_AUDIT_EVIDENCE.md (this file)
 **Configuration:** Distributed across security, governance, compliance modules
-**Production Readiness:** ✅ Wave C exit criteria ALL PASS
+**Production Readiness:** 🟡 Focused Wave-C criteria PASS; full end-to-end production-certification claim remains conditional on integrated run/artifact evidence

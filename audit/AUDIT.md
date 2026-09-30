@@ -43,6 +43,7 @@ The production audit stack is materially present in source code and is not merel
 ### Delta refresh notice (2026-09-30)
 
 - Current implementation-sync baseline: `IMPLEMENTATION_AUDIT_2026-09-30.md`
+- Current marker evidence baseline: `MARKER_LOCATIONS_2026-09-30.md` and `MARKER_GAP_CLASSIFICATION_2026-09-30.md`
 - Historical marker evidence warning: treat `MARKER_LOCATIONS_2026-08-31.md` and `MARKER_GAP_CLASSIFICATION_2026-08-31.md` as dated snapshots, not as the current raw marker count for `src/`
 - Module snapshot warning: the `v2.4.0-rc1` table below remains useful as a historical maturity view, but multiple rows lag the current source-backed implementation delta documented in `IMPLEMENTATION_AUDIT_2026-09-30.md`
 
@@ -80,7 +81,9 @@ The production audit stack is materially present in source code and is not merel
 
 ---
 
-## Module Audit Status (v2.4.0-rc1 Snapshot)
+## Module Audit Status (Historical Appendix — v2.4.0-rc1 Snapshot)
+
+> **Historical-context notice (2026-09-30):** The following table is retained as a historical snapshot and not as current-state promotion evidence. For current source-validated status, use `IMPLEMENTATION_AUDIT_2026-09-30.md` plus root/module roadmap evidence.
 
 **Legend:** ✅ = 90–100% (Production-Ready), 🟢 = 75–89% (Production-Ready, Minor Gaps), 🟡 = 50–74% (Substantial, Hardening Pending), 🔴 = 25–49% (Partial), ⬛ = 0–24% (Scaffold)
 

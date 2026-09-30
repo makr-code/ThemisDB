@@ -33,6 +33,7 @@ Key result:
 3. `audit/MARKER_LOCATIONS_2026-08-31.md` was itself updated on 2026-09-21 and now explicitly frames the 2026-08-31 baseline as historical; this partially supersedes older stale-marker wording in `IMPLEMENTATION_AUDIT_2026-09-14.md`.
 4. The Wave-C focused test remains on the production logger path (`themis::utils::AuditLogger`) with file-backed JSONL + chain-state handling.
 5. Root and audit-hub pointers were still pinned to `IMPLEMENTATION_AUDIT_2026-09-14.md` and are now refreshed to `IMPLEMENTATION_AUDIT_2026-09-30.md`.
+6. A current-date marker evidence pair was added: `MARKER_LOCATIONS_2026-09-30.md` + `MARKER_GAP_CLASSIFICATION_2026-09-30.md` to reduce historical-snapshot ambiguity.
 
 ---
 
@@ -75,7 +76,7 @@ No conflicts were silently normalized; contradictions remain explicit in this re
 
 ## 6) Open evidence gaps / follow-up TODOs
 
-- Re-run and publish a new dated marker classification pack (locations + real-gap classification) so historical 2026-08-31/2026-09-21 snapshots are not misread as current raw totals.
+- ✅ Published a new dated marker evidence pack (`MARKER_LOCATIONS_2026-09-30.md`, `MARKER_GAP_CLASSIFICATION_2026-09-30.md`) to decouple current-state counts from historical snapshots.
 - Refresh the large `audit/AUDIT.md` module snapshot table or move it to a clearly historical appendix to reduce current-state ambiguity.
 - Add explicit run/artifact anchors for end-to-end Wave-C production sink validation in canonical audit docs, not only focused test-level source anchors.
 - Continue strict source-first validation for root roadmap/audit promotion claims before release-governance updates.
