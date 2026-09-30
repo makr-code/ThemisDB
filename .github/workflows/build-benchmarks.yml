@@ -84,7 +84,7 @@ jobs:
     permissions:
       issues: write
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v4.1.6
         with:
           sparse-checkout: .github/actions
           sparse-checkout-cone-mode: false
@@ -123,7 +123,7 @@ jobs:
             cxx: g++-12
 
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v4.1.6
         with:
           fetch-depth: 0
 
@@ -222,7 +222,7 @@ jobs:
       BUILD_DIR: build/critical-module-baselines
       RESULTS_DIR: build/critical-module-baselines/results
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v4.1.6
         with:
           fetch-depth: 0
           submodules: false
@@ -425,7 +425,7 @@ jobs:
       BUILD_DIR: build/wave-a-benchmarks
       RESULTS_DIR: benchmark-artifacts/${{ matrix.artifact_name }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v4.1.6
         with:
           fetch-depth: 0
 
@@ -535,7 +535,7 @@ jobs:
       BUILD_DIR: build/wave-a-longrun
       RESULTS_DIR: benchmark-artifacts/${{ matrix.artifact_name }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v4.1.6
         with:
           fetch-depth: 0
 
@@ -634,7 +634,7 @@ jobs:
             description: 'NVIDIA Hopper (H100)'
 
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v4.1.6
 
       - name: Configure CUDA build
         run: |
@@ -690,7 +690,7 @@ jobs:
     timeout-minutes: 90
 
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v4.1.6
 
       - name: Configure HIP build
         run: |
@@ -732,7 +732,7 @@ jobs:
     timeout-minutes: 30
 
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v4.1.6
 
       - name: Install build dependencies
         run: |
@@ -786,7 +786,7 @@ jobs:
       STORAGE_MODULE2_REQUIRED_CASE: BM_Storage_SustainedWrite_NoSync
 
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v4.1.6
         with:
           fetch-depth: 0
 
@@ -865,7 +865,7 @@ jobs:
       ARTIFACT_DIR: benchmark-artifacts/wave-d-observability
 
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v4.1.6
         with:
           fetch-depth: 0
 
@@ -979,7 +979,7 @@ jobs:
       (github.event_name == 'workflow_dispatch')
 
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v4.1.6
         with:
           fetch-depth: 0
 
@@ -1098,7 +1098,7 @@ jobs:
       ARTIFACT_DIR: benchmark-artifacts/wave-d-soak
 
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v4.1.6
         with:
           fetch-depth: 0
 

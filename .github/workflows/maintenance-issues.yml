@@ -145,7 +145,7 @@ jobs:
           echo "============================================================"
 
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v4.1.6
         with:
           ref: ${{ env.TARGET_BRANCH }}
           fetch-depth: 0
@@ -591,7 +591,7 @@ jobs:
           echo "============================================================"
 
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v4.1.6
         with:
           ref: ${{ env.TARGET_BRANCH }}
           fetch-depth: 0
@@ -750,7 +750,7 @@ jobs:
           echo "============================================================"
 
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v4.1.6
         with:
           ref: ${{ env.TARGET_BRANCH }}
           fetch-depth: 0

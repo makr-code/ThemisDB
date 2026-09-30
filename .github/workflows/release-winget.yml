@@ -80,7 +80,7 @@ jobs:
       should-submit: ${{ steps.detect.outputs.should-submit }}
     steps:
       - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v4.1.6
 
       - name: Detect release details
         id: detect
@@ -177,7 +177,7 @@ jobs:
       checksums-json: ${{ steps.checksums.outputs.checksums-json }}
     steps:
       - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v4.1.6
 
       - name: Generate checksums
         id: checksums
@@ -204,7 +204,7 @@ jobs:
       manifest-dir: ${{ steps.generate.outputs.manifest-dir }}
     steps:
       - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v4.1.6
 
       - name: Download checksums
         uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85
@@ -331,7 +331,7 @@ jobs:
     if: needs.generate-manifests.outputs.manifest-dir != ''
     steps:
       - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v4.1.6
 
       - name: Validate manifests with winget
         shell: pwsh
@@ -357,7 +357,7 @@ jobs:
     if: needs.generate-manifests.outputs.manifest-dir != '' && needs.detect-release.outputs.should-submit == 'true'
     steps:
       - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v4.1.6
 
       - name: Download generated WinGet manifests
         uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85
