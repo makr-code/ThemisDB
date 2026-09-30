@@ -590,5 +590,3 @@ struct PerformanceGateValidator {
 };
 
 } // namespace
-
-} // namespace themis::query
