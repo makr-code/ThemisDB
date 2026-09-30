@@ -1010,7 +1010,7 @@ target_sources(themis_tests PRIVATE
 # headers) and are therefore only valid when THEMIS_ENABLE_LLM is ON.
 if(THEMIS_ENABLE_LLM)
     target_sources(themis_tests PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/prompt/test_prompt_evaluator.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_evaluator.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/prompt/test_prompt_policy.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/rag/test_rag_prompt_injection.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/feedback/test_feedback_store.cpp
@@ -1046,7 +1046,7 @@ endif()
 # test_multi_gpu_lora*.cpp, etc. Re-adding it unconditionally ensures it always
 # compiles and runs; it uses only CPU sub-backends so no GPU hardware is required.
 target_sources(themis_tests PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/multi/test_multi_gpu_backend.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_multi_gpu_backend.cpp
 )
 
 # Re-include acceleration module tests excluded by the explicit patterns
