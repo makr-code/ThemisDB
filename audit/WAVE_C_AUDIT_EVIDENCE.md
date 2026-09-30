@@ -2,17 +2,17 @@
 
 **Author:** ThemisDB Contributors
 **Created:** 2026-09-13
-**Document Status:** Source-verified baseline refresh (2026-09-14)
-**Last Updated:** 2026-09-14
+**Document Status:** Source-verified baseline refresh (2026-09-30)
+**Last Updated:** 2026-09-30
 **Status:** active
 **Wave:** C — Security Production Validation
 **Evidence Date:** 2026-08-18
 **Target Exit Criteria:** Q4 2026
 **Canonical Location:** `/audit/WAVE_C_AUDIT_EVIDENCE.md`
 
-> **SOURCE-VERIFIED STATUS (2026-09-14):** This document remains a useful historical and design-level validation artifact, but it is not equivalent to a production certification. The focused proof harness at `tests/audit/test_audit_wavec_integrity_export_focused.cpp` now exercises the production `themis::utils::AuditLogger` JSONL sink and persisted chain-state path from `include/utils/audit_logger.h` + `src/utils/audit_logger.cpp`.
+> **SOURCE-VERIFIED STATUS (2026-09-30):** This document remains a useful historical and design-level validation artifact, but it is not equivalent to a production certification. The focused proof harness at `tests/audit/test_audit_wavec_integrity_export_focused.cpp` exercises the production `themis::utils::AuditLogger` JSONL sink and persisted chain-state path from `include/utils/audit_logger.h` + `src/utils/audit_logger.cpp`.
 
-> **BASELINE SYNC (2026-09-14):** This undated canonical Wave-C evidence document is retained as historical evidence and synchronized with `IMPLEMENTATION_AUDIT_2026-09-14.md` and the current audit baseline, while clarifying that the strongest pass language remains provisional without a real end-to-end run against the production sink and persistence path.
+> **BASELINE SYNC (2026-09-30):** This undated canonical Wave-C evidence document is retained as historical evidence and synchronized with `IMPLEMENTATION_AUDIT_2026-09-30.md` and the current audit baseline, while clarifying that the strongest pass language remains provisional without a real end-to-end run against the production sink and persistence path.
 
 ---
 
@@ -27,7 +27,7 @@ The Audit module has successfully completed Wave C production validation. All th
 
 **Exit Criteria Status:** Production-backed file-sink validation is now present in the primary proof harness; broader end-to-end release closure still follows the normal governance and sign-off path.
 
-> **Source verification note (2026-09-14):** The key proof file `tests/audit/test_audit_wavec_integrity_export_focused.cpp` now runs through the production `themis::utils::AuditLogger` code path, including the real JSONL persistence backend, hash-chain state file, fail-closed queue bound, and persisted-record queries used by the focused assertions. Broader Wave-C release certification still depends on the normal governance and sign-off path.
+> **Source verification note (2026-09-30):** The key proof file `tests/audit/test_audit_wavec_integrity_export_focused.cpp` runs through the production `themis::utils::AuditLogger` code path, including the real JSONL persistence backend, hash-chain state file, fail-closed queue bound, and persisted-record queries used by the focused assertions. Broader Wave-C release certification still depends on the normal governance and sign-off path.
 
 ---
 
