@@ -62375,30 +62375,6 @@
     "score": 100.0,
     "recent_commits": 0
   },
-  "projects/generic-installer-framework/include/giuf/core/app_controller.hpp": {
-    "version": "0.0.111",
-    "last_update": "2026-09-30 18:31:20 UTC",
-    "author": "github-actions[bot]",
-    "maturity_level": "🟢 PRODUCTION-READY",
-    "score": 100.0,
-    "recent_commits": 0
-  },
-  "projects/generic-installer-framework/src/core/app_controller.cpp": {
-    "version": "0.0.111",
-    "last_update": "2026-09-30 18:31:20 UTC",
-    "author": "github-actions[bot]",
-    "maturity_level": "🟡 RELEASE-CANDIDATE",
-    "score": 72.0,
-    "recent_commits": 0
-  },
-  "projects/generic-installer-framework/tools/giuf-cli/main.cpp": {
-    "version": "0.0.111",
-    "last_update": "2026-09-30 18:31:20 UTC",
-    "author": "github-actions[bot]",
-    "maturity_level": "🟢 PRODUCTION-READY",
-    "score": 100.0,
-    "recent_commits": 0
-  },
   "research/create_improved_doc.py": {
     "version": "0.0.111",
     "last_update": "2026-09-30 18:31:20 UTC",
