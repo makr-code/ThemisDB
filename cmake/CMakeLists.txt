@@ -854,7 +854,8 @@ option(THEMIS_GEO_GEOS_PLUGIN "Enable GEOS prepared geometries plugin (enterpris
 option(THEMIS_ENTERPRISE "Enable enterprise capabilities bundle" OFF)
 
 # Optional public submodule externalization for formerly integrated modules.
-# When OFF (default), geo/timeseries remain compiled from the monorepo core sources.
+# The public submodule is the authoritative source of truth when enabled; the
+# monorepo src/geo and src/timeseries trees remain a compatibility fallback only.
 option(THEMIS_EXTERNALIZE_GEO_PLUGIN "Build Geo from optional plugins/themisdb_geo submodule instead of integrated src/geo sources" OFF)
 option(THEMIS_EXTERNALIZE_TIMESERIES_PLUGIN "Build TimeSeries from optional plugins/themisdb_timeseries submodule instead of integrated src/timeseries sources" OFF)
 set(THEMIS_GEO_PLUGIN_SUBMODULE_DIR "${THEMIS_ROOT_DIR}/plugins/themisdb_geo" CACHE PATH "Path to optional public Geo plugin submodule")
