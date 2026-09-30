@@ -315,12 +315,10 @@ static void BenchQueryCompilerHotPath(benchmark::State& state) {
         state.PauseTiming();
         if (!result) {
             state.SkipWithError("QueryCompiler hot path failed unexpectedly");
-            state.ResumeTiming();
             break;
         }
         if (!result->used_compiled_path) {
             state.SkipWithError("QueryCompiler hot path did not switch to compiled execution");
-            state.ResumeTiming();
             break;
         }
         state.ResumeTiming();
