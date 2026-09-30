@@ -13,6 +13,7 @@ design, components, data flows, integration points, configuration, and security
 considerations. This file is the index of those per-module guides.
 
 For the overall system architecture see the root [`ARCHITECTURE.md`](../../ARCHITECTURE.md).
+For the layered target-state blueprint and dependency-direction rules see [`THEMISDB_LAYERED_ARCHITECTURE_BLUEPRINT.md`](./THEMISDB_LAYERED_ARCHITECTURE_BLUEPRINT.md).
 For the source directory inventory see [`SOURCE_DIRECTORY_GUIDE.md`](./SOURCE_DIRECTORY_GUIDE.md).
 
 ---

@@ -10,6 +10,8 @@
 
 This document provides a comprehensive guide to all **35 directories** in the `src/` folder of ThemisDB. It serves as a roadmap for developers to understand the codebase organization, locate specific functionality, and determine where to add new code.
 
+For the cross-module layered target architecture and dependency-direction rules, see [`THEMISDB_LAYERED_ARCHITECTURE_BLUEPRINT.md`](./THEMISDB_LAYERED_ARCHITECTURE_BLUEPRINT.md).
+
 ### Organization Philosophy
 
 The ThemisDB source code is organized into functionally-cohesive modules that represent distinct layers and capabilities of the database system:
