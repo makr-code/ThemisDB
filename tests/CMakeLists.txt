@@ -205,6 +205,14 @@ foreach(_module_cmake IN LISTS _TEST_MODULE_CMAKES)
     endif()
 endforeach()
 
+set(THEMIS_EPIC3_DISTRIBUTED_TENSOR_TESTS_INCLUDED FALSE)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/epic3_distributed_tensor/CMakeLists.txt")
+    message(STATUS "Including EPIC 3 Distributed Tensor contract test scaffold")
+    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/epic3_distributed_tensor"
+                     "${CMAKE_CURRENT_BINARY_DIR}/epic3_distributed_tensor")
+    set(THEMIS_EPIC3_DISTRIBUTED_TENSOR_TESTS_INCLUDED TRUE)
+endif()
+
 # ---------------------------------------------------------------------------
 # Post-fix: ensure test/module executables write into per-target folders to avoid
 # concurrent write/copy collisions (prevents LNK1104 when applocal or parallel
@@ -29234,10 +29242,12 @@ endif()
 # Tests live in tests/epic3_distributed_tensor/; they share the
 # themis_distributed_tensor target registered in src/distributed_tensor/.
 # ============================================================================
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/epic3_distributed_tensor/CMakeLists.txt")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/epic3_distributed_tensor/CMakeLists.txt" AND
+   NOT THEMIS_EPIC3_DISTRIBUTED_TENSOR_TESTS_INCLUDED)
     message(STATUS "Including EPIC 3 Distributed Tensor contract test scaffold")
     add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/epic3_distributed_tensor"
                      "${CMAKE_CURRENT_BINARY_DIR}/epic3_distributed_tensor")
+    set(THEMIS_EPIC3_DISTRIBUTED_TENSOR_TESTS_INCLUDED TRUE)
 endif()
 
 # ============================================================================
