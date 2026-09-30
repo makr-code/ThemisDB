@@ -1086,14 +1086,6 @@ endif()
 set(_themis_multi_gpu_backend_tests
     ${CMAKE_CURRENT_SOURCE_DIR}/test_multi_gpu_backend.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/multi/test_multi_gpu_backend.cpp
-# Re-include multi/test_multi_gpu_backend.cpp which tests the acceleration module's
-# multi-GPU sharding backend (MultiGPUVectorBackend + ShardDescriptor).
-# This test does NOT depend on LLM, but is caught by the broad LLM exclusion
-# pattern ".*test_multi_gpu.*\\.cpp$" that targets multi/test_multi_gpu_training.cpp,
-# test_multi_gpu_lora*.cpp, etc. Re-adding it unconditionally ensures it always
-# compiles and runs; it uses only CPU sub-backends so no GPU hardware is required.
-target_sources(themis_tests PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/test_multi_gpu_backend.cpp
 )
 foreach(_themis_multi_gpu_backend_test IN LISTS _themis_multi_gpu_backend_tests)
     if(EXISTS "${_themis_multi_gpu_backend_test}")

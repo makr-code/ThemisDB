@@ -740,6 +740,14 @@ jobs:
           sudo apt-get install -y ninja-build libbenchmark-dev libfmt-dev libspdlog-dev \
             nlohmann-json3-dev librocksdb-dev libssl-dev zlib1g-dev \
             libboost-dev libboost-system-dev libboost-dev libboost-filesystem-dev libpugixml-dev
+          if ! command -v sccache >/dev/null 2>&1; then
+            echo "::warning::sccache not found on PATH; attempting sccache package installation."
+            sudo apt-get install -y sccache || true
+          fi
+          if ! command -v sccache >/dev/null 2>&1 && ! command -v ccache >/dev/null 2>&1; then
+            echo "::notice::sccache unavailable after install attempt; installing ccache fallback."
+            sudo apt-get install -y ccache
+          fi
 
       - name: Configure CPU-only (verify disabled-stub path compiles)
         run: |
@@ -794,7 +802,7 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends \
-            ninja-build librocksdb-dev libbenchmark-dev libfmt-dev libspdlog-dev \
+            ninja-build sccache librocksdb-dev libbenchmark-dev libfmt-dev libspdlog-dev \
             nlohmann-json3-dev libboost-filesystem-dev libboost-system-dev \
             libzstd-dev zlib1g-dev libtbb-dev libcurl4-openssl-dev libssl-dev \
             libpugixml-dev libyaml-cpp-dev libmimalloc-dev \
@@ -886,7 +894,6 @@ jobs:
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_ENABLE_OBSERVABILITY=ON \
             -DTHEMIS_ENABLE_VULKAN=OFF \
-            -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
             -DTHEMIS_MODELS_MODE=SKIP
 
       - name: Build observability test targets
@@ -998,8 +1005,7 @@ jobs:
             -DCMAKE_BUILD_TYPE=Release \
             -DTHEMIS_BUILD_BENCHMARKS=ON \
             -DTHEMIS_BUILD_TESTS=OFF \
-            -DTHEMIS_ENABLE_VULKAN=OFF \
-            -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON
+            -DTHEMIS_ENABLE_VULKAN=OFF
 
       - name: Build sharding release-gate benchmarks
         run: |
@@ -1119,7 +1125,6 @@ jobs:
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_ENABLE_OBSERVABILITY=ON \
             -DTHEMIS_ENABLE_VULKAN=OFF \
-            -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
             -DTHEMIS_MODELS_MODE=SKIP
 
       - name: Build soak test targets

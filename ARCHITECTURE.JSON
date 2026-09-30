@@ -985,12 +985,12 @@
     {
       "category": "governance",
       "path": "ARCHITECTURE.md",
-      "sha256_prefix": "29246fe1ab5d0b0c"
+      "sha256_prefix": "f64015d5cf87d60d"
     },
     {
       "category": "governance",
       "path": "ROADMAP.md",
-      "sha256_prefix": "0aff4e00110acad1"
+      "sha256_prefix": "e36e2722d08da0dd"
     },
     {
       "category": "governance",
@@ -1920,7 +1920,7 @@
     {
       "category": "docs",
       "path": "docs/architecture/MODULE_ARCHITECTURE_INDEX.md",
-      "sha256_prefix": "d41451e058f29740"
+      "sha256_prefix": "b3cdfe91367ee75c"
     },
     {
       "category": "docs",
@@ -1985,7 +1985,7 @@
     {
       "category": "docs",
       "path": "docs/architecture/README.md",
-      "sha256_prefix": "5d552aab6b42cb12"
+      "sha256_prefix": "7d1a3725fcf16619"
     },
     {
       "category": "docs",
@@ -2010,7 +2010,12 @@
     {
       "category": "docs",
       "path": "docs/architecture/SOURCE_DIRECTORY_GUIDE.md",
-      "sha256_prefix": "65caf9ef0dcff857"
+      "sha256_prefix": "563b475c7a2ed333"
+    },
+    {
+      "category": "docs",
+      "path": "docs/architecture/THEMISDB_LAYERED_ARCHITECTURE_BLUEPRINT.md",
+      "sha256_prefix": "a7fd9dc4f267c718"
     },
     {
       "category": "docs",
@@ -2710,7 +2715,7 @@
     {
       "category": "docs",
       "path": "docs/code_maturity_report.md",
-      "sha256_prefix": "65e1f02c79f2c90b"
+      "sha256_prefix": "2436532bc98bbbd1"
     },
     {
       "category": "docs",
@@ -7168,7 +7173,7 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-09-29T09:03:40.725212+00:00",
+  "generated_at": "2026-09-30T16:57:26.219812+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
     "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-09-28\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `bc0ab72465c851ff`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
@@ -9244,19 +9249,19 @@
   ],
   "schema_version": "1.0.0",
   "source_hashes": {
-    "ARCHITECTURE.md": "29246fe1ab5d0b0c",
+    "ARCHITECTURE.md": "f64015d5cf87d60d",
     "FUTURE_ENHANCEMENTS.md": "de552eeef9d1ac51",
-    "ROADMAP.md": "0aff4e00110acad1",
+    "ROADMAP.md": "e36e2722d08da0dd",
     "ai_context/ARCHITECTURE_CLASSIFICATION.md": "57a7f2182a1193c8",
     "ai_context/MODULES_AND_NAMESPACES.md": "bf42dba44a39f8cb",
     "ai_context/api_contracts/": "6384de3aba1abb3b",
     "ai_context/developer_llm_wiki/": "ca20577089ba9d9f",
     "ai_working/": "e6d5ae9172c1efa6",
-    "docs/": "dcbc9c4f9e22be89"
+    "docs/": "011221fac343f6c8"
   },
   "statistics": {
     "ai_working_artifact_count": 68,
-    "documentation_source_count": 1237,
+    "documentation_source_count": 1238,
     "isolated_module_count": 30,
     "modules_with_api_contracts": 6,
     "modules_with_private_plugin": 4,

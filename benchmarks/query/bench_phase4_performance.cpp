@@ -267,10 +267,10 @@ static void BenchQueryCompilerColdPath(benchmark::State& state) {
         return r;
     };
     
-    QueryCompiler compiler{QueryCompiler::Config{
-        .hot_threshold = 100,  // Stay on cold path during benchmark
-        .enable_jit = true,
-    }};
+    QueryCompiler::Config cold_config;
+    cold_config.hot_threshold = 100;  // Stay on cold path during benchmark
+    cold_config.enable_jit = true;
+    QueryCompiler compiler{cold_config};
     
     auto q = compiler.compile("SELECT @id FROM table WHERE active = true", {"@id"}, executor);
     QueryParams params{{"@id", 42}};
@@ -293,11 +293,11 @@ static void BenchQueryCompilerHotPath(benchmark::State& state) {
         return r;
     };
     
-    QueryCompiler compiler{QueryCompiler::Config{
-        .hot_threshold = 2,
-        .enable_jit = true,
-        .compilation_timeout_ms = 100,
-    }};
+    QueryCompiler::Config hot_config;
+    hot_config.hot_threshold = 2;
+    hot_config.enable_jit = true;
+    hot_config.compilation_timeout_ms = 100;
+    QueryCompiler compiler{hot_config};
     
     auto q = compiler.compile("SELECT @id FROM table WHERE active = true", {"@id"}, executor);
     QueryParams params{{"@id", 42}};
@@ -351,11 +351,11 @@ static void BenchFallbackLatency_OnFailure(benchmark::State& state) {
         return r;
     };
     
-    QueryCompiler compiler{QueryCompiler::Config{
-        .hot_threshold = 2,
-        .enable_jit = true,
-        .compilation_timeout_ms = 100,
-    }};
+    QueryCompiler::Config fallback_config;
+    fallback_config.hot_threshold = 2;
+    fallback_config.enable_jit = true;
+    fallback_config.compilation_timeout_ms = 100;
+    QueryCompiler compiler{fallback_config};
     
     auto q = compiler.compile("SELECT @id FROM table", {"@id"}, executor);
     QueryParams params{{"@id", 42}};
