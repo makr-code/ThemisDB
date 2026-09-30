@@ -1,5 +1,9 @@
 # Wave C CI Policy Gates Specification
 
+**Author:** Platform Release  
+**Created:** 2026-08-18  
+**Last Updated:** 2026-09-30  
+**Status:** Active  
 **Document Status:** Production Ready (2026-08-18)  
 **Wave:** C — Security Production Validation  
 **Target Completion:** Q4 2026  

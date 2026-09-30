@@ -1,5 +1,9 @@
 # CI Policy Gates Wave C Evidence Report
 
+**Author:** Platform Release  
+**Created:** 2026-08-18  
+**Last Updated:** 2026-09-30  
+**Status:** Approved  
 **Document Status:** Final (2026-08-18)  
 **Wave:** C — Security Production Validation  
 **Evidence Date:** 2026-08-18  

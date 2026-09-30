@@ -1,7 +1,11 @@
 # ThemisDB Governance Policies — Phase 1 Foundation
 
+**Author:** @makr-code / Platform Release  
+**Created:** 2026-08-10  
+**Last Updated:** 2026-09-30  
+**Status:** Active  
 **Document Type:** Governance Policy Framework  
-**Status:** Phase 1 Foundation (2026-08-10)  
+**Phase Status:** Phase 1 Foundation (2026-08-10)  
 **Version:** 1.0  
 **Owner:** @makr-code / Platform Release  
 **Enforcement Phase:** Phase 2 (CI automation) + Phase 3 (mandatory gates)

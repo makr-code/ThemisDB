@@ -1,5 +1,9 @@
 # ThemisDB Security & Compliance Audit Report — Phase 1 (2026-08-10)
 
+**Author:** Security Lead (@makr-code)  
+**Created:** 2026-08-10  
+**Last Updated:** 2026-09-30  
+**Status:** Active  
 **Report Type:** Security Governance & Compliance Baseline Assessment  
 **Audit Date:** 2026-08-10  
 **Scope:** Root-level security docs + compliance posture vs. current codebase  
