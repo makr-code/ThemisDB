@@ -23,8 +23,17 @@ if ("gpu" IN_LIST FEATURES)
     )
 endif()
 
-set(FAISS_BLAS_LIBS "${CURRENT_INSTALLED_DIR}/lib/openblas.lib")
-set(FAISS_LAPACK_LIBS "${CURRENT_INSTALLED_DIR}/lib/lapack.lib\\;${CURRENT_INSTALLED_DIR}/lib/libf2c.lib")
+set(_faiss_static_prefix "${CMAKE_STATIC_LIBRARY_PREFIX}")
+set(_faiss_static_suffix "${CMAKE_STATIC_LIBRARY_SUFFIX}")
+if(VCPKG_TARGET_IS_WINDOWS)
+    set(_faiss_f2c_basename "libf2c")
+else()
+    set(_faiss_f2c_basename "f2c")
+endif()
+
+set(FAISS_BLAS_LIBS "${CURRENT_INSTALLED_DIR}/lib/${_faiss_static_prefix}openblas${_faiss_static_suffix}")
+set(FAISS_LAPACK_LIBS
+    "${CURRENT_INSTALLED_DIR}/lib/${_faiss_static_prefix}lapack${_faiss_static_suffix}\\;${CURRENT_INSTALLED_DIR}/lib/${_faiss_static_prefix}${_faiss_f2c_basename}${_faiss_static_suffix}")
 
 vcpkg_cmake_configure(
     SOURCE_PATH "${SOURCE_PATH}"
