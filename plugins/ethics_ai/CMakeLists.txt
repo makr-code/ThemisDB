@@ -9,7 +9,9 @@ if(NOT THEMIS_ROOT_DIR)
 endif()
 
 set(_ethics_ai_src_dir "${THEMIS_ROOT_DIR}/src/ethics_ai")
-set(_ethics_ai_private_dir "${THEMIS_ROOT_DIR}/plugins/private/ethics_ai")
+# Canonical enterprise implementation lives in the commit-pinned private submodule:
+#   plugins/themisdb_ethic_ai/
+set(_ethics_ai_private_dir "${THEMIS_ROOT_DIR}/plugins/themisdb_ethic_ai")
 
 if(EXISTS "${_ethics_ai_src_dir}/CMakeLists.txt")
     message(STATUS "plugins/ethics_ai: delegating build to src/ethics_ai")
