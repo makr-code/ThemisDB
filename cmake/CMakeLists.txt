@@ -1372,7 +1372,9 @@ endif()
 # Compiler warnings and optimizations
 if(MSVC)
     # Replace /Zi (shared PDB) with /Z7 (embedded debug info in .obj) to eliminate
-    # PDB write contention (C1041) in parallel Ninja builds.
+    # PDB write contention (C1041) in parallel Ninja builds. For the high-volume
+    # Windows test tree, also disable linker PDB generation to avoid fatal LNK1140
+    # when hundreds of generated executables are linked in a single debug run.
     foreach(_lang C CXX)
         foreach(_cfg DEBUG RELWITHDEBINFO)
             string(REPLACE "/Zi" "/Z7"
@@ -1380,6 +1382,11 @@ if(MSVC)
             set(CMAKE_${_lang}_FLAGS_${_cfg} "${CMAKE_${_lang}_FLAGS_${_cfg}}"
                 CACHE STRING "" FORCE)
         endforeach()
+    endforeach()
+    foreach(_cfg DEBUG RELWITHDEBINFO)
+        set(CMAKE_EXE_LINKER_FLAGS_${_cfg} "${CMAKE_EXE_LINKER_FLAGS_${_cfg}} /DEBUG:NONE /PDB:NONE /INCREMENTAL:NO")
+        set(CMAKE_SHARED_LINKER_FLAGS_${_cfg} "${CMAKE_SHARED_LINKER_FLAGS_${_cfg}} /DEBUG:NONE /PDB:NONE /INCREMENTAL:NO")
+        set(CMAKE_MODULE_LINKER_FLAGS_${_cfg} "${CMAKE_MODULE_LINKER_FLAGS_${_cfg}} /DEBUG:NONE /PDB:NONE /INCREMENTAL:NO")
     endforeach()
     add_compile_options(/W4 /utf-8 /wd4701 /wd4100 /bigobj)
     # /FS removed: /Z7 renders it unnecessary (no shared PDB file at compile time)

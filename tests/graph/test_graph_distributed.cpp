@@ -6,6 +6,7 @@
 #include "storage/base_entity.h"
 
 #include <atomic>
+#include <chrono>
 #include <filesystem>
 #include <memory>
 #include <string>
@@ -41,13 +42,22 @@ static void populateTestGraph(themis::GraphIndexManager& mgr) {
 // Fixture: two independent shards each backed by a real GraphIndexManager
 // ---------------------------------------------------------------------------
 
+namespace {
+fs::path makeUniqueGraphDataDir(const std::string& stem) {
+    const auto unique = std::to_string(static_cast<uint64_t>(std::chrono::steady_clock::now().time_since_epoch().count())) +
+        "_" + std::to_string(reinterpret_cast<uintptr_t>(&stem));
+    return fs::temp_directory_path() / (stem + "_" + unique);
+}
+}  // namespace
+
 class DistributedGraphTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        path1_ = "./data/themis_dist_graph_shard1_test";
-        path2_ = "./data/themis_dist_graph_shard2_test";
-        fs::remove_all(path1_);
-        fs::remove_all(path2_);
+        path1_ = makeUniqueGraphDataDir("themis_dist_graph_shard1_test").string();
+        path2_ = makeUniqueGraphDataDir("themis_dist_graph_shard2_test").string();
+        std::error_code ec;
+        fs::remove_all(path1_, ec);
+        fs::remove_all(path2_, ec);
 
         auto makeDB = [](const std::string& path) {
             themis::RocksDBWrapper::Config cfg;
@@ -86,8 +96,9 @@ protected:
         mgr2_.reset();
         db1_.reset();
         db2_.reset();
-        fs::remove_all(path1_);
-        fs::remove_all(path2_);
+        std::error_code ec;
+        fs::remove_all(path1_, ec);
+        fs::remove_all(path2_, ec);
     }
 
     std::string path1_, path2_;
@@ -305,8 +316,9 @@ TEST_F(DistributedGraphTest, OptimizePlan_KHopPattern) {
 TEST_F(DistributedGraphTest, OptimizationPlan_SingleNode_NotDistributed) {
     // A plan produced by a regular GraphQueryOptimizer (no DistributedGraphManager)
     // must have is_distributed == false and empty shard_ids (default values).
-    std::string db_path = "./data/themis_plan_shard_compat_test";
-    fs::remove_all(db_path);
+    const std::string db_path = makeUniqueGraphDataDir("themis_plan_shard_compat_test").string();
+    std::error_code ec;
+    fs::remove_all(db_path, ec);
 
     {
         themis::RocksDBWrapper::Config cfg;
@@ -331,7 +343,7 @@ TEST_F(DistributedGraphTest, OptimizationPlan_SingleNode_NotDistributed) {
         EXPECT_EQ(plan->recommended_parallelism, 1u);
     }
 
-    fs::remove_all(db_path);
+    fs::remove_all(db_path, ec);
 }
 
 // ---------------------------------------------------------------------------
@@ -340,8 +352,9 @@ TEST_F(DistributedGraphTest, OptimizationPlan_SingleNode_NotDistributed) {
 
 TEST_F(DistributedGraphTest, ExplainPlan_DistributedPlanContainsShardInfo) {
     // Use a single-shard DB just to get an optimizer for explainPlan.
-    std::string db_path = "./data/themis_explain_dist_test";
-    fs::remove_all(db_path);
+    const std::string db_path = makeUniqueGraphDataDir("themis_explain_dist_test").string();
+    std::error_code ec;
+    fs::remove_all(db_path, ec);
 
     {
         themis::RocksDBWrapper::Config cfg;
@@ -377,7 +390,7 @@ TEST_F(DistributedGraphTest, ExplainPlan_DistributedPlanContainsShardInfo) {
         EXPECT_NE(explanation.find("Parallelism"), std::string::npos);
     }
 
-    fs::remove_all(db_path);
+    fs::remove_all(db_path, ec);
 }
 
 // ---------------------------------------------------------------------------

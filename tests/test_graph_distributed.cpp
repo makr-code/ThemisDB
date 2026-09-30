@@ -305,8 +305,9 @@ TEST_F(DistributedGraphTest, OptimizePlan_KHopPattern) {
 TEST_F(DistributedGraphTest, OptimizationPlan_SingleNode_NotDistributed) {
     // A plan produced by a regular GraphQueryOptimizer (no DistributedGraphManager)
     // must have is_distributed == false and empty shard_ids (default values).
-    std::string db_path = "./data/themis_plan_shard_compat_test";
-    fs::remove_all(db_path);
+    const std::string db_path = makeUniqueGraphDataDir("themis_plan_shard_compat_test").string();
+    std::error_code ec;
+    fs::remove_all(db_path, ec);
 
     {
         themis::RocksDBWrapper::Config cfg;
@@ -331,7 +332,7 @@ TEST_F(DistributedGraphTest, OptimizationPlan_SingleNode_NotDistributed) {
         EXPECT_EQ(plan->recommended_parallelism, 1u);
     }
 
-    fs::remove_all(db_path);
+    fs::remove_all(db_path, ec);
 }
 
 // ---------------------------------------------------------------------------
@@ -340,8 +341,9 @@ TEST_F(DistributedGraphTest, OptimizationPlan_SingleNode_NotDistributed) {
 
 TEST_F(DistributedGraphTest, ExplainPlan_DistributedPlanContainsShardInfo) {
     // Use a single-shard DB just to get an optimizer for explainPlan.
-    std::string db_path = "./data/themis_explain_dist_test";
-    fs::remove_all(db_path);
+    const std::string db_path = makeUniqueGraphDataDir("themis_explain_dist_test").string();
+    std::error_code ec;
+    fs::remove_all(db_path, ec);
 
     {
         themis::RocksDBWrapper::Config cfg;
@@ -377,7 +379,7 @@ TEST_F(DistributedGraphTest, ExplainPlan_DistributedPlanContainsShardInfo) {
         EXPECT_NE(explanation.find("Parallelism"), std::string::npos);
     }
 
-    fs::remove_all(db_path);
+    fs::remove_all(db_path, ec);
 }
 
 // ---------------------------------------------------------------------------

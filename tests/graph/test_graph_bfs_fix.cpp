@@ -18,6 +18,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include <algorithm>
+#include <chrono>
 #include <filesystem>
 #include <string>
 #include <vector>
@@ -32,11 +33,21 @@ using themis::RocksDBWrapper;
 // Test fixture
 // ============================================================================
 
+namespace {
+fs::path makeUniqueDataDir(const std::string& stem) {
+    const auto unique = std::to_string(static_cast<uint64_t>(std::chrono::steady_clock::now().time_since_epoch().count())) +
+        "_" + std::to_string(reinterpret_cast<uintptr_t>(&stem));
+    auto dir = fs::temp_directory_path() / (stem + "_" + unique);
+    return dir;
+}
+}  // namespace
+
 class GraphBfsFixTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        test_db_path_ = "./data/themis_bfs_fix_test";
-        fs::remove_all(test_db_path_);
+        test_db_path_ = makeUniqueDataDir("themis_bfs_fix_test").string();
+        std::error_code ec;
+        fs::remove_all(test_db_path_, ec);
 
         RocksDBWrapper::Config cfg;
         cfg.db_path             = test_db_path_;
@@ -52,7 +63,8 @@ protected:
     void TearDown() override {
         graph_.reset();
         db_.reset();
-        fs::remove_all(test_db_path_);
+        std::error_code ec;
+        fs::remove_all(test_db_path_, ec);
     }
 
     // Helper: add a directed edge
