@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.20)
 
-# Compatibility shim: runtime plugin implementation has been integrated at
-# src/user_storage_encrypted. Keep this file for legacy paths under plugins/user_storage_encrypted.
+# Compatibility shim: the authoritative storage implementation has moved to the
+# external aggregate repo `makr-code/themisdb_storage` under
+# `plugins/themisdb_storage`. This legacy in-tree path is retained only for
+# older compatibility checkouts and should never be treated as the source of truth.
 
 if(NOT THEMIS_ROOT_DIR)
     get_filename_component(THEMIS_ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../.." ABSOLUTE)
