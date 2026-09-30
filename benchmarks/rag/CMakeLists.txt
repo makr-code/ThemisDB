@@ -7,9 +7,7 @@ message(STATUS "Configuring benchmark module: rag")
 themis_add_standard_benchmark(bench_delegate_evaluator bench_delegate_evaluator.cpp)
 themis_add_standard_benchmark(bench_fts_phase_b bench_fts_phase_b.cpp)
 
-if(TARGET bench_fts_phase_b AND TARGET themis_query)
-    target_link_libraries(bench_fts_phase_b PRIVATE themis_query)
-endif()
+target_link_libraries(bench_fts_phase_b PRIVATE themis_query)
 
 themis_register_benchmark_ctest(
     NAME       "bench_rag_fts_phase_b_smoke"
