@@ -256,7 +256,7 @@ jobs:
   # Runs after compaction so compact pages are included in wiki source scan.
   # --------------------------------------------------------------------------
   llm-wiki-sync:
-    name: "Wiki: Developer LLM Wiki Sync"
+    name: "Build: Developer LLM Wiki Sync"
     runs-on: ubuntu-latest
     timeout-minutes: 20
     needs: ai-working-compact

@@ -44,7 +44,7 @@ concurrency:
 
 jobs:
   wordpress-press:
-    name: "Publish: Generate and Publish WordPress Press Post"
+    name: "Publish: WordPress Press Post"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

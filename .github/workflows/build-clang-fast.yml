@@ -73,4 +73,4 @@ jobs:
         build-clang-fast/Testing
         build-clang-fast/CMakeCache.txt
       artifact_retention_days: '7'
-      summary_title: CI — Build Clang Fast
+      summary_title: "Build: Clang Fast — Distributed Tensor Focused Tests"

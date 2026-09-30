@@ -76,6 +76,7 @@
 // Sprint A features - include BEFORE http_server.h to have complete types
 #include "llm/llm_interaction_store.h"
 #include "llm/llm_plugin_manager.h"
+#include "llm/docs_assistant.h"
 #include "llm/context_window_budget.h"
 #include "prompt_engineering/prompt_manager.h"
 #include "cdc/changefeed.h"

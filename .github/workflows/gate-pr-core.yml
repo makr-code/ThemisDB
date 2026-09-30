@@ -251,7 +251,13 @@ jobs:
         -DTHEMIS_BUILD_BENCHMARKS=OFF
         -DTHEMIS_ENABLE_LLM=OFF
         -DTHEMIS_ENABLE_GPU=OFF
-      build_targets: themis_release_critical_tests
+      build_command: >-
+        if cmake --build build-pr-release-critical --target help | grep -q '^themis_release_critical_tests:'; then
+          cmake --build build-pr-release-critical --target themis_release_critical_tests --parallel 16;
+        else
+          echo "release-critical aggregate target missing; falling back to full test build";
+          cmake --build build-pr-release-critical --parallel 16;
+        fi
       validation_mode: labels
       ctest_label_filter: release_critical
       runs_on: ubuntu-latest
@@ -445,7 +451,7 @@ jobs:
         with:
           cc: gcc-12
           cxx: g++-12
-          extra-packages: librocksdb-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev
+          extra-packages: librocksdb-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev libgtest-dev libgmock-dev
 
       - name: Configure (community-release)
         run: |

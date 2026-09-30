@@ -205,6 +205,14 @@ foreach(_module_cmake IN LISTS _TEST_MODULE_CMAKES)
     endif()
 endforeach()
 
+set(THEMIS_EPIC3_DISTRIBUTED_TENSOR_TESTS_INCLUDED FALSE)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/epic3_distributed_tensor/CMakeLists.txt")
+    message(STATUS "Including EPIC 3 Distributed Tensor contract test scaffold")
+    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/epic3_distributed_tensor"
+                     "${CMAKE_CURRENT_BINARY_DIR}/epic3_distributed_tensor")
+    set(THEMIS_EPIC3_DISTRIBUTED_TENSOR_TESTS_INCLUDED TRUE)
+endif()
+
 # ---------------------------------------------------------------------------
 # Post-fix: ensure test/module executables write into per-target folders to avoid
 # concurrent write/copy collisions (prevents LNK1104 when applocal or parallel
@@ -1023,13 +1031,13 @@ endforeach()
 # headers) and are therefore only valid when THEMIS_ENABLE_LLM is ON.
 if(THEMIS_ENABLE_LLM)
     target_sources(themis_tests PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/prompt/test_prompt_evaluator.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/prompt/test_prompt_policy.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_evaluator.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_policy.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/rag/test_rag_prompt_injection.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/feedback/test_feedback_store.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_feedback_store.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/feedback/test_feedback_plugin_modify.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/prompt/test_prompt_engineering_api_handler.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/prompt/test_prompt_engineering_grpc_service.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_engineering_api_handler.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_engineering_grpc_service.cpp
     )
 endif()
 
@@ -1059,7 +1067,7 @@ endif()
 # test_multi_gpu_lora*.cpp, etc. Re-adding it unconditionally ensures it always
 # compiles and runs; it uses only CPU sub-backends so no GPU hardware is required.
 target_sources(themis_tests PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/multi/test_multi_gpu_backend.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_multi_gpu_backend.cpp
 )
 
 # Re-include acceleration module tests excluded by the explicit patterns
@@ -1120,7 +1128,7 @@ endif()
 #  - Manifest file parsing
 # No GPU hardware is required.
 target_sources(themis_tests PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/shader/test_shader_integrity.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_shader_integrity.cpp
 )
 
 # Re-include the GPU memory pool test excluded by the broad ".*test_gpu_.*\\.cpp$"
@@ -29260,10 +29268,12 @@ endif()
 # Tests live in tests/epic3_distributed_tensor/; they share the
 # themis_distributed_tensor target registered in src/distributed_tensor/.
 # ============================================================================
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/epic3_distributed_tensor/CMakeLists.txt")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/epic3_distributed_tensor/CMakeLists.txt" AND
+   NOT THEMIS_EPIC3_DISTRIBUTED_TENSOR_TESTS_INCLUDED)
     message(STATUS "Including EPIC 3 Distributed Tensor contract test scaffold")
     add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/epic3_distributed_tensor"
                      "${CMAKE_CURRENT_BINARY_DIR}/epic3_distributed_tensor")
+    set(THEMIS_EPIC3_DISTRIBUTED_TENSOR_TESTS_INCLUDED TRUE)
 endif()
 
 # ============================================================================
