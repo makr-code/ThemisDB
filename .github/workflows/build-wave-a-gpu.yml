@@ -30,10 +30,6 @@ on:
         required: false
         default: "false"
 
-concurrency:
-  group: wave-a-gpu-ci-${{ github.ref }}-${{ github.run_id }}
-  cancel-in-progress: false
-
 permissions:
   contents: read
   checks: write
@@ -131,6 +127,9 @@ jobs:
     needs: configure
     runs-on: ubuntu-latest
     timeout-minutes: 90
+    concurrency:
+      group: wave-a-gpu-ci-${{ github.ref }}-${{ matrix.phase }}
+      cancel-in-progress: false
     strategy:
       matrix:
         phase: [baseline, fallback, memory, determinism]
