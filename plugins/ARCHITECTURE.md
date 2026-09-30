@@ -57,6 +57,14 @@ plugins/
 
 ---
 
+## Storage Migration Boundary
+
+The authoritative storage implementation for the private storage aggregate is the external repository `makr-code/themisdb_storage`, checked out at `plugins/themisdb_storage/` via `.gitmodules`.
+
+The parent repo retains the legacy `plugins/user_storage_encrypted/` path for compatibility and documentation only. That fallback must never be treated as the source of truth for the storage aggregate, and the root build-system guard in `plugins/CMakeLists.txt` intentionally prefers the submodule when it is present.
+
+Residual risk: older local checkouts without the submodule still rely on the compatibility shim, but this is a compatibility path only. Any storage drift between the submodule and the parent repository should be treated as a migration defect and resolved by updating the external repo boundary rather than creating in-tree storage logic.
+
 ## Plugin Classification
 
 ### Public Plugins (Community+)

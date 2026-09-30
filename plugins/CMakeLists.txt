@@ -45,9 +45,17 @@ if(THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ima
     add_subdirectory(image_analysis)
 endif()
 
-if(THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/user_storage_encrypted/CMakeLists.txt")
-    message(STATUS "  - User Storage Encrypted compatibility entry point")
+# Storage migration guardrail: the canonical implementation now lives in the
+# external aggregate submodule `plugins/themisdb_storage`. Keep the legacy
+# `plugins/user_storage_encrypted` shim only as a fallback when that external
+# authoritative repo is not present in the checkout.
+if(THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED
+   AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/user_storage_encrypted/CMakeLists.txt"
+   AND NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/themisdb_storage/CMakeLists.txt")
+    message(STATUS "  - User Storage Encrypted compatibility entry point (legacy fallback)")
     add_subdirectory(user_storage_encrypted)
+elseif(THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/themisdb_storage/CMakeLists.txt")
+    message(STATUS "  - Using canonical external storage aggregate: plugins/themisdb_storage")
 endif()
 
 # Scraper Plugin – agentic gap-detection web scraper

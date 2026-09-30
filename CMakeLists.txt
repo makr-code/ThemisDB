@@ -572,10 +572,13 @@ option(THEMIS_EXTERNALIZE_GEO_PLUGIN
        "Build geospatial module as external plugin (default: OFF = integrated mode)" OFF)
 if(THEMIS_EXTERNALIZE_GEO_PLUGIN)
     message(STATUS "Geo module: externalized plugin mode (THEMIS_EXTERNALIZE_GEO_PLUGIN=ON)")
-    add_subdirectory(plugins/themisdb_geo)
 else()
     message(STATUS "Geo module: integrated mode (default, THEMIS_EXTERNALIZE_GEO_PLUGIN=OFF)")
 endif()
+
+# Canonical externalized plugin wiring is handled later in cmake/CMakeLists.txt
+# after the core targets exist. Keeping the root-level add_subdirectory here would
+# attempt to inject the submodule before `themis_core`/`themis_geo` are created.
 
 # Enable CTest infrastructure at root level so `ctest --preset` can find tests
 # registered inside add_subdirectory(cmake). Without this, CTestTestfile.cmake
