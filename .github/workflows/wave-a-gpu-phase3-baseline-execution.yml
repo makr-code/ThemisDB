@@ -52,7 +52,7 @@ jobs:
       measurement_output_dir: ${{ steps.setup.outputs.measurement_output_dir }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v5
         with:
           fetch-depth: 100
 
@@ -120,7 +120,7 @@ jobs:
     timeout-minutes: 45
     steps:
       - name: Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v5
         with:
           fetch-depth: 100
 
@@ -197,7 +197,7 @@ jobs:
     timeout-minutes: 45
     steps:
       - name: Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v5
         with:
           fetch-depth: 100
 
@@ -275,7 +275,7 @@ jobs:
     if: always()
     steps:
       - name: Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v5
         with:
           fetch-depth: 100
 
@@ -442,7 +442,7 @@ jobs:
     if: always()
     steps:
       - name: Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v5
 
       - name: Download baseline evidence
         uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85

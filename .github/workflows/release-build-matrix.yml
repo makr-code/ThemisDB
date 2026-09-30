@@ -99,6 +99,7 @@ jobs:
           cmake_flags = f"-DTHEMIS_EDITION={edition.upper()} -DCMAKE_BUILD_TYPE={build_type}"
 
           def lane_enabled(lane_id: str) -> bool:
+              # Platform-specific -only patterns
               if build_matrix == "linux-amd64-only":
                   return lane_id == "linux-amd64"
               if build_matrix == "linux-arm64-only":
@@ -108,17 +109,18 @@ jobs:
               if build_matrix == "macos-arm64-only":
                   return lane_id == "macos-arm64"
 
-              if build_matrix not in ("os", "all"):
-                  return False
+              # Edition-only patterns (e.g., "community-only", "enterprise-only") and generic selectors
+              if build_matrix.endswith("-only") or build_matrix in ("os", "all"):
+                  if lane_id.startswith("linux"):
+                      lane_os, lane_arch = "linux", lane_id.split("-")[1]
+                  elif lane_id.startswith("windows"):
+                      lane_os, lane_arch = "windows", lane_id.split("-")[1]
+                  else:
+                      lane_os, lane_arch = "macos", lane_id.split("-")[1]
 
-              if lane_id.startswith("linux"):
-                  lane_os, lane_arch = "linux", lane_id.split("-")[1]
-              elif lane_id.startswith("windows"):
-                  lane_os, lane_arch = "windows", lane_id.split("-")[1]
-              else:
-                  lane_os, lane_arch = "macos", lane_id.split("-")[1]
+                  return (os_selector in ("all", lane_os)) and (arch_selector in ("all", lane_arch))
 
-              return (os_selector in ("all", lane_os)) and (arch_selector in ("all", lane_arch))
+              return False
 
           def generators_for(lane_os: str) -> str:
               if packaging and packaging.lower() != "auto":
