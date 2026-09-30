@@ -148,6 +148,14 @@ Public module externalization (Geo / TimeSeries):
 - `plugins/themisdb_timeseries` (`makr-code/themisdb_timeseries`)
 - Enable with `-DTHEMIS_EXTERNALIZE_GEO_PLUGIN=ON` and/or `-DTHEMIS_EXTERNALIZE_TIMESERIES_PLUGIN=ON`
 - If enabled and the submodule `CMakeLists.txt` is present, the matching public submodule becomes the authoritative implementation source for that module. The in-tree `src/geo/*` and/or `src/timeseries/*` trees remain compatibility fallbacks only and are removed from `themis_core` when the externalized build is active.
+
+## TimeSeries Migration Proof
+
+- Authoritative ownership: `.gitmodules` declares `plugins/themisdb_timeseries` with URL `https://github.com/makr-code/themisdb_timeseries.git` and pins the canonical external repo.
+- Build switch: `cmake/CMakeLists.txt` defines `THEMIS_EXTERNALIZE_TIMESERIES_PLUGIN` and sets `THEMIS_USE_EXTERNAL_TIMESERIES_PLUGIN` only when the flag is enabled; this is the switch that chooses the externalized implementation path.
+- Integration boundary: `plugins/CMakeLists.txt` adds the public submodule only when `THEMIS_PLUGIN_TIMESERIES` and `THEMIS_EXTERNALIZE_TIMESERIES_PLUGIN` are both true, and `plugins/themisdb_timeseries/CMakeLists.txt` injects the external source files into `themis_timeseries` or `themis_core`.
+- Compatibility posture: the parent repo still supports the monorepo `src/timeseries/*` tree as a fallback, but that path is not the authoritative implementation when the externalized build is active.
+- Residual follow-up: live validation must use the dependency stack required by the project (for example `cpp-httplib`, `protobuf`, and other optional runtime deps). The build failure observed in this environment was a toolchain/dependency issue, not evidence that the externalized timeseries module is stale or duplicated.
 ```
 
 ## Production Plugin Types
