@@ -1013,10 +1013,10 @@ if(THEMIS_ENABLE_LLM)
         ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_evaluator.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_policy.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/rag/test_rag_prompt_injection.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/feedback/test_feedback_store.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_feedback_store.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/feedback/test_feedback_plugin_modify.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/prompt/test_prompt_engineering_api_handler.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/prompt/test_prompt_engineering_grpc_service.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_engineering_api_handler.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_engineering_grpc_service.cpp
     )
 endif()
 
