@@ -270,11 +270,11 @@ jobs:
       - name: Configure (community-release preset)
         run: |
           set -euo pipefail
-          git config --file .git/config --remove-section submodule.plugins/private/themisdb_ethic_ai 2>/dev/null || true
-          git config --file .git/config --remove-section submodule.plugins/private/themisdb_importer 2>/dev/null || true
-          git config --file .git/config --remove-section submodule.plugins/private/themisdb_storage 2>/dev/null || true
-          git config --file .git/config --remove-section submodule.plugins/private/themisdb_llm_wiki 2>/dev/null || true
-          git config --file .git/config --remove-section submodule.plugins/private/themisdb_plugin_signer 2>/dev/null || true
+          git config --file .git/config --remove-section submodule.plugins/themisdb_ethic_ai 2>/dev/null || true
+          git config --file .git/config --remove-section submodule.plugins/themisdb_importer 2>/dev/null || true
+          git config --file .git/config --remove-section submodule.plugins/themisdb_storage 2>/dev/null || true
+          git config --file .git/config --remove-section submodule.plugins/themisdb_llm_wiki 2>/dev/null || true
+          git config --file .git/config --remove-section submodule.plugins/themisdb_plugin_signer 2>/dev/null || true
           cmake --preset community-release -DCMAKE_BUILD_TYPE=RelWithDebInfo 2>&1 | tail -30
 
       - name: Build (manual cmake build for CodeQL extraction)

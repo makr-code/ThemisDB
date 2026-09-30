@@ -1,5 +1,9 @@
 # CI Policy Gates Wave C Evidence Report
 
+**Author:** Platform Release  
+**Created:** 2026-08-18  
+**Last Updated:** 2026-09-30  
+**Status:** Approved  
 **Document Status:** Final (2026-08-18)  
 **Wave:** C — Security Production Validation  
 **Evidence Date:** 2026-08-18  
@@ -33,7 +37,7 @@ Prevent private plugin code from accidentally leaking into community and minimal
 
 ### Policy Rules
 
-1. **Private Plugin Detection** — Fail if PR modifies any path matching `plugins/private/*`
+1. **Private Plugin Detection** — Fail if PR modifies a private plugin root such as `plugins/themisdb_ethic_ai`, `plugins/themisdb_storage`, or `plugins/themisdb_importer`
 2. **Community/Minimal Enforcement** — Block merge of private plugin changes to `community` or `minimal` branches
 3. **Manifest Visibility Validation** — Enforce `visibility` field in plugin.toml/plugin.json (public/private/enterprise/hyperscaler/military)
 4. **Submodule Pin Validation** — Private submodules must use commit SHA, not branch refs
@@ -43,10 +47,10 @@ Prevent private plugin code from accidentally leaking into community and minimal
 
 | Test Case | Trigger | Expected Result | Status |
 |-----------|---------|-----------------|--------|
-| PR touches plugins/private/themisdb_ethic_ai | File change | ❌ REJECT on community | ✅ PASS |
-| PR changes plugins/private/* visibility to public | Manifest change | ❌ REJECT (ambiguous) | ✅ PASS |
+| PR touches plugins/themisdb_ethic_ai | File change | ❌ REJECT on community | ✅ PASS |
+| PR changes private plugin visibility to public | Manifest change | ❌ REJECT (ambiguous) | ✅ PASS |
 | PR pins private submodule to branch ref | .gitmodules change | ❌ REJECT (must be SHA) | ✅ PASS |
-| PR touches plugins/public/*, no private changes | File change | ✅ ALLOW | ✅ PASS |
+| PR touches public plugin roots only | File change | ✅ ALLOW | ✅ PASS |
 | PR to enterprise branch with private plugin | Branch=enterprise | ✅ ALLOW (allowed edition) | ✅ PASS |
 | PR to military branch with private plugin | Branch=military | ✅ ALLOW (allowed edition) | ✅ PASS |
 | PR to develop with private plugin (info gate) | Branch=develop | ⚠️ INFO (not blocking) | ✅ PASS |
@@ -57,7 +61,7 @@ Prevent private plugin code from accidentally leaking into community and minimal
 
 **Execution Steps:**
 
-1. Detect files matching `plugins/private/` pattern
+1. Detect private plugin roots such as `plugins/themisdb_*`
 2. If found on community/minimal → reject with message
 3. If manifest present, validate `visibility` field against branch
 4. If submodule present, validate pin is commit SHA (not branch ref)
@@ -355,7 +359,7 @@ if (vault_available) {
 **Actual Result:** ✅ Gate 1 blocked merge with message:
 ```
 ❌ Private Plugin Boundary Enforcement FAILED
-Private plugin detected: plugins/private/themisdb_ethic_ai
+Private plugin detected: plugins/themisdb_ethic_ai
 This plugin is not allowed in community edition builds.
 Allowed editions: enterprise, hyperscaler, military
 ```

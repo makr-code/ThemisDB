@@ -1,5 +1,9 @@
 # Wave C CI Policy Gates Specification
 
+**Author:** Platform Release  
+**Created:** 2026-08-18  
+**Last Updated:** 2026-09-30  
+**Status:** Active  
 **Document Status:** Production Ready (2026-08-18)  
 **Wave:** C — Security Production Validation  
 **Target Completion:** Q4 2026  
@@ -34,7 +38,7 @@ Wave C CI policy gates enforce security boundaries, edition compatibility, and s
 
 | Scenario | Expected Behavior | Status |
 |----------|-------------------|--------|
-| Community PR touches `plugins/private/themisdb_ethic_ai` | Rejection | ✅ |
+| Community PR touches `plugins/themisdb_ethic_ai` | Rejection | ✅ |
 | Minimal build accidentally links private plugin | Build fails with clear error | ✅ |
 | Plugin manifest missing `visibility` field | Warning + validation pass (conservative default: private) | ✅ |
 | Private submodule with branch ref in `.gitmodules` | Rejection | ✅ |

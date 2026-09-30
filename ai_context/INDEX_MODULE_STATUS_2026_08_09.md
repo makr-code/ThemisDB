@@ -1,7 +1,11 @@
 # ThemisDB Module Status Index (2026-08-09)
 
 Datum: 2026-08-09  
-**Status:** Synchronized with root ROADMAP.md and module-level ROADMAP.md files  
+**Author:** ThemisDB Contributors  
+**Created:** 2026-08-09  
+**Last Updated:** 2026-09-30  
+**Status:** Active  
+**Synchronization:** Synchronized with root ROADMAP.md and module-level ROADMAP.md files  
 **Bezug:** Root ROADMAP.md (canonical source), 66 module ROADMAP.md files, recent Phase 1-6 delivery evidence  
 **Primary (Quelle der Wahrheit):** ROADMAP.md, src/<module>/ROADMAP.md files, corresponding FUTURE_ENHANCEMENTS.md, PHASE_*_ACCEPTANCE_CHECKLIST.md
 
@@ -107,10 +111,10 @@ Aktualisierte Synchronisation des Moduls-Status über alle 66 Quellmodule hinweg
 ## Private Plugin Submodule Status (Wave 1, 2026-07)
 
 ### Provisioned Wave-1 Repositories
-- ✅ makr-code/themisdb_ethic_ai → plugins/private/themisdb_ethic_ai (ethics_ai)
-- ✅ makr-code/themisdb_storage → plugins/private/themisdb_storage (user_storage_encrypted, azure_blob_storage, s3_blob_storage)
-- ✅ makr-code/themisdb_importer → plugins/private/themisdb_importer (mysql_importer, mongo_importer, kafka_importer, s3_importer)
-- ✅ makr-code/themisdb_llm_wiki → plugins/private/themisdb_llm_wiki (LLM Wiki enterprise plugin)
+- ✅ makr-code/themisdb_ethic_ai → plugins/themisdb_ethic_ai (ethics_ai)
+- ✅ makr-code/themisdb_storage → plugins/themisdb_storage (user_storage_encrypted, azure_blob_storage, s3_blob_storage)
+- ✅ makr-code/themisdb_importer → plugins/themisdb_importer (mysql_importer, mongo_importer, kafka_importer, s3_importer)
+- ✅ makr-code/themisdb_llm_wiki → plugins/themisdb_llm_wiki (LLM Wiki enterprise plugin)
 
 ### Status
 - **Repositories provisioned:** Yes

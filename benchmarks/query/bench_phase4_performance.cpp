@@ -314,11 +314,11 @@ static void BenchQueryCompilerHotPath(benchmark::State& state) {
         
         state.PauseTiming();
         if (!result) {
-            state.SkipWithError("QueryCompiler hot path failed unexpectedly");
+            state.SkipWithError("Hot path benchmark received failed query execution result");
             break;
         }
         if (!result->used_compiled_path) {
-            state.SkipWithError("QueryCompiler hot path did not switch to compiled execution");
+            state.SkipWithError("Hot path benchmark did not use compiled path");
             break;
         }
         state.ResumeTiming();
@@ -338,9 +338,8 @@ static void BenchFallbackLatency_OnFailure(benchmark::State& state) {
         
         // Simulate occasional failure after first few calls
         if (call_count > 5 && call_count % 20 == 0) {
-            return Err<QueryResult>(
-                errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
-                "Simulated compilation failure");
+            return Err<QueryResult>(errors::ErrorCode::ERR_QUERY_EXECUTION_FAILED,
+                                    "Simulated compilation failure");
         }
         
         QueryResult r;
