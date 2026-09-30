@@ -1011,7 +1011,7 @@ target_sources(themis_tests PRIVATE
 if(THEMIS_ENABLE_LLM)
     target_sources(themis_tests PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_evaluator.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/prompt/test_prompt_policy.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_policy.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/rag/test_rag_prompt_injection.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/feedback/test_feedback_store.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/feedback/test_feedback_plugin_modify.cpp
@@ -1107,7 +1107,7 @@ endif()
 #  - Manifest file parsing
 # No GPU hardware is required.
 target_sources(themis_tests PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/shader/test_shader_integrity.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_shader_integrity.cpp
 )
 
 # Re-include the GPU memory pool test excluded by the broad ".*test_gpu_.*\\.cpp$"

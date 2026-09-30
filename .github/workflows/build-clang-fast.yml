@@ -49,7 +49,7 @@ permissions:
 
 concurrency:
   group: ci-build-clang-fast-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build-clang-fast:
