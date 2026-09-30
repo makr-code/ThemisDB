@@ -28,6 +28,25 @@ ThemisDB uses a flexible plugin system that allows extending functionality throu
 
 Compiled plugin implementations are being consolidated into the canonical source tree under src and exposed through public headers under include. The plugins directory remains the compatibility, manifest, roadmap, and legacy entry-point layer.
 
+## Ethics AI Migration Status
+
+**Authoritative source of truth:** `plugins/themisdb_ethic_ai` is the Git submodule pointing to `https://github.com/makr-code/themisdb_ethic_ai.git` and is the authoritative implementation for the Ethics AI module.
+
+**Parent-repo posture:** the compatibility paths under `plugins/ethics_ai/` and `src/ethics_ai/` are intentionally retained as public/community fallback shims and documentation entry points only. They are not the active implementation source for the enterprise plugin.
+
+**Source evidence:**
+- `.gitmodules` declares the `plugins/themisdb_ethic_ai` submodule with URL `https://github.com/makr-code/themisdb_ethic_ai.git`
+- `cmake/PrivatePlugins.cmake` registers `plugins/themisdb_ethic_ai` as the external private plugin root when `WITH_PRIVATE_ETHICS_AI` is enabled
+- `plugins/ethics_ai/CMakeLists.txt` explicitly delegates to the compatibility/public shim path and is marked as a compatibility layer
+
+**Validation performed:**
+- `git submodule status --recursive`
+- `grep -R "themisdb_ethic_ai\|plugins/themisdb_ethic_ai" -n .gitmodules CMakeLists.txt cmake plugins || true`
+
+**Residual risk / follow-up:**
+- The compatibility shims remain in-tree for community-facing fallback behavior and onboarding; they must be treated as integration-only entry points, never as the authoritative enterprise implementation.
+- Any future change to the private ethics AI repo should be validated against the submodule pin and the public/community fail-closed defaults before release.
+
 ## Plugin Architecture
 
 ThemisDB's plugin system consists of a unified plugin manager that handles dynamic loading and lifecycle management for various plugin types:

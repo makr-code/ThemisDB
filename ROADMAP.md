@@ -327,14 +327,14 @@ This execution contract is the active implementation sequence to close hardening
 #### Phase 1 — Design / API Contract
 - [~] Define the public plugin SDK boundary and the permitted private extension points across `include/plugins/*` and `src/plugins/*` (Target: Q3 2026)
 - [~] Extend plugin manifest governance with `visibility`, `allowed_editions`, `license_feature`, `min_themisdb_version`, `max_themisdb_version`, and `compatible_core_abi` semantics (Target: Q3 2026)
-- [~] Freeze a plugin-name-aligned private layout under `plugins/private/` (for example `ethics_ai`, `user_storage_encrypted`, `mysql_importer`, `azure_blob_storage`) in root governance and CMake defaults (Target: Q3 2026)
+- [~] Freeze a plugin-name-aligned private layout under canonical submodule roots such as `plugins/themisdb_ethic_ai`, `plugins/themisdb_storage`, and `plugins/themisdb_importer` in root governance and CMake defaults (Target: Q3 2026)
 
 #### Phase 2 — Core Implementation
 - [~] Introduce `WITH_PRIVATE_*` grouping/plugin flags and centralized private-plugin loading helpers with no-hard-fail `EXISTS(...)` handling (Target: Q3 2026)
 - [x] Wave-1 private repositories provisioned and submodule paths finalized (2026-07):
-  - `makr-code/themisdb_ethic_ai` → `plugins/themisdb_ethic_ai/` (external submodule, canonical runtime implementation path; parent `plugins/ethics_ai/` remains compatibility-only)
-  - `makr-code/themisdb_storage` → `plugins/private/themisdb_storage/` (aggregate: user_storage_encrypted/, azure_blob_storage/, s3_blob_storage/)
-  - `makr-code/themisdb_importer` → `plugins/private/themisdb_importer/` (aggregate: mysql_importer/, mongo_importer/, kafka_importer/, s3_importer/)
+  - `makr-code/themisdb_ethic_ai` → `plugins/themisdb_ethic_ai/` (authoritative ethics_ai plugin submodule root)
+  - `makr-code/themisdb_storage` → `plugins/themisdb_storage/` (aggregate: user_storage_encrypted/, azure_blob_storage/, s3_blob_storage/)
+  - `makr-code/themisdb_importer` → `plugins/themisdb_importer/` (aggregate: mysql_importer/, mongo_importer/, kafka_importer/, s3_importer/)
   - `makr-code/themisdb_llm_wiki` → `plugins/themisdb_llm_wiki/` (LLM Wiki tool)
   - **Documentation:** See ai_context/INDEX_MODULE_STATUS_2026_08_09.md §Private Plugin Submodule Status for Wave-1 current status
   - `gpu-impact-analysis` remains explicitly out of Wave 1
