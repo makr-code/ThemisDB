@@ -129,10 +129,10 @@ Community and Minimal edition builds must succeed without private credentials, p
 
 | Plugin | Private Repo | Submodule Path | Status | Allowed Editions |
 |--------|-------------|----------------|--------|------------------|
-| ethics_ai | makr-code/themisdb_ethic_ai | `plugins/private/themisdb_ethic_ai/` | Wave 1 | enterprise/hyperscaler/military |
-| storage | makr-code/themisdb_storage | `plugins/private/themisdb_storage/` | Wave 1 | enterprise/hyperscaler/military |
-| importer | makr-code/themisdb_importer | `plugins/private/themisdb_importer/` | Wave 1 | enterprise/hyperscaler/military |
-| llm_wiki | makr-code/themisdb_llm_wiki | `plugins/private/themisdb_llm_wiki/` | Wave 1 | enterprise/hyperscaler/military |
+| ethics_ai | makr-code/themisdb_ethic_ai | `plugins/themisdb_ethic_ai/` | Wave 1 | enterprise/hyperscaler/military |
+| storage | makr-code/themisdb_storage | `plugins/themisdb_storage/` | Wave 1 | enterprise/hyperscaler/military |
+| importer | makr-code/themisdb_importer | `plugins/themisdb_importer/` | Wave 1 | enterprise/hyperscaler/military |
+| llm_wiki | makr-code/themisdb_llm_wiki | `plugins/themisdb_llm_wiki/` | Wave 1 | enterprise/hyperscaler/military |
 
 ### 3.4 Enforcement Mechanism (Phase 2-3)
 

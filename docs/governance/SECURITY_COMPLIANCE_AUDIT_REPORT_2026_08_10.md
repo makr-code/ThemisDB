@@ -184,7 +184,7 @@ Common false positives in ThemisDB:
 
 ### 6.1 Current State
 
-**Module:** `src/ethics_ai/` + `plugins/private/themisdb_ethic_ai/`  
+**Module:** `src/ethics_ai/` + `plugins/themisdb_ethic_ai/`  
 **Applicability:** Applies to enterprise/hyperscaler editions (AI-powered deployments)  
 **Assessment Date:** 2026-08-10
 

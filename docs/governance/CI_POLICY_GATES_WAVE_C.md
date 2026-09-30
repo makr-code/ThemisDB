@@ -34,7 +34,7 @@ Wave C CI policy gates enforce security boundaries, edition compatibility, and s
 
 | Scenario | Expected Behavior | Status |
 |----------|-------------------|--------|
-| Community PR touches `plugins/private/themisdb_ethic_ai` | Rejection | ✅ |
+| Community PR touches `plugins/themisdb_ethic_ai` | Rejection | ✅ |
 | Minimal build accidentally links private plugin | Build fails with clear error | ✅ |
 | Plugin manifest missing `visibility` field | Warning + validation pass (conservative default: private) | ✅ |
 | Private submodule with branch ref in `.gitmodules` | Rejection | ✅ |

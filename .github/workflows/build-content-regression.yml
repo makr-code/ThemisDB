@@ -105,11 +105,11 @@ jobs:
       - name: Prepare repository (strip private submodules)
         run: |
           for sm in \
-            plugins/private/themisdb_ethic_ai \
-            plugins/private/themisdb_importer \
-            plugins/private/themisdb_storage \
-            plugins/private/themisdb_llm_wiki \
-            plugins/private/themisdb_plugin_signer; do
+            plugins/themisdb_ethic_ai \
+            plugins/themisdb_importer \
+            plugins/themisdb_storage \
+            plugins/themisdb_llm_wiki \
+            plugins/themisdb_plugin_signer; do
             git config --file .git/config --remove-section "submodule.${sm}" 2>/dev/null || true
           done
           if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then
@@ -196,11 +196,11 @@ jobs:
       - name: Prepare repository (strip private submodules)
         run: |
           for sm in \
-            plugins/private/themisdb_ethic_ai \
-            plugins/private/themisdb_importer \
-            plugins/private/themisdb_storage \
-            plugins/private/themisdb_llm_wiki \
-            plugins/private/themisdb_plugin_signer; do
+            plugins/themisdb_ethic_ai \
+            plugins/themisdb_importer \
+            plugins/themisdb_storage \
+            plugins/themisdb_llm_wiki \
+            plugins/themisdb_plugin_signer; do
             git config --file .git/config --remove-section "submodule.${sm}" 2>/dev/null || true
           done
           if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then
