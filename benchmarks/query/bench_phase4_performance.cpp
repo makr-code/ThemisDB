@@ -313,9 +313,13 @@ static void BenchQueryCompilerHotPath(benchmark::State& state) {
         benchmark::DoNotOptimize(result);
         
         state.PauseTiming();
-        EXPECT_TRUE(result);
-        if (result) {
-            EXPECT_TRUE(result->used_compiled_path) << "Should be using compiled path";
+        if (!result) {
+            state.SkipWithError("Hot path benchmark received failed query execution result");
+            break;
+        }
+        if (!result->used_compiled_path) {
+            state.SkipWithError("Hot path benchmark did not use compiled path");
+            break;
         }
         state.ResumeTiming();
     }
