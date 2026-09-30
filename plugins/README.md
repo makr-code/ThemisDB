@@ -28,6 +28,25 @@ ThemisDB uses a flexible plugin system that allows extending functionality throu
 
 Compiled plugin implementations are being consolidated into the canonical source tree under src and exposed through public headers under include. The plugins directory remains the compatibility, manifest, roadmap, and legacy entry-point layer.
 
+## Geo Migration Status
+
+**Authoritative source of truth:** `plugins/themisdb_geo` is the Git submodule pointing to `https://github.com/makr-code/themisdb_geo.git` and is the authoritative implementation for the public Geo module.
+
+**Parent-repo posture:** the integrated `src/geo/` path remains as the default fallback for compatibility builds, but it is not the active implementation when `THEMIS_EXTERNALIZE_GEO_PLUGIN=ON`. The root-level CMake entry point must not re-add the submodule before the core targets exist; the canonical registration happens in `cmake/CMakeLists.txt` only after the Geo feature gates and target graph are initialized.
+
+**Source evidence:**
+- `.gitmodules` declares the `plugins/themisdb_geo` submodule with URL `https://github.com/makr-code/themisdb_geo.git`
+- `cmake/CMakeLists.txt` configures `THEMIS_EXTERNALIZE_GEO_PLUGIN`, resolves the submodule path, and only calls `add_subdirectory()` when the submodule and feature flags are valid
+- `plugins/themisdb_geo/CMakeLists.txt` injects the external sources into `themis_geo` or `themis_core` and deliberately treats the submodule as the production implementation source
+
+**Validation performed:**
+- `git submodule status --recursive`
+- `grep -R "THEMIS_EXTERNALIZE_GEO_PLUGIN\|themisdb_geo\|plugins/themisdb_geo" -n CMakeLists.txt cmake plugins || true`
+
+**Residual risk / follow-up:**
+- The integrated `src/geo/` tree stays available as a compatibility fallback and must be kept in sync with the externalized submodule when the externalization flag is off.
+- Future changes to the Geo submodule must be validated against the pinned `.gitmodules` commit and the externalization flag contract before release.
+
 ## Ethics AI Migration Status
 
 **Authoritative source of truth:** `plugins/themisdb_ethic_ai` is the Git submodule pointing to `https://github.com/makr-code/themisdb_ethic_ai.git` and is the authoritative implementation for the Ethics AI module.
