@@ -159,20 +159,23 @@ Goal:
 
 ## Migration Roadmap (First Phases)
 
-### Phase A — Contract and boundary freeze (short-term)
+### Phase A — Contract and boundary freeze (Target: Q4 2026)
 - Baseline dependency map and mark all prohibited reverse dependencies.
 - Extract/confirm contract seams used by `core`, `query`, `storage`, `sharding`, `llm`.
 - Define CI checks for dependency-direction violations at plane boundaries.
+- Acceptance signal: dependency-policy checks run in CI and report zero new reverse-dependency violations for plane boundaries.
 
-### Phase B — Circular dependency reduction (short-to-mid)
+### Phase B — Circular dependency reduction (Target: Q1 2027)
 - Resolve highest-risk cycles first: `llm <-> server`, `llm <-> query`, `sharding <-> transaction`.
 - Introduce adapter/facade layers where direct implementation imports remain.
 - Keep behavior unchanged while reducing compile-time/runtime coupling.
+- Acceptance signal: each tracked cycle has a documented contract seam and at least one removed direct implementation import.
 
-### Phase C — Capability packaging and externalization pilots (mid-term)
+### Phase C — Capability packaging and externalization pilots (Target: Q2 2027)
 - Pilot external packaging for optional AI/ML stacks and selected heavy adapters.
 - Keep contract compatibility tests in-tree and run cross-repo integration checks.
 - Promote only modules that are independently operable and observably bounded.
+- Acceptance signal: at least one pilot capability package passes contract compatibility and cross-repo integration checks without kernel contract changes.
 
 ## Non-Goals
 
