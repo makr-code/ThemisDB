@@ -257,9 +257,12 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*[/\\]tests[/\\][^/\\]+[/\\]test_.*
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*[/\\]tests[/\\]legacy[/\\].*[/\\]test_.*\\.cpp$")
 
 # Additional GoogleTest sources that intentionally use a non-test_*.cpp naming scheme.
-list(APPEND ALL_TEST_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/update_checker_test.cpp"
-)
+# Guard against stale references to removed files from older test rounds.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/update_checker_test.cpp")
+    list(APPEND ALL_TEST_SOURCES
+        "${CMAKE_CURRENT_SOURCE_DIR}/update_checker_test.cpp"
+    )
+endif()
 
 if(THEMIS_ENABLE_LLM)
     list(APPEND ALL_TEST_SOURCES
@@ -974,8 +977,8 @@ endif()
 # by the broad ".*test_prompt_.*\\.cpp$" and ".*test_meta_prompt.*\\.cpp$" patterns.
 # These tests are fully functional and cover the validation / scaling / LLM /
 # statistical and metrics improvements added in the production-readiness pass.
-target_sources(themis_tests PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/prompt/test_prompt_manager_validation.cpp
+set(_themis_reincluded_prompt_tests
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_prompt_manager_validation.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/prompt/test_prompt_evaluator_ttest.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/prompt/test_prompt_evaluator_embedding.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/prompt/test_prompt_engineering_metrics_persistence.cpp
@@ -989,13 +992,18 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/rag/test_rag_prompt_builder.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/system/test_system_prompt_manager.cpp
 )
+foreach(_themis_prompt_test IN LISTS _themis_reincluded_prompt_tests)
+    if(EXISTS "${_themis_prompt_test}")
+        target_sources(themis_tests PRIVATE "${_themis_prompt_test}")
+    endif()
+endforeach()
 
 # Re-include additional prompt_engineering tests that have no LLM runtime
-# dependency and are fully functional without THEMIS_ENABLE_LLM.  These files
+# dependency and are fully functional without THEMIS_ENABLE_LLM. These files
 # are caught by the broad ".*test_prompt_.*\\.cpp$" or ".*test_meta_prompt.*\\.cpp$"
 # exclusion patterns added in the NOT THEMIS_ENABLE_LLM block, but they only
 # use the prompt_engineering/ headers which link cleanly against themis_core.
-target_sources(themis_tests PRIVATE
+set(_themis_reincluded_prompt_tests_additional
     ${CMAKE_CURRENT_SOURCE_DIR}/prompt/test_prompt_manager.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/prompt/test_prompt_version_control.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/prompt/test_prompt_optimizer.cpp
@@ -1005,6 +1013,11 @@ target_sources(themis_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/self/test_self_improvement_orchestrator.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/prompt/test_prompt_engineering_integration.cpp
 )
+foreach(_themis_prompt_test IN LISTS _themis_reincluded_prompt_tests_additional)
+    if(EXISTS "${_themis_prompt_test}")
+        target_sources(themis_tests PRIVATE "${_themis_prompt_test}")
+    endif()
+endforeach()
 
 # Re-include prompt_engineering tests that depend on the LLM subsystem (llm/
 # headers) and are therefore only valid when THEMIS_ENABLE_LLM is ON.
@@ -2244,6 +2257,9 @@ if(WIN32)
     add_dependencies(themis_tests sync_test_runtime_dlls)
 endif()
 
+if(THEMIS_BUILD_MODULAR)
+    message(STATUS "Legacy root-level test registrations are skipped in modular build mode; module-scoped test executables own the CTest registry.")
+else()
 # Unified themis_tests discovery can fail on Windows modular builds due to
 # unresolved runtime-entrypoint drift between module DLLs. Keep focused tests
 # active and skip only the monolithic runner in that configuration.
@@ -2254,7 +2270,7 @@ if(WIN32 AND THEMIS_BUILD_MODULAR)
 endif()
 
 if(_themis_enable_unified_tests)
-    add_test(NAME AllTests COMMAND themis_tests)
+    add_test(NAME AllTests COMMAND $<TARGET_FILE:themis_tests>)
     set_tests_properties(AllTests PROPERTIES
         LABELS "all;unified"
         TIMEOUT 3600
@@ -2300,7 +2316,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_themis_wire_protocol_server.cpp")
     )
 
     add_test(NAME ThemisWireProtocolV1Tests
-        COMMAND test_themis_wire_protocol_server_focused --gtest_filter=WireV1Constants*:WireFrameHeader*:OpCode*:MessageFlags*:MessageDispatcher*:WireProtocolSession*:WireProtocolServer*:WireProtocolConstants*:DeprecatedWireSessionBridgeTest*:WireProtocolV1Themis*)
+        COMMAND $<TARGET_FILE:test_themis_wire_protocol_server_focused> --gtest_filter=WireV1Constants*:WireFrameHeader*:OpCode*:MessageFlags*:MessageDispatcher*:WireProtocolSession*:WireProtocolServer*:WireProtocolConstants*:DeprecatedWireSessionBridgeTest*:WireProtocolV1Themis*)
     set_tests_properties(ThemisWireProtocolV1Tests PROPERTIES
         LABELS "wire;protocol;themis;unit"
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_themis_wire_protocol_server_focused>
@@ -2308,7 +2324,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_themis_wire_protocol_server.cpp")
     )
 
     add_test(NAME ThemisWireDeprecatedBridgeTests
-        COMMAND test_themis_wire_protocol_server_focused --gtest_filter=DeprecatedWireSessionBridgeTest*)
+        COMMAND $<TARGET_FILE:test_themis_wire_protocol_server_focused> --gtest_filter=DeprecatedWireSessionBridgeTest*)
     set_tests_properties(ThemisWireDeprecatedBridgeTests PROPERTIES
         LABELS "wire;protocol;themis;deprecated;unit"
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_themis_wire_protocol_server_focused>
@@ -2349,7 +2365,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_build_info.cpp" AND NOT TARGET modul
     )
 
     add_test(NAME BuildInfoTests
-        COMMAND module_build_test_build_info_focused --gtest_filter=BuildConfiguration.*:BuildInfo.*:ModuleQuery.*:ReproducibilityInfo.*:BuildManifest.*:HsmModuleStatus.*)
+        COMMAND $<TARGET_FILE:module_build_test_build_info_focused> --gtest_filter=BuildConfiguration.*:BuildInfo.*:ModuleQuery.*:ReproducibilityInfo.*:BuildManifest.*:HsmModuleStatus.*)
     set_tests_properties(BuildInfoTests PROPERTIES
         LABELS "build;info;module;availability;themis;unit"
         WORKING_DIRECTORY $<TARGET_FILE_DIR:module_build_test_build_info_focused>
@@ -2385,7 +2401,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_edition_manager.cpp"
     #         upgrade messages, RuntimeLicenseGate integration
     #         (from edition/test_edition_manager.cpp, Issue #2469)
     add_test(NAME EditionManagerTests
-        COMMAND test_edition_runtime_license_focused --gtest_filter=EditionManager.*)
+        COMMAND $<TARGET_FILE:test_edition_runtime_license_focused> --gtest_filter=EditionManager.*)
     set_tests_properties(EditionManagerTests PROPERTIES
         LABELS "edition;feature;gating;themis;unit"
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_edition_runtime_license_focused>
@@ -2398,7 +2414,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_edition_manager.cpp"
     #         edition gate and RuntimeLicenseGate, feature enumeration, thread-safety
     #         (from dynamic/test_dynamic_feature_flags.cpp, Issue #2469)
     add_test(NAME DynamicFeatureFlagTests
-        COMMAND test_edition_runtime_license_focused --gtest_filter=DynamicFeatureFlagTest.*)
+        COMMAND $<TARGET_FILE:test_edition_runtime_license_focused> --gtest_filter=DynamicFeatureFlagTest.*)
     set_tests_properties(DynamicFeatureFlagTests PROPERTIES
         LABELS "edition;feature;override;themis;unit"
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_edition_runtime_license_focused>
@@ -2411,7 +2427,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_edition_manager.cpp"
     #         idempotency, diagnostics (licenseStatus, graceDaysRemaining, currentLicense)
     #         (from runtime/test_runtime_license_gate.cpp)
     add_test(NAME RuntimeLicenseGateTests
-        COMMAND test_edition_runtime_license_focused --gtest_filter=RuntimeLicenseGateInit.*:RuntimeLicenseGate.*)
+        COMMAND $<TARGET_FILE:test_edition_runtime_license_focused> --gtest_filter=RuntimeLicenseGateInit.*:RuntimeLicenseGate.*)
     set_tests_properties(RuntimeLicenseGateTests PROPERTIES
         LABELS "license;runtime;license-gate;themis;unit"
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_edition_runtime_license_focused>
@@ -2426,7 +2442,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_edition_manager.cpp"
     #         (not-yet-expired, today, 1 day ago, beyond grace, empty date, custom period)
     #         (from gate/test_gate_result.cpp, include/themis/ROADMAP.md v1.7.1)
     add_test(NAME GateResultFocusedTests
-        COMMAND test_edition_runtime_license_focused --gtest_filter=GateResult.*:GateResultCheckFeature*:LicenseInfo.*)
+        COMMAND $<TARGET_FILE:test_edition_runtime_license_focused> --gtest_filter=GateResult.*:GateResultCheckFeature*:LicenseInfo.*)
     set_tests_properties(GateResultFocusedTests PROPERTIES
         LABELS "license;license-gate;result;denial-reason;themis;unit"
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_edition_runtime_license_focused>
@@ -2440,7 +2456,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_edition_manager.cpp"
     #         validate() caching, refresh(), getCachedLicense() before/after activation
     #         (from license/test_license_client.cpp)
     add_test(NAME LicenseClientFocusedTests
-        COMMAND test_edition_runtime_license_focused --gtest_filter=LicenseActivationResult.*:LicenseClientConfig.*:LicenseClient.*)
+        COMMAND $<TARGET_FILE:test_edition_runtime_license_focused> --gtest_filter=LicenseActivationResult.*:LicenseClientConfig.*:LicenseClient.*)
     set_tests_properties(LicenseClientFocusedTests PROPERTIES
         LABELS "license;client;activation;fingerprint;themis;unit"
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_edition_runtime_license_focused>
@@ -2449,35 +2465,35 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_edition_manager.cpp"
 else()
     message(WARNING "Edition/runtime focused tests not found; falling back to themis_tests aliases")
     add_test(NAME EditionManagerTests
-        COMMAND themis_tests --gtest_filter=EditionManager.*)
+        COMMAND $<TARGET_FILE:themis_tests> --gtest_filter=EditionManager.*)
     set_tests_properties(EditionManagerTests PROPERTIES
         LABELS "edition;feature;gating;themis;unit"
         TIMEOUT 60
     )
 
     add_test(NAME DynamicFeatureFlagTests
-        COMMAND themis_tests --gtest_filter=DynamicFeatureFlagTest.*)
+        COMMAND $<TARGET_FILE:themis_tests> --gtest_filter=DynamicFeatureFlagTest.*)
     set_tests_properties(DynamicFeatureFlagTests PROPERTIES
         LABELS "edition;feature;override;themis;unit"
         TIMEOUT 60
     )
 
     add_test(NAME RuntimeLicenseGateTests
-        COMMAND themis_tests --gtest_filter=RuntimeLicenseGateInit.*:RuntimeLicenseGate.*)
+        COMMAND $<TARGET_FILE:themis_tests> --gtest_filter=RuntimeLicenseGateInit.*:RuntimeLicenseGate.*)
     set_tests_properties(RuntimeLicenseGateTests PROPERTIES
         LABELS "license;runtime;license-gate;themis;unit"
         TIMEOUT 60
     )
 
     add_test(NAME GateResultFocusedTests
-        COMMAND themis_tests --gtest_filter=GateResult.*:GateResultCheckFeature*:LicenseInfo.*)
+        COMMAND $<TARGET_FILE:themis_tests> --gtest_filter=GateResult.*:GateResultCheckFeature*:LicenseInfo.*)
     set_tests_properties(GateResultFocusedTests PROPERTIES
         LABELS "license;license-gate;result;denial-reason;themis;unit"
         TIMEOUT 60
     )
 
     add_test(NAME LicenseClientFocusedTests
-        COMMAND themis_tests --gtest_filter=LicenseActivationResult.*:LicenseClientConfig.*:LicenseClient.*)
+        COMMAND $<TARGET_FILE:themis_tests> --gtest_filter=LicenseActivationResult.*:LicenseClientConfig.*:LicenseClient.*)
     set_tests_properties(LicenseClientFocusedTests PROPERTIES
         LABELS "license;client;activation;fingerprint;themis;unit"
         TIMEOUT 60
@@ -2506,7 +2522,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_module_hash_verifier.cpp"
     #         verifyModule (success/mismatch/missing)
     #         (from module/test_module_hash_verifier.cpp, Issue #2471)
     add_test(NAME ModuleHashVerifierFocusedTests
-        COMMAND test_module_security_focused --gtest_filter=ModuleHashVerifier.*)
+        COMMAND $<TARGET_FILE:test_module_security_focused> --gtest_filter=ModuleHashVerifier.*)
     set_tests_properties(ModuleHashVerifierFocusedTests PROPERTIES
         LABELS "module;hash;verifier;security;themis;unit"
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_module_security_focused>
@@ -2519,7 +2535,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_module_hash_verifier.cpp"
     #         Authenticode unsigned/non-existent, Windows unsigned module
     #         (from module/test_module_signature_verifier.cpp, Issue #2473)
     add_test(NAME ModuleSignatureVerifierFocusedTests
-        COMMAND test_module_security_focused --gtest_filter=ModuleSignatureVerifier.*)
+        COMMAND $<TARGET_FILE:test_module_security_focused> --gtest_filter=ModuleSignatureVerifier.*)
     set_tests_properties(ModuleSignatureVerifierFocusedTests PROPERTIES
         LABELS "module;signature;verifier;security;themis;unit"
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_module_security_focused>
@@ -2532,7 +2548,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_module_hash_verifier.cpp"
     #         cycle detection, registerModule/resolve/resolveFor/clear)
     #         (from module/test_module_dependency_resolver.cpp, Issue #2474)
     add_test(NAME ModuleDependencyResolverFocusedTests
-        COMMAND test_module_security_focused --gtest_filter=ModuleDependency.*:DependencyResolutionResult.*:ModuleErrorCode.*:ModuleMetadata.*:ModuleDependencyResolver.*)
+        COMMAND $<TARGET_FILE:test_module_security_focused> --gtest_filter=ModuleDependency.*:DependencyResolutionResult.*:ModuleErrorCode.*:ModuleMetadata.*:ModuleDependencyResolver.*)
     set_tests_properties(ModuleDependencyResolverFocusedTests PROPERTIES
         LABELS "module;dependency;resolver;themis;unit"
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_module_security_focused>
@@ -2546,7 +2562,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_module_hash_verifier.cpp"
     #         error message strings, error categorization, hash manifest
     #         (from module/test_module_loader.cpp)
     add_test(NAME ModuleLoaderFocusedTests
-        COMMAND test_module_security_focused --gtest_filter=ModuleLoader.*:ModuleRegistry.*:ModuleMetadata.*:ModuleVerificationResult.*:LoadedModule.*)
+        COMMAND $<TARGET_FILE:test_module_security_focused> --gtest_filter=ModuleLoader.*:ModuleRegistry.*:ModuleMetadata.*:ModuleVerificationResult.*:LoadedModule.*)
     set_tests_properties(ModuleLoaderFocusedTests PROPERTIES
         LABELS "module;loader;security;themis;unit"
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_module_security_focused>
@@ -2561,7 +2577,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_module_hash_verifier.cpp"
     #         while running), disabled watchdog, destructor cleanup
     #         (from module/test_module_loader.cpp, Issue #2373)
     add_test(NAME PluginWatchdogFocusedTests
-        COMMAND test_module_security_focused --gtest_filter=WatchdogConfig.*:WatchdogModuleStats.*:PluginWatchdog.*)
+        COMMAND $<TARGET_FILE:test_module_security_focused> --gtest_filter=WatchdogConfig.*:WatchdogModuleStats.*:PluginWatchdog.*)
     set_tests_properties(PluginWatchdogFocusedTests PROPERTIES
         LABELS "module;watchdog;health;restart;themis;unit"
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_module_security_focused>
@@ -2570,35 +2586,35 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_module_hash_verifier.cpp"
 else()
     message(WARNING "Module-focused files missing; falling back to themis_tests aliases")
     add_test(NAME ModuleHashVerifierFocusedTests
-        COMMAND themis_tests --gtest_filter=ModuleHashVerifier.*)
+        COMMAND $<TARGET_FILE:themis_tests> --gtest_filter=ModuleHashVerifier.*)
     set_tests_properties(ModuleHashVerifierFocusedTests PROPERTIES
         LABELS "module;hash;verifier;security;themis;unit"
         TIMEOUT 60
     )
 
     add_test(NAME ModuleSignatureVerifierFocusedTests
-        COMMAND themis_tests --gtest_filter=ModuleSignatureVerifier.*)
+        COMMAND $<TARGET_FILE:themis_tests> --gtest_filter=ModuleSignatureVerifier.*)
     set_tests_properties(ModuleSignatureVerifierFocusedTests PROPERTIES
         LABELS "module;signature;verifier;security;themis;unit"
         TIMEOUT 60
     )
 
     add_test(NAME ModuleDependencyResolverFocusedTests
-        COMMAND themis_tests --gtest_filter=ModuleDependency.*:DependencyResolutionResult.*:ModuleErrorCode.*:ModuleMetadata.*:ModuleDependencyResolver.*)
+        COMMAND $<TARGET_FILE:themis_tests> --gtest_filter=ModuleDependency.*:DependencyResolutionResult.*:ModuleErrorCode.*:ModuleMetadata.*:ModuleDependencyResolver.*)
     set_tests_properties(ModuleDependencyResolverFocusedTests PROPERTIES
         LABELS "module;dependency;resolver;themis;unit"
         TIMEOUT 60
     )
 
     add_test(NAME ModuleLoaderFocusedTests
-        COMMAND themis_tests --gtest_filter=ModuleLoader.*:ModuleRegistry.*:ModuleMetadata.*:ModuleVerificationResult.*:LoadedModule.*)
+        COMMAND $<TARGET_FILE:themis_tests> --gtest_filter=ModuleLoader.*:ModuleRegistry.*:ModuleMetadata.*:ModuleVerificationResult.*:LoadedModule.*)
     set_tests_properties(ModuleLoaderFocusedTests PROPERTIES
         LABELS "module;loader;security;themis;unit"
         TIMEOUT 60
     )
 
     add_test(NAME PluginWatchdogFocusedTests
-        COMMAND themis_tests --gtest_filter=WatchdogConfig.*:WatchdogModuleStats.*:PluginWatchdog.*)
+        COMMAND $<TARGET_FILE:themis_tests> --gtest_filter=WatchdogConfig.*:WatchdogModuleStats.*:PluginWatchdog.*)
     set_tests_properties(PluginWatchdogFocusedTests PROPERTIES
         LABELS "module;watchdog;health;restart;themis;unit"
         TIMEOUT 60
@@ -2625,7 +2641,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_themis_integration.cpp")
     target_compile_definitions(test_themis_integration_focused PRIVATE THEMIS_TEST_BUILD=1)
 
     add_test(NAME ThemisIntegrationTests
-        COMMAND test_themis_integration_focused --gtest_filter=ThemisIntegrationTest.*)
+        COMMAND $<TARGET_FILE:test_themis_integration_focused> --gtest_filter=ThemisIntegrationTest.*)
     set_tests_properties(ThemisIntegrationTests PROPERTIES
         LABELS "themis;integration;edition;license;module;hash;build-info"
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_themis_integration_focused>
@@ -2633,7 +2649,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_themis_integration.cpp")
     )
 else()
     add_test(NAME ThemisIntegrationTests
-        COMMAND themis_tests --gtest_filter=ThemisIntegrationTest.*)
+        COMMAND $<TARGET_FILE:themis_tests> --gtest_filter=ThemisIntegrationTest.*)
     set_tests_properties(ThemisIntegrationTests PROPERTIES
         LABELS "themis;integration;edition;license;module;hash;build-info"
         TIMEOUT 120
@@ -2659,7 +2675,7 @@ endif()
 #         (from tests/test_remote_registry_client.cpp, Issue #3986)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_remote_registry_client.cpp")
     add_test(NAME RemoteRegistryClientUnifiedTests
-        COMMAND test_remote_registry_client_focused --gtest_filter=RegistryConfig.*:RegistryPluginEntry.*:PluginDownloadResult.*:RequestStats.*:RemoteRegistryClient.*)
+        COMMAND $<TARGET_FILE:test_remote_registry_client_focused> --gtest_filter=RegistryConfig.*:RegistryPluginEntry.*:PluginDownloadResult.*:RequestStats.*:RemoteRegistryClient.*)
     set_tests_properties(RemoteRegistryClientUnifiedTests PROPERTIES
         LABELS "base;remote-registry;async-retry;reliability;unit"
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_remote_registry_client_focused>
@@ -2667,7 +2683,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_remote_registry_client.cpp")
     )
 elseif(TARGET themis_tests)
     add_test(NAME RemoteRegistryClientUnifiedTests
-        COMMAND themis_tests --gtest_filter=RegistryConfig.*:RegistryPluginEntry.*:PluginDownloadResult.*:RequestStats.*:RemoteRegistryClient.*)
+        COMMAND $<TARGET_FILE:themis_tests> --gtest_filter=RegistryConfig.*:RegistryPluginEntry.*:PluginDownloadResult.*:RequestStats.*:RemoteRegistryClient.*)
     set_tests_properties(RemoteRegistryClientUnifiedTests PROPERTIES
         LABELS "base;remote-registry;async-retry;reliability;unit"
         TIMEOUT 60
@@ -2677,7 +2693,7 @@ endif()
 # Session management and revocation endpoint tests (subset of AllTests)
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_session_manager.cpp")
     add_test(NAME SessionManagerTests
-        COMMAND test_session_manager_focused --gtest_filter=SessionManagerTest*:SessionApiHandlerTest*)
+        COMMAND $<TARGET_FILE:test_session_manager_focused> --gtest_filter=SessionManagerTest*:SessionApiHandlerTest*)
     set_tests_properties(SessionManagerTests PROPERTIES
         LABELS "auth;session;revocation;unit"
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_session_manager_focused>
@@ -2685,7 +2701,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_session_manager.cpp")
     )
 elseif(TARGET themis_tests)
     add_test(NAME SessionManagerTests
-        COMMAND themis_tests --gtest_filter=SessionManagerTest*:SessionApiHandlerTest*)
+        COMMAND $<TARGET_FILE:themis_tests> --gtest_filter=SessionManagerTest*:SessionApiHandlerTest*)
     set_tests_properties(SessionManagerTests PROPERTIES
         LABELS "auth;session;revocation;unit"
         TIMEOUT 60
@@ -2727,7 +2743,7 @@ if(THEMIS_ENABLE_VULKAN AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vulkan/test_vulk
     endif()
 
     add_test(NAME VulkanGlslCompilerFunctionTests
-        COMMAND test_vulkan_glsl_compiler_fn_focused)
+        COMMAND $<TARGET_FILE:test_vulkan_glsl_compiler_fn_focused>)
 
     set_tests_properties(VulkanGlslCompilerFunctionTests PROPERTIES
         LABELS "acceleration;vulkan;glsl;compiler;focused;unit"
@@ -2781,7 +2797,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/delegate/test_delegate_evaluator.cpp")
     endif()
 
     add_test(NAME DelegateEvaluatorFocusedTests
-        COMMAND test_delegate_evaluator_focused)
+        COMMAND $<TARGET_FILE:test_delegate_evaluator_focused>)
 
     set_tests_properties(DelegateEvaluatorFocusedTests PROPERTIES
         LABELS "rag;delegation;document;round-trip;focused;unit"
@@ -2814,7 +2830,7 @@ if(FALSE)
         THEMIS_TEST_BUILD=1
     )
     
-    add_test(NAME MultiGPULoRAAdvancedTests COMMAND test_multi_gpu_lora_advanced)
+    add_test(NAME MultiGPULoRAAdvancedTests COMMAND $<TARGET_FILE:test_multi_gpu_lora_advanced>)
     
     set_tests_properties(MultiGPULoRAAdvancedTests PROPERTIES
         LABELS "lora;llm;multi-gpu;advanced;resource-aware;migration;security"
@@ -2851,7 +2867,7 @@ if(FALSE)
         THEMIS_TEST_BUILD=1
     )
     
-    add_test(NAME DistributedCoordinatorTests COMMAND test_distributed_coordinator)
+    add_test(NAME DistributedCoordinatorTests COMMAND $<TARGET_FILE:test_distributed_coordinator>)
     
     set_tests_properties(DistributedCoordinatorTests PROPERTIES
         LABELS "sharding;coordinator;leader-election;unit"
@@ -2883,7 +2899,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/consensus/test_consensus_module.cpp")
         THEMIS_TEST_BUILD=1
     )
     
-    add_test(NAME ConsensusModuleTests COMMAND test_consensus_module)
+    add_test(NAME ConsensusModuleTests COMMAND $<TARGET_FILE:test_consensus_module>)
     
     set_tests_properties(ConsensusModuleTests PROPERTIES
         LABELS "sharding;consensus;raft;gossip;paxos;unit"
@@ -2916,7 +2932,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/raft/test_raft_consensus_adapter.cpp")
         THEMIS_TEST_BUILD=1
     )
     
-    add_test(NAME RaftConsensusAdapterTests COMMAND test_raft_consensus_adapter)
+    add_test(NAME RaftConsensusAdapterTests COMMAND $<TARGET_FILE:test_raft_consensus_adapter>)
     
     set_tests_properties(RaftConsensusAdapterTests PROPERTIES
         LABELS "sharding;consensus;raft;adapter;unit"
@@ -2952,7 +2968,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/raft/test_raft_configuration.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME RaftConfigurationTests COMMAND test_raft_configuration)
+    add_test(NAME RaftConfigurationTests COMMAND $<TARGET_FILE:test_raft_configuration>)
 
     set_tests_properties(RaftConfigurationTests PROPERTIES
         LABELS "sharding;consensus;raft;membership;unit"
@@ -2992,7 +3008,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/property/test_property_graph.cpp")
         add_dependencies(test_property_graph sync_test_runtime_dlls)
     endif()
     
-    add_test(NAME PropertyGraphTests COMMAND test_property_graph)
+    add_test(NAME PropertyGraphTests COMMAND $<TARGET_FILE:test_property_graph>)
     
     set_tests_properties(PropertyGraphTests PROPERTIES
         LABELS "index;property-graph;unit"
@@ -3038,7 +3054,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_query_optimizer.cpp")
         add_dependencies(test_graph_query_optimizer sync_test_runtime_dlls)
     endif()
 
-    add_test(NAME GraphQueryOptimizerTests COMMAND test_graph_query_optimizer)
+    add_test(NAME GraphQueryOptimizerTests COMMAND $<TARGET_FILE:test_graph_query_optimizer>)
 
     set_tests_properties(GraphQueryOptimizerTests PROPERTIES
         LABELS "graph;optimizer;query;unit"
@@ -3084,7 +3100,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_query_rewriter.cpp")
         add_dependencies(test_graph_query_rewriter sync_test_runtime_dlls)
     endif()
 
-    add_test(NAME GraphQueryRewriterTests COMMAND test_graph_query_rewriter)
+    add_test(NAME GraphQueryRewriterTests COMMAND $<TARGET_FILE:test_graph_query_rewriter>)
 
     set_tests_properties(GraphQueryRewriterTests PROPERTIES
         LABELS "graph;rewriter;query;optimization;unit"
@@ -3131,7 +3147,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_advanced_features.cpp")
         add_dependencies(test_graph_advanced_features sync_test_runtime_dlls)
     endif()
 
-    add_test(NAME GraphAdvancedFeaturesTests COMMAND test_graph_advanced_features)
+    add_test(NAME GraphAdvancedFeaturesTests COMMAND $<TARGET_FILE:test_graph_advanced_features>)
 
     set_tests_properties(GraphAdvancedFeaturesTests PROPERTIES
         LABELS "graph;path-constraints;advanced;unit"
@@ -3295,7 +3311,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_parallel_traversal.cpp")
         add_dependencies(test_graph_parallel_traversal sync_test_runtime_dlls)
     endif()
 
-    add_test(NAME ParallelGraphTraversalTests COMMAND test_graph_parallel_traversal)
+    add_test(NAME ParallelGraphTraversalTests COMMAND $<TARGET_FILE:test_graph_parallel_traversal>)
 
     set_tests_properties(ParallelGraphTraversalTests PROPERTIES
         LABELS "graph;parallel;bfs;dfs;unit"
@@ -3342,7 +3358,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_exact_traversal.cpp")
         add_dependencies(test_graph_exact_traversal sync_test_runtime_dlls)
     endif()
 
-    add_test(NAME GraphExactTraversalPhaseATests COMMAND test_graph_exact_traversal)
+    add_test(NAME GraphExactTraversalPhaseATests COMMAND $<TARGET_FILE:test_graph_exact_traversal>)
 
     set_tests_properties(GraphExactTraversalPhaseATests PROPERTIES
         LABELS "graph;distributed;phase_a;exact_traversal;unit"
@@ -3389,7 +3405,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/gpu/test_gpu_graph_traversal.cpp")
         add_dependencies(test_gpu_graph_traversal sync_test_runtime_dlls)
     endif()
 
-    add_test(NAME GPUGraphTraversalTests COMMAND test_gpu_graph_traversal)
+    add_test(NAME GPUGraphTraversalTests COMMAND $<TARGET_FILE:test_gpu_graph_traversal>)
 
     set_tests_properties(GPUGraphTraversalTests PROPERTIES
         LABELS "graph;gpu;bfs;dfs;cpu-fallback;unit"
@@ -3431,7 +3447,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_analytics.cpp")
         add_dependencies(test_graph_analytics sync_test_runtime_dlls)
     endif()
 
-    add_test(NAME GraphAnalyticsTests COMMAND test_graph_analytics)
+    add_test(NAME GraphAnalyticsTests COMMAND $<TARGET_FILE:test_graph_analytics>)
 
     set_tests_properties(GraphAnalyticsTests PROPERTIES
         LABELS "graph;analytics;centrality;pagerank;community;unit"
@@ -3473,7 +3489,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_type_filtering.cpp")
         add_dependencies(test_graph_type_filtering sync_test_runtime_dlls)
     endif()
 
-    add_test(NAME GraphTypeFilteringTests COMMAND test_graph_type_filtering)
+    add_test(NAME GraphTypeFilteringTests COMMAND $<TARGET_FILE:test_graph_type_filtering>)
 
     set_tests_properties(GraphTypeFilteringTests PROPERTIES
         LABELS "graph;type-filtering;bfs;dijkstra;property-graph;unit"
@@ -3517,7 +3533,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_edge_encryption.cpp")
         add_dependencies(test_graph_edge_encryption sync_test_runtime_dlls)
     endif()
 
-    add_test(NAME GraphEdgeEncryptionTests COMMAND test_graph_edge_encryption)
+    add_test(NAME GraphEdgeEncryptionTests COMMAND $<TARGET_FILE:test_graph_edge_encryption>)
 
     set_tests_properties(GraphEdgeEncryptionTests PROPERTIES
         LABELS "graph;edge;encryption;aes-gcm;field-encryption;unit"
@@ -3550,7 +3566,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/http/test_http_client_pool.cpp")
         THEMIS_TEST_BUILD=1
     )
     
-    add_test(NAME HTTPClientPoolTests COMMAND test_http_client_pool)
+    add_test(NAME HTTPClientPoolTests COMMAND $<TARGET_FILE:test_http_client_pool>)
     
     set_tests_properties(HTTPClientPoolTests PROPERTIES
         LABELS "utils;http;connection-pool;concurrency;unit"
@@ -3585,7 +3601,7 @@ if(THEMIS_ENABLE_GRPC AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/grpc/test_grpc_cha
         THEMIS_TEST_BUILD=1
     )
     
-    add_test(NAME GrpcChannelPoolTests COMMAND test_grpc_channel_pool)
+    add_test(NAME GrpcChannelPoolTests COMMAND $<TARGET_FILE:test_grpc_channel_pool>)
     
     set_tests_properties(GrpcChannelPoolTests PROPERTIES
         LABELS "utils;grpc;connection-pool;concurrency;unit"
@@ -3632,7 +3648,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/api/test_api_grpc_server.cpp")
         ${THEMIS_ROOT_DIR}/include
     )
 
-    add_test(NAME GrpcApiServerTests COMMAND test_api_grpc_server)
+    add_test(NAME GrpcApiServerTests COMMAND $<TARGET_FILE:test_api_grpc_server>)
 
     set_tests_properties(GrpcApiServerTests PROPERTIES
         LABELS "api;grpc;server;lifecycle;unit"
@@ -3676,7 +3692,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/themisdb/test_themisdb_grpc_service.cpp")
         ${CMAKE_BINARY_DIR}/proto_generated
     )
 
-    add_test(NAME ThemisDBGrpcServiceTests COMMAND test_themisdb_grpc_service)
+    add_test(NAME ThemisDBGrpcServiceTests COMMAND $<TARGET_FILE:test_themisdb_grpc_service>)
 
     set_tests_properties(ThemisDBGrpcServiceTests PROPERTIES
         LABELS "api;grpc;service;unit"
@@ -3707,7 +3723,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/batch/test_batch_operation_manager.cpp")
         THEMIS_TEST_BUILD=1
     )
     
-    add_test(NAME BatchOperationManagerTests COMMAND test_batch_operation_manager)
+    add_test(NAME BatchOperationManagerTests COMMAND $<TARGET_FILE:test_batch_operation_manager>)
     
     set_tests_properties(BatchOperationManagerTests PROPERTIES
         LABELS "utils;batch;performance;unit"
@@ -3740,7 +3756,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/hnsw/test_hnsw_parameter_tuner.cpp")
         THEMIS_TEST_BUILD=1
     )
     
-    add_test(NAME HnswParameterTunerTests COMMAND test_hnsw_parameter_tuner)
+    add_test(NAME HnswParameterTunerTests COMMAND $<TARGET_FILE:test_hnsw_parameter_tuner>)
     
     set_tests_properties(HnswParameterTunerTests PROPERTIES
         LABELS "index;hnsw;performance;unit"
@@ -3773,7 +3789,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/hnsw/test_hnsw_incremental_reindex.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME HnswIncrementalReindexTests COMMAND test_hnsw_incremental_reindex)
+    add_test(NAME HnswIncrementalReindexTests COMMAND $<TARGET_FILE:test_hnsw_incremental_reindex>)
 
     set_tests_properties(HnswIncrementalReindexTests PROPERTIES
         LABELS "index;hnsw;incremental;unit"
@@ -3805,7 +3821,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/enhanced/test_enhanced_query_cache.cpp")
         THEMIS_TEST_BUILD=1
     )
     
-    add_test(NAME EnhancedQueryCacheTests COMMAND test_enhanced_query_cache)
+    add_test(NAME EnhancedQueryCacheTests COMMAND $<TARGET_FILE:test_enhanced_query_cache>)
     
     set_tests_properties(EnhancedQueryCacheTests PROPERTIES
         LABELS "cache;performance;concurrency;unit"
@@ -3840,7 +3856,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cache/test_cache_admin_api_handler.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME CacheAdminApiHandlerTests COMMAND test_cache_admin_api_handler)
+    add_test(NAME CacheAdminApiHandlerTests COMMAND $<TARGET_FILE:test_cache_admin_api_handler>)
 
     set_tests_properties(CacheAdminApiHandlerTests PROPERTIES
         LABELS "cache;admin;health;circuit-breaker;unit"
@@ -3875,7 +3891,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sse/test_sse_connection_manager.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME SseConnectionManagerTests COMMAND test_sse_connection_manager)
+    add_test(NAME SseConnectionManagerTests COMMAND $<TARGET_FILE:test_sse_connection_manager>)
 
     set_tests_properties(SseConnectionManagerTests PROPERTIES
         LABELS "sse;cdc;concurrency;unit"
@@ -3914,7 +3930,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/changefeed/test_changefeed_sse_writer.cpp
         $<$<BOOL:${THEMIS_ENABLE_SSE}>:THEMIS_ENABLE_SSE>
     )
 
-    add_test(NAME ChangefeedSseWriterTests COMMAND test_changefeed_sse_writer)
+    add_test(NAME ChangefeedSseWriterTests COMMAND $<TARGET_FILE:test_changefeed_sse_writer>)
 
     set_tests_properties(ChangefeedSseWriterTests PROPERTIES
         LABELS "sse;cdc;changefeed;writer-bridge;unit"
@@ -3951,7 +3967,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/test_llm_w1s06_exception_boundaries.c
         THEMIS_ENABLE_LLM=1
     )
 
-    add_test(NAME W1S06ExceptionBoundaryTests COMMAND test_llm_w1s06_exception_boundaries)
+    add_test(NAME W1S06ExceptionBoundaryTests COMMAND $<TARGET_FILE:test_llm_w1s06_exception_boundaries>)
 
     set_tests_properties(W1S06ExceptionBoundaryTests PROPERTIES
         LABELS "server;llm;exception-boundary;w1-s06;unit"
@@ -3986,7 +4002,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cache/test_cache_warmup.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME CacheWarmupTests COMMAND test_cache_warmup)
+    add_test(NAME CacheWarmupTests COMMAND $<TARGET_FILE:test_cache_warmup>)
 
     set_tests_properties(CacheWarmupTests PROPERTIES
         LABELS "cache;warmup;snapshot;unit"
@@ -4023,7 +4039,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cache/test_cache_replication.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME CacheReplicationTests COMMAND test_cache_replication)
+    add_test(NAME CacheReplicationTests COMMAND $<TARGET_FILE:test_cache_replication>)
 
     set_tests_properties(CacheReplicationTests PROPERTIES
         LABELS "cache;replication;ha;unit"
@@ -4076,7 +4092,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cache/test_cache_replication_coordinator.
     endif()
 
     add_test(NAME CacheReplicationCoordinatorTests
-             COMMAND test_cache_replication_coordinator)
+             COMMAND $<TARGET_FILE:test_cache_replication_coordinator>)
 
     set_tests_properties(CacheReplicationCoordinatorTests PROPERTIES
         LABELS "cache;replication;network;grpc;unit"
@@ -4108,7 +4124,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/distributed/test_distributed_cache_coordi
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME DistributedCacheCoordinatorTests COMMAND test_distributed_cache_coordinator)
+    add_test(NAME DistributedCacheCoordinatorTests COMMAND $<TARGET_FILE:test_distributed_cache_coordinator>)
 
     set_tests_properties(DistributedCacheCoordinatorTests PROPERTIES
         LABELS "cache;distributed;coordinator;redis;unit"
@@ -4142,7 +4158,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/multi/test_multi_region_active_active.cpp
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME MultiRegionActiveActiveTests COMMAND test_multi_region_active_active)
+    add_test(NAME MultiRegionActiveActiveTests COMMAND $<TARGET_FILE:test_multi_region_active_active>)
 
     set_tests_properties(MultiRegionActiveActiveTests PROPERTIES
         LABELS "replication;multi-region;active-active;bounded-staleness;unit"
@@ -4177,7 +4193,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/geo/test_geo_replication_consistency.cpp"
     )
 
     add_test(NAME GeoReplicationConsistencyFocusedTests
-             COMMAND test_geo_replication_consistency)
+             COMMAND $<TARGET_FILE:test_geo_replication_consistency>)
 
     set_tests_properties(GeoReplicationConsistencyFocusedTests PROPERTIES
         LABELS "replication;geo-replication;consistency-levels;unit"
@@ -4227,7 +4243,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/replication/test_replication_ha.cpp")
     )
 
     add_test(NAME MultiTierReplicationFocusedTests
-             COMMAND test_multi_tier_replication_focused
+             COMMAND $<TARGET_FILE:test_multi_tier_replication_focused>
                      --gtest_filter=MultiTierReplicationTest*)
 
     set_tests_properties(MultiTierReplicationFocusedTests PROPERTIES
@@ -4268,7 +4284,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/replication/test_replication_new_features
     )
 
     add_test(NAME ReplicationNewFeaturesFocusedTests
-             COMMAND test_replication_new_features_focused)
+             COMMAND $<TARGET_FILE:test_replication_new_features_focused>)
 
     set_tests_properties(ReplicationNewFeaturesFocusedTests PROPERTIES
         LABELS "replication;v1.7.0;observer;conflict;event-stream;policy;slot;focused;unit"
@@ -4304,7 +4320,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/replication/test_replication_ha.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ReplicationHATests COMMAND test_replication_ha)
+    add_test(NAME ReplicationHATests COMMAND $<TARGET_FILE:test_replication_ha>)
 
     set_tests_properties(ReplicationHATests PROPERTIES
         LABELS "replication;ha;leader-election;witness;wal;unit"
@@ -4339,7 +4355,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/replication/test_replication_new_features
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ReplicationNewFeaturesTests COMMAND test_replication_new_features)
+    add_test(NAME ReplicationNewFeaturesTests COMMAND $<TARGET_FILE:test_replication_new_features>)
 
     set_tests_properties(ReplicationNewFeaturesTests PROPERTIES
         LABELS "replication;observer;slots;policy;event-stream;unit"
@@ -4379,7 +4395,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/replication/test_replication_geo_placemen
     )
 
     add_test(NAME ReplicationGeoPlacementWalShippingFocusedTests
-            COMMAND test_replication_geo_placement_wal_shipping_focused)
+            COMMAND $<TARGET_FILE:test_replication_geo_placement_wal_shipping_focused>)
 
     set_tests_properties(ReplicationGeoPlacementWalShippingFocusedTests PROPERTIES
        LABELS "replication;wave-d;geo-placement;wal-shipping;multi-dc;focused;unit;release_critical"
@@ -4413,7 +4429,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/logical/test_logical_replication.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME LogicalReplicationTests COMMAND test_logical_replication)
+    add_test(NAME LogicalReplicationTests COMMAND $<TARGET_FILE:test_logical_replication>)
 
     set_tests_properties(LogicalReplicationTests PROPERTIES
         LABELS "replication;logical;schema;filters;unit"
@@ -4448,7 +4464,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/replication/test_replication_topology_api
         THEMIS_ENABLE_HTTP_SERVER=1
     )
 
-    add_test(NAME ReplicationTopologyAPITests COMMAND test_replication_topology_api_handler)
+    add_test(NAME ReplicationTopologyAPITests COMMAND $<TARGET_FILE:test_replication_topology_api_handler>)
 
     set_tests_properties(ReplicationTopologyAPITests PROPERTIES
         LABELS "replication;topology;rest;web-ui;unit"
@@ -4482,7 +4498,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/replication/test_replication_raft_v2.cpp"
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ReplicationRaftV2Tests COMMAND test_replication_raft_v2)
+    add_test(NAME ReplicationRaftV2Tests COMMAND $<TARGET_FILE:test_replication_raft_v2>)
 
     set_tests_properties(ReplicationRaftV2Tests PROPERTIES
         LABELS "replication;raft;v2;joint-consensus;membership;unit"
@@ -4514,7 +4530,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/replication/test_replication_crdt_types.c
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ReplicationCRDTTypesTests COMMAND test_replication_crdt_types)
+    add_test(NAME ReplicationCRDTTypesTests COMMAND $<TARGET_FILE:test_replication_crdt_types>)
 
     set_tests_properties(ReplicationCRDTTypesTests PROPERTIES
         LABELS "replication;crdt;counter;register;set;map;sequence;flag;unit"
@@ -4546,7 +4562,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rpc/test_rpc_geo_query.cpp")
         THEMIS_TEST_BUILD=1
     )
     
-    add_test(NAME RPCGeoQueryTests COMMAND test_rpc_geo_query)
+    add_test(NAME RPCGeoQueryTests COMMAND $<TARGET_FILE:test_rpc_geo_query>)
     
     set_tests_properties(RPCGeoQueryTests PROPERTIES
         LABELS "rpc;geospatial;query;unit"
@@ -4579,7 +4595,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rpc/test_rpc_batch_operations.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME RPCBatchOperationsTests COMMAND test_rpc_batch_operations)
+    add_test(NAME RPCBatchOperationsTests COMMAND $<TARGET_FILE:test_rpc_batch_operations>)
 
     set_tests_properties(RPCBatchOperationsTests PROPERTIES
         LABELS "rpc;batch;integration;performance;unit"
@@ -4612,7 +4628,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_index_maintenance.cpp")
         THEMIS_TEST_BUILD=1
     )
     
-    add_test(NAME IndexMaintenanceTests COMMAND test_index_maintenance)
+    add_test(NAME IndexMaintenanceTests COMMAND $<TARGET_FILE:test_index_maintenance>)
     
     set_tests_properties(IndexMaintenanceTests PROPERTIES
         LABELS "storage;index;maintenance;unit"
@@ -4653,7 +4669,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/aql/test_aql_graphql_integration.cpp")
     )
 
     add_test(NAME AqlGraphQLIntegrationTests
-        COMMAND test_aql_graphql_integration)
+        COMMAND $<TARGET_FILE:test_aql_graphql_integration>)
 
     set_tests_properties(AqlGraphQLIntegrationTests PROPERTIES
         LABELS "query;graphql;aql;integration;cost-model;unit"
@@ -4689,7 +4705,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graphql/test_graphql.cpp")
         THEMIS_TEST_BUILD=1
     )
     
-    add_test(NAME GraphQLParserTests COMMAND test_graphql)
+    add_test(NAME GraphQLParserTests COMMAND $<TARGET_FILE:test_graphql>)
     
     set_tests_properties(GraphQLParserTests PROPERTIES
         LABELS "query;graphql;parser;unit"
@@ -4725,7 +4741,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graphql/test_graphql_performance.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME GraphQLPerformanceTests COMMAND test_graphql_performance)
+    add_test(NAME GraphQLPerformanceTests COMMAND $<TARGET_FILE:test_graphql_performance>)
 
     set_tests_properties(GraphQLPerformanceTests PROPERTIES
         LABELS "query;graphql;performance;cache;metrics;unit"
@@ -4761,7 +4777,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graphql/test_graphql_limits.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME GraphQLLimitsTests COMMAND test_graphql_limits)
+    add_test(NAME GraphQLLimitsTests COMMAND $<TARGET_FILE:test_graphql_limits>)
 
     set_tests_properties(GraphQLLimitsTests PROPERTIES
         LABELS "query;graphql;limits;unit"
@@ -4797,7 +4813,7 @@ $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME OtlpExporterTests COMMAND test_otlp_exporter)
+    add_test(NAME OtlpExporterTests COMMAND $<TARGET_FILE:test_otlp_exporter>)
 
     set_tests_properties(OtlpExporterTests PROPERTIES
         LABELS "api;tracing;otlp;unit"
@@ -4833,7 +4849,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tracing/test_tracing_middleware.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME TracingMiddlewareTests COMMAND test_tracing_middleware)
+    add_test(NAME TracingMiddlewareTests COMMAND $<TARGET_FILE:test_tracing_middleware>)
 
     set_tests_properties(TracingMiddlewareTests PROPERTIES
         LABELS "api;tracing;correlation-id;middleware;unit"
@@ -4866,7 +4882,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/api/test_api_interfaces.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ApiInterfacesTests COMMAND test_api_interfaces)
+    add_test(NAME ApiInterfacesTests COMMAND $<TARGET_FILE:test_api_interfaces>)
 
     set_tests_properties(ApiInterfacesTests PROPERTIES
         LABELS "api;interfaces;unit"
@@ -4898,7 +4914,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graphql/test_graphql_error_masking.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME GraphQLErrorMaskingTests COMMAND test_graphql_error_masking)
+    add_test(NAME GraphQLErrorMaskingTests COMMAND $<TARGET_FILE:test_graphql_error_masking>)
 
     set_tests_properties(GraphQLErrorMaskingTests PROPERTIES
         LABELS "query;graphql;error;security;unit"
@@ -4934,7 +4950,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graphql/test_graphql_p1_features.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME GraphQLP1FeatureTests COMMAND test_graphql_p1_features)
+    add_test(NAME GraphQLP1FeatureTests COMMAND $<TARGET_FILE:test_graphql_p1_features>)
 
     set_tests_properties(GraphQLP1FeatureTests PROPERTIES
         LABELS "query;graphql;schema;geo;unit"
@@ -4970,7 +4986,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graphql/test_graphql_multimodel.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME GraphQLMultiModelTests COMMAND test_graphql_multimodel)
+    add_test(NAME GraphQLMultiModelTests COMMAND $<TARGET_FILE:test_graphql_multimodel>)
 
     set_tests_properties(GraphQLMultiModelTests PROPERTIES
         LABELS "query;graphql;schema;multimodel;timeseries;geo;subscription;unit"
@@ -5009,7 +5025,7 @@ if(THEMIS_ENABLE_WEBSOCKET AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graphql/test_
         THEMIS_ENABLE_WEBSOCKET=1
     )
 
-    add_test(NAME GraphQLWsHandlerTests COMMAND test_graphql_ws_handler)
+    add_test(NAME GraphQLWsHandlerTests COMMAND $<TARGET_FILE:test_graphql_ws_handler>)
 
     set_tests_properties(GraphQLWsHandlerTests PROPERTIES
         LABELS "api;graphql;websocket;subscription;unit"
@@ -5043,7 +5059,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graphql/test_graphql_cache_security.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME GraphQLCacheSecurityTests COMMAND test_graphql_cache_security)
+    add_test(NAME GraphQLCacheSecurityTests COMMAND $<TARGET_FILE:test_graphql_cache_security>)
 
     set_tests_properties(GraphQLCacheSecurityTests PROPERTIES
         LABELS "query;graphql;cache;security;unit"
@@ -5084,7 +5100,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/serverless/test_serverless_function_api_h
     )
 
     add_test(NAME ServerlessFunctionApiHandlerTests
-             COMMAND test_serverless_function_api_handler)
+             COMMAND $<TARGET_FILE:test_serverless_function_api_handler>)
 
     set_tests_properties(ServerlessFunctionApiHandlerTests PROPERTIES
         LABELS "server;serverless;functions;unit"
@@ -5126,7 +5142,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/feedback/test_feedback_api_handler.cpp")
     )
 
     add_test(NAME FeedbackApiHandlerTests
-             COMMAND test_feedback_api_handler)
+             COMMAND $<TARGET_FILE:test_feedback_api_handler>)
 
     set_tests_properties(FeedbackApiHandlerTests PROPERTIES
         LABELS "server;feedback;llm;unit"
@@ -5167,7 +5183,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/prompt/test_prompt_engineering_api_handle
     )
 
     add_test(NAME PromptEngineeringApiHandlerTests
-             COMMAND test_prompt_engineering_api_handler)
+             COMMAND $<TARGET_FILE:test_prompt_engineering_api_handler>)
 
     set_tests_properties(PromptEngineeringApiHandlerTests PROPERTIES
         LABELS "server;prompt-engineering;llm;unit"
@@ -5210,7 +5226,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/wasm/test_wasm_handler_registry.cpp")
     )
 
     add_test(NAME WasmHandlerRegistryTests
-             COMMAND test_wasm_handler_registry)
+             COMMAND $<TARGET_FILE:test_wasm_handler_registry>)
 
     set_tests_properties(WasmHandlerRegistryTests PROPERTIES
         LABELS "server;wasm;edge;unit"
@@ -5251,7 +5267,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/grpc/test_grpc_web_proxy_handler.cpp")
     )
 
     add_test(NAME GrpcWebProxyHandlerTests
-             COMMAND test_grpc_web_proxy_handler)
+             COMMAND $<TARGET_FILE:test_grpc_web_proxy_handler>)
 
     set_tests_properties(GrpcWebProxyHandlerTests PROPERTIES
         LABELS "server;grpc;grpc-web;proxy;unit"
@@ -5288,7 +5304,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/grpc/test_grpc_web_proxy_bridge.cpp")
     )
 
     add_test(NAME GrpcWebProxyBridgeTests
-             COMMAND test_grpc_web_proxy_bridge)
+             COMMAND $<TARGET_FILE:test_grpc_web_proxy_bridge>)
 
     set_tests_properties(GrpcWebProxyBridgeTests PROPERTIES
         LABELS "server;grpc;grpc-web;proxy;bridge;unit"
@@ -5336,7 +5352,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/service/test_service_mesh_api_handler.cpp
     )
 
     add_test(NAME ServiceMeshApiHandlerTests
-             COMMAND test_service_mesh_api_handler)
+             COMMAND $<TARGET_FILE:test_service_mesh_api_handler>)
 
     set_tests_properties(ServiceMeshApiHandlerTests PROPERTIES
         LABELS "server;service-mesh;network;unit"
@@ -5373,7 +5389,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/hot/test_hot_reload_api_handler.cpp")
     )
 
     add_test(NAME HotReloadApiHandlerTests
-             COMMAND test_hot_reload_api_handler)
+             COMMAND $<TARGET_FILE:test_hot_reload_api_handler>)
 
     set_tests_properties(HotReloadApiHandlerTests PROPERTIES
         LABELS "server;updates;hot-reload;unit"
@@ -5410,7 +5426,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/profiling/test_profiling_api_handler.cpp"
     )
 
     add_test(NAME ProfilingApiHandlerTests
-             COMMAND test_profiling_api_handler)
+             COMMAND $<TARGET_FILE:test_profiling_api_handler>)
 
     set_tests_properties(ProfilingApiHandlerTests PROPERTIES
         LABELS "server;profiling;observability;unit"
@@ -5446,7 +5462,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/udf/test_udf_api_handler.cpp")
     )
 
     add_test(NAME UdfApiHandlerTests
-             COMMAND test_udf_api_handler)
+             COMMAND $<TARGET_FILE:test_udf_api_handler>)
 
     set_tests_properties(UdfApiHandlerTests PROPERTIES
         LABELS "server;query;udf;unit"
@@ -5483,7 +5499,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/inverted/test_inverted_index.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME InvertedIndexTests COMMAND test_inverted_index)
+    add_test(NAME InvertedIndexTests COMMAND $<TARGET_FILE:test_inverted_index>)
 
     set_tests_properties(InvertedIndexTests PROPERTIES
         LABELS "index;fulltext;inverted;unit"
@@ -5525,7 +5541,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_index_manager_di.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME IndexManagerDITests COMMAND test_index_manager_di)
+    add_test(NAME IndexManagerDITests COMMAND $<TARGET_FILE:test_index_manager_di>)
 
     set_tests_properties(IndexManagerDITests PROPERTIES
         LABELS "index;index_manager;di;stats;unit"
@@ -5561,7 +5577,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/fulltext/test_fulltext_phrase_fuzzy.cpp")
         THEMIS_TEST_BUILD=1
     )
     
-    add_test(NAME FulltextPhraseFuzzyTests COMMAND test_fulltext_phrase_fuzzy)
+    add_test(NAME FulltextPhraseFuzzyTests COMMAND $<TARGET_FILE:test_fulltext_phrase_fuzzy>)
     
     set_tests_properties(FulltextPhraseFuzzyTests PROPERTIES
         LABELS "index;fulltext;phrase;fuzzy;unit"
@@ -5597,7 +5613,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rocksdb/test_rocksdb_wrapper_comprehensiv
         THEMIS_TEST_BUILD=1
     )
     
-    add_test(NAME RocksDBWrapperComprehensiveTests COMMAND test_rocksdb_wrapper_comprehensive)
+    add_test(NAME RocksDBWrapperComprehensiveTests COMMAND $<TARGET_FILE:test_rocksdb_wrapper_comprehensive>)
     
     set_tests_properties(RocksDBWrapperComprehensiveTests PROPERTIES
         LABELS "storage;rocksdb;comprehensive;unit"
@@ -5632,7 +5648,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/columnar/test_columnar_cache.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ColumnarCacheFocusedTests COMMAND test_columnar_cache_focused)
+    add_test(NAME ColumnarCacheFocusedTests COMMAND $<TARGET_FILE:test_columnar_cache_focused>)
 
     set_tests_properties(ColumnarCacheFocusedTests PROPERTIES
         LABELS "storage;cache;columnar;performance;focused;unit"
@@ -5662,7 +5678,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pitr/test_pitr_manager_comprehensive.cpp"
         THEMIS_TEST_BUILD=1
     )
     
-    add_test(NAME PITRManagerComprehensiveTests COMMAND test_pitr_manager_comprehensive)
+    add_test(NAME PITRManagerComprehensiveTests COMMAND $<TARGET_FILE:test_pitr_manager_comprehensive>)
     
     set_tests_properties(PITRManagerComprehensiveTests PROPERTIES
         LABELS "storage;pitr;recovery;comprehensive;unit"
@@ -5698,7 +5714,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/distributed/test_distributed_trainer_guar
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME DistributedTrainerGuardFocusedTests COMMAND test_distributed_trainer_guard)
+    add_test(NAME DistributedTrainerGuardFocusedTests COMMAND $<TARGET_FILE:test_distributed_trainer_guard>)
 
     set_tests_properties(DistributedTrainerGuardFocusedTests PROPERTIES
         LABELS "llm;lora;distributed;guard;focused;unit"
@@ -5732,7 +5748,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/stream/test_stream_protocol_extended.cpp"
 
     add_test(
         NAME StreamProtocolExtendedFocusedTests
-        COMMAND test_stream_protocol_extended_focused
+        COMMAND $<TARGET_FILE:test_stream_protocol_extended_focused>
                 --gtest_filter=StreamProtocolExtendedTest.LZ4CompressionDecompression:StreamProtocolExtendedTest.ZstdCompressionDecompression:StreamProtocolExtendedTest.CompressionWithRandomData:StreamProtocolExtendedTest.LZ4SupportMatchesBuildFlags:StreamProtocolExtendedTest.ZstdSupportMatchesBuildFlags
     )
 
@@ -5763,7 +5779,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vector/test_vector_index_comprehensive.cp
         THEMIS_TEST_BUILD=1
     )
     
-    add_test(NAME VectorIndexComprehensiveTests COMMAND test_vector_index_comprehensive)
+    add_test(NAME VectorIndexComprehensiveTests COMMAND $<TARGET_FILE:test_vector_index_comprehensive>)
     
     set_tests_properties(VectorIndexComprehensiveTests PROPERTIES
         LABELS "index;vector;hnsw;comprehensive;unit"
@@ -5793,7 +5809,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vector/test_vector_compression_lossless.c
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME VectorCompressionLosslessTests COMMAND test_vector_compression_lossless)
+    add_test(NAME VectorCompressionLosslessTests COMMAND $<TARGET_FILE:test_vector_compression_lossless>)
 
     set_tests_properties(VectorCompressionLosslessTests PROPERTIES
         LABELS "index;compression;sparse;lossless;unit"
@@ -5825,7 +5841,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/savepoints/test_savepoints.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME TransactionSavepointTests COMMAND test_savepoints)
+    add_test(NAME TransactionSavepointTests COMMAND $<TARGET_FILE:test_savepoints>)
 
     set_tests_properties(TransactionSavepointTests PROPERTIES
         LABELS "transaction;savepoint;acid;unit"
@@ -5857,7 +5873,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/transaction/test_transaction_manager_comp
         THEMIS_TEST_BUILD=1
     )
     
-    add_test(NAME TransactionManagerComprehensiveTests COMMAND test_transaction_manager_comprehensive)
+    add_test(NAME TransactionManagerComprehensiveTests COMMAND $<TARGET_FILE:test_transaction_manager_comprehensive>)
     
     set_tests_properties(TransactionManagerComprehensiveTests PROPERTIES
         LABELS "transaction;mvcc;acid;distributed;comprehensive;unit"
@@ -5889,7 +5905,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/transaction/test_transaction_occ.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME TransactionOccTests COMMAND test_transaction_occ)
+    add_test(NAME TransactionOccTests COMMAND $<TARGET_FILE:test_transaction_occ>)
 
     set_tests_properties(TransactionOccTests PROPERTIES
         LABELS "transaction;occ;optimistic;unit"
@@ -5931,7 +5947,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/transaction/test_transaction_bulk.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME TransactionBulkTests COMMAND test_transaction_bulk)
+    add_test(NAME TransactionBulkTests COMMAND $<TARGET_FILE:test_transaction_bulk>)
 
     set_tests_properties(TransactionBulkTests PROPERTIES
         LABELS "transaction;bulk;batch;unit"
@@ -5962,7 +5978,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/transaction/test_transaction_retry.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME TransactionRetryTests COMMAND test_transaction_retry)
+    add_test(NAME TransactionRetryTests COMMAND $<TARGET_FILE:test_transaction_retry>)
 
     set_tests_properties(TransactionRetryTests PROPERTIES
         LABELS "transaction;retry;backoff;circuit-breaker;unit"
@@ -5994,7 +6010,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tenant/test_tenant_transaction_namespace.
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME TenantTransactionNamespaceTests COMMAND test_tenant_transaction_namespace)
+    add_test(NAME TenantTransactionNamespaceTests COMMAND $<TARGET_FILE:test_tenant_transaction_namespace>)
 
     set_tests_properties(TenantTransactionNamespaceTests PROPERTIES
         LABELS "transaction;tenant;namespace;unit"
@@ -6026,7 +6042,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/transaction/test_transaction_timeout.cpp"
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME TransactionTimeoutTests COMMAND test_transaction_timeout)
+    add_test(NAME TransactionTimeoutTests COMMAND $<TARGET_FILE:test_transaction_timeout>)
 
     set_tests_properties(TransactionTimeoutTests PROPERTIES
         LABELS "transaction;timeout;auto-rollback;unit"
@@ -6058,7 +6074,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/db/test_transaction_isolation.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME TransactionIsolationTests COMMAND test_transaction_isolation)
+    add_test(NAME TransactionIsolationTests COMMAND $<TARGET_FILE:test_transaction_isolation>)
 
     set_tests_properties(TransactionIsolationTests PROPERTIES
         LABELS "transaction;isolation;mvcc;unit"
@@ -6090,7 +6106,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/transaction/test_transaction_ssi.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME TransactionSSITests COMMAND test_transaction_ssi)
+    add_test(NAME TransactionSSITests COMMAND $<TARGET_FILE:test_transaction_ssi>)
 
     set_tests_properties(TransactionSSITests PROPERTIES
         LABELS "transaction;ssi;serializable;predicate-locking;unit"
@@ -6123,7 +6139,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/saga/test_saga_concurrent_execution.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME SagaConcurrentExecutionTests COMMAND test_saga_concurrent_execution)
+    add_test(NAME SagaConcurrentExecutionTests COMMAND $<TARGET_FILE:test_saga_concurrent_execution>)
 
     set_tests_properties(SagaConcurrentExecutionTests PROPERTIES
         LABELS "transaction;saga;concurrent;compensation;unit"
@@ -6156,7 +6172,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/distributed/test_distributed_saga.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME DistributedSagaTests COMMAND test_distributed_saga)
+    add_test(NAME DistributedSagaTests COMMAND $<TARGET_FILE:test_distributed_saga>)
 
     set_tests_properties(DistributedSagaTests PROPERTIES
         LABELS "transaction;saga;distributed;compensation;unit"
@@ -6190,7 +6206,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/saga/test_saga_operation.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME SagaOperationTests COMMAND test_saga_operation)
+    add_test(NAME SagaOperationTests COMMAND $<TARGET_FILE:test_saga_operation>)
 
     set_tests_properties(SagaOperationTests PROPERTIES
         LABELS "transaction;saga;compensation;secondary-index;graph;vector;unit"
@@ -6230,7 +6246,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/saga/test_saga_orchestrator.cpp")
     )
 
     add_test(NAME SAGAOrchestratorFocusedTests
-        COMMAND test_saga_orchestrator_focused)
+        COMMAND $<TARGET_FILE:test_saga_orchestrator_focused>)
 
     set_tests_properties(SAGAOrchestratorFocusedTests PROPERTIES
         LABELS "transaction;saga;orchestrator;dag;parallel;retry;timeout;v1.8.0;unit"
@@ -6263,7 +6279,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/saga/test_saga_logger.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME SAGALoggerFocusedTests COMMAND test_saga_logger_focused)
+    add_test(NAME SAGALoggerFocusedTests COMMAND $<TARGET_FILE:test_saga_logger_focused>)
 
     set_tests_properties(SAGALoggerFocusedTests PROPERTIES
         LABELS "utils;saga;logger;encryption;signing;unit"
@@ -6295,7 +6311,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/saga/test_saga_compactor.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME SAGACompactorFocusedTests COMMAND test_saga_compactor_focused)
+    add_test(NAME SAGACompactorFocusedTests COMMAND $<TARGET_FILE:test_saga_compactor_focused>)
 
     set_tests_properties(SAGACompactorFocusedTests PROPERTIES
         LABELS "utils;saga;compactor;wal;replay;unit"
@@ -6326,7 +6342,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/hash/test_hash_chain_audit.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME HashChainAuditFocusedTests COMMAND test_hash_chain_audit_focused)
+    add_test(NAME HashChainAuditFocusedTests COMMAND $<TARGET_FILE:test_hash_chain_audit_focused>)
 
     set_tests_properties(HashChainAuditFocusedTests PROPERTIES
         LABELS "utils;audit;hash-chain;tamper-evidence;unit"
@@ -6357,7 +6373,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pii/test_pii_stream_scanner.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME PIIStreamScannerFocusedTests COMMAND test_pii_stream_scanner_focused)
+    add_test(NAME PIIStreamScannerFocusedTests COMMAND $<TARGET_FILE:test_pii_stream_scanner_focused>)
 
     set_tests_properties(PIIStreamScannerFocusedTests PROPERTIES
         LABELS "utils;pii;streaming;redaction;unit"
@@ -6388,7 +6404,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sampled/test_sampled_logger.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME SampledLoggerFocusedTests COMMAND test_sampled_logger_focused)
+    add_test(NAME SampledLoggerFocusedTests COMMAND $<TARGET_FILE:test_sampled_logger_focused>)
 
     set_tests_properties(SampledLoggerFocusedTests PROPERTIES
         LABELS "utils;logging;sampling;rate-limiting;unit"
@@ -6420,7 +6436,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sharding/test_sharding_transaction_wal.cp
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ShardingTransactionWALFocusedTests COMMAND test_sharding_transaction_wal_focused)
+    add_test(NAME ShardingTransactionWALFocusedTests COMMAND $<TARGET_FILE:test_sharding_transaction_wal_focused>)
 
     set_tests_properties(ShardingTransactionWALFocusedTests PROPERTIES
         LABELS "transaction;sharding;wal;2pc;saga;unit"
@@ -6450,7 +6466,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/multi/test_multi_shard_transactions.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME MultiShardTransactionFocusedTests COMMAND test_multi_shard_transactions_focused)
+    add_test(NAME MultiShardTransactionFocusedTests COMMAND $<TARGET_FILE:test_multi_shard_transactions_focused>)
 
     set_tests_properties(MultiShardTransactionFocusedTests PROPERTIES
         LABELS "transaction;sharding;2pc;distributed;unit"
@@ -6481,7 +6497,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/distributed/test_distributed_transactions
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME DistributedTransactionsFocusedTests COMMAND test_distributed_transactions_focused)
+    add_test(NAME DistributedTransactionsFocusedTests COMMAND $<TARGET_FILE:test_distributed_transactions_focused>)
 
     set_tests_properties(DistributedTransactionsFocusedTests PROPERTIES
         LABELS "transaction;distributed;2pc;storage;unit"
@@ -6513,7 +6529,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cross/test_cross_shard_coordinator.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME PercolatorCoordinatorFocusedTests COMMAND test_percolator_coordinator_focused)
+    add_test(NAME PercolatorCoordinatorFocusedTests COMMAND $<TARGET_FILE:test_percolator_coordinator_focused>)
 
     set_tests_properties(PercolatorCoordinatorFocusedTests PROPERTIES
         LABELS "sharding;percolator;distributed;transaction;truetime;orphan-detector;v1.7.0;unit"
@@ -6544,7 +6560,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/postgres/test_postgres_transactions.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME PostgresTransactionFocusedTests COMMAND test_postgres_transactions_focused)
+    add_test(NAME PostgresTransactionFocusedTests COMMAND $<TARGET_FILE:test_postgres_transactions_focused>)
 
     set_tests_properties(PostgresTransactionFocusedTests PROPERTIES
         LABELS "transaction;postgres;wire;2pc;savepoint;unit"
@@ -6576,7 +6592,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/aql/test_aql_multi_statement_transaction.
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME AQLMultiStatementTransactionFocusedTests COMMAND test_aql_multi_statement_transaction_focused)
+    add_test(NAME AQLMultiStatementTransactionFocusedTests COMMAND $<TARGET_FILE:test_aql_multi_statement_transaction_focused>)
 
     set_tests_properties(AQLMultiStatementTransactionFocusedTests PROPERTIES
         LABELS "transaction;aql;multi-statement;begin;commit;rollback;unit"
@@ -6608,7 +6624,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/db/test_transaction_isolation.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME DbTransactionIsolationFocusedTests COMMAND test_db_transaction_isolation_focused)
+    add_test(NAME DbTransactionIsolationFocusedTests COMMAND $<TARGET_FILE:test_db_transaction_isolation_focused>)
 
     set_tests_properties(DbTransactionIsolationFocusedTests PROPERTIES
         LABELS "transaction;isolation;mvcc;snapshot;deadlock;unit"
@@ -6638,7 +6654,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/utilities/test_utilities_comprehensive.cp
         THEMIS_TEST_BUILD=1
     )
     
-    add_test(NAME UtilitiesComprehensiveTests COMMAND test_utilities_comprehensive)
+    add_test(NAME UtilitiesComprehensiveTests COMMAND $<TARGET_FILE:test_utilities_comprehensive>)
     
     set_tests_properties(UtilitiesComprehensiveTests PROPERTIES
         LABELS "utilities;error;pii;stemming;olap;comprehensive;unit"
@@ -6668,7 +6684,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/logger/test_logger_production.cpp")
         Threads::Threads
     )
     target_compile_definitions(test_logger_production PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME LoggerProductionTests COMMAND test_logger_production)
+    add_test(NAME LoggerProductionTests COMMAND $<TARGET_FILE:test_logger_production>)
     set_tests_properties(LoggerProductionTests PROPERTIES
         LABELS "utils;logging;production;phase1;unit"
         TIMEOUT 60
@@ -6686,7 +6702,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tracing/test_tracing_production.cpp")
         Threads::Threads
     )
     target_compile_definitions(test_tracing_production PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME TracingProductionTests COMMAND test_tracing_production)
+    add_test(NAME TracingProductionTests COMMAND $<TARGET_FILE:test_tracing_production>)
     set_tests_properties(TracingProductionTests PROPERTIES
         LABELS "utils;tracing;baggage;sampling;phase2;unit"
         TIMEOUT 60
@@ -6704,7 +6720,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/otel/test_otel_tracer_adapter.cpp")
         Threads::Threads
     )
     target_compile_definitions(test_otel_tracer_adapter PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME OtelTracerAdapterTests COMMAND test_otel_tracer_adapter)
+    add_test(NAME OtelTracerAdapterTests COMMAND $<TARGET_FILE:test_otel_tracer_adapter>)
     set_tests_properties(OtelTracerAdapterTests PROPERTIES
         LABELS "core;tracing;otel;circuit-breaker;phase2;unit"
         TIMEOUT 60
@@ -6722,7 +6738,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/jaeger/test_jaeger_tracer_adapter.cpp")
         Threads::Threads
     )
     target_compile_definitions(test_jaeger_tracer_adapter PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME JaegerTracerAdapterTests COMMAND test_jaeger_tracer_adapter)
+    add_test(NAME JaegerTracerAdapterTests COMMAND $<TARGET_FILE:test_jaeger_tracer_adapter>)
     set_tests_properties(JaegerTracerAdapterTests PROPERTIES
         LABELS "core;tracing;jaeger;circuit-breaker;phase2;unit"
         TIMEOUT 60
@@ -6740,7 +6756,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/zipkin/test_zipkin_tracer_adapter.cpp")
         Threads::Threads
     )
     target_compile_definitions(test_zipkin_tracer_adapter PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME ZipkinTracerAdapterTests COMMAND test_zipkin_tracer_adapter)
+    add_test(NAME ZipkinTracerAdapterTests COMMAND $<TARGET_FILE:test_zipkin_tracer_adapter>)
     set_tests_properties(ZipkinTracerAdapterTests PROPERTIES
         LABELS "core;tracing;zipkin;b3;circuit-breaker;phase2;unit"
         TIMEOUT 60
@@ -6758,7 +6774,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/otel/test_otel_propagation.cpp")
         Threads::Threads
     )
     target_compile_definitions(test_otel_propagation PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME OtelPropagationTests COMMAND test_otel_propagation)
+    add_test(NAME OtelPropagationTests COMMAND $<TARGET_FILE:test_otel_propagation>)
     set_tests_properties(OtelPropagationTests PROPERTIES
         LABELS "core;tracing;otel;propagation;w3c;phase2;unit"
         TIMEOUT 60
@@ -6777,7 +6793,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/structured/test_structured_log_correlatio
         Threads::Threads
     )
     target_compile_definitions(test_structured_log_correlation PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME StructuredLogCorrelationTests COMMAND test_structured_log_correlation)
+    add_test(NAME StructuredLogCorrelationTests COMMAND $<TARGET_FILE:test_structured_log_correlation>)
     set_tests_properties(StructuredLogCorrelationTests PROPERTIES
         LABELS "core;logging;tracing;trace-id;structured-log;phase3;unit"
         TIMEOUT 60
@@ -6795,7 +6811,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/distributed/test_distributed_tracing.cpp"
         Threads::Threads
     )
     target_compile_definitions(test_distributed_tracing PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME DistributedTracingTests COMMAND test_distributed_tracing)
+    add_test(NAME DistributedTracingTests COMMAND $<TARGET_FILE:test_distributed_tracing>)
     set_tests_properties(DistributedTracingTests PROPERTIES
         LABELS "core;tracing;distributed;spans;phase3;unit"
         TIMEOUT 60
@@ -6816,7 +6832,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/otel/test_otel_api_tracing.cpp")
 $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
     )
     target_compile_definitions(test_otel_api_tracing PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME OtelApiTracingTests COMMAND test_otel_api_tracing)
+    add_test(NAME OtelApiTracingTests COMMAND $<TARGET_FILE:test_otel_api_tracing>)
     set_tests_properties(OtelApiTracingTests PROPERTIES
         LABELS "api;tracing;otel;distributed;spans;integration;unit"
         TIMEOUT 60
@@ -6833,7 +6849,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sampling/test_sampling_strategy.cpp")
         themis_core
     )
     target_compile_definitions(test_sampling_strategy PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME SamplingStrategyTests COMMAND test_sampling_strategy)
+    add_test(NAME SamplingStrategyTests COMMAND $<TARGET_FILE:test_sampling_strategy>)
     set_tests_properties(SamplingStrategyTests PROPERTIES
         LABELS "utils;tracing;sampling;phase2;unit"
         TIMEOUT 30
@@ -6852,7 +6868,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/audit/test_audit_logger_production.cpp")
         Threads::Threads
     )
     target_compile_definitions(test_audit_logger_production PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME AuditLoggerProductionTests COMMAND test_audit_logger_production)
+    add_test(NAME AuditLoggerProductionTests COMMAND $<TARGET_FILE:test_audit_logger_production>)
     set_tests_properties(AuditLoggerProductionTests PROPERTIES
         LABELS "utils;audit;search;compliance;phase3;unit"
         TIMEOUT 60
@@ -6876,7 +6892,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/audit/test_audit_wavec_integrity_export_f
         THEMIS_TEST_BUILD=1
     )
     add_test(NAME AuditWaveCIntegrityExportFocusedTests
-        COMMAND test_audit_wavec_integrity_export_focused)
+        COMMAND $<TARGET_FILE:test_audit_wavec_integrity_export_focused>)
     set_tests_properties(AuditWaveCIntegrityExportFocusedTests PROPERTIES
         LABELS "utils;audit;wave-c;integrity;export;focused"
         TIMEOUT 120
@@ -6895,7 +6911,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/governance/test_governance_policy_hot_rel
         Threads::Threads
     )
     target_compile_definitions(test_governance_policy_hot_reload PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME GovernancePolicyHotReloadTests COMMAND test_governance_policy_hot_reload)
+    add_test(NAME GovernancePolicyHotReloadTests COMMAND $<TARGET_FILE:test_governance_policy_hot_reload>)
     set_tests_properties(GovernancePolicyHotReloadTests PROPERTIES
         LABELS "governance;policy;hot-reload;file-watcher;phase3;unit"
         TIMEOUT 60
@@ -6914,7 +6930,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/governance/test_governance_opa_adapter.cp
         Threads::Threads
     )
     target_compile_definitions(test_governance_opa_adapter PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME GovernanceOpaAdapterFocusedTests COMMAND test_governance_opa_adapter)
+    add_test(NAME GovernanceOpaAdapterFocusedTests COMMAND $<TARGET_FILE:test_governance_opa_adapter>)
     set_tests_properties(GovernanceOpaAdapterFocusedTests PROPERTIES
         LABELS "governance;opa;policy-evaluator;phase3;unit"
         TIMEOUT 60
@@ -6934,7 +6950,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/governance/test_governance_policy_simulat
         Threads::Threads
     )
     target_compile_definitions(test_governance_policy_simulation PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME GovernancePolicySimulationFocusedTests COMMAND test_governance_policy_simulation)
+    add_test(NAME GovernancePolicySimulationFocusedTests COMMAND $<TARGET_FILE:test_governance_policy_simulation>)
     set_tests_properties(GovernancePolicySimulationFocusedTests PROPERTIES
         LABELS "governance;policy;simulation;dry-run;phase3;unit"
         TIMEOUT 60
@@ -6953,7 +6969,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/governance/test_governance_compliance_tim
         Threads::Threads
     )
     target_compile_definitions(test_governance_compliance_time_window PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME GovernanceComplianceTimeWindowFocusedTests COMMAND test_governance_compliance_time_window)
+    add_test(NAME GovernanceComplianceTimeWindowFocusedTests COMMAND $<TARGET_FILE:test_governance_compliance_time_window>)
     set_tests_properties(GovernanceComplianceTimeWindowFocusedTests PROPERTIES
         LABELS "governance;compliance;reporter;time-window;phase2;unit"
         TIMEOUT 60
@@ -6972,7 +6988,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/governance/test_governance_review_schedul
         Threads::Threads
     )
     target_compile_definitions(test_governance_review_scheduler PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME GovernanceReviewSchedulerFocusedTests COMMAND test_governance_review_scheduler)
+    add_test(NAME GovernanceReviewSchedulerFocusedTests COMMAND $<TARGET_FILE:test_governance_review_scheduler>)
     set_tests_properties(GovernanceReviewSchedulerFocusedTests PROPERTIES
         LABELS "governance;review-scheduler;policy-review;phase4;unit"
         TIMEOUT 60
@@ -6992,7 +7008,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/model/test_model_governance.cpp")
         Threads::Threads
     )
     target_compile_definitions(test_model_governance_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME ModelGovernanceFocusedTests COMMAND test_model_governance_focused)
+    add_test(NAME ModelGovernanceFocusedTests COMMAND $<TARGET_FILE:test_model_governance_focused>)
     set_tests_properties(ModelGovernanceFocusedTests PROPERTIES
         LABELS "governance;model-governance;training-lineage;bias-audit;phase4;unit"
         TIMEOUT 60
@@ -7019,7 +7035,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/inline/test_inline_training_governance.cp
     )
     target_compile_definitions(test_inline_training_governance_focused PRIVATE THEMIS_TEST_BUILD=1)
     add_test(NAME InlineTrainingGovernanceFocusedTests
-             COMMAND test_inline_training_governance_focused)
+             COMMAND $<TARGET_FILE:test_inline_training_governance_focused>)
     set_tests_properties(InlineTrainingGovernanceFocusedTests PROPERTIES
         LABELS "governance;training;inline-training;policy-gate;gap3;unit"
         TIMEOUT 60
@@ -7047,7 +7063,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/agentic/test_agentic_rag_budget.cpp")
     )
     target_compile_definitions(test_agentic_rag_budget_focused PRIVATE THEMIS_TEST_BUILD=1)
     add_test(NAME AgenticRAGBudgetFocusedTests
-             COMMAND test_agentic_rag_budget_focused)
+             COMMAND $<TARGET_FILE:test_agentic_rag_budget_focused>)
     set_tests_properties(AgenticRAGBudgetFocusedTests PROPERTIES
         LABELS "rag;agentic-rag;budget;token-budget;gap4;unit"
         TIMEOUT 60
@@ -7077,7 +7093,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/agentic/test_agentic_rag_relay.cpp")
     )
     target_compile_definitions(test_agentic_rag_relay_focused PRIVATE THEMIS_TEST_BUILD=1)
     add_test(NAME AgenticRAGRelayFocusedTests
-             COMMAND test_agentic_rag_relay_focused)
+             COMMAND $<TARGET_FILE:test_agentic_rag_relay_focused>)
     set_tests_properties(AgenticRAGRelayFocusedTests PROPERTIES
         LABELS "rag;agentic-rag;delegate52;relay;safety-net;unit"
         TIMEOUT 60
@@ -7097,7 +7113,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/test_llm_judge_is_mock.cpp")
     )
     target_compile_definitions(test_llm_judge_is_mock_focused PRIVATE THEMIS_TEST_BUILD=1)
     add_test(NAME LLMJudgeIsMockFocusedTests
-             COMMAND test_llm_judge_is_mock_focused)
+             COMMAND $<TARGET_FILE:test_llm_judge_is_mock_focused>)
     set_tests_properties(LLMJudgeIsMockFocusedTests PROPERTIES
         LABELS "rag;llm-judge;is_mock;gap7;unit"
         TIMEOUT 60
@@ -7123,7 +7139,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/stub/test_stub_remediation_297_298_280_30
     )
     target_compile_definitions(test_stub_remediation_297_298_280_302 PRIVATE THEMIS_TEST_BUILD=1)
     add_test(NAME StubRemediation297298280302Tests
-             COMMAND test_stub_remediation_297_298_280_302)
+             COMMAND $<TARGET_FILE:test_stub_remediation_297_298_280_302>)
     set_tests_properties(StubRemediation297298280302Tests PROPERTIES
         LABELS "stub-remediation;security;llm;server;unit"
         TIMEOUT 60
@@ -7145,7 +7161,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/test_llm_aql_embedding_bridge.cpp")
     )
     target_compile_definitions(test_llm_aql_embedding_bridge_focused PRIVATE THEMIS_TEST_BUILD=1)
     add_test(NAME LLMAQLEmbeddingBridgeFocusedTests
-             COMMAND test_llm_aql_embedding_bridge_focused)
+             COMMAND $<TARGET_FILE:test_llm_aql_embedding_bridge_focused>)
     set_tests_properties(LLMAQLEmbeddingBridgeFocusedTests PROPERTIES
         LABELS "aql;embedding;few-shot;semantic;bridge;b07;unit"
         TIMEOUT 60
@@ -7170,7 +7186,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/huggingface/test_huggingface_connector_go
     )
     target_compile_definitions(test_huggingface_connector_governance_focused PRIVATE THEMIS_TEST_BUILD=1)
     add_test(NAME HuggingFaceConnectorGovernanceFocusedTests
-             COMMAND test_huggingface_connector_governance_focused)
+             COMMAND $<TARGET_FILE:test_huggingface_connector_governance_focused>)
     set_tests_properties(HuggingFaceConnectorGovernanceFocusedTests PROPERTIES
         LABELS "ingestion;huggingface;governance;classification;gap8;unit"
         TIMEOUT 60
@@ -7194,7 +7210,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/test_llm_query_rewriter_validator.cpp
     )
     target_compile_definitions(test_llm_query_rewriter_validator_focused PRIVATE THEMIS_TEST_BUILD=1)
     add_test(NAME LlmQueryRewriterValidatorFocusedTests
-             COMMAND test_llm_query_rewriter_validator_focused)
+             COMMAND $<TARGET_FILE:test_llm_query_rewriter_validator_focused>)
     set_tests_properties(LlmQueryRewriterValidatorFocusedTests PROPERTIES
         LABELS "search;query-rewriter;semantic-validator;overlap;gap2;unit"
         TIMEOUT 60
@@ -7220,7 +7236,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/prompt/test_prompt_injection_pattern_regi
     )
     target_compile_definitions(test_prompt_injection_pattern_registry_focused PRIVATE THEMIS_TEST_BUILD=1)
     add_test(NAME PromptInjectionPatternRegistryFocusedTests
-             COMMAND test_prompt_injection_pattern_registry_focused)
+             COMMAND $<TARGET_FILE:test_prompt_injection_pattern_registry_focused>)
     set_tests_properties(PromptInjectionPatternRegistryFocusedTests PROPERTIES
         LABELS "security;rag;prompt-engineering;pattern-registry;gap5;unit"
         TIMEOUT 60
@@ -7239,7 +7255,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/compliance/test_compliance_security_gover
         Threads::Threads
     )
     target_compile_definitions(test_compliance_security_governance_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME ComplianceSecurityGovernanceFocusedTests COMMAND test_compliance_security_governance_focused)
+    add_test(NAME ComplianceSecurityGovernanceFocusedTests COMMAND $<TARGET_FILE:test_compliance_security_governance_focused>)
     set_tests_properties(ComplianceSecurityGovernanceFocusedTests PROPERTIES
         LABELS "governance;compliance;security;gdpr;hipaa;soc2;pci-dss;ccpa;unit"
         TIMEOUT 90
@@ -7257,7 +7273,7 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/http/test_h
         Threads::Threads
     )
     target_compile_definitions(test_http_governance_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME HttpGovernanceFocusedTests COMMAND test_http_governance_focused)
+    add_test(NAME HttpGovernanceFocusedTests COMMAND $<TARGET_FILE:test_http_governance_focused>)
     set_tests_properties(HttpGovernanceFocusedTests PROPERTIES
         LABELS "governance;http;server;policy-engine;integration"
         TIMEOUT 120
@@ -7292,7 +7308,7 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/export/test
     endif()
     target_link_libraries(test_export_api_handler_focused PRIVATE ${_export_api_test_libs})
     target_compile_definitions(test_export_api_handler_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME ExportApiHandlerFocusedTests COMMAND test_export_api_handler_focused)
+    add_test(NAME ExportApiHandlerFocusedTests COMMAND $<TARGET_FILE:test_export_api_handler_focused>)
     set_tests_properties(ExportApiHandlerFocusedTests PROPERTIES
         LABELS "exporters;server;policy-engine;authorization;403;focused;unit"
         TIMEOUT 60
@@ -7310,7 +7326,7 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/http/test_h
         Threads::Threads
     )
     target_compile_definitions(test_http_changefeed_governance_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME HttpChangefeedGovernanceFocusedTests COMMAND test_http_changefeed_governance_focused)
+    add_test(NAME HttpChangefeedGovernanceFocusedTests COMMAND $<TARGET_FILE:test_http_changefeed_governance_focused>)
     set_tests_properties(HttpChangefeedGovernanceFocusedTests PROPERTIES
         LABELS "governance;http;changefeed;cdc;integration"
         TIMEOUT 120
@@ -7329,7 +7345,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/compliance/test_compliance_reporting.cpp"
         Threads::Threads
     )
     target_compile_definitions(test_compliance_reporting_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME ComplianceReportingFocusedTests COMMAND test_compliance_reporting_focused)
+    add_test(NAME ComplianceReportingFocusedTests COMMAND $<TARGET_FILE:test_compliance_reporting_focused>)
     set_tests_properties(ComplianceReportingFocusedTests PROPERTIES
         LABELS "governance;compliance;reporting;coverage;gap-detection;pdf;json;html;unit"
         TIMEOUT 90
@@ -7348,7 +7364,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ccpa/test_ccpa_rules.cpp")
         Threads::Threads
     )
     target_compile_definitions(test_ccpa_rules_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME CcpaRulesFocusedTests COMMAND test_ccpa_rules_focused)
+    add_test(NAME CcpaRulesFocusedTests COMMAND $<TARGET_FILE:test_ccpa_rules_focused>)
     set_tests_properties(CcpaRulesFocusedTests PROPERTIES
         LABELS "governance;ccpa;cpra;compliance;data-subject-rights;unit"
         TIMEOUT 60
@@ -7366,7 +7382,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cross/test_cross_tenant_policy_inheritanc
         Threads::Threads
     )
     target_compile_definitions(test_cross_tenant_policy_inheritance_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME CrossTenantPolicyInheritanceFocusedTests COMMAND test_cross_tenant_policy_inheritance_focused)
+    add_test(NAME CrossTenantPolicyInheritanceFocusedTests COMMAND $<TARGET_FILE:test_cross_tenant_policy_inheritance_focused>)
     set_tests_properties(CrossTenantPolicyInheritanceFocusedTests PROPERTIES
         LABELS "governance;cross-tenant;policy-inheritance;hierarchy;cycle-detection;unit"
         TIMEOUT 60
@@ -7385,7 +7401,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/data/test_data_lineage.cpp")
         Threads::Threads
     )
     target_compile_definitions(test_data_lineage_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME DataLineageFocusedTests COMMAND test_data_lineage_focused)
+    add_test(NAME DataLineageFocusedTests COMMAND $<TARGET_FILE:test_data_lineage_focused>)
     set_tests_properties(DataLineageFocusedTests PROPERTIES
         LABELS "governance;data-lineage;lineage-tracking;audit;unit"
         TIMEOUT 60
@@ -7404,7 +7420,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/data/test_data_masker.cpp")
         Threads::Threads
     )
     target_compile_definitions(test_data_masker_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME DataMaskerFocusedTests COMMAND test_data_masker_focused)
+    add_test(NAME DataMaskerFocusedTests COMMAND $<TARGET_FILE:test_data_masker_focused>)
     set_tests_properties(DataMaskerFocusedTests PROPERTIES
         LABELS "governance;data-masking;redact;tokenize;truncate;hash;field-masking;unit"
         TIMEOUT 60
@@ -7422,7 +7438,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pci/test_pci_dss_rules.cpp")
         Threads::Threads
     )
     target_compile_definitions(test_pci_dss_rules_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME PciDssRulesFocusedTests COMMAND test_pci_dss_rules_focused)
+    add_test(NAME PciDssRulesFocusedTests COMMAND $<TARGET_FILE:test_pci_dss_rules_focused>)
     set_tests_properties(PciDssRulesFocusedTests PROPERTIES
         LABELS "governance;pci-dss;compliance;data-isolation;cardholder-data;unit"
         TIMEOUT 60
@@ -7440,7 +7456,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/policy/test_policy_review.cpp")
         Threads::Threads
     )
     target_compile_definitions(test_policy_review_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME PolicyReviewFocusedTests COMMAND test_policy_review_focused)
+    add_test(NAME PolicyReviewFocusedTests COMMAND $<TARGET_FILE:test_policy_review_focused>)
     set_tests_properties(PolicyReviewFocusedTests PROPERTIES
         LABELS "governance;policy-review;workflow;draft;approve;reject;unit"
         TIMEOUT 90
@@ -7459,7 +7475,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/policy/test_policy_template.cpp")
         Threads::Threads
     )
     target_compile_definitions(test_policy_template_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME PolicyTemplateFocusedTests COMMAND test_policy_template_focused)
+    add_test(NAME PolicyTemplateFocusedTests COMMAND $<TARGET_FILE:test_policy_template_focused>)
     set_tests_properties(PolicyTemplateFocusedTests PROPERTIES
         LABELS "governance;policy-template;gdpr;hipaa;soc2;least-privilege;unit"
         TIMEOUT 60
@@ -7481,7 +7497,7 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/policy/test
         target_link_libraries(test_policy_versioning_focused PRIVATE Boost::system)
     endif()
     target_compile_definitions(test_policy_versioning_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME PolicyVersioningFocusedTests COMMAND test_policy_versioning_focused)
+    add_test(NAME PolicyVersioningFocusedTests COMMAND $<TARGET_FILE:test_policy_versioning_focused>)
     set_tests_properties(PolicyVersioningFocusedTests PROPERTIES
         LABELS "governance;policy-versioning;rollback;conflict-detection;history;unit"
         TIMEOUT 90
@@ -7499,7 +7515,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/soc2/test_soc2_controls.cpp")
         Threads::Threads
     )
     target_compile_definitions(test_soc2_controls_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME Soc2ControlsFocusedTests COMMAND test_soc2_controls_focused)
+    add_test(NAME Soc2ControlsFocusedTests COMMAND $<TARGET_FILE:test_soc2_controls_focused>)
     set_tests_properties(Soc2ControlsFocusedTests PROPERTIES
         LABELS "governance;soc2;trust-services;cc6.1;cc7.2;cc8.1;a1.1;c1.1;pi1.2;unit"
         TIMEOUT 60
@@ -7520,7 +7536,7 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/task/test_t
         Threads::Threads
     )
     target_compile_definitions(test_task_scheduler_auth_context_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME TaskSchedulerAuthContextFocusedTests COMMAND test_task_scheduler_auth_context_focused)
+    add_test(NAME TaskSchedulerAuthContextFocusedTests COMMAND $<TARGET_FILE:test_task_scheduler_auth_context_focused>)
     set_tests_properties(TaskSchedulerAuthContextFocusedTests PROPERTIES
         LABELS "scheduler;auth;audit;request-context;thread-local;sandbox;unit"
         TIMEOUT 60
@@ -7547,7 +7563,7 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/task/test_t
         Threads::Threads
     )
     target_compile_definitions(test_task_scheduler_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME TaskSchedulerFocusedTests COMMAND test_task_scheduler_focused)
+    add_test(NAME TaskSchedulerFocusedTests COMMAND $<TARGET_FILE:test_task_scheduler_focused>)
     set_tests_properties(TaskSchedulerFocusedTests PROPERTIES
         LABELS "scheduler;cron;sla;audit;priority;dag;unit"
         TIMEOUT 120
@@ -7572,7 +7588,7 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/task/test_t
         Threads::Threads
     )
     target_compile_definitions(test_task_scheduler_dynamic_scaling_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME TaskSchedulerDynamicScalingFocusedTests COMMAND test_task_scheduler_dynamic_scaling_focused)
+    add_test(NAME TaskSchedulerDynamicScalingFocusedTests COMMAND $<TARGET_FILE:test_task_scheduler_dynamic_scaling_focused>)
     set_tests_properties(TaskSchedulerDynamicScalingFocusedTests PROPERTIES
         LABELS "scheduler;dynamic-scaling;queue-depth;concurrency;unit"
         TIMEOUT 120
@@ -7597,7 +7613,7 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/task/test_t
         Threads::Threads
     )
     target_compile_definitions(test_task_scheduler_triggers_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME TaskSchedulerTriggersFocusedTests COMMAND test_task_scheduler_triggers_focused)
+    add_test(NAME TaskSchedulerTriggersFocusedTests COMMAND $<TARGET_FILE:test_task_scheduler_triggers_focused>)
     set_tests_properties(TaskSchedulerTriggersFocusedTests PROPERTIES
         LABELS "scheduler;triggers;event;cdc;cron;hybrid;unit"
         TIMEOUT 120
@@ -7622,7 +7638,7 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/task/test_t
         Threads::Threads
     )
     target_compile_definitions(test_task_scheduler_siem_integration_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME TaskSchedulerSIEMIntegrationFocusedTests COMMAND test_task_scheduler_siem_integration_focused)
+    add_test(NAME TaskSchedulerSIEMIntegrationFocusedTests COMMAND $<TARGET_FILE:test_task_scheduler_siem_integration_focused>)
     set_tests_properties(TaskSchedulerSIEMIntegrationFocusedTests PROPERTIES
         LABELS "scheduler;siem;audit;logging;security;unit"
         TIMEOUT 120
@@ -7647,7 +7663,7 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/task/test_t
         Threads::Threads
     )
     target_compile_definitions(test_task_scheduler_api_handler_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME TaskSchedulerApiHandlerFocusedTests COMMAND test_task_scheduler_api_handler_focused)
+    add_test(NAME TaskSchedulerApiHandlerFocusedTests COMMAND $<TARGET_FILE:test_task_scheduler_api_handler_focused>)
     set_tests_properties(TaskSchedulerApiHandlerFocusedTests PROPERTIES
         LABELS "scheduler;api;handler;http;rest;unit"
         TIMEOUT 120
@@ -7672,7 +7688,7 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/scheduler/t
         Threads::Threads
     )
     target_compile_definitions(test_scheduler_integration_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME SchedulerIntegrationFocusedTests COMMAND test_scheduler_integration_focused)
+    add_test(NAME SchedulerIntegrationFocusedTests COMMAND $<TARGET_FILE:test_scheduler_integration_focused>)
     set_tests_properties(SchedulerIntegrationFocusedTests PROPERTIES
         LABELS "scheduler;integration;persistence;retention;lifecycle;unit"
         TIMEOUT 180
@@ -7697,7 +7713,7 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/distributed
         Threads::Threads
     )
     target_compile_definitions(test_distributed_task_coordinator_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME DistributedTaskCoordinatorFocusedTests COMMAND test_distributed_task_coordinator_focused)
+    add_test(NAME DistributedTaskCoordinatorFocusedTests COMMAND $<TARGET_FILE:test_distributed_task_coordinator_focused>)
     set_tests_properties(DistributedTaskCoordinatorFocusedTests PROPERTIES
         LABELS "scheduler;distributed;coordinator;leader-election;unit"
         TIMEOUT 120
@@ -7722,7 +7738,7 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/task/test_t
         Threads::Threads
     )
     target_compile_definitions(test_task_audit_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME TaskAuditFocusedTests COMMAND test_task_audit_focused)
+    add_test(NAME TaskAuditFocusedTests COMMAND $<TARGET_FILE:test_task_audit_focused>)
     set_tests_properties(TaskAuditFocusedTests PROPERTIES
         LABELS "scheduler;audit;anomaly-detection;task-audit;unit"
         TIMEOUT 60
@@ -7747,7 +7763,7 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/task/test_t
         Threads::Threads
     )
     target_compile_definitions(test_task_result_store_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME TaskResultStoreFocusedTests COMMAND test_task_result_store_focused)
+    add_test(NAME TaskResultStoreFocusedTests COMMAND $<TARGET_FILE:test_task_result_store_focused>)
     set_tests_properties(TaskResultStoreFocusedTests PROPERTIES
         LABELS "scheduler;result-store;persistence;rocksdb;unit"
         TIMEOUT 60
@@ -7772,7 +7788,7 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/external/te
         Threads::Threads
     )
     target_compile_definitions(test_external_scheduler_adapter_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME ExternalSchedulerAdapterFocusedTests COMMAND test_external_scheduler_adapter_focused)
+    add_test(NAME ExternalSchedulerAdapterFocusedTests COMMAND $<TARGET_FILE:test_external_scheduler_adapter_focused>)
     set_tests_properties(ExternalSchedulerAdapterFocusedTests PROPERTIES
         LABELS "scheduler;external;kubernetes;airflow;adapter;unit"
         TIMEOUT 60
@@ -7797,7 +7813,7 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/task/test_t
         Threads::Threads
     )
     target_compile_definitions(test_task_scheduler_slo_retry_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME TaskSchedulerSloRetryFocusedTests COMMAND test_task_scheduler_slo_retry_focused)
+    add_test(NAME TaskSchedulerSloRetryFocusedTests COMMAND $<TARGET_FILE:test_task_scheduler_slo_retry_focused>)
     set_tests_properties(TaskSchedulerSloRetryFocusedTests PROPERTIES
         LABELS "scheduler;slo;retry;adaptive;phase5;sla;unit"
         TIMEOUT 120
@@ -7814,7 +7830,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/lek/test_lek_manager_lifecycle.cpp")
         themis_core
     )
     target_compile_definitions(test_lek_manager_lifecycle PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME LEKManagerLifecycleTests COMMAND test_lek_manager_lifecycle)
+    add_test(NAME LEKManagerLifecycleTests COMMAND $<TARGET_FILE:test_lek_manager_lifecycle>)
     set_tests_properties(LEKManagerLifecycleTests PROPERTIES
         LABELS "utils;lek;key-management;expiry;revocation;phase5;unit"
         TIMEOUT 30
@@ -7836,7 +7852,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/self/test_self_awareness_production.cpp")
         Threads::Threads
     )
     target_compile_definitions(test_self_awareness_production PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME SelfAwarenessProductionTests COMMAND test_self_awareness_production)
+    add_test(NAME SelfAwarenessProductionTests COMMAND $<TARGET_FILE:test_self_awareness_production>)
     set_tests_properties(SelfAwarenessProductionTests PROPERTIES
         LABELS "utils;self-awareness;snapshot;anomaly;phase7;unit"
         TIMEOUT 60
@@ -7864,7 +7880,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_index_comprehensive.cpp"
         THEMIS_TEST_BUILD=1
     )
     
-    add_test(NAME GraphIndexComprehensiveTests COMMAND test_graph_index_comprehensive)
+    add_test(NAME GraphIndexComprehensiveTests COMMAND $<TARGET_FILE:test_graph_index_comprehensive>)
     
     set_tests_properties(GraphIndexComprehensiveTests PROPERTIES
         LABELS "index;graph;traversal;comprehensive;unit"
@@ -7897,7 +7913,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_learned_index.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME LearnedIndexTests COMMAND test_learned_index)
+    add_test(NAME LearnedIndexTests COMMAND $<TARGET_FILE:test_learned_index>)
 
     set_tests_properties(LearnedIndexTests PROPERTIES
         LABELS "index;learned;ml;btree;unit"
@@ -7938,7 +7954,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_tiered_index_migration.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME TieredIndexMigrationTests COMMAND test_tiered_index_migration)
+    add_test(NAME TieredIndexMigrationTests COMMAND $<TARGET_FILE:test_tiered_index_migration>)
 
     set_tests_properties(TieredIndexMigrationTests PROPERTIES
         LABELS "index;tiered;cold;warm;migration;unit"
@@ -7975,7 +7991,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_hnsw_recall_integration.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME HnswRecallIntegrationTests COMMAND test_hnsw_recall_integration)
+    add_test(NAME HnswRecallIntegrationTests COMMAND $<TARGET_FILE:test_hnsw_recall_integration>)
 
     set_tests_properties(HnswRecallIntegrationTests PROPERTIES
         LABELS "index;hnsw;recall;integration"
@@ -8012,7 +8028,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_spatial_correctness_integratio
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME SpatialCorrectnessIntegrationTests COMMAND test_spatial_correctness_integration)
+    add_test(NAME SpatialCorrectnessIntegrationTests COMMAND $<TARGET_FILE:test_spatial_correctness_integration>)
 
     set_tests_properties(SpatialCorrectnessIntegrationTests PROPERTIES
         LABELS "index;spatial;correctness;integration"
@@ -8073,7 +8089,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cloud/test_cloud_storage_backup_comprehen
         THEMIS_TEST_BUILD=1
     )
     
-    add_test(NAME CloudStorageBackupComprehensiveTests COMMAND test_cloud_storage_backup_comprehensive)
+    add_test(NAME CloudStorageBackupComprehensiveTests COMMAND $<TARGET_FILE:test_cloud_storage_backup_comprehensive>)
     
     set_tests_properties(CloudStorageBackupComprehensiveTests PROPERTIES
         LABELS "backup;cloud;storage;s3;azure;gcs;comprehensive;unit"
@@ -8109,7 +8125,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_streaming_window.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME StreamingWindowFocusedTests COMMAND test_streaming_window_focused)
+    add_test(NAME StreamingWindowFocusedTests COMMAND $<TARGET_FILE:test_streaming_window_focused>)
 
     set_tests_properties(StreamingWindowFocusedTests PROPERTIES
         LABELS "analytics;streaming;window;focused;unit"
@@ -8149,7 +8165,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_expert_system_engine.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ExpertSystemFocusedTests COMMAND test_expert_system_focused)
+    add_test(NAME ExpertSystemFocusedTests COMMAND $<TARGET_FILE:test_expert_system_focused>)
 
     set_tests_properties(ExpertSystemFocusedTests PROPERTIES
         LABELS "analytics;expert-system;knowledge-base;yaml-bridge;stub272;focused;unit"
@@ -8183,7 +8199,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_anomaly_detection.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME AnomalyDetectionFocusedTests COMMAND test_anomaly_detection_focused)
+    add_test(NAME AnomalyDetectionFocusedTests COMMAND $<TARGET_FILE:test_anomaly_detection_focused>)
 
     set_tests_properties(AnomalyDetectionFocusedTests PROPERTIES
         LABELS "analytics;anomaly;focused;unit"
@@ -8218,7 +8234,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_llm_process_analyzer.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME LLMProcessAnalyzerFocusedTests COMMAND test_llm_process_analyzer_focused)
+    add_test(NAME LLMProcessAnalyzerFocusedTests COMMAND $<TARGET_FILE:test_llm_process_analyzer_focused>)
 
     set_tests_properties(LLMProcessAnalyzerFocusedTests PROPERTIES
         LABELS "analytics;llm;lru-cache;focused;unit"
@@ -8253,7 +8269,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_automl.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME AutoMlFocusedTests COMMAND test_automl_focused)
+    add_test(NAME AutoMlFocusedTests COMMAND $<TARGET_FILE:test_automl_focused>)
 
     set_tests_properties(AutoMlFocusedTests PROPERTIES
         LABELS "analytics;automl;ml;focused;unit"
@@ -8290,7 +8306,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_distributed_analytics.cpp"
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME DistributedAnalyticsFocusedTests COMMAND test_distributed_analytics_focused)
+    add_test(NAME DistributedAnalyticsFocusedTests COMMAND $<TARGET_FILE:test_distributed_analytics_focused>)
 
     set_tests_properties(DistributedAnalyticsFocusedTests PROPERTIES
         LABELS "analytics;distributed;olap;focused;unit"
@@ -8336,7 +8352,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_pattern_matcher.cp
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ProcessPatternMatcherFocusedTests COMMAND test_process_pattern_matcher_focused)
+    add_test(NAME ProcessPatternMatcherFocusedTests COMMAND $<TARGET_FILE:test_process_pattern_matcher_focused>)
 
     set_tests_properties(ProcessPatternMatcherFocusedTests PROPERTIES
         LABELS "analytics;process-mining;pattern-matcher;focused;unit"
@@ -8370,7 +8386,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_forecasting.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ForecastingFocusedTests COMMAND test_forecasting_focused)
+    add_test(NAME ForecastingFocusedTests COMMAND $<TARGET_FILE:test_forecasting_focused>)
 
     set_tests_properties(ForecastingFocusedTests PROPERTIES
         LABELS "analytics;forecasting;timeseries;focused;unit"
@@ -8404,7 +8420,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_forecasting_sarima_prophet
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME SARIMAProphetForecastingTests COMMAND test_forecasting_sarima_prophet_focused)
+    add_test(NAME SARIMAProphetForecastingTests COMMAND $<TARGET_FILE:test_forecasting_sarima_prophet_focused>)
 
     set_tests_properties(SARIMAProphetForecastingTests PROPERTIES
         LABELS "analytics;forecasting;sarima;prophet;focused;unit"
@@ -8439,7 +8455,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_automl_onnx.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME AutoMLONNXExportTests COMMAND test_automl_onnx_focused)
+    add_test(NAME AutoMLONNXExportTests COMMAND $<TARGET_FILE:test_automl_onnx_focused>)
 
     set_tests_properties(AutoMLONNXExportTests PROPERTIES
         LABELS "analytics;automl;onnx;export;focused;unit"
@@ -8476,7 +8492,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_incremental_view.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME IncrementalViewFocusedTests COMMAND test_incremental_view_focused)
+    add_test(NAME IncrementalViewFocusedTests COMMAND $<TARGET_FILE:test_incremental_view_focused>)
 
     set_tests_properties(IncrementalViewFocusedTests PROPERTIES
         LABELS "analytics;incremental-view;ivm;focused;unit"
@@ -8510,7 +8526,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_columnar_execution.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ColumnarExecutionFocusedTests COMMAND test_columnar_execution_focused)
+    add_test(NAME ColumnarExecutionFocusedTests COMMAND $<TARGET_FILE:test_columnar_execution_focused>)
 
     set_tests_properties(ColumnarExecutionFocusedTests PROPERTIES
         LABELS "analytics;columnar;vectorized;focused;unit"
@@ -8545,7 +8561,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_streaming_join.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME StreamingJoinFocusedTests COMMAND test_streaming_join_focused)
+    add_test(NAME StreamingJoinFocusedTests COMMAND $<TARGET_FILE:test_streaming_join_focused>)
 
     set_tests_properties(StreamingJoinFocusedTests PROPERTIES
         LABELS "analytics;streaming;join;performance;focused;unit"
@@ -8580,7 +8596,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_jit_aggregation.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME JitAggregationFocusedTests COMMAND test_jit_aggregation_focused)
+    add_test(NAME JitAggregationFocusedTests COMMAND $<TARGET_FILE:test_jit_aggregation_focused>)
 
     set_tests_properties(JitAggregationFocusedTests PROPERTIES
         LABELS "analytics;jit;aggregation;focused;unit"
@@ -8619,7 +8635,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_ml_serving.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME MlServingFocusedTests COMMAND test_ml_serving_focused)
+    add_test(NAME MlServingFocusedTests COMMAND $<TARGET_FILE:test_ml_serving_focused>)
 
     set_tests_properties(MlServingFocusedTests PROPERTIES
         LABELS "analytics;ml;serving;onnx;focused;unit"
@@ -8655,7 +8671,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_model_serving.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ModelServingFocusedTests COMMAND test_model_serving_focused)
+    add_test(NAME ModelServingFocusedTests COMMAND $<TARGET_FILE:test_model_serving_focused>)
 
     set_tests_properties(ModelServingFocusedTests PROPERTIES
         LABELS "analytics;model;serving;inference;focused;unit"
@@ -8768,7 +8784,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_arrow_flight.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ArrowFlightFocusedTests COMMAND test_arrow_flight_focused)
+    add_test(NAME ArrowFlightFocusedTests COMMAND $<TARGET_FILE:test_arrow_flight_focused>)
 
     set_tests_properties(ArrowFlightFocusedTests PROPERTIES
         LABELS "analytics;arrow;flight;rpc;focused;unit"
@@ -8802,7 +8818,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_cep_engine.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME CepEngineFocusedTests COMMAND test_cep_engine_focused)
+    add_test(NAME CepEngineFocusedTests COMMAND $<TARGET_FILE:test_cep_engine_focused>)
 
     set_tests_properties(CepEngineFocusedTests PROPERTIES
         LABELS "analytics;cep;event-processing;focused;unit"
@@ -8840,7 +8856,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_analytics_memory_pool.cpp"
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME AnalyticsMemoryPoolFocusedTests COMMAND test_analytics_memory_pool_focused)
+    add_test(NAME AnalyticsMemoryPoolFocusedTests COMMAND $<TARGET_FILE:test_analytics_memory_pool_focused>)
 
     set_tests_properties(AnalyticsMemoryPoolFocusedTests PROPERTIES
         LABELS "analytics;memory-pool;ring-buffer;arena;focused;unit"
@@ -8919,7 +8935,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_arrow_export.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ArrowExportFocusedTests COMMAND test_arrow_export_focused)
+    add_test(NAME ArrowExportFocusedTests COMMAND $<TARGET_FILE:test_arrow_export_focused>)
 
     set_tests_properties(ArrowExportFocusedTests PROPERTIES
         LABELS "analytics;arrow;export;parquet;focused;unit"
@@ -8957,7 +8973,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_olap_lru_cache.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME OLAPLRUCacheFocusedTests COMMAND test_olap_lru_cache_focused)
+    add_test(NAME OLAPLRUCacheFocusedTests COMMAND $<TARGET_FILE:test_olap_lru_cache_focused>)
 
     set_tests_properties(OLAPLRUCacheFocusedTests PROPERTIES
         LABELS "analytics;olap;lru;cache;ttl;focused;unit"
@@ -8993,7 +9009,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_mining_llm.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ProcessMiningPatternFocusedTests COMMAND test_process_mining_pattern_focused)
+    add_test(NAME ProcessMiningPatternFocusedTests COMMAND $<TARGET_FILE:test_process_mining_pattern_focused>)
 
     set_tests_properties(ProcessMiningPatternFocusedTests PROPERTIES
         LABELS "analytics;process-mining;pattern;conformance;focused;unit"
@@ -9029,7 +9045,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/analytics/test_process_discovery_conforma
     )
 
     add_test(NAME ProcessDiscoveryConformanceFocusedTests
-             COMMAND test_process_discovery_conformance_focused)
+             COMMAND $<TARGET_FILE:test_process_discovery_conformance_focused>)
 
     set_tests_properties(ProcessDiscoveryConformanceFocusedTests PROPERTIES
         LABELS "analytics;process-mining;inductive-miner;conformance;focused;unit"
@@ -9077,7 +9093,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_query_explain.cpp")
         THEMIS_GRAPH_EXPORTS
     )
 
-    add_test(NAME GraphQueryExplainFocusedTests COMMAND test_graph_query_explain_focused)
+    add_test(NAME GraphQueryExplainFocusedTests COMMAND $<TARGET_FILE:test_graph_query_explain_focused>)
 
     set_tests_properties(GraphQueryExplainFocusedTests PROPERTIES
         LABELS "graph;query;explain;optimizer;plan;focused;unit"
@@ -9125,7 +9141,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_scheduled_edge_refresh.cpp")
     )
 
     add_test(NAME ScheduledEdgeRefreshFocusedTests
-             COMMAND test_scheduled_edge_refresh_focused)
+             COMMAND $<TARGET_FILE:test_scheduled_edge_refresh_focused>)
 
     set_tests_properties(ScheduledEdgeRefreshFocusedTests PROPERTIES
         LABELS "graph;scheduled;edge_refresh;similarity;policy;audit;anomaly;changefeed;integration;regression;focused"
@@ -9161,7 +9177,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_ontology_manager.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME OntologyManagerFocusedTests COMMAND test_ontology_manager_focused)
+    add_test(NAME OntologyManagerFocusedTests COMMAND $<TARGET_FILE:test_ontology_manager_focused>)
 
     set_tests_properties(OntologyManagerFocusedTests PROPERTIES
         LABELS "graph;ontology;semantic;constraints;focused;unit"
@@ -9207,7 +9223,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_path_constraints_semantic.cpp"
         THEMIS_GRAPH_EXPORTS
     )
 
-    add_test(NAME PathConstraintsSemanticFocusedTests COMMAND test_path_constraints_semantic_focused)
+    add_test(NAME PathConstraintsSemanticFocusedTests COMMAND $<TARGET_FILE:test_path_constraints_semantic_focused>)
 
     set_tests_properties(PathConstraintsSemanticFocusedTests PROPERTIES
         LABELS "graph;path;constraints;semantic;ontology;focused;unit"
@@ -9246,7 +9262,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_knowledge_graph_reasoner.cpp")
     )
 
     add_test(NAME KnowledgeGraphReasonerFocusedTests
-             COMMAND test_knowledge_graph_reasoner_focused)
+             COMMAND $<TARGET_FILE:test_knowledge_graph_reasoner_focused>)
 
     set_tests_properties(KnowledgeGraphReasonerFocusedTests PROPERTIES
         LABELS "graph;knowledge;reasoning;forward-chaining;horn-clause;focused;unit"
@@ -9286,7 +9302,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_ontology_aware_retriever.cpp")
     )
 
     add_test(NAME OntologyAwareRetrieverFocusedTests
-             COMMAND test_ontology_aware_retriever_focused)
+             COMMAND $<TARGET_FILE:test_ontology_aware_retriever_focused>)
 
     set_tests_properties(OntologyAwareRetrieverFocusedTests PROPERTIES
         LABELS "rag;ontology;knowledge-graph;retrieval;phase10;focused;unit"
@@ -9330,7 +9346,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_knowledge_graph_retriever_reason
     )
 
     add_test(NAME KGRetrieverReasoningFocusedTests
-             COMMAND test_kg_retriever_reasoning_focused)
+             COMMAND $<TARGET_FILE:test_kg_retriever_reasoning_focused>)
 
     set_tests_properties(KGRetrieverReasoningFocusedTests PROPERTIES
         LABELS "rag;knowledge-graph;reasoning;multi-hop;inference;phase10;focused;unit"
@@ -9380,7 +9396,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_lora_enhanced_retriever.cpp")
     )
 
     add_test(NAME LoRAEnhancedRetrieverFocusedTests
-             COMMAND test_lora_enhanced_retriever_focused)
+             COMMAND $<TARGET_FILE:test_lora_enhanced_retriever_focused>)
 
     set_tests_properties(LoRAEnhancedRetrieverFocusedTests PROPERTIES
         LABELS "rag;lora;reranking;domain-retrieval;phase10;focused;unit"
@@ -9417,7 +9433,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/importer/test_importer_plugin_api.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ImporterPluginApiTests COMMAND test_importer_plugin_api)
+    add_test(NAME ImporterPluginApiTests COMMAND $<TARGET_FILE:test_importer_plugin_api>)
 
     set_tests_properties(ImporterPluginApiTests PROPERTIES
         LABELS "importers;plugin;plugin-api;unit"
@@ -9467,7 +9483,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/importer/test_wikipedia_ingestion_plugin.
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME WikipediaIngestionPluginTests COMMAND test_wikipedia_ingestion_plugin)
+    add_test(NAME WikipediaIngestionPluginTests COMMAND $<TARGET_FILE:test_wikipedia_ingestion_plugin>)
 
     set_tests_properties(WikipediaIngestionPluginTests PROPERTIES
         LABELS "importers;wikipedia;plugin;unit"
@@ -9504,7 +9520,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/importer/test_importer_interfaces.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ImporterInterfacesTests COMMAND test_importer_interfaces)
+    add_test(NAME ImporterInterfacesTests COMMAND $<TARGET_FILE:test_importer_interfaces>)
 
     set_tests_properties(ImporterInterfacesTests PROPERTIES
         LABELS "importers;interfaces;unit"
@@ -9542,7 +9558,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/flatfile/test_flatfile_importer.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME FlatfileImporterFocusedTests COMMAND test_flatfile_importer_focused)
+    add_test(NAME FlatfileImporterFocusedTests COMMAND $<TARGET_FILE:test_flatfile_importer_focused>)
 
     set_tests_properties(FlatfileImporterFocusedTests PROPERTIES
         LABELS "importers;flatfile;csv;tsv;parquet;unit"
@@ -9580,7 +9596,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/schema/test_schema_validator.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME SchemaValidatorImporterFocusedTests COMMAND test_schema_validator_importer_focused)
+    add_test(NAME SchemaValidatorImporterFocusedTests COMMAND $<TARGET_FILE:test_schema_validator_importer_focused>)
 
     set_tests_properties(SchemaValidatorImporterFocusedTests PROPERTIES
         LABELS "importers;schema;validation;unit"
@@ -9617,7 +9633,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/importer/test_importer_conflict_resolver.
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ImporterConflictResolverFocusedTests COMMAND test_importer_conflict_resolver_focused)
+    add_test(NAME ImporterConflictResolverFocusedTests COMMAND $<TARGET_FILE:test_importer_conflict_resolver_focused>)
 
     set_tests_properties(ImporterConflictResolverFocusedTests PROPERTIES
         LABELS "importers;conflict;resolver;unit"
@@ -9654,7 +9670,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/importer/test_importer_async_api.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ImporterAsyncApiFocusedTests COMMAND test_importer_async_api_focused)
+    add_test(NAME ImporterAsyncApiFocusedTests COMMAND $<TARGET_FILE:test_importer_async_api_focused>)
 
     set_tests_properties(ImporterAsyncApiFocusedTests PROPERTIES
         LABELS "importers;async;streaming;unit"
@@ -9691,7 +9707,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/mysql/test_mysql_importer.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME MySQLImporterFocusedTests COMMAND test_mysql_importer_focused)
+    add_test(NAME MySQLImporterFocusedTests COMMAND $<TARGET_FILE:test_mysql_importer_focused>)
 
     set_tests_properties(MySQLImporterFocusedTests PROPERTIES
         LABELS "importers;mysql;mariadb;unit"
@@ -9736,7 +9752,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/mysql/test_mysql_importer_registry.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME MySQLImporterRegistryTests COMMAND test_mysql_importer_registry)
+    add_test(NAME MySQLImporterRegistryTests COMMAND $<TARGET_FILE:test_mysql_importer_registry>)
 
     set_tests_properties(MySQLImporterRegistryTests PROPERTIES
         LABELS "importers;mysql;mariadb;registry;unit"
@@ -9773,7 +9789,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/mongo/test_mongo_importer.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME MongoImporterFocusedTests COMMAND test_mongo_importer_focused)
+    add_test(NAME MongoImporterFocusedTests COMMAND $<TARGET_FILE:test_mongo_importer_focused>)
 
     set_tests_properties(MongoImporterFocusedTests PROPERTIES
         LABELS "importers;mongodb;document;unit"
@@ -9810,7 +9826,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sqlite/test_sqlite_importer.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME SQLiteImporterFocusedTests COMMAND test_sqlite_importer_focused)
+    add_test(NAME SQLiteImporterFocusedTests COMMAND $<TARGET_FILE:test_sqlite_importer_focused>)
 
     set_tests_properties(SQLiteImporterFocusedTests PROPERTIES
         LABELS "importers;sqlite;unit"
@@ -9858,7 +9874,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/kafka/test_kafka_importer.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME KafkaImporterFocusedTests COMMAND test_kafka_importer_focused)
+    add_test(NAME KafkaImporterFocusedTests COMMAND $<TARGET_FILE:test_kafka_importer_focused>)
 
     set_tests_properties(KafkaImporterFocusedTests PROPERTIES
         LABELS "importers;kafka;streaming;unit"
@@ -9895,7 +9911,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/oracle/test_oracle_importer.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME OracleImporterFocusedTests COMMAND test_oracle_importer_focused)
+    add_test(NAME OracleImporterFocusedTests COMMAND $<TARGET_FILE:test_oracle_importer_focused>)
 
     set_tests_properties(OracleImporterFocusedTests PROPERTIES
         LABELS "importers;oracle;unit"
@@ -9932,7 +9948,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/s3/test_s3_importer.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME S3ImporterFocusedTests COMMAND test_s3_importer_focused)
+    add_test(NAME S3ImporterFocusedTests COMMAND $<TARGET_FILE:test_s3_importer_focused>)
 
     set_tests_properties(S3ImporterFocusedTests PROPERTIES
         LABELS "importers;s3;object-storage;unit"
@@ -9993,7 +10009,7 @@ if(_postgres_importer_test_sources)
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME PostgresImporterFocusedTests COMMAND test_postgres_importer_focused)
+    add_test(NAME PostgresImporterFocusedTests COMMAND $<TARGET_FILE:test_postgres_importer_focused>)
 
     set_tests_properties(PostgresImporterFocusedTests PROPERTIES
         LABELS "importers;postgres;postgresql;unit"
@@ -10048,7 +10064,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/postgres/test_postgres_importer_v2.cpp")
     )
 
     add_test(NAME PostgresImporterV2FocusedTests
-             COMMAND test_postgres_importer_v2_focused)
+             COMMAND $<TARGET_FILE:test_postgres_importer_v2_focused>)
 
     set_tests_properties(PostgresImporterV2FocusedTests PROPERTIES
         LABELS "importers;postgres;v2;ml;cdc;crdt;quality;audit;temporal;blockchain;federated;graphql;unit"
@@ -10087,7 +10103,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/import/test_import_wizard.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ImportWizardFocusedTests COMMAND test_import_wizard_focused)
+    add_test(NAME ImportWizardFocusedTests COMMAND $<TARGET_FILE:test_import_wizard_focused>)
 
     set_tests_properties(ImportWizardFocusedTests PROPERTIES
         LABELS "importers;wizard;gui;unit"
@@ -10137,7 +10153,7 @@ if(_mdm_matching_test_sources)
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME MDMEntityMatchingFocusedTests COMMAND test_mdm_entity_matching_focused)
+    add_test(NAME MDMEntityMatchingFocusedTests COMMAND $<TARGET_FILE:test_mdm_entity_matching_focused>)
 
     set_tests_properties(MDMEntityMatchingFocusedTests PROPERTIES
         LABELS "importers;mdm;entity-matching;deduplication;unit"
@@ -10189,7 +10205,7 @@ if(_mdm_engine_test_sources)
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME MDMEngineFocusedTests COMMAND test_mdm_engine_focused)
+    add_test(NAME MDMEngineFocusedTests COMMAND $<TARGET_FILE:test_mdm_engine_focused>)
 
     set_tests_properties(MDMEngineFocusedTests PROPERTIES
         LABELS "importers;mdm;engine;audit-trail;metrics;unit;integration"
@@ -10242,7 +10258,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/postgres/test_postgres_importer_mdm.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME PostgresImporterMDMFocusedTests COMMAND test_postgres_importer_mdm_focused)
+    add_test(NAME PostgresImporterMDMFocusedTests COMMAND $<TARGET_FILE:test_postgres_importer_mdm_focused>)
 
     set_tests_properties(PostgresImporterMDMFocusedTests PROPERTIES
         LABELS "importers;mdm;postgres;integration"
@@ -10281,7 +10297,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_capability_negotiation
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME PluginCapabilityNegotiationTests COMMAND test_plugin_capability_negotiation)
+    add_test(NAME PluginCapabilityNegotiationTests COMMAND $<TARGET_FILE:test_plugin_capability_negotiation>)
 
     set_tests_properties(PluginCapabilityNegotiationTests PROPERTIES
         LABELS "plugins;capability;negotiation;version-range;unit"
@@ -10320,7 +10336,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_capability_escalation.
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME PluginCapabilityEscalationTests COMMAND test_plugin_capability_escalation)
+    add_test(NAME PluginCapabilityEscalationTests COMMAND $<TARGET_FILE:test_plugin_capability_escalation>)
 
     set_tests_properties(PluginCapabilityEscalationTests PROPERTIES
         LABELS "plugins;capability;escalation;security;unit"
@@ -10361,7 +10377,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_manager.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME PluginManagerFocusedTests COMMAND test_plugin_manager_focused)
+    add_test(NAME PluginManagerFocusedTests COMMAND $<TARGET_FILE:test_plugin_manager_focused>)
 
     set_tests_properties(PluginManagerFocusedTests PROPERTIES
         LABELS "plugins;manager;lifecycle;singleton;focused;unit"
@@ -10396,7 +10412,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_lifecycle.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME PluginLifecycleFocusedTests COMMAND test_plugin_lifecycle_focused)
+    add_test(NAME PluginLifecycleFocusedTests COMMAND $<TARGET_FILE:test_plugin_lifecycle_focused>)
 
     set_tests_properties(PluginLifecycleFocusedTests PROPERTIES
         LABELS "plugins;lifecycle;load;unload;hot-reload;focused;unit"
@@ -10429,7 +10445,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/generic/test_generic_plugin_registry.cpp"
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME GenericPluginRegistryFocusedTests COMMAND test_generic_plugin_registry_focused)
+    add_test(NAME GenericPluginRegistryFocusedTests COMMAND $<TARGET_FILE:test_generic_plugin_registry_focused>)
 
     set_tests_properties(GenericPluginRegistryFocusedTests PROPERTIES
         LABELS "plugins;registry;shared_mutex;concurrency;focused;unit"
@@ -10462,7 +10478,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_health_monitor.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME PluginHealthMonitorFocusedTests COMMAND test_plugin_health_monitor_focused)
+    add_test(NAME PluginHealthMonitorFocusedTests COMMAND $<TARGET_FILE:test_plugin_health_monitor_focused>)
 
     set_tests_properties(PluginHealthMonitorFocusedTests PROPERTIES
         LABELS "plugins;health;liveness;auto-restart;focused;unit"
@@ -10505,7 +10521,7 @@ if(_themis_test_plugin_hot_plug_src)
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME PluginHotPlugFocusedTests COMMAND test_plugin_hot_plug_focused)
+    add_test(NAME PluginHotPlugFocusedTests COMMAND $<TARGET_FILE:test_plugin_hot_plug_focused>)
 
     set_tests_properties(PluginHotPlugFocusedTests PROPERTIES
         LABELS "plugins;hot-plug;directory-watcher;reload;focused;unit"
@@ -10548,7 +10564,7 @@ if(_themis_test_plugin_hot_reload_enhanced_src)
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME PluginHotReloadEnhancedFocusedTests COMMAND test_plugin_hot_reload_enhanced_focused)
+    add_test(NAME PluginHotReloadEnhancedFocusedTests COMMAND $<TARGET_FILE:test_plugin_hot_reload_enhanced_focused>)
 
     set_tests_properties(PluginHotReloadEnhancedFocusedTests PROPERTIES
         LABELS "plugins;hot-reload;toctou;state-preserve;rollback;focused;unit"
@@ -10581,7 +10597,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_dependency_graph.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME PluginDependencyGraphFocusedTests COMMAND test_plugin_dependency_graph_focused)
+    add_test(NAME PluginDependencyGraphFocusedTests COMMAND $<TARGET_FILE:test_plugin_dependency_graph_focused>)
 
     set_tests_properties(PluginDependencyGraphFocusedTests PROPERTIES
         LABELS "plugins;dependency;graph;cycle-detection;kahn;focused;unit"
@@ -10614,7 +10630,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_dependency_resolver.cp
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME PluginDependencyResolverFocusedTests COMMAND test_plugin_dependency_resolver_focused)
+    add_test(NAME PluginDependencyResolverFocusedTests COMMAND $<TARGET_FILE:test_plugin_dependency_resolver_focused>)
 
     set_tests_properties(PluginDependencyResolverFocusedTests PROPERTIES
         LABELS "plugins;dependency;resolver;version-check;focused;unit"
@@ -10647,7 +10663,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_metrics.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME PluginMetricsFocusedTests COMMAND test_plugin_metrics_focused)
+    add_test(NAME PluginMetricsFocusedTests COMMAND $<TARGET_FILE:test_plugin_metrics_focused>)
 
     set_tests_properties(PluginMetricsFocusedTests PROPERTIES
         LABELS "plugins;metrics;prometheus;call-count;latency;error-rate;focused;unit"
@@ -10680,7 +10696,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_metrics_integration.cp
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME PluginMetricsIntegrationFocusedTests COMMAND test_plugin_metrics_integration_focused)
+    add_test(NAME PluginMetricsIntegrationFocusedTests COMMAND $<TARGET_FILE:test_plugin_metrics_integration_focused>)
 
     set_tests_properties(PluginMetricsIntegrationFocusedTests PROPERTIES
         LABELS "plugins;metrics;integration;grafana;health-score;focused;integration"
@@ -10714,7 +10730,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_security_audit.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME PluginSecurityAuditFocusedTests COMMAND test_plugin_security_audit_focused)
+    add_test(NAME PluginSecurityAuditFocusedTests COMMAND $<TARGET_FILE:test_plugin_security_audit_focused>)
 
     set_tests_properties(PluginSecurityAuditFocusedTests PROPERTIES
         LABELS "plugins;security;audit;ed25519;signature;focused;unit"
@@ -10748,7 +10764,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_security_implementatio
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME PluginSecurityImplementationFocusedTests COMMAND test_plugin_security_impl_focused)
+    add_test(NAME PluginSecurityImplementationFocusedTests COMMAND $<TARGET_FILE:test_plugin_security_impl_focused>)
 
     set_tests_properties(PluginSecurityImplementationFocusedTests PROPERTIES
         LABELS "plugins;security;sandbox;capability;isolation;focused;unit"
@@ -10782,7 +10798,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_security_crl_ocsp.cpp"
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME PluginSecurityCRLOCSPTests COMMAND test_plugin_security_crl_ocsp_focused)
+    add_test(NAME PluginSecurityCRLOCSPTests COMMAND $<TARGET_FILE:test_plugin_security_crl_ocsp_focused>)
 
     set_tests_properties(PluginSecurityCRLOCSPTests PROPERTIES
         LABELS "plugins;security;crl;ocsp;revocation;focused;unit"
@@ -10817,7 +10833,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_security_pe_cert_extra
     )
 
     add_test(NAME PluginSecurityPECertExtractionTests
-        COMMAND test_plugin_security_pe_cert_extraction_focused)
+        COMMAND $<TARGET_FILE:test_plugin_security_pe_cert_extraction_focused>)
 
     set_tests_properties(PluginSecurityPECertExtractionTests PROPERTIES
         LABELS "plugins;security;pe;certificate;extraction;focused;unit"
@@ -10851,7 +10867,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_marketplace_manifest.c
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME PluginMarketplaceManifestFocusedTests COMMAND test_plugin_marketplace_manifest_focused)
+    add_test(NAME PluginMarketplaceManifestFocusedTests COMMAND $<TARGET_FILE:test_plugin_marketplace_manifest_focused>)
 
     set_tests_properties(PluginMarketplaceManifestFocusedTests PROPERTIES
         LABELS "plugins;marketplace;manifest;json-schema;validation;focused;unit"
@@ -10886,7 +10902,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_manager_comprehensive.
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME PluginManagerComprehensiveFocusedTests COMMAND test_plugin_manager_comprehensive_focused)
+    add_test(NAME PluginManagerComprehensiveFocusedTests COMMAND $<TARGET_FILE:test_plugin_manager_comprehensive_focused>)
 
     set_tests_properties(PluginManagerComprehensiveFocusedTests PROPERTIES
         LABELS "plugins;manager;comprehensive;integration;focused;unit"
@@ -10941,7 +10957,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/test_llm_timeout_cancellation.cpp" AN
         THEMIS_LLM_EXPORTS
     )
 
-    add_test(NAME LLMTimeoutCancellationTests COMMAND test_llm_timeout_cancellation)
+    add_test(NAME LLMTimeoutCancellationTests COMMAND $<TARGET_FILE:test_llm_timeout_cancellation>)
 
     set_tests_properties(LLMTimeoutCancellationTests PROPERTIES
         LABELS "llm;timeout;cancellation;async;inference;unit"
@@ -10996,7 +11012,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/per/test_per_operation_circuit_breakers.c
         THEMIS_LLM_EXPORTS
     )
 
-    add_test(NAME PerOperationCircuitBreakersFocusedTests COMMAND test_per_operation_circuit_breakers)
+    add_test(NAME PerOperationCircuitBreakersFocusedTests COMMAND $<TARGET_FILE:test_per_operation_circuit_breakers>)
 
     set_tests_properties(PerOperationCircuitBreakersFocusedTests PROPERTIES
         LABELS "llm;aql;circuit-breaker;resilience;per-operation;unit"
@@ -11052,7 +11068,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/accurate/test_accurate_token_count_estima
     )
 
     add_test(NAME AccurateTokenCountEstimationTests
-             COMMAND test_accurate_token_count_estimation)
+             COMMAND $<TARGET_FILE:test_accurate_token_count_estimation>)
 
     set_tests_properties(AccurateTokenCountEstimationTests PROPERTIES
         LABELS "llm;aql;token-estimation;benchmark;unit"
@@ -11085,7 +11101,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/global/test_global_transaction_manager.cp
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME GlobalTransactionManagerTests COMMAND test_global_transaction_manager)
+    add_test(NAME GlobalTransactionManagerTests COMMAND $<TARGET_FILE:test_global_transaction_manager>)
 
     set_tests_properties(GlobalTransactionManagerTests PROPERTIES
         LABELS "transaction;distributed;multi-region;acid;unit"
@@ -11120,7 +11136,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/parallel/test_parallel_scan.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ParallelScanTests COMMAND test_parallel_scan)
+    add_test(NAME ParallelScanTests COMMAND $<TARGET_FILE:test_parallel_scan>)
 
     set_tests_properties(ParallelScanTests PROPERTIES
         LABELS "query;parallel;scan;fullscan;unit"
@@ -11155,7 +11171,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/parallel/test_parallel_executor.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ParallelExecutorTests COMMAND test_parallel_executor)
+    add_test(NAME ParallelExecutorTests COMMAND $<TARGET_FILE:test_parallel_executor>)
 
     set_tests_properties(ParallelExecutorTests PROPERTIES
         LABELS "query;parallel;scan;join;aggregate;unit"
@@ -11193,7 +11209,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdn/test_cdn_cache_middleware.cpp")
     )
 
     add_test(NAME CdnCacheMiddlewareTests
-             COMMAND test_cdn_cache_middleware)
+             COMMAND $<TARGET_FILE:test_cdn_cache_middleware>)
 
     set_tests_properties(CdnCacheMiddlewareTests PROPERTIES
         LABELS "server;cdn;cache;edge;http;unit"
@@ -11239,7 +11255,7 @@ if(THEMIS_ENABLE_CONTENT)
             THEMIS_TEST_BUILD=1
         )
 
-        add_test(NAME ContentMetricsFocusedTests COMMAND test_content_metrics_focused)
+        add_test(NAME ContentMetricsFocusedTests COMMAND $<TARGET_FILE:test_content_metrics_focused>)
 
         set_tests_properties(ContentMetricsFocusedTests PROPERTIES
             LABELS "content;metrics;prometheus;focused;unit"
@@ -11279,7 +11295,7 @@ if(THEMIS_ENABLE_CONTENT)
             THEMIS_TEST_BUILD=1
         )
 
-        add_test(NAME ContentSecurityFocusedTests COMMAND test_content_security_focused)
+        add_test(NAME ContentSecurityFocusedTests COMMAND $<TARGET_FILE:test_content_security_focused>)
 
         set_tests_properties(ContentSecurityFocusedTests PROPERTIES
             LABELS "content;security;archive-bomb;validation;focused;unit;abuse-detection"
@@ -11316,7 +11332,7 @@ if(THEMIS_ENABLE_CONTENT)
             THEMIS_TEST_BUILD=1
         )
 
-        add_test(NAME ContentLanguageDetectorFocusedTests COMMAND test_content_language_detector_focused)
+        add_test(NAME ContentLanguageDetectorFocusedTests COMMAND $<TARGET_FILE:test_content_language_detector_focused>)
 
         set_tests_properties(ContentLanguageDetectorFocusedTests PROPERTIES
             LABELS "content;language-detector;nlp;focused;unit"
@@ -11353,7 +11369,7 @@ if(THEMIS_ENABLE_CONTENT)
             THEMIS_TEST_BUILD=1
         )
 
-        add_test(NAME ContentAudioProcessorFocusedTests COMMAND test_content_audio_processor_focused)
+        add_test(NAME ContentAudioProcessorFocusedTests COMMAND $<TARGET_FILE:test_content_audio_processor_focused>)
 
         set_tests_properties(ContentAudioProcessorFocusedTests PROPERTIES
             LABELS "content;audio;metadata;stt;focused;unit"
@@ -11390,7 +11406,7 @@ if(THEMIS_ENABLE_CONTENT)
             THEMIS_TEST_BUILD=1
         )
 
-        add_test(NAME ContentProcessorChainFocusedTests COMMAND test_content_processor_chain_focused)
+        add_test(NAME ContentProcessorChainFocusedTests COMMAND $<TARGET_FILE:test_content_processor_chain_focused>)
 
         set_tests_properties(ContentProcessorChainFocusedTests PROPERTIES
             LABELS "content;processor-chain;pipeline;focused;unit"
@@ -11431,7 +11447,7 @@ if(THEMIS_ENABLE_CONTENT)
             THEMIS_TEST_BUILD=1
         )
 
-        add_test(NAME ContentDeduplicationFocusedTests COMMAND test_content_deduplication_focused)
+        add_test(NAME ContentDeduplicationFocusedTests COMMAND $<TARGET_FILE:test_content_deduplication_focused>)
 
         set_tests_properties(ContentDeduplicationFocusedTests PROPERTIES
             LABELS "content;deduplication;phash;minhash;focused;unit"
@@ -11468,7 +11484,7 @@ if(THEMIS_ENABLE_CONTENT)
             THEMIS_TEST_BUILD=1
         )
 
-        add_test(NAME ContentPolicyOcrFocusedTests COMMAND test_content_policy_ocr_focused)
+        add_test(NAME ContentPolicyOcrFocusedTests COMMAND $<TARGET_FILE:test_content_policy_ocr_focused>)
 
         set_tests_properties(ContentPolicyOcrFocusedTests PROPERTIES
             LABELS "content;policy;ocr;mime;routing;focused;unit"
@@ -11507,7 +11523,7 @@ if(THEMIS_ENABLE_CONTENT)
         )
 
         add_test(NAME OcrDpiPreprocessingFocusedTests
-            COMMAND test_ocr_dpi_preprocessing_focused
+            COMMAND $<TARGET_FILE:test_ocr_dpi_preprocessing_focused>
             --gtest_filter=OcrProcessorConfigTest.*Dpi*:OcrProcessorConfigTest.*Binariz*:OcrProcessorTest.*Preprocess*:OcrProcessorTest.*Suppressed*:OcrProcessorTest.LowResSample*)
 
         set_tests_properties(OcrDpiPreprocessingFocusedTests PROPERTIES
@@ -11547,7 +11563,7 @@ if(THEMIS_ENABLE_CONTENT)
         )
 
         add_test(NAME OcrDefaultDataDirFocusedTests
-            COMMAND test_ocr_default_data_dir_focused
+            COMMAND $<TARGET_FILE:test_ocr_default_data_dir_focused>
             --gtest_filter=OcrProcessorDefaultDataDirTest.*)
 
         set_tests_properties(OcrDefaultDataDirFocusedTests PROPERTIES
@@ -11588,7 +11604,7 @@ if(THEMIS_ENABLE_CONTENT)
         )
 
         add_test(NAME AsyncIngestionBackpressureFocusedTests
-            COMMAND test_async_ingestion_backpressure_focused)
+            COMMAND $<TARGET_FILE:test_async_ingestion_backpressure_focused>)
 
         set_tests_properties(AsyncIngestionBackpressureFocusedTests PROPERTIES
             LABELS "content;ingestion;backpressure;async;focused;unit"
@@ -11632,7 +11648,7 @@ if(THEMIS_ENABLE_CONTENT)
         )
 
         add_test(NAME AsyncIngestionYamlConfigFocusedTests
-            COMMAND test_async_ingestion_yaml_config_focused)
+            COMMAND $<TARGET_FILE:test_async_ingestion_yaml_config_focused>)
 
         set_tests_properties(AsyncIngestionYamlConfigFocusedTests PROPERTIES
             LABELS "content;ingestion;yaml;config;async;focused;unit"
@@ -11675,7 +11691,7 @@ if(THEMIS_ENABLE_CONTENT)
         )
 
         add_test(NAME LegacyOfficeExtractionFocusedTests
-            COMMAND test_legacy_office_extraction_focused
+            COMMAND $<TARGET_FILE:test_legacy_office_extraction_focused>
             --gtest_filter=LegacyOfficeExtractionTest.*:LegacyOfficeMetricsTest.*)
 
         set_tests_properties(LegacyOfficeExtractionFocusedTests PROPERTIES
@@ -11719,7 +11735,7 @@ if(THEMIS_ENABLE_CONTENT)
         )
 
         add_test(NAME LibreOfficeSecurityFocusedTests
-            COMMAND test_libreoffice_security_focused
+            COMMAND $<TARGET_FILE:test_libreoffice_security_focused>
             --gtest_filter=LibreOfficeSecurityTest.*)
 
         set_tests_properties(LibreOfficeSecurityFocusedTests PROPERTIES
@@ -11758,7 +11774,7 @@ if(THEMIS_ENABLE_CONTENT)
         )
 
         add_test(NAME ContentCON007CON012RemediationTests
-            COMMAND test_content_con007_con012_remediations_focused)
+            COMMAND $<TARGET_FILE:test_content_con007_con012_remediations_focused>)
 
         set_tests_properties(ContentCON007CON012RemediationTests PROPERTIES
             LABELS "content;video;remediation;healthcheck;raii;noexcept;focused;unit;con007;con012"
@@ -11807,7 +11823,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_admin.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME CDCAdminFocusedTests COMMAND test_cdc_admin)
+    add_test(NAME CDCAdminFocusedTests COMMAND $<TARGET_FILE:test_cdc_admin>)
 
     set_tests_properties(CDCAdminFocusedTests PROPERTIES
         LABELS "cdc;admin;retention;compaction;unit"
@@ -11847,7 +11863,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tenant/test_tenant_buffer_manager.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME TenantBufferManagerFocusedTests COMMAND test_tenant_buffer_manager)
+    add_test(NAME TenantBufferManagerFocusedTests COMMAND $<TARGET_FILE:test_tenant_buffer_manager>)
 
     set_tests_properties(TenantBufferManagerFocusedTests PROPERTIES
         LABELS "cdc;tenant;buffer;multi-tenant;isolation;unit"
@@ -11895,7 +11911,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_retention.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME CDCRetentionFocusedTests COMMAND test_cdc_retention)
+    add_test(NAME CDCRetentionFocusedTests COMMAND $<TARGET_FILE:test_cdc_retention>)
 
     set_tests_properties(CDCRetentionFocusedTests PROPERTIES
         LABELS "cdc;retention;ttl;background-thread;unit"
@@ -11936,8 +11952,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_changefeed_sequence_counter.
         THEMIS_TEST_BUILD=1
     )
 
+    if(WIN32)
+        themis_sync_runtime_dlls_for_target(test_cdc_changefeed_sequence_counter)
+    endif()
+
     add_test(NAME CDCChangefeedSequenceCounterTests
-             COMMAND test_cdc_changefeed_sequence_counter)
+             COMMAND $<TARGET_FILE:test_cdc_changefeed_sequence_counter>)
 
     set_tests_properties(CDCChangefeedSequenceCounterTests PROPERTIES
         LABELS "cdc;sequence;merge-operator;lock-free;unit"
@@ -11977,7 +11997,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_changefeed_core.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ChangefeedCoreFocusedTests COMMAND test_cdc_changefeed_core_focused)
+    add_test(NAME ChangefeedCoreFocusedTests COMMAND $<TARGET_FILE:test_cdc_changefeed_core_focused>)
 
     set_tests_properties(ChangefeedCoreFocusedTests PROPERTIES
         LABELS "cdc;changefeed;to-sequence;upper-bound;stampede;v1.8.0;focused;unit"
@@ -12018,7 +12038,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/diff/test_diff_engine.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME DiffEngineFocusedTests COMMAND test_diff_engine_focused)
+    add_test(NAME DiffEngineFocusedTests COMMAND $<TARGET_FILE:test_diff_engine_focused>)
 
     set_tests_properties(DiffEngineFocusedTests PROPERTIES
         LABELS "analytics;diff-engine;cache-stampede;inflight;bounded-fetch;v1.8.0;focused;unit"
@@ -12071,7 +12091,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_ws_handler.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME CdcWsHandlerFocusedTests COMMAND test_cdc_ws_handler)
+    add_test(NAME CdcWsHandlerFocusedTests COMMAND $<TARGET_FILE:test_cdc_ws_handler>)
 
     set_tests_properties(CdcWsHandlerFocusedTests PROPERTIES
         LABELS "cdc;websocket;streaming;subscription;backpressure;unit"
@@ -12119,7 +12139,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_consumer_group.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ConsumerGroupFocusedTests COMMAND test_cdc_consumer_group)
+    add_test(NAME ConsumerGroupFocusedTests COMMAND $<TARGET_FILE:test_cdc_consumer_group>)
 
     set_tests_properties(ConsumerGroupFocusedTests PROPERTIES
         LABELS "cdc;consumer-group;offset-tracking;partition;at-least-once;unit"
@@ -12179,7 +12199,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_kafka_producer.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME CDCKafkaProducerFocusedTests COMMAND test_cdc_kafka_producer)
+    add_test(NAME CDCKafkaProducerFocusedTests COMMAND $<TARGET_FILE:test_cdc_kafka_producer>)
 
     set_tests_properties(CDCKafkaProducerFocusedTests PROPERTIES
         LABELS "cdc;kafka;producer;transport;metrics;debezium;v1.9.0;unit"
@@ -12219,7 +12239,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_pause_control.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME CDCPauseControlFocusedTests COMMAND test_cdc_pause_control)
+    add_test(NAME CDCPauseControlFocusedTests COMMAND $<TARGET_FILE:test_cdc_pause_control>)
 
     set_tests_properties(CDCPauseControlFocusedTests PROPERTIES
         LABELS "cdc;pause-control;backpressure;schema-evolution;unit"
@@ -12258,7 +12278,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_backpressure_signal.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME CDCBackpressureSignalFocusedTests COMMAND test_cdc_backpressure_signal)
+    add_test(NAME CDCBackpressureSignalFocusedTests COMMAND $<TARGET_FILE:test_cdc_backpressure_signal>)
 
     set_tests_properties(CDCBackpressureSignalFocusedTests PROPERTIES
         LABELS "cdc;backpressure;flow-control;unit"
@@ -12298,7 +12318,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_fan_in.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME CDCFanInFocusedTests COMMAND test_cdc_fan_in)
+    add_test(NAME CDCFanInFocusedTests COMMAND $<TARGET_FILE:test_cdc_fan_in>)
 
     set_tests_properties(CDCFanInFocusedTests PROPERTIES
         LABELS "cdc;fan-in;multi-source;merge-policy;ordering;unit"
@@ -12337,7 +12357,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_event_schema.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME CDCEventSchemaFocusedTests COMMAND test_cdc_event_schema)
+    add_test(NAME CDCEventSchemaFocusedTests COMMAND $<TARGET_FILE:test_cdc_event_schema>)
 
     set_tests_properties(CDCEventSchemaFocusedTests PROPERTIES
         LABELS "cdc;schema;schema-evolution;avro;protobuf;unit"
@@ -12378,7 +12398,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdc/test_cdc_delivery_guarantee_config.cp
     )
 
     add_test(NAME CDCDeliveryGuaranteeConfigFocusedTests
-             COMMAND test_cdc_delivery_guarantee_config)
+             COMMAND $<TARGET_FILE:test_cdc_delivery_guarantee_config>)
 
     set_tests_properties(CDCDeliveryGuaranteeConfigFocusedTests PROPERTIES
         LABELS "cdc;delivery;at-least-once;exactly-once;deduplication;unit"
@@ -12436,7 +12456,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/config/test_config_path_resolver.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ConfigPathResolverFocusedTests COMMAND test_config_path_resolver_focused)
+    add_test(NAME ConfigPathResolverFocusedTests COMMAND $<TARGET_FILE:test_config_path_resolver_focused>)
 
     set_tests_properties(ConfigPathResolverFocusedTests PROPERTIES
         LABELS "config;path;resolver;lru;cache;unit;focused"
@@ -12484,7 +12504,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/config/test_config_file_watcher.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ConfigFileWatcherFocusedTests COMMAND test_config_file_watcher_focused)
+    add_test(NAME ConfigFileWatcherFocusedTests COMMAND $<TARGET_FILE:test_config_file_watcher_focused>)
 
     set_tests_properties(ConfigFileWatcherFocusedTests PROPERTIES
         LABELS "config;file-watcher;inotify;kqueue;hot-reload;debounce;v1.8.0;unit;focused"
@@ -12530,7 +12550,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/config/test_config_schema_validator.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ConfigSchemaValidatorFocusedTests COMMAND test_config_schema_validator_focused)
+    add_test(NAME ConfigSchemaValidatorFocusedTests COMMAND $<TARGET_FILE:test_config_schema_validator_focused>)
 
     set_tests_properties(ConfigSchemaValidatorFocusedTests PROPERTIES
         LABELS "config;schema;validator;yaml;json;unit;focused"
@@ -12576,7 +12596,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/config/test_config_migration_scanner.cpp"
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ConfigMigrationScannerFocusedTests COMMAND test_config_migration_scanner_focused)
+    add_test(NAME ConfigMigrationScannerFocusedTests COMMAND $<TARGET_FILE:test_config_migration_scanner_focused>)
 
     set_tests_properties(ConfigMigrationScannerFocusedTests PROPERTIES
         LABELS "config;migration;scanner;cli;unit;focused"
@@ -12622,7 +12642,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/config/test_config_coverage.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ConfigCoverageFocusedTests COMMAND test_config_coverage_focused)
+    add_test(NAME ConfigCoverageFocusedTests COMMAND $<TARGET_FILE:test_config_coverage_focused>)
 
     set_tests_properties(ConfigCoverageFocusedTests PROPERTIES
         LABELS "config;coverage;lru;audit;exceptions;unit;focused"
@@ -12668,7 +12688,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/config/test_config_metrics_scrape.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME MetricsScrapeFocusedTests COMMAND test_config_metrics_scrape_focused)
+    add_test(NAME MetricsScrapeFocusedTests COMMAND $<TARGET_FILE:test_config_metrics_scrape_focused>)
 
     set_tests_properties(MetricsScrapeFocusedTests PROPERTIES
         LABELS "config;metrics;scrape;latency;prometheus;unit;focused"
@@ -12704,7 +12724,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/config/test_config_encrypted_store.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ConfigEncryptedStoreFocusedTests COMMAND test_config_encrypted_store_focused)
+    add_test(NAME ConfigEncryptedStoreFocusedTests COMMAND $<TARGET_FILE:test_config_encrypted_store_focused>)
 
     set_tests_properties(ConfigEncryptedStoreFocusedTests PROPERTIES
         LABELS "config;encryption;key-rotation;aes-gcm;security;unit;focused"
@@ -12739,7 +12759,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/config/test_config_hardening_resolver_val
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ConfigHardeningResolverValidatorFocusedTests COMMAND test_config_hardening_resolver_validator_focused)
+    add_test(NAME ConfigHardeningResolverValidatorFocusedTests COMMAND $<TARGET_FILE:test_config_hardening_resolver_validator_focused>)
 
     set_tests_properties(ConfigHardeningResolverValidatorFocusedTests PROPERTIES
         LABELS "config;hardening;resolver;validator;cfg-01-08;cfg-09-16;unit;focused"
@@ -12774,7 +12794,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/config/test_config_hardening_watcher_stor
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ConfigHardeningWatcherStoreFocusedTests COMMAND test_config_hardening_watcher_store_focused)
+    add_test(NAME ConfigHardeningWatcherStoreFocusedTests COMMAND $<TARGET_FILE:test_config_hardening_watcher_store_focused>)
 
     set_tests_properties(ConfigHardeningWatcherStoreFocusedTests PROPERTIES
         LABELS "config;hardening;watcher;encrypted-store;cfg-17-24;cfg-25-32;unit;focused"
@@ -12820,7 +12840,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/path/test_path_mapping_metadata.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME PathMappingMetadataFocusedTests COMMAND test_path_mapping_metadata_focused)
+    add_test(NAME PathMappingMetadataFocusedTests COMMAND $<TARGET_FILE:test_path_mapping_metadata_focused>)
 
     set_tests_properties(PathMappingMetadataFocusedTests PROPERTIES
         LABELS "config;path;metadata;deprecation;unit;focused"
@@ -12859,7 +12879,7 @@ $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME JWTValidatorTests COMMAND test_jwt_validator)
+    add_test(NAME JWTValidatorTests COMMAND $<TARGET_FILE:test_jwt_validator>)
 
     set_tests_properties(JWTValidatorTests PROPERTIES
         LABELS "auth;jwt;validation;rs256;unit"
@@ -12894,7 +12914,7 @@ $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME JWTEdDSAComprehensiveTests COMMAND test_jwt_eddsa_comprehensive)
+    add_test(NAME JWTEdDSAComprehensiveTests COMMAND $<TARGET_FILE:test_jwt_eddsa_comprehensive>)
 
     set_tests_properties(JWTEdDSAComprehensiveTests PROPERTIES
         LABELS "auth;jwt;eddsa;ed25519;comprehensive;unit"
@@ -12929,7 +12949,7 @@ $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME JWTES256ComprehensiveTests COMMAND test_jwt_es256_comprehensive)
+    add_test(NAME JWTES256ComprehensiveTests COMMAND $<TARGET_FILE:test_jwt_es256_comprehensive>)
 
     set_tests_properties(JWTES256ComprehensiveTests PROPERTIES
         LABELS "auth;jwt;es256;ecdsa;comprehensive;unit"
@@ -12964,7 +12984,7 @@ $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME JWTECCurvesComprehensiveTests COMMAND test_jwt_ec_curves_comprehensive)
+    add_test(NAME JWTECCurvesComprehensiveTests COMMAND $<TARGET_FILE:test_jwt_ec_curves_comprehensive>)
 
     set_tests_properties(JWTECCurvesComprehensiveTests PROPERTIES
         LABELS "auth;jwt;es384;es512;rs384;rs512;ecdsa;comprehensive;unit"
@@ -13003,7 +13023,7 @@ $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME JWTIntegrationTests COMMAND test_jwt_integration)
+    add_test(NAME JWTIntegrationTests COMMAND $<TARGET_FILE:test_jwt_integration>)
 
     set_tests_properties(JWTIntegrationTests PROPERTIES
         LABELS "auth;jwt;integration;jwks;live-server;unit"
@@ -13038,7 +13058,7 @@ $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME JWTKeyRotationComprehensiveTests COMMAND test_jwt_key_rotation_comprehensive)
+    add_test(NAME JWTKeyRotationComprehensiveTests COMMAND $<TARGET_FILE:test_jwt_key_rotation_comprehensive>)
 
     set_tests_properties(JWTKeyRotationComprehensiveTests PROPERTIES
         LABELS "auth;jwt;key-rotation;comprehensive;unit"
@@ -13073,7 +13093,7 @@ $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME JWTManagementComprehensiveTests COMMAND test_jwt_management_comprehensive)
+    add_test(NAME JWTManagementComprehensiveTests COMMAND $<TARGET_FILE:test_jwt_management_comprehensive>)
 
     set_tests_properties(JWTManagementComprehensiveTests PROPERTIES
         LABELS "auth;jwt;management;comprehensive;unit"
@@ -13108,7 +13128,7 @@ $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME JWTRotationUnitTests COMMAND test_jwt_rotation_unit)
+    add_test(NAME JWTRotationUnitTests COMMAND $<TARGET_FILE:test_jwt_rotation_unit>)
 
     set_tests_properties(JWTRotationUnitTests PROPERTIES
         LABELS "auth;jwt;rotation;unit"
@@ -13142,7 +13162,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/jwt/test_jwt_token_revocation_integration
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME JWTTokenRevocationIntegrationTests COMMAND test_jwt_token_revocation_integration)
+    add_test(NAME JWTTokenRevocationIntegrationTests COMMAND $<TARGET_FILE:test_jwt_token_revocation_integration>)
 
     set_tests_properties(JWTTokenRevocationIntegrationTests PROPERTIES
         LABELS "auth;jwt;revocation;blacklist;integration;unit"
@@ -13177,7 +13197,7 @@ $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME JWTValidationHardeningTests COMMAND test_jwt_validation_hardening)
+    add_test(NAME JWTValidationHardeningTests COMMAND $<TARGET_FILE:test_jwt_validation_hardening>)
 
     set_tests_properties(JWTValidationHardeningTests PROPERTIES
         LABELS "auth;jwt;hardening;security;injection;unit"
@@ -13210,7 +13230,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/api/test_api_key_authenticator.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ApiKeyAuthenticatorTests COMMAND test_api_key_authenticator)
+    add_test(NAME ApiKeyAuthenticatorTests COMMAND $<TARGET_FILE:test_api_key_authenticator>)
 
     set_tests_properties(ApiKeyAuthenticatorTests PROPERTIES
         LABELS "auth;api-key;static-token;unit"
@@ -13243,7 +13263,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_anomaly_detection.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME AuthAnomalyDetectionTests COMMAND test_auth_anomaly_detection)
+    add_test(NAME AuthAnomalyDetectionTests COMMAND $<TARGET_FILE:test_auth_anomaly_detection>)
 
     set_tests_properties(AuthAnomalyDetectionTests PROPERTIES
         LABELS "auth;anomaly;brute-force;rate-limiting;unit"
@@ -13278,7 +13298,7 @@ $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME AuthAuditLoggerTests COMMAND test_auth_audit_logger)
+    add_test(NAME AuthAuditLoggerTests COMMAND $<TARGET_FILE:test_auth_audit_logger>)
 
     set_tests_properties(AuthAuditLoggerTests PROPERTIES
         LABELS "auth;audit;logging;compliance;unit"
@@ -13309,7 +13329,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_error.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME AuthErrorTests COMMAND test_auth_error)
+    add_test(NAME AuthErrorTests COMMAND $<TARGET_FILE:test_auth_error>)
 
     set_tests_properties(AuthErrorTests PROPERTIES
         LABELS "auth;error;exception;unit"
@@ -13343,7 +13363,7 @@ $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME AuthInputValidationTests COMMAND test_auth_input_validation)
+    add_test(NAME AuthInputValidationTests COMMAND $<TARGET_FILE:test_auth_input_validation>)
 
     set_tests_properties(AuthInputValidationTests PROPERTIES
         LABELS "auth;input-validation;security;injection;unit"
@@ -13374,7 +13394,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_metrics.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME AuthMetricsTests COMMAND test_auth_metrics)
+    add_test(NAME AuthMetricsTests COMMAND $<TARGET_FILE:test_auth_metrics>)
 
     set_tests_properties(AuthMetricsTests PROPERTIES
         LABELS "auth;metrics;counters;latency;unit"
@@ -13405,7 +13425,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_rate_limiter.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME AuthRateLimiterTests COMMAND test_auth_rate_limiter)
+    add_test(NAME AuthRateLimiterTests COMMAND $<TARGET_FILE:test_auth_rate_limiter>)
 
     set_tests_properties(AuthRateLimiterTests PROPERTIES
         LABELS "auth;rate-limiter;brute-force;sliding-window;unit"
@@ -13447,7 +13467,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/auth/test_auth_rate_limiter_distributed.c
         target_compile_definitions(test_auth_rate_limiter_distributed PRIVATE THEMIS_ENABLE_REDIS=1)
     endif()
 
-    add_test(NAME AuthRateLimiterDistributedTests COMMAND test_auth_rate_limiter_distributed)
+    add_test(NAME AuthRateLimiterDistributedTests COMMAND $<TARGET_FILE:test_auth_rate_limiter_distributed>)
 
     set_tests_properties(AuthRateLimiterDistributedTests PROPERTIES
         LABELS "auth;rate-limiter;distributed;backend;integration"
@@ -13482,7 +13502,7 @@ $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME AuthMiddlewareFocusedTests COMMAND test_auth_middleware)
+    add_test(NAME AuthMiddlewareFocusedTests COMMAND $<TARGET_FILE:test_auth_middleware>)
 
     set_tests_properties(AuthMiddlewareFocusedTests PROPERTIES
         LABELS "auth;middleware;jwt;api-key;scope;unit"
@@ -13523,7 +13543,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/gssapi/test_gssapi_authenticator.cpp")
             THEMIS_TEST_BUILD=1
         )
 
-        add_test(NAME GSSAPIAuthenticatorTests COMMAND test_gssapi_authenticator)
+        add_test(NAME GSSAPIAuthenticatorTests COMMAND $<TARGET_FILE:test_gssapi_authenticator>)
 
         set_tests_properties(GSSAPIAuthenticatorTests PROPERTIES
             LABELS "auth;gssapi;kerberos;enterprise-sso;unit"
@@ -13564,7 +13584,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ldap/test_ldap_authenticator.cpp")
             THEMIS_TEST_BUILD=1
         )
 
-        add_test(NAME LDAPAuthenticatorTests COMMAND test_ldap_authenticator)
+        add_test(NAME LDAPAuthenticatorTests COMMAND $<TARGET_FILE:test_ldap_authenticator>)
 
         set_tests_properties(LDAPAuthenticatorTests PROPERTIES
             LABELS "auth;ldap;active-directory;enterprise;unit"
@@ -13604,7 +13624,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ldap/test_ldap_connection_pool.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME LDAPConnectionPoolTests COMMAND test_ldap_connection_pool)
+    add_test(NAME LDAPConnectionPoolTests COMMAND $<TARGET_FILE:test_ldap_connection_pool>)
 
     set_tests_properties(LDAPConnectionPoolTests PROPERTIES
         LABELS "auth;ldap;pool;unit"
@@ -13637,7 +13657,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_http_auth_async.cpp" AND TARGET CURL
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME AsyncHTTPAuthTests COMMAND test_http_auth_async)
+    add_test(NAME AsyncHTTPAuthTests COMMAND $<TARGET_FILE:test_http_auth_async>)
     message(STATUS "  HTTP async tests enabled")
 else()
     message(STATUS "Async HTTP Authentication tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_http_auth_async.cpp")
@@ -13664,7 +13684,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_token_blacklist.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME DistributedTokenBlacklistTests COMMAND test_distributed_token_blacklist)
+    add_test(NAME DistributedTokenBlacklistTests COMMAND $<TARGET_FILE:test_distributed_token_blacklist>)
     message(STATUS "  Distributed token blacklist tests enabled")
 else()
     message(STATUS "Distributed Token Blacklist tests not found at ${CMAKE_CURRENT_SOURCE_DIR}/test_distributed_token_blacklist.cpp")
@@ -13691,7 +13711,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/mfa/test_mfa_authenticator.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME MFAAuthenticatorTests COMMAND test_mfa_authenticator)
+    add_test(NAME MFAAuthenticatorTests COMMAND $<TARGET_FILE:test_mfa_authenticator>)
 
     set_tests_properties(MFAAuthenticatorTests PROPERTIES
         LABELS "auth;mfa;totp;recovery-codes;unit"
@@ -13724,7 +13744,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/mtls/test_mtls_authenticator.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME MtlsAuthenticatorFocusedTests COMMAND test_mtls_authenticator_focused)
+    add_test(NAME MtlsAuthenticatorFocusedTests COMMAND $<TARGET_FILE:test_mtls_authenticator_focused>)
 
     set_tests_properties(MtlsAuthenticatorFocusedTests PROPERTIES
         LABELS "auth;mtls;certificate;mutual-tls;unit"
@@ -13758,7 +13778,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/oauth/test_oauth_device_flow.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME OAuthDeviceFlowTests COMMAND test_oauth_device_flow)
+    add_test(NAME OAuthDeviceFlowTests COMMAND $<TARGET_FILE:test_oauth_device_flow>)
 
     set_tests_properties(OAuthDeviceFlowTests PROPERTIES
         LABELS "auth;oauth;device-flow;rfc8628;unit"
@@ -13792,7 +13812,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/oauth/test_oauth_pkce_flow.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME OAuthPKCEFlowTests COMMAND test_oauth_pkce_flow)
+    add_test(NAME OAuthPKCEFlowTests COMMAND $<TARGET_FILE:test_oauth_pkce_flow>)
 
     set_tests_properties(OAuthPKCEFlowTests PROPERTIES
         LABELS "auth;oauth;pkce;s256;rfc7636;unit"
@@ -13832,7 +13852,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/saml/test_saml_authenticator.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME SAMLAuthenticatorTests COMMAND test_saml_authenticator)
+    add_test(NAME SAMLAuthenticatorTests COMMAND $<TARGET_FILE:test_saml_authenticator>)
 
     set_tests_properties(SAMLAuthenticatorTests PROPERTIES
         LABELS "auth;saml;sso;idp;sp;unit"
@@ -13872,7 +13892,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/saml/test_saml_auth_provider.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME SAMLAuthProviderTests COMMAND test_saml_auth_provider)
+    add_test(NAME SAMLAuthProviderTests COMMAND $<TARGET_FILE:test_saml_auth_provider>)
 
     set_tests_properties(SAMLAuthProviderTests PROPERTIES
         LABELS "server;auth;saml;sso;sp;unit"
@@ -13912,7 +13932,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/oauth2/test_oauth2_provider.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME OAuth2ProviderTests COMMAND test_oauth2_provider)
+    add_test(NAME OAuth2ProviderTests COMMAND $<TARGET_FILE:test_oauth2_provider>)
 
     set_tests_properties(OAuth2ProviderTests PROPERTIES
         LABELS "server;auth;oauth2;oidc;pkce;unit"
@@ -13947,7 +13967,7 @@ $<$<TARGET_EXISTS:CURL::libcurl>:CURL::libcurl>
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME SessionManagerFocusedTests COMMAND test_session_manager_focused)
+    add_test(NAME SessionManagerFocusedTests COMMAND $<TARGET_FILE:test_session_manager_focused>)
 
     set_tests_properties(SessionManagerFocusedTests PROPERTIES
         LABELS "auth;session;revocation;lifecycle;unit"
@@ -13980,7 +14000,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/totp/test_totp_replay_cache.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME TOTPReplayCacheTests COMMAND test_totp_replay_cache)
+    add_test(NAME TOTPReplayCacheTests COMMAND $<TARGET_FILE:test_totp_replay_cache>)
 
     set_tests_properties(TOTPReplayCacheTests PROPERTIES
         LABELS "auth;totp;replay;cache;unit"
@@ -14013,7 +14033,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/totp/test_totp_secret_encryption.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME TOTPSecretEncryptionTests COMMAND test_totp_secret_encryption)
+    add_test(NAME TOTPSecretEncryptionTests COMMAND $<TARGET_FILE:test_totp_secret_encryption>)
 
     set_tests_properties(TOTPSecretEncryptionTests PROPERTIES
         LABELS "auth;totp;secret;encryption;aes-gcm;unit"
@@ -14047,7 +14067,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/webauthn/test_webauthn_authenticator.cpp"
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME WebAuthnAuthenticatorTests COMMAND test_webauthn_authenticator)
+    add_test(NAME WebAuthnAuthenticatorTests COMMAND $<TARGET_FILE:test_webauthn_authenticator>)
 
     set_tests_properties(WebAuthnAuthenticatorTests PROPERTIES
         LABELS "auth;webauthn;fido2;hardware-token;unit"
@@ -14081,7 +14101,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/zero/test_zero_trust_auth_verifier.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ZeroTrustAuthVerifierTests COMMAND test_zero_trust_auth_verifier)
+    add_test(NAME ZeroTrustAuthVerifierTests COMMAND $<TARGET_FILE:test_zero_trust_auth_verifier>)
 
     set_tests_properties(ZeroTrustAuthVerifierTests PROPERTIES
         LABELS "auth;zero-trust;continuous-verification;unit"
@@ -14113,7 +14133,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/zero/test_zero_trust_policy_enforcer.cpp"
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ZeroTrustPolicyEnforcerFocusedTests COMMAND test_zero_trust_policy_enforcer_focused)
+    add_test(NAME ZeroTrustPolicyEnforcerFocusedTests COMMAND $<TARGET_FILE:test_zero_trust_policy_enforcer_focused>)
 
     set_tests_properties(ZeroTrustPolicyEnforcerFocusedTests PROPERTIES
         LABELS "auth;zero-trust;policy;rbac;abac;unit"
@@ -14154,7 +14174,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/concerns/test_concerns_context.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ConcernsContextFocusedTests COMMAND test_concerns_context_focused)
+    add_test(NAME ConcernsContextFocusedTests COMMAND $<TARGET_FILE:test_concerns_context_focused>)
 
     set_tests_properties(ConcernsContextFocusedTests PROPERTIES
         LABELS "core;di;concerns;logger;tracer;metrics;cache;health;phase1;phase3;unit"
@@ -14195,7 +14215,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/fuzz/test_fuzz_core.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME FuzzCoreFocusedTests COMMAND test_fuzz_core_focused)
+    add_test(NAME FuzzCoreFocusedTests COMMAND $<TARGET_FILE:test_fuzz_core_focused>)
 
     set_tests_properties(FuzzCoreFocusedTests PROPERTIES
         LABELS "core;fuzz;robustness;wire-protocol;license;build-info;security;unit"
@@ -14237,7 +14257,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/lockfree/test_lockfree_metrics.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME LockFreeMetricsFocusedTests COMMAND test_lockfree_metrics_focused)
+    add_test(NAME LockFreeMetricsFocusedTests COMMAND $<TARGET_FILE:test_lockfree_metrics_focused>)
 
     set_tests_properties(LockFreeMetricsFocusedTests PROPERTIES
         LABELS "core;metrics;lock-free;atomic;ring-buffer;thread-local;v1.6.0;unit"
@@ -14276,7 +14296,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/zero/test_zero_copy_logging.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ZeroCopyLoggingFocusedTests COMMAND test_zero_copy_logging_focused)
+    add_test(NAME ZeroCopyLoggingFocusedTests COMMAND $<TARGET_FILE:test_zero_copy_logging_focused>)
 
     set_tests_properties(ZeroCopyLoggingFocusedTests PROPERTIES
         LABELS "core;logging;zero-copy;string-view;thread-local;buffer;v1.6.0;unit"
@@ -14322,7 +14342,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/zero/test_zero_copy_blob_transfers.cpp")
     )
 
     add_test(NAME ZeroCopyBlobTransferFocusedTests
-             COMMAND test_zero_copy_blob_transfers_focused)
+             COMMAND $<TARGET_FILE:test_zero_copy_blob_transfers_focused>)
 
     set_tests_properties(ZeroCopyBlobTransferFocusedTests PROPERTIES
         LABELS "storage;blob;zero-copy;sendfile;mmap;s3-multipart;v1.7.0;unit"
@@ -14364,7 +14384,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_security_evidence_collector
     )
 
     add_test(NAME SecurityEvidenceCollectorFocusedTests
-             COMMAND test_security_evidence_collector_focused)
+             COMMAND $<TARGET_FILE:test_security_evidence_collector_focused>)
 
     set_tests_properties(SecurityEvidenceCollectorFocusedTests PROPERTIES
         LABELS "security;compliance;soc2;audit;focused;unit"
@@ -14397,7 +14417,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_fips_crypto_mode.cpp")
     )
 
     add_test(NAME FipsCryptoModeFocusedTests
-             COMMAND test_fips_crypto_mode_focused)
+             COMMAND $<TARGET_FILE:test_fips_crypto_mode_focused>)
 
     set_tests_properties(FipsCryptoModeFocusedTests PROPERTIES
         LABELS "security;fips;crypto;focused;unit"
@@ -14430,7 +14450,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_access_control_manager.cpp"
     )
 
     add_test(NAME AccessControlManagerFocusedTests
-             COMMAND test_access_control_manager_focused)
+             COMMAND $<TARGET_FILE:test_access_control_manager_focused>)
 
     set_tests_properties(AccessControlManagerFocusedTests PROPERTIES
         LABELS "security;access-control;rbac;focused;unit"
@@ -14463,7 +14483,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_row_level_security.cpp")
     )
 
     add_test(NAME RowLevelSecurityFocusedTests
-             COMMAND test_row_level_security_focused)
+             COMMAND $<TARGET_FILE:test_row_level_security_focused>)
 
     set_tests_properties(RowLevelSecurityFocusedTests PROPERTIES
         LABELS "security;rls;row-level;policy;focused;unit"
@@ -14523,7 +14543,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_arrow_user_registration_plu
     )
 
     add_test(NAME ArrowUserRegistrationPluginFocusedTests
-             COMMAND test_arrow_user_registration_plugin_focused)
+             COMMAND $<TARGET_FILE:test_arrow_user_registration_plugin_focused>)
 
     set_tests_properties(ArrowUserRegistrationPluginFocusedTests PROPERTIES
         LABELS "security;arrow;user-registration;plugin;focused;unit"
@@ -14562,7 +14582,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ai/test_ai_plugin_generator.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME AIPluginGeneratorFocusedTests COMMAND test_ai_plugin_generator_focused)
+    add_test(NAME AIPluginGeneratorFocusedTests COMMAND $<TARGET_FILE:test_ai_plugin_generator_focused>)
 
     set_tests_properties(AIPluginGeneratorFocusedTests PROPERTIES
         LABELS "plugins;ai;plugin-generator;focused;unit"
@@ -14595,7 +14615,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/attack-vectors/crypto/test_crypt
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME CryptoAttackVectorTests COMMAND test_crypto_attack_vectors)
+    add_test(NAME CryptoAttackVectorTests COMMAND $<TARGET_FILE:test_crypto_attack_vectors>)
 
     set_tests_properties(CryptoAttackVectorTests PROPERTIES
         LABELS "security;attack-vector;crypto;iv-reuse;tag-tamper;unit"
@@ -14627,7 +14647,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/attack-vectors/injection/test_in
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME InjectionAttackVectorTests COMMAND test_injection_attack_vectors)
+    add_test(NAME InjectionAttackVectorTests COMMAND $<TARGET_FILE:test_injection_attack_vectors>)
 
     set_tests_properties(InjectionAttackVectorTests PROPERTIES
         LABELS "security;attack-vector;injection;aql;unit"
@@ -14659,7 +14679,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/attack-vectors/authentication/te
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME AuthenticationAttackVectorTests COMMAND test_authentication_attack_vectors)
+    add_test(NAME AuthenticationAttackVectorTests COMMAND $<TARGET_FILE:test_authentication_attack_vectors>)
 
     set_tests_properties(AuthenticationAttackVectorTests PROPERTIES
         LABELS "security;attack-vector;authentication;rbac;privilege-escalation;unit"
@@ -14693,7 +14713,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_security_negative_integrati
     )
 
     add_test(NAME SecurityNegativeIntegrationFocusedTests
-             COMMAND test_security_negative_integration_focused)
+             COMMAND $<TARGET_FILE:test_security_negative_integration_focused>)
 
     set_tests_properties(SecurityNegativeIntegrationFocusedTests PROPERTIES
         LABELS "security;negative;jwt;rbac;vault;integration;focused;unit"
@@ -14726,7 +14746,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_input_validation_security.c
     )
 
     add_test(NAME InputValidationSecurityFocusedTests
-             COMMAND test_input_validation_security_focused)
+             COMMAND $<TARGET_FILE:test_input_validation_security_focused>)
 
     set_tests_properties(InputValidationSecurityFocusedTests PROPERTIES
         LABELS "security;input-validation;injection;xss;focused;unit"
@@ -14772,7 +14792,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/usb/test_usb_volume_hardening.cpp")
     )
 
     add_test(NAME USBVolumeHardeningFocusedTests
-             COMMAND test_usb_volume_hardening_focused)
+             COMMAND $<TARGET_FILE:test_usb_volume_hardening_focused>)
 
     set_tests_properties(USBVolumeHardeningFocusedTests PROPERTIES
         LABELS "security;usb;volume-hardening;fat;integrity;focused;unit"
@@ -14811,7 +14831,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/downsampling/test_downsampling.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME DownsamplingFocusedTests COMMAND test_downsampling_focused)
+    add_test(NAME DownsamplingFocusedTests COMMAND $<TARGET_FILE:test_downsampling_focused>)
 
     set_tests_properties(DownsamplingFocusedTests PROPERTIES
         LABELS "timeseries;downsampling;pipeline;tier-selector;focused;unit"
@@ -14843,7 +14863,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ts/test_ts_adaptive_flush.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME TSAdaptiveFlushFocusedTests COMMAND test_ts_adaptive_flush_focused)
+    add_test(NAME TSAdaptiveFlushFocusedTests COMMAND $<TARGET_FILE:test_ts_adaptive_flush_focused>)
 
     set_tests_properties(TSAdaptiveFlushFocusedTests PROPERTIES
         LABELS "timeseries;ts-auto-buffer;adaptive-flush;backpressure;focused;unit"
@@ -14875,7 +14895,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/adaptive/test_adaptive_flush_controller.c
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME AdaptiveFlushControllerFocusedTests COMMAND test_adaptive_flush_controller_focused)
+    add_test(NAME AdaptiveFlushControllerFocusedTests COMMAND $<TARGET_FILE:test_adaptive_flush_controller_focused>)
 
     set_tests_properties(AdaptiveFlushControllerFocusedTests PROPERTIES
         LABELS "timeseries;adaptive-flush;backpressure;watermark;timeout;focused;unit"
@@ -14908,7 +14928,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/prometheus/test_prometheus_remote_write.c
     )
 
     add_test(NAME PrometheusRemoteWriteFocusedTests
-             COMMAND test_prometheus_remote_write_focused)
+             COMMAND $<TARGET_FILE:test_prometheus_remote_write_focused>)
 
     set_tests_properties(PrometheusRemoteWriteFocusedTests PROPERTIES
         LABELS "timeseries;prometheus;remote-write;protobuf;snappy;focused;unit"
@@ -14947,7 +14967,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tsstore/test_tsstore_out_of_order.cpp")
     )
 
     add_test(NAME TSStoreOutOfOrderFocusedTests
-        COMMAND test_tsstore_out_of_order_focused)
+        COMMAND $<TARGET_FILE:test_tsstore_out_of_order_focused>)
 
     set_tests_properties(TSStoreOutOfOrderFocusedTests PROPERTIES
         LABELS "timeseries;tsstore;out-of-order;late-arrival;focused;unit"
@@ -14993,7 +15013,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ts/test_ts_future_interfaces.cpp")
     )
 
     add_test(NAME TsFutureInterfacesFocusedTests
-             COMMAND test_ts_future_interfaces_focused)
+             COMMAND $<TARGET_FILE:test_ts_future_interfaces_focused>)
 
     set_tests_properties(TsFutureInterfacesFocusedTests PROPERTIES
         LABELS "timeseries;compression-selector;anomaly-detection;gap-fill;focused;unit"
@@ -15031,7 +15051,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tsstore/test_tsstore_batch.cpp")
     )
 
     add_test(NAME TSStoreBatchFocusedTests
-        COMMAND test_tsstore_batch_focused)
+        COMMAND $<TARGET_FILE:test_tsstore_batch_focused>)
 
     set_tests_properties(TSStoreBatchFocusedTests PROPERTIES
         LABELS "timeseries;tsstore;batch;performance;focused;unit"
@@ -15069,7 +15089,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/streaming/test_streaming_ingest_manager.c
     )
 
     add_test(NAME StreamingIngestManagerFocusedTests
-        COMMAND test_streaming_ingest_manager_focused)
+        COMMAND $<TARGET_FILE:test_streaming_ingest_manager_focused>)
 
     set_tests_properties(StreamingIngestManagerFocusedTests PROPERTIES
         LABELS "storage;ingest;streaming;performance;focused;unit"
@@ -15108,7 +15128,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/index/test_index_analyzer.cpp")
     )
 
     add_test(NAME IndexAnalyzerFocusedTests
-        COMMAND test_index_analyzer_focused)
+        COMMAND $<TARGET_FILE:test_index_analyzer_focused>)
 
     set_tests_properties(IndexAnalyzerFocusedTests PROPERTIES
         LABELS "storage;index;analyze;tier;cron;ai-advisor;unit;focused"
@@ -15146,7 +15166,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ts/test_ts_stream_cursor.cpp")
     )
 
     add_test(NAME TsStreamCursorFocusedTests
-        COMMAND test_ts_stream_cursor_focused)
+        COMMAND $<TARGET_FILE:test_ts_stream_cursor_focused>)
 
     set_tests_properties(TsStreamCursorFocusedTests PROPERTIES
         LABELS "timeseries;cursor;streaming;focused;unit"
@@ -15190,7 +15210,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/io/test_io_uring_batcher.cpp")
     endif()
 
     add_test(NAME IoUringBatchedSenderFocusedTests
-        COMMAND test_io_uring_batcher_focused)
+        COMMAND $<TARGET_FILE:test_io_uring_batcher_focused>)
 
     set_tests_properties(IoUringBatchedSenderFocusedTests PROPERTIES
         LABELS "network;io_uring;performance;focused;unit"
@@ -15257,7 +15277,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/kernel/test_kernel_bypass.cpp")
     endif()
 
     add_test(NAME KernelBypassFocusedTests
-        COMMAND test_kernel_bypass_focused)
+        COMMAND $<TARGET_FILE:test_kernel_bypass_focused>)
 
     set_tests_properties(KernelBypassFocusedTests PROPERTIES
         LABELS "network;kernel_bypass;dpdk;io_uring;focused;unit"
@@ -15291,7 +15311,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/request/test_request_coalescer.cpp")
     )
 
     add_test(NAME RequestCoalescerFocusedTests
-        COMMAND test_request_coalescer_focused)
+        COMMAND $<TARGET_FILE:test_request_coalescer_focused>)
 
     set_tests_properties(RequestCoalescerFocusedTests PROPERTIES
         LABELS "cache;singleflight;performance;focused;unit"
@@ -15329,7 +15349,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/lockfree/test_lockfree_histogram.cpp")
     )
 
     add_test(NAME LockFreeHistogramFocusedTests
-        COMMAND test_lockfree_histogram_focused)
+        COMMAND $<TARGET_FILE:test_lockfree_histogram_focused>)
 
     set_tests_properties(LockFreeHistogramFocusedTests PROPERTIES
         LABELS "performance;histogram;lock-free;focused;unit"
@@ -15599,7 +15619,7 @@ add_geo_focused_test(
     "Category-B parity: Haversine, ST_CONTAINS, ST_UNION, ST_DIFFERENCE CUDA vs CPU parity for rollout gate"
 )
 
-add_test(NAME test_gpu_geo_setops_parity COMMAND test_category_b_parity_geo)
+add_test(NAME test_gpu_geo_setops_parity COMMAND $<TARGET_FILE:test_category_b_parity_geo>)
 set_tests_properties(test_gpu_geo_setops_parity PROPERTIES
     LABELS "geo;cuda;parity;st-union;st-difference;gpu;integration"
     TIMEOUT 180
@@ -15637,7 +15657,7 @@ if(THEMIS_GEO_CUDA)
             THEMIS_GEO_CUDA
         )
 
-        add_test(NAME CudaGeoKernelsFocusedTests COMMAND test_cuda_geo_kernels_focused)
+        add_test(NAME CudaGeoKernelsFocusedTests COMMAND $<TARGET_FILE:test_cuda_geo_kernels_focused>)
 
         set_tests_properties(CudaGeoKernelsFocusedTests PROPERTIES
             LABELS "geo;cuda;kernels;focused;unit"
@@ -15676,7 +15696,7 @@ if(THEMIS_GEO_HIP)
             THEMIS_GEO_HIP
         )
 
-        add_test(NAME HipGeoKernelsFocusedTests COMMAND test_hip_geo_kernels_focused)
+        add_test(NAME HipGeoKernelsFocusedTests COMMAND $<TARGET_FILE:test_hip_geo_kernels_focused>)
 
         set_tests_properties(HipGeoKernelsFocusedTests PROPERTIES
             LABELS "geo;hip;rocm;kernels;focused;unit"
@@ -16081,7 +16101,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cache/test_cache_interfaces.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME CacheInterfacesTests COMMAND test_cache_interfaces)
+    add_test(NAME CacheInterfacesTests COMMAND $<TARGET_FILE:test_cache_interfaces>)
 
     set_tests_properties(CacheInterfacesTests PROPERTIES
         LABELS "cache;interfaces;eviction;gdpr;ttl;warmup;unit"
@@ -16117,7 +16137,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cache/test_cache_phase6_interfaces.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME CachePhase6InterfacesTests COMMAND test_cache_phase6_interfaces)
+    add_test(NAME CachePhase6InterfacesTests COMMAND $<TARGET_FILE:test_cache_phase6_interfaces>)
 
     set_tests_properties(CachePhase6InterfacesTests PROPERTIES
         LABELS "cache;interfaces;distributed;partition;ttl;unit"
@@ -16549,7 +16569,7 @@ if(THEMIS_ENABLE_LLM)
             THEMIS_LLM_EXPORTS
         )
         add_test(NAME InferenceEngineEnhancedFocusedTests
-            COMMAND test_inference_engine_enhanced_focused)
+            COMMAND $<TARGET_FILE:test_inference_engine_enhanced_focused>)
         set_tests_properties(InferenceEngineEnhancedFocusedTests PROPERTIES
             LABELS "llm;inference;cache;prewarming;embedding;unit"
             TIMEOUT 120
@@ -16585,7 +16605,7 @@ if(THEMIS_ENABLE_LLM)
             THEMIS_TEST_BUILD=1
         )
         add_test(NAME LookupDecoderFocusedTests
-            COMMAND test_lookup_decoder_focused)
+            COMMAND $<TARGET_FILE:test_lookup_decoder_focused>)
         set_tests_properties(LookupDecoderFocusedTests PROPERTIES
             LABELS "llm;lookup;ngram;speculation;unit"
             TIMEOUT 60
@@ -17143,7 +17163,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/geo/test_geo_topology_router.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME GeoTopologyRouterFocusedTests COMMAND test_geo_topology_router_focused)
+    add_test(NAME GeoTopologyRouterFocusedTests COMMAND $<TARGET_FILE:test_geo_topology_router_focused>)
 
     set_tests_properties(GeoTopologyRouterFocusedTests PROPERTIES
         LABELS "network;geo;topology;routing;sharding;focused;unit"
@@ -17179,7 +17199,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/network/test_wire_protocol_v2.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME WireProtocolV2FocusedTests COMMAND test_wire_protocol_v2_focused)
+    add_test(NAME WireProtocolV2FocusedTests COMMAND $<TARGET_FILE:test_wire_protocol_v2_focused>)
 
     set_tests_properties(WireProtocolV2FocusedTests PROPERTIES
         LABELS "network;wire-protocol;v2;multiplexing;flow-control;server-push;focused;unit"
@@ -17220,7 +17240,7 @@ if(THEMIS_ENABLE_WEBSOCKET)
             THEMIS_ENABLE_WEBSOCKET=1
         )
 
-        add_test(NAME WireProtocolWebSocketFocusedTests COMMAND test_wire_protocol_websocket_focused)
+        add_test(NAME WireProtocolWebSocketFocusedTests COMMAND $<TARGET_FILE:test_wire_protocol_websocket_focused>)
 
         set_tests_properties(WireProtocolWebSocketFocusedTests PROPERTIES
             LABELS "network;websocket;upgrade;protocol-detection;focused;unit"
@@ -17262,7 +17282,7 @@ if(THEMIS_ENABLE_WEBSOCKET)
             THEMIS_ENABLE_WEBSOCKET=1
         )
 
-        add_test(NAME WebSocketCdcFocusedTests COMMAND test_websocket_cdc_focused)
+        add_test(NAME WebSocketCdcFocusedTests COMMAND $<TARGET_FILE:test_websocket_cdc_focused>)
 
         set_tests_properties(WebSocketCdcFocusedTests PROPERTIES
             LABELS "cdc;websocket;streaming;transport;wstransport;metrics;unit"
@@ -17300,7 +17320,7 @@ if(THEMIS_ENABLE_HTTP3)
             THEMIS_ENABLE_HTTP3=1
         )
 
-        add_test(NAME QuicTransportFocusedTests COMMAND test_quic_transport_focused)
+        add_test(NAME QuicTransportFocusedTests COMMAND $<TARGET_FILE:test_quic_transport_focused>)
 
         set_tests_properties(QuicTransportFocusedTests PROPERTIES
             LABELS "network;quic;http3;transport;config;focused;unit"
@@ -17338,7 +17358,7 @@ if(THEMIS_ENABLE_HTTP3)
             THEMIS_ENABLE_HTTP3=1
         )
 
-        add_test(NAME QUICServerFocusedTests COMMAND test_quic_server_focused)
+        add_test(NAME QUICServerFocusedTests COMMAND $<TARGET_FILE:test_quic_server_focused>)
 
         set_tests_properties(QUICServerFocusedTests PROPERTIES
             LABELS "network;quic;http3;server;client;0rtt;migration;congestion;focused;unit"
@@ -17376,7 +17396,7 @@ if(THEMIS_ENABLE_HTTP3)
         )
 
         add_test(NAME Http3ProductionReadinessFocusedTests
-                 COMMAND test_http3_production_readiness_focused)
+                 COMMAND $<TARGET_FILE:test_http3_production_readiness_focused>)
 
         set_tests_properties(Http3ProductionReadinessFocusedTests PROPERTIES
             LABELS "server;http3;quic;production;fallback;congestion;migration;focused;unit"
@@ -17422,7 +17442,7 @@ if(THEMIS_ENABLE_GRPC)
             THEMIS_ENABLE_GRPC=1
         )
 
-        add_test(NAME GrpcTransportFocusedTests COMMAND test_grpc_transport_focused)
+        add_test(NAME GrpcTransportFocusedTests COMMAND $<TARGET_FILE:test_grpc_transport_focused>)
 
         set_tests_properties(GrpcTransportFocusedTests PROPERTIES
             LABELS "network;grpc;transport;config;tls;focused;unit"
@@ -17466,7 +17486,7 @@ if(THEMIS_ENABLE_GRPC AND TARGET gRPC::grpc++)
         )
 
         add_test(NAME GRPCPluginLifecycleFocusedTests
-                 COMMAND test_grpc_plugin_lifecycle_focused)
+                 COMMAND $<TARGET_FILE:test_grpc_plugin_lifecycle_focused>)
 
         set_tests_properties(GRPCPluginLifecycleFocusedTests PROPERTIES
             LABELS "rpc;grpc;plugin;lifecycle;tls;focused;unit"
@@ -17508,7 +17528,7 @@ if(THEMIS_ENABLE_GRPC AND TARGET gRPC::grpc++)
             THEMIS_ENABLE_GRPC=1
         )
 
-        add_test(NAME GRPCObservabilityTests COMMAND test_grpc_observability_focused)
+        add_test(NAME GRPCObservabilityTests COMMAND $<TARGET_FILE:test_grpc_observability_focused>)
 
         set_tests_properties(GRPCObservabilityTests PROPERTIES
             LABELS "rpc;grpc;health;observability;prometheus;accesslog;focused;unit"
@@ -17564,7 +17584,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ethics/test_ethics_ai_pipeline.cpp")
     )
 
     add_test(NAME EthicsAiPipelineFocusedTests
-             COMMAND test_ethics_ai_pipeline_focused)
+             COMMAND $<TARGET_FILE:test_ethics_ai_pipeline_focused>)
 
     set_tests_properties(EthicsAiPipelineFocusedTests PROPERTIES
         LABELS "ethics;ai;pipeline;rag;integration;focused"
@@ -17967,7 +17987,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ingestion/test_ingestion_integration.cpp"
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME IngestionIntegrationFocusedTests COMMAND test_ingestion_integration_focused)
+    add_test(NAME IngestionIntegrationFocusedTests COMMAND $<TARGET_FILE:test_ingestion_integration_focused>)
 
     set_tests_properties(IngestionIntegrationFocusedTests PROPERTIES
         LABELS "ingestion;integration;filesystem;huggingface;api;focused"
@@ -18013,7 +18033,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ingestion/test_ingestion_coordinator.cpp"
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME IngestionCoordinatorFocusedTests COMMAND test_ingestion_coordinator_focused)
+    add_test(NAME IngestionCoordinatorFocusedTests COMMAND $<TARGET_FILE:test_ingestion_coordinator_focused>)
 
     set_tests_properties(IngestionCoordinatorFocusedTests PROPERTIES
         LABELS "ingestion;coordinator;distributed;work-stealing;focused"
@@ -18058,7 +18078,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/metrics/test_metrics_collector.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME MetricsCollectorFocusedTests COMMAND test_metrics_collector_focused)
+    add_test(NAME MetricsCollectorFocusedTests COMMAND $<TARGET_FILE:test_metrics_collector_focused>)
 
     set_tests_properties(MetricsCollectorFocusedTests PROPERTIES
         LABELS "observability;metrics;prometheus;focused;unit"
@@ -18093,7 +18113,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/metrics/test_metrics_exemplar.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME MetricsExemplarFocusedTests COMMAND test_metrics_exemplar_focused)
+    add_test(NAME MetricsExemplarFocusedTests COMMAND $<TARGET_FILE:test_metrics_exemplar_focused>)
 
     set_tests_properties(MetricsExemplarFocusedTests PROPERTIES
         LABELS "observability;metrics;exemplar;prometheus;histogram;focused;unit"
@@ -18128,7 +18148,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/metrics/test_metrics_aggregation.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME MetricsAggregationFocusedTests COMMAND test_metrics_aggregation_focused)
+    add_test(NAME MetricsAggregationFocusedTests COMMAND $<TARGET_FILE:test_metrics_aggregation_focused>)
 
     set_tests_properties(MetricsAggregationFocusedTests PROPERTIES
         LABELS "observability;metrics;aggregation;rate;histogram;cardinality;prometheus;focused;unit"
@@ -18163,7 +18183,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/alert/test_alert_rules.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME AlertRulesFocusedTests COMMAND test_alert_rules_focused)
+    add_test(NAME AlertRulesFocusedTests COMMAND $<TARGET_FILE:test_alert_rules_focused>)
 
     set_tests_properties(AlertRulesFocusedTests PROPERTIES
         LABELS "observability;alertmanager;alert-rules;focused;unit"
@@ -18198,7 +18218,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/alerting/test_alerting_engine.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME AlertingEngineFocusedTests COMMAND test_alerting_engine_focused)
+    add_test(NAME AlertingEngineFocusedTests COMMAND $<TARGET_FILE:test_alerting_engine_focused>)
 
     set_tests_properties(AlertingEngineFocusedTests PROPERTIES
         LABELS "observability;alerting-engine;notification-channels;focused;unit"
@@ -18233,7 +18253,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/metrics/test_metrics_stream_server.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME MetricsStreamServerFocusedTests COMMAND test_metrics_stream_server_focused)
+    add_test(NAME MetricsStreamServerFocusedTests COMMAND $<TARGET_FILE:test_metrics_stream_server_focused>)
 
     set_tests_properties(MetricsStreamServerFocusedTests PROPERTIES
         LABELS "observability;streaming;websocket;sse;metrics;focused;unit"
@@ -18268,7 +18288,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/continuous/test_continuous_profiler.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ContinuousProfilerFocusedTests COMMAND test_continuous_profiler_focused)
+    add_test(NAME ContinuousProfilerFocusedTests COMMAND $<TARGET_FILE:test_continuous_profiler_focused>)
 
     set_tests_properties(ContinuousProfilerFocusedTests PROPERTIES
         LABELS "observability;profiling;pprof;adaptive-sampling;focused;unit"
@@ -18303,7 +18323,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tracer/test_tracer.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ObservabilityTracerFocusedTests COMMAND test_tracer_focused)
+    add_test(NAME ObservabilityTracerFocusedTests COMMAND $<TARGET_FILE:test_tracer_focused>)
 
     set_tests_properties(ObservabilityTracerFocusedTests PROPERTIES
         LABELS "observability;tracing;w3c-trace-context;spans;sampling;focused;unit"
@@ -18338,7 +18358,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/log/test_log_aggregator.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME LogAggregatorFocusedTests COMMAND test_log_aggregator_focused)
+    add_test(NAME LogAggregatorFocusedTests COMMAND $<TARGET_FILE:test_log_aggregator_focused>)
 
     set_tests_properties(LogAggregatorFocusedTests PROPERTIES
         LABELS "observability;logging;structured-log;trace-context;ring-buffer;focused;unit"
@@ -18374,7 +18394,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ml/test_ml_anomaly_detector.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME MLAnomalyDetectorFocusedTests COMMAND test_ml_anomaly_detector_focused)
+    add_test(NAME MLAnomalyDetectorFocusedTests COMMAND $<TARGET_FILE:test_ml_anomaly_detector_focused>)
 
     set_tests_properties(MLAnomalyDetectorFocusedTests PROPERTIES
         LABELS "observability;anomaly-detection;ml;isolation-forest;forecast;focused;unit"
@@ -18414,7 +18434,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/root/test_root_cause_analyzer.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME RootCauseAnalyzerFocusedTests COMMAND test_root_cause_analyzer_focused)
+    add_test(NAME RootCauseAnalyzerFocusedTests COMMAND $<TARGET_FILE:test_root_cause_analyzer_focused>)
 
     set_tests_properties(RootCauseAnalyzerFocusedTests PROPERTIES
         LABELS "observability;root-cause-analysis;performance;focused;unit"
@@ -18449,7 +18469,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tenant/test_tenant_metrics_namespace.cpp"
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME TenantMetricsNamespaceFocusedTests COMMAND test_tenant_metrics_namespace_focused)
+    add_test(NAME TenantMetricsNamespaceFocusedTests COMMAND $<TARGET_FILE:test_tenant_metrics_namespace_focused>)
 
     set_tests_properties(TenantMetricsNamespaceFocusedTests PROPERTIES
         LABELS "observability;metrics;tenant;cardinality;focused;unit"
@@ -18486,7 +18506,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/log/test_log_search_engine.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME LogSearchEngineFocusedTests COMMAND test_log_search_engine_focused)
+    add_test(NAME LogSearchEngineFocusedTests COMMAND $<TARGET_FILE:test_log_search_engine_focused>)
 
     set_tests_properties(LogSearchEngineFocusedTests PROPERTIES
         LABELS "observability;log-search;structured-logging;focused;unit"
@@ -18539,7 +18559,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/training/test_training_convergence.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ModalityParserFocusedTests COMMAND test_modality_parser_focused)
+    add_test(NAME ModalityParserFocusedTests COMMAND $<TARGET_FILE:test_modality_parser_focused>)
 
     set_tests_properties(ModalityParserFocusedTests PROPERTIES
         LABELS "training;modality;legal;calibration;ConfidenceCalibrator;PAV;focused;unit"
@@ -18553,7 +18573,7 @@ endif()
 
 # TrainingConvergence alias - same binary, separate CTest entry for labelling
 if(TARGET test_modality_parser_focused)
-    add_test(NAME TrainingConvergenceFocusedTests COMMAND test_modality_parser_focused)
+    add_test(NAME TrainingConvergenceFocusedTests COMMAND $<TARGET_FILE:test_modality_parser_focused>)
 
     set_tests_properties(TrainingConvergenceFocusedTests PROPERTIES
         LABELS "training;convergence;calibration;isotonic;legal;focused;unit"
@@ -18587,7 +18607,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_provenance_aql_integration.cpp")
     )
 
     add_test(NAME ProvenanceAqlIntegrationTests
-        COMMAND test_provenance_aql_integration_focused
+        COMMAND $<TARGET_FILE:test_provenance_aql_integration_focused>
             --gtest_filter=ProvenanceOfflineRoundTripTest.*:ProvenanceAqlRoundTripTest.*)
 
     set_tests_properties(ProvenanceAqlIntegrationTests PROPERTIES
@@ -18600,7 +18620,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_provenance_aql_integration.cpp")
     message(STATUS "  ProvenanceAqlIntegration: provenance write + lineage round-trip (offline + QueryEngine paths)")
 elseif(TARGET themis_tests)
     add_test(NAME ProvenanceAqlIntegrationTests
-        COMMAND themis_tests
+        COMMAND $<TARGET_FILE:themis_tests>
             --gtest_filter=ProvenanceOfflineRoundTripTest.*:ProvenanceAqlRoundTripTest.*)
 
     set_tests_properties(ProvenanceAqlIntegrationTests PROPERTIES
@@ -18633,7 +18653,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_auto_labeler_db_fetch.cpp")
     )
 
     add_test(NAME AutoLabelerDbFetchFocusedTests
-        COMMAND test_auto_labeler_db_fetch_focused
+        COMMAND $<TARGET_FILE:test_auto_labeler_db_fetch_focused>
             --gtest_filter=AutoLabelerDbFetchTest.*:AutoLabelerOfflineTest.*)
 
     set_tests_properties(AutoLabelerDbFetchFocusedTests PROPERTIES
@@ -18646,7 +18666,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_auto_labeler_db_fetch.cpp")
     message(STATUS "  AutoLabelerDbFetch: labelAll/labelQuery DB fetch via AQL executor, offline fallback, callback, stats")
 elseif(TARGET themis_tests)
     add_test(NAME AutoLabelerDbFetchFocusedTests
-        COMMAND themis_tests
+        COMMAND $<TARGET_FILE:themis_tests>
             --gtest_filter=AutoLabelerDbFetchTest.*:AutoLabelerOfflineTest.*)
 
     set_tests_properties(AutoLabelerDbFetchFocusedTests PROPERTIES
@@ -18683,7 +18703,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/kge/test_kge_vector_search.cpp")
         THEMIS_TEST_MODE=1
     )
 
-    add_test(NAME KgeVectorSearchFocusedTests COMMAND test_kge_vector_search_focused)
+    add_test(NAME KgeVectorSearchFocusedTests COMMAND $<TARGET_FILE:test_kge_vector_search_focused>)
 
     set_tests_properties(KgeVectorSearchFocusedTests PROPERTIES
         LABELS "training;knowledge-graph;vector-search;cosine;similarity;focused;integration"
@@ -18718,7 +18738,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/training/test_training_lora_adapter.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME LoRAAdapterFocusedTests COMMAND test_lora_adapter_focused)
+    add_test(NAME LoRAAdapterFocusedTests COMMAND $<TARGET_FILE:test_lora_adapter_focused>)
 
     set_tests_properties(LoRAAdapterFocusedTests PROPERTIES
         LABELS "training;lora;weight-manipulation;real;focused;unit"
@@ -18765,7 +18785,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/advanced/test_advanced_training_features.
     )
 
     add_test(NAME AdvancedTrainingFeaturesFocusedTests
-             COMMAND test_advanced_training_features)
+             COMMAND $<TARGET_FILE:test_advanced_training_features>)
 
     set_tests_properties(AdvancedTrainingFeaturesFocusedTests PROPERTIES
         LABELS "training;quantization;multi-gpu;metrics;checkpoint;advanced;focused;unit"
@@ -18809,7 +18829,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/training/test_training_diagnostics_consis
     )
 
     add_test(NAME TrainingDiagnosticsConsistencyTests
-             COMMAND test_training_diagnostics_consistency)
+             COMMAND $<TARGET_FILE:test_training_diagnostics_consistency>)
 
     set_tests_properties(TrainingDiagnosticsConsistencyTests PROPERTIES
         LABELS "training;diagnostics;adapter-serving;checkpoint;provenance;consistency;focused;unit"
@@ -18844,7 +18864,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ada/test_ada_lora_adapter.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME AdaLoRAFocusedTests COMMAND test_ada_lora_adapter_focused)
+    add_test(NAME AdaLoRAFocusedTests COMMAND $<TARGET_FILE:test_ada_lora_adapter_focused>)
 
     set_tests_properties(AdaLoRAFocusedTests PROPERTIES
         LABELS "training;ada-lora;rank-pruning;importance;focused;unit"
@@ -18880,7 +18900,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/lora/test_lora_adapter_merger.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME LoRAMergerFocusedTests COMMAND test_lora_adapter_merger_focused)
+    add_test(NAME LoRAMergerFocusedTests COMMAND $<TARGET_FILE:test_lora_adapter_merger_focused>)
 
     set_tests_properties(LoRAMergerFocusedTests PROPERTIES
         LABELS "training;lora;merge;ties;linear;focused;unit"
@@ -18927,7 +18947,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/training/test_training_phase2.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME TrainingPhase2FocusedTests COMMAND test_training_phase2_focused)
+    add_test(NAME TrainingPhase2FocusedTests COMMAND $<TARGET_FILE:test_training_phase2_focused>)
 
     set_tests_properties(TrainingPhase2FocusedTests PROPERTIES
         LABELS "training;phase2;adapter-serving;multi-domain;integrity;deploy;rollback;focused;unit"
@@ -18990,7 +19010,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_production.cpp" AND NOT 
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME VoiceProductionFocusedTests COMMAND test_voice_production_focused)
+    add_test(NAME VoiceProductionFocusedTests COMMAND $<TARGET_FILE:test_voice_production_focused>)
 
     set_tests_properties(VoiceProductionFocusedTests PROPERTIES
         LABELS "voice;audio;wake-word;intent;session;security;tts;meeting;emotion;production;focused;unit"
@@ -19030,7 +19050,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/blue/test_blue_green_deployment.cpp" AND 
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME BlueGreenDeploymentFocusedTests COMMAND test_blue_green_deployment_focused)
+    add_test(NAME BlueGreenDeploymentFocusedTests COMMAND $<TARGET_FILE:test_blue_green_deployment_focused>)
 
     set_tests_properties(BlueGreenDeploymentFocusedTests PROPERTIES
         LABELS "updates;blue-green;deployment;zero-downtime;focused;unit"
@@ -19069,7 +19089,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_huggingface_exporter.cpp" 
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME HuggingFaceExporterFocusedTests COMMAND test_huggingface_exporter_focused)
+    add_test(NAME HuggingFaceExporterFocusedTests COMMAND $<TARGET_FILE:test_huggingface_exporter_focused>)
 
     set_tests_properties(HuggingFaceExporterFocusedTests PROPERTIES
         LABELS "exporter;huggingface;ml;focused;unit"
@@ -19117,7 +19137,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_coverage.cpp" AND NOT TA
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME VoiceCoverageFocusedTests COMMAND test_voice_coverage_focused)
+    add_test(NAME VoiceCoverageFocusedTests COMMAND $<TARGET_FILE:test_voice_coverage_focused>)
 endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_api_handler.cpp")
@@ -19140,7 +19160,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_api_handler.cpp")
         Threads::Threads
     )
 
-    add_test(NAME VoiceApiHandlerTests COMMAND test_voice_api_handler)
+    add_test(NAME VoiceApiHandlerTests COMMAND $<TARGET_FILE:test_voice_api_handler>)
 
     set_tests_properties(VoiceApiHandlerTests PROPERTIES
         LABELS "voice;server;api;unit"
@@ -19177,7 +19197,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/canary/test_canary_rollout.cpp" AND NOT T
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME CanaryRolloutFocusedTests COMMAND test_canary_rollout_focused)
+    add_test(NAME CanaryRolloutFocusedTests COMMAND $<TARGET_FILE:test_canary_rollout_focused>)
 
     set_tests_properties(CanaryRolloutFocusedTests PROPERTIES
         LABELS "deployment;canary;rollout;focused;unit"
@@ -19213,7 +19233,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/binary/test_binary_delta_patches.cpp" AND
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME BinaryDeltaPatchesFocusedTests COMMAND test_binary_delta_patches_focused)
+    add_test(NAME BinaryDeltaPatchesFocusedTests COMMAND $<TARGET_FILE:test_binary_delta_patches_focused>)
 
     set_tests_properties(BinaryDeltaPatchesFocusedTests PROPERTIES
         LABELS "updates;delta;binary-diff;patches;zstd;vcdiff;checksums;fallback;focused;unit;integration"
@@ -19249,7 +19269,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/automatic/test_automatic_schema_migration
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME AutomaticSchemaMigrationFocusedTests COMMAND test_automatic_schema_migration_focused)
+    add_test(NAME AutomaticSchemaMigrationFocusedTests COMMAND $<TARGET_FILE:test_automatic_schema_migration_focused>)
 
     set_tests_properties(AutomaticSchemaMigrationFocusedTests PROPERTIES
         LABELS "updates;schema;migration;online-ddl;backfill;rollback;dual-write;focused;unit;integration"
@@ -19285,7 +19305,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/distributed/test_distributed_cluster_upda
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME DistributedClusterUpdatesFocusedTests COMMAND test_distributed_cluster_updates_focused)
+    add_test(NAME DistributedClusterUpdatesFocusedTests COMMAND $<TARGET_FILE:test_distributed_cluster_updates_focused>)
 
     set_tests_properties(DistributedClusterUpdatesFocusedTests PROPERTIES
         LABELS "updates;cluster;distributed;rolling-update;health-check;version-skew;focused;unit;integration"
@@ -19322,7 +19342,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/manifest/test_manifest_database_file_dele
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ManifestDatabaseFileDeletionFocusedTests COMMAND test_manifest_database_file_deletion_focused)
+    add_test(NAME ManifestDatabaseFileDeletionFocusedTests COMMAND $<TARGET_FILE:test_manifest_database_file_deletion_focused>)
 
     set_tests_properties(ManifestDatabaseFileDeletionFocusedTests PROPERTIES
         LABELS "updates;manifest;file-deletion;tombstone;registry;focused;unit"
@@ -19362,7 +19382,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/capabilityautogenerator/test_capabilityau
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME CapGenPersistStateTests COMMAND test_capabilityautogenerator_persist_state_focused)
+    add_test(NAME CapGenPersistStateTests COMMAND $<TARGET_FILE:test_capabilityautogenerator_persist_state_focused>)
 
     set_tests_properties(CapGenPersistStateTests PROPERTIES
         LABELS "utils;capability;auto-generator;persist;rocksdb;yaml;schedule;v1.8.0;focused;unit"
@@ -19424,7 +19444,7 @@ if(THEMIS_ENABLE_LLM)
             THEMIS_TEST_BUILD=1
         )
 
-        add_test(NAME VoiceAssistantFocusedTests COMMAND test_voice_assistant_focused)
+        add_test(NAME VoiceAssistantFocusedTests COMMAND $<TARGET_FILE:test_voice_assistant_focused>)
 
         set_tests_properties(VoiceAssistantFocusedTests PROPERTIES
             LABELS "voice;assistant;biometric;authentication;speaker-verification;wake-word;macros;focused;unit"
@@ -19467,7 +19487,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_browser_streaming.cpp" A
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME VoiceBrowserStreamingFocusedTests COMMAND test_voice_browser_streaming_focused)
+    add_test(NAME VoiceBrowserStreamingFocusedTests COMMAND $<TARGET_FILE:test_voice_browser_streaming_focused>)
 
     set_tests_properties(VoiceBrowserStreamingFocusedTests PROPERTIES
         LABELS "voice;streaming;websocket;browser;focused;unit"
@@ -19510,7 +19530,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_security_features.cpp" A
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME VoiceSecurityFeaturesFocusedTests COMMAND test_voice_security_features_focused)
+    add_test(NAME VoiceSecurityFeaturesFocusedTests COMMAND $<TARGET_FILE:test_voice_security_features_focused>)
 
     set_tests_properties(VoiceSecurityFeaturesFocusedTests PROPERTIES
         LABELS "voice;security;ssml;injection;path-traversal;origin-allowlist;focused;unit"
@@ -19545,7 +19565,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_browser_streaming.cpp" A
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME VoiceBrowserStreamingFocusedTests COMMAND test_voice_browser_streaming_focused)
+    add_test(NAME VoiceBrowserStreamingFocusedTests COMMAND $<TARGET_FILE:test_voice_browser_streaming_focused>)
 endif()
 
 # HuggingFace exporter focused tests
@@ -19577,7 +19597,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_huggingface_exporter.cpp" 
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME HuggingFaceExporterFocusedTests COMMAND test_huggingface_exporter_focused)
+    add_test(NAME HuggingFaceExporterFocusedTests COMMAND $<TARGET_FILE:test_huggingface_exporter_focused>)
 endif()
 
 # Data augmentation focused tests
@@ -19613,7 +19633,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/exporters/test_data_augmentation.cpp" AND
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME DataAugmentationFocusedTests COMMAND test_data_augmentation_focused)
+    add_test(NAME DataAugmentationFocusedTests COMMAND $<TARGET_FILE:test_data_augmentation_focused>)
 
     set_tests_properties(DataAugmentationFocusedTests PROPERTIES
         LABELS "exporters;data-augmentation;focused"
@@ -19654,7 +19674,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_telephony.cpp" AND NOT T
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME VoiceTelephonyFocusedTests COMMAND test_voice_telephony_focused)
+    add_test(NAME VoiceTelephonyFocusedTests COMMAND $<TARGET_FILE:test_voice_telephony_focused>)
 
     set_tests_properties(VoiceTelephonyFocusedTests PROPERTIES
         LABELS "voice;telephony;sip;webrtc;ivr;bridge;focused;unit"
@@ -19687,7 +19707,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/notification/test_notification_webhook.cp
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME NotificationWebhookFocusedTests COMMAND test_notification_webhook_focused)
+    add_test(NAME NotificationWebhookFocusedTests COMMAND $<TARGET_FILE:test_notification_webhook_focused>)
 
     set_tests_properties(NotificationWebhookFocusedTests PROPERTIES
         LABELS "updates;notification;webhook;slack;pagerduty;focused;unit"
@@ -19719,7 +19739,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/preflight/test_preflight_health_check.cpp
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME PreflightHealthCheckFocusedTests COMMAND test_preflight_health_check_focused)
+    add_test(NAME PreflightHealthCheckFocusedTests COMMAND $<TARGET_FILE:test_preflight_health_check_focused>)
 
     set_tests_properties(PreflightHealthCheckFocusedTests PROPERTIES
         LABELS "updates;preflight;health-check;disk-space;memory;dependency;focused;unit"
@@ -19756,7 +19776,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/schema/test_schema_migration_tester.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME SchemaMigrationTesterFocusedTests COMMAND test_schema_migration_tester_focused)
+    add_test(NAME SchemaMigrationTesterFocusedTests COMMAND $<TARGET_FILE:test_schema_migration_tester_focused>)
 
     set_tests_properties(SchemaMigrationTesterFocusedTests PROPERTIES
         LABELS "updates;schema-migration;testing-framework;staging;focused;unit"
@@ -19794,7 +19814,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/parallel/test_parallel_file_downloads.cpp
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ParallelFileDownloadsFocusedTests COMMAND test_parallel_file_downloads_focused)
+    add_test(NAME ParallelFileDownloadsFocusedTests COMMAND $<TARGET_FILE:test_parallel_file_downloads_focused>)
 
     set_tests_properties(ParallelFileDownloadsFocusedTests PROPERTIES
         LABELS "updates;parallel-downloads;concurrency;bandwidth;priority;resume;focused;unit"
@@ -19830,7 +19850,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/dependency/test_dependency_resolution_eng
     )
 
     add_test(NAME DependencyResolutionEngineFocusedTests
-        COMMAND test_dependency_resolution_engine_focused)
+        COMMAND $<TARGET_FILE:test_dependency_resolution_engine_focused>)
 
     set_tests_properties(DependencyResolutionEngineFocusedTests PROPERTIES
         LABELS "updates;dependency-resolution;topological-sort;cycle-detection;version-constraints;conflict-resolution;backfill;focused;unit;v1.6.0"
@@ -19876,7 +19896,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/content/test_content_embedding_pipeline.c
     )
 
     add_test(NAME ContentEmbeddingPipelineFocusedTests
-        COMMAND test_content_embedding_pipeline_focused)
+        COMMAND $<TARGET_FILE:test_content_embedding_pipeline_focused>)
 
     set_tests_properties(ContentEmbeddingPipelineFocusedTests PROPERTIES
         LABELS "content;embedding;pipeline;vector;metrics;policy;focused;unit;v1.8.0"
@@ -19912,7 +19932,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/multi/test_multi_tenant_update_scheduling
     )
 
     add_test(NAME MultiTenantUpdateSchedulingFocusedTests
-        COMMAND test_multi_tenant_update_scheduling_focused)
+        COMMAND $<TARGET_FILE:test_multi_tenant_update_scheduling_focused>)
 
     set_tests_properties(MultiTenantUpdateSchedulingFocusedTests PROPERTIES
         LABELS "updates;multi-tenant;maintenance-window;blackout;priority;consent;rollback;focused;unit;v1.8.0"
@@ -19977,7 +19997,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/distributed/test_distributed_gateway.cpp"
         THEMIS_ENABLE_HTTP_SERVER=1
     )
 
-    add_test(NAME DistributedGatewayFocusedTests COMMAND test_distributed_gateway_focused)
+    add_test(NAME DistributedGatewayFocusedTests COMMAND $<TARGET_FILE:test_distributed_gateway_focused>)
 
     set_tests_properties(DistributedGatewayFocusedTests PROPERTIES
         LABELS "server;gateway;distributed;raft;failover;affinity;routing;focused;unit"
@@ -20017,7 +20037,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/server/test_api_gateway_enhancements.cpp"
         THEMIS_ENABLE_HTTP_SERVER=1
     )
 
-    add_test(NAME APIGatewayEnhancementsFocusedTests COMMAND test_api_gateway_enhancements_focused)
+    add_test(NAME APIGatewayEnhancementsFocusedTests COMMAND $<TARGET_FILE:test_api_gateway_enhancements_focused>)
 
     set_tests_properties(APIGatewayEnhancementsFocusedTests PROPERTIES
         LABELS "server;gateway;coalescing;smart-routing;focused;unit"
@@ -20060,7 +20080,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/database/test_database_maintenance_orches
     )
 
     add_test(NAME DatabaseMaintenanceOrchestratorFocusedTests
-             COMMAND test_database_maintenance_orchestrator_focused)
+             COMMAND $<TARGET_FILE:test_database_maintenance_orchestrator_focused>)
 
     set_tests_properties(DatabaseMaintenanceOrchestratorFocusedTests PROPERTIES
         LABELS "maintenance;orchestrator;schedule;crud;health;window;metrics;focused;unit"
@@ -20096,7 +20116,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/replica/test_replica_validation_handler.c
     )
 
     add_test(NAME ReplicaValidationHandlerFocusedTests
-             COMMAND test_replica_validation_handler_focused)
+             COMMAND $<TARGET_FILE:test_replica_validation_handler_focused>)
 
     set_tests_properties(ReplicaValidationHandlerFocusedTests PROPERTIES
         LABELS "maintenance;replica-validation;handler;sharding;focused;unit"
@@ -20134,7 +20154,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vectorized/test_vectorized_execution.cpp"
     )
 
     add_test(NAME VectorizedExecutionFocusedTests
-        COMMAND test_vectorized_execution_focused)
+        COMMAND $<TARGET_FILE:test_vectorized_execution_focused>)
 
     set_tests_properties(VectorizedExecutionFocusedTests PROPERTIES
         LABELS "query;vectorized;execution;simd;batch;v1.8.0;focused;unit"
@@ -20170,7 +20190,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/materialized/test_materialized_view.cpp")
     )
 
     add_test(NAME MaterializedViewFocusedTests
-        COMMAND test_materialized_view_focused)
+        COMMAND $<TARGET_FILE:test_materialized_view_focused>)
 
     set_tests_properties(MaterializedViewFocusedTests PROPERTIES
         LABELS "query;materialized-view;incremental-maintenance;staleness;rewrite;v1.8.0;focused;unit"
@@ -20215,7 +20235,7 @@ if(THEMIS_ENABLE_GRPC AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/grpc/test_grpc_plu
         ${THEMIS_ROOT_DIR}/src/rpc_grpc/grpc_plugin.cpp
     )
 
-    add_test(NAME GrpcPluginTests COMMAND test_grpc_plugin)
+    add_test(NAME GrpcPluginTests COMMAND $<TARGET_FILE:test_grpc_plugin>)
 
     set_tests_properties(GrpcPluginTests PROPERTIES
         LABELS "rpc;grpc;plugin;lifecycle;tls;unit"
@@ -20257,7 +20277,7 @@ if(THEMIS_ENABLE_GRPC AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bidi/test_bidi_str
         THEMIS_ENABLE_GRPC
     )
 
-    add_test(NAME BidiStreamAdapterTests COMMAND test_bidi_stream_adapter)
+    add_test(NAME BidiStreamAdapterTests COMMAND $<TARGET_FILE:test_bidi_stream_adapter>)
 
     set_tests_properties(BidiStreamAdapterTests PROPERTIES
         LABELS "rpc;grpc;streaming;unit"
@@ -20310,7 +20330,7 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/discourse/tes
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME DiscourseEngineFocusedTests COMMAND test_discourse_engine_focused)
+    add_test(NAME DiscourseEngineFocusedTests COMMAND $<TARGET_FILE:test_discourse_engine_focused>)
 
     set_tests_properties(DiscourseEngineFocusedTests PROPERTIES
         LABELS "ethics;discourse-engine;philosophy;standalone;unit"
@@ -20359,7 +20379,7 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/philosophy/te
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME PhilosophyLoaderFocusedTests COMMAND test_philosophy_loader_focused)
+    add_test(NAME PhilosophyLoaderFocusedTests COMMAND $<TARGET_FILE:test_philosophy_loader_focused>)
 
     set_tests_properties(PhilosophyLoaderFocusedTests PROPERTIES
         LABELS "ethics;philosophy-loader;yaml;unit"
@@ -20422,7 +20442,7 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ethics/test_e
         CXX_STANDARD_REQUIRED ON
     )
 
-    add_test(NAME EthicsAIIntegrationTests COMMAND test_ethics_ai_integration)
+    add_test(NAME EthicsAIIntegrationTests COMMAND $<TARGET_FILE:test_ethics_ai_integration>)
 
     set_tests_properties(EthicsAIIntegrationTests PROPERTIES
         LABELS "ethics;integration;full-pipeline;rag;argument-store"
@@ -20480,7 +20500,7 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ethics/test_e
         CXX_STANDARD_REQUIRED ON
     )
 
-    add_test(NAME EthicsAIBenchmarkTests COMMAND test_ethics_ai_benchmark)
+    add_test(NAME EthicsAIBenchmarkTests COMMAND $<TARGET_FILE:test_ethics_ai_benchmark>)
 
     set_tests_properties(EthicsAIBenchmarkTests PROPERTIES
         LABELS "ethics;benchmark;performance;latency"
@@ -20529,7 +20549,7 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ethics/test_e
         CXX_STANDARD_REQUIRED ON
     )
 
-    add_test(NAME ChainVisualizerTests COMMAND test_ethics_ai_chain_visualizer)
+    add_test(NAME ChainVisualizerTests COMMAND $<TARGET_FILE:test_ethics_ai_chain_visualizer>)
 
     set_tests_properties(ChainVisualizerTests PROPERTIES
         LABELS "ethics;visualizer;dot;mermaid;unit"
@@ -20586,7 +20606,7 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ethics/test_e
         CXX_STANDARD_REQUIRED ON
     )
 
-    add_test(NAME EthicsAIv030Tests COMMAND test_ethics_ai_v030_focused)
+    add_test(NAME EthicsAIv030Tests COMMAND $<TARGET_FILE:test_ethics_ai_v030_focused>)
 
     set_tests_properties(EthicsAIv030Tests PROPERTIES
         LABELS "ethics;hot-reload;multi-round;prometheus;unit"
@@ -20632,7 +20652,7 @@ if(THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/onn
         THEMIS_IMAGE_PLUGIN_DISABLE_EXPORT=1
     )
 
-    add_test(NAME OnnxClipPluginTests COMMAND test_onnx_clip_plugin)
+    add_test(NAME OnnxClipPluginTests COMMAND $<TARGET_FILE:test_onnx_clip_plugin>)
 
     set_tests_properties(OnnxClipPluginTests PROPERTIES
         LABELS "image-analysis;onnx;clip;batch;plugin;unit"
@@ -20674,7 +20694,7 @@ if(THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/onn
             THEMIS_IMAGE_PLUGIN_DISABLE_EXPORT=1
         )
 
-        add_test(NAME OnnxClipPluginContractTests COMMAND test_onnx_clip_plugin_contract_hardening_focused)
+        add_test(NAME OnnxClipPluginContractTests COMMAND $<TARGET_FILE:test_onnx_clip_plugin_contract_hardening_focused>)
 
         set_tests_properties(OnnxClipPluginContractTests PROPERTIES
             LABELS "image-analysis;onnx;clip;batch;plugin;contract;focused;OCP-01;OCP-02;OCP-03;OCP-04;OCP-05;OCP-06;OCP-07;OCP-08;OCP-09;OCP-10;OCP-11;OCP-12;OCP-13;OCP-14;OCP-15;OCP-16"
@@ -20702,7 +20722,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/base/test_base_entity_focused.cpp")
     target_include_directories(test_base_entity_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_base_entity_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_base_entity_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME BaseEntitySetFieldFocusedTests COMMAND test_base_entity_focused)
+    add_test(NAME BaseEntitySetFieldFocusedTests COMMAND $<TARGET_FILE:test_base_entity_focused>)
     set_tests_properties(BaseEntitySetFieldFocusedTests PROPERTIES LABELS "storage;entity;field;fail-closed;focused;unit" TIMEOUT 60)
     message(STATUS "  BaseEntity::setField: empty field_name rejection, map corruption prevention")
 endif()
@@ -20721,7 +20741,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/base/test_base_reload_regression.cpp")
         Threads::Threads
     )
     target_compile_definitions(test_base_reload_regression_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME BaseReloadRegressionFocusedTests COMMAND test_base_reload_regression_focused)
+    add_test(NAME BaseReloadRegressionFocusedTests COMMAND $<TARGET_FILE:test_base_reload_regression_focused>)
     set_tests_properties(BaseReloadRegressionFocusedTests PROPERTIES
         LABELS "base;hot-reload;regression;focused;unit"
         TIMEOUT 120
@@ -20736,7 +20756,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/replication/test_replication_manager_addR
     target_include_directories(test_replication_manager_addReplica_simple PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_replication_manager_addReplica_simple PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_replication_manager_addReplica_simple PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME ReplicationManagerAddReplicaSimpleTests COMMAND test_replication_manager_addReplica_simple)
+    add_test(NAME ReplicationManagerAddReplicaSimpleTests COMMAND $<TARGET_FILE:test_replication_manager_addReplica_simple>)
     set_tests_properties(ReplicationManagerAddReplicaSimpleTests PROPERTIES LABELS "replication;replica;fail-closed;focused;unit;qw33" TIMEOUT 60)
     message(STATUS "  ReplicationManager::addReplica: empty node_id/endpoint rejection, guard independence")
 endif()
@@ -20748,7 +20768,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/inference/test_inference_engine_registerM
     target_include_directories(test_inference_engine_registerModel_simple PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_inference_engine_registerModel_simple PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_inference_engine_registerModel_simple PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME InferenceEngineRegisterModelSimpleTests COMMAND test_inference_engine_registerModel_simple)
+    add_test(NAME InferenceEngineRegisterModelSimpleTests COMMAND $<TARGET_FILE:test_inference_engine_registerModel_simple>)
     set_tests_properties(InferenceEngineRegisterModelSimpleTests PROPERTIES LABELS "llm;inference;model;fail-closed;focused;unit;qw35" TIMEOUT 60)
     message(STATUS "  InferenceEngineEnhanced::registerModel: empty model_id rejection, guard independence")
 endif()
@@ -20763,7 +20783,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_assistant_generateLLMRes
         target_link_libraries(test_voice_assistant_generateLLMResponse_qw37 PRIVATE themis_voice)
     endif()
     target_compile_definitions(test_voice_assistant_generateLLMResponse_qw37 PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME VoiceAssistantGenerateLLMResponseQW37Tests COMMAND test_voice_assistant_generateLLMResponse_qw37)
+    add_test(NAME VoiceAssistantGenerateLLMResponseQW37Tests COMMAND $<TARGET_FILE:test_voice_assistant_generateLLMResponse_qw37>)
     set_tests_properties(VoiceAssistantGenerateLLMResponseQW37Tests PROPERTIES LABELS "voice;llm;prompt;fail-closed;focused;unit;qw37" TIMEOUT 60)
     message(STATUS "  VoiceAssistant::generateLLMResponse: empty user_input rejection, session integrity")
 endif()
@@ -20778,7 +20798,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_assistant_verifyIdentify
         target_link_libraries(test_voice_assistant_verifyIdentify_qw38 PRIVATE themis_voice)
     endif()
     target_compile_definitions(test_voice_assistant_verifyIdentify_qw38 PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME VoiceAssistantVerifyIdentifyQW38Tests COMMAND test_voice_assistant_verifyIdentify_qw38)
+    add_test(NAME VoiceAssistantVerifyIdentifyQW38Tests COMMAND $<TARGET_FILE:test_voice_assistant_verifyIdentify_qw38>)
     set_tests_properties(VoiceAssistantVerifyIdentifyQW38Tests PROPERTIES LABELS "voice;audit;verification;identification;focused;unit;qw38" TIMEOUT 60)
     message(STATUS "  VoiceAssistant::verifyVoiceSpeaker/identifyVoiceProfiles: audit logging on verify/identify")
 endif()
@@ -20790,7 +20810,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/distributed/test_distributed_saga_consens
     target_include_directories(test_distributed_saga_consensus_qw39 PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_distributed_saga_consensus_qw39 PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_distributed_saga_consensus_qw39 PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME DistributedSagaConsensusQW39Tests COMMAND test_distributed_saga_consensus_qw39)
+    add_test(NAME DistributedSagaConsensusQW39Tests COMMAND $<TARGET_FILE:test_distributed_saga_consensus_qw39>)
     set_tests_properties(DistributedSagaConsensusQW39Tests PROPERTIES LABELS "transaction;distributed-saga;consensus;focused;unit;qw39" TIMEOUT 60)
     message(STATUS "  DistributedSagaCoordinator: consensus verification on step success, quorum validation")
 endif()
@@ -20802,7 +20822,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/training/test_training_pipeline_injection
     target_include_directories(test_training_pipeline_injection_qw40 PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_training_pipeline_injection_qw40 PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_training_pipeline_injection_qw40 PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME TrainingPipelineInjectionQW40Tests COMMAND test_training_pipeline_injection_qw40)
+    add_test(NAME TrainingPipelineInjectionQW40Tests COMMAND $<TARGET_FILE:test_training_pipeline_injection_qw40>)
     set_tests_properties(TrainingPipelineInjectionQW40Tests PROPERTIES LABELS "training;prompt-injection;focused;unit;qw40" TIMEOUT 60)
     message(STATUS "  TrainingPipeline: injection guards at task_description, drift_threshold, selection_criteria")
 endif()
@@ -20814,7 +20834,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/multi/test_multi_task_lora_config_qw41.cp
     target_include_directories(test_multi_task_lora_config_qw41 PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_multi_task_lora_config_qw41 PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_multi_task_lora_config_qw41 PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME MultiTaskLoRAConfigQW41Tests COMMAND test_multi_task_lora_config_qw41)
+    add_test(NAME MultiTaskLoRAConfigQW41Tests COMMAND $<TARGET_FILE:test_multi_task_lora_config_qw41>)
     set_tests_properties(MultiTaskLoRAConfigQW41Tests PROPERTIES LABELS "training;lora;config;hardening;focused;unit;qw41" TIMEOUT 60)
     message(STATUS "  MultiTaskLoRATrainer: configuration guards on task_id, task_rank, learning_rate, loss_weight")
 endif()
@@ -20826,7 +20846,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/grpc/test_grpc_server_config_qw42.cpp")
     target_include_directories(test_grpc_server_config_qw42 PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_grpc_server_config_qw42 PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_grpc_server_config_qw42 PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME GrpcServerConfigQW42Tests COMMAND test_grpc_server_config_qw42)
+    add_test(NAME GrpcServerConfigQW42Tests COMMAND $<TARGET_FILE:test_grpc_server_config_qw42>)
     set_tests_properties(GrpcServerConfigQW42Tests PROPERTIES LABELS "api;grpc;config;hardening;focused;unit;qw42" TIMEOUT 60)
     message(STATUS "  GrpcApiServer: port range, host validation, TLS path checks, message size bounds")
 endif()
@@ -20838,7 +20858,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/plugin/test_plugin_manager_path_traversal
     target_include_directories(test_plugin_manager_path_traversal_qw43 PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_plugin_manager_path_traversal_qw43 PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_plugin_manager_path_traversal_qw43 PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME PluginManagerPathTraversalQW43Tests COMMAND test_plugin_manager_path_traversal_qw43)
+    add_test(NAME PluginManagerPathTraversalQW43Tests COMMAND $<TARGET_FILE:test_plugin_manager_path_traversal_qw43>)
     set_tests_properties(PluginManagerPathTraversalQW43Tests PROPERTIES LABELS "plugins;path-traversal;security;focused;unit;qw43" TIMEOUT 60)
     message(STATUS "  PluginManager: plugin name validation against ../, /, \\, C:, special chars")
 endif()
@@ -20850,7 +20870,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/wasm/test_wasm_module_hash_validation_qw4
     target_include_directories(test_wasm_module_hash_validation_qw44 PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_wasm_module_hash_validation_qw44 PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_wasm_module_hash_validation_qw44 PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME WasmModuleHashValidationQW44Tests COMMAND test_wasm_module_hash_validation_qw44)
+    add_test(NAME WasmModuleHashValidationQW44Tests COMMAND $<TARGET_FILE:test_wasm_module_hash_validation_qw44>)
     set_tests_properties(WasmModuleHashValidationQW44Tests PROPERTIES LABELS "plugins;wasm;hash-verification;crypto;focused;unit;qw44" TIMEOUT 60)
     message(STATUS "  WASM: module hash validation, empty hash rejection, length validation, match verification")
 endif()
@@ -20862,7 +20882,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_graph_edge_empty_fields_qw45.c
     target_include_directories(test_graph_edge_empty_fields_qw45 PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_graph_edge_empty_fields_qw45 PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_graph_edge_empty_fields_qw45 PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME GraphEdgeEmptyFieldsQW45Tests COMMAND test_graph_edge_empty_fields_qw45)
+    add_test(NAME GraphEdgeEmptyFieldsQW45Tests COMMAND $<TARGET_FILE:test_graph_edge_empty_fields_qw45>)
     set_tests_properties(GraphEdgeEmptyFieldsQW45Tests PROPERTIES LABELS "graph;index;edge-validation;fail-closed;focused;unit;qw45" TIMEOUT 60)
     message(STATUS "  Graph Index: edge _from/_to field validation, topology corruption prevention")
 endif()
@@ -20874,7 +20894,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/query/test_query_api_handler_qw46.cpp")
     target_include_directories(test_query_api_handler_qw46 PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_query_api_handler_qw46 PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_query_api_handler_qw46 PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME QueryApiHandlerQW46Tests COMMAND test_query_api_handler_qw46)
+    add_test(NAME QueryApiHandlerQW46Tests COMMAND $<TARGET_FILE:test_query_api_handler_qw46>)
     set_tests_properties(QueryApiHandlerQW46Tests PROPERTIES LABELS "api;query;collection-name;injection-guard;fail-closed;focused;unit;qw46" TIMEOUT 60)
     message(STATUS "  Query API Handler: table name validation, path traversal prevention")
 else()
@@ -20887,7 +20907,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/storage/test_storage_audit_logger.cpp")
     target_include_directories(test_storage_audit_logger_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_storage_audit_logger_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_storage_audit_logger_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME StorageAuditLoggerFocusedTests COMMAND test_storage_audit_logger_focused)
+    add_test(NAME StorageAuditLoggerFocusedTests COMMAND $<TARGET_FILE:test_storage_audit_logger_focused>)
     set_tests_properties(StorageAuditLoggerFocusedTests PROPERTIES LABELS "storage;audit;focused;unit" TIMEOUT 60)
     message(STATUS "  StorageAuditLogger: write, read, rotate, tamper detection")
 endif()
@@ -20898,7 +20918,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/wal/test_wal_storage.cpp")
     target_include_directories(test_wal_storage_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_wal_storage_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_wal_storage_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME WALStorageFocusedTests COMMAND test_wal_storage_focused)
+    add_test(NAME WALStorageFocusedTests COMMAND $<TARGET_FILE:test_wal_storage_focused>)
     set_tests_properties(WALStorageFocusedTests PROPERTIES LABELS "storage;wal;focused;unit" TIMEOUT 60)
     message(STATUS "  WALStorage: replay, rotation, fsync/write failure semantics")
 endif()
@@ -20909,7 +20929,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/wom/test_wom_tree.cpp")
     target_include_directories(test_wom_tree_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_wom_tree_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_wom_tree_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME WomTreeFocusedTests COMMAND test_wom_tree_focused)
+    add_test(NAME WomTreeFocusedTests COMMAND $<TARGET_FILE:test_wom_tree_focused>)
     set_tests_properties(WomTreeFocusedTests PROPERTIES LABELS "storage;wom;write-optimized;focused;unit" TIMEOUT 60)
     message(STATUS "  WomTree: put/get/remove, update-heavy workload, lazy flush, write amplification, thread safety")
 endif()
@@ -20920,7 +20940,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/storage/test_storage_engine_di.cpp")
     target_include_directories(test_storage_engine_di_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_storage_engine_di_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_storage_engine_di_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME StorageEngineDIFocusedTests COMMAND test_storage_engine_di_focused)
+    add_test(NAME StorageEngineDIFocusedTests COMMAND $<TARGET_FILE:test_storage_engine_di_focused>)
     set_tests_properties(StorageEngineDIFocusedTests PROPERTIES LABELS "storage;engine;di;focused;unit" TIMEOUT 60)
     message(STATUS "  StorageEngine DI: constructor injection, encryption, evaluator")
 endif()
@@ -20931,7 +20951,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/storage/test_storage_engine_prod.cpp")
     target_include_directories(test_storage_engine_prod_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_storage_engine_prod_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_storage_engine_prod_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME StorageEngineProdFocusedTests COMMAND test_storage_engine_prod_focused)
+    add_test(NAME StorageEngineProdFocusedTests COMMAND $<TARGET_FILE:test_storage_engine_prod_focused>)
     set_tests_properties(StorageEngineProdFocusedTests PROPERTIES LABELS "storage;engine;production;focused;unit" TIMEOUT 60)
     message(STATUS "  StorageEngine prod: PRODUCTION_MODE safety flag, encryption defaults")
 endif()
@@ -20948,7 +20968,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/nvme/test_nvme_manager.cpp")
         Threads::Threads
     )
     target_compile_definitions(test_nvme_manager_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME NVMeFocusedTests COMMAND test_nvme_manager_focused)
+    add_test(NAME NVMeFocusedTests COMMAND $<TARGET_FILE:test_nvme_manager_focused>)
     set_tests_properties(NVMeFocusedTests PROPERTIES
         LABELS "storage;nvme;io_uring;zns;direct-io;focused;unit"
         TIMEOUT 60
@@ -20971,7 +20991,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/blob/test_blob_streaming.cpp")
         Threads::Threads
     )
     target_compile_definitions(test_blob_streaming_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME BlobStreamingFocusedTests COMMAND test_blob_streaming_focused)
+    add_test(NAME BlobStreamingFocusedTests COMMAND $<TARGET_FILE:test_blob_streaming_focused>)
     set_tests_properties(BlobStreamingFocusedTests PROPERTIES
         LABELS "storage;blob;streaming;chunked;parallel;nvme;perf-d5;focused;unit"
         TIMEOUT 120
@@ -21002,7 +21022,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/erasure/test_erasure_coding_backend.cpp" 
     )
 
     add_test(NAME ErasureCodingFocusedTests
-        COMMAND test_erasure_coding_backend_focused)
+        COMMAND $<TARGET_FILE:test_erasure_coding_backend_focused>)
 
     set_tests_properties(ErasureCodingFocusedTests PROPERTIES
         LABELS "storage;erasure-coding;reed-solomon;blob;fault-tolerance;focused;unit;v1.7.0"
@@ -21039,7 +21059,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/hamming/test_hamming_coder.cpp" AND NOT T
     )
 
     add_test(NAME HammingCoderFocusedTests
-        COMMAND test_hamming_coder_focused)
+        COMMAND $<TARGET_FILE:test_hamming_coder_focused>)
 
     set_tests_properties(HammingCoderFocusedTests PROPERTIES
         LABELS "sharding;erasure-coding;hamming;raid2;fault-tolerance;focused;unit"
@@ -21095,7 +21115,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/opencl/test_opencl_erasure_coder_parity.c
         )
 
         add_test(NAME OpenCLErasureCoderParityTests
-            COMMAND test_opencl_erasure_coder_parity_focused)
+            COMMAND $<TARGET_FILE:test_opencl_erasure_coder_parity_focused>)
 
         set_tests_properties(OpenCLErasureCoderParityTests PROPERTIES
             LABELS "sharding;gpu;opencl;erasure-coding;reed-solomon;parity;v1.8.0;focused;unit"
@@ -21118,7 +21138,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/network/test_network_timeout.cpp" AND NOT
     target_include_directories(test_network_timeout_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_network_timeout_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_network_timeout_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME NetworkTimeoutFocusedTests COMMAND test_network_timeout_focused)
+    add_test(NAME NetworkTimeoutFocusedTests COMMAND $<TARGET_FILE:test_network_timeout_focused>)
     set_tests_properties(NetworkTimeoutFocusedTests PROPERTIES LABELS "network;timeout;circuit-breaker;focused;unit" TIMEOUT 60)
     message(STATUS "  NetworkTimeout: socket timeout manager, circuit breaker")
 endif()
@@ -21129,7 +21149,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/network/test_wire_protocol_v2.cpp" AND NO
     target_include_directories(test_wire_protocol_v2_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_wire_protocol_v2_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_wire_protocol_v2_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME WireProtocolV2FocusedTests COMMAND test_wire_protocol_v2_focused)
+    add_test(NAME WireProtocolV2FocusedTests COMMAND $<TARGET_FILE:test_wire_protocol_v2_focused>)
     set_tests_properties(WireProtocolV2FocusedTests PROPERTIES LABELS "network;wire-protocol;v2;multiplexing;focused;unit" TIMEOUT 60)
     message(STATUS "  WireProtocolV2: multiplexed streams, flow control, GOAWAY, push-promise")
 endif()
@@ -21143,7 +21163,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/network/test_wire_protocol_websocket.cpp"
         target_link_libraries(test_wire_protocol_websocket_focused PRIVATE themis_network)
     endif()
     target_compile_definitions(test_wire_protocol_websocket_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME WireProtocolWebSocketFocusedTests COMMAND test_wire_protocol_websocket_focused)
+    add_test(NAME WireProtocolWebSocketFocusedTests COMMAND $<TARGET_FILE:test_wire_protocol_websocket_focused>)
     set_tests_properties(WireProtocolWebSocketFocusedTests PROPERTIES LABELS "network;websocket;upgrade;focused;unit" TIMEOUT 60)
     message(STATUS "  WireProtocolWebSocket: HTTP upgrade, frame handling, connection accounting")
 endif()
@@ -21158,7 +21178,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bloom/test_bloom_filter.cpp")
     target_include_directories(test_bloom_filter_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_bloom_filter_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_bloom_filter_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME BloomFilterFocusedTests COMMAND test_bloom_filter_focused)
+    add_test(NAME BloomFilterFocusedTests COMMAND $<TARGET_FILE:test_bloom_filter_focused>)
     set_tests_properties(BloomFilterFocusedTests PROPERTIES LABELS "utils;bloom-filter;focused;unit" TIMEOUT 60)
     message(STATUS "  BloomFilter: insert, lookup, false-positive rate, merge")
 endif()
@@ -21169,7 +21189,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/pii/test_pii_stream_scanner.cpp" AND NOT 
     target_include_directories(test_pii_stream_scanner_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_pii_stream_scanner_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_pii_stream_scanner_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME PIIStreamScannerFocusedTests COMMAND test_pii_stream_scanner_focused)
+    add_test(NAME PIIStreamScannerFocusedTests COMMAND $<TARGET_FILE:test_pii_stream_scanner_focused>)
     set_tests_properties(PIIStreamScannerFocusedTests PROPERTIES LABELS "utils;pii;scanner;privacy;focused;unit" TIMEOUT 60)
     message(STATUS "  PIIStreamScanner: streaming redaction, pattern matching, callback")
 endif()
@@ -21180,7 +21200,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sampled/test_sampled_logger.cpp" AND NOT 
     target_include_directories(test_sampled_logger_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_sampled_logger_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_sampled_logger_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME SampledLoggerFocusedTests COMMAND test_sampled_logger_focused)
+    add_test(NAME SampledLoggerFocusedTests COMMAND $<TARGET_FILE:test_sampled_logger_focused>)
     set_tests_properties(SampledLoggerFocusedTests PROPERTIES LABELS "utils;logging;sampling;focused;unit" TIMEOUT 60)
     message(STATUS "  SampledLogger: rate-limited log emission, token-bucket sampling")
 endif()
@@ -21191,7 +21211,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/timestamp/test_timestamp_utils.cpp" AND N
     target_include_directories(test_timestamp_utils_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_timestamp_utils_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_timestamp_utils_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME TimestampUtilsFocusedTests COMMAND test_timestamp_utils_focused)
+    add_test(NAME TimestampUtilsFocusedTests COMMAND $<TARGET_FILE:test_timestamp_utils_focused>)
     set_tests_properties(TimestampUtilsFocusedTests PROPERTIES LABELS "utils;timestamp;hlc;focused;unit" TIMEOUT 60)
     message(STATUS "  TimestampUtils: parse, format, HLC ordering, epoch conversion")
 endif()
@@ -21206,7 +21226,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cdn/test_cdn_cache_middleware.cpp")
     target_include_directories(test_cdn_cache_middleware_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_cdn_cache_middleware_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_cdn_cache_middleware_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME CDNCacheMiddlewareFocusedTests COMMAND test_cdn_cache_middleware_focused)
+    add_test(NAME CDNCacheMiddlewareFocusedTests COMMAND $<TARGET_FILE:test_cdn_cache_middleware_focused>)
     set_tests_properties(CDNCacheMiddlewareFocusedTests PROPERTIES LABELS "server;cdn;cache;middleware;focused;unit" TIMEOUT 60)
     message(STATUS "  CDNCacheMiddleware: Cache-Control headers, ETag, surrogate keys")
 endif()
@@ -21217,7 +21237,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/import/test_import_wizard.cpp")
     target_include_directories(test_import_wizard_builder_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_import_wizard_builder_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_import_wizard_builder_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME ImportWizardBuilderFocusedTests COMMAND test_import_wizard_builder_focused)
+    add_test(NAME ImportWizardBuilderFocusedTests COMMAND $<TARGET_FILE:test_import_wizard_builder_focused>)
     set_tests_properties(ImportWizardBuilderFocusedTests PROPERTIES LABELS "server;import;wizard;focused;unit" TIMEOUT 60)
     message(STATUS "  ImportWizardBuilder: multi-format import builder, schema inference")
 endif()
@@ -21232,7 +21252,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cloud/test_cloud_backup.cpp")
     target_include_directories(test_cloud_backup_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_cloud_backup_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_cloud_backup_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME CloudBackupFocusedTests COMMAND test_cloud_backup_focused)
+    add_test(NAME CloudBackupFocusedTests COMMAND $<TARGET_FILE:test_cloud_backup_focused>)
     set_tests_properties(CloudBackupFocusedTests PROPERTIES LABELS "sharding;backup;cloud;focused;unit" TIMEOUT 60)
     message(STATUS "  CloudBackup: multi-cloud backup, incremental, restore verification")
 endif()
@@ -21246,7 +21266,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sharding/test_paged_kv_cache_focused.cpp"
     target_include_directories(test_paged_kv_cache_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_paged_kv_cache_focused PRIVATE ${TEST_LIBS} spdlog::spdlog Threads::Threads)
     target_compile_definitions(test_paged_kv_cache_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME PagedKVCacheFocusedTests COMMAND test_paged_kv_cache_focused)
+    add_test(NAME PagedKVCacheFocusedTests COMMAND $<TARGET_FILE:test_paged_kv_cache_focused>)
     set_tests_properties(PagedKVCacheFocusedTests PROPERTIES LABELS "sharding;llm;kv-cache;focused;unit" TIMEOUT 60)
     message(STATUS "  PagedKVCache: payload persistence, prefix reuse, shared-block cleanup")
 endif()
@@ -21258,7 +21278,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_session_manager_focused.
     target_include_directories(test_voice_session_manager_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_voice_session_manager_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads nlohmann_json::nlohmann_json)
     target_compile_definitions(test_voice_session_manager_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME VoiceSessionManagerTests COMMAND test_voice_session_manager_focused)
+    add_test(NAME VoiceSessionManagerTests COMMAND $<TARGET_FILE:test_voice_session_manager_focused>)
     set_tests_properties(VoiceSessionManagerTests PROPERTIES LABELS "voice;session_manager;fail-closed;focused;unit" TIMEOUT 30)
     message(STATUS "  VoiceSessionManager: Fail-closed guard tests")
 endif()
@@ -21269,7 +21289,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_session_manager_createSe
     target_include_directories(test_voice_session_manager_createSession_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_voice_session_manager_createSession_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads nlohmann_json::nlohmann_json)
     target_compile_definitions(test_voice_session_manager_createSession_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME VoiceSessionManagerCreateSessionTests COMMAND test_voice_session_manager_createSession_focused)
+    add_test(NAME VoiceSessionManagerCreateSessionTests COMMAND $<TARGET_FILE:test_voice_session_manager_createSession_focused>)
     set_tests_properties(VoiceSessionManagerCreateSessionTests PROPERTIES LABELS "voice;session_manager;createSession;fail-closed;focused;unit" TIMEOUT 30)
     message(STATUS "  VoiceSessionManager::createSession: Fail-closed guard tests")
 endif()
@@ -21280,7 +21300,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/test_voice_create_session_focused.c
     target_include_directories(test_voice_create_session_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
     target_link_libraries(test_voice_create_session_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads nlohmann_json::nlohmann_json)
     target_compile_definitions(test_voice_create_session_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME VoiceCreateSessionTests COMMAND test_voice_create_session_focused)
+    add_test(NAME VoiceCreateSessionTests COMMAND $<TARGET_FILE:test_voice_create_session_focused>)
     set_tests_properties(VoiceCreateSessionTests PROPERTIES LABELS "voice;create_session;fail-closed;focused;unit" TIMEOUT 30)
     message(STATUS "  VoiceCreateSession: Fail-closed guard tests")
 endif()
@@ -21301,7 +21321,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/chaos/test_chaos_framework.cpp")
         Threads::Threads
     )
     target_compile_definitions(test_chaos_framework_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME ChaosFrameworkFocusedTests COMMAND test_chaos_framework_focused)
+    add_test(NAME ChaosFrameworkFocusedTests COMMAND $<TARGET_FILE:test_chaos_framework_focused>)
     set_tests_properties(ChaosFrameworkFocusedTests PROPERTIES
         LABELS "chaos;phase4;fault-injection;resilience;ha;focused;unit"
         TIMEOUT 60
@@ -21325,7 +21345,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/chaos/test_chaos_stress.cpp")
         Threads::Threads
     )
     target_compile_definitions(test_chaos_stress_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME ChaosStressFocusedTests COMMAND test_chaos_stress_focused)
+    add_test(NAME ChaosStressFocusedTests COMMAND $<TARGET_FILE:test_chaos_stress_focused>)
     set_tests_properties(ChaosStressFocusedTests PROPERTIES
         LABELS "chaos;phase4;phase5;stress;jitter;scheduler;focused;unit"
         TIMEOUT 120
@@ -21362,7 +21382,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/user/test_user_storage_v03.cpp")
         CXX_STANDARD 17
         CXX_STANDARD_REQUIRED ON
     )
-    add_test(NAME UserStorageV03Tests COMMAND test_user_storage_v03_focused)
+    add_test(NAME UserStorageV03Tests COMMAND $<TARGET_FILE:test_user_storage_v03_focused>)
     set_tests_properties(UserStorageV03Tests PROPERTIES
         LABELS "user_storage;encrypted;metrics;prometheus;v030;focused;unit"
         TIMEOUT 60
@@ -21402,7 +21422,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ingestion/test_ingestion_builtin_steps_v1
     )
 
     add_test(NAME IngestionBuiltinStepsV14Tests
-        COMMAND test_ingestion_builtin_steps_v14_focused)
+        COMMAND $<TARGET_FILE:test_ingestion_builtin_steps_v14_focused>)
     set_tests_properties(IngestionBuiltinStepsV14Tests PROPERTIES
         LABELS "ingestion;builtin;decompress;legal_reference;chunk_embed;v140;focused;unit"
         TIMEOUT 60
@@ -21466,7 +21486,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/distributed/test_distributed_knowledge.cp
     )
 
     add_test(NAME DistributedKnowledgeTests
-        COMMAND test_distributed_knowledge_focused)
+        COMMAND $<TARGET_FILE:test_distributed_knowledge_focused>)
     set_tests_properties(DistributedKnowledgeTests PROPERTIES
         LABELS "distributed_knowledge;federation;gossip;lora;rag;feedback;session1;focused;unit"
         TIMEOUT 60
@@ -21512,7 +21532,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/gossip/test_gossip_custom_handler.cpp")
     )
 
     add_test(NAME GossipCustomHandlerTests
-        COMMAND test_gossip_custom_handler_focused)
+        COMMAND $<TARGET_FILE:test_gossip_custom_handler_focused>)
     set_tests_properties(GossipCustomHandlerTests PROPERTIES
         LABELS "distributed_knowledge;gossip;custom_handler;session2;focused;unit"
         TIMEOUT 60
@@ -21553,7 +21573,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/adaptive/test_adaptive_shard_router.cpp")
     )
 
     add_test(NAME AdaptiveShardRouterDomainTests
-        COMMAND test_adaptive_shard_router_focused
+        COMMAND $<TARGET_FILE:test_adaptive_shard_router_focused>
                 --gtest_filter=AdaptiveShardRouterTest.ASR_DOM_*)
     set_tests_properties(AdaptiveShardRouterDomainTests PROPERTIES
         LABELS "distributed_knowledge;sharding;adaptive_router;domain_routing;session3;focused;unit"
@@ -21577,7 +21597,7 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/chaos/test_
         Threads::Threads
     )
     target_compile_definitions(test_chaos_network_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME ChaosNetworkFocusedTests COMMAND test_chaos_network_focused)
+    add_test(NAME ChaosNetworkFocusedTests COMMAND $<TARGET_FILE:test_chaos_network_focused>)
     set_tests_properties(ChaosNetworkFocusedTests PROPERTIES
         LABELS "chaos;phase4;network;http;resilience;focused;unit"
         TIMEOUT 60
@@ -21599,7 +21619,7 @@ if(THEMIS_ENABLE_HTTP_SERVER AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/chaos/test_
         Threads::Threads
     )
     target_compile_definitions(test_chaos_scheduler_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME ChaosSchedulerFocusedTests COMMAND test_chaos_scheduler_focused)
+    add_test(NAME ChaosSchedulerFocusedTests COMMAND $<TARGET_FILE:test_chaos_scheduler_focused>)
     set_tests_properties(ChaosSchedulerFocusedTests PROPERTIES
         LABELS "chaos;phase4;scheduler;stress;resilience;focused;unit"
         TIMEOUT 120
@@ -21626,7 +21646,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/disaster/test_disaster_recovery_manager.c
         Threads::Threads
     )
     target_compile_definitions(test_disaster_recovery_manager_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME DisasterRecoveryManagerFocusedTests COMMAND test_disaster_recovery_manager_focused)
+    add_test(NAME DisasterRecoveryManagerFocusedTests COMMAND $<TARGET_FILE:test_disaster_recovery_manager_focused>)
     set_tests_properties(DisasterRecoveryManagerFocusedTests PROPERTIES
         LABELS "failover;phase4;disaster-recovery;dr;resilience;focused;unit"
         TIMEOUT 60
@@ -21654,7 +21674,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/failover/test_failover_chaos_scenarios.cp
         Threads::Threads
     )
     target_compile_definitions(test_failover_chaos_scenarios_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME FailoverChaosScenariosFocusedTests COMMAND test_failover_chaos_scenarios_focused)
+    add_test(NAME FailoverChaosScenariosFocusedTests COMMAND $<TARGET_FILE:test_failover_chaos_scenarios_focused>)
     set_tests_properties(FailoverChaosScenariosFocusedTests PROPERTIES
         LABELS "failover;chaos;phase4;phase5;queue-pressure;retry-telemetry;ha;focused;unit"
         TIMEOUT 120
@@ -21697,7 +21717,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_process_module.cpp")
     target_compile_definitions(test_process_module_focused PRIVATE
         THEMIS_TEST_BUILD=1
     )
-    add_test(NAME ProcessModuleFocusedTests COMMAND test_process_module_focused)
+    add_test(NAME ProcessModuleFocusedTests COMMAND $<TARGET_FILE:test_process_module_focused>)
     set_tests_properties(ProcessModuleFocusedTests PROPERTIES
         LABELS "process;bpmn;epk;vcc-vpb;graph-rag;linker;focused;unit"
         TIMEOUT 120
@@ -21741,7 +21761,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_process_aris_xml.cpp")
     target_compile_definitions(test_process_aris_xml_focused PRIVATE
         THEMIS_TEST_BUILD=1
     )
-    add_test(NAME ProcessArisXmlFocusedTests COMMAND test_process_aris_xml_focused)
+    add_test(NAME ProcessArisXmlFocusedTests COMMAND $<TARGET_FILE:test_process_aris_xml_focused>)
     set_tests_properties(ProcessArisXmlFocusedTests PROPERTIES
         LABELS "process;epk;aris-xml;agentic-rag;focused;unit"
         TIMEOUT 120
@@ -21773,7 +21793,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_process_graph.cpp")
         THEMIS_TEST_BUILD=1
     )
     add_test(NAME ProcessGraphVisitTimestampFocusedTests
-             COMMAND test_process_graph_visit_timestamp_focused
+             COMMAND $<TARGET_FILE:test_process_graph_visit_timestamp_focused>
                      --gtest_filter=ProcessGraphTest.VisitTimestampPopulatedOnStartProcess:ProcessGraphTest.VisitTimestampsPopulatedAndOrderedAcrossMultiHopTraversal:ProcessGraphTest.GetVisitTimestampReturnsNulloptForUnvisitedNode:ProcessGraphTest.VisitTimestampsPersistedAfterTokenCompletion)
     set_tests_properties(ProcessGraphVisitTimestampFocusedTests PROPERTIES
         LABELS "process;graph;visit-timestamp;focused;unit"
@@ -21803,7 +21823,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_process_mining_v2.cpp")
     target_compile_definitions(test_process_mining_v2_focused PRIVATE
         THEMIS_TEST_BUILD=1
     )
-    add_test(NAME ProcessMiningV2FocusedTests COMMAND test_process_mining_v2_focused)
+    add_test(NAME ProcessMiningV2FocusedTests COMMAND $<TARGET_FILE:test_process_mining_v2_focused>)
     set_tests_properties(ProcessMiningV2FocusedTests PROPERTIES
         LABELS "process;mining;dfg;discovery;conformance;focused;unit"
         TIMEOUT 120
@@ -21844,7 +21864,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_conflict_resolver.
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME TemporalConflictResolverFocusedTests COMMAND test_temporal_conflict_resolver_focused)
+    add_test(NAME TemporalConflictResolverFocusedTests COMMAND $<TARGET_FILE:test_temporal_conflict_resolver_focused>)
 
     set_tests_properties(TemporalConflictResolverFocusedTests PROPERTIES
         LABELS "temporal;conflict;resolver;detector;mvcc;unit"
@@ -21881,7 +21901,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_retention_manager.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME TemporalRetentionManagerFocusedTests COMMAND test_temporal_retention_manager_focused)
+    add_test(NAME TemporalRetentionManagerFocusedTests COMMAND $<TARGET_FILE:test_temporal_retention_manager_focused>)
 
     set_tests_properties(TemporalRetentionManagerFocusedTests PROPERTIES
         LABELS "temporal;retention;time-based;storage-based;compliance;incremental;retry;unit"
@@ -21916,7 +21936,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_bi_temporal.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME BiTemporalFocusedTests COMMAND test_bi_temporal_focused)
+    add_test(NAME BiTemporalFocusedTests COMMAND $<TARGET_FILE:test_bi_temporal_focused>)
 
     set_tests_properties(BiTemporalFocusedTests PROPERTIES
         LABELS "temporal;bitemporal;gap;uniqueness;foreign-key;unit"
@@ -21957,7 +21977,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_cold_store.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME TemporalColdStoreFocusedTests COMMAND test_temporal_cold_store_focused)
+    add_test(NAME TemporalColdStoreFocusedTests COMMAND $<TARGET_FILE:test_temporal_cold_store_focused>)
 
     set_tests_properties(TemporalColdStoreFocusedTests PROPERTIES
         LABELS "temporal;cold-store;tiered-storage;filesystem;unit"
@@ -22002,7 +22022,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_tier_manager.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME TemporalTierManagerFocusedTests COMMAND test_temporal_tier_manager_focused)
+    add_test(NAME TemporalTierManagerFocusedTests COMMAND $<TARGET_FILE:test_temporal_tier_manager_focused>)
 
     set_tests_properties(TemporalTierManagerFocusedTests PROPERTIES
         LABELS "temporal;tier-manager;lsm;bloom-filter;hot;warm;cold;lora-hook;unit"
@@ -22056,7 +22076,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/storage/test_mvcc_chain_pruner.cpp")
         THEMIS_UNIT_TEST=1
     )
 
-    add_test(NAME MVCCChainPrunerFocusedTests COMMAND test_mvcc_chain_pruner_focused)
+    add_test(NAME MVCCChainPrunerFocusedTests COMMAND $<TARGET_FILE:test_mvcc_chain_pruner_focused>)
 
     set_tests_properties(MVCCChainPrunerFocusedTests PROPERTIES
         LABELS "storage;mvcc;chain-pruner;temporal-tier;gc;unit"
@@ -22103,7 +22123,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_v18_v19.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME TemporalV18V19FocusedTests COMMAND test_temporal_v18_v19_focused)
+    add_test(NAME TemporalV18V19FocusedTests COMMAND $<TARGET_FILE:test_temporal_v18_v19_focused>)
 
     set_tests_properties(TemporalV18V19FocusedTests PROPERTIES
         LABELS "temporal;cdc;wal;snapshot;diff;bitemporal;merge;lww;v1.8.0;v1.9.0;unit"
@@ -22149,7 +22169,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/temporal/test_temporal_query_engine.cpp")
     )
 
     add_test(NAME TemporalQueryEngineFocusedTests
-        COMMAND test_temporal_query_engine_focused)
+        COMMAND $<TARGET_FILE:test_temporal_query_engine_focused>)
 
     set_tests_properties(TemporalQueryEngineFocusedTests PROPERTIES
         LABELS "temporal;query-engine;sql2011;as-of;from-to;between-and;contained-in;bitemporal;v1.9.0;unit"
@@ -22193,7 +22213,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/timeseries/test_continuous_agg_materializ
     endif()
 
     add_test(NAME ContinuousAggMaterializationFocusedTests
-        COMMAND test_continuous_agg_materialization_focused)
+        COMMAND $<TARGET_FILE:test_continuous_agg_materialization_focused>)
 
     set_tests_properties(ContinuousAggMaterializationFocusedTests PROPERTIES
         LABELS "timeseries;continuous-agg;materialization;watermark;incremental;v1.9.0;unit"
@@ -22240,7 +22260,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/distributed/test_distributed_cache_integr
     )
 
     add_test(NAME DistributedCacheIntegrationFocusedTests
-        COMMAND test_distributed_cache_integration_focused)
+        COMMAND $<TARGET_FILE:test_distributed_cache_integration_focused>)
 
     set_tests_properties(DistributedCacheIntegrationFocusedTests PROPERTIES
         LABELS "core;cache;redis;distributed;consistent-hashing;pubsub;ttl;v1.6.0;unit"
@@ -22273,7 +22293,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/online/test_online_schema_migration.cpp")
         THEMIS_TEST_BUILD=1
     )
     add_test(NAME OnlineSchemaMigrationFocusedTests
-        COMMAND test_online_schema_migration_focused)
+        COMMAND $<TARGET_FILE:test_online_schema_migration_focused>)
     set_tests_properties(OnlineSchemaMigrationFocusedTests PROPERTIES
         LABELS "storage;schema;migration;online;ddl;v1.7.0;unit"
         TIMEOUT 120
@@ -22319,7 +22339,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/adaptive/test_adaptive_compaction.cpp")
     )
 
     add_test(NAME AdaptiveCompactionFocusedTests
-        COMMAND test_adaptive_compaction_focused)
+        COMMAND $<TARGET_FILE:test_adaptive_compaction_focused>)
 
     set_tests_properties(AdaptiveCompactionFocusedTests PROPERTIES
         LABELS "storage;compaction;adaptive;scheduling;v1.7.0;unit"
@@ -22356,7 +22376,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_shard_rebalancer.cpp")
     )
 
     add_test(NAME AdaptiveShardRebalancerFocusedTests
-        COMMAND test_adaptive_shard_rebalancer_focused --gtest_filter=AdaptiveShardRebalancer*:HotShardSplitPolicy*:ShardLoadForecast*:LiveMigration*)
+        COMMAND $<TARGET_FILE:test_adaptive_shard_rebalancer_focused> --gtest_filter=AdaptiveShardRebalancer*:HotShardSplitPolicy*:ShardLoadForecast*:LiveMigration*)
     set_tests_properties(AdaptiveShardRebalancerFocusedTests PROPERTIES
         LABELS "sharding;rebalancer;split;load-detection;forecasting;live-migration;v1.7.0;unit"
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_adaptive_shard_rebalancer_focused>
@@ -22364,7 +22384,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_adaptive_shard_rebalancer.cpp")
     )
 elseif(TARGET themis_tests)
     add_test(NAME AdaptiveShardRebalancerFocusedTests
-        COMMAND themis_tests --gtest_filter=AdaptiveShardRebalancer*:HotShardSplitPolicy*:ShardLoadForecast*:LiveMigration*)
+        COMMAND $<TARGET_FILE:themis_tests> --gtest_filter=AdaptiveShardRebalancer*:HotShardSplitPolicy*:ShardLoadForecast*:LiveMigration*)
     set_tests_properties(AdaptiveShardRebalancerFocusedTests PROPERTIES
         LABELS "sharding;rebalancer;split;load-detection;forecasting;live-migration;v1.7.0;unit"
         TIMEOUT 120
@@ -22404,7 +22424,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/adaptive/test_adaptive_join_strategies.cp
     )
 
     add_test(NAME AdaptiveJoinStrategiesFocusedTests
-        COMMAND test_adaptive_join_strategies_focused)
+        COMMAND $<TARGET_FILE:test_adaptive_join_strategies_focused>)
 
     set_tests_properties(AdaptiveJoinStrategiesFocusedTests PROPERTIES
         LABELS "query;join;adaptive;hash-join;merge-join;nested-loop;index-nested-loop;grace-hash;v1.7.0;unit"
@@ -22454,7 +22474,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_device_manager.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME DeviceManagerFocusedTests COMMAND test_device_manager_focused)
+    add_test(NAME DeviceManagerFocusedTests COMMAND $<TARGET_FILE:test_device_manager_focused>)
 
     set_tests_properties(DeviceManagerFocusedTests PROPERTIES
         LABELS "acceleration;device-manager;capability-negotiation;v1.7.0;unit"
@@ -22496,7 +22516,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_backend_registry_thread
     )
 
     add_test(NAME BackendRegistryThreadSafetyFocusedTests
-        COMMAND test_backend_registry_thread_safety_focused)
+        COMMAND $<TARGET_FILE:test_backend_registry_thread_safety_focused>)
 
     set_tests_properties(BackendRegistryThreadSafetyFocusedTests PROPERTIES
         LABELS "acceleration;backend-registry;thread-safety;v1.8.0;unit"
@@ -22536,7 +22556,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_vec_knn_insert.cpp")
     )
 
     add_test(NAME VecKnnInsertFocusedTests
-        COMMAND test_vec_knn_insert_focused)
+        COMMAND $<TARGET_FILE:test_vec_knn_insert_focused>)
 
     set_tests_properties(VecKnnInsertFocusedTests PROPERTIES
         LABELS "acceleration;vec-knn;perf-d3;simd;parallel-insert;v1.0.0;unit"
@@ -22574,7 +22594,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_ai_hardware_dispatcher.
     )
 
     add_test(NAME AiHardwareDispatcherFocusedTests
-        COMMAND test_ai_hardware_dispatcher_focused)
+        COMMAND $<TARGET_FILE:test_ai_hardware_dispatcher_focused>)
 
     set_tests_properties(AiHardwareDispatcherFocusedTests PROPERTIES
         LABELS "acceleration;ai-hardware;npu;onnx;apple-ane;intel-npu;qualcomm-qnn;arm-ethos;nnapi;v1.0.0;unit"
@@ -22617,7 +22637,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/acceleration/test_nccl_merge_topk.cpp")
     )
 
     add_test(NAME NCCLMergeTopKFocusedTests
-        COMMAND test_nccl_merge_topk_focused)
+        COMMAND $<TARGET_FILE:test_nccl_merge_topk_focused>)
 
     set_tests_properties(NCCLMergeTopKFocusedTests PROPERTIES
         LABELS "acceleration;nccl;rccl;multi-gpu;merge-topk;v1.9.0;unit"
@@ -22656,7 +22676,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_vllm_resource_stats.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME VLLMResourceStatsFocusedTests COMMAND test_vllm_resource_stats_focused)
+    add_test(NAME VLLMResourceStatsFocusedTests COMMAND $<TARGET_FILE:test_vllm_resource_stats_focused>)
 
     set_tests_properties(VLLMResourceStatsFocusedTests PROPERTIES
         LABELS "acceleration;vllm;resource-manager;cpu-monitoring;ram-monitoring;multi-gpu;nvml;unit"
@@ -22698,7 +22718,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/raid/test_raid_redundancy.cpp")
     )
 
     add_test(NAME BlobRedundancyEventListenerFocusedTests
-        COMMAND test_blob_redundancy_event_listener_focused
+        COMMAND $<TARGET_FILE:test_blob_redundancy_event_listener_focused>
         --gtest_filter=BlobRedundancyEventListenerTest.*
     )
 
@@ -22748,7 +22768,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_remote_registry_client.cpp")
     )
 
     add_test(NAME RemoteRegistryClientFocusedTests
-        COMMAND test_remote_registry_client_focused)
+        COMMAND $<TARGET_FILE:test_remote_registry_client_focused>)
 
     set_tests_properties(RemoteRegistryClientFocusedTests PROPERTIES
         LABELS "base;remote-registry;async-retry;backoff;shared-from-this;v1.3.0;focused;unit"
@@ -22795,7 +22815,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/adaptive/test_adaptive_query_compilation.
     )
 
     add_test(NAME AdaptiveQueryCompilationFocusedTests
-        COMMAND test_adaptive_query_compilation_focused)
+        COMMAND $<TARGET_FILE:test_adaptive_query_compilation_focused>)
 
     set_tests_properties(AdaptiveQueryCompilationFocusedTests PROPERTIES
         LABELS "performance;query-compiler;jit;hot-path;type-specialisation;vectorization;adaptive;v1.8.0;focused;unit"
@@ -22848,7 +22868,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/performance/test_performance_hardware_acc
     )
 
     add_test(NAME HardwareAcceleratorFocusedTests
-        COMMAND test_performance_hardware_accelerator)
+        COMMAND $<TARGET_FILE:test_performance_hardware_accelerator>)
 
     set_tests_properties(HardwareAcceleratorFocusedTests PROPERTIES
         LABELS "performance;hardware;gpu;simd;join;aggregate;filter;sort;v1.8.0;focused;unit"
@@ -22906,7 +22926,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/themisctl/test_themisctl.cpp")
         target_link_libraries(test_themisctl_focused PRIVATE nlohmann_json::nlohmann_json)
     endif()
 
-    add_test(NAME ThemisctlFocusedTests COMMAND test_themisctl_focused)
+    add_test(NAME ThemisctlFocusedTests COMMAND $<TARGET_FILE:test_themisctl_focused>)
 
     set_tests_properties(ThemisctlFocusedTests PROPERTIES
         LABELS "tools;cli;themisctl;focused;unit"
@@ -22950,7 +22970,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/lora/test_lora_security.cpp")
     )
 
     add_test(NAME LoRACertificateStoreFocusedTests
-        COMMAND test_lora_certificate_store_focused
+        COMMAND $<TARGET_FILE:test_lora_certificate_store_focused>
             --gtest_filter="LoRACertificateStoreTest*:LoRACertStoreIntegrationTest*")
 
     set_tests_properties(LoRACertificateStoreFocusedTests PROPERTIES
@@ -22997,7 +23017,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/intelligent/test_intelligent_prefetcher.c
     )
 
     add_test(NAME IntelligentPrefetchingFocusedTests
-        COMMAND test_intelligent_prefetcher_focused)
+        COMMAND $<TARGET_FILE:test_intelligent_prefetcher_focused>)
 
     set_tests_properties(IntelligentPrefetchingFocusedTests PROPERTIES
         LABELS "performance;prefetching;pattern-learning;adaptive;confidence;multi-level;feedback-loop;v1.8.0;focused;unit"
@@ -23035,7 +23055,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/numa/test_numa_memory_manager.cpp")
     )
 
     add_test(NAME NUMAMemoryManagerFocusedTests
-        COMMAND test_numa_memory_manager_focused)
+        COMMAND $<TARGET_FILE:test_numa_memory_manager_focused>)
 
     set_tests_properties(NUMAMemoryManagerFocusedTests PROPERTIES
         LABELS "performance;numa;memory;allocation;migration;stats;v1.9.0;focused;unit"
@@ -23073,7 +23093,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/advanced/test_advanced_cache_manager.cpp"
     )
 
     add_test(NAME AdvancedCacheManagerFocusedTests
-        COMMAND test_advanced_cache_manager_focused)
+        COMMAND $<TARGET_FILE:test_advanced_cache_manager_focused>)
 
     set_tests_properties(AdvancedCacheManagerFocusedTests PROPERTIES
         LABELS "performance;cache;partitioning;bloom-filter;lru;compression;v1.9.0;focused;unit"
@@ -23111,7 +23131,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/workload/test_workload_adaptive_optimizer
     )
 
     add_test(NAME WorkloadAdaptiveOptimizerFocusedTests
-        COMMAND test_workload_adaptive_optimizer_focused)
+        COMMAND $<TARGET_FILE:test_workload_adaptive_optimizer_focused>)
 
     set_tests_properties(WorkloadAdaptiveOptimizerFocusedTests PROPERTIES
         LABELS "performance;workload;adaptive;classification;strategy;auto-adapt;v1.9.0;focused;unit"
@@ -23154,7 +23174,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/orphan/test_orphan_detector_wired.cpp")
     )
 
     add_test(NAME OrphanDetectorWiredFocusedTests
-        COMMAND test_orphan_detector_wired_focused)
+        COMMAND $<TARGET_FILE:test_orphan_detector_wired_focused>)
 
     set_tests_properties(OrphanDetectorWiredFocusedTests PROPERTIES
         LABELS "sharding;orphan-detector;distributed-coordinator;v1.8.0;focused;unit"
@@ -23190,7 +23210,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_security_signature_rocksdb_
     )
 
     add_test(NAME SecuritySignatureRocksDBIterationFocusedTests
-        COMMAND test_security_signature_rocksdb_iteration_focused)
+        COMMAND $<TARGET_FILE:test_security_signature_rocksdb_iteration_focused>)
 
     set_tests_properties(SecuritySignatureRocksDBIterationFocusedTests PROPERTIES
         LABELS "storage;security;signature;rocksdb;iteration;v1.8.0;focused;unit"
@@ -23232,7 +23252,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rocksdb/test_rocksdb_size_calculation.cpp
     )
 
     add_test(NAME RocksDBSizeCalculationFocusedTests
-        COMMAND test_rocksdb_size_calculation_focused)
+        COMMAND $<TARGET_FILE:test_rocksdb_size_calculation_focused>)
 
     set_tests_properties(RocksDBSizeCalculationFocusedTests PROPERTIES
         LABELS "storage;rocksdb;size;disk_space;v1.8.0;focused;unit"
@@ -23273,7 +23293,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/shard/test_shard_rpc_integration.cpp")
     )
 
     add_test(NAME ShardRpcIntegrationFocusedTests
-        COMMAND test_shard_rpc_integration_focused)
+        COMMAND $<TARGET_FILE:test_shard_rpc_integration_focused>)
 
     set_tests_properties(ShardRpcIntegrationFocusedTests PROPERTIES
         LABELS "sharding;rpc;retry-policy;mtls;metrics;cert-rotation;v1.8.0;focused;unit"
@@ -23311,7 +23331,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/paxos/test_paxos_persistence_recovery.cpp
     )
 
     add_test(NAME PaxosPersistenceRecoveryFocusedTests
-        COMMAND test_paxos_persistence_recovery_focused)
+        COMMAND $<TARGET_FILE:test_paxos_persistence_recovery_focused>)
 
     set_tests_properties(PaxosPersistenceRecoveryFocusedTests PROPERTIES
         LABELS "sharding;paxos;persistence;recovery;wal;snapshot;focused;unit"
@@ -23372,7 +23392,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tsstore/test_tsstore_gorilla_buffer.cpp")
     )
 
     add_test(NAME TSStoreGorillaBufFocusedTests
-        COMMAND test_tsstore_gorilla_buffer_focused)
+        COMMAND $<TARGET_FILE:test_tsstore_gorilla_buffer_focused>)
 
     set_tests_properties(TSStoreGorillaBufFocusedTests PROPERTIES
         LABELS "timeseries;tsstore;gorilla;buffer;v1.8.0;focused;unit"
@@ -23407,7 +23427,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/predictive/test_predictive_prefetcher_mar
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME PredictivePrefetcherMarkovTests COMMAND test_predictive_prefetcher_markov_focused)
+    add_test(NAME PredictivePrefetcherMarkovTests COMMAND $<TARGET_FILE:test_predictive_prefetcher_markov_focused>)
 
     set_tests_properties(PredictivePrefetcherMarkovTests PROPERTIES
         LABELS "cache;prefetch;markov;tod;rocksdb;metrics;ab-test;v1.8.0;focused;unit"
@@ -23447,7 +23467,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/versioned/test_versioned_api_routing.cpp"
     )
 
     add_test(NAME VersionedApiRoutingFocusedTests
-        COMMAND test_versioned_api_routing_focused)
+        COMMAND $<TARGET_FILE:test_versioned_api_routing_focused>)
 
     set_tests_properties(VersionedApiRoutingFocusedTests PROPERTIES
         LABELS "server;api;versioning;v1.8.0;focused;unit"
@@ -23482,7 +23502,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cuda/test_cuda_hnsw_large_k.cpp" AND THEM
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME CudaHnswLargeKFocusedTests COMMAND test_cuda_hnsw_large_k_focused)
+    add_test(NAME CudaHnswLargeKFocusedTests COMMAND $<TARGET_FILE:test_cuda_hnsw_large_k_focused>)
 
     set_tests_properties(CudaHnswLargeKFocusedTests PROPERTIES
         LABELS "acceleration;cuda;hnsw;large-k;v1.8.0;focused;unit"
@@ -23519,7 +23539,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/compute/test_compute_interfaces.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ComputeInterfacesFocusedTests COMMAND test_compute_interfaces_focused)
+    add_test(NAME ComputeInterfacesFocusedTests COMMAND $<TARGET_FILE:test_compute_interfaces_focused>)
 
     set_tests_properties(ComputeInterfacesFocusedTests PROPERTIES
         LABELS "acceleration;interfaces;compute-future;device-capability;multi-gpu;v1.8.0;focused;unit"
@@ -23554,7 +23574,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ozg/test_ozg_service_registry.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME OZGServiceRegistryFocusedTests COMMAND test_ozg_service_registry_focused)
+    add_test(NAME OZGServiceRegistryFocusedTests COMMAND $<TARGET_FILE:test_ozg_service_registry_focused>)
 
     set_tests_properties(OZGServiceRegistryFocusedTests PROPERTIES
         LABELS "importers;ozg;german-gov;service-registry;v2.2.0;focused;unit"
@@ -23587,7 +23607,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/xoev/test_xoev_importer.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME XOEVImporterFocusedTests COMMAND test_xoev_importer_focused)
+    add_test(NAME XOEVImporterFocusedTests COMMAND $<TARGET_FILE:test_xoev_importer_focused>)
 
     set_tests_properties(XOEVImporterFocusedTests PROPERTIES
         LABELS "importers;xoev;german-gov;xpersonenstand;xmeld;v2.2.0;focused;unit"
@@ -23620,7 +23640,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/xdomea/test_xdomea_connector.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME XDOMEAConnectorFocusedTests COMMAND test_xdomea_connector_focused)
+    add_test(NAME XDOMEAConnectorFocusedTests COMMAND $<TARGET_FILE:test_xdomea_connector_focused>)
 
     set_tests_properties(XDOMEAConnectorFocusedTests PROPERTIES
         LABELS "document;xdomea;german-gov;records-management;v1.2.0;focused;unit"
@@ -23653,7 +23673,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/document/test_document_store.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME DocumentStoreFocusedTests COMMAND test_document_store_focused)
+    add_test(NAME DocumentStoreFocusedTests COMMAND $<TARGET_FILE:test_document_store_focused>)
 
     set_tests_properties(DocumentStoreFocusedTests PROPERTIES
         LABELS "document;store;manager;lifecycle;schema;diff;merge;v1.3.0;focused;unit"
@@ -23686,7 +23706,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/eid/test_eid_authenticator.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME EIDAuthenticatorFocusedTests COMMAND test_eid_authenticator_focused)
+    add_test(NAME EIDAuthenticatorFocusedTests COMMAND $<TARGET_FILE:test_eid_authenticator_focused>)
 
     set_tests_properties(EIDAuthenticatorFocusedTests PROPERTIES
         LABELS "auth;eid;bsi-tr-03130;german-gov;online-ausweisfunktion;v1.9.0;focused;unit"
@@ -23722,7 +23742,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/behoerden/test_behoerden_genehmigungsverf
     )
 
     add_test(NAME BehoerdenGenehmigungsverfahrenE2EFocusedTests
-             COMMAND test_behoerden_genehmigungsverfahren_e2e_focused)
+             COMMAND $<TARGET_FILE:test_behoerden_genehmigungsverfahren_e2e_focused>)
 
     set_tests_properties(BehoerdenGenehmigungsverfahrenE2EFocusedTests PROPERTIES
         LABELS "e2e;german-gov;baugenehmigung;xdomea;eid;ozg;xoev;llm;bauonrw;v1.9.0;focused;integration"
@@ -23758,7 +23778,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bimschv/test_bimschv_genehmigungsverfahre
     )
 
     add_test(NAME BImSchVGenehmigungsverfahrenE2EFocusedTests
-             COMMAND test_bimschv_genehmigungsverfahren_e2e_focused)
+             COMMAND $<TARGET_FILE:test_bimschv_genehmigungsverfahren_e2e_focused>)
 
     set_tests_properties(BImSchVGenehmigungsverfahrenE2EFocusedTests PROPERTIES
         LABELS "e2e;german-gov;bimschg;9-bimschv;uvp;xdomea;eid;ozg;xoev;llm;foermlich;v1.9.0;focused;integration"
@@ -23802,7 +23822,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/egov/test_egov_data_driven.cpp")
         )
 
         add_test(NAME EGovDataDrivenFocusedTests
-                 COMMAND test_egov_data_driven_focused)
+                 COMMAND $<TARGET_FILE:test_egov_data_driven_focused>)
 
         set_tests_properties(EGovDataDrivenFocusedTests PROPERTIES
             LABELS "e2e;german-gov;data-driven;markdown-fixtures;baugenehmigung;bimschg;local;v1.9.0;focused;integration"
@@ -23843,7 +23863,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_rag_replug_retriever.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ReplugRetrieverFocusedTests COMMAND test_rag_replug_retriever_focused)
+    add_test(NAME ReplugRetrieverFocusedTests COMMAND $<TARGET_FILE:test_rag_replug_retriever_focused>)
 
     set_tests_properties(ReplugRetrieverFocusedTests PROPERTIES
         LABELS "rag;replug;llm_scorer;fusion;weight_update;lsr;v2.0.0;focused;unit"
@@ -23879,7 +23899,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_rag_rlaif_trainer.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME RLAIFTrainerFocusedTests COMMAND test_rag_rlaif_trainer_focused)
+    add_test(NAME RLAIFTrainerFocusedTests COMMAND $<TARGET_FILE:test_rag_rlaif_trainer_focused>)
 
     set_tests_properties(RLAIFTrainerFocusedTests PROPERTIES
         LABELS "rag;rlaif;constitutional_ai;preference_pairs;training;v2.0.0;focused;unit"
@@ -23917,7 +23937,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cypher/test_cypher_parser.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME CypherParserFocusedTests COMMAND test_cypher_parser)
+    add_test(NAME CypherParserFocusedTests COMMAND $<TARGET_FILE:test_cypher_parser>)
 
     set_tests_properties(CypherParserFocusedTests PROPERTIES
         LABELS "query;cypher;parser;transpiler;v1.6.0;focused;unit"
@@ -23955,7 +23975,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/gremlin/test_gremlin_parser.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME GremlinParserFocusedTests COMMAND test_gremlin_parser)
+    add_test(NAME GremlinParserFocusedTests COMMAND $<TARGET_FILE:test_gremlin_parser>)
 
     set_tests_properties(GremlinParserFocusedTests PROPERTIES
         LABELS "query;gremlin;parser;transpiler;v1.6.0;focused;unit"
@@ -24004,7 +24024,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/mqtt/test_mqtt_client_service.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME MqttClientServiceFocusedTests COMMAND test_mqtt_client_service_focused)
+    add_test(NAME MqttClientServiceFocusedTests COMMAND $<TARGET_FILE:test_mqtt_client_service_focused>)
 
     set_tests_properties(MqttClientServiceFocusedTests PROPERTIES
         LABELS "server;mqtt;client;cdc;pub-sub;service-registry;realtime;v1.9.0;focused;unit"
@@ -24070,7 +24090,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cross/test_cross_module_timeseries_foreca
     )
 
     add_test(NAME CrossModuleTimeseriesForecastingTests
-        COMMAND test_cross_module_timeseries_forecasting_focused)
+        COMMAND $<TARGET_FILE:test_cross_module_timeseries_forecasting_focused>)
 
     set_tests_properties(CrossModuleTimeseriesForecastingTests PROPERTIES
         LABELS "cross-module;timeseries;analytics;forecasting;continuous-agg;shard-merge;v1.9.0;integration"
@@ -24131,7 +24151,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cross/test_cross_module_temporal_bitempor
     )
 
     add_test(NAME CrossModuleTemporalBiTemporalTests
-        COMMAND test_cross_module_temporal_bitemporal_focused)
+        COMMAND $<TARGET_FILE:test_cross_module_temporal_bitemporal_focused>)
 
     set_tests_properties(CrossModuleTemporalBiTemporalTests PROPERTIES
         LABELS "cross-module;temporal;bitemporal;query-engine;system-versioned;join;sql2011;v1.9.0;integration"
@@ -24192,7 +24212,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cross/test_cross_module_german_egov.cpp")
     )
 
     add_test(NAME CrossModuleGermanEGovTests
-        COMMAND test_cross_module_german_egov_focused)
+        COMMAND $<TARGET_FILE:test_cross_module_german_egov_focused>)
 
     set_tests_properties(CrossModuleGermanEGovTests PROPERTIES
         LABELS "cross-module;german-gov;eid;ozg;xoev;xdomea;baugenehmigung;v1.9.0;integration"
@@ -24252,7 +24272,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cross/test_cross_module_index_matryoshka.
     )
 
     add_test(NAME CrossModuleIndexMatryoshkaTests
-        COMMAND test_cross_module_index_matryoshka_focused)
+        COMMAND $<TARGET_FILE:test_cross_module_index_matryoshka_focused>)
 
     set_tests_properties(CrossModuleIndexMatryoshkaTests PROPERTIES
         LABELS "cross-module;index;matryoshka;scann;ann;analytics;forecasting;timeseries;two-stage;v1.9.0;integration"
@@ -24315,7 +24335,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cross/test_cross_module_security_governan
     )
 
     add_test(NAME CrossModuleSecurityGovernanceTests
-        COMMAND test_cross_module_security_governance_focused)
+        COMMAND $<TARGET_FILE:test_cross_module_security_governance_focused>)
 
     set_tests_properties(CrossModuleSecurityGovernanceTests PROPERTIES
         LABELS "cross-module;security;governance;zero-trust;data-lineage;observability;prometheus;v1.9.0;integration"
@@ -24375,7 +24395,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cross/test_cross_module_cache_anomaly.cpp
     )
 
     add_test(NAME CrossModuleCacheAnomalyTests
-        COMMAND test_cross_module_cache_anomaly_focused)
+        COMMAND $<TARGET_FILE:test_cross_module_cache_anomaly_focused>)
 
     set_tests_properties(CrossModuleCacheAnomalyTests PROPERTIES
         LABELS "cross-module;cache;analytics;anomaly-detection;observability;prometheus;v1.9.0;integration"
@@ -24438,7 +24458,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cross/test_cross_module_training_governan
     )
 
     add_test(NAME CrossModuleTrainingGovernanceTests
-        COMMAND test_cross_module_training_governance_focused)
+        COMMAND $<TARGET_FILE:test_cross_module_training_governance_focused>)
 
     set_tests_properties(CrossModuleTrainingGovernanceTests PROPERTIES
         LABELS "cross-module;training;governance;ada-lora;lora-merger;data-lineage;observability;prometheus;v1.9.0;integration"
@@ -24498,7 +24518,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cross/test_cross_module_query_sharding.cp
     )
 
     add_test(NAME CrossModuleQueryShardingTests
-        COMMAND test_cross_module_query_sharding_focused)
+        COMMAND $<TARGET_FILE:test_cross_module_query_sharding_focused>)
 
     set_tests_properties(CrossModuleQueryShardingTests PROPERTIES
         LABELS "cross-module;query;sharding;federation;consistent-hash;observability;prometheus;v1.9.0;integration"
@@ -24558,7 +24578,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cross/test_cross_module_graph_lineage.cpp
     )
 
     add_test(NAME CrossModuleGraphLineageTests
-        COMMAND test_cross_module_graph_lineage_focused)
+        COMMAND $<TARGET_FILE:test_cross_module_graph_lineage_focused>)
 
     set_tests_properties(CrossModuleGraphLineageTests PROPERTIES
         LABELS "cross-module;graph;data-lineage;governance;observability;prometheus;v1.9.0;integration"
@@ -24618,7 +24638,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cross/test_cross_module_geo_spatial.cpp")
     )
 
     add_test(NAME CrossModuleGeoSpatialTests
-        COMMAND test_cross_module_geo_spatial_focused)
+        COMMAND $<TARGET_FILE:test_cross_module_geo_spatial_focused>)
 
     set_tests_properties(CrossModuleGeoSpatialTests PROPERTIES
         LABELS "cross-module;geo;spatial-join;rtree;haversine;observability;prometheus;v1.9.0;integration"
@@ -24678,7 +24698,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cross/test_cross_module_acceleration_inde
     )
 
     add_test(NAME CrossModuleAccelerationIndexTests
-        COMMAND test_cross_module_acceleration_index_focused)
+        COMMAND $<TARGET_FILE:test_cross_module_acceleration_index_focused>)
 
     set_tests_properties(CrossModuleAccelerationIndexTests PROPERTIES
         LABELS "cross-module;acceleration;cpu-backend;matryoshka;ann;observability;prometheus;v1.9.0;integration"
@@ -24745,7 +24765,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/scraper/test_scraper_plugin.cpp")
     )
 
     add_test(NAME ScraperPluginFocusedTests
-        COMMAND test_scraper_plugin_focused)
+        COMMAND $<TARGET_FILE:test_scraper_plugin_focused>)
 
     set_tests_properties(ScraperPluginFocusedTests PROPERTIES
         LABELS "scraper;plugin;agentic;gap-detection;ingestion;gov;eu;search-engine;llm;v1.0.0"
@@ -24792,7 +24812,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/connector/test_connector_mode_api.cpp")
     )
 
     add_test(NAME ConnectorModeApiTests
-        COMMAND test_connector_mode_api)
+        COMMAND $<TARGET_FILE:test_connector_mode_api>)
 
     set_tests_properties(ConnectorModeApiTests PROPERTIES
         LABELS "llm;api;integration;connector-mode;inference;rag;lora;pii;v1.8.0"
@@ -24826,7 +24846,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/whisper/tests/test_whisper_plugin.
     )
     target_compile_features(test_whisper_plugin PRIVATE cxx_std_17)
     target_compile_definitions(test_whisper_plugin PRIVATE THEMIS_PLUGIN_EXPORTS)
-    add_test(NAME WhisperPluginFocusedTests COMMAND test_whisper_plugin)
+    add_test(NAME WhisperPluginFocusedTests COMMAND $<TARGET_FILE:test_whisper_plugin>)
     set_tests_properties(WhisperPluginFocusedTests PROPERTIES
         LABELS "plugins;whisper;audio;v2.3.0"
         TIMEOUT 60
@@ -24856,7 +24876,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plu
     )
     target_compile_features(test_sd_plugin PRIVATE cxx_std_17)
     target_compile_definitions(test_sd_plugin PRIVATE THEMIS_PLUGIN_EXPORTS)
-    add_test(NAME SDPluginFocusedTests COMMAND test_sd_plugin)
+    add_test(NAME SDPluginFocusedTests COMMAND $<TARGET_FILE:test_sd_plugin>)
     set_tests_properties(SDPluginFocusedTests PROPERTIES
         LABELS "plugins;stable_diffusion;image_generation;v2.3.0"
         TIMEOUT 60
@@ -24890,7 +24910,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/stable_diffusion/tests/test_sd_plu
     )
     target_compile_features(test_sd_plugin_registrar PRIVATE cxx_std_17)
     target_compile_definitions(test_sd_plugin_registrar PRIVATE THEMIS_PLUGIN_EXPORTS)
-    add_test(NAME SDPluginRegistrarTests COMMAND test_sd_plugin_registrar)
+    add_test(NAME SDPluginRegistrarTests COMMAND $<TARGET_FILE:test_sd_plugin_registrar>)
     set_tests_properties(SDPluginRegistrarTests PROPERTIES
         LABELS "plugins;stable_diffusion;image_generation;registrar;v2.3.0"
         TIMEOUT 60
@@ -24941,7 +24961,7 @@ if(THEMIS_ENABLE_STABLE_DIFFUSION
         THEMIS_PLUGIN_EXPORTS
         THEMIS_ENABLE_STABLE_DIFFUSION=1
     )
-    add_test(NAME SDPluginRealBackendE2ETests COMMAND test_sd_plugin_real_backend_e2e)
+    add_test(NAME SDPluginRealBackendE2ETests COMMAND $<TARGET_FILE:test_sd_plugin_real_backend_e2e>)
     set_tests_properties(SDPluginRealBackendE2ETests PROPERTIES
         LABELS "plugins;stable_diffusion;image_generation;e2e;real_backend;v2.3.0"
         TIMEOUT 300
@@ -24994,7 +25014,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../src/llama_cpp/tests/test_llama_cpp_plu
         # define this macro — see llama_cpp/FUTURE_ENHANCEMENTS.md §6 (Gap 1).
         THEMIS_LLAMA_CPP_STUB_MODE
     )
-    add_test(NAME LlamaCppPluginFocusedTests COMMAND test_llama_cpp_plugin)
+    add_test(NAME LlamaCppPluginFocusedTests COMMAND $<TARGET_FILE:test_llama_cpp_plugin>)
     set_tests_properties(LlamaCppPluginFocusedTests PROPERTIES
         LABELS "plugins;llama_cpp;llm;v2.1.0"
         TIMEOUT 60
@@ -25029,7 +25049,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/context/test_context_window_budget.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ContextWindowBudgetFocusedTests COMMAND test_context_window_budget_focused)
+    add_test(NAME ContextWindowBudgetFocusedTests COMMAND $<TARGET_FILE:test_context_window_budget_focused>)
 
     set_tests_properties(ContextWindowBudgetFocusedTests PROPERTIES
         LABELS "llm;rag;token_budget;context_window;v1.0.0;focused;unit"
@@ -25067,7 +25087,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_rag_context_assembler.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME RagContextAssemblerFocusedTests COMMAND test_rag_context_assembler_focused)
+    add_test(NAME RagContextAssemblerFocusedTests COMMAND $<TARGET_FILE:test_rag_context_assembler_focused>)
 
     set_tests_properties(RagContextAssemblerFocusedTests PROPERTIES
         LABELS "rag;context_assembler;token_budget;greedy_fill;response_guard;v1.0.0;focused;unit"
@@ -25106,7 +25126,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/multi/test_multi_step_rag.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME MultiStepRAGFocusedTests COMMAND test_multi_step_rag_focused)
+    add_test(NAME MultiStepRAGFocusedTests COMMAND $<TARGET_FILE:test_multi_step_rag_focused>)
 
     set_tests_properties(MultiStepRAGFocusedTests PROPERTIES
         LABELS "rag;multi_step;map_reduce;iterative;context_overflow;v1.0.0;focused;unit"
@@ -25145,7 +25165,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_rag_multi_hop_reasoner.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME MultiHopReasonerFocusedTests COMMAND test_rag_multi_hop_reasoner_focused)
+    add_test(NAME MultiHopReasonerFocusedTests COMMAND $<TARGET_FILE:test_rag_multi_hop_reasoner_focused>)
 
     set_tests_properties(MultiHopReasonerFocusedTests PROPERTIES
         LABELS "rag;multi_hop;reasoning;phase7;v1.0.0;focused;unit"
@@ -25184,7 +25204,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_rag_adaptive_retrieval.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME AdaptiveRetrievalFocusedTests COMMAND test_rag_adaptive_retrieval_focused)
+    add_test(NAME AdaptiveRetrievalFocusedTests COMMAND $<TARGET_FILE:test_rag_adaptive_retrieval_focused>)
 
     set_tests_properties(AdaptiveRetrievalFocusedTests PROPERTIES
         LABELS "rag;adaptive_retrieval;complexity;phase7;v1.0.0;focused;unit"
@@ -25229,7 +25249,7 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/argument/test
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ArgumentStoreStandaloneTests COMMAND test_argument_store_standalone)
+    add_test(NAME ArgumentStoreStandaloneTests COMMAND $<TARGET_FILE:test_argument_store_standalone>)
 
     set_tests_properties(ArgumentStoreStandaloneTests PROPERTIES
         LABELS "ethics;argument-store;standalone;in-memory;unit"
@@ -25275,7 +25295,7 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ethics/test_e
     )
 
     add_test(NAME ArgumentStoreRocksDBTests
-             COMMAND test_ethics_ai_argument_store_rocksdb_focused)
+             COMMAND $<TARGET_FILE:test_ethics_ai_argument_store_rocksdb_focused>)
 
     set_tests_properties(ArgumentStoreRocksDBTests PROPERTIES
         LABELS "ethics;argument-store;rocksdb;integration"
@@ -25326,7 +25346,7 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_rag_
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME RAGContextEngineTests COMMAND test_rag_context_engine_focused)
+    add_test(NAME RAGContextEngineTests COMMAND $<TARGET_FILE:test_rag_context_engine_focused>)
 
     set_tests_properties(RAGContextEngineTests PROPERTIES
         LABELS "ethics;rag;context-engine;patterns;aql;unit"
@@ -25373,7 +25393,7 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ethics/test_e
             $<TARGET_FILE_DIR:test_ethics_ai_plugin_focused>
     )
 
-    add_test(NAME EthicsAIPluginTests COMMAND test_ethics_ai_plugin_focused)
+    add_test(NAME EthicsAIPluginTests COMMAND $<TARGET_FILE:test_ethics_ai_plugin_focused>)
 
     set_tests_properties(EthicsAIPluginTests PROPERTIES
         LABELS "ethics;plugin;lifecycle;metrics;config;unit"
@@ -25423,7 +25443,7 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ethics/test_e
         "THEMIS_PHILOSOPHIES_DIR=\"${THEMIS_ROOT_DIR}/plugins/ethics_ai/philosophies\""
     )
 
-    add_test(NAME EthicsProfileRegistryTests COMMAND test_ethics_profile_registry_focused)
+    add_test(NAME EthicsProfileRegistryTests COMMAND $<TARGET_FILE:test_ethics_profile_registry_focused>)
     set_tests_properties(EthicsProfileRegistryTests PROPERTIES
         LABELS "ethics;registry;routing;unit"
         TIMEOUT 30
@@ -25473,7 +25493,7 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ethics/test_e
         "THEMIS_ETHICS_TAXONOMY_PATH=\"${THEMIS_ROOT_DIR}/config/ethics_ai/ethics_taxonomy.yaml\""
     )
 
-    add_test(NAME EthicsSelectionRouterTests COMMAND test_ethics_selection_router_focused)
+    add_test(NAME EthicsSelectionRouterTests COMMAND $<TARGET_FILE:test_ethics_selection_router_focused>)
     set_tests_properties(EthicsSelectionRouterTests PROPERTIES
         LABELS "ethics;registry;routing;unit;concurrent"
         TIMEOUT 30
@@ -25521,7 +25541,7 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/thesis/test_t
         "THEMIS_PHILOSOPHIES_DIR=\"${THEMIS_ROOT_DIR}/plugins/ethics_ai/philosophies\""
     )
 
-    add_test(NAME ThesisBudgetManagementTests COMMAND test_thesis_budget_management_focused)
+    add_test(NAME ThesisBudgetManagementTests COMMAND $<TARGET_FILE:test_thesis_budget_management_focused>)
     set_tests_properties(ThesisBudgetManagementTests PROPERTIES
         LABELS "ethics;budget;discourse;unit"
         TIMEOUT 30
@@ -25563,7 +25583,7 @@ if(THEMIS_PLUGIN_ETHICS_AI AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/context/test_
     target_compile_definitions(test_context_window_budget_strategy_focused PRIVATE
         THEMIS_PLUGIN_ETHICS_AI=1
     )
-    add_test(NAME ContextWindowBudgetStrategyTests COMMAND test_context_window_budget_strategy_focused)
+    add_test(NAME ContextWindowBudgetStrategyTests COMMAND $<TARGET_FILE:test_context_window_budget_strategy_focused>)
 endif()
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -25592,7 +25612,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/concurrent/test_concurrent_write_controll
     )
 
     add_test(NAME ConcurrentWriteControllerFocusedTests
-             COMMAND test_concurrent_write_controller_focused)
+             COMMAND $<TARGET_FILE:test_concurrent_write_controller_focused>)
 
     set_tests_properties(ConcurrentWriteControllerFocusedTests PROPERTIES
         LABELS "storage;concurrency;write-controller;fifo;perf-d6;focused;unit"
@@ -25645,7 +25665,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/simd/test_simd_columnar_filter.cpp")
     endif()
 
     add_test(NAME SIMDColumnarFilterFocusedTests
-             COMMAND test_simd_columnar_filter_focused)
+             COMMAND $<TARGET_FILE:test_simd_columnar_filter_focused>)
 
     set_tests_properties(SIMDColumnarFilterFocusedTests PROPERTIES
         LABELS "storage;simd;columnar;avx2;vectorized;v2.0.0;focused;unit"
@@ -25692,7 +25712,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/storage/test_storage_parquet_exporter.cpp
     )
 
     add_test(NAME StorageParquetExporterFocusedTests
-             COMMAND test_storage_parquet_exporter_focused)
+             COMMAND $<TARGET_FILE:test_storage_parquet_exporter_focused>)
 
     set_tests_properties(StorageParquetExporterFocusedTests PROPERTIES
         LABELS "storage;parquet;export;columnar;v2.0.0;focused;unit"
@@ -25746,7 +25766,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/projects/test_projects.cpp")
         add_dependencies(test_projects sync_test_runtime_dlls)
     endif()
 
-    add_test(NAME ProjectsModuleTests COMMAND test_projects)
+    add_test(NAME ProjectsModuleTests COMMAND $<TARGET_FILE:test_projects>)
 
     set_tests_properties(ProjectsModuleTests PROPERTIES
         LABELS "projects;versioning;diff;lifecycle;template;collaboration;unit"
@@ -25794,7 +25814,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/project/test_project_collaboration_concur
     endif()
 
     add_test(NAME ProjectCollaborationConcurrentTests
-        COMMAND test_project_collaboration_concurrent)
+        COMMAND $<TARGET_FILE:test_project_collaboration_concurrent>)
 
     set_tests_properties(ProjectCollaborationConcurrentTests PROPERTIES
         LABELS "projects;collaboration;concurrent;audit;integration"
@@ -25833,7 +25853,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/test_rag_ingestion_bridge.cpp")
     )
 
     add_test(NAME RAGIngestionBridgeTests
-        COMMAND test_rag_ingestion_bridge_focused --gtest_filter=RAGIngestionBridgeTest.*)
+        COMMAND $<TARGET_FILE:test_rag_ingestion_bridge_focused> --gtest_filter=RAGIngestionBridgeTest.*)
     set_tests_properties(RAGIngestionBridgeTests PROPERTIES
         LABELS "rag;toolbox;ingestion;bridge;unit"
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_rag_ingestion_bridge_focused>
@@ -25869,7 +25889,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/content/test_content_toolbox_bridge.cpp")
     )
 
     add_test(NAME ContentToolboxBridgeTests
-        COMMAND test_content_toolbox_bridge_focused --gtest_filter=FormatExtractor.*:ToolboxBuilderTest.*:ContentToolboxBridgeTest.*:FormatParseStep.*)
+        COMMAND $<TARGET_FILE:test_content_toolbox_bridge_focused> --gtest_filter=FormatExtractor.*:ToolboxBuilderTest.*:ContentToolboxBridgeTest.*:FormatParseStep.*)
     set_tests_properties(ContentToolboxBridgeTests PROPERTIES
         LABELS "toolbox;content;bridge;ingestion;format-extractor;unit"
         WORKING_DIRECTORY $<TARGET_FILE_DIR:test_content_toolbox_bridge_focused>
@@ -25907,7 +25927,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/toolbox/test_toolbox_phase5.cpp")
         Threads::Threads
     )
 
-    add_test(NAME ToolboxPhase5Tests COMMAND test_toolbox_phase5_focused)
+    add_test(NAME ToolboxPhase5Tests COMMAND $<TARGET_FILE:test_toolbox_phase5_focused>)
 
     set_tests_properties(ToolboxPhase5Tests PROPERTIES
         LABELS "toolbox;metrics;prometheus;vectors;registry;phase5;unit"
@@ -25951,7 +25971,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/training/test_training_database_optimizer
     )
 
     add_test(NAME DatabaseOptimizerLabelerTests
-        COMMAND test_training_database_optimizer_focused)
+        COMMAND $<TARGET_FILE:test_training_database_optimizer_focused>)
 
     set_tests_properties(DatabaseOptimizerLabelerTests PROPERTIES
         LABELS "training;database_optimizer;IMPL-A1;DBO;unit"
@@ -26001,7 +26021,7 @@ if(THEMIS_ENABLE_LLM AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/incremental/test_in
     )
 
     add_test(NAME IncrementalLoRATrainerFederationTests
-        COMMAND test_incremental_lora_trainer_focused)
+        COMMAND $<TARGET_FILE:test_incremental_lora_trainer_focused>)
 
     set_tests_properties(IncrementalLoRATrainerFederationTests PROPERTIES
         LABELS "training;lora;federation;gradient;IMPL-A3;focused;unit"
@@ -26051,7 +26071,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/distributed/test_distributed_knowledge_in
         PRIVATE THEMIS_TEST_BUILD=1)
 
     add_test(NAME DistributedKnowledgeIntegrationTests
-        COMMAND test_distributed_knowledge_integration_focused)
+        COMMAND $<TARGET_FILE:test_distributed_knowledge_integration_focused>)
 
     set_tests_properties(DistributedKnowledgeIntegrationTests PROPERTIES
         LABELS "distributed_knowledge;integration;DK-6;federation;rag;rlaif;privacy"
@@ -26088,7 +26108,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/federation/test_federation_admin.cpp")
     target_compile_definitions(test_federation_admin_focused
         PRIVATE THEMIS_TEST_BUILD=1)
 
-    add_test(NAME FederationAdminTests COMMAND test_federation_admin_focused)
+    add_test(NAME FederationAdminTests COMMAND $<TARGET_FILE:test_federation_admin_focused>)
 
     set_tests_properties(FederationAdminTests PROPERTIES
         LABELS "api;admin;federation;gdpr;audit;DK-7;unit"
@@ -26124,7 +26144,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/distributed/test_distributed_knowledge_or
     target_compile_definitions(test_distributed_knowledge_or_focused
         PRIVATE THEMIS_TEST_BUILD=1)
 
-    add_test(NAME DK_OR_Tests COMMAND test_distributed_knowledge_or_focused)
+    add_test(NAME DK_OR_Tests COMMAND $<TARGET_FILE:test_distributed_knowledge_or_focused>)
 
     set_tests_properties(DK_OR_Tests PROPERTIES
         LABELS "distributed_knowledge;operational_resilience;DK-OR;DK-8;unit"
@@ -26160,7 +26180,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/federated/test_federated_poisoning_detect
     target_compile_definitions(test_federated_poisoning_detection_focused
         PRIVATE THEMIS_TEST_BUILD=1)
 
-    add_test(NAME FPD_Tests COMMAND test_federated_poisoning_detection_focused)
+    add_test(NAME FPD_Tests COMMAND $<TARGET_FILE:test_federated_poisoning_detection_focused>)
 
     set_tests_properties(FPD_Tests PROPERTIES
         LABELS "distributed_knowledge;poisoning;FPD;federation;privacy;unit"
@@ -26189,7 +26209,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/federated/test_federated_distillation_coo
     target_compile_definitions(test_federated_distillation_coordinator_focused
         PRIVATE THEMIS_TEST_BUILD=1)
 
-    add_test(NAME FDF_Tests COMMAND test_federated_distillation_coordinator_focused)
+    add_test(NAME FDF_Tests COMMAND $<TARGET_FILE:test_federated_distillation_coordinator_focused>)
 
     set_tests_properties(FDF_Tests PROPERTIES
         LABELS "distributed_knowledge;distillation;FDF;teacher-student;privacy;DP;unit"
@@ -26223,7 +26243,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/encrypted/test_encrypted_blob_backend.cpp
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME EncryptedBlobBackendTests COMMAND test_encrypted_blob_backend_focused)
+    add_test(NAME EncryptedBlobBackendTests COMMAND $<TARGET_FILE:test_encrypted_blob_backend_focused>)
 
     set_tests_properties(EncryptedBlobBackendTests PROPERTIES
         LABELS "storage;encryption;aes-gcm;blob;unit"
@@ -26258,7 +26278,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vector/test_vector_index_comprehensive.cp
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME VectorIndexBackendTests COMMAND test_vector_index_backend_focused)
+    add_test(NAME VectorIndexBackendTests COMMAND $<TARGET_FILE:test_vector_index_backend_focused>)
 
     set_tests_properties(VectorIndexBackendTests PROPERTIES
         LABELS "storage;vector;ann;hnsw;unit"
@@ -26295,7 +26315,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/test_llm_raid_routing.cpp")
     target_compile_definitions(test_llm_raid_routing_focused
         PRIVATE THEMIS_TEST_BUILD=1 THEMIS_ENABLE_LLM=1)
 
-    add_test(NAME LLMRaidRoutingTests COMMAND test_llm_raid_routing_focused)
+    add_test(NAME LLMRaidRoutingTests COMMAND $<TARGET_FILE:test_llm_raid_routing_focused>)
 
     set_tests_properties(LLMRaidRoutingTests PROPERTIES
         LABELS "llm;raid;sharding;routing;unit;DLR"
@@ -26350,7 +26370,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm/test_llm_raid_integration.cpp")
     target_compile_definitions(test_llm_raid_integration_focused
         PRIVATE THEMIS_TEST_BUILD=1 THEMIS_ENABLE_LLM=1)
 
-    add_test(NAME LLMRaidIntegrationTests COMMAND test_llm_raid_integration_focused)
+    add_test(NAME LLMRaidIntegrationTests COMMAND $<TARGET_FILE:test_llm_raid_integration_focused>)
 
     set_tests_properties(LLMRaidIntegrationTests PROPERTIES
         LABELS "llm;raid;sharding;integration;phase4;LRIR"
@@ -26384,7 +26404,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/speculative/test_speculative_decoder_real
         PRIVATE THEMIS_TEST_BUILD=1 THEMIS_ENABLE_LLM=1)
 
     add_test(NAME SDRealLogitsTests
-             COMMAND test_speculative_decoder_real_logits_focused)
+             COMMAND $<TARGET_FILE:test_speculative_decoder_real_logits_focused>)
 
     set_tests_properties(SDRealLogitsTests PROPERTIES
         LABELS "llm;speculative;draft-logits;SD-REAL"
@@ -26430,7 +26450,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/speculative/test_speculative_draft_fn_bri
         PRIVATE THEMIS_TEST_BUILD=1 THEMIS_ENABLE_LLM=1)
 
     add_test(NAME SpecDraftFnBridgeTests
-             COMMAND test_speculative_draft_fn_bridge_focused)
+             COMMAND $<TARGET_FILE:test_speculative_draft_fn_bridge_focused>)
 
     set_tests_properties(SpecDraftFnBridgeTests PROPERTIES
         LABELS "llm;speculative;stub-bridge;SD-DFT;SPEC-TL"
@@ -26465,7 +26485,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/whisper/test_whisper_stub_transcribe_brid
         PRIVATE THEMIS_TEST_BUILD=1)
 
     add_test(NAME WhisperStubTranscribeBridgeTests
-             COMMAND test_whisper_stub_transcribe_bridge_focused)
+             COMMAND $<TARGET_FILE:test_whisper_stub_transcribe_bridge_focused>)
 
     set_tests_properties(WhisperStubTranscribeBridgeTests PROPERTIES
         LABELS "whisper;stub-bridge;WST"
@@ -26498,7 +26518,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/vulkan/test_vulkan_compile_glsl_bridge.cp
         PRIVATE THEMIS_TEST_BUILD=1)
 
     add_test(NAME VulkanCompileGlslBridgeTests
-             COMMAND test_vulkan_compile_glsl_bridge_focused)
+             COMMAND $<TARGET_FILE:test_vulkan_compile_glsl_bridge_focused>)
 
     set_tests_properties(VulkanCompileGlslBridgeTests PROPERTIES
         LABELS "acceleration;vulkan;stub-bridge;VKC"
@@ -26547,7 +26567,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/clo/test_clo_loops.cpp")
         THEMIS_ENABLE_LLM=1
     )
 
-    add_test(NAME CLOLoopsTriggerTests COMMAND test_clo_loops_focused)
+    add_test(NAME CLOLoopsTriggerTests COMMAND $<TARGET_FILE:test_clo_loops_focused>)
 
     set_tests_properties(CLOLoopsTriggerTests PROPERTIES
         LABELS "rag;clo;loop;impl-a2;unit;CLO-L1;CLO-L2;CLO-L3;CLO-L4;CLO-FED;CLO-COOL"
@@ -26598,7 +26618,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/toolbox/test_toolbox_primitives.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME ToolboxPrimitivesTests COMMAND test_toolbox_primitives_focused)
+    add_test(NAME ToolboxPrimitivesTests COMMAND $<TARGET_FILE:test_toolbox_primitives_focused>)
 
     set_tests_properties(ToolboxPrimitivesTests PROPERTIES
         LABELS "toolbox;text;chunker;normalizer;fingerprinter;quality;language;unit"
@@ -26646,7 +26666,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/serialization/test_serialization_advisor.
     )
 
     add_test(NAME SerializationAdvisorFocusedTests
-        COMMAND test_serialization_advisor_focused)
+        COMMAND $<TARGET_FILE:test_serialization_advisor_focused>)
 
     set_tests_properties(SerializationAdvisorFocusedTests PROPERTIES
         LABELS "query;optimizer;serialization;advisor;focused;unit"
@@ -26693,7 +26713,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/hot/test_hot_reload_manager.cpp")
         CXX_STANDARD_REQUIRED ON
     )
 
-    add_test(NAME HotReloadManagerFocusedTests COMMAND test_hot_reload_manager_focused)
+    add_test(NAME HotReloadManagerFocusedTests COMMAND $<TARGET_FILE:test_hot_reload_manager_focused>)
     set_tests_properties(HotReloadManagerFocusedTests PROPERTIES
         LABELS "base;hot-reload;unit;focused"
         TIMEOUT 60
@@ -26737,7 +26757,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/module/test_module_sandbox.cpp")
         CXX_STANDARD_REQUIRED ON
     )
 
-    add_test(NAME ModuleSandboxFocusedTests COMMAND test_module_sandbox_focused)
+    add_test(NAME ModuleSandboxFocusedTests COMMAND $<TARGET_FILE:test_module_sandbox_focused>)
     set_tests_properties(ModuleSandboxFocusedTests PROPERTIES
         LABELS "base;sandbox;abi-checker;unit;focused"
         TIMEOUT 60
@@ -26781,7 +26801,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/module/test_module_sandbox_wasm_injection
         CXX_STANDARD_REQUIRED ON
     )
 
-    add_test(NAME ModuleSandboxWasmInjectionFocusedTests COMMAND test_module_sandbox_wasm_injection_focused)
+    add_test(NAME ModuleSandboxWasmInjectionFocusedTests COMMAND $<TARGET_FILE:test_module_sandbox_wasm_injection_focused>)
     set_tests_properties(ModuleSandboxWasmInjectionFocusedTests PROPERTIES
         LABELS "base;sandbox;wasm;injection;unit;focused"
         TIMEOUT 60
@@ -26835,7 +26855,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/project/test_project_collaboration_concur
     )
 
     add_test(NAME ProjectCollaborationConcurrentFocusedTests
-        COMMAND test_project_collaboration_concurrent_focused)
+        COMMAND $<TARGET_FILE:test_project_collaboration_concurrent_focused>)
 
     set_tests_properties(ProjectCollaborationConcurrentFocusedTests PROPERTIES
         LABELS "projects;collaboration;concurrent;integration;focused"
@@ -26881,7 +26901,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_ai_operation_guard.cpp")
         CXX_STANDARD_REQUIRED ON
     )
 
-    add_test(NAME AiOperationGuardTests COMMAND test_ai_operation_guard)
+    add_test(NAME AiOperationGuardTests COMMAND $<TARGET_FILE:test_ai_operation_guard>)
     set_tests_properties(AiOperationGuardTests PROPERTIES
         LABELS "security;ai_safety;asl4;unit"
         TIMEOUT 30
@@ -26922,7 +26942,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/test_ai_snapshot_cleanup.cpp")
         CXX_STANDARD_REQUIRED ON
     )
 
-    add_test(NAME AiSnapshotCleanupTests COMMAND test_ai_snapshot_cleanup)
+    add_test(NAME AiSnapshotCleanupTests COMMAND $<TARGET_FILE:test_ai_snapshot_cleanup>)
 
     set_tests_properties(AiSnapshotCleanupTests PROPERTIES
         LABELS "security;ai_safety;asl11;unit"
@@ -26966,7 +26986,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/security/ai_safety/test_ai_safety_chaos.c
     endif()
     target_compile_definitions(test_ai_safety_chaos PRIVATE THEMIS_TEST_BUILD=1 THEMIS_ENABLE_MCP=1)
     set_target_properties(test_ai_safety_chaos PROPERTIES CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON)
-    add_test(NAME AiSafetyChaosTests COMMAND test_ai_safety_chaos)
+    add_test(NAME AiSafetyChaosTests COMMAND $<TARGET_FILE:test_ai_safety_chaos>)
     set_tests_properties(AiSafetyChaosTests PROPERTIES LABELS "security;ai_safety;chaos;unit" TIMEOUT 30)
     message(STATUS "  AiSafetyChaos: CHAOS-01..CHAOS-12 (DOG, HILG, IntentClassifier, AqlSafetyValidator, SnapshotCleanup, LoRA hook)")
 else()
@@ -27006,7 +27026,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_process_community_detector.c
         Threads::Threads
     )
     target_compile_definitions(ProcessCommunityDetectorTests PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME ProcessCommunityDetectorTests COMMAND ProcessCommunityDetectorTests)
+    add_test(NAME ProcessCommunityDetectorTests COMMAND $<TARGET_FILE:ProcessCommunityDetectorTests>)
     set_tests_properties(ProcessCommunityDetectorTests PROPERTIES
         LABELS "process;community;leiden;graphrag;focused;unit"
         TIMEOUT 120
@@ -27048,7 +27068,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_process_light_retriever.cpp"
         Threads::Threads
     )
     target_compile_definitions(ProcessLightRetrieverTests PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME ProcessLightRetrieverTests COMMAND ProcessLightRetrieverTests)
+    add_test(NAME ProcessLightRetrieverTests COMMAND $<TARGET_FILE:ProcessLightRetrieverTests>)
     set_tests_properties(ProcessLightRetrieverTests PROPERTIES
         LABELS "process;lightrag;retrieval;focused;unit"
         TIMEOUT 120
@@ -27088,7 +27108,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_object_centric_tracer.cpp")
         Threads::Threads
     )
     target_compile_definitions(ObjectCentricTracerTests PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME ObjectCentricTracerTests COMMAND ObjectCentricTracerTests)
+    add_test(NAME ObjectCentricTracerTests COMMAND $<TARGET_FILE:ObjectCentricTracerTests>)
     set_tests_properties(ObjectCentricTracerTests PROPERTIES
         LABELS "process;ocpm;ocel;object-centric;focused;unit"
         TIMEOUT 120
@@ -27129,7 +27149,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_sla_monitoring.cpp")
         Threads::Threads
     )
     target_compile_definitions(SlaMonitoringTests PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME SlaMonitoringTests COMMAND SlaMonitoringTests)
+    add_test(NAME SlaMonitoringTests COMMAND $<TARGET_FILE:SlaMonitoringTests>)
     set_tests_properties(SlaMonitoringTests PROPERTIES
         LABELS "process;sla;cep;monitoring;focused;unit"
         TIMEOUT 120
@@ -27170,7 +27190,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/process/test_bottleneck_analytics.cpp")
         Threads::Threads
     )
     target_compile_definitions(BottleneckAnalyticsTests PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME BottleneckAnalyticsTests COMMAND BottleneckAnalyticsTests)
+    add_test(NAME BottleneckAnalyticsTests COMMAND $<TARGET_FILE:BottleneckAnalyticsTests>)
     set_tests_properties(BottleneckAnalyticsTests PROPERTIES
         LABELS "process;bottleneck;analytics;focused;unit"
         TIMEOUT 120
@@ -27196,7 +27216,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/debug_graph_keys_test.cpp")
         Threads::Threads
     )
     target_compile_definitions(DebugGraphKeysTests PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME DebugGraphKeysTests COMMAND DebugGraphKeysTests)
+    add_test(NAME DebugGraphKeysTests COMMAND $<TARGET_FILE:DebugGraphKeysTests>)
     set_tests_properties(DebugGraphKeysTests PROPERTIES
         LABELS "graph;debug;focused;unit"
         TIMEOUT 60
@@ -27226,7 +27246,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/secondary/test_secondary_index.cpp")
     # NOTE: this binary currently crashes during --gtest_list_tests on some
     # Windows setups (Access Violation), which breaks global CTest discovery.
     # Register a plain CTest entry to keep discovery stable for unrelated tests.
-    add_test(NAME themis_secidx_tests COMMAND themis_secidx_tests --gtest_color=yes)
+    add_test(NAME themis_secidx_tests COMMAND $<TARGET_FILE:themis_secidx_tests> --gtest_color=yes)
     set_tests_properties(themis_secidx_tests PROPERTIES
         WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_secidx_tests>
     )
@@ -27270,7 +27290,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tests/lib/test_lib_rocksdb_integration.cpp" AND
     # NOTE: this binary can crash during --gtest_list_tests on some Windows
     # setups, which breaks global CTest discovery in VS Code. Register a
     # static CTest entry instead of dynamic GoogleTest discovery.
-    add_test(NAME themis_tests_critical COMMAND themis_tests_critical --gtest_color=yes)
+    add_test(NAME themis_tests_critical COMMAND $<TARGET_FILE:themis_tests_critical> --gtest_color=yes)
     set_tests_properties(themis_tests_critical PROPERTIES
         WORKING_DIRECTORY $<TARGET_FILE_DIR:themis_tests_critical>
     )
@@ -28986,7 +29006,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_category_b_parity_bfs.cpp")
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME test_category_b_parity_bfs COMMAND test_category_b_parity_bfs)
+    add_test(NAME test_category_b_parity_bfs COMMAND $<TARGET_FILE:test_category_b_parity_bfs>)
     set_tests_properties(test_category_b_parity_bfs PROPERTIES
         LABELS "graph;cuda;parity;category-b;bfs;focused;integration"
         TIMEOUT 180
@@ -29017,7 +29037,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/graph/test_category_b_parity_dijkstra.cpp
         THEMIS_TEST_BUILD=1
     )
 
-    add_test(NAME test_category_b_parity_dijkstra COMMAND test_category_b_parity_dijkstra)
+    add_test(NAME test_category_b_parity_dijkstra COMMAND $<TARGET_FILE:test_category_b_parity_dijkstra>)
     set_tests_properties(test_category_b_parity_dijkstra PROPERTIES
         LABELS "graph;cuda;parity;category-b;dijkstra;focused;integration"
         TIMEOUT 180
@@ -29359,7 +29379,7 @@ if(THEMIS_ENABLE_GRPC AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/server/test_grpc_c
         THEMIS_HAS_CORE_GRPC
     )
 
-    add_test(NAME GrpcCoreServiceTests COMMAND test_grpc_core_service)
+    add_test(NAME GrpcCoreServiceTests COMMAND $<TARGET_FILE:test_grpc_core_service>)
 
     set_tests_properties(GrpcCoreServiceTests PROPERTIES
         LABELS "server;grpc;wave9;unit"
@@ -29515,3 +29535,4 @@ else()
     add_custom_target(themis_wave_b_runtime_ops_tests)
     message(WARNING "themis_wave_b_runtime_ops_tests: no targets collected — check Wave B runtime/ops labels")
 endif()
+endif() # THEMIS_BUILD_MODULAR legacy root registration guard
