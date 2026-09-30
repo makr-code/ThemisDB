@@ -147,8 +147,7 @@ Public module externalization (Geo / TimeSeries):
 - `plugins/themisdb_geo` (`makr-code/themisdb_geo`)
 - `plugins/themisdb_timeseries` (`makr-code/themisdb_timeseries`)
 - Enable with `-DTHEMIS_EXTERNALIZE_GEO_PLUGIN=ON` and/or `-DTHEMIS_EXTERNALIZE_TIMESERIES_PLUGIN=ON`
-- If enabled and submodule `CMakeLists.txt` is present, integrated `src/geo/*` and/or `src/timeseries/*`
-  sources are removed from `themis_core` and built from the external submodule instead.
+- If enabled and the submodule `CMakeLists.txt` is present, the matching public submodule becomes the authoritative implementation source for that module. The in-tree `src/geo/*` and/or `src/timeseries/*` trees remain compatibility fallbacks only and are removed from `themis_core` when the externalized build is active.
 ```
 
 ## Production Plugin Types
