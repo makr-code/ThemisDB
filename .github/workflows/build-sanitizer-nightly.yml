@@ -48,4 +48,4 @@ jobs:
         build-sanitizer/Testing
         build-sanitizer/CMakeCache.txt
       artifact_retention_days: '10'
-      summary_title: CI — Sanitizer Nightly
+      summary_title: "Build: Sanitizer Nightly — Critical Path Validation"

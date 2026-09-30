@@ -1,4 +1,4 @@
-name: "Wiki: Publish from Issue Approval"
+name: "Publish: Wiki from Issue Approval"
 
 # Publishes the staged wiki to GitHub Wiki repository when a maintainer approves
 # via issue comment on the wiki review tracking issue.
@@ -32,7 +32,7 @@ concurrency:
 
 jobs:
   wiki_publish_from_issue:
-    name: "Wiki: Publish wiki on approval comment"
+    name: "Publish: Wiki on approval comment"
     if: |
       contains(github.event.issue.labels.*.name, 'wiki-review') &&
       (
@@ -86,7 +86,7 @@ jobs:
 
       - name: Checkout repository
         if: steps.check_maintainer.outputs.is_maintainer == 'true'
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 

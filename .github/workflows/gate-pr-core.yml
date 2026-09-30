@@ -78,7 +78,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 1
 
@@ -251,7 +251,13 @@ jobs:
         -DTHEMIS_BUILD_BENCHMARKS=OFF
         -DTHEMIS_ENABLE_LLM=OFF
         -DTHEMIS_ENABLE_GPU=OFF
-      build_targets: themis_release_critical_tests
+      build_command: >-
+        if cmake --build build-pr-release-critical --target help | grep -q '^themis_release_critical_tests:'; then
+          cmake --build build-pr-release-critical --target themis_release_critical_tests --parallel 16;
+        else
+          echo "release-critical aggregate target missing; falling back to full test build";
+          cmake --build build-pr-release-critical --parallel 16;
+        fi
       validation_mode: labels
       ctest_label_filter: release_critical
       runs_on: ubuntu-latest
@@ -274,7 +280,7 @@ jobs:
       github.event_name == 'pull_request' &&
       (github.base_ref == 'community' || github.base_ref == 'minimal')
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 1
 
@@ -331,7 +337,7 @@ jobs:
       contents: read
     if: github.event_name == 'pull_request'
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v5
 
       - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
         with:
@@ -360,7 +366,7 @@ jobs:
       github.event_name == 'pull_request' &&
       contains(fromJSON('["develop","community","enterprise","hyperscaler","military"]'), github.base_ref)
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 1
 
@@ -439,13 +445,13 @@ jobs:
       github.event_name == 'pull_request' &&
       contains(fromJSON('["develop","community","enterprise","hyperscaler","military"]'), github.base_ref)
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v5
       - name: Setup C++ build dependencies
         uses: ./.github/actions/setup-cpp-build
         with:
           cc: gcc-12
           cxx: g++-12
-          extra-packages: librocksdb-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev
+          extra-packages: librocksdb-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev libgtest-dev libgmock-dev
 
       - name: Configure (community-release)
         run: |
@@ -492,7 +498,7 @@ jobs:
       github.event_name == 'push' ||
       (github.event_name == 'pull_request' && github.base_ref == 'develop')
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v5
 
       - name: Derive SOURCE_DATE_EPOCH from HEAD commit
         id: source_date_epoch
@@ -535,7 +541,7 @@ jobs:
       github.event_name == 'pull_request' &&
       (github.base_ref == 'develop' || github.base_ref == 'community')
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 1
 
@@ -616,7 +622,7 @@ jobs:
       github.event_name == 'pull_request' &&
       contains(fromJSON('["develop","community","enterprise","hyperscaler","military"]'), github.base_ref)
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v5
 
       - name: Verify Wave-1 submodule commit pins
         run: |
@@ -662,7 +668,7 @@ jobs:
       github.event_name == 'pull_request' &&
       (github.base_ref == 'community' || github.base_ref == 'develop')
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 1
 
@@ -704,7 +710,7 @@ jobs:
       github.event_name == 'pull_request' &&
       (github.base_ref == 'community' || github.base_ref == 'minimal')
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v5
 
       - name: Validate private submodules are scoped for community
         run: |
@@ -761,7 +767,7 @@ jobs:
       github.event_name == 'pull_request' &&
       contains(fromJSON('["develop","community","enterprise","hyperscaler","military","minimal"]'), github.base_ref)
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 1
 
@@ -862,7 +868,7 @@ jobs:
       github.event_name == 'pull_request' &&
       contains(fromJSON('["develop","community","enterprise","hyperscaler","military","minimal"]'), github.base_ref)
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 1
 
@@ -974,7 +980,7 @@ jobs:
           echo "============================================================"
 
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0  # TruffleHog --since-commit requires full commit history
 

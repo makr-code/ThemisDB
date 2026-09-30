@@ -30,10 +30,6 @@ on:
         required: false
         default: "false"
 
-concurrency:
-  group: wave-a-gpu-ci-${{ github.ref }}-${{ github.run_id }}
-  cancel-in-progress: false
-
 permissions:
   contents: read
   checks: write
@@ -57,7 +53,7 @@ jobs:
       build-dir: ${{ steps.configure.outputs.build-dir }}
       config-status: ${{ steps.configure.outputs.status }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           submodules: false
@@ -131,11 +127,14 @@ jobs:
     needs: configure
     runs-on: ubuntu-latest
     timeout-minutes: 90
+    concurrency:
+      group: wave-a-gpu-ci-${{ github.ref }}-${{ matrix.phase }}
+      cancel-in-progress: false
     strategy:
       matrix:
         phase: [baseline, fallback, memory, determinism]
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           submodules: false
@@ -221,7 +220,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           submodules: false
@@ -321,7 +320,7 @@ jobs:
       reduction_pct: ${{ steps.audit.outputs.reduction_pct }}
       audit_status: ${{ steps.audit.outputs.audit_status }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v5
 
       - name: "Run CUDA-call audit"
         id: audit
@@ -377,7 +376,7 @@ jobs:
     timeout-minutes: 90
     if: github.event.inputs.run_representative_hardware == 'true'
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           submodules: false
@@ -519,13 +518,13 @@ jobs:
           retention-days: 90
 
   publish-results:
-    name: "Publish: GPU CI Results"
+    name: "Build: GPU CI Results"
     needs: [configure, compile-tests, full-gpu-test-suite, cuda-audit, representative-hardware-baselines, collect-artifacts]
     runs-on: ubuntu-latest
     if: always()
     steps:
       - name: "Checkout repository"
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v5
 
       - name: "Download all artifacts"
         uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85

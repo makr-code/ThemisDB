@@ -3,11 +3,12 @@ name: "Build: Mainline"
 # Rechenaufwand-Score: R=7 (K=8, L=7, N=7) | last-calibrated: 2026-08-25
 # Trigger policy: repo framework score calibration for workflow cost controls.
 # ──────────────────────────────────────────────────────────────────────────────
-# Trigger policy: push to develop only (no pull_request trigger).
-# Heavy C++ builds (up to 360 min) run post-merge, not on every PR push.
+# Trigger policy: post-merge push on develop, plus manual dispatch and nightly schedule.
+# Heavy C++ builds (up to 360 min) run post-merge and in nightly verification lanes.
+# This prevents excessive cancellation of long-running builds from competing pushes.
 # Performance optimizations: sccache compiler caching (30-50% speedup), parallel jobs (12-16),
 # vcpkg binary caching, and GitHub Actions cache layer to avoid redundant dependency builds.
-# PR-level feedback is provided by lightweight gate-pr-core.yml and gate-pr-*.yml.
+# PR-level feedback is provided by lightweight build-clang-fast.yml and gate-pr-*.yml.
 # Concurrency is scoped per platform matrix lane so slower jobs are not cancelled by
 # newer pushes on other architectures. Each platform queues independently while the
 # branch continues to build in parallel lanes.
@@ -68,6 +69,8 @@ on:
       - '.github/actions/**/action.yml'
       - '.github/actions/**/*.js'
       - '.github/workflows/build-mainline.yml'
+  schedule:
+    - cron: '10 6 * * *'  # Nightly 06:10 UTC (staggered from release-nightly 04:00 UTC)
   workflow_dispatch:
     inputs:
       sanitizer:
@@ -89,18 +92,22 @@ permissions:
   pull-requests: write
   checks: read
 
+concurrency:
+  group: ci-build-mainline-${{ github.ref }}-matrix.mainline
+  cancel-in-progress: false
+
 jobs:
   mark-build-pending:
     name: "Build: Mark Pending State"
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     permissions:
       contents: read
       issues: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v5
 
       - name: Set build tracker pending label
         uses: ./.github/actions/status-flags-and-issues
@@ -128,70 +135,17 @@ jobs:
   # Consolidated matrix reduces duplicated setup/configure/build blocks while
   # keeping the platform matrix visible in the GitHub Actions UI.
   step2-platform-matrix:
-    name: "Build: Step 2 · ${{ matrix.label }}"
+    name: "Build: Step 2 · Matrix (Mainline Orchestration)"
     needs: mark-build-pending
-    concurrency:
-      group: ci-build-mainline-${{ github.ref }}-${{ matrix.label }}
-      cancel-in-progress: false
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - label: Linux AMD64
-            runs_on: ubuntu-latest
-            enable_sccache_gha: true
-            setup_command: >-
-              set -euo pipefail; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libssl-dev zlib1g-dev libzstd-dev libtbb-dev libyaml-cpp-dev libboost-dev libboost-system-dev libboost-filesystem-dev libcurl4-openssl-dev libgtest-dev libgmock-dev; echo "Linux AMD64 dependencies installed via apt (optimized for hybrid builds)"
-            configure_command: >-
-              cmake -S . -B build-step2-linux-amd64 -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_ENABLE_HTTP_SERVER=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
-            build_command: >-
-              cmake --build build-step2-linux-amd64 --target themis_base --parallel 8
-            summary_title: "Build: Step 2 · Linux AMD64"
-
-          - label: Linux ARM64
-            runs_on: ubuntu-24.04-arm
-            enable_sccache_gha: true
-            setup_command: >-
-              set -euo pipefail; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libssl-dev zlib1g-dev libzstd-dev libtbb-dev libyaml-cpp-dev libboost-dev libboost-system-dev libboost-filesystem-dev libcurl4-openssl-dev libgtest-dev libgmock-dev; echo "Linux ARM64 dependencies installed via apt (optimized for hybrid builds)"
-            configure_command: >-
-              cmake -S . -B build-step2-linux-arm64 -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_ENABLE_HTTP_SERVER=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
-            build_command: >-
-              cmake --build build-step2-linux-arm64 --target themis_base --parallel 8
-            summary_title: "Build: Step 2 · Linux ARM64"
-
-          - label: Windows AMD64
-            runs_on: windows-latest
-            enable_sccache_gha: true
-            setup_command: >-
-              set -euo pipefail; powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "choco install -y sccache"; VCPKG_BASELINE=$(python3 -c "import json; print(json.load(open('vcpkg.json')).get('builtin-baseline',''))" 2>/dev/null || echo ''); if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then rm -rf vcpkg; git clone --no-checkout https://github.com/microsoft/vcpkg.git vcpkg; if [ -n "${VCPKG_BASELINE}" ]; then git -C vcpkg fetch --depth=1 origin "${VCPKG_BASELINE}" && git -C vcpkg checkout FETCH_HEAD; else git -C vcpkg checkout master; fi; fi; ./vcpkg/bootstrap-vcpkg.bat -disableMetrics; mkdir -p "${VCPKG_ROOT:-vcpkg}/archives" 2>/dev/null || true
-            configure_command: >-
-              cmake --preset windows-release -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_ENABLE_HTTP_SERVER=OFF -DVCPKG_BUILD_TYPE=release -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
-            build_command: >-
-              cmake --build --preset windows-release --target themis_base --parallel 16
-            summary_title: "Build: Step 2 · Windows AMD64"
-
-          - label: macOS
-            runs_on: macos-latest
-            enable_sccache_gha: false
-            setup_command: >-
-              set -euo pipefail; brew update --quiet; brew install cmake ninja sccache fmt spdlog nlohmann-json boost yaml-cpp cpp-httplib
-            configure_command: >-
-              cmake -S . -B build-step2-macos -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_ENABLE_HTTP_SERVER=OFF -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON -DTHEMIS_DIAGNOSTIC_MODE=ON
-            build_command: >-
-              cmake --build build-step2-macos --target themis_base --parallel 8
-            summary_title: "Build: Step 2 · macOS"
-    uses: ./.github/workflows/reusable-cmake-build.yml
+    uses: ./.github/workflows/release-build-matrix.yml
     with:
-      enable_sccache_gha: ${{ matrix.enable_sccache_gha }}
-      runs_on: ${{ matrix.runs_on }}
-      shell: bash
-      fetch_depth: '0'
-      submodules: false
-      working_directory: .
-      setup_command: ${{ matrix.setup_command }}
-      configure_command: ${{ matrix.configure_command }}
-      build_command: ${{ matrix.build_command }}
-      summary_title: ${{ matrix.summary_title }}
+      build_matrix: os
+      os: all
+      architecture: all
+      edition: community
+      build_type: Release
+      packaging: auto
+      distribution: all
 
   step2-architecture-summary:
     name: "Validate: Step 2 · Architecture Summary"
@@ -263,7 +217,7 @@ jobs:
     runs-on: macos-latest
     timeout-minutes: 45
     needs: step2-architecture-summary
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
 
     steps:
       - name: "Validate: Print macOS kqueue job context"
@@ -277,7 +231,7 @@ jobs:
           echo "  Scope    : config_file_watcher + plugin_hot_plug_monitor kqueue paths"
           echo "============================================================"
 
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v5
 
       - name: Install Homebrew dependencies
         run: |
@@ -588,13 +542,13 @@ jobs:
     needs:
       - build
       - macos-kqueue-validation
-    if: always() && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    if: always() && (github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
     permissions:
       contents: read
       issues: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v5
 
       - name: Derive status payload
         id: status

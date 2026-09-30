@@ -66,7 +66,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v5
 
       - name: Set up Python
         uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
@@ -88,7 +88,7 @@ jobs:
           PY
 
       - name: Checkout vcpkg ports at pinned baseline
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v5
         with:
           repository: microsoft/vcpkg
           ref: ${{ steps.baseline.outputs.sha }}
@@ -117,7 +117,7 @@ jobs:
 
   # ── Attach license artifacts to GitHub Release ──────────────────────────────
   license-release-assets:
-    name: "Publish: License Release Assets"
+    name: "Build: License Release Assets"
     if: github.event_name == 'release'
     needs: license-gate
     runs-on: ubuntu-latest
@@ -151,7 +151,7 @@ jobs:
       id-token: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v5
 
       - name: Verify vcpkg baseline commit signature
         env:
@@ -166,14 +166,14 @@ jobs:
           syft-version: latest
 
       - name: Generate source SBOM (CycloneDX)
-        uses: anchore/sbom-action@v0  # v0
+        uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610  # v0
         with:
           format: cyclonedx-json
           output-file: sbom-source.cyclonedx.json
           path: '.'
 
       - name: Generate source SBOM (SPDX)
-        uses: anchore/sbom-action@v0  # v0
+        uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610  # v0
         with:
           format: spdx-json
           output-file: sbom-source.spdx.json
@@ -236,7 +236,7 @@ jobs:
         # Attaches a signed provenance statement to the SBOM artifact so that
         # consumers can verify what workflow produced it (SLSA Level 2).
         if: startsWith(github.ref, 'refs/tags/v')
-        uses: actions/attest-build-provenance@v1  # v1.4.3
+        uses: actions/attest-build-provenance@ef244123eb79f2f7a7e75d99086184180e6d0018  # v1
         with:
           subject-path: |
             sbom-source.cyclonedx.json
@@ -269,7 +269,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v5
 
       - name: Resolve release identifier
         id: release_id
@@ -352,7 +352,7 @@ jobs:
           echo "============================================================"
 
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v5
 
       - name: Set up Python
         uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
@@ -467,7 +467,7 @@ jobs:
 
       - name: Upload SARIF to GitHub Security tab
         if: always()
-        uses: github/codeql-action/upload-sarif@v4
+        uses: github/codeql-action/upload-sarif@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2  # v4
         with:
           sarif_file: dependency-freshness.sarif
           category: dependency-freshness
@@ -566,7 +566,7 @@ jobs:
       THEMIS_ADMIN_ENDPOINT: 'http://localhost:18080'
     steps:
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@v5
 
       - name: Start ThemisDB container
         env:

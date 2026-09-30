@@ -21,10 +21,6 @@ on:
         required: false
         default: "4"
 
-concurrency:
-  group: wave-b-transaction-ci-${{ github.ref }}-${{ github.run_id }}
-  cancel-in-progress: false
-
 permissions:
   contents: read
   checks: write
@@ -48,7 +44,7 @@ jobs:
       build-dir: ${{ steps.configure.outputs.build-dir }}
       config-status: ${{ steps.configure.outputs.status }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v5
         with:
           submodules: false
           fetch-depth: 0
@@ -110,11 +106,14 @@ jobs:
     needs: configure
     runs-on: ubuntu-latest
     timeout-minutes: 90
+    concurrency:
+      group: wave-b-transaction-ci-${{ github.ref }}-${{ matrix.phase }}
+      cancel-in-progress: false
     strategy:
       matrix:
         phase: [phase1, phase2, phase3, wave-a]
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v5
         with:
           submodules: false
 
@@ -182,7 +181,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v5
         with:
           submodules: false
 
@@ -261,7 +260,7 @@ jobs:
     timeout-minutes: 45
     if: github.event_name == 'push' || github.event.inputs.phase == 'all'
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v5
         with:
           submodules: false
 
@@ -363,7 +362,7 @@ jobs:
     timeout-minutes: 30
     if: github.event_name == 'push' || github.event.inputs.phase == 'all' || github.event.inputs.phase == 'wave-a'
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v5
         with:
           submodules: false
 
@@ -435,7 +434,7 @@ jobs:
     timeout-minutes: 60
     if: github.event_name == 'push' || github.event.inputs.phase == 'all' || github.event.inputs.phase == 'phase4'
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v5
         with:
           submodules: false
 
@@ -570,12 +569,12 @@ jobs:
           retention-days: 90
 
   publish-results:
-    name: "Publish: CI Results"
+    name: "Build: CI Results"
     needs: [configure, compile-tests, smoke-tests, full-transaction-test-suite, chaos-recovery-evidence, phase4-benchmark-baseline, collect-artifacts]
     runs-on: ubuntu-latest
     if: always()
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@v5
         with:
           submodules: false
 

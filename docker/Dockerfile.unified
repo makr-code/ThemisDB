@@ -403,6 +403,10 @@ RUN set -eux; \
         echo "For GPU support in container, install Vulkan SDK headers and mount /dev/dri"; \
     fi; \
     \
+    # Enforce binary-only dependency mode in Docker builds:
+    # never trigger vcpkg manifest resolution from /src/vcpkg(.json),
+    # because multi-arch release jobs inject prebuilt /src/vcpkg_installed.
+    export VCPKG_FEATURE_FLAGS="-manifests"; \
     cmake --preset linux-release \
         -DTHEMIS_EDITION="${THEMIS_EDITION}" \
         -DTHEMIS_ENABLE_LLM="${ENABLE_LLM}" \
