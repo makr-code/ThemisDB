@@ -140,6 +140,43 @@ The repository is clearly not a blank or mock project. It contains a substantial
 - [x] Tools build-option transition complete: canonical flag for desktop tools is `THEMIS_BUILD_TOOLS` (default `ON`); legacy alias removed.
 - [~] Core-first residual source-gap queue revalidated (2026-09-09): major reductions in Auth, LLM, GPU, and Query modules; dedicated Transaction/GPU CI lanes are green again, and the remaining high-priority items are authoritative GPU representative-hardware artifacts, authoritative Transaction chaos/Phase-4 hardware artifacts, and the cross-module p95/p99 refresh set. Follow-up hardening and benchmarking batches remain scheduled for Q4 2026 after the restored Wave A/B CI-green confirmation. (Target: Q4 2026).
 
+## Monthly Close Audit (2026-09-30) and October 2026 Outlook
+
+This month-end audit refresh is intentionally conservative: it treats source code, focused tests, and CI evidence as the only valid basis for promotion claims. The repository remains materially implemented and evidence-rich, but it is not yet release-grade in a strict production sense because authoritative representative-hardware artifacts and the remaining Wave-A/B evidence package are still pending final closure.
+
+### Current status (source-validated, 2026-09-30)
+
+- [x] Wave A/B execution is materially advanced on `develop`, with dedicated transaction and GPU lanes restored and the high-risk backlog materially reduced.
+- [x] Search, access model, LLM wiki, auth, process, and security hardening remain source-backed and materially complete in the current tree.
+- [~] Final release readiness remains gated by representative-hardware evidence, audit integration proof, and human sign-off for GA/program promotion.
+- [x] The canonical ethics-AI plugin integration remains `makr-code/themisdb_ethic_ai` → `plugins/themisdb_ethic_ai/`; the parent `plugins/ethics_ai/` directory acts as a compatibility, manifest, and documentation layer only. Private or enterprise-only variants must not be treated as the public repository implementation path.
+
+### Key evidence and open gaps
+
+- Evidence posture: `ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `audit/IMPLEMENTATION_AUDIT_2026-09-14.md`, and the current `ai_context/developer_llm_wiki/WIKI_STATUS.json` agree on the same source-first posture.
+- Open gap family 1: authoritative representative-hardware baselines in GPU and Transaction remain the largest release blocker.
+- Open gap family 2: final end-to-end Wave-C integration proof remains stronger when run against the real production sink/persistence path, not only the existing focused audit harness.
+- Open gap family 3: final human GA sign-off remains required despite implementation depth and prior Wave closures.
+
+### October 2026 outlook
+
+For October 2026, the realistic expectation is a disciplined hardening and evidence-closure cycle rather than a broad feature expansion cycle.
+
+- Target outcome: close the remaining Wave-A/B evidence gaps and convert the current implementation quality into a source-backed, release-ready package.
+- Expected priorities: GPU and transaction representative-hardware closure, p95/p99 refreshes, refined fail-closed security/audit proof, and completion of the release-critical evidence bundle used for final sign-off.
+- Expected enterprise-specific focus: keep all private/external plugin references aligned to the canonical external submodule boundary and keep the parent repo layer fail-closed and compatibility-only.
+- Risk posture: the repo is not at a blank or mock stage; the risk is governance and evidence completeness rather than absence of implementation.
+
+### Governance note for ethics-AI / submodule references
+
+Canonical repository governance for the ethics-AI boundary is:
+
+- `makr-code/themisdb_ethic_ai` → `plugins/themisdb_ethic_ai/` (external submodule, canonical implementation path)
+- `plugins/ethics_ai/` → compatibility shim, manifest, and documentation layer only
+- `plugins/private/...` paths remain enterprise/private-only exceptions and must not be treated as the public repo source-of-truth path
+
+This alignment keeps the parent repository fail-closed and compatibility-only while preserving the intended external submodule model.
+
 ## Program Execution Model (Wave A → B → C → D)
 
 Execution targets `develop` and must follow strict wave-gate sequencing.
@@ -295,7 +332,7 @@ This execution contract is the active implementation sequence to close hardening
 #### Phase 2 — Core Implementation
 - [~] Introduce `WITH_PRIVATE_*` grouping/plugin flags and centralized private-plugin loading helpers with no-hard-fail `EXISTS(...)` handling (Target: Q3 2026)
 - [x] Wave-1 private repositories provisioned and submodule paths finalized (2026-07):
-  - `makr-code/themisdb_ethic_ai` → `plugins/private/themisdb_ethic_ai/` (ethics_ai plugin root)
+  - `makr-code/themisdb_ethic_ai` → `plugins/themisdb_ethic_ai/` (external submodule, canonical runtime implementation path; parent `plugins/ethics_ai/` remains compatibility-only)
   - `makr-code/themisdb_storage` → `plugins/private/themisdb_storage/` (aggregate: user_storage_encrypted/, azure_blob_storage/, s3_blob_storage/)
   - `makr-code/themisdb_importer` → `plugins/private/themisdb_importer/` (aggregate: mysql_importer/, mongo_importer/, kafka_importer/, s3_importer/)
   - `makr-code/themisdb_llm_wiki` → `plugins/themisdb_llm_wiki/` (LLM Wiki tool)
