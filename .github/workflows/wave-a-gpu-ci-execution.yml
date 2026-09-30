@@ -42,7 +42,7 @@ jobs:
       cuda_version: ${{ steps.detect-gpu.outputs.cuda_version }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -139,7 +139,7 @@ jobs:
     needs: phase1-health-check
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v5
 
       - name: Setup build environment
         shell: bash
@@ -206,7 +206,7 @@ jobs:
           - gpu-closure
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v5
 
       - name: Setup test environment
         shell: bash
@@ -263,7 +263,7 @@ jobs:
     if: needs.phase1-health-check.outputs.execution_mode == 'gpu'
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v5
 
       - name: Setup validation environment
         shell: bash

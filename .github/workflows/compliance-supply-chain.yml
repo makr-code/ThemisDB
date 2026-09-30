@@ -66,7 +66,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v5
 
       - name: Set up Python
         uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
@@ -88,7 +88,7 @@ jobs:
           PY
 
       - name: Checkout vcpkg ports at pinned baseline
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v5
         with:
           repository: microsoft/vcpkg
           ref: ${{ steps.baseline.outputs.sha }}
@@ -151,7 +151,7 @@ jobs:
       id-token: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v5
 
       - name: Verify vcpkg baseline commit signature
         env:
@@ -269,7 +269,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v5
 
       - name: Resolve release identifier
         id: release_id
@@ -352,7 +352,7 @@ jobs:
           echo "============================================================"
 
       - name: Checkout repository
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v5
 
       - name: Set up Python
         uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
@@ -566,7 +566,7 @@ jobs:
       THEMIS_ADMIN_ENDPOINT: 'http://localhost:18080'
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v5
 
       - name: Start ThemisDB container
         env:

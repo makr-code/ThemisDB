@@ -92,7 +92,7 @@ jobs:
 
     steps:
       - name: Checkout (sparse — scripts + src expectations only)
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v5
         with:
           fetch-depth: 1
           sparse-checkout: |

@@ -97,7 +97,7 @@ jobs:
       (github.event_name == 'workflow_dispatch' && (inputs.run_soak == false || inputs.run_soak == 'false'))
 
     steps:
-      - uses: actions/checkout@v4.1.6
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           submodules: false
@@ -188,7 +188,7 @@ jobs:
       ARTIFACT_DIR: wave-d-soak-artifacts
 
     steps:
-      - uses: actions/checkout@v4.1.6
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
           submodules: false
