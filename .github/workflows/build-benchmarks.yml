@@ -741,9 +741,11 @@ jobs:
             nlohmann-json3-dev librocksdb-dev libssl-dev zlib1g-dev \
             libboost-dev libboost-system-dev libboost-dev libboost-filesystem-dev libpugixml-dev
           if ! command -v sccache >/dev/null 2>&1; then
+            echo "::warning::sccache package unavailable on runner; attempting ccache fallback."
             sudo apt-get install -y sccache || true
           fi
           if ! command -v sccache >/dev/null 2>&1 && ! command -v ccache >/dev/null 2>&1; then
+            echo "::notice::sccache unavailable after install attempt; installing ccache fallback."
             sudo apt-get install -y ccache
           fi
 
