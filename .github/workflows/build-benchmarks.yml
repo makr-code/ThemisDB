@@ -737,9 +737,15 @@ jobs:
       - name: Install build dependencies
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y sccache ninja-build libbenchmark-dev libfmt-dev libspdlog-dev \
+          sudo apt-get install -y ninja-build libbenchmark-dev libfmt-dev libspdlog-dev \
             nlohmann-json3-dev librocksdb-dev libssl-dev zlib1g-dev \
             libboost-dev libboost-system-dev libboost-dev libboost-filesystem-dev libpugixml-dev
+          if ! command -v sccache >/dev/null 2>&1; then
+            sudo apt-get install -y sccache || true
+          fi
+          if ! command -v sccache >/dev/null 2>&1 && ! command -v ccache >/dev/null 2>&1; then
+            sudo apt-get install -y ccache
+          fi
 
       - name: Configure CPU-only (verify disabled-stub path compiles)
         run: |
