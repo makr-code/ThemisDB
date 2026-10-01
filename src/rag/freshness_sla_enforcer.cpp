@@ -68,11 +68,14 @@ FreshnessSLAEnforcer::ComplianceStatus FreshnessSLAEnforcer::GetComplianceStatus
 
 bool FreshnessSLAEnforcer::TriggerEmergencyRefresh() {
   const auto percentiles = monitor_->GetPercentiles();
-  const auto scheduled = scheduler_->ScheduleEmergencyRefresh(sla_name_, 10);
-  if (scheduled) {
-    fallback_active_ = true;
-    current_state_ = "critical";
-    breach_start_time_us_ = event.timestamp_us;
+  const auto now_us = std::chrono::duration_cast<std::chrono::microseconds>(
+                          std::chrono::system_clock::now().time_since_epoch())
+                          .count();
+
+  bool scheduled = false;
+  if (emergency_refresh_retries_ < max_emergency_refresh_retries_) {
+    scheduled = scheduler_->ScheduleEmergencyRefresh(sla_name_, 10);
+    ++emergency_refresh_retries_;
   }
 
   SLAEvent event;
@@ -81,11 +84,8 @@ bool FreshnessSLAEnforcer::TriggerEmergencyRefresh() {
   event.p95_latency_ms = percentiles.p95_latency_ms;
   event.sla_target_ms = target_p95_ms_;
   event.details = scheduled ? "Emergency refresh scheduled due to SLA breach"
-                            : "Emergency refresh requested but scheduler rejected the job";
-  event.timestamp_us =
-      std::chrono::duration_cast<std::chrono::microseconds>(
-          std::chrono::system_clock::now().time_since_epoch())
-          .count();
+                            : "Emergency refresh retry budget exhausted";
+  event.timestamp_us = now_us;
 
   recent_events_.push_back(event);
   if (scheduled) {
@@ -174,6 +174,7 @@ bool FreshnessSLAEnforcer::UpdateCompliance() {
     if (new_state == "healthy") {
       event.type = SLAEvent::Type::Recovery;
       event.details = "SLA breach resolved";
+      emergency_refresh_retries_ = 0;
     } else if (new_state == "critical") {
       event.type = SLAEvent::Type::CriticalAlert;
       event.details = "SLA in critical state";

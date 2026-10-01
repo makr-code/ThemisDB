@@ -93,7 +93,7 @@ IngestionLatencyMonitor::GetShardStatuses() {
     const auto has_secondary = lower.find("secondary") != std::string::npos;
     const auto has_replica = lower.find("replica") != std::string::npos;
     status.is_primary = has_primary || (!has_secondary && !has_replica);
-    if (has_secondary) {
+    if (has_secondary || has_replica) {
       status.is_primary = false;
     }
 
@@ -135,36 +135,44 @@ IngestionLatencyMonitor::GetCriticalShards() {
 void IngestionLatencyMonitor::RotateHourlyAggregate(int64_t hour_bucket) {
   auto percentiles = GetPercentiles();
   historical_aggregates_[hour_bucket] = percentiles;
+  if (historical_aggregates_.size() > 168) {
+    std::map<int64_t, LatencyPercentiles> pruned;
+    for (const auto& [bucket, aggregate] : historical_aggregates_) {
+      if (bucket >= hour_bucket - 167) {
+        pruned[bucket] = aggregate;
+      }
+    }
+    historical_aggregates_.swap(pruned);
+  }
 }
 
 std::vector<IngestionLatencyMonitor::LatencyPercentiles>
 IngestionLatencyMonitor::GetTrendData(uint32_t hours) {
-  if (hours == 0 || historical_aggregates_.empty()) {
+  if (hours == 0) {
     return {GetPercentiles()};
   }
 
   const auto now_us = std::chrono::duration_cast<std::chrono::microseconds>(
                           std::chrono::system_clock::now().time_since_epoch())
                           .count();
-  const int64_t window_start = now_us / (60LL * 60LL * 1000000LL) - static_cast<int64_t>(hours) + 1;
+  const int64_t current_hour = now_us / (60LL * 60LL * 1000000LL);
+  const int64_t window_start = current_hour - static_cast<int64_t>(hours) + 1;
 
   std::vector<LatencyPercentiles> trend;
   for (const auto& [hour_bucket, aggregate] : historical_aggregates_) {
-    if (hour_bucket >= window_start) {
+    if (hour_bucket >= window_start && hour_bucket <= current_hour) {
       trend.push_back(aggregate);
     }
   }
 
   if (trend.empty()) {
-    trend.push_back(GetPercentiles());
+    const auto latest = GetPercentiles();
+    trend.push_back(latest);
   } else {
     std::sort(trend.begin(), trend.end(),
               [](const LatencyPercentiles& lhs, const LatencyPercentiles& rhs) {
-                return lhs.p95_latency_ms < rhs.p95_latency_ms;
+                return lhs.computed_at < rhs.computed_at;
               });
-  }
-  if (trend.size() > 1 && trend.front().p95_latency_ms == 0 && trend.back().p95_latency_ms == 0) {
-    return {GetPercentiles()};
   }
   return trend;
 }
