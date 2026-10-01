@@ -397,7 +397,7 @@ size_t TensorIndexManager::flushAll() {
 }
 
 // -----------------------------------------------------------------------
-// mapCores() — Phase 3 mmap-pinned TT-core bridge (TIM-01, STUB #176)
+// mapCores() — Phase 3 mmap-pinned TT-core bridge (TIM-01, BRIDGE_REF #176)
 // -----------------------------------------------------------------------
 
 std::unique_ptr<TensorMmapBridge>

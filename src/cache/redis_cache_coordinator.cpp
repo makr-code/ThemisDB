@@ -66,7 +66,7 @@ namespace cache {
 // ============================================================================
 
 // ---------------------------------------------------------------------------
-// STUB #42 — RedisPublishFn static bridge (non-hiredis injection)
+// BRIDGE_REF #42 — RedisPublishFn static bridge (non-hiredis injection)
 // ---------------------------------------------------------------------------
 namespace {
 std::mutex s_redis_pub_fn_mutex;

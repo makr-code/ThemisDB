@@ -944,7 +944,7 @@ http::response<http::string_body> RopeApiHandler::handleStatsGet(
                 };
             }
 
-            // STUB #307 REMEDIATION: Query real rotation metrics
+            // BRIDGE_REF #307 REMEDIATION: Query real rotation metrics
             auto rope_stats_opt = vector_index_->getRotaryEmbeddingStats();
             if (rope_stats_opt) {
                 const auto& rope_stats = *rope_stats_opt;

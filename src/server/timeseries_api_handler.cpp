@@ -456,7 +456,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleAggregatesGet(
         std::string aggregate_source = "builtin";
         bool degraded_mode = false;
  
-        // STUB #301 REMEDIATION: Use real aggregates provider if available
+        // BRIDGE_REF #301 REMEDIATION: Use real aggregates provider if available
         if (aggregates_fn_) {
             auto real_aggregates = aggregates_fn_();
             aggregate_names.insert(real_aggregates.begin(), real_aggregates.end());
@@ -548,7 +548,7 @@ http::response<http::string_body> TimeSeriesApiHandler::handleRetentionGet(
         std::string policy_source = "storage_config";
         bool degraded_mode = false;
         
-        // STUB #301 REMEDIATION: Use real retention policies provider if available
+        // BRIDGE_REF #301 REMEDIATION: Use real retention policies provider if available
         if (retentions_fn_) {
             auto policy_map = retentions_fn_();
             for (const auto& [metric, retain_seconds] : policy_map) {

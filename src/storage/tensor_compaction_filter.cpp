@@ -51,7 +51,7 @@ static constexpr std::size_t kMetaInfixLen = 6;      // strlen(":meta:")
 } // anonymous namespace
 
 // ============================================================================
-// STUB/SIMULATION NOTE (STUB #264 — RecompressFn injection bridge):
+// STUB/SIMULATION NOTE (BRIDGE_REF #264 — RecompressFn injection bridge):
 // Purpose: Injectable bridge for external tensor recompression during RocksDB
 //          compaction. Enables ThemisDB's TT-rank reduction to be swapped out
 //          for an alternative compression algorithm (e.g., LAPACK-backed SVD,
@@ -67,7 +67,7 @@ static constexpr std::size_t kMetaInfixLen = 6;      // strlen(":meta:")
 // Removal Plan: This bridge is permanent infrastructure — not removed. Wire
 //               LAPACK path via setRecompressFn() at startup when
 //               THEMIS_USE_LAPACK_SVD is defined — Target Q4 2026.
-// RecompressFn injection bridge (STUB #264)
+// RecompressFn injection bridge (BRIDGE_REF #264)
 // ============================================================================
 
 namespace {

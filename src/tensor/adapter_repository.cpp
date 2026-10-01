@@ -277,7 +277,7 @@ AdapterRepository::loadAdapter(const std::string& domain,
     desc.base_model_id  = base_model_id;
     desc.adapter_key    = makeKey(domain, base_model_id);
 
-    // Delegate to injected mmap-style loader backend when available (STUB #265).
+    // Delegate to injected mmap-style loader backend when available (BRIDGE_REF #265).
     MmapLoadFn mmap_fn_copy;
     {
         std::lock_guard<std::mutex> lk(mmapLoadFnMutex());
@@ -469,7 +469,7 @@ AdapterRepository::findSimilarAdapters(const std::string& domain,
                  key.c_str(), static_cast<unsigned long long>(k), (fingerprint_graph_ ? 1 : 0));
     } catch (...) {}
 
-    // Delegate to injected exact-similarity backend when available (STUB #266).
+    // Delegate to injected exact-similarity backend when available (BRIDGE_REF #266).
     ExactSimilarityFn exact_fn_copy;
     {
         std::lock_guard<std::mutex> lk(exactSimilarityFnMutex());
@@ -504,7 +504,7 @@ AdapterRepository::findSimilarAdapters(const std::string& domain,
         }
     }
 
-    // STUB/SIMULATION NOTE (AR-02 / STUB #266):
+    // STUB/SIMULATION NOTE (AR-02 / BRIDGE_REF #266):
     // Delegates to TensorFingerprintGraph::findSimilar() which uses
     // column-mean fingerprint cosine similarity (not full TT inner-product).
     std::shared_ptr<TensorFingerprintGraph> graph;

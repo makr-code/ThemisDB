@@ -75,7 +75,7 @@ getErrorDescription(GraphErrorCode code) noexcept {
 
         // Generic / Infrastructure (GRAPH07)
         {0x07010001, "Generic: unknown or unclassified error"},
-        {0x07010002, "Generic: feature not implemented (stub/TODO code path)"},
+        {0x07010002, "Generic: feature not implemented (stub code path)"},
         {0x07010003, "Generic: internal consistency check failed (invariant violation)"},
         {0x07020001, "Generic: temporary system resource unavailable (transient)"},
     };

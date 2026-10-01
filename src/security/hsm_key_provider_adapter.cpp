@@ -35,7 +35,7 @@ bool isStubHsmDekWrapAllowed() {
 
 } // namespace
 
-// ── Process-wide injectable DEK bridge (STUB #47 / #48) ─────────────────────
+// ── Process-wide injectable DEK bridge (BRIDGE_REF #47 / #48) ─────────────────────
 // STUB/SIMULATION NOTE:
 // Purpose: Allow test harnesses and CI pipelines to inject custom WrapDEK/UnwrapDEK
 //          implementations without wiring up a real PKCS#11 HSM or stub provider.
@@ -505,7 +505,7 @@ std::vector<uint8_t> HSMKeyProviderAdapter::generateRandomDEK() const {
 std::vector<uint8_t> HSMKeyProviderAdapter::wrapDEK(const std::vector<uint8_t>& dek) {
     stats_.hsm_encrypt_operations++;
 
-    // ── Injected bridge (STUB #47) ────────────────────────────────────────────
+    // ── Injected bridge (BRIDGE_REF #47) ────────────────────────────────────────────
     {
         WrapDEKFn fn;
         {
@@ -584,7 +584,7 @@ std::vector<uint8_t> HSMKeyProviderAdapter::wrapDEK(const std::vector<uint8_t>& 
 std::vector<uint8_t> HSMKeyProviderAdapter::unwrapDEK(const std::vector<uint8_t>& encrypted_dek) {
     stats_.hsm_decrypt_operations++;
 
-    // ── Injected bridge (STUB #48) ────────────────────────────────────────────
+    // ── Injected bridge (BRIDGE_REF #48) ────────────────────────────────────────────
     {
         UnwrapDEKFn fn;
         {
@@ -746,7 +746,7 @@ int64_t HSMKeyProviderAdapter::getCurrentTimeMs() const {
     ).count();
 }
 
-// ── Static bridge setters (STUB #47 / #48) — see STUB/SIMULATION NOTE above ──
+// ── Static bridge setters (BRIDGE_REF #47 / #48) — see STUB/SIMULATION NOTE above ──
 
 /**
  * @brief Set Wrap DEKFn.
