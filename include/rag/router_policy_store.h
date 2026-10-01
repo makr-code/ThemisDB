@@ -149,10 +149,16 @@ class RouterPolicyStore {
   /// @return Map of intent → current PolicySpec.
   std::map<QueryIntentClassifier::Intent, PolicySpec> GetAllPolicies();
 
-  /// @brief Health check: verify DB connectivity.
+ /// @brief Restore persisted state from RocksDB.
   ///
-  /// @return true if DB is accessible.
-  bool IsHealthy() const;
+ /// @return true when the store could be reopened successfully or there is no
+ ///         persisted state to recover.
+ bool Load();
+
+ /// @brief Health check: verify DB connectivity.
+ ///
+ /// @return true if DB is accessible.
+ bool IsHealthy() const;
 
  private:
   void* db_;  // Opaque pointer to RocksDB handle (to avoid rocksdb dependency in header)
