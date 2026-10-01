@@ -129,7 +129,7 @@ git commit -m "chore: pin themisdb_ethic_ai submodule to $SHA"
 | `plugins/themisdb_llm_wiki` | ⚠️ Pending — repo provisioned, pin not yet set |
 | `plugins/themisdb_storage` | ⚠️ Pending — repo provisioned, pin not yet set |
 | `plugins/themisdb_importer` | ⚠️ Pending — repo provisioned, pin not yet set |
-| `plugins/themisdb_plugin_signer` | ⚠️ Pending — repo provisioned, pin not yet set |
+| `plugins/themisdb_plugin_signer` | ✅ Pinned — authoritative signer repo is external and the submodule commit is fixed |
 | `plugins/themisdb_geo` | ⚠️ Pending — repo provisioned, pin not yet set |
 | `plugins/themisdb_timeseries` | ⚠️ Pending — repo provisioned, pin not yet set |
 
