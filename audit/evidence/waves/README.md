@@ -65,6 +65,7 @@ Each closure package must publish:
   - `wave_ab_gap_closure_manifest.md`
   - `security_wave_c_closure_manifest.json`
   - `security_wave_c_closure_manifest.md`
+  - `security_wave_c_integrated_evidence_chain_2026-10-01.md`
   - `operability_wave_d_closure_manifest.json`
   - `operability_wave_d_closure_manifest.md`
 

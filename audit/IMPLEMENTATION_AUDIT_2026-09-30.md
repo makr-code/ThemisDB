@@ -78,7 +78,8 @@ No conflicts were silently normalized; contradictions remain explicit in this re
 
 - ✅ Published a new dated marker evidence pack (`MARKER_LOCATIONS_2026-09-30.md`, `MARKER_GAP_CLASSIFICATION_2026-09-30.md`) to decouple current-state counts from historical snapshots.
 - Refresh the large `audit/AUDIT.md` module snapshot table or move it to a clearly historical appendix to reduce current-state ambiguity.
-- Add explicit run/artifact anchors for end-to-end Wave-C production sink validation in canonical audit docs, not only focused test-level source anchors.
+- ✅ Added explicit run/artifact anchors for Wave-C traceability via `audit/evidence/waves/manifests/security_wave_c_integrated_evidence_chain_2026-10-01.md` and updated `security_wave_c_closure_manifest.{json,md}`.
+- Remaining gap: authoritative dedicated sustained-load Wave-C artifact bundle is still missing; end-to-end certification therefore remains partially unverifiable.
 - Continue strict source-first validation for root roadmap/audit promotion claims before release-governance updates.
 
 ---

@@ -29,6 +29,8 @@ This document is treated as historical/design-level validation evidence and not 
 **Exit Criteria Status:** Production-backed file-sink validation is now present in the primary proof harness; broader end-to-end release closure still follows the normal governance and sign-off path.
 
 > **Source verification note (2026-09-30):** The key proof file `tests/audit/test_audit_wavec_integrity_export_focused.cpp` runs through the production `themis::utils::AuditLogger` code path, including the real JSONL persistence backend, hash-chain state file, fail-closed queue bound, and persisted-record queries used by the focused assertions. Broader Wave-C release certification still depends on the normal governance and sign-off path.
+>
+> **Integrated chain note (2026-10-01):** Explicit run/artifact anchors are tracked in `audit/evidence/waves/manifests/security_wave_c_integrated_evidence_chain_2026-10-01.md` and linked from `security_wave_c_closure_manifest.{json,md}`. This improves traceability but does not close the remaining sustained-load artifact gap.
 
 ---
 

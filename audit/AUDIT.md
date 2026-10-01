@@ -44,6 +44,7 @@ The production audit stack is materially present in source code and is not merel
 
 - Current implementation-sync baseline: `IMPLEMENTATION_AUDIT_2026-09-30.md`
 - Current marker evidence baseline: `MARKER_LOCATIONS_2026-09-30.md` and `MARKER_GAP_CLASSIFICATION_2026-09-30.md`
+- Current Wave-C integrated chain baseline: `audit/evidence/waves/manifests/security_wave_c_integrated_evidence_chain_2026-10-01.md` (sustained-load artifact gap remains open)
 - Historical marker evidence warning: treat `MARKER_LOCATIONS_2026-08-31.md` and `MARKER_GAP_CLASSIFICATION_2026-08-31.md` as dated snapshots, not as the current raw marker count for `src/`
 - Module snapshot warning: the `v2.4.0-rc1` table below remains useful as a historical maturity view, but multiple rows lag the current source-backed implementation delta documented in `IMPLEMENTATION_AUDIT_2026-09-30.md`
 

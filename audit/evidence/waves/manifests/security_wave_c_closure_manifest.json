@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-15T04:00:00Z",
+  "generated_at": "2026-10-01T04:40:00Z",
   "wave": "Wave C",
   "module": "security-governance",
   "workflow": "gate-pr-core.yml",
@@ -16,6 +16,10 @@
     "root_audit": "audit/AUDIT.md",
     "signoff_target": "docs/governance/GA_PROMOTION_SIGN_OFF.md",
     "gate_pr_core_run_url": "https://github.com/makr-code/ThemisDB/actions/runs/34875897139",
+    "gate_pr_core_latest_develop_run_url": "https://github.com/makr-code/ThemisDB/actions/runs/36766259378",
+    "wave_closure_governance_run_url": "https://github.com/makr-code/ThemisDB/actions/runs/36674309410",
+    "wave_closure_governance_artifact": "wave-closure-validation (artifact_id=11079945718, digest=sha256:7e8632661c4ac27317951dfc30c466729af1e694c78f0f80e643331987c8ab36, expires_at=2026-10-30T05:55:09Z)",
+    "integrated_evidence_chain_doc": "audit/evidence/waves/manifests/security_wave_c_integrated_evidence_chain_2026-10-01.md",
     "c2_fail_closed_test": "tests/security/test_security_wavec_production_validation_focused.cpp",
     "c2_security_roadmap": "src/security/ROADMAP.md",
     "c4_sanitizer_evidence": "docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md",
@@ -30,5 +34,5 @@
     "ci": true,
     "benchmarks": false
   },
-  "notes": "2026-09-15 advance: C2_fail_closed_boundary promoted to success — Vault/HSM/PKI fail-closed matrix tests (tests/security/test_security_wavec_production_validation_focused.cpp, 2026-08-17) PASS; authentication/session/control path re-validation complete per src/security/ROADMAP.md; HSM stub default removed (THEMIS_ALLOW_HSM_STUB=1 now required). C4_compliance_signoff_bundle advanced to in_progress — sanitizer evidence (ASan/UBSan/TSan all PASS, docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md) and pentest evidence (security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md) both closed; final compliance bundle assembly and human sign-off in docs/governance/GA_PROMOTION_SIGN_OFF.md §9 still pending. C3_sustained_load_evidence remains pending — representative sustained-load security test execution not yet started."
+  "notes": "2026-10-01 refresh: integrated run/artifact anchors added via gate-pr-core historical run 34875897139, latest develop gate-pr-core run 36766259378, and gate-wave-closure run 36674309410 with artifact wave-closure-validation (id 11079945718). C2_fail_closed_boundary remains success. C4_compliance_signoff_bundle remains in_progress (sanitizer + pentest bundles present; final human sign-off in docs/governance/GA_PROMOTION_SIGN_OFF.md §9 pending). C3_sustained_load_evidence remains pending because no dedicated authoritative sustained-load Wave-C artifact bundle is currently linked."
 }
