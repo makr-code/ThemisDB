@@ -95,7 +95,7 @@ class OTELSpanEmitter : public std::enable_shared_from_this<OTELSpanEmitter> {
     /// @brief Constructor.
     /// @param span_name Name identifying this span.
     /// @param emitter Parent OTELSpanEmitter that owns this span.
-    Span(const std::string& span_name, std::shared_ptr<OTELSpanEmitter> emitter);
+   Span(const std::string& span_name, OTELSpanEmitter* emitter);
 
    private:
     friend class OTELSpanEmitter;
@@ -109,7 +109,7 @@ class OTELSpanEmitter : public std::enable_shared_from_this<OTELSpanEmitter> {
     std::map<std::string, uint64_t> numeric_attributes_;
     std::map<std::string, bool> bool_attributes_;
     std::vector<std::pair<std::string, std::map<std::string, std::string>>> events_;
-    std::weak_ptr<OTELSpanEmitter> emitter_;
+    OTELSpanEmitter* emitter_ = nullptr;
   };
 
   /// @brief Constructor.

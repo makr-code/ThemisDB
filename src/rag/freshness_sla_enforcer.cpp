@@ -69,6 +69,11 @@ FreshnessSLAEnforcer::ComplianceStatus FreshnessSLAEnforcer::GetComplianceStatus
 bool FreshnessSLAEnforcer::TriggerEmergencyRefresh() {
   const auto percentiles = monitor_->GetPercentiles();
   const auto scheduled = scheduler_->ScheduleEmergencyRefresh(sla_name_, 10);
+  if (scheduled) {
+    fallback_active_ = true;
+    current_state_ = "critical";
+    breach_start_time_us_ = event.timestamp_us;
+  }
 
   SLAEvent event;
   event.type = SLAEvent::Type::EmergencyTriggered;
@@ -101,7 +106,11 @@ bool FreshnessSLAEnforcer::IsFallbackActive() {
 
 std::vector<FreshnessSLAEnforcer::SLAEvent> FreshnessSLAEnforcer::GetRecentEvents(
     uint32_t hours) {
-  if (recent_events_.empty() || hours == 0) {
+  if (hours == 0) {
+    return {};
+  }
+
+  if (recent_events_.empty()) {
     return {};
   }
 
@@ -112,10 +121,10 @@ std::vector<FreshnessSLAEnforcer::SLAEvent> FreshnessSLAEnforcer::GetRecentEvent
 
   std::vector<SLAEvent> filtered;
   filtered.reserve(recent_events_.size());
-  for (auto it = recent_events_.rbegin(); it != recent_events_.rend(); ++it) {
-    const auto delta_us = now_us - it->timestamp_us;
+  for (const auto& event : recent_events_) {
+    const int64_t delta_us = now_us - event.timestamp_us;
     if (delta_us >= 0 && delta_us <= window_us) {
-      filtered.push_back(*it);
+      filtered.push_back(event);
     }
   }
   std::reverse(filtered.begin(), filtered.end());

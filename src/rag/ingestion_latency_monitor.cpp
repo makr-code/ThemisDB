@@ -30,6 +30,7 @@ void IngestionLatencyMonitor::RecordIngestionTime(
   const int64_t hour_bucket = now_us / (60LL * 60LL * 1000000LL);
   const auto percentiles = GetPercentiles();
   historical_aggregates_[hour_bucket] = percentiles;
+  last_ingestion_times_[shard_id] = ingestion_time_us;
 }
 
 IngestionLatencyMonitor::LatencyPercentiles
@@ -92,6 +93,9 @@ IngestionLatencyMonitor::GetShardStatuses() {
     const auto has_secondary = lower.find("secondary") != std::string::npos;
     const auto has_replica = lower.find("replica") != std::string::npos;
     status.is_primary = has_primary || (!has_secondary && !has_replica);
+    if (has_secondary) {
+      status.is_primary = false;
+    }
 
     if (status.current_staleness_ms < target_us / 1000) {
       status.status = "healthy";
@@ -158,6 +162,9 @@ IngestionLatencyMonitor::GetTrendData(uint32_t hours) {
               [](const LatencyPercentiles& lhs, const LatencyPercentiles& rhs) {
                 return lhs.p95_latency_ms < rhs.p95_latency_ms;
               });
+  }
+  if (trend.size() > 1 && trend.front().p95_latency_ms == 0 && trend.back().p95_latency_ms == 0) {
+    return {GetPercentiles()};
   }
   return trend;
 }

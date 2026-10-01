@@ -71,9 +71,8 @@ void OTELSpanEmitter::Span::EndSpan() {
   numeric_attributes_["duration_us"] = duration_us;
 
   // Emit span via emitter if available
-  auto emitter = emitter_.lock();
-  if (emitter) {
-    emitter->EmitSpan(this);
+  if (emitter_ != nullptr) {
+    emitter_->EmitSpan(this);
   }
 }
 
@@ -88,7 +87,7 @@ void OTELSpanEmitter::Span::EndSpanWithError(
 
 OTELSpanEmitter::Span::Span(
     const std::string& span_name,
-    std::shared_ptr<OTELSpanEmitter> emitter)
+    OTELSpanEmitter* emitter)
     : span_name_(span_name),
       emitter_(emitter),
       start_time_us_(
@@ -117,7 +116,7 @@ std::shared_ptr<OTELSpanEmitter::Span> OTELSpanEmitter::StartSpan(
     const std::string& span_name,
     const std::optional<SpanContext>& parent_context) {
   // Create span with shared_ptr to this emitter for emission
-  auto span = std::make_shared<Span>(span_name, shared_from_this());
+  auto span = std::make_shared<Span>(span_name, this);
 
   if (parent_context) {
     span->trace_id_ = parent_context->trace_id;
@@ -179,7 +178,7 @@ void OTELSpanEmitter::EmitSpan(Span* span) {
       span->bool_attributes_
   });
 
-  pending_spans_--;
+  pending_spans_ = std::max<uint32_t>(0, pending_spans_ - 1);
 
   // Check if batch export threshold reached
   if (batch_export_enabled_ &&
@@ -193,19 +192,20 @@ bool OTELSpanEmitter::ExportSpans() {
     return true;
   }
 
+  const size_t num_spans = pending_span_buffer_.size();
   std::string export_payload;
-  export_payload.reserve(512 * pending_span_buffer_.size());
-  export_payload += "{\"service\":\"";
+  export_payload.reserve(512 * num_spans);
+  export_payload += "{\"resource\":{\"service.name\":\"";
   export_payload += JsonEscape(service_name_);
-  export_payload += "\",\"endpoint\":\"";
+  export_payload += "\"},\"exporter\":{\"endpoint\":\"";
   export_payload += JsonEscape(otlp_endpoint_);
   export_payload += "\",\"baggage\":\"";
   export_payload += JsonEscape(baggage_);
-  export_payload += "\",\"span_count\":";
-  export_payload += std::to_string(pending_span_buffer_.size());
+  export_payload += "\"},\"span_count\":";
+  export_payload += std::to_string(num_spans);
   export_payload += ",\"spans\":[";
 
-  for (size_t i = 0; i < pending_span_buffer_.size(); ++i) {
+  for (size_t i = 0; i < num_spans; ++i) {
     const auto& span = pending_span_buffer_[i];
     if (i > 0) {
       export_payload += ",";
@@ -222,11 +222,11 @@ bool OTELSpanEmitter::ExportSpans() {
     export_payload += std::to_string(span.start_time_us);
     export_payload += ",\"end_time_us\":";
     export_payload += std::to_string(span.end_time_us);
-    export_payload += ",\"attrs\":{";
+    export_payload += ",\"attributes\":{";
 
     bool first_attr = true;
     const auto emit_attr = [&export_payload, &first_attr](const std::string& key,
-                                                       const std::string& value) {
+                                                      const std::string& value) {
       if (!first_attr) {
         export_payload += ",";
       }
@@ -276,16 +276,15 @@ bool OTELSpanEmitter::ExportSpans() {
 
   const bool valid_payload = !export_payload.empty() &&
                              export_payload.find("\"spans\"") != std::string::npos &&
-                             export_payload.find("\"service\"") != std::string::npos &&
                              export_payload.find("\"span_count\"") != std::string::npos &&
+                             export_payload.find("\"service.name\"") != std::string::npos &&
                              export_payload.back() == '}';
   if (!valid_payload) {
-    dropped_spans_ += pending_span_buffer_.size();
+    dropped_spans_ += num_spans;
     pending_span_buffer_.clear();
     return false;
   }
 
-  const size_t num_spans = pending_span_buffer_.size();
   emitted_spans_ += num_spans;
   pending_span_buffer_.clear();
   otel_exporter_ = reinterpret_cast<void*>(0x1);

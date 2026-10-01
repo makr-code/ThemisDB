@@ -215,13 +215,13 @@ ComparativeReport MetricsReporter::CompareModels(const std::string& metric_name,
                                                 uint32_t model_a_version,
                                                 uint32_t model_b_version,
                                                 std::chrono::system_clock::duration period) {
-  const auto now = std::chrono::system_clock::now();
-  const auto start = now - period;
+const auto now = std::chrono::system_clock::now();
+const auto start = now - period;
 
-  std::vector<TimeSeriesPoint> points_a;
-  std::vector<TimeSeriesPoint> points_b;
-  std::lock_guard<std::mutex> lock(pimpl_->reporter_mutex);
-  for (const auto& [name, data] : pimpl_->time_series_data) {
+std::vector<TimeSeriesPoint> points_a;
+std::vector<TimeSeriesPoint> points_b;
+std::lock_guard<std::mutex> lock(pimpl_->reporter_mutex);
+for (const auto& [name, data] : pimpl_->time_series_data) {
   if (name != metric_name) {
     continue;
   }
@@ -229,12 +229,10 @@ ComparativeReport MetricsReporter::CompareModels(const std::string& metric_name,
     if (point.timestamp < start || point.timestamp > now) {
       continue;
     }
-    if (point.model_version == model_a_version || name.find("model_" + std::to_string(model_a_version)) != std::string::npos ||
-        name.find("model" + std::to_string(model_a_version)) != std::string::npos) {
+    if (point.model_version == model_a_version) {
       points_a.push_back(point);
     }
-    if (point.model_version == model_b_version || name.find("model_" + std::to_string(model_b_version)) != std::string::npos ||
-        name.find("model" + std::to_string(model_b_version)) != std::string::npos) {
+    if (point.model_version == model_b_version) {
       points_b.push_back(point);
     }
   }
@@ -261,7 +259,9 @@ const auto p95 = [](const std::vector<TimeSeriesPoint>& pts) {
   values.reserve(pts.size());
   for (const auto& point : pts) values.push_back(point.value);
   std::sort(values.begin(), values.end());
-  const size_t idx = std::min<size_t>(std::max<size_t>(static_cast<size_t>(values.size() * 0.95), 1), values.size() - 1);
+  const size_t idx = std::min<size_t>(std::max<size_t>(
+      static_cast<size_t>(values.size() * 0.95), static_cast<size_t>(1)),
+      values.size() - 1);
   return values[idx];
 };
 
