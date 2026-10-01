@@ -8,7 +8,7 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Themis.AdminTools.Shared\Themis.AdminTools.Shared.csproj" />
+    <ProjectReference Include="..\..\projects\Themis.AdminTools.Shared\Themis.AdminTools.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
