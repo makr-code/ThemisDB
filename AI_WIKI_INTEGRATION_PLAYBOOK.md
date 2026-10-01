@@ -50,6 +50,21 @@ Luecken fuer eine vollstaendige LLM-Wiki-Operationalisierung:
 - Bessere Nachvollziehbarkeit von Architektur- und Testentscheidungen
 - Reproduzierbare AI-Lieferprozesse statt ad-hoc Prompting
 
+### 2.3 Pflicht-Referenzen fuer aktive AI-Context-Dateien
+
+Aktive Wissensartefakte muessen aus dem Root-Index oder diesem Playbook erreichbar sein. Die aktuelle minimale Referenzbasis lautet:
+
+- [INDEX.md](INDEX.md) — Root-Index und Einstieg in AI-Wiki- und Governance-Dokumente
+- [ai_context/README.md](ai_context/README.md) — Hub fuer persistente Wissensbasis und Retention-Regeln
+- [ai_context/developer_llm_wiki/INDEX.md](ai_context/developer_llm_wiki/INDEX.md) — zentraler Index der Developer-LLM-Wiki-Dokumente
+- [ai_context/developer_llm_wiki/MODULES_AND_APIS.md](ai_context/developer_llm_wiki/MODULES_AND_APIS.md) — Modul- und API-Contracts
+- [ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md](ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md) — Build-, Test- und Ops-Kontext
+- [ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md](ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md) — Governance-, Release- und Roadmap-Status
+- [ai_context/api_contracts/README.md](ai_context/api_contracts/README.md) — API-Vertragslandingpage
+- [ai_context/COPILOT_INSTRUCTIONS.md](ai_context/COPILOT_INSTRUCTIONS.md) — agentische Arbeitsregeln
+
+Historische oder supersedete AI-Artefakte, die nicht mehr aktiv verwendet werden, sind in [docs/ARCHIVED/ai-working-history/README.md](docs/ARCHIVED/ai-working-history/README.md) zu archivieren, nicht im aktiven Root-Index zu verankern.
+
 ---
 
 ## 3. Zielarchitektur (4 Schichten)
