@@ -4,8 +4,40 @@
 #include "rag/otel_span_emitter.h"
 
 #include <chrono>
+#include <string>
 
 namespace themis::rag {
+namespace {
+
+std::string JsonEscape(const std::string& value) {
+  std::string escaped;
+  escaped.reserve(value.size());
+  for (const char ch : value) {
+    switch (ch) {
+      case '\\':
+        escaped += "\\\\";
+        break;
+      case '"':
+        escaped += "\\\"";
+        break;
+      case '\n':
+        escaped += "\\n";
+        break;
+      case '\r':
+        escaped += "\\r";
+        break;
+      case '\t':
+        escaped += "\\t";
+        break;
+      default:
+        escaped += ch;
+        break;
+    }
+  }
+  return escaped;
+}
+
+}  // namespace
 
 // Span implementation
 void OTELSpanEmitter::Span::SetAttribute(
@@ -163,34 +195,34 @@ bool OTELSpanEmitter::ExportSpans() {
 
   std::string export_payload;
   export_payload.reserve(512 * pending_span_buffer_.size());
-  export_payload += R"({"service":";
-  export_payload += service_name_;
-  export_payload += R"(","endpoint":";
-  export_payload += otlp_endpoint_;
-  export_payload += R"(","baggage":";
-  export_payload += baggage_;
-  export_payload += R"(","span_count":);
+  export_payload += "{\"service\":\"";
+  export_payload += JsonEscape(service_name_);
+  export_payload += "\",\"endpoint\":\"";
+  export_payload += JsonEscape(otlp_endpoint_);
+  export_payload += "\",\"baggage\":\"";
+  export_payload += JsonEscape(baggage_);
+  export_payload += "\",\"span_count\":";
   export_payload += std::to_string(pending_span_buffer_.size());
-  export_payload += R"(,"spans":[";
+  export_payload += ",\"spans\":[";
 
   for (size_t i = 0; i < pending_span_buffer_.size(); ++i) {
     const auto& span = pending_span_buffer_[i];
     if (i > 0) {
       export_payload += ",";
     }
-    export_payload += R"({"name":";
-    export_payload += span.span_name;
-    export_payload += R"(","trace_id":";
-    export_payload += span.trace_id;
-    export_payload += R"(","span_id":";
-    export_payload += span.span_id;
-    export_payload += R"(","parent_span_id":";
-    export_payload += span.parent_span_id;
-    export_payload += R"(","start_time_us":);
+    export_payload += "{\"name\":\"";
+    export_payload += JsonEscape(span.span_name);
+    export_payload += "\",\"trace_id\":\"";
+    export_payload += JsonEscape(span.trace_id);
+    export_payload += "\",\"span_id\":\"";
+    export_payload += JsonEscape(span.span_id);
+    export_payload += "\",\"parent_span_id\":\"";
+    export_payload += JsonEscape(span.parent_span_id);
+    export_payload += "\",\"start_time_us\":";
     export_payload += std::to_string(span.start_time_us);
-    export_payload += R"(,"end_time_us":);
+    export_payload += ",\"end_time_us\":";
     export_payload += std::to_string(span.end_time_us);
-    export_payload += R"(,"attrs":{);
+    export_payload += ",\"attrs\":{";
 
     bool first_attr = true;
     const auto emit_attr = [&export_payload, &first_attr](const std::string& key,
@@ -200,9 +232,9 @@ bool OTELSpanEmitter::ExportSpans() {
       }
       first_attr = false;
       export_payload += "\"";
-      export_payload += key;
+      export_payload += JsonEscape(key);
       export_payload += "\":\"";
-      export_payload += value;
+      export_payload += JsonEscape(value);
       export_payload += "\"";
     };
     const auto emit_numeric_attr = [&export_payload, &first_attr](
@@ -212,7 +244,7 @@ bool OTELSpanEmitter::ExportSpans() {
       }
       first_attr = false;
       export_payload += "\"";
-      export_payload += key;
+      export_payload += JsonEscape(key);
       export_payload += "\":";
       export_payload += std::to_string(value);
     };
@@ -223,7 +255,7 @@ bool OTELSpanEmitter::ExportSpans() {
       }
       first_attr = false;
       export_payload += "\"";
-      export_payload += key;
+      export_payload += JsonEscape(key);
       export_payload += "\":";
       export_payload += value ? "true" : "false";
     };
@@ -245,7 +277,8 @@ bool OTELSpanEmitter::ExportSpans() {
   const bool valid_payload = !export_payload.empty() &&
                              export_payload.find("\"spans\"") != std::string::npos &&
                              export_payload.find("\"service\"") != std::string::npos &&
-                             export_payload.find("\"span_count\"") != std::string::npos;
+                             export_payload.find("\"span_count\"") != std::string::npos &&
+                             export_payload.back() == '}';
   if (!valid_payload) {
     dropped_spans_ += pending_span_buffer_.size();
     pending_span_buffer_.clear();

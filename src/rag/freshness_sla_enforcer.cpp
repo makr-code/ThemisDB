@@ -3,6 +3,7 @@
 
 #include "rag/freshness_sla_enforcer.h"
 
+#include <algorithm>
 #include <chrono>
 
 #include "rag/index_refresh_scheduler.h"
@@ -117,6 +118,7 @@ std::vector<FreshnessSLAEnforcer::SLAEvent> FreshnessSLAEnforcer::GetRecentEvent
       filtered.push_back(*it);
     }
   }
+  std::reverse(filtered.begin(), filtered.end());
   return filtered;
 }
 
@@ -181,6 +183,10 @@ bool FreshnessSLAEnforcer::UpdateCompliance() {
 
     recent_events_.push_back(event);
     current_state_ = new_state;
+
+    if (new_state == "critical") {
+      TriggerEmergencyRefresh();
+    }
 
     fallback_active_ = is_critical;
     return true;

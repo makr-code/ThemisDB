@@ -27,12 +27,9 @@ void IngestionLatencyMonitor::RecordIngestionTime(
 
   latency_samples_.push_back(staleness_ms);
 
-  auto hour_bucket = now_us / (60LL * 60LL * 1000000LL);
-  auto it = historical_aggregates_.find(hour_bucket);
-  if (it == historical_aggregates_.end()) {
-    it = historical_aggregates_.emplace(hour_bucket, GetPercentiles()).first;
-  }
-  it->second = GetPercentiles();
+  const int64_t hour_bucket = now_us / (60LL * 60LL * 1000000LL);
+  const auto percentiles = GetPercentiles();
+  historical_aggregates_[hour_bucket] = percentiles;
 }
 
 IngestionLatencyMonitor::LatencyPercentiles
@@ -90,12 +87,11 @@ IngestionLatencyMonitor::GetShardStatuses() {
     status.current_staleness_ms =
         (delta_us > 0 ? static_cast<uint64_t>(delta_us) : 0) / 1000;
 
-    const auto primary_marker = std::string("primary");
-    const auto secondary_marker = std::string("secondary");
-    const auto lower = shard_id;
-    const auto has_primary = lower.find(primary_marker) != std::string::npos;
-    const auto has_secondary = lower.find(secondary_marker) != std::string::npos;
-    status.is_primary = has_primary || (!has_secondary && shard_id.find("replica") == std::string::npos);
+    const std::string lower = shard_id;
+    const auto has_primary = lower.find("primary") != std::string::npos;
+    const auto has_secondary = lower.find("secondary") != std::string::npos;
+    const auto has_replica = lower.find("replica") != std::string::npos;
+    status.is_primary = has_primary || (!has_secondary && !has_replica);
 
     if (status.current_staleness_ms < target_us / 1000) {
       status.status = "healthy";
@@ -157,6 +153,11 @@ IngestionLatencyMonitor::GetTrendData(uint32_t hours) {
 
   if (trend.empty()) {
     trend.push_back(GetPercentiles());
+  } else {
+    std::sort(trend.begin(), trend.end(),
+              [](const LatencyPercentiles& lhs, const LatencyPercentiles& rhs) {
+                return lhs.p95_latency_ms < rhs.p95_latency_ms;
+              });
   }
   return trend;
 }
