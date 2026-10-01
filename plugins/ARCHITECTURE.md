@@ -65,6 +65,14 @@ The parent repo retains the legacy `plugins/user_storage_encrypted/` path for co
 
 Residual risk: older local checkouts without the submodule still rely on the compatibility shim, but this is a compatibility path only. Any storage drift between the submodule and the parent repository should be treated as a migration defect and resolved by updating the external repo boundary rather than creating in-tree storage logic.
 
+## Importer Migration Boundary
+
+The authoritative importer implementation for the private connector aggregate is the external repository `makr-code/themisdb_importer`, checked out at `plugins/themisdb_importer/` via `.gitmodules`.
+
+The parent repo retains the legacy in-tree importer sources under `src/importers/` and `include/importers/` as compatibility and fallback surfaces for monorepo builds. Those paths are not the source of truth for the private aggregate when the external submodule is present. The root build-system guard in `cmake/PrivatePlugins.cmake` explicitly prefers the submodule when `WITH_PRIVATE_CONNECTOR_PACK` is enabled.
+
+Residual risk: older local checkouts without the submodule continue to compile the compatibility path. That should be treated as migration fallout rather than a production implementation source. Any future connector work should be validated against the submodule pin and the private plugin registration contract before release.
+
 ## Plugin Classification
 
 ### Public Plugins (Community+)
