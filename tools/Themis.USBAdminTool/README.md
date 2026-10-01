@@ -71,5 +71,5 @@ Supply a PKCS#8 or traditional RSA private key in PEM format via `DefaultPrivate
 
 - C++ hardening implementation: `src/security/usb_volume_hardening.cpp`
 - C++ authenticator: `src/security/usb_admin_authenticator.cpp`
-- Admin tools shared library: `tools/Themis.AdminTools.Shared/`
+- Admin tools shared library: `projects/Themis.AdminTools.Shared/` (authoritative submodule, sourced from `makr-code/themisdb_admin_tools`)
 - [Admin Tools User Guide](../../docs/admin_tools_user_guide.md)
