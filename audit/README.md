@@ -2,7 +2,7 @@
 
 **Author:** ThemisDB Contributors
 **Created:** 2026-09-13
-**Last Updated:** 2026-09-30
+**Last Updated:** 2026-10-01
 **Status:** active
 **Repository Metadata:** `VERSION=2.4.0-alpha`
 **Canonical Rule:** `/audit/**` is the audit source of truth; `/docs/**` is downstream publication/legacy mirror unless explicitly marked otherwise.
@@ -29,6 +29,9 @@
 | `AUDIT.md` | Central security/compliance/release audit summary |
 | `MATURITY_REPORT_2026-08.md` | Monthly maturity and gate posture |
 | `IMPLEMENTATION_AUDIT_2026-09-30.md` | Current implementation sync report |
+| `ACTIONABLE_TODOS_2026-10-01.md` | Current TODO reality-check (source-verified actionable backlog) |
+| `MARKER_LOCATIONS_2026-10-01.md` | Current raw marker snapshot (`src/`, reproducible scan) |
+| `MARKER_GAP_CLASSIFICATION_2026-10-01.md` | Current marker classification (TODO reality check + non-TODO triage split) |
 | `MARKER_LOCATIONS_2026-09-30.md` | Current raw marker snapshot (`src/`, reproducible scan) |
 | `MARKER_GAP_CLASSIFICATION_2026-09-30.md` | Current marker classification status (historical decoupling + module distribution) |
 | `IMPLEMENTATION_AUDIT_2026-09-14.md` | Prior implementation sync report |
@@ -68,6 +71,9 @@
 - `AUDIT.md`
 - `MATURITY_REPORT_2026-08.md`
 - `IMPLEMENTATION_AUDIT_2026-09-30.md`
+- `ACTIONABLE_TODOS_2026-10-01.md`
+- `MARKER_LOCATIONS_2026-10-01.md`
+- `MARKER_GAP_CLASSIFICATION_2026-10-01.md`
 - `MARKER_LOCATIONS_2026-09-30.md`
 - `MARKER_GAP_CLASSIFICATION_2026-09-30.md`
 - `evidence/waves/manifests/security_wave_c_integrated_evidence_chain_2026-10-01.md`
@@ -93,7 +99,7 @@
 - The current source-backed status is: implemented and substantively present, but not fully end-to-end GA-/production-certified without a live run against the actual sink and persistence path.
 - The Wave-C proof file `tests/audit/test_audit_wavec_integrity_export_focused.cpp` is a mock-based design validation harness, not a direct proof of the real production backend.
 - For current implementation drift handling, use `IMPLEMENTATION_AUDIT_2026-09-30.md` first.
-- The dated marker artifacts `MARKER_LOCATIONS_2026-08-31.md` and `MARKER_GAP_CLASSIFICATION_2026-08-31.md` are historical snapshots; use `MARKER_LOCATIONS_2026-09-30.md`, `MARKER_GAP_CLASSIFICATION_2026-09-30.md`, and `IMPLEMENTATION_AUDIT_2026-09-30.md` for current-state assessment.
+- The dated marker artifacts `MARKER_LOCATIONS_2026-08-31.md` and `MARKER_GAP_CLASSIFICATION_2026-08-31.md` are historical snapshots; use `ACTIONABLE_TODOS_2026-10-01.md`, `MARKER_LOCATIONS_2026-10-01.md`, `MARKER_GAP_CLASSIFICATION_2026-10-01.md`, and `IMPLEMENTATION_AUDIT_2026-09-30.md` for current-state assessment.
 
 ### Source-Verified Reality Check (2026-09-07)
 

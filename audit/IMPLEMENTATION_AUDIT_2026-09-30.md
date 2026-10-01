@@ -2,7 +2,7 @@
 
 **Author:** ThemisDB Contributors  
 **Created:** 2026-09-30  
-**Last Updated:** 2026-09-30  
+**Last Updated:** 2026-10-01  
 **Status:** active  
 **Branch:** `develop`  
 **Version:** `2.4.0-alpha` (`VERSION=2.4.0`, `RELEASE_TYPE=alpha`)  
@@ -77,6 +77,7 @@ No conflicts were silently normalized; contradictions remain explicit in this re
 ## 6) Open evidence gaps / follow-up TODOs
 
 - ✅ Published a new dated marker evidence pack (`MARKER_LOCATIONS_2026-09-30.md`, `MARKER_GAP_CLASSIFICATION_2026-09-30.md`) to decouple current-state counts from historical snapshots.
+- ✅ 2026-10-01 reality-check refinement added: `MARKER_LOCATIONS_2026-10-01.md`, `MARKER_GAP_CLASSIFICATION_2026-10-01.md`, and `ACTIONABLE_TODOS_2026-10-01.md` now separate real TODO backlog from resolved-string noise.
 - Refresh the large `audit/AUDIT.md` module snapshot table or move it to a clearly historical appendix to reduce current-state ambiguity.
 - ✅ Added explicit run/artifact anchors for Wave-C traceability via `audit/evidence/waves/manifests/security_wave_c_integrated_evidence_chain_2026-10-01.md` and updated `security_wave_c_closure_manifest.{json,md}`.
 - Remaining gap: authoritative dedicated sustained-load Wave-C artifact bundle is still missing; end-to-end certification therefore remains partially unverifiable.

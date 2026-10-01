@@ -2,7 +2,7 @@
 
 **Author:** ThemisDB Contributors
 **Created:** 2026-09-13
-**Last Updated:** 2026-09-30
+**Last Updated:** 2026-10-01
 **Status:** active
 **Repository Metadata:** `VERSION=2.4.0-alpha`
 **Evidence Snapshot:** v2.4.0-rc1 GA-hardening trail on `develop` *(audit-evidence snapshot; distinct from current repo `VERSION=2.4.0-alpha`)*
@@ -43,7 +43,8 @@ The production audit stack is materially present in source code and is not merel
 ### Delta refresh notice (2026-09-30)
 
 - Current implementation-sync baseline: `IMPLEMENTATION_AUDIT_2026-09-30.md`
-- Current marker evidence baseline: `MARKER_LOCATIONS_2026-09-30.md` and `MARKER_GAP_CLASSIFICATION_2026-09-30.md`
+- Current marker evidence baseline: `MARKER_LOCATIONS_2026-10-01.md` and `MARKER_GAP_CLASSIFICATION_2026-10-01.md`
+- Current TODO reality-check baseline: `ACTIONABLE_TODOS_2026-10-01.md` (remaining TODOs concentrated in `src/rag/`)
 - Current Wave-C integrated chain baseline: `audit/evidence/waves/manifests/security_wave_c_integrated_evidence_chain_2026-10-01.md` (sustained-load artifact gap remains open)
 - Historical marker evidence warning: treat `MARKER_LOCATIONS_2026-08-31.md` and `MARKER_GAP_CLASSIFICATION_2026-08-31.md` as dated snapshots, not as the current raw marker count for `src/`
 - Module snapshot warning: the `v2.4.0-rc1` table below remains useful as a historical maturity view, but multiple rows lag the current source-backed implementation delta documented in `IMPLEMENTATION_AUDIT_2026-09-30.md`
