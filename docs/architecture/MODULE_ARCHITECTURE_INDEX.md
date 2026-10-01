@@ -1,8 +1,15 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-09-30
+Last Updated: 2026-09-30
+Status: active
+---
+
 # ThemisDB Module Architecture Index
 
 **Version:** 1.0  
-**Last Updated:** 2026-04-06  
-**Status:** Complete
+**Last Updated:** 2026-09-30  
+**Status:** active
 
 ---
 
