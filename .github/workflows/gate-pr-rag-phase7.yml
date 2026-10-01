@@ -285,6 +285,7 @@ jobs:
             test_freshness_sla_enforcer \
             "${GITHUB_WORKSPACE}/tests/rag/test_freshness_sla_enforcer.cpp" \
             "${GITHUB_WORKSPACE}/src/rag/freshness_sla_enforcer.cpp" \
+            "${GITHUB_WORKSPACE}/src/rag/index_refresh_scheduler.cpp" \
             "${GITHUB_WORKSPACE}/src/rag/ingestion_latency_monitor.cpp"
 
       - name: "Validate: Phase 7 Tests"
