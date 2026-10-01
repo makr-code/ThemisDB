@@ -13,7 +13,7 @@ The **ThemisDB Documentation Database Builder** is a standalone C++ tool that al
 - ✅ **Full Model Support**: Generates all 7 Column Families (relational, graph, vector, metadata, :document)
 - ✅ **Batch Processing**: Efficiently process thousands of documents
 - ✅ **Incremental Updates**: Update existing databases without full rebuild
-- ✅ **Validation**: Built-in checks for database integrity
+- ✅ **Validation**: Built-in checks for database integrity, including RocksDB directory structure and `CURRENT` manifest verification
 - ✅ **Security**: Read-only mode by default, path validation, size limits
 - ✅ **Configuration**: YAML config files for repeatable builds
 - ✅ **Namespace Isolation**: Multi-tenant support for multiple documentation sources
