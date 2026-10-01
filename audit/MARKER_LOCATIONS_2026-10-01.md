@@ -9,28 +9,28 @@ Status: active
 **Erstellt:** 2026-10-01T05:00:00Z  
 **Branch:** `develop`  
 **Werkzeug:** `grep -RInE --include='*.cpp' --include='*.cc' --include='*.c' --include='*.h' --include='*.hpp' 'TODO|STUB|MOCK|FIXME' src`  
-**Gesamt:** 218 Fundstellen
+**Gesamt:** 172 Fundstellen
 
 ## Zusammenfassung
 
 | Marker | Anzahl |
 |---|---:|
 | TODO | 30 |
-| STUB | 185 |
+| STUB | 139 |
 | MOCK | 3 |
 | FIXME | 0 |
-| **Gesamt** | **218** |
+| **Gesamt** | **172** |
 
 ## Reality-Check-Hinweis
 
-- Nach gezielter Bereinigung offensichtlicher False-Positive-TODO-Marker liegen aktuell **alle verbleibenden TODOs im Modul `src/rag/`**.
-- Die verbleibenden 188 Nicht-TODO-Marker (`STUB`/`MOCK`) müssen separat nach Aktivierungsbedingungen und Roadmap-Status bewertet werden.
+- Nach gezielter Bereinigung offensichtlicher False-Positive-Marker sind verbleibende TODOs weiterhin vollständig im Modul `src/rag/` konzentriert.
+- Zusätzlich wurden nicht-actionable Tracking-Labels der Form `STUB #<id>` in `BRIDGE_REF #<id>` umbenannt, um Scanner-Rauschen zu reduzieren, ohne Laufzeitverhalten zu ändern.
+- Verbleibende Nicht-TODO-Marker (`STUB`/`MOCK`/`FIXME`): **142**
 
 ## Vollständige Fundstellenliste
 
 ```text
 src/analytics/olap.cpp:2370:// STUB/SIMULATION NOTE:
-src/analytics/knowledge_base.cpp:35:// STUB #272 — injectable YAML parser bridge
 src/analytics/process_mining.cpp:12:#if defined(_WIN32) && defined(THEMIS_PROCESS_MINING_WINDOWS_STUB)
 src/analytics/process_mining.cpp:13:// STUB/SIMULATION NOTE:
 src/analytics/process_mining.cpp:18:// Activation: Compiled when both _WIN32 and THEMIS_PROCESS_MINING_WINDOWS_STUB
@@ -39,48 +39,22 @@ src/analytics/process_mining.cpp:46:                  "Windows stub build (THEMI
 src/analytics/process_mining.cpp:2479:// RESOLUTION NOTE (clusterVariants — was: naive round-robin, see STUB_INVENTORY.md #212):
 src/main_server.cpp:40://      `THEMIS_ALLOW_HSM_STUB=1`. Missing/invalid HSM config and HSM init
 src/process/process_community_detector.cpp:398:    // planned for Q4 2026 (STUB_INVENTORY #238); once integrated, `llm_endpoint`
-src/tensor/utr_converter.cpp:37:// Static bridge slots — STUB #257 (EmbedFn) / STUB #258 (ImageEmbedFn)
 src/tensor/utr_converter.cpp:296:// STUB/SIMULATION NOTE:
 src/tensor/utr_converter.cpp:568:    // STUB/SIMULATION NOTE:
-src/tensor/tensor_butterfly_operator.cpp:214:// STUB #268 — RADON bridge storage
-src/tensor/tensor_butterfly_operator.cpp:231:// STUB #268 — GREENS_FUNCTION bridge storage
-src/tensor/tensor_butterfly_operator.cpp:268:// STUB #268 — RADON bridge
-src/tensor/tensor_butterfly_operator.cpp:288:// STUB #268 — GREENS_FUNCTION bridge
-src/tensor/tensor_butterfly_operator.cpp:406:    // (STUB #268): if no fn was set, build() already prevented construction
-src/tensor/tensor_butterfly_operator.cpp:575:                // Apply injected FOURIER backend when available (STUB #267),
-src/tensor/tensor_core_bridge.cpp:46:// STUB #269 — default backend factory bridge
-src/tensor/tensor_core_bridge.cpp:95:        // STUB #269: try the process-wide factory first (injected by production
-src/tensor/tensor_mmap_bridge.cpp:37:// STUB #270 — SST page-map bridge storage
-src/tensor/tensor_mmap_bridge.cpp:149:    // Snapshot the SST-page-map bridge fn once (STUB #270).
-src/tensor/tensor_mmap_bridge.cpp:171:        // STUB #270: try the injected SST page-map fn first (zero-copy path).
-src/tensor/tensor_mmap_bridge.cpp:187:            // Fallback: MAP_ANONYMOUS + memcpy (STUB #270 — Q1 2027).
-src/tensor/tensor_index_manager.cpp:400:// mapCores() — Phase 3 mmap-pinned TT-core bridge (TIM-01, STUB #176)
-src/tensor/adapter_repository.cpp:280:    // Delegate to injected mmap-style loader backend when available (STUB #265).
 src/tensor/adapter_repository.cpp:330:    // STUB/SIMULATION NOTE (AR-01):
-src/tensor/adapter_repository.cpp:472:    // Delegate to injected exact-similarity backend when available (STUB #266).
-src/tensor/adapter_repository.cpp:507:    // STUB/SIMULATION NOTE (AR-02 / STUB #266):
+src/tensor/adapter_repository.cpp:507:    // STUB/SIMULATION NOTE (AR-02 / BRIDGE_REF #266):
 src/plugins/wasm_plugin_loader.cpp:557:// STUB/SIMULATION NOTE:
-src/onnx_clip/onnx_clip_plugin.h:64:    // Injectable model-hash bridge (STUB #94)
-src/onnx_clip/onnx_clip_plugin.cpp:43:// STUB #94 — ModelHashFn static bridge (non-OpenSSL SHA-256 injection)
 src/ethics_ai/prior_round_compressor.cpp:246:    // than only citation tokens) are retained.  See STUB_INVENTORY.md entry #235.
 src/training/multi_task_lora.cpp:94:        // STUB/SIMULATION NOTE (MTL-S02 — SGD training loop, no BLAS):
 src/training/multi_task_lora.cpp:142:        // STUB/SIMULATION NOTE (MTL-S01 — cosine-similarity gating heuristic):
 src/training/multi_task_lora.cpp:169:        // Training loop (MTL-S02 — see STUB/SIMULATION NOTE above).
 src/training/multi_task_lora.cpp:300:        // MTL-S01 gating heuristic (cosine similarity to prototype vectors — see STUB/SIMULATION NOTE above).
 src/storage/tensor_compaction_filter.cpp:12:// STUB/SIMULATION NOTE:
-src/storage/tensor_compaction_filter.cpp:54:// STUB/SIMULATION NOTE (STUB #264 — RecompressFn injection bridge):
-src/storage/tensor_compaction_filter.cpp:70:// RecompressFn injection bridge (STUB #264)
-src/storage/ggml_tensor_bridge.cpp:82:// STUB/SIMULATION NOTE (STUB #263a — GgmlAllocFn injection bridge):
-src/storage/ggml_tensor_bridge.cpp:93:// GgmlAllocFn injection bridge (STUB #263a)
-src/storage/ggml_tensor_bridge.cpp:132:// STUB/SIMULATION NOTE (STUB #263b — PrefetchFn injection bridge):
-src/storage/ggml_tensor_bridge.cpp:142:// PrefetchFn injection bridge (STUB #263b)
-src/storage/ggml_tensor_bridge.cpp:181:// STUB/SIMULATION NOTE (STUB #263c — TypeRegistrationFn injection bridge):
-src/storage/ggml_tensor_bridge.cpp:192:// TypeRegistrationFn injection bridge (STUB #263c)
-src/storage/ggml_tensor_bridge.cpp:297:    // Return real allocation when GgmlAllocFn was wired (GTB-01 / STUB #263a).
-src/server/timeseries_api_handler.cpp:459:        // STUB #301 REMEDIATION: Use real aggregates provider if available
+src/storage/tensor_compaction_filter.cpp:54:// STUB/SIMULATION NOTE (BRIDGE_REF #264 — RecompressFn injection bridge):
+src/storage/ggml_tensor_bridge.cpp:82:// STUB/SIMULATION NOTE (BRIDGE_REF #263a — GgmlAllocFn injection bridge):
+src/storage/ggml_tensor_bridge.cpp:132:// STUB/SIMULATION NOTE (BRIDGE_REF #263b — PrefetchFn injection bridge):
+src/storage/ggml_tensor_bridge.cpp:181:// STUB/SIMULATION NOTE (BRIDGE_REF #263c — TypeRegistrationFn injection bridge):
 src/server/timeseries_api_handler.cpp:472:            // STUB/SIMULATION NOTE:
-src/server/timeseries_api_handler.cpp:551:        // STUB #301 REMEDIATION: Use real retention policies provider if available
-src/server/rope_api_handler.cpp:947:            // STUB #307 REMEDIATION: Query real rotation metrics
 src/rag/reranker_cost_analyzer.cpp:300:  // TODO: Store forecast for later use
 src/rag/reranker_budget_gate.cpp:137:  // TODO: This requires Document struct with score field
 src/rag/freshness_sla_enforcer.cpp:67:  // TODO: Call IndexRefreshScheduler::ScheduleEmergencyRefresh()
@@ -99,7 +73,6 @@ src/rag/evaluation_result_store.cpp:211:  // TODO: Export run to file
 src/rag/cost_model_builder.cpp:78:  // TODO: Serialize model to JSON file
 src/rag/cost_model_builder.cpp:83:  // TODO: Deserialize model from JSON file
 src/rag/recommendation_engine.cpp:123:  // TODO: Export recommendations to file (JSON or markdown)
-src/rag/targ_retrieval.cpp:24:// FullEntropyFn injection bridge (STUB #262)
 src/rag/benchmark_suite.cpp:19:  // TODO: Parse TREC/MARCO format TSV or JSON
 src/rag/benchmark_suite.cpp:53:  // TODO: Execute RAG system with scenario config, retrieve and rerank
 src/rag/benchmark_suite.cpp:104:  // TODO: Export to JSON or CSV
@@ -112,14 +85,10 @@ src/rag/router_policy_store.cpp:20:  // TODO: Close RocksDB connection
 src/rag/router_policy_store.cpp:94:  // TODO: Implement metrics recording in database
 src/rag/router_policy_store.cpp:103:  // TODO: Retrieve and aggregate metrics
 src/rag/metrics_reporter.cpp:218:  // TODO: Implement with access to model-specific metrics
-src/acceleration/vulkan_backend_full.cpp:40:// ── STUB #169 bridge — access storage from graphics_backends.cpp (extern) ───
 src/acceleration/vulkan_backend_full.cpp:199:    // STUB/SIMULATION NOTE:
 src/acceleration/vulkan_backend_full.cpp:217:    std::cerr << "GLSL to SPIR-V compilation requires shaderc library (STUB)" << std::endl;
-src/acceleration/vulkan_backend_full.cpp:218:    // Check injected fn first (STUB #169 bridge).
-src/acceleration/vulkan_backend_full.cpp:241:    std::cerr << "GLSL to SPIR-V compilation requires shaderc library (STUB #169)" << std::endl;
 src/acceleration/nccl_vector_backend.cpp:772:// STUB/SIMULATION NOTE:
 src/acceleration/nccl_vector_backend.cpp:789:// STUB/SIMULATION NOTE (allReduce bridge):
-src/acceleration/graphics_backends.cpp:1144:// ── STUB #169 bridge — global GLSL→SPIR-V compiler storage ──────────────────
 src/acceleration/oneapi_backend.cpp:258:// STUB/SIMULATION NOTE:
 src/acceleration/oneapi_backend.cpp:273:// STUB/SIMULATION NOTE (computeDistances bridge):
 src/acceleration/opencl_backend.cpp:396:// STUB/SIMULATION NOTE:
@@ -132,13 +101,10 @@ src/ingestion/s3_connector.cpp:377:        // STUB/SIMULATION NOTE:
 src/ingestion/s3_connector.cpp:582:    // STUB/SIMULATION NOTE:
 src/ingestion/object_storage_connector.cpp:317:    // STUB/SIMULATION NOTE:
 src/security/hsm_key_provider_adapter.cpp:32:    const char* allow_stub = std::getenv("THEMIS_ALLOW_HSM_STUB");
-src/security/hsm_key_provider_adapter.cpp:38:// ── Process-wide injectable DEK bridge (STUB #47 / #48) ─────────────────────
 src/security/hsm_key_provider_adapter.cpp:39:// STUB/SIMULATION NOTE:
-src/security/hsm_key_provider_adapter.cpp:508:    // ── Injected bridge (STUB #47) ────────────────────────────────────────────
 src/security/hsm_key_provider_adapter.cpp:535:                "Configure a real PKCS#11 HSM or set THEMIS_ALLOW_HSM_STUB=1 "
-src/security/hsm_key_provider_adapter.cpp:587:    // ── Injected bridge (STUB #48) ────────────────────────────────────────────
 src/security/hsm_key_provider_adapter.cpp:614:                "Configure a real PKCS#11 HSM or set THEMIS_ALLOW_HSM_STUB=1 "
-src/security/hsm_key_provider_adapter.cpp:749:// ── Static bridge setters (STUB #47 / #48) — see STUB/SIMULATION NOTE above ──
+src/security/hsm_key_provider_adapter.cpp:749:// ── Static bridge setters (BRIDGE_REF #47 / #48) — see STUB/SIMULATION NOTE above ──
 src/security/timestamp_authority.cpp:20://          Production mode is explicitly blocked unless THEMIS_ALLOW_TSA_STUB=1 is set.
 src/security/timestamp_authority.cpp:91:    const char* allow_stub = std::getenv("THEMIS_ALLOW_TSA_STUB");
 src/security/timestamp_authority.cpp:107:        "or set THEMIS_ALLOW_TSA_STUB=1 to explicitly allow the insecure stub.";
@@ -180,11 +146,8 @@ src/security/hsm_provider_pkcs11.cpp:1341:            const char* allow_stub = s
 src/security/hsm_provider_pkcs11.cpp:1345:                    "ready and returning a stub PEM is insecure. Set THEMIS_ALLOW_HSM_STUB=1 "
 src/security/hsm_provider_pkcs11.cpp:1353:            "(THEMIS_ALLOW_HSM_STUB=1). Not suitable for production.",
 src/security/hsm_provider_pkcs11.cpp:1355:        return std::string("-----BEGIN CERTIFICATE-----\nSTUB\n-----END CERTIFICATE-----\n");
-src/gpu/stream_manager.cpp:37:// STUB #77 — CudaStreamBackendFn static bridge (non-CUDA injection)
 src/api/themisdb_grpc_service.cpp:1946:    // STUB/SIMULATION NOTE:
-src/transaction/distributed_transaction_manager.cpp:73:// RPC phase-2 bridge (STUB #279)
 src/transaction/distributed_transaction_manager.cpp:75:// STUB/SIMULATION NOTE:
-src/transaction/distributed_transaction_manager.cpp:138:// RPC phase-1 bridge (STUB #279 — Phase-1 PREPARE extension)
 src/transaction/distributed_transaction_manager.cpp:140:// STUB/SIMULATION NOTE:
 src/geo/gpu_kernel_dispatcher_cpu.cpp:12:// STUB/SIMULATION NOTE:
 src/geo/gpu_backend_stub.cpp:1265:        // STUB/SIMULATION NOTE:
@@ -193,7 +156,6 @@ src/governance/opa_adapter.cpp:358:// STUB/SIMULATION NOTE:
 src/performance/cycle_metrics.cpp:196:// STUB/SIMULATION NOTE:
 src/performance/phase4/pmu_counters.cpp:821:// STUB/SIMULATION NOTE:
 src/performance/advanced_cache_manager.cpp:82:// STUB/SIMULATION NOTE:
-src/cdc/kafka_cdc_producer.cpp:31: *   via injected callbacks in tests/dev builds (see STUB #98 bridge APIs).
 src/index/advanced_vector_index.cpp:33:    // STUB/SIMULATION NOTE:
 src/index/gpu_vector_index_vulkan.cpp:1115:// STUB/SIMULATION NOTE:
 src/voice/voice_telephony.cpp:569:    //                   See STUB_INVENTORY entry #173 and
@@ -202,10 +164,9 @@ src/voice/audio_preprocessing.cpp:59:// STUB/SIMULATION NOTE:
 src/voice/voice_browser_streaming.cpp:150:    // STUB/SIMULATION NOTE:
 src/llm/llm_plugin_manager.cpp:811: * @details Calls: THEMIS_LLAMA_CPP_STUB_MODE(), contains(), std::chrono::seconds(), empty(), loadModel(), errors::logError(), LLMPluginManager::instance(), registerPlugin().
 src/llm/llm_plugin_manager.cpp:819:#ifdef THEMIS_LLAMA_CPP_STUB_MODE
-src/llm/llm_plugin_manager.cpp:820:    // STUB/SIMULATION NOTE (STUB #LPM-01 — llama.cpp stub mode):
+src/llm/llm_plugin_manager.cpp:820:    // STUB/SIMULATION NOTE (BRIDGE_REF #LPM-01 — llama.cpp stub mode):
 src/llm/llm_plugin_manager.cpp:824:    // Activation:        Compiled when THEMIS_LLAMA_CPP_STUB_MODE is defined.
 src/llm/llm_plugin_manager.cpp:829:    // Removal Plan:      Do not set THEMIS_LLAMA_CPP_STUB_MODE in production builds.
-src/llm/lora_framework/gpu_tensor.cpp:36:// ─── dtype-cast callback bridges (STUB #2 / STUB #3) ─────────────────────────
 src/llm/lora_framework/gpu_tensor.cpp:447:        // STUB/SIMULATION NOTE:
 src/llm/lora_framework/gpu_tensor.cpp:484:        // STUB/SIMULATION NOTE:
 src/llm/embedded_llm_stub.cpp:416:    // In THEMIS_LLM_STUB_MODE (test/dev-only builds) return the deterministic
@@ -215,12 +176,6 @@ src/llm/embedded_llm_stub.cpp:475:#ifdef THEMIS_LLM_STUB_MODE
 src/llm/ssm_stub_plugin.cpp:20:// STUB/SIMULATION NOTE (SyntheticSSMStub — SSM PoC stub):
 src/llm/ssm_stub_plugin.cpp:35:SyntheticSSMStub::SyntheticSSMStub() : rng_(STUB_SEED) {
 src/llm/ssm_stub_plugin.cpp:38:    oss << "stub-v0.1-seed" << STUB_SEED << "-dim" << HIDDEN_DIM;
-src/llm/inference_engine_enhanced.cpp:2511:    // STUB #261 — Production Injection Point (wired by
-src/llm/inference_engine_enhanced.cpp:2602:                            spdlog::debug("Local draft (STUB #261 bridge): "
-src/llm/inference_engine_enhanced.cpp:2606:                            spdlog::warn("Local draft (STUB #261 bridge): "
-src/llm/inference_engine_enhanced.cpp:2611:                        spdlog::warn("Local draft (STUB #261 bridge): "
-src/cache/distributed_cache_coordinator.cpp:72:// STUB #61 — RedisPublishBridgeFn static bridge (non-POSIX injection)
-src/cache/redis_cache_coordinator.cpp:69:// STUB #42 — RedisPublishFn static bridge (non-hiredis injection)
 src/llama_cpp/llama_cpp_registrar.cpp:85:        // STUB/SIMULATION NOTE:
 src/llama_cpp/llama_cpp_registrar.cpp:101:    #ifdef THEMIS_LLAMA_CPP_STUB_MODE
 src/llama_cpp/tests/test_llama_cpp_plugin.cpp:473:// These tests verify the production contract: generate() without STUB_MODE

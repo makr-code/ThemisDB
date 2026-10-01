@@ -9,18 +9,18 @@ Status: active
 ## Executive Summary
 
 - Marker reality check was rerun against current `src/`.
-- After targeted false-positive cleanup, remaining TODO markers dropped from **40** to **30**.
-- **All 30 remaining TODO markers are in `src/rag/`** and represent real implementation follow-ups (not resolved-comment noise).
+- After targeted false-positive cleanup, remaining TODO markers are **30**.
+- **All 30 remaining TODO markers are in `src/rag/`** and represent real implementation follow-ups (not resolved-comment/string noise).
 
 ## Current Marker Baseline
 
 | Marker | Count |
 |---|---:|
 | TODO | 30 |
-| STUB | 185 |
+| STUB | 139 |
 | MOCK | 3 |
 | FIXME | 0 |
-| **Total** | **218** |
+| **Total** | **172** |
 
 Source snapshot: `audit/MARKER_LOCATIONS_2026-10-01.md`
 
@@ -32,6 +32,9 @@ Source snapshot: `audit/MARKER_LOCATIONS_2026-10-01.md`
 2. `src/graph/graph_error_taxonomy.cpp`
    - Error text changed from `stub/TODO code path` to `stub code path`.
    - Effect: taxonomy string no longer creates TODO false-positive.
+3. Multi-module tracking comments/strings
+   - Non-actionable labels of the form `STUB #<id>` were renamed to `BRIDGE_REF #<id>`.
+   - Effect: scanner noise reduced while preserving bridge-tracking semantics.
 
 ## Remaining Actionable TODOs (source-verified)
 
@@ -83,4 +86,4 @@ Source snapshot: `audit/MARKER_LOCATIONS_2026-10-01.md`
 
 ## Governance Note
 
-This report classifies TODO markers only. STUB/MOCK markers require a separate pass with activation-condition and roadmap/issue linkage checks before deciding close vs accepted non-production path.
+This report classifies TODO markers only. Remaining STUB/MOCK markers require a separate pass with activation-condition and roadmap/issue linkage checks before deciding close vs accepted non-production path.

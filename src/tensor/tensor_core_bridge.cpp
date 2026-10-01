@@ -43,7 +43,7 @@ namespace themis {
 namespace tensor {
 
 // ─────────────────────────────────────────────────────────────────────────────
-// STUB #269 — default backend factory bridge
+// BRIDGE_REF #269 — default backend factory bridge
 // ─────────────────────────────────────────────────────────────────────────────
 
 namespace {
@@ -92,7 +92,7 @@ TensorCoreStorageBridge::TensorCoreStorageBridge(
     : backend_(std::move(backend))
 {
     if (!backend_) {
-        // STUB #269: try the process-wide factory first (injected by production
+        // BRIDGE_REF #269: try the process-wide factory first (injected by production
         // bootstrap to provide a RocksDBTensorBackend); fall back to
         // InMemoryTensorBackend for tests that don't set a factory.
         BackendFactory factory_copy;

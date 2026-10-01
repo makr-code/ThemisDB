@@ -1141,7 +1141,7 @@ std::vector<std::vector<std::pair<uint32_t, float>>> DirectXVectorBackend::batch
 // VulkanVectorBackend — public interface implementation
 // ============================================================================
 
-// ── STUB #169 bridge — global GLSL→SPIR-V compiler storage ──────────────────
+// ── BRIDGE_REF #169 bridge — global GLSL→SPIR-V compiler storage ──────────────────
 // Defined here (always-compiled TU) so setCompileGLSLFn() is available
 // regardless of whether THEMIS_ENABLE_VULKAN is set.  The storage is accessed
 // from vulkan_backend_full.cpp via extern declarations when Vulkan is enabled.

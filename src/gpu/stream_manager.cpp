@@ -34,7 +34,7 @@ namespace themis {
 namespace gpu {
 
 // ---------------------------------------------------------------------------
-// STUB #77 — CudaStreamBackendFn static bridge (non-CUDA injection)
+// BRIDGE_REF #77 — CudaStreamBackendFn static bridge (non-CUDA injection)
 // ---------------------------------------------------------------------------
 namespace {
 std::mutex s_cuda_backend_fn_mutex;

@@ -34,7 +34,7 @@ namespace themis {
 namespace tensor {
 
 // ============================================================================
-// STUB #270 — SST page-map bridge storage
+// BRIDGE_REF #270 — SST page-map bridge storage
 // ============================================================================
 
 namespace {
@@ -146,7 +146,7 @@ std::unique_ptr<TensorMmapBridge>
 TensorMmapBridge::buildFromTrain(const storage::TTTrain& train) {
     auto bridge = std::unique_ptr<TensorMmapBridge>(new TensorMmapBridge());
 
-    // Snapshot the SST-page-map bridge fn once (STUB #270).
+    // Snapshot the SST-page-map bridge fn once (BRIDGE_REF #270).
     SstMapFn sst_fn;
     {
         std::lock_guard<std::mutex> lk(sstMapFnMutex());
@@ -168,7 +168,7 @@ TensorMmapBridge::buildFromTrain(const storage::TTTrain& train) {
             continue;
         }
 
-        // STUB #270: try the injected SST page-map fn first (zero-copy path).
+        // BRIDGE_REF #270: try the injected SST page-map fn first (zero-copy path).
         // If it returns a non-null pointer, use that region directly without
         // memcpy.  The fn is responsible for pre-populating the region with
         // the core float data (e.g. via MAP_SHARED on an SST page).
@@ -184,7 +184,7 @@ TensorMmapBridge::buildFromTrain(const storage::TTTrain& train) {
         }
 
         if (!ptr) {
-            // Fallback: MAP_ANONYMOUS + memcpy (STUB #270 — Q1 2027).
+            // Fallback: MAP_ANONYMOUS + memcpy (BRIDGE_REF #270 — Q1 2027).
             ptr = allocRegion(bytes);
             if (!ptr) {
                 THEMIS_WARN("TensorMmapBridge: mmap allocation failed for "

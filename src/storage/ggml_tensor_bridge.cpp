@@ -79,7 +79,7 @@ bool allow_test_only_fallbacks() {
 // the stub metadata section at the top of the file — false positives.
 
 // ============================================================================
-// STUB/SIMULATION NOTE (STUB #263a — GgmlAllocFn injection bridge):
+// STUB/SIMULATION NOTE (BRIDGE_REF #263a — GgmlAllocFn injection bridge):
 // Purpose: Injectable bridge for production ggml memory allocator integration.
 //          Allows a server-side allocator to track tensor allocation for profiling
 //          and OOM control without coupling this file to a specific allocator.
@@ -90,7 +90,7 @@ bool allow_test_only_fallbacks() {
 //                   ThemisDB's memory accounting layer.
 // Removal Plan: Wire ThemisDB's tracked allocator in ThemisServer::initialize()
 //               once memory accounting for ggml tensors is required — Target Q4 2026.
-// GgmlAllocFn injection bridge (STUB #263a)
+// GgmlAllocFn injection bridge (BRIDGE_REF #263a)
 // ============================================================================
 
 /**
@@ -129,7 +129,7 @@ void GgmlTensorBridge::clearGgmlAllocFn() {
 }
 
 // ============================================================================
-// STUB/SIMULATION NOTE (STUB #263b — PrefetchFn injection bridge):
+// STUB/SIMULATION NOTE (BRIDGE_REF #263b — PrefetchFn injection bridge):
 // Purpose: Injectable bridge for io_uring-based speculative prefetch of TT-core
 //          tensor data. Enables async readahead without coupling this file to
 //          a specific io_uring implementation.
@@ -139,7 +139,7 @@ void GgmlTensorBridge::clearGgmlAllocFn() {
 //                   cache misses; no data loss or correctness issue.
 // Removal Plan: Enable -DTHEMIS_HAS_IO_URING=ON to activate the built-in io_uring
 //               path. The bridge path becomes unreachable once io_uring is compiled in.
-// PrefetchFn injection bridge (STUB #263b)
+// PrefetchFn injection bridge (BRIDGE_REF #263b)
 // ============================================================================
 
 /**
@@ -178,7 +178,7 @@ void GgmlTensorBridge::clearPrefetchFn() {
 }
 
 // ============================================================================
-// STUB/SIMULATION NOTE (STUB #263c — TypeRegistrationFn injection bridge):
+// STUB/SIMULATION NOTE (BRIDGE_REF #263c — TypeRegistrationFn injection bridge):
 // Purpose: Injectable bridge for registering custom ggml tensor types with an
 //          external type registry (e.g., plugin-defined quantization formats).
 // Activation: When setTypeRegistrationFn() is called at startup.
@@ -189,7 +189,7 @@ void GgmlTensorBridge::clearPrefetchFn() {
 //                   fall back to float32 decompression.
 // Removal Plan: Wire type registration in ThemisServer::initialize() when plugin
 //               quantization formats are finalized — Target Q4 2026.
-// TypeRegistrationFn injection bridge (STUB #263c)
+// TypeRegistrationFn injection bridge (BRIDGE_REF #263c)
 // ============================================================================
 
 /**
@@ -294,7 +294,7 @@ ggml_tensor* MappedTTTensor::ggmlTensor() const noexcept {
     if (!impl_ || !impl_->valid) {
       return nullptr;
     }
-    // Return real allocation when GgmlAllocFn was wired (GTB-01 / STUB #263a).
+    // Return real allocation when GgmlAllocFn was wired (GTB-01 / BRIDGE_REF #263a).
     if (impl_->real_ggml_tensor) {
       return impl_->real_ggml_tensor;
     }

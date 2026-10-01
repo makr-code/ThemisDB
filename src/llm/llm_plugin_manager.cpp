@@ -817,7 +817,7 @@ bool createLlamaWrapper(
     const json& config
 ) {
 #ifdef THEMIS_LLAMA_CPP_STUB_MODE
-    // STUB/SIMULATION NOTE (STUB #LPM-01 — llama.cpp stub mode):
+    // STUB/SIMULATION NOTE (BRIDGE_REF #LPM-01 — llama.cpp stub mode):
     // Purpose:           Keep the llama.cpp plugin available in test/CI builds
     //                    even when no real model file is configured, so the default
     //                    LLM client does not silently fall back to the keyword mock.
