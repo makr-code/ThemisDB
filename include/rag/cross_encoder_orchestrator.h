@@ -37,6 +37,9 @@ class CrossEncoderOrchestrator {
   /// @brief Reranker configuration.
   struct RerankerConfig {
     std::string model_name;        ///< e.g., "cross-encoder/ms-marco-MiniLMv2-L12-H384"
+    std::string model_path;        ///< Optional local ONNX artifact path for deterministic load
+    std::string registry_url;      ///< Optional registry-backed artifact source
+    bool auto_download = false;    ///< Allow registry-backed model download when enabled
     uint32_t batch_size;           ///< Batch accumulation size (default 32)
     float confidence_threshold;    ///< Min score to include in output (default 0.5)
   };
