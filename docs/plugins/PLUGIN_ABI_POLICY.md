@@ -1,8 +1,13 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-08-10
+Last Updated: 2026-08-10
+Status: stable
+---
+
 # ThemisDB Plugin ABI Policy
 
 **Version:** 0.1.0 (Wave-1 Freeze)
-**Last Updated:** 2026-08-10
-**Status:** Frozen — backward-incompatible changes require a version bump and deprecation notice
 
 ---
 
