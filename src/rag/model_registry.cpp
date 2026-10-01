@@ -8,12 +8,68 @@
 #include "rag/model_registry.h"
 
 #include <algorithm>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <map>
 #include <mutex>
 
+#include <nlohmann/json.hpp>
+
 namespace themis::rag::lifecycle {
+
+namespace {
+
+nlohmann::json ModelMetadataToJson(const ModelMetadata& metadata) {
+  nlohmann::json payload;
+  payload["version"] = metadata.version;
+  payload["model_id"] = metadata.model_id;
+  payload["built_at_us"] = metadata.built_at_us;
+  payload["status_changed_at_us"] = metadata.status_changed_at_us;
+  payload["status"] = StatusToString(metadata.status);
+  payload["parent_version"] = metadata.parent_version;
+  payload["training_dataset_id"] = metadata.training_dataset_id;
+  payload["metrics_json"] = metadata.metrics_json;
+  payload["cost_stats_json"] = metadata.cost_stats_json;
+  payload["notes"] = metadata.notes;
+  payload["model_checksum"] = metadata.model_checksum;
+  payload["model_location"] = metadata.model_location;
+  return payload;
+}
+
+std::optional<ModelMetadata> JsonToModelMetadata(const nlohmann::json& json_value) {
+  if (!json_value.is_object()) {
+    return std::nullopt;
+  }
+
+  ModelMetadata metadata;
+  metadata.version = json_value.value("version", 0u);
+  if (metadata.version == 0) {
+    return std::nullopt;
+  }
+
+  metadata.model_id = json_value.value("model_id", "");
+  metadata.built_at_us = json_value.value("built_at_us", 0ull);
+  metadata.status_changed_at_us = json_value.value("status_changed_at_us", 0ull);
+
+  const auto status_str = json_value.value("status", "draft");
+  const auto parsed_status = StringToStatus(status_str);
+  if (!parsed_status.has_value()) {
+    return std::nullopt;
+  }
+  metadata.status = *parsed_status;
+
+  metadata.parent_version = json_value.value("parent_version", 0u);
+  metadata.training_dataset_id = json_value.value("training_dataset_id", "");
+  metadata.metrics_json = json_value.value("metrics_json", "");
+  metadata.cost_stats_json = json_value.value("cost_stats_json", "");
+  metadata.notes = json_value.value("notes", "");
+  metadata.model_checksum = json_value.value("model_checksum", "");
+  metadata.model_location = json_value.value("model_location", "");
+  return metadata;
+}
+
+}  // namespace
 
 std::string StatusToString(ModelStatus status) {
   switch (status) {
@@ -224,42 +280,113 @@ uint32_t ModelRegistry::Count() const {
 bool ModelRegistry::Persist() const {
   std::lock_guard<std::mutex> lock(pimpl_->mu);
 
-  // TODO: Implement JSON serialization to persistence_path
-  // For now, this is a placeholder that succeeds without error
-  // Production implementation should write to persistent storage (file or database)
+  if (pimpl_->persistence_path.empty()) {
+    return false;
+  }
 
-  return true;
+  try {
+    std::filesystem::path path(pimpl_->persistence_path);
+    if (path.has_parent_path()) {
+      std::filesystem::create_directories(path.parent_path());
+    }
+
+    nlohmann::json payload = nlohmann::json::object();
+    payload["version"] = 1;
+    payload["next_version"] = pimpl_->next_version;
+    payload["models"] = nlohmann::json::array();
+
+    for (const auto& [version, metadata] : pimpl_->models) {
+      payload["models"].push_back(ModelMetadataToJson(metadata));
+    }
+
+    std::ofstream output(path, std::ios::out | std::ios::trunc);
+    if (!output.is_open()) {
+      return false;
+    }
+    output << payload.dump(2);
+    output.flush();
+    return output.good();
+  } catch (const std::exception&) {
+    return false;
+  }
 }
 
 bool ModelRegistry::Load() {
   std::lock_guard<std::mutex> lock(pimpl_->mu);
 
-  // TODO: Implement JSON deserialization from persistence_path
-  // For now, this is a placeholder that succeeds with empty registry
-  // Production implementation should restore from persistent storage
+  if (pimpl_->persistence_path.empty()) {
+    return true;
+  }
 
-  return true;
+  std::ifstream input(pimpl_->persistence_path);
+  if (!input.is_open()) {
+    pimpl_->models.clear();
+    pimpl_->next_version = 1;
+    return true;
+  }
+
+  try {
+    nlohmann::json payload;
+    input >> payload;
+    if (!payload.is_object()) {
+      pimpl_->models.clear();
+      pimpl_->next_version = 1;
+      return false;
+    }
+
+    const int version = payload.value("version", 1);
+    if (version != 1) {
+      return false;
+    }
+
+    pimpl_->models.clear();
+    pimpl_->next_version = payload.value("next_version", 1u);
+
+    const auto models = payload.value("models", nlohmann::json::array());
+    if (!models.is_array()) {
+      return false;
+    }
+
+    for (const auto& model_json : models) {
+      auto metadata = JsonToModelMetadata(model_json);
+      if (!metadata.has_value()) {
+        return false;
+      }
+      pimpl_->models[metadata->version] = *metadata;
+    }
+
+    if (pimpl_->models.empty()) {
+      pimpl_->next_version = 1;
+    } else {
+      const auto max_version = std::max_element(
+          pimpl_->models.begin(), pimpl_->models.end(),
+          [](const auto& lhs, const auto& rhs) {
+            return lhs.first < rhs.first;
+          });
+      pimpl_->next_version = max_version->first + 1;
+    }
+    return true;
+  } catch (const std::exception&) {
+    pimpl_->models.clear();
+    pimpl_->next_version = 1;
+    return false;
+  }
 }
 
 std::string ModelRegistry::ToJson() const {
   std::lock_guard<std::mutex> lock(pimpl_->mu);
 
-  // TODO: Implement comprehensive JSON export
-  // For now, return a placeholder JSON structure
+  nlohmann::json payload = nlohmann::json::object();
+  payload["metadata"] = {
+      {"total_models", pimpl_->models.size()},
+      {"next_version", pimpl_->next_version}};
+  payload["models"] = nlohmann::json::array();
 
-  std::string result = R"({
-  "metadata": {
-    "total_models": )";
-  result += std::to_string(pimpl_->models.size());
-  result += R"(,
-    "next_version": )";
-  result += std::to_string(pimpl_->next_version);
-  result += R"(
-  },
-  "models": []
-})";
+  for (const auto& [version, metadata] : pimpl_->models) {
+    payload["models"].push_back(ModelMetadataToJson(metadata));
+  }
 
-  return result;
+  return payload.dump(2);
 }
 
 }  // namespace themis::rag::lifecycle

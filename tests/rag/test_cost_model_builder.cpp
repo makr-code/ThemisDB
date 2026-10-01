@@ -3,6 +3,7 @@
 
 #include <gtest/gtest.h>
 
+#include <fstream>
 #include <vector>
 
 #include "rag/cost_model_builder.h"
@@ -167,6 +168,35 @@ TEST_F(CostModelBuilderTest, MultipleFeatures) {
   
   auto coeffs = model->GetCoefficients();
   EXPECT_GT(coeffs.size(), 1);
+}
+
+TEST_F(CostModelBuilderTest, CostModelJsonRoundTripPreservesState) {
+  std::vector<CostModelBuilder::DataPoint> data;
+  for (int i = 0; i < 5; ++i) {
+    CostModelBuilder::DataPoint point;
+    point.features["num_retrieved"] = 40.0f + i * 10.0f;
+    point.features["rerank_fraction"] = 0.4f + i * 0.1f;
+    point.cost_usd = 0.15f + i * 0.02f;
+    data.push_back(point);
+  }
+
+  builder_.AddTrainingData(data);
+  auto model = builder_.BuildModel("linear", 0.05f);
+  const std::string path = "/tmp/themis_rag_cost_model.json";
+  ASSERT_TRUE(model->ExportToJSON(path));
+
+  auto restored = std::make_unique<CostModelBuilder::CostModel>();
+  ASSERT_TRUE(restored->LoadFromJSON(path));
+
+  EXPECT_EQ(restored->GetCoefficients().size(), model->GetCoefficients().size());
+  EXPECT_EQ(restored->GetMetrics().size(), model->GetMetrics().size());
+  EXPECT_EQ(restored->Predict({{"num_retrieved", 60.0f}}), model->Predict({{"num_retrieved", 60.0f}}));
+
+  std::ifstream input(path);
+  ASSERT_TRUE(input.is_open());
+  std::string contents((std::istreambuf_iterator<char>(input)), std::istreambuf_iterator<char>());
+  EXPECT_NE(contents.find("\"coefficients\""), std::string::npos);
+  EXPECT_NE(contents.find("\"metrics\""), std::string::npos);
 }
 
 }  // namespace themis::rag::testing

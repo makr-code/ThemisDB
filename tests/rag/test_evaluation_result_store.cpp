@@ -88,7 +88,28 @@ TEST_F(EvaluationResultStoreTest, GetTrend) {
 
 TEST_F(EvaluationResultStoreTest, ExportRun) {
   store_.StoreRun(MakeRun("run_1", "v1", 0.85f, 100.0f));
-  EXPECT_TRUE(store_.ExportRun("run_1", "eval_run.json"));
+  const std::string path = "/tmp/themis_rag_eval_run.json";
+  EXPECT_TRUE(store_.ExportRun("run_1", path));
+
+  std::ifstream input(path);
+  ASSERT_TRUE(input.is_open());
+  std::string contents((std::istreambuf_iterator<char>(input)), std::istreambuf_iterator<char>());
+  EXPECT_NE(contents.find("\"schema_version\""), std::string::npos);
+  EXPECT_NE(contents.find("\"provenance\""), std::string::npos);
+  EXPECT_NE(contents.find("\"run_id\""), std::string::npos);
+}
+
+TEST_F(EvaluationResultStoreTest, GenerateJsonReportIncludesStructuredPayload) {
+  auto baseline = MakeRun("baseline", "v1", 0.80f, 120.0f);
+  auto candidate = MakeRun("candidate", "v2", 0.90f, 100.0f);
+  store_.StoreRun(baseline);
+  store_.StoreRun(candidate);
+
+  const std::string report = store_.GenerateReport("baseline", "candidate", "json");
+  EXPECT_NE(report.find("\"baseline_run_id\""), std::string::npos);
+  EXPECT_NE(report.find("\"candidate_run_id\""), std::string::npos);
+  EXPECT_NE(report.find("\"verdict\""), std::string::npos);
+  EXPECT_NE(report.find("\"mean_ndcg_10_delta\""), std::string::npos);
 }
 
 TEST_F(EvaluationResultStoreTest, GetRunStats) {

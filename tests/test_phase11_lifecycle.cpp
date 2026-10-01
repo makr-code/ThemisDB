@@ -67,6 +67,21 @@ void TestModelRegistry() {
   assert(lineage[0].version == v2);  // Most recent first
   assert(lineage[1].version == v1);
 
+  // Test 1.9: Persist and restore round-trip
+  const std::string persistence_path = "/tmp/test_registry_persistence_roundtrip.json";
+  ModelRegistry persisted_registry(persistence_path);
+  const uint32_t v3 = persisted_registry.RegisterModel(
+      "cost-optimizer", "dataset-3", R"({""ndcg@10"": 0.81})",
+      R"({""latency_ms"": 39.0})", "/models/cost-v3", v2);
+  assert(v3 == 3);
+  assert(persisted_registry.Persist());
+
+  ModelRegistry loaded_registry(persistence_path);
+  auto restored = loaded_registry.GetByVersion(v3);
+  assert(restored.has_value());
+  assert(restored->model_id == "cost-optimizer");
+  assert(restored->status == ModelStatus::kDraft);
+
   std::cout << "  ✅ ModelRegistry tests passed" << std::endl;
 }
 
