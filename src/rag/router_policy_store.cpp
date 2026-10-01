@@ -221,6 +221,10 @@ loadHistory(rocksdb::DB* db) {
     }
     result[policy->intent].push_back(*policy);
   }
+  for (auto& [intent, versions] : result) {
+    std::sort(versions.begin(), versions.end(),
+             [](const auto& lhs, const auto& rhs) { return lhs.version < rhs.version; });
+  }
   return result;
 }
 
@@ -245,10 +249,34 @@ loadCurrentPolicies(rocksdb::DB* db) {
   return result;
 }
 
+std::vector<RouterPolicyStore::HistoryEntry> loadHistoryEntries(rocksdb::DB* db) {
+  std::vector<RouterPolicyStore::HistoryEntry> entries;
+  if (db == nullptr) {
+    return entries;
+  }
+  std::unique_ptr<rocksdb::Iterator> it(db->NewIterator(rocksdb::ReadOptions()));
+  for (it->Seek("history:"); it->Valid(); it->Next()) {
+    const std::string key = it->key().ToString();
+    if (key.rfind("history:", 0) != 0) {
+     continue;
+    }
+    auto entry = deserializeHistoryEntry(it->value().ToString());
+    if (entry.has_value()) {
+     entries.push_back(*entry);
+    }
+  }
+  std::sort(entries.begin(), entries.end(),
+           [](const auto& lhs, const auto& rhs) { return lhs.timestamp_us < rhs.timestamp_us; });
+  return entries;
+}
+
 }  // namespace
 
 RouterPolicyStore::RouterPolicyStore(const std::string& db_path)
     : db_(nullptr), db_path_(db_path) {
+  if (db_path_.empty()) {
+    return;
+  }
   std::filesystem::create_directories(db_path_);
   rocksdb::Options options;
   options.create_if_missing = true;
@@ -267,7 +295,10 @@ RouterPolicyStore::~RouterPolicyStore() {
     return;
   }
   auto* db = static_cast<rocksdb::DB*>(db_);
-  db->FlushWAL(true);
+  rocksdb::FlushOptions flush_options;
+  flush_options.wait = true;
+  db->Flush(flush_options);
+  db->Close();
   delete db;
   db_ = nullptr;
 }
