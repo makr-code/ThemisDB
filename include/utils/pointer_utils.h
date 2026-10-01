@@ -16,6 +16,7 @@
 #include <optional>
 #include <functional>
 #include <type_traits>
+#include <variant>
 #include <spdlog/spdlog.h>
 
 namespace themis {
