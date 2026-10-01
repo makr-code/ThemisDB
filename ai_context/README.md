@@ -22,6 +22,10 @@ Persistente Wissensbasis für KI-Agenten im ThemisDB-Repository.
 
 - [memory_management_policy.md](memory_management_policy.md) — Ownership-/Lifetime-Regeln (RAII)
 - [api_contracts/README.md](api_contracts/README.md) — maschinenlesbare API-Vertragsübersichten
+- [developer_llm_wiki/INDEX.md](developer_llm_wiki/INDEX.md) — zentraler Hub fuer Modul-/API-/Operations-Wiki
+- [developer_llm_wiki/MODULES_AND_APIS.md](developer_llm_wiki/MODULES_AND_APIS.md) — Modulgrenzen, API-Vertraege und Symbolbeziehungen
+- [developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md](developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md) — Build-, Test-, CI- und Operations-Kontext
+- [developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md](developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md) — Governance-, Release- und Roadmap-Status
 - [KNOWLEDGE_LINT_REPORT.md](KNOWLEDGE_LINT_REPORT.md) — aktueller AI-Context-Lintstatus (automatisch fortgeschrieben)
 - [KNOWLEDGE_CONFLICTS.md](KNOWLEDGE_CONFLICTS.md) — Konfliktregister mit manuellem und auto-detektiertem Bereich
 - [API_MODULE_STATUS_2026_07_18.md](API_MODULE_STATUS_2026_07_18.md) — referenzierte Status-Synchronisation fuer API

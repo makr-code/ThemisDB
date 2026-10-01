@@ -54,6 +54,22 @@ Primary (Quelle der Wahrheit): README.md, ROADMAP.md, DOCUMENTATION_GOVERNANCE.m
 - [ai_context/KNOWLEDGE_CONFLICTS.md](ai_context/KNOWLEDGE_CONFLICTS.md) — zentrales Konfliktregister fuer Wissenswidersprueche
 - [DOCUMENTATION_GOVERNANCE.md](DOCUMENTATION_GOVERNANCE.md) — SOT-Domains, Prioritaeten und Doku-Governance
 
+### AI Context Inventory
+
+The canonical AI docs base is the `ai_context/` hub plus its module indexes. Keep all active registry, policy, and wiki artifacts linked from here so the hygiene checker does not treat them as orphaned:
+
+- [ai_context/README.md](ai_context/README.md) — root AI context overview and retention rules
+- [ai_context/developer_llm_wiki/INDEX.md](ai_context/developer_llm_wiki/INDEX.md) — developer LLM wiki index and module status registry
+- [ai_context/developer_llm_wiki/MODULES_AND_APIS.md](ai_context/developer_llm_wiki/MODULES_AND_APIS.md) — module/API contract map
+- [ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md](ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md) — build/test/CI and operations context
+- [ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md](ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md) — roadmap and governance status
+- [ai_context/api_contracts/README.md](ai_context/api_contracts/README.md) — API contract landing page
+- [ai_context/memory_management_policy.md](ai_context/memory_management_policy.md) — ownership and RAII guidance
+- [ai_context/OOP_AND_SOC_PRINCIPLES.md](ai_context/OOP_AND_SOC_PRINCIPLES.md) — architecture and separation-of-concerns guidance
+- [ai_context/FUNCTION_CLASSIFICATION.md](ai_context/FUNCTION_CLASSIFICATION.md) — function classification and hot-path guidance
+
+Historical or superseded AI working artifacts are archived in [docs/ARCHIVED/ai-working-history/README.md](docs/ARCHIVED/ai-working-history/README.md) rather than kept as active root state.
+
 ---
 
 ## AI Context Reference Library

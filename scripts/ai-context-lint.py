@@ -18,10 +18,39 @@ AUTO_END = "<!-- AUTO-CONFLICTS-END -->"
 
 STALE_EXCLUDE_PREFIXES = (
     "ai_context/research/",
+    "docs/ARCHIVED/",
+    "ai_working/",
 )
+
+# Active AI context files are a curated subset of the ai_context tree. Historical,
+# generated, and superseded analysis documents are intentionally retained for
+# archival/reference and must not be treated as stale active-state documents.
+ACTIVE_AI_CONTEXT_FILES = {
+    "ai_context/README.md",
+    "ai_context/COPILOT_INSTRUCTIONS.md",
+    "ai_context/KNOWLEDGE_LINT_REPORT.md",
+    "ai_context/KNOWLEDGE_CONFLICTS.md",
+    "ai_context/memory_management_policy.md",
+    "ai_context/OOP_AND_SOC_PRINCIPLES.md",
+    "ai_context/FUNCTION_CLASSIFICATION.md",
+    "ai_context/api_contracts/README.md",
+    "ai_context/api_contracts/api.md",
+    "ai_context/api_contracts/auth.md",
+    "ai_context/api_contracts/index.md",
+    "ai_context/api_contracts/llm.md",
+    "ai_context/api_contracts/storage.md",
+    "ai_context/api_contracts/transaction.md",
+    "ai_context/developer_llm_wiki/INDEX.md",
+    "ai_context/developer_llm_wiki/MODULES_AND_APIS.md",
+    "ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md",
+    "ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md",
+    "ai_context/developer_llm_wiki/AI_METADATA_AND_PROVENANCE.md",
+    "ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md",
+}
 
 CONTRADICTION_EXCLUDE_PREFIXES = (
     "ai_context/research/",
+    "ai_context/developer_llm_wiki/",
 )
 
 CONTRADICTION_EXCLUDE_FILES = {
@@ -116,12 +145,20 @@ def _extract_header_date(content: str) -> Optional[datetime]:
         return None
 
 
+def _is_active_ai_context_file(repo_root: Path, file_rel: str) -> bool:
+    if file_rel.startswith(STALE_EXCLUDE_PREFIXES):
+        return False
+    if file_rel.startswith("ai_context/") and file_rel not in ACTIVE_AI_CONTEXT_FILES:
+        return False
+    return True
+
+
 def check_stale_claims(repo_root: Path, files: List[Path], stale_days: int) -> List[Finding]:
     findings: List[Finding] = []
     now = datetime.now(UTC)
     for file_path in files:
         file_rel = rel(file_path, repo_root)
-        if file_rel.startswith(STALE_EXCLUDE_PREFIXES):
+        if not _is_active_ai_context_file(repo_root, file_rel):
             continue
 
         content = file_path.read_text(encoding="utf-8", errors="replace")
@@ -207,8 +244,13 @@ def check_cross_references(repo_root: Path) -> List[Finding]:
 
     content = index_path.read_text(encoding="utf-8", errors="replace")
     required_links = [
+        "ai_context/README.md",
         "ai_context/KNOWLEDGE_LINT_REPORT.md",
         "ai_context/KNOWLEDGE_CONFLICTS.md",
+        "ai_context/developer_llm_wiki/INDEX.md",
+        "ai_context/developer_llm_wiki/MODULES_AND_APIS.md",
+        "ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md",
+        "ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md",
         "AI_WIKI_INTEGRATION_PLAYBOOK.md",
         "LOG.md",
     ]
