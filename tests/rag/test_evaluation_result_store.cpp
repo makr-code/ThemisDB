@@ -4,6 +4,8 @@
 #include <gtest/gtest.h>
 
 #include <chrono>
+#include <fstream>
+#include <iterator>
 
 #include "rag/evaluation_result_store.h"
 

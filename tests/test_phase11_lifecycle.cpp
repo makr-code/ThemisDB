@@ -7,6 +7,8 @@
  */
 
 #include <cassert>
+#include <chrono>
+#include <filesystem>
 #include <iostream>
 #include <sstream>
 
@@ -21,6 +23,7 @@ using namespace themis::rag::lifecycle;
 void TestModelRegistry() {
   std::cout << "Test: ModelRegistry Basic Operations..." << std::endl;
 
+  std::filesystem::remove("/tmp/test_registry.db");
   ModelRegistry registry("/tmp/test_registry.db");
 
   // Test 1.1: Register model
@@ -69,11 +72,12 @@ void TestModelRegistry() {
 
   // Test 1.9: Persist and restore round-trip
   const std::string persistence_path = "/tmp/test_registry_persistence_roundtrip.json";
+  std::filesystem::remove(persistence_path);
   ModelRegistry persisted_registry(persistence_path);
   const uint32_t v3 = persisted_registry.RegisterModel(
       "cost-optimizer", "dataset-3", R"({""ndcg@10"": 0.81})",
-      R"({""latency_ms"": 39.0})", "/models/cost-v3", v2);
-  assert(v3 == 3);
+      R"({""latency_ms"": 39.0})", "/models/cost-v3", 0);
+  assert(v3 == 1);
   assert(persisted_registry.Persist());
 
   ModelRegistry loaded_registry(persistence_path);
@@ -81,6 +85,7 @@ void TestModelRegistry() {
   assert(restored.has_value());
   assert(restored->model_id == "cost-optimizer");
   assert(restored->status == ModelStatus::kDraft);
+  assert(loaded_registry.Count() == 1);
 
   std::cout << "  ✅ ModelRegistry tests passed" << std::endl;
 }

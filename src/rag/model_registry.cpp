@@ -127,28 +127,31 @@ uint32_t ModelRegistry::RegisterModel(const std::string& model_id,
                                       const std::string& cost_stats_json,
                                       const std::string& model_location,
                                       uint32_t parent_version) {
-  std::lock_guard<std::mutex> lock(pimpl_->mu);
+  uint32_t version = 0;
+  {
+    std::lock_guard<std::mutex> lock(pimpl_->mu);
 
-  ModelMetadata meta;
-  meta.version = pimpl_->next_version++;
-  meta.model_id = model_id;
-  meta.built_at_us = pimpl_->GetCurrentTimestampUs();
-  meta.status_changed_at_us = meta.built_at_us;
-  meta.status = ModelStatus::kDraft;
-  meta.parent_version = parent_version;
-  meta.training_dataset_id = training_dataset_id;
-  meta.metrics_json = metrics_json;
-  meta.cost_stats_json = cost_stats_json;
-  meta.model_location = model_location;
-  meta.notes = "Model created";
+    ModelMetadata meta;
+    meta.version = pimpl_->next_version++;
+    meta.model_id = model_id;
+    meta.built_at_us = pimpl_->GetCurrentTimestampUs();
+    meta.status_changed_at_us = meta.built_at_us;
+    meta.status = ModelStatus::kDraft;
+    meta.parent_version = parent_version;
+    meta.training_dataset_id = training_dataset_id;
+    meta.metrics_json = metrics_json;
+    meta.cost_stats_json = cost_stats_json;
+    meta.model_location = model_location;
+    meta.notes = "Model created";
 
-  // Placeholder: compute checksum from model_location
-  meta.model_checksum = "checksum_" + std::to_string(meta.version);
+    // Placeholder: compute checksum from model_location
+    meta.model_checksum = "checksum_" + std::to_string(meta.version);
 
-  auto version = meta.version;
-  pimpl_->models[version] = meta;
+    version = meta.version;
+    pimpl_->models[version] = meta;
+  }
 
-  // Persist immediately
+  // Persist immediately after releasing the registry lock to avoid self-deadlock.
   Persist();
 
   return version;
@@ -156,55 +159,61 @@ uint32_t ModelRegistry::RegisterModel(const std::string& model_id,
 
 bool ModelRegistry::UpdateModelStatus(uint32_t version, ModelStatus new_status,
                                       const std::string& notes) {
-  std::lock_guard<std::mutex> lock(pimpl_->mu);
+  bool success = false;
+  {
+    std::lock_guard<std::mutex> lock(pimpl_->mu);
 
-  auto it = pimpl_->models.find(version);
-  if (it == pimpl_->models.end()) {
-    return false;
+    auto it = pimpl_->models.find(version);
+    if (it == pimpl_->models.end()) {
+      return false;
+    }
+
+    // Validate state transition
+    ModelStatus old_status = it->second.status;
+
+    // Define valid transitions:
+    // draft → validated, failed
+    // validated → candidate, failed
+    // candidate → deployed, failed
+    // deployed → retired, failed
+    // failed → any (recovery)
+    // retired → (terminal, no transitions)
+
+    bool valid_transition = false;
+    if (old_status == ModelStatus::kRetired) {
+      valid_transition = false;
+    } else if (new_status == ModelStatus::kFailed) {
+      valid_transition = true;
+    } else if (old_status == ModelStatus::kDraft &&
+               (new_status == ModelStatus::kValidated)) {
+      valid_transition = true;
+    } else if (old_status == ModelStatus::kValidated &&
+               (new_status == ModelStatus::kCandidate)) {
+      valid_transition = true;
+    } else if (old_status == ModelStatus::kCandidate &&
+               (new_status == ModelStatus::kDeployed)) {
+      valid_transition = true;
+    } else if (old_status == ModelStatus::kDeployed &&
+               (new_status == ModelStatus::kRetired)) {
+      valid_transition = true;
+    }
+
+    if (!valid_transition) {
+      return false;
+    }
+
+    it->second.status = new_status;
+    it->second.status_changed_at_us = pimpl_->GetCurrentTimestampUs();
+    it->second.notes = notes.empty() ? StatusToString(new_status) : notes;
+    success = true;
   }
 
-  // Validate state transition
-  ModelStatus old_status = it->second.status;
-
-  // Define valid transitions:
-  // draft → validated, failed
-  // validated → candidate, failed
-  // candidate → deployed, failed
-  // deployed → retired, failed
-  // failed → any (recovery)
-  // retired → (terminal, no transitions)
-
-  bool valid_transition = false;
-  if (old_status == ModelStatus::kRetired) {
-    valid_transition = false;
-  } else if (new_status == ModelStatus::kFailed) {
-    valid_transition = true;
-  } else if (old_status == ModelStatus::kDraft &&
-             (new_status == ModelStatus::kValidated)) {
-    valid_transition = true;
-  } else if (old_status == ModelStatus::kValidated &&
-             (new_status == ModelStatus::kCandidate)) {
-    valid_transition = true;
-  } else if (old_status == ModelStatus::kCandidate &&
-             (new_status == ModelStatus::kDeployed)) {
-    valid_transition = true;
-  } else if (old_status == ModelStatus::kDeployed &&
-             (new_status == ModelStatus::kRetired)) {
-    valid_transition = true;
+  // Persist immediately after releasing the registry lock to avoid recursive locking.
+  if (success) {
+    Persist();
   }
 
-  if (!valid_transition) {
-    return false;
-  }
-
-  it->second.status = new_status;
-  it->second.status_changed_at_us = pimpl_->GetCurrentTimestampUs();
-  it->second.notes = notes.empty() ? StatusToString(new_status) : notes;
-
-  // Persist immediately
-  Persist();
-
-  return true;
+  return success;
 }
 
 std::optional<ModelMetadata> ModelRegistry::GetDeployedModel() const {
