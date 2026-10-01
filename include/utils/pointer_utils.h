@@ -16,11 +16,28 @@
 #include <optional>
 #include <functional>
 #include <type_traits>
+#include <utility>
+#include <variant>
 #include <spdlog/spdlog.h>
 
 namespace themis {
 namespace utils {
 namespace pointer {
+
+namespace detail {
+
+template<typename ResultType, typename T, typename Func>
+std::optional<std::monostate> safe_invoke_impl(T* ptr, Func&& func, std::true_type) {
+    std::forward<Func>(func)(*ptr);
+    return std::optional<std::monostate>{std::monostate{}};
+}
+
+template<typename ResultType, typename T, typename Func>
+std::optional<ResultType> safe_invoke_impl(T* ptr, Func&& func, std::false_type) {
+    return std::optional<ResultType>{std::forward<Func>(func)(*ptr)};
+}
+
+} // namespace detail
 
 /**
  * @brief Validates that a pointer is non-null, throws exception if null
@@ -83,20 +100,15 @@ std::optional<T*> as_optional(T* ptr) noexcept {
  */
 template<typename T, typename Func>
 auto safe_invoke(T* ptr, Func&& func)
-    -> std::optional<std::conditional_t<std::is_void_v<decltype(func(*ptr))>, std::monostate, decltype(func(*ptr))>> {
-    using ResultType = decltype(func(*ptr));
+    -> std::optional<std::conditional_t<std::is_void_v<std::invoke_result_t<Func, T&>>, std::monostate, std::invoke_result_t<Func, T&>>> {
+    using ResultType = std::invoke_result_t<Func, T&>;
     using OptionalType = std::optional<std::conditional_t<std::is_void_v<ResultType>, std::monostate, ResultType>>;
 
     if (!ptr) {
         return std::nullopt;
     }
 
-    if constexpr (std::is_void_v<ResultType>) {
-        func(*ptr);
-        return OptionalType{std::monostate{}};
-    } else {
-        return OptionalType{func(*ptr)};
-    }
+    return detail::safe_invoke_impl<ResultType>(ptr, std::forward<Func>(func), std::is_void<ResultType>{});
 }
 
 /**
@@ -201,7 +213,15 @@ auto safe_at(const Container& container, const Key& key)
     return std::nullopt;
 }
 
-// Overload for vector/array types with operator[]
+/**
+ * @brief Performs bounds-checked read access for contiguous containers.
+ *
+ * @tparam T Element type of the container.
+ * @param vec Container that is read without modification.
+ * @param index Zero-based element index to access.
+ * @return std::optional containing a const reference wrapper when index is valid, otherwise nullopt.
+ * @note Returns nullopt for out-of-range indices instead of throwing.
+ */
 template<typename T>
 std::optional<std::reference_wrapper<const T>> safe_at(
     const std::vector<T>& vec, 
@@ -213,6 +233,15 @@ std::optional<std::reference_wrapper<const T>> safe_at(
     return std::nullopt;
 }
 
+/**
+ * @brief Performs bounds-checked mutable access for contiguous containers.
+ *
+ * @tparam T Element type of the container.
+ * @param vec Container that may be modified through the returned reference.
+ * @param index Zero-based element index to access.
+ * @return std::optional containing a mutable reference wrapper when index is valid, otherwise nullopt.
+ * @note Returns nullopt for out-of-range indices instead of throwing.
+ */
 template<typename T>
 std::optional<std::reference_wrapper<T>> safe_at(
     std::vector<T>& vec, 

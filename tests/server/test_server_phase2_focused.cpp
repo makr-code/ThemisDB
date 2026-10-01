@@ -23,12 +23,18 @@
  */
 
 #include <gtest/gtest.h>
-#include <benchmark/benchmark.h>
 #include <chrono>
 #include <thread>
 #include <vector>
 #include <atomic>
 #include <random>
+
+#if __has_include(<benchmark/benchmark.h>)
+#include <benchmark/benchmark.h>
+#define THEMIS_SERVER_PHASE2_HAS_BENCHMARK 1
+#else
+#define THEMIS_SERVER_PHASE2_HAS_BENCHMARK 0
+#endif
 
 #include "server/performance_helpers.h"
 
@@ -464,6 +470,7 @@ TEST_F(IntegrationTest, ConnectionPoolWithGuardPattern) {
 // Performance Benchmarks
 // ============================================================================
 
+#if THEMIS_SERVER_PHASE2_HAS_BENCHMARK
 class ServerPhase2Benchmark : public ::benchmark::Fixture {};
 
 /**
@@ -522,6 +529,7 @@ BENCHMARK_F(ServerPhase2Benchmark, HTTP2StreamBufferOperations)
     
     state.SetLabel("Stream buffer accumulation (100x 512-byte appends)");
 }
+#endif  // THEMIS_SERVER_PHASE2_HAS_BENCHMARK
 
 }  // namespace themis::server::perf::test
 
@@ -534,9 +542,11 @@ int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     int test_result = RUN_ALL_TESTS();
     
+#if THEMIS_SERVER_PHASE2_HAS_BENCHMARK
     // Run benchmarks
     benchmark::Initialize(&argc, argv);
     benchmark::RunSpecifiedBenchmarks();
+#endif
     
     return test_result;
 }

@@ -18,7 +18,6 @@ void IngestionLatencyMonitor::RecordIngestionTime(
     int64_t ingestion_time_us) {
   last_ingestion_times_[shard_id] = ingestion_time_us;
 
-  // Compute staleness
   auto now_us = std::chrono::duration_cast<std::chrono::microseconds>(
                     std::chrono::system_clock::now().time_since_epoch())
                     .count();
@@ -27,6 +26,11 @@ void IngestionLatencyMonitor::RecordIngestionTime(
   uint64_t staleness_ms = staleness_us / 1000;
 
   latency_samples_.push_back(staleness_ms);
+
+  const int64_t hour_bucket = now_us / (60LL * 60LL * 1000000LL);
+  const auto percentiles = GetPercentiles();
+  historical_aggregates_[hour_bucket] = percentiles;
+  last_ingestion_times_[shard_id] = ingestion_time_us;
 }
 
 IngestionLatencyMonitor::LatencyPercentiles
@@ -83,7 +87,15 @@ IngestionLatencyMonitor::GetShardStatuses() {
     int64_t delta_us = now_us - ingestion_us;
     status.current_staleness_ms =
         (delta_us > 0 ? static_cast<uint64_t>(delta_us) : 0) / 1000;
-    status.is_primary = true;  // TODO: Track primary vs secondary
+
+    const std::string lower = shard_id;
+    const auto has_primary = lower.find("primary") != std::string::npos;
+    const auto has_secondary = lower.find("secondary") != std::string::npos;
+    const auto has_replica = lower.find("replica") != std::string::npos;
+    status.is_primary = has_primary || (!has_secondary && !has_replica);
+    if (has_secondary || has_replica) {
+      status.is_primary = false;
+    }
 
     if (status.current_staleness_ms < target_us / 1000) {
       status.status = "healthy";
@@ -121,21 +133,47 @@ IngestionLatencyMonitor::GetCriticalShards() {
 }
 
 void IngestionLatencyMonitor::RotateHourlyAggregate(int64_t hour_bucket) {
-  // Archive current percentiles for this hour
   auto percentiles = GetPercentiles();
   historical_aggregates_[hour_bucket] = percentiles;
-
-  // TODO: Implement persistence to RocksDB
+  if (historical_aggregates_.size() > 168) {
+    std::map<int64_t, LatencyPercentiles> pruned;
+    for (const auto& [bucket, aggregate] : historical_aggregates_) {
+      if (bucket >= hour_bucket - 167) {
+        pruned[bucket] = aggregate;
+      }
+    }
+    historical_aggregates_.swap(pruned);
+  }
 }
 
 std::vector<IngestionLatencyMonitor::LatencyPercentiles>
 IngestionLatencyMonitor::GetTrendData(uint32_t hours) {
+  if (hours == 0) {
+    return {GetPercentiles()};
+  }
+
+  const auto now_us = std::chrono::duration_cast<std::chrono::microseconds>(
+                          std::chrono::system_clock::now().time_since_epoch())
+                          .count();
+  const int64_t current_hour = now_us / (60LL * 60LL * 1000000LL);
+  const int64_t window_start = current_hour - static_cast<int64_t>(hours) + 1;
+
   std::vector<LatencyPercentiles> trend;
+  for (const auto& [hour_bucket, aggregate] : historical_aggregates_) {
+    if (hour_bucket >= window_start && hour_bucket <= current_hour) {
+      trend.push_back(aggregate);
+    }
+  }
 
-  // TODO: Retrieve historical aggregates for last N hours
-  // For now, return current percentile only
-  trend.push_back(GetPercentiles());
-
+  if (trend.empty()) {
+    const auto latest = GetPercentiles();
+    trend.push_back(latest);
+  } else {
+    std::sort(trend.begin(), trend.end(),
+              [](const LatencyPercentiles& lhs, const LatencyPercentiles& rhs) {
+                return lhs.computed_at < rhs.computed_at;
+              });
+  }
   return trend;
 }
 

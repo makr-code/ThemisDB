@@ -3,8 +3,10 @@
 
 #include "rag/freshness_sla_enforcer.h"
 
+#include <algorithm>
 #include <chrono>
 
+#include "rag/index_refresh_scheduler.h"
 #include "rag/ingestion_latency_monitor.h"
 
 namespace themis::rag {
@@ -19,7 +21,8 @@ FreshnessSLAEnforcer::FreshnessSLAEnforcer(
       critical_multiplier_(3.0f),
       current_state_("healthy"),
       breach_start_time_us_(0),
-      fallback_active_(false) {}
+      fallback_active_(false),
+      scheduler_(std::make_shared<IndexRefreshScheduler>()) {}
 
 bool FreshnessSLAEnforcer::IsCompliant() {
   auto percentiles = monitor_->GetPercentiles();
@@ -64,20 +67,33 @@ FreshnessSLAEnforcer::ComplianceStatus FreshnessSLAEnforcer::GetComplianceStatus
 }
 
 bool FreshnessSLAEnforcer::TriggerEmergencyRefresh() {
-  // TODO: Call IndexRefreshScheduler::ScheduleEmergencyRefresh()
+  const auto percentiles = monitor_->GetPercentiles();
+  const auto now_us = std::chrono::duration_cast<std::chrono::microseconds>(
+                          std::chrono::system_clock::now().time_since_epoch())
+                          .count();
+
+  bool scheduled = false;
+  if (emergency_refresh_retries_ < max_emergency_refresh_retries_) {
+    scheduled = scheduler_->ScheduleEmergencyRefresh(sla_name_, 10);
+    ++emergency_refresh_retries_;
+  }
+
   SLAEvent event;
   event.type = SLAEvent::Type::EmergencyTriggered;
   event.sla_name = sla_name_;
-  event.p95_latency_ms = monitor_->GetPercentiles().p95_latency_ms;
+  event.p95_latency_ms = percentiles.p95_latency_ms;
   event.sla_target_ms = target_p95_ms_;
-  event.details = "Emergency refresh scheduled due to SLA breach";
-  event.timestamp_us =
-      std::chrono::duration_cast<std::chrono::microseconds>(
-          std::chrono::system_clock::now().time_since_epoch())
-          .count();
+  event.details = scheduled ? "Emergency refresh scheduled due to SLA breach"
+                            : "Emergency refresh retry budget exhausted";
+  event.timestamp_us = now_us;
 
   recent_events_.push_back(event);
-  return true;
+  if (scheduled) {
+    fallback_active_ = true;
+    current_state_ = "critical";
+    breach_start_time_us_ = event.timestamp_us;
+  }
+  return scheduled;
 }
 
 std::vector<std::string> FreshnessSLAEnforcer::GetFallbackShards() {
@@ -90,8 +106,29 @@ bool FreshnessSLAEnforcer::IsFallbackActive() {
 
 std::vector<FreshnessSLAEnforcer::SLAEvent> FreshnessSLAEnforcer::GetRecentEvents(
     uint32_t hours) {
-  // TODO: Filter events by time window (last N hours)
-  return recent_events_;
+  if (hours == 0) {
+    return {};
+  }
+
+  if (recent_events_.empty()) {
+    return {};
+  }
+
+  const auto now_us = std::chrono::duration_cast<std::chrono::microseconds>(
+                          std::chrono::system_clock::now().time_since_epoch())
+                          .count();
+  const int64_t window_us = static_cast<int64_t>(hours) * 60LL * 60LL * 1000000LL;
+
+  std::vector<SLAEvent> filtered;
+  filtered.reserve(recent_events_.size());
+  for (const auto& event : recent_events_) {
+    const int64_t delta_us = now_us - event.timestamp_us;
+    if (delta_us >= 0 && delta_us <= window_us) {
+      filtered.push_back(event);
+    }
+  }
+  std::reverse(filtered.begin(), filtered.end());
+  return filtered;
 }
 
 std::string FreshnessSLAEnforcer::GetStalenessNotice() {
@@ -137,6 +174,7 @@ bool FreshnessSLAEnforcer::UpdateCompliance() {
     if (new_state == "healthy") {
       event.type = SLAEvent::Type::Recovery;
       event.details = "SLA breach resolved";
+      emergency_refresh_retries_ = 0;
     } else if (new_state == "critical") {
       event.type = SLAEvent::Type::CriticalAlert;
       event.details = "SLA in critical state";
@@ -155,6 +193,10 @@ bool FreshnessSLAEnforcer::UpdateCompliance() {
 
     recent_events_.push_back(event);
     current_state_ = new_state;
+
+    if (new_state == "critical") {
+      TriggerEmergencyRefresh();
+    }
 
     fallback_active_ = is_critical;
     return true;

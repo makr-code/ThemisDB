@@ -11,6 +11,8 @@
 #include <string>
 #include <vector>
 
+#include "rag/index_refresh_scheduler.h"
+
 namespace themis::rag {
 
 // Forward declarations
@@ -146,6 +148,9 @@ class FreshnessSLAEnforcer {
   std::vector<SLAEvent> recent_events_;
   int64_t breach_start_time_us_;
   bool fallback_active_;
+  uint32_t max_emergency_refresh_retries_ = 3;
+  uint32_t emergency_refresh_retries_ = 0;
+  std::shared_ptr<IndexRefreshScheduler> scheduler_;
 };
 
 }  // namespace themis::rag

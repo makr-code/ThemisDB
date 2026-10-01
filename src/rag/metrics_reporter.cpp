@@ -215,12 +215,66 @@ ComparativeReport MetricsReporter::CompareModels(const std::string& metric_name,
                                                 uint32_t model_a_version,
                                                 uint32_t model_b_version,
                                                 std::chrono::system_clock::duration period) {
-  // TODO: Implement with access to model-specific metrics
-  ComparativeReport report;
-  report.metric_name = metric_name;
-  report.entity_a_name = "Model " + std::to_string(model_a_version);
-  report.entity_b_name = "Model " + std::to_string(model_b_version);
+const auto now = std::chrono::system_clock::now();
+const auto start = now - period;
+
+std::vector<TimeSeriesPoint> points_a;
+std::vector<TimeSeriesPoint> points_b;
+std::lock_guard<std::mutex> lock(pimpl_->reporter_mutex);
+for (const auto& [name, data] : pimpl_->time_series_data) {
+  if (name != metric_name) {
+    continue;
+  }
+  for (const auto& point : data) {
+    if (point.timestamp < start || point.timestamp > now) {
+      continue;
+    }
+    if (point.model_version == model_a_version) {
+      points_a.push_back(point);
+    }
+    if (point.model_version == model_b_version) {
+      points_b.push_back(point);
+    }
+  }
+}
+
+ComparativeReport report;
+report.metric_name = metric_name;
+report.entity_a_name = "Model " + std::to_string(model_a_version);
+report.entity_b_name = "Model " + std::to_string(model_b_version);
+
+if (points_a.empty() && points_b.empty()) {
   return report;
+}
+
+const auto mean = [](const std::vector<TimeSeriesPoint>& pts) {
+  double sum = 0.0;
+  for (const auto& point : pts) sum += point.value;
+  return pts.empty() ? 0.0 : sum / static_cast<double>(pts.size());
+};
+
+const auto p95 = [](const std::vector<TimeSeriesPoint>& pts) {
+  if (pts.empty()) return 0.0;
+  std::vector<double> values;
+  values.reserve(pts.size());
+  for (const auto& point : pts) values.push_back(point.value);
+  std::sort(values.begin(), values.end());
+  const size_t idx = std::min<size_t>(std::max<size_t>(
+      static_cast<size_t>(values.size() * 0.95), static_cast<size_t>(1)),
+      values.size() - 1);
+  return values[idx];
+};
+
+report.entity_a_mean = mean(points_a);
+report.entity_b_mean = mean(points_b);
+report.entity_a_p95 = p95(points_a);
+report.entity_b_p95 = p95(points_b);
+
+const double baseline = std::max(report.entity_a_mean, 1e-9);
+report.difference_pct = ((report.entity_b_mean - report.entity_a_mean) / baseline) * 100.0;
+report.is_statistically_significant = std::abs(report.difference_pct) >= 1.0;
+report.winner = (report.entity_b_mean > report.entity_a_mean) ? report.entity_b_name : report.entity_a_name;
+return report;
 }
 
 ComparativeReport MetricsReporter::ComparePeriods(
@@ -347,20 +401,21 @@ void MetricsReporter::RecordMetricPoint(const std::string& metric_name, double v
                                        std::chrono::system_clock::time_point timestamp,
                                        uint32_t model_version) {
   std::lock_guard<std::mutex> lock(pimpl_->reporter_mutex);
-  
+
   TimeSeriesPoint point;
   point.timestamp = timestamp;
   point.value = value;
-  point.std_deviation = 0.0;  // Simplified
-  
-  pimpl_->time_series_data[metric_name].push_back(point);
-  
-  // Trim old data beyond historical window
-  auto cutoff = std::chrono::system_clock::now() - std::chrono::hours(24 * pimpl_->historical_window_days);
-  while (!pimpl_->time_series_data[metric_name].empty() &&
-         pimpl_->time_series_data[metric_name].front().timestamp < cutoff) {
-    pimpl_->time_series_data[metric_name].pop_front();
-  }
+point.std_deviation = 0.0;
+point.model_version = model_version;
+
+pimpl_->time_series_data[metric_name].push_back(point);
+
+const auto cutoff = std::chrono::system_clock::now() -
+                    std::chrono::hours(24 * static_cast<int64_t>(pimpl_->historical_window_days));
+while (!pimpl_->time_series_data[metric_name].empty() &&
+       pimpl_->time_series_data[metric_name].front().timestamp < cutoff) {
+  pimpl_->time_series_data[metric_name].pop_front();
+}
 }
 
 }  // namespace themis::rag::quality

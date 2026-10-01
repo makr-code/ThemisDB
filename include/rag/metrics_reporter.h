@@ -27,6 +27,7 @@ struct TimeSeriesPoint {
   std::chrono::system_clock::time_point timestamp;
   double value = 0.0;
   double std_deviation = 0.0;  ///< Uncertainty/confidence
+  uint32_t model_version = 0;   ///< Optional model/version label for comparisons
 };
 
 /**
