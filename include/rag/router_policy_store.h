@@ -15,13 +15,13 @@
 
 namespace themis::rag {
 
-/// @brief Persistent, versioned routing policy store backed by in-memory storage.
+/// @brief Persistent, versioned routing policy store.
 ///
 /// Stores adaptive routing policies (weight allocations) per intent with
-/// version management, history tracking, and rollback capability.
-/// 
-/// NOTE: This is a placeholder implementation using in-memory storage.
-/// Production version would use RocksDB for persistence and atomic updates.
+/// version management, durable history tracking, rollback capability, and
+/// query-level metrics aggregation. The store persists policy/version metadata
+/// and aggregate health telemetry in RocksDB so routing decisions remain
+/// recoverable across process restarts.
 class RouterPolicyStore {
  public:
   /// @brief Routing policy specification.
@@ -58,26 +58,29 @@ class RouterPolicyStore {
   };
 
   /// @brief Constructor.
-  /// 
-  /// @param db_path Path to RocksDB directory.
-  /// @throws std::runtime_error if DB open fails.
+  ///
+  /// @param db_path Path to RocksDB directory. If empty, the store remains
+  ///        non-persistent and only keeps in-memory state for the current
+  ///        process lifetime.
+  /// @throws std::runtime_error if a non-empty database path cannot be opened.
   explicit RouterPolicyStore(const std::string& db_path);
 
-  /// @brief Destructor (closes RocksDB).
+  /// @brief Destructor flushes any buffered state before closing RocksDB.
   ~RouterPolicyStore();
 
-  /// @brief Get current active policy for intent.
+  /// @brief Get the currently active policy for an intent.
   ///
   /// @param intent Intent category.
-  /// @return Current PolicySpec if exists, std::nullopt if not.
+  /// @return Current PolicySpec if one is active; otherwise the default policy for
+  ///         the intent is returned when no persisted policy exists.
   std::optional<PolicySpec> GetCurrentPolicy(
       QueryIntentClassifier::Intent intent);
 
-  /// @brief Get specific policy version.
+  /// @brief Get a specific policy version.
   ///
   /// @param intent Intent category.
-  /// @param version Policy version number.
-  /// @return PolicySpec or std::nullopt if version doesn't exist.
+  /// @param version Policy version number to recover.
+  /// @return PolicySpec or std::nullopt if the version is not present.
   std::optional<PolicySpec> GetPolicyByVersion(
       QueryIntentClassifier::Intent intent,
       uint32_t version);
@@ -107,19 +110,17 @@ class RouterPolicyStore {
   bool RollbackPolicy(QueryIntentClassifier::Intent intent,
                      uint32_t target_version);
 
-  /// @brief Record metrics for evaluation feedback loop.
+  /// @brief Record a query-level routing metric for a decision.
   ///
-  /// @param decision_id Unique routing decision ID (for correlation).
+  /// @param decision_id Unique routing decision ID used to correlate the record.
   /// @param intent Intent that was routed.
-  /// @param ndcg_at_10 Observed nDCG@10.
+  /// @param ndcg_at_10 Observed nDCG@10 for the decision.
   /// @param latency_ms Query latency in milliseconds.
   /// @param cost_usd Query cost in USD.
-  /// @return true if recorded, false on write error.
-  ///
-  /// @details
-  /// - Metrics stored in "metrics:{intent}:{version}:aggregated"
-  /// - Aggregated hourly by (intent, active_policy_version)
-  /// - Used by offline feedback loop to detect improvements
+  /// @return true when the point-in-time metric and aggregate update were both
+  ///         durably written; false on write failure or invalid inputs.
+  /// @note A persistent decision record is written under the intent-specific
+  ///       metrics namespace, and the active policy aggregate is updated in place.
   bool RecordMetrics(
       const std::string& decision_id,
       QueryIntentClassifier::Intent intent,
@@ -127,20 +128,24 @@ class RouterPolicyStore {
       float latency_ms,
       float cost_usd);
 
-  /// @brief Get aggregated metrics for policy.
+  /// @brief Get aggregated metrics for a policy and intent.
   ///
   /// @param intent Intent category.
-  /// @param since_time Window start (optional).
-  /// @return MetricsSnapshot or std::nullopt if no metrics yet.
+  /// @param since_time Optional minimum time cutoff used to restrict the recent
+  ///        history window.
+  /// @return MetricsSnapshot or std::nullopt if no metrics are present for the
+  ///         requested window.
   std::optional<MetricsSnapshot> GetMetrics(
       QueryIntentClassifier::Intent intent,
       const std::optional<std::chrono::system_clock::time_point>& since_time = 
           std::nullopt);
 
-  /// @brief Get full version history for intent.
+  /// @brief Get full version history for an intent.
   ///
   /// @param intent Intent category.
-  /// @return Vector of HistoryEntry sorted by timestamp (oldest first).
+  /// @return Vector of HistoryEntry sorted by timestamp (oldest first). Each
+  ///         entry includes the decision label, metrics delta, and rollback reason
+  ///         persisted in RocksDB.
   std::vector<HistoryEntry> GetHistory(
       QueryIntentClassifier::Intent intent);
 
@@ -149,10 +154,17 @@ class RouterPolicyStore {
   /// @return Map of intent → current PolicySpec.
   std::map<QueryIntentClassifier::Intent, PolicySpec> GetAllPolicies();
 
-  /// @brief Health check: verify DB connectivity.
+ /// @brief Restore persisted state from RocksDB.
   ///
-  /// @return true if DB is accessible.
-  bool IsHealthy() const;
+ /// @return true when the store could reopen successfully or when no persisted
+ ///         state exists. The state is rehydrated from the on-disk keys used to
+ ///         store active policy versions, policy history, and metrics aggregates.
+ bool Load();
+
+ /// @brief Health check: verify DB connectivity.
+ ///
+ /// @return true if DB is accessible.
+ bool IsHealthy() const;
 
  private:
   void* db_;  // Opaque pointer to RocksDB handle (to avoid rocksdb dependency in header)
