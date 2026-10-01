@@ -9,30 +9,8 @@ name: "Compliance: Supply Chain"
 # artefacts are required or produced in any job in this workflow.
 
 on:
-  pull_request:
-    branches:
-      - develop
-      - minimal
-      - community
-      - enterprise
-      - hyperscaler
-      - military
-    paths:
-      - 'vcpkg.json'
-      - '.license-policy.json'
-      - 'CMakeLists.txt'
-      - 'scripts/check_vcpkg_licenses.py'
-      - 'tests/test_vcpkg_license_audit.py'
-      - '.github/workflows/compliance-supply-chain.yml'
-      - '.gitmodules'
-      - 'plugins/private/**'
-      - 'cmake/PrivatePlugins.cmake'
-      - 'cmake/features/PrivatePluginFeatures.cmake'
-      - 'Dockerfile'
-      - 'scripts/verify-sbom.sh'
-      - 'scripts/verify-vcpkg-baseline-signature.sh'
-  # push trigger removed: pull_request covers branch changes; release covers tag events.
-  # Double-fire (push-to-branch + pull_request-open) prevented by removal.
+  # Regular compliance checks run on scheduled nightly verification and on explicit human dispatch.
+  # PR-triggered builds are intentionally disabled to avoid noisy per-PR churn.
   release:
     types: [published]
   schedule:

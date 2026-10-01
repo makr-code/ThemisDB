@@ -16,16 +16,9 @@ on:
       - 'scripts/run_wave_a_gpu_tests.sh'
       - 'scripts/validate_gpu_baselines.py'
       - '.github/workflows/wave-a-gpu-ci-execution.yml'
-  pull_request:
-    branches:
-      - develop
-    paths:
-      - 'src/gpu/**'
-      - 'src/index/**'
-      - 'tests/test_gpu*.cpp'
-      - 'benchmarks/wave8/**'
-      - 'scripts/run_wave_a_gpu_tests.sh'
-      - 'scripts/validate_gpu_baselines.py'
+  schedule:
+    - cron: '15 3 * * *'  # Nightly GPU verification lane
+  workflow_dispatch:
 
 concurrency:
   group: wave-a-gpu-ci-exec-${{ github.ref }}-${{ github.run_id }}

@@ -188,6 +188,13 @@ struct BatchValidator {
                 "numPoints must be > 0"));
             return false;
         }
+        if (numPolygonVertices < 3) {
+            onError(ErrorContextHelpers::createValidationError(
+                backendName,
+                AccelerationErrorCode::InvalidInputShape,
+                "polygon must contain at least 3 vertices"));
+            return false;
+        }
         for (size_t i = 0; i < numPoints; ++i) {
             const bool latOk = std::isfinite(pointLats[i]) && pointLats[i] >= kMinLatitude && pointLats[i] <= kMaxLatitude;
             const bool lonOk = std::isfinite(pointLons[i]) && pointLons[i] >= kMinLongitude && pointLons[i] <= kMaxLongitude;

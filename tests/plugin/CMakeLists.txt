@@ -4,9 +4,16 @@ file(GLOB PLUGIN_MODULE_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
-if(NOT TARGET themis_plugin_runtime_test_plugin AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/runtime_test_plugin.cpp")
+set(_themis_runtime_test_plugin_source "")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/runtime_test_plugin.cpp")
+    set(_themis_runtime_test_plugin_source "${CMAKE_CURRENT_SOURCE_DIR}/runtime_test_plugin.cpp")
+elseif(EXISTS "${THEMIS_ROOT_DIR}/tests/legacy/plugin/runtime_test_plugin.cpp")
+    set(_themis_runtime_test_plugin_source "${THEMIS_ROOT_DIR}/tests/legacy/plugin/runtime_test_plugin.cpp")
+endif()
+
+if(NOT TARGET themis_plugin_runtime_test_plugin AND _themis_runtime_test_plugin_source)
     add_library(themis_plugin_runtime_test_plugin SHARED
-        "${CMAKE_CURRENT_SOURCE_DIR}/runtime_test_plugin.cpp"
+        "${_themis_runtime_test_plugin_source}"
     )
     target_include_directories(themis_plugin_runtime_test_plugin PRIVATE
         ${THEMIS_ROOT_DIR}/include

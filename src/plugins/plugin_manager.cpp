@@ -1155,6 +1155,7 @@ Result<IThemisPlugin*> PluginManager::loadPluginFromPath(
     entry.loaded = true;
     entry.file_hash = calculateFileHash(path);
     entry.frozen_capabilities = plugin->getCapabilities();
+    entry.state = PluginLifecycleState::LOADED;
     
     // Store
     plugins_[entry.name] = std::move(entry);
