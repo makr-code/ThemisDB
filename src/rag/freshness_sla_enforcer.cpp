@@ -85,6 +85,7 @@ bool FreshnessSLAEnforcer::TriggerEmergencyRefresh() {
   if (scheduled) {
     fallback_active_ = true;
     current_state_ = "critical";
+    breach_start_time_us_ = event.timestamp_us;
   }
   return scheduled;
 }

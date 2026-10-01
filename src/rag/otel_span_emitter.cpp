@@ -169,11 +169,15 @@ bool OTELSpanEmitter::ExportSpans() {
   export_payload += otlp_endpoint_;
   export_payload += R"(","baggage":";
   export_payload += baggage_;
-  export_payload += R"(","spans":[";
+  export_payload += R"(","span_count":);
+  export_payload += std::to_string(pending_span_buffer_.size());
+  export_payload += R"(,"spans":[";
 
   for (size_t i = 0; i < pending_span_buffer_.size(); ++i) {
     const auto& span = pending_span_buffer_[i];
-    if (i > 0) export_payload += ",";
+    if (i > 0) {
+      export_payload += ",";
+    }
     export_payload += R"({"name":";
     export_payload += span.span_name;
     export_payload += R"(","trace_id":";
@@ -186,38 +190,69 @@ bool OTELSpanEmitter::ExportSpans() {
     export_payload += std::to_string(span.start_time_us);
     export_payload += R"(,"end_time_us":);
     export_payload += std::to_string(span.end_time_us);
-    export_payload += R"(,"attrs":{";
+    export_payload += R"(,"attrs":{);
 
     bool first_attr = true;
-    for (const auto& [key, value] : span.string_attributes) {
-      if (!first_attr) export_payload += ",";
+    const auto emit_attr = [&export_payload, &first_attr](const std::string& key,
+                                                       const std::string& value) {
+      if (!first_attr) {
+        export_payload += ",";
+      }
       first_attr = false;
-      export_payload += "\"" + key + "\":\"" + value + "\"";
+      export_payload += "\"";
+      export_payload += key;
+      export_payload += "\":\"";
+      export_payload += value;
+      export_payload += "\"";
+    };
+    const auto emit_numeric_attr = [&export_payload, &first_attr](
+        const std::string& key, uint64_t value) {
+      if (!first_attr) {
+        export_payload += ",";
+      }
+      first_attr = false;
+      export_payload += "\"";
+      export_payload += key;
+      export_payload += "\":";
+      export_payload += std::to_string(value);
+    };
+    const auto emit_bool_attr = [&export_payload, &first_attr](
+        const std::string& key, bool value) {
+      if (!first_attr) {
+        export_payload += ",";
+      }
+      first_attr = false;
+      export_payload += "\"";
+      export_payload += key;
+      export_payload += "\":";
+      export_payload += value ? "true" : "false";
+    };
+
+    for (const auto& [key, value] : span.string_attributes) {
+      emit_attr(key, value);
     }
     for (const auto& [key, value] : span.numeric_attributes) {
-      if (!first_attr) export_payload += ",";
-      first_attr = false;
-      export_payload += "\"" + key + "\":" + std::to_string(value);
+      emit_numeric_attr(key, value);
     }
     for (const auto& [key, value] : span.bool_attributes) {
-      if (!first_attr) export_payload += ",";
-      first_attr = false;
-      export_payload += "\"" + key + "\":" + (value ? "true" : "false");
+      emit_bool_attr(key, value);
     }
     export_payload += "}}";
   }
 
   export_payload += "]}";
 
-  const bool valid_payload = export_payload.find("\"spans\":[") != std::string::npos &&
-                             export_payload.find("\"service\"") != std::string::npos;
+  const bool valid_payload = !export_payload.empty() &&
+                             export_payload.find("\"spans\"") != std::string::npos &&
+                             export_payload.find("\"service\"") != std::string::npos &&
+                             export_payload.find("\"span_count\"") != std::string::npos;
   if (!valid_payload) {
     dropped_spans_ += pending_span_buffer_.size();
     pending_span_buffer_.clear();
     return false;
   }
 
-  size_t num_spans = pending_span_buffer_.size();
+  const size_t num_spans = pending_span_buffer_.size();
   emitted_spans_ += num_spans;
   pending_span_buffer_.clear();
   otel_exporter_ = reinterpret_cast<void*>(0x1);
