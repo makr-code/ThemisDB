@@ -5,6 +5,7 @@
 
 #include <chrono>
 
+#include "rag/index_refresh_scheduler.h"
 #include "rag/ingestion_latency_monitor.h"
 
 namespace themis::rag {
@@ -19,7 +20,8 @@ FreshnessSLAEnforcer::FreshnessSLAEnforcer(
       critical_multiplier_(3.0f),
       current_state_("healthy"),
       breach_start_time_us_(0),
-      fallback_active_(false) {}
+      fallback_active_(false),
+      scheduler_(std::make_shared<IndexRefreshScheduler>()) {}
 
 bool FreshnessSLAEnforcer::IsCompliant() {
   auto percentiles = monitor_->GetPercentiles();
@@ -64,20 +66,27 @@ FreshnessSLAEnforcer::ComplianceStatus FreshnessSLAEnforcer::GetComplianceStatus
 }
 
 bool FreshnessSLAEnforcer::TriggerEmergencyRefresh() {
-  // TODO: Call IndexRefreshScheduler::ScheduleEmergencyRefresh()
+  const auto percentiles = monitor_->GetPercentiles();
+  const auto scheduled = scheduler_->ScheduleEmergencyRefresh(sla_name_, 10);
+
   SLAEvent event;
   event.type = SLAEvent::Type::EmergencyTriggered;
   event.sla_name = sla_name_;
-  event.p95_latency_ms = monitor_->GetPercentiles().p95_latency_ms;
+  event.p95_latency_ms = percentiles.p95_latency_ms;
   event.sla_target_ms = target_p95_ms_;
-  event.details = "Emergency refresh scheduled due to SLA breach";
+  event.details = scheduled ? "Emergency refresh scheduled due to SLA breach"
+                            : "Emergency refresh requested but scheduler rejected the job";
   event.timestamp_us =
       std::chrono::duration_cast<std::chrono::microseconds>(
           std::chrono::system_clock::now().time_since_epoch())
           .count();
 
   recent_events_.push_back(event);
-  return true;
+  if (scheduled) {
+    fallback_active_ = true;
+    current_state_ = "critical";
+  }
+  return scheduled;
 }
 
 std::vector<std::string> FreshnessSLAEnforcer::GetFallbackShards() {
@@ -90,8 +99,24 @@ bool FreshnessSLAEnforcer::IsFallbackActive() {
 
 std::vector<FreshnessSLAEnforcer::SLAEvent> FreshnessSLAEnforcer::GetRecentEvents(
     uint32_t hours) {
-  // TODO: Filter events by time window (last N hours)
-  return recent_events_;
+  if (recent_events_.empty() || hours == 0) {
+    return {};
+  }
+
+  const auto now_us = std::chrono::duration_cast<std::chrono::microseconds>(
+                          std::chrono::system_clock::now().time_since_epoch())
+                          .count();
+  const int64_t window_us = static_cast<int64_t>(hours) * 60LL * 60LL * 1000000LL;
+
+  std::vector<SLAEvent> filtered;
+  filtered.reserve(recent_events_.size());
+  for (auto it = recent_events_.rbegin(); it != recent_events_.rend(); ++it) {
+    const auto delta_us = now_us - it->timestamp_us;
+    if (delta_us >= 0 && delta_us <= window_us) {
+      filtered.push_back(*it);
+    }
+  }
+  return filtered;
 }
 
 std::string FreshnessSLAEnforcer::GetStalenessNotice() {

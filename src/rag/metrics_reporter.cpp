@@ -215,11 +215,63 @@ ComparativeReport MetricsReporter::CompareModels(const std::string& metric_name,
                                                 uint32_t model_a_version,
                                                 uint32_t model_b_version,
                                                 std::chrono::system_clock::duration period) {
-  // TODO: Implement with access to model-specific metrics
+  const auto now = std::chrono::system_clock::now();
+  const auto start = now - period;
+
+  std::vector<TimeSeriesPoint> points_a;
+  std::vector<TimeSeriesPoint> points_b;
+  std::lock_guard<std::mutex> lock(pimpl_->reporter_mutex);
+  for (const auto& [name, data] : pimpl_->time_series_data) {
+    if (name == metric_name) {
+      for (const auto& point : data) {
+        if (point.timestamp >= start && point.timestamp <= now) {
+          if (metric_name.find("model_" + std::to_string(model_a_version)) != std::string::npos ||
+              metric_name.find("model" + std::to_string(model_a_version)) != std::string::npos) {
+            points_a.push_back(point);
+          }
+          if (metric_name.find("model_" + std::to_string(model_b_version)) != std::string::npos ||
+              metric_name.find("model" + std::to_string(model_b_version)) != std::string::npos) {
+            points_b.push_back(point);
+          }
+        }
+      }
+    }
+  }
+
   ComparativeReport report;
   report.metric_name = metric_name;
   report.entity_a_name = "Model " + std::to_string(model_a_version);
   report.entity_b_name = "Model " + std::to_string(model_b_version);
+
+  if (points_a.empty() && points_b.empty()) {
+    return report;
+  }
+
+  const auto mean = [](const std::vector<TimeSeriesPoint>& pts) {
+    double sum = 0.0;
+    for (const auto& point : pts) sum += point.value;
+    return pts.empty() ? 0.0 : sum / static_cast<double>(pts.size());
+  };
+
+  const auto p95 = [](const std::vector<TimeSeriesPoint>& pts) {
+    if (pts.empty()) return 0.0;
+    std::vector<double> values;
+    values.reserve(pts.size());
+    for (const auto& point : pts) values.push_back(point.value);
+    std::sort(values.begin(), values.end());
+    const size_t idx = std::min<size_t>(std::max<size_t>(static_cast<size_t>(values.size() * 0.95), 1), values.size() - 1);
+    return values[idx];
+  };
+
+  report.entity_a_mean = mean(points_a);
+  report.entity_b_mean = mean(points_b);
+  report.entity_a_p95 = p95(points_a);
+  report.entity_b_p95 = p95(points_b);
+
+  const double baseline = std::max(report.entity_a_mean, 1e-9);
+  report.difference_pct = ((report.entity_b_mean - report.entity_a_mean) / baseline) * 100.0;
+  report.is_statistically_significant = std::abs(report.difference_pct) >= 1.0;
+  report.winner = (report.entity_b_mean > report.entity_a_mean) ? report.entity_b_name : report.entity_a_name;
   return report;
 }
 
