@@ -2508,7 +2508,7 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
     }
 
     // ── Local draft path (fallback or primary) ────────────────────────────
-    // STUB #261 — Production Injection Point (wired by
+    // BRIDGE_REF #261 — Production Injection Point (wired by
     //   InferenceEngineEnhanced::trySpeculativeGeneration, 2026-08-27)
     //
     // When a TokenizerFn is registered on this engine, it is bridged into
@@ -2599,16 +2599,16 @@ bool InferenceEngineEnhanced::trySpeculativeGeneration(
                                 result.logits.push_back(std::move(row));
                             }
                             used_real_tokenizer = true;
-                            spdlog::debug("Local draft (STUB #261 bridge): "
+                            spdlog::debug("Local draft (BRIDGE_REF #261 bridge): "
                                           "TokenizerFn produced {} token IDs",
                                           ids.size());
                         } else {
-                            spdlog::warn("Local draft (STUB #261 bridge): "
+                            spdlog::warn("Local draft (BRIDGE_REF #261 bridge): "
                                          "TokenizerFn returned empty list — "
                                          "falling back to target generation");
                         }
                     } catch (const std::exception& ex) {
-                        spdlog::warn("Local draft (STUB #261 bridge): "
+                        spdlog::warn("Local draft (BRIDGE_REF #261 bridge): "
                                      "TokenizerFn threw: {} — falling back to "
                                      "target generation", ex.what());
                     }

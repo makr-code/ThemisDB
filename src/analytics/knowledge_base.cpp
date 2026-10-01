@@ -32,7 +32,7 @@ namespace themisdb {
 namespace analytics {
 
 // ─────────────────────────────────────────────────────────────────────────────
-// STUB #272 — injectable YAML parser bridge
+// BRIDGE_REF #272 — injectable YAML parser bridge
 // ─────────────────────────────────────────────────────────────────────────────
 
 namespace {

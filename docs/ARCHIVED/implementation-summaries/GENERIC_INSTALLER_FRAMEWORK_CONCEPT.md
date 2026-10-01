@@ -1,5 +1,7 @@
 # Generic Install/Uninstall/Update Framework (GIUF)
 
+> Archived migration note: the canonical GIUF implementation now lives in the `external/GIUF` submodule (`makr-code/GIUF`). The ThemisDB repository must not maintain a second in-tree source copy or runtime integration layer for GIUF. This file remains only as historical design context and migration evidence.
+
 ## Ziel
 
 Ein eigenstaendiges, generisches Framework fuer Installation, Deinstallation und Updates von Desktop-Anwendungen auf Windows, Linux und macOS.

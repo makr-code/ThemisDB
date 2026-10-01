@@ -211,7 +211,7 @@ TensorButterflyOperator::FourierTransformFn& fourierTransformFnStorage() {
     return fn;
 }
 
-// STUB #268 — RADON bridge storage
+// BRIDGE_REF #268 — RADON bridge storage
 /**
  * @brief Radon Transform Fn Mutex.
  * @return Return value.
@@ -228,7 +228,7 @@ TensorButterflyOperator::RadonTransformFn& radonTransformFnStorage() {
     return fn;
 }
 
-// STUB #268 — GREENS_FUNCTION bridge storage
+// BRIDGE_REF #268 — GREENS_FUNCTION bridge storage
 /**
  * @brief Greens Transform Fn Mutex.
  * @return Return value.
@@ -265,7 +265,7 @@ void TensorButterflyOperator::clearFourierTransformFn() {
     fourierTransformFnStorage() = {};
 }
 
-// STUB #268 — RADON bridge
+// BRIDGE_REF #268 — RADON bridge
 /**
  * @brief static
  * @param[in] fn Input parameter.
@@ -285,7 +285,7 @@ void TensorButterflyOperator::clearRadonTransformFn() {
     radonTransformFnStorage() = {};
 }
 
-// STUB #268 — GREENS_FUNCTION bridge
+// BRIDGE_REF #268 — GREENS_FUNCTION bridge
 /**
  * @brief static
  * @param[in] fn Input parameter.
@@ -403,7 +403,7 @@ TensorButterflyOperator::build(OperatorType                      type,
 storage::TTTrain
 TensorButterflyOperator::apply(const storage::TTTrain& data) const {
     // For RADON/GREENS_FUNCTION, delegate to the injected per-fiber backend
-    // (STUB #268): if no fn was set, build() already prevented construction
+    // (BRIDGE_REF #268): if no fn was set, build() already prevented construction
     // of the operator, so we only reach here when a fn is available.
     //
     // `result` is an intentional value-copy of `data` (mutated in-place).
@@ -572,7 +572,7 @@ TensorButterflyOperator::apply(const storage::TTTrain& data) const {
                     fiber[i] = core.data[al * n_k * r_right + i * r_right + ar];
                 }
 
-                // Apply injected FOURIER backend when available (STUB #267),
+                // Apply injected FOURIER backend when available (BRIDGE_REF #267),
                 // otherwise use the built-in WHT proxy.
                 FourierTransformFn fn_copy;
                 {

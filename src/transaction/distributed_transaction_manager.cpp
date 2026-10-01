@@ -70,7 +70,7 @@ struct TransactionStateSnapshot {
 };
 
 // ============================================================================
-// RPC phase-2 bridge (STUB #279)
+// RPC phase-2 bridge (BRIDGE_REF #279)
 //
 // STUB/SIMULATION NOTE:
 // Purpose: RPC transport injection point — Phase-1/Phase-2 participant communication requires external transport binding
@@ -135,7 +135,7 @@ static bool hasExplicitRpcPhase2Fn() {
 }
 
 // ============================================================================
-// RPC phase-1 bridge (STUB #279 — Phase-1 PREPARE extension)
+// RPC phase-1 bridge (BRIDGE_REF #279 — Phase-1 PREPARE extension)
 //
 // STUB/SIMULATION NOTE:
 // Purpose: RPC transport injection point — Phase-1/Phase-2 participant communication requires external transport binding

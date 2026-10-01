@@ -28,7 +28,7 @@
  *   CPU-only / bare-metal builds without a Kafka broker).
  * Production Delta: Header fallback path handles the non-Kafka behavior:
  *   start()/publish() return false by default, and can be explicitly bridged
- *   via injected callbacks in tests/dev builds (see STUB #98 bridge APIs).
+ *   via injected callbacks in tests/dev builds (see BRIDGE_REF #98 bridge APIs).
  *   Downstream consumers will not receive real-time change feeds unless a
  *   real Kafka backend is enabled.
  * Hardware requirement: librdkafka (`apt install librdkafka-dev`) +

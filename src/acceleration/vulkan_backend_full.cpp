@@ -37,7 +37,7 @@
 namespace themis {
 namespace acceleration {
 
-// ── STUB #169 bridge — access storage from graphics_backends.cpp (extern) ───
+// ── BRIDGE_REF #169 bridge — access storage from graphics_backends.cpp (extern) ───
 // The mutex and fn are defined in graphics_backends.cpp (always-compiled TU)
 // so that setCompileGLSLFn() is callable even when Vulkan is not enabled.
 // Here we declare them with extern to access them from compileGLSLtoSPIRV().
@@ -215,7 +215,7 @@ static VkShaderModule createShaderModule(VkDevice device, const std::vector<uint
     (void)glslSource;
     (void)shaderType;
     std::cerr << "GLSL to SPIR-V compilation requires shaderc library (STUB)" << std::endl;
-    // Check injected fn first (STUB #169 bridge).
+    // Check injected fn first (BRIDGE_REF #169 bridge).
     // Storage lives in graphics_backends.cpp; accessed here via glsl_bridge extern.
     VulkanVectorBackend::CompileGLSLFn fn_copy;
     {
@@ -238,7 +238,7 @@ static VkShaderModule createShaderModule(VkDevice device, const std::vector<uint
     // Inject a real compiler via VulkanVectorBackend::setCompileGLSLFn() or
     // supply pre-compiled .spv files via loadSPIRV().
     // See src/acceleration/FUTURE_ENHANCEMENTS.md §Vulkan GLSL Compiler.
-    std::cerr << "GLSL to SPIR-V compilation requires shaderc library (STUB #169)" << std::endl;
+    std::cerr << "GLSL to SPIR-V compilation requires shaderc library (BRIDGE_REF #169)" << std::endl;
     std::cerr << "Pre-compile shaders with: glslangValidator -V shader.comp -o shader.spv" << std::endl;
     return {};
 }

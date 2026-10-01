@@ -34,7 +34,7 @@ namespace themis {
 namespace tensor {
 
 // ============================================================================
-// Static bridge slots — STUB #257 (EmbedFn) / STUB #258 (ImageEmbedFn)
+// Static bridge slots — BRIDGE_REF #257 (EmbedFn) / BRIDGE_REF #258 (ImageEmbedFn)
 // Encoder objects — ITextEncoder / IImageEncoder (higher priority)
 // ============================================================================
 

@@ -46,41 +46,41 @@
  *  - Shared aggregation computation logic via anonymous namespace helpers
  *  - Session expiry via background thread (SessionWindow only)
  *
- * Open TODOs (tracked here per code-review requirements; see also
+ * Resolved follow-ups (kept for traceability; see also
  * src/analytics/FUTURE_ENHANCEMENTS.md §13):
  *
- * TODO(v1.8.0) #1: RESOLVED — idle_timeout background thread added to
+ * RESOLVED(v1.8.0) #1 — idle_timeout background thread added to
  *   TumblingWindow and SlidingWindow (idleTimeoutLoop). When no events arrive
  *   for idle_timeout duration, the watermark is advanced to now –
  *   max_out_of_orderness and expired windows are closed and emitted.
  *
- * TODO(v1.8.0) #2: RESOLVED — partition_key stored in InternalWindow for both
+ * RESOLVED(v1.8.0) #2 — partition_key stored in InternalWindow for both
  *   TumblingWindow and SlidingWindow; propagated to WindowResult::partition_key
  *   in computeResult().  ensureWindowsExist() updated to accept partition_key.
  *
- * TODO(v1.8.0) #3: RESOLVED — SessionWindow::expiryLoop now passes
+ * RESOLVED(v1.8.0) #3 — SessionWindow::expiryLoop now passes
  *   s.has_late_records to computeResult() so timer-driven session closures
  *   correctly set is_late_firing on the emitted result.
  *
- * TODO(v1.8.0) #4: RESOLVED — StreamingWindowPipeline::Config gains
+ * RESOLVED(v1.8.0) #4 — StreamingWindowPipeline::Config gains
  *   session_expiry_interval_ms; the session() factory accepts an optional
  *   expiry_interval_ms parameter and the build() SESSION case forwards it to
  *   SessionWindowConfig::session_expiry_check_interval_ms.
  *
- * TODO(v1.8.0) #5: RESOLVED — O(N) duplicate-detection loop in
+ * RESOLVED(v1.8.0) #5 — O(N) duplicate-detection loop in
  *   SlidingWindow::ensureWindowsExist and HoppingWindow::ensureWindowsExist
  *   replaced with an unordered_set<int64_t> (window_start_set_) for O(1)
  *   lookup.  Set is kept in sync on window creation and pruning.
  *
- * TODO(v1.8.0) #6: RESOLVED — calcPercentile() now accepts a const reference;
+ * RESOLVED(v1.8.0) #6 — calcPercentile() now accepts a const reference;
  *   the O(N) copy-per-call-site is eliminated. The single scratch copy occurs
  *   inside themis::analytics::detail::computePercentile (stats.h).
  *
- * TODO(v1.8.0) #7: RESOLVED — SessionWindow::computeResult() now accepts a
+ * RESOLVED(v1.8.0) #7 — SessionWindow::computeResult() now accepts a
  *   bool late parameter and sets r.is_late_firing accordingly.  ingest() and
  *   flush() pass s.has_late_records; expiryLoop() does the same.
  *
- * TODO(v1.8.0) #8: RESOLVED — The double-close guard is already present via
+ * RESOLVED(v1.8.0) #8 — The double-close guard is already present via
  *   the !w.closed check inside closeExpiredWindows(); flush() delegates to
  *   closeExpiredWindows(INT64_MAX) which respects the flag, so no duplicate
  *   results are emitted on shutdown.

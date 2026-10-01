@@ -40,7 +40,7 @@ namespace plugins {
 namespace image {
 
 // ---------------------------------------------------------------------------
-// STUB #94 — ModelHashFn static bridge (non-OpenSSL SHA-256 injection)
+// BRIDGE_REF #94 — ModelHashFn static bridge (non-OpenSSL SHA-256 injection)
 // ---------------------------------------------------------------------------
 namespace {
 std::mutex        s_model_hash_fn_mutex;

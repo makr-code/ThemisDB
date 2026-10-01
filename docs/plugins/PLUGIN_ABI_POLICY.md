@@ -1,8 +1,13 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-08-10
+Last Updated: 2026-08-10
+Status: stable
+---
+
 # ThemisDB Plugin ABI Policy
 
 **Version:** 0.1.0 (Wave-1 Freeze)
-**Last Updated:** 2026-08-10
-**Status:** Frozen — backward-incompatible changes require a version bump and deprecation notice
 
 ---
 
@@ -129,7 +134,7 @@ git commit -m "chore: pin themisdb_ethic_ai submodule to $SHA"
 | `plugins/themisdb_llm_wiki` | ⚠️ Pending — repo provisioned, pin not yet set |
 | `plugins/themisdb_storage` | ⚠️ Pending — repo provisioned, pin not yet set |
 | `plugins/themisdb_importer` | ⚠️ Pending — repo provisioned, pin not yet set |
-| `plugins/themisdb_plugin_signer` | ⚠️ Pending — repo provisioned, pin not yet set |
+| `plugins/themisdb_plugin_signer` | ✅ Pinned — authoritative signer repo is external and the submodule commit is fixed |
 | `plugins/themisdb_geo` | ⚠️ Pending — repo provisioned, pin not yet set |
 | `plugins/themisdb_timeseries` | ⚠️ Pending — repo provisioned, pin not yet set |
 

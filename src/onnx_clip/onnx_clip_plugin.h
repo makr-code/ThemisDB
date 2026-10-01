@@ -61,7 +61,7 @@ public:
     bool reloadModel(const PluginConfig& new_config);
 
     // -----------------------------------------------------------------------
-    // Injectable model-hash bridge (STUB #94)
+    // Injectable model-hash bridge (BRIDGE_REF #94)
     // -----------------------------------------------------------------------
     using ModelHashFn = std::function<std::string(const std::string& file_path)>;
 

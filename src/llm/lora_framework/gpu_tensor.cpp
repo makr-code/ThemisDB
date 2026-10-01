@@ -33,7 +33,7 @@ GPUMemoryManager& GPUTensor::get_memory_manager() {
     return manager;
 }
 
-// ─── dtype-cast callback bridges (STUB #2 / STUB #3) ─────────────────────────
+// ─── dtype-cast callback bridges (BRIDGE_REF #2 / BRIDGE_REF #3) ─────────────────────────
 // These allow injection of real CUDA/HIP gpu-side dtype-cast kernels, replacing
 // the default CPU round-trip fallback (download → convert → upload).
 

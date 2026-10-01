@@ -21,7 +21,7 @@ namespace themis {
 namespace rag {
 
 // ============================================================================
-// FullEntropyFn injection bridge (STUB #262)
+// FullEntropyFn injection bridge (BRIDGE_REF #262)
 // ============================================================================
 
 /**

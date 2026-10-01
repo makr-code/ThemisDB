@@ -66,6 +66,26 @@ Compiled plugin implementations are being consolidated into the canonical source
 - The compatibility shims remain in-tree for community-facing fallback behavior and onboarding; they must be treated as integration-only entry points, never as the authoritative enterprise implementation.
 - Any future change to the private ethics AI repo should be validated against the submodule pin and the public/community fail-closed defaults before release.
 
+## Importer Migration Status
+
+**Authoritative source of truth:** `plugins/themisdb_importer` is the Git submodule pointing to `https://github.com/makr-code/themisdb_importer.git` and is the authoritative implementation for the importer aggregate (`mysql_importer`, `mongo_importer`, `kafka_importer`, `s3_importer`).
+
+**Parent-repo posture:** the in-tree `src/importers/` and `include/importers/` code remains available as a compatibility and documentation layer for the monorepo build, but it is not the authoritative source once the aggregate submodule is present. The build registration in `cmake/PrivatePlugins.cmake` intentionally treats the external aggregate repo as the canonical importer source under `WITH_PRIVATE_CONNECTOR_PACK`.
+
+**Source evidence:**
+- `.gitmodules` declares the `plugins/themisdb_importer` submodule with URL `https://github.com/makr-code/themisdb_importer.git`
+- `cmake/PrivatePlugins.cmake` registers `plugins/themisdb_importer` as the private importer aggregate when `WITH_PRIVATE_CONNECTOR_PACK` is enabled
+- `plugins/CMakeLists.txt` keeps the compatibility layer but resolves the canonical importer aggregate through the external submodule path
+- Existing importer source under `src/importers/` remains a monorepo fallback and should be treated as a compatibility surface, not the migration target
+
+**Validation performed:**
+- `git submodule status --recursive`
+- `grep -R "themisdb_importer\|plugins/themisdb_importer" -n CMakeLists.txt cmake plugins .gitmodules || true`
+
+**Residual risk / follow-up:**
+- The parent repository still contains importer implementation and test assets (`src/importers/*`, `include/importers/*`, `tests/importers/*`) for compatibility and monorepo builds, but they must not be treated as the authoritative implementation once the external aggregate repo is present.
+- Any future migration or connector upgrade must validate the submodule pin and the private plugin registration contract before release; stale duplicate logic in the parent tree should be treated as a migration defect rather than a new source of truth.
+
 ## Plugin Architecture
 
 ThemisDB's plugin system consists of a unified plugin manager that handles dynamic loading and lifecycle management for various plugin types:
