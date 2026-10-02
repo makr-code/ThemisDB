@@ -1,5 +1,11 @@
 # Kapitel 6: Graph-Datenbanken
 
+## v2.4.0-alpha roadmap alignment
+
+ThemisDB v2.4.0-alpha is the current release baseline for this chapter. This chapter reflects the active ROADMAP.md and FUTURE_ENHANCEMENTS.md source posture, including Wave A, Wave B, Wave C, and Wave D release gates, evidence-based hardening, and the current release scope for: graph, knowledge graph, AQL, traversal.
+
+The chapter therefore covers the v2.4.0-alpha implementation status, operational constraints, and validation expectations expected for the current release line.
+
 > *"The world is a graph, not a table."* — Graph-Datenbank-Community
 
 ## 6.1 Einführung: Die Welt der Verbindungen
@@ -435,6 +441,8 @@ bridges = [k for k, v in centrality.items() if v > 0.5]
 
 ---
 
+> Source-aligned status (v2.4.0-alpha): ThemisDB is currently tracked against the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md baseline. This chapter reflects the current graph model scope for the v2.4.0-alpha release, including the active roadmap topics graph, knowledge graph, AQL, traversal. Wave A/B/C/D execution gates, release hardening, and representative-hardware evidence remain the key release criteria for GA sign-off.
+
 ## 6.4A Temporale Graph-Queries: Zeitreisen im Wissensgraph
 
 Eine der mächtigsten Features von ThemisDB ist die Fähigkeit, **zeitabhängige Graph-Traversals** durchzuführen. Dies ist besonders wichtig für Anwendungen, die historische Zustände nachvollziehen müssen – etwa für Compliance, Audit, oder rechtssichere Dokumentation.
@@ -727,7 +735,7 @@ for doc_id in verwandte_dokumente:
     doc_version = db.get_document_at_time(doc_id, bescheid_timestamp)
     print(f"Dokument {doc_id} (Stand {bescheid_timestamp}):")
     print(f"  Titel: {doc_version['title']}")
-    print(f"  Version: {doc_version['version']}")
+    print(f"  **Version:** 2.4.0-alpha
     print(f"  Checksum: {doc_version['checksum']}")
 ```
 

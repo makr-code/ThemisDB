@@ -1,8 +1,16 @@
 # Kapitel 31: API-Protokolle & Kommunikation {#chapter_31_api-protokolle-kommunikation}
 
+## v2.4.0-alpha roadmap alignment
+
+ThemisDB v2.4.0-alpha is the current release baseline for this chapter. This chapter reflects the active ROADMAP.md and FUTURE_ENHANCEMENTS.md source posture, including Wave A, Wave B, Wave C, and Wave D release gates, evidence-based hardening, and the current release scope for: API, protocol, REST, gRPC, WebSocket.
+
+The chapter therefore covers the v2.4.0-alpha implementation status, operational constraints, and validation expectations expected for the current release line.
+
 > *"The best API is one that feels so natural, developers use it correctly without consulting documentation."* — Josh Bloch
 
 ---
+
+> Source-aligned status (v2.4.0-alpha): ThemisDB is currently tracked against the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md baseline. This chapter reflects the current api protocols scope for the v2.4.0-alpha release, including the active roadmap topics API, protocol, REST, gRPC, WebSocket. Wave A/B/C/D execution gates, release hardening, and representative-hardware evidence remain the key release criteria for GA sign-off.
 
 ## 31.1 Überblick {#chapter_31_1_ueberblick}
 
@@ -2342,7 +2350,7 @@ Host: api.themis.local
 Upgrade: websocket
 Connection: Upgrade
 Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
-Sec-WebSocket-Version: 13
+Sec-WebSocket-**Version:** 2.4.0-alpha
 Sec-WebSocket-Protocol: themisdb-v1
 
 # Server Response (Switching Protocols)

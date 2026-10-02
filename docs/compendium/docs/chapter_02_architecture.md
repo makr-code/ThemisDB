@@ -1,9 +1,17 @@
 # Kapitel 2: Architektur-Überblick
 
+## v2.4.0-alpha roadmap alignment
+
+ThemisDB v2.4.0-alpha is the current release baseline for this chapter. This chapter reflects the active ROADMAP.md and FUTURE_ENHANCEMENTS.md source posture, including Wave A, Wave B, Wave C, and Wave D release gates, evidence-based hardening, and the current release scope for: architecture, module, integration, core, storage.
+
+The chapter therefore covers the v2.4.0-alpha implementation status, operational constraints, and validation expectations expected for the current release line.
+
 > *"Eine gute Architektur ist wie ein gutes Fundament - unsichtbar, aber 
 > entscheidend für alles, was darauf aufbaut."*
 
 ---
+
+> Source-aligned status (v2.4.0-alpha): ThemisDB is currently tracked against the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md baseline. This chapter reflects the current architecture scope for the v2.4.0-alpha release, including the active roadmap topics architecture, module, integration, core, storage. Wave A/B/C/D execution gates, release hardening, and representative-hardware evidence remain the key release criteria for GA sign-off.
 
 ## Überblick
 

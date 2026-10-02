@@ -1,5 +1,11 @@
 # Kapitel 14: Geo-Spatial Features
 
+## v2.4.0-alpha roadmap alignment
+
+ThemisDB v2.4.0-alpha is the current release baseline for this chapter. This chapter reflects the active ROADMAP.md and FUTURE_ENHANCEMENTS.md source posture, including Wave A, Wave B, Wave C, and Wave D release gates, evidence-based hardening, and the current release scope for: geospatial, WGS84, spatial, geography, geo.
+
+The chapter therefore covers the v2.4.0-alpha implementation status, operational constraints, and validation expectations expected for the current release line.
+
 ## Einleitung
 
 Standortbasierte Dienste sind aus modernen Anwendungen nicht mehr wegzudenken. Von Lieferdiensten über Immobiliensuche bis zu Flottenmanagement – geografische Daten spielen eine zentrale Rolle. ThemisDB bietet native Unterstützung für Geo-Spatial Daten mit effizienten räumlichen Indizes und umfangreichen Abfragefunktionen.
@@ -752,6 +758,8 @@ Geo-Spatial Features in ThemisDB bieten eine solide Grundlage für Location-Base
 Im nächsten Kapitel sehen wir uns **Analytics & Reporting** an – Aggregationen, Dashboards und Business Intelligence mit ThemisDB.
 
 ---
+
+> Source-aligned status (v2.4.0-alpha): ThemisDB is currently tracked against the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md baseline. This chapter reflects the current geospatial features scope for the v2.4.0-alpha release, including the active roadmap topics geospatial, WGS84, spatial, geography, geo. Wave A/B/C/D execution gates, release hardening, and representative-hardware evidence remain the key release criteria for GA sign-off.
 
 ## 14.11 Geo-Modul — Erweiterte C++ API (v1.x)
 

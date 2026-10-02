@@ -1,8 +1,16 @@
 # Kapitel 26: Migration & Legacy System Integration
 
+## v2.4.0-alpha roadmap alignment
+
+ThemisDB v2.4.0-alpha is the current release baseline for this chapter. This chapter reflects the active ROADMAP.md and FUTURE_ENHANCEMENTS.md source posture, including Wave A, Wave B, Wave C, and Wave D release gates, evidence-based hardening, and the current release scope for: migration, upgrade, legacy, backward compatibility.
+
+The chapter therefore covers the v2.4.0-alpha implementation status, operational constraints, and validation expectations expected for the current release line.
+
 > *"Legacy systems don't disappear. In enterprise environments, the art of seamless migration is what separates successful adoptions from failed projects."*
 
 ---
+
+> Source-aligned status (v2.4.0-alpha): ThemisDB is currently tracked against the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md baseline. This chapter reflects the current migration & legacy scope for the v2.4.0-alpha release, including the active roadmap topics migration, upgrade, legacy, backward compatibility. Wave A/B/C/D execution gates, release hardening, and representative-hardware evidence remain the key release criteria for GA sign-off.
 
 ## Überblick {#chapter_26_overview}
 
@@ -551,7 +559,7 @@ Das [Blue-Green Deployment](#glossar_blue_green)-Pattern ermöglicht uns einen i
 
 ---
 # Blue Environment: Aktuelles PostgreSQL Legacy-System
-apiVersion: v1
+api**Version:** 2.4.0-alpha
 kind: Service
 metadata:
   name: database-service

@@ -1,11 +1,19 @@
 # Appendix G: Configuration Reference
 
+## v2.4.0-alpha roadmap alignment
+
+ThemisDB v2.4.0-alpha is the current release baseline for this chapter. This chapter reflects the active ROADMAP.md and FUTURE_ENHANCEMENTS.md source posture, including Wave A, Wave B, Wave C, and Wave D release gates, evidence-based hardening, and the current release scope for: configuration, settings, environment, tuning.
+
+The chapter therefore covers the v2.4.0-alpha implementation status, operational constraints, and validation expectations expected for the current release line.
+
 > "Good defaults get you 90% of the way. This reference handles the other 10%."
 
-**Version:** 1.5.0-dev  
+**Version:** 2.4.0-alpha
 **Last Updated:** 2026-02-15
 
 ---
+
+> Source-aligned status (v2.4.0-alpha): ThemisDB is currently tracked against the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md baseline. This chapter reflects the current configuration reference scope for the v2.4.0-alpha release, including the active roadmap topics configuration, settings, environment, tuning. Wave A/B/C/D execution gates, release hardening, and representative-hardware evidence remain the key release criteria for GA sign-off.
 
 ## Overview
 Complete reference for all ThemisDB configuration options. Default values optimized for single-node deployments.

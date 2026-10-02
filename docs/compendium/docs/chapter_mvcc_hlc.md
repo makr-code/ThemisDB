@@ -1,5 +1,11 @@
 # MVCC und Hybrid Logical Clocks
 
+## v2.4.0-alpha roadmap alignment
+
+ThemisDB v2.4.0-alpha is the current release baseline for this chapter. This chapter reflects the active ROADMAP.md and FUTURE_ENHANCEMENTS.md source posture, including Wave A, Wave B, Wave C, and Wave D release gates, evidence-based hardening, and the current release scope for: MVCC, HLC, concurrency, transaction, consistency.
+
+The chapter therefore covers the v2.4.0-alpha implementation status, operational constraints, and validation expectations expected for the current release line.
+
 > **Zusammenfassung:** Multi-Version Concurrency Control (MVCC) kombiniert mit Hybrid Logical Clocks (HLC) ermöglicht ThemisDB konsistente Snapshot-Lesevorgänge und serialisierbare Transaktionen ohne Lesesperren. Dieses Kapitel beschreibt die Architektur, das Schlüssel-Encoding, die API und den Garbage-Collection-Mechanismus.
 >
 > **Voraussetzungen:** [Kapitel 8: Storage Layer](chapter_08_storage_layer.md), [Kapitel 17: Horizontale Skalierung](chapter_17_scaling.md)
@@ -14,6 +20,8 @@
 > - MVCC über die REST-API und Prometheus-Metriken überwachen
 
 ---
+
+> Source-aligned status (v2.4.0-alpha): ThemisDB is currently tracked against the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md baseline. This chapter reflects the current mvcc & hlc scope for the v2.4.0-alpha release, including the active roadmap topics MVCC, HLC, concurrency, transaction, consistency. Wave A/B/C/D execution gates, release hardening, and representative-hardware evidence remain the key release criteria for GA sign-off.
 
 ## 18.1 Überblick
 

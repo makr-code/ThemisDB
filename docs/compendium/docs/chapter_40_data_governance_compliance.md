@@ -1,5 +1,11 @@
 # Kapitel 40: Data Governance & Compliance {#chapter_40_data-governance-compliance}
 
+## v2.4.0-alpha roadmap alignment
+
+ThemisDB v2.4.0-alpha is the current release baseline for this chapter. This chapter reflects the active ROADMAP.md and FUTURE_ENHANCEMENTS.md source posture, including Wave A, Wave B, Wave C, and Wave D release gates, evidence-based hardening, and the current release scope for: governance, compliance, GDPR, audit, data lineage.
+
+The chapter therefore covers the v2.4.0-alpha implementation status, operational constraints, and validation expectations expected for the current release line.
+
 > *"Vertrauen ist gut, Kontrolle ist besser. In der Datenwelt sind beide unverzichtbar."*  
 > *— Vladimir Lenin (adaptiert für Data Governance)*
 
@@ -10,6 +16,8 @@
 **Voraussetzungen:** Grundverständnis von Kapitel 2 (Architektur), Kapitel 19 (Monitoring), Kapitel 21 (Performance) und Kapitel 36 (Security Hardening). Kenntnisse über DSGVO-Grundsätze und regulatorische Anforderungen sind hilfreich, werden aber im Text erklärt.
 
 ---
+
+> Source-aligned status (v2.4.0-alpha): ThemisDB is currently tracked against the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md baseline. This chapter reflects the current data governance & compliance scope for the v2.4.0-alpha release, including the active roadmap topics governance, compliance, GDPR, audit, data lineage. Wave A/B/C/D execution gates, release hardening, and representative-hardware evidence remain the key release criteria for GA sign-off.
 
 ## 40.0 Data Governance Framework: Übersicht {#chapter_40_0_data-governance-framework-uebersicht}
 

@@ -1,10 +1,18 @@
 # Appendix D: Feature Status Matrix
 
-**Version:** 1.8.0  
+## v2.4.0-alpha roadmap alignment
+
+ThemisDB v2.4.0-alpha is the current release baseline for this chapter. This chapter reflects the active ROADMAP.md and FUTURE_ENHANCEMENTS.md source posture, including Wave A, Wave B, Wave C, and Wave D release gates, evidence-based hardening, and the current release scope for: feature status, implementation, roadmap, Wave.
+
+The chapter therefore covers the v2.4.0-alpha implementation status, operational constraints, and validation expectations expected for the current release line.
+
+**Version:** 2.4.0-alpha
 **Stand:** April 2026  
 **Kategorie:** Feature-Übersicht und Implementierungsstatus
 
 ---
+
+> Source-aligned status (v2.4.0-alpha): ThemisDB is currently tracked against the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md baseline. This chapter reflects the current feature status matrix scope for the v2.4.0-alpha release, including the active roadmap topics feature status, implementation, roadmap, Wave. Wave A/B/C/D execution gates, release hardening, and representative-hardware evidence remain the key release criteria for GA sign-off.
 
 ## Zweck dieses Appendix
 
