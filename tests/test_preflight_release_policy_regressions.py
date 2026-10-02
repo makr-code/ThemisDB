@@ -66,6 +66,17 @@ def extract_submodule_paths(command_suffix: str) -> list[str]:
     return re.split(r"\s*(?:\|\||&&|;)\s*", command_suffix, maxsplit=1)[0].strip().split()
 
 
+def extract_release_matrix_lane_block(workflow_text: str, lane_id: str) -> str:
+    lane_block = re.search(
+        rf'"id": "{re.escape(lane_id)}",(?P<body>.*?)"artifact_name":',
+        workflow_text,
+        re.DOTALL,
+    )
+    if lane_block is None:
+        raise AssertionError(f"Could not find release matrix lane block for {lane_id!r}")
+    return lane_block.group("body")
+
+
 class PreflightReleasePolicyRegressionTests(unittest.TestCase):
     def test_release_build_matrix_submodule_sync_only_references_declared_paths(self) -> None:
         workflow_text = RELEASE_BUILD_MATRIX_WORKFLOW.read_text(encoding="utf-8")
@@ -157,21 +168,16 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
 
     def test_release_build_matrix_treats_missing_package_artifacts_as_error(self) -> None:
         workflow_text = RELEASE_BUILD_MATRIX_WORKFLOW.read_text(encoding="utf-8")
+        linux_amd64_block = extract_release_matrix_lane_block(workflow_text, "linux-amd64")
+        linux_arm64_block = extract_release_matrix_lane_block(workflow_text, "linux-arm64")
+        windows_amd64_block = extract_release_matrix_lane_block(workflow_text, "windows-amd64")
 
         linux_error = "::error::No Linux package artifacts were produced in ${PACKAGES_DIR}"
         windows_error = "::error::No Windows package artifacts were produced in ${PACKAGES_DIR}"
-        self.assertRegex(
-            workflow_text,
-            re.compile(r'"id": "linux-amd64".+?' + re.escape(linux_error), re.DOTALL),
-        )
-        self.assertRegex(
-            workflow_text,
-            re.compile(r'"id": "linux-arm64".+?' + re.escape(linux_error), re.DOTALL),
-        )
-        self.assertRegex(
-            workflow_text,
-            re.compile(r'"id": "windows-amd64".+?' + re.escape(windows_error), re.DOTALL),
-        )
+
+        self.assertIn(linux_error, linux_amd64_block)
+        self.assertIn(linux_error, linux_arm64_block)
+        self.assertIn(windows_error, windows_amd64_block)
         self.assertNotIn("::warning::No Linux package artifacts were produced", workflow_text)
         self.assertNotIn("::warning::No Windows package artifacts were produced", workflow_text)
 
