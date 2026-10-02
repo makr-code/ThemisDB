@@ -5,6 +5,7 @@ from scripts.doxygen_governance_gate import (
     build_coverage_command,
     filter_blocking_doxygen_warnings,
 )
+from tools.scanners.gs3_step04_quality_cpp_doxygen import ThemisCppDoxygenPolicyRulesScan
 
 
 class DoxygenGovernanceGateTests(unittest.TestCase):
@@ -70,6 +71,22 @@ class DoxygenGovernanceGateTests(unittest.TestCase):
         # With our fix, doxygen should NOT run (should be False)
         self.assertFalse(should_run_doxygen, 
             "Doxygen should not run when there are no changed public headers and coverage is not enforced")
+
+    def test_pointer_utils_public_api_has_doxygen_comments(self) -> None:
+        repo_root = Path(__file__).resolve().parent.parent
+        scanner = ThemisCppDoxygenPolicyRulesScan(str(repo_root))
+
+        findings = scanner.scan_files([repo_root / "include" / "utils" / "pointer_utils.h"])
+
+        public_api_findings = [
+            item for item in findings
+            if item.get("file") == "include/utils/pointer_utils.h"
+        ]
+
+        self.assertFalse(
+            any(item.get("pattern") == "missing_doxygen_comment" for item in public_api_findings),
+            "pointer_utils.h public API should be documented for Doxygen governance",
+        )
 
 
 if __name__ == "__main__":
