@@ -239,6 +239,8 @@ public:
 
         // Check item count capacity
         if (queue_.size() >= config_.max_queue_size) {
+            stats_.current_state = QueueSaturationState::SATURATED;
+            updateStats(true);
             if (allow_block && config_.blocking_on_saturation) {
                 return waitForSpace(lock, item, item_size);
             }
@@ -250,9 +252,12 @@ public:
             };
         }
 
-        // Check memory capacity
+        // Check memory capacity. Consider the prospective payload so the state
+        // reflects the reason for rejection even before the item is appended.
         if (config_.max_memory_bytes > 0 &&
             current_memory_bytes_ + item_size > config_.max_memory_bytes) {
+            stats_.current_state = QueueSaturationState::MEMORY_EXHAUSTION;
+            updateStats(true);
             if (allow_block && config_.blocking_on_saturation) {
                 return waitForSpace(lock, item, item_size);
             }
@@ -478,7 +483,7 @@ private:
      * Called after enqueue or dequeue to recalculate the saturation state.
      * Must be called while holding the lock.
      */
-    void updateStats() {
+    void updateStats(bool preserve_current_state = false) {
         stats_.current_item_count = queue_.size();
         stats_.current_memory_bytes = current_memory_bytes_;
 
@@ -488,6 +493,12 @@ private:
         }
         if (stats_.current_memory_bytes > stats_.max_memory_observed) {
             stats_.max_memory_observed = stats_.current_memory_bytes;
+        }
+
+        if (preserve_current_state &&
+            (stats_.current_state == QueueSaturationState::MEMORY_EXHAUSTION ||
+             stats_.current_state == QueueSaturationState::SATURATED)) {
+            return;
         }
 
         // Update saturation state

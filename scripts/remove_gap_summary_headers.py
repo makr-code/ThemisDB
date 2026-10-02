@@ -48,8 +48,10 @@ import sys
 from pathlib import Path
 
 # Pattern that identifies the auto-generated Gap Summary annotation.
-# Must match the full line content (leading whitespace + trailing optional CR).
-_PATTERN = re.compile(r'[ \t]*\*[ \t]+@note Gap Summary:.*')
+# It may appear as both "* Gap Summary:" and "* @note Gap Summary:" in older
+# generated file headers, so we remove either version without touching other
+# Doxygen metadata.
+_PATTERN = re.compile(r'^[ \t]*\*?[ \t]*(?:@note[ \t]+)?Gap Summary:.*$')
 
 _EXTENSIONS = {'.cpp', '.cc', '.c', '.h', '.hpp', '.hxx', '.cxx', '.ipp', '.tpp'}
 
@@ -94,8 +96,8 @@ def main() -> int:
         help='Preview mode: list affected files but do not write changes.'
     )
     parser.add_argument(
-        '--root', default='src',
-        help='Root directory to scan (default: src).'
+        '--root', action='append', default=['src', 'plugins'],
+        help='Root directory to scan; may be repeated (default: src plugins).'
     )
     parser.add_argument(
         '--verbose', action='store_true',
@@ -103,20 +105,24 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    root = Path(args.root)
-    if not root.is_dir():
-        print(f'ERROR: --root "{root}" is not a directory.', file=sys.stderr)
-        return 1
-
     total_files = 0
     total_lines = 0
 
-    for path in sorted(root.rglob('*')):
-        if path.suffix in _EXTENSIONS and path.is_file():
-            removed = _process_file(path, dry_run=args.dry_run, verbose=args.verbose)
-            if removed:
-                total_files += 1
-                total_lines += removed
+    roots = [Path(root) for root in args.root]
+    for root in roots:
+        if not root.exists():
+            print(f'INFO: skipping missing root "{root}"', file=sys.stderr)
+            continue
+        if not root.is_dir():
+            print(f'ERROR: --root "{root}" is not a directory.', file=sys.stderr)
+            return 1
+
+        for path in sorted(root.rglob('*')):
+            if path.suffix in _EXTENSIONS and path.is_file():
+                removed = _process_file(path, dry_run=args.dry_run, verbose=args.verbose)
+                if removed:
+                    total_files += 1
+                    total_lines += removed
 
     mode = 'DRY-RUN' if args.dry_run else 'DONE'
     print(

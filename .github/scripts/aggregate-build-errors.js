@@ -118,7 +118,11 @@ function detectCompilerFromContext(line, fallback = 'unknown') {
 
 function classifyGapMarkerFinding(finding) {
   const source = String(finding?.source_line || '').toLowerCase();
-  if (source.includes('@note gap summary') || source.includes('auto-generated')) {
+  if (
+    source.includes('@note gap summary') ||
+    source.includes('gap summary:') ||
+    source.includes('auto-generated')
+  ) {
     return 'doc_leak';
   }
   return 'real_gap';
@@ -303,10 +307,17 @@ class ErrorAggregator {
   }
 
   scanGapMarkersInSrc(repoRoot) {
-    const srcRoot = path.join(repoRoot, 'src');
-    if (!fs.existsSync(srcRoot)) return;
+    const roots = [
+      path.join(repoRoot, 'src'),
+      path.join(repoRoot, 'plugins'),
+    ].filter((root) => fs.existsSync(root));
 
-    const files = walkFiles(srcRoot).filter((filePath) => {
+    const files = [];
+    for (const root of roots) {
+      files.push(...walkFiles(root));
+    }
+
+    const filteredFiles = files.filter((filePath) => {
       const ext = path.extname(filePath).toLowerCase();
       return [
         '.c', '.cc', '.cpp', '.cxx', '.h', '.hh', '.hpp', '.hxx',
@@ -314,7 +325,7 @@ class ErrorAggregator {
       ].includes(ext);
     });
 
-    for (const filePath of files) {
+    for (const filePath of filteredFiles) {
       let content;
       try {
         content = fs.readFileSync(filePath, 'utf8');

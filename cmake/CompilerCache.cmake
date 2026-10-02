@@ -50,6 +50,15 @@ if(THEMIS_COMPILER_CACHE_EXECUTABLE)
         set(_themis_cache_root "${_themis_cache_root_fallback}")
     endif()
 
+    # Keep Windows builds on a writable, user-local cache path instead of a repo-local
+    # directory that can be blocked by antivirus, OneDrive, or source-tree ACLs.
+    if(WIN32 AND _themis_cache_root_fallback)
+        string(TOLOWER "${_themis_cache_root}" _themis_cache_root_lower)
+        if(_themis_cache_root_lower MATCHES "\\.cache/sccache|\\.cache\\sccache|/themisdb/.cache|\\themisdb\\.cache")
+            set(_themis_cache_root "${_themis_cache_root_fallback}")
+        endif()
+    endif()
+
     file(MAKE_DIRECTORY "${_themis_cache_root}")
     set(_themis_cache_probe "${_themis_cache_root}/.cmake_cache_probe")
     file(WRITE "${_themis_cache_probe}" "ok")

@@ -6,11 +6,15 @@ env-*/
 compendium/chrome/
 compendium/temp
 build-*/
+themis_admin_cache/
+themis_admin_cache-*/
+
 
 # sccache (local cache for build acceleration)
 .sccache/
 .sccache-*/
 .cache/
+.cache-*/
 
 # Confidential business/strategic documents (marked with .confidential.md extension)
 **/*.confidential.md
