@@ -42,6 +42,15 @@ class ArchiveAwareStaleDetectionTests(unittest.TestCase):
         self.assertTrue(all(f.file != "ai_context/legacy_status/STATUS_2026_08_01.md" for f in findings))
         self.assertTrue(all(f.file != "docs/ARCHIVED/ai-working-history/LEGACY_SUMMARY.md" for f in findings))
 
+    def test_historical_ai_context_snapshot_is_linked_from_root_navigation(self):
+        repo = Path(__file__).parent.parent
+        legacy_ref = "ai_context/legacy_status/STATUS_2026_08_01.md"
+        index_text = (repo / "INDEX.md").read_text(encoding="utf-8", errors="replace")
+        playbook_text = (repo / "AI_WIKI_INTEGRATION_PLAYBOOK.md").read_text(encoding="utf-8", errors="replace")
+
+        self.assertIn(legacy_ref, index_text)
+        self.assertIn(legacy_ref, playbook_text)
+
 
 if __name__ == "__main__":
     unittest.main()
