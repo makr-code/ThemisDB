@@ -2,15 +2,10 @@
 
 ## v2.4.0-alpha roadmap alignment
 
-ThemisDB v2.4.0-alpha is the current release baseline for this chapter. This chapter reflects the active ROADMAP.md and FUTURE_ENHANCEMENTS.md source posture, including Wave A, Wave B, Wave C, and Wave D release gates, evidence-based hardening, and the current release scope for: testing, QA, sanitizer, chaos, integration test, Wave.
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: testing, QA, sanitizer, chaos, integration test, Wave. 
 
-The chapter therefore covers the v2.4.0-alpha implementation status, operational constraints, and validation expectations expected for the current release line.
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
 
-> *"Untested code is legacy code. In ThemisDB, comprehensive testing is not optional—it's architecture."*
-
----
-
-> Source-aligned status (v2.4.0-alpha): ThemisDB is currently tracked against the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md baseline. This chapter reflects the current testing & qa scope for the v2.4.0-alpha release, including the active roadmap topics testing, QA, sanitizer, chaos, integration test, Wave. Wave A/B/C/D execution gates, release hardening, and representative-hardware evidence remain the key release criteria for GA sign-off.
 
 ## Überblick
 

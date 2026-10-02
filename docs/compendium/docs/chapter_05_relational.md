@@ -2,16 +2,10 @@
 
 ## v2.4.0-alpha roadmap alignment
 
-ThemisDB v2.4.0-alpha is the current release baseline for this chapter. This chapter reflects the active ROADMAP.md and FUTURE_ENHANCEMENTS.md source posture, including Wave A, Wave B, Wave C, and Wave D release gates, evidence-based hardening, and the current release scope for: relational, SQL, ACID, transactions.
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: relational, SQL, ACID, transactions. 
 
-The chapter therefore covers the v2.4.0-alpha implementation status, operational constraints, and validation expectations expected for the current release line.
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
 
-> *"Relational databases are like spreadsheets that can talk to each other - 
-> but with ACID guarantees and without the chaos."*
-
----
-
-> Source-aligned status (v2.4.0-alpha): ThemisDB is currently tracked against the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md baseline. This chapter reflects the current relational model scope for the v2.4.0-alpha release, including the active roadmap topics relational, SQL, ACID, transactions. Wave A/B/C/D execution gates, release hardening, and representative-hardware evidence remain the key release criteria for GA sign-off.
 
 ## Überblick
 

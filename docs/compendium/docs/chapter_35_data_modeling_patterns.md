@@ -2,25 +2,10 @@
 
 ## v2.4.0-alpha roadmap alignment
 
-ThemisDB v2.4.0-alpha is the current release baseline for this chapter. This chapter reflects the active ROADMAP.md and FUTURE_ENHANCEMENTS.md source posture, including Wave A, Wave B, Wave C, and Wave D release gates, evidence-based hardening, and the current release scope for: data modeling, schema, pattern, design.
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: data modeling, schema, pattern, design. 
 
-The chapter therefore covers the v2.4.0-alpha implementation status, operational constraints, and validation expectations expected for the current release line.
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
 
-> *"Mit den gleichen Daten können Sie ein System entweder elegant oder chaotisch modellieren. Die richtige Struktur entscheidet über Erfolg oder Burnout."*  
-> *— Unbekannt*
-
-> **Zusammenfassung:** Dieses Kapitel präsentiert systematische Ansätze für Datenmodellierung in Multi-Model-Datenbanken. Wir analysieren bewährte Patterns für Time-Series-, Temporal-, Document- und Graph-Daten sowie häufige Anti-Patterns, die zu technischen Schulden führen.
-
-> **Lernziele:**
-> - Time-Series-Modellierung mit Bucketing und Kompression verstehen
-> - Temporale Datenstrukturen und Slowly Changing Dimensions implementieren
-> - Document-Schema-Strategien für verschiedene Use Cases anwenden
-> - Graph-Speichermodelle und Traversal-Optimierungen beherrschen
-> - Anti-Patterns erkennen und vermeiden
-
----
-
-> Source-aligned status (v2.4.0-alpha): ThemisDB is currently tracked against the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md baseline. This chapter reflects the current data modeling patterns scope for the v2.4.0-alpha release, including the active roadmap topics data modeling, schema, pattern, design. Wave A/B/C/D execution gates, release hardening, and representative-hardware evidence remain the key release criteria for GA sign-off.
 
 ## Überblick {#chapter_35_0_ueberblick}
 

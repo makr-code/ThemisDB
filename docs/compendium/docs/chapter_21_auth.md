@@ -2,25 +2,10 @@
 
 ## v2.4.0-alpha roadmap alignment
 
-ThemisDB v2.4.0-alpha is the current release baseline for this chapter. This chapter reflects the active ROADMAP.md and FUTURE_ENHANCEMENTS.md source posture, including Wave A, Wave B, Wave C, and Wave D release gates, evidence-based hardening, and the current release scope for: auth, RBAC, JWT, authentication, authorization.
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: auth, RBAC, JWT, authentication, authorization. 
 
-The chapter therefore covers the v2.4.0-alpha implementation status, operational constraints, and validation expectations expected for the current release line.
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
 
-> **Zusammenfassung:** ThemisDB implementiert ein mehrschichtiges Sicherheitssystem mit JWT, Kerberos/GSSAPI, RBAC und ABAC für Enterprise-Authentication. Multi-Factor Authentication (TOTP), Binary Integrity Verification und umfassendes Audit Logging gewährleisten GDPR-, SOC 2- und HIPAA-Compliance.
->
-> **Voraussetzungen:** [Kapitel 2: Architektur](chapter_02_architecture.md), [Kapitel 36: Security Hardening](chapter_36_security_hardening.md)
->
-> **Lernziele:**
-> - JWT-basierte Token-Authentication konfigurieren
-> - Kerberos/GSSAPI für Enterprise-SSO integrieren
-> - RBAC- und ABAC-Policies implementieren
-> - Multi-Factor Authentication (MFA) aktivieren
-> - Security Best Practices anwenden
-> - Compliance-Anforderungen erfüllen (GDPR, SOC 2, HIPAA)
-
----
-
-> Source-aligned status (v2.4.0-alpha): ThemisDB is currently tracked against the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md baseline. This chapter reflects the current authentication & authorization scope for the v2.4.0-alpha release, including the active roadmap topics auth, RBAC, JWT, authentication, authorization. Wave A/B/C/D execution gates, release hardening, and representative-hardware evidence remain the key release criteria for GA sign-off.
 
 ## 21.1 Einleitung
 

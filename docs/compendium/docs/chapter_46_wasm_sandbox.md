@@ -2,14 +2,7 @@
 
 ## v2.4.0-alpha roadmap alignment
 
-ThemisDB v2.4.0-alpha is the current release baseline for this chapter. This chapter reflects the active ROADMAP.md and FUTURE_ENHANCEMENTS.md source posture, including Wave A, Wave B, Wave C, and Wave D release gates, evidence-based hardening, and the current release scope for: WASM, WebAssembly, sandbox, kernel sandbox, wasm kernel.
-
-The chapter therefore covers the v2.4.0-alpha implementation status, operational constraints, and validation expectations expected for the current release line.
-
-> Source-aligned status (v2.4.0-alpha): This chapter reflects ThemisDB roadmap status for the current 
-release. The content is aligned to ROADMAP.md and FUTURE_ENHANCEMENTS.md and specifically covers wasm kernel sandbox with the active topic set WASM, WebAssembly, sandbox, kernel sandbox, wasm kernel.
-
----
+The current release baseline is v2.4.0-alpha. This chapter covers the active roadmap topics: WASM, WebAssembly, sandbox, kernel sandbox, wasm kernel.
 
 ## Overview
 

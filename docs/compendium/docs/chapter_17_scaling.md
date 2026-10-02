@@ -2,24 +2,10 @@
 
 ## v2.4.0-alpha roadmap alignment
 
-ThemisDB v2.4.0-alpha is the current release baseline for this chapter. This chapter reflects the active ROADMAP.md and FUTURE_ENHANCEMENTS.md source posture, including Wave A, Wave B, Wave C, and Wave D release gates, evidence-based hardening, and the current release scope for: scaling, horizontal, vertical, hyperscaler, load balancing.
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: scaling, horizontal, vertical, hyperscaler, load balancing. 
 
-The chapter therefore covers the v2.4.0-alpha implementation status, operational constraints, and validation expectations expected for the current release line.
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
 
-> **Zusammenfassung:** Horizontale Skalierung durch RAID-basiertes Sharding ermöglicht ThemisDB die Verteilung von Daten und Last über mehrere unabhängige Knoten. Diese Architektur kombiniert traditionelle RAID-Redundanzkonzepte mit modernen verteilten Datenbanktechnologien für lineare Performance-Skalierung und flexible Verfügbarkeitsgarantien.
->
-> **Voraussetzungen:** [Kapitel 2: Architektur](chapter_02_architecture.md), [Kapitel 8: Storage Layer](chapter_08_storage_layer.md)
->
-> **Lernziele:**
-> - RAID-basierte Sharding-Strategien verstehen und anwenden
-> - Cluster-Topologien für verschiedene Workload-Typen entwerfen
-> - Konsistenz- und Koordinationsmechanismen konfigurieren
-> - Load Balancing und Query-Routing implementieren
-> - Performance-Charakteristiken verschiedener RAID-Modi bewerten
-
----
-
-> Source-aligned status (v2.4.0-alpha): ThemisDB is currently tracked against the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md baseline. This chapter reflects the current scaling scope for the v2.4.0-alpha release, including the active roadmap topics scaling, horizontal, vertical, hyperscaler, load balancing. Wave A/B/C/D execution gates, release hardening, and representative-hardware evidence remain the key release criteria for GA sign-off.
 
 ## 17.1 Einleitung
 

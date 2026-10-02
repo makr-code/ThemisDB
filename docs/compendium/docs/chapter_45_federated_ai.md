@@ -2,14 +2,7 @@
 
 ## v2.4.0-alpha roadmap alignment
 
-ThemisDB v2.4.0-alpha is the current release baseline for this chapter. This chapter reflects the active ROADMAP.md and FUTURE_ENHANCEMENTS.md source posture, including Wave A, Wave B, Wave C, and Wave D release gates, evidence-based hardening, and the current release scope for: federated learning, federated, CAI safety, AI safety, responsible AI wave.
-
-The chapter therefore covers the v2.4.0-alpha implementation status, operational constraints, and validation expectations expected for the current release line.
-
-> Source-aligned status (v2.4.0-alpha): This chapter reflects ThemisDB roadmap status for the current 
-release. The content is aligned to ROADMAP.md and FUTURE_ENHANCEMENTS.md and specifically covers federated learning & ai governance with the active topic set federated learning, federated, CAI safety, AI safety, responsible AI.
-
----
+The current release baseline is v2.4.0-alpha. This chapter covers the active roadmap topics: federated learning, federated, CAI safety, AI safety, responsible AI.
 
 ## Overview
 
