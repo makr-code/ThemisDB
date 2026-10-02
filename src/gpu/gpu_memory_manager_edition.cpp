@@ -24,6 +24,7 @@
 
 #include "themis/gpu/memory_manager.h"
 #include "themis/gpu/gpu_error.h"
+#include <algorithm>
 #include <spdlog/spdlog.h>
 #include <utility>
 
@@ -452,30 +453,55 @@ bool GPUMemoryManager::TryAllocateGPU(uint64_t size_bytes, const std::string &ta
  */
 void GPUMemoryManager::DeallocateGPU(uint64_t size_bytes) {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (gpu_memory_allocated_ >= size_bytes) {
-        gpu_memory_allocated_ -= size_bytes;
+
+    uint64_t released_bytes = 0;
+    std::unordered_map<std::string, uint64_t> tenant_released;
+
+    const uint64_t total_active = [&]() {
+        uint64_t total = 0;
+        for (const auto& record : active_allocations_) {
+            total += record.size_bytes;
+        }
+        return total;
+    }();
+
+    if (size_bytes >= total_active && !active_allocations_.empty()) {
+        released_bytes = total_active;
+        for (const auto& record : active_allocations_) {
+            if (!record.tenant_id.empty()) {
+                tenant_released[record.tenant_id] += record.size_bytes;
+            }
+        }
+        active_allocations_.clear();
     } else {
-        gpu_memory_allocated_ = 0; // guard against mis-matched sizes
+        auto it = std::find_if(active_allocations_.begin(), active_allocations_.end(),
+                               [size_bytes](const AllocationRecord& record) {
+                                   return record.size_bytes == size_bytes;
+                               });
+        if (it != active_allocations_.end()) {
+            released_bytes = it->size_bytes;
+            if (!it->tenant_id.empty()) {
+                tenant_released[it->tenant_id] += it->size_bytes;
+            }
+            active_allocations_.erase(it);
+        }
+    }
+
+    if (gpu_memory_allocated_ >= released_bytes) {
+        gpu_memory_allocated_ -= released_bytes;
+    } else {
+        gpu_memory_allocated_ = 0;
     }
     ++deallocation_count_;
 
-    // Remove the first active record whose size matches (FIFO / best-effort).
-    for (auto it = active_allocations_.begin(); it != active_allocations_.end(); ++it) {
-        if (it->size_bytes == size_bytes) {
-            const std::string tid = it->tenant_id;
-            active_allocations_.erase(it);
-            // Decrement tenant counter if applicable.
-            if (!tid.empty()) {
-                auto tit = tenant_states_.find(tid);
-                if (tit != tenant_states_.end()) {
-                    if (tit->second.allocated_bytes >= size_bytes) {
-                        tit->second.allocated_bytes -= size_bytes;
-                    } else {
-                        tit->second.allocated_bytes = 0;
-                    }
-                }
+    for (const auto &entry : tenant_released) {
+        auto tit = tenant_states_.find(entry.first);
+        if (tit != tenant_states_.end()) {
+            if (tit->second.allocated_bytes >= entry.second) {
+                tit->second.allocated_bytes -= entry.second;
+            } else {
+                tit->second.allocated_bytes = 0;
             }
-            break;
         }
     }
 }
@@ -488,27 +514,47 @@ void GPUMemoryManager::DeallocateGPU(uint64_t size_bytes) {
  */
 void GPUMemoryManager::DeallocateGPU(uint64_t size_bytes, const std::string &tenant_id) {
     std::lock_guard<std::mutex> lock(mutex_);
-    if (gpu_memory_allocated_ >= size_bytes) {
-        gpu_memory_allocated_ -= size_bytes;
+
+    uint64_t released_bytes = 0;
+    uint64_t tenant_total = 0;
+    for (const auto &record : active_allocations_) {
+        if (record.tenant_id == tenant_id) {
+            tenant_total += record.size_bytes;
+        }
+    }
+
+    if (size_bytes >= tenant_total && tenant_total > 0) {
+        released_bytes = tenant_total;
+        for (auto it = active_allocations_.begin(); it != active_allocations_.end();) {
+            if (it->tenant_id == tenant_id) {
+                it = active_allocations_.erase(it);
+            } else {
+                ++it;
+            }
+        }
+    } else {
+        auto it = std::find_if(active_allocations_.begin(), active_allocations_.end(),
+                               [size_bytes, &tenant_id](const AllocationRecord& record) {
+                                   return record.size_bytes == size_bytes && record.tenant_id == tenant_id;
+                               });
+        if (it != active_allocations_.end()) {
+            released_bytes = it->size_bytes;
+            active_allocations_.erase(it);
+        }
+    }
+
+    if (gpu_memory_allocated_ >= released_bytes) {
+        gpu_memory_allocated_ -= released_bytes;
     } else {
         gpu_memory_allocated_ = 0;
     }
     ++deallocation_count_;
 
-    // Remove the first active record matching size AND tenant.
-    for (auto it = active_allocations_.begin(); it != active_allocations_.end(); ++it) {
-        if (it->size_bytes == size_bytes && it->tenant_id == tenant_id) {
-            active_allocations_.erase(it);
-            break;
-        }
-    }
-
-    // Decrement tenant counter.
     if (!tenant_id.empty()) {
         auto tit = tenant_states_.find(tenant_id);
         if (tit != tenant_states_.end()) {
-            if (tit->second.allocated_bytes >= size_bytes) {
-                tit->second.allocated_bytes -= size_bytes;
+            if (tit->second.allocated_bytes >= released_bytes) {
+                tit->second.allocated_bytes -= released_bytes;
             } else {
                 tit->second.allocated_bytes = 0;
             }
@@ -552,6 +598,22 @@ void GPUMemoryManager::ValidateAllocation(uint64_t size_bytes) {
         error += "GB";
         throw std::runtime_error(error);
     }
+}
+
+void GPUMemoryManager::Reset() {
+    std::lock_guard<std::mutex> lock(mutex_);
+    const uint64_t drained_allocations = static_cast<uint64_t>(active_allocations_.size());
+    if (drained_allocations > 0) {
+        deallocation_count_ += drained_allocations;
+    }
+    gpu_memory_allocated_ = 0;
+    peak_bytes_ = 0;
+    allocation_count_ = 0;
+    hint_reserved_bytes_ = 0;
+    next_hint_id_ = 1;
+    active_hints_.clear();
+    active_allocations_.clear();
+    tenant_states_.clear();
 }
 
 // ============================================================================

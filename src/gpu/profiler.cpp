@@ -28,6 +28,15 @@ namespace themis {
 namespace gpu {
 
 // ============================================================================
+// Singleton
+// ============================================================================
+
+GPUProfiler& GPUProfiler::GetInstance() {
+    static GPUProfiler inst;
+    return inst;
+}
+
+// ============================================================================
 // Private helpers
 // ============================================================================
 
@@ -203,12 +212,21 @@ void GPUProfiler::reset() {
 // ScopedGPURange
 // ============================================================================
 
-ScopedGPURange::ScopedGPURange(const std::string &name, uint32_t argb_color) : profiler_(GPUProfiler::GetInstance()) {
+ScopedGPURange::ScopedGPURange(const std::string &name, uint32_t argb_color)
+    : profiler_(GPUProfiler::GetInstance()), active_(true) {
     profiler_.beginRange(name, argb_color);
 }
 
-ScopedGPURange::~ScopedGPURange() {
+void ScopedGPURange::close() noexcept {
+    if (!active_) {
+        return;
+    }
     profiler_.endRange();
+    active_ = false;
+}
+
+ScopedGPURange::~ScopedGPURange() noexcept {
+    close();
 }
 
 } // namespace gpu

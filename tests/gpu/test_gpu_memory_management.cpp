@@ -13,11 +13,7 @@ using namespace themis::gpu;
 // ---------------------------------------------------------------------------
 static void DrainManager() {
     auto& mgr = GPUMemoryManager::GetInstance();
-    mgr.DeallocateGPU(mgr.GetGPUMemoryUsed());
-    // Clean up any tenant state that tests may have registered.
-    for (const auto& ts : mgr.GetAllTenantStats()) {
-        mgr.RemoveTenantQuota(ts.tenant_id);
-    }
+    mgr.Reset();
 }
 
 class GPUMemoryManagerTest : public ::testing::Test {

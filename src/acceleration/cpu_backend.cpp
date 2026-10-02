@@ -363,6 +363,12 @@ std::vector<float> CPUGeoBackend::batchDistances(const double *latitudes1, const
 std::vector<bool> CPUGeoBackend::batchPointInPolygon(const double *pointLats, const double *pointLons, size_t numPoints,
                                                      const double *polygonCoords, size_t numPolygonVertices) {
     clearError();
+    if (numPoints == 0) {
+        return {};
+    }
+    if (numPolygonVertices < 3) {
+        return std::vector<bool>(numPoints, false);
+    }
     auto sink = [this](ErrorContext e) { setError(std::move(e)); };
     if (!BatchValidator::validatePointInPolygonBatch(name(), pointLats, pointLons, numPoints, polygonCoords,
                                                      numPolygonVertices, sink)) {

@@ -6,7 +6,9 @@
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include <algorithm>
+#include <chrono>
 #include <filesystem>
+#include <thread>
 #include <unordered_set>
 
 namespace fs = std::filesystem;
@@ -17,9 +19,26 @@ namespace fs = std::filesystem;
 
 class GPUGraphTraversalTest : public ::testing::Test {
 protected:
+    void removeTestDbPath() {
+        std::error_code ec;
+        for (int attempt = 0; attempt < 10; ++attempt) {
+            ec.clear();
+            fs::remove_all(test_db_path_, ec);
+            if (!fs::exists(test_db_path_)) {
+                return;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
+        if (ec) {
+            ADD_FAILURE() << "remove_all failed for " << test_db_path_ << ": " << ec.message();
+        } else {
+            ADD_FAILURE() << "remove_all could not clear stale directory: " << test_db_path_;
+        }
+    }
+
     void SetUp() override {
         test_db_path_ = "./data/themis_gpu_traversal_test";
-        fs::remove_all(test_db_path_);
+        removeTestDbPath();
 
         themis::RocksDBWrapper::Config config;
         config.db_path = test_db_path_;
@@ -38,10 +57,18 @@ protected:
     }
 
     void TearDown() override {
-        trav_.reset();
-        graph_mgr_.reset();
-        db_.reset();
-        fs::remove_all(test_db_path_);
+        if (trav_) {
+            trav_.reset();
+        }
+        if (graph_mgr_) {
+            graph_mgr_.reset();
+        }
+        if (db_) {
+            db_->close();
+            db_.reset();
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        removeTestDbPath();
     }
 
     /**
@@ -449,9 +476,26 @@ TEST_F(GPUGraphTraversalTest, AllVertices_CountMatchesExpected) {
 
 class GPUGraphOptimizerIntegrationTest : public ::testing::Test {
 protected:
+    void removeTestDbPath() {
+        std::error_code ec;
+        for (int attempt = 0; attempt < 10; ++attempt) {
+            ec.clear();
+            fs::remove_all(test_db_path_, ec);
+            if (!fs::exists(test_db_path_)) {
+                return;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
+        if (ec) {
+            ADD_FAILURE() << "remove_all failed for " << test_db_path_ << ": " << ec.message();
+        } else {
+            ADD_FAILURE() << "remove_all could not clear stale directory: " << test_db_path_;
+        }
+    }
+
     void SetUp() override {
         test_db_path_ = "./data/themis_gpu_optimizer_integration_test";
-        fs::remove_all(test_db_path_);
+        removeTestDbPath();
 
         themis::RocksDBWrapper::Config config;
         config.db_path = test_db_path_;
@@ -471,9 +515,15 @@ protected:
 
     void TearDown() override {
         optimizer_.reset();
-        graph_mgr_.reset();
-        db_.reset();
-        fs::remove_all(test_db_path_);
+        if (graph_mgr_) {
+            graph_mgr_.reset();
+        }
+        if (db_) {
+            db_->close();
+            db_.reset();
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        removeTestDbPath();
     }
 
     void buildGraph() {

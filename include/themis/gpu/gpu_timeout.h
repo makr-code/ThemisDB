@@ -56,8 +56,8 @@ class KernelSLAGuard {
     return deadline_ - std::chrono::steady_clock::now();
   }
 
-  std::chrono::steady_clock::duration getSLADuration() const noexcept {
-    return timeout_duration_;
+  std::chrono::seconds getSLADuration() const noexcept {
+    return std::chrono::duration_cast<std::chrono::seconds>(timeout_duration_);
   }
 
   std::chrono::steady_clock::time_point getDeadline() const noexcept { return deadline_; }

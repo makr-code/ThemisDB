@@ -84,6 +84,7 @@ TEST_F(HttpAqlLetTest, LetAndReturnObjectProjection) {
     auto res = post("/query/aql", req);
     ASSERT_EQ(res.result(), http::status::ok) << res.body();
     auto body = json::parse(res.body());
+    std::cerr << "LET_PROJECTION_BODY=" << body.dump(2) << std::endl;
     ASSERT_TRUE(body.contains("entities"));
     ASSERT_TRUE(body["entities"].is_array());
     // Expect two results with object projection

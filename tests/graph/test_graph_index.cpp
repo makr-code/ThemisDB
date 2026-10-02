@@ -2,16 +2,35 @@
 #include "index/graph_index.h"
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
+#include <chrono>
 #include <filesystem>
+#include <thread>
 
 namespace fs = std::filesystem;
 
 class GraphIndexTest : public ::testing::Test {
 protected:
+    void removeTestDbPath() {
+        std::error_code ec;
+        for (int attempt = 0; attempt < 12; ++attempt) {
+            ec.clear();
+            fs::remove_all(test_db_path_, ec);
+            if (!fs::exists(test_db_path_)) {
+                return;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
+        if (ec) {
+            ADD_FAILURE() << "remove_all failed for " << test_db_path_ << ": " << ec.message();
+        } else {
+            ADD_FAILURE() << "remove_all could not clear stale directory: " << test_db_path_;
+        }
+    }
+
     void SetUp() override {
-    test_db_path_ = "./data/themis_graph_index_test";
-        fs::remove_all(test_db_path_);
-        
+        test_db_path_ = "./data/themis_graph_index_test";
+        removeTestDbPath();
+
         themis::RocksDBWrapper::Config config;
         config.db_path = test_db_path_;
         config.memtable_size_mb = 64;
@@ -19,16 +38,22 @@ protected:
         config.max_background_jobs = 2;
         config.compression_default = "lz4";
         config.compression_bottommost = "zstd";
-        
+
         db_ = std::make_unique<themis::RocksDBWrapper>(config);
         ASSERT_TRUE(db_->open());
         graph_mgr_ = std::make_unique<themis::GraphIndexManager>(*db_);
     }
 
     void TearDown() override {
-        graph_mgr_.reset();
-        db_.reset();
-        fs::remove_all(test_db_path_);
+        if (graph_mgr_) {
+            graph_mgr_.reset();
+        }
+        if (db_) {
+            db_->close();
+            db_.reset();
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        removeTestDbPath();
     }
 
     std::string test_db_path_;

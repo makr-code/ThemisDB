@@ -174,9 +174,11 @@ nlohmann::json LetEvaluator::evaluateExpression(
         if (var->name == "doc") {
             return currentDoc;
         }
-        auto varValue = resolveVariable(var->name);
-        if (varValue.has_value()) {
+        if (auto varValue = resolveVariable(var->name); varValue.has_value()) {
             return varValue.value();
+        }
+        if (currentDoc.is_object() && currentDoc.contains(var->name)) {
+            return currentDoc[var->name];
         }
         throw std::runtime_error("Undefined variable: " + var->name);
     }

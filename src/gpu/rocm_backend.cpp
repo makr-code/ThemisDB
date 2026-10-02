@@ -26,6 +26,7 @@
 
 #include "themis/gpu/rocm_backend.h"
 
+#include <cstdlib>    // std::malloc / std::free
 #include <cstring>    // std::memset
 #include <future>
 #include <stdexcept>
@@ -374,6 +375,17 @@ ROCmBackend::AllocationRecord ROCmBackend::allocate(size_t size_bytes,
         return rec;
     }
     rec.device_ptr = reinterpret_cast<uintptr_t>(ptr);
+#else
+    void* ptr = std::malloc(size_bytes);
+    if (ptr == nullptr) {
+        auto logger = spdlog::get("gpu");
+        if (logger) {
+            logger->error("ROCmBackend::allocate: std::malloc({} bytes, tag='{}') failed", 
+                         size_bytes, tag);
+        }
+        return rec;
+    }
+    rec.device_ptr = reinterpret_cast<uintptr_t>(ptr);
 #endif
 
     if (rec.device_ptr != 0) {
@@ -409,6 +421,9 @@ ROCmBackend::Result ROCmBackend::deallocate(AllocationRecord& rec) {
         }
         return {false, "hipFree failed for allocation '" + rec.tag + "'"};
     }
+#else
+    auto* ptr = reinterpret_cast<void*>(rec.device_ptr);
+    std::free(ptr);
 #endif
 
     {
@@ -461,9 +476,9 @@ ROCmBackend::Result ROCmBackend::zeroMemory(uintptr_t device_ptr,
         return {false, "hipMemset failed"};
     }
 #else
-    // CPU fallback: zero the host-side memory at the address.
-    // In a real deployment the pointer is a device address; this branch only
-    // executes in the no-HIP simulation path used by unit tests.
+    // CPU fallback: zero the host-side memory at the address.  This is a
+    // simulation path used by unit tests and keeps the allocation contract
+    // consistent with the real HIP code path.
     auto* ptr = reinterpret_cast<void*>(device_ptr);
     std::memset(ptr, 0, size_bytes);
 #endif

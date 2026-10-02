@@ -38,9 +38,15 @@ protected:
 
     void TearDown() override {
         trav_.reset();
-        graph_mgr_.reset();
-        db_.reset();
-        fs::remove_all(test_db_path_);
+        if (graph_mgr_) {
+            graph_mgr_.reset();
+        }
+        if (db_) {
+            db_->close();
+            db_.reset();
+        }
+        std::error_code ec;
+        fs::remove_all(test_db_path_, ec);
     }
 
     /**
@@ -417,9 +423,15 @@ protected:
 
     void TearDown() override {
         optimizer_.reset();
-        graph_mgr_.reset();
-        db_.reset();
-        fs::remove_all(test_db_path_);
+        if (graph_mgr_) {
+            graph_mgr_.reset();
+        }
+        if (db_) {
+            db_->close();
+            db_.reset();
+        }
+        std::error_code ec;
+        fs::remove_all(test_db_path_, ec);
     }
 
     void buildGraph() {
