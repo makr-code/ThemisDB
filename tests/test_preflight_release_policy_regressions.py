@@ -67,14 +67,14 @@ def extract_submodule_paths(command_suffix: str) -> list[str]:
 
 
 def extract_release_matrix_lane_slice(workflow_text: str, lane_id: str) -> str:
-    lane_token = f'\n                  "id": "{lane_id}"'
-    start = workflow_text.find(lane_token)
-    if start == -1:
+    lane_match = re.search(
+        rf'\{{\s*"id": "{re.escape(lane_id)}",(?P<body>.*?)(?=\{{\s*"id": "|]\s*\n)',
+        workflow_text,
+        re.DOTALL,
+    )
+    if lane_match is None:
         raise AssertionError(f"Could not find release lane {lane_id!r}")
-    next_start = workflow_text.find('\n              {\n                  "id": "', start + len(lane_token))
-    if next_start == -1:
-        return workflow_text[start:]
-    return workflow_text[start:next_start]
+    return lane_match.group(0)
 
 
 class PreflightReleasePolicyRegressionTests(unittest.TestCase):
