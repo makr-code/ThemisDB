@@ -160,7 +160,7 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
 
         linux_error = "::error::No Linux package artifacts were produced in ${PACKAGES_DIR}"
         windows_error = "::error::No Windows package artifacts were produced in ${PACKAGES_DIR}"
-        self.assertGreaterEqual(workflow_text.count(linux_error), 2)
+        self.assertEqual(workflow_text.count(linux_error), 2)
         self.assertEqual(workflow_text.count(windows_error), 1)
         self.assertNotIn("::warning::No Linux package artifacts were produced", workflow_text)
         self.assertNotIn("::warning::No Windows package artifacts were produced", workflow_text)
