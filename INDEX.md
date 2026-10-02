@@ -67,6 +67,7 @@ The canonical AI docs base is the `ai_context/` hub plus its module indexes. Kee
 - [ai_context/memory_management_policy.md](ai_context/memory_management_policy.md) — ownership and RAII guidance
 - [ai_context/OOP_AND_SOC_PRINCIPLES.md](ai_context/OOP_AND_SOC_PRINCIPLES.md) — architecture and separation-of-concerns guidance
 - [ai_context/FUNCTION_CLASSIFICATION.md](ai_context/FUNCTION_CLASSIFICATION.md) — function classification and hot-path guidance
+- [ai_context/legacy_status/STATUS_2026_08_01.md](ai_context/legacy_status/STATUS_2026_08_01.md) — retained historical legacy-status snapshot for audit continuity
 
 Historical or superseded AI working artifacts are archived in [docs/ARCHIVED/ai-working-history/README.md](docs/ARCHIVED/ai-working-history/README.md) rather than kept as active root state.
 
