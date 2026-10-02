@@ -68,7 +68,7 @@ def extract_submodule_paths(command_suffix: str) -> list[str]:
 
 def extract_release_matrix_lane_slice(workflow_text: str, lane_id: str) -> str:
     lane_match = re.search(
-        rf'\{{\s*"id": "{re.escape(lane_id)}",(?P<body>.*?)(?=\{{\s*"id": "|]\s*\n)',
+        rf'\{{\s*"id": "{re.escape(lane_id)}",.*?(?=\{{\s*"id": "|]\s*(?:\n|$))',
         workflow_text,
         re.DOTALL,
     )
