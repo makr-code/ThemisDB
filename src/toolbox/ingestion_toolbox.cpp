@@ -207,6 +207,7 @@ std::vector<ingestion::BaseEntity> IngestionToolbox::extractEntities(
     const std::string& filename)
 {
     if (text.empty()) {
+        recordExtraction(0, 0, true);
         return {};
     }
 
@@ -237,6 +238,7 @@ ingestion::BaseEntitySet IngestionToolbox::extractEntitySet(
     const std::string& filename)
 {
     if (text.empty()) {
+        recordExtraction(0, 0, true);
         return {};
     }
 

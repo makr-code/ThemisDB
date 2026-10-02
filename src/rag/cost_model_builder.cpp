@@ -6,11 +6,41 @@
 #include <algorithm>
 #include <chrono>
 #include <cmath>
+#include <filesystem>
+#include <fstream>
 #include <numeric>
 #include <random>
 #include <set>
 
+#include <nlohmann/json.hpp>
+
 namespace themis::rag {
+
+namespace {
+
+nlohmann::json ToJsonMap(const std::map<std::string, float>& values) {
+  nlohmann::json payload = nlohmann::json::object();
+  for (const auto& [key, value] : values) {
+    payload[key] = value;
+  }
+  return payload;
+}
+
+std::map<std::string, float> FromJsonMap(const nlohmann::json& payload) {
+  std::map<std::string, float> values;
+  if (!payload.is_object()) {
+    return values;
+  }
+
+  for (auto it = payload.begin(); it != payload.end(); ++it) {
+    if (it.value().is_number_float() || it.value().is_number_integer() || it.value().is_number_unsigned()) {
+      values[it.key()] = it.value().get<float>();
+    }
+  }
+  return values;
+}
+
+}  // namespace
 
 // CostModel implementation
 float CostModelBuilder::CostModel::Predict(const std::map<std::string, float>& features) {
@@ -75,13 +105,68 @@ std::vector<float> CostModelBuilder::CostModel::GetResiduals(
 }
 
 bool CostModelBuilder::CostModel::ExportToJSON(const std::string& output_path) {
-  // TODO: Serialize model to JSON file
-  return true;
+  if (output_path.empty()) {
+    return false;
+  }
+
+  try {
+    std::filesystem::path path(output_path);
+    if (path.has_parent_path()) {
+      std::filesystem::create_directories(path.parent_path());
+    }
+
+    nlohmann::json payload = nlohmann::json::object();
+    payload["model_type"] = model_type_;
+    payload["coefficients"] = ToJsonMap(coefficients_);
+    payload["metrics"] = ToJsonMap(metrics_);
+    payload["residuals"] = nlohmann::json::array();
+    for (float residual : residuals_) {
+      payload["residuals"].push_back(residual);
+    }
+
+    std::ofstream output(path, std::ios::out | std::ios::trunc);
+    if (!output.is_open()) {
+      return false;
+    }
+    output << payload.dump(2);
+    output.flush();
+    return output.good();
+  } catch (const std::exception&) {
+    return false;
+  }
 }
 
 bool CostModelBuilder::CostModel::LoadFromJSON(const std::string& input_path) {
-  // TODO: Deserialize model from JSON file
-  return true;
+  if (input_path.empty()) {
+    return false;
+  }
+
+  std::ifstream input(input_path);
+  if (!input.is_open()) {
+    return false;
+  }
+
+  try {
+    nlohmann::json payload;
+    input >> payload;
+    if (!payload.is_object()) {
+      return false;
+    }
+
+    model_type_ = payload.value("model_type", "linear");
+    coefficients_ = FromJsonMap(payload.value("coefficients", nlohmann::json::object()));
+    metrics_ = FromJsonMap(payload.value("metrics", nlohmann::json::object()));
+
+    residuals_.clear();
+    if (payload.contains("residuals") && payload["residuals"].is_array()) {
+      for (const auto& residual : payload["residuals"]) {
+        residuals_.push_back(residual.get<float>());
+      }
+    }
+    return true;
+  } catch (const std::exception&) {
+    return false;
+  }
 }
 
 // CostModelBuilder implementation

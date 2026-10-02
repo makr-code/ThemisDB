@@ -221,7 +221,7 @@ IngestionQualityReport IngestionQualityJudge::evaluate(
 
     // ---- Fail-open when context is too sparse or backend unavailable ----
     const bool sparse_context =
-        source_text.size() < config_.min_text_bytes_for_eval ||
+        source_text.size() < config_.min_text_bytes_for_eval &&
         ctx.entities.size() < config_.min_entities_for_eval;
 
     if (sparse_context || !backend_->isAvailable()) {
@@ -689,8 +689,8 @@ ReIngestionController::RunResult ReIngestionController::process(
     result.quality_met = false;
 
     const int max_attempts = judge_->config().max_reingestion_attempts + 1;
-    // attempt 0 = first pass (not a re-ingestion)
-    // attempts 1..max_reingestion_attempts = re-ingestion passes
+    // attempt 0 = first pass (not a re-ingestion), but stored history requires
+    // 1-based attempt numbers for report.attempt and re-ingestion sequencing.
 
     double best_score = -1.0;
 
@@ -711,7 +711,7 @@ ReIngestionController::RunResult ReIngestionController::process(
 
         // ---- Evaluate quality ----
         IngestionQualityReport report = judge_->evaluate(ctx);
-        report.attempt = attempt;
+        report.attempt = attempt + 1;
 
         result.attempts = attempt + 1;
         result.history.push_back(report);

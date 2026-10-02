@@ -1072,7 +1072,6 @@ set(THEMIS_SHARDING_SOURCES
     ../src/sharding/admin_api.cpp
     ../src/sharding/shard_repair_engine.cpp
     ../src/sharding/cloud_agent.cpp
-    ../src/sharding/circuit_breaker.cpp
     ../src/sharding/gossip_protocol.cpp
     ../src/sharding/gossip_config_manager.cpp
     ../src/sharding/distributed_coordinator.cpp
@@ -1779,6 +1778,7 @@ set(THEMIS_INGESTION_SOURCES
     ../src/ingestion/semantic_validator.cpp
     ../src/ingestion/agentic_reference_validator.cpp
     ../src/ingestion/ingestion_quality_judge.cpp
+    ../src/ingestion/reindex_decision_engine.cpp
     # Backend-agnostic adapter used by ingestion_manager even in regex-fallback mode.
     ../src/ingestion/llm_adapter.cpp
     ../src/ingestion/steps/chunk_tt_decompose_step.cpp

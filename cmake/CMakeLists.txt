@@ -2572,6 +2572,7 @@ set(THEMIS_CORE_SOURCES
     ../src/ingestion/semantic_validator.cpp
     ../src/ingestion/agentic_reference_validator.cpp
     ../src/ingestion/ingestion_quality_judge.cpp
+    ../src/ingestion/reindex_decision_engine.cpp
     ../src/ingestion/llm_adapter.cpp
     # Ingestion v2.0 workflow engine + entity assembler + sinks
     ../src/ingestion/workflow_engine.cpp
@@ -2915,7 +2916,6 @@ set(THEMIS_CORE_SOURCES
     ../src/sharding/cloud_backup.cpp
     ../src/sharding/cloud_sdk_integration_stubs.cpp
     ../src/sharding/orphan_detector.cpp
-    ../src/sharding/circuit_breaker.cpp
     ../src/sharding/gossip_protocol.cpp
     ../src/sharding/gossip_config_manager.cpp
     ../src/sharding/distributed_coordinator.cpp

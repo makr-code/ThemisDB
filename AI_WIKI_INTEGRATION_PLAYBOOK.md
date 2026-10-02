@@ -62,6 +62,7 @@ Aktive Wissensartefakte muessen aus dem Root-Index oder diesem Playbook erreichb
 - [ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md](ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md) — Governance-, Release- und Roadmap-Status
 - [ai_context/api_contracts/README.md](ai_context/api_contracts/README.md) — API-Vertragslandingpage
 - [ai_context/COPILOT_INSTRUCTIONS.md](ai_context/COPILOT_INSTRUCTIONS.md) — agentische Arbeitsregeln
+- [ai_context/legacy_status/STATUS_2026_08_01.md](ai_context/legacy_status/STATUS_2026_08_01.md) — historische Legacy-Status-Snapshot fuer Audit- und Migrationsnachvollziehbarkeit
 
 Historische oder supersedete AI-Artefakte, die nicht mehr aktiv verwendet werden, sind in [docs/ARCHIVED/ai-working-history/README.md](docs/ARCHIVED/ai-working-history/README.md) zu archivieren, nicht im aktiven Root-Index zu verankern.
 

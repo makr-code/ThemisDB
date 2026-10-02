@@ -118,16 +118,13 @@ Result<void> MaintenanceScheduleStore::loadAll(
         return scan_result;
     }
 
-    // If any entry was corrupt / unparseable, return PersistenceCorrupt so
-    // callers can surface this rather than silently loading a partial set.
+    // Corrupt entries are non-fatal: keep the valid subset and continue loading
+    // so restart/recovery can recover the healthy schedules without dropping the
+    // entire persisted set due to a single malformed record.
     if (skipped > 0) {
-        spdlog::error("MaintenanceScheduleStore::loadAll: {} corrupt entry(ies) found; "
-                      "returning PersistenceCorrupt (loaded {} good entry(ies))",
-                      skipped, loaded);
-        return tl::unexpected(Error(
-            errors::ErrorCode::ERR_STORAGE_TRANSACTION_FAILED,
-            "MaintenanceScheduleStore::loadAll: PersistenceCorrupt — " +
-            std::to_string(skipped) + " corrupt entry(ies) detected"));
+        spdlog::warn("MaintenanceScheduleStore::loadAll: skipped {} corrupt entry(ies); "
+                     "loaded {} good entry(ies)",
+                     skipped, loaded);
     }
 
     // Merge loaded entries into the caller's map.

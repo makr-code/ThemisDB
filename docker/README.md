@@ -19,10 +19,10 @@ The supporting files in this directory are deployment/configuration helpers and 
 
 ### Primary Dockerfile (Dockerfile.unified)
 
-- **Base image:** `ubuntu:latest`
-- **Rationale:** Ubuntu's `latest` tag automatically tracks the current LTS release with security patches
-- **Benefit for cross-compilation:** Different Docker registries (Linux/macOS/Windows) can independently resolve `ubuntu:latest` without SHA divergence
-- **Security:** All LTS patches are applied automatically; no need to manually track minor versions
+- **Base image:** `ubuntu:24.04`
+- **Rationale:** pinned LTS base improves reproducibility between CI and Docker Desktop
+- **Benefit for cross-compilation:** avoids implicit base-image drift between registries/runs
+- **Security:** receives Ubuntu LTS security patches via package updates
 
 ### Ethics AI Dockerfile (Dockerfile.ethics-ai)
 
@@ -43,17 +43,43 @@ From the repository root:
 
 ```bash
 docker buildx build --progress=plain --load \
+  --platform linux/amd64 \
   -f docker/Dockerfile.unified \
   -t themisdb:test \
   --build-arg THEMIS_EDITION=COMMUNITY \
   --build-arg ENABLE_LLM=OFF \
-  --build-arg ENABLE_GPU=OFF \
-  --build-arg BUILD_TESTS=OFF \
-  --build-arg BUILD_BENCHMARKS=OFF \
+  --build-arg FORCE_CPU_ONLY=ON \
   .
 ```
 
 This is the recommended smoke test for validating the root build path with cache-aware BuildKit layers.
+
+### CI parity and optional multi-arch
+
+`release-docker-image.yml` now defaults to `linux/amd64` for faster, more reliable release-consumer builds.  
+To reproduce that path locally:
+
+```bash
+docker buildx build --progress=plain --load \
+  --platform linux/amd64 \
+  -f docker/Dockerfile.unified \
+  -t themisdb:ci-amd64 \
+  --build-arg THEMIS_EDITION=COMMUNITY \
+  --build-arg FORCE_CPU_ONLY=ON \
+  .
+```
+
+When you explicitly need a multi-arch image (for example pre-release validation), run:
+
+```bash
+docker buildx build --progress=plain --push \
+  --platform linux/amd64,linux/arm64 \
+  -f docker/Dockerfile.unified \
+  -t ghcr.io/<owner>/themisdb:multiarch-test \
+  --build-arg THEMIS_EDITION=COMMUNITY \
+  --build-arg FORCE_CPU_ONLY=ON \
+  .
+```
 
 ## Buildx Builder starten
 
