@@ -270,10 +270,10 @@ std::string DistributedGraphManager::resolveShardForVertex(const std::string &lo
         [[fallthrough]];
         default: {
             // FNV-1a hash → uniform bucket assignment.
-            uint64_t h = 14695981039346656037;
+            uint64_t h = UINT64_C(14695981039346656037);
             for (unsigned char c : local_vertex_id) {
                 h ^= static_cast<uint64_t>(c);
-                h *= 1099511628211;
+                h *= UINT64_C(1099511628211);
             }
             return ordered[h % ordered.size()];
         }

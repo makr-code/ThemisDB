@@ -1654,11 +1654,11 @@ struct ForecastModel::Impl {
 
     // FNV-1a 64-bit hash over arbitrary bytes
     static uint64_t fnv1a64(const void *data, size_t len) noexcept {
-        uint64_t hash    = 14695981039346656037ULL;
+        uint64_t hash    = UINT64_C(14695981039346656037);
         const uint8_t *p = static_cast<const uint8_t *>(data);
         for (size_t i = 0; i < len; ++i) {
             hash ^= static_cast<uint64_t>(p[i]);
-            hash *= 1099511628211;
+            hash *= UINT64_C(1099511628211);
         }
         return hash;
     }

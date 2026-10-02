@@ -139,10 +139,10 @@ static std::string sha256HexOfFile(const std::string& path) {
  * @details Implements fnv1a64 without additional internal calls.
  */
 static uint64_t fnv1a64(const std::vector<uint8_t>& data) {
-    uint64_t hash = 1469598103934665603ull;
+    uint64_t hash = UINT64_C(1469598103934665603);
     for (uint8_t b : data) {
         hash ^= static_cast<uint64_t>(b);
-        hash *= 1099511628211ull;
+        hash *= UINT64_C(1099511628211);
     }
     return hash;
 }
@@ -154,10 +154,10 @@ static uint64_t fnv1a64(const std::vector<uint8_t>& data) {
  * @details Implements fnv1a64_str without additional internal calls.
  */
 static uint64_t fnv1a64_str(const std::string& s) {
-    uint64_t hash = 1469598103934665603ull;
+    uint64_t hash = UINT64_C(1469598103934665603);
     for (unsigned char c : s) {
         hash ^= static_cast<uint64_t>(c);
-        hash *= 1099511628211ull;
+        hash *= UINT64_C(1099511628211);
     }
     return hash;
 }
@@ -174,7 +174,7 @@ static uint64_t mixMetadata(uint64_t seed, const ImageMetadata* metadata) {
         return seed;
     }
     seed ^= static_cast<uint64_t>(metadata->width + 31 * metadata->height + 17 * metadata->channels);
-    seed *= 1099511628211ull;
+    seed *= UINT64_C(1099511628211);
     seed ^= static_cast<uint64_t>(metadata->bits_per_channel + 13);
     return seed;
 }
@@ -491,7 +491,7 @@ struct ONNXClipPlugin::Impl {
         uint64_t seed = fnv1a64_str(text);
         for (const auto& tok : tokens) {
             seed ^= fnv1a64_str(tok);
-            seed *= 1099511628211ull;
+            seed *= UINT64_C(1099511628211);
         }
 
         double l2 = 0.0;
