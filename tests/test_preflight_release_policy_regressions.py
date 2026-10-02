@@ -160,9 +160,18 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
 
         linux_error = "::error::No Linux package artifacts were produced in ${PACKAGES_DIR}"
         windows_error = "::error::No Windows package artifacts were produced in ${PACKAGES_DIR}"
-        # linux-amd64 and linux-arm64 lanes each contribute one Linux occurrence.
-        self.assertEqual(workflow_text.count(linux_error), 2)
-        self.assertEqual(workflow_text.count(windows_error), 1)
+        self.assertRegex(
+            workflow_text,
+            re.compile(r'"id": "linux-amd64".+?' + re.escape(linux_error), re.DOTALL),
+        )
+        self.assertRegex(
+            workflow_text,
+            re.compile(r'"id": "linux-arm64".+?' + re.escape(linux_error), re.DOTALL),
+        )
+        self.assertRegex(
+            workflow_text,
+            re.compile(r'"id": "windows-amd64".+?' + re.escape(windows_error), re.DOTALL),
+        )
         self.assertNotIn("::warning::No Linux package artifacts were produced", workflow_text)
         self.assertNotIn("::warning::No Windows package artifacts were produced", workflow_text)
 
