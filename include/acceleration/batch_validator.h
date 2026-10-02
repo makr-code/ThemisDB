@@ -188,9 +188,13 @@ struct BatchValidator {
                 "numPoints must be > 0"));
             return false;
         }
-        // Degenerate polygons are treated as a valid but empty containment result
-        // at the backend boundary; callers may decide to return all-false for a
-        // point batch instead of surfacing an error.
+        if (numPolygonVertices < 3) {
+            onError(ErrorContextHelpers::createValidationError(
+                backendName,
+                AccelerationErrorCode::InvalidInputShape,
+                "polygon must have at least 3 vertices"));
+            return false;
+        }
         for (size_t i = 0; i < numPoints; ++i) {
             const bool latOk = std::isfinite(pointLats[i]) && pointLats[i] >= kMinLatitude && pointLats[i] <= kMaxLatitude;
             const bool lonOk = std::isfinite(pointLons[i]) && pointLons[i] >= kMinLongitude && pointLons[i] <= kMaxLongitude;

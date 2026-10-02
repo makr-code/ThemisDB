@@ -463,9 +463,6 @@ std::vector<bool> GeoAccelerationBridge::batchPointInPolygon(
     if (numPoints == 0) {
         return {};
     }
-    if (numPolygonVertices < 3) {
-        return std::vector<bool>(numPoints, false);
-    }
     auto sink = [this](ErrorContext e) { setError(std::move(e)); };
     if (!BatchValidator::validatePointInPolygonBatch(name(), pointLats, pointLons, numPoints, polygonCoords,
                                                      numPolygonVertices, sink)) {
