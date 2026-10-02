@@ -68,7 +68,7 @@ def extract_submodule_paths(command_suffix: str) -> list[str]:
 
 def extract_release_matrix_lane_block(workflow_text: str, lane_id: str) -> str:
     lane_block = re.search(
-        rf'"id": "{re.escape(lane_id)}",(?P<body>.*?)"artifact_name":',
+        rf'"id": "{re.escape(lane_id)}",(?P<body>.*?)"summary_title":',
         workflow_text,
         re.DOTALL,
     )
