@@ -6,9 +6,100 @@
 #include <algorithm>
 #include <chrono>
 #include <cmath>
+#include <filesystem>
+#include <fstream>
 #include <numeric>
 
+#include <nlohmann/json.hpp>
+
 namespace themis::rag {
+
+namespace {
+
+nlohmann::json QueryResultToJson(const EvaluationResultStore::QueryResult& result) {
+  nlohmann::json record = nlohmann::json::object();
+  record["query_id"] = result.query_id;
+  record["scenario"] = result.scenario;
+  record["ndcg_10"] = result.ndcg_10;
+  record["ndcg_100"] = result.ndcg_100;
+  record["mrr_10"] = result.mrr_10;
+  record["map_10"] = result.map_10;
+  record["precision_10"] = result.precision_10;
+  record["recall_10"] = result.recall_10;
+  record["query_latency_ms"] = result.query_latency_ms;
+  record["query_cost_usd"] = result.query_cost_usd;
+  record["computed_at_us"] = result.computed_at_us;
+  return record;
+}
+
+EvaluationResultStore::QueryResult JsonToQueryResult(const nlohmann::json& payload) {
+  EvaluationResultStore::QueryResult result;
+  if (!payload.is_object()) {
+    return result;
+  }
+  result.query_id = payload.value("query_id", "");
+  result.scenario = payload.value("scenario", "");
+  result.ndcg_10 = payload.value("ndcg_10", 0.0f);
+  result.ndcg_100 = payload.value("ndcg_100", 0.0f);
+  result.mrr_10 = payload.value("mrr_10", 0.0f);
+  result.map_10 = payload.value("map_10", 0.0f);
+  result.precision_10 = payload.value("precision_10", 0.0f);
+  result.recall_10 = payload.value("recall_10", 0.0f);
+  result.query_latency_ms = payload.value("query_latency_ms", 0ull);
+  result.query_cost_usd = payload.value("query_cost_usd", 0.0f);
+  result.computed_at_us = payload.value("computed_at_us", 0ll);
+  return result;
+}
+
+nlohmann::json BenchmarkRunToJson(const EvaluationResultStore::BenchmarkRun& run) {
+  nlohmann::json record = nlohmann::json::object();
+  record["run_id"] = run.run_id;
+  record["dataset_name"] = run.dataset_name;
+  record["scenario_name"] = run.scenario_name;
+  record["version"] = run.version;
+  record["created_at_us"] = run.created_at_us;
+  record["metadata"] = run.metadata;
+  record["mean_ndcg_10"] = run.mean_ndcg_10;
+  record["mean_ndcg_100"] = run.mean_ndcg_100;
+  record["mean_mrr_10"] = run.mean_mrr_10;
+  record["mean_map_10"] = run.mean_map_10;
+  record["mean_latency_ms"] = run.mean_latency_ms;
+  record["mean_cost_usd"] = run.mean_cost_usd;
+  record["query_results"] = nlohmann::json::array();
+  for (const auto& result : run.query_results) {
+    record["query_results"].push_back(QueryResultToJson(result));
+  }
+  return record;
+}
+
+EvaluationResultStore::BenchmarkRun JsonToBenchmarkRun(const nlohmann::json& payload) {
+  EvaluationResultStore::BenchmarkRun run;
+  if (!payload.is_object()) {
+    return run;
+  }
+
+  run.run_id = payload.value("run_id", "");
+  run.dataset_name = payload.value("dataset_name", "");
+  run.scenario_name = payload.value("scenario_name", "");
+  run.version = payload.value("version", "");
+  run.created_at_us = payload.value("created_at_us", 0ll);
+  run.metadata = payload.value("metadata", nlohmann::json::object()).get<std::map<std::string, std::string>>();
+  run.mean_ndcg_10 = payload.value("mean_ndcg_10", 0.0f);
+  run.mean_ndcg_100 = payload.value("mean_ndcg_100", 0.0f);
+  run.mean_mrr_10 = payload.value("mean_mrr_10", 0.0f);
+  run.mean_map_10 = payload.value("mean_map_10", 0.0f);
+  run.mean_latency_ms = payload.value("mean_latency_ms", 0.0f);
+  run.mean_cost_usd = payload.value("mean_cost_usd", 0.0f);
+
+  if (payload.contains("query_results") && payload["query_results"].is_array()) {
+    for (const auto& result_payload : payload["query_results"]) {
+      run.query_results.push_back(JsonToQueryResult(result_payload));
+    }
+  }
+  return run;
+}
+
+}  // namespace
 
 EvaluationResultStore::EvaluationResultStore() {}
 
@@ -188,19 +279,46 @@ std::string EvaluationResultStore::GenerateReport(
     const std::string& candidate_run_id,
     const std::string& format) {
   auto comparison = Compare(baseline_run_id, candidate_run_id);
+  auto baseline_it = runs_.find(baseline_run_id);
+  auto candidate_it = runs_.find(candidate_run_id);
 
   if (format == "json") {
-    return "{}";  // TODO: Serialize to JSON
+    nlohmann::json payload = nlohmann::json::object();
+    payload["baseline_run_id"] = baseline_run_id;
+    payload["candidate_run_id"] = candidate_run_id;
+    payload["verdict"] = comparison.verdict;
+    payload["mean_ndcg_10_delta"] = comparison.mean_ndcg_10_delta;
+    payload["mean_ndcg_100_delta"] = comparison.mean_ndcg_100_delta;
+    payload["mean_mrr_10_delta"] = comparison.mean_mrr_10_delta;
+    payload["mean_latency_delta_ms"] = comparison.mean_latency_delta_ms;
+    payload["mean_cost_delta_usd"] = comparison.mean_cost_delta_usd;
+    payload["p_value"] = comparison.p_value;
+    payload["is_significant"] = comparison.is_significant;
+    payload["confidence_interval_lower"] = comparison.confidence_interval_lower;
+    payload["confidence_interval_upper"] = comparison.confidence_interval_upper;
+
+    if (baseline_it != runs_.end()) {
+      payload["baseline"] = BenchmarkRunToJson(baseline_it->second);
+    }
+    if (candidate_it != runs_.end()) {
+      payload["candidate"] = BenchmarkRunToJson(candidate_it->second);
+    }
+    return payload.dump(2);
   }
 
-  // Markdown format
   std::string report = "# Evaluation Report\n\n";
   report += "## Comparison: " + baseline_run_id + " vs " + candidate_run_id + "\n\n";
   report += "| Metric | Baseline | Candidate | Delta | Verdict |\n";
   report += "|--------|----------|-----------|-------|----------|\n";
-  report += "| NDCG@10 | " + std::to_string(runs_[baseline_run_id].mean_ndcg_10) + " | " +
-            std::to_string(runs_[candidate_run_id].mean_ndcg_10) + " | " +
-            std::to_string(comparison.mean_ndcg_10_delta) + " | " + comparison.verdict + " |\n";
+
+  if (baseline_it != runs_.end() && candidate_it != runs_.end()) {
+    report += "| NDCG@10 | " + std::to_string(baseline_it->second.mean_ndcg_10) + " | " +
+              std::to_string(candidate_it->second.mean_ndcg_10) + " | " +
+              std::to_string(comparison.mean_ndcg_10_delta) + " | " + comparison.verdict + " |\n";
+    report += "| MRR@10 | " + std::to_string(baseline_it->second.mean_mrr_10) + " | " +
+              std::to_string(candidate_it->second.mean_mrr_10) + " | " +
+              std::to_string(comparison.mean_mrr_10_delta) + " | " + comparison.verdict + " |\n";
+  }
 
   return report;
 }
@@ -208,8 +326,39 @@ std::string EvaluationResultStore::GenerateReport(
 bool EvaluationResultStore::ExportRun(
     const std::string& run_id,
     const std::string& output_path) {
-  // TODO: Export run to file
-  return true;
+  auto it = runs_.find(run_id);
+  if (it == runs_.end()) {
+    return false;
+  }
+
+  try {
+    std::filesystem::path path(output_path);
+    if (path.has_parent_path()) {
+      std::filesystem::create_directories(path.parent_path());
+    }
+
+    nlohmann::json payload = nlohmann::json::object();
+    payload["schema_version"] = 1;
+    payload["exported_at_us"] = std::chrono::duration_cast<std::chrono::microseconds>(
+        std::chrono::system_clock::now().time_since_epoch())
+        .count();
+    payload["provenance"] = nlohmann::json::object();
+    payload["provenance"]["run_id"] = run_id;
+    payload["provenance"]["dataset_name"] = it->second.dataset_name;
+    payload["provenance"]["scenario_name"] = it->second.scenario_name;
+    payload["provenance"]["version"] = it->second.version;
+    payload["run"] = BenchmarkRunToJson(it->second);
+
+    std::ofstream output(path, std::ios::out | std::ios::trunc);
+    if (!output.is_open()) {
+      return false;
+    }
+    output << payload.dump(2);
+    output.flush();
+    return output.good();
+  } catch (const std::exception&) {
+    return false;
+  }
 }
 
 uint32_t EvaluationResultStore::PruneOldRuns(uint32_t days_to_keep) {
