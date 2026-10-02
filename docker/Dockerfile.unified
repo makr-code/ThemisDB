@@ -370,6 +370,7 @@ RUN --mount=type=cache,id=apt-cache-build-${TARGETARCH},target=/var/cache/apt,sh
 # --build-arg FORCE_CPU_ONLY=ON
 ARG FORCE_CPU_ONLY=ON
 ARG THEMIS_BUILD_DIR=build-gcc-linux-release
+ARG THEMIS_BUILD_TARGET=themis_server
 
 RUN set -eux; \
     ARCH="${TARGETARCH:-}"; \
@@ -381,7 +382,7 @@ RUN set -eux; \
         arm|armv7l) TRIPLET="arm-linux" ;; \
         *) echo "WARN: Unknown TARGETARCH='${ARCH}', fallback to x64-linux" ;; \
     esac; \
-    echo "Building ThemisDB ${THEMIS_EDITION} (LLM=${ENABLE_LLM}, FORCE_CPU_ONLY=${FORCE_CPU_ONLY})..."; \
+    echo "Building ThemisDB ${THEMIS_EDITION} (LLM=${ENABLE_LLM}, FORCE_CPU_ONLY=${FORCE_CPU_ONLY}, TARGET=${THEMIS_BUILD_TARGET})..."; \
     echo "TARGETARCH=${ARCH} TRIPLET=${TRIPLET}"; \
     ls -la /build/vcpkg_installed/${TRIPLET} 2>/dev/null | head -20 || echo "No vcpkg_installed"; \
     \
@@ -421,7 +422,7 @@ RUN set -eux; \
         -DOPENSSL_ROOT_DIR="/src/vcpkg_installed/${TRIPLET}" \
         -DOpenSSL_DIR="/src/vcpkg_installed/${TRIPLET}/share/openssl" \
         ${EXTRA_ARGS} && \
-    ninja -C "${THEMIS_BUILD_DIR}" -j$(nproc)
+    cmake --build "${THEMIS_BUILD_DIR}" --target "${THEMIS_BUILD_TARGET}" --parallel "$(nproc)"
 
 # ============================================================================
 # Stage 5: runtime - Production image (optimized for size and startup)

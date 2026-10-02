@@ -28,16 +28,10 @@
 !plugins/**
 !external/
 !external/**
-!tests/
-!tests/**
-!artifacts/
-!artifacts/**
 !scripts/
 !scripts/**
 !tools/
 !tools/**
-!vcpkg/
-!vcpkg/**
 !llama.cpp/
 !llama.cpp/**
 !whisper.cpp/
