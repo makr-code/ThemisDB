@@ -155,6 +155,14 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
         self.assertIn("std::unique_ptr<DB> db(raw_db);", generator_text)
         self.assertNotIn("Status status = DB::Open(options, db_path, &db);", generator_text)
 
+    def test_release_build_matrix_treats_missing_package_artifacts_as_error(self) -> None:
+        workflow_text = RELEASE_BUILD_MATRIX_WORKFLOW.read_text(encoding="utf-8")
+
+        self.assertIn("::error::No Linux package artifacts were produced", workflow_text)
+        self.assertIn("::error::No Windows package artifacts were produced", workflow_text)
+        self.assertNotIn("::warning::No Linux package artifacts were produced", workflow_text)
+        self.assertNotIn("::warning::No Windows package artifacts were produced", workflow_text)
+
     def test_wordpress_press_dispatch_falls_back_to_synthetic_context(self) -> None:
         workflow_text = WORDPRESS_PRESS_WORKFLOW.read_text(encoding="utf-8")
 
