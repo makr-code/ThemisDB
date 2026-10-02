@@ -34,6 +34,7 @@
  */
 
 #include "docs_builder.h"
+#include "validator.h"
 #include <stdexcept>
 #include <iostream>
 
@@ -82,16 +83,15 @@ BuildStats DocsBuilder::build(BuildMode mode) {
 }
 
 bool DocsBuilder::validate(const std::string& db_path) {
-    // TODO: Implement validation
-    // 1. Check Column Family integrity
-    // 2. Verify document count consistency
-    // 3. Validate metadata
-    // 4. Check key format correctness
-    // 5. Verify namespace isolation
-    
     std::cout << "Validating database: " << db_path << "\n";
-    std::cout << "NOTE: This is a placeholder implementation.\n";
-    
+
+    const bool valid = Validator::validate(db_path);
+    if (!valid) {
+        std::cerr << "Validation failed: database directory is missing a valid RocksDB CURRENT manifest\n";
+        return false;
+    }
+
+    std::cout << "Database structure check passed.\n";
     return true;
 }
 

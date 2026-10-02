@@ -10,18 +10,36 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 option(BUILD_TESTS "Build unit tests" OFF)
 option(WITH_YAML "Enable YAML configuration support" ON)
 
-# Find required packages
-find_package(RocksDB REQUIRED)
+# Find required packages. Prefer a package config when available, but also
+# support the common Debian/Ubuntu system installation where only the shared
+# library and header files are present.
+find_package(RocksDB QUIET CONFIG)
+if(NOT RocksDB_FOUND)
+    find_path(ROCKSDB_INCLUDE_DIR NAMES rocksdb/db.h PATH_SUFFIXES include)
+    find_library(ROCKSDB_LIBRARY NAMES rocksdb)
+    if(ROCKSDB_INCLUDE_DIR AND ROCKSDB_LIBRARY)
+        add_library(RocksDB::rocksdb UNKNOWN IMPORTED)
+        set_target_properties(RocksDB::rocksdb PROPERTIES
+            IMPORTED_LOCATION "${ROCKSDB_LIBRARY}"
+            INTERFACE_INCLUDE_DIRECTORIES "${ROCKSDB_INCLUDE_DIR}"
+        )
+        set(RocksDB_FOUND TRUE)
+    endif()
+endif()
+
+if(NOT RocksDB_FOUND)
+    message(FATAL_ERROR "RocksDB is required for themis_docs_builder. Install librocksdb-dev or configure a RocksDB package directory.")
+endif()
 
 # Optional: YAML-CPP for configuration file support
 if(WITH_YAML)
-    find_package(yaml-cpp)
+    find_package(yaml-cpp QUIET)
 endif()
 
 # Include directories
 include_directories(
     ${PROJECT_SOURCE_DIR}/include
-    ${RocksDB_INCLUDE_DIR}
+    ${ROCKSDB_INCLUDE_DIR}
 )
 
 # Source files
@@ -81,8 +99,12 @@ install(FILES config/builder_config.example.yaml
 
 # Tests (if enabled)
 if(BUILD_TESTS)
-    enable_testing()
-    add_subdirectory(tests)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/CMakeLists.txt")
+        enable_testing()
+        add_subdirectory(tests)
+    else()
+        message(STATUS "ThemisDB docs builder tests not present; skipping test target registration")
+    endif()
 endif()
 
 # Print configuration summary

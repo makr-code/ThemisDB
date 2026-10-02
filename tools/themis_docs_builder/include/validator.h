@@ -19,9 +19,11 @@
 
 /**
  * @file validator.h
- * @brief Database validator interface for integrity and structure checks.
+ * @brief Database validator interface for RocksDB structure checks.
  *
- * Validates database integrity and structural expectations for a data path.
+ * Validates the expected on-disk layout of a ThemisDB documentation database so
+ * callers can reject non-existent or corrupted database directories before they
+ * attempt to read or write content.
  */
 
 #pragma once
@@ -34,11 +36,14 @@ namespace tools {
 class Validator {
 public:
     /**
-     * @brief Validate.
-     * @param[in] db_path Input parameter.
-     * @return True on success.
+     * @brief Validate that a database path contains a readable RocksDB manifest.
+     * @param db_path Path to the database directory to inspect.
+     * @return true when the directory exists and contains a valid CURRENT manifest
+     *         entry that resolves to a readable manifest file; false otherwise.
+     * @note This is a structural integrity check only. It does not attempt to open
+     *       the full RocksDB instance or verify every column family.
      */
-    static bool validate(const std::string& db_path);
+    [[nodiscard]] static bool validate(const std::string& db_path);
 };
 
 } // namespace tools
