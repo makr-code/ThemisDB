@@ -146,6 +146,9 @@ jobs:
       build_type: Release
       packaging: auto
       distribution: all
+    permissions:
+      contents: read
+      actions: read
 
   step2-architecture-summary:
     name: "Validate: Step 2 · Architecture Summary"

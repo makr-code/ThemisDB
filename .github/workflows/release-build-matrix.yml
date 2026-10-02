@@ -45,6 +45,10 @@ permissions:
   contents: read
   actions: read
 
+concurrency:
+  group: ci-release-matrix-${{ github.workflow }}-${{ github.ref_name || github.ref }}-${{ inputs.build_matrix }}-${{ inputs.os }}-${{ inputs.architecture }}
+  cancel-in-progress: false
+
 jobs:
   prepare-release-matrix:
     name: "Build: Prepare Release Build Matrix"

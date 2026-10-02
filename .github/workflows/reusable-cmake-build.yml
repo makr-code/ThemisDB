@@ -141,7 +141,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}-${{ inputs.runs_on }}-${{ inputs.summary_title }}
+  group: ${{ github.workflow }}-${{ github.ref_name || github.ref }}-${{ inputs.runs_on }}-${{ inputs.summary_title }}
   cancel-in-progress: false
 
 jobs:
