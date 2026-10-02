@@ -178,6 +178,9 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
         self.assertIn(linux_error, linux_amd64_lane)
         self.assertIn(linux_error, linux_arm64_lane)
         self.assertIn(windows_error, windows_amd64_lane)
+        self.assertNotIn(windows_error, linux_amd64_lane)
+        self.assertNotIn(windows_error, linux_arm64_lane)
+        self.assertNotIn(linux_error, windows_amd64_lane)
         self.assertNotIn("::warning::No Linux package artifacts were produced", workflow_text)
         self.assertNotIn("::warning::No Windows package artifacts were produced", workflow_text)
 
