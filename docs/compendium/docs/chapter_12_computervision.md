@@ -1,5 +1,12 @@
 # Kapitel 12: Computer Vision & Bildanalyse
 
+## v2.4.0-alpha roadmap alignment
+
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: computer vision, CV, CUDA, GPU, image, object detection. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
+
 ## 12.1 Einführung in Computer Vision Datenbanken
 
 ### Das Problem: Bilder sind mehr als nur Dateien
@@ -851,6 +858,8 @@ ThemisDB ermöglicht effiziente Computer Vision Anwendungen durch:
 5. Thumbnails für Performance
 
 ---
+
+> Source-aligned status (v2.4.0-alpha): ThemisDB is currently tracked against the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md baseline. This chapter reflects the current computer vision scope for the v2.4.0-alpha release, including the active roadmap topics computer vision, CV, CUDA, GPU, image, object detection. Wave A/B/C/D execution gates, release hardening, and representative-hardware evidence remain the key release criteria for GA sign-off.
 
 ## 12.10 Stable Diffusion Image Generation Plugin (v2.1)
 

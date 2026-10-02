@@ -1,19 +1,11 @@
 # MVCC und Hybrid Logical Clocks
 
-> **Zusammenfassung:** Multi-Version Concurrency Control (MVCC) kombiniert mit Hybrid Logical Clocks (HLC) ermöglicht ThemisDB konsistente Snapshot-Lesevorgänge und serialisierbare Transaktionen ohne Lesesperren. Dieses Kapitel beschreibt die Architektur, das Schlüssel-Encoding, die API und den Garbage-Collection-Mechanismus.
->
-> **Voraussetzungen:** [Kapitel 8: Storage Layer](chapter_08_storage_layer.md), [Kapitel 17: Horizontale Skalierung](chapter_17_scaling.md)
->
-> **Verwandte Dokumente:** [MVCC Architektur-Übersicht (DE)](../../docs/de/architecture/architecture_mvcc.md) · [MVCC Tuning Guide (EN)](../../docs/en/features/MVCC_TUNING_GUIDE.md)
->
-> **Lernziele:**
-> - MVCC-Grundprinzipien und ihre Anwendung in ThemisDB verstehen
-> - Hybrid Logical Clocks für kausale Zeitstempel einsetzen
-> - Versionierte Reads (Latest und Snapshot) korrekt verwenden
-> - Garbage Collection sicher konfigurieren und ausführen
-> - MVCC über die REST-API und Prometheus-Metriken überwachen
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: MVCC, HLC, concurrency, transaction, consistency. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## 18.1 Überblick
 

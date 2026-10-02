@@ -1,17 +1,11 @@
 # Kapitel 20: Performance Tuning
 
-> **Zusammenfassung:** Performance-Optimierung in ThemisDB erfordert systematisches Tuning von RocksDB, Ingestion-Pipelines, Hardware-Ressourcen und Query-Strategien. Wissenschaftliche Benchmarks zeigen 85.7% Scaling-Effizienz bei 10 Cores und bis zu 250% Throughput-Steigerung durch gezielte Optimierungen.
->
-> **Voraussetzungen:** [Kapitel 2: Architektur](chapter_02_architecture.md), [Kapitel 8: Storage Layer](chapter_08_storage_layer.md)
->
-> **Lernziele:**
-> - RocksDB Memory-Hierarchie und Compaction optimieren
-> - Ingestion-Throughput durch Batching und Compression steigern
-> - Hardware-spezifische Tuning-Strategien anwenden
-> - Query-Performance durch Indexierung und Caching verbessern
-> - Systematische Benchmarking-Methodologien nutzen
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: performance, benchmark, p95, p99, throughput, latency. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## 20.1 Performance Baselines
 

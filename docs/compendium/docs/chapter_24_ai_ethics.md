@@ -1,12 +1,11 @@
 # Kapitel 24: KI-Ethik und Governance
 
-**Autor:** ThemisDB Team  
-**Reviewer:** TBD  
-**Status:** Draft  
-**Letzte Aktualisierung:** 09. Januar 2026  
-**Version:** 1.1.0
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: AI ethics, governance, compliance, bias, responsible AI. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## Lernziele
 
@@ -1286,7 +1285,7 @@ ThemisDB implementiert **Role-Based Access Control (RBAC)** für granulare Zugri
 # ThemisDB Access Control Policy für VCC-System
 # Basierend auf NIST RBAC Standard (NIST SP 800-162)
 
-version: "2.0"
+Version: 2.4.0-alpha
 policy_effective_date: "2026-01-01"
 last_updated: "2026-01-10"
 

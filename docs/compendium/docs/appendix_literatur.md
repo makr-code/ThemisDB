@@ -1,8 +1,11 @@
 # Anhang A: Literaturverzeichnis
 
-Dieses Literaturverzeichnis folgt dem IEEE-Zitierstil und umfasst alle wissenschaftlichen und technischen Quellen, die in diesem Kompendium referenziert wurden.
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: references, literature, research, papers. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## Primärquellen: ThemisDB Gimini Analysen
 
@@ -187,4 +190,4 @@ Die Primärquellen [1]-[9] sind interne Projektdokumente im `docs/gimini/` Verze
 ---
 
 **Zuletzt aktualisiert:** Dezember 2025  
-**Version:** 1.3.4
+**Version:** 2.4.0-alpha

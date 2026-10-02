@@ -1,8 +1,11 @@
 # Kapitel 22: Client Libraries & Drivers {#client-libraries-drivers}
 
-> *"A database is only as good as its client libraries. ThemisDB provides production-ready drivers with connection pooling, retry logic, and zero-copy optimizations."*
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: client, SDK, REST, gRPC, API, protocol. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## Überblick
 

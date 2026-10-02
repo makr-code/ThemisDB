@@ -1,8 +1,11 @@
 # Kapitel 42: Dokumentations-Assistent – Verwendung für Admin, Superuser und User
 
-> "KI-gestützte Hilfe: Der integrierte LLM-Dokumentations-Assistent beantwortet Konfigurations- und Troubleshooting-Fragen in Echtzeit."
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: AI assistant, Copilot, documentation, LLM, wiki. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## Überblick
 
@@ -1326,7 +1329,7 @@ SSL/TLS-Konfiguration für ThemisDB:
        cert_file: "/path/to/cert.pem"
        key_file: "/path/to/key.pem"
        ca_file: "/path/to/ca.pem"  # optional
-       min_tls_version: "1.2"
+       min_tls_**Version:** 2.4.0-alpha
        ciphers: "HIGH:!aNULL:!MD5"
 
 3. Client-Konfiguration:

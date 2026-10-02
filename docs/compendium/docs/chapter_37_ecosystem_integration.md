@@ -1,8 +1,11 @@
 # Kapitel 37: Ecosystem Integration & Extensions
 
-> *"ThemisDB ist nicht nur eine Datenbank - es ist die Mittellage in einem größeren Ökosystem von Tools, Services und Integrationen."*
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: ecosystem, integration, plugin, third-party. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## Überblick
 
@@ -1137,7 +1140,7 @@ Plugins werden über [YAML Manifest Files](../appendix_h_glossary.md#yaml-manife
 # ThemisDB Plugin Manifest (plugin.yaml)
 plugin:
   name: "audit-logger"
-  version: "2.1.0"
+  **Version:** 2.4.0-alpha
   api_version: "1.0"  # Kompatibilität mit ThemisDB Plugin API
   
   metadata:

@@ -1,8 +1,11 @@
 # Kapitel 32: API-Design & REST-Prinzipien {#chapter_32_api-design-rest-prinzipien}
 
-> *"A well-designed API is like a good conversation – intuitive, predictable, and leaves both parties satisfied."* — Joshua Bloch[^1]
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: REST, API design, OpenAPI, HTTP. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## Überblick {#chapter_32_0_ueberblick}
 

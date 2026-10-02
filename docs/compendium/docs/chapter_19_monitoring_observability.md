@@ -1,10 +1,11 @@
 # Chapter 19: Monitoring & Observability
 
-**Status:** Production-Ready  
-**Version:** v1.3.0  
-**Last Updated:** December 30, 2025
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: observability, tracing, OpenTelemetry, SRE, alerting. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## 19.1 Übersicht
 
@@ -943,7 +944,7 @@ docker run -d --name jaeger \
 **Tempo via Docker Compose:**
 
 ```yaml
-version: '3'
+Version: 2.4.0-alpha
 services:
   tempo:
     image: grafana/tempo:latest

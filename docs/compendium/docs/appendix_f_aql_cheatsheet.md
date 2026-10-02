@@ -1,8 +1,11 @@
 # Appendix F: AQL Cheat Sheet & Quick Reference
 
-> "Every expert was once a novice. This sheet shortens that journey."
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: AQL, cheatsheet, query, syntax. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## Overview
 Quick reference for common AQL patterns, syntax, and idioms. For detailed docs, see Chapter 28.

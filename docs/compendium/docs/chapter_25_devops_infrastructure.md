@@ -1,8 +1,11 @@
 # Kapitel 25: DevOps & Infrastructure as Code
 
-> *"Infrastructure should be versioned, tested, and deployed like code. In ThemisDB, this is standard practice."*
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: DevOps, CI/CD, Docker, Kubernetes, infrastructure. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## Überblick
 
@@ -274,7 +277,7 @@ jobs:
       - name: Setup kubectl
         uses: azure/setup-kubectl@v3
         with:
-          version: 'v1.28.0'
+          **Version:** 2.4.0-alpha
       
       - name: Configure Kubernetes Context
         run: |

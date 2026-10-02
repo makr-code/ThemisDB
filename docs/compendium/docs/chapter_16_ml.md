@@ -1,8 +1,11 @@
 # Kapitel 16: Machine Learning & LLM Integration
 
-> *"Machine Learning ist nicht länger ein Add-on, sondern ein integraler Bestandteil moderner Datenbanksysteme."*
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: ML, training, model, inference, acceleration. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## Überblick
 

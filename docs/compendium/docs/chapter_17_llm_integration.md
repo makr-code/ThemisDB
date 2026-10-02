@@ -1,5 +1,12 @@
 # Kapitel 17: LLM-Integration und Prompt Engineering
 
+## v2.4.0-alpha roadmap alignment
+
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: LLM, language model, Ollama, plugin, RAG, llm_wiki. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
+
 ## Überblick
 
 ThemisDB bietet eine nahtlose Integration von Large Language Models (LLMs) direkt in die Datenbankebene. Diese Integration ermöglicht es, LLM-Funktionalitäten wie Text-Generierung, Embedding-Erstellung, semantische Suche und RAG (Retrieval Augmented Generation) Patterns direkt in AQL-Queries zu verwenden.
@@ -526,6 +533,8 @@ Die Query-Engine von ThemisDB hat Zugriff auf alle Index-Projektionen (relationa
 Dies ist in Polyglot-Systemen [33] unmöglich, da jede Datenbank isoliert operiert.
 
 ---
+
+> Source-aligned status (v2.4.0-alpha): ThemisDB is currently tracked against the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md baseline. This chapter reflects the current llm integration scope for the v2.4.0-alpha release, including the active roadmap topics LLM, language model, Ollama, plugin, RAG, llm_wiki. Wave A/B/C/D execution gates, release hardening, and representative-hardware evidence remain the key release criteria for GA sign-off.
 
 ### 17.3.4 Hybrid Search Implementation: Unter der Haube
 
@@ -3235,7 +3244,7 @@ LET new_version = (
     FILTER base._key == "customer-support-v1"
     RETURN MERGE(base, {
       _key: "customer-support-v2",
-      version: 2,
+      **Version:** 2.4.0-alpha
       parent_version: base._key,
       changes: ["Increased rank to 32", "Added code_proj target", "New training data"],
       created_at: DATE_NOW()

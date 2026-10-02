@@ -1,18 +1,11 @@
 # Kapitel 35: Data Modeling Patterns & Anti-Patterns {#chapter_35_data-modeling-patterns-anti-patterns}
 
-> *"Mit den gleichen Daten können Sie ein System entweder elegant oder chaotisch modellieren. Die richtige Struktur entscheidet über Erfolg oder Burnout."*  
-> *— Unbekannt*
+## v2.4.0-alpha roadmap alignment
 
-> **Zusammenfassung:** Dieses Kapitel präsentiert systematische Ansätze für Datenmodellierung in Multi-Model-Datenbanken. Wir analysieren bewährte Patterns für Time-Series-, Temporal-, Document- und Graph-Daten sowie häufige Anti-Patterns, die zu technischen Schulden führen.
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: data modeling, schema, pattern, design. 
 
-> **Lernziele:**
-> - Time-Series-Modellierung mit Bucketing und Kompression verstehen
-> - Temporale Datenstrukturen und Slowly Changing Dimensions implementieren
-> - Document-Schema-Strategien für verschiedene Use Cases anwenden
-> - Graph-Speichermodelle und Traversal-Optimierungen beherrschen
-> - Anti-Patterns erkennen und vermeiden
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
 
----
 
 ## Überblick {#chapter_35_0_ueberblick}
 
@@ -1345,7 +1338,7 @@ Breaking Changes erfordern mehrphasige Rollouts mit Deprecation-Warnung. Wir pr�
   _key: "user_123",
   username: "alice",  -- DEPRECATED: Use 'email' as primary identifier
   email: "alice@example.com",
-  _schema_version: 1,
+  _schema_**Version:** 2.4.0-alpha
   _deprecation_warnings: [
     {
       field: "username",

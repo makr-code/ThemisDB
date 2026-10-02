@@ -1,9 +1,11 @@
 # Kapitel 4: Installation und Setup
 
-> *"Die beste Dokumentation hilft nichts, wenn die Software nicht läuft. 
-> Installation sollte einfach sein - und das ist sie."*
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: installation, setup, deployment, docker, cmake. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## Überblick
 
@@ -179,7 +181,7 @@ Für komplexere Setups mit mehreren Containern:
 
 ```yaml
 # docker-compose.yml
-version: '3.8'
+**Version:** 2.4.0-alpha
 
 services:
   themisdb:

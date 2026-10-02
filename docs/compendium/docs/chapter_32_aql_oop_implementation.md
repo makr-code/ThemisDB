@@ -1,8 +1,11 @@
 # Kapitel 32: AQL v1.3.1 OOP-Implementierung
 
-> *"Die Sprache ist das API – ihre Implementierung bestimmt die Fähigkeiten der Datenbank."*
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: AQL, OOP, object-oriented, language. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## 32.1 Executive Summary
 

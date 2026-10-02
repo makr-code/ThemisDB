@@ -1,8 +1,11 @@
 # Kapitel 33: Best Practices & Design Patterns
 
-> *"Good code is its own best documentation. As you're about to add a comment, ask yourself, 'How can I improve the code so that this comment isn't needed?'"* - Steve McConnell
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: best practices, patterns, guidelines. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## Überblick
 
@@ -787,7 +790,7 @@ class VersionedUserReader:
         elif version == 3:
             return self._read_v3(doc)
         else:
-            raise ValueError(f"Unsupported schema version: {version}")
+            raise ValueError(f"Unsupported schema **Version:** 2.4.0-alpha
     
     def _read_v1(self, doc):
         # Schema v1 → internes Format

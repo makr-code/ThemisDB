@@ -1,8 +1,11 @@
 # Kapitel 27: Troubleshooting & Problem Resolution
 
-> *"The difference between a good engineer and a great engineer is how quickly they can diagnose and fix production issues."*
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: troubleshooting, debugging, error, runbook. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## Überblick
 

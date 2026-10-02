@@ -1,9 +1,11 @@
 # Kapitel 5: Relationale Daten
 
-> *"Relational databases are like spreadsheets that can talk to each other - 
-> but with ACID guarantees and without the chaos."*
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: relational, SQL, ACID, transactions. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## Überblick
 

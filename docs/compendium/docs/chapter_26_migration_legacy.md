@@ -1,8 +1,11 @@
 # Kapitel 26: Migration & Legacy System Integration
 
-> *"Legacy systems don't disappear. In enterprise environments, the art of seamless migration is what separates successful adoptions from failed projects."*
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: migration, upgrade, legacy, backward compatibility. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## Überblick {#chapter_26_overview}
 
@@ -551,7 +554,7 @@ Das [Blue-Green Deployment](#glossar_blue_green)-Pattern ermöglicht uns einen i
 
 ---
 # Blue Environment: Aktuelles PostgreSQL Legacy-System
-apiVersion: v1
+api**Version:** 2.4.0-alpha
 kind: Service
 metadata:
   name: database-service

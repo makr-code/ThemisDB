@@ -1,8 +1,11 @@
 # Kapitel 16: Horizontal Scaling mit Sharding
 
-> *"Skalierung ohne Komplexität: Native Multi-Model Sharding für Enterprise-Workloads"*
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: sharding, distribution, partition, replication, cluster. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## Überblick
 

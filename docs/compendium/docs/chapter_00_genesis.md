@@ -1,5 +1,12 @@
 # Kapitel 0: Genese und Entwicklungsgeschichte von ThemisDB
 > *"Innovation entsteht nicht durch Beschaffung, sondern durch Notwendigkeit."*
+
+## v2.4.0-alpha roadmap alignment
+
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: ThemisDB, multi-model, vision, overview. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 ---
 
 ## Überblick

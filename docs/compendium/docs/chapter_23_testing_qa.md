@@ -1,8 +1,11 @@
 # Kapitel 23: Testing & Quality Assurance
 
-> *"Untested code is legacy code. In ThemisDB, comprehensive testing is not optional—it's architecture."*
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: testing, QA, sanitizer, chaos, integration test, Wave. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## Überblick
 
@@ -1913,7 +1916,7 @@ Custom Metrics:
 # Testet: Split-Brain Scenarios, Leader Election, Data Consistency
 # Pattern: "Lineage-driven Fault Injection" (Alvaro et al., 2015)
 
-apiVersion: chaos-mesh.org/v1alpha1
+api**Version:** 2.4.0-alpha
 kind: NetworkChaos
 metadata:
   name: themisdb-network-partition

@@ -1,20 +1,11 @@
 # Kapitel 41: Hands-on Labs – Praxisorientierte Systemadministration {#chapter_41_hands-on-labs-praxisorientierte-systemadministration}
 
-> *"Ich höre und vergesse. Ich sehe und erinnere mich. Ich tue und verstehe."*  
-> *— Konfuzius*
+## v2.4.0-alpha roadmap alignment
 
-> **Zusammenfassung:** Dieses Kapitel führt systematisch durch drei praxisnahe Laborübungen zur ThemisDB-Administration: Container-basiertes Deployment, Query-Performance-Optimierung und Vektor-Suchindexierung. Wir vermitteln produktionsreife Methoden zur Systemkonfiguration, Performance-Analyse und Feature-Integration.
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: lab, exercise, tutorial, example. 
 
-> **Voraussetzungen:** Grundkenntnisse in Containerisierung (Docker/Podman), AQL-Syntax (siehe Kapitel 28), Datenbankadministration
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
 
-> **Lernziele:**
-> - Container-Orchestrierung mit Docker verstehen und anwenden
-> - Query-Execution-Plans analysieren und Indexstrategien optimieren
-> - Vektor-Sucharchitekturen implementieren und evaluieren
-> - Performance-Metriken systematisch erheben und interpretieren
-> - Produktionsreife Troubleshooting-Workflows anwenden
-
----
 
 ## 41.1 Einleitung: Experimentelles Lernen in der Datenbankadministration {#chapter_41_1_einleitung-experimentelles-lernen}
 

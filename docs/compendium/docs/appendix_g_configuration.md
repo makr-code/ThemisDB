@@ -1,11 +1,11 @@
 # Appendix G: Configuration Reference
 
-> "Good defaults get you 90% of the way. This reference handles the other 10%."
+## v2.4.0-alpha roadmap alignment
 
-**Version:** 1.5.0-dev  
-**Last Updated:** 2026-02-15
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: configuration, settings, environment, tuning. 
 
----
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## Overview
 Complete reference for all ThemisDB configuration options. Default values optimized for single-node deployments.
