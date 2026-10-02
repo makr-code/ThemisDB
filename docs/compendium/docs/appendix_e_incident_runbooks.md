@@ -1,8 +1,11 @@
 # Appendix E: Incident Response Runbooks
 
-> "Ein Runbook erspart dir in der Krise 10 Stunden Debugging. Schreib sie jetzt, nutze sie später."
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: incident, runbook, recovery, SRE, Wave D. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## Überblick
 

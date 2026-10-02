@@ -1,18 +1,11 @@
 # Kapitel 18: Hochverfügbarkeit (High Availability)
 
-> **Zusammenfassung:** Hochverfügbarkeit in ThemisDB kombiniert RAID-basierte Redundanz, automatisierte Failover-Mechanismen, Hot-Spare-Management und Point-in-Time-Recovery für minimale Downtime und Datenverlustrisiken. Das System erreicht Sub-Second-Failover bei RAID1-Konfigurationen und bietet flexible Recovery-Strategien für verschiedene Fehlerszenarien.
->
-> **Voraussetzungen:** [Kapitel 2: Architektur](chapter_02_architecture.md), [Kapitel 17: Horizontal Scaling](chapter_17_scaling.md)
->
-> **Lernziele:**
-> - Replikationsmechanismen und WAL-basierte Synchronisation verstehen
-> - Automatisierte Failover-Strategien konfigurieren und testen
-> - Hot-Spare-Pools für proaktive Redundanz verwalten
-> - Health-Monitoring-Systeme implementieren
-> - Point-in-Time-Recovery für Disaster Recovery nutzen
-> - Netzwerkpartitionen erkennen und behandeln
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: high availability, HA, failover, replication, chaos. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## 18.1 Einleitung
 

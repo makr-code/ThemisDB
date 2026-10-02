@@ -1,6 +1,11 @@
 # Kapitel 7: Dokument-Speicherung
 
-> **In diesem Kapitel:** Schema-less Design, flexible Datenstrukturen, Nested Objects, JSON-Operationen, Content Management, Versionierung und Migration von MongoDB.
+## v2.4.0-alpha roadmap alignment
+
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: document, JSON, schema, flexible. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## 7.1 Das Document Model
 
@@ -438,7 +443,7 @@ class BlogWiki:
             }
         )
     
-    def revert_to_revision(self, article_id: str, version: int):
+    def revert_to_revision(self, article_id: str, **Version:** 2.4.0-alpha
         """Artikel zu früherer Version zurücksetzen"""
         article = self.db.documents.get("articles", article_id)
         target = next(r for r in article["revisions"] if r["version"] == version)
@@ -1316,6 +1321,8 @@ Event-System mit:
 - Kapitel 10: Geo-Daten für Location-Based Apps
 
 ---
+
+> Source-aligned status (v2.4.0-alpha): ThemisDB is currently tracked against the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md baseline. This chapter reflects the current document model scope for the v2.4.0-alpha release, including the active roadmap topics document, JSON, schema, flexible. Wave A/B/C/D execution gates, release hardening, and representative-hardware evidence remain the key release criteria for GA sign-off.
 
 **Hands-on Examples:**
 - `examples/11_blog_wiki` - Vollständiges CMS

@@ -1,9 +1,11 @@
 # Kapitel 3: Multi-Model verstehen
 
-> *"Der Unterschied zwischen einem guten und einem großartigen System liegt oft 
-> darin, das richtige Werkzeug für die richtige Aufgabe zu wählen."*
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: multi-model, relational, graph, document, vector, time-series. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## Überblick
 

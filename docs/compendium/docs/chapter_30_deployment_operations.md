@@ -1,8 +1,11 @@
 # Kapitel 30: Deployment & Operations
 
-> *"Deployment ist kein einmaliger Akt, sondern ein kontinuierlicher Prozess."*
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: deployment, operations, runbook, operator, Wave D. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## Überblick
 
@@ -34,7 +37,7 @@ Für zustandsbehaftete Anwendungen wie Datenbanken verwenden wir StatefulSets an
 ```yaml
 # statefulset-themisdb-cluster.yaml
 # ThemisDB StatefulSet Deployment für Produktionsumgebung
-apiVersion: apps/v1
+api**Version:** 2.4.0-alpha
 kind: StatefulSet
 metadata:
   name: themisdb-cluster
@@ -395,7 +398,7 @@ apiVersion: v2
 name: themis
 description: A Helm chart for ThemisDB
 type: application
-version: 1.3.4
+Version: 2.4.0-alpha
 appVersion: "1.3.4"
 ```
 

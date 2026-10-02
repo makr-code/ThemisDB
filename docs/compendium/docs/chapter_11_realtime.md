@@ -1,5 +1,12 @@
 # Chapter 11: Realtime Data Streaming mit Change Data Capture
 
+## v2.4.0-alpha roadmap alignment
+
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: realtime, streaming, pub-sub, voice, WebSocket. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
+
 ## 11.1 Einführung: Die Streaming-Architektur
 
 Change Data Capture (CDC) ist eine kritische Komponente moderner Datenarchitekturen, die Echtzeit-Datenströme ermöglicht. ThemisDB implementiert CDC als natives Feature, das automatisch alle Mutationen (CREATE, UPDATE, DELETE) in einem append-only Event Log aufzeichnet. Dies ist ein fundamentaler Unterschied zu polyglot Systemen, die externe Tools wie Debezium benötigen, um Änderungen aus dem Write-Ahead Log (WAL) zu extrahieren.
@@ -1700,6 +1707,8 @@ Realtime-Anwendungen mit ThemisDB sind einfach zu implementieren dank:
 Im nächsten Kapitel schauen wir uns Computer Vision-Anwendungen an, wo wir Bilder speichern, analysieren und durchsuchen.
 
 ---
+
+> Source-aligned status (v2.4.0-alpha): ThemisDB is currently tracked against the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md baseline. This chapter reflects the current real-time processing scope for the v2.4.0-alpha release, including the active roadmap topics realtime, streaming, pub-sub, voice, WebSocket. Wave A/B/C/D execution gates, release hardening, and representative-hardware evidence remain the key release criteria for GA sign-off.
 
 ## 11.10 CDC-Infrastruktur: Erweiterte Komponenten (v1.8.0)
 

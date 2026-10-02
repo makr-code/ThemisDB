@@ -1,8 +1,11 @@
 # Kapitel 31: API-Protokolle & Kommunikation {#chapter_31_api-protokolle-kommunikation}
 
-> *"The best API is one that feels so natural, developers use it correctly without consulting documentation."* — Josh Bloch
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: API, protocol, REST, gRPC, WebSocket. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## 31.1 Überblick {#chapter_31_1_ueberblick}
 
@@ -2342,7 +2345,7 @@ Host: api.themis.local
 Upgrade: websocket
 Connection: Upgrade
 Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
-Sec-WebSocket-Version: 13
+Sec-WebSocket-**Version:** 2.4.0-alpha
 Sec-WebSocket-Protocol: themisdb-v1
 
 # Server Response (Switching Protocols)

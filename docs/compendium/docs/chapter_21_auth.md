@@ -1,18 +1,11 @@
 # Kapitel 21: Authentifizierung und Autorisierung
 
-> **Zusammenfassung:** ThemisDB implementiert ein mehrschichtiges Sicherheitssystem mit JWT, Kerberos/GSSAPI, RBAC und ABAC für Enterprise-Authentication. Multi-Factor Authentication (TOTP), Binary Integrity Verification und umfassendes Audit Logging gewährleisten GDPR-, SOC 2- und HIPAA-Compliance.
->
-> **Voraussetzungen:** [Kapitel 2: Architektur](chapter_02_architecture.md), [Kapitel 36: Security Hardening](chapter_36_security_hardening.md)
->
-> **Lernziele:**
-> - JWT-basierte Token-Authentication konfigurieren
-> - Kerberos/GSSAPI für Enterprise-SSO integrieren
-> - RBAC- und ABAC-Policies implementieren
-> - Multi-Factor Authentication (MFA) aktivieren
-> - Security Best Practices anwenden
-> - Compliance-Anforderungen erfüllen (GDPR, SOC 2, HIPAA)
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: auth, RBAC, JWT, authentication, authorization. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## 21.1 Einleitung
 
@@ -703,7 +696,7 @@ rate_limiting:
 **Recommended Ciphers (TLS 1.3):**
 ```yaml
 tls:
-  min_version: "1.3"
+  min_**Version:** 2.4.0-alpha
   cipher_suites:
     - "TLS_AES_256_GCM_SHA384"
     - "TLS_CHACHA20_POLY1305_SHA256"

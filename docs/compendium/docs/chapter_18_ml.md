@@ -1,5 +1,12 @@
 # Kapitel 18: Machine Learning Integration
 
+## v2.4.0-alpha roadmap alignment
+
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: MLOps, training, pipeline, model management. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
+
 ## Überblick
 
 ThemisDB bietet umfassende Integration mit Machine-Learning-Frameworks und -Workflows. Als Multi-Model-Datenbank mit nativem Vector-Support eignet sich ThemisDB ideal als:
@@ -496,7 +503,7 @@ def save_model_to_db(model, model_name, metadata):
             input_features: @features,
             metrics: @metrics,
             trained_at: @timestamp,
-            version: @version
+            **Version:** 2.4.0-alpha
         }
     """, bind_vars={
         'model_name': model_name,

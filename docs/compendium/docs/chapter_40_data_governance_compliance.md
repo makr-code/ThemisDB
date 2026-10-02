@@ -1,15 +1,11 @@
 # Kapitel 40: Data Governance & Compliance {#chapter_40_data-governance-compliance}
 
-> *"Vertrauen ist gut, Kontrolle ist besser. In der Datenwelt sind beide unverzichtbar."*  
-> *— Vladimir Lenin (adaptiert für Data Governance)*
+## v2.4.0-alpha roadmap alignment
 
-> **Zusammenfassung:** Dieses Kapitel behandelt systematisch die Implementierung von Data Governance und Compliance-Mechanismen in ThemisDB-Systemen. Wir analysieren etablierte Frameworks wie ISO 27001, SOC 2 und DSGVO/GDPR und zeigen deren praktische Umsetzung durch Policies, Rollenmodelle, Audit-Trails und technische Schutzmaßnahmen. Dabei folgen wir dem Prinzip *Privacy by Design*[^1] und integrieren Governance-Anforderungen bereits in die Systemarchitektur statt nachträglicher Compliance-Theater. Der Fokus liegt auf operationaler Exzellenz durch automatisierte Controls, kontinuierliche Überwachung und nachweisbare Evidenz-Ketten für regulatorische Audits.
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: governance, compliance, GDPR, audit, data lineage. 
 
-**Lernziele:** Nach Bearbeitung dieses Kapitels verstehen wir die Implementierung von Governance-Operating-Models, Data-Classification-Schemes, Access-Control-Mechanismen (RBAC, ABAC), Data-Masking-Strategien, Retention-Policies, immutable Audit-Logs sowie die praktische Erfüllung von DSGVO-Betroffenenrechten und Compliance-Framework-Anforderungen (SOX, SOC 2, ISO 27001). Wir kennen Best Practices für Evidence-Management, Break-Glass-Prozeduren und Just-in-Time-Access-Modelle.
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
 
-**Voraussetzungen:** Grundverständnis von Kapitel 2 (Architektur), Kapitel 19 (Monitoring), Kapitel 21 (Performance) und Kapitel 36 (Security Hardening). Kenntnisse über DSGVO-Grundsätze und regulatorische Anforderungen sind hilfreich, werden aber im Text erklärt.
-
----
 
 ## 40.0 Data Governance Framework: Übersicht {#chapter_40_0_data-governance-framework-uebersicht}
 

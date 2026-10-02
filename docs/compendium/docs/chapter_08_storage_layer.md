@@ -1,10 +1,11 @@
 # Chapter 8: Storage Layer Deep-Dive
 
-**Kategorie:** 💾 Storage & Performance  
-**Lesezeit:** ~45 Minuten  
-**Zielgruppe:** Database Engineers, Performance Engineers, Production DBA
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: storage, RocksDB, columnar, WAL, LSM, compression. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## 📑 Inhaltsverzeichnis
 

@@ -1,5 +1,12 @@
 # Kapitel 19: Monitoring & Observability
 
+## v2.4.0-alpha roadmap alignment
+
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: monitoring, metrics, Prometheus, health. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
+
 ## Einführung
 
 Monitoring und Observability sind kritische Aspekte für den produktiven Betrieb von ThemisDB. Dieses Kapitel behandelt die Überwachung von Systemmetriken, Application Performance Monitoring (APM), Logging-Strategien, Distributed Tracing und Alerting-Mechanismen.
@@ -730,7 +737,7 @@ def startup():
 **Pod-Konfiguration:**
 
 ```yaml
-apiVersion: v1
+api**Version:** 2.4.0-alpha
 kind: Pod
 metadata:
   name: themisdb
@@ -940,6 +947,8 @@ Monitoring und Observability sind essentiell für den Betrieb von ThemisDB:
 Mit diesen Tools und Praktiken können Sie ThemisDB effektiv überwachen und Probleme frühzeitig erkennen.
 
 ---
+
+> Source-aligned status (v2.4.0-alpha): ThemisDB is currently tracked against the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md baseline. This chapter reflects the current monitoring (core) scope for the v2.4.0-alpha release, including the active roadmap topics monitoring, metrics, Prometheus, health. Wave A/B/C/D execution gates, release hardening, and representative-hardware evidence remain the key release criteria for GA sign-off.
 
 ## 19.10 Phase-3-Sync: Weiterführende Referenzen (docs/de/) {#chapter19_10_cross-references}
 

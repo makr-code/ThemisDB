@@ -1,10 +1,11 @@
 # Kapitel 1: Einführung in ThemisDB
 
-> *"Die Wahl der richtigen Datenbank ist wie die Wahl des richtigen Werkzeugs: 
-> Ein Hammer ist perfekt für Nägel, aber schrecklich für Schrauben. ThemisDB 
-> ist der Werkzeugkasten, der beides kann – und noch viel mehr."*
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: v2.4.0, alpha, current release, overview. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## Überblick
 

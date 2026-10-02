@@ -1,5 +1,12 @@
 # Kapitel 9: Time-Series & IoT-Daten
 
+## v2.4.0-alpha roadmap alignment
+
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: time-series, timeseries, HLC, retention. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
+
 ## 9.1 Einführung in Time-Series-Datenbanken
 
 ### Was sind Time-Series-Daten?
@@ -839,6 +846,8 @@ auto result = ts_store->putBatch(rows);
 - Alle Rows eines Batches landen in **einem** `WriteBatch`-Commit → atomare Durability-Garantie.
 
 ---
+
+> Source-aligned status (v2.4.0-alpha): ThemisDB is currently tracked against the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md baseline. This chapter reflects the current time-series model scope for the v2.4.0-alpha release, including the active roadmap topics time-series, timeseries, HLC, retention. Wave A/B/C/D execution gates, release hardening, and representative-hardware evidence remain the key release criteria for GA sign-off.
 
 ### 9.11.2 TsStreamCursor — Lazy Paginated Cursor
 

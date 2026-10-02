@@ -1,5 +1,12 @@
 # Kapitel 15: Analytics & Reporting
 
+## v2.4.0-alpha roadmap alignment
+
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: analytics, OLAP, columnar, aggregation. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
+
 ## 15.1 Einführung in Analytics mit ThemisDB
 
 ThemisDB bietet leistungsstarke Analyse- und Reporting-Funktionen, die es ermöglichen, komplexe Geschäftslogik direkt in der Datenbank auszuführen. Durch die Kombination von relationalen Aggregationen, Graph-Analysen und Vektor-basierten Ähnlichkeitssuchen können umfassende Business-Intelligence-Lösungen erstellt werden.
@@ -1232,6 +1239,8 @@ ThemisDB bietet umfassende Analytics-Funktionen:
 Im nächsten Kapitel behandeln wir Machine Learning Integration für erweiterte Analysen.
 
 ---
+
+> Source-aligned status (v2.4.0-alpha): ThemisDB is currently tracked against the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md baseline. This chapter reflects the current analytics scope for the v2.4.0-alpha release, including the active roadmap topics analytics, OLAP, columnar, aggregation. Wave A/B/C/D execution gates, release hardening, and representative-hardware evidence remain the key release criteria for GA sign-off.
 
 ## 15.13 Hochleistungs-Analytics-Infrastruktur (v1.9.x)
 

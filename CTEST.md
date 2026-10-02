@@ -55,6 +55,29 @@ und dient als Mindest-Nachweis fuer tier-uebergreifende PRs.
 | **T4: Managed Extension Runtime** | Runtime-Capability-Gates, Sanitization, Modellpfade | `ctest --preset windows-release --output-on-failure -R "^(LlmDeploymentPluginFocusedTests|LegalDomainFocusedTests|LegalExtractionFocusedTests)$"` |
 | **T5: Plugin Boundary** | Signatur, Provenienz, Sandbox, Plugin-Policy | `ctest --preset windows-release --output-on-failure -R "^(PluginManagerFocusedTests|PluginSecurityCRLOCSPTests|PluginSecurityAuditFocusedTests|PluginMarketplaceManifestFocusedTests|PluginManagerComprehensiveFocusedTests)$"` |
 
+### Fokus-Strategie fuer Query- und Risikopfade
+
+Der volle CTest-Lauf bleibt sinnvoll als End-to-End-Regression, aber fuer schnelle
+Verifikationen im Query-Modul braucht das Projekt eine kleinere, dichte Fokus-Suite.
+Die korrekte Default-Strategie ist:
+
+1. Start mit den Query-Risikopfaden: `FTS`, `hybrid planner`, `timeout/cancellation`,
+   `federation hardness`, `optimizer regression`.
+2. Filtere auf die betroffenen Module und Tiers, nicht auf den Gesamt-Project-Run.
+3. Verwende `ctest -R` oder Labels, um die schnelle feedback loop auf die eigentliche
+   Fehlerquelle zu reduzieren.
+
+Beispiele:
+
+```bash
+ctest --preset linux-release --output-on-failure -R "FtsExecutorTests|FtsParserTests|QueryFederationHardnessTests|QueryOptimizerRegressionTests|QueryDeadlockConcurrentTimeoutTests"
+ctest --preset linux-release --output-on-failure -R "QueryEngineFocusedTests|AQLLLMIntegrationTests"
+```
+
+Diese Pfade sind bewusst enger als der breite Root-Run, weil sie die relevantesten
+Query-Fehlerklassen mit hoher Dichte absichern und die kognitive Last beim Debugging
+reduzieren.
+
 ### Review-Regel fuer tier-relevante PRs
 
 1. PR beschreibt betroffene Tier(s) und Trust-Boundary-Crossings.

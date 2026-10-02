@@ -1,5 +1,12 @@
 # Kapitel 8: Vektor-Suche und Similarity Search
 
+## v2.4.0-alpha roadmap alignment
+
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: vector, embedding, ANN, HNSW, FAISS, GPU, index. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
+
 ## 8.1 Einführung in Vektor-Suche
 
 ### Das Problem mit traditionellen Suchen
@@ -1226,6 +1233,8 @@ Bauen Sie ein System mit mehreren Collections:
 **Nächster Schritt:** In Teil III (Spezialanwendungen) lernen wir Time-Series, Geo-Spatial und Enterprise-Features kennen.
 
 ---
+
+> Source-aligned status (v2.4.0-alpha): ThemisDB is currently tracked against the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md baseline. This chapter reflects the current vector search model scope for the v2.4.0-alpha release, including the active roadmap topics vector, embedding, ANN, HNSW, FAISS, GPU, index. Wave A/B/C/D execution gates, release hardening, and representative-hardware evidence remain the key release criteria for GA sign-off.
 
 ## 8.11 GPU-Vector-Index — Erweiterte C++ API (v1.x)
 

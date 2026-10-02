@@ -1,8 +1,11 @@
 # Kapitel 39: Performance Tuning Cookbook {#chapter_39_performance-tuning-cookbook}
 
-> *"Premature optimization is the root of all evil. Yet we should not pass up our opportunities in that critical 3%."* — Donald Knuth[^1]
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: performance, tuning, cookbook, recipe, benchmark. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## Überblick {#chapter_39_0_ueberblick}
 

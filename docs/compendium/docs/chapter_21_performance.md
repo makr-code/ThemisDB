@@ -1,5 +1,12 @@
 # Kapitel 21: Performance Tuning
 
+## v2.4.0-alpha roadmap alignment
+
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: performance, tuning, optimization, cache, index. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
+
 ## Einführung
 
 Performance-Optimierung ist entscheidend für produktive ThemisDB-Deployments. Dieses Kapitel behandelt systematische Ansätze zur Identifizierung und Behebung von Performance-Problemen.
@@ -791,7 +798,7 @@ llm:
       attention_implementation: 'flash_attention_2'  // flash_attention_2 oder standard
       flash_attention:
         enabled: true
-        version: 2  // Flash Attention 2 (neueste Version)
+        **Version:** 2.4.0-alpha
         block_size_q: 128  // Query block size
         block_size_kv: 128  // Key/Value block size
         causal: true  // Für autoregressive Models
@@ -1268,6 +1275,8 @@ Output:
 - Write Throughput: 5,000+ WPS
 
 ---
+
+> Source-aligned status (v2.4.0-alpha): ThemisDB is currently tracked against the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md baseline. This chapter reflects the current performance tuning scope for the v2.4.0-alpha release, including the active roadmap topics performance, tuning, optimization, cache, index. Wave A/B/C/D execution gates, release hardening, and representative-hardware evidence remain the key release criteria for GA sign-off.
 
 ## 21.1 Neue Performance-Infrastruktur (v1.9.x)
 

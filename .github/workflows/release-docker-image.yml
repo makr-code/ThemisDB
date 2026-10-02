@@ -42,6 +42,11 @@ on:
         required: false
         default: false
         type: boolean
+      platforms:
+        description: "Target platforms for docker buildx (default optimized for CI speed)"
+        required: false
+        default: "linux/amd64"
+        type: string
   workflow_dispatch:
     inputs:
       push_to_registry:
@@ -81,6 +86,14 @@ on:
         options:
           - "false"
           - "true"
+      platforms:
+        description: "Target platforms for docker buildx"
+        required: false
+        default: "linux/amd64"
+        type: choice
+        options:
+          - "linux/amd64"
+          - "linux/amd64,linux/arm64"
 
 # Explicit minimal default permissions — each job overrides as needed.
 permissions:
@@ -96,7 +109,7 @@ jobs:
   build-and-push:
     name: "Release: Docker Image Build & Push"
     runs-on: ubuntu-24.04
-    timeout-minutes: 540
+    timeout-minutes: 300
     # For workflow_dispatch and workflow_call: always run.
     if: >
       github.event_name == 'workflow_dispatch' ||
@@ -109,6 +122,9 @@ jobs:
       id-token: write
       # Required to attach provenance attestations to the image
       attestations: write
+
+    env:
+      BUILDKIT_PROGRESS: plain
 
     outputs:
       images: ${{ steps.image-info.outputs.images }}
@@ -369,8 +385,30 @@ jobs:
         BASE_IMAGE_SAFE="${BASE_IMAGE//:/-}"
         echo "base_image=${BASE_IMAGE_SAFE}" >> "${GITHUB_OUTPUT}"
 
+    - name: Resolve build platforms
+      id: build-platforms
+      shell: bash
+      env:
+        PLATFORMS_INPUT: ${{ inputs.platforms || github.event.inputs.platforms || 'linux/amd64' }}
+      run: |
+        set -euo pipefail
+        PLATFORMS="${PLATFORMS_INPUT:-linux/amd64}"
+
+        case "${PLATFORMS}" in
+          "linux/amd64"|"linux/amd64,linux/arm64")
+            ;;
+          *)
+            echo "::error::Unsupported platforms '${PLATFORMS}'. Allowed: linux/amd64 or linux/amd64,linux/arm64"
+            exit 1
+            ;;
+        esac
+
+        echo "value=${PLATFORMS}" >> "${GITHUB_OUTPUT}"
+        echo "Resolved platforms: ${PLATFORMS}"
+
     - name: Build and push Docker image
       id: build
+      timeout-minutes: 270
       uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a  # v7.3.0
       with:
         context: .
@@ -384,7 +422,7 @@ jobs:
             (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true') ||
             (github.event_name == 'workflow_call' && inputs.push_to_registry == true)
           }}
-        platforms: linux/amd64,linux/arm64
+        platforms: ${{ steps.build-platforms.outputs.value }}
         tags: ${{ steps.tags.outputs.value }}
         build-args: |
           THEMIS_EDITION=COMMUNITY
@@ -402,6 +440,7 @@ jobs:
         cache-to: |
           type=gha,mode=max,scope=themisdb-docker-unified-${{ steps.release-context.outputs.base_image }}-base
           type=gha,mode=max,scope=themisdb-docker-unified
+          type=gha,mode=max,scope=themisdb-docker-unified-${{ github.ref_name || 'detached' }}
         # Only generate SBOM and provenance for release builds to save ~5-10 min in non-release runs.
         provenance: ${{ steps.release-context.outputs.is_release == 'true' }}
         sbom: ${{ steps.release-context.outputs.is_release == 'true' }}
@@ -437,7 +476,7 @@ jobs:
         echo "  Version   : ${{ steps.version.outputs.version }}"
         echo "  Tags      : ${{ steps.tags.outputs.value }}"
         echo "  Digest    : ${{ steps.build.outputs.digest || 'not yet pushed' }}"
-        echo "  Platforms : linux/amd64, linux/arm64"
+        echo "  Platforms : ${{ steps.build-platforms.outputs.value }}"
         if [ -n "${{ steps.build.outputs.digest }}" ]; then
           echo "  ✅ Image pushed and digest available for SLSA attestation."
         else

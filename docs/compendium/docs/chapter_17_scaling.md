@@ -1,17 +1,11 @@
 # Kapitel 17: Horizontale Skalierung
 
-> **Zusammenfassung:** Horizontale Skalierung durch RAID-basiertes Sharding ermöglicht ThemisDB die Verteilung von Daten und Last über mehrere unabhängige Knoten. Diese Architektur kombiniert traditionelle RAID-Redundanzkonzepte mit modernen verteilten Datenbanktechnologien für lineare Performance-Skalierung und flexible Verfügbarkeitsgarantien.
->
-> **Voraussetzungen:** [Kapitel 2: Architektur](chapter_02_architecture.md), [Kapitel 8: Storage Layer](chapter_08_storage_layer.md)
->
-> **Lernziele:**
-> - RAID-basierte Sharding-Strategien verstehen und anwenden
-> - Cluster-Topologien für verschiedene Workload-Typen entwerfen
-> - Konsistenz- und Koordinationsmechanismen konfigurieren
-> - Load Balancing und Query-Routing implementieren
-> - Performance-Charakteristiken verschiedener RAID-Modi bewerten
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: scaling, horizontal, vertical, hyperscaler, load balancing. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## 17.1 Einleitung
 
@@ -649,7 +643,7 @@ for i in range(1, len(shards)):
 
 **docker-compose.yml:**
 ```yaml
-version: "3.8"
+**Version:** 2.4.0-alpha
 
 services:
   # RAID0 Stripe Group (3 shards)

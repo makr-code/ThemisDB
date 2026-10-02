@@ -1,8 +1,11 @@
 # Kapitel 22b: Verschlüsselung
 
-> *"Kryptographie ist die letzte Verteidigungslinie — sie macht gestohlene Daten wertlos."*
+## v2.4.0-alpha roadmap alignment
 
----
+The current release baseline is v2.4.0-alpha. This chapter reflects the source-verified ROADMAP.md and FUTURE_ENHANCEMENTS.md posture and covers the active roadmap topics: encryption, TLS, at-rest, at-transit, security. 
+
+The chapter aligns to the current implementation status, operational constraints, and validation expectations for the v2.4.0-alpha release line.
+
 
 ## Überblick
 
@@ -58,7 +61,7 @@ ThemisDB erzwingt **TLS 1.3** für alle externen Verbindungen. TLS 1.2 wird nur 
 server:
   tls:
     enabled: true
-    min_version: "TLS1.3"
+    min_**Version:** 2.4.0-alpha
     cert_file: "/etc/themisdb/tls/server.crt"
     key_file:  "/etc/themisdb/tls/server.key"
     ca_file:   "/etc/themisdb/tls/ca.crt"
