@@ -65,7 +65,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_query_engine.cpp")
         TARGET test_query_engine_focused
         TIER unit
         TIMEOUT 90
-        LABELS engine aql query wave_a release_critical wave_a_flow_server_query_storage_transaction
+        LABELS engine aql query wave_a release_critical wave_a_flow_server_query_storage_transaction focus:query-core
     )
 
     message(STATUS "  QueryEngine: AQL execution, optimizer, multi-model queries")
@@ -136,7 +136,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_query_federation_hardness.cpp")
        TARGET test_query_federation_hardness_focused
        TIER unit
        TIMEOUT 120
-       LABELS federation hardness timeout memory fault-injection phase3
+       LABELS federation hardness timeout memory fault-injection phase3 focus:query-federation
     )
 
     message(STATUS "  QueryFederation Hardness: timeout/retry, bounded memory, shard routing, fault-injection (FED-01..08)")
@@ -608,7 +608,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_query_optimizer_regression.cpp")
         TARGET test_query_optimizer_regression_focused
         TIER unit
         TIMEOUT 120
-        LABELS phase2 optimizer regression histogram correlation estimate validation performance-gates
+        LABELS phase2 optimizer regression histogram correlation estimate validation performance-gates focus:query-optimizer
     )
 
     message(STATUS "  QueryOptimizer Regression: cardinality estimation (RC1-10), cost model (CM1-8), plan cache (PC1-8), estimate validation (EV1-4), performance gates (PG1-2), stress tests (STRESS1)")
@@ -831,7 +831,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_fts_executor.cpp")
         TARGET test_fts_executor
         TIER unit
         TIMEOUT 120
-        LABELS fts executor
+        LABELS fts executor focus:query-fts
     )
 endif()
 
