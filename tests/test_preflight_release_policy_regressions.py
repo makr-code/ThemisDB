@@ -66,15 +66,15 @@ def extract_submodule_paths(command_suffix: str) -> list[str]:
     return re.split(r"\s*(?:\|\||&&|;)\s*", command_suffix, maxsplit=1)[0].strip().split()
 
 
-def extract_release_matrix_lane_block(workflow_text: str, lane_id: str) -> str:
-    lane_block = re.search(
-        rf'"id": "{re.escape(lane_id)}",(?P<body>.*?)"summary_title":',
-        workflow_text,
-        re.DOTALL,
-    )
-    if lane_block is None:
-        raise AssertionError(f"Could not find release matrix lane block for {lane_id!r}")
-    return lane_block.group("body")
+def extract_release_matrix_lane_slice(workflow_text: str, lane_id: str) -> str:
+    lane_token = f'"id": "{lane_id}"'
+    start = workflow_text.find(lane_token)
+    if start == -1:
+        raise AssertionError(f"Could not find release lane {lane_id!r}")
+    next_start = workflow_text.find('"id": "', start + len(lane_token))
+    if next_start == -1:
+        return workflow_text[start:]
+    return workflow_text[start:next_start]
 
 
 class PreflightReleasePolicyRegressionTests(unittest.TestCase):
@@ -168,16 +168,16 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
 
     def test_release_build_matrix_treats_missing_package_artifacts_as_error(self) -> None:
         workflow_text = RELEASE_BUILD_MATRIX_WORKFLOW.read_text(encoding="utf-8")
-        linux_amd64_block = extract_release_matrix_lane_block(workflow_text, "linux-amd64")
-        linux_arm64_block = extract_release_matrix_lane_block(workflow_text, "linux-arm64")
-        windows_amd64_block = extract_release_matrix_lane_block(workflow_text, "windows-amd64")
+        linux_amd64_lane = extract_release_matrix_lane_slice(workflow_text, "linux-amd64")
+        linux_arm64_lane = extract_release_matrix_lane_slice(workflow_text, "linux-arm64")
+        windows_amd64_lane = extract_release_matrix_lane_slice(workflow_text, "windows-amd64")
 
         linux_error = "::error::No Linux package artifacts were produced in ${PACKAGES_DIR}"
         windows_error = "::error::No Windows package artifacts were produced in ${PACKAGES_DIR}"
 
-        self.assertIn(linux_error, linux_amd64_block)
-        self.assertIn(linux_error, linux_arm64_block)
-        self.assertIn(windows_error, windows_amd64_block)
+        self.assertIn(linux_error, linux_amd64_lane)
+        self.assertIn(linux_error, linux_arm64_lane)
+        self.assertIn(windows_error, windows_amd64_lane)
         self.assertNotIn("::warning::No Linux package artifacts were produced", workflow_text)
         self.assertNotIn("::warning::No Windows package artifacts were produced", workflow_text)
 
