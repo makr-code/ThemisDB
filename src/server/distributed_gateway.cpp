@@ -132,8 +132,8 @@ ConsistentHashRing::ConsistentHashRing(uint32_t virtual_nodes)
  * @details Calls: std::to_string().
  */
 uint64_t ConsistentHashRing::hash(const std::string& key, uint32_t replica) {
-    static constexpr uint64_t kFNVOffset = 14695981039346656037;
-    static constexpr uint64_t kFNVPrime  = 1099511628211;
+    static constexpr uint64_t kFNVOffset = UINT64_C(14695981039346656037);
+    static constexpr uint64_t kFNVPrime  = UINT64_C(1099511628211);
 
     std::string salted = key + "#" + std::to_string(replica);
     uint64_t h = kFNVOffset;

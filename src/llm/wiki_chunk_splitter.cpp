@@ -29,8 +29,8 @@ namespace llm {
 // ─────────────────────────────────────────────────────────────────────────────
 namespace {
 
-constexpr std::uint64_t kFnvOffset = 14695981039346656037;
-constexpr std::uint64_t kFnvPrime  = 1099511628211;
+constexpr std::uint64_t kFnvOffset = UINT64_C(14695981039346656037);
+constexpr std::uint64_t kFnvPrime  = UINT64_C(1099511628211);
 
 [[nodiscard]] std::uint64_t fnv1a64(const std::string& s) noexcept {
     std::uint64_t h = kFnvOffset;

@@ -133,11 +133,11 @@ FeedbackEntry FeedbackEntry::fromJson(const nlohmann::json& j) {
 std::string FeedbackEntry::computeChecksum() const {
     // FNV-1a 64-bit hash over key audit fields: id, prompt_id, type, query, severity, timestamp
     // This provides a lightweight audit trail without external crypto dependencies.
-    uint64_t hash = 14695981039346656037;
+    uint64_t hash = UINT64_C(14695981039346656037);
     auto fnv_update = [&](const std::string& s) {
         for (unsigned char c : s) {
             hash ^= c;
-            hash *= 1099511628211;
+            hash *= UINT64_C(1099511628211);
         }
     };
     fnv_update(id);

@@ -132,10 +132,10 @@ static void timedJoin(std::thread& t,
  * @details Implements fnv1a64 without additional internal calls.
  */
 uint64_t fnv1a64(std::string_view value) {
-    uint64_t hash = 1469598103934665603;
+    uint64_t hash = UINT64_C(1469598103934665603);
     for (unsigned char ch : value) {
         hash ^= static_cast<uint64_t>(ch);
-        hash *= 1099511628211;
+        hash *= UINT64_C(1099511628211);
     }
     return hash;
 }
