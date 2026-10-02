@@ -5,6 +5,7 @@
 #include "storage/rocksdb_wrapper.h"
 #include <nlohmann/json.hpp>
 #include <filesystem>
+#include <thread>
 
 using namespace themis::cdc;
 using themis::RocksDBWrapper;
@@ -421,9 +422,19 @@ TEST(CdcWsHandlerGroupTest, AckByIdWithNoGroupIdOrIdReturnsError) {
 
 class CdcWsGroupIntegrationTest : public ::testing::Test {
 protected:
+    void safeRemoveDbPath(const std::filesystem::path& path) {
+        std::error_code ec;
+        std::filesystem::remove_all(path, ec);
+        if (ec) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+            std::error_code retry_ec;
+            std::filesystem::remove_all(path, retry_ec);
+        }
+    }
+
     void SetUp() override {
         test_db_path_ = "./data/test_cdc_ws_group_integration";
-        std::filesystem::remove_all(test_db_path_);
+        safeRemoveDbPath(test_db_path_);
 
         RocksDBWrapper::Config cfg;
         cfg.db_path = test_db_path_;
@@ -449,9 +460,11 @@ protected:
     void TearDown() override {
         group_mgr_.reset();
         changefeed_.reset();
-        db_->close();
-        db_.reset();
-        std::filesystem::remove_all(test_db_path_);
+        if (db_) {
+            db_->close();
+            db_.reset();
+        }
+        safeRemoveDbPath(test_db_path_);
     }
 
     // Insert change events with keys of the form "orders:<suffix>"

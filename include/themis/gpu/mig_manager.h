@@ -125,10 +125,7 @@ public:
     // -----------------------------------------------------------------------
     // Singleton
     // -----------------------------------------------------------------------
-    static MIGManager& GetInstance() {
-        static MIGManager inst;
-        return inst;
-    }
+    static MIGManager& GetInstance();
 
     // Non-copyable.
     MIGManager(const MIGManager&)            = delete;

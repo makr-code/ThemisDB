@@ -12,9 +12,26 @@ namespace fs = std::filesystem;
 
 class ParallelTraversalTest : public ::testing::Test {
 protected:
+    void removeTestDbPath() {
+        std::error_code ec;
+        for (int attempt = 0; attempt < 12; ++attempt) {
+            ec.clear();
+            fs::remove_all(test_db_path_, ec);
+            if (!fs::exists(test_db_path_)) {
+                return;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
+        if (ec) {
+            ADD_FAILURE() << "remove_all failed for " << test_db_path_ << ": " << ec.message();
+        } else {
+            ADD_FAILURE() << "remove_all could not clear stale directory: " << test_db_path_;
+        }
+    }
+
     void SetUp() override {
         test_db_path_ = "./data/themis_parallel_traversal_test";
-        fs::remove_all(test_db_path_);
+        removeTestDbPath();
 
         themis::RocksDBWrapper::Config config;
         config.db_path = test_db_path_;
@@ -34,9 +51,15 @@ protected:
 
     void TearDown() override {
         traversal_.reset();
-        graph_mgr_.reset();
-        db_.reset();
-        fs::remove_all(test_db_path_);
+        if (graph_mgr_) {
+            graph_mgr_.reset();
+        }
+        if (db_) {
+            db_->close();
+            db_.reset();
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        removeTestDbPath();
     }
 
     /**

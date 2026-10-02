@@ -166,6 +166,15 @@ public:
      */
     void ValidateAllocation(uint64_t size_bytes);
 
+    /**
+     * @brief Reset all tracked VRAM state to a clean, empty snapshot.
+     *
+     * This is a lifecycle-level operation that clears the singleton's active
+     * allocations, hint reservations, and tenant quotas so a fresh allocator
+     * state can be established without leaking prior accounting data.
+     */
+    void Reset();
+
     // -----------------------------------------------------------------------
     // Pre-allocation hints
     // -----------------------------------------------------------------------

@@ -72,6 +72,11 @@ static constexpr size_t kProfileCount =
 // Static helpers
 // ============================================================================
 
+MIGManager& MIGManager::GetInstance() {
+    static MIGManager inst;
+    return inst;
+}
+
 bool MIGManager::deviceSupportsMIG(const DeviceInfo& device) noexcept {
     // MIG is supported on NVIDIA Ampere (major=8) and Hopper (major=9+) GPUs.
     // Only CUDA devices have MIG support; ROCm and CPU fallbacks do not.

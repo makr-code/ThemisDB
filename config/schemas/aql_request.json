@@ -8,6 +8,12 @@
       "maxLength": 100000
     },
     "bindVars": { "type": "object" },
+    "allow_full_scan": { "type": "boolean" },
+    "explain": { "type": "boolean" },
+    "optimize": { "type": "boolean" },
+    "decrypt": { "type": "boolean" },
+    "stream": { "type": "boolean" },
+    "return": { "type": "string" },
     "batchSize": {
       "type": "integer",
       "minimum": 1,

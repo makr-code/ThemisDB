@@ -93,6 +93,15 @@ TEST_F(QueryMaskingPolicyTest, NonPIIFieldPassesThrough) {
     EXPECT_EQ(result["count"].get<int>(), 42);
 }
 
+TEST_F(QueryMaskingPolicyTest, GenericNameAndCityFieldsPassThroughByDefault) {
+    json entity = {{"name", "Alice"}, {"city", "Berlin"}, {"email", "alice@example.com"}};
+    auto result = policy_->maskResult(entity);
+
+    EXPECT_EQ(result["name"].get<std::string>(), "Alice");
+    EXPECT_EQ(result["city"].get<std::string>(), "Berlin");
+    EXPECT_EQ(result["email"].get<std::string>().find("alice@example.com"), std::string::npos);
+}
+
 // ---------------------------------------------------------------------------
 // Feature: auto-detect PII in string values
 // ---------------------------------------------------------------------------

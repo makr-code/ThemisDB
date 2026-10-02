@@ -80,10 +80,7 @@ public:
     // -----------------------------------------------------------------------
     // Singleton
     // -----------------------------------------------------------------------
-    static GPUProfiler& GetInstance() {
-        static GPUProfiler inst;
-        return inst;
-    }
+    static GPUProfiler& GetInstance();
 
     // -----------------------------------------------------------------------
     // Range markers
@@ -182,13 +179,16 @@ class ScopedGPURange {
 public:
     explicit ScopedGPURange(const std::string& name,
                              uint32_t argb_color = 0xFF00FF00);
-    ~ScopedGPURange();
+    ~ScopedGPURange() noexcept;
+
+    void close() noexcept;
 
     ScopedGPURange(const ScopedGPURange&)            = delete;
     ScopedGPURange& operator=(const ScopedGPURange&) = delete;
 
 private:
     GPUProfiler& profiler_;
+    bool active_ = false;
 };
 
 } // namespace gpu

@@ -12,9 +12,38 @@
 #include "security/query_masking_policy.h"
 #include <spdlog/spdlog.h>
 #include <algorithm>
+#include <cctype>
 
 namespace themis {
 namespace security {
+namespace {
+
+bool isPublicMetadataField(const std::string& key) {
+    static const std::unordered_set<std::string> public_keys = {
+        "name",
+        "full_name",
+        "fullname",
+        "first_name",
+        "firstname",
+        "last_name",
+        "lastname",
+        "given_name",
+        "surname",
+        "city",
+        "town",
+        "country",
+        "state",
+        "province",
+        "region"
+    };
+
+    std::string normalized = key;
+    std::transform(normalized.begin(), normalized.end(), normalized.begin(),
+                   [](unsigned char ch) { return static_cast<char>(std::tolower(ch)); });
+    return public_keys.contains(normalized);
+}
+
+} // namespace
 
 // ---------------------------------------------------------------------------
 // Construction
@@ -276,7 +305,10 @@ std::string QueryMaskingPolicy::maskStringValue(
     }
 
     // 2. Field-name hint masking.
-    if (config_.mask_by_field_name) {
+    // Some ordinary query payloads expose public metadata like "name" or "city"
+    // without being sensitive.  Keep those values readable by default while still
+    // masking explicit sensitive keys such as "email", "ssn", or "phone".
+    if (config_.mask_by_field_name && !isPublicMetadataField(key)) {
         auto field_type = detector_->classifyFieldName(key);
         if (field_type != utils::PIIType::UNKNOWN) {
             std::string mode = detector_->getRedactionRecommendation(field_type);

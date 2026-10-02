@@ -398,6 +398,24 @@ std::optional<std::string> InputValidator::validateAqlRequest(const nlohmann::js
     if (payload.contains("bindVars") && !payload.at("bindVars").is_object()) {
         return std::string("'bindVars' must be an object");
     }
+    if (payload.contains("allow_full_scan") && !payload.at("allow_full_scan").is_boolean()) {
+        return std::string("'allow_full_scan' must be a boolean");
+    }
+    if (payload.contains("explain") && !payload.at("explain").is_boolean()) {
+        return std::string("'explain' must be a boolean");
+    }
+    if (payload.contains("optimize") && !payload.at("optimize").is_boolean()) {
+        return std::string("'optimize' must be a boolean");
+    }
+    if (payload.contains("decrypt") && !payload.at("decrypt").is_boolean()) {
+        return std::string("'decrypt' must be a boolean");
+    }
+    if (payload.contains("stream") && !payload.at("stream").is_boolean()) {
+        return std::string("'stream' must be a boolean");
+    }
+    if (payload.contains("return") && !payload.at("return").is_string()) {
+        return std::string("'return' must be a string");
+    }
 
     // Pass minimal stub schema if available
     if (auto err = validateJsonSchema(payload, "aql_request")) {
