@@ -45,16 +45,16 @@ enum class InvalidationTrigger {
  */
 struct CacheStatistics {
     size_t total_requests = 0;
-    size_t cache_hits;
-    size_t cache_misses;
-    double hit_rate;
-    size_t current_size;
-    size_t max_size;
-    size_t evictions;
-    size_t invalidations;
-    
-    std::chrono::milliseconds average_lookup_time;
-    std::chrono::system_clock::time_point last_reset;
+    size_t cache_hits = 0;
+    size_t cache_misses = 0;
+    double hit_rate = 0.0;
+    size_t current_size = 0;
+    size_t max_size = 0;
+    size_t evictions = 0;
+    size_t invalidations = 0;
+
+    std::chrono::milliseconds average_lookup_time{0};
+    std::chrono::system_clock::time_point last_reset{};
 };
 
 /**

@@ -137,6 +137,15 @@ private:
      */
     http::response<http::string_body> makeResponse(
         http::status status, const std::string& body, const http::request<http::string_body>& req);
+
+    /**
+     * @brief Apply Governance Headers.
+     * @param[in] req Input parameter.
+     * @param[in,out] res Input/output parameter.
+     */
+    void applyGovernanceHeaders(
+        const http::request<http::string_body>& req,
+        http::response<http::string_body>& res);
     
     /**
      * @brief Require Access.

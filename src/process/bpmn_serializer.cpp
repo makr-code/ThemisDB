@@ -498,6 +498,17 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
         );
     }
 
+    // Security guard: reject oversized documents before any XML validation or
+    // parsing work. The resource check must win over malformed-input checks for
+    // large payloads to keep the public error taxonomy stable.
+    if (bpmn_xml.size() > kMaxBpmnXmlBytes) {
+        return ImportResult::failure(
+            ProcessErrorCode::INPUT_TOO_LARGE,
+            "import BPMN from XML",
+            "XML exceeds 10 MiB size limit"
+        );
+    }
+
     // Phase 3: Unified malformed input detection
     auto validation = SerializerInputValidator::validateInput(bpmn_xml, "BPMN 2.0");
     if (!validation.ok) {
@@ -505,15 +516,6 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
             ProcessErrorCode::MALFORMED_INPUT,
             "import BPMN from XML",
             validation.error_message
-        );
-    }
-
-    // Security guard: reject oversized documents before any parsing work.
-    if (bpmn_xml.size() > kMaxBpmnXmlBytes) {
-        return ImportResult::failure(
-            ProcessErrorCode::INPUT_TOO_LARGE,
-            "import BPMN from XML",
-            "XML exceeds 10 MiB size limit"
         );
     }
 
@@ -555,6 +557,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
 
     // Deduplication guard (duplicate IDs can appear in sub-process copies).
     std::set<std::string> seen_node_ids;
+    bool saw_process_definition = false;
 
     // ── BPMN-S state ──────────────────────────────────────────────────────
     std::string current_flow_node_id;   ///< Non-self-closing flow node being parsed
@@ -667,6 +670,7 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
 
         // ── <process> (first occurrence wins) ────────────────────────────
         if (tn == "process") {
+            saw_process_definition = true;
             if (result.process_id.empty()) {
                 auto it_id = t.attrs.find("id");
                 auto it_nm = t.attrs.find("name");
@@ -952,16 +956,23 @@ BpmnSerializer::ImportResult BpmnSerializer::importXml(std::string_view bpmn_xml
         node.metadata["dsgvo_annotation"] = std::move(ann_json);
     }
 
-    if (result.process_id.empty()) {
+    if (result.process_id.empty() && saw_process_definition) {
         result.process_id   = "imported_process";
         result.process_name = "Imported Process";
     }
 
     if (result.nodes.empty() && result.edges.empty()) {
+        if (saw_process_definition) {
+            return ImportResult::failure(
+                ProcessErrorCode::EMPTY_INPUT,
+                "import BPMN from XML",
+                "no process nodes or edges found"
+            );
+        }
         return ImportResult::failure(
-            ProcessErrorCode::EMPTY_INPUT,
+            ProcessErrorCode::MALFORMED_INPUT,
             "import BPMN from XML",
-            "no process nodes or edges found"
+            "input does not contain a valid BPMN process definition"
         );
     }
 

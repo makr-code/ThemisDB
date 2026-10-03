@@ -230,7 +230,7 @@ std::string PIITypeUtils::maskValue(PIIType type, const std::string& value,
             case PIIType::EMAIL: {
                 size_t at_pos = value.find('@');
                 if (at_pos != std::string::npos && at_pos > 0) {
-                    return value.substr(0, 1) + "***" + value.substr(at_pos);
+                    return value.substr(0, 1) + "***@***";
                 }
                 return std::string(value.length(), '*');
             }

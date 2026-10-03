@@ -879,8 +879,91 @@ http::response<http::string_body> VectorApiHandler::makeResponse(
     res.set(http::field::content_type, "application/json");
     res.keep_alive(req.keep_alive());
     res.body() = body;
+    applyGovernanceHeaders(req, res);
     res.prepare_payload();
     return res;
+}
+
+void VectorApiHandler::applyGovernanceHeaders(
+    const http::request<http::string_body>& req,
+    http::response<http::string_body>& res
+) {
+    auto to_lower = [](std::string s) {
+        for (auto& c : s) {
+            c = static_cast<char>(::tolower(static_cast<unsigned char>(c)));
+        }
+        return s;
+    };
+
+    std::string path_only = std::string(req.target());
+    const auto qpos = path_only.find('?');
+    if (qpos != std::string::npos) {
+        path_only = path_only.substr(0, qpos);
+    }
+
+    std::string classification = "";
+    std::string mode = "observe";
+    bool encrypt_logs = false;
+    for (const auto& h : req) {
+        const auto name = h.name_string();
+        if (beast::iequals(name, "X-Classification")) {
+            classification = to_lower(std::string(h.value()));
+        } else if (beast::iequals(name, "X-Governance-Mode")) {
+            mode = to_lower(std::string(h.value()));
+        } else if (beast::iequals(name, "X-Encrypt-Logs")) {
+            const std::string v = to_lower(std::string(h.value()));
+            encrypt_logs = (v == "true" || v == "1" || v == "yes");
+        }
+    }
+
+    if (classification.empty()) {
+        if (path_only.rfind("/admin", 0) == 0) {
+            classification = "vs-nfd";
+        } else {
+            classification = "offen";
+        }
+    }
+
+    if (mode != "observe" && mode != "enforce") {
+        mode = "observe";
+    }
+
+    std::string ann = (vector_index_ ? std::string("allowed") : std::string("disabled"));
+    std::string content_enc = "optional";
+    std::string export_perm = "allowed";
+    std::string cache_perm = "allowed";
+    std::string retention_days = "365";
+    std::string redaction = "none";
+
+    if (classification == "geheim") {
+        ann = "disabled";
+        cache_perm = "disabled";
+    } else if (classification == "streng-geheim") {
+        ann = "disabled";
+        content_enc = "required";
+        export_perm = "forbidden";
+        cache_perm = "disabled";
+        redaction = "strict";
+        retention_days = "1095";
+    } else if (classification == "vs-nfd") {
+        content_enc = "required";
+        retention_days = "730";
+    }
+
+    const std::string policy_summary =
+        "classification=" + classification + ";mode=" + mode + ";encrypt_logs=" +
+        (encrypt_logs ? "true" : "false") + ";redaction=" + redaction;
+
+    res.set("X-Themis-Policy", policy_summary);
+    res.set("X-Themis-ANN", ann);
+    res.set("X-Themis-Content-Enc", content_enc);
+    res.set("X-Themis-Export", export_perm);
+    res.set("X-Themis-Cache", cache_perm);
+    res.set("X-Themis-Retention-Days", retention_days);
+
+    if (mode == "observe" && (classification == "geheim" || classification == "streng-geheim" || classification == "vs-nfd")) {
+        res.set("X-Themis-Policy-Warn", "observe-mode: policy applied as warning-only");
+    }
 }
 
 /**

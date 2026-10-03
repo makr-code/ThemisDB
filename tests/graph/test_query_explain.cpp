@@ -25,6 +25,8 @@
 #include "storage/base_entity.h"
 #include <filesystem>
 #include <string>
+#include <thread>
+#include <chrono>
 
 namespace fs = std::filesystem;
 
@@ -34,12 +36,26 @@ namespace fs = std::filesystem;
 
 class GraphQueryExplainTest : public ::testing::Test {
 protected:
+    void cleanupDbPath() {
+        for (int attempt = 0; attempt < 6; ++attempt) {
+            std::error_code ec;
+            fs::remove_all(test_db_path_, ec);
+            if (!ec) {
+                return;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(25 * (attempt + 1)));
+        }
+    }
+
     void SetUp() override {
-        test_db_path_ = "./data/themis_graph_explain_test";
-        fs::remove_all(test_db_path_);
+        const auto now_ns = std::chrono::steady_clock::now().time_since_epoch().count();
+        const auto thread_id = std::hash<std::thread::id>{}(std::this_thread::get_id());
+        test_db_path_ = fs::path("./data") /
+            ("themis_graph_explain_test_" + std::to_string(now_ns) + "_" + std::to_string(thread_id));
+        cleanupDbPath();
 
         themis::RocksDBWrapper::Config config;
-        config.db_path          = test_db_path_;
+        config.db_path          = test_db_path_.string();
         config.memtable_size_mb = 16;
         config.block_cache_size_mb = 32;
         config.max_background_jobs = 1;
@@ -55,8 +71,11 @@ protected:
     void TearDown() override {
         optimizer_.reset();
         graph_mgr_.reset();
-        db_.reset();
-        fs::remove_all(test_db_path_);
+        if (db_) {
+            db_->close();
+            db_.reset();
+        }
+        cleanupDbPath();
     }
 
     // Build a small directed graph: A→B→C→D, A→C
@@ -78,7 +97,7 @@ protected:
         addEdge("e4", "A", "C", 2.0);
     }
 
-    std::string test_db_path_;
+    fs::path test_db_path_;
     std::unique_ptr<themis::RocksDBWrapper>              db_;
     std::unique_ptr<themis::GraphIndexManager>           graph_mgr_;
     std::unique_ptr<themis::graph::GraphQueryOptimizer>  optimizer_;

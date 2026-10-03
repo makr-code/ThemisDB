@@ -188,7 +188,7 @@ TEST_F(PIIDetectorTest, RedactionRecommendation) {
 
 TEST_F(PIIDetectorTest, MaskEmail) {
     std::string masked = detector_.maskValue(PIIType::EMAIL, "alice@example.com");
-    EXPECT_EQ(masked, "a***@example.com");
+    EXPECT_EQ(masked, "a***@***");
 }
 
 TEST_F(PIIDetectorTest, MaskPhone) {

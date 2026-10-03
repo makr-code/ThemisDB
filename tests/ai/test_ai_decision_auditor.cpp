@@ -12,7 +12,9 @@
 #include <gtest/gtest.h>
 #include "llm/ai_decision_auditor.h"
 #include "security/mock_key_provider.h"
+#include <chrono>
 #include <filesystem>
+#include <system_error>
 #include <rocksdb/db.h>
 #include <rocksdb/utilities/transaction_db.h>
 
@@ -22,17 +24,21 @@ using namespace themis::llm;
 class AIDecisionAuditorTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        // Setup temporary database
-        db_path_ = "data/test_ai_audit_db";
-        std::filesystem::remove_all(db_path_);
-        std::filesystem::create_directories(db_path_);
+        // Setup an isolated temporary database per test case so concurrent
+        // fixtures do not reuse the same RocksDB lock files on Windows.
+        const auto unique_id = std::to_string(
+            std::chrono::steady_clock::now().time_since_epoch().count());
+        db_path_ = std::string("data/test_ai_audit_db_") + unique_id;
+        std::error_code ec;
+        std::filesystem::remove_all(db_path_, ec);
+        std::filesystem::create_directories(db_path_, ec);
         
         // Open RocksDB
         rocksdb::TransactionDBOptions txn_options;
         rocksdb::Options options;
         options.create_if_missing = true;
         
-        rocksdb::TransactionDB* db_ptr;
+        rocksdb::TransactionDB* db_ptr = nullptr;
         auto s = rocksdb::TransactionDB::Open(
             options, txn_options, db_path_, &db_ptr
         );
@@ -47,7 +53,8 @@ protected:
     void TearDown() override {
         auditor_.reset();
         db_.reset();
-        std::filesystem::remove_all(db_path_);
+        std::error_code ec;
+        std::filesystem::remove_all(db_path_, ec);
     }
     
     AIDecisionAudit createTestAudit() {

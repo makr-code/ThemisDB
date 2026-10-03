@@ -20,12 +20,12 @@ namespace themis::rag::judge {
 // ---------------------------------------------------------------------------
 
 EvaluationCache::EvaluationCache()
-    : config_{} {
+    : config_{}, stats_{} {
     stats_.last_reset = std::chrono::system_clock::now();
 }
 
 EvaluationCache::EvaluationCache(const CacheConfig& config)
-    : config_(config) {
+    : config_(config), stats_{} {
     stats_.last_reset = std::chrono::system_clock::now();
 }
 
