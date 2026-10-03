@@ -5448,6 +5448,13 @@ target_link_libraries(themis_demo
     PRIVATE
         themis_core
 )
+if(TARGET ZLIB::ZLIB)
+    target_link_libraries(themis_demo PRIVATE ZLIB::ZLIB)
+elseif(ZLIB_LIBRARY)
+    target_link_libraries(themis_demo PRIVATE ${ZLIB_LIBRARY})
+elseif(UNIX AND NOT APPLE)
+    target_link_libraries(themis_demo PRIVATE z)
+endif()
 themis_link_mimalloc_if_enabled(themis_demo)
 
 # Encryption demo executable
