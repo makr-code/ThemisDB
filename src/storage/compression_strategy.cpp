@@ -104,8 +104,12 @@ CompressionResult CompressionStrategyManager::compress(
         timer.finish(result.data.size());
     }
     
-    // Check if compression was beneficial
-    if (result.data.size() >= size * 0.95f) {
+    // Adaptive mode may still choose to keep data uncompressed when the
+    // savings are smaller than the configured threshold. Explicit method
+    // selections (e.g. GPU_ZSTD) must still honor the user/requested codec and
+    // not be silently downgraded to NONE by the generic heuristic.
+    const bool adaptive_mode = (config_.method == CompressionMethod::ADAPTIVE);
+    if (adaptive_mode && result.data.size() >= size * 0.95f) {
         // Less than 5% savings, store uncompressed
         result.data.assign(data, data + size);
         result.method_used = CompressionMethod::NONE;

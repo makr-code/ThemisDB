@@ -411,6 +411,10 @@ class CodeMaturityUpdater:
             'mock': metrics['mock'],
             'sim': metrics['sim'],
             'debt': metrics['debt'],
+            'critical': min(99, max(0, metrics['todo'] + metrics['stub'] + metrics['mock'])),
+            'high': min(99, max(0, metrics['sim'] + metrics['debt'] + metrics['unimpl'])),
+            'medium': min(99, max(0, metrics['gaps'] // 2)),
+            'low': min(99, max(0, metrics['gaps'] - (metrics['todo'] + metrics['stub'] + metrics['mock'] + metrics['sim'] + metrics['debt'] + metrics['unimpl']))),
             'status': status,
         }
         module_context, ownership_scope = self._derive_module_context(repo_root, file_path)
@@ -442,7 +446,16 @@ class CodeMaturityUpdater:
         else:
             header = self.LEAN_HEADER_TEMPLATE.format(**template_data)
 
-        header_out = header.rstrip() + '\n\n'
+        header_lines = []
+        for raw_line in header.splitlines():
+            cleaned = raw_line.strip()
+            if not cleaned or cleaned.startswith('/**') or cleaned.startswith('*/'):
+                continue
+            header_lines.append(cleaned.lstrip('*').strip())
+
+        # The repo's validation regex expects a compact single-line header block,
+        # not a multiline Doxygen block.
+        header_out = '/** ' + ' '.join(header_lines) + ' */\n\n'
         new_content = header_out + content_ohne_header
         with open(file_path, 'w', encoding='utf-8') as f:
             f.write(new_content)

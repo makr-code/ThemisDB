@@ -1,15 +1,4 @@
-/**
- * @file pdf_extractor_adapter.cpp
- * @brief PDF format extractor adapter for plugin architecture with text extraction and metadata analysis.
- * @version 0.1.0
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 90/100 (Batch 5 verified; scope_mismatch at L26 verified as false positive)
- * @note Gap Status: Batches 1-4 complete; default constructor at L26 has no scope issues, all objects properly managed
- * @note Batch Tracking: CMT-7503 (scope verification: false positive confirmed), CMT-7505 (test coverage 96%)
- * @note Status: Production Ready; Safe default initialization, no lifetime issues
- * @note This block is auto-generated and will be overwritten.
- */
-
+/** @file pdf_extractor_adapter.cpp @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata. @author makr-code @version 0.0.1 @date 2026-09-18 21:43:08 @note Maturity: 🟢 PRODUCTION-READY @note Score: 100/100 @note Lines: 74 @note Module Context: src/content @note Ownership Scope: production-code @note Primary Symbols: PdfExtractorAdapter, createPdfExtractorAdapter @note PR History (last 5): none @note Governance: BranchModel=develop-first; CanonicalBranches=develop,community,military @note Release Context: GateModel=WaveA→B→C→D on develop @note Status: Production Ready @note Generator: .github/scripts/code_maturity_header_writer.py @note This block is auto-generated and will be overwritten. */
 
 #include "content/adapters/format_extractor_adapters.h"
 #include "content/pdf_processor.h"

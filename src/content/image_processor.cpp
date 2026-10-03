@@ -1,12 +1,5 @@
-/**
- * @file image_processor.cpp
- * @brief Image content processor with feature extraction, OCR, and visual analysis.
- * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 85/100
- * @note Status: Production Ready; Core image analysis working; advanced ML model deferred
- * @note This block is auto-generated and will be overwritten.
- */
+/** @file image_processor.cpp @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata. @author makr-code @version 0.0.1 @date 2026-09-18 21:43:08 @note Maturity: 🟢 PRODUCTION-READY @note Score: 100/100 @note Lines: 641 @note Module Context: src/content @note Ownership Scope: production-code @note Primary Symbols: detectImageDimensions, rgbToHex, extractGrayscaleSamples, apply2DDCT @note PR History (last 5): #5950 [CP-1] Content Module Batch... (2026-08-15) | #4331 feat(content): perceptual h... (2026-03-19) | #4111 feat: migrate plugins to fl... (2026-03-12) | #3219 feat(content): enable/disab... (2026-03-12) | #3218 Implement content deduplica... (2026-03-12) @note Governance: BranchModel=develop-first; CanonicalBranches=develop,community,military @note Release Context: GateModel=WaveA→B→C→D on develop @note Status: Production Ready @note Generator: .github/scripts/code_maturity_header_writer.py @note This block is auto-generated and will be overwritten. */
+
 // Ensure plugin entry points export correctly when built into core
 #define THEMIS_PLUGIN_EXPORTS
 

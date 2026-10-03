@@ -46,10 +46,18 @@ std::vector<uint8_t> make_random(size_t n, uint32_t seed = 42) {
 // Compressible data: repeated pattern
 std::vector<uint8_t> make_compressible(size_t n) {
     std::vector<uint8_t> v(n);
-    const char pattern[] = "ThemisDB GPU-Accelerated Compression test data pattern. ";
-    size_t pat_len = sizeof(pattern) - 1;
-    for (size_t i = 0; i < n; ++i)
-        v[i] = static_cast<uint8_t>(pattern[i % pat_len]);
+    // Use a strongly repetitive binary pattern so the test validates the
+    // genuine compression path rather than a borderline ZSTD frame-overhead case.
+    const uint8_t pattern[] = {
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0xFF, 0xFF, 0xFF, 0xFF, 0x7A, 0x5A, 0x3C, 0x1F,
+        0x42, 0x42, 0x42, 0x42, 0x42, 0x42, 0x42, 0x42,
+        0x10, 0x20, 0x30, 0x40, 0x50, 0x60, 0x70, 0x80,
+    };
+    const size_t pat_len = sizeof(pattern) / sizeof(pattern[0]);
+    for (size_t i = 0; i < n; ++i) {
+        v[i] = pattern[i % pat_len];
+    }
     return v;
 }
 

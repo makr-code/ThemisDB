@@ -19,6 +19,8 @@ Production-capable multi-format content ingestion, storage/retrieval, versioning
 
 ## Relevant Interfaces
 
+The content inventory includes core processor families such as ContentManager, PDFProcessor, ImageProcessor, OfficeProcessor, HtmlProcessor, MarkdownProcessor, TextProcessor, ArchiveProcessor, OCRProcessor, AudioProcessor, STTProcessor, TTSProcessor, VideoProcessor, ContentValidator, ContentPolicy, ContentSecurity, MimeDetector, DeduplicationChecker, and EmbeddingPipeline.
+
 | Interface / File | Role |
 |---|---|
 | content_manager.cpp | content ingestion orchestration and routing |

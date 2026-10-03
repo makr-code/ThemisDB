@@ -1,12 +1,5 @@
-/**
- * @file language_detector.cpp
- * @brief Language detection engine supporting 100+ languages with confidence scoring.
- * @version 0.0.15
- * @note Maturity: 🟡 BETA
- * @note Score: 77/100
- * @note Status: Beta; Multi-language detection working; script detection and confidence scoring under refinement
- * @note This block is auto-generated and will be overwritten.
- */
+/** @file language_detector.cpp @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata. @author makr-code @version 0.0.1 @date 2026-09-18 21:43:08 @note Maturity: 🟢 PRODUCTION-READY @note Score: 100/100 @note Lines: 268 @note Module Context: src/content @note Ownership Scope: production-code @note Primary Symbols: LangProfile, ScriptCounts, countScriptBytes, toLower @note PR History (last 5): #5950 [CP-1] Content Module Batch... (2026-08-15) | #5778 [EPIC #5624] Toolbox module... (2026-08-08) | #3619 fix(content): build system ... (2026-03-12) | #3580 feat(plugins): PluginMetric... (2026-03-12) | #3152 Add multi-language text det... (2026-03-12) @note Governance: BranchModel=develop-first; CanonicalBranches=develop,community,military @note Release Context: GateModel=WaveA→B→C→D on develop @note Status: Production Ready @note Generator: .github/scripts/code_maturity_header_writer.py @note This block is auto-generated and will be overwritten. */
+
 #include "content/language_detector.h"
 
 #include <algorithm>

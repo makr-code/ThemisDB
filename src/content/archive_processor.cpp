@@ -1,12 +1,5 @@
-/**
- * @file archive_processor.cpp
- * @brief Archive format processor (ZIP, TAR, 7Z, RAR) for nested content extraction.
- * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 92/100
- * @note Status: Production Ready; ZIP/TAR/7Z extraction functional; nested depth limits enforced
- * @note This block is auto-generated and will be overwritten.
- */
+/** @file archive_processor.cpp @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata. @author makr-code @version 0.0.1 @date 2026-09-18 21:43:08 @note Maturity: 🟢 PRODUCTION-READY @note Score: 97/100 @note Lines: 1060 @note Module Context: src/content @note Ownership Scope: production-code @note Primary Symbols: generateRandomString, writeBlobToFile @note PR History (last 5): #6388 Formalize Wave Aâ€“D test-d... (2026-09-15) | #5950 [CP-1] Content Module Batch... (2026-08-15) | #5729 [EPIC #5624] Fix archive pr... (2026-07-27) | #3699 fix(content/security): zip-... (2026-03-12) @note Governance: BranchModel=develop-first; CanonicalBranches=develop,community,military @note Release Context: GateModel=WaveA→B→C→D on develop @note Status: Production Ready @note Generator: .github/scripts/code_maturity_header_writer.py @note This block is auto-generated and will be overwritten. */
+
 #include "content/archive_processor.h"
 #include "utils/logger.h"
 #include <exception>

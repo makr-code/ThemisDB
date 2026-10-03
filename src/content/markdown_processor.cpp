@@ -1,12 +1,5 @@
-/**
- * @file markdown_processor.cpp
- * @brief Markdown content processor for parsing, validation, and semantic analysis.
- * @version 0.0.15
- * @note Maturity: 🟡 BETA
- * @note Score: 83/100
- * @note Status: Production Ready; Markdown parsing complete; advanced extensions deferred
- * @note This block is auto-generated and will be overwritten.
- */
+/** @file markdown_processor.cpp @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata. @author makr-code @version 0.0.1 @date 2026-09-18 21:43:08 @note Maturity: 🟢 PRODUCTION-READY @note Score: 100/100 @note Lines: 773 @note Module Context: src/content @note Ownership Scope: production-code @note Primary Symbols: config_, trimCopy, createMarkdownProcessor @note PR History (last 5): #5950 [CP-1] Content Module Batch... (2026-08-15) | #3619 fix(content): build system ... (2026-03-12) | #3027 Implement Markdown processi... (2026-03-12) @note Governance: BranchModel=develop-first; CanonicalBranches=develop,community,military @note Release Context: GateModel=WaveA→B→C→D on develop @note Status: Production Ready @note Generator: .github/scripts/code_maturity_header_writer.py @note This block is auto-generated and will be overwritten. */
+
 #include "content/markdown_processor.h"
 
 #include <algorithm>

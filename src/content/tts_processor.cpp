@@ -1,12 +1,5 @@
-/**
- * @file tts_processor.cpp
- * @brief Text-to-speech synthesis engine with voice selection and prosody control.
- * @version 0.0.47
- * @note Maturity: 🟡 BETA
- * @note Score: 70/100
- * @note Status: Beta; Text-to-speech engine basic; voice selection and prosody control under development
- * @note This block is auto-generated and will be overwritten.
- */
+/** @file tts_processor.cpp @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata. @author makr-code @version 0.0.1 @date 2026-09-18 21:43:08 @note Maturity: 🟢 PRODUCTION-READY @note Score: 94/100 @note Lines: 585 @note Module Context: src/content @note Ownership Scope: production-code @note Primary Symbols: none-detected @note PR History (last 5): #5950 [CP-1] Content Module Batch... (2026-08-15) | #5818 feat(roadmap): Q3 2026 ~78%... (2026-08-10) | #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #3619 fix(content): build system ... (2026-03-12) | #2570 [voice] Implement real-time... (2026-03-12) @note Governance: BranchModel=develop-first; CanonicalBranches=develop,community,military @note Release Context: GateModel=WaveA→B→C→D on develop @note Status: Production Ready @note Generator: .github/scripts/code_maturity_header_writer.py @note This block is auto-generated and will be overwritten. */
+
 #include "content/tts_processor.h"
 
 #include <algorithm>

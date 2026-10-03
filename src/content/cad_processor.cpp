@@ -1,12 +1,5 @@
-/**
- * @file cad_processor.cpp
- * @brief CAD format processor (DWG, STEP, IGES) for 3D model extraction and analysis.
- * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 88/100
- * @note Status: Production Ready; DWG/STEP/IGES parsing working; advanced geometry analysis deferred
- * @note This block is auto-generated and will be overwritten.
- */
+/** @file cad_processor.cpp @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata. @author makr-code @version 0.0.1 @date 2026-09-18 21:43:08 @note Maturity: 🟢 PRODUCTION-READY @note Score: 96/100 @note Lines: 536 @note Module Context: src/content @note Ownership Scope: production-code @note Primary Symbols: none-detected @note PR History (last 5): #5950 [CP-1] Content Module Batch... (2026-08-15) | #3619 fix(content): build system ... (2026-03-12) | #52 Implement horizontal/vertic... (2026-03-11) @note Governance: BranchModel=develop-first; CanonicalBranches=develop,community,military @note Release Context: GateModel=WaveA→B→C→D on develop @note Status: Production Ready @note Generator: .github/scripts/code_maturity_header_writer.py @note This block is auto-generated and will be overwritten. */
+
 // Ensure plugin entry points export correctly when built into core
 #define THEMIS_PLUGIN_EXPORTS
 

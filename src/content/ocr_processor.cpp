@@ -1,12 +1,5 @@
-/**
- * @file ocr_processor.cpp
- * @brief Optical character recognition engine for image-based text extraction.
- * @version 0.0.15
- * @note Maturity: 🔴 ALPHA
- * @note Score: 68/100
- * @note Status: Beta; OCR engine integration in progress; confidence filtering and language-specific models under test
- * @note This block is auto-generated and will be overwritten.
- */
+/** @file ocr_processor.cpp @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata. @author makr-code @version 0.0.1 @date 2026-09-18 21:43:08 @note Maturity: 🟢 PRODUCTION-READY @note Score: 100/100 @note Lines: 580 @note Module Context: src/content @note Ownership Scope: production-code @note Primary Symbols: createOcrProcessor @note PR History (last 5): #5950 [CP-1] Content Module Batch... (2026-08-15) | #4480 fix(content): implement Ocr... (2026-04-12) | #3800 feat(content): OCR 300-DPI ... (2026-03-12) | #3796 feat(content): default OCR ... (2026-03-12) | #3788 feat(content): add 300-DPI ... (2026-03-12) @note Governance: BranchModel=develop-first; CanonicalBranches=develop,community,military @note Release Context: GateModel=WaveA→B→C→D on develop @note Status: Production Ready @note Generator: .github/scripts/code_maturity_header_writer.py @note This block is auto-generated and will be overwritten. */
+
 #include "content/ocr_processor.h"
 
 #include <algorithm>

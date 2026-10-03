@@ -1,12 +1,5 @@
-/**
- * @file content_errors.cpp
- * @brief Content module error code definitions and error category implementations.
- * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 91/100
- * @note Status: Production Ready; Error code definitions complete and stable
- * @note This block is auto-generated and will be overwritten.
- */
+/** @file content_errors.cpp @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata. @author makr-code @version 0.0.1 @date 2026-09-18 21:43:08 @note Maturity: 🟢 PRODUCTION-READY @note Score: 100/100 @note Lines: 494 @note Module Context: src/content @note Ownership Scope: production-code @note Primary Symbols: errorCodeToString, errorCodeCategory, getDefaultErrorMessage, isSecurityError, isValidationError @note PR History (last 5): #5950 [CP-1] Content Module Batch... (2026-08-15) @note Governance: BranchModel=develop-first; CanonicalBranches=develop,community,military @note Release Context: GateModel=WaveA→B→C→D on develop @note Status: Production Ready @note Generator: .github/scripts/code_maturity_header_writer.py @note This block is auto-generated and will be overwritten. */
+
 #include "content/content_errors.h"
 
 #include <unordered_map>

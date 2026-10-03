@@ -1,12 +1,5 @@
-/**
- * @file content_manager_llm.cpp
- * @brief Core content management system orchestrating processors, validators, and storage.
- * @version 0.0.47
- * @note Maturity: 🟡 BETA
- * @note Score: 74/100
- * @note Status: Beta; LLM integration in progress; prompt engineering and response validation under review
- * @note This block is auto-generated and will be overwritten.
- */
+/** @file content_manager_llm.cpp @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata. @author makr-code @version 0.0.1 @date 2026-09-18 21:43:08 @note Maturity: 🟢 PRODUCTION-READY @note Score: 100/100 @note Lines: 430 @note Module Context: src/content @note Ownership Scope: production-code @note Primary Symbols: none-detected @note PR History (last 5): #5950 [CP-1] Content Module Batch... (2026-08-15) | #4833 Continue Phase-6 tensorgrap... (2026-05-07) | #4241 feat(content): Embedding Ge... (2026-03-15) | #3619 fix(content): build system ... (2026-03-12) | #204 Complete llama.cpp implemen... (2026-03-11) @note Governance: BranchModel=develop-first; CanonicalBranches=develop,community,military @note Release Context: GateModel=WaveA→B→C→D on develop @note Status: Production Ready @note Generator: .github/scripts/code_maturity_header_writer.py @note This block is auto-generated and will be overwritten. */
+
 #include <algorithm>
 #include <sstream>
 

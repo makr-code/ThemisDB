@@ -1,12 +1,5 @@
-/**
- * @file pdf_processor.cpp
- * @brief PDF content processor with text/image extraction and metadata parsing.
- * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 86/100
- * @note Status: Production Ready; PDF text/image extraction working; form field handling deferred
- * @note This block is auto-generated and will be overwritten.
- */
+/** @file pdf_processor.cpp @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata. @author makr-code @version 0.0.1 @date 2026-09-18 21:43:08 @note Maturity: 🟢 PRODUCTION-READY @note Score: 100/100 @note Lines: 698 @note Module Context: src/content @note Ownership Scope: production-code @note Primary Symbols: Item, createPDFProcessor @note PR History (last 5): #5950 [CP-1] Content Module Batch... (2026-08-15) | #3619 fix(content): build system ... (2026-03-12) | #3556 docs(content): reality-chec... (2026-03-12) | #3219 feat(content): enable/disab... (2026-03-12) | #3218 Implement content deduplica... (2026-03-12) @note Governance: BranchModel=develop-first; CanonicalBranches=develop,community,military @note Release Context: GateModel=WaveA→B→C→D on develop @note Status: Production Ready @note Generator: .github/scripts/code_maturity_header_writer.py @note This block is auto-generated and will be overwritten. */
+
 #include "content/pdf_processor.h"
 
 #include <algorithm>

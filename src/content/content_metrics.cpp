@@ -1,12 +1,5 @@
-/**
- * @file content_metrics.cpp
- * @brief Metrics collection and aggregation for content processing performance tracking.
- * @version 0.0.47
- * @note Maturity: 🟡 BETA
- * @note Score: 82/100
- * @note Status: Production Ready; Metrics collection and aggregation working; advanced dashboards deferred
- * @note This block is auto-generated and will be overwritten.
- */
+/** @file content_metrics.cpp @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata. @author makr-code @version 0.0.1 @date 2026-09-18 21:43:08 @note Maturity: 🟢 PRODUCTION-READY @note Score: 100/100 @note Lines: 694 @note Module Context: src/content @note Ownership Scope: production-code @note Primary Symbols: none-detected @note PR History (last 5): #5950 [CP-1] Content Module Batch... (2026-08-15) | #3556 docs(content): reality-chec... (2026-03-12) | #2592 [content] PDF text extracti... (2026-03-12) @note Governance: BranchModel=develop-first; CanonicalBranches=develop,community,military @note Release Context: GateModel=WaveA→B→C→D on develop @note Status: Production Ready @note Generator: .github/scripts/code_maturity_header_writer.py @note This block is auto-generated and will be overwritten. */
+
 #include "content/content_metrics.h"
 #include <algorithm>
 #include <sstream>

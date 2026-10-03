@@ -1,12 +1,5 @@
-/**
- * @file deduplication_checker.cpp
- * @brief Content deduplication engine using cryptographic hashing and similarity detection.
- * @version 0.0.15
- * @note Maturity: 🟡 BETA
- * @note Score: 80/100
- * @note Status: Production Ready; Hash-based dedup working; advanced similarity detection deferred
- * @note This block is auto-generated and will be overwritten.
- */
+/** @file deduplication_checker.cpp @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata. @author copilot-swe-agent[bot] @version 0.0.1 @date 2026-10-02 08:25:06 @note Maturity: 🟢 PRODUCTION-READY @note Score: 100/100 @note Lines: 207 @note Module Context: src/content @note Ownership Scope: production-code @note Primary Symbols: storage_, hexToU64 @note PR History (last 5): #5950 [CP-1] Content Module Batch... (2026-08-15) | #3619 fix(content): build system ... (2026-03-12) | #3059 feat(content): near-duplica... (2026-03-12) @note Governance: BranchModel=develop-first; CanonicalBranches=develop,community,military @note Release Context: GateModel=WaveA→B→C→D on develop @note Status: Production Ready @note Generator: .github/scripts/code_maturity_header_writer.py @note This block is auto-generated and will be overwritten. */
+
 #include "content/deduplication_checker.h"
 #include <algorithm>
 #include <cstdint>

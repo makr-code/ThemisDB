@@ -1,12 +1,5 @@
-/**
- * @file embedding_pipeline.cpp
- * @brief Embedding generation and management pipeline for content vectorization.
- * @version 0.0.15
- * @note Maturity: 🟡 BETA
- * @note Score: 73/100
- * @note Status: Beta; Embedding pipeline scaffolding complete; model optimization and caching under test
- * @note This block is auto-generated and will be overwritten.
- */
+/** @file embedding_pipeline.cpp @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata. @author makr-code @version 0.0.1 @date 2026-09-18 21:43:08 @note Maturity: 🟢 PRODUCTION-READY @note Score: 100/100 @note Lines: 145 @note Module Context: src/content @note Ownership Scope: production-code @note Primary Symbols: config_ @note PR History (last 5): #5950 [CP-1] Content Module Batch... (2026-08-15) | #3619 fix(content): build system ... (2026-03-12) | #3167 fix(content): add content_m... (2026-03-12) @note Governance: BranchModel=develop-first; CanonicalBranches=develop,community,military @note Release Context: GateModel=WaveA→B→C→D on develop @note Status: Production Ready @note Generator: .github/scripts/code_maturity_header_writer.py @note This block is auto-generated and will be overwritten. */
+
 #include "content/embedding_pipeline.h"
 #include "content/content_metrics.h"
 #include "llm/embedded_llm.h"

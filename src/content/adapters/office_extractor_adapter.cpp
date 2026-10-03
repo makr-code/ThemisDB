@@ -1,15 +1,4 @@
-/**
- * @file office_extractor_adapter.cpp
- * @brief Office format extractor adapter for plugin architecture (Excel, Word, PowerPoint).
- * @version 0.1.0
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 91/100 (Batch 5 verified; no scope issues detected)
- * @note Gap Status: Batches 1-4 complete; adapter pattern RAII-compliant, safe conditional compilation
- * @note Batch Tracking: CMT-7503 (scope verification complete), CMT-7505 (test coverage 94%)
- * @note Status: Production Ready; Safe plugin adapter with THEMIS_ENABLE_OFFICE feature gating
- * @note This block is auto-generated and will be overwritten.
- */
-
+/** @file office_extractor_adapter.cpp @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata. @author makr-code @version 0.0.1 @date 2026-09-18 21:43:08 @note Maturity: 🟢 PRODUCTION-READY @note Score: 100/100 @note Lines: 98 @note Module Context: src/content @note Ownership Scope: production-code @note Primary Symbols: OfficeExtractorAdapter, createOfficeExtractorAdapter @note PR History (last 5): none @note Governance: BranchModel=develop-first; CanonicalBranches=develop,community,military @note Release Context: GateModel=WaveA→B→C→D on develop @note Status: Production Ready @note Generator: .github/scripts/code_maturity_header_writer.py @note This block is auto-generated and will be overwritten. */
 
 #include "content/adapters/format_extractor_adapters.h"
 

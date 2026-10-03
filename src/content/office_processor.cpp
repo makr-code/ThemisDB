@@ -1,12 +1,5 @@
-/**
- * @file office_processor.cpp
- * @brief Office document processor (XLSX, DOCX, PPTX) with content extraction.
- * @version 0.0.47
- * @note Maturity: 🟡 BETA
- * @note Score: 81/100
- * @note Status: Production Ready; XLSX/DOCX/PPTX extraction working; advanced macro handling deferred
- * @note This block is auto-generated and will be overwritten.
- */
+/** @file office_processor.cpp @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata. @author makr-code @version 0.0.1 @date 2026-09-18 21:43:08 @note Maturity: 🟢 PRODUCTION-READY @note Score: 100/100 @note Lines: 1331 @note Module Context: src/content @note Ownership Scope: production-code @note Primary Symbols: TempGuard, timespec, ~TempGuard, createOfficeProcessor @note PR History (last 5): #5950 [CP-1] Content Module Batch... (2026-08-15) | #3780 fix(content/security): CON-... (2026-03-12) | #3738 feat(content): LibreOffice ... (2026-03-12) | #3556 docs(content): reality-chec... (2026-03-12) | #3211 [WIP] Add Office document t... (2026-03-12) @note Governance: BranchModel=develop-first; CanonicalBranches=develop,community,military @note Release Context: GateModel=WaveA→B→C→D on develop @note Status: Production Ready @note Generator: .github/scripts/code_maturity_header_writer.py @note This block is auto-generated and will be overwritten. */
+
 #include "content/office_processor.h"
 
 #include <algorithm>

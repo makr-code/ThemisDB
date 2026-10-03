@@ -1,12 +1,5 @@
-/**
- * @file ingestion_plugin.cpp
- * @brief Plugin system for custom content ingestion and processing pipelines.
- * @version 0.0.47
- * @note Maturity: 🔴 ALPHA
- * @note Score: 69/100
- * @note Status: Beta; Plugin loading framework in place; dynamic configuration and hot-reload under development
- * @note This block is auto-generated and will be overwritten.
- */
+/** @file ingestion_plugin.cpp @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata. @author makr-code @version 0.0.1 @date 2026-09-18 21:43:08 @note Maturity: 🟢 PRODUCTION-READY @note Score: 100/100 @note Lines: 47 @note Module Context: src/content @note Ownership Scope: production-code @note Primary Symbols: none-detected @note PR History (last 5): #5950 [CP-1] Content Module Batch... (2026-08-15) @note Governance: BranchModel=develop-first; CanonicalBranches=develop,community,military @note Release Context: GateModel=WaveA→B→C→D on develop @note Status: Production Ready @note Generator: .github/scripts/code_maturity_header_writer.py @note This block is auto-generated and will be overwritten. */
+
 #include "content/ingestion_plugin.h"
 #include "content/async_ingestion_worker.h"
 

@@ -1,12 +1,5 @@
-/**
- * @file mime_detector.cpp
- * @brief MIME type detection using magic bytes and content-based classification.
- * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 90/100
- * @note Status: Production Ready; Magic bytes + MIME detection robust; edge cases in progress
- * @note This block is auto-generated and will be overwritten.
- */
+/** @file mime_detector.cpp @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata. @author makr-code @version 0.0.1 @date 2026-09-18 21:43:08 @note Maturity: 🟢 PRODUCTION-READY @note Score: 100/100 @note Lines: 596 @note Module Context: src/content @note Ownership Scope: production-code @note Primary Symbols: sig_mgr_ @note PR History (last 5): #5950 [CP-1] Content Module Batch... (2026-08-15) | #3700 feat(content): add ContentP... (2026-03-12) | #1223 Reorganize config architect... (2026-03-11) @note Governance: BranchModel=develop-first; CanonicalBranches=develop,community,military @note Release Context: GateModel=WaveA→B→C→D on develop @note Status: Production Ready @note Generator: .github/scripts/code_maturity_header_writer.py @note This block is auto-generated and will be overwritten. */
+
 #include "content/mime_detector.h"
 #include "storage/security_signature_manager.h"
 #include "config/config_path_resolver.h"

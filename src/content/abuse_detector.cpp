@@ -1,12 +1,5 @@
-/**
- * @file abuse_detector.cpp
- * @brief Abuse detection system with perceptual hashing (PhotoDNA) and pattern matching.
- * @version 0.0.12
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 85/100
- * @note Status: Production Ready; PhotoDNA + pattern matching fully functional
- * @note This block is auto-generated and will be overwritten.
- */
+/** @file abuse_detector.cpp @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata. @author makr-code @version 0.0.1 @date 2026-09-18 21:43:08 @note Maturity: 🟢 PRODUCTION-READY @note Score: 100/100 @note Lines: 220 @note Module Context: src/content @note Ownership Scope: production-code @note Primary Symbols: blocklist_, patterns_ @note PR History (last 5): #5950 [CP-1] Content Module Batch... (2026-08-15) | #4287 fix(content): wire abuse_de... (2026-03-16) @note Governance: BranchModel=develop-first; CanonicalBranches=develop,community,military @note Release Context: GateModel=WaveA→B→C→D on develop @note Status: Production Ready @note Generator: .github/scripts/code_maturity_header_writer.py @note This block is auto-generated and will be overwritten. */
+
 #include "content/abuse_detector.h"
 
 #include <algorithm>

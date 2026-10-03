@@ -1,12 +1,5 @@
-/**
- * @file content_fs.cpp
- * @brief Filesystem abstraction layer for content storage and temporary file management.
- * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 86/100
- * @note Status: Production Ready; Filesystem abstraction solid; advanced caching strategies deferred
- * @note This block is auto-generated and will be overwritten.
- */
+/** @file content_fs.cpp @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata. @author makr-code @version 0.0.1 @date 2026-09-18 21:43:08 @note Maturity: 🟢 PRODUCTION-READY @note Score: 100/100 @note Lines: 337 @note Module Context: src/content @note Ownership Scope: production-code @note Primary Symbols: toHex @note PR History (last 5): #5950 [CP-1] Content Module Batch... (2026-08-15) | #5255 fix(content): CONTENT modul... (2026-05-24) | #747 Phase 3: Migrate TSStore, P... (2026-03-11) | #710 Phase 3: Migrate IndexManag... (2026-03-11) @note Governance: BranchModel=develop-first; CanonicalBranches=develop,community,military @note Release Context: GateModel=WaveA→B→C→D on develop @note Status: Production Ready @note Generator: .github/scripts/code_maturity_header_writer.py @note This block is auto-generated and will be overwritten. */
+
 #include "content/content_fs.h"
 
 #include <algorithm>

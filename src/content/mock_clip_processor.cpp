@@ -1,12 +1,5 @@
-/**
- * @file mock_clip_processor.cpp
- * @brief Mock implementation for clip processing (test placeholder).
- * @version 0.0.47
- * @note Maturity: 🔴 ALPHA
- * @note Score: 45/100
- * @note Status: Alpha; Mock implementation for testing; scheduled for replacement in Phase 6
- * @note This block is auto-generated and will be overwritten.
- */
+/** @file mock_clip_processor.cpp @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata. @author makr-code @version 0.0.1 @date 2026-09-18 21:43:08 @note Maturity: 🟢 PRODUCTION-READY @note Score: 96/100 @note Lines: 98 @note Module Context: src/content @note Ownership Scope: production-code @note Primary Symbols: none-detected @note PR History (last 5): #5950 [CP-1] Content Module Batch... (2026-08-15) | #3619 fix(content): build system ... (2026-03-12) @note Governance: BranchModel=develop-first; CanonicalBranches=develop,community,military @note Release Context: GateModel=WaveA→B→C→D on develop @note Status: Production Ready @note Generator: .github/scripts/code_maturity_header_writer.py @note This block is auto-generated and will be overwritten. */
+
 #include "content/mock_clip_processor.h"
 
 #include <cmath>

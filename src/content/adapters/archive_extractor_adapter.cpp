@@ -1,15 +1,4 @@
-/**
- * @file archive_extractor_adapter.cpp
- * @brief Archive format extractor adapter for plugin architecture (ZIP, TAR, 7Z, RAR).
- * @version 0.1.0
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 91/100 (Batch 5 verified; no scope issues detected)
- * @note Gap Status: Batches 1-4 complete; adapter pattern RAII-compliant, safe lifetime management
- * @note Batch Tracking: CMT-7503 (scope verification complete), CMT-7505 (test coverage 95%)
- * @note Status: Production Ready; Safe plugin adapter with proper resource cleanup
- * @note This block is auto-generated and will be overwritten.
- */
-
+/** @file archive_extractor_adapter.cpp @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata. @author makr-code @version 0.0.1 @date 2026-09-18 21:43:08 @note Maturity: 🟢 PRODUCTION-READY @note Score: 100/100 @note Lines: 94 @note Module Context: src/content @note Ownership Scope: production-code @note Primary Symbols: ArchiveExtractorAdapter, createArchiveExtractorAdapter @note PR History (last 5): none @note Governance: BranchModel=develop-first; CanonicalBranches=develop,community,military @note Release Context: GateModel=WaveA→B→C→D on develop @note Status: Production Ready @note Generator: .github/scripts/code_maturity_header_writer.py @note This block is auto-generated and will be overwritten. */
 
 #include "content/adapters/format_extractor_adapters.h"
 #include "content/archive_processor.h"

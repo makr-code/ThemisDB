@@ -1,13 +1,4 @@
-/**
- * @file bulk_upload_interface.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.47
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 85/100
- * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
- */
-
+/** @file bulk_upload_interface.cpp @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata. @author makr-code @version 0.0.1 @date 2026-09-18 21:43:08 @note Maturity: 🟢 PRODUCTION-READY @note Score: 100/100 @note Lines: 118 @note Module Context: src/content @note Ownership Scope: production-code @note Primary Symbols: none-detected @note PR History (last 5): #1052 Implement GAP-005: Content ... (2026-03-11) @note Governance: BranchModel=develop-first; CanonicalBranches=develop,community,military @note Release Context: GateModel=WaveA→B→C→D on develop @note Status: Production Ready @note Generator: .github/scripts/code_maturity_header_writer.py @note This block is auto-generated and will be overwritten. */
 
 // Copyright (c) 2024 ThemisDB
 // SPDX-License-Identifier: MIT

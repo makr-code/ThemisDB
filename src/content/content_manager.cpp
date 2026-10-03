@@ -1,12 +1,5 @@
-/**
- * @file content_manager.cpp
- * @brief Core content management system orchestrating processors, validators, and storage.
- * @version 0.0.47
- * @note Maturity: 🟡 BETA
- * @note Score: 84/100
- * @note Status: Production Ready; Core orchestration complete; advanced caching deferred
- * @note This block is auto-generated and will be overwritten.
- */
+/** @file content_manager.cpp @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata. @author copilot-swe-agent[bot] @version 0.0.1 @date 2026-10-02 08:25:06 @note Maturity: 🟢 PRODUCTION-READY @note Score: 90/100 @note Lines: 3384 @note Module Context: src/content @note Ownership Scope: production-code @note Primary Symbols: QItem, executeWithRetry, computeImageDedupHash, parseCategory, hasSearchFilterConstraints, whitelistContainsChunkPk @note PR History (last 5): #5950 [CP-1] Content Module Batch... (2026-08-15) | #5255 fix(content): CONTENT modul... (2026-05-24) | #5205 fix(llm): harden LoRA input... (2026-05-23) | #4331 feat(content): perceptual h... (2026-03-19) | #4241 feat(content): Embedding Ge... (2026-03-15) @note Governance: BranchModel=develop-first; CanonicalBranches=develop,community,military @note Release Context: GateModel=WaveA→B→C→D on develop @note Status: Production Ready @note Generator: .github/scripts/code_maturity_header_writer.py @note This block is auto-generated and will be overwritten. */
+
 #include "content/content_manager.h"
 #include "content/content_type.h"
 #include "content/content_processor.h"
