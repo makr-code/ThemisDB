@@ -33,10 +33,10 @@ float ComputeDeterministicScore(const std::string& query_text,
                                const std::string& document_text,
                                float base_score) {
   const std::string combined = query_text + "\n" + document_text;
-  uint64_t hash = 14695981039346656037ull;
+  uint64_t hash = UINT64_C(14695981039346656037);
   for (unsigned char ch : combined) {
     hash ^= static_cast<uint64_t>(ch);
-    hash *= 1099511628211ull;
+    hash *= UINT64_C(1099511628211);
   }
   const float normalized = static_cast<float>(hash % 1000000ULL) / 1000000.0f;
   return std::clamp(base_score + (normalized - 0.5f) * 0.3f, 0.0f, 1.0f);

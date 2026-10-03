@@ -25,8 +25,8 @@ namespace storage {
 
 namespace {
 
-constexpr uint64_t kFNVOffsetBasis = 14695981039346656037ull;
-constexpr uint64_t kFNVPrime = 1099511628211ull;
+constexpr uint64_t kFNVOffsetBasis = UINT64_C(14695981039346656037);
+constexpr uint64_t kFNVPrime = UINT64_C(1099511628211);
 constexpr uint64_t kMaxDecompressedSizeBytes =
     UINT64_C(4) * 1024ULL * 1024ULL * 1024ULL;
 

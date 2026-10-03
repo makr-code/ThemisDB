@@ -28,11 +28,18 @@ DistributedTaskCoordinator::DistributedTaskCoordinator(
       config_{},
       running_(false),
       scheduler_active_(false),
-      heartbeat_active_(false),
+      registry_mutex_(),
+      task_registry_(),
+      leadership_mutex_(),
+      current_leader_(),
       leadership_acquired_(0),
       leadership_lost_(0),
-      coordination_failures_(0),
-      last_heartbeat_ms_(std::chrono::milliseconds(0))
+      heartbeat_active_(false),
+      heartbeat_mutex_(),
+      heartbeat_cv_(),
+      heartbeat_thread_(),
+      last_heartbeat_ms_(std::chrono::milliseconds(0)),
+      coordination_failures_(0)
 {
     // Phase 3: Structured validation error logging
     if (!scheduler_) {
@@ -60,11 +67,18 @@ DistributedTaskCoordinator::DistributedTaskCoordinator(
       config_(config),
       running_(false),
       scheduler_active_(false),
-      heartbeat_active_(false),
+      registry_mutex_(),
+      task_registry_(),
+      leadership_mutex_(),
+      current_leader_(),
       leadership_acquired_(0),
       leadership_lost_(0),
-      coordination_failures_(0),
-      last_heartbeat_ms_(std::chrono::milliseconds(0))
+      heartbeat_active_(false),
+      heartbeat_mutex_(),
+      heartbeat_cv_(),
+      heartbeat_thread_(),
+      last_heartbeat_ms_(std::chrono::milliseconds(0)),
+      coordination_failures_(0)
 {
     // Phase 3: Structured validation error logging
     if (!scheduler_) {

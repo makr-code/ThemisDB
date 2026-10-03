@@ -243,10 +243,10 @@ std::string ContentHashDetector::hashSummary(const BaseTensorSummary& s) const n
     std::string combined = s.id + "|" + s.domain + "|" + s.compression_strategy;
     
     // FNV-1a hash (simple 64-bit)
-    uint64_t hash = 14695981039346656037;
+    uint64_t hash = UINT64_C(14695981039346656037);
     for (char c : combined) {
         hash ^= static_cast<uint64_t>(c);
-        hash *= 1099511628211;
+        hash *= UINT64_C(1099511628211);
     }
     
     return std::to_string(hash);

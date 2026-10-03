@@ -119,8 +119,8 @@ std::string computeDeploymentFingerprint(
     // directly on the checkpoint file.
     std::string combined = adapter_version + "::" + checkpoint_sha256;
     uint64_t hash = 0;
-    const uint64_t kPrime = 1099511628211ull;
-    const uint64_t kOffset = 1469598103934665603ull;
+    const uint64_t kPrime = UINT64_C(1099511628211);
+    const uint64_t kOffset = UINT64_C(1469598103934665603);
     
     hash = kOffset;
     for (unsigned char c : combined) {

@@ -87,8 +87,8 @@ bool sanitizeTrainingPromptLikeText(
  * @details Implements stableFNV1a64 without additional internal calls.
  */
 uint64_t stableFNV1a64(const std::string& input) {
-    constexpr uint64_t kOffset = 1469598103934665603ull;
-    constexpr uint64_t kPrime = 1099511628211ull;
+    constexpr uint64_t kOffset = UINT64_C(1469598103934665603);
+    constexpr uint64_t kPrime = UINT64_C(1099511628211);
     uint64_t hash = kOffset;
     for (unsigned char c : input) {
         hash ^= static_cast<uint64_t>(c);
