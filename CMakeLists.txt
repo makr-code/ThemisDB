@@ -686,6 +686,13 @@ if(_themis_docs_db_mode STREQUAL "BUILD")
                     RocksDB::rocksdb
                     nlohmann_json::nlohmann_json
             )
+            if(TARGET ZLIB::ZLIB)
+                target_link_libraries(import_docs_rocksdb PRIVATE ZLIB::ZLIB)
+            elseif(ZLIB_LIBRARY)
+                target_link_libraries(import_docs_rocksdb PRIVATE ${ZLIB_LIBRARY})
+            elseif(UNIX AND NOT APPLE)
+                target_link_libraries(import_docs_rocksdb PRIVATE z)
+            endif()
             target_compile_features(import_docs_rocksdb PRIVATE cxx_std_17)
             
             # Import documentation into RocksDB
@@ -984,6 +991,13 @@ if(THEMIS_BUILD_LEGAL_TRAINING_DATA)
                     RocksDB::rocksdb
                     nlohmann_json::nlohmann_json
             )
+            if(TARGET ZLIB::ZLIB)
+                target_link_libraries(import_legal_rocksdb PRIVATE ZLIB::ZLIB)
+            elseif(ZLIB_LIBRARY)
+                target_link_libraries(import_legal_rocksdb PRIVATE ${ZLIB_LIBRARY})
+            elseif(UNIX AND NOT APPLE)
+                target_link_libraries(import_legal_rocksdb PRIVATE z)
+            endif()
             target_compile_features(import_legal_rocksdb PRIVATE cxx_std_17)
             
             # Step 4: Import legal training data into RocksDB
