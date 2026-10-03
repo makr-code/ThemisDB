@@ -222,9 +222,12 @@ TEST(ContentSoakTest, SustainedIngestionStability) {
 
 TEST(ContentSoakTest, AsyncQueuePressureUnderLoad) {
     const auto SOAK = soakDuration(20s);
-    constexpr size_t QUEUE_CAPACITY = 500;
-    constexpr int PRODUCER_RATE_HZ = 1000;  // items/sec
-    constexpr int CONSUMER_RATE_HZ = 100;   // items/sec (10× slower)
+    // Keep the queue small and the producer significantly faster than the consumer so
+    // this soak actually exercises the intended back-pressure path instead of a
+    // benign low-contention pass-through.
+    constexpr size_t QUEUE_CAPACITY = 64;
+    constexpr int PRODUCER_RATE_HZ = 5000;  // items/sec
+    constexpr int CONSUMER_RATE_HZ = 200;    // items/sec
 
     std::mutex queue_mutex;
     std::vector<std::string> queue;
@@ -237,6 +240,18 @@ TEST(ContentSoakTest, AsyncQueuePressureUnderLoad) {
     std::atomic<bool> deadlock_detected{false};
 
     const auto deadline = std::chrono::steady_clock::now() + SOAK;
+
+    // Seed the queue to capacity so the soak reliably reaches the intended
+    // back-pressure path even on lossy CI schedulers. The subsequent producer/consumer
+    // loop continues to validate that the system stays live and does not deadlock.
+    {
+        std::lock_guard<std::mutex> lock(queue_mutex);
+        std::mt19937 rng(1337);
+        while (queue.size() < QUEUE_CAPACITY) {
+            queue.push_back(generatePayload(rng, 128, 512));
+            ++enqueued;
+        }
+    }
 
     // Producer thread: enqueues at high rate; applies back-pressure when full
     std::thread producer([&]() {

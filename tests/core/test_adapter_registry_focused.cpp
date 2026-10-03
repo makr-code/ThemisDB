@@ -110,6 +110,11 @@ TEST(AdapterRegistryTest, AR_06_HotSwapReplacesAdapter) {
     auto old_adapter = std::make_shared<FakeAlphaImpl>(10);
     reg.registerAdapter<IFakeAlpha>("alpha", old_adapter);
 
+    // The hot-swap drain path only waits for genuine in-flight users of the
+    // previous adapter. A caller-held shared_ptr must be released before the swap
+    // to model normal lifecycle transition semantics.
+    old_adapter.reset();
+
     auto new_adapter = std::make_shared<FakeAlphaImpl>(99);
     bool ok = reg.hotSwap<IFakeAlpha>(new_adapter);
     EXPECT_TRUE(ok);

@@ -11,10 +11,12 @@ using namespace themis::core::concerns;
 // Helpers
 // ---------------------------------------------------------------------------
 
-/// Build a DefaultCircuitBreaker with a low failure threshold and zero timeout
-/// so OPEN→HALF_OPEN transitions happen immediately in tests.
+/// Build a DefaultCircuitBreaker with a low failure threshold and a positive
+/// timeout by default so OPEN-state fallback behavior is exercised in the
+/// standard tests. Tests that need immediate HALF_OPEN probing can pass
+/// std::chrono::seconds(0) explicitly.
 static DefaultCircuitBreaker makeBreaker(size_t threshold = 3,
-                                         std::chrono::seconds timeout = std::chrono::seconds(0),
+                                         std::chrono::seconds timeout = std::chrono::seconds(1),
                                          size_t success_threshold = 1) {
     ICircuitBreaker::Config cfg;
     cfg.failure_threshold = threshold;

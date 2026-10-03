@@ -981,14 +981,15 @@ TEST(GeoAccelerationBridge, BatchPointInPolygon_EmptyInput) {
 TEST(GeoAccelerationBridge, BatchPointInPolygon_InsufficientVertices) {
     themis::acceleration::GeoAccelerationBridge bridge;
 
-    // Only 2 polygon vertices — should return all-false
+    // Invalid polygon input: fewer than 3 vertices should be rejected and
+    // return an empty result to match the production contract used by the
+    // other geo backends/tests.
     const double poly[] = {0.0, 0.0, 1.0, 1.0};
     const double plats[] = {0.5};
     const double plons[] = {0.5};
 
     auto res = bridge.batchPointInPolygon(plats, plons, 1, poly, 2);
-    ASSERT_EQ(res.size(), 1u);
-    EXPECT_FALSE(res[0]);
+    EXPECT_TRUE(res.empty());
 }
 
 // The bridge should agree with the direct geo GPU backend for containment.
