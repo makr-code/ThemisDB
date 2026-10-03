@@ -32,6 +32,13 @@ foreach(_src IN LISTS INDEX_MODULE_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
+    if(_stem STREQUAL "test_ann_frontdoor")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/utils/logger.cpp
+        )
+        target_compile_definitions(${_target} PRIVATE THEMIS_BASE_EXPORTS)
+    endif()
+
     if(_stem STREQUAL "test_distributed_vector_index")
         list(APPEND _labels index distributed vector wave_a release_critical)
     elseif(_stem STREQUAL "test_wave5_index_hardening")

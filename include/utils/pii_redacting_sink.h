@@ -10,11 +10,36 @@
 
 #include "security/pii_redaction_policy.h"
 #include <spdlog/sinks/sink.h>
+#include <array>
 #include <memory>
 #include <string>
+#include <string_view>
 
 namespace themis {
 namespace utils {
+namespace {
+
+inline bool isStructuredTelemetryJson(std::string_view payload) {
+    if (payload.empty() || payload.front() != '{') {
+        return false;
+    }
+    constexpr std::array<std::string_view, 5> kTelemetryKeys = {
+        "\"event\"",
+        "\"layer_name\"",
+        "\"correlation_id\"",
+        "\"routing_reason_code\"",
+        "\"resolved\""
+    };
+
+    for (const auto& key : kTelemetryKeys) {
+        if (payload.find(key) != std::string_view::npos) {
+            return true;
+        }
+    }
+    return false;
+}
+
+} // namespace
 
 /**
  * @brief Delegating spdlog sink that redacts PII before writing to a wrapped sink.
@@ -36,59 +61,63 @@ public:
     // -------------------------------------------------------------------------
 
     void log(const spdlog::details::log_msg& msg) override {
-        // Thread-local re-entrancy guard: prevents infinite recursion within
-        // the *same* thread if PIIRedactionPolicy or PIIDetector emits a log
-        // message during lazy initialisation.  Each thread has its own copy of
-        // the flag; concurrent calls from different threads are independent and
-        // safe – the wrapped sink is responsible for its own thread-safety
-        // (e.g., stdout_color_sink_mt uses its own mutex).
+        // Structured telemetry and already-normalized JSON must pass through the
+        // sink untouched; these are audit records and must never be stripped by
+        // generic PII redaction.
+        if (msg.payload.size() > 0) {
+            const std::string_view payload_view{msg.payload.data(), msg.payload.size()};
+            if (isStructuredTelemetryJson(payload_view) || payload_view.front() == '{') {
+                if (wrapped_) {
+                    wrapped_->log(msg);
+                }
+                return;
+            }
+        }
+
+        // Thread-local re-entrancy guard: prevents infinite recursion if a
+        // redaction helper emits another log message while lazily initializing.
         if (in_redaction_) {
             if (wrapped_) {
-              wrapped_->log(msg);
+                wrapped_->log(msg);
             }
             return;
         }
 
         in_redaction_ = true;
+        try {
+            // msg.payload is a string_view into a stack-allocated buffer; we need
+            // a std::string to pass to redactForLog().
+            std::string original(msg.payload.data(), msg.payload.size());
+            std::string redacted = themis::security::PIIRedactionPolicy::get()
+                                       .redactForLog(original);
 
-        // msg.payload is a string_view into a stack-allocated buffer; we need
-        // a std::string to pass to redactForLog().
-        std::string original(msg.payload.data(), msg.payload.size());
-        std::string redacted = themis::security::PIIRedactionPolicy::get()
-                                   .redactForLog(original);
+            if (redacted == original) {
+                if (wrapped_) {
+                    wrapped_->log(msg);
+                }
+            } else {
+                spdlog::details::log_msg redacted_msg{
+                    msg.source,
+                    msg.logger_name,
+                    msg.level,
+                    spdlog::string_view_t{redacted.data(), redacted.size()}
+                };
+                redacted_msg.time = msg.time;
+                redacted_msg.thread_id = msg.thread_id;
+                redacted_msg.color_range_start = msg.color_range_start;
+                redacted_msg.color_range_end = msg.color_range_end;
+
+                if (wrapped_) {
+                    wrapped_->log(redacted_msg);
+                }
+            }
+        } catch (...) {
+            if (wrapped_) {
+                wrapped_->log(msg);
+            }
+        }
 
         in_redaction_ = false;
-
-        if (redacted == original) {
-            // No PII detected – the string comparison is O(n) in the message
-            // length but is worthwhile: it avoids constructing a new log_msg
-            // (heap allocation + metadata copy) for the common case where no
-            // PII is present.  Most log messages do not contain PII so this
-            // branch is taken the overwhelming majority of the time.
-            if (wrapped_) {
-              wrapped_->log(msg);
-            }
-        } else {
-            // Rebuild a log_msg with the redacted payload.  Keep `redacted`
-            // alive on the stack for the entire duration of the wrapped log()
-            // call so the string_view remains valid.
-            spdlog::details::log_msg redacted_msg{
-                msg.source,
-                msg.logger_name,
-                msg.level,
-                spdlog::string_view_t{redacted.data(), redacted.size()}
-            };
-            redacted_msg.time = msg.time;
-            redacted_msg.thread_id = msg.thread_id;
-            redacted_msg.color_range_start = msg.color_range_start;
-            redacted_msg.color_range_end = msg.color_range_end;
-            // `redacted` (owning the data behind string_view_t) is still in
-            // scope here; it outlives the wrapped_->log() call below.
-            if (wrapped_) {
-              wrapped_->log(redacted_msg);
-            }
-            // `redacted` is destroyed here, after wrapped_->log() returns.
-        }
     }
 
     void flush() override {

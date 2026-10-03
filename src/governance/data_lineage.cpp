@@ -520,7 +520,10 @@ LineageRecordResult DataLineageTracker::recordEvent(LineageEvent event) {
                 {"timestamp", event.timestamp_ms}
             };
             audit_log->logEvent(audit_entry);
-            recordAuditSuccess();
+            // The breaker remains HALF_OPEN until recovery is explicitly acknowledged.
+            // A successful forward during probe recovery should reset the failure streak
+            // without silently closing the circuit on the same event path.
+            consecutive_failures_.store(0, std::memory_order_relaxed);
         } catch (const std::exception& e) {
             THEMIS_WARN("DataLineageTracker: audit logger failed: {}", e.what());
             recordAuditFailure();

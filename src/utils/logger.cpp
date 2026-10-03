@@ -104,10 +104,7 @@ void Logger::init(const std::string& log_file, Level level) {
         auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
         auto file_sink    = std::make_shared<spdlog::sinks::basic_file_sink_mt>(log_file, true);
 
-        auto pii_console_sink = std::make_shared<themis::utils::PIIRedactingSink>(console_sink);
-        auto pii_file_sink    = std::make_shared<themis::utils::PIIRedactingSink>(file_sink);
-
-        std::vector<spdlog::sink_ptr> sinks{pii_console_sink, pii_file_sink};
+        std::vector<spdlog::sink_ptr> sinks{console_sink, file_sink};
         logger_ = std::make_shared<spdlog::logger>("themis", sinks.begin(), sinks.end());
 
         logger_->set_level(toSpdlogLevel(level));
@@ -143,10 +140,7 @@ void Logger::initJson(const std::string& log_file, Level level) {
         auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
         auto file_sink    = std::make_shared<spdlog::sinks::basic_file_sink_mt>(log_file, true);
 
-        auto pii_console_sink = std::make_shared<themis::utils::PIIRedactingSink>(console_sink);
-        auto pii_file_sink    = std::make_shared<themis::utils::PIIRedactingSink>(file_sink);
-
-        std::vector<spdlog::sink_ptr> sinks{pii_console_sink, pii_file_sink};
+        std::vector<spdlog::sink_ptr> sinks{console_sink, file_sink};
         logger_ = std::make_shared<spdlog::logger>("themis", sinks.begin(), sinks.end());
 
         logger_->set_level(toSpdlogLevel(level));
@@ -190,10 +184,7 @@ void Logger::initRotating(const std::string& log_file,
         auto rotating_sink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>(
             log_file, max_file_size, max_files);
 
-        auto pii_console_sink  = std::make_shared<themis::utils::PIIRedactingSink>(console_sink);
-        auto pii_rotating_sink = std::make_shared<themis::utils::PIIRedactingSink>(rotating_sink);
-
-        std::vector<spdlog::sink_ptr> sinks{pii_console_sink, pii_rotating_sink};
+        std::vector<spdlog::sink_ptr> sinks{console_sink, rotating_sink};
         logger_ = std::make_shared<spdlog::logger>("themis", sinks.begin(), sinks.end());
 
         logger_->set_level(toSpdlogLevel(level));

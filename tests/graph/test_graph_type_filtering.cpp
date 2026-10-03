@@ -42,8 +42,12 @@ protected:
         secIdx_.reset();
         pgm_.reset();
         graphIdx_.reset();
-        db_.reset();
-        std::filesystem::remove_all(test_db_path_);
+        if (db_) {
+            db_->close();
+            db_.reset();
+        }
+        std::error_code ec;
+        std::filesystem::remove_all(test_db_path_, ec);
     }
 
     static inline std::atomic<uint64_t> next_test_id_{0};

@@ -1,0 +1,57 @@
+#version 450
+
+// Compute cosine distance between query vectors and database vectors.
+// ThemisDB Vulkan Compute Shader
+//
+// Distance = 1 - cosine_similarity, with 0.0 representing identical vectors.
+// This mirrors the DirectX backend and the CPU SIMD reference implementation.
+
+layout(local_size_x = 16, local_size_y = 16) in;
+
+layout(std430, binding = 0) readonly buffer QueryVectors {
+    float queries[];
+};
+
+layout(std430, binding = 1) readonly buffer DatabaseVectors {
+    float vectors[];
+};
+
+layout(std430, binding = 2) writeonly buffer Distances {
+    float distances[];
+};
+
+layout(push_constant) uniform PushConstants {
+    uint numQueries;
+    uint numVectors;
+    uint dim;
+} pc;
+
+void main() {
+    uint qIdx = gl_GlobalInvocationID.y;
+    uint vIdx = gl_GlobalInvocationID.x;
+
+    if (qIdx >= pc.numQueries || vIdx >= pc.numVectors) {
+        return;
+    }
+
+    uint qOff = qIdx * pc.dim;
+    uint vOff = vIdx * pc.dim;
+
+    float dot = 0.0;
+    float normQ = 0.0;
+    float normV = 0.0;
+
+    for (uint i = 0; i < pc.dim; ++i) {
+        float q = queries[qOff + i];
+        float v = vectors[vOff + i];
+        dot += q * v;
+        normQ += q * q;
+        normV += v * v;
+    }
+
+    float sim = (normQ > 1e-10 && normV > 1e-10)
+        ? dot / (sqrt(normQ) * sqrt(normV))
+        : 0.0;
+
+    distances[qIdx * pc.numVectors + vIdx] = 1.0 - sim;
+}

@@ -499,15 +499,25 @@ TEST(ImportersPhase2T2_3ConflictQualityAudit, IntegrationFullWorkflow) {
     std::string import_id = "integration_test_001";
     std::string corr_id = "trace_integration_001";
 
-    // Step 1: Resolve a conflict
-    json entity1 = json{{"id", "user_1"}, {"name", "Alice", "email", "alice@example.com"}};
+    // Step 1: Seed the resolver with the previously persisted record, then
+    // resolve the incoming conflicting version to exercise the actual
+    // conflict-detection path the assertions expect.
+    json entity1 = json{{"id", "user_1"}, {"name", "Alice"}, {"email", "alice@example.com"}};
     json entity2 = json{{"id", "user_1"}, {"name", "Bob"}, {"email", "bob@example.com"}};
 
     bool conflict_detected = false;
     ConflictMetadata conflict_metadata;
 
-    json resolved = resolver.resolveWithMetadata(
+    // Seed registry with persisted record.
+    bool seeded_conflict = false;
+    ConflictMetadata seeded_metadata;
+    resolver.resolveWithMetadata(
         entity1, "users", "user_1", ConflictStrategy::MERGE, 1, {},
+        seeded_conflict, seeded_metadata
+    );
+
+    json resolved = resolver.resolveWithMetadata(
+        entity2, "users", "user_1", ConflictStrategy::MERGE, 1, {},
         conflict_detected, conflict_metadata
     );
 

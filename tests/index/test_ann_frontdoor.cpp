@@ -777,6 +777,7 @@ TEST(AnnFrontdoorLogging, StructuredLayerHandoffJsonLogEmitted) {
     themis::utils::Logger::shutdown();
     themis::utils::Logger::init(log_path.string(), themis::utils::Logger::Level::INFO);
     themis::utils::Logger::setPattern("%v");
+    THEMIS_INFO("DIRECT FILE TEST {}", "ok");
 
     AnnFrontdoor fd;
     fd.registerBackend("", makeStub(5));

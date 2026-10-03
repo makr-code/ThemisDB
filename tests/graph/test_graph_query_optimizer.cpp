@@ -939,8 +939,12 @@ protected:
     void TearDown() override {
         handler_.reset();
         graph_mgr_.reset();
-        db_->close();
-        std::filesystem::remove_all(test_db_path_);
+        if (db_) {
+            db_->close();
+            db_.reset();
+        }
+        std::error_code ec;
+        std::filesystem::remove_all(test_db_path_, ec);
     }
 
     bhttp::request<bhttp::string_body> makeGet(const std::string& target) {

@@ -115,6 +115,12 @@ static void applySchemaHints(GraphQueryOptimizer::OptimizationPlan& plan,
 
 GraphQueryOptimizer::GraphQueryOptimizer(GraphIndexManager& graph_manager)
     : graph_manager_(graph_manager) {
+    algo_cost_models_.emplace(TraversalAlgorithm::BFS, AlgorithmCostModel{});
+    algo_cost_models_.emplace(TraversalAlgorithm::DFS, AlgorithmCostModel{});
+    algo_cost_models_.emplace(TraversalAlgorithm::DIJKSTRA, AlgorithmCostModel{});
+    algo_cost_models_.emplace(TraversalAlgorithm::ASTAR, AlgorithmCostModel{});
+    algo_cost_models_.emplace(TraversalAlgorithm::BIDIRECTIONAL, AlgorithmCostModel{});
+
     // Initialize with basic statistics
     auto result = collectStatistics();
     if (!result) {

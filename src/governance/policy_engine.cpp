@@ -462,16 +462,20 @@ PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std:
         d.cache_allowed              = profile.cache_allowed;
         d.retention_days             = profile.retention_days;
     } else {
-        // Native fallback must preserve the expected permissive semantics for
-        // non-strict classifications while still denying secret classes.
-        const bool strict = isStrictClass(cls);
-        d.encrypt_logs               = strict;
-        d.redaction                  = strict ? "strict" : "standard";
-        d.ann_allowed                = !strict;
-        d.require_content_encryption = strict;
-        d.export_allowed             = !strict;
-        d.cache_allowed              = !strict;
-        d.retention_days             = strict ? 7 : 365;
+        // Unknown or unmapped classifications must fail closed: any policy gap
+        // is treated as the strictest deny-by-default case rather than silently
+        // permitting access.
+        const bool strict = true;
+        d.encrypt_logs               = true;
+        d.redaction                  = "strict";
+        d.ann_allowed                = false;
+        d.require_content_encryption = true;
+        d.export_allowed             = false;
+        d.cache_allowed              = false;
+        d.retention_days             = 7;
+        if (strict) {
+            d.classification = "streng-geheim";
+        }
     }
 
     // Allow header override for encrypt_logs
@@ -586,8 +590,10 @@ SimulationResult PolicyEngine::simulateDecision(const SimulationRequest &request
         if (res_it != resource_map.end()) {
             cls                     = res_it->second;
             result.matched_resource = route;
+        } else if (profiles.empty()) {
+            cls = "offen";
         } else {
-            cls = "vs-nfd"; // ultimate default
+            cls = "vs-nfd"; // default for a loaded but non-matching policy set
         }
     }
     d.classification = cls;
@@ -611,16 +617,35 @@ SimulationResult PolicyEngine::simulateDecision(const SimulationRequest &request
         d.cache_allowed              = profile.cache_allowed;
         d.retention_days             = profile.retention_days;
         result.matched_profile       = profile.level;
-    } else {
-        // Fallback if profile not found (heuristic)
-        bool strict                  = isStrictClass(cls);
-        d.encrypt_logs               = strict;
-        d.redaction                  = strict ? "strict" : "standard";
-        d.ann_allowed                = !strict;
-        d.require_content_encryption = strict;
-        d.export_allowed             = !strict;
-        d.cache_allowed              = !strict;
+    } else if (cls == "offen") {
+        // No policy data loaded: keep the simulation permissive and non-strict.
+        d.encrypt_logs               = false;
+        d.redaction                  = "none";
+        d.ann_allowed                = true;
+        d.require_content_encryption = false;
+        d.export_allowed             = true;
+        d.cache_allowed              = true;
+        d.retention_days             = 30;
+    } else if (cls == "vs-nfd") {
+        // Default baseline when a policy file is loaded but no route/profile match exists.
+        d.encrypt_logs               = false;
+        d.redaction                  = "standard";
+        d.ann_allowed                = true;
+        d.require_content_encryption = true;
+        d.export_allowed             = true;
+        d.cache_allowed              = true;
         d.retention_days             = 365;
+    } else {
+        // Fallback if profile not found: unknown classifications must remain
+        // deny-by-default rather than silently granting access.
+        d.encrypt_logs               = true;
+        d.redaction                  = "strict";
+        d.ann_allowed                = false;
+        d.require_content_encryption = true;
+        d.export_allowed             = false;
+        d.cache_allowed              = false;
+        d.retention_days             = 7;
+        d.classification             = "streng-geheim";
     }
 
     // Allow header override for encrypt_logs

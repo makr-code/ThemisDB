@@ -5,6 +5,7 @@
 
 #include <nlohmann/json.hpp>
 
+#include <iostream>
 #include <string_view>
 
 namespace themis::observability {
@@ -41,7 +42,17 @@ inline void emitLayerDecisionLog(std::string_view layer_name,
     payload[std::string(telemetry::fields::kEscalationSourceLayer)] = std::string(escalation_source_layer);
     payload[std::string(telemetry::fields::kResolved)] = resolved;
 
-    THEMIS_INFO("{}", payload.dump());
+    std::cerr << "DEBUG_LAYER_LOG " << payload.dump() << std::endl;
+
+    auto active_logger = spdlog::get("themis");
+    if (!active_logger) {
+        active_logger = spdlog::default_logger();
+    }
+    if (active_logger && active_logger->should_log(spdlog::level::info)) {
+        active_logger->info("{}", payload.dump());
+    } else {
+        std::cerr << payload.dump() << std::endl;
+    }
 }
 
 } // namespace themis::observability
