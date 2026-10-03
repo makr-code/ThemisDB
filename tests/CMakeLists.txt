@@ -15767,7 +15767,8 @@ set(CHIMERA_ADAPTER_SOURCES ${THEMIS_CHIMERA_SOURCES})
 list(APPEND CHIMERA_ADAPTER_SOURCES
     ${THEMIS_ROOT_DIR}/src/chimera/adapter_factory.cpp
     ${THEMIS_ROOT_DIR}/src/chimera/themisdb_adapter.cpp
-    ${THEMIS_ROOT_DIR}/src/chimera/mongodb_adapter.cpp
+    # MongoDB is provided by the canonical external chimera implementation below;
+    # keeping the project-local copy here creates a duplicate adapter definition.
     ${THEMIS_ROOT_DIR}/src/chimera/postgresql_adapter.cpp
     ${THEMIS_ROOT_DIR}/src/chimera/elasticsearch_adapter.cpp
     ${THEMIS_ROOT_DIR}/src/chimera/pinecone_adapter.cpp

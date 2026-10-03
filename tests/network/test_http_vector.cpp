@@ -16,6 +16,7 @@
 #include "index/vector_index.h"
 #include "transaction/transaction_manager.h"
 #include "storage/base_entity.h"
+#include "storage/key_schema.h"
 
 using json = nlohmann::json;
 namespace beast = boost::beast;
@@ -110,6 +111,18 @@ protected:
         e3.setField("vec", std::vector<float>{0.0f, 0.0f, 1.0f});
         e3.setField("content", "third document");
         ASSERT_TRUE(vector_index_->addEntity(e3, "vec").ok);
+    }
+
+    void clearVectorIndex() {
+        const std::string prefix = themis::KeySchema::makeVectorKey(vector_index_->getObjectName(), "");
+        std::vector<std::string> pks;
+        storage_->scanPrefix(prefix, [&](std::string_view key, std::string_view) {
+            pks.push_back(themis::KeySchema::extractPrimaryKey(key));
+            return true;
+        });
+        for (const auto& pk : pks) {
+            vector_index_->removeByPk(pk);
+        }
     }
 
     json httpPost(const std::string& target, const json& body) {
@@ -686,6 +699,8 @@ TEST_F(HttpVectorApiTest, VectorIndexStats_DOTMetric_NoNormalization) {
 // ============================================================
 
 TEST_F(HttpVectorApiTest, IncrementalReindex_EmptyIndex_ReturnsOk) {
+    clearVectorIndex();
+
     // No vectors in the index
     auto response = httpPost("/vector/index/incremental-reindex", json::object());
 
@@ -699,6 +714,8 @@ TEST_F(HttpVectorApiTest, IncrementalReindex_EmptyIndex_ReturnsOk) {
 }
 
 TEST_F(HttpVectorApiTest, IncrementalReindex_SyncedIndex_AllUnchanged) {
+    clearVectorIndex();
+
     // Insert three vectors via the API
     json batch = {
         {"vector_field", "embedding"},
