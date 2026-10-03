@@ -524,6 +524,8 @@ set(THEMIS_STORAGE_SOURCES
     ../src/index/distributed_vector_index.cpp
     ../src/index/inverted_index.cpp
     ../src/index/workload_replay.cpp
+    ../src/index/index_manifest_v1.cpp
+    ../src/index/index_metadata_store.cpp
     ../src/index/tiered_index_manager.cpp
     ../src/index/tiered_index_manager.cpp
 

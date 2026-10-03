@@ -17,14 +17,11 @@
 #include <string>
 #include <vector>
 
-// Forward declarations for mongocxx (MongoDB C++ driver)
-namespace mongocxx {
-class client;
-class database;
-namespace collection {
-class collection;
-}
-} // namespace mongocxx
+#if defined(THEMIS_CHIMERA_MONGO) || defined(THEMIS_ENABLE_MONGODB)
+#include <mongocxx/client.hpp>
+#include <mongocxx/database.hpp>
+#include <mongocxx/uri.hpp>
+#endif
 
 namespace chimera {
 
@@ -239,8 +236,10 @@ private:
     // Connection and client management
     // ────────────────────────────────────────────────────────────────────────
 
+#if defined(THEMIS_CHIMERA_MONGO) || defined(THEMIS_ENABLE_MONGODB)
     std::unique_ptr<mongocxx::client> client_;
     std::unique_ptr<mongocxx::database> database_;
+#endif
     bool connected_ = false;
     std::string connection_string_;
 

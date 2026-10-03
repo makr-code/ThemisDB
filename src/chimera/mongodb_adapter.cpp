@@ -9,6 +9,17 @@
 #include "chimera/mongodb_adapter.hpp"
 #include "utils/uuid.h"
 
+#if defined(THEMIS_CHIMERA_MONGO) || defined(THEMIS_ENABLE_MONGODB)
+#include <bsoncxx/builder/stream/document.hpp>
+#include <bsoncxx/json.hpp>
+#include <mongocxx/client.hpp>
+#include <mongocxx/exception/exception.hpp>
+#include <mongocxx/instance.hpp>
+#include <mongocxx/options/pool.hpp>
+#include <mongocxx/pool.hpp>
+#include <mongocxx/uri.hpp>
+#endif
+
 #include <algorithm>
 #include <cassert>
 #include <sstream>
@@ -112,8 +123,10 @@ Result<bool> MongoDBAdapter::connect(
 Result<bool> MongoDBAdapter::disconnect() {
     connected_ = false;
     connection_string_.clear();
+#if defined(THEMIS_CHIMERA_MONGO) || defined(THEMIS_ENABLE_MONGODB)
     client_.reset();
     database_.reset();
+#endif
     return Result<bool>::ok(true);
 }
 

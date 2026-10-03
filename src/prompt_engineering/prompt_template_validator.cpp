@@ -143,14 +143,15 @@ PromptTemplateValidator::validate(const std::string& json_str) const {
         // Phase 3 hardening: Check content for injection patterns
         if (j.contains("content") && j["content"].is_string()) {
             auto injection_result = detectInjectionPatterns(j["content"].get<std::string>());
-            result.warnings.insert(result.warnings.end(), 
-                                   injection_result.warnings.begin(), 
+            result.warnings.insert(result.warnings.end(),
+                                   injection_result.warnings.begin(),
                                    injection_result.warnings.end());
-            // Injection detection adds errors if high-severity patterns found
             if (!injection_result.errors.empty()) {
                 result.errors.insert(result.errors.end(),
                                      injection_result.errors.begin(),
                                      injection_result.errors.end());
+            }
+            if (!injection_result.warnings.empty() || !injection_result.errors.empty()) {
                 result.valid = false;
             }
         }
@@ -170,111 +171,105 @@ PromptTemplateValidator::validate(const std::string& json_str) const {
 TemplateValidationResult
 PromptTemplateValidator::detectInjectionPatterns(const std::string& content) const {
     TemplateValidationResult result;
-    
-    // SQL injection patterns are low-severity in prompt templates (warnings only)
+
     if (hasSQLInjectionPattern(content)) {
         result.warnings.push_back("SQL injection pattern detected in template content");
     }
-    
-    // Command injection is high-severity: can lead to shell execution
+
     if (hasCommandInjectionPattern(content)) {
-        result.errors.push_back("High-severity: command injection pattern detected in template content");
+        result.warnings.push_back("Command injection pattern detected in template content");
     }
-    
-    // Path traversal is low-severity in prompt context (warning only)
+
     if (hasPathTraversalPattern(content)) {
         result.warnings.push_back("Path traversal pattern detected in template content");
     }
-    
-    // Template injection is high-severity: can manipulate prompt structure
+
     if (hasTemplateInjectionPattern(content)) {
-        result.errors.push_back("High-severity: template injection pattern detected in template content");
+        result.warnings.push_back("Template injection pattern detected in template content");
     }
-    
-    result.valid = result.errors.empty();
+
+    result.valid = result.warnings.empty() && result.errors.empty();
     return result;
 }
 
 bool PromptTemplateValidator::hasSQLInjectionPattern(const std::string& content) const {
-    // Check for common SQL injection indicators
     const std::vector<std::string> sql_keywords = {
         "UNION", "SELECT", "INSERT", "DELETE", "DROP", "UPDATE",
         "CREATE", "ALTER", "EXEC", "EXECUTE", "GRANT", "REVOKE"
     };
-    
+
+    const std::vector<std::string> sql_markers = {
+        "--", "/*", ";", "'", "\"", " OR ", " AND ", " FROM ", " WHERE ", " VALUES ", " TABLE "
+    };
+
     for (const auto& keyword : sql_keywords) {
-        if (themis::prompt_engineering::containsIgnoreCase(content, keyword)) {
-            // Additional check: look for quote patterns suggesting SQL injection
-            if (content.find("'") != std::string::npos || 
-                content.find("\"") != std::string::npos ||
-                content.find("--") != std::string::npos ||
-                content.find("/*") != std::string::npos) {
+        if (containsIgnoreCase(content, keyword)) {
+            for (const auto& marker : sql_markers) {
+                if (containsIgnoreCase(content, marker)) {
+                    return true;
+                }
+            }
+            if (content.find("--") != std::string::npos ||
+                content.find("/*") != std::string::npos ||
+                content.find(";") != std::string::npos ||
+                content.find("'") != std::string::npos ||
+                content.find("\"") != std::string::npos) {
                 return true;
             }
         }
     }
-    
+
     return false;
 }
 
 bool PromptTemplateValidator::hasCommandInjectionPattern(const std::string& content) const {
-    // Check for shell metacharacters commonly used in command injection
     const std::vector<std::string> shell_patterns = {
-        "|", "||", "&", "&&", ";", "`", "$(",
-        "\n", "\r", "<", ">", "$(", "${", 
+        "|", "||", "&", "&&", ";", "`", "$(", "${",
+        "\n", "\r", "<", ">"
     };
-    
+
     for (const auto& pattern : shell_patterns) {
         if (content.find(pattern) != std::string::npos) {
             return true;
         }
     }
-    
+
     return false;
 }
 
 bool PromptTemplateValidator::hasPathTraversalPattern(const std::string& content) const {
-    // Check for path traversal sequences
     if (content.find("../") != std::string::npos ||
         content.find("..\\") != std::string::npos ||
         content.find("~") != std::string::npos) {
         return true;
     }
-    
-    // Check for absolute path attempts
+
     if (content.find("/etc/") != std::string::npos ||
         content.find("C:\\") != std::string::npos ||
         content.find("/root/") != std::string::npos ||
         content.find("/home/") != std::string::npos) {
         return true;
     }
-    
+
     return false;
 }
 
 bool PromptTemplateValidator::hasTemplateInjectionPattern(const std::string& content) const {
-    // Check for malformed template variable patterns or triple-brace escapes
     if (content.find("{{{") != std::string::npos ||
         content.find("}}}") != std::string::npos) {
         return true;
     }
-    
-    // Check for suspicious variable reference patterns with unusual escaping
-    if (content.find("{{ ") != std::string::npos ||
-        content.find(" }}") != std::string::npos) {
-        // This is a warning-level pattern; track it for analysis
-        // but don't fail validation
-        return false;  // Soft pattern
-    }
-    
-    // Check for Jinja2/Template-style code execution patterns
-    if (themis::prompt_engineering::containsIgnoreCase(content, "{% for ") ||
-        themis::prompt_engineering::containsIgnoreCase(content, "{% if ") ||
-        themis::prompt_engineering::containsIgnoreCase(content, "{% macro ") ||
-        themis::prompt_engineering::containsIgnoreCase(content, "{% import ")) {
+
+    if (containsIgnoreCase(content, "{% for ") ||
+        containsIgnoreCase(content, "{% if ") ||
+        containsIgnoreCase(content, "{% macro ") ||
+        containsIgnoreCase(content, "{% import ") ||
+        containsIgnoreCase(content, "{% extends ") ||
+        containsIgnoreCase(content, "{% include ") ||
+        containsIgnoreCase(content, "{{ self.")) {
         return true;
     }
-    
+
     return false;
 }
 

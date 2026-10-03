@@ -11,7 +11,7 @@
 
 #include <rocksdb/db.h>
 #include <rocksdb/options.h>
-#include <rocksdb/transaction_db.h>
+#include <rocksdb/utilities/transaction_db.h>
 #include <spdlog/spdlog.h>
 
 #include "index/index_manifest_v1.h"
@@ -55,7 +55,7 @@ std::unique_ptr<IndexMetadataStore> IndexMetadataStore::Open(const std::string& 
       rocksdb::ColumnFamilyDescriptor("embeddings", rocksdb::ColumnFamilyOptions()));
 
   // Try to open existing DB with column families
-  rocksdb::DB* db = nullptr;
+  std::unique_ptr<rocksdb::DB> db;
   std::vector<rocksdb::ColumnFamilyHandle*> handles;
   rocksdb::DBOptions db_options;
   db_options.create_if_missing = true;
@@ -68,7 +68,8 @@ std::unique_ptr<IndexMetadataStore> IndexMetadataStore::Open(const std::string& 
     throw std::runtime_error("Failed to open RocksDB: " + status.ToString());
   }
 
-  auto store = std::make_unique<IndexMetadataStore>(db, index_id);
+  auto store = std::unique_ptr<IndexMetadataStore>(new IndexMetadataStore(db.get(), index_id));
+  db.release();
   if (handles.size() >= 3) {
     store->cf_default_ = handles[0];
     store->cf_version_history_ = handles[1];

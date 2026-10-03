@@ -302,11 +302,8 @@ TEST_F(SingleModelIntegrationTest, CallbackSubmission) {
 // ═══════════════════════════════════════════════════════════════════════════
 
 TEST_F(SingleModelIntegrationTest, PerRequestTimeout) {
-    // Use a blocking plugin with a short self-expiry so the test stays fast.
-    // The plugin blocks for at most 300 ms on its own; the per-request timeout
-    // (50 ms) fires first, setting the cancel token and incrementing the
-    // total_timed_out counter.  handle.get() returns once the worker's
-    // generate() call exits (~300 ms worst-case).
+    // The plugin blocks for up to 300 ms on its own; the per-request timeout
+    // (50 ms) fires first and resolves the handle with a runtime_error.
     auto plugin = std::make_shared<BlockingMockPlugin>(300 /*max_wait_ms*/);
     AsyncInferenceEngine engine(plugin, config_);
 
@@ -314,21 +311,28 @@ TEST_F(SingleModelIntegrationTest, PerRequestTimeout) {
     req.prompt     = "will timeout";
     req.max_tokens = 32;
 
-    // Short per-request timeout — will expire while generate() is blocking.
     auto handle = engine.submit(req, /*priority=*/0,
                                 std::chrono::milliseconds(50));
 
     // Unblock the plugin shortly after submission so the worker can exit and
-    // resolve the promise quickly (avoids waiting the full 300 ms).
+    // avoid waiting the full 300 ms for a background thread to settle.
     std::thread unblock_thread([&plugin]() {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         plugin->unblock();
     });
 
-    auto resp = handle.get();
-    (void)resp;
+    bool threw = false;
+    try {
+        auto resp = handle.get();
+        (void)resp;
+    } catch (const std::runtime_error&) {
+        threw = true;
+    }
 
     unblock_thread.join();
+
+    EXPECT_TRUE(threw)
+        << "A per-request timeout should resolve handle.get() with a runtime_error";
 
     // The timeout monitor should have recorded the expiry.
     auto stats = engine.getWorkerStats();

@@ -800,15 +800,21 @@ json AsyncInferenceEngine::getWorkerStats() const {
  */
 void AsyncInferenceEngine::waitForCompletion() {
     spdlog::info("Waiting for all pending inference requests to complete...");
-    
-    // Use condition variable for efficient waiting with timeout instead of polling with sleep
+
+    // Wait until both the queue and the active request map are drained.
+    // The queue alone is not sufficient: it may be empty while in-flight
+    // requests are still being processed and tracked, and there is no notify
+    // when a request leaves active_requests_ after completion.
     std::unique_lock<std::mutex> lock(queue_mutex_);
     using namespace std::chrono_literals;
     const auto timeout = std::chrono::seconds(300); // 5 minute timeout
-    if (!queue_cv_.wait_for(lock, timeout, [this] { return request_queue_.empty(); })) {
-        spdlog::warn("waitForCompletion: timeout waiting for request queue to empty");
+    if (!queue_cv_.wait_for(lock, timeout, [this] {
+            std::lock_guard<std::mutex> tracking_lock(tracking_mutex_);
+            return request_queue_.empty() && active_requests_.empty();
+        })) {
+        spdlog::warn("waitForCompletion: timeout waiting for in-flight requests to drain");
     }
-    
+
     spdlog::info("All inference requests completed");
 }
 
@@ -913,7 +919,8 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
                 std::lock_guard<std::mutex> lock(tracking_mutex_);
                 active_requests_.erase(item.request->request_id);
             }
-            
+            queue_cv_.notify_all();
+
             continue;
         }
         
@@ -960,6 +967,7 @@ void AsyncInferenceEngine::workerLoop(size_t worker_id) {
             std::lock_guard<std::mutex> lock(tracking_mutex_);
             active_requests_.erase(item.request->request_id);
         }
+        queue_cv_.notify_all();
     }
     
     spdlog::info("Inference worker {} stopped", worker_id);

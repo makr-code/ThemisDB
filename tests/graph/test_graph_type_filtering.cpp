@@ -5,6 +5,7 @@
 #include "index/secondary_index.h"
 #include "query/query_engine.h"
 #include "storage/base_entity.h"
+#include <atomic>
 #include <filesystem>
 
 using namespace themis;
@@ -12,9 +13,11 @@ using namespace themis::query;
 
 class GraphTypeFilteringTest : public ::testing::Test {
 protected:
+    GraphTypeFilteringTest() : test_db_path_(std::string("./__test_graph_type_filtering__") + std::to_string(next_test_id_++)) {}
+
     void SetUp() override {
         std::filesystem::remove_all(test_db_path_);
-        
+
         RocksDBWrapper::Config config;
         config.db_path = test_db_path_;
         config.memtable_size_mb = 64;
@@ -22,13 +25,13 @@ protected:
         config.max_background_jobs = 2;
         config.compression_default = "lz4";
         config.compression_bottommost = "zstd";
-        
+
         db_ = std::make_unique<RocksDBWrapper>(config);
         ASSERT_TRUE(db_->open());
-        
+
         graphIdx_ = std::make_unique<GraphIndexManager>(*db_);
         pgm_ = std::make_unique<PropertyGraphManager>(*db_);
-        
+
         // Create a dummy SecondaryIndexManager for QueryEngine
         secIdx_ = std::make_unique<SecondaryIndexManager>(*db_);
         queryEngine_ = std::make_unique<QueryEngine>(*db_, *secIdx_, *graphIdx_);
@@ -43,7 +46,8 @@ protected:
         std::filesystem::remove_all(test_db_path_);
     }
 
-    const std::string test_db_path_ = "./__test_graph_type_filtering__";
+    static inline std::atomic<uint64_t> next_test_id_{0};
+    std::string test_db_path_;
     std::unique_ptr<RocksDBWrapper> db_;
     std::unique_ptr<GraphIndexManager> graphIdx_;
     std::unique_ptr<PropertyGraphManager> pgm_;
