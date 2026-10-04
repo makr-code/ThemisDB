@@ -507,12 +507,23 @@ jobs:
           exit 1
         fi
         SUBJECT_NAME="${SUBJECT_NAME%%@*}"
-        if [[ "${SUBJECT_NAME}" == */* && "${SUBJECT_NAME##*/}" == *:* ]]; then
-          SUBJECT_NAME="${SUBJECT_NAME%:*}"
+        if [[ "${SUBJECT_NAME}" == */* ]]; then
+          if [[ "${SUBJECT_NAME##*/}" == *:* ]]; then
+            SUBJECT_NAME="${SUBJECT_NAME%:*}"
+          fi
+        elif [[ "${SUBJECT_NAME}" == *:* ]]; then
+          SUBJECT_SUFFIX="${SUBJECT_NAME##*:}"
+          if [[ ! "${SUBJECT_SUFFIX}" =~ ^[0-9]+$ ]]; then
+            SUBJECT_NAME="${SUBJECT_NAME%:*}"
+          fi
         fi
         FIRST_COMPONENT="${SUBJECT_NAME%%/*}"
         if [[ "${FIRST_COMPONENT}" != *.* && "${FIRST_COMPONENT}" != *:* && "${FIRST_COMPONENT}" != "localhost" ]]; then
-          SUBJECT_NAME="docker.io/${SUBJECT_NAME}"
+          if [[ "${SUBJECT_NAME}" == */* ]]; then
+            SUBJECT_NAME="docker.io/${SUBJECT_NAME}"
+          else
+            SUBJECT_NAME="docker.io/library/${SUBJECT_NAME}"
+          fi
         fi
         if [[ "${SUBJECT_NAME}" == *,* ]]; then
           echo "::error::Resolved attestation subject name is not singular: ${SUBJECT_NAME}"
