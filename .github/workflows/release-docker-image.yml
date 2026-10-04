@@ -492,9 +492,15 @@ jobs:
         TAGS: ${{ steps.tags.outputs.value }}
       run: |
         set -euo pipefail
-        SUBJECT_NAME="$(printf '%s\n' "${TAGS}" | tr ',' '\n' | grep '^ghcr\.io/' | head -n 1 || true)"
+        NORMALIZED_TAGS="$(
+          printf '%s\n' "${TAGS}" \
+            | tr ',' '\n' \
+            | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' \
+            | sed '/^$/d'
+        )"
+        SUBJECT_NAME="$(printf '%s\n' "${NORMALIZED_TAGS}" | grep -m 1 '^ghcr\.io/' || true)"
         if [ -z "${SUBJECT_NAME}" ]; then
-          SUBJECT_NAME="$(printf '%s\n' "${TAGS}" | tr ',' '\n' | head -n 1)"
+          SUBJECT_NAME="$(printf '%s\n' "${NORMALIZED_TAGS}" | head -n 1)"
         fi
         if [ -z "${SUBJECT_NAME}" ]; then
           echo "::error::Unable to resolve attestation subject name from tags: ${TAGS}"
