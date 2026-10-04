@@ -462,19 +462,46 @@ PolicyDecision PolicyEngine::evaluate(const std::unordered_map<std::string, std:
         d.cache_allowed              = profile.cache_allowed;
         d.retention_days             = profile.retention_days;
     } else {
-        // Unknown or unmapped classifications must fail closed: any policy gap
-        // is treated as the strictest deny-by-default case rather than silently
-        // permitting access.
-        const bool strict = true;
-        d.encrypt_logs               = true;
-        d.redaction                  = "strict";
-        d.ann_allowed                = false;
-        d.require_content_encryption = true;
-        d.export_allowed             = false;
-        d.cache_allowed              = false;
-        d.retention_days             = 7;
-        if (strict) {
-            d.classification = "streng-geheim";
+        // Native fallback heuristics for the standard classification levels when no
+        // YAML profile is loaded. This preserves the expected default semantics for
+        // "offen", "vs-nfd", and "geheim" instead of failing closed for all
+        // unconfigured labels.
+        if (cls == "offen") {
+            d.encrypt_logs               = false;
+            d.redaction                  = "none";
+            d.ann_allowed                = true;
+            d.require_content_encryption = false;
+            d.export_allowed             = true;
+            d.cache_allowed              = true;
+            d.retention_days             = 30;
+        } else if (cls == "vs-nfd") {
+            d.encrypt_logs               = false;
+            d.redaction                  = "standard";
+            d.ann_allowed                = true;
+            d.require_content_encryption = true;
+            d.export_allowed             = true;
+            d.cache_allowed              = true;
+            d.retention_days             = 365;
+        } else if (cls == "geheim" || cls == "streng-geheim") {
+            d.encrypt_logs               = true;
+            d.redaction                  = "strict";
+            d.ann_allowed                = false;
+            d.require_content_encryption = true;
+            d.export_allowed             = false;
+            d.cache_allowed              = false;
+            d.retention_days             = 7;
+        } else {
+            // Unknown or unmapped classifications must fail closed: any policy gap
+            // is treated as the strictest deny-by-default case rather than silently
+            // permitting access.
+            d.encrypt_logs               = true;
+            d.redaction                  = "strict";
+            d.ann_allowed                = false;
+            d.require_content_encryption = true;
+            d.export_allowed             = false;
+            d.cache_allowed              = false;
+            d.retention_days             = 7;
+            d.classification             = "streng-geheim";
         }
     }
 
@@ -635,6 +662,15 @@ SimulationResult PolicyEngine::simulateDecision(const SimulationRequest &request
         d.export_allowed             = true;
         d.cache_allowed              = true;
         d.retention_days             = 365;
+    } else if (cls == "geheim" || cls == "streng-geheim") {
+        // Known strict classes should remain strict even without a YAML profile.
+        d.encrypt_logs               = true;
+        d.redaction                  = "strict";
+        d.ann_allowed                = false;
+        d.require_content_encryption = true;
+        d.export_allowed             = false;
+        d.cache_allowed              = false;
+        d.retention_days             = 7;
     } else {
         // Fallback if profile not found: unknown classifications must remain
         // deny-by-default rather than silently granting access.

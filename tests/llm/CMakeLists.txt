@@ -294,6 +294,7 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             target_sources(${_target} PRIVATE
                 ${THEMIS_ROOT_DIR}/src/llm_wiki/workspace_state_manager.cpp
                 ${THEMIS_ROOT_DIR}/src/llm_wiki/edition_gate.cpp
+                ${THEMIS_ROOT_DIR}/src/llm_wiki/process_policy_manager.cpp
             )
             target_include_directories(${_target} PRIVATE
                 ${THEMIS_ROOT_DIR}/src/llm_wiki

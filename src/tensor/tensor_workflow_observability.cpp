@@ -246,9 +246,13 @@ double TensorWorkflowObservability::percentile95(std::vector<double> values) {
     if (values.empty()) {
         return 0.0;
     }
+    if (values.size() == 1) {
+        return values.front();
+    }
 
     std::sort(values.begin(), values.end());
-    const std::size_t idx = static_cast<std::size_t>(std::floor(0.95 * static_cast<double>(values.size() - 1)));
+    const std::size_t rank = std::max<std::size_t>(1, static_cast<std::size_t>(std::ceil(0.95 * static_cast<double>(values.size()))));
+    const std::size_t idx = std::min<std::size_t>(rank - 1, values.size() - 1);
     return values[idx];
 }
 

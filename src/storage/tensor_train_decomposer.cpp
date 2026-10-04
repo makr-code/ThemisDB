@@ -1027,6 +1027,20 @@ double TensorTrainDecomposer::innerProduct(const TTTrain& a, const TTTrain& b) {
         // invalid_argument for callers to handle — false positive.
         throw std::invalid_argument("TTTrain::innerProduct: incompatible mode_sizes");
 
+    if (a.cores.empty() || b.cores.empty() || a.cores.size() != b.cores.size()) {
+        throw std::invalid_argument("TTTrain::innerProduct: TTTrain must contain matching non-empty cores");
+    }
+
+    for (std::size_t k = 0; k < a.cores.size(); ++k) {
+        const auto& ca = a.cores[k];
+        const auto& cb = b.cores[k];
+        if (ca.n == 0 || ca.r_left == 0 || ca.r_right == 0 ||
+            cb.n == 0 || cb.r_left == 0 || cb.r_right == 0 ||
+            ca.data.size() < ca.numElements() || cb.data.size() < cb.numElements()) {
+            throw std::invalid_argument("TTTrain::innerProduct: malformed TT core dimensions or storage");
+        }
+    }
+
     const std::size_t d = a.cores.size();
 
     // Transfer matrix M: shape (r_a_k × r_b_k), initialised to [[1]]

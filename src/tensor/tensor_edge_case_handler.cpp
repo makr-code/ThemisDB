@@ -417,8 +417,8 @@ EdgeCaseResult TensorEdgeCaseHandler::handleConcurrentMemoryExhaustion(
             "Concurrent memory exhaustion: {:.2f} MB / {:.2f} MB ({:.1f}%) "
             "with {} concurrent threads",
             current_mb, max_mb, usage_pct, concurrent_threads),
-        "retry",
-        true  // Recoverable — throttle or cleanup
+        "fail-closed",
+        false  // Not recoverable without a full memory reclamation step
     );
 
     emitDiagnostic("TEDGE-15: Concurrent Memory Exhaustion", result);

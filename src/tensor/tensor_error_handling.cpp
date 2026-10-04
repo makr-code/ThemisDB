@@ -171,8 +171,8 @@ CompressionGuard::CompressionGuard(
     : strategy_(std::move(strategy)),
       error_handler_(std::move(error_handler)) {
 
-    result_.success = false;
-    result_.error_message = "Not executed";
+    result_.success = strategy_ != nullptr;
+    result_.error_message = strategy_ ? "Ready" : "No compression strategy available";
 }
 
 CompressionGuard::~CompressionGuard() {

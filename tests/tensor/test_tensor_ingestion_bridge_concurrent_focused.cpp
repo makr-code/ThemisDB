@@ -482,22 +482,26 @@ TEST_F(TensorIngestionBridgeConcurrentTest, TNIC15_DescriptionThreadSafety) {
 }
 
 TEST_F(TensorIngestionBridgeConcurrentTest, TNIC16_OverflowHandlingLongRunning) {
-    // Simulate billions of decompositions (using atomic increment)
+    // Simulate long-running decomposition pressure while ensuring every worker
+    // completes before asserting on the final counter value.
     const int num_threads = 32;
     const int increments_per_thread = 10000;
-    
+    std::vector<std::thread> threads;
+    threads.reserve(num_threads);
+
     for (int i = 0; i < num_threads; ++i) {
-        std::thread([&]() {
+        threads.emplace_back([&]() {
             for (int j = 0; j < increments_per_thread; ++j) {
                 auto emb = generateRandomEmbedding(128, j);
                 bridge_->decompose(emb, "chunk", "file");
             }
-        }).detach();
+        });
     }
-    
-    // Wait for threads to complete
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
-    
+
+    for (auto& t : threads) {
+        t.join();
+    }
+
     long long total_count = bridge_->decomposeCount();
     EXPECT_GE(total_count, (long long)num_threads * increments_per_thread);
 }

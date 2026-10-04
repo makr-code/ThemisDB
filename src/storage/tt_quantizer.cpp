@@ -284,29 +284,33 @@ QuantizedCore TTQuantizer::quantizeNF4(const TTCore& core) const {
       return qc;
     }
 
-    // Compute mean and centered absmax for normalisation.
-    // NF4 lookup values are centered around zero, so scale should be derived
-    // from (v - mean) instead of raw |v| to reduce asymmetric clipping error.
-    double mean = 0.0;
+    // Use a zero-point scale based on the core's actual min/max span rather than
+    // a single mean-centered amplitude. This matches the repo's NF4 contract and
+    // keeps the quantization bins aligned with the data distribution instead of
+    // forcing all values around an arbitrarily centered mean.
+    float min_val = std::numeric_limits<float>::max();
+    float max_val = std::numeric_limits<float>::lowest();
     for (float v : core.data) {
-        mean += v;
+        min_val = std::min(min_val, v);
+        max_val = std::max(max_val, v);
     }
-    mean /= static_cast<double>(nelems);
-    qc.mean = static_cast<float>(mean);
 
-    float centered_absmax = 0.0f;
-    for (float v : core.data) {
-        centered_absmax = std::max(centered_absmax, std::abs(v - qc.mean));
-    }
-    qc.scale = (centered_absmax > 1e-12f) ? centered_absmax : 1.0f;
+    const float range = max_val - min_val;
+    const float zero_point = (max_val + min_val) * 0.5f;
+    qc.mean = zero_point;
+    qc.scale = (range > 1e-12f) ? (range * 0.5f) : 1.0f;
 
-    // Pack two 4-bit indices per byte
+    // Pack two 4-bit indices per byte.
     std::size_t packed_bytes = (nelems + 1) / 2;
     qc.data.resize(packed_bytes, 0);
 
     for (std::size_t i = 0; i < nelems; ++i) {
-        float normalised = (core.data[i] - qc.mean) / qc.scale;
-        normalised = std::max(-1.0f, std::min(1.0f, normalised));
+        float normalised = (core.data[i] - zero_point) / qc.scale;
+        if (std::abs(qc.scale) < 1e-12f) {
+            normalised = 0.0f;
+        } else {
+            normalised = std::max(-1.0f, std::min(1.0f, normalised));
+        }
         uint8_t idx = findNF4Index(normalised);
 
         if (i % 2 == 0)

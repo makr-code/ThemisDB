@@ -92,8 +92,12 @@ bool TensorIngestionBridge::shouldDecompose(const std::vector<float>& embedding,
         return false;
     }
 
-    // Pilot sample: use up to 1024 elements to bound pilot cost.
-    constexpr std::size_t kPilotMaxDim = 1024;
+    // Pilot sample: keep the budget high enough to preserve low-rank structure
+    // in the common large-embedding workloads while still bounding the probe cost.
+    // For dimension > 4096 we use a deterministic stratified sample instead of an
+    // overly aggressive global Rademacher projection, which can flatten strong
+    // low-rank patterns (e.g. rank-1 matrices) and cause false κ-gate skips.
+    constexpr std::size_t kPilotMaxDim = 4096;
     std::vector<float> pilot;
     std::vector<std::size_t> pilot_shape;
 
@@ -101,38 +105,22 @@ bool TensorIngestionBridge::shouldDecompose(const std::vector<float>& embedding,
         pilot       = embedding;
         pilot_shape = inferModeShape(embedding.size());
     } else {
-        // Rademacher random projection with thread-safe seeding (concurrent hardening).
-        // Uses embedding.size() as base seed for determinism within a thread,
-        // combined with thread-local counter for uniqueness across threads.
-        //
-        // Replaces the stride-based deterministic sub-sampling that could
-        // miss frequency components in periodic/structured embeddings.
-        //
-        // Each output element j is the inner product of the embedding with a
-        // row of a Rademacher matrix (entries ±1), scaled by 1/√dim.
-        // By the Johnson-Lindenstrauss lemma this preserves pairwise inner
-        // products within a factor (1 ± ε) with high probability, giving a
-        // κ estimate that deviates ≤ 5% from the true value on random and
-        // structured embeddings alike (vs. up to 15% for stride sampling).
-        //
-        // Signs are generated via xorshift64 seeded from embedding.size(),
-        // making the projection deterministic across calls for the same dim
-        // (when called from the same thread).
         pilot.resize(kPilotMaxDim);
-        const float    scale     = 1.0f / std::sqrt(static_cast<float>(embedding.size()));
-        const uint64_t base_seed = static_cast<uint64_t>(embedding.size()) *
-            UINT64_C(11400714819323198485);
+        const std::size_t stride = embedding.size() / kPilotMaxDim;
         for (std::size_t j = 0; j < kPilotMaxDim; ++j) {
-            float    dot = 0.0f;
-            uint64_t h   = base_seed ^
-                (static_cast<uint64_t>(j) * UINT64_C(6364136223846793005) +
-                 UINT64_C(1442695040888963407));
-            for (std::size_t i = 0; i < embedding.size(); ++i) {
-                // xorshift64 — period 2^64-1, uniform distribution of bits
-                h ^= h >> 12; h ^= h << 25; h ^= h >> 27;
-                dot += ((h >> 63) ? 1.0f : -1.0f) * embedding[i];
+            const std::size_t base_index = std::min<std::size_t>(
+                (j * embedding.size()) / kPilotMaxDim, embedding.size() - 1);
+            const std::size_t window_start = std::min<std::size_t>(base_index, embedding.size() - 1);
+            const std::size_t window_end   = std::min<std::size_t>(window_start + stride + 1, embedding.size());
+
+            float window_sum = 0.0f;
+            for (std::size_t i = window_start; i < window_end; ++i) {
+                window_sum += embedding[i];
             }
-            pilot[j] = dot * scale;
+            const float window_mean = (window_end > window_start)
+                ? (window_sum / static_cast<float>(window_end - window_start))
+                : embedding[base_index];
+            pilot[j] = embedding[base_index] * 0.5f + window_mean * 0.5f;
         }
         pilot_shape = inferModeShape(kPilotMaxDim);
     }

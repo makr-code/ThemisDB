@@ -35,6 +35,24 @@
 
 namespace themis { namespace tensor { namespace test { 
 
+namespace {
+
+TensorTrainCore makeValidTensorTrain(std::size_t mode_size = 2, float seed = 1.0f) {
+    TensorTrainCore core;
+    core.train.mode_sizes = {mode_size, mode_size, mode_size};
+    core.cores.resize(3);
+    for (std::size_t i = 0; i < core.cores.size(); ++i) {
+        auto& c = core.cores[i];
+        c.r_left = 1;
+        c.n = mode_size;
+        c.r_right = 1;
+        c.data.assign(c.numElements(), seed + static_cast<float>(i + 1));
+    }
+    return core;
+}
+
+} // namespace
+
 /**
  * @class TensorMidLayerIntegrationTest
  * @brief Integration test harness for full tensor mid-layer pipeline.
@@ -43,10 +61,12 @@ class TensorMidLayerIntegrationTest : public ::testing::Test {
 protected:
     void SetUp() override {
         mid_layer_ = std::make_shared<TensorMidLayer>();
-        adapter_repo_ = std::make_shared<AdapterRepository>();
+        adapter_repo_ = std::make_shared<AdapterRepository>(
+            std::make_shared<storage::InMemoryTensorBackend>(), "tenant1");
         fingerprint_graph_ = std::make_shared<TensorFingerprintGraph>();
         error_handler_ = std::make_shared<TensorErrorHandler>();
-        
+
+        adapter_repo_->setFingerprintGraph(fingerprint_graph_);
         mid_layer_->setAdapterRepository(adapter_repo_);
         mid_layer_->setFingerprintGraph(fingerprint_graph_);
     }
@@ -62,18 +82,18 @@ protected:
 // ============================================================================
 
 TEST_F(TensorMidLayerIntegrationTest, FullPipelineWithRepositoryAndGraph) {
-    // Setup: Create sample adapter and register in repo
-    TensorTrain adapter_train;
-    adapter_train.order = 3;
-    adapter_train.shape = {4, 4, 4};
-    adapter_train.ranks = {1, 2, 2, 1};
-    
-    std::string adapter_key = "adapter:domain1:model1:v1";
-    TensorTrainCore core;
-    core.cores.resize(3);
-    
-    adapter_repo_->store("tenant1", "domain1", adapter_key, core);
-    fingerprint_graph_->addAdapter(adapter_key, core, "tenant1", "domain1");
+    // Setup: Create a valid minimal TT train so the repository and graph can
+    // compute a real fingerprint and similarity ranking instead of crashing on
+    // zero-sized placeholder cores.
+    const std::string query_adapter_key = "__adapters__:tenant1:domain1:model1";
+    const std::string peer_adapter_key = "__adapters__:tenant1:domain1:model1_peer";
+    TensorTrainCore query_core = makeValidTensorTrain();
+    TensorTrainCore peer_core = makeValidTensorTrain(2, 2.0f);
+
+    adapter_repo_->store("domain1", "model1", query_core);
+    adapter_repo_->store("domain1", "model1_peer", peer_core);
+    fingerprint_graph_->addAdapter(query_adapter_key, query_core, "tenant1", "domain1");
+    fingerprint_graph_->addAdapter(peer_adapter_key, peer_core, "tenant1", "domain1");
     
     // Execute: Plan mid-layer routing
     TensorLayerContext ctx;
@@ -155,13 +175,18 @@ TEST_F(TensorMidLayerIntegrationTest, RoutingStrategySelection) {
 // ============================================================================
 
 TEST_F(TensorMidLayerIntegrationTest, FederatedShardSummarization) {
-    // Setup: Register adapters across shards
+    // Setup: register one query adapter plus peer adapters in the same domain so
+    // the shard summary has real candidates to merge after exclusion of the query itself.
+    const std::string query_key = "__adapters__:tenant1:domain1:model";
+    TensorTrainCore query_core = makeValidTensorTrain();
+    adapter_repo_->store("domain1", "model", query_core);
+    fingerprint_graph_->addAdapter(query_key, query_core, "tenant1", "domain1");
+
     for (int shard = 0; shard < 3; ++shard) {
         for (int i = 0; i < 2; ++i) {
-            std::string key = "adapter:shard" + std::to_string(shard) + 
-                             ":model:adapter" + std::to_string(i);
-            TensorTrainCore core;
-            adapter_repo_->store("tenant1", "domain1", key, core);
+            const std::string key = "__adapters__:tenant1:domain1:peer_shard" + std::to_string(shard) + "_" + std::to_string(i);
+            TensorTrainCore core = makeValidTensorTrain(2, 1.0f + static_cast<float>(shard * 10 + i));
+            adapter_repo_->store("domain1", key, core);
             fingerprint_graph_->addAdapter(key, core, "tenant1", "domain1");
         }
     }
@@ -257,8 +282,8 @@ TEST_F(TensorMidLayerIntegrationTest, FullEndToEndPipeline) {
 
 TEST_F(TensorMidLayerIntegrationTest, TenantIsolation) {
     // Setup: Store adapters for two tenants
-    TensorTrainCore core;
-    
+    TensorTrainCore core = makeValidTensorTrain();
+
     adapter_repo_->store("tenant_a", "domain1", "adapter_a1", core);
     adapter_repo_->store("tenant_b", "domain1", "adapter_b1", core);
     

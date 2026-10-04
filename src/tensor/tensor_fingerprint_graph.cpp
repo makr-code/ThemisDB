@@ -148,6 +148,13 @@ bool TensorFingerprintGraph::addAdapter(const std::string&        adapter_key,
       return false;
     }
 
+    for (const auto& core : train.cores) {
+        if (core.n == 0 || core.r_left == 0 || core.r_right == 0 ||
+            core.data.size() != core.numElements()) {
+            return false;
+        }
+    }
+
     const auto& G0 = train.cores[0];
     // G0 layout: r_left × n × r_right, stored row-major.
     // For the fingerprint we treat G0.data as a (r_left * n) × r_right matrix
