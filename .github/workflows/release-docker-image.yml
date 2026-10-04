@@ -507,7 +507,7 @@ jobs:
           exit 1
         fi
         SUBJECT_NAME="${SUBJECT_NAME%%@*}"
-        if [[ "${SUBJECT_NAME##*/}" == *:* ]]; then
+        if [[ "${SUBJECT_NAME}" == */* && "${SUBJECT_NAME##*/}" == *:* ]]; then
           SUBJECT_NAME="${SUBJECT_NAME%:*}"
         fi
         FIRST_COMPONENT="${SUBJECT_NAME%%/*}"
