@@ -623,12 +623,35 @@ endif()
 
 set(_themis_docs_db_mode "${THEMIS_DOCS_DB_MODE}")
 function(themis_link_zlib_if_available _target_name)
+    set(_themis_zlib_linked FALSE)
     if(TARGET ZLIB::ZLIB)
-        target_link_libraries(${_target_name} PRIVATE ZLIB::ZLIB)
-    elseif(ZLIB_LIBRARY)
-        target_link_libraries(${_target_name} PRIVATE ${ZLIB_LIBRARY})
+        foreach(_themis_zlib_imported_property
+                IMPORTED_LOCATION
+                IMPORTED_LOCATION_RELEASE
+                IMPORTED_LOCATION_RELWITHDEBINFO
+                IMPORTED_LOCATION_MINSIZEREL
+                IMPORTED_LOCATION_DEBUG)
+            get_target_property(_themis_zlib_imported_location ZLIB::ZLIB ${_themis_zlib_imported_property})
+            if(_themis_zlib_imported_location AND NOT _themis_zlib_imported_location MATCHES "NOTFOUND")
+                set(_themis_zlib_linked TRUE)
+                break()
+            endif()
+        endforeach()
+        get_target_property(_themis_zlib_interface_libs ZLIB::ZLIB INTERFACE_LINK_LIBRARIES)
+        if(NOT _themis_zlib_linked
+           AND _themis_zlib_interface_libs
+           AND NOT _themis_zlib_interface_libs MATCHES "NOTFOUND")
+            set(_themis_zlib_linked TRUE)
+        endif()
+        if(_themis_zlib_linked)
+            target_link_libraries(${_target_name} PRIVATE ZLIB::ZLIB)
+        endif()
     endif()
-    if(UNIX AND NOT APPLE)
+    if(NOT _themis_zlib_linked AND ZLIB_LIBRARY)
+        target_link_libraries(${_target_name} PRIVATE ${ZLIB_LIBRARY})
+        set(_themis_zlib_linked TRUE)
+    endif()
+    if(NOT _themis_zlib_linked AND UNIX AND NOT APPLE)
         target_link_libraries(${_target_name} PRIVATE z)
     endif()
 endfunction()
