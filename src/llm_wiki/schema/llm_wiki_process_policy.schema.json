@@ -11,9 +11,7 @@
     "orchestration",
     "stages",
     "governance",
-    "ml_control",
-    "telemetry",
-    "rollout"
+    "ml_control"
   ],
   "properties": {
     "version": {
@@ -98,9 +96,6 @@
     "ml_control": {
       "type": "object",
       "required": [
-        "optimization_enabled",
-        "objective",
-        "learner",
         "adjustable_knobs",
         "hard_bounds",
         "safety"

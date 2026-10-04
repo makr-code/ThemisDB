@@ -41,6 +41,8 @@
 #include <string>
 #include <vector>
 
+#include <nlohmann/json.hpp>
+
 namespace themis {
 namespace plugins {
 namespace llm_wiki {
@@ -83,6 +85,8 @@ struct WikiTask {
 struct WikiState {
     std::string version = "wiki-cpp-1";
     std::map<std::string, WikiPageMeta> pages;
+    std::map<std::string, nlohmann::json> page_provenance;
+    std::vector<nlohmann::json> revisions;
     std::vector<WikiLink>        links;
     std::vector<WikiAssertion>   assertions;
     std::vector<WikiTask>        tasks;

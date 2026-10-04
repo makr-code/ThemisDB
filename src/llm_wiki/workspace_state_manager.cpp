@@ -69,26 +69,29 @@ static std::string computeSHA256(const std::string& data) noexcept {
 
 static json serializeStateToJson(const WorkspaceState& state) noexcept {
     json j = json::object();
-    
+
     j["version"] = state.version;
     j["created_at"] = state.created_at;
     j["last_updated"] = state.last_updated;
     j["workspace_root"] = state.workspace_root;
-    
+
     // Serialize links
     json links_json = json::object();
     for (const auto& [page, refs] : state.links) {
         links_json[page] = refs;
     }
     j["links"] = links_json;
-    
+
     // Serialize tasks
     json tasks_json = json::object();
     for (const auto& [task_id, task_data] : state.tasks) {
-        tasks_json[task_id] = task_data;
+        json task_entry = json::object();
+        for (const auto& [key, value] : task_data) {
+            task_entry[key] = value;
+        }
+        tasks_json[task_id] = task_entry;
     }
     j["tasks"] = tasks_json;
-    
     return j;
 }
 
@@ -132,7 +135,11 @@ static WorkspaceStatus deserializeJsonToState(
                         std::unordered_map<std::string, std::string> task_map = {};
 
                         for (const auto& [k, v] : task_data.items()) {
-                            task_map[k] = v.dump();
+                            if (v.is_string()) {
+                                task_map[k] = v.get<std::string>();
+                            } else {
+                                task_map[k] = v.dump();
+                            }
                         }
                         out_state.tasks[task_id] = task_map;
                     }
@@ -156,7 +163,8 @@ WorkspaceStatus WorkspaceStateManager::load(WorkspaceState& out_state) noexcept 
         // Check if state file exists
         if (!std::filesystem::exists(state_file_)) {
             SPDLOG_WARN("State file not found: {}", state_file_.string());
-            return WorkspaceStatus::Error("State file not found");
+            return WorkspaceStatus::FileNotFound(
+                "State file not found: " + state_file_.string());
         }
         
         /**

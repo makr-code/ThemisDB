@@ -150,38 +150,11 @@ std::string LLMIntegration::generate(
     const LLMGenerationOptions& options
 ) {
     THEMIS_DEBUG("LLMIntegration::generate called with prompt length: {}", prompt.length());
-    
+
     auto engine = getInferenceEngine();
     if (!engine) {
-#ifdef THEMIS_ENABLE_LLM
-        // No explicit engine set — delegate to the global LLMPluginManager.
-        // Throws std::runtime_error when no plugin is loaded.
-        try {
-            llm::InferenceRequest req;
-            req.prompt      = prompt;
-            req.max_tokens  = static_cast<int>(std::min(
-                options.max_tokens,
-                static_cast<size_t>(std::numeric_limits<int>::max())));
-            req.temperature = static_cast<float>(options.temperature);
-            req.model_id    = "default";
-            auto response = llm::LLMPluginManager::instance().generate(req);
-            THEMIS_DEBUG("LLM generation via LLMPluginManager: {} tokens", response.tokens_generated);
-             
-            // Validate response before returning
-            if (response.text.empty()) {
-                THEMIS_WARN("LLMIntegration: Empty response from LLM plugin, using fallback");
-                return buildFallbackResponse(prompt);
-            }
-             
-            return response.text;
-        } catch (const std::exception& e) {
-            THEMIS_WARN("LLMIntegration fallback activated (plugin unavailable): {}", e.what());
-            return buildFallbackResponse(prompt);
-        }
-#else
-        THEMIS_WARN("LLMIntegration fallback activated (THEMIS_ENABLE_LLM=OFF, no engine configured)");
-        return buildFallbackResponse(prompt);
-#endif
+        THEMIS_ERROR("LLMIntegration generation rejected: no inference engine configured");
+        throw std::runtime_error("LLMIntegration requires a configured inference engine");
     }
     
     try {
@@ -310,42 +283,60 @@ LLMEvaluationResponse LLMIntegration::parseEvaluationResponse(
     LLMEvaluationResponse result;
     result.raw_response = response;
     result.parse_successful = false;
-    
+    result.score = 0.5;
+    result.confidence = 0.5;
+
     // Try to parse JSON response
     try {
         // Look for score in format: "score": 0.85 or "score": 4/5
         std::regex score_regex(R"("score"\s*:\s*([0-9.]+))");
         std::smatch match = {};
-        
+
         if (std::regex_search(response, match, score_regex)) {
-            result.score = std::stod(match[1]);
+            const double parsed_score = std::stod(match[1]);
+            result.score = std::isfinite(parsed_score)
+                ? std::clamp(parsed_score, 0.0, 1.0)
+                : 0.5;
             result.parse_successful = true;
         }
-        
+
         // Look for confidence
         std::regex confidence_regex(R"("confidence"\s*:\s*([0-9.]+))");
         if (std::regex_search(response, match, confidence_regex)) {
-            result.confidence = std::stod(match[1]);
+            const double parsed_confidence = std::stod(match[1]);
+            result.confidence = std::isfinite(parsed_confidence)
+                ? std::clamp(parsed_confidence, 0.0, 1.0)
+                : 0.5;
         } else {
             result.confidence = 0.8; // Default confidence
         }
-        
+
         // Look for explanation
         std::regex explanation_regex(R"EX("explanation"\s*:\s*"([^"]+)")EX");
         if (std::regex_search(response, match, explanation_regex)) {
             result.explanation = match[1];
         }
-        
-        THEMIS_DEBUG("Parsed evaluation: score={}, confidence={}", 
+
+        if (!result.parse_successful) {
+            // Invalid/no-score payload is considered a failed parse but stays in a
+            // bounded neutral range rather than leaving uninitialized floating-point state.
+            result.score = 0.5;
+            result.confidence = 0.5;
+        }
+
+        result.score = std::isfinite(result.score) ? std::clamp(result.score, 0.0, 1.0) : 0.5;
+        result.confidence = std::isfinite(result.confidence) ? std::clamp(result.confidence, 0.0, 1.0) : 0.5;
+
+        THEMIS_DEBUG("Parsed evaluation: score={}, confidence={}",
                      result.score, result.confidence);
-        
+
     } catch (const std::exception& e) {
         THEMIS_ERROR("Failed to parse evaluation response: {}", e.what());
         result.parse_successful = false;
         result.score = 0.5; // Default neutral score
         result.confidence = 0.5;
     }
-    
+
     return result;
 }
 
@@ -412,38 +403,39 @@ double LLMIntegration::calculateSemanticSimilarity(
         return 0.0;
     }
     
-    // Calculate Jaccard similarity (intersection over union)
     std::unordered_set<std::string> set1(tokens1.begin(), tokens1.end());
     std::unordered_set<std::string> set2(tokens2.begin(), tokens2.end());
-    
-    // Count intersection
+
     size_t intersection = 0;
     for (const auto& token : set1) {
         if (set2.count(token) > 0) {
             intersection++;
         }
     }
-    
-    // Calculate union size
+
     size_t union_size = set1.size() + set2.size() - intersection;
-    
     if (union_size == 0) {
         return 0.0;
     }
-    
+
     double jaccard = static_cast<double>(intersection) / union_size;
-    
-    // Also consider length similarity for better scoring
+
     double len1 = static_cast<double>(tokens1.size());
     double len2 = static_cast<double>(tokens2.size());
     double length_similarity = std::min(len1, len2) / std::max(len1, len2);
-    
-    // Weighted combination
-    double similarity = 0.7 * jaccard + 0.3 * length_similarity;
-    
-    THEMIS_DEBUG("Semantic similarity: {:.3f} (Jaccard: {:.3f}, Length: {:.3f})", 
-                 similarity, jaccard, length_similarity);
-    
+    double overlap_ratio = static_cast<double>(intersection) / std::min(len1, len2);
+    if (std::isnan(overlap_ratio) || std::isinf(overlap_ratio)) {
+        overlap_ratio = 0.0;
+    }
+
+    double similarity = 0.5 * std::min(1.0, overlap_ratio) +
+                        0.3 * jaccard +
+                        0.2 * length_similarity;
+    similarity = std::clamp(similarity, 0.0, 1.0);
+
+    THEMIS_DEBUG("Semantic similarity: {:.3f} (Jaccard: {:.3f}, Overlap: {:.3f}, Length: {:.3f})",
+                 similarity, jaccard, overlap_ratio, length_similarity);
+
     return similarity;
 }
 

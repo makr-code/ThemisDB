@@ -74,11 +74,11 @@ struct PromptTemplate {
  */
 struct LLMEvaluationResponse {
     std::string raw_response;
-    double score;
-    double confidence;
+    double score = 0.5;
+    double confidence = 0.5;
     std::string explanation;
     std::vector<std::string> reasoning_steps;
-    bool parse_successful;
+    bool parse_successful = false;
 };
 
 /**

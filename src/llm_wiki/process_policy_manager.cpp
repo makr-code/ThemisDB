@@ -214,14 +214,6 @@ ProcessPolicyStatus ProcessPolicyManager::loadFromYaml(
                 "Unable to locate process policy schema file");
         }
 
-        const auto schema_validation =
-            themis::config::ConfigSchemaValidator::validateWithSchemaFile(
-                resolved, *schema_path);
-        if (!schema_validation.valid) {
-            return ProcessPolicyStatus::ValidationError(
-                "Schema validation failed: " + schema_validation.formatErrors());
-        }
-
         const auto root = themis::config::ConfigSchemaValidator::loadAsJson(resolved);
 
         if (!root.is_object()) {
@@ -296,9 +288,17 @@ ProcessPolicyStatus ProcessPolicyManager::loadFromYaml(
                 policy.hard_bounds);
         }
 
-        const auto status = validate(policy);
-        if (!status.ok()) {
-            return status;
+        const auto semantic_status = validate(policy);
+        if (!semantic_status.ok()) {
+            return semantic_status;
+        }
+
+        const auto schema_validation =
+            themis::config::ConfigSchemaValidator::validateWithSchemaFile(
+                resolved, *schema_path);
+        if (!schema_validation.valid) {
+            return ProcessPolicyStatus::ValidationError(
+                "Schema validation failed: " + schema_validation.formatErrors());
         }
 
         out_policy = std::move(policy);

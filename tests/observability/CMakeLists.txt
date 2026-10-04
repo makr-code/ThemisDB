@@ -46,6 +46,7 @@ foreach(_src IN LISTS OBSERVABILITY_MODULE_TEST_SOURCES)
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/observability/exporter_stress_framework.cpp
             ${THEMIS_ROOT_DIR}/src/observability/distributed_trace_span.cpp
+            ${THEMIS_ROOT_DIR}/src/observability/distributed_tracing_sdk.cpp
             ${THEMIS_ROOT_DIR}/src/observability/trace_instrumentation.cpp
         )
     endif()
@@ -76,6 +77,9 @@ foreach(_src IN LISTS OBSERVABILITY_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
+    if(TARGET benchmark::benchmark)
+        target_link_libraries(${_target} PRIVATE benchmark::benchmark)
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     if(_stem STREQUAL "test_observability_contract_hardening_focused" OR

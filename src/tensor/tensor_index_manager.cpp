@@ -112,12 +112,15 @@ ITensorIndex* TensorIndexManager::createIndex(const std::string& tenant_id,
                                                size_t /*dim*/,
                                                size_t /*max_rank*/,
                                                double /*epsilon*/) {
-    // Bounded concurrency control: wait if too many creates in flight
+    // Bounded concurrency control: wait if too many creates in flight.
+    // The registry lookup and insertion must also be serialized so multiple
+    // threads requesting the same key receive the same singleton object instead
+    // of racing to create and publish distinct instances.
     while (pending_operations_.load(std::memory_order_acquire) >= kMaxConcurrentCreates) {
         std::this_thread::yield();
     }
     pending_operations_.fetch_add(1, std::memory_order_release);
-    
+
     struct OpGuard {
         std::atomic<size_t>& op_count;
         ~OpGuard() { op_count.fetch_sub(1, std::memory_order_release); }
@@ -129,12 +132,10 @@ ITensorIndex* TensorIndexManager::createIndex(const std::string& tenant_id,
     h.field      = field;
     h.route      = storage::TensorRouter::Route::TENSOR_TRAIN;
 
-    {
-        std::shared_lock rlock(registry_mutex_);
-        auto it = indexes_.find(h.key());
-        if (it != indexes_.end()) {
-          return it->second.get();
-        }
+    std::unique_lock wlock(registry_mutex_);
+    auto it = indexes_.find(h.key());
+    if (it != indexes_.end()) {
+        return it->second.get();
     }
 
     auto idx = std::make_unique<FlatTensorIndex>();
@@ -151,8 +152,6 @@ ITensorIndex* TensorIndexManager::createIndex(const std::string& tenant_id,
 
     ITensorIndex* raw = idx.get();
     h.index = raw;
-
-    std::unique_lock wlock(registry_mutex_);
     indexes_.emplace(h.key(), std::move(idx));
     handles_.emplace(h.key(), std::move(h));
     return raw;

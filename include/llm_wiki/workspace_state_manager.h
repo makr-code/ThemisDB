@@ -77,6 +77,10 @@ struct WorkspaceStatus {
     [[nodiscard]] static WorkspaceStatus Ok() {
         return {Code::Ok, {}};
     }
+
+    [[nodiscard]] static WorkspaceStatus FileNotFound(std::string msg) {
+        return {Code::FileNotFound, std::move(msg)};
+    }
     
     [[nodiscard]] static WorkspaceStatus Error(std::string msg) {
         return {Code::Error, std::move(msg)};

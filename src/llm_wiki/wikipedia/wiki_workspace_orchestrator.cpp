@@ -12,6 +12,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
+#include <numeric>
 #include <sstream>
 #include <stdexcept>
 #include <string_view>
@@ -71,6 +72,7 @@ static constexpr std::string_view LOG_HEADER_MD = R"(# Wiki Log
 static constexpr std::string_view STATE_INITIAL_JSON = R"({
   "version": "wiki-cpp-1",
   "pages": {},
+  "revisions": [],
   "links": [],
   "assertions": [],
   "tasks": []
@@ -90,6 +92,49 @@ void writeIfAbsent(const std::filesystem::path& path, std::string_view content) 
     if (ofs.is_open()) {
         ofs << content;
     }
+}
+
+nlohmann::json makePageProvenance(const std::string& slug,
+                                 const std::string& source_ref,
+                                 const std::string& origin_type,
+                                 const std::string& created_at,
+                                 const std::string& updated_at,
+                                 int transform_step_count,
+                                 int synthetic_chain_length,
+                                 double provenance_confidence,
+                                 const std::vector<std::string>& source_refs = {}) {
+    nlohmann::json provenance = nlohmann::json::object();
+    provenance["origin_type"] = origin_type;
+    provenance["version_id"] = slug + "@" + created_at;
+    provenance["parent_version_id"] = "";
+    provenance["created_at"] = created_at;
+    provenance["updated_at"] = updated_at;
+    provenance["transform_step_count"] = transform_step_count;
+    provenance["synthetic_chain_length"] = synthetic_chain_length;
+    provenance["provenance_confidence"] = provenance_confidence;
+    provenance["reanchor_required"] = synthetic_chain_length >= 3 || provenance_confidence < 0.6;
+    provenance["source_refs"] = source_refs.empty() ? nlohmann::json::array({source_ref}) : nlohmann::json(source_refs);
+    return provenance;
+}
+
+void appendRevision(WikiState& state,
+                    const std::string& slug,
+                    const std::string& origin_type,
+                    const std::string& created_at,
+                    int transform_step_count,
+                    int synthetic_chain_length,
+                    double provenance_confidence,
+                    const std::vector<std::string>& source_refs) {
+    nlohmann::json revision = nlohmann::json::object();
+    revision["revision_id"] = slug + ":" + created_at;
+    revision["page_slug"] = slug;
+    revision["origin_type"] = origin_type;
+    revision["created_at"] = created_at;
+    revision["transform_step_count"] = transform_step_count;
+    revision["synthetic_chain_length"] = synthetic_chain_length;
+    revision["provenance_confidence"] = provenance_confidence;
+    revision["source_refs"] = nlohmann::json(source_refs);
+    state.revisions.push_back(std::move(revision));
 }
 
 /**
@@ -181,7 +226,13 @@ WikiState WikiWorkspaceOrchestrator::loadState(const std::string& root) {
                 meta.created = pj.value("created", std::string{});
                 meta.updated = pj.value("updated", std::string{});
                 state.pages[slug] = std::move(meta);
+                if (pj.contains("provenance") && pj["provenance"].is_object()) {
+                    state.page_provenance[slug] = pj["provenance"];
+                }
             }
+        }
+        if (j.contains("revisions") && j["revisions"].is_array()) {
+            state.revisions = j["revisions"].get<std::vector<nlohmann::json>>();
         }
         if (j.contains("links") && j["links"].is_array()) {
             for (const auto& lj : j["links"]) {
@@ -236,12 +287,17 @@ void WikiWorkspaceOrchestrator::saveState(const std::string& root, const WikiSta
 
     nlohmann::json pages_j = nlohmann::json::object();
     for (const auto& [slug, meta] : state.pages) {
-        pages_j[slug] = {
+        nlohmann::json page_entry = {
             {"title", meta.title},
             {"source", meta.source},
             {"created", meta.created},
             {"updated", meta.updated},
         };
+        const auto provenance_it = state.page_provenance.find(slug);
+        if (provenance_it != state.page_provenance.end()) {
+            page_entry["provenance"] = provenance_it->second;
+        }
+        pages_j[slug] = std::move(page_entry);
     }
 
     nlohmann::json links_j = nlohmann::json::array();
@@ -267,6 +323,7 @@ void WikiWorkspaceOrchestrator::saveState(const std::string& root, const WikiSta
     nlohmann::json j = {
         {"version", state.version},
         {"pages", pages_j},
+        {"revisions", state.revisions},
         {"links", links_j},
         {"assertions", assertions_j},
         {"tasks", tasks_j},
@@ -455,6 +512,17 @@ WikiIngestResult WikiWorkspaceOrchestrator::ingest(
         meta.created = state.pages.count(slug) ? state.pages[slug].created : ts;
         meta.updated = ts;
         state.pages[slug] = meta;
+        state.page_provenance[slug] = makePageProvenance(
+            slug,
+            source_path,
+            "imported",
+            meta.created,
+            meta.updated,
+            0,
+            0,
+            1.0,
+            {source_path});
+        appendRevision(state, slug, "imported", ts, 0, 0, 1.0, {source_path});
     }
 
     {
@@ -589,6 +657,35 @@ WikiQueryResult WikiWorkspaceOrchestrator::query(
             meta.created = ts;
             meta.updated = ts;
             state.pages[slug] = std::move(meta);
+            const double avg_confidence = result.candidates.empty() ? 0.0
+                : std::accumulate(result.candidates.begin(), result.candidates.end(), 0.0,
+                    [](double sum, const themis::llm::WikiChunk& chunk) {
+                        return sum + chunk.score;
+                    }) / static_cast<double>(result.candidates.size());
+            state.page_provenance[slug] = makePageProvenance(
+                slug,
+                "query:" + query_text.substr(0, 60),
+                "hybrid",
+                ts,
+                ts,
+                std::max(1, static_cast<int>(result.candidates.size())),
+                1,
+                std::max(0.0, avg_confidence),
+                result.candidates.empty() ? std::vector<std::string>{"query:" + query_text.substr(0, 60)}
+                    : [&]() {
+                          std::vector<std::string> refs;
+                          refs.reserve(result.candidates.size());
+                          for (const auto& chunk : result.candidates) {
+                              if (!chunk.source_path.empty()) refs.push_back(chunk.source_path);
+                          }
+                          if (refs.empty()) refs.push_back("query:" + query_text.substr(0, 60));
+                          return refs;
+                      }());
+            appendRevision(state, slug, "hybrid", ts,
+                          std::max(1, static_cast<int>(result.candidates.size())),
+                          1,
+                          std::max(0.0, avg_confidence),
+                          state.page_provenance[slug]["source_refs"].get<std::vector<std::string>>());
         }
         saveState(root, state);
         rebuildIndex(root, state);

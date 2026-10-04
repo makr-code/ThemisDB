@@ -5,6 +5,7 @@
 
 #include "wikipedia/llm_wiki_plugin_impl.h"
 
+#include "llm_wiki/edition_gate.h"
 #include "importers/wikipedia_pipeline.hpp"
 #include "importers/wikipedia_types.hpp"
 
@@ -202,6 +203,13 @@ void LLMWikiPluginImpl::shutdown() noexcept {
  */
 Status LLMWikiPluginImpl::initialize(const std::string& config_json) {
     std::unique_lock<std::shared_mutex> lock(mutex_);
+
+    if (!themis::llm_wiki::isLLMWikiEnabled()) {
+        initialized_ = false;
+        return Status::PermissionDenied(
+            "permission required: LLM Wiki plugin is not available in this ThemisDB edition. "
+            "Upgrade to enterprise, hyperscaler, or military edition to use this feature.");
+    }
 
     if (config_json.empty()) {
         return Status::Ok();
