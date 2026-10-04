@@ -115,11 +115,10 @@ static void applySchemaHints(GraphQueryOptimizer::OptimizationPlan& plan,
 
 GraphQueryOptimizer::GraphQueryOptimizer(GraphIndexManager& graph_manager)
     : graph_manager_(graph_manager) {
-    algo_cost_models_.emplace(TraversalAlgorithm::BFS, AlgorithmCostModel{});
-    algo_cost_models_.emplace(TraversalAlgorithm::DFS, AlgorithmCostModel{});
-    algo_cost_models_.emplace(TraversalAlgorithm::DIJKSTRA, AlgorithmCostModel{});
-    algo_cost_models_.emplace(TraversalAlgorithm::ASTAR, AlgorithmCostModel{});
-    algo_cost_models_.emplace(TraversalAlgorithm::BIDIRECTIONAL, AlgorithmCostModel{});
+    // Adaptive cost models are initialized lazily on first observed execution.
+    // Pre-populating every algorithm with a zero-valued model incorrectly makes a
+    // fresh optimizer look as though it has learned data, and it also violates the
+    // expectation that adaptive learning disabled does not populate the model.
 
     // Initialize with basic statistics
     auto result = collectStatistics();
