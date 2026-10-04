@@ -528,7 +528,7 @@ jobs:
         DIGEST="${{ steps.build.outputs.digest }}"
         if [ -n "${DIGEST}" ]; then
           echo "  ✅ Provenance attestation generated (SLSA Level 2)"
-          echo "  Subject name   : ${{ steps.attestation-subject.outputs.value || steps.tags.outputs.value }}"
+          echo "  Subject name   : ${{ steps.attestation-subject.outputs.value }}"
           echo "  Subject digest : ${DIGEST}"
         else
           echo "  ⏭️  Attestation skipped (no digest — PR build or no push)"
