@@ -484,6 +484,25 @@ jobs:
         fi
         echo "──────────────────────────────────────────────"
 
+    - name: Resolve attestation subject name
+      id: attestation-subject
+      if: steps.build.outputs.digest != ''
+      shell: bash
+      env:
+        TAGS: ${{ steps.tags.outputs.value }}
+      run: |
+        set -euo pipefail
+        SUBJECT_NAME="$(printf '%s\n' "${TAGS}" | tr ',' '\n' | grep '^ghcr\.io/' | head -n 1 || true)"
+        if [ -z "${SUBJECT_NAME}" ]; then
+          SUBJECT_NAME="$(printf '%s\n' "${TAGS}" | tr ',' '\n' | head -n 1)"
+        fi
+        if [ -z "${SUBJECT_NAME}" ]; then
+          echo "::error::Unable to resolve attestation subject name from tags: ${TAGS}"
+          exit 1
+        fi
+        echo "value=${SUBJECT_NAME}" >> "${GITHUB_OUTPUT}"
+        echo "Attestation subject name: ${SUBJECT_NAME}"
+
     - name: Generate SLSA provenance attestation
       # Attach build provenance to the pushed image digest (SLSA Level 2).
       # Skipped for PR builds (digest only available after push).
@@ -497,7 +516,7 @@ jobs:
         )
       uses: actions/attest-build-provenance@v1  # v1.4.3
       with:
-        subject-name: ${{ steps.tags.outputs.value }}
+        subject-name: ${{ steps.attestation-subject.outputs.value }}
         subject-digest: ${{ steps.build.outputs.digest }}
         push-to-registry: true
 
@@ -509,7 +528,7 @@ jobs:
         DIGEST="${{ steps.build.outputs.digest }}"
         if [ -n "${DIGEST}" ]; then
           echo "  ✅ Provenance attestation generated (SLSA Level 2)"
-          echo "  Subject name   : ${{ steps.tags.outputs.value }}"
+          echo "  Subject name   : ${{ steps.attestation-subject.outputs.value }}"
           echo "  Subject digest : ${DIGEST}"
         else
           echo "  ⏭️  Attestation skipped (no digest — PR build or no push)"
