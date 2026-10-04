@@ -506,6 +506,18 @@ jobs:
           echo "::error::Unable to resolve attestation subject name from tags: ${TAGS}"
           exit 1
         fi
+        SUBJECT_NAME="${SUBJECT_NAME%%@*}"
+        if [[ "${SUBJECT_NAME##*/}" == *:* ]]; then
+          SUBJECT_NAME="${SUBJECT_NAME%:*}"
+        fi
+        FIRST_COMPONENT="${SUBJECT_NAME%%/*}"
+        if [[ "${FIRST_COMPONENT}" != *.* && "${FIRST_COMPONENT}" != *:* && "${FIRST_COMPONENT}" != "localhost" ]]; then
+          SUBJECT_NAME="docker.io/${SUBJECT_NAME}"
+        fi
+        if [[ "${SUBJECT_NAME}" == *,* ]]; then
+          echo "::error::Resolved attestation subject name is not singular: ${SUBJECT_NAME}"
+          exit 1
+        fi
         echo "value=${SUBJECT_NAME}" >> "${GITHUB_OUTPUT}"
         echo "Attestation subject name: ${SUBJECT_NAME}"
 
