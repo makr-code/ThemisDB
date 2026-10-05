@@ -70,8 +70,15 @@ std::unique_ptr<IndexMetadataStore> IndexMetadataStore::Open(const std::string& 
   }
 
   auto db_owner = std::unique_ptr<rocksdb::DB>(db_raw);
-  auto store = std::unique_ptr<IndexMetadataStore>(
-      new IndexMetadataStore(std::move(db_owner), index_id));
+  std::unique_ptr<IndexMetadataStore> store;
+  try {
+    store = std::unique_ptr<IndexMetadataStore>(new IndexMetadataStore(std::move(db_owner), index_id));
+  } catch (...) {
+    for (auto* handle : handles) {
+      delete handle;
+    }
+    throw;
+  }
   if (handles.size() >= 3) {
     store->cf_default_ = handles[0];
     store->cf_version_history_ = handles[1];
