@@ -1,11 +1,11 @@
 # Developer LLM Wiki — Governance and Roadmap
 
-Datum: 2026-09-28
+Datum: 2026-10-05
 Status: Active
 
 ## AI_WIKI_INTEGRATION_PLAYBOOK.md
 - Kategorie: governance_and_docs
-- Hash: `bc0ab72465c851ff`
+- Hash: `c22f201e19477f22`
 - Titel: AI Wiki Integration Playbook fuer ThemisDB
 - Auszug:
   - Datum: 2026-07-28
@@ -50,7 +50,7 @@ Status: Active
 
 ## INDEX.md
 - Kategorie: governance_and_docs
-- Hash: `ca37d8c82f40c996`
+- Hash: `82990b187fb2f317`
 - Titel: ThemisDB Root Index
 - Auszug:
   - Datum: 2026-09-23
@@ -68,12 +68,12 @@ Status: Active
 
 ## ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `a1c1416a142caab4`
+- Hash: `cfe020b4fe206ed5`
 - Titel: ThemisDB Project Roadmap
 - Auszug:
   - <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
   - **Version:** 2.4.0-alpha
-  - **Last Updated:** 2026-09-09 (source-validated against module roadmaps, evidence bundles, and recent CI logs)
+  - **Last Updated:** 2026-09-28 (Q3 2026 quarterly pentest completion; security compliance updates)
 
 ## VERSIONING.md
 - Kategorie: governance_and_docs
@@ -194,12 +194,12 @@ Status: Active
 
 ## ai_context/INDEX_MODULE_STATUS_2026_08_09.md
 - Kategorie: governance_and_docs
-- Hash: `6fb0eb315524dbd0`
+- Hash: `0c87a90f7ec64528`
 - Titel: ThemisDB Module Status Index (2026-08-09)
 - Auszug:
   - Datum: 2026-08-09
-  - **Status:** Synchronized with root ROADMAP.md and module-level ROADMAP.md files
-  - **Bezug:** Root ROADMAP.md (canonical source), 66 module ROADMAP.md files, recent Phase 1-6 delivery evidence
+  - **Author:** ThemisDB Contributors
+  - **Created:** 2026-08-09
 
 ## ai_context/ISSUE_5647_CLOSURE_SUMMARY.md
 - Kategorie: governance_and_docs
@@ -275,12 +275,12 @@ Status: Active
 
 ## ai_context/README.md
 - Kategorie: governance_and_docs
-- Hash: `3d7afc4738c660bf`
+- Hash: `076da1d0941142e9`
 - Titel: ai_context
 - Auszug:
-  - Datum: 2026-09-23
-  - Status: Active
-  - Bezug: Persistente Wissensbasis fuer AI-Agenten in ThemisDB
+  - **Author:** ThemisDB Contributors
+  - **Created:** 2026-09-23
+  - **Last Updated:** 2026-10-02
 
 ## ai_context/RESEARCH_INTEGRATION_AUDIT_2026_08_09.md
 - Kategorie: governance_and_docs
@@ -374,48 +374,48 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md
 - Kategorie: governance_and_docs
-- Hash: `3b9e8a1501ae4bf3`
+- Hash: `4e9d6add4def7fa9`
 - Titel: Developer LLM Wiki — Build/Test/CI/Operations
 - Auszug:
-  - Datum: 2026-09-28
+  - Datum: 2026-10-05
   - Status: Active
   - - Kategorie: build_test_ci
 
 ## ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `363636ed6d0ca3e4`
+- Hash: `adffc2f772170118`
 - Titel: Developer LLM Wiki — Governance and Roadmap
 - Auszug:
-  - Datum: 2026-09-24
+  - Datum: 2026-09-28
   - Status: Active
   - - Kategorie: governance_and_docs
 
 ## ai_context/developer_llm_wiki/INDEX.md
 - Kategorie: governance_and_docs
-- Hash: `32f9f14aa33eaa35`
+- Hash: `ef2342113de980c5`
 - Titel: Developer LLM Wiki — Index
 - Auszug:
-  - Datum: 2026-09-28
+  - Datum: 2026-10-05
   - Status: Active
   - Bezug: CI-verwaltete Entwickler-Wissensbasis fuer Coder-LLMs
 
 ## ai_context/developer_llm_wiki/MODULES_AND_APIS.md
 - Kategorie: governance_and_docs
-- Hash: `552f8ea0ca3d4764`
+- Hash: `1a1041c48141e9e9`
 - Titel: Developer LLM Wiki — Modules and APIs
 - Auszug:
-  - Datum: 2026-09-28
+  - Datum: 2026-10-05
   - Status: Active
   - - Kategorie: modules_and_api
 
 ## ai_context/developer_llm_wiki/MODULE_DIRECT_DOXYGEN_CHECK.md
 - Kategorie: governance_and_docs
-- Hash: `97b11036c4d6e09e`
-- Titel: Direct Doxygen Check: llm_wiki
+- Hash: `b0412e377de84a59`
+- Titel: Direct Doxygen Check: vector_search
 - Auszug:
-  - Datum: 2026-09-23
-  - Status: Generated
-  - Bezug: Automated module doxygen analysis and documentation inventory
+  - - Source mode: direct_doxygen_markers
+  - - Source files scanned: 2
+  - - Source symbols (raw/filter): 2 / 2
 
 ## ai_context/developer_llm_wiki/MODULE_DOXYGEN_BASELINE_SUMMARY.md
 - Kategorie: governance_and_docs
@@ -437,12 +437,12 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/MODULE_DOXYGEN_COVERAGE_SUMMARY.md
 - Kategorie: governance_and_docs
-- Hash: `e407ac1ef0d72966`
+- Hash: `cdd3ec523e2100a0`
 - Titel: Module Doxygen Coverage Summary
 - Auszug:
-  - Datum: 2026-09-23
-  - Status: Generated
-  - Bezug: Automated module doxygen analysis and documentation inventory
+  - - Module: vector_search
+  - - Source mode: direct_doxygen_markers
+  - - Symbol presence ratio: 0.5
 
 ## ai_context/developer_llm_wiki/MODULE_DOXYGEN_SMOKE_SUMMARY.md
 - Kategorie: governance_and_docs
@@ -464,21 +464,30 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/SOLL_IST_GAP_SUMMARY.md
 - Kategorie: governance_and_docs
-- Hash: `cc828d8cefedec97`
+- Hash: `80978d7c340d4b6f`
 - Titel: Soll-Ist Gap Summary
 - Auszug:
-  - Datum: 2026-09-23
-  - Status: Generated
-  - Bezug: Automated module doxygen analysis and documentation inventory
+  - - Generated At: 2026-09-28T16:29:22Z
+  - - Modules: 72
+  - - Modules with docs gaps: 7
 
 ## ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md
 - Kategorie: governance_and_docs
-- Hash: `1b201df668712607`
+- Hash: `4edd3824e45cdde1`
 - Titel: Developer LLM Wiki — Delta Report
 - Auszug:
-  - Datum: 2026-09-21
+  - Datum: 2026-09-28
   - Status: Active
-  - - Added: 7810
+  - - Added: 7907
+
+## ai_context/legacy_status/STATUS_2026_08_01.md
+- Kategorie: governance_and_docs
+- Hash: `4b9fb2277f428edc`
+- Titel: Historical
+- Auszug:
+  - **Author:** ThemisDB Contributors
+  - **Created:** 2026-08-01
+  - **Last Updated:** 2026-10-02
 
 ## ai_context/memory_management_policy.md
 - Kategorie: governance_and_docs
@@ -515,6 +524,69 @@ Status: Active
   - **Archive Updated:** 2026-08-24
   - **Version Status:** 2.4.0-rc1 (GA hardening)
   - ---
+
+## docs/ARCHIVED/ai-working-history/01_WAVE_C_D_NEXT_ACTIONS_2026_09_02.md
+- Kategorie: governance_and_docs
+- Hash: `32bc306063602eb5`
+- Titel: Wave C Validation + Wave D Execution Planning
+- Auszug:
+  - **Date:** 2026-09-02, 15:45 UTC
+  - **Status:** Wave B Phase 1 complete; Wave C already complete; Wave D in progress
+  - **Branch:** copilot/update-documentation-for-gaps-again
+
+## docs/ARCHIVED/ai-working-history/03_WAVE_A_COMPLETION_PLAN_2026_09_02.md
+- Kategorie: governance_and_docs
+- Hash: `8988b6aa3ce9d068`
+- Titel: Wave A Completion Plan — Runtime Reliability First
+- Auszug:
+  - **Date:** 2026-09-02, 16:30 UTC
+  - **Status:** Wave A code delivery complete; CI execution + evidence validation required
+  - **Branch:** copilot/update-documentation-for-gaps-again
+
+## docs/ARCHIVED/ai-working-history/04_WAVE_A_COMPLETION_SUMMARY_2026_09_02.md
+- Kategorie: governance_and_docs
+- Hash: `b1eb8ddb4c01469c`
+- Titel: Wave A Exit Criteria Validation Report
+- Auszug:
+  - **Status:** 🟢 All code deliverables complete; CI execution validation in progress
+  - **Date:** 2026-09-02, 17:00 UTC
+  - **Author:** Copilot Coding Agent
+
+## docs/ARCHIVED/ai-working-history/06_WAVE_A_CI_EXECUTION_READINESS_2026_09_02.md
+- Kategorie: governance_and_docs
+- Hash: `ff5c5b8a3ecabf87`
+- Titel: Wave A CI Execution Readiness Report
+- Auszug:
+  - **Date:** 2026-09-02, 16:20 UTC
+  - **Status:** 🟡 **READY FOR EXECUTION** — Local environment dependency issues identified; GitHub Actions runners recommended
+  - **Blocker Context:** Wave A exit gates A3 (CI Green) requires these test suites to pass by Sept 3
+
+## docs/ARCHIVED/ai-working-history/07_WAVE_A_CI_EXECUTION_CHECKLIST_2026_09_03.md
+- Kategorie: governance_and_docs
+- Hash: `5e58b1d3216557ad`
+- Titel: Wave A CI Execution Checklist — Sept 3, 2026
+- Auszug:
+  - **Status:** READY FOR GITHUB ACTIONS EXECUTION
+  - **Deadline:** Sept 3, 18:00 UTC
+  - **Expected Duration:** 35-40 minutes (parallel execution)
+
+## docs/ARCHIVED/ai-working-history/08_BATCH_8_PHASE4_COMPLETION_SUMMARY_2026_09_04.md
+- Kategorie: governance_and_docs
+- Hash: `02de8ac7d806ad86`
+- Titel: Batch 8 Phase 4: Sign-Compare Hardening - Completion Summary
+- Auszug:
+  - **Date:** 2026-09-04 07:31 – 07:45 UTC
+  - **Duration:** ~14 minutes
+  - **Status:** ✅ **COMPLETE** (101.4% of target achieved)
+
+## docs/ARCHIVED/ai-working-history/08_BATCH_8_PHASE4_SIGN_COMPARE_HARDENING_2026_09_04.md
+- Kategorie: governance_and_docs
+- Hash: `8c48b296ac2ce76d`
+- Titel: Batch 8 Phase 4: Sign-Compare Hardening Execution Plan
+- Auszug:
+  - **Date:** 2026-09-04 07:31 UTC
+  - **Scope:** Fix -Wsign-compare warnings (target: 19,849 instances across 1,698 files)
+  - **Target:** Q3 2026 hardening completion
 
 ## docs/ARCHIVED/ai-working-history/A2_REMEDIATION_COMPLETION.md
 - Kategorie: governance_and_docs
@@ -650,75 +722,3 @@ Status: Active
   - **Project**: ThemisDB Analytics Module Gap Closure
   - **Status**: 🟢 **WEEK 1 COMPLETE** (Phases 1-5 delivered, Phase 6 initial review done)
   - **Timeline**: 4-5 weeks (target completion 2026-09-13)
-
-## docs/ARCHIVED/ai-working-history/ANALYTICS_GAP_CLOSURE_MASTER_TRACKER.md
-- Kategorie: governance_and_docs
-- Hash: `524c1f8b7b082505`
-- Titel: Analytics Module Gap Closure - Master Execution Tracker
-- Auszug:
-  - **Start Date**: 2026-08-15 10:46:00 UTC
-  - **Target Completion**: 2026-08-15 11:45:00 UTC (60 minutes total)
-  - **Framework**: Phase 1-6 Implementation Framework with Parallel Subagent Execution
-
-## docs/ARCHIVED/ai-working-history/ANALYTICS_GAP_CLOSURE_PR_SUMMARY.md
-- Kategorie: governance_and_docs
-- Hash: `7e038c3107fb7623`
-- Titel: Analytics Module Gap Closure Implementation [Phases 1-6 Complete]
-- Auszug:
-  - **Title**: Analytics: Implement 40 gap closures (35 critical + 5 stubs) - Complete Process Mining, AutoML, Forecasting, CEP, Knowledge Base
-  - **Type**: Feature / Gap Closure
-  - **Priority**: P0 (Critical)
-
-## docs/ARCHIVED/ai-working-history/ANALYTICS_GAP_CLOSURE_STATUS_2026_08_15.md
-- Kategorie: governance_and_docs
-- Hash: `6312067c8df73e4a`
-- Titel: Analytics Module Gap Closure — Status Report
-- Auszug:
-  - **Date**: 2026-08-15 (Week 1)
-  - **Status**: 🟢 ON TRACK
-  - The Analytics Module gap closure project is executing across 6 coordinated phases using subagent framework. Phase 1 (CRITICAL validation) is **COMPLETE**. Phase 2 Batch A-1 (circular_lock_ordering) is **COMPLETE**. Phases 2-6 executing in parallel.
-
-## docs/ARCHIVED/ai-working-history/ANALYTICS_GAP_SCANNER_REMEDIATION_GUIDE.md
-- Kategorie: governance_and_docs
-- Hash: `4f6873f9b21634d3`
-- Titel: Analytics Gap Scanner Remediation Guide — OPTION A: RESCAN
-- Auszug:
-  - **Decision**: ✅ **APPROVED OPTION A — RESCAN**
-  - **Date**: 2026-08-15
-  - **Target**: 6 critical defect fixes + Batch 1 CI/CD validation
-
-## docs/ARCHIVED/ai-working-history/ANALYTICS_OPTION_A_APPROVAL_SUMMARY.md
-- Kategorie: governance_and_docs
-- Hash: `666ad3be01260b68`
-- Titel: OPTION A Approval Summary — Analytics Gap Scanner Remediation
-- Auszug:
-  - **Status**: ✅ **APPROVED & ACTIVE**
-  - **Date**: 2026-08-15T07:25:00Z
-  - **Approver**: @makr-code
-
-## docs/ARCHIVED/ai-working-history/ANALYTICS_OPTION_A_DECISION_LOG.md
-- Kategorie: governance_and_docs
-- Hash: `d3b72d8850544f77`
-- Titel: OPTION A Decision Log — Analytics Gap Scanner Remediation
-- Auszug:
-  - **Decision Timestamp**: 2026-08-15T07:25:00Z
-  - **Approver**: @makr-code (user)
-  - **Decision**: ✅ **APPROVE OPTION A — RESCAN**
-
-## docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE1_COMPLETION_REPORT.md
-- Kategorie: governance_and_docs
-- Hash: `d957b03a292d2d3d`
-- Titel: Analytics Phase 1 Critical Fixes — Completion Report
-- Auszug:
-  - **Date**: 2026-08-15T07:47:00Z
-  - **Status**: ✅ ALL 6 CRITICAL FIXES COMPLETE & COMMITTED
-  - **Implementation Agent**: @themisdb-implementer (copilot-swe-agent)
-
-## docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE1_DESIGN_SPEC.md
-- Kategorie: governance_and_docs
-- Hash: `51a823eee6f32adb`
-- Titel: Analytics Module Gap Closure — Phase 1: Design & API Contract Specification
-- Auszug:
-  - **Version**: 1.0
-  - **Date**: 2026-08-15
-  - **Status**: ✅ READY FOR IMPLEMENTATION

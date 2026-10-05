@@ -120,7 +120,7 @@ jobs:
             }
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4.4.0  # v4.4.0
+        uses: actions/setup-node@v6  # Node.js 24 compatible
         with:
           node-version: '24'
 

@@ -1,16 +1,15 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-09-28T03:05:28+00:00",
+  "generated_at": "2026-10-05T03:08:56+00:00",
   "mode": "incremental",
-  "source_count": 7907,
-  "source_hash": "8c50fbc504ad0d61a71d543b4d21af834eb03a6e7f766d6821aad9fa2cd6e2f5",
+  "source_count": 7949,
+  "source_hash": "4cb777843970972f84556cf04070048e47b0efb9d0e3306f0b908432b62df57e",
   "delta": {
-    "added_count": 7907,
+    "added_count": 7949,
     "removed_count": 0,
     "changed_count": 0,
     "added_preview": [
-      ".github/workflows/automation-community.yml",
       ".github/workflows/benchmark-performance-gate.yml",
       ".github/workflows/build-benchmarks.yml",
       ".github/workflows/build-clang-fast.yml",
@@ -59,11 +58,12 @@
       ".github/workflows/maintenance-docs.yml",
       ".github/workflows/maintenance-housekeeping.yml",
       ".github/workflows/maintenance-issues.yml",
-      ".github/workflows/maintenance-pr-failure-diagnosis.yml"
+      ".github/workflows/maintenance-pr-failure-diagnosis.yml",
+      ".github/workflows/maintenance-soll-ist-gap-issues.yml"
     ],
     "removed_preview": [],
     "changed_preview": []
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "69e68284047c1c574d94c25ce55e8ef6d96cbdad2e2964c19ff3e3c7f86bd77f"
+  "manifest_sha256": "741daf8378429651427c6dc796e3345aa32e1433e5454e4ef07dcf7e897c8c59"
 }
