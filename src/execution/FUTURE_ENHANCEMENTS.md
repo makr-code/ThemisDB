@@ -1,3 +1,8 @@
+**Author:** ThemisDB Contributors  
+**Created:** 2026-09-21  
+**Last Updated:** 2026-09-28  
+**Status:** active
+
 # Execution Module — Future Enhancements
 
 ## Scope
