@@ -312,6 +312,10 @@ LockManager::LockResult LockManager::upgradeLock(
             });
 
         if (has_other_shared_holder) {
+            // Wave 4C T2: competing SHARED holders turn this upgrade into a classic
+            // circular wait (A waits for B, B waits for A). Failing fast here is
+            // stricter than queueing behind the other SHARED holder and avoids the
+            // deadlock-by-timeout scenario that would otherwise stall both transactions.
             THEMIS_WARN(
                 "[TXLOCK] Mutual upgrade deadlock detected for key={}, txn={} "
                 "with competing SHARED holder; aborting upgrade without timeout.",
@@ -344,6 +348,10 @@ LockManager::LockResult LockManager::upgradeLock(
         }
 
         auto req = std::make_shared<LockRequest>(txn_id, LockType::EXCLUSIVE);
+        // Priority: upgrade requests are placed at the front so a direct upgrade
+        // is not starved behind a later request that is only contending for the same
+        // release event. This preserves fairness for the current holder while still
+        // allowing the upgrade wait to be woken promptly on the next release.
         entry.waiters.push_front(req);
         waiting_for_[txn_id] = key;
         stats_waiting_.fetch_add(1, std::memory_order_relaxed);
@@ -361,7 +369,11 @@ LockManager::LockResult LockManager::upgradeLock(
         lk.lock();
         waiting_for_.erase(txn_id);
         stats_waiting_.fetch_sub(1, std::memory_order_relaxed);
-        entry.waiters.remove(req);
+
+        auto lt_it_waiter = lock_table_.find(key);
+        if (lt_it_waiter != lock_table_.end()) {
+            lt_it_waiter->second.waiters.remove(req);
+        }
 
         if (!granted) {
             stats_timeouts_.fetch_add(1, std::memory_order_relaxed);
@@ -573,6 +585,7 @@ bool LockManager::tryGrantLock(
             std::lock_guard<std::mutex> req_lock(req->state_mutex);
             req->granted = true;
             req->cv.notify_one();
+            break;
         }
     }
     return true;
