@@ -234,7 +234,14 @@ jobs:
           BASELINE_COMMIT="$(python -c 'import json, pathlib; print(json.loads(pathlib.Path("vcpkg.json").read_text(encoding="utf-8")).get("builtin-baseline", ""))')"
 
           if [ -z "${BASELINE_COMMIT}" ]; then
-            exit 0
+            BASELINE_COMMIT="$(git -C vcpkg rev-parse HEAD)"
+            OVERRIDE_DIR="${RUNNER_TEMP}/vcpkg-manifest-override"
+            python scripts/create_vcpkg_manifest_override.py \
+              --working-directory "$WORKING_DIRECTORY" \
+              --override-dir "$OVERRIDE_DIR" \
+              --baseline "${BASELINE_COMMIT}"
+            echo "VCPKG_MANIFEST_DIR=${OVERRIDE_DIR}" >> "$GITHUB_ENV"
+            echo "Injected workflow-local vcpkg manifest override with builtin-baseline ${BASELINE_COMMIT}"
           fi
 
           if ! git -C vcpkg cat-file -e "${BASELINE_COMMIT}^{commit}" 2>/dev/null; then
