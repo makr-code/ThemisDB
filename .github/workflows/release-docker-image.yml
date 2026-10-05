@@ -556,8 +556,13 @@ jobs:
         echo "──────────────────────────────────────────────"
         echo "  SLSA attestation"
         DIGEST="${{ steps.build.outputs.digest }}"
-        if [ -n "${DIGEST}" ] && [ "${{ steps.attest.outcome }}" = "success" ]; then
+        ATTEST_OUTCOME="${{ steps.attest.outcome }}"
+        if [ -n "${DIGEST}" ] && [ "${ATTEST_OUTCOME}" = "success" ]; then
           echo "  ✅ Provenance attestation generated (SLSA Level 2)"
+          echo "  Subject name   : ${{ steps.attestation-subject.outputs.value }}"
+          echo "  Subject digest : ${DIGEST}"
+        elif [ -n "${DIGEST}" ] && [ "${ATTEST_OUTCOME}" = "skipped" ]; then
+          echo "  ⏭️  Attestation skipped by workflow conditions"
           echo "  Subject name   : ${{ steps.attestation-subject.outputs.value }}"
           echo "  Subject digest : ${DIGEST}"
         elif [ -n "${DIGEST}" ]; then
