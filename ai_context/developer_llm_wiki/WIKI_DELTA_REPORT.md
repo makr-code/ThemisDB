@@ -1,17 +1,16 @@
 # Developer LLM Wiki — Delta Report
 
-Datum: 2026-09-28
+Datum: 2026-10-05
 Status: Active
 
 ## Summary
 
-- Added: 7907
+- Added: 7949
 - Removed: 0
 - Changed: 0
 
 ## Added
 
-- .github/workflows/automation-community.yml
 - .github/workflows/benchmark-performance-gate.yml
 - .github/workflows/build-benchmarks.yml
 - .github/workflows/build-clang-fast.yml
@@ -147,10 +146,18 @@ Status: Active
 - ai_context/developer_llm_wiki/RETRIEVAL_DIRECT_DOXYGEN_CHECK.md
 - ai_context/developer_llm_wiki/SOLL_IST_GAP_SUMMARY.md
 - ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md
+- ai_context/legacy_status/STATUS_2026_08_01.md
 - ai_context/memory_management_policy.md
 - docs/00_DOCUMENTATION_INDEX.md
 - docs/API_TRANSPORT_RUNBOOK.md
 - docs/ARCHIVED/README.md
+- docs/ARCHIVED/ai-working-history/01_WAVE_C_D_NEXT_ACTIONS_2026_09_02.md
+- docs/ARCHIVED/ai-working-history/03_WAVE_A_COMPLETION_PLAN_2026_09_02.md
+- docs/ARCHIVED/ai-working-history/04_WAVE_A_COMPLETION_SUMMARY_2026_09_02.md
+- docs/ARCHIVED/ai-working-history/06_WAVE_A_CI_EXECUTION_READINESS_2026_09_02.md
+- docs/ARCHIVED/ai-working-history/07_WAVE_A_CI_EXECUTION_CHECKLIST_2026_09_03.md
+- docs/ARCHIVED/ai-working-history/08_BATCH_8_PHASE4_COMPLETION_SUMMARY_2026_09_04.md
+- docs/ARCHIVED/ai-working-history/08_BATCH_8_PHASE4_SIGN_COMPARE_HARDENING_2026_09_04.md
 - docs/ARCHIVED/ai-working-history/A2_REMEDIATION_COMPLETION.md
 - docs/ARCHIVED/ai-working-history/ACCELERATION_MODULE_FIX_SUMMARY.md
 - docs/ARCHIVED/ai-working-history/ACCESS_MODEL_PHASE5_DELIVERY_SUMMARY.md
@@ -204,14 +211,7 @@ Status: Active
 - docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE6_SIGNOFF_SPEC.md
 - docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE6_SIGN_OFF_CHECKLIST.md
 - docs/ARCHIVED/ai-working-history/ANALYTICS_WEEK1_FINAL_STATUS.md
-- docs/ARCHIVED/ai-working-history/AQL_PHASE4_5_6_COMPREHENSIVE_PLAN.md
-- docs/ARCHIVED/ai-working-history/AQL_V2_0_0_PHASE_1_COMPLETION_SUMMARY.md
-- docs/ARCHIVED/ai-working-history/ARCHIVE_PRE_2026_08/README.md
-- docs/ARCHIVED/ai-working-history/AUDIT_INTEGRITY_IMPLEMENTATION_SUMMARY.md
-- docs/ARCHIVED/ai-working-history/AUDIT_INTEGRITY_QUICK_REFERENCE.md
-- docs/ARCHIVED/ai-working-history/AUDIT_INTEGRITY_VERIFICATION_REPORT.md
-- docs/ARCHIVED/ai-working-history/BATCH1_COMPLETION_SUMMARY.md
-- ... truncated (7707 more)
+- ... truncated (7749 more)
 
 ## Removed
 
