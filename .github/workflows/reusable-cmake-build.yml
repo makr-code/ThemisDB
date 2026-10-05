@@ -357,15 +357,20 @@ jobs:
           script_path="$RUNNER_TEMP/cmake-build-configure.sh"
           configure_output_log="$RUNNER_TEMP/cmake-build-configure-output.log"
           printf '%s\n' "$CONFIGURE_COMMAND" > "$script_path"
+          : > "$configure_output_log"
           set +e
-          bash "$script_path" 2>&1 | tee "$configure_output_log"
+          set +o pipefail
+          bash "$script_path" 2>&1 | tee -a "$configure_output_log"
           status=${PIPESTATUS[0]}
+          set -o pipefail
           set -e
           if [ "$status" -ne 0 ] && [ "${RUNNER_ARCH:-}" = "ARM64" ] && grep -Eq "Download timed out|building .* failed with: BUILD_FAILED" "$configure_output_log"; then
             echo "::warning::Transient vcpkg download failure detected on ARM64 during configure; retrying once."
             set +e
-            bash "$script_path" 2>&1 | tee "$configure_output_log"
+            set +o pipefail
+            bash "$script_path" 2>&1 | tee -a "$configure_output_log"
             status=${PIPESTATUS[0]}
+            set -o pipefail
             set -e
           fi
           exit "$status"
