@@ -185,11 +185,16 @@ jobs:
             ${{ github.workspace }}/.cache/sccache
             ${{ github.workspace }}/.cache/vcpkg-downloads
             ${{ github.workspace }}/.vcpkg-cache
-            ${{ github.workspace }}/vcpkg_installed
           key: cmake-cache-${{ runner.os }}-${{ inputs.runs_on }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'CMakePresets.json', 'cmake/**/*.cmake', 'ports/**', 'ports-overlays/**', '.github/workflows/reusable-cmake-build.yml') }}
           restore-keys: |
             cmake-cache-${{ runner.os }}-${{ inputs.runs_on }}-
             cmake-cache-${{ runner.os }}-
+
+      - name: Reset manifest installed tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf "${GITHUB_WORKSPACE}/vcpkg_installed"
 
       - name: Setup MSVC environment (Windows only)
         if: runner.os == 'Windows'
