@@ -141,7 +141,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
+      - name: Read vcpkg baseline if configured
+        id: baseline
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+          manifest = json.loads(Path("vcpkg.json").read_text(encoding="utf-8"))
+          sha = manifest.get('builtin-baseline', '')
+          print(f"sha={sha}")
+          PY
+
+      - name: Skip baseline signature verification without pinned baseline
+        if: ${{ steps.baseline.outputs.sha == '' }}
+        run: |
+          echo "No builtin-baseline configured; skipping vcpkg baseline signature verification." >> "$GITHUB_STEP_SUMMARY"
+
       - name: Verify vcpkg baseline commit signature
+        if: ${{ steps.baseline.outputs.sha != '' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -199,11 +216,15 @@ jobs:
 
       - name: Generate SBOM checksums
         run: |
-          sha256sum \
-            sbom-source.cyclonedx.json \
-            sbom-source.spdx.json \
-            sbom-trivy.cyclonedx.json \
-            sbom-vcpkg-baseline-verification.json > sbom-source.SHA256SUMS
+          files=(
+            sbom-source.cyclonedx.json
+            sbom-source.spdx.json
+            sbom-trivy.cyclonedx.json
+          )
+          if [ -f sbom-vcpkg-baseline-verification.json ]; then
+            files+=(sbom-vcpkg-baseline-verification.json)
+          fi
+          sha256sum "${files[@]}" > sbom-source.SHA256SUMS
           sha256sum -c sbom-source.SHA256SUMS
 
       - name: Upload SBOM artifacts
