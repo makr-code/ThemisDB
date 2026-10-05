@@ -32,11 +32,13 @@ public:
      */
     std::string generateHex(std::size_t bytes) {
         std::uniform_int_distribution<> dis(0, 15);
-        std::string result = {};
+        std::string result;
         result.reserve(bytes * 2);
         for (std::size_t i = 0; i < bytes; ++i) {
-            int val = dis(gen_);
-            result += "0123456789abcdef"[val];
+            const int hi = dis(gen_);
+            const int lo = dis(gen_);
+            result.push_back("0123456789abcdef"[hi]);
+            result.push_back("0123456789abcdef"[lo]);
         }
         return result;
     }
@@ -56,6 +58,15 @@ std::string toLower(const std::string& str) {
     std::transform(result.begin(), result.end(), result.begin(),
                    [](unsigned char c) { return std::tolower(c); });
     return result;
+}
+
+std::string effectiveSpanId(const std::string& parent_span_id) {
+    if (!parent_span_id.empty()) {
+        return parent_span_id;
+    }
+
+    RandomIdGenerator gen(std::random_device{}());
+    return gen.generateHex(8);  // 64-bit span ID
 }
 
 /**
@@ -169,8 +180,9 @@ std::shared_ptr<DistributedTraceContext> DistributedTraceContext::fromHttpHeader
 
                     // Check trace-sampled flag from traceparent
                     auto sampled_it = headers.find("traceparent");
-                    if (sampled_it != headers.end() && sampled_it->second.length() >= 29) {
-                        ctx->trace_sampled_ = (sampled_it->second[29] == '1');
+                    if (sampled_it != headers.end() && sampled_it->second.size() >= 55) {
+                        const std::string flags = sampled_it->second.substr(53, 2);
+                        ctx->trace_sampled_ = (!flags.empty() && flags[1] == '1');
                     }
 
                     ctx->created_at_ = std::chrono::system_clock::now();
@@ -265,9 +277,11 @@ std::map<std::string, std::string> DistributedTraceContext::toHttpHeaders(
 
     switch (format) {
         case TraceContextFormat::W3C_TRACE_CONTEXT: {
-            // Build traceparent header
+            // Build traceparent header. A root trace context does not have a
+            // parent span ID, but the wire format still requires a valid span ID.
+            const std::string span_id = effectiveSpanId(parent_span_id_);
             std::string sampled = trace_sampled_ ? "01" : "00";
-            std::string traceparent = "00-" + trace_id_ + "-" + parent_span_id_ + "-" + sampled;
+            std::string traceparent = "00-" + trace_id_ + "-" + span_id + "-" + sampled;
             headers["traceparent"] = traceparent;
 
             if (!trace_state_.empty()) {
@@ -279,7 +293,8 @@ std::map<std::string, std::string> DistributedTraceContext::toHttpHeaders(
         case TraceContextFormat::JAEGER_BAGGAGE: {
             // Build uber-trace-id
             std::string sampled = trace_sampled_ ? "1" : "0";
-            std::string uber_trace_id = trace_id_ + ":" + parent_span_id_ + ":0:" + sampled;
+            const std::string span_id = effectiveSpanId(parent_span_id_);
+            std::string uber_trace_id = trace_id_ + ":" + span_id + ":0:" + sampled;
             headers["uber-trace-id"] = uber_trace_id;
 
             // Build jaeger-baggage
@@ -298,14 +313,16 @@ std::map<std::string, std::string> DistributedTraceContext::toHttpHeaders(
 
         case TraceContextFormat::B3_SINGLE: {
             std::string sampled = trace_sampled_ ? "1" : "0";
-            std::string b3 = trace_id_ + "-" + parent_span_id_ + "-" + sampled;
+            const std::string span_id = effectiveSpanId(parent_span_id_);
+            std::string b3 = trace_id_ + "-" + span_id + "-" + sampled;
             headers["b3"] = b3;
             break;
         }
 
         case TraceContextFormat::B3_MULTI: {
+            const std::string span_id = effectiveSpanId(parent_span_id_);
             headers["x-b3-traceid"] = trace_id_;
-            headers["x-b3-spanid"] = parent_span_id_;
+            headers["x-b3-spanid"] = span_id;
             headers["x-b3-sampled"] = trace_sampled_ ? "1" : "0";
             break;
         }
@@ -326,14 +343,9 @@ std::shared_ptr<DistributedTraceContext> DistributedTraceContext::withBaggage(
     ctx->baggage_ = baggage_;
     ctx->created_at_ = created_at_;
 
-    // Add new baggage item
+    // Add new baggage item while respecting the hard upper bound.
     if (ctx->baggage_.size() >= static_cast<std::size_t>(kMaxBaggageItems)) {
-        // Remove oldest inherited baggage item to make room
-        auto it = std::find_if(ctx->baggage_.begin(), ctx->baggage_.end(),
-                              [](const BaggageItem& b) { return b.inherited; });
-        if (it != ctx->baggage_.end()) {
-            ctx->baggage_.erase(it);
-        }
+        ctx->baggage_.erase(ctx->baggage_.begin());
     }
 
     BaggageItem item;
