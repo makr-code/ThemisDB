@@ -236,7 +236,10 @@ jobs:
           if [ -z "${BASELINE_COMMIT}" ]; then
             BASELINE_COMMIT="$(git -C vcpkg rev-parse HEAD)"
             OVERRIDE_DIR="${RUNNER_TEMP}/vcpkg-manifest-override"
-            python -c 'import json,pathlib,sys; baseline,wd,od=sys.argv[1:4]; wr=pathlib.Path(wd).resolve(); oroot=pathlib.Path(od).resolve(); oroot.mkdir(parents=True,exist_ok=True); m=json.loads((wr/"vcpkg.json").read_text(encoding="utf-8")); m["builtin-baseline"]=baseline; (oroot/"vcpkg.json").write_text(json.dumps(m,indent=2)+"\n",encoding="utf-8"); cp=wr/"vcpkg-configuration.json"; c=json.loads(cp.read_text(encoding="utf-8")) if cp.exists() else None; ov=(c.get("overlay-ports",[]) if isinstance(c,dict) else []); c["overlay-ports"]=[str((wr/pathlib.Path(p)).resolve()) for p in ov] if isinstance(c,dict) and isinstance(ov,list) else (c.get("overlay-ports") if isinstance(c,dict) else ov); (oroot/"vcpkg-configuration.json").write_text(json.dumps(c,indent=2)+"\n",encoding="utf-8") if isinstance(c,dict) else None' "${BASELINE_COMMIT}" "$WORKING_DIRECTORY" "${OVERRIDE_DIR}"
+            python scripts/create_vcpkg_manifest_override.py \
+              --working-directory "$WORKING_DIRECTORY" \
+              --override-dir "$OVERRIDE_DIR" \
+              --baseline "${BASELINE_COMMIT}"
             echo "VCPKG_MANIFEST_DIR=${OVERRIDE_DIR}" >> "$GITHUB_ENV"
             echo "Injected workflow-local vcpkg manifest override with builtin-baseline ${BASELINE_COMMIT}"
           fi
