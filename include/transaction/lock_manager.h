@@ -242,7 +242,9 @@ private:
         TransactionId txn_id;
         LockType      type;
         bool          granted{false};
-        // Each waiter has its own CV so it can be woken individually.
+        std::mutex    state_mutex;
+        // Each waiter has its own CV so it can be woken individually without
+        // holding the global lock while waiting on a nested lock request.
         std::condition_variable cv;
 
         LockRequest(TransactionId t, LockType lt) : txn_id(t), type(lt) {}
