@@ -77,6 +77,7 @@ jobs:
           python scripts/check_vcpkg_licenses.py \
             --manifest vcpkg.json \
             --policy .license-policy.json \
+            --baseline "${{ steps.baseline.outputs.sha }}" \
             --output-dir artifacts/license-compliance
 
       - name: Publish workflow summary
