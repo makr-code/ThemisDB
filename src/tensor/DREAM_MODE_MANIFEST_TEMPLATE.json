@@ -1,0 +1,49 @@
+{
+  "manifest_version": "1.0",
+  "run_id": "brain-dream-YYYY-MM-DDThh-mm-ssZ",
+  "timestamp_utc": "YYYY-MM-DDThh:mm:ssZ",
+  "commit_sha": "<git-sha>",
+  "build_profile": "windows-release",
+  "mode": "dream_research",
+  "dataset": {
+    "name": "<dataset-name>",
+    "snapshot_hash": "<sha256>",
+    "split_hash": "<sha256>"
+  },
+  "seeds": [
+    1337,
+    1338,
+    1339,
+    1340
+  ],
+  "feature_flags": {
+    "dream_mode": true,
+    "synthetic_candidates": true,
+    "ethics_veto_enabled": true,
+    "production_truth_path_write": false
+  },
+  "safety": {
+    "truth_path_firewall_passed": true,
+    "label_integrity_passed": true,
+    "ethics_veto_trigger_count": 0,
+    "security_policy_passed": true
+  },
+  "gates": {
+    "BRAIN-DREAM-ISOLATION": "hold",
+    "BRAIN-DREAM-LABEL-INTEGRITY": "hold",
+    "BRAIN-DREAM-UTILITY": "hold",
+    "BRAIN-DREAM-NONREGRESSION": "hold",
+    "BRAIN-DREAM-ETHICS-BOUNDARY": "hold"
+  },
+  "results": {
+    "utility_delta_recall_at_10": 0.0,
+    "utility_delta_ndcg_at_10": 0.0,
+    "online_hallucination_delta": 0.0,
+    "latency_delta_p95": 0.0
+  },
+  "decision": {
+    "recommendation": "research_only",
+    "rationale": "<human-readable rationale>",
+    "approved_by": "<human-review-id>"
+  }
+}

@@ -1120,3 +1120,140 @@ To make this direction actionable, define future gate families:
    - verifies ethical/policy constraints remain enforced for synthetic content flows.
 
 If these gates fail, machine-dreaming remains research-only and must not be operationalized.
+
+---
+
+## 51. Dream-Mode Reproducibility Manifest (Normative Schema)
+
+To make machine-dreaming experiments auditable and reproducible, each run should emit a structured manifest.
+
+### 51.1 Required top-level fields
+
+1. `manifest_version`
+2. `run_id`
+3. `timestamp_utc`
+4. `commit_sha`
+5. `build_profile`
+6. `mode` (must be `dream_research`)
+7. `dataset`
+8. `seeds`
+9. `feature_flags`
+10. `safety`
+11. `gates`
+12. `results`
+13. `decision`
+
+### 51.2 Example JSON skeleton
+
+```json
+{
+  "manifest_version": "1.0",
+  "run_id": "brain-dream-2027-02-15T12-31-04Z",
+  "timestamp_utc": "2027-02-15T12:31:04Z",
+  "commit_sha": "<git-sha>",
+  "build_profile": "windows-release",
+  "mode": "dream_research",
+  "dataset": {
+    "name": "tensor_eval_set_v3",
+    "snapshot_hash": "<sha256>",
+    "split_hash": "<sha256>"
+  },
+  "seeds": [1337, 1338, 1339, 1340],
+  "feature_flags": {
+    "dream_mode": true,
+    "synthetic_candidates": true,
+    "ethics_veto_enabled": true,
+    "production_truth_path_write": false
+  },
+  "safety": {
+    "truth_path_firewall_passed": true,
+    "label_integrity_passed": true,
+    "ethics_veto_trigger_count": 12,
+    "security_policy_passed": true
+  },
+  "gates": {
+    "BRAIN-DREAM-ISOLATION": "pass",
+    "BRAIN-DREAM-LABEL-INTEGRITY": "pass",
+    "BRAIN-DREAM-UTILITY": "hold",
+    "BRAIN-DREAM-NONREGRESSION": "pass",
+    "BRAIN-DREAM-ETHICS-BOUNDARY": "pass"
+  },
+  "results": {
+    "utility_delta_recall_at_10": 0.012,
+    "utility_delta_ndcg_at_10": 0.004,
+    "online_hallucination_delta": -0.001,
+    "latency_delta_p95": 0.007
+  },
+  "decision": {
+    "recommendation": "research_only",
+    "rationale": "Utility below promotion threshold despite safety compliance",
+    "approved_by": "<human-review-id>"
+  }
+}
+```
+
+Operational artifacts for direct use:
+- [DREAM_MODE_MANIFEST_TEMPLATE.json](./DREAM_MODE_MANIFEST_TEMPLATE.json)
+- [DREAM_MODE_MANIFEST_SCHEMA.json](./DREAM_MODE_MANIFEST_SCHEMA.json)
+
+### 51.3 Schema invariants
+
+1. `mode` must never be omitted and must be `dream_research` for machine-dream runs.
+2. `production_truth_path_write` must remain `false` in research mode.
+3. All five `BRAIN-DREAM-*` gates must be present in `gates`.
+4. `decision.recommendation` must be one of:
+   - `no_go`
+   - `research_only`
+   - `promotion_candidate`
+
+---
+
+## 52. Dream-Mode Lifecycle and Promotion Logic
+
+Machine-dreaming should follow a strict lifecycle:
+
+1. **R0 / Research-only**
+   - synthetic generation allowed only in sandbox profile.
+2. **R1 / Validated research utility**
+   - utility signal appears under strict safety constraints.
+3. **R2 / Promotion candidate**
+   - repeatable utility + nonregression + ethics boundary evidence.
+4. **R3 / Controlled operational pilot**
+   - still non-default, tightly gated, rollback-first posture.
+
+Transition rule:
+- No transition beyond R0 is allowed when `BRAIN-DREAM-NONREGRESSION` is not `pass`.
+
+---
+
+## 53. Truth-Path Firewall Architecture (Dream-Mode)
+
+To avoid hallucination leakage, implement a structural firewall between dream artifacts and production truth planes.
+
+### 53.1 Logical separation
+
+1. **Dream candidate store**
+   - synthetic artifacts only, tagged and isolated.
+2. **Validation plane**
+   - evaluation + ethics + security checks.
+3. **Production truth plane**
+   - accepts artifacts only after explicit gate closure and human approval.
+
+### 53.2 Hard constraints
+
+1. No direct write edge from dream candidate store to production truth plane.
+2. Every transfer must include manifest reference and approval reference.
+3. Any missing provenance tag implies hard reject.
+
+---
+
+## 54. Hallucination-Reduction Interpretation
+
+The machine-dreaming hypothesis is acceptable only if it reduces net risk:
+
+1. offline synthetic exploration may improve robustness by surfacing edge scenarios,
+2. online factual reliability must not degrade,
+3. evaluation must show nonregression or improvement in hallucination-sensitive metrics.
+
+Therefore, machine dreaming is not "hallucination made productive" by default;  
+it is a controlled research instrument that must prove safety and utility simultaneously.
