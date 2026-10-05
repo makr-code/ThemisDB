@@ -70,6 +70,17 @@ Execution plan: [TENSOR_ML_TRAINING_BRIDGE_SPRINT_PLAN.md](./TENSOR_ML_TRAINING_
 
 ## Concrete Integration Points (Code-Level)
 
+```mermaid
+flowchart LR
+    A[Dense Embedding Input] --> B[TensorIngestionBridge\napplyRotationProfile]
+    B --> C[TT Decomposition + Metadata]
+    C --> D[HnswTTBridge\nadd/search/extractSketch]
+    D --> E[Hybrid Retrieval Output]
+    C --> F[AdaLoraTTBridge\nexport/import/rank reallocation]
+    D --> G[LlamaCppPlugin\nRAG tensor_hybrid/tensor_prefix]
+    B --> H[TensorButterflyOperator\nWHT/Radon/Greens comparator]
+```
+
 ### A) Tensor ingestion (write path)
 
 1. Hookpoint in `TensorIngestionBridge::decompose(...)` and `TensorIngestionBridge::shouldDecompose(...)`
@@ -175,6 +186,21 @@ Execution plan: [TENSOR_ML_TRAINING_BRIDGE_SPRINT_PLAN.md](./TENSOR_ML_TRAINING_
 
 ## Experiment Matrix (Evidence-Linked)
 
+```mermaid
+flowchart TD
+    P0[Profile none] --> M[Metrics]
+    P1[Profile fixed] --> M
+    P2[Profile relational] --> M
+    P3[Profile learned] --> M
+    T0[Pair rotation] --> M
+    T1[WHT/Radon/Greens] --> M
+    M --> R1[Recall@10]
+    M --> R2[nDCG@10]
+    M --> R3[p95/p99 latency]
+    M --> R4[TT rank + kappa]
+    M --> R5[Fail-closed mismatch diagnostics]
+```
+
 | Experiment ID | Variant | Primary paper evidence | Success criterion |
 |---|---|---|---|
 | E-ROPE-TT-01 | `none` vs `fixed` rotation pre-TT | RoFormer + OPQ | Recall@10 +2% on >=1 dataset, no nDCG collapse |
@@ -184,6 +210,23 @@ Execution plan: [TENSOR_ML_TRAINING_BRIDGE_SPRINT_PLAN.md](./TENSOR_ML_TRAINING_
 | E-ROPE-ADALORA-01 | AdaLoRA export/import with profile variants | AdaLoRA + LoRA + TT | equal/better quality at same active-rank budget |
 
 ## Benchmarking and CTest Execution Contract
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant C as Configure/Build
+    participant B as Bench Runner
+    participant T as CTest Runner
+    participant E as Evidence Packet
+    participant D as Decision Board
+
+    C->>B: build TRNRG + TN-BM targets
+    B->>E: emit benchmark JSON + command logs
+    C->>T: build focused tensor tests
+    T->>E: emit ctest logs + pass/fail summary
+    E->>D: provide combined packet
+    D-->>E: go / hold / no-go note
+```
 
 ### Benchmarking (mandatory for rollout decision)
 

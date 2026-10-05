@@ -63,6 +63,18 @@ Primary RoPE and performance references:
 
 ## 5. Sprint-by-Sprint Architecture Delivery
 
+```mermaid
+flowchart LR
+    S1[S1 Contract Baseline] --> S2[S2 Ingestion / Retrieval Parity]
+    S2 --> S3[S3 Training + Runtime Closure]
+    S3 --> S4[S4 Evidence + Rollout Decision]
+    WS_A[WS-A Tensor ingest/retrieval] --> S1
+    WS_A --> S2
+    WS_B[WS-B Training bridge] --> S3
+    WS_C[WS-C Runtime bridge] --> S3
+    WS_D[WS-D Validation/governance] --> S4
+```
+
 ## S1 - Contract Baseline and Metadata Semantics
 
 **Window:** Q4 2026 / Sprint 1  
@@ -207,6 +219,15 @@ Primary RoPE and performance references:
 
 ## 6. Dependency Graph
 
+```mermaid
+flowchart TD
+    A[S1: Schema/Contract Stability] --> B[S2: Write/Read Parity]
+    B --> C[S3: Training->Deployment->Runtime Closure]
+    C --> D[S4: Evidence Packet + Go/No-Go]
+    A --> C
+    B --> D
+```
+
 ```text
 S1 -> S2 -> S3 -> S4
  |      |      |
@@ -285,4 +306,3 @@ Without this full packet, production promotion is blocked.
 1. Which production profile(s) are mandatory for sign-off (CPU-only, accelerated, both)?
 2. Is one go/no-go decision sufficient, or is split sign-off required per capability profile?
 3. What is the maximum tolerated scope of capability-gated behavior at GA boundary?
-

@@ -10,14 +10,55 @@
 
 
 #include "llm/paged_kv_cache.h"
+#include <array>
 #include <bit>
 #include <cmath>
 #include <algorithm>
-#include <cmath>
+#include <limits>
 #include <spdlog/spdlog.h>
 
 namespace themis {
 namespace llm {
+namespace {
+
+constexpr std::array<int8_t, 16> kNvfp4Codebook = {
+    0, 1, 2, 3, 4, 6, 8, 12,
+    0, -1, -2, -3, -4, -6, -8, -12
+};
+
+inline uint8_t pickNearestNvfp4Code(float value, float scale) {
+    if (scale == 0.0f || !std::isfinite(value)) {
+        return 0;
+    }
+
+    uint8_t best_index = 0;
+    float best_error = std::numeric_limits<float>::infinity();
+    for (uint8_t idx = 0; idx < kNvfp4Codebook.size(); ++idx) {
+        const float reconstructed = static_cast<float>(kNvfp4Codebook[idx]) * scale;
+        const float error = std::abs(value - reconstructed);
+        if (error < best_error) {
+            best_error = error;
+            best_index = idx;
+        }
+    }
+    return best_index;
+}
+
+inline uint32_t readLittleEndian32(const std::vector<uint8_t>& data, size_t offset) {
+    return static_cast<uint32_t>(data[offset]) |
+           (static_cast<uint32_t>(data[offset + 1]) << 8) |
+           (static_cast<uint32_t>(data[offset + 2]) << 16) |
+           (static_cast<uint32_t>(data[offset + 3]) << 24);
+}
+
+inline void writeLittleEndian32(std::vector<uint8_t>& data, size_t offset, uint32_t value) {
+    data[offset + 0] = static_cast<uint8_t>(value & 0xFFu);
+    data[offset + 1] = static_cast<uint8_t>((value >> 8) & 0xFFu);
+    data[offset + 2] = static_cast<uint8_t>((value >> 16) & 0xFFu);
+    data[offset + 3] = static_cast<uint8_t>((value >> 24) & 0xFFu);
+}
+
+} // namespace
 
 PagedKVCache::PagedKVCache(const Config& config, std::shared_ptr<PagedBlockManager> block_manager)
     : config_(config)
@@ -369,65 +410,45 @@ std::vector<uint8_t> PagedKVCache::quantizeKVData(
                 return {};
             }
 
-            static constexpr std::array<float, 8> kBucketValues = {
-                -1.0f, -0.6f, -0.28f, -0.12f, 0.0f, 0.12f, 0.28f, 0.6f
-            };
-            const float max_abs = [&]() {
-                float v = 0.0f;
-                for (float value : kv_data) {
-                    v = std::max(v, std::abs(value));
-                }
-                return v;
-            }();
-            const float scale = std::max(max_abs, 1.0e-6f);
+            constexpr size_t kBlockSize = 64;
+            constexpr size_t kSubBlockSize = 16;
+            constexpr size_t kSubBlocksPerBlock = kBlockSize / kSubBlockSize;
 
             std::vector<uint8_t> result;
-            result.reserve(12 + ((kv_data.size() * 3u + 7u) / 8u));
+            result.reserve((kv_data.size() / kBlockSize + 1) * (kSubBlocksPerBlock * 4 + kBlockSize / 2));
 
-            const uint64_t count = static_cast<uint64_t>(kv_data.size());
-            for (int i = 0; i < 8; ++i) {
-                result.push_back(static_cast<uint8_t>((count >> (i * 8)) & 0xFFu));
-            }
-            const uint32_t scale_bits = std::bit_cast<uint32_t>(scale);
-            for (int i = 0; i < 4; ++i) {
-                result.push_back(static_cast<uint8_t>((scale_bits >> (i * 8)) & 0xFFu));
-            }
+            const size_t num_blocks = (kv_data.size() + kBlockSize - 1) / kBlockSize;
+            for (size_t block_index = 0; block_index < num_blocks; ++block_index) {
+                const size_t block_start = block_index * kBlockSize;
+                const size_t block_end = std::min(block_start + kBlockSize, kv_data.size());
 
-            uint64_t bit_buffer = 0;
-            int bits_in_buffer = 0;
-            auto append_bits = [&](uint64_t value, int bits) {
-                const uint64_t mask = bits >= 64 ? ~0ULL : ((1ULL << bits) - 1ULL);
-                bit_buffer = (bit_buffer << bits) | (value & mask);
-                bits_in_buffer += bits;
-                while (bits_in_buffer >= 8) {
-                    bits_in_buffer -= 8;
-                    result.push_back(static_cast<uint8_t>((bit_buffer >> bits_in_buffer) & 0xFFu));
-                }
-            };
+                for (size_t sub_index = 0; sub_index < kSubBlocksPerBlock; ++sub_index) {
+                    const size_t sub_start = block_start + sub_index * kSubBlockSize;
+                    const size_t sub_end = std::min(sub_start + kSubBlockSize, block_end);
+                    if (sub_start >= sub_end) {
+                        continue;
+                    }
 
-            for (float value : kv_data) {
-                const float abs_v = std::abs(value);
-                if (!std::isfinite(value) || abs_v > 0.95f * scale) {
-                    append_bits(7ULL, 3);
-                    append_bits(static_cast<uint64_t>(std::bit_cast<uint32_t>(value)), 32);
-                    continue;
-                }
+                    float amax = 0.0f;
+                    for (size_t i = sub_start; i < sub_end; ++i) {
+                        amax = std::max(amax, std::abs(kv_data[i]));
+                    }
 
-                uint32_t code = 0u;
-                float best_delta = std::numeric_limits<float>::infinity();
-                for (uint32_t idx = 0; idx < kBucketValues.size(); ++idx) {
-                    const float bucket_value = scale * kBucketValues[idx];
-                    const float delta = std::abs(value - bucket_value);
-                    if (delta < best_delta) {
-                        best_delta = delta;
-                        code = idx;
+                    const float scale = amax > 0.0f ? (amax / 6.0f) : 0.0f;
+                    const uint32_t scale_bits = std::bit_cast<uint32_t>(scale);
+                    const size_t scale_offset = result.size();
+                    result.resize(result.size() + 4);
+                    writeLittleEndian32(result, scale_offset, scale_bits);
+
+                    for (size_t j = sub_start; j < sub_end; j += 2) {
+                        const float value0 = (j < kv_data.size()) ? kv_data[j] : 0.0f;
+                        const float value1 = ((j + 1) < kv_data.size()) ? kv_data[j + 1] : 0.0f;
+
+                        const uint8_t code0 = pickNearestNvfp4Code(value0, scale);
+                        const uint8_t code1 = pickNearestNvfp4Code(value1, scale);
+                        result.push_back(static_cast<uint8_t>(code0 | (code1 << 4)));
                     }
                 }
-                append_bits(code, 3);
-            }
-
-            if (bits_in_buffer > 0) {
-                result.push_back(static_cast<uint8_t>((bit_buffer << (8 - bits_in_buffer)) & 0xFFu));
             }
 
             return result;
@@ -488,56 +509,38 @@ std::vector<float> PagedKVCache::dequantizeKVData(
         }
         
         case KVQuantizationType::NVFP4: {
-            if (quantized_data.size() < 12) {
+            if (quantized_data.empty()) {
                 return {};
             }
 
-            static constexpr std::array<float, 8> kBucketValues = {
-                -1.0f, -0.6f, -0.28f, -0.12f, 0.0f, 0.12f, 0.28f, 0.6f
-            };
-
-            uint64_t count = 0;
-            for (int i = 0; i < 8; ++i) {
-                count |= static_cast<uint64_t>(quantized_data[i]) << (i * 8);
-            }
-
-            uint32_t scale_bits = 0;
-            for (int i = 0; i < 4; ++i) {
-                scale_bits |= static_cast<uint32_t>(quantized_data[8 + i]) << (i * 8);
-            }
-            const float scale = std::bit_cast<float>(scale_bits);
+            constexpr size_t kBlockSize = 64;
+            constexpr size_t kSubBlockSize = 16;
+            constexpr size_t kSubBlocksPerBlock = kBlockSize / kSubBlockSize;
 
             std::vector<float> result;
-            result.reserve(static_cast<size_t>(count));
+            result.reserve(quantized_data.size() * 2);
 
-            size_t offset = 12;
-            uint64_t bit_buffer = 0;
-            int bits_in_buffer = 0;
-            auto read_bits = [&](int bits) -> uint64_t {
-                while (bits_in_buffer < bits) {
-                    if (offset >= quantized_data.size()) {
-                        return 0ULL;
-                    }
-                    bit_buffer = (bit_buffer << 8) | static_cast<uint64_t>(quantized_data[offset++]);
-                    bits_in_buffer += 8;
-                }
-                bits_in_buffer -= bits;
-                return (bit_buffer >> bits_in_buffer) & ((1ULL << bits) - 1ULL);
-            };
-
-            for (size_t i = 0; i < static_cast<size_t>(count); ++i) {
-                const uint64_t code = read_bits(3);
-                if (code == 7ULL) {
+            size_t offset = 0;
+            while (offset < quantized_data.size()) {
+                // Each sub-block stores one float32 scale and 8 bytes of packed 4-bit values.
+                for (size_t sub = 0; sub < kSubBlocksPerBlock; ++sub) {
                     if (offset + 4 > quantized_data.size()) {
-                        break;
+                        return result;
                     }
-                    uint32_t float_bits = 0;
-                    for (int j = 0; j < 4; ++j) {
-                        float_bits |= static_cast<uint32_t>(quantized_data[offset++]) << (j * 8);
+                    const uint32_t scale_bits = readLittleEndian32(quantized_data, offset);
+                    offset += 4;
+                    const float scale = std::bit_cast<float>(scale_bits);
+
+                    for (size_t pair = 0; pair < kSubBlockSize / 2; ++pair) {
+                        if (offset >= quantized_data.size()) {
+                            return result;
+                        }
+                        const uint8_t packed = quantized_data[offset++];
+                        const uint8_t code0 = packed & 0x0Fu;
+                        const uint8_t code1 = (packed >> 4) & 0x0Fu;
+                        result.push_back(static_cast<float>(kNvfp4Codebook[code0]) * scale);
+                        result.push_back(static_cast<float>(kNvfp4Codebook[code1]) * scale);
                     }
-                    result.push_back(std::bit_cast<float>(float_bits));
-                } else {
-                    result.push_back(scale * kBucketValues[code]);
                 }
             }
 
@@ -614,25 +617,14 @@ int PagedKVCache::getBitWidthForQuantizationType(KVQuantizationType type) {
  * @details Calls: std::min().
  */
 uint8_t PagedKVCache::quantizeToNVFP4(float value) {
-    // NVFP4: [s1e2m1] format (1 sign, 2 exponent, 1 mantissa)
-    // Range: [-448, +448], ~4-5% precision loss vs FP16
-    
     if (value == 0.0f) {
-      return 0x00;
+        return 0x00;
     }
-    
-    uint32_t bits = std::bit_cast<uint32_t>(value);
-    uint32_t sign = (bits >> 31) & 0x1;
-    uint32_t exp_bias = ((bits >> 23) & 0xFF);
-    uint32_t mantissa = (bits >> 22) & 0x1;  // Take only 1 bit for mantissa
-    
-    // Adjust exponent to fit in 2 bits (shift from 8-bit bias to 2-bit bias)
-    uint32_t exp_4bit = (exp_bias > 127) ? ((exp_bias - 127) >> 5) : 0;
-    exp_4bit = std::min(exp_4bit, 3u);  // Clamp to 2 bits
-    
-    const uint32_t packed_bits = ((sign & 0x1u) << 7) | ((exp_4bit & 0x3u) << 5) | ((mantissa & 0x1u) << 4);
-    uint8_t result = static_cast<uint8_t>(packed_bits);
-    return result;
+
+    const float magnitude = std::abs(value);
+    const float scale = std::max(magnitude / 6.0f, 1.0e-6f);
+    const uint8_t code = pickNearestNvfp4Code(value, scale);
+    return static_cast<uint8_t>(code);
 }
 
 /**
@@ -642,24 +634,8 @@ uint8_t PagedKVCache::quantizeToNVFP4(float value) {
  * @details Implements dequantizeFromNVFP4 without additional internal calls.
  */
 float PagedKVCache::dequantizeFromNVFP4(uint8_t packed) {
-    // NVFP4: [s1e2m1] format — reconstruct to FP32
-    
-    if (packed == 0x00) {
-      return 0.0f;
-    }
-    
-    uint32_t sign = (packed >> 7) & 0x1;
-    uint32_t exp_2bit = (packed >> 5) & 0x3;
-    uint32_t mantissa = (packed >> 4) & 0x1;
-    
-    // Expand to FP32 format
-    uint32_t exp_8bit = (exp_2bit << 5) + 127;  // Bias to 8-bit exponent
-    uint32_t mantissa_23bit = mantissa << 22;
-    
-    uint32_t fp32_bits = (sign << 31) | (exp_8bit << 23) | mantissa_23bit;
-    float result = std::bit_cast<float>(fp32_bits);
-    
-    return result;
+    const uint8_t code = packed & 0x0Fu;
+    return static_cast<float>(kNvfp4Codebook[code]);
 }
 
 /**

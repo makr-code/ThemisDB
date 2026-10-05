@@ -2029,3 +2029,279 @@ Before opening each issue:
 5. [ ] Declare explicit non-go conditions.
 
 This checklist ensures all created issues remain evidence-first and fail-closed by design.
+
+---
+
+## 76. Mermaid Diagram Conventions (Repository-Local)
+
+To keep diagrams consistent across tensor architecture papers, use the following conventions:
+
+1. **Naming**
+   - component boxes: `PascalCase` module/service names,
+   - flow labels: verb-first (`validate`, `persist`, `promote`, `rollback`),
+   - gates: exact gate IDs (`BRAIN-*`, `TEN-ROPE-*`).
+
+2. **Layer orientation**
+   - `flowchart LR` for architecture topology,
+   - `flowchart TD` for dependency/lifecycle,
+   - `sequenceDiagram` for runtime control flow.
+
+3. **Safety semantics**
+   - every promotion path must show:
+     - gate check,
+     - approval step,
+     - rollback checkpoint.
+
+4. **Evidence semantics**
+   - every go/no-go path must terminate in:
+     - manifest update,
+     - decision class (`no_go|research_only|promotion_candidate`).
+
+---
+
+## 77. Mermaid Layer Map: Cognitive/Control Architecture
+
+```mermaid
+flowchart TD
+    L0[Data + Trace Inputs] --> L1[Tensor Memory Layer\nIngestion/Index/Replay]
+    L1 --> L2[Generative Synthesis Layer\nLLM/Voice/Stable Diffusion]
+    L2 --> L3[Validation Layer\nEvaluation + Ethics + Security]
+    L3 --> L4[Governance Layer\nGate Controller + Human Approval]
+    L4 --> L5[Operational Layer\nPilot/Runtime + Rollback]
+
+    BPMN[BPMN Process Constraints\nprocess module] --> L4
+    OBS[Observability/Audit] --> L3
+    OBS --> L4
+    OBS --> L5
+
+    L2 -.synthetic candidates.-> DS[Dream Candidate Store]
+    DS --> L3
+```
+
+Interpretation:
+- creative synthesis is allowed before validation,
+- governance and BPMN constraints sit above pure model output,
+- operational activation is downstream of validation and approval only.
+
+---
+
+## 78. Mermaid Gate-State Machine (Dream-Mode)
+
+```mermaid
+stateDiagram-v2
+    [*] --> R0: StartDreamRun
+    R0 --> R1: Utility signal present\nand safety checks complete
+    R1 --> R2: Reproducible evidence\n+ nonregression pass
+    R2 --> R3: Human approval\n+ rollback checkpoint
+    R3 --> R0: Deactivate / rollback
+
+    R0 --> NoGo: Isolation/label/ethics failure
+    R1 --> NoGo: Nonregression failure
+    R2 --> NoGo: Approval denied or safety violation
+    R3 --> NoGo: Incident regression BF-01..BF-05
+
+    NoGo --> R0: Remediation evidence accepted
+```
+
+State constraints:
+1. Transition to `R2` requires all `BRAIN-DREAM-*` statuses present.
+2. Transition to `R3` requires explicit approval reference and rollback checkpoint.
+3. Any `NoGo` transition requires manifest update with failure classification.
+
+---
+
+## 79. Mermaid Threat Model: Dream-Mode Attack Surface
+
+```mermaid
+flowchart LR
+    A[External Input / Prompt] --> B[Dream Orchestrator]
+    B --> C[Synthetic Candidate Generator]
+    C --> D[Dream Candidate Store]
+    D --> E[Validation Plane]
+    E --> F[Gate Controller]
+    F --> G[Promotion Firewall]
+    G --> H[Controlled Pilot Runtime]
+
+    X1[Threat: Prompt Injection] -.-> C
+    X2[Threat: Provenance Tampering] -.-> D
+    X3[Threat: Gate Report Forgery] -.-> F
+    X4[Threat: Approval Bypass] -.-> G
+    X5[Threat: Runtime Leakage] -.-> H
+
+    M1[Mitigation: Input Policy + Sanitization] --> C
+    M2[Mitigation: Tag Integrity + Hash Checks] --> D
+    M3[Mitigation: Signed Gate Reports] --> F
+    M4[Mitigation: Human Approval + Audit Ref] --> G
+    M5[Mitigation: Rollback + Quarantine] --> H
+```
+
+Security interpretation:
+- every critical edge must have explicit mitigation evidence,
+- any missing mitigation-to-edge mapping blocks promotion.
+
+---
+
+## 80. Mermaid Data Lineage: Synthetic Artifact Provenance
+
+```mermaid
+flowchart TD
+    S0[Source Trace Snapshot\nhash + split] --> S1[Dream Run Context\nrun_id + seeds + policy versions]
+    S1 --> S2[Synthetic Candidate Artifact\nsynthetic=true, dream_mode=true]
+    S2 --> S3[Validation Results\nutility/nonregression/ethics/security]
+    S3 --> S4[Gate Status Bundle\nBRAIN-DREAM-*]
+    S4 --> S5[Decision Record\nno_go/research_only/promotion_candidate]
+    S5 --> S6[Final Manifest]
+    S6 --> S7[Audit Store]
+```
+
+Lineage invariants:
+1. every synthetic artifact must map back to one source trace snapshot hash,
+2. every decision must map to one gate status bundle,
+3. every manifest must map to one auditable run identity.
+
+---
+
+## 81. Mermaid Sequence: Ethics Veto and Security Hold
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant DO as Dream Orchestrator
+    participant EVP as Evaluation Plane
+    participant EAP as Ethics AI Plane
+    participant SEP as Security Plane
+    participant GC as Gate Controller
+    participant MF as Manifest Finalizer
+    participant HR as Human Reviewer
+
+    DO->>EVP: run utility + nonregression checks
+    DO->>EAP: run ethics boundary checks
+    DO->>SEP: run leakage and abuse checks
+    EAP-->>GC: veto=true, reason=policy_boundary_violation
+    SEP-->>GC: hold=true, reason=leakage_risk
+    EVP-->>GC: utility=pass
+    GC->>GC: aggregate -> decision=no_go
+    GC->>MF: finalize manifest with veto/hold rationale
+    MF-->>HR: decision packet (no_go) + remediation requirements
+```
+
+Failure-handling rule:
+- ethics veto has hard precedence over utility gain,
+- security hold blocks promotion candidate transition until resolved.
+
+---
+
+## 82. Review Checklist for Diagram Completeness
+
+Use this checklist before architecture sign-off:
+
+1. [ ] every promotion path diagram includes gate checks, approval, and rollback.
+2. [ ] every sequence with synthetic artifacts includes provenance tagging.
+3. [ ] every threat edge has a mitigation mapping.
+4. [ ] every no-go path results in manifest update and audit trace.
+5. [ ] diagram semantics remain consistent with Sections 55–68 contracts.
+
+This ensures visual artifacts remain engineering-accurate and governance-consistent.
+
+---
+
+## 83. Mermaid Decision Tree: Promotion Classification Logic
+
+```mermaid
+flowchart TD
+    A[Dream Run Finalized] --> B{All BRAIN-DREAM-* gates present?}
+    B -- No --> N1[Decision: no_go]
+    B -- Yes --> C{BRAIN-DREAM-NONREGRESSION = pass?}
+    C -- No --> N1
+    C -- Yes --> D{BRAIN-DREAM-ETHICS-BOUNDARY = pass?}
+    D -- No --> N1
+    D -- Yes --> E{BRAIN-DREAM-ISOLATION and LABEL-INTEGRITY = pass?}
+    E -- No --> N2[Decision: research_only]
+    E -- Yes --> F{BRAIN-DREAM-UTILITY >= threshold?}
+    F -- No --> N2
+    F -- Yes --> G{Human approval + rollback checkpoint present?}
+    G -- No --> N2
+    G -- Yes --> P[Decision: promotion_candidate]
+```
+
+Classification notes:
+- `no_go` is mandatory when safety-critical gates fail.
+- `research_only` is default when safety passes but utility or governance readiness is insufficient.
+- `promotion_candidate` is allowed only when safety, utility, and governance preconditions are all satisfied.
+
+---
+
+## 84. Mermaid Operational KPI Dashboard Flow
+
+```mermaid
+flowchart LR
+    M1[Manifest Stream] --> K1[Run Throughput KPI]
+    M1 --> K2[Gate Pass-Rate KPI]
+    M1 --> K3[NoGo Ratio KPI]
+    M1 --> K4[ResearchOnly Ratio KPI]
+    M1 --> K5[PromotionCandidate Ratio KPI]
+
+    V1[Validation Logs] --> K6[Ethics Veto Rate KPI]
+    V1 --> K7[Security Hold Rate KPI]
+    V1 --> K8[Label Integrity Failure KPI]
+
+    O1[Observability Metrics] --> K9[Rollback Invocation KPI]
+    O1 --> K10[Rollback Success Latency KPI]
+    O1 --> K11[Incident Recurrence KPI]
+
+    K1 --> D[Dream-Mode Governance Dashboard]
+    K2 --> D
+    K3 --> D
+    K4 --> D
+    K5 --> D
+    K6 --> D
+    K7 --> D
+    K8 --> D
+    K9 --> D
+    K10 --> D
+    K11 --> D
+```
+
+KPI usage policy:
+1. KPIs are governance-support signals, not direct promotion authority.
+2. Promotion decisions must still bind to gate closure and explicit approval.
+3. Sudden KPI drift triggers forced review even when gates nominally pass.
+
+---
+
+## 85. Compliance Traceability Grid (Control -> Evidence)
+
+| Control objective | Control mechanism | Evidence source | Failure response |
+|---|---|---|---|
+| Synthetic isolation | Truth-path firewall + sandbox mode | manifest `mode`, isolation gate logs | immediate `no_go`, quarantine review |
+| Provenance integrity | mandatory tags + validation checks | label-integrity test suite + manifest fields | hard reject of affected artifacts |
+| Ethics boundary | ethics veto path | ethics gate report + veto reasons | block promotion, remediation plan |
+| Security boundary | leakage checks + hold states | security report + hold counters | block transfer, escalate to security review |
+| Decision accountability | mandatory rationale + approval ref | manifest decision block + audit trail | invalid decision rejected |
+| Recovery capability | rollback checkpoint + rollback tests | rollback evidence bundle | prohibit pilot activation |
+
+Traceability rule:
+- every control objective must map to at least one automated evidence source and one explicit failure response.
+
+---
+
+## 86. Readiness Gates for Cross-Module Expansion
+
+Before enabling Dream-Mode beyond tensor-centric scope, all of the following should be true:
+
+1. **Core readiness**
+   - Sections 55–85 controls validated in tensor pathway.
+2. **Module readiness**
+   - target module publishes compatible provenance and gate contracts.
+3. **Governance readiness**
+   - issue packet, milestone, and rollback plan approved.
+4. **Operational readiness**
+   - rehearsal run and rollback simulation completed for that module.
+
+Recommended expansion order:
+1. tensor + evaluation + ethics + security (base),
+2. process/BPMN constraints integration,
+3. multimodal extensions (voice, stable_diffusion),
+4. broader runtime pilot under stricter overlays.
+
+This sequencing minimizes uncontrolled coupling while preserving scientific progress.
