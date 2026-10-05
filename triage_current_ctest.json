@@ -1,0 +1,154 @@
+{
+  "source_kind": "ctest",
+  "issues": [
+    {
+      "category": "Failed",
+      "name": "0.54 sec",
+      "detail": "Parsed from summary output",
+      "source": "ctest"
+    },
+    {
+      "category": "Failed",
+      "name": "] KernelSLAGuardTest.DefaultSLAIs5Seconds (5 ms)",
+      "detail": "Parsed from summary output",
+      "source": "ctest"
+    },
+    {
+      "category": "Failed",
+      "name": "] 1 test, listed below:",
+      "detail": "Parsed from summary output",
+      "source": "ctest"
+    },
+    {
+      "category": "Failed",
+      "name": "] KernelSLAGuardTest.DefaultSLAIs5Seconds",
+      "detail": "Parsed from summary output",
+      "source": "ctest"
+    },
+    {
+      "category": "Failed",
+      "name": "TEST",
+      "detail": "Parsed from summary output",
+      "source": "ctest"
+    },
+    {
+      "category": "Failed",
+      "name": "with exit code 1",
+      "detail": "Parsed from summary output",
+      "source": "ctest"
+    },
+    {
+      "category": "Failed",
+      "name": "5.96 sec",
+      "detail": "Parsed from summary output",
+      "source": "ctest"
+    },
+    {
+      "category": "Failed",
+      "name": "] OptimizerPhase3Test.CostModel_AlgorithmModelsAvailable (230 ms)",
+      "detail": "Parsed from summary output",
+      "source": "ctest"
+    },
+    {
+      "category": "Failed",
+      "name": "] OptimizerPhase3Test.CostModel_AlgorithmModelsAvailable",
+      "detail": "Parsed from summary output",
+      "source": "ctest"
+    },
+    {
+      "category": "Failed",
+      "name": "with exit",
+      "detail": "Parsed from summary output",
+      "source": "ctest"
+    },
+    {
+      "category": "Failed",
+      "name": "28.32 sec",
+      "detail": "Parsed from summary output",
+      "source": "ctest"
+    },
+    {
+      "category": "Failed",
+      "name": "] ImporterPluginApiTest.BaseInitializeNullptrIsSafe (2 ms)",
+      "detail": "Parsed from summary output",
+      "source": "ctest"
+    },
+    {
+      "category": "Failed",
+      "name": "] ImporterPluginApiTest.LastLoadErrorIsEmptyBeforeAnyLoad (0 ms)",
+      "detail": "Parsed from summary output",
+      "source": "ctest"
+    },
+    {
+      "category": "Failed",
+      "name": "] 2 tests, listed below:",
+      "detail": "Parsed from summary output",
+      "source": "ctest"
+    },
+    {
+      "category": "Failed",
+      "name": "] ImporterPluginApiTest.BaseInitializeNullptrIsSafe",
+      "detail": "Parsed from summary output",
+      "source": "ctest"
+    },
+    {
+      "category": "Failed",
+      "name": "] ImporterPluginApiTest.LastLoadErrorIsEmptyBeforeAnyLoad",
+      "detail": "Parsed from summary output",
+      "source": "ctest"
+    },
+    {
+      "category": "Failed",
+      "name": "TESTS",
+      "detail": "Parsed from summary output",
+      "source": "ctest"
+    },
+    {
+      "category": "Failed",
+      "name": "30.07 sec",
+      "detail": "Parsed from summary output",
+      "source": "ctest"
+    },
+    {
+      "category": "Failed",
+      "name": "last_ref, file C:\\Projects\\ThemisDB\\vcpkg\\buildtrees\\rocksdb\\src\\v11.8.1-94b6bbbf88.clean\\db\\column_family.cc, line 1852",
+      "detail": "Parsed from summary output",
+      "source": "ctest"
+    },
+    {
+      "category": "Failed",
+      "name": "1.92 sec",
+      "detail": "Parsed from summary output",
+      "source": "ctest"
+    },
+    {
+      "category": "Failed",
+      "name": "[code=4294967295] bin/module_index_test_index_phase2_a2_iterator_safety_focused.exe",
+      "detail": "Parsed from summary output",
+      "source": "ctest"
+    },
+    {
+      "category": "Failed",
+      "name": "(exit code 1120) with the following output:",
+      "detail": "Parsed from summary output",
+      "source": "ctest"
+    },
+    {
+      "category": "Failed",
+      "name": ".",
+      "detail": "Parsed from summary output",
+      "source": "ctest"
+    },
+    {
+      "category": "Failed",
+      "name": "for target",
+      "detail": "Parsed from summary output",
+      "source": "ctest"
+    }
+  ],
+  "issue_count": 24,
+  "issue_types": [
+    "Failed"
+  ],
+  "has_actionable_issues": true
+}

@@ -10,21 +10,22 @@ endif()
 message(STATUS "Configuring ThemisDB test suite")
 
 # Windows/Ninja can hit transient file locks while many test executables are
-# linked in parallel (vcpkg applocal + antivirus/indexer contention). Use a
-# dedicated single-slot link job pool for this tests directory.
+# linked in parallel (vcpkg applocal + antivirus/indexer contention). Reuse the
+# canonical project-wide link pool so all targets serialize against the same
+# single-slot DLL link gate.
 if(WIN32 AND CMAKE_GENERATOR MATCHES "Ninja")
     get_property(_themis_job_pools GLOBAL PROPERTY JOB_POOLS)
     if(NOT _themis_job_pools)
-        set_property(GLOBAL PROPERTY JOB_POOLS themis_test_link_pool=1)
+        set_property(GLOBAL PROPERTY JOB_POOLS themis_windows_ninja_link_pool=1)
     else()
-        list(FIND _themis_job_pools "themis_test_link_pool=1" _themis_link_pool_idx)
+        list(FIND _themis_job_pools "themis_windows_ninja_link_pool=1" _themis_link_pool_idx)
         if(_themis_link_pool_idx EQUAL -1)
-            list(APPEND _themis_job_pools "themis_test_link_pool=1")
+            list(APPEND _themis_job_pools "themis_windows_ninja_link_pool=1")
             set_property(GLOBAL PROPERTY JOB_POOLS "${_themis_job_pools}")
         endif()
     endif()
-    set(CMAKE_JOB_POOL_LINK themis_test_link_pool)
-    message(STATUS "tests: using Ninja link job pool 'themis_test_link_pool=1' to avoid file-lock link failures")
+    set(CMAKE_JOB_POOL_LINK themis_windows_ninja_link_pool)
+    message(STATUS "tests: using canonical Ninja link job pool 'themis_windows_ninja_link_pool=1' to avoid file-lock link failures")
 endif()
 
 # Per team policy: suppress warnings for test builds only.

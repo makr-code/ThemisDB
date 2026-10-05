@@ -305,14 +305,12 @@ TEST_F(SSMRocksDBStoreTest, StatisticsTracking) {
 }
 
 TEST_F(SSMRocksDBStoreTest, CheckpointFailure) {
-    // Close DB to simulate failure
-    db_.reset();
-    
+    // Simulate an uninitialized DB handle; the store must fail gracefully instead of crashing.
+    store_ = std::make_unique<SSMStateRocksDBStore>(nullptr, nullptr);
+
     auto snap = createTestSnapshot("session_fail", 1000000000000, 0);
     bool checkpoint_ok = store_->checkpoint("session_fail", snap);
-    
-    // Should handle gracefully (either return false or throw)
-    // This test verifies the implementation doesn't crash
+
     EXPECT_FALSE(checkpoint_ok);
 }
 

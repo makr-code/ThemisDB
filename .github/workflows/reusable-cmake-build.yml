@@ -71,7 +71,7 @@ on:
         type: string
       validation_mode:
         required: false
-        default: auto
+        default: none
         type: string
       ctest_label_filter:
         required: false
@@ -139,6 +139,7 @@ on:
 
 permissions:
   contents: read
+  issues: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name || github.ref }}-${{ inputs.runs_on }}-${{ inputs.summary_title }}
@@ -278,7 +279,10 @@ jobs:
                   BUILD_COMMAND="cmake --build ${BUILD_DIR} --parallel 16"
                 fi
               fi
-              if [ -z "$VALIDATION_COMMAND" ] && [ "$VALIDATION_MODE" != "none" ]; then
+              # Validation is intentionally deferred to the outer gate workflows.
+              # The reusable build acts as the shared build engine only; log triage
+              # and issue creation remain the responsibility of the ctest/benchmark gate.
+              if [ -z "$VALIDATION_COMMAND" ] && [ "$VALIDATION_MODE" != "none" ] && [ "$VALIDATION_MODE" != "auto" ]; then
                 if [ -n "$CTEST_LABEL_FILTER" ]; then
                   VALIDATION_COMMAND="ctest --test-dir ${BUILD_DIR} --output-on-failure -j 1 --timeout 60 --label-regex '${CTEST_LABEL_FILTER}'"
                 elif [ -n "$CTEST_FILTER" ]; then
@@ -286,6 +290,9 @@ jobs:
                 else
                   VALIDATION_COMMAND="ctest --test-dir ${BUILD_DIR} --output-on-failure -j 1 --timeout 60"
                 fi
+              fi
+              if [ -z "$VALIDATION_COMMAND" ]; then
+                VALIDATION_COMMAND=""
               fi
               ;;
             benchmarks)
@@ -299,12 +306,15 @@ jobs:
                   BUILD_COMMAND="cmake --build ${BUILD_DIR} --parallel 16"
                 fi
               fi
-              if [ -z "$VALIDATION_COMMAND" ] && [ "$VALIDATION_MODE" != "none" ]; then
+              if [ -z "$VALIDATION_COMMAND" ] && [ "$VALIDATION_MODE" != "none" ] && [ "$VALIDATION_MODE" != "auto" ]; then
                 if [ -n "$BENCHMARK_FILTER" ]; then
                   VALIDATION_COMMAND="ctest --test-dir ${BUILD_DIR} --output-on-failure -j 1 --timeout 60 --tests-regex '${BENCHMARK_FILTER}'"
                 else
                   VALIDATION_COMMAND="ctest --test-dir ${BUILD_DIR} --output-on-failure -j 1 --timeout 60"
                 fi
+              fi
+              if [ -z "$VALIDATION_COMMAND" ]; then
+                VALIDATION_COMMAND=""
               fi
               ;;
             *)
@@ -379,7 +389,14 @@ jobs:
           cd "$WORKING_DIRECTORY"
           script_path="$RUNNER_TEMP/cmake-build-validation.sh"
           printf '%s\n' "$VALIDATION_COMMAND" > "$script_path"
-          bash "$script_path"
+          LOG_FILE="$RUNNER_TEMP/ctest-validation.log"
+          rm -f "$LOG_FILE"
+          set +e
+          bash "$script_path" 2>&1 | tee "$LOG_FILE"
+          VALIDATION_EXIT=${PIPESTATUS[0]}
+          set -e
+          echo "validation_exit=${VALIDATION_EXIT}" >> "$GITHUB_OUTPUT"
+          exit "$VALIDATION_EXIT"
 
       - name: Upload artifacts
         if: inputs.artifact_name != '' && inputs.artifact_paths != ''

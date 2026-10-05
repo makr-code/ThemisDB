@@ -1036,6 +1036,14 @@ WorkflowDefinition TaskDecomposer::toWorkflow(
         step.extensions = sub.raw;
         def.steps.push_back(std::move(step));
     }
+
+    const auto validation = WorkflowLoader::validate(def);
+    if (!validation.valid) {
+        throw std::invalid_argument(
+            "TaskDecomposer::toWorkflow: invalid workflow definition: " +
+            validation.errors.front().message);
+    }
+
     return def;
 }
 

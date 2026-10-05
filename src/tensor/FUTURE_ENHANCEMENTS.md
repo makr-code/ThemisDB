@@ -2,7 +2,7 @@
 
 <!-- Status: current | validated: 2026-08-07 -->
 <!-- Evidence: 16 test files (406+ tests, 9,025+ LOC), 7 benchmarks (1,937 LOC), 33+ implementation files (8,275+ LOC) -->
-<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
+<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md · FUTURE_TENSOR_ROPE.md · THEMIS_BRAIN_MEMORY_COMPARATIVE_PAPER.md -->
 
 ## Scope
 
@@ -59,3 +59,10 @@
 - preserve explicit failure signaling for fingerprint and replay-adjacent faults.
 - enforce predictable degradation under concurrent tensor graph load.
 - keep diagnostics actionable for production tensor incidents.
+
+## Related Enhancement Tracks
+
+- Tensor RoPE + llama.cpp + AdaLoRA investigation and delivery plan:
+  [FUTURE_TENSOR_ROPE.md](./FUTURE_TENSOR_ROPE.md)
+- Neurocognitive architecture comparison (ThemisDB modules vs short-/long-term brain memory systems):
+  [THEMIS_BRAIN_MEMORY_COMPARATIVE_PAPER.md](./THEMIS_BRAIN_MEMORY_COMPARATIVE_PAPER.md)

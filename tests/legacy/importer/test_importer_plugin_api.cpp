@@ -36,6 +36,11 @@ using json = nlohmann::json;
  */
 class StubImporter : public ImporterPluginBase {
 public:
+    // Re-enable inherited ::initialize(const char*) overload so calls like
+    // initialize(nullptr) do not get hidden by this string overload and crash
+    // when the compiler tries to construct std::string(nullptr).
+    using ImporterPluginBase::initialize;
+
     // IThemisPlugin identifiers
     const char* getName()    const override { return "stub_importer"; }
     const char* getVersion() const override { return "0.1.0"; }

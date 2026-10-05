@@ -20,6 +20,43 @@
 namespace themis {
 namespace llm {
 
+namespace {
+
+std::string normalizeMergeToken(const std::string& raw) {
+    if (raw.empty()) {
+        return raw;
+    }
+
+    try {
+        const auto parsed = json::parse(raw);
+        if (parsed.is_string()) {
+            return parsed.get<std::string>();
+        }
+        if (parsed.is_object()) {
+            for (const auto& key : {"answer", "result", "output", "text", "value"}) {
+                if (parsed.contains(key) && parsed[key].is_string()) {
+                    return parsed[key].get<std::string>();
+                }
+            }
+        }
+    } catch (const std::exception&) {
+        // Fall back to the raw string when the output is not valid JSON.
+    }
+
+    return raw;
+}
+
+std::string serializeAnswer(const std::string& answer) {
+    return json{{"answer", answer}}.dump();
+}
+
+float scoreMergeCandidate(const std::string& output) {
+    const auto normalized = normalizeMergeToken(output);
+    return static_cast<float>(normalized.size());
+}
+
+} // namespace
+
 class SubagentCoordinatorImpl : public SubagentCoordinator {
 public:
     /**
@@ -130,6 +167,7 @@ public:
                 coord_result.tokens_consumed = inference_result.tokens_consumed;
                 coord_result.latency_ms = inference_result.latency_ms;
                 coord_result.trace_id = inference_result.trace_id;
+                coord_result.quality_score = scoreMergeCandidate(inference_result.output);
 
                 result.per_subagent_results.push_back(coord_result);
 
@@ -162,9 +200,10 @@ public:
         
         // Check if coordination succeeded based on merge strategy
         bool merge_success = false;
+        std::string merge_name = "unknown";
         switch (config.strategy) {
             case SubagentMergeStrategy::FIRST_WIN:
-                // First successful result wins
+                merge_name = "first_win";
                 for (const auto& coord_result : result.per_subagent_results) {
                     if (coord_result.success) {
                         result.merged_output = coord_result.output;
@@ -175,10 +214,9 @@ public:
                 break;
 
             case SubagentMergeStrategy::ALL_SUCCEED:
-                // All must succeed
+                merge_name = "all_succeed";
                 merge_success = (result.num_failed == 0 && result.num_successful > 0);
                 if (merge_success) {
-                    // Concatenate all outputs
                     for (const auto& coord_result : result.per_subagent_results) {
                         if (!result.merged_output.empty()) {
                             result.merged_output += "\n---\n";
@@ -189,7 +227,7 @@ public:
                 break;
 
             case SubagentMergeStrategy::BEST_SCORE:
-                // Find result with highest quality_score
+                merge_name = "best_score";
                 {
                     float best_score = -1.0f;
                     for (const auto& coord_result : result.per_subagent_results) {
@@ -203,7 +241,7 @@ public:
                 break;
 
             case SubagentMergeStrategy::ENSEMBLE:
-                // Combine all successful outputs
+                merge_name = "ensemble";
                 for (const auto& coord_result : result.per_subagent_results) {
                     if (coord_result.success) {
                         if (!result.merged_output.empty()) {
@@ -216,28 +254,32 @@ public:
                 break;
 
             case SubagentMergeStrategy::MAJORITY_VOTE:
-                // Tally outputs by exact-match majority
+                merge_name = "majority_vote";
                 {
                     std::unordered_map<std::string, size_t> tally = {};
+                    std::string best_output;
+                    size_t best_count = 0;
 
                     for (const auto& coord_result : result.per_subagent_results) {
                         if (coord_result.success) {
-                            tally[coord_result.output]++;
+                            const std::string normalized = normalizeMergeToken(coord_result.output);
+                            tally[normalized]++;
+                            if (tally[normalized] > best_count) {
+                                best_count = tally[normalized];
+                                best_output = normalized;
+                                merge_success = true;
+                            }
                         }
                     }
-                    size_t best_count = 0;
-                    for (const auto& [output, count] : tally) {
-                        if (count > best_count) {
-                            best_count = count;
-                            result.merged_output = output;
-                            merge_success = true;
-                        }
+
+                    if (!best_output.empty()) {
+                        result.merged_output = serializeAnswer(best_output);
                     }
                 }
                 break;
 
             case SubagentMergeStrategy::CUSTOM:
-                // Use custom merge function
+                merge_name = "custom";
                 if (config.custom_merge_fn) {
                     auto merge_result = config.custom_merge_fn(result.per_subagent_results);
                     if (merge_result) {
@@ -270,7 +312,7 @@ public:
         result.summary = "Coordination completed: " +
                         std::to_string(result.num_successful) + " successes, " +
                         std::to_string(result.num_failed) + " failures, " +
-                        std::to_string(result.total_latency_ms) + "ms";
+                        std::to_string(result.total_latency_ms) + "ms, merge=" + merge_name;
         local_diagnostics.summary = result.summary;
 
         coordination_success = result.success;

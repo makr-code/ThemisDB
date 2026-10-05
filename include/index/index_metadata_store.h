@@ -153,6 +153,7 @@ class IndexMetadataStore {
   IndexMetadataStore(rocksdb::DB* db, const std::string& index_id);
 
   std::unique_ptr<rocksdb::DB> db_;
+  std::vector<rocksdb::ColumnFamilyHandle*> owned_column_families_;
   rocksdb::ColumnFamilyHandle* cf_default_{nullptr};
   rocksdb::ColumnFamilyHandle* cf_version_history_{nullptr};
   rocksdb::ColumnFamilyHandle* cf_embeddings_{nullptr};

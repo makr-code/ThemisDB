@@ -66,10 +66,18 @@ public:
         return plugins::PluginCapabilities{};
     }
 
+    bool initialize(const std::string& config_json) override {
+        // Default base implementation is intentionally no-op and safe for
+        // nullptr-mediated char* calls from plugin wrappers.
+        (void)config_json;
+        return true;
+    }
+
     bool initialize(const char* config_json) override {
-        // Dispatch via vtable to the derived IImporter::initialize(const std::string&)
-        return static_cast<IImporter*>(this)->initialize(
-            config_json ? std::string(config_json) : std::string{});
+        if (!config_json) {
+            return initialize(std::string{});
+        }
+        return initialize(std::string(config_json));
     }
 
     // Prevent name-hiding of IImporter::initialize(const std::string&)
@@ -442,6 +450,8 @@ public:
     void clear() {
         std::lock_guard<std::mutex> lk(mutex_);
         factories_.clear();
+        loaded_v1_handles_.clear();
+        last_load_error_.clear();
     }
 
     // ----------------------------------------------------------------

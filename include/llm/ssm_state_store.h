@@ -181,7 +181,8 @@ inline std::string InMemorySSMStateStore::getStats() const {
     for (const auto &p : state_by_session_) {
       total += p.second.size();
     }
-    return "{\"sessions\": " + std::to_string(sessions) + ", \"snapshots\": " + std::to_string(total) + "}";
+    return "{\"session_count\": " + std::to_string(sessions) +
+           ", \"total_snapshots\": " + std::to_string(total) + "}";
 }
 
 } // namespace themis::llm

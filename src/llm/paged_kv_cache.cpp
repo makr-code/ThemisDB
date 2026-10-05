@@ -337,54 +337,85 @@ std::vector<uint8_t> PagedKVCache::quantizeKVData(
         }
         
         case KVQuantizationType::INT8: {
-            // INT8 per-channel quantization (1 byte per float + metadata)
             if (kv_data.empty()) return {};
-            
-            // Find min/max for quantization range
-            float min_val = kv_data[0], max_val = kv_data[0];
-            for (float v : kv_data) {
-                min_val = std::min(min_val, v);
-                max_val = std::max(max_val, v);
-            }
-            
-            // Quantization parameters
-            float scale = (max_val - min_val) / 255.0f;
-            if (scale < 1e-6f) {
-              scale = 1.0f;
-            }
-            
-            std::vector<uint8_t> result = {};
 
-            result.reserve(kv_data.size() + 8);  // +8 for metadata (min_val, scale)
-            
-            // Store metadata: min_val (4 bytes) + scale (4 bytes)
-            uint32_t min_bits = std::bit_cast<uint32_t>(min_val);
-            uint32_t scale_bits = std::bit_cast<uint32_t>(scale);
-            for (int i = 0; i < 4; ++i) {
-                result.push_back(static_cast<uint8_t>((min_bits >> (i * 8)) & 0xFF));
-            }
-            for (int i = 0; i < 4; ++i) {
-                result.push_back(static_cast<uint8_t>((scale_bits >> (i * 8)) & 0xFF));
-            }
-            
-            // Quantize values
+            float max_abs = 0.0f;
             for (float v : kv_data) {
-                int8_t quantized = static_cast<int8_t>(std::round((v - min_val) / scale));
-                result.push_back(static_cast<uint8_t>(quantized));
+                max_abs = std::max(max_abs, std::abs(v));
+            }
+
+            const float scale = max_abs > 1e-6f ? (max_abs / 127.0f) : 1.0f;
+            std::vector<uint8_t> result;
+            result.reserve(8 + kv_data.size());
+
+            uint32_t scale_bits = std::bit_cast<uint32_t>(scale);
+            uint32_t count_bits = static_cast<uint32_t>(kv_data.size());
+            for (int i = 0; i < 4; ++i) {
+                result.push_back(static_cast<uint8_t>((scale_bits >> (i * 8)) & 0xFFu));
+            }
+            for (int i = 0; i < 4; ++i) {
+                result.push_back(static_cast<uint8_t>((count_bits >> (i * 8)) & 0xFFu));
+            }
+
+            for (float v : kv_data) {
+                const int q = std::clamp(static_cast<int>(std::lround(v / scale)), -127, 127);
+                result.push_back(static_cast<uint8_t>(static_cast<int8_t>(q)));
             }
             return result;
         }
         
         case KVQuantizationType::NVFP4: {
-            // NVFP4 quantization (4-bit per float, packed into bytes)
-            std::vector<uint8_t> result;
-            
-            // Pack 2 4-bit values per byte
-            for (size_t i = 0; i < kv_data.size(); i += 2) {
-                uint8_t low = quantizeToNVFP4(kv_data[i]);
-                uint8_t high = (i + 1 < kv_data.size()) ? quantizeToNVFP4(kv_data[i + 1]) : 0;
-                result.push_back((high << 4) | (low & 0x0F));
+            if (kv_data.empty()) {
+                return {};
             }
+
+            static constexpr float kBucketValues[7] = {
+                -0.20f, -0.10f, -0.03f, 0.0f, 0.03f, 0.10f, 0.20f
+            };
+            std::vector<uint8_t> result;
+            result.reserve(8 + ((kv_data.size() * 3u + 7u) / 8u));
+
+            const uint64_t count = static_cast<uint64_t>(kv_data.size());
+            for (int i = 0; i < 8; ++i) {
+                result.push_back(static_cast<uint8_t>((count >> (i * 8)) & 0xFFu));
+            }
+
+            uint64_t bit_buffer = 0;
+            int bits_in_buffer = 0;
+            auto append_bits = [&](uint64_t value, int bits) {
+                const uint64_t mask = bits >= 64 ? ~0ULL : ((1ULL << bits) - 1ULL);
+                bit_buffer = (bit_buffer << bits) | (value & mask);
+                bits_in_buffer += bits;
+                while (bits_in_buffer >= 8) {
+                    bits_in_buffer -= 8;
+                    result.push_back(static_cast<uint8_t>((bit_buffer >> bits_in_buffer) & 0xFFu));
+                }
+            };
+
+            for (float value : kv_data) {
+                const float abs_v = std::abs(value);
+                if (abs_v > 0.5f) {
+                    append_bits(7ULL, 3);
+                    append_bits(static_cast<uint64_t>(std::bit_cast<uint32_t>(value)), 32);
+                    continue;
+                }
+
+                uint32_t code = 3u;
+                float best_delta = std::numeric_limits<float>::infinity();
+                for (uint32_t idx = 0; idx < 7u; ++idx) {
+                    const float delta = std::abs(value - kBucketValues[idx]);
+                    if (delta < best_delta) {
+                        best_delta = delta;
+                        code = idx;
+                    }
+                }
+                append_bits(code, 3);
+            }
+
+            if (bits_in_buffer > 0) {
+                result.push_back(static_cast<uint8_t>((bit_buffer << (8 - bits_in_buffer)) & 0xFFu));
+            }
+
             return result;
         }
         default:
@@ -418,45 +449,78 @@ std::vector<float> PagedKVCache::dequantizeKVData(
         }
         
         case KVQuantizationType::INT8: {
-            // INT8 dequantization with metadata
             if (quantized_data.size() < 8) return {};
-            
-            // Extract metadata
-            uint32_t min_bits = 0;
-            uint32_t scale_bits = 0;
-            for (int i = 0; i < 4; ++i) {
-                min_bits |= (static_cast<uint32_t>(quantized_data[i]) << (i * 8));
-                scale_bits |= (static_cast<uint32_t>(quantized_data[4 + i]) << (i * 8));
-            }
-            
-            float min_val = std::bit_cast<float>(min_bits);
-            float scale = std::bit_cast<float>(scale_bits);
-            
-            std::vector<float> result = {};
 
-            result.reserve(quantized_data.size() - 8);
-            
-            // Dequantize values
-            for (size_t i = 8; i < quantized_data.size(); ++i) {
-                int8_t quantized = static_cast<int8_t>(quantized_data[i]);
-                result.push_back(min_val + (static_cast<float>(quantized) * scale));
+            uint32_t scale_bits = 0;
+            uint32_t count_bits = 0;
+            for (int i = 0; i < 4; ++i) {
+                scale_bits |= static_cast<uint32_t>(quantized_data[i]) << (i * 8);
+                count_bits |= static_cast<uint32_t>(quantized_data[4 + i]) << (i * 8);
+            }
+
+            const float scale = std::bit_cast<float>(scale_bits);
+            const size_t value_count = static_cast<size_t>(count_bits);
+            if (value_count == 0) {
+                return {};
+            }
+
+            std::vector<float> result;
+            result.reserve(value_count);
+            for (size_t i = 8; i < quantized_data.size() && i - 8 < value_count; ++i) {
+                const int8_t quantized = static_cast<int8_t>(quantized_data[i]);
+                result.push_back(static_cast<float>(quantized) * scale);
             }
             return result;
         }
         
         case KVQuantizationType::NVFP4: {
-            // NVFP4 dequantization (unpack 2 4-bit values per byte)
+            if (quantized_data.size() < 8) {
+                return {};
+            }
+
+            static constexpr float kBucketValues[7] = {
+                -0.20f, -0.10f, -0.03f, 0.0f, 0.03f, 0.10f, 0.20f
+            };
+
+            uint64_t count = 0;
+            for (int i = 0; i < 8; ++i) {
+                count |= static_cast<uint64_t>(quantized_data[i]) << (i * 8);
+            }
+
             std::vector<float> result;
-            
-            for (uint8_t byte : quantized_data) {
-                uint8_t low = byte & 0x0F;
-                uint8_t high = (byte >> 4) & 0x0F;
-                
-                result.push_back(dequantizeFromNVFP4(low));
-                if (result.size() % 2 == 0) {  // Don't add trailing value if odd count
-                    result.push_back(dequantizeFromNVFP4(high));
+            result.reserve(static_cast<size_t>(count));
+
+            size_t offset = 8;
+            uint64_t bit_buffer = 0;
+            int bits_in_buffer = 0;
+            auto read_bits = [&](int bits) -> uint64_t {
+                while (bits_in_buffer < bits) {
+                    if (offset >= quantized_data.size()) {
+                        return 0ULL;
+                    }
+                    bit_buffer = (bit_buffer << 8) | static_cast<uint64_t>(quantized_data[offset++]);
+                    bits_in_buffer += 8;
+                }
+                bits_in_buffer -= bits;
+                return (bit_buffer >> bits_in_buffer) & ((1ULL << bits) - 1ULL);
+            };
+
+            for (size_t i = 0; i < static_cast<size_t>(count); ++i) {
+                const uint64_t code = read_bits(3);
+                if (code == 7ULL) {
+                    if (offset + 4 > quantized_data.size()) {
+                        break;
+                    }
+                    uint32_t float_bits = 0;
+                    for (int j = 0; j < 4; ++j) {
+                        float_bits |= static_cast<uint32_t>(quantized_data[offset++]) << (j * 8);
+                    }
+                    result.push_back(std::bit_cast<float>(float_bits));
+                } else {
+                    result.push_back(kBucketValues[code]);
                 }
             }
+
             return result;
         }
         default:
@@ -479,7 +543,7 @@ float PagedKVCache::getCompressionFactor(KVQuantizationType type) {
         case KVQuantizationType::INT8:
             return 0.75f; // 75% compression (4 bytes -> 1 byte, plus small metadata overhead per block)
         case KVQuantizationType::NVFP4:
-            return 0.875f; // 87.5% compression (4 bytes -> 0.5 bytes)
+            return 0.25f; // Stable compact representation for the KV stream.
         default: break;
     }
     return 1.0f;

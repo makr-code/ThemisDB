@@ -1,0 +1,4 @@
+has_actionable_issues=true
+issue_count=24
+issue_types=Failed
+source_kind=ctest

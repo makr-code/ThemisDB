@@ -477,8 +477,22 @@ struct ModelHandle {
     explicit ModelHandle(std::string id) : model_id(std::move(id)), valid(true) {}
     ~ModelHandle() { valid = false; }
 
-    ModelHandle(ModelHandle&&)                 = default;
-    ModelHandle& operator=(ModelHandle&&)      = default;
+    ModelHandle(ModelHandle&& other) noexcept
+        : model_id(std::move(other.model_id)), valid(other.valid) {
+        other.valid = false;
+        other.model_id.clear();
+    }
+
+    ModelHandle& operator=(ModelHandle&& other) noexcept {
+        if (this != &other) {
+            model_id = std::move(other.model_id);
+            valid = other.valid;
+            other.valid = false;
+            other.model_id.clear();
+        }
+        return *this;
+    }
+
     ModelHandle(const ModelHandle&)            = delete;
     ModelHandle& operator=(const ModelHandle&) = delete;
 };

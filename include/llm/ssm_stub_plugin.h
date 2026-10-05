@@ -174,6 +174,10 @@ inline void SyntheticSSMStub::resetState() {
 }
 
 inline double SyntheticSSMStub::getStateRetentionScore() const {
+    if (!initialized_ || token_count_ == 0) {
+        return 0.0;
+    }
+
     // simple decay: exp(-tokens/10000)
     const double decay = std::exp(-static_cast<double>(token_count_) / 10000.0);
     return std::min(1.0, std::max(0.0, decay));

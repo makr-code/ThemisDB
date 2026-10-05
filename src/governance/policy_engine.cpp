@@ -793,6 +793,30 @@ InferencePermissionResult
 PolicyEngine::checkInferencePermission(const std::unordered_map<std::string, std::string> &headers) const {
     InferencePermissionResult result;
 
+    std::shared_ptr<themis::utils::AuditLogger> audit_log;
+    {
+        std::lock_guard<std::mutex> lock(mutex_);
+        audit_log = audit_logger_;
+    }
+
+    auto emit_audit_denial = [&](const std::string& denial_reason,
+                                const std::string& classification,
+                                int http_status) {
+        if (!audit_log) {
+            return;
+        }
+        nlohmann::json audit_event = {
+            {"event_type", "inference_permission_denied"},
+            {"classification", classification},
+            {"reason", denial_reason},
+            {"http_status", http_status},
+            {"timestamp", std::chrono::duration_cast<std::chrono::milliseconds>(
+                              std::chrono::system_clock::now().time_since_epoch())
+                              .count()}
+        };
+        audit_log->logEvent(audit_event);
+    };
+
     // ── Step 1: extract the API key from the Authorization header ──────────
     // Accept "Bearer <key>" format (standard OpenAI SDK convention).
     static const std::string k_route         = "/v1/chat/completions";
@@ -828,6 +852,7 @@ PolicyEngine::checkInferencePermission(const std::unordered_map<std::string, std
         result.allowed       = false;
         result.http_status   = 401;
         result.denial_reason = "Missing Authorization header; provide a Bearer API key";
+        emit_audit_denial(result.denial_reason, "unknown", result.http_status);
         return result;
     }
 
@@ -842,6 +867,7 @@ PolicyEngine::checkInferencePermission(const std::unordered_map<std::string, std
         result.allowed       = false;
         result.http_status   = 401;
         result.denial_reason = "Invalid Authorization header format; expected 'Bearer <api-key>'";
+        emit_audit_denial(result.denial_reason, "unknown", result.http_status);
         return result;
     }
 
@@ -850,6 +876,7 @@ PolicyEngine::checkInferencePermission(const std::unordered_map<std::string, std
         result.allowed       = false;
         result.http_status   = 401;
         result.denial_reason = "Empty API key in Authorization header";
+        emit_audit_denial(result.denial_reason, "unknown", result.http_status);
         return result;
     }
 
@@ -865,6 +892,7 @@ PolicyEngine::checkInferencePermission(const std::unordered_map<std::string, std
         result.allowed       = false;
         result.http_status   = 403;
         result.denial_reason = std::string("Policy evaluation error: ") + ex.what();
+        emit_audit_denial(result.denial_reason, result.decision.classification, result.http_status);
         return result;
     }
 
@@ -875,6 +903,7 @@ PolicyEngine::checkInferencePermission(const std::unordered_map<std::string, std
         result.allowed       = false;
         result.http_status   = 403;
         result.denial_reason = "Inference is not permitted for the current data classification";
+        emit_audit_denial(result.denial_reason, result.decision.classification, result.http_status);
         return result;
     }
 

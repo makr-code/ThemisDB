@@ -55,6 +55,25 @@ project(Themis
 # package during WiX/MSI generation.
 set(CMAKE_INSTALL_DEFAULT_COMPONENT_NAME runtime)
 
+# Windows + Ninja can hit transient file locks when multiple shared libs are
+# linked in parallel (vcpkg applocal + antivirus/indexer contention). Serialize
+# the link step globally so a freshly-written DLL is not reopened while the
+# linker still holds it.
+if(WIN32 AND CMAKE_GENERATOR MATCHES "Ninja")
+    get_property(_themis_global_job_pools GLOBAL PROPERTY JOB_POOLS)
+    if(NOT _themis_global_job_pools)
+        set_property(GLOBAL PROPERTY JOB_POOLS themis_windows_ninja_link_pool=1)
+    else()
+        list(FIND _themis_global_job_pools "themis_windows_ninja_link_pool=1" _themis_link_pool_idx)
+        if(_themis_link_pool_idx EQUAL -1)
+            list(APPEND _themis_global_job_pools "themis_windows_ninja_link_pool=1")
+            set_property(GLOBAL PROPERTY JOB_POOLS "${_themis_global_job_pools}")
+        endif()
+    endif()
+    set(CMAKE_JOB_POOL_LINK themis_windows_ninja_link_pool)
+    message(STATUS "project: using Ninja link job pool 'themis_windows_ninja_link_pool=1' to avoid Windows DLL lock contention")
+endif()
+
 # Canonical build-profile defaults:
 # - Debug and test-focused dev builds should include unit tests by default.
 # - Release builds should keep tests disabled unless explicitly requested.
