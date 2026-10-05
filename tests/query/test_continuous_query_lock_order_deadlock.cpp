@@ -210,6 +210,25 @@ TEST_F(ContinuousQueryLockOrderDeadlockTest, DestructorDoesNotTreatDetachedShutd
     }
 }
 
+TEST_F(ContinuousQueryLockOrderDeadlockTest, DestructorCanRepeatAcrossRapidShutdowns) {
+    for (int iteration = 0; iteration < 20; ++iteration) {
+        auto engine = makeContinuousQueryEngine(std::chrono::milliseconds(1));
+        ASSERT_TRUE(engine);
+
+        auto spec = makeTestSpec("rapid_shutdown_" + std::to_string(iteration));
+        auto reg = engine->registerQuery(spec);
+        ASSERT_TRUE(reg);
+
+        for (size_t i = 0; i < 200; ++i) {
+            engine->injectTuple("test_collection",
+                               "{\"n\": " + std::to_string(i) + "}",
+                               static_cast<int64_t>(i));
+        }
+
+        engine.reset();
+    }
+}
+
 TEST_F(ContinuousQueryLockOrderDeadlockTest, DestructorWithPendingInjections) {
     /**
      * Test: Destructor is called while there are pending injections in the queue.

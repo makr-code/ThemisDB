@@ -185,11 +185,10 @@ void ContinuousQueryEngineImpl::stopLoop() {
     loop_cv_.notify_all();
 
     if (!loop_thread_.joinable()) {
-        // A non-joinable thread is only considered cleanly stopped if the
-        // termination callback already set loop_stop_complete_ to true.
-        if (loop_stop_complete_.load(std::memory_order_acquire)) {
-            return;
-        }
+        // A non-joinable thread is already stopped or was detached on timeout.
+        // In both cases we must not treat it as a clean shutdown path: the
+        // destructor may still need to avoid registry cleanup while the detached
+        // loop remains alive elsewhere.
         return;
     }
 
