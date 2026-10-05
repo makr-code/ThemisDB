@@ -150,7 +150,7 @@ class IndexMetadataStore {
   uint32_t GetNextVersionNumber();
 
  private:
-  IndexMetadataStore(rocksdb::DB* db, const std::string& index_id);
+  IndexMetadataStore(std::unique_ptr<rocksdb::DB> db, const std::string& index_id);
 
   std::unique_ptr<rocksdb::DB> db_;
   rocksdb::ColumnFamilyHandle* cf_default_{nullptr};

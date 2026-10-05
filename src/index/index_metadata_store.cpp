@@ -13,6 +13,7 @@
 #include <rocksdb/options.h>
 #include <rocksdb/utilities/transaction_db.h>
 #include <spdlog/spdlog.h>
+#include <utility>
 
 #include "index/index_manifest_v1.h"
 
@@ -40,8 +41,8 @@ uint32_t IndexMetadataStore::DecodeVersionNumber(const std::string& encoded) {
   return result;
 }
 
-IndexMetadataStore::IndexMetadataStore(rocksdb::DB* db, const std::string& index_id)
-    : db_(db), index_id_(index_id) {}
+IndexMetadataStore::IndexMetadataStore(std::unique_ptr<rocksdb::DB> db, const std::string& index_id)
+    : db_(std::move(db)), index_id_(index_id) {}
 
 std::unique_ptr<IndexMetadataStore> IndexMetadataStore::Open(const std::string& db_path,
                                                                const std::string& index_id) {
@@ -69,9 +70,8 @@ std::unique_ptr<IndexMetadataStore> IndexMetadataStore::Open(const std::string& 
   }
 
   auto db_owner = std::unique_ptr<rocksdb::DB>(db_raw);
-  auto* store_raw = new IndexMetadataStore(db_owner.get(), index_id);
-  db_owner.release();
-  auto store = std::unique_ptr<IndexMetadataStore>(store_raw);
+  auto store = std::unique_ptr<IndexMetadataStore>(
+      new IndexMetadataStore(std::move(db_owner), index_id));
   if (handles.size() >= 3) {
     store->cf_default_ = handles[0];
     store->cf_version_history_ = handles[1];
