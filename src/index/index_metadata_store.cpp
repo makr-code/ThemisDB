@@ -69,6 +69,15 @@ std::unique_ptr<IndexMetadataStore> IndexMetadataStore::Open(const std::string& 
   }
 
   auto db_owner = std::unique_ptr<rocksdb::DB>(db_raw);
+  if (handles.size() < 3) {
+    for (auto* handle : handles) {
+      if (db_raw != nullptr && handle != nullptr) {
+        db_raw->DestroyColumnFamilyHandle(handle);
+      }
+    }
+    throw std::runtime_error("Failed to open RocksDB: missing required column family handles");
+  }
+
   std::unique_ptr<IndexMetadataStore> store;
   try {
     store = std::unique_ptr<IndexMetadataStore>(new IndexMetadataStore(db_owner.get(), index_id));
@@ -81,14 +90,6 @@ std::unique_ptr<IndexMetadataStore> IndexMetadataStore::Open(const std::string& 
     throw;
   }
   db_owner.release();
-  if (handles.size() < 3) {
-    for (auto* handle : handles) {
-      if (handle != nullptr) {
-        store->db_->DestroyColumnFamilyHandle(handle);
-      }
-    }
-    throw std::runtime_error("Failed to open RocksDB: missing required column family handles");
-  }
   store->cf_default_ = handles[0];
   store->cf_version_history_ = handles[1];
   store->cf_embeddings_ = handles[2];
