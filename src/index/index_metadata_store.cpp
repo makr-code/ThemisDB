@@ -75,7 +75,9 @@ std::unique_ptr<IndexMetadataStore> IndexMetadataStore::Open(const std::string& 
     store = std::unique_ptr<IndexMetadataStore>(new IndexMetadataStore(std::move(db_owner), index_id));
   } catch (...) {
     for (auto* handle : handles) {
-      delete handle;
+      if (handle != nullptr) {
+        db_owner->DestroyColumnFamilyHandle(handle);
+      }
     }
     throw;
   }
