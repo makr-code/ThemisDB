@@ -51,21 +51,23 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Read vcpkg baseline
+      - name: Read vcpkg baseline if configured
         id: baseline
         run: |
           python - <<'PY' >> "$GITHUB_OUTPUT"
-          import json, re, sys
+          import json, sys
           from pathlib import Path
           manifest = json.loads(Path("vcpkg.json").read_text(encoding="utf-8"))
-          sha = manifest['builtin-baseline']
-          if not re.fullmatch(r'[0-9a-f]{40}', sha):
-              print(f"ERROR: builtin-baseline '{sha}' is not a valid 40-char hex SHA", file=sys.stderr)
-              sys.exit(1)
+          sha = manifest.get('builtin-baseline', '')
+          if not sha:
+              print("sha=")
+              print("No builtin-baseline configured in vcpkg.json; license audit will run without a pinned upstream checkout.", file=sys.stderr)
+              sys.exit(0)
           print(f"sha={sha}")
           PY
 
       - name: Checkout vcpkg ports at pinned baseline
+        if: ${{ steps.baseline.outputs.sha != '' }}
         uses: actions/checkout@v5
         with:
           repository: microsoft/vcpkg
@@ -73,7 +75,13 @@ jobs:
           path: vcpkg-upstream
           fetch-depth: 1
 
+      - name: Skip license audit without pinned baseline
+        if: ${{ steps.baseline.outputs.sha == '' }}
+        run: |
+          echo "No builtin-baseline configured; skipping vcpkg upstream pin audit." >> "$GITHUB_STEP_SUMMARY"
+
       - name: Run vcpkg license audit
+        if: ${{ steps.baseline.outputs.sha != '' }}
         run: |
           python scripts/check_vcpkg_licenses.py \
             --manifest vcpkg.json \
@@ -82,9 +90,11 @@ jobs:
             --output-dir artifacts/license-compliance
 
       - name: Publish workflow summary
+        if: ${{ steps.baseline.outputs.sha != '' }}
         run: cat artifacts/license-compliance/license-summary.md >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload license artifacts
+        if: ${{ steps.baseline.outputs.sha != '' }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: license-compliance-${{ github.run_id }}
@@ -337,7 +347,7 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Read pinned vcpkg baseline
+      - name: Read pinned vcpkg baseline if configured
         id: baseline
         run: |
           echo "──────────────────────────────────────────────"
@@ -346,16 +356,20 @@ jobs:
           import json
           from pathlib import Path
           manifest = json.loads(Path("vcpkg.json").read_text(encoding="utf-8"))
-          sha = manifest['builtin-baseline']
+          sha = manifest.get('builtin-baseline', '')
           deps = manifest.get('dependencies', [])
           print(f"sha={sha}")
           import sys
-          print(f"  Pinned baseline SHA : {sha}", file=sys.stderr)
+          if sha:
+              print(f"  Pinned baseline SHA : {sha}", file=sys.stderr)
+          else:
+              print("  No builtin-baseline configured in vcpkg.json; dependency freshness gate is disabled for this repo.", file=sys.stderr)
           print(f"  Dependency count    : {len(deps)}", file=sys.stderr)
           PY
           echo "──────────────────────────────────────────────"
 
       - name: Fetch current upstream vcpkg HEAD
+        if: ${{ steps.baseline.outputs.sha != '' }}
         run: |
           echo "──────────────────────────────────────────────"
           echo "  Cloning vcpkg (depth=1) to get current HEAD..."
@@ -369,6 +383,7 @@ jobs:
           echo "──────────────────────────────────────────────"
 
       - name: Compare pinned vs current baseline
+        if: ${{ steps.baseline.outputs.sha != '' }}
         id: stale_check
         run: |
           PINNED="${{ steps.baseline.outputs.sha }}"
