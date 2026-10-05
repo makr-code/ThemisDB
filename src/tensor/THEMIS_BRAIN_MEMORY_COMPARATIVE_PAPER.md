@@ -1257,3 +1257,775 @@ The machine-dreaming hypothesis is acceptable only if it reduces net risk:
 
 Therefore, machine dreaming is not "hallucination made productive" by default;  
 it is a controlled research instrument that must prove safety and utility simultaneously.
+
+---
+
+## 55. Dream-Mode Component Architecture (Detailed)
+
+The Dream-Mode path should be implemented as a bounded subsystem with explicit boundaries.
+
+### 55.1 Core components
+
+1. **Dream Orchestrator**
+   - starts/ends dream runs,
+   - binds run to manifest ID,
+   - enforces mode=`dream_research`.
+
+2. **Synthetic Candidate Generator**
+   - creates synthetic hypotheses/candidates from bounded trace subsets,
+   - writes only to dream candidate storage.
+
+3. **Dream Candidate Store**
+   - isolated persistence for synthetic artifacts,
+   - mandatory provenance tags (`synthetic=true`, `dream_mode=true`, `run_id`).
+
+4. **Validation Plane**
+   - [../evaluation/](../evaluation): utility and nonregression checks,
+   - [../ethics_ai/](../ethics_ai): policy/ethics boundary checks,
+   - [../security/](../security): abuse and leakage checks.
+
+5. **Promotion Gate Controller**
+   - evaluates all `BRAIN-DREAM-*` gate outcomes,
+   - produces decision class (`no_go|research_only|promotion_candidate`).
+
+6. **Truth-Path Firewall**
+   - one-way, approval-gated transfer only,
+   - blocks direct synthetic->production writes.
+
+### 55.2 Ownership split
+
+- tensor/training: generation and replay-related semantics,
+- evaluation/ethics_ai/security: validation authority,
+- governance/release: promotion authority,
+- human reviewer: final approval authority.
+
+---
+
+## 56. Interface Contract (Dream-Mode)
+
+To avoid implicit coupling, Dream-Mode should use narrow interface contracts.
+
+### 56.1 Minimal API surface (conceptual)
+
+1. `StartDreamRun(config) -> run_id`
+2. `StoreDreamCandidate(run_id, candidate, provenance)`
+3. `ValidateDreamRun(run_id) -> gate_report`
+4. `FinalizeDreamRun(run_id, decision) -> manifest`
+5. `RequestPromotionCandidate(run_id, approval_ref)` (optional path, still non-default)
+
+### 56.2 Contract invariants
+
+1. No function may omit `run_id`.
+2. Any stored candidate without provenance tags is rejected.
+3. `FinalizeDreamRun` must emit manifest conforming to [DREAM_MODE_MANIFEST_SCHEMA.json](./DREAM_MODE_MANIFEST_SCHEMA.json).
+4. Promotion request requires all five `BRAIN-DREAM-*` gates to be present.
+
+---
+
+## 57. Control-Flow Sequences (Dream-Mode)
+
+### 57.1 Research run sequence
+
+1. Orchestrator receives dream-run request.
+2. Orchestrator validates sandbox profile and creates `run_id`.
+3. Generator produces synthetic candidates.
+4. Candidate store persists synthetic artifacts with provenance tags.
+5. Validation plane runs utility/nonregression/ethics checks.
+6. Gate controller computes gate statuses.
+7. Manifest is finalized and decision recorded.
+
+Expected default decision class:
+- `research_only` unless strict promotion criteria are met.
+
+### 57.2 Promotion-candidate sequence (strict)
+
+1. Run reaches `promotion_candidate` in manifest.
+2. Human reviewer evaluates evidence packet.
+3. Firewall controller verifies transfer prerequisites.
+4. Controlled pilot artifact (not default production) is created.
+5. Rollback checkpoint is registered before activation.
+
+---
+
+## 58. Failure Containment Architecture
+
+Dream-Mode must fail closed under all containment-critical failures.
+
+### 58.1 Containment layers
+
+1. **Input containment**
+   - bounded dataset scope, fixed seed sets.
+2. **Process containment**
+   - sandbox profile, no production write permissions.
+3. **Decision containment**
+   - gate closure + human approval required.
+4. **Activation containment**
+   - pilot-first, rollback-first activation only.
+
+### 58.2 Hard-stop conditions
+
+Any of these implies immediate `no_go`:
+- missing provenance tag,
+- failed nonregression gate,
+- ethics boundary failure,
+- unresolved security leakage finding,
+- absent rollback proof.
+
+---
+
+## 59. Data and Storage Boundaries
+
+Dream-Mode should use explicit storage classes:
+
+1. **Dream trace input set**
+   - read-only view over selected historical artifacts.
+2. **Synthetic artifact set**
+   - isolated write area for generated candidates.
+3. **Validation evidence set**
+   - immutable run evidence (logs, metrics, gate statuses).
+4. **Promotion candidate set**
+   - optional, created only after approval.
+
+Boundary rule:
+- production retrieval truth stores must never ingest synthetic artifacts directly from synthetic artifact set.
+
+---
+
+## 60. Observability and Audit Trail (Operational)
+
+Minimum telemetry for each run:
+
+1. run metadata (`run_id`, timestamps, commit/build profile),
+2. candidate counts (generated, filtered, rejected),
+3. gate outcomes per `BRAIN-DREAM-*`,
+4. ethics/security veto counters,
+5. final decision class and approver reference.
+
+Audit objective:
+- any output path can be traced back to exactly one manifest and one decision trail.
+
+---
+
+## 61. Architecture Closure Criteria for Dream-Mode
+
+Dream-Mode architecture is considered implementation-ready when all are true:
+
+1. component boundaries from Sections 55–60 are reflected in module contracts,
+2. manifest schema validation is automated in test/CI paths,
+3. `BRAIN-DREAM-*` gate families are represented in roadmap + performance + CTest planning,
+4. fail-closed firewall behavior is tested by negative-path suites,
+5. human-governed promotion and rollback flows are documented and rehearsed.
+
+Only then should WP-BRAIN-04 move from design intent to production-grade implementation work.
+
+---
+
+## 62. Sequence Diagram: Dream Research Run (R0/R1)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant HR as Human Reviewer
+    participant DO as Dream Orchestrator
+    participant SCG as Synthetic Candidate Generator
+    participant DCS as Dream Candidate Store
+    participant EVP as Evaluation Plane
+    participant EAP as Ethics AI Plane
+    participant SEP as Security Plane
+    participant GC as Gate Controller
+    participant MF as Manifest Finalizer
+
+    HR->>DO: StartDreamRun(config)
+    DO->>DO: validate mode=dream_research
+    DO->>SCG: generateCandidates(run_id, bounded_trace_set)
+    SCG->>DCS: store(candidate, synthetic=true,dream_mode=true,run_id)
+    DO->>EVP: runUtilityAndNonregression(run_id)
+    DO->>EAP: runEthicsBoundaryChecks(run_id)
+    DO->>SEP: runSecurityLeakageChecks(run_id)
+    EVP-->>GC: utility/nonregression report
+    EAP-->>GC: ethics report
+    SEP-->>GC: security report
+    GC->>MF: finalizeManifest(run_id, gate_statuses, decision)
+    MF-->>HR: decision=(no_go|research_only|promotion_candidate)
+```
+
+Key invariants:
+- all generated artifacts remain tagged with provenance metadata,
+- no write path to production truth plane exists in this sequence,
+- manifest emission is mandatory even on failure.
+
+---
+
+## 63. Sequence Diagram: Promotion Candidate Review (R2)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant HR as Human Reviewer
+    participant GC as Gate Controller
+    participant FW as Truth-Path Firewall
+    participant PCS as Promotion Candidate Store
+    participant RTS as Production Truth Store
+    participant RB as Rollback Controller
+
+    HR->>GC: reviewEvidencePacket(run_id)
+    GC-->>HR: gate summary + recommendation
+    HR->>FW: requestTransfer(run_id, approval_ref)
+    FW->>FW: verify all BRAIN-DREAM-* gates present
+    FW->>FW: verify nonregression=pass and ethics boundary=pass
+    FW->>RB: registerRollbackCheckpoint(run_id)
+    FW->>PCS: transferValidatedArtifacts(run_id)
+    Note over FW,RTS: No direct synthetic artifact transfer to RTS
+    HR->>RTS: optional controlled pilot activation (non-default)
+```
+
+Key invariants:
+- transfer requires explicit human approval reference,
+- rollback checkpoint is created before any pilot activation,
+- production-default enablement is out of scope for this path.
+
+---
+
+## 64. Sequence Diagram: Rollback / Deactivate Flow (R3 -> R0)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant MON as Monitoring/Observability
+    participant GC as Gate Controller
+    participant HR as Human Reviewer
+    participant RB as Rollback Controller
+    participant RTS as Production Truth Store
+    participant DCS as Dream Candidate Store
+    participant MF as Manifest Finalizer
+
+    MON->>GC: incidentOrRegressionDetected(run_id)
+    GC->>GC: classify failure (BF-01..BF-05)
+    GC-->>HR: recommend immediate deactivate + rollback
+    HR->>RB: executeRollback(run_id)
+    RB->>RTS: revert pilot artifacts/checkpoint
+    RB->>DCS: quarantine suspect synthetic artifacts
+    RB-->>MF: emit rollback manifest update
+    MF-->>HR: final status=no_go or research_only
+```
+
+Key invariants:
+- rollback path must be simpler than forward escalation,
+- suspect synthetic artifacts are quarantined, not silently deleted,
+- post-rollback manifest update is required for audit completeness.
+
+---
+
+## 65. Interface-to-Module Mapping (Implementation Binding)
+
+This section binds Dream-Mode interfaces to concrete ThemisDB module responsibilities so implementation can begin without ambiguity.
+
+| Interface action | Primary module(s) | Secondary module(s) | Required output artifact |
+|---|---|---|---|
+| `StartDreamRun(config)` | [../process/](../process), [../scheduler/](../scheduler) | [../governance/](../governance), [../config/](../config) | run descriptor (`run_id`, mode, policy versions) |
+| `generateCandidates(run_id, trace_set)` | [../llm/](../llm), [../rag/](../rag), [../stable_diffusion/](../stable_diffusion), [../voice/](../voice) | [./](./), [../retrieval/](../retrieval) | synthetic candidate batch + provenance envelope |
+| `StoreDreamCandidate(...)` | [./](./), [../storage/](../storage) | [../metadata/](../metadata) | isolated synthetic artifact + tags (`synthetic=true`, `dream_mode=true`) |
+| `runUtilityAndNonregression(run_id)` | [../evaluation/](../evaluation) | [../performance/](../performance), [../observability/](../observability) | utility and nonregression gate report |
+| `runEthicsBoundaryChecks(run_id)` | [../ethics_ai/](../ethics_ai) | [../security/](../security) | ethics conformance report + veto decisions |
+| `runSecurityLeakageChecks(run_id)` | [../security/](../security) | [../observability/](../observability) | leakage and policy-boundary report |
+| `finalizeManifest(run_id, ...)` | [../evaluation/](../evaluation), [../governance/](../governance) | [./](./) | manifest conforming to [DREAM_MODE_MANIFEST_SCHEMA.json](./DREAM_MODE_MANIFEST_SCHEMA.json) |
+| `requestTransfer(run_id, approval_ref)` | [../governance/](../governance), [../process/](../process) | [../security/](../security), [../evaluation/](../evaluation) | approved transfer ticket + firewall checks |
+| `executeRollback(run_id)` | [../observability/](../observability), [../storage/](../storage) | [../governance/](../governance) | rollback evidence + quarantine record |
+
+Binding rule:
+- each interface action must have one accountable primary module owner and one evidence artifact type.
+
+---
+
+## 66. Interface Contract Table (I/O and Failure Semantics)
+
+| Interface | Inputs (minimum) | Outputs | Hard failures (fail-closed) |
+|---|---|---|---|
+| `StartDreamRun` | `mode`, policy versions, dataset refs, seed set | `run_id`, run state=`R0` | mode != `dream_research`, missing policy versions |
+| `generateCandidates` | `run_id`, bounded trace references | candidate set handle | unbounded trace scope, missing run state |
+| `StoreDreamCandidate` | `run_id`, candidate payload, provenance tags | candidate record ID | missing `synthetic=true`/`dream_mode=true` |
+| `ValidateDreamRun` | `run_id`, gate config | gate report (`BRAIN-DREAM-*`) | missing gate dimensions, invalid config |
+| `FinalizeDreamRun` | `run_id`, gate report, decision | finalized manifest | schema violation, missing decision rationale |
+| `RequestPromotionCandidate` | `run_id`, `approval_ref`, prior manifest | promotion ticket | nonregression != pass, ethics boundary != pass, no rollback checkpoint |
+| `ExecuteRollback` | `run_id`, checkpoint reference | rollback record + updated manifest | missing checkpoint, partial rollback evidence |
+
+All hard failures must emit operator-visible diagnostics and audit entries.
+
+---
+
+## 67. Task Decomposition Packet (Direct Engineering Backlog)
+
+The following task packet can be copied directly into issue/work planning:
+
+### TASK-DREAM-01 — Orchestrator + Run State
+- Scope: `StartDreamRun`, run lifecycle (`R0..R3`), mode enforcement.
+- Primary modules: [../process/](../process), [../scheduler/](../scheduler).
+- Acceptance:
+  - mode hard-enforced to `dream_research`,
+  - run descriptor persisted with policy versions,
+  - failed start attempts logged with fail-closed reason.
+
+### TASK-DREAM-02 — Candidate Store + Provenance
+- Scope: `StoreDreamCandidate`, storage isolation, provenance tagging.
+- Primary modules: [./](./), [../storage/](../storage), [../metadata/](../metadata).
+- Acceptance:
+  - writes rejected when provenance tags missing,
+  - synthetic and production paths physically/logically isolated,
+  - label-integrity checks pass.
+
+### TASK-DREAM-03 — Validation Plane Integration
+- Scope: evaluation + ethics + security checks with unified gate report.
+- Primary modules: [../evaluation/](../evaluation), [../ethics_ai/](../ethics_ai), [../security/](../security).
+- Acceptance:
+  - all `BRAIN-DREAM-*` gates emitted in one report,
+  - veto paths are explicit and auditable,
+  - nonregression checks fail-closed.
+
+### TASK-DREAM-04 — Manifest + Decision Pipeline
+- Scope: schema validation + decision finalization.
+- Primary modules: [../governance/](../governance), [../evaluation/](../evaluation).
+- Acceptance:
+  - manifest validates against [DREAM_MODE_MANIFEST_SCHEMA.json](./DREAM_MODE_MANIFEST_SCHEMA.json),
+  - decision class and rationale mandatory,
+  - approval reference mandatory for promotion requests.
+
+### TASK-DREAM-05 — Promotion Firewall + Rollback
+- Scope: transfer firewall, rollback checkpoint, quarantine flow.
+- Primary modules: [../security/](../security), [../observability/](../observability), [../storage/](../storage).
+- Acceptance:
+  - no direct synthetic→production truth transfer path exists,
+  - rollback checkpoint established before any pilot activation,
+  - quarantine and rollback evidence produced on deactivation.
+
+---
+
+## 68. End-to-End Acceptance Envelope (Dream-Mode)
+
+Dream-Mode implementation is considered technically complete only if:
+
+1. TASK-DREAM-01..05 are complete with evidence artifacts,
+2. all `BRAIN-DREAM-*` gates are represented in CTest + benchmark planning,
+3. manifest schema validation is automated and enforced,
+4. at least one full R0 run and one rollback simulation pass in rehearsals,
+5. final decision packet classifies feature as `research_only` or `promotion_candidate` based on measured evidence.
+
+This envelope converts the architecture into executable engineering work without loss of governance control.
+
+---
+
+## 69. Issue-Ready Work Packets (GitHub Draft Format)
+
+The following packets are ready to be copied into issue trackers with minimal adaptation.
+
+### 69.1 ISSUE-PACKET-DREAM-01
+
+**Title**  
+`[tensor][dream-mode] Implement Dream Orchestrator and Run-State Lifecycle`
+
+**Objective**  
+Implement deterministic run lifecycle management for Dream-Mode (`R0..R3`) with strict `dream_research` mode enforcement.
+
+**Scope**
+- create run descriptor contract (`run_id`, timestamps, policy versions, dataset refs, seed set),
+- enforce mode guardrails at run creation,
+- record start/abort/failure reasons in audit logs.
+
+**Out of scope**
+- candidate generation logic,
+- promotion transfer path,
+- multimodal utility optimization.
+
+**Acceptance Criteria**
+1. `StartDreamRun` fails closed when mode != `dream_research`.
+2. Run descriptor is persisted and queryable by `run_id`.
+3. Failed run-start attempts are logged with explicit reason classes.
+4. Lifecycle state transitions are restricted to allowed transitions (Section 27 / 52).
+
+**Evidence**
+- focused CTests for lifecycle state transitions,
+- sample run descriptor artifacts,
+- negative tests for invalid mode and invalid transition attempts.
+
+**Risks**
+- hidden transition paths introduced via helper layers.
+
+**Mitigation**
+- central transition guard utility + explicit transition matrix tests.
+
+---
+
+### 69.2 ISSUE-PACKET-DREAM-02
+
+**Title**  
+`[tensor][dream-mode] Build isolated synthetic candidate store with provenance guarantees`
+
+**Objective**  
+Create isolated synthetic storage with mandatory provenance tags and no direct production truth writes.
+
+**Scope**
+- define synthetic artifact storage class,
+- enforce provenance tags (`synthetic=true`, `dream_mode=true`, `run_id`),
+- reject writes without full provenance envelope.
+
+**Out of scope**
+- utility scoring policy,
+- human approval workflow.
+
+**Acceptance Criteria**
+1. Missing or malformed provenance causes hard reject.
+2. Synthetic artifacts are physically/logically separated from production truth stores.
+3. Label integrity checks pass across store/read/export paths.
+4. Forbidden synthetic->production direct write path is absent by design and tests.
+
+**Evidence**
+- storage boundary tests,
+- provenance persistence tests,
+- negative tests for missing tags.
+
+**Risks**
+- metadata loss at serialization boundaries.
+
+**Mitigation**
+- round-trip schema tests + checksum-based envelope validation.
+
+---
+
+### 69.3 ISSUE-PACKET-DREAM-03
+
+**Title**  
+`[evaluation][ethics][security] Integrate Dream-Mode validation plane and unified gate report`
+
+**Objective**  
+Unify evaluation, ethics, and security checks into one gate report for all `BRAIN-DREAM-*` gates.
+
+**Scope**
+- integrate utility/nonregression checks,
+- integrate ethics boundary checks + veto paths,
+- integrate security leakage checks,
+- produce one normalized gate report payload.
+
+**Out of scope**
+- promotion transfer execution,
+- edition-specific rollout tuning.
+
+**Acceptance Criteria**
+1. Gate report includes all five `BRAIN-DREAM-*` statuses.
+2. Any ethics or security veto maps to fail/hold with explicit reason.
+3. Nonregression failure blocks promotion-candidate transition.
+4. Report is persisted and linked to `run_id`.
+
+**Evidence**
+- integration tests for pass/hold/fail paths,
+- veto-path tests,
+- report schema conformance checks.
+
+**Risks**
+- inconsistent status semantics across modules.
+
+**Mitigation**
+- shared gate-status enum contract (`pass|hold|fail`) with contract tests.
+
+---
+
+### 69.4 ISSUE-PACKET-DREAM-04
+
+**Title**  
+`[governance][tensor] Implement manifest finalization and decision pipeline for Dream-Mode`
+
+**Objective**  
+Finalize machine-readable manifests conforming to [DREAM_MODE_MANIFEST_SCHEMA.json](./DREAM_MODE_MANIFEST_SCHEMA.json) and enforce explicit decision classes.
+
+**Scope**
+- schema validation pipeline,
+- decision payload enforcement (`no_go|research_only|promotion_candidate`),
+- rationale + approver reference enforcement.
+
+**Out of scope**
+- live production activation toggles.
+
+**Acceptance Criteria**
+1. Every finalized run emits a schema-valid manifest.
+2. Decision class and rationale are mandatory.
+3. Promotion-candidate requests require approval reference.
+4. Invalid manifests are hard-rejected and logged.
+
+**Evidence**
+- schema validation tests,
+- invalid-manifest negative tests,
+- decision completeness tests.
+
+**Risks**
+- permissive fallback when schema validation fails.
+
+**Mitigation**
+- fail-closed validation wrapper with no bypass path.
+
+---
+
+### 69.5 ISSUE-PACKET-DREAM-05
+
+**Title**  
+`[security][observability][storage] Implement promotion firewall, rollback checkpointing, and quarantine flow`
+
+**Objective**  
+Implement safe transfer controls and rollback-first safety for dream-mode promotion candidates.
+
+**Scope**
+- firewall enforcement for transfer prerequisites,
+- rollback checkpoint creation before pilot activation,
+- quarantine flow for suspect synthetic artifacts,
+- rollback manifest update emission.
+
+**Out of scope**
+- model-quality optimization.
+
+**Acceptance Criteria**
+1. No transfer proceeds without required gate statuses and approval reference.
+2. Rollback checkpoint is mandatory before controlled pilot activation.
+3. Deactivate/rollback flow produces quarantine and rollback evidence artifacts.
+4. Post-rollback manifest update is emitted for audit completeness.
+
+**Evidence**
+- transfer denial tests,
+- rollback simulation tests,
+- quarantine evidence-path tests.
+
+**Risks**
+- partial rollback leaves stale pilot state.
+
+**Mitigation**
+- atomic checkpoint/restore semantics + idempotent rollback tests.
+
+---
+
+## 70. Cross-Issue Dependency Graph
+
+```text
+ISSUE-PACKET-DREAM-01 -> ISSUE-PACKET-DREAM-02 -> ISSUE-PACKET-DREAM-03 -> ISSUE-PACKET-DREAM-04 -> ISSUE-PACKET-DREAM-05
+          |                         |                         |
+          +-------------> manifest and gate semantics must remain consistent ------------+
+```
+
+Dependency rules:
+1. DREAM-03 cannot be accepted before DREAM-01 and DREAM-02 complete.
+2. DREAM-04 depends on normalized outputs from DREAM-03.
+3. DREAM-05 depends on decision and manifest guarantees from DREAM-04.
+
+---
+
+## 71. Milestone and Gate Mapping
+
+| Issue packet | Recommended milestone target | Primary gate linkage |
+|---|---|---|
+| DREAM-01 | Q1 2027 | BRAIN-DREAM-ISOLATION |
+| DREAM-02 | Q1 2027 | BRAIN-DREAM-LABEL-INTEGRITY |
+| DREAM-03 | Q2 2027 | BRAIN-DREAM-UTILITY, BRAIN-DREAM-NONREGRESSION, BRAIN-DREAM-ETHICS-BOUNDARY |
+| DREAM-04 | Q2 2027 | all `BRAIN-DREAM-*` manifest closure checks |
+| DREAM-05 | Q2 2027 | BRAIN-SAFETY-CORE-01 + dream transfer safety checks |
+
+---
+
+## 72. Definition of Done for WP-BRAIN-04
+
+WP-BRAIN-04 is done only when:
+
+1. ISSUE-PACKET-DREAM-01..05 are each closed with evidence,
+2. all dream gates are represented and executable in test planning,
+3. at least one full end-to-end rehearsal (research run -> decision -> rollback simulation) is completed,
+4. decision packet concludes with explicit classification:
+   - `research_only` or
+   - `promotion_candidate` (with stricter follow-up pilot constraints).
+
+Without these four conditions, Dream-Mode remains architecture design only.
+
+---
+
+## 73. GitHub Issue Body Templates (Copy/Paste Ready)
+
+The following templates are aligned with Sections 69–72 and can be used directly for issue creation.
+
+### 73.1 Template — ISSUE-PACKET-DREAM-01
+
+```markdown
+## Objective
+Implement deterministic Dream-Mode run lifecycle management (`R0..R3`) with strict `dream_research` mode enforcement.
+
+## Scope
+- [ ] Add run descriptor contract (`run_id`, timestamps, policy versions, dataset refs, seed set)
+- [ ] Enforce mode guardrails at run creation
+- [ ] Record start/abort/failure reasons in audit logs
+
+## Out of Scope
+- Candidate generation logic
+- Promotion transfer path
+- Multimodal utility optimization
+
+## Acceptance Criteria
+- [ ] `StartDreamRun` fails closed when mode != `dream_research`
+- [ ] Run descriptor is persisted and queryable by `run_id`
+- [ ] Failed run-start attempts logged with explicit reason classes
+- [ ] Lifecycle transitions restricted to allowed matrix (R0..R3)
+
+## Evidence Required
+- [ ] Focused CTests for lifecycle transitions
+- [ ] Sample run descriptor artifacts
+- [ ] Negative tests for invalid mode and invalid transitions
+
+## Risks / Mitigation
+- Risk: hidden transition path in helper layers
+- Mitigation: central transition guard utility + transition matrix tests
+```
+
+### 73.2 Template — ISSUE-PACKET-DREAM-02
+
+```markdown
+## Objective
+Build isolated synthetic candidate store with mandatory provenance and no direct production truth writes.
+
+## Scope
+- [ ] Define synthetic artifact storage class
+- [ ] Enforce provenance tags (`synthetic=true`, `dream_mode=true`, `run_id`)
+- [ ] Reject writes without full provenance envelope
+
+## Out of Scope
+- Utility scoring policy
+- Human approval workflow
+
+## Acceptance Criteria
+- [ ] Missing/malformed provenance causes hard reject
+- [ ] Synthetic and production truth paths are isolated
+- [ ] Label integrity checks pass across store/read/export
+- [ ] No direct synthetic->production write path exists (design + tests)
+
+## Evidence Required
+- [ ] Storage boundary tests
+- [ ] Provenance persistence tests
+- [ ] Negative tests for missing tags
+
+## Risks / Mitigation
+- Risk: metadata loss at serialization boundaries
+- Mitigation: round-trip schema tests + envelope checksum validation
+```
+
+### 73.3 Template — ISSUE-PACKET-DREAM-03
+
+```markdown
+## Objective
+Integrate evaluation, ethics, and security checks into one unified `BRAIN-DREAM-*` gate report.
+
+## Scope
+- [ ] Utility/nonregression checks integration
+- [ ] Ethics boundary checks + veto path integration
+- [ ] Security leakage checks integration
+- [ ] Normalized gate report payload with shared status semantics
+
+## Out of Scope
+- Promotion transfer execution
+- Edition-specific rollout tuning
+
+## Acceptance Criteria
+- [ ] Gate report includes all five `BRAIN-DREAM-*` statuses
+- [ ] Ethics/security veto maps to fail/hold with explicit reason
+- [ ] Nonregression failure blocks promotion-candidate transition
+- [ ] Report persisted and linked to `run_id`
+
+## Evidence Required
+- [ ] Integration tests for pass/hold/fail paths
+- [ ] Veto-path tests
+- [ ] Report schema conformance checks
+
+## Risks / Mitigation
+- Risk: inconsistent gate-status semantics across modules
+- Mitigation: shared enum contract (`pass|hold|fail`) + contract tests
+```
+
+### 73.4 Template — ISSUE-PACKET-DREAM-04
+
+```markdown
+## Objective
+Implement Dream-Mode manifest finalization and decision pipeline with strict schema conformance.
+
+## Scope
+- [ ] Validate manifests against `DREAM_MODE_MANIFEST_SCHEMA.json`
+- [ ] Enforce decision payload (`no_go|research_only|promotion_candidate`)
+- [ ] Enforce rationale + approver reference fields
+
+## Out of Scope
+- Live production activation toggles
+
+## Acceptance Criteria
+- [ ] Every finalized run emits a schema-valid manifest
+- [ ] Decision class and rationale are mandatory
+- [ ] Promotion-candidate requests require approval reference
+- [ ] Invalid manifests are hard-rejected and logged
+
+## Evidence Required
+- [ ] Schema validation tests
+- [ ] Invalid-manifest negative tests
+- [ ] Decision completeness tests
+
+## Risks / Mitigation
+- Risk: permissive fallback when schema validation fails
+- Mitigation: fail-closed validator wrapper with no bypass path
+```
+
+### 73.5 Template — ISSUE-PACKET-DREAM-05
+
+```markdown
+## Objective
+Implement promotion firewall, rollback checkpointing, and quarantine flow for Dream-Mode.
+
+## Scope
+- [ ] Enforce transfer prerequisites in firewall
+- [ ] Create rollback checkpoint before pilot activation
+- [ ] Implement quarantine flow for suspect synthetic artifacts
+- [ ] Emit rollback manifest update on deactivation
+
+## Out of Scope
+- Model-quality optimization
+
+## Acceptance Criteria
+- [ ] No transfer without required gate statuses and approval reference
+- [ ] Rollback checkpoint mandatory before pilot activation
+- [ ] Deactivate/rollback flow emits quarantine + rollback evidence
+- [ ] Post-rollback manifest update emitted for audit completeness
+
+## Evidence Required
+- [ ] Transfer denial tests
+- [ ] Rollback simulation tests
+- [ ] Quarantine evidence-path tests
+
+## Risks / Mitigation
+- Risk: partial rollback leaves stale pilot state
+- Mitigation: atomic checkpoint/restore semantics + idempotent rollback tests
+```
+
+---
+
+## 74. Optional Issue Labels and Milestone Defaults
+
+Recommended issue labels:
+- `area:tensor`
+- `area:ai-safety`
+- `area:evaluation`
+- `type:research`
+- `type:architecture`
+- `priority:p0` or `priority:p1`
+
+Recommended milestone defaults:
+- DREAM-01 / DREAM-02: `Q1 2027`
+- DREAM-03 / DREAM-04 / DREAM-05: `Q2 2027`
+
+---
+
+## 75. Issue Creation Sanity Checklist
+
+Before opening each issue:
+
+1. [ ] Link the relevant section in this paper.
+2. [ ] Link [DREAM_MODE_MANIFEST_TEMPLATE.json](./DREAM_MODE_MANIFEST_TEMPLATE.json) and [DREAM_MODE_MANIFEST_SCHEMA.json](./DREAM_MODE_MANIFEST_SCHEMA.json).
+3. [ ] Map issue ACs to at least one `BRAIN-DREAM-*` gate.
+4. [ ] Include negative-path tests in acceptance criteria.
+5. [ ] Declare explicit non-go conditions.
+
+This checklist ensures all created issues remain evidence-first and fail-closed by design.

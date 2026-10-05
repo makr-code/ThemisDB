@@ -369,15 +369,28 @@ std::vector<uint8_t> PagedKVCache::quantizeKVData(
                 return {};
             }
 
-            static constexpr float kBucketValues[7] = {
-                -0.20f, -0.10f, -0.03f, 0.0f, 0.03f, 0.10f, 0.20f
+            static constexpr std::array<float, 8> kBucketValues = {
+                -1.0f, -0.6f, -0.28f, -0.12f, 0.0f, 0.12f, 0.28f, 0.6f
             };
+            const float max_abs = [&]() {
+                float v = 0.0f;
+                for (float value : kv_data) {
+                    v = std::max(v, std::abs(value));
+                }
+                return v;
+            }();
+            const float scale = std::max(max_abs, 1.0e-6f);
+
             std::vector<uint8_t> result;
-            result.reserve(8 + ((kv_data.size() * 3u + 7u) / 8u));
+            result.reserve(12 + ((kv_data.size() * 3u + 7u) / 8u));
 
             const uint64_t count = static_cast<uint64_t>(kv_data.size());
             for (int i = 0; i < 8; ++i) {
                 result.push_back(static_cast<uint8_t>((count >> (i * 8)) & 0xFFu));
+            }
+            const uint32_t scale_bits = std::bit_cast<uint32_t>(scale);
+            for (int i = 0; i < 4; ++i) {
+                result.push_back(static_cast<uint8_t>((scale_bits >> (i * 8)) & 0xFFu));
             }
 
             uint64_t bit_buffer = 0;
@@ -394,16 +407,17 @@ std::vector<uint8_t> PagedKVCache::quantizeKVData(
 
             for (float value : kv_data) {
                 const float abs_v = std::abs(value);
-                if (abs_v > 0.5f) {
+                if (!std::isfinite(value) || abs_v > 0.95f * scale) {
                     append_bits(7ULL, 3);
                     append_bits(static_cast<uint64_t>(std::bit_cast<uint32_t>(value)), 32);
                     continue;
                 }
 
-                uint32_t code = 3u;
+                uint32_t code = 0u;
                 float best_delta = std::numeric_limits<float>::infinity();
-                for (uint32_t idx = 0; idx < 7u; ++idx) {
-                    const float delta = std::abs(value - kBucketValues[idx]);
+                for (uint32_t idx = 0; idx < kBucketValues.size(); ++idx) {
+                    const float bucket_value = scale * kBucketValues[idx];
+                    const float delta = std::abs(value - bucket_value);
                     if (delta < best_delta) {
                         best_delta = delta;
                         code = idx;
@@ -474,12 +488,12 @@ std::vector<float> PagedKVCache::dequantizeKVData(
         }
         
         case KVQuantizationType::NVFP4: {
-            if (quantized_data.size() < 8) {
+            if (quantized_data.size() < 12) {
                 return {};
             }
 
-            static constexpr float kBucketValues[7] = {
-                -0.20f, -0.10f, -0.03f, 0.0f, 0.03f, 0.10f, 0.20f
+            static constexpr std::array<float, 8> kBucketValues = {
+                -1.0f, -0.6f, -0.28f, -0.12f, 0.0f, 0.12f, 0.28f, 0.6f
             };
 
             uint64_t count = 0;
@@ -487,10 +501,16 @@ std::vector<float> PagedKVCache::dequantizeKVData(
                 count |= static_cast<uint64_t>(quantized_data[i]) << (i * 8);
             }
 
+            uint32_t scale_bits = 0;
+            for (int i = 0; i < 4; ++i) {
+                scale_bits |= static_cast<uint32_t>(quantized_data[8 + i]) << (i * 8);
+            }
+            const float scale = std::bit_cast<float>(scale_bits);
+
             std::vector<float> result;
             result.reserve(static_cast<size_t>(count));
 
-            size_t offset = 8;
+            size_t offset = 12;
             uint64_t bit_buffer = 0;
             int bits_in_buffer = 0;
             auto read_bits = [&](int bits) -> uint64_t {
@@ -517,7 +537,7 @@ std::vector<float> PagedKVCache::dequantizeKVData(
                     }
                     result.push_back(std::bit_cast<float>(float_bits));
                 } else {
-                    result.push_back(kBucketValues[code]);
+                    result.push_back(scale * kBucketValues[code]);
                 }
             }
 

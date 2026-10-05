@@ -55,6 +55,38 @@ Evidence artifacts:
 - [docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md](docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md)
 - [security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md](security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md)
 
+## Future Plans (Current Highlights)
+
+The active future-planning focus for Q4 2026 → Q2 2027 includes a major tensor cognition and safety research line:
+
+1. **Tensor RoPE Track (Q4 2026 - Q1 2027)**
+   - rotation-aware tensor ingestion/query parity, transform ablations, and llama.cpp/AdaLoRA evidence gates.
+   - Primary sources:
+     - [src/tensor/FUTURE_TENSOR_ROPE.md](src/tensor/FUTURE_TENSOR_ROPE.md)
+     - [src/tensor/ROADMAP.md](src/tensor/ROADMAP.md)
+     - [src/tensor/PERFORMANCE_EXPECTATIONS.md](src/tensor/PERFORMANCE_EXPECTATIONS.md)
+
+2. **Neurocognitive Bridge Track (Q4 2026 - Q2 2027)**
+   - replay/homeostasis/arbitration architecture with fail-closed evidence gates (`BRAIN-*` families).
+   - Primary sources:
+     - [src/tensor/THEMIS_BRAIN_MEMORY_COMPARATIVE_PAPER.md](src/tensor/THEMIS_BRAIN_MEMORY_COMPARATIVE_PAPER.md)
+     - [src/tensor/ROADMAP.md](src/tensor/ROADMAP.md)
+     - [src/tensor/PERFORMANCE_EXPECTATIONS.md](src/tensor/PERFORMANCE_EXPECTATIONS.md)
+
+3. **Machine Dreaming Research Mode (Q2 2027 target)**
+   - controlled, offline synthetic gap-filling research mode with strict truth-path firewall, provenance tagging, and ethics/security validation.
+   - Primary sources:
+     - [src/tensor/DREAM_MODE_MANIFEST_TEMPLATE.json](src/tensor/DREAM_MODE_MANIFEST_TEMPLATE.json)
+     - [src/tensor/DREAM_MODE_MANIFEST_SCHEMA.json](src/tensor/DREAM_MODE_MANIFEST_SCHEMA.json)
+     - [src/tensor/THEMIS_BRAIN_MEMORY_COMPARATIVE_PAPER.md](src/tensor/THEMIS_BRAIN_MEMORY_COMPARATIVE_PAPER.md)
+
+Issue packets created for implementation kickoff:
+- [#6847](https://github.com/makr-code/ThemisDB/issues/6847)
+- [#6848](https://github.com/makr-code/ThemisDB/issues/6848)
+- [#6849](https://github.com/makr-code/ThemisDB/issues/6849)
+- [#6850](https://github.com/makr-code/ThemisDB/issues/6850)
+- [#6851](https://github.com/makr-code/ThemisDB/issues/6851)
+
 ## Documentation Sync (2026-08-09)
 
 - Root-level markdown documentation was refreshed against current `src/` module docs and root governance files.

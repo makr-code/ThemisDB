@@ -77,6 +77,17 @@ The core requirement is a **deterministic, auditable, and fail-closed** bridge f
 
 ## 4. System Context and High-Level Topology
 
+```mermaid
+flowchart LR
+    A[Data / Embeddings] --> B[TensorIngestionBridge]
+    B --> C[Tensor storage / index plane]
+    C --> D[HnswTTBridge + TensorFingerprintGraph]
+    B --> E[Training plane: AdaLoraTTBridge]
+    E --> F[Deployment plane: IncrementalLoRATrainer + ILLMRouter]
+    F --> G[Runtime plane: GgmlTensorBridge + LlamaCppPlugin]
+    D --> G
+```
+
 ```text
 [Data/Embeddings]
        |
@@ -217,6 +228,26 @@ Required metadata keys for bridge-safe artifacts:
 ---
 
 ## 7. Control-Flow Sequences
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant W as Write Path
+    participant TI as TensorIngestionBridge
+    participant IX as Tensor Index/Storage
+    participant Q as Query Path
+    participant HT as HnswTTBridge
+    participant TR as Training (AdaLoraTTBridge)
+    participant RT as Runtime (Ggml/LlamaCpp)
+
+    W->>TI: ingest embedding + profile context
+    TI->>IX: persist TT artifact + profile metadata
+    Q->>HT: query with profile/version
+    HT->>IX: load candidates + rerank
+    TR->>IX: export/import adapter TT artifacts
+    TR->>RT: deploy adapter routing state
+    HT->>RT: retrieval results for generation
+```
 
 ## 7.1 Ingestion sequence (write path)
 
