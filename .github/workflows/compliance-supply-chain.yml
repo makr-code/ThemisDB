@@ -73,11 +73,13 @@ jobs:
 
       - name: Run vcpkg license audit
         if: ${{ steps.baseline.outputs.sha != '' }}
+        env:
+          BASELINE_SHA: ${{ steps.baseline.outputs.sha }}
         run: |
           python scripts/check_vcpkg_licenses.py \
             --manifest vcpkg.json \
             --policy .license-policy.json \
-            --baseline "${{ steps.baseline.outputs.sha }}" \
+            --baseline "$BASELINE_SHA" \
             --output-dir artifacts/license-compliance
 
       - name: Publish workflow summary
