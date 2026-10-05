@@ -60,10 +60,10 @@ struct ContextQualityMetrics {
     double drift_threshold = 0.3;
 
     /// Check if quality metrics justify RAG refresh
-    /// @return true if drift > threshold or retention < 0.5
+    /// @return true if the state is degraded enough to need a refresh
     bool shouldRefreshRAG() const {
-        return (1.0 - factual_drift_estimate) > drift_threshold ||
-               state_retention_score < 0.5;
+        return factual_drift_estimate < 0.8 ||
+               state_retention_score < 0.7;
     }
 
     /// Check if context quality is sufficient for Transformer path

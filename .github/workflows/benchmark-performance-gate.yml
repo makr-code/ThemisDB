@@ -150,28 +150,38 @@ jobs:
             echo "compare_status=FAIL" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Summarize benchmark triage output
+        id: benchmark_triage
+        if: always()
+        shell: bash
+        run: |
+          set +e
+          python3 scripts/ci/log_issue_triage.py \
+            --benchmark-report benchmark-artifacts/comparison_report.md \
+            --output-markdown benchmark-artifacts/benchmark-triage.md \
+            --output-json benchmark-artifacts/benchmark-triage.json \
+            --issue-kind benchmark \
+            --title "[Perf] Benchmark Triage" \
+            --write-github-output "$GITHUB_OUTPUT"
+          TRIAGE_EXIT=$?
+          set -e
+          echo "triage_exit=${TRIAGE_EXIT}" >> "$GITHUB_OUTPUT"
+          exit 0
+
       - name: Upsert benchmark results tracker issue
         id: tracker
         # Skip upsert when all targets pass and force_create_issue is not set
         if: >-
-          steps.compare.outputs.compare_status == 'FAIL' ||
-          inputs.force_create_issue == true
+          (steps.compare.outputs.compare_status == 'FAIL' ||
+          inputs.force_create_issue == true) &&
+          steps.benchmark_triage.outputs.has_actionable_issues == 'true'
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           operation: upsert_issue
           issue-title: '[Perf] Benchmark Results Tracker'
           issue-marker: '<!-- ci-benchmark:type:perf-results -->'
-          issue-body: |
-            <!-- ci-benchmark:type:perf-results -->
-            ## ${{ steps.compare.outputs.compare_status == 'FAIL' && '❌' || '✅' }} ThemisDB Benchmark Performance Tracker
-
-            **Latest run:** [${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
-            **SHA:** `${{ github.sha }}`
-            **Status:** ${{ steps.compare.outputs.compare_status }}
-
-            _Full comparison report is posted as a comment on each run._
-            _Download artifact `${{ needs.build-and-run.outputs.artifact_name }}` for raw JSON benchmark results._
+          issue-body-file: benchmark-artifacts/benchmark-triage.md
           labels-to-add: 'performance,benchmark,ci/benchmark-results'
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}

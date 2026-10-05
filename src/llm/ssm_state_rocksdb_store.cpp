@@ -25,10 +25,8 @@ SSMStateRocksDBStore::SSMStateRocksDBStore(
     rocksdb::ColumnFamilyHandle* cf,
     const Config& config)
     : db_(db), cf_(cf), config_(config) {
-    
-    if (!db_) {
-        throw std::invalid_argument("RocksDB TransactionDB pointer cannot be nullptr");
-    }
+    // Allow an uninitialized/null DB handle so store operations fail gracefully
+    // when a caller has not yet attached a valid RocksDB instance.
 }
 
 SSMStateRocksDBStore::SSMStateRocksDBStore(
@@ -52,7 +50,7 @@ bool SSMStateRocksDBStore::checkpoint(
     const std::string& session_id,
     const SSMStateSnapshot& snapshot) {
     
-    if (session_id.empty()) {
+    if (session_id.empty() || db_ == nullptr) {
         ++failed_checkpoints_;
         return false;
     }
@@ -100,7 +98,7 @@ std::optional<SSMStateSnapshot> SSMStateRocksDBStore::resume(
     const std::string& session_id,
     const std::optional<HLCTimestamp>& snapshot_ts) {
     
-    if (session_id.empty()) {
+    if (session_id.empty() || db_ == nullptr) {
         return std::nullopt;
     }
 
@@ -143,7 +141,7 @@ std::optional<SSMStateSnapshot> SSMStateRocksDBStore::resume(
  * @details Calls: empty(), lock(), NewIterator(), rocksdb::ReadOptions(), Seek(), Valid(), key(), starts_with().
  */
 bool SSMStateRocksDBStore::invalidate(const std::string& session_id) {
-    if (session_id.empty()) {
+    if (session_id.empty() || db_ == nullptr) {
         return false;
     }
 
@@ -166,6 +164,10 @@ bool SSMStateRocksDBStore::invalidate(const std::string& session_id) {
             keys_to_delete.push_back(it->key().ToString());
         }
         delete it;
+
+        if (keys_to_delete.empty()) {
+            return false;
+        }
 
         // Delete all found keys
         rocksdb::WriteOptions write_opts;
@@ -297,7 +299,7 @@ std::string SSMStateRocksDBStore::makeSSMStateKey(
 std::string SSMStateRocksDBStore::serializeSnapshot(
     const SSMStateSnapshot& snapshot) {
     
-    // Format: [version:1][physical:8][logical:8][fp_len:4][fingerprint][seq:8][data_len:4][data...]
+    // Format: [version:1][physical:8][logical:8][fp_len:4][fingerprint][seq:8][data_len:4][data...][meta_len:4][meta_json]
     std::string result = {};
     result.push_back(2);  // Version 2 (binary format)
     
@@ -305,41 +307,46 @@ std::string SSMStateRocksDBStore::serializeSnapshot(
     uint64_t physical = snapshot.snapshot_ts.physical();
     uint64_t logical = snapshot.snapshot_ts.logical();
     
-    // Add physical timestamp (8 bytes, big-endian)
     for (int i = 7; i >= 0; --i) {
         result.push_back(static_cast<char>((physical >> (i * 8)) & 0xFF));
     }
     
-    // Add logical timestamp (8 bytes, big-endian)
     for (int i = 7; i >= 0; --i) {
         result.push_back(static_cast<char>((logical >> (i * 8)) & 0xFF));
     }
     
-    // Add fingerprint length (4 bytes, big-endian)
     uint32_t fp_len = snapshot.state_fingerprint.size();
     for (int i = 3; i >= 0; --i) {
         result.push_back(static_cast<char>((fp_len >> (i * 8)) & 0xFF));
     }
     
-    // Add fingerprint data
     result.append(snapshot.state_fingerprint);
     
-    // Add sequence counter (8 bytes, big-endian)
     uint64_t seq_counter = snapshot.sequence_counter;
     for (int i = 7; i >= 0; --i) {
         result.push_back(static_cast<char>((seq_counter >> (i * 8)) & 0xFF));
     }
     
-    // Add state data length (4 bytes, big-endian)
-    uint32_t data_len = snapshot.state_data.size();
+    uint32_t data_len = static_cast<uint32_t>(snapshot.state_data.size());
     for (int i = 3; i >= 0; --i) {
         result.push_back(static_cast<char>((data_len >> (i * 8)) & 0xFF));
     }
     
-    // Add state data
     for (auto b : snapshot.state_data) {
         result.push_back(static_cast<char>(b));
     }
+
+    nlohmann::json metadata_json = nlohmann::json::object();
+    metadata_json["session_id"] = snapshot.session_id;
+    metadata_json["hidden_state"] = snapshot.hidden_state;
+    metadata_json["cell_state"] = snapshot.cell_state;
+    metadata_json["metadata"] = snapshot.metadata;
+    const std::string metadata_blob = metadata_json.dump();
+    const uint32_t metadata_len = static_cast<uint32_t>(metadata_blob.size());
+    for (int i = 3; i >= 0; --i) {
+        result.push_back(static_cast<char>((metadata_len >> (i * 8)) & 0xFF));
+    }
+    result.append(metadata_blob);
     
     return result;
 }
@@ -436,13 +443,42 @@ std::optional<SSMStateSnapshot> SSMStateRocksDBStore::deserializeSnapshot(
             }
             
             // Parse state data
-            if (offset + data_len != data.size()) {
+            if (offset + data_len > data.size()) {
                 return std::nullopt;
             }
             snapshot.state_data.clear();
             snapshot.state_data.reserve(data_len);
             for (uint32_t i = 0; i < data_len; ++i) {
                 snapshot.state_data.push_back(static_cast<uint8_t>(data[offset + i]));
+            }
+            offset += data_len;
+
+            if (offset < data.size()) {
+                uint32_t metadata_len = 0;
+                if (offset + 4 > data.size()) {
+                    return std::nullopt;
+                }
+                for (int i = 0; i < 4; ++i) {
+                    metadata_len = (metadata_len << 8) | static_cast<uint8_t>(data[offset++]);
+                }
+                if (offset + metadata_len != data.size()) {
+                    // Metadata block is optional; accept the payload if the remaining bytes fit exactly.
+                    if (offset + metadata_len > data.size()) {
+                        return std::nullopt;
+                    }
+                }
+                const std::string metadata_blob = data.substr(offset, metadata_len);
+                try {
+                    const auto doc = nlohmann::json::parse(metadata_blob);
+                    if (doc.is_object()) {
+                        snapshot.session_id = doc.value("session_id", snapshot.session_id);
+                        snapshot.hidden_state = doc.value("hidden_state", snapshot.hidden_state);
+                        snapshot.cell_state = doc.value("cell_state", snapshot.cell_state);
+                        snapshot.metadata = doc.value("metadata", snapshot.metadata);
+                    }
+                } catch (...) {
+                    // Ignore malformed legacy metadata and keep the decoded snapshot fields.
+                }
             }
             
             return snapshot;

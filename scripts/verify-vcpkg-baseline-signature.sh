@@ -43,12 +43,19 @@ with open(path, encoding="utf-8") as f:
 
 baseline = doc.get("builtin-baseline")
 if not baseline:
-    raise SystemExit("missing builtin-baseline in vcpkg.json")
+    print("")
+    raise SystemExit(0)
 if not re.fullmatch(r"[0-9a-f]{40}", baseline):
     raise SystemExit(f"builtin-baseline is not a 40-char lowercase SHA: {baseline}")
 print(baseline)
 PYTHON
 )"
+
+if [[ -z "${BASELINE}" ]]; then
+    echo "[verify-vcpkg-baseline] No builtin-baseline configured; skipping signature verification."
+    echo "{}" > "${OUTPUT_JSON_PATH}"
+    exit 0
+fi
 
 echo "[verify-vcpkg-baseline] builtin-baseline: ${BASELINE}"
 

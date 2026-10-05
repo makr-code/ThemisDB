@@ -88,6 +88,13 @@ std::unique_ptr<IndexMetadataStore> IndexMetadataStore::Open(const std::string& 
       }
     }
     throw;
+  auto store = std::unique_ptr<IndexMetadataStore>(new IndexMetadataStore(db.get(), index_id));
+  db.release();
+  if (handles.size() >= 3) {
+    store->owned_column_families_ = handles;
+    store->cf_default_ = handles[0];
+    store->cf_version_history_ = handles[1];
+    store->cf_embeddings_ = handles[2];
   }
   store->cf_default_ = handles[0];
   store->cf_version_history_ = handles[1];
@@ -108,6 +115,16 @@ IndexMetadataStore::~IndexMetadataStore() {
   if (db_ && cf_default_ != nullptr) {
     db_->DestroyColumnFamilyHandle(cf_default_);
   }
+  for (auto* handle : owned_column_families_) {
+    if (handle && db_) {
+      auto status = db_->DestroyColumnFamilyHandle(handle);
+      if (!status.ok()) {
+        spdlog::warn("[IndexMetadataStore] Failed to destroy column family handle: {}",
+                     status.ToString());
+      }
+    }
+  }
+  owned_column_families_.clear();
 
   if (db_) {
     auto status = db_->Close();
@@ -143,15 +160,29 @@ IndexManifestV1 IndexMetadataStore::LoadManifest() const {
 
 void IndexMetadataStore::WriteManifestAtomic(const IndexManifestV1& manifest,
                                              const VersionHistoryEntry& history_entry) {
-  // Update manifest in default CF
-  std::string manifest_json = manifest.to_rocksdb_value();
+  auto manifest_with_history = manifest;
+
+  // Preserve any previously persisted history before appending the new entry.
+  // Otherwise each write resets version history and rollback checks silently fail
+  // after the first version is stored.
+  try {
+    auto existing = LoadManifest();
+    if (!existing.version_history.empty()) {
+      manifest_with_history.version_history = existing.version_history;
+    }
+  } catch (const std::exception&) {
+    // Fall back to the incoming manifest state if no prior history exists.
+  }
+
+  manifest_with_history.add_version_history(history_entry);
+
+  std::string manifest_json = manifest_with_history.to_rocksdb_value();
   auto status = db_->Put(rocksdb::WriteOptions(), cf_default_, "index_version", manifest_json);
   if (!status.ok()) {
     spdlog::error("[IndexMetadataStore] Failed to write manifest: {}", status.ToString());
     throw std::runtime_error("Failed to write manifest: " + status.ToString());
   }
 
-  // Append to version history CF
   std::string version_key = EncodeVersionNumber(history_entry.version_number);
   std::string history_json = history_entry.to_json().dump(-1);
   status = db_->Put(rocksdb::WriteOptions(), cf_version_history_, version_key, history_json);

@@ -1596,16 +1596,72 @@ void InferenceEngineEnhanced::processBatch(
                     }
 
                     if (!merged) {
-                        // All instances failed — build aggregated error.
+                        // All instances failed — build aggregated error and fan-out
+                        // telemetry so downstream callers can classify the failure.
                         std::string agg = {};
+                        std::vector<json> failure_envelope;
+                        int total_attempts = 0;
                         for (const auto& fr : fan_results) {
-                            agg += "[" + fr.instance_id + ": " + fr.error + "] ";
+                            total_attempts += std::max(1, fr.attempts);
+                            failure_envelope.push_back(json::object({
+                                {"instance_id", fr.instance_id},
+                                {"error_code", fr.error_code},
+                                {"error", fr.error},
+                                {"attempts", fr.attempts},
+                                {"dispatch_time_ms", fr.dispatch_time_ms}
+                            }));
+                            agg += "[" + fr.instance_id + ": " + fr.error_code + " (" + fr.error + ")] ";
                         }
+
+                        if (!response.metadata.is_object()) {
+                            response.metadata = json::object();
+                        }
+                        response.metadata["fan_out_total"] = static_cast<int>(fan_results.size());
+                        response.metadata["fan_out_success_count"] = 0;
+                        response.metadata["fan_out_failure_count"] = static_cast<int>(fan_results.size());
+                        response.metadata["fan_out_total_attempts"] = total_attempts;
+                        response.metadata["fan_out_partial_failure"] = false;
+                        response.metadata["fan_out_failure_class"] = "LLM_FANOUT_ALL_FAILED";
+                        response.metadata["fan_out_failure_envelope"] = std::move(failure_envelope);
+
                         spdlog::error("InferenceEngineEnhanced: all {} fan-out instances "
                                       "failed for request '{}': {}",
                                       fan_results.size(), req.request_id, agg);
                         response.success       = false;
                         response.error_message = "All fan-out instances failed: " + agg;
+                    } else {
+                        if (!response.metadata.is_object()) {
+                            response.metadata = json::object();
+                        }
+                        int success_count = 0;
+                        int failure_count = 0;
+                        int total_attempts = 0;
+                        std::vector<json> failure_envelope;
+                        for (const auto& fr : fan_results) {
+                            total_attempts += std::max(1, fr.attempts);
+                            if (fr.success) {
+                                ++success_count;
+                            } else {
+                                ++failure_count;
+                                failure_envelope.push_back(json::object({
+                                    {"instance_id", fr.instance_id},
+                                    {"error_code", fr.error_code},
+                                    {"error", fr.error},
+                                    {"attempts", fr.attempts},
+                                    {"dispatch_time_ms", fr.dispatch_time_ms}
+                                }));
+                            }
+                        }
+                        response.metadata["fan_out_total"] = static_cast<int>(fan_results.size());
+                        response.metadata["fan_out_success_count"] = success_count;
+                        response.metadata["fan_out_failure_count"] = failure_count;
+                        response.metadata["fan_out_total_attempts"] = total_attempts;
+                        response.metadata["fan_out_partial_failure"] = (success_count > 0 && failure_count > 0);
+                        response.metadata["fan_out_failure_class"] =
+                            (failure_count == 0) ? "LLM_FANOUT_NONE_FAILED"
+                            : (success_count > 0 && failure_count > 0 ? "LLM_FANOUT_PARTIAL_FAILURE"
+                                                                       : "LLM_FANOUT_ALL_FAILED");
+                        response.metadata["fan_out_failure_envelope"] = std::move(failure_envelope);
                     }
 
                     // Skip local inference for fan-out requests.

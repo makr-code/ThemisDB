@@ -10,8 +10,31 @@
 #include <filesystem>
 #include <thread>
 #include <unordered_set>
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <unistd.h>
+#endif
 
 namespace fs = std::filesystem;
+
+namespace {
+std::string makeUniqueTestDbPath(const std::string& name) {
+    const auto root = fs::temp_directory_path() / "themisdb-tests";
+    std::error_code ec;
+    fs::create_directories(root, ec);
+
+    const auto pid = []() {
+#ifdef _WIN32
+        return static_cast<unsigned long long>(::GetCurrentProcessId());
+#else
+        return static_cast<unsigned long long>(::getpid());
+#endif
+    }();
+
+    return (root / (name + "_" + std::to_string(pid))).string();
+}
+} // namespace
 
 // ---------------------------------------------------------------------------
 // Test fixture
@@ -37,7 +60,7 @@ protected:
     }
 
     void SetUp() override {
-        test_db_path_ = "./data/themis_gpu_traversal_test";
+        test_db_path_ = makeUniqueTestDbPath("themis_gpu_traversal_test");
         removeTestDbPath();
 
         themis::RocksDBWrapper::Config config;
@@ -494,7 +517,7 @@ protected:
     }
 
     void SetUp() override {
-        test_db_path_ = "./data/themis_gpu_optimizer_integration_test";
+        test_db_path_ = makeUniqueTestDbPath("themis_gpu_optimizer_integration_test");
         removeTestDbPath();
 
         themis::RocksDBWrapper::Config config;

@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "themisdb/tensor/dream-mode-manifest.schema.json",
+  "title": "ThemisDB Dream Mode Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "manifest_version",
+    "run_id",
+    "timestamp_utc",
+    "commit_sha",
+    "build_profile",
+    "mode",
+    "dataset",
+    "seeds",
+    "feature_flags",
+    "safety",
+    "gates",
+    "results",
+    "decision"
+  ],
+  "properties": {
+    "manifest_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "timestamp_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "commit_sha": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{7,40}$"
+    },
+    "build_profile": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mode": {
+      "const": "dream_research"
+    },
+    "dataset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "snapshot_hash",
+        "split_hash"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "snapshot_hash": {
+          "type": "string",
+          "pattern": "^[A-Fa-f0-9]{64}$"
+        },
+        "split_hash": {
+          "type": "string",
+          "pattern": "^[A-Fa-f0-9]{64}$"
+        }
+      }
+    },
+    "seeds": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "feature_flags": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "dream_mode",
+        "synthetic_candidates",
+        "ethics_veto_enabled",
+        "production_truth_path_write"
+      ],
+      "properties": {
+        "dream_mode": {
+          "const": true
+        },
+        "synthetic_candidates": {
+          "type": "boolean"
+        },
+        "ethics_veto_enabled": {
+          "type": "boolean"
+        },
+        "production_truth_path_write": {
+          "const": false
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "truth_path_firewall_passed",
+        "label_integrity_passed",
+        "ethics_veto_trigger_count",
+        "security_policy_passed"
+      ],
+      "properties": {
+        "truth_path_firewall_passed": {
+          "type": "boolean"
+        },
+        "label_integrity_passed": {
+          "type": "boolean"
+        },
+        "ethics_veto_trigger_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "security_policy_passed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "BRAIN-DREAM-ISOLATION",
+        "BRAIN-DREAM-LABEL-INTEGRITY",
+        "BRAIN-DREAM-UTILITY",
+        "BRAIN-DREAM-NONREGRESSION",
+        "BRAIN-DREAM-ETHICS-BOUNDARY"
+      ],
+      "properties": {
+        "BRAIN-DREAM-ISOLATION": {
+          "$ref": "#/$defs/gateStatus"
+        },
+        "BRAIN-DREAM-LABEL-INTEGRITY": {
+          "$ref": "#/$defs/gateStatus"
+        },
+        "BRAIN-DREAM-UTILITY": {
+          "$ref": "#/$defs/gateStatus"
+        },
+        "BRAIN-DREAM-NONREGRESSION": {
+          "$ref": "#/$defs/gateStatus"
+        },
+        "BRAIN-DREAM-ETHICS-BOUNDARY": {
+          "$ref": "#/$defs/gateStatus"
+        }
+      }
+    },
+    "results": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "utility_delta_recall_at_10",
+        "utility_delta_ndcg_at_10",
+        "online_hallucination_delta",
+        "latency_delta_p95"
+      ],
+      "properties": {
+        "utility_delta_recall_at_10": {
+          "type": "number"
+        },
+        "utility_delta_ndcg_at_10": {
+          "type": "number"
+        },
+        "online_hallucination_delta": {
+          "type": "number"
+        },
+        "latency_delta_p95": {
+          "type": "number"
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "recommendation",
+        "rationale",
+        "approved_by"
+      ],
+      "properties": {
+        "recommendation": {
+          "enum": [
+            "no_go",
+            "research_only",
+            "promotion_candidate"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "approved_by": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  },
+  "$defs": {
+    "gateStatus": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "hold",
+        "fail"
+      ]
+    }
+  }
+}

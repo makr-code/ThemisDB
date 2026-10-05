@@ -1781,6 +1781,7 @@ set(THEMIS_INGESTION_SOURCES
     ../src/ingestion/agentic_reference_validator.cpp
     ../src/ingestion/ingestion_quality_judge.cpp
     ../src/ingestion/reindex_decision_engine.cpp
+    ../src/ingestion/canary_deployment_manager.cpp
     # Backend-agnostic adapter used by ingestion_manager even in regex-fallback mode.
     ../src/ingestion/llm_adapter.cpp
     ../src/ingestion/steps/chunk_tt_decompose_step.cpp

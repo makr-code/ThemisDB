@@ -16,13 +16,15 @@ namespace gpu {
 // Default SLA: 5 seconds.
 class KernelSLAGuard {
  public:
-  static constexpr std::chrono::seconds DEFAULT_SLA_DURATION{5};
+  using TimeoutDuration = std::chrono::seconds;
+
+  static constexpr TimeoutDuration DEFAULT_SLA_DURATION{5};
 
   explicit KernelSLAGuard(
       std::chrono::steady_clock::duration timeout_duration = DEFAULT_SLA_DURATION) noexcept
       : start_time_(std::chrono::steady_clock::now()),
         deadline_(start_time_ + timeout_duration),
-        timeout_duration_(timeout_duration) {}
+        timeout_duration_(std::chrono::duration_cast<TimeoutDuration>(timeout_duration)) {}
 
   KernelSLAGuard(const KernelSLAGuard&) = delete;
   KernelSLAGuard& operator=(const KernelSLAGuard&) = delete;
@@ -56,7 +58,7 @@ class KernelSLAGuard {
     return deadline_ - std::chrono::steady_clock::now();
   }
 
-  std::chrono::steady_clock::duration getSLADuration() const noexcept {
+  TimeoutDuration getSLADuration() const noexcept {
     return timeout_duration_;
   }
 
@@ -66,7 +68,7 @@ class KernelSLAGuard {
  private:
   std::chrono::steady_clock::time_point start_time_;
   std::chrono::steady_clock::time_point deadline_;
-  std::chrono::steady_clock::duration timeout_duration_;
+  TimeoutDuration timeout_duration_;
 };
 
 }  // namespace gpu

@@ -115,12 +115,9 @@ static void applySchemaHints(GraphQueryOptimizer::OptimizationPlan& plan,
 
 GraphQueryOptimizer::GraphQueryOptimizer(GraphIndexManager& graph_manager)
     : graph_manager_(graph_manager) {
-    // Adaptive cost models are initialized lazily on first observed execution.
-    // Pre-populating every algorithm with a zero-valued model incorrectly makes a
-    // fresh optimizer look as though it has learned data, and it also violates the
-    // expectation that adaptive learning disabled does not populate the model.
-
-    // Initialize with basic statistics
+    // Adaptive cost models must remain empty until the optimizer actually
+    // observes a real execution. Pre-seeding the map creates phantom entries and
+    // violates the contract tested by the adaptive-learning suite.
     auto result = collectStatistics();
     if (!result) {
         spdlog::warn("Failed to collect initial graph statistics: {}", result.error().message());
@@ -2878,9 +2875,13 @@ void GraphQueryOptimizer::recordExecution(const ExecutionStats& stats) {
         // current_max updated by CAS on failure; retry
     }
 
-    // Adaptive cost model: update per-algorithm EMA with observed execution time
+    // Adaptive cost model: only create entries on real observed executions.
+    // An empty optimizer must stay empty until data is collected, even if the
+    // algorithm set is known by the enum.
     if (adaptive_learning_enabled_) {
-        algo_cost_models_[stats.algorithm].update(stats.execution_time_ms);
+        auto [it, inserted] = algo_cost_models_.try_emplace(stats.algorithm, AlgorithmCostModel{});
+        (void)inserted;
+        it->second.update(stats.execution_time_ms);
     }
 }
 
@@ -2921,6 +2922,9 @@ static std::string algoToName(GraphQueryOptimizer::TraversalAlgorithm algo) {
 std::string GraphQueryOptimizer::exportCostModel() const {
     nlohmann::json j = nlohmann::json::object();
     for (const auto& [algo, model] : algo_cost_models_) {
+        if (model.exec_count == 0) {
+            continue;
+        }
         std::string name = algoToName(algo);
         j[name] = {
             {"ema_cost_ms",  model.ema_cost_ms},

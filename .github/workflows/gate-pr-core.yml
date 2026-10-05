@@ -258,13 +258,79 @@ jobs:
           echo "release-critical aggregate target missing; falling back to full test build";
           cmake --build build-pr-release-critical --parallel 16;
         fi
-      validation_mode: labels
-      ctest_label_filter: release_critical
+      validation_mode: none
       runs_on: ubuntu-latest
       shell: bash
       fetch_depth: '0'
       working_directory: .
       summary_title: "Build: PR Release-Critical Test Quality Line"
+
+  quality-test-gate:
+    name: "Gate: PR Release-Critical CTest Quality"
+    needs: quality-test-build
+    if: needs.quality-test-build.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Run release-critical CTest gate
+        id: ctest_gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          LOG_FILE="$RUNNER_TEMP/release-critical-ctest.log"
+          rm -f "$LOG_FILE"
+          set +e
+          ctest --test-dir build-pr-release-critical --output-on-failure -j 1 --timeout 60 --label-regex 'release_critical' 2>&1 | tee "$LOG_FILE"
+          CT_EXIT=${PIPESTATUS[0]}
+          set -e
+          echo "ctest_exit=${CT_EXIT}" >> "$GITHUB_OUTPUT"
+          exit "$CT_EXIT"
+
+      - name: Summarize CTest gate issues
+        id: ctest_triage
+        if: always()
+        shell: bash
+        run: |
+          LOG_PATH="$RUNNER_TEMP/release-critical-ctest.log"
+          if [ ! -f "$LOG_PATH" ]; then
+            echo "has_actionable_issues=false" >> "$GITHUB_OUTPUT"
+            echo "issue_count=0" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          set +e
+          python3 scripts/ci/log_issue_triage.py \
+            --ctest-log "$LOG_PATH" \
+            --output-markdown "$RUNNER_TEMP/ctest-triage.md" \
+            --output-json "$RUNNER_TEMP/ctest-triage.json" \
+            --issue-kind ctest \
+            --title "[CI] CTest Validation Triage" \
+            --write-github-output "$GITHUB_OUTPUT"
+          TRIAGE_EXIT=$?
+          set -e
+          echo "triage_exit=${TRIAGE_EXIT}" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Upsert CTest triage issue
+        if: steps.ctest_triage.outputs.has_actionable_issues == 'true'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: upsert_issue
+          issue-title: '[CI] CTest Validation Triage'
+          issue-marker: '<!-- ci-ctest:type:test-triage -->'
+          issue-body-file: ${{ runner.temp }}/ctest-triage.md
+          labels-to-add: 'ci/test-failed,ci/failure,status/needs-triage'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
 
   # ────────────────────────────────────────────────────────────────────────────
   # GATE 1 — Community Pipeline Policy (no private credentials in community CI)

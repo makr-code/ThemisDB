@@ -93,6 +93,20 @@ public:
         state_ = SubagentState::LOADING;
         lock.unlock();
 
+        if (!plugin_) {
+            std::unique_lock<std::shared_mutex> state_lock(state_mutex_);
+            state_ = SubagentState::ERROR;
+            last_error_ = "subagent_load_model_failed: no LLM plugin configured";
+            return tl::make_unexpected(last_error_);
+        }
+
+        if (!plugin_->loadModel(config_.model_id, {})) {
+            std::unique_lock<std::shared_mutex> state_lock(state_mutex_);
+            state_ = SubagentState::ERROR;
+            last_error_ = "subagent_load_model_failed: " + config_.model_id;
+            return tl::make_unexpected(last_error_);
+        }
+
         // Load model and adapter asynchronously (simplified for now)
         // In production, this would:
         // 1. Call model_loader_->loadModel(config_.model_id)
@@ -239,7 +253,7 @@ public:
 
         try {
             InferenceRequest plugin_request = request;
-            if (plugin_request.model_id.empty()) {
+            if (plugin_request.model_id.empty() || plugin_request.model_id == "default") {
                 plugin_request.model_id = config_.model_id;
             }
             if (plugin_request.max_tokens <= 0) {
@@ -255,8 +269,8 @@ public:
             if (!response.success) {
                 result.success = false;
                 result.error = response.error_message.empty()
-                                 ? "LLM plugin returned unsuccessful response"
-                                 : response.error_message;
+                                 ? "subagent_infer_runtime_failed: LLM plugin returned unsuccessful response"
+                                 : "subagent_infer_runtime_failed: " + response.error_message;
                 {
                     /**
                      * @brief Lock.
@@ -356,7 +370,7 @@ private:
             std::shared_lock<std::shared_mutex> lock(state_mutex_);
             if (state_ != SubagentState::READY) {
                 if (error != nullptr) {
-                    *error = "Subagent not in READY state";
+                    *error = "subagent_infer_state_not_ready: subagent not in READY state";
                 }
                 return false;
             }

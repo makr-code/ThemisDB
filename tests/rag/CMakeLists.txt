@@ -86,6 +86,20 @@ foreach(_src IN LISTS RAG_MODULE_TEST_SOURCES)
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/rag/cross_encoder_orchestrator.cpp
         )
+    elseif("${_stem}" STREQUAL "test_ingestion_latency_monitor")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/ingestion_latency_monitor.cpp
+        )
+    elseif("${_stem}" STREQUAL "test_freshness_sla_enforcer")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/freshness_sla_enforcer.cpp
+            ${THEMIS_ROOT_DIR}/src/rag/ingestion_latency_monitor.cpp
+        )
+    elseif("${_stem}" STREQUAL "test_staleness_aware_router")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/staleness_aware_router.cpp
+            ${THEMIS_ROOT_DIR}/src/rag/ingestion_latency_monitor.cpp
+        )
     endif()
     if(_extra_sources)
         target_sources(${_target} PRIVATE ${_extra_sources})

@@ -292,18 +292,18 @@ TEST_F(LlamaCppPluginValidationTest, ValidateMemoryCpuOnlyMode) {
 }
 
 TEST_F(LlamaCppPluginValidationTest, ValidateMemoryGpuRequested) {
-    // GPU layers requested
+    // GPU layers requested; keep the model under the 8 GiB GPU budget so the
+    // validation gate still represents a feasible allocation.
     constexpr size_t kGiB = 1024ULL * 1024ULL * 1024ULL;
-    const size_t model_size = 7 * kGiB;
+    const size_t model_size = 5 * kGiB;
     const int gpu_layers = 40;
 
     EXPECT_GT(gpu_layers, 0);
 
-    // Estimated GPU memory = 1.5x model size
+    // Estimated GPU memory = 1.5x model size. This remains under the 8 GiB cap.
     const size_t estimated_gpu = (model_size * 3ULL) / 2ULL;
     const size_t gpu_limit = 8 * kGiB;
 
-    // Should fit on GPU
     EXPECT_LE(estimated_gpu, gpu_limit);
 }
 

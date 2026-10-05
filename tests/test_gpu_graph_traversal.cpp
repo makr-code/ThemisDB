@@ -7,8 +7,31 @@
 #include <algorithm>
 #include <filesystem>
 #include <unordered_set>
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <unistd.h>
+#endif
 
 namespace fs = std::filesystem;
+
+namespace {
+std::string makeUniqueTestDbPath(const std::string& name) {
+    const auto root = fs::temp_directory_path() / "themisdb-tests";
+    std::error_code ec;
+    fs::create_directories(root, ec);
+
+    const auto pid = []() {
+#ifdef _WIN32
+        return static_cast<unsigned long long>(::GetCurrentProcessId());
+#else
+        return static_cast<unsigned long long>(::getpid());
+#endif
+    }();
+
+    return (root / (name + "_" + std::to_string(pid))).string();
+}
+} // namespace
 
 // ---------------------------------------------------------------------------
 // Test fixture
@@ -17,7 +40,7 @@ namespace fs = std::filesystem;
 class GPUGraphTraversalTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        test_db_path_ = "./data/themis_gpu_traversal_test";
+        test_db_path_ = makeUniqueTestDbPath("themis_gpu_traversal_test");
         fs::remove_all(test_db_path_);
 
         themis::RocksDBWrapper::Config config;
@@ -402,7 +425,7 @@ TEST_F(GPUGraphTraversalTest, AllVertices_CountMatchesExpected) {
 class GPUGraphOptimizerIntegrationTest : public ::testing::Test {
 protected:
     void SetUp() override {
-        test_db_path_ = "./data/themis_gpu_optimizer_integration_test";
+        test_db_path_ = makeUniqueTestDbPath("themis_gpu_optimizer_integration_test");
         fs::remove_all(test_db_path_);
 
         themis::RocksDBWrapper::Config config;

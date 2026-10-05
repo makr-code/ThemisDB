@@ -265,6 +265,11 @@ private:
 
     mutable std::unordered_map<std::string, std::vector<float>> query_embed_cache_;
 
+    mutable std::mutex          doc_metadata_mutex_;
+    mutable std::unordered_map<std::string, std::string> pk_to_doc_id_;
+    mutable std::unordered_map<std::string, std::string> pk_to_section_title_;
+    mutable std::unordered_map<std::string, std::string> pk_to_source_path_;
+
     std::atomic<bool>           dim_probed_{false};
 
     std::string                 emb_cache_table_;

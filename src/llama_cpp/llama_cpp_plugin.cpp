@@ -702,13 +702,16 @@ void LlamaCppPlugin::setPolicyFn(PolicyFn fn) {
 
 llm::LLMCapabilities LlamaCppPlugin::getCapabilities() const {
     llm::LLMCapabilities cap;
-    cap.supports_streaming     = true;
-    cap.supports_batching      = true;
-    cap.supports_lora          = true;
-    cap.supports_embeddings    = true;
-    cap.supports_rag           = true;
+    cap.supports_instruct     = true;
+    cap.supports_chat         = true;
+    cap.supports_completion   = true;
+    cap.supports_streaming    = true;
+    cap.supports_batching     = true;
+    cap.supports_lora         = true;
+    cap.supports_embeddings   = true;
+    cap.supports_rag          = true;
     cap.supports_function_call = true;
-    cap.plugin_version         = "2.1.0";
+    cap.plugin_version        = "2.1.0";
     return cap;
 }
 

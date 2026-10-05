@@ -20,6 +20,25 @@
 
 namespace themis {
 namespace llm {
+namespace {
+
+InferenceResponse makeFailedResponse(const AsyncInferenceRequest& request,
+                                    double queue_time,
+                                    const std::string& error_message) {
+    InferenceResponse failed;
+    failed.request_id = request.request_id;
+    failed.model_id = request.request.model_id;
+    failed.success = false;
+    failed.error_message = error_message;
+    failed.metadata["async"] = true;
+    failed.metadata["error"] = error_message;
+    failed.metadata["queue_time_ms"] = queue_time;
+    failed.metadata["request_id"] = request.request_id;
+    failed.metadata["priority"] = request.priority;
+    return failed;
+}
+
+}  // namespace
 
 // ═══════════════════════════════════════════════════════════
 // AsyncInferenceEngine Implementation
@@ -214,7 +233,7 @@ InferenceHandle AsyncInferenceEngine::submit(
     auto async_req = std::make_shared<AsyncInferenceRequest>();
     async_req->request    = request;
     async_req->priority   = priority;
-    async_req->request_id = generateRequestId();
+    async_req->request_id = request.request_id.empty() ? generateRequestId() : request.request_id;
     // cancel_token is default-initialised to false in the struct
 
     // Set per-request deadline when a positive timeout is given
@@ -331,7 +350,7 @@ std::string AsyncInferenceEngine::submitAsync(
     auto async_req = std::make_shared<AsyncInferenceRequest>();
     async_req->request    = request;
     async_req->priority   = priority;
-    async_req->request_id = generateRequestId();
+    async_req->request_id = request.request_id.empty() ? generateRequestId() : request.request_id;
     async_req->callback   = callback;
 
     // Set per-request deadline when a positive timeout is given
@@ -473,7 +492,7 @@ InferenceHandle AsyncInferenceEngine::submitStreaming(
     auto async_req          = std::make_shared<AsyncInferenceRequest>();
     async_req->request      = request;
     async_req->priority     = priority;
-    async_req->request_id   = generateRequestId();
+    async_req->request_id   = request.request_id.empty() ? generateRequestId() : request.request_id;
 
     if (timeout.count() > 0) {
         async_req->deadline = submit_time + timeout;
@@ -1096,8 +1115,24 @@ InferenceResponse AsyncInferenceEngine::processRequest(
         return failed;
     }
 
-    // Call plugin (blocking inference)
-    InferenceResponse response = plugin_snapshot->generate(effective_request);
+    // Call plugin (blocking inference). Plugin failures are translated into a
+    // structured failed response rather than throwing across the async boundary.
+    InferenceResponse response;
+    try {
+        response = plugin_snapshot->generate(effective_request);
+    } catch (const std::exception& e) {
+        const std::string err = std::string("Plugin generate failed: ") + e.what();
+        spdlog::error("AsyncInferenceEngine: request {} plugin generate failed: {}",
+                      request.request_id, e.what());
+        response = makeFailedResponse(request, queue_time, err);
+        return response;
+    } catch (...) {
+        const std::string err = "Plugin generate failed with unknown exception";
+        spdlog::error("AsyncInferenceEngine: request {} plugin generate failed with unknown exception",
+                      request.request_id);
+        response = makeFailedResponse(request, queue_time, err);
+        return response;
+    }
 
     if (streaming_mode) {
         spdlog::info(
@@ -1294,7 +1329,7 @@ void AsyncInferenceEngine::timeoutMonitorLoop() {
 
     while (running_.load()) {
         checkAndHandleTimeouts();
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
     }
 
     spdlog::debug("AsyncInferenceEngine timeout monitor stopped");

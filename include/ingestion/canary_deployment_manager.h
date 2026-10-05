@@ -160,6 +160,20 @@ class CanaryDeploymentManager {
   bool RollbackToPreviousVersion();
 
   /**
+   * @brief Get the minimum query count needed for a phase.
+   * @param phase Target phase
+   * @return Required query volume for progression
+   */
+  static size_t GetMinQueryCountForPhase(CanaryPhase phase);
+
+  /**
+   * @brief Get the minimum required duration for a phase.
+   * @param phase Target phase
+   * @return Minimum duration for the phase
+   */
+  static std::chrono::seconds GetMinPhaseDuration(CanaryPhase phase);
+
+  /**
    * @brief Get current phase
    * @return Active canary phase
    */
@@ -217,19 +231,6 @@ class CanaryDeploymentManager {
    */
   CanaryMetrics ComputePhaseMetrics(const std::vector<QueryRecord>& records) const;
 
-  /**
-   * @brief Get minimum query count required for phase
-   * @param phase Target phase
-   * @return Minimum queries needed before progression allowed
-   */
-  static size_t GetMinQueryCountForPhase(CanaryPhase phase);
-
-  /**
-   * @brief Get minimum phase duration
-   * @param phase Target phase
-   * @return Minimum duration in seconds before progression allowed
-   */
-  static std::chrono::seconds GetMinPhaseDuration(CanaryPhase phase);
 };
 
 }  // namespace themis::ingestion

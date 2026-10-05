@@ -1,0 +1,376 @@
+-- Themis: MSVC selection = vs2022
+CMake Warning at cmake/DetectVsDevCmd.cmake:223 (message):
+  MSVC developer environment incomplete after VsDevCmd initialization.
+  Missing: LIB;INCLUDE;LIBPATH;WindowsSdkDir;VCToolsInstallDir.  Applying
+  direct fallback library paths for sub-builds.
+Call Stack (most recent call first):
+  CMakeLists.txt:18 (include)
+
+
+-- Applied Visual Studio environment from: C:\Program Files/Microsoft Visual Studio/2022/Professional/Common7/Tools/VsDevCmd.bat
+-- ThemisDB 2.4.0 (2.4.0) [type=stable]
+-- ThemisDB dependency contract: STRICT mode enabled. Core dependencies must resolve without silent fallback.
+-- Running vcpkg install
+warning: feature gpu was passed, but that is not a feature supported by themisdb supports.
+Loading dependency information for 199 packages...
+Detecting compiler hash for triplet x64-windows...
+Compiler found: C:/Program Files/Microsoft Visual Studio/2022/Professional/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe
+The following packages are already installed:
+  * abseil:x64-windows@20260107.1#3
+    benchmark:x64-windows@1.9.0
+  * blas:x64-windows@2023-04-14#6
+  * boost-accumulators:x64-windows@1.92.0
+  * boost-algorithm:x64-windows@1.92.0
+  * boost-align:x64-windows@1.92.0
+  * boost-any:x64-windows@1.92.0
+  * boost-array:x64-windows@1.92.0
+  * boost-asio[core,spawn,deadline-timer]:x64-windows@1.92.0
+  * boost-assert:x64-windows@1.92.0
+  * boost-assign:x64-windows@1.92.0
+  * boost-atomic:x64-windows@1.92.0
+  * boost-beast:x64-windows@1.92.0
+  * boost-bimap:x64-windows@1.92.0
+  * boost-bind:x64-windows@1.92.0
+  * boost-bloom:x64-windows@1.92.0
+  * boost-callable-traits:x64-windows@1.92.0
+  * boost-charconv:x64-windows@1.92.0
+  * boost-chrono:x64-windows@1.92.0
+  * boost-circular-buffer:x64-windows@1.92.0
+  * boost-cmake:x64-windows@1.92.0
+  * boost-cobalt:x64-windows@1.92.0
+  * boost-compat:x64-windows@1.92.0
+  * boost-compute:x64-windows@1.92.0
+  * boost-concept-check:x64-windows@1.92.0
+  * boost-config:x64-windows@1.92.0
+  * boost-container:x64-windows@1.92.0
+  * boost-container-hash:x64-windows@1.92.0
+  * boost-context:x64-windows@1.92.0
+  * boost-contract:x64-windows@1.92.0
+  * boost-conversion:x64-windows@1.92.0
+  * boost-convert:x64-windows@1.92.0
+  * boost-core:x64-windows@1.92.0
+  * boost-coroutine:x64-windows@1.92.0
+  * boost-coroutine2:x64-windows@1.92.0
+  * boost-crc:x64-windows@1.92.0
+  * boost-date-time:x64-windows@1.92.0
+  * boost-decimal:x64-windows@1.92.0
+  * boost-describe:x64-windows@1.92.0
+  * boost-detail:x64-windows@1.92.0
+  * boost-dll:x64-windows@1.92.0
+  * boost-dynamic-bitset:x64-windows@1.92.0
+  * boost-endian:x64-windows@1.92.0
+  * boost-exception:x64-windows@1.92.0
+  * boost-fiber:x64-windows@1.92.0
+  * boost-filesystem:x64-windows@1.92.0
+  * boost-flyweight:x64-windows@1.92.0
+  * boost-foreach:x64-windows@1.92.0
+  * boost-format:x64-windows@1.92.0
+  * boost-function:x64-windows@1.92.0
+  * boost-function-types:x64-windows@1.92.0
+  * boost-functional:x64-windows@1.92.0
+  * boost-fusion:x64-windows@1.92.0
+  * boost-geometry:x64-windows@1.92.0
+  * boost-gil:x64-windows@1.92.0
+  * boost-graph:x64-windows@1.92.0
+  * boost-hana:x64-windows@1.92.0
+  * boost-hash2:x64-windows@1.92.0
+  * boost-headers:x64-windows@1.92.0
+  * boost-heap:x64-windows@1.92.0
+  * boost-histogram:x64-windows@1.92.0
+  * boost-hof:x64-windows@1.92.0
+  * boost-icl:x64-windows@1.92.0
+  * boost-integer:x64-windows@1.92.0
+  * boost-interprocess:x64-windows@1.92.0
+  * boost-interval:x64-windows@1.92.0
+  * boost-intrusive:x64-windows@1.92.0
+  * boost-io:x64-windows@1.92.0
+  * boost-iostreams[core,zstd,zlib,lzma,bzip2]:x64-windows@1.92.0
+  * boost-iterator:x64-windows@1.92.0
+  * boost-json:x64-windows@1.92.0
+  * boost-lambda:x64-windows@1.92.0
+  * boost-lambda2:x64-windows@1.92.0
+  * boost-leaf:x64-windows@1.92.0
+  * boost-lexical-cast:x64-windows@1.92.0
+  * boost-local-function:x64-windows@1.92.0
+  * boost-locale:x64-windows@1.92.0
+  * boost-lockfree:x64-windows@1.92.0
+  * boost-log:x64-windows@1.92.0
+  * boost-logic:x64-windows@1.92.0
+  * boost-math:x64-windows@1.92.0
+  * boost-metaparse:x64-windows@1.92.0
+  * boost-move:x64-windows@1.92.0
+  * boost-mp11:x64-windows@1.92.0
+  * boost-mpl:x64-windows@1.92.0
+  * boost-mqtt5:x64-windows@1.92.0
+  * boost-msm:x64-windows@1.92.0
+  * boost-multi-array:x64-windows@1.92.0
+  * boost-multi-index:x64-windows@1.92.0
+  * boost-multiprecision:x64-windows@1.92.0
+  * boost-nowide:x64-windows@1.92.0
+  * boost-numeric-conversion:x64-windows@1.92.0
+  * boost-odeint:x64-windows@1.92.0
+  * boost-openmethod:x64-windows@1.92.0
+  * boost-optional:x64-windows@1.92.0
+  * boost-outcome:x64-windows@1.92.0
+  * boost-parameter:x64-windows@1.92.0
+  * boost-parser:x64-windows@1.92.0
+  * boost-pfr:x64-windows@1.92.0
+  * boost-phoenix:x64-windows@1.92.0
+  * boost-poly-collection:x64-windows@1.92.0
+  * boost-polygon:x64-windows@1.92.0
+  * boost-pool:x64-windows@1.92.0
+  * boost-predef:x64-windows@1.92.0
+  * boost-preprocessor:x64-windows@1.92.0
+  * boost-process:x64-windows@1.92.0
+  * boost-program-options:x64-windows@1.92.0
+  * boost-property-map:x64-windows@1.92.0
+  * boost-property-tree:x64-windows@1.92.0
+  * boost-proto:x64-windows@1.92.0
+  * boost-ptr-container:x64-windows@1.92.0
+  * boost-qvm:x64-windows@1.92.0
+  * boost-random:x64-windows@1.92.0
+  * boost-range:x64-windows@1.92.0
+  * boost-ratio:x64-windows@1.92.0
+  * boost-rational:x64-windows@1.92.0
+  * boost-redis:x64-windows@1.92.0
+  * boost-regex:x64-windows@1.92.0
+  * boost-safe-numerics:x64-windows@1.92.0
+  * boost-scope:x64-windows@1.92.0
+  * boost-scope-exit:x64-windows@1.92.0
+  * boost-serialization:x64-windows@1.92.0
+  * boost-signals2:x64-windows@1.92.0
+  * boost-smart-ptr:x64-windows@1.92.0
+  * boost-sort:x64-windows@1.92.0
+  * boost-spirit:x64-windows@1.92.0
+  * boost-stacktrace[core,windbg]:x64-windows@1.92.0
+  * boost-statechart:x64-windows@1.92.0
+  * boost-static-assert:x64-windows@1.92.0
+  * boost-static-string:x64-windows@1.92.0
+  * boost-stl-interfaces:x64-windows@1.92.0
+  * boost-system:x64-windows@1.92.0
+  * boost-test:x64-windows@1.92.0
+  * boost-thread:x64-windows@1.92.0
+  * boost-throw-exception:x64-windows@1.92.0
+  * boost-timer:x64-windows@1.92.0
+  * boost-tokenizer:x64-windows@1.92.0
+  * boost-tti:x64-windows@1.92.0
+  * boost-tuple:x64-windows@1.92.0
+  * boost-type-erasure:x64-windows@1.92.0
+  * boost-type-index:x64-windows@1.92.0
+  * boost-type-traits:x64-windows@1.92.0
+  * boost-typeof:x64-windows@1.92.0
+  * boost-ublas:x64-windows@1.92.0
+  * boost-uninstall:x64-windows@1.92.0
+  * boost-units:x64-windows@1.92.0
+  * boost-unordered:x64-windows@1.92.0
+  * boost-url:x64-windows@1.92.0
+  * boost-utility:x64-windows@1.92.0
+  * boost-uuid:x64-windows@1.92.0
+  * boost-variant:x64-windows@1.92.0
+  * boost-variant2:x64-windows@1.92.0
+  * boost-vmd:x64-windows@1.92.0
+  * boost-wave:x64-windows@1.92.0
+  * boost-winapi:x64-windows@1.92.0
+  * boost-xpressive:x64-windows@1.92.0
+  * boost-yap:x64-windows@1.92.0
+  * brotli:x64-windows@1.2.0
+  * bzip2[core,tool]:x64-windows@1.0.8#6
+  * c-ares:x64-windows@1.34.8
+  * clapack:x64-windows@3.2.1#25
+    faiss:x64-windows@1.13.2
+    fmt:x64-windows@12.2.0#1
+  * gflags:x64-windows@2.3.0
+    gtest:x64-windows@1.18.0
+    hwloc:x64-windows@2.11.2
+  * liblzma:x64-windows@5.8.4
+  * lz4:x64-windows@1.10.0
+    nlohmann-json:x64-windows@3.12.0#2
+  * openblas:x64-windows@0.3.28
+    pugixml:x64-windows@1.16
+  * rapidjson:x64-windows@2025-02-26
+  * re2:x64-windows@2025-11-05
+  * snappy:x64-windows@1.2.2#2
+    spdlog[core,tz-offset,fmt]:x64-windows@1.17.0#1
+  * spirv-headers:x64-windows@1.4.357.0
+    tbb[core,hwloc]:x64-windows@2023.1.0
+  * utf8-range:x64-windows@6.33.4
+  * vcpkg-boost:x64-windows@2026-08-21
+  * vcpkg-cmake:x64-windows@2025-08-07
+  * vcpkg-cmake-config:x64-windows@2026-07-21
+  * vcpkg-cmake-get-vars:x64-windows@2025-05-29
+  * vcpkg-get-python:x64-windows@2025-02-09
+  * xsimd:x64-windows@14.3.0
+    yaml-cpp:x64-windows@0.9.0#1
+    zlib:x64-windows@1.3.2#2
+    zstd:x64-windows@1.5.7
+The following packages will be rebuilt:
+    arrow[core,csv,filesystem,json,parquet]:x64-windows@25.0.1
+    boost:x64-windows@1.92.0
+  * boost-mysql:x64-windows@1.92.0
+  * boost-parameter-python:x64-windows@1.92.0
+  * boost-python:x64-windows@1.92.0
+    curl[core,non-http,ssl,sspi]:x64-windows@8.22.0#1
+  * expat:x64-windows@2.8.5
+  * glslang:x64-windows@16.4.0
+    grpc[codegen,core]:x64-windows@1.81.1
+  * libevent[core,thread]:x64-windows@2.1.12+20230128#2
+  * libffi:x64-windows@3.8.0
+  * mimalloc:x64-windows@3.5.3
+    openssl:x64-windows@3.6.5
+    opentelemetry-cpp[core,otlp-http]:x64-windows@1.29.0#1
+  * pkgconf:x64-windows@3.0.3#1
+    protobuf[core,libprotoc]:x64-windows@6.33.4#2
+  * python3[core,extensions]:x64-windows@3.14.8
+    rocksdb[core,zlib]:x64-windows@11.8.1
+    shaderc:x64-windows@2026.2
+    simdjson[core,deprecated,exceptions,threads,utf8-validation]:x64-windows@5.0.1
+  * spirv-tools:x64-windows@1.4.357.0
+  * sqlite3[core,json1]:x64-windows@3.53.4#2
+  * thrift:x64-windows@0.25.0
+  * utf8proc:x64-windows@2.12.0
+  * vcpkg-make:x64-windows@2026-07-09#1
+  * vcpkg-msbuild:x64-windows@2023-08-08
+  * vcpkg-pkgconfig-get-modules:x64-windows@2024-04-03
+  * vcpkg-tool-meson:x64-windows@1.9.0#10
+    vulkan:x64-windows@2023-12-17
+  * vulkan-headers:x64-windows@1.4.363.0
+    vulkan-loader:x64-windows@1.4.357.0
+The following packages will be built and installed:
+  * mpdecimal:x64-windows@4.0.1
+Additional packages (*) will be modified to complete this operation.
+Restored 0 package(s) from C:\Users\mkrueger\AppData\Local\vcpkg\archives in 16.4 ms. Use --debug to see more details.
+Removing 1/63 boost:x64-windows
+Elapsed time to handle boost:x64-windows: 5.23 ms
+Removing 2/63 boost-mysql:x64-windows
+Elapsed time to handle boost-mysql:x64-windows: 81.4 ms
+Removing 3/63 boost-parameter-python:x64-windows
+Elapsed time to handle boost-parameter-python:x64-windows: 10.4 ms
+Removing 4/63 boost-python:x64-windows
+Elapsed time to handle boost-python:x64-windows: 103 ms
+Removing 5/63 python3:x64-windows
+Elapsed time to handle python3:x64-windows: 4.6 s
+Removing 6/63 vcpkg-msbuild:x64-windows
+Elapsed time to handle vcpkg-msbuild:x64-windows: 7.18 ms
+Removing 7/63 expat:x64-windows
+Elapsed time to handle expat:x64-windows: 21.1 ms
+Removing 8/63 libffi:x64-windows
+Elapsed time to handle libffi:x64-windows: 13.3 ms
+Removing 9/63 vcpkg-make:x64-windows
+Elapsed time to handle vcpkg-make:x64-windows: 12.7 ms
+Removing 10/63 sqlite3:x64-windows
+Elapsed time to handle sqlite3:x64-windows: 166 ms
+Removing 11/63 vcpkg-pkgconfig-get-modules:x64-windows
+Elapsed time to handle vcpkg-pkgconfig-get-modules:x64-windows: 5.35 ms
+Removing 12/63 pkgconf:x64-windows
+Elapsed time to handle pkgconf:x64-windows: 20.4 ms
+Removing 13/63 vcpkg-tool-meson:x64-windows
+Elapsed time to handle vcpkg-tool-meson:x64-windows: 12 ms
+Removing 14/63 vulkan:x64-windows
+Elapsed time to handle vulkan:x64-windows: 9.64 ms
+Removing 15/63 vulkan-loader:x64-windows
+Elapsed time to handle vulkan-loader:x64-windows: 42.6 ms
+Removing 16/63 vulkan-headers:x64-windows
+Elapsed time to handle vulkan-headers:x64-windows: 130 ms
+Removing 17/63 simdjson:x64-windows
+Elapsed time to handle simdjson:x64-windows: 29 ms
+Removing 18/63 shaderc:x64-windows
+Elapsed time to handle shaderc:x64-windows: 21.7 ms
+Removing 19/63 glslang:x64-windows
+Elapsed time to handle glslang:x64-windows: 26.3 ms
+Removing 20/63 spirv-tools:x64-windows
+Elapsed time to handle spirv-tools:x64-windows: 69.3 ms
+Removing 21/63 rocksdb:x64-windows
+Elapsed time to handle rocksdb:x64-windows: 146 ms
+Removing 22/63 opentelemetry-cpp:x64-windows
+Elapsed time to handle opentelemetry-cpp:x64-windows: 321 ms
+Removing 23/63 curl:x64-windows
+Elapsed time to handle curl:x64-windows: 38.1 ms
+Removing 24/63 arrow:x64-windows
+Elapsed time to handle arrow:x64-windows: 270 ms
+Removing 25/63 mimalloc:x64-windows
+Elapsed time to handle mimalloc:x64-windows: 20.4 ms
+Removing 26/63 thrift:x64-windows
+Elapsed time to handle thrift:x64-windows: 72.8 ms
+Removing 27/63 libevent:x64-windows
+Elapsed time to handle libevent:x64-windows: 33.5 ms
+Removing 28/63 utf8proc:x64-windows
+Elapsed time to handle utf8proc:x64-windows: 12 ms
+Removing 29/63 grpc:x64-windows
+Elapsed time to handle grpc:x64-windows: 4.2 s
+Removing 30/63 openssl:x64-windows
+Elapsed time to handle openssl:x64-windows: 98.1 ms
+Removing 31/63 protobuf:x64-windows
+Elapsed time to handle protobuf:x64-windows: 136 ms
+Installing 32/63 utf8proc:x64-windows@2.12.0...
+utf8proc:x64-windows@2.12.0 package ABI: d45b611c509a9ea3cdf59e1c57fd134894e81f49ba5a12b327c4a9cfd46205be
+Building utf8proc:x64-windows@2.12.0...
+Downloading https://github.com/JuliaLang/utf8proc/archive/v2.12.0.tar.gz -> JuliaLang-utf8proc-v2.12.0.tar.gz
+Successfully downloaded JuliaLang-utf8proc-v2.12.0.tar.gz
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/JuliaLang-utf8proc-v2.12.0.tar.gz
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/utf8proc/src/v2.12.0-b92ea5dd00.clean
+-- Configuring x64-windows
+-- Building x64-windows-dbg
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/utf8proc_x64-windows/lib/pkgconfig/libutf8proc.pc
+Downloading msys2-mingw-w64-x86_64-pkgconf-1~3.0.7-1-any.pkg.tar.zst, trying https://mirror.msys2.org/mingw/mingw64/mingw-w64-x86_64-pkgconf-1~3.0.7-1-any.pkg.tar.zst
+Successfully downloaded msys2-mingw-w64-x86_64-pkgconf-1~3.0.7-1-any.pkg.tar.zst
+Downloading msys2-msys2-runtime-3.6.10-4-x86_64.pkg.tar.zst, trying https://mirror.msys2.org/msys/x86_64/msys2-runtime-3.6.10-4-x86_64.pkg.tar.zst
+Successfully downloaded msys2-msys2-runtime-3.6.10-4-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/d5586eb050429df1
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/utf8proc_x64-windows/debug/lib/pkgconfig/libutf8proc.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/utf8proc_x64-windows/share/unofficial-utf8proc/unofficial-utf8proc-config.cmake
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/utf8proc_x64-windows/share/utf8proc/copyright
+-- Performing post-build validation
+Starting submission of utf8proc:x64-windows@2.12.0 to 1 binary cache(s) in the background
+Elapsed time to handle utf8proc:x64-windows: 11 s
+Installing 33/63 openssl:x64-windows@3.6.5...
+openssl:x64-windows@3.6.5 package ABI: 9371fe56a0fc3c0c7ff080cf7114cb220693015221154e12135bcfe97a2e846c
+Building openssl:x64-windows@3.6.5...
+Downloading https://github.com/openssl/openssl/archive/openssl-3.6.5.tar.gz -> openssl-openssl-openssl-3.6.5.tar.gz
+Successfully downloaded openssl-openssl-openssl-3.6.5.tar.gz
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/openssl-openssl-openssl-3.6.5.tar.gz
+-- Applying patch cmake-config.patch
+-- Applying patch command-line-length.patch
+-- Applying patch script-prefix.patch
+-- Applying patch windows/install-layout.patch
+-- Applying patch windows/install-pdbs.patch
+-- Applying patch windows/install-programs.diff
+-- Applying patch unix/android-cc.patch
+-- Applying patch unix/move-openssldir.patch
+-- Applying patch unix/no-empty-dirs.patch
+-- Applying patch unix/no-static-libs-for-shared.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/openssl/src/nssl-3.6.5-c2a478abe6.clean
+-- Getting CMake variables for x64-windows
+-- Loading CMake variables from C:/Projects/ThemisDB/vcpkg/buildtrees/openssl/cmake-get-vars_C_CXX-x64-windows.cmake.log
+-- Getting CMake variables for x64-windows
+-- Prerunning x64-windows-dbg
+-- Building x64-windows-dbg
+-- Prerunning x64-windows-rel
+-- Building x64-windows-rel
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/openssl_x64-windows/lib/pkgconfig/libcrypto.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/openssl_x64-windows/lib/pkgconfig/libssl.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/openssl_x64-windows/lib/pkgconfig/openssl.pc
+-- Using cached msys2-mingw-w64-x86_64-pkgconf-1~3.0.7-1-any.pkg.tar.zst
+-- Using cached msys2-msys2-runtime-3.6.10-4-x86_64.pkg.tar.zst
+-- Using msys root at C:/Projects/ThemisDB/vcpkg/downloads/tools/msys2/d5586eb050429df1
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/openssl_x64-windows/debug/lib/pkgconfig/libcrypto.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/openssl_x64-windows/debug/lib/pkgconfig/libssl.pc
+-- Fixing pkgconfig file: C:/Projects/ThemisDB/vcpkg/packages/openssl_x64-windows/debug/lib/pkgconfig/openssl.pc
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/openssl_x64-windows/share/openssl/usage
+-- Installing: C:/Projects/ThemisDB/vcpkg/packages/openssl_x64-windows/share/openssl/copyright
+-- Performing post-build validation
+Starting submission of openssl:x64-windows@3.6.5 to 1 binary cache(s) in the background
+Elapsed time to handle openssl:x64-windows: 5.8 min
+Completed submission of utf8proc:x64-windows@2.12.0 to 1 binary cache(s) in 182 ms
+Installing 34/63 libevent[core,thread]:x64-windows@2.1.12+20230128#2...
+libevent[core,thread]:x64-windows@2.1.12+20230128#2 package ABI: a2cc71e822c6841a7126e68b0826908649ee2a91bd9fa5cf627af37933064905
+Building libevent[core,thread]:x64-windows@2.1.12+20230128#2...
+-- Using cached libevent-libevent-4d85d28acdbb83bb60e500e9345bab757b64d6d1.tar.gz
+-- Cleaning sources at C:/Projects/ThemisDB/vcpkg/buildtrees/libevent/src/757b64d6d1-bfa17b9727.clean. Use --editable to skip cleaning for the packages you specify.
+-- Extracting source C:/Projects/ThemisDB/vcpkg/downloads/libevent-libevent-4d85d28acdbb83bb60e500e9345bab757b64d6d1.tar.gz
+-- Applying patch fix-uwp.patch
+-- Applying patch fix-file_path.patch
+-- Applying patch fix-LibeventConfig_cmake_in_path.patch
+-- Applying patch fix-usage.patch
+-- Using source at C:/Projects/ThemisDB/vcpkg/buildtrees/libevent/src/757b64d6d1-bfa17b9727.clean
+-- Configuring x64-windows

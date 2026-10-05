@@ -8,8 +8,10 @@
  * @date 2026-09-24
  */
 
+#include <chrono>
 #include <filesystem>
 #include <limits>
+#include <random>
 #include <gtest/gtest.h>
 
 #include "index/index_metadata_store.h"
@@ -18,14 +20,21 @@
 namespace fs = std::filesystem;
 using namespace themis::index;
 
+namespace {
+fs::path MakeUniqueTempPath(const std::string& prefix) {
+  const auto now_ns = std::chrono::steady_clock::now().time_since_epoch().count();
+  std::random_device rd;
+  const auto random_part = std::to_string(rd());
+  return fs::temp_directory_path() / (prefix + std::to_string(now_ns) + "_" + random_part);
+}
+}  // namespace
+
 class IndexMetadataStoreTest : public ::testing::Test {
  protected:
   void SetUp() override {
-    // Create temporary RocksDB directory for each test
-    db_path_ = fs::temp_directory_path() / "test_index_metadata_store_XXXXXX";
-    // Avoid using mkdtemp, just use a unique path
-    db_path_ = fs::temp_directory_path() / "test_index_metadata_store_" / std::to_string(time(nullptr)) /
-               std::to_string(rand());
+    // Create a unique temporary RocksDB directory per test run to avoid stale
+    // lock files when the same test suite is executed repeatedly.
+    db_path_ = MakeUniqueTempPath("test_index_metadata_store_");
     fs::create_directories(db_path_);
   }
 
@@ -227,29 +236,46 @@ TEST_F(IndexMetadataStoreTest, CanCheckRollbackAvailability) {
  * @test Multiple stores with different index IDs
  */
 TEST_F(IndexMetadataStoreTest, MultipleIndexIds) {
-  auto store1 = IndexMetadataStore::Open(db_path_str(), "index-1");
-  auto store2 = IndexMetadataStore::Open(db_path_str(), "index-2");
+  const auto root_dir = MakeUniqueTempPath("test_index_metadata_store_multi_");
+  const auto db_path_1 = root_dir / "index-1";
+  const auto db_path_2 = root_dir / "index-2";
 
-  // Write to both
-  IndexManifestV1 manifest1;
-  manifest1.index_id = "index-1";
-  manifest1.current_version.version_number = 1;
+  // Keep each RocksDB instance in its own unique directory and remove any stale
+  // lock files before opening. This avoids cross-test lock collisions when the
+  // same temporary root is reused across runs.
+  fs::remove_all(db_path_1);
+  fs::remove_all(db_path_2);
+  fs::create_directories(db_path_1);
+  fs::create_directories(db_path_2);
 
-  IndexManifestV1 manifest2;
-  manifest2.index_id = "index-2";
-  manifest2.current_version.version_number = 10;
+  {
+    auto store1 = IndexMetadataStore::Open(db_path_1.string(), "index-1");
+    auto store2 = IndexMetadataStore::Open(db_path_2.string(), "index-2");
 
-  VersionHistoryEntry entry1, entry2;
-  entry1.version_number = 1;
-  entry2.version_number = 10;
+    IndexManifestV1 manifest1;
+    manifest1.index_id = "index-1";
+    manifest1.current_version.version_number = 1;
 
-  store1->WriteManifestAtomic(manifest1, entry1);
-  store2->WriteManifestAtomic(manifest2, entry2);
+    IndexManifestV1 manifest2;
+    manifest2.index_id = "index-2";
+    manifest2.current_version.version_number = 10;
 
-  // Verify both stored correctly (they share the same DB but use different indices)
-  auto restored1 = store1->LoadManifest();
-  auto restored2 = store2->LoadManifest();
+    VersionHistoryEntry entry1, entry2;
+    entry1.version_number = 1;
+    entry2.version_number = 10;
 
-  EXPECT_EQ(restored1.current_version.version_number, 1);
-  EXPECT_EQ(restored2.current_version.version_number, 10);
+    store1->WriteManifestAtomic(manifest1, entry1);
+    store2->WriteManifestAtomic(manifest2, entry2);
+
+    auto restored1 = store1->LoadManifest();
+    auto restored2 = store2->LoadManifest();
+
+    EXPECT_EQ(restored1.current_version.version_number, 1);
+    EXPECT_EQ(restored2.current_version.version_number, 10);
+
+    store1.reset();
+    store2.reset();
+  }
+
+  fs::remove_all(root_dir);
 }

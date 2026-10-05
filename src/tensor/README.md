@@ -1,7 +1,7 @@
 # ThemisDB Tensor Module
 
 <!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · THEMIS_BRAIN_MEMORY_COMPARATIVE_PAPER.md -->
 
 ## Module Purpose
 

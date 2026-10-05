@@ -219,6 +219,22 @@ void WikiIndexStore::writeChunk(WikiChunk chunk) {
         throw std::runtime_error("[WikiIndexStore] sim_.put failed: " + s1.message);
     }
 
+    // Keep an in-memory document metadata lookup so retrieval results can
+    // preserve doc_id/section/source attributes after fulltext/vector fusion,
+    // even though the fused `RetrievedDocument` objects only carry the PK.
+    {
+        std::lock_guard<std::mutex> meta_lock(doc_metadata_mutex_);
+        if (!chunk.doc_id.empty()) {
+            pk_to_doc_id_[chunk.chunk_id] = chunk.doc_id;
+        }
+        if (!chunk.section_title.empty()) {
+            pk_to_section_title_[chunk.chunk_id] = chunk.section_title;
+        }
+        if (!chunk.source_path.empty()) {
+            pk_to_source_path_[chunk.chunk_id] = chunk.source_path;
+        }
+    }
+
     // Write to vector index (only when an embedding was stored in the entity)
     if (config_.enable_vector && !chunk.embedding.empty()) {
         auto s2 = vim_.addEntity(entity);
@@ -293,6 +309,20 @@ void WikiIndexStore::writeBatch(std::vector<WikiChunk> chunks) {
         if (!s1.ok) {
             throw std::runtime_error("[WikiIndexStore] writeBatch sim_.put: " + s1.message);
         }
+
+        {
+            std::lock_guard<std::mutex> meta_lock(doc_metadata_mutex_);
+            if (!chunk.doc_id.empty()) {
+                pk_to_doc_id_[chunk.chunk_id] = chunk.doc_id;
+            }
+            if (!chunk.section_title.empty()) {
+                pk_to_section_title_[chunk.chunk_id] = chunk.section_title;
+            }
+            if (!chunk.source_path.empty()) {
+                pk_to_source_path_[chunk.chunk_id] = chunk.source_path;
+            }
+        }
+
         if (config_.enable_vector && !chunk.embedding.empty()) {
             auto s2 = vim_.addEntity(entity);
             if (!s2.ok) {
@@ -419,6 +449,27 @@ std::vector<WikiChunk> WikiIndexStore::query(const std::string& query_text,
         WikiChunk c;
         c.chunk_id = doc.id;
         c.score    = score;
+
+        // Normalise metadata when the retriever only preserves the PK.
+        std::string doc_id_hint;
+        std::string section_hint;
+        std::string source_hint;
+        {
+            std::lock_guard<std::mutex> meta_lock(doc_metadata_mutex_);
+            auto doc_it = pk_to_doc_id_.find(doc.id);
+            if (doc_it != pk_to_doc_id_.end()) {
+                doc_id_hint = doc_it->second;
+            }
+            auto section_it = pk_to_section_title_.find(doc.id);
+            if (section_it != pk_to_section_title_.end()) {
+                section_hint = section_it->second;
+            }
+            auto source_it = pk_to_source_path_.find(doc.id);
+            if (source_it != pk_to_source_path_.end()) {
+                source_hint = source_it->second;
+            }
+        }
+
         // Populate remaining fields from doc metadata if available
         for (const auto& meta_entry : doc.metadata) {
             const auto& meta_key = meta_entry.first;
@@ -429,6 +480,16 @@ std::vector<WikiChunk> WikiIndexStore::query(const std::string& query_text,
             else if (meta_key == "section_title") c.section_title = meta_value;
             else if (meta_key == "source_path")   c.source_path   = meta_value;
             else if (meta_key == "content")       c.text          = meta_value;
+        }
+
+        if (c.doc_id.empty()) {
+            c.doc_id = doc_id_hint;
+        }
+        if (c.section_title.empty()) {
+            c.section_title = section_hint;
+        }
+        if (c.source_path.empty()) {
+            c.source_path = source_hint;
         }
         if (c.text.empty()) {
           c.text = doc.content;
@@ -988,9 +1049,11 @@ std::vector<WikiChunk> JsonWikiIndexReader::query(const std::string& query_text,
 
         // TF overlap: sum TF(query_tok in chunk) * TF(query_tok in query)
         float sc = 0.0f;
+        bool has_overlap = false;
         for (const auto& [qtok, qtf] : query_tf) {
             auto cit = chunk_tf.find(qtok);
             if (cit != chunk_tf.end()) {
+                has_overlap = true;
                 sc += static_cast<float>(1 + std::log(static_cast<float>(cit->second)))
                     * static_cast<float>(qtf);
             }
@@ -1001,7 +1064,7 @@ std::vector<WikiChunk> JsonWikiIndexReader::query(const std::string& query_text,
             sc /= static_cast<float>(std::sqrt(static_cast<double>(chunk_tf.size())));
         }
 
-        if (sc >= min_score) {
+        if (has_overlap && sc >= min_score) {
             scored.push_back({ci, sc});
         }
     }
