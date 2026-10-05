@@ -498,7 +498,7 @@ jobs:
             | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' \
             | sed '/^$/d'
         )"
-        SUBJECT_NAME="$(printf '%s\n' "${NORMALIZED_TAGS}" | grep -m 1 '^ghcr\.io/' || true)"
+        SUBJECT_NAME="$(printf '%s\n' "${NORMALIZED_TAGS}" | grep -E -m 1 '^ghcr\.io/[^,[:space:]]+$' || true)"
         if [ -z "${SUBJECT_NAME}" ]; then
           SUBJECT_NAME="$(printf '%s\n' "${NORMALIZED_TAGS}" | head -n 1)"
         fi
@@ -506,6 +506,7 @@ jobs:
           echo "::error::Unable to resolve attestation subject name from tags: ${TAGS}"
           exit 1
         fi
+        SUBJECT_NAME="$(printf '%s\n' "${SUBJECT_NAME}" | head -n 1)"
         SUBJECT_NAME="${SUBJECT_NAME%%@*}"
         if [[ "${SUBJECT_NAME}" == */* ]]; then
           if [[ "${SUBJECT_NAME##*/}" == *:* ]]; then
