@@ -13,7 +13,6 @@
 #include <rocksdb/options.h>
 #include <rocksdb/utilities/transaction_db.h>
 #include <spdlog/spdlog.h>
-#include <utility>
 
 #include "index/index_manifest_v1.h"
 
@@ -41,8 +40,8 @@ uint32_t IndexMetadataStore::DecodeVersionNumber(const std::string& encoded) {
   return result;
 }
 
-IndexMetadataStore::IndexMetadataStore(std::unique_ptr<rocksdb::DB> db, const std::string& index_id)
-    : db_(std::move(db)), index_id_(index_id) {}
+IndexMetadataStore::IndexMetadataStore(rocksdb::DB* db, const std::string& index_id)
+    : db_(db), index_id_(index_id) {}
 
 std::unique_ptr<IndexMetadataStore> IndexMetadataStore::Open(const std::string& db_path,
                                                                const std::string& index_id) {
@@ -72,18 +71,21 @@ std::unique_ptr<IndexMetadataStore> IndexMetadataStore::Open(const std::string& 
   auto db_owner = std::unique_ptr<rocksdb::DB>(db_raw);
   std::unique_ptr<IndexMetadataStore> store;
   try {
-    store = std::unique_ptr<IndexMetadataStore>(new IndexMetadataStore(std::move(db_owner), index_id));
+    store = std::unique_ptr<IndexMetadataStore>(new IndexMetadataStore(db_owner.get(), index_id));
   } catch (...) {
     for (auto* handle : handles) {
-      if (handle != nullptr) {
-        db_owner->DestroyColumnFamilyHandle(handle);
+      if (db_raw != nullptr && handle != nullptr) {
+        db_raw->DestroyColumnFamilyHandle(handle);
       }
     }
     throw;
   }
+  db_owner.release();
   if (handles.size() < 3) {
     for (auto* handle : handles) {
-      delete handle;
+      if (handle != nullptr) {
+        store->db_->DestroyColumnFamilyHandle(handle);
+      }
     }
     throw std::runtime_error("Failed to open RocksDB: missing required column family handles");
   }
@@ -96,6 +98,19 @@ std::unique_ptr<IndexMetadataStore> IndexMetadataStore::Open(const std::string& 
 }
 
 IndexMetadataStore::~IndexMetadataStore() {
+  if (db_ && cf_embeddings_ != nullptr) {
+    db_->DestroyColumnFamilyHandle(cf_embeddings_);
+    cf_embeddings_ = nullptr;
+  }
+  if (db_ && cf_version_history_ != nullptr) {
+    db_->DestroyColumnFamilyHandle(cf_version_history_);
+    cf_version_history_ = nullptr;
+  }
+  if (db_ && cf_default_ != nullptr) {
+    db_->DestroyColumnFamilyHandle(cf_default_);
+    cf_default_ = nullptr;
+  }
+
   if (db_) {
     auto status = db_->Close();
     if (!status.ok()) {
