@@ -155,6 +155,7 @@ jobs:
       - name: Skip baseline signature verification without pinned baseline
         if: ${{ steps.baseline.outputs.sha == '' }}
         run: |
+          echo "::warning::No builtin-baseline configured; skipping vcpkg baseline signature verification."
           echo "No builtin-baseline configured; skipping vcpkg baseline signature verification." >> "$GITHUB_STEP_SUMMARY"
 
       - name: Verify vcpkg baseline commit signature
