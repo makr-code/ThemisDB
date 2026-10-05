@@ -1,45 +1,27 @@
-# Direct Doxygen Check: transaction
+# Direct Doxygen Check: execution
 
 - Source mode: direct_doxygen_markers
-- Source files scanned: 82
-- Source symbols (raw/filter): 707 / 579
-- Doxygen members (raw/filter): 1661 / 969
-- Unique source symbol names: 313
-- Unique doxygen symbol names: 687
-- Symbol presence ratio: 0.9361
-- Ownership (internal/external): {'internal': 579, 'external': 0}
+- Source files scanned: 6
+- Source symbols (raw/filter): 39 / 39
+- Doxygen members (raw/filter): 76 / 68
+- Unique source symbol names: 26
+- Unique doxygen symbol names: 41
+- Symbol presence ratio: 0.9231
+- Ownership (internal/external): {'internal': 39, 'external': 0}
 
 ## Rule counts
-- missing_symbol: 20
-- missing_brief: 506
-- missing_param_docs: 197
-- missing_return_docs: 200
+- missing_symbol: 2
+- missing_brief: 56
+- missing_param_docs: 22
+- missing_return_docs: 20
 
 ## Scope counts
-- src: 46
-- tests: 306
-- benchmarks: 60
-- include: 334
-- other: 176
+- src: 0
+- tests: 27
+- benchmarks: 25
+- include: 33
+- other: 15
 
 ## Sample missing symbols
-- FaultPattern
-- IsolationLevel
-- RecoverableTwoPhaseState
-- SpyTransport
-- blk
-- buildConflictingBatch
-- buildS3Key
-- cfgLock
-- cfg_lk
-- f
-- guard
-- jsonEscape
-- lk
-- lock
-- recordToJson
-- result
-- serializeToNDJSON
-- slk
-- sname
-- toTimeTravelRecord
+- SLAPriority
+- operator
