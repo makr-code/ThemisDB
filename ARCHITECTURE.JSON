@@ -19,333 +19,9 @@
       "type": "wave_report"
     },
     {
-      "name": "01_WAVE_C_D_NEXT_ACTIONS_2026_09_02.md",
-      "sha256_prefix": "32bc306063602eb5",
-      "size_bytes": "15880",
-      "type": "wave_report"
-    },
-    {
-      "name": "02_ALL_WAVES_CONSOLIDATED_STATUS_2026_09_02.txt",
-      "sha256_prefix": "a7a9e0c11fcfa099",
-      "size_bytes": "15364",
-      "type": "wave_report"
-    },
-    {
-      "name": "03_WAVE_A_COMPLETION_PLAN_2026_09_02.md",
-      "sha256_prefix": "8988b6aa3ce9d068",
-      "size_bytes": "11820",
-      "type": "wave_report"
-    },
-    {
-      "name": "04_WAVE_A_COMPLETION_SUMMARY_2026_09_02.md",
-      "sha256_prefix": "b1eb8ddb4c01469c",
-      "size_bytes": "16039",
-      "type": "wave_report"
-    },
-    {
-      "name": "05_ALL_WAVES_FINAL_STATUS_2026_09_02.txt",
-      "sha256_prefix": "5e0caed7229e6510",
-      "size_bytes": "18248",
-      "type": "wave_report"
-    },
-    {
-      "name": "06_WAVE_A_CI_EXECUTION_READINESS_2026_09_02.md",
-      "sha256_prefix": "ff5c5b8a3ecabf87",
-      "size_bytes": "14655",
-      "type": "wave_report"
-    },
-    {
-      "name": "07_WAVE_A_CI_EXECUTION_CHECKLIST_2026_09_03.md",
-      "sha256_prefix": "5e58b1d3216557ad",
-      "size_bytes": "12205",
-      "type": "wave_report"
-    },
-    {
-      "name": "08_BATCH_8_PHASE4_COMPLETION_SUMMARY_2026_09_04.md",
-      "sha256_prefix": "02de8ac7d806ad86",
-      "size_bytes": "8736",
-      "type": "wave_report"
-    },
-    {
-      "name": "08_BATCH_8_PHASE4_SIGN_COMPARE_HARDENING_2026_09_04.md",
-      "sha256_prefix": "8c48b296ac2ce76d",
-      "size_bytes": "3608",
-      "type": "wave_report"
-    },
-    {
-      "name": "BATCH_8_PHASE5_COMPILER_WARNINGS_ANALYSIS.json",
-      "sha256_prefix": "d70128f8909eef30",
-      "size_bytes": "9595",
-      "type": "json"
-    },
-    {
-      "name": "CRITICAL_MODULES_IMPLEMENTATION_PLAN.md",
-      "sha256_prefix": "8cf340e43184d971",
-      "size_bytes": "17868",
-      "type": "design"
-    },
-    {
       "name": "ENFORCEMENT_WAIVERS.md",
       "sha256_prefix": "adfac235451f8f82",
       "size_bytes": "213",
-      "type": "report"
-    },
-    {
-      "name": "GPU_CUDA_AUDIT_BASELINE_2026_09_02.json",
-      "sha256_prefix": "48da1c53af6d6b7a",
-      "size_bytes": "4507",
-      "type": "json"
-    },
-    {
-      "name": "GPU_CUDA_AUDIT_EXECUTION_PLAN_2026_09_07_15.md",
-      "sha256_prefix": "b23bc202a91a22eb",
-      "size_bytes": "17054",
-      "type": "design"
-    },
-    {
-      "name": "INDEX_FTS_DESIGN_REVIEW_FACILITATION_2026_09_02.md",
-      "sha256_prefix": "3f1fbf16a973ad1d",
-      "size_bytes": "17446",
-      "type": "design"
-    },
-    {
-      "name": "QUERY_FTS_DESIGN_REVIEW_2026_09.md",
-      "sha256_prefix": "8bc5cc91db03b217",
-      "size_bytes": "10011",
-      "type": "design"
-    },
-    {
-      "name": "RAG_BPMN_GOVERNANCE_GUARDRAIL_ANALYSE_UND_PLAN_2026_09_06.md",
-      "sha256_prefix": "9d23eb1e7b85e62a",
-      "size_bytes": "9957",
-      "type": "design"
-    },
-    {
-      "name": "SESSION_SUMMARY_WAVE_B_PARALLEL_2026_09_02.txt",
-      "sha256_prefix": "7239c8f288f6cb0c",
-      "size_bytes": "18108",
-      "type": "wave_report"
-    },
-    {
-      "name": "TRANSACTION_AC6_EXECUTION_REPORT_2026_09_02.md",
-      "sha256_prefix": "d24dab6c1d4b6216",
-      "size_bytes": "10196",
-      "type": "report"
-    },
-    {
-      "name": "TRANSACTION_AC9_10_5_EXECUTION_REPORT_2026_09_02.md",
-      "sha256_prefix": "5f8ec7429e9c9541",
-      "size_bytes": "13155",
-      "type": "report"
-    },
-    {
-      "name": "TRANSACTION_BUILD_VERIFICATION_PREP_2026_09_02.md",
-      "sha256_prefix": "6e86dd3f1e5e0cde",
-      "size_bytes": "10544",
-      "type": "report"
-    },
-    {
-      "name": "WAVE_A_BATCH_SUMMARY_WEEK2.md",
-      "sha256_prefix": "1dfe8dd63e07f016",
-      "size_bytes": "10763",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_A_BLOCK_3_SUMMARY_2026_09_02.md",
-      "sha256_prefix": "d2b2194cedafd341",
-      "size_bytes": "9186",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_A_CI_QUICK_START_2026_09_02.txt",
-      "sha256_prefix": "70b769ac703bbb15",
-      "size_bytes": "11071",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_A_DEPENDENCY_STATUS.json",
-      "sha256_prefix": "fabd4f4924adc988",
-      "size_bytes": "3002",
-      "type": "json"
-    },
-    {
-      "name": "WAVE_A_EVIDENCE_BUNDLE_TEMPLATE.md",
-      "sha256_prefix": "8c8516e917a01862",
-      "size_bytes": "11037",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_A_EXECUTION_STATUS_2026_09_02.md",
-      "sha256_prefix": "e56abfb4313a7f5c",
-      "size_bytes": "9239",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_A_GPU_CUDA_AUDIT_SUMMARY.txt",
-      "sha256_prefix": "24a5eeff384833f6",
-      "size_bytes": "11043",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_A_OWNER_QUICK_START.md",
-      "sha256_prefix": "f7fffb828a7b5570",
-      "size_bytes": "12940",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_A_PHASE1_EXECUTION_REPORT_2026_09_02.md",
-      "sha256_prefix": "81d22081b50cc0a0",
-      "size_bytes": "9372",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_A_Q3_MODULES_DETAILED_STAGING_2026_09_02.md",
-      "sha256_prefix": "565ce7f2c076321e",
-      "size_bytes": "18040",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_A_Q3_MODULES_ROADMAP.md",
-      "sha256_prefix": "6380b6228fb5984d",
-      "size_bytes": "12552",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_A_Q3_OWNER_QUICK_START_2026_09_02.md",
-      "sha256_prefix": "dc47ea8f4f6df841",
-      "size_bytes": "13280",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_A_TRANSACTION_PREP_SUMMARY.txt",
-      "sha256_prefix": "7e349d69833837d1",
-      "size_bytes": "12341",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_B1_BASELINE_COMPARISON_2026_09_02.md",
-      "sha256_prefix": "d9f5d4d382c2978e",
-      "size_bytes": "20359",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_B1_BENCHMARK_PROTOCOL_2026_09_02.md",
-      "sha256_prefix": "9845f691a8b826c1",
-      "size_bytes": "21019",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_B1_HARDWARE_SPECIFICATION_2026_09_02.md",
-      "sha256_prefix": "6baa55acc0ad0fde",
-      "size_bytes": "13945",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_B1_IMPLEMENTATION_SUMMARY_2026_09_02.md",
-      "sha256_prefix": "67a4cdf5db2ca0b0",
-      "size_bytes": "13986",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_B2_QUERY_FTS_PHASE1_IMPLEMENTATION_ROADMAP_2026_09_02.md",
-      "sha256_prefix": "50cd460b1c3ceadc",
-      "size_bytes": "15254",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_B3_BUILD_READINESS_CHECKLIST_2026_09_02.md",
-      "sha256_prefix": "a0030729e41ce790",
-      "size_bytes": "16517",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_B3_CMAKE_CONFIGURATION_2026_09_02.txt",
-      "sha256_prefix": "a189024314505ffb",
-      "size_bytes": "4957",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_B3_CMAKE_CONFIGURATION_SUMMARY_2026_09_02.txt",
-      "sha256_prefix": "f1b7ce03f190923e",
-      "size_bytes": "6531",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_B3_COMPILATION_AND_SMOKE_RESULTS_2026_09_02.txt",
-      "sha256_prefix": "54e4b9dfe4ad8ff6",
-      "size_bytes": "20531",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_B3_PHASE_1_DELIVERY_SUMMARY_2026_09_02.txt",
-      "sha256_prefix": "18e21d93a62ae3b9",
-      "size_bytes": "15501",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_B3_TEST_SUITE_INVENTORY_2026_09_02.md",
-      "sha256_prefix": "876c764f0474d9a3",
-      "size_bytes": "20869",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_B_EXECUTION_COORDINATION_SUMMARY_2026_09_02.txt",
-      "sha256_prefix": "2daee84219d8741d",
-      "size_bytes": "15052",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_B_FINAL_MASTER_STATUS_2026_09_02.txt",
-      "sha256_prefix": "2a8b926b5798aeef",
-      "size_bytes": "23675",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_B_OPTION_B1_LLM_WIKI_HARDWARE_VALIDATION_2026_09_02.md",
-      "sha256_prefix": "f849bb87f0fdead3",
-      "size_bytes": "12900",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_B_OPTION_B2_QUERY_FTS_EXECUTOR_SPECIFICATION_2026_09_02.md",
-      "sha256_prefix": "22a50db15f71a4a9",
-      "size_bytes": "14002",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_B_OPTION_B3_TRANSACTION_CI_EXECUTION_2026_09_02.md",
-      "sha256_prefix": "22f0f70da50390ff",
-      "size_bytes": "15521",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_B_PARALLEL_EXECUTION_SUMMARY_2026_09_02.md",
-      "sha256_prefix": "98233547650aec19",
-      "size_bytes": "12705",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_B_PHASE1_EXECUTION_COMPLETE_2026_09_02.md",
-      "sha256_prefix": "52e7e67c10a46bfe",
-      "size_bytes": "15587",
-      "type": "wave_report"
-    },
-    {
-      "name": "WAVE_NEXT_PLAN_2026_08_26.md",
-      "sha256_prefix": "a6b29a6b49a16763",
-      "size_bytes": "3141",
-      "type": "wave_report"
-    },
-    {
-      "name": "doxygen_dryrun_include_public.txt",
-      "sha256_prefix": "b43bba9ddac84d87",
-      "size_bytes": "144032",
-      "type": "report"
-    },
-    {
-      "name": "doxygen_dryrun_src.txt",
-      "sha256_prefix": "9dab31a9da3594b7",
-      "size_bytes": "153821",
       "type": "report"
     },
     {
@@ -985,7 +661,7 @@
     {
       "category": "governance",
       "path": "ARCHITECTURE.md",
-      "sha256_prefix": "7e7e5795a2f2d352"
+      "sha256_prefix": "b93becd20240f892"
     },
     {
       "category": "governance",
@@ -1030,7 +706,7 @@
     {
       "category": "governance",
       "path": "AUDIT.md",
-      "sha256_prefix": "de186bdb81d02a48"
+      "sha256_prefix": "5a11239cccd7bc91"
     },
     {
       "category": "docs",
@@ -1920,7 +1596,7 @@
     {
       "category": "docs",
       "path": "docs/architecture/MODULE_ARCHITECTURE_INDEX.md",
-      "sha256_prefix": "b3cdfe91367ee75c"
+      "sha256_prefix": "e270902184069582"
     },
     {
       "category": "docs",
@@ -1985,7 +1661,7 @@
     {
       "category": "docs",
       "path": "docs/architecture/README.md",
-      "sha256_prefix": "7d1a3725fcf16619"
+      "sha256_prefix": "7023bd372716b2e8"
     },
     {
       "category": "docs",
@@ -2010,7 +1686,7 @@
     {
       "category": "docs",
       "path": "docs/architecture/SOURCE_DIRECTORY_GUIDE.md",
-      "sha256_prefix": "563b475c7a2ed333"
+      "sha256_prefix": "e0a3e9fcc3484022"
     },
     {
       "category": "docs",
@@ -2715,7 +2391,7 @@
     {
       "category": "docs",
       "path": "docs/code_maturity_report.md",
-      "sha256_prefix": "0b5d5680ad8f7713"
+      "sha256_prefix": "38ab39a26d59e76c"
     },
     {
       "category": "docs",
@@ -5735,7 +5411,7 @@
     {
       "category": "docs",
       "path": "docs/plugins/PLUGIN_ABI_POLICY.md",
-      "sha256_prefix": "379bababa195fdbe"
+      "sha256_prefix": "f26c7f66096f1fcc"
     },
     {
       "category": "docs",
@@ -7173,7 +6849,7 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-09-30T17:43:18.802869+00:00",
+  "generated_at": "2026-10-05T02:14:20.786113+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
     "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-09-28\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `bc0ab72465c851ff`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
@@ -9249,18 +8925,18 @@
   ],
   "schema_version": "1.0.0",
   "source_hashes": {
-    "ARCHITECTURE.md": "7e7e5795a2f2d352",
+    "ARCHITECTURE.md": "b93becd20240f892",
     "FUTURE_ENHANCEMENTS.md": "de552eeef9d1ac51",
     "ROADMAP.md": "cfe020b4fe206ed5",
     "ai_context/ARCHITECTURE_CLASSIFICATION.md": "57a7f2182a1193c8",
     "ai_context/MODULES_AND_NAMESPACES.md": "bf42dba44a39f8cb",
     "ai_context/api_contracts/": "6384de3aba1abb3b",
-    "ai_context/developer_llm_wiki/": "ca20577089ba9d9f",
-    "ai_working/": "e6d5ae9172c1efa6",
-    "docs/": "14178152dc348a47"
+    "ai_context/developer_llm_wiki/": "57c73987f7b2b1ac",
+    "ai_working/": "c49689581560a06c",
+    "docs/": "e4774d948d35d41f"
   },
   "statistics": {
-    "ai_working_artifact_count": 68,
+    "ai_working_artifact_count": 14,
     "documentation_source_count": 1238,
     "isolated_module_count": 30,
     "modules_with_api_contracts": 6,
