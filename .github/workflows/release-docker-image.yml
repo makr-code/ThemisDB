@@ -533,6 +533,7 @@ jobs:
         echo "Attestation subject name: ${SUBJECT_NAME}"
 
     - name: Generate SLSA provenance attestation
+      id: attest
       # Attach build provenance to the pushed image digest (SLSA Level 2).
       # Skipped for PR builds (digest only available after push).
       if: |
@@ -555,8 +556,12 @@ jobs:
         echo "──────────────────────────────────────────────"
         echo "  SLSA attestation"
         DIGEST="${{ steps.build.outputs.digest }}"
-        if [ -n "${DIGEST}" ]; then
+        if [ -n "${DIGEST}" ] && [ "${{ steps.attest.outcome }}" = "success" ]; then
           echo "  ✅ Provenance attestation generated (SLSA Level 2)"
+          echo "  Subject name   : ${{ steps.attestation-subject.outputs.value }}"
+          echo "  Subject digest : ${DIGEST}"
+        elif [ -n "${DIGEST}" ]; then
+          echo "  ❌ Provenance attestation failed"
           echo "  Subject name   : ${{ steps.attestation-subject.outputs.value }}"
           echo "  Subject digest : ${DIGEST}"
         else
