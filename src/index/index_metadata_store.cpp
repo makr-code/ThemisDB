@@ -68,7 +68,9 @@ std::unique_ptr<IndexMetadataStore> IndexMetadataStore::Open(const std::string& 
     throw std::runtime_error("Failed to open RocksDB: " + status.ToString());
   }
 
-  auto store = std::unique_ptr<IndexMetadataStore>(new IndexMetadataStore(db_raw, index_id));
+  auto db_owner = std::unique_ptr<rocksdb::DB>(db_raw);
+  auto store = std::unique_ptr<IndexMetadataStore>(new IndexMetadataStore(db_owner.get(), index_id));
+  db_owner.release();
   if (handles.size() >= 3) {
     store->cf_default_ = handles[0];
     store->cf_version_history_ = handles[1];
