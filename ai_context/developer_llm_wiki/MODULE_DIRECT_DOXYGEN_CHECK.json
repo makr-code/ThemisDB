@@ -1,44 +1,23 @@
 {
-  "module": "vector_search",
+  "module": "transaction",
   "source_mode": "direct_doxygen_markers",
   "source_graph_used": false,
   "source_graph_path": "/home/runner/work/ThemisDB/ThemisDB/ai_working/sourcecode_graph.json",
-  "source_files_scanned": 2,
-  "source_symbols_total": 2,
-  "source_symbols_after_filter": 2,
-  "doxygen_members_total": 11,
-  "doxygen_members_after_filter": 7,
-  "source_symbol_names": 2,
-  "doxygen_symbol_names": 6,
-  "source_not_in_doxygen_count": 1,
-  "doxygen_not_in_source_count": 5,
+  "source_files_scanned": 82,
+  "source_symbols_total": 707,
+  "source_symbols_after_filter": 579,
+  "doxygen_members_total": 1661,
+  "doxygen_members_after_filter": 969,
+  "source_symbol_names": 313,
+  "doxygen_symbol_names": 687,
+  "source_not_in_doxygen_count": 20,
+  "doxygen_not_in_source_count": 394,
   "coverage": {
-    "symbol_presence_ratio": 0.5,
-    "missing_symbol_count": 1,
-    "missing_brief_count": 6,
-    "missing_param_docs_count": 5,
-    "missing_return_docs_count": 5
-  "module": "ai_working",
-  "status": "SKIP",
-  "reason": "no C/C++ files in include/src/tests/benchmarks module scope",
-  "source_mode": "no_cpp_files",
-  "source_graph_used": false,
-  "source_graph_path": "/home/runner/work/ThemisDB/ThemisDB/ai_working/sourcecode_graph.json",
-  "source_files_scanned": 0,
-  "source_symbols_total": 0,
-  "source_symbols_after_filter": 0,
-  "doxygen_members_total": 0,
-  "doxygen_members_after_filter": 0,
-  "source_symbol_names": 0,
-  "doxygen_symbol_names": 0,
-  "source_not_in_doxygen_count": 0,
-  "doxygen_not_in_source_count": 0,
-  "coverage": {
-    "symbol_presence_ratio": 0.0,
-    "missing_symbol_count": 0,
-    "missing_brief_count": 0,
-    "missing_param_docs_count": 0,
-    "missing_return_docs_count": 0
+    "symbol_presence_ratio": 0.9361,
+    "missing_symbol_count": 20,
+    "missing_brief_count": 506,
+    "missing_param_docs_count": 197,
+    "missing_return_docs_count": 200
   },
   "ownership": {
     "path_policy": {
@@ -70,225 +49,579 @@
       "classification_rule": "everything outside internal roots is treated as external / third-party boundary"
     },
     "source_symbols": {
-      "internal": 2,
+      "internal": 579,
       "external": 0
     },
     "doxygen_members": {
-      "internal": 6,
-      "external": 1
-      "internal": 0,
-      "external": 0
-    },
-    "doxygen_members": {
-      "internal": 0,
-      "external": 0
-    },
-    "externally_scoped_symbols": []
-  },
-  "by_rule": {},
-  "by_rule_scope": {},
-  "by_scope": {},
-  "samples": {
-    "source_not_in_doxygen": [],
-    "doxygen_not_in_source": [],
-    "findings": []
+      "internal": 776,
+      "external": 193
     },
     "externally_scoped_symbols": []
   },
   "by_rule": {
-    "missing_symbol": 1,
-    "missing_brief": 6,
-    "missing_param_docs": 5,
-    "missing_return_docs": 5
+    "missing_symbol": 20,
+    "missing_brief": 506,
+    "missing_return_docs": 200,
+    "missing_param_docs": 197
   },
   "by_rule_scope": {
     "missing_symbol": {
-      "benchmarks": 1
+      "tests": 2,
+      "include": 4,
+      "src": 13,
+      "mixed": 1
     },
     "missing_brief": {
-      "tests": 6
-    },
-    "missing_param_docs": {
-      "tests": 5
+      "benchmarks": 27,
+      "tests": 132,
+      "other": 176,
+      "include": 158,
+      "src": 13
     },
     "missing_return_docs": {
-      "tests": 5
+      "benchmarks": 11,
+      "tests": 101,
+      "include": 76,
+      "src": 12
+    },
+    "missing_param_docs": {
+      "benchmarks": 22,
+      "tests": 71,
+      "include": 96,
+      "src": 8
     }
   },
   "by_scope": {
-    "src": 0,
-    "tests": 16,
-    "benchmarks": 1,
-    "include": 0,
-    "other": 0
+    "src": 46,
+    "tests": 306,
+    "benchmarks": 60,
+    "include": 334,
+    "other": 176,
+    "mixed": 1
   },
   "samples": {
     "source_not_in_doxygen": [
-      "GateFlatIndex"
+      "FaultPattern",
+      "IsolationLevel",
+      "RecoverableTwoPhaseState",
+      "SpyTransport",
+      "blk",
+      "buildConflictingBatch",
+      "buildS3Key",
+      "cfgLock",
+      "cfg_lk",
+      "f",
+      "guard",
+      "jsonEscape",
+      "lk",
+      "lock",
+      "recordToJson",
+      "result",
+      "serializeToNDJSON",
+      "slk",
+      "sname",
+      "toTimeTravelRecord"
     ],
     "doxygen_not_in_source": [
-      "insert",
-      "knn",
-      "l2sq",
-      "makeVec",
-      "size"
+      "AbortThrowingParticipant",
+      "AdaptiveDeadlockIntegrationTest",
+      "Arg",
+      "Args",
+      "AuditRecord",
+      "BackoffConfig",
+      "BatchAffinityHint",
+      "BatchConfig",
+      "BatchPolicy",
+      "BatchPrepareEntry",
+      "BenchMockParticipant",
+      "Branch",
+      "BranchGCPolicy",
+      "BranchHistoryEntry",
+      "BranchManager",
+      "BranchManagerBenchmark",
+      "BranchStats",
+      "BulkTransactionTest",
+      "ByzantineMockCoordinator",
+      "CascadingTimeoutTest",
+      "CircuitBreakerTest",
+      "CompensationIdempotencyTest",
+      "CompensationLogEntry",
+      "Conflict",
+      "ConflictResolution"
     ],
     "findings": [
       {
         "rule": "missing_symbol",
-        "symbol": "GateFlatIndex",
+        "symbol": "FaultPattern",
         "count": 1,
-        "scope": "benchmarks",
+        "scope": "tests",
         "scope_breakdown": {
-          "benchmarks": 1
+          "tests": 1
         },
         "source_examples": [
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/benchmarks/vector_search/bench_vector_search_dedicated_gates.cpp",
-            "line": 63,
+            "file": "/home/runner/work/ThemisDB/ThemisDB/tests/transaction/test_transaction_fault_injection_phase3.cpp",
+            "line": 45,
             "kind": "class",
-            "name": "GateFlatIndex",
-            "scope": "benchmarks"
+            "name": "FaultPattern",
+            "scope": "tests"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "IsolationLevel",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/transaction/isolation_level.h",
+            "line": 39,
+            "kind": "class",
+            "name": "IsolationLevel",
+            "scope": "include"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "RecoverableTwoPhaseState",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/transaction/recoverable_two_phase_coordinator.h",
+            "line": 46,
+            "kind": "class",
+            "name": "RecoverableTwoPhaseState",
+            "scope": "include"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "SpyTransport",
+        "count": 1,
+        "scope": "tests",
+        "scope_breakdown": {
+          "tests": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/tests/transaction/test_transaction_auditor.cpp",
+            "line": 360,
+            "kind": "struct",
+            "name": "SpyTransport",
+            "scope": "tests"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "blk",
+        "count": 1,
+        "scope": "src",
+        "scope_breakdown": {
+          "src": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/transaction/distributed_transaction_manager.cpp",
+            "line": 510,
+            "kind": "function",
+            "name": "blk",
+            "scope": "src"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "buildConflictingBatch",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/transaction/examples/transaction_semantic_advisor_example.cpp",
+            "line": 58,
+            "kind": "function",
+            "name": "buildConflictingBatch",
+            "scope": "include"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "buildS3Key",
+        "count": 1,
+        "scope": "src",
+        "scope_breakdown": {
+          "src": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/transaction/transaction_auditor.cpp",
+            "line": 220,
+            "kind": "function",
+            "name": "buildS3Key",
+            "scope": "src"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "cfgLock",
+        "count": 1,
+        "scope": "src",
+        "scope_breakdown": {
+          "src": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/transaction/transaction_manager.cpp",
+            "line": 2644,
+            "kind": "function",
+            "name": "cfgLock",
+            "scope": "src"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "cfg_lk",
+        "count": 3,
+        "scope": "src",
+        "scope_breakdown": {
+          "src": 3
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/transaction/transaction_batcher.cpp",
+            "line": 236,
+            "kind": "function",
+            "name": "cfg_lk",
+            "scope": "src"
+          },
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/transaction/transaction_batcher.cpp",
+            "line": 345,
+            "kind": "function",
+            "name": "cfg_lk",
+            "scope": "src"
+          },
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/transaction/transaction_batcher.cpp",
+            "line": 545,
+            "kind": "function",
+            "name": "cfg_lk",
+            "scope": "src"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "f",
+        "count": 3,
+        "scope": "src",
+        "scope_breakdown": {
+          "src": 3
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/transaction/crash_recovery_manager.cpp",
+            "line": 307,
+            "kind": "function",
+            "name": "f",
+            "scope": "src"
+          },
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/transaction/crash_recovery_manager.cpp",
+            "line": 391,
+            "kind": "function",
+            "name": "f",
+            "scope": "src"
+          },
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/transaction/crash_recovery_manager.cpp",
+            "line": 577,
+            "kind": "function",
+            "name": "f",
+            "scope": "src"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "guard",
+        "count": 1,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/transaction/connection_resource_guard.h",
+            "line": 223,
+            "kind": "function",
+            "name": "guard",
+            "scope": "include"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "jsonEscape",
+        "count": 1,
+        "scope": "src",
+        "scope_breakdown": {
+          "src": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/transaction/saga_orchestrator.cpp",
+            "line": 33,
+            "kind": "function",
+            "name": "jsonEscape",
+            "scope": "src"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "lk",
+        "count": 60,
+        "scope": "src",
+        "scope_breakdown": {
+          "src": 60
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/transaction/branch_manager.cpp",
+            "line": 929,
+            "kind": "function",
+            "name": "lk",
+            "scope": "src"
+          },
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/transaction/crash_recovery_manager.cpp",
+            "line": 228,
+            "kind": "function",
+            "name": "lk",
+            "scope": "src"
+          },
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/transaction/crash_recovery_manager.cpp",
+            "line": 259,
+            "kind": "function",
+            "name": "lk",
+            "scope": "src"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "lock",
+        "count": 41,
+        "scope": "mixed",
+        "scope_breakdown": {
+          "include": 1,
+          "src": 40
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/transaction/distributed_transaction_manager.h",
+            "line": 515,
+            "kind": "function",
+            "name": "lock",
+            "scope": "include"
+          },
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/transaction/branch_manager.cpp",
+            "line": 230,
+            "kind": "function",
+            "name": "lock",
+            "scope": "src"
+          },
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/transaction/branch_manager.cpp",
+            "line": 251,
+            "kind": "function",
+            "name": "lock",
+            "scope": "src"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "recordToJson",
+        "count": 1,
+        "scope": "src",
+        "scope_breakdown": {
+          "src": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/transaction/transaction_auditor.cpp",
+            "line": 148,
+            "kind": "function",
+            "name": "recordToJson",
+            "scope": "src"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "result",
+        "count": 1,
+        "scope": "src",
+        "scope_breakdown": {
+          "src": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/transaction/deadlock_predictor.cpp",
+            "line": 281,
+            "kind": "function",
+            "name": "result",
+            "scope": "src"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "serializeToNDJSON",
+        "count": 1,
+        "scope": "src",
+        "scope_breakdown": {
+          "src": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/transaction/transaction_auditor.cpp",
+            "line": 204,
+            "kind": "function",
+            "name": "serializeToNDJSON",
+            "scope": "src"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "slk",
+        "count": 3,
+        "scope": "src",
+        "scope_breakdown": {
+          "src": 3
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/transaction/transaction_batcher.cpp",
+            "line": 510,
+            "kind": "function",
+            "name": "slk",
+            "scope": "src"
+          },
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/transaction/transaction_batcher.cpp",
+            "line": 528,
+            "kind": "function",
+            "name": "slk",
+            "scope": "src"
+          },
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/transaction/transaction_batcher.cpp",
+            "line": 617,
+            "kind": "function",
+            "name": "slk",
+            "scope": "src"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "sname",
+        "count": 1,
+        "scope": "src",
+        "scope_breakdown": {
+          "src": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/transaction/transaction_manager.cpp",
+            "line": 2270,
+            "kind": "function",
+            "name": "sname",
+            "scope": "src"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "toTimeTravelRecord",
+        "count": 1,
+        "scope": "src",
+        "scope_breakdown": {
+          "src": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/transaction/transaction_manager.cpp",
+            "line": 2456,
+            "kind": "function",
+            "name": "toTimeTravelRecord",
+            "scope": "src"
           }
         ]
       },
       {
         "rule": "missing_brief",
-        "symbol": "FlatVectorIndex",
+        "symbol": "stub_begin",
         "kind": "function",
-        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
-        "line": 60,
-        "scope": "tests"
+        "file": "benchmarks/transaction/bench_transaction_dedicated_gates.cpp",
+        "line": 41,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_return_docs",
+        "symbol": "stub_begin",
+        "kind": "function",
+        "file": "benchmarks/transaction/bench_transaction_dedicated_gates.cpp",
+        "line": 41,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "stub_commit",
+        "kind": "function",
+        "file": "benchmarks/transaction/bench_transaction_dedicated_gates.cpp",
+        "line": 45,
+        "scope": "benchmarks"
       },
       {
         "rule": "missing_param_docs",
-        "symbol": "FlatVectorIndex",
+        "symbol": "stub_commit",
         "kind": "function",
-        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
-        "line": 60,
-        "scope": "tests",
+        "file": "benchmarks/transaction/bench_transaction_dedicated_gates.cpp",
+        "line": 45,
+        "scope": "benchmarks",
         "param_total": 1,
         "param_docs_count": 0
       },
       {
-        "rule": "missing_brief",
-        "symbol": "insert",
-        "kind": "function",
-        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
-        "line": 62,
-        "scope": "tests"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "insert",
-        "kind": "function",
-        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
-        "line": 62,
-        "scope": "tests",
-        "param_total": 2,
-        "param_docs_count": 0
-      },
-      {
         "rule": "missing_return_docs",
-        "symbol": "insert",
+        "symbol": "stub_commit",
         "kind": "function",
-        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
-        "line": 62,
-        "scope": "tests"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "knn",
-        "kind": "function",
-        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
-        "line": 73,
-        "scope": "tests"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "knn",
-        "kind": "function",
-        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
-        "line": 73,
-        "scope": "tests",
-        "param_total": 2,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_return_docs",
-        "symbol": "knn",
-        "kind": "function",
-        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
-        "line": 73,
-        "scope": "tests"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "size",
-        "kind": "function",
-        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
-        "line": 93,
-        "scope": "tests"
-      },
-      {
-        "rule": "missing_return_docs",
-        "symbol": "size",
-        "kind": "function",
-        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
-        "line": 93,
-        "scope": "tests"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "makeVec",
-        "kind": "function",
-        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
-        "line": 40,
-        "scope": "tests"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "makeVec",
-        "kind": "function",
-        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
-        "line": 40,
-        "scope": "tests",
-        "param_total": 2,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_return_docs",
-        "symbol": "makeVec",
-        "kind": "function",
-        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
-        "line": 40,
-        "scope": "tests"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "l2sq",
-        "kind": "function",
-        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
-        "line": 48,
-        "scope": "tests"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "l2sq",
-        "kind": "function",
-        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
-        "line": 48,
-        "scope": "tests",
-        "param_total": 2,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_return_docs",
-        "symbol": "l2sq",
-        "kind": "function",
-        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
-        "line": 48,
-        "scope": "tests"
+        "file": "benchmarks/transaction/bench_transaction_dedicated_gates.cpp",
+        "line": 45,
+        "scope": "benchmarks"
       }
     ]
   }

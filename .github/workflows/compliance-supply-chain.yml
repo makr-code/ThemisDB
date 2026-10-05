@@ -55,7 +55,7 @@ jobs:
         id: baseline
         run: |
           python - <<'PY' >> "$GITHUB_OUTPUT"
-          import json, re, sys
+          import json, sys
           from pathlib import Path
           manifest = json.loads(Path("vcpkg.json").read_text(encoding="utf-8"))
           sha = manifest.get('builtin-baseline', '')
@@ -75,17 +75,22 @@ jobs:
           fetch-depth: 1
 
       - name: Run vcpkg license audit
+        if: ${{ steps.baseline.outputs.sha != '' }}
+        env:
+          BASELINE_SHA: ${{ steps.baseline.outputs.sha }}
         run: |
           python scripts/check_vcpkg_licenses.py \
             --manifest vcpkg.json \
             --policy .license-policy.json \
-            --ports-dir vcpkg-upstream/ports \
+            --baseline "$BASELINE_SHA" \
             --output-dir artifacts/license-compliance
 
       - name: Publish workflow summary
+        if: ${{ steps.baseline.outputs.sha != '' }}
         run: cat artifacts/license-compliance/license-summary.md >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload license artifacts
+        if: ${{ steps.baseline.outputs.sha != '' }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: license-compliance-${{ github.run_id }}
@@ -199,11 +204,15 @@ jobs:
 
       - name: Generate SBOM checksums
         run: |
-          sha256sum \
-            sbom-source.cyclonedx.json \
-            sbom-source.spdx.json \
-            sbom-trivy.cyclonedx.json \
-            sbom-vcpkg-baseline-verification.json > sbom-source.SHA256SUMS
+          files=(
+            sbom-source.cyclonedx.json
+            sbom-source.spdx.json
+            sbom-trivy.cyclonedx.json
+          )
+          if [ -f sbom-vcpkg-baseline-verification.json ]; then
+            files+=(sbom-vcpkg-baseline-verification.json)
+          fi
+          sha256sum "${files[@]}" > sbom-source.SHA256SUMS
           sha256sum -c sbom-source.SHA256SUMS
 
       - name: Upload SBOM artifacts

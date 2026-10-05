@@ -124,19 +124,18 @@ size_t CQResultStreamImpl::queueDepth() const noexcept {
 ContinuousQueryEngineImpl::ContinuousQueryEngineImpl(
     std::chrono::milliseconds tick_interval)
     : tick_interval_(tick_interval) {
+    loop_stop_complete_.store(false, std::memory_order_relaxed);
     startLoop();
 }
 
 ContinuousQueryEngineImpl::~ContinuousQueryEngineImpl() {
     stopLoop();
-    
-    // [WAVE3B-FIX: lock-order deadlock risk in destructor]
-    // Only acquire registry_mutex_ if stopLoop() succeeded in stopping the loop thread.
-    // If stopLoop() timed out and detached the watcher, the loop thread might still be
-    // running and could hold registry_mutex_, causing deadlock if we try to acquire it here.
-    // Check if loop_thread_ was successfully stopped.
-    if (!loop_thread_.joinable()) {
-        // Loop thread has exited successfully, safe to acquire registry_mutex_
+
+    // Clean shutdown is identified solely by loop_stop_complete_: it is set to true
+    // only when the worker loop exits normally and is left false when stopLoop()
+    // times out and detaches the watcher. That keeps the destructor from acquiring
+    // registry_mutex_ while the loop thread may still be running and holding it.
+    if (loop_stop_complete_.load(std::memory_order_acquire)) {
         std::lock_guard<std::mutex> lock(registry_mutex_);
         for (auto& [name, entry] : registry_) {
             for (auto& q : entry.subscribers) {
@@ -144,13 +143,6 @@ ContinuousQueryEngineImpl::~ContinuousQueryEngineImpl() {
             }
         }
     } else {
-        // Loop thread did not exit (stopLoop() timed out and detached).
-        // The loop thread may still be running and holding locks.
-        // Cancel subscriber queues without acquiring registry_mutex_ to avoid deadlock.
-        // This is safe because:
-        // 1. We're in the destructor, so no new queries can be registered
-        // 2. The loop thread will eventually clean up on exit
-        // 3. Queues are thread-safe (they use their own mutex for push/pop)
         THEMIS_WARN("ContinuousQueryEngineImpl destructor: loop thread still running, "
                     "skipping registry cleanup to avoid deadlock");
     }
@@ -162,6 +154,7 @@ ContinuousQueryEngineImpl::~ContinuousQueryEngineImpl() {
  */
 void ContinuousQueryEngineImpl::startLoop() {
     running_.store(true, std::memory_order_release);
+    loop_stop_complete_.store(false, std::memory_order_release);
     loop_thread_ = std::thread([this] {
         while (running_.load(std::memory_order_acquire)) {
             {
@@ -172,6 +165,7 @@ void ContinuousQueryEngineImpl::startLoop() {
                 tickOnce();
             }
         }
+        loop_stop_complete_.store(true, std::memory_order_release);
     });
 }
 
@@ -184,21 +178,21 @@ void ContinuousQueryEngineImpl::stopLoop() {
     //
     // Signal the evaluation loop to exit, then wait with a 5-second deadline.
     // If the loop thread has not finished by the deadline (e.g. a subscriber
-    // callback is stuck), we detach rather than deadlock the destructor.
+    // callback is stuck), we detach rather than deadlock the destructor. The
+    // loop_stop_complete_ flag must remain false in that timeout path so the
+    // destructor never treats the detached thread as a clean exit.
     running_.store(false, std::memory_order_release);
     loop_cv_.notify_all();
 
     if (!loop_thread_.joinable()) {
+        // A non-joinable thread is already stopped or was detached on timeout.
+        // In both cases we must not treat it as a clean shutdown path: the
+        // destructor may still need to avoid registry cleanup while the detached
+        // loop remains alive elsewhere.
         return;
     }
 
-    // Move ownership of the loop thread into a local handle so loop_thread_
-    // becomes non-joinable immediately in this object.
     std::thread loop_thread = std::move(loop_thread_);
-
-    // Timed join via a watcher thread + condition variable.
-    // std::thread::join() has no timeout overload in C++17/20, so we use
-    // a secondary thread to signal completion and a timed wait on cv.
     bool joined = false;
     std::mutex join_mutex = {};
     std::condition_variable join_cv = {};
@@ -216,14 +210,13 @@ void ContinuousQueryEngineImpl::stopLoop() {
         std::unique_lock<std::mutex> lk(join_mutex);
         constexpr auto kStopDeadline = std::chrono::seconds(5);
         if (!join_cv.wait_for(lk, kStopDeadline, [&joined] { return joined; })) {
-            // Loop thread did not exit within 5 seconds.  The watcher owns the
-            // loop thread handle, so detaching the watcher avoids destructor
-            // deadlock/terminate while still allowing eventual background join.
             THEMIS_ERROR(
                 "ContinuousQueryEngineImpl::stopLoop: evaluation loop did not "
                 "terminate within 5 s — detaching watcher to avoid destructor deadlock. "
                 "This indicates a blocking subscriber callback or a hung tickOnce().");
             watcher.detach();
+            // Detached watchers may keep running in the background; leave the flag
+            // false so the destructor never treats that path as a clean shutdown.
             return;
         }
     }
@@ -231,6 +224,8 @@ void ContinuousQueryEngineImpl::stopLoop() {
     if (watcher.joinable()) {
         watcher.join();
     }
+
+    loop_stop_complete_.store(true, std::memory_order_release);
 }
 
 // ──────────────────────────────────────────────────────────────────────────────

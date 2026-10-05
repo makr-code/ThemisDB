@@ -498,7 +498,7 @@ jobs:
             | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' \
             | sed '/^$/d'
         )"
-        SUBJECT_NAME="$(printf '%s\n' "${NORMALIZED_TAGS}" | grep -m 1 '^ghcr\.io/' || true)"
+        SUBJECT_NAME="$(printf '%s\n' "${NORMALIZED_TAGS}" | grep -E -m 1 '^ghcr\.io/[^,[:space:]]+$' || true)"
         if [ -z "${SUBJECT_NAME}" ]; then
           SUBJECT_NAME="$(printf '%s\n' "${NORMALIZED_TAGS}" | head -n 1)"
         fi
@@ -506,6 +506,7 @@ jobs:
           echo "::error::Unable to resolve attestation subject name from tags: ${TAGS}"
           exit 1
         fi
+        SUBJECT_NAME="$(printf '%s\n' "${SUBJECT_NAME}" | head -n 1)"
         SUBJECT_NAME="${SUBJECT_NAME%%@*}"
         if [[ "${SUBJECT_NAME}" == */* ]]; then
           if [[ "${SUBJECT_NAME##*/}" == *:* ]]; then
@@ -533,6 +534,7 @@ jobs:
         echo "Attestation subject name: ${SUBJECT_NAME}"
 
     - name: Generate SLSA provenance attestation
+      id: attest
       # Attach build provenance to the pushed image digest (SLSA Level 2).
       # Skipped for PR builds (digest only available after push).
       if: |
@@ -555,8 +557,18 @@ jobs:
         echo "──────────────────────────────────────────────"
         echo "  SLSA attestation"
         DIGEST="${{ steps.build.outputs.digest }}"
-        if [ -n "${DIGEST}" ]; then
+        ATTEST_OUTCOME="${{ steps.attest.outcome }}"
+        if [ -n "${DIGEST}" ] && [ "${ATTEST_OUTCOME}" = "success" ]; then
           echo "  ✅ Provenance attestation generated (SLSA Level 2)"
+          echo "  Subject name   : ${{ steps.attestation-subject.outputs.value }}"
+          echo "  Subject digest : ${DIGEST}"
+        elif [ -n "${DIGEST}" ] && [ "${ATTEST_OUTCOME}" = "skipped" ]; then
+          echo "  ⏭️  Attestation skipped by workflow conditions"
+          echo "  Subject name   : ${{ steps.attestation-subject.outputs.value }}"
+          echo "  Subject digest : ${DIGEST}"
+        elif [ -n "${DIGEST}" ]; then
+          echo "::error::Provenance attestation failed"
+          echo "  ❌ Provenance attestation failed"
           echo "  Subject name   : ${{ steps.attestation-subject.outputs.value }}"
           echo "  Subject digest : ${DIGEST}"
         else
