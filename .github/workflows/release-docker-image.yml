@@ -561,6 +561,7 @@ jobs:
           echo "  Subject name   : ${{ steps.attestation-subject.outputs.value }}"
           echo "  Subject digest : ${DIGEST}"
         elif [ -n "${DIGEST}" ]; then
+          echo "::error::Provenance attestation failed"
           echo "  ❌ Provenance attestation failed"
           echo "  Subject name   : ${{ steps.attestation-subject.outputs.value }}"
           echo "  Subject digest : ${DIGEST}"
