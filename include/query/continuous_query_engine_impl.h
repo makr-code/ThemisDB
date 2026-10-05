@@ -157,6 +157,7 @@ private:
 
     std::thread               loop_thread_;
     std::atomic<bool>         running_{false};
+    std::atomic<bool>         loop_stop_complete_{false};
     std::mutex                loop_mutex_;
     std::condition_variable   loop_cv_;
 };
