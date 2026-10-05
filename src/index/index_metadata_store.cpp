@@ -89,10 +89,10 @@ std::unique_ptr<IndexMetadataStore> IndexMetadataStore::Open(const std::string& 
     }
     throw;
   }
-  db_owner.release();
   store->cf_default_ = handles[0];
   store->cf_version_history_ = handles[1];
   store->cf_embeddings_ = handles[2];
+  db_owner.release();
 
   spdlog::info("[IndexMetadataStore] Opened RocksDB for index '{}' at {}", index_id, db_path);
   return store;
@@ -101,15 +101,12 @@ std::unique_ptr<IndexMetadataStore> IndexMetadataStore::Open(const std::string& 
 IndexMetadataStore::~IndexMetadataStore() {
   if (db_ && cf_embeddings_ != nullptr) {
     db_->DestroyColumnFamilyHandle(cf_embeddings_);
-    cf_embeddings_ = nullptr;
   }
   if (db_ && cf_version_history_ != nullptr) {
     db_->DestroyColumnFamilyHandle(cf_version_history_);
-    cf_version_history_ = nullptr;
   }
   if (db_ && cf_default_ != nullptr) {
     db_->DestroyColumnFamilyHandle(cf_default_);
-    cf_default_ = nullptr;
   }
 
   if (db_) {
