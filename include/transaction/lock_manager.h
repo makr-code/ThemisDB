@@ -242,7 +242,15 @@ private:
         TransactionId txn_id;
         LockType      type;
         bool          granted{false};
-        // Each waiter has its own CV so it can be woken individually.
+        /**
+         * @brief Guards the per-waiter `granted` flag and condition-variable wakeups.
+         * @note Used only by the waiter thread and the lock manager when granting or
+         *       waking a specific request. Holding this mutex avoids racing with the
+         *       lock-release path while the manager is validating compatibility.
+         */
+        std::mutex    state_mutex;
+        // Each waiter has its own CV so it can be woken individually without
+        // holding the global lock while waiting on a nested lock request.
         std::condition_variable cv;
 
         LockRequest(TransactionId t, LockType lt) : txn_id(t), type(lt) {}
