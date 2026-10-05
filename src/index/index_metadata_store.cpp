@@ -81,11 +81,15 @@ std::unique_ptr<IndexMetadataStore> IndexMetadataStore::Open(const std::string& 
     }
     throw;
   }
-  if (handles.size() >= 3) {
-    store->cf_default_ = handles[0];
-    store->cf_version_history_ = handles[1];
-    store->cf_embeddings_ = handles[2];
+  if (handles.size() < 3) {
+    for (auto* handle : handles) {
+      delete handle;
+    }
+    throw std::runtime_error("Failed to open RocksDB: missing required column family handles");
   }
+  store->cf_default_ = handles[0];
+  store->cf_version_history_ = handles[1];
+  store->cf_embeddings_ = handles[2];
 
   spdlog::info("[IndexMetadataStore] Opened RocksDB for index '{}' at {}", index_id, db_path);
   return store;
