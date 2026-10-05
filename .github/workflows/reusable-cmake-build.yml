@@ -234,7 +234,9 @@ jobs:
           BASELINE_COMMIT="$(python -c 'import json, pathlib; print(json.loads(pathlib.Path("vcpkg.json").read_text(encoding="utf-8")).get("builtin-baseline", ""))')"
 
           if [ -z "${BASELINE_COMMIT}" ]; then
-            exit 0
+            BASELINE_COMMIT="$(git -C vcpkg rev-parse HEAD)"
+            python -c 'import json, pathlib, sys; p = pathlib.Path("vcpkg.json"); m = json.loads(p.read_text(encoding="utf-8")); m["builtin-baseline"] = sys.argv[1]; p.write_text(json.dumps(m, indent=2) + "\\n", encoding="utf-8")' "${BASELINE_COMMIT}"
+            echo "Injected workflow-local builtin-baseline from checked-out vcpkg HEAD: ${BASELINE_COMMIT}"
           fi
 
           if ! git -C vcpkg cat-file -e "${BASELINE_COMMIT}^{commit}" 2>/dev/null; then
