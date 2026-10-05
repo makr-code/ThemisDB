@@ -53,7 +53,7 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4  # v4
+        uses: actions/setup-node@v6  # Node.js 24 compatible
         with:
           node-version: '24'
           cache: 'npm'
