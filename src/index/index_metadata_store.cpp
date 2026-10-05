@@ -55,21 +55,20 @@ std::unique_ptr<IndexMetadataStore> IndexMetadataStore::Open(const std::string& 
       rocksdb::ColumnFamilyDescriptor("embeddings", rocksdb::ColumnFamilyOptions()));
 
   // Try to open existing DB with column families
-  std::unique_ptr<rocksdb::DB> db;
+  rocksdb::DB* db_raw = nullptr;
   std::vector<rocksdb::ColumnFamilyHandle*> handles;
   rocksdb::DBOptions db_options;
   db_options.create_if_missing = true;
   db_options.create_missing_column_families = true;
 
-  auto status = rocksdb::DB::Open(db_options, db_path, column_families, &handles, &db);
+  auto status = rocksdb::DB::Open(db_options, db_path, column_families, &handles, &db_raw);
   if (!status.ok()) {
     spdlog::error("[IndexMetadataStore] Failed to open RocksDB at {}: {}", db_path,
                   status.ToString());
     throw std::runtime_error("Failed to open RocksDB: " + status.ToString());
   }
 
-  auto store = std::unique_ptr<IndexMetadataStore>(new IndexMetadataStore(db.get(), index_id));
-  db.release();
+  auto store = std::unique_ptr<IndexMetadataStore>(new IndexMetadataStore(db_raw, index_id));
   if (handles.size() >= 3) {
     store->cf_default_ = handles[0];
     store->cf_version_history_ = handles[1];
