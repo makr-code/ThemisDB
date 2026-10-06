@@ -9,6 +9,14 @@
 - Deterministic reliability improvements for import/linking/retrieval workflows
 - Stronger benchmark-backed guardrails for process hot paths
 - Federated deployment and distributed consistency support
+- External orchestration profile operations (YAML/JSON) with explicit internal-RAG sequencing and runtime prediction
+
+## Current Delta (Q4 2026)
+
+- [x] External orchestration registry baseline added (staged/active/archived + rollback-ready activation flow)
+- [x] Catalog sync path added (`assets/model_catalog.yaml` process entries -> runtime registry ingest)
+- [x] Internal-RAG invariant enforced for external profiles (`internal_rag_stage=true`)
+- [x] Prediction surface introduced (`sla_breach_probability`, `compliance_risk_score`, `completion_confidence`, `recommended_submodel`)
 
 ## Completed Features (Phase 1-6)
 
@@ -176,4 +184,3 @@ The following features are considered out of scope or explicitly not planned:
 - `src/process/PERFORMANCE_EXPECTATIONS.md` – Benchmark gates and release validation
 - `include/process/process_concurrency_contract.h` – Thread-safety model
 - `include/process/process_determinism_spec.h` – Determinism classifications
-

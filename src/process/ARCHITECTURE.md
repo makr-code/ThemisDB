@@ -21,6 +21,11 @@ The process module composes process-model lifecycle management, process format i
 - process-object/process-process linking behavior
 - DMN/OCEL and object-centric tracing support
 
+4. External orchestration plane
+- YAML/JSON process orchestration profiles (staged/active/archived) managed by runtime registry
+- explicit invariant: RAG remains an internal pipeline stage (`internal_rag_stage=true`) and is not exposed as primary external control logic
+- prediction outputs for orchestration decisions (SLA breach, compliance risk, completion confidence, recommended submodel)
+
 ## Core Contracts
 
 | Contract | Behavior |
@@ -35,6 +40,7 @@ The process module composes process-model lifecycle management, process format i
 - invalid process input or malformed models fail with explicit outcomes.
 - retrieval path failures are surfaced explicitly.
 - linking and evaluation errors remain observable and non-silent.
+- external orchestration profiles fail closed when required invariants are violated (missing id/domain or `internal_rag_stage=false`).
 
 ## Sourcecode Verification (Module: process/architecture)
 
@@ -51,6 +57,7 @@ The process module composes process-model lifecycle management, process format i
   - explicit lifecycle/retrieval/linking/compliance planes
   - deterministic failure boundaries across process workflows
   - module-local ownership of process modeling behavior
+    - runtime orchestration registry with activation/rollback state transitions and internal-RAG enforcement
 
 ## Module Dependencies
 
