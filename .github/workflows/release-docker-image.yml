@@ -539,6 +539,7 @@ jobs:
       # Skipped for PR builds (digest only available after push).
       if: |
         steps.build.outputs.digest != '' &&
+        steps.attestation-subject.outputs.value != '' &&
         (
           (github.event_name == 'release') ||
           (github.event_name == 'push' && github.ref == 'refs/heads/develop') ||

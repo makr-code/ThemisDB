@@ -1017,7 +1017,7 @@ jobs:
           else
             COUNT="${{ steps.extract.outputs.api_ref_count }}"
             git commit -m "docs(wiki): update ${COUNT} Doxygen API_REFERENCE_*.md artifacts [skip ci]"
-            git push
+            git push origin HEAD:${{ github.ref_name }}
           fi
 
       - name: Write job summary
