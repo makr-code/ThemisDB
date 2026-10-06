@@ -9,6 +9,7 @@ inspiration:
   pattern_origin:
     - "deep-research style multi-source evidence loops"
   note: "Pattern-inspired model; no claim of equivalence to external proprietary systems."
+foundation_ref: scientific_foundation.json
 
 runtime:
   mode_required: dream_research
@@ -107,4 +108,3 @@ evolution_policy:
       - contradiction_resolution_score
       - practical_utility_score
     pruning_rule: "deprecate models with repeated low utility and high unresolved contradiction density"
-

@@ -1143,6 +1143,7 @@ ThemisDB now defines a dedicated scientific-method configuration surface:
 - [../../assets/scientific_methods/agentic_bpmn_coding_loop.yaml](../../assets/scientific_methods/agentic_bpmn_coding_loop.yaml)
 - [../../assets/scientific_methods/agentic_bpmn_deep_research_loop.yaml](../../assets/scientific_methods/agentic_bpmn_deep_research_loop.yaml)
 - [../../assets/scientific_methods/model_catalog.yaml](../../assets/scientific_methods/model_catalog.yaml)
+- [../../assets/scientific_methods/scientific_foundation.json](../../assets/scientific_methods/scientific_foundation.json)
 - [../../assets/scientific_methods/scientific_method.schema.json](../../assets/scientific_methods/scientific_method.schema.json)
 
 These assets formalize autonomous problem classification and procedural strategy control under Dream-Mode constraints.

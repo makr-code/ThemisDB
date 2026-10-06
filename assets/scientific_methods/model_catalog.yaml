@@ -27,6 +27,7 @@ models:
 
 governance:
   schema: scientific_method.schema.json
+  scientific_foundation: scientific_foundation.json
   required_mode: dream_research
   required_gates:
     - BRAIN-DREAM-ISOLATION

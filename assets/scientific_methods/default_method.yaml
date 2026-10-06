@@ -9,6 +9,7 @@ source_lineage:
   derived_from:
     - "https://github.com/makr-code/VCC-Veritas/blob/9ce93238ee9f4f7ec74fb246c71e569a7579836c/config/scientific_methods/default_method.json"
   adaptation_scope: "ThemisDB Dream-Mode + BPMN procedural memory integration"
+foundation_ref: scientific_foundation.json
 
 runtime:
   mode_required: dream_research

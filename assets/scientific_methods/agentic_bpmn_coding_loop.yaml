@@ -9,6 +9,7 @@ inspiration:
   pattern_origin:
     - "coding-agent style iterative delivery loop"
   note: "Pattern-inspired model; no runtime identity claim to external systems."
+foundation_ref: scientific_foundation.json
 
 runtime:
   mode_required: dream_research
@@ -94,4 +95,3 @@ evolution_policy:
       - defect_escape_risk
       - reproducibility_score
     pruning_rule: "drop patterns with repeated nonregression failures"
-
