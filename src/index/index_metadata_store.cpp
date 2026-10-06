@@ -80,7 +80,7 @@ std::unique_ptr<IndexMetadataStore> IndexMetadataStore::Open(const std::string& 
 
   std::unique_ptr<IndexMetadataStore> store;
   try {
-    store = std::unique_ptr<IndexMetadataStore>(new IndexMetadataStore(db_owner.get(), index_id));
+    store = std::unique_ptr<IndexMetadataStore>(new IndexMetadataStore(db_owner.release(), index_id));
   } catch (...) {
     for (auto* handle : handles) {
       if (db_raw != nullptr && handle != nullptr) {
@@ -88,33 +88,18 @@ std::unique_ptr<IndexMetadataStore> IndexMetadataStore::Open(const std::string& 
       }
     }
     throw;
-  auto store = std::unique_ptr<IndexMetadataStore>(new IndexMetadataStore(db.get(), index_id));
-  db.release();
-  if (handles.size() >= 3) {
-    store->owned_column_families_ = handles;
-    store->cf_default_ = handles[0];
-    store->cf_version_history_ = handles[1];
-    store->cf_embeddings_ = handles[2];
   }
+
+  store->owned_column_families_ = handles;
   store->cf_default_ = handles[0];
   store->cf_version_history_ = handles[1];
   store->cf_embeddings_ = handles[2];
-  db_owner.release();
 
   spdlog::info("[IndexMetadataStore] Opened RocksDB for index '{}' at {}", index_id, db_path);
   return store;
 }
 
 IndexMetadataStore::~IndexMetadataStore() {
-  if (db_ && cf_embeddings_ != nullptr) {
-    db_->DestroyColumnFamilyHandle(cf_embeddings_);
-  }
-  if (db_ && cf_version_history_ != nullptr) {
-    db_->DestroyColumnFamilyHandle(cf_version_history_);
-  }
-  if (db_ && cf_default_ != nullptr) {
-    db_->DestroyColumnFamilyHandle(cf_default_);
-  }
   for (auto* handle : owned_column_families_) {
     if (handle && db_) {
       auto status = db_->DestroyColumnFamilyHandle(handle);
