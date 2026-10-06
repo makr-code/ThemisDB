@@ -105,7 +105,7 @@ This is a functional role mapping only; it does not claim biological identity of
 | `storage::GgmlTensorBridge` | White-matter pathway analog (transfer/format bridge) | Bridges persistent representations into runtime-executable substrate | capability-gated |
 | `llama_cpp::LlamaCppPlugin` (`generateRAG`, `embed`) | Prefrontal-guided retrieval + verbalization output | Integrates retrieved memory traces into final generated behavior | conditional quality path |
 | `tensor::TensorFingerprintGraph` | Associative cortex / semantic neighborhood structure | Maintains similarity neighborhoods and relatedness graph for memory association | implemented |
-| `ai_context/developer_llm_wiki/*` + governance SOT surfaces (`ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `RELEASE_STRATEGY.md`) | Condensed episodic-to-semantic consolidation ledger + executive notebook analog | Compresses operational episodes into reusable, auditable policy/architecture memory that constrains retrieval and promotion decisions | implemented (runtime linkage strengthening ongoing) |
+| `ai_context/developer_llm_wiki/*` + governance SOT surfaces (`ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `RELEASE_STRATEGY.md`) | Condensed episodic-to-semantic consolidation ledger + executive notebook analog | Compresses operational episodes into reusable, auditable policy/architecture memory that constrains retrieval and promotion decisions | partial (`H5` integration in progress) |
 | `retrieval` + `rag` module surfaces | Cortico-hippocampal loop | Couples query intent to memory recall and evidence-conditioned output | implemented |
 | `observability` + `governance` + `security` | Error monitoring + homeostatic/immune control analog | Detects, constrains, and audits unsafe state transitions | implemented |
 
@@ -459,6 +459,9 @@ To operationalize this paper, the next Auftrag should register explicit gate fam
 3. **BRAIN-ARBITER** (route arbitration)
    - deterministic tie-break behavior tests
    - route-thrashing resilience tests
+4. **BRAIN-WIKI-CONTEXT** (wiki-memory provenance and version pinning)
+   - `knowledge_source_class` coverage checks for wiki-influenced decisions
+   - version-pinned `wiki_context_refs` integrity and stale-reference rejection checks
 
 Benchmark expectations should be linked into:
 - [PERFORMANCE_EXPECTATIONS.md](./PERFORMANCE_EXPECTATIONS.md)
@@ -888,6 +891,8 @@ The default decisions imply the following immediate gate additions:
    - stable route selection under equal confidence inputs.
 4. **BRAIN-SAFETY-CORE-01**
    - fail-closed + rollback proof + hidden-fallback absence.
+5. **BRAIN-WIKI-CONTEXT-01**
+   - wiki memory provenance and version-pinning checks for promotion-relevant decisions.
 
 These should be registered in planning first, then materialized as CTest/benchmark targets.
 
