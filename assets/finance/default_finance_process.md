@@ -1,13 +1,13 @@
 # default_finance_process.yaml — Detailerklärung
 
 ## Zweck
-Finanzprozess für Planung, Mittelverwendung und Abweichungskontrolle.
+Default-BPMN-Modell für die Gruppe `finance` mit ThemisDB-Governance und Gefährdungsanalyse.
 
 ## Prozessbild
 ```mermaid
 flowchart LR
-  A[Budget Plan] --> B[Allocation]
-  B --> C[Tracking]
-  C --> D[Variance]
-  D --> E[Corrective Action]
+  A[Intake] --> B[Assessment]
+  B --> C[Validation]
+  C --> D[Decision]
+  D --> E[Monitoring]
 ```

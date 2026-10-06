@@ -1,13 +1,13 @@
 # default_governance_process.yaml — Detailerklärung
 
 ## Zweck
-Rahmenprozess für policy-konforme Entscheidungen mit nachvollziehbarer Freigabe.
+Default-BPMN-Modell für die Gruppe `governance` mit ThemisDB-Governance und Gefährdungsanalyse.
 
 ## Prozessbild
 ```mermaid
 flowchart LR
-  A[Policy Intake] --> B[Risk Scope]
-  B --> C[Gate Mapping]
-  C --> D[Compliance Eval]
-  D --> E[Signoff]
+  A[Intake] --> B[Assessment]
+  B --> C[Validation]
+  C --> D[Decision]
+  D --> E[Monitoring]
 ```

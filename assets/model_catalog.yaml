@@ -1,112 +1,223 @@
 catalog_id: scientific_method_model_catalog
-version: 1.2.0
-last_updated: 2026-10-06T08:48:00Z
-scope: "Grouped process-method catalog for Dream-Mode procedural cognition across domains"
-
+version: 2.0.0
+last_updated: '2026-10-06T08:50:41Z'
+scope: Canonical grouped process-method catalog for Dream-Mode procedural cognition
+  across domains
 models:
-  - method_id: default_scientific_method
-    file: scientific/default_method.yaml
-    category: baseline
-    primary_use_case: "General scientific problem solving with BPMN+YAML pipeline"
-
-  - method_id: default_scientific_method
-    profile: phase1_conservative_backup
-    file: scientific/default_method_phase1_conservative_backup_20251012_204557.yaml
-    category: conservative_fallback
-    primary_use_case: "Low-confidence or degraded-dependency fallback in early phases"
-
-  - method_id: agentic_bpmn_coding_loop
-    file: scientific/agentic_bpmn_coding_loop.yaml
-    category: coding
-    primary_use_case: "Implementation-focused agentic loops with verification and rollback gates"
-
-  - method_id: agentic_bpmn_deep_research_loop
-    file: scientific/agentic_bpmn_deep_research_loop.yaml
-    category: deep_research
-    primary_use_case: "Evidence-intensive research loops with contradiction analysis and synthesis"
-
-  - method_id: default_scientific_process
-    file: scientific/default_scientific_process.yaml
-    category: scientific_default
-    primary_use_case: "Default domain template for generic scientific workflows"
-
-  - method_id: vwvfg_administration_method
-    file: administration/vwvfg_administration_method.yaml
-    category: legal_administration
-    primary_use_case: "VwVfG-style administration workflows with legality, hearing, deadline, and reasoning controls"
-
-  - method_id: default_administration_process
-    file: administration/default_administration_process.yaml
-    category: administration_default
-    primary_use_case: "Default administrative intake-to-decision workflow"
-
-  - method_id: default_governance_process
-    file: governance/default_governance_process.yaml
-    category: governance_default
-    primary_use_case: "Policy-driven governance workflows with gate and signoff control"
-
-  - method_id: default_legal_process
-    file: legal/default_legal_process.yaml
-    category: legal_default
-    primary_use_case: "General legal analysis and conclusion workflows"
-
-  - method_id: default_judicial_process
-    file: judicial/default_judicial_process.yaml
-    category: judicial_default
-    primary_use_case: "Court-style adjudication workflows with hearing and judgment"
-
-  - method_id: default_legislative_process
-    file: legislative/default_legislative_process.yaml
-    category: legislative_default
-    primary_use_case: "Legislative drafting and enactment workflows"
-
-  - method_id: default_executive_process
-    file: executive/default_executive_process.yaml
-    category: executive_default
-    primary_use_case: "Execution and implementation control workflows"
-
-  - method_id: default_finance_process
-    file: finance/default_finance_process.yaml
-    category: finance_default
-    primary_use_case: "Budget and variance-control finance workflows"
-
-  - method_id: default_military_process
-    file: military/default_military_process.yaml
-    category: military_default
-    primary_use_case: "Mission-oriented command and review workflows"
-
-  - method_id: default_corporate_process
-    file: corporate/default_corporate_process.yaml
-    category: corporate_default
-    primary_use_case: "Company strategy-to-execution portfolio workflows"
-
-  - method_id: default_accounting_process
-    file: accounting/default_accounting_process.yaml
-    category: accounting_default
-    primary_use_case: "Accounting close and reconciliation workflows"
-
-  - method_id: default_legals_process
-    file: legals/default_legals_process.yaml
-    category: legals_alias_default
-    primary_use_case: "Alias domain profile for legal workflows under 'legals'"
-
-  - method_id: default_judikative_process
-    file: judikative/default_judikative_process.yaml
-    category: judikative_alias_default
-    primary_use_case: "Alias domain profile for judicial workflows under 'judikative'"
-
-  - method_id: default_exicutive_process
-    file: exicutive/default_exicutive_process.yaml
-    category: exicutive_alias_default
-    primary_use_case: "Alias domain profile for executive workflows under 'exicutive'"
-
+- method_id: default_administration_process
+  file: administration/default_administration_process.yaml
+  category: administration_default_process
+  primary_use_case: Administration default process workflow
+- method_id: default_administration_reusable_model
+  file: administration/default_administration_reusable_model.yaml
+  category: administration_reusable_model
+  primary_use_case: Administration reusable model workflow
+- method_id: default_administration_submodel
+  file: administration/default_administration_submodel.yaml
+  category: administration_submodel
+  primary_use_case: Administration submodel workflow
+- method_id: vwvfg_administration_method
+  file: administration/vwvfg_administration_method.yaml
+  category: administration_default_process
+  primary_use_case: VwVfG-style administration workflows with legality, hearing, deadline,
+    and reasoning controls
+- method_id: agentic_bpmn_coding_loop
+  file: scientific/agentic_bpmn_coding_loop.yaml
+  category: scientific_default_process
+  primary_use_case: Implementation-focused agentic loops with verification and rollback
+    gates
+- method_id: agentic_bpmn_deep_research_loop
+  file: scientific/agentic_bpmn_deep_research_loop.yaml
+  category: scientific_default_process
+  primary_use_case: Evidence-intensive research loops with contradiction analysis
+    and synthesis
+- method_id: default_method
+  file: scientific/default_method.yaml
+  category: scientific_default_process
+  primary_use_case: General scientific problem solving with BPMN+YAML pipeline
+- method_id: default_method_phase1_conservative_backup_20251012_204557
+  file: scientific/default_method_phase1_conservative_backup_20251012_204557.yaml
+  category: scientific_default_process
+  primary_use_case: Low-confidence or degraded-dependency fallback in early phases
+- method_id: default_scientific_process
+  file: scientific/default_scientific_process.yaml
+  category: scientific_default_process
+  primary_use_case: Scientific default process workflow
+- method_id: default_scientific_reusable_model
+  file: scientific/default_scientific_reusable_model.yaml
+  category: scientific_reusable_model
+  primary_use_case: Scientific reusable model workflow
+- method_id: default_scientific_submodel
+  file: scientific/default_scientific_submodel.yaml
+  category: scientific_submodel
+  primary_use_case: Scientific submodel workflow
+- method_id: default_governance_process
+  file: governance/default_governance_process.yaml
+  category: governance_default_process
+  primary_use_case: Governance default process workflow
+- method_id: default_governance_reusable_model
+  file: governance/default_governance_reusable_model.yaml
+  category: governance_reusable_model
+  primary_use_case: Governance reusable model workflow
+- method_id: default_governance_submodel
+  file: governance/default_governance_submodel.yaml
+  category: governance_submodel
+  primary_use_case: Governance submodel workflow
+- method_id: default_legal_process
+  file: legal/default_legal_process.yaml
+  category: legal_default_process
+  primary_use_case: Legal default process workflow
+- method_id: default_legal_reusable_model
+  file: legal/default_legal_reusable_model.yaml
+  category: legal_reusable_model
+  primary_use_case: Legal reusable model workflow
+- method_id: default_legal_submodel
+  file: legal/default_legal_submodel.yaml
+  category: legal_submodel
+  primary_use_case: Legal submodel workflow
+- method_id: default_judicial_process
+  file: judicial/default_judicial_process.yaml
+  category: judicial_default_process
+  primary_use_case: Judicial default process workflow
+- method_id: default_judicial_reusable_model
+  file: judicial/default_judicial_reusable_model.yaml
+  category: judicial_reusable_model
+  primary_use_case: Judicial reusable model workflow
+- method_id: default_judicial_submodel
+  file: judicial/default_judicial_submodel.yaml
+  category: judicial_submodel
+  primary_use_case: Judicial submodel workflow
+- method_id: default_legislative_process
+  file: legislative/default_legislative_process.yaml
+  category: legislative_default_process
+  primary_use_case: Legislative default process workflow
+- method_id: default_legislative_reusable_model
+  file: legislative/default_legislative_reusable_model.yaml
+  category: legislative_reusable_model
+  primary_use_case: Legislative reusable model workflow
+- method_id: default_legislative_submodel
+  file: legislative/default_legislative_submodel.yaml
+  category: legislative_submodel
+  primary_use_case: Legislative submodel workflow
+- method_id: default_executive_process
+  file: executive/default_executive_process.yaml
+  category: executive_default_process
+  primary_use_case: Executive default process workflow
+- method_id: default_executive_reusable_model
+  file: executive/default_executive_reusable_model.yaml
+  category: executive_reusable_model
+  primary_use_case: Executive reusable model workflow
+- method_id: default_executive_submodel
+  file: executive/default_executive_submodel.yaml
+  category: executive_submodel
+  primary_use_case: Executive submodel workflow
+- method_id: default_finance_process
+  file: finance/default_finance_process.yaml
+  category: finance_default_process
+  primary_use_case: Finance default process workflow
+- method_id: default_finance_reusable_model
+  file: finance/default_finance_reusable_model.yaml
+  category: finance_reusable_model
+  primary_use_case: Finance reusable model workflow
+- method_id: default_finance_submodel
+  file: finance/default_finance_submodel.yaml
+  category: finance_submodel
+  primary_use_case: Finance submodel workflow
+- method_id: default_military_process
+  file: military/default_military_process.yaml
+  category: military_default_process
+  primary_use_case: Military default process workflow
+- method_id: default_military_reusable_model
+  file: military/default_military_reusable_model.yaml
+  category: military_reusable_model
+  primary_use_case: Military reusable model workflow
+- method_id: default_military_submodel
+  file: military/default_military_submodel.yaml
+  category: military_submodel
+  primary_use_case: Military submodel workflow
+- method_id: default_corporate_process
+  file: corporate/default_corporate_process.yaml
+  category: corporate_default_process
+  primary_use_case: Corporate default process workflow
+- method_id: default_corporate_reusable_model
+  file: corporate/default_corporate_reusable_model.yaml
+  category: corporate_reusable_model
+  primary_use_case: Corporate reusable model workflow
+- method_id: default_corporate_submodel
+  file: corporate/default_corporate_submodel.yaml
+  category: corporate_submodel
+  primary_use_case: Corporate submodel workflow
+- method_id: default_accounting_process
+  file: accounting/default_accounting_process.yaml
+  category: accounting_default_process
+  primary_use_case: Accounting default process workflow
+- method_id: default_accounting_reusable_model
+  file: accounting/default_accounting_reusable_model.yaml
+  category: accounting_reusable_model
+  primary_use_case: Accounting reusable model workflow
+- method_id: default_accounting_submodel
+  file: accounting/default_accounting_submodel.yaml
+  category: accounting_submodel
+  primary_use_case: Accounting submodel workflow
+- method_id: default_intelligence_process
+  file: intelligence/default_intelligence_process.yaml
+  category: intelligence_default_process
+  primary_use_case: Intelligence default process workflow
+- method_id: default_intelligence_reusable_model
+  file: intelligence/default_intelligence_reusable_model.yaml
+  category: intelligence_reusable_model
+  primary_use_case: Intelligence reusable model workflow
+- method_id: default_intelligence_submodel
+  file: intelligence/default_intelligence_submodel.yaml
+  category: intelligence_submodel
+  primary_use_case: Intelligence submodel workflow
+- method_id: people_assessment_compliant
+  file: intelligence/people_assessment_compliant.yaml
+  category: intelligence_default_process
+  primary_use_case: Compliance-bound people-assessment for protective risk management
+- method_id: default_social_process
+  file: social/default_social_process.yaml
+  category: social_default_process
+  primary_use_case: Social default process workflow
+- method_id: default_social_reusable_model
+  file: social/default_social_reusable_model.yaml
+  category: social_reusable_model
+  primary_use_case: Social reusable model workflow
+- method_id: default_social_submodel
+  file: social/default_social_submodel.yaml
+  category: social_submodel
+  primary_use_case: Social submodel workflow
+- method_id: default_networks_process
+  file: networks/default_networks_process.yaml
+  category: networks_default_process
+  primary_use_case: Networks default process workflow
+- method_id: default_networks_reusable_model
+  file: networks/default_networks_reusable_model.yaml
+  category: networks_reusable_model
+  primary_use_case: Networks reusable model workflow
+- method_id: default_networks_submodel
+  file: networks/default_networks_submodel.yaml
+  category: networks_submodel
+  primary_use_case: Networks submodel workflow
+- method_id: default_critical_infrastructure_process
+  file: critical_infrastructure/default_critical_infrastructure_process.yaml
+  category: critical_infrastructure_default_process
+  primary_use_case: Critical Infrastructure default process workflow
+- method_id: default_critical_infrastructure_reusable_model
+  file: critical_infrastructure/default_critical_infrastructure_reusable_model.yaml
+  category: critical_infrastructure_reusable_model
+  primary_use_case: Critical Infrastructure reusable model workflow
+- method_id: default_critical_infrastructure_submodel
+  file: critical_infrastructure/default_critical_infrastructure_submodel.yaml
+  category: critical_infrastructure_submodel
+  primary_use_case: Critical Infrastructure submodel workflow
 governance:
   schema: scientific_methods/scientific_method.schema.json
   scientific_foundation: scientific_methods/scientific_foundation.json
   required_mode: dream_research
   required_gates:
-    - BRAIN-DREAM-ISOLATION
-    - BRAIN-DREAM-LABEL-INTEGRITY
-    - BRAIN-DREAM-NONREGRESSION
-    - BRAIN-DREAM-ETHICS-BOUNDARY
-    - BRAIN-BPMN-PROCEDURAL-INTEGRITY
+  - BRAIN-DREAM-ISOLATION
+  - BRAIN-DREAM-LABEL-INTEGRITY
+  - BRAIN-DREAM-NONREGRESSION
+  - BRAIN-DREAM-ETHICS-BOUNDARY
+  - BRAIN-BPMN-PROCEDURAL-INTEGRITY

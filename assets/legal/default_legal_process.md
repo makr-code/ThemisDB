@@ -1,13 +1,13 @@
 # default_legal_process.yaml — Detailerklärung
 
 ## Zweck
-Standardisierter Rechtsprüfungsprozess mit sauberer Trennung zwischen Tatsachen und Normauslegung.
+Default-BPMN-Modell für die Gruppe `legal` mit ThemisDB-Governance und Gefährdungsanalyse.
 
 ## Prozessbild
 ```mermaid
 flowchart LR
-  A[Norms] --> B[Facts]
-  B --> C[Subsumption]
-  C --> D[Conflict Check]
-  D --> E[Legal Memo]
+  A[Intake] --> B[Assessment]
+  B --> C[Validation]
+  C --> D[Decision]
+  D --> E[Monitoring]
 ```

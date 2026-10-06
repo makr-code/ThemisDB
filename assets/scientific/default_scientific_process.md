@@ -1,14 +1,13 @@
 # default_scientific_process.yaml — Detailerklärung
 
 ## Zweck
-Standardprozess für wissenschaftliche Fragestellungen mit reproduzierbarer Evidenzführung.
+Default-BPMN-Modell für die Gruppe `scientific` mit ThemisDB-Governance und Gefährdungsanalyse.
 
 ## Prozessbild
 ```mermaid
 flowchart LR
-  A[Question] --> B[Hypothesis]
-  B --> C[Method]
-  C --> D[Evidence]
-  D --> E[Analysis]
-  E --> F[Report]
+  A[Intake] --> B[Assessment]
+  B --> C[Validation]
+  C --> D[Decision]
+  D --> E[Monitoring]
 ```

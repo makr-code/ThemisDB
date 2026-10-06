@@ -1,0 +1,26 @@
+model_id: default_social_submodel
+version: 1.0.0
+domain: social
+description: Submodel for escalation and exception handling in social workflows.
+bpmn:
+  model_type: submodel
+  parent_default: default_social_process
+  trigger: exception_or_high_risk
+sub_phases:
+- id: escalation_intake
+  name: Escalation Intake
+- id: deep_validation
+  name: Deep Validation
+- id: override_decision
+  name: Override Decision
+- id: audit_record
+  name: Audit Record
+themisdb_module_bindings:
+- analytics
+- search
+- ethics_ai
+- governance
+hazard_focus:
+- false_negative
+- false_positive
+- traceability_gap

@@ -1,13 +1,13 @@
 # default_judicial_process.yaml — Detailerklärung
 
 ## Zweck
-Prozessbild für judikative Entscheidungsfindung mit Anhörung, Beweiswürdigung und begründetem Urteil.
+Default-BPMN-Modell für die Gruppe `judicial` mit ThemisDB-Governance und Gefährdungsanalyse.
 
 ## Prozessbild
 ```mermaid
 flowchart LR
-  A[Admissibility] --> B[Hearing]
-  B --> C[Evidence Weighing]
-  C --> D[Legal Assessment]
-  D --> E[Judgment]
+  A[Intake] --> B[Assessment]
+  B --> C[Validation]
+  C --> D[Decision]
+  D --> E[Monitoring]
 ```

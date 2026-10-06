@@ -2,23 +2,49 @@ method_id: default_military_process
 version: 1.0.0
 name: Default Military Process
 domain: military
-description: Mission-oriented planning and execution loop with strict command and risk controls.
+description: Default BPMN-oriented process for the military domain with ThemisDB governance
+  guards.
 runtime:
   mode_required: dream_research
   fail_closed: true
+  promotion_requires_human_approval: true
+bpmn:
+  model_type: default
+  entry_event: intake
+  exit_event: decision_or_handover
 phases:
-  - id: mission_analysis
-    name: Mission Analysis
-  - id: course_of_action
-    name: Course of Action
-  - id: risk_and_rules_check
-    name: Risk and Rules Check
-  - id: execution
-    name: Execution
-  - id: after_action_review
-    name: After Action Review
+- id: intake
+  name: Intake
+- id: assessment
+  name: Assessment
+- id: validation
+  name: Validation
+- id: decision
+  name: Decision
+- id: monitoring
+  name: Monitoring
+themisdb_module_bindings:
+- network
+- security
+- failover
+- observability
+hazard_analysis:
+  default_threats:
+  - data_drift
+  - policy_misclassification
+  - insufficient_evidence
+  kritis_threats:
+  - availability_loss
+  - integrity_loss
+  - dependency_cascade
+  controls:
+  - fail_closed
+  - human_approval
+  - traceability
+  - rollback_checkpoint
 observability:
   required_metadata:
-    - run_id
-    - mission_ref
-    - roa_or_roe_refs
+  - run_id
+  - knowledge_source_class
+  - wiki_context_refs
+  - risk_register_ref

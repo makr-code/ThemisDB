@@ -1,13 +1,13 @@
 # default_accounting_process.yaml — Detailerklärung
 
 ## Zweck
-Buchhaltungsprozess von Belegerfassung bis Abschlussbericht mit Reconciliation-Kontrolle.
+Default-BPMN-Modell für die Gruppe `accounting` mit ThemisDB-Governance und Gefährdungsanalyse.
 
 ## Prozessbild
 ```mermaid
 flowchart LR
-  A[Document Intake] --> B[Booking]
-  B --> C[Reconciliation]
-  C --> D[Closing]
-  D --> E[Reporting]
+  A[Intake] --> B[Assessment]
+  B --> C[Validation]
+  C --> D[Decision]
+  D --> E[Monitoring]
 ```
