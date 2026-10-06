@@ -11,12 +11,32 @@
 
 #include <rocksdb/db.h>
 #include <rocksdb/options.h>
+#include <rocksdb/version.h>
 #include <rocksdb/utilities/transaction_db.h>
 #include <spdlog/spdlog.h>
 
 #include "index/index_manifest_v1.h"
 
 namespace themis::index {
+namespace {
+
+rocksdb::Status OpenRocksDbWithColumnFamilies(
+    const rocksdb::DBOptions& db_options, const std::string& db_path,
+    const std::vector<rocksdb::ColumnFamilyDescriptor>& column_families,
+    std::vector<rocksdb::ColumnFamilyHandle*>* handles, std::unique_ptr<rocksdb::DB>* db_owner) {
+#if defined(ROCKSDB_MAJOR) && ROCKSDB_MAJOR >= 10
+  return rocksdb::DB::Open(db_options, db_path, column_families, handles, db_owner);
+#else
+  rocksdb::DB* db_raw = nullptr;
+  auto status = rocksdb::DB::Open(db_options, db_path, column_families, handles, &db_raw);
+  if (status.ok()) {
+    db_owner->reset(db_raw);
+  }
+  return status;
+#endif
+}
+
+}  // namespace
 
 std::string IndexMetadataStore::EncodeVersionNumber(uint32_t version_number) {
   // Big-endian encoding for consistent RocksDB key ordering
@@ -55,24 +75,24 @@ std::unique_ptr<IndexMetadataStore> IndexMetadataStore::Open(const std::string& 
       rocksdb::ColumnFamilyDescriptor("embeddings", rocksdb::ColumnFamilyOptions()));
 
   // Try to open existing DB with column families
-  rocksdb::DB* db_raw = nullptr;
+  std::unique_ptr<rocksdb::DB> db_owner;
   std::vector<rocksdb::ColumnFamilyHandle*> handles;
   rocksdb::DBOptions db_options;
   db_options.create_if_missing = true;
   db_options.create_missing_column_families = true;
 
-  auto status = rocksdb::DB::Open(db_options, db_path, column_families, &handles, &db_raw);
+  auto status = OpenRocksDbWithColumnFamilies(db_options, db_path, column_families, &handles,
+                                              &db_owner);
   if (!status.ok()) {
     spdlog::error("[IndexMetadataStore] Failed to open RocksDB at {}: {}", db_path,
                   status.ToString());
     throw std::runtime_error("Failed to open RocksDB: " + status.ToString());
   }
 
-  auto db_owner = std::unique_ptr<rocksdb::DB>(db_raw);
   if (handles.size() < 3) {
     for (auto* handle : handles) {
-      if (db_raw != nullptr && handle != nullptr) {
-        db_raw->DestroyColumnFamilyHandle(handle);
+      if (db_owner != nullptr && handle != nullptr) {
+        db_owner->DestroyColumnFamilyHandle(handle);
       }
     }
     throw std::runtime_error("Failed to open RocksDB: missing required column family handles");
@@ -83,19 +103,13 @@ std::unique_ptr<IndexMetadataStore> IndexMetadataStore::Open(const std::string& 
     store = std::unique_ptr<IndexMetadataStore>(new IndexMetadataStore(db_owner.get(), index_id));
   } catch (...) {
     for (auto* handle : handles) {
-      if (db_raw != nullptr && handle != nullptr) {
-        db_raw->DestroyColumnFamilyHandle(handle);
+      if (db_owner != nullptr && handle != nullptr) {
+        db_owner->DestroyColumnFamilyHandle(handle);
       }
     }
     throw;
-  auto store = std::unique_ptr<IndexMetadataStore>(new IndexMetadataStore(db.get(), index_id));
-  db.release();
-  if (handles.size() >= 3) {
-    store->owned_column_families_ = handles;
-    store->cf_default_ = handles[0];
-    store->cf_version_history_ = handles[1];
-    store->cf_embeddings_ = handles[2];
   }
+  store->owned_column_families_ = handles;
   store->cf_default_ = handles[0];
   store->cf_version_history_ = handles[1];
   store->cf_embeddings_ = handles[2];
@@ -106,15 +120,6 @@ std::unique_ptr<IndexMetadataStore> IndexMetadataStore::Open(const std::string& 
 }
 
 IndexMetadataStore::~IndexMetadataStore() {
-  if (db_ && cf_embeddings_ != nullptr) {
-    db_->DestroyColumnFamilyHandle(cf_embeddings_);
-  }
-  if (db_ && cf_version_history_ != nullptr) {
-    db_->DestroyColumnFamilyHandle(cf_version_history_);
-  }
-  if (db_ && cf_default_ != nullptr) {
-    db_->DestroyColumnFamilyHandle(cf_default_);
-  }
   for (auto* handle : owned_column_families_) {
     if (handle && db_) {
       auto status = db_->DestroyColumnFamilyHandle(handle);
