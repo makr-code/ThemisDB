@@ -54,6 +54,9 @@ jobs:
     name: "Build: Linux Release"
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
       - name: "Sync declared release submodules"
         shell: bash
         run: |
@@ -66,6 +69,9 @@ jobs:
     name: "Build: Windows Release"
     runs-on: windows-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
       - name: "Sync declared release submodules"
         shell: bash
         run: |
