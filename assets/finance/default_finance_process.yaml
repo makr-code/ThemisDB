@@ -1,0 +1,24 @@
+method_id: default_finance_process
+version: 1.0.0
+name: Default Finance Process
+domain: finance
+description: Finance governance process for planning, allocation, and financial risk control.
+runtime:
+  mode_required: dream_research
+  fail_closed: true
+phases:
+  - id: budget_planning
+    name: Budget Planning
+  - id: allocation
+    name: Allocation
+  - id: execution_tracking
+    name: Execution Tracking
+  - id: variance_analysis
+    name: Variance Analysis
+  - id: corrective_action
+    name: Corrective Action
+observability:
+  required_metadata:
+    - run_id
+    - budget_refs
+    - variance_report_ref

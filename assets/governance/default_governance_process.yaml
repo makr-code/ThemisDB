@@ -1,0 +1,24 @@
+method_id: default_governance_process
+version: 1.0.0
+name: Default Governance Process
+domain: governance
+description: Policy-to-decision governance process with gate enforcement.
+runtime:
+  mode_required: dream_research
+  fail_closed: true
+phases:
+  - id: policy_intake
+    name: Policy Intake
+  - id: scope_and_risk
+    name: Scope and Risk
+  - id: gate_mapping
+    name: Gate Mapping
+  - id: compliance_evaluation
+    name: Compliance Evaluation
+  - id: decision_signoff
+    name: Decision Signoff
+observability:
+  required_metadata:
+    - run_id
+    - policy_refs
+    - decision_approver

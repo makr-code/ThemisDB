@@ -1,0 +1,24 @@
+method_id: default_judikative_process
+version: 1.0.0
+name: Default Judikative Process
+domain: judikative
+description: Court-style adjudication workflow with hearing and reasoned judgment.
+runtime:
+  mode_required: dream_research
+  fail_closed: true
+phases:
+  - id: admissibility
+    name: Admissibility
+  - id: hearing
+    name: Hearing
+  - id: evidence_weighing
+    name: Evidence Weighing
+  - id: legal_assessment
+    name: Legal Assessment
+  - id: judgment
+    name: Judgment
+observability:
+  required_metadata:
+    - run_id
+    - hearing_event_refs
+    - judgment_reasoning_ref

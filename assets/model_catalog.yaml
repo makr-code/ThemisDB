@@ -1,0 +1,112 @@
+catalog_id: scientific_method_model_catalog
+version: 1.2.0
+last_updated: 2026-10-06T08:48:00Z
+scope: "Grouped process-method catalog for Dream-Mode procedural cognition across domains"
+
+models:
+  - method_id: default_scientific_method
+    file: scientific/default_method.yaml
+    category: baseline
+    primary_use_case: "General scientific problem solving with BPMN+YAML pipeline"
+
+  - method_id: default_scientific_method
+    profile: phase1_conservative_backup
+    file: scientific/default_method_phase1_conservative_backup_20251012_204557.yaml
+    category: conservative_fallback
+    primary_use_case: "Low-confidence or degraded-dependency fallback in early phases"
+
+  - method_id: agentic_bpmn_coding_loop
+    file: scientific/agentic_bpmn_coding_loop.yaml
+    category: coding
+    primary_use_case: "Implementation-focused agentic loops with verification and rollback gates"
+
+  - method_id: agentic_bpmn_deep_research_loop
+    file: scientific/agentic_bpmn_deep_research_loop.yaml
+    category: deep_research
+    primary_use_case: "Evidence-intensive research loops with contradiction analysis and synthesis"
+
+  - method_id: default_scientific_process
+    file: scientific/default_scientific_process.yaml
+    category: scientific_default
+    primary_use_case: "Default domain template for generic scientific workflows"
+
+  - method_id: vwvfg_administration_method
+    file: administration/vwvfg_administration_method.yaml
+    category: legal_administration
+    primary_use_case: "VwVfG-style administration workflows with legality, hearing, deadline, and reasoning controls"
+
+  - method_id: default_administration_process
+    file: administration/default_administration_process.yaml
+    category: administration_default
+    primary_use_case: "Default administrative intake-to-decision workflow"
+
+  - method_id: default_governance_process
+    file: governance/default_governance_process.yaml
+    category: governance_default
+    primary_use_case: "Policy-driven governance workflows with gate and signoff control"
+
+  - method_id: default_legal_process
+    file: legal/default_legal_process.yaml
+    category: legal_default
+    primary_use_case: "General legal analysis and conclusion workflows"
+
+  - method_id: default_judicial_process
+    file: judicial/default_judicial_process.yaml
+    category: judicial_default
+    primary_use_case: "Court-style adjudication workflows with hearing and judgment"
+
+  - method_id: default_legislative_process
+    file: legislative/default_legislative_process.yaml
+    category: legislative_default
+    primary_use_case: "Legislative drafting and enactment workflows"
+
+  - method_id: default_executive_process
+    file: executive/default_executive_process.yaml
+    category: executive_default
+    primary_use_case: "Execution and implementation control workflows"
+
+  - method_id: default_finance_process
+    file: finance/default_finance_process.yaml
+    category: finance_default
+    primary_use_case: "Budget and variance-control finance workflows"
+
+  - method_id: default_military_process
+    file: military/default_military_process.yaml
+    category: military_default
+    primary_use_case: "Mission-oriented command and review workflows"
+
+  - method_id: default_corporate_process
+    file: corporate/default_corporate_process.yaml
+    category: corporate_default
+    primary_use_case: "Company strategy-to-execution portfolio workflows"
+
+  - method_id: default_accounting_process
+    file: accounting/default_accounting_process.yaml
+    category: accounting_default
+    primary_use_case: "Accounting close and reconciliation workflows"
+
+  - method_id: default_legals_process
+    file: legals/default_legals_process.yaml
+    category: legals_alias_default
+    primary_use_case: "Alias domain profile for legal workflows under 'legals'"
+
+  - method_id: default_judikative_process
+    file: judikative/default_judikative_process.yaml
+    category: judikative_alias_default
+    primary_use_case: "Alias domain profile for judicial workflows under 'judikative'"
+
+  - method_id: default_exicutive_process
+    file: exicutive/default_exicutive_process.yaml
+    category: exicutive_alias_default
+    primary_use_case: "Alias domain profile for executive workflows under 'exicutive'"
+
+governance:
+  schema: scientific_methods/scientific_method.schema.json
+  scientific_foundation: scientific_methods/scientific_foundation.json
+  required_mode: dream_research
+  required_gates:
+    - BRAIN-DREAM-ISOLATION
+    - BRAIN-DREAM-LABEL-INTEGRITY
+    - BRAIN-DREAM-NONREGRESSION
+    - BRAIN-DREAM-ETHICS-BOUNDARY
+    - BRAIN-BPMN-PROCEDURAL-INTEGRITY

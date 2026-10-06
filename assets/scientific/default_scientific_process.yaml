@@ -1,0 +1,28 @@
+method_id: default_scientific_process
+version: 1.0.0
+name: Default Scientific Process
+domain: scientific
+description: Standard research lifecycle for hypothesis-driven scientific work.
+foundation_ref: ../scientific_foundation.json
+runtime:
+  mode_required: dream_research
+  fail_closed: true
+  promotion_requires_human_approval: true
+phases:
+  - id: question_definition
+    name: Question Definition
+  - id: hypothesis_design
+    name: Hypothesis Design
+  - id: method_selection
+    name: Method Selection
+  - id: evidence_collection
+    name: Evidence Collection
+  - id: analysis
+    name: Analysis
+  - id: synthesis_and_reporting
+    name: Synthesis and Reporting
+observability:
+  required_metadata:
+    - run_id
+    - knowledge_source_class
+    - wiki_context_refs

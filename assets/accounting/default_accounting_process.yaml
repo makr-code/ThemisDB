@@ -1,0 +1,24 @@
+method_id: default_accounting_process
+version: 1.0.0
+name: Default Accounting Process
+domain: accounting
+description: Accounting close process with booking controls and reconciliation.
+runtime:
+  mode_required: dream_research
+  fail_closed: true
+phases:
+  - id: document_intake
+    name: Document Intake
+  - id: booking
+    name: Booking
+  - id: reconciliation
+    name: Reconciliation
+  - id: closing
+    name: Closing
+  - id: reporting
+    name: Reporting
+observability:
+  required_metadata:
+    - run_id
+    - booking_batch_ref
+    - reconciliation_report_ref

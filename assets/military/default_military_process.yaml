@@ -1,0 +1,24 @@
+method_id: default_military_process
+version: 1.0.0
+name: Default Military Process
+domain: military
+description: Mission-oriented planning and execution loop with strict command and risk controls.
+runtime:
+  mode_required: dream_research
+  fail_closed: true
+phases:
+  - id: mission_analysis
+    name: Mission Analysis
+  - id: course_of_action
+    name: Course of Action
+  - id: risk_and_rules_check
+    name: Risk and Rules Check
+  - id: execution
+    name: Execution
+  - id: after_action_review
+    name: After Action Review
+observability:
+  required_metadata:
+    - run_id
+    - mission_ref
+    - roa_or_roe_refs

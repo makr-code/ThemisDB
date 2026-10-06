@@ -2,23 +2,49 @@
 
 This directory defines first-class scientific-method configurations for ThemisDB Dream-Mode.
 
-Files:
+Core files:
 - `scientific_foundation.json` — scientific reasoning foundation (core principles, 6-step method, source hierarchy, confidence/error standards, improvement loop).
-- `default_method.yaml` — primary 8-phase method for autonomous problem classification, BPMN strategy mapping, validation, and controlled evolution.
-- `default_method.md` — detailed process explanation for `default_method.yaml`.
-- `default_method_phase1_conservative_backup_20251012_204557.yaml` — conservative fallback profile with restricted decision policy.
-- `default_method_phase1_conservative_backup_20251012_204557.md` — detailed process explanation for the conservative backup profile.
-- `agentic_bpmn_coding_loop.yaml` — coding-oriented agentic BPMN loop (scope -> plan -> candidate patching -> validation -> controlled promotion).
-- `agentic_bpmn_coding_loop.md` — detailed process explanation for the coding loop.
-- `agentic_bpmn_deep_research_loop.yaml` — deep-research-oriented agentic BPMN loop (decomposition -> evidence -> contradiction analysis -> synthesis -> controlled promotion).
-- `agentic_bpmn_deep_research_loop.md` — detailed process explanation for the deep research loop.
-- `vwvfg_administration_method.yaml` — legal-governed administration process profile for VwVfG-style workflows.
-- `vwvfg_administration_method.md` — detailed process explanation for the VwVfG administration profile.
-- `model_catalog.yaml` — catalog/index for scientific-method model families and intended use-cases.
 - `scientific_method.schema.json` — schema contract for validating scientific-method configuration files.
+- `../model_catalog.yaml` — catalog/index for grouped scientific-method model families and intended use-cases (stored in `assets/` root).
+
+Grouped process domains (stored directly in `assets/`, each with YAML + same-name Markdown):
+- `../scientific/`
+  - `default_method.yaml`, `default_method.md`
+  - `default_method_phase1_conservative_backup_20251012_204557.yaml`, `default_method_phase1_conservative_backup_20251012_204557.md`
+  - `agentic_bpmn_coding_loop.yaml`, `agentic_bpmn_coding_loop.md`
+  - `agentic_bpmn_deep_research_loop.yaml`, `agentic_bpmn_deep_research_loop.md`
+  - `default_scientific_process.yaml`, `default_scientific_process.md`
+- `../administration/`
+  - `default_administration_process.yaml`, `default_administration_process.md`
+  - `vwvfg_administration_method.yaml`, `vwvfg_administration_method.md`
+- `../governance/`
+  - `default_governance_process.yaml`, `default_governance_process.md`
+- `../legal/`
+  - `default_legal_process.yaml`, `default_legal_process.md`
+- `../legals/`
+  - `default_legals_process.yaml`, `default_legals_process.md`
+- `../judicial/`
+  - `default_judicial_process.yaml`, `default_judicial_process.md`
+- `../judikative/`
+  - `default_judikative_process.yaml`, `default_judikative_process.md`
+- `../legislative/`
+  - `default_legislative_process.yaml`, `default_legislative_process.md`
+- `../executive/`
+  - `default_executive_process.yaml`, `default_executive_process.md`
+- `../exicutive/`
+  - `default_exicutive_process.yaml`, `default_exicutive_process.md`
+- `../finance/`
+  - `default_finance_process.yaml`, `default_finance_process.md`
+- `../military/`
+  - `default_military_process.yaml`, `default_military_process.md`
+- `../corporate/`
+  - `default_corporate_process.yaml`, `default_corporate_process.md`
+- `../accounting/`
+  - `default_accounting_process.yaml`, `default_accounting_process.md`
 
 Process documentation rule:
 - every process YAML in this directory should provide a same-name Markdown companion (`<process>.md`) with detailed operational explanations.
+- process Markdown companions should include a process image (Mermaid flow) for quick operational understanding.
 
 Governance constraints:
 - run mode must remain `dream_research`,
