@@ -485,7 +485,7 @@ jobs:
         echo "──────────────────────────────────────────────"
 
     - name: Resolve attestation subject name
-      id: attestation-subject
+      id: attestation_subject
       if: steps.build.outputs.digest != ''
       shell: bash
       env:
@@ -539,6 +539,7 @@ jobs:
       # Skipped for PR builds (digest only available after push).
       if: |
         steps.build.outputs.digest != '' &&
+        steps.attestation_subject.outputs.value != '' &&
         (
           (github.event_name == 'release') ||
           (github.event_name == 'push' && github.ref == 'refs/heads/develop') ||
@@ -547,7 +548,7 @@ jobs:
         )
       uses: actions/attest-build-provenance@v1  # v1.4.3
       with:
-        subject-name: ${{ steps.attestation-subject.outputs.value }}
+        subject-name: ${{ steps.attestation_subject.outputs.value }}
         subject-digest: ${{ steps.build.outputs.digest }}
         push-to-registry: true
 
@@ -560,16 +561,16 @@ jobs:
         ATTEST_OUTCOME="${{ steps.attest.outcome }}"
         if [ -n "${DIGEST}" ] && [ "${ATTEST_OUTCOME}" = "success" ]; then
           echo "  ✅ Provenance attestation generated (SLSA Level 2)"
-          echo "  Subject name   : ${{ steps.attestation-subject.outputs.value }}"
+          echo "  Subject name   : ${{ steps.attestation_subject.outputs.value }}"
           echo "  Subject digest : ${DIGEST}"
         elif [ -n "${DIGEST}" ] && [ "${ATTEST_OUTCOME}" = "skipped" ]; then
           echo "  ⏭️  Attestation skipped by workflow conditions"
-          echo "  Subject name   : ${{ steps.attestation-subject.outputs.value }}"
+          echo "  Subject name   : ${{ steps.attestation_subject.outputs.value }}"
           echo "  Subject digest : ${DIGEST}"
         elif [ -n "${DIGEST}" ]; then
           echo "::error::Provenance attestation failed"
           echo "  ❌ Provenance attestation failed"
-          echo "  Subject name   : ${{ steps.attestation-subject.outputs.value }}"
+          echo "  Subject name   : ${{ steps.attestation_subject.outputs.value }}"
           echo "  Subject digest : ${DIGEST}"
         else
           echo "  ⏭️  Attestation skipped (no digest — PR build or no push)"
