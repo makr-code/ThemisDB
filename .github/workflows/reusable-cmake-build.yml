@@ -139,7 +139,6 @@ on:
 
 permissions:
   contents: read
-  issues: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref_name || github.ref }}-${{ inputs.runs_on }}-${{ inputs.summary_title }}
