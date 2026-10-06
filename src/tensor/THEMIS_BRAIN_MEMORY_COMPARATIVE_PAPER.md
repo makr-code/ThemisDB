@@ -2220,6 +2220,60 @@ flowchart TD
     DS --> L3
 ```
 
+### 77.1 Mermaid Module-to-Brain-Area Mapping (Creative/Logical + Hippocampal Bridge)
+
+```mermaid
+flowchart LR
+    subgraph LH[Logical / Analytic Hemisphere Analog]
+      API[api/query/retrieval]
+      GOV[governance/security/ethics_ai]
+      EVAL[evaluation/observability]
+      WIKI[developer_llm_wiki + ROADMAP/FUTURE]
+    end
+
+    subgraph HC[Hippocampal Bridge Analog]
+      HNSW[tensor::HnswTTBridge]
+      GRAPH[tensor::TensorFingerprintGraph]
+      ROUTER[llm::ILLMRouter]
+    end
+
+    subgraph RH[Creative / Generative Hemisphere Analog]
+      LLM[llama_cpp + llm]
+      RAG[rag]
+      VOICE[voice]
+      SD[stable_diffusion]
+      TRAIN[training::AdaLoraTTBridge + IncrementalLoRATrainer]
+    end
+
+    INPUT[Data/Prompt/Context Input] --> HNSW
+    HNSW --> GRAPH
+    GRAPH --> ROUTER
+    ROUTER --> LLM
+    ROUTER --> RAG
+    ROUTER --> API
+
+    LLM --> EVAL
+    RAG --> EVAL
+    VOICE --> EVAL
+    SD --> EVAL
+
+    EVAL --> GOV
+    GOV --> WIKI
+    WIKI --> API
+    WIKI --> ROUTER
+
+    TRAIN --> HNSW
+    TRAIN --> GRAPH
+```
+
+Interpretation (bounded):
+- logical/analytic side emphasizes deterministic policy, validation, and governance memory surfaces,
+- creative/generative side emphasizes candidate synthesis and adaptation pathways,
+- hippocampal bridge analog (`HNSW` + graph + routing) links both sides by converting cues into context-conditioned recall,
+- this remains a functional role map, not a claim of biological hemisphere identity.
+
+---
+
 Interpretation:
 - creative synthesis is allowed before validation,
 - governance and BPMN constraints sit above pure model output,
