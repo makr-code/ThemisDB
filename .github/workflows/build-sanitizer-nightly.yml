@@ -21,6 +21,7 @@ on:
 permissions:
   contents: read
   actions: read
+  issues: write
 
 concurrency:
   group: ci-sanitizer-nightly-${{ github.ref }}
