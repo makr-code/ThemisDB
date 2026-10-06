@@ -327,7 +327,26 @@ Indicative foundational literature used for the conceptual mapping:
 4. Baddeley & Hitch (1974), Baddeley (2000): working-memory model and executive control.
 5. Doya (2000): neuromodulation and meta-learning control roles.
 
-These references motivate architecture hypotheses; they do not imply direct biological equivalence.
+Extended technical and safety grounding for machine-dreaming interpretation:
+
+6. Wilson & McNaughton (1994): empirical sleep replay evidence for offline reactivation.
+7. Stickgold (2005): sleep-dependent consolidation and stage-dependent memory effects.
+8. Sutton (1991, Dyna), Lin (1992), Mnih et al. (2015): replay/planning in learning systems.
+9. Ha & Schmidhuber (2018), Hafner et al. (Dreamer line 2019-2023): latent imagination for policy learning.
+10. Bender et al. (2021): caution against over-interpreting LLM stochastic generation as grounded cognition.
+11. Amodei et al. (2016), NIST AI RMF 1.0 (2023), EU AI Act (2024): safety/governance requirements for synthetic generation and promotion control.
+
+### 13.1 Evidence posture for the machine-dreaming equation
+
+| Claim | Evidence posture | Representative references |
+|---|---|---|
+| Offline replay improves consolidation stability | supports | Wilson & McNaughton (1994), Buzsaki (2015), Lin (1992), Mnih et al. (2015) |
+| Latent world-model imagination can accelerate learning | supports | Ha & Schmidhuber (2018), Hafner et al. (2019-2023), Sutton (1991) |
+| `machine learning = machine dreaming` as universal identity | does not support | bounded by Sections 1/12 and counter-evidence from Bender et al. (2021) |
+| Dream-mode outputs can be promoted without strict gates | does not support | Amodei et al. (2016), NIST AI RMF (2023), EU AI Act (2024) |
+| Dream-like synthetic generation can be useful under strict controls | conditional support | Hafner et al. (2019-2023), Ha & Schmidhuber (2018), plus ThemisDB `BRAIN-DREAM-*` and `BRAIN-WIKI-CONTEXT*` gate families |
+
+These references motivate architecture hypotheses and gating requirements; they do not imply direct biological equivalence.
 
 ---
 
