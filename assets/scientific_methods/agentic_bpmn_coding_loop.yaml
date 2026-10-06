@@ -1,0 +1,97 @@
+method_id: agentic_bpmn_coding_loop
+version: 1.0.0
+name: Agentic BPMN Coding Loop Model
+description: >
+  Theory model for autonomous coding-oriented BPMN execution with discovery, planning,
+  implementation, verification, and rollback-ready promotion.
+last_updated: 2026-10-06T08:08:31Z
+inspiration:
+  pattern_origin:
+    - "coding-agent style iterative delivery loop"
+  note: "Pattern-inspired model; no runtime identity claim to external systems."
+
+runtime:
+  mode_required: dream_research
+  fail_closed: true
+  promotion_requires_human_approval: true
+  max_parallel_strategies: 3
+
+classification:
+  dimensions:
+    - task_type
+    - subsystem_scope
+    - regression_risk
+    - validation_depth
+  output_fields:
+    - coding_strategy_class
+    - candidate_test_scope
+    - required_artifacts
+
+phases:
+  - phase_id: task_scope_discovery
+    phase_number: 1
+    name: Task Scope Discovery
+    objective: Build bounded file/module scope and change-risk profile.
+    outputs:
+      - scope_packet
+      - risk_profile
+
+  - phase_id: implementation_plan_synthesis
+    phase_number: 2
+    name: Implementation Plan Synthesis
+    objective: Create deterministic implementation plan with acceptance checks.
+    outputs:
+      - implementation_plan
+      - acceptance_contract
+
+  - phase_id: bpmn_code_path_mapping
+    phase_number: 3
+    name: BPMN Code Path Mapping
+    objective: Map process steps to concrete module edit/test decision path.
+    outputs:
+      - bpmn_code_path
+      - dependency_map
+
+  - phase_id: candidate_patch_dreaming
+    phase_number: 4
+    name: Candidate Patch Dreaming
+    objective: >
+      Generate multiple candidate patch strategies in isolated dream mode with
+      explicit novelty and rollback notes.
+    constraints:
+      - synthetic_only
+      - production_truth_path_write_false
+    outputs:
+      - patch_candidates
+      - novelty_scores
+      - rollback_notes
+
+  - phase_id: validation_and_hardening
+    phase_number: 5
+    name: Validation and Hardening
+    objective: Validate with focused tests, failure taxonomy checks, and gate review.
+    gate_requirements:
+      - BRAIN-DREAM-NONREGRESSION
+      - BRAIN-DREAM-ETHICS-BOUNDARY
+      - BRAIN-BPMN-PROCEDURAL-INTEGRITY
+    outputs:
+      - validation_report
+      - hardening_actions
+
+  - phase_id: release_decision
+    phase_number: 6
+    name: Release Decision
+    objective: Decide no_go/research_only/promotion_candidate with approval reference.
+    outputs:
+      - decision
+      - approval_reference
+      - rollback_checkpoint
+
+evolution_policy:
+  quality_feedback:
+    score_fields:
+      - test_pass_ratio
+      - defect_escape_risk
+      - reproducibility_score
+    pruning_rule: "drop patterns with repeated nonregression failures"
+
