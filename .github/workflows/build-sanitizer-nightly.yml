@@ -21,7 +21,6 @@ on:
 permissions:
   contents: read
   actions: read
-  issues: write
 
 concurrency:
   group: ci-sanitizer-nightly-${{ github.ref }}
@@ -29,6 +28,10 @@ concurrency:
 
 jobs:
   sanitizer-build:
+    permissions:
+      contents: read
+      actions: read
+      issues: write
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
       runs_on: ubuntu-latest
