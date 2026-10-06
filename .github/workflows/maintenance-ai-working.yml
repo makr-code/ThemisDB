@@ -206,6 +206,11 @@ jobs:
               exit 0
             fi
 
+            if [ "$PUSH_STATUS" -ne 0 ] && printf '%s' "$PUSH_OUTPUT" | grep -qiE 'protected branch|pre-receive hook declined|remote rejected|denied|not allowed|permission denied|refusing to update checked out branch|cannot lock ref'; then
+              echo "::warning::Skipping ai_working maintenance push to ${{ github.ref_name }} because the branch is protected or write access is denied; this maintenance job is intentionally non-blocking."
+              exit 0
+            fi
+
             if [ "$attempt" -eq 3 ] || ! printf '%s' "$PUSH_OUTPUT" | grep -qiE 'non-fast-forward|fetch first|tip of your current branch is behind|remote contains work that you do not'; then
               exit "$PUSH_STATUS"
             fi
