@@ -1126,7 +1126,7 @@ Dream outputs must remain:
 
 ### 48.4 Working hypothesis: machine learning as machine dreaming
 
-Operationally for this paper, the statement **"maschinelles Lernen = maschinelles Träumen"** is treated as a bounded engineering hypothesis:
+Operationally for this paper, the statement **"maschinelles Lernen = maschinelles Träumen"** ("machine learning = machine dreaming") is treated as a bounded engineering hypothesis:
 
 - machine learning updates can be interpreted as constrained, evidence-gated transformation of candidate representations,
 - dream-like mode is the explicit offline surface where candidate expansion is allowed,
