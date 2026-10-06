@@ -340,11 +340,68 @@ Extended technical and safety grounding for machine-dreaming interpretation:
 
 | Claim | Evidence posture | Representative references |
 |---|---|---|
-| Offline replay improves consolidation stability | supports | Wilson & McNaughton (1994), Buzsaki (2015), Lin (1992), Mnih et al. (2015) |
-| Latent world-model imagination can accelerate learning | supports | Ha & Schmidhuber (2018), Hafner et al. (2019-2023), Sutton (1991) |
-| `machine learning = machine dreaming` as universal identity | does not support | bounded by Sections 1/12 and counter-evidence from Bender et al. (2021) |
-| Dream-mode outputs can be promoted without strict gates | does not support | Amodei et al. (2016), NIST AI RMF (2023), EU AI Act (2024) |
-| Dream-like synthetic generation can be useful under strict controls | conditional support | Hafner et al. (2019-2023), Ha & Schmidhuber (2018), plus ThemisDB `BRAIN-DREAM-*` and `BRAIN-WIKI-CONTEXT*` gate families |
+| Offline replay improves consolidation stability | supports | [R8], [R3], [R11], [R12] |
+| Latent world-model imagination can accelerate learning | supports | [R13], [R14], [R10] |
+| `machine learning = machine dreaming` as universal identity | does not support | bounded by Sections 1/12 and counter-evidence from [R15] |
+| Dream-mode outputs can be promoted without strict gates | does not support | [R16], [R17], [R18] |
+| Dream-like synthetic generation can be useful under strict controls | conditional support | [R13], [R14], plus ThemisDB `BRAIN-DREAM-*` and `BRAIN-WIKI-CONTEXT*` gate families |
+
+### 13.2 Normalized citation set (DOI/arXiv/standards links)
+
+- **[R1]** McClelland, J. L., McNaughton, B. L., & O'Reilly, R. C. (1995).  
+  *Why there are complementary learning systems in the hippocampus and neocortex.* Psychological Review, 102(3), 419-457.  
+  DOI: https://doi.org/10.1037/0033-295X.102.3.419
+- **[R2]** Buzsaki, G. (1989).  
+  *Two-stage model of memory trace formation: A role for "noisy" brain states.* Neuroscience, 31(3), 551-570.  
+  DOI: https://doi.org/10.1016/0306-4522(89)90423-5
+- **[R3]** Buzsaki, G. (2015).  
+  *Hippocampal sharp wave-ripples: A cognitive biomarker for episodic memory and planning.* Hippocampus, 25(10), 1073-1188.  
+  DOI: https://doi.org/10.1002/hipo.22488
+- **[R4]** Frankland, P. W., & Bontempi, B. (2005).  
+  *The organization of recent and remote memories.* Nature Reviews Neuroscience, 6(2), 119-130.  
+  DOI: https://doi.org/10.1038/nrn1607
+- **[R5]** Baddeley, A. D., & Hitch, G. (1974).  
+  *Working Memory.* In G. H. Bower (Ed.), The Psychology of Learning and Motivation, Vol. 8, 47-89.  
+  DOI: https://doi.org/10.1016/S0079-7421(08)60452-1
+- **[R6]** Baddeley, A. (2000).  
+  *The episodic buffer: A new component of working memory?* Trends in Cognitive Sciences, 4(11), 417-423.  
+  DOI: https://doi.org/10.1016/S1364-6613(00)01538-2
+- **[R7]** Doya, K. (2000).  
+  *Complementary roles of basal ganglia and cerebellum in learning and motor control.* Current Opinion in Neurobiology, 10(6), 732-739.  
+  DOI: https://doi.org/10.1016/S0959-4388(00)00153-7
+- **[R8]** Wilson, M. A., & McNaughton, B. L. (1994).  
+  *Reactivation of hippocampal ensemble memories during sleep.* Science, 265(5172), 676-679.  
+  DOI: https://doi.org/10.1126/science.8036517
+- **[R9]** Stickgold, R. (2005).  
+  *Sleep-dependent memory consolidation.* Nature, 437(7063), 1272-1278.  
+  DOI: https://doi.org/10.1038/nature04286
+- **[R10]** Sutton, R. S. (1991).  
+  *Dyna, an integrated architecture for learning, planning, and reacting.* ACM SIGART Bulletin, 2(4), 160-163.  
+  DOI: https://doi.org/10.1145/122344.122377
+- **[R11]** Lin, L.-J. (1992).  
+  *Self-improving reactive agents based on reinforcement learning, planning and teaching.* Machine Learning, 8(3-4), 293-321.  
+  DOI: https://doi.org/10.1007/BF00992699
+- **[R12]** Mnih, V., et al. (2015).  
+  *Human-level control through deep reinforcement learning.* Nature, 518(7540), 529-533.  
+  DOI: https://doi.org/10.1038/nature14236
+- **[R13]** Ha, D., & Schmidhuber, J. (2018).  
+  *World Models.* arXiv:1803.10122.  
+  URL: https://arxiv.org/abs/1803.10122
+- **[R14]** Hafner, D., et al. (2020).  
+  *Dream to Control: Learning Behaviors by Latent Imagination.* arXiv:1912.01603 (ICLR 2020).  
+  URL: https://arxiv.org/abs/1912.01603
+- **[R15]** Bender, E. M., Gebru, T., McMillan-Major, A., & Shmitchell, S. (2021).  
+  *On the Dangers of Stochastic Parrots: Can Language Models Be Too Big?* FAccT 2021, 610-623.  
+  DOI: https://doi.org/10.1145/3442188.3445922
+- **[R16]** Amodei, D., et al. (2016).  
+  *Concrete Problems in AI Safety.* arXiv:1606.06565.  
+  URL: https://arxiv.org/abs/1606.06565
+- **[R17]** NIST (2023).  
+  *Artificial Intelligence Risk Management Framework (AI RMF 1.0), NIST AI 100-1.*  
+  DOI: https://doi.org/10.6028/NIST.AI.100-1
+- **[R18]** European Union (2024).  
+  *Regulation (EU) 2024/1689 (Artificial Intelligence Act).*  
+  URL: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689
 
 These references motivate architecture hypotheses and gating requirements; they do not imply direct biological equivalence.
 
