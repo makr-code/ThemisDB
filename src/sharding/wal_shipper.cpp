@@ -25,7 +25,7 @@ namespace themis::sharding {
 
 WALShipper::WALShipper(std::shared_ptr<WALManager> wal_manager,
                        const WALShipperConfig& config)
-    : wal_manager_(wal_manager), config_(config) {
+    : config_(config), wal_manager_(wal_manager) {
     
     if (!wal_manager_) {
         throw std::invalid_argument("WAL manager cannot be null");
@@ -771,4 +771,3 @@ SnapshotTransferResult WALShipper::sendSnapshot(const std::string& replica_id,
 }
 
 } // namespace themis::sharding
-

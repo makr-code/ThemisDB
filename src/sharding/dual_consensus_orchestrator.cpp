@@ -41,14 +41,14 @@ DualConsensusOrchestrator::DualConsensusOrchestrator(
     std::unique_ptr<ConsensusModule> cache_consensus
 ) : storage_consensus_(std::move(storage_consensus)),
     cache_consensus_(std::move(cache_consensus)),
-    running_(false),
     conflict_resolver_([this](const std::string& key,
                               const nlohmann::json& cache_value,
                               const nlohmann::json& storage_value,
                               const CrossLayerVersionToken& cache_token,
                               const CrossLayerVersionToken& storage_token) {
         return this->defaultConflictResolver(key, cache_value, storage_value, cache_token, storage_token);
-    })
+    }),
+    running_(false)
 {
     spdlog::info("DualConsensusOrchestrator constructed");
     spdlog::info("  Storage layer: {}", storage_consensus_ ? 

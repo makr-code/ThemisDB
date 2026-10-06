@@ -285,7 +285,7 @@ void RAIDPaxosConsensus::reportShardFailure(int shard_index) {
         // Check if we can still maintain quorum
         int max_failures = getMaxTolerableFailuresInternal();
         
-        if (failed_shards_.size() > max_failures) {
+        if (failed_shards_.size() > static_cast<size_t>(std::max(0, max_failures))) {
             spdlog::error("RAIDPaxosConsensus: Too many shard failures! "
                         "Failed: {}, Max tolerable: {}, Mode: {}",
                         failed_shards_.size(), max_failures,
@@ -378,8 +378,13 @@ bool RAIDPaxosConsensus::initializeRAIDState() {
     
     // RAID 5 specific initialization
     if (raid_config_.raid_mode == RAIDMode::PARITY) {
-        if (raid_config_.parity_shard_index < 0 ||
-            raid_config_.parity_shard_index >= cluster_nodes_.size()) {
+        if (raid_config_.parity_shard_index < 0) {
+            spdlog::error("RAIDPaxosConsensus: Invalid parity shard index: {}",
+                        raid_config_.parity_shard_index);
+            return false;
+        }
+        const auto parity_shard_index = static_cast<size_t>(raid_config_.parity_shard_index);
+        if (parity_shard_index >= cluster_nodes_.size()) {
             spdlog::error("RAIDPaxosConsensus: Invalid parity shard index: {}",
                         raid_config_.parity_shard_index);
             return false;
@@ -387,7 +392,12 @@ bool RAIDPaxosConsensus::initializeRAIDState() {
         
         // Verify data shard indices
         for (int idx : raid_config_.data_shard_indices) {
-            if (idx < 0 || idx >= cluster_nodes_.size()) {
+            if (idx < 0) {
+                spdlog::error("RAIDPaxosConsensus: Invalid data shard index: {}", idx);
+                return false;
+            }
+            const auto data_shard_index = static_cast<size_t>(idx);
+            if (data_shard_index >= cluster_nodes_.size()) {
                 spdlog::error("RAIDPaxosConsensus: Invalid data shard index: {}", idx);
                 return false;
             }

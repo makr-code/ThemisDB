@@ -447,7 +447,7 @@ std::vector<EthicalPerspective> MultiPerspectiveGenerator::selectPerspectives(
     
     // Ensure minimum perspectives
     while ( selected.size() < static_cast<size_t>(impl_->config.min_perspectives) &&
-           selected.size() < static_cast<int>(impl_->perspectives.size())) {
+           selected.size() < impl_->perspectives.size()) {
         // Add any remaining perspective
         for (const auto& p : impl_->perspectives) {
             bool already_selected = false;
