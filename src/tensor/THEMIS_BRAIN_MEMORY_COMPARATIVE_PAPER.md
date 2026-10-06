@@ -1124,7 +1124,7 @@ Dream outputs must remain:
 - isolated from production truth paths,
 - blocked from autonomous promotion without explicit evidence gates.
 
-### 48.4 Working hypothesis: "maschinelles Lernen = maschinelles Träumen"
+### 48.4 Working hypothesis: machine learning as machine dreaming
 
 Operationally for this paper, the statement **"maschinelles Lernen = maschinelles Träumen"** is treated as a bounded engineering hypothesis:
 
