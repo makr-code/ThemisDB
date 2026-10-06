@@ -390,7 +390,7 @@ Extended technical and safety grounding for machine-dreaming interpretation:
 - **[R14]** Hafner, D., et al. (2020).  
   *Dream to Control: Learning Behaviors by Latent Imagination.* arXiv:1912.01603 (ICLR 2020).  
   URL: https://arxiv.org/abs/1912.01603
-- **[R15]** Bender, E. M., Gebru, T., McMillan-Major, A., & Shmitchell, S. (2021).  
+- **[R15]** Bender, E. M., Gebru, T., McMillan-Major, A., & Shmargaret Shmitchell (2021).  
   *On the Dangers of Stochastic Parrots: Can Language Models Be Too Big?* FAccT 2021, 610-623.  
   DOI: https://doi.org/10.1145/3442188.3445922
 - **[R16]** Amodei, D., et al. (2016).  
