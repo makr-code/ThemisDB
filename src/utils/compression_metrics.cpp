@@ -34,7 +34,7 @@ void CompressionMetrics::record_compression(
     auto& stats = stats_[method];
     stats.bytes_in += bytes_in;
     stats.bytes_out += bytes_out;
-    stats.compression_time_us += duration.count();
+    stats.compression_time_us += static_cast<uint64_t>(duration.count());
     stats.compression_count += 1;
 }
 
@@ -56,7 +56,7 @@ void CompressionMetrics::record_decompression(
     auto& stats = stats_[method];
     stats.bytes_in += bytes_out; // Original size
     stats.bytes_out += bytes_in; // Compressed size
-    stats.decompression_time_us += duration.count();
+    stats.decompression_time_us += static_cast<uint64_t>(duration.count());
     stats.decompression_count += 1;
 }
 
@@ -121,10 +121,10 @@ std::string CompressionMetrics::get_summary() const {
         oss << "  Decompression Operations: " << stats.decompression_count << "\n";
         oss << "  Total Bytes In: " << stats.bytes_in << " (" 
             << std::fixed << std::setprecision(2) 
-            << (stats.bytes_in / 1024.0 / 1024.0) << " MB)\n";
+            << (static_cast<double>(stats.bytes_in) / 1024.0 / 1024.0) << " MB)\n";
         oss << "  Total Bytes Out: " << stats.bytes_out << " (" 
             << std::fixed << std::setprecision(2)
-            << (stats.bytes_out / 1024.0 / 1024.0) << " MB)\n";
+            << (static_cast<double>(stats.bytes_out) / 1024.0 / 1024.0) << " MB)\n";
         oss << "  Compression Ratio: " << std::fixed << std::setprecision(2) 
             << stats.compression_ratio() << "x\n";
         oss << "  Avg Compression Time: " << std::fixed << std::setprecision(3) 
