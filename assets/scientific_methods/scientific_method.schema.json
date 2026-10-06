@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "themisdb/assets/scientific-method.schema.json",
+  "title": "ThemisDB Scientific Method Configuration",
+  "type": "object",
+  "required": [
+    "method_id",
+    "version",
+    "name",
+    "runtime",
+    "phases"
+  ],
+  "properties": {
+    "method_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string"
+    },
+    "last_updated": {
+      "type": "string"
+    },
+    "runtime": {
+      "type": "object",
+      "required": [
+        "mode_required",
+        "fail_closed"
+      ],
+      "properties": {
+        "mode_required": {
+          "type": "string",
+          "enum": [
+            "dream_research"
+          ]
+        },
+        "supervisor_enabled": {
+          "type": "boolean"
+        },
+        "fail_closed": {
+          "type": "boolean",
+          "const": true
+        },
+        "promotion_requires_human_approval": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": true
+    },
+    "classification": {
+      "type": "object",
+      "properties": {
+        "dimensions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "output_fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "phases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "phase_id",
+          "phase_number",
+          "name",
+          "objective"
+        ],
+        "properties": {
+          "phase_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "phase_number": {
+            "type": [
+              "integer",
+              "number"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "objective": {
+            "type": "string",
+            "minLength": 1
+          },
+          "outputs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "constraints": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "gate_requirements": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^BRAIN-"
+            }
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "evolution_policy": {
+      "type": "object",
+      "properties": {
+        "dreamed_model_rules": {
+          "type": "object",
+          "required": [
+            "allowed_only_in_mode"
+          ],
+          "properties": {
+            "allowed_only_in_mode": {
+              "type": "string",
+              "enum": [
+                "dream_research"
+              ]
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "observability": {
+      "type": "object",
+      "properties": {
+        "required_metadata": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

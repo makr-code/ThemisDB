@@ -1087,6 +1087,20 @@ If self-improvement is extended across ethics/process/voice/visual/evaluation pl
 
 However, richer architecture still does not justify automatic "humanoid intelligence" claims unless Sections 39–41 criteria remain satisfied.
 
+### 42.3 Explicitly weak or missing human cognitive capabilities
+
+Even with Dream-Mode and BPMN procedural memory, several human capabilities remain missing or weakly represented:
+
+1. **Embodied cognition** (sensorimotor grounding and environment coupling) is not represented as a first-class closed-loop substrate.
+2. **Theory of Mind** (stable multi-agent intention models) is only approximated through limited policy/context modeling.
+3. **Affective cognition** (emotion-like priority dynamics beyond reward utility) remains rudimentary.
+4. **Causal intervention planning** (counterfactual intervention policy design) is only partially covered by synthetic candidate testing.
+5. **Robust metacognition** (self-diagnosis of uncertainty/error framing) remains mostly metric-driven, not introspective.
+6. **Real-time social norm negotiation** is constrained to static/delayed policy gates.
+7. **Long-horizon autobiographical identity continuity** is not implemented as a stable identity-memory contract.
+
+These gaps should remain explicit in roadmap and gate decisions to avoid over-claiming cognitive parity.
+
 ---
 
 ## 43. BPMN as Externalized Procedural Memory
@@ -1102,6 +1116,44 @@ Engineering implication:
 
 Governance implication:
 - BPMN process state transitions should be included in reproducibility manifests and decision logs where they influence autonomous adaptation behavior.
+
+### 43.1 BPMN + YAML strategy lifecycle (generate -> validate -> evolve)
+
+To operationalize procedural cognition in Dream-Mode, strategy execution should follow this lifecycle:
+
+1. **Generate**
+   - classify problem (`domain`, `risk`, `uncertainty`, `required_evidence`),
+   - map classification onto BPMN strategy blocks (`diagnose -> hypothesis -> test -> decision -> rollback`),
+   - emit run-scoped YAML epistemic model (assumptions, falsification criteria, stop rules, metrics).
+2. **Validate**
+   - syntax/schema validation for BPMN and YAML contracts,
+   - semantic validation for process consistency and auditability,
+   - gate validation using `BRAIN-DREAM-*` + `BRAIN-BPMN-PROCEDURAL-INTEGRITY`.
+3. **Evolve**
+   - score strategy evidence quality and failure modes,
+   - prune weak patterns,
+   - promote successful patterns into versioned strategy library only after human-approved gate closure.
+
+### 43.2 First-class scientific method assets
+
+ThemisDB now defines a dedicated scientific-method configuration surface:
+
+- [../../assets/scientific_methods/default_method.yaml](../../assets/scientific_methods/default_method.yaml)
+- [../../assets/scientific_methods/default_method_phase1_conservative_backup_20251012_204557.yaml](../../assets/scientific_methods/default_method_phase1_conservative_backup_20251012_204557.yaml)
+- [../../assets/scientific_methods/scientific_method.schema.json](../../assets/scientific_methods/scientific_method.schema.json)
+
+These assets formalize autonomous problem classification and procedural strategy control under Dream-Mode constraints.
+
+### 43.3 Controlled "dreaming" of new epistemic models
+
+New epistemic models may be generated only under strict conditions:
+
+1. execution mode is `dream_research`,
+2. each candidate contains explicit novelty/falsifiability/risk statements,
+3. no-gate-closure default remains `research_only`,
+4. promotion requires human approval reference and rollback-ready decision protocol.
+
+This keeps epistemic-model innovation bounded, auditable, and fail-closed.
 
 ---
 
