@@ -118,6 +118,15 @@ This is a functional role mapping only; it does not claim biological identity of
 | Graph-based context associations (`tensor::TensorFingerprintGraph`) | Structural/relational coherence and context-path validation across candidates | medium-to-long horizon coherence layer | edge inconsistency, semantic drift in associations, over-connected hubs causing noisy rerank |
 | Wiki/governance memory surfaces (`ai_context/developer_llm_wiki/*` + root governance docs) | Condensed episodic-to-semantic decision memory and policy constraints | long-horizon governance memory and release-cycle continuity | stale or unpinned context references, policy drift, missing provenance links into runtime decisions |
 
+## 3.2 Probabilistic vs deterministic roles (learning and dream research)
+
+For machine-learning support and dream-like hypothesis generation, ThemisDB should treat substrates asymmetrically:
+
+1. **Probabilistic-first learning substrates** (`tensor`, `HNSW`, `AdaLora`) provide the main adaptation/search space for candidate generation and representational evolution.
+2. **Deterministic substrates** (relational state, wiki/governance memory) provide boundary conditions, provenance, and promotion constraints rather than primary generative dynamics.
+
+This separation defines role hierarchy, not substrate value judgment: deterministic layers remain mandatory for safety, auditability, and release control.
+
 ---
 
 ## 4. Short-Term vs Long-Term Memory Bridge
@@ -1114,6 +1123,26 @@ Dream outputs must remain:
 - clearly tagged as synthetic,
 - isolated from production truth paths,
 - blocked from autonomous promotion without explicit evidence gates.
+
+### 48.4 Working hypothesis: "maschinelles Lernen = maschinelles Träumen"
+
+Operationally for this paper, the statement **"maschinelles Lernen = maschinelles Träumen"** is treated as a bounded engineering hypothesis:
+
+- machine learning updates can be interpreted as constrained, evidence-gated transformation of candidate representations,
+- dream-like mode is the explicit offline surface where candidate expansion is allowed,
+- promotion to truth paths remains deterministic and governance-controlled.
+
+This is **not** a claim of biological identity; it is a role-equivalence lens for system design and testing.
+
+### 48.5 Progressive-thinking flow from deterministic POV
+
+To answer how information may evolve from a deterministic state into future candidates:
+
+1. **Deterministic anchor:** relational/wiki/governance state defines current accepted truth and constraints.
+2. **Probabilistic expansion:** tensor embeddings, HNSW recall neighborhoods, and AdaLora adaptation generate candidate future representations.
+3. **Graph coherence shaping:** association graph filters candidates by contextual/causal consistency.
+4. **Dream-mode validation:** candidates are tested under `BRAIN-DREAM-*`, safety, and nonregression gates.
+5. **Deterministic decision closure:** accepted candidates are version-pinned, traceable, and promoted; rejected candidates remain research artifacts only.
 
 ---
 
