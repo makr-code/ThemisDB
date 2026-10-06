@@ -6,7 +6,7 @@
 
 **Author:** ThemisDB Contributors  
 **Created:** 2026-10-05  
-**Last Updated:** 2026-10-05  
+**Last Updated:** 2026-10-06  
 **Status:** draft
 
 ---
@@ -71,10 +71,26 @@ Each mapping in this paper uses:
    - [adalora_tt_bridge.cpp](../training/adalora_tt_bridge.cpp)
 4. Persistent artifact storage + runtime mapping  
    - [ggml_tensor_bridge.cpp](../storage/ggml_tensor_bridge.cpp)
-5. Controlled retrieval and generation  
+5. Condensed episodic-to-semantic governance memory  
+   - [../../ai_context/developer_llm_wiki/INDEX.md](../../ai_context/developer_llm_wiki/INDEX.md)
+   - [../../ROADMAP.md](../../ROADMAP.md)
+6. Controlled retrieval and generation  
    - [llama_cpp_plugin.cpp](../llama_cpp/llama_cpp_plugin.cpp)
-6. Deployment-time adaptation and rollback  
+7. Deployment-time adaptation and rollback  
    - [incremental_lora_trainer.cpp](../training/incremental_lora_trainer.cpp)
+
+## 2.3 Operational retrieval/data-flow sequence (bounded role equivalence)
+
+The practical retrieval sequence in ThemisDB memory stack is:
+
+1. **Tensor representation shaping** (`tensor::TensorIngestionBridge`) encodes query/context into profile-scoped vector/tensor representations.
+2. **HNSW candidate recall** (`tensor::HnswTTBridge`) performs fast approximate nearest-neighbor activation for broad candidate coverage.
+3. **Graph-context association** (`tensor::TensorFingerprintGraph`) validates and reranks candidates using structural/relational neighborhood constraints.
+4. **Wiki/governance context injection** (Developer LLM Wiki + roadmap/governance artifacts) contributes condensed episodic decision memory and active policy context.
+5. **Policy arbitration + generation** (`ILLMRouter` + `llama_cpp::LlamaCppPlugin`) selects admissible context bundle and generates output under profile/security gates.
+6. **Decision/telemetry persistence** stores evidence, source classes, and rollback-relevant metadata for replay and audit.
+
+This is a functional role mapping only; it does not claim biological identity of substrates.
 
 ---
 
@@ -89,8 +105,18 @@ Each mapping in this paper uses:
 | `storage::GgmlTensorBridge` | White-matter pathway analog (transfer/format bridge) | Bridges persistent representations into runtime-executable substrate | capability-gated |
 | `llama_cpp::LlamaCppPlugin` (`generateRAG`, `embed`) | Prefrontal-guided retrieval + verbalization output | Integrates retrieved memory traces into final generated behavior | conditional quality path |
 | `tensor::TensorFingerprintGraph` | Associative cortex / semantic neighborhood structure | Maintains similarity neighborhoods and relatedness graph for memory association | implemented |
+| `ai_context/developer_llm_wiki/*` + governance SOT surfaces (`ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `RELEASE_STRATEGY.md`) | Condensed episodic-to-semantic consolidation ledger + executive notebook analog | Compresses operational episodes into reusable, auditable policy/architecture memory that constrains retrieval and promotion decisions | implemented (runtime linkage strengthening ongoing) |
 | `retrieval` + `rag` module surfaces | Cortico-hippocampal loop | Couples query intent to memory recall and evidence-conditioned output | implemented |
 | `observability` + `governance` + `security` | Error monitoring + homeostatic/immune control analog | Detects, constrains, and audits unsafe state transitions | implemented |
+
+## 3.1 Core memory substrate distinction (purpose/time/failure)
+
+| Substrate | Primary purpose | Dominant time scale | Typical failure modes |
+|---|---|---|---|
+| Tensor representations (`tensor::TensorIngestionBridge` and related profiles) | Encode/transform memory-relevant signal into comparable representational space | bridge between online query activation and longer-lived persistent artifacts | profile/version mismatch, malformed transform parameters, incompatible embedding spaces |
+| HNSW vector retrieval (`tensor::HnswTTBridge`) | Fast approximate recall of top-k candidate traces | online, short-horizon activation path | stale index snapshots, recall-vs-latency tradeoff drift, neighborhood fragmentation |
+| Graph-based context associations (`tensor::TensorFingerprintGraph`) | Structural/relational coherence and context-path validation across candidates | medium-to-long horizon coherence layer | edge inconsistency, semantic drift in associations, over-connected hubs causing noisy rerank |
+| Wiki/governance memory surfaces (`ai_context/developer_llm_wiki/*` + root governance docs) | Condensed episodic-to-semantic decision memory and policy constraints | long-horizon governance memory and release-cycle continuity | stale or unpinned context references, policy drift, missing provenance links into runtime decisions |
 
 ---
 
@@ -139,6 +165,7 @@ The following brain-relevant functions are not yet fully present as first-class 
 | Thalamic global routing hub analog | Routing exists but lacks a unified, explicit cross-modal arbitration layer for all retrieval channels | Reduced routing conflicts and more consistent end-to-end latency/quality tradeoffs |
 | Cerebellar fast error-correction loop analog | No dedicated micro-adaptation loop for low-latency correction of repeated local generation errors | Faster convergence on repetitive failure classes |
 | Rich episodic context binding | Profile metadata exists, but richer temporal/causal episode graph binding is incomplete | Stronger context-aware recall and explainability |
+| Explicit wiki-memory integration | Condensed episodic governance memory exists in docs/wiki, but runtime retrieval traces do not consistently encode/use version-pinned wiki context as first-class memory input | Better policy continuity, auditability, and safer promotion/rollback decisions across releases |
 | Emotion-like valence tagging | No standardized affect/importance tagging channel that influences persistence and retrieval priority | Better user-aligned long-term memory selection in assistant scenarios |
 
 ---
@@ -540,7 +567,8 @@ This contract should be consistent with the artifact requirements documented in 
 | H1 Replay consolidation | [training/](../training), [tensor/](./), [scheduler/](../scheduler) | BRAIN-REPLAY, TEN-ROPE-G2/G5 style failure semantics | replay drift report + deterministic replay tests |
 | H2 Forgetting/homeostasis | [tensor/](./), [storage/](../storage), [performance/](../performance) | BRAIN-HOMEO + bounded growth envelope | growth/quality tradeoff benchmarks + contamination regressions |
 | H3 Salience routing | [training/](../training), [rag/](../rag), [retrieval/](../retrieval) | BRAIN-ARBITER partial + quality/rollback deltas | salience-on/off ablation + rollback reduction evidence |
-| H4 Routing arbitration | [llm/](../llm), [retrieval/](../retrieval), [query/](../query), [api/](../api) | BRAIN-ARBITER determinism and thrash checks | deterministic policy logs + route variance report |
+| H4 Routing arbitration | [llm/](../llm), [retrieval/](../retrieval), [query/](../query), [api/](../api) | BRAIN-ARBITER determinism and thrash checks | deterministic policy logs + route variance report + wiki context version pinning evidence |
+| H5 Wiki-memory integration | [tensor/](./), [retrieval/](../retrieval), [governance/](../governance), [../../ai_context/developer_llm_wiki/](../../ai_context/developer_llm_wiki/) | BRAIN-WIKI-CONTEXT provenance and pinning checks | decision logs with `knowledge_source_class=wiki` and `wiki_context_refs` plus stale-reference rejection evidence |
 
 ---
 
@@ -670,6 +698,10 @@ For each brain-inspired feature run, logs should contain:
    - gate outcomes
    - go/hold/no-go decision
    - human approver reference
+5. **Knowledge provenance identity**
+   - `knowledge_source_class` (`tensor|hnsw|graph|wiki|mixed`)
+   - `wiki_context_refs` (version-pinned doc refs, e.g., `ai_context/developer_llm_wiki/INDEX.md@<sha-or-version>`)
+   - substrate lineage IDs where available (tensor profile/version, HNSW index epoch, graph snapshot ID)
 
 This schema enables post-incident reconstruction and comparable release decisions.
 
