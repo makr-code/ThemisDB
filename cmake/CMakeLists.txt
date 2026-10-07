@@ -5915,6 +5915,11 @@ if(THEMIS_ENABLE_LLM)
         else()
             message(STATUS "LLM Model CLI Tool: Disabled (requires CURL::libcurl and yaml-cpp::yaml-cpp)")
         endif()
+        if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+            # Keep zlib available at the end of the themis-model link line for
+            # transitive RocksDB/themis_security compression symbols on ARM64.
+            target_link_libraries(themis-model PRIVATE "-Wl,--no-as-needed" z "-Wl,--as-needed")
+        endif()
     endif()
 endif()
 
