@@ -5863,6 +5863,7 @@ if(THEMIS_ENABLE_LLM)
             OpenSSL::SSL
             OpenSSL::Crypto
         )
+        themis_link_zlib_if_available(themis-model)
         if(TARGET CURL::libcurl)
             target_link_libraries(themis-model PRIVATE CURL::libcurl)
             target_compile_definitions(themis-model PRIVATE CURL_ENABLED=1)
