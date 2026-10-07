@@ -1017,7 +1017,18 @@ jobs:
           else
             COUNT="${{ steps.extract.outputs.api_ref_count }}"
             git commit -m "docs(wiki): update ${COUNT} Doxygen API_REFERENCE_*.md artifacts [skip ci]"
-            git push origin HEAD:${{ github.ref_name }}
+            set +e
+            PUSH_OUTPUT=$(git push origin HEAD:${{ github.ref_name }} 2>&1)
+            PUSH_STATUS=$?
+            set -e
+            printf '%s\n' "$PUSH_OUTPUT"
+            if [ "$PUSH_STATUS" -ne 0 ]; then
+              if printf '%s' "$PUSH_OUTPUT" | grep -qiE 'protected branch hook declined|permission denied|write access to repository not granted|refusing to allow|branch protection'; then
+                echo "::warning::Skipping docs API reference push due to branch protection/permission policy."
+              else
+                exit "$PUSH_STATUS"
+              fi
+            fi
           fi
 
       - name: Write job summary

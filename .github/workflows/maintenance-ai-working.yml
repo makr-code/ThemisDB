@@ -206,6 +206,11 @@ jobs:
               exit 0
             fi
 
+            if printf '%s' "$PUSH_OUTPUT" | grep -qiE 'protected branch hook declined|permission denied|write access to repository not granted|refusing to allow|branch protection'; then
+              echo "::warning::Skipping ai_working compaction push due to branch protection/permission policy."
+              exit 0
+            fi
+
             if [ "$attempt" -eq 3 ] || ! printf '%s' "$PUSH_OUTPUT" | grep -qiE 'non-fast-forward|fetch first|tip of your current branch is behind|remote contains work that you do not'; then
               exit "$PUSH_STATUS"
             fi
