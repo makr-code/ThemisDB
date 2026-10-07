@@ -206,7 +206,7 @@ jobs:
               exit 0
             fi
 
-            if [ "$PUSH_STATUS" -ne 0 ] && printf '%s' "$PUSH_OUTPUT" | grep -qiE 'protected branch hook declined|permission denied|write access to repository not granted|refusing to allow|branch protection'; then
+            if [ "$PUSH_STATUS" -ne 0 ] && printf '%s' "$PUSH_OUTPUT" | grep -qiE 'GH006: Protected branch update failed|protected branch hook declined|pre-receive hook declined|remote rejected|not allowed|refusing to update checked out branch|permission denied|write access to repository not granted|refusing to allow|branch protection'; then
               echo "::warning::Skipping ai_working compaction push due to branch protection/permission policy."
               exit 0
             fi
