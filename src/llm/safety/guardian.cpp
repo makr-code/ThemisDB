@@ -152,10 +152,10 @@ GuardDecision PromptGuardian::evaluate(const std::string& prompt) const {
     const std::string compacted = collapseSingleLetterRuns(normalized);
     const std::string condensed = removeSpaces(compacted);
     if (containsContextualRisk(normalized, out.matched_topics, out.reason) ||
-        compacted != normalized &&
-        containsContextualRisk(compacted, out.matched_topics, out.reason) ||
-        condensed != compacted &&
-        containsContextualRisk(condensed, out.matched_topics, out.reason)) {
+        ((compacted != normalized) &&
+         containsContextualRisk(compacted, out.matched_topics, out.reason)) ||
+        ((condensed != compacted) &&
+         containsContextualRisk(condensed, out.matched_topics, out.reason))) {
         out.allowed = false;
     }
 

@@ -1,0 +1,27 @@
+model_id: default_intelligence_submodel
+version: 1.0.0
+domain: intelligence
+description: Submodel for escalation and exception handling in intelligence workflows.
+bpmn:
+  model_type: submodel
+  parent_default: default_intelligence_process
+  trigger: exception_or_high_risk
+sub_phases:
+- id: escalation_intake
+  name: Escalation Intake
+- id: deep_validation
+  name: Deep Validation
+- id: override_decision
+  name: Override Decision
+- id: audit_record
+  name: Audit Record
+themisdb_module_bindings:
+- graph
+- search
+- retrieval
+- security
+- governance
+hazard_focus:
+- false_negative
+- false_positive
+- traceability_gap

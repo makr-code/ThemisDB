@@ -1,0 +1,26 @@
+model_id: default_legal_submodel
+version: 1.0.0
+domain: legal
+description: Submodel for escalation and exception handling in legal workflows.
+bpmn:
+  model_type: submodel
+  parent_default: default_legal_process
+  trigger: exception_or_high_risk
+sub_phases:
+- id: escalation_intake
+  name: Escalation Intake
+- id: deep_validation
+  name: Deep Validation
+- id: override_decision
+  name: Override Decision
+- id: audit_record
+  name: Audit Record
+themisdb_module_bindings:
+- governance
+- security
+- auth
+- process
+hazard_focus:
+- false_negative
+- false_positive
+- traceability_gap

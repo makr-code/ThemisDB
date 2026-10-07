@@ -531,23 +531,23 @@ void YOLOv8OnnxPlugin::shutdown() {
     }
 }
 
+/**
+ * @brief Guard the shared implementation pointer while checking readiness.
+ * @param[in] impl_swap_mtx_ Protects access to the active ONNX runtime implementation.
+ * @return True when the active implementation is ready for inference.
+ */
 bool YOLOv8OnnxPlugin::isReady() const {
-    /**
-     * @brief Lk.
-     * @param[in] impl_swap_mtx_ Input parameter.
-     * @return Return value.
-     */
-    std::lock_guard<std::mutex> lk(impl_swap_mtx_);
+    std::lock_guard<std::mutex> state_guard(impl_swap_mtx_);
     return impl_ && impl_->ready.load();
 }
 
+/**
+ * @brief Guard the shared implementation pointer while reading the active backend type.
+ * @param[in] impl_swap_mtx_ Protects access to the active backend selection.
+ * @return The active backend type or CPU fallback when the implementation is absent.
+ */
 BackendType YOLOv8OnnxPlugin::getBackend() const {
-    /**
-     * @brief Lk.
-     * @param[in] impl_swap_mtx_ Input parameter.
-     * @return Return value.
-     */
-    std::lock_guard<std::mutex> lk(impl_swap_mtx_);
+    std::lock_guard<std::mutex> state_guard(impl_swap_mtx_);
     return impl_ ? impl_->backend : BackendType::CPU;
 }
 

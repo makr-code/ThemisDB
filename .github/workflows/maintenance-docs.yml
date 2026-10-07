@@ -511,7 +511,7 @@ jobs:
               exit 0
             fi
 
-            if [ "$PUSH_STATUS" -ne 0 ] && printf '%s' "$PUSH_OUTPUT" | grep -qiE 'protected branch|pre-receive hook declined|remote rejected|denied|not allowed|permission denied|refusing to update checked out branch|cannot lock ref'; then
+            if [ "$PUSH_STATUS" -ne 0 ] && printf '%s' "$PUSH_OUTPUT" | grep -qiE 'GH006: Protected branch update failed|protected branch hook declined|protected branch|pre-receive hook declined|remote rejected|denied|not allowed|permission denied|refusing to update checked out branch|cannot lock ref|write access to repository not granted|refusing to allow|branch protection'; then
               echo "::warning::Skipping code-maturity push to ${{ github.ref_name }} because the branch is protected or write access is denied; this maintenance job is intentionally non-blocking."
               exit 0
             fi
@@ -1028,7 +1028,7 @@ jobs:
             set -e
             printf '%s\n' "$PUSH_OUTPUT"
             if [ "$PUSH_STATUS" -ne 0 ]; then
-              if printf '%s' "$PUSH_OUTPUT" | grep -qiE 'protected branch|pre-receive hook declined|remote rejected|denied|not allowed|permission denied|refusing to update checked out branch|cannot lock ref'; then
+              if printf '%s' "$PUSH_OUTPUT" | grep -qiE 'GH006: Protected branch update failed|protected branch hook declined|protected branch|pre-receive hook declined|remote rejected|denied|not allowed|permission denied|refusing to update checked out branch|cannot lock ref|write access to repository not granted|refusing to allow|branch protection'; then
                 echo "::warning::Skipping Doxygen API reference push to ${{ github.ref_name }} because the branch is protected or write access is denied; this maintenance job is intentionally non-blocking."
               else
                 exit "$PUSH_STATUS"

@@ -1,0 +1,110 @@
+method_id: agentic_bpmn_deep_research_loop
+version: 1.0.0
+name: Agentic BPMN Deep-Research Loop Model
+description: >
+  Theory model for autonomous deep-research workflows: query decomposition, evidence
+  collection, contradiction analysis, synthesis, and controlled epistemic-model evolution.
+last_updated: 2026-10-06T08:08:31Z
+inspiration:
+  pattern_origin:
+    - "deep-research style multi-source evidence loops"
+  note: "Pattern-inspired model; no claim of equivalence to external proprietary systems."
+foundation_ref: scientific_foundation.json
+
+runtime:
+  mode_required: dream_research
+  fail_closed: true
+  supervisor_enabled: true
+  promotion_requires_human_approval: true
+  max_parallel_strategies: 5
+
+classification:
+  dimensions:
+    - research_domain
+    - evidence_scarcity
+    - contradiction_density
+    - governance_sensitivity
+  output_fields:
+    - research_strategy_class
+    - decomposition_plan
+    - required_validation_gates
+
+phases:
+  - phase_id: question_decomposition
+    phase_number: 1
+    name: Question Decomposition
+    objective: Split user problem into atomic research subqueries with priorities.
+    outputs:
+      - subquery_graph
+      - priority_plan
+
+  - phase_id: multi_source_evidence_collection
+    phase_number: 2
+    name: Multi-Source Evidence Collection
+    objective: Collect evidence from internal memory, wiki, and approved external sources.
+    outputs:
+      - evidence_bundle
+      - source_reliability_profile
+
+  - phase_id: contradiction_and_gap_analysis
+    phase_number: 3
+    name: Contradiction and Gap Analysis
+    objective: Detect conflicts, uncertainty zones, and unresolved assumptions.
+    outputs:
+      - contradiction_map
+      - uncertainty_register
+
+  - phase_id: epistemic_model_dreaming
+    phase_number: 4
+    name: Epistemic Model Dreaming
+    objective: >
+      Generate candidate epistemic models (hypothesis networks) including novelty,
+      falsifiability, and risk annotations.
+    constraints:
+      - synthetic_only
+      - production_truth_path_write_false
+    outputs:
+      - epistemic_model_candidates
+      - novelty_scores
+      - falsifiability_vectors
+
+  - phase_id: evidence_weighted_synthesis
+    phase_number: 5
+    name: Evidence-Weighted Synthesis
+    objective: Build bounded conclusions with explicit support/contradiction traces.
+    outputs:
+      - synthesis_statement
+      - claim_traceability_map
+
+  - phase_id: governance_gate_validation
+    phase_number: 6
+    name: Governance Gate Validation
+    objective: Validate policy, ethics, safety, and procedural integrity before promotion.
+    gate_requirements:
+      - BRAIN-DREAM-ISOLATION
+      - BRAIN-DREAM-LABEL-INTEGRITY
+      - BRAIN-DREAM-UTILITY
+      - BRAIN-DREAM-NONREGRESSION
+      - BRAIN-DREAM-ETHICS-BOUNDARY
+      - BRAIN-BPMN-PROCEDURAL-INTEGRITY
+    outputs:
+      - gate_report
+      - veto_register
+
+  - phase_id: controlled_promotion_or_research_hold
+    phase_number: 7
+    name: Controlled Promotion or Research Hold
+    objective: >
+      Decide no_go/research_only/promotion_candidate and require approval for any promotion.
+    outputs:
+      - decision
+      - approval_reference
+      - rollback_checkpoint
+
+evolution_policy:
+  model_library_feedback:
+    score_fields:
+      - evidence_coherence_score
+      - contradiction_resolution_score
+      - practical_utility_score
+    pruning_rule: "deprecate models with repeated low utility and high unresolved contradiction density"

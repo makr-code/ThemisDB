@@ -98,7 +98,7 @@ bool RegexDetectionEngine::initialize(const nlohmann::json& config) {
             min_confidence_ = settings.value("min_confidence", 0.75);
             enable_field_hints_ = settings.value("enable_field_hints", true);
             default_redaction_mode_ = settings.value("default_redaction_mode", "strict");
-            max_regex_length_ = settings.value("max_regex_length", 500);
+            max_regex_length_ = settings.value<size_t>("max_regex_length", static_cast<size_t>(500));
         }
         
         // Load patterns
@@ -234,8 +234,12 @@ std::vector<PIIFinding> RegexDetectionEngine::detectInText(const std::string& te
                 PIIFinding finding;
                 finding.type = type;
                 finding.value = value;
-                finding.start_offset = match.position();
-                finding.end_offset = match.position() + match.length();
+                const auto start_pos = match.position();
+                if (start_pos < 0) {
+                    continue;
+                }
+                finding.start_offset = static_cast<size_t>(start_pos);
+                finding.end_offset = finding.start_offset + static_cast<size_t>(match.length());
                 finding.confidence = pattern.confidence;
                 finding.pattern_name = pattern.name;
                 finding.engine_name = "regex";
@@ -646,8 +650,8 @@ bool RegexDetectionEngine::luhnCheck(const std::string& number) const {
     int sum = 0;
     bool alternate = false;
     
-    for (int i = static_cast<int>(digits.length()) - 1; i >= 0; --i) {
-        int digit = digits[i] - '0';
+    for (size_t i = digits.length(); i > 0; --i) {
+        int digit = digits[i - 1] - '0';
         
         if (alternate) {
             digit *= 2;
@@ -769,20 +773,21 @@ bool RegexDetectionEngine::detectReDoSPattern(const std::string& pattern) const 
     for (size_t i = 0; i < pattern.size(); ++i) {
         char c = pattern[i];
         
-        if ((c == '(' && (i == 0 || pattern[static_cast<int>(i - 1)] != '\\'))) {
+        const bool escaped = (i > 0 && pattern[i - 1] == '\\');
+        if (c == '(' && !escaped) {
             paren_depth++;
             alt_count_in_group = 0;
-        } else if ((c == ')' && (i == 0 || pattern[static_cast<int>(i - 1)] != '\\'))) {
+        } else if (c == ')' && !escaped) {
             if (paren_depth > 0) {
                 paren_depth--;
             }
             alt_count_in_group = 0;
-        } else if ((c == '|' && paren_depth > 0 && (i == 0 || pattern[static_cast<int>(i - 1)] != '\\'))) {
+        } else if (c == '|' && paren_depth > 0 && !escaped) {
             alt_count_in_group++;
         }
         
         // If group has 3+ alternations and is followed by quantifier, flag it
-        if ((c == ')' && (i == 0 || pattern[static_cast<int>(i - 1)] != '\\')) && 
+        if (c == ')' && !escaped && 
             alt_count_in_group >= 2 && 
             i + 1 < pattern.size()) {
             char next = pattern[i+1];

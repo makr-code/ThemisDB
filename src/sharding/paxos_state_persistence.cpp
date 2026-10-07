@@ -65,7 +65,7 @@ ConsensusLogEntry buildConsensusEntryFromAcceptedValue(const std::string& value,
  * @return Return value.
  * @details Calls: is_object(), dump(), contains(), is_string().
  */
-std::string decodeAcceptedValueFromWalPayload(const json& payload) {
+[[maybe_unused]] std::string decodeAcceptedValueFromWalPayload(const json& payload) {
     if (!payload.is_object()) {
         return payload.dump();
     }

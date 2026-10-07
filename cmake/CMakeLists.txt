@@ -3204,6 +3204,7 @@ set(THEMIS_CORE_SOURCES
     ../src/process/process_diagnostics.cpp
     ../src/process/serializer_hardening.cpp
     ../src/process/process_agentic_rag.cpp
+    ../src/process/process_orchestration_registry.cpp
     ../src/process/ocel_exporter.cpp
     ../src/process/federation_replica_manager.cpp
     ../src/process/process_conflict_resolver.cpp
@@ -5663,6 +5664,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tools/config_migration_scanner.cpp")
         ${THEMIS_ROOT_DIR}/src
     )
     target_link_libraries(config_migration_scanner PRIVATE themis_core)
+    themis_link_zlib_if_available(config_migration_scanner)
     message(STATUS "Config Migration Scanner: Enabled (config_migration_scanner)")
     install(TARGETS config_migration_scanner
         OPTIONAL
@@ -5829,6 +5831,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tools/export_cli.cpp")
         nlohmann_json::nlohmann_json
         Threads::Threads
     )
+    themis_link_zlib_if_available(themis-export)
     if(TARGET CURL::libcurl)
         target_link_libraries(themis-export PRIVATE CURL::libcurl)
         target_compile_definitions(themis-export PRIVATE CURL_ENABLED=1)
@@ -5861,6 +5864,7 @@ if(THEMIS_ENABLE_LLM)
             OpenSSL::SSL
             OpenSSL::Crypto
         )
+        themis_link_zlib_if_available(themis-model)
         if(TARGET CURL::libcurl)
             target_link_libraries(themis-model PRIVATE CURL::libcurl)
             target_compile_definitions(themis-model PRIVATE CURL_ENABLED=1)

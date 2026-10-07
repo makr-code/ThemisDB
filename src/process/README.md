@@ -19,6 +19,8 @@ Production-capable process modeling runtime with hardened edge-case behavior, un
 - Unified diagnostics framework with 8 incident classes
 - Process-to-object and process-to-process linking with stale-link detection
 - Process-oriented retrieval, descriptors, and RAG support surfaces
+- External YAML/JSON orchestration profile registry with staged/active/archived lifecycle
+- Prediction surface for runtime orchestration (`sla_breach_probability`, `compliance_risk_score`, `completion_confidence`, `recommended_submodel`)
 - Bounded resource constraints (parser depth, element count, timeout)
 - High-churn scenario guarantees (5-15% conflict probability under >500 concurrent ops)
 
@@ -116,6 +118,7 @@ All public APIs in `include/process/` have complete Doxygen documentation:
 | Import Formats | vcc_vpb_importer.cpp, fim_importer.cpp | VCC-VPB and FIM import |
 | LLM Integration | llm_process_descriptor.cpp, llm_process_adapter.h | Process descriptors and prompt generation |
 | Retrieval | process_graph_rag.cpp, process_agentic_rag.cpp, process_light_retriever.cpp | RAG context assembly |
+| Orchestration | process_orchestration_registry.cpp | External YAML/JSON profile registry + activation/rollback + prediction outputs |
 | Linking | process_linker.cpp | Process-to-object and process-to-process linking |
 | Analysis | process_community_detector.cpp, object_centric_tracer.cpp | Community detection and object-centric tracing |
 | Generation | process_model_generator.cpp | Model generation support |

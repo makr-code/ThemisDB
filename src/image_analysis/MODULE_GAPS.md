@@ -1,61 +1,59 @@
 # Image Analysis Module - Verified Gap Analysis
 
-<!-- Status: current | validated: 2026-09-21 -->
+<!-- Status: current | validated: 2026-10-07 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · AUDIT.md -->
 
-> Last Updated: 2026-09-21
-> Source: Module-level review aligned with SOLL_IST_GAP_REPORT.json
-> Verification Method: Module documentation compliance review
-> Verification Status: Baseline (documentation gaps resolved; no implementation gaps identified)
+> Last Updated: 2026-10-07
+> Source: module-level source verification and docs alignment check
+> Verification Method: README/ARCHITECTURE/ROADMAP alignment + source review
+> Verification Status: Source-backed governance docs restored; release-evidence validation still pending
 
 ## Summary
 
 | Category | Count | Severity |
 |---|---:|---|
-| Documentation gaps (now resolved) | 7 | Medium |
+| Documentation gaps (resolved) | 7 | Medium |
 | Implementation gaps | 0 | — |
 | Test gaps | 0 | — |
 | Benchmark gaps | 0 | — |
+| Release evidence gaps | 1 | Medium |
 
 ## Resolved Documentation Gaps
 
-The following governance documents were missing and have been created in this change:
+The following governance documents were restored or re-aligned to the live source tree:
 
 | Document | Status |
 |---|---|
-| `CHANGELOG.md` | ✓ Created |
-| `FUTURE_ENHANCEMENTS.md` | ✓ Created |
-| `AUDIT.md` | ✓ Created |
-| `SECURITY.md` | ✓ Created |
-| `MODULE_GAPS.md` | ✓ Created (this file) |
-| `PERFORMANCE_EXPECTATIONS.md` | ✓ Created |
-| `PRODUCTION_REQUIREMENTS.md` | ✓ Created |
+| `CHANGELOG.md` | ✓ Restored |
+| `FUTURE_ENHANCEMENTS.md` | ✓ Restored |
+| `AUDIT.md` | ✓ Restored |
+| `SECURITY.md` | ✓ Restored |
+| `MODULE_GAPS.md` | ✓ Restored |
+| `PERFORMANCE_EXPECTATIONS.md` | ✓ Restored |
+| `PRODUCTION_REQUIREMENTS.md` | ✓ Restored |
 
 ## Open Implementation Gaps
 
-No open implementation gaps identified. The module is production-ready at Phase 1–3 delivery state.
+No current implementation gaps identified in the source tree reviewed for this module.
 
 ## Open Test Gaps
 
-No test gaps. Seven test artifacts are present across unit, integration, soak, stress, and legacy test suites.
+No direct test gaps were identified; the repository contains the expected image-analysis-focused test files.
 
 ## Open Benchmark Gaps
 
-No benchmark gaps. Three benchmark artifacts are present covering throughput and latency validation.
+The benchmark artifacts are present, but the current release-profile evidence still needs to be refreshed in the active build environment before a final GA-style sign-off.
 
 ## Planned Future Work
 
-See `FUTURE_ENHANCEMENTS.md` for tracked planned improvements (additional OCR engines, video frame analysis, custom model pipeline, multimodal embeddings, async processing queue).
+See `FUTURE_ENHANCEMENTS.md` for the next incremental improvements: plugin expansion, optional video processing, model validation, and asynchronous processing.
 
 ## Drift Status
 
 - Implementation drift: none
 - Documentation drift: resolved by this change
-- Release gate drift: none
+- Release gate drift: remaining benchmark evidence gap only
 
 ## Next Review
 
-Re-run gap analysis after any of the following:
-- Addition of a new backend plugin.
-- Changes to the public API in `include/image_analysis/`.
-- Introduction of video or custom model features from FUTURE_ENHANCEMENTS.md.
+Re-run this review after the next focused image-analysis benchmark/run in the active CI/build profile.

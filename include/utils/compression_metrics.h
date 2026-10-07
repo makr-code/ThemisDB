@@ -38,19 +38,30 @@ public:
         uint64_t decompression_count{0};
         
         double compression_ratio() const {
-            return bytes_out > 0 ? static_cast<double>(bytes_in) / bytes_out : 0.0;
+            return bytes_out > 0
+                ? static_cast<double>(bytes_in) / static_cast<double>(bytes_out)
+                : 0.0;
         }
         
         double avg_compression_time_ms() const {
-            return compression_count > 0 ? compression_time_us / 1000.0 / compression_count : 0.0;
+            return compression_count > 0
+                ? (static_cast<double>(compression_time_us) / 1000.0)
+                      / static_cast<double>(compression_count)
+                : 0.0;
         }
         
         double avg_decompression_time_ms() const {
-            return decompression_count > 0 ? decompression_time_us / 1000.0 / decompression_count : 0.0;
+            return decompression_count > 0
+                ? (static_cast<double>(decompression_time_us) / 1000.0)
+                      / static_cast<double>(decompression_count)
+                : 0.0;
         }
         
         double compression_throughput_mbps() const {
-            return compression_time_us > 0 ? (bytes_in / 1024.0 / 1024.0) / (compression_time_us / 1000000.0) : 0.0;
+            return compression_time_us > 0
+                ? (static_cast<double>(bytes_in) / 1024.0 / 1024.0)
+                      / (static_cast<double>(compression_time_us) / 1000000.0)
+                : 0.0;
         }
     };
     

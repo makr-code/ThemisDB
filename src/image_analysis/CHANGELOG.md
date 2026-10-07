@@ -16,19 +16,19 @@ The format is based on Keep a Changelog.
 ## [1.0.0] - 2026-08-10
 
 ### Added
-- **Phase 1–3 delivery (Q3 2026)** — Full image analysis infrastructure implemented and deployed to production.
-  - `include/image_analysis/image_processor.h` — Core image processing API contract with `processImage`, `extractText`, `detectObjects`.
-  - `include/image_analysis/feature_extractor.h` — Feature extraction interface for embedding-based similarity queries.
-  - `include/image_analysis/image_cache.h` — LRU result caching contract with configurable TTL.
-  - Error taxonomy E6200–E6299 reserved for image analysis errors.
+- **Phase 1–3 delivery (Q3 2026)** — The image-analysis module was expanded around the shared plugin API and runtime manager contract.
+  - `include/plugins/image_analysis_interface.h` — canonical backend contract and result payloads.
+  - `include/plugins/image_analysis_manager.h` — discovery, registration, and capability-based backend selection.
+  - `include/plugins/tesseract_ocr_plugin.h` and `include/plugins/yolov8_onnx_plugin.h` — OCR and object-detection plugin contracts.
+  - Error handling remains explicit and dependency-gated for optional native runtimes.
 - **Tesseract OCR plugin (Phase 2)** — `src/image_analysis/tesseract_ocr_plugin.cpp`.
-  - Multi-language text recognition with layout analysis, confidence scoring, and timeout enforcement.
-  - Dual compilation path: real Tesseract API when `HAVE_TESSERACT` is defined; well-formed no-op result otherwise.
+  - Multi-language text recognition with layout analysis, confidence scoring, and timeout enforcement when the dependency is available.
+  - Dual compilation path: real Tesseract API when `HAVE_TESSERACT` is defined; well-formed failure result otherwise.
   - OpenCV image decoding path when `HAVE_OPENCV` is defined.
 - **YOLOv8 ONNX object detection plugin (Phase 2)** — `src/image_analysis/yolov8_onnx_plugin.cpp`.
-  - ~80 COCO object classes, bounding box computation, NMS, confidence thresholds, batch inference.
-  - ONNX model loading and inference via ONNX Runtime.
-- **Error handling and edge cases (Phase 3)** — image format validation, corrupted image fallback, backend unavailability graceful degradation, timeout enforcement.
+  - ~80 COCO object classes, bounding box computation, NMS, confidence thresholds, and runtime backend selection.
+  - ONNX model loading and inference via ONNX Runtime when available.
+- **Error handling and edge cases (Phase 3)** — image format validation, dependency-aware fallback, backend unavailability graceful degradation, and timeout handling.
 - **Test suite (Phase 4)** — unit, focused, soak, stress, and integration tests across:
   - `tests/image_analysis/test_image_analysis_phase1_focused.cpp`
   - `tests/image_analysis/test_image_analysis_highcardinality_stress.cpp`
@@ -39,7 +39,7 @@ The format is based on Keep a Changelog.
   - `benchmarks/image_analysis/bench_image_analysis.cpp`
   - `benchmarks/image_analysis/bench_image_analysis_latency.cpp`
   - `benchmarks/image_analysis/benchmark_image_analysis.cpp`
-- **Documentation (Phase 6)** — `README.md`, `ARCHITECTURE.md`, `ROADMAP.md`, `DOXYGEN.md` completed.
+- **Documentation (Phase 6)** — source-aligned governance docs and module narrative restored under `src/image_analysis/`.
 
 ### Fixed
 - N/A — initial production release.

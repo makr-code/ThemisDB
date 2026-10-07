@@ -623,7 +623,7 @@ std::vector<BaseEntity> VectorAutoBuffer::applyCompression(const std::vector<Bas
                         dim, num_subvectors);
             return entities;
         }
-        if (training_vecs.size() < num_centroids) {
+        if (training_vecs.size() < static_cast<size_t>(num_centroids)) {
             THEMIS_WARN("VectorAutoBuffer: PQ skipped — batch size={} < "
                         "pq_num_centroids={}; returning entities unchanged",
                         training_vecs.size(), num_centroids);

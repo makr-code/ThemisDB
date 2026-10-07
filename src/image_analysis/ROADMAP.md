@@ -1,196 +1,96 @@
 # Image Analysis Module Roadmap
 
-<!-- Status: PRODUCTION_READY | Phase 1-6 complete | validated: 2026-08-10 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: IN_PROGRESS | plugin-backed implementation | validated: 2026-10-07 -->
+<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · CMakeLists.txt -->
 
 ## Current Status
 
-Production-ready image analysis with multi-engine support for OCR and object detection. The image analysis module provides computer vision capabilities integrated into ThemisDB's content indexing pipeline, with pluggable backends, feature extraction, and result caching.
+The live implementation is in progress and source-first. The module is not a standalone `include/image_analysis/` API tree; the actual contract is defined under `include/plugins/`, while the dependency-gated implementations remain in `src/image_analysis/` and are built by `src/image_analysis/CMakeLists.txt`.
 
-**Milestone:** Phase 3 deliverables complete. OCR via Tesseract and object detection via YOLOv8 ONNX hardened and deployed to production.
+**Current status:** OCR and YOLOv8 plugins are present and behave gracefully when optional dependencies are absent, but the module still requires explicit release-gate validation and documentation alignment before it should be treated as fully production-ready.
 
-- [x] Tesseract OCR plugin with text extraction (Phase 3) → COMPLETE
-- [x] YOLOv8 ONNX object detection plugin (Phase 3) → COMPLETE
-- [x] Feature extraction and caching layer → COMPLETE
-- [x] Multi-backend abstraction and lifecycle management → COMPLETE
+- [x] Tesseract OCR plugin implementation exists and is wired through the module build (`src/image_analysis/tesseract_ocr_plugin.cpp`)
+- [x] YOLOv8 ONNX plugin implementation exists and is wired through the module build (`src/image_analysis/yolov8_onnx_plugin.cpp`)
+- [~] Plugin lifecycle and fallback semantics are source-backed but still need release-evidence alignment and targeted validation
+- [ ] Representative benchmark and release-gate evidence for OCR/detection performance should be refreshed under the module's actual plugin contract
 
 ## In Progress
 
-- [~] keep release evidence synchronized for `release_critical` CI and representative-hardware benchmark refresh cycles (Target: Q4 2026)
-- [x] expand regression depth for long-duration mixed OCR/object-detection workloads in Wave D operability hardening (Target: Q1 2027)
+- [~] align module docs with the live plugin interface and remove stale `include/image_analysis/*` references (Target: Q4 2026)
+- [~] validate optional-dependency fallback paths under the real build configuration used by tests and CI (Target: Q4 2026)
+- [ ] add focused regression coverage for Tesseract and YOLOv8 graceful-failure paths (Target: Q4 2026)
+- [ ] refresh representative benchmark evidence for OCR and detection latency against release profile (Target: Q4 2026)
 
-## Completed Initiatives
+## Implementation Phases
 
-### Phase 1-3 Delivery (Q3 2026) - COMPLETE ✓
+### Phase 1: Design / API Contract
 
-All image analysis infrastructure implemented and integrated. Module ready for production deployment.
+- [x] Define the shared plugin contract in `include/plugins/image_analysis_interface.h`
+- [x] Define plugin discovery and compatibility flow in `include/plugins/image_analysis_manager.h`
+- [x] Document the build-time gating pattern in `src/image_analysis/CMakeLists.txt`
+- [ ] Confirm `PluginConfig` and runtime result contracts are fully reflected in module documentation and examples
 
-## Implementation Phases (Completed 2026-08-10)
+### Phase 2: Core Implementation
 
-### Phase 1: Design & API Contract ✓ COMPLETE
+- [x] Implement Tesseract OCR plugin (`src/image_analysis/tesseract_ocr_plugin.cpp`)
+- [x] Implement YOLOv8 ONNX detection plugin (`src/image_analysis/yolov8_onnx_plugin.cpp`)
+- [x] Wire plugin builds and optional dependency checks in `src/image_analysis/CMakeLists.txt`
+- [ ] Confirm final runtime behaviour and default config values against the current test matrix
 
-**Objective:** Define API contracts, backend abstraction, and feature extraction semantics.
+### Phase 3: Error Handling & Edge Cases
 
-**Deliverables:**
-- [x] `include/image_analysis/image_processor.h` – Core image processing API
-- [x] `include/image_analysis/feature_extractor.h` – Feature extraction interface
-- [x] `include/image_analysis/image_cache.h` – Result caching contract
-- [x] Plugin manifest and backend registration mechanism
-- [x] Error taxonomy (image errors: E6200–E6299)
+- [x] Validate graceful-failure behaviour when `HAVE_TESSERACT` or `HAVE_ONNXRUNTIME` is absent
+- [x] Return structured error states instead of crashing the host process
+- [ ] Add direct negative tests for malformed input and unsupported image payloads
+- [ ] Capture timeout and fallback policy in a module-specific integration test
 
-**API Contracts:**
-- **ImageProcessor** — Main entry point for image analysis (OCR, detection)
-  - `processImage(path) → ImageAnalysisResult`
-  - `extractText() → OCRResult` with confidence scores
-  - `detectObjects() → DetectionResult` with bounding boxes
-  
-- **FeatureExtractor** — Vector embedding generation
-  - `extractFeatures(image) → EmbeddingVector`
-  - Supports multiple embedding models
-  
-- **ImageCache** — Result caching with TTL
-  - `get(key) → Optional<CachedResult>`
-  - `put(key, value, ttl_ms) → Result<>`
+### Phase 4: Tests
 
-**Status:** ✓ COMPLETE
+- [x] Existing focused and stress tests are present under `tests/image_analysis/` and `tests/integration/`
+- [ ] Validate the exact plugin fallback mode under local CI/build presets, not only static source review
+- [ ] Extend the module test matrix to cover capability selection and manager routing edge cases
 
-### Phase 2: Core Implementation ✓ COMPLETE
+### Phase 5: Performance / Hardening
 
-**Objective:** Implement OCR and object detection with production-grade error handling.
+- [~] Keep performance expectations documented in `PERFORMANCE_EXPECTATIONS.md`
+- [ ] Benchmark release-profile latency and throughput for OCR and detection under real model paths
+- [ ] Reconcile internal performance targets with actual runner evidence before signing off GA readiness
 
-**Deliverables:**
-- [x] `tesseract_ocr_plugin.cpp` – Tesseract integration with text extraction
-  - Language auto-detection and multi-language support
-  - Layout analysis and text region segmentation
-  - Confidence scoring for extracted text
-  - Error handling for corrupted images
-  
-- [x] `yolov8_onnx_plugin.cpp` – YOLOv8 object detection via ONNX
-  - Class detection with confidence thresholds
-  - Bounding box computation and NMS (non-maximum suppression)
-  - Batch processing support
-  - ONNX model loading and inference
+### Phase 6: Documentation & Acceptance
 
-**Performance Targets:**
-- OCR throughput: ≥ 10 images/sec on typical hardware
-- Object detection throughput: ≥ 5 images/sec
-- Memory per image: < 50 MB (including model caches)
-- Cache hit rate target: > 80% for typical workloads
-
-**Status:** ✓ COMPLETE
-
-### Phase 3: Error Handling & Edge Cases ✓ COMPLETE
-
-**Objective:** Handle various image formats, corrupted data, and backend unavailability.
-
-**Deliverables:**
-- [x] Image format validation and conversion
-- [x] Corrupted image detection and fallback handling
-- [x] Backend unavailability graceful degradation
-- [x] Timeout enforcement for long-running operations
-- [x] Structured error reporting with diagnostic context
-
-**Error Scenarios:**
-- E6200 – Unsupported image format
-- E6201 – Image corrupted or invalid
-- E6202 – Backend initialization failed
-- E6203 – Processing timeout exceeded
-- E6204 – Insufficient memory for image
-
-**Status:** ✓ COMPLETE
-
-### Phase 4: Tests ✓ COMPLETE
-
-**Objective:** Comprehensive testing of OCR, detection, and caching.
-
-**Test Suite:**
-- Unit tests for OCR text extraction
-- Object detection accuracy validation
-- Feature extraction vector correctness
-- Cache hit/miss semantics
-- Backend lifecycle management
-- Error handling and timeout scenarios
-
-**Test Coverage:**
-- src/image_analysis coverage via focused test suites
-- Integration tests with content indexing pipeline
-- Performance regression tests on standard datasets
-
-**Status:** ✓ COMPLETE
-
-### Phase 5: Performance & Hardening ✓ COMPLETE
-
-**Objective:** Optimize critical paths and validate production readiness.
-
-**Deliverables:**
-- [x] OCR throughput optimization (batch processing)
-- [x] Object detection latency profiling
-- [x] Memory usage optimization for model caching
-- [x] Cache efficiency validation
-- [x] Cross-backend performance comparison
-
-**Performance Gates:**
-- OCR P99: < 100 ms per image
-- Detection P99: < 200 ms per image
-- Cache lookup: < 1 ms
-- Memory overhead: < 10% of total heap
-
-**Status:** ✓ COMPLETE
-
-### Phase 6: Documentation & Acceptance ✓ COMPLETE
-
-**Objective:** Complete API documentation, integration guide, and operator runbook.
-
-**Deliverables:**
-- [x] Doxygen comments for all public APIs
-- [x] Backend integration guide (adding custom vision engines)
-- [x] Configuration parameter documentation
-- [x] Performance tuning guide
-- [x] Troubleshooting runbook
-
-**Documentation:**
-- `README.md` – Module overview and quick-start
-- `ARCHITECTURE.md` – Design rationale and backend abstraction
-- `FUTURE_ENHANCEMENTS.md` – Planned features (video support, custom models)
-
-**Status:** ✓ COMPLETE
+- [x] Restore governance docs (`AUDIT.md`, `CHANGELOG.md`, `FUTURE_ENHANCEMENTS.md`, `MODULE_GAPS.md`, `PERFORMANCE_EXPECTATIONS.md`, `PRODUCTION_REQUIREMENTS.md`, `SECURITY.md`)
+- [x] Align module README/architecture and roadmap to the source-backed plugin model
+- [ ] Run the final module acceptance gate once the benchmark and fallback evidence is captured in the current build environment
 
 ## Production Readiness Checklist
 
-- [x] Phase 1 API contracts frozen
-- [x] Phase 2 core implementation (OCR + detection) complete
-- [x] Phase 3 error handling comprehensive
-- [x] Phase 4 test suite ≥ 70% code coverage
-- [x] Phase 5 benchmarks pass all gates
-- [x] Phase 6 documentation complete
-- [x] Security review passed (no remote code execution vectors)
-- [x] Performance validation
-- [x] Integration testing with content indexing
-- [x] Operational runbook complete
+- [x] Shared plugin contract is present and source-backed
+- [x] Core OCR and detection plugin implementations exist
+- [x] Graceful fallback behaviour is documented and implemented
+- [x] Module governance docs are present and aligned with the source tree
+- [ ] Focused release benchmark evidence is complete for the current build environment
+- [ ] Final GA sign-off remains pending until representative validation is recorded
 
 ## Known Issues & Limitations
 
-1. **Single-Backend Limitation** – Only Tesseract and YOLOv8 currently supported; plugin architecture enables extension
-2. **No Video Support** – Only static images; video frame extraction is out of scope
-3. **No Model Fine-Tuning** – Uses pre-trained models; custom training not supported in this module
-4. **Language Limitations** – Tesseract multi-language support depends on installed language packs
+1. **Dependency gating** – both plugins operate as optional feature builds and may report a safe failure if their native dependency is not installed.
+2. **No settled release benchmark** – module-level performance targets exist, but they are not yet backed by a fresh release-validated run in this environment.
+3. **No fully frozen standalone API** – the canonical public contract is plugin-facing, not a dedicated `include/image_analysis/` library tree.
+4. **Documentation drift risk** – stale path references and legacy production claims must be kept out of the module narrative.
 
 ## Breaking Changes
 
-None. APIs frozen at v1.x.
+None known at the current source baseline. The active contract remains the shared plugin interface under `include/plugins/`.
 
 ## Module Statistics
 
-- **Total LOC (Source):** ~500 LOC across implementation files
-  - tesseract_ocr_plugin.cpp: ~250 LOC
-  - yolov8_onnx_plugin.cpp: ~250 LOC
-- **Public Headers:** 3 (image_processor.h, feature_extractor.h, image_cache.h)
-- **Supported Formats:** JPEG, PNG, TIFF, BMP, WebP
-- **Error Codes:** E6200–E6299 (reserved)
+- **Implementation files:** `src/image_analysis/tesseract_ocr_plugin.cpp`, `src/image_analysis/yolov8_onnx_plugin.cpp`, `src/image_analysis/CMakeLists.txt`
+- **Plugin contract:** `include/plugins/image_analysis_interface.h`, `include/plugins/image_analysis_manager.h`
+- **Runtime backends:** OCR (Tesseract) + detection (YOLOv8 ONNX)
+- **Current module posture:** in progress, dependency-gated, and documentation-aligned to source evidence
 
 ## Program Execution Model — Wave Context
 
-This module is a **contributing module** in the program-level Wave A → B → C → D execution model.
-It does not own a primary wave deliverable but must remain `release_critical`-green throughout all waves.
+This module remains a contributing image-vision capability within ThemisDB's broader multi-wave execution model. It should be treated as operationally relevant but not release-final until the module-specific benchmark and fallback evidence is refreshed against the active build profile.
 
-See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
+See [`../../ROADMAP.md`](../../ROADMAP.md) for the broader wave model and exit criteria.

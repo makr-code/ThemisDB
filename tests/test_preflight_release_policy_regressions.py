@@ -158,13 +158,13 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
             ai_safety_chaos_block,
         )
 
-    def test_docs_importer_uses_raw_pointer_for_rocksdb_open(self) -> None:
+    def test_docs_importer_uses_unique_ptr_for_rocksdb_open(self) -> None:
         generator_text = DOCS_ROCKSDB_GENERATOR.read_text(encoding="utf-8")
 
-        self.assertIn("DB* raw_db = nullptr;", generator_text)
-        self.assertIn("Status status = DB::Open(options, db_path, &raw_db);", generator_text)
-        self.assertIn("std::unique_ptr<DB> db(raw_db);", generator_text)
-        self.assertNotIn("Status status = DB::Open(options, db_path, &db);", generator_text)
+        self.assertIn("std::unique_ptr<DB> db;", generator_text)
+        self.assertIn("Status status = DB::Open(options, db_path, &db);", generator_text)
+        self.assertNotIn("DB* raw_db = nullptr;", generator_text)
+        self.assertNotIn("std::unique_ptr<DB> db(raw_db);", generator_text)
 
     def test_release_build_matrix_treats_missing_package_artifacts_as_error(self) -> None:
         workflow_text = RELEASE_BUILD_MATRIX_WORKFLOW.read_text(encoding="utf-8")

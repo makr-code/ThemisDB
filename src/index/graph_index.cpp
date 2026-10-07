@@ -211,7 +211,7 @@ GraphIndexManager::Status GraphIndexManager::addEdge(const BaseEntity& edge) {
 	const std::string& from = *fromOpt;
 	const std::string& to = *toOpt;
 	auto raw = db_.get(KeySchema::makeGraphOutdexKey(from, eid));
-	THEMIS_INFO("addEdge: from={} edge={} raw_present={} raw_size={}", from, eid, raw.has_value(), raw ? raw->size() : 0);
+	THEMIS_INFO("addEdge: from={} to={} edge={} raw_present={} raw_size={}", from, to, eid, raw.has_value(), raw ? raw->size() : 0);
 	return Status::OK();
 }
 

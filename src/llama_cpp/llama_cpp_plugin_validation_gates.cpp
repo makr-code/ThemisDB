@@ -1,31 +1,3 @@
-/**
- * @file llama_cpp_plugin_validation_gates.cpp
- * @brief Fail-closed validation gates for llama_cpp LLM plugin (Graph Phase 2.1 pattern)
- * @version 2.0.0
- * @date 2026-07-01
- * @note Implements token limit validation, CUDA checks, JIT model loading
- * @note Closes high-gap-count findings in LLM module initialization
- * 
- * ROADMAP ALIGNMENT:
- * - Wave A: Critical initialization + validation gaps
- * - Q3 2026 BATCH 2: LLM plugin hardening
- * - Target: 500+ llm module gaps closed
- * 
- * VALIDATION GATES:
- * 1. Fail-closed model initialization (must load model or return error)
- * 2. Token limit enforcement (context length constraints)
- * 3. CUDA capability detection with fallback logging
- * 4. Thread-safe JIT model loading with timeout
- * 5. Memory limits + resource allocation guards
- * 
- * THREAD-SAFETY:
- * - std::mutex for shared state (model_, wrapper_)
- * - std::atomic for counters (inference_count_, error_count_)
- * - No lock held during potentially slow operations
- * 
- * C++ STANDARDS: C++17 (std::optional, structured bindings, std::scoped_lock)
- */
-
 #include "llama_cpp/llama_cpp_plugin.h"
 #include "utils/logger.h"
 #include <chrono>

@@ -443,7 +443,9 @@ WORKDIR /app
 # Using runtime-only lib reduces layer size by ~5-10% compared to including dev packages.
 RUN --mount=type=cache,id=apt-cache-runtime-${TARGETARCH},target=/var/cache/apt,sharing=locked \
     --mount=type=cache,id=apt-lib-runtime-${TARGETARCH},target=/var/lib/apt,sharing=locked \
-    apt-get update && apt-get install -y --no-install-recommends \
+    apt-get update && \
+    apt-get -y upgrade && \
+    apt-get install -y --no-install-recommends \
         ca-certificates librocksdb8.9 libgrpc++1.51t64 libprotobuf32t64 libcurl4t64 && \
     rm -rf /var/lib/apt/lists/*
 
@@ -457,6 +459,17 @@ COPY --from=llama /opt/llama.cpp/build/lib* /usr/local/lib/
 COPY --from=llama /opt/themis-models/ /models/
 
 RUN ldconfig
+
+RUN set -eux; \
+    if ! getent group themis >/dev/null; then \
+        groupadd -r themis; \
+    fi; \
+    if ! id -u themis >/dev/null 2>&1; then \
+        useradd -r -g themis -d /app -s /usr/sbin/nologin themis; \
+    fi; \
+    chown -R themis:themis /app /models
+
+USER themis
 
 EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
