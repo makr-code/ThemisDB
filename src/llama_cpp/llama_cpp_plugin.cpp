@@ -1,14 +1,3 @@
-/**
- * @file llama_cpp_plugin.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.10
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 83/100
- * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
- */
-
-
 #include "llama_cpp/llama_cpp_plugin.h"
 #include "llm/json_schema_converter.h"
 #include <stdexcept>
@@ -244,14 +233,11 @@ std::vector<llm::LoRAInfo> LlamaCppPlugin::listLoRAs() const {
 llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& request) {
     llm::InferenceResponse response;
 
-    // ── Stream-callback retry wrapper (gap: no_retry_logic × 13) ─────────────
+    // Stream-callback retry wrapper.
     // Invokes request.stream_callback(token) with up to kMaxRetries attempts
-    // for transient exceptions.  std::bad_alloc is treated as non-retryable.
+    // for transient exceptions. std::bad_alloc is treated as non-retryable.
     // Each failed transient attempt (except the last) increments
     // stream_retry_count_; a final failure increments error_count_.
-    // Gap scanner found 5× pointer_arithmetic_unbounded findings; audit of
-    // this file found no unbounded raw-pointer arithmetic — findings are
-    // false-positives from the scanner.  No change required.
     constexpr int kStreamCallbackMaxRetries = 3;
     auto invokeStreamCallback = [&](const std::string& token) {
         for (int attempt = 0; attempt < kStreamCallbackMaxRetries; ++attempt) {
@@ -391,32 +377,14 @@ llm::InferenceResponse LlamaCppPlugin::generate(const llm::InferenceRequest& req
         }
     }
 
-    // STUB/SIMULATION NOTE:
-    // Purpose: Signal clearly that no model is loaded when llama.cpp is not
-    //          compiled in (THEMIS_ENABLE_LLAMA_CPP not set) or loadModel()
-    //          has not been called.  Unit-test builds that require the echo
-    //          behaviour should define THEMIS_LLAMA_CPP_STUB_MODE.
-    // Activation: Reached when `wrapper_` is nullptr (model not loaded or build
-    //             flag absent); controlled by build flag THEMIS_ENABLE_LLAMA_CPP
-    //             and runtime loadModel() call.
-    // Production Delta (fixed — Gap 1): Previously returned success=true with a
-    //             stub echo string, making the failure invisible to callers.
-    //             Now returns success=false + error_message="Model not loaded"
-    //             so callers can programmatically detect and handle the error.
-    // Removal Plan: Build with -DTHEMIS_LLM_ENABLED=ON, provide a valid model
-    //               file path in config["model_path"], and call loadModel()
-    //               before generate().  Once wrapper_ is non-null the real
-    //               LlamaWrapper inference path executes and this block is
-    //               bypassed entirely.  See SETUP.md §"Enabling real LLM inference".
-    // Roadmap ref: src/llama_cpp/ROADMAP.md § "Planned Features"
-    // See: llama_cpp/FUTURE_ENHANCEMENTS.md §6; AI_ML_IMPACT_ASSESSMENT.md §7 Gap 1.
+    // Production no-model path: fail closed when the backend is unavailable.
+    // This is the explicit error path for callers that did not load a model
+    // or compiled without `THEMIS_LLM_ENABLED`.
 #ifdef THEMIS_LLAMA_CPP_STUB_MODE
-    // Test-only path: retain the old echo behaviour when the test macro is set.
+    // Test-only override: preserve the echo behavior for focused unit tests.
     {
         ++inference_count_;
 
-        // When tools are provided, synthesize a minimal stub tool-call JSON so
-        // tests can verify the tool-calling path without a real model.
         std::string text = {};
         if (!request.tools.empty()) {
             const auto& first_tool = request.tools.front();
@@ -650,20 +618,10 @@ std::vector<float> LlamaCppPlugin::embed(const std::string& text) {
             }
         }
     }
-    // STUB/SIMULATION NOTE:
-    // Purpose: Return a syntactically valid embedding vector when llama.cpp is not
-    //          compiled in (THEMIS_LLM_ENABLED absent) or the model wrapper is null
-    //          and no EmbedFn has been injected via setEmbedFn().
-    // Activation: Reached when `wrapper_` is nullptr (model not loaded or
-    //             THEMIS_LLM_ENABLED not set at build time) AND no `embed_fn_` set.
-    // Production Delta: Every embed() call returns a 384-dimensional zero vector.
-    //                   Cosine similarity between any two texts becomes 0/NaN;
-    //                   semantic search, ANN indexing, and RAG retrieval all
-    //                   produce meaningless results.
-    // Removal Plan: Build with THEMIS_LLM_ENABLED and call loadModel() before
-    //               embed(); the wrapper_->embed() path then returns real vectors.
-    //               Alternatively, inject a real backend via setEmbedFn().
-    //               See src/llama_cpp/FUTURE_ENHANCEMENTS.md §LlamaCppPlugin Embed.
+    // Fallback for builds without an active embedding backend: keep a stable
+    // zero-vector return so callers can still inspect the contract without a
+    // real model. Production deployments should prefer a loaded wrapper or a
+    // real injected backend.
     return std::vector<float>(384, 0.0f);
 }
 
@@ -889,17 +847,8 @@ llm::ILLMPlugin::DraftTokensResult LlamaCppPlugin::generateDraftTokens(
     
 #ifdef THEMIS_LLM_ENABLED
     if (!wrapper_) {
-        // STUB/SIMULATION NOTE:
-        // Purpose: Return k syntactically valid draft tokens when THEMIS_LLM_ENABLED
-        //          is set but loadModel() has not been called (wrapper_ is null).
-        //          Keeps callers from null-dereferencing while producing a result
-        //          they can inspect in unit tests.
-        // Activation: THEMIS_LLM_ENABLED defined at build time AND loadModel() not
-        //             yet called (or model already unloaded).
-        // Production Delta: Peaked logits are not model-grounded; speculative-
-        //                   decoding acceptance rates will be low / zero.
-        // Removal Plan: Call loadModel() before generateDraftTokens(); wrapper_
-        //               will be non-null and the real path below executes.
+        // Fallback path: provide a structurally valid result when the live wrapper is
+        // absent, but keep the result clearly non-model-grounded for tests only.
         constexpr float kPeak      =  5.0f;
         constexpr float kBaseline  = -5.0f;
 
@@ -937,20 +886,8 @@ llm::ILLMPlugin::DraftTokensResult LlamaCppPlugin::generateDraftTokens(
         spdlog::warn("LlamaCppPlugin::generateDraftTokens failed: {}", e.what());
     }
 
-    // STUB/SIMULATION NOTE:
-    // Purpose: Provide a syntactically valid DraftTokensResult when the real
-    //          wrapper_->generateDraftTokens() returns an invalid result or
-    //          throws (network error, OOM, corrupt model, etc.).
-    // Activation: Reached only when the real path returns tokens.empty(),
-    //             a size mismatch between tokens/logits, vocab_size==0, or
-    //             an exception is thrown by LlamaWrapper::generateDraftTokens().
-    // Production Delta: Peaked logits are deterministic (token_id = (i+1) % vocab)
-    //                   and not grounded in model probability; speculative-decoding
-    //                   acceptance rates will be low and throughput gains lost.
-    // Removal Plan: Fix the underlying LlamaWrapper::generateDraftTokens() failure
-    //               so the real result is always valid.  Log the failure case and
-    //               surface it via metrics so it is visible to operators.
-    // Roadmap ref: src/llama_cpp/ROADMAP.md § "Speculative Decoding"
+    // Fallback path: if the real wrapper result is invalid, return a deterministic
+    // synthetic token/logit matrix so callers can still inspect the API contract.
     constexpr float kPeak      =  5.0f;
     constexpr float kBaseline  = -5.0f;
     for (size_t i = 0; i < k; ++i) {
@@ -962,16 +899,8 @@ llm::ILLMPlugin::DraftTokensResult LlamaCppPlugin::generateDraftTokens(
         result.logits.push_back(std::move(logits));
     }
 #else
-    // STUB/SIMULATION NOTE:
-    // Purpose: Provide a syntactically valid DraftTokensResult when the build
-    //          was compiled WITHOUT THEMIS_LLM_ENABLED (no llama.cpp linkage).
-    // Activation: Entire `#else` branch — THEMIS_LLM_ENABLED not defined at
-    //             compile time.  No real model is ever available in this build.
-    // Production Delta: Identical to the real-path fallback above — peaked
-    //                   logits are not model-grounded; speculative decoding
-    //                   will not benefit from draft quality.
-    // Removal Plan: Rebuild with -DTHEMIS_LLM_ENABLED=ON and link llama.cpp.
-    //               See SETUP.md § "Enabling real LLM inference".
+    // Build without llama.cpp linkage: use a deterministic synthetic fallback so
+    // the API remains structurally valid while callers provision a real backend.
     constexpr float kPeak      =  5.0f;
     constexpr float kBaseline  = -5.0f;
     

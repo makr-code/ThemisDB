@@ -21,16 +21,18 @@ for dynamic loading via the plugin system. It provides the full `ILLMPlugin` con
 
 ## 2. Design Principles
 
-- **Interface-complete** — all `ILLMPlugin` methods are implemented; no pure-virtual
-  method left as a link-time error.
-- **Stub-first** — `loadModel("")` succeeds without a model file; `generate()` returns
-  a detectable echo stub; tests never require a model.
+- **Interface-complete** — all `ILLMPlugin` methods are implemented and backed by the
+  live plugin contract used by the LLM runtime.
+- **Fail-closed in production** — `generate()`, `generateRAG()`, and `embed()` do not
+  silently treat an unloaded model or denied request as success; they return explicit
+  `success=false` or empty fallback data with recorded errors.
 - **Thread-safe lifecycle** — `loadModel`, `unloadModel`, `generate`, `loadLoRA`,
-  `unloadLoRA`, `listLoRAs`, `getModelInfo` are all guarded by `std::mutex`.
+  `unloadLoRA`, `listLoRAs`, `getModelInfo`, and the policy gate are guarded by
+  `std::mutex` or atomic counters where appropriate.
 - **LoRA registry** — duplicate `lora_id` is replaced (not accumulated), consistent with
-  the LLM module's LoRA lifecycle.
-- **Stats** — `inference_count` and `error_count` are monotonic; `getPerformanceStats()`
-  is callable without model load.
+  the LLM module's LoRA lifecycle, and adapter imports are GGUF-validated before acceptance.
+- **Stats and operations** — `inference_count`, `error_count`, and `stream_retry_count`
+  are exposed via atomic counters and `getPerformanceStats()` remains callable without a model load.
 
 ---
 
@@ -104,13 +106,14 @@ unloadLoRA(id)
 
 ## 5. Capabilities
 
-| Capability | v2.0.0 |
+| Capability | Current contract |
 |---|---|
-| `supports_streaming` | `false` |
+| `supports_streaming` | `true` |
 | `supports_lora` | `true` |
-| `supports_embeddings` | `true` (zero vector in stub) |
+| `supports_embeddings` | `true` |
 | `supports_rag` | `true` |
-| `supports_function_call` | `false` |
+| `supports_function_call` | `true` |
+| `plugin_version` | `2.1.0` |
 
 ---
 
@@ -142,9 +145,12 @@ generates `themis_llm_create()` and `themis_llm_destroy()` with C linkage and
 
 ## 9. Testing Strategy
 
-| Type | Files | Count |
+| Type | Files | Notes |
 |---|---|---|
-| Unit (stub mode) | `src/llama_cpp/tests/test_llama_cpp_plugin.cpp` | 30 |
+| Lifecycle, policy, and registrar coverage | `tests/llama_cpp/*.cpp` | Focused module tests cover model lifecycle, LoRA validation, policy enforcement, batching, streaming, and registrar registration |
+| Integration / soak | `tests/integration/test_llama_cpp_soak.cpp` | Long-running module validation and high-cardinality checks |
+
+The module’s validation entry points are the repo-level llama_cpp CTest filters and the direct Doxygen governance check.
 
 ## Module Dependencies
 

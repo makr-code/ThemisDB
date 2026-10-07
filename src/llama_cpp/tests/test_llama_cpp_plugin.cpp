@@ -1,13 +1,3 @@
-/**
- * @file test_llama_cpp_plugin.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.10
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 95/100
- * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
- */
-
 #include <gtest/gtest.h>
 #include "llama_cpp/llama_cpp_plugin.h"
 #include "llama_cpp/llama_cpp_registrar.h"
