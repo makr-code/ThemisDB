@@ -46,6 +46,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         zip unzip tar wget flex bison python3 perl nasm autoconf automake libtool \
         aria2 sccache libssl-dev zlib1g-dev libkrb5-dev libvulkan-dev glslc linux-libc-dev \
         ${EXTRA_COMPILERS} && \
+    apt-get upgrade -y --no-install-recommends && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     if [ ! -d "${VCPKG_ROOT}/.git" ]; then \
         rm -rf "${VCPKG_ROOT}" && \
@@ -198,7 +199,8 @@ WORKDIR /opt/themis
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt,sharing=locked \
     apt-get update && apt-get install -y --no-install-recommends \
-        ca-certificates libssl3t64 zlib1g libstdc++6 libgomp1 curl libsodium23 libvulkan1 && \
+        ca-certificates libssl3t64 zlib1g libstdc++6 libgomp1 libsodium23 libvulkan1 && \
+    apt-get upgrade -y --no-install-recommends && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \
     mkdir -p /opt/themis/lib /etc/themis/config /var/log/themis /var/lib/themis/data /opt/themis/models
 

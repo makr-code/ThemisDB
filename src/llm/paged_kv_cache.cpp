@@ -15,6 +15,7 @@
 #include <cmath>
 #include <algorithm>
 #include <limits>
+#include <cstring>
 #include <spdlog/spdlog.h>
 
 namespace themis {
@@ -26,8 +27,62 @@ constexpr std::array<int8_t, 16> kNvfp4Codebook = {
     0, -1, -2, -3, -4, -6, -8, -12
 };
 
+inline float ggmlUe4m3ToFp32(uint8_t x) {
+    if (x == 0 || x == 0x7F) {
+        return 0.0f;
+    }
+    const int exp = (x >> 3) & 0x0F;
+    const int man = x & 0x07;
+    float raw = 0.0f;
+    if (exp == 0) {
+        raw = std::ldexp(static_cast<float>(man), -9);
+    } else {
+        raw = std::ldexp(1.0f + static_cast<float>(man) / 8.0f, exp - 7);
+    }
+    return raw * 0.5f;
+}
+
+inline uint8_t ggmlFp32ToUe4m3(float x) {
+    if (!(x > 0.0f)) {
+        return 0;
+    }
+    if (x > 448.0f) {
+        x = 448.0f;
+    }
+
+    uint32_t bits = 0;
+    std::memcpy(&bits, &x, sizeof(bits));
+    const int fp32_exp = (static_cast<int>((bits >> 23) & 0xFFu) - 127);
+    const int fp32_man = (bits >> 20) & 0x7u;
+    int ue4m3_exp = fp32_exp + 7;
+    if (ue4m3_exp <= 0) {
+        int man = static_cast<int>(x * 512.0f + 0.5f);
+        if (man > 7) {
+            man = 7;
+        }
+        if (man < 1) {
+            return 0;
+        }
+        return static_cast<uint8_t>(man);
+    }
+    if (ue4m3_exp >= 15) {
+        return 0x7E;
+    }
+
+    const int round_bit = (bits >> 19) & 1u;
+    int ue4m3_man = fp32_man + round_bit;
+    if (ue4m3_man > 7) {
+        ue4m3_man = 0;
+        ++ue4m3_exp;
+        if (ue4m3_exp >= 15) {
+            return 0x7E;
+        }
+    }
+    return static_cast<uint8_t>((ue4m3_exp << 3) | ue4m3_man);
+}
+
 inline uint8_t pickNearestNvfp4Code(float value, float scale) {
-    if (scale == 0.0f || !std::isfinite(value)) {
+    if (!std::isfinite(value) || scale <= 0.0f) {
         return 0;
     }
 
@@ -42,6 +97,27 @@ inline uint8_t pickNearestNvfp4Code(float value, float scale) {
         }
     }
     return best_index;
+}
+
+inline uint8_t bestIndexMxfp4(float value, float scale) {
+    int best_index = 0;
+    float best_error = std::abs(static_cast<float>(kNvfp4Codebook[0]) * scale - value);
+    for (int idx = 1; idx < static_cast<int>(kNvfp4Codebook.size()); ++idx) {
+        const float error = std::abs(static_cast<float>(kNvfp4Codebook[idx]) * scale - value);
+        if (error < best_error) {
+            best_error = error;
+            best_index = idx;
+        }
+    }
+    return static_cast<uint8_t>(best_index);
+}
+
+inline float estimateNvfp4Scale(const std::vector<float>& values, size_t begin, size_t end) {
+    float amax = 0.0f;
+    for (size_t i = begin; i < end; ++i) {
+        amax = std::max(amax, std::abs(values[i]));
+    }
+    return amax > 0.0f ? (amax / 6.0f) : 0.0f;
 }
 
 inline uint32_t readLittleEndian32(const std::vector<uint8_t>& data, size_t offset) {
@@ -413,39 +489,37 @@ std::vector<uint8_t> PagedKVCache::quantizeKVData(
             constexpr size_t kBlockSize = 64;
             constexpr size_t kSubBlockSize = 16;
             constexpr size_t kSubBlocksPerBlock = kBlockSize / kSubBlockSize;
+            const size_t num_blocks = (kv_data.size() + kBlockSize - 1) / kBlockSize;
 
             std::vector<uint8_t> result;
-            result.reserve((kv_data.size() / kBlockSize + 1) * (kSubBlocksPerBlock * 4 + kBlockSize / 2));
+            result.reserve(4 + num_blocks * (kSubBlocksPerBlock + (kBlockSize / 2)));
+            result.push_back(static_cast<uint8_t>(kv_data.size() & 0xFFu));
+            result.push_back(static_cast<uint8_t>((kv_data.size() >> 8) & 0xFFu));
+            result.push_back(static_cast<uint8_t>((kv_data.size() >> 16) & 0xFFu));
+            result.push_back(static_cast<uint8_t>((kv_data.size() >> 24) & 0xFFu));
 
-            const size_t num_blocks = (kv_data.size() + kBlockSize - 1) / kBlockSize;
             for (size_t block_index = 0; block_index < num_blocks; ++block_index) {
                 const size_t block_start = block_index * kBlockSize;
                 const size_t block_end = std::min(block_start + kBlockSize, kv_data.size());
-
                 for (size_t sub_index = 0; sub_index < kSubBlocksPerBlock; ++sub_index) {
                     const size_t sub_start = block_start + sub_index * kSubBlockSize;
                     const size_t sub_end = std::min(sub_start + kSubBlockSize, block_end);
-                    if (sub_start >= sub_end) {
-                        continue;
-                    }
-
                     float amax = 0.0f;
                     for (size_t i = sub_start; i < sub_end; ++i) {
                         amax = std::max(amax, std::abs(kv_data[i]));
                     }
 
-                    const float scale = amax > 0.0f ? (amax / 6.0f) : 0.0f;
-                    const uint32_t scale_bits = std::bit_cast<uint32_t>(scale);
-                    const size_t scale_offset = result.size();
-                    result.resize(result.size() + 4);
-                    writeLittleEndian32(result, scale_offset, scale_bits);
+                    const uint8_t encoded_scale = ggmlFp32ToUe4m3(amax > 0.0f ? (amax / 6.0f) : 0.0f);
+                    const float scale = ggmlUe4m3ToFp32(encoded_scale);
+                    result.push_back(encoded_scale);
 
-                    for (size_t j = sub_start; j < sub_end; j += 2) {
-                        const float value0 = (j < kv_data.size()) ? kv_data[j] : 0.0f;
-                        const float value1 = ((j + 1) < kv_data.size()) ? kv_data[j + 1] : 0.0f;
-
-                        const uint8_t code0 = pickNearestNvfp4Code(value0, scale);
-                        const uint8_t code1 = pickNearestNvfp4Code(value1, scale);
+                    for (size_t pair = 0; pair < kSubBlockSize / 2; ++pair) {
+                        const size_t left_index = sub_start + pair;
+                        const size_t right_index = sub_start + (kSubBlockSize / 2) + pair;
+                        const float value0 = (left_index < kv_data.size()) ? kv_data[left_index] : 0.0f;
+                        const float value1 = (right_index < kv_data.size()) ? kv_data[right_index] : 0.0f;
+                        const uint8_t code0 = bestIndexMxfp4(value0, scale > 0.0f ? scale : 1.0f);
+                        const uint8_t code1 = bestIndexMxfp4(value1, scale > 0.0f ? scale : 1.0f);
                         result.push_back(static_cast<uint8_t>(code0 | (code1 << 4)));
                     }
                 }
@@ -509,37 +583,45 @@ std::vector<float> PagedKVCache::dequantizeKVData(
         }
         
         case KVQuantizationType::NVFP4: {
-            if (quantized_data.empty()) {
+            if (quantized_data.size() < 4) {
                 return {};
             }
 
             constexpr size_t kBlockSize = 64;
             constexpr size_t kSubBlockSize = 16;
             constexpr size_t kSubBlocksPerBlock = kBlockSize / kSubBlockSize;
+            const size_t original_size = static_cast<size_t>(quantized_data[0]) |
+                (static_cast<size_t>(quantized_data[1]) << 8) |
+                (static_cast<size_t>(quantized_data[2]) << 16) |
+                (static_cast<size_t>(quantized_data[3]) << 24);
 
-            std::vector<float> result;
-            result.reserve(quantized_data.size() * 2);
+            std::vector<float> result(original_size, 0.0f);
+            size_t output_index = 0;
+            size_t offset = 4;
 
-            size_t offset = 0;
-            while (offset < quantized_data.size()) {
-                // Each sub-block stores one float32 scale and 8 bytes of packed 4-bit values.
-                for (size_t sub = 0; sub < kSubBlocksPerBlock; ++sub) {
-                    if (offset + 4 > quantized_data.size()) {
+            while (offset < quantized_data.size() && output_index < original_size) {
+                for (size_t sub_index = 0; sub_index < kSubBlocksPerBlock; ++sub_index) {
+                    if (offset >= quantized_data.size()) {
                         return result;
                     }
-                    const uint32_t scale_bits = readLittleEndian32(quantized_data, offset);
-                    offset += 4;
-                    const float scale = std::bit_cast<float>(scale_bits);
+                    const uint8_t encoded_scale = quantized_data[offset++];
+                    const float scale = ggmlUe4m3ToFp32(encoded_scale);
 
                     for (size_t pair = 0; pair < kSubBlockSize / 2; ++pair) {
-                        if (offset >= quantized_data.size()) {
+                        if (offset >= quantized_data.size() || output_index >= original_size) {
                             return result;
                         }
                         const uint8_t packed = quantized_data[offset++];
                         const uint8_t code0 = packed & 0x0Fu;
                         const uint8_t code1 = (packed >> 4) & 0x0Fu;
-                        result.push_back(static_cast<float>(kNvfp4Codebook[code0]) * scale);
-                        result.push_back(static_cast<float>(kNvfp4Codebook[code1]) * scale);
+                        const int8_t value0 = kNvfp4Codebook[code0];
+                        const int8_t value1 = kNvfp4Codebook[code1];
+                        if (output_index < original_size) {
+                            result[output_index++] = static_cast<float>(value0) * scale;
+                        }
+                        if (output_index < original_size) {
+                            result[output_index++] = static_cast<float>(value1) * scale;
+                        }
                     }
                 }
             }
@@ -566,7 +648,7 @@ float PagedKVCache::getCompressionFactor(KVQuantizationType type) {
         case KVQuantizationType::INT8:
             return 0.75f; // 75% compression (4 bytes -> 1 byte, plus small metadata overhead per block)
         case KVQuantizationType::NVFP4:
-            return 0.25f; // Stable compact representation for the KV stream.
+            return 0.14f; // 36 bytes per 64 values ~= 14.1% of FP32 block footprint.
         default: break;
     }
     return 1.0f;
