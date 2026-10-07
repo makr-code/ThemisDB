@@ -5474,9 +5474,10 @@ function(themis_link_zlib_if_available _target_name)
         target_link_libraries(${_target_name} PRIVATE ${ZLIB_LIBRARY})
         set(_themis_zlib_linked TRUE)
     endif()
-    if(NOT _themis_zlib_linked AND UNIX AND NOT APPLE)
-        # Prevent toolchains using --as-needed from dropping plain -lz when
-        # symbols are only referenced transitively via shared/static deps.
+    if(UNIX AND NOT APPLE)
+        # Keep Linux link closure explicit for transitive RocksDB/themis_security
+        # zlib symbol usage (deflate/inflate), even when imported targets exist.
+        # Some toolchains still drop zlib under --as-needed without plain -lz.
         target_link_libraries(${_target_name} PRIVATE "-Wl,--no-as-needed" z "-Wl,--as-needed")
     endif()
 endfunction()
