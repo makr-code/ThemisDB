@@ -1,232 +1,145 @@
 # Image Analysis Module — Architecture
 
-<!-- Status: PRODUCTION_READY | validated: 2026-08-10 -->
+<!-- Status: IN_PROGRESS | plugin architecture | validated: 2026-10-07 -->
 
 ## Overview
 
-The image analysis module provides computer vision capabilities through a pluggable backend abstraction, enabling multiple vision engines (OCR, object detection) to be used interchangeably within ThemisDB's content indexing and querying pipeline.
+The image analysis module is a plugin-based vision capability for ThemisDB. The code path that is actually present in this tree is not a top-level `include/image_analysis/` API surface; instead, the canonical runtime contract lives under `include/plugins/`, and the module-specific implementation is assembled from `src/image_analysis/*.cpp` plus `src/image_analysis/CMakeLists.txt`.
 
 ## Design Principles
 
-1. **Backend Abstraction:** Multiple vision engines supported through plugin interface
-2. **Feature Composition:** Results from different engines combined into unified feature vectors
-3. **Caching Strategy:** Frequently-analyzed images cached to avoid redundant processing
-4. **Fail-Graceful:** Backend unavailability doesn't block document indexing
-5. **Async Processing:** Long-running image analysis can be decoupled from document ingestion
+1. **Plugin abstraction:** image analysis backends are selected through `IImageAnalysisBackend` and `ImageAnalysisManager`.
+2. **Optional dependency gating:** Tesseract and ONNX Runtime are compiled in only when present, with explicit error results otherwise.
+3. **Fail-graceful behavior:** backend absence or runtime failures return structured error states instead of crashing the caller.
+4. **Dependency separation:** the core plugin contract stays in `include/plugins/`; module-specific implementation remains in `src/image_analysis/`.
+5. **Source-first validation:** roadmap and performance expectations are treated as target gates, not as claims of already-fixed production status.
 
 ## Architecture Diagram
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  ImageProcessor (Main API)                                  │
-│  • processImage(image_path) → Result<ImageAnalysisResult>   │
-│  • Routes to appropriate backend based on image format      │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-        ┌──────────────┼──────────────┐
-        │              │              │
-        ▼              ▼              ▼
-   ┌─────────┐  ┌─────────┐  ┌──────────────┐
-   │Tesseract│  │YOLOv8   │  │FeatureExtr.  │
-   │ OCR     │  │Detection│  │(Embeddings)  │
-   │Plugin   │  │Plugin   │  │              │
-   └────┬────┘  └────┬────┘  └──────┬───────┘
-        │            │              │
-        └────────────┼──────────────┘
-                     │
-                     ▼
-        ┌────────────────────────┐
-        │  ImageCache (LRU)      │
-        │  • Key: image_hash     │
-        │  • Value: Results      │
-        │  • TTL: configurable   │
-        └────────────────────────┘
+┌──────────────────────────────────────────────────────────────┐
+│  ImageAnalysisManager / PluginConfig                        │
+│  • discovers + registers backend implementations             │
+│  • chooses backends by capability and runtime availability   │
+└──────────────────────┬───────────────────────────────────────┘
+                      │
+        ┌─────────────┼──────────────┐
+        │             │              │
+        ▼             ▼              ▼
+┌───────────────┐ ┌──────────────┐ ┌────────────────────┐
+│ IImageAnalysisBackend │ │ TesseractOCRPlugin │ │ YOLOv8OnnxPlugin │
+│ common contract │ │ OCR + layout boxes │ │ detection + NMS │
+└───────┬───────┘ └───────┬──────────┘ └─────────┬──────────┘
+       │                   │                       │
+       └───────────────────┴───────────────────────┘
+                               │
+                               ▼
+                    Structured result objects
+                    (DetectionResult, EmbeddingResult,
+                    CaptionResult, PluginInfo)
 ```
 
 ## Core Components
 
-### ImageProcessor (Main Entry Point)
+### ImageAnalysisManager
 
-**Purpose:** Unified interface for image analysis with backend routing and result composition.
+**Purpose:** Maintain the plugin registry and select the best backend for a requested capability.
 
 **Responsibilities:**
-- Accept image data (path or buffer)
-- Validate image format and integrity
-- Route to appropriate analysis backend(s)
-- Compose results from multiple backends
-- Manage caching layer
-- Handle errors and timeouts
+- discover and load plugins from a configured directory
+- validate plugin metadata and compatibility
+- keep the default plugin selected for common operations
+- provide a manager API for detection and capability queries
 
-**Public API:**
-```cpp
-class ImageProcessor {
-  Result<ImageAnalysisResult> processImage(const std::string& path);
-  Result<OCRResult> extractText(const Image& image);
-  Result<DetectionResult> detectObjects(const Image& image);
-};
-```
+### IImageAnalysisBackend Contract
+
+**Purpose:** Define the stable runtime contract for all image-analysis backends.
+
+**Key responsibilities:**
+- initialize / shutdown lifecycle
+- readiness and backend reporting
+- detection and embedding entry points
+- statistics and health checking
 
 ### OCR Backend (Tesseract)
 
-**Purpose:** Extract text from images with layout analysis and confidence scoring.
+**Purpose:** Extract OCR text and word-level bounding boxes from input images.
 
-**Capabilities:**
-- Multi-language text recognition
-- Layout analysis (blocks, paragraphs, lines)
-- Word-level confidence scores
-- Script detection and validation
-- Timeout-bounded processing
+**Actual implementation:**
+- `src/image_analysis/tesseract_ocr_plugin.cpp`
+- `include/plugins/tesseract_ocr_plugin.h`
 
-**Configuration:**
-- Languages to support (default: English, French, German, Spanish)
-- Confidence threshold for accepting text
-- Processing timeout (default: 5 seconds)
+**Behavior:**
+- when `HAVE_TESSERACT` is defined, real OCR runs with Tesseract API
+- without the dependency, return a well-formed failure result with an explanatory error message
 
 ### Object Detection Backend (YOLOv8 ONNX)
 
-**Purpose:** Detect and localize objects in images with class labels and confidence.
+**Purpose:** Run YOLOv8 detection and return normalised bounding boxes with confidence scores.
 
-**Capabilities:**
-- ~80 object classes (COCO dataset)
-- Bounding box coordinates (normalized 0-1 range)
-- Confidence scores per detection
-- Non-maximum suppression (NMS) for filtering overlaps
-- Batch inference support
+**Actual implementation:**
+- `src/image_analysis/yolov8_onnx_plugin.cpp`
+- `include/plugins/yolov8_onnx_plugin.h`
 
-**Configuration:**
-- Confidence threshold (default: 0.5)
-- NMS IoU threshold (default: 0.45)
-- Max detections per image (default: 100)
-- Processing timeout (default: 10 seconds)
-
-### Feature Extraction
-
-**Purpose:** Generate embeddings from image content for similarity search.
-
-**Approach:**
-- Combines features from OCR and detection backends
-- Text embeddings (from extracted text)
-- Object class embeddings
-- Spatial layout embeddings
-- Unified vector representation for similarity queries
-
-**Output:**
-- Fixed-dimension embedding vector (~384-dim default)
-- Suitable for vector search (FAISS, HNSW, etc.)
-- Normalized L2 distance for similarity
-
-### Image Cache
-
-**Purpose:** Cache analysis results to avoid reprocessing identical images.
-
-**Strategy:**
-- LRU eviction with configurable capacity
-- TTL-based expiration (configurable per cache tier)
-- Keyed by image content hash (SHA-256)
-- Supports fallback to reprocessing on miss
-
-**Configuration:**
-- Max cache size (default: 1 GB)
-- TTL per result (default: 24 hours)
-- Enable/disable per backend
+**Behavior:**
+- when `HAVE_ONNXRUNTIME` is defined, model inference runs with ONNX Runtime
+- otherwise, the plugin reports a controlled failure rather than failing the process
 
 ## Data Flow
 
-### Image Ingestion Pipeline
+### Plugin-driven analysis flow
 
 ```
-Document with Image Attachment
-  │
-  ├─► ImageProcessor.processImage()
-  │
-  ├─► Check ImageCache (L1 fast)
-  │
-  ├─► Backend Dispatch:
-  │   ├─► OCR: Tesseract → text + confidence
-  │   └─► Detection: YOLOv8 → objects + boxes
-  │
-  ├─► Feature Extraction:
-  │   ├─► Text embeddings
-  │   ├─► Object embeddings
-  │   └─► Spatial embeddings
-  │
-  ├─► ImageCache.put() (L1 store)
-  │
-  └─► ImageAnalysisResult
-       ├─► extracted_text
-       ├─► detected_objects[]
-       │   ├─► class_name
-       │   ├─► confidence
-       │   └─► bbox {x, y, w, h}
-       └─► feature_vector[]
+Caller / indexer
+   │
+   ├─► ImageAnalysisManager::getBestPluginForCapability()
+   │
+   ├─► Backend initialize() / isReady()
+   │
+   ├─► detectObjects() / generateEmbedding()
+   │
+   └─► Structured Result (success + error_message + detections / embedding)
 ```
 
 ## Performance Characteristics
 
-### Target Latencies (P99)
-
-- **OCR Text Extraction:** < 100 ms per image
-- **Object Detection:** < 200 ms per image
-- **Feature Extraction:** < 50 ms per image
-- **Cache Lookup:** < 1 ms
-- **End-to-End (cache miss):** < 300 ms
-
-### Resource Consumption
-
-- **Memory per Image:** < 50 MB during processing
-- **Model Cache:** ~200 MB (Tesseract + YOLOv8 models)
-- **Cache Overhead:** ~100 KB per cached result
-
-### Throughput
-
-- **Batch Processing:** 5-10 images/sec (single-threaded)
-- **Concurrent Processing:** Scales with thread pool workers
+Performance is treated as target-based evidence rather than solved production status. The module keeps quantitative expectations in `PERFORMANCE_EXPECTATIONS.md`, but the current implementation is still best described as plugin-backed and partially hardened rather than fully release-validated.
 
 ## Error Handling
 
 ### Graceful Degradation
 
-1. **OCR Failure** → Document indexed without text extraction; detection proceeds
-2. **Detection Failure** → Document indexed without objects; text extraction proceeds
-3. **Cache Failure** → Bypass cache; process normally
-4. **Timeout** → Return partial results with timeout flag
-5. **Backend Unavailable** → Queue for async processing; return error
+1. **Tesseract unavailable** → plugin reports a safe error result
+2. **ONNX Runtime unavailable** → detection returns an explicit failure message
+3. **Invalid inputs** → backend returns `success = false` with context
+4. **Backend startup failure** → manager keeps the module operational while the failure is surfaced to the caller
 
-### Error Codes (E6200–E6299)
+### Error Codes / failures
 
-- E6200: Unsupported image format
-- E6201: Image corrupted or invalid
-- E6202: Backend initialization failed
-- E6203: Processing timeout exceeded
-- E6204: Insufficient memory for processing
+The operational contract is the plugin interface's structured result types, not an undocumented `include/image_analysis/` API that is absent in the live tree.
 
 ## Integration Points
 
-### Content Indexing Pipeline
+### ThemisDB integration
 
-Image analysis results are integrated into the document indexing pipeline:
-- Extracted text added to document term index
-- Detected objects add to faceted navigation
-- Feature vectors enable similarity search
-
-### Query Processing
-
-Image queries can use analysis results:
-- "Find documents with cats and dogs"
-- "Find similar images to this one"
-- "Find documents mentioning 'John' in extracted text"
+- `include/plugins/image_analysis_interface.h` is the canonical plugin contract
+- `include/plugins/image_analysis_manager.h` owns backend discovery and capability routing
+- `src/image_analysis/CMakeLists.txt` wires optional runtime dependencies
+- `src/image_analysis/*.cpp` implement the actual plugin behaviour and dependency fallbacks
 
 ## See Also
 
-- [`ROADMAP.md`](ROADMAP.md) — Implementation phases and deliverables
-- [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md) — Planned features
-- [`../../include/image_analysis/image_processor.h`](../../include/image_analysis/image_processor.h) — Public API
+- [`README.md`](README.md) — module overview and current status
+- [`ROADMAP.md`](ROADMAP.md) — implementation phases and open items
+- [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md) — planned module enhancements
+- [`../../include/plugins/image_analysis_interface.h`](../../include/plugins/image_analysis_interface.h) — canonical contract
 
 ---
 
-### Direct Downstream Consumers (modules that use this module)
+### Direct Downstream Consumers
 
 | Module | Via | Notes |
 |--------|-----|-------|
-| `plugins` | `include/plugins/image_analysis_interface.h` (re-export from `include/image_analysis/`) | Plugin adapters for image analysis (`image_analysis_manager.h`, `tesseract_ocr_plugin.h`, `yolov8_onnx_plugin.h`) implement the shared interface (`include/plugins/`) |
-| `onnx_clip` | `include/plugins/image_analysis_interface.h` | ONNX CLIP plugin implements the shared image analysis interface for embedding-based vision queries (`src/onnx_clip/onnx_clip_plugin.h`) |
+| `plugins` | `include/plugins/image_analysis_interface.h` | Shared plugin contract for image analysis backends |
+| `onnx_clip` | `include/plugins/image_analysis_interface.h` | Embedding-oriented vision path shares the same interface |
+| `content` | manager + plugin selection | image processing is integrated via plugin resolution rather than a dedicated `include/image_analysis/` header tree |
