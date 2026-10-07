@@ -926,7 +926,7 @@ VectorIndexManager::Status VectorIndexManager::rebuildFromStorage() {
 					if (!qv || qv->size() != static_cast<size_t>(dim_)) {
 					  return true;
 					}
-					v.resize(dim_);
+					v.resize(static_cast<size_t>(dim_));
 					float s = static_cast<float>(*scaleOpt);
 					for (size_t i = 0; i < qv->size(); ++i) {
 						int8_t code = static_cast<int8_t>((*qv)[i]);
@@ -1021,7 +1021,7 @@ VectorIndexManager::incrementalReindex(float rebuild_threshold, std::string_view
 					if (!qv || qv->size() != static_cast<size_t>(dim_)) {
 					  return true;
 					}
-					v.resize(dim_);
+					v.resize(static_cast<size_t>(dim_));
 					float s = static_cast<float>(*scaleOpt);
 					for (size_t i = 0; i < qv->size(); ++i) {
 						int8_t code = static_cast<int8_t>((*qv)[i]);
@@ -1506,7 +1506,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 		
 		// Update threshold periodically using nth_element (partial sort)
 		if (heap.size() >= k && heap.size() % 32 == 0) {
-			std::nth_element(heap.begin(), heap.begin() + k, heap.end(),
+			std::nth_element(heap.begin(), heap.begin() + static_cast<std::ptrdiff_t>(k), heap.end(),
 				[](const Result& a, const Result& b) { return a.distance < b.distance; });
 			threshold = heap[k - 1].distance;
 			heap.resize(k);
@@ -1660,7 +1660,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 	
 	// Final partial sort: O(n log k) instead of O(n log n)
 	if (heap.size() > k) {
-		std::partial_sort(heap.begin(), heap.begin() + k, heap.end(),
+		std::partial_sort(heap.begin(), heap.begin() + static_cast<std::ptrdiff_t>(k), heap.end(),
 			[](const Result& a, const Result& b) { return a.distance < b.distance; });
 		heap.resize(k);
 	} else {
@@ -3746,7 +3746,7 @@ VectorIndexManager::searchWithRotation(
 			std::chrono::steady_clock::now() - rotate_start).count();
 		
 		// Perform standard search with rotated query
-		auto [status, results] = searchKnn(rotated_query, k, whitelistPks);
+		auto [status, results] = searchKnn(rotated_query, static_cast<size_t>(k), whitelistPks);
 		
 		// Log audit event if logger is set
 		if (status.ok) {

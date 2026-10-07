@@ -39,10 +39,10 @@ LearnedQuantizer::LearnedQuantizer(int dimension, const Config& config)
     
     // Pre-allocate storage
     if (config_.per_dimension) {
-        const size_t dimension = static_cast<size_t>(dimension_);
-        per_dim_thresholds_.resize(dimension);
-        per_dim_centroids_.resize(dimension);
-        for (size_t d = 0; d < dimension; ++d) {
+        const size_t dim_size = static_cast<size_t>(dimension_);
+        per_dim_thresholds_.resize(dim_size);
+        per_dim_centroids_.resize(dim_size);
+        for (size_t d = 0; d < dim_size; ++d) {
             per_dim_thresholds_[d].reserve(num_bins - 1);
             per_dim_centroids_[d].reserve(num_bins);
         }
@@ -210,7 +210,8 @@ std::vector<float> LearnedQuantizer::initializeThresholds(
         // Initialize at percentiles
         for (size_t t = 0; t + 1 < num_bins; ++t) {
             float percentile = static_cast<float>(t + 1) / static_cast<float>(num_bins_);
-            size_t idx = static_cast<size_t>(percentile * sorted_values.size());
+            const float values_count = static_cast<float>(sorted_values.size());
+            size_t idx = static_cast<size_t>(percentile * values_count);
             idx = std::min(idx, sorted_values.size() - 1);
             thresholds[t] = sorted_values[idx];
         }
@@ -307,7 +308,7 @@ std::vector<float> LearnedQuantizer::decode(const std::vector<uint8_t>& codes) c
         for (size_t d = 0; d < dimension; ++d) {
             int bin = static_cast<int>(codes[d]);
             if (bin >= 0 && bin < num_bins_) {
-                vector.push_back(per_dim_centroids_[d][bin]);
+                vector.push_back(per_dim_centroids_[d][static_cast<size_t>(bin)]);
             } else {
                 THEMIS_ERROR("LearnedQuantizer::decode - Invalid bin: {}", bin);
                 vector.push_back(0.0f);
@@ -344,7 +345,7 @@ std::vector<float> LearnedQuantizer::decode(const std::vector<uint8_t>& codes) c
 
                 int bin = static_cast<int>(codes[code_offset++]);
                 if (bin >= 0 && bin < num_bins_) {
-                    vector[i] = global_centroids_[bin] * scale;
+                    vector[i] = global_centroids_[static_cast<size_t>(bin)] * scale;
                 } else {
                     vector[i] = 0.0f;
                 }
@@ -390,7 +391,7 @@ float LearnedQuantizer::asymmetricDistance(const std::vector<float>& query,
                              bin, d);
                 return std::numeric_limits<float>::max();
             }
-            float diff = query[d] - per_dim_centroids_[d][bin];
+            float diff = query[d] - per_dim_centroids_[d][static_cast<size_t>(bin)];
             distance_sq += diff * diff;
         }
     } else {
@@ -421,7 +422,7 @@ float LearnedQuantizer::asymmetricDistance(const std::vector<float>& query,
                 }
                 int bin = static_cast<int>(codes[code_offset++]);
                 float reconstructed = (bin >= 0 && bin < num_bins_)
-                    ? global_centroids_[bin] * scale
+                    ? global_centroids_[static_cast<size_t>(bin)] * scale
                     : 0.0f;
                 float diff = query[i] - reconstructed;
                 distance_sq += diff * diff;
@@ -445,17 +446,19 @@ int LearnedQuantizer::findBin(float value, const std::vector<float>& thresholds)
 }
 
 float LearnedQuantizer::getCompressionRatio() const {
-    float original_bytes = static_cast<float>(dimension_ * sizeof(float));
+    float original_bytes = static_cast<float>(static_cast<size_t>(dimension_) * sizeof(float));
     float compressed_bytes = static_cast<float>(getEncodedSize());
     return original_bytes / compressed_bytes;
 }
 
 size_t LearnedQuantizer::getEncodedSize() const {
     if (config_.per_dimension) {
-        return dimension_;  // 1 byte per dimension
+        return static_cast<size_t>(dimension_);  // 1 byte per dimension
     } else {
-        int num_blocks = (dimension_ + config_.block_size - 1) / config_.block_size;
-        return num_blocks * (sizeof(float) + config_.block_size);  // scale + codes per block
+        const size_t block_size = static_cast<size_t>(config_.block_size);
+        const size_t num_blocks =
+            (static_cast<size_t>(dimension_) + block_size - 1) / block_size;
+        return num_blocks * (sizeof(float) + block_size);  // scale + codes per block
     }
 }
 

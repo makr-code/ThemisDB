@@ -121,9 +121,10 @@ ProductQuantizer::ProductQuantizer(int dimension, const Config& config)
                 dimension_, config_.num_subquantizers, subvector_dim_);
 #else
     // Fallback: Pre-allocate codebooks for custom implementation
-    codebooks_.resize(config_.num_subquantizers);
+    codebooks_.resize(static_cast<size_t>(config_.num_subquantizers));
     for (auto& codebook : codebooks_) {
-        codebook.resize(config_.num_centroids, std::vector<float>(subvector_dim_));
+        codebook.resize(static_cast<size_t>(config_.num_centroids),
+                        std::vector<float>(static_cast<size_t>(subvector_dim_)));
     }
     
     THEMIS_INFO("ProductQuantizer created with fallback implementation: dim={}, M={}, dsub={}",
@@ -213,8 +214,8 @@ ProductQuantizer::Status ProductQuantizer::train(
                 return Status::Error("Training subvector slice out of range");
             }
             std::vector<float> subvec(
-                vec.begin() + start_dim,
-                vec.begin() + start_dim + static_cast<size_t>(subvector_dim_)
+                vec.begin() + static_cast<std::ptrdiff_t>(start_dim),
+                vec.begin() + static_cast<std::ptrdiff_t>(start_dim + static_cast<size_t>(subvector_dim_))
             );
             subvector_data.push_back(std::move(subvec));
         }
@@ -337,7 +338,7 @@ std::vector<float> ProductQuantizer::decode(const std::vector<uint8_t>& codes) c
 #else
     // Fallback: Custom decoding
     std::vector<float> reconstructed;
-    reconstructed.reserve(dimension_);
+    reconstructed.reserve(static_cast<size_t>(dimension_));
     
     // Concatenate centroid vectors
     for (size_t sq_index = 0; sq_index < expected_subquantizers; ++sq_index) {
@@ -633,7 +634,7 @@ std::vector<std::vector<float>> ProductQuantizer::runKMeans(
             int best_cluster = 0;
             
             for (int j = 0; j < k; ++j) {
-                float dist = l2Distance(subvector_data[i], centroids[j]);
+                float dist = l2Distance(subvector_data[i], centroids[static_cast<size_t>(j)]);
                 if (dist < min_dist) {
                     min_dist = dist;
                     best_cluster = j;
@@ -653,7 +654,7 @@ std::vector<std::vector<float>> ProductQuantizer::runKMeans(
                 THEMIS_WARN("ProductQuantizer::runKMeans - Cluster assignment out of range");
                 return {};
             }
-            counts[cluster]++;
+            counts[static_cast<size_t>(cluster)]++;
             
             for (size_t d = 0; d < static_cast<size_t>(subvector_dim_); ++d) {
                 new_centroids[static_cast<size_t>(cluster)][d] += subvector_data[i][d];
