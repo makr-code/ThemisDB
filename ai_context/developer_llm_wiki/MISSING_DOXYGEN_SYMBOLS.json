@@ -5,30 +5,41 @@
   "findings": [
     {
       "rule": "missing_symbol",
-      "symbol": "lk",
-      "count": 5,
+      "symbol": "getLastOcrResult",
+      "count": 1,
       "scope": "src",
       "scope_breakdown": {
-        "src": 5
+        "src": 1
       },
       "source_examples": [
         {
           "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/tesseract_ocr_plugin.cpp",
-          "line": 405,
+          "line": 404,
+          "kind": "function",
+          "name": "getLastOcrResult",
+          "scope": "src"
+        }
+      ]
+    },
+    {
+      "rule": "missing_symbol",
+      "symbol": "lk",
+      "count": 2,
+      "scope": "src",
+      "scope_breakdown": {
+        "src": 2
+      },
+      "source_examples": [
+        {
+          "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/yolov8_onnx_plugin.cpp",
+          "line": 628,
           "kind": "function",
           "name": "lk",
           "scope": "src"
         },
         {
           "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/yolov8_onnx_plugin.cpp",
-          "line": 540,
-          "kind": "function",
-          "name": "lk",
-          "scope": "src"
-        },
-        {
-          "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/yolov8_onnx_plugin.cpp",
-          "line": 550,
+          "line": 640,
           "kind": "function",
           "name": "lk",
           "scope": "src"

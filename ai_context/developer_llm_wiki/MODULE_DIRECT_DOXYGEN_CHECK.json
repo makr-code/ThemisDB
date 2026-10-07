@@ -8,13 +8,13 @@
   "source_symbols_after_filter": 15,
   "doxygen_members_total": 139,
   "doxygen_members_after_filter": 67,
-  "source_symbol_names": 9,
+  "source_symbol_names": 12,
   "doxygen_symbol_names": 33,
-  "source_not_in_doxygen_count": 3,
-  "doxygen_not_in_source_count": 27,
+  "source_not_in_doxygen_count": 4,
+  "doxygen_not_in_source_count": 25,
   "coverage": {
     "symbol_presence_ratio": 0.6667,
-    "missing_symbol_count": 3,
+    "missing_symbol_count": 4,
     "missing_brief_count": 59,
     "missing_param_docs_count": 31,
     "missing_return_docs_count": 35
@@ -59,14 +59,14 @@
     "externally_scoped_symbols": []
   },
   "by_rule": {
-    "missing_symbol": 3,
+    "missing_symbol": 4,
     "missing_param_docs": 31,
     "missing_return_docs": 35,
     "missing_brief": 59
   },
   "by_rule_scope": {
     "missing_symbol": {
-      "src": 3
+      "src": 4
     },
     "missing_param_docs": {
       "benchmarks": 29,
@@ -83,7 +83,7 @@
     }
   },
   "by_scope": {
-    "src": 9,
+    "src": 10,
     "tests": 0,
     "benchmarks": 113,
     "include": 0,
@@ -91,6 +91,7 @@
   },
   "samples": {
     "source_not_in_doxygen": [
+      "getLastOcrResult",
       "lk",
       "loadLabels",
       "reloadModel"
@@ -111,44 +112,55 @@
       "generateRandomImage",
       "generateRandomImages",
       "generate_test_image",
-      "getBackend",
       "getInferenceCount",
       "getInfo",
       "getStatistics",
       "healthCheck",
       "initialize",
-      "isReady",
       "postprocess",
       "preprocess",
-      "runInference"
+      "runInference",
+      "runOcr",
+      "warmup"
     ],
     "findings": [
       {
         "rule": "missing_symbol",
-        "symbol": "lk",
-        "count": 5,
+        "symbol": "getLastOcrResult",
+        "count": 1,
         "scope": "src",
         "scope_breakdown": {
-          "src": 5
+          "src": 1
         },
         "source_examples": [
           {
             "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/tesseract_ocr_plugin.cpp",
-            "line": 405,
+            "line": 404,
+            "kind": "function",
+            "name": "getLastOcrResult",
+            "scope": "src"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "lk",
+        "count": 2,
+        "scope": "src",
+        "scope_breakdown": {
+          "src": 2
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/yolov8_onnx_plugin.cpp",
+            "line": 628,
             "kind": "function",
             "name": "lk",
             "scope": "src"
           },
           {
             "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/yolov8_onnx_plugin.cpp",
-            "line": 540,
-            "kind": "function",
-            "name": "lk",
-            "scope": "src"
-          },
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/yolov8_onnx_plugin.cpp",
-            "line": 550,
+            "line": 640,
             "kind": "function",
             "name": "lk",
             "scope": "src"
@@ -378,16 +390,6 @@
         "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
         "line": 329,
         "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "Iterations",
-        "kind": "function",
-        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
-        "line": 329,
-        "scope": "benchmarks",
-        "param_total": 1,
-        "param_docs_count": 0
       }
     ]
   }

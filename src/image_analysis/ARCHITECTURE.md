@@ -18,25 +18,29 @@ The image analysis module is a plugin-based vision capability for ThemisDB. The 
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│  ImageAnalysisManager / PluginConfig                        │
-│  • discovers + registers backend implementations             │
-│  • chooses backends by capability and runtime availability   │
-└──────────────────────┬───────────────────────────────────────┘
-                      │
-        ┌─────────────┼──────────────┐
-        │             │              │
-        ▼             ▼              ▼
-┌───────────────┐ ┌──────────────┐ ┌────────────────────┐
-│ IImageAnalysisBackend │ │ TesseractOCRPlugin │ │ YOLOv8OnnxPlugin │
-│ common contract │ │ OCR + layout boxes │ │ detection + NMS │
-└───────┬───────┘ └───────┬──────────┘ └─────────┬──────────┘
-       │                   │                       │
-       └───────────────────┴───────────────────────┘
-                               │
-                               ▼
-                    Structured result objects
-                    (DetectionResult, EmbeddingResult,
-                    CaptionResult, PluginInfo)
+│ ImageAnalysisManager / PluginConfig                          │
+│ • discovers + registers backend implementations               │
+│ • chooses backends by capability and runtime availability     │
+└──────────────────────────────┬───────────────────────────────┘
+                              │
+                              ▼
+                   ┌──────────────────────────────┐
+                   │ IImageAnalysisBackend        │
+                   │ common contract              │
+                   └──────────────┬───────────────┘
+                                  │
+                 ┌────────────────┼────────────────┐
+                 │                │                │
+                 ▼                ▼                ▼
+      ┌────────────────────┐ ┌────────────────────┐ ┌────────────────────┐
+      │ TesseractOCRPlugin  │ │ YOLOv8OnnxPlugin    │ │ Future plugin(s)    │
+      │ OCR + layout boxes  │ │ detection + NMS     │ │ adapter expansion   │
+      └────────────────────┘ └────────────────────┘ └────────────────────┘
+                                  │
+                                  ▼
+                   Structured result objects
+                   (DetectionResult, EmbeddingResult,
+                   CaptionResult, PluginInfo)
 ```
 
 ## Core Components
