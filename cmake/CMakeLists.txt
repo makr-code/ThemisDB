@@ -5492,7 +5492,9 @@ function(themis_link_zlib_if_available _target_name)
         # Keep Linux link closure explicit for transitive RocksDB/themis_security
         # zlib symbol usage (deflate/inflate), even when imported targets exist.
         if(THEMIS_LD_SUPPORTS_NO_AS_NEEDED AND THEMIS_LD_SUPPORTS_AS_NEEDED)
-            target_link_libraries(${_target_name} PRIVATE "-Wl,--no-as-needed" ${_themis_zlib_link_item} "-Wl,--as-needed")
+            target_link_libraries(${_target_name} PRIVATE "-Wl,--no-as-needed")
+            target_link_libraries(${_target_name} PRIVATE ${_themis_zlib_link_item})
+            target_link_libraries(${_target_name} PRIVATE "-Wl,--as-needed")
         else()
             target_link_libraries(${_target_name} PRIVATE ${_themis_zlib_link_item})
         endif()
