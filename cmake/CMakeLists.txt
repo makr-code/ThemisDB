@@ -5447,7 +5447,6 @@ endfunction()
 
 function(themis_link_zlib_if_available _target_name)
     set(_themis_zlib_linked FALSE)
-    set(_themis_zlib_linked_via_imported_target FALSE)
     if(TARGET ZLIB::ZLIB)
         foreach(_themis_zlib_imported_property
                 IMPORTED_LOCATION
@@ -5469,14 +5468,13 @@ function(themis_link_zlib_if_available _target_name)
         endif()
         if(_themis_zlib_linked)
             target_link_libraries(${_target_name} PRIVATE ZLIB::ZLIB)
-            set(_themis_zlib_linked_via_imported_target TRUE)
         endif()
     endif()
-    if(NOT _themis_zlib_linked AND ZLIB_LIBRARY)
+    if(NOT _themis_zlib_linked AND ZLIB_LIBRARY AND NOT CMAKE_SYSTEM_NAME STREQUAL "Linux")
         target_link_libraries(${_target_name} PRIVATE ${ZLIB_LIBRARY})
         set(_themis_zlib_linked TRUE)
     endif()
-    if(CMAKE_SYSTEM_NAME STREQUAL "Linux" AND (_themis_zlib_linked_via_imported_target OR NOT _themis_zlib_linked))
+    if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
         # Keep Linux link closure explicit for transitive RocksDB/themis_security
         # zlib symbol usage (deflate/inflate), even when imported targets exist.
         # Some toolchains still drop zlib under --as-needed without plain -lz.
