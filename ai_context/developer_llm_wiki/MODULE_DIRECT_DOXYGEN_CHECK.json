@@ -1,23 +1,23 @@
 {
-  "module": "llama_cpp",
+  "module": "image_analysis",
   "source_mode": "direct_doxygen_markers",
   "source_graph_used": false,
   "source_graph_path": "/home/runner/work/ThemisDB/ThemisDB/ai_working/sourcecode_graph.json",
-  "source_files_scanned": 13,
-  "source_symbols_total": 47,
-  "source_symbols_after_filter": 29,
-  "doxygen_members_total": 223,
-  "doxygen_members_after_filter": 90,
-  "source_symbol_names": 24,
-  "doxygen_symbol_names": 83,
+  "source_files_scanned": 7,
+  "source_symbols_total": 15,
+  "source_symbols_after_filter": 15,
+  "doxygen_members_total": 139,
+  "doxygen_members_after_filter": 67,
+  "source_symbol_names": 12,
+  "doxygen_symbol_names": 33,
   "source_not_in_doxygen_count": 4,
-  "doxygen_not_in_source_count": 63,
+  "doxygen_not_in_source_count": 25,
   "coverage": {
-    "symbol_presence_ratio": 0.8333,
+    "symbol_presence_ratio": 0.6667,
     "missing_symbol_count": 4,
-    "missing_brief_count": 58,
-    "missing_param_docs_count": 26,
-    "missing_return_docs_count": 33
+    "missing_brief_count": 59,
+    "missing_param_docs_count": 31,
+    "missing_return_docs_count": 35
   },
   "ownership": {
     "path_policy": {
@@ -49,90 +49,84 @@
       "classification_rule": "everything outside internal roots is treated as external / third-party boundary"
     },
     "source_symbols": {
-      "internal": 29,
+      "internal": 15,
       "external": 0
     },
     "doxygen_members": {
-      "internal": 82,
-      "external": 8
+      "internal": 60,
+      "external": 7
     },
     "externally_scoped_symbols": []
   },
   "by_rule": {
     "missing_symbol": 4,
-    "missing_brief": 58,
-    "missing_param_docs": 26,
-    "missing_return_docs": 33
+    "missing_param_docs": 31,
+    "missing_return_docs": 35,
+    "missing_brief": 59
   },
   "by_rule_scope": {
     "missing_symbol": {
       "src": 4
     },
-    "missing_brief": {
-      "benchmarks": 20,
-      "other": 6,
-      "include": 16,
-      "src": 4,
-      "tests": 12
-    },
     "missing_param_docs": {
-      "benchmarks": 18,
-      "include": 2,
-      "src": 1,
-      "tests": 5
+      "benchmarks": 29,
+      "src": 2
     },
     "missing_return_docs": {
-      "benchmarks": 13,
-      "include": 7,
-      "src": 2,
-      "tests": 11
+      "benchmarks": 33,
+      "src": 2
+    },
+    "missing_brief": {
+      "benchmarks": 51,
+      "other": 6,
+      "src": 2
     }
   },
   "by_scope": {
-    "src": 11,
-    "tests": 28,
-    "benchmarks": 51,
-    "include": 25,
+    "src": 10,
+    "tests": 0,
+    "benchmarks": 113,
+    "include": 0,
     "other": 6
   },
   "samples": {
     "source_not_in_doxygen": [
-      "file",
-      "lock",
-      "themis_llm_create",
-      "themis_llm_destroy"
+      "getLastOcrResult",
+      "lk",
+      "loadLabels",
+      "reloadModel"
     ],
     "doxygen_not_in_source": [
       "Arg",
-      "LLCPG1_TTFT_Stub_Baseline",
-      "LLCPG2_BatchEmbedding_Stub",
-      "LLCPG3_LoRALoad_P99",
-      "LLCPG4_RegressionBaseline",
-      "LlamaCppBenchFixture",
-      "LoRAEntry",
-      "ModelLoadingGuard",
-      "StubLlamaAccelGuard",
-      "StubLlamaRegistry",
-      "StubTokenStore",
-      "THEMIS_LLM_PLUGIN",
-      "Unit",
-      "accelerated",
-      "attempts",
-      "computeTargetLogitsForTokens",
-      "createAdapter",
-      "createPlugin",
-      "ensureReady",
-      "extractTokenCount",
-      "fallbacks",
-      "fileExists",
-      "findTensorByName",
-      "generateBatch",
-      "generateDraftTokens"
+      "Args",
+      "BenchmarkMockPlugin",
+      "Impl",
+      "Iterations",
+      "RealisticLatencyPlugin",
+      "TesseractPluginTest",
+      "Threads",
+      "YOLOv8PluginTest",
+      "generateCaption",
+      "generateEmbedding",
+      "generateEmbeddingBatch",
+      "generateRandomImage",
+      "generateRandomImages",
+      "generate_test_image",
+      "getInferenceCount",
+      "getInfo",
+      "getStatistics",
+      "healthCheck",
+      "initialize",
+      "postprocess",
+      "preprocess",
+      "runInference",
+      "runOcr",
+      "warmup"
     ],
     "findings": [
       {
         "rule": "missing_symbol",
-        "symbol": "file",
+        "symbol": "getLastOcrResult",
         "count": 1,
         "scope": "src",
         "scope_breakdown": {
@@ -140,49 +134,42 @@
         },
         "source_examples": [
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/src/llama_cpp/llama_cpp_plugin_validation_gates.cpp",
-            "line": 223,
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/tesseract_ocr_plugin.cpp",
+            "line": 404,
             "kind": "function",
-            "name": "file",
+            "name": "getLastOcrResult",
             "scope": "src"
           }
         ]
       },
       {
         "rule": "missing_symbol",
-        "symbol": "lock",
-        "count": 4,
+        "symbol": "lk",
+        "count": 2,
         "scope": "src",
         "scope_breakdown": {
-          "src": 4
+          "src": 2
         },
         "source_examples": [
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/src/llama_cpp/llama_cpp_plugin.cpp",
-            "line": 153,
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/yolov8_onnx_plugin.cpp",
+            "line": 628,
             "kind": "function",
-            "name": "lock",
+            "name": "lk",
             "scope": "src"
           },
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/src/llama_cpp/llama_cpp_plugin.cpp",
-            "line": 178,
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/yolov8_onnx_plugin.cpp",
+            "line": 640,
             "kind": "function",
-            "name": "lock",
-            "scope": "src"
-          },
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/src/llama_cpp/llama_cpp_plugin.cpp",
-            "line": 223,
-            "kind": "function",
-            "name": "lock",
+            "name": "lk",
             "scope": "src"
           }
         ]
       },
       {
         "rule": "missing_symbol",
-        "symbol": "themis_llm_create",
+        "symbol": "loadLabels",
         "count": 1,
         "scope": "src",
         "scope_breakdown": {
@@ -190,17 +177,17 @@
         },
         "source_examples": [
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/src/llama_cpp/llama_cpp_plugin.cpp",
-            "line": 1064,
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/yolov8_onnx_plugin.cpp",
+            "line": 86,
             "kind": "function",
-            "name": "themis_llm_create",
+            "name": "loadLabels",
             "scope": "src"
           }
         ]
       },
       {
         "rule": "missing_symbol",
-        "symbol": "themis_llm_destroy",
+        "symbol": "reloadModel",
         "count": 1,
         "scope": "src",
         "scope_breakdown": {
@@ -208,190 +195,200 @@
         },
         "source_examples": [
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/src/llama_cpp/llama_cpp_plugin.cpp",
-            "line": 1074,
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/yolov8_onnx_plugin.cpp",
+            "line": 668,
             "kind": "function",
-            "name": "themis_llm_destroy",
+            "name": "reloadModel",
             "scope": "src"
           }
         ]
       },
       {
-        "rule": "missing_brief",
-        "symbol": "getEnvOrEmpty",
-        "kind": "function",
-        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
-        "line": 46,
-        "scope": "benchmarks"
-      },
-      {
         "rule": "missing_param_docs",
-        "symbol": "getEnvOrEmpty",
+        "symbol": "generate_mock_image",
         "kind": "function",
-        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
-        "line": 46,
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 189,
         "scope": "benchmarks",
-        "param_total": 1,
+        "param_total": 3,
         "param_docs_count": 0
       },
       {
         "rule": "missing_return_docs",
-        "symbol": "getEnvOrEmpty",
+        "symbol": "generate_mock_image",
         "kind": "function",
-        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
-        "line": 46,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "resolveCompileTimeModelPath",
-        "kind": "function",
-        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
-        "line": 51,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_return_docs",
-        "symbol": "resolveCompileTimeModelPath",
-        "kind": "function",
-        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
-        "line": 51,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "resolveModelPath",
-        "kind": "function",
-        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
-        "line": 69,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_return_docs",
-        "symbol": "resolveModelPath",
-        "kind": "function",
-        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
-        "line": 69,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "resolveGpuLayers",
-        "kind": "function",
-        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
-        "line": 77,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_return_docs",
-        "symbol": "resolveGpuLayers",
-        "kind": "function",
-        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
-        "line": 77,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "fileExists",
-        "kind": "function",
-        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
-        "line": 89,
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 189,
         "scope": "benchmarks"
       },
       {
         "rule": "missing_param_docs",
-        "symbol": "fileExists",
+        "symbol": "generate_mock_jpeg",
         "kind": "function",
-        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
-        "line": 89,
-        "scope": "benchmarks",
-        "param_total": 1,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_return_docs",
-        "symbol": "fileExists",
-        "kind": "function",
-        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
-        "line": 89,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "toLowerCopy",
-        "kind": "function",
-        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
-        "line": 97,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "toLowerCopy",
-        "kind": "function",
-        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
-        "line": 97,
-        "scope": "benchmarks",
-        "param_total": 1,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_return_docs",
-        "symbol": "toLowerCopy",
-        "kind": "function",
-        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
-        "line": 97,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "isGemmaArtifact",
-        "kind": "function",
-        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
-        "line": 104,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "isGemmaArtifact",
-        "kind": "function",
-        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
-        "line": 104,
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 213,
         "scope": "benchmarks",
         "param_total": 2,
         "param_docs_count": 0
       },
       {
         "rule": "missing_return_docs",
-        "symbol": "isGemmaArtifact",
+        "symbol": "generate_mock_jpeg",
         "kind": "function",
-        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
-        "line": 104,
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 213,
         "scope": "benchmarks"
       },
       {
         "rule": "missing_brief",
-        "symbol": "parseArrayLength",
+        "symbol": "Arg",
         "kind": "function",
-        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
-        "line": 110,
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 256,
         "scope": "benchmarks"
       },
       {
         "rule": "missing_param_docs",
-        "symbol": "parseArrayLength",
+        "symbol": "Arg",
         "kind": "function",
-        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
-        "line": 110,
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 256,
         "scope": "benchmarks",
         "param_total": 1,
         "param_docs_count": 0
       },
       {
-        "rule": "missing_return_docs",
-        "symbol": "parseArrayLength",
+        "rule": "missing_brief",
+        "symbol": "Arg",
         "kind": "function",
-        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
-        "line": 110,
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 298,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "Arg",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 298,
+        "scope": "benchmarks",
+        "param_total": 1,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "Arg",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 358,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "Arg",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 358,
+        "scope": "benchmarks",
+        "param_total": 1,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "Threads",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 410,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "Threads",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 410,
+        "scope": "benchmarks",
+        "param_total": 1,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "Args",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 503,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "Args",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 503,
+        "scope": "benchmarks",
+        "param_total": 1,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "simulate_computation",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+        "line": 49,
+        "scope": "benchmarks",
+        "param_total": 1,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "generate_test_image",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+        "line": 64,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "generate_test_image",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+        "line": 64,
+        "scope": "benchmarks",
+        "param_total": 2,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_return_docs",
+        "symbol": "generate_test_image",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+        "line": 64,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "Arg",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+        "line": 284,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "Arg",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+        "line": 284,
+        "scope": "benchmarks",
+        "param_total": 1,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "Iterations",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+        "line": 329,
         "scope": "benchmarks"
       }
     ]
