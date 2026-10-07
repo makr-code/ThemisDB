@@ -34,7 +34,7 @@ ResidualQuantizer::ResidualQuantizer(int dimension, const Config& config)
     }
     
     // Pre-allocate stage quantizers
-    stage_quantizers_.reserve(config_.num_stages);
+    stage_quantizers_.reserve(static_cast<size_t>(config_.num_stages));
 }
 
 /**
@@ -89,7 +89,7 @@ ResidualQuantizer::Status ResidualQuantizer::train(
         if (stage < config_.num_stages - 1) {
             THEMIS_DEBUG("ResidualQuantizer::train - Computing residuals for stage {}",
                         stage + 2);
-            residuals = computeResiduals(residuals, stage_quantizers_[stage].get());
+            residuals = computeResiduals(residuals, stage_quantizers_[static_cast<size_t>(stage)].get());
         }
     }
     
@@ -117,8 +117,8 @@ std::vector<std::vector<float>> ResidualQuantizer::computeResiduals(
          * @param[in] dimension_ Input parameter.
          * @return Return value.
          */
-        std::vector<float> residual(dimension_);
-        for (int d = 0; d < dimension_; d++) {
+        std::vector<float> residual(static_cast<size_t>(dimension_));
+        for (size_t d = 0; d < static_cast<size_t>(dimension_); ++d) {
             residual[d] = vec[d] - approx[d];
         }
         
@@ -141,20 +141,20 @@ std::vector<uint8_t> ResidualQuantizer::encode(const std::vector<float>& vector)
     }
     
     std::vector<uint8_t> all_codes;
-    all_codes.reserve(config_.num_stages * config_.num_subquantizers);
+    all_codes.reserve(static_cast<size_t>(config_.num_stages) * static_cast<size_t>(config_.num_subquantizers));
     
     std::vector<float> residual = vector;
     
     // Encode through all stages
     for (int stage = 0; stage < config_.num_stages; stage++) {
         // Encode residual with this stage's quantizer
-        auto stage_codes = stage_quantizers_[stage]->encode(residual);
+        auto stage_codes = stage_quantizers_[static_cast<size_t>(stage)]->encode(residual);
         all_codes.insert(all_codes.end(), stage_codes.begin(), stage_codes.end());
         
         // Compute residual for next stage
         if (stage < config_.num_stages - 1) {
-            auto approx = stage_quantizers_[stage]->decode(stage_codes);
-            for (int d = 0; d < dimension_; d++) {
+            auto approx = stage_quantizers_[static_cast<size_t>(stage)]->decode(stage_codes);
+            for (size_t d = 0; d < static_cast<size_t>(dimension_); ++d) {
                 residual[d] -= approx[d];
             }
         }
@@ -176,23 +176,23 @@ std::vector<float> ResidualQuantizer::decode(const std::vector<uint8_t>& codes) 
         return {};
     }
     
-    std::vector<float> result(dimension_, 0.0f);
+    std::vector<float> result(static_cast<size_t>(dimension_), 0.0f);
     
-    int code_offset = 0;
-    int codes_per_stage = config_.num_subquantizers;
+    size_t code_offset = 0;
+    const size_t codes_per_stage = static_cast<size_t>(config_.num_subquantizers);
     
     // Decode and sum all stages
     for (int stage = 0; stage < config_.num_stages; stage++) {
         // Extract codes for this stage
         std::vector<uint8_t> stage_codes(
-            codes.begin() + code_offset,
-            codes.begin() + code_offset + codes_per_stage
+            codes.begin() + static_cast<std::ptrdiff_t>(code_offset),
+            codes.begin() + static_cast<std::ptrdiff_t>(code_offset + codes_per_stage)
         );
         
         // Decode and add to result
-        auto stage_approx = stage_quantizers_[stage]->decode(stage_codes);
+        auto stage_approx = stage_quantizers_[static_cast<size_t>(stage)]->decode(stage_codes);
         
-        for (int d = 0; d < dimension_; d++) {
+        for (size_t d = 0; d < static_cast<size_t>(dimension_); ++d) {
             result[d] += stage_approx[d];
         }
         
@@ -227,21 +227,21 @@ float ResidualQuantizer::asymmetricDistance(const std::vector<float>& query,
     std::vector<float> query_residual = query;
     float total_distance_sq = 0.0f;
     
-    int code_offset = 0;
-    int codes_per_stage = config_.num_subquantizers;
+    size_t code_offset = 0;
+    const size_t codes_per_stage = static_cast<size_t>(config_.num_subquantizers);
     
     for (int stage = 0; stage < config_.num_stages; stage++) {
         // Extract codes for this stage
         std::vector<uint8_t> stage_codes(
-            codes.begin() + code_offset,
-            codes.begin() + code_offset + codes_per_stage
+            codes.begin() + static_cast<std::ptrdiff_t>(code_offset),
+            codes.begin() + static_cast<std::ptrdiff_t>(code_offset + codes_per_stage)
         );
         
         // Decode stage approximation
-        auto stage_approx = stage_quantizers_[stage]->decode(stage_codes);
+        auto stage_approx = stage_quantizers_[static_cast<size_t>(stage)]->decode(stage_codes);
         
         // Accumulate squared distance and update residual
-        for (int d = 0; d < dimension_; d++) {
+        for (size_t d = 0; d < static_cast<size_t>(dimension_); ++d) {
             float diff = query_residual[d] - stage_approx[d];
             total_distance_sq += diff * diff;
             

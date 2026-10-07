@@ -613,17 +613,17 @@ float VectorIndexManager::distance(const std::vector<float>& a, const std::vecto
 		// to align with expected semantics for generated test embeddings ((i + j)/1000 pattern).
 		if (isVectorEncryptionEnabled()) {
 			std::vector<float> b_adj = b;
-			const int n = b_adj.size();
+			const size_t n = b_adj.size();
 			double sumj = 0.0, sumj2 = 0.0, sumb = 0.0, sumjb = 0.0;
-			for (int j = 0; j < n; ++j) {
-				sumj += j;
+			for (size_t j = 0; j < n; ++j) {
+				sumj += static_cast<double>(j);
 				sumj2 += static_cast<double>(j) * static_cast<double>(j);
 				sumb += static_cast<double>(b_adj[j]);
 				sumjb += static_cast<double>(j) * static_cast<double>(b_adj[j]);
 			}
 			double denom = static_cast<double>(n) * sumj2 - sumj * sumj;
 			double m = (std::fabs(denom) > 1e-12) ? (static_cast<double>(n) * sumjb - sumj * sumb) / denom : 0.0;
-			for (int j = 0; j < n; ++j) {
+			for (size_t j = 0; j < n; ++j) {
 				b_adj[j] = static_cast<float>(static_cast<double>(b_adj[j]) - m * static_cast<double>(j));
 			}
 			// Use L2 distance on detrended vectors to emphasize magnitude match
@@ -1508,7 +1508,7 @@ VectorIndexManager::bruteForceSearch_(const std::vector<float>& query, size_t k,
 		if (heap.size() >= k && heap.size() % 32 == 0) {
 			std::nth_element(heap.begin(), heap.begin() + k, heap.end(),
 				[](const Result& a, const Result& b) { return a.distance < b.distance; });
-			threshold = heap[static_cast<int>(k - 1)].distance;
+			threshold = heap[k - 1].distance;
 			heap.resize(k);
 		}
 	};
@@ -2222,7 +2222,7 @@ VectorIndexManager::searchKnnPreFiltered(
 		if (auto cfgBlob = db_.get("config:vector")) {
 			std::string s(cfgBlob->begin(), cfgBlob->end());
 			auto j = nlohmann::json::parse(s);
-			maxFilterScanSize = j.value("max_filter_scan_size", 100000);
+			maxFilterScanSize = j.value<size_t>("max_filter_scan_size", 100000);
 		}
 	} catch (...) {
 		// Ignore parse errors, use default
@@ -2513,7 +2513,7 @@ VectorIndexManager::searchKnnRadiusPreFiltered(
 		if (auto cfgBlob = db_.get("config:vector")) {
 			std::string s(cfgBlob->begin(), cfgBlob->end());
 			auto j = nlohmann::json::parse(s);
-			maxFilterScanSize = j.value("max_filter_scan_size", 100000);
+			maxFilterScanSize = j.value<size_t>("max_filter_scan_size", 100000);
 		}
 	} catch (...) {}
 
@@ -3267,7 +3267,7 @@ VectorIndexManager::getStatistics() const {
 	for (float d : distances) {
 		sum += d;
 	}
-	stats.mean_distance = sum / distances.size();
+	stats.mean_distance = sum / static_cast<float>(distances.size());
 	
 	// Standard deviation
 	float sq_sum = 0.0f;
@@ -3275,7 +3275,7 @@ VectorIndexManager::getStatistics() const {
 		float diff = d - stats.mean_distance;
 		sq_sum += diff * diff;
 	}
-	stats.std_dev_distance = std::sqrt(sq_sum / distances.size());
+	stats.std_dev_distance = std::sqrt(sq_sum / static_cast<float>(distances.size()));
 
 	return {Status::OK(), stats};
 }
@@ -3292,20 +3292,21 @@ VectorIndexManager::computeCentroid() const {
 		return {Status::Error("computeCentroid: No vectors in index"), std::vector<float>()};
 	}
 
-	std::vector<float> centroid(dim_, 0.0f);
+	std::vector<float> centroid(static_cast<size_t>(dim_), 0.0f);
+	const size_t dim_size = static_cast<size_t>(dim_);
 	
 	for (const auto& [pk, vec] : cache_) {
 		if (vec.size() != static_cast<size_t>(dim_)) {
 			continue;
 		}
-		for (int i = 0; i < dim_; ++i) {
+		for (size_t i = 0; i < dim_size; ++i) {
 			centroid[i] += vec[i];
 		}
 	}
 	
 	// Average
-	for (int i = 0; i < dim_; ++i) {
-		centroid[i] /= cache_.size();
+	for (size_t i = 0; i < dim_size; ++i) {
+		centroid[i] /= static_cast<float>(cache_.size());
 	}
 	
 	return {Status::OK(), centroid};
@@ -3328,21 +3329,22 @@ VectorIndexManager::computeVariance() const {
 		return {st, std::vector<float>()};
 	}
 
-	std::vector<float> variance(dim_, 0.0f);
+	std::vector<float> variance(static_cast<size_t>(dim_), 0.0f);
+	const size_t dim_size = static_cast<size_t>(dim_);
 	
 	for (const auto& [pk, vec] : cache_) {
 		if (vec.size() != static_cast<size_t>(dim_)) {
 			continue;
 		}
-		for (int i = 0; i < dim_; ++i) {
+		for (size_t i = 0; i < dim_size; ++i) {
 			float diff = vec[i] - centroid[i];
 			variance[i] += diff * diff;
 		}
 	}
 	
 	// Divide by count
-	for (int i = 0; i < dim_; ++i) {
-		variance[i] /= cache_.size();
+	for (size_t i = 0; i < dim_size; ++i) {
+		variance[i] /= static_cast<float>(cache_.size());
 	}
 	
 	return {Status::OK(), variance};
