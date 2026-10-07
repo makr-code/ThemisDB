@@ -1,14 +1,3 @@
-/**
- * @file llama_cpp_registrar.cpp
- * @brief Canonical Doxygen file header for ThemisDB-generated maturity metadata.
- * @version 0.0.10
- * @note Maturity: 🟢 PRODUCTION-READY
- * @note Score: 84/100
- * @note Status: Production Ready
- * @note This block is auto-generated and will be overwritten.
- */
-
-
 #include "llama_cpp/llama_cpp_registrar.h"
 #include <stdexcept>
 #include "llm/llm_plugin_manager.h"
@@ -82,22 +71,8 @@ LlamaCppPluginRegistrar::defaultReloadCallback() {
                 return plugin.loadModel(path, config);
             }
         }
-        // STUB/SIMULATION NOTE:
-        // Purpose: Allow LlamaCppPlugin hot-plug reload to succeed without a
-        //   real llama.cpp model file, for environments where the model is not
-        //   installed or has been removed (CI, development builds, model
-        //   swap operations in progress).
-        // Activation: config contains no "model_path" key, or model_path is
-        //   empty.
-        // Production Delta: In explicit stub-mode test builds, callback
-        //   reports success without loading a model. In production builds,
-        //   callback fails closed.
-        // Removal Plan: Ensure the hot-plug config always provides a valid
-        //   model_path before invoking reload.  Once THEMIS_MODEL_DIR is set
-        //   and model files are present, this path should never be reached.
-        // Roadmap ref: src/llm/FUTURE_ENHANCEMENTS.md §"LlamaCpp Plugin Model Reload"
-        // Fail closed: reloading without a model path must signal failure
-        // in non-stub production builds.
+        // No model path means reload is not possible in production; the
+        // registrar must fail closed unless a stub/test override is active.
     #ifdef THEMIS_LLAMA_CPP_STUB_MODE
         return true;
     #else
