@@ -443,6 +443,7 @@ jobs:
           type=gha,mode=max,scope=themisdb-docker-unified-${{ steps.release-context.outputs.base_image }}-base
           type=gha,mode=max,scope=themisdb-docker-unified
           type=gha,mode=max,scope=themisdb-docker-unified-${{ github.ref_name || 'detached' }}
+        no-cache-filters: runtime
         # Only generate SBOM and provenance for release builds to save ~5-10 min in non-release runs.
         provenance: ${{ steps.release-context.outputs.is_release == 'true' }}
         sbom: ${{ steps.release-context.outputs.is_release == 'true' }}

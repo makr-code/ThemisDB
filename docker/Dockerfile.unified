@@ -460,6 +460,17 @@ COPY --from=llama /opt/themis-models/ /models/
 
 RUN ldconfig
 
+RUN set -eux; \
+    if ! getent group themis >/dev/null; then \
+        groupadd -r themis; \
+    fi; \
+    if ! id -u themis >/dev/null 2>&1; then \
+        useradd -r -g themis -d /app -s /usr/sbin/nologin themis; \
+    fi; \
+    chown -R themis:themis /app /models
+
+USER themis
+
 EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8080/health || exit 1

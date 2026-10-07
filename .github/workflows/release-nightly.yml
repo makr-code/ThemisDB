@@ -319,6 +319,7 @@ jobs:
           labels: ${{ needs.generate-metadata.outputs.docker-labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          no-cache-filters: runtime
 
   notify:
     name: "Automation: Notify Build Completion"
