@@ -65,15 +65,6 @@ jobs:
           print(f"sha={sha}")
           PY
 
-      - name: Checkout vcpkg ports at pinned baseline
-        if: ${{ steps.baseline.outputs.sha != '' }}
-        uses: actions/checkout@v5
-        with:
-          repository: microsoft/vcpkg
-          ref: ${{ steps.baseline.outputs.sha }}
-          path: vcpkg-upstream
-          fetch-depth: 1
-
       - name: Run vcpkg license audit
         if: ${{ steps.baseline.outputs.sha != '' }}
         env:
