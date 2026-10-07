@@ -1,223 +1,89 @@
 # LLM Streaming Module — Architecture
 
-<!-- Status: PRODUCTION_CANDIDATE | validated: 2026-09-09 -->
+<!-- Status: DESIGN_SPECIFICATION | docs-only module status | source-validated: 2026-10-07 -->
 
 ## Overview
 
-The LLM streaming module provides real-time streaming infrastructure for large language model responses within ThemisDB, enabling efficient token-level streaming to clients with flow-control and error recovery capabilities.
+This file documents the intended architecture for LLM streaming behavior, but it is a design contract, not a source-of-truth implementation record.
+
+The repository currently does not contain a production runtime implementation for `llm_streaming` under `src/llm_streaming/`. The local directory is therefore treated as a specification boundary: it captures the required streaming semantics, lifecycle expectations, and validation strategy, while the actual runtime code lives in other canonical modules such as `src/llm/` and `src/server/`.
 
 ## Design Principles
 
-1. **Token-Level Streaming:** Tokens sent to client as soon as available (no buffering)
-2. **Backpressure Awareness:** Respects client receive window; buffers on congestion
-3. **Connection Resilience:** Graceful handling of client disconnections and network failures
-4. **Cancellation Support:** Clients can cancel in-progress streams cleanly
-5. **Observable:** All streaming events logged with correlation IDs
+1. **Deterministic token ordering:** a stream must preserve per-session ordering unless the runtime explicitly documents a bounded reordering policy.
+2. **Fail-closed behavior:** backpressure, cancellation, and network failures must produce explicit errors and cleanup rather than silent data loss.
+3. **Owner-based lifecycle:** each stream must have a clear lifecycle owner and cleanup path.
+4. **Observable runtime:** diagnostics must tell whether the failure comes from the upstream model, the transport, or the client.
+5. **Source-traceable delivery:** any production claim must map to a real runtime implementation and test artifact.
 
 ## Architecture Diagram
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  LLM Inference Engine                                       │
-│  • Produces tokens as they are generated                    │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-                       ▼
-┌─────────────────────────────────────────────────────────────┐
-│  StreamDispatcher (Request Routing)                         │
-│  • Route LLM requests to streaming implementation           │
-│  • Manage stream lifecycle (open, active, close)            │
-│  • Track active streams and concurrent connections         │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-                       ▼
-┌─────────────────────────────────────────────────────────────┐
-│  TokenBuffer (Aggregation & Batching)                       │
-│  • Buffer tokens for network efficiency                     │
-│  • Batching based on size/time threshold                    │
-│  • Preserve token order and metadata                        │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-                       ▼
-┌─────────────────────────────────────────────────────────────┐
-│  BackpressureController (Flow Control)                      │
-│  • Monitor client receive window                            │
-│  • Apply backpressure when buffer full                      │
-│  • Implement exponential backoff on congestion              │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-                       ▼
-┌─────────────────────────────────────────────────────────────┐
-│  StreamingServer (Protocol Handler)                         │
-│  • gRPC streaming endpoint                                  │
-│  • HTTP Server-Sent Events (SSE)                            │
-│  • Connection management & lifecycle                        │
-│  • Timeout enforcement                                      │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-                       ▼
-                   Network
-                       │
-                       ▼
-                  Streaming Client
+┌────────────────────────────────────────────────────────────────────┐
+│ Canonical runtime ownership (not colocated in src/llm_streaming)   │
+│  • src/llm/ - generation, token flow, model lifecycle               │
+│  • src/server/ - request/response and network boundary             │
+│  • src/query/ or src/rag/ - higher-level orchestration & retrieval │
+└───────────────────────────────┬────────────────────────────────────┘
+                               │ contract / boundary
+                               ▼
+┌────────────────────────────────────────────────────────────────────┐
+│ llm_streaming specification layer                                   │
+│  • stream lifecycle semantics                                        │
+│  • token ordering, cancellation, backpressure contract              │
+│  • validation plan and sample benchmark assumptions                 │
+└───────────────────────────────┬────────────────────────────────────┘
+                               │
+                               ▼
+┌────────────────────────────────────────────────────────────────────┐
+│ Validation / evidence layer                                          │
+│  • tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp │
+│  • benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp │
+└────────────────────────────────────────────────────────────────────┘
 ```
 
-## Core Components
+## Contract Model
 
-### StreamingServer
+### Stream lifecycle
 
-**Purpose:** Protocol handler for streaming responses over gRPC or HTTP.
+- `open`: session is created and associated with a request or client connection
+- `active`: token emission or backpressure management is in progress
+- `cancelled`: explicit stop request received; cleanup must complete deterministically
+- `closed`: terminal state reached; resources and diagnostics are finalized
 
-**Responsibilities:**
-- Accept streaming requests (gRPC or HTTP SSE)
-- Manage connection lifecycle (open, active, close)
-- Enforce per-stream timeouts
-- Send tokens to client with metadata
-- Handle client disconnection gracefully
+### Error classes
 
-**Public API:**
-```cpp
-class StreamingServer {
-  Result<> startStream(const LLMRequest& req, StreamWriter* writer);
-  Result<> sendToken(const Token& token);
-  void cancelStream(const StreamId& id);
-};
-```
+The module specification uses a risk-driven taxonomy rather than a production implementation contract. Critical classes are:
+- stream not found / lifecycle mismatch
+- cancellation requested during active emission
+- backpressure overflow / queue saturation
+- token ordering violation
+- transport disconnect during active stream
 
-### StreamDispatcher
+### Required runtime invariants
 
-**Purpose:** Route LLM requests to streaming implementation.
-
-**Responsibilities:**
-- Create new stream for each LLM request
-- Coordinate with LLM inference engine
-- Manage stream state transitions
-- Track active streams
-- Clean up closed streams
-
-**Key Contracts:**
-- `dispatch(request) → StreamId` — Create new stream
-- `getStream(id) → Stream*` — Lookup active stream
-- `closeStream(id)` — Terminate stream
-
-### TokenBuffer
-
-**Purpose:** Aggregate tokens for efficient network transmission.
-
-**Approach:**
-- Buffer tokens until size threshold or time deadline reached
-- Batch multiple tokens into single network message
-- Preserve token order and metadata
-- Configurable batching heuristics
-
-**Configuration:**
-- Batch size threshold (default: 10 tokens)
-- Max latency threshold (default: 100 ms)
-- Buffer capacity (default: 1000 tokens)
-
-**Performance:**
-- Reduces network roundtrips by 10-100x
-- Maintains latency < 100 ms for small batches
-
-### BackpressureController
-
-**Purpose:** Implement flow control to respect client receive window.
-
-**Approach:**
-- Monitor client acknowledgments and window size
-- Pause token sending when buffer full
-- Implement exponential backoff during congestion
-- Resume when client acknowledges
-
-**Flow Control Model:**
-```
-Token Available
-  │
-  ├─► Check client receive window
-  │
-  ├─► If space available:
-  │   └─► Send token immediately
-  │
-  └─► If buffer full:
-      ├─► Add to backpressure queue
-      ├─► Notify LLM (slow producer)
-      └─► Wait for client acknowledgment
-```
-
-## Data Flow
-
-### Token Emission Pipeline
-
-```
-LLM Inference Engine
-  │ produces token
-  ▼
-StreamDispatcher.onToken(token)
-  │ get active stream
-  ▼
-TokenBuffer.addToken(token)
-  │ check batching criteria
-  ├─► If size threshold reached:
-  │   └─► flush batch
-  ├─► If time threshold reached:
-  │   └─► flush batch
-  └─► If capacity exceeded:
-      └─► apply backpressure
-          │
-          ▼
-      BackpressureController
-        │ wait for client window
-        ▼
-      StreamingServer.sendBatch(tokens)
-        │ send to client
-        ▼
-      Network → Client
-```
+- no silent token loss on cancellation
+- no per-session cross-talk across independent streams
+- stream cleanup must be idempotent
+- diagnostics must expose the last observed failure mode and boundary
 
 ## Concurrency Model
 
-### Thread Safety
+This section is a specification only. The actual implementation must be owned by the canonical runtime modules and must define the actual locking strategy there.
 
-1. **Per-Stream State:** Protected by stream-specific mutex
-   - Token buffer state
-   - Backpressure state
-   - Stream lifecycle flags
+The module-level validation sleds intentionally keep concurrency assumptions small and testable by using in-process stub models instead of claiming production runtime behavior.
 
-2. **Global Stream Registry:** Protected by read-write lock
-   - Enables fast lookup of active streams
-   - Minimal contention for stream creation/deletion
+## Test and Benchmark Scope
 
-3. **Token Emission:** Lock-free where possible
-   - Atomic token counter
-   - Compare-and-swap for stream state transitions
+The module validation is intentionally narrow and clearly labeled as simulation/stub coverage:
+- `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`
+- `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp`
 
-### Synchronization Primitives
+These prove that the design assumptions are testable, but they are not evidence that a real production streaming implementation exists inside `src/llm_streaming/`.
 
-- `std::mutex` for stream-specific critical sections
-- `std::shared_mutex` for stream registry
-- `std::condition_variable` for backpressure signaling
-- `std::atomic<>` for stream counters
+## Source Traceability Rule
 
-## Performance Characteristics
-
-### Target Latencies (P99)
-
-- **Token Enqueue:** < 1 ms
-- **Batch Formation:** < 100 ms (batching deadline)
-- **Network Send:** < 50 ms
-- **End-to-End (token → client):** < 200 ms
-- **Cancellation Propagation:** < 100 ms
-
-### Throughput
-
-- **Token Throughput:** > 100 tokens/sec per stream
-- **Concurrent Streams:** ≥ 100 active streams
-- **Aggregate Throughput:** 10k+ tokens/sec
-
-### Resource Consumption
-
-- **Per-Stream Memory:** ~10 MB (including buffers)
-- **Token Buffer Overhead:** ~100 bytes per token
+If runtime code is added to this directory in the future, the corresponding roadmap and governance files must be updated at the same time. Until then, the module remains a design-only planning contract and must not be treated as a production implementation surface.
 - **Total Memory (100 streams):** ~1 GB
 
 ## Error Handling

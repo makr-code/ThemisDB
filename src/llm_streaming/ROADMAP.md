@@ -1,215 +1,88 @@
 # LLM Streaming Module Roadmap
 
-<!-- Status: PRODUCTION_CANDIDATE | Phase 1-4 complete | validated: 2026-08-10 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: PLANNING_ONLY | docs-only module path | source-validated: 2026-10-07 -->
+<!-- Links: README.md · ARCHITECTURE.md · PRODUCTION_REQUIREMENTS.md -->
 
 ## Current Status
 
-Production-candidate LLM streaming infrastructure with real-time token streaming, cancellation support, and flow-control surfaces. The module provides streaming protocol implementation and client-side integration for large language model responses.
+The `llm_streaming` module currently acts as a specification and traceability layer, not a production runtime implementation directory. The repository evidence confirms that the local module directory contains documentation and validation-only artifacts, while the canonical runtime implementation is owned by other modules.
 
-**Milestone:** Phase 4 deliverables complete. Core streaming infrastructure (token buffering, flow control, cancellation) hardened and ready for production.
+- [~] establish canonical ownership mapping for streaming semantics to `src/llm/`, `src/server/`, and related runtime modules (Target: Q4 2026)
+- [~] define fail-closed requirements for cancellation, ordering, and backpressure (Target: Q4 2026)
+- [~] preserve bounded, source-traceable design evidence for future runtime implementation (Target: Q4 2026)
 
-- [x] Streaming server (gRPC/HTTP) endpoint implementation (Phase 3) → COMPLETE
-- [x] Token buffering and batching layer (Phase 3) → COMPLETE
-- [x] Cancellation handling and backpressure control (Phase 3) → COMPLETE
-- [x] Streaming-specific observability and metrics (Phase 3) → COMPLETE
-- [x] Error recovery and resilience patterns (Phase 3) → COMPLETE
+### Sourcecode Reality Check (2026-10-07)
 
-### Sourcecode Deep-Dive Evidence (2026-09-09)
-
-- `src/llm_streaming/` currently contains docs-only artefacts (`.gitkeep`, `README.md`, `ARCHITECTURE.md`, `ROADMAP.md`) and no colocated `.cpp/.h` implementation files.
-- Follow-up required: bind each implementation claim to current canonical source/test/benchmark paths or downgrade status claims until colocated source exists.
+- `src/llm_streaming/` contains docs and validation artifacts only; there are no colocated production `.cpp`/`.h` files in this directory.
+- `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp` and `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp` are deliberately in-process simulation/stub validation layers.
+- Any production runtime claim must reference canonical implementation files outside this directory before it is treated as source evidence.
 
 ## In Progress
 
-- [~] Phase 5 performance hardening gates for token throughput, latency, memory footprint, and concurrent stream scaling (Target: Q4 2026)
-- [~] security/governance validation for streaming fail-closed behavior and operator diagnostics (Target: Q4 2026)
+- [~] traceability cleanup: align streaming contract docs to canonical runtime owners (Target: Q4 2026)
+- [~] production requirements definition for explicit lifecycle, cancellation, and error semantics (Target: Q4 2026)
+- [~] validation criteria for future runtime implementation and operator diagnostics (Target: Q4 2026)
 
-## Completed Initiatives
+## Implementation Phases
 
-### Phase 1-4 Delivery (Q3 2026) - COMPLETE ✓
+### Phase 1: Design / API Contract
 
-All streaming infrastructure implemented and validated. Module ready for production deployment.
+- [~] define stream lifecycle states (`open`, `active`, `cancelled`, `closed`) (Target: Q4 2026)
+- [~] define non-silent failure behaviors for ordering, backpressure, and cancellation (Target: Q4 2026)
+- [~] assign canonical owner modules for runtime behavior: `src/llm/` and `src/server/` (Target: Q4 2026)
+- [~] document source-traceability rules for future production implementation (Target: Q4 2026)
 
-## Implementation Phases (Completed 2026-08-10)
+### Phase 2: Core Implementation
 
-### Phase 1: Design & API Contract ✓ COMPLETE
+- [ ] implement actual streaming runtime in the canonical owning module(s) if product work is authorized
+- [ ] add explicit request/session routing and stream registry ownership for server-side runtime
+- [ ] add token ordering and cancellation propagation in the runtime layer
+- [ ] add per-stream telemetry and explicit fail-closed cleanup on disconnect or timeout
 
-**Objective:** Define streaming protocol, client API, and flow-control semantics.
+### Phase 3: Error Handling & Edge Cases
 
-**Deliverables:**
-- [x] `include/llm_streaming/streaming_server.h` – Server-side streaming API
-- [x] `include/llm_streaming/stream_dispatcher.h` – Request dispatch interface
-- [x] `include/llm_streaming/token_buffer.h` – Token aggregation contract
-- [x] `include/llm_streaming/backpressure_controller.h` – Flow control interface
-- [x] Error taxonomy (streaming errors: E7300–E7399)
+- [ ] handle cancelled, stale, and disconnected streams without silent data loss
+- [ ] define backpressure overflow and recovery semantics under sustained load
+- [ ] ensure token order violation detection triggers explicit diagnostics and recovery
+- [ ] validate boundary conditions for empty streams, invalid sequences, and concurrent close/cancel races
 
-**Streaming Contracts:**
-- **Token Stream** — Token-level streaming with metadata
-  - `sendToken(token, finish_reason) → Result<>`
-  - Batching for network efficiency
-  - Cancellation support
-  
-- **Backpressure** — Client flow control
-  - Client signals ready state
-  - Server respects receive window
-  - Automatic buffering on backpressure
+### Phase 4: Tests
 
-**Status:** ✓ COMPLETE
+- [ ] add unit tests for token-order, cancellation, and cleanup semantics in canonical runtime code
+- [ ] add integration tests for request-to-stream lifecycle under actual server or LLM runtime paths
+- [ ] add concurrency stress coverage for stream registry, cancellation, and backpressure behavior
+- [ ] verify no regression in adjacent LLM and server paths
 
-### Phase 2: Core Implementation ✓ COMPLETE
+### Phase 5: Performance / Hardening
 
-**Objective:** Implement streaming server and token buffering with production-grade reliability.
+- [ ] measure p95/p99 token latency and backpressure response times on representative hardware
+- [ ] set explicit throughput and memory budgets for real runtime streams
+- [ ] validate failure recovery and auto-cleanup under sustained concurrent sessions
+- [ ] document benchmark thresholds and rollback criteria before production promotion
 
-**Deliverables:**
-- [x] `streaming_server.cpp` – gRPC/HTTP streaming endpoint
-  - Protocol handler for text/streaming mime type
-  - Connection lifecycle management
-  - Timeout enforcement per stream
-  
-- [x] `stream_dispatcher.cpp` – Request-to-stream dispatch
-  - Route LLM requests to streaming implementation
-  - Manage stream lifecycle
-  - Track active streams
-  
-- [x] `token_buffer.cpp` – Token aggregation and batching
-  - Buffer tokens for network efficiency
-  - Batching heuristics (size or time threshold)
-  - Preserving token order
+### Phase 6: Documentation & Acceptance
 
-**Performance Targets:**
-- Token throughput: 100+ tokens/sec per stream
-- Latency (token → network): < 50 ms P99
-- Backpressure response: < 100 ms
-- Concurrent streams: ≥ 100 per server
-
-**Status:** ✓ COMPLETE
-
-### Phase 3: Error Handling & Edge Cases ✓ COMPLETE
-
-**Objective:** Handle network failures, client disconnection, and resource constraints.
-
-**Deliverables:**
-- [x] Cancellation signal handling and propagation
-- [x] Client disconnection detection and cleanup
-- [x] Backpressure handling (buffer full, timeout)
-- [x] Error recovery and reconnection paths
-- [x] Timeout enforcement (per-stream and global)
-
-**Error Scenarios:**
-- E7300: Stream not found or already closed
-- E7301: Cancellation requested by client
-- E7302: Backpressure buffer exceeded
-- E7303: Token send timeout
-- E7304: Invalid token sequence
-
-**Status:** ✓ COMPLETE
-
-### Phase 4: Tests ✓ COMPLETE
-
-**Objective:** Comprehensive testing of streaming semantics and resilience.
-
-**Test Suite:**
-- Unit tests for token buffering and batching
-- Integration tests for streaming protocol
-- Client cancellation and reconnection scenarios
-- Backpressure handling and buffer overflow
-- Network failure and recovery
-- Concurrent stream management
-
-**Test Coverage:**
-- src/llm_streaming coverage via focused test suites
-- Integration with LLM inference engine
-- End-to-end streaming with real clients
-
-**Status:** ✓ COMPLETE
-
-### Phase 5: Performance & Hardening ✓ IN PROGRESS
-
-**Objective:** Optimize streaming paths and validate production readiness.
-
-**Deliverables (In Progress):**
-- [~] Token throughput optimization
-- [~] Backpressure efficiency profiling
-- [~] Memory footprint optimization
-- [~] Concurrent stream scaling validation
-- [~] Network efficiency measurement
-
-**Performance Gates:**
-- Throughput P99: > 50 tokens/sec per stream
-- Latency P99: < 100 ms token-to-network
-- Memory per stream: < 10 MB
-- Concurrent streams: ≥ 100 with < 5% overhead
-
-**Status:** IN PROGRESS
-
-### Phase 6: Documentation & Acceptance - PLANNED
-
-**Objective:** Complete API documentation and operator runbook.
-
-**Deliverables (Planned):**
-- [~] Doxygen comments for all public APIs
-- [~] Client integration guide
-- [~] Configuration parameter documentation
-- [~] Streaming protocol specification
-- [x] Troubleshooting runbook — evidence: docs/operability/RUNBOOK_LLM_STREAMING.md
-- [~] Acceptance checklist
-
-**Status:** PLANNED
+- [ ] publish canonical API and runtime ownership docs for the production implementation
+- [ ] add operator runbook and alerting requirements for stream recovery and cancellation storms
+- [ ] require source-traceable implementation evidence before any release classification above `planning` or `design-only`
 
 ## Production Readiness Checklist
 
-- [x] Phase 1 API contracts frozen
-- [x] Phase 2 core implementation complete
-- [x] Phase 3 error handling comprehensive
-- [x] Phase 4 test suite complete
-- [~] Phase 5 performance hardening (in progress)
-- [~] Phase 6 documentation complete
-- [~] Security review (in progress)
-- [~] Performance validation on production hardware
-- [~] Integration testing with LLM inference engine
-- [x] Operational runbook completion — evidence: docs/operability/RUNBOOK_LLM_STREAMING.md
+- [ ] canonical runtime implementation exists outside `src/llm_streaming/`
+- [ ] stream lifecycle states are owned and documented in a real runtime module
+- [ ] cancellation and failure semantics are explicitly tested
+- [ ] backpressure and ordering invariants are validated under load
+- [ ] p95/p99 latency and throughput baselines exist for representative hardware
+- [ ] operator diagnostics and runbook coverage are in place
+- [ ] release evidence is mapped to actual runtime files rather than design-only docs
 
 ## Known Issues & Limitations
 
-1. **No Client-Side Retries** — Streaming clients must implement retry logic
-2. **Backpressure Buffer Limited** — Configurable but may overflow under sustained high token rate
-3. **No Compression** — Tokens sent uncompressed over network
-4. **Token Order Guarantee** — Assumes single-producer, single-consumer model
+1. `src/llm_streaming/` is currently docs-only and cannot be treated as a production runtime source path.
+2. The current validation files are stub-based simulation tests; they prove the design assumptions, not a shipping implementation.
+3. Without canonical runtime ownership, streaming claims remain non-release-grade and require traceability mapping.
+4. Benchmark values in this directory are specification-level placeholders until backed by runtime implementation evidence.
 
 ## Breaking Changes
 
-None expected. APIs designed for forward compatibility.
-
-## Module Statistics
-
-- **Total LOC (Source):** ~400 LOC across implementation files
-  - streaming_server.cpp: ~150 LOC
-  - stream_dispatcher.cpp: ~100 LOC
-  - token_buffer.cpp: ~150 LOC
-- **Public Headers:** 4 (streaming_server.h, stream_dispatcher.h, token_buffer.h, backpressure_controller.h)
-- **Concurrent Streams Tested:** 100+
-- **Error Codes:** E7300–E7399 (reserved)
-
-## Program Execution Model — Wave Context
-
-This module is a **contributing module** in the program-level Wave A → B → C → D execution model.
-It must remain `release_critical`-green throughout all waves.
-
-See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
-
-### Wave D Contribution for `llm_streaming`
-- [x] Deliver or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) — evidence: tests/integration/test_llm_streaming_soak.cpp (LLMStreamingSoak_TokenThroughput ≥1000 t/s, LLMStreamingSoak_BackpressureStability, LLMStreamingSoak_ChunkDeliveryReliability)
-- [x] Deliver high-cardinality stress coverage for concurrent streaming sessions and backpressure paths (Target: Q1 2027) — evidence: tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp (1000 sessions / 8-thread, ConcurrentBackpressureStress, ChunkAssemblyEdgeCaseStress)
-- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027) — evidence: docs/operability/RUNBOOK_LLM_STREAMING.md (5 scenarios: BufferOverflow, GenerationStall, BackpressureCascade, Disconnected, TokenOrderViolation)
-- [x] Deliver dedicated benchmark gates for streaming hot paths (Target: Q1 2027) — evidence: benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp (LS-BM-01..04)
-
-### Cross-Wave Requirements
-- `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
-- p95/p99 benchmarks must be refreshed on representative hardware before Wave D sign-off (Target: Q1 2027)
-- No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
-
-### Program-Level Success Criteria (contribution)
-- [x] This module's streaming paths handle backpressure and disconnection fail-closed (Target: Q1 2027)
-- [~] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027) — evidence: LS-BM-01..04 registered; representative-hardware capture pending
-- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — evidence: docs/operability/RUNBOOK_LLM_STREAMING.md
+None expected while the module remains in design-only status. Any future production implementation must be introduced as a real runtime contract change and updated in the canonical module documentation and release evidence.
