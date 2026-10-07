@@ -5479,6 +5479,7 @@ function(themis_link_zlib_if_available _target_name)
         # zlib symbol usage (deflate/inflate), even when imported targets exist.
         # Some toolchains still drop zlib under --as-needed without plain -lz.
         target_link_libraries(${_target_name} PRIVATE "-Wl,--no-as-needed" z "-Wl,--as-needed")
+        set(_themis_zlib_linked TRUE)
     endif()
 endfunction()
 
