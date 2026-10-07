@@ -1,0 +1,30 @@
+model_id: default_corporate_reusable_model
+version: 1.0.0
+domain: corporate
+description: Reusable BPMN block library for recurring corporate process steps.
+bpmn:
+  model_type: reusable
+  reusable_blocks:
+  - evidence_bundle
+  - risk_gate
+  - approval_gate
+  - rollback_gate
+block_contracts:
+  evidence_bundle:
+  - source_refs
+  - confidence_score
+  - contradiction_notes
+  risk_gate:
+  - risk_level
+  - mitigation_refs
+  approval_gate:
+  - approver_id
+  - approval_timestamp
+  rollback_gate:
+  - rollback_checkpoint
+  - fallback_path
+themisdb_module_bindings:
+- analytics
+- governance
+- process
+- observability

@@ -119,11 +119,11 @@ std::string DataMasker::applyStrategy(const std::string &value, const FieldMaski
         }
 
         case MaskingStrategy::TRUNCATE: {
-            const int n = (rule.truncate_length > 0) ? rule.truncate_length : 4;
+            const size_t n = static_cast<size_t>((rule.truncate_length > 0) ? rule.truncate_length : 4);
             if (value.size() <= n) {
                 return value; // Value is already short – no truncation needed
             }
-            return value.substr(0, static_cast<size_t>(n)) + "...";
+            return value.substr(0, n) + "...";
         }
 
         case MaskingStrategy::HASH: {
@@ -233,4 +233,3 @@ nlohmann::json DataMasker::maskFieldsArray(const nlohmann::json &docs, const Fie
 
 } // namespace governance
 } // namespace themis
-

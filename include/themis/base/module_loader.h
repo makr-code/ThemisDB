@@ -239,13 +239,13 @@ struct ModuleMetrics {
     
     double getSuccessRate() const {
         return totalLoadAttempts > 0 
-            ? (double)successfulLoads / totalLoadAttempts 
+            ? static_cast<double>(successfulLoads) / static_cast<double>(totalLoadAttempts)
             : 0.0;
     }
     
     double getAverageLoadDurationMs() const {
         return successfulLoads > 0 
-            ? (double)totalLoadDurationMs / successfulLoads 
+            ? static_cast<double>(totalLoadDurationMs) / static_cast<double>(successfulLoads)
             : 0.0;
     }
 };

@@ -1,0 +1,69 @@
+method_id: default_scientific_method
+profile: phase1_conservative_backup
+version: 2.1.0
+name: Conservative Phase-1 Scientific Method Fallback
+description: >
+  Conservative fallback profile for phase 1 classification and hypothesis generation
+  when confidence is low or external dependencies are degraded.
+last_updated: 2026-10-06T07:52:20Z
+source_lineage:
+  derived_from:
+    - "https://github.com/makr-code/VCC-Veritas/blob/9ce93238ee9f4f7ec74fb246c71e569a7579836c/config/scientific_methods/default_method_phase1_conservative_backup_20251012_204557.json"
+
+runtime:
+  mode_required: dream_research
+  supervisor_enabled: false
+  fail_closed: true
+
+activation_policy:
+  triggers:
+    - low_initial_confidence
+    - missing_critical_context
+    - external_agent_unavailable
+  fallback_behavior: use_conservative_hypothesis
+
+phases:
+  - phase_id: problem_intake_classification
+    phase_number: 1
+    execution:
+      temperature: 0.2
+      max_tokens: 600
+      timeout_seconds: 30
+    quality_checks:
+      min_confidence: 0.0
+      max_confidence: 1.0
+      require_explicit_unknowns: true
+    outputs:
+      - hypothesis
+      - required_criteria
+      - missing_information
+      - confidence
+      - reasoning
+
+  - phase_id: conservative_evidence_synthesis
+    phase_number: 2
+    execution:
+      temperature: 0.15
+      max_tokens: 800
+      timeout_seconds: 35
+    constraints:
+      - no_promotion_candidate_decision
+      - no_truth_path_write
+    outputs:
+      - evidence_clusters
+      - contradiction_flags
+      - conservative_summary
+
+decision_policy:
+  allowed_decisions:
+    - no_go
+    - research_only
+  disallowed_decisions:
+    - promotion_candidate
+
+required_metadata:
+  - run_id
+  - mode
+  - confidence
+  - unresolved_information
+  - gate_report_reference

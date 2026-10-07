@@ -84,7 +84,8 @@ uint64_t BloomFilter::hash1(const std::string& key) {
  */
 uint64_t BloomFilter::hash2(const std::string& key) {
     uint64_t h = 0x9e3779b97f4a7c15ULL; // golden-ratio constant
-    for (unsigned char c : key) {
+    for (char raw : key) {
+        const auto c = static_cast<unsigned char>(raw);
         h ^= static_cast<uint64_t>(c) * 0xff51afd7ed558ccdULL;
         h = (h << 31) | (h >> 33); // rotate left 31
         h *= 0xc4ceb9fe1a85ec53ULL;

@@ -18,6 +18,7 @@
 #include <openssl/rand.h>
 #include <sstream>
 #include <stdexcept>
+#include <limits>
 
 namespace themis {
 namespace config {
@@ -406,7 +407,10 @@ void ConfigEncryptedStore::deserialize(const std::string &json_str) {
  */
 std::vector<uint8_t> ConfigEncryptedStore::generateKey() {
     std::vector<uint8_t> key(32);
-    if (RAND_bytes(key.data(), key.size()) != 1) {
+    if (key.size() > static_cast<size_t>(std::numeric_limits<int>::max())) {
+        throw ConfigEncryptionException("generateKey: key size exceeds RAND_bytes limit");
+    }
+    if (RAND_bytes(key.data(), static_cast<int>(key.size())) != 1) {
         throw ConfigEncryptionException("generateKey: RAND_bytes failed");
     }
     return key;
@@ -420,7 +424,10 @@ std::vector<uint8_t> ConfigEncryptedStore::generateKey() {
  */
 std::vector<uint8_t> ConfigEncryptedStore::generateIV() {
     std::vector<uint8_t> iv(12);
-    if (RAND_bytes(iv.data(), iv.size()) != 1) {
+    if (iv.size() > static_cast<size_t>(std::numeric_limits<int>::max())) {
+        throw ConfigEncryptionException("generateIV: IV size exceeds RAND_bytes limit");
+    }
+    if (RAND_bytes(iv.data(), static_cast<int>(iv.size())) != 1) {
         throw ConfigEncryptionException("generateIV: RAND_bytes failed");
     }
     return iv;
@@ -463,8 +470,11 @@ std::vector<uint8_t> ConfigEncryptedStore::aesGcmEncrypt(const std::string &plai
         throw ConfigEncryptionException("aesGcmEncrypt: EVP_EncryptInit_ex (key/iv) failed");
     }
 
-    const auto *pt   = reinterpret_cast<const unsigned char *>(plaintext.data());
-    const int pt_len = plaintext.size();
+    const auto *pt = reinterpret_cast<const unsigned char *>(plaintext.data());
+    if (plaintext.size() > static_cast<size_t>(std::numeric_limits<int>::max())) {
+        throw ConfigEncryptionException("aesGcmEncrypt: plaintext too large");
+    }
+    const int pt_len = static_cast<int>(plaintext.size());
 
     std::vector<uint8_t> ciphertext(plaintext.size());
     int len = 0;
@@ -476,7 +486,7 @@ std::vector<uint8_t> ConfigEncryptedStore::aesGcmEncrypt(const std::string &plai
     if (EVP_EncryptFinal_ex(ctx, ciphertext.data() + len, &final_len) != 1) {
         throw ConfigEncryptionException("aesGcmEncrypt: EVP_EncryptFinal_ex failed");
     }
-    ciphertext.resize(len + final_len);
+    ciphertext.resize(static_cast<size_t>(len + final_len));
 
     if (EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, 16, out_tag.data()) != 1) {
         throw ConfigEncryptionException("aesGcmEncrypt: get GCM tag failed");
@@ -528,7 +538,10 @@ std::string ConfigEncryptedStore::aesGcmDecrypt(const std::vector<uint8_t> &ciph
 
     std::vector<uint8_t> plaintext_buf(ciphertext.size());
     int len = 0;
-    if (EVP_DecryptUpdate(ctx, plaintext_buf.data(), &len, ciphertext.data(), ciphertext.size())
+    if (ciphertext.size() > static_cast<size_t>(std::numeric_limits<int>::max())) {
+        throw ConfigEncryptionException("aesGcmDecrypt: ciphertext too large");
+    }
+    if (EVP_DecryptUpdate(ctx, plaintext_buf.data(), &len, ciphertext.data(), static_cast<int>(ciphertext.size()))
         != 1) {
         throw ConfigEncryptionException("aesGcmDecrypt: EVP_DecryptUpdate failed");
     }
@@ -547,7 +560,7 @@ std::string ConfigEncryptedStore::aesGcmDecrypt(const std::vector<uint8_t> &ciph
             "aesGcmDecrypt: authentication tag verification failed (data tampered or wrong key)");
     }
 
-    plaintext_buf.resize(len + final_len);
+    plaintext_buf.resize(static_cast<size_t>(len + final_len));
     return std::string(plaintext_buf.begin(), plaintext_buf.end());
 }
 

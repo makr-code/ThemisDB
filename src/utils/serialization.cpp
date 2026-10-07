@@ -40,10 +40,10 @@ void Serialization::Encoder::writeTag(TypeTag tag) {
  * @details Calls: push_back().
  */
 void Serialization::Encoder::writeUInt32(uint32_t value) {
-    buffer_.push_back((value >> 0) & 0xFF);
-    buffer_.push_back((value >> 8) & 0xFF);
-    buffer_.push_back((value >> 16) & 0xFF);
-    buffer_.push_back((value >> 24) & 0xFF);
+    buffer_.push_back(static_cast<uint8_t>((value >> 0) & 0xFFu));
+    buffer_.push_back(static_cast<uint8_t>((value >> 8) & 0xFFu));
+    buffer_.push_back(static_cast<uint8_t>((value >> 16) & 0xFFu));
+    buffer_.push_back(static_cast<uint8_t>((value >> 24) & 0xFFu));
 }
 
 /**
@@ -53,7 +53,7 @@ void Serialization::Encoder::writeUInt32(uint32_t value) {
  */
 void Serialization::Encoder::writeUInt64(uint64_t value) {
     for (int i = 0; i < 8; ++i) {
-        buffer_.push_back((value >> (i * 8)) & 0xFF);
+        buffer_.push_back(static_cast<uint8_t>((value >> (i * 8)) & 0xFFu));
     }
 }
 
@@ -409,7 +409,8 @@ std::vector<uint8_t> Serialization::Decoder::decodeBinary() {
         return std::vector<uint8_t>();
     }
     
-    std::vector<uint8_t> binary(data_.begin() + pos_, data_.begin() + pos_ + size);
+    std::vector<uint8_t> binary(size);
+    std::memcpy(binary.data(), data_.data() + pos_, size);
     pos_ += size;
     return binary;
 }

@@ -47,7 +47,8 @@ namespace {
 std::string jsonEscapeTraceId(const std::string& s) {
     std::string out = {};
     out.reserve(s.size() + 4);
-    for (unsigned char c : s) {
+    for (char raw : s) {
+        const auto c = static_cast<unsigned char>(raw);
         if (c == '"') {
             out += "\\\"";
         } else if (c == '\\') {
