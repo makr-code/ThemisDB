@@ -10,7 +10,7 @@ This document is the production gate for the `llama_cpp` module. It defines the 
 - `src/llama_cpp/llama_cpp_registrar.cpp`
 - `include/llama_cpp/llama_cpp_plugin.h`
 - `include/llama_cpp/llama_cpp_registrar.h`
-- `src/llama_cpp/tests/*.cpp`
+- `tests/llama_cpp/*.cpp`
 
 Related governance docs:
 
@@ -42,7 +42,7 @@ Related governance docs:
 
 - `n_ctx`, `n_gpu_layers`, `n_batch`, and `n_threads` are configuration-driven and must be set per deployment; default values are not a substitute for deployment hardening.
 - `generateBatch()` is sequential and preserves request order; it is not a parallelized batch backend.
-- `embed()` falls back to a 384-dimensional zero-vector result only when no real backend or injected embedding function is configured; production deployments should prefer a real `LlamaWrapper` or an explicit `EmbedFn` injection.
+- `embed()` returns an empty vector when no real backend or injected embedding function is configured. The 384-dimensional zero-vector remains a test/CI fallback and is not the recommended production behavior; production deployments should prefer a real `LlamaWrapper` or an explicit `EmbedFn` injection.
 - Rate limiting is intentionally left to the consuming API layer; the module does not implement an in-process rate limiter.
 - External model and adapter loading must honor explicit timeouts and retry requirements managed by the higher-level deployment stack.
 
