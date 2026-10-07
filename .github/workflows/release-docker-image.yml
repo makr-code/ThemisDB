@@ -413,6 +413,7 @@ jobs:
       with:
         context: .
         file: ./docker/Dockerfile.unified
+        target: runtime
         secret-files: |
           extra_ca_bundle=${{ steps.host-ca.outputs.path }}
         push: |
