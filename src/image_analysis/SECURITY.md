@@ -1,47 +1,46 @@
 # Security - Image Analysis Module
 
-<!-- Status: current | validated: 2026-09-21 -->
+<!-- Status: current | validated: 2026-10-07 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
-Report vulnerabilities via the project-level SECURITY.md at the repository root.
+Report vulnerabilities via the project-level `SECURITY.md` in the repository root.
 
 ## Security Scope
 
-Security in the image analysis module focuses on safe handling of untrusted image data, backend isolation and graceful degradation, resource bounding during processing, and prevention of path traversal or injection via image paths and extracted content.
+Security for the image-analysis module is focused on safe handling of untrusted image data, backend isolation, dependency gating, and controlled degradation when native tooling is unavailable or inference fails.
 
 ## Threat Model
 
 | Threat | Current Mitigation Surface |
 |---|---|
-| Malicious or malformed image data causing crashes or buffer overflows | image format validation before backend dispatch; error taxonomy E6200–E6201 for unsupported/corrupted images |
-| Path traversal via image file paths passed to backends | caller is responsible for path validation; module accepts only validated paths per API contract |
-| Denial of service via large or slow-to-process images | configurable per-operation timeout (E6203); memory bound < 50 MB per image during processing |
-| Backend model tampering (ONNX model substitution) | pre-loaded model is validated at startup; custom model support not yet active (see FUTURE_ENHANCEMENTS.md for integrity gate requirement) |
-| Remote code execution via OCR output injection | extracted text is returned as data; callers are responsible for sanitising extracted content before use in queries or display |
-| Backend unavailability escalating to full indexing failure | graceful degradation: OCR and detection failures return partial results; indexing pipeline continues |
+| Malformed image data causing crashes or process instability | plugin paths return structured failure results and do not silently dereference invalid inputs |
+| Dependency-side runtime errors when Tesseract or ONNX Runtime is absent | build-time guards and `success = false` error states keep the system operational |
+| Denial of service via oversized or slow image processing | bounded execution is a pending hardening item; the current plugin contract and caller configuration are the control surface under active review |
+| Model tampering or unsafe custom model execution | reserved for future model-registry work tracked in `FUTURE_ENHANCEMENTS.md` |
+| Injection via OCR text returned to callers | extracted text remains data; callers must apply sanitisation before query construction or display |
+| Backend unavailability escalating to process-wide failure | plugin lifecycle is designed to fail gracefully and surface explicit error states |
 
 ## Implemented Security Controls
 
-- Image format and integrity validation is performed before backend dispatch; corrupted or unsupported images return E6200/E6201 without invoking backend native code paths.
-- All backend operations are bounded by configurable timeouts; exceeded deadlines return E6203 without hanging the caller.
-- Memory usage during processing is bounded (< 50 MB per image); oversized images trigger E6204.
-- Backend unavailability does not propagate as a hard failure; partial results are returned with explicit error flags.
-- Tesseract plugin uses a `HAVE_TESSERACT` compile-time guard; without Tesseract the fallback path returns a safe graceful-degradation result without invoking any native OCR code.
+- Tesseract and YOLOv8 plugins both implement explicit fail-closed behaviour when their native dependency is missing.
+- The plugin contract uses structured result objects rather than crash-inducing failure modes.
+- Runtime capability checks are aligned with the module manager interface instead of hard-coded assumptions.
+- Backend absence is treated as a known operational condition, not as an undefined state.
 
 ## Security Follow-ups
 
-- Verify that all callers of `extractText()` sanitise OCR output before using it in query construction or user-facing display (injection risk is with callers, not this module).
-- When custom model loading is introduced (see FUTURE_ENHANCEMENTS.md), add HMAC/SHA-256 model integrity verification before model activation.
-- Add explicit path validation within the module API for image file paths to reduce reliance on caller-side validation.
+- Continue to enforce sanitisation of OCR output before it is used in user-facing or query-building flows.
+- Add model-integrity validation before any custom-model runtime path is enabled.
+- Keep security requirements in sync with `FUTURE_ENHANCEMENTS.md` and `PRODUCTION_REQUIREMENTS.md`.
 
 ## Sourcecode Verification (Module: image_analysis/security)
 
 - Verified files:
-  - src/image_analysis/tesseract_ocr_plugin.cpp
-  - src/image_analysis/yolov8_onnx_plugin.cpp
-  - include/image_analysis/image_processor.h
+  - `src/image_analysis/tesseract_ocr_plugin.cpp`
+  - `src/image_analysis/yolov8_onnx_plugin.cpp`
+  - `include/plugins/image_analysis_interface.h`
+  - `include/plugins/image_analysis_manager.h`
 - Verified controls:
-  - Format validation and error codes E6200–E6204 present.
-  - Timeout enforcement pattern present in both plugins.
-  - `HAVE_TESSERACT` and `HAVE_OPENCV` compile guards prevent unsafe native calls in environments without those libraries.
-  - No remote code execution vectors identified in current implementation.
+  - Dependency gating is explicit and documented in source.
+  - Structured fallback behaviour is implemented instead of silent failure.
+  - The module does not rely on undocumented native execution paths when optional dependencies are absent.

@@ -1,23 +1,23 @@
 {
-  "module": "execution",
+  "module": "image_analysis",
   "source_mode": "direct_doxygen_markers",
   "source_graph_used": false,
   "source_graph_path": "/home/runner/work/ThemisDB/ThemisDB/ai_working/sourcecode_graph.json",
-  "source_files_scanned": 6,
-  "source_symbols_total": 39,
-  "source_symbols_after_filter": 39,
-  "doxygen_members_total": 76,
-  "doxygen_members_after_filter": 68,
-  "source_symbol_names": 26,
-  "doxygen_symbol_names": 41,
-  "source_not_in_doxygen_count": 2,
-  "doxygen_not_in_source_count": 17,
+  "source_files_scanned": 7,
+  "source_symbols_total": 15,
+  "source_symbols_after_filter": 15,
+  "doxygen_members_total": 139,
+  "doxygen_members_after_filter": 67,
+  "source_symbol_names": 12,
+  "doxygen_symbol_names": 33,
+  "source_not_in_doxygen_count": 4,
+  "doxygen_not_in_source_count": 25,
   "coverage": {
-    "symbol_presence_ratio": 0.9231,
-    "missing_symbol_count": 2,
-    "missing_brief_count": 56,
-    "missing_param_docs_count": 22,
-    "missing_return_docs_count": 20
+    "symbol_presence_ratio": 0.6667,
+    "missing_symbol_count": 4,
+    "missing_brief_count": 59,
+    "missing_param_docs_count": 31,
+    "missing_return_docs_count": 35
   },
   "ownership": {
     "path_policy": {
@@ -49,308 +49,346 @@
       "classification_rule": "everything outside internal roots is treated as external / third-party boundary"
     },
     "source_symbols": {
-      "internal": 39,
+      "internal": 15,
       "external": 0
     },
     "doxygen_members": {
-      "internal": 53,
-      "external": 15
+      "internal": 60,
+      "external": 7
     },
     "externally_scoped_symbols": []
   },
   "by_rule": {
-    "missing_symbol": 2,
-    "missing_brief": 56,
-    "missing_param_docs": 22,
-    "missing_return_docs": 20
+    "missing_symbol": 4,
+    "missing_param_docs": 31,
+    "missing_return_docs": 35,
+    "missing_brief": 59
   },
   "by_rule_scope": {
     "missing_symbol": {
-      "include": 2
-    },
-    "missing_brief": {
-      "benchmarks": 11,
-      "other": 15,
-      "tests": 13,
-      "include": 17
+      "src": 4
     },
     "missing_param_docs": {
-      "benchmarks": 10,
-      "tests": 5,
-      "include": 7
+      "benchmarks": 29,
+      "src": 2
     },
     "missing_return_docs": {
-      "benchmarks": 4,
-      "tests": 9,
-      "include": 7
+      "benchmarks": 33,
+      "src": 2
+    },
+    "missing_brief": {
+      "benchmarks": 51,
+      "other": 6,
+      "src": 2
     }
   },
   "by_scope": {
-    "src": 0,
-    "tests": 27,
-    "benchmarks": 25,
-    "include": 33,
-    "other": 15
+    "src": 10,
+    "tests": 0,
+    "benchmarks": 113,
+    "include": 0,
+    "other": 6
   },
   "samples": {
     "source_not_in_doxygen": [
-      "SLAPriority",
-      "operator"
+      "getLastOcrResult",
+      "lk",
+      "loadLabels",
+      "reloadModel"
     ],
     "doxygen_not_in_source": [
-      "ExecutionHighCardinalityStress",
-      "Name",
-      "StealPool",
-      "StubWorkStealPool",
-      "dequeued",
-      "drainStep",
-      "enqueue",
-      "enqueued",
-      "operator()",
-      "operator=",
-      "overflow",
-      "processed",
-      "remaining",
-      "reportCompletion",
-      "steal",
-      "submit",
-      "submitted"
+      "Arg",
+      "Args",
+      "BenchmarkMockPlugin",
+      "Impl",
+      "Iterations",
+      "RealisticLatencyPlugin",
+      "TesseractPluginTest",
+      "Threads",
+      "YOLOv8PluginTest",
+      "generateCaption",
+      "generateEmbedding",
+      "generateEmbeddingBatch",
+      "generateRandomImage",
+      "generateRandomImages",
+      "generate_test_image",
+      "getInferenceCount",
+      "getInfo",
+      "getStatistics",
+      "healthCheck",
+      "initialize",
+      "postprocess",
+      "preprocess",
+      "runInference",
+      "runOcr",
+      "warmup"
     ],
     "findings": [
       {
         "rule": "missing_symbol",
-        "symbol": "SLAPriority",
+        "symbol": "getLastOcrResult",
         "count": 1,
-        "scope": "include",
+        "scope": "src",
         "scope_breakdown": {
-          "include": 1
+          "src": 1
         },
         "source_examples": [
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/include/execution/query_scheduler.h",
-            "line": 41,
-            "kind": "class",
-            "name": "SLAPriority",
-            "scope": "include"
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/tesseract_ocr_plugin.cpp",
+            "line": 404,
+            "kind": "function",
+            "name": "getLastOcrResult",
+            "scope": "src"
           }
         ]
       },
       {
         "rule": "missing_symbol",
-        "symbol": "operator",
-        "count": 1,
-        "scope": "include",
+        "symbol": "lk",
+        "count": 2,
+        "scope": "src",
         "scope_breakdown": {
-          "include": 1
+          "src": 2
         },
         "source_examples": [
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/include/execution/query_scheduler.h",
-            "line": 198,
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/yolov8_onnx_plugin.cpp",
+            "line": 628,
             "kind": "function",
-            "name": "operator",
-            "scope": "include"
+            "name": "lk",
+            "scope": "src"
+          },
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/yolov8_onnx_plugin.cpp",
+            "line": 640,
+            "kind": "function",
+            "name": "lk",
+            "scope": "src"
           }
         ]
       },
       {
-        "rule": "missing_brief",
-        "symbol": "Name",
-        "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 125,
-        "scope": "benchmarks"
+        "rule": "missing_symbol",
+        "symbol": "loadLabels",
+        "count": 1,
+        "scope": "src",
+        "scope_breakdown": {
+          "src": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/yolov8_onnx_plugin.cpp",
+            "line": 86,
+            "kind": "function",
+            "name": "loadLabels",
+            "scope": "src"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "reloadModel",
+        "count": 1,
+        "scope": "src",
+        "scope_breakdown": {
+          "src": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/yolov8_onnx_plugin.cpp",
+            "line": 668,
+            "kind": "function",
+            "name": "reloadModel",
+            "scope": "src"
+          }
+        ]
       },
       {
         "rule": "missing_param_docs",
-        "symbol": "Name",
+        "symbol": "generate_mock_image",
         "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 125,
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 189,
         "scope": "benchmarks",
-        "param_total": 1,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "Name",
-        "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 154,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "Name",
-        "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 154,
-        "scope": "benchmarks",
-        "param_total": 1,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "Name",
-        "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 185,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "Name",
-        "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 185,
-        "scope": "benchmarks",
-        "param_total": 1,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "Name",
-        "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 228,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "Name",
-        "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 228,
-        "scope": "benchmarks",
-        "param_total": 1,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "BoundedQueue",
-        "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 43,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "BoundedQueue",
-        "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 43,
-        "scope": "benchmarks",
-        "param_total": 1,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "enqueue",
-        "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 45,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "enqueue",
-        "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 45,
-        "scope": "benchmarks",
-        "param_total": 1,
+        "param_total": 3,
         "param_docs_count": 0
       },
       {
         "rule": "missing_return_docs",
-        "symbol": "enqueue",
+        "symbol": "generate_mock_image",
         "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 45,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "dequeue",
-        "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 52,
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 189,
         "scope": "benchmarks"
       },
       {
         "rule": "missing_param_docs",
-        "symbol": "dequeue",
+        "symbol": "generate_mock_jpeg",
         "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 52,
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 213,
         "scope": "benchmarks",
-        "param_total": 1,
+        "param_total": 2,
         "param_docs_count": 0
       },
       {
         "rule": "missing_return_docs",
-        "symbol": "dequeue",
+        "symbol": "generate_mock_jpeg",
         "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 52,
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 213,
         "scope": "benchmarks"
       },
       {
         "rule": "missing_brief",
-        "symbol": "size",
+        "symbol": "Arg",
         "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 60,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_return_docs",
-        "symbol": "size",
-        "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 60,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "BoundedQueue",
-        "kind": "class",
-        "file": "",
-        "line": 0,
-        "scope": "other"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "ExecutionHighCardinalityStress",
-        "kind": "class",
-        "file": "",
-        "line": 0,
-        "scope": "other"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "StealPool",
-        "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 76,
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 256,
         "scope": "benchmarks"
       },
       {
         "rule": "missing_param_docs",
-        "symbol": "StealPool",
+        "symbol": "Arg",
         "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 76,
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 256,
         "scope": "benchmarks",
         "param_total": 1,
         "param_docs_count": 0
       },
       {
         "rule": "missing_brief",
-        "symbol": "submit",
+        "symbol": "Arg",
         "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 79,
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 298,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "Arg",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 298,
+        "scope": "benchmarks",
+        "param_total": 1,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "Arg",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 358,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "Arg",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 358,
+        "scope": "benchmarks",
+        "param_total": 1,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "Threads",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 410,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "Threads",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 410,
+        "scope": "benchmarks",
+        "param_total": 1,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "Args",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 503,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "Args",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis.cpp",
+        "line": 503,
+        "scope": "benchmarks",
+        "param_total": 1,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "simulate_computation",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+        "line": 49,
+        "scope": "benchmarks",
+        "param_total": 1,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "generate_test_image",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+        "line": 64,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "generate_test_image",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+        "line": 64,
+        "scope": "benchmarks",
+        "param_total": 2,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_return_docs",
+        "symbol": "generate_test_image",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+        "line": 64,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "Arg",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+        "line": 284,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "Arg",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+        "line": 284,
+        "scope": "benchmarks",
+        "param_total": 1,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "Iterations",
+        "kind": "function",
+        "file": "benchmarks/image_analysis/bench_image_analysis_latency.cpp",
+        "line": 329,
         "scope": "benchmarks"
       }
     ]

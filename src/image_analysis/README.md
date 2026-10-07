@@ -1,57 +1,61 @@
 # Image Analysis Module
 
-<!-- Status: PRODUCTION_READY | Phase 1-6 complete | validated: 2026-08-10 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: IN_PROGRESS | plugin-backed implementation | source-verified: 2026-10-07 -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · CMakeLists.txt -->
 
 ## Module Purpose
 
-The image analysis module provides computer vision and OCR capabilities for ThemisDB, including text extraction from images, object detection, and visual content indexing with support for multiple backend engines and configurable feature extraction pipelines.
+The image analysis module provides the ThemisDB vision layer for OCR and object detection. The live implementation is plugin-first: `src/image_analysis/CMakeLists.txt` builds optional OCR and detection backends, and the canonical runtime contract is defined in `include/plugins/image_analysis_interface.h` together with the manager and plugin wrappers under `include/plugins/`.
+
+The current source-backed implementation focuses on:
+- OCR via the Tesseract plugin (`src/image_analysis/tesseract_ocr_plugin.cpp`)
+- Object detection via the YOLOv8 ONNX plugin (`src/image_analysis/yolov8_onnx_plugin.cpp`)
+- Backend selection and lifecycle orchestration (`include/plugins/image_analysis_manager.h`)
+- Graceful fallback when optional dependencies are absent
 
 ## Relevant Interfaces
 
 | Interface / File | Role |
 |---|---|
-| tesseract_ocr_plugin.cpp | OCR text extraction via Tesseract engine |
-| yolov8_onnx_plugin.cpp | Object detection via YOLOv8 ONNX runtime |
-| image_processor.h | Public image processing API contract |
-| feature_extractor.h | Feature extraction and indexing interface |
-| image_cache.h | Result caching for frequently-processed images |
+| `include/plugins/image_analysis_interface.h` | Canonical image-analysis backend contract and result types |
+| `include/plugins/image_analysis_manager.h` | Discovery, registration, and selection of loaded plugins |
+| `include/plugins/tesseract_ocr_plugin.h` | OCR plugin interface and OCR-result structures |
+| `include/plugins/yolov8_onnx_plugin.h` | YOLOv8 object-detection plugin interface |
+| `src/image_analysis/CMakeLists.txt` | Optional dependency wiring for Tesseract and ONNX Runtime |
 
 ## Scope
 
 In scope:
-- OCR text extraction and layout analysis
-- Object detection and bounding box computation
-- Image feature extraction (embeddings, metadata)
-- Backend abstraction for multiple vision engines
-- Caching and performance optimization
+- OCR text extraction and region detection
+- Object detection with bounding boxes and confidence scores
+- Optional plugin deployment under build-time feature gates
+- Graceful degradation when Tesseract or ONNX Runtime is unavailable
 
 Out of scope:
-- Image format conversion (delegated to utils module)
-- Custom model training or fine-tuning
-- Real-time video processing (only static images)
+- Real-time video analytics
+- Custom model training pipelines
+- Broad image-generation or multimodal captioning features beyond the plugin interface contract
 
 ## Runtime Behavior and Limits
 
-- OCR processing: bounded by configurable timeout per image
-- Object detection: returns top-k results with confidence thresholds
-- Features are cached with configurable TTL
-- All operations degrade gracefully if backend unavailable
-- Batch processing supported for throughput optimization
+- OCR and detection operate as optional plugins and succeed only when their supporting dependency is enabled.
+- When dependencies are absent, the plugins still initialise and return explicit failure results instead of crashing.
+- The module intentionally prioritises fail-closed runtime behaviour: no silent fallback beyond documented error responses.
+- Batch and latency targets remain tracked in `ROADMAP.md` and `PERFORMANCE_EXPECTATIONS.md` rather than being treated as settled production claims.
 
 ## Sourcecode Verification (Module: image_analysis/readme)
 
 - Verified files:
-  - src/image_analysis/tesseract_ocr_plugin.cpp
-  - src/image_analysis/yolov8_onnx_plugin.cpp
-  - include/image_analysis/image_processor.h
-  - include/image_analysis/feature_extractor.h
-  - include/image_analysis/image_cache.h
+  - `src/image_analysis/tesseract_ocr_plugin.cpp`
+  - `src/image_analysis/yolov8_onnx_plugin.cpp`
+  - `src/image_analysis/CMakeLists.txt`
+  - `include/plugins/image_analysis_interface.h`
+  - `include/plugins/image_analysis_manager.h`
 - Verified behavior surfaces:
-  - OCR text extraction and confidence scoring
-  - Object detection with bounding box coordinates
-  - Feature extraction and vector embedding generation
-  - Backend plugin lifecycle and error handling
+  - OCR text extraction and confidence scoring when `HAVE_TESSERACT` is enabled
+  - Object detection with bounding boxes when `HAVE_ONNXRUNTIME` is enabled
+  - Graceful error results when the optional native backends are unavailable
+  - Plugin lifecycle, configuration, and manager selection logic
 - Note:
-  - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
-  - historical entries remain in CHANGELOG.md
+  - forward planning is tracked in `ROADMAP.md` and `FUTURE_ENHANCEMENTS.md`
+  - historical entries remain in `CHANGELOG.md`

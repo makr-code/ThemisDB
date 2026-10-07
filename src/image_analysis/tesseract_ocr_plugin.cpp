@@ -396,13 +396,13 @@ nlohmann::json TesseractOCRPlugin::getStatistics() const {
     };
 }
 
+/**
+ * @brief Guard access to the cached OCR result while reading the mutex-protected state.
+ * @param[in] last_result_mtx_ Protects the last OCR result cache against concurrent writes.
+ * @return The last completed OCR result snapshot.
+ */
 OcrResult TesseractOCRPlugin::getLastOcrResult() const {
-    /**
-     * @brief Lk.
-     * @param[in] last_result_mtx_ Input parameter.
-     * @return Return value.
-     */
-    std::lock_guard<std::mutex> lk(last_result_mtx_);
+    std::lock_guard<std::mutex> result_guard(last_result_mtx_);
     return last_ocr_result_;
 }
 
