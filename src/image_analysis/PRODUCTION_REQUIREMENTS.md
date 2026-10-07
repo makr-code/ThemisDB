@@ -26,13 +26,13 @@ This document defines the mandatory production requirements for the `image_analy
 
 - **MUST:** Memory and latency should remain within the explicit thresholds stated in `PERFORMANCE_EXPECTATIONS.md` for the active build profile.
 - **MUST:** Module behaviour must remain bounded even when the native runtime dependency is not installed.
-- **MUST NOT:** A missing optional backend may silently remove the feature without surfacing an error state to the caller.
+- **MUST NOT:** A missing optional backend silently removes the feature without surfacing an error state to the caller.
 
 ## Mandatory Reliability Requirements
 
 - **MUST:** OCR/detection results must be returned as structured result objects with explicit success/error information.
 - **MUST:** Dependency or inference failures must be surfaced to the caller without taking down the broader process.
-- **MUST NOT:** The module should assume the presence of Tesseract or ONNX Runtime without checking the build and runtime configuration.
+- **MUST NOT:** The module assumes the presence of Tesseract or ONNX Runtime without checking the build and runtime configuration.
 
 ## Minimal Production Checklist (Audit-Capable)
 
