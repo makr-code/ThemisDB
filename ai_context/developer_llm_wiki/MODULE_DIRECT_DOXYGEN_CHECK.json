@@ -1,23 +1,23 @@
 {
-  "module": "execution",
+  "module": "llama_cpp",
   "source_mode": "direct_doxygen_markers",
   "source_graph_used": false,
   "source_graph_path": "/home/runner/work/ThemisDB/ThemisDB/ai_working/sourcecode_graph.json",
-  "source_files_scanned": 6,
-  "source_symbols_total": 39,
-  "source_symbols_after_filter": 39,
-  "doxygen_members_total": 76,
-  "doxygen_members_after_filter": 68,
-  "source_symbol_names": 26,
-  "doxygen_symbol_names": 41,
-  "source_not_in_doxygen_count": 2,
-  "doxygen_not_in_source_count": 17,
+  "source_files_scanned": 13,
+  "source_symbols_total": 47,
+  "source_symbols_after_filter": 29,
+  "doxygen_members_total": 223,
+  "doxygen_members_after_filter": 90,
+  "source_symbol_names": 24,
+  "doxygen_symbol_names": 83,
+  "source_not_in_doxygen_count": 4,
+  "doxygen_not_in_source_count": 63,
   "coverage": {
-    "symbol_presence_ratio": 0.9231,
-    "missing_symbol_count": 2,
-    "missing_brief_count": 56,
-    "missing_param_docs_count": 22,
-    "missing_return_docs_count": 20
+    "symbol_presence_ratio": 0.8333,
+    "missing_symbol_count": 4,
+    "missing_brief_count": 58,
+    "missing_param_docs_count": 26,
+    "missing_return_docs_count": 33
   },
   "ownership": {
     "path_policy": {
@@ -49,308 +49,349 @@
       "classification_rule": "everything outside internal roots is treated as external / third-party boundary"
     },
     "source_symbols": {
-      "internal": 39,
+      "internal": 29,
       "external": 0
     },
     "doxygen_members": {
-      "internal": 53,
-      "external": 15
+      "internal": 82,
+      "external": 8
     },
     "externally_scoped_symbols": []
   },
   "by_rule": {
-    "missing_symbol": 2,
-    "missing_brief": 56,
-    "missing_param_docs": 22,
-    "missing_return_docs": 20
+    "missing_symbol": 4,
+    "missing_brief": 58,
+    "missing_param_docs": 26,
+    "missing_return_docs": 33
   },
   "by_rule_scope": {
     "missing_symbol": {
-      "include": 2
+      "src": 4
     },
     "missing_brief": {
-      "benchmarks": 11,
-      "other": 15,
-      "tests": 13,
-      "include": 17
+      "benchmarks": 20,
+      "other": 6,
+      "include": 16,
+      "src": 4,
+      "tests": 12
     },
     "missing_param_docs": {
-      "benchmarks": 10,
-      "tests": 5,
-      "include": 7
+      "benchmarks": 18,
+      "include": 2,
+      "src": 1,
+      "tests": 5
     },
     "missing_return_docs": {
-      "benchmarks": 4,
-      "tests": 9,
-      "include": 7
+      "benchmarks": 13,
+      "include": 7,
+      "src": 2,
+      "tests": 11
     }
   },
   "by_scope": {
-    "src": 0,
-    "tests": 27,
-    "benchmarks": 25,
-    "include": 33,
-    "other": 15
+    "src": 11,
+    "tests": 28,
+    "benchmarks": 51,
+    "include": 25,
+    "other": 6
   },
   "samples": {
     "source_not_in_doxygen": [
-      "SLAPriority",
-      "operator"
+      "file",
+      "lock",
+      "themis_llm_create",
+      "themis_llm_destroy"
     ],
     "doxygen_not_in_source": [
-      "ExecutionHighCardinalityStress",
-      "Name",
-      "StealPool",
-      "StubWorkStealPool",
-      "dequeued",
-      "drainStep",
-      "enqueue",
-      "enqueued",
-      "operator()",
-      "operator=",
-      "overflow",
-      "processed",
-      "remaining",
-      "reportCompletion",
-      "steal",
-      "submit",
-      "submitted"
+      "Arg",
+      "LLCPG1_TTFT_Stub_Baseline",
+      "LLCPG2_BatchEmbedding_Stub",
+      "LLCPG3_LoRALoad_P99",
+      "LLCPG4_RegressionBaseline",
+      "LlamaCppBenchFixture",
+      "LoRAEntry",
+      "ModelLoadingGuard",
+      "StubLlamaAccelGuard",
+      "StubLlamaRegistry",
+      "StubTokenStore",
+      "THEMIS_LLM_PLUGIN",
+      "Unit",
+      "accelerated",
+      "attempts",
+      "computeTargetLogitsForTokens",
+      "createAdapter",
+      "createPlugin",
+      "ensureReady",
+      "extractTokenCount",
+      "fallbacks",
+      "fileExists",
+      "findTensorByName",
+      "generateBatch",
+      "generateDraftTokens"
     ],
     "findings": [
       {
         "rule": "missing_symbol",
-        "symbol": "SLAPriority",
+        "symbol": "file",
         "count": 1,
-        "scope": "include",
+        "scope": "src",
         "scope_breakdown": {
-          "include": 1
+          "src": 1
         },
         "source_examples": [
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/include/execution/query_scheduler.h",
-            "line": 41,
-            "kind": "class",
-            "name": "SLAPriority",
-            "scope": "include"
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/llama_cpp/llama_cpp_plugin_validation_gates.cpp",
+            "line": 223,
+            "kind": "function",
+            "name": "file",
+            "scope": "src"
           }
         ]
       },
       {
         "rule": "missing_symbol",
-        "symbol": "operator",
-        "count": 1,
-        "scope": "include",
+        "symbol": "lock",
+        "count": 4,
+        "scope": "src",
         "scope_breakdown": {
-          "include": 1
+          "src": 4
         },
         "source_examples": [
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/include/execution/query_scheduler.h",
-            "line": 198,
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/llama_cpp/llama_cpp_plugin.cpp",
+            "line": 153,
             "kind": "function",
-            "name": "operator",
-            "scope": "include"
+            "name": "lock",
+            "scope": "src"
+          },
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/llama_cpp/llama_cpp_plugin.cpp",
+            "line": 178,
+            "kind": "function",
+            "name": "lock",
+            "scope": "src"
+          },
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/llama_cpp/llama_cpp_plugin.cpp",
+            "line": 223,
+            "kind": "function",
+            "name": "lock",
+            "scope": "src"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "themis_llm_create",
+        "count": 1,
+        "scope": "src",
+        "scope_breakdown": {
+          "src": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/llama_cpp/llama_cpp_plugin.cpp",
+            "line": 1064,
+            "kind": "function",
+            "name": "themis_llm_create",
+            "scope": "src"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "themis_llm_destroy",
+        "count": 1,
+        "scope": "src",
+        "scope_breakdown": {
+          "src": 1
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/llama_cpp/llama_cpp_plugin.cpp",
+            "line": 1074,
+            "kind": "function",
+            "name": "themis_llm_destroy",
+            "scope": "src"
           }
         ]
       },
       {
         "rule": "missing_brief",
-        "symbol": "Name",
+        "symbol": "getEnvOrEmpty",
         "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 125,
+        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
+        "line": 46,
         "scope": "benchmarks"
       },
       {
         "rule": "missing_param_docs",
-        "symbol": "Name",
+        "symbol": "getEnvOrEmpty",
         "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 125,
-        "scope": "benchmarks",
-        "param_total": 1,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "Name",
-        "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 154,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "Name",
-        "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 154,
-        "scope": "benchmarks",
-        "param_total": 1,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "Name",
-        "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 185,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "Name",
-        "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 185,
-        "scope": "benchmarks",
-        "param_total": 1,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "Name",
-        "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 228,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "Name",
-        "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 228,
-        "scope": "benchmarks",
-        "param_total": 1,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "BoundedQueue",
-        "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 43,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "BoundedQueue",
-        "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 43,
-        "scope": "benchmarks",
-        "param_total": 1,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "enqueue",
-        "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 45,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "enqueue",
-        "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 45,
+        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
+        "line": 46,
         "scope": "benchmarks",
         "param_total": 1,
         "param_docs_count": 0
       },
       {
         "rule": "missing_return_docs",
-        "symbol": "enqueue",
+        "symbol": "getEnvOrEmpty",
         "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 45,
+        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
+        "line": 46,
         "scope": "benchmarks"
       },
       {
         "rule": "missing_brief",
-        "symbol": "dequeue",
+        "symbol": "resolveCompileTimeModelPath",
         "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 52,
+        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
+        "line": 51,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_return_docs",
+        "symbol": "resolveCompileTimeModelPath",
+        "kind": "function",
+        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
+        "line": 51,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "resolveModelPath",
+        "kind": "function",
+        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
+        "line": 69,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_return_docs",
+        "symbol": "resolveModelPath",
+        "kind": "function",
+        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
+        "line": 69,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "resolveGpuLayers",
+        "kind": "function",
+        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
+        "line": 77,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_return_docs",
+        "symbol": "resolveGpuLayers",
+        "kind": "function",
+        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
+        "line": 77,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "fileExists",
+        "kind": "function",
+        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
+        "line": 89,
         "scope": "benchmarks"
       },
       {
         "rule": "missing_param_docs",
-        "symbol": "dequeue",
+        "symbol": "fileExists",
         "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 52,
+        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
+        "line": 89,
         "scope": "benchmarks",
         "param_total": 1,
         "param_docs_count": 0
       },
       {
         "rule": "missing_return_docs",
-        "symbol": "dequeue",
+        "symbol": "fileExists",
         "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 52,
+        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
+        "line": 89,
         "scope": "benchmarks"
       },
       {
         "rule": "missing_brief",
-        "symbol": "size",
+        "symbol": "toLowerCopy",
         "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 60,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_return_docs",
-        "symbol": "size",
-        "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 60,
-        "scope": "benchmarks"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "BoundedQueue",
-        "kind": "class",
-        "file": "",
-        "line": 0,
-        "scope": "other"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "ExecutionHighCardinalityStress",
-        "kind": "class",
-        "file": "",
-        "line": 0,
-        "scope": "other"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "StealPool",
-        "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 76,
+        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
+        "line": 97,
         "scope": "benchmarks"
       },
       {
         "rule": "missing_param_docs",
-        "symbol": "StealPool",
+        "symbol": "toLowerCopy",
         "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 76,
+        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
+        "line": 97,
         "scope": "benchmarks",
         "param_total": 1,
         "param_docs_count": 0
       },
       {
-        "rule": "missing_brief",
-        "symbol": "submit",
+        "rule": "missing_return_docs",
+        "symbol": "toLowerCopy",
         "kind": "function",
-        "file": "benchmarks/execution/bench_execution_dedicated_gates.cpp",
-        "line": 79,
+        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
+        "line": 97,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "isGemmaArtifact",
+        "kind": "function",
+        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
+        "line": 104,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "isGemmaArtifact",
+        "kind": "function",
+        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
+        "line": 104,
+        "scope": "benchmarks",
+        "param_total": 2,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_return_docs",
+        "symbol": "isGemmaArtifact",
+        "kind": "function",
+        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
+        "line": 104,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "parseArrayLength",
+        "kind": "function",
+        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
+        "line": 110,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "parseArrayLength",
+        "kind": "function",
+        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
+        "line": 110,
+        "scope": "benchmarks",
+        "param_total": 1,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_return_docs",
+        "symbol": "parseArrayLength",
+        "kind": "function",
+        "file": "benchmarks/llama_cpp/bench_llama_cpp_inference.cpp",
+        "line": 110,
         "scope": "benchmarks"
       }
     ]
