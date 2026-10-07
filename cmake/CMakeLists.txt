@@ -5447,6 +5447,13 @@ endfunction()
 
 function(themis_link_zlib_if_available _target_name)
     set(_themis_zlib_linked FALSE)
+    if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+        # Keep Linux link closure explicit for transitive RocksDB/themis_security
+        # zlib symbol usage (deflate/inflate), even when imported targets exist.
+        # Some toolchains still drop zlib under --as-needed without plain -lz.
+        target_link_libraries(${_target_name} PRIVATE "-Wl,--no-as-needed" z "-Wl,--as-needed")
+        return()
+    endif()
     if(TARGET ZLIB::ZLIB)
         foreach(_themis_zlib_imported_property
                 IMPORTED_LOCATION
@@ -5467,24 +5474,11 @@ function(themis_link_zlib_if_available _target_name)
             set(_themis_zlib_linked TRUE)
         endif()
         if(_themis_zlib_linked)
-            if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-                # Linux uses explicit plain -lz closure below to avoid
-                # imported-target/as-needed ordering gaps in large link lines.
-                set(_themis_zlib_linked FALSE)
-            else()
-                target_link_libraries(${_target_name} PRIVATE ZLIB::ZLIB)
-            endif()
+            target_link_libraries(${_target_name} PRIVATE ZLIB::ZLIB)
         endif()
     endif()
-    if(NOT _themis_zlib_linked AND ZLIB_LIBRARY AND NOT CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    if(NOT _themis_zlib_linked AND ZLIB_LIBRARY)
         target_link_libraries(${_target_name} PRIVATE ${ZLIB_LIBRARY})
-        set(_themis_zlib_linked TRUE)
-    endif()
-    if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-        # Keep Linux link closure explicit for transitive RocksDB/themis_security
-        # zlib symbol usage (deflate/inflate), even when imported targets exist.
-        # Some toolchains still drop zlib under --as-needed without plain -lz.
-        target_link_libraries(${_target_name} PRIVATE "-Wl,--no-as-needed" z "-Wl,--as-needed")
         set(_themis_zlib_linked TRUE)
     endif()
 endfunction()
