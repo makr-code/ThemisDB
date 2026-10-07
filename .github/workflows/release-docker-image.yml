@@ -507,6 +507,8 @@ jobs:
           exit 1
         fi
         SUBJECT_NAME="$(printf '%s\n' "${SUBJECT_NAME}" | head -n 1)"
+        SUBJECT_NAME="${SUBJECT_NAME%%,*}"
+        SUBJECT_NAME="$(printf '%s\n' "${SUBJECT_NAME}" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
         SUBJECT_NAME="${SUBJECT_NAME%%@*}"
         if [[ "${SUBJECT_NAME}" == */* ]]; then
           if [[ "${SUBJECT_NAME##*/}" == *:* ]]; then
