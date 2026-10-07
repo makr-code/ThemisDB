@@ -5474,7 +5474,7 @@ function(themis_link_zlib_if_available _target_name)
         target_link_libraries(${_target_name} PRIVATE ${ZLIB_LIBRARY})
         set(_themis_zlib_linked TRUE)
     endif()
-    if(UNIX AND NOT APPLE)
+    if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
         # Keep Linux link closure explicit for transitive RocksDB/themis_security
         # zlib symbol usage (deflate/inflate), even when imported targets exist.
         # Some toolchains still drop zlib under --as-needed without plain -lz.
