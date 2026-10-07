@@ -343,7 +343,11 @@ std::string PluginSecurityVerifier::calculateFileHash(const std::string &filePat
     std::vector<char> buffer(bufferSize);
 
     while (file.read(buffer.data(), bufferSize) || file.gcount() > 0) {
-        if (EVP_DigestUpdate(mdctx, buffer.data(), file.gcount()) != 1) {
+        const std::streamsize bytes_read = file.gcount();
+        if (bytes_read <= 0) {
+            continue;
+        }
+        if (EVP_DigestUpdate(mdctx, buffer.data(), static_cast<size_t>(bytes_read)) != 1) {
             EVP_MD_CTX_free(mdctx);
             return "";
         }
@@ -407,7 +411,7 @@ std::optional<PluginMetadata> PluginSecurityVerifier::loadMetadata(const std::st
                 metadata.signature.signingCertificate = sig.value("certificate", "");
                 metadata.signature.issuer             = sig.value("issuer", "");
                 metadata.signature.subject            = sig.value("subject", "");
-                metadata.signature.timestamp          = sig.value("timestamp", 0);
+                metadata.signature.timestamp          = sig.value<uint64_t>("timestamp", 0);
             }
 
             if (plugin.contains("permissions")) {
@@ -1741,7 +1745,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedCertificate(const std::string &pl
             if (win_cert_len > 0xFFFFFFF8u) {
                 break;
             }
-            const uint32_t padded = (win_cert_len + 7) & ~7;
+            const uint32_t padded = (win_cert_len + 7u) & ~uint32_t{7u};
             tbl_pos += padded;
         }
 
@@ -2044,7 +2048,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedSignature(const std::string &plug
 
     // Read file header to determine format
     std::vector<uint8_t> header(64);
-    file.read(reinterpret_cast<char *>(header.data()),header.size());
+    file.read(reinterpret_cast<char *>(header.data()), static_cast<std::streamsize>(header.size()));
 
     if (file.gcount() < 4) {
         return std::nullopt;
@@ -2084,7 +2088,7 @@ EnhancedPluginSecurityVerifier::extractEmbeddedSignature(const std::string &plug
         if (sig_stream) {
             // Read signature file
             sig_stream.seekg(0, std::ios::end);
-            size_t size = sig_stream.tellg();
+            const std::streamoff size = sig_stream.tellg();
             sig_stream.seekg(0, std::ios::beg);
 
             if (size > 0 && size < 1024 * 1024) { // Max 1MB signature
@@ -2093,10 +2097,11 @@ EnhancedPluginSecurityVerifier::extractEmbeddedSignature(const std::string &plug
                  * @param[in] size Input parameter.
                  * @return Return value.
                  */
-                std::vector<uint8_t> sig_data(size);
-                sig_stream.read(reinterpret_cast<char *>(sig_data.data()), size);
+                const auto data_size = static_cast<size_t>(size);
+                std::vector<uint8_t> sig_data(data_size);
+                sig_stream.read(reinterpret_cast<char *>(sig_data.data()), static_cast<std::streamsize>(size));
 
-                if (sig_stream.gcount() == static_cast<std::streamsize>(size)) {
+                if (sig_stream.gcount() == size) {
                     return sig_data;
                 }
             }
@@ -2352,7 +2357,7 @@ std::vector<uint8_t> EnhancedPluginSecurityVerifier::calculateHashExcludingSigna
 
     // Read file header to determine format
     std::vector<uint8_t> header(64);
-    file.read(reinterpret_cast<char *>(header.data()),header.size());
+    file.read(reinterpret_cast<char *>(header.data()), static_cast<std::streamsize>(header.size()));
 
     if (file.gcount() < 4) {
         return {};
@@ -2381,7 +2386,11 @@ std::vector<uint8_t> EnhancedPluginSecurityVerifier::calculateHashExcludingSigna
     std::vector<char> buffer(bufferSize);
 
     while (file.read(buffer.data(), bufferSize) || file.gcount() > 0) {
-        if (EVP_DigestUpdate(mdctx, buffer.data(), file.gcount()) != 1) {
+        const std::streamsize bytes_read = file.gcount();
+        if (bytes_read <= 0) {
+            continue;
+        }
+        if (EVP_DigestUpdate(mdctx, buffer.data(), static_cast<size_t>(bytes_read)) != 1) {
             EVP_MD_CTX_free(mdctx);
             return {};
         }
@@ -2513,4 +2522,3 @@ void EnhancedPluginSecurityVerifier::updatePolicy(const PluginSecurityPolicy &po
 
 } // namespace acceleration
 } // namespace themis
-
