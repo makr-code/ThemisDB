@@ -137,7 +137,8 @@ public:
      * @brief Get encoded size in bytes
      */
     size_t getEncodedSize() const {
-        return config_.num_stages * config_.num_subquantizers;
+        return static_cast<size_t>(config_.num_stages) *
+               static_cast<size_t>(config_.num_subquantizers);
     }
 
     /**
@@ -155,7 +156,7 @@ public:
      */
     const ProductQuantizer* getStageQuantizer(int stage) const {
         if (stage >= 0 && stage < static_cast<int>(stage_quantizers_.size())) {
-            return stage_quantizers_[stage].get();
+            return stage_quantizers_[static_cast<size_t>(stage)].get();
         }
         return nullptr;
     }
@@ -180,4 +181,3 @@ private:
 };
 
 } // namespace themis
-

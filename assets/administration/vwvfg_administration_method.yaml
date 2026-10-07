@@ -1,0 +1,145 @@
+method_id: vwvfg_administration_method
+version: 1.0.0
+name: VwVfG Administration Method
+description: >
+  Scientific-governed procedural method for Verwaltungsverfahren under VwVfG-style
+  constraints with explicit legality, hearing, justification, deadline, and form checks.
+last_updated: 2026-10-06T08:30:00Z
+source_lineage:
+  adaptation_scope: "ThemisDB legal-governed process method for administration workflows"
+foundation_ref: scientific_foundation.json
+
+runtime:
+  mode_required: dream_research
+  supervisor_enabled: true
+  max_parallel_strategies: 3
+  fail_closed: true
+  promotion_requires_human_approval: true
+
+legal_scope:
+  framework: VwVfG
+  jurisdiction_profile: bund_default
+  allows_state_overlays: true
+  state_overlay_required_for_binding_decisions: true
+
+classification:
+  dimensions:
+    - verwaltungsakt_typ
+    - zuständigkeit_risiko
+    - eingriffsintensität
+    - fristkritikalität
+    - grundrechtsnähe
+    - evidenzlage
+  output_fields:
+    - verfahrensklasse
+    - legal_risk_profile
+    - unresolved_legal_questions
+    - required_authorities
+
+phases:
+  - phase_id: jurisdiction_and_competence_check
+    phase_number: 1
+    name: Zuständigkeit und Anwendbarkeit
+    objective: >
+      Prüfe sachliche, örtliche und instanzielle Zuständigkeit sowie Anwendbarkeit des
+      Verfahrensrahmens vor jeder materiellen Bewertung.
+    outputs:
+      - competence_matrix
+      - applicability_result
+      - escalation_requirements
+
+  - phase_id: procedure_design_and_hearing
+    phase_number: 2
+    name: Verfahrensdesign und Anhörung
+    objective: >
+      Lege den Verfahrenspfad inkl. Beteiligtenrechte, Anhörungsschritte und
+      Dokumentationspunkte fest.
+    outputs:
+      - procedure_bpmn
+      - hearing_plan
+      - participation_log_requirements
+
+  - phase_id: fact_and_evidence_assessment
+    phase_number: 3
+    name: Sachverhalt und Beweislage
+    objective: >
+      Ermittle entscheidungserhebliche Tatsachen, bewerte Evidenzqualität und kennzeichne
+      verbleibende Unsicherheiten.
+    outputs:
+      - fact_matrix
+      - evidence_quality_profile
+      - contradiction_register
+
+  - phase_id: proportionality_and_discretion_control
+    phase_number: 4
+    name: Verhältnismäßigkeit und Ermessen
+    objective: >
+      Prüfe Geeignetheit, Erforderlichkeit, Angemessenheit sowie Ermessenslenkung und
+      Ermessensfehlerfreiheit.
+    outputs:
+      - proportionality_report
+      - discretion_bounds
+      - alternative_measures
+
+  - phase_id: formal_legality_and_deadline_control
+    phase_number: 5
+    name: Form, Fristen und Begründung
+    objective: >
+      Prüfe Formerfordernisse, Fristenlauf, Begründungsqualität und Bekanntgabevoraussetzungen.
+    outputs:
+      - form_compliance_report
+      - deadline_register
+      - reasoning_quality_assessment
+
+  - phase_id: governance_and_traceability_validation
+    phase_number: 6
+    name: Governance und Nachvollziehbarkeit
+    objective: >
+      Erzwinge Auditierbarkeit, Quellenklarheit und Gate-Vollständigkeit vor Freigabe.
+    gate_requirements:
+      - BRAIN-DREAM-ISOLATION
+      - BRAIN-DREAM-LABEL-INTEGRITY
+      - BRAIN-DREAM-NONREGRESSION
+      - BRAIN-DREAM-ETHICS-BOUNDARY
+      - BRAIN-BPMN-PROCEDURAL-INTEGRITY
+      - BRAIN-WIKI-CONTEXT-01
+    outputs:
+      - gate_report
+      - legal_trace_packet
+      - vetoes
+
+  - phase_id: decision_issue_and_post_monitoring
+    phase_number: 7
+    name: Entscheidung, Erlass und Monitoring
+    objective: >
+      Triff Entscheidung mit dokumentierter Rechtsgrundlage, steuere Erlass/Bekanntgabe und
+      etabliere Monitoring für Rechtsbehelfe und Nachsteuerung.
+    outputs:
+      - decision_class
+      - legal_basis_bundle
+      - issue_and_notification_log
+      - post_decision_monitoring_plan
+
+decision_policy:
+  allowed_decisions:
+    - no_go
+    - research_only
+    - promotion_candidate
+  hard_blockers:
+    - unresolved_competence
+    - missing_hearing_when_required
+    - deadline_violation
+    - missing_reasoning
+    - unresolved_formal_legality
+  default_decision_without_gate_closure: research_only
+
+observability:
+  required_metadata:
+    - run_id
+    - manifest_version
+    - knowledge_source_class
+    - wiki_context_refs
+    - jurisdiction_profile
+    - legal_basis_refs
+    - hearing_event_refs
+    - reasoning_packet_ref

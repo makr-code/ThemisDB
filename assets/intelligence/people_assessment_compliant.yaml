@@ -1,0 +1,34 @@
+method_id: people_assessment_compliant
+version: 1.0.0
+domain: intelligence
+description: Compliance-bound person assessment for protective risk management; no
+  covert or discriminatory profiling.
+runtime:
+  mode_required: dream_research
+  fail_closed: true
+  promotion_requires_human_approval: true
+legal_and_ethics_constraints:
+  requires_legal_basis: true
+  requires_purpose_limitation: true
+  requires_data_minimization: true
+  requires_human_oversight: true
+  prohibited:
+  - sensitive_attribute_targeting
+  - covert_mass_surveillance
+  - discriminatory_scoring
+assessment_dimensions:
+- threat_indicators
+- data_quality
+- proportionality
+- necessity
+themisdb_module_bindings:
+- security
+- governance
+- ethics_ai
+- observability
+observability:
+  required_metadata:
+  - run_id
+  - legal_basis_ref
+  - oversight_ref
+  - audit_case_ref

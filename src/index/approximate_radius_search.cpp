@@ -65,10 +65,11 @@ ApproximateRadiusSearch::search(
                         "Query vector cannot be empty");
     }
     
-    if (query_vector.size() != vector_manager_.getDimension()) {
+    const auto expected_dim = static_cast<size_t>(std::max(0, vector_manager_.getDimension()));
+    if (query_vector.size() != expected_dim) {
         return makeError(errors::ErrorCode::ERR_QUERY_INVALID_INPUT,
                         "Query vector dimension mismatch. Expected " + 
-                        std::to_string(vector_manager_.getDimension()) + 
+                        std::to_string(expected_dim) + 
                         ", got " + std::to_string(query_vector.size()));
     }
     
@@ -354,4 +355,3 @@ void ApproximateRadiusSearch::resetStatistics() {
 
 } // namespace vector
 } // namespace themis
-

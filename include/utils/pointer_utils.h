@@ -102,7 +102,6 @@ template<typename T, typename Func>
 auto safe_invoke(T* ptr, Func&& func)
     -> std::optional<std::conditional_t<std::is_void_v<std::invoke_result_t<Func, T&>>, std::monostate, std::invoke_result_t<Func, T&>>> {
     using ResultType = std::invoke_result_t<Func, T&>;
-    using OptionalType = std::optional<std::conditional_t<std::is_void_v<ResultType>, std::monostate, ResultType>>;
 
     if (!ptr) {
         return std::nullopt;

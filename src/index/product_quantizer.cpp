@@ -121,9 +121,10 @@ ProductQuantizer::ProductQuantizer(int dimension, const Config& config)
                 dimension_, config_.num_subquantizers, subvector_dim_);
 #else
     // Fallback: Pre-allocate codebooks for custom implementation
-    codebooks_.resize(config_.num_subquantizers);
+    codebooks_.resize(static_cast<size_t>(config_.num_subquantizers));
     for (auto& codebook : codebooks_) {
-        codebook.resize(config_.num_centroids, std::vector<float>(subvector_dim_));
+        codebook.resize(static_cast<size_t>(config_.num_centroids),
+                        std::vector<float>(static_cast<size_t>(subvector_dim_)));
     }
     
     THEMIS_INFO("ProductQuantizer created with fallback implementation: dim={}, M={}, dsub={}",
@@ -213,8 +214,8 @@ ProductQuantizer::Status ProductQuantizer::train(
                 return Status::Error("Training subvector slice out of range");
             }
             std::vector<float> subvec(
-                vec.begin() + start_dim,
-                vec.begin() + start_dim + subvector_dim_
+                vec.begin() + static_cast<std::ptrdiff_t>(start_dim),
+                vec.begin() + static_cast<std::ptrdiff_t>(start_dim + static_cast<size_t>(subvector_dim_))
             );
             subvector_data.push_back(std::move(subvec));
         }
@@ -252,7 +253,7 @@ std::vector<uint8_t> ProductQuantizer::encode(const std::vector<float>& vector) 
     }
     
 #ifdef THEMIS_HAS_FAISS
-    std::vector<uint8_t> codes(config_.num_subquantizers);
+    std::vector<uint8_t> codes(static_cast<size_t>(config_.num_subquantizers));
     
     try {
         if (!faiss_pq_ || vector.empty() || codes.empty()) {
@@ -271,7 +272,7 @@ std::vector<uint8_t> ProductQuantizer::encode(const std::vector<float>& vector) 
 #else
     // Fallback: Custom encoding
     std::vector<uint8_t> codes;
-    codes.reserve(config_.num_subquantizers);
+    codes.reserve(num_subquantizers);
     
     // Encode each subvector independently
     for (size_t sq_index = 0; sq_index < num_subquantizers; ++sq_index) {
@@ -287,8 +288,8 @@ std::vector<uint8_t> ProductQuantizer::encode(const std::vector<float>& vector) 
         }
         
         std::vector<float> subvec(
-            vector.begin() + start_dim,
-            vector.begin() + start_dim + subvector_dim_
+            vector.begin() + static_cast<std::ptrdiff_t>(start_dim),
+            vector.begin() + static_cast<std::ptrdiff_t>(start_dim + static_cast<size_t>(subvector_dim_))
         );
         
         uint8_t code = findNearestCentroid(subvec, codebooks_[sq_index]);
@@ -337,7 +338,7 @@ std::vector<float> ProductQuantizer::decode(const std::vector<uint8_t>& codes) c
 #else
     // Fallback: Custom decoding
     std::vector<float> reconstructed;
-    reconstructed.reserve(dimension_);
+    reconstructed.reserve(static_cast<size_t>(dimension_));
     
     // Concatenate centroid vectors
     for (size_t sq_index = 0; sq_index < expected_subquantizers; ++sq_index) {
@@ -488,6 +489,7 @@ std::vector<std::vector<float>> ProductQuantizer::runKMeans(
     
     const size_t num_samples = subvector_data.size();
     const int k = config_.num_centroids;
+    const size_t k_size = static_cast<size_t>(k);
 
     if (k <= 0 || subvector_dim_ <= 0) {
         return {};
@@ -516,7 +518,7 @@ std::vector<std::vector<float>> ProductQuantizer::runKMeans(
             
             // Convert data to FAISS format (flat array)
             std::vector<float> flat_data;
-            flat_data.reserve(num_samples * subvector_dim_);
+            flat_data.reserve(num_samples * static_cast<size_t>(subvector_dim_));
             for (const auto& vec : subvector_data) {
                 flat_data.insert(flat_data.end(), vec.begin(), vec.end());
             }
@@ -543,23 +545,23 @@ std::vector<std::vector<float>> ProductQuantizer::runKMeans(
             
             // Extract centroids from FAISS result
             std::vector<std::vector<float>> centroids;
-            centroids.reserve(k);
+            centroids.reserve(k_size);
             const float* centroid_data = clustering.centroids.data();
             if (centroid_data == nullptr) {
                 THEMIS_WARN("ProductQuantizer::runKMeans - FAISS returned null centroid buffer");
                 return {};
             }
             
-            for (int i = 0; i < k; ++i) {
+            for (size_t i = 0; i < k_size; ++i) {
                 /**
                  * @brief Centroid.
                  * @param[in] subvector_dim_ Input parameter.
                  * @return Return value.
                  */
-                std::vector<float> centroid(subvector_dim_);
-                for (int d = 0; d < subvector_dim_; ++d) {
+                std::vector<float> centroid(static_cast<size_t>(subvector_dim_));
+                for (size_t d = 0; d < static_cast<size_t>(subvector_dim_); ++d) {
                     const size_t centroid_index =
-                        static_cast<size_t>(i) * static_cast<size_t>(subvector_dim_) + static_cast<size_t>(d);
+                        i * static_cast<size_t>(subvector_dim_) + d;
                     centroid[d] = centroid_data[centroid_index];
                 }
                 centroids.push_back(std::move(centroid));
@@ -580,7 +582,7 @@ std::vector<std::vector<float>> ProductQuantizer::runKMeans(
     
     // Initialize centroids randomly (k-means++)
     std::vector<std::vector<float>> centroids;
-    centroids.reserve(k);
+    centroids.reserve(k_size);
     
     std::random_device rd = {};
     std::mt19937 gen(rd());
@@ -632,7 +634,7 @@ std::vector<std::vector<float>> ProductQuantizer::runKMeans(
             int best_cluster = 0;
             
             for (int j = 0; j < k; ++j) {
-                float dist = l2Distance(subvector_data[i], centroids[j]);
+                float dist = l2Distance(subvector_data[i], centroids[static_cast<size_t>(j)]);
                 if (dist < min_dist) {
                     min_dist = dist;
                     best_cluster = j;
@@ -643,8 +645,8 @@ std::vector<std::vector<float>> ProductQuantizer::runKMeans(
         }
         
         // Update step
-        std::vector<std::vector<float>> new_centroids(k, std::vector<float>(subvector_dim_, 0.0f));
-        std::vector<int> counts(k, 0);
+        std::vector<std::vector<float>> new_centroids(k_size, std::vector<float>(static_cast<size_t>(subvector_dim_), 0.0f));
+        std::vector<int> counts(k_size, 0);
         
         for (size_t i = 0; i < num_samples; ++i) {
             const int cluster = assignments[i];
@@ -652,19 +654,19 @@ std::vector<std::vector<float>> ProductQuantizer::runKMeans(
                 THEMIS_WARN("ProductQuantizer::runKMeans - Cluster assignment out of range");
                 return {};
             }
-            counts[cluster]++;
+            counts[static_cast<size_t>(cluster)]++;
             
-            for (int d = 0; d < subvector_dim_; ++d) {
-                new_centroids[cluster][d] += subvector_data[i][d];
+            for (size_t d = 0; d < static_cast<size_t>(subvector_dim_); ++d) {
+                new_centroids[static_cast<size_t>(cluster)][d] += subvector_data[i][d];
             }
         }
         
         // Compute mean
         float max_change = 0.0f;
-        for (int j = 0; j < k; ++j) {
+        for (size_t j = 0; j < k_size; ++j) {
             if (counts[j] > 0) {
-                for (int d = 0; d < subvector_dim_; ++d) {
-                    new_centroids[j][d] /= counts[j];
+                for (size_t d = 0; d < static_cast<size_t>(subvector_dim_); ++d) {
+                    new_centroids[j][d] /= static_cast<float>(counts[j]);
                 }
                 
                 // Check convergence

@@ -6,7 +6,7 @@
 
 **Author:** ThemisDB Contributors  
 **Created:** 2026-10-05  
-**Last Updated:** 2026-10-05  
+**Last Updated:** 2026-10-06  
 **Status:** draft
 
 ---
@@ -71,10 +71,26 @@ Each mapping in this paper uses:
    - [adalora_tt_bridge.cpp](../training/adalora_tt_bridge.cpp)
 4. Persistent artifact storage + runtime mapping  
    - [ggml_tensor_bridge.cpp](../storage/ggml_tensor_bridge.cpp)
-5. Controlled retrieval and generation  
+5. Condensed episodic-to-semantic governance memory  
+   - [../../ai_context/developer_llm_wiki/INDEX.md](../../ai_context/developer_llm_wiki/INDEX.md)
+   - [../../ROADMAP.md](../../ROADMAP.md)
+6. Controlled retrieval and generation  
    - [llama_cpp_plugin.cpp](../llama_cpp/llama_cpp_plugin.cpp)
-6. Deployment-time adaptation and rollback  
+7. Deployment-time adaptation and rollback  
    - [incremental_lora_trainer.cpp](../training/incremental_lora_trainer.cpp)
+
+## 2.3 Operational retrieval/data-flow sequence (bounded role equivalence)
+
+The practical retrieval sequence in ThemisDB memory stack is:
+
+1. **Tensor representation shaping** (`tensor::TensorIngestionBridge`) encodes query/context into profile-scoped vector/tensor representations.
+2. **HNSW candidate recall** (`tensor::HnswTTBridge`) performs fast approximate nearest-neighbor activation for broad candidate coverage.
+3. **Graph-context association** (`tensor::TensorFingerprintGraph`) validates and reranks candidates using structural/relational neighborhood constraints.
+4. **Wiki/governance context injection** (Developer LLM Wiki + roadmap/governance artifacts) contributes condensed episodic decision memory and active policy context.
+5. **Policy arbitration + generation** (`ILLMRouter` + `llama_cpp::LlamaCppPlugin`) selects admissible context bundle and generates output under profile/security gates.
+6. **Decision/telemetry persistence** stores evidence, source classes, and rollback-relevant metadata for replay and audit.
+
+This is a functional role mapping only; it does not claim biological identity of substrates.
 
 ---
 
@@ -89,8 +105,27 @@ Each mapping in this paper uses:
 | `storage::GgmlTensorBridge` | White-matter pathway analog (transfer/format bridge) | Bridges persistent representations into runtime-executable substrate | capability-gated |
 | `llama_cpp::LlamaCppPlugin` (`generateRAG`, `embed`) | Prefrontal-guided retrieval + verbalization output | Integrates retrieved memory traces into final generated behavior | conditional quality path |
 | `tensor::TensorFingerprintGraph` | Associative cortex / semantic neighborhood structure | Maintains similarity neighborhoods and relatedness graph for memory association | implemented |
+| `ai_context/developer_llm_wiki/*` + governance SOT surfaces (`ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `RELEASE_STRATEGY.md`) | Condensed episodic-to-semantic consolidation ledger + executive notebook analog | Compresses operational episodes into reusable, auditable policy/architecture memory that constrains retrieval and promotion decisions | partial (`H5` integration in progress) |
 | `retrieval` + `rag` module surfaces | Cortico-hippocampal loop | Couples query intent to memory recall and evidence-conditioned output | implemented |
 | `observability` + `governance` + `security` | Error monitoring + homeostatic/immune control analog | Detects, constrains, and audits unsafe state transitions | implemented |
+
+## 3.1 Core memory substrate distinction (purpose/time/failure)
+
+| Substrate | Primary purpose | Dominant time scale | Typical failure modes |
+|---|---|---|---|
+| Tensor representations (`tensor::TensorIngestionBridge` and related profiles) | Encode/transform memory-relevant signal into comparable representational space | bridge between online query activation and longer-lived persistent artifacts | profile/version mismatch, malformed transform parameters, incompatible embedding spaces |
+| HNSW vector retrieval (`tensor::HnswTTBridge`) | Fast approximate recall of top-k candidate traces | online, short-horizon activation path | stale index snapshots, recall-vs-latency tradeoff drift, neighborhood fragmentation |
+| Graph-based context associations (`tensor::TensorFingerprintGraph`) | Structural/relational coherence and context-path validation across candidates | medium-to-long horizon coherence layer | edge inconsistency, semantic drift in associations, over-connected hubs causing noisy rerank |
+| Wiki/governance memory surfaces (`ai_context/developer_llm_wiki/*` + root governance docs) | Condensed episodic-to-semantic decision memory and policy constraints | long-horizon governance memory and release-cycle continuity | stale or unpinned context references, policy drift, missing provenance links into runtime decisions |
+
+## 3.2 Probabilistic vs deterministic roles (learning and dream research)
+
+For machine-learning support and dream-like hypothesis generation, ThemisDB should treat substrates asymmetrically:
+
+1. **Probabilistic-first learning substrates** (`tensor`, `HNSW`, `AdaLora`) provide the main adaptation/search space for candidate generation and representational evolution.
+2. **Deterministic substrates** (relational state, wiki/governance memory) provide boundary conditions, provenance, and promotion constraints rather than primary generative dynamics.
+
+This separation defines role hierarchy, not substrate value judgment: deterministic layers remain mandatory for safety, auditability, and release control.
 
 ---
 
@@ -139,6 +174,7 @@ The following brain-relevant functions are not yet fully present as first-class 
 | Thalamic global routing hub analog | Routing exists but lacks a unified, explicit cross-modal arbitration layer for all retrieval channels | Reduced routing conflicts and more consistent end-to-end latency/quality tradeoffs |
 | Cerebellar fast error-correction loop analog | No dedicated micro-adaptation loop for low-latency correction of repeated local generation errors | Faster convergence on repetitive failure classes |
 | Rich episodic context binding | Profile metadata exists, but richer temporal/causal episode graph binding is incomplete | Stronger context-aware recall and explainability |
+| Explicit wiki-memory integration | Condensed episodic governance memory exists in docs/wiki, but runtime retrieval traces do not consistently encode/use version-pinned wiki context as first-class memory input | Better policy continuity, auditability, and safer promotion/rollback decisions across releases |
 | Emotion-like valence tagging | No standardized affect/importance tagging channel that influences persistence and retrieval priority | Better user-aligned long-term memory selection in assistant scenarios |
 
 ---
@@ -291,7 +327,83 @@ Indicative foundational literature used for the conceptual mapping:
 4. Baddeley & Hitch (1974), Baddeley (2000): working-memory model and executive control.
 5. Doya (2000): neuromodulation and meta-learning control roles.
 
-These references motivate architecture hypotheses; they do not imply direct biological equivalence.
+Extended technical and safety grounding for machine-dreaming interpretation:
+
+6. Wilson & McNaughton (1994): empirical sleep replay evidence for offline reactivation.
+7. Stickgold (2005): sleep-dependent consolidation and stage-dependent memory effects.
+8. Sutton (1991, Dyna), Lin (1992), Mnih et al. (2015): replay/planning in learning systems.
+9. Ha & Schmidhuber (2018), Hafner et al. (Dreamer line 2019-2023): latent imagination for policy learning.
+10. Bender et al. (2021): caution against over-interpreting LLM stochastic generation as grounded cognition.
+11. Amodei et al. (2016), NIST AI RMF 1.0 (2023), EU AI Act (2024): safety/governance requirements for synthetic generation and promotion control.
+
+### 13.1 Evidence posture for the machine-dreaming equation
+
+| Claim | Evidence posture | Representative references |
+|---|---|---|
+| Offline replay improves consolidation stability | supports | [R8], [R3], [R11], [R12] |
+| Latent world-model imagination can accelerate learning | supports | [R13], [R14], [R10] |
+| `machine learning = machine dreaming` as universal identity | does not support | bounded by Sections 1/12 and counter-evidence from [R15] |
+| Dream-mode outputs can be promoted without strict gates | does not support | [R16], [R17], [R18] |
+| Dream-like synthetic generation can be useful under strict controls | conditional support | [R13], [R14], plus ThemisDB `BRAIN-DREAM-*` and `BRAIN-WIKI-CONTEXT*` gate families |
+
+### 13.2 Normalized citation set (DOI/arXiv/standards links)
+
+- **[R1]** McClelland, J. L., McNaughton, B. L., & O'Reilly, R. C. (1995).  
+  *Why there are complementary learning systems in the hippocampus and neocortex.* Psychological Review, 102(3), 419-457.  
+  DOI: https://doi.org/10.1037/0033-295X.102.3.419
+- **[R2]** Buzsaki, G. (1989).  
+  *Two-stage model of memory trace formation: A role for "noisy" brain states.* Neuroscience, 31(3), 551-570.  
+  DOI: https://doi.org/10.1016/0306-4522(89)90423-5
+- **[R3]** Buzsaki, G. (2015).  
+  *Hippocampal sharp wave-ripples: A cognitive biomarker for episodic memory and planning.* Hippocampus, 25(10), 1073-1188.  
+  DOI: https://doi.org/10.1002/hipo.22488
+- **[R4]** Frankland, P. W., & Bontempi, B. (2005).  
+  *The organization of recent and remote memories.* Nature Reviews Neuroscience, 6(2), 119-130.  
+  DOI: https://doi.org/10.1038/nrn1607
+- **[R5]** Baddeley, A. D., & Hitch, G. (1974).  
+  *Working Memory.* In G. H. Bower (Ed.), The Psychology of Learning and Motivation, Vol. 8, 47-89.  
+  DOI: https://doi.org/10.1016/S0079-7421(08)60452-1
+- **[R6]** Baddeley, A. (2000).  
+  *The episodic buffer: A new component of working memory?* Trends in Cognitive Sciences, 4(11), 417-423.  
+  DOI: https://doi.org/10.1016/S1364-6613(00)01538-2
+- **[R7]** Doya, K. (2000).  
+  *Complementary roles of basal ganglia and cerebellum in learning and motor control.* Current Opinion in Neurobiology, 10(6), 732-739.  
+  DOI: https://doi.org/10.1016/S0959-4388(00)00153-7
+- **[R8]** Wilson, M. A., & McNaughton, B. L. (1994).  
+  *Reactivation of hippocampal ensemble memories during sleep.* Science, 265(5172), 676-679.  
+  DOI: https://doi.org/10.1126/science.8036517
+- **[R9]** Stickgold, R. (2005).  
+  *Sleep-dependent memory consolidation.* Nature, 437(7063), 1272-1278.  
+  DOI: https://doi.org/10.1038/nature04286
+- **[R10]** Sutton, R. S. (1991).  
+  *Dyna, an integrated architecture for learning, planning, and reacting.* ACM SIGART Bulletin, 2(4), 160-163.  
+  DOI: https://doi.org/10.1145/122344.122377
+- **[R11]** Lin, L.-J. (1992).  
+  *Self-improving reactive agents based on reinforcement learning, planning and teaching.* Machine Learning, 8(3-4), 293-321.  
+  DOI: https://doi.org/10.1007/BF00992699
+- **[R12]** Mnih, V., et al. (2015).  
+  *Human-level control through deep reinforcement learning.* Nature, 518(7540), 529-533.  
+  DOI: https://doi.org/10.1038/nature14236
+- **[R13]** Ha, D., & Schmidhuber, J. (2018).  
+  *World Models.* arXiv:1803.10122.  
+  URL: https://arxiv.org/abs/1803.10122
+- **[R14]** Hafner, D., et al. (2020).  
+  *Dream to Control: Learning Behaviors by Latent Imagination.* arXiv:1912.01603 (ICLR 2020).  
+  URL: https://arxiv.org/abs/1912.01603
+- **[R15]** Bender, E. M., Gebru, T., McMillan-Major, A., & Mitchell, M. (published as Shmargaret Shmitchell) (2021).  
+  *On the Dangers of Stochastic Parrots: Can Language Models Be Too Big?* FAccT 2021, 610-623.  
+  DOI: https://doi.org/10.1145/3442188.3445922
+- **[R16]** Amodei, D., et al. (2016).  
+  *Concrete Problems in AI Safety.* arXiv:1606.06565.  
+  URL: https://arxiv.org/abs/1606.06565
+- **[R17]** NIST (2023).  
+  *Artificial Intelligence Risk Management Framework (AI RMF 1.0), NIST AI 100-1.*  
+  DOI: https://doi.org/10.6028/NIST.AI.100-1
+- **[R18]** European Union (2024).  
+  *Regulation (EU) 2024/1689 (Artificial Intelligence Act).*  
+  URL: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689
+
+These references motivate architecture hypotheses and gating requirements; they do not imply direct biological equivalence.
 
 ---
 
@@ -423,6 +535,9 @@ To operationalize this paper, the next Auftrag should register explicit gate fam
 3. **BRAIN-ARBITER** (route arbitration)
    - deterministic tie-break behavior tests
    - route-thrashing resilience tests
+4. **BRAIN-WIKI-CONTEXT** (wiki-memory provenance and version pinning)
+   - `knowledge_source_class` coverage checks for wiki-influenced decisions
+   - version-pinned `wiki_context_refs` integrity and stale-reference rejection checks
 
 Benchmark expectations should be linked into:
 - [PERFORMANCE_EXPECTATIONS.md](./PERFORMANCE_EXPECTATIONS.md)
@@ -540,7 +655,8 @@ This contract should be consistent with the artifact requirements documented in 
 | H1 Replay consolidation | [training/](../training), [tensor/](./), [scheduler/](../scheduler) | BRAIN-REPLAY, TEN-ROPE-G2/G5 style failure semantics | replay drift report + deterministic replay tests |
 | H2 Forgetting/homeostasis | [tensor/](./), [storage/](../storage), [performance/](../performance) | BRAIN-HOMEO + bounded growth envelope | growth/quality tradeoff benchmarks + contamination regressions |
 | H3 Salience routing | [training/](../training), [rag/](../rag), [retrieval/](../retrieval) | BRAIN-ARBITER partial + quality/rollback deltas | salience-on/off ablation + rollback reduction evidence |
-| H4 Routing arbitration | [llm/](../llm), [retrieval/](../retrieval), [query/](../query), [api/](../api) | BRAIN-ARBITER determinism and thrash checks | deterministic policy logs + route variance report |
+| H4 Routing arbitration | [llm/](../llm), [retrieval/](../retrieval), [query/](../query), [api/](../api) | BRAIN-ARBITER determinism and thrash checks | deterministic policy logs + route variance report + wiki context version pinning evidence |
+| H5 Wiki-memory integration | [tensor/](./), [retrieval/](../retrieval), [governance/](../governance), [../../ai_context/developer_llm_wiki/](../../ai_context/developer_llm_wiki/) | BRAIN-WIKI-CONTEXT provenance and pinning checks | decision logs with `knowledge_source_class=wiki` and `wiki_context_refs` plus stale-reference rejection evidence |
 
 ---
 
@@ -670,6 +786,10 @@ For each brain-inspired feature run, logs should contain:
    - gate outcomes
    - go/hold/no-go decision
    - human approver reference
+5. **Knowledge provenance identity**
+   - `knowledge_source_class` (`tensor|hnsw|graph|wiki|mixed`)
+   - `wiki_context_refs` (version-pinned doc refs, e.g., `ai_context/developer_llm_wiki/INDEX.md@<sha-or-version>`)
+   - substrate lineage IDs where available (tensor profile/version, HNSW index epoch, graph snapshot ID)
 
 This schema enables post-incident reconstruction and comparable release decisions.
 
@@ -847,6 +967,8 @@ The default decisions imply the following immediate gate additions:
    - stable route selection under equal confidence inputs.
 4. **BRAIN-SAFETY-CORE-01**
    - fail-closed + rollback proof + hidden-fallback absence.
+5. **BRAIN-WIKI-CONTEXT-01**
+   - wiki memory provenance and version-pinning checks for promotion-relevant decisions.
 
 These should be registered in planning first, then materialized as CTest/benchmark targets.
 
@@ -965,6 +1087,20 @@ If self-improvement is extended across ethics/process/voice/visual/evaluation pl
 
 However, richer architecture still does not justify automatic "humanoid intelligence" claims unless Sections 39–41 criteria remain satisfied.
 
+### 42.3 Explicitly weak or missing human cognitive capabilities
+
+Even with Dream-Mode and BPMN procedural memory, several human capabilities remain missing or weakly represented:
+
+1. **Embodied cognition** (sensorimotor grounding and environment coupling) is not represented as a first-class closed-loop substrate.
+2. **Theory of Mind** (stable multi-agent intention models) is only approximated through limited policy/context modeling.
+3. **Affective cognition** (emotion-like priority dynamics beyond reward utility) remains rudimentary.
+4. **Causal intervention planning** (counterfactual intervention policy design) is only partially covered by synthetic candidate testing.
+5. **Robust metacognition** (self-diagnosis of uncertainty/error framing) remains mostly metric-driven, not introspective.
+6. **Real-time social norm negotiation** is constrained to static/delayed policy gates.
+7. **Long-horizon autobiographical identity continuity** is not implemented as a stable identity-memory contract.
+
+These gaps should remain explicit in roadmap and gate decisions to avoid over-claiming cognitive parity.
+
 ---
 
 ## 43. BPMN as Externalized Procedural Memory
@@ -980,6 +1116,49 @@ Engineering implication:
 
 Governance implication:
 - BPMN process state transitions should be included in reproducibility manifests and decision logs where they influence autonomous adaptation behavior.
+
+### 43.1 BPMN + YAML strategy lifecycle (generate -> validate -> evolve)
+
+To operationalize procedural cognition in Dream-Mode, strategy execution should follow this lifecycle:
+
+1. **Generate**
+   - classify problem (`domain`, `risk`, `uncertainty`, `required_evidence`),
+   - map classification onto BPMN strategy blocks (`diagnose -> hypothesis -> test -> decision -> rollback`),
+   - emit run-scoped YAML epistemic model (assumptions, falsification criteria, stop rules, metrics).
+2. **Validate**
+   - syntax/schema validation for BPMN and YAML contracts,
+   - semantic validation for process consistency and auditability,
+   - gate validation using `BRAIN-DREAM-*` + `BRAIN-BPMN-PROCEDURAL-INTEGRITY`.
+3. **Evolve**
+   - score strategy evidence quality and failure modes,
+   - prune weak patterns,
+   - promote successful patterns into versioned strategy library only after human-approved gate closure.
+
+### 43.2 First-class scientific method assets
+
+ThemisDB now defines a dedicated scientific-method configuration surface:
+
+- [../../assets/scientific/default_method.yaml](../../assets/scientific/default_method.yaml)
+- [../../assets/scientific/default_method_phase1_conservative_backup_20251012_204557.yaml](../../assets/scientific/default_method_phase1_conservative_backup_20251012_204557.yaml)
+- [../../assets/scientific/agentic_bpmn_coding_loop.yaml](../../assets/scientific/agentic_bpmn_coding_loop.yaml)
+- [../../assets/scientific/agentic_bpmn_deep_research_loop.yaml](../../assets/scientific/agentic_bpmn_deep_research_loop.yaml)
+- [../../assets/administration/vwvfg_administration_method.yaml](../../assets/administration/vwvfg_administration_method.yaml)
+- [../../assets/model_catalog.yaml](../../assets/model_catalog.yaml)
+- [../../assets/scientific_methods/scientific_foundation.json](../../assets/scientific_methods/scientific_foundation.json)
+- [../../assets/scientific_methods/scientific_method.schema.json](../../assets/scientific_methods/scientific_method.schema.json)
+
+These assets formalize autonomous problem classification and procedural strategy control under Dream-Mode constraints.
+
+### 43.3 Controlled "dreaming" of new epistemic models
+
+New epistemic models may be generated only under strict conditions:
+
+1. execution mode is `dream_research`,
+2. each candidate contains explicit novelty/falsifiability/risk statements,
+3. no-gate-closure default remains `research_only`,
+4. promotion requires human approval reference and rollback-ready decision protocol.
+
+This keeps epistemic-model innovation bounded, auditable, and fail-closed.
 
 ---
 
@@ -1082,6 +1261,26 @@ Dream outputs must remain:
 - clearly tagged as synthetic,
 - isolated from production truth paths,
 - blocked from autonomous promotion without explicit evidence gates.
+
+### 48.4 Working hypothesis: machine learning as machine dreaming
+
+Operationally for this paper, the statement **"maschinelles Lernen = maschinelles Träumen"** ("machine learning = machine dreaming") is treated as a bounded engineering hypothesis:
+
+- machine learning updates can be interpreted as constrained, evidence-gated transformation of candidate representations,
+- dream-like mode is the explicit offline surface where candidate expansion is allowed,
+- promotion to truth paths remains deterministic and governance-controlled.
+
+This is **not** a claim of biological identity; it is a role-equivalence lens for system design and testing.
+
+### 48.5 Progressive-thinking flow from deterministic POV
+
+To answer how information may evolve from a deterministic state into future candidates:
+
+1. **Deterministic anchor:** relational/wiki/governance state defines current accepted truth and constraints.
+2. **Probabilistic expansion:** tensor embeddings, HNSW recall neighborhoods, and AdaLora adaptation generate candidate future representations.
+3. **Graph coherence shaping:** association graph filters candidates by contextual/causal consistency.
+4. **Dream-mode validation:** candidates are tested under `BRAIN-DREAM-*`, safety, and nonregression gates.
+5. **Deterministic decision closure:** accepted candidates are version-pinned, traceable, and promoted; rejected candidates remain research artifacts only.
 
 ---
 
@@ -2077,6 +2276,60 @@ flowchart TD
     L2 -.synthetic candidates.-> DS[Dream Candidate Store]
     DS --> L3
 ```
+
+### 77.1 Mermaid Module-to-Brain-Area Mapping (Creative/Logical + Hippocampal Bridge)
+
+```mermaid
+flowchart LR
+    subgraph LH[Logical / Analytic Hemisphere Analog]
+      API[api/query/retrieval]
+      GOV[governance/security/ethics_ai]
+      EVAL[evaluation/observability]
+      WIKI[developer_llm_wiki + ROADMAP/FUTURE]
+    end
+
+    subgraph HC[Hippocampal Bridge Analog]
+      HNSW[tensor::HnswTTBridge]
+      GRAPH[tensor::TensorFingerprintGraph]
+      ROUTER[llm::ILLMRouter]
+    end
+
+    subgraph RH[Creative / Generative Hemisphere Analog]
+      LLM[llama_cpp + llm]
+      RAG[rag]
+      VOICE[voice]
+      SD[stable_diffusion]
+      TRAIN[training::AdaLoraTTBridge + IncrementalLoRATrainer]
+    end
+
+    INPUT[Data/Prompt/Context Input] --> HNSW
+    HNSW --> GRAPH
+    GRAPH --> ROUTER
+    ROUTER --> LLM
+    ROUTER --> RAG
+    ROUTER --> API
+
+    LLM --> EVAL
+    RAG --> EVAL
+    VOICE --> EVAL
+    SD --> EVAL
+
+    EVAL --> GOV
+    GOV --> WIKI
+    WIKI --> API
+    WIKI --> ROUTER
+
+    TRAIN --> HNSW
+    TRAIN --> GRAPH
+```
+
+Interpretation (bounded):
+- logical/analytic side emphasizes deterministic policy, validation, and governance memory surfaces,
+- creative/generative side emphasizes candidate synthesis and adaptation pathways,
+- hippocampal bridge analog (`HNSW` + graph + routing) links both sides by converting cues into context-conditioned recall,
+- this remains a functional role map, not a claim of biological hemisphere identity.
+
+---
 
 Interpretation:
 - creative synthesis is allowed before validation,

@@ -35,18 +35,20 @@ LearnedQuantizer::LearnedQuantizer(int dimension, const Config& config)
     }
     
     num_bins_ = 1 << config_.bits_per_dimension;  // 2^bits
+    const size_t num_bins = static_cast<size_t>(num_bins_);
     
     // Pre-allocate storage
     if (config_.per_dimension) {
-        per_dim_thresholds_.resize(dimension_);
-        per_dim_centroids_.resize(dimension_);
-        for (int d = 0; d < dimension_; d++) {
-            per_dim_thresholds_[d].reserve(num_bins_ - 1);
-            per_dim_centroids_[d].reserve(num_bins_);
+        const size_t dim_size = static_cast<size_t>(dimension_);
+        per_dim_thresholds_.resize(dim_size);
+        per_dim_centroids_.resize(dim_size);
+        for (size_t d = 0; d < dim_size; ++d) {
+            per_dim_thresholds_[d].reserve(num_bins - 1);
+            per_dim_centroids_[d].reserve(num_bins);
         }
     } else {
-        global_thresholds_.reserve(num_bins_ - 1);
-        global_centroids_.reserve(num_bins_);
+        global_thresholds_.reserve(num_bins - 1);
+        global_centroids_.reserve(num_bins);
     }
 }
 
@@ -74,7 +76,7 @@ LearnedQuantizer::Status LearnedQuantizer::train(
     
     if (config_.per_dimension) {
         // Learn per-dimension thresholds
-        for (int d = 0; d < dimension_; d++) {
+        for (size_t d = 0; d < dimension; ++d) {
             // Extract values for this dimension
             std::vector<float> dim_values = {};
 
@@ -100,7 +102,7 @@ LearnedQuantizer::Status LearnedQuantizer::train(
         // Learn global thresholds (for per-block mode)
         std::vector<float> all_values = {};
 
-        all_values.reserve(training_vectors.size() * dimension_);
+        all_values.reserve(training_vectors.size() * dimension);
         
         for (const auto& vec : training_vectors) {
             all_values.insert(all_values.end(), vec.begin(), vec.end());
@@ -132,23 +134,28 @@ void LearnedQuantizer::learnThresholds(const std::vector<float>& values,
     
     // Initialize thresholds
     thresholds = initializeThresholds(sorted_values);
-    centroids.resize(num_bins_, 0.0f);
+    const size_t num_bins = static_cast<size_t>(num_bins_);
+    centroids.resize(num_bins, 0.0f);
     
     // Lloyd's algorithm: Iterate until convergence
     for (int iter = 0; iter < config_.training_iterations; iter++) {
         // E-step: Assign values to bins and compute centroids
-        std::vector<double> centroid_sums(num_bins_, 0.0);
-        std::vector<int> centroid_counts(num_bins_, 0);
+        std::vector<double> centroid_sums(num_bins, 0.0);
+        std::vector<int> centroid_counts(num_bins, 0);
         
         for (float value : sorted_values) {
-            int bin = findBin(value, thresholds);
-            centroid_sums[bin] += value;
-            centroid_counts[bin]++;
+            const int bin = findBin(value, thresholds);
+            if (bin < 0 || bin >= num_bins_) {
+                continue;
+            }
+            const size_t idx = static_cast<size_t>(bin);
+            centroid_sums[idx] += value;
+            centroid_counts[idx]++;
         }
         
         // Compute centroids
         bool has_empty_bin = false;
-        for (int b = 0; b < num_bins_; b++) {
+        for (size_t b = 0; b < num_bins; ++b) {
             if (centroid_counts[b] > 0) {
                 centroids[b] = static_cast<float>(centroid_sums[b] / centroid_counts[b]);
             } else {
@@ -156,13 +163,13 @@ void LearnedQuantizer::learnThresholds(const std::vector<float>& values,
                 // This ensures centroids are properly ordered and within threshold boundaries
                 if (b == 0) {
                     // First bin: use value below first threshold
-                    centroids[b] = (b < num_bins_ - 1) ? thresholds[0] - 1.0f : 0.0f;
-                } else if (b == num_bins_ - 1) {
+                    centroids[b] = (b < num_bins - 1) ? thresholds[0] - 1.0f : 0.0f;
+                } else if (b == num_bins - 1) {
                     // Last bin: use value above last threshold
-                    centroids[b] = thresholds[num_bins_ - 2] + 1.0f;
+                    centroids[b] = thresholds[num_bins - 2] + 1.0f;
                 } else {
                     // Middle bins: use midpoint between adjacent thresholds
-                    centroids[b] = (thresholds[static_cast<int>(b - 1)] + thresholds[b]) / 2.0f;
+                    centroids[b] = (thresholds[b - 1] + thresholds[b]) / 2.0f;
                 }
                 has_empty_bin = true;
             }
@@ -170,7 +177,7 @@ void LearnedQuantizer::learnThresholds(const std::vector<float>& values,
         
         // M-step: Update thresholds (midpoints between centroids)
         float max_change = 0.0f;
-        for (int t = 0; t < num_bins_ - 1; t++) {
+        for (size_t t = 0; t + 1 < num_bins; ++t) {
             float new_threshold = (centroids[t] + centroids[t + 1]) / 2.0f;
             float change = std::abs(new_threshold - thresholds[t]);
             max_change = std::max(max_change, change);
@@ -188,21 +195,23 @@ void LearnedQuantizer::learnThresholds(const std::vector<float>& values,
 std::vector<float> LearnedQuantizer::initializeThresholds(
     const std::vector<float>& sorted_values) const {
     
-    std::vector<float> thresholds(num_bins_ - 1);
+    const size_t num_bins = static_cast<size_t>(num_bins_);
+    std::vector<float> thresholds(num_bins - 1);
     
     if (sorted_values.empty()) {
         // Fallback: uniform spacing around 0
-        for (int t = 0; t < num_bins_ - 1; t++) {
-            thresholds[t] = static_cast<float>(t + 1 - num_bins_ / 2);
+        for (size_t t = 0; t + 1 < num_bins; ++t) {
+            thresholds[t] = static_cast<float>(t + 1) - static_cast<float>(num_bins_) / 2.0f;
         }
         return thresholds;
     }
     
     if (config_.use_percentiles) {
         // Initialize at percentiles
-        for (int t = 0; t < num_bins_ - 1; t++) {
-            float percentile = static_cast<float>(t + 1) / num_bins_;
-            size_t idx = static_cast<size_t>(percentile * sorted_values.size());
+        for (size_t t = 0; t + 1 < num_bins; ++t) {
+            float percentile = static_cast<float>(t + 1) / static_cast<float>(num_bins_);
+            const float values_count = static_cast<float>(sorted_values.size());
+            size_t idx = static_cast<size_t>(percentile * values_count);
             idx = std::min(idx, sorted_values.size() - 1);
             thresholds[t] = sorted_values[idx];
         }
@@ -212,8 +221,8 @@ std::vector<float> LearnedQuantizer::initializeThresholds(
         float max_val = sorted_values.back();
         float range = max_val - min_val;
         
-        for (int t = 0; t < num_bins_ - 1; t++) {
-            thresholds[t] = min_val + range * (t + 1) / num_bins_;
+        for (size_t t = 0; t + 1 < num_bins; ++t) {
+            thresholds[t] = min_val + range * static_cast<float>(t + 1) / static_cast<float>(num_bins_);
         }
     }
     
@@ -299,7 +308,7 @@ std::vector<float> LearnedQuantizer::decode(const std::vector<uint8_t>& codes) c
         for (size_t d = 0; d < dimension; ++d) {
             int bin = static_cast<int>(codes[d]);
             if (bin >= 0 && bin < num_bins_) {
-                vector.push_back(per_dim_centroids_[d][bin]);
+                vector.push_back(per_dim_centroids_[d][static_cast<size_t>(bin)]);
             } else {
                 THEMIS_ERROR("LearnedQuantizer::decode - Invalid bin: {}", bin);
                 vector.push_back(0.0f);
@@ -336,7 +345,7 @@ std::vector<float> LearnedQuantizer::decode(const std::vector<uint8_t>& codes) c
 
                 int bin = static_cast<int>(codes[code_offset++]);
                 if (bin >= 0 && bin < num_bins_) {
-                    vector[i] = global_centroids_[bin] * scale;
+                    vector[i] = global_centroids_[static_cast<size_t>(bin)] * scale;
                 } else {
                     vector[i] = 0.0f;
                 }
@@ -382,7 +391,7 @@ float LearnedQuantizer::asymmetricDistance(const std::vector<float>& query,
                              bin, d);
                 return std::numeric_limits<float>::max();
             }
-            float diff = query[d] - per_dim_centroids_[d][bin];
+            float diff = query[d] - per_dim_centroids_[d][static_cast<size_t>(bin)];
             distance_sq += diff * diff;
         }
     } else {
@@ -413,7 +422,7 @@ float LearnedQuantizer::asymmetricDistance(const std::vector<float>& query,
                 }
                 int bin = static_cast<int>(codes[code_offset++]);
                 float reconstructed = (bin >= 0 && bin < num_bins_)
-                    ? global_centroids_[bin] * scale
+                    ? global_centroids_[static_cast<size_t>(bin)] * scale
                     : 0.0f;
                 float diff = query[i] - reconstructed;
                 distance_sq += diff * diff;
@@ -437,17 +446,19 @@ int LearnedQuantizer::findBin(float value, const std::vector<float>& thresholds)
 }
 
 float LearnedQuantizer::getCompressionRatio() const {
-    float original_bytes = static_cast<float>(dimension_ * sizeof(float));
+    float original_bytes = static_cast<float>(static_cast<size_t>(dimension_) * sizeof(float));
     float compressed_bytes = static_cast<float>(getEncodedSize());
     return original_bytes / compressed_bytes;
 }
 
 size_t LearnedQuantizer::getEncodedSize() const {
     if (config_.per_dimension) {
-        return dimension_;  // 1 byte per dimension
+        return static_cast<size_t>(dimension_);  // 1 byte per dimension
     } else {
-        int num_blocks = (dimension_ + config_.block_size - 1) / config_.block_size;
-        return num_blocks * (sizeof(float) + config_.block_size);  // scale + codes per block
+        const size_t block_size = static_cast<size_t>(config_.block_size);
+        const size_t num_blocks =
+            (static_cast<size_t>(dimension_) + block_size - 1) / block_size;
+        return num_blocks * (sizeof(float) + block_size);  // scale + codes per block
     }
 }
 

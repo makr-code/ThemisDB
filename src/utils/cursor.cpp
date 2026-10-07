@@ -38,7 +38,8 @@ std::string Cursor::base64Encode(const std::string& input) {
     int val = 0;
     int valb = -6;
     
-    for (unsigned char c : input) {
+    for (char raw : input) {
+        const auto c = static_cast<unsigned char>(raw);
         val = (val << 8) + c;
         valb += 8;
         while (valb >= 0) {
@@ -73,17 +74,18 @@ std::optional<std::string> Cursor::base64Decode(const std::string& input) {
     std::vector<int> T(256, -1);
     
     for (int i = 0; i < 64; i++) {
-        T[base64_chars[i]] = i;
+        T[static_cast<size_t>(static_cast<unsigned char>(base64_chars[i]))] = i;
     }
     
     int val = 0;
     int valb = -8;
     
-    for (unsigned char c : input) {
-        if (T[c] == -1) {
+    for (char raw : input) {
+        const auto c = static_cast<unsigned char>(raw);
+        if (T[static_cast<size_t>(c)] == -1) {
           break;
         }
-        val = (val << 6) + T[c];
+        val = (val << 6) + T[static_cast<size_t>(c)];
         valb += 6;
         if (valb >= 0) {
             output.push_back(char((val >> valb) & 0xFF));

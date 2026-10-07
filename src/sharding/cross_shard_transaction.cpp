@@ -174,12 +174,12 @@ CrossShardTransactionCoordinator::CrossShardTransactionCoordinator(
     , consensus_(consensus)
     , truetime_(truetime)
     , ssi_manager_(config.ssi_config)
+    , transaction_log_path_(config.transaction_log_path)
     , running_(false)
     , total_transactions_(0)
     , committed_transactions_(0)
     , aborted_transactions_(0)
     , deadlocked_transactions_(0)
-    , transaction_log_path_(config.transaction_log_path)
 {
     // If log path is not absolute, use a safe default
     // CST-4 fix: Reject startup if transaction_log_path_ is not an absolute

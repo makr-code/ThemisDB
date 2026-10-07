@@ -18,6 +18,9 @@ Production-capable process modeling runtime with hardened edge-case behavior, un
 
 - [~] maintain wave-gate evidence freshness (`release_critical` CI + representative-hardware baseline updates) for continued production status (Target: Q4 2026)
 - [x] extend long-duration stress and operability runbook validation as Wave D contribution (Target: Q1 2027)
+- [~] external orchestration registry rollout for YAML/JSON profile lifecycle, activation/rollback, and catalog ingest (Target: Q4 2026)
+- [~] prediction service rollout for process-control decisions (`sla_breach_probability`, `compliance_risk_score`, `completion_confidence`, `recommended_submodel`) (Target: Q4 2026)
+- [~] enforce RAG as internal stage in all externally managed orchestration profiles (`internal_rag_stage=true`) (Target: Q4 2026)
 
 ## Completed Initiatives
 

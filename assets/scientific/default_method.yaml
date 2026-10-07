@@ -1,0 +1,144 @@
+method_id: default_scientific_method
+version: 2.1.0
+name: Standard Scientific Method for Dream-Mode
+description: >
+  Eight-phase scientific method for autonomous problem classification, BPMN strategy
+  generation, evidence validation, and controlled strategy evolution.
+last_updated: 2026-10-06T07:52:20Z
+source_lineage:
+  derived_from:
+    - "https://github.com/makr-code/VCC-Veritas/blob/9ce93238ee9f4f7ec74fb246c71e569a7579836c/config/scientific_methods/default_method.json"
+  adaptation_scope: "ThemisDB Dream-Mode + BPMN procedural memory integration"
+foundation_ref: scientific_foundation.json
+
+runtime:
+  mode_required: dream_research
+  supervisor_enabled: true
+  max_parallel_strategies: 5
+  fail_closed: true
+  promotion_requires_human_approval: true
+
+classification:
+  dimensions:
+    - domain
+    - risk_level
+    - uncertainty_level
+    - required_evidence
+    - policy_sensitivity
+  output_fields:
+    - problem_class
+    - confidence
+    - unresolved_information
+    - recommended_bpmn_blocks
+
+phases:
+  - phase_id: problem_intake_classification
+    phase_number: 1
+    name: Problem Intake and Classification
+    objective: >
+      Classify incoming problem using domain/risk/uncertainty/evidence taxonomy and
+      produce structured intake packet.
+    outputs:
+      - problem_class
+      - risk_profile
+      - uncertainty_profile
+      - required_evidence
+
+  - phase_id: bpmn_strategy_mapping
+    phase_number: 2
+    name: BPMN Strategy Mapping
+    objective: >
+      Map classified problem to BPMN strategy building blocks
+      (diagnose -> hypothesis -> test -> decision -> rollback).
+    outputs:
+      - bpmn_strategy_graph
+      - strategy_assumptions
+      - falsification_criteria
+
+  - phase_id: yaml_epistemic_model_derivation
+    phase_number: 3
+    name: YAML Epistemic Model Derivation
+    objective: >
+      Emit run-specific YAML Erkenntnismodell with assumptions, stop rules, metrics,
+      and evidence obligations.
+    outputs:
+      - epistemic_model_yaml
+      - model_validation_targets
+
+  - phase_id: candidate_strategy_dreaming
+    phase_number: 4
+    name: Candidate Strategy Dreaming
+    objective: >
+      Generate multiple non-production strategy candidates in dream mode with novelty
+      and falsifiability annotations.
+    constraints:
+      - synthetic_only
+      - production_truth_path_write_false
+    outputs:
+      - candidate_strategies
+      - novelty_scores
+      - risk_estimates
+
+  - phase_id: syntactic_validation
+    phase_number: 5
+    name: Syntax and Schema Validation
+    objective: Validate BPMN structure and YAML schema conformance.
+    outputs:
+      - syntax_validation_report
+      - schema_validation_report
+
+  - phase_id: semantic_and_governance_validation
+    phase_number: 6
+    name: Semantic / Governance Validation
+    objective: >
+      Validate process consistency, gate completeness, auditability, and policy/ethics/security constraints.
+    gate_requirements:
+      - BRAIN-DREAM-ISOLATION
+      - BRAIN-DREAM-LABEL-INTEGRITY
+      - BRAIN-DREAM-UTILITY
+      - BRAIN-DREAM-NONREGRESSION
+      - BRAIN-DREAM-ETHICS-BOUNDARY
+      - BRAIN-BPMN-PROCEDURAL-INTEGRITY
+    outputs:
+      - gate_report
+      - vetoes
+
+  - phase_id: decision_and_versioned_promotion
+    phase_number: 7
+    name: Decision and Versioned Promotion
+    objective: >
+      Decide no_go/research_only/promotion_candidate and allow promotion only after
+      gate closure and human approval.
+    outputs:
+      - decision
+      - approval_reference
+      - rollback_checkpoint
+
+  - phase_id: strategy_library_evolution
+    phase_number: 8
+    name: Strategy Library Evolution
+    objective: >
+      Score strategy quality, prune weak patterns, and return successful patterns into
+      versioned strategy library.
+    outputs:
+      - evidence_score
+      - failure_mode_profile
+      - library_update_patch
+
+evolution_policy:
+  dreamed_model_rules:
+    allowed_only_in_mode: dream_research
+    required_fields:
+      - novelty_statement
+      - falsifiability_statement
+      - risk_assessment
+      - rollback_plan
+    default_decision_without_gate_closure: research_only
+
+observability:
+  required_metadata:
+    - run_id
+    - manifest_version
+    - knowledge_source_class
+    - wiki_context_refs
+    - bpmn_state_transitions
