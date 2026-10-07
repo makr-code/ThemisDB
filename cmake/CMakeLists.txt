@@ -5663,6 +5663,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tools/config_migration_scanner.cpp")
         ${THEMIS_ROOT_DIR}/src
     )
     target_link_libraries(config_migration_scanner PRIVATE themis_core)
+    themis_link_zlib_if_available(config_migration_scanner)
     message(STATUS "Config Migration Scanner: Enabled (config_migration_scanner)")
     install(TARGETS config_migration_scanner
         OPTIONAL
@@ -5829,6 +5830,7 @@ if(EXISTS "${THEMIS_ROOT_DIR}/tools/export_cli.cpp")
         nlohmann_json::nlohmann_json
         Threads::Threads
     )
+    themis_link_zlib_if_available(themis-export)
     if(TARGET CURL::libcurl)
         target_link_libraries(themis-export PRIVATE CURL::libcurl)
         target_compile_definitions(themis-export PRIVATE CURL_ENABLED=1)
