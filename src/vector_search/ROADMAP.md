@@ -1,223 +1,92 @@
 # Vector Search Module Roadmap
 
-<!-- Status: PRODUCTION_CANDIDATE | Phase 1-4 complete | validated: 2026-08-10 -->
+<!-- Status: governance-aligned | live implementation externalized to src/index | validated: 2026-10-08 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
-Production-candidate vector search infrastructure providing approximate nearest neighbor (ANN) search over high-dimensional embeddings. The module integrates multiple indexing algorithms and supports efficient similarity queries for semantic search and retrieval augmented generation (RAG).
+The vector-search feature is active in the shared index subsystem and is documented here as a governance-facing module. The code itself is implemented in the broader index stack rather than in `src/vector_search/`, so the module status should be understood as a contract summary plus release evidence, not as a second copy of the implementation.
 
-**Milestone:** Phase 4 deliverables complete. Core vector indexing and search implementation (HNSW, IVF algorithms) hardened and ready for production.
+**Milestone:** the governance documents for this module are restored, and the module remains aligned with the live index implementation and test/benchmark artifacts.
 
-- [x] Index data structures and algorithms (HNSW, IVF) (Phase 2) → COMPLETE
-- [x] Query execution engine (Phase 2) → COMPLETE
-- [x] Distance computation (cosine, L2, inner product) (Phase 2) → COMPLETE
-- [x] Indexing and rebuilding operations (Phase 3) → COMPLETE
-- [x] Error handling and edge cases (Phase 3) → COMPLETE
-
-### Sourcecode Deep-Dive Evidence (2026-09-09)
-
-- `src/vector_search/` currently contains docs-only artefacts (`.gitkeep`, `README.md`, `ARCHITECTURE.md`, `ROADMAP.md`) and no colocated `.cpp/.h` implementation files.
-- Follow-up required: map roadmap claims to active implementation/test/benchmark source paths or reclassify module status as planned/externalized until colocated source exists.
+- [x] Vector search contracts and operational expectations documented for release review
+- [x] Module lifecycle and risk tracking aligned with the live index implementation
+- [x] Test and benchmark artifacts mapped to the module's release gates
+- [x] Module docs updated to avoid stale implementation claims
 
 ## In Progress
 
-- [~] Phase 5 performance hardening for SIMD, mmap-backed index scaling, and concurrent query behavior (Target: Q4 2026)
-- [x] Wave D evidence closure for representative-hardware p95/p99 baselines and runbook-backed operability (Target: Q1 2027)
+- [~] Phase 5 hardening and performance tuning in the shared index subsystem (Target: Q4 2026)
+- [~] Follow-up distributed/index-persistence planning for broader scaling work (Target: Q1 2027)
 
-## Completed Initiatives
+## Implementation Phases
 
-### Phase 1-4 Delivery (Q2-Q3 2026) - COMPLETE ✓
+### Phase 1: Design / API Contract
 
-All vector indexing infrastructure implemented and validated. Module ready for production deployment.
+- [x] Confirm vector-search behavior is defined by the shared index subsystem contracts and benchmark gates
+- [x] Document dimensionality, metric, and correctness expectations at module level
+- [x] Record integration boundaries between module docs and the live source implementation
 
-## Implementation Phases (Completed 2026-08-10)
+### Phase 2: Core Implementation
 
-### Phase 1: Design & API Contract ✓ COMPLETE
+- [x] Confirm the actual implementation remains in `src/index/` and `include/index/`
+- [x] Align the module docs to the actual source footprint instead of stale local-only claims
+- [x] Keep the module summary focused on release-readiness, correctness, and scalability evidence
 
-**Objective:** Define vector index abstraction, query interface, and similarity semantics.
+### Phase 3: Error Handling & Edge Cases
 
-**Deliverables:**
-- [x] `include/vector_search/vector_index.h` – Index creation and query interface
-- [x] `include/vector_search/similarity_search.h` – Similarity query API
-- [x] `include/vector_search/distance_metric.h` – Distance function definitions
-- [x] Error taxonomy (vector search errors: E5400–E5499)
+- [x] Document validation rules for invalid vectors, unsupported metrics, and result failure cases
+- [x] Preserve error and reliability expectations without implying local implementation that does not exist here
+- [x] Track known limitations in `MODULE_GAPS.md` rather than as undocumented assumptions
 
-**Index Contracts:**
-- **Vector Index** — Core abstraction for similarity search
-  - `add(vector, document_id) → Result<>`
-  - `search(query_vector, k) → Result<KNearestNeighbors>`
-  - `delete(document_id) → Result<>`
-  
-- **Distance Metrics** — Supported similarity functions
-  - Cosine distance (normalized embeddings)
-  - L2 (Euclidean) distance
-  - Inner product (dot product for cosine similarity)
+### Phase 4: Tests
 
-**Status:** ✓ COMPLETE
+- [x] Connect module docs to the live regression and soak tests in `tests/integration/` and `tests/vector_search/`
+- [x] Preserve performance and reliability gate references in the module docs
+- [x] Ensure the module reflects the actual benchmark entry points instead of stale local claims
 
-### Phase 2: Core Implementation ✓ COMPLETE
+### Phase 5: Performance / Hardening
 
-**Objective:** Implement vector indexing algorithms (HNSW, IVF) with efficient search.
+- [~] Continue performance tuning in the shared index subsystem
+- [~] Validate the release gate behavior on the relevant benchmark matrix
+- [ ] Close any residual drift between module docs and implementation-specific tuning work
 
-**Deliverables:**
-- [x] `vector_index.cpp` – Index base implementation and lifecycle
-  - Vector validation (dimension, range checks)
-  - Index persistence and loading
-  - Metadata management (document IDs, timestamps)
-  
-- [x] HNSW (Hierarchical Navigable Small World) algorithm
-  - Multi-layer graph structure for fast search
-  - Configurable layer decay probability (default: 1/ln(2))
-  - Insert, search, and delete operations
-  
-- [x] IVF (Inverted File) algorithm
-  - Coarse quantization with k-means centroids
-  - Fine-grained search within selected clusters
-  - Fast approximate search for large-scale indices
-  
-- [x] Distance computation kernels
-  - Optimized cosine similarity (SIMD where available)
-  - L2 distance (batch computation)
-  - Inner product (for normalized vectors)
+### Phase 6: Documentation & Acceptance
 
-**Performance Targets:**
-- Index insertion: < 100 µs per vector
-- Search latency (k=10): < 10 ms P99
-- Search throughput: 100+ queries/sec
-- Memory overhead: ~30% vs. raw vector storage
-
-**Status:** ✓ COMPLETE
-
-### Phase 3: Error Handling & Edge Cases ✓ COMPLETE
-
-**Objective:** Handle invalid queries, empty indices, and resource constraints.
-
-**Deliverables:**
-- [x] Dimension mismatch detection and recovery
-- [x] Invalid vector handling (NaN, inf values)
-- [x] Empty index and no-results handling
-- [x] Index rebuilding and rebalancing
-- [x] Out-of-memory graceful degradation
-
-**Error Scenarios:**
-- E5400: Invalid vector dimension
-- E5401: Vector contains NaN or inf
-- E5402: Index is empty
-- E5403: Search returned no results
-- E5404: Index corruption detected
-
-**Status:** ✓ COMPLETE
-
-### Phase 4: Tests ✓ COMPLETE
-
-**Objective:** Comprehensive testing of indexing and search correctness.
-
-**Test Suite:**
-- Unit tests for distance computations
-- HNSW insertion, search, and delete operations
-- IVF clustering and search accuracy
-- Correctness validation (nearest neighbors vs. brute force)
-- Stress tests with large indices (1M+ vectors)
-
-**Test Coverage:**
-- src/vector_search coverage via focused test suites
-- End-to-end indexing and retrieval workflows
-- Performance benchmarks for latency and throughput
-
-**Status:** ✓ COMPLETE
-
-### Phase 5: Performance & Hardening ✓ IN PROGRESS
-
-**Objective:** Optimize search paths and validate production scaling.
-
-**Deliverables (In Progress):**
-- [x] SIMD optimization for distance computation
-- [x] Memory-mapped index files for large-scale indices
-- [x] Query result caching for frequent searches
-- [x] Index tuning heuristics (HNSW M and ef parameters)
-- [x] Concurrent search scaling validation
-
-**Performance Gates:**
-- Search latency P99: < 10 ms (k=10)
-- Insertion throughput: > 1000 vectors/sec
-- Memory efficiency: < 40% overhead
-- Concurrent queries: ≥ 100 with < 5% overhead
-
-**Status:** IN PROGRESS
-
-### Phase 6: Documentation & Acceptance ✓ COMPLETE
-
-**Objective:** Complete API documentation and operational guides.
-
-**Deliverables:**
-- [x] Doxygen comments for all public APIs
-- [x] Algorithm selection guide (when to use HNSW vs. IVF)
-- [x] Index tuning parameter reference
-- [x] Query optimization best practices
-- [x] Troubleshooting runbook
-- [x] Acceptance checklist
-
-**Status:** ✓ COMPLETE (as of Wave D closure, 2026-09-22)
-
-### Phase 7: Distributed Indexing - PLANNED
-
-**Objective:** Enable multi-node index coordination and cross-partition search.
-
-**Deliverables (Q1 2027):**
-- [ ] Distributed index manager with partition allocation
-- [ ] Cross-partition search executor with result merging
-- [ ] Index replication and failover logic
-- [ ] Distributed query load balancing
-- [ ] Coordination via etcd/Consul integration
-
-**Performance Targets:**
-- Shard count: 1-256 nodes
-- Search latency impact: < 20% overhead vs. single-node
-- Replication factor: 1-3
-- Failover time: < 5 seconds
-
-**Status:** PLANNED (design phase Q1 2027)
+- [x] Restore and align the required governance set: README, ARCHITECTURE, ROADMAP, CHANGELOG, FUTURE_ENHANCEMENTS, AUDIT, SECURITY, PRODUCTION_REQUIREMENTS, PERFORMANCE_EXPECTATIONS, MODULE_GAPS
+- [x] Remove stale markdown that no longer represents the active module contract
+- [x] Keep module docs reviewable for maintainers and release gates
 
 ## Production Readiness Checklist
 
-- [x] Phase 1 API contracts frozen
-- [x] Phase 2 core implementation complete
-- [x] Phase 3 error handling comprehensive
-- [x] Phase 4 test suite complete
-- [~] Phase 5 performance hardening (in progress)
-- [x] Phase 6 documentation complete
-- [~] Security review (in progress)
-- [x] Performance validation on production hardware
-- [x] Large-scale index loading and scaling tests
-- [x] Operational runbook completion
+- [x] Module governance docs restored and current
+- [x] Module source ownership boundaries clarified
+- [x] Risk and limitation tracking updated
+- [x] Benchmark, soak, and stress test references connected to the module scope
+- [x] Release-facing docs aligned with the actual implementation footprint
+- [~] Ongoing performance hardening remains in the shared index subsystem
 
 ## Known Issues & Limitations
 
-1. **No Incremental Index Updates** — Full rebuild required for algorithm parameter changes
-2. **Fixed Dimension Vectors** — Cannot mix different embedding dimensions
-3. **In-Memory Indices** — No out-of-core support for very large indices (> available RAM)
-4. **No Distributed Indexing** — Single-machine indices only
+1. **Implementation is externalized** — the code lives under `src/index/` rather than in `src/vector_search/`
+2. **Distributed and persistence work is still planned** — no hidden implementation should be implied by the module docs
+3. **Performance hardening remains ongoing** — release gates are valid only with the shared index subsystem's current benchmarks
 
 ## Breaking Changes
 
-None expected. APIs designed for forward compatibility.
+None identified for the governance docs. The module docs now reflect the actual source ownership boundary, which is a documentation correction rather than an API change.
 
-## Module Statistics
+## Module Evidence Sources
 
-- **Total LOC (Source):** ~800 LOC across implementation files
-  - vector_index.cpp: ~200 LOC
-  - hnsw_index.cpp: ~350 LOC
-  - ivf_index.cpp: ~250 LOC
-- **Public Headers:** 3 (vector_index.h, similarity_search.h, distance_metric.h)
-- **Distance Metrics:** 3 (cosine, L2, inner product)
-- **Index Algorithms:** 2 (HNSW, IVF)
-- **Error Codes:** E5400–E5499 (reserved)
+- `src/index/README.md`
+- `src/index/vector_index.cpp`
+- `src/index/advanced_vector_index.cpp`
+- `src/index/ann_index.cpp`
+- `src/index/multi_vector_search.cpp`
+- `tests/integration/test_vector_search_soak.cpp`
+- `tests/vector_search/test_vector_search_highcardinality_stress.cpp`
+- `benchmarks/vector_search/bench_vector_search_dedicated_gates.cpp`
 
-## Program Execution Model — Wave Context
-
-This module is a **contributing module** in the program-level Wave A → B → C → D execution model.
-It must remain `release_critical`-green throughout all waves.
 
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
