@@ -2669,7 +2669,7 @@ function(themis_build_modular)
             ${CMAKE_SOURCE_DIR}/src/server/index_api_handler.cpp
             PROPERTIES
                 SKIP_UNITY_BUILD_INCLUSION ON
-                COMPILE_OPTIONS "/bigobj;/Zm200;$<$<NOT:$<CONFIG:Release>>:/Od>"
+                COMPILE_OPTIONS "/bigobj;/Zm200;/Od"
         )
         set_source_files_properties(
             ${CMAKE_SOURCE_DIR}/src/observability/distributed_flame_graph.cpp
