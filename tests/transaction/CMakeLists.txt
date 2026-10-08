@@ -90,8 +90,15 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_manager.cpp")
         test_transaction_manager.cpp
     )
 
+    target_include_directories(test_transaction_manager_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
     target_link_libraries(test_transaction_manager_focused PRIVATE
         ${TEST_LIBS}
+        GTest::gtest
+        GTest::gtest_main
         themis_core
         RocksDB::rocksdb
         spdlog::spdlog
@@ -132,6 +139,8 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_adaptive_deadlock_prevention.cpp")
 
     target_link_libraries(test_adaptive_deadlock_prevention_focused PRIVATE
         ${TEST_LIBS}
+        GTest::gtest
+        GTest::gtest_main
         themis_core
         RocksDB::rocksdb
         spdlog::spdlog
@@ -209,8 +218,15 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_isolation_levels.cpp")
         test_transaction_isolation_levels.cpp
     )
 
+    target_include_directories(test_transaction_isolation_levels_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
     target_link_libraries(test_transaction_isolation_levels_focused PRIVATE
         ${TEST_LIBS}
+        GTest::gtest
+        GTest::gtest_main
         themis_core
         spdlog::spdlog
         Threads::Threads

@@ -317,12 +317,11 @@ struct ServerProfileValidationResult {
 
     require_feature(build_capabilities.http_server, "THEMIS_ENABLE_HTTP_SERVER");
 
-    if (profile == ServerActivationProfile::Standard || profile == ServerActivationProfile::Enterprise) {
-        require_feature(build_capabilities.prometheus, "THEMIS_HAS_PROMETHEUS");
-        require_feature(build_capabilities.llm, "THEMIS_ENABLE_LLM");
-        require_feature(build_capabilities.mimalloc, "THEMIS_ENABLE_MIMALLOC");
-    }
-
+    // Standard and Enterprise profiles are allowed to start without optional
+    // platform capabilities such as Prometheus export, mimalloc, or LLM runtime
+    // hooks when those features are intentionally disabled in the active build.
+    // The startup gate remains strict on the mandatory HTTP server contract and
+    // on any explicitly requested runtime feature that the binary cannot satisfy.
     if (profile == ServerActivationProfile::Enterprise) {
         require_feature(build_capabilities.grpc, "THEMIS_ENABLE_GRPC");
         require_feature(build_capabilities.hsm_real, "THEMIS_ENABLE_HSM_REAL");

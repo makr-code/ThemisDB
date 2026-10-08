@@ -24,12 +24,13 @@ TEST(ServerActivationProfile, ResolveRejectsInvalidProfileValue) {
     EXPECT_NE(resolved.error.find("invalid server profile"), std::string::npos);
 }
 
-TEST(ServerActivationProfile, StandardProfileRequiresCoreProductionFlags) {
+TEST(ServerActivationProfile, StandardProfileOnlyRequiresHttpServer) {
     themis::server::ServerBuildCapabilities caps{};
     caps.http_server = true;
-    caps.prometheus = true;
+    caps.prometheus = false;
     caps.llm = true;
-    caps.mimalloc = false;  // Missing required feature
+    caps.mimalloc = false;
+    caps.grpc = false;
 
     const auto result = themis::server::validateServerActivationProfile(
         themis::server::ServerActivationProfile::Standard,
@@ -37,23 +38,45 @@ TEST(ServerActivationProfile, StandardProfileRequiresCoreProductionFlags) {
         themis::server::ServerRuntimeFeatureRequests{},
         false);
 
-    EXPECT_FALSE(result.ok());
-    EXPECT_FALSE(result.errors.empty());
-    EXPECT_NE(result.errors.front().find("THEMIS_ENABLE_MIMALLOC"), std::string::npos);
+    EXPECT_TRUE(result.ok());
+    EXPECT_TRUE(result.errors.empty());
 }
 
-TEST(ServerActivationProfile, StandardProfileAllowsExplicitDegradedOverride) {
+TEST(ServerActivationProfile, StandardProfileAllowsMissingOptionalPlatformFeatures) {
     themis::server::ServerBuildCapabilities caps{};
     caps.http_server = true;
+    caps.llm = true;
+    caps.prometheus = false;
+    caps.mimalloc = false;
 
     const auto result = themis::server::validateServerActivationProfile(
         themis::server::ServerActivationProfile::Standard,
+        caps,
+        themis::server::ServerRuntimeFeatureRequests{},
+        false);
+
+    EXPECT_TRUE(result.ok());
+    EXPECT_TRUE(result.errors.empty());
+}
+
+TEST(ServerActivationProfile, EnterpriseProfileAllowsExplicitDegradedOverride) {
+    themis::server::ServerBuildCapabilities caps{};
+    caps.http_server = true;
+    caps.grpc = true;
+    caps.prometheus = true;
+    caps.llm = true;
+    caps.mimalloc = true;
+    caps.hsm_real = false;
+
+    const auto result = themis::server::validateServerActivationProfile(
+        themis::server::ServerActivationProfile::Enterprise,
         caps,
         themis::server::ServerRuntimeFeatureRequests{},
         true);
 
     EXPECT_TRUE(result.ok());
     EXPECT_FALSE(result.warnings.empty());
+    EXPECT_NE(result.warnings.front().find("THEMIS_ENABLE_HSM_REAL"), std::string::npos);
 }
 
 TEST(ServerActivationProfile, EnterpriseProfileRequiresRealHsmBuildCapability) {

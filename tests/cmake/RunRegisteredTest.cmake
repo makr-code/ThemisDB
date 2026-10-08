@@ -165,11 +165,57 @@ if(EXISTS "${BUILD_DIR}/CMakeCache.txt")
     endif()
 endif()
 
-execute_process(
-    COMMAND "${TARGET_FILE}" ${_argv}
-    WORKING_DIRECTORY "${_run_working_dir}"
-    RESULT_VARIABLE _test_rc
-)
+if(WIN32)
+    set(_test_runtime_dirs)
+    get_filename_component(_target_dir "${TARGET_FILE}" DIRECTORY)
+    list(APPEND _test_runtime_dirs "${_target_dir}")
+
+    set(_candidate_dirs
+        "${BUILD_DIR}"
+        "${BUILD_DIR}/bin"
+        "${BUILD_DIR}/lib"
+        "${BUILD_DIR}/Debug"
+        "${BUILD_DIR}/Release"
+        "${BUILD_DIR}/RelWithDebInfo"
+        "${BUILD_DIR}/MinSizeRel"
+    )
+    foreach(_candidate IN LISTS _candidate_dirs)
+        if(EXISTS "${_candidate}")
+            list(APPEND _test_runtime_dirs "${_candidate}")
+        endif()
+    endforeach()
+    if(DEFINED BUILD_CONFIG AND NOT "${BUILD_CONFIG}" STREQUAL "")
+        foreach(_candidate IN ITEMS
+                "${BUILD_DIR}/${BUILD_CONFIG}"
+                "${BUILD_DIR}/bin/${BUILD_CONFIG}"
+                "${BUILD_DIR}/lib/${BUILD_CONFIG}")
+            if(EXISTS "${_candidate}")
+                list(APPEND _test_runtime_dirs "${_candidate}")
+            endif()
+        endforeach()
+    endif()
+    list(REMOVE_DUPLICATES _test_runtime_dirs)
+
+    set(_path_before "$ENV{PATH}")
+    foreach(_runtime_dir IN LISTS _test_runtime_dirs)
+        if(NOT "${_runtime_dir}" STREQUAL "")
+            set(_path_before "${_runtime_dir};${_path_before}")
+        endif()
+    endforeach()
+    set(ENV{PATH} "${_path_before}")
+
+    execute_process(
+        COMMAND "${CMAKE_COMMAND}" "-E" "env" "PATH=${_path_before}" "${TARGET_FILE}" ${_argv}
+        WORKING_DIRECTORY "${_run_working_dir}"
+        RESULT_VARIABLE _test_rc
+    )
+else()
+    execute_process(
+        COMMAND "${TARGET_FILE}" ${_argv}
+        WORKING_DIRECTORY "${_run_working_dir}"
+        RESULT_VARIABLE _test_rc
+    )
+endif()
 
 if(NOT _test_rc EQUAL 0)
     message(FATAL_ERROR "[ctest-policy] Test target '${TARGET_NAME}' failed with exit code ${_test_rc}")
