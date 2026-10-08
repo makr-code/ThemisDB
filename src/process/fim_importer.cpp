@@ -630,7 +630,7 @@ std::vector<FimModelResult> FimImporter::importFromFitkoApi(
 
     FimModelResult r;
     r.ok      = false;
-    r.message = "FITKO API HTTP import unavailable: no HttpFetchFn injected. "
+    r.message = "FITKO API HTTP import is not yet implemented: no HttpFetchFn injected. "
                 "Call setHttpFetchFn(FimImporter::makeCurlHttpFetchFn()) at startup "
                 "(requires THEMIS_HAS_CURL / libcurl), or use importFimCatalogue() "
                 "with a locally downloaded catalogue XML.";

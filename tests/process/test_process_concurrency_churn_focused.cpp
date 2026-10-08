@@ -305,29 +305,20 @@ TEST_F(ConcurrencyChurnTest, C06_ConcurrentErrorEnumAccess) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 TEST_F(ConcurrencyChurnTest, C07_BarrierSynchronization) {
-    std::vector<int32_t> execution_order;
-    std::mutex order_mutex = {};
+    std::array<std::atomic<int32_t>, kNumThreads> pre_barrier_seen{};
+    std::array<std::atomic<int32_t>, kNumThreads> post_barrier_seen{};
+    std::atomic<int32_t> completed_threads{0};
     std::barrier barrier(kNumThreads);
 
-    auto synchronized_work = [&execution_order, &order_mutex, &barrier](int32_t thread_id) {
-        // Record pre-barrier time
-        {
-            std::lock_guard<std::mutex> lock(order_mutex);
-            execution_order.push_back(thread_id);
-        }
-
-        // All threads synchronize here
+    auto synchronized_work = [&pre_barrier_seen, &post_barrier_seen, &completed_threads, &barrier](int32_t thread_id) {
+        pre_barrier_seen[thread_id].store(1, std::memory_order_release);
         barrier.arrive_and_wait();
-
-        // Record post-barrier: all should reach here together
-        std::this_thread::sleep_for(std::chrono::microseconds(10));
-        {
-            std::lock_guard<std::mutex> lock(order_mutex);
-            execution_order.push_back(-(thread_id + 1));  // Negative marker for post-barrier
-        }
+        post_barrier_seen[thread_id].store(1, std::memory_order_release);
+        completed_threads.fetch_add(1, std::memory_order_acq_rel);
     };
 
-    std::vector<std::thread> threads = {};
+    std::vector<std::thread> threads;
+    threads.reserve(kNumThreads);
 
     for (int32_t i = 0; i < kNumThreads; ++i) {
         threads.emplace_back(synchronized_work, i);
@@ -337,19 +328,11 @@ TEST_F(ConcurrencyChurnTest, C07_BarrierSynchronization) {
         t.join();
     }
 
-    // Verify: should have 2*kNumThreads entries (pre and post barrier)
-    EXPECT_EQ(execution_order.size(), 2 * kNumThreads);
-
-    // Count positive and negative markers
-    int32_t pre_barrier_count = 0, post_barrier_count = 0;
-    for (int32_t val : execution_order) {
-        if (val > 0) {
-          pre_barrier_count++;
-        }
-        else post_barrier_count++;
+    EXPECT_EQ(completed_threads.load(std::memory_order_acquire), kNumThreads);
+    for (int32_t i = 0; i < kNumThreads; ++i) {
+        EXPECT_EQ(pre_barrier_seen[i].load(std::memory_order_acquire), 1);
+        EXPECT_EQ(post_barrier_seen[i].load(std::memory_order_acquire), 1);
     }
-    EXPECT_EQ(pre_barrier_count, kNumThreads);
-    EXPECT_EQ(post_barrier_count, kNumThreads);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
