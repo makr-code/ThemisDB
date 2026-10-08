@@ -96,7 +96,8 @@ jobs:
   build-and-push:
     name: "Build & Push Docker Image"
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    # Multi-arch release builds (linux/amd64 + linux/arm64) can exceed 270 minutes on cold cache.
+    timeout-minutes: 360
     # For workflow_dispatch and workflow_call: always run.
     if: >
       github.event_name == 'workflow_dispatch' ||
