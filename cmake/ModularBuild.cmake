@@ -2662,8 +2662,8 @@ function(themis_build_modular)
         # Files that must NOT enter a unity batch:
         # - monitoring_api_handler / index_api_handler: /O2 on windows-latest
         #   can trigger cl.exe C1060 (out of heap space). We force /Od in
-        #   Release with /bigobj;/Zm200 as a stability-first workaround and
-        #   accept reduced optimization for these two handlers on Windows.
+        #   optimized configs with /bigobj;/Zm200 as a stability-first
+        #   workaround and accept reduced optimization for these handlers.
         # - distributed_flame_graph: defines 'parseFolded' in anonymous namespace
         #   which causes C2375 (redefinition / different linkage) when merged with
         #   another TU that also defines an anonymous-namespace symbol of the same name
@@ -2672,7 +2672,7 @@ function(themis_build_modular)
             ${CMAKE_SOURCE_DIR}/src/server/index_api_handler.cpp
             PROPERTIES
                 SKIP_UNITY_BUILD_INCLUSION ON
-                COMPILE_OPTIONS "/bigobj;/Zm200;$<$<CONFIG:Release>:/Od>"
+                COMPILE_OPTIONS "/bigobj;/Zm200;$<$<OR:$<CONFIG:Release>,$<CONFIG:RelWithDebInfo>,$<CONFIG:MinSizeRel>>:/Od>"
         )
         set_source_files_properties(
             ${CMAKE_SOURCE_DIR}/src/observability/distributed_flame_graph.cpp
