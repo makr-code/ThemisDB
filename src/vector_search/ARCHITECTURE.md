@@ -1,223 +1,109 @@
 # Vector Search Module — Architecture
 
-<!-- Status: PRODUCTION_CANDIDATE | validated: 2026-09-09 -->
+<!-- Status: governance-facade | index implementation lives under src/index and include/index | validated: 2026-10-08 -->
 
 ## Overview
 
-The vector search module provides approximate nearest neighbor (ANN) search capabilities over high-dimensional embeddings, enabling efficient similarity queries for semantic search, recommendation systems, and retrieval-augmented generation (RAG) pipelines within ThemisDB.
+The vector search module is the governance and release-facing description of ThemisDB's similarity-search feature. The active algorithmic implementation is owned by the shared index subsystem, especially under `src/index/` and `include/index/`, but this module documents the contract, operational expectations, and risk model that the wider system depends on.
 
 ## Design Principles
 
-1. **Algorithm Flexibility:** Multiple ANN algorithms (HNSW, IVF) selectable per use case
-2. **Memory Efficiency:** Avoid redundant storage; compress indices where feasible
-3. **Query Responsiveness:** P99 latency < 10 ms for typical use cases
-4. **Correctness First:** Approximate results validated against brute-force baseline
-5. **Scalability:** Support indices up to available system memory
+1. **Contract-first behavior:** vector search semantics remain bounded by explicit dimension, metric, and result validation rules
+2. **Implementation delegation:** algorithmic work remains in the index module instead of duplicated in `src/vector_search/`
+3. **Operational clarity:** release gates, soak tests, and benchmark thresholds remain traceable to concrete artifacts
+4. **Correctness over novelty:** approximate search is accepted only with measurable recall and stability checks
+5. **Scalability with explicit limits:** distributed and persistence features are tracked as planned work rather than implied as current implementation
 
-## Architecture Diagram
+## Architecture Boundary
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  Semantic Search / RAG Pipeline                             │
-│  • Produces query vectors from text/embeddings              │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-                       ▼
-┌─────────────────────────────────────────────────────────────┐
-│  SimilaritySearch (Query Interface)                         │
-│  • Execute k-nearest neighbor search                        │
-│  • Apply distance metric (cosine, L2, inner product)        │
-│  • Return ranked results with distances                     │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-        ┌──────────────┼──────────────┐
-        │              │              │
-        ▼              ▼              ▼
-   ┌─────────┐  ┌─────────┐  ┌──────────────┐
-   │HNSW     │  │IVF      │  │BruteForce    │
-   │Index    │  │Index    │  │(Validation)  │
-   │         │  │         │  │              │
-   └────┬────┘  └────┬────┘  └──────┬───────┘
-        │            │              │
-        └────────────┼──────────────┘
-                     │
-                     ▼
-        ┌────────────────────────┐
-        │ DistanceMetric         │
-        │ • Cosine distance      │
-        │ • L2 (Euclidean)       │
-        │ • Inner product        │
-        └────────────────────────┘
+Client / Retrieval / Server
+       │
+       ▼
+   vector search contract
+       │
+       ▼
+   shared index subsystem
+   ├─ src/index/vector_index.cpp
+   ├─ src/index/advanced_vector_index.cpp
+   ├─ src/index/ann_index.cpp
+   ├─ src/index/multi_vector_search.cpp
+   ├─ src/index/distributed_vector_index.cpp
+   └─ include/index/*
+       │
+       ▼
+  distance metric + query execution + result ranking
 ```
 
 ## Core Components
 
-### SimilaritySearch (Main Entry Point)
+### Public Contract Layer
 
-**Purpose:** Unified interface for executing vector similarity queries.
+This module describes the behavior expected by downstream users rather than reimplementing the algorithms locally.
 
-**Responsibilities:**
-- Accept query vector and search parameters (k, distance metric)
-- Route to appropriate index algorithm
-- Execute search and rank results
-- Return K-nearest neighbors with distances
+Responsibilities:
+- define module scope and release gates
+- document correctness and operational expectations
+- track known gaps and future roadmap items
+- connect the feature to the benchmark and validation artifacts in the repository
 
-**Public API:**
-```cpp
-class SimilaritySearch {
-  Result<KNearestNeighbors> search(
-    const std::vector<float>& query,
-    int k,
-    DistanceMetric metric = DistanceMetric::COSINE
-  );
-};
-```
+### Shared Index Execution Layer
 
-### HNSW (Hierarchical Navigable Small World) Index
-
-**Purpose:** Fast approximate nearest neighbor search using hierarchical graph structure.
-
-**Algorithm Overview:**
-- Multi-layer graph where each layer is a navigable small world
-- Higher layers act as shortcuts for fast search
-- Logarithmic time complexity for search (O(log N))
-
-**Characteristics:**
-- Excellent for high-dimensional vectors (hundreds to thousands)
-- Fast insertion and deletion
-- Tunable M and ef parameters for speed/accuracy tradeoff
-- Memory efficient compared to brute force
-
-**Configuration:**
-- M: max connections per node (default: 16)
-  - Higher M = more connections = faster search but more memory
-- ef_construction: search depth during insertion (default: 200)
-- ef_search: search depth during query (default: k + 100)
-- Layer decay: 1/ln(2) ≈ 1.44
-
-**Performance:**
-- Insert: 10-100 µs per vector
-- Search k=10: 1-10 ms for indices up to 1M vectors
-- Memory: ~30% overhead vs. raw vectors
-
-### IVF (Inverted File) Index
-
-**Purpose:** Approximate nearest neighbor search via coarse quantization and clustering.
-
-**Algorithm Overview:**
-- Cluster vectors using k-means (coarse quantization)
-- During search, examine only nearby clusters
-- Within clusters, compute exact distances
-
-**Characteristics:**
-- Good for very large indices (millions to billions)
-- Fast clustering-based filtering
-- Adjustable nprobe parameter for accuracy/speed
-- Enables hierarchical search (coarse then fine)
-
-**Configuration:**
-- n_clusters: number of k-means clusters (default: sqrt(N))
-- nprobe: number of clusters to search (default: 10)
-  - Higher nprobe = more accurate but slower
-- Max cluster size: configurable
-- Cluster rebuild interval: configurable
-
-**Performance:**
-- Insert: 100-500 µs per vector (includes clustering)
-- Search k=10: 5-50 ms for large indices
-- Memory: ~20% overhead vs. raw vectors
-
-### Distance Metrics
-
-**Purpose:** Compute similarity between vectors using different distance functions.
-
-**Implemented Metrics:**
-
-1. **Cosine Distance**
-   - Most common for text embeddings
-   - Works on unit-normalized vectors
-   - Range: [0, 2] (0 = identical, 2 = opposite)
-   - Formula: distance = 1 - (dot product of normalized vectors)
-
-2. **L2 (Euclidean) Distance**
-   - Standard Euclidean distance
-   - Works on unnormalized vectors
-   - Range: [0, ∞)
-   - Formula: sqrt(sum of squared differences)
-
-3. **Inner Product**
-   - Dot product (for pre-normalized vectors)
-   - Range: [-1, 1]
-   - Higher value = more similar
-   - Used for efficiency in some embeddings
-
-**Optimization Strategies:**
-- SIMD vectorization for batch distance computation
-- Cache locality optimization for large vectors
-- Pre-normalization for cosine similarity
+The live implementation remains under the broader index subsystem and performs the actual work:
+- index construction and maintenance
+- ANN search execution
+- distance metric routing and result ranking
+- index rebuild and sharding pathways when enabled by configuration
 
 ## Data Flow
 
-### Index Construction Pipeline
+### Index Construction and Search
 
-```
-Input: Set of Vectors + Document IDs
-  │
-  ├─► Dimension validation (all vectors same dimension)
-  │
-  ├─► Normalization (if using cosine distance)
-  │
-  ├─► Algorithm Selection
-  │   ├─► HNSW: for fast single queries
-  │   └─► IVF: for very large indices
-  │
-  ├─► Index Building
-  │   ├─► HNSW: hierarchical graph construction
-  │   └─► IVF: k-means clustering
-  │
-  └─► Output: Indexed vectors ready for search
+```text
+Input embedding vectors + metadata
+       │
+       ├─ validate dimension and value sanity
+       │
+       ├─ select configured index backend (vector/ANN/advanced index)
+       │
+       ├─ execute index build or update path in src/index/
+       │
+       ├─ run query/retrieval path
+       │
+       └─ return ranked neighbors and metrics to caller
 ```
 
-### Query Execution Pipeline
+### Operational Boundaries
 
-```
-Query Vector + Parameters (k, metric)
-  │
-  ├─► Dimension validation
-  │
-  ├─► Normalization (if required by metric)
-  │
-  ├─► Distance Metric Selection
-  │
-  ├─► Index Algorithm Dispatch
-  │   ├─► HNSW: hierarchical traversal
-  │   └─► IVF: cluster filtering + fine search
-  │
-  ├─► Distance Computation (vectorized)
-  │
-  ├─► Result Ranking (sort by distance)
-  │
-  └─► Output: K-nearest neighbors with distances
-```
+- The governance docs here should remain aligned with the actual index implementations under `src/index/`.
+- When implementation details change, update this module's docs and the shared index evidence in the same change.
+- Distributed and persistence features remain planned unless they are actually present in the live source tree.
 
 ## Concurrency Model
 
-### Thread Safety
+### Thread Safety Expectations
 
-1. **Index Read Operations:** Multiple readers allowed
-   - Search operations don't modify index
-   - Read-write lock for index access
-   - Allows concurrent queries
+1. **Read-heavy search operations:** concurrent read access is allowed under the index layer's locking model.
+2. **Write operations:** index modification remains exclusive when rebuild or structural changes occur.
+3. **Bounds and validation:** invalid dimensions, NaN/Inf values, and unsupported metrics fail before mutation or result calculation.
 
-2. **Index Modification:** Exclusive write access
-   - Adding/removing vectors requires write lock
-   - Prevents corruption from concurrent modifications
-   - Rebuild operations wait for exclusive lock
+### Synchronization Principles
 
-### Synchronization Primitives
+- Shared index code handles locking near the implementation boundary rather than through a duplicate `vector_search` shadow implementation.
+- Search correctness depends on the selected algorithm and its runtime validation, not on this documentation-only module.
 
-- `std::shared_mutex` for index access control
-- `std::atomic<>` for counters and flags
+## Known Constraints
+
+- This directory is not the authoritative source of the implementation; it is the authoritative summary of the module contract.
+- The live feature is subject to the broader index module roadmap and release gates.
+- Any feature intentionally implemented outside the shared index tree must be reflected in `README.md`, `ROADMAP.md`, and `MODULE_GAPS.md` immediately.
+
+## Related Artifacts
+
+- `src/index/README.md` for the concrete index implementation overview
+- `tests/integration/test_vector_search_soak.cpp` for soak and recall validation
+- `tests/vector_search/test_vector_search_highcardinality_stress.cpp` for stress checks
+- `benchmarks/vector_search/bench_vector_search_dedicated_gates.cpp` for performance gate references
 
 ## Performance Characteristics
 
