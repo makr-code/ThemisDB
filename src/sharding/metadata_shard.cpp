@@ -109,16 +109,17 @@ bool MetadataShard::initialize() {
         snapshot_manager_.reset();
     }
     
+    // Initialize storage for each partition before recovery so replay can
+    // populate existing maps instead of being overwritten by a later empty reset.
+    for (auto partition : config_.partitions) {
+        storage_.try_emplace(partition, std::map<std::string, MetadataEntry>{});
+    }
+
     // Phase 2.2: Attempt recovery from WAL
     if (wal_ && snapshot_manager_) {
         if (!recoverFromWAL()) {
             spdlog::warn("MetadataShard recovery failed, starting fresh");
         }
-    }
-    
-    // Initialize storage for each partition
-    for (auto partition : config_.partitions) {
-        storage_[partition] = std::map<std::string, MetadataEntry>();
     }
     
     return true;

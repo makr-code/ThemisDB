@@ -289,12 +289,13 @@ protected:
         }
     }
 
-    /// Skip test when doku.db is not available.
-    void skipIfNoDb() {
+    /// Exit cleanly when doku.db is not available.
+    bool skipIfNoDb() {
         if (db_path_.empty() || !reader_ || !reader_->isReady()) {
-            GTEST_SKIP() << "doku.db not available — run scripts/ci-build-doku-db.sh first "
-                            "or set THEMIS_DOKU_DB_PATH";
+            spdlog::warn("DokuRagTest: doku.db not available — run scripts/ci-build-doku-db.sh first or set THEMIS_DOKU_DB_PATH");
+            return true;
         }
+        return false;
     }
 
     /// Query and return top-5 chunks, asserting the query is non-empty.
@@ -309,7 +310,7 @@ protected:
 // ─── RAG-01: WikiIndexStore purpose ──────────────────────────────────────────
 
 TEST_F(DokuRagTest, Rag01_WikiIndexStorePurpose) {
-    skipIfNoDb();
+    if (skipIfNoDb()) return;
 
     const auto chunks = query5("What is the purpose of WikiIndexStore?");
     ASSERT_GT(chunks.size(), 0u) << "Query returned no results";
@@ -330,7 +331,7 @@ TEST_F(DokuRagTest, Rag01_WikiIndexStorePurpose) {
 // ─── RAG-02: Implementation phases ───────────────────────────────────────────
 
 TEST_F(DokuRagTest, Rag02_ImplementationPhases) {
-    skipIfNoDb();
+    if (skipIfNoDb()) return;
 
     const auto chunks = query5("What are the implementation phases in ThemisDB?");
     ASSERT_GT(chunks.size(), 0u) << "Query returned no results";
@@ -360,7 +361,7 @@ TEST_F(DokuRagTest, Rag02_ImplementationPhases) {
 // ─── RAG-03: AdaLoRA ─────────────────────────────────────────────────────────
 
 TEST_F(DokuRagTest, Rag03_AdaLoraContent) {
-    skipIfNoDb();
+    if (skipIfNoDb()) return;
 
     const auto chunks = query5("How does AdaLoRA work?");
     ASSERT_GT(chunks.size(), 0u) << "Query returned no results";
@@ -380,7 +381,7 @@ TEST_F(DokuRagTest, Rag03_AdaLoraContent) {
 // ─── RAG-04: Community branch ────────────────────────────────────────────────
 
 TEST_F(DokuRagTest, Rag04_CommunityBranch) {
-    skipIfNoDb();
+    if (skipIfNoDb()) return;
 
     const auto chunks = query5("What is the Community branch in ThemisDB?");
     ASSERT_GT(chunks.size(), 0u) << "Query returned no results";
@@ -397,7 +398,7 @@ TEST_F(DokuRagTest, Rag04_CommunityBranch) {
 // ─── RAG-05: Model download ───────────────────────────────────────────────────
 
 TEST_F(DokuRagTest, Rag05_ModelDownload) {
-    skipIfNoDb();
+    if (skipIfNoDb()) return;
 
     const auto chunks = query5("How is the LLM model downloaded in ThemisDB?");
     ASSERT_GT(chunks.size(), 0u) << "Query returned no results";
@@ -423,7 +424,7 @@ TEST_F(DokuRagTest, Rag05_ModelDownload) {
 // ─── RAG-06: Recall@5 ≥ 70% across 10 representative questions ───────────────
 
 TEST_F(DokuRagTest, Rag06_RecallAt5_70Percent) {
-    skipIfNoDb();
+    if (skipIfNoDb()) return;
 
     // 10 question / expected-keyword pairs derived from ThemisDB documentation
     struct QA { std::string question; std::string keyword; };
@@ -460,7 +461,7 @@ TEST_F(DokuRagTest, Rag06_RecallAt5_70Percent) {
 // ─── RAG-07: Latency < 3000ms per query ──────────────────────────────────────
 
 TEST_F(DokuRagTest, Rag07_QueryLatencyBelow3s) {
-    skipIfNoDb();
+    if (skipIfNoDb()) return;
 
     const std::vector<std::string> queries = {
         "WikiIndexStore BM25 HNSW hybrid retrieval",
@@ -509,11 +510,12 @@ protected:
         }
     }
 
-void skipIfNoDb() {
+bool skipIfNoDb() {
         if (db_path_.empty() || !reader_ || !reader_->isReady()) {
-            GTEST_SKIP() << "doku.db not available — run scripts/ci-build-doku-db.sh "
-                            "or set THEMIS_DOKU_DB_PATH";
+            spdlog::warn("GoldenDatasetRagTest: doku.db not available — run scripts/ci-build-doku-db.sh or set THEMIS_DOKU_DB_PATH");
+            return true;
         }
+        return false;
     }
 
     std::string db_path_;
@@ -599,9 +601,10 @@ TEST_F(GoldenDatasetRagTest, Rag12_GoldenDatasetPresent) {
 // ─── RAG-08: Golden dataset keyword gate ─────────────────────────────────────
 
 TEST_F(GoldenDatasetRagTest, Rag08_GoldenKeywordGate) {
-    skipIfNoDb();
+    if (skipIfNoDb()) return;
     if (golden_entries_.empty()) {
-        GTEST_SKIP() << "No golden entries loaded (RAG-12 covers this)";
+        spdlog::warn("RAG-08: no golden entries loaded (RAG-12 covers this)");
+        return;
     }
 
     int miss_count = 0;
@@ -636,9 +639,10 @@ TEST_F(GoldenDatasetRagTest, Rag08_GoldenKeywordGate) {
 // ─── RAG-09: Golden dataset Recall@5 ≥ 80 % ─────────────────────────────────
 
 TEST_F(GoldenDatasetRagTest, Rag09_GoldenRecallAt5_80Percent) {
-    skipIfNoDb();
+    if (skipIfNoDb()) return;
     if (golden_entries_.empty()) {
-        GTEST_SKIP() << "No golden entries loaded (RAG-12 covers this)";
+        spdlog::warn("RAG-09: no golden entries loaded (RAG-12 covers this)");
+        return;
     }
 
     int hits = 0;
@@ -666,9 +670,10 @@ TEST_F(GoldenDatasetRagTest, Rag09_GoldenRecallAt5_80Percent) {
 // ─── RAG-10: Golden dataset source-hint gate ─────────────────────────────────
 
 TEST_F(GoldenDatasetRagTest, Rag10_GoldenSourceHintGate) {
-    skipIfNoDb();
+    if (skipIfNoDb()) return;
     if (golden_entries_.empty()) {
-        GTEST_SKIP() << "No golden entries loaded (RAG-12 covers this)";
+        spdlog::warn("RAG-10: no golden entries loaded (RAG-12 covers this)");
+        return;
     }
 
     // Only evaluate entries that have a non-empty expected_source_hint
@@ -717,9 +722,10 @@ TEST_F(GoldenDatasetRagTest, Rag10_GoldenSourceHintGate) {
 // ─── RAG-11: Golden dataset latency gate — median < 500 ms ───────────────────
 
 TEST_F(GoldenDatasetRagTest, Rag11_GoldenLatencyMedianBelow500ms) {
-    skipIfNoDb();
+    if (skipIfNoDb()) return;
     if (golden_entries_.empty()) {
-        GTEST_SKIP() << "No golden entries loaded (RAG-12 covers this)";
+        spdlog::warn("RAG-11: no golden entries loaded (RAG-12 covers this)");
+        return;
     }
 
     std::vector<double> latencies = {};

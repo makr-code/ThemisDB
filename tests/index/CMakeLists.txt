@@ -104,6 +104,13 @@ foreach(_src IN LISTS INDEX_AUTOGEN_PREFIX_TEST_SOURCES)
         target_compile_definitions(${_target} PRIVATE THEMIS_CUDA_ENABLED=1)
     endif()
 
+    if(_stem STREQUAL "test_index_phase2_a2_iterator_safety")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/index/partition_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/index/vector_index_manager_safety.cpp
+        )
+    endif()
+
     themis_register_module_focused_test(
         MODULE index
         NAME ${_ctest}

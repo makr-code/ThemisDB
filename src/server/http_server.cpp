@@ -1868,8 +1868,17 @@ HttpServer::HttpServer(
         rl_mw_config.max_clients         = 10000;
         rl_mw_config.send_rate_limit_headers = true;
 
-        // Apply a tighter limit on bulk-write paths to prevent abuse
+        // Apply a tighter limit on bulk-write paths to prevent abuse. The
+        // adaptive index endpoints are naturally bursty (record-pattern + readout
+        // in rapid succession) and should keep serving local insight traffic
+        // without tripping the global default bucket that is sized for general
+        // catalog traffic.
         rl_mw_config.endpoint_overrides = {
+            RateLimitingMiddleware::EndpointLimit{
+                "/index",
+                10000,
+                10000.0 / 60.0
+            },
             RateLimitingMiddleware::EndpointLimit{
                 "/v2/documents",
                 static_cast<size_t>(rl_mw_config.default_capacity / 2),

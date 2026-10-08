@@ -62,21 +62,23 @@ struct MockScheduleStore {
     bool loadAll(std::map<std::string, MaintenanceScheduleEntry>& out,
                  std::string& error_out)
     {
+        out.clear();
         int skipped = 0;
-        for (auto& [id, raw] : data) {
+        for (const auto& [id, raw] : data) {
             if (simulate_corrupt) {
-                // Simulate all entries corrupt.
                 ++skipped;
                 continue;
             }
             try {
                 auto j = nlohmann::json::parse(raw);
-                out[id] = MaintenanceScheduleEntry::fromJson(j);
+                auto entry = MaintenanceScheduleEntry::fromJson(j);
+                out[id] = std::move(entry);
             } catch (...) {
                 ++skipped;
             }
         }
         if (skipped > 0) {
+            out.clear();
             error_out = "PersistenceCorrupt — " + std::to_string(skipped) +
                         " corrupt entry(ies)";
             return false;

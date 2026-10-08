@@ -85,6 +85,10 @@ struct WorkspaceStatus {
     [[nodiscard]] static WorkspaceStatus Error(std::string msg) {
         return {Code::Error, std::move(msg)};
     }
+
+    [[nodiscard]] static WorkspaceStatus InvalidJson(std::string msg) {
+        return {Code::InvalidJson, std::move(msg)};
+    }
     
     [[nodiscard]] static WorkspaceStatus CorruptState(std::string msg) {
         return {Code::CorruptState, std::move(msg)};

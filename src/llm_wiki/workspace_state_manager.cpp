@@ -179,22 +179,36 @@ WorkspaceStatus WorkspaceStateManager::load(WorkspaceState& out_state) noexcept 
                 std::string("Failed to open state file: ") + state_file_.string());
         }
         
-        json j = json::parse(ifs);
+json j;
+        try {
+            j = json::parse(ifs);
+        } catch (const json::parse_error& e) {
+            SPDLOG_ERROR("Failed to parse state JSON: {}", e.what());
+            return WorkspaceStatus::InvalidJson(
+                std::string("Invalid state JSON: ") + e.what());
+        } catch (const std::exception& e) {
+            SPDLOG_ERROR("Failed to read state JSON: {}", e.what());
+            return WorkspaceStatus::InvalidJson(
+                std::string("Failed to read state JSON: ") + e.what());
+        }
         ifs.close();
-        
+
         // Validate checksum if present
         if (j.contains("checksum")) {
             auto checksum_status = validateChecksum(state_file_);
             if (!checksum_status.ok()) {
                 SPDLOG_WARN("State checksum mismatch, attempting recovery from log");
-                
+
                 // Try to recover from log
                 auto recovery_status = recoverFromLog(out_state);
                 if (recovery_status.ok()) {
                     return WorkspaceStatus::CorruptState(
                         "Recovered from log after checksum mismatch");
                 }
-                return checksum_status;
+                if (checksum_status.code == WorkspaceStatus::Code::ChecksumMismatch) {
+                    return checksum_status;
+                }
+                return WorkspaceStatus::CorruptState(checksum_status.message);
             }
         }
         
@@ -301,9 +315,20 @@ WorkspaceStatus WorkspaceStateManager::validateChecksum(
             return WorkspaceStatus::Error("Failed to open file for checksum validation");
         }
         
-        json j = json::parse(ifs);
+        json j;
+        try {
+            j = json::parse(ifs);
+        } catch (const json::parse_error& e) {
+            SPDLOG_ERROR("Checksum validation failed: {}", e.what());
+            return WorkspaceStatus::InvalidJson(
+                std::string("Invalid JSON in checksum validation: ") + e.what());
+        } catch (const std::exception& e) {
+            SPDLOG_ERROR("Checksum validation failed: {}", e.what());
+            return WorkspaceStatus::InvalidJson(
+                std::string("Checksum validation read failed: ") + e.what());
+        }
         ifs.close();
-        
+
         // Extract stored checksum
         if (!j.contains("checksum")) {
             SPDLOG_WARN("No checksum found in state file");

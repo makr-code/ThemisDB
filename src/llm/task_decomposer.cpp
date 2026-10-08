@@ -1024,6 +1024,7 @@ WorkflowDefinition TaskDecomposer::toWorkflow(
     def.name          = workflow_id;
     def.source_format = "decomposed";
 
+    std::unordered_set<std::string> known_step_ids;
     for (const auto& sub : result.subtasks) {
         WorkflowStep step;
         step.id              = sub.id;
@@ -1034,7 +1035,23 @@ WorkflowDefinition TaskDecomposer::toWorkflow(
         if (sub.raw.contains("mode"))
             step.mode = workflowStepModeFromString(sub.raw.value("mode", std::string{"ask"}));
         step.extensions = sub.raw;
+
+        if (step.id.empty()) {
+            throw std::invalid_argument("TaskDecomposer::toWorkflow: step id must not be empty");
+        }
+        if (!known_step_ids.insert(step.id).second) {
+            throw std::invalid_argument("TaskDecomposer::toWorkflow: duplicate step id '" + step.id + "'");
+        }
         def.steps.push_back(std::move(step));
+    }
+
+    for (const auto& step : def.steps) {
+        for (const auto& dep : step.depends_on) {
+            if (!known_step_ids.count(dep)) {
+                throw std::invalid_argument(
+                    "TaskDecomposer::toWorkflow: depends_on references unknown step '" + dep + "'");
+            }
+        }
     }
 
     const auto validation = WorkflowLoader::validate(def);

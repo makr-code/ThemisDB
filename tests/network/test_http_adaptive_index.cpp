@@ -98,6 +98,8 @@ protected:
         beast::error_code ec;
         stream.socket().shutdown(tcp::socket::shutdown_both, ec);
         
+        std::cout << "HTTP GET " << path << " => status=" << static_cast<int>(res.result())
+                  << " body=" << res.body() << std::endl;
         return json::parse(res.body());
     }
     

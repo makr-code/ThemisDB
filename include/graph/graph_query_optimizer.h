@@ -724,7 +724,24 @@ public:
      * @param[in] enable Input parameter.
      * @details Implements enableAdaptiveLearning without additional internal calls.
      */
-    void enableAdaptiveLearning(bool enable) { adaptive_learning_enabled_ = enable; }
+    void enableAdaptiveLearning(bool enable) {
+        adaptive_learning_enabled_ = enable;
+        if (!adaptive_learning_enabled_) {
+            algo_cost_models_.clear();
+        } else {
+            for (const auto algo : {
+                    TraversalAlgorithm::BFS,
+                    TraversalAlgorithm::DFS,
+                    TraversalAlgorithm::BIDIRECTIONAL,
+                    TraversalAlgorithm::ASTAR,
+                    TraversalAlgorithm::DIJKSTRA}) {
+                auto it = algo_cost_models_.find(algo);
+                if (it == algo_cost_models_.end()) {
+                    algo_cost_models_.emplace(algo, AlgorithmCostModel{});
+                }
+            }
+        }
+    }
 
     bool isAdaptiveLearningEnabled() const { return adaptive_learning_enabled_; }
 

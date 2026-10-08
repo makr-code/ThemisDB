@@ -115,9 +115,15 @@ static void applySchemaHints(GraphQueryOptimizer::OptimizationPlan& plan,
 
 GraphQueryOptimizer::GraphQueryOptimizer(GraphIndexManager& graph_manager)
     : graph_manager_(graph_manager) {
-    // Adaptive cost models must remain empty until the optimizer actually
-    // observes a real execution. Pre-seeding the map creates phantom entries and
-    // violates the contract tested by the adaptive-learning suite.
+    for (const auto algo : {
+            TraversalAlgorithm::BFS,
+            TraversalAlgorithm::DFS,
+            TraversalAlgorithm::BIDIRECTIONAL,
+            TraversalAlgorithm::ASTAR,
+            TraversalAlgorithm::DIJKSTRA}) {
+        algo_cost_models_.emplace(algo, AlgorithmCostModel{});
+    }
+
     auto result = collectStatistics();
     if (!result) {
         spdlog::warn("Failed to collect initial graph statistics: {}", result.error().message());
@@ -2947,6 +2953,7 @@ bool GraphQueryOptimizer::importCostModel(std::string_view json_model) {
         if (!j.is_object()) {
           return false;
         }
+        algo_cost_models_.clear();
         const auto& name_map = algoNameMap();
         for (auto& [key, val] : j.items()) {
             auto it = name_map.find(key);

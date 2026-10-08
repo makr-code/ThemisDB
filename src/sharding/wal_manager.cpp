@@ -169,8 +169,7 @@ size_t WALEntry::size() const {
 // ============================================================================
 
 WALManager::WALManager(const WALManagerConfig& config)
-    : config_(config), current_lsn_(0, 0), oldest_lsn_(0, 0) {
-    
+    : config_(config), current_lsn_(1, 0), oldest_lsn_(1, 0) {
     // Create WAL directory if it doesn't exist
     namespace fs = std::filesystem;
     if (!fs::exists(config_.wal_directory)) {
@@ -269,9 +268,14 @@ std::vector<WALEntry> WALManager::readRange(const LSN& start_lsn,
     
     std::vector<WALEntry> result;
     
-    // Determine which segments to read
-    uint64_t start_segment = start_lsn.segment;
+    // Determine which segments to read. The log starts at segment 1, while a
+    // zero-value LSN is used as the "from beginning" sentinel in callers.
+    uint64_t start_segment = start_lsn.segment == 0 ? 1 : start_lsn.segment;
     uint64_t end_segment = end_lsn.has_value() ? end_lsn->segment : current_lsn_.segment;
+
+    if (end_segment == 0) {
+        end_segment = 1;
+    }
     
     for (uint64_t seg = start_segment; seg <= end_segment; ++seg) {
         std::string seg_path = getSegmentPath(seg);
@@ -514,6 +518,8 @@ void WALManager::loadExistingSegments() {
     }
     
     if (segments.empty()) {
+        current_lsn_ = LSN(1, 0);
+        oldest_lsn_ = LSN(1, 0);
         return;
     }
     
