@@ -2661,8 +2661,9 @@ function(themis_build_modular)
         )
         # Files that must NOT enter a unity batch:
         # - monitoring_api_handler / index_api_handler: /O2 on windows-latest
-        #   can trigger cl.exe C1060 (out of heap space), so force /Od in
-        #   Release with /bigobj;/Zm200 for reliable Release builds
+        #   can trigger cl.exe C1060 (out of heap space). We force /Od in
+        #   Release with /bigobj;/Zm200 as a stability-first workaround and
+        #   accept reduced optimization for these two handlers on Windows.
         # - distributed_flame_graph: defines 'parseFolded' in anonymous namespace
         #   which causes C2375 (redefinition / different linkage) when merged with
         #   another TU that also defines an anonymous-namespace symbol of the same name
