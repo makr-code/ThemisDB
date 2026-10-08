@@ -73,6 +73,7 @@ foreach(_src IN LISTS RAG_MODULE_TEST_SOURCES)
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/rag/adaptive_hybrid_router.cpp
             ${THEMIS_ROOT_DIR}/src/rag/router_policy_store.cpp
+            ${THEMIS_ROOT_DIR}/src/rag/otel_span_emitter.cpp
         )
     elseif("${_stem}" STREQUAL "test_benchmark_suite")
         list(APPEND _extra_sources
@@ -183,6 +184,7 @@ foreach(_src IN LISTS RAG_AUTOGEN_PREFIX_TEST_SOURCES)
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/rag/adaptive_hybrid_router.cpp
             ${THEMIS_ROOT_DIR}/src/rag/router_policy_store.cpp
+            ${THEMIS_ROOT_DIR}/src/rag/otel_span_emitter.cpp
         )
     elseif("${_stem}" STREQUAL "test_benchmark_suite")
         list(APPEND _extra_sources

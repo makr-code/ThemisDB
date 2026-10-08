@@ -348,9 +348,19 @@ UpdateDecision SnapshotBasedUpdateWorker::decideUpdateStrategy(const DeltaWindow
     return UpdateDecision::NO_UPDATE;
   }
 
-  // Structural mutations always require rebuild
-  if (delta_window.countDeletes() > 0 || delta_window.countShardChanges() > 0) {
-    return UpdateDecision::REBUILD;
+  // Structural mutations are not inherently fatal, but a heavy structural churn
+  // window should still escalate to rebuild. Moderate delete/shard-change
+  // activity can fit within the partial-refit band when the total delta remains
+  // below the rebuild threshold.
+  const size_t structural_mutations =
+      delta_window.countDeletes() + delta_window.countShardChanges();
+  if (structural_mutations > 0) {
+    const double structural_fraction =
+        static_cast<double>(structural_mutations) /
+        static_cast<double>(std::max<size_t>(1, delta_window.entries.size()));
+    if (structural_fraction >= 0.5) {
+      return UpdateDecision::REBUILD;
+    }
   }
 
   // Estimate change fraction first; the threshold model is the authoritative

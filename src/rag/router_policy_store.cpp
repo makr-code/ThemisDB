@@ -186,8 +186,8 @@ std::string serializeMetrics(const RouterPolicyStore::MetricsSnapshot& snapshot)
 }
 
 void persistState(rocksdb::DB* db,
-                 const std::map<QueryIntentClassifier::Intent, PolicySpec>& current_policies,
-                 const std::map<QueryIntentClassifier::Intent, std::vector<PolicySpec>>& policy_history) {
+                 const std::map<QueryIntentClassifier::Intent, RouterPolicyStore::PolicySpec>& current_policies,
+                 const std::map<QueryIntentClassifier::Intent, std::vector<RouterPolicyStore::PolicySpec>>& policy_history) {
   if (db == nullptr) {
     return;
   }

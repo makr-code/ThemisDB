@@ -202,6 +202,8 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_tensor_rebuild_fallback.cpp")
     add_executable(test_tensor_rebuild_fallback
         test_tensor_rebuild_fallback.cpp
         ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/snapshot_update_worker.cc
+        ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/tensor_delta_log.cc
+        ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/crash_recovery_checkpoint.cc
         ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/manifest_store.cpp
         ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/artifact_manifest.cc
     )

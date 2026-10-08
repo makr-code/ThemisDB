@@ -26,8 +26,8 @@ std::string IntentToString(QueryIntentClassifier::Intent intent) {
 }
 
 std::vector<Document> ApplyRetrievalBackendFallback(
-    const QueryContext& context,
-    const RoutingDecision& decision,
+    const AdaptiveHybridRouter::QueryContext& context,
+    const AdaptiveHybridRouter::RoutingDecision& decision,
     const std::vector<Document>& lexical_docs,
     const std::vector<Document>& dense_docs,
     const std::vector<Document>& graph_docs) {
