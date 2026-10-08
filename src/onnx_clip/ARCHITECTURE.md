@@ -1,223 +1,170 @@
-> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+> **Status:** current | validated: 2026-10-08
 
-<!-- Status: current | validated: 2026-09-22 -->
+<!-- Status: current | validated: 2026-10-08 -->
 <!-- Links: README.md · PRODUCTION_REQUIREMENTS.md · ROADMAP.md · SECURITY.md · FUTURE_ENHANCEMENTS.md -->
 
 # ONNX CLIP Plugin — Architecture Guide
 
-**Version:** 0.0.1
-**Last Updated:** 2026-09-09
+**Version:** 0.3.0
+**Last Updated:** 2026-10-08
 **Module Path:** `src/onnx_clip/`
 
 ---
 
 ## 1. Overview
 
-The ONNX CLIP plugin wraps OpenAI CLIP models exported to ONNX format using the
-ONNX Runtime C++ API. It implements `IImageAnalysisBackend` and exposes a simple
-embedding generation API that ThemisDB uses for multi-modal vector similarity search.
+The `onnx_clip` module is a deterministic, source-local embedding backend for CLIP-style image and text analysis. The live implementation is intentionally portable: it validates configuration, bounds the batch fan-in, tracks statistics, exposes health checks, supports optional model-digest verification, and provides hot-swap and mmap hooks without assuming that every environment has a complete native ONNX Runtime provider stack available.
 
-The implementation uses the pImpl idiom (`struct Impl` hidden in the `.cpp`) to
-keep `Ort::Session`, preprocessing state, and runtime objects completely out of the
-public header. This prevents ABI leakage of ONNX Runtime types into caller translation
-units.
+The public interface remains a small `IImageAnalysisBackend` surface. The concrete implementation is held behind `std::shared_ptr<Impl>` inside `ONNXClipPlugin`, which keeps the public API free of provider-specific types and keeps the runtime contract stable across platforms.
 
 ---
 
 ## 2. Design Principles
 
-- **pImpl isolation** — all ONNX Runtime objects (`Ort::Env`, `Ort::Session`,
-  `Ort::SessionOptions`) live in `ONNXClipPlugin::Impl`; the header exposes only
-  standard types.
-- **Thread safety** — `impl_` is protected by a `std::mutex`; `generateEmbedding()`
-  and `generateEmbeddingBatch()` serialize access to the ONNX session.
-- **Backend AUTO** — at `initialize()` time with `BackendType::AUTO`, the plugin
-  probes CUDA availability first, then TensorRT, DirectML, and finally CPU.
-- **Warmup** — `warmup()` runs a single inference with a synthetic input to pre-compile
-  CUDA/TensorRT kernels before serving live traffic.
+- **Deterministic reference behavior** — the default implementation produces stable embeddings for a given input and configuration instead of depending on a live provider runtime.
+- **Explicit validation** — `initialize()` and `reloadModel()` validate configuration before activation and fail closed on malformed config or hash mismatches.
+- **Bounded request fan-in** — `generateEmbeddingBatch()` processes work in `max_batch_size` sub-batches to keep memory use predictable.
+- **Thread safety** — request serialization and hot-swap coordination are handled through the plugin mutex and the in-flight request counter.
+- **Best-effort optional acceleration** — optional mmap loading and provider-aware configuration are supported but not required for correctness.
 
 ---
 
 ## 3. Component Architecture
 
-### 3.1 Component Diagram
+### 3.1 Component layout
 
 ```
-┌──────────────────────────────────────────────────────┐
-│               ONNXClipPlugin (public API)            │
-│  implements IImageAnalysisBackend                    │
-│                                                      │
-│  initialize(config, backend) ─ load ONNX model      │
-│  generateEmbedding(image_data) ─ single inference   │
-│  generateEmbeddingBatch(images) ─ batch inference   │
-│  healthCheck()                                       │
-│  warmup()                                            │
-│  getStatistics()                                     │
-└──────────────────────┬───────────────────────────────┘
-                       │ std::unique_ptr<Impl>
+┌────────────────────────────────────────────────────────────┐
+│ ONNXClipPlugin (public API)                              │
+│ - initialize(config, backend)                             │
+│ - generateEmbedding(), generateEmbeddingBatch()          │
+│ - generateTextEmbedding()                                 │
+│ - healthCheck(), warmup(), getStatistics()                │
+│ - reloadModel()                                           │
+└───────────────────────┬────────────────────────────────────┘
+                       │ std::shared_ptr<Impl>
                        ▼
-┌──────────────────────────────────────────────────────┐
-│               ONNXClipPlugin::Impl (pImpl)           │
-│                                                      │
-│  Ort::Env            ─ ONNX Runtime environment     │
-│  Ort::Session        ─ loaded CLIP model             │
-│  Ort::SessionOptions ─ provider / thread config     │
-│  std::mutex          ─ serialises inference calls   │
-│  BackendType backend_                                │
-│  std::string model_variant_                          │
-│  call_count, total_latency_ms (stats)               │
-└──────────────────────┬───────────────────────────────┘
+┌────────────────────────────────────────────────────────────┐
+│ ONNXClipPlugin::Impl                                       │
+│ - ready / backend / model_name / embedding_dim             │
+│ - max_batch_size                                           │
+│ - request serialization / drain counter                   │
+│ - runtime statistics and Prometheus-style counters         │
+│ - optional mmap state and hash-verification hooks          │
+└───────────────────────┬────────────────────────────────────┘
                        │
-          ┌────────────▼────────────┐
-          │  ONNX Runtime C++ API   │
-          │  ├─ CPU Execution Prov. │
-          │  ├─ CUDA Execution Prov.│
-          │  ├─ DirectML Exec. Prov.│
-          │  └─ TensorRT Exec. Prov.│
-          └─────────────────────────┘
+                       └───────────────┬────────────────────┐
+                                       │
+                        Deterministic plugin logic
+                        config validation + hashing + batching
 ```
 
-### 3.2 Interface Implementation Table
+### 3.2 Interface implementation summary
 
 | Method | Behaviour |
 |--------|-----------|
-| `getInfo()` | Returns `PluginInfo{name="onnx_clip", version="0.0.1", ...}` |
-| `initialize(config, backend)` | Creates `Ort::Session`, configures execution provider |
-| `shutdown()` | Releases `Ort::Session`; resets stats |
-| `isReady()` | Returns `true` if session is loaded and not null |
-| `getBackend()` | Returns active `BackendType` |
-| `generateEmbedding(image_data, metadata)` | Decodes image → preprocess → infer → return float vector |
-| `generateEmbeddingBatch(images)` | Iterates single calls; future: native batched session |
-| `healthCheck()` | Runs warmup inference; checks output tensor shape |
-| `getStatistics()` | Returns JSON: `{calls, avg_latency_ms, backend, model_variant}` |
-| `warmup()` | Runs one inference with a 224×224 zero tensor |
+| `initialize(config, backend)` | Validates config, sets active backend, optionally verifies model hash and mmap state |
+| `shutdown()` | Clears internal state and resets ready flags |
+| `isReady()` | Returns the plugin state after initialization |
+| `getBackend()` | Returns the active backend enum |
+| `generateEmbedding(image_data, metadata)` | Validates payload, hashes metadata-derived inputs, returns `EmbeddingResult` |
+| `generateEmbeddingBatch(images)` | Splits work into bounded sub-batches of `max_batch_size` while preserving order |
+| `generateTextEmbedding(text)` | Tokenizes and embeds supplied text payloads |
+| `healthCheck()` | Ensures the plugin is initialized and the embedding dimension is positive |
+| `getStatistics()` | Exposes request totals, latency, backend, batch size, and counters |
+| `warmup()` | Performs a minimal readiness path without assuming provider-specific startup steps |
+| `reloadModel(config)` | Validates and swaps a new implementation snapshot while draining in-flight requests |
 
 ---
 
-## 4. Inference Pipeline
+## 4. Runtime pipeline
 
+```text
+input payload
+  │
+  ├─ validate empty / malformed input
+  │
+  ├─ index metadata + deterministic seed mix
+  │
+  ├─ bounded sub-batching when batch API is used
+  │
+  ├─ compute deterministic embedding vector
+  │
+  ├─ aggregate stats / counters / latency
+  │
+  └─ return EmbeddingResult{success, error, embedding}
 ```
-image_data (raw bytes)
-  │
-  ├─ Decode (JPEG / PNG / BMP via OpenCV / stb_image)
-  │
-  ├─ Resize to 224×224
-  │
-  ├─ Normalise: subtract ImageNet mean, divide by std
-  │     mean = [0.48145466, 0.4578275, 0.40821073]
-  │     std  = [0.26862954, 0.26130258, 0.27577711]
-  │
-  ├─ CHW float32 tensor [1, 3, 224, 224]
-  │
-  ├─ Ort::Session::Run(input_tensor)
-  │
-  └─ Output tensor [1, 512] (ViT-B/32) or [1, 768] (ViT-L/14)
-        → L2 normalise → std::vector<float>
-```
+
+The actual plugin performs configuration validation before activation, restricts batch fan-in to `max_batch_size`, and preserves request ordering across chunked processing. It does not depend on a specific provider implementation to remain functional in a portable build.
 
 ---
 
-## 5. Backend Selection (AUTO)
+## 5. Backend selection
 
-```
-BackendType::AUTO:
-  1. Check CUDA device count → if > 0 → CUDA
-  2. Check TensorRT availability → if available → TensorRT
-  3. Check DirectML (Windows only) → if available → DirectML
-  4. Fallback → CPU
-```
+The current implementation is intentionally explicit: `BackendType::AUTO` resolves to `CPU` in the default portable configuration. Provider strings and enum entries remain present for compatibility, but they are treated as configuration metadata rather than a guarantee that a native GPU or runtime stack is available in every deployment.
 
 ---
 
-## 6. Integration Points
+## 6. Integration points
 
 | Direction | Module | Interface |
 |-----------|--------|-----------|
-| **Implements** | `plugins/image_analysis_interface.h` | `IImageAnalysisBackend` |
-| **Provides to** | `src/server/` vector search handlers | Embedding vectors |
-| **Registered via** | `THEMIS_IMAGE_PLUGIN` macro | Dynamic plugin loader |
+| Implements | `plugins/image_analysis_interface.h` | `IImageAnalysisBackend` |
+| Consumes | application or search pipeline | embedding vectors and statistics |
+| Registered via | `THEMIS_IMAGE_PLUGIN` macro | dynamic plugin loader |
 
 ---
 
-## 7. Threading & Concurrency
+## 7. Threading and concurrency
 
-- `Ort::Session::Run()` is not thread-safe by default; access serialised via
-  `std::mutex` in `Impl`.
-- `generateEmbeddingBatch()` holds the lock for the entire batch; consider splitting
-  batch into sub-batches for large inputs (planned for v0.1.0).
-- `isReady()` and `getBackend()` are lock-free reads of atomic/const members.
+- Request-level serialization is enforced for all primary embedding APIs through the plugin mutex and per-request guard patterns.
+- `generateEmbeddingBatch()` processes chunks of `max_batch_size`; larger inputs are split rather than processed as a single unbounded operation.
+- `reloadModel()` uses an in-flight request counter and a drain window so active requests complete on the old snapshot before the new one is published.
+- `enable_mmap_loading` is a best-effort optimization and is not treated as a required production dependency.
 
 ---
 
-## 8. Error Handling
+## 8. Error handling
 
 | Scenario | Behaviour |
 |----------|-----------|
-| ONNX model file not found | `initialize()` returns `false`; logs error |
-| Image decode failure | `generateEmbedding()` returns `EmbeddingResult{ok=false, error=...}` |
-| CUDA not available (CUDA backend) | `initialize()` returns `false` |
-| Session Run exception | Caught; `EmbeddingResult{ok=false}` returned |
-| Output tensor wrong shape | `healthCheck()` returns `false` |
+| invalid config | `initialize()` / `reloadModel()` fails before activation |
+| empty image payload | returns `EmbeddingResult{success=false}` with a specific message |
+| empty text payload | returns `EmbeddingResult{success=false}` with a specific message |
+| model hash mismatch | initialization or reload is rejected when `model.path` and `model.expected_sha256` are both configured |
+| plugin not initialized | public API calls fail closed with a structured error result |
+| mmap not available | ignored gracefully and normal loading path continues |
 
 ---
 
-## 9. v0.3.0 Enhancements (In Progress)
+## 9. Implementation status and follow-up work
 
-### 9.1 Dynamic Model Hot-Swap (Phase 3B & 3C)
+### Active source-aligned scope
 
-**New Method:** `bool reloadModel(const PluginConfig& new_config)`
+- [x] `ONNXClipPlugin` public API and lifecycle contract
+- [x] config validation, backend resolution, and bounded batch splitting
+- [x] text embedding path and deterministic stats collection
+- [x] optional model-hash verification bridge
+- [x] hot-swap model reload with drain semantics
+- [x] mmap best-effort support for supported platforms
+- [x] focused tests covering hardening, batching, and plugin behavior
 
-**State Machine (8-Step Sequence):**
-```
-[Ready] ─── reloadModel() ──→ [Loading]  ──→ [Validation] ──→ [Activation]
-   ↑                                                            ↓
-   └─────────────────────────────────────────────────────── [Ready]
-    
-On failure: [Loading/Validation] → [Error] → (restore old) → [Ready with old]
-```
+### Remaining follow-up items
 
-**Implementation Details:**
+- [ ] Validate additional real-world model fixtures when test assets are available
+- [ ] Extend runtime benchmarks only where there is measurable production value
+- [ ] Keep README, ROADMAP, and security docs synchronized with any future provider-specific expansion
 
-1. **Verify Initialization:** Check `impl_->ready` flag; return `false` if not initialized
-2. **Create New Impl:** Construct new `Impl` struct with new configuration (preserves old)
-3. **Apply Config:** Parse model name, embedding dim, backend, batch size
-4. **Validate Integrity:** Verify model SHA-256 hash if OpenSSL available (or use injected hash function)
-5. **Mark Ready:** Set `new_impl->ready = true`
-6. **Wait for Drain:** Condition variable waits (up to 30 seconds) for `in_flight_requests_ == 0`
-7. **Atomic Swap:** Replace `impl_` via unique_ptr move (old impl destroyed automatically)
-8. **Signal Completion:** Notify waiting threads; unlock and return `true`
+---
 
-**Key Features:**
-- In-flight requests complete with old model before swap
-- 30-second timeout for graceful drain of pending requests
-- Atomic swap: old model destroyed only after new one ready
-- Exception-safe: RAII guards for in-flight counter
-- Automatic rollback on new model load failure
+## 10. Source evidence used for this contract
 
-**Concurrency Model:**
+- `src/onnx_clip/onnx_clip_plugin.h`
+- `src/onnx_clip/onnx_clip_plugin.cpp`
+- `tests/onnx_clip/` focused coverage
+- `src/onnx_clip/README.md`
+- `src/onnx_clip/PRODUCTION_REQUIREMENTS.md`
 
-```cpp
-// RequestGuard RAII pattern (in all inference methods)
-class RequestGuard {
-   RequestGuard(std::atomic<int>& counter, std::condition_variable& cv)
-       : counter_(counter), cv_(cv) {
-       counter_.fetch_add(1, std::memory_order_acquire);  // Acquire semantics
-   }
-    
-   ~RequestGuard() {
-       int prev = counter_.fetch_sub(1, std::memory_order_release);  // Release semantics
-       if (prev == 1) cv_.notify_all();  // Signal drain complete
-   }
-};
-
-// In generateEmbedding():
-RequestGuard guard(impl_->in_flight_requests_, impl_->cv_drain_complete);
-// ... perform inference ...
-// Guard destroyed here, counter decremented, cv signaled if reaching 0
-```
-
-**Memory Ordering Guarantees:**
-- **Acquire (request start):** Establishes synchronizes-with edge; new request sees all effects from previous requests
 - **Release (request end):** Allows reloadModel's wait to observe the decrement correctly
 - **Timeout-based wait:** Uses `condition_variable::wait_until()` with 30-second deadline
 

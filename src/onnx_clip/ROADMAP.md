@@ -1,162 +1,80 @@
-> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+> **Status:** current | validated: 2026-10-08
 
-<!-- Status: current | validated: 2026-09-22 -->
+<!-- Status: current | validated: 2026-10-08 -->
 <!-- Links: README.md · ARCHITECTURE.md · PRODUCTION_REQUIREMENTS.md · SECURITY.md · FUTURE_ENHANCEMENTS.md -->
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 # ONNX CLIP Plugin Roadmap
 
 ## Current Status
 
-v0.2.0 — `ONNXClipPlugin` is Production-ready. Full `IImageAnalysisBackend` interface with
-pImpl isolation, multi-backend support (CPU/CUDA/DirectML/TensorRT/AUTO), native batch
-sub-batch splitting, CLIP text encoder, Prometheus-style metrics, and ONNX model integrity
-check (SHA-256) are all implemented.
+- [x] `ONNXClipPlugin` is present in the current source tree and matches the active `IImageAnalysisBackend` contract in `src/onnx_clip/onnx_clip_plugin.h`.
+- [x] The current implementation is a deterministic portable reference backend with explicit config validation, bounded batch processing, hot-swap support, and optional mmap/hash verification hooks.
+- [x] The canonical module docs are aligned with the live implementation and no stale governance doc remains missing.
 
----
+## In Progress
 
-## Completed ✅
-
-- [x] `ONNXClipPlugin` class implementing `IImageAnalysisBackend`
-- [x] pImpl design isolating all ONNX Runtime types from the public header
-- [x] `initialize(config, backend)` with BackendType selection
-- [x] `AUTO` backend selection: CUDA → TensorRT → DirectML → CPU probe
-- [x] `generateEmbedding()` single-image inference path
-- [x] `generateEmbeddingBatch()` with native sub-batch splitting and `max_batch_size` config
-- [x] `generateTextEmbedding()` — CLIP text encoder with BPE-style tokenization
-- [x] `warmup()` pre-compilation of CUDA/TensorRT kernels
-- [x] `healthCheck()` output tensor shape validation
-- [x] `getStatistics()` JSON metrics (calls, avg_latency_ms, backend, model_variant, max_batch_size, total_text_inferences)
-- [x] `THEMIS_IMAGE_PLUGIN` macro export for dynamic plugin loading
-- [x] Thread-safe inference via `std::mutex`
-- [x] Prometheus metrics: `clip_embeddings_total`, `clip_text_embeddings_total`, `clip_batch_embeddings_total` (Target: Q3 2026) ✅
-- [x] ONNX model integrity check (SHA-256 hash on load via OpenSSL EVP; skipped gracefully without OpenSSL) (Target: Q1 2027) ✅
-- [x] Unit tests: CPU backend, model load, embedding shape, `healthCheck()` (Target: Q3 2026) — `tests/test_onnx_clip_plugin.cpp` (26 tests, `ONNXClipPluginTest`); registered in `tests/CMakeLists.txt` under `THEMIS_PLUGIN_IMAGE_ANALYSIS_ONNX` guard
-- [x] Contract-hardening focused tests (Target: Q3 2026) — `tests/test_onnx_clip_plugin_contract_hardening_focused.cpp` (16 tests, `OnnxClipContractHardeningTest`); covers OCP-01..16 interface/backend/embedding/batch contracts; registered as `test_onnx_clip_plugin_contract_hardening_focused` target in `tests/CMakeLists.txt`
-
----
+- [~] Keep the module docs synchronized with the live source as the provider stack and release hardening evolve (Target: Q4 2026)
+- [~] Validate additional benchmark and golden-model coverage when model assets are available in CI (Target: Q4 2026)
 
 ## Planned Features
 
-### v0.3.0 — Production Hardening (Target: Q1 2027)
-
-#### Phase 1: Integration Tests & Golden Embeddings (Target: Q3 2026)
-- [~] Task 1A: Integration test infrastructure (OCP-IT-01..08) — **In Progress**
-- [ ] Task 1B: Reproducibility & regression testing (OCP-IT-09..12)
-- [ ] Task 1C: Test harness & CI integration
-- **Acceptance:** All 12 integration tests pass, coverage > 80%
-
-#### Phase 2: Performance Benchmarking (Target: Q3 2026)
-- [~] Task 2A: Benchmark framework & fixtures — **In Progress**
-- [ ] Task 2B: Latency & throughput analysis
-- [ ] Task 2C: Performance gates (FCP-01..06) registration
-- **Acceptance:** Gates FCP-01 (≤150ms), FCP-02 (≤2.4s), FCP-03 (≤5ms), FCP-04 (<500ms), FCP-05 (≥6x batch), FCP-06 (memory tracked)
-
-#### Phase 3: Dynamic Model Hot-Swap (Target: Q1 2027)
-- [~] Task 3A: Hot-swap API design & contract — **In Progress**
-- [~] Task 3B: Hot-swap implementation — **In Progress**
-- [ ] Task 3C: Hot-swap testing & validation (OCP-HS-01..12)
-- **Acceptance:** All 12 tests pass, no request disruption, rollback verified
-
-#### Phase 4: Memory-Mapped Model Loading (Target: Q1 2027)
-- [~] Task 4A: Memory-mapped API & design — **In Progress**
-- [~] Task 4B: Mmap implementation — **In Progress**
-- [ ] Task 4C: Mmap testing & optimization (OCP-MM-01..12)
-- **Acceptance:** All 12 tests pass, ≥30% memory reduction for ViT-L/14
-
----
+- [ ] Extend real-model golden embedding validation with deterministic fixtures when asset availability is stable (Target: Q4 2026)
+- [ ] Add or update broader performance coverage for the bounded batching path and hot-swap drain behavior (Target: Q1 2027)
+- [ ] Review and tighten any provider-specific acceleration paths only when they are concretely supported by build/test evidence (Target: Q1 2027)
 
 ## Implementation Phases
 
-### Phase 1: Design / API Contract ✅
-- [x] Define `IImageAnalysisBackend` compliance points
-- [x] Define pImpl struct layout
-- [x] Define `BackendType` enum and AUTO selection logic
+### Phase 1: Design / API Contract
+- [x] Keep `IImageAnalysisBackend` integration stable and source-aligned with the public interface
+- [x] Document configuration validation and lifecycle semantics for `initialize()` and `reloadModel()`
+- [x] Explicitly scope the portable implementation to deterministic behavior rather than implicit provider assumptions
 
-### Phase 2: Core Implementation ✅
-- [x] Single-image inference pipeline (decode → preprocess → infer → normalise)
-- [x] Multi-backend initialization (CPU/CUDA/DirectML/TensorRT)
-- [x] `generateEmbeddingBatch()` with sub-batch splitting and `max_batch_size` config
-- [x] `generateTextEmbedding()` with BPE-style tokenization
+### Phase 2: Core Implementation
+- [x] Complete deterministic embedding generation and text embedding paths
+- [x] Add bounded sub-batching via `max_batch_size`
+- [x] Maintain request-order preservation and structured error results
 
-### Phase 3: Error Handling & Edge Cases ✅
-- [x] Model file not found → `initialize()` returns `false`
-- [x] Image decode failure → `EmbeddingResult{ok=false}`
-- [x] CUDA unavailable → falls back to CPU in AUTO mode
-- [x] Session Run exception → caught; error result returned
-- [x] Empty text input → `EmbeddingResult{ok=false}`
+### Phase 3: Error Handling & Edge Cases
+- [x] Reject empty payloads before processing
+- [x] Fail closed on hash mismatch when `model.path` and `model.expected_sha256` are configured
+- [x] Preserve the previous implementation snapshot during hot-swap drain failures
+- [x] Treat mmap enablement as a best-effort optional optimization rather than a required runtime dependency
 
-### Phase 4: Tests ✅
-- [x] Unit tests for CPU backend and embedding shape (26 tests covering image embedding, text embedding, batch splitting, ViT-L/14 768-dim, Prometheus counters, integrity check)
-- [x] Contract-hardening focused tests (16 tests: OCP-01..16 covering interface contract, backend selection, embedding generation, batch processing)
-- [ ] Integration tests with real ONNX models (Target: Q3 2026)
+### Phase 4: Tests
+- [x] Validate focused plugin tests and contract-hardening coverage under the module test harness
+- [x] Keep integration and soak coverage aligned with the actual supported runtime surface
+- [ ] Add additional test evidence for real-model fixtures when available (Target: Q4 2026)
 
+### Phase 5: Performance / Hardening
+- [x] Keep memory churn bounded by capped sub-batching and request serialization
+- [x] Track latency and counts through `getStatistics()`
+- [ ] Collect benchmark evidence against a representative baseline before broader provider expansion (Target: Q1 2027)
 
-### Phase 5: Performance / Hardening ✅ (partial)
-- [ ] Perf benchmark (Target: Q3 2026)
-- [x] Prometheus metrics (Target: Q3 2026)
-- [x] ONNX model integrity check (SHA-256 via OpenSSL) (Target: Q1 2027)
-
-### Phase 6: Documentation & Acceptance ✅
-- [x] README, ARCHITECTURE, AUDIT, CHANGELOG, ROADMAP, SECURITY, FUTURE_ENHANCEMENTS
-
----
+### Phase 6: Documentation & Acceptance
+- [x] Maintain README, ARCHITECTURE, PRODUCTION_REQUIREMENTS, SECURITY, and FUTURE_ENHANCEMENTS in sync with the live implementation
+- [x] Confirm module docs satisfy the direct Doxygen/governance validation contract for the active source tree
+- [ ] Refresh release notes or changelog entries if a provider-specific contract change is introduced (Target: Q1 2027)
 
 ## Production Readiness Checklist
 
 | Area | Status | Notes |
 |------|--------|-------|
-| API contract | ✅ | Full `IImageAnalysisBackend` implementation |
-| pImpl ABI isolation | ✅ | No ONNX Runtime types in public header |
-| Thread safety | ✅ | Mutex-serialised session runs |
-| Error handling | ✅ | All failure paths return error results |
-| Multi-backend | ✅ | CPU / CUDA / DirectML / TensorRT / AUTO |
-| Batch inference | ✅ | Sub-batch splitting with `max_batch_size` config |
-| Text encoder | ✅ | `generateTextEmbedding()` with BPE tokenization |
-| Prometheus metrics | ✅ | `clip_embeddings_total`, `clip_text_embeddings_total`, `clip_batch_embeddings_total` |
-| Model integrity check | ✅ | SHA-256 via OpenSSL EVP; graceful skip without OpenSSL |
-| Unit/integration tests | ⚠️ | 26 unit tests + 16 contract-hardening focused tests (OCP-01..16); integration tests still pending (Q3 2026 target) |
-| Performance benchmarks | ❌ | Planned Q3 2026 |
-
----
+| API contract | [x] | Source-aligned with the current `IImageAnalysisBackend` declaration |
+| Validation | [x] | Config validation and structured fail-closed behavior are in place |
+| Batch handling | [x] | `generateEmbeddingBatch()` processes bounded sub-batches |
+| Threading | [x] | Request serialization and in-flight drain guard are implemented |
+| Integrity checks | [x] | Model hash verification is enforced when configured |
+| Hot swap | [x] | `reloadModel()` validates and swaps snapshots while draining requests |
+| mmap support | [x] | Best-effort and non-blocking when unsupported |
+| Benchmark coverage | [ ] | Pending fixture-backed evidence when real model assets are available |
+| Documentation | [x] | Canonical governance docs are present and aligned |
 
 ## Known Issues & Limitations
 
-- Integration tests with real ViT-B/32 / ViT-L/14 ONNX model files still pending.
-- DirectML backend requires Windows; silently falls back to CPU on Linux.
-- SHA-256 model integrity check requires OpenSSL at build time (`THEMIS_HAS_OPENSSL`); skipped without it.
+- [ ] Real-model golden embedding fixtures remain unavailable in the default test environment; broader provider-specific validation depends on asset availability.
+- [ ] Provider acceleration paths are intentionally not treated as mandatory for the portable build contract.
+- [ ] Additional benchmark evidence should be captured before claiming broader production throughput targets.
 
 ## Breaking Changes
 
-No breaking ONNX-CLIP API changes are planned; any contract break must ship with migration guidance and changelog updates in the same change.
-
-## Latente Symbole (Unused-Functions-Audit)
-
-_Stand: 2026-04-20 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
-
-### ✅ Aktiv (implementiert + externer Aufrufer bestätigt)
-
-- `computeEmbedding` – Berechnet CLIP-Embedding via ONNX; genutzt in gnn_embeddings + inference_engine
-
-
-## Program Execution Model — Wave Context
-
-This module is a **contributing module** in the program-level Wave A → B → C → D execution model.
-It does not own a primary wave deliverable but must remain `release_critical`-green throughout all waves
-and must deliver Wave D operability improvements in Q1 2027.
-See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
-
-### Wave D Contribution for `onnx_clip`
-- [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
-
-### Cross-Wave Requirements
-- `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
-- p95/p99 benchmarks must be refreshed on representative hardware before Wave D sign-off (Target: Q1 2027)
-- No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
-
-### Program-Level Success Criteria (contribution)
-- [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+- [ ] No breaking API changes are planned for the current public interface; any future provider-specific expansion will require doc and migration updates in the same change.
