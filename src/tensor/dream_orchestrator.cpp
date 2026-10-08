@@ -68,7 +68,7 @@ bool DreamOrchestrator::isAllowedTransition(DreamRunState from_state,
         case DreamRunState::R2:
             return to_state == DreamRunState::R3;
         case DreamRunState::R3:
-            return to_state == DreamRunState::R0;
+            return false;
     }
     return false;
 }
