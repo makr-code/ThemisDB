@@ -1,6 +1,10 @@
 ---
 name: "Compose AI PR Report"
 description: "Generate a structured PR report for ThemisDB from implemented changes and review findings, including residual risks and release-readiness notes."
+Author: "ThemisDB Team"
+Created: "2026-10-07"
+Last Updated: "2026-10-08"
+Status: "active"
 argument-hint: "Paste scope: changed files, key fixes, and findings summary"
 agent: "themisdb-reviewer"
 disable-model-invocation: false

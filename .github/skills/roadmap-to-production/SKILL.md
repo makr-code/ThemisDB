@@ -1,6 +1,10 @@
 ---
 name: "Roadmap To Production"
 description: "Implement a Roadmap or Future Enhancement item into production code with tests and documentation updates."
+Author: "ThemisDB Team"
+Created: "2026-10-07"
+Last Updated: "2026-10-08"
+Status: "active"
 argument-hint: "Paste roadmap checkbox, milestone, or issue reference"
 agent: "themisdb-implementer"
 disable-model-invocation: false

@@ -1,6 +1,10 @@
 ---
 name: "PR Diff Findings Review"
 description: "Review the current branch diff against the default branch and produce findings-first results for ThemisDB pull requests."
+Author: "ThemisDB Team"
+Created: "2026-10-07"
+Last Updated: "2026-10-08"
+Status: "active"
 argument-hint: "Optional scope hint: module, file pattern, or risk focus"
 agent: "themisdb-reviewer"
 disable-model-invocation: false

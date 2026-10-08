@@ -1,6 +1,10 @@
 ---
 name: "Security Hardening Review"
 description: "Run a focused security and reliability review for ThemisDB changes and return findings-first output with concrete mitigations."
+Author: "ThemisDB Team"
+Created: "2026-10-07"
+Last Updated: "2026-10-08"
+Status: "active"
 argument-hint: "Paste changed files, PR context, or module scope"
 agent: "themisdb-reviewer"
 disable-model-invocation: false

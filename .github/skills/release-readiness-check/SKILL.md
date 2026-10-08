@@ -1,6 +1,10 @@
 ---
 name: "Release Readiness Check"
 description: "Run a release readiness review for ThemisDB branch transitions with governance, test, and documentation checks."
+Author: "ThemisDB Team"
+Created: "2026-10-07"
+Last Updated: "2026-10-08"
+Status: "active"
 argument-hint: "Source and target branch, plus release scope (for example: develop -> community)"
 agent: "themisdb-reviewer"
 disable-model-invocation: false

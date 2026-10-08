@@ -1,6 +1,10 @@
 ---
 name: "dokifi"
 description: "Level-based docs sync (L0=source scan, L1=module docs, L2=aggregates, L3=root). Minimal input with prerequisite verification."
+Author: "ThemisDB Team"
+Created: "2026-10-07"
+Last Updated: "2026-10-08"
+Status: "active"
 argument-hint: "level (L0|L1|L2|L3) OR operation + target path (legacy); optional: scope tags, milestone"
 agent: "doc-orchestrator"
 disable-model-invocation: false

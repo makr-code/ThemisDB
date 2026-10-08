@@ -1,6 +1,10 @@
 ---
 name: "Verify High Exception Record"
 description: "Validate that accepted High findings in a ThemisDB PR contain all required exception fields and evidence."
+Author: "ThemisDB Team"
+Created: "2026-10-07"
+Last Updated: "2026-10-08"
+Status: "active"
 argument-hint: "Paste PR description text and findings summary"
 agent: "themisdb-reviewer"
 disable-model-invocation: false

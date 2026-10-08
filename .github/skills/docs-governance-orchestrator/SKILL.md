@@ -1,6 +1,10 @@
 ---
 name: "Docs Governance Orchestrator"
 description: "Create or run documentation synchronization tasks under ThemisDB Level 1-4 governance and SOT domains."
+Author: "ThemisDB Team"
+Created: "2026-10-07"
+Last Updated: "2026-10-08"
+Status: "active"
 argument-hint: "Describe operation + target files (optional: module/tests/benchmark, milestone)."
 agent: "doc-orchestrator"
 disable-model-invocation: false
