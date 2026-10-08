@@ -670,8 +670,10 @@ function(themis_link_zlib_if_available _target_name)
         target_link_libraries(${_target_name} PRIVATE ${ZLIB_LIBRARY})
         set(_themis_zlib_linked TRUE)
     endif()
-    if(NOT _themis_zlib_linked AND UNIX AND NOT APPLE)
-        target_link_libraries(${_target_name} PRIVATE z)
+    if(UNIX AND NOT APPLE)
+        # Keep libz at the end of link lines so transitive RocksDB/zlib symbols
+        # still resolve when toolchains enable --as-needed.
+        target_link_libraries(${_target_name} PRIVATE "-Wl,--no-as-needed" z "-Wl,--as-needed")
     endif()
 endfunction()
 
