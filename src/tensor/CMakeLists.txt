@@ -31,6 +31,7 @@ set(THEMIS_TENSOR_SOURCES
     tensor_compression_routing_accelerator.cpp
     tensor_butterfly_operator.cpp
     tensor_core_bridge.cpp
+    dream_orchestrator.cpp
     tensor_error_handling.cpp
     tensor_fingerprint_graph.cpp
     tensor_index.cpp
