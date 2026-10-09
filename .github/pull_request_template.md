@@ -1,3 +1,10 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-09"
+Last Updated: "2026-10-09"
+Status: "active"
+---
+
 # Pull Request
 
 > For EPIC-branch workflow PRs, use `.github/PULL_REQUEST_TEMPLATE/epic-branch-flow.md`.

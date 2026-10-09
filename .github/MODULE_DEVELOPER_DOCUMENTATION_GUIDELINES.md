@@ -1,3 +1,10 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-09"
+Last Updated: "2026-10-09"
+Status: "active"
+---
+
 # Module Developer Documentation and Source Structure Guidelines
 
 Purpose: This file is the repository-level contract for how module documentation and source code must be structured so that Copilot, humans, and release gates can understand the module's intent, evidence, and implementation state.

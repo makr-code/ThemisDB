@@ -1,3 +1,10 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-09"
+Last Updated: "2026-10-09"
+Status: "active"
+---
+
 # Workflow Optimization Best Practices
 
 Dieses Dokument beschreibt das Optimierungsmodell fuer den aktuellen,

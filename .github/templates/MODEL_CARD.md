@@ -1,3 +1,10 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-09"
+Last Updated: "2026-10-09"
+Status: "active"
+---
+
 # GitHub Template: AI Model Card
 
 Used to document AI/ML model characteristics for EU AI Act compliance (Article 13/22).
