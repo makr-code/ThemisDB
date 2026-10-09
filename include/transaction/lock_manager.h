@@ -42,6 +42,24 @@ enum class LockStatus {
     DENIED    ///< Lock denied (2PL violation, or incompatible held by same txn)
 };
 
+/**
+ * @class LockManager
+ * @brief Coordinates row and range lock acquisition for transactional workloads.
+ *
+ * The manager enforces compatibility checks between shared and exclusive lock
+ * requests, tracks waiters, and records lock-state transitions needed for
+ * two-phase locking and snapshot-isolation validation.
+ *
+ * @details Each key in the lock table maintains a set of holders plus a queue of
+ * pending requests. A single internal mutex serializes structural mutations, and
+ * the per-request condition variable is used to wake waiters when a granted lock
+ * or timeout state changes. This API is intended for transaction coordinator use
+ * and reports outcomes via `LockResult` values rather than throwing exceptions.
+ *
+ * @note Thread-safety: internal tables are protected by the manager's mutex, while
+ *       the public counters and lock statistics are exposed as atomics for
+ *       diagnostic visibility.
+ */
 class LockManager {
 public:
     using TransactionId = uint64_t;
@@ -331,6 +349,16 @@ private:
     std::atomic<uint64_t> predicate_lock_drops_{0};
 
 public:
+    /**
+     * @brief Returns the number of predicate-lock drops recorded by the manager.
+     *
+     * This counter increases when a predicate lock is evicted or dropped due to
+     * capacity pressure or invalidation, and is used for diagnostics and tuning.
+     *
+     * @return Number of predicate-lock drops observed since the manager was created.
+     * @note The value is updated via relaxed atomic semantics for low-overhead
+     *       accounting; it is not intended as a strict ordering signal.
+     */
     uint64_t predicateLockDropCount() const noexcept {
         return predicate_lock_drops_.load(std::memory_order_relaxed);
     }
