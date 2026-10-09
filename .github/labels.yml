@@ -122,6 +122,11 @@
   description: "Post-merge build triggered and in progress"
   type: info
 
+- name: "status/release-pending"
+  color: "0075CA"
+  description: "Release workflow triggered and in progress"
+  type: info
+
 - name: "status/blocked"
   color: "B60205"
   description: "Blocked by an external dependency or unresolved issue"
