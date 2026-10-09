@@ -616,8 +616,25 @@ def generate_report(
     output_path: Path,
     repo_meta: Optional[Dict[str, str]] = None,
 ) -> None:
-    """Generiert den Markdown-Report."""
+    """Generate the Markdown maturity report and emit the required doc metadata block.
+
+    The report keeps the original Created date across regenerations so it remains
+    stable, while Last Updated is refreshed to the current UTC date.
+    """
     report_date = datetime.now(timezone.utc).strftime('%Y-%m-%d')
+    created_value = report_date
+    if output_path.exists():
+        try:
+            existing_text = output_path.read_text(encoding='utf-8')
+        except (OSError, UnicodeDecodeError):
+            existing_text = ''
+        created_match = re.search(
+            r'^>\s*Created:\s*(\d{4}-\d{2}-\d{2})\s*$',
+            existing_text,
+            re.MULTILINE,
+        )
+        if created_match:
+            created_value = created_match.group(1)
     total = len(results)
 
     # Gesamtstatistiken berechnen
@@ -641,14 +658,15 @@ def generate_report(
             dist[lvl] += 1
 
     lines: List[str] = []
-    lines.append('# ThemisDB - Code Maturity Analysis\n')
+    lines.append('# ThemisDB - Code Maturity Analysis')
+    lines.append('')
     lines.append('> Author: ThemisDB Contributors')
-    lines.append(f'> Created: {report_date}')
-    lines.append(f'> Status: active')
+    lines.append(f'> Created: {created_value}')
+    lines.append('> Status: active')
     lines.append(f'> Last Updated: {report_date}')
     lines.append('')
     lines.append(f'**Analyzed Files:** {total}  ')
-    lines.append(f'**Average Maturity Score:** {avg_score:.1f}/100\n')
+    lines.append(f'**Average Maturity Score:** {avg_score:.1f}/100')
 
     if repo_meta:
         lines.append('## 🧭 Repository Context\n')

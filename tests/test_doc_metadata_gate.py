@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import json
+import re
 import sys
 import tempfile
 import unittest
@@ -107,13 +108,48 @@ class DocMetadataGateTests(unittest.TestCase):
             output_path=report_path,
         )
 
-        text = report_path.read_text(encoding="utf-8")
-        self.assertIn("> Author: ThemisDB Contributors", text)
-        self.assertIn("> Created: ", text)
-        self.assertIn("> Status: active", text)
-        self.assertIn("> Last Updated: ", text)
+        first_text = report_path.read_text(encoding="utf-8")
+        self.assertIn("> Author: ThemisDB Contributors", first_text)
+        self.assertRegex(first_text, r"> Created: \d{4}-\d{2}-\d{2}")
+        self.assertIn("> Status: active", first_text)
+        self.assertRegex(first_text, r"> Last Updated: \d{4}-\d{2}-\d{2}")
 
-        report = gate.build_report(["docs/generated_report.md"], self.root, self.config)
+        created_match = re.search(
+            r"^>\s*Created:\s*(\d{4}-\d{2}-\d{2})\s*$",
+            first_text,
+            re.MULTILINE,
+        )
+        if created_match is None:
+            self.fail("Created date not found")
+        original_created = created_match.group(1)
+
+        maturity_gate.generate_report(
+            results=[
+                {
+                    "path": "docs/example.py",
+                    "maturity": "🟢 PRODUCTION-READY",
+                    "score": 96,
+                    "counts": {
+                        "stub": 0,
+                        "simulation": 0,
+                        "todo": 0,
+                        "debug": 0,
+                        "hardcoded": 0,
+                        "dead_code": 0,
+                        "documented_stub": 0,
+                    },
+                    "findings": {},
+                }
+            ],
+            tracking={},
+            output_path=report_path,
+        )
+
+        regenerated_text = report_path.read_text(encoding="utf-8")
+        self.assertIn(f"> Created: {original_created}", regenerated_text)
+        self.assertRegex(regenerated_text, r"> Last Updated: \d{4}-\d{2}-\d{2}")
+
+        report = gate.build_report([str(report_path.relative_to(self.root))], self.root, self.config)
         self.assertEqual(report.verdict, "PASS")
 
     def test_excluded_files_are_skipped(self) -> None:
