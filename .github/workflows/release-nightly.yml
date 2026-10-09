@@ -49,6 +49,40 @@ concurrency:
 
 jobs:
 
+  mark-release-pending:
+    name: "Release: Mark Nightly Status"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set nightly release tracker pending label
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: upsert_issue
+          issue-title: '[Release] Status tracker — nightly'
+          issue-marker: '<!-- release-nightly:type:release-status -->'
+          issue-body: |
+            <!-- release-nightly:type:release-status -->
+            ## Release Status — `nightly`
+
+            Current status: **⏳ pending**
+
+            Last run: [${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) at `${{ github.sha }}`
+
+            _This issue tracks nightly release publication health for the develop branch._
+            _Labels: `status/release-pending` = nightly release running; final state is applied after workflow completion._
+          labels-to-add: 'status/release-pending'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
   check-changes:
     name: "Validate: Changes Since Last Nightly"
     runs-on: ubuntu-24.04
