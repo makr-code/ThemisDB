@@ -617,7 +617,7 @@ def generate_report(
     repo_meta: Optional[Dict[str, str]] = None,
 ) -> None:
     """Generiert den Markdown-Report."""
-    now = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
+    report_date = datetime.now(timezone.utc).strftime('%Y-%m-%d')
     total = len(results)
 
     # Gesamtstatistiken berechnen
@@ -642,7 +642,11 @@ def generate_report(
 
     lines: List[str] = []
     lines.append('# ThemisDB - Code Maturity Analysis\n')
-    lines.append(f'**Last Updated:** {now} UTC  ')
+    lines.append('> Author: ThemisDB Contributors')
+    lines.append(f'> Created: {report_date}')
+    lines.append(f'> Status: active')
+    lines.append(f'> Last Updated: {report_date}')
+    lines.append('')
     lines.append(f'**Analyzed Files:** {total}  ')
     lines.append(f'**Average Maturity Score:** {avg_score:.1f}/100\n')
 
