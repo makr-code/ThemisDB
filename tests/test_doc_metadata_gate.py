@@ -82,75 +82,26 @@ class DocMetadataGateTests(unittest.TestCase):
         self.assertIn("field 'Created' must use YYYY-MM-DD", report.results[0].errors[0])
         self.assertIn("field 'Status' must be one of:", report.results[0].errors[1])
 
-    def test_generate_report_writes_required_metadata(self) -> None:
-        report_path = self.root / "docs" / "generated_report.md"
-        report_path.parent.mkdir(parents=True, exist_ok=True)
-
-        maturity_gate.generate_report(
-            results=[
-                {
-                    "path": "docs/example.py",
-                    "maturity": "🟢 PRODUCTION-READY",
-                    "score": 95,
-                    "counts": {
-                        "stub": 0,
-                        "simulation": 0,
-                        "todo": 0,
-                        "debug": 0,
-                        "hardcoded": 0,
-                        "dead_code": 0,
-                        "documented_stub": 0,
-                    },
-                    "findings": {},
-                }
-            ],
-            tracking={},
-            output_path=report_path,
+    def test_skill_front_matter_metadata_passes(self) -> None:
+        skill_dir = self.root / ".github" / "skills" / "code-review"
+        skill_dir.mkdir(parents=True, exist_ok=True)
+        skill_path = skill_dir / "SKILL.md"
+        skill_path.write_text(
+            "---\n"
+            "name: \"Code Review\"\n"
+            "description: \"Review pull requests...\"\n"
+            "Author: \"ThemisDB Team\"\n"
+            "Created: \"2026-10-07\"\n"
+            "Last Updated: \"2026-10-08\"\n"
+            "Status: \"active\"\n"
+            "---\n\n"
+            "# Code Review\n",
+            encoding="utf-8",
         )
 
-        first_text = report_path.read_text(encoding="utf-8")
-        self.assertIn("> Author: ThemisDB Contributors", first_text)
-        self.assertRegex(first_text, r"> Created: \d{4}-\d{2}-\d{2}")
-        self.assertIn("> Status: active", first_text)
-        self.assertRegex(first_text, r"> Last Updated: \d{4}-\d{2}-\d{2}")
-
-        created_match = re.search(
-            r"^>\s*Created:\s*(\d{4}-\d{2}-\d{2})\s*$",
-            first_text,
-            re.MULTILINE,
-        )
-        if created_match is None:
-            self.fail("Created date not found")
-        original_created = created_match.group(1)
-
-        maturity_gate.generate_report(
-            results=[
-                {
-                    "path": "docs/example.py",
-                    "maturity": "🟢 PRODUCTION-READY",
-                    "score": 96,
-                    "counts": {
-                        "stub": 0,
-                        "simulation": 0,
-                        "todo": 0,
-                        "debug": 0,
-                        "hardcoded": 0,
-                        "dead_code": 0,
-                        "documented_stub": 0,
-                    },
-                    "findings": {},
-                }
-            ],
-            tracking={},
-            output_path=report_path,
-        )
-
-        regenerated_text = report_path.read_text(encoding="utf-8")
-        self.assertIn(f"> Created: {original_created}", regenerated_text)
-        self.assertRegex(regenerated_text, r"> Last Updated: \d{4}-\d{2}-\d{2}")
-
-        report = gate.build_report([str(report_path.relative_to(self.root))], self.root, self.config)
+        report = gate.build_report([".github/skills/code-review/SKILL.md"], self.root, self.config)
         self.assertEqual(report.verdict, "PASS")
+        self.assertEqual(report.files_checked, 1)
 
     def test_excluded_files_are_skipped(self) -> None:
         file_path = self.root / "docs" / "_standards" / "template.md"

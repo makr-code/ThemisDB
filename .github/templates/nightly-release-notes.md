@@ -1,3 +1,10 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-09"
+Last Updated: "2026-10-09"
+Status: "active"
+---
+
 # ThemisDB Nightly Release — {{ build_date }}
 
 **Build Number:** `{{ github_run_number }}`  

@@ -1,3 +1,10 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-09"
+Last Updated: "2026-10-09"
+Status: "active"
+---
+
 # TODO: KI-Workflow-Verbesserungen für ThemisDB
 
 Dieses Dokument leitet sich direkt aus dem Strategiepapier

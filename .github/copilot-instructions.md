@@ -1,3 +1,10 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-09"
+Last Updated: "2026-10-09"
+Status: "active"
+---
+
 # Copilot Instructions for Roadmap-Driven Implementation
 
 Diese Regeln steuern, wie Copilot in diesem Repository aus `ROADMAP.md` und `FUTURE_ENHANCEMENTS.md` produktive Implementierungen erzeugt.
