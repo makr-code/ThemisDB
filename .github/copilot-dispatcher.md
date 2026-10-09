@@ -1,3 +1,10 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-09"
+Last Updated: "2026-10-09"
+Status: "active"
+---
+
 # Copilot Issue Dispatcher
 
 The Copilot Issue Dispatcher is a GitHub Actions automation that delegates

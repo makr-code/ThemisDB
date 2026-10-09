@@ -1,3 +1,10 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-09"
+Last Updated: "2026-10-09"
+Status: "active"
+---
+
 # Workflow Trigger Emoji Implementation Guide
 
 **Status:** Complete mapping generated for all 73 workflows  

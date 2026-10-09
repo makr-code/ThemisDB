@@ -1,3 +1,10 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-09"
+Last Updated: "2026-10-09"
+Status: "active"
+---
+
 # Governance Model for ThemisDB
 
 This document defines the authoritative governance standards for all issues, pull requests, milestones, and repository metadata in the ThemisDB project. All contributors and automated agents **MUST** comply with these standards.

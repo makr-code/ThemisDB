@@ -1,3 +1,10 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-09"
+Last Updated: "2026-10-09"
+Status: "active"
+---
+
 # Release Process
 
 This document describes how releases are created and managed for ThemisDB.
