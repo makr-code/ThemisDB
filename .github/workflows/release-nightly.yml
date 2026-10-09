@@ -54,6 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    continue-on-error: true
     permissions:
       contents: read
       issues: write
@@ -377,24 +378,38 @@ jobs:
           set -euo pipefail
           if [ "${CHANGE_RESULT}" = "success" ] || [ "${CHANGE_RESULT}" = "skipped" ]; then
             if [ "${BUILD_RESULT}" = "success" ] && [ "${METADATA_RESULT}" = "success" ] && [ "${RELEASE_RESULT}" = "success" ] && [ "${DOCKER_RESULT}" = "success" ]; then
-              echo "status_label=ci/build-ok" >> "${GITHUB_OUTPUT}"
-              echo "status_text=passing" >> "${GITHUB_OUTPUT}"
-              echo "status_icon=✅" >> "${GITHUB_OUTPUT}"
-              echo "status_reason=nightly release packaging and publication succeeded" >> "${GITHUB_OUTPUT}"
-              echo "status_markers=" >> "${GITHUB_OUTPUT}"
+              {
+                echo "status_label=ci/build-ok"
+                echo "status_text=passing"
+                echo "status_icon=✅"
+                echo "status_reason=nightly release packaging and publication succeeded"
+                echo "status_markers="
+              } >> "${GITHUB_OUTPUT}"
             else
-              echo "status_label=ci/build-failed" >> "${GITHUB_OUTPUT}"
-              echo "status_text=failing" >> "${GITHUB_OUTPUT}"
-              echo "status_icon=❌" >> "${GITHUB_OUTPUT}"
-              echo "status_reason=nightly release packaging or publication failed" >> "${GITHUB_OUTPUT}"
-              echo "status_markers=ci/build-failed" >> "${GITHUB_OUTPUT}"
+              {
+                echo "status_label=ci/build-failed"
+                echo "status_text=failing"
+                echo "status_icon=❌"
+                echo "status_reason=nightly release packaging or publication failed"
+                echo "status_markers=ci/build-failed"
+              } >> "${GITHUB_OUTPUT}"
             fi
+          elif [ "${CHANGE_RESULT}" = "failure" ]; then
+            {
+              echo "status_label=ci/build-failed"
+              echo "status_text=failing"
+              echo "status_icon=❌"
+              echo "status_reason=no nightly release was produced because the change gate failed"
+              echo "status_markers=ci/build-failed"
+            } >> "${GITHUB_OUTPUT}"
           else
-            echo "status_label=ci/build-failed" >> "${GITHUB_OUTPUT}"
-            echo "status_text=failing" >> "${GITHUB_OUTPUT}"
-            echo "status_icon=❌" >> "${GITHUB_OUTPUT}"
-            echo "status_reason=no nightly release was produced because the change gate was not met" >> "${GITHUB_OUTPUT}"
-            echo "status_markers=ci/build-failed" >> "${GITHUB_OUTPUT}"
+            {
+              echo "status_label=ci/build-failed"
+              echo "status_text=failing"
+              echo "status_icon=❌"
+              echo "status_reason=no nightly release was produced because the change gate was not met"
+              echo "status_markers=ci/build-failed"
+            } >> "${GITHUB_OUTPUT}"
           fi
 
       - name: Upsert nightly tracker issue

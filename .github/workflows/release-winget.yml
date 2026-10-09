@@ -109,6 +109,7 @@ jobs:
   detect-release:
     name: "Release: Detect Type"
     needs: mark-release-pending
+    if: always() && (needs.mark-release-pending.result != 'failure' || needs.mark-release-pending.result == 'skipped')
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.detect.outputs.version }}
@@ -445,7 +446,7 @@ jobs:
 
   finalize-release-status:
     name: "Release: Finalize WinGet Status"
-    needs: [detect-release, generate-manifests, validate-manifests, create-fork-pr, notify]
+    needs: [mark-release-pending, detect-release, generate-manifests, validate-manifests, create-fork-pr, notify]
     if: always()
     runs-on: ubuntu-latest
     permissions:
@@ -464,23 +465,29 @@ jobs:
         run: |
           set -euo pipefail
           if [ "${SHOULD_SUBMIT}" = "false" ]; then
-            echo "status_label=ci/build-ok" >> "${GITHUB_OUTPUT}"
-            echo "status_text=skipped" >> "${GITHUB_OUTPUT}"
-            echo "status_icon=ℹ️" >> "${GITHUB_OUTPUT}"
-            echo "status_reason=release type did not require WinGet submission" >> "${GITHUB_OUTPUT}"
-            echo "status_markers=" >> "${GITHUB_OUTPUT}"
+            {
+              echo "status_label=ci/build-ok"
+              echo "status_text=skipped"
+              echo "status_icon=ℹ️"
+              echo "status_reason=release type did not require WinGet submission"
+              echo "status_markers="
+            } >> "${GITHUB_OUTPUT}"
           elif [ "${MANIFEST_RESULT}" = "success" ] && [ "${VALIDATE_RESULT}" = "success" ] && [ "${PR_RESULT}" != "failure" ]; then
-            echo "status_label=ci/build-ok" >> "${GITHUB_OUTPUT}"
-            echo "status_text=passing" >> "${GITHUB_OUTPUT}"
-            echo "status_icon=✅" >> "${GITHUB_OUTPUT}"
-            echo "status_reason=WinGet manifest generation and submission succeeded" >> "${GITHUB_OUTPUT}"
-            echo "status_markers=" >> "${GITHUB_OUTPUT}"
+            {
+              echo "status_label=ci/build-ok"
+              echo "status_text=passing"
+              echo "status_icon=✅"
+              echo "status_reason=WinGet manifest generation and submission succeeded"
+              echo "status_markers="
+            } >> "${GITHUB_OUTPUT}"
           else
-            echo "status_label=ci/build-failed" >> "${GITHUB_OUTPUT}"
-            echo "status_text=failing" >> "${GITHUB_OUTPUT}"
-            echo "status_icon=❌" >> "${GITHUB_OUTPUT}"
-            echo "status_reason=WinGet submission or validation failed" >> "${GITHUB_OUTPUT}"
-            echo "status_markers=ci/build-failed" >> "${GITHUB_OUTPUT}"
+            {
+              echo "status_label=ci/build-failed"
+              echo "status_text=failing"
+              echo "status_icon=❌"
+              echo "status_reason=WinGet submission or validation failed"
+              echo "status_markers=ci/build-failed"
+            } >> "${GITHUB_OUTPUT}"
           fi
 
       - name: Upsert WinGet tracker issue
