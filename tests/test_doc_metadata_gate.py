@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import json
+import re
 import sys
 import tempfile
 import unittest
@@ -8,10 +9,14 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SCRIPTS_DIR = REPO_ROOT / "scripts"
+GITHUB_SCRIPTS_DIR = REPO_ROOT / ".github" / "scripts"
 
 if str(SCRIPTS_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPTS_DIR))
+if str(GITHUB_SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(GITHUB_SCRIPTS_DIR))
 
+import analyze_code_maturity as maturity_gate  # noqa: E402
 import validate_doc_metadata as gate  # noqa: E402
 
 
@@ -76,6 +81,76 @@ class DocMetadataGateTests(unittest.TestCase):
         self.assertEqual(report.files_with_errors, 1)
         self.assertIn("field 'Created' must use YYYY-MM-DD", report.results[0].errors[0])
         self.assertIn("field 'Status' must be one of:", report.results[0].errors[1])
+
+    def test_generate_report_writes_required_metadata(self) -> None:
+        report_path = self.root / "docs" / "generated_report.md"
+        report_path.parent.mkdir(parents=True, exist_ok=True)
+
+        maturity_gate.generate_report(
+            results=[
+                {
+                    "path": "docs/example.py",
+                    "maturity": "🟢 PRODUCTION-READY",
+                    "score": 95,
+                    "counts": {
+                        "stub": 0,
+                        "simulation": 0,
+                        "todo": 0,
+                        "debug": 0,
+                        "hardcoded": 0,
+                        "dead_code": 0,
+                        "documented_stub": 0,
+                    },
+                    "findings": {},
+                }
+            ],
+            tracking={},
+            output_path=report_path,
+        )
+
+        first_text = report_path.read_text(encoding="utf-8")
+        self.assertIn("> Author: ThemisDB Contributors", first_text)
+        self.assertRegex(first_text, r"> Created: \d{4}-\d{2}-\d{2}")
+        self.assertIn("> Status: active", first_text)
+        self.assertRegex(first_text, r"> Last Updated: \d{4}-\d{2}-\d{2}")
+
+        created_match = re.search(
+            r"^>\s*Created:\s*(\d{4}-\d{2}-\d{2})\s*$",
+            first_text,
+            re.MULTILINE,
+        )
+        if created_match is None:
+            self.fail("Created date not found")
+        original_created = created_match.group(1)
+
+        maturity_gate.generate_report(
+            results=[
+                {
+                    "path": "docs/example.py",
+                    "maturity": "🟢 PRODUCTION-READY",
+                    "score": 96,
+                    "counts": {
+                        "stub": 0,
+                        "simulation": 0,
+                        "todo": 0,
+                        "debug": 0,
+                        "hardcoded": 0,
+                        "dead_code": 0,
+                        "documented_stub": 0,
+                    },
+                    "findings": {},
+                }
+            ],
+            tracking={},
+            output_path=report_path,
+        )
+
+        regenerated_text = report_path.read_text(encoding="utf-8")
+        self.assertIn(f"> Created: {original_created}", regenerated_text)
+        self.assertRegex(regenerated_text, r"> Last Updated: \d{4}-\d{2}-\d{2}")
+
+        report = gate.build_report([str(report_path.relative_to(self.root))], self.root, self.config)
+        self.assertEqual(report.verdict, "PASS")
 
     def test_excluded_files_are_skipped(self) -> None:
         file_path = self.root / "docs" / "_standards" / "template.md"
