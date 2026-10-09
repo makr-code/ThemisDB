@@ -252,11 +252,12 @@ jobs:
         -DTHEMIS_ENABLE_LLM=OFF
         -DTHEMIS_ENABLE_GPU=OFF
       build_command: >-
-        if cmake --build build-pr-release-critical --target help | grep -q '^themis_release_critical_tests:'; then
-          cmake --build build-pr-release-critical --target themis_release_critical_tests --parallel 16;
+        PARALLEL_JOBS="$(nproc 2>/dev/null || echo 4)";
+        if cmake --build build-pr-release-critical --target help | grep -Eq '^[[:space:]]*themis_release_critical_tests:'; then
+          cmake --build build-pr-release-critical --target themis_release_critical_tests --parallel "${PARALLEL_JOBS}";
         else
           echo "release-critical aggregate target missing; falling back to full test build";
-          cmake --build build-pr-release-critical --parallel 16;
+          cmake --build build-pr-release-critical --parallel "${PARALLEL_JOBS}";
         fi
       validation_mode: none
       runs_on: ubuntu-latest
