@@ -1,4 +1,14 @@
-# Code Review Skill
+---
+name: "Code Review"
+description: "Review pull requests in this repository for correctness, security, documentation quality, and release impact."
+Author: "ThemisDB Team"
+Created: "2026-10-07"
+Last Updated: "2026-10-08"
+Status: "active"
+argument-hint: "Paste changed files, PR description, or review focus area"
+agent: "code-review"
+disable-model-invocation: false
+---
 
 This skill enables Copilot to perform context-aware code reviews on pull requests in this repository.
 

@@ -77,6 +77,27 @@ class DocMetadataGateTests(unittest.TestCase):
         self.assertIn("field 'Created' must use YYYY-MM-DD", report.results[0].errors[0])
         self.assertIn("field 'Status' must be one of:", report.results[0].errors[1])
 
+    def test_skill_front_matter_metadata_passes(self) -> None:
+        skill_dir = self.root / ".github" / "skills" / "code-review"
+        skill_dir.mkdir(parents=True, exist_ok=True)
+        skill_path = skill_dir / "SKILL.md"
+        skill_path.write_text(
+            "---\n"
+            "name: \"Code Review\"\n"
+            "description: \"Review pull requests...\"\n"
+            "Author: \"ThemisDB Team\"\n"
+            "Created: \"2026-10-07\"\n"
+            "Last Updated: \"2026-10-08\"\n"
+            "Status: \"active\"\n"
+            "---\n\n"
+            "# Code Review\n",
+            encoding="utf-8",
+        )
+
+        report = gate.build_report([".github/skills/code-review/SKILL.md"], self.root, self.config)
+        self.assertEqual(report.verdict, "PASS")
+        self.assertEqual(report.files_checked, 1)
+
     def test_excluded_files_are_skipped(self) -> None:
         file_path = self.root / "docs" / "_standards" / "template.md"
         file_path.parent.mkdir(parents=True, exist_ok=True)
