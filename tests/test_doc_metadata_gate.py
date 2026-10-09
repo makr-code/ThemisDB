@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import json
+import re
 import sys
 import tempfile
 import unittest
@@ -8,10 +9,14 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SCRIPTS_DIR = REPO_ROOT / "scripts"
+GITHUB_SCRIPTS_DIR = REPO_ROOT / ".github" / "scripts"
 
 if str(SCRIPTS_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPTS_DIR))
+if str(GITHUB_SCRIPTS_DIR) not in sys.path:
+    sys.path.insert(0, str(GITHUB_SCRIPTS_DIR))
 
+import analyze_code_maturity as maturity_gate  # noqa: E402
 import validate_doc_metadata as gate  # noqa: E402
 
 
