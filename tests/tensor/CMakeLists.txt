@@ -163,6 +163,18 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
 endforeach()
 
 # ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# Dream-specific focused tests for run lifecycle enforcement.
+# ---------------------------------------------------------------------------
+
+# Register the concrete test target if it exists; this file is auto-globbed by
+# the module convention. Keep the test name aligned with the repository's
+# module-focused naming pattern.
+
+# NOTE: dedicated test files are auto-discovered by the glob in this directory.
+# The explicit CTest registration below is intentionally minimal and kept for
+# future placement of any additional placeholder entries.
+
 # Planned RoPE focused test registration points (TODO guardrails)
 # ---------------------------------------------------------------------------
 # These placeholders intentionally register future CTest names so they appear
