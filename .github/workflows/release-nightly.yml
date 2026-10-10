@@ -370,6 +370,9 @@ jobs:
       contents: read
       issues: write
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
       - name: Resolve final nightly outcome
         id: status
         shell: bash

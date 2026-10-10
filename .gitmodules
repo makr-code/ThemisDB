@@ -47,6 +47,11 @@
 	url = https://github.com/makr-code/themisdb_admin_tools.git
 	branch = admin-tools-split
 
+[submodule "tools/admin_tools_dotnet/Themis.AdminTools.Shared"]
+	path = tools/admin_tools_dotnet/Themis.AdminTools.Shared
+	url = https://github.com/makr-code/themisdb_admin_tools.git
+	branch = admin-tools-split
+
 [submodule "plugins/themisdb_storage"]
 	path = plugins/themisdb_storage
 	url = https://github.com/makr-code/themisdb_storage.git
