@@ -293,7 +293,8 @@ jobs:
     name: "Publish: Docker Images"
     needs: generate-metadata
     runs-on: ubuntu-24.04
-    # Multi-arch Docker builds can exceed default timeouts on cold cache.
+    # Multi-arch Docker builds on cold cache (especially arm64 dependency builds)
+    # can exceed 4h; 420m matches release-docker-image.yml to avoid premature timeout.
     timeout-minutes: 420
     permissions:
       contents: read
