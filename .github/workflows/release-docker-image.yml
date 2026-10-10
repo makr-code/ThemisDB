@@ -133,7 +133,7 @@ jobs:
     name: "Build & Push Docker Image"
     needs: mark-release-pending
     runs-on: ubuntu-latest
-    # Multi-arch release builds (linux/amd64 + linux/arm64) can exceed 7h on cold cache.
+    # Multi-arch release builds (linux/amd64 + linux/arm64) can exceed 8h on cold cache.
     timeout-minutes: 480
     # For workflow_dispatch and workflow_call: always run.
     if: >
