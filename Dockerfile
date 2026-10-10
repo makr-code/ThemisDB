@@ -141,7 +141,6 @@ COPY proto ./proto
 COPY internal ./internal
 COPY plugins ./plugins
 COPY tests ./tests
-COPY artifacts ./artifacts
 COPY docker ./docker
 COPY --from=deps /build/vcpkg.json ./vcpkg.json
 COPY --from=deps /tmp/triplet.txt /tmp/triplet.txt
