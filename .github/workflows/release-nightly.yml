@@ -345,8 +345,8 @@ jobs:
           echo "::notice::Docker tags: $TAGS"
 
       - name: Build and push Docker images
-        # Keep step timeout aligned with job timeout to avoid premature step termination.
-        timeout-minutes: 420
+        # Keep step timeout below the job timeout so failures surface at step level first.
+        timeout-minutes: 400
         uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a  # v7.3.0
         with:
           context: .
