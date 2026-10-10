@@ -133,8 +133,8 @@ jobs:
     name: "Build & Push Docker Image"
     needs: mark-release-pending
     runs-on: ubuntu-latest
-    # Multi-arch release builds (linux/amd64 + linux/arm64) can exceed 6h on cold cache.
-    timeout-minutes: 420
+    # Multi-arch release builds (linux/amd64 + linux/arm64) can exceed 7h on cold cache.
+    timeout-minutes: 480
     # For workflow_dispatch and workflow_call: always run.
     if: >
       always() && (
@@ -505,7 +505,7 @@ jobs:
         (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true') ||
         (github.event_name == 'workflow_call' && inputs.push_to_registry == true)
       # Keep this aligned with the job timeout to avoid pre-emptive action timeout.
-      timeout-minutes: 420
+      timeout-minutes: 480
       uses: docker/build-push-action@4f58ea79222b3b9dc2c8bbdd6debcef730109a75  # v6.9.0
       with:
         context: .
