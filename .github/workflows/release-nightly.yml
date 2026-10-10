@@ -412,6 +412,9 @@ jobs:
             } >> "${GITHUB_OUTPUT}"
           fi
 
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
       - name: Upsert nightly tracker issue
         uses: ./.github/actions/status-flags-and-issues
         with:
