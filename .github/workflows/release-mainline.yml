@@ -169,15 +169,8 @@ jobs:
     permissions:
       issues: write
     steps:
-      - name: Checkout (sparse — actions)
+      - name: Checkout repository
         uses: actions/checkout@v5
-        with:
-          sparse-checkout: |
-            .github/actions
-            .github/scripts
-            VERSION
-            RELEASE_TYPE
-          sparse-checkout-cone-mode: false
       - name: Bootstrap build tracker issue (schedule gate)
         if: github.event_name == 'schedule'
         uses: ./.github/actions/bootstrap-build-tracker
