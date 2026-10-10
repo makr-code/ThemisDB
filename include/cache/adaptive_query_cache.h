@@ -60,7 +60,7 @@ public:
         
         // L3 (COLD) configuration
         int l3_ttl_seconds = 86400;            // 24 hours
-        std::string l3_db_path = "./themis_query_cache";
+        std::string l3_db_path = ".test-artifacts/themis_query_cache";
         
         // Eviction policy
         bool enable_frequency_weighting = true;

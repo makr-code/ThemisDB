@@ -32,7 +32,7 @@ RouterPolicyStore::PolicySpec MakePolicy(
 
 class RouterPolicyStoreTest : public ::testing::Test {
  protected:
-  RouterPolicyStoreTest() : store_("in-memory-test") {}
+  RouterPolicyStoreTest() : store_(".test-artifacts/in-memory-test") {}
 
   RouterPolicyStore store_;
 };

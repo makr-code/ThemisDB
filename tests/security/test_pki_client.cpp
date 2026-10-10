@@ -186,9 +186,9 @@ TEST(PKIClientTest, SignVerify_UsesBridgeCallbacksBeforeStubFallback) {
 
 TEST(PKIClientTest, SignVerify_RSA_SHA256_Succeeds) {
     // Prepare temp files
-    std::filesystem::create_directories("data/test_pki");
-    const std::string key_path = "data/test_pki/test_key.pem";
-    const std::string cert_path = "data/test_pki/test_cert.pem";
+    std::filesystem::create_directories(".test-artifacts/test_pki");
+    const std::string key_path = ".test-artifacts/test_pki/test_key.pem";
+    const std::string cert_path = ".test-artifacts/test_pki/test_cert.pem";
 
     ASSERT_TRUE(generate_rsa_key_and_self_signed_cert(key_path, cert_path));
 

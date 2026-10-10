@@ -13,7 +13,7 @@ namespace themis::rag {
 class AdaptiveHybridRouterTest : public ::testing::Test {
  protected:
   AdaptiveHybridRouterTest()
-      : store_(std::make_shared<RouterPolicyStore>("inmemory-router-policy")),
+      : store_(std::make_shared<RouterPolicyStore>(".test-artifacts/inmemory-router-policy")),
         router_(store_) {}
 
   static AdaptiveHybridRouter::QueryContext MakeContext(const std::string& qid,

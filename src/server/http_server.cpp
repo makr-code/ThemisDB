@@ -394,7 +394,7 @@ HttpServer::HttpServer(
     // as a follow-up task once QueryCacheManager exposes a shared accessor.
     {
         AdaptiveQueryCache::Config cache_admin_config;
-        cache_admin_config.l3_db_path = "./themis_admin_cache";
+        cache_admin_config.l3_db_path = ".test-artifacts/themis_admin_cache";
         cache_admin_config.enable_circuit_breaker = true;
         cache_admin_config.enable_tenant_isolation = true;
         try {

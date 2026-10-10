@@ -6,8 +6,30 @@ env-*/
 compendium/chrome/
 compendium/temp
 build-*/
-themis_admin_cache/
-themis_admin_cache-*/
+
+# Local test/runtime artifacts: keep generated DBs, logs, and certs under one hidden repo-local root.
+.test-artifacts/
+!.test-artifacts/.gitkeep
+/test-output/
+/tmp/
+/local-runtime/
+/data/
+/logs/
+/ctest-output/
+/in-memory-test/
+/inmemory-router-policy/
+/themis_query_cache/
+/themis_admin_cache/
+/themis_admin_cache-*/
+
+# Compatibility for legacy test sandboxes when they are still created relative to repo root.
+**/data/
+**/logs/
+**/tmp/
+**/in-memory-test/
+**/inmemory-router-policy/
+**/themis_query_cache/
+**/themis_admin_cache/
 
 
 # sccache (local cache for build acceleration)
