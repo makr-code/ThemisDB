@@ -1498,8 +1498,8 @@ set(THEMIS_LLM_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/voice_telephony.cpp>
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/voice_tts_customizer.cpp>
     $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/voice/wake_word_detector.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/content/stt_processor.cpp>
-    $<$<BOOL:${THEMIS_ENABLE_LLM}>:../src/content/tts_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/stt_processor.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_CONTENT}>:../src/content/tts_processor.cpp>
 )
 
 set(THEMIS_TRAINING_SOURCES
@@ -1528,7 +1528,6 @@ if(NOT THEMIS_ENABLE_LLM)
     list(REMOVE_ITEM THEMIS_LLM_SOURCES
         ../src/llm/model_loader.cpp
         ../src/llm/model_downloader.cpp
-        ../src/llm/llama_wrapper.cpp
         ../src/llm/llama_lora_adapter.cpp
         ../src/llm/llama_grammar_adapter.cpp
         ../src/llm/llamacpp_inference_engine.cpp
@@ -1839,10 +1838,10 @@ set(THEMIS_NETWORK_SOURCES
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/mvcc_api_handler.cpp>
     $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/cdc/cdc_admin.cpp>
     $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/server/feedback_api_handler.cpp>
-    # AI plugin API handler used by HttpServer when LLM routes are enabled.
-    $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/server/ai_plugin_api_handler.cpp>
+    # AI plugin API handler used by HttpServer route dispatch.
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/server/ai_plugin_api_handler.cpp>
     # AI plugin generator implementation required by AiPluginApiHandler.
-    $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_ENABLE_LLM}>>:../src/ai/ai_plugin_generator.cpp>
+    $<$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>:../src/ai/ai_plugin_generator.cpp>
     # Scraper plugin API handler used by HttpServer when scraper plugin is enabled.
     $<$<AND:$<BOOL:${THEMIS_ENABLE_HTTP_SERVER}>,$<BOOL:${THEMIS_PLUGIN_SCRAPER}>>:../src/server/scraper_plugin_api_handler.cpp>
     # Scraper metadata writer implementation required by ScraperPluginApiHandler.

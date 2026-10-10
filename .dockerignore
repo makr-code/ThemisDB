@@ -26,6 +26,8 @@
 !ports/**
 !plugins/
 !plugins/**
+!tests/
+!tests/**
 !external/
 !external/**
 !scripts/

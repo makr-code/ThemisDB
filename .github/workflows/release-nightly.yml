@@ -302,6 +302,9 @@ jobs:
     name: "Publish: Docker Images"
     needs: generate-metadata
     runs-on: ubuntu-24.04
+    # Multi-arch Docker builds on cold cache (especially arm64 dependency builds)
+    # can exceed 4h; 420m matches release-docker-image.yml to avoid premature timeout.
+    timeout-minutes: 420
     permissions:
       contents: read
       packages: write
@@ -351,6 +354,8 @@ jobs:
           echo "::notice::Docker tags: $TAGS"
 
       - name: Build and push Docker images
+        # Keep step timeout below the job timeout so failures surface at step level first.
+        timeout-minutes: 400
         uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a  # v7.3.0
         with:
           context: .
@@ -374,6 +379,9 @@ jobs:
       contents: read
       issues: write
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
       - name: Resolve final nightly outcome
         id: status
         shell: bash
@@ -420,6 +428,9 @@ jobs:
               echo "status_markers=ci/build-failed"
             } >> "${GITHUB_OUTPUT}"
           fi
+
+      - name: Checkout repository
+        uses: actions/checkout@v5
 
       - name: Upsert nightly tracker issue
         uses: ./.github/actions/status-flags-and-issues
