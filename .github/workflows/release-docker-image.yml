@@ -292,6 +292,19 @@ jobs:
         GHCR_REPO="ghcr.io/${REPO_LC}"
         DOCKERHUB_REPO="themisdb/themisdb"
         TARGET_REGISTRY="${TARGET_REGISTRY_INPUT:-ghcr.io}"
+        RELEASE_TYPE="$(tr -d '\r\n' < RELEASE_TYPE 2>/dev/null || echo stable)"
+        RELEASE_TYPE="$(printf '%s' "${RELEASE_TYPE}" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9')"
+
+        if [[ -z "${RELEASE_TYPE}" ]]; then
+          RELEASE_TYPE="stable"
+        fi
+        case "${RELEASE_TYPE}" in
+          nightly|alpha|beta|rc|stable) ;;
+          *)
+            echo "::error::Invalid RELEASE_TYPE '${RELEASE_TYPE}' for Docker tag derivation. Expected one of: nightly, alpha, beta, rc, stable"
+            exit 1
+            ;;
+        esac
 
         append_tag() {
           local candidate="$1"
@@ -302,21 +315,52 @@ jobs:
           fi
         }
 
-        # For released versions, rely on resolved VERSION and selected registry.
+        normalize_version() {
+          local v="$1"
+          v="${v#v}"
+          v="${v#enterprise-v}"
+          v="${v#hyperscaler-v}"
+          v="${v#military-v}"
+          v="${v#minimal-v}"
+          printf '%s' "${v}"
+        }
+
+        BASE_VERSION="$(normalize_version "${VERSION}")"
+        MINOR_VERSION="$(echo "${BASE_VERSION}" | cut -d. -f1-2)"
+        TODAY="$(date -u +%Y%m%d)"
+
+        # Published release tags are derived from the canonical release type plus the base version.
         if [[ "${VERSION}" =~ ${RELEASE_TAG_REGEX} ]]; then
-          MINOR_VERSION="$(echo "${VERSION}" | cut -d. -f1-2)"
-          if [[ "${TARGET_REGISTRY}" == "docker.io" || "${TARGET_REGISTRY}" == "both" ]]; then
-            append_tag "${DOCKERHUB_REPO}:${VERSION}"
-            append_tag "${DOCKERHUB_REPO}:${MINOR_VERSION}"
-            if [[ ! "${VERSION}" =~ [-] ]]; then
+          if [[ "${RELEASE_TYPE}" == "stable" ]]; then
+            if [[ "${TARGET_REGISTRY}" == "docker.io" || "${TARGET_REGISTRY}" == "both" ]]; then
+              append_tag "${DOCKERHUB_REPO}:${BASE_VERSION}"
+              append_tag "${DOCKERHUB_REPO}:${MINOR_VERSION}"
               append_tag "${DOCKERHUB_REPO}:latest"
             fi
-          fi
-          if [[ "${TARGET_REGISTRY}" == "ghcr.io" || "${TARGET_REGISTRY}" == "both" ]]; then
-            append_tag "${GHCR_REPO}:${VERSION}"
-            append_tag "${GHCR_REPO}:${MINOR_VERSION}"
-            if [[ ! "${VERSION}" =~ [-] ]]; then
+            if [[ "${TARGET_REGISTRY}" == "ghcr.io" || "${TARGET_REGISTRY}" == "both" ]]; then
+              append_tag "${GHCR_REPO}:${BASE_VERSION}"
+              append_tag "${GHCR_REPO}:${MINOR_VERSION}"
               append_tag "${GHCR_REPO}:latest"
+            fi
+          elif [[ "${RELEASE_TYPE}" == "nightly" ]]; then
+            if [[ "${TARGET_REGISTRY}" == "docker.io" || "${TARGET_REGISTRY}" == "both" ]]; then
+              append_tag "${DOCKERHUB_REPO}:nightly"
+              append_tag "${DOCKERHUB_REPO}:nightly-${TODAY}"
+              append_tag "${DOCKERHUB_REPO}:${BASE_VERSION}-nightly-${TODAY}"
+            fi
+            if [[ "${TARGET_REGISTRY}" == "ghcr.io" || "${TARGET_REGISTRY}" == "both" ]]; then
+              append_tag "${GHCR_REPO}:nightly"
+              append_tag "${GHCR_REPO}:nightly-${TODAY}"
+              append_tag "${GHCR_REPO}:${BASE_VERSION}-nightly-${TODAY}"
+            fi
+          else
+            if [[ "${TARGET_REGISTRY}" == "docker.io" || "${TARGET_REGISTRY}" == "both" ]]; then
+              append_tag "${DOCKERHUB_REPO}:${BASE_VERSION}-${RELEASE_TYPE}"
+              append_tag "${DOCKERHUB_REPO}:${MINOR_VERSION}-${RELEASE_TYPE}"
+            fi
+            if [[ "${TARGET_REGISTRY}" == "ghcr.io" || "${TARGET_REGISTRY}" == "both" ]]; then
+              append_tag "${GHCR_REPO}:${BASE_VERSION}-${RELEASE_TYPE}"
+              append_tag "${GHCR_REPO}:${MINOR_VERSION}-${RELEASE_TYPE}"
             fi
           fi
 
@@ -331,7 +375,6 @@ jobs:
             append_tag "${GHCR_REPO}:dev-${SHORT_SHA}"
             append_tag "${GHCR_REPO}:develop"
           fi
-
 
         # For non-release manual builds outside develop, honor the selected registry.
         else

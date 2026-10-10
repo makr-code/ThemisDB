@@ -142,6 +142,27 @@ Example:
 
 This format is used for derived release metadata and tag generation only; the canonical root version remains the plain `VERSION` file value.
 
+### 3.3 Channel mutability policy
+
+Release channels must follow immutable vs. rolling semantics:
+
+- `stable`: immutable. Published stable tags must never be overwritten. If a fix is required, publish a new versioned tag such as `v2.5.1` instead of reusing `v2.5.0`.
+- `nightly`: rolling. The `nightly` channel is designed to refresh with the newest successful build, while date/run-specific nightly tags remain snapshots of that run.
+- `alpha`, `beta`, and `rc`: versioned and publish-once. A published prerelease tag should not be silently rewritten; new builds get a new tag or a new build number.
+
+This keeps stable delivery safe, while nightly remains useful for continuous integration and rolling verification.
+
+### 3.4 Release execution model
+
+ThemisDB follows a staged release model to keep development fast while preserving release safety:
+
+- Pull requests and normal development use targeted, resource-conscious validation to keep feedback cycles short and avoid expensive full-matrix builds for every change.
+- Scheduled nightly jobs perform the deeper validation pass: full unit/integration coverage, package validation, Docker smoke checks, and larger verification runs that are still deliberately outside the normal PR path.
+- Publication of release artefacts is gated by human approval and only occurs from the controlled release workflow, not from every merge or push.
+- Stable releases are immutable and must not be silently overwritten. Nightly is intentionally rolling, while alpha/beta/rc are versioned pre-release channels.
+
+This policy balances speed, cost, and governance: small, focused builds for day-to-day work; comprehensive nightly quality gates; and explicit human sign-off before public release publication.
+
 ---
 
 ## 4. Release Quality Gates

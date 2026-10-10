@@ -32,12 +32,28 @@ set(THEMIS_VERSION_PATCH "${CMAKE_MATCH_3}")
 
 set(THEMIS_VERSION_TYPE "stable")
 
+# The canonical repo contract is VERSION + RELEASE_TYPE; RELEASE_TYPE wins when present
+# because it is the explicit channel signal for rolling/nightly versus immutable stable outputs.
+if(EXISTS "${CMAKE_SOURCE_DIR}/RELEASE_TYPE")
+    file(READ "${CMAKE_SOURCE_DIR}/RELEASE_TYPE" _themis_release_type_raw)
+    string(STRIP "${_themis_release_type_raw}" _themis_release_type_raw)
+    string(TOLOWER "${_themis_release_type_raw}" _themis_release_type_raw)
+    string(REGEX REPLACE "[^a-z0-9]+" "" _themis_release_type_normalized "${_themis_release_type_raw}")
+    if(NOT "${_themis_release_type_normalized}" STREQUAL "")
+        set(THEMIS_VERSION_TYPE "${_themis_release_type_normalized}")
+    endif()
+endif()
+
 if(NOT "${_themis_version_type_candidate}" STREQUAL "")
     string(TOLOWER "${_themis_version_type_candidate}" _themis_version_type_raw)
     string(REGEX REPLACE "[^a-z0-9]+" "" _themis_version_type_normalized "${_themis_version_type_raw}")
     if(NOT "${_themis_version_type_normalized}" STREQUAL "")
         set(THEMIS_VERSION_TYPE "${_themis_version_type_normalized}")
     endif()
+endif()
+
+if(NOT THEMIS_VERSION_TYPE MATCHES "^(nightly|alpha|beta|rc|stable)$")
+    message(FATAL_ERROR "Invalid RELEASE_TYPE: '${THEMIS_VERSION_TYPE}'. Expected one of: nightly, alpha, beta, rc, stable")
 endif()
 
 # Make version available globally

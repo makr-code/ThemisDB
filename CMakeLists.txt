@@ -1152,9 +1152,14 @@ if(NOT WIN32 AND NOT APPLE)
 endif()
 
 # --- Common metadata ---
+set(_themis_package_channel_suffix "")
+if(NOT "${THEMIS_VERSION_TYPE}" STREQUAL "stable")
+    set(_themis_package_channel_suffix "-${THEMIS_VERSION_TYPE}")
+endif()
+
 set(CPACK_PACKAGE_NAME        "themisdb")
 set(CPACK_PACKAGE_VENDOR      "ThemisDB Group GmbH")
-set(CPACK_PACKAGE_VERSION     "${THEMIS_VERSION_STRING}")
+set(CPACK_PACKAGE_VERSION     "${THEMIS_VERSION_STRING}${_themis_package_channel_suffix}")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "ThemisDB - Enterprise Distributed Database")
 set(CPACK_PACKAGE_DESCRIPTION
     "ThemisDB is an enterprise-grade distributed database with built-in AI/ML support, graph traversal, time-series analytics, and a hybrid relational/document/vector storage engine.")
@@ -1188,9 +1193,9 @@ if(WIN32)
     else()
         set(CPACK_GENERATOR "ZIP;WIX")
     endif()
-    set(CPACK_PACKAGE_FILE_NAME "ThemisDB-${THEMIS_VERSION_STRING}-Windows-x64")
+    set(CPACK_PACKAGE_FILE_NAME "ThemisDB-${THEMIS_VERSION_STRING}${_themis_package_channel_suffix}-Windows-x64")
     # WiX Product/@Version must be numeric (x.y.z.w); prerelease labels are invalid here.
-    set(CPACK_PACKAGE_VERSION "${_ver_numeric}")
+    set(CPACK_PACKAGE_VERSION "${THEMIS_VERSION}")
 
     # WiX / MSI specific
     # A stable upgrade GUID ensures "upgrade in place" behaviour across versions.
@@ -1206,17 +1211,17 @@ if(WIN32)
 elseif(APPLE)
     # ---- macOS: TGZ + ZIP ----
     set(CPACK_GENERATOR "TGZ;ZIP")
-    set(CPACK_PACKAGE_FILE_NAME "themisdb-${THEMIS_VERSION_STRING}-macOS-${CMAKE_SYSTEM_PROCESSOR}")
+    set(CPACK_PACKAGE_FILE_NAME "themisdb-${THEMIS_VERSION_STRING}${_themis_package_channel_suffix}-macOS-${CMAKE_SYSTEM_PROCESSOR}")
 
 else()
     # ---- Linux: TGZ + DEB + RPM ----
     set(CPACK_GENERATOR "TGZ;DEB;RPM")
     set(CPACK_PACKAGE_FILE_NAME
-        "themisdb-${THEMIS_VERSION_STRING}-${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}")
+        "themisdb-${THEMIS_VERSION_STRING}${_themis_package_channel_suffix}-${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}")
 
     # DEB metadata
     set(CPACK_DEBIAN_PACKAGE_NAME        "themisdb")
-    set(CPACK_DEBIAN_PACKAGE_VERSION     "${THEMIS_VERSION_STRING}")
+    set(CPACK_DEBIAN_PACKAGE_VERSION     "${THEMIS_VERSION_STRING}${_themis_package_channel_suffix}")
     set(CPACK_DEBIAN_PACKAGE_MAINTAINER  "ThemisDB Maintainers <themisdb@vcc.example.com>")
     set(CPACK_DEBIAN_PACKAGE_DESCRIPTION
         "ThemisDB Enterprise Distributed Database\n Enterprise-grade distributed database with AI/ML support, graph traversal, time-series analytics, and a hybrid relational/document/vector storage engine.")
@@ -1240,7 +1245,7 @@ else()
 
     # RPM metadata
     set(CPACK_RPM_PACKAGE_NAME       "themisdb")
-    set(CPACK_RPM_PACKAGE_VERSION    "${THEMIS_VERSION_STRING}")
+    set(CPACK_RPM_PACKAGE_VERSION    "${THEMIS_VERSION_STRING}${_themis_package_channel_suffix}")
     set(CPACK_RPM_PACKAGE_LICENSE    "Proprietary")
     set(CPACK_RPM_PACKAGE_GROUP      "Applications/Databases")
     set(CPACK_RPM_PACKAGE_URL        "https://github.com/makr-code/ThemisDB")

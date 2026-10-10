@@ -242,8 +242,8 @@ jobs:
               exit 1
             fi
 
-            # Protect stable candidate tags (e.g. v2.4.0-stable) from accidental overwrite.
-            if echo "${TARGET}" | grep -Eq '(^|-)stable([.-].*)?$'; then
+            # Stable release tags are immutable. A canonical stable GA tag is plain vX.Y.Z and must not be reused or overwritten.
+            if echo "${TARGET}" | grep -Eq '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
               API_URL="${{ github.api_url }}/repos/${{ github.repository }}/releases/tags/${TARGET}"
               HTTP_CODE="$(curl -sS -o /tmp/release-by-tag.json -w "%{http_code}" \
                 -H "Authorization: Bearer ${GITHUB_TOKEN}" \
@@ -251,7 +251,7 @@ jobs:
                 "${API_URL}")"
 
               if [ "${HTTP_CODE}" = "200" ]; then
-                echo "::error::Stable tag release already exists and must not be overwritten: ${TARGET}"
+                echo "::error::Stable release tag already exists and must not be overwritten: ${TARGET}"
                 exit 1
               elif [ "${HTTP_CODE}" != "404" ]; then
                 echo "::error::Could not validate stable tag overwrite guard (HTTP ${HTTP_CODE})"

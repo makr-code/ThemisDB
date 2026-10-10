@@ -18,6 +18,9 @@
 - Do not create separate Git tags for ZIP, MSI, Docker image, or other package variants.
 - Every release tag must have release notes.
 - GitHub Issues for a release must be linked via the corresponding milestone.
+- Pull requests and routine development use fast, targeted validation to minimize resource usage and keep velocity high.
+- Scheduled nightly builds perform the deeper full validation pass for integration, packaging, and distribution readiness.
+- Release publication remains a human-gated step and is not triggered by every merge or push.
 
 ## 2. Versioning
 
