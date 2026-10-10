@@ -293,6 +293,8 @@ jobs:
     name: "Publish: Docker Images"
     needs: generate-metadata
     runs-on: ubuntu-24.04
+    # Multi-arch Docker builds can exceed default timeouts on cold cache.
+    timeout-minutes: 420
     permissions:
       contents: read
       packages: write
@@ -342,6 +344,8 @@ jobs:
           echo "::notice::Docker tags: $TAGS"
 
       - name: Build and push Docker images
+        # Keep step timeout aligned with job timeout to avoid premature step termination.
+        timeout-minutes: 420
         uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a  # v7.3.0
         with:
           context: .
