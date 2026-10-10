@@ -168,6 +168,29 @@ jobs:
       metadata_profile: ${{ steps.detect.outputs.metadata_profile }}
       sign_requested: ${{ steps.detect.outputs.sign_requested }}
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Validate canonical version contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x .github/scripts/version-release-type-manager.sh
+          .github/scripts/version-release-type-manager.sh validate
+
+      - name: Validate explicit version matches canonical contract
+        if: github.event_name == 'workflow_call' || github.event_name == 'workflow_dispatch'
+        shell: bash
+        run: |
+          set -euo pipefail
+          EXPECTED="$(tr -d '\r\n' < VERSION)"
+          INPUT_RAW="${{ inputs.version || github.event.inputs.version }}"
+          INPUT_VERSION="${INPUT_RAW#v}"
+          if [[ -n "${INPUT_RAW}" && "${INPUT_VERSION}" != "${EXPECTED}" ]]; then
+            echo "::error::Explicit version ${INPUT_RAW} does not match canonical VERSION file ${EXPECTED}"
+            exit 1
+          fi
+
       - name: Detect tag/version/channel
         id: detect
         shell: bash

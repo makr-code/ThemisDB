@@ -11,8 +11,6 @@
 #   docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
 # ============================================================================
 
-version: '3.8'
-
 services:
   # ==========================================================================
   # ThemisDB - Development Overrides
@@ -98,7 +96,7 @@ services:
   # Development Tools Container
   # ==========================================================================
   dev-tools:
-    image: ubuntu:22.04
+    image: ubuntu:24.04
     container_name: themisdb-dev-tools
     hostname: dev-tools
     volumes:

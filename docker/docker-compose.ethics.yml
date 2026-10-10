@@ -15,8 +15,6 @@
 #   - Load Balancer: http://localhost:80
 # ============================================================================
 
-version: '3.8'
-
 services:
   # ==========================================================================
   # ThemisDB - Multi-Model Database
@@ -24,12 +22,11 @@ services:
   themisdb:
     build:
       context: ..
-      dockerfile: docker/Dockerfile.themisdb
+      dockerfile: docker/Dockerfile.unified
       args:
-        BUILD_TYPE: Release
+        THEMIS_EDITION: "COMMUNITY"
         ENABLE_LLM: "ON"
-        ENABLE_LORA: "ON"
-        BUILD_TESTS: "OFF"
+        FORCE_CPU_ONLY: "ON"
     image: themisdb/themisdb:ethics-latest
     container_name: ethics-themisdb
     hostname: themisdb

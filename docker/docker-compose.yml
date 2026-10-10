@@ -13,8 +13,6 @@
 #   - Grafana:   http://localhost:3000 (admin/admin)
 # ============================================================================
 
-version: '3.8'
-
 services:
   # ==========================================================================
   # ThemisDB with LoRA Framework
@@ -22,12 +20,11 @@ services:
   themisdb:
     build:
       context: ..
-      dockerfile: docker/Dockerfile.themisdb
+      dockerfile: docker/Dockerfile.unified
       args:
-        BUILD_TYPE: Release
+        THEMIS_EDITION: "COMMUNITY"
         ENABLE_LLM: "ON"
-        ENABLE_LORA: "ON"
-        BUILD_TESTS: "ON"
+        FORCE_CPU_ONLY: "ON"
     image: themisdb:lora-latest
     container_name: themisdb-lora
     hostname: themisdb
@@ -128,12 +125,11 @@ services:
   test-db:
     build:
       context: ..
-      dockerfile: docker/Dockerfile.themisdb
+      dockerfile: docker/Dockerfile.unified
       args:
-        BUILD_TYPE: Debug
+        THEMIS_EDITION: "COMMUNITY"
         ENABLE_LLM: "ON"
-        ENABLE_LORA: "ON"
-        BUILD_TESTS: "ON"
+        FORCE_CPU_ONLY: "ON"
     image: themisdb:lora-test
     container_name: themisdb-test
     hostname: test-db
@@ -161,7 +157,7 @@ services:
   # vcpkg Builder - Dependency Cache Service
   # ==========================================================================
   vcpkg-builder:
-    image: ubuntu:22.04
+    image: ubuntu:24.04
     container_name: vcpkg-builder
     hostname: vcpkg-builder
     volumes:

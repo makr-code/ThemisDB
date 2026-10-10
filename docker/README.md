@@ -31,12 +31,6 @@ The supporting files in this directory are deployment/configuration helpers and 
 - **Benefit for cross-compilation:** Allows automatic Python 3.11.x security patches across platforms
 - **Note:** `-slim` is preferred over `-slim-bookworm` to allow flexibility in underlying Debian version
 
-### Legacy Dockerfile (Dockerfile.themisdb)
-
-- **Status:** Deprecated
-- **Migration path:** Use `Dockerfile.unified` for new builds
-- **Note:** Not updated with `ubuntu:latest`; kept for historical compatibility only
-
 ## Local build
 
 From the repository root:

@@ -11,8 +11,6 @@
 #   docker-compose -f docker-compose.yml -f docker-compose.test.yml up --abort-on-container-exit
 # ============================================================================
 
-version: '3.8'
-
 services:
   # ==========================================================================
   # ThemisDB - Test Configuration
@@ -119,10 +117,11 @@ services:
   test-runner:
     build:
       context: ..
-      dockerfile: docker/Dockerfile.themisdb
+      dockerfile: docker/Dockerfile.unified
       args:
-        BUILD_TYPE: RelWithDebInfo
-        BUILD_TESTS: "ON"
+        THEMIS_EDITION: "COMMUNITY"
+        ENABLE_LLM: "ON"
+        FORCE_CPU_ONLY: "ON"
     image: themisdb:test-runner
     container_name: themisdb-test-runner
     hostname: test-runner
@@ -140,6 +139,7 @@ services:
       - themis-network
     command: >
       /bin/bash -c "
+      TEST_EXIT_CODE=0;
       echo 'Waiting for test database to be ready...';
       sleep 10;
       echo 'Running LoRA framework tests...';
@@ -153,6 +153,8 @@ services:
 
   # Skip vcpkg-builder in test mode (not needed for CI)
   vcpkg-builder:
+    image: ubuntu:24.04
+    command: /bin/bash -c "echo 'vcpkg builder disabled in test mode'; tail -f /dev/null"
     deploy:
       replicas: 0
 

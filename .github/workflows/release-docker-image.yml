@@ -182,6 +182,13 @@ jobs:
         fetch-depth: 0
         ref: ${{ github.sha }}
 
+    - name: Validate canonical version contract
+      shell: bash
+      run: |
+        set -euo pipefail
+        chmod +x .github/scripts/version-release-type-manager.sh
+        .github/scripts/version-release-type-manager.sh validate
+
     - name: Determine version
       id: version
       env:
@@ -193,18 +200,32 @@ jobs:
         echo "  Version detection"
         RELEASE_TAG_NAME="$(jq -r '.release.tag_name // empty' "${GITHUB_EVENT_PATH}" 2>/dev/null || true)"
         TAG_REGEX='^(v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|enterprise-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|hyperscaler-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|military-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|minimal-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?)$'
+        SEMVER_REGEX='^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$'
+
+        resolve_version_from_file() {
+          if [[ ! -f VERSION ]]; then
+            echo "::error::VERSION file is missing at repository root; the canonical product version source is required." >&2
+            exit 1
+          fi
+          VERSION="$(tr -d '\r\n' < VERSION)"
+          if ! echo "${VERSION}" | grep -Eq "${SEMVER_REGEX}"; then
+            echo "::error::VERSION file contains an invalid canonical version: ${VERSION}" >&2
+            exit 1
+          fi
+          echo "${VERSION}"
+        }
 
         if [[ "${EVENT_NAME}" == "workflow_call" ]]; then
           if [[ -n "${TAG_INPUT}" ]]; then
             if ! echo "${TAG_INPUT}" | grep -Eq "${TAG_REGEX}"; then
-              echo "::error::workflow_call tag_name has invalid format: ${TAG_INPUT}"
+              echo "::error::workflow_call tag_name has invalid release format: ${TAG_INPUT}"
               exit 1
             fi
             VERSION="${TAG_INPUT}"
             echo "  Source   : workflow_call input tag_name"
           else
-            VERSION="$(cat VERSION 2>/dev/null || echo 'dev')-$(date +%s)"
-            echo "  Source   : VERSION file + timestamp (workflow_call fallback)"
+            VERSION="v$(resolve_version_from_file)"
+            echo "  Source   : canonical VERSION file"
           fi
 
           echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
@@ -218,8 +239,8 @@ jobs:
           echo "  Source   : release event"
           echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
         else
-          VERSION="$(cat VERSION 2>/dev/null || echo 'dev')-$(date +%s)"
-          echo "  Source   : VERSION file + timestamp"
+          VERSION="v$(resolve_version_from_file)"
+          echo "  Source   : canonical VERSION file"
           echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
         fi
         echo "  Version  : ${VERSION}"

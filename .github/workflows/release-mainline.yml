@@ -186,6 +186,12 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           enforce: 'true'
           fail-if-missing: 'true'
+      - name: Validate canonical version contract
+        run: |
+          set -euo pipefail
+          chmod +x .github/scripts/version-release-type-manager.sh
+          .github/scripts/version-release-type-manager.sh validate
+
       - name: Validate tag/edition policy
         env:
           GITHUB_TOKEN: ${{ github.token }}

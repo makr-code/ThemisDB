@@ -1,8 +1,10 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-action.json
 name: Generate Build Metadata
 description: |
-  Generates build-metadata.json and OCI image annotations from VERSION/RELEASE_TYPE files.
-  Metadata includes build timestamp, git commit, build number, and release type.
+  Generates build-metadata.json and OCI image annotations from the canonical VERSION/RELEASE_TYPE files.
+  VERSION is the product version source of truth; RELEASE_TYPE declares the release channel.
+  Docker tags and OCI labels are derived from these values plus build metadata such as timestamp,
+  git revision, and CI run number.
 
 inputs:
   version-file:

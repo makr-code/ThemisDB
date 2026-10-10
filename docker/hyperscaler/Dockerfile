@@ -2,7 +2,7 @@
 # ThemisDB Hyperscaler Edition - Docker Build
 # Includes LLM support (llama.cpp) + GPU acceleration + optimized for distributed sharding
 
-FROM ubuntu:22.04 AS build
+FROM ubuntu:24.04 AS build
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install build tools and system dependencies
@@ -156,7 +156,7 @@ RUN echo "=== Building ThemisDB HYPERSCALER Edition for x64-linux ===" && \
     ls -lh /src/build/themis_server
 
 # Runtime stage - minimal Ubuntu image
-FROM ubuntu:22.04 AS runtime
+FROM ubuntu:24.04 AS runtime
 ENV DEBIAN_FRONTEND=noninteractive
 
 ARG THEMIS_VERSION=1.3.4-hyperscaler

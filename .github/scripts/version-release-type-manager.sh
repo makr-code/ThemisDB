@@ -134,6 +134,37 @@ cmd_write_both() {
     cmd_write_release_type "$new_type"
 }
 
+# Command: validate canonical version contract
+cmd_validate() {
+    local version
+    local release_type
+
+    if [[ ! -f "$VERSION_FILE" ]]; then
+        echo "ERROR: VERSION file not found: $VERSION_FILE" >&2
+        exit 1
+    fi
+    if [[ ! -f "$RELEASE_TYPE_FILE" ]]; then
+        echo "ERROR: RELEASE_TYPE file not found: $RELEASE_TYPE_FILE" >&2
+        exit 1
+    fi
+
+    version=$(cmd_read_version)
+    release_type=$(cmd_read_release_type)
+
+    if ! [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.]+)?$ ]]; then
+        echo "ERROR: Invalid canonical product version: $version (expected X.Y.Z or X.Y.Z-prerelease)" >&2
+        exit 1
+    fi
+
+    if ! contains_element "$release_type" "${VALID_RELEASE_TYPES[@]}"; then
+        echo "ERROR: Invalid release type: $release_type" >&2
+        echo "       Valid types: ${VALID_RELEASE_TYPES[*]}" >&2
+        exit 1
+    fi
+
+    echo "Canonical version contract is valid: VERSION=$version RELEASE_TYPE=$release_type"
+}
+
 # Command: bump version
 cmd_bump_version() {
     local bump_type="$1"  # major, minor, patch
@@ -220,6 +251,9 @@ main() {
         generate-nightly-version)
             cmd_generate_nightly_version "${2:-}"
             ;;
+        validate)
+            cmd_validate
+            ;;
         *)
             cat <<EOF
 Usage: $0 <command> [args]
@@ -233,6 +267,7 @@ Commands:
   write-both <version> <type>      Update both files atomically
   bump-version <major|minor|patch> Bump version and echo new version
   generate-nightly-version [run#]  Generate nightly version string
+  validate                         Validate canonical VERSION + RELEASE_TYPE contract
 
 Valid release types: ${VALID_RELEASE_TYPES[*]}
 

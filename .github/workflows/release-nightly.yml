@@ -143,9 +143,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
+      - name: Validate canonical version contract
+        run: |
+          set -euo pipefail
+          chmod +x .github/scripts/version-release-type-manager.sh
+          .github/scripts/version-release-type-manager.sh validate
+
       - name: Update RELEASE_TYPE to nightly
         run: |
-          echo "::notice::Using workspace-only RELEASE_TYPE override for nightly run"
+          echo "nightly" > RELEASE_TYPE
+          chmod +x .github/scripts/version-release-type-manager.sh
+          .github/scripts/version-release-type-manager.sh validate
+          echo "::notice::Using nightly release type override for this build lane"
 
   build-matrix:
     name: "Build: Nightly (Matrix)"

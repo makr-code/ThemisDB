@@ -49,94 +49,87 @@ Examples:
 
 ## 2. Version Identifiers in the Repository
 
-The canonical version is stored in two places that must always be kept in sync:
+The canonical contract is simple and deliberate:
 
-| File | Format | Example |
+- `VERSION` is the canonical product version for ThemisDB.
+- `RELEASE_TYPE` is the canonical release channel (`nightly`, `alpha`, `beta`, `rc`, `stable`).
+- Docker tags, OCI labels, GitHub Release tags, and package metadata are derived outputs from that pair.
+- No independent version string should be introduced in Dockerfiles, build scripts, or release automation when the canonical root files already define the product version.
+
+| File | Purpose | Example |
 |---|---|---|
-| [`VERSION`](VERSION) | Plain text, one line | `<major>.<minor>.<patch>[-pre]` |
-| [`RELEASE_TYPE`](RELEASE_TYPE) | Plain text, one line | `nightly`, `alpha`, `beta`, `rc`, or `stable` |
-| [`CHANGELOG.md`](CHANGELOG.md) | Keep a Changelog header | `## [<major>.<minor>.<patch>] - YYYY-MM-DD` |
+| [`VERSION`](VERSION) | Canonical product version | `2.4.0` or `2.4.0-rc1` |
+| [`RELEASE_TYPE`](RELEASE_TYPE) | Canonical release channel | `nightly`, `alpha`, `beta`, `rc`, `stable` |
+| [`CHANGELOG.md`](CHANGELOG.md) | Release history for each version | `## [2.4.0] - 2026-10-10` |
+| `CMakeLists.txt` / `cmake/Versions.cmake` | Build-time consumption of the canonical version | Reads `VERSION` and exposes `THEMIS_VERSION` |
 
-Additionally, the CMake build system reads the version at configure time via the `VERSION` file and from `CMakeLists.txt` `project()` call. Keep these consistent.
-
-The `RELEASE_TYPE` file holds the current release type as a single line of text. This file allows workflows and helper scripts to determine the release classification without parsing version strings. Valid values are: `nightly`, `alpha`, `beta`, `rc`, `stable`.
+The build system must consume the root-level version files as the source of truth. `Dockerfile`, GHCR/GHCR tags, and release metadata are derived from that product version, not the other way around.
 
 ### Version Update Procedures
 
-When manually creating a release:
+When creating or promoting a release:
 
-1. Update `VERSION` with the new version string (e.g., `2.5.0` or `2.5.0-rc1`)
-2. Update `RELEASE_TYPE` with the release classification (e.g., `stable` or `rc`)
-3. Update `CHANGELOG.md` with the new version section
-4. Verify `CMakeLists.txt` version matches `VERSION`
-5. Commit all three files together
-6. Create release tag: `git tag -s v<version> -m "Release v<version>"`
+1. Update `VERSION` with the target product version.
+2. Update `RELEASE_TYPE` with the release channel.
+3. Update `CHANGELOG.md` with the release notes section.
+4. Ensure the CMake version metadata still matches the root `VERSION` file.
+5. Create the release tag after approval: `git tag -s v<version> -m "Release v<version>"`.
 
-When using semi-automatic release workflows:
-- `.github/workflows/release-promote.yml` automatically updates `VERSION`, `RELEASE_TYPE`, and `CHANGELOG.md`
-- Manual tag creation is required after PR approval and merge
+When using the automation workflows:
+- `.github/workflows/release-promote.yml` updates `VERSION`, `RELEASE_TYPE`, and `CHANGELOG.md`.
+- `.github/workflows/release-docker-image.yml` emits Docker tags and OCI metadata from the canonical version data.
+- Manual tag creation remains the final approval step, not the source of truth.
 
 ### 2.1 Pull Request Version Targeting
 
-Every PR must declare a **target version** at merge time. This maps the PR to a GitHub milestone and enables:
-
-- **Release scope tracking**: milestone aggregates all PRs targeting a release
-- **Changelog generation**: PR titles/numbers are recorded in `CHANGELOG.md`
-- **Roadmap alignment**: PR scope is validated against planned features in `ROADMAP.md`
-
-**PR Version Selection:**
+Every PR must declare a target version at merge time. This maps work to a release lane and keeps the changelog and roadmap aligned.
 
 | PR Type | Target Version | Example |
 |---------|----------------|---------|
-| New feature | Next planned MINOR | `v2.5.0-alpha1` for feature work on develop |
+| New feature | Next planned MINOR | `v2.5.0-alpha1` |
 | Bug fix (current RC/stable) | Current release or patch | `v<current-rc>` or `v<current-stable-patch>` |
-| Bug fix (general) | Next MINOR | `v2.5.0-alpha1` |
 | Documentation | Feature version | Same as documented feature |
-| Security patch | Current stable first | `v<current-stable>` then backport to `v<current-stable-patch>` |
-| Infrastructure / Refactoring | Next MINOR or backlog | `v2.5.0-alpha1` or `[Unreleased]` |
+| Security patch | Current stable first | `v<current-stable>` then backport |
+| Infrastructure / refactoring | Next MINOR or backlog | `v2.5.0-alpha1` or `[Unreleased]` |
 
-See [docs/governance/PR_VERSION_TARGETING.md](docs/governance/PR_VERSION_TARGETING.md) for detailed selection criteria and release manager workflow.
-
----
-
-## 3. Release Types
-
-| Type | Description | Example tag |
-|---|---|---|
-| **Alpha** | Early preview; API may change significantly | `v2.5.0-alpha1` |
-| **Beta** | Feature-complete; API stabilising | `v2.5.0-beta1` |
-| **Release Candidate (RC)** | Feature-frozen; only bug fixes | `vX.Y.Z-rcN` |
-| **Stable** | General availability (GA) | `vX.Y.Z` |
-| **Patch / Hotfix** | Critical fixes on a stable release | `vX.Y.(Z+1)` |
-
-Releases progress through the type sequence: alpha → beta → rc → stable.  
-Critical security fixes may bypass the pre-release sequence and be released directly as a patch.
-
-`RELEASE_TYPE` values are normalized to: `alpha`, `beta`, `rc`, `stable`.
-
-Canonical suffixes:
-
-| `RELEASE_TYPE` | Canonical suffix | Legacy suffixes (historical entries only) |
-|---|---|---|
-| `alpha` | `-alphaN` | `-alpha` |
-| `beta` | `-betaN` | `-beta.N` |
-| `rc` | `-rcN` | `-rc.N`, `-rc` |
-| `stable` | _(none)_ | n/a |
+See [docs/governance/PR_VERSION_TARGETING.md](docs/governance/PR_VERSION_TARGETING.md) for detailed selection criteria and release-manager workflow.
 
 ---
 
 ## 3. Release Types
 
-| Type | Description | Example tag | Cadence |
+| Type | Description | Example tag | Typical cadence |
 |---|---|---|---|
-| **Nightly** | Automated daily builds from develop (for early testing) | `v2.4.0-nightly.20260904.1234` | Daily 03:30 UTC |
-| **Alpha** | Early preview; API may change significantly | `v2.5.0-alpha1` | As needed |
+| **Nightly** | Automated development build from the active branch | `v2.4.0-nightly.20260904.1234` | Daily / on demand |
+| **Alpha** | Early preview; API may change | `v2.5.0-alpha1` | As needed |
 | **Beta** | Feature-complete; API stabilising | `v2.5.0-beta1` | As needed |
-| **Release Candidate (RC)** | Feature-frozen; only bug fixes | `v2.5.0-rc1` | 1–2 weeks before stable |
+| **Release Candidate (RC)** | Feature-frozen; bug-fix only | `v2.5.0-rc1` | 1–2 weeks before stable |
 | **Stable** | General availability (GA) | `v2.5.0` | Every 6–8 weeks (MINOR) |
-| **Patch / Hotfix** | Critical fixes on a stable release | `v2.5.1` | As needed (P0: 48h, P1: 1 week) |
+| **Patch / Hotfix** | Critical fix on a stable release | `v2.5.1` | As needed |
 
-### 3.1 Nightly Release Format
+Release progression is:
+
+```
+nightly → alpha → beta → rc → stable
+```
+
+The canonical `RELEASE_TYPE` values are: `nightly`, `alpha`, `beta`, `rc`, `stable`.
+
+### 3.1 Docker and package tags are derived, not authoritative
+
+The product version and release type are the authoritative inputs. Docker version tags are generated from them by CI and release automation.
+
+Examples:
+
+| Canonical input | Derived Docker tag |
+|---|---|
+| `VERSION=2.4.0`, `RELEASE_TYPE=stable` | `themisdb:2.4.0`, `themisdb:2.4`, `themisdb:latest` |
+| `VERSION=2.5.0`, `RELEASE_TYPE=rc` | `themisdb:2.5.0-rc1`, `themisdb:2.5-rc1` |
+| `VERSION=2.4.0`, `RELEASE_TYPE=nightly` | `themisdb:nightly`, `themisdb:nightly-YYYYMMDD`, `themisdb:2.4.0-nightly-YYYYMMDD` |
+
+OCI image labels should carry metadata such as build timestamp, git revision, and release type without creating a second independent release version system. The generated metadata action is the expected mechanism for this.
+
+### 3.2 Nightly format
 
 Nightly versions use a specialized format to support multiple nightly builds per day:
 
@@ -144,57 +137,14 @@ Nightly versions use a specialized format to support multiple nightly builds per
 v<major>.<minor>.<patch>-nightly.<YYYYMMDD>.<runnum>
 ```
 
-Where:
-- `<major>.<minor>.<patch>` — base version from `VERSION` file
-- `<YYYYMMDD>` — release date (e.g., `20260904` for September 4, 2026)
-- `<runnum>` — GitHub Actions run number (ensures unique tags even on same day)
-
-**Examples:**
+Example:
 - `v2.4.0-nightly.20260904.1234`
-- `v2.4.0-nightly.20260904.1235` (second nightly on same day)
 
-**Sorting:** Nightly tags sort correctly chronologically and with semantic version comparison tools.
-
-**Docker tags:** Nightly images receive multiple tags:
-- `themisdb:nightly` (points to latest nightly, always updated)
-- `themisdb:nightly-20260904` (date-specific, never changes)
-- `themisdb:2.4.0-nightly-20260904` (full version with date)
-- **Never** receives `latest` or `<version>` tags
-
-Nightly releases are released automatically via `.github/workflows/release-nightly.yml`. They are always marked as pre-releases on GitHub and are not submitted to WinGet.
-
-### 3.2 Release Type Progression
-
-Releases progress through the type sequence:
-
-```
-nightly → alpha → beta → rc → stable
-```
-
-- **Nightly → Alpha:** Manual decision to stabilize a development build
-- **Alpha → Beta:** Features complete, API stabilizing
-- **Beta → RC:** Beta testing complete, enters feature-freeze
-- **RC → Stable:** Release candidate approved after final soak period
-- **Stable → Patch:** Critical fix on current stable line (may skip other pre-release types)
-
-Releases progress through the type sequence: alpha → beta → rc → stable.  
-Critical security fixes may bypass the pre-release sequence and be released directly as a patch.
-
-`RELEASE_TYPE` values are normalized to: `nightly`, `alpha`, `beta`, `rc`, `stable`.
-
-Canonical suffixes:
-
-| `RELEASE_TYPE` | Canonical suffix | Legacy suffixes (historical entries only) |
-|---|---|---|
-| `nightly` | `-nightly.<YYYYMMDD>.<runnum>` | n/a |
-| `alpha` | `-alphaN` | `-alpha` |
-| `beta` | `-betaN` | `-beta.N` |
-| `rc` | `-rcN` | `-rc.N`, `-rc` |
-| `stable` | _(none)_ | n/a |
+This format is used for derived release metadata and tag generation only; the canonical root version remains the plain `VERSION` file value.
 
 ---
 
-## 4. Release Types (Previous)
+## 4. Release Quality Gates
 
 A stable / GA tag may only be cut after the release-policy gates in `RELEASE_STRATEGY.md` are satisfied on `develop`.
 
@@ -206,7 +156,7 @@ Required evidence bundle:
 - synchronized release/governance documentation (`ROADMAP.md`, `FUTURE_ENHANCEMENTS.md`, `CHANGELOG.md`, branch/release/versioning docs)
 - completed GA hardening execution batches (A-D) with boundary evidence updates in planning/status documents
 
-Current batch tracking is maintained in `ROADMAP.md`, `NEXT_PHASE_IMPLEMENTATION_PLAN.md`, and `ai_working/NEXT_PHASE_STATUS.md`. Technical gates for Batch D (D-1..D-10) have passed. The final human governance sign-off (Section 9 of `docs/governance/GA_PROMOTION_SIGN_OFF.md`, gate D-11) is still pending and is the only remaining GA promotion blocker.
+Current batch tracking is maintained in `ROADMAP.md`, `NEXT_PHASE_IMPLEMENTATION_PLAN.md`, and `ai_working/NEXT_PHASE_STATUS.md`. Technical gates for Batch D (D-1..D-10) have passed. The final human governance sign-off is still pending and is the remaining GA promotion blocker.
 
 ### 4.1 Stable / GA Promotion Evidence
 
@@ -217,6 +167,64 @@ Current batch tracking is maintained in `ROADMAP.md`, `NEXT_PHASE_IMPLEMENTATION
 | Release Candidate | 1–2 weeks before a stable release |
 
 Release dates are tracked in [`CHANGELOG.md`](CHANGELOG.md) and announced via GitHub Releases.
+
+---
+
+## 5. Supported Versions & End-of-Life
+
+ThemisDB maintains support windows for the current stable release and the most recent prior major/minor line, with support obligations documented in the release notes and branch strategy. Backports for critical fixes must use the same semantics as the product version rule above and must not introduce independent version strings outside the canonical repo files.
+
+### 5.1 Compatibility and migration
+
+- Version bumps are semver-based and require a matching changelog entry.
+- Breaking changes must be called out explicitly in the release notes and migration guidance.
+- Backports must preserve the `VERSION` + `RELEASE_TYPE` contract and only derive tag metadata from it.
+
+---
+
+## 6. Edition Versioning
+
+Edition-specific builds follow the same semantic version rules but may carry different branch or distribution contexts (for example: `community`, `enterprise`, `hyperscaler`, `military`, `minimal`). The canonical version data remains the same product version source, while edition routing is orthogonal to tag generation.
+
+---
+
+## 7. Changelog Requirements
+
+Each published release must include a changelog section demonstrating:
+
+- the released version number
+- the release channel
+- the validated functional scope
+- migration or compatibility notes where relevant
+- fixed issues and security updates
+
+---
+
+## 8. Deprecation Policy
+
+Deprecated public behavior must be clearly labeled in the changelog and release notes with the planned removal target and migration path. The product version contract stays unchanged until the deprecation is formally removed in a major or minor release.
+
+---
+
+## 9. Breaking Changes
+
+Breaking changes require explicit change notes and a version bump that matches the semantic-version policy. They must not be silently hidden behind a Docker tag or undocumented build artifact drift.
+
+---
+
+## 10. Pre-release Identifiers
+
+The canonical pre-release suffixes are:
+
+| `RELEASE_TYPE` | Canonical suffix |
+|---|---|
+| `nightly` | `-nightly.<YYYYMMDD>.<runnum>` |
+| `alpha` | `-alphaN` |
+| `beta` | `-betaN` |
+| `rc` | `-rcN` |
+| `stable` | none |
+
+These are formatting conventions for release metadata and tags; they are not separate product version sources.
 
 ---
 

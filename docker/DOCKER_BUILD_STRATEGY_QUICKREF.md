@@ -12,15 +12,14 @@
 - BuildKit cache mounts are used for APT package caches and vcpkg caches.
 - The vcpkg clone step is guarded so a cached build directory does not fail with “destination path ... already exists and is not an empty directory”.
 
-## Base Image Versioning (as of 2026-09-01)
+## Base Image Versioning (as of 2026-10-10)
 
-**Primary strategy:** Use floating/latest tags for cross-platform compatibility
+**Primary strategy:** Pin to Ubuntu 24.04 LTS for reproducible, security-aligned container builds.
 
 | Dockerfile | Base Image | Policy | Rationale |
 |---|---|---|---|
-| `Dockerfile.unified` (Primary) | `ubuntu:latest` | Always track LTS + patches | Auto-resolves across registries; no SHA divergence |
+| `Dockerfile.unified` (Primary) | `ubuntu:24.04` | Pinned LTS baseline with package refreshes | Reproducible, aligned with hardened release pipeline |
 | `Dockerfile.ethics-ai` | `python:3.11-slim` | Track Python 3.11.x patches | Allows security patches; platform-independent resolution |
-| `Dockerfile.themisdb` (Legacy) | `ubuntu:22.04` | Deprecated; not updated | For backward compatibility only |
 
 **Benefits:**
 - Different Docker registries (Linux/macOS/Windows/Docker Desktop) independently resolve `ubuntu:latest` without SHA conflicts

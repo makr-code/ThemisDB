@@ -2,7 +2,7 @@
 # Based on pre-built Release binary + LLM support
 # Avoids complex vcpkg builds in Docker
 
-FROM ubuntu:22.04 AS runtime
+FROM ubuntu:24.04 AS runtime
 ENV DEBIAN_FRONTEND=noninteractive
 
 ARG THEMIS_VERSION=1.3.4-hyperscaler
