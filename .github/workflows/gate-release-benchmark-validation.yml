@@ -1,0 +1,446 @@
+---
+name: "Release Gate: Benchmark Coverage Validation"
+
+# Validates benchmark coverage for releases, enforcing stricter thresholds
+# for release-critical modules (llm, sharding, storage, server, query, gpu, acceleration).
+#
+# Purpose:
+#   - Ensure all release-critical modules have 100% benchmark coverage
+#   - Verify other modules meet ≥95% coverage threshold
+#   - Generate release readiness report with per-module breakdown
+#   - Block release if benchmarks are insufficient for critical paths
+#
+# Triggered by:
+#   - Release tags: v*, enterprise-v*, hyperscaler-v*, military-v*, minimal-v*
+#   - Release branches: release/*, for scheduled release builds
+#   - Manual trigger: workflow_dispatch for ad-hoc verification
+#
+# Gate Decision Logic:
+#   PASS   → All critical modules ≥100%, all other modules ≥95%, 0 broken targets
+#   WARN   → Orphaned CTest entries or warning conditions (non-blocking)
+#   FAIL   → Any critical module <100%, any module <95%, or broken targets found
+#
+# Outputs:
+#   - Release readiness report (JSON + markdown)
+#   - Tracker issue creation on FAIL (with module-level breakdown)
+#   - Comment on release issue with validation summary
+#   - Exit code 0 on PASS, 1 on FAIL (WARN is non-blocking)
+#
+# Release-Critical Modules (100% threshold):
+#   - llm: LLM inference and model serving
+#   - sharding: Distributed query coordination and sharding logic
+#   - storage: Blob storage and persistence layer
+#   - server: Core server and RPC handling
+#   - query: Query execution engine
+#   - gpu: GPU acceleration (CUDA)
+#   - acceleration: General acceleration backend support
+#
+# Integration Points:
+#   - Called before: release-mainline.yml as a preflight gate
+#   - Updates: Release readiness tracking issue
+#   - Blocks: GitHub Release publication (if integrated with approval workflow)
+#   - Scope: Applies to all release branches and tagged versions
+#
+# Author: Copilot / Wave 10 Audit
+# Created: 2026-10-11
+# Last Updated: 2026-10-11
+# Status: active
+
+on:
+  push:
+    branches:
+      - 'release/**'
+    tags:
+      - 'v*'
+      - 'enterprise-v*'
+      - 'hyperscaler-v*'
+      - 'military-v*'
+      - 'minimal-v*'
+  schedule:
+    # Run nightly on develop for release-readiness tracking
+    - cron: '2 4 * * *'
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Git ref to validate (branch, tag, or commit SHA)'
+        required: false
+        type: string
+      report_only:
+        description: 'Generate report only, do not fail gate'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: read
+
+concurrency:
+  group: release-benchmark-gate-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+
+  audit_benchmarks:
+    name: "Audit: Benchmark Coverage by Module"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    outputs:
+      audit_json: ${{ steps.audit.outputs.report_json }}
+      gate_status: ${{ steps.gate_logic.outputs.status }}
+      coverage_overall: ${{ steps.gate_logic.outputs.coverage_overall }}
+      coverage_critical: ${{ steps.gate_logic.outputs.coverage_critical }}
+      coverage_other: ${{ steps.gate_logic.outputs.coverage_other }}
+      failed_modules: ${{ steps.gate_logic.outputs.failed_modules }}
+      gate_message: ${{ steps.gate_logic.outputs.message }}
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.ref || github.ref }}
+          fetch-depth: 0
+
+      - name: Run benchmark coverage audit
+        id: audit
+        run: |
+          set -uo pipefail  # Don't exit on non-zero, we handle gracefully
+          python3 tools/ci/audit_benchmark_coverage.py --output /tmp/audit_report.json || true
+          # Export report JSON for gate logic
+          if [ -f /tmp/audit_report.json ]; then
+              report_json=$(cat /tmp/audit_report.json)
+              echo "report_json=${report_json}" >> "$GITHUB_OUTPUT"
+              cp /tmp/audit_report.json "${{ runner.temp }}/audit_report.json"
+              # Print summary
+              echo "=== Audit Summary ===" >&2
+              python3 -c "
+              import json
+              with open('/tmp/audit_report.json') as f:
+                  data = json.load(f)
+              print(f\"Sources: {data['summary'].get('total_sources_discovered', 0)}\")
+              print(f\"CMake Targets: {data['summary'].get('cmake_targets', 0)}\")
+              print(f\"CTest Registered: {data['summary'].get('ctest_registered', 0)}\")
+              print(f\"Coverage: {data['summary'].get('ctest_coverage_percent', 0):.1f}%\")
+              print(f\"Broken: {len(data['findings'].get('broken_targets', []))}\")
+              print(f\"Unregistered: {len(data['findings'].get('unregistered_sources', []))}\")
+              print(f\"Orphaned: {len(data['findings'].get('orphaned_ctest', []))}\")
+              "
+          else
+              echo "::error::Audit failed to produce output file"
+              exit 1
+          fi
+
+      - name: Evaluate release gate decision
+        id: gate_logic
+        env:
+          AUDIT_JSON: ${{ steps.audit.outputs.report_json }}
+        run: |
+          set -euo pipefail
+          python3 << 'GATE_SCRIPT'
+          import json
+          import sys
+          import os
+          
+          # Release-critical modules requiring 100% coverage
+          CRITICAL_MODULES = {
+              'llm', 'sharding', 'storage', 'server', 'query', 'gpu', 'acceleration', 'cuda'
+          }
+          THRESHOLD_CRITICAL = 100.0
+          THRESHOLD_OTHER = 95.0
+          
+          audit_json_str = os.environ.get('AUDIT_JSON', '{}')
+          audit = json.loads(audit_json_str)
+          
+          # Extract summary and targets_by_module from audit output
+          summary = audit.get('summary', {})
+          targets_by_module = audit.get('targets_by_module', {})
+          findings = audit.get('findings', {})
+          
+          # Extract per-module coverage from targets_by_module
+          module_coverage = {}
+          for module, data in targets_by_module.items():
+              if data.get('with_source', 0) > 0:
+                  coverage = (data.get('ctest_registered', 0) / data['with_source']) * 100
+                  module_coverage[module] = coverage
+          
+          # Aggregate critical vs other modules
+          critical_modules_found = {}
+          for m in CRITICAL_MODULES:
+              if m in module_coverage:
+                  critical_modules_found[m] = module_coverage[m]
+          
+          other_modules = {m: c for m, c in module_coverage.items() if m not in CRITICAL_MODULES}
+          
+          # Calculate aggregate coverage
+          if critical_modules_found:
+              coverage_critical = sum(critical_modules_found.values()) / len(critical_modules_found)
+          else:
+              coverage_critical = 0.0
+          
+          if other_modules:
+              coverage_other = sum(other_modules.values()) / len(other_modules)
+          else:
+              coverage_other = 0.0
+          
+          coverage_overall = summary.get('ctest_coverage_percent', 0)
+          
+          # Determine gate status
+          gate_status = "PASS"
+          failed_modules = []
+          issues = []
+          
+          # Check critical modules
+          for module, coverage in critical_modules_found.items():
+              if coverage < THRESHOLD_CRITICAL:
+                  gate_status = "FAIL"
+                  failed_modules.append(f"{module} ({coverage:.1f}% < {THRESHOLD_CRITICAL}%)")
+                  issues.append(f"Critical module {module} has insufficient coverage: {coverage:.1f}%")
+          
+          # Check other modules
+          for module, coverage in other_modules.items():
+              if coverage < THRESHOLD_OTHER:
+                  gate_status = "FAIL"
+                  failed_modules.append(f"{module} ({coverage:.1f}% < {THRESHOLD_OTHER}%)")
+                  issues.append(f"Module {module} below minimum threshold: {coverage:.1f}%")
+          
+          # Check for broken targets
+          broken = len(findings.get('broken_targets', []))
+          if broken > 0:
+              gate_status = "FAIL"
+              issues.append(f"Found {broken} broken benchmark targets")
+          
+          # Check for unregistered sources
+          unregistered = len(findings.get('unregistered_sources', []))
+          if unregistered > 0:
+              gate_status = "FAIL"
+              issues.append(f"Found {unregistered} unregistered benchmark sources")
+          
+          # Determine message
+          if gate_status == "PASS":
+              message = f"✅ Release ready: All critical modules at 100%, overall coverage {coverage_overall:.1f}%"
+          else:
+              message = f"❌ Release gate FAILED: {len(issues)} issues found"
+          
+          # Output for workflow
+          with open(os.environ.get('GITHUB_OUTPUT', '/dev/null'), 'a') as f:
+              f.write(f"status={gate_status}\n")
+              f.write(f"coverage_critical={coverage_critical:.1f}\n")
+              f.write(f"coverage_other={coverage_other:.1f}\n")
+              f.write(f"coverage_overall={coverage_overall:.1f}\n")
+              f.write(f"failed_modules={';'.join(failed_modules)}\n")
+              f.write(f"message={message}\n")
+          
+          # Write detailed report for next step
+          report = {
+              "gate_status": gate_status,
+              "threshold_critical": THRESHOLD_CRITICAL,
+              "threshold_other": THRESHOLD_OTHER,
+              "coverage": {
+                  "overall": float(coverage_overall),
+                  "critical": coverage_critical,
+                  "other": coverage_other,
+              },
+              "critical_modules": critical_modules_found,
+              "other_modules": other_modules,
+              "failed_modules": failed_modules,
+              "issues": issues,
+          }
+          with open("/tmp/gate_report.json", "w") as f:
+              json.dump(report, f, indent=2)
+          
+          sys.exit(0 if gate_status == "PASS" else 1)
+          GATE_SCRIPT
+
+      - name: Save gate report
+        if: always()
+        run: |
+          mkdir -p "${{ runner.temp }}/artifacts"
+          cp /tmp/gate_report.json "${{ runner.temp }}/artifacts/gate_report.json" || true
+          cp /tmp/audit_report.json "${{ runner.temp }}/artifacts/audit_report.json" || true
+
+  release_gate_decision:
+    name: "Gate: Release Readiness Decision"
+    runs-on: ubuntu-24.04
+    needs: audit_benchmarks
+    if: always()
+    permissions:
+      issues: write
+      contents: read
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Parse gate status
+        id: decision
+        env:
+          GATE_STATUS: ${{ needs.audit_benchmarks.outputs.gate_status }}
+          REPORT_ONLY: ${{ inputs.report_only || false }}
+        run: |
+          set -euo pipefail
+          status="${GATE_STATUS:-UNKNOWN}"
+          report_only="${REPORT_ONLY}"
+          
+          if [ "$report_only" = "true" ]; then
+              echo "Report-only mode: gate will not block release"
+              exit_code=0
+          else
+              case "$status" in
+                  PASS)
+                      echo "✅ Gate PASS: Release is benchmark-ready"
+                      exit_code=0
+                      ;;
+                  WARN)
+                      echo "⚠️  Gate WARN: Minor issues found (non-blocking)"
+                      exit_code=0
+                      ;;
+                  FAIL)
+                      echo "❌ Gate FAIL: Benchmark coverage insufficient for release"
+                      exit_code=1
+                      ;;
+                  *)
+                      echo "❌ Gate UNKNOWN: Could not determine gate status"
+                      exit_code=1
+                      ;;
+              esac
+          fi
+          
+          echo "gate_result=${status}" >> "$GITHUB_OUTPUT"
+          echo "exit_code=${exit_code}" >> "$GITHUB_OUTPUT"
+
+      - name: Create release readiness tracking issue
+        if: always() && needs.audit_benchmarks.outputs.gate_status == 'FAIL'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: upsert_issue
+          issue-title: '[Release Gate] Benchmark Coverage Validation — FAILED'
+          issue-marker: '<!-- release-gate:type:benchmark-coverage -->'
+          issue-body: |
+            <!-- release-gate:type:benchmark-coverage -->
+            ## Release Gate: Benchmark Coverage Validation
+            
+            **Status:** ❌ **FAILED**
+            
+            **Triggered By:** ${{ github.ref_type }} `${{ github.ref_name }}`
+            **Run ID:** [${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            **Timestamp:** `${{ github.event.head_commit.timestamp || 'N/A' }}`
+            
+            ### Coverage Summary
+            - **Overall Coverage:** ${{ needs.audit_benchmarks.outputs.coverage_overall }}%
+            - **Critical Modules:** ${{ needs.audit_benchmarks.outputs.coverage_critical }}% (required ≥100%)
+            - **Other Modules:** ${{ needs.audit_benchmarks.outputs.coverage_other }}% (required ≥95%)
+            
+            ### Failed Modules
+            ${{ needs.audit_benchmarks.outputs.failed_modules }}
+            
+            ### Message
+            ${{ needs.audit_benchmarks.outputs.gate_message }}
+            
+            ### Remediation
+            1. Review failed modules using `python3 tools/ci/audit_benchmark_coverage.py --output report.json`
+            2. Register missing benchmarks via `benchmarks/CMakeLists.txt`
+            3. Add CTest registrations via `themis_register_benchmark_ctest()`
+            4. Re-run this gate to verify fix
+            
+            ### Linked Issues
+            - Related: Wave 10 Benchmark Audit & Coverage
+            - Tracking: Phase 4 Release Gate Implementation
+            
+            _This issue is automatically managed by the release gate workflow._
+          labels-to-add: 'status/release-gate-failed,release-gate/benchmark-coverage'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Comment on release issue with gate result
+        if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+        with:
+          script: |
+            const status = "${{ needs.audit_benchmarks.outputs.gate_status }}";
+            const message = "${{ needs.audit_benchmarks.outputs.gate_message }}";
+            const criticalCov = "${{ needs.audit_benchmarks.outputs.coverage_critical }}";
+            const otherCov = "${{ needs.audit_benchmarks.outputs.coverage_other }}";
+            
+            const body = `## 📊 Benchmark Coverage Gate Result
+            
+            **Status:** ${status === 'PASS' ? '✅ PASS' : '❌ FAIL'}
+            **Message:** ${message}
+            
+            ### Coverage Breakdown
+            - Critical modules: ${criticalCov}% (required ≥100%)
+            - Other modules: ${otherCov}% (required ≥95%)
+            
+            [View full audit report](${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/actions/runs/${process.env.GITHUB_RUN_ID})`;
+            
+            // Find or create release tracking issue
+            try {
+              const issues = await github.rest.issues.listForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: 'release-review',
+                state: 'open',
+              });
+              
+              if (issues.data.length > 0) {
+                const releaseIssue = issues.data[0];
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: releaseIssue.number,
+                  body: body,
+                });
+              }
+            } catch (err) {
+              core.warning(`Could not comment on release issue: ${err.message}`);
+            }
+
+      - name: Fail workflow if gate status is FAIL
+        if: needs.audit_benchmarks.outputs.gate_status == 'FAIL' && inputs.report_only != true
+        run: |
+          echo "❌ Release gate FAILED"
+          echo "Reason: ${{ needs.audit_benchmarks.outputs.gate_message }}"
+          exit 1
+
+      - name: Report gate success
+        if: needs.audit_benchmarks.outputs.gate_status == 'PASS'
+        run: |
+          echo "✅ Release gate PASSED"
+          echo "All critical modules have ≥100% benchmark coverage"
+          echo "Overall coverage: ${{ needs.audit_benchmarks.outputs.coverage_overall }}%"
+
+  gate_summary:
+    name: "Summary: Release Benchmark Gate"
+    runs-on: ubuntu-24.04
+    needs: [audit_benchmarks, release_gate_decision]
+    if: always()
+    permissions:
+      checks: write
+    steps:
+
+      - name: Record gate result in workflow summary
+        run: |
+          cat >> "$GITHUB_STEP_SUMMARY" << 'EOF'
+          ## 📊 Release Benchmark Coverage Gate
+          
+          | Metric | Value |
+          |--------|-------|
+          | **Gate Status** | ${{ needs.audit_benchmarks.outputs.gate_status }} |
+          | **Overall Coverage** | ${{ needs.audit_benchmarks.outputs.coverage_overall }}% |
+          | **Critical Modules** | ${{ needs.audit_benchmarks.outputs.coverage_critical }}% (required ≥100%) |
+          | **Other Modules** | ${{ needs.audit_benchmarks.outputs.coverage_other }}% (required ≥95%) |
+          | **Failed Modules** | ${{ needs.audit_benchmarks.outputs.failed_modules || '(none)' }} |
+          
+          ### Gate Decision
+          ${{ needs.audit_benchmarks.outputs.gate_message }}
+          
+          ### Next Steps
+          - If gate PASSED: Release is benchmark-ready, proceed with packaging
+          - If gate FAILED: Review failed modules and register missing benchmarks
+          
+          For details, see [workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          EOF

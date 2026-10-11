@@ -1,0 +1,302 @@
+---
+name: "Gate: PR Benchmark CTest Coverage"
+
+# Rechenaufwand-Score: R=1 (K=1, L=1, N=1) | last-calibrated: 2026-10-11
+# Trigger policy: Enforce benchmark CTest registration coverage ≥95% on all PRs.
+# Blocks merge if CTest coverage falls below threshold or new sources remain unregistered.
+# Replaces: manual benchmark audit + discovery process
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches:
+      - develop
+      - community
+      - enterprise
+      - hyperscaler
+      - military
+      - minimal
+    paths:
+      - 'benchmarks/**'
+      - 'CMakeLists.txt'
+      - '.github/workflows/gate-pr-benchmark-ctest.yml'
+      - 'tools/ci/audit_benchmark_coverage.py'
+  workflow_dispatch:
+
+concurrency:
+  group: benchmark-ctest-gate-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  benchmark-ctest-coverage:
+    name: "Gate: Benchmark CTest Coverage ≥95%"
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Fetch base branch
+        if: github.event_name == 'pull_request'
+        run: |
+          git fetch origin "${{ github.base_ref }}" --depth=1
+
+      - name: Set up Python
+        uses: actions/setup-python@82c7e631bb3cdc910f68e8d496df91420eba6b0c
+        with:
+          python-version: '3.11'
+
+      - name: Run benchmark coverage audit
+        id: audit
+        run: |
+          set -euo pipefail
+          
+          # Run audit tool against current PR
+          python3 tools/ci/audit_benchmark_coverage.py \
+            --output /tmp/audit_report.json \
+            2>&1 | tee /tmp/audit_output.log
+          
+          # Note: audit tool returns exit code 1 on any errors
+          # We handle gate logic in Python script below
+
+      - name: Evaluate gate decision
+        id: gate_logic
+        run: |
+          set -euo pipefail
+          python3 - <<'PYEOF'
+          import json
+          import sys
+          import os
+          
+          try:
+              with open('/tmp/audit_report.json') as f:
+                  audit = json.load(f)
+              
+              stats = audit.get('stats', {})
+              coverage = stats.get('ctest_coverage_percent', 0)
+              cmake_targets = stats.get('cmake_registered_with_source', 0)
+              ctest_registered = stats.get('ctest_registered', 0)
+              unregistered_sources = stats.get('unregistered_sources', 0)
+              orphaned_ctest = stats.get('orphaned_ctest', 0)
+              broken_targets = stats.get('broken_targets', 0)
+              
+              # Extract findings
+              findings = audit.get('findings', [])
+              errors = [f for f in findings if f.get('severity') == 'error']
+              warnings = [f for f in findings if f.get('severity') == 'warning']
+              
+              # Log audit results
+              print(f"::group::Benchmark Audit Results")
+              print(f"  CTest Coverage:       {coverage}%")
+              print(f"  CMake Targets:        {cmake_targets}")
+              print(f"  CTest Registered:     {ctest_registered}")
+              print(f"  Unregistered Sources: {unregistered_sources}")
+              print(f"  Orphaned CTest:       {orphaned_ctest}")
+              print(f"  Broken Targets:       {broken_targets}")
+              print(f"  Errors:               {len(errors)}")
+              print(f"  Warnings:             {len(warnings)}")
+              print(f"::endgroup::")
+              
+              # Gate logic
+              # PASS: coverage >= 95% AND no unregistered sources AND no broken targets
+              # WARN: orphaned_ctest > 0 (harmless variants/smoke tests)
+              # FAIL: coverage < 95% OR unregistered_sources > 0 OR broken_targets > 0
+              
+              gate_status = 'PASS'
+              gate_message = '✅ CTest coverage meets gate requirements'
+              
+              if broken_targets > 0:
+                  gate_status = 'FAIL'
+                  gate_message = f'❌ {broken_targets} broken CMake targets detected'
+              elif unregistered_sources > 0:
+                  gate_status = 'FAIL'
+                  gate_message = f'❌ {unregistered_sources} unregistered benchmark sources'
+              elif coverage < 95:
+                  gate_status = 'FAIL'
+                  gate_message = f'❌ CTest coverage {coverage}% below threshold 95%'
+              elif orphaned_ctest > 0:
+                  # Orphaned CTest entries (wave variants, smoke tests) are informational
+                  # They don't block the gate but we warn about them
+                  gate_status = 'WARN'
+                  gate_message = f'⚠️  {orphaned_ctest} orphaned/variant CTest entries (non-blocking)'
+              
+              # Output for downstream steps
+              with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
+                  out.write(f"gate_status={gate_status}\n")
+                  out.write(f"gate_message={gate_message}\n")
+                  out.write(f"coverage={coverage}\n")
+                  out.write(f"cmake_targets={cmake_targets}\n")
+                  out.write(f"ctest_registered={ctest_registered}\n")
+                  out.write(f"unregistered_sources={unregistered_sources}\n")
+                  out.write(f"orphaned_ctest={orphaned_ctest}\n")
+                  out.write(f"broken_targets={broken_targets}\n")
+              
+              print(gate_message)
+              sys.exit(0)
+              
+          except Exception as e:
+              print(f"::error::Failed to evaluate gate decision: {e}")
+              import traceback
+              traceback.print_exc()
+              sys.exit(1)
+          PYEOF
+
+
+      - name: Create step summary
+        if: always()
+        run: |
+          cat >> "${GITHUB_STEP_SUMMARY}" <<'EOF'
+          ## Benchmark CTest Coverage Gate
+          
+          | Metric | Value | Status |
+          |--------|-------|--------|
+          | Coverage | ${{ steps.gate_logic.outputs.coverage }}% | ${{ steps.gate_logic.outputs.coverage >= 95 && '✅' || '❌' }} |
+          | CMake Targets | ${{ steps.gate_logic.outputs.cmake_targets }} | ✅ |
+          | CTest Registered | ${{ steps.gate_logic.outputs.ctest_registered }} | ✅ |
+          | Unregistered Sources | ${{ steps.gate_logic.outputs.unregistered_sources }} | ${{ steps.gate_logic.outputs.unregistered_sources == 0 && '✅' || '❌' }} |
+          | Orphaned CTest | ${{ steps.gate_logic.outputs.orphaned_ctest }} | ⚠️ (informational) |
+          | Broken Targets | ${{ steps.gate_logic.outputs.broken_targets }} | ${{ steps.gate_logic.outputs.broken_targets == 0 && '✅' || '❌' }} |
+          
+          **Gate Result:** ${{ steps.gate_logic.outputs.gate_message }}
+          
+          _Audit details: See workflow logs for full `audit_benchmark_coverage.py` output._
+          EOF
+
+      - name: Apply PR labels
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const gateStatus = "${{ steps.gate_logic.outputs.gate_status }}";
+            const labels = {
+              PASS: 'quality/benchmarks-pass',
+              WARN: 'quality/benchmarks-warn',
+              FAIL: 'quality/benchmarks-fail'
+            };
+            
+            const labelToAdd = labels[gateStatus] || 'quality/benchmarks-fail';
+            const labelsToRemove = Object.values(labels).filter(l => l !== labelToAdd);
+            
+            // Remove old labels
+            for (const label of labelsToRemove) {
+              try {
+                await github.rest.issues.removeLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  name: label
+                });
+              } catch (e) {
+                // Label may not exist, ignore
+              }
+            }
+            
+            // Add new label
+            try {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: [labelToAdd]
+              });
+            } catch (e) {
+              console.log(`Failed to add label: ${e.message}`);
+            }
+
+      - name: Create tracker issue on FAIL
+        if: steps.gate_logic.outputs.gate_status == 'FAIL'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const coverage = "${{ steps.gate_logic.outputs.coverage }}";
+            const unregistered = "${{ steps.gate_logic.outputs.unregistered_sources }}";
+            const broken = "${{ steps.gate_logic.outputs.broken_targets }}";
+            
+            let reason = '';
+            if (broken > 0) {
+              reason = `${broken} broken CMake target(s)`;
+            } else if (unregistered > 0) {
+              reason = `${unregistered} unregistered benchmark source(s)`;
+            } else if (coverage < 95) {
+              reason = `CTest coverage ${coverage}% below 95% threshold`;
+            }
+            
+            const title = `Benchmark CTest Coverage: FAILED`;
+            const body = `## Gate Failure: Benchmark CTest Coverage\n\n
+            **Reason:** ${reason}\n
+            \n
+            **Metrics:**\n
+            - CTest Coverage: ${coverage}%\n
+            - Required: ≥95%\n
+            - Unregistered Sources: ${unregistered}\n
+            - Broken Targets: ${broken}\n
+            \n
+            **PR:** #${{ github.event.pull_request.number }}\n
+            **Commit:** ${{ github.event.pull_request.head.sha }}\n
+            \n
+            **Action Required:** Review the PR diff and:\n
+            1. Register missing benchmark sources in \`benchmarks/CMakeLists.txt\`\n
+            2. Add CTest registrations via \`themis_register_benchmark_ctest()\`\n
+            3. Fix any broken CMake target references\n
+            \n
+            **Debug Command:**\n
+            \`\`\`bash\n
+            python3 tools/ci/audit_benchmark_coverage.py --output report.json\n
+            \`\`\`\n
+            \n
+            For details, see: [gate-pr-benchmark-ctest.yml](./.github/workflows/gate-pr-benchmark-ctest.yml)`;
+            
+            try {
+              const existingIssues = await github.rest.issues.listForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                state: 'open',
+                labels: ['quality/benchmarks-fail'],
+                per_page: 1
+              });
+              
+              if (existingIssues.data.length === 0) {
+                const issue = await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: title,
+                  body: body,
+                  labels: ['quality/benchmarks-fail', 'wave10', 'audit', 'benchmarks']
+                });
+                console.log(`Created tracker issue #${issue.data.number}`);
+              } else {
+                console.log(`Existing issue #${existingIssues.data[0].number} already open`);
+              }
+            } catch (e) {
+              console.log(`Note: Could not create tracker issue: ${e.message}`);
+            }
+
+      - name: Report gate result
+        if: always()
+        run: |
+          GATE_STATUS="${{ steps.gate_logic.outputs.gate_status }}"
+          GATE_MSG="${{ steps.gate_logic.outputs.gate_message }}"
+          
+          echo ""
+          echo "════════════════════════════════════════════════"
+          echo "  Benchmark CTest Coverage Gate"
+          echo "════════════════════════════════════════════════"
+          echo "  Status: ${GATE_STATUS}"
+          echo "  Message: ${GATE_MSG}"
+          echo "════════════════════════════════════════════════"
+          echo ""
+          
+          if [[ "${GATE_STATUS}" == "FAIL" ]]; then
+            echo "::error::${GATE_MSG}"
+            exit 1
+          elif [[ "${GATE_STATUS}" == "WARN" ]]; then
+            echo "::warning::${GATE_MSG}"
+          else
+            echo "::notice::${GATE_MSG}"
+          fi

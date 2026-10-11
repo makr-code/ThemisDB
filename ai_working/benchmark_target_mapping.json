@@ -1,0 +1,4283 @@
+{
+  "bench_ycsb": {
+    "name": "bench_ycsb",
+    "source": "ycsb/bench_ycsb.cpp",
+    "module": "ycsb",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:ycsb",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_phase3_optimization": {
+    "name": "bench_phase3_optimization",
+    "source": "performance_optimizations/bench_phase3_optimization.cpp",
+    "module": "performance_optimizations",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:performance_optimizations",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_ai_plugin_generator": {
+    "name": "bench_ai_plugin_generator",
+    "source": "ai/bench_ai_plugin_generator.cpp",
+    "module": "ai",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:ai",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_ann_cpu_gpu_dispatch": {
+    "name": "bench_ann_cpu_gpu_dispatch",
+    "source": "ann/bench_ann_cpu_gpu_dispatch.cpp",
+    "module": "ann",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:ann",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_arm_memory": {
+    "name": "bench_arm_memory",
+    "source": "bench_arm_memory.cpp",
+    "module": "bench_arm_memory.cpp",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:bench_arm_memory.cpp",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_arm_simd": {
+    "name": "bench_arm_simd",
+    "source": "bench_arm_simd.cpp",
+    "module": "bench_arm_simd.cpp",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:bench_arm_simd.cpp",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_async_io_multiscan": {
+    "name": "bench_async_io_multiscan",
+    "source": "bench_async_io_multiscan.cpp",
+    "module": "bench_async_io_multiscan.cpp",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:bench_async_io_multiscan.cpp",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_batch_insert": {
+    "name": "bench_batch_insert",
+    "source": "storage/bench_batch_insert.cpp",
+    "module": "storage",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:storage",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_blob_zstd": {
+    "name": "bench_blob_zstd",
+    "source": "storage/bench_blob_zstd.cpp",
+    "module": "storage",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:storage",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_changefeed_throughput": {
+    "name": "bench_changefeed_throughput",
+    "source": "cdc/bench_changefeed_throughput.cpp",
+    "module": "cdc",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:cdc",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_comprehensive": {
+    "name": "bench_comprehensive",
+    "source": "base/bench_comprehensive.cpp",
+    "module": "base",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:base",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_compression": {
+    "name": "bench_compression",
+    "source": "base/bench_compression.cpp",
+    "module": "base",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:base",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_cross_functional_end_to_end": {
+    "name": "bench_cross_functional_end_to_end",
+    "source": "process/bench_cross_functional_end_to_end.cpp",
+    "module": "process",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:process",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_crud": {
+    "name": "bench_crud",
+    "source": "storage/bench_crud.cpp",
+    "module": "storage",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:storage",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_edge_cases_comprehensive": {
+    "name": "bench_edge_cases_comprehensive",
+    "source": "base/bench_edge_cases_comprehensive.cpp",
+    "module": "base",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:base",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_embedded_llm": {
+    "name": "bench_embedded_llm",
+    "source": "llm/bench_embedded_llm.cpp",
+    "module": "llm",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:llm",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_encryption": {
+    "name": "bench_encryption",
+    "source": "security/bench_encryption.cpp",
+    "module": "security",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:security",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_extended_context": {
+    "name": "bench_extended_context",
+    "source": "llm/bench_extended_context.cpp",
+    "module": "llm",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:llm",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_flash_attention": {
+    "name": "bench_flash_attention",
+    "source": "llm/bench_flash_attention.cpp",
+    "module": "llm",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:llm",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_gnn_embeddings": {
+    "name": "bench_gnn_embeddings",
+    "source": "graph/bench_gnn_embeddings.cpp",
+    "module": "graph",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:graph",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_aql_geo_filter": {
+    "name": "bench_aql_geo_filter",
+    "source": "aql/bench_aql_geo_filter.cpp",
+    "module": "aql",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:aql",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_geo_dbscan": {
+    "name": "bench_geo_dbscan",
+    "source": "geo/bench_geo_dbscan.cpp",
+    "module": "geo",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:geo",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_geojson_parse": {
+    "name": "bench_geojson_parse",
+    "source": "geo/bench_geojson_parse.cpp",
+    "module": "geo",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:geo",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_gorilla_codec": {
+    "name": "bench_gorilla_codec",
+    "source": "base/bench_gorilla_codec.cpp",
+    "module": "base",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:base",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_gossip_config": {
+    "name": "bench_gossip_config",
+    "source": "sharding/bench_gossip_config.cpp",
+    "module": "sharding",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:sharding",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_gpu_erasure": {
+    "name": "bench_gpu_erasure",
+    "source": "gpu/bench_gpu_erasure.cpp",
+    "module": "gpu",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:gpu",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_gpu_a8_baselines": {
+    "name": "bench_gpu_a8_baselines",
+    "source": "gpu/bench_gpu_a8_baselines.cpp",
+    "module": "gpu",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:gpu",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_gpu_phase2_phase3_gates": {
+    "name": "bench_gpu_phase2_phase3_gates",
+    "source": "gpu/bench_gpu_phase2_phase3_gates.cpp",
+    "module": "gpu",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:gpu",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_gpu_phase_c_gates": {
+    "name": "bench_gpu_phase_c_gates",
+    "source": "gpu/bench_gpu_phase_c_gates.cpp",
+    "module": "gpu",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:gpu",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_hsm_provider": {
+    "name": "bench_hsm_provider",
+    "source": "security/bench_hsm_provider.cpp",
+    "module": "security",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:security",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_hybrid_aql_sugar": {
+    "name": "bench_hybrid_aql_sugar",
+    "source": "aql/bench_hybrid_aql_sugar.cpp",
+    "module": "aql",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:aql",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_image_analysis": {
+    "name": "bench_image_analysis",
+    "source": "image_analysis/bench_image_analysis.cpp",
+    "module": "image_analysis",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:image_analysis",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_image_analysis_latency": {
+    "name": "bench_image_analysis_latency",
+    "source": "image_analysis/bench_image_analysis_latency.cpp",
+    "module": "image_analysis",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:image_analysis",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_insert_profiling": {
+    "name": "bench_insert_profiling",
+    "source": "storage/bench_insert_profiling.cpp",
+    "module": "storage",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:storage",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_latency_comprehensive": {
+    "name": "bench_latency_comprehensive",
+    "source": "base/bench_latency_comprehensive.cpp",
+    "module": "base",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:base",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_legal_lora_pipeline": {
+    "name": "bench_legal_lora_pipeline",
+    "source": "llm/bench_legal_lora_pipeline.cpp",
+    "module": "llm",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:llm",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_llm_infrastructure": {
+    "name": "bench_llm_infrastructure",
+    "source": "llm/bench_llm_infrastructure.cpp",
+    "module": "llm",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:llm",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_llm_judge_integration": {
+    "name": "bench_llm_judge_integration",
+    "source": "llm/bench_llm_judge_integration.cpp",
+    "module": "llm",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:llm",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_llm_real_models": {
+    "name": "bench_llm_real_models",
+    "source": "llm/bench_llm_real_models.cpp",
+    "module": "llm",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:llm",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_llm_response_cache": {
+    "name": "bench_llm_response_cache",
+    "source": "llm/bench_llm_response_cache.cpp",
+    "module": "llm",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:llm",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_locality_aware_router": {
+    "name": "bench_locality_aware_router",
+    "source": "sharding/bench_locality_aware_router.cpp",
+    "module": "sharding",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:sharding",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_lock_contention": {
+    "name": "bench_lock_contention",
+    "source": "maintenance/bench_lock_contention.cpp",
+    "module": "maintenance",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:maintenance",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_lora_inline": {
+    "name": "bench_lora_inline",
+    "source": "llm/bench_lora_inline.cpp",
+    "module": "llm",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:llm",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_lora_training": {
+    "name": "bench_lora_training",
+    "source": "llm/bench_lora_training.cpp",
+    "module": "llm",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:llm",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_multitask_lora_training": {
+    "name": "bench_multitask_lora_training",
+    "source": "llm/bench_multitask_lora_training.cpp",
+    "module": "llm",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:llm",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_mmdb": {
+    "name": "bench_mmdb",
+    "source": "mmdb/bench_mmdb.cpp",
+    "module": "mmdb",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:mmdb",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_multithreading_comprehensive": {
+    "name": "bench_multithreading_comprehensive",
+    "source": "bench_multithreading_comprehensive.cpp",
+    "module": "bench_multithreading_comprehensive.cpp",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:bench_multithreading_comprehensive.cpp",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_mvcc": {
+    "name": "bench_mvcc",
+    "source": "storage/bench_mvcc.cpp",
+    "module": "storage",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:storage",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_pagerank": {
+    "name": "bench_pagerank",
+    "source": "graph/bench_pagerank.cpp",
+    "module": "graph",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:graph",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_phase1_flash_attention": {
+    "name": "bench_phase1_flash_attention",
+    "source": "llm/bench_phase1_flash_attention.cpp",
+    "module": "llm",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:llm",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_plugin_hot_plug": {
+    "name": "bench_plugin_hot_plug",
+    "source": "plugins/bench_plugin_hot_plug.cpp",
+    "module": "plugins",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:plugins",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_ssm_phase0_baseline": {
+    "name": "bench_ssm_phase0_baseline",
+    "source": "storage/bench_ssm_phase0_baseline.cpp",
+    "module": "storage",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:storage",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_plugin_system": {
+    "name": "bench_plugin_system",
+    "source": "plugins/bench_plugin_system.cpp",
+    "module": "plugins",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:plugins",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_qlora_gpu_kernels": {
+    "name": "bench_qlora_gpu_kernels",
+    "source": "gpu/bench_qlora_gpu_kernels.cpp",
+    "module": "gpu",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:gpu",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_raid_lora": {
+    "name": "bench_raid_lora",
+    "source": "llm/bench_raid_lora.cpp",
+    "module": "llm",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:llm",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_saga_compensation": {
+    "name": "bench_saga_compensation",
+    "source": "maintenance/bench_saga_compensation.cpp",
+    "module": "maintenance",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:maintenance",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_sanity": {
+    "name": "bench_sanity",
+    "source": "maintenance/bench_sanity.cpp",
+    "module": "maintenance",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:maintenance",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_scalability_comprehensive": {
+    "name": "bench_scalability_comprehensive",
+    "source": "base/bench_scalability_comprehensive.cpp",
+    "module": "base",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:base",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_shard_resource_manager": {
+    "name": "bench_shard_resource_manager",
+    "source": "sharding/bench_shard_resource_manager.cpp",
+    "module": "sharding",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:sharding",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_simd_distance": {
+    "name": "bench_simd_distance",
+    "source": "base/bench_simd_distance.cpp",
+    "module": "base",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:base",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_simple_insert_test": {
+    "name": "bench_simple_insert_test",
+    "source": "storage/bench_simple_insert_test.cpp",
+    "module": "storage",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:storage",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_tensor_cpu_gpu_dispatch": {
+    "name": "bench_tensor_cpu_gpu_dispatch",
+    "source": "gpu/bench_tensor_cpu_gpu_dispatch.cpp",
+    "module": "gpu",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:gpu",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_tensor_deduplication_manager": {
+    "name": "bench_tensor_deduplication_manager",
+    "source": "tensor/bench_tensor_deduplication_manager.cpp",
+    "module": "tensor",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:tensor",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_tensor_integration_baseline": {
+    "name": "bench_tensor_integration_baseline",
+    "source": "tensor/bench_tensor_integration_baseline.cpp",
+    "module": "tensor",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:tensor",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_tensor_compression_routing": {
+    "name": "bench_tensor_compression_routing",
+    "source": "tensor/bench_tensor_compression_routing.cpp",
+    "module": "tensor",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:tensor",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_tpcc": {
+    "name": "bench_tpcc",
+    "source": "tpc/bench_tpcc.cpp",
+    "module": "tpc",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:tpc",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_tpch": {
+    "name": "bench_tpch",
+    "source": "tpc/bench_tpch.cpp",
+    "module": "tpc",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:tpc",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_v1_3_0_features": {
+    "name": "bench_v1_3_0_features",
+    "source": "performance_optimizations/bench_v1_3_0_features.cpp",
+    "module": "performance_optimizations",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:performance_optimizations",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_v1_3_4_optimizations": {
+    "name": "bench_v1_3_4_optimizations",
+    "source": "performance_optimizations/bench_v1_3_4_optimizations.cpp",
+    "module": "performance_optimizations",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:performance_optimizations",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_video_processor": {
+    "name": "bench_video_processor",
+    "source": "process/bench_video_processor.cpp",
+    "module": "process",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:process",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_wal_stress": {
+    "name": "bench_wal_stress",
+    "source": "storage/bench_wal_stress.cpp",
+    "module": "storage",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:storage",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "benchmark_distributed_hybrid_search": {
+    "name": "benchmark_distributed_hybrid_search",
+    "source": "search/benchmark_distributed_hybrid_search.cpp",
+    "module": "search",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:search",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "benchmark_hybrid_search": {
+    "name": "benchmark_hybrid_search",
+    "source": "search/benchmark_hybrid_search.cpp",
+    "module": "search",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:search",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "benchmark_image_analysis": {
+    "name": "benchmark_image_analysis",
+    "source": "image_analysis/benchmark_image_analysis.cpp",
+    "module": "image_analysis",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:image_analysis",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "kernel_block_size_bench": {
+    "name": "kernel_block_size_bench",
+    "source": "gpu/kernel_block_size_bench.cpp",
+    "module": "gpu",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:gpu",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_api_transport": {
+    "name": "bench_api_transport",
+    "source": "api/bench_api_transport.cpp",
+    "module": "api",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:api",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_api_release_gates": {
+    "name": "bench_api_release_gates",
+    "source": "api/bench_api_release_gates.cpp",
+    "module": "api",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:api",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_importer_throughput": {
+    "name": "bench_importer_throughput",
+    "source": "importers/bench_importer_throughput.cpp",
+    "module": "importers",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:importers",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_gpu_module": {
+    "name": "bench_gpu_module",
+    "source": "gpu/bench_gpu_module.cpp",
+    "module": "gpu",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:gpu",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_lora_framework": {
+    "name": "bench_lora_framework",
+    "source": "llm/bench_lora_framework.cpp",
+    "module": "llm",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:llm",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_multi_lora_fusion": {
+    "name": "bench_multi_lora_fusion",
+    "source": "llm/bench_multi_lora_fusion.cpp",
+    "module": "llm",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:llm",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_lora_auto_binding": {
+    "name": "bench_lora_auto_binding",
+    "source": "llm/bench_lora_auto_binding.cpp",
+    "module": "llm",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:llm",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_fused_kernels": {
+    "name": "bench_fused_kernels",
+    "source": "gpu/bench_fused_kernels.cpp",
+    "module": "gpu",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:gpu",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_fused_lora_kernels": {
+    "name": "bench_fused_lora_kernels",
+    "source": "gpu/bench_fused_lora_kernels.cpp",
+    "module": "gpu",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:gpu",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_snapshot_manager": {
+    "name": "bench_snapshot_manager",
+    "source": "maintenance/bench_snapshot_manager.cpp",
+    "module": "maintenance",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:maintenance",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_gpu_training_cycle": {
+    "name": "bench_gpu_training_cycle",
+    "source": "gpu/bench_gpu_training_cycle.cpp",
+    "module": "gpu",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:gpu",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_multi_gpu_scaling": {
+    "name": "bench_multi_gpu_scaling",
+    "source": "gpu/bench_multi_gpu_scaling.cpp",
+    "module": "gpu",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:gpu",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_multi_gpu_lora_advanced": {
+    "name": "bench_multi_gpu_lora_advanced",
+    "source": "gpu/bench_multi_gpu_lora_advanced.cpp",
+    "module": "gpu",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:gpu",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_mixed_precision_perf": {
+    "name": "bench_mixed_precision_perf",
+    "source": "gpu/bench_mixed_precision_perf.cpp",
+    "module": "gpu",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:gpu",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_data_transfer": {
+    "name": "bench_data_transfer",
+    "source": "gpu/bench_data_transfer.cpp",
+    "module": "gpu",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:gpu",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_backend_comparison": {
+    "name": "bench_backend_comparison",
+    "source": "gpu/bench_backend_comparison.cpp",
+    "module": "gpu",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:gpu",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_gpu_backends": {
+    "name": "bench_gpu_backends",
+    "source": "gpu/bench_gpu_backends.cpp",
+    "module": "gpu",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:gpu",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_vulkan_lora": {
+    "name": "bench_vulkan_lora",
+    "source": "gpu/bench_vulkan_lora.cpp",
+    "module": "gpu",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:gpu",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_lora_gpu": {
+    "name": "bench_lora_gpu",
+    "source": "gpu/bench_lora_gpu.cpp",
+    "module": "gpu",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:gpu",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_rag_ethics": {
+    "name": "bench_rag_ethics",
+    "source": "rag/bench_rag_ethics.cpp",
+    "module": "rag",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:rag",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_knowledge_gap_detector_phase2": {
+    "name": "bench_knowledge_gap_detector_phase2",
+    "source": "rag/bench_knowledge_gap_detector_phase2.cpp",
+    "module": "rag",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:rag",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_rag_hybrid_retriever": {
+    "name": "bench_rag_hybrid_retriever",
+    "source": "rag/bench_rag_hybrid_retriever.cpp",
+    "module": "rag",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:rag",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_rag_evaluation": {
+    "name": "bench_rag_evaluation",
+    "source": "rag/bench_rag_evaluation.cpp",
+    "module": "rag",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:rag",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_advanced_patterns": {
+    "name": "bench_advanced_patterns",
+    "source": "base/bench_advanced_patterns.cpp",
+    "module": "base",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:base",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_distributed_coordinator": {
+    "name": "bench_distributed_coordinator",
+    "source": "sharding/bench_distributed_coordinator.cpp",
+    "module": "sharding",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:sharding",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_graph_traversal": {
+    "name": "bench_graph_traversal",
+    "source": "graph/bench_graph_traversal.cpp",
+    "module": "graph",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:graph",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_tensor_fingerprint_graph": {
+    "name": "bench_tensor_fingerprint_graph",
+    "source": "tensor/bench_tensor_fingerprint_graph.cpp",
+    "module": "tensor",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:tensor",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_graph_query_optimizer": {
+    "name": "bench_graph_query_optimizer",
+    "source": "graph/bench_graph_query_optimizer.cpp",
+    "module": "graph",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:graph",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_tensor_fingerprint": {
+    "name": "bench_tensor_fingerprint",
+    "source": "tensor/bench_tensor_fingerprint.cpp",
+    "module": "tensor",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:tensor",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_storage_performance": {
+    "name": "bench_storage_performance",
+    "source": "storage/bench_storage_performance.cpp",
+    "module": "storage",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:storage",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_hotspots_micro": {
+    "name": "bench_hotspots_micro",
+    "source": "base/bench_hotspots_micro.cpp",
+    "module": "base",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:base",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_random_access_prefetch": {
+    "name": "bench_random_access_prefetch",
+    "source": "performance/bench_random_access_prefetch.cpp",
+    "module": "performance",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:performance",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_olap_performance": {
+    "name": "bench_olap_performance",
+    "source": "analytics/bench_olap_performance.cpp",
+    "module": "analytics",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:analytics",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_olap_analytics": {
+    "name": "bench_olap_analytics",
+    "source": "analytics/bench_olap_analytics.cpp",
+    "module": "analytics",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:analytics",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_embedding_cache_performance": {
+    "name": "bench_embedding_cache_performance",
+    "source": "cache/bench_embedding_cache_performance.cpp",
+    "module": "cache",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:cache",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_adaptive_query_cache": {
+    "name": "bench_adaptive_query_cache",
+    "source": "query/bench_adaptive_query_cache.cpp",
+    "module": "query",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:query",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_cache_eviction_coordinator": {
+    "name": "bench_cache_eviction_coordinator",
+    "source": "cache/bench_cache_eviction_coordinator.cpp",
+    "module": "cache",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:cache",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "llm_bench": {
+    "name": "llm_bench",
+    "source": "llm/llm_bench.cpp",
+    "module": "llm",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:llm",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_llm_inference_performance": {
+    "name": "bench_llm_inference_performance",
+    "source": "llm/bench_llm_inference_performance.cpp",
+    "module": "llm",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:llm",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_llm_hotpaths": {
+    "name": "bench_llm_hotpaths",
+    "source": "llm/bench_llm_hotpaths.cpp",
+    "module": "llm",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:llm",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_active_vram_allocator": {
+    "name": "bench_active_vram_allocator",
+    "source": "gpu/bench_active_vram_allocator.cpp",
+    "module": "gpu",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:gpu",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_rotary_embeddings": {
+    "name": "bench_rotary_embeddings",
+    "source": "llm/bench_rotary_embeddings.cpp",
+    "module": "llm",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:llm",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_gpu_vram_allocation": {
+    "name": "bench_gpu_vram_allocation",
+    "source": "gpu/bench_gpu_vram_allocation.cpp",
+    "module": "gpu",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:gpu",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_hot_reload_manager": {
+    "name": "bench_hot_reload_manager",
+    "source": "maintenance/bench_hot_reload_manager.cpp",
+    "module": "maintenance",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:maintenance",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_cuda_vs_cpu": {
+    "name": "bench_cuda_vs_cpu",
+    "source": "gpu/bench_cuda_vs_cpu.cpp",
+    "module": "gpu",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:gpu",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_di_logging": {
+    "name": "bench_di_logging",
+    "source": "observability/bench_di_logging.cpp",
+    "module": "observability",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:observability",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_governance_policy_latency": {
+    "name": "bench_governance_policy_latency",
+    "source": "governance/bench_governance_policy_latency.cpp",
+    "module": "governance",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:governance",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_compliance_security_governance": {
+    "name": "bench_compliance_security_governance",
+    "source": "security/bench_compliance_security_governance.cpp",
+    "module": "security",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:security",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_security": {
+    "name": "bench_security",
+    "source": "security/bench_security.cpp",
+    "module": "security",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:security",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_auth_hotpaths": {
+    "name": "bench_auth_hotpaths",
+    "source": "auth/bench_auth_hotpaths.cpp",
+    "module": "auth",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:auth",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_policy_evaluation": {
+    "name": "bench_policy_evaluation",
+    "source": "governance/bench_policy_evaluation.cpp",
+    "module": "governance",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:governance",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_config_path_resolver": {
+    "name": "bench_config_path_resolver",
+    "source": "config/bench_config_path_resolver.cpp",
+    "module": "config",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:config",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_config_migration_scanner": {
+    "name": "bench_config_migration_scanner",
+    "source": "config/bench_config_migration_scanner.cpp",
+    "module": "config",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:config",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_acceleration_dispatch": {
+    "name": "bench_acceleration_dispatch",
+    "source": "acceleration/bench_acceleration_dispatch.cpp",
+    "module": "acceleration",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:acceleration",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_acceleration_cuda_gates": {
+    "name": "bench_acceleration_cuda_gates",
+    "source": "acceleration/bench_acceleration_cuda_gates.cpp",
+    "module": "acceleration",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:acceleration",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_category_b_gpu_cpu_parity": {
+    "name": "bench_category_b_gpu_cpu_parity",
+    "source": "acceleration/bench_category_b_gpu_cpu_parity.cpp",
+    "module": "acceleration",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:acceleration",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_cdc_pipeline": {
+    "name": "bench_cdc_pipeline",
+    "source": "cdc/bench_cdc_pipeline.cpp",
+    "module": "cdc",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:cdc",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_cdc_delivery_gates": {
+    "name": "bench_cdc_delivery_gates",
+    "source": "cdc/bench_cdc_delivery_gates.cpp",
+    "module": "cdc",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:cdc",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_temporal_queries": {
+    "name": "bench_temporal_queries",
+    "source": "temporal/bench_temporal_queries.cpp",
+    "module": "temporal",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:temporal",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_continuous_query": {
+    "name": "bench_continuous_query",
+    "source": "query/bench_continuous_query.cpp",
+    "module": "query",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:query",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_task_scheduler": {
+    "name": "bench_task_scheduler",
+    "source": "scheduler/bench_task_scheduler.cpp",
+    "module": "scheduler",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:scheduler",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_replication_throughput": {
+    "name": "bench_replication_throughput",
+    "source": "replication/bench_replication_throughput.cpp",
+    "module": "replication",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:replication",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_update_pipeline": {
+    "name": "bench_update_pipeline",
+    "source": "maintenance/bench_update_pipeline.cpp",
+    "module": "maintenance",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:maintenance",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_metrics_collector": {
+    "name": "bench_metrics_collector",
+    "source": "maintenance/bench_metrics_collector.cpp",
+    "module": "maintenance",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:maintenance",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_observability_goals": {
+    "name": "bench_observability_goals",
+    "source": "observability/bench_observability_goals.cpp",
+    "module": "observability",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:observability",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_vector_search": {
+    "name": "bench_vector_search",
+    "source": "ann/bench_vector_search.cpp",
+    "module": "ann",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:ann",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_index_rebuild": {
+    "name": "bench_index_rebuild",
+    "source": "index/bench_index_rebuild.cpp",
+    "module": "index",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:index",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_spatial_index": {
+    "name": "bench_spatial_index",
+    "source": "geo/bench_spatial_index.cpp",
+    "module": "geo",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:geo",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_approximate_radius_search": {
+    "name": "bench_approximate_radius_search",
+    "source": "search/bench_approximate_radius_search.cpp",
+    "module": "search",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:search",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_binary_quantization": {
+    "name": "bench_binary_quantization",
+    "source": "ann/bench_binary_quantization.cpp",
+    "module": "ann",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:ann",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_product_quantization": {
+    "name": "bench_product_quantization",
+    "source": "ann/bench_product_quantization.cpp",
+    "module": "ann",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:ann",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_residual_quantization": {
+    "name": "bench_residual_quantization",
+    "source": "ann/bench_residual_quantization.cpp",
+    "module": "ann",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:ann",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_learned_quantization": {
+    "name": "bench_learned_quantization",
+    "source": "ann/bench_learned_quantization.cpp",
+    "module": "ann",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:ann",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_hnsw_prefilter_minimal": {
+    "name": "bench_hnsw_prefilter_minimal",
+    "source": "ann/bench_hnsw_prefilter_minimal.cpp",
+    "module": "ann",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:ann",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_hybrid_vector_geo": {
+    "name": "bench_hybrid_vector_geo",
+    "source": "ann/bench_hybrid_vector_geo.cpp",
+    "module": "ann",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:ann",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_vector_prefilter": {
+    "name": "bench_vector_prefilter",
+    "source": "ann/bench_vector_prefilter.cpp",
+    "module": "ann",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:ann",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_vector_compression_lossless": {
+    "name": "bench_vector_compression_lossless",
+    "source": "ann/bench_vector_compression_lossless.cpp",
+    "module": "ann",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:ann",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_gpu_vector_index": {
+    "name": "bench_gpu_vector_index",
+    "source": "gpu/bench_gpu_vector_index.cpp",
+    "module": "gpu",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:gpu",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_ingestion_kv": {
+    "name": "bench_ingestion_kv",
+    "source": "ingestion/bench_ingestion_kv.cpp",
+    "module": "ingestion",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:ingestion",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_voice_assistant": {
+    "name": "bench_voice_assistant",
+    "source": "voice/bench_voice_assistant.cpp",
+    "module": "voice",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:voice",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_prompt_engineering": {
+    "name": "bench_prompt_engineering",
+    "source": "prompt_engineering/bench_prompt_engineering.cpp",
+    "module": "prompt_engineering",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:prompt_engineering",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_exporters": {
+    "name": "bench_exporters",
+    "source": "exporters/bench_exporters.cpp",
+    "module": "exporters",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:exporters",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_parquet_export": {
+    "name": "bench_parquet_export",
+    "source": "exporters/bench_parquet_export.cpp",
+    "module": "exporters",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:exporters",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_csv_export": {
+    "name": "bench_csv_export",
+    "source": "exporters/bench_csv_export.cpp",
+    "module": "exporters",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:exporters",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_metadata_cache": {
+    "name": "bench_metadata_cache",
+    "source": "metadata/bench_metadata_cache.cpp",
+    "module": "metadata",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:metadata",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_geo_cpu_gpu": {
+    "name": "bench_geo_cpu_gpu",
+    "source": "geo/bench_geo_cpu_gpu.cpp",
+    "module": "geo",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:geo",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_process_retrieval": {
+    "name": "bench_process_retrieval",
+    "source": "process/bench_process_retrieval.cpp",
+    "module": "process",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:process",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_gpu_hardware_capability": {
+    "name": "bench_gpu_hardware_capability",
+    "source": "gpu/bench_gpu_hardware_capability.cpp",
+    "module": "gpu",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:gpu",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_shard_routing": {
+    "name": "bench_shard_routing",
+    "source": "sharding/bench_shard_routing.cpp",
+    "module": "sharding",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:sharding",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_sharding_performance": {
+    "name": "bench_sharding_performance",
+    "source": "sharding/bench_sharding_performance.cpp",
+    "module": "sharding",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:sharding",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_sharding_release_gates": {
+    "name": "bench_sharding_release_gates",
+    "source": "sharding/bench_sharding_release_gates.cpp",
+    "module": "sharding",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:sharding",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_adaptive_query_compilation": {
+    "name": "bench_adaptive_query_compilation",
+    "source": "query/bench_adaptive_query_compilation.cpp",
+    "module": "query",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:query",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_pii_stream_scanner": {
+    "name": "bench_pii_stream_scanner",
+    "source": "utils/bench_pii_stream_scanner.cpp",
+    "module": "utils",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:utils",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_timeseries_ingestion": {
+    "name": "bench_timeseries_ingestion",
+    "source": "timeseries/bench_timeseries_ingestion.cpp",
+    "module": "timeseries",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:timeseries",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_timeseries_adaptive_flush": {
+    "name": "bench_timeseries_adaptive_flush",
+    "source": "timeseries/bench_timeseries_adaptive_flush.cpp",
+    "module": "timeseries",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:timeseries",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_query_lazy_eval": {
+    "name": "bench_query_lazy_eval",
+    "source": "query/bench_query_lazy_eval.cpp",
+    "module": "query",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:query",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_thread_pool_saturation": {
+    "name": "bench_thread_pool_saturation",
+    "source": "scheduler/bench_thread_pool_saturation.cpp",
+    "module": "scheduler",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:scheduler",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_voice_wake_word_batch": {
+    "name": "bench_voice_wake_word_batch",
+    "source": "voice/bench_voice_wake_word_batch.cpp",
+    "module": "voice",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:voice",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_voice_stt_tts_latency": {
+    "name": "bench_voice_stt_tts_latency",
+    "source": "voice/bench_voice_stt_tts_latency.cpp",
+    "module": "voice",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:voice",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_voice_a8_baselines": {
+    "name": "bench_voice_a8_baselines",
+    "source": "voice/bench_voice_a8_baselines.cpp",
+    "module": "voice",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:voice",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_voice_streaming_throughput": {
+    "name": "bench_voice_streaming_throughput",
+    "source": "voice/bench_voice_streaming_throughput.cpp",
+    "module": "voice",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:voice",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_voice_session_lifecycle": {
+    "name": "bench_voice_session_lifecycle",
+    "source": "voice/bench_voice_session_lifecycle.cpp",
+    "module": "voice",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:voice",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_voice_audio_preprocessing": {
+    "name": "bench_voice_audio_preprocessing",
+    "source": "voice/bench_voice_audio_preprocessing.cpp",
+    "module": "voice",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:voice",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_voice_assistant_latency": {
+    "name": "bench_voice_assistant_latency",
+    "source": "voice/bench_voice_assistant_latency.cpp",
+    "module": "voice",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:voice",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_llama_cpp_inference": {
+    "name": "bench_llama_cpp_inference",
+    "source": "llama_cpp/bench_llama_cpp_inference.cpp",
+    "module": "llama_cpp",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:llama_cpp",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_whisper_transcription": {
+    "name": "bench_whisper_transcription",
+    "source": "whisper/bench_whisper_transcription.cpp",
+    "module": "whisper",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:whisper",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_user_storage_mount_latency": {
+    "name": "bench_user_storage_mount_latency",
+    "source": "user_storage_encrypted/bench_user_storage_mount_latency.cpp",
+    "module": "user_storage_encrypted",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:user_storage_encrypted",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_module_load_hot_reload": {
+    "name": "bench_module_load_hot_reload",
+    "source": "base/bench_module_load_hot_reload.cpp",
+    "module": "base",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:base",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_base_hot_paths": {
+    "name": "bench_base_hot_paths",
+    "source": "base/bench_base_hot_paths.cpp",
+    "module": "base",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:base",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_base_wasm_sandbox": {
+    "name": "bench_base_wasm_sandbox",
+    "source": "base/bench_base_wasm_sandbox.cpp",
+    "module": "base",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:base",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_themis_core": {
+    "name": "bench_themis_core",
+    "source": "themis/bench_themis_core.cpp",
+    "module": "themis",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:themis",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_ingestion_extraction": {
+    "name": "bench_ingestion_extraction",
+    "source": "ingestion/bench_ingestion_extraction.cpp",
+    "module": "ingestion",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:ingestion",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_ingestion_quality_judge": {
+    "name": "bench_ingestion_quality_judge",
+    "source": "ingestion/bench_ingestion_quality_judge.cpp",
+    "module": "ingestion",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:ingestion",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_process_import_retrieval": {
+    "name": "bench_process_import_retrieval",
+    "source": "process/bench_process_import_retrieval.cpp",
+    "module": "process",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:process",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_process_mining": {
+    "name": "bench_process_mining",
+    "source": "process/bench_process_mining.cpp",
+    "module": "process",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:process",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_chaos_stress": {
+    "name": "bench_chaos_stress",
+    "source": "chaos/bench_chaos_stress.cpp",
+    "module": "chaos",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:chaos",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_chaos_release_gates": {
+    "name": "bench_chaos_release_gates",
+    "source": "chaos/bench_chaos_release_gates.cpp",
+    "module": "chaos",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:chaos",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_chaos_microbenchmarks": {
+    "name": "bench_chaos_microbenchmarks",
+    "source": "chaos/bench_chaos_microbenchmarks.cpp",
+    "module": "chaos",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:chaos",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_interval_tree_erase": {
+    "name": "bench_interval_tree_erase",
+    "source": "temporal/bench_interval_tree_erase.cpp",
+    "module": "temporal",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:temporal",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_distributed_knowledge": {
+    "name": "bench_distributed_knowledge",
+    "source": "distributed_knowledge/bench_distributed_knowledge.cpp",
+    "module": "distributed_knowledge",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:distributed_knowledge",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_distributed_knowledge_or": {
+    "name": "bench_distributed_knowledge_or",
+    "source": "distributed_knowledge/bench_distributed_knowledge_or.cpp",
+    "module": "distributed_knowledge",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:distributed_knowledge",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_llm_raid_pipeline": {
+    "name": "bench_llm_raid_pipeline",
+    "source": "llm/bench_llm_raid_pipeline.cpp",
+    "module": "llm",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:llm",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_ethics_ai_plugin": {
+    "name": "bench_ethics_ai_plugin",
+    "source": "ethics_ai/bench_ethics_ai_plugin.cpp",
+    "module": "ethics_ai",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:ethics_ai",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_tensor_dynamic_update": {
+    "name": "bench_tensor_dynamic_update",
+    "source": "tensor/bench_tensor_dynamic_update.cpp",
+    "module": "tensor",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:tensor",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_cycle_metrics": {
+    "name": "bench_cycle_metrics",
+    "source": "monitoring/bench_cycle_metrics.cpp",
+    "module": "monitoring",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:monitoring",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_auto_buffers": {
+    "name": "bench_auto_buffers",
+    "source": "base/bench_auto_buffers.cpp",
+    "module": "base",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:base",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_docker_raid_comprehensive": {
+    "name": "bench_docker_raid_comprehensive",
+    "source": "maintenance/bench_docker_raid_comprehensive.cpp",
+    "module": "maintenance",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:maintenance",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_lossy_vs_lossless": {
+    "name": "bench_lossy_vs_lossless",
+    "source": "ann/bench_lossy_vs_lossless.cpp",
+    "module": "ann",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:ann",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_spatial_join": {
+    "name": "bench_spatial_join",
+    "source": "geo/bench_spatial_join.cpp",
+    "module": "geo",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:geo",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_diff_engine": {
+    "name": "bench_diff_engine",
+    "source": "analytics/bench_diff_engine.cpp",
+    "module": "analytics",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:analytics",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_streaming_window": {
+    "name": "bench_streaming_window",
+    "source": "analytics/bench_streaming_window.cpp",
+    "module": "analytics",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:analytics",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_analytics_release_gates": {
+    "name": "bench_analytics_release_gates",
+    "source": "analytics/bench_analytics_release_gates.cpp",
+    "module": "analytics",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:analytics",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_analytics_distributed_coordinator": {
+    "name": "bench_analytics_distributed_coordinator",
+    "source": "analytics/bench_analytics_distributed_coordinator.cpp",
+    "module": "analytics",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:analytics",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_analytics_gap_closure": {
+    "name": "bench_analytics_gap_closure",
+    "source": "analytics/bench_analytics_gap_closure.cpp",
+    "module": "analytics",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:analytics",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_analytics_dedicated_gates": {
+    "name": "bench_analytics_dedicated_gates",
+    "source": "analytics/bench_analytics_dedicated_gates.cpp",
+    "module": "analytics",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:analytics",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_analytics_operability_paths": {
+    "name": "bench_analytics_operability_paths",
+    "source": "analytics/bench_analytics_operability_paths.cpp",
+    "module": "analytics",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:analytics",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_stable_diffusion_release_gates": {
+    "name": "bench_stable_diffusion_release_gates",
+    "source": "stable_diffusion/bench_stable_diffusion_release_gates.cpp",
+    "module": "stable_diffusion",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:stable_diffusion",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_w2a_mixed_path": {
+    "name": "bench_w2a_mixed_path",
+    "source": "wave2/bench_w2a_mixed_path.cpp",
+    "module": "bench_w2a_mixed_path.cpp",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:bench_w2a_mixed_path.cpp",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_w2b_concurrency": {
+    "name": "bench_w2b_concurrency",
+    "source": "wave2/bench_w2b_concurrency.cpp",
+    "module": "bench_w2b_concurrency.cpp",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:bench_w2b_concurrency.cpp",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_w2c_recovery": {
+    "name": "bench_w2c_recovery",
+    "source": "wave2/bench_w2c_recovery.cpp",
+    "module": "bench_w2c_recovery.cpp",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:bench_w2c_recovery.cpp",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_themis_release_gates": {
+    "name": "bench_themis_release_gates",
+    "source": "themis/bench_themis_release_gates.cpp",
+    "module": "themis",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:themis",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_themis_dedicated_gates": {
+    "name": "bench_themis_dedicated_gates",
+    "source": "themis/bench_themis_dedicated_gates.cpp",
+    "module": "themis",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:themis",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_process_release_gates": {
+    "name": "bench_process_release_gates",
+    "source": "process/bench_process_release_gates.cpp",
+    "module": "process",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:process",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_process_concurrency_gates": {
+    "name": "bench_process_concurrency_gates",
+    "source": "process/bench_process_concurrency_gates.cpp",
+    "module": "process",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:process",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_process_determinism_gates": {
+    "name": "bench_process_determinism_gates",
+    "source": "process/bench_process_determinism_gates.cpp",
+    "module": "process",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:process",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_process_diagnostics_overhead": {
+    "name": "bench_process_diagnostics_overhead",
+    "source": "process/bench_process_diagnostics_overhead.cpp",
+    "module": "process",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:process",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_process_parser_gates": {
+    "name": "bench_process_parser_gates",
+    "source": "process/bench_process_parser_gates.cpp",
+    "module": "process",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:process",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_process_linker_gates": {
+    "name": "bench_process_linker_gates",
+    "source": "process/bench_process_linker_gates.cpp",
+    "module": "process",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:process",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_process_retriever_gates": {
+    "name": "bench_process_retriever_gates",
+    "source": "process/bench_process_retriever_gates.cpp",
+    "module": "process",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:process",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_process_advanced_workflows": {
+    "name": "bench_process_advanced_workflows",
+    "source": "process/bench_process_advanced_workflows.cpp",
+    "module": "process",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:process",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_process_dedicated_gates": {
+    "name": "bench_process_dedicated_gates",
+    "source": "process/bench_process_dedicated_gates.cpp",
+    "module": "process",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:process",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_metadata_release_gates": {
+    "name": "bench_metadata_release_gates",
+    "source": "metadata/bench_metadata_release_gates.cpp",
+    "module": "metadata",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:metadata",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_metadata_consistency_lineage_gates": {
+    "name": "bench_metadata_consistency_lineage_gates",
+    "source": "metadata/bench_metadata_consistency_lineage_gates.cpp",
+    "module": "metadata",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:metadata",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_scraper_release_gates": {
+    "name": "bench_scraper_release_gates",
+    "source": "scraper/bench_scraper_release_gates.cpp",
+    "module": "scraper",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:scraper",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_scraper_pipeline_depth": {
+    "name": "bench_scraper_pipeline_depth",
+    "source": "scraper/bench_scraper_pipeline_depth.cpp",
+    "module": "scraper",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:scraper",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_vector_search_dedicated_gates": {
+    "name": "bench_vector_search_dedicated_gates",
+    "source": "vector_search/bench_vector_search_dedicated_gates.cpp",
+    "module": "vector_search",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:vector_search",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_exporters_release_gates": {
+    "name": "bench_exporters_release_gates",
+    "source": "exporters/bench_exporters_release_gates.cpp",
+    "module": "exporters",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:exporters",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_exporters_dedicated_gates": {
+    "name": "bench_exporters_dedicated_gates",
+    "source": "exporters/bench_exporters_dedicated_gates.cpp",
+    "module": "exporters",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:exporters",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_plugins_release_gates": {
+    "name": "bench_plugins_release_gates",
+    "source": "plugins/bench_plugins_release_gates.cpp",
+    "module": "plugins",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:plugins",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_onnx_clip_cpu": {
+    "name": "bench_onnx_clip_cpu",
+    "source": "onnx_clip/bench_onnx_clip_cpu.cpp",
+    "module": "onnx_clip",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:onnx_clip",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_onnx_clip_vit_backend": {
+    "name": "bench_onnx_clip_vit_backend",
+    "source": "onnx_clip/bench_onnx_clip_vit_backend.cpp",
+    "module": "onnx_clip",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:onnx_clip",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_ethics_ai_ldm": {
+    "name": "bench_ethics_ai_ldm",
+    "source": "ethics_ai/bench_ldm.cpp",
+    "module": "ethics_ai",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:ethics_ai",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_utils_release_gates": {
+    "name": "bench_utils_release_gates",
+    "source": "utils/bench_utils_release_gates.cpp",
+    "module": "utils",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:utils",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_w4a_release_gates": {
+    "name": "bench_w4a_release_gates",
+    "source": "wave4/bench_w4a_release_gates.cpp",
+    "module": "bench_w4a_release_gates.cpp",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:bench_w4a_release_gates.cpp",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_w4b_resilience": {
+    "name": "bench_w4b_resilience",
+    "source": "wave4/bench_w4b_resilience.cpp",
+    "module": "bench_w4b_resilience.cpp",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:bench_w4b_resilience.cpp",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_w4c_determinism": {
+    "name": "bench_w4c_determinism",
+    "source": "wave4/bench_w4c_determinism.cpp",
+    "module": "bench_w4c_determinism.cpp",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:bench_w4c_determinism.cpp",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_w4d_diagnostics": {
+    "name": "bench_w4d_diagnostics",
+    "source": "wave4/bench_w4d_diagnostics.cpp",
+    "module": "bench_w4d_diagnostics.cpp",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:bench_w4d_diagnostics.cpp",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_execution_dedicated_gates": {
+    "name": "bench_execution_dedicated_gates",
+    "source": "execution/bench_execution_dedicated_gates.cpp",
+    "module": "execution",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:execution",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_observability_release_gates": {
+    "name": "bench_observability_release_gates",
+    "source": "observability/bench_observability_release_gates.cpp",
+    "module": "observability",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:observability",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_observability_block_b_gates": {
+    "name": "bench_observability_block_b_gates",
+    "source": "observability/bench_observability_block_b_gates.cpp",
+    "module": "observability",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:observability",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_observability_phase2_exporter_stress": {
+    "name": "bench_observability_phase2_exporter_stress",
+    "source": "observability/bench_observability_phase2_exporter_stress.cpp",
+    "module": "observability",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:observability",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_failover_release_gates": {
+    "name": "bench_failover_release_gates",
+    "source": "failover/bench_failover_release_gates.cpp",
+    "module": "failover",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:failover",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_failover_phase2_phase3_gates": {
+    "name": "bench_failover_phase2_phase3_gates",
+    "source": "failover/bench_failover_phase2_phase3_gates.cpp",
+    "module": "failover",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:failover",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_failover_wave_b_gates": {
+    "name": "bench_failover_wave_b_gates",
+    "source": "failover/bench_failover_wave_b_gates.cpp",
+    "module": "failover",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:failover",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_postgres_e2e": {
+    "name": "bench_postgres_e2e",
+    "source": "server/bench_postgres_e2e.cpp",
+    "module": "server",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:server",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_postgres_protocol": {
+    "name": "bench_postgres_protocol",
+    "source": "server/bench_postgres_protocol.cpp",
+    "module": "server",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:server",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_postgres_transactions": {
+    "name": "bench_postgres_transactions",
+    "source": "server/bench_postgres_transactions.cpp",
+    "module": "server",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:server",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_stream_protocol": {
+    "name": "bench_stream_protocol",
+    "source": "server/bench_stream_protocol.cpp",
+    "module": "server",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:server",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_wal_apply_grpc": {
+    "name": "bench_wal_apply_grpc",
+    "source": "server/bench_wal_apply_grpc.cpp",
+    "module": "server",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:server",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_auth_token_validation": {
+    "name": "bench_auth_token_validation",
+    "source": "server/bench_auth_token_validation.cpp",
+    "module": "server",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:server",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_api_endpoints": {
+    "name": "bench_api_endpoints",
+    "source": "server/bench_api_endpoints.cpp",
+    "module": "server",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:server",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_server_hotpaths": {
+    "name": "bench_server_hotpaths",
+    "source": "server/bench_server_hotpaths.cpp",
+    "module": "server",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:server",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_server_http3_gates": {
+    "name": "bench_server_http3_gates",
+    "source": "server/bench_server_http3_gates.cpp",
+    "module": "server",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:server",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_server_dedicated_gates": {
+    "name": "bench_server_dedicated_gates",
+    "source": "server/bench_server_dedicated_gates.cpp",
+    "module": "server",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:server",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_rpc_grpc_release_gates": {
+    "name": "bench_rpc_grpc_release_gates",
+    "source": "rpc_grpc/bench_rpc_grpc_release_gates.cpp",
+    "module": "rpc_grpc",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:rpc_grpc",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_rpc_grpc_dedicated_gates": {
+    "name": "bench_rpc_grpc_dedicated_gates",
+    "source": "rpc_grpc/bench_rpc_grpc_dedicated_gates.cpp",
+    "module": "rpc_grpc",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:rpc_grpc",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_dk_release_gates": {
+    "name": "bench_dk_release_gates",
+    "source": "distributed_knowledge/bench_dk_release_gates.cpp",
+    "module": "distributed_knowledge",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:distributed_knowledge",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_delegate_evaluator": {
+    "name": "bench_delegate_evaluator",
+    "source": "rag/bench_delegate_evaluator.cpp",
+    "module": "rag",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:rag",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_fts_phase_b": {
+    "name": "bench_fts_phase_b",
+    "source": "rag/bench_fts_phase_b.cpp",
+    "module": "rag",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:rag",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_aql_functions": {
+    "name": "bench_aql_functions",
+    "source": "aql/bench_aql_functions.cpp",
+    "module": "aql",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:aql",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_aql_mutations": {
+    "name": "bench_aql_mutations",
+    "source": "aql/bench_aql_mutations.cpp",
+    "module": "aql",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:aql",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_aql_translation": {
+    "name": "bench_aql_translation",
+    "source": "aql/bench_aql_translation.cpp",
+    "module": "aql",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:aql",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_aql_helper_paths": {
+    "name": "bench_aql_helper_paths",
+    "source": "aql/bench_aql_helper_paths.cpp",
+    "module": "aql",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:aql",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_aql_assistance_gates": {
+    "name": "bench_aql_assistance_gates",
+    "source": "aql/bench_aql_assistance_gates.cpp",
+    "module": "aql",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:aql",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_aql_consistency_performance_gates": {
+    "name": "bench_aql_consistency_performance_gates",
+    "source": "aql/bench_aql_consistency_performance_gates.cpp",
+    "module": "aql",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:aql",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_ingestion_release_gates": {
+    "name": "bench_ingestion_release_gates",
+    "source": "ingestion/bench_ingestion_release_gates.cpp",
+    "module": "ingestion",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:ingestion",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_ingestion_dedicated_gates": {
+    "name": "bench_ingestion_dedicated_gates",
+    "source": "ingestion/bench_ingestion_dedicated_gates.cpp",
+    "module": "ingestion",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:ingestion",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_retrieval_dedicated_gates": {
+    "name": "bench_retrieval_dedicated_gates",
+    "source": "retrieval/bench_retrieval_dedicated_gates.cpp",
+    "module": "retrieval",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:retrieval",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_user_storage_encrypted_release_gates": {
+    "name": "bench_user_storage_encrypted_release_gates",
+    "source": "user_storage_encrypted/bench_user_storage_encrypted_release_gates.cpp",
+    "module": "user_storage_encrypted",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:user_storage_encrypted",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_user_storage_encrypted_lifecycle_gates": {
+    "name": "bench_user_storage_encrypted_lifecycle_gates",
+    "source": "user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp",
+    "module": "user_storage_encrypted",
+    "ctest_entries": [
+      "bench_user_storage_encrypted_lifecycle_gates"
+    ],
+    "is_registered_ctest": true,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:user_storage_encrypted",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_encrypted_storage_dedicated_gates": {
+    "name": "bench_encrypted_storage_dedicated_gates",
+    "source": "user_storage_encrypted/bench_encrypted_storage_dedicated_gates.cpp",
+    "module": "user_storage_encrypted",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:user_storage_encrypted",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_toolbox_release_gates": {
+    "name": "bench_toolbox_release_gates",
+    "source": "toolbox/bench_toolbox_release_gates.cpp",
+    "module": "toolbox",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:toolbox",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_toolbox_native_workloads": {
+    "name": "bench_toolbox_native_workloads",
+    "source": "toolbox/bench_toolbox_native_workloads.cpp",
+    "module": "toolbox",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:toolbox",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_toolbox_dedicated_gates": {
+    "name": "bench_toolbox_dedicated_gates",
+    "source": "toolbox/bench_toolbox_dedicated_gates.cpp",
+    "module": "toolbox",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:toolbox",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_p0_crud_baseline": {
+    "name": "bench_p0_crud_baseline",
+    "source": "phase0/bench_p0_crud_baseline.cpp",
+    "module": "phase0",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:phase0",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_w5a_production_workloads": {
+    "name": "bench_w5a_production_workloads",
+    "source": "wave5/bench_w5a_production_workloads.cpp",
+    "module": "bench_w5a_production_workloads.cpp",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:bench_w5a_production_workloads.cpp",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_w5b_degradation": {
+    "name": "bench_w5b_degradation",
+    "source": "wave5/bench_w5b_degradation.cpp",
+    "module": "bench_w5b_degradation.cpp",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:bench_w5b_degradation.cpp",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_w5c_determinism": {
+    "name": "bench_w5c_determinism",
+    "source": "wave5/bench_w5c_determinism.cpp",
+    "module": "bench_w5c_determinism.cpp",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:bench_w5c_determinism.cpp",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_w5d_governance": {
+    "name": "bench_w5d_governance",
+    "source": "wave5/bench_w5d_governance.cpp",
+    "module": "bench_w5d_governance.cpp",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:bench_w5d_governance.cpp",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "benchmark_huge_pages": {
+    "name": "benchmark_huge_pages",
+    "source": "performance_optimizations/benchmark_huge_pages.cpp",
+    "module": "performance_optimizations",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:performance_optimizations",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "benchmark_lirs_cache": {
+    "name": "benchmark_lirs_cache",
+    "source": "performance_optimizations/benchmark_lirs_cache.cpp",
+    "module": "performance_optimizations",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:performance_optimizations",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "benchmark_mimalloc": {
+    "name": "benchmark_mimalloc",
+    "source": "performance_optimizations/benchmark_mimalloc.cpp",
+    "module": "performance_optimizations",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:performance_optimizations",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "benchmark_rcu_index": {
+    "name": "benchmark_rcu_index",
+    "source": "performance_optimizations/benchmark_rcu_index.cpp",
+    "module": "performance_optimizations",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:performance_optimizations",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "benchmark_safe_fail": {
+    "name": "benchmark_safe_fail",
+    "source": "performance_optimizations/benchmark_safe_fail.cpp",
+    "module": "performance_optimizations",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:performance_optimizations",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_search_release_gates": {
+    "name": "bench_search_release_gates",
+    "source": "search/bench_search_release_gates.cpp",
+    "module": "search",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:search",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_advanced_scenarios": {
+    "name": "bench_advanced_scenarios",
+    "source": "search/bench_advanced_scenarios.cpp",
+    "module": "search",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:search",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_distributed_merge_gates": {
+    "name": "bench_distributed_merge_gates",
+    "source": "search/bench_distributed_merge_gates.cpp",
+    "module": "search",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:search",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_hybrid_fusion_gates": {
+    "name": "bench_hybrid_fusion_gates",
+    "source": "search/bench_hybrid_fusion_gates.cpp",
+    "module": "search",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:search",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_layered_retrieval_phase5": {
+    "name": "bench_layered_retrieval_phase5",
+    "source": "search/bench_layered_retrieval_phase5.cpp",
+    "module": "search",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:search",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_vector_search_gates": {
+    "name": "bench_vector_search_gates",
+    "source": "search/bench_vector_search_gates.cpp",
+    "module": "search",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:search",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_search_dedicated_gates": {
+    "name": "bench_search_dedicated_gates",
+    "source": "search/bench_search_dedicated_gates.cpp",
+    "module": "search",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:search",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_access_coordinator_gates": {
+    "name": "bench_access_coordinator_gates",
+    "source": "access_model/bench_access_coordinator_gates.cpp",
+    "module": "access_model",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:access_model",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_core_performance": {
+    "name": "bench_core_performance",
+    "source": "core/bench_core_performance.cpp",
+    "module": "core",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:core",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_importers_release_gates": {
+    "name": "bench_importers_release_gates",
+    "source": "importers/bench_importers_release_gates.cpp",
+    "module": "importers",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:importers",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_wikipedia_throughput": {
+    "name": "bench_wikipedia_throughput",
+    "source": "llm_wiki/bench_wikipedia_throughput.cpp",
+    "module": "llm_wiki",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:llm_wiki",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_llm_wiki_dedicated_gates": {
+    "name": "bench_llm_wiki_dedicated_gates",
+    "source": "llm_wiki/bench_llm_wiki_dedicated_gates.cpp",
+    "module": "llm_wiki",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:llm_wiki",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_branch_manager": {
+    "name": "bench_branch_manager",
+    "source": "transaction/bench_branch_manager.cpp",
+    "module": "transaction",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:transaction",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_transaction_throughput": {
+    "name": "bench_transaction_throughput",
+    "source": "transaction/bench_transaction_throughput.cpp",
+    "module": "transaction",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:transaction",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_transaction_phase4": {
+    "name": "bench_transaction_phase4",
+    "source": "transaction/bench_transaction_phase4.cpp",
+    "module": "transaction",
+    "ctest_entries": [
+      "bench_transaction_phase4"
+    ],
+    "is_registered_ctest": true,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:transaction",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_transaction_dedicated_gates": {
+    "name": "bench_transaction_dedicated_gates",
+    "source": "transaction/bench_transaction_dedicated_gates.cpp",
+    "module": "transaction",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:transaction",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_query": {
+    "name": "bench_query",
+    "source": "query/bench_query.cpp",
+    "module": "query",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:query",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_phase4_performance": {
+    "name": "bench_phase4_performance",
+    "source": "query/bench_phase4_performance.cpp",
+    "module": "query",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:query",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_geospatial_phase2": {
+    "name": "bench_geospatial_phase2",
+    "source": "query/bench_geospatial_phase2.cpp",
+    "module": "query",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:query",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_query_dedicated_gates": {
+    "name": "bench_query_dedicated_gates",
+    "source": "query/bench_query_dedicated_gates.cpp",
+    "module": "query",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:query",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_governance_release_gates": {
+    "name": "bench_governance_release_gates",
+    "source": "governance/bench_governance_release_gates.cpp",
+    "module": "governance",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:governance",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_maintenance_release_gates": {
+    "name": "bench_maintenance_release_gates",
+    "source": "maintenance/bench_maintenance_release_gates.cpp",
+    "module": "maintenance",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:maintenance",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_maintenance_distributed_gates": {
+    "name": "bench_maintenance_distributed_gates",
+    "source": "maintenance/bench_maintenance_distributed_gates.cpp",
+    "module": "maintenance",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:maintenance",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_performance_release_gates": {
+    "name": "bench_performance_release_gates",
+    "source": "performance/bench_performance_release_gates.cpp",
+    "module": "performance",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:performance",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_w7a_release_critical_signoff": {
+    "name": "bench_w7a_release_critical_signoff",
+    "source": "wave7/bench_w7a_release_critical_signoff.cpp",
+    "module": "bench_w7a_release_critical_signoff.cpp",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:bench_w7a_release_critical_signoff.cpp",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_w7b_endurance_soak": {
+    "name": "bench_w7b_endurance_soak",
+    "source": "wave7/bench_w7b_endurance_soak.cpp",
+    "module": "bench_w7b_endurance_soak.cpp",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:bench_w7b_endurance_soak.cpp",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_w7c_degradation_fault_recovery": {
+    "name": "bench_w7c_degradation_fault_recovery",
+    "source": "wave7/bench_w7c_degradation_fault_recovery.cpp",
+    "module": "bench_w7c_degradation_fault_recovery.cpp",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:bench_w7c_degradation_fault_recovery.cpp",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_w7d_guardrails_variance_operability": {
+    "name": "bench_w7d_guardrails_variance_operability",
+    "source": "wave7/bench_w7d_guardrails_variance_operability.cpp",
+    "module": "bench_w7d_guardrails_variance_operability.cpp",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:bench_w7d_guardrails_variance_operability.cpp",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_w7_p2d05_compression_state_store": {
+    "name": "bench_w7_p2d05_compression_state_store",
+    "source": "wave7/bench_p2_d05_compression_state_store.cpp",
+    "module": "bench_p2_d05_compression_state_store.cpp",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:bench_p2_d05_compression_state_store.cpp",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_content_processor_paths": {
+    "name": "bench_content_processor_paths",
+    "source": "content/bench_content_processor_paths.cpp",
+    "module": "content",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:content",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_content_versioning": {
+    "name": "bench_content_versioning",
+    "source": "content/bench_content_versioning.cpp",
+    "module": "content",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:content",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_content_release_gates": {
+    "name": "bench_content_release_gates",
+    "source": "content/bench_content_release_gates.cpp",
+    "module": "content",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:content",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_ann_distance_cpu_vs_flat": {
+    "name": "bench_ann_distance_cpu_vs_flat",
+    "source": "epic1_retrieval/bench_ann_distance_cpu_vs_flat.cpp",
+    "module": "epic1_retrieval",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:epic1_retrieval",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_multishard_exact": {
+    "name": "bench_multishard_exact",
+    "source": "epic1_retrieval/bench_multishard_exact.cpp",
+    "module": "epic1_retrieval",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:epic1_retrieval",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_projects_release_gates": {
+    "name": "bench_projects_release_gates",
+    "source": "projects/bench_projects_release_gates.cpp",
+    "module": "projects",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:projects",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_updates_release_gates": {
+    "name": "bench_updates_release_gates",
+    "source": "updates/bench_updates_release_gates.cpp",
+    "module": "updates",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:updates",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_updates_coordinated_hardening": {
+    "name": "bench_updates_coordinated_hardening",
+    "source": "updates/bench_updates_coordinated_hardening.cpp",
+    "module": "updates",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:updates",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_updates_canary_resilience": {
+    "name": "bench_updates_canary_resilience",
+    "source": "updates/bench_updates_canary_resilience.cpp",
+    "module": "updates",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:updates",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_updates_schema_diversity": {
+    "name": "bench_updates_schema_diversity",
+    "source": "updates/bench_updates_schema_diversity.cpp",
+    "module": "updates",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:updates",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  },
+  "bench_updates_long_run_stability": {
+    "name": "bench_updates_long_run_stability",
+    "source": "updates/bench_updates_long_run_stability.cpp",
+    "module": "updates",
+    "ctest_entries": [],
+    "is_registered_ctest": false,
+    "timeout_seconds": 120,
+    "labels": [
+      "module:updates",
+      "tier:benchmark",
+      "kind:smoke"
+    ]
+  }
+}

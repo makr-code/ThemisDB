@@ -1,59 +1,76 @@
 ---
 Author: ThemisDB Maintainers
 Created: 2026-08-31
-Last Updated: 2026-09-21
+Last Updated: 2026-10-11
 Status: active
 ---
 # ThemisDB — Maturity Report 2026-08
 
 **Erstellt:** 2026-08-10  
-**Zuletzt aktualisiert:** 2026-08-26
-**Version:** `2.4.0` (Repo-Metadaten) / `v2.4.0-rc1` (Audit-Evidence-Snapshot)
+**Zuletzt aktualisiert:** 2026-10-11
+**Version:** `2.4.0-alpha` (aktuell, vgl. `ROADMAP.md:5`)
 **Branch:** `develop`  
-**Scope:** 67 produktive Source-Module in `src/` + Wave 1–9 Benchmarks + Security & Compliance + Governance  
+**Scope:** 71+ produktive Source-Module in `src/` + Wave A–D Benchmarks + Security & Compliance + Governance  
 **Methodik:** Automatisierter Source-Scan (D1–D3) + Compliance-Dokumenten-Audit (D4) + Roadmap-Checkbox-Analyse (D5) + Operational-Evidence-Review (D6)  
-**Basis:** `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md`, `IMPLEMENTATION_AUDIT_2026-08-12.md`, `IMPLEMENTATION_AUDIT_2026-08-18.md`, `../ROADMAP.md`, `../docs/governance/GA_PROMOTION_SIGN_OFF.md`
+**Basis:** `IMPLEMENTATION_AUDIT_2026-09-30.md` (aktuell), `MARKER_LOCATIONS_2026-10-01.md`, `ACTIONABLE_TODOS_2026-10-01.md`, `../ROADMAP.md`, `../docs/governance/GA_PROMOTION_SIGN_OFF.md`
 
-> **Archiv-Hinweis:** Verweise auf `v1.4.x` Audit-Templates/Evidence-Pakete in diesem Bericht sind historisch und nicht als Current-State-Quelle zu lesen; aktuelle Statusaussagen folgen `ROADMAP.md`, `CHANGELOG.md` und `docs/governance/GA_PROMOTION_SIGN_OFF.md`.
+> **Archiv-Hinweis:** Dieses Dokument wurde historisch im August/September erstellt und enthält Snapshots von damaligen Audits. Für aktuelle Statusaussagen siehe:
+> - `audit/IMPLEMENTATION_AUDIT_2026-09-30.md` (aktuelles Audit-Baseline)
+> - `audit/MARKER_LOCATIONS_2026-10-01.md` + `audit/ACTIONABLE_TODOS_2026-10-01.md` (aktuelle Marker-Reality-Check)
+> - `ROADMAP.md` (aktueller Gesamtstatus)
+> - `docs/governance/GA_PROMOTION_SIGN_OFF.md` (aktuelles GA-Gate-Status)
 
-> **Wichtige Sync-Notiz (Stand 2026-08-26):**
-> - Das korrigierte Audit `IMPLEMENTATION_AUDIT_CORRECTED_2026-08-08.md` ist die maßgebliche Quelle bei Abweichungen für `evaluation`, `execution`, CUDA-Geokernel und den `ai_snapshot_cleanup.h`-Compile-Befund.
-> - `src/execution/ROADMAP.md` existiert; der frühere reine Governance-Gap ist geschlossen.
-> - `src/evaluation/AUDIT.md`, `tests/epic2_evaluation/` und `benchmarks/epic2_evaluation/` belegen produktive Source-, Test- und Benchmark-Surfaces; offen bleibt dort primär die aktuelle ausführbare Evidenz im vorhandenen Build-Setup.
-> - Source-Check 2026-08-12: `include/search/` trägt weiterhin 40 `STUB`/`TODO`/`MOCK`-Marker-Treffer in 20 Headern, diese sitzen jedoch in auto-generierten Gap-Summary-Kommentaren; die reale Search-Restarbeit wird über Wave-A/B-Härtung geführt.
-> - Source-Check 2026-08-12: `include/security/ai_snapshot_cleanup.h` zeigt den korrigierten Konstruktor-Split (`AiSnapshotCleanupJob();` plus `explicit AiSnapshotCleanupJob(Config cfg);`); der Source-Befund ist geschlossen.
-> - `ROADMAP.md` führt den Gesamtstatus inzwischen bei **~80 %** (Wave-A-Critical-Closure + Folge-Updates), bei weiter **1 Governance-Blocker** (Section 9 Human Sign-Off).
+> **Wichtige Sync-Notiz (Stand 2026-10-11) — KRITISCHE KLARSTELLUNGEN:**
+> - **72% Claim:** `ROADMAP.md` behauptet "~72% source-verifiziert" OHNE erkennbare Methodik. Dies ist eine qualitative Behauptung, nicht messbar oder reproduzierbar. **NICHT zur Akzeptanzentscheidung verwenden ohne Klärung der Basis.**
+> - **Marker-Daten:** 2026-09-30 raw scan = **228** Marker (TODO|STUB|MOCK|FIXME); 2026-10-01 nach "targeted false-positive cleanup" = **172** (30 TODO, 139 STUB, 3 MOCK). Methodik der Cleanup-Schritte in `ACTIONABLE_TODOS_2026-10-01.md` dokumentiert, aber Effektivität dieser Cleanup nicht unabhängig verifiziert.
+> - **Historische Marker:** ~2500 Zählung (2026-08-31) ist veraltet; aktuelle Raw-Zählung 228 (2026-09-30), nicht 2500.
+> - **Branch-Governance:** kanonisch `develop`, `minimal`, `community`, `enterprise`, `hyperscaler`, `military` (legacy `main`/`millitary` sind veraltet).
+> - **GA-Status:** 1 technischer Blocker (0), 1+ Governance-Blocker (Human Sign-Off §9 + Representative-Hardware-Validation ausstehend).
 
 ---
 
 ## 1. Executive Summary
 
-| Metrik | Wert | Trend | Anmerkung |
-|--------|------|-------|----------|
-| **Produktionsreife gesamt** | **~80 %** | ⬆︎ verbessert | Re-Sync gegen Roadmap/Audit-Stand 2026-08-26 |
-| **Core-Module (A.1–A.4)** | **~82 %** | ⬆︎ verbessert | Server, Auth, Network, Process prodgrade |
-| **Optionale Module** | **~68–72 %** | ⬆︎ verbessert | LLM, GPU, Tensor mit fortgeschrittener Härtung |
-| **Private Plugins Wave-1** | **~55 %** | ⟶ stabil | Wave-1-Submodule commit-gepinnt; Governance-/CI-Gates bleiben offen |
-| **GA-Blocker (technisch)** | **0** | ✅ | Alle technischen Gates PASS |
-| **GA-Blocker (Governance)** | **1** | ⏳ | Menschliche Freigabe §9 ausstehend |
-| **Aktive Compile-Fehler** | **0 bestätigt im aktuellen Source** | ✅ | früherer `ai_snapshot_cleanup.h:63`-Befund source-seitig geschlossen |
-| **Source-Code gesamt** | **~830 K LOC** | ⟶ | 67 Module, Messdatum 2026-08-09 |
-| **Test-Dateien aktiv** | **~1.000+** | ⟶ | 132 focused-Tests |
-| **Stub-Marker gesamt** | **~2.500** | ⟶ | Über 67 Module verteilt |
+**KRITISCHE KLARSTELLUNG ZUM GESAMTSTATUS:**
+Das Projekt enthält substantielle Implementierung (~830K LOC, 71+ Module mit Code), aber:
+- **72% Claim (ROADMAP.md):** Ist UNKLARHEIT — keine erkennbare Methodik offengelegt
+- **Marker-Status:** 228 raw (2026-09-30), 172 nach Cleanup (2026-10-01)
+- **GA-Readiness:** Technisch nahezu komplett, Governance+Hardware-Validation bleiben blockers
 
-### 1.1 GA-Promotion-Empfehlung
+| Metrik | Wert | Status | Hinweis |
+|--------|------|--------|---------|
+| **Basis-Status** | Substantielle Implementierung | ✅ | 71 Module, ~830K LOC, ~1000+ Tests |
+| **Source-Zustand (2026-10-01)** | Kompiliert sauber | ✅ | 0 Compile-Fehler |
+| **Marker (raw 2026-09-30)** | 228 TODO\|STUB\|MOCK\|FIXME | — | Vor False-Positive-Bereinigung |
+| **Marker (bereinigt 2026-10-01)** | 172 (30 TODO, 139 STUB, 3 MOCK) | — | Nach gezielter Cleanup; 30 TODOs alle in `src/rag/` |
+| **Wave-7/8/9 Gates** | 18/18 PASS | ✅ | Sanitizer + Pentest + Perf |
+| **GA-Blocker technisch** | 0 | ✅ | Alle Hürden gelöst |
+| **GA-Blocker Governance** | 2 | ⏳ | (1) Human Sign-Off; (2) Representative-Hardware-Validation |
+| **Realistischer Status** | "Substantial impl., hardening pending" | ⟶ | Nicht "GA ready" im strikten Sinne |
 
-> **ThemisDB v2.4.0-rc1 ist technisch GA-ready.** Alle 6 Wave-7-Performance-Gates, alle Sanitizer-Suites (ASan/UBSan/TSan) und der Penetrationstest-Report schließen als PASS ab. Der einzige verbleibende GA-Blocker ist die menschliche Governance-Freigabe in `docs/governance/GA_PROMOTION_SIGN_OFF.md §9`.
+### 1.1 GA-Promotion-Empfehlung — KRITISCHE BEWERTUNG
+
+> **BEHAUPTUNG (ROADMAP.md, 2026-09-09):** "ThemisDB v2.4.0-alpha ist technisch GA-ready."
+>
+> **REALITÄT (Stand 2026-10-11):**
+> - ✅ Wave-7/8/9 Performance-Gates: PASS (18/18)
+> - ✅ Sanitizer-Suites (ASan/UBSan/TSan): PASS
+> - ✅ Penetrationstest (Q3 2026, 2026-09-28): PASS (0 kritisch, 1 high mit 30-Tage-Remediationsfrist)
+> - ❌ Representative-Hardware-Validation: AUSSTEHEND (für Transaction, GPU, Query, Video)
+> - ❌ Human Sign-Off (GA_PROMOTION_SIGN_OFF.md §9): AUSSTEHEND
+> - ❌ Governance Gate: AUSSTEHEND
+>
+> **FAZIT:** Das Projekt ist **NICHT** im strikten Produktionssinn GA-ready. Es hat substantielle Implementierung und bestandene technische Gates, aber **kritische Governance und Hardware-Evidenz bleiben Blockers**. Status: "substantial implementation with major hardening and evidence completion still pending" (ROADMAP.md, 2026-09-09).
 
 ### 1.2 Top-5 Risiken
 
 | Rang | Risiko | Modul | Schwere | Status |
 |------|--------|-------|---------|--------|
-| 🔴 1 | Hybrid-Retrieval Thread-Safety (Issue #5468) | `query`, `gpu`, `sharding` | Hoch | In Härtung Q3 |
-| 🟡 2 | Vollständige CI-/Hardware-Revalidierung der Wave-A-Schließungen noch unvollständig | `transaction`, `voice`, `gpu` | Mittel-Hoch | Fokusläufe/representative Hardware in Arbeit |
-| 🟡 3 | 5 Module mit 0 automatisierten Tests | Mehrere | Mittel | Governance-Risiko |
-| 🟡 4 | EU AI Act 65 % — Model Cards fehlen | `llm`, `rag`, `ethics_ai` | Mittel | Q4 2026 |
-| ✅ 0 | BSI C5 2026 — Nachweislücken geschlossen (v2.4.0) | Compliance | — | Alle 5 C5-Gaps adressiert |
+| 🔴 1 | Representative-Hardware-Validierung unvollständig | `transaction`, `gpu`, `query` | Hoch | Ausstehend; Baseline-Template vorhanden |
+| 🟡 2 | Hybrid-Retrieval Thread-Safety (Issue #5468) + RAG Hardening | `query`, `gpu`, `rag` | Mittel-Hoch | Wave-B Härtung; 30 TODOs in `src/rag/` offen |
+| 🟡 3 | GA-Promotion Human Sign-Off & Governance Gate | `docs/governance` | Mittel | ⏳ Blockiert; Gate-Dokuemente bereit |
+| 🟡 4 | EU AI Act 65 % — Model Cards | `llm`, `rag`, `ethics_ai` | Mittel | Q4 2026 geplant |
+| ✅ 0 | BSI C5 2026 — Compliance-Gaps geschlossen | Compliance | — | ✅ v2.4.0-alpha erfolgreich |
 
 ---
 
@@ -187,16 +204,41 @@ Status: active
 
 ## 3. Kritische Befunde
 
-### 3.1 Source-seitig geschlossener Compile-Befund mit offener Re-Validierung
+### 3.1 Marker-Daten: Raw vs. Bereinigt (2026-09-30 vs. 2026-10-01)
 
-| # | Datei | Zeile | Fehler | Impact | Priorität |
-|---|-------|-------|--------|--------|-----------|
-| CF-01 | `include/security/ai_snapshot_cleanup.h` | 63 (historisch) | Frühere Default-Parameter-Form im aktuellen Header nicht mehr vorhanden | Build-Re-Validierung für Geo-/Security-Targets weiter offen | **P1 — zeitnah bestätigen** |
+**WICHTIG:** Es gibt zwei verschiedene Marker-Zählungen:
 
-**Auswirkung:** Der frühere Befund bleibt als Re-Validierungsbedarf relevant, ist aber im aktuellen Header-Stand nicht mehr als aktiver Source-Fehler reproduzierbar.  
-**Empfohlene Aktion:** Den korrigierten Header-Stand im nächsten verfügbaren Geo-/Security-Build explizit bestätigen.
+| Datum | Rohzahl | Methode | Anmerkung |
+|-------|---------|---------|-----------|
+| **2026-09-30** | **228** | `grep -RInE 'TODO\|STUB\|MOCK\|FIXME' src/` | Raw-Scan, KEINE False-Positive-Filterung |
+| **2026-10-01** | **172** | Nach "targeted false-positive cleanup" | 30 TODO, 139 STUB, 3 MOCK; Cleanup-Details in ACTIONABLE_TODOS_2026-10-01.md |
 
-### 3.2 Module mit 0 automatisierten Tests
+**Cleanup-Schritte durchgeführt (2026-10-01):**
+1. `src/analytics/streaming_window.cpp` — historische gelöste Kommentare von `TODO(v1.8.0)` zu `RESOLVED(v1.8.0)` umbenannt
+2. `src/graph/graph_error_taxonomy.cpp` — Error-Text von `"stub/TODO code path"` zu `"stub code path"` geändert
+3. Multi-Modul — Tracking-Labels `STUB #<id>` zu `BRIDGE_REF #<id>` umbenannt
+
+**Resultat:** Die **30 actionable TODOs** sind real und konzentriert in `src/rag/`:
+- Serialisierung/Persistence (JSON/Protobuf export)
+- Telemetrie/OTLP-Export
+- Retrieval-Backend-Integration
+- Benchmark-Ausführung
+- Latency-Monitoring/Persistence
+
+**Historischer Kontext:**
+- Ältere Audits (2026-08-31) berichteten ~1730–2500 Marker (mit massiven False-Positives)
+- 2026-09-30 dokumentierte die erste verfügbare Raw-Zählung nach Repo-Cleanup: 228
+- 2026-10-01 führte gezielte False-Positive-Bereinigung durch: 172
+
+**CAVEAT:** Die Effektivität der Cleanup-Methode (Schritte 1–3 oben) ist nicht durch unabhängige Verifizierung bestätigt. Diese könnte zu versteckten False-Negatives führen.
+
+### 3.2 Source-seitig geschlossener Compile-Befund
+
+Das August-Audit identifizierte einen Compile-Fehler in `include/security/ai_snapshot_cleanup.h:63` (Konstruktor-Ambiguität). Der Befund wurde source-seitig durch einen Konstruktor-Split geschlossen (`AiSnapshotCleanupJob();` und `explicit AiSnapshotCleanupJob(Config cfg);`). 
+
+**Status:** Source-seitig geschlossen; Build-Gate-Revalidierung bestätigt (2026-10-01).
+
+### 3.3 Module mit 0 automatisierten Tests
 
 | Modul | LOC | Zustand | Risikobewertung |
 |-------|-----|---------|----------------|
@@ -208,7 +250,7 @@ Status: active
 
 **Befund:** 5 Module ohne Tests — `evaluation`, `execution` und `llm_wiki` gehören nach aktuellem Source-Stand nicht mehr in diese Liste. Governance-Risiko vor GA-Promotion bleibt für die verbleibenden testlosen Module bestehen.
 
-### 3.3 Stub-Hotspots (Top-15 nach Schweregrad)
+### 3.4 Stub-Hotspots (Top-15 nach Schweregrad)
 
 | Rang | Modul | Stubs | Stub-Dichte (pro KLOC) | Bewertung |
 |------|-------|-------|----------------------|-----------|
@@ -552,18 +594,19 @@ Fokus-Cluster für Q3/Q4 2026:
 
 | Kennzahl | Wert |
 |----------|------|
-| Gesamte Module | 67 produktive Module |
+| Gesamte Module | 71+ produktive Module |
 | Gesamte LOC (Source) | ~830.000 LOC |
 | Gesamte Test-Dateien | ~1.000+ |
-| Gesamte Focused-Tests | 132 |
+| Gesamte Focused-Tests | 132+ |
 | Wave-7/8/9 Hard-Gates PASS | 18/18 ✅ |
-| Module mit 0 Tests | 5 |
-| Module mit 0 Benchmarks | 7 |
-| Stub-Marker gesamt | ~2.500 |
-| ROADMAP Done-Rate | 65 % (2.279/3.515 Items) |
+| Module mit 0 Tests | 5 (historisch; aktuelle Bewertung erforderlich) |
+| Module mit 0 Benchmarks | 7 (historisch; aktuelle Bewertung erforderlich) |
+| Marker-Reality-Check 2026-10-01 | **172 gesamt** (30 TODO, 139 STUB, 3 MOCK) |
+| Historische Marker ohne Bereinigung | ~2.500 (2026-08-31 und älter; veraltet) |
+| ROADMAP Done-Rate | ~72 % source-verifiziert (2026-09-09) |
 | Compliance-Gesamt | ~89 % (gewichtet) |
 | GA-Blocker technisch | 0 |
-| GA-Blocker Governance | 1 (§9 human sign-off) |
+| GA-Blocker Governance | 1 (§9 human sign-off) + Representative-Hardware-Validation |
 
 ---
 
@@ -588,6 +631,6 @@ Fokus-Cluster für Q3/Q4 2026:
 
 ---
 
-*Report generiert / synchronisiert: 2026-08-26*
+*Report generiert / synchronisiert: 2026-10-11 (Marker-Reality-Check 2026-10-01 integriert)*
 *Methodik: Automatisierter Source-Scan + Dokumenten-Audit + Compliance-Review*  
 *Nächstes Review: Nach GA-Promotion oder Q4 2026 (was früher eintritt)*
