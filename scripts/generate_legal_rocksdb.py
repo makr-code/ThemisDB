@@ -148,7 +148,7 @@ int main(int argc, char* argv[]) {
     options.create_if_missing = true;
     options.compression = rocksdb::kSnappyCompression;
     
-    DB* db = nullptr;
+    std::unique_ptr<DB> db;
     Status status = DB::Open(options, db_path, &db);
     if (!status.ok()) {
         std::cerr << "Error opening database: " << status.ToString() << std::endl;
@@ -190,7 +190,7 @@ int main(int argc, char* argv[]) {
     }
 
     // Cleanup and report
-    delete db;
+    db.reset();
 
     std::cout << std::endl;
     std::cout << "========================================================" << std::endl;
