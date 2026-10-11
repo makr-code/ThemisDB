@@ -5150,9 +5150,9 @@ endif()
 
     themis_add_standard_benchmark(bench_ai_plugin_generator    ai/bench_ai_plugin_generator.cpp)
 themis_add_standard_benchmark(bench_ann_cpu_gpu_dispatch   ann/bench_ann_cpu_gpu_dispatch.cpp)
-themis_add_standard_benchmark(bench_arm_memory             bench_arm_memory.cpp)
-themis_add_standard_benchmark(bench_arm_simd               bench_arm_simd.cpp)
-themis_add_standard_benchmark(bench_async_io_multiscan     bench_async_io_multiscan.cpp)
+themis_add_standard_benchmark(bench_arm_memory             base/bench_arm_memory.cpp)
+themis_add_standard_benchmark(bench_arm_simd               base/bench_arm_simd.cpp)
+themis_add_standard_benchmark(bench_async_io_multiscan     base/bench_async_io_multiscan.cpp)
 themis_add_standard_benchmark(bench_batch_insert           storage/bench_batch_insert.cpp)
 themis_add_standard_benchmark(bench_blob_zstd              storage/bench_blob_zstd.cpp)
 themis_add_standard_benchmark(bench_changefeed_throughput  cdc/bench_changefeed_throughput.cpp)
@@ -5237,7 +5237,7 @@ themis_add_standard_benchmark(bench_lora_inline            llm/bench_lora_inline
 themis_add_standard_benchmark(bench_lora_training          llm/bench_lora_training.cpp)
 themis_add_standard_benchmark(bench_multitask_lora_training llm/bench_multitask_lora_training.cpp)
 themis_add_standard_benchmark(bench_mmdb                   mmdb/bench_mmdb.cpp)
-themis_add_standard_benchmark(bench_multithreading_comprehensive bench_multithreading_comprehensive.cpp)
+themis_add_standard_benchmark(bench_multithreading_comprehensive base/bench_multithreading_comprehensive.cpp)
 themis_add_standard_benchmark(bench_mvcc                   storage/bench_mvcc.cpp)
 themis_add_standard_benchmark(bench_pagerank               graph/bench_pagerank.cpp)
 themis_add_standard_benchmark(bench_phase1_flash_attention llm/bench_phase1_flash_attention.cpp)
@@ -5438,3 +5438,124 @@ endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm_streaming/CMakeLists.txt")
     add_subdirectory(llm_streaming)
 endif()
+
+# ===== UNREGISTERED BENCHMARK SOURCES — BATCH REGISTRATION =====
+# Executed: 2026-10-11 Phase 2, Task 2
+# Count: 58 sources (4 base/ sources fixed separately in Task 1)
+
+
+# Module: acceleration
+themis_add_standard_benchmark(bench_acceleration_dedicated_gates            acceleration/bench_acceleration_dedicated_gates.cpp)
+
+# Module: analytics
+themis_add_standard_benchmark(bench_analytics_critical_paths_focused        analytics/bench_analytics_critical_paths_focused.cpp)
+
+# Module: chimera
+themis_add_standard_benchmark(bench_chimera_adapter                         chimera/bench_chimera_adapter.cpp)
+themis_add_standard_benchmark(bench_chimera_dedicated_gates                 chimera/bench_chimera_dedicated_gates.cpp)
+
+# Module: config
+themis_add_standard_benchmark(bench_config_release_gates                    config/bench_config_release_gates.cpp)
+
+# Module: content
+themis_add_standard_benchmark(bench_text_extraction                         content/bench_text_extraction.cpp)
+
+# Module: distributed_tensor
+themis_add_standard_benchmark(bench_distributed_tensor_dedicated_gates      distributed_tensor/bench_distributed_tensor_dedicated_gates.cpp)
+
+# Module: document
+themis_add_standard_benchmark(bench_document_diff_merge                     document/bench_document_diff_merge.cpp)
+themis_add_standard_benchmark(bench_document_round_trip                     document/bench_document_round_trip.cpp)
+themis_add_standard_benchmark(bench_document_serialization_gates            document/bench_document_serialization_gates.cpp)
+themis_add_standard_benchmark(bench_document_store                          document/bench_document_store.cpp)
+
+# Module: evaluation
+themis_add_standard_benchmark(bench_evaluation_dedicated_gates              evaluation/bench_evaluation_dedicated_gates.cpp)
+
+# Module: geo
+themis_add_standard_benchmark(bench_geo_cuda_kernel_gating                  geo/bench_geo_cuda_kernel_gating.cpp)
+themis_add_standard_benchmark(bench_geo_release_gates                       geo/bench_geo_release_gates.cpp)
+
+# Module: governance
+themis_add_standard_benchmark(bench_audit_export_high_volume                governance/bench_audit_export_high_volume.cpp)
+
+# Module: gpu
+themis_add_standard_benchmark(bench_gpu_cpu_breakeven_category_a            gpu/bench_gpu_cpu_breakeven_category_a.cpp)
+themis_add_standard_benchmark(bench_gpu_cpu_breakeven_category_b            gpu/bench_gpu_cpu_breakeven_category_b.cpp)
+themis_add_standard_benchmark(bench_gpu_dedicated_gates                     gpu/bench_gpu_dedicated_gates.cpp)
+
+# Module: graph
+themis_add_standard_benchmark(bench_graph_dedicated_gates                   graph/bench_graph_dedicated_gates.cpp)
+themis_add_standard_benchmark(bench_graph_release_gates                     graph/bench_graph_release_gates.cpp)
+
+# Module: llm_streaming
+themis_add_standard_benchmark(bench_llm_streaming_dedicated_gates           llm_streaming/bench_llm_streaming_dedicated_gates.cpp)
+
+# Module: network
+themis_add_standard_benchmark(bench_network_protocol_path                   network/bench_network_protocol_path.cpp)
+themis_add_standard_benchmark(bench_network_release_gates                   network/bench_network_release_gates.cpp)
+themis_add_standard_benchmark(bench_network_routing_gates                   network/bench_network_routing_gates.cpp)
+
+# Module: prompt_engineering
+themis_add_standard_benchmark(bench_rewrite_engine                          prompt_engineering/bench_rewrite_engine.cpp)
+
+# Module: replication
+themis_add_standard_benchmark(bench_geo_placement_wal_shipping              replication/bench_geo_placement_wal_shipping.cpp)
+themis_add_standard_benchmark(bench_replication_dedicated_gates             replication/bench_replication_dedicated_gates.cpp)
+themis_add_standard_benchmark(bench_replication_multi_dc_multi_writer       replication/bench_replication_multi_dc_multi_writer.cpp)
+themis_add_standard_benchmark(bench_replication_release_gates               replication/bench_replication_release_gates.cpp)
+
+# Module: scheduler
+themis_add_standard_benchmark(bench_scheduler_dedicated_gates               scheduler/bench_scheduler_dedicated_gates.cpp)
+themis_add_standard_benchmark(bench_scheduler_release_gates                 scheduler/bench_scheduler_release_gates.cpp)
+
+# Module: security
+themis_add_standard_benchmark(bench_audit_export_gates                      security/bench_audit_export_gates.cpp)
+themis_add_standard_benchmark(bench_sbom_verification_gates                 security/bench_sbom_verification_gates.cpp)
+themis_add_standard_benchmark(bench_security_phase2_crypto_gates            security/bench_security_phase2_crypto_gates.cpp)
+themis_add_standard_benchmark(bench_security_phase3_policy_gates            security/bench_security_phase3_policy_gates.cpp)
+themis_add_standard_benchmark(bench_security_release_gates                  security/bench_security_release_gates.cpp)
+
+# Module: sharding
+themis_add_standard_benchmark(bench_sharding_dedicated_gates                sharding/bench_sharding_dedicated_gates.cpp)
+
+# Module: storage
+themis_add_standard_benchmark(bench_storage_dedicated_gates                 storage/bench_storage_dedicated_gates.cpp)
+themis_add_standard_benchmark(bench_storage_release_gates                   storage/bench_storage_release_gates.cpp)
+
+# Module: temporal
+themis_add_standard_benchmark(bench_temporal_dedicated_gates                temporal/bench_temporal_dedicated_gates.cpp)
+themis_add_standard_benchmark(bench_temporal_release_gates                  temporal/bench_temporal_release_gates.cpp)
+
+# Module: tensor
+themis_add_standard_benchmark(bench_tensor_dedicated_gates                  tensor/bench_tensor_dedicated_gates.cpp)
+themis_add_standard_benchmark(bench_tensor_release_gates                    tensor/bench_tensor_release_gates.cpp)
+
+# Module: timeseries
+themis_add_standard_benchmark(bench_timeseries_dedicated_gates              timeseries/bench_timeseries_dedicated_gates.cpp)
+themis_add_standard_benchmark(bench_timeseries_release_gates                timeseries/bench_timeseries_release_gates.cpp)
+
+# Module: training
+themis_add_standard_benchmark(bench_training_dedicated_gates                training/bench_training_dedicated_gates.cpp)
+themis_add_standard_benchmark(bench_training_lifecycle_gates                training/bench_training_lifecycle_gates.cpp)
+
+# Module: updates
+themis_add_standard_benchmark(bench_updates_cluster_stress_q4               updates/bench_updates_cluster_stress_q4.cpp)
+
+# Module: utils
+themis_add_standard_benchmark(bench_utils_benchmark_runner                  utils/benchmark_runner.cpp)
+
+# Module: voice
+themis_add_standard_benchmark(bench_voice_dedicated_gates                   voice/bench_voice_dedicated_gates.cpp)
+
+# Module: wave8
+themis_add_standard_benchmark(bench_w8a_incident_regression_shielding       wave8/bench_w8a_incident_regression_shielding.cpp)
+themis_add_standard_benchmark(bench_w8b_threshold_hardening_drift_detection wave8/bench_w8b_threshold_hardening_drift_detection.cpp)
+themis_add_standard_benchmark(bench_w8c_deterministic_ci_harness            wave8/bench_w8c_deterministic_ci_harness.cpp)
+themis_add_standard_benchmark(bench_w8d_operability_runbooks_ownership      wave8/bench_w8d_operability_runbooks_ownership.cpp)
+
+# Module: wave9
+themis_add_standard_benchmark(bench_w9a_security_overhead_audit             wave9/bench_w9a_security_overhead_audit.cpp)
+themis_add_standard_benchmark(bench_w9b_sla_measurement_compliance          wave9/bench_w9b_sla_measurement_compliance.cpp)
+themis_add_standard_benchmark(bench_w9c_chaos_fault_recovery                wave9/bench_w9c_chaos_fault_recovery.cpp)
+themis_add_standard_benchmark(bench_w9d_multi_tenant_isolation              wave9/bench_w9d_multi_tenant_isolation.cpp)
