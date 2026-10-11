@@ -21,7 +21,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: wave-a-gpu-ci-exec-${{ github.ref }}-${{ github.run_id }}
+  group: wave-a-gpu-ci-exec-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:

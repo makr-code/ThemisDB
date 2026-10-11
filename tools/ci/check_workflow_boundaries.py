@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import re
 import sys
 from pathlib import Path
 
@@ -115,6 +116,13 @@ def _validate_concurrency(data: dict, workflow_path: str, violations: list[str])
     if not isinstance(concurrency, dict):
         violations.append(f"{workflow_path}: pull_request workflows require concurrency with cancel-in-progress")
         return
+
+    group = concurrency.get("group")
+    if isinstance(group, str) and re.search(r"\bgithub\.run_id\b", group):
+        violations.append(
+            f"{workflow_path}: concurrency.group must not include github.run_id; use github.ref or github.event.pull_request.number instead"
+        )
+
     if concurrency.get("cancel-in-progress") is not True:
         violations.append(f"{workflow_path}: pull_request workflows must set cancel-in-progress: true")
 
