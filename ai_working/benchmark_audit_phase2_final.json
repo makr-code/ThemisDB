@@ -1,0 +1,46 @@
+{
+  "timestamp": "1791732745.2828166",
+  "stats": {
+    "total_sources_discovered": 388,
+    "intentionally_excluded": 1,
+    "cmake_targets": 401,
+    "ctest_registered": 401,
+    "errors": 1,
+    "warnings": 0,
+    "info": 0,
+    "cmake_registered_with_source": 387,
+    "ctest_coverage_percent": 103,
+    "unregistered_sources": 0,
+    "orphaned_ctest": 18,
+    "missing_ctest": 0,
+    "broken_targets": 0
+  },
+  "findings": [
+    {
+      "severity": "error",
+      "code": "ORPHANED_CTEST",
+      "message": "18 CTest entry(ies) reference benchmark target(s) without source mapping",
+      "affected_items": [
+        "\"bench_llm_inference_performance_smoke\"",
+        "\"bench_sharding_release_gates_smoke\"",
+        "\"bench_vector_search_dedicated_gates_smoke\"",
+        "\"${_target}\"",
+        "\"${_target}\"",
+        "\"${_target}_wave_a_smoke\"",
+        "\"${_target}\"",
+        "\"${_target}\"",
+        "\"bench_server_http3_gates_smoke\"",
+        "\"bench_server_dedicated_gates_wave_d\"",
+        "\"bench_rag_fts_phase_b_smoke\"",
+        "\"${target_name}\"",
+        "\"bench_search_layered_retrieval_phase5_smoke\"",
+        "\"bench_search_dedicated_gates_wave_d\"",
+        "\"bench_transaction_throughput_wave_a_smoke\"",
+        "\"bench_transaction_dedicated_gates_wave_d\"",
+        "\"bench_query_phase4_performance_smoke\"",
+        "\"bench_query_dedicated_gates_wave_d\""
+      ],
+      "remediation": "Either register the benchmark source in CMake or remove the orphaned CTest entry"
+    }
+  ]
+}
