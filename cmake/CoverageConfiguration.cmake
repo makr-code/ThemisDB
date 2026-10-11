@@ -1,13 +1,6 @@
----
-Author: "Copilot Task Agent"
-Created: "2026-10-11"
-Last Updated: "2026-10-11"
-Status: "Block C - CMake Coverage Configuration Module"
----
-
 # cmake/CoverageConfiguration.cmake
 # Coverage instrumentation setup for code execution metrics
-
+#
 # This module enables optional coverage flag configuration for GCC/Clang
 # Usage: -DTHEMIS_ENABLE_COVERAGE=ON during cmake configure
 # Compatibility: GCC 7+, Clang 3.5+, MSVC (not supported, skipped)
