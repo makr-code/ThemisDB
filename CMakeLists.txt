@@ -258,6 +258,9 @@ include(cmake/CompilerOptions.cmake)
 # 2.5. Compiler cache launcher (sccache/ccache)
 include(cmake/CompilerCache.cmake)
 
+# 2.6. Coverage instrumentation configuration (optional)
+include(cmake/CoverageConfiguration.cmake OPTIONAL)
+
 # Core helpers (sets global C++ standard, test helper)
 include(cmake/helpers.cmake OPTIONAL)
 
