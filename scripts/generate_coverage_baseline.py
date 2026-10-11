@@ -19,7 +19,7 @@ import json
 import re
 import sys
 import argparse
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from collections import defaultdict
 from dataclasses import dataclass
@@ -178,7 +178,7 @@ class CoverageParser:
 def write_baseline_file(modules: dict, output_path: str):
     """Write baseline metrics to file in standard format"""
     
-    timestamp = datetime.utcnow().isoformat() + 'Z'
+    timestamp = datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z')
     
     with open(output_path, 'w') as f:
         f.write(f"# Module Coverage Baseline ({timestamp})\n")
@@ -204,7 +204,7 @@ def generate_json_report(modules: dict, output_path: str):
     """Generate detailed JSON report for analysis"""
     
     report = {
-        'generated_at': datetime.utcnow().isoformat() + 'Z',
+        'generated_at': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
         'summary': {},
         'modules': {}
     }
