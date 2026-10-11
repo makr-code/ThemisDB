@@ -306,6 +306,33 @@ def audit_coverage() -> tuple[List[AuditFinding], Dict[str, any]]:
         findings.append(finding)
         stats["errors"] += 1
     
+    # ===== Module-Level Coverage Breakdown =====
+    targets_by_module = {}
+    for target_name, target in cmake_targets.items():
+        if not target.source_file:
+            continue
+        module = extract_module_from_path(target.source_file) or "unknown"
+        if module not in targets_by_module:
+            targets_by_module[module] = {
+                "total": 0,
+                "with_source": 0,
+                "ctest_registered": 0,
+            }
+        targets_by_module[module]["total"] += 1
+        targets_by_module[module]["with_source"] += 1
+        if target.is_registered_in_ctest():
+            targets_by_module[module]["ctest_registered"] += 1
+    
+    # Add module data to findings for release gate
+    findings_dict = {}
+    for finding in findings:
+        code = finding.code
+        if code not in findings_dict:
+            findings_dict[code] = finding
+    
+    # Store findings with additional module data
+    findings_with_modules = findings
+    
     # ===== Summary Statistics =====
     stats["cmake_registered_with_source"] = sum(
         1 for t in cmake_targets.values() if t.source_file is not None
@@ -320,7 +347,7 @@ def audit_coverage() -> tuple[List[AuditFinding], Dict[str, any]]:
     stats["missing_ctest"] = len(not_ctest_registered)
     stats["broken_targets"] = len(broken_targets)
     
-    return findings, stats
+    return findings_with_modules, stats, targets_by_module
 
 
 def generate_target_mapping() -> Dict[str, Dict]:
@@ -379,7 +406,7 @@ def main() -> int:
     args = parser.parse_args()
     
     # Run audit
-    findings, stats = audit_coverage()
+    findings, stats, targets_by_module = audit_coverage()
     
     # Print summary
     print("=" * 80)
@@ -416,9 +443,26 @@ def main() -> int:
     if args.output:
         output = {
             "timestamp": str(Path(__file__).stat().st_mtime),
-            "stats": stats,
-            "findings": [asdict(f) for f in findings]
+            "summary": stats,
+            "findings": {
+                "unregistered_sources": [],
+                "orphaned_ctest": [],
+                "missing_ctest_registration": [],
+                "broken_targets": [],
+            },
+            "targets_by_module": targets_by_module,
         }
+        # Populate findings from audit results
+        for finding in findings:
+            if finding.code == "UNREGISTERED_SOURCE":
+                output["findings"]["unregistered_sources"] = finding.affected_items
+            elif finding.code == "ORPHANED_CTEST":
+                output["findings"]["orphaned_ctest"] = finding.affected_items
+            elif finding.code == "MISSING_CTEST_REGISTRATION":
+                output["findings"]["missing_ctest_registration"] = finding.affected_items
+            elif finding.code == "BROKEN_TARGET":
+                output["findings"]["broken_targets"] = finding.affected_items
+        
         args.output.write_text(json.dumps(output, indent=2))
         print(f"Audit report saved to: {args.output}")
     

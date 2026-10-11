@@ -66,6 +66,7 @@ Example aggregate targets:
 |----------|---------|--------|------------|---------|
 | `benchmark-performance-gate.yml` | Weekly + dispatch | `themis_benchmarks_all_eligible` | PERF_EXPECTATIONS.md | Performance regression detection |
 | `gate-pr-benchmark-ctest.yml` | PR (benchmarks/) | N/A | CTest registration audit | Benchmark discovery and registration enforcement |
+| `gate-release-benchmark-validation.yml` | Release tags + schedule | N/A | Module-level coverage audit | Release readiness validation for critical modules |
 
 #### Benchmark CTest Coverage Gate (2026-10-11)
 
@@ -89,6 +90,61 @@ Example aggregate targets:
 - Blocks merge on FAIL status
 
 **Baseline (2026-10-11):** 401 benchmarks registered, 103% coverage (includes smoke test variants)
+
+#### Release Benchmark Validation Gate (2026-10-11)
+
+**Purpose:** Validate that release-critical modules have complete benchmark coverage before release, ensuring quality gates for production deployments.
+
+**Trigger:** 
+- Release tags: `v*`, `enterprise-v*`, `hyperscaler-v*`, `military-v*`, `minimal-v*`
+- Release branches: `release/**` pushes
+- Scheduled nightly on `develop` for early warning
+- Manual via `workflow_dispatch`
+
+**Validation Method:**
+1. Run `audit_benchmark_coverage.py` on release ref to audit benchmark coverage
+2. Extract per-module coverage breakdown via `targets_by_module` analysis
+3. Apply stricter thresholds: 100% for critical modules, 95% for others
+4. Generate module-level coverage report
+
+**Release-Critical Modules (100% threshold):**
+- Core: `llm`, `sharding`, `storage`, `server`, `query`
+- Acceleration: `gpu`, `acceleration`, `cuda`
+
+**Gate Criteria:**
+- **PASS:** All critical modules ≥100% coverage AND all other modules ≥95% AND 0 broken targets
+- **WARN:** Orphaned CTest entries or minor issues (non-blocking for release)
+- **FAIL:** Any critical module <100% OR any module <95% OR broken targets present
+
+**Actions:**
+- Creates release readiness tracking issue with module-level breakdown on FAIL
+- Comments on release tracking issue with gate result
+- Blocks release automation if FAIL status (can be overridden with `report_only=true`)
+- Generates per-module coverage report for release notes
+
+**Integration Points:**
+- Called before: Release packaging in `release-mainline.yml`
+- Status tracked in: Release tracker issues (auto-created by status-flags-and-issues action)
+- Can block: GitHub Release publication via approval gates
+
+**Local Testing:**
+```bash
+# Audit current development coverage
+python3 tools/ci/audit_benchmark_coverage.py --output report.json
+
+# Check per-module breakdown
+python3 -c "
+import json
+with open('report.json') as f:
+    data = json.load(f)
+for module, stats in data['targets_by_module'].items():
+    cov = (stats['ctest_registered'] / stats['with_source'] * 100) if stats['with_source'] > 0 else 0
+    print(f'{module}: {cov:.1f}% ({stats[\"ctest_registered\"]}/{stats[\"with_source\"]})')
+"
+
+# Test gate logic locally
+bash .github/workflows/gate-release-benchmark-validation.yml
+```
 
 ## Build System Adaptation (2026-09-29)
 
