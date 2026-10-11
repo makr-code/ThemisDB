@@ -89,6 +89,34 @@ jobs:
     assert any("too broad" in violation for violation in violations)
 
 
+def test_pull_request_concurrency_group_must_not_use_run_id(tmp_path: Path):
+    workflow = tmp_path / ".github" / "workflows" / "guard.yml"
+    _write_workflow(
+        workflow,
+        """
+name: Guard
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/**'
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.run_id }}
+  cancel-in-progress: true
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ok
+""",
+    )
+
+    violations = guard.validate_workflow_file(workflow)
+    assert any("github.run_id" in violation for violation in violations)
+
+
 def test_reactivated_workflow_with_manual_dispatch_and_docs_passes(tmp_path: Path):
     workflow = tmp_path / ".github" / "workflows" / "09-pr-gates_test.yml"
     _write_workflow(

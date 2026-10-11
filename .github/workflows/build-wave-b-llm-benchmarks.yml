@@ -42,7 +42,9 @@ on:
 
 
 concurrency:
-  group: build-wave-b-llm-${{ github.ref }}-${{ github.run_id }}
+  # Keep a stable branch-level queue so manual/scheduled benchmark runs serialize on the
+  # same ref instead of creating a fresh run_id-based concurrency bucket for every run.
+  group: build-wave-b-llm-${{ github.ref }}
   cancel-in-progress: false
 env:
   WAVE_B_DATA_DIR: benchmarks/wave_b_data
