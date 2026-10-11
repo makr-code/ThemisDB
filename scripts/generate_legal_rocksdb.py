@@ -148,12 +148,13 @@ int main(int argc, char* argv[]) {
     options.create_if_missing = true;
     options.compression = rocksdb::kSnappyCompression;
     
-    DB* db = nullptr;
-    Status status = DB::Open(options, db_path, &db);
+    DB* db_raw = nullptr;
+    Status status = DB::Open(options, db_path, &db_raw);
     if (!status.ok()) {
         std::cerr << "Error opening database: " << status.ToString() << std::endl;
         return 1;
     }
+    std::unique_ptr<DB> db(db_raw);
     std::cout << "✓ RocksDB database opened at " << db_path << std::endl;
     std::cout << std::endl;
 
@@ -190,8 +191,6 @@ int main(int argc, char* argv[]) {
     }
 
     // Cleanup and report
-    delete db;
-
     std::cout << std::endl;
     std::cout << "========================================================" << std::endl;
     std::cout << "Import Complete!" << std::endl;
