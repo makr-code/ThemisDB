@@ -487,6 +487,7 @@ jobs:
         echo "Scanning image ${IMAGE_TAG} for HIGH/CRITICAL OS and library vulns"
         mkdir -p "${RUNNER_TEMP}/trivy-cache"
         docker run --rm \
+          -v /var/run/docker.sock:/var/run/docker.sock \
           -v "${RUNNER_TEMP}/trivy-cache:/tmp/trivy-cache" \
           aquasec/trivy:0.64.0 \
           image \
