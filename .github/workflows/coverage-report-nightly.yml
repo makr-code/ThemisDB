@@ -1,5 +1,5 @@
 ---
-name: Nightly Coverage Collection & Baseline Update
+name: "Maintenance: Nightly Coverage Collection & Baseline Update"
 
 on:
   schedule:

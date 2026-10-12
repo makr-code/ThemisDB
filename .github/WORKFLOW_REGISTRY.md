@@ -2,10 +2,10 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-09-27
-> Update Note: Parameterized test/benchmark quality lanes via reusable-cmake-build.yml
+> Last Updated: 2026-10-12
+> Update Note: Added benchmark coverage and nightly coverage workflows to maintain registry sync
 > Status: active
-> Total Workflows: 83 (verified 2026-09-27)
+> Total Workflows: 86 (verified 2026-10-12)
 
 ## Zielbild
 
@@ -14,12 +14,12 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 
 ## Leitprinzipien
 
-- **Keine Schatten-CI:** Alle 83 Workflows sind in diesem Registry dokumentiert.
+- **Keine Schatten-CI:** Alle 86 Workflows sind in diesem Registry dokumentiert.
 - **Klare Verantwortlichkeit:** Jeder Workflow hat definierte Trigger und Zweck.
 - **Konsistente Governance:** Alle Workflows folgen Naming-, Concurrency- und Trigger-Policies.
 - **Drift Prevention:** Registry-Update ist erforderlich bei neuen Workflows (Pre-Commit-Hook in Phase 3).
 
-## Aktiver Workflow-Kern: Alle 83 Workflows
+## Aktiver Workflow-Kern: Alle 86 Workflows
 
 ### 1. BUILD & MAINLINE (13 Workflows)
 
@@ -39,7 +39,7 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | `wave-a-gpu-ci-execution.yml` | Wave A GPU CI Execution (GPU + CPU Fallback matrix) | active |
 | `wave-a-gpu-phase3-baseline-execution.yml` | Wave A GPU Phase 3: Baseline Capture & Measurement | active |
 
-### 2. GATES: PR VALIDATION (21 Workflows)
+### 2. GATES: PR VALIDATION (22 Workflows)
 
 | Workflow | Purpose | Gate Type |
 |----------|---------|-----------|
@@ -61,11 +61,12 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | `gate-pr-rag-phase8.yml` | Gate: PR RAG Phase 8 (Observability SLO) | specialized |
 | `gate-pr-rag-phase9.yml` | Gate: PR RAG Phase 9 (Research Evaluation) | specialized |
 | `gate-pr-rag-phase10.yml` | Gate: PR RAG Phase 10 (Cost Optimizer) | specialized |
+| `gate-pr-benchmark-ctest.yml` | Gate: PR Benchmark CTest Coverage (Benchmark CTest registration coverage gate) | quality |
 | `gate-wave-closure.yml` | Gate: Wave Closure Governance (Wave exit criteria validation) | governance |
 | `gate-distributed-knowledge.yml` | Gate: Module Validation [distributed_knowledge] (Module-specific gate) | module-specific |
 | `gate-workflow-guidelines.yml` | Gate: Workflow Guidelines Compliance (Automated workflow policy validation) | governance |
 
-### 3. RELEASE & PUBLICATION (20 Workflows)
+### 3. RELEASE & PUBLICATION (21 Workflows)
 
 | Workflow | Purpose | Stage |
 |----------|---------|-------|
@@ -89,8 +90,9 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | `edition-hyperscaler-ci.yml` | Edition: Hyperscaler [CI] (Hyperscaler-edition specific CI) | edition-specific |
 | `ga-promotion-signoff.yml` | Governance: GA Promotion Sign-Off (GA promotion approval workflow) | governance |
 | `benchmark-performance-gate.yml` | Benchmark: Performance Gate (Performance regression detection) | quality |
+| `gate-release-benchmark-validation.yml` | Gate: Release Benchmark Coverage Validation (Release benchmark coverage decision gate) | quality-gate |
 
-### 4. MAINTENANCE & GOVERNANCE (19 Workflows)
+### 4. MAINTENANCE & GOVERNANCE (20 Workflows)
 
 | Workflow | Purpose | Category |
 |----------|---------|----------|
@@ -99,6 +101,7 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | `maintenance-build-issues.yml` | Maintenance: Build Error Issues (Automatic build error tracking) | issue-tracking |
 | `maintenance-issues.yml` | Maintenance: Issues [GS3 + Security Alerts] (GS3 security alert handling) | security |
 | `maintenance-docs.yml` | Maintenance: Docs (Documentation health and drift detection) | docs |
+| `coverage-report-nightly.yml` | Maintenance: Nightly Coverage Collection & Baseline Update (Nightly coverage metrics and baseline refresh) | quality |
 | `maintenance-housekeeping.yml` | Maintenance: Housekeeping (Repository cleanup and maintenance) | maintenance |
 | `maintenance-architecture-ci.yml` | Maintenance: Architecture CI (Architecture documentation validation) | docs |
 | `maintenance-workflow-guardrails-observe.yml` | Maintenance: Workflow Guardrails [Observe] (Workflow policy observability) | governance |
@@ -139,12 +142,12 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | Category | Total | Status |
 |----------|-------|--------|
 | **BUILD & MAINLINE** | 13 | ✅ All documented |
-| **GATES: PR VALIDATION** | 21 | ✅ All documented |
-| **RELEASE & PUBLICATION** | 20 | ✅ All documented |
-| **MAINTENANCE & GOVERNANCE** | 19 | ✅ All documented |
+| **GATES: PR VALIDATION** | 22 | ✅ All documented |
+| **RELEASE & PUBLICATION** | 21 | ✅ All documented |
+| **MAINTENANCE & GOVERNANCE** | 20 | ✅ All documented |
 | **SECURITY** | 6 | ✅ All documented |
 | **REUSABLE WORKFLOWS** | 4 | ✅ All documented |
-| **TOTAL** | **83** | ✅ **100% Registry Sync** |
+| **TOTAL** | **86** | ✅ **100% Registry Sync** |
 
 ## Complete Workflow Redesign and Consolidation Plan
 
