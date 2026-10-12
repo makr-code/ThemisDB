@@ -4,6 +4,8 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+import yaml
+
 _HERE = Path(__file__).resolve().parent
 _TOOLS = _HERE.parent
 _CI = _TOOLS / "ci"
@@ -175,3 +177,74 @@ def test_main_returns_zero_for_irrelevant_changes(tmp_path: Path):
 
     rc = guard.main(["--repo-root", str(tmp_path), "--diff-file", str(diff)])
     assert rc == 0
+
+
+def test_merge_readiness_requires_final_runtime_api_gate(tmp_path: Path):
+    workflow = tmp_path / ".github" / "workflows" / "gate-pr-merge-readiness.yml"
+    workflow.parent.mkdir(parents=True, exist_ok=True)
+    workflow.write_text(
+        """
+name: "Gate: PR Merge Readiness"
+on:
+  pull_request:
+    branches: [develop, community]
+    paths:
+      - '.github/workflows/**'
+      - '.github/WORKFLOW_GUIDELINES.md'
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  call-community-failclosed:
+    uses: ./.github/workflows/gate-pr-community-failclosed.yml
+  call-final-runtime-api:
+    if: github.event_name == 'pull_request' && (github.base_ref == 'develop' || github.base_ref == 'community')
+    uses: ./.github/workflows/gate-pr-final-runtime-api.yml
+  merge-readiness:
+    needs:
+      - call-community-failclosed
+      - call-final-runtime-api
+    if: always() && github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Evaluate gate outcomes
+        id: evaluate
+        run: |
+          runtime_result="${{ needs.call-final-runtime-api.result }}"
+          runtime_icon=$( [[ "$runtime_result" == 'success' || "$runtime_result" == 'skipped' ]] && echo '✅' || echo '❌' )
+          echo "runtime_icon=${runtime_icon}" >> "$GITHUB_OUTPUT"
+      - name: Post merge readiness comment
+        uses: ./.github/actions/post-failure-comment
+        with:
+          checklist: |
+            - ${{ steps.evaluate.outputs.runtime_icon }} Final Runtime API (`${{ needs.call-final-runtime-api.result }}`)
+""".strip() + "\n",
+        encoding="utf-8",
+    )
+
+    violations = guard.validate_workflow_file(workflow)
+    assert not violations
+
+    text = workflow.read_text(encoding="utf-8")
+    parsed = yaml.safe_load(text)
+    jobs = parsed["jobs"]
+    assert "call-final-runtime-api" in jobs
+    assert jobs["call-final-runtime-api"]["uses"] == "./.github/workflows/gate-pr-final-runtime-api.yml"
+    assert "call-final-runtime-api" in jobs["merge-readiness"]["needs"]
+    assert "needs.call-final-runtime-api.result" in text
+    assert "Final Runtime API" in text
+
+    repo_workflow = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "gate-pr-merge-readiness.yml"
+    if not repo_workflow.exists():
+        pytest.skip(f"real workflow not available at {repo_workflow}")
+    repo_text = repo_workflow.read_text(encoding="utf-8")
+    repo_parsed = yaml.safe_load(repo_text)
+    needs_list = repo_parsed["jobs"]["merge-readiness"].get("needs", [])
+    if isinstance(needs_list, str):
+        needs_list = [needs_list]
+    assert "call-final-runtime-api" in repo_parsed["jobs"]
+    assert "call-final-runtime-api" in needs_list
+    assert "needs.call-final-runtime-api.result" in repo_text
+    assert "Final Runtime API" in repo_text
