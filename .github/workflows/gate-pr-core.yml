@@ -555,6 +555,20 @@ jobs:
           retention-days: 30
 
   # ────────────────────────────────────────────────────────────────────────────
+  # GATE 4b — Final Runtime API Gate (Phase-1 rollout)
+  # Applies to: PRs targeting develop/community; runs after release-critical
+  # ────────────────────────────────────────────────────────────────────────────
+  final-runtime-api-gate:
+    name: "Validate: Final Runtime API Gate (TinyLlama + docs.db)"
+    needs: release-critical-tests
+    if: >
+      github.event_name == 'pull_request' &&
+      (github.base_ref == 'develop' || github.base_ref == 'community')
+    permissions:
+      contents: read
+    uses: ./.github/workflows/gate-pr-final-runtime-api.yml
+
+  # ────────────────────────────────────────────────────────────────────────────
   # GATE 5 — Reproducible Build Metadata
   # Applies to: PRs and pushes targeting develop; cmake/build-system changes
   # ────────────────────────────────────────────────────────────────────────────
@@ -1165,6 +1179,7 @@ jobs:
       - scoped-checkout-validation
       - private-credential-scan
       - secret-scan
+      - final-runtime-api-gate
     steps:
       - name: Write summary
         run: |
@@ -1186,6 +1201,7 @@ jobs:
             echo "| Scoped Checkout Validation (Wave C B3) | ${{ needs.scoped-checkout-validation.result }} |"
             echo "| Private-Credential Scanning (Wave C B3) | ${{ needs.private-credential-scan.result }} |"
             echo "| Secret Scanning (non-blocking) | ${{ needs.secret-scan.result }} |"
+            echo "| Final Runtime API Gate (TinyLlama + docs.db) | ${{ needs.final-runtime-api-gate.result }} |"
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Fail if mandatory Wave C policy gates failed
@@ -1198,4 +1214,10 @@ jobs:
         if: needs.release-critical-tests.result != '' && needs.release-critical-tests.result == 'failure'
         run: |
           echo "::error::release-critical-tests FAILED — this is a mandatory gate per RELEASE_STRATEGY.md §2.3"
+          exit 1
+
+      - name: Fail if mandatory final-runtime-api gate failed
+        if: needs.final-runtime-api-gate.result != '' && needs.final-runtime-api-gate.result == 'failure'
+        run: |
+          echo "::error::final-runtime-api-gate FAILED — final runtime API gate is mandatory for develop/community rollout phase."
           exit 1
