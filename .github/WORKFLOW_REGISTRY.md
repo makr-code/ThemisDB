@@ -3,9 +3,9 @@
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
 > Last Updated: 2026-10-12
-> Update Note: Added benchmark coverage and nightly coverage workflows to maintain registry sync
+> Update Note: Added final runtime API gate workflow for TinyLlama/docs.db runtime validation
 > Status: active
-> Total Workflows: 86 (verified 2026-10-12)
+> Total Workflows: 87 (verified 2026-10-12)
 
 ## Zielbild
 
@@ -14,12 +14,12 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 
 ## Leitprinzipien
 
-- **Keine Schatten-CI:** Alle 86 Workflows sind in diesem Registry dokumentiert.
+- **Keine Schatten-CI:** Alle 87 Workflows sind in diesem Registry dokumentiert.
 - **Klare Verantwortlichkeit:** Jeder Workflow hat definierte Trigger und Zweck.
 - **Konsistente Governance:** Alle Workflows folgen Naming-, Concurrency- und Trigger-Policies.
 - **Drift Prevention:** Registry-Update ist erforderlich bei neuen Workflows (Pre-Commit-Hook in Phase 3).
 
-## Aktiver Workflow-Kern: Alle 86 Workflows
+## Aktiver Workflow-Kern: Alle 87 Workflows
 
 ### 1. BUILD & MAINLINE (13 Workflows)
 
@@ -39,7 +39,7 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | `wave-a-gpu-ci-execution.yml` | Wave A GPU CI Execution (GPU + CPU Fallback matrix) | active |
 | `wave-a-gpu-phase3-baseline-execution.yml` | Wave A GPU Phase 3: Baseline Capture & Measurement | active |
 
-### 2. GATES: PR VALIDATION (22 Workflows)
+### 2. GATES: PR VALIDATION (23 Workflows)
 
 | Workflow | Purpose | Gate Type |
 |----------|---------|-----------|
@@ -62,6 +62,7 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | `gate-pr-rag-phase9.yml` | Gate: PR RAG Phase 9 (Research Evaluation) | specialized |
 | `gate-pr-rag-phase10.yml` | Gate: PR RAG Phase 10 (Cost Optimizer) | specialized |
 | `gate-pr-benchmark-ctest.yml` | Gate: PR Benchmark CTest Coverage (Benchmark CTest registration coverage gate) | quality |
+| `gate-pr-final-runtime-api.yml` | Gate: PR Final Runtime API (TinyLlama model load + docs.db RAG + runtime API smoke) | runtime |
 | `gate-wave-closure.yml` | Gate: Wave Closure Governance (Wave exit criteria validation) | governance |
 | `gate-distributed-knowledge.yml` | Gate: Module Validation [distributed_knowledge] (Module-specific gate) | module-specific |
 | `gate-workflow-guidelines.yml` | Gate: Workflow Guidelines Compliance (Automated workflow policy validation) | governance |
@@ -142,12 +143,12 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | Category | Total | Status |
 |----------|-------|--------|
 | **BUILD & MAINLINE** | 13 | ✅ All documented |
-| **GATES: PR VALIDATION** | 22 | ✅ All documented |
+| **GATES: PR VALIDATION** | 23 | ✅ All documented |
 | **RELEASE & PUBLICATION** | 21 | ✅ All documented |
 | **MAINTENANCE & GOVERNANCE** | 20 | ✅ All documented |
 | **SECURITY** | 6 | ✅ All documented |
 | **REUSABLE WORKFLOWS** | 4 | ✅ All documented |
-| **TOTAL** | **86** | ✅ **100% Registry Sync** |
+| **TOTAL** | **87** | ✅ **100% Registry Sync** |
 
 ## Complete Workflow Redesign and Consolidation Plan
 
@@ -169,6 +170,7 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 #### Layer 0 — policy and gate
 
 - [gate-pr-core.yml](.github/workflows/gate-pr-core.yml)
+- [gate-pr-final-runtime-api.yml](.github/workflows/gate-pr-final-runtime-api.yml)
 - [gate-pr-merge-readiness.yml](.github/workflows/gate-pr-merge-readiness.yml)
 - [gate-workflow-guidelines.yml](.github/workflows/gate-workflow-guidelines.yml)
 - [compliance-governance-gates.yml](.github/workflows/compliance-governance-gates.yml)
@@ -311,6 +313,7 @@ The repo must enforce the following standard:
 #### Canonical governance and support chain
 
 - [gate-pr-core.yml](.github/workflows/gate-pr-core.yml)
+- [gate-pr-final-runtime-api.yml](.github/workflows/gate-pr-final-runtime-api.yml)
 - [gate-pr-merge-readiness.yml](.github/workflows/gate-pr-merge-readiness.yml)
 - [gate-workflow-guidelines.yml](.github/workflows/gate-workflow-guidelines.yml)
 - [maintenance-ci-health.yml](.github/workflows/maintenance-ci-health.yml)

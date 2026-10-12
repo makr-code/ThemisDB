@@ -842,6 +842,13 @@ bool createLlamaWrapper(
         return false;
     }
 #else
+#if !defined(THEMIS_ENABLE_LLM)
+    spdlog::warn(
+        "createLlamaWrapper: '{}' requested but THEMIS_ENABLE_LLM is OFF; backend stays unavailable",
+        name.empty() ? "llamacpp" : name
+    );
+    return false;
+#else
     // Fail closed: a wrapper without a real model is not a usable runtime backend.
     // Registering an uninitialized LlamaWrapper leaves the default plugin in an
     // UNINITIALIZED state and causes downstream "LlamaWrapper not ready for inference"
@@ -933,6 +940,7 @@ bool createLlamaWrapper(
         spdlog::error("Failed to create llama.cpp plugin: {}", e.what());
         return false;
     }
+#endif
 #endif
 }
 

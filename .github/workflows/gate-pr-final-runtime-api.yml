@@ -1,0 +1,221 @@
+name: "Gate: PR Final Runtime API"
+
+# Rechenaufwand-Score: R=5 (K=6, L=5, N=5) | last-calibrated: 2026-10-12
+# Trigger policy: final blocking runtime gate with TinyLlama/docs.db inference checks.
+
+on:
+  workflow_call: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gate-pr-final-runtime-api-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  THEMIS_ADMIN_ENDPOINT: 'http://localhost:18080'
+  MODEL_DIR: ${{ github.workspace }}/models
+  CMAKE_BUILD_DIR: ${{ github.workspace }}/build-final-runtime-gate
+
+jobs:
+  llm-docsdb-inference-gate:
+    name: "Validate: TinyLlama + docs.db Inference Gate"
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    if: github.event_name != 'pull_request' || github.base_ref == 'develop' || github.base_ref == 'community'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d12442f0e8c76e7b # v5
+        with:
+          fetch-depth: 1
+
+      - name: Install build dependencies
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            build-essential cmake ninja-build pkg-config ccache \
+            librocksdb-dev libgtest-dev libgmock-dev libssl-dev zlib1g-dev libzstd-dev \
+            libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
+            libyaml-cpp-dev libcurl4-openssl-dev libcpp-httplib-dev libboost-system-dev \
+            libboost-dev libboost-filesystem-dev libpugixml-dev libvulkan-dev
+
+      - name: Restore TinyLlama cache
+        id: cache-model
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: ${{ env.MODEL_DIR }}
+          key: tinyllama-gguf-q4km-${{ runner.os }}-${{ hashFiles('scripts/ci-download-tinyllama.sh') }}
+          restore-keys: |
+            tinyllama-gguf-q4km-${{ runner.os }}-
+
+      - name: Download TinyLlama GGUF
+        if: steps.cache-model.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          chmod +x scripts/ci-download-tinyllama.sh
+          bash scripts/ci-download-tinyllama.sh
+
+      - name: Verify TinyLlama model
+        run: |
+          set -euo pipefail
+          test -f "${{ env.MODEL_DIR }}/tinyllama.gguf"
+          size=$(stat -c%s "${{ env.MODEL_DIR }}/tinyllama.gguf" 2>/dev/null || stat -f%z "${{ env.MODEL_DIR }}/tinyllama.gguf")
+          if [ "$size" -lt 100000000 ]; then
+            echo "::error::TinyLlama model appears incomplete (${size} bytes)"
+            exit 1
+          fi
+          echo "TinyLlama model verified (${size} bytes)"
+
+      - name: Build docs.db index
+        env:
+          OUTPUT_DIR: ${{ github.workspace }}/build/test-assets
+          THEMIS_TEST_MODEL_PATH: ${{ env.MODEL_DIR }}/tinyllama.gguf
+        run: |
+          set -euo pipefail
+          chmod +x scripts/ci-build-doku-db.sh
+          bash scripts/ci-build-doku-db.sh
+          test -f "${OUTPUT_DIR}/doku.db.json"
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path("build/test-assets/doku.db.json")
+          data = json.loads(p.read_text(encoding="utf-8"))
+          chunks = int(data.get("chunk_count", 0))
+          if chunks <= 0:
+              raise SystemExit("doku.db.json contains no chunks")
+          print(f"doku.db.json chunk_count={chunks}")
+          PY
+
+      - name: Configure focused LLM gate build
+        run: |
+          set -euo pipefail
+          mkdir -p internal llama.cpp vcpkg/downloads
+          cmake -S . -B "${{ env.CMAKE_BUILD_DIR }}" \
+            -DTHEMIS_BUILD_TESTS=ON \
+            -DTHEMIS_BUILD_BENCHMARKS=OFF \
+            -DTHEMIS_ENABLE_VULKAN=OFF \
+            -DTHEMIS_LLM_INFERENCE_TESTS=ON \
+            -DTHEMIS_TEST_MODEL_DIR="${{ env.MODEL_DIR }}" \
+            -DCMAKE_BUILD_TYPE=Release \
+            -G Ninja
+
+      - name: Build focused TinyLlama/docs.db/RocksDB tests
+        run: |
+          set -euo pipefail
+          cmake --build "${{ env.CMAKE_BUILD_DIR }}" --parallel 8 --target \
+            module_llm_test_llm_tinyllama_inference_focused \
+            module_llm_test_llm_doku_rag_focused \
+            module_llm_test_wiki_index_store_phase_b_focused
+
+      - name: Run TinyLlama inference tests
+        env:
+          THEMIS_TEST_MODEL_PATH: ${{ env.MODEL_DIR }}/tinyllama.gguf
+        run: |
+          set -euo pipefail
+          ctest --test-dir "${{ env.CMAKE_BUILD_DIR }}" \
+            --output-on-failure \
+            --parallel 1 \
+            --timeout 120 \
+            -R "test_llm_tinyllama_inference_LlmInferenceCITests" \
+            --output-log "${{ env.CMAKE_BUILD_DIR }}/ctest-tinyllama.log"
+
+      - name: Run docs.db RAG inference tests
+        env:
+          THEMIS_TEST_MODEL_PATH: ${{ env.MODEL_DIR }}/tinyllama.gguf
+          THEMIS_DOKU_DB_PATH: ${{ github.workspace }}/build/test-assets/doku.db.json
+        run: |
+          set -euo pipefail
+          ctest --test-dir "${{ env.CMAKE_BUILD_DIR }}" \
+            --output-on-failure \
+            --parallel 1 \
+            --timeout 180 \
+            -R "test_llm_doku_rag_LlmInferenceCITests" \
+            --output-log "${{ env.CMAKE_BUILD_DIR }}/ctest-doku-rag.log"
+
+      - name: Run RocksDB write/read/update tests
+        run: |
+          set -euo pipefail
+          ctest --test-dir "${{ env.CMAKE_BUILD_DIR }}" \
+            --output-on-failure \
+            --parallel 1 \
+            --timeout 120 \
+            -R "test_wiki_index_store_phase_b_LlmFocusedTests" \
+            --output-log "${{ env.CMAKE_BUILD_DIR }}/ctest-rocksdb-phaseb.log"
+
+      - name: Upload LLM/docs.db gate artifacts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: final-runtime-llm-gate-${{ github.run_number }}
+          path: |
+            build/test-assets/doku.db.json
+            ${{ env.CMAKE_BUILD_DIR }}/ctest-tinyllama.log
+            ${{ env.CMAKE_BUILD_DIR }}/ctest-doku-rag.log
+            ${{ env.CMAKE_BUILD_DIR }}/ctest-rocksdb-phaseb.log
+          if-no-files-found: ignore
+          retention-days: 14
+
+  final-runtime-api-gate:
+    name: "Validate: Final Runtime API Gate"
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    needs:
+      - llm-docsdb-inference-gate
+    if: github.event_name != 'pull_request' || github.base_ref == 'develop' || github.base_ref == 'community'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d12442f0e8c76e7b # v5
+
+      - name: Start ThemisDB container
+        env:
+          DOCKER_BUILDKIT: '1'
+          COMPOSE_DOCKER_CLI_BUILD: '1'
+        run: |
+          set -euo pipefail
+          test -f "${GITHUB_WORKSPACE}/LICENSE" || { echo "::error::Missing ${GITHUB_WORKSPACE}/LICENSE"; exit 1; }
+          if [ ! -d "${GITHUB_WORKSPACE}/internal" ]; then
+            echo "::warning::${GITHUB_WORKSPACE}/internal missing; creating empty placeholder for public CI context"
+            mkdir -p "${GITHUB_WORKSPACE}/internal"
+          fi
+          docker compose --project-directory "${GITHUB_WORKSPACE}" -f "${GITHUB_WORKSPACE}/docker-compose.yml" build themis
+          docker compose --project-directory "${GITHUB_WORKSPACE}" -f "${GITHUB_WORKSPACE}/docker-compose.yml" up -d --no-build themis
+          ready=0
+          for _ in $(seq 1 30); do
+            if curl -sf "${THEMIS_ADMIN_ENDPOINT}/api/health" | grep -qiE '"ok"|"HEALTHY"'; then
+              echo "ThemisDB ready"
+              ready=1
+              break
+            fi
+            sleep 2
+          done
+          if [ "${ready}" -ne 1 ]; then
+            docker compose --project-directory "${GITHUB_WORKSPACE}" -f "${GITHUB_WORKSPACE}/docker-compose.yml" logs --tail=200 themis | tee /tmp/final-runtime-api-gate-container.log || true
+            echo "::error::ThemisDB did not become ready at ${THEMIS_ADMIN_ENDPOINT}/api/health"
+            exit 1
+          fi
+
+      - name: Run Python runtime API gate
+        run: |
+          set -euo pipefail
+          python3 tools/ci/final_runtime_api_gate.py \
+            --endpoint "${THEMIS_ADMIN_ENDPOINT}" \
+            --timeout 12 \
+            --output /tmp/final-runtime-api-gate.json | tee /tmp/final-runtime-api-gate.txt
+
+      - name: Upload runtime API gate artifacts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: final-runtime-api-gate-${{ github.run_number }}
+          path: |
+            /tmp/final-runtime-api-gate.json
+            /tmp/final-runtime-api-gate.txt
+            /tmp/final-runtime-api-gate-container.log
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Stop ThemisDB container
+        if: always()
+        run: docker compose --project-directory "${GITHUB_WORKSPACE}" -f "${GITHUB_WORKSPACE}/docker-compose.yml" down --volumes

@@ -508,7 +508,7 @@ if(NOT DEFINED THEMIS_ENABLE_GPU)
     set(THEMIS_ENABLE_GPU OFF CACHE BOOL "Enable GPU acceleration for vector search (default OFF)" )
 endif()
 if(NOT DEFINED THEMIS_ENABLE_LLM)
-    set(THEMIS_ENABLE_LLM OFF CACHE BOOL "Enable LLM plugin support with llama.cpp (default OFF)" )
+    set(THEMIS_ENABLE_LLM ON CACHE BOOL "Enable LLM plugin support with llama.cpp (default ON)" )
 endif()
 
 option(THEMIS_ENABLE_TRACING "Enable OpenTelemetry distributed tracing" ON)
