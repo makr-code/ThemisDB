@@ -2,7 +2,7 @@
 
 > **Auto-generated** — do not edit manually.
 > Source: `tools/architecture-generator/generate_architecture.py`
-> Generated: `2026-10-12T02:20:05.342689+00:00`
+> Generated: `2026-10-12T06:10:14.348630+00:00`
 
 ## Statistics
 
@@ -22,8 +22,8 @@
 ## Module Architecture Diagram
 
 ```mermaid
-flowchart TB
-    %% Vertical-first layout and GitHub-friendly styling
+flowchart LR
+    %% Left-to-right flow with vertical module stacking for GitHub compatibility
     subgraph T0["T0: Trusted Core"]
         direction TB
         mod_base["base"]
@@ -371,7 +371,7 @@ JSON analysis artifacts: 9
 
 | Source | SHA-256 prefix |
 |--------|----------------|
-| `ARCHITECTURE.md` | `ae20eb3d06ad033d` |
+| `ARCHITECTURE.md` | `4794f0b074476ae2` |
 | `FUTURE_ENHANCEMENTS.md` | `de552eeef9d1ac51` |
 | `ROADMAP.md` | `cfe020b4fe206ed5` |
 | `ai_context/ARCHITECTURE_CLASSIFICATION.md` | `57a7f2182a1193c8` |
