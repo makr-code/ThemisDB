@@ -56,22 +56,32 @@ project(Themis
 set(CMAKE_INSTALL_DEFAULT_COMPONENT_NAME runtime)
 
 # Windows + Ninja can hit transient file locks when multiple shared libs are
-# linked in parallel (vcpkg applocal + antivirus/indexer contention). Serialize
-# the link step globally so a freshly-written DLL is not reopened while the
-# linker still holds it.
+# linked in parallel (vcpkg applocal + antivirus/indexer contention). Scale the
+# link pool to the host core count but cap it at a conservative upper bound so
+# the link stays responsive without re-opening freshly-written DLLs too aggressively.
 if(WIN32 AND CMAKE_GENERATOR MATCHES "Ninja")
-    get_property(_themis_global_job_pools GLOBAL PROPERTY JOB_POOLS)
-    if(NOT _themis_global_job_pools)
-        set_property(GLOBAL PROPERTY JOB_POOLS themis_windows_ninja_link_pool=1)
-    else()
-        list(FIND _themis_global_job_pools "themis_windows_ninja_link_pool=1" _themis_link_pool_idx)
-        if(_themis_link_pool_idx EQUAL -1)
-            list(APPEND _themis_global_job_pools "themis_windows_ninja_link_pool=1")
-            set_property(GLOBAL PROPERTY JOB_POOLS "${_themis_global_job_pools}")
+    cmake_host_system_information(RESULT _themis_logical_cores QUERY NUMBER_OF_LOGICAL_CORES)
+    set(_themis_link_pool 8)
+    if(_themis_logical_cores GREATER 0)
+        math(EXPR _themis_link_pool "${_themis_logical_cores} * 75 / 100")
+        if(_themis_link_pool LESS 2)
+            set(_themis_link_pool 2)
+        elseif(_themis_link_pool GREATER 8)
+            set(_themis_link_pool 8)
         endif()
     endif()
-    set(CMAKE_JOB_POOL_LINK themis_windows_ninja_link_pool)
-    message(STATUS "project: using Ninja link job pool 'themis_windows_ninja_link_pool=1' to avoid Windows DLL lock contention")
+
+    set(_themis_link_pool_name "themis_windows_ninja_link_pool")
+    set(_themis_link_pool_entry "${_themis_link_pool_name}=${_themis_link_pool}")
+    get_property(_themis_global_job_pools GLOBAL PROPERTY JOB_POOLS)
+    if(_themis_global_job_pools)
+        list(FILTER _themis_global_job_pools EXCLUDE REGEX "^${_themis_link_pool_name}=")
+    endif()
+    list(APPEND _themis_global_job_pools "${_themis_link_pool_entry}")
+    set_property(GLOBAL PROPERTY JOB_POOLS "${_themis_global_job_pools}")
+
+    set(CMAKE_JOB_POOL_LINK ${_themis_link_pool_name})
+    message(STATUS "project: using Ninja link job pool '${_themis_link_pool_name}=${_themis_link_pool}' (logical cores=${_themis_logical_cores}, 75% cap) to balance speed and DLL lock risk")
 endif()
 
 # Canonical build-profile defaults:

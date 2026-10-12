@@ -12,20 +12,30 @@ message(STATUS "Configuring ThemisDB test suite")
 # Windows/Ninja can hit transient file locks while many test executables are
 # linked in parallel (vcpkg applocal + antivirus/indexer contention). Reuse the
 # canonical project-wide link pool so all targets serialize against the same
-# single-slot DLL link gate.
+# DLL link gate while keeping the definition idempotent across reconfigures.
 if(WIN32 AND CMAKE_GENERATOR MATCHES "Ninja")
-    get_property(_themis_job_pools GLOBAL PROPERTY JOB_POOLS)
-    if(NOT _themis_job_pools)
-        set_property(GLOBAL PROPERTY JOB_POOLS themis_windows_ninja_link_pool=1)
-    else()
-        list(FIND _themis_job_pools "themis_windows_ninja_link_pool=1" _themis_link_pool_idx)
-        if(_themis_link_pool_idx EQUAL -1)
-            list(APPEND _themis_job_pools "themis_windows_ninja_link_pool=1")
-            set_property(GLOBAL PROPERTY JOB_POOLS "${_themis_job_pools}")
+    set(_themis_link_pool_name "themis_windows_ninja_link_pool")
+    set(_themis_link_pool_value 8)
+    cmake_host_system_information(RESULT _themis_logical_cores QUERY NUMBER_OF_LOGICAL_CORES)
+    if(_themis_logical_cores GREATER 0)
+        math(EXPR _themis_link_pool_value "${_themis_logical_cores} * 75 / 100")
+        if(_themis_link_pool_value LESS 2)
+            set(_themis_link_pool_value 2)
+        elseif(_themis_link_pool_value GREATER 8)
+            set(_themis_link_pool_value 8)
         endif()
     endif()
-    set(CMAKE_JOB_POOL_LINK themis_windows_ninja_link_pool)
-    message(STATUS "tests: using canonical Ninja link job pool 'themis_windows_ninja_link_pool=1' to avoid file-lock link failures")
+    set(_themis_link_pool_entry "${_themis_link_pool_name}=${_themis_link_pool_value}")
+
+    get_property(_themis_job_pools GLOBAL PROPERTY JOB_POOLS)
+    if(_themis_job_pools)
+        list(FILTER _themis_job_pools EXCLUDE REGEX "^${_themis_link_pool_name}=")
+    endif()
+    list(APPEND _themis_job_pools "${_themis_link_pool_entry}")
+    set_property(GLOBAL PROPERTY JOB_POOLS "${_themis_job_pools}")
+
+    set(CMAKE_JOB_POOL_LINK ${_themis_link_pool_name})
+    message(STATUS "tests: using canonical Ninja link job pool '${_themis_link_pool_entry}' (logical cores=${_themis_logical_cores}, 75% cap) to avoid file-lock link failures")
 endif()
 
 # Per team policy: suppress warnings for test builds only.
