@@ -2769,7 +2769,8 @@ set(THEMIS_CORE_SOURCES
     ../src/search/multi_modal_search.cpp
     ../src/search/llm_query_rewriter.cpp
     ../src/search/llm_reranker.cpp
-    ../src/search/llm_reranker_factory_stub.cpp
+    # Canonical fallback factory is provided by src/query/llm_query_shims.cpp.
+    # Keep a single definition to avoid duplicate `createLlmReranker` exports.
     ../src/search/personalized_ranker.cpp
     ../src/search/multi_field_search.cpp
     ../src/search/cross_lingual_search.cpp

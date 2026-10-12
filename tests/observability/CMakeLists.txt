@@ -1,5 +1,10 @@
 # observability module tests
 
+# These focused tests intentionally register Google Benchmark cases. They must be
+# linked against the benchmark library even when the global benchmark build flag is
+# disabled, otherwise the target fails with unresolved benchmark::internal symbols.
+find_package(benchmark CONFIG REQUIRED)
+
 file(GLOB OBSERVABILITY_MODULE_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
@@ -77,9 +82,16 @@ foreach(_src IN LISTS OBSERVABILITY_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
-    if(TARGET benchmark::benchmark)
+
+    file(READ "${_src}" _src_contents)
+    string(FIND "${_src_contents}" "BENCHMARK(" _has_benchmark_macro)
+    if(_has_benchmark_macro GREATER -1)
+        if(NOT TARGET benchmark::benchmark)
+            message(FATAL_ERROR "${_stem} uses Google Benchmark macros but benchmark::benchmark is not available; enable benchmark support or remove the benchmark registrations.")
+        endif()
         target_link_libraries(${_target} PRIVATE benchmark::benchmark)
     endif()
+
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     if(_stem STREQUAL "test_observability_contract_hardening_focused" OR
