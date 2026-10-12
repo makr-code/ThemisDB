@@ -494,7 +494,7 @@ jobs:
         docker save "${IMAGE_TAG}" -o "${IMAGE_TAR}"
         mkdir -p "${RUNNER_TEMP}/trivy-cache"
         docker run --rm \
-          -v "${IMAGE_TAR}:/tmp/release-gate-image.tar:ro" \
+          -v "${IMAGE_TAR}:${IMAGE_TAR_MOUNT}:ro" \
           -v "${RUNNER_TEMP}/trivy-cache:/tmp/trivy-cache" \
           aquasec/trivy:0.64.0 \
           image \
