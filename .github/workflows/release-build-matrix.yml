@@ -215,7 +215,7 @@ jobs:
                   "runs_on": "windows-latest",
                   "setup_command": "set -euo pipefail\nchoco install -y sccache || echo \"::warning::sccache install via choco failed; continuing without sccache cache.\"\ngit submodule sync -- vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF || true\ngit submodule update --init --depth 1 vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF\ntest -f vcpkg/scripts/buildsystems/vcpkg.cmake || {\n  echo \"::error::vcpkg submodule/toolchain missing before bootstrap\"\n  exit 1\n}\n./vcpkg/bootstrap-vcpkg.bat -disableMetrics",
                   "configure_command": "set -euo pipefail\nexport CMAKE_C_COMPILER_LAUNCHER=sccache\nexport CMAKE_CXX_COMPILER_LAUNCHER=sccache\ncmake --preset windows-release ${CMAKE_FLAGS} 2>&1 | tee configure-windows-release.log",
-                  "build_command": "set -euo pipefail\nexport CMAKE_C_COMPILER_LAUNCHER=sccache\nexport CMAKE_CXX_COMPILER_LAUNCHER=sccache\ncmake --build --preset windows-release --parallel 16 2>&1 | tee build-windows-release.log",
+                  "build_command": "set -euo pipefail\nexport CMAKE_C_COMPILER_LAUNCHER=sccache\nexport CMAKE_CXX_COMPILER_LAUNCHER=sccache\ncmake --build --preset windows-release --parallel 8 2>&1 | tee build-windows-release.log",
                   "validation_command": "set -euo pipefail\nctest --preset windows-release --output-on-failure -j 1 --timeout 60 2>&1 | tee test-windows-release.log\n\ncmake --install build-msvc-windows-release --prefix build-msvc-windows-release/install 2>&1 | tee install-windows-release.log\n\nBUILD_DIR=\"${GITHUB_WORKSPACE}/build-msvc-windows-release\"\nPACKAGES_DIR=\"${GITHUB_WORKSPACE}/packages\"\nrm -rf \"${PACKAGES_DIR}\"\nmkdir -p \"${PACKAGES_DIR}\"\n\nfor GEN in ${PACKAGE_GENERATORS}; do\n  if ! command -v candle &>/dev/null 2>&1 && [ \"${GEN}\" = \"WIX\" ]; then\n    echo \"::notice::WiX (candle) not found - MSI generator skipped.\"\n    continue\n  fi\n  echo \"--- Running CPack generator: ${GEN} ---\"\n  cpack --config \"${BUILD_DIR}/CPackConfig.cmake\" \\\n    -B \"${PACKAGES_DIR}\" \\\n    -G \"${GEN}\" 2>&1 | tee \"${GITHUB_WORKSPACE}/cpack-${GEN}-windows-release.log\" || \\\n    echo \"::warning::CPack generator ${GEN} failed - continuing.\"\ndone\n\nif ! find \"${PACKAGES_DIR}\" -maxdepth 1 \( -name '*.zip' -o -name '*.msi' -o -name '*.exe' \) -print -quit | grep -q .; then\n  echo \"::error::No Windows package artifacts were produced in ${PACKAGES_DIR}\"\n  exit 1\nelse\n  echo \"Packages produced:\"\nls -lh \"${PACKAGES_DIR}\" || true\nfi",
                   "artifact_name": f"build-windows-amd64-release-{run_number}",
                   "artifact_paths": "build-msvc-windows-release/*.exe\nbuild-msvc-windows-release/*.dll\nconfigure-windows-release.log\nbuild-windows-release.log\ntest-windows-release.log\ninstall-windows-release.log\ncpack-*windows-release.log",
@@ -268,7 +268,7 @@ jobs:
 
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
-      enable_sccache_gha: true
+      enable_sccache_gha: false
       runs_on: ${{ matrix.runs_on }}
       shell: bash
       fetch_depth: '0'

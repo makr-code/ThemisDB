@@ -5150,9 +5150,9 @@ endif()
 
     themis_add_standard_benchmark(bench_ai_plugin_generator    ai/bench_ai_plugin_generator.cpp)
 themis_add_standard_benchmark(bench_ann_cpu_gpu_dispatch   ann/bench_ann_cpu_gpu_dispatch.cpp)
-themis_add_standard_benchmark(bench_arm_memory             bench_arm_memory.cpp)
-themis_add_standard_benchmark(bench_arm_simd               bench_arm_simd.cpp)
-themis_add_standard_benchmark(bench_async_io_multiscan     bench_async_io_multiscan.cpp)
+themis_add_standard_benchmark(bench_arm_memory             base/bench_arm_memory.cpp)
+themis_add_standard_benchmark(bench_arm_simd               base/bench_arm_simd.cpp)
+themis_add_standard_benchmark(bench_async_io_multiscan     base/bench_async_io_multiscan.cpp)
 themis_add_standard_benchmark(bench_batch_insert           storage/bench_batch_insert.cpp)
 themis_add_standard_benchmark(bench_blob_zstd              storage/bench_blob_zstd.cpp)
 themis_add_standard_benchmark(bench_changefeed_throughput  cdc/bench_changefeed_throughput.cpp)
@@ -5237,7 +5237,7 @@ themis_add_standard_benchmark(bench_lora_inline            llm/bench_lora_inline
 themis_add_standard_benchmark(bench_lora_training          llm/bench_lora_training.cpp)
 themis_add_standard_benchmark(bench_multitask_lora_training llm/bench_multitask_lora_training.cpp)
 themis_add_standard_benchmark(bench_mmdb                   mmdb/bench_mmdb.cpp)
-themis_add_standard_benchmark(bench_multithreading_comprehensive bench_multithreading_comprehensive.cpp)
+themis_add_standard_benchmark(bench_multithreading_comprehensive base/bench_multithreading_comprehensive.cpp)
 themis_add_standard_benchmark(bench_mvcc                   storage/bench_mvcc.cpp)
 themis_add_standard_benchmark(bench_pagerank               graph/bench_pagerank.cpp)
 themis_add_standard_benchmark(bench_phase1_flash_attention llm/bench_phase1_flash_attention.cpp)
@@ -5437,4 +5437,3546 @@ endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm_streaming/CMakeLists.txt")
     add_subdirectory(llm_streaming)
+endif()
+
+# ===== UNREGISTERED BENCHMARK SOURCES — BATCH REGISTRATION =====
+# Executed: 2026-10-11 Phase 2, Task 2
+# Count: 58 sources (4 base/ sources fixed separately in Task 1)
+
+
+# Module: acceleration
+themis_add_standard_benchmark(bench_acceleration_dedicated_gates            acceleration/bench_acceleration_dedicated_gates.cpp)
+
+# Module: analytics
+themis_add_standard_benchmark(bench_analytics_critical_paths_focused        analytics/bench_analytics_critical_paths_focused.cpp)
+
+# Module: chimera
+themis_add_standard_benchmark(bench_chimera_adapter                         chimera/bench_chimera_adapter.cpp)
+themis_add_standard_benchmark(bench_chimera_dedicated_gates                 chimera/bench_chimera_dedicated_gates.cpp)
+
+# Module: config
+themis_add_standard_benchmark(bench_config_release_gates                    config/bench_config_release_gates.cpp)
+
+# Module: content
+themis_add_standard_benchmark(bench_text_extraction                         content/bench_text_extraction.cpp)
+
+# Module: distributed_tensor
+themis_add_standard_benchmark(bench_distributed_tensor_dedicated_gates      distributed_tensor/bench_distributed_tensor_dedicated_gates.cpp)
+
+# Module: document
+themis_add_standard_benchmark(bench_document_diff_merge                     document/bench_document_diff_merge.cpp)
+themis_add_standard_benchmark(bench_document_round_trip                     document/bench_document_round_trip.cpp)
+themis_add_standard_benchmark(bench_document_serialization_gates            document/bench_document_serialization_gates.cpp)
+themis_add_standard_benchmark(bench_document_store                          document/bench_document_store.cpp)
+
+# Module: evaluation
+themis_add_standard_benchmark(bench_evaluation_dedicated_gates              evaluation/bench_evaluation_dedicated_gates.cpp)
+
+# Module: geo
+themis_add_standard_benchmark(bench_geo_cuda_kernel_gating                  geo/bench_geo_cuda_kernel_gating.cpp)
+themis_add_standard_benchmark(bench_geo_release_gates                       geo/bench_geo_release_gates.cpp)
+
+# Module: governance
+themis_add_standard_benchmark(bench_audit_export_high_volume                governance/bench_audit_export_high_volume.cpp)
+
+# Module: gpu
+themis_add_standard_benchmark(bench_gpu_cpu_breakeven_category_a            gpu/bench_gpu_cpu_breakeven_category_a.cpp)
+themis_add_standard_benchmark(bench_gpu_cpu_breakeven_category_b            gpu/bench_gpu_cpu_breakeven_category_b.cpp)
+themis_add_standard_benchmark(bench_gpu_dedicated_gates                     gpu/bench_gpu_dedicated_gates.cpp)
+
+# Module: graph
+themis_add_standard_benchmark(bench_graph_dedicated_gates                   graph/bench_graph_dedicated_gates.cpp)
+themis_add_standard_benchmark(bench_graph_release_gates                     graph/bench_graph_release_gates.cpp)
+
+# Module: llm_streaming
+themis_add_standard_benchmark(bench_llm_streaming_dedicated_gates           llm_streaming/bench_llm_streaming_dedicated_gates.cpp)
+
+# Module: network
+themis_add_standard_benchmark(bench_network_protocol_path                   network/bench_network_protocol_path.cpp)
+themis_add_standard_benchmark(bench_network_release_gates                   network/bench_network_release_gates.cpp)
+themis_add_standard_benchmark(bench_network_routing_gates                   network/bench_network_routing_gates.cpp)
+
+# Module: prompt_engineering
+themis_add_standard_benchmark(bench_rewrite_engine                          prompt_engineering/bench_rewrite_engine.cpp)
+
+# Module: replication
+themis_add_standard_benchmark(bench_geo_placement_wal_shipping              replication/bench_geo_placement_wal_shipping.cpp)
+themis_add_standard_benchmark(bench_replication_dedicated_gates             replication/bench_replication_dedicated_gates.cpp)
+themis_add_standard_benchmark(bench_replication_multi_dc_multi_writer       replication/bench_replication_multi_dc_multi_writer.cpp)
+themis_add_standard_benchmark(bench_replication_release_gates               replication/bench_replication_release_gates.cpp)
+
+# Module: scheduler
+themis_add_standard_benchmark(bench_scheduler_dedicated_gates               scheduler/bench_scheduler_dedicated_gates.cpp)
+themis_add_standard_benchmark(bench_scheduler_release_gates                 scheduler/bench_scheduler_release_gates.cpp)
+
+# Module: security
+themis_add_standard_benchmark(bench_audit_export_gates                      security/bench_audit_export_gates.cpp)
+themis_add_standard_benchmark(bench_sbom_verification_gates                 security/bench_sbom_verification_gates.cpp)
+themis_add_standard_benchmark(bench_security_phase2_crypto_gates            security/bench_security_phase2_crypto_gates.cpp)
+themis_add_standard_benchmark(bench_security_phase3_policy_gates            security/bench_security_phase3_policy_gates.cpp)
+themis_add_standard_benchmark(bench_security_release_gates                  security/bench_security_release_gates.cpp)
+
+# Module: sharding
+themis_add_standard_benchmark(bench_sharding_dedicated_gates                sharding/bench_sharding_dedicated_gates.cpp)
+
+# Module: storage
+themis_add_standard_benchmark(bench_storage_dedicated_gates                 storage/bench_storage_dedicated_gates.cpp)
+themis_add_standard_benchmark(bench_storage_release_gates                   storage/bench_storage_release_gates.cpp)
+
+# Module: temporal
+themis_add_standard_benchmark(bench_temporal_dedicated_gates                temporal/bench_temporal_dedicated_gates.cpp)
+themis_add_standard_benchmark(bench_temporal_release_gates                  temporal/bench_temporal_release_gates.cpp)
+
+# Module: tensor
+themis_add_standard_benchmark(bench_tensor_dedicated_gates                  tensor/bench_tensor_dedicated_gates.cpp)
+themis_add_standard_benchmark(bench_tensor_release_gates                    tensor/bench_tensor_release_gates.cpp)
+
+# Module: timeseries
+themis_add_standard_benchmark(bench_timeseries_dedicated_gates              timeseries/bench_timeseries_dedicated_gates.cpp)
+themis_add_standard_benchmark(bench_timeseries_release_gates                timeseries/bench_timeseries_release_gates.cpp)
+
+# Module: training
+themis_add_standard_benchmark(bench_training_dedicated_gates                training/bench_training_dedicated_gates.cpp)
+themis_add_standard_benchmark(bench_training_lifecycle_gates                training/bench_training_lifecycle_gates.cpp)
+
+# Module: updates
+themis_add_standard_benchmark(bench_updates_cluster_stress_q4               updates/bench_updates_cluster_stress_q4.cpp)
+
+# Module: utils
+themis_add_standard_benchmark(bench_utils_benchmark_runner                  utils/benchmark_runner.cpp)
+
+# Module: voice
+themis_add_standard_benchmark(bench_voice_dedicated_gates                   voice/bench_voice_dedicated_gates.cpp)
+
+# Module: wave8
+themis_add_standard_benchmark(bench_w8a_incident_regression_shielding       wave8/bench_w8a_incident_regression_shielding.cpp)
+themis_add_standard_benchmark(bench_w8b_threshold_hardening_drift_detection wave8/bench_w8b_threshold_hardening_drift_detection.cpp)
+themis_add_standard_benchmark(bench_w8c_deterministic_ci_harness            wave8/bench_w8c_deterministic_ci_harness.cpp)
+themis_add_standard_benchmark(bench_w8d_operability_runbooks_ownership      wave8/bench_w8d_operability_runbooks_ownership.cpp)
+
+# Module: wave9
+themis_add_standard_benchmark(bench_w9a_security_overhead_audit             wave9/bench_w9a_security_overhead_audit.cpp)
+themis_add_standard_benchmark(bench_w9b_sla_measurement_compliance          wave9/bench_w9b_sla_measurement_compliance.cpp)
+themis_add_standard_benchmark(bench_w9c_chaos_fault_recovery                wave9/bench_w9c_chaos_fault_recovery.cpp)
+themis_add_standard_benchmark(bench_w9d_multi_tenant_isolation              wave9/bench_w9d_multi_tenant_isolation.cpp)
+
+# ===== CTest REGISTRATION BATCH — Phase 2 Task 3 =====
+# Generated: 2026-10-11
+# Targets: 385
+# Strategy: Module heuristic from target name + release_critical markers
+# Integration: Add to benchmarks/CMakeLists.txt before final endfunction()
+
+if(THEMIS_BUILD_BENCHMARKS)
+
+  # Module: acceleration (3)
+  if(TARGET bench_acceleration_cuda_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_acceleration_cuda_gates
+      TARGET bench_acceleration_cuda_gates
+      MODULE "acceleration"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_acceleration_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_acceleration_dedicated_gates
+      TARGET bench_acceleration_dedicated_gates
+      MODULE "acceleration"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_acceleration_dispatch)
+    themis_register_benchmark_ctest(
+      NAME   bench_acceleration_dispatch
+      TARGET bench_acceleration_dispatch
+      MODULE "acceleration"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  # Module: access_coordinator (1)
+  if(TARGET bench_access_coordinator_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_access_coordinator_gates
+      TARGET bench_access_coordinator_gates
+      MODULE "access_coordinator"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: active_vram (1)
+  if(TARGET bench_active_vram_allocator)
+    themis_register_benchmark_ctest(
+      NAME   bench_active_vram_allocator
+      TARGET bench_active_vram_allocator
+      MODULE "active_vram"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: advanced_patterns (1)
+  if(TARGET bench_advanced_patterns)
+    themis_register_benchmark_ctest(
+      NAME   bench_advanced_patterns
+      TARGET bench_advanced_patterns
+      MODULE "advanced_patterns"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: advanced_scenarios (1)
+  if(TARGET bench_advanced_scenarios)
+    themis_register_benchmark_ctest(
+      NAME   bench_advanced_scenarios
+      TARGET bench_advanced_scenarios
+      MODULE "advanced_scenarios"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: ai_plugin (1)
+  if(TARGET bench_ai_plugin_generator)
+    themis_register_benchmark_ctest(
+      NAME   bench_ai_plugin_generator
+      TARGET bench_ai_plugin_generator
+      MODULE "ai_plugin"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: analytics_critical (1)
+  if(TARGET bench_analytics_critical_paths_focused)
+    themis_register_benchmark_ctest(
+      NAME   bench_analytics_critical_paths_focused
+      TARGET bench_analytics_critical_paths_focused
+      MODULE "analytics_critical"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: analytics_dedicated (1)
+  if(TARGET bench_analytics_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_analytics_dedicated_gates
+      TARGET bench_analytics_dedicated_gates
+      MODULE "analytics_dedicated"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: analytics_gap (1)
+  if(TARGET bench_analytics_gap_closure)
+    themis_register_benchmark_ctest(
+      NAME   bench_analytics_gap_closure
+      TARGET bench_analytics_gap_closure
+      MODULE "analytics_gap"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: analytics_release (1)
+  if(TARGET bench_analytics_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_analytics_release_gates
+      TARGET bench_analytics_release_gates
+      MODULE "analytics_release"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: ann_distance (1)
+  if(TARGET bench_ann_distance_cpu_vs_flat)
+    themis_register_benchmark_ctest(
+      NAME   bench_ann_distance_cpu_vs_flat
+      TARGET bench_ann_distance_cpu_vs_flat
+      MODULE "ann_distance"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: api_endpoints (1)
+  if(TARGET bench_api_endpoints)
+    themis_register_benchmark_ctest(
+      NAME   bench_api_endpoints
+      TARGET bench_api_endpoints
+      MODULE "api_endpoints"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: api_release (1)
+  if(TARGET bench_api_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_api_release_gates
+      TARGET bench_api_release_gates
+      MODULE "api_release"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: api_transport (1)
+  if(TARGET bench_api_transport)
+    themis_register_benchmark_ctest(
+      NAME   bench_api_transport
+      TARGET bench_api_transport
+      MODULE "api_transport"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: approximate_radius (1)
+  if(TARGET bench_approximate_radius_search)
+    themis_register_benchmark_ctest(
+      NAME   bench_approximate_radius_search
+      TARGET bench_approximate_radius_search
+      MODULE "approximate_radius"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: aql_assistance (1)
+  if(TARGET bench_aql_assistance_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_aql_assistance_gates
+      TARGET bench_aql_assistance_gates
+      MODULE "aql_assistance"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: aql_consistency (1)
+  if(TARGET bench_aql_consistency_performance_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_aql_consistency_performance_gates
+      TARGET bench_aql_consistency_performance_gates
+      MODULE "aql_consistency"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: aql_functions (1)
+  if(TARGET bench_aql_functions)
+    themis_register_benchmark_ctest(
+      NAME   bench_aql_functions
+      TARGET bench_aql_functions
+      MODULE "aql_functions"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: aql_geo (1)
+  if(TARGET bench_aql_geo_filter)
+    themis_register_benchmark_ctest(
+      NAME   bench_aql_geo_filter
+      TARGET bench_aql_geo_filter
+      MODULE "aql_geo"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: aql_helper (1)
+  if(TARGET bench_aql_helper_paths)
+    themis_register_benchmark_ctest(
+      NAME   bench_aql_helper_paths
+      TARGET bench_aql_helper_paths
+      MODULE "aql_helper"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: aql_mutations (1)
+  if(TARGET bench_aql_mutations)
+    themis_register_benchmark_ctest(
+      NAME   bench_aql_mutations
+      TARGET bench_aql_mutations
+      MODULE "aql_mutations"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: aql_translation (1)
+  if(TARGET bench_aql_translation)
+    themis_register_benchmark_ctest(
+      NAME   bench_aql_translation
+      TARGET bench_aql_translation
+      MODULE "aql_translation"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: arm_memory (1)
+  if(TARGET bench_arm_memory)
+    themis_register_benchmark_ctest(
+      NAME   bench_arm_memory
+      TARGET bench_arm_memory
+      MODULE "arm_memory"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: arm_simd (1)
+  if(TARGET bench_arm_simd)
+    themis_register_benchmark_ctest(
+      NAME   bench_arm_simd
+      TARGET bench_arm_simd
+      MODULE "arm_simd"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: async_io (1)
+  if(TARGET bench_async_io_multiscan)
+    themis_register_benchmark_ctest(
+      NAME   bench_async_io_multiscan
+      TARGET bench_async_io_multiscan
+      MODULE "async_io"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: audit_export (2)
+  if(TARGET bench_audit_export_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_audit_export_gates
+      TARGET bench_audit_export_gates
+      MODULE "audit_export"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_audit_export_high_volume)
+    themis_register_benchmark_ctest(
+      NAME   bench_audit_export_high_volume
+      TARGET bench_audit_export_high_volume
+      MODULE "audit_export"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: auth_hotpaths (1)
+  if(TARGET bench_auth_hotpaths)
+    themis_register_benchmark_ctest(
+      NAME   bench_auth_hotpaths
+      TARGET bench_auth_hotpaths
+      MODULE "auth_hotpaths"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: auth_token (1)
+  if(TARGET bench_auth_token_validation)
+    themis_register_benchmark_ctest(
+      NAME   bench_auth_token_validation
+      TARGET bench_auth_token_validation
+      MODULE "auth_token"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: auto_buffers (1)
+  if(TARGET bench_auto_buffers)
+    themis_register_benchmark_ctest(
+      NAME   bench_auto_buffers
+      TARGET bench_auto_buffers
+      MODULE "auto_buffers"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: backend_comparison (1)
+  if(TARGET bench_backend_comparison)
+    themis_register_benchmark_ctest(
+      NAME   bench_backend_comparison
+      TARGET bench_backend_comparison
+      MODULE "backend_comparison"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: base (29)
+  if(TARGET bench_analytics_distributed_coordinator)
+    themis_register_benchmark_ctest(
+      NAME   bench_analytics_distributed_coordinator
+      TARGET bench_analytics_distributed_coordinator
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_analytics_operability_paths)
+    themis_register_benchmark_ctest(
+      NAME   bench_analytics_operability_paths
+      TARGET bench_analytics_operability_paths
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_changefeed_throughput)
+    themis_register_benchmark_ctest(
+      NAME   bench_changefeed_throughput
+      TARGET bench_changefeed_throughput
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_chaos_microbenchmarks)
+    themis_register_benchmark_ctest(
+      NAME   bench_chaos_microbenchmarks
+      TARGET bench_chaos_microbenchmarks
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_comprehensive)
+    themis_register_benchmark_ctest(
+      NAME   bench_comprehensive
+      TARGET bench_comprehensive
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_compression)
+    themis_register_benchmark_ctest(
+      NAME   bench_compression
+      TARGET bench_compression
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_crud)
+    themis_register_benchmark_ctest(
+      NAME   bench_crud
+      TARGET bench_crud
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_distributed_coordinator)
+    themis_register_benchmark_ctest(
+      NAME   bench_distributed_coordinator
+      TARGET bench_distributed_coordinator
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_distributed_knowledge)
+    themis_register_benchmark_ctest(
+      NAME   bench_distributed_knowledge
+      TARGET bench_distributed_knowledge
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_distributed_knowledge_or)
+    themis_register_benchmark_ctest(
+      NAME   bench_distributed_knowledge_or
+      TARGET bench_distributed_knowledge_or
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_document_serialization_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_document_serialization_gates
+      TARGET bench_document_serialization_gates
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_encryption)
+    themis_register_benchmark_ctest(
+      NAME   bench_encryption
+      TARGET bench_encryption
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_exporters)
+    themis_register_benchmark_ctest(
+      NAME   bench_exporters
+      TARGET bench_exporters
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_latency_comprehensive)
+    themis_register_benchmark_ctest(
+      NAME   bench_latency_comprehensive
+      TARGET bench_latency_comprehensive
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_maintenance_distributed_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_maintenance_distributed_gates
+      TARGET bench_maintenance_distributed_gates
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_mmdb)
+    themis_register_benchmark_ctest(
+      NAME   bench_mmdb
+      TARGET bench_mmdb
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_multithreading_comprehensive)
+    themis_register_benchmark_ctest(
+      NAME   bench_multithreading_comprehensive
+      TARGET bench_multithreading_comprehensive
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_mvcc)
+    themis_register_benchmark_ctest(
+      NAME   bench_mvcc
+      TARGET bench_mvcc
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_observability_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_observability_release_gates
+      TARGET bench_observability_release_gates
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_pagerank)
+    themis_register_benchmark_ctest(
+      NAME   bench_pagerank
+      TARGET bench_pagerank
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_postgres_transactions)
+    themis_register_benchmark_ctest(
+      NAME   bench_postgres_transactions
+      TARGET bench_postgres_transactions
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_residual_quantization)
+    themis_register_benchmark_ctest(
+      NAME   bench_residual_quantization
+      TARGET bench_residual_quantization
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_sanity)
+    themis_register_benchmark_ctest(
+      NAME   bench_sanity
+      TARGET bench_sanity
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_scalability_comprehensive)
+    themis_register_benchmark_ctest(
+      NAME   bench_scalability_comprehensive
+      TARGET bench_scalability_comprehensive
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_tpcc)
+    themis_register_benchmark_ctest(
+      NAME   bench_tpcc
+      TARGET bench_tpcc
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_tpch)
+    themis_register_benchmark_ctest(
+      NAME   bench_tpch
+      TARGET bench_tpch
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_whisper_transcription)
+    themis_register_benchmark_ctest(
+      NAME   bench_whisper_transcription
+      TARGET bench_whisper_transcription
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_ycsb)
+    themis_register_benchmark_ctest(
+      NAME   bench_ycsb
+      TARGET bench_ycsb
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET benchmark_distributed_hybrid_search)
+    themis_register_benchmark_ctest(
+      NAME   benchmark_distributed_hybrid_search
+      TARGET benchmark_distributed_hybrid_search
+      MODULE "base"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: base_hot (1)
+  if(TARGET bench_base_hot_paths)
+    themis_register_benchmark_ctest(
+      NAME   bench_base_hot_paths
+      TARGET bench_base_hot_paths
+      MODULE "base_hot"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: base_wasm (1)
+  if(TARGET bench_base_wasm_sandbox)
+    themis_register_benchmark_ctest(
+      NAME   bench_base_wasm_sandbox
+      TARGET bench_base_wasm_sandbox
+      MODULE "base_wasm"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: batch_insert (1)
+  if(TARGET bench_batch_insert)
+    themis_register_benchmark_ctest(
+      NAME   bench_batch_insert
+      TARGET bench_batch_insert
+      MODULE "batch_insert"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: benchmark_huge (1)
+  if(TARGET benchmark_huge_pages)
+    themis_register_benchmark_ctest(
+      NAME   benchmark_huge_pages
+      TARGET benchmark_huge_pages
+      MODULE "benchmark_huge"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: benchmark_hybrid (1)
+  if(TARGET benchmark_hybrid_search)
+    themis_register_benchmark_ctest(
+      NAME   benchmark_hybrid_search
+      TARGET benchmark_hybrid_search
+      MODULE "benchmark_hybrid"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: benchmark_image (1)
+  if(TARGET benchmark_image_analysis)
+    themis_register_benchmark_ctest(
+      NAME   benchmark_image_analysis
+      TARGET benchmark_image_analysis
+      MODULE "benchmark_image"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: benchmark_lirs (1)
+  if(TARGET benchmark_lirs_cache)
+    themis_register_benchmark_ctest(
+      NAME   benchmark_lirs_cache
+      TARGET benchmark_lirs_cache
+      MODULE "benchmark_lirs"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: benchmark_mimalloc (1)
+  if(TARGET benchmark_mimalloc)
+    themis_register_benchmark_ctest(
+      NAME   benchmark_mimalloc
+      TARGET benchmark_mimalloc
+      MODULE "benchmark_mimalloc"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: benchmark_rcu (1)
+  if(TARGET benchmark_rcu_index)
+    themis_register_benchmark_ctest(
+      NAME   benchmark_rcu_index
+      TARGET benchmark_rcu_index
+      MODULE "benchmark_rcu"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: benchmark_safe (1)
+  if(TARGET benchmark_safe_fail)
+    themis_register_benchmark_ctest(
+      NAME   benchmark_safe_fail
+      TARGET benchmark_safe_fail
+      MODULE "benchmark_safe"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: binary_quantization (1)
+  if(TARGET bench_binary_quantization)
+    themis_register_benchmark_ctest(
+      NAME   bench_binary_quantization
+      TARGET bench_binary_quantization
+      MODULE "binary_quantization"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: blob_zstd (1)
+  if(TARGET bench_blob_zstd)
+    themis_register_benchmark_ctest(
+      NAME   bench_blob_zstd
+      TARGET bench_blob_zstd
+      MODULE "blob_zstd"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: branch_manager (1)
+  if(TARGET bench_branch_manager)
+    themis_register_benchmark_ctest(
+      NAME   bench_branch_manager
+      TARGET bench_branch_manager
+      MODULE "branch_manager"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: cache_eviction (1)
+  if(TARGET bench_cache_eviction_coordinator)
+    themis_register_benchmark_ctest(
+      NAME   bench_cache_eviction_coordinator
+      TARGET bench_cache_eviction_coordinator
+      MODULE "cache_eviction"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: cdc (2)
+  if(TARGET bench_cdc_delivery_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_cdc_delivery_gates
+      TARGET bench_cdc_delivery_gates
+      MODULE "cdc"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_cdc_pipeline)
+    themis_register_benchmark_ctest(
+      NAME   bench_cdc_pipeline
+      TARGET bench_cdc_pipeline
+      MODULE "cdc"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: chaos_release (1)
+  if(TARGET bench_chaos_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_chaos_release_gates
+      TARGET bench_chaos_release_gates
+      MODULE "chaos_release"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: chaos_stress (1)
+  if(TARGET bench_chaos_stress)
+    themis_register_benchmark_ctest(
+      NAME   bench_chaos_stress
+      TARGET bench_chaos_stress
+      MODULE "chaos_stress"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: chimera_adapter (1)
+  if(TARGET bench_chimera_adapter)
+    themis_register_benchmark_ctest(
+      NAME   bench_chimera_adapter
+      TARGET bench_chimera_adapter
+      MODULE "chimera_adapter"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: chimera_dedicated (1)
+  if(TARGET bench_chimera_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_chimera_dedicated_gates
+      TARGET bench_chimera_dedicated_gates
+      MODULE "chimera_dedicated"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: config_migration (1)
+  if(TARGET bench_config_migration_scanner)
+    themis_register_benchmark_ctest(
+      NAME   bench_config_migration_scanner
+      TARGET bench_config_migration_scanner
+      MODULE "config_migration"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: config_path (1)
+  if(TARGET bench_config_path_resolver)
+    themis_register_benchmark_ctest(
+      NAME   bench_config_path_resolver
+      TARGET bench_config_path_resolver
+      MODULE "config_path"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: config_release (1)
+  if(TARGET bench_config_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_config_release_gates
+      TARGET bench_config_release_gates
+      MODULE "config_release"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: content_processor (1)
+  if(TARGET bench_content_processor_paths)
+    themis_register_benchmark_ctest(
+      NAME   bench_content_processor_paths
+      TARGET bench_content_processor_paths
+      MODULE "content_processor"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: content_release (1)
+  if(TARGET bench_content_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_content_release_gates
+      TARGET bench_content_release_gates
+      MODULE "content_release"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: content_versioning (1)
+  if(TARGET bench_content_versioning)
+    themis_register_benchmark_ctest(
+      NAME   bench_content_versioning
+      TARGET bench_content_versioning
+      MODULE "content_versioning"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: core_performance (1)
+  if(TARGET bench_core_performance)
+    themis_register_benchmark_ctest(
+      NAME   bench_core_performance
+      TARGET bench_core_performance
+      MODULE "core_performance"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: cross_functional (1)
+  if(TARGET bench_cross_functional_end_to_end)
+    themis_register_benchmark_ctest(
+      NAME   bench_cross_functional_end_to_end
+      TARGET bench_cross_functional_end_to_end
+      MODULE "cross_functional"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: csv_export (1)
+  if(TARGET bench_csv_export)
+    themis_register_benchmark_ctest(
+      NAME   bench_csv_export
+      TARGET bench_csv_export
+      MODULE "csv_export"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: cuda_vs (1)
+  if(TARGET bench_cuda_vs_cpu)
+    themis_register_benchmark_ctest(
+      NAME   bench_cuda_vs_cpu
+      TARGET bench_cuda_vs_cpu
+      MODULE "cuda_vs"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: cycle_metrics (1)
+  if(TARGET bench_cycle_metrics)
+    themis_register_benchmark_ctest(
+      NAME   bench_cycle_metrics
+      TARGET bench_cycle_metrics
+      MODULE "cycle_metrics"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: data_transfer (1)
+  if(TARGET bench_data_transfer)
+    themis_register_benchmark_ctest(
+      NAME   bench_data_transfer
+      TARGET bench_data_transfer
+      MODULE "data_transfer"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: delegate_evaluator (1)
+  if(TARGET bench_delegate_evaluator)
+    themis_register_benchmark_ctest(
+      NAME   bench_delegate_evaluator
+      TARGET bench_delegate_evaluator
+      MODULE "delegate_evaluator"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: di_logging (1)
+  if(TARGET bench_di_logging)
+    themis_register_benchmark_ctest(
+      NAME   bench_di_logging
+      TARGET bench_di_logging
+      MODULE "di_logging"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: diff_engine (1)
+  if(TARGET bench_diff_engine)
+    themis_register_benchmark_ctest(
+      NAME   bench_diff_engine
+      TARGET bench_diff_engine
+      MODULE "diff_engine"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: distributed_merge (1)
+  if(TARGET bench_distributed_merge_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_distributed_merge_gates
+      TARGET bench_distributed_merge_gates
+      MODULE "distributed_merge"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: dk_release (1)
+  if(TARGET bench_dk_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_dk_release_gates
+      TARGET bench_dk_release_gates
+      MODULE "dk_release"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: docker_raid (1)
+  if(TARGET bench_docker_raid_comprehensive)
+    themis_register_benchmark_ctest(
+      NAME   bench_docker_raid_comprehensive
+      TARGET bench_docker_raid_comprehensive
+      MODULE "docker_raid"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: document_diff (1)
+  if(TARGET bench_document_diff_merge)
+    themis_register_benchmark_ctest(
+      NAME   bench_document_diff_merge
+      TARGET bench_document_diff_merge
+      MODULE "document_diff"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: document_round (1)
+  if(TARGET bench_document_round_trip)
+    themis_register_benchmark_ctest(
+      NAME   bench_document_round_trip
+      TARGET bench_document_round_trip
+      MODULE "document_round"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: document_store (1)
+  if(TARGET bench_document_store)
+    themis_register_benchmark_ctest(
+      NAME   bench_document_store
+      TARGET bench_document_store
+      MODULE "document_store"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: edge_cases (1)
+  if(TARGET bench_edge_cases_comprehensive)
+    themis_register_benchmark_ctest(
+      NAME   bench_edge_cases_comprehensive
+      TARGET bench_edge_cases_comprehensive
+      MODULE "edge_cases"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: embedding_cache (1)
+  if(TARGET bench_embedding_cache_performance)
+    themis_register_benchmark_ctest(
+      NAME   bench_embedding_cache_performance
+      TARGET bench_embedding_cache_performance
+      MODULE "embedding_cache"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: ethics_ai (2)
+  if(TARGET bench_ethics_ai_ldm)
+    themis_register_benchmark_ctest(
+      NAME   bench_ethics_ai_ldm
+      TARGET bench_ethics_ai_ldm
+      MODULE "ethics_ai"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_ethics_ai_plugin)
+    themis_register_benchmark_ctest(
+      NAME   bench_ethics_ai_plugin
+      TARGET bench_ethics_ai_plugin
+      MODULE "ethics_ai"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: evaluation_dedicated (1)
+  if(TARGET bench_evaluation_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_evaluation_dedicated_gates
+      TARGET bench_evaluation_dedicated_gates
+      MODULE "evaluation_dedicated"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: execution_dedicated (1)
+  if(TARGET bench_execution_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_execution_dedicated_gates
+      TARGET bench_execution_dedicated_gates
+      MODULE "execution_dedicated"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: exporters_dedicated (1)
+  if(TARGET bench_exporters_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_exporters_dedicated_gates
+      TARGET bench_exporters_dedicated_gates
+      MODULE "exporters_dedicated"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: exporters_release (1)
+  if(TARGET bench_exporters_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_exporters_release_gates
+      TARGET bench_exporters_release_gates
+      MODULE "exporters_release"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: extended_context (1)
+  if(TARGET bench_extended_context)
+    themis_register_benchmark_ctest(
+      NAME   bench_extended_context
+      TARGET bench_extended_context
+      MODULE "extended_context"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: failover_phase2 (1)
+  if(TARGET bench_failover_phase2_phase3_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_failover_phase2_phase3_gates
+      TARGET bench_failover_phase2_phase3_gates
+      MODULE "failover_phase2"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: failover_release (1)
+  if(TARGET bench_failover_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_failover_release_gates
+      TARGET bench_failover_release_gates
+      MODULE "failover_release"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: failover_wave (1)
+  if(TARGET bench_failover_wave_b_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_failover_wave_b_gates
+      TARGET bench_failover_wave_b_gates
+      MODULE "failover_wave"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: flash_attention (1)
+  if(TARGET bench_flash_attention)
+    themis_register_benchmark_ctest(
+      NAME   bench_flash_attention
+      TARGET bench_flash_attention
+      MODULE "flash_attention"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: fts_phase (1)
+  if(TARGET bench_fts_phase_b)
+    themis_register_benchmark_ctest(
+      NAME   bench_fts_phase_b
+      TARGET bench_fts_phase_b
+      MODULE "fts_phase"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: fused_kernels (1)
+  if(TARGET bench_fused_kernels)
+    themis_register_benchmark_ctest(
+      NAME   bench_fused_kernels
+      TARGET bench_fused_kernels
+      MODULE "fused_kernels"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: fused_lora (1)
+  if(TARGET bench_fused_lora_kernels)
+    themis_register_benchmark_ctest(
+      NAME   bench_fused_lora_kernels
+      TARGET bench_fused_lora_kernels
+      MODULE "fused_lora"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: geo_cuda (1)
+  if(TARGET bench_geo_cuda_kernel_gating)
+    themis_register_benchmark_ctest(
+      NAME   bench_geo_cuda_kernel_gating
+      TARGET bench_geo_cuda_kernel_gating
+      MODULE "geo_cuda"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: geo_dbscan (1)
+  if(TARGET bench_geo_dbscan)
+    themis_register_benchmark_ctest(
+      NAME   bench_geo_dbscan
+      TARGET bench_geo_dbscan
+      MODULE "geo_dbscan"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: geo_placement (1)
+  if(TARGET bench_geo_placement_wal_shipping)
+    themis_register_benchmark_ctest(
+      NAME   bench_geo_placement_wal_shipping
+      TARGET bench_geo_placement_wal_shipping
+      MODULE "geo_placement"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: geo_release (1)
+  if(TARGET bench_geo_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_geo_release_gates
+      TARGET bench_geo_release_gates
+      MODULE "geo_release"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: geojson_parse (1)
+  if(TARGET bench_geojson_parse)
+    themis_register_benchmark_ctest(
+      NAME   bench_geojson_parse
+      TARGET bench_geojson_parse
+      MODULE "geojson_parse"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: geospatial_phase2 (1)
+  if(TARGET bench_geospatial_phase2)
+    themis_register_benchmark_ctest(
+      NAME   bench_geospatial_phase2
+      TARGET bench_geospatial_phase2
+      MODULE "geospatial_phase2"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: gnn_embeddings (1)
+  if(TARGET bench_gnn_embeddings)
+    themis_register_benchmark_ctest(
+      NAME   bench_gnn_embeddings
+      TARGET bench_gnn_embeddings
+      MODULE "gnn_embeddings"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: gorilla_codec (1)
+  if(TARGET bench_gorilla_codec)
+    themis_register_benchmark_ctest(
+      NAME   bench_gorilla_codec
+      TARGET bench_gorilla_codec
+      MODULE "gorilla_codec"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: gossip_config (1)
+  if(TARGET bench_gossip_config)
+    themis_register_benchmark_ctest(
+      NAME   bench_gossip_config
+      TARGET bench_gossip_config
+      MODULE "gossip_config"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: governance_policy (1)
+  if(TARGET bench_governance_policy_latency)
+    themis_register_benchmark_ctest(
+      NAME   bench_governance_policy_latency
+      TARGET bench_governance_policy_latency
+      MODULE "governance_policy"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: governance_release (1)
+  if(TARGET bench_governance_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_governance_release_gates
+      TARGET bench_governance_release_gates
+      MODULE "governance_release"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: gpu (20)
+  if(TARGET bench_ann_cpu_gpu_dispatch)
+    themis_register_benchmark_ctest(
+      NAME   bench_ann_cpu_gpu_dispatch
+      TARGET bench_ann_cpu_gpu_dispatch
+      MODULE "gpu"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_category_b_gpu_cpu_parity)
+    themis_register_benchmark_ctest(
+      NAME   bench_category_b_gpu_cpu_parity
+      TARGET bench_category_b_gpu_cpu_parity
+      MODULE "gpu"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_geo_cpu_gpu)
+    themis_register_benchmark_ctest(
+      NAME   bench_geo_cpu_gpu
+      TARGET bench_geo_cpu_gpu
+      MODULE "gpu"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_gpu_a8_baselines)
+    themis_register_benchmark_ctest(
+      NAME   bench_gpu_a8_baselines
+      TARGET bench_gpu_a8_baselines
+      MODULE "gpu"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_gpu_backends)
+    themis_register_benchmark_ctest(
+      NAME   bench_gpu_backends
+      TARGET bench_gpu_backends
+      MODULE "gpu"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_gpu_cpu_breakeven_category_a)
+    themis_register_benchmark_ctest(
+      NAME   bench_gpu_cpu_breakeven_category_a
+      TARGET bench_gpu_cpu_breakeven_category_a
+      MODULE "gpu"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_gpu_cpu_breakeven_category_b)
+    themis_register_benchmark_ctest(
+      NAME   bench_gpu_cpu_breakeven_category_b
+      TARGET bench_gpu_cpu_breakeven_category_b
+      MODULE "gpu"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_gpu_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_gpu_dedicated_gates
+      TARGET bench_gpu_dedicated_gates
+      MODULE "gpu"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_gpu_erasure)
+    themis_register_benchmark_ctest(
+      NAME   bench_gpu_erasure
+      TARGET bench_gpu_erasure
+      MODULE "gpu"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_gpu_hardware_capability)
+    themis_register_benchmark_ctest(
+      NAME   bench_gpu_hardware_capability
+      TARGET bench_gpu_hardware_capability
+      MODULE "gpu"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_gpu_module)
+    themis_register_benchmark_ctest(
+      NAME   bench_gpu_module
+      TARGET bench_gpu_module
+      MODULE "gpu"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_gpu_phase2_phase3_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_gpu_phase2_phase3_gates
+      TARGET bench_gpu_phase2_phase3_gates
+      MODULE "gpu"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_gpu_phase_c_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_gpu_phase_c_gates
+      TARGET bench_gpu_phase_c_gates
+      MODULE "gpu"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_gpu_training_cycle)
+    themis_register_benchmark_ctest(
+      NAME   bench_gpu_training_cycle
+      TARGET bench_gpu_training_cycle
+      MODULE "gpu"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_gpu_vector_index)
+    themis_register_benchmark_ctest(
+      NAME   bench_gpu_vector_index
+      TARGET bench_gpu_vector_index
+      MODULE "gpu"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_gpu_vram_allocation)
+    themis_register_benchmark_ctest(
+      NAME   bench_gpu_vram_allocation
+      TARGET bench_gpu_vram_allocation
+      MODULE "gpu"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_lora_gpu)
+    themis_register_benchmark_ctest(
+      NAME   bench_lora_gpu
+      TARGET bench_lora_gpu
+      MODULE "gpu"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_multi_gpu_lora_advanced)
+    themis_register_benchmark_ctest(
+      NAME   bench_multi_gpu_lora_advanced
+      TARGET bench_multi_gpu_lora_advanced
+      MODULE "gpu"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_multi_gpu_scaling)
+    themis_register_benchmark_ctest(
+      NAME   bench_multi_gpu_scaling
+      TARGET bench_multi_gpu_scaling
+      MODULE "gpu"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_qlora_gpu_kernels)
+    themis_register_benchmark_ctest(
+      NAME   bench_qlora_gpu_kernels
+      TARGET bench_qlora_gpu_kernels
+      MODULE "gpu"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  # Module: graph (4)
+  if(TARGET bench_graph_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_graph_dedicated_gates
+      TARGET bench_graph_dedicated_gates
+      MODULE "graph"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_graph_query_optimizer)
+    themis_register_benchmark_ctest(
+      NAME   bench_graph_query_optimizer
+      TARGET bench_graph_query_optimizer
+      MODULE "graph"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_graph_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_graph_release_gates
+      TARGET bench_graph_release_gates
+      MODULE "graph"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_graph_traversal)
+    themis_register_benchmark_ctest(
+      NAME   bench_graph_traversal
+      TARGET bench_graph_traversal
+      MODULE "graph"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  # Module: hnsw_prefilter (1)
+  if(TARGET bench_hnsw_prefilter_minimal)
+    themis_register_benchmark_ctest(
+      NAME   bench_hnsw_prefilter_minimal
+      TARGET bench_hnsw_prefilter_minimal
+      MODULE "hnsw_prefilter"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: hot_reload (1)
+  if(TARGET bench_hot_reload_manager)
+    themis_register_benchmark_ctest(
+      NAME   bench_hot_reload_manager
+      TARGET bench_hot_reload_manager
+      MODULE "hot_reload"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: hotspots_micro (1)
+  if(TARGET bench_hotspots_micro)
+    themis_register_benchmark_ctest(
+      NAME   bench_hotspots_micro
+      TARGET bench_hotspots_micro
+      MODULE "hotspots_micro"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: hsm_provider (1)
+  if(TARGET bench_hsm_provider)
+    themis_register_benchmark_ctest(
+      NAME   bench_hsm_provider
+      TARGET bench_hsm_provider
+      MODULE "hsm_provider"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: hybrid_aql (1)
+  if(TARGET bench_hybrid_aql_sugar)
+    themis_register_benchmark_ctest(
+      NAME   bench_hybrid_aql_sugar
+      TARGET bench_hybrid_aql_sugar
+      MODULE "hybrid_aql"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: hybrid_fusion (1)
+  if(TARGET bench_hybrid_fusion_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_hybrid_fusion_gates
+      TARGET bench_hybrid_fusion_gates
+      MODULE "hybrid_fusion"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: hybrid_vector (1)
+  if(TARGET bench_hybrid_vector_geo)
+    themis_register_benchmark_ctest(
+      NAME   bench_hybrid_vector_geo
+      TARGET bench_hybrid_vector_geo
+      MODULE "hybrid_vector"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: image_analysis (2)
+  if(TARGET bench_image_analysis)
+    themis_register_benchmark_ctest(
+      NAME   bench_image_analysis
+      TARGET bench_image_analysis
+      MODULE "image_analysis"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_image_analysis_latency)
+    themis_register_benchmark_ctest(
+      NAME   bench_image_analysis_latency
+      TARGET bench_image_analysis_latency
+      MODULE "image_analysis"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: importer_throughput (1)
+  if(TARGET bench_importer_throughput)
+    themis_register_benchmark_ctest(
+      NAME   bench_importer_throughput
+      TARGET bench_importer_throughput
+      MODULE "importer_throughput"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: importers_release (1)
+  if(TARGET bench_importers_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_importers_release_gates
+      TARGET bench_importers_release_gates
+      MODULE "importers_release"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: index_rebuild (1)
+  if(TARGET bench_index_rebuild)
+    themis_register_benchmark_ctest(
+      NAME   bench_index_rebuild
+      TARGET bench_index_rebuild
+      MODULE "index_rebuild"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: ingestion_dedicated (1)
+  if(TARGET bench_ingestion_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_ingestion_dedicated_gates
+      TARGET bench_ingestion_dedicated_gates
+      MODULE "ingestion_dedicated"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: ingestion_extraction (1)
+  if(TARGET bench_ingestion_extraction)
+    themis_register_benchmark_ctest(
+      NAME   bench_ingestion_extraction
+      TARGET bench_ingestion_extraction
+      MODULE "ingestion_extraction"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: ingestion_kv (1)
+  if(TARGET bench_ingestion_kv)
+    themis_register_benchmark_ctest(
+      NAME   bench_ingestion_kv
+      TARGET bench_ingestion_kv
+      MODULE "ingestion_kv"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: ingestion_quality (1)
+  if(TARGET bench_ingestion_quality_judge)
+    themis_register_benchmark_ctest(
+      NAME   bench_ingestion_quality_judge
+      TARGET bench_ingestion_quality_judge
+      MODULE "ingestion_quality"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: ingestion_release (1)
+  if(TARGET bench_ingestion_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_ingestion_release_gates
+      TARGET bench_ingestion_release_gates
+      MODULE "ingestion_release"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: insert_profiling (1)
+  if(TARGET bench_insert_profiling)
+    themis_register_benchmark_ctest(
+      NAME   bench_insert_profiling
+      TARGET bench_insert_profiling
+      MODULE "insert_profiling"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: interval_tree (1)
+  if(TARGET bench_interval_tree_erase)
+    themis_register_benchmark_ctest(
+      NAME   bench_interval_tree_erase
+      TARGET bench_interval_tree_erase
+      MODULE "interval_tree"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: kernel_block (1)
+  if(TARGET kernel_block_size_bench)
+    themis_register_benchmark_ctest(
+      NAME   kernel_block_size_bench
+      TARGET kernel_block_size_bench
+      MODULE "kernel_block"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: knowledge_gap (1)
+  if(TARGET bench_knowledge_gap_detector_phase2)
+    themis_register_benchmark_ctest(
+      NAME   bench_knowledge_gap_detector_phase2
+      TARGET bench_knowledge_gap_detector_phase2
+      MODULE "knowledge_gap"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: layered_retrieval (1)
+  if(TARGET bench_layered_retrieval_phase5)
+    themis_register_benchmark_ctest(
+      NAME   bench_layered_retrieval_phase5
+      TARGET bench_layered_retrieval_phase5
+      MODULE "layered_retrieval"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: learned_quantization (1)
+  if(TARGET bench_learned_quantization)
+    themis_register_benchmark_ctest(
+      NAME   bench_learned_quantization
+      TARGET bench_learned_quantization
+      MODULE "learned_quantization"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: legal_lora (1)
+  if(TARGET bench_legal_lora_pipeline)
+    themis_register_benchmark_ctest(
+      NAME   bench_legal_lora_pipeline
+      TARGET bench_legal_lora_pipeline
+      MODULE "legal_lora"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: llama_cpp (1)
+  if(TARGET bench_llama_cpp_inference)
+    themis_register_benchmark_ctest(
+      NAME   bench_llama_cpp_inference
+      TARGET bench_llama_cpp_inference
+      MODULE "llama_cpp"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: llm (11)
+  if(TARGET bench_embedded_llm)
+    themis_register_benchmark_ctest(
+      NAME   bench_embedded_llm
+      TARGET bench_embedded_llm
+      MODULE "llm"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_llm_hotpaths)
+    themis_register_benchmark_ctest(
+      NAME   bench_llm_hotpaths
+      TARGET bench_llm_hotpaths
+      MODULE "llm"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_llm_inference_performance)
+    themis_register_benchmark_ctest(
+      NAME   bench_llm_inference_performance
+      TARGET bench_llm_inference_performance
+      MODULE "llm"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_llm_infrastructure)
+    themis_register_benchmark_ctest(
+      NAME   bench_llm_infrastructure
+      TARGET bench_llm_infrastructure
+      MODULE "llm"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_llm_judge_integration)
+    themis_register_benchmark_ctest(
+      NAME   bench_llm_judge_integration
+      TARGET bench_llm_judge_integration
+      MODULE "llm"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_llm_raid_pipeline)
+    themis_register_benchmark_ctest(
+      NAME   bench_llm_raid_pipeline
+      TARGET bench_llm_raid_pipeline
+      MODULE "llm"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_llm_real_models)
+    themis_register_benchmark_ctest(
+      NAME   bench_llm_real_models
+      TARGET bench_llm_real_models
+      MODULE "llm"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_llm_response_cache)
+    themis_register_benchmark_ctest(
+      NAME   bench_llm_response_cache
+      TARGET bench_llm_response_cache
+      MODULE "llm"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_llm_streaming_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_llm_streaming_dedicated_gates
+      TARGET bench_llm_streaming_dedicated_gates
+      MODULE "llm"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_llm_wiki_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_llm_wiki_dedicated_gates
+      TARGET bench_llm_wiki_dedicated_gates
+      MODULE "llm"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET llm_bench)
+    themis_register_benchmark_ctest(
+      NAME   llm_bench
+      TARGET llm_bench
+      MODULE "llm"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  # Module: locality_aware (1)
+  if(TARGET bench_locality_aware_router)
+    themis_register_benchmark_ctest(
+      NAME   bench_locality_aware_router
+      TARGET bench_locality_aware_router
+      MODULE "locality_aware"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: lock_contention (1)
+  if(TARGET bench_lock_contention)
+    themis_register_benchmark_ctest(
+      NAME   bench_lock_contention
+      TARGET bench_lock_contention
+      MODULE "lock_contention"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: lora_auto (1)
+  if(TARGET bench_lora_auto_binding)
+    themis_register_benchmark_ctest(
+      NAME   bench_lora_auto_binding
+      TARGET bench_lora_auto_binding
+      MODULE "lora_auto"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: lora_framework (1)
+  if(TARGET bench_lora_framework)
+    themis_register_benchmark_ctest(
+      NAME   bench_lora_framework
+      TARGET bench_lora_framework
+      MODULE "lora_framework"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: lora_inline (1)
+  if(TARGET bench_lora_inline)
+    themis_register_benchmark_ctest(
+      NAME   bench_lora_inline
+      TARGET bench_lora_inline
+      MODULE "lora_inline"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: lora_training (1)
+  if(TARGET bench_lora_training)
+    themis_register_benchmark_ctest(
+      NAME   bench_lora_training
+      TARGET bench_lora_training
+      MODULE "lora_training"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: lossy_vs (1)
+  if(TARGET bench_lossy_vs_lossless)
+    themis_register_benchmark_ctest(
+      NAME   bench_lossy_vs_lossless
+      TARGET bench_lossy_vs_lossless
+      MODULE "lossy_vs"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: maintenance_release (1)
+  if(TARGET bench_maintenance_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_maintenance_release_gates
+      TARGET bench_maintenance_release_gates
+      MODULE "maintenance_release"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: metadata_cache (1)
+  if(TARGET bench_metadata_cache)
+    themis_register_benchmark_ctest(
+      NAME   bench_metadata_cache
+      TARGET bench_metadata_cache
+      MODULE "metadata_cache"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: metadata_consistency (1)
+  if(TARGET bench_metadata_consistency_lineage_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_metadata_consistency_lineage_gates
+      TARGET bench_metadata_consistency_lineage_gates
+      MODULE "metadata_consistency"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: metadata_release (1)
+  if(TARGET bench_metadata_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_metadata_release_gates
+      TARGET bench_metadata_release_gates
+      MODULE "metadata_release"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: metrics_collector (1)
+  if(TARGET bench_metrics_collector)
+    themis_register_benchmark_ctest(
+      NAME   bench_metrics_collector
+      TARGET bench_metrics_collector
+      MODULE "metrics_collector"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: mixed_precision (1)
+  if(TARGET bench_mixed_precision_perf)
+    themis_register_benchmark_ctest(
+      NAME   bench_mixed_precision_perf
+      TARGET bench_mixed_precision_perf
+      MODULE "mixed_precision"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: module_load (1)
+  if(TARGET bench_module_load_hot_reload)
+    themis_register_benchmark_ctest(
+      NAME   bench_module_load_hot_reload
+      TARGET bench_module_load_hot_reload
+      MODULE "module_load"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: multi_lora (1)
+  if(TARGET bench_multi_lora_fusion)
+    themis_register_benchmark_ctest(
+      NAME   bench_multi_lora_fusion
+      TARGET bench_multi_lora_fusion
+      MODULE "multi_lora"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: multishard_exact (1)
+  if(TARGET bench_multishard_exact)
+    themis_register_benchmark_ctest(
+      NAME   bench_multishard_exact
+      TARGET bench_multishard_exact
+      MODULE "multishard_exact"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: multitask_lora (1)
+  if(TARGET bench_multitask_lora_training)
+    themis_register_benchmark_ctest(
+      NAME   bench_multitask_lora_training
+      TARGET bench_multitask_lora_training
+      MODULE "multitask_lora"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: network (3)
+  if(TARGET bench_network_protocol_path)
+    themis_register_benchmark_ctest(
+      NAME   bench_network_protocol_path
+      TARGET bench_network_protocol_path
+      MODULE "network"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_network_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_network_release_gates
+      TARGET bench_network_release_gates
+      MODULE "network"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_network_routing_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_network_routing_gates
+      TARGET bench_network_routing_gates
+      MODULE "network"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: observability_block (1)
+  if(TARGET bench_observability_block_b_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_observability_block_b_gates
+      TARGET bench_observability_block_b_gates
+      MODULE "observability_block"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: observability_goals (1)
+  if(TARGET bench_observability_goals)
+    themis_register_benchmark_ctest(
+      NAME   bench_observability_goals
+      TARGET bench_observability_goals
+      MODULE "observability_goals"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: observability_phase2 (1)
+  if(TARGET bench_observability_phase2_exporter_stress)
+    themis_register_benchmark_ctest(
+      NAME   bench_observability_phase2_exporter_stress
+      TARGET bench_observability_phase2_exporter_stress
+      MODULE "observability_phase2"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: olap_analytics (1)
+  if(TARGET bench_olap_analytics)
+    themis_register_benchmark_ctest(
+      NAME   bench_olap_analytics
+      TARGET bench_olap_analytics
+      MODULE "olap_analytics"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: olap_performance (1)
+  if(TARGET bench_olap_performance)
+    themis_register_benchmark_ctest(
+      NAME   bench_olap_performance
+      TARGET bench_olap_performance
+      MODULE "olap_performance"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: onnx_clip (2)
+  if(TARGET bench_onnx_clip_cpu)
+    themis_register_benchmark_ctest(
+      NAME   bench_onnx_clip_cpu
+      TARGET bench_onnx_clip_cpu
+      MODULE "onnx_clip"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_onnx_clip_vit_backend)
+    themis_register_benchmark_ctest(
+      NAME   bench_onnx_clip_vit_backend
+      TARGET bench_onnx_clip_vit_backend
+      MODULE "onnx_clip"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: p0_crud (1)
+  if(TARGET bench_p0_crud_baseline)
+    themis_register_benchmark_ctest(
+      NAME   bench_p0_crud_baseline
+      TARGET bench_p0_crud_baseline
+      MODULE "p0_crud"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: parquet_export (1)
+  if(TARGET bench_parquet_export)
+    themis_register_benchmark_ctest(
+      NAME   bench_parquet_export
+      TARGET bench_parquet_export
+      MODULE "parquet_export"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: performance_release (1)
+  if(TARGET bench_performance_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_performance_release_gates
+      TARGET bench_performance_release_gates
+      MODULE "performance_release"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: phase1_flash (1)
+  if(TARGET bench_phase1_flash_attention)
+    themis_register_benchmark_ctest(
+      NAME   bench_phase1_flash_attention
+      TARGET bench_phase1_flash_attention
+      MODULE "phase1_flash"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: phase3_optimization (1)
+  if(TARGET bench_phase3_optimization)
+    themis_register_benchmark_ctest(
+      NAME   bench_phase3_optimization
+      TARGET bench_phase3_optimization
+      MODULE "phase3_optimization"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: phase4_performance (1)
+  if(TARGET bench_phase4_performance)
+    themis_register_benchmark_ctest(
+      NAME   bench_phase4_performance
+      TARGET bench_phase4_performance
+      MODULE "phase4_performance"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: pii_stream (1)
+  if(TARGET bench_pii_stream_scanner)
+    themis_register_benchmark_ctest(
+      NAME   bench_pii_stream_scanner
+      TARGET bench_pii_stream_scanner
+      MODULE "pii_stream"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: plugin_hot (1)
+  if(TARGET bench_plugin_hot_plug)
+    themis_register_benchmark_ctest(
+      NAME   bench_plugin_hot_plug
+      TARGET bench_plugin_hot_plug
+      MODULE "plugin_hot"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: plugin_system (1)
+  if(TARGET bench_plugin_system)
+    themis_register_benchmark_ctest(
+      NAME   bench_plugin_system
+      TARGET bench_plugin_system
+      MODULE "plugin_system"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: plugins_release (1)
+  if(TARGET bench_plugins_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_plugins_release_gates
+      TARGET bench_plugins_release_gates
+      MODULE "plugins_release"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: policy_evaluation (1)
+  if(TARGET bench_policy_evaluation)
+    themis_register_benchmark_ctest(
+      NAME   bench_policy_evaluation
+      TARGET bench_policy_evaluation
+      MODULE "policy_evaluation"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: postgres_e2e (1)
+  if(TARGET bench_postgres_e2e)
+    themis_register_benchmark_ctest(
+      NAME   bench_postgres_e2e
+      TARGET bench_postgres_e2e
+      MODULE "postgres_e2e"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: postgres_protocol (1)
+  if(TARGET bench_postgres_protocol)
+    themis_register_benchmark_ctest(
+      NAME   bench_postgres_protocol
+      TARGET bench_postgres_protocol
+      MODULE "postgres_protocol"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: process_advanced (1)
+  if(TARGET bench_process_advanced_workflows)
+    themis_register_benchmark_ctest(
+      NAME   bench_process_advanced_workflows
+      TARGET bench_process_advanced_workflows
+      MODULE "process_advanced"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: process_concurrency (1)
+  if(TARGET bench_process_concurrency_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_process_concurrency_gates
+      TARGET bench_process_concurrency_gates
+      MODULE "process_concurrency"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: process_dedicated (1)
+  if(TARGET bench_process_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_process_dedicated_gates
+      TARGET bench_process_dedicated_gates
+      MODULE "process_dedicated"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: process_determinism (1)
+  if(TARGET bench_process_determinism_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_process_determinism_gates
+      TARGET bench_process_determinism_gates
+      MODULE "process_determinism"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: process_diagnostics (1)
+  if(TARGET bench_process_diagnostics_overhead)
+    themis_register_benchmark_ctest(
+      NAME   bench_process_diagnostics_overhead
+      TARGET bench_process_diagnostics_overhead
+      MODULE "process_diagnostics"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: process_import (1)
+  if(TARGET bench_process_import_retrieval)
+    themis_register_benchmark_ctest(
+      NAME   bench_process_import_retrieval
+      TARGET bench_process_import_retrieval
+      MODULE "process_import"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: process_linker (1)
+  if(TARGET bench_process_linker_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_process_linker_gates
+      TARGET bench_process_linker_gates
+      MODULE "process_linker"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: process_mining (1)
+  if(TARGET bench_process_mining)
+    themis_register_benchmark_ctest(
+      NAME   bench_process_mining
+      TARGET bench_process_mining
+      MODULE "process_mining"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: process_parser (1)
+  if(TARGET bench_process_parser_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_process_parser_gates
+      TARGET bench_process_parser_gates
+      MODULE "process_parser"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: process_release (1)
+  if(TARGET bench_process_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_process_release_gates
+      TARGET bench_process_release_gates
+      MODULE "process_release"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: process_retrieval (1)
+  if(TARGET bench_process_retrieval)
+    themis_register_benchmark_ctest(
+      NAME   bench_process_retrieval
+      TARGET bench_process_retrieval
+      MODULE "process_retrieval"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: process_retriever (1)
+  if(TARGET bench_process_retriever_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_process_retriever_gates
+      TARGET bench_process_retriever_gates
+      MODULE "process_retriever"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: product_quantization (1)
+  if(TARGET bench_product_quantization)
+    themis_register_benchmark_ctest(
+      NAME   bench_product_quantization
+      TARGET bench_product_quantization
+      MODULE "product_quantization"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: projects_release (1)
+  if(TARGET bench_projects_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_projects_release_gates
+      TARGET bench_projects_release_gates
+      MODULE "projects_release"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: prompt_engineering (1)
+  if(TARGET bench_prompt_engineering)
+    themis_register_benchmark_ctest(
+      NAME   bench_prompt_engineering
+      TARGET bench_prompt_engineering
+      MODULE "prompt_engineering"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: query (6)
+  if(TARGET bench_adaptive_query_cache)
+    themis_register_benchmark_ctest(
+      NAME   bench_adaptive_query_cache
+      TARGET bench_adaptive_query_cache
+      MODULE "query"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_adaptive_query_compilation)
+    themis_register_benchmark_ctest(
+      NAME   bench_adaptive_query_compilation
+      TARGET bench_adaptive_query_compilation
+      MODULE "query"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_continuous_query)
+    themis_register_benchmark_ctest(
+      NAME   bench_continuous_query
+      TARGET bench_continuous_query
+      MODULE "query"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_query)
+    themis_register_benchmark_ctest(
+      NAME   bench_query
+      TARGET bench_query
+      MODULE "query"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_query_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_query_dedicated_gates
+      TARGET bench_query_dedicated_gates
+      MODULE "query"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_query_lazy_eval)
+    themis_register_benchmark_ctest(
+      NAME   bench_query_lazy_eval
+      TARGET bench_query_lazy_eval
+      MODULE "query"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  # Module: rag (3)
+  if(TARGET bench_rag_ethics)
+    themis_register_benchmark_ctest(
+      NAME   bench_rag_ethics
+      TARGET bench_rag_ethics
+      MODULE "rag"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_rag_evaluation)
+    themis_register_benchmark_ctest(
+      NAME   bench_rag_evaluation
+      TARGET bench_rag_evaluation
+      MODULE "rag"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_rag_hybrid_retriever)
+    themis_register_benchmark_ctest(
+      NAME   bench_rag_hybrid_retriever
+      TARGET bench_rag_hybrid_retriever
+      MODULE "rag"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: raid_lora (1)
+  if(TARGET bench_raid_lora)
+    themis_register_benchmark_ctest(
+      NAME   bench_raid_lora
+      TARGET bench_raid_lora
+      MODULE "raid_lora"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: random_access (1)
+  if(TARGET bench_random_access_prefetch)
+    themis_register_benchmark_ctest(
+      NAME   bench_random_access_prefetch
+      TARGET bench_random_access_prefetch
+      MODULE "random_access"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: replication (4)
+  if(TARGET bench_replication_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_replication_dedicated_gates
+      TARGET bench_replication_dedicated_gates
+      MODULE "replication"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_replication_multi_dc_multi_writer)
+    themis_register_benchmark_ctest(
+      NAME   bench_replication_multi_dc_multi_writer
+      TARGET bench_replication_multi_dc_multi_writer
+      MODULE "replication"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_replication_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_replication_release_gates
+      TARGET bench_replication_release_gates
+      MODULE "replication"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_replication_throughput)
+    themis_register_benchmark_ctest(
+      NAME   bench_replication_throughput
+      TARGET bench_replication_throughput
+      MODULE "replication"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  # Module: retrieval_dedicated (1)
+  if(TARGET bench_retrieval_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_retrieval_dedicated_gates
+      TARGET bench_retrieval_dedicated_gates
+      MODULE "retrieval_dedicated"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: rewrite_engine (1)
+  if(TARGET bench_rewrite_engine)
+    themis_register_benchmark_ctest(
+      NAME   bench_rewrite_engine
+      TARGET bench_rewrite_engine
+      MODULE "rewrite_engine"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: rotary_embeddings (1)
+  if(TARGET bench_rotary_embeddings)
+    themis_register_benchmark_ctest(
+      NAME   bench_rotary_embeddings
+      TARGET bench_rotary_embeddings
+      MODULE "rotary_embeddings"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: rpc_grpc (2)
+  if(TARGET bench_rpc_grpc_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_rpc_grpc_dedicated_gates
+      TARGET bench_rpc_grpc_dedicated_gates
+      MODULE "rpc_grpc"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_rpc_grpc_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_rpc_grpc_release_gates
+      TARGET bench_rpc_grpc_release_gates
+      MODULE "rpc_grpc"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: saga_compensation (1)
+  if(TARGET bench_saga_compensation)
+    themis_register_benchmark_ctest(
+      NAME   bench_saga_compensation
+      TARGET bench_saga_compensation
+      MODULE "saga_compensation"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: sbom_verification (1)
+  if(TARGET bench_sbom_verification_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_sbom_verification_gates
+      TARGET bench_sbom_verification_gates
+      MODULE "sbom_verification"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: scheduler (3)
+  if(TARGET bench_scheduler_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_scheduler_dedicated_gates
+      TARGET bench_scheduler_dedicated_gates
+      MODULE "scheduler"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_scheduler_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_scheduler_release_gates
+      TARGET bench_scheduler_release_gates
+      MODULE "scheduler"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_task_scheduler)
+    themis_register_benchmark_ctest(
+      NAME   bench_task_scheduler
+      TARGET bench_task_scheduler
+      MODULE "scheduler"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: scraper_pipeline (1)
+  if(TARGET bench_scraper_pipeline_depth)
+    themis_register_benchmark_ctest(
+      NAME   bench_scraper_pipeline_depth
+      TARGET bench_scraper_pipeline_depth
+      MODULE "scraper_pipeline"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: scraper_release (1)
+  if(TARGET bench_scraper_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_scraper_release_gates
+      TARGET bench_scraper_release_gates
+      MODULE "scraper_release"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: search_dedicated (1)
+  if(TARGET bench_search_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_search_dedicated_gates
+      TARGET bench_search_dedicated_gates
+      MODULE "search_dedicated"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: search_release (1)
+  if(TARGET bench_search_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_search_release_gates
+      TARGET bench_search_release_gates
+      MODULE "search_release"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: security (5)
+  if(TARGET bench_compliance_security_governance)
+    themis_register_benchmark_ctest(
+      NAME   bench_compliance_security_governance
+      TARGET bench_compliance_security_governance
+      MODULE "security"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_security)
+    themis_register_benchmark_ctest(
+      NAME   bench_security
+      TARGET bench_security
+      MODULE "security"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_security_phase2_crypto_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_security_phase2_crypto_gates
+      TARGET bench_security_phase2_crypto_gates
+      MODULE "security"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_security_phase3_policy_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_security_phase3_policy_gates
+      TARGET bench_security_phase3_policy_gates
+      MODULE "security"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_security_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_security_release_gates
+      TARGET bench_security_release_gates
+      MODULE "security"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  # Module: server (3)
+  if(TARGET bench_server_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_server_dedicated_gates
+      TARGET bench_server_dedicated_gates
+      MODULE "server"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_server_hotpaths)
+    themis_register_benchmark_ctest(
+      NAME   bench_server_hotpaths
+      TARGET bench_server_hotpaths
+      MODULE "server"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_server_http3_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_server_http3_gates
+      TARGET bench_server_http3_gates
+      MODULE "server"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  # Module: shard_resource (1)
+  if(TARGET bench_shard_resource_manager)
+    themis_register_benchmark_ctest(
+      NAME   bench_shard_resource_manager
+      TARGET bench_shard_resource_manager
+      MODULE "shard_resource"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: shard_routing (1)
+  if(TARGET bench_shard_routing)
+    themis_register_benchmark_ctest(
+      NAME   bench_shard_routing
+      TARGET bench_shard_routing
+      MODULE "shard_routing"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: sharding (3)
+  if(TARGET bench_sharding_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_sharding_dedicated_gates
+      TARGET bench_sharding_dedicated_gates
+      MODULE "sharding"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_sharding_performance)
+    themis_register_benchmark_ctest(
+      NAME   bench_sharding_performance
+      TARGET bench_sharding_performance
+      MODULE "sharding"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_sharding_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_sharding_release_gates
+      TARGET bench_sharding_release_gates
+      MODULE "sharding"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  # Module: simd_distance (1)
+  if(TARGET bench_simd_distance)
+    themis_register_benchmark_ctest(
+      NAME   bench_simd_distance
+      TARGET bench_simd_distance
+      MODULE "simd_distance"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: simple_insert (1)
+  if(TARGET bench_simple_insert_test)
+    themis_register_benchmark_ctest(
+      NAME   bench_simple_insert_test
+      TARGET bench_simple_insert_test
+      MODULE "simple_insert"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: snapshot_manager (1)
+  if(TARGET bench_snapshot_manager)
+    themis_register_benchmark_ctest(
+      NAME   bench_snapshot_manager
+      TARGET bench_snapshot_manager
+      MODULE "snapshot_manager"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: spatial_index (1)
+  if(TARGET bench_spatial_index)
+    themis_register_benchmark_ctest(
+      NAME   bench_spatial_index
+      TARGET bench_spatial_index
+      MODULE "spatial_index"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: spatial_join (1)
+  if(TARGET bench_spatial_join)
+    themis_register_benchmark_ctest(
+      NAME   bench_spatial_join
+      TARGET bench_spatial_join
+      MODULE "spatial_join"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: ssm_phase0 (1)
+  if(TARGET bench_ssm_phase0_baseline)
+    themis_register_benchmark_ctest(
+      NAME   bench_ssm_phase0_baseline
+      TARGET bench_ssm_phase0_baseline
+      MODULE "ssm_phase0"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: stable_diffusion (1)
+  if(TARGET bench_stable_diffusion_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_stable_diffusion_release_gates
+      TARGET bench_stable_diffusion_release_gates
+      MODULE "stable_diffusion"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: storage (6)
+  if(TARGET bench_encrypted_storage_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_encrypted_storage_dedicated_gates
+      TARGET bench_encrypted_storage_dedicated_gates
+      MODULE "storage"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_storage_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_storage_dedicated_gates
+      TARGET bench_storage_dedicated_gates
+      MODULE "storage"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_storage_performance)
+    themis_register_benchmark_ctest(
+      NAME   bench_storage_performance
+      TARGET bench_storage_performance
+      MODULE "storage"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_storage_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_storage_release_gates
+      TARGET bench_storage_release_gates
+      MODULE "storage"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_user_storage_encrypted_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_user_storage_encrypted_release_gates
+      TARGET bench_user_storage_encrypted_release_gates
+      MODULE "storage"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_user_storage_mount_latency)
+    themis_register_benchmark_ctest(
+      NAME   bench_user_storage_mount_latency
+      TARGET bench_user_storage_mount_latency
+      MODULE "storage"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  # Module: stream_protocol (1)
+  if(TARGET bench_stream_protocol)
+    themis_register_benchmark_ctest(
+      NAME   bench_stream_protocol
+      TARGET bench_stream_protocol
+      MODULE "stream_protocol"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: streaming_window (1)
+  if(TARGET bench_streaming_window)
+    themis_register_benchmark_ctest(
+      NAME   bench_streaming_window
+      TARGET bench_streaming_window
+      MODULE "streaming_window"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: temporal_dedicated (1)
+  if(TARGET bench_temporal_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_temporal_dedicated_gates
+      TARGET bench_temporal_dedicated_gates
+      MODULE "temporal_dedicated"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: temporal_queries (1)
+  if(TARGET bench_temporal_queries)
+    themis_register_benchmark_ctest(
+      NAME   bench_temporal_queries
+      TARGET bench_temporal_queries
+      MODULE "temporal_queries"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: temporal_release (1)
+  if(TARGET bench_temporal_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_temporal_release_gates
+      TARGET bench_temporal_release_gates
+      MODULE "temporal_release"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: tensor (10)
+  if(TARGET bench_distributed_tensor_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_distributed_tensor_dedicated_gates
+      TARGET bench_distributed_tensor_dedicated_gates
+      MODULE "tensor"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_tensor_compression_routing)
+    themis_register_benchmark_ctest(
+      NAME   bench_tensor_compression_routing
+      TARGET bench_tensor_compression_routing
+      MODULE "tensor"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_tensor_cpu_gpu_dispatch)
+    themis_register_benchmark_ctest(
+      NAME   bench_tensor_cpu_gpu_dispatch
+      TARGET bench_tensor_cpu_gpu_dispatch
+      MODULE "tensor"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_tensor_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_tensor_dedicated_gates
+      TARGET bench_tensor_dedicated_gates
+      MODULE "tensor"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_tensor_deduplication_manager)
+    themis_register_benchmark_ctest(
+      NAME   bench_tensor_deduplication_manager
+      TARGET bench_tensor_deduplication_manager
+      MODULE "tensor"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_tensor_dynamic_update)
+    themis_register_benchmark_ctest(
+      NAME   bench_tensor_dynamic_update
+      TARGET bench_tensor_dynamic_update
+      MODULE "tensor"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_tensor_fingerprint)
+    themis_register_benchmark_ctest(
+      NAME   bench_tensor_fingerprint
+      TARGET bench_tensor_fingerprint
+      MODULE "tensor"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_tensor_fingerprint_graph)
+    themis_register_benchmark_ctest(
+      NAME   bench_tensor_fingerprint_graph
+      TARGET bench_tensor_fingerprint_graph
+      MODULE "tensor"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_tensor_integration_baseline)
+    themis_register_benchmark_ctest(
+      NAME   bench_tensor_integration_baseline
+      TARGET bench_tensor_integration_baseline
+      MODULE "tensor"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_tensor_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_tensor_release_gates
+      TARGET bench_tensor_release_gates
+      MODULE "tensor"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  # Module: text_extraction (1)
+  if(TARGET bench_text_extraction)
+    themis_register_benchmark_ctest(
+      NAME   bench_text_extraction
+      TARGET bench_text_extraction
+      MODULE "text_extraction"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: themis_core (1)
+  if(TARGET bench_themis_core)
+    themis_register_benchmark_ctest(
+      NAME   bench_themis_core
+      TARGET bench_themis_core
+      MODULE "themis_core"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: themis_dedicated (1)
+  if(TARGET bench_themis_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_themis_dedicated_gates
+      TARGET bench_themis_dedicated_gates
+      MODULE "themis_dedicated"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: themis_release (1)
+  if(TARGET bench_themis_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_themis_release_gates
+      TARGET bench_themis_release_gates
+      MODULE "themis_release"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: thread_pool (1)
+  if(TARGET bench_thread_pool_saturation)
+    themis_register_benchmark_ctest(
+      NAME   bench_thread_pool_saturation
+      TARGET bench_thread_pool_saturation
+      MODULE "thread_pool"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: timeseries_adaptive (1)
+  if(TARGET bench_timeseries_adaptive_flush)
+    themis_register_benchmark_ctest(
+      NAME   bench_timeseries_adaptive_flush
+      TARGET bench_timeseries_adaptive_flush
+      MODULE "timeseries_adaptive"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: timeseries_dedicated (1)
+  if(TARGET bench_timeseries_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_timeseries_dedicated_gates
+      TARGET bench_timeseries_dedicated_gates
+      MODULE "timeseries_dedicated"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: timeseries_ingestion (1)
+  if(TARGET bench_timeseries_ingestion)
+    themis_register_benchmark_ctest(
+      NAME   bench_timeseries_ingestion
+      TARGET bench_timeseries_ingestion
+      MODULE "timeseries_ingestion"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: timeseries_release (1)
+  if(TARGET bench_timeseries_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_timeseries_release_gates
+      TARGET bench_timeseries_release_gates
+      MODULE "timeseries_release"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: toolbox_dedicated (1)
+  if(TARGET bench_toolbox_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_toolbox_dedicated_gates
+      TARGET bench_toolbox_dedicated_gates
+      MODULE "toolbox_dedicated"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: toolbox_native (1)
+  if(TARGET bench_toolbox_native_workloads)
+    themis_register_benchmark_ctest(
+      NAME   bench_toolbox_native_workloads
+      TARGET bench_toolbox_native_workloads
+      MODULE "toolbox_native"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: toolbox_release (1)
+  if(TARGET bench_toolbox_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_toolbox_release_gates
+      TARGET bench_toolbox_release_gates
+      MODULE "toolbox_release"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: training_dedicated (1)
+  if(TARGET bench_training_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_training_dedicated_gates
+      TARGET bench_training_dedicated_gates
+      MODULE "training_dedicated"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: training_lifecycle (1)
+  if(TARGET bench_training_lifecycle_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_training_lifecycle_gates
+      TARGET bench_training_lifecycle_gates
+      MODULE "training_lifecycle"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: transaction (2)
+  if(TARGET bench_transaction_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_transaction_dedicated_gates
+      TARGET bench_transaction_dedicated_gates
+      MODULE "transaction"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  if(TARGET bench_transaction_throughput)
+    themis_register_benchmark_ctest(
+      NAME   bench_transaction_throughput
+      TARGET bench_transaction_throughput
+      MODULE "transaction"
+      TIMEOUT 120
+    EXTRA_LABELS release_critical
+    )
+  endif()
+  # Module: update_pipeline (1)
+  if(TARGET bench_update_pipeline)
+    themis_register_benchmark_ctest(
+      NAME   bench_update_pipeline
+      TARGET bench_update_pipeline
+      MODULE "update_pipeline"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: updates_canary (1)
+  if(TARGET bench_updates_canary_resilience)
+    themis_register_benchmark_ctest(
+      NAME   bench_updates_canary_resilience
+      TARGET bench_updates_canary_resilience
+      MODULE "updates_canary"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: updates_cluster (1)
+  if(TARGET bench_updates_cluster_stress_q4)
+    themis_register_benchmark_ctest(
+      NAME   bench_updates_cluster_stress_q4
+      TARGET bench_updates_cluster_stress_q4
+      MODULE "updates_cluster"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: updates_coordinated (1)
+  if(TARGET bench_updates_coordinated_hardening)
+    themis_register_benchmark_ctest(
+      NAME   bench_updates_coordinated_hardening
+      TARGET bench_updates_coordinated_hardening
+      MODULE "updates_coordinated"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: updates_long (1)
+  if(TARGET bench_updates_long_run_stability)
+    themis_register_benchmark_ctest(
+      NAME   bench_updates_long_run_stability
+      TARGET bench_updates_long_run_stability
+      MODULE "updates_long"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: updates_release (1)
+  if(TARGET bench_updates_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_updates_release_gates
+      TARGET bench_updates_release_gates
+      MODULE "updates_release"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: updates_schema (1)
+  if(TARGET bench_updates_schema_diversity)
+    themis_register_benchmark_ctest(
+      NAME   bench_updates_schema_diversity
+      TARGET bench_updates_schema_diversity
+      MODULE "updates_schema"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: utils_benchmark (1)
+  if(TARGET bench_utils_benchmark_runner)
+    themis_register_benchmark_ctest(
+      NAME   bench_utils_benchmark_runner
+      TARGET bench_utils_benchmark_runner
+      MODULE "utils_benchmark"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: utils_release (1)
+  if(TARGET bench_utils_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_utils_release_gates
+      TARGET bench_utils_release_gates
+      MODULE "utils_release"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: v1_3 (2)
+  if(TARGET bench_v1_3_0_features)
+    themis_register_benchmark_ctest(
+      NAME   bench_v1_3_0_features
+      TARGET bench_v1_3_0_features
+      MODULE "v1_3"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_v1_3_4_optimizations)
+    themis_register_benchmark_ctest(
+      NAME   bench_v1_3_4_optimizations
+      TARGET bench_v1_3_4_optimizations
+      MODULE "v1_3"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: vector_compression (1)
+  if(TARGET bench_vector_compression_lossless)
+    themis_register_benchmark_ctest(
+      NAME   bench_vector_compression_lossless
+      TARGET bench_vector_compression_lossless
+      MODULE "vector_compression"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: vector_prefilter (1)
+  if(TARGET bench_vector_prefilter)
+    themis_register_benchmark_ctest(
+      NAME   bench_vector_prefilter
+      TARGET bench_vector_prefilter
+      MODULE "vector_prefilter"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: vector_search (3)
+  if(TARGET bench_vector_search)
+    themis_register_benchmark_ctest(
+      NAME   bench_vector_search
+      TARGET bench_vector_search
+      MODULE "vector_search"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_vector_search_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_vector_search_dedicated_gates
+      TARGET bench_vector_search_dedicated_gates
+      MODULE "vector_search"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_vector_search_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_vector_search_gates
+      TARGET bench_vector_search_gates
+      MODULE "vector_search"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: video_processor (1)
+  if(TARGET bench_video_processor)
+    themis_register_benchmark_ctest(
+      NAME   bench_video_processor
+      TARGET bench_video_processor
+      MODULE "video_processor"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: voice_a8 (1)
+  if(TARGET bench_voice_a8_baselines)
+    themis_register_benchmark_ctest(
+      NAME   bench_voice_a8_baselines
+      TARGET bench_voice_a8_baselines
+      MODULE "voice_a8"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: voice_assistant (2)
+  if(TARGET bench_voice_assistant)
+    themis_register_benchmark_ctest(
+      NAME   bench_voice_assistant
+      TARGET bench_voice_assistant
+      MODULE "voice_assistant"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_voice_assistant_latency)
+    themis_register_benchmark_ctest(
+      NAME   bench_voice_assistant_latency
+      TARGET bench_voice_assistant_latency
+      MODULE "voice_assistant"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: voice_audio (1)
+  if(TARGET bench_voice_audio_preprocessing)
+    themis_register_benchmark_ctest(
+      NAME   bench_voice_audio_preprocessing
+      TARGET bench_voice_audio_preprocessing
+      MODULE "voice_audio"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: voice_dedicated (1)
+  if(TARGET bench_voice_dedicated_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_voice_dedicated_gates
+      TARGET bench_voice_dedicated_gates
+      MODULE "voice_dedicated"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: voice_session (1)
+  if(TARGET bench_voice_session_lifecycle)
+    themis_register_benchmark_ctest(
+      NAME   bench_voice_session_lifecycle
+      TARGET bench_voice_session_lifecycle
+      MODULE "voice_session"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: voice_streaming (1)
+  if(TARGET bench_voice_streaming_throughput)
+    themis_register_benchmark_ctest(
+      NAME   bench_voice_streaming_throughput
+      TARGET bench_voice_streaming_throughput
+      MODULE "voice_streaming"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: voice_stt (1)
+  if(TARGET bench_voice_stt_tts_latency)
+    themis_register_benchmark_ctest(
+      NAME   bench_voice_stt_tts_latency
+      TARGET bench_voice_stt_tts_latency
+      MODULE "voice_stt"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: voice_wake (1)
+  if(TARGET bench_voice_wake_word_batch)
+    themis_register_benchmark_ctest(
+      NAME   bench_voice_wake_word_batch
+      TARGET bench_voice_wake_word_batch
+      MODULE "voice_wake"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: vulkan_lora (1)
+  if(TARGET bench_vulkan_lora)
+    themis_register_benchmark_ctest(
+      NAME   bench_vulkan_lora
+      TARGET bench_vulkan_lora
+      MODULE "vulkan_lora"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: wal_apply (1)
+  if(TARGET bench_wal_apply_grpc)
+    themis_register_benchmark_ctest(
+      NAME   bench_wal_apply_grpc
+      TARGET bench_wal_apply_grpc
+      MODULE "wal_apply"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: wal_stress (1)
+  if(TARGET bench_wal_stress)
+    themis_register_benchmark_ctest(
+      NAME   bench_wal_stress
+      TARGET bench_wal_stress
+      MODULE "wal_stress"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: wavew (24)
+  if(TARGET bench_w2a_mixed_path)
+    themis_register_benchmark_ctest(
+      NAME   bench_w2a_mixed_path
+      TARGET bench_w2a_mixed_path
+      MODULE "wavew"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_w2b_concurrency)
+    themis_register_benchmark_ctest(
+      NAME   bench_w2b_concurrency
+      TARGET bench_w2b_concurrency
+      MODULE "wavew"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_w2c_recovery)
+    themis_register_benchmark_ctest(
+      NAME   bench_w2c_recovery
+      TARGET bench_w2c_recovery
+      MODULE "wavew"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_w4a_release_gates)
+    themis_register_benchmark_ctest(
+      NAME   bench_w4a_release_gates
+      TARGET bench_w4a_release_gates
+      MODULE "wavew"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_w4b_resilience)
+    themis_register_benchmark_ctest(
+      NAME   bench_w4b_resilience
+      TARGET bench_w4b_resilience
+      MODULE "wavew"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_w4c_determinism)
+    themis_register_benchmark_ctest(
+      NAME   bench_w4c_determinism
+      TARGET bench_w4c_determinism
+      MODULE "wavew"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_w4d_diagnostics)
+    themis_register_benchmark_ctest(
+      NAME   bench_w4d_diagnostics
+      TARGET bench_w4d_diagnostics
+      MODULE "wavew"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_w5a_production_workloads)
+    themis_register_benchmark_ctest(
+      NAME   bench_w5a_production_workloads
+      TARGET bench_w5a_production_workloads
+      MODULE "wavew"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_w5b_degradation)
+    themis_register_benchmark_ctest(
+      NAME   bench_w5b_degradation
+      TARGET bench_w5b_degradation
+      MODULE "wavew"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_w5c_determinism)
+    themis_register_benchmark_ctest(
+      NAME   bench_w5c_determinism
+      TARGET bench_w5c_determinism
+      MODULE "wavew"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_w5d_governance)
+    themis_register_benchmark_ctest(
+      NAME   bench_w5d_governance
+      TARGET bench_w5d_governance
+      MODULE "wavew"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_w7_p2d05_compression_state_store)
+    themis_register_benchmark_ctest(
+      NAME   bench_w7_p2d05_compression_state_store
+      TARGET bench_w7_p2d05_compression_state_store
+      MODULE "wavew"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_w7a_release_critical_signoff)
+    themis_register_benchmark_ctest(
+      NAME   bench_w7a_release_critical_signoff
+      TARGET bench_w7a_release_critical_signoff
+      MODULE "wavew"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_w7b_endurance_soak)
+    themis_register_benchmark_ctest(
+      NAME   bench_w7b_endurance_soak
+      TARGET bench_w7b_endurance_soak
+      MODULE "wavew"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_w7c_degradation_fault_recovery)
+    themis_register_benchmark_ctest(
+      NAME   bench_w7c_degradation_fault_recovery
+      TARGET bench_w7c_degradation_fault_recovery
+      MODULE "wavew"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_w7d_guardrails_variance_operability)
+    themis_register_benchmark_ctest(
+      NAME   bench_w7d_guardrails_variance_operability
+      TARGET bench_w7d_guardrails_variance_operability
+      MODULE "wavew"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_w8a_incident_regression_shielding)
+    themis_register_benchmark_ctest(
+      NAME   bench_w8a_incident_regression_shielding
+      TARGET bench_w8a_incident_regression_shielding
+      MODULE "wavew"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_w8b_threshold_hardening_drift_detection)
+    themis_register_benchmark_ctest(
+      NAME   bench_w8b_threshold_hardening_drift_detection
+      TARGET bench_w8b_threshold_hardening_drift_detection
+      MODULE "wavew"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_w8c_deterministic_ci_harness)
+    themis_register_benchmark_ctest(
+      NAME   bench_w8c_deterministic_ci_harness
+      TARGET bench_w8c_deterministic_ci_harness
+      MODULE "wavew"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_w8d_operability_runbooks_ownership)
+    themis_register_benchmark_ctest(
+      NAME   bench_w8d_operability_runbooks_ownership
+      TARGET bench_w8d_operability_runbooks_ownership
+      MODULE "wavew"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_w9a_security_overhead_audit)
+    themis_register_benchmark_ctest(
+      NAME   bench_w9a_security_overhead_audit
+      TARGET bench_w9a_security_overhead_audit
+      MODULE "wavew"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_w9b_sla_measurement_compliance)
+    themis_register_benchmark_ctest(
+      NAME   bench_w9b_sla_measurement_compliance
+      TARGET bench_w9b_sla_measurement_compliance
+      MODULE "wavew"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_w9c_chaos_fault_recovery)
+    themis_register_benchmark_ctest(
+      NAME   bench_w9c_chaos_fault_recovery
+      TARGET bench_w9c_chaos_fault_recovery
+      MODULE "wavew"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_w9d_multi_tenant_isolation)
+    themis_register_benchmark_ctest(
+      NAME   bench_w9d_multi_tenant_isolation
+      TARGET bench_w9d_multi_tenant_isolation
+      MODULE "wavew"
+      TIMEOUT 120
+    )
+  endif()
+  # Module: wikipedia_throughput (1)
+  if(TARGET bench_wikipedia_throughput)
+    themis_register_benchmark_ctest(
+      NAME   bench_wikipedia_throughput
+      TARGET bench_wikipedia_throughput
+      MODULE "wikipedia_throughput"
+      TIMEOUT 120
+    )
+  endif()
+
 endif()

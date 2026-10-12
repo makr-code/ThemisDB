@@ -1,11 +1,11 @@
 # Developer LLM Wiki — Delta Report
 
-Datum: 2026-10-05
+Datum: 2026-10-12
 Status: Active
 
 ## Summary
 
-- Added: 7949
+- Added: 7958
 - Removed: 0
 - Changed: 0
 
@@ -26,10 +26,12 @@ Status: Active
 - .github/workflows/compliance-governance-gates.yml
 - .github/workflows/compliance-supply-chain.yml
 - .github/workflows/copilot-code-review.yml
+- .github/workflows/coverage-report-nightly.yml
 - .github/workflows/edition-hyperscaler-ci.yml
 - .github/workflows/ga-promotion-signoff.yml
 - .github/workflows/gate-copilot-regression.yml
 - .github/workflows/gate-distributed-knowledge.yml
+- .github/workflows/gate-pr-benchmark-ctest.yml
 - .github/workflows/gate-pr-community-failclosed.yml
 - .github/workflows/gate-pr-core.yml
 - .github/workflows/gate-pr-doc-metadata.yml
@@ -48,6 +50,7 @@ Status: Active
 - .github/workflows/gate-pr-rag-security.yml
 - .github/workflows/gate-pr-rag-version.yml
 - .github/workflows/gate-pr-version-targeting.yml
+- .github/workflows/gate-release-benchmark-validation.yml
 - .github/workflows/gate-wave-closure.yml
 - .github/workflows/gate-workflow-guidelines.yml
 - .github/workflows/maintenance-ai-working.yml
@@ -208,10 +211,7 @@ Status: Active
 - docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE6_ACCEPTANCE_TRACKING.md
 - docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE6_AGGREGATION_REPORT.md
 - docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE6_FINAL_SIGNOFF_PLAN.md
-- docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE6_SIGNOFF_SPEC.md
-- docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE6_SIGN_OFF_CHECKLIST.md
-- docs/ARCHIVED/ai-working-history/ANALYTICS_WEEK1_FINAL_STATUS.md
-- ... truncated (7749 more)
+- ... truncated (7758 more)
 
 ## Removed
 

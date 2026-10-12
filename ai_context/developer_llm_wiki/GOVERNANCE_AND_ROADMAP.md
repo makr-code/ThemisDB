@@ -1,6 +1,6 @@
 # Developer LLM Wiki — Governance and Roadmap
 
-Datum: 2026-10-05
+Datum: 2026-10-12
 Status: Active
 
 ## AI_WIKI_INTEGRATION_PLAYBOOK.md
@@ -59,7 +59,7 @@ Status: Active
 
 ## RELEASE_STRATEGY.md
 - Kategorie: governance_and_docs
-- Hash: `fc17c7c399a0da60`
+- Hash: `4a22ab385c00d15c`
 - Titel: ThemisDB Release Strategy
 - Auszug:
   - > Status: Active
@@ -77,7 +77,7 @@ Status: Active
 
 ## VERSIONING.md
 - Kategorie: governance_and_docs
-- Hash: `e45bc2f97a56e781`
+- Hash: `8c0ee234ed4b0393`
 - Titel: ThemisDB — Versioning Policy
 - Auszug:
   - > **Status:** Active
@@ -374,48 +374,48 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md
 - Kategorie: governance_and_docs
-- Hash: `4e9d6add4def7fa9`
+- Hash: `2326a5d22c631eb2`
 - Titel: Developer LLM Wiki — Build/Test/CI/Operations
 - Auszug:
-  - Datum: 2026-10-05
+  - Datum: 2026-10-12
   - Status: Active
   - - Kategorie: build_test_ci
 
 ## ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `adffc2f772170118`
+- Hash: `3f0eba3362b8d0c1`
 - Titel: Developer LLM Wiki — Governance and Roadmap
 - Auszug:
-  - Datum: 2026-09-28
+  - Datum: 2026-10-05
   - Status: Active
   - - Kategorie: governance_and_docs
 
 ## ai_context/developer_llm_wiki/INDEX.md
 - Kategorie: governance_and_docs
-- Hash: `ef2342113de980c5`
+- Hash: `05754d28f6f1d5c1`
 - Titel: Developer LLM Wiki — Index
 - Auszug:
-  - Datum: 2026-10-05
+  - Datum: 2026-10-12
   - Status: Active
   - Bezug: CI-verwaltete Entwickler-Wissensbasis fuer Coder-LLMs
 
 ## ai_context/developer_llm_wiki/MODULES_AND_APIS.md
 - Kategorie: governance_and_docs
-- Hash: `1a1041c48141e9e9`
+- Hash: `9de8c52f9b60cb19`
 - Titel: Developer LLM Wiki — Modules and APIs
 - Auszug:
-  - Datum: 2026-10-05
+  - Datum: 2026-10-12
   - Status: Active
   - - Kategorie: modules_and_api
 
 ## ai_context/developer_llm_wiki/MODULE_DIRECT_DOXYGEN_CHECK.md
 - Kategorie: governance_and_docs
-- Hash: `b0412e377de84a59`
-- Titel: Direct Doxygen Check: vector_search
+- Hash: `e5d5c8b919d73258`
+- Titel: Direct Doxygen Check: onnx_clip
 - Auszug:
   - - Source mode: direct_doxygen_markers
-  - - Source files scanned: 2
-  - - Source symbols (raw/filter): 2 / 2
+  - - Source files scanned: 8
+  - - Source symbols (raw/filter): 82 / 46
 
 ## ai_context/developer_llm_wiki/MODULE_DOXYGEN_BASELINE_SUMMARY.md
 - Kategorie: governance_and_docs
@@ -437,12 +437,12 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/MODULE_DOXYGEN_COVERAGE_SUMMARY.md
 - Kategorie: governance_and_docs
-- Hash: `cdd3ec523e2100a0`
+- Hash: `8d4a07faaa6c99a8`
 - Titel: Module Doxygen Coverage Summary
 - Auszug:
-  - - Module: vector_search
+  - - Module: onnx_clip
   - - Source mode: direct_doxygen_markers
-  - - Symbol presence ratio: 0.5
+  - - Symbol presence ratio: 0.8333
 
 ## ai_context/developer_llm_wiki/MODULE_DOXYGEN_SMOKE_SUMMARY.md
 - Kategorie: governance_and_docs
@@ -473,12 +473,12 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md
 - Kategorie: governance_and_docs
-- Hash: `4edd3824e45cdde1`
+- Hash: `cbe973fd153dc54c`
 - Titel: Developer LLM Wiki — Delta Report
 - Auszug:
-  - Datum: 2026-09-28
+  - Datum: 2026-10-05
   - Status: Active
-  - - Added: 7907
+  - - Added: 7949
 
 ## ai_context/legacy_status/STATUS_2026_08_01.md
 - Kategorie: governance_and_docs

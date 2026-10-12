@@ -1529,6 +1529,7 @@ if(NOT THEMIS_ENABLE_LLM)
     list(REMOVE_ITEM THEMIS_LLM_SOURCES
         ../src/llm/model_loader.cpp
         ../src/llm/model_downloader.cpp
+        ../src/llm/llama_wrapper.cpp
         ../src/llm/llama_lora_adapter.cpp
         ../src/llm/llama_grammar_adapter.cpp
         ../src/llm/llamacpp_inference_engine.cpp

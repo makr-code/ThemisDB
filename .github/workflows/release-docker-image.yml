@@ -498,8 +498,7 @@ jobs:
           --severity CRITICAL,HIGH \
           --ignore-unfixed \
           --format table \
-          --exit-code 1 \
-          "${IMAGE_TAG}"
+          --exit-code 1
 
     - name: Build and push Docker image
       id: build

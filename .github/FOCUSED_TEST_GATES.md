@@ -56,6 +56,7 @@ Example aggregate targets:
 |----------|---------|--------|--------|---------|
 | `gate-pr-core.yml` | PR + dispatch | `themis_release_critical_tests` | `release_critical` | Core library validation |
 | `gate-pr-rag-eval.yml` | PR + dispatch | Explicit targets | `release_critical` + regex "rag" | RAG metric validation |
+| `gate-pr-benchmark-ctest.yml` | PR (benchmarks/\*\*) | N/A | Coverage audit | Benchmark CTest registration enforcement |
 | `build-clang-fast.yml` | PR (distributed_tensor) | Explicit targets | Regex | Fast feedback on tensor changes |
 | `build-sanitizer-nightly.yml` | Nightly schedule | Explicit targets | Regex | Memory/UB detection |
 
@@ -64,6 +65,86 @@ Example aggregate targets:
 | Workflow | Trigger | Target | Validation | Purpose |
 |----------|---------|--------|------------|---------|
 | `benchmark-performance-gate.yml` | Weekly + dispatch | `themis_benchmarks_all_eligible` | PERF_EXPECTATIONS.md | Performance regression detection |
+| `gate-pr-benchmark-ctest.yml` | PR (benchmarks/) | N/A | CTest registration audit | Benchmark discovery and registration enforcement |
+| `gate-release-benchmark-validation.yml` | Release tags + schedule | N/A | Module-level coverage audit | Release readiness validation for critical modules |
+
+#### Benchmark CTest Coverage Gate (2026-10-11)
+
+**Purpose:** Enforce that all benchmark sources are registered in CMake and CTest, preventing benchmark fragmentation and ensuring consistent CI coverage.
+
+**Trigger:** PR changes to `benchmarks/`, `CMakeLists.txt`, or `.github/workflows/gate-pr-benchmark-ctest.yml`
+
+**Validation Method:**
+1. Run `audit_benchmark_coverage.py` to discover all sources under `benchmarks/`
+2. Validate 3-state chain: Source → CMake Target → CTest Registration
+3. Calculate coverage: (CTest registered) / (CMake targets with source mapping) × 100%
+
+**Gate Criteria:**
+- **PASS:** Coverage ≥95% AND unregistered sources = 0
+- **WARN:** Orphaned CTest entries > 0 (variant/smoke tests, non-blocking)
+- **FAIL:** Coverage < 95% OR unregistered sources > 0 OR broken targets > 0
+
+**Actions:**
+- Applies PR labels: `quality/benchmarks-pass`, `quality/benchmarks-warn`, `quality/benchmarks-fail`
+- Creates tracker issue on FAIL with remediation steps
+- Blocks merge on FAIL status
+
+**Baseline (2026-10-11):** 401 benchmarks registered, 103% coverage (includes smoke test variants)
+
+#### Release Benchmark Validation Gate (2026-10-11)
+
+**Purpose:** Validate that release-critical modules have complete benchmark coverage before release, ensuring quality gates for production deployments.
+
+**Trigger:** 
+- Release tags: `v*`, `enterprise-v*`, `hyperscaler-v*`, `military-v*`, `minimal-v*`
+- Release branches: `release/**` pushes
+- Scheduled nightly on `develop` for early warning
+- Manual via `workflow_dispatch`
+
+**Validation Method:**
+1. Run `audit_benchmark_coverage.py` on release ref to audit benchmark coverage
+2. Extract per-module coverage breakdown via `targets_by_module` analysis
+3. Apply stricter thresholds: 100% for critical modules, 95% for others
+4. Generate module-level coverage report
+
+**Release-Critical Modules (100% threshold):**
+- Core: `llm`, `sharding`, `storage`, `server`, `query`
+- Acceleration: `gpu`, `acceleration`, `cuda`
+
+**Gate Criteria:**
+- **PASS:** All critical modules ≥100% coverage AND all other modules ≥95% AND 0 broken targets
+- **WARN:** Orphaned CTest entries or minor issues (non-blocking for release)
+- **FAIL:** Any critical module <100% OR any module <95% OR broken targets present
+
+**Actions:**
+- Creates release readiness tracking issue with module-level breakdown on FAIL
+- Comments on release tracking issue with gate result
+- Blocks release automation if FAIL status (can be overridden with `report_only=true`)
+- Generates per-module coverage report for release notes
+
+**Integration Points:**
+- Called before: Release packaging in `release-mainline.yml`
+- Status tracked in: Release tracker issues (auto-created by status-flags-and-issues action)
+- Can block: GitHub Release publication via approval gates
+
+**Local Testing:**
+```bash
+# Audit current development coverage
+python3 tools/ci/audit_benchmark_coverage.py --output report.json
+
+# Check per-module breakdown
+python3 -c "
+import json
+with open('report.json') as f:
+    data = json.load(f)
+for module, stats in data['targets_by_module'].items():
+    cov = (stats['ctest_registered'] / stats['with_source'] * 100) if stats['with_source'] > 0 else 0
+    print(f'{module}: {cov:.1f}% ({stats[\"ctest_registered\"]}/{stats[\"with_source\"]})')
+"
+
+# Test gate logic locally
+bash .github/workflows/gate-release-benchmark-validation.yml
+```
 
 ## Build System Adaptation (2026-09-29)
 
@@ -110,6 +191,22 @@ cmake --build build --target themis_benchmarks_all_eligible --parallel 8
 ./build/benchmarks/run_benchmarks_quick 2>&1 | tee /tmp/benchmark_results.txt
 ```
 
+### Benchmark CTest Coverage Audit (Local)
+```bash
+# Run the audit tool to validate benchmark registration status
+python3 tools/ci/audit_benchmark_coverage.py --output /tmp/audit_report.json
+
+# View results
+cat /tmp/audit_report.json | python3 -m json.tool
+
+# Expected output for current state:
+# - Sources discovered: 388
+# - CMake targets: 401
+# - CTest registered: 401 (103% coverage including variants)
+# - Unregistered sources: 0 ✅
+# - Coverage: 103% ✅ (passes ≥95% threshold)
+```
+
 ## Registration Checklist
 
 ### For New Release-Critical Tests
@@ -128,11 +225,12 @@ cmake --build build --target themis_benchmarks_all_eligible --parallel 8
 3. If aggregate-eligible, add to appropriate `themis_wave_*_benchmarks` target
 4. Ensure module has `PERFORMANCE_EXPECTATIONS.md` with thresholds
 
-## Status (2026-09-29)
+## Status (2026-10-11)
 
 ✅ **Release-Critical Gates:** 30 tests registered, pattern correct
 ✅ **Focused Module Gates:** 496 unique test targets, independently validated  
-✅ **Benchmark Gates:** 19 aggregate targets, performance tracking active
+✅ **Benchmark Performance Gates:** 19 aggregate targets, performance tracking active
+✅ **Benchmark CTest Coverage Gate:** 401 benchmarks registered, 103% coverage (NEW 2026-10-11)
 ✅ **Naming Schema:** Updated to follow WORKFLOW_GUIDELINES.md Build:/Validate: convention
 ✅ **Build System Alignment:** Properly adapted after build-mainline refactoring
 
@@ -140,5 +238,6 @@ cmake --build build --target themis_benchmarks_all_eligible --parallel 8
 
 - Focused test targets are not exhaustive (496 focused module targets; broader CTest registry also includes non-focused targets)
 - Release-critical coverage focused on highest-priority paths
-- Benchmark gates run weekly, not on every commit (performance cost)
+- Benchmark performance gates run weekly, not on every commit (performance cost)
+- Benchmark CTest coverage gate treats orphaned/variant entries (smoke tests, wave patterns) as non-blocking warnings
 - Some edge case validators (e.g., plugin boundary) have separate gate workflows

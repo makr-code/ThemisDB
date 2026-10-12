@@ -21,6 +21,26 @@ namespace themis {
 namespace core {
 namespace concerns {
 
+namespace {
+
+/**
+ * @brief Atomically adds a delta to a floating-point metric using a CAS loop.
+ * @param[in,out] value Atomic gauge storage updated in-place.
+ * @param[in] delta Signed amount to add to the current value.
+ * @note Uses relaxed ordering because metric updates do not establish
+ *       synchronization with other state and only require atomicity.
+ * @note Under extreme contention the CAS retry loop may spin until an update
+ *       succeeds; this helper intentionally prioritizes lock-free progress.
+ */
+void atomicFetchAddRelaxed(std::atomic<double> &value, double delta) noexcept {
+    double current = value.load(std::memory_order_relaxed);
+    while (!value.compare_exchange_weak(current, current + delta, std::memory_order_relaxed,
+                                        std::memory_order_relaxed)) {
+    }
+}
+
+} // namespace
+
 // ---------------------------------------------------------------------------
 // Static members
 // ---------------------------------------------------------------------------
@@ -84,8 +104,7 @@ void LockFreeMetrics::setGauge(const std::string &name, double value, const Labe
 void LockFreeMetrics::incrementGauge(const std::string &name, double delta, const Labels &labels) {
     const std::string key = makeKey(name, labels);
     GaugeEntry *entry     = getOrCreateGauge(key, name, labels);
-    // Atomic fetch_add for double (C++20).
-    entry->value.fetch_add(delta, std::memory_order_relaxed);
+    atomicFetchAddRelaxed(entry->value, delta);
 }
 
 /**
@@ -98,7 +117,7 @@ void LockFreeMetrics::incrementGauge(const std::string &name, double delta, cons
 void LockFreeMetrics::decrementGauge(const std::string &name, double delta, const Labels &labels) {
     const std::string key = makeKey(name, labels);
     GaugeEntry *entry     = getOrCreateGauge(key, name, labels);
-    entry->value.fetch_sub(delta, std::memory_order_relaxed);
+    atomicFetchAddRelaxed(entry->value, -delta);
 }
 
 // ---------------------------------------------------------------------------

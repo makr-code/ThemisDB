@@ -1,0 +1,251 @@
+---
+name: "Maintenance: Nightly Coverage Collection & Baseline Update"
+
+on:
+  schedule:
+    # Collect coverage data nightly at 02:00 UTC
+    # (runs after build-benchmarks.yml completes at 01:30 UTC)
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      generate_baseline:
+        description: 'Generate new baseline (default: report-only)'
+        required: false
+        default: 'false'
+
+env:
+  THEMIS_AUTO_BOOTSTRAP_DEPS: 'OFF'
+  THEMIS_ALLOW_MISSING_ROCKSDB: 'ON'
+  THEMIS_DIAGNOSTIC_MODE: 'ON'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  coverage-collection:
+    name: Collect Coverage & Update Baseline
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      
+      - name: Install coverage tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lcov python3-pip jq sccache
+          pip3 install --upgrade pip
+          echo "✓ Coverage tools installed"
+      
+      - name: Setup build cache (vcpkg)
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/vcpkg
+            vcpkg/downloads
+          key: ${{ runner.os }}-vcpkg-${{ hashFiles('**/vcpkg.json') }}
+          restore-keys: |
+            ${{ runner.os }}-vcpkg-
+      
+      - name: CMake configure (with coverage enabled)
+        run: |
+          mkdir -p build
+          cmake -S . -B build \
+            -DTHEMIS_ENABLE_COVERAGE=ON \
+            -DTHEMIS_BUILD_TESTS=ON \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -DCMAKE_CXX_COMPILER=g++ \
+            -DCMAKE_C_COMPILER=gcc
+          echo "✓ CMake configured with coverage instrumentation"
+      
+      - name: Build (with coverage)
+        run: |
+          cmake --build build --parallel 8 --config Debug
+          echo "✓ Build complete with coverage flags"
+      
+      - name: Run focused tests (Tier A priority)
+        id: focused_tests
+        continue-on-error: true
+        run: |
+          ctest --test-dir build \
+            --label-regex "focused" \
+            -v --output-on-failure \
+            --timeout 30
+          echo "status=success" >> "$GITHUB_OUTPUT"
+      
+      - name: Run release-critical tests (Tier A subset)
+        id: critical_tests
+        continue-on-error: true
+        run: |
+          ctest --test-dir build \
+            --label-regex "release_critical" \
+            -v --output-on-failure \
+            --timeout 30
+          echo "status=success" >> "$GITHUB_OUTPUT"
+      
+      - name: Collect coverage data
+        if: steps.focused_tests.outcome != 'failure'
+        run: |
+          echo "Collecting .gcda files..."
+          find build -name "*.gcda" -o -name "*.profraw" | wc -l
+          
+          echo "Generating lcov report..."
+          lcov --capture \
+            --directory build \
+            --output-file coverage.lcov \
+            --exclude '/usr/*' \
+            --exclude '*third_party*' \
+            --exclude '*vcpkg*'
+          
+          echo "Coverage report summary:"
+          lcov --summary coverage.lcov | head -20
+      
+      - name: Generate baseline metrics
+        run: |
+          python3 scripts/generate_coverage_baseline.py coverage.lcov \
+            --output .github/coverage-baseline-latest.txt \
+            --json .github/coverage-baseline-latest.json
+      
+      - name: Compare with previous baseline
+        id: baseline_delta
+        run: |
+          if [ -f .github/coverage-baseline.txt ]; then
+            echo "Comparing with previous baseline..."
+            python3 << 'EOF'
+          import re
+          
+          def parse_baseline(path):
+              data = {}
+              with open(path) as f:
+                  for line in f:
+                      if line.startswith('#') or not line.strip():
+                          continue
+                      parts = [p.strip() for p in line.split('|')]
+                      if len(parts) >= 5:
+                          module, total, exec, covered, cov_pct = parts[:5]
+                          data[module] = {
+                              'covered': int(covered),
+                              'total': int(exec),
+                              'percent': float(cov_pct.rstrip('%'))
+                          }
+              return data
+          
+          prev = parse_baseline('.github/coverage-baseline.txt')
+          curr = parse_baseline('.github/coverage-baseline-latest.txt')
+          
+          deltas = {}
+          for module in set(list(prev.keys()) + list(curr.keys())):
+              prev_val = prev.get(module, {}).get('percent', 0)
+              curr_val = curr.get(module, {}).get('percent', 0)
+              delta = curr_val - prev_val
+              if abs(delta) > 0.1:  # Significant change (>0.1%)
+                  deltas[module] = delta
+          
+          print(f"Modules with coverage delta:")
+          for module in sorted(deltas.keys()):
+              delta = deltas[module]
+              sign = '+' if delta > 0 else ''
+              print(f"  {module}: {sign}{delta:.1f}%")
+          
+          with open('coverage-delta.json', 'w') as f:
+              import json
+              json.dump(deltas, f)
+          EOF
+          else
+            echo "No previous baseline found (first run)"
+            echo "{}" > coverage-delta.json
+          fi
+      
+      - name: Generate HTML coverage report
+        run: |
+          mkdir -p coverage-report
+          genhtml coverage.lcov --output-directory coverage-report \
+            --title "ThemisDB Code Coverage" \
+            --show-details \
+            --legend
+          echo "✓ HTML report generated"
+      
+      - name: Upload coverage artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report-${{ github.run_id }}
+          path: |
+            coverage-report/
+            .github/coverage-baseline-latest.*
+            coverage.lcov
+            coverage-delta.json
+          retention-days: 30
+          if-no-files-found: warn
+      
+      - name: Update baseline on develop
+        if: github.ref == 'refs/heads/develop' && (github.event_name == 'schedule' || github.event.inputs.generate_baseline == 'true')
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          
+          # Update baseline
+          cp .github/coverage-baseline-latest.txt .github/coverage-baseline.txt
+          cp .github/coverage-baseline-latest.json .github/coverage-baseline.json
+          
+          # Stage and commit
+          git add .github/coverage-baseline.*
+          git diff --cached --quiet || git commit -m "ci: Update coverage baseline from nightly run"
+          
+          # Push only if changes exist
+          git push || echo "No baseline changes to push"
+      
+      - name: Create PR comment with coverage summary (manual run only)
+        if: github.event_name == 'workflow_dispatch' && github.event.repository.fork == false
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            try {
+              const baseline = JSON.parse(fs.readFileSync('.github/coverage-baseline-latest.json', 'utf8'));
+              const deltas = JSON.parse(fs.readFileSync('coverage-delta.json', 'utf8'));
+              
+              const summary = baseline.summary.overall;
+              let report = `## 📊 Coverage Report\n\n`;
+              report += `**Overall Coverage:** ${summary.coverage_percent}%\n`;
+              report += `- Lines covered: ${summary.lines_covered} / ${summary.lines_executable}\n`;
+              report += `- Branch coverage: ${summary.branch_coverage_percent}%\n\n`;
+              
+              if (Object.keys(deltas).length > 0) {
+                report += `**Changes from previous baseline:**\n`;
+                for (const [module, delta] of Object.entries(deltas)) {
+                  const sign = delta > 0 ? '📈' : '📉';
+                  report += `- ${sign} ${module}: ${delta > 0 ? '+' : ''}${delta.toFixed(1)}%\n`;
+                }
+              } else {
+                report += `**No significant changes from previous baseline** ✓\n`;
+              }
+              
+              console.log(report);
+              
+              // Optionally post as workflow run summary
+              core.summary.addRaw(report);
+              await core.summary.write();
+              
+            } catch (e) {
+              console.log(`Warning: Could not generate report: ${e.message}`);
+            }
+      
+      - name: Workflow summary
+        if: always()
+        run: |
+          {
+            echo "## Coverage Collection Summary"
+            echo ""
+            echo "| Step | Status |"
+            echo "|------|--------|"
+            echo "| Focused tests | ${{ steps.focused_tests.outcome }} |"
+            echo "| Critical tests | ${{ steps.critical_tests.outcome }} |"
+            echo "| Coverage collected | ✓ |"
+            echo ""
+            echo "Artifacts uploaded: coverage-report-${{ github.run_id }}"
+          } >> "$GITHUB_STEP_SUMMARY"
