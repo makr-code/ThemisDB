@@ -103,8 +103,12 @@ public:
         tasks_.clear();
     }
 
-    void cancel() noexcept {
+    void cancel_group_execution() noexcept {
         cancelled_ = true;
+    }
+
+    void cancel() noexcept {
+        cancel_group_execution();
     }
 
 private:
@@ -184,7 +188,9 @@ static void tbbWaitWithTimeout(
     //
     // Replace the post-fact advisory pattern (tg.wait(); then check elapsed)
     // with a watchdog-thread approach that actively cancels the task group
-    // when the deadline fires, so stalled morsels unblock promptly.
+    // when the deadline fires, so stalled morsels unblock promptly. We call
+    // cancel_group_execution() instead of cancel() because TBB exposes the
+    // cancellation API there; cancel() is not a valid task_group member.
     auto done = std::make_shared<std::atomic<bool>>(false);
 
     std::thread watchdog([done, &tg, timeout_ms]() noexcept {
@@ -192,7 +198,7 @@ static void tbbWaitWithTimeout(
         while (!done->load(std::memory_order_acquire)) {
             if (std::chrono::steady_clock::now() >= deadline) {
                 if (!done->load(std::memory_order_acquire)) {
-					tg.cancel();
+					tg.cancel_group_execution();
                 }
                 return;
             }

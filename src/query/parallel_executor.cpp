@@ -90,8 +90,12 @@ public:
         }
     }
 
-    void cancel() {
+    void cancel_group_execution() noexcept {
         cancelled_.store(true, std::memory_order_release);
+    }
+
+    void cancel() noexcept {
+        cancel_group_execution();
     }
 
 private:
@@ -150,7 +154,7 @@ inline bool waitWithTimeout(tbb::task_group& tg, double timeout_seconds = 5.0) n
                 if (!done->load(std::memory_order_acquire)) {
                     timed_out->store(true, std::memory_order_release);
                     // Signal TBB to stop accepting new tasks and drain quickly.
-                    tg.cancel();
+                    tg.cancel_group_execution();
                 }
                 return;
             }
@@ -168,7 +172,8 @@ inline bool waitWithTimeout(tbb::task_group& tg, double timeout_seconds = 5.0) n
     // join_watcher will continue to wait for watchdog completion asynchronously.
     //
     // Watchdog bounded-ness: The watchdog thread (defined at line 126) is simple:
-    // it polls every 50ms and calls tg.cancel() if the deadline fires, then returns.
+    // it polls every 50ms and calls tg.cancel_group_execution() if the deadline fires,
+    // then returns.
     // No locks are taken, so it cannot deadlock on synchronization primitives.
     // Therefore, join_watcher's blocking on watchdog.join() is bounded by the
     // watchdog's timeout duration (5.0 seconds by default, caller-configurable).
