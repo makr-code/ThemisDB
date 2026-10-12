@@ -199,6 +199,23 @@ TEST(LlmWave3, W3_06_ModelNameBackslashRejected) {
         << "model_name with '\\' must be rejected; got: " << result.error_message;
 }
 
+TEST(LlmWave3, W3_06b_DownloadDirTraversalRejected) {
+    ModelDownloadConfig cfg;
+    cfg.ollama_url = "http://localhost:11434";
+    cfg.model_name = "safe-model";
+    cfg.download_dir = "/tmp/../tmp/escape";
+    cfg.timeout_seconds = 1;
+    cfg.use_cache = false;
+
+    ModelDownloader dl;
+    const auto result = dl.downloadFromOllama(cfg);
+
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(result.error_message.find("Invalid download_dir"), std::string::npos)
+        << "download_dir traversal must be rejected before any filesystem write; got: "
+        << result.error_message;
+}
+
 TEST(LlmWave3, W3_07_LegitimateModelNameAccepted) {
     const auto result = pullWithModelName("llama2:7b");
     // Validator passes; CURL fails — error must NOT be model_name rejection.

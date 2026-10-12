@@ -29,6 +29,39 @@ namespace llm {
 
 namespace {
 
+[[nodiscard]] static bool validateAndNormalizeOutputPath(
+    const std::string& requested_path,
+    fs::path& safe_path,
+    std::string& error_out,
+    const std::string& label) {
+    if (requested_path.empty()) {
+        error_out = label + " must not be empty";
+        return false;
+    }
+
+    fs::path input_path(requested_path);
+    if (input_path.string().find("..") != std::string::npos) {
+        error_out = label + " must not contain parent-directory traversal segments";
+        return false;
+    }
+
+    // Canonicalize relative paths against the current working directory and reject
+    // any path that still escapes via a parent-reference after normalization.
+    safe_path = fs::absolute(input_path).lexically_normal();
+    if (safe_path.string().find("..") != std::string::npos) {
+        error_out = label + " must resolve without parent-directory traversal";
+        return false;
+    }
+
+    // Reject NULs and other embedded non-printable control bytes up front.
+    if (requested_path.find('\0') != std::string::npos) {
+        error_out = label + " must not contain null bytes";
+        return false;
+    }
+
+    return true;
+}
+
 /**
  * @brief CURL write callback for downloading files
  * @param[in,out] ptr Input/output parameter.
@@ -203,13 +236,25 @@ ModelDownloadResult ModelDownloader::downloadFromOllama(const ModelDownloadConfi
     // [W3-SEC-01] Warn at call-site if insecure-HTTP opt-in is active.
     warnInsecureConfigIfSet(config);
 
-    // [W3-SEC-02] Validate model_name before it is embedded in any filesystem path.
+    // [W3-SEC-02] Validate model_name and the output directory before embedding
+    // them into any filesystem path. This closes the remaining traversal gap when
+    // a caller passes a path that escapes the intended model root via `..`.
     {
         std::string name_error = {};
         if (!sanitizeModelName(config.model_name, name_error)) {
             result.success = false;
             result.error_message = "Invalid model_name: " + name_error;
             THEMIS_WARN("downloadFromOllama: rejected config.model_name — {}", name_error);
+            return result;
+        }
+
+        fs::path safe_download_dir;
+        std::string download_dir_error;
+        if (!validateAndNormalizeOutputPath(config.download_dir, safe_download_dir,
+                                            download_dir_error, "download_dir")) {
+            result.success = false;
+            result.error_message = "Invalid download_dir: " + download_dir_error;
+            THEMIS_WARN("downloadFromOllama: rejected config.download_dir — {}", download_dir_error);
             return result;
         }
     }
@@ -268,14 +313,25 @@ ModelDownloadResult ModelDownloader::pullFromOllama(const ModelDownloadConfig& c
         return result;
     }
 
-    // [W3-SEC-02] Re-validate model_name here since pullFromOllama is part of the
-    // public-facing protected API and may be called independently of downloadFromOllama.
+    // [W3-SEC-02] Re-validate model_name and the output directory here since
+    // pullFromOllama is part of the public-facing protected API and may be called
+    // independently of downloadFromOllama.
     {
         std::string name_error = {};
         if (!sanitizeModelName(config.model_name, name_error)) {
             result.success = false;
             result.error_message = "Invalid model_name: " + name_error;
             THEMIS_WARN("pullFromOllama: rejected config.model_name — {}", name_error);
+            return result;
+        }
+
+        fs::path safe_download_dir;
+        std::string download_dir_error;
+        if (!validateAndNormalizeOutputPath(config.download_dir, safe_download_dir,
+                                            download_dir_error, "download_dir")) {
+            result.success = false;
+            result.error_message = "Invalid download_dir: " + download_dir_error;
+            THEMIS_WARN("pullFromOllama: rejected config.download_dir — {}", download_dir_error);
             return result;
         }
     }
@@ -488,6 +544,15 @@ ModelDownloadResult ModelDownloader::downloadFromURL(
 ) {
     ModelDownloadResult result;
     auto start_time = std::chrono::steady_clock::now();
+
+    fs::path safe_path;
+    std::string output_error = {};
+    if (!validateAndNormalizeOutputPath(output_path, safe_path, output_error, "output_path")) {
+        result.success = false;
+        result.error_message = "Invalid output_path: " + output_error;
+        THEMIS_WARN("downloadFromURL: rejected output_path — {}", output_error);
+        return result;
+    }
     
     try {
         // Create parent directory if needed
