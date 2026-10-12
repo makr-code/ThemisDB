@@ -646,8 +646,8 @@ def render_mermaid(model: dict[str, Any]) -> str:
     well-known modules).
     """
     lines: list[str] = [
-        "flowchart TB",
-        "    %% Vertical-first layout and GitHub-friendly styling",
+        "flowchart LR",
+        "    %% Left-to-right flow with vertical module stacking for GitHub compatibility",
     ]
 
     tier_summary: dict[str, list[str]] = model.get("tier_summary", {})

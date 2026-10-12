@@ -25,6 +25,78 @@
       "type": "report"
     },
     {
+      "name": "GITHUB_ISSUE_ASSIGNMENT_GUIDE.md",
+      "sha256_prefix": "8dd39ad2ff33fd48",
+      "size_bytes": "8571",
+      "type": "report"
+    },
+    {
+      "name": "LAUNCH_STATUS_SUMMARY.txt",
+      "sha256_prefix": "7449455de7078307",
+      "size_bytes": "10122",
+      "type": "session_summary"
+    },
+    {
+      "name": "PARALLEL_D_A_EXECUTION_PLAN.md",
+      "sha256_prefix": "f097feffd0ad1534",
+      "size_bytes": "11466",
+      "type": "design"
+    },
+    {
+      "name": "PHASE1_BENCHMARK_AUDIT_REPORT.md",
+      "sha256_prefix": "5f9329f38531a8a9",
+      "size_bytes": "11611",
+      "type": "report"
+    },
+    {
+      "name": "PHASE2_CTEST_EXPANSION_GUIDE.md",
+      "sha256_prefix": "ffe6cea4efbb1c11",
+      "size_bytes": "13996",
+      "type": "report"
+    },
+    {
+      "name": "README_WAVE10_PHASE1.md",
+      "sha256_prefix": "681b7ff6a65097bc",
+      "size_bytes": "7241",
+      "type": "wave_report"
+    },
+    {
+      "name": "WAVE10_PHASE1_EXECUTIVE_SUMMARY.md",
+      "sha256_prefix": "379d5b869827c255",
+      "size_bytes": "7004",
+      "type": "wave_report"
+    },
+    {
+      "name": "WEEK2_KICKOFF_CHECKLIST.md",
+      "sha256_prefix": "9edaa3c36e18a337",
+      "size_bytes": "7739",
+      "type": "checklist"
+    },
+    {
+      "name": "benchmark_audit_baseline.json",
+      "sha256_prefix": "5f9b18f961c13788",
+      "size_bytes": "17880",
+      "type": "json"
+    },
+    {
+      "name": "benchmark_audit_phase2_final.json",
+      "sha256_prefix": "702b49d859cb674c",
+      "size_bytes": "1535",
+      "type": "json"
+    },
+    {
+      "name": "benchmark_audit_phase2_task2.json",
+      "sha256_prefix": "05a4404b8e215334",
+      "size_bytes": "16258",
+      "type": "json"
+    },
+    {
+      "name": "benchmark_target_mapping.json",
+      "sha256_prefix": "c2c287cea9e41879",
+      "size_bytes": "110964",
+      "type": "json"
+    },
+    {
       "name": "gap_scanner_verified_llm.json",
       "sha256_prefix": "b12f36fec487aa67",
       "size_bytes": "7933",
@@ -661,7 +733,7 @@
     {
       "category": "governance",
       "path": "ARCHITECTURE.md",
-      "sha256_prefix": "b93becd20240f892"
+      "sha256_prefix": "4794f0b074476ae2"
     },
     {
       "category": "governance",
@@ -681,7 +753,7 @@
     {
       "category": "governance",
       "path": "RELEASE_STRATEGY.md",
-      "sha256_prefix": "fc17c7c399a0da60"
+      "sha256_prefix": "4a22ab385c00d15c"
     },
     {
       "category": "governance",
@@ -701,7 +773,7 @@
     {
       "category": "governance",
       "path": "VERSIONING.md",
-      "sha256_prefix": "e45bc2f97a56e781"
+      "sha256_prefix": "8c0ee234ed4b0393"
     },
     {
       "category": "governance",
@@ -1871,7 +1943,7 @@
     {
       "category": "docs",
       "path": "docs/audit/DOCS_INVENTORY_2026-Q3.md",
-      "sha256_prefix": "fcab86e592c2f1bd"
+      "sha256_prefix": "4c6577d3c4c46546"
     },
     {
       "category": "docs",
@@ -2391,7 +2463,7 @@
     {
       "category": "docs",
       "path": "docs/code_maturity_report.md",
-      "sha256_prefix": "38ab39a26d59e76c"
+      "sha256_prefix": "617e3098df5be659"
     },
     {
       "category": "docs",
@@ -6849,14 +6921,14 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-10-05T02:14:20.786113+00:00",
+  "generated_at": "2026-10-12T06:10:14.348630+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
-    "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-09-28\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `bc0ab72465c851ff`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
+    "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-10-05\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `c22f201e19477f22`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
     "module_api_count": 80,
-    "source_count": 7907,
-    "wiki_generated_at": "2026-09-28T03:05:28+00:00",
-    "wiki_source_hash": "8c50fbc504ad0d61a71d543b4d21af834eb03a6e7f766d6821aad9fa2cd6e2f5"
+    "source_count": 7949,
+    "wiki_generated_at": "2026-10-05T03:08:56+00:00",
+    "wiki_source_hash": "4cb777843970972f84556cf04070048e47b0efb9d0e3306f0b908432b62df57e"
   },
   "modules": [
     {
@@ -8925,18 +8997,18 @@
   ],
   "schema_version": "1.0.0",
   "source_hashes": {
-    "ARCHITECTURE.md": "b93becd20240f892",
+    "ARCHITECTURE.md": "4794f0b074476ae2",
     "FUTURE_ENHANCEMENTS.md": "de552eeef9d1ac51",
     "ROADMAP.md": "cfe020b4fe206ed5",
     "ai_context/ARCHITECTURE_CLASSIFICATION.md": "57a7f2182a1193c8",
     "ai_context/MODULES_AND_NAMESPACES.md": "bf42dba44a39f8cb",
     "ai_context/api_contracts/": "6384de3aba1abb3b",
-    "ai_context/developer_llm_wiki/": "57c73987f7b2b1ac",
-    "ai_working/": "c49689581560a06c",
-    "docs/": "e4774d948d35d41f"
+    "ai_context/developer_llm_wiki/": "e12ca943705099f3",
+    "ai_working/": "7b73a28e80eabcf8",
+    "docs/": "bb230913786647a6"
   },
   "statistics": {
-    "ai_working_artifact_count": 14,
+    "ai_working_artifact_count": 26,
     "documentation_source_count": 1238,
     "isolated_module_count": 30,
     "modules_with_api_contracts": 6,
