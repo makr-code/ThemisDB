@@ -26,6 +26,7 @@ Client / Retrieval / Server
    shared index subsystem
    ├─ src/index/vector_index.cpp
    ├─ src/index/advanced_vector_index.cpp
+   ├─ src/index/ann_index.cpp
    ├─ src/index/multi_vector_search.cpp
    ├─ include/index/multi_vector_search.h
    └─ include/index/*
@@ -91,12 +92,12 @@ Input embedding vectors + metadata
 
 ## Related artifacts
 
-- `src/index/README.md`
-- `include/index/multi_vector_search.h`
-- `src/index/multi_vector_search.cpp`
-- `tests/integration/test_vector_search_soak.cpp`
-- `tests/vector_search/test_vector_search_highcardinality_stress.cpp`
-- `benchmarks/vector_search/bench_vector_search_dedicated_gates.cpp`
+- [`../../src/index/README.md`](../../src/index/README.md)
+- [`../../include/index/multi_vector_search.h`](../../include/index/multi_vector_search.h)
+- [`../../src/index/multi_vector_search.cpp`](../../src/index/multi_vector_search.cpp)
+- [`../../tests/integration/test_vector_search_soak.cpp`](../../tests/integration/test_vector_search_soak.cpp)
+- [`../../tests/vector_search/test_vector_search_highcardinality_stress.cpp`](../../tests/vector_search/test_vector_search_highcardinality_stress.cpp)
+- [`../../benchmarks/vector_search/bench_vector_search_dedicated_gates.cpp`](../../benchmarks/vector_search/bench_vector_search_dedicated_gates.cpp)
 
 ## Performance characteristics
 
@@ -113,11 +114,11 @@ The module's expected performance is defined by the benchmark gate set in `bench
 
 ### Failure modes
 
-1. **Dimension mismatch** -> reject invalid insert/query and return an explicit error
-2. **NaN or Inf values** -> reject before mutation
-3. **Empty index** -> return empty result or explicit empty-index status when required
-4. **Unsupported metric** -> fail closed rather than silently falling back
-5. **Corruption or resource exhaustion** -> preserve state and surface the error instead of continuing silently
+1. **Dimension mismatch** → reject invalid insert/query and return an explicit error
+2. **NaN or Inf values** → reject before mutation
+3. **Empty index** → return empty result or explicit empty-index status when required
+4. **Unsupported metric** → fail closed rather than silently falling back
+5. **Corruption or resource exhaustion** → preserve state and surface the error instead of continuing silently
 
 ## Integration points
 

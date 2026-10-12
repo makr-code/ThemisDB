@@ -57,6 +57,14 @@
 
 ## Security / Reliability
 
-- reject invalid vector dimensions, NaN/Inf values, and unsupported metrics before mutation
-- preserve the index and report errors instead of silently continuing on failure
-- keep integrity checks and operational recovery paths explicit as persistent/distributed work matures
+### Security
+
+- enforce strict validation of vector dimensions, NaN/Inf values, and unsupported metrics before mutation or result generation
+- require explicit authentication and authorization checks for any feature that exposes remote index management or protected retrieval surfaces
+- preserve data-integrity guarantees by rejecting malformed inputs and failing closed instead of silently downgrading query behavior
+
+### Reliability
+
+- add explicit recovery and rebuild procedures for index persistence and distributed sharding work as those features mature
+- keep operational circuit-breakers and rollback paths in place for partial-index failures or degraded search capacity
+- preserve stable error reporting and resource cleanup when search or indexing fails under heavy concurrency or memory pressure
