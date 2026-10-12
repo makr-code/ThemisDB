@@ -76,6 +76,13 @@ jobs:
     name: "Gate: Plugin Boundary"
     uses: ./.github/workflows/gate-pr-plugin-boundary.yml
 
+  call-final-runtime-api:
+    name: "Gate: Final Runtime API"
+    # Final runtime startup/API validation is required for develop/community rollout branches,
+    # which is where branch protection enforces the runtime smoke contract before merge.
+    if: github.event_name == 'pull_request' && contains(fromJSON('["develop","community"]'), github.base_ref)
+    uses: ./.github/workflows/gate-pr-final-runtime-api.yml
+
   # ─────────────────────────────────────────────────────────────────────────
   merge-readiness:
     name: "Validate: Merge Readiness"
@@ -84,6 +91,7 @@ jobs:
       - call-edition-license
       - call-hash-sbom
       - call-plugin-boundary
+      - call-final-runtime-api
     if: always() && github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -103,11 +111,12 @@ jobs:
           edition_result="${{ needs.call-edition-license.result }}"
           hash_result="${{ needs.call-hash-sbom.result }}"
           plugin_result="${{ needs.call-plugin-boundary.result }}"
+          runtime_result="${{ needs.call-final-runtime-api.result }}"
 
           all_passed="true"
           failed_gates=""
 
-          for gate_result in "$community_result" "$edition_result" "$hash_result" "$plugin_result"; do
+          for gate_result in "$community_result" "$edition_result" "$hash_result" "$plugin_result" "$runtime_result"; do
             if [[ "$gate_result" != "success" && "$gate_result" != "skipped" ]]; then
               all_passed="false"
             fi
@@ -121,6 +130,8 @@ jobs:
             failed_gates="${failed_gates}Hash & SBOM Integrity, "
           [[ "$plugin_result" != "success" && "$plugin_result" != "skipped" ]] && \
             failed_gates="${failed_gates}Plugin Boundary, "
+          [[ "$runtime_result" != "success" && "$runtime_result" != "skipped" ]] && \
+            failed_gates="${failed_gates}Final Runtime API, "
 
           # Strip trailing comma+space
           failed_gates="${failed_gates%, }"
@@ -132,6 +143,7 @@ jobs:
             echo "edition_icon=$( [[ "$edition_result" == 'success' || "$edition_result" == 'skipped' ]] && echo '✅' || echo '❌' )"
             echo "hash_icon=$( [[ "$hash_result" == 'success' || "$hash_result" == 'skipped' ]] && echo '✅' || echo '❌' )"
             echo "plugin_icon=$( [[ "$plugin_result" == 'success' || "$plugin_result" == 'skipped' ]] && echo '✅' || echo '❌' )"
+            echo "runtime_icon=$( [[ "$runtime_result" == 'success' || "$runtime_result" == 'skipped' ]] && echo '✅' || echo '❌' )"
           } >> "$GITHUB_OUTPUT"
 
       - name: Set ready-to-merge label
@@ -172,6 +184,7 @@ jobs:
             - ${{ steps.evaluate.outputs.edition_icon }} Edition & License (`${{ needs.call-edition-license.result }}`)
             - ${{ steps.evaluate.outputs.hash_icon }} Hash & SBOM Integrity (`${{ needs.call-hash-sbom.result }}`)
             - ${{ steps.evaluate.outputs.plugin_icon }} Plugin Boundary (`${{ needs.call-plugin-boundary.result }}`)
+            - ${{ steps.evaluate.outputs.runtime_icon }} Final Runtime API (`${{ needs.call-final-runtime-api.result }}`)
           error-summary: "${{ steps.evaluate.outputs.all_passed != 'true' && format('Failed gates: {0}', steps.evaluate.outputs.failed_gates) || '' }}"
 
       - name: Enforce merge-readiness verdict
