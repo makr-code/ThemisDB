@@ -82,7 +82,7 @@ jobs:
 
       - name: Upload license artifacts
         if: ${{ steps.baseline.outputs.sha != '' }}
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: license-compliance-${{ github.run_id }}
           path: |
@@ -207,7 +207,7 @@ jobs:
           sha256sum -c sbom-source.SHA256SUMS
 
       - name: Upload SBOM artifacts
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: sbom-${{ github.run_id }}
           path: |
@@ -298,7 +298,7 @@ jobs:
             --output-md "c5-evidence/manifest.md"
 
       - name: Upload C5 evidence manifest
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: c5-evidence-manifest-${{ steps.release_id.outputs.value }}
           path: c5-evidence/
@@ -466,7 +466,7 @@ jobs:
           category: dependency-freshness
       - name: Upload freshness report artifact
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: dependency-freshness-${{ github.run_id }}
           path: dependency-freshness.sarif
@@ -616,7 +616,7 @@ jobs:
 
       - name: Upload evidence bundle artifact
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: soc2-evidence-${{ github.run_id }}-${{ github.run_number }}
           path: evidence-bundle-*.json

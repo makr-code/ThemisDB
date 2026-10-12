@@ -201,7 +201,7 @@ jobs:
           echo "::notice::Nightly tag: $NIGHTLY_TAG"
 
       - name: Upload build metadata as artifact
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: build-metadata
           path: build-metadata.json

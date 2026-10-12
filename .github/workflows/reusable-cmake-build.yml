@@ -202,9 +202,21 @@ jobs:
         with:
           arch: x64
 
+      - name: Configure sccache environment
+        if: inputs.enable_sccache_gha
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            echo "SCCACHE_GHA_ENABLED=true"
+            echo "SCCACHE_IGNORE_SERVER_IO_ERROR=1"
+            echo "SCCACHE_ERROR_WHEN_DISCONNECTED=false"
+          } >> "$GITHUB_ENV"
+
       - name: Install sccache
         if: inputs.enable_sccache_gha
-        uses: mozilla-actions/sccache-action@7d986dd989559c6ecdb630a3fd2557667be217ad
+        continue-on-error: true
+        uses: mozilla-actions/sccache-action@v0.0.6
 
       - name: Setup
         if: inputs.setup_command != ''

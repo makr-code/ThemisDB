@@ -340,7 +340,7 @@ jobs:
 
       - name: Upload GS3 artifacts
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: gs3-gap-scan-${{ github.run_id }}
           path: |
@@ -881,7 +881,7 @@ jobs:
 
       - name: Upload doxygen artifacts
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: doxygen-autofix-${{ github.run_id }}
           path: |

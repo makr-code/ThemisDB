@@ -99,7 +99,7 @@ concurrency:
 jobs:
   mark-build-pending:
     name: "Build: Mark Pending State"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     if: github.event_name == 'push' || github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     permissions:
@@ -154,7 +154,7 @@ jobs:
     name: "Validate: Step 2 · Architecture Summary"
     needs: step2-platform-matrix
     if: always()
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
       - name: "Validate: Summarize Step 2 architecture matrix"
@@ -172,7 +172,7 @@ jobs:
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
       enable_sccache_gha: true
-      runs_on: ubuntu-latest
+      runs_on: ubuntu-24.04
       shell: bash
       fetch_depth: '0'
       submodules: false
@@ -527,7 +527,7 @@ jobs:
 
       - name: Upload macOS kqueue results
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: macos-kqueue-results-${{ github.run_number }}
           path: macos-kqueue-output.txt
@@ -540,7 +540,7 @@ jobs:
   # ──────────────────────────────────────────────────────────────────────────
   update-build-labels:
     name: "Build: Update build-status labels"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     needs:
       - build

@@ -197,7 +197,7 @@ jobs:
             echo "Generated candidate baseline artifact instead of mutating repository history."
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      - uses: actions/upload-artifact@v5
         if: always()
         with:
           name: voice-benchmark-${{ matrix.os }}-${{ github.run_number }}
@@ -259,7 +259,7 @@ jobs:
             libpugixml-dev libcpp-httplib-dev
 
       - name: Cache sccache
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        uses: actions/cache@v5
         with:
           path: ${{ github.workspace }}/.cache/sccache
           key: sccache-critical-baselines-${{ hashFiles('benchmarks/auth/**', 'benchmarks/voice/**', 'benchmarks/rag/**', 'src/auth/**', 'src/voice/**', 'src/query/**') }}-${{ runner.os }}
@@ -380,7 +380,7 @@ jobs:
 
       - name: Upload broad baseline artifacts
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: critical-module-baselines-${{ github.run_number }}
           path: ${{ env.RESULTS_DIR }}/
@@ -442,7 +442,7 @@ jobs:
             libpugixml-dev libcpp-httplib-dev
 
       - name: Cache sccache
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        uses: actions/cache@v5
         with:
           path: ${{ github.workspace }}/.cache/sccache
           key: sccache-wave-a-benchmarks-${{ matrix.flow_name }}-${{ hashFiles('benchmarks/**', 'src/**', 'cmake/**', 'CMakeLists.txt', 'CMakePresets.json') }}-${{ runner.os }}
@@ -486,7 +486,7 @@ jobs:
 
       - name: Upload Wave A benchmark artifacts
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: ${{ matrix.artifact_name }}-${{ github.run_number }}
           path: ${{ env.RESULTS_DIR }}/
@@ -552,7 +552,7 @@ jobs:
             libpugixml-dev libcpp-httplib-dev libgtest-dev libgmock-dev
 
       - name: Cache sccache
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        uses: actions/cache@v5
         with:
           path: ${{ github.workspace }}/.cache/sccache
           key: sccache-wave-a-longrun-${{ matrix.flow_name }}-${{ hashFiles('tests/**', 'src/**', 'cmake/**', 'CMakeLists.txt', 'CMakePresets.json') }}-${{ runner.os }}
@@ -601,7 +601,7 @@ jobs:
 
       - name: Upload Wave A long-run artifacts
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: ${{ matrix.artifact_name }}-${{ github.run_number }}
           path: ${{ env.RESULTS_DIR }}/
@@ -670,7 +670,7 @@ jobs:
           fi
           exit 0
 
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      - uses: actions/upload-artifact@v5
         if: always()
         with:
           name: gpu-cuda-results-${{ matrix.cuda_arch }}-${{ github.run_number }}
@@ -713,7 +713,7 @@ jobs:
           fi
           exit 0
 
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      - uses: actions/upload-artifact@v5
         if: always()
         with:
           name: gpu-hip-results-${{ github.run_number }}
@@ -848,7 +848,7 @@ jobs:
             --previous-dir artifacts/nightly-prev \
             2>&1 | tee -a "${ARTIFACT_DIR}/sweep_run.log" || true
 
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      - uses: actions/upload-artifact@v5
         if: always()
         with:
           name: nightly-benchmark-sweep-${{ github.run_number }}
@@ -963,7 +963,7 @@ jobs:
               sys.exit(1)
           "
 
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      - uses: actions/upload-artifact@v5
         if: always()
         with:
           name: wave-d-observability-gates-${{ github.run_number }}
@@ -1080,7 +1080,7 @@ jobs:
 
       - name: Upload benchmark results
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: sharding-release-gates-${{ github.run_number }}
           path: ${{ env.ARTIFACT_DIR }}/
@@ -1166,7 +1166,7 @@ jobs:
               sys.exit(1)
           "
 
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      - uses: actions/upload-artifact@v5
         if: always()
         with:
           name: wave-d-soak-tests-${{ github.run_number }}

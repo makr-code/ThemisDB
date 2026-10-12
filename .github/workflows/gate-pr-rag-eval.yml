@@ -220,7 +220,7 @@ jobs:
       
       - name: Upload Test Results
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: rag-eval-test-results
           path: /tmp/rag-build/Testing/Temporary/

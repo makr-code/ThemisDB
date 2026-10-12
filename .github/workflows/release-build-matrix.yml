@@ -52,7 +52,7 @@ concurrency:
 jobs:
   linux-release:
     name: "Build: Linux Release"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
@@ -82,7 +82,7 @@ jobs:
 
   prepare-release-matrix:
     name: "Build: Prepare Release Build Matrix"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       matrix: ${{ steps.plan.outputs.matrix }}
     steps:
@@ -180,7 +180,7 @@ jobs:
               {
                   "id": "linux-amd64",
                   "enabled": lane_enabled("linux-amd64"),
-                  "runs_on": "ubuntu-latest",
+                  "runs_on": "ubuntu-24.04",
                   "setup_command": "set -euo pipefail\nsudo apt-get update -qq\nsudo apt-get install -y --no-install-recommends \\\n  build-essential cmake ninja-build pkg-config sccache ccache \\\n  autoconf autoconf-archive automake libtool \\\n  librocksdb-dev libgtest-dev libgmock-dev libssl-dev zlib1g-dev libzstd-dev \\\n  libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \\\n  libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libkrb5-dev \\\n  libvulkan-dev glslc \\\n  libcpp-httplib-dev \\\n  libboost-dev libboost-system-dev libboost-filesystem-dev \\\n  libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev \\\n  dpkg-dev rpm\ngit submodule sync -- vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF || true\ngit submodule update --init --depth 1 vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF\ntest -f vcpkg/scripts/buildsystems/vcpkg.cmake || {\n  echo \"::error::vcpkg submodule/toolchain missing before bootstrap\"\n  exit 1\n}\nexport VCPKG_ROOT=\"${GITHUB_WORKSPACE}/vcpkg\"\nexport PATH=\"${VCPKG_ROOT}:${PATH}\"\n./vcpkg/bootstrap-vcpkg.sh -disableMetrics",
                   "configure_command": "set -euo pipefail\nexport VCPKG_ROOT=\"${GITHUB_WORKSPACE}/vcpkg\"\nexport PATH=\"${VCPKG_ROOT}:${PATH}\"\nexport VCPKG_FORCE_SYSTEM_BINARIES=true\nexport CMAKE_C_COMPILER_LAUNCHER=sccache\nexport CMAKE_CXX_COMPILER_LAUNCHER=sccache\ncmake --preset linux-release ${CMAKE_FLAGS} 2>&1 | tee configure-linux-release.log",
                   "build_command": "set -euo pipefail\nexport VCPKG_ROOT=\"${GITHUB_WORKSPACE}/vcpkg\"\nexport PATH=\"${VCPKG_ROOT}:${PATH}\"\nexport VCPKG_FORCE_SYSTEM_BINARIES=true\nexport CMAKE_C_COMPILER_LAUNCHER=sccache\nexport CMAKE_CXX_COMPILER_LAUNCHER=sccache\ncmake --build --preset linux-release --parallel 16 2>&1 | tee build-linux-release.log",
@@ -191,7 +191,7 @@ jobs:
                   "artifact_paths_secondary": "packages/",
                   "artifact_retention_days": "30",
                   "artifact_retention_days_secondary": "90",
-                  "summary_title": "Linux AMD64 Release (ubuntu-latest)",
+                  "summary_title": "Linux AMD64 Release (ubuntu-24.04)",
               },
               {
                   "id": "linux-arm64",

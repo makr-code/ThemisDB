@@ -89,7 +89,7 @@ jobs:
 
       - name: Upload artifacts (always)
         if: github.event.inputs.dry_run != 'true'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: architecture-outputs-${{ github.run_id }}
           path: |

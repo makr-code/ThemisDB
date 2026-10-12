@@ -189,7 +189,7 @@ jobs:
 
       - name: Upload maturity report
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: maturity-report-${{ github.run_number }}
           path: /tmp/maturity_report.json
@@ -198,7 +198,7 @@ jobs:
 
       - name: Upload hard maturity exit artifact
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: maturity-exit-criteria-${{ github.run_number }}
           path: /tmp/maturity_exit_criteria.json
@@ -558,7 +558,7 @@ jobs:
           EOF
 
       - name: Upload audit summary
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: gate-audit-summary-${{ github.run_number }}
           path: /tmp/gate_audit_summary.json
@@ -744,7 +744,7 @@ jobs:
 
       - name: Upload Doxygen waiver artifacts
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: doxygen-waiver-${{ github.run_number }}
           path: |

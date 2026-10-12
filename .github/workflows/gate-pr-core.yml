@@ -544,7 +544,7 @@ jobs:
 
       - name: Upload release-critical triage bundle
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: release-critical-triage-${{ github.run_number }}
           path: |
@@ -670,7 +670,7 @@ jobs:
 
       - name: Upload delta report
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: scanner-delta-${{ github.run_number }}
           path: ai_working/delta/
@@ -1138,7 +1138,7 @@ jobs:
 
       - name: Upload TruffleHog results
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: trufflehog-results-${{ github.run_number }}
           path: trufflehog-results.json
