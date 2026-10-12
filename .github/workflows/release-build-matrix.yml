@@ -268,7 +268,7 @@ jobs:
 
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
-      enable_sccache_gha: true
+      enable_sccache_gha: false
       runs_on: ${{ matrix.runs_on }}
       shell: bash
       fetch_depth: '0'
