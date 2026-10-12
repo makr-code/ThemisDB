@@ -571,6 +571,14 @@ jobs:
             echo "::warning::${GITHUB_WORKSPACE}/internal missing; creating empty placeholder for public CI context"
             mkdir -p "${GITHUB_WORKSPACE}/internal"
           fi
+          if [ ! -d "${GITHUB_WORKSPACE}/tests" ]; then
+            echo "::warning::${GITHUB_WORKSPACE}/tests missing; creating empty placeholder for Docker build context"
+            mkdir -p "${GITHUB_WORKSPACE}/tests"
+          fi
+          if [ ! -d "${GITHUB_WORKSPACE}/artifacts" ]; then
+            echo "::warning::${GITHUB_WORKSPACE}/artifacts missing; creating empty placeholder for Docker build context"
+            mkdir -p "${GITHUB_WORKSPACE}/artifacts"
+          fi
           docker compose --project-directory "${GITHUB_WORKSPACE}" -f "${GITHUB_WORKSPACE}/docker-compose.yml" build themis
           docker compose --project-directory "${GITHUB_WORKSPACE}" -f "${GITHUB_WORKSPACE}/docker-compose.yml" up -d --no-build themis
           ready=0
