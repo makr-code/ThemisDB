@@ -75,7 +75,7 @@ jobs:
             --label-regex "focused" \
             -v --output-on-failure \
             --timeout 30
-          echo "status=success" >> $GITHUB_OUTPUT
+          echo "status=success" >> "$GITHUB_OUTPUT"
       
       - name: Run release-critical tests (Tier A subset)
         id: critical_tests
@@ -85,7 +85,7 @@ jobs:
             --label-regex "release_critical" \
             -v --output-on-failure \
             --timeout 30
-          echo "status=success" >> $GITHUB_OUTPUT
+          echo "status=success" >> "$GITHUB_OUTPUT"
       
       - name: Collect coverage data
         if: steps.focused_tests.outcome != 'failure'
@@ -238,12 +238,14 @@ jobs:
       - name: Workflow summary
         if: always()
         run: |
-          echo "## Coverage Collection Summary" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Step | Status |" >> $GITHUB_STEP_SUMMARY
-          echo "|------|--------|" >> $GITHUB_STEP_SUMMARY
-          echo "| Focused tests | ${{ steps.focused_tests.outcome }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Critical tests | ${{ steps.critical_tests.outcome }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Coverage collected | ✓ |" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Artifacts uploaded: coverage-report-${{ github.run_id }}" >> $GITHUB_STEP_SUMMARY
+          {
+            echo "## Coverage Collection Summary"
+            echo ""
+            echo "| Step | Status |"
+            echo "|------|--------|"
+            echo "| Focused tests | ${{ steps.focused_tests.outcome }} |"
+            echo "| Critical tests | ${{ steps.critical_tests.outcome }} |"
+            echo "| Coverage collected | ✓ |"
+            echo ""
+            echo "Artifacts uploaded: coverage-report-${{ github.run_id }}"
+          } >> "$GITHUB_STEP_SUMMARY"
