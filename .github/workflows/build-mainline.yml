@@ -300,7 +300,7 @@ jobs:
             -DCMAKE_MODULE_LINKER_FLAGS="-L${BREW_PREFIX}/lib" \
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_BUILD_BENCHMARKS=OFF \
-            -DTHEMIS_ENABLE_LLM=OFF \
+            -DTHEMIS_ENABLE_LLM=ON \
             -DTHEMIS_ENABLE_GPU=OFF \
             -DTHEMIS_ENABLE_GRPC=OFF \
             -DTHEMIS_ENABLE_GRAPHQL=OFF \

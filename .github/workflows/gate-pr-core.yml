@@ -249,7 +249,7 @@ jobs:
       configure_flags: >-
         -DTHEMIS_BUILD_TESTS=ON
         -DTHEMIS_BUILD_BENCHMARKS=OFF
-        -DTHEMIS_ENABLE_LLM=OFF
+        -DTHEMIS_ENABLE_LLM=ON
         -DTHEMIS_ENABLE_GPU=OFF
       build_command: >-
         PARALLEL_JOBS="$(nproc 2>/dev/null || echo 4)";
