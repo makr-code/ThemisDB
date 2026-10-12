@@ -114,7 +114,8 @@ jobs:
               {
                 echo "report_json<<EOF"
                 cat /tmp/audit_report.json
-                printf '\nEOF\n'
+                echo
+                echo "EOF"
               } >> "$GITHUB_OUTPUT"
               cp /tmp/audit_report.json "${{ runner.temp }}/audit_report.json"
               # Print summary
