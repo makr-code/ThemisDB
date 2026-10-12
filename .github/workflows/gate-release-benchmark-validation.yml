@@ -111,23 +111,16 @@ jobs:
           python3 tools/ci/audit_benchmark_coverage.py --output /tmp/audit_report.json || true
           # Export report JSON for gate logic
           if [ -f /tmp/audit_report.json ]; then
-              report_json=$(cat /tmp/audit_report.json)
-              echo "report_json=${report_json}" >> "$GITHUB_OUTPUT"
+              {
+                echo "report_json<<EOF"
+                cat /tmp/audit_report.json
+                echo
+                echo "EOF"
+              } >> "$GITHUB_OUTPUT"
               cp /tmp/audit_report.json "${{ runner.temp }}/audit_report.json"
               # Print summary
               echo "=== Audit Summary ===" >&2
-              python3 -c "
-              import json
-              with open('/tmp/audit_report.json') as f:
-                  data = json.load(f)
-              print(f\"Sources: {data['summary'].get('total_sources_discovered', 0)}\")
-              print(f\"CMake Targets: {data['summary'].get('cmake_targets', 0)}\")
-              print(f\"CTest Registered: {data['summary'].get('ctest_registered', 0)}\")
-              print(f\"Coverage: {data['summary'].get('ctest_coverage_percent', 0):.1f}%\")
-              print(f\"Broken: {len(data['findings'].get('broken_targets', []))}\")
-              print(f\"Unregistered: {len(data['findings'].get('unregistered_sources', []))}\")
-              print(f\"Orphaned: {len(data['findings'].get('orphaned_ctest', []))}\")
-              "
+              python3 -c "import json, pathlib; data=json.loads(pathlib.Path('/tmp/audit_report.json').read_text()); print(f\"Sources: {data['summary'].get('total_sources_discovered', 0)}\"); print(f\"CMake Targets: {data['summary'].get('cmake_targets', 0)}\"); print(f\"CTest Registered: {data['summary'].get('ctest_registered', 0)}\"); print(f\"Coverage: {data['summary'].get('ctest_coverage_percent', 0):.1f}%\"); print(f\"Broken: {len(data['findings'].get('broken_targets', []))}\"); print(f\"Unregistered: {len(data['findings'].get('unregistered_sources', []))}\"); print(f\"Orphaned: {len(data['findings'].get('orphaned_ctest', []))}\")"
           else
               echo "::error::Audit failed to produce output file"
               exit 1
