@@ -1,5 +1,5 @@
 ---
-name: "Release Gate: Benchmark Coverage Validation"
+name: "Gate: Release Benchmark Coverage Validation"
 
 # Validates benchmark coverage for releases, enforcing stricter thresholds
 # for release-critical modules (llm, sharding, storage, server, query, gpu, acceleration).
