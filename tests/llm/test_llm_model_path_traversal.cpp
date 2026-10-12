@@ -124,3 +124,22 @@ TEST_F(LlmModelPathTraversalTest, GAP009_NoModelRoot_CheckSkipped) {
                             (model_root_ / "allowed.gguf").string());
     });
 }
+
+// GAP-009-04: ModelDownloader must reject a `download_dir` that escapes the
+// intended working root even when the model_name itself is valid.
+TEST_F(LlmModelPathTraversalTest, GAP009_DownloadDirTraversal_Rejected) {
+    ModelDownloadConfig cfg;
+    cfg.ollama_url = "http://localhost:11434";
+    cfg.model_name = "safe-model";
+    cfg.download_dir = (model_root_ / ".." / "escape").string();
+    cfg.timeout_seconds = 1;
+    cfg.use_cache = false;
+
+    ModelDownloader downloader;
+    const auto result = downloader.downloadFromOllama(cfg);
+
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(result.error_message.find("Invalid download_dir"), std::string::npos)
+        << "download_dir traversal must be rejected before any disk write occurs; got: "
+        << result.error_message;
+}
