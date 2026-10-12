@@ -1,54 +1,56 @@
 # ThemisDB Vector Search Module
 
-<!-- Status: DOCS_FACADE | live implementation externalized to index/ | validated: 2026-10-08 -->
+<!-- Status: current | implementation lives under src/index and include/index | validated: 2026-10-12 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Module Purpose
 
-The vector search module is the governance-facing documentation and release-contract layer for ThemisDB's similarity-search capabilities. The active implementation lives in the broader index subsystem rather than in this directory itself.
+This module documents the operational contract and release-readiness evidence for ThemisDB vector-search behavior. The implementation itself is not colocated under `src/vector_search/`; it is owned by the shared index subsystem under `src/index/` and `include/index/`.
 
-The runtime behavior of vector search is driven by the index stack under `src/index/`, `include/index/`, and the repository's test/benchmark artifacts. This module exists to keep the feature's contract, quality gates, and operational expectations readable and reviewable without duplicating the implementation surface.
+This directory exists as the governance-facing summary for the module: it describes the runtime contract, validation evidence, and known gaps without duplicating the live source tree.
 
-## Live Implementation Footprint
+## Implementation Footprint
 
-The implementation is currently located in the shared index namespace rather than under `src/vector_search/` as colocated source files:
+The relevant live code and evidence are here:
 
 - `src/index/vector_index.cpp`
 - `src/index/advanced_vector_index.cpp`
 - `src/index/ann_index.cpp`
 - `src/index/multi_vector_search.cpp`
-- `src/index/distributed_vector_index.cpp`
-- `include/index/` and related headers for the public vector and ANN interfaces
+- `include/index/multi_vector_search.h`
+- `tests/integration/test_vector_search_soak.cpp`
+- `tests/vector_search/test_vector_search_highcardinality_stress.cpp`
+- `benchmarks/vector_search/bench_vector_search_dedicated_gates.cpp`
 
-This directory remains the canonical operational summary for the module, while the live code continues to be owned by the broader index subsystem.
+This module should be treated as the documentation and release boundary for vector search, not as an alternate implementation tree.
 
 ## Scope
 
 In scope:
-- vector search contracts, acceptance criteria, and module governance
-- ANN and index lifecycle expectations relevant to ThemisDB retrieval
-- query correctness, latency, and reliability gates
-- module-level risk tracking and future work planning
+- vector search contract and module governance
+- ANN/index query expectations for retrieval workflows
+- operational limits and release gates
+- known gaps, tuning, and future work planning
 
 Out of scope:
-- colocated implementation in `src/vector_search/*.cpp` or `include/vector_search/*.h`
-- feature ownership that is intentionally split into the broader `index/` subsystem
-- duplicate implementation details that would drift from the canonical source tree
+- creating a shadow implementation under `src/vector_search/`
+- duplicating index logic that lives in the shared `index` subsystem
+- undocumented "future" behavior that is not traceable to the live source tree
 
 ## Runtime Behavior and Limits
 
-- behavior depends on the active backend and index configuration in the shared `index` module
-- search results are ranked by similarity or distance metric according to the selected algorithm
-- production gates remain defined by benchmark and soak-test artifacts outside this directory
+- behavior is driven by the active backend and configuration in the shared index module
+- results are ordered by similarity or distance according to the selected metric and backend
+- performance and correctness expectations are validated through the existing benchmark and soak tests
 
 ## Governance and Validation References
 
-- **Implementation Phases & Status:** [ROADMAP.md](ROADMAP.md)
-- **Delivered Artefacts & History:** [CHANGELOG.md](CHANGELOG.md)
-- **Future Planning:** [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md)
-- **Architecture & Design:** [ARCHITECTURE.md](ARCHITECTURE.md)
-- **Module Audit & Compliance:** [AUDIT.md](AUDIT.md)
-- **Security & Threat Model:** [SECURITY.md](SECURITY.md)
-- **Operational Constraints:** [PRODUCTION_REQUIREMENTS.md](PRODUCTION_REQUIREMENTS.md)
-- **Performance Baselines:** [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md)
-- **Known Gaps & Limitations:** [MODULE_GAPS.md](MODULE_GAPS.md)
+- **Architecture:** [ARCHITECTURE.md](ARCHITECTURE.md)
+- **Implementation phases and status:** [ROADMAP.md](ROADMAP.md)
+- **Planned enhancements:** [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md)
+- **Audit summary:** [AUDIT.md](AUDIT.md)
+- **Security notes:** [SECURITY.md](SECURITY.md)
+- **Operational requirements:** [PRODUCTION_REQUIREMENTS.md](PRODUCTION_REQUIREMENTS.md)
+- **Performance objectives:** [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md)
+- **Known gaps:** [MODULE_GAPS.md](MODULE_GAPS.md)
+- **Change history:** [CHANGELOG.md](CHANGELOG.md)
