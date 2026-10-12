@@ -241,7 +241,7 @@ jobs:
 
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: test-results-${{ matrix.test_suite }}-${{ needs.phase1-health-check.outputs.execution_mode }}
           path: test_results_*.json
@@ -282,7 +282,7 @@ jobs:
 
       - name: Upload baseline validation report
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: baseline-validation-report
           path: phase4_validation_report.json
@@ -347,7 +347,7 @@ jobs:
           cat phase1_completion_status.json
 
       - name: Upload Phase 1 completion status
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: phase1-completion-status
           path: phase1_completion_status.json

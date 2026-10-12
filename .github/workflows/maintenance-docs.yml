@@ -140,7 +140,7 @@ jobs:
 
       - name: Upload lint artifacts
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: ai-context-lint-${{ github.run_number }}
           path: |
@@ -200,7 +200,7 @@ jobs:
 
       - name: Upload developer LLM wiki artifacts
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: developer-llm-wiki-${{ github.run_number }}
           path: |
@@ -365,7 +365,7 @@ jobs:
 
       - name: Upload maturity report
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: code-maturity-report-${{ github.run_number }}
           path: |
@@ -552,7 +552,7 @@ jobs:
 
       - name: Upload orphan-check reports
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: docs-orphan-check-${{ github.run_number }}
           path: |
@@ -622,7 +622,7 @@ jobs:
 
       - name: Upload hygiene reports
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: root-docs-hygiene-${{ github.run_number }}
           path: |
@@ -694,7 +694,7 @@ jobs:
 
       - name: Upload alignment reports
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: src-include-docs-align-${{ github.run_number }}
           path: |
@@ -897,7 +897,7 @@ jobs:
 
       - name: Upload hygiene report
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: ai-hygiene-report-${{ github.run_number }}
           path: |
@@ -1002,7 +1002,7 @@ jobs:
 
       - name: Upload extraction report
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: doxygen-extraction-${{ github.run_number }}
           path: |

@@ -42,7 +42,7 @@ jobs:
           echo "✓ Coverage tools installed"
       
       - name: Setup build cache (vcpkg)
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/.cache/vcpkg
@@ -170,7 +170,7 @@ jobs:
           echo "✓ HTML report generated"
       
       - name: Upload coverage artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: coverage-report-${{ github.run_id }}
           path: |

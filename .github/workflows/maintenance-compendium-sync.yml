@@ -105,7 +105,7 @@ jobs:
           # Note: script exits 1 on findings; we capture via outputs, not exit code.
 
       - name: Upload drift report artifacts
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: compendium-drift-report
           path: |

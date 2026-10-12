@@ -240,7 +240,7 @@ jobs:
         if: >-
           inputs.dry-run == false &&
           steps.run-updater.outputs.changed == 'true'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: changelog-update-proposal-${{ github.run_number }}
           path: /tmp/changelog-update.patch
@@ -320,7 +320,7 @@ jobs:
         if: >-
           inputs.dry-run == false &&
           steps.backfill.outputs.changed == 'true'
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: changelog-backfill-proposal-${{ github.run_number }}
           path: /tmp/changelog-backfill.patch

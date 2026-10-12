@@ -533,7 +533,7 @@ jobs:
           fi
 
       - name: Upload distro bundle artifact
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: ${{ steps.bundle.outputs.bundle_name }}
           path: linux-distro-bundle/

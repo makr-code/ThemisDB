@@ -118,7 +118,7 @@ jobs:
           echo '{"status": "phase_1_skeleton", "scenario": "${{ matrix.scenario }}"}' > ${{ env.WAVE_B_RESULTS_DIR }}/results_${{ matrix.scenario }}.json
 
       - name: Upload Results
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: wave-b-results-${{ matrix.scenario }}
           path: ${{ env.WAVE_B_RESULTS_DIR }}/

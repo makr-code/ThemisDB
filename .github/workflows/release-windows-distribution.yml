@@ -271,7 +271,7 @@ jobs:
           fi
 
       - name: Upload downloaded assets
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: windows-release-assets-${{ github.run_number }}
           path: release-assets/
@@ -409,7 +409,7 @@ jobs:
           echo "bundle_name=${BUNDLE_NAME}" >> "$GITHUB_OUTPUT"
 
       - name: Upload windows distro bundle artifact
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: ${{ steps.bundle.outputs.bundle_name }}
           path: windows-distro-bundle/

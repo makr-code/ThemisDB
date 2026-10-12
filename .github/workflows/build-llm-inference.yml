@@ -219,7 +219,7 @@ jobs:
               module_llm_test_llm_adalora_doku_training_focused
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: llm-inference-build-${{ github.run_number }}
           path: |
@@ -331,7 +331,7 @@ jobs:
 
       - name: Upload inference test results
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: inference-results-${{ github.run_number }}
           path: |
@@ -383,7 +383,7 @@ jobs:
 
       - name: Upload RAG test results
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: rag-results-${{ github.run_number }}
           path: |
@@ -435,7 +435,7 @@ jobs:
 
       - name: Upload AdaLoRA test results
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: adalora-results-${{ github.run_number }}
           path: |

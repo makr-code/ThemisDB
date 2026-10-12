@@ -16,6 +16,7 @@
 #include <mutex>
 #include <chrono>
 #include <optional>
+#include <vector>
 
 namespace themis {
 namespace llm {

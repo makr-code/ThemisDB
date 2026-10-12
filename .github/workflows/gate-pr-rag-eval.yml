@@ -196,7 +196,7 @@ jobs:
       - name: Install Build Dependencies
         run: |
           sudo apt-get update && sudo apt-get install -y \
-            cmake ninja-build g++-13 libfmt-dev libspdlog-dev nlohmann-json3-dev libboost-filesystem-dev libboost-system-dev libyaml-cpp-dev libcurl4-openssl-dev libgtest-dev libgmock-dev librocksdb-dev libsnappy-dev liblz4-dev libpugixml-dev libcpp-httplib-dev
+            cmake ninja-build g++-13 libfmt-dev libspdlog-dev nlohmann-json3-dev libboost-filesystem-dev libboost-system-dev libyaml-cpp-dev libcurl4-openssl-dev libgtest-dev libgmock-dev libbenchmark-dev librocksdb-dev libsnappy-dev liblz4-dev libpugixml-dev libcpp-httplib-dev
           cargo install sccache || (curl -L https://github.com/mozilla/sccache/releases/download/v0.7.7/sccache-v0.7.7-x86_64-unknown-linux-musl.tar.gz | tar -xz -C /tmp && sudo mv /tmp/sccache-v0.7.7-x86_64-unknown-linux-musl/sccache /usr/local/bin/)
       
       - name: Configure
@@ -220,7 +220,7 @@ jobs:
       
       - name: Upload Test Results
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: rag-eval-test-results
           path: /tmp/rag-build/Testing/Temporary/

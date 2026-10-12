@@ -131,7 +131,7 @@ jobs:
             --parallel "$(nproc)"
 
       - name: Upload build tree for consumer jobs
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: dk-build-tree-${{ github.run_number }}
           path: build-community-release/
