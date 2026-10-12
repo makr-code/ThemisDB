@@ -90,10 +90,25 @@ public:
         }
     }
 
+    /**
+     * @brief Request cancellation for the fallback task group.
+     * @details Marks queued work as cancelled so subsequent tasks are skipped
+     * and the timeout watchdog can unblock a stalled wait path.
+     * @note Thread-safe: the cancellation flag is published with release
+     * semantics so waiting code observes the stop request promptly.
+     */
     void cancel_group_execution() noexcept {
         cancelled_.store(true, std::memory_order_release);
     }
 
+    /**
+     * @brief Compatibility alias for cancel_group_execution().
+     * @details Kept for older call sites that still use the generic cancel()
+     * entry point. The fallback implementation simply delegates to the TBB-
+     * compatible cancellation path without taking any additional locks.
+     * @deprecated Use cancel_group_execution() instead.
+     */
+    [[deprecated("Use cancel_group_execution() instead")]]
     void cancel() noexcept {
         cancel_group_execution();
     }
