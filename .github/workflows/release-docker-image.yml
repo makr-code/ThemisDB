@@ -486,14 +486,19 @@ jobs:
         IMAGE_TAG="themisdb/themisdb:release-gate-${{ github.run_number }}"
         echo "Scanning image ${IMAGE_TAG} for HIGH/CRITICAL OS and library vulns"
         IMAGE_TAR="${RUNNER_TEMP}/release-gate-image.tar"
+        IMAGE_TAR_MOUNT="/tmp/release-gate-image.tar"
+        docker image inspect "${IMAGE_TAG}" >/dev/null 2>&1 || {
+          echo "::error::Image ${IMAGE_TAG} not found locally; cannot run Trivy release gate scan."
+          exit 1
+        }
         docker save "${IMAGE_TAG}" -o "${IMAGE_TAR}"
         mkdir -p "${RUNNER_TEMP}/trivy-cache"
         docker run --rm \
-          -v "${IMAGE_TAR}:/tmp/release-gate-image.tar:ro" \
+          -v "${IMAGE_TAR}:${IMAGE_TAR_MOUNT}:ro" \
           -v "${RUNNER_TEMP}/trivy-cache:/tmp/trivy-cache" \
           aquasec/trivy:0.64.0 \
           image \
-          --input /tmp/release-gate-image.tar \
+          --input "${IMAGE_TAR_MOUNT}" \
           --cache-dir /tmp/trivy-cache \
           --severity CRITICAL,HIGH \
           --ignore-unfixed \
