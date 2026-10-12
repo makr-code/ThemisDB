@@ -493,6 +493,7 @@ jobs:
         }
         docker save "${IMAGE_TAG}" -o "${IMAGE_TAR}"
         mkdir -p "${RUNNER_TEMP}/trivy-cache"
+        # Scan from a saved image tar to avoid docker-socket requirements inside the Trivy container.
         docker run --rm \
           -v "${IMAGE_TAR}:${IMAGE_TAR_MOUNT}:ro" \
           -v "${RUNNER_TEMP}/trivy-cache:/tmp/trivy-cache" \
@@ -500,6 +501,7 @@ jobs:
           image \
           --input "${IMAGE_TAR_MOUNT}" \
           --cache-dir /tmp/trivy-cache \
+          --scanners vuln \
           --severity CRITICAL,HIGH \
           --ignore-unfixed \
           --format table \
