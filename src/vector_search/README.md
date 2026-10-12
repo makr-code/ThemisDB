@@ -15,6 +15,7 @@ The relevant live code and evidence are here:
 
 - `src/index/vector_index.cpp`
 - `src/index/advanced_vector_index.cpp`
+- `src/index/ann_index.cpp`
 - `src/index/multi_vector_search.cpp`
 - `include/index/multi_vector_search.h`
 - `tests/integration/test_vector_search_soak.cpp`

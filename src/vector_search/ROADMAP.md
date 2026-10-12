@@ -77,10 +77,14 @@ No breaking API or governance change is introduced by this documentation alignme
 ## Module Evidence Sources
 
 - `src/index/README.md`
-- `include/index/multi_vector_search.h`
+- `src/index/vector_index.cpp`
+- `src/index/advanced_vector_index.cpp`
 - `src/index/multi_vector_search.cpp`
+- `include/index/multi_vector_search.h`
 - `tests/integration/test_vector_search_soak.cpp`
 - `tests/vector_search/test_vector_search_highcardinality_stress.cpp`
 - `benchmarks/vector_search/bench_vector_search_dedicated_gates.cpp`
 
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the broader release model and exit criteria.
+
+---
