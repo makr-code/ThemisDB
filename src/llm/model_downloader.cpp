@@ -29,7 +29,19 @@ namespace llm {
 
 namespace {
 
-[[nodiscard]] static bool validateAndNormalizeOutputPath(
+/**
+ * @brief Validate and normalize a caller-supplied model output path.
+ * @param[in] requested_path User-provided filesystem path.
+ * @param[out] safe_path Absolute, normalized path accepted for file writes.
+ * @param[out] error_out Human-readable rejection reason when validation fails.
+ * @param[in] label Friendly argument label used in message text.
+ * @return True when the path is absolute, contains no traversal segments, and has
+ *         no embedded NUL bytes; false otherwise.
+ * @details Rejects empty values, relative paths, NULs, and any `..` component
+ *          before a disk write is attempted. This prevents path-escape attempts
+ *          such as `../..` or `..` segments in the configured model cache path.
+ */
+[[nodiscard]] bool validateAndNormalizeOutputPath(
     const std::string& requested_path,
     fs::path& safe_path,
     std::string& error_out,
@@ -39,26 +51,28 @@ namespace {
         return false;
     }
 
-    fs::path input_path(requested_path);
-    if (input_path.string().find("..") != std::string::npos) {
-        error_out = label + " must not contain parent-directory traversal segments";
-        return false;
-    }
-
-    // Canonicalize relative paths against the current working directory and reject
-    // any path that still escapes via a parent-reference after normalization.
-    safe_path = fs::absolute(input_path).lexically_normal();
-    if (safe_path.string().find("..") != std::string::npos) {
-        error_out = label + " must resolve without parent-directory traversal";
-        return false;
-    }
-
-    // Reject NULs and other embedded non-printable control bytes up front.
+    // Reject NULs before any path processing because filesystem constructors may
+    // truncate embedded null bytes and hide the malicious payload from later checks.
     if (requested_path.find('\0') != std::string::npos) {
         error_out = label + " must not contain null bytes";
         return false;
     }
 
+    fs::path input_path(requested_path);
+    if (input_path.is_relative()) {
+        error_out = label + " must be an absolute path; relative paths are rejected";
+        return false;
+    }
+
+    for (const auto& component : input_path) {
+        if (component == "..") {
+            error_out = label + " must not contain parent-directory traversal segments";
+            return false;
+        }
+    }
+
+    // Canonicalize to an absolute, normalized path before any filesystem write.
+    safe_path = fs::absolute(input_path).lexically_normal();
     return true;
 }
 
@@ -239,6 +253,8 @@ ModelDownloadResult ModelDownloader::downloadFromOllama(const ModelDownloadConfi
     // [W3-SEC-02] Validate model_name and the output directory before embedding
     // them into any filesystem path. This closes the remaining traversal gap when
     // a caller passes a path that escapes the intended model root via `..`.
+    fs::path safe_download_dir;
+    std::string download_dir_error;
     {
         std::string name_error = {};
         if (!sanitizeModelName(config.model_name, name_error)) {
@@ -248,8 +264,6 @@ ModelDownloadResult ModelDownloader::downloadFromOllama(const ModelDownloadConfi
             return result;
         }
 
-        fs::path safe_download_dir;
-        std::string download_dir_error;
         if (!validateAndNormalizeOutputPath(config.download_dir, safe_download_dir,
                                             download_dir_error, "download_dir")) {
             result.success = false;
@@ -261,18 +275,18 @@ ModelDownloadResult ModelDownloader::downloadFromOllama(const ModelDownloadConfi
 
     try {
         // Check if model already exists
-        std::string expected_path = config.download_dir + "/" + config.model_name + ".gguf";
-        if (config.use_cache && isModelAvailable(expected_path)) {
-            THEMIS_INFO("Model already available: {}", expected_path);
+        const fs::path expected_path = safe_download_dir / (config.model_name + ".gguf");
+        if (config.use_cache && isModelAvailable(expected_path.string())) {
+            THEMIS_INFO("Model already available: {}", expected_path.string());
             result.success = true;
-            result.model_path = expected_path;
+            result.model_path = expected_path.string();
             result.file_size_bytes = fs::file_size(expected_path);
             return result;
         }
         
         // Create download directory if needed
-        if (!fs::exists(config.download_dir)) {
-            fs::create_directories(config.download_dir);
+        if (!fs::exists(safe_download_dir)) {
+            fs::create_directories(safe_download_dir);
         }
         
         // Pull model from Ollama
@@ -316,6 +330,8 @@ ModelDownloadResult ModelDownloader::pullFromOllama(const ModelDownloadConfig& c
     // [W3-SEC-02] Re-validate model_name and the output directory here since
     // pullFromOllama is part of the public-facing protected API and may be called
     // independently of downloadFromOllama.
+    fs::path safe_download_dir;
+    std::string download_dir_error;
     {
         std::string name_error = {};
         if (!sanitizeModelName(config.model_name, name_error)) {
@@ -325,8 +341,6 @@ ModelDownloadResult ModelDownloader::pullFromOllama(const ModelDownloadConfig& c
             return result;
         }
 
-        fs::path safe_download_dir;
-        std::string download_dir_error;
         if (!validateAndNormalizeOutputPath(config.download_dir, safe_download_dir,
                                             download_dir_error, "download_dir")) {
             result.success = false;
@@ -385,7 +399,7 @@ ModelDownloadResult ModelDownloader::pullFromOllama(const ModelDownloadConfig& c
     }
     
     // After pulling, export model to GGUF format
-    std::string output_path = config.download_dir + "/" + config.model_name + ".gguf";
+    const std::string output_path = (safe_download_dir / (config.model_name + ".gguf")).string();
     bool export_success = exportOllamaModel(config.ollama_url, config.model_name, output_path);
     
     if (!export_success) {
@@ -546,7 +560,7 @@ ModelDownloadResult ModelDownloader::downloadFromURL(
     auto start_time = std::chrono::steady_clock::now();
 
     fs::path safe_path;
-    std::string output_error = {};
+    std::string output_error;
     if (!validateAndNormalizeOutputPath(output_path, safe_path, output_error, "output_path")) {
         result.success = false;
         result.error_message = "Invalid output_path: " + output_error;

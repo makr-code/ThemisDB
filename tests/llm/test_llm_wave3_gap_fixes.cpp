@@ -200,10 +200,13 @@ TEST(LlmWave3, W3_06_ModelNameBackslashRejected) {
 }
 
 TEST(LlmWave3, W3_06b_DownloadDirTraversalRejected) {
+    const auto temp_root = std::filesystem::temp_directory_path();
+    const auto malicious_dir = temp_root / ".." / "escape";
+
     ModelDownloadConfig cfg;
     cfg.ollama_url = "http://localhost:11434";
     cfg.model_name = "safe-model";
-    cfg.download_dir = "/tmp/../tmp/escape";
+    cfg.download_dir = malicious_dir.string();
     cfg.timeout_seconds = 1;
     cfg.use_cache = false;
 
