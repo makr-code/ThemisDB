@@ -179,7 +179,7 @@ jobs:
           } >> "$GITHUB_ENV"
 
       - name: Restore CMake build caches
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        uses: actions/cache@v5
         with:
           path: |
             ${{ github.workspace }}/.cache/sccache
@@ -204,7 +204,7 @@ jobs:
 
       - name: Install sccache
         if: inputs.enable_sccache_gha
-        uses: mozilla-actions/sccache-action@7d986dd989559c6ecdb630a3fd2557667be217ad
+        uses: mozilla-actions/sccache-action@v0.0.7
 
       - name: Setup
         if: inputs.setup_command != ''
@@ -424,7 +424,7 @@ jobs:
 
       - name: Upload artifacts
         if: inputs.artifact_name != '' && inputs.artifact_paths != ''
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: ${{ inputs.artifact_name }}
           path: ${{ inputs.artifact_paths }}
@@ -433,7 +433,7 @@ jobs:
 
       - name: Upload secondary artifacts
         if: inputs.artifact_name_secondary != '' && inputs.artifact_paths_secondary != ''
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v5
         with:
           name: ${{ inputs.artifact_name_secondary }}
           path: ${{ inputs.artifact_paths_secondary }}
