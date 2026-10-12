@@ -29,6 +29,8 @@ namespace {
  * @param[in] delta Signed amount to add to the current value.
  * @note Uses relaxed ordering because metric updates do not establish
  *       synchronization with other state and only require atomicity.
+ * @note Under extreme contention the CAS retry loop may spin until an update
+ *       succeeds; this helper intentionally prioritizes lock-free progress.
  */
 void atomicFetchAddRelaxed(std::atomic<double> &value, double delta) noexcept {
     double current = value.load(std::memory_order_relaxed);
