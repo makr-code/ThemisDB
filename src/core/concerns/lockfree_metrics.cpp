@@ -23,7 +23,14 @@ namespace concerns {
 
 namespace {
 
-void atomicAddRelaxed(std::atomic<double> &value, double delta) noexcept {
+/**
+ * @brief Atomically adds a delta to a floating-point metric using a CAS loop.
+ * @param[in,out] value Atomic gauge storage updated in-place.
+ * @param[in] delta Signed amount to add to the current value.
+ * @note Uses relaxed ordering because metric updates do not establish
+ *       synchronization with other state and only require atomicity.
+ */
+void atomicFetchAddRelaxed(std::atomic<double> &value, double delta) noexcept {
     double current = value.load(std::memory_order_relaxed);
     while (!value.compare_exchange_weak(current, current + delta, std::memory_order_relaxed,
                                         std::memory_order_relaxed)) {
@@ -95,7 +102,7 @@ void LockFreeMetrics::setGauge(const std::string &name, double value, const Labe
 void LockFreeMetrics::incrementGauge(const std::string &name, double delta, const Labels &labels) {
     const std::string key = makeKey(name, labels);
     GaugeEntry *entry     = getOrCreateGauge(key, name, labels);
-    atomicAddRelaxed(entry->value, delta);
+    atomicFetchAddRelaxed(entry->value, delta);
 }
 
 /**
@@ -108,7 +115,7 @@ void LockFreeMetrics::incrementGauge(const std::string &name, double delta, cons
 void LockFreeMetrics::decrementGauge(const std::string &name, double delta, const Labels &labels) {
     const std::string key = makeKey(name, labels);
     GaugeEntry *entry     = getOrCreateGauge(key, name, labels);
-    atomicAddRelaxed(entry->value, -delta);
+    atomicFetchAddRelaxed(entry->value, -delta);
 }
 
 // ---------------------------------------------------------------------------
