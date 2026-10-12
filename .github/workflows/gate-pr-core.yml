@@ -1217,7 +1217,11 @@ jobs:
           exit 1
 
       - name: Fail if mandatory final-runtime-api gate failed
-        if: needs.final-runtime-api-gate.result != '' && needs.final-runtime-api-gate.result == 'failure'
+        if: >-
+          needs.final-runtime-api-gate.result != '' &&
+          (needs.final-runtime-api-gate.result == 'failure' ||
+           needs.final-runtime-api-gate.result == 'cancelled' ||
+           needs.final-runtime-api-gate.result == 'skipped')
         run: |
           echo "::error::final-runtime-api-gate FAILED — final runtime API gate is mandatory for develop/community rollout phase."
           exit 1

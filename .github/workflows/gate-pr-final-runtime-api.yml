@@ -5,67 +5,6 @@ name: "Gate: PR Final Runtime API"
 
 on:
   workflow_call: {}
-  pull_request:
-    branches:
-      - develop
-      - community
-      - enterprise
-      - hyperscaler
-      - military
-      - minimal
-    paths:
-      - 'src/server/**/*.c'
-      - 'src/server/**/*.cc'
-      - 'src/server/**/*.cpp'
-      - 'src/server/**/*.cxx'
-      - 'src/server/**/*.h'
-      - 'src/server/**/*.hh'
-      - 'src/server/**/*.hpp'
-      - 'src/server/**/*.hxx'
-      - 'src/llm/**/*.c'
-      - 'src/llm/**/*.cc'
-      - 'src/llm/**/*.cpp'
-      - 'src/llm/**/*.cxx'
-      - 'src/llm/**/*.h'
-      - 'src/llm/**/*.hh'
-      - 'src/llm/**/*.hpp'
-      - 'src/llm/**/*.hxx'
-      - 'src/llm_wiki/**/*.c'
-      - 'src/llm_wiki/**/*.cc'
-      - 'src/llm_wiki/**/*.cpp'
-      - 'src/llm_wiki/**/*.cxx'
-      - 'src/llm_wiki/**/*.h'
-      - 'src/llm_wiki/**/*.hh'
-      - 'src/llm_wiki/**/*.hpp'
-      - 'src/llm_wiki/**/*.hxx'
-      - 'tests/llm/**/*.c'
-      - 'tests/llm/**/*.cc'
-      - 'tests/llm/**/*.cpp'
-      - 'tests/llm/**/*.cxx'
-      - 'tests/llm/**/*.h'
-      - 'tests/llm/**/*.hh'
-      - 'tests/llm/**/*.hpp'
-      - 'tests/llm/**/*.hxx'
-      - 'include/llm/**/*.h'
-      - 'include/llm/**/*.hh'
-      - 'include/llm/**/*.hpp'
-      - 'include/llm/**/*.hxx'
-      - 'include/server/**/*.h'
-      - 'include/server/**/*.hh'
-      - 'include/server/**/*.hpp'
-      - 'include/server/**/*.hxx'
-      - 'docker-compose.yml'
-      - 'Dockerfile'
-      - 'CMakeLists.txt'
-      - 'CMakePresets.json'
-      - 'cmake/**/*.cmake'
-      - 'cmake/**/*.txt'
-      - 'cmake/**/*.in'
-      - 'scripts/ci-download-tinyllama.sh'
-      - 'scripts/ci-build-doku-db.sh'
-      - 'tools/ci/final_runtime_api_gate.py'
-      - '.github/workflows/gate-pr-final-runtime-api.yml'
-      - '.github/workflows/gate-pr-core.yml'
 
 permissions:
   contents: read
