@@ -1,203 +1,144 @@
 # Vector Search Module — Architecture
 
-<!-- Status: governance-facade | index implementation lives under src/index and include/index | validated: 2026-10-08 -->
+<!-- Status: current | live implementation under src/index and include/index | validated: 2026-10-12 -->
 
 ## Overview
 
-The vector search module is the governance and release-facing description of ThemisDB's similarity-search feature. The active algorithmic implementation is owned by the shared index subsystem, especially under `src/index/` and `include/index/`, but this module documents the contract, operational expectations, and risk model that the wider system depends on.
+This module documents the architecture and operational boundaries of ThemisDB vector search without creating a second implementation tree. The authoritative implementations live under `src/index/` and `include/index/`, and the module docs remain aligned to those files and their validation artifacts.
 
 ## Design Principles
 
-1. **Contract-first behavior:** vector search semantics remain bounded by explicit dimension, metric, and result validation rules
-2. **Implementation delegation:** algorithmic work remains in the index module instead of duplicated in `src/vector_search/`
-3. **Operational clarity:** release gates, soak tests, and benchmark thresholds remain traceable to concrete artifacts
-4. **Correctness over novelty:** approximate search is accepted only with measurable recall and stability checks
-5. **Scalability with explicit limits:** distributed and persistence features are tracked as planned work rather than implied as current implementation
+1. **Source-of-truth ownership:** vector-search behavior is defined by the shared index subsystem, not by duplicated files under `src/vector_search/`.
+2. **Contract clarity:** query semantics, metric validation, and result ranking remain explicit and reviewable.
+3. **Operational evidence:** release gates are anchored in test and benchmark artifacts rather than in unstated assumptions.
+4. **Correctness before scale:** approximate search is accepted only with measurable recall, stability, and workload validation.
+5. **Explicit limitations:** sharding, persistence, and advanced tuning remain tracked as planned work instead of being implied as current production features.
 
 ## Architecture Boundary
 
-```
+```text
 Client / Retrieval / Server
        │
        ▼
-   vector search contract
+  vector-search contract
        │
        ▼
    shared index subsystem
    ├─ src/index/vector_index.cpp
    ├─ src/index/advanced_vector_index.cpp
-   ├─ src/index/ann_index.cpp
    ├─ src/index/multi_vector_search.cpp
-   ├─ src/index/distributed_vector_index.cpp
+   ├─ include/index/multi_vector_search.h
    └─ include/index/*
        │
        ▼
-  distance metric + query execution + result ranking
+  distance metric selection + query execution + result ranking
 ```
 
 ## Core Components
 
-### Public Contract Layer
+### Governance / Release Layer
 
-This module describes the behavior expected by downstream users rather than reimplementing the algorithms locally.
+This directory provides the module-facing description, release checklist, and operational expectations.
 
 Responsibilities:
-- define module scope and release gates
-- document correctness and operational expectations
-- track known gaps and future roadmap items
-- connect the feature to the benchmark and validation artifacts in the repository
+- define module scope, readiness gates, and release boundaries
+- describe the supported runtime behavior of vector search
+- retain audit, security, performance, and gap tracking evidence
+- connect the module to the live implementation and benchmark/test files
 
 ### Shared Index Execution Layer
 
-The live implementation remains under the broader index subsystem and performs the actual work:
-- index construction and maintenance
-- ANN search execution
-- distance metric routing and result ranking
-- index rebuild and sharding pathways when enabled by configuration
+The live implementation remains in the broader `index` subsystem and performs the actual work:
+- vector index construction and management
+- ANN / nearest-neighbor search execution
+- metric selection and result ranking
+- query validation and failure handling
 
 ## Data Flow
-
-### Index Construction and Search
 
 ```text
 Input embedding vectors + metadata
        │
        ├─ validate dimension and value sanity
        │
-       ├─ select configured index backend (vector/ANN/advanced index)
+       ├─ select index backend and metric
        │
-       ├─ execute index build or update path in src/index/
+       ├─ execute shared index path under src/index/
        │
-       ├─ run query/retrieval path
+       ├─ run query or batch retrieval
        │
-       └─ return ranked neighbors and metrics to caller
+       └─ return ranked results with error statuses when validation fails
 ```
-
-### Operational Boundaries
-
-- The governance docs here should remain aligned with the actual index implementations under `src/index/`.
-- When implementation details change, update this module's docs and the shared index evidence in the same change.
-- Distributed and persistence features remain planned unless they are actually present in the live source tree.
 
 ## Concurrency Model
 
-### Thread Safety Expectations
+### Thread safety expectations
 
-1. **Read-heavy search operations:** concurrent read access is allowed under the index layer's locking model.
-2. **Write operations:** index modification remains exclusive when rebuild or structural changes occur.
-3. **Bounds and validation:** invalid dimensions, NaN/Inf values, and unsupported metrics fail before mutation or result calculation.
+1. **Read-heavy searches:** concurrent read access is allowed under the shared index layer's synchronization model.
+2. **Write operations:** modifications remain exclusive when rebuild or structural mutation occurs.
+3. **Validation gate:** invalid dimensions, NaN/Inf values, and unsupported metrics fail before mutation or result calculation.
 
-### Synchronization Principles
+### Synchronization principles
 
-- Shared index code handles locking near the implementation boundary rather than through a duplicate `vector_search` shadow implementation.
-- Search correctness depends on the selected algorithm and its runtime validation, not on this documentation-only module.
+- the canonical locking and behavior are defined in the shared index implementation, not by a second vector-search layer
+- this module documents the contract and the operational constraints around that behavior
 
-## Known Constraints
+## Known constraints
 
-- This directory is not the authoritative source of the implementation; it is the authoritative summary of the module contract.
-- The live feature is subject to the broader index module roadmap and release gates.
-- Any feature intentionally implemented outside the shared index tree must be reflected in `README.md`, `ROADMAP.md`, and `MODULE_GAPS.md` immediately.
+- this directory is a governance summary, not a duplicate implementation surface
+- distributed/search-sharding and persistence features remain planned work unless they exist in the shared index implementation
+- real feature ownership must stay aligned with `src/index/` and `include/index/`
 
-## Related Artifacts
+## Related artifacts
 
-- `src/index/README.md` for the concrete index implementation overview
-- `tests/integration/test_vector_search_soak.cpp` for soak and recall validation
-- `tests/vector_search/test_vector_search_highcardinality_stress.cpp` for stress checks
-- `benchmarks/vector_search/bench_vector_search_dedicated_gates.cpp` for performance gate references
+- `src/index/README.md`
+- `include/index/multi_vector_search.h`
+- `src/index/multi_vector_search.cpp`
+- `tests/integration/test_vector_search_soak.cpp`
+- `tests/vector_search/test_vector_search_highcardinality_stress.cpp`
+- `benchmarks/vector_search/bench_vector_search_dedicated_gates.cpp`
 
-## Performance Characteristics
+## Performance characteristics
 
-### Target Latencies (P99)
+The module's expected performance is defined by the benchmark gate set in `benchmarks/vector_search/` and the soak test.
 
-- **Insertion:** < 100 µs per vector (HNSW)
-- **Search k=10:** < 10 ms (HNSW with 1M vectors)
-- **Search k=100:** < 50 ms (IVF with large index)
+### Release targets
 
-### Throughput
+- insertion throughput: >= 1,000 ops/sec (P95)
+- query latency: <= 10 ms for k=10, 128-dim workload (P99)
+- concurrent throughput: >= 500 ops/sec at 4 threads
+- memory overhead: < 40% over raw vector storage
 
-- **Insert Throughput:** > 1000 vectors/sec
-- **Query Throughput:** > 100 queries/sec
-- **Concurrent Queries:** ≥ 100 with minimal overhead
+## Error handling
 
-### Resource Consumption
+### Failure modes
 
-- **Per-Vector Memory:** ~0.1-0.5 MB (HNSW with M=16)
-- **Per-Vector Memory:** ~0.05-0.2 MB (IVF with clustering)
-- **Index Overhead:** 20-40% above raw vector storage
+1. **Dimension mismatch** -> reject invalid insert/query and return an explicit error
+2. **NaN or Inf values** -> reject before mutation
+3. **Empty index** -> return empty result or explicit empty-index status when required
+4. **Unsupported metric** -> fail closed rather than silently falling back
+5. **Corruption or resource exhaustion** -> preserve state and surface the error instead of continuing silently
 
-## Error Handling
+## Integration points
 
-### Graceful Degradation
+### Retrieval-augmented generation (RAG)
 
-1. **Dimension Mismatch** → Return error; don't corrupt index
-2. **Invalid Vector** (NaN, inf) → Skip insertion; log warning
-3. **Empty Index** → Return empty results
-4. **Index Corruption** → Rebuild from scratch if possible
-5. **Out of Memory** → Reject insertions; preserve existing index
+- query embeddings reach the shared index search path
+- top-k candidate IDs are returned for downstream retrieval logic
+- correctness depends on stable metric selection and bounded result validation
 
-### Error Codes (E5400–E5499)
+### Search and retrieval coordination
 
-- E5400: Invalid vector dimension
-- E5401: Vector contains NaN or inf
-- E5402: Index is empty
-- E5403: Search returned no results
-- E5404: Index corruption detected
+- index lifecycle and data flow are owned by the `index` subsystem
+- module docs remain the synchronization layer for audits, release readiness, and roadmap planning
 
-## Integration Points
+## See also
 
-### Retrieval-Augmented Generation (RAG)
+- [`ROADMAP.md`](ROADMAP.md)
+- [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)
+- [`../../src/index/README.md`](../../src/index/README.md)
+- [`../../include/index/multi_vector_search.h`](../../include/index/multi_vector_search.h)
 
-Vector search integrates into RAG pipelines:
-- Query embedding passed to similarity search
-- Top-k documents retrieved for context
-- Results fed to LLM for answer generation
+## Implementation status
 
-### Semantic Search
-
-Used in document retrieval:
-- Natural language queries converted to embeddings
-- Vector search finds relevant documents
-- Results ranked by similarity
-
-## See Also
-
-- [`ROADMAP.md`](ROADMAP.md) — Implementation phases and deliverables
-- [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md) — Planned features
-- [`../../include/vector_search/vector_index.h`](../../include/vector_search/vector_index.h) — Public API
-
-## Implementation Status
-
-Vector search module provides a **stable, production-ready facade** for similarity search operations. Core algorithms (HNSW, IVF) and distance kernels are implemented and integrated from:
-- `include/index/` — Algorithm foundations (HNSW, IVF data structures)
-- `include/utils/` — SIMD distance computation
-- Test verification: `tests/integration/test_vector_search_soak.cpp`, `tests/vector_search/test_vector_search_highcardinality_stress.cpp`
-- Benchmark validation: `benchmarks/vector_search/bench_vector_search_dedicated_gates.cpp`, `benchmarks/ann/bench_vector_search.cpp`
-
-**Wave D Status:** ✓ COMPLETE (2026-09-22)
-- Soak tests delivered and passing (≥ 2 000 ops/sec, recall ≥ 0.9, no corruption)
-- Benchmark gates defined and measurable (VS-BM-01 to VS-BM-04)
-- Production readiness checklist signed off
-- Module available for production deployment
-
-## Module Dependencies
-
-### Direct Upstream Dependencies (this module uses)
-| Module | Interface / File | Purpose | Status |
-|--------|-----------------|---------|--------|
-| index | `include/index/` | Foundational index structures (HNSW, IVF) reused by vector search | ✓ VERIFIED |
-| storage | `include/storage/` | Planned: persistence of serialized vector indices | PHASE 6 |
-| utils | `include/utils/` (simd_distance.cpp) | SIMD-accelerated distance computation helpers | ✓ VERIFIED |
-
-### Direct Downstream Consumers (modules that use this module)
-| Module | Via | Notes | Status |
-|--------|-----|-------|--------|
-| rag | `include/vector_search/vector_index.h` | RAG uses ANN index for embedding similarity retrieval | ✓ VERIFIED |
-| server | `include/vector_search/` | Server exposes vector similarity query APIs | ✓ VERIFIED |
-
-## Integration Points
-
-### Critical Integration: ANN Index for RAG
-**Files:** `include/vector_search/vector_index.h` (planned) ↔ `rag/`  
-**Contract:** RAG calls vector search operations and receives ranked embedding IDs; index does not mutate result objects after delivery.  
-**Thread Safety:** Read queries concurrent-safe via shared_mutex; index mutations (insert/delete) serialized via exclusive write lock.  
-**Status:** ✓ VERIFIED via `tests/integration/test_vector_search_soak.cpp`
+The vector-search module is currently in a governance-aligned, release-ready state with the actual implementation living under the broader index subsystem. The module docs are synchronized with the actual sources and the validation artifacts that support the release gate.
