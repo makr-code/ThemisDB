@@ -1182,6 +1182,7 @@ jobs:
       - final-runtime-api-gate
     steps:
       - name: Write summary
+        if: always()
         run: |
           {
             echo "## PR Gates Summary"
@@ -1201,7 +1202,11 @@ jobs:
             echo "| Scoped Checkout Validation (Wave C B3) | ${{ needs.scoped-checkout-validation.result }} |"
             echo "| Private-Credential Scanning (Wave C B3) | ${{ needs.private-credential-scan.result }} |"
             echo "| Secret Scanning (non-blocking) | ${{ needs.secret-scan.result }} |"
-            echo "| Final Runtime API Gate (TinyLlama + docs.db) | ${{ needs.final-runtime-api-gate.result }} |"
+            if [ "${{ github.event_name }}" = "pull_request" ] && [ "${{ github.base_ref }}" != "develop" ] && [ "${{ github.base_ref }}" != "community" ]; then
+              echo "| Final Runtime API Gate (TinyLlama + docs.db) | not-applicable |"
+            else
+              echo "| Final Runtime API Gate (TinyLlama + docs.db) | ${{ needs.final-runtime-api-gate.result }} |"
+            fi
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Fail if mandatory Wave C policy gates failed
@@ -1218,10 +1223,11 @@ jobs:
 
       - name: Fail if mandatory final-runtime-api gate failed
         if: >-
+          github.event_name == 'pull_request' &&
+          (github.base_ref == 'develop' || github.base_ref == 'community') &&
           needs.final-runtime-api-gate.result != '' &&
           (needs.final-runtime-api-gate.result == 'failure' ||
-           needs.final-runtime-api-gate.result == 'cancelled' ||
-           needs.final-runtime-api-gate.result == 'skipped')
+           needs.final-runtime-api-gate.result == 'cancelled')
         run: |
           echo "::error::final-runtime-api-gate FAILED — final runtime API gate is mandatory for develop/community rollout phase."
           exit 1

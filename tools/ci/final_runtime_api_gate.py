@@ -50,10 +50,10 @@ def _run(endpoint: str, timeout: int) -> list[CheckResult]:
     status, _ = _request("GET", f"{endpoint}/api/v1/entities", timeout=timeout)
     checks.append(
         CheckResult(
-            name="auth.protected_endpoint_rejected_without_token",
-            ok=status in (401, 403) or status in (200, 204),
+            name="auth.endpoint_access_check",
+            ok=status in (200, 204, 401, 403),
             status=status,
-            detail="expected route to be either protected (401/403) or intentionally permissive when auth is disabled in the runtime",
+            detail="expected the endpoint to either require auth or accept the request when auth is disabled in the runtime",
         )
     )
 
