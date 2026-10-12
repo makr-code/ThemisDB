@@ -90,8 +90,27 @@ public:
         }
     }
 
-    void cancel() {
+    /**
+     * @brief Request cancellation for the fallback task group.
+     * @details Marks queued work as cancelled so subsequent tasks are skipped
+     * and the timeout watchdog can unblock a stalled wait path.
+     * @note Thread-safe: the cancellation flag is published with release
+     * semantics so waiting code observes the stop request promptly.
+     */
+    void cancel_group_execution() noexcept {
         cancelled_.store(true, std::memory_order_release);
+    }
+
+    /**
+     * @brief Compatibility alias for cancel_group_execution().
+     * @details Kept for older call sites that still use the generic cancel()
+     * entry point. The fallback implementation simply delegates to the TBB-
+     * compatible cancellation path without taking any additional locks.
+     * @deprecated Use cancel_group_execution() instead.
+     */
+    [[deprecated("Use cancel_group_execution() instead")]]
+    void cancel() noexcept {
+        cancel_group_execution();
     }
 
 private:
@@ -150,7 +169,7 @@ inline bool waitWithTimeout(tbb::task_group& tg, double timeout_seconds = 5.0) n
                 if (!done->load(std::memory_order_acquire)) {
                     timed_out->store(true, std::memory_order_release);
                     // Signal TBB to stop accepting new tasks and drain quickly.
-                    tg.cancel();
+                    tg.cancel_group_execution();
                 }
                 return;
             }
@@ -168,7 +187,8 @@ inline bool waitWithTimeout(tbb::task_group& tg, double timeout_seconds = 5.0) n
     // join_watcher will continue to wait for watchdog completion asynchronously.
     //
     // Watchdog bounded-ness: The watchdog thread (defined at line 126) is simple:
-    // it polls every 50ms and calls tg.cancel() if the deadline fires, then returns.
+    // it polls every 50ms and calls tg.cancel_group_execution() if the deadline fires,
+    // then returns.
     // No locks are taken, so it cannot deadlock on synchronization primitives.
     // Therefore, join_watcher's blocking on watchdog.join() is bounded by the
     // watchdog's timeout duration (5.0 seconds by default, caller-configurable).

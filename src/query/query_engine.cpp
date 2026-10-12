@@ -103,8 +103,27 @@ public:
         tasks_.clear();
     }
 
-    void cancel() noexcept {
+    /**
+     * @brief Request cancellation for the fallback task group.
+     * @details Marks the group as cancelled so queued work is skipped and
+     * timeout-driven cancellation can make tg.wait() return promptly.
+     * @note The stop flag is written eagerly and read by the executor without
+     * additional synchronization; it is sufficient for this local fallback.
+     */
+    void cancel_group_execution() noexcept {
         cancelled_ = true;
+    }
+
+    /**
+     * @brief Compatibility alias for cancel_group_execution().
+     * @details Retained for older code paths that still call cancel() on a
+     * task_group-like shim. This wrapper delegates to the canonical cancellation
+     * method used by the timeout watchdog.
+     * @deprecated Use cancel_group_execution() instead.
+     */
+    [[deprecated("Use cancel_group_execution() instead")]]
+    void cancel() noexcept {
+        cancel_group_execution();
     }
 
 private:
@@ -184,7 +203,9 @@ static void tbbWaitWithTimeout(
     //
     // Replace the post-fact advisory pattern (tg.wait(); then check elapsed)
     // with a watchdog-thread approach that actively cancels the task group
-    // when the deadline fires, so stalled morsels unblock promptly.
+    // when the deadline fires, so stalled morsels unblock promptly. We call
+    // cancel_group_execution() instead of cancel() because TBB exposes the
+    // cancellation API there; cancel() is not a valid task_group member.
     auto done = std::make_shared<std::atomic<bool>>(false);
 
     std::thread watchdog([done, &tg, timeout_ms]() noexcept {
@@ -192,7 +213,7 @@ static void tbbWaitWithTimeout(
         while (!done->load(std::memory_order_acquire)) {
             if (std::chrono::steady_clock::now() >= deadline) {
                 if (!done->load(std::memory_order_acquire)) {
-					tg.cancel();
+					tg.cancel_group_execution();
                 }
                 return;
             }
@@ -214,7 +235,8 @@ static void tbbWaitWithTimeout(
     // continue to wait for watchdog completion asynchronously.
     //
     // Watchdog bounded-ness: The watchdog thread (defined at line 189) is simple:
-    // it polls every 50ms and calls tg.cancel() if the deadline fires, then returns.
+    // it polls every 50ms and calls tg.cancel_group_execution() if the deadline fires,
+    // then returns.
     // No locks are taken, so it cannot deadlock on synchronization primitives.
     // Therefore, join_watcher's blocking on watchdog.join() is bounded by the
     // watchdog's timeout duration (captured in timeout_ms parameter).
