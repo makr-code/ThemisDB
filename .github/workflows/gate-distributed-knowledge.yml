@@ -163,7 +163,17 @@ jobs:
       - name: Run module unit tests from producer artifact
         run: |
           set -euo pipefail
-          ctest --test-dir build-community-release \
+          build_tree="build-community-release"
+          if [ -d "${build_tree}/build-community-release" ]; then
+            build_tree="${build_tree}/build-community-release"
+          fi
+          if [ ! -d "${build_tree}" ]; then
+            echo "::error::Build tree missing after artifact download: ${build_tree}"
+            echo "Workspace contents:"
+            ls -la
+            exit 1
+          fi
+          ctest --test-dir "${build_tree}" \
             -R module_distributed_knowledge_test \
             --verbose \
             --output-on-failure \
@@ -194,7 +204,17 @@ jobs:
       - name: Run benchmark gate from producer artifact
         run: |
           set -euo pipefail
-          ctest --test-dir build-community-release \
+          build_tree="build-community-release"
+          if [ -d "${build_tree}/build-community-release" ]; then
+            build_tree="${build_tree}/build-community-release"
+          fi
+          if [ ! -d "${build_tree}" ]; then
+            echo "::error::Build tree missing after artifact download: ${build_tree}"
+            echo "Workspace contents:"
+            ls -la
+            exit 1
+          fi
+          ctest --test-dir "${build_tree}" \
             -R bench_dk_release_gates \
             --verbose \
             --output-on-failure \
