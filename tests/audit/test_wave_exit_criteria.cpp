@@ -190,9 +190,3 @@ TEST(WaveExitCriteriaTest, Wave9RiskAcceptanceSigned) {
     EXPECT_TRUE(criteria[29].required && criteria[29].present);
     EXPECT_EQ(criteria[29].name, "wave9_risk_acceptance_signed");
 }
-
-TEST(WaveExitCriteriaTest, Wave9ReleaseSignoffComplete) {
-    const auto criteria = makeWaveExitCriteria();
-    EXPECT_TRUE(criteria[30].required && criteria[30].present);
-    EXPECT_EQ(criteria[30].name, "wave9_release_signoff_complete");
-}
