@@ -1,0 +1,110 @@
+name: "Nightly: Governance Audit Scope"
+
+on:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+    inputs:
+      include_pr_validation:
+        description: 'Run parity checks against the governance PR checklist'
+        required: false
+        default: 'true'
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: nightly-governance-audit-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  governance-audit:
+    name: Audit governance docs and release evidence
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
+        with:
+          python-version: '3.11'
+
+      - name: Validate required governance artifacts
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          repo = Path('.')
+          required = [
+              repo / 'audit' / 'BLOCK_D_GOVERNANCE_IMPLEMENTATION_GUIDE.md',
+              repo / 'audit' / 'GOVERNANCE_TEST_TEMPLATE.md',
+              repo / 'PR_GOVERNANCE_TESTS_CHECKLIST.md',
+          ]
+          missing = [str(p) for p in required if not p.exists()]
+          if missing:
+              raise SystemExit(f'Missing required governance artifacts: {missing}')
+
+          for path in required:
+              text = path.read_text(encoding='utf-8')
+              if not text.startswith('---\n'):
+                  raise SystemExit(f'Metadata front matter is missing in {path}')
+          print('Required governance artifacts are present and metadata-gated.')
+          PY
+
+      - name: Gather audit scope inventory
+        run: |
+          mkdir -p artifacts/nightly/audit
+          find audit -maxdepth 2 -type f -name '*.md' | sort > artifacts/nightly/audit/audit-files.txt
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          audit_dir = Path('audit')
+          files = sorted(str(p) for p in audit_dir.rglob('*.md'))
+          payload = {
+              'generated_at': 'nightly',
+              'count': len(files),
+              'files': files,
+          }
+          Path('artifacts/nightly/audit/audit-file-index.json').write_text(json.dumps(payload, indent=2), encoding='utf-8')
+          print(f'Indexed {len(files)} audit markdown files.')
+          PY
+
+      - name: Validate governance PR checklist metadata
+        if: ${{ github.event.inputs.include_pr_validation == 'true' || github.event_name == 'schedule' }}
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          checklist = Path('PR_GOVERNANCE_TESTS_CHECKLIST.md')
+          text = checklist.read_text(encoding='utf-8')
+          required_tokens = ['Wave 10 Phase 1 - Parallel D+A', 'wave-10', 'block-d', 'Governance Test Update']
+          missing = [token for token in required_tokens if token not in text]
+          if missing:
+              raise SystemExit(f'Checklist is missing required metadata: {missing}')
+          print('Governance PR checklist contains the required label and milestone references.')
+          PY
+
+      - name: Upload nightly audit artifact
+        uses: actions/upload-artifact@v5
+        with:
+          name: governance-audit-${{ github.run_id }}
+          path: artifacts/nightly/audit/
+          retention-days: 14
+          if-no-files-found: error
+
+      - name: Summarize nightly governance audit
+        if: always()
+        run: |
+          {
+            echo "## Governance Audit Summary"
+            echo ""
+            echo "- Scope: \`audit/\` governance docs and release evidence"
+            echo "- Template: \`audit/GOVERNANCE_TEST_TEMPLATE.md\`"
+            echo "- Checklist: \`PR_GOVERNANCE_TESTS_CHECKLIST.md\`"
+            echo "- Artifact: \`artifacts/nightly/audit/\`"
+          } >> "$GITHUB_STEP_SUMMARY"
