@@ -25,6 +25,7 @@
     ".github/prompts/**/*.md",
     ".github/instructions/**/*.md",
     "ai_working/**",
+    "ai_context/**",
     "ai_context/developer_llm_wiki/**",
     "ai_context/research/gemini_exports/**"
   ],

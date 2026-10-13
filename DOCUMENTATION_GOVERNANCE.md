@@ -123,4 +123,4 @@ Status: review
 ---
 ```
 
-The gate intentionally excludes backlog/history/template paths that already follow dedicated governance formats, including `CHANGELOG.md`, `ROADMAP.md`, `**/FUTURE_ENHANCEMENTS.md`, archived documentation trees, issue templates, `docs/_standards/**`, `ai_working/**`, and generated developer wiki artifacts. The canonical scope and exclude list live in `.github/doc-metadata-gate.json`.
+The gate intentionally excludes backlog/history/template paths that already follow dedicated governance formats, including `CHANGELOG.md`, `ROADMAP.md`, `**/FUTURE_ENHANCEMENTS.md`, archived documentation trees, issue templates, `docs/_standards/**`, `ai_working/**`, `ai_context/**`, and generated developer wiki artifacts. The canonical scope and exclude list live in `.github/doc-metadata-gate.json`.

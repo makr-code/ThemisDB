@@ -112,6 +112,15 @@ class DocMetadataGateTests(unittest.TestCase):
         self.assertEqual(report.verdict, "PASS")
         self.assertEqual(report.files_checked, 0)
 
+    def test_ai_context_files_are_skipped(self) -> None:
+        file_path = self.root / "ai_context" / "README.md"
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+        file_path.write_text("# AI Context\n\nNo metadata here.\n", encoding="utf-8")
+
+        report = gate.build_report(["ai_context/README.md"], self.root, self.config)
+        self.assertEqual(report.verdict, "PASS")
+        self.assertEqual(report.files_checked, 0)
+
     def test_src_module_docs_are_skipped(self) -> None:
         file_path = self.root / "src" / "query" / "ARCHITECTURE.md"
         file_path.parent.mkdir(parents=True, exist_ok=True)
