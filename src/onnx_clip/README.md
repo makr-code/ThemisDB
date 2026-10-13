@@ -46,6 +46,24 @@ backend; it is not a native `onnxruntime` session wrapper in the default build.
 integration, not a claim that every deployment environment loads a real ONNX model
 through a hardware provider.
 
+## Governance and Archive Boundary
+
+The active governance set for this module is limited to:
+
+- `README.md`
+- `ARCHITECTURE.md`
+- `ROADMAP.md`
+- `PRODUCTION_REQUIREMENTS.md`
+- `SECURITY.md`
+- `FUTURE_ENHANCEMENTS.md`
+- `PERFORMANCE_EXPECTATIONS.md`
+- `CHANGELOG.md`
+- `AUDIT.md`
+
+Historical phase deliverables and generated meta-docs are retained only under
+`src/onnx_clip/archive/` and are intentionally excluded from the live production
+contract unless a specific release or audit task requires them.
+
 ## Components
 
 | File | Role |

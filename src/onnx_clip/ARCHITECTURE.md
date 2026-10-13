@@ -149,6 +149,13 @@ The current implementation is intentionally explicit: `BackendType::AUTO` resolv
 - [x] mmap best-effort support for supported platforms
 - [x] focused tests covering hardening, batching, and plugin behavior
 
+### Governance boundary
+
+Historical delivery reports and generated discovery artifacts are archived under
+`src/onnx_clip/archive/` and are not part of the active production governance set.
+The live module contract continues to be represented by the canonical docs in this
+folder and the source implementation in `src/onnx_clip/onnx_clip_plugin.cpp`.
+
 ### Remaining follow-up items
 
 - [ ] Validate additional real-world model fixtures when test assets are available
