@@ -26,7 +26,7 @@ jobs:
     if: github.event_name != 'pull_request' || github.base_ref == 'develop' || github.base_ref == 'community'
     steps:
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d12442f0e8c76e7b # v5
+        uses: actions/checkout@v5
         with:
           fetch-depth: 1
 
@@ -36,9 +36,9 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends \
             build-essential cmake ninja-build pkg-config ccache \
-            librocksdb-dev libgtest-dev libgmock-dev libssl-dev zlib1g-dev libzstd-dev \
+            librocksdb-dev libgtest-dev libgmock-dev libbenchmark-dev libssl-dev zlib1g-dev libzstd-dev \
             libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
-            libyaml-cpp-dev libcurl4-openssl-dev libcpp-httplib-dev libboost-system-dev \
+            libyaml-cpp-dev libcurl4-openssl-dev libcpp-httplib-dev libbenchmark-dev libboost-system-dev \
             libboost-dev libboost-filesystem-dev libpugixml-dev libvulkan-dev
 
       - name: Restore TinyLlama cache
@@ -166,7 +166,7 @@ jobs:
     if: github.event_name != 'pull_request' || github.base_ref == 'develop' || github.base_ref == 'community'
     steps:
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d12442f0e8c76e7b # v5
+        uses: actions/checkout@v5
 
       - name: Start ThemisDB container
         env:

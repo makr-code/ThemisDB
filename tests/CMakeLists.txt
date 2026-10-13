@@ -161,6 +161,11 @@ if(TARGET themis_security)
     message(STATUS "Test suite: linking themis_security into ${TEST_LIBS}")
 endif()
 
+# Register Block D governance audit targets in the canonical test flow.
+# These are intentionally scoped outside the module auto-discover pass so they
+# remain visible even when the broader module test matrix is filtered.
+include(${THEMIS_ROOT_DIR}/cmake/AuditScope.cmake)
+
 set(TEST_GMOCK_LIB "")
 if(TARGET GTest::gmock)
     set(TEST_GMOCK_LIB GTest::gmock)
