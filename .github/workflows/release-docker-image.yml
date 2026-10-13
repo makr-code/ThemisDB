@@ -492,6 +492,10 @@ jobs:
           exit 1
         }
         docker save "${IMAGE_TAG}" -o "${IMAGE_TAR}"
+        if [ ! -s "${IMAGE_TAR}" ]; then
+          echo "::error::Failed to export ${IMAGE_TAG} to ${IMAGE_TAR}; cannot run Trivy release gate scan."
+          exit 1
+        fi
         mkdir -p "${RUNNER_TEMP}/trivy-cache"
         docker run --rm \
           -v "${IMAGE_TAR}:${IMAGE_TAR_MOUNT}:ro" \
