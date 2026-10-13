@@ -290,6 +290,15 @@ TEST(SecurityContractTls, SEC04_ChainDepthExceeded) {
     EXPECT_NE(result.code, SecurityErrorCode::OK);
 }
 
+/**
+ * @brief SEC-04A: Production contract enforces TLS 1.3 as the minimum supported version.
+ */
+TEST(SecurityContractTls, SEC04A_TLS13IsMinimumContract) {
+    EXPECT_EQ(kMinTlsVersionMajor, 1);
+    EXPECT_EQ(kMinTlsVersionMinor, 3);
+    EXPECT_EQ(static_cast<int>(kMinTlsVersionMajor * 100 + kMinTlsVersionMinor), 103);
+}
+
 // ============================================================================
 // SEC-05..SEC-08 — Key Management Contract
 // ============================================================================

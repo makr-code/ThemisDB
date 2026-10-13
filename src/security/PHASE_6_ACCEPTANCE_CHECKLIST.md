@@ -36,7 +36,7 @@
   - [x] `@section Audit Logging Contract` with immutability and ordering guarantees
   - [x] Enum documentation (SecurityErrorCode) with 12+ error codes
   - [x] Constant definitions with inline documentation:
-    - [x] Transport: kMinTlsVersionMajor=1, kMinTlsVersionMinor=2 (TLS 1.2+)
+    - [x] Transport: kMinTlsVersionMajor=1, kMinTlsVersionMinor=3 (TLS 1.3 minimum)
     - [x] Transport: kMaxCertChainDepth=8, kMaxCertDnFieldBytes=256
     - [x] Transport: kHstsMaxAge=31536000 (365 days, ratchet-forward only)
     - [x] Transport: kTlsHandshakeTimeout=10 seconds

@@ -115,7 +115,7 @@ ThemisDB supports multiple layers of at-rest encryption beyond application-level
 
 #### 1. TLS/SSL
 
-**Minimum Version**: TLS 1.2 (TLS 1.3 preferred)
+**Minimum Version**: TLS 1.3 enforced in production
 
 **Cipher Suites** (in order of preference):
 1. `TLS_AES_256_GCM_SHA384` (TLS 1.3)
