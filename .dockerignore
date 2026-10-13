@@ -28,6 +28,8 @@
 !plugins/**
 !tests/
 !tests/**
+!artifacts/
+!artifacts/**
 !external/
 !external/**
 !scripts/
