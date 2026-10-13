@@ -94,6 +94,12 @@ public:
     std::shared_ptr<GraphIndexManager> getGraphIndexManager() const;
     
     // IIndexManager implementation
+
+    /// @brief Returns the normalized capability contract for a registered index.
+    [[nodiscard]] std::optional<IndexCapabilities> getCapabilities(std::string_view name) const override;
+
+    /// @brief Returns planner-facing statistics for a registered index.
+    [[nodiscard]] std::optional<IndexStatistics> getIndexSummary(std::string_view name) const override;
     
     Result<ISecondaryIndex*> createSecondaryIndex(
         std::string_view name,
