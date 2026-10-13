@@ -73,7 +73,7 @@ See [encryption_strategy.md](encryption_strategy.md) for detailed encryption sta
 
 **Mandatory Encryption**:
 - ✅ All Restricted and Confidential data at rest (AES-256-GCM)
-- ✅ All data in transit (TLS 1.2+ minimum)
+- ✅ All data in transit (TLS 1.3 minimum; mTLS required for service-to-service and privileged traffic)
 - ✅ All backup media
 - ✅ All removable storage devices
 - ✅ Database connections

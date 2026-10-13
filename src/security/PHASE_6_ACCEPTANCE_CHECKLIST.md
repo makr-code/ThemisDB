@@ -197,7 +197,8 @@
 **File:** `src/security/PRODUCTION_REQUIREMENTS.md`
 
 - [x] Transport security requirements:
-  - [x] TLS 1.2+ mandatory for all network connections
+  - [x] TLS 1.3 minimum mandatory for all production network connections
+  - [x] mTLS required for service-to-service and privileged inter-node traffic
   - [x] Certificate chain depth limited to 8 levels
   - [x] Certificate DN field limited to 256 bytes
   - [x] HSTS max-age ratchet-forward policy (365 days minimum)
