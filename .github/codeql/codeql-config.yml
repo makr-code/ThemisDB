@@ -1,8 +1,8 @@
 # CodeQL Advanced Configuration for ThemisDB
 #
 # Reduces database build time and size by excluding vendored/third-party paths
-# and generated artefacts. Only production source under src/, include/,
-# tests/, benchmarks/, and tools/ is analysed.
+# and generated artefacts. Only production runtime source under src/ and
+# include/ is analysed to keep default-setup runs stable on hosted runners.
 #
 # Reference: https://docs.github.com/en/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/customizing-your-advanced-setup-for-code-scanning
 
@@ -28,7 +28,12 @@ paths-ignore:
   - build-*
   - out
 
-  # Test-only tooling and helper scripts (not production surface)
+  # Test/benchmark/tooling code (not production runtime surface)
+  - tests
+  - benchmarks
+  - tools
+
+  # Helper scripts
   - tools/tests
   - scripts
 

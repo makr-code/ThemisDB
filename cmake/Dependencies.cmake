@@ -475,18 +475,22 @@ option(THEMIS_ALLOW_MISSING_ROCKSDB
 find_package(RocksDB CONFIG QUIET)
 if(RocksDB_FOUND)
    message(STATUS "RocksDB found via CONFIG")
-   # CHECK if the CONFIG version is static and override it with the dynamic library if available
-   find_library(_ROCKSDB_DYNAMIC NAMES librocksdb.so rocksdb.so)
-   if(_ROCKSDB_DYNAMIC)
-       message(STATUS "RocksDB CONFIG found, checking for dynamic library: ${_ROCKSDB_DYNAMIC}")
-       # Modify the existing target to use the dynamic library instead
-       if(TARGET RocksDB::rocksdb)
-           # Update the target to point to the shared library
-           set_target_properties(RocksDB::rocksdb PROPERTIES
-               IMPORTED_LOCATION "${_ROCKSDB_DYNAMIC}"
-               IMPORTED_NO_SONAME_RELEASE FALSE
-           )
-           message(STATUS "Updated RocksDB to use dynamic library: ${_ROCKSDB_DYNAMIC}")
+   # Preserve the config-aware vcpkg target selection. vcpkg exports separate
+   # IMPORTED_LOCATION_DEBUG/RELEASE entries for RocksDB, and overriding the
+   # generic IMPORTED_LOCATION here causes Debug builds to link against the
+   # Release library (rocksdb.lib instead of rocksdbd.lib), producing LNK2038
+   # CRT and _ITERATOR_DEBUG_LEVEL mismatches on MSVC.
+   if(NOT WIN32)
+       find_library(_ROCKSDB_DYNAMIC NAMES librocksdb.so rocksdb.so)
+       if(_ROCKSDB_DYNAMIC)
+           message(STATUS "RocksDB CONFIG found, checking for dynamic library: ${_ROCKSDB_DYNAMIC}")
+           if(TARGET RocksDB::rocksdb)
+               set_target_properties(RocksDB::rocksdb PROPERTIES
+                   IMPORTED_LOCATION "${_ROCKSDB_DYNAMIC}"
+                   IMPORTED_NO_SONAME_RELEASE FALSE
+               )
+               message(STATUS "Updated RocksDB to use dynamic library: ${_ROCKSDB_DYNAMIC}")
+           endif()
        endif()
    endif()
 else()

@@ -347,6 +347,8 @@ public:
 
 } // namespace
 
+OperatorRemediationEngine::OperatorRemediationEngine() = default;
+
 // ============================================================================
 // OperatorRemediationEngine Implementation
 // ============================================================================
