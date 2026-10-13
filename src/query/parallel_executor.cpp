@@ -168,8 +168,12 @@ inline bool waitWithTimeout(tbb::task_group& tg, double timeout_seconds = 5.0) n
             if (std::chrono::steady_clock::now() >= deadline) {
                 if (!done->load(std::memory_order_acquire)) {
                     timed_out->store(true, std::memory_order_release);
-                    // Signal TBB to stop accepting new tasks and drain quickly.
+                    // Signal task group cancellation using the active backend API.
+#if THEMIS_HAS_TBB
+                    tg.cancel();
+#else
                     tg.cancel_group_execution();
+#endif
                 }
                 return;
             }
