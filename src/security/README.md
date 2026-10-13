@@ -4,15 +4,42 @@
 
 Comprehensive security infrastructure for ThemisDB providing encryption, authentication, authorization, and compliance features.
 
-## Module Purpose
+## Zweck
 
 Provides encryption, key management, and PKI integration for ThemisDB, implementing AES-256-GCM field-level encryption, TLS certificate management, and hardware security module (HSM) integration.
 
-## Subsystem Scope
+## Scope
 
 **In scope:** AES-256-GCM field-level encryption, TLS certificate lifecycle management, PKI client integration, key rotation, HSM support.
 
 **Out of scope:** Network protocol routing, storage/query execution internals, and non-security business logic.
+
+## Quickstart (Build/Run)
+
+```bash
+cmake --preset linux-release
+cmake --build --preset linux-release
+ctest --preset linux-release --output-on-failure
+```
+
+## API/CLI Einstieg
+
+- API-Einstieg: `include/security/` (z. B. `field_encryption.h`, `rbac.h`, `zero_trust_policy_enforcer.h`)
+- Implementierung: `src/security/*.cpp`
+- Relevante Tests: `tests/security/`
+- Security-bezogene CLI-/Runtime-Konfiguration erfolgt ueber die serverseitige ThemisDB-Konfiguration.
+
+## Integrationsueberblick
+
+```mermaid
+flowchart LR
+  SERVER[src/server] --> SEC[src/security]
+  QUERY[src/query] --> SEC
+  STORAGE[src/storage] --> SEC
+  SEC --> OBS[src/observability]
+```
+
+Kurzinterpretation: Das Security-Modul wird von Server-, Query- und Storage-Pfaden genutzt und liefert Security-Ereignisse/Signale in Richtung Observability.
 
 ## Relevant Interfaces
 
@@ -32,6 +59,28 @@ Provides encryption, key management, and PKI integration for ThemisDB, implement
 - Wave-C production validation evidence is present in `tests/security/test_security_wavec_production_validation_focused.cpp` and is reflected in `ROADMAP.md`.
 - A full fresh security-gap rescan is still open and explicitly tracked in `src/security/MODULE_GAPS.md`.
 - Current readiness call: the module has production-style evidence, but **not all gaps are closed yet**, so a final production-ready sign-off would still be premature.
+
+### PR Scope and Deferred Work
+
+This PR intentionally stays within the subset of work that is directly actionable without claiming the full epic is complete.
+
+**Included in this PR:**
+- Align the public security baseline to the enforced production minimum of TLS 1.3 and explicit mTLS requirements for service-to-service and privileged traffic.
+- Remove stale TLS 1.2-era wording from published security policy and acceptance docs.
+- Document the repo’s current status honestly: evidence is strong, but final module sign-off remains pending.
+
+**Deferred to follow-up work:**
+- Fresh full security-gap rescan replacing legacy aggregate counts.
+- Closure of residual non-TSA CRITICAL/HIGH findings tracked in `MODULE_GAPS.md`.
+- Full production-readiness sign-off and evidence pack approval after the remaining gap backlog is closed.
+- Broader HSM/KMS and timestamp-authority production validation beyond the currently implementable PR scope.
+
+## Verweise
+
+- `src/security/ARCHITECTURE.md`
+- `src/security/ROADMAP.md`
+- `src/security/FUTURE_ENHANCEMENTS.md`
+- `src/security/MODULE_GAPS.md`
 
 ## Architecture Overview
 

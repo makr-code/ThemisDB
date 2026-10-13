@@ -36,7 +36,7 @@
   - [x] `@section Audit Logging Contract` with immutability and ordering guarantees
   - [x] Enum documentation (SecurityErrorCode) with 12+ error codes
   - [x] Constant definitions with inline documentation:
-    - [x] Transport: kMinTlsVersionMajor=1, kMinTlsVersionMinor=2 (TLS 1.2+)
+    - [x] Transport: kMinTlsVersionMajor=1, kMinTlsVersionMinor=3 (TLS 1.3 minimum)
     - [x] Transport: kMaxCertChainDepth=8, kMaxCertDnFieldBytes=256
     - [x] Transport: kHstsMaxAge=31536000 (365 days, ratchet-forward only)
     - [x] Transport: kTlsHandshakeTimeout=10 seconds
@@ -197,7 +197,8 @@
 **File:** `src/security/PRODUCTION_REQUIREMENTS.md`
 
 - [x] Transport security requirements:
-  - [x] TLS 1.2+ mandatory for all network connections
+  - [x] TLS 1.3 minimum mandatory for all production network connections
+  - [x] mTLS required for service-to-service and privileged inter-node traffic
   - [x] Certificate chain depth limited to 8 levels
   - [x] Certificate DN field limited to 256 bytes
   - [x] HSTS max-age ratchet-forward policy (365 days minimum)

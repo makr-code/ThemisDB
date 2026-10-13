@@ -1,6 +1,8 @@
 # Encryption Strategy
 
 **Document Version**: 1.1  
+**Author**: Security Team  
+**Created**: 2026-01-11  
 **Last Updated**: 2026-04-06  
 **Status**: Active  
 **Owner**: Security Team
@@ -115,14 +117,16 @@ ThemisDB supports multiple layers of at-rest encryption beyond application-level
 
 #### 1. TLS/SSL
 
-**Minimum Version**: TLS 1.2 (TLS 1.3 preferred)
+**Minimum Version**: TLS 1.3 enforced in production; TLS 1.2 and earlier are rejected by default.
 
 **Cipher Suites** (in order of preference):
 1. `TLS_AES_256_GCM_SHA384` (TLS 1.3)
 2. `TLS_CHACHA20_POLY1305_SHA256` (TLS 1.3)
 3. `TLS_AES_128_GCM_SHA256` (TLS 1.3)
-4. `TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384` (TLS 1.2)
-5. `TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256` (TLS 1.2)
+
+**Production Requirement**:
+- mTLS is required for service-to-service and privileged inter-node traffic.
+- No TLS 1.2 or legacy cipher suites are allowed in production without explicit, documented exception approval.
 
 **Certificate Requirements**:
 - Minimum 2048-bit RSA or 256-bit ECC keys
@@ -217,7 +221,7 @@ Master Key (HSM or KMS)
 
 **Article 32**: Security of processing
 - ✅ Encryption of personal data at rest (field-level encryption)
-- ✅ Encryption of personal data in transit (TLS 1.2+)
+- ✅ Encryption of personal data in transit (TLS 1.3 minimum, mTLS where required)
 - ✅ Regular testing and evaluation (automated tests, metrics)
 - ✅ Pseudonymization capabilities (via encryption)
 
@@ -241,7 +245,7 @@ Master Key (HSM or KMS)
 **Control A.10.1.1**: Cryptographic controls
 - ✅ Policy on the use of cryptographic controls (this document)
 - ✅ Key management procedures (see ENCRYPTION_KEY_MANAGEMENT_POLICY.md)
-- ✅ Implementation standards (AES-256-GCM, TLS 1.2+)
+- ✅ Implementation standards (AES-256-GCM, TLS 1.3 minimum)
 
 ---
 
