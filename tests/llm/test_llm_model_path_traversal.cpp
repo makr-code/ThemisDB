@@ -7,6 +7,7 @@
 
 #include <gtest/gtest.h>
 #include "llm/llm_plugin_manager.h"
+#include "llm/model_downloader.h"
 #include <cstdlib>
 #include <chrono>
 #include <filesystem>

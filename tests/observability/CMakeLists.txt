@@ -35,6 +35,15 @@ foreach(_src IN LISTS OBSERVABILITY_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/observability/distributed_tracing_sdk.cpp
         )
     endif()
+    if(_stem STREQUAL "test_tracing_integration_transaction" OR
+       _stem STREQUAL "test_tracing_integration_sharding" OR
+       _stem STREQUAL "test_tracing_integration_replication")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/observability/distributed_tracing_sdk.cpp
+            ${THEMIS_ROOT_DIR}/src/observability/distributed_trace_span.cpp
+            ${THEMIS_ROOT_DIR}/src/observability/trace_instrumentation.cpp
+        )
+    endif()
     if(_stem STREQUAL "test_high_cardinality_metrics")
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/observability/high_cardinality_metrics.cpp
