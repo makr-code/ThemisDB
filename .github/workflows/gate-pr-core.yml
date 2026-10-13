@@ -241,7 +241,7 @@ jobs:
     if: github.event_name == 'pull_request' && github.base_ref != ''
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
-      enable_sccache_gha: true
+      enable_sccache_gha: false
       build_mode: tests
       preset: pr-release-critical
       setup_command: >-
