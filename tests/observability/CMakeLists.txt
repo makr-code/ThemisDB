@@ -84,14 +84,27 @@ foreach(_src IN LISTS OBSERVABILITY_MODULE_TEST_SOURCES)
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
     )
+    if(TARGET RocksDB::rocksdb)
+        set(_rocksdb_link_target RocksDB::rocksdb)
+    elseif(TARGET rocksdb)
+        set(_rocksdb_link_target rocksdb)
+    elseif(DEFINED THEMIS_ROCKSDB_TARGET AND THEMIS_ROCKSDB_TARGET)
+        set(_rocksdb_link_target ${THEMIS_ROCKSDB_TARGET})
+    else()
+        set(_rocksdb_link_target RocksDB::rocksdb)
+    endif()
+
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}
         themis_core
-        rocksdb
+        ${_rocksdb_link_target}
         nlohmann_json
         spdlog::spdlog
         Threads::Threads
     )
+    if(TARGET Snappy::snappy)
+        target_link_libraries(${_target} PRIVATE Snappy::snappy)
+    endif()
 
     file(READ "${_src}" _src_contents)
     string(FIND "${_src_contents}" "BENCHMARK(" _has_benchmark_macro)

@@ -4,7 +4,14 @@
   "version": "1.4.0",
   "description": "ThemisDB ENTERPRISE Edition - Full feature set",
   "dependencies": [
-    "rocksdb",
+    {
+      "name": "rocksdb",
+      "features": [
+        "snappy",
+        "zlib",
+        "zstd"
+      ]
+    },
     "arrow",
     "hnswlib",
     "gtest",

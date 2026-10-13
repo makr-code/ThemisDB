@@ -3,7 +3,14 @@
   "version": "2.4.0",
   "dependencies": [
     "zlib",
-    "rocksdb",
+    {
+      "name": "rocksdb",
+      "features": [
+        "snappy",
+        "zlib",
+        "zstd"
+      ]
+    },
     "fmt",
     "spdlog",
     "nlohmann-json",

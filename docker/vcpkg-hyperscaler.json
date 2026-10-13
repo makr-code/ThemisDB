@@ -4,7 +4,14 @@
   "version": "1.4.0",
   "description": "ThemisDB HYPERSCALER Edition - GPU + LLM + Full features",
   "dependencies": [
-    "rocksdb",
+    {
+      "name": "rocksdb",
+      "features": [
+        "snappy",
+        "zlib",
+        "zstd"
+      ]
+    },
     "arrow",
     "hnswlib",
     "gtest",

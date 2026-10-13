@@ -4,7 +4,14 @@
   "version": "1.4.0",
   "description": "ThemisDB MINIMAL Edition - Embedded/IoT, minimal dependencies",
   "dependencies": [
-    "rocksdb",
+    {
+      "name": "rocksdb",
+      "features": [
+        "snappy",
+        "zlib",
+        "zstd"
+      ]
+    },
     "cpp-httplib",
     "simdjson",
     "tl-expected"

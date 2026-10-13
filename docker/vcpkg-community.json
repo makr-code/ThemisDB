@@ -4,7 +4,14 @@
   "version": "1.4.0",
   "description": "ThemisDB COMMUNITY Edition - Specialized vcpkg dependencies (apt-installed libs excluded)",
   "dependencies": [
-    "rocksdb",
+    {
+      "name": "rocksdb",
+      "features": [
+        "snappy",
+        "zlib",
+        "zstd"
+      ]
+    },
     "gtest",
     "benchmark",
     "cpp-httplib",
