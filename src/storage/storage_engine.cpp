@@ -159,6 +159,16 @@ public:
         }
     }
 
+    std::optional<IndexCapabilities> getCapabilities(std::string_view name) const override {
+        (void)name;
+        return std::nullopt;
+    }
+
+    std::optional<IndexStatistics> getIndexSummary(std::string_view name) const override {
+        (void)name;
+        return std::nullopt;
+    }
+
     Result<ISecondaryIndex*> createSecondaryIndex(
         std::string_view name,
         std::string_view field_name,
