@@ -29,6 +29,24 @@ static constexpr size_t kDefaultRangeScanLimit = 1000;
 
 namespace {
 
+[[nodiscard]] std::string buildIndexSummaryLayerName(IndexType type) {
+    switch (type) {
+        case IndexType::SECONDARY:
+            return "secondary";
+        case IndexType::VECTOR:
+            return "vector";
+        case IndexType::GRAPH:
+            return "graph";
+        case IndexType::FULLTEXT:
+            return "fulltext";
+        case IndexType::SPATIAL:
+            return "spatial";
+        case IndexType::COMPOSITE:
+            return "composite";
+    }
+    return "unknown";
+}
+
 class SecondaryIndexAdapter final : public ISecondaryIndex {
 public:
     SecondaryIndexAdapter(std::shared_ptr<SecondaryIndexManager> manager,
@@ -314,7 +332,88 @@ std::shared_ptr<GraphIndexManager> IndexManager::getGraphIndexManager() const {
     return graph_manager_;
 }
 
-// IIndexManager implementation
+std::optional<IndexCapabilities> IndexManager::getCapabilities(std::string_view name) const {
+    std::shared_lock<std::shared_mutex> lock(registry_mutex_);
+    auto it = index_types_.find(std::string(name));
+    if (it == index_types_.end()) {
+        return std::nullopt;
+    }
+
+    IndexCapabilities caps;
+    caps.type = IndexType::SECONDARY;
+    caps.layer = IndexLayer::CORE;
+    caps.supports_lookup = true;
+    caps.supports_rebuild = true;
+    caps.supports_drop = true;
+    caps.supports_stats = true;
+    caps.storage_backend = "rocksdb";
+    caps.is_tenant_scoped = std::string(name).starts_with("tenant:");
+
+    switch (it->second) {
+        case IndexType::SECONDARY:
+            caps.type = IndexType::SECONDARY;
+            caps.layer = IndexLayer::SECONDARY;
+            caps.supports_range_scan = true;
+            caps.description = "Secondary lookup / equality / range accelerator";
+            break;
+        case IndexType::VECTOR:
+            caps.type = IndexType::VECTOR;
+            caps.layer = IndexLayer::CORE;
+            caps.supports_vector_search = true;
+            caps.description = "Dense vector similarity index";
+            break;
+        case IndexType::GRAPH:
+            caps.type = IndexType::GRAPH;
+            caps.layer = IndexLayer::CORE;
+            caps.supports_graph_traversal = true;
+            caps.description = "Graph adjacency / traversal index";
+            break;
+        case IndexType::FULLTEXT:
+            caps.type = IndexType::FULLTEXT;
+            caps.layer = IndexLayer::SECONDARY;
+            caps.supports_range_scan = false;
+            caps.description = "Full-text / BM25 inverted index";
+            break;
+        case IndexType::SPATIAL:
+            caps.type = IndexType::SPATIAL;
+            caps.layer = IndexLayer::SECONDARY;
+            caps.supports_range_scan = true;
+            caps.description = "Geo / spatial index";
+            break;
+        case IndexType::COMPOSITE:
+            caps.type = IndexType::COMPOSITE;
+            caps.layer = IndexLayer::SECONDARY;
+            caps.supports_range_scan = true;
+            caps.description = "Composite multi-field acceleration";
+            break;
+    }
+
+    return caps;
+}
+
+std::optional<IndexStatistics> IndexManager::getIndexSummary(std::string_view name) const {
+    std::shared_lock<std::shared_mutex> lock(registry_mutex_);
+    auto it = index_types_.find(std::string(name));
+    if (it == index_types_.end()) {
+        return std::nullopt;
+    }
+
+    IndexStatistics summary;
+    summary.name = std::string(name);
+    summary.family = buildIndexSummaryLayerName(it->second);
+    summary.layer = (it->second == IndexType::VECTOR || it->second == IndexType::GRAPH) ? "core" : "secondary";
+    summary.estimated_size_bytes = 0;
+    summary.is_active = true;
+    summary.supports_rebuild = true;
+    summary.metadata = "rocksdb-backed index registry";
+
+    if (secondary_manager_ && (it->second == IndexType::SECONDARY || it->second == IndexType::FULLTEXT || it->second == IndexType::SPATIAL || it->second == IndexType::COMPOSITE)) {
+        const auto stats = secondary_manager_->getAllIndexStats("unknown");
+        (void)stats;
+    }
+
+    return summary;
+}
 
 /**
  * @brief Create Secondary Index.

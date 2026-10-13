@@ -52,6 +52,50 @@ enum class IndexType {
     COMPOSITE       ///< Composite multi-field index
 };
 
+/// @brief Layer assignment for the mixed-model index stack above RocksDB.
+enum class IndexLayer {
+    CORE,          ///< Relational/vector/graph access paths
+    SECONDARY,     ///< Geo/timeline/fulltext/extension accelerators
+    SHARED         ///< Registry, metadata, lifecycle, and planner integration
+};
+
+/// @brief Lifecycle state for a registered index.
+enum class IndexLifecycleState {
+    UNINITIALIZED,
+    ACTIVE,
+    REBUILDING,
+    DROPPED
+};
+
+/// @brief Capability model that is shared across the index families.
+struct IndexCapabilities {
+    IndexLayer layer = IndexLayer::CORE;
+    IndexType type = IndexType::SECONDARY;
+    bool supports_lookup = true;
+    bool supports_range_scan = false;
+    bool supports_vector_search = false;
+    bool supports_graph_traversal = false;
+    bool supports_rebuild = true;
+    bool supports_drop = true;
+    bool supports_stats = true;
+    bool is_tenant_scoped = false;
+    std::string storage_backend = "rocksdb";
+    std::string description;
+};
+
+/// @brief Planner-facing statistics payload shared by all index families.
+struct IndexStatistics {
+    std::string name;
+    std::string family;
+    std::string layer;
+    std::size_t entry_count = 0;
+    std::size_t estimated_size_bytes = 0;
+    bool is_active = true;
+    bool supports_rebuild = true;
+    std::string last_error;
+    std::string metadata;
+};
+
 /// @brief Index scan order
 enum class ScanOrder {
     ASCENDING,
@@ -258,6 +302,16 @@ public:
 class IIndexManager {
 public:
     virtual ~IIndexManager() = default;
+
+    /// @brief Get the logical layer of the registered index family.
+    /// @param name Index identifier registered in the manager.
+    /// @return Capability metadata for the index, or no value if the index is absent.
+    [[nodiscard]] virtual std::optional<IndexCapabilities> getCapabilities(std::string_view name) const = 0;
+
+    /// @brief Return a planner-friendly summary describing the state of an index.
+    /// @param name Index identifier registered in the manager.
+    /// @return A normalized statistics object that can be consumed by the optimizer.
+    [[nodiscard]] virtual std::optional<IndexStatistics> getIndexSummary(std::string_view name) const = 0;
 
     /// @brief Create a new secondary index
     /// @param name Index name
