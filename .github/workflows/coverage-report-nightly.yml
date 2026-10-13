@@ -57,6 +57,8 @@ jobs:
           cmake -S . -B build \
             -DTHEMIS_ENABLE_COVERAGE=ON \
             -DTHEMIS_BUILD_TESTS=ON \
+            -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
+            -DTHEMIS_DIAGNOSTIC_MODE=ON \
             -DCMAKE_BUILD_TYPE=Debug \
             -DCMAKE_CXX_COMPILER=g++ \
             -DCMAKE_C_COMPILER=gcc
