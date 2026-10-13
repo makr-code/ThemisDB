@@ -1,11 +1,14 @@
 cmake_minimum_required(VERSION 3.20)
 # Distributed tensor module focused test registration.
 
-file(GLOB DIST_TENSOR_MODULE_TEST_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
+set(DIST_TENSOR_BLOCK_A_TESTS
+    test_tensor_allocation.cpp
+    test_tensor_operations.cpp
+    test_tensor_performance.cpp
 )
 
-foreach(_src IN LISTS DIST_TENSOR_MODULE_TEST_SOURCES)
+foreach(_src_name IN LISTS DIST_TENSOR_BLOCK_A_TESTS)
+    set(_src "${CMAKE_CURRENT_SOURCE_DIR}/${_src_name}")
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_distributed_tensor_${_stem}_focused")
     set(_ctest "${_stem}_distributed_tensor_FocusedTests")
