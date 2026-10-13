@@ -49,9 +49,9 @@ namespace security {
 // TRANSPORT_SECURITY_ERROR before any application data is exchanged.
 // ============================================================================
 
-/// Minimum accepted TLS version.  TLS 1.0 and 1.1 are unconditionally refused.
+/// Minimum accepted TLS version.  TLS 1.2 and earlier are unconditionally refused.
 inline constexpr int kMinTlsVersionMajor = 1;
-inline constexpr int kMinTlsVersionMinor = 2;  ///< TLS 1.2 minimum; TLS 1.3 preferred.
+inline constexpr int kMinTlsVersionMinor = 3;  ///< TLS 1.3 minimum enforced in production.
 
 /// Maximum certificate chain depth accepted during mTLS peer validation.
 inline constexpr int kMaxCertChainDepth = 8;
