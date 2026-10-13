@@ -4,15 +4,42 @@
 
 Comprehensive security infrastructure for ThemisDB providing encryption, authentication, authorization, and compliance features.
 
-## Module Purpose
+## Zweck
 
 Provides encryption, key management, and PKI integration for ThemisDB, implementing AES-256-GCM field-level encryption, TLS certificate management, and hardware security module (HSM) integration.
 
-## Subsystem Scope
+## Scope
 
 **In scope:** AES-256-GCM field-level encryption, TLS certificate lifecycle management, PKI client integration, key rotation, HSM support.
 
 **Out of scope:** Network protocol routing, storage/query execution internals, and non-security business logic.
+
+## Quickstart (Build/Run)
+
+```bash
+cmake --preset linux-release
+cmake --build --preset linux-release
+ctest --preset linux-release --output-on-failure
+```
+
+## API/CLI Einstieg
+
+- API-Einstieg: `include/security/` (z. B. `field_encryption.h`, `rbac.h`, `zero_trust_policy_enforcer.h`)
+- Implementierung: `src/security/*.cpp`
+- Relevante Tests: `tests/security/`
+- Security-bezogene CLI-/Runtime-Konfiguration erfolgt ueber die serverseitige ThemisDB-Konfiguration.
+
+## Integrationsueberblick
+
+```mermaid
+flowchart LR
+  SERVER[src/server] --> SEC[src/security]
+  QUERY[src/query] --> SEC
+  STORAGE[src/storage] --> SEC
+  SEC --> OBS[src/observability]
+```
+
+Kurzinterpretation: Das Security-Modul wird von Server-, Query- und Storage-Pfaden genutzt und liefert Security-Ereignisse/Signale in Richtung Observability.
 
 ## Relevant Interfaces
 
@@ -47,6 +74,13 @@ This PR intentionally stays within the subset of work that is directly actionabl
 - Closure of residual non-TSA CRITICAL/HIGH findings tracked in `MODULE_GAPS.md`.
 - Full production-readiness sign-off and evidence pack approval after the remaining gap backlog is closed.
 - Broader HSM/KMS and timestamp-authority production validation beyond the currently implementable PR scope.
+
+## Verweise
+
+- `src/security/ARCHITECTURE.md`
+- `src/security/ROADMAP.md`
+- `src/security/FUTURE_ENHANCEMENTS.md`
+- `src/security/MODULE_GAPS.md`
 
 ## Architecture Overview
 
