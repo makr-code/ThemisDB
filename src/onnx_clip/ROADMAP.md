@@ -10,6 +10,7 @@
 - [x] `ONNXClipPlugin` is present in the current source tree and matches the active `IImageAnalysisBackend` contract in `src/onnx_clip/onnx_clip_plugin.h`.
 - [x] The current implementation is a deterministic portable reference backend with explicit config validation, bounded batch processing, hot-swap support, and optional mmap/hash verification hooks.
 - [x] The canonical module docs are aligned with the live implementation and no stale governance doc remains missing.
+- [x] Historical Phase 3B/4B reports and generated gap artifacts are retained only under `src/onnx_clip/archive/` and are excluded from the active production governance set.
 
 ## In Progress
 

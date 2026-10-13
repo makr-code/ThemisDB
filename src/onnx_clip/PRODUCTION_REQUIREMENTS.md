@@ -12,6 +12,22 @@ It describes the minimum production requirements for the deterministic image-tex
 embedding backend implemented in `onnx_clip_plugin.cpp` and its public interface in
 `onnx_clip_plugin.h`.
 
+## Source Alignment
+
+The live implementation is source-of-truth for the current requirements and is
+validated against the following artifacts:
+
+- `src/onnx_clip/onnx_clip_plugin.cpp` — runtime validation, batching, hash checks,
+  hot-swap drain logic, and best-effort mmap behavior.
+- `src/onnx_clip/onnx_clip_plugin.h` — public lifecycle and embedding API contract.
+- `tests/onnx_clip/` — focused validation for batching, hot-swap, memory-mapped
+  loading, and deterministic embedding behavior.
+- `src/onnx_clip/archive/` — retired historical notes and Phase reports kept out of
+  the live governance set.
+
+This doc intentionally stays limited to the current production contract and does not
+restate the archived historical reports that were moved under `src/onnx_clip/archive/`.
+
 ## Document Boundary (Canonical Split)
 
 - **`src/onnx_clip/PRODUCTION_REQUIREMENTS.md` (this file):** mandatory production requirements, security assumptions, and operational bounds.
