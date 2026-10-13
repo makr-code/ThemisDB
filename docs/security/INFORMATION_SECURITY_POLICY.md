@@ -1,6 +1,8 @@
 # Information Security Policy
 
 **Document Version**: 1.0  
+**Author**: Security Team  
+**Created**: 2026-01-11  
 **Last Updated**: 2026-04-06  
 **Status**: Active  
 **Classification**: Internal  
