@@ -43,6 +43,7 @@ foreach(_src IN LISTS OBSERVABILITY_MODULE_TEST_SOURCES)
     endif()
     if(_stem STREQUAL "test_otel_trace_overhead")
         target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/observability/distributed_tracing_sdk.cpp
             ${THEMIS_ROOT_DIR}/src/observability/distributed_trace_span.cpp
             ${THEMIS_ROOT_DIR}/src/observability/trace_instrumentation.cpp
         )
