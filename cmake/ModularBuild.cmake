@@ -51,6 +51,18 @@ if(THEMIS_BUILD_MODULAR)
     _themis_modular_mark_public_optional_source(THEMIS_HAS_PUBLIC_BLOB_BACKEND_AZURE "src/storage/blob_backend_azure.cpp")
 endif()
 
+# Stable Diffusion Block A module-focused test targets remain registered in
+# tests/stable_diffusion/CMakeLists.txt. Keep the canonical target list visible
+# here for modular build snapshots and selector tooling.
+set(THEMIS_STABLE_DIFFUSION_BLOCK_A_TEST_TARGETS
+    module_stable_diffusion_test_model_initialization_focused
+    module_stable_diffusion_test_image_generation_focused
+    module_stable_diffusion_test_sd_edge_cases_focused
+)
+set_property(GLOBAL APPEND PROPERTY THEMIS_STABLE_DIFFUSION_BLOCK_A_TARGETS
+    ${THEMIS_STABLE_DIFFUSION_BLOCK_A_TEST_TARGETS}
+)
+
 # Optional module configuration (only relevant when THEMIS_BUILD_MODULAR=ON)
 if(THEMIS_BUILD_MODULAR)
     option(THEMIS_MODULE_TRANSACTION "Include transaction module (required)" ON)

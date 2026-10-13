@@ -1,31 +1,38 @@
 cmake_minimum_required(VERSION 3.20)
-# Placeholder module test directory for mirrored src structure.
 
-# Wave D: high-cardinality stress test for stable_diffusion module.
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_stable_diffusion_highcardinality_stress.cpp")
-    set(_sd_stress_target "module_stable_diffusion_test_stable_diffusion_highcardinality_stress")
-    if(NOT TARGET ${_sd_stress_target})
-        add_executable(${_sd_stress_target}
-            test_stable_diffusion_highcardinality_stress.cpp
-        )
-        target_include_directories(${_sd_stress_target} PRIVATE
-            ${THEMIS_ROOT_DIR}/include
-            ${THEMIS_ROOT_DIR}/src
-        )
-        target_link_libraries(${_sd_stress_target} PRIVATE
-            ${TEST_LIBS}
-            themis_core
-            spdlog::spdlog
-            Threads::Threads
-        )
-        target_compile_definitions(${_sd_stress_target} PRIVATE THEMIS_TEST_BUILD=1)
-        themis_register_module_focused_test(
-            MODULE stable_diffusion
-            NAME   test_stable_diffusion_highcardinality_stress_FocusedTests
-            TARGET ${_sd_stress_target}
-            TIER   stress
-            TIMEOUT 120
-            LABELS  stable_diffusion wave_d stress not_release_critical
-        )
+# Wave 10 Block A: stable_diffusion focused tests.
+file(GLOB STABLE_DIFFUSION_TEST_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
+)
+
+foreach(_src IN LISTS STABLE_DIFFUSION_TEST_SOURCES)
+    get_filename_component(_stem "${_src}" NAME_WE)
+    set(_target "module_stable_diffusion_${_stem}_focused")
+    set(_ctest "${_stem}_StableDiffusionFocusedTests")
+
+    if(TARGET ${_target})
+        continue()
     endif()
-endif()
+
+    add_executable(${_target} "${_src}")
+    target_include_directories(${_target} PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/tests
+    )
+    target_link_libraries(${_target} PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+    target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
+
+    themis_register_module_focused_test(
+        MODULE stable_diffusion
+        NAME   ${_ctest}
+        TARGET ${_target}
+        TIER   unit
+        TIMEOUT 120
+        LABELS stable_diffusion wave_10 block_a
+    )
+endforeach()
