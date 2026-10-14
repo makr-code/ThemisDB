@@ -25,6 +25,7 @@ foreach(_src_name IN LISTS DIST_TENSOR_BLOCK_A_TESTS)
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}
         themis_core
+        themis_distributed_tensor
         spdlog::spdlog
         Threads::Threads
     )
