@@ -1199,7 +1199,6 @@ if(NOT Protobuf_FOUND)
         ../src/sharding/consensus_factory.cpp
         ../src/sharding/locality_aware_router.cpp
         ../src/sharding/orphan_detector.cpp
-        ../src/sharding/shard_repair_engine.cpp
     )
     message(WARNING "Protobuf not found: excluding protobuf-dependent sharding RPC/gossip sources and their direct dependents")
 endif()
