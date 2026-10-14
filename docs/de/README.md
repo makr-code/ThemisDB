@@ -30,6 +30,30 @@ Historische Reports wurden aus dem Root ausgelagert und sind hier gebuendelt:
 - Reviews: [../implementation-history/reviews/README.md](../implementation-history/reviews/README.md)
 - Status-Reports: [../implementation-history/status-reports/README.md](../implementation-history/status-reports/README.md)
 
+### Legacy- und Referenzdokumente im Root
+
+Die folgenden Top-Level-Dateien sind noch als historische oder themenspezifische Referenz aktiv und werden hier bewusst gelistet, damit sie nicht als verwaiste Dokumente gelten:
+
+- [00_DOCUMENTATION_INDEX.md](00_DOCUMENTATION_INDEX.md)
+- [BUILD_CACHING_OPTIMIERUNG.md](BUILD_CACHING_OPTIMIERUNG.md)
+- [DOCKER_PREBUILD_CACHE_DE.md](DOCKER_PREBUILD_CACHE_DE.md)
+- [DOCS_CONTRIBUTOR_GUIDE.md](DOCS_CONTRIBUTOR_GUIDE.md)
+- [DOCUMENTATION_COMPENDIUM_PROPOSAL.md](DOCUMENTATION_COMPENDIUM_PROPOSAL.md)
+- [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)
+- [DOCUMENTATION_UPDATE_PLAN.md](DOCUMENTATION_UPDATE_PLAN.md)
+- [DOKUMENTATIONS_VALIDIERUNG.md](DOKUMENTATIONS_VALIDIERUNG.md)
+- [GAP_ANALYSIS_SUMMARY_EN.md](GAP_ANALYSIS_SUMMARY_EN.md)
+- [MINIMAL_EDITION.md](MINIMAL_EDITION.md)
+- [PERFORMANCE_OPTIMIZATION_PLAN_v1.4.md](PERFORMANCE_OPTIMIZATION_PLAN_v1.4.md)
+- [PHASE_2_COMPLETION_SUMMARY.md](PHASE_2_COMPLETION_SUMMARY.md)
+- [RAID_SHARDING_URN_RESOLUTION.md](RAID_SHARDING_URN_RESOLUTION.md)
+- [RAID_THEMIS_DOCUMENTATION_INDEX.md](RAID_THEMIS_DOCUMENTATION_INDEX.md)
+- [RELEASE_NOTES_v1.4.md](RELEASE_NOTES_v1.4.md)
+- [SHARDING_DOCUMENTATION_INDEX.md](SHARDING_DOCUMENTATION_INDEX.md)
+- [THEMISDB_MONETARY_VALUATION_ANALYSIS.confidential.md](THEMISDB_MONETARY_VALUATION_ANALYSIS.confidential.md)
+- [UEBERSETZUNGSBEDARF.md](UEBERSETZUNGSBEDARF.md)
+- [scheduled_edge_refresh.md](scheduled_edge_refresh.md)
+
 ---
 
 ## 🚀 NEU in v1.4.0-alpha: Erweiterte LLM-Funktionen ✅
