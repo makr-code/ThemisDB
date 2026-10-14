@@ -3,7 +3,7 @@
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
 > Last Updated: 2026-10-14
-> Update Note: Added nightly governance audit scope workflow to maintain registry sync
+> Update Note: Added nightly governance audit workflow entry and naming alignment
 > Status: active
 > Total Workflows: 88 (verified 2026-10-14)
 
@@ -110,6 +110,7 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | `maintenance-workflow-guardrails-observe.yml` | Maintenance: Workflow Guardrails [Observe] (Workflow policy observability) | governance |
 | `maintenance-soll-ist-gap-issues.yml` | Maintenance: SOLL-IST Gap Issues (Roadmap vs. reality tracking) | governance |
 | `maintenance-ai-working.yml` | Maintenance: AI Working Cleanup - LLM Wiki (AI context cleanup) | automation |
+| `nightly-governance-audit.yml` | Governance: Nightly Audit Scope (Nightly governance artifact and checklist audit) | governance |
 | `maintenance-docs-db-build.yml` | Maintenance: Docs-to-ThemisDB Database Build (Documentation database sync) | automation |
 | `maintenance-compendium-sync.yml` | Maintenance: Compendium Sync (Compendium documentation sync) | automation |
 | `wiki-pr-gate.yml` | Maintenance: Wiki PR Gate (GitHub Wiki PR validation) | docs |
