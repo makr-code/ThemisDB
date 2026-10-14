@@ -15,6 +15,18 @@
 namespace themis::distributed_tensor {
 namespace {
 
+ShardPlacement make_shard(const std::string& shard_id,
+                         const std::string& node_id,
+                         uint64_t size_bytes = 4096) {
+  ShardPlacement placement;
+  placement.shard_id = shard_id;
+  placement.node_id = node_id;
+  placement.shard_size_bytes = size_bytes;
+  placement.shard_content_hash = "hash-" + shard_id;
+  placement.replication_factor = 1;
+  return placement;
+}
+
 ArtifactManifest make_large_manifest(const std::string& artifact_id, size_t shard_count) {
   ArtifactManifest manifest(artifact_id, ArtifactClass::PRIMARY);
   manifest.set_version("v1");
