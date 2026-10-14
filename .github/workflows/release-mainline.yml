@@ -826,22 +826,29 @@ jobs:
 
   changelog:
     name: "Release: Update Changelog"
-    needs: publish-community
+    needs: [publish-community, publish-private]
     if: >
       always() &&
-      needs.publish-community.result == 'success'
+      (
+        needs.publish-community.result == 'success' ||
+        needs.publish-private.result == 'success'
+      ) &&
+      (
+        (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')) ||
+        (github.event_name == 'workflow_dispatch' && inputs.tag_name != '')
+      )
     uses: ./.github/workflows/release-changelog.yml
     permissions:
       contents: read
       pull-requests: read
     with:
       mode: update
-      entry-title: "${{ github.ref_name }}"
-      entry-body: "- Released ${{ github.ref_name }} — see GitHub Release for full artifact list."
+      entry-title: "${{ inputs.tag_name || github.ref_name }}"
+      entry-body: "- Released ${{ inputs.tag_name || github.ref_name }} — see GitHub Release for full artifact list."
       section: "Changed"
-      target-version: "${{ github.ref_name }}"
+      target-version: "${{ inputs.tag_name || github.ref_name }}"
       release-date: ""
-      key: "release-${{ github.ref_name }}"
+      key: "release-${{ inputs.tag_name || github.ref_name }}"
       target-branch: "develop"
       dry-run: false
     secrets: inherit
