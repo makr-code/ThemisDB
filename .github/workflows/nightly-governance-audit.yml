@@ -45,6 +45,8 @@ jobs:
               repo / 'audit' / 'BLOCK_D_GOVERNANCE_IMPLEMENTATION_GUIDE.md',
               repo / 'audit' / 'GOVERNANCE_TEST_TEMPLATE.md',
               repo / 'PR_GOVERNANCE_TESTS_CHECKLIST.md',
+              repo / 'PR_PHASE3_BATCH1_CHECKLIST.md',
+              repo / 'CODE_REVIEW_PROTOCOL.md',
           ]
           missing = [str(p) for p in required if not p.exists()]
           if missing:
@@ -55,6 +57,29 @@ jobs:
               if not text.startswith('---\n'):
                   raise SystemExit(f'Metadata front matter is missing in {path}')
           print('Required governance artifacts are present and metadata-gated.')
+          PY
+
+      - name: Validate review and phase-3 artifact metadata
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          repo = Path('.')
+          checklist_files = [
+              repo / 'PR_GOVERNANCE_TESTS_CHECKLIST.md',
+              repo / 'PR_PHASE3_BATCH1_CHECKLIST.md',
+              repo / 'CODE_REVIEW_PROTOCOL.md',
+          ]
+          required_tokens = {
+              'PR_GOVERNANCE_TESTS_CHECKLIST.md': ['Wave 10 Phase 1 - Parallel D+A', 'wave-10', 'block-d', 'Governance Test Update'],
+              'PR_PHASE3_BATCH1_CHECKLIST.md': ['Wave 10 Phase 1 - Parallel D+A', 'wave-10', 'block-a', 'Phase 3 Batch 1 Test Update'],
+              'CODE_REVIEW_PROTOCOL.md': ['Wave 10 Phase 1', 'Block D', 'Phase 3 Batch 1', 'approved'],
+          }
+          for path in checklist_files:
+              text = path.read_text(encoding='utf-8')
+              missing = [token for token in required_tokens[path.name] if token not in text]
+              if missing:
+                  raise SystemExit(f'{path.name} is missing required metadata: {missing}')
+          print('Review artifact metadata is present and aligned with Wave 10 milestone requirements.')
           PY
 
       - name: Gather audit scope inventory
@@ -80,13 +105,20 @@ jobs:
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          checklist = Path('PR_GOVERNANCE_TESTS_CHECKLIST.md')
-          text = checklist.read_text(encoding='utf-8')
-          required_tokens = ['Wave 10 Phase 1 - Parallel D+A', 'wave-10', 'block-d', 'Governance Test Update']
-          missing = [token for token in required_tokens if token not in text]
-          if missing:
-              raise SystemExit(f'Checklist is missing required metadata: {missing}')
-          print('Governance PR checklist contains the required label and milestone references.')
+          checklists = [
+              Path('PR_GOVERNANCE_TESTS_CHECKLIST.md'),
+              Path('PR_PHASE3_BATCH1_CHECKLIST.md'),
+          ]
+          required_tokens = {
+              'PR_GOVERNANCE_TESTS_CHECKLIST.md': ['Wave 10 Phase 1 - Parallel D+A', 'wave-10', 'block-d', 'Governance Test Update'],
+              'PR_PHASE3_BATCH1_CHECKLIST.md': ['Wave 10 Phase 1 - Parallel D+A', 'wave-10', 'block-a', 'Phase 3 Batch 1 Test Update'],
+          }
+          for checklist in checklists:
+              text = checklist.read_text(encoding='utf-8')
+              missing = [token for token in required_tokens[checklist.name] if token not in text]
+              if missing:
+                  raise SystemExit(f'{checklist.name} is missing required metadata: {missing}')
+          print('Governance and Phase 3 PR checklists contain the required milestone and label references.')
           PY
 
       - name: Upload nightly audit artifact
