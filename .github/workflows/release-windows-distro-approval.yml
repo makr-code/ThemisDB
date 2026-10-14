@@ -43,6 +43,9 @@ jobs:
         contains(github.event.comment.body, '/approve-windows') ||
         contains(github.event.comment.body, '@publish-windows')
       )
+    environment:
+      name: windows-distro-production
+      url: https://github.com/${{ github.repository }}/actions/workflows/release-windows-distro-approval.yml
     runs-on: ubuntu-latest
 
     steps:
@@ -134,7 +137,7 @@ jobs:
             const version = '${{ steps.extract_version.outputs.version }}';
             const user = context.payload.comment.user.login;
             
-            const comment = `✅ **Windows Distro Publication Approved**\n\n**Approved By:** @${user}\n**Version:** ${version}\n**Channel:** stable\n**Status:** Windows distro workflow dispatched (Scoop/Chocolatey packaging in progress)\n\n**Next:**\n- Monitor \`release-windows-distribution.yml\` run for build status\n- Packages will be uploaded to Windows distro endpoints on success\n- This issue will close on completion\n\n**Tracking:** Issue #${{ github.event.issue.number }} — Windows distro release approval`;
+            const comment = `✅ **Windows Distro Publication Approved**\n\n**Approved By:** @${user}\n**Version:** ${version}\n**GitHub Environment:** \`windows-distro-production\`\n**Workflow:** \`release-windows-distribution.yml\`\n**Channel:** stable\n**Status:** Windows distro workflow dispatched after maintainer approval in the production environment\n\n**Next:**\n- Confirm the \`windows-distro-production\` GitHub Environment approval is active\n- Monitor \`release-windows-distribution.yml\` run for build status\n- Packages will be uploaded to Windows distro endpoints on success\n- This issue will close on completion\n\n**Tracking:** Issue #${{ github.event.issue.number }} — Windows distro release approval`;
             
             await github.rest.issues.createComment({
               owner: context.repo.owner,

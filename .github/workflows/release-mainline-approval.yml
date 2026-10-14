@@ -149,18 +149,78 @@ jobs:
             const releaseUrl = `https://github.com/${{ github.repository }}/releases/tag/v${version}`;
             
             const registries = [
-              { name: 'WinGet', keyword: 'publish-winget', label: 'winget-release', distro_label: 'winget' },
-              { name: 'Docker', keyword: 'publish-docker', label: 'docker-release', distro_label: 'docker' },
-              { name: 'Linux Distro', keyword: 'publish-linux', label: 'linux-distro-review', distro_label: 'linux-distro' },
-              { name: 'Windows Distro', keyword: 'publish-windows', label: 'windows-distro-review', distro_label: 'windows-distro' },
+              {
+                name: 'WinGet',
+                keyword: 'publish-winget',
+                label: 'winget-release',
+                distro_label: 'winget',
+                environment: 'winget-production',
+                workflow: 'release-winget-approval.yml',
+                downstreamWorkflow: 'release-winget.yml',
+                approvers: 'repo admins and maintainers',
+                preconditions: (releaseVersion) => `The GitHub Release for v${releaseVersion} is published, the WinGet manifest and checksums match the signed release artifacts, and no critical packaging issues remain.`,
+                validation: (releaseVersion) => `Review the manifest metadata, package SHA, installer arguments, and changelog for v${releaseVersion}. Confirm the release is ready for Windows installation and community submission.`,
+                success: (releaseVersion) => `The WinGet approval workflow runs successfully, the PR is created or merged in microsoft/winget-pkgs, and \`winget install ThemisDB.ThemisDB\` resolves v${releaseVersion} on a clean Windows machine.`,
+                failure: 'Cancel the workflow, keep the issue open, and escalate to the release manager for a rollback or delayed publication. Do not publish a package that fails validation or has unresolved security issues.',
+                verification: (releaseVersion) => `Confirm the merged manifest is available from the WinGet source and the package for v${releaseVersion} installs without errors from a fresh Windows environment.`
+              },
+              {
+                name: 'Docker',
+                keyword: 'publish-docker',
+                label: 'docker-release',
+                distro_label: 'docker',
+                environment: 'docker-production',
+                workflow: 'release-docker-approval.yml',
+                downstreamWorkflow: 'release-docker-image.yml',
+                approvers: 'repo admins and maintainers',
+                preconditions: (releaseVersion) => `The GitHub Release for v${releaseVersion} is published, the Docker build artifacts and checksums are verified, and there are no blocking security or regression findings.`,
+                validation: (releaseVersion) => `Verify the image tags, registry target, checksum, and release notes for v${releaseVersion}. Confirm the runtime image is the intended production target and not the debug image.`,
+                success: (releaseVersion) => `The Docker publication workflow completes successfully, the GHCR image is published, and \`docker pull ghcr.io/makr-code/themisdb:${releaseVersion}\` works on a clean host.`,
+                failure: 'Abort the workflow run, leave the issue open, and revert or delay publication until the image and release metadata are validated again.',
+                verification: (releaseVersion) => `Pull the published tag for v${releaseVersion} and confirm the runtime image starts correctly with the expected version and health checks.`
+              },
+              {
+                name: 'Linux Distro',
+                keyword: 'publish-linux',
+                label: 'linux-distro-review',
+                distro_label: 'linux-distro',
+                environment: 'linux-distro-production',
+                workflow: 'release-linux-distro-approval.yml',
+                downstreamWorkflow: 'release-linux-distribution.yml',
+                approvers: 'repo admins and maintainers',
+                preconditions: (releaseVersion) => `The GitHub Release for v${releaseVersion} is public, the DEB/RPM payload and package metadata are validated, and distro repository package signing is ready.`,
+                validation: (releaseVersion) => `Review the package metadata, install commands, architecture targets, and dependency constraints for v${releaseVersion}. Verify the package will install cleanly on supported Linux distributions.`,
+                success: (releaseVersion) => `The Linux distro publication workflow completes, the package for v${releaseVersion} is available in the target distro channel, and installation succeeds on a supported clean Linux runner.`,
+                failure: 'Stop the workflow run, keep the tracking issue open, and coordinate with the release manager to fix package metadata or dependency issues before retrying.',
+                verification: (releaseVersion) => `Install the published package for v${releaseVersion} on a clean OS image and confirm the expected version and service startup state.`
+              },
+              {
+                name: 'Windows Distro',
+                keyword: 'publish-windows',
+                label: 'windows-distro-review',
+                distro_label: 'windows-distro',
+                environment: 'windows-distro-production',
+                workflow: 'release-windows-distro-approval.yml',
+                downstreamWorkflow: 'release-windows-distribution.yml',
+                approvers: 'repo admins and maintainers',
+                preconditions: (releaseVersion) => `The GitHub Release for v${releaseVersion} is published, the Windows package manifests and checksums are validated, and no packaging blockers remain for Scoop/Chocolatey distribution.`,
+                validation: (releaseVersion) => `Verify the installer metadata, architecture mapping, checksum values, and installation command behavior for v${releaseVersion} on supported Windows versions before approving publication.`,
+                success: (releaseVersion) => `The Windows distro workflow completes, the package for v${releaseVersion} is available through the target Windows distribution channel, and a clean Windows install succeeds with the expected version.`,
+                failure: 'Cancel the workflow and leave the issue open; do not publish until the manifest, installer, or packaging metadata is corrected and revalidated.',
+                verification: (releaseVersion) => `Install the published package for v${releaseVersion} from a clean Windows machine and verify the executable and version output match the release tag.`
+              },
             ];
             
             const createdIssues = [];
             
             for (const registry of registries) {
               const title = `📦 ${registry.name} Release: v${version}`;
-              const body = `## Release Version: v${version}\n\n**Registry:** ${registry.name}\n**GitHub Release:** [v${version}](${releaseUrl})\n**Status:** Awaiting approval for publication\n\n### Review Checklist\n- [ ] Download and verify release artifacts\n- [ ] Verify checksums and signatures\n- [ ] Confirm metadata is accurate\n- [ ] Review changelog\n- [ ] Test package/image if applicable\n\n### Approval\nOnce review is complete, comment with:\n\n\`/${registry.keyword}\`\n\nApproval will dispatch the ${registry.name} publication workflow.`;
-              
+              const preconditions = registry.preconditions(version);
+              const validation = registry.validation(version);
+              const success = registry.success(version);
+              const verification = registry.verification(version);
+              const body = `## Release Version: v${version}\n\n**Registry:** ${registry.name}\n**GitHub Release:** [v${version}](${releaseUrl})\n**Status:** Awaiting approval for publication\n\n### Deployment Instructions\n- **GitHub Environment:** \`${registry.environment}\`\n- **Required approvers:** ${registry.approvers}\n- **Approval workflow:** \`${registry.workflow}\`\n- **Exact approval command:** \`/${registry.keyword}\`\n- **Workflow that runs after approval:** \`${registry.downstreamWorkflow}\`\n- **Required preconditions:** ${preconditions}\n\n### Manual approval steps\n1. Open the repository Actions page and find the run for \`${registry.workflow}\`.\n2. Approve the GitHub Environment \`${registry.environment}\` in the pending approval prompt. This approval is required before deployment can proceed.\n3. Post the exact comment \`/${registry.keyword}\` on this issue to trigger the downstream publication gate.\n4. Confirm the next workflow execution is \`${registry.downstreamWorkflow}\` and monitor it until completion.\n\n### Validation Steps\n- [ ] Download and verify the release artifacts for v${version}\n- [ ] Verify checksums and signatures\n- [ ] Review changelog and metadata\n- [ ] Confirm the target registry/channel is correct\n- [ ] ${validation}\n\n### Success Criteria\n- [ ] The GitHub Environment \`${registry.environment}\` is approved\n- [ ] The approval command \`/${registry.keyword}\` is used by an admin or maintainer\n- [ ] \`${registry.downstreamWorkflow}\` completes successfully\n- [ ] ${success}\n\n### Failure / Rollback Notes\n- [ ] If validation fails, do not approve the environment or publish the package\n- [ ] Cancel the workflow run and leave the issue open if there is a packaging, security, or dependency blocker\n- [ ] ${registry.failure}\n\n### Post-deployment Verification\n- [ ] Confirm the target channel/registry reflects the new version\n- [ ] ${verification}\n\n### Review Checklist\n- [ ] Download and verify release artifacts\n- [ ] Verify checksums and signatures\n- [ ] Confirm metadata is accurate\n- [ ] Review changelog\n- [ ] Test package/image if applicable`;
+               
               try {
                 const created = await github.rest.issues.create({
                   owner: context.repo.owner,

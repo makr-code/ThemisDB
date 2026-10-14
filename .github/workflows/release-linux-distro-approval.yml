@@ -43,6 +43,9 @@ jobs:
         contains(github.event.comment.body, '/approve-linux') ||
         contains(github.event.comment.body, '@publish-linux')
       )
+    environment:
+      name: linux-distro-production
+      url: https://github.com/${{ github.repository }}/actions/workflows/release-linux-distro-approval.yml
     runs-on: ubuntu-latest
 
     steps:
@@ -134,7 +137,7 @@ jobs:
             const version = '${{ steps.extract_version.outputs.version }}';
             const user = context.payload.comment.user.login;
             
-            const comment = `✅ **Linux Distro Publication Approved**\n\n**Approved By:** @${user}\n**Version:** ${version}\n**Channel:** stable\n**Status:** Linux distro workflow dispatched (DEB/RPM packaging in progress)\n\n**Next:**\n- Monitor \`release-linux-distribution.yml\` run for build status\n- Packages will be uploaded to Linux distro endpoints on success\n- This issue will close on completion\n\n**Tracking:** Issue #${{ github.event.issue.number }} — Linux distro release approval`;
+            const comment = `✅ **Linux Distro Publication Approved**\n\n**Approved By:** @${user}\n**Version:** ${version}\n**GitHub Environment:** \`linux-distro-production\`\n**Workflow:** \`release-linux-distribution.yml\`\n**Channel:** stable\n**Status:** Linux distro workflow dispatched after maintainer approval in the production environment\n\n**Next:**\n- Confirm the \`linux-distro-production\` GitHub Environment approval is active\n- Monitor \`release-linux-distribution.yml\` run for build status\n- Packages will be uploaded to Linux distro endpoints on success\n- This issue will close on completion\n\n**Tracking:** Issue #${{ github.event.issue.number }} — Linux distro release approval`;
             
             await github.rest.issues.createComment({
               owner: context.repo.owner,
