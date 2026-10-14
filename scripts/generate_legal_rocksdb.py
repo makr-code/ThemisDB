@@ -142,19 +142,27 @@ int main(int argc, char* argv[]) {
     std::cout << "✓ Loaded " << total_docs << " documents" << std::endl;
     std::cout << std::endl;
 
-    // Open RocksDB database
+    // Open RocksDB database. RocksDB >= 10 uses the unique_ptr overload;
+    // older releases require the legacy raw-pointer fallback.
     std::cout << "[2/3] Opening RocksDB database..." << std::endl;
     Options options;
     options.create_if_missing = true;
     options.compression = rocksdb::kSnappyCompression;
-    
+
+    std::unique_ptr<DB> db;
+#if defined(ROCKSDB_MAJOR) && ROCKSDB_MAJOR >= 10
+    Status status = DB::Open(options, db_path, &db);
+#else
     DB* db_raw = nullptr;
     Status status = DB::Open(options, db_path, &db_raw);
+    if (status.ok()) {
+        db.reset(db_raw);
+    }
+#endif
     if (!status.ok()) {
         std::cerr << "Error opening database: " << status.ToString() << std::endl;
         return 1;
     }
-    std::unique_ptr<DB> db(db_raw);
     std::cout << "✓ RocksDB database opened at " << db_path << std::endl;
     std::cout << std::endl;
 

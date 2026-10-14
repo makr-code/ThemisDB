@@ -47,11 +47,20 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    // Open RocksDB database
+    // Open RocksDB database. RocksDB >= 10 uses the unique_ptr overload;
+    // older releases require the legacy raw-pointer fallback.
     Options options;
     options.create_if_missing = true;
     std::unique_ptr<DB> db;
+#if defined(ROCKSDB_MAJOR) && ROCKSDB_MAJOR >= 10
     Status status = DB::Open(options, db_path, &db);
+#else
+    DB* db_raw = nullptr;
+    Status status = DB::Open(options, db_path, &db_raw);
+    if (status.ok()) {
+        db.reset(db_raw);
+    }
+#endif
     if (!status.ok()) {
         std::cerr << "Error opening database: " << status.ToString() << std::endl;
         return 1;
