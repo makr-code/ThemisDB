@@ -607,7 +607,7 @@ jobs:
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
 
-      - name: Mark orphan tracker issue resolved when scan is clean
+      - name: "Validate: Mark orphan tracker issue resolved when clean"
         if: always() && (steps.orphan_scan.outputs.orphan_module_dirs == '0' && steps.orphan_scan.outputs.broken_primary_references == '0')
         uses: ./.github/actions/status-flags-and-issues
         with:
@@ -693,7 +693,7 @@ jobs:
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
 
-      - name: Mark root-hygiene tracker issue resolved when scan is clean
+      - name: "Validate: Mark root-hygiene tracker issue resolved when clean"
         if: always() && steps.root_hygiene.outputs.findings == '0'
         uses: ./.github/actions/status-flags-and-issues
         with:
@@ -781,7 +781,7 @@ jobs:
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
 
-      - name: Mark src/include alignment tracker issue resolved when scan is clean
+      - name: "Validate: Mark src/include alignment tracker issue resolved when clean"
         if: always() && steps.align_scan.outputs.undocumented_modules == '0'
         uses: ./.github/actions/status-flags-and-issues
         with:
@@ -797,7 +797,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
   docs-audit-issue-seed:
-    name: "Maintenance: Docs audit issue seeding"
+    name: "Validate: Docs audit issue seeding"
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch' && inputs.seed_docs_audit_issues == true
     permissions:
@@ -812,14 +812,14 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Seed docs-audit issues
+      - name: "Validate: Seed docs-audit issues"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 scripts/create_docs_audit_issues.py --create --repo "${{ github.repository }}"
 
   docs-reconciliation:
-    name: "Maintenance: Docs issue/PR reconciliation"
+    name: "Validate: Docs issue/PR reconciliation"
     runs-on: ubuntu-latest
     if: github.event_name == 'workflow_dispatch' || github.event.schedule == '0 5 * * 1'
     permissions:
@@ -837,7 +837,7 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Run issue/PR/docs reconciliation
+      - name: "Validate: Run issue/PR/docs reconciliation"
         id: reconcile
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -876,7 +876,7 @@ jobs:
               fh.write(f"attention_count={attention}\n")
           PY
 
-      - name: Upload reconciliation artifacts
+      - name: "Validate: Upload reconciliation artifacts"
         if: always()
         uses: actions/upload-artifact@v5
         with:
@@ -888,7 +888,7 @@ jobs:
           retention-days: 30
           if-no-files-found: ignore
 
-      - name: Open tracker issue for reconciliation findings
+      - name: "Validate: Open tracker issue for reconciliation findings"
         if: always() && steps.reconcile.outputs.attention_count != '0'
         uses: ./.github/actions/status-flags-and-issues
         with:
@@ -919,7 +919,7 @@ jobs:
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
 
-      - name: Mark reconciliation tracker issue resolved when clean
+      - name: "Validate: Mark reconciliation tracker issue resolved when clean"
         if: always() && steps.reconcile.outputs.attention_count == '0'
         uses: ./.github/actions/status-flags-and-issues
         with:
