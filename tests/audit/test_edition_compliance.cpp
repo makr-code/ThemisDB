@@ -3,7 +3,7 @@
 
 #include <gtest/gtest.h>
 
-#include "tests/audit/test_edition_compliance.h"
+#include "test_edition_compliance.h"
 
 namespace {
 

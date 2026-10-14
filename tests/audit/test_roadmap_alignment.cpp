@@ -3,7 +3,7 @@
 
 #include <gtest/gtest.h>
 
-#include "tests/audit/test_roadmap_alignment.h"
+#include "test_roadmap_alignment.h"
 
 namespace {
 

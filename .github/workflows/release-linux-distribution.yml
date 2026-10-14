@@ -481,6 +481,11 @@ jobs:
           done
           mv "${SHA_TMP}" "${SHA_FILE}"
 
+          SIGNED_STATUS="false"
+          if [ "${{ needs.detect-release.outputs.sign_requested }}" = "true" ] && [ "${{ steps.import-key.outputs.key_imported }}" = "true" ]; then
+            SIGNED_STATUS="true"
+          fi
+
           jq -n \
             --arg version "${VERSION}" \
             --arg channel "${CHANNEL}" \
@@ -495,7 +500,7 @@ jobs:
             --arg deb_architectures "${{ steps.profile.outputs.deb_architectures }}" \
             --arg rpm_dist_tag "${{ steps.profile.outputs.rpm_dist_tag }}" \
             --arg rpm_baseurl_hint "${{ steps.profile.outputs.rpm_baseurl_hint }}" \
-            --arg signed "${{ needs.detect-release.outputs.sign_requested }}" \
+            --arg signed "${SIGNED_STATUS}" \
             '{version:$version,channel:$channel,profile:$profile,tag:$tag,generated_at:$generated_at,signed:$signed,deb:{suite:$deb_suite,codename:$deb_codename,architectures:$deb_architectures},rpm:{dist_tag:$rpm_dist_tag,baseurl_hint:$rpm_baseurl_hint},counts:{deb:$deb_count,rpm:$rpm_count,tgz:$tgz_count}}' \
             > "${OUT_DIR}/meta/linux-distro-bundle-metadata.json"
 
