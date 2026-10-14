@@ -21,6 +21,19 @@
 namespace themis {
 namespace performance {
 namespace phase3 {
+
+#if !defined(THEMIS_ENABLE_SPLINTERDB)
+
+TEST(SplinterDBThreadSafety, SPLINTER_TS_01_SingleThreadedConsistency) {
+    GTEST_SKIP() << "SplinterDB is disabled in this build (THEMIS_ENABLE_SPLINTERDB=OFF).";
+}
+
+TEST(SplinterDBThreadSafety, SPLINTER_TS_02_ConcurrentNoLostUpdates) {
+    GTEST_SKIP() << "SplinterDB is disabled in this build (THEMIS_ENABLE_SPLINTERDB=OFF).";
+}
+
+#else
+
 namespace {
 
 // ---- helper: wall-clock busy-sleep so compaction "work" takes ~1 ms --------
@@ -48,7 +61,6 @@ TEST(SplinterDBThreadSafety, SPLINTER_TS_01_SingleThreadedConsistency) {
         });
     }
 
-    // Wait for all tasks to finish (up to 5 s)
     auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(5);
     while (completed.load() < kTasks &&
            std::chrono::steady_clock::now() < deadline) {
@@ -74,7 +86,7 @@ TEST(SplinterDBThreadSafety, SPLINTER_TS_01_SingleThreadedConsistency) {
 // ---------------------------------------------------------------------------
 TEST(SplinterDBThreadSafety, SPLINTER_TS_02_ConcurrentNoLostUpdates) {
     constexpr int kWorkers  = 4;
-    constexpr int kPerWorker = 8;   // tasks per producer thread
+    constexpr int kPerWorker = 8;
     constexpr int kTotal    = kWorkers * kPerWorker;
 
     ConcurrentCompactor compactor(kWorkers);
@@ -82,7 +94,6 @@ TEST(SplinterDBThreadSafety, SPLINTER_TS_02_ConcurrentNoLostUpdates) {
 
     std::atomic<int> completed{0};
 
-    // Saturate the compactor with tasks from kWorkers producer threads
     std::vector<std::thread> producers;
     producers.reserve(kWorkers);
     for (int w = 0; w < kWorkers; ++w) {
@@ -96,10 +107,9 @@ TEST(SplinterDBThreadSafety, SPLINTER_TS_02_ConcurrentNoLostUpdates) {
         });
     }
     for (auto& t : producers) {
-      t.join();
+        t.join();
     }
 
-    // Wait for all tasks (up to 30 s)
     auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(30);
     while (completed.load() < kTotal &&
            std::chrono::steady_clock::now() < deadline) {
@@ -113,9 +123,6 @@ TEST(SplinterDBThreadSafety, SPLINTER_TS_02_ConcurrentNoLostUpdates) {
     EXPECT_EQ(stats.compactions_completed, static_cast<size_t>(kTotal))
         << "All " << kTotal << " compactions must complete";
 
-    // avg_compaction_time_ms is total / count.
-    // Each task sleeps ~1 ms, so total should be >= kTotal ms.
-    // A lost update (race) would shrink total below this floor.
     double reconstructed_total = stats.avg_compaction_time_ms *
                                  static_cast<double>(stats.compactions_completed);
     EXPECT_GE(reconstructed_total, static_cast<double>(kTotal) * 0.5)
@@ -125,6 +132,8 @@ TEST(SplinterDBThreadSafety, SPLINTER_TS_02_ConcurrentNoLostUpdates) {
 }
 
 } // namespace
+#endif // !defined(THEMIS_ENABLE_SPLINTERDB)
+
 } // namespace phase3
 } // namespace performance
 } // namespace themis

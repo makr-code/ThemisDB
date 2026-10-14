@@ -104,13 +104,14 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | `maintenance-docs.yml` | Maintenance: Docs (Documentation health and drift detection) | docs |
 | `nightly-governance-audit.yml` | Nightly: Governance Audit Scope (Nightly governance evidence and checklist validation) | governance |
 | `coverage-report-nightly.yml` | Maintenance: Nightly Coverage Collection & Baseline Update (Nightly coverage metrics and baseline refresh) | quality |
-| `nightly-governance-audit.yml` | Nightly: Governance Audit Scope (Audit governance docs, release evidence, and checklist parity) | governance |
+| `nightly-governance-audit.yml` | Nightly: Governance Audit Scope (Scheduled governance artifact and checklist audit) | governance |
 | `maintenance-housekeeping.yml` | Maintenance: Housekeeping (Repository cleanup and maintenance) | maintenance |
 | `maintenance-architecture-ci.yml` | Maintenance: Architecture CI (Architecture documentation validation) | docs |
 | `maintenance-workflow-guardrails-observe.yml` | Maintenance: Workflow Guardrails [Observe] (Workflow policy observability) | governance |
 | `nightly-governance-audit.yml` | Nightly: Governance Audit Scope (Scheduled governance artifact and checklist audit) | governance |
 | `maintenance-soll-ist-gap-issues.yml` | Maintenance: SOLL-IST Gap Issues (Roadmap vs. reality tracking) | governance |
 | `maintenance-ai-working.yml` | Maintenance: AI Working Cleanup - LLM Wiki (AI context cleanup) | automation |
+| `nightly-governance-audit.yml` | Governance: Nightly Audit Scope (Nightly governance artifact and checklist audit) | governance |
 | `maintenance-docs-db-build.yml` | Maintenance: Docs-to-ThemisDB Database Build (Documentation database sync) | automation |
 | `maintenance-compendium-sync.yml` | Maintenance: Compendium Sync (Compendium documentation sync) | automation |
 | `wiki-pr-gate.yml` | Maintenance: Wiki PR Gate (GitHub Wiki PR validation) | docs |

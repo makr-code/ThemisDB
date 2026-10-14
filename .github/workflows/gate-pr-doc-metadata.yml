@@ -223,6 +223,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: Open tracker issue on metadata FAIL
+        continue-on-error: true
         if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'FAIL'
         uses: ./.github/actions/status-flags-and-issues
         with:
@@ -249,6 +250,7 @@ jobs:
           source-sha: ${{ github.sha }}
 
       - name: Close tracker issue on metadata PASS
+        continue-on-error: true
         if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'PASS'
         uses: ./.github/actions/status-flags-and-issues
         with:

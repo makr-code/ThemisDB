@@ -34,6 +34,12 @@ public:
 
 class ExplainMockIndexManager : public IIndexManager {
 public:
+    std::optional<IndexCapabilities> getCapabilities(std::string_view) const override {
+        return std::nullopt;
+    }
+    std::optional<IndexStatistics> getIndexSummary(std::string_view) const override {
+        return std::nullopt;
+    }
     Result<ISecondaryIndex*> createSecondaryIndex(
         std::string_view, std::string_view, const std::string&) override {
         return Err<ISecondaryIndex*>(ErrorCode::ERR_INDEX_CREATION_FAILED);

@@ -189,13 +189,19 @@ if(DEFINED TARGET_FILE AND NOT "${TARGET_FILE}" STREQUAL "")
         cmake_policy(SET CMP0207 NEW)
     endif()
 
+    # Windows system DLLs such as msiltcfg.dll are safe OS components and should
+    # never be treated as project-local runtime dependencies. Excluding them here
+    # prevents CMake from invoking dumpbin on them during dependency scanning.
     file(GET_RUNTIME_DEPENDENCIES
         EXECUTABLES "${TARGET_FILE}"
         RESOLVED_DEPENDENCIES_VAR _resolved_deps
         UNRESOLVED_DEPENDENCIES_VAR _unresolved_deps
         CONFLICTING_DEPENDENCIES_PREFIX _conflicting_deps
         DIRECTORIES ${_expanded_dep_dirs}
-        POST_EXCLUDE_REGEXES "^api-ms-win-.*" "^ext-ms-win-.*"
+        POST_EXCLUDE_REGEXES
+            "^api-ms-win-.*"
+            "^ext-ms-win-.*"
+            ".*[/\\](system32|syswow64|winsxs)[/\\].*\\.dll"
     )
 
     if(POLICY CMP0207)
