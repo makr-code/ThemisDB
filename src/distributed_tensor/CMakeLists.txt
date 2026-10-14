@@ -12,7 +12,7 @@ set(DISTRIBUTED_TENSOR_PUBLIC_HEADERS
 
 set(DISTRIBUTED_TENSOR_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/tensor_artifact_classes.cc
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/artifact_manifest.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/artifact_manifest.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/shard_placement.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/integrity_verification.cc
     ${CMAKE_CURRENT_SOURCE_DIR}/recovery_manager.cc

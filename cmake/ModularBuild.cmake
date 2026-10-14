@@ -51,16 +51,25 @@ if(THEMIS_BUILD_MODULAR)
     _themis_modular_mark_public_optional_source(THEMIS_HAS_PUBLIC_BLOB_BACKEND_AZURE "src/storage/blob_backend_azure.cpp")
 endif()
 
-# Stable Diffusion Block A module-focused test targets remain registered in
-# tests/stable_diffusion/CMakeLists.txt. Keep the canonical target list visible
-# here for modular build snapshots and selector tooling.
-set(THEMIS_STABLE_DIFFUSION_BLOCK_A_TEST_TARGETS
+# Block A module-focused tests remain registered in their per-module
+# CMakeLists.txt files. Keep the canonical target snapshot visible here for
+# modular build selectors, status reporting, and cross-module validation.
+set(THEMIS_BLOCK_A_TEST_TARGETS
+    module_distributed_tensor_test_tensor_allocation_focused
+    module_distributed_tensor_test_tensor_operations_focused
+    module_distributed_tensor_test_tensor_performance_focused
+    module_llama_cpp_test_model_loading_focused
+    module_llama_cpp_test_inference_execution_focused
+    module_llama_cpp_test_llama_errors_focused
     module_stable_diffusion_test_model_initialization_focused
     module_stable_diffusion_test_image_generation_focused
     module_stable_diffusion_test_sd_edge_cases_focused
+    module_execution_test_execution_engine_focused
+    module_execution_test_execution_performance_focused
+    module_execution_test_query_compilation_focused
 )
-set_property(GLOBAL APPEND PROPERTY THEMIS_STABLE_DIFFUSION_BLOCK_A_TARGETS
-    ${THEMIS_STABLE_DIFFUSION_BLOCK_A_TEST_TARGETS}
+set_property(GLOBAL APPEND PROPERTY THEMIS_BLOCK_A_TARGETS
+    ${THEMIS_BLOCK_A_TEST_TARGETS}
 )
 
 # Optional module configuration (only relevant when THEMIS_BUILD_MODULAR=ON)

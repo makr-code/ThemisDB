@@ -3,7 +3,7 @@
 
 #include <gtest/gtest.h>
 
-#include "tests/audit/test_wave_exit_criteria.h"
+#include "test_wave_exit_criteria.h"
 
 namespace {
 
