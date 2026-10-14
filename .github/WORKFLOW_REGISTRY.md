@@ -93,7 +93,7 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | `benchmark-performance-gate.yml` | Benchmark: Performance Gate (Performance regression detection) | quality |
 | `gate-release-benchmark-validation.yml` | Gate: Release Benchmark Coverage Validation (Release benchmark coverage decision gate) | quality-gate |
 
-### 4. MAINTENANCE & GOVERNANCE (20 Workflows)
+### 4. MAINTENANCE & GOVERNANCE (21 Workflows)
 
 | Workflow | Purpose | Category |
 |----------|---------|----------|
@@ -103,6 +103,7 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | `maintenance-issues.yml` | Maintenance: Issues [GS3 + Security Alerts] (GS3 security alert handling) | security |
 | `maintenance-docs.yml` | Maintenance: Docs (Documentation health and drift detection) | docs |
 | `coverage-report-nightly.yml` | Maintenance: Nightly Coverage Collection & Baseline Update (Nightly coverage metrics and baseline refresh) | quality |
+| `nightly-governance-audit.yml` | Nightly: Governance Audit Scope (Scheduled governance artifact and checklist audit) | governance |
 | `maintenance-housekeeping.yml` | Maintenance: Housekeeping (Repository cleanup and maintenance) | maintenance |
 | `maintenance-architecture-ci.yml` | Maintenance: Architecture CI (Architecture documentation validation) | docs |
 | `maintenance-workflow-guardrails-observe.yml` | Maintenance: Workflow Guardrails [Observe] (Workflow policy observability) | governance |
