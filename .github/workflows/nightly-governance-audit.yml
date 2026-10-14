@@ -1,4 +1,4 @@
-name: "Nightly: Governance Audit Scope"
+name: "Governance: Nightly Audit Scope"
 
 on:
   schedule:
