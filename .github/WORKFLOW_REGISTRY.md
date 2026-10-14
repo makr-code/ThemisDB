@@ -2,10 +2,10 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-10-12
-> Update Note: Added final runtime API gate workflow for TinyLlama/docs.db runtime validation
+> Last Updated: 2026-10-14
+> Update Note: Added nightly governance audit scope workflow to maintain registry sync
 > Status: active
-> Total Workflows: 87 (verified 2026-10-12)
+> Total Workflows: 88 (verified 2026-10-14)
 
 ## Zielbild
 
@@ -14,12 +14,12 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 
 ## Leitprinzipien
 
-- **Keine Schatten-CI:** Alle 87 Workflows sind in diesem Registry dokumentiert.
+- **Keine Schatten-CI:** Alle 88 Workflows sind in diesem Registry dokumentiert.
 - **Klare Verantwortlichkeit:** Jeder Workflow hat definierte Trigger und Zweck.
 - **Konsistente Governance:** Alle Workflows folgen Naming-, Concurrency- und Trigger-Policies.
 - **Drift Prevention:** Registry-Update ist erforderlich bei neuen Workflows (Pre-Commit-Hook in Phase 3).
 
-## Aktiver Workflow-Kern: Alle 87 Workflows
+## Aktiver Workflow-Kern: Alle 88 Workflows
 
 ### 1. BUILD & MAINLINE (13 Workflows)
 
@@ -93,7 +93,7 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | `benchmark-performance-gate.yml` | Benchmark: Performance Gate (Performance regression detection) | quality |
 | `gate-release-benchmark-validation.yml` | Gate: Release Benchmark Coverage Validation (Release benchmark coverage decision gate) | quality-gate |
 
-### 4. MAINTENANCE & GOVERNANCE (20 Workflows)
+### 4. MAINTENANCE & GOVERNANCE (21 Workflows)
 
 | Workflow | Purpose | Category |
 |----------|---------|----------|
@@ -102,6 +102,7 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | `maintenance-build-issues.yml` | Maintenance: Build Error Issues (Automatic build error tracking) | issue-tracking |
 | `maintenance-issues.yml` | Maintenance: Issues [GS3 + Security Alerts] (GS3 security alert handling) | security |
 | `maintenance-docs.yml` | Maintenance: Docs (Documentation health and drift detection) | docs |
+| `nightly-governance-audit.yml` | Nightly: Governance Audit Scope (Nightly governance evidence and checklist validation) | governance |
 | `coverage-report-nightly.yml` | Maintenance: Nightly Coverage Collection & Baseline Update (Nightly coverage metrics and baseline refresh) | quality |
 | `maintenance-housekeeping.yml` | Maintenance: Housekeeping (Repository cleanup and maintenance) | maintenance |
 | `maintenance-architecture-ci.yml` | Maintenance: Architecture CI (Architecture documentation validation) | docs |
@@ -145,10 +146,10 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | **BUILD & MAINLINE** | 13 | ✅ All documented |
 | **GATES: PR VALIDATION** | 23 | ✅ All documented |
 | **RELEASE & PUBLICATION** | 21 | ✅ All documented |
-| **MAINTENANCE & GOVERNANCE** | 20 | ✅ All documented |
+| **MAINTENANCE & GOVERNANCE** | 21 | ✅ All documented |
 | **SECURITY** | 6 | ✅ All documented |
 | **REUSABLE WORKFLOWS** | 4 | ✅ All documented |
-| **TOTAL** | **87** | ✅ **100% Registry Sync** |
+| **TOTAL** | **88** | ✅ **100% Registry Sync** |
 
 ## Complete Workflow Redesign and Consolidation Plan
 
