@@ -118,7 +118,7 @@ jobs:
 
   # 1. AI Context Wiki Sync
   ai-context-sync:
-    name: "Maintenance: AI Context lint and sync"
+    name: "Validate: AI Context lint and sync"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -168,7 +168,7 @@ jobs:
 
   # 2. Code Maturity Analysis
   developer-llm-wiki:
-    name: "Maintenance: Developer LLM Wiki sync"
+    name: "Validate: Developer LLM Wiki sync"
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -273,7 +273,7 @@ jobs:
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
   code-maturity:
-    name: "Maintenance: Code Maturity Analysis"
+    name: "Validate: Code Maturity Analysis"
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
@@ -400,7 +400,7 @@ jobs:
 
   # 3a. Commit Code Maturity Artifacts (write permission scoped to this job, skipped on PRs)
   code-maturity-commit:
-    name: "Maintenance: Commit Code Maturity Artifacts"
+    name: "Build: Commit Code Maturity Artifacts"
     needs: code-maturity
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
@@ -536,7 +536,7 @@ jobs:
 
   # 4. Docs Orphan Check
   docs-orphan-check:
-    name: "Maintenance: docs/de + docs/en Orphan Check"
+    name: "Validate: docs/de + docs/en Orphan Check"
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -622,7 +622,7 @@ jobs:
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
   root-docs-hygiene:
-    name: "Maintenance: Repo root markdown hygiene"
+    name: "Validate: Repo root markdown hygiene"
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -710,7 +710,7 @@ jobs:
 
   # 6. src/include ↔ docs/de Alignment
   src-docs-alignment:
-    name: "Maintenance: src/include ↔ docs/de Alignment"
+    name: "Validate: src/include ↔ docs/de Alignment"
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -731,6 +731,58 @@ jobs:
           [ "${{ inputs.fail_on_findings }}" = "true" ] && FAIL_FLAG="--fail-on-gaps"
           python3 scripts/src-include-docs-align.py --format text --output /tmp/align-report.txt $FAIL_FLAG
           python3 scripts/src-include-docs-align.py --format json --output /tmp/align-report.json --quiet || true
+
+      - name: "Validate: Build module finding comment payload"
+        id: align_findings
+        if: always() && steps.align_scan.outputs.undocumented_modules != '0'
+        run: |
+          python3 - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          report_path = Path("/tmp/align-report.json")
+          out_path = Path("/tmp/align-finding-comment.md")
+          modules = []
+          coverage = "n/a"
+          total = "n/a"
+          documented = "n/a"
+          if report_path.exists():
+              data = json.loads(report_path.read_text(encoding="utf-8"))
+              modules = data.get("undocumented_modules", []) or []
+              summary = data.get("summary", {}) or {}
+              coverage = str(summary.get("coverage_pct", "n/a"))
+              total = str(summary.get("total_modules", "n/a"))
+              documented = str(summary.get("documented", "n/a"))
+
+          fingerprint_data = {"undocumented_modules": sorted(modules)}
+          finding_hash = hashlib.sha256(
+              json.dumps(fingerprint_data, sort_keys=True, ensure_ascii=False).encode("utf-8")
+          ).hexdigest()[:16]
+
+          lines = [
+              "## New module findings",
+              "",
+              f"- Undocumented modules: `{len(modules)}`",
+              f"- Coverage: `{coverage}%`",
+              f"- Documented / Total: `{documented}` / `{total}`",
+              f"- Workflow run: https://github.com/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']}",
+              "",
+              "### Modules",
+          ]
+          if modules:
+              for module in modules[:80]:
+                  lines.append(f"- `{module}`")
+              if len(modules) > 80:
+                  lines.append(f"- ... and {len(modules) - 80} more")
+          else:
+              lines.append("- _(none)_")
+          out_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+              fh.write(f"finding_hash={finding_hash}\n")
+          PY
 
       - name: Upload alignment reports
         if: always()
@@ -754,6 +806,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Open tracker issue for alignment findings
+        id: align_tracker
         if: always() && steps.align_scan.outputs.undocumented_modules != '0'
         uses: ./.github/actions/status-flags-and-issues
         with:
@@ -777,6 +830,19 @@ jobs:
             - Branch: `${{ github.ref_name }}`
           labels-to-add: 'quality,documentation,status/needs-attention'
           status-group: 'quality,documentation,status/needs-attention,status/resolved'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: "Validate: Comment module findings on existing alignment issue"
+        if: always() && steps.align_scan.outputs.undocumented_modules != '0'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: comment_issue
+          issue-number: ${{ steps.align_tracker.outputs.issue-number }}
+          issue-marker: '<!-- docs-src-alignment:finding:${{ steps.align_findings.outputs.finding_hash }} -->'
+          issue-body-file: /tmp/align-finding-comment.md
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
@@ -942,7 +1008,7 @@ jobs:
   # This job is report-only: it never deletes files and never fails the workflow.
   # ────────────────────────────────────────────────────────────────────────────
   ai-working-hygiene:
-    name: "Maintenance: ai_working + ai_context Hygiene"
+    name: "Validate: ai_working + ai_context Hygiene"
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -1130,7 +1196,7 @@ jobs:
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
   doxygen-api-extraction:
-    name: "Maintenance: Doxygen XML → API Reference wiki pages"
+    name: "Build: Doxygen XML → API Reference wiki pages"
     runs-on: ubuntu-latest
     timeout-minutes: 20
     # Run only on schedule or explicit workflow_dispatch to keep costs low.
