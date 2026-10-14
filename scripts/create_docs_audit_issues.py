@@ -37,12 +37,14 @@ Requirements:
 import subprocess
 import sys
 import argparse
+import json
 from typing import List, Dict
 
 
 REPO = "makr-code/ThemisDB"
 LABEL_DOCS_AUDIT = "area:docs-audit"
 LABEL_DOCUMENTATION = "type:documentation"
+LABEL_STATUS_OPEN = "status:open"
 
 # ─── Issue definitions ────────────────────────────────────────────────────────
 # Each entry maps to one GitHub Issue.
@@ -354,8 +356,19 @@ def run(args: list) -> tuple[int, str, str]:
     return result.returncode, result.stdout.strip(), result.stderr.strip()
 
 
-def create_issue(repo: str, title: str, labels: List[str], body: str) -> bool:
-    """Create a GitHub issue using the gh CLI."""
+def create_issue(repo: str, title: str, labels: List[str], body: str) -> str:
+    """Create a GitHub issue using the gh CLI.
+
+    Returns:
+      - "created" when a new issue was created
+      - "skipped" when an open issue with the same title already exists
+      - "failed" when the create command failed
+    """
+    existing = find_existing_issue(repo, title)
+    if existing:
+        print(f"  ↪️  Exists: #{existing['number']} {existing.get('url', '')}".rstrip())
+        return "skipped"
+
     labels_str = ",".join(labels)
 
     cmd = [
@@ -370,10 +383,41 @@ def create_issue(repo: str, title: str, labels: List[str], body: str) -> bool:
     if rc == 0:
         url = stdout.strip()
         print(f"  ✅  Created: {url if url else 'OK'}")
-        return True
+        return "created"
     else:
         print(f"  ❌  Failed: {stderr or 'unknown error'}")
-        return False
+        return "failed"
+
+
+def find_existing_issue(repo: str, title: str) -> Dict | None:
+    """Return first open issue with exact title, if present."""
+    rc, stdout, _ = run(
+        [
+            "gh",
+            "issue",
+            "list",
+            "--repo",
+            repo,
+            "--state",
+            "open",
+            "--search",
+            f'in:title "{title}"',
+            "--json",
+            "number,title,url",
+            "--limit",
+            "20",
+        ]
+    )
+    if rc != 0 or not stdout:
+        return None
+    try:
+        rows = json.loads(stdout)
+    except Exception:
+        return None
+    for row in rows:
+        if row.get("title") == title:
+            return row
+    return None
 
 
 def ensure_label(repo: str, label: str, color: str = "0075ca") -> None:
@@ -416,29 +460,35 @@ def main() -> int:
         print("Ensuring labels exist …")
         ensure_label(args.repo, LABEL_DOCS_AUDIT, "0075ca")
         ensure_label(args.repo, LABEL_DOCUMENTATION, "0075ca")
+        ensure_label(args.repo, LABEL_STATUS_OPEN, "0075ca")
         print()
 
     created = 0
+    skipped = 0
     failed = 0
 
     for i, issue in enumerate(DOCS_AUDIT_ISSUES, start=1):
+        labels = list(dict.fromkeys([*issue["labels"], LABEL_STATUS_OPEN]))
         print(f"[{i}/{len(DOCS_AUDIT_ISSUES)}] {issue['title']}")
 
         if args.create:
-            ok = create_issue(args.repo, issue["title"], issue["labels"], issue["body"])
-            if ok:
+            result = create_issue(args.repo, issue["title"], labels, issue["body"])
+            if result == "created":
                 created += 1
+            elif result == "skipped":
+                skipped += 1
             else:
                 failed += 1
         else:
             # Dry-run: show labels
-            print(f"  Labels: {', '.join(issue['labels'])}")
+            print(f"  Labels: {', '.join(labels)}")
 
         print()
 
     print("=" * 70)
     if args.create:
         print(f"✅ Created : {created}")
+        print(f"↪️  Skipped : {skipped}")
         print(f"❌ Failed  : {failed}")
     else:
         print(f"Would create {len(DOCS_AUDIT_ISSUES)} issues.")
