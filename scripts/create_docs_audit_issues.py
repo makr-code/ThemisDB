@@ -356,12 +356,18 @@ def run(args: list) -> tuple[int, str, str]:
     return result.returncode, result.stdout.strip(), result.stderr.strip()
 
 
-def create_issue(repo: str, title: str, labels: List[str], body: str) -> bool:
-    """Create a GitHub issue using the gh CLI (skip if an open twin already exists)."""
+def create_issue(repo: str, title: str, labels: List[str], body: str) -> str:
+    """Create a GitHub issue using the gh CLI.
+
+    Returns:
+      - "created" when a new issue was created
+      - "skipped" when an open issue with the same title already exists
+      - "failed" when the create command failed
+    """
     existing = find_existing_issue(repo, title)
     if existing:
         print(f"  ↪️  Exists: #{existing['number']} {existing.get('url', '')}".rstrip())
-        return True
+        return "skipped"
 
     labels_str = ",".join(labels)
 
@@ -377,10 +383,10 @@ def create_issue(repo: str, title: str, labels: List[str], body: str) -> bool:
     if rc == 0:
         url = stdout.strip()
         print(f"  ✅  Created: {url if url else 'OK'}")
-        return True
+        return "created"
     else:
         print(f"  ❌  Failed: {stderr or 'unknown error'}")
-        return False
+        return "failed"
 
 
 def find_existing_issue(repo: str, title: str) -> Dict | None:
@@ -458,6 +464,7 @@ def main() -> int:
         print()
 
     created = 0
+    skipped = 0
     failed = 0
 
     for i, issue in enumerate(DOCS_AUDIT_ISSUES, start=1):
@@ -465,9 +472,11 @@ def main() -> int:
         print(f"[{i}/{len(DOCS_AUDIT_ISSUES)}] {issue['title']}")
 
         if args.create:
-            ok = create_issue(args.repo, issue["title"], labels, issue["body"])
-            if ok:
+            result = create_issue(args.repo, issue["title"], labels, issue["body"])
+            if result == "created":
                 created += 1
+            elif result == "skipped":
+                skipped += 1
             else:
                 failed += 1
         else:
@@ -479,6 +488,7 @@ def main() -> int:
     print("=" * 70)
     if args.create:
         print(f"✅ Created : {created}")
+        print(f"↪️  Skipped : {skipped}")
         print(f"❌ Failed  : {failed}")
     else:
         print(f"Would create {len(DOCS_AUDIT_ISSUES)} issues.")
