@@ -41,7 +41,10 @@ on:
       - 'scripts/docs-orphan-check.py'
       - 'scripts/root-docs-hygiene.py'
       - 'scripts/src-include-docs-align.py'
+      - 'scripts/create_docs_audit_issues.py'
+      - 'scripts/reconcile-issues-prs-docs.py'
       - '.github/scripts/code_maturity_header_writer.py'
+      - '.github/ISSUE_TEMPLATE/docs_audit.md'
       - '.github/workflows/maintenance-docs.yml'
   schedule:
     - cron: '0 4 * * *'   # Daily 04:00 UTC — all daily doc checks (maturity, orphan, hygiene)
@@ -94,6 +97,10 @@ on:
         default: false
       llm_wiki_fail_on_findings:
         description: 'Developer LLM Wiki: fail job when validation findings exist'
+        type: boolean
+        default: false
+      seed_docs_audit_issues:
+        description: 'Create/update baseline docs-audit issues from the maintained issue catalog'
         type: boolean
         default: false
 
@@ -544,6 +551,7 @@ jobs:
           python-version: '3.11'
 
       - name: Run docs orphan check
+        id: orphan_scan
         run: |
           FAIL_FLAG=""
           [ "${{ inputs.fail_on_findings }}" = "true" ] && FAIL_FLAG="--fail-on-findings"
@@ -572,7 +580,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Open tracker issue for orphan findings
-        if: always() && hashFiles('/tmp/docs-orphan-check.json') != ''
+        if: always() && (steps.orphan_scan.outputs.orphan_module_dirs != '0' || steps.orphan_scan.outputs.broken_primary_references != '0')
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -598,6 +606,21 @@ jobs:
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
+
+      - name: Mark orphan tracker issue resolved when scan is clean
+        if: always() && (steps.orphan_scan.outputs.orphan_module_dirs == '0' && steps.orphan_scan.outputs.broken_primary_references == '0')
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: replace_status_group
+          issue-title: '[Docs] Orphan files detected in docs/de + docs/en'
+          issue-marker: '<!-- docs-orphan-check:weekly -->'
+          labels-to-add: 'status/resolved'
+          status-group: 'status/needs-attention,status/resolved'
+          allow-missing: 'true'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
   root-docs-hygiene:
     name: "Maintenance: Repo root markdown hygiene"
     runs-on: ubuntu-latest
@@ -614,6 +637,7 @@ jobs:
           python-version: '3.11'
 
       - name: Run root docs hygiene check
+        id: root_hygiene
         run: |
           FAIL_FLAG=""
           [ "${{ inputs.fail_on_findings }}" = "true" ] && FAIL_FLAG="--fail-on-findings"
@@ -642,7 +666,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Open tracker issue for hygiene findings
-        if: always() && hashFiles('/tmp/root-docs-hygiene.json') != ''
+        if: always() && steps.root_hygiene.outputs.findings != '0'
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -669,6 +693,21 @@ jobs:
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
 
+      - name: Mark root-hygiene tracker issue resolved when scan is clean
+        if: always() && steps.root_hygiene.outputs.findings == '0'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: replace_status_group
+          issue-title: '[Docs] Root documentation hygiene findings'
+          issue-marker: '<!-- docs-root-hygiene:weekly -->'
+          labels-to-add: 'status/resolved'
+          status-group: 'status/needs-attention,status/resolved'
+          allow-missing: 'true'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
   # 6. src/include ↔ docs/de Alignment
   src-docs-alignment:
     name: "Maintenance: src/include ↔ docs/de Alignment"
@@ -686,6 +725,7 @@ jobs:
           python-version: '3.11'
 
       - name: Run alignment check
+        id: align_scan
         run: |
           FAIL_FLAG=""
           [ "${{ inputs.fail_on_findings }}" = "true" ] && FAIL_FLAG="--fail-on-gaps"
@@ -714,7 +754,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Open tracker issue for alignment findings
-        if: always() && hashFiles('/tmp/align-report.json') != ''
+        if: always() && steps.align_scan.outputs.undocumented_modules != '0'
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -737,6 +777,159 @@ jobs:
             - Branch: `${{ github.ref_name }}`
           labels-to-add: 'quality,documentation,status/needs-attention'
           status-group: 'quality,documentation,status/needs-attention,status/resolved'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Mark src/include alignment tracker issue resolved when scan is clean
+        if: always() && steps.align_scan.outputs.undocumented_modules == '0'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: replace_status_group
+          issue-title: '[Docs] src/include ↔ docs/de alignment gaps detected'
+          issue-marker: '<!-- docs-src-alignment:weekly -->'
+          labels-to-add: 'status/resolved'
+          status-group: 'status/needs-attention,status/resolved'
+          allow-missing: 'true'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+  docs-audit-issue-seed:
+    name: "Maintenance: Docs audit issue seeding"
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' && inputs.seed_docs_audit_issues == true
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
+        with:
+          python-version: '3.11'
+
+      - name: Seed docs-audit issues
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 scripts/create_docs_audit_issues.py --create --repo "${{ github.repository }}"
+
+  docs-reconciliation:
+    name: "Maintenance: Docs issue/PR reconciliation"
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '0 5 * * 1'
+    permissions:
+      contents: read
+      issues: write
+      pull-requests: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
+        with:
+          python-version: '3.11'
+
+      - name: Run issue/PR/docs reconciliation
+        id: reconcile
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p artifacts
+          python3 scripts/reconcile-issues-prs-docs.py | tee /tmp/docs-reconcile.log
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          lines = Path("/tmp/docs-reconcile.log").read_text(encoding="utf-8").splitlines()
+          out_json = ""
+          out_md = ""
+          for line in lines:
+              if line.startswith("OUT_JSON="):
+                  out_json = line.split("=", 1)[1].strip()
+              if line.startswith("OUT_MD="):
+                  out_md = line.split("=", 1)[1].strip()
+          proposals = 0
+          overload = 0
+          pr_alignment = 0
+          if out_json:
+              p = Path(out_json)
+              if p.exists():
+                  data = json.loads(p.read_text(encoding="utf-8"))
+                  proposals = len(data.get("legacy_rebalance_proposals", []))
+                  overload = len(data.get("legacy_overload_rebalance_proposals", []))
+                  pr_alignment = len(data.get("pr_milestone_alignment_proposals", []))
+          attention = proposals + overload + pr_alignment
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+              fh.write(f"out_json={out_json}\n")
+              fh.write(f"out_md={out_md}\n")
+              fh.write(f"proposals={proposals}\n")
+              fh.write(f"overload={overload}\n")
+              fh.write(f"pr_alignment={pr_alignment}\n")
+              fh.write(f"attention_count={attention}\n")
+          PY
+
+      - name: Upload reconciliation artifacts
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: docs-reconciliation-${{ github.run_number }}
+          path: |
+            /tmp/docs-reconcile.log
+            artifacts/issues-prs-doc-reconcile-*.json
+            artifacts/issues-prs-doc-reconcile-*.md
+          retention-days: 30
+          if-no-files-found: ignore
+
+      - name: Open tracker issue for reconciliation findings
+        if: always() && steps.reconcile.outputs.attention_count != '0'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: upsert_issue
+          issue-title: '[Docs] Issue/PR reconciliation needs attention'
+          issue-marker: '<!-- docs-reconcile:weekly -->'
+          issue-body: |
+            <!-- docs-reconcile:weekly -->
+            ## Docs issue/PR reconciliation — findings detected
+
+            The docs reconciliation run found assignment/alignment follow-up items:
+
+            - Legacy rebalance proposals: `${{ steps.reconcile.outputs.proposals }}`
+            - Legacy overload (v1.0.2) rebalance proposals: `${{ steps.reconcile.outputs.overload }}`
+            - PR milestone alignment proposals: `${{ steps.reconcile.outputs.pr_alignment }}`
+
+            See the reconciliation artifacts in the workflow run:
+            https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            ---
+            - Scheduled scan: `maintenance-docs` (weekly reconciliation slot)
+            - Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            - Branch: `${{ github.ref_name }}`
+          labels-to-add: 'quality,documentation,status/needs-attention'
+          status-group: 'quality,documentation,status/needs-attention,status/resolved'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Mark reconciliation tracker issue resolved when clean
+        if: always() && steps.reconcile.outputs.attention_count == '0'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: replace_status_group
+          issue-title: '[Docs] Issue/PR reconciliation needs attention'
+          issue-marker: '<!-- docs-reconcile:weekly -->'
+          labels-to-add: 'status/resolved'
+          status-group: 'status/needs-attention,status/resolved'
+          allow-missing: 'true'
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
