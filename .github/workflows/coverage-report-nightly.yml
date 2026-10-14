@@ -37,7 +37,7 @@ jobs:
       - name: Install coverage tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y lcov python3-pip jq sccache
+          sudo apt-get install -y lcov python3-pip jq sccache libfmt-dev
           pip3 install --upgrade pip
           echo "✓ Coverage tools installed"
       
