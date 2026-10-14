@@ -2,7 +2,7 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-10-12
+> Last Updated: 2026-10-14
 > Update Note: Added final runtime API gate workflow for TinyLlama/docs.db runtime validation
 > Status: active
 > Total Workflows: 87 (verified 2026-10-12)
@@ -103,6 +103,7 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | `maintenance-issues.yml` | Maintenance: Issues [GS3 + Security Alerts] (GS3 security alert handling) | security |
 | `maintenance-docs.yml` | Maintenance: Docs (Documentation health and drift detection) | docs |
 | `coverage-report-nightly.yml` | Maintenance: Nightly Coverage Collection & Baseline Update (Nightly coverage metrics and baseline refresh) | quality |
+| `nightly-governance-audit.yml` | Nightly: Governance Audit Scope (Audit governance docs, release evidence, and checklist parity) | governance |
 | `maintenance-housekeeping.yml` | Maintenance: Housekeeping (Repository cleanup and maintenance) | maintenance |
 | `maintenance-architecture-ci.yml` | Maintenance: Architecture CI (Architecture documentation validation) | docs |
 | `maintenance-workflow-guardrails-observe.yml` | Maintenance: Workflow Guardrails [Observe] (Workflow policy observability) | governance |
