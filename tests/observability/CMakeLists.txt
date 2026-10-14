@@ -4,6 +4,13 @@
 # unrelated CI lanes can still configure when benchmark package config is absent.
 find_package(benchmark QUIET CONFIG)
 
+set(_observability_benchmark_target "")
+if(TARGET benchmark::benchmark)
+    set(_observability_benchmark_target benchmark::benchmark)
+elseif(TARGET benchmark)
+    set(_observability_benchmark_target benchmark)
+endif()
+
 file(GLOB OBSERVABILITY_MODULE_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
@@ -20,8 +27,8 @@ foreach(_src IN LISTS OBSERVABILITY_MODULE_TEST_SOURCES)
         continue()
     endif()
 
-    if(_has_benchmark_macro GREATER -1 AND NOT TARGET benchmark::benchmark)
-        message(STATUS "Skipping ${_target}: benchmark::benchmark is unavailable")
+    if(_has_benchmark_macro GREATER -1 AND NOT _observability_benchmark_target)
+        message(STATUS "Skipping ${_target}: no valid benchmark target is available")
         continue()
     endif()
 
@@ -113,7 +120,11 @@ foreach(_src IN LISTS OBSERVABILITY_MODULE_TEST_SOURCES)
     endif()
 
     if(_has_benchmark_macro GREATER -1)
-        target_link_libraries(${_target} PRIVATE benchmark::benchmark)
+        if(NOT _observability_benchmark_target)
+            message(STATUS "Skipping ${_target}: benchmark target became unavailable during configuration")
+            continue()
+        endif()
+        target_link_libraries(${_target} PRIVATE ${_observability_benchmark_target})
     endif()
 
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)

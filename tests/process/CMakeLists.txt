@@ -46,10 +46,7 @@ foreach(_src IN LISTS PROCESS_MODULE_TEST_SOURCES)
     )
     if(_stem STREQUAL "test_process_high_batch_2a" AND TARGET themis_sharding)
         if(TARGET themis_llm)
-            target_link_libraries(
-                ${_target}
-                PRIVATE "$<LINK_GROUP:RESCAN,themis_llm,themis_sharding>"
-            )
+            target_link_libraries(${_target} PRIVATE themis_llm themis_sharding)
         else()
             target_link_libraries(${_target} PRIVATE themis_sharding)
         endif()
@@ -117,10 +114,7 @@ foreach(_src IN LISTS PROCESS_AUTOGEN_PREFIX_TEST_SOURCES)
     )
     if(_stem STREQUAL "test_process_high_batch_2a" AND TARGET themis_sharding)
         if(TARGET themis_llm)
-            target_link_libraries(
-                ${_target}
-                PRIVATE "$<LINK_GROUP:RESCAN,themis_llm,themis_sharding>"
-            )
+            target_link_libraries(${_target} PRIVATE themis_llm themis_sharding)
         else()
             target_link_libraries(${_target} PRIVATE themis_sharding)
         endif()
