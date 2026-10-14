@@ -44,6 +44,16 @@ foreach(_src IN LISTS PROCESS_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
+    if(_stem STREQUAL "test_process_high_batch_2a" AND TARGET themis_sharding)
+        if(TARGET themis_llm)
+            target_link_libraries(
+                ${_target}
+                PRIVATE "$<LINK_GROUP:RESCAN,themis_llm,themis_sharding>"
+            )
+        else()
+            target_link_libraries(${_target} PRIVATE themis_sharding)
+        endif()
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     themis_register_module_focused_test(
@@ -105,6 +115,16 @@ foreach(_src IN LISTS PROCESS_AUTOGEN_PREFIX_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
+    if(_stem STREQUAL "test_process_high_batch_2a" AND TARGET themis_sharding)
+        if(TARGET themis_llm)
+            target_link_libraries(
+                ${_target}
+                PRIVATE "$<LINK_GROUP:RESCAN,themis_llm,themis_sharding>"
+            )
+        else()
+            target_link_libraries(${_target} PRIVATE themis_sharding)
+        endif()
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     themis_register_module_focused_test(
