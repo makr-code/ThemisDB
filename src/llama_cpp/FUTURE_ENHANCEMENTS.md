@@ -7,8 +7,10 @@
 
 ## Scope
 
-Planned enhancements beyond v2.0.0. Core implementation in
-`src/llama_cpp/llama_cpp_plugin.cpp`.
+Current module status: production-capable plugin with live `LlamaWrapper` delegation,
+LoRA validation, policy gating, structured tool-call support, and guarded stub mode.
+This document captures the next non-blocking enhancements beyond the current
+`v2.1.0` contract in `src/llama_cpp/llama_cpp_plugin.cpp`.
 
 ---
 
@@ -39,11 +41,11 @@ Planned enhancements beyond v2.0.0. Core implementation in
 
 ### 1. Real llama.cpp Inference via LlamaWrapper (Target: Q3 2026)
 
-**Problem:** `generate()` returns an echo stub in v2.0.0.
+**Problem:** older docs still describe the module as if the real backend were missing;
+current code already wires the live `LlamaWrapper` path behind `THEMIS_LLM_ENABLED`.
 
-**Solution:** Add a real `LlamaWrapper*` member, initialised in `loadModel()`. Gate all
-inference calls on `THEMIS_ENABLE_LLAMA_CPP` compile flag (consistent with
-`THEMIS_ENABLE_WHISPER` pattern).
+**Solution:** maintain the current real-inference path and keep all benchmark and regression
+checks pinned to the production-load guard (`model_path` + `THEMIS_LLM_ENABLED`).
 
 **Inputs:** `InferenceRequest { prompt, max_tokens, temperature, top_p }`.
 **Outputs:** `InferenceResponse { text, tokens_generated, latency_ms }`.
@@ -51,8 +53,8 @@ inference calls on `THEMIS_ENABLE_LLAMA_CPP` compile flag (consistent with
 double-init must be safe (unload + reload).
 **Errors:** Model load failure → `loadModel()` returns `false`; generate on unloaded model
 → error response.
-**Tests:** Integration test with a tiny GGUF model in CI fixtures.
-**Perf target:** ≤ 200 ms for 50-token prompt on RTX 3090 equivalent.
+**Tests:** integration + focused test coverage for real-model and no-model paths.
+**Perf target:** ≤ 200 ms for a 50-token prompt on RTX 3090 equivalent.
 
 ---
 
@@ -73,10 +75,11 @@ recorded as `error_count_++`.
 
 ### 3. Real Embedding Model (Target: Q3 2026)
 
-**Problem:** `embed()` returns a fixed 384-dim zero vector.
+**Problem:** `embed()` continues to rely on the fallback path when no wrapper or injected
+embedding function is configured.
 
-**Solution:** `LlamaWrapper::embed()` provides real embedding vectors when an embedding
-model is loaded. `LlamaCppPlugin::embed()` will delegate to it.
+**Solution:** keep the current `LlamaWrapper::embed()` path as the primary production route
+and only use explicit injected fallback functions in tests and limited CI flows.
 
 **Constraints:** Embedding model may be different from the generation model; support
 loading both simultaneously.
@@ -100,10 +103,12 @@ deserialisation to prevent injection attacks.
 
 ### 5. Function / Tool Calling (Target: Q4 2026)
 
-**Problem:** `supports_function_call` is `false` in v2.0.0.
+**Problem:** older module docs still described the tool-calling capability as missing;
+current runtime code reports `supports_function_call = true` and emits tool-call JSON in
+stub mode when the caller provides a tool schema.
 
-**Solution:** Add `LlamaCppPlugin::callTool(request, tool_schema)` using JSON schema
-grammar-constrained generation (consistent with LLM module's grammar.cpp).
+**Solution:** keep the structured tool-calling bridge as the canonical path and extend it
+only when the live backend adds additional tool-schema validation or concurrency guarantees.
 
 **Constraints:** Grammar validation required before compilation; recursive grammars bounded
 by depth limit (same constraint as LLM module).

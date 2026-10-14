@@ -1,6 +1,16 @@
-> **Status:** 2026-10-07 — source-verified against `src/llama_cpp/llama_cpp_plugin.cpp`, `llama_cpp_registrar.cpp`, `include/llama_cpp/llama_cpp_plugin.h`, and the module test targets.
+---
+Author: "ThemisDB Team"
+Created: "2026-10-14"
+Last Updated: "2026-10-14"
+Status: "active"
+---
+
+<!-- Status: current | validated: 2026-10-14 | Primary: src/llama_cpp/ -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # ThemisDB llama_cpp Plugin — Production Requirements
+
+> **Source status:** 2026-10-14 — source-verified against `src/llama_cpp/llama_cpp_plugin.cpp`, `llama_cpp_registrar.cpp`, `include/llama_cpp/llama_cpp_plugin.h`, and the live llama_cpp test targets.
 
 ## Scope and source of truth
 
@@ -14,11 +24,11 @@ This document is the production gate for the `llama_cpp` module. It defines the 
 
 Related governance docs:
 
-- `src/llama_cpp/README.md`
-- `src/llama_cpp/ARCHITECTURE.md`
-- `src/llama_cpp/ROADMAP.md`
-- `src/llama_cpp/SECURITY.md`
-- `src/llama_cpp/FUTURE_ENHANCEMENTS.md`
+- [`README.md`](README.md)
+- [`ARCHITECTURE.md`](ARCHITECTURE.md)
+- [`ROADMAP.md`](ROADMAP.md)
+- [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md)
+- [`SECURITY.md`](SECURITY.md)
 
 ## Mandatory production invariants
 
@@ -29,6 +39,7 @@ Related governance docs:
 - MUST: model configuration is provided through JSON config and runtime path input; no hard-coded model path is accepted in the production code path.
 - MUST: `themis_llm_create()` and `themis_llm_destroy()` expose a valid plugin handle only when the plugin is in a consistent state.
 - MUST NOT: disable safety checks, policy enforcement, or explicit error propagation in production builds.
+- MUST: `generateStream()` and `generateBatch()` preserve callback and per-request ordering guarantees; transient callback faults are retried and counted in `stream_retry_count_` before being classified as `error_count_`.
 
 ## Security and reliability requirements
 
@@ -37,6 +48,7 @@ Related governance docs:
 - `generate()` and `generateRAG()` must evaluate the optional policy gate before dispatching inference. A denial must return `success=false` with the denial reason in the response object.
 - `getMemoryStats()` and `getPerformanceStats()` must not expose credentials, prompts, or user-specific content; they are operational metrics only.
 - `computeFileDigest()` is an opt-in integrity gate controlled by `verify_model_digest` and `expected_model_digest`; if enabled, mismatches fail closed.
+- `build/test` stubs are allowed only when explicitly gated by `THEMIS_LLAMA_CPP_STUB_MODE`; they are not a production default and must remain isolated from real inference paths.
 
 ## Operational limits and deployment constraints
 
@@ -45,6 +57,7 @@ Related governance docs:
 - `embed()` returns an empty vector when no real backend or injected embedding function is configured. The 384-dimensional zero-vector remains a test/CI fallback and is not the recommended production behavior; production deployments should prefer a real `LlamaWrapper` or an explicit `EmbedFn` injection.
 - Rate limiting is intentionally left to the consuming API layer; the module does not implement an in-process rate limiter.
 - External model and adapter loading must honor explicit timeouts and retry requirements managed by the higher-level deployment stack.
+- `LLMPluginManager` startup registration is conditional on a non-empty `llm.model_path`; empty or absent path is treated as stub/CI mode, not a production inference configuration.
 
 ## Production readiness checklist
 

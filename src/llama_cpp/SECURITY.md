@@ -7,6 +7,9 @@
 
 > For reporting security vulnerabilities, see the project-level [SECURITY.md](../../SECURITY.md).
 
+<!-- Status: current | validated: 2026-10-14 | Primary: src/llama_cpp/ -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+
 ## Security Scope
 
 This document covers the security posture of the llama_cpp LLM backend plugin:
@@ -18,13 +21,13 @@ This document covers the security posture of the llama_cpp LLM backend plugin:
 
 | Threat | Attack Vector | Mitigation |
 |--------|--------------|------------|
-| Prompt injection via model output | Attacker embeds instructions in input that cause the model to override system prompt | `PolicyEngine::checkInferencePermission()` is the intended upstream gate (caller responsibility); `LlamaCppPlugin` itself does not apply prompt sanitization in v2.0.0 |
-| Malicious GGUF model file | Crafted model file exploiting parser vulnerabilities | Model loading is delegated to `LlamaWrapper` / llama.cpp which validates the GGUF format; additional digest verification planned for v2.1.0 |
-| LoRA adapter poisoning | Tampered LoRA adapter injecting backdoor behaviour | Planned: SHA-256 digest verification consistent with LLM module `lora_security_validator.cpp` (Target: v2.1.0) |
+| Prompt injection via model output | Attacker embeds instructions in input that cause the model to override system prompt | `PolicyEngine::checkInferencePermission()` is the intended upstream gate (caller responsibility); the plugin enforces policy through `setPolicyFn()` before real or bridged inference executes |
+| Malicious GGUF model file | Crafted model file exploiting parser vulnerabilities | Model loading is delegated to `LlamaWrapper` / llama.cpp which validates the GGUF format; digest verification remains opt-in and fail-closed when `verify_model_digest` is enabled |
+| LoRA adapter poisoning | Tampered LoRA adapter injecting backdoor behaviour | `importLoRA()` validates GGUF magic bytes and a 2 GB size bound before accepting payloads; summary and caller-owned metadata remain sanitized |
 | Credential / API key leakage via stats | `getPerformanceStats()` / `getMemoryStats()` returning sensitive data | Stats contain only counters, model path, and flags — no credentials or prompts |
-| LoRA deserialization attack via importLoRA | Crafted LoRA binary triggering heap overflow during import | `importLoRA` returns `false` in v2.0.0 (stub); real implementation will validate size bounds before allocation |
+| LoRA deserialization attack via importLoRA | Crafted LoRA binary triggering heap overflow during import | `importLoRA()` validates the payload size and GGUF magic before accepting data; malformed input fails closed |
 | Inference resource exhaustion | Flood of `generate()` calls | Rate limiting is the responsibility of the API layer; `LlamaCppPlugin` has no built-in rate limiter |
-| Thread-safety violation | Concurrent `loadModel` + `generate` race | All public methods guarded by `std::mutex mutex_` |
+| Thread-safety violation | Concurrent `loadModel` + `generate` race | All public methods guarded by `std::mutex mutex_`; shared state is snapshotted under lock before expensive work |
 
 ---
 
@@ -51,13 +54,13 @@ This document covers the security posture of the llama_cpp LLM backend plugin:
 
 ---
 
-## Security Checklist (v2.0.0)
+## Security Checklist (v2.1.0)
 
 - [x] Thread-safe public interface (`std::mutex`)
 - [x] Null-model guard in `generate()` / `embed()`
 - [x] No credentials in stats output
 - [x] LoRA duplicate-id replacement
-- [x] Model file integrity check (Target: v2.1.0)
-- [x] LoRA adapter integrity check (Target: v2.1.0)
-- [x] Upstream `PolicyEngine::checkInferencePermission()` integration (Target: Q3 2026)
-- [x] `importLoRA` size validation before allocation (Target: Q4 2026)
+- [x] Opt-in model file integrity check via `verify_model_digest` + `expected_model_digest`
+- [x] LoRA adapter integrity check via GGUF magic + size bound
+- [x] Upstream inference policy gate via `setPolicyFn()`
+- [x] `importLoRA` size validation before allocation

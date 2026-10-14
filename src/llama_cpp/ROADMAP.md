@@ -8,10 +8,12 @@
 
 ## Current Status
 
-v2.2.0 — Real `LlamaWrapper` inference wired in behind `THEMIS_LLM_ENABLED`.
-`generate()`, `embed()`, `exportLoRA`, and `importLoRA` all delegate to
-`LlamaWrapper` when a non-empty model path is provided and the macro is set.
-Stub mode (empty path / CI without model) is preserved as a transparent fallback.
+v2.1.0 / current-status review — real `LlamaWrapper` inference is wired in behind
+`THEMIS_LLM_ENABLED`, `generate()`, `embed()`, `exportLoRA`, and `importLoRA` delegate
+through the live backend when a non-empty model path is provided, and stub mode remains
+available for empty-path / CI-only scenarios. The module remains operationally green when
+`model_path` is absent or the backend is unavailable, but it fails closed instead of
+returning a silent success path.
 
 ## Completed ✅
 
@@ -42,7 +44,7 @@ Stub mode (empty path / CI without model) is preserved as a transparent fallback
 
 ## Planned Features
 
-- [x] Function/tool calling (Target: Q4 2026)
+- [x] Structured tool-call capability via live model bridge and stub serialization (Target: Q4 2026)
 - [x] Per-request cancellation token (Target: Q4 2026)
 
 ## Implementation Phases

@@ -43,7 +43,7 @@ The `config` JSON passed to `loadModel()` / registrar helpers accepts:
 - Without a loaded model, `generate()` returns `success=false` with error text in production path (test builds may enable `THEMIS_LLAMA_CPP_STUB_MODE`).
 - `embed()` falls back to a 384-dim zero vector when no real backend (wrapper/injected function) is available.
 - `generateBatch()` preserves request order but executes sequentially.
-- `supports_function_call` is currently `false` in capabilities.
+- `supports_function_call` is `true` when the plugin reports capabilities; the live implementation includes the structured tool-call bridge and a stub-friendly output path for tests.
 
 ## Usage
 
