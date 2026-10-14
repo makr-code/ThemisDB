@@ -4,7 +4,7 @@
 
 ## Overview
 
-The image analysis module is a plugin-based vision capability for ThemisDB. The code path that is actually present in this tree is not a top-level `include/image_analysis/` API surface; instead, the canonical runtime contract lives under `include/plugins/`, and the module-specific implementation is assembled from `src/image_analysis/*.cpp` plus `src/image_analysis/CMakeLists.txt`.
+The image analysis module is a plugin-based vision capability for ThemisDB. The canonical runtime contract lives under `include/plugins/`, and the module-specific implementation is assembled from `src/image_analysis/*.cpp` plus `src/image_analysis/CMakeLists.txt`.
 
 ## Design Principles
 
@@ -120,7 +120,7 @@ Performance is treated as target-based evidence rather than solved production st
 
 ### Error Codes / failures
 
-The operational contract is the plugin interface's structured result types, not an undocumented `include/image_analysis/` API that is absent in the live tree.
+The operational contract is the plugin interface's structured result types, and the caller-facing behaviour is defined by the live `include/plugins/*` API surface.
 
 ## Integration Points
 
@@ -146,4 +146,4 @@ The operational contract is the plugin interface's structured result types, not 
 |--------|-----|-------|
 | `plugins` | `include/plugins/image_analysis_interface.h` | Shared plugin contract for image analysis backends |
 | `onnx_clip` | `include/plugins/image_analysis_interface.h` | Embedding-oriented vision path shares the same interface |
-| `content` | manager + plugin selection | image processing is integrated via plugin resolution rather than a dedicated `include/image_analysis/` header tree |
+| `content` | manager + plugin selection | image processing is integrated via plugin resolution rather than a dedicated standalone image header tree |

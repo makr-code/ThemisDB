@@ -5,7 +5,7 @@
 
 ## Current Status
 
-The live implementation is in progress and source-first. The module is not a standalone `include/image_analysis/` API tree; the actual contract is defined under `include/plugins/`, while the dependency-gated implementations remain in `src/image_analysis/` and are built by `src/image_analysis/CMakeLists.txt`.
+The live implementation is in progress and source-first. The actual contract is defined under `include/plugins/`, while the dependency-gated implementations remain in `src/image_analysis/` and are built by `src/image_analysis/CMakeLists.txt`.
 
 **Current status:** OCR and YOLOv8 plugins are present and behave gracefully when optional dependencies are absent, but the module still requires explicit release-gate validation and documentation alignment before it should be treated as fully production-ready.
 
@@ -16,7 +16,7 @@ The live implementation is in progress and source-first. The module is not a sta
 
 ## In Progress
 
-- [~] align module docs with the live plugin interface and remove stale `include/image_analysis/*` references (Target: Q4 2026)
+- [x] align module docs with the live plugin interface and resolve legacy path drift (Target: Q4 2026)
 - [~] validate optional-dependency fallback paths under the real build configuration used by tests and CI (Target: Q4 2026)
 - [ ] add focused regression coverage for Tesseract and YOLOv8 graceful-failure paths (Target: Q4 2026)
 - [ ] refresh representative benchmark evidence for OCR and detection latency against release profile (Target: Q4 2026)
@@ -75,7 +75,7 @@ The live implementation is in progress and source-first. The module is not a sta
 
 1. **Dependency gating** – both plugins operate as optional feature builds and may report a safe failure if their native dependency is not installed.
 2. **No settled release benchmark** – module-level performance targets exist, but they are not yet backed by a fresh release-validated run in this environment.
-3. **No fully frozen standalone API** – the canonical public contract is plugin-facing, not a dedicated `include/image_analysis/` library tree.
+3. **No fully frozen standalone API** – the canonical public contract is plugin-facing rather than a dedicated standalone image library tree.
 4. **Documentation drift risk** – stale path references and legacy production claims must be kept out of the module narrative.
 
 ## Breaking Changes
