@@ -1,15 +1,16 @@
-# Execution module tests (Wave D — high-cardinality stress)
-# Labels: wave_d;stress;not_release_critical
-# These tests are excluded from the fast release_critical gate.
+# Execution module focused test registration for Block A integration.
+# Keep the canonical Block A target names aligned with the modular build snapshot.
 
-file(GLOB EXECUTION_MODULE_TEST_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
+set(EXECUTION_BLOCK_A_TEST_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_execution_engine.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_execution_performance.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_query_compilation.cpp"
 )
 
-foreach(_src IN LISTS EXECUTION_MODULE_TEST_SOURCES)
+foreach(_src IN LISTS EXECUTION_BLOCK_A_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
-    set(_target "module_execution_${_stem}_stressed")
-    set(_ctest  "${_stem}_ExecutionStressTests")
+    set(_target "module_execution_${_stem}_focused")
+    set(_ctest "${_stem}_ExecutionFocusedTests")
 
     if(TARGET ${_target})
         continue()
@@ -24,14 +25,22 @@ foreach(_src IN LISTS EXECUTION_MODULE_TEST_SOURCES)
 
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
         Threads::Threads
     )
 
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
-    add_test(NAME ${_ctest} COMMAND ${_target})
-    set_tests_properties(${_ctest} PROPERTIES
-        LABELS "wave_d;stress;not_release_critical;execution"
+    themis_register_module_focused_test(
+        MODULE execution
+        NAME ${_ctest}
+        TARGET ${_target}
+        TIER unit
         TIMEOUT 120
+        LABELS execution wave_10 block_a
     )
 endforeach()
+
+# Separate high-cardinality stress tests remain available as non-block-A
+# validation. They are intentionally excluded from the focused Block A target set.
