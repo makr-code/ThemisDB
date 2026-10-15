@@ -121,6 +121,10 @@ on:
         required: false
         default: CMake Build
         type: string
+      timeout_minutes:
+        required: false
+        default: '360'
+        type: string
     secrets:
       THEMIS_HYPERSCALER_LICENSE_B64:
         required: false
@@ -148,7 +152,7 @@ jobs:
   build:
     name: "Reusable: ${{ inputs.summary_title }}"
     runs-on: ${{ inputs.runs_on }}
-    timeout-minutes: 360
+    timeout-minutes: ${{ fromJSON(inputs.timeout_minutes) }}
     env:
       SCCACHE_GHA_ENABLED: ${{ inputs.enable_sccache_gha }}
     outputs:

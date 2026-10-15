@@ -224,6 +224,7 @@ jobs:
                   "artifact_retention_days": "30",
                   "artifact_retention_days_secondary": "90",
                   "summary_title": "Windows AMD64 Release (windows-latest)",
+                  "timeout_minutes": "540",
               },
               {
                   "id": "macos-arm64",
@@ -285,3 +286,4 @@ jobs:
       artifact_retention_days: ${{ matrix.artifact_retention_days }}
       artifact_retention_days_secondary: ${{ matrix.artifact_retention_days_secondary }}
       summary_title: ${{ matrix.summary_title }}
+      timeout_minutes: ${{ matrix.timeout_minutes || '360' }}
