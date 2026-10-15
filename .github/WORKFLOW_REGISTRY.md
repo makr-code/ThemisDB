@@ -158,7 +158,7 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | **GATES: PR VALIDATION** | 23 | ✅ All documented |
 | **RELEASE & PUBLICATION** | 21 | ✅ All documented |
 | **MAINTENANCE & GOVERNANCE** | 21 | ✅ All documented |
-| **SECURITY** | 6 | ✅ All documented |
+| **SECURITY** | 9 | ✅ All documented |
 | **REUSABLE WORKFLOWS** | 4 | ✅ All documented |
 | **TOTAL** | **90** | ✅ **100% Registry Sync** |
 
