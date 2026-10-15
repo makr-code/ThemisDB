@@ -2,9 +2,9 @@
 
 <!-- Status: IN_PROGRESS | plugin architecture | validated: 2026-10-07 -->
 
-## Overview
+## Kontext
 
-The image analysis module is a plugin-based vision capability for ThemisDB. The code path that is actually present in this tree is not a top-level `include/image_analysis/` API surface; instead, the canonical runtime contract lives under `include/plugins/`, and the module-specific implementation is assembled from `src/image_analysis/*.cpp` plus `src/image_analysis/CMakeLists.txt`.
+The image analysis module is a plugin-based vision capability for ThemisDB. The canonical runtime contract lives under `include/plugins/`, and the module-specific implementation is assembled from `src/image_analysis/*.cpp` plus `src/image_analysis/CMakeLists.txt`.
 
 ## Design Principles
 
@@ -43,7 +43,7 @@ The image analysis module is a plugin-based vision capability for ThemisDB. The 
                    CaptionResult, PluginInfo)
 ```
 
-## Core Components
+## Komponenten
 
 ### ImageAnalysisManager
 
@@ -89,27 +89,38 @@ The image analysis module is a plugin-based vision capability for ThemisDB. The 
 - when `HAVE_ONNXRUNTIME` is defined, model inference runs with ONNX Runtime
 - otherwise, the plugin reports a controlled failure rather than failing the process
 
-## Data Flow
+## Schnittstellen
+
+- `include/plugins/image_analysis_interface.h` defines the canonical backend contract.
+- `include/plugins/image_analysis_manager.h` provides discovery, registration, and capability routing.
+- `src/image_analysis/CMakeLists.txt` gates optional Tesseract / ONNX Runtime dependencies.
+
+## Datenfluss
 
 ### Plugin-driven analysis flow
 
+```mermaid
+flowchart TD
+    A[Caller / Indexer] --> B[ImageAnalysisManager::getBestPluginForCapability]
+    B --> C[Backend initialize + isReady]
+    C --> D[detectObjects / generateEmbedding]
+    D --> E[Structured Result: success, error_message, detections/embedding]
 ```
-Caller / indexer
-   │
-   ├─► ImageAnalysisManager::getBestPluginForCapability()
-   │
-   ├─► Backend initialize() / isReady()
-   │
-   ├─► detectObjects() / generateEmbedding()
-   │
-   └─► Structured Result (success + error_message + detections / embedding)
-```
+
+Kurzinterpretation: Der Manager waehlt einen passenden Backend-Pfad, fuehrt die Analyse aus und liefert immer ein strukturiertes Ergebnisobjekt zurueck.
+
+## Sequenz (kritischer Ablauf)
+
+1. Aufrufer waehlt eine Capability (z. B. OCR oder Detection).
+2. `ImageAnalysisManager` bestimmt ein geeignetes Plugin.
+3. Backend initialisiert sich und prueft Readiness.
+4. Analyse-API liefert ein strukturiertes Success-/Failure-Ergebnis.
 
 ## Performance Characteristics
 
 Performance is treated as target-based evidence rather than solved production status. The module keeps quantitative expectations in `PERFORMANCE_EXPECTATIONS.md`, but the current implementation is still best described as plugin-backed and partially hardened rather than fully release-validated.
 
-## Error Handling
+## Fehlerpfade und Resilienz
 
 ### Graceful Degradation
 
@@ -120,18 +131,15 @@ Performance is treated as target-based evidence rather than solved production st
 
 ### Error Codes / failures
 
-The operational contract is the plugin interface's structured result types, not an undocumented `include/image_analysis/` API that is absent in the live tree.
+The operational contract is the plugin interface's structured result types, and the caller-facing behaviour is defined by the live `include/plugins/*` API surface.
 
-## Integration Points
+## Nicht-Ziele
 
-### ThemisDB integration
+- Kein stilles Fallback auf ungepruefte Backends ohne explizite Fehleroberflaeche.
+- Keine implizite Erzwingung optionaler Laufzeitabhaengigkeiten zur Build-Zeit.
+- Keine Umgehung der Plugin-Vertragsgrenzen durch modulspezifische Sonderpfade.
 
-- `include/plugins/image_analysis_interface.h` is the canonical plugin contract
-- `include/plugins/image_analysis_manager.h` owns backend discovery and capability routing
-- `src/image_analysis/CMakeLists.txt` wires optional runtime dependencies
-- `src/image_analysis/*.cpp` implement the actual plugin behaviour and dependency fallbacks
-
-## See Also
+## Verweise
 
 - [`README.md`](README.md) — module overview and current status
 - [`ROADMAP.md`](ROADMAP.md) — implementation phases and open items
@@ -146,4 +154,4 @@ The operational contract is the plugin interface's structured result types, not 
 |--------|-----|-------|
 | `plugins` | `include/plugins/image_analysis_interface.h` | Shared plugin contract for image analysis backends |
 | `onnx_clip` | `include/plugins/image_analysis_interface.h` | Embedding-oriented vision path shares the same interface |
-| `content` | manager + plugin selection | image processing is integrated via plugin resolution rather than a dedicated `include/image_analysis/` header tree |
+| `content` | manager + plugin selection | image processing is integrated via plugin resolution rather than a dedicated standalone image header tree |

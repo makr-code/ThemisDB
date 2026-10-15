@@ -14,7 +14,7 @@
 | **Test Artifacts Found** | 7 |
 | **Benchmark Artifacts Found** | 3 |
 | **CRITICAL Findings** | 0 |
-| **Open Gaps** | 2 documentation-alignment issues remain: stale `include/image_analysis/*` references and missing release-evidence validation |
+| **Open Gaps** | 1 documentation-alignment issue remains: release-evidence validation is still pending |
 | **Last Updated** | 2026-10-07 |
 
 ## Scope
@@ -59,9 +59,9 @@
 
 ## Recommended Actions
 
-1. Remove stale `include/image_analysis/*` references from the module docs.
-2. Run the focused image-analysis validation command in the active build profile.
-3. Refresh benchmark evidence before any final GA readiness claim.
+1. Run the focused image-analysis validation command in the active build profile.
+2. Refresh benchmark evidence before any final GA readiness claim.
+3. Keep the module docs aligned with the live plugin contract during future changes.
 
 ## Sourcecode Verification (Module: image_analysis/audit)
 

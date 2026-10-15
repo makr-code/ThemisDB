@@ -5,7 +5,7 @@
 
 ## Purpose and Scope
 
-This document defines the mandatory production requirements for the `image_analysis` module as it exists in the current source tree. The live implementation is plugin-based and uses `include/plugins/` as the canonical contract; the module-specific production requirements therefore focus on lifecycle, dependency gates, and fail-safe behaviour rather than a non-existent legacy `include/image_analysis/` API.
+This document defines the mandatory production requirements for the `image_analysis` module as it exists in the current source tree. The live implementation is plugin-based and uses `include/plugins/` as the canonical contract; the module-specific production requirements therefore focus on lifecycle, dependency gates, and fail-safe behaviour.
 
 ## Document Boundary (Canonical Split)
 
@@ -19,7 +19,7 @@ This document defines the mandatory production requirements for the `image_analy
 
 - **MUST:** Each plugin must expose a clear lifecycle (`initialize`, `shutdown`, `isReady`, `healthCheck`).
 - **MUST:** When a native dependency is absent, the plugin must return a structured error result and remain operational rather than crashing the process.
-- **MUST:** The manager layer must prefer valid capability-based routing over stale hard-coded assumptions.
+- **MUST:** The manager layer must prefer valid capability-based routing over hard-coded assumptions.
 - **MUST:** Input handling and backend dispatch must remain explicit and fail-closed when unsupported or malformed input is encountered.
 
 ## Mandatory Resource Requirements
@@ -52,4 +52,4 @@ This document defines the mandatory production requirements for the `image_analy
 - Verified controls:
   - Dependency gating is explicit in source.
   - Plugin lifecycle and error handling are implemented in the current source tree.
-  - The module contract remains aligned to the actual public API surface instead of a stale `include/image_analysis/` path.
+  - The module contract remains aligned to the actual public API surface instead of a stale standalone image-analysis header tree.
