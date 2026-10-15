@@ -46,6 +46,13 @@ The Network module implements ThemisDB's high-performance, secure networking lay
 
 **Validated:** 2026-03-10 (Reality-Check against Sourcecode; see [docs/de/network/MISSING_IMPLEMENTATIONS.md](../../docs/de/network/MISSING_IMPLEMENTATIONS.md))
 
+### Current Security & Validation Notes
+
+- The QoS manager command-injection issue has been fixed in the active code path: `src/network/qos_manager.cpp` now validates interface names before invoking `tc` and uses `posix_spawn()` with an explicit `argv[]` array instead of shell-based `std::system()` execution.
+- The regression coverage is in `tests/network/test_qos_manager_command_injection.cpp` and exercises malicious interface names containing shell metacharacters, whitespace, traversal patterns, length violations, and leading-hyphen cases.
+- This module should be treated as source-of-truth evidence for the live state; archived gap reports and stale scanner output are not authoritative when they contradict current implementation or tests.
+- Full CMake/CTest validation in this sandbox remains blocked by dependency bootstrap/network resolution issues, so end-to-end CI confirmation still depends on a network-enabled build environment.
+
 ## Scope
 
 **In Scope:**
