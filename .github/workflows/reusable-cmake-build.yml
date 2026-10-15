@@ -171,27 +171,48 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p "${GITHUB_WORKSPACE}/.cache/sccache"
-          mkdir -p "${GITHUB_WORKSPACE}/.cache/vcpkg-downloads"
-          mkdir -p "${GITHUB_WORKSPACE}/.vcpkg-cache"
+          sanitize() {
+            printf '%s' "$1" | tr ':/ ' '__' | tr -cd 'A-Za-z0-9_.-'
+          }
+
+          cache_tag="$(sanitize "${{ runner.os }}-${{ inputs.runs_on }}")"
+          sccache_dir="${GITHUB_WORKSPACE}/.cache/sccache-${cache_tag}"
+          vcpkg_cache_dir="${GITHUB_WORKSPACE}/.vcpkg-cache-${cache_tag}"
+          vcpkg_downloads_dir="${GITHUB_WORKSPACE}/.cache/vcpkg-downloads-${cache_tag}"
+
+          compiler_version=""
+          if command -v gcc >/dev/null 2>&1; then
+            compiler_version="$(gcc --version | head -n 1)"
+          elif command -v clang >/dev/null 2>&1; then
+            compiler_version="$(clang --version | head -n 1)"
+          fi
+
+          mkdir -p "${sccache_dir}"
+          mkdir -p "${vcpkg_downloads_dir}"
+          mkdir -p "${vcpkg_cache_dir}"
           {
-            echo "SCCACHE_DIR=${GITHUB_WORKSPACE}/.cache/sccache"
+            echo "THEMIS_CACHE_TAG=${cache_tag}"
+            echo "THEMIS_SCCACHE_DIR=${sccache_dir}"
+            echo "THEMIS_VCPKG_CACHE_DIR=${vcpkg_cache_dir}"
+            echo "THEMIS_VCPKG_DOWNLOADS_DIR=${vcpkg_downloads_dir}"
+            echo "SCCACHE_DIR=${sccache_dir}"
             echo "SCCACHE_CACHE_SIZE=8G"
-            echo "VCPKG_DEFAULT_BINARY_CACHE=${GITHUB_WORKSPACE}/.vcpkg-cache"
-            echo "VCPKG_BINARY_SOURCES=clear;files,${GITHUB_WORKSPACE}/.vcpkg-cache,readwrite"
-            echo "VCPKG_DOWNLOADS=${GITHUB_WORKSPACE}/.cache/vcpkg-downloads"
+            echo "VCPKG_DEFAULT_BINARY_CACHE=${vcpkg_cache_dir}"
+            echo "VCPKG_BINARY_SOURCES=clear;files,${vcpkg_cache_dir},readwrite"
+            echo "VCPKG_DOWNLOADS=${vcpkg_downloads_dir}"
+            echo "THEMIS_COMPILER_VERSION=$(printf '%s' "${compiler_version:-toolchain}" | tr ' ' '_' | tr -cd 'A-Za-z0-9_.-')"
           } >> "$GITHUB_ENV"
 
       - name: Restore CMake build caches
         uses: actions/cache@v5
         with:
           path: |
-            ${{ github.workspace }}/.cache/sccache
-            ${{ github.workspace }}/.cache/vcpkg-downloads
-            ${{ github.workspace }}/.vcpkg-cache
-          key: cmake-cache-${{ runner.os }}-${{ inputs.runs_on }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'CMakePresets.json', 'cmake/**/*.cmake', 'ports/**', 'ports-overlays/**', '.github/workflows/reusable-cmake-build.yml') }}
+            ${{ env.THEMIS_SCCACHE_DIR }}
+            ${{ env.THEMIS_VCPKG_DOWNLOADS_DIR }}
+            ${{ env.THEMIS_VCPKG_CACHE_DIR }}
+          key: cmake-cache-${{ runner.os }}-${{ env.THEMIS_CACHE_TAG }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'CMakePresets.json', 'cmake/**/*.cmake', 'ports/**', 'ports-overlays/**', '.github/workflows/reusable-cmake-build.yml') }}-${{ env.THEMIS_COMPILER_VERSION }}
           restore-keys: |
-            cmake-cache-${{ runner.os }}-${{ inputs.runs_on }}-
+            cmake-cache-${{ runner.os }}-${{ env.THEMIS_CACHE_TAG }}-
             cmake-cache-${{ runner.os }}-
 
       - name: Reset manifest installed tree
