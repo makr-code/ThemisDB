@@ -93,7 +93,7 @@ jobs:
       contents: read            # for actions/checkout to fetch code
       security-events: write    # for upload-sarif to publish scan findings
       actions: read             # required for SARIF upload on private repositories
-    name: Scan project vulnerabilities with CRDA
+    name: Scan project vulnerabilities with Trivy
     runs-on: ubuntu-latest
     steps:
 
