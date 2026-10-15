@@ -2,8 +2,8 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-10-14
-> Update Note: Added nightly governance audit workflow entry for registry sync compliance
+> Last Updated: 2026-10-15
+> Update Note: Added missing security workflow entries (`codeql.yml`, `crda.yml`, `msvc.yml`) for registry-sync compliance
 > Status: active
 > Total Workflows: 87 (verified 2026-10-14)
 
@@ -132,6 +132,14 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | `security-fortify.yml` | Security: Fortify AST Scan [Scheduled] (Fortify static analysis) | scheduled |
 | `security-fuzzing.yml` | Security: Fuzzing (Fuzz testing suite) | scheduled |
 | `security-pentest-quarterly.yml` | Security: Quarterly Pentest Cadence (Quarterly penetration testing) | quarterly |
+
+### 5b. SECURITY (ADDITIONAL SCANNERS, DOCUMENTED)
+
+| Workflow | Purpose | Frequency |
+|----------|---------|-----------|
+| `codeql.yml` | Security: CodeQL Advanced (multi-language CodeQL matrix scan) | scheduled |
+| `crda.yml` | Security: CRDA Scan (dependency vulnerability scanning + SARIF upload) | pull_request / manual |
+| `msvc.yml` | Security: Microsoft C++ Code Analysis (Windows static analysis + SARIF upload) | scheduled |
 
 ### 6. REUSABLE WORKFLOWS (4 Workflows)
 
