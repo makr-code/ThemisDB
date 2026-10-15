@@ -43,7 +43,7 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
 
-          foreach ($tool in @('sccache', 'cmake')) {
+          foreach ($tool in @('cmake')) {
             if (-not (Get-Command $tool -ErrorAction SilentlyContinue)) {
               throw "$tool is required for ThemisDB CMake configure but is not available on PATH."
             }

@@ -83,6 +83,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: crda-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   crda-scan:
     permissions:
