@@ -29,6 +29,18 @@ Historical reports were moved out of the root and are grouped here:
 - Reviews: [../implementation-history/reviews/README.md](../implementation-history/reviews/README.md)
 - Status reports: [../implementation-history/status-reports/README.md](../implementation-history/status-reports/README.md)
 
+### Legacy and reference pages in the language root
+
+The following root-level pages remain intentionally linked from this index to avoid false orphan warnings for historical or topic-specific documentation:
+
+- [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md)
+- [Home.md](Home.md)
+- [INDEX.md](INDEX.md)
+- [PERFORMANCE_DASHBOARD_EXAMPLES.md](PERFORMANCE_DASHBOARD_EXAMPLES.md)
+- [PERFORMANCE_DASHBOARD_QUICKSTART.md](PERFORMANCE_DASHBOARD_QUICKSTART.md)
+- [QUICK_REFERENCE.md](QUICK_REFERENCE.md)
+- [README-DOCUMENTATION.md](README-DOCUMENTATION.md)
+
 ---
 
 ## 🚀 NEW in v1.4.0-alpha: Advanced LLM Features ✅
