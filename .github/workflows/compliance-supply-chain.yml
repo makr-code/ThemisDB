@@ -567,18 +567,18 @@ jobs:
           COMPOSE_DOCKER_CLI_BUILD: '1'
         run: |
           test -f "${GITHUB_WORKSPACE}/LICENSE" || { echo "::error::Missing ${GITHUB_WORKSPACE}/LICENSE"; exit 1; }
-          if [ ! -d "${GITHUB_WORKSPACE}/internal" ]; then
-            echo "::warning::${GITHUB_WORKSPACE}/internal missing; creating empty placeholder for public CI context"
-            mkdir -p "${GITHUB_WORKSPACE}/internal"
-          fi
-          if [ ! -d "${GITHUB_WORKSPACE}/tests" ]; then
-            echo "::warning::${GITHUB_WORKSPACE}/tests missing; creating empty placeholder for Docker build context"
-            mkdir -p "${GITHUB_WORKSPACE}/tests"
-          fi
-          if [ ! -d "${GITHUB_WORKSPACE}/artifacts" ]; then
-            echo "::warning::${GITHUB_WORKSPACE}/artifacts missing; creating empty placeholder for Docker build context"
-            mkdir -p "${GITHUB_WORKSPACE}/artifacts"
-          fi
+          ensure_build_context_dir() {
+            local dir="$1"
+            local reason="$2"
+            if [ ! -d "${dir}" ]; then
+              echo "::warning::${dir} missing; ${reason}"
+              mkdir -p "${dir}"
+            fi
+            touch "${dir}/.ci-placeholder"
+          }
+          ensure_build_context_dir "${GITHUB_WORKSPACE}/internal" "creating placeholder for public CI context"
+          ensure_build_context_dir "${GITHUB_WORKSPACE}/tests" "creating placeholder for Docker build context"
+          ensure_build_context_dir "${GITHUB_WORKSPACE}/artifacts" "creating placeholder for Docker build context"
           docker compose --project-directory "${GITHUB_WORKSPACE}" -f "${GITHUB_WORKSPACE}/docker-compose.yml" build themis
           docker compose --project-directory "${GITHUB_WORKSPACE}" -f "${GITHUB_WORKSPACE}/docker-compose.yml" up -d --no-build themis
           ready=0
