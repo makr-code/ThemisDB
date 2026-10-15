@@ -6,15 +6,17 @@
 # Find more information at:
 # https://github.com/microsoft/msvc-code-analysis-action
 
-name: Microsoft C++ Code Analysis
+name: "Security: Microsoft C++ Code Analysis"
 
 on:
   push:
     branches: [ "develop" ]
-  pull_request:
-    branches: [ "develop" ]
   schedule:
     - cron: '24 20 * * 5'
+
+concurrency:
+  group: msvc-analysis-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   # Path to the CMake build directory.
@@ -34,23 +36,37 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      - name: Ensure sccache is available
+      - name: Ensure build dependencies are available
         shell: pwsh
         run: |
-          if (-not (Get-Command sccache -ErrorAction SilentlyContinue)) {
-            choco install -y sccache
-            $env:Path += ";C:\ProgramData\chocolatey\bin"
+          $ErrorActionPreference = 'Stop'
+
+          foreach ($tool in @('cmake')) {
+            if (-not (Get-Command $tool -ErrorAction SilentlyContinue)) {
+              throw "$tool is required for ThemisDB CMake configure but is not available on PATH."
+            }
+          }
+
+          if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
+            throw "Chocolatey is required to install the missing Windows zlib dependency before configure."
+          }
+
+          if (-not (Get-ChildItem 'C:\Program Files\Git\usr\bin\zlib1.dll' -ErrorAction SilentlyContinue) -and -not (Get-ChildItem 'C:\vcpkg\installed\x64-windows\lib\zlib.lib' -ErrorAction SilentlyContinue)) {
+            choco install -y zlib --no-progress
           }
 
           if (-not (Get-Command sccache -ErrorAction SilentlyContinue)) {
-            throw "sccache is required for ThemisDB CMake configure but is not available on PATH."
+            choco install -y sccache --no-progress
           }
 
           sccache --version
+          cmake --version
 
       - name: Configure CMake
+        env:
+          CMAKE_PREFIX_PATH: 'C:/msys64/usr;C:/Strawberry/perl/site/lib;C:/Strawberry/perl/vendor/lib;C:/Strawberry/perl/lib'
         run: cmake -B ${{ env.build }}
 
       # Build is not required unless generated source files are used
