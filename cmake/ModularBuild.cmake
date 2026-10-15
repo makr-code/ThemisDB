@@ -663,6 +663,7 @@ list(APPEND THEMIS_STORAGE_SOURCES)
 set(THEMIS_QUERY_SOURCES
     # Query engine
     ../src/query/query_engine.cpp
+    ../src/query/query_executor.cpp
     ../src/search/hybrid_search.cpp
     ../src/search/query_expander.cpp
     ../src/search/fuzzy_matcher.cpp
@@ -687,6 +688,11 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/adaptive_join.cpp
     ../src/query/runtime_reoptimizer.cpp
     ../src/query/optimizer_cost_model.cpp
+    ../src/query/optimizer_cost_model_enhancements.cpp
+    ../src/query/geospatial_cost_model.cpp
+    ../src/query/geospatial_optimizer_hints.cpp
+    ../src/query/geospatial_index_selector.cpp
+    ../src/query/geospatial_query_rewrite.cpp
     ../src/query/aql_parser.cpp
     ../src/query/aql_parser_json.cpp
     ../src/query/aql_parser_service.cpp
@@ -720,6 +726,8 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/parallel_executor.cpp
     ../src/query/query_canceller.cpp
     ../src/query/query_federation.cpp
+    ../src/query/query_federation_timeout.cpp
+    ../src/query/query_federation_memory.cpp
     ../src/distributed_knowledge/federated_rag_merger.cpp
     ../src/query/plan_cache.cpp
     ../src/query/query_compiler.cpp
@@ -756,6 +764,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/functions/lora_functions.cpp
     ../src/query/llm_query_shims.cpp
     ../src/query/functions/tensor_functions.cpp
+    ../src/query/tensor_aware_query_optimizer.cpp
     ../src/query/tensor_contraction_engine.cpp
     ../src/rag/ontology_aware_retriever.cpp
     ../src/rag/graph_truth_validator.cpp
@@ -790,6 +799,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/process/process_linker.cpp
     ../src/process/process_diagnostics.cpp
     ../src/process/process_graph_rag.cpp
+    ../src/process/process_orchestration_registry.cpp
     ../src/process/cmmn_serializer.cpp
     ../src/process/fim_importer.cpp
     ../src/process/object_centric_tracer.cpp
@@ -1414,6 +1424,7 @@ set(THEMIS_LLM_SOURCES
     # RAG enhancement modules
     ../src/rag/self_rag.cpp
     ../src/rag/targ_retrieval.cpp
+    ../src/rag/cost_model_builder.cpp
     ../src/rag/rag_context_assembler.cpp
     ../src/rag/knowledge_gap_detector.cpp
     ../src/rag/llm_integration.cpp

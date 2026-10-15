@@ -7,6 +7,8 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <string>
+#include <tuple>
 #include <vector>
 
 namespace themis::rag {
@@ -55,10 +57,10 @@ class GradientDescentOptimizer {
   /// @brief Parameter configuration.
   struct ParameterConfig {
     std::string param_name;
+    float initial_value;
     float min_value;
     float max_value;
-    float initial_value;
-    bool is_integer;
+    bool is_integer = false;
   };
 
   /// @brief Optimization result.

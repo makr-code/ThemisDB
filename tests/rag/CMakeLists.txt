@@ -91,10 +91,27 @@ foreach(_src IN LISTS RAG_MODULE_TEST_SOURCES)
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/rag/ingestion_latency_monitor.cpp
         )
+    elseif("${_stem}" STREQUAL "test_otel_span_emitter")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/otel_span_emitter.cpp
+        )
+    elseif("${_stem}" STREQUAL "test_query_intent_classifier")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/query_intent_classifier.cpp
+        )
     elseif("${_stem}" STREQUAL "test_freshness_sla_enforcer")
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/rag/freshness_sla_enforcer.cpp
+            ${THEMIS_ROOT_DIR}/src/rag/index_refresh_scheduler.cpp
             ${THEMIS_ROOT_DIR}/src/rag/ingestion_latency_monitor.cpp
+        )
+    elseif("${_stem}" STREQUAL "test_index_refresh_scheduler")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/index_refresh_scheduler.cpp
+        )
+    elseif("${_stem}" STREQUAL "test_gradient_descent_optimizer")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/gradient_descent_optimizer.cpp
         )
     elseif("${_stem}" STREQUAL "test_staleness_aware_router")
         list(APPEND _extra_sources
@@ -197,6 +214,14 @@ foreach(_src IN LISTS RAG_AUTOGEN_PREFIX_TEST_SOURCES)
     elseif("${_stem}" STREQUAL "test_cross_encoder_orchestrator")
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/rag/cross_encoder_orchestrator.cpp
+        )
+    elseif("${_stem}" STREQUAL "test_otel_span_emitter")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/otel_span_emitter.cpp
+        )
+    elseif("${_stem}" STREQUAL "test_query_intent_classifier")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/query_intent_classifier.cpp
         )
     endif()
     if(_extra_sources)

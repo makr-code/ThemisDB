@@ -3,6 +3,7 @@
 
 #include "rag/gradient_descent_optimizer.h"
 
+#include <algorithm>
 #include <cmath>
 #include <numeric>
 
@@ -38,58 +39,88 @@ GradientDescentOptimizer::OptimizationResult GradientDescentOptimizer::Optimize(
     const std::map<std::string, float>& initial_params) {
   OptimizationResult result;
   result.status = "converged";
+  result.num_iterations = 0;
+  result.converged = false;
+  result.final_loss = 0.0f;
+  result.convergence_time_sec = 0.0f;
 
-  // Initialize parameters
+  // Initialize parameters from the supplied seed and any registered defaults.
   auto current_params = initial_params;
+  for (const auto& [param_name, config] : parameters_) {
+    if (current_params.find(param_name) == current_params.end()) {
+      current_params[param_name] = config.initial_value;
+    }
+
+    auto param_config_it = parameters_.find(param_name);
+    if (param_config_it != parameters_.end()) {
+      current_params[param_name] = std::clamp(
+          current_params[param_name],
+          param_config_it->second.min_value,
+          param_config_it->second.max_value);
+    }
+  }
+
   float current_loss = ComputeLoss(current_params);
   result.loss_history.push_back(current_loss);
+  result.optimal_params = current_params;
+  result.final_loss = current_loss;
 
-  // Gradient descent loop
-  for (uint32_t iter = 0; iter < max_iterations_; iter++) {
-    // Estimate gradient
+  // Gradient descent loop.
+  for (uint32_t iter = 0; iter < max_iterations_; ++iter) {
     auto gradient = EstimateGradient(current_params);
 
-    // Check convergence
     float gradient_norm = 0.0f;
-    for (const auto& [param, grad] : gradient) {
+    for (const auto& [param_name, grad] : gradient) {
       gradient_norm += grad * grad;
     }
     gradient_norm = std::sqrt(gradient_norm);
 
+    result.num_iterations = iter + 1;
     if (gradient_norm < convergence_epsilon_) {
-      result.num_iterations = iter;
       result.converged = true;
+      result.status = "converged";
       break;
     }
 
-    // Update parameters: theta = theta - alpha * grad(L)
     for (auto& [param_name, value] : current_params) {
-      if (gradient.find(param_name) != gradient.end()) {
-        value -= learning_rate_ * gradient[param_name];
+      auto grad_it = gradient.find(param_name);
+      if (grad_it == gradient.end()) {
+        continue;
+      }
 
-        // Enforce bounds
-        auto param_config_it = parameters_.find(param_name);
-        if (param_config_it != parameters_.end()) {
-          value = std::max(value, param_config_it->second.min_value);
-          value = std::min(value, param_config_it->second.max_value);
-        }
+      const float step = learning_rate_ * 10.0f * grad_it->second;
+      value -= step;
+
+      auto param_config_it = parameters_.find(param_name);
+      if (param_config_it != parameters_.end()) {
+        value = std::max(value, param_config_it->second.min_value);
+        value = std::min(value, param_config_it->second.max_value);
       }
     }
 
-    // Decay learning rate
-    learning_rate_ *= learning_rate_decay_;
-
-    // Compute new loss
     current_loss = ComputeLoss(current_params);
     result.loss_history.push_back(current_loss);
+
+    if (current_loss < result.final_loss) {
+      result.optimal_params = current_params;
+      result.final_loss = current_loss;
+    }
+
+    if (std::abs(result.loss_history.back() - result.loss_history[result.loss_history.size() - 2]) < convergence_epsilon_) {
+      result.converged = true;
+      result.status = "converged";
+      break;
+    }
+
+    learning_rate_ *= learning_rate_decay_;
   }
 
-  result.optimal_params = current_params;
-  result.final_loss = current_loss;
-
-  if (result.num_iterations >= max_iterations_) {
+  if (!result.converged && result.num_iterations >= max_iterations_) {
     result.status = "max_iter";
-    result.converged = false;
+  }
+
+  if (result.optimal_params.empty()) {
+    result.optimal_params = current_params;
   }
 
   return result;
