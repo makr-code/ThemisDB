@@ -40,7 +40,7 @@
 
 # 👋 Visit our GitHub organization at https://github.com/redhat-actions/ to see our actions and provide feedback.
 
-name: CRDA Scan
+name: "Security: CRDA Scan"
 
 # Controls when the workflow will run
 on:
