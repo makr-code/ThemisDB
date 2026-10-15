@@ -457,7 +457,7 @@ jobs:
         context: .
         file: ./docker/Dockerfile.unified
         target: runtime
-        pull: true
+        pull: false
         load: true
         secret-files: |
           extra_ca_bundle=${{ steps.host-ca.outputs.path }}
@@ -526,7 +526,7 @@ jobs:
         context: .
         file: ./docker/Dockerfile.unified
         target: runtime
-        pull: true
+        pull: false
         secret-files: |
           extra_ca_bundle=${{ steps.host-ca.outputs.path }}
         push: true

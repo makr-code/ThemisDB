@@ -438,13 +438,14 @@ ENV THEMIS_DEFAULT_GGUF_PATH=/models/default.gguf
 
 WORKDIR /app
 
-# Install minimal runtime dependencies (removed librocksdb-dev, kept only needed libs)
-# Note: Ubuntu 24.04 ships versioned runtime packages such as librocksdb8.9/libgrpc++1.51t64.
-# Using runtime-only lib reduces layer size by ~5-10% compared to including dev packages.
+# Install minimal runtime dependencies (removed librocksdb-dev, kept only needed libs).
+# Avoid `apt-get upgrade` here: it forces a full package refresh across every rebuild,
+# blows away the cache benefit, and adds unnecessary build time without improving the
+# runtime image contract. Ubuntu 24.04 ships versioned runtime packages such as
+# librocksdb8.9/libgrpc++1.51t64, which are sufficient for the fixed runtime target.
 RUN --mount=type=cache,id=apt-cache-runtime-${TARGETARCH},target=/var/cache/apt,sharing=locked \
     --mount=type=cache,id=apt-lib-runtime-${TARGETARCH},target=/var/lib/apt,sharing=locked \
     apt-get update && \
-    apt-get -y upgrade && \
     apt-get install -y --no-install-recommends \
         ca-certificates librocksdb8.9 libgrpc++1.51t64 libprotobuf32t64 libcurl4t64 && \
     rm -rf /var/lib/apt/lists/*

@@ -1,3 +1,10 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-09-23
+Last Updated: 2026-09-23
+Status: active
+---
+
 # Phase 2 Neo4j Adapter Hardening - Implementation Report
 
 ## Executive Summary

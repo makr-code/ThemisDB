@@ -2,10 +2,10 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-10-14
-> Update Note: Added nightly governance audit workflow entry for registry sync compliance
+> Last Updated: 2026-10-15
+> Update Note: Added missing security workflow entries (`codeql.yml`, `crda.yml`, `msvc.yml`) for registry-sync compliance
 > Status: active
-> Total Workflows: 87 (verified 2026-10-14)
+> Total Workflows: 90 (verified 2026-10-15)
 
 ## Zielbild
 
@@ -14,12 +14,12 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 
 ## Leitprinzipien
 
-- **Keine Schatten-CI:** Alle 88 Workflows sind in diesem Registry dokumentiert.
+- **Keine Schatten-CI:** Alle 90 Workflow-Dateien sind in diesem Registry dokumentiert.
 - **Klare Verantwortlichkeit:** Jeder Workflow hat definierte Trigger und Zweck.
 - **Konsistente Governance:** Alle Workflows folgen Naming-, Concurrency- und Trigger-Policies.
 - **Drift Prevention:** Registry-Update ist erforderlich bei neuen Workflows (Pre-Commit-Hook in Phase 3).
 
-## Aktiver Workflow-Kern: Alle 88 Workflows
+## Aktiver Workflow-Kern: Alle 90 Workflow-Dateien
 
 ### 1. BUILD & MAINLINE (13 Workflows)
 
@@ -133,6 +133,14 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | `security-fuzzing.yml` | Security: Fuzzing (Fuzz testing suite) | scheduled |
 | `security-pentest-quarterly.yml` | Security: Quarterly Pentest Cadence (Quarterly penetration testing) | quarterly |
 
+### 5b. SECURITY (ADDITIONAL SCANNERS, DOCUMENTED)
+
+| Workflow | Purpose | Frequency |
+|----------|---------|-----------|
+| `codeql.yml` | Security: CodeQL Advanced (multi-language CodeQL matrix scan) | scheduled |
+| `crda.yml` | Security: Trivy Dependency Scan (dependency vulnerability scanning + SARIF upload) | pull_request / manual |
+| `msvc.yml` | Security: Microsoft C++ Code Analysis (Windows static analysis + SARIF upload) | scheduled |
+
 ### 6. REUSABLE WORKFLOWS (4 Workflows)
 
 | Workflow | Purpose | Consumers |
@@ -150,9 +158,9 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | **GATES: PR VALIDATION** | 23 | ✅ All documented |
 | **RELEASE & PUBLICATION** | 21 | ✅ All documented |
 | **MAINTENANCE & GOVERNANCE** | 21 | ✅ All documented |
-| **SECURITY** | 6 | ✅ All documented |
+| **SECURITY** | 9 | ✅ All documented |
 | **REUSABLE WORKFLOWS** | 4 | ✅ All documented |
-| **TOTAL** | **88** | ✅ **100% Registry Sync** |
+| **TOTAL** | **90** | ✅ **100% Registry Sync** |
 
 ## Complete Workflow Redesign and Consolidation Plan
 
