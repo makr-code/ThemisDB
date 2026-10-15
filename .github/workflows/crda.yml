@@ -62,8 +62,8 @@ on:
   # push:
   #   branches: [ "develop" ]
 
-  # pull_request_target is used to securely share secret to the PR's workflow run.
-  # For more info visit: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request_target
+  # pull_request_target is used so this security scan continues to run on PRs
+  # with the expected repository context.
   pull_request_target:
     branches: [ "develop" ]
     types: [ assigned, opened, synchronize, reopened, labeled, edited ]
@@ -71,17 +71,22 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: crda-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   crda-scan:
     permissions:
       contents: read            # for actions/checkout to fetch code
-      security-events: write    # for redhat-actions/crda to upload SARIF results
+      security-events: write    # for upload-sarif to publish scan findings
+      actions: read             # required for SARIF upload on private repositories
     name: Scan project vulnerabilities with CRDA
     runs-on: ubuntu-latest
     steps:
 
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # *******************************************************************
       # Required: Instructions to setup project
@@ -98,29 +103,28 @@ jobs:
       #   with:
       #     node-version: '20'
 
-      # https://github.com/redhat-actions/openshift-tools-installer/blob/main/README.md
-      - name: Install CRDA CLI
-        uses: redhat-actions/openshift-tools-installer@v1
-        with:
-          source: github
-          github_pat: ${{ github.token }}
-          # Choose the desired version of the CRDA CLI
-          crda: "latest"
+      - name: Trivy dependency vulnerability scan
+        run: |
+          mkdir -p "${RUNNER_TEMP}/trivy-cache"
+          docker run --rm \
+            --user "$(id -u):$(id -g)" \
+            -v "${PWD}:/work" \
+            -v "${RUNNER_TEMP}/trivy-cache:/tmp/trivy-cache" \
+            -w /work \
+            aquasec/trivy:0.64.0 \
+            fs \
+            --cache-dir /tmp/trivy-cache \
+            --format sarif \
+            --output /work/crda-results.sarif \
+            --scanners vuln \
+            --pkg-types os,library \
+            --severity CRITICAL,HIGH \
+            --ignore-unfixed \
+            --exit-code 0 \
+            .
 
-      ######################################################################################
-      # https://github.com/redhat-actions/crda/blob/main/README.md
-      #
-      # By default, CRDA will detect the manifest file and install the required dependencies
-      # using the standard command for the project type.
-      # If your project doesn't aligns with the defaults mentioned in this action, you will
-      # need to set few inputs that are described here:
-      # https://github.com/redhat-actions/crda/blob/main/README.md#3-installing-dependencies
-      # Visit https://github.com/redhat-actions/crda/#4-set-up-authentication to understand
-      # process to get a SNYK_TOKEN or a CRDA_KEY
-      - name: CRDA Scan
-        id: scan
-        uses: redhat-actions/crda@v1
+      - name: Upload SARIF to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v4
         with:
-          crda_key: ${{ secrets.CRDA_KEY }}           # Either use crda_key or snyk_token
-          # snyk_token: ${{ secrets.SNYK_TOKEN }}
-          # upload_artifact: false                    # Set this to false to skip artifact upload
+          sarif_file: crda-results.sarif
+          category: crda

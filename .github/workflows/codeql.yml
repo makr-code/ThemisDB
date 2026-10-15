@@ -9,15 +9,22 @@
 # the `language` matrix defined below to confirm you have the correct set of
 # supported CodeQL languages.
 #
-name: "CodeQL Advanced"
+name: "Security: CodeQL Advanced"
 
 on:
   push:
     branches: [ "develop" ]
-  pull_request:
-    branches: [ "develop" ]
   schedule:
     - cron: '23 14 * * 0'
+
+permissions:
+  contents: read
+  actions: read
+  packages: read
+
+concurrency:
+  group: codeql-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   analyze:
