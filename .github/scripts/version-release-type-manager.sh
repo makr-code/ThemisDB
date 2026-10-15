@@ -165,6 +165,44 @@ cmd_validate() {
     echo "Canonical version contract is valid: VERSION=$version RELEASE_TYPE=$release_type"
 }
 
+# Command: validate explicit input version against canonical contract
+cmd_validate_input_version() {
+    local input_raw="${1:-}"
+    local expected
+    local release_type
+    local normalized_input
+    local escaped_expected
+    local valid_pattern
+
+    expected=$(cmd_read_version)
+    release_type=$(cmd_read_release_type)
+
+    if [[ -z "$input_raw" ]]; then
+        echo "No explicit version input provided; skipping input-version validation."
+        return 0
+    fi
+
+    normalized_input="${input_raw#v}"
+    escaped_expected="${expected//./\\.}"
+    valid_pattern="^${escaped_expected}$"
+
+    case "$release_type" in
+        alpha|beta|rc)
+            valid_pattern="^${escaped_expected}(-${release_type}(\\.[0-9A-Za-z-]+)*)?$"
+            ;;
+        nightly)
+            valid_pattern="^${escaped_expected}(-nightly(\\.[0-9A-Za-z-]+)*)?$"
+            ;;
+    esac
+
+    if ! [[ "$normalized_input" =~ $valid_pattern ]]; then
+        echo "ERROR: Explicit version $input_raw does not match canonical VERSION file $expected for RELEASE_TYPE=$release_type" >&2
+        exit 1
+    fi
+
+    echo "Explicit version input is valid: $input_raw (VERSION=$expected RELEASE_TYPE=$release_type)"
+}
+
 # Command: bump version
 cmd_bump_version() {
     local bump_type="$1"  # major, minor, patch
@@ -254,6 +292,9 @@ main() {
         validate)
             cmd_validate
             ;;
+        validate-input-version)
+            cmd_validate_input_version "${2:-}"
+            ;;
         *)
             cat <<EOF
 Usage: $0 <command> [args]
@@ -268,6 +309,7 @@ Commands:
   bump-version <major|minor|patch> Bump version and echo new version
   generate-nightly-version [run#]  Generate nightly version string
   validate                         Validate canonical VERSION + RELEASE_TYPE contract
+  validate-input-version <version> Validate explicit version input against VERSION + RELEASE_TYPE
 
 Valid release types: ${VALID_RELEASE_TYPES[*]}
 
@@ -277,6 +319,7 @@ Examples:
   $0 write-release-type stable
   $0 bump-version minor
   $0 generate-nightly-version 5
+  $0 validate-input-version v2.4.0-alpha
 EOF
             exit 1
             ;;
