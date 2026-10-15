@@ -134,11 +134,12 @@ jobs:
           set -euo pipefail
           EXPECTED="$(tr -d '\r\n' < VERSION)"
           INPUT_RAW="${{ inputs.version || github.event.inputs.version }}"
-          INPUT_VERSION="${INPUT_RAW#v}"
-          INPUT_BASE_VERSION="${INPUT_VERSION%%-*}"
-          if [[ -n "${INPUT_RAW}" && "${INPUT_BASE_VERSION}" != "${EXPECTED}" ]]; then
-            echo "::error::Explicit version ${INPUT_RAW} does not match canonical VERSION file ${EXPECTED}"
-            exit 1
+          NORMALIZED_INPUT="${INPUT_RAW#v}"
+          if [[ -n "${INPUT_RAW}" ]]; then
+            if [[ "${NORMALIZED_INPUT}" != "${EXPECTED}" && "${NORMALIZED_INPUT}" != "${EXPECTED}-"* ]]; then
+              echo "::error::Explicit version ${INPUT_RAW} does not match canonical VERSION file ${EXPECTED} or its valid prerelease variants"
+              exit 1
+            fi
           fi
 
       - name: Detect release details

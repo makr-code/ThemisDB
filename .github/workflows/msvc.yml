@@ -11,10 +11,12 @@ name: Microsoft C++ Code Analysis
 on:
   push:
     branches: [ "develop" ]
-  pull_request:
-    branches: [ "develop" ]
   schedule:
     - cron: '24 20 * * 5'
+
+concurrency:
+  group: msvc-analysis-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   # Path to the CMake build directory.
@@ -34,7 +36,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Ensure sccache is available
         shell: pwsh
