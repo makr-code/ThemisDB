@@ -5,7 +5,7 @@
 > Last Updated: 2026-10-15
 > Update Note: Added missing security workflow entries (`codeql.yml`, `crda.yml`, `msvc.yml`) for registry-sync compliance
 > Status: active
-> Total Workflows: 87 (verified 2026-10-14)
+> Total Workflows: 90 (verified 2026-10-15)
 
 ## Zielbild
 
@@ -14,12 +14,12 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 
 ## Leitprinzipien
 
-- **Keine Schatten-CI:** Alle 88 Workflows sind in diesem Registry dokumentiert.
+- **Keine Schatten-CI:** Alle 90 Workflow-Dateien sind in diesem Registry dokumentiert.
 - **Klare Verantwortlichkeit:** Jeder Workflow hat definierte Trigger und Zweck.
 - **Konsistente Governance:** Alle Workflows folgen Naming-, Concurrency- und Trigger-Policies.
 - **Drift Prevention:** Registry-Update ist erforderlich bei neuen Workflows (Pre-Commit-Hook in Phase 3).
 
-## Aktiver Workflow-Kern: Alle 88 Workflows
+## Aktiver Workflow-Kern: Alle 90 Workflow-Dateien
 
 ### 1. BUILD & MAINLINE (13 Workflows)
 
@@ -138,7 +138,7 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | Workflow | Purpose | Frequency |
 |----------|---------|-----------|
 | `codeql.yml` | Security: CodeQL Advanced (multi-language CodeQL matrix scan) | scheduled |
-| `crda.yml` | Security: CRDA Scan (dependency vulnerability scanning + SARIF upload) | pull_request / manual |
+| `crda.yml` | Security: Trivy Dependency Scan (dependency vulnerability scanning + SARIF upload) | pull_request / manual |
 | `msvc.yml` | Security: Microsoft C++ Code Analysis (Windows static analysis + SARIF upload) | scheduled |
 
 ### 6. REUSABLE WORKFLOWS (4 Workflows)
@@ -160,7 +160,7 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | **MAINTENANCE & GOVERNANCE** | 21 | ✅ All documented |
 | **SECURITY** | 6 | ✅ All documented |
 | **REUSABLE WORKFLOWS** | 4 | ✅ All documented |
-| **TOTAL** | **88** | ✅ **100% Registry Sync** |
+| **TOTAL** | **90** | ✅ **100% Registry Sync** |
 
 ## Complete Workflow Redesign and Consolidation Plan
 
