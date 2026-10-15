@@ -36,6 +36,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Ensure sccache is available
+        shell: pwsh
+        run: |
+          if (-not (Get-Command sccache -ErrorAction SilentlyContinue)) {
+            choco install -y sccache
+            $env:Path += ";C:\ProgramData\chocolatey\bin"
+          }
+
+          if (-not (Get-Command sccache -ErrorAction SilentlyContinue)) {
+            throw "sccache is required for ThemisDB CMake configure but is not available on PATH."
+          }
+
+          sccache --version
+
       - name: Configure CMake
         run: cmake -B ${{ env.build }}
 
