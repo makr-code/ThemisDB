@@ -64,7 +64,12 @@ on:
         required: false
         default: ''
         type: string
-  pull_request_target:
+  pull_request:
+    branches: [develop, community]
+    paths:
+      - '.github/labels.yml'
+      - '.github/milestones.yml'
+      - '.github/workflows/maintenance-housekeeping.yml'
     types: [opened, reopened, edited, synchronize, ready_for_review, labeled, unlabeled]
   issues:
     types: [opened, reopened, edited, labeled, unlabeled]

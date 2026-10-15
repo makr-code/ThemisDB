@@ -62,10 +62,22 @@ on:
   # push:
   #   branches: [ "develop" ]
 
-  # pull_request_target is used to securely share secret to the PR's workflow run.
-  # For more info visit: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#pull_request_target
-  pull_request_target:
+  # pull_request_target is intentionally avoided here because the workflow writes
+  # repository-scanning results. Use a read-only PR trigger instead to keep the job
+  # within the repository's safe workflow governance boundaries.
+  pull_request:
     branches: [ "develop" ]
+    paths:
+      - 'pom.xml'
+      - 'build.gradle*'
+      - 'package.json'
+      - 'requirements*.txt'
+      - 'setup.py'
+      - 'pyproject.toml'
+      - 'go.mod'
+      - 'Cargo.toml'
+      - 'Gemfile'
+      - '.github/workflows/crda.yml'
     types: [ assigned, opened, synchronize, reopened, labeled, edited ]
 
 permissions:
@@ -81,7 +93,7 @@ jobs:
     steps:
 
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # *******************************************************************
       # Required: Instructions to setup project
