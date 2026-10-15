@@ -40,7 +40,7 @@
 
 # 👋 Visit our GitHub organization at https://github.com/redhat-actions/ to see our actions and provide feedback.
 
-name: "Security: CRDA Scan"
+name: CRDA Scan
 
 # Controls when the workflow will run
 on:
@@ -62,22 +62,10 @@ on:
   # push:
   #   branches: [ "develop" ]
 
-  # pull_request_target is intentionally avoided here because the workflow writes
-  # repository-scanning results. Use a read-only PR trigger instead to keep the job
-  # within the repository's safe workflow governance boundaries.
-  pull_request:
+  # pull_request_target is used so this security scan continues to run on PRs
+  # with the expected repository context.
+  pull_request_target:
     branches: [ "develop" ]
-    paths:
-      - 'pom.xml'
-      - 'build.gradle*'
-      - 'package.json'
-      - 'requirements*.txt'
-      - 'setup.py'
-      - 'pyproject.toml'
-      - 'go.mod'
-      - 'Cargo.toml'
-      - 'Gemfile'
-      - '.github/workflows/crda.yml'
     types: [ assigned, opened, synchronize, reopened, labeled, edited ]
 
 permissions:
@@ -93,7 +81,7 @@ jobs:
       contents: read            # for actions/checkout to fetch code
       security-events: write    # for upload-sarif to publish scan findings
       actions: read             # required for SARIF upload on private repositories
-    name: Scan project vulnerabilities with Trivy
+    name: Scan project vulnerabilities with CRDA
     runs-on: ubuntu-latest
     steps:
 
