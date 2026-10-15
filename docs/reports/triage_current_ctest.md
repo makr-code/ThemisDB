@@ -1,3 +1,10 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-10-15
+Last Updated: 2026-10-15
+Status: active
+---
+
 <!-- ci-ctest:type:triage-summary -->
 ## [CI] Current CTest Triage
 

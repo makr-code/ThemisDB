@@ -1,3 +1,10 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-09-23
+Last Updated: 2026-09-23
+Status: active
+---
+
 # Security Hardening Summary: LLM Module (W3 Mitigation)
 ## Issue: makr-code/ThemisDB#6587
 ## Date: 2026-09-23

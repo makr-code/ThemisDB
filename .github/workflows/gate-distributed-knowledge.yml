@@ -104,7 +104,11 @@ jobs:
       contents: read
       actions: read
     env:
-      SCCACHE_GHA_ENABLED: "false"
+      # Keep compiler output caching enabled for this producer build.
+      # A cold cache caused the distributed_knowledge gate to hit the 45-minute timeout.
+      SCCACHE_GHA_ENABLED: "true"
+      SCCACHE_IGNORE_SERVER_IO_ERROR: "1"
+      SCCACHE_ERROR_WHEN_DISCONNECTED: "false"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
