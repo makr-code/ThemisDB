@@ -1,3 +1,10 @@
+---
+Author: ThemisDB Maintainers
+Created: 2026-04-06
+Last Updated: 2026-10-15
+Status: active
+---
+
 # ThemisDB Dokumentations-Index
 
 > **📝 Hinweis zur Dokumentationssprache**  
