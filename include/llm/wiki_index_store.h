@@ -115,7 +115,7 @@ struct WikiIndexConfig {
     double      rrf_k         = 60.0;           ///< Reciprocal Rank Fusion smoothing constant
     double      bm25_k1       = 1.5;            ///< BM25+ k1 parameter (Robertson & Zaragoza)
     double      bm25_b        = 0.75;           ///< BM25+ b parameter (Robertson & Zaragoza)
-    double      bm25_delta    = 0.5;            ///< BM25+ lower-bound term frequency delta
+    double      bm25_delta    = 1.0;            ///< BM25+ lower-bound term frequency delta
     int         hnsw_m        = 16;             ///< HNSW graph degree (M)
     int         hnsw_ef_construction = 200;     ///< HNSW ef_construction
     int         hnsw_ef_search       = 64;      ///< HNSW ef_search
