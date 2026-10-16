@@ -36,7 +36,6 @@ on:
 
 permissions:
   contents: read
-  issues: write
 
 concurrency:
   group: benchmark-gate-${{ github.event.pull_request.number || github.ref }}
