@@ -226,13 +226,13 @@ Release lead posts comment on PR:
    - If not: POST "Only release leads can approve waivers"
    - If yes: CONTINUE
 
-2. **Parse Command**
+3. **Parse Command**
    - Extract: `gate_id` = "GATE-DOXYGEN-P6"
    - Extract: `justification` = "Doxygen gap..."
    - Validate gate_id exists in RELEASE_PROMOTION_GATE_POLICY.md
    - If invalid: POST "Unknown gate ID; check policy documentation"
 
-3. **Log Waiver**
+4. **Log Waiver**
    - Generate runner-local `ai_working/ENFORCEMENT_WAIVERS.md` evidence and upload it as workflow artifact:
      ```markdown
      | PR | Gate | Approver | Justification | Issue Date | Expires | Status |
@@ -240,13 +240,13 @@ Release lead posts comment on PR:
      ```
    - Publish/update a canonical PR comment marker and sync the governance label instead of committing workflow-generated files to the PR branch
 
-4. **Unblock Merge**
+5. **Unblock Merge**
    - Update the canonical PR waiver comment to `Status: ACTIVE`
    - Sync label `governance/doxygen-waiver`
    - POST/update comment: "✅ Waiver approved. Merge blocked until: 2026-08-29"
    - Allow merge to proceed
 
-5. **Set Waiver Expiration**
+6. **Set Waiver Expiration**
    - Create GitHub issue (hidden from normal search):
      ```
      [waiver-expiration] PR #12345 GATE-DOXYGEN-P6 expires 2026-08-29

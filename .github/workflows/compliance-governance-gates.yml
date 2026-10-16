@@ -590,16 +590,12 @@ jobs:
           python3 .github/scripts/waiver_validator.py --help-command --output /tmp/gate_command_help.json
           python3 - <<'PY'
           import json
-          import os
           from pathlib import Path
           payload = json.loads(Path('/tmp/gate_command_help.json').read_text())
           help_text = payload.get('help', '## PR Gate Command Reference\n\nNo command reference available.')
           marker = '<!-- gate-command-help -->'
           issue_body = f"{marker}\n\n{help_text}"
-          with open(Path('/tmp/gate_command_help.md'), 'w', encoding='utf-8') as fh:
-              fh.write(issue_body)
-          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as fh:
-              fh.write(f"help_markdown<<EOF\n{help_text}\nEOF\n")
+          Path('/tmp/gate_command_help.md').write_text(issue_body, encoding='utf-8')
           PY
 
       - name: Publish gate command help comment
@@ -622,7 +618,10 @@ jobs:
     if: >
       github.event_name == 'issue_comment' &&
       github.event.issue.pull_request &&
-      contains(github.event.comment.body, '/approve-with-waiver') &&
+      (
+        contains(github.event.comment.body, '/approve-with-waiver') ||
+        contains(github.event.comment.body, '/approve-waiver')
+      ) &&
       contains(github.event.comment.body, 'T1-DOXYGEN-COVERAGE')
     steps:
       - uses: actions/checkout@v5
@@ -656,7 +655,12 @@ jobs:
 
       - name: Parse Doxygen waiver command
         id: waiver
-        if: steps.approver.outputs.allowed == 'true' && contains(github.event.comment.body, '/approve-with-waiver')
+        if: >
+          steps.approver.outputs.allowed == 'true' &&
+          (
+            contains(github.event.comment.body, '/approve-with-waiver') ||
+            contains(github.event.comment.body, '/approve-waiver')
+          )
         env:
           COMMENT_BODY: ${{ github.event.comment.body }}
         run: |
@@ -667,7 +671,12 @@ jobs:
             --output /tmp/doxygen_waiver_result.json
 
       - name: Mark waiver as requested
-        if: steps.approver.outputs.allowed == 'true' && contains(github.event.comment.body, '/approve-with-waiver')
+        if: >
+          steps.approver.outputs.allowed == 'true' &&
+          (
+            contains(github.event.comment.body, '/approve-with-waiver') ||
+            contains(github.event.comment.body, '/approve-waiver')
+          )
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}

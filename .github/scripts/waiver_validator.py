@@ -40,6 +40,7 @@ class WaiverValidator:
     """Validates and processes waiver commands."""
 
     WAIVER_LOG = REPO_ROOT / "ai_working" / "ENFORCEMENT_WAIVERS.md"
+    WAIVER_COMMAND_PATTERN = r"/approve(?:-with)?-waiver\s+(\S+)\s+[\"']([^\"']+)[\"']"
     VALID_GATE_IDS = [
         # Tier 0 gates
         "T0-GOVERNANCE-REGISTRY",
@@ -69,7 +70,7 @@ class WaiverValidator:
             "command": "/approve-with-waiver",
             "aliases": ["/approve-waiver"],
             "description": "Approve a known gate exception with a short justification for a PR.",
-            "requires_permission": "admin|maintain|write",
+            "requires_permission": "admin\\|maintain\\|write",
             "scope": "Governance waivers",
             "syntax": '/approve-with-waiver <GATE_ID> "justification"',
         },
@@ -79,6 +80,11 @@ class WaiverValidator:
     def list_commands(cls) -> List[Dict]:
         """Return the canonical PR gate command catalog."""
         return [dict(command) for command in cls.COMMAND_CATALOG]
+
+    @staticmethod
+    def escape_markdown_cell(value: str) -> str:
+        """Escape markdown metacharacters in table cell values."""
+        return str(value).replace("|", "\\|")
 
     @classmethod
     def render_command_help(cls) -> str:
@@ -97,8 +103,11 @@ class WaiverValidator:
             alias_cell = "—"
             if aliases:
                 alias_cell = ", ".join(f"`{alias}`" for alias in aliases)
+            permission = cls.escape_markdown_cell(item.get("requires_permission", "none"))
+            description = cls.escape_markdown_cell(item.get("description", ""))
+            syntax = cls.escape_markdown_cell(item.get("syntax", ""))
             lines.append(
-                f"| `{command}` | {alias_cell} | {item.get('requires_permission', 'none')} | {item.get('description', '')} | `{item.get('syntax', '')}` |"
+                f"| `{command}` | {alias_cell} | {permission} | {description} | `{syntax}` |"
             )
         lines.extend([
             "",
@@ -161,7 +170,7 @@ class WaiverValidator:
         Command format:
           /approve-with-waiver <gate_id> "<justification>"
         """
-        pattern = r"/approve-with-waiver\s+(\S+)\s+[\"']([^\"']+)[\"']"
+        pattern = self.WAIVER_COMMAND_PATTERN
         match = re.search(pattern, comment, re.IGNORECASE)
         
         if not match:
@@ -212,17 +221,6 @@ class WaiverValidator:
         # For now, return True (would be checked in actual workflow)
         
         return True, ""
-
-    @classmethod
-    def parse_gate_command_help(cls, comment: str) -> Tuple[bool, str, Optional[Dict]]:
-        """Parse a /gate-help style command and return a help payload."""
-        pattern = r"/(?:gate-help|help-gates|help-gate|themis-gate-help)\b"
-        if not re.search(pattern, comment, re.IGNORECASE):
-            return False, "Gate help command not found in comment", None
-        return True, "", {
-            "command": "/gate-help",
-            "help": cls.render_command_help(),
-        }
 
     def add_waiver(self, waiver: Dict) -> Tuple[bool, str]:
         """Add new waiver to log."""
