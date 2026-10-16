@@ -51,8 +51,8 @@ AuditEntry AuditEntry::from_json(const nlohmann::json& j) {
   if (j.contains("action")) result.action = j["action"];
   if (j.contains("query_text")) result.query_text = j["query_text"];
   if (j.contains("timestamp")) {
-    auto time_t = static_cast<time_t>(j["timestamp"].get<int64_t>());
-    result.timestamp = std::chrono::system_clock::from_time_t(time_t);
+    auto timestamp_seconds = static_cast<time_t>(j["timestamp"].get<int64_t>());
+    result.timestamp = std::chrono::system_clock::from_time_t(timestamp_seconds);
   }
   if (j.contains("allowed")) result.allowed = j["allowed"];
   if (j.contains("decision_reason")) result.decision_reason = j["decision_reason"];

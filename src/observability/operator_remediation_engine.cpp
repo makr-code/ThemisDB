@@ -506,7 +506,8 @@ public:
                     auto now = std::chrono::system_clock::now();
                     for (const auto& existing : active_hints_) {
                         if (existing->problemCategory() == hint->problemCategory() &&
-                            existing->problemTitle() == hint->problemTitle()) {
+                            existing->problemTitle() == hint->problemTitle() &&
+                            existing->diagnosticMetrics() == hint->diagnosticMetrics()) {
 
                             auto age = std::chrono::duration_cast<std::chrono::seconds>(
                                 now - existing->generatedAt());

@@ -15,11 +15,60 @@
 #include <spdlog/spdlog.h>
 #include <openssl/cmac.h>
 #include <openssl/rand.h>
+#include <atomic>
+#include <cctype>
 #include <ctime>
 #include <iomanip>
+#include <mutex>
 #include <sstream>
+#include <string_view>
 
 namespace themis::security {
+
+namespace {
+
+std::string hexEncode(std::string_view bytes) {
+  std::ostringstream oss;
+  for (const auto byte : bytes) {
+    oss << std::hex << std::setw(2) << std::setfill('0')
+        << static_cast<int>(static_cast<unsigned char>(byte));
+  }
+  return oss.str();
+}
+
+bool isHexString(const std::string& value) {
+  if (value.empty() || (value.size() % 2) != 0) {
+    return false;
+  }
+  for (const auto ch : value) {
+    if (!std::isxdigit(static_cast<unsigned char>(ch))) {
+      return false;
+    }
+  }
+  return true;
+}
+
+std::string hexDecode(const std::string& hex) {
+  if ((hex.size() % 2) != 0) {
+    throw std::runtime_error("Invalid hex length");
+  }
+
+  std::string out;
+  out.reserve(hex.size() / 2);
+  for (size_t i = 0; i < hex.size(); i += 2) {
+    const auto hi = hex[i];
+    const auto lo = hex[i + 1];
+    if (!std::isxdigit(static_cast<unsigned char>(hi)) ||
+        !std::isxdigit(static_cast<unsigned char>(lo))) {
+      throw std::runtime_error("Invalid hex character in encoded salt");
+    }
+    const auto byte = static_cast<char>(std::stoi(hex.substr(i, 2), nullptr, 16));
+    out.push_back(byte);
+  }
+  return out;
+}
+
+}  // namespace
 
 // ============================================================================
 // KeyMetadata Implementation
@@ -46,7 +95,7 @@ std::string KeyMetadata::DeriveKey(const std::string& master_key) const {
 nlohmann::json KeyMetadata::to_json() const {
   return nlohmann::json{
       {"key_tag", key_tag},
-      {"salt", salt},
+      {"salt", hexEncode(salt)},
       {"created_at", std::chrono::system_clock::to_time_t(created_at)},
       {"expires_at", std::chrono::system_clock::to_time_t(expires_at)},
       {"active", active},
@@ -56,7 +105,15 @@ nlohmann::json KeyMetadata::to_json() const {
 KeyMetadata KeyMetadata::from_json(const nlohmann::json& j) {
   KeyMetadata result;
   if (j.contains("key_tag")) result.key_tag = j["key_tag"];
-  if (j.contains("salt")) result.salt = j["salt"];
+  if (j.contains("salt")) {
+    auto encoded_salt = j["salt"].get<std::string>();
+    if (isHexString(encoded_salt)) {
+      result.salt = hexDecode(encoded_salt);
+    } else {
+      // Backward compatibility for legacy payloads that stored raw text directly.
+      result.salt = encoded_salt;
+    }
+  }
   if (j.contains("created_at")) {
     auto t = static_cast<time_t>(j["created_at"].get<int64_t>());
     result.created_at = std::chrono::system_clock::from_time_t(t);
@@ -138,17 +195,27 @@ RotationState RotationState::from_json(const nlohmann::json& j) {
 
 std::string KeyRotationManager::GenerateKeyTag(const std::string& key_material,
                                                 const std::string& salt) {
-  // CMAC-AES256: tag = hex(CMAC_AES256(key_material || salt))
+  // CMAC-AES256: tag = hex(CMAC_AES256(key=key_material, data=salt))
   unsigned char tag[16] = {0};
   size_t tag_len = 0;
 
   CMAC_CTX* ctx = CMAC_CTX_new();
   if (!ctx) throw std::runtime_error("Failed to allocate CMAC context");
 
-  std::string combined = key_material + salt;
-  CMAC_Init(ctx, reinterpret_cast<const unsigned char*>(combined.data()),
-            combined.size(), EVP_aes_256_cbc(), nullptr);
-  CMAC_Final(ctx, tag, &tag_len);
+  const auto* key_ptr = reinterpret_cast<const unsigned char*>(key_material.data());
+  const auto* salt_ptr = reinterpret_cast<const unsigned char*>(salt.data());
+  if (CMAC_Init(ctx, key_ptr, key_material.size(), EVP_aes_256_cbc(), nullptr) != 1) {
+    CMAC_CTX_free(ctx);
+    throw std::runtime_error("Failed to initialize CMAC context");
+  }
+  if (CMAC_Update(ctx, salt_ptr, salt.size()) != 1) {
+    CMAC_CTX_free(ctx);
+    throw std::runtime_error("Failed to update CMAC context");
+  }
+  if (CMAC_Final(ctx, tag, &tag_len) != 1) {
+    CMAC_CTX_free(ctx);
+    throw std::runtime_error("Failed to finalize CMAC context");
+  }
   CMAC_CTX_free(ctx);
 
   std::ostringstream oss;
@@ -224,6 +291,22 @@ std::unique_ptr<KeyRotationManager> KeyRotationManager::Open(const std::string& 
 
 KeyRotationManager::~KeyRotationManager() {
   if (db_) {
+    auto destroy_cf = [this](rocksdb::ColumnFamilyHandle*& handle) {
+      if (handle) {
+        auto destroy_status = db_->DestroyColumnFamilyHandle(handle);
+        if (!destroy_status.ok()) {
+          spdlog::warn("[KeyRotationManager] Failed to destroy column-family handle: {}",
+                       destroy_status.ToString());
+        }
+        handle = nullptr;
+      }
+    };
+
+    destroy_cf(cf_rotation_history_);
+    destroy_cf(cf_chunk_mappings_);
+    destroy_cf(cf_key_metadata_);
+    destroy_cf(cf_default_);
+
     auto status = db_->Close();
     if (!status.ok()) {
       spdlog::warn("[KeyRotationManager] Failed to close RocksDB: {}", status.ToString());
@@ -263,6 +346,10 @@ std::optional<KeyMetadata> KeyRotationManager::GetKeyMetadata(const std::string&
 }
 
 uint32_t KeyRotationManager::StartKeyRotation(const std::string& master_key) {
+  static std::mutex rotation_id_mutex;
+  static std::atomic<uint32_t> rotation_counter{0};
+  static std::atomic<bool> rotation_counter_seeded{false};
+
   // Generate new key
   unsigned char salt_bytes[16] = {0};
   if (RAND_bytes(salt_bytes, sizeof(salt_bytes)) != 1) {
@@ -288,10 +375,18 @@ uint32_t KeyRotationManager::StartKeyRotation(const std::string& master_key) {
   }
 
   // Update rotation state
-  static uint32_t rotation_counter = 1;
+  {
+    std::lock_guard<std::mutex> lock(rotation_id_mutex);
+    if (!rotation_counter_seeded.load(std::memory_order_acquire)) {
+      const auto persisted_state = GetRotationState();
+      rotation_counter.store(persisted_state.rotation_id, std::memory_order_relaxed);
+      rotation_counter_seeded.store(true, std::memory_order_release);
+    }
+  }
+
   RotationState state;
   state.phase = RotationPhase::InProgress;
-  state.rotation_id = rotation_counter++;
+  state.rotation_id = rotation_counter.fetch_add(1, std::memory_order_relaxed) + 1;
   state.old_key_tag = GetActiveKeyTag();
   state.new_key_tag = new_key_tag;
   state.started_at = std::chrono::system_clock::now();
