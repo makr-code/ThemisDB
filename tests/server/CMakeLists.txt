@@ -27,7 +27,6 @@ foreach(_src IN LISTS SERVER_MODULE_TEST_SOURCES)
         Threads::Threads
     )
     if(_stem STREQUAL "test_server_phase2_focused")
-        find_package(benchmark QUIET CONFIG)
         if(TARGET benchmark::benchmark)
             target_link_libraries(${_target} PRIVATE benchmark::benchmark)
         else()
@@ -38,9 +37,6 @@ foreach(_src IN LISTS SERVER_MODULE_TEST_SOURCES)
         endif()
     endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
-    if(_stem STREQUAL "test_server_phase2_focused" AND TARGET benchmark::benchmark)
-        target_link_libraries(${_target} PRIVATE benchmark::benchmark)
-    endif()
 
     if(_stem STREQUAL "test_wave4a_server_hardening2")
         themis_register_module_focused_test(
