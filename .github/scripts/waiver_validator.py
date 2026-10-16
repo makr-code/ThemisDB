@@ -70,7 +70,7 @@ class WaiverValidator:
             "command": "/approve-with-waiver",
             "aliases": ["/approve-waiver"],
             "description": "Approve a known gate exception with a short justification for a PR.",
-            "requires_permission": "admin\\|maintain\\|write",
+            "requires_permission": "admin / maintain / write",
             "scope": "Governance waivers",
             "syntax": '/approve-with-waiver <GATE_ID> "justification"',
         },
