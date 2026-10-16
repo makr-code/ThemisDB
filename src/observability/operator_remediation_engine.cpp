@@ -508,11 +508,15 @@ public:
                         if (existing->problemCategory() == hint->problemCategory() &&
                             existing->problemTitle() == hint->problemTitle()) {
 
-                            auto age = std::chrono::duration_cast<std::chrono::seconds>(
-                                now - existing->generatedAt());
-                            if (age < deduplication_window_) {
-                                is_duplicate = true;
-                                break;
+                            const bool same_diagnostic_signature =
+                                existing->diagnosticMetrics() == hint->diagnosticMetrics();
+                            if (same_diagnostic_signature) {
+                                auto age = std::chrono::duration_cast<std::chrono::seconds>(
+                                    now - existing->generatedAt());
+                                if (age < deduplication_window_) {
+                                    is_duplicate = true;
+                                    break;
+                                }
                             }
                         }
                     }

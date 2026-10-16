@@ -27,6 +27,16 @@ foreach(_src IN LISTS SECURITY_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/query/aql_safety_validator.cpp
         )
     endif()
+    if(_stem STREQUAL "test_audit_log_store")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/security/audit_log_store.cpp
+        )
+    endif()
+    if(_stem STREQUAL "test_key_rotation_manager")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/security/key_rotation_manager.cpp
+        )
+    endif()
     if(_stem STREQUAL "test_kdf_argon2_bridge")
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/user_storage_encrypted/key_derivation_service.cpp

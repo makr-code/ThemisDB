@@ -2781,6 +2781,8 @@ set(THEMIS_CORE_SOURCES
     ../src/search/layered_retrieval_orchestrator.cpp
     ../src/security/pki_key_provider.cpp
     ../src/security/cms_signing.cpp
+    ../src/security/retrieval_policy.cpp
+    ../src/security/policy_enforcer.cpp
     ../src/security/rbac.cpp
     ../src/security/access_control_manager.cpp
     ../src/security/zero_trust_policy_enforcer.cpp

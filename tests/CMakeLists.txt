@@ -146,11 +146,23 @@ else()
     message(STATUS "OpenSSL not found - tests will fall back to portable secure-zero or require OpenSSL for full checks")
 endif()
 
-# Shared test libraries so individual test executables don't forget to link gtest
+set(TEST_GMOCK_LIB "")
+if(TARGET GTest::gmock)
+    set(TEST_GMOCK_LIB GTest::gmock)
+elseif(TARGET gmock::gmock)
+    set(TEST_GMOCK_LIB gmock::gmock)
+endif()
+
+# Shared test libraries so individual test executables don't forget to link gtest/gmock.
+# Some focused tests use MOCK_METHOD from GMock, and those symbols are missing if
+# the shared link set omits the GMock library.
 set(TEST_LIBS
     GTest::gtest
     GTest::gtest_main
 )
+if(TEST_GMOCK_LIB)
+    list(APPEND TEST_LIBS ${TEST_GMOCK_LIB})
+endif()
 
 # Ensure security module is linked into tests that pull in shared helpers
 # (e.g. logger.cpp uses PIIRedactionPolicy). If the themis_security target
@@ -165,13 +177,6 @@ endif()
 # These are intentionally scoped outside the module auto-discover pass so they
 # remain visible even when the broader module test matrix is filtered.
 include(${THEMIS_ROOT_DIR}/cmake/AuditScope.cmake)
-
-set(TEST_GMOCK_LIB "")
-if(TARGET GTest::gmock)
-    set(TEST_GMOCK_LIB GTest::gmock)
-elseif(TARGET gmock::gmock)
-    set(TEST_GMOCK_LIB gmock::gmock)
-endif()
 
 set(_themis_vcpkg_include_dir "")
 set(_themis_vcpkg_lib_dir "")

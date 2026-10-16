@@ -53,6 +53,9 @@ struct AudioFrame {
         if (data.empty()) {
           return false;
         }
+        if (data.size() < 100) {
+          return false;
+        }
         if (data.size() > 512 * 1024) return false;  // >512KB = invalid
         return true;
     }

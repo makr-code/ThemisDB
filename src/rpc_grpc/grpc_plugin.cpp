@@ -11,6 +11,7 @@
 
 #include "grpc_plugin.h"
 #include <fstream>
+#include <filesystem>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
@@ -65,6 +66,50 @@ RPCProtocol GRPCServer::getProtocol() const {
  */
 bool GRPCServer::initialize(const RPCServerConfig& config) {
     config_ = config;
+    if (config_.host.empty()) {
+        std::cerr << "[RPC-E8302] gRPC server initialization rejected: empty host" << std::endl;
+        return false;
+    }
+
+    if (config_.port == 0) {
+        // 0 is valid for OS-assigned loopback ports, but callers must deliberately choose it.
+        // We only reject missing TLS material, not the ephemeral-port signaling itself.
+    }
+
+    if (config_.tls_enabled) {
+        if (config_.tls_cert_path.empty() || config_.tls_key_path.empty() ||
+            config_.tls_ca_cert_path.empty()) {
+            std::cerr << "[RPC-E8302] gRPC server initialization rejected: TLS config incomplete"
+                      << std::endl;
+            return false;
+        }
+
+        const std::array<std::string, 3> paths = {
+            config_.tls_cert_path,
+            config_.tls_key_path,
+            config_.tls_ca_cert_path,
+        };
+
+        for (const auto& path : paths) {
+            if (path.empty()) {
+                std::cerr << "[RPC-E8302] gRPC server initialization rejected: empty TLS path" << std::endl;
+                return false;
+            }
+            std::error_code ec;
+            if (!std::filesystem::exists(path, ec) || !std::filesystem::is_regular_file(path, ec)) {
+                std::cerr << "[RPC-E8302] gRPC server initialization rejected: missing TLS file: "
+                          << path << std::endl;
+                return false;
+            }
+            std::ifstream stream(path, std::ios::binary);
+            if (!stream) {
+                std::cerr << "[RPC-E8302] gRPC server initialization rejected: unreadable TLS file: "
+                          << path << std::endl;
+                return false;
+            }
+        }
+    }
+
     server_address_ = config_.host + ":" + std::to_string(config_.port);
     return true;
 }

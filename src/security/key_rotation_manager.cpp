@@ -9,17 +9,56 @@
 
 #include "security/key_rotation_manager.h"
 
+#include "utils/rocksdb_open_compat.h"
+
 #include <rocksdb/db.h>
 #include <rocksdb/options.h>
 #include <rocksdb/table.h>
 #include <spdlog/spdlog.h>
-#include <openssl/cmac.h>
+#include <openssl/hmac.h>
 #include <openssl/rand.h>
+#include <cctype>
 #include <ctime>
 #include <iomanip>
 #include <sstream>
 
 namespace themis::security {
+
+namespace {
+
+std::string EncodeBinaryToHex(const std::string& input) {
+  static constexpr char kHexDigits[] = "0123456789abcdef";
+  std::string output;
+  output.reserve(input.size() * 2);
+  for (unsigned char ch : input) {
+    output.push_back(kHexDigits[(ch >> 4) & 0x0F]);
+    output.push_back(kHexDigits[ch & 0x0F]);
+  }
+  return output;
+}
+
+std::string DecodeHexToBinary(const std::string& input) {
+  if (input.empty()) {
+    return {};
+  }
+
+  std::string output;
+  output.reserve(input.size() / 2);
+  for (size_t i = 0; i < input.size(); i += 2) {
+    const auto hi = std::tolower(static_cast<unsigned char>(input[i]));
+    const auto lo = std::tolower(static_cast<unsigned char>(input[i + 1]));
+    const auto hex_to_nibble = [](unsigned char c) -> unsigned char {
+      if (c >= '0' && c <= '9') return static_cast<unsigned char>(c - '0');
+      if (c >= 'a' && c <= 'f') return static_cast<unsigned char>(10 + c - 'a');
+      if (c >= 'A' && c <= 'F') return static_cast<unsigned char>(10 + c - 'A');
+      return 0;
+    };
+    output.push_back(static_cast<char>((hex_to_nibble(hi) << 4) | hex_to_nibble(lo)));
+  }
+  return output;
+}
+
+}  // namespace
 
 // ============================================================================
 // KeyMetadata Implementation
@@ -46,7 +85,7 @@ std::string KeyMetadata::DeriveKey(const std::string& master_key) const {
 nlohmann::json KeyMetadata::to_json() const {
   return nlohmann::json{
       {"key_tag", key_tag},
-      {"salt", salt},
+      {"salt", EncodeBinaryToHex(salt)},
       {"created_at", std::chrono::system_clock::to_time_t(created_at)},
       {"expires_at", std::chrono::system_clock::to_time_t(expires_at)},
       {"active", active},
@@ -56,7 +95,7 @@ nlohmann::json KeyMetadata::to_json() const {
 KeyMetadata KeyMetadata::from_json(const nlohmann::json& j) {
   KeyMetadata result;
   if (j.contains("key_tag")) result.key_tag = j["key_tag"];
-  if (j.contains("salt")) result.salt = j["salt"];
+  if (j.contains("salt")) result.salt = DecodeHexToBinary(j["salt"].get<std::string>());
   if (j.contains("created_at")) {
     auto t = static_cast<time_t>(j["created_at"].get<int64_t>());
     result.created_at = std::chrono::system_clock::from_time_t(t);
@@ -138,21 +177,31 @@ RotationState RotationState::from_json(const nlohmann::json& j) {
 
 std::string KeyRotationManager::GenerateKeyTag(const std::string& key_material,
                                                 const std::string& salt) {
-  // CMAC-AES256: tag = hex(CMAC_AES256(key_material || salt))
-  unsigned char tag[16] = {0};
-  size_t tag_len = 0;
+  unsigned char tag[EVP_MAX_MD_SIZE] = {0};
+  unsigned int tag_len = 0;
 
-  CMAC_CTX* ctx = CMAC_CTX_new();
-  if (!ctx) throw std::runtime_error("Failed to allocate CMAC context");
+  HMAC_CTX* ctx = HMAC_CTX_new();
+  if (!ctx) throw std::runtime_error("Failed to allocate HMAC context");
 
-  std::string combined = key_material + salt;
-  CMAC_Init(ctx, reinterpret_cast<const unsigned char*>(combined.data()),
-            combined.size(), EVP_aes_256_cbc(), nullptr);
-  CMAC_Final(ctx, tag, &tag_len);
-  CMAC_CTX_free(ctx);
+  const auto key_ptr = reinterpret_cast<const unsigned char*>(key_material.data());
+  const auto salt_ptr = reinterpret_cast<const unsigned char*>(salt.data());
+
+  if (HMAC_Init_ex(ctx, key_ptr, static_cast<int>(key_material.size()), EVP_sha256(), nullptr) != 1) {
+    HMAC_CTX_free(ctx);
+    throw std::runtime_error("Failed to initialize HMAC context");
+  }
+  if (HMAC_Update(ctx, salt_ptr, salt.size()) != 1) {
+    HMAC_CTX_free(ctx);
+    throw std::runtime_error("Failed to update HMAC with salt");
+  }
+  if (HMAC_Final(ctx, tag, &tag_len) != 1) {
+    HMAC_CTX_free(ctx);
+    throw std::runtime_error("Failed to finalize HMAC tag");
+  }
+  HMAC_CTX_free(ctx);
 
   std::ostringstream oss;
-  for (size_t i = 0; i < tag_len; ++i) {
+  for (unsigned int i = 0; i < tag_len; ++i) {
     oss << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(tag[i]);
   }
   return oss.str();
@@ -204,13 +253,14 @@ std::unique_ptr<KeyRotationManager> KeyRotationManager::Open(const std::string& 
   db_options.create_if_missing = true;
   db_options.create_missing_column_families = true;
 
-  auto status = rocksdb::DB::Open(db_options, db_path, column_families, &handles, &db);
+  auto status = themis::storage::detail::openDbWithColumnFamiliesCompat(
+      db_options, db_path, column_families, &handles, &db);
   if (!status.ok()) {
     spdlog::error("[KeyRotationManager] Failed to open RocksDB: {}", status.ToString());
     throw std::runtime_error("Failed to open RocksDB: " + status.ToString());
   }
 
-  auto manager = std::make_unique<KeyRotationManager>(db);
+  auto manager = std::unique_ptr<KeyRotationManager>(new KeyRotationManager(db));
   if (handles.size() >= 4) {
     manager->cf_default_ = handles[0];
     manager->cf_key_metadata_ = handles[1];
@@ -223,11 +273,29 @@ std::unique_ptr<KeyRotationManager> KeyRotationManager::Open(const std::string& 
 }
 
 KeyRotationManager::~KeyRotationManager() {
+  if (cf_default_) {
+    db_->DestroyColumnFamilyHandle(cf_default_);
+    cf_default_ = nullptr;
+  }
+  if (cf_key_metadata_) {
+    db_->DestroyColumnFamilyHandle(cf_key_metadata_);
+    cf_key_metadata_ = nullptr;
+  }
+  if (cf_chunk_mappings_) {
+    db_->DestroyColumnFamilyHandle(cf_chunk_mappings_);
+    cf_chunk_mappings_ = nullptr;
+  }
+  if (cf_rotation_history_) {
+    db_->DestroyColumnFamilyHandle(cf_rotation_history_);
+    cf_rotation_history_ = nullptr;
+  }
+
   if (db_) {
     auto status = db_->Close();
     if (!status.ok()) {
       spdlog::warn("[KeyRotationManager] Failed to close RocksDB: {}", status.ToString());
     }
+    db_.reset();
   }
 }
 
@@ -263,6 +331,36 @@ std::optional<KeyMetadata> KeyRotationManager::GetKeyMetadata(const std::string&
 }
 
 uint32_t KeyRotationManager::StartKeyRotation(const std::string& master_key) {
+  std::string active_key_tag = GetActiveKeyTag();
+  if (active_key_tag.empty()) {
+    unsigned char legacy_salt[16] = {0};
+    if (RAND_bytes(legacy_salt, sizeof(legacy_salt)) != 1) {
+      throw std::runtime_error("Failed to generate bootstrap salt");
+    }
+
+    std::string legacy_salt_bytes(reinterpret_cast<const char*>(legacy_salt), sizeof(legacy_salt));
+    std::string bootstrap_key_tag = GenerateKeyTag(master_key, legacy_salt_bytes);
+
+    KeyMetadata bootstrap_key;
+    bootstrap_key.key_tag = bootstrap_key_tag;
+    bootstrap_key.salt = legacy_salt_bytes;
+    bootstrap_key.created_at = std::chrono::system_clock::now();
+    bootstrap_key.expires_at = bootstrap_key.created_at + std::chrono::hours(72);
+    bootstrap_key.active = true;
+
+    auto status = db_->Put(rocksdb::WriteOptions(), cf_key_metadata_, "key:" + bootstrap_key_tag,
+                           bootstrap_key.to_json().dump(-1));
+    if (!status.ok()) {
+      throw std::runtime_error("Failed to store bootstrap key metadata: " + status.ToString());
+    }
+
+    status = db_->Put(rocksdb::WriteOptions(), cf_default_, "active_key_tag", bootstrap_key_tag);
+    if (!status.ok()) {
+      throw std::runtime_error("Failed to store active key tag: " + status.ToString());
+    }
+    active_key_tag = bootstrap_key_tag;
+  }
+
   // Generate new key
   unsigned char salt_bytes[16] = {0};
   if (RAND_bytes(salt_bytes, sizeof(salt_bytes)) != 1) {
@@ -287,12 +385,13 @@ uint32_t KeyRotationManager::StartKeyRotation(const std::string& master_key) {
     throw std::runtime_error("Failed to store key metadata: " + status.ToString());
   }
 
-  // Update rotation state
-  static uint32_t rotation_counter = 1;
+  // Update rotation state. Use the persisted state as the source of truth so each
+  // fresh manager starts from rotation_id 1 and subsequent runs continue monotonically.
+  RotationState current_state = GetRotationState();
   RotationState state;
   state.phase = RotationPhase::InProgress;
-  state.rotation_id = rotation_counter++;
-  state.old_key_tag = GetActiveKeyTag();
+  state.rotation_id = current_state.rotation_id > 0 ? current_state.rotation_id + 1 : 1;
+  state.old_key_tag = active_key_tag;
   state.new_key_tag = new_key_tag;
   state.started_at = std::chrono::system_clock::now();
   state.validation_deadline = state.started_at + std::chrono::hours(24);

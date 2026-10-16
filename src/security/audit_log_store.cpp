@@ -9,6 +9,8 @@
 
 #include "security/audit_log_store.h"
 
+#include "utils/rocksdb_open_compat.h"
+
 #include <rocksdb/db.h>
 #include <rocksdb/options.h>
 #include <spdlog/spdlog.h>
@@ -51,8 +53,8 @@ AuditEntry AuditEntry::from_json(const nlohmann::json& j) {
   if (j.contains("action")) result.action = j["action"];
   if (j.contains("query_text")) result.query_text = j["query_text"];
   if (j.contains("timestamp")) {
-    auto time_t = static_cast<time_t>(j["timestamp"].get<int64_t>());
-    result.timestamp = std::chrono::system_clock::from_time_t(time_t);
+    const auto timestamp_seconds = static_cast<time_t>(j["timestamp"].get<int64_t>());
+    result.timestamp = std::chrono::system_clock::from_time_t(timestamp_seconds);
   }
   if (j.contains("allowed")) result.allowed = j["allowed"];
   if (j.contains("decision_reason")) result.decision_reason = j["decision_reason"];
@@ -111,13 +113,14 @@ std::unique_ptr<AuditLogStore> AuditLogStore::Open(const std::string& db_path) {
   db_options.create_if_missing = true;
   db_options.create_missing_column_families = true;
 
-  auto status = rocksdb::DB::Open(db_options, db_path, column_families, &handles, &db);
+  auto status = themis::storage::detail::openDbWithColumnFamiliesCompat(
+      db_options, db_path, column_families, &handles, &db);
   if (!status.ok()) {
     spdlog::error("[AuditLogStore] Failed to open RocksDB: {}", status.ToString());
     throw std::runtime_error("Failed to open RocksDB: " + status.ToString());
   }
 
-  auto store = std::make_unique<AuditLogStore>(db);
+  auto store = std::unique_ptr<AuditLogStore>(new AuditLogStore(db));
   if (handles.size() >= 2) {
     store->cf_default_ = handles[0];
     store->cf_audit_logs_ = handles[1];
@@ -128,11 +131,21 @@ std::unique_ptr<AuditLogStore> AuditLogStore::Open(const std::string& db_path) {
 }
 
 AuditLogStore::~AuditLogStore() {
+  if (cf_default_) {
+    db_->DestroyColumnFamilyHandle(cf_default_);
+    cf_default_ = nullptr;
+  }
+  if (cf_audit_logs_) {
+    db_->DestroyColumnFamilyHandle(cf_audit_logs_);
+    cf_audit_logs_ = nullptr;
+  }
+
   if (db_) {
     auto status = db_->Close();
     if (!status.ok()) {
       spdlog::warn("[AuditLogStore] Failed to close RocksDB: {}", status.ToString());
     }
+    db_.reset();
   }
 }
 
