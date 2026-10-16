@@ -166,7 +166,21 @@ jobs:
 
               # Check 7: gh pr create must not pass boolean values to --draft
               # Valid CLI usage for gh pr create is either '--draft' or omit the flag.
-              if re.search(r'gh\s+pr\s+create(?:[^\n]*\\\n[^\n]*)*[^\n]*--draft(?:\s+|=)(?:true|false)\b', content, re.IGNORECASE):
+              invalid_pr_create_draft_bool = False
+              lines = content.splitlines()
+              i = 0
+              while i < len(lines):
+                  line = lines[i]
+                  if re.search(r'\bgh\s+pr\s+create\b', line, re.IGNORECASE):
+                      command = line.strip()
+                      while command.rstrip().endswith('\\') and i + 1 < len(lines):
+                          i += 1
+                          command += ' ' + lines[i].strip()
+                      if re.search(r'--draft(?:\s+|=)(?:true|false)(?=$|\s|[;|&])', command, re.IGNORECASE):
+                          invalid_pr_create_draft_bool = True
+                          break
+                  i += 1
+              if invalid_pr_create_draft_bool:
                   violations.append(f"{wf_name}: invalid 'gh pr create --draft <bool>' usage (use '--draft' flag only, or omit it)")
 
           # Check 8: Registry sync
