@@ -1,0 +1,145 @@
+name: "Benchmark Gate"
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - community
+      - enterprise
+      - hyperscaler
+      - military
+      - minimal
+    paths:
+      - 'benchmarks/**'
+      - 'CMakeLists.txt'
+      - 'benchmarks/wave4/release_gate_manifest.json'
+      - '.github/workflows/benchmark-gate.yml'
+      - '.github/workflows/reusable-cmake-build.yml'
+  push:
+    branches:
+      - develop
+      - community
+      - 'release/**'
+    paths:
+      - 'benchmarks/**'
+      - 'CMakeLists.txt'
+      - 'benchmarks/wave4/release_gate_manifest.json'
+      - '.github/workflows/benchmark-gate.yml'
+      - '.github/workflows/reusable-cmake-build.yml'
+  workflow_dispatch:
+    inputs:
+      benchmark_filter:
+        description: 'Optional Google Benchmark filter (empty = all W4A gates)'
+        required: false
+        default: ''
+        type: string
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: benchmark-gate-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  validate-baselines:
+    name: "Validate: Baseline evidence"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Validate canonical benchmark baselines
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          repo = Path('.')
+          manifest_path = repo / 'benchmarks' / 'wave4' / 'release_gate_manifest.json'
+          baseline_dir = repo / 'benchmarks' / 'wave4' / 'baselines'
+          baseline_path = baseline_dir / 'baseline_v1.5.0.json'
+
+          if not manifest_path.exists():
+              raise SystemExit(f'Missing required manifest: {manifest_path}')
+
+          manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+          if not baseline_path.exists():
+              raise SystemExit(f'Missing required baseline artifact: {baseline_path}')
+
+          baseline = json.loads(baseline_path.read_text(encoding='utf-8'))
+          baseline_names = {entry.get('name') for entry in baseline.get('benchmarks', []) if entry.get('name')}
+          required_names = {
+              gate.get('benchmark_filter')
+              for gate in manifest.get('gates', [])
+          }
+          required_names |= {
+              gate.get('benchmark_filter')
+              for gate in manifest.get('resilience_reference_gates', [])
+          }
+
+          missing = sorted(required_names - baseline_names)
+          if missing:
+              raise SystemExit(f'Baseline is stale or incomplete; missing required benchmark names: {missing}')
+
+          print(f'Validated {len(baseline_names)} baseline entries against {len(required_names)} required Wave 4 gates.')
+          PY
+
+  run-wave4-release-gates:
+    name: "Validate: Wave 4 release critical gates"
+    needs: validate-baselines
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Configure benchmark build
+        run: |
+          set -euo pipefail
+          cmake --preset linux-release
+          cmake --build --preset linux-release --parallel 16 --target bench_w4a_release_gates
+
+      - name: Run release gate benchmark
+        env:
+          BENCHMARK_SEED: '42'
+        run: |
+          set -euo pipefail
+          mkdir -p benchmark-artifacts
+          ./build/linux-release/bin/benchmarks/bench_w4a_release_gates \
+            --benchmark_filter='W4A' \
+            --benchmark_out=benchmark-artifacts/w4a_release_gates.json \
+            --benchmark_out_format=json \
+            --benchmark_repetitions=5
+
+      - name: Set up Python
+        uses: actions/setup-python@0b93645e9fea7318ecad90f24c8efe5fccefdfab
+        with:
+          python-version: '3.11'
+
+      - name: Compare against baseline and fail on stale or missing evidence
+        env:
+          BENCHMARK_FILTER: ${{ inputs.benchmark_filter || 'W4A' }}
+        run: |
+          set -euo pipefail
+          python3 benchmarks/wave4/report_variance.py \
+            --input benchmark-artifacts/w4a_release_gates.json \
+            --baseline benchmarks/wave4/baselines/baseline_v1.5.0.json \
+            --manifest benchmarks/wave4/release_gate_manifest.json \
+            --output benchmark-artifacts/w4a_gate_report.json
+
+      - name: Upload benchmark evidence artifact
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: wave4-benchmark-evidence
+          path: benchmark-artifacts/
+          if-no-files-found: error
+          retention-days: 30

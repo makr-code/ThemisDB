@@ -259,6 +259,7 @@ def evaluate_gate(
 
     # Look up baseline.
     baseline_val: Optional[float] = None
+    baseline_missing = False
     if baseline_lookup is not None:
         baseline_entry = baseline_lookup.get(filt)
         if baseline_entry is None:
@@ -268,15 +269,29 @@ def evaluate_gate(
                     break
         if baseline_entry is not None:
             baseline_val = get_metric_value(baseline_entry, metric)
+        else:
+            baseline_missing = True
 
-    if baseline_val is None or baseline_val == 0.0:
-        # No baseline — emit informational result only.
+    if baseline_lookup is not None and (baseline_missing or baseline_val is None or baseline_val == 0.0):
+        return GateResult(
+            gate_id=gate_id, name=name, criticality=criticality,
+            metric=metric, direction=direction, threshold_pct=threshold,
+            baseline_value=baseline_val, current_value=current_val,
+            pct_change=None, passed=False,
+            message=(
+                f"FAIL: Missing or stale baseline for '{filt}' ({metric}); "
+                "update the canonical baseline before release sign-off."
+            ),
+            repro_cmd=repro_cmd,
+        )
+
+    if baseline_lookup is None:
         return GateResult(
             gate_id=gate_id, name=name, criticality=criticality,
             metric=metric, direction=direction, threshold_pct=threshold,
             baseline_value=None, current_value=current_val,
             pct_change=None, passed=True,
-            message="INFO: No baseline available — result recorded for future comparison.",
+            message="INFO: No baseline file provided — result recorded for future comparison.",
             repro_cmd=repro_cmd,
         )
 
