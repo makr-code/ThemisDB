@@ -1,3 +1,10 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-09-21"
+Last Updated: "2026-09-21"
+Status: "active"
+---
+
 # ThemisDB Documentation
 
 Last updated: 2026-09-21
