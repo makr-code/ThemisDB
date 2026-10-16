@@ -67,6 +67,11 @@ permissions:
   contents: write  # For baseline commit-back on community push
 
 # ──────────────────────────────────────────────────────────────────────────────
+env:
+  VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.vcpkg-cache-${{ runner.os }}-${{ github.ref_name || github.ref }}
+  VCPKG_BINARY_SOURCES: clear;files,${{ github.workspace }}/.vcpkg-cache-${{ runner.os }}-${{ github.ref_name || github.ref }},readwrite
+  VCPKG_DOWNLOADS: ${{ github.workspace }}/.cache/vcpkg-downloads-${{ runner.os }}-${{ github.ref_name || github.ref }}
+
 jobs:
 
   # ─────────────────────────────────────────────────────────────────────────

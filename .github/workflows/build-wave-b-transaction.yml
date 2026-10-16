@@ -34,6 +34,9 @@ env:
   CMAKE_GENERATOR: Ninja
   SCCACHE_DIR: ${{ github.workspace }}/.cache/sccache
   SCCACHE_CACHE_SIZE: 2G
+  VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.vcpkg-cache-${{ runner.os }}-${{ github.ref_name || github.ref }}
+  VCPKG_BINARY_SOURCES: clear;files,${{ github.workspace }}/.vcpkg-cache-${{ runner.os }}-${{ github.ref_name || github.ref }},readwrite
+  VCPKG_DOWNLOADS: ${{ github.workspace }}/.cache/vcpkg-downloads-${{ runner.os }}-${{ github.ref_name || github.ref }}
 
 jobs:
   configure:
