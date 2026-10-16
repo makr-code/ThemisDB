@@ -15,11 +15,9 @@
 #include <spdlog/spdlog.h>
 #include <openssl/cmac.h>
 #include <openssl/rand.h>
-#include <atomic>
 #include <cctype>
 #include <ctime>
 #include <iomanip>
-#include <mutex>
 #include <sstream>
 #include <string_view>
 
@@ -55,6 +53,19 @@ std::string hexDecode(const std::string& hex) {
 
   std::string out;
   out.reserve(hex.size() / 2);
+  auto hex_nibble = [](char ch) -> uint8_t {
+    if (ch >= '0' && ch <= '9') {
+      return static_cast<uint8_t>(ch - '0');
+    }
+    if (ch >= 'a' && ch <= 'f') {
+      return static_cast<uint8_t>(10 + (ch - 'a'));
+    }
+    if (ch >= 'A' && ch <= 'F') {
+      return static_cast<uint8_t>(10 + (ch - 'A'));
+    }
+    throw std::runtime_error("Invalid hex character in encoded salt");
+  };
+
   for (size_t i = 0; i < hex.size(); i += 2) {
     const auto hi = hex[i];
     const auto lo = hex[i + 1];
@@ -62,7 +73,7 @@ std::string hexDecode(const std::string& hex) {
         !std::isxdigit(static_cast<unsigned char>(lo))) {
       throw std::runtime_error("Invalid hex character in encoded salt");
     }
-    const auto byte = static_cast<char>(std::stoi(hex.substr(i, 2), nullptr, 16));
+    const auto byte = static_cast<char>((hex_nibble(hi) << 4) | hex_nibble(lo));
     out.push_back(byte);
   }
   return out;
@@ -346,10 +357,6 @@ std::optional<KeyMetadata> KeyRotationManager::GetKeyMetadata(const std::string&
 }
 
 uint32_t KeyRotationManager::StartKeyRotation(const std::string& master_key) {
-  static std::mutex rotation_id_mutex;
-  static std::atomic<uint32_t> rotation_counter{0};
-  static std::atomic<bool> rotation_counter_seeded{false};
-
   // Generate new key
   unsigned char salt_bytes[16] = {0};
   if (RAND_bytes(salt_bytes, sizeof(salt_bytes)) != 1) {
@@ -376,17 +383,20 @@ uint32_t KeyRotationManager::StartKeyRotation(const std::string& master_key) {
 
   // Update rotation state
   {
-    std::lock_guard<std::mutex> lock(rotation_id_mutex);
-    if (!rotation_counter_seeded.load(std::memory_order_acquire)) {
+    std::lock_guard<std::mutex> lock(rotation_id_mutex_);
+    if (!rotation_counter_seeded_) {
       const auto persisted_state = GetRotationState();
-      rotation_counter.store(persisted_state.rotation_id, std::memory_order_relaxed);
-      rotation_counter_seeded.store(true, std::memory_order_release);
+      rotation_counter_ = persisted_state.rotation_id;
+      rotation_counter_seeded_ = true;
     }
   }
 
   RotationState state;
   state.phase = RotationPhase::InProgress;
-  state.rotation_id = rotation_counter.fetch_add(1, std::memory_order_relaxed) + 1;
+  {
+    std::lock_guard<std::mutex> lock(rotation_id_mutex_);
+    state.rotation_id = ++rotation_counter_;
+  }
   state.old_key_tag = GetActiveKeyTag();
   state.new_key_tag = new_key_tag;
   state.started_at = std::chrono::system_clock::now();

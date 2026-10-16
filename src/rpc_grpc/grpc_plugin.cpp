@@ -72,9 +72,8 @@ bool GRPCServer::initialize(const RPCServerConfig& config) {
     if (config.tls_enabled) {
         if (config.tls_cert_path.empty() || config.tls_key_path.empty() ||
             config.tls_ca_cert_path.empty()) {
-            std::cerr
-                << "[RPC-E8302] Server initialization rejected: incomplete TLS configuration"
-                << std::endl;
+            std::cerr << "[RPC-E8302] Server initialization rejected: incomplete TLS configuration"
+                      << std::endl;
             return false;
         }
 
