@@ -29,7 +29,7 @@
 #include <atomic>
 #include <random>
 
-#if __has_include(<benchmark/benchmark.h>)
+#if defined(THEMIS_HAS_BENCHMARK) && THEMIS_HAS_BENCHMARK && __has_include(<benchmark/benchmark.h>)
 #include <benchmark/benchmark.h>
 #define THEMIS_SERVER_PHASE2_HAS_BENCHMARK 1
 #else
