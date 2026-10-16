@@ -1,5 +1,9 @@
 # ThemisDB Documentation
 
+Author: ThemisDB Team
+Created: 2026-09-21
+Status: active
+
 Last updated: 2026-09-21
 
 This file is the main entry point for documentation navigation in the `docs/` directory.
