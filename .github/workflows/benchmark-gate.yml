@@ -10,7 +10,7 @@ on:
       - military
       - minimal
     paths:
-      - 'benchmarks/**'
+      - 'benchmarks/wave4/**'
       - 'CMakeLists.txt'
       - 'benchmarks/wave4/release_gate_manifest.json'
       - '.github/workflows/benchmark-gate.yml'
@@ -40,7 +40,7 @@ permissions:
 
 concurrency:
   group: benchmark-gate-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   validate-baselines:

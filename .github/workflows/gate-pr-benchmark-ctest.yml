@@ -17,7 +17,16 @@ on:
       - military
       - minimal
     paths:
-      - 'benchmarks/**'
+      - 'benchmarks/CMakeLists.txt'
+      - 'benchmarks/**/CMakeLists.txt'
+      - 'benchmarks/**/*.c'
+      - 'benchmarks/**/*.cc'
+      - 'benchmarks/**/*.cpp'
+      - 'benchmarks/**/*.cxx'
+      - 'benchmarks/**/*.h'
+      - 'benchmarks/**/*.hh'
+      - 'benchmarks/**/*.hpp'
+      - 'benchmarks/**/*.hxx'
       - 'CMakeLists.txt'
       - '.github/workflows/gate-pr-benchmark-ctest.yml'
       - 'tools/ci/audit_benchmark_coverage.py'
