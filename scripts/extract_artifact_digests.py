@@ -24,7 +24,6 @@ def extract_digests(artifacts_dir: pathlib.Path) -> dict[str, str]:
         try:
             with zipfile.ZipFile(zip_path) as archive:
                 for member in archive.namelist():
-                    low = member.lower()
                     name = pathlib.Path(member).name.lower()
 
                     if artifact_digest == "unknown" and name == "sha256sums.txt":
@@ -41,7 +40,7 @@ def extract_digests(artifacts_dir: pathlib.Path) -> dict[str, str]:
                             if match:
                                 artifact_digest = match.group(1).lower()
 
-                    if sbom_digest == "unknown" and "sbom" in low:
+                    if sbom_digest == "unknown" and "sbom" in name:
                         if name.endswith((".sha256", ".sha512")):
                             payload = archive.read(member)
                             text = payload.decode("utf-8", errors="ignore")

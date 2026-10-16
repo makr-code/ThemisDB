@@ -298,6 +298,8 @@ def run_generate(args: argparse.Namespace) -> int:
         approval=approval,
     )
     record = ledger.append(record_input)
+    # Fail-closed integrity check: re-verify complete chain immediately after append
+    # so corrupted or externally modified history is detected before emitting output.
     ledger.verify()
     if args.record_output:
         output_path = Path(args.record_output).resolve()

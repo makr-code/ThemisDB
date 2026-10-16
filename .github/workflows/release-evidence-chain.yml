@@ -267,8 +267,9 @@ jobs:
                 --artifacts-dir /tmp/release-evidence-chain/source-artifacts \
                 --output /tmp/release-evidence-chain/source-artifacts/digests.json
 
-              artifact_digest="$(python3 -c 'import json;print(json.load(open("/tmp/release-evidence-chain/source-artifacts/digests.json"))["artifact_digest"])')"
-              sbom_digest="$(python3 -c 'import json;print(json.load(open("/tmp/release-evidence-chain/source-artifacts/digests.json"))["sbom_digest"])')"
+              read -r artifact_digest sbom_digest < <(
+                python3 -c 'import json; d=json.load(open("/tmp/release-evidence-chain/source-artifacts/digests.json")); print(d["artifact_digest"], d["sbom_digest"])'
+              )
             fi
           fi
 
