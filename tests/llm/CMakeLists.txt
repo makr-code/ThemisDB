@@ -750,6 +750,15 @@ if(THEMIS_LLM_INFERENCE_TESTS)
             spdlog::spdlog
             Threads::Threads
         )
+        # In modular builds themis_core may not include llama_cpp registration.
+        # Link plugin sources directly so EmbeddedLLM has a backend in CI tests.
+        if(THEMIS_BUILD_MODULAR)
+            target_sources(${_tgt} PRIVATE
+                ${THEMIS_ROOT_DIR}/src/llama_cpp/llama_cpp_plugin.cpp
+                ${THEMIS_ROOT_DIR}/src/llama_cpp/llama_cpp_registrar.cpp
+                ${THEMIS_ROOT_DIR}/src/rag/rag_context_assembler.cpp
+            )
+        endif()
         if(TARGET themis_sharding)
             target_link_libraries(${_tgt} PRIVATE themis_sharding)
         endif()
