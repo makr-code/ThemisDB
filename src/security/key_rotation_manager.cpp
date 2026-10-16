@@ -123,6 +123,8 @@ KeyMetadata KeyMetadata::from_json(const nlohmann::json& j) {
       result.salt = hexDecode(encoded_salt);
     } else {
       // Backward compatibility for legacy payloads that stored raw text directly.
+      spdlog::warn("[KeyRotationManager] Loading legacy non-hex salt encoding for key_tag={}",
+                   result.key_tag);
       result.salt = encoded_salt;
     }
   }
@@ -208,6 +210,10 @@ RotationState RotationState::from_json(const nlohmann::json& j) {
 std::string KeyRotationManager::GenerateKeyTag(const std::string& key_material,
                                                 const std::string& salt) {
   // CMAC-AES256: tag = hex(CMAC_AES256(key=key_material, data=salt))
+  if (key_material.size() != 32) {
+    throw std::runtime_error("CMAC key material must be exactly 32 bytes for AES-256");
+  }
+
   unsigned char tag[16] = {0};
   size_t tag_len = 0;
 
@@ -384,6 +390,8 @@ uint32_t KeyRotationManager::StartKeyRotation(const std::string& master_key) {
   {
     std::lock_guard<std::mutex> lock(rotation_id_mutex_);
     if (!rotation_counter_seeded_) {
+      // GetRotationState() is expected to return the last persisted rotation_id so
+      // the next assignment can continue monotonically as (last_id + 1).
       const auto persisted_state = GetRotationState();
       rotation_counter_ = persisted_state.rotation_id;
       rotation_counter_seeded_ = true;
