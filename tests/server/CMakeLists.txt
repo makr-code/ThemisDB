@@ -32,9 +32,13 @@ foreach(_src IN LISTS SERVER_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
-    if(_stem STREQUAL "test_server_phase2_focused" AND _server_benchmark_target)
-        target_link_libraries(${_target} PRIVATE ${_server_benchmark_target})
-        target_compile_definitions(${_target} PRIVATE THEMIS_HAS_BENCHMARK=1)
+    if(_stem STREQUAL "test_server_phase2_focused")
+        if(_server_benchmark_target)
+            target_link_libraries(${_target} PRIVATE ${_server_benchmark_target})
+            target_compile_definitions(${_target} PRIVATE THEMIS_HAS_BENCHMARK=1)
+        else()
+            target_compile_definitions(${_target} PRIVATE THEMIS_HAS_BENCHMARK=0)
+        endif()
     endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
