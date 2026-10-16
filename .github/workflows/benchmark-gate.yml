@@ -1,4 +1,4 @@
-name: "Benchmark Gate"
+name: "Benchmark: Wave 4 Release Gate"
 
 on:
   pull_request:
