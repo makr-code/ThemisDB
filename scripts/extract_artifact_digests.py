@@ -26,9 +26,9 @@ def extract_digests(artifacts_dir: pathlib.Path) -> dict[str, str]:
                 for member in archive.namelist():
                     low = member.lower()
                     name = pathlib.Path(member).name.lower()
-                    payload = archive.read(member)
 
                     if artifact_digest == "unknown" and name == "sha256sums.txt":
+                        payload = archive.read(member)
                         text = payload.decode("utf-8", errors="ignore")
                         for line in text.splitlines():
                             if any(ext in line.lower() for ext in ARCHIVE_EXTENSIONS):
@@ -43,11 +43,13 @@ def extract_digests(artifacts_dir: pathlib.Path) -> dict[str, str]:
 
                     if sbom_digest == "unknown" and "sbom" in low:
                         if name.endswith((".sha256", ".sha512")):
+                            payload = archive.read(member)
                             text = payload.decode("utf-8", errors="ignore")
                             match = SHA_PATTERN.search(text)
                             if match:
                                 sbom_digest = match.group(1).lower()
                         elif name.endswith((".json", ".spdx", ".cdx")):
+                            payload = archive.read(member)
                             sbom_digest = hashlib.sha256(payload).hexdigest()
 
                     if artifact_digest != "unknown" and sbom_digest != "unknown":
