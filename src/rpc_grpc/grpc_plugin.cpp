@@ -10,6 +10,7 @@
 
 
 #include "grpc_plugin.h"
+#include <spdlog/spdlog.h>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -65,15 +66,15 @@ RPCProtocol GRPCServer::getProtocol() const {
  */
 bool GRPCServer::initialize(const RPCServerConfig& config) {
     if (config.host.empty()) {
-        std::cerr << "[RPC-E8302] Server initialization rejected: empty host" << std::endl;
+        spdlog::error("[RPC-E8302] Server initialization rejected: empty host");
         return false;
     }
 
     if (config.tls_enabled) {
         if (config.tls_cert_path.empty() || config.tls_key_path.empty() ||
             config.tls_ca_cert_path.empty()) {
-            std::cerr << "[RPC-E8302] Server initialization rejected: incomplete TLS configuration"
-                      << std::endl;
+            spdlog::error(
+                "[RPC-E8302] Server initialization rejected: incomplete TLS configuration");
             return false;
         }
 
@@ -84,9 +85,8 @@ bool GRPCServer::initialize(const RPCServerConfig& config) {
         if (!is_readable_file(config.tls_cert_path) ||
             !is_readable_file(config.tls_key_path) ||
             !is_readable_file(config.tls_ca_cert_path)) {
-            std::cerr
-                << "[RPC-E8302] Server initialization rejected: TLS certificate files are not readable"
-                << std::endl;
+            spdlog::error(
+                "[RPC-E8302] Server initialization rejected: TLS certificate files are not readable");
             return false;
         }
     }

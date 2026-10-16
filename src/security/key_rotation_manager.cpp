@@ -18,6 +18,7 @@
 #include <cctype>
 #include <ctime>
 #include <iomanip>
+#include <memory>
 #include <sstream>
 #include <string_view>
 
@@ -210,24 +211,21 @@ std::string KeyRotationManager::GenerateKeyTag(const std::string& key_material,
   unsigned char tag[16] = {0};
   size_t tag_len = 0;
 
-  CMAC_CTX* ctx = CMAC_CTX_new();
-  if (!ctx) throw std::runtime_error("Failed to allocate CMAC context");
+  auto cmac_ctx =
+      std::unique_ptr<CMAC_CTX, decltype(&CMAC_CTX_free)>(CMAC_CTX_new(), CMAC_CTX_free);
+  if (!cmac_ctx) throw std::runtime_error("Failed to allocate CMAC context");
 
   const auto* key_ptr = reinterpret_cast<const unsigned char*>(key_material.data());
   const auto* salt_ptr = reinterpret_cast<const unsigned char*>(salt.data());
-  if (CMAC_Init(ctx, key_ptr, key_material.size(), EVP_aes_256_cbc(), nullptr) != 1) {
-    CMAC_CTX_free(ctx);
+  if (CMAC_Init(cmac_ctx.get(), key_ptr, key_material.size(), EVP_aes_256_cbc(), nullptr) != 1) {
     throw std::runtime_error("Failed to initialize CMAC context");
   }
-  if (CMAC_Update(ctx, salt_ptr, salt.size()) != 1) {
-    CMAC_CTX_free(ctx);
+  if (CMAC_Update(cmac_ctx.get(), salt_ptr, salt.size()) != 1) {
     throw std::runtime_error("Failed to update CMAC context");
   }
-  if (CMAC_Final(ctx, tag, &tag_len) != 1) {
-    CMAC_CTX_free(ctx);
+  if (CMAC_Final(cmac_ctx.get(), tag, &tag_len) != 1) {
     throw std::runtime_error("Failed to finalize CMAC context");
   }
-  CMAC_CTX_free(ctx);
 
   std::ostringstream oss;
   for (size_t i = 0; i < tag_len; ++i) {
@@ -382,6 +380,7 @@ uint32_t KeyRotationManager::StartKeyRotation(const std::string& master_key) {
   }
 
   // Update rotation state
+  RotationState state;
   {
     std::lock_guard<std::mutex> lock(rotation_id_mutex_);
     if (!rotation_counter_seeded_) {
@@ -389,14 +388,9 @@ uint32_t KeyRotationManager::StartKeyRotation(const std::string& master_key) {
       rotation_counter_ = persisted_state.rotation_id;
       rotation_counter_seeded_ = true;
     }
-  }
-
-  RotationState state;
-  state.phase = RotationPhase::InProgress;
-  {
-    std::lock_guard<std::mutex> lock(rotation_id_mutex_);
     state.rotation_id = ++rotation_counter_;
   }
+  state.phase = RotationPhase::InProgress;
   state.old_key_tag = GetActiveKeyTag();
   state.new_key_tag = new_key_tag;
   state.started_at = std::chrono::system_clock::now();
