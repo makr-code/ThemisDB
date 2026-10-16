@@ -77,10 +77,12 @@ jobs:
           required_names = {
               gate.get('benchmark_filter')
               for gate in manifest.get('gates', [])
+              if gate.get('benchmark_filter')
           }
           required_names |= {
               gate.get('benchmark_filter')
               for gate in manifest.get('resilience_reference_gates', [])
+              if gate.get('benchmark_filter')
           }
 
           missing = sorted(required_names - baseline_names)

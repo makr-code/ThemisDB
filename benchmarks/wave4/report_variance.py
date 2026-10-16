@@ -273,15 +273,22 @@ def evaluate_gate(
             baseline_missing = True
 
     if baseline_lookup is not None and (baseline_missing or baseline_val is None or baseline_val == 0.0):
+        if baseline_missing or baseline_val is None:
+            message = (
+                f"FAIL: Missing or stale baseline for '{filt}' ({metric}); "
+                "update the canonical baseline before release sign-off."
+            )
+        else:
+            message = (
+                f"FAIL: Baseline metric '{metric}' for '{filt}' is zero/invalid; "
+                "refresh the canonical baseline before release sign-off."
+            )
         return GateResult(
             gate_id=gate_id, name=name, criticality=criticality,
             metric=metric, direction=direction, threshold_pct=threshold,
             baseline_value=baseline_val, current_value=current_val,
             pct_change=None, passed=False,
-            message=(
-                f"FAIL: Missing or stale baseline for '{filt}' ({metric}); "
-                "update the canonical baseline before release sign-off."
-            ),
+            message=message,
             repro_cmd=repro_cmd,
         )
 
