@@ -268,11 +268,11 @@ jobs:
                 --output /tmp/release-evidence-chain/source-artifacts/digests.json
 
               artifact_digest="$(
-                jq -r '.artifact_digest // "unknown"' /tmp/release-evidence-chain/source-artifacts/digests.json 2>/dev/null || echo "unknown"
-              )"
+                jq -er '.artifact_digest' /tmp/release-evidence-chain/source-artifacts/digests.json
+              )" || { echo "::error::Failed to parse artifact digest from digests.json"; exit 1; }
               sbom_digest="$(
-                jq -r '.sbom_digest // "unknown"' /tmp/release-evidence-chain/source-artifacts/digests.json 2>/dev/null || echo "unknown"
-              )"
+                jq -er '.sbom_digest' /tmp/release-evidence-chain/source-artifacts/digests.json
+              )" || { echo "::error::Failed to parse SBOM digest from digests.json"; exit 1; }
             fi
           fi
 
