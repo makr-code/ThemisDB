@@ -95,10 +95,9 @@ jobs:
               orphaned_ctest = stats.get('orphaned_ctest', 0)
               broken_targets = stats.get('broken_targets', 0)
               
-              # Extract findings
-              findings = audit.get('findings', [])
-              errors = [f for f in findings if f.get('severity') == 'error']
-              warnings = [f for f in findings if f.get('severity') == 'warning']
+              # Extract findings summary
+              errors = stats.get('errors', 0)
+              warnings = stats.get('warnings', 0)
               
               # Log audit results
               print(f"::group::Benchmark Audit Results")
@@ -108,8 +107,8 @@ jobs:
               print(f"  Unregistered Sources: {unregistered_sources}")
               print(f"  Orphaned CTest:       {orphaned_ctest}")
               print(f"  Broken Targets:       {broken_targets}")
-              print(f"  Errors:               {len(errors)}")
-              print(f"  Warnings:             {len(warnings)}")
+              print(f"  Errors:               {errors}")
+              print(f"  Warnings:             {warnings}")
               print(f"::endgroup::")
               
               # Gate logic
