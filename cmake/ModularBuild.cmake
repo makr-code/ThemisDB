@@ -1211,6 +1211,7 @@ set(THEMIS_SHARDING_SOURCES
 # the behavior diverges across platforms.
 if(NOT Protobuf_FOUND)
     list(REMOVE_ITEM THEMIS_SHARDING_SOURCES
+        ../src/sharding/shard_repair_engine.cpp
         ../src/sharding/shard_rpc_server.cpp
         ../src/server/rpc/blob_transfer_handler.cpp
         ../src/sharding/gossip_config_manager.cpp

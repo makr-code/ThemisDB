@@ -121,6 +121,7 @@ jobs:
 - [ ] **Label-Governance eingehalten**: neue Labels zuerst in `.github/labels.yml`; Status-Änderungen über kanonische Status-/Label-Action.
 - [ ] **Least-Privilege**: minimale `permissions` gesetzt, keine unnötigen Schreibrechte.
 - [ ] **Registry/Guideline-Sync**: bei Strukturänderungen `WORKFLOW_REGISTRY.md` und Guideline gemeinsam aktualisiert.
+- [ ] **Comment commands documented**: Für Workflows mit PR-Kommentar-Interaktion muss ein kanonischer Befehl und eine Help-Referenz (`/gate-help` / `/approve-with-waiver ...`) dokumentiert sein.
 - [ ] **Lokale Vorprüfung dokumentiert**: mindestens `pwsh -NoProfile -File ./scripts/test-github-actions-local.ps1 -Mode lint`.
 
 ## Quick Acceptance Criteria (Workflow-/Guideline-PRs)

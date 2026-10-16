@@ -49,6 +49,7 @@
 #include <string>
 #include <vector>
 #include <cstdint>
+#include <mutex>
 #include <chrono>
 #include <memory>
 #include <nlohmann/json.hpp>
@@ -164,8 +165,8 @@ class KeyRotationManager {
   // Delete copy; move allowed
   KeyRotationManager(const KeyRotationManager&) = delete;
   KeyRotationManager& operator=(const KeyRotationManager&) = delete;
-  KeyRotationManager(KeyRotationManager&&) = default;
-  KeyRotationManager& operator=(KeyRotationManager&&) = default;
+  KeyRotationManager(KeyRotationManager&&) = delete;
+  KeyRotationManager& operator=(KeyRotationManager&&) = delete;
 
   /**
    * @brief Get current active key tag
@@ -249,6 +250,9 @@ class KeyRotationManager {
   rocksdb::ColumnFamilyHandle* cf_key_metadata_{nullptr};
   rocksdb::ColumnFamilyHandle* cf_chunk_mappings_{nullptr};
   rocksdb::ColumnFamilyHandle* cf_rotation_history_{nullptr};
+  mutable std::mutex rotation_id_mutex_;
+  uint32_t rotation_counter_{0};
+  bool rotation_counter_seeded_{false};
 
   /**
    * @brief Generate CMAC tag for new key version

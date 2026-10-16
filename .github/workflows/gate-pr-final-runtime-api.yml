@@ -39,7 +39,8 @@ jobs:
             librocksdb-dev libgtest-dev libgmock-dev libbenchmark-dev libssl-dev zlib1g-dev libzstd-dev \
             libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
             libyaml-cpp-dev libcurl4-openssl-dev libcpp-httplib-dev libbenchmark-dev libboost-system-dev \
-            libboost-dev libboost-filesystem-dev libpugixml-dev libvulkan-dev
+            libboost-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc \
+            libpugixml-dev libvulkan-dev
 
       - name: Restore TinyLlama cache
         id: cache-model
@@ -95,6 +96,7 @@ jobs:
           cmake -S . -B "${{ env.CMAKE_BUILD_DIR }}" \
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_BUILD_BENCHMARKS=OFF \
+            -DTHEMIS_BUILD_MODULAR=OFF \
             -DTHEMIS_ENABLE_VULKAN=OFF \
             -DTHEMIS_LLM_INFERENCE_TESTS=ON \
             -DTHEMIS_TEST_MODEL_DIR="${{ env.MODEL_DIR }}" \

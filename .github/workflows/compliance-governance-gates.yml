@@ -564,14 +564,64 @@ jobs:
           path: /tmp/gate_audit_summary.json
           retention-days: 90
 
-  # 6. Doxygen waiver command handling (PR comments)
+  # 6. Canonical gate command help (PR comments)
+  gate-command-help:
+    name: "Governance: Gate Command Help"
+    runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'issue_comment' &&
+      github.event.issue.pull_request &&
+      (
+        contains(github.event.comment.body, '/gate-help') ||
+        contains(github.event.comment.body, '/help-gates') ||
+        contains(github.event.comment.body, '/help-gate') ||
+        contains(github.event.comment.body, '/themis-gate-help')
+      )
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
+        with:
+          python-version: '3.11'
+
+      - name: Render gate command reference
+        id: help
+        run: |
+          python3 .github/scripts/waiver_validator.py --help-command --output /tmp/gate_command_help.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          payload = json.loads(Path('/tmp/gate_command_help.json').read_text())
+          help_text = payload.get('help', '## PR Gate Command Reference\n\nNo command reference available.')
+          marker = '<!-- gate-command-help -->'
+          issue_body = f"{marker}\n\n{help_text}"
+          Path('/tmp/gate_command_help.md').write_text(issue_body, encoding='utf-8')
+          PY
+
+      - name: Publish gate command help comment
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: comment_issue
+          issue-number: ${{ github.event.issue.number }}
+          target-type: pr
+          issue-marker: '<!-- gate-command-help -->'
+          issue-body-file: /tmp/gate_command_help.md
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+  # 7. Doxygen waiver command handling (PR comments)
   doxygen-waiver-commands:
     name: "Governance: Doxygen Waiver Commands"
     runs-on: ubuntu-latest
     if: >
       github.event_name == 'issue_comment' &&
       github.event.issue.pull_request &&
-      contains(github.event.comment.body, '/approve-with-waiver') &&
+      (
+        contains(github.event.comment.body, '/approve-with-waiver') ||
+        contains(github.event.comment.body, '/approve-waiver')
+      ) &&
       contains(github.event.comment.body, 'T1-DOXYGEN-COVERAGE')
     steps:
       - uses: actions/checkout@v5
@@ -605,7 +655,12 @@ jobs:
 
       - name: Parse Doxygen waiver command
         id: waiver
-        if: steps.approver.outputs.allowed == 'true' && contains(github.event.comment.body, '/approve-with-waiver')
+        if: >
+          steps.approver.outputs.allowed == 'true' &&
+          (
+            contains(github.event.comment.body, '/approve-with-waiver') ||
+            contains(github.event.comment.body, '/approve-waiver')
+          )
         env:
           COMMENT_BODY: ${{ github.event.comment.body }}
         run: |
@@ -616,7 +671,12 @@ jobs:
             --output /tmp/doxygen_waiver_result.json
 
       - name: Mark waiver as requested
-        if: steps.approver.outputs.allowed == 'true' && contains(github.event.comment.body, '/approve-with-waiver')
+        if: >
+          steps.approver.outputs.allowed == 'true' &&
+          (
+            contains(github.event.comment.body, '/approve-with-waiver') ||
+            contains(github.event.comment.body, '/approve-waiver')
+          )
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}

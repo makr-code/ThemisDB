@@ -5,6 +5,12 @@ file(GLOB SERVER_MODULE_TEST_SOURCES
 )
 
 find_package(benchmark QUIET CONFIG)
+set(_server_benchmark_target "")
+if(TARGET benchmark::benchmark)
+    set(_server_benchmark_target benchmark::benchmark)
+elseif(TARGET benchmark)
+    set(_server_benchmark_target benchmark)
+endif()
 
 foreach(_src IN LISTS SERVER_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
@@ -27,20 +33,14 @@ foreach(_src IN LISTS SERVER_MODULE_TEST_SOURCES)
         Threads::Threads
     )
     if(_stem STREQUAL "test_server_phase2_focused")
-        if(TARGET benchmark::benchmark)
-            target_link_libraries(${_target} PRIVATE benchmark::benchmark)
+        if(_server_benchmark_target)
+            target_link_libraries(${_target} PRIVATE ${_server_benchmark_target})
+            target_compile_definitions(${_target} PRIVATE THEMIS_HAS_BENCHMARK=1)
         else()
-            find_library(THEMIS_BENCHMARK_LIBRARY benchmark)
-            if(THEMIS_BENCHMARK_LIBRARY)
-                target_link_libraries(${_target} PRIVATE ${THEMIS_BENCHMARK_LIBRARY})
-            endif()
+            target_compile_definitions(${_target} PRIVATE THEMIS_HAS_BENCHMARK=0)
         endif()
     endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
-
-    if(_stem STREQUAL "test_server_phase2_focused" AND TARGET benchmark::benchmark)
-        target_link_libraries(${_target} PRIVATE benchmark::benchmark)
-    endif()
 
     if(_stem STREQUAL "test_wave4a_server_hardening2")
         themis_register_module_focused_test(

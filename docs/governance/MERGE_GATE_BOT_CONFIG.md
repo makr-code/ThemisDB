@@ -1,10 +1,17 @@
+---
+Author: "Platform Release / @makr-code"
+Created: "2026-08-10"
+Last Updated: "2026-10-16"
+Status: "active"
+---
+
 # Merge Gate Bot Configuration
 
 **Document:** GitHub App & Automated Merge Gate Enforcement  
-**Status:** Phase 3 Enforcement (2026-Q4)  
+**Lifecycle:** Phase 3 Enforcement (2026-Q4)  
 **Version:** 1.0  
 **Owner:** Platform Release / @makr-code  
-**Last Updated:** 2026-08-10
+**Last Updated:** 2026-10-16
 
 ---
 
@@ -216,18 +223,23 @@ Release lead posts comment on PR:
 
 ### Bot Actions
 
-1. **Validate Approver**
+1. **Expose Command Catalog**
+   - `PR` comment ` /gate-help` or `/help-gates` prints the canonical command catalog
+   - Lists command aliases, purpose, permission expectations, and syntax for all gate-driven comments
+   - Standardizes the user-facing help text for bot-controlled CI/CD gates
+
+2. **Validate Approver**
    - Check: Is commenter a Release Lead (GitHub team: `@themisdb/release-leads`)?
    - If not: POST "Only release leads can approve waivers"
    - If yes: CONTINUE
 
-2. **Parse Command**
+3. **Parse Command**
    - Extract: `gate_id` = "GATE-DOXYGEN-P6"
    - Extract: `justification` = "Doxygen gap..."
    - Validate gate_id exists in RELEASE_PROMOTION_GATE_POLICY.md
    - If invalid: POST "Unknown gate ID; check policy documentation"
 
-3. **Log Waiver**
+4. **Log Waiver**
    - Generate runner-local `ai_working/ENFORCEMENT_WAIVERS.md` evidence and upload it as workflow artifact:
      ```markdown
      | PR | Gate | Approver | Justification | Issue Date | Expires | Status |
@@ -235,13 +247,13 @@ Release lead posts comment on PR:
      ```
    - Publish/update a canonical PR comment marker and sync the governance label instead of committing workflow-generated files to the PR branch
 
-4. **Unblock Merge**
+5. **Unblock Merge**
    - Update the canonical PR waiver comment to `Status: ACTIVE`
    - Sync label `governance/doxygen-waiver`
    - POST/update comment: "✅ Waiver approved. Merge blocked until: 2026-08-29"
    - Allow merge to proceed
 
-5. **Set Waiver Expiration**
+6. **Set Waiver Expiration**
    - Create GitHub issue (hidden from normal search):
      ```
      [waiver-expiration] PR #12345 GATE-DOXYGEN-P6 expires 2026-08-29

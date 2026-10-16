@@ -10,6 +10,7 @@
 
 
 #include "grpc_plugin.h"
+#include <spdlog/spdlog.h>
 #include <fstream>
 #include <filesystem>
 #include <iostream>
@@ -65,6 +66,50 @@ RPCProtocol GRPCServer::getProtocol() const {
  * @details Calls: std::to_string().
  */
 bool GRPCServer::initialize(const RPCServerConfig& config) {
+    if (config.host.empty()) {
+        spdlog::error("[RPC-E8302] Server initialization rejected: empty host");
+        return false;
+    }
+
+    if (config.tls_enabled) {
+        if (config.tls_cert_path.empty() || config.tls_key_path.empty() ||
+            config.tls_ca_cert_path.empty()) {
+            spdlog::error(
+                "[RPC-E8302] Server initialization rejected: incomplete TLS configuration");
+            return false;
+        }
+
+        auto is_readable_file = [](const std::string& path) {
+            std::ifstream file(path, std::ios::binary);
+            return file.good();
+        };
+        std::vector<std::string> unreadable_paths;
+        if (!is_readable_file(config.tls_cert_path)) {
+            unreadable_paths.push_back(config.tls_cert_path);
+        }
+        if (!is_readable_file(config.tls_key_path)) {
+            unreadable_paths.push_back(config.tls_key_path);
+        }
+        if (!is_readable_file(config.tls_ca_cert_path)) {
+            unreadable_paths.push_back(config.tls_ca_cert_path);
+        }
+        if (!unreadable_paths.empty()) {
+            std::ostringstream oss;
+            bool first = true;
+            for (const auto& unreadable_path : unreadable_paths) {
+                if (!first) {
+                    oss << ", ";
+                }
+                oss << unreadable_path;
+                first = false;
+            }
+            spdlog::error(
+                "[RPC-E8302] Server initialization rejected: TLS certificate files are not readable: {}",
+                oss.str());
+            return false;
+        }
+    }
+
     config_ = config;
     if (config_.host.empty()) {
         std::cerr << "[RPC-E8302] gRPC server initialization rejected: empty host" << std::endl;
@@ -853,4 +898,3 @@ void destroyPlugin(themis::plugins::IThemisPlugin* plugin) {
 }
 
 } // extern "C"
-
