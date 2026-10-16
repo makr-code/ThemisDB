@@ -94,11 +94,13 @@ bool GRPCServer::initialize(const RPCServerConfig& config) {
         }
         if (!unreadable_paths.empty()) {
             std::ostringstream oss;
-            for (size_t i = 0; i < unreadable_paths.size(); ++i) {
-                if (i > 0) {
+            bool first = true;
+            for (const auto& unreadable_path : unreadable_paths) {
+                if (!first) {
                     oss << ", ";
                 }
-                oss << unreadable_paths[i];
+                oss << unreadable_path;
+                first = false;
             }
             spdlog::error(
                 "[RPC-E8302] Server initialization rejected: TLS certificate files are not readable: {}",

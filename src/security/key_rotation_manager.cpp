@@ -36,7 +36,7 @@ std::string hexEncode(std::string_view bytes) {
 }
 
 bool isHexString(std::string_view value) {
-  if (value.empty() || (value.size() % 2) != 0) {
+  if ((value.size() % 2) != 0) {
     return false;
   }
   for (const auto ch : value) {
@@ -115,14 +115,10 @@ KeyMetadata KeyMetadata::from_json(const nlohmann::json& j) {
   if (j.contains("key_tag")) result.key_tag = j["key_tag"];
   if (j.contains("salt")) {
     auto encoded_salt = j["salt"].get<std::string>();
-    if (isHexString(encoded_salt)) {
-      result.salt = hexDecode(encoded_salt);
-    } else {
-      // Backward compatibility for legacy payloads that stored raw text directly.
-      spdlog::warn("[KeyRotationManager] Loading legacy non-hex salt encoding for key_tag={}",
-                   result.key_tag);
-      result.salt = encoded_salt;
+    if (!isHexString(encoded_salt)) {
+      throw std::runtime_error("Invalid non-hex salt encoding in key metadata");
     }
+    result.salt = hexDecode(encoded_salt);
   }
   if (j.contains("created_at")) {
     auto t = static_cast<time_t>(j["created_at"].get<int64_t>());
@@ -383,20 +379,22 @@ uint32_t KeyRotationManager::StartKeyRotation(const std::string& master_key) {
 
   // Update rotation state
   RotationState state;
-  {
+  if (!rotation_counter_seeded_) {
+    uint32_t persisted_rotation_id = 0;
+    try {
+      persisted_rotation_id = GetRotationState().rotation_id;
+    } catch (const std::exception& ex) {
+      spdlog::error("[KeyRotationManager] Failed to seed rotation counter: {}", ex.what());
+      throw std::runtime_error(std::string("Failed to seed rotation counter: ") + ex.what());
+    }
     std::lock_guard<std::mutex> lock(rotation_id_mutex_);
     if (!rotation_counter_seeded_) {
-      try {
-        // GetRotationState() is expected to return the last persisted rotation_id so
-        // the next assignment can continue monotonically as (last_id + 1).
-        const auto persisted_rotation_id = GetRotationState().rotation_id;
-        rotation_counter_ = persisted_rotation_id;
-        rotation_counter_seeded_ = true;
-      } catch (const std::exception& ex) {
-        spdlog::error("[KeyRotationManager] Failed to seed rotation counter: {}", ex.what());
-        throw std::runtime_error(std::string("Failed to seed rotation counter: ") + ex.what());
-      }
+      rotation_counter_ = persisted_rotation_id;
+      rotation_counter_seeded_ = true;
     }
+  }
+  {
+    std::lock_guard<std::mutex> lock(rotation_id_mutex_);
     state.rotation_id = ++rotation_counter_;
   }
   state.phase = RotationPhase::InProgress;
