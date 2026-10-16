@@ -62,7 +62,7 @@ on:
 
 permissions:
   contents: read
-  actions: write
+  actions: read
 
 concurrency:
   group: release-evidence-chain-${{ github.event.workflow_run.id || github.ref }}
@@ -73,6 +73,9 @@ jobs:
     name: "Capture release/deploy evidence"
     runs-on: ubuntu-24.04
     timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: write
     if: |
       github.event_name == 'workflow_dispatch' ||
       (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
