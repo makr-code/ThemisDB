@@ -208,15 +208,25 @@ if(WIN32)
         COMMAND "${CMAKE_COMMAND}" "-E" "env" "PATH=${_path_before}" "${TARGET_FILE}" ${_argv}
         WORKING_DIRECTORY "${_run_working_dir}"
         RESULT_VARIABLE _test_rc
+        OUTPUT_VARIABLE _test_stdout
+        ERROR_VARIABLE _test_stderr
     )
 else()
     execute_process(
         COMMAND "${TARGET_FILE}" ${_argv}
         WORKING_DIRECTORY "${_run_working_dir}"
         RESULT_VARIABLE _test_rc
+        OUTPUT_VARIABLE _test_stdout
+        ERROR_VARIABLE _test_stderr
     )
 endif()
 
-if(NOT _test_rc EQUAL 0)
-    message(FATAL_ERROR "[ctest-policy] Test target '${TARGET_NAME}' failed with exit code ${_test_rc}")
+set(_test_output "${_test_stdout}\n${_test_stderr}")
+string(REGEX MATCH "This test program does NOT link in any test case|0 tests from 0 test suites ran" _zero_test_match "${_test_output}")
+if(NOT _test_rc EQUAL 0 OR _zero_test_match)
+    message(FATAL_ERROR
+        "[ctest-policy] Test target '${TARGET_NAME}' failed or reported zero discovered tests.\n"
+        "Exit code: ${_test_rc}\n"
+        "Output:\n${_test_output}"
+    )
 endif()

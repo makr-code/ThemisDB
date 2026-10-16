@@ -1,5 +1,14 @@
 # Server module tests
 
+find_package(benchmark QUIET CONFIG)
+
+set(_server_benchmark_target "")
+if(TARGET benchmark::benchmark)
+    set(_server_benchmark_target benchmark::benchmark)
+elseif(TARGET benchmark)
+    set(_server_benchmark_target benchmark)
+endif()
+
 file(GLOB SERVER_MODULE_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
@@ -8,6 +17,13 @@ foreach(_src IN LISTS SERVER_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_server_${_stem}_focused")
     set(_ctest "${_stem}_server_FocusedTests")
+    file(READ "${_src}" _src_contents)
+    string(FIND "${_src_contents}" "BENCHMARK(" _has_benchmark_macro)
+
+    if(_has_benchmark_macro GREATER -1 AND NOT _server_benchmark_target)
+        message(STATUS "Skipping ${_target}: no valid benchmark target is available")
+        continue()
+    endif()
 
     if(TARGET ${_target})
         continue()
@@ -20,6 +36,7 @@ foreach(_src IN LISTS SERVER_MODULE_TEST_SOURCES)
     )
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}
+        ${_server_benchmark_target}
         themis_core
         spdlog::spdlog
         Threads::Threads

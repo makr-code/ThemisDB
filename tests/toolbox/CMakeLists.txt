@@ -13,7 +13,20 @@ foreach(_src IN LISTS TOOLBOX_MODULE_TEST_SOURCES)
         continue()
     endif()
 
-    add_executable(${_target} "${_src}")
+    set(_toolbox_impl_sources
+        ${THEMIS_ROOT_DIR}/src/toolbox/text_chunker.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/text_normalizer.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/content_fingerprinter.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/text_quality_scorer.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/language_detector.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/toolbox_composite.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/toolbox_streaming.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/ingestion_toolbox.cpp
+        ${THEMIS_ROOT_DIR}/src/toolbox/toolbox_registry.cpp
+        ${THEMIS_ROOT_DIR}/src/ingestion/ingestion_sinks.cpp
+    )
+
+    add_executable(${_target} "${_src}" ${_toolbox_impl_sources})
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src

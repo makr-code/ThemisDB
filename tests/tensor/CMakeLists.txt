@@ -96,6 +96,11 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
         # Extended timeout for comprehensive edge case coverage
         set(_focused_timeout 180)
     endif()
+    if("${_stem}" STREQUAL "test_tensor_dream_orchestrator_lifecycle")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/tensor/dream_orchestrator.cpp
+        )
+    endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
@@ -130,6 +135,7 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/tensor/tensor_compression_routing_accelerator.cpp
             ${THEMIS_ROOT_DIR}/src/tensor/tensor_butterfly_operator.cpp
             ${THEMIS_ROOT_DIR}/src/tensor/tensor_core_bridge.cpp
+            ${THEMIS_ROOT_DIR}/src/tensor/dream_orchestrator.cpp
             ${THEMIS_ROOT_DIR}/src/tensor/tensor_error_handling.cpp
             ${THEMIS_ROOT_DIR}/src/tensor/tensor_fingerprint_graph.cpp
             ${THEMIS_ROOT_DIR}/src/tensor/tensor_index.cpp
@@ -162,75 +168,3 @@ foreach(_src IN LISTS TENSOR_MODULE_TEST_SOURCES)
     )
 endforeach()
 
-# ---------------------------------------------------------------------------
-# ---------------------------------------------------------------------------
-# Dream-specific focused tests for run lifecycle enforcement.
-# ---------------------------------------------------------------------------
-
-# Register the concrete test target if it exists; this file is auto-globbed by
-# the module convention. Keep the test name aligned with the repository's
-# module-focused naming pattern.
-
-# NOTE: dedicated test files are auto-discovered by the glob in this directory.
-# The explicit CTest registration below is intentionally minimal and kept for
-# future placement of any additional placeholder entries.
-
-# Planned RoPE focused test registration points (TODO guardrails)
-# ---------------------------------------------------------------------------
-# These placeholders intentionally register future CTest names so they appear
-# in planning/reporting immediately, even before implementation .cpp tests
-# exist. They are non-blocking and clearly tagged with TODO labels.
-
-set(_tensor_rope_planned_ctests
-    test_tensor_rope_profile_determinism_tensor_FocusedTests
-    test_tensor_rope_profile_mismatch_failclosed_tensor_FocusedTests
-    test_tensor_rope_hybrid_parity_tensor_FocusedTests
-    test_tensor_rope_llama_cpp_rag_profile_tensor_FocusedTests
-    test_tensor_rope_adalora_bridge_profile_tensor_FocusedTests
-)
-
-set(_tensor_brain_planned_ctests
-    test_tensor_brain_replay_determinism_tensor_FocusedTests
-    test_tensor_brain_homeostasis_bounded_growth_tensor_FocusedTests
-    test_tensor_brain_arbiter_determinism_tensor_FocusedTests
-    test_tensor_brain_core_safety_envelope_tensor_FocusedTests
-    test_tensor_brain_dream_isolation_tensor_FocusedTests
-    test_tensor_brain_dream_label_integrity_tensor_FocusedTests
-    test_tensor_brain_dream_utility_tensor_FocusedTests
-    test_tensor_brain_dream_nonregression_tensor_FocusedTests
-    test_tensor_brain_dream_ethics_boundary_tensor_FocusedTests
-)
-
-get_property(_tensor_registered_tests DIRECTORY PROPERTY TESTS)
-
-foreach(_rope_ctest IN LISTS _tensor_rope_planned_ctests)
-    if(_rope_ctest IN_LIST _tensor_registered_tests)
-        continue()
-    endif()
-
-    add_test(
-        NAME ${_rope_ctest}
-        COMMAND ${CMAKE_COMMAND} -E echo
-        "TODO-GUARDRAIL: ${_rope_ctest} is a planned RoPE gate placeholder in tests/tensor/CMakeLists.txt. Implement corresponding test_*.cpp and replace this placeholder."
-    )
-    set_tests_properties(${_rope_ctest} PROPERTIES
-        LABELS "tensor;rope;planned;todo;focused"
-        TIMEOUT 5
-    )
-endforeach()
-
-foreach(_brain_ctest IN LISTS _tensor_brain_planned_ctests)
-    if(_brain_ctest IN_LIST _tensor_registered_tests)
-        continue()
-    endif()
-
-    add_test(
-        NAME ${_brain_ctest}
-        COMMAND ${CMAKE_COMMAND} -E echo
-        "TODO-GUARDRAIL: ${_brain_ctest} is a planned neurocognitive bridge gate placeholder in tests/tensor/CMakeLists.txt. Implement corresponding test_*.cpp and replace this placeholder."
-    )
-    set_tests_properties(${_brain_ctest} PROPERTIES
-        LABELS "tensor;brain;dream;planned;todo;focused"
-        TIMEOUT 5
-    )
-endforeach()

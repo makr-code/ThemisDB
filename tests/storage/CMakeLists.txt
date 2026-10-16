@@ -10,7 +10,24 @@ foreach(_src IN LISTS STORAGE_MODULE_TEST_SOURCES)
     set(_ctest "${_stem}_StorageFocusedTests")
     set(_labels)
 
-    add_executable(${_target} "${_src}")
+    set(_extra_sources)
+
+    if(_stem STREQUAL "test_tensor_storage_observer")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/graph/tensor_fingerprint_graph.cpp
+        )
+    elseif(_stem STREQUAL "test_storage_phase3_error_handling_focused")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/storage/storage_error_diagnostics.cpp
+            ${THEMIS_ROOT_DIR}/src/storage/storage_recovery_fault_handler.cpp
+            ${THEMIS_ROOT_DIR}/src/storage/storage_pressure_manager.cpp
+        )
+    endif()
+
+    add_executable(${_target}
+        "${_src}"
+        ${_extra_sources}
+    )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
@@ -23,11 +40,7 @@ foreach(_src IN LISTS STORAGE_MODULE_TEST_SOURCES)
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
-    if(_stem STREQUAL "test_tensor_storage_observer")
-        target_sources(${_target} PRIVATE
-            ${THEMIS_ROOT_DIR}/src/graph/tensor_fingerprint_graph.cpp
-        )
-    elseif(_stem STREQUAL "test_storage_contract_hardening_focused")
+    if(_stem STREQUAL "test_storage_contract_hardening_focused")
         list(APPEND _labels storage contract hardening wave_a release_critical wave_a_flow_server_query_storage_transaction)
     elseif(_stem STREQUAL "test_storage_phase3_error_handling_focused")
         list(APPEND _labels storage error_handling phase3 wave_a release_critical wave_a_flow_server_query_storage_transaction)
@@ -55,12 +68,25 @@ foreach(_src IN LISTS STORAGE_AUTOGEN_PREFIX_TEST_SOURCES)
     set(_target "module_storage_${_stem}_autofocused")
     set(_ctest "${_stem}_storage_AutoFocusedTests")
     set(_labels storage autogen)
+    set(_extra_sources)
 
     if(TARGET ${_target})
         continue()
     endif()
 
-    add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_storage_phase3_error_handling_focused")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/storage/storage_error_diagnostics.cpp
+            ${THEMIS_ROOT_DIR}/src/storage/storage_recovery_fault_handler.cpp
+            ${THEMIS_ROOT_DIR}/src/storage/storage_pressure_manager.cpp
+        )
+        list(APPEND _labels error_handling phase3 wave_a release_critical wave_a_flow_server_query_storage_transaction)
+    endif()
+
+    add_executable(${_target}
+        "${_src}"
+        ${_extra_sources}
+    )
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
@@ -72,10 +98,6 @@ foreach(_src IN LISTS STORAGE_AUTOGEN_PREFIX_TEST_SOURCES)
         Threads::Threads
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
-
-    if(_stem STREQUAL "test_storage_phase3_error_handling_focused")
-        list(APPEND _labels error_handling phase3 wave_a release_critical wave_a_flow_server_query_storage_transaction)
-    endif()
 
     themis_register_module_focused_test(
         MODULE storage
