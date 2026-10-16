@@ -1,0 +1,343 @@
+name: "Governance: Release Evidence Chain"
+
+on:
+  workflow_run:
+    workflows:
+      - "Release: Packaging"
+      - "Release: GitHub Release Approval Gate"
+      - "Release: Docker Approval Gate"
+      - "Release: WinGet Approval Gate"
+      - "Release: Linux Distro Approval Gate"
+      - "Release: Windows Distro Approval Gate"
+      - "Release: Docker Image Consumer"
+      - "Release: Linux Distribution Consumer"
+      - "Release: Windows Distribution Consumer"
+      - "Release: WinGet Consumer"
+    types:
+      - completed
+  workflow_dispatch:
+    inputs:
+      event_type:
+        description: "Evidence event type"
+        required: true
+        default: "manual_evidence"
+      commit_sha:
+        description: "Commit SHA"
+        required: true
+      tag:
+        description: "Release tag"
+        required: false
+        default: "unknown"
+      version:
+        description: "Release version"
+        required: false
+        default: "unknown"
+      artifact_digest_sha256:
+        description: "Artifact digest"
+        required: false
+        default: "unknown"
+      sbom_digest_sha256:
+        description: "SBOM digest"
+        required: false
+        default: "unknown"
+      approver_identity:
+        description: "Approver identity"
+        required: true
+      approver_role:
+        description: "Approver role"
+        required: true
+      approval_scope:
+        description: "Approval scope"
+        required: true
+      environment:
+        description: "Deployment environment"
+        required: false
+        default: "manual"
+      source_workflow:
+        description: "Source workflow name"
+        required: true
+      source_run_id:
+        description: "Source workflow run id"
+        required: true
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: release-evidence-chain-${{ github.event.workflow_run.id || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  capture-evidence:
+    name: "Capture release/deploy evidence"
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: write
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 1
+
+      - name: Setup Python
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
+        with:
+          python-version: "3.11"
+
+      - name: Restore previous ledger snapshot
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/release-evidence-chain/current
+          touch /tmp/release-evidence-chain/current/ledger.jsonl
+
+          PREV_RUN_ID="$(
+            gh api \
+              "repos/${GITHUB_REPOSITORY}/actions/workflows/release-evidence-chain.yml/runs?per_page=25" \
+              --jq '.workflow_runs[] | select(.id != '"${GITHUB_RUN_ID}"' and .conclusion == "success") | .id' \
+              | head -n1 || true
+          )"
+
+          if [ -n "${PREV_RUN_ID}" ]; then
+            mkdir -p /tmp/release-evidence-chain/previous
+            gh run download "${PREV_RUN_ID}" \
+              -R "${GITHUB_REPOSITORY}" \
+              -n release-evidence-chain-ledger \
+              -D /tmp/release-evidence-chain/previous || true
+            if [ -f /tmp/release-evidence-chain/previous/ledger.jsonl ]; then
+              cp /tmp/release-evidence-chain/previous/ledger.jsonl /tmp/release-evidence-chain/current/ledger.jsonl
+            fi
+          fi
+
+      - name: Resolve evidence attributes
+        id: attrs
+        shell: bash
+        run: |
+          set -euo pipefail
+          infer_mapping() {
+            local source="$1"
+            case "$source" in
+              "Release: GitHub Release Approval Gate")
+                echo "release_published|release_owner|release|community-release"
+                ;;
+              "Release: Packaging")
+                echo "release_built|release_owner|release|release-pipeline"
+                ;;
+              "Release: Docker Approval Gate")
+                echo "deploy_approved|deploy_owner|deploy|docker-production"
+                ;;
+              "Release: WinGet Approval Gate")
+                echo "deploy_approved|deploy_owner|deploy|winget-production"
+                ;;
+              "Release: Linux Distro Approval Gate")
+                echo "deploy_approved|deploy_owner|deploy|linux-distro-production"
+                ;;
+              "Release: Windows Distro Approval Gate")
+                echo "deploy_approved|deploy_owner|deploy|windows-distro-production"
+                ;;
+              "Release: Docker Image Consumer")
+                echo "deploy_executed|deploy_owner|deploy|docker-production"
+                ;;
+              "Release: Linux Distribution Consumer")
+                echo "deploy_executed|deploy_owner|deploy|linux-distro-production"
+                ;;
+              "Release: Windows Distribution Consumer")
+                echo "deploy_executed|deploy_owner|deploy|windows-distro-production"
+                ;;
+              "Release: WinGet Consumer")
+                echo "deploy_executed|deploy_owner|deploy|winget-production"
+                ;;
+              *)
+                echo "ci_transition|release_owner|release|unknown"
+                ;;
+            esac
+          }
+
+          extract_tag_from_text() {
+            local text="$1"
+            echo "${text}" | grep -oE '(enterprise-|hyperscaler-|military-|minimal-)?v[0-9]+\.[0-9]+\.[0-9]+([-.][A-Za-z0-9.]+)?' | head -n1 || true
+          }
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            event_type="${{ inputs.event_type }}"
+            commit_sha="${{ inputs.commit_sha }}"
+            tag="${{ inputs.tag }}"
+            version="${{ inputs.version }}"
+            artifact_digest="${{ inputs.artifact_digest_sha256 }}"
+            sbom_digest="${{ inputs.sbom_digest_sha256 }}"
+            approver_identity="${{ inputs.approver_identity }}"
+            approver_role="${{ inputs.approver_role }}"
+            approval_scope="${{ inputs.approval_scope }}"
+            environment="${{ inputs.environment }}"
+            source_workflow="${{ inputs.source_workflow }}"
+            source_run_id="${{ inputs.source_run_id }}"
+            workflow_name="${{ github.workflow }}"
+            workflow_run_id="${{ github.run_id }}"
+            workflow_run_attempt="${{ github.run_attempt }}"
+            workflow_url="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            job_name="capture-evidence"
+          else
+            source_workflow="$(jq -r '.workflow_run.name' "${GITHUB_EVENT_PATH}")"
+            source_run_id="$(jq -r '.workflow_run.id' "${GITHUB_EVENT_PATH}")"
+            commit_sha="$(jq -r '.workflow_run.head_sha' "${GITHUB_EVENT_PATH}")"
+            approver_identity="$(jq -r '.workflow_run.actor.login // "unknown"' "${GITHUB_EVENT_PATH}")"
+            workflow_name="${{ github.workflow }}"
+            workflow_run_id="${{ github.run_id }}"
+            workflow_run_attempt="${{ github.run_attempt }}"
+            workflow_url="https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            job_name="capture-evidence"
+
+            mapping="$(infer_mapping "${source_workflow}")"
+            event_type="${mapping%%|*}"
+            mapping="${mapping#*|}"
+            approver_role="${mapping%%|*}"
+            mapping="${mapping#*|}"
+            approval_scope="${mapping%%|*}"
+            environment="${mapping#*|}"
+
+            display_title="$(jq -r '.workflow_run.display_title // ""' "${GITHUB_EVENT_PATH}")"
+            head_branch="$(jq -r '.workflow_run.head_branch // ""' "${GITHUB_EVENT_PATH}")"
+            tag="$(extract_tag_from_text "${display_title}")"
+            if [ -z "${tag}" ]; then
+              tag="$(extract_tag_from_text "${head_branch}")"
+            fi
+            if [ -z "${tag}" ]; then
+              tag="unknown"
+            fi
+            version="$(echo "${tag}" | sed -E 's/.*v([0-9]+\.[0-9]+\.[0-9]+([-.][A-Za-z0-9.]+)?).*/\1/' || true)"
+            if [ -z "${version}" ] || [ "${version}" = "${tag}" ]; then
+              version="unknown"
+            fi
+            artifact_digest="unknown"
+            sbom_digest="unknown"
+          fi
+
+          {
+            echo "event_type=${event_type}"
+            echo "commit_sha=${commit_sha}"
+            echo "tag=${tag}"
+            echo "version=${version}"
+            echo "artifact_digest=${artifact_digest}"
+            echo "sbom_digest=${sbom_digest}"
+            echo "approver_identity=${approver_identity}"
+            echo "approver_role=${approver_role}"
+            echo "approval_scope=${approval_scope}"
+            echo "environment=${environment}"
+            echo "workflow_name=${workflow_name}"
+            echo "workflow_run_id=${workflow_run_id}"
+            echo "workflow_run_attempt=${workflow_run_attempt}"
+            echo "workflow_url=${workflow_url}"
+            echo "job_name=${job_name}"
+            echo "source_workflow=${source_workflow}"
+            echo "source_run_id=${source_run_id}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Resolve artifact and SBOM digests
+        id: digests
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          artifact_digest="${{ steps.attrs.outputs.artifact_digest }}"
+          sbom_digest="${{ steps.attrs.outputs.sbom_digest }}"
+
+          if [ "${{ github.event_name }}" = "workflow_run" ]; then
+            source_run_id="${{ steps.attrs.outputs.source_run_id }}"
+            mkdir -p /tmp/release-evidence-chain/source-artifacts
+
+            gh api \
+              "repos/${GITHUB_REPOSITORY}/actions/runs/${source_run_id}/artifacts?per_page=100" \
+              --jq '.artifacts[] | select(.expired==false) | [.id,.name] | @tsv' \
+              > /tmp/release-evidence-chain/source-artifacts/artifacts.tsv || true
+
+            if [ -s /tmp/release-evidence-chain/source-artifacts/artifacts.tsv ]; then
+              while IFS=$'\t' read -r artifact_id _; do
+                [ -z "${artifact_id}" ] && continue
+                gh api \
+                  "repos/${GITHUB_REPOSITORY}/actions/artifacts/${artifact_id}/zip" \
+                  > "/tmp/release-evidence-chain/source-artifacts/${artifact_id}.zip" || true
+              done < /tmp/release-evidence-chain/source-artifacts/artifacts.tsv
+
+              python3 scripts/extract_artifact_digests.py \
+                --artifacts-dir /tmp/release-evidence-chain/source-artifacts \
+                --output /tmp/release-evidence-chain/source-artifacts/digests.json
+
+              artifact_digest="$(
+                jq -er '.artifact_digest' /tmp/release-evidence-chain/source-artifacts/digests.json
+              )" || { echo "::error::Failed to parse artifact digest from digests.json"; exit 1; }
+              sbom_digest="$(
+                jq -er '.sbom_digest' /tmp/release-evidence-chain/source-artifacts/digests.json
+              )" || { echo "::error::Failed to parse SBOM digest from digests.json"; exit 1; }
+            fi
+          fi
+
+          echo "artifact_digest=${artifact_digest}" >> "$GITHUB_OUTPUT"
+          echo "sbom_digest=${sbom_digest}" >> "$GITHUB_OUTPUT"
+
+      - name: Append evidence record to ledger
+        run: |
+          set -euo pipefail
+          python3 scripts/release_evidence_chain.py generate \
+            --ledger /tmp/release-evidence-chain/current/ledger.jsonl \
+            --event-type "${{ steps.attrs.outputs.event_type }}" \
+            --commit-sha "${{ steps.attrs.outputs.commit_sha }}" \
+            --tag "${{ steps.attrs.outputs.tag }}" \
+            --version "${{ steps.attrs.outputs.version }}" \
+            --artifact-digest-sha256 "${{ steps.digests.outputs.artifact_digest }}" \
+            --sbom-digest-sha256 "${{ steps.digests.outputs.sbom_digest }}" \
+            --approver-identity "${{ steps.attrs.outputs.approver_identity }}" \
+            --approver-role "${{ steps.attrs.outputs.approver_role }}" \
+            --approval-scope "${{ steps.attrs.outputs.approval_scope }}" \
+            --environment "${{ steps.attrs.outputs.environment }}" \
+            --workflow-name "${{ steps.attrs.outputs.workflow_name }}" \
+            --workflow-run-id "${{ steps.attrs.outputs.workflow_run_id }}" \
+            --workflow-run-attempt "${{ steps.attrs.outputs.workflow_run_attempt }}" \
+            --workflow-url "${{ steps.attrs.outputs.workflow_url }}" \
+            --job-name "${{ steps.attrs.outputs.job_name }}" \
+            --source-workflow "${{ steps.attrs.outputs.source_workflow }}" \
+            --source-run-id "${{ steps.attrs.outputs.source_run_id }}" \
+            --repository "${{ github.repository }}" \
+            --record-output /tmp/release-evidence-chain/current/latest-record.json
+
+      - name: Verify full ledger chain
+        run: |
+          set -euo pipefail
+          python3 scripts/release_evidence_chain.py verify \
+            --ledger /tmp/release-evidence-chain/current/ledger.jsonl
+
+      - name: Publish evidence summary
+        run: |
+          set -euo pipefail
+          {
+            echo "## Release Evidence Chain"
+            echo ""
+            echo "- Source workflow: \`${{ steps.attrs.outputs.source_workflow }}\`"
+            echo "- Source run id: \`${{ steps.attrs.outputs.source_run_id }}\`"
+            echo "- Event type: \`${{ steps.attrs.outputs.event_type }}\`"
+            echo "- Role/scope: \`${{ steps.attrs.outputs.approver_role }} / ${{ steps.attrs.outputs.approval_scope }}\`"
+            echo "- Environment: \`${{ steps.attrs.outputs.environment }}\`"
+            echo "- Commit: \`${{ steps.attrs.outputs.commit_sha }}\`"
+            echo "- Tag/version: \`${{ steps.attrs.outputs.tag }} / ${{ steps.attrs.outputs.version }}\`"
+            echo "- Artifact digest: \`${{ steps.digests.outputs.artifact_digest }}\`"
+            echo "- SBOM digest: \`${{ steps.digests.outputs.sbom_digest }}\`"
+            echo "- Approver identity: \`${{ steps.attrs.outputs.approver_identity }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload ledger artifacts
+        if: always()
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        with:
+          name: release-evidence-chain-ledger
+          path: |
+            /tmp/release-evidence-chain/current/ledger.jsonl
+            /tmp/release-evidence-chain/current/latest-record.json
+          retention-days: 365
+          if-no-files-found: error

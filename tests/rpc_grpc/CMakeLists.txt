@@ -7,6 +7,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_grpc_contract_hardening_focused.
     if(NOT TARGET ${_target})
         add_executable(${_target}
             test_rpc_grpc_contract_hardening_focused.cpp
+            ${THEMIS_ROOT_DIR}/src/rpc_grpc/grpc_plugin.cpp
         )
         target_include_directories(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/include
@@ -19,7 +20,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_grpc_contract_hardening_focused.
             Threads::Threads
             $<$<BOOL:${THEMIS_ENABLE_GRPC}>:gRPC::grpc++>
         )
-        target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
+        target_compile_definitions(${_target} PRIVATE
+            THEMIS_TEST_BUILD=1
+            $<$<BOOL:${THEMIS_ENABLE_GRPC}>:THEMIS_ENABLE_GRPC=1>
+        )
         themis_register_module_focused_test(
             MODULE rpc_grpc
             NAME   test_rpc_grpc_contract_hardening_focused_rpc_grpc_FocusedTests
@@ -36,6 +40,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_grpc_integration_focused.cpp")
     if(NOT TARGET ${_target})
         add_executable(${_target}
             test_rpc_grpc_integration_focused.cpp
+            ${THEMIS_ROOT_DIR}/src/rpc_grpc/grpc_plugin.cpp
         )
         target_include_directories(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/include
@@ -48,7 +53,10 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_grpc_integration_focused.cpp")
             Threads::Threads
             $<$<BOOL:${THEMIS_ENABLE_GRPC}>:gRPC::grpc++>
         )
-        target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
+        target_compile_definitions(${_target} PRIVATE
+            THEMIS_TEST_BUILD=1
+            $<$<BOOL:${THEMIS_ENABLE_GRPC}>:THEMIS_ENABLE_GRPC=1>
+        )
         themis_register_module_focused_test(
             MODULE rpc_grpc
             NAME   test_rpc_grpc_integration_focused_rpc_grpc_FocusedTests
@@ -66,6 +74,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_grpc_highcardinality_stress.cpp"
     if(NOT TARGET ${_target})
         add_executable(${_target}
             test_rpc_grpc_highcardinality_stress.cpp
+            ${THEMIS_ROOT_DIR}/src/rpc_grpc/grpc_plugin.cpp
         )
         target_include_directories(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/include
@@ -76,8 +85,12 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_rpc_grpc_highcardinality_stress.cpp"
             themis_core
             spdlog::spdlog
             Threads::Threads
+            $<$<BOOL:${THEMIS_ENABLE_GRPC}>:gRPC::grpc++>
         )
-        target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
+        target_compile_definitions(${_target} PRIVATE
+            THEMIS_TEST_BUILD=1
+            $<$<BOOL:${THEMIS_ENABLE_GRPC}>:THEMIS_ENABLE_GRPC=1>
+        )
         themis_register_module_focused_test(
             MODULE rpc_grpc
             NAME   test_rpc_grpc_highcardinality_stress_rpc_grpc_FocusedTests

@@ -914,6 +914,8 @@ set(THEMIS_SECURITY_SOURCES
     ../src/security/usb_volume_hardening.cpp
     ../src/security/pki_key_provider.cpp
     ../src/security/cms_signing.cpp
+    ../src/security/retrieval_policy.cpp
+    ../src/security/policy_enforcer.cpp
     ../src/security/rbac.cpp
     ../src/security/access_control_manager.cpp
     ../src/security/row_level_security.cpp

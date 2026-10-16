@@ -62,6 +62,7 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | `gate-pr-rag-phase9.yml` | Gate: PR RAG Phase 9 (Research Evaluation) | specialized |
 | `gate-pr-rag-phase10.yml` | Gate: PR RAG Phase 10 (Cost Optimizer) | specialized |
 | `gate-pr-benchmark-ctest.yml` | Gate: PR Benchmark CTest Coverage (Benchmark CTest registration coverage gate) | quality |
+| `benchmark-gate.yml` | Benchmark: Wave 4 Release Gate (Wave 4 release-critical benchmark evidence and threshold validation) | quality |
 | `gate-pr-final-runtime-api.yml` | Gate: PR Final Runtime API (TinyLlama model load + docs.db RAG + runtime API smoke) | runtime |
 | `gate-wave-closure.yml` | Gate: Wave Closure Governance (Wave exit criteria validation) | governance |
 | `gate-distributed-knowledge.yml` | Gate: Module Validation [distributed_knowledge] (Module-specific gate) | module-specific |
@@ -85,6 +86,7 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | `release-mainline-approval.yml` | Release: GitHub Release Approval Gate (GitHub release approval) | approval |
 | `release-nightly.yml` | Release: Nightly (Daily snapshot builds) | automation |
 | `release-promote.yml` | Release: Promote (Semi-Automatic edition promotion) | automation |
+| `release-evidence-chain.yml` | Release: Evidence Chain (Hash-linked release evidence ledger + verification) | governance |
 | `release-rollback.yml` | Release: Rollback (Release rollback orchestration) | recovery |
 | `release-wordpress-press.yml` | Release: WordPress Press (Blog/announcement publish) | communication |
 | `automation-community.yml` | Automation: Community (Community branch sync automation) | automation |

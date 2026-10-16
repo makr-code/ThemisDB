@@ -1,3 +1,10 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-05-01
+Last Updated: 2026-10-16
+Status: active
+---
+
 # Security Documentation
 
 **Version:** 1.8.1  
@@ -53,6 +60,7 @@ This directory contains security documentation for ThemisDB, covering hardening,
 | [../production/CHECKLISTS/operational_compliance.md](../production/CHECKLISTS/operational_compliance.md) | Monthly operational compliance verification |
 | [SECURITY_IMPLEMENTATION_SUMMARY.md](SECURITY_IMPLEMENTATION_SUMMARY.md) | Summary of implemented security controls |
 | [FIND-002_IMPLEMENTATION_SUMMARY.md](FIND-002_IMPLEMENTATION_SUMMARY.md) | Security finding FIND-002 remediation |
+| [release-evidence-chain.md](release-evidence-chain.md) | Signed hash-chain ledger for release/deploy approval evidence |
 
 ### Specialized Topics
 

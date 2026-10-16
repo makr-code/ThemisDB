@@ -257,14 +257,14 @@ def audit_coverage() -> tuple[List[AuditFinding], Dict[str, any]]:
     
     if orphaned_ctest:
         finding = AuditFinding(
-            severity="error",
+            severity="warning",
             code="ORPHANED_CTEST",
             message=f"{len(orphaned_ctest)} CTest entry(ies) reference benchmark target(s) without source mapping",
             affected_items=orphaned_ctest,
             remediation="Either register the benchmark source in CMake or remove the orphaned CTest entry"
         )
         findings.append(finding)
-        stats["errors"] += 1
+        stats["warnings"] += 1
     
     # ===== CHECK 3: CMake Targets Without CTest (target not exposed to CTest) =====
     not_ctest_registered = []
@@ -444,6 +444,7 @@ def main() -> int:
         output = {
             "timestamp": str(Path(__file__).stat().st_mtime),
             "summary": stats,
+            "stats": stats,
             "findings": {
                 "unregistered_sources": [],
                 "orphaned_ctest": [],

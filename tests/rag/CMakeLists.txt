@@ -69,6 +69,10 @@ foreach(_src IN LISTS RAG_MODULE_TEST_SOURCES)
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/rag/router_policy_store.cpp
         )
+    elseif("${_stem}" STREQUAL "test_cost_model_builder")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/cost_model_builder.cpp
+        )
     elseif("${_stem}" STREQUAL "test_wave5_rag_hardening")
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/rag/rlaif_trainer.cpp

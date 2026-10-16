@@ -19,7 +19,7 @@ foreach(_src IN LISTS SCRAPER_PREFIX_TEST_SOURCES)
         ${THEMIS_ROOT_DIR}/src
     )
     set(_extra_sources)
-    if("${_stem}" STREQUAL "test_scraper_plugin")
+    if("${_stem}" STREQUAL "test_scraper_plugin" OR "${_stem}" STREQUAL "test_scraper_v12_features_focused")
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/scraper/scraper_config.cpp
             ${THEMIS_ROOT_DIR}/src/scraper/scraper_search_engine.cpp

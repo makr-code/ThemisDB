@@ -85,7 +85,8 @@ public:
     bool addAudio(const std::string& session_id, const std::vector<uint8_t>& audio) {
         for (auto& journey : active_journeys_) {
             if (journey.session_id == session_id) {
-                if (journey.state == CommandState::AUTHENTICATED) {
+                if (journey.state == CommandState::AUTHENTICATED ||
+                    journey.state == CommandState::AUDIO_RECEIVED) {
                     journey.state = CommandState::AUDIO_RECEIVED;
                     logAudit("audio_received", session_id, "audio_" + std::to_string(audio.size()));
                     return true;

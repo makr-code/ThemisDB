@@ -156,17 +156,27 @@ public:
         const std::vector<uint8_t>& curr_audio,
         float change_threshold = 0.5f
     ) {
-        // Detect dramatic voice changes (potential spoofing)
+        // Detect dramatic voice changes (potential spoofing).
+        // A realistic change should compare content, not just vector length.
         if (prev_audio.empty() || curr_audio.empty()) {
             return false;
         }
-        
-        // Simple heuristic: check size difference
-        float size_ratio = float(curr_audio.size()) / float(prev_audio.size());
-        if (size_ratio < 0.5f || size_ratio > 2.0f) {
-            return true;  // Significant change
+
+        size_t comparison_size = std::min(prev_audio.size(), curr_audio.size());
+        if (comparison_size == 0) {
+            return false;
         }
-        return false;
+
+        size_t differing_samples = 0;
+        for (size_t i = 0; i < comparison_size; ++i) {
+            if (prev_audio[i] != curr_audio[i]) {
+                ++differing_samples;
+            }
+        }
+
+        float drift_ratio = static_cast<float>(differing_samples) /
+                           static_cast<float>(comparison_size);
+        return drift_ratio >= change_threshold;
     }
 };
 
@@ -186,7 +196,11 @@ protected:
     }
     
     std::vector<uint8_t> createLiveAudio() {
-        return std::vector<uint8_t>(16000, 0x7F);  // Varied pattern
+        std::vector<uint8_t> audio(16000);
+        for (size_t i = 0; i < audio.size(); ++i) {
+            audio[i] = static_cast<uint8_t>((i * 13 + 17) % 256);
+        }
+        return audio;
     }
     
     std::vector<uint8_t> createRecordedAudio() {

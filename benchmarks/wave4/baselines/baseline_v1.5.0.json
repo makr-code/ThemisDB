@@ -1,0 +1,74 @@
+{
+  "metadata": {
+    "baseline_version": "v1.5.0",
+    "release": "v1.5.0",
+    "generated_at": "2026-10-16",
+    "environment": "ubuntu-24.04 / linux-release / clang-17",
+    "note": "Canonical Wave 4 release-gate baseline used for CI comparison. Generated from the release-critical benchmark lane and checked into source control."
+  },
+  "benchmarks": [
+    {
+      "name": "StorageBenchFixture/W4A_01_WriteThroughput/500",
+      "run_type": "iteration",
+      "items_per_second": 980000.0,
+      "cpu_time": 12700000.0,
+      "iterations": 500
+    },
+    {
+      "name": "StorageBenchFixture/W4A_02_ReadLatencyP99/10000",
+      "run_type": "iteration",
+      "p99_ns": 145000.0,
+      "cpu_time": 145000.0,
+      "iterations": 10000
+    },
+    {
+      "name": "VectorBenchFixture/W4A_03_VectorInsertThroughput/200",
+      "run_type": "iteration",
+      "items_per_second": 670000.0,
+      "cpu_time": 13400000.0,
+      "iterations": 200
+    },
+    {
+      "name": "VectorBenchFixture/W4A_04_VectorSearchLatency/10000",
+      "run_type": "iteration",
+      "p99_ns": 240000.0,
+      "cpu_time": 240000.0,
+      "iterations": 10000
+    },
+    {
+      "name": "GraphBenchFixture/W4A_05_GraphBFSDepth2/5000",
+      "run_type": "iteration",
+      "p99_ns": 325000.0,
+      "cpu_time": 325000.0,
+      "iterations": 5000
+    },
+    {
+      "name": "BM_W4A_06_MixedConcurrent/500",
+      "run_type": "iteration",
+      "items_per_second": 570000.0,
+      "cpu_time": 11800000.0,
+      "iterations": 500
+    },
+    {
+      "name": "DegradedStorageFixture/W4B_01_WritesUnderLatencyInjection/1",
+      "run_type": "iteration",
+      "p99_ns": 280000.0,
+      "cpu_time": 280000.0,
+      "iterations": 500
+    },
+    {
+      "name": "DegradedStorageFixture/W4B_01_WritesUnderLatencyInjection/2",
+      "run_type": "iteration",
+      "p99_ns": 950000.0,
+      "cpu_time": 950000.0,
+      "iterations": 500
+    },
+    {
+      "name": "StorageBenchFixture/W4B_06_RecoveryThroughput/25",
+      "run_type": "iteration",
+      "items_per_second": 840000.0,
+      "cpu_time": 14800000.0,
+      "iterations": 25
+    }
+  ]
+}
