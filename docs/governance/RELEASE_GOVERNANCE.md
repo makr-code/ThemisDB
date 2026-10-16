@@ -31,6 +31,7 @@ This document is the single source of truth for:
 | Trigger Labels | `release-review` |
 | Trigger Keywords | `/publish-release`, `/approve-release`, `@publish-release` |
 | Requires Permission | `admin` or `maintain` |
+| Command Help | `/gate-help` returns the canonical comment-command catalog for all PR gate interactions |
 | Action | Ensures the GitHub Release is public and creates tracking issues for downstream registries |
 | Downstream | Creates 4 tracking issues for independent approval of each registry (WinGet, Docker, Linux Distro, Windows Distro) |
 | Auto-close Issue | No - issue stays open as central release coordination point |

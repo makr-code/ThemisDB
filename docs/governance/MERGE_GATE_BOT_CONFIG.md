@@ -216,7 +216,12 @@ Release lead posts comment on PR:
 
 ### Bot Actions
 
-1. **Validate Approver**
+1. **Expose Command Catalog**
+   - `PR` comment ` /gate-help` or `/help-gates` prints the canonical command catalog
+   - Lists command aliases, purpose, permission expectations, and syntax for all gate-driven comments
+   - Standardizes the user-facing help text for bot-controlled CI/CD gates
+
+2. **Validate Approver**
    - Check: Is commenter a Release Lead (GitHub team: `@themisdb/release-leads`)?
    - If not: POST "Only release leads can approve waivers"
    - If yes: CONTINUE
