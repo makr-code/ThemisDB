@@ -69,6 +69,28 @@ foreach(_src IN LISTS RAG_MODULE_TEST_SOURCES)
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/rag/router_policy_store.cpp
         )
+    elseif("${_stem}" STREQUAL "test_wave5_rag_hardening")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/rlaif_trainer.cpp
+            ${THEMIS_ROOT_DIR}/src/rag/distributed_rag_evaluator.cpp
+        )
+        if(NOT THEMIS_ENABLE_LLM)
+            list(APPEND _extra_sources
+                ${THEMIS_ROOT_DIR}/src/rag/wiki_index_store.cpp
+            )
+        endif()
+    elseif("${_stem}" STREQUAL "test_wave7_rag_costmodel_guardrail")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/rag/tensor_rag_cost_model.cpp
+            ${THEMIS_ROOT_DIR}/src/rag/retrieval_guardrail.cpp
+            ${THEMIS_ROOT_DIR}/src/rag/rag_quality_monitor.cpp
+        )
+    elseif("${_stem}" STREQUAL "test_wave7_bm25_positional_fts")
+        if(NOT THEMIS_ENABLE_LLM)
+            list(APPEND _extra_sources
+                ${THEMIS_ROOT_DIR}/src/rag/wiki_index_store.cpp
+            )
+        endif()
     elseif("${_stem}" STREQUAL "test_adaptive_hybrid_router")
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/rag/adaptive_hybrid_router.cpp
@@ -250,19 +272,24 @@ endforeach()
 # file is added after initial configure)
 # ─────────────────────────────────────────────────────────────────────────────
 set(_wave5_src "${CMAKE_CURRENT_SOURCE_DIR}/test_wave5_rag_hardening.cpp")
-if(EXISTS "${_wave5_src}" AND NOT TARGET module_rag_test_wave5_rag_hardening_focused)
-    add_executable(module_rag_test_wave5_rag_hardening_focused "${_wave5_src}")
+if(EXISTS "${_wave5_src}")
+    if(NOT TARGET module_rag_test_wave5_rag_hardening_focused)
+        add_executable(module_rag_test_wave5_rag_hardening_focused "${_wave5_src}")
+    endif()
     target_include_directories(module_rag_test_wave5_rag_hardening_focused PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
     )
-    # wiki_index_store.cpp is in themis_core when THEMIS_ENABLE_LLM=ON.
-    # If not (community build without LLM), supply it directly.
+    # The wave-5 hardening checks intentionally exercise trainer/evaluator logic
+    # regardless of the LLM feature gate; keep the wiki index fallback only for
+    # the no-LLM build path.
+    target_sources(module_rag_test_wave5_rag_hardening_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/src/rag/rlaif_trainer.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/distributed_rag_evaluator.cpp
+    )
     if(NOT THEMIS_ENABLE_LLM)
         target_sources(module_rag_test_wave5_rag_hardening_focused PRIVATE
             ${THEMIS_ROOT_DIR}/src/rag/wiki_index_store.cpp
-            ${THEMIS_ROOT_DIR}/src/rag/rlaif_trainer.cpp
-            ${THEMIS_ROOT_DIR}/src/rag/distributed_rag_evaluator.cpp
         )
     endif()
     target_link_libraries(module_rag_test_wave5_rag_hardening_focused PRIVATE
@@ -273,13 +300,6 @@ if(EXISTS "${_wave5_src}" AND NOT TARGET module_rag_test_wave5_rag_hardening_foc
     )
     target_compile_definitions(module_rag_test_wave5_rag_hardening_focused PRIVATE
         THEMIS_TEST_BUILD=1)
-    themis_register_module_focused_test(
-        MODULE rag
-        NAME test_wave5_rag_hardening_RagFocusedTests
-        TARGET module_rag_test_wave5_rag_hardening_focused
-        TIER unit
-        TIMEOUT 120
-    )
 endif()
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -287,8 +307,10 @@ endif()
 # Labels: wave_b, release_critical
 # ─────────────────────────────────────────────────────────────────────────────
 set(_wave7_src "${CMAKE_CURRENT_SOURCE_DIR}/test_wave7_bm25_positional_fts.cpp")
-if(EXISTS "${_wave7_src}" AND NOT TARGET module_rag_test_wave7_bm25_positional_fts_focused)
-    add_executable(module_rag_test_wave7_bm25_positional_fts_focused "${_wave7_src}")
+if(EXISTS "${_wave7_src}")
+    if(NOT TARGET module_rag_test_wave7_bm25_positional_fts_focused)
+        add_executable(module_rag_test_wave7_bm25_positional_fts_focused "${_wave7_src}")
+    endif()
     target_include_directories(module_rag_test_wave7_bm25_positional_fts_focused PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
@@ -306,14 +328,6 @@ if(EXISTS "${_wave7_src}" AND NOT TARGET module_rag_test_wave7_bm25_positional_f
     )
     target_compile_definitions(module_rag_test_wave7_bm25_positional_fts_focused PRIVATE
         THEMIS_TEST_BUILD=1)
-    themis_register_module_focused_test(
-        MODULE rag
-        NAME test_wave7_bm25_positional_fts_RagFocusedTests
-        TARGET module_rag_test_wave7_bm25_positional_fts_focused
-        TIER unit
-        TIMEOUT 120
-        LABELS wave_b release_critical
-    )
 endif()
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -321,22 +335,20 @@ endif()
 # ─────────────────────────────────────────────────────────────────────────────
 set(_wave7_costmodel_src
     "${CMAKE_CURRENT_SOURCE_DIR}/test_wave7_rag_costmodel_guardrail.cpp")
-if(EXISTS "${_wave7_costmodel_src}" AND
-   NOT TARGET module_rag_test_wave7_rag_costmodel_guardrail_focused)
-
-    add_executable(module_rag_test_wave7_rag_costmodel_guardrail_focused
-        "${_wave7_costmodel_src}")
+if(EXISTS "${_wave7_costmodel_src}")
+    if(NOT TARGET module_rag_test_wave7_rag_costmodel_guardrail_focused)
+        add_executable(module_rag_test_wave7_rag_costmodel_guardrail_focused
+            "${_wave7_costmodel_src}")
+    endif()
     target_include_directories(module_rag_test_wave7_rag_costmodel_guardrail_focused PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
     )
-    if(NOT THEMIS_ENABLE_LLM)
-        target_sources(module_rag_test_wave7_rag_costmodel_guardrail_focused PRIVATE
-            ${THEMIS_ROOT_DIR}/src/rag/tensor_rag_cost_model.cpp
-            ${THEMIS_ROOT_DIR}/src/rag/retrieval_guardrail.cpp
-            ${THEMIS_ROOT_DIR}/src/rag/rag_quality_monitor.cpp
-        )
-    endif()
+    target_sources(module_rag_test_wave7_rag_costmodel_guardrail_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/src/rag/tensor_rag_cost_model.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/retrieval_guardrail.cpp
+        ${THEMIS_ROOT_DIR}/src/rag/rag_quality_monitor.cpp
+    )
     target_link_libraries(module_rag_test_wave7_rag_costmodel_guardrail_focused PRIVATE
         ${TEST_LIBS}
         themis_core
@@ -345,12 +357,4 @@ if(EXISTS "${_wave7_costmodel_src}" AND
     )
     target_compile_definitions(module_rag_test_wave7_rag_costmodel_guardrail_focused PRIVATE
         THEMIS_TEST_BUILD=1)
-    themis_register_module_focused_test(
-        MODULE rag
-        NAME test_wave7_rag_costmodel_guardrail_RagFocusedTests
-        TARGET module_rag_test_wave7_rag_costmodel_guardrail_focused
-        TIER unit
-        TIMEOUT 120
-        LABELS wave_b release_critical
-    )
 endif()

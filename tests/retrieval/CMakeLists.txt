@@ -19,6 +19,10 @@ foreach(_src IN LISTS RETRIEVAL_MODULE_TEST_SOURCES)
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/retrieval/dual_read_validator.cpp
         )
+    elseif("${_stem}" STREQUAL "test_retrieval_llm_reranking_focused")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/retrieval/src/lora_package.cc
+        )
     endif()
     # Link against themis_core for retrieval module
     target_link_libraries(${_target} PRIVATE
@@ -30,6 +34,8 @@ foreach(_src IN LISTS RETRIEVAL_MODULE_TEST_SOURCES)
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
+        ${THEMIS_ROOT_DIR}/src/retrieval
+        ${THEMIS_ROOT_DIR}/src/retrieval/include
     )
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
