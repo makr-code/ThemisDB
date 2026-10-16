@@ -107,9 +107,25 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Prepare benchmark toolchain prerequisites
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends ninja-build
+          git submodule sync -- vcpkg || true
+          git submodule update --init --depth 1 vcpkg
+          test -f vcpkg/scripts/buildsystems/vcpkg.cmake || {
+            echo "::error::vcpkg toolchain missing after submodule initialization"
+            exit 1
+          }
+          ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
+
       - name: Configure benchmark build
         run: |
           set -euo pipefail
+          export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"
+          export PATH="${VCPKG_ROOT}:${PATH}"
+          export VCPKG_FORCE_SYSTEM_BINARIES=true
           cmake --preset linux-release
           cmake --build --preset linux-release --parallel 16 --target bench_w4a_release_gates
 
