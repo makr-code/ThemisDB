@@ -9,6 +9,9 @@ name: "Build: Benchmarks"
 
 env:
   ARTIFACT_DIR: 'benchmark-artifacts'
+  VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.vcpkg-cache-ubuntu-${{ github.ref_name || github.ref }}
+  VCPKG_BINARY_SOURCES: clear;files,${{ github.workspace }}/.vcpkg-cache-ubuntu-${{ github.ref_name || github.ref }},readwrite
+  VCPKG_DOWNLOADS: ${{ github.workspace }}/.cache/vcpkg-downloads-ubuntu-${{ github.ref_name || github.ref }}
 
 on:
   # Heavy benchmark jobs (voice, GPU, nightly sweep) run on schedule/dispatch only.
@@ -65,12 +68,6 @@ concurrency:
 
 permissions:
   contents: write  # For baseline commit-back on community push
-
-# ──────────────────────────────────────────────────────────────────────────────
-env:
-  VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.vcpkg-cache-${{ runner.os }}-${{ github.ref_name || github.ref }}
-  VCPKG_BINARY_SOURCES: clear;files,${{ github.workspace }}/.vcpkg-cache-${{ runner.os }}-${{ github.ref_name || github.ref }},readwrite
-  VCPKG_DOWNLOADS: ${{ github.workspace }}/.cache/vcpkg-downloads-${{ runner.os }}-${{ github.ref_name || github.ref }}
 
 jobs:
 
