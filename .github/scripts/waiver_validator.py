@@ -40,6 +40,7 @@ class WaiverValidator:
     """Validates and processes waiver commands."""
 
     WAIVER_LOG = REPO_ROOT / "ai_working" / "ENFORCEMENT_WAIVERS.md"
+    WAIVER_COMMAND_PATTERN = r"/approve(?:-with)?-waiver\s+(\S+)\s+[\"']([^\"']+)[\"']"
     VALID_GATE_IDS = [
         # Tier 0 gates
         "T0-GOVERNANCE-REGISTRY",
@@ -56,6 +57,70 @@ class WaiverValidator:
         "GATE-W7-01", "GATE-W7-02", "GATE-W7-03", "GATE-W7-04", "GATE-W7-05", "GATE-W7-06",
         "GATE-W8-01", "GATE-W8-02", "GATE-W8-03", "GATE-W8-04",
     ]
+    COMMAND_CATALOG = [
+        {
+            "command": "/gate-help",
+            "aliases": ["/help-gates", "/help-gate", "/themis-gate-help"],
+            "description": "List available PR gate commands and the expected syntax for each action.",
+            "requires_permission": "none",
+            "scope": "PR comment help",
+            "syntax": "/gate-help",
+        },
+        {
+            "command": "/approve-with-waiver",
+            "aliases": ["/approve-waiver"],
+            "description": "Approve a known gate exception with a short justification for a PR.",
+            "requires_permission": "admin / maintain / write",
+            "scope": "Governance waivers",
+            "syntax": '/approve-with-waiver <GATE_ID> "justification"',
+        },
+    ]
+
+    @classmethod
+    def list_commands(cls) -> List[Dict]:
+        """Return the canonical PR gate command catalog."""
+        return [dict(command) for command in cls.COMMAND_CATALOG]
+
+    @staticmethod
+    def escape_markdown_cell(value: str) -> str:
+        """Escape markdown metacharacters in table cell values."""
+        return str(value).replace("|", "\\|")
+
+    @classmethod
+    def render_command_help(cls) -> str:
+        """Render a markdown summary for PR comment automation help."""
+        lines = [
+            "## PR Gate Command Reference",
+            "",
+            "These commands are available on pull requests where a gate posts a comment and expects human control.",
+            "",
+            "| Command | Aliases | Permission | Purpose | Syntax |",
+            "|---|---|---|---|---|",
+        ]
+        for item in cls.COMMAND_CATALOG:
+            command = item["command"]
+            aliases = item.get("aliases", [])
+            alias_cell = "—"
+            if aliases:
+                alias_cell = ", ".join(f"`{alias}`" for alias in aliases)
+            permission = cls.escape_markdown_cell(item.get("requires_permission", "none"))
+            description = cls.escape_markdown_cell(item.get("description", ""))
+            syntax = cls.escape_markdown_cell(item.get("syntax", ""))
+            lines.append(
+                f"| `{command}` | {alias_cell} | {permission} | {description} | `{syntax}` |"
+            )
+        lines.extend([
+            "",
+            "### Examples",
+            "",
+            "```text",
+            "/gate-help",
+            '/approve-with-waiver T1-DOXYGEN-COVERAGE "justification for the exception"',
+            "```",
+            "",
+            "For governance waivers, the gate ID must be one of the repository-approved IDs and the justification must be explicit and traceable.",
+        ])
+        return "\n".join(lines)
 
     def __init__(self):
         self.waivers: List[Waiver] = []
@@ -105,7 +170,7 @@ class WaiverValidator:
         Command format:
           /approve-with-waiver <gate_id> "<justification>"
         """
-        pattern = r"/approve-with-waiver\s+(\S+)\s+[\"']([^\"']+)[\"']"
+        pattern = self.WAIVER_COMMAND_PATTERN
         match = re.search(pattern, comment, re.IGNORECASE)
         
         if not match:
@@ -270,6 +335,7 @@ def main():
     parser.add_argument("--approver", type=str, help="Approver GitHub username")
     parser.add_argument("--list-active-waivers", action="store_true", help="List all active waivers")
     parser.add_argument("--check-expiration", action="store_true", help="Check expiring waivers")
+    parser.add_argument("--help-command", action="store_true", help="Render the canonical PR gate help reference")
     parser.add_argument("--output", type=str, default="", help="Output file (JSON)")
     
     args = parser.parse_args()
@@ -277,7 +343,14 @@ def main():
     validator = WaiverValidator()
     result = {}
     
-    if args.parse_comment and args.pr_number and args.approver:
+    if args.help_command:
+        result = {
+            "success": True,
+            "command": "/gate-help",
+            "help": WaiverValidator.render_command_help(),
+            "commands": WaiverValidator.list_commands(),
+        }
+    elif args.parse_comment and args.pr_number and args.approver:
         # Parse and validate waiver command
         is_valid, error, waiver_data = validator.parse_waiver_command(
             args.parse_comment, args.pr_number, args.approver

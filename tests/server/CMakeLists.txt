@@ -13,6 +13,14 @@ file(GLOB SERVER_MODULE_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
+find_package(benchmark QUIET CONFIG)
+set(_server_benchmark_target "")
+if(TARGET benchmark::benchmark)
+    set(_server_benchmark_target benchmark::benchmark)
+elseif(TARGET benchmark)
+    set(_server_benchmark_target benchmark)
+endif()
+
 foreach(_src IN LISTS SERVER_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_server_${_stem}_focused")
@@ -41,6 +49,14 @@ foreach(_src IN LISTS SERVER_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
+    if(_stem STREQUAL "test_server_phase2_focused")
+        if(_server_benchmark_target)
+            target_link_libraries(${_target} PRIVATE ${_server_benchmark_target})
+            target_compile_definitions(${_target} PRIVATE THEMIS_HAS_BENCHMARK=1)
+        else()
+            target_compile_definitions(${_target} PRIVATE THEMIS_HAS_BENCHMARK=0)
+        endif()
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     if(_stem STREQUAL "test_wave4a_server_hardening2")

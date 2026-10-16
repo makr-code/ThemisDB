@@ -19,6 +19,7 @@ Purpose: track unresolved benchmark/closure evidence that remains explicitly ope
 | `manifests/wave_b_module_hardening_closure_manifest.json` | `B_modules_updates` | `pending` | ✅ → `success` — v1.1.0 GA; UPDP-4..7 PASS; src/updates/MODULE_EVIDENCE.md source-backed |
 | `manifests/security_wave_c_closure_manifest.json` | `C2_fail_closed_boundary` | `in_progress` | ✅ → `success` — Vault/HSM/PKI fail-closed matrix tests PASS 2026-08-17; HSM stub opt-in enforced |
 | `manifests/operability_wave_d_closure_manifest.json` | `D1_runbooks` | `in_progress` | ✅ → `success` — 5 runbooks delivered; GA D-1 PASS 2026-08-04 |
+| `manifests/transaction_wave_b_closure_manifest.json` | `B4_phase4_baseline` | `skipped` | ✅ → `success` — representative Phase-4 baseline artifact captured at `benchmarks/wave8/TRANSACTION_BASELINES_LATEST.json` and linked to `transaction-baseline-evidence` |
 
 ## Advanced since last update (2026-09-15)
 
@@ -35,7 +36,6 @@ Purpose: track unresolved benchmark/closure evidence that remains explicitly ope
 | Manifest | Gate | Current status | Missing evidence / action |
 |---|---|---|---|
 | `manifests/gpu_wave_a_closure_manifest.json` | `A4_representative_hardware` | `skipped` | Representative GPU hardware benchmark artifacts (p95/p99) — requires self-hosted GPU runner |
-| `manifests/transaction_wave_b_closure_manifest.json` | `B4_phase4_baseline` | `skipped` | Phase-4 representative-hardware baseline artifacts + benchmark summary |
 | `manifests/wave_a_exit_closure_manifest.json` | `A_exit_rep_hardware_p95_p99` | `pending` | Aggregate p95/p99 closure for transaction/gpu/voice/sharding/replication |
 | `manifests/wave_a_exit_closure_manifest.json` | `A_exit_transaction_gpu_artifacts` | `in_progress` | Promote to success only after both Wave-A GPU + transaction evidence sets are complete |
 | `manifests/wave_b_module_hardening_closure_manifest.json` | `B_modules_query` | `in_progress` | Representative-hardware baseline + cross-feature integration tests |
