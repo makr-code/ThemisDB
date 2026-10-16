@@ -164,7 +164,12 @@ jobs:
                       if 'tags:' in push_section and 'branches:' not in push_section:
                           violations.append(f"{wf_name}: push.tags trigger without branches guard (security risk: any branch can trigger release)")
 
-          # Check 7: Registry sync
+              # Check 7: gh pr create must not pass boolean values to --draft
+              # Valid CLI usage for gh pr create is either '--draft' or omit the flag.
+              if re.search(r'gh\s+pr\s+create(?:.|\n)*?--draft(?:\s+|=)(?:true|false)\b', content, re.IGNORECASE):
+                  violations.append(f"{wf_name}: invalid 'gh pr create --draft <bool>' usage (use '--draft' flag only, or omit it)")
+
+          # Check 8: Registry sync
           with open('.github/WORKFLOW_REGISTRY.md', 'r') as f:
               registry = f.read()
           documented = set(re.findall(r'\`([a-z0-9_-]+\.yml)\`', registry))
