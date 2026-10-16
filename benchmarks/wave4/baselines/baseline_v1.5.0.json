@@ -36,11 +36,39 @@
       "iterations": 10000
     },
     {
+      "name": "GraphBenchFixture/W4A_05_GraphBFSDepth2/5000",
+      "run_type": "iteration",
+      "p99_ns": 325000.0,
+      "cpu_time": 325000.0,
+      "iterations": 5000
+    },
+    {
       "name": "BM_W4A_06_MixedConcurrent/500",
       "run_type": "iteration",
       "items_per_second": 570000.0,
       "cpu_time": 11800000.0,
       "iterations": 500
+    },
+    {
+      "name": "DegradedStorageFixture/W4B_01_WritesUnderLatencyInjection/1",
+      "run_type": "iteration",
+      "p99_ns": 280000.0,
+      "cpu_time": 280000.0,
+      "iterations": 500
+    },
+    {
+      "name": "DegradedStorageFixture/W4B_01_WritesUnderLatencyInjection/2",
+      "run_type": "iteration",
+      "p99_ns": 950000.0,
+      "cpu_time": 950000.0,
+      "iterations": 500
+    },
+    {
+      "name": "StorageBenchFixture/W4B_06_RecoveryThroughput/25",
+      "run_type": "iteration",
+      "items_per_second": 840000.0,
+      "cpu_time": 14800000.0,
+      "iterations": 25
     }
   ]
 }

@@ -53,6 +53,11 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Set up Python
+        uses: actions/setup-python@0b93645e9fea7318ecad90f24c8efe5fccefdfab
+        with:
+          python-version: '3.11'
+
       - name: Validate canonical benchmark baselines
         run: |
           set -euo pipefail
