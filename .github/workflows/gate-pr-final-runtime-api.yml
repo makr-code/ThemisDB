@@ -96,6 +96,7 @@ jobs:
           cmake -S . -B "${{ env.CMAKE_BUILD_DIR }}" \
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_BUILD_BENCHMARKS=OFF \
+            -DTHEMIS_BUILD_MODULAR=OFF \
             -DTHEMIS_ENABLE_VULKAN=OFF \
             -DTHEMIS_LLM_INFERENCE_TESTS=ON \
             -DTHEMIS_TEST_MODEL_DIR="${{ env.MODEL_DIR }}" \
