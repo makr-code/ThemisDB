@@ -85,6 +85,7 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | `release-mainline-approval.yml` | Release: GitHub Release Approval Gate (GitHub release approval) | approval |
 | `release-nightly.yml` | Release: Nightly (Daily snapshot builds) | automation |
 | `release-promote.yml` | Release: Promote (Semi-Automatic edition promotion) | automation |
+| `release-evidence-chain.yml` | Release: Evidence Chain (Hash-linked release evidence ledger + verification) | governance |
 | `release-rollback.yml` | Release: Rollback (Release rollback orchestration) | recovery |
 | `release-wordpress-press.yml` | Release: WordPress Press (Blog/announcement publish) | communication |
 | `automation-community.yml` | Automation: Community (Community branch sync automation) | automation |
