@@ -35,7 +35,7 @@ std::string hexEncode(std::string_view bytes) {
   return oss.str();
 }
 
-bool isHexString(const std::string& value) {
+bool isHexString(std::string_view value) {
   if (value.empty() || (value.size() % 2) != 0) {
     return false;
   }
@@ -47,7 +47,7 @@ bool isHexString(const std::string& value) {
   return true;
 }
 
-std::string hexDecode(const std::string& hex) {
+std::string hexDecode(std::string_view hex) {
   if ((hex.size() % 2) != 0) {
     throw std::runtime_error("Invalid hex length");
   }
@@ -389,8 +389,8 @@ uint32_t KeyRotationManager::StartKeyRotation(const std::string& master_key) {
       try {
         // GetRotationState() is expected to return the last persisted rotation_id so
         // the next assignment can continue monotonically as (last_id + 1).
-        const auto persisted_state = GetRotationState();
-        rotation_counter_ = persisted_state.rotation_id;
+        const auto persisted_rotation_id = GetRotationState().rotation_id;
+        rotation_counter_ = persisted_rotation_id;
         rotation_counter_seeded_ = true;
       } catch (const std::exception& ex) {
         spdlog::error("[KeyRotationManager] Failed to seed rotation counter: {}", ex.what());
