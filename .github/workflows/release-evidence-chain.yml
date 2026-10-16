@@ -62,7 +62,7 @@ on:
 
 permissions:
   contents: read
-  actions: read
+  actions: write
 
 concurrency:
   group: release-evidence-chain-${{ github.event.workflow_run.id || github.ref }}
@@ -267,9 +267,12 @@ jobs:
                 --artifacts-dir /tmp/release-evidence-chain/source-artifacts \
                 --output /tmp/release-evidence-chain/source-artifacts/digests.json
 
-              read -r artifact_digest sbom_digest < <(
-                python3 -c 'import json; d=json.load(open("/tmp/release-evidence-chain/source-artifacts/digests.json")); print(d["artifact_digest"], d["sbom_digest"])'
-              )
+              artifact_digest="$(
+                jq -r '.artifact_digest // "unknown"' /tmp/release-evidence-chain/source-artifacts/digests.json 2>/dev/null || echo "unknown"
+              )"
+              sbom_digest="$(
+                jq -r '.sbom_digest // "unknown"' /tmp/release-evidence-chain/source-artifacts/digests.json 2>/dev/null || echo "unknown"
+              )"
             fi
           fi
 

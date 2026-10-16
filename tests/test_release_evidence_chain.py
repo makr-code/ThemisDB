@@ -234,6 +234,27 @@ class ReleaseEvidenceChainTests(unittest.TestCase):
         with self.assertRaises(evidence_chain.EvidenceChainError):
             self._run_generate_with_digests("not-a-sha256", "b" * 64)
 
+    def test_generate_fails_if_existing_head_record_hash_is_missing(self) -> None:
+        self.ledger_path.write_text(
+            json.dumps({"index": 1, "event_type": "release_published"}) + "\n",
+            encoding="utf-8",
+        )
+        with self.assertRaises(evidence_chain.EvidenceChainError):
+            self._run_generate(
+                event_type="release_published",
+                commit_sha="ABCDEF1234567890ABCDEF1234567890ABCDEF12",
+                tag="v2.6.0",
+                version="2.6.0",
+                approver_identity="makr-code",
+                approver_role="release_owner",
+                approval_scope="release",
+                environment="community-release",
+                workflow_name="release-mainline-approval.yml",
+                workflow_run_id="1001",
+                source_workflow="release-mainline-approval.yml",
+                source_run_id="1001",
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

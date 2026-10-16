@@ -257,11 +257,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 def run_generate(args: argparse.Namespace) -> int:
     ledger = ReleaseEvidenceLedger(Path(args.ledger).resolve())
     existing = ledger.load_records()
-    previous_hash = (
-        existing[-1]["record_hash"]
-        if existing
-        else GENESIS_HASH
-    )
+    previous_hash = ledger.last_record_hash()
     index = len(existing) + 1
 
     timestamp_utc = args.timestamp_utc.strip() if args.timestamp_utc else utc_now()
