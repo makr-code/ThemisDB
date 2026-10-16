@@ -236,6 +236,45 @@ jobs:
             echo "source_run_id=${source_run_id}"
           } >> "$GITHUB_OUTPUT"
 
+      - name: Resolve artifact and SBOM digests
+        id: digests
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          artifact_digest="${{ steps.attrs.outputs.artifact_digest }}"
+          sbom_digest="${{ steps.attrs.outputs.sbom_digest }}"
+
+          if [ "${{ github.event_name }}" = "workflow_run" ]; then
+            source_run_id="${{ steps.attrs.outputs.source_run_id }}"
+            mkdir -p /tmp/release-evidence-chain/source-artifacts
+
+            gh api \
+              "repos/${GITHUB_REPOSITORY}/actions/runs/${source_run_id}/artifacts?per_page=100" \
+              --jq '.artifacts[] | select(.expired==false) | [.id,.name] | @tsv' \
+              > /tmp/release-evidence-chain/source-artifacts/artifacts.tsv || true
+
+            if [ -s /tmp/release-evidence-chain/source-artifacts/artifacts.tsv ]; then
+              while IFS=$'\t' read -r artifact_id _; do
+                [ -z "${artifact_id}" ] && continue
+                gh api \
+                  "repos/${GITHUB_REPOSITORY}/actions/artifacts/${artifact_id}/zip" \
+                  > "/tmp/release-evidence-chain/source-artifacts/${artifact_id}.zip" || true
+              done < /tmp/release-evidence-chain/source-artifacts/artifacts.tsv
+
+              python3 scripts/extract_artifact_digests.py \
+                --artifacts-dir /tmp/release-evidence-chain/source-artifacts \
+                --output /tmp/release-evidence-chain/source-artifacts/digests.json
+
+              artifact_digest="$(python3 -c 'import json;print(json.load(open("/tmp/release-evidence-chain/source-artifacts/digests.json"))["artifact_digest"])')"
+              sbom_digest="$(python3 -c 'import json;print(json.load(open("/tmp/release-evidence-chain/source-artifacts/digests.json"))["sbom_digest"])')"
+            fi
+          fi
+
+          echo "artifact_digest=${artifact_digest}" >> "$GITHUB_OUTPUT"
+          echo "sbom_digest=${sbom_digest}" >> "$GITHUB_OUTPUT"
+
       - name: Append evidence record to ledger
         run: |
           set -euo pipefail
@@ -245,8 +284,8 @@ jobs:
             --commit-sha "${{ steps.attrs.outputs.commit_sha }}" \
             --tag "${{ steps.attrs.outputs.tag }}" \
             --version "${{ steps.attrs.outputs.version }}" \
-            --artifact-digest-sha256 "${{ steps.attrs.outputs.artifact_digest }}" \
-            --sbom-digest-sha256 "${{ steps.attrs.outputs.sbom_digest }}" \
+            --artifact-digest-sha256 "${{ steps.digests.outputs.artifact_digest }}" \
+            --sbom-digest-sha256 "${{ steps.digests.outputs.sbom_digest }}" \
             --approver-identity "${{ steps.attrs.outputs.approver_identity }}" \
             --approver-role "${{ steps.attrs.outputs.approver_role }}" \
             --approval-scope "${{ steps.attrs.outputs.approval_scope }}" \
@@ -280,6 +319,8 @@ jobs:
             echo "- Environment: \`${{ steps.attrs.outputs.environment }}\`"
             echo "- Commit: \`${{ steps.attrs.outputs.commit_sha }}\`"
             echo "- Tag/version: \`${{ steps.attrs.outputs.tag }} / ${{ steps.attrs.outputs.version }}\`"
+            echo "- Artifact digest: \`${{ steps.digests.outputs.artifact_digest }}\`"
+            echo "- SBOM digest: \`${{ steps.digests.outputs.sbom_digest }}\`"
             echo "- Approver identity: \`${{ steps.attrs.outputs.approver_identity }}\`"
           } >> "$GITHUB_STEP_SUMMARY"
 

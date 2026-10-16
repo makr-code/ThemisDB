@@ -63,9 +63,9 @@ class ReleaseEvidenceChainTests(unittest.TestCase):
                 "--version",
                 version,
                 "--artifact-digest-sha256",
-                "artifact-sha256-example",
+                "a" * 64,
                 "--sbom-digest-sha256",
-                "sbom-sha256-example",
+                "b" * 64,
                 "--approver-identity",
                 approver_identity,
                 "--approver-role",
@@ -92,6 +92,52 @@ class ReleaseEvidenceChainTests(unittest.TestCase):
                 "makr-code/ThemisDB",
                 "--record-output",
                 str(self.record_path),
+            ]
+        )
+        return evidence_chain.run_generate(args)
+
+    def _run_generate_with_digests(self, artifact_digest: str, sbom_digest: str) -> int:
+        args = evidence_chain.parse_args(
+            [
+                "generate",
+                "--ledger",
+                str(self.ledger_path),
+                "--event-type",
+                "release_published",
+                "--commit-sha",
+                "ABCDEF1234567890ABCDEF1234567890ABCDEF12",
+                "--tag",
+                "v2.6.0",
+                "--version",
+                "2.6.0",
+                "--artifact-digest-sha256",
+                artifact_digest,
+                "--sbom-digest-sha256",
+                sbom_digest,
+                "--approver-identity",
+                "makr-code",
+                "--approver-role",
+                "release_owner",
+                "--approval-scope",
+                "release",
+                "--environment",
+                "community-release",
+                "--workflow-name",
+                "release-mainline-approval.yml",
+                "--workflow-run-id",
+                "1001",
+                "--workflow-run-attempt",
+                "1",
+                "--workflow-url",
+                "https://github.com/makr-code/ThemisDB/actions/runs/1001",
+                "--job-name",
+                "capture-evidence",
+                "--source-workflow",
+                "release-mainline-approval.yml",
+                "--source-run-id",
+                "1001",
+                "--repository",
+                "makr-code/ThemisDB",
             ]
         )
         return evidence_chain.run_generate(args)
@@ -176,6 +222,17 @@ class ReleaseEvidenceChainTests(unittest.TestCase):
         self.ledger_path.write_text(json.dumps(tampered, ensure_ascii=False, sort_keys=True) + "\n", encoding="utf-8")
         with self.assertRaises(evidence_chain.EvidenceChainError):
             evidence_chain.ReleaseEvidenceLedger(self.ledger_path).verify()
+
+    def test_accepts_unknown_digests(self) -> None:
+        exit_code = self._run_generate_with_digests("unknown", "unknown")
+        self.assertEqual(exit_code, 0)
+        records = evidence_chain.ReleaseEvidenceLedger(self.ledger_path).load_records()
+        self.assertEqual(records[0]["artifact_digest_sha256"], "unknown")
+        self.assertEqual(records[0]["sbom_digest_sha256"], "unknown")
+
+    def test_rejects_invalid_digest_format(self) -> None:
+        with self.assertRaises(evidence_chain.EvidenceChainError):
+            self._run_generate_with_digests("not-a-sha256", "b" * 64)
 
 
 if __name__ == "__main__":

@@ -11,14 +11,16 @@ import argparse
 import hashlib
 import json
 import sys
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+import re
 
 
 GENESIS_HASH = "0" * 64
 SCHEMA_VERSION = "1.0"
+SHA256_PATTERN = re.compile(r"^[0-9a-f]{64}$")
 
 
 class EvidenceChainError(RuntimeError):
@@ -209,6 +211,17 @@ def validate_nonempty(name: str, value: str) -> str:
     return value.strip()
 
 
+def validate_digest(name: str, value: str) -> str:
+    normalized = validate_nonempty(name, value).lower()
+    if normalized == "unknown":
+        return normalized
+    if not SHA256_PATTERN.match(normalized):
+        raise EvidenceChainError(
+            f"Argument '{name}' must be a 64-char lowercase SHA-256 hex digest or 'unknown', got '{value}'."
+        )
+    return normalized
+
+
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="ThemisDB release evidence-chain generator/verifier.")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -272,8 +285,8 @@ def run_generate(args: argparse.Namespace) -> int:
         commit_sha=validate_nonempty("commit-sha", args.commit_sha).lower(),
         tag=validate_nonempty("tag", args.tag),
         version=validate_nonempty("version", args.version),
-        artifact_digest_sha256=validate_nonempty("artifact-digest-sha256", args.artifact_digest_sha256),
-        sbom_digest_sha256=validate_nonempty("sbom-digest-sha256", args.sbom_digest_sha256),
+        artifact_digest_sha256=validate_digest("artifact-digest-sha256", args.artifact_digest_sha256),
+        sbom_digest_sha256=validate_digest("sbom-digest-sha256", args.sbom_digest_sha256),
         previous_hash=previous_hash,
         timestamp_utc=timestamp_utc,
         repository=validate_nonempty("repository", args.repository),
