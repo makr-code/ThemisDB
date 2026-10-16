@@ -43,7 +43,7 @@ Three specific evidence blockers identified, root-caused, and addressed:
   - `publish-results` now checks out the repository before generating reports.
   - Successful Phase-4 runs now emit `benchmarks/wave8/TRANSACTION_BASELINES_LATEST.json` + `.md` and upload them as the `transaction-baseline-evidence` artifact.
   - The Wave-B closure manifest now records the representative baseline artifact and canonical JSON path.
-- **Status:** 🟡 Awaiting fresh `develop` execution of `build-wave-b-transaction.yml` to capture run-specific latency/throughput/recovery values and release sign-off metadata.
+- **Status:** ✅ Canonical representative-hardware baseline evidence captured in `benchmarks/wave8/TRANSACTION_BASELINES_LATEST.json` and the Wave-B closure manifest records the lane as `evidence-captured` with `B4_phase4_baseline=success`.
 
 #### Evidence Item 3 — Benchmark execution on representative hardware (GPU)
 - **Status:** 🔴 OPEN — requires self-hosted GPU runner.

@@ -35,7 +35,7 @@ Purpose: track unresolved benchmark/closure evidence that remains explicitly ope
 | Manifest | Gate | Current status | Missing evidence / action |
 |---|---|---|---|
 | `manifests/gpu_wave_a_closure_manifest.json` | `A4_representative_hardware` | `skipped` | Representative GPU hardware benchmark artifacts (p95/p99) — requires self-hosted GPU runner |
-| `manifests/transaction_wave_b_closure_manifest.json` | `B4_phase4_baseline` | `skipped` | Phase-4 representative-hardware baseline artifacts + benchmark summary |
+| `manifests/transaction_wave_b_closure_manifest.json` | `B4_phase4_baseline` | `success` | Representative Phase-4 baseline artifact captured at `benchmarks/wave8/TRANSACTION_BASELINES_LATEST.json` + markdown summary |
 | `manifests/wave_a_exit_closure_manifest.json` | `A_exit_rep_hardware_p95_p99` | `pending` | Aggregate p95/p99 closure for transaction/gpu/voice/sharding/replication |
 | `manifests/wave_a_exit_closure_manifest.json` | `A_exit_transaction_gpu_artifacts` | `in_progress` | Promote to success only after both Wave-A GPU + transaction evidence sets are complete |
 | `manifests/wave_b_module_hardening_closure_manifest.json` | `B_modules_query` | `in_progress` | Representative-hardware baseline + cross-feature integration tests |
