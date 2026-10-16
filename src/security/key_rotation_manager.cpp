@@ -70,10 +70,6 @@ std::string hexDecode(const std::string& hex) {
   for (size_t i = 0; i < hex.size(); i += 2) {
     const auto hi = hex[i];
     const auto lo = hex[i + 1];
-    if (!std::isxdigit(static_cast<unsigned char>(hi)) ||
-        !std::isxdigit(static_cast<unsigned char>(lo))) {
-      throw std::runtime_error("Invalid hex character in encoded salt");
-    }
     const auto byte = static_cast<char>((hex_nibble(hi) << 4) | hex_nibble(lo));
     out.push_back(byte);
   }
@@ -390,11 +386,16 @@ uint32_t KeyRotationManager::StartKeyRotation(const std::string& master_key) {
   {
     std::lock_guard<std::mutex> lock(rotation_id_mutex_);
     if (!rotation_counter_seeded_) {
-      // GetRotationState() is expected to return the last persisted rotation_id so
-      // the next assignment can continue monotonically as (last_id + 1).
-      const auto persisted_state = GetRotationState();
-      rotation_counter_ = persisted_state.rotation_id;
-      rotation_counter_seeded_ = true;
+      try {
+        // GetRotationState() is expected to return the last persisted rotation_id so
+        // the next assignment can continue monotonically as (last_id + 1).
+        const auto persisted_state = GetRotationState();
+        rotation_counter_ = persisted_state.rotation_id;
+        rotation_counter_seeded_ = true;
+      } catch (const std::exception& ex) {
+        spdlog::error("[KeyRotationManager] Failed to seed rotation counter: {}", ex.what());
+        throw std::runtime_error(std::string("Failed to seed rotation counter: ") + ex.what());
+      }
     }
     state.rotation_id = ++rotation_counter_;
   }

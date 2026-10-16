@@ -82,11 +82,27 @@ bool GRPCServer::initialize(const RPCServerConfig& config) {
             std::ifstream file(path, std::ios::binary);
             return file.good();
         };
-        if (!is_readable_file(config.tls_cert_path) ||
-            !is_readable_file(config.tls_key_path) ||
-            !is_readable_file(config.tls_ca_cert_path)) {
+        std::vector<std::string> unreadable_paths;
+        if (!is_readable_file(config.tls_cert_path)) {
+            unreadable_paths.push_back(config.tls_cert_path);
+        }
+        if (!is_readable_file(config.tls_key_path)) {
+            unreadable_paths.push_back(config.tls_key_path);
+        }
+        if (!is_readable_file(config.tls_ca_cert_path)) {
+            unreadable_paths.push_back(config.tls_ca_cert_path);
+        }
+        if (!unreadable_paths.empty()) {
+            std::ostringstream oss;
+            for (size_t i = 0; i < unreadable_paths.size(); ++i) {
+                if (i > 0) {
+                    oss << ", ";
+                }
+                oss << unreadable_paths[i];
+            }
             spdlog::error(
-                "[RPC-E8302] Server initialization rejected: TLS certificate files are not readable");
+                "[RPC-E8302] Server initialization rejected: TLS certificate files are not readable: {}",
+                oss.str());
             return false;
         }
     }
