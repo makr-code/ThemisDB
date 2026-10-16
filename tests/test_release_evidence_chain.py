@@ -2,6 +2,7 @@
 
 import importlib.util
 import json
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -14,6 +15,7 @@ SCRIPT_PATH = REPO_ROOT / "scripts" / "release_evidence_chain.py"
 def load_module():
     spec = importlib.util.spec_from_file_location("release_evidence_chain", SCRIPT_PATH)
     module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
 
