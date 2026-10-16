@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import importlib.util
+import argparse
 import json
 import sys
 import tempfile
@@ -66,7 +67,7 @@ class ExtractArtifactDigestsTests(unittest.TestCase):
             zf.writestr("build/sbom.sha256", f"{'c'*64}  sbom.json\n")
 
         out = self.root / "digests.json"
-        args = extractor.parse_args.__globals__["argparse"].Namespace(
+        args = argparse.Namespace(
             artifacts_dir=str(self.root),
             output=str(out),
         )

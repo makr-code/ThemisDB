@@ -77,7 +77,10 @@ def main() -> int:
 
     result = extract_digests(artifacts_dir)
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(json.dumps(result), encoding="utf-8")
+    output_path.write_text(
+        json.dumps(result, ensure_ascii=False, separators=(",", ":")),
+        encoding="utf-8",
+    )
     print(json.dumps(result, ensure_ascii=False))
     return 0
 
