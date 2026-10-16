@@ -17,7 +17,16 @@ on:
       - military
       - minimal
     paths:
-      - 'benchmarks/**'
+      - 'benchmarks/CMakeLists.txt'
+      - 'benchmarks/**/CMakeLists.txt'
+      - 'benchmarks/**/*.c'
+      - 'benchmarks/**/*.cc'
+      - 'benchmarks/**/*.cpp'
+      - 'benchmarks/**/*.cxx'
+      - 'benchmarks/**/*.h'
+      - 'benchmarks/**/*.hh'
+      - 'benchmarks/**/*.hpp'
+      - 'benchmarks/**/*.hxx'
       - 'CMakeLists.txt'
       - '.github/workflows/gate-pr-benchmark-ctest.yml'
       - 'tools/ci/audit_benchmark_coverage.py'
@@ -48,7 +57,7 @@ jobs:
           git fetch origin "${{ github.base_ref }}" --depth=1
 
       - name: Set up Python
-        uses: actions/setup-python@82c7e631bb3cdc910f68e8d496df91420eba6b0c
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
         with:
           python-version: '3.11'
 
@@ -86,10 +95,9 @@ jobs:
               orphaned_ctest = stats.get('orphaned_ctest', 0)
               broken_targets = stats.get('broken_targets', 0)
               
-              # Extract findings
-              findings = audit.get('findings', [])
-              errors = [f for f in findings if f.get('severity') == 'error']
-              warnings = [f for f in findings if f.get('severity') == 'warning']
+              # Extract findings summary
+              errors = stats.get('errors', 0)
+              warnings = stats.get('warnings', 0)
               
               # Log audit results
               print(f"::group::Benchmark Audit Results")
@@ -99,8 +107,8 @@ jobs:
               print(f"  Unregistered Sources: {unregistered_sources}")
               print(f"  Orphaned CTest:       {orphaned_ctest}")
               print(f"  Broken Targets:       {broken_targets}")
-              print(f"  Errors:               {len(errors)}")
-              print(f"  Warnings:             {len(warnings)}")
+              print(f"  Errors:               {errors}")
+              print(f"  Warnings:             {warnings}")
               print(f"::endgroup::")
               
               # Gate logic

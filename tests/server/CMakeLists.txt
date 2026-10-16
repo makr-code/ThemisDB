@@ -4,6 +4,8 @@ file(GLOB SERVER_MODULE_TEST_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/test_*.cpp"
 )
 
+find_package(benchmark QUIET CONFIG)
+
 foreach(_src IN LISTS SERVER_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_server_${_stem}_focused")
@@ -24,6 +26,16 @@ foreach(_src IN LISTS SERVER_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
+    if(_stem STREQUAL "test_server_phase2_focused")
+        if(TARGET benchmark::benchmark)
+            target_link_libraries(${_target} PRIVATE benchmark::benchmark)
+        else()
+            find_library(THEMIS_BENCHMARK_LIBRARY benchmark)
+            if(THEMIS_BENCHMARK_LIBRARY)
+                target_link_libraries(${_target} PRIVATE ${THEMIS_BENCHMARK_LIBRARY})
+            endif()
+        endif()
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     if(_stem STREQUAL "test_server_phase2_focused" AND TARGET benchmark::benchmark)
