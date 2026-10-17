@@ -143,7 +143,15 @@ jobs:
               if build_matrix == "macos-arm64-only":
                   return lane_id == "macos-arm64"
 
-              # Edition-only patterns (e.g., "community-only", "enterprise-only") and generic selectors
+              # Community release lane intentionally excludes the experimental macOS ARM64
+              # package path until the lane is GA. Nightly and community publication must
+              # only exercise the supported public build targets.
+              if build_matrix == "community-only":
+                  return lane_id in {"linux-amd64", "linux-arm64", "windows-amd64"}
+
+              # Edition-only patterns (e.g., "enterprise-only", "hyperscaler-only") and
+              # generic selectors. These still include experimental macOS when explicitly
+              # selected via os=macos or build_matrix=all.
               if build_matrix.endswith("-only") or build_matrix in ("os", "all"):
                   if lane_id.startswith("linux"):
                       lane_os, lane_arch = "linux", lane_id.split("-")[1]

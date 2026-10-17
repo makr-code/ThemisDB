@@ -185,7 +185,14 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
         self.assertNotIn(linux_error, windows_amd64_lane)
         self.assertNotIn("::warning::No Linux package artifacts were produced", workflow_text)
         self.assertNotIn("::warning::No Windows package artifacts were produced", workflow_text)
-    
+
+    def test_release_build_matrix_community_only_excludes_experimental_macos_lane(self) -> None:
+        workflow_text = RELEASE_BUILD_MATRIX_WORKFLOW.read_text(encoding="utf-8")
+        community_only_logic = "if build_matrix == \"community-only\":\n                   return lane_id in {\"linux-amd64\", \"linux-arm64\", \"windows-amd64\"}"
+
+        self.assertIn(community_only_logic, workflow_text)
+        self.assertNotIn('return lane_id in {"linux-amd64", "linux-arm64", "windows-amd64", "macos-arm64"}', workflow_text)
+
     def test_wordpress_press_dispatch_falls_back_to_synthetic_context(self) -> None:
         workflow_text = WORDPRESS_PRESS_WORKFLOW.read_text(encoding="utf-8")
 
