@@ -36,11 +36,13 @@
 #include <string>
 #include <thread>
 
-// ── gRPC-specific includes (only when the gRPC transport is compiled in) ──────
-#if defined(THEMIS_HAS_CORE_GRPC) && __has_include("themis_core.grpc.pb.h")
+// ── gRPC-specific includes (only when gRPC is compiled *and* proto stubs exist) ──
+#if defined(THEMIS_HAS_CORE_GRPC) && __has_include("themis_core.grpc.pb.h") && \
+    __has_include("themis_core.pb.h")
 #include <grpcpp/grpcpp.h>
-// Generated stub header (produced by protoc from proto/themis_core.proto)
+// Generated stub headers (produced by protoc from proto/themis_core.proto)
 #include "themis_core.grpc.pb.h"
+#include "themis_core.pb.h"
 #define THEMIS_HAS_CORE_GRPC_PROTO 1
 #else
 #define THEMIS_HAS_CORE_GRPC_PROTO 0
