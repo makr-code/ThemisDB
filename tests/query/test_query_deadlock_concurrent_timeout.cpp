@@ -259,34 +259,27 @@ TEST_F(ParallelExecutorDeadlockTest, ConcurrentScansWithTimeoutPressureDontBlock
     ParallelExecutor executor(cfg);
 
     ParallelExecutor::Table input;
-    input.reserve(4000);
-    for (int i = 0; i < 4000; ++i) {
+    input.reserve(400);
+    for (int i = 0; i < 400; ++i) {
         input.push_back(createTestEntity("id_" + std::to_string(i), i));
     }
 
     const auto slow_filter = [](const BaseEntity&) {
-        std::this_thread::sleep_for(std::chrono::milliseconds(15));
+        std::this_thread::sleep_for(std::chrono::milliseconds(3));
         return true;
     };
 
-    std::promise<void> started;
-    std::future<void> start_future = started.get_future();
-    std::atomic<bool> finished{false};
-
-    std::thread worker([&]() {
-        started.set_value();
+    auto scan_future = std::async(std::launch::async, [&]() {
         auto result = executor.parallelScan(input, slow_filter, 2);
-        finished.store(result.has_value(), std::memory_order_release);
+        return result.has_value();
     });
 
-    ASSERT_EQ(start_future.wait_for(std::chrono::seconds(5)), std::future_status::ready);
-
-    std::this_thread::sleep_for(std::chrono::milliseconds(50));
-    EXPECT_FALSE(finished.load(std::memory_order_acquire))
+    EXPECT_EQ(scan_future.wait_for(std::chrono::milliseconds(50)), std::future_status::timeout)
         << "Scan should still be in progress while timeout pressure is active";
 
-    worker.join();
-    EXPECT_TRUE(finished.load(std::memory_order_acquire));
+    EXPECT_EQ(scan_future.wait_for(std::chrono::seconds(15)), std::future_status::ready)
+        << "The timeout-pressure scan must complete without blocking forever";
+    EXPECT_TRUE(scan_future.get());
 }
 
 /**

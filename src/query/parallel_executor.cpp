@@ -96,8 +96,8 @@ public:
      * semantics so waiting code observes the stop request promptly.
      */
     void cancel_group_execution() noexcept {
-        cancelled_.store(true, std::memory_order_release);
         std::lock_guard<std::mutex> lock(tasks_mutex_);
+        cancelled_.store(true, std::memory_order_release);
         tasks_.clear();
     }
 
