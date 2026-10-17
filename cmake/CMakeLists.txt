@@ -2734,7 +2734,6 @@ set(THEMIS_CORE_SOURCES
     ../src/updates/hot_reload_engine.cpp
     ../src/updates/updates_config.cpp
     ../src/updates/update_state_machine.cpp
-    ../src/updates/updates_edge_case_handler.cpp
     ../src/updates/canary_rollout.cpp
     ../src/updates/delta_update_engine.cpp
     ../src/updates/parallel_downloader.cpp
@@ -2753,8 +2752,6 @@ set(THEMIS_CORE_SOURCES
     ../src/updates/tenant_update_scheduler.cpp
     ../src/updates/hardware_telemetry.cpp
     ../src/updates/build_verifier.cpp
-    ../src/updates/updates_diagnostic_emitter.cpp
-    ../src/updates/updates_edge_case_handler.cpp
     
     # Geo utilities
     ../src/utils/geo/ewkb.cpp
