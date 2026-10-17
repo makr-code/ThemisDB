@@ -66,6 +66,8 @@ class PromptManager;
 
 class McpServer : public std::enable_shared_from_this<McpServer> {
 public:
+    friend class HttpServer;
+
     using ToolHandler = std::function<json(const json& args)>;
 
     using ResourceHandler = std::function<json(const std::string& uri)>;
