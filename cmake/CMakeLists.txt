@@ -2750,6 +2750,10 @@ set(THEMIS_CORE_SOURCES
     ../src/updates/tenant_update_scheduler.cpp
     ../src/updates/hardware_telemetry.cpp
     ../src/updates/build_verifier.cpp
+    ../src/updates/updates_diagnostic_emitter.cpp
+    ../src/updates/updates_edge_case_handler.cpp
+    ../src/updates/updates_diagnostics.cpp
+    ../src/updates/updates_operator_diagnostics.cpp
     
     # Geo utilities
     ../src/utils/geo/ewkb.cpp
