@@ -116,6 +116,42 @@ Sync rules:
 1) Source precedence and SOT domain mapping come from `DOCUMENTATION_GOVERNANCE.md`.
 2) Conformance checks per docs change are mandatory: naming, structure, duktus, SOT consistency.
 3) If one file in this set changes policy semantics, update the other files in the same change.
+4) AI-generated or AI-assisted documentation must declare AI provenance in metadata and, when relevant, a short narrative note, including the case where the exact model backend cannot be verified.
+
+### AI provenance and model attribution rule for generated documentation
+
+When a document, section, or generated artifact was created or materially edited by an AI system, the responsible AI MUST declare that fact in the document metadata and, when relevant, in a short provenance note.
+
+Required metadata keys:
+
+- `AI_Used`: `true` or `false`
+- `AI_Models`: comma-separated model names or roles, or `unknown`
+- `AI_Contributor`: model/agent name or `unknown`
+- `Human_Review`: `true` or `false`
+- `Human_Author`: human maintainer or contributor name
+
+Example:
+
+```yaml
+---
+Author: "ThemisDB Team"
+Created: "2026-10-17"
+Last Updated: "2026-10-17"
+Status: "active"
+AI_Used: true
+AI_Models: "GitHub Copilot, Ollama/qwen2.5-coder:14b"
+AI_Contributor: "GitHub Copilot"
+Human_Review: true
+Human_Author: "ThemisDB Team"
+---
+```
+
+If the exact model backend cannot be determined with certainty, the document must explicitly say so instead of claiming a specific model with false certainty:
+
+- "Exact model backend not verifiable from final document text alone."
+- "AI-assisted generation; model attribution is approximate and not guaranteed."
+
+This rule standardizes AI provenance for Copilot, Claude, Ollama, and other AI agents in repository documentation and aligns with the documentation governance source-of-truth.
 
 ## Root governance and release/versioning alignment (MUST)
 

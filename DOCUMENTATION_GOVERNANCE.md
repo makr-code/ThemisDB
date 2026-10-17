@@ -102,6 +102,11 @@ Changed Markdown files covered by `.github/workflows/gate-pr-doc-metadata.yml` m
 - `Created` / `Erstelldatum` in `YYYY-MM-DD`
 - `Last Updated` / `Letzte Änderung` in `YYYY-MM-DD`
 - `Status` in `draft | review | active | approved | stable | deprecated | archived`
+- `AI_Used` when AI generation or AI-assisted editing was used
+- `AI_Models` when AI was used; if the exact backend cannot be verified, use `unknown` and add the explicit text: `Exact model backend not verifiable from final document text alone.`
+- `AI_Contributor` naming the responsible AI/agent or `unknown`
+- `Human_Review` for final human verification status
+- `Human_Author` naming the human maintainer or author
 
 Example header section:
 
@@ -110,6 +115,11 @@ Example header section:
 **Created:** 2026-09-09
 **Last Updated:** 2026-09-09
 **Status:** active
+**AI_Used:** true
+**AI_Models:** GitHub Copilot, Ollama/qwen2.5-coder:14b
+**AI_Contributor:** GitHub Copilot
+**Human_Review:** true
+**Human_Author:** ThemisDB Contributors
 ```
 
 Example front matter:
@@ -120,7 +130,18 @@ Author: ThemisDB Contributors
 Created: 2026-09-09
 Last Updated: 2026-09-09
 Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: unknown
+Human_Review: true
+Human_Author: ThemisDB Contributors
 ---
 ```
+
+When the exact model backend cannot be determined with certainty, the document must state:
+
+- `Exact model backend not verifiable from final document text alone.`
+
+This is the repository-standard AI provenance convention for generated or AI-assisted documentation and must be used for Copilot, Claude, Ollama, and any other AI agent involved in creating or materially editing documentation.
 
 The gate intentionally excludes backlog/history/template paths that already follow dedicated governance formats, including `CHANGELOG.md`, `ROADMAP.md`, `**/FUTURE_ENHANCEMENTS.md`, archived documentation trees, issue templates, `docs/_standards/**`, `ai_working/**`, `ai_context/**`, and generated developer wiki artifacts. The canonical scope and exclude list live in `.github/doc-metadata-gate.json`.
