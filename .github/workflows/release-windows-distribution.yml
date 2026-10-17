@@ -167,6 +167,8 @@ jobs:
 
       - name: Validate explicit version matches canonical contract
         if: github.event_name == 'workflow_call' || github.event_name == 'workflow_dispatch'
+        env:
+          VERSION: ${{ inputs.version }}
         shell: bash
         run: |
           set -euo pipefail
