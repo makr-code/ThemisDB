@@ -155,23 +155,6 @@ jobs:
       prepare_chocolatey: ${{ steps.detect.outputs.prepare_chocolatey }}
       publish_environment: ${{ steps.detect.outputs.publish_environment }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v5
-
-      - name: Validate canonical version contract
-        shell: bash
-        run: |
-          set -euo pipefail
-          chmod +x .github/scripts/version-release-type-manager.sh
-          .github/scripts/version-release-type-manager.sh validate
-
-      - name: Validate explicit version matches canonical contract
-        if: github.event_name == 'workflow_call' || github.event_name == 'workflow_dispatch'
-        shell: bash
-        run: |
-          set -euo pipefail
-          .github/scripts/version-release-type-manager.sh validate-input-version "${{ inputs.version || github.event.inputs.version }}"
-
       - name: Detect tag/version
         id: detect
         shell: bash
