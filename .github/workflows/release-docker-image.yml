@@ -145,7 +145,7 @@ jobs:
       tinyllama_force_download: ${{ steps.push-policy.outputs.tinyllama_force_download }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09  # v5
         with:
           fetch-depth: 0
           ref: ${{ github.sha }}
@@ -426,8 +426,9 @@ jobs:
             refs+=("$(tr -d '\r\n' < "${digest_file}")")
           done
 
-          if [ "${#refs[@]}" -lt 2 ]; then
-            echo "::error::Expected two platform digests to assemble the final manifest, but found ${#refs[@]}."
+          expected_platform_count=2
+          if [ "${#refs[@]}" -lt "${expected_platform_count}" ]; then
+            echo "::error::Expected at least ${expected_platform_count} platform digests to assemble the final manifest, but found ${#refs[@]}."
             ls -la ./docker-digests || true
             exit 1
           fi
@@ -475,7 +476,7 @@ jobs:
       issues: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09  # v5
 
       - name: Resolve final Docker outcome
         id: status
