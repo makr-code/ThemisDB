@@ -61,13 +61,11 @@ public:
      * @details Calls: emplace_back().
      */
     void run(F&& f) {
+        std::lock_guard<std::mutex> lock(tasks_mutex_);
         if (cancelled_.load(std::memory_order_acquire)) {
             return;
         }
-        std::lock_guard<std::mutex> lock(tasks_mutex_);
-        if (!cancelled_.load(std::memory_order_relaxed)) {
-            tasks_.emplace_back(std::forward<F>(f));
-        }
+        tasks_.emplace_back(std::forward<F>(f));
     }
 
     /**
@@ -99,6 +97,8 @@ public:
      */
     void cancel_group_execution() noexcept {
         cancelled_.store(true, std::memory_order_release);
+        std::lock_guard<std::mutex> lock(tasks_mutex_);
+        tasks_.clear();
     }
 
     /**

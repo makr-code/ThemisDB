@@ -10,6 +10,7 @@
 #include <gtest/gtest.h>
 #include <atomic>
 #include <chrono>
+#include <future>
 #include <thread>
 #include <vector>
 
@@ -218,19 +219,18 @@ TEST_F(ParallelExecutorDeadlockTest, ConcurrentScansNoDeadlock) {
     for (int i = 0; i < 500; ++i) {
         input.push_back(createTestEntity("id_" + std::to_string(i), i));
     }
-    
+
     auto filter = [](const BaseEntity& e) {
         const auto val = e.getFieldAsInt("value");
         return val.has_value() && ((*val % 3) == 0);
     };
-    
-    // Run 4 concurrent scans in separate threads
+
     std::vector<std::thread> threads;
-    std::vector<std::atomic<bool>> results(4);  // Default-init atomics (via default ctor)
+    std::vector<std::atomic<bool>> results(4);
     for (auto& r : results) {
-        r.store(false, std::memory_order_release);  // Explicitly initialize each to false
+        r.store(false, std::memory_order_release);
     }
-    
+
     for (int t = 0; t < 4; ++t) {
         threads.emplace_back([&, t]() {
             ParallelExecutor executor(defaultConfig());
@@ -238,19 +238,55 @@ TEST_F(ParallelExecutorDeadlockTest, ConcurrentScansNoDeadlock) {
             results[t].store(result.has_value() && result->size() > 0, std::memory_order_release);
         });
     }
-    
+
     auto start = std::chrono::steady_clock::now();
     for (auto& thread : threads) {
         thread.join();
     }
     auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::steady_clock::now() - start);
-    
-    // All scans should succeed
+
     for (int t = 0; t < 4; ++t) {
         EXPECT_TRUE(results[t].load(std::memory_order_acquire)) << "Concurrent scan " << t << " should succeed";
     }
     EXPECT_LT(elapsed.count(), 30000) << "All 4 concurrent scans should complete within 30 seconds";
+}
+
+TEST_F(ParallelExecutorDeadlockTest, ConcurrentScansWithTimeoutPressureDontBlock) {
+    ParallelExecutor::ParallelConfig cfg = defaultConfig();
+    cfg.max_threads = 2;
+    cfg.morsel_size = 8;
+    ParallelExecutor executor(cfg);
+
+    ParallelExecutor::Table input;
+    input.reserve(4000);
+    for (int i = 0; i < 4000; ++i) {
+        input.push_back(createTestEntity("id_" + std::to_string(i), i));
+    }
+
+    const auto slow_filter = [](const BaseEntity&) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(15));
+        return true;
+    };
+
+    std::promise<void> started;
+    std::future<void> start_future = started.get_future();
+    std::atomic<bool> finished{false};
+
+    std::thread worker([&]() {
+        started.set_value();
+        auto result = executor.parallelScan(input, slow_filter, 2);
+        finished.store(result.has_value(), std::memory_order_release);
+    });
+
+    ASSERT_EQ(start_future.wait_for(std::chrono::seconds(5)), std::future_status::ready);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    EXPECT_FALSE(finished.load(std::memory_order_acquire))
+        << "Scan should still be in progress while timeout pressure is active";
+
+    worker.join();
+    EXPECT_TRUE(finished.load(std::memory_order_acquire));
 }
 
 /**
