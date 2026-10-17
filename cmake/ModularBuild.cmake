@@ -577,6 +577,8 @@ set(THEMIS_STORAGE_SOURCES
     # Updates
     ../src/updates/build_verifier.cpp
     ../src/updates/hardware_telemetry.cpp
+    ../src/updates/updates_diagnostic_emitter.cpp
+    ../src/updates/updates_edge_case_handler.cpp
     ../src/updates/release_manifest.cpp
     ../src/updates/manifest_database.cpp
     ../src/updates/hot_reload_engine.cpp

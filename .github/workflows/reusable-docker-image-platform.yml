@@ -1,0 +1,304 @@
+name: "Reusable: Docker Image Platform Build"
+
+on:
+  workflow_call:
+    inputs:
+      platform:
+        description: "Target platform to build (linux/amd64 or linux/arm64)"
+        required: true
+        type: string
+      version:
+        description: "Canonical product version from release workflow"
+        required: true
+        type: string
+      tag_list:
+        description: "Comma-separated final image tags used for manifest creation"
+        required: false
+        default: ""
+        type: string
+      registry:
+        description: "Selected target registry for final publish"
+        required: false
+        default: "ghcr.io"
+        type: string
+      push_to_registry:
+        description: "Push the platform image digest to the registry"
+        required: false
+        default: true
+        type: boolean
+      include_tinyllama:
+        description: "Whether TinyLlama should be included in the Docker image"
+        required: false
+        default: true
+        type: boolean
+      tinyllama_force_download:
+        description: "Whether TinyLlama should be redownloaded during build"
+        required: false
+        default: false
+        type: boolean
+      source_run_id:
+        description: "The originating GitHub Actions run ID"
+        required: false
+        default: ""
+        type: string
+      source_sha:
+        description: "The originating commit SHA"
+        required: false
+        default: ""
+        type: string
+    outputs:
+      digest:
+        description: "The pushed digest for this platform"
+        value: ${{ jobs.build.outputs.digest }}
+      platform_tag:
+        description: "The canonical per-platform tag used for the temporary image"
+        value: ${{ jobs.build.outputs.platform_tag }}
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+  attestations: write
+  security-events: write
+
+jobs:
+  build:
+    name: "Build: Docker ${{ inputs.platform }}"
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    outputs:
+      digest: ${{ steps.push.outputs.digest }}
+      platform_tag: ${{ steps.platform-tag.outputs.value }}
+    steps:
+      - name: Guard platform build budget
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "Platform build budget: 180 minutes"
+          echo "Target platform: ${{ inputs.platform }}"
+          echo "This job is intentionally capped below the GitHub-hosted 6h hard-stop so failures surface quickly and deterministically."
+
+      - name: Checkout
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09  # v5
+        with:
+          fetch-depth: 0
+          ref: ${{ github.sha }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349  # v3.7.1
+
+      - name: Log in to Docker Hub
+        if: |
+          (inputs.push_to_registry == true || inputs.push_to_registry == 'true') && (
+            github.event_name == 'release' ||
+            (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true' && github.event.inputs.registry == 'docker.io') ||
+            (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true' && github.event.inputs.registry == 'both') ||
+            (github.event_name == 'workflow_call' && (inputs.push_to_registry == true || inputs.push_to_registry == 'true') && (inputs.registry == 'docker.io' || inputs.registry == 'both'))
+          )
+        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567  # v3.3.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Log in to GitHub Container Registry (OIDC)
+        if: |
+          (inputs.push_to_registry == true || inputs.push_to_registry == 'true') && (
+            (github.event_name == 'push' && github.ref == 'refs/heads/develop') ||
+            (github.event_name == 'release') ||
+            (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true' && github.event.inputs.registry == 'ghcr.io') ||
+            (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true' && github.event.inputs.registry == 'both') ||
+            (github.event_name == 'workflow_call' && (inputs.push_to_registry == true || inputs.push_to_registry == 'true') && (inputs.registry == 'ghcr.io' || inputs.registry == 'both'))
+          )
+        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567  # v3.3.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Prepare Docker build context
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p internal llama.cpp models
+          touch internal/.gitkeep models/.gitkeep
+          git submodule sync -- vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF
+          git submodule update --init --depth 1 vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF
+          mkdir -p vcpkg/downloads
+
+          test -f vcpkg/scripts/buildsystems/vcpkg.cmake
+          test -f whisper.cpp/CMakeLists.txt
+          test -f stable-diffusion.cpp/CMakeLists.txt
+          test -e ffmpeg
+          test -e external/GIUF
+
+          if [ ! -f llama.cpp/CMakeLists.txt ]; then
+            LLAMA_CPP_GIT_TAG="$(perl -ne 'print "$1\n" if /set\s*\(\s*LLAMA_CPP_GIT_TAG\s+\"([^\"]+)\"/' cmake/Dependencies.cmake | head -n 1)"
+            if [ -z "${LLAMA_CPP_GIT_TAG}" ]; then
+              echo "::error::Unable to determine LLAMA_CPP_GIT_TAG from cmake/Dependencies.cmake"
+              exit 1
+            fi
+
+            echo "Fetching llama.cpp at pinned revision ${LLAMA_CPP_GIT_TAG}"
+            rm -rf llama.cpp
+            if [[ "${LLAMA_CPP_GIT_TAG}" =~ ^[0-9a-fA-F]{40}$ ]]; then
+              git clone --filter=blob:none --no-checkout https://github.com/ggerganov/llama.cpp.git llama.cpp
+              git -C llama.cpp checkout "${LLAMA_CPP_GIT_TAG}"
+              ACTUAL_LLAMA_CPP_COMMIT="$(git -C llama.cpp rev-parse HEAD)"
+              if [[ ! "${ACTUAL_LLAMA_CPP_COMMIT}" == "${LLAMA_CPP_GIT_TAG}"* ]]; then
+                echo "::error::llama.cpp checkout mismatch: expected prefix ${LLAMA_CPP_GIT_TAG}, got ${ACTUAL_LLAMA_CPP_COMMIT}"
+                exit 1
+              fi
+            else
+              git clone --depth 1 --branch "${LLAMA_CPP_GIT_TAG}" https://github.com/ggerganov/llama.cpp.git llama.cpp
+              ACTUAL_LLAMA_CPP_TAG="$(git -C llama.cpp describe --tags --exact-match HEAD 2>/dev/null || true)"
+              if [ "${ACTUAL_LLAMA_CPP_TAG}" != "${LLAMA_CPP_GIT_TAG}" ]; then
+                echo "::error::llama.cpp checkout mismatch: expected tag ${LLAMA_CPP_GIT_TAG}, got ${ACTUAL_LLAMA_CPP_TAG:-<none>}"
+                exit 1
+              fi
+            fi
+          fi
+
+          mkdir -p llama.cpp/models
+          touch llama.cpp/models/.gitkeep
+          test -f llama.cpp/CMakeLists.txt
+
+      - name: Detect host CA bundle
+        id: host-ca
+        shell: bash
+        run: |
+          set -euo pipefail
+          CA_BUNDLE_PATH="$(python3 -c 'import ssl; print(ssl.get_default_verify_paths().cafile or "")' 2>/dev/null || true)"
+          if [ -z "${CA_BUNDLE_PATH}" ] || [ ! -f "${CA_BUNDLE_PATH}" ]; then
+            echo "::error::Unable to locate host CA bundle via python3 ssl defaults"
+            exit 1
+          fi
+          echo "path=${CA_BUNDLE_PATH}" >> "${GITHUB_OUTPUT}"
+
+      - name: Compute platform tag
+        id: platform-tag
+        shell: bash
+        run: |
+          set -euo pipefail
+          PLATFORM_TAG="$(echo '${{ inputs.platform }}' | tr '/:' '-' | tr '[:upper:]' '[:lower:]')"
+          echo "value=${PLATFORM_TAG}" >> "${GITHUB_OUTPUT}"
+          echo "Platform tag: ${PLATFORM_TAG}"
+
+      - name: Build release candidate image for security gate
+        id: build-candidate
+        uses: docker/build-push-action@4f58ea79222b3b9dc2c8bbdd6debcef730109a75  # v6.9.0
+        with:
+          context: .
+          file: ./docker/Dockerfile.unified
+          target: runtime
+          pull: false
+          load: true
+          secret-files: |
+            extra_ca_bundle=${{ steps.host-ca.outputs.path }}
+          push: false
+          platforms: ${{ inputs.platform }}
+          tags: themisdb/themisdb:release-gate-${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
+          build-args: |
+            THEMIS_EDITION=COMMUNITY
+            VERSION=${{ inputs.version }}
+            VCPKG_MANIFEST_HASH=${{ hashFiles('docker/vcpkg-*.json', 'vcpkg-configuration.json', 'ports/**') }}
+            INCLUDE_TINYLLAMA=${{ inputs.include_tinyllama && 'ON' || 'OFF' }}
+            TINYLLAMA_FORCE_DOWNLOAD=${{ inputs.tinyllama_force_download && '1' || '0' }}
+          cache-from: |
+            type=gha,scope=themisdb-docker-unified
+            type=gha,scope=themisdb-docker-unified-${{ github.ref_name || 'detached' }}
+          cache-to: type=gha,mode=max,scope=themisdb-docker-unified
+
+      - name: Release image vulnerability gate (Trivy)
+        if: |
+          inputs.push_to_registry && (
+            (github.event_name == 'release') ||
+            (github.event_name == 'push' && github.ref == 'refs/heads/develop') ||
+            (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true') ||
+            (github.event_name == 'workflow_call' && inputs.push_to_registry == true)
+          )
+        shell: bash
+        run: |
+          set -euo pipefail
+          IMAGE_TAG="themisdb/themisdb:release-gate-${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}"
+          echo "Scanning image ${IMAGE_TAG} for HIGH/CRITICAL OS and library vulns"
+          IMAGE_TAR="${RUNNER_TEMP}/release-gate-image-${{ steps.platform-tag.outputs.value }}.tar"
+          IMAGE_TAR_MOUNT="/tmp/release-gate-image.tar"
+          docker image inspect "${IMAGE_TAG}" >/dev/null 2>&1 || {
+            echo "::error::Image ${IMAGE_TAG} not found locally; cannot run Trivy release gate scan."
+            exit 1
+          }
+          docker save "${IMAGE_TAG}" -o "${IMAGE_TAR}"
+          if [ ! -s "${IMAGE_TAR}" ]; then
+            echo "::error::Failed to export ${IMAGE_TAG} to ${IMAGE_TAR}; cannot run Trivy release gate scan."
+            exit 1
+          fi
+          mkdir -p "${RUNNER_TEMP}/trivy-cache"
+          docker run --rm \
+            -v "${IMAGE_TAR}:${IMAGE_TAR_MOUNT}:ro" \
+            -v "${RUNNER_TEMP}/trivy-cache:/tmp/trivy-cache" \
+            aquasec/trivy:0.64.0 \
+            image \
+            --input "${IMAGE_TAR_MOUNT}" \
+            --cache-dir /tmp/trivy-cache \
+            --scanners vuln \
+            --severity CRITICAL,HIGH \
+            --ignore-unfixed \
+            --format table \
+            --exit-code 1
+
+      - name: Push platform image digest
+        id: push
+        if: inputs.push_to_registry
+        timeout-minutes: 170
+        uses: docker/build-push-action@4f58ea79222b3b9dc2c8bbdd6debcef730109a75  # v6.9.0
+        with:
+          context: .
+          file: ./docker/Dockerfile.unified
+          target: runtime
+          pull: false
+          secret-files: |
+            extra_ca_bundle=${{ steps.host-ca.outputs.path }}
+          push: true
+          platforms: ${{ inputs.platform }}
+          provenance: true
+          sbom: true
+          tags: ghcr.io/${{ github.repository_owner }}/themisdb:${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
+          build-args: |
+            THEMIS_EDITION=COMMUNITY
+            VERSION=${{ inputs.version }}
+            VCPKG_MANIFEST_HASH=${{ hashFiles('docker/vcpkg-*.json', 'vcpkg-configuration.json', 'ports/**') }}
+            INCLUDE_TINYLLAMA=${{ inputs.include_tinyllama && 'ON' || 'OFF' }}
+            TINYLLAMA_FORCE_DOWNLOAD=${{ inputs.tinyllama_force_download && '1' || '0' }}
+          cache-from: |
+            type=gha,scope=themisdb-docker-unified
+            type=gha,scope=themisdb-docker-unified-${{ github.ref_name || 'detached' }}
+          cache-to: type=gha,mode=max,scope=themisdb-docker-unified
+
+      - name: Write digest artifact
+        if: (inputs.push_to_registry == true || inputs.push_to_registry == 'true')
+        shell: bash
+        run: |
+          set -euo pipefail
+          DIGEST="${{ steps.push.outputs.digest }}"
+          IMAGE_REF="ghcr.io/${{ github.repository_owner }}/themisdb:${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}@${DIGEST}"
+          echo "${IMAGE_REF}" > "docker-digest-${{ steps.platform-tag.outputs.value }}.txt"
+          echo "Platform digest ref: ${IMAGE_REF}"
+
+      - name: Upload platform digest
+        if: (inputs.push_to_registry == true || inputs.push_to_registry == 'true')
+        uses: actions/upload-artifact@c4b38be1ef23f3d4efcbdcecc1ea1d9c22d6e5f9  # v5
+        with:
+          name: docker-digest-${{ steps.platform-tag.outputs.value }}
+          path: docker-digest-${{ steps.platform-tag.outputs.value }}.txt
+          retention-days: 7
+
+      - name: Print build result
+        if: always()
+        shell: bash
+        run: |
+          echo "──────────────────────────────────────────────"
+          echo "  Docker platform build complete"
+          echo "  Version   : ${{ inputs.version }}"
+          echo "  Platform  : ${{ inputs.platform }}"
+          echo "  Digest    : ${{ steps.push.outputs.digest || 'not pushed' }}"
+          echo "──────────────────────────────────────────────"

@@ -2746,6 +2746,8 @@ set(THEMIS_CORE_SOURCES
     ../src/updates/blue_green_deployment.cpp
     ../src/updates/coordinated_update_manager.cpp
     ../src/updates/cluster_update_manager.cpp
+    ../src/updates/updates_edge_case_handler.cpp
+    ../src/updates/updates_diagnostic_emitter.cpp
     ../src/updates/preflight_health_check.cpp
     ../src/updates/tenant_update_scheduler.cpp
     ../src/updates/hardware_telemetry.cpp

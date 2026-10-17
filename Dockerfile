@@ -45,6 +45,7 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         build-essential cmake ninja-build git curl ca-certificates pkg-config \
         zip unzip tar wget flex bison python3 perl nasm autoconf automake libtool \
         aria2 sccache libssl-dev zlib1g-dev libkrb5-dev libvulkan-dev glslc linux-libc-dev \
+        libfmt-dev libspdlog-dev nlohmann-json3-dev \
         ${EXTRA_COMPILERS} && \
     apt-get upgrade -y --no-install-recommends && \
     apt-get clean && rm -rf /var/lib/apt/lists/* && \

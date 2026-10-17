@@ -82,14 +82,11 @@ on:
           - "false"
           - "true"
 
-# Explicit minimal default permissions — each job overrides as needed.
 permissions:
   contents: read
   issues: write
 
 concurrency:
-  # Deduplicate by lane/ref instead of run-id to avoid duplicate long-running builds.
-  # cancel-in-progress: false — Docker build interruption can corrupt layer cache.
   group: docker-image-${{ github.workflow }}-${{ github.ref_type || 'ref' }}-${{ github.ref_name || github.sha }}-${{ inputs.registry || github.event.inputs.registry || 'ghcr.io' }}-${{ inputs.push_to_registry || github.event.inputs.push_to_registry || 'false' }}
   cancel-in-progress: false
 
@@ -129,533 +126,349 @@ jobs:
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
 
-  build-and-push:
-    name: "Build & Push Docker Image"
+  prepare-release-context:
+    name: "Release: Prepare Docker Context"
     needs: mark-release-pending
-    runs-on: ubuntu-latest
-    # GitHub-hosted runners hard-stop jobs at ~6h; keep an explicit timeout below that
-    # so the run fails deterministically instead of being cancelled by the platform.
-    timeout-minutes: 355
-    # For workflow_dispatch and workflow_call: always run.
     if: >
       always() && (
         github.event_name == 'workflow_dispatch' ||
         github.event_name == 'workflow_call'
       )
-
-    permissions:
-      contents: read
-      packages: write
-      # Required for OIDC-based ghcr.io login and SLSA attestation
-      id-token: write
-      # Required to attach provenance attestations to the image
-      attestations: write
-      # Required for release image vulnerability gate via Trivy
-      security-events: write
-
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
     outputs:
-      images: ${{ steps.image-info.outputs.images }}
-      digest: ${{ steps.build.outputs.digest }}
-
+      version: ${{ steps.version.outputs.version }}
+      tag_list: ${{ steps.tags.outputs.value }}
+      push_requested: ${{ steps.push-policy.outputs.push_requested }}
+      registry: ${{ steps.push-policy.outputs.registry }}
+      include_tinyllama: ${{ steps.push-policy.outputs.include_tinyllama }}
+      tinyllama_force_download: ${{ steps.push-policy.outputs.tinyllama_force_download }}
     steps:
-    - name: Print Docker build context
-      run: |
-        echo "============================================================"
-        echo " Docker Image CI/CD — Build & Push"
-        echo "============================================================"
-        echo "  Trigger         : ${{ github.event_name }}"
-        echo "  Ref             : ${{ github.ref }}"
-        echo "  SHA             : ${{ github.sha }}"
-        echo "  Actor           : ${{ github.actor }}"
-        echo "  Run ID          : ${{ github.run_id }}"
-        echo "  Timestamp       : $(date -u)"
-        echo "  Push requested  : ${{ github.event.inputs.push_to_registry || 'N/A (auto)' }}"
-        echo "  Target registry : ${{ github.event.inputs.registry || 'ghcr.io (default)' }}"
-        echo "  OS              : $(uname -a)"
-        echo "  Docker version  : $(docker --version)"
-        echo "  Purpose         : Build ThemisDB image, push to registry,"
-        echo "                    attach SLSA Level 2 provenance attestation."
-        echo "============================================================"
+      - name: Checkout
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09  # v5
+        with:
+          fetch-depth: 0
+          ref: ${{ github.sha }}
 
-    - name: Checkout
-      uses: actions/checkout@v5
-      with:
-        fetch-depth: 0
-        ref: ${{ github.sha }}
+      - name: Validate canonical version contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x .github/scripts/version-release-type-manager.sh
+          .github/scripts/version-release-type-manager.sh validate
 
-    - name: Validate canonical version contract
-      shell: bash
-      run: |
-        set -euo pipefail
-        chmod +x .github/scripts/version-release-type-manager.sh
-        .github/scripts/version-release-type-manager.sh validate
+      - name: Determine version
+        id: version
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          GIT_REF: ${{ github.ref }}
+          TAG_INPUT: ${{ inputs.tag_name || github.event.inputs.tag_name || '' }}
+        run: |
+          echo "──────────────────────────────────────────────"
+          echo "  Version detection"
+          RELEASE_TAG_NAME="$(jq -r '.release.tag_name // empty' "${GITHUB_EVENT_PATH}" 2>/dev/null || true)"
+          TAG_REGEX='^(v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|enterprise-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|hyperscaler-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|military-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|minimal-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?)$'
+          SEMVER_REGEX='^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$'
 
-    - name: Determine version
-      id: version
-      env:
-        EVENT_NAME: ${{ github.event_name }}
-        GIT_REF: ${{ github.ref }}
-        TAG_INPUT: ${{ inputs.tag_name || github.event.inputs.tag_name || '' }}
-      run: |
-        echo "──────────────────────────────────────────────"
-        echo "  Version detection"
-        RELEASE_TAG_NAME="$(jq -r '.release.tag_name // empty' "${GITHUB_EVENT_PATH}" 2>/dev/null || true)"
-        TAG_REGEX='^(v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|enterprise-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|hyperscaler-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|military-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|minimal-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?)$'
-        SEMVER_REGEX='^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$'
-
-        resolve_version_from_file() {
-          if [[ ! -f VERSION ]]; then
-            echo "::error::VERSION file is missing at repository root; the canonical product version source is required." >&2
-            exit 1
-          fi
-          VERSION="$(tr -d '\r\n' < VERSION)"
-          if ! echo "${VERSION}" | grep -Eq "${SEMVER_REGEX}"; then
-            echo "::error::VERSION file contains an invalid canonical version: ${VERSION}" >&2
-            exit 1
-          fi
-          echo "${VERSION}"
-        }
-
-        if [[ "${EVENT_NAME}" == "workflow_call" ]]; then
-          if [[ -n "${TAG_INPUT}" ]]; then
-            if ! echo "${TAG_INPUT}" | grep -Eq "${TAG_REGEX}"; then
-              echo "::error::workflow_call tag_name has invalid release format: ${TAG_INPUT}"
+          resolve_version_from_file() {
+            if [[ ! -f VERSION ]]; then
+              echo "::error::VERSION file is missing at repository root; the canonical product version source is required." >&2
               exit 1
             fi
-            VERSION="${TAG_INPUT}"
-            echo "  Source   : workflow_call input tag_name"
+            VERSION="$(tr -d '\r\n' < VERSION)"
+            if ! echo "${VERSION}" | grep -Eq "${SEMVER_REGEX}"; then
+              echo "::error::VERSION file contains an invalid canonical version: ${VERSION}" >&2
+              exit 1
+            fi
+            echo "${VERSION}"
+          }
+
+          if [[ "${EVENT_NAME}" == "workflow_call" ]]; then
+            if [[ -n "${TAG_INPUT}" ]]; then
+              if ! echo "${TAG_INPUT}" | grep -Eq "${TAG_REGEX}"; then
+                echo "::error::workflow_call tag_name has invalid release format: ${TAG_INPUT}"
+                exit 1
+              fi
+              VERSION="${TAG_INPUT}"
+              echo "  Source   : workflow_call input tag_name"
+            else
+              VERSION="v$(resolve_version_from_file)"
+              echo "  Source   : canonical VERSION file"
+            fi
+
+            echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
+          elif [[ "${GIT_REF}" == refs/tags/* ]]; then
+            VERSION="${GIT_REF}"
+            VERSION="${VERSION#refs/tags/}"
+            echo "  Source   : git tag"
+            echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
+          elif [[ "${EVENT_NAME}" == "release" ]]; then
+            VERSION="${RELEASE_TAG_NAME}"
+            echo "  Source   : release event"
+            echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
           else
             VERSION="v$(resolve_version_from_file)"
             echo "  Source   : canonical VERSION file"
+            echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
           fi
+          echo "  Version  : ${VERSION}"
+          echo "──────────────────────────────────────────────"
 
-          echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
-        elif [[ "${GIT_REF}" == refs/tags/* ]]; then
-          VERSION="${GIT_REF}"
-          VERSION="${VERSION#refs/tags/}"
-          echo "  Source   : git tag"
-          echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
-        elif [[ "${EVENT_NAME}" == "release" ]]; then
-          VERSION="${RELEASE_TAG_NAME}"
-          echo "  Source   : release event"
-          echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
-        else
-          VERSION="v$(resolve_version_from_file)"
-          echo "  Source   : canonical VERSION file"
-          echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
-        fi
-        echo "  Version  : ${VERSION}"
-        echo "──────────────────────────────────────────────"
+      - name: Determine Docker tags
+        id: tags
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          GIT_REF: ${{ github.ref }}
+          REPOSITORY: ${{ github.repository }}
+          COMMIT_SHA: ${{ github.sha }}
+          RUN_ID: ${{ github.run_id }}
+          TARGET_REGISTRY_INPUT: ${{ inputs.registry || github.event.inputs.registry || '' }}
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          TAGS=""
+          RELEASE_TAG_REGEX='^(v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|enterprise-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|hyperscaler-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|military-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|minimal-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?)$'
+          REPO_LC="$(echo "${REPOSITORY}" | tr '[:upper:]' '[:lower:]')"
+          GHCR_REPO="ghcr.io/${REPO_LC}"
+          DOCKERHUB_REPO="themisdb/themisdb"
+          TARGET_REGISTRY="${TARGET_REGISTRY_INPUT:-ghcr.io}"
+          RELEASE_TYPE="$(tr -d '\r\n' < RELEASE_TYPE 2>/dev/null || echo stable)"
+          RELEASE_TYPE="$(printf '%s' "${RELEASE_TYPE}" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9')"
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349  # v3.7.1
-
-    - name: Log in to Docker Hub
-      if: |
-        (github.event_name == 'release') ||
-        (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true' && github.event.inputs.registry == 'docker.io') ||
-        (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true' && github.event.inputs.registry == 'both') ||
-        (github.event_name == 'workflow_call' && inputs.push_to_registry == true && (inputs.registry == 'docker.io' || inputs.registry == 'both'))
-      uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567  # v3.3.0
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-    - name: Log in to GitHub Container Registry (OIDC — no long-lived token)
-      if: |
-        (github.event_name == 'push' && github.ref == 'refs/heads/develop') ||
-        (github.event_name == 'release') ||
-        (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true' && github.event.inputs.registry == 'ghcr.io') ||
-        (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true' && github.event.inputs.registry == 'both') ||
-        (github.event_name == 'workflow_call' && inputs.push_to_registry == true && (inputs.registry == 'ghcr.io' || inputs.registry == 'both'))
-      uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567  # v3.3.0
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        # OIDC: uses the ephemeral GITHUB_TOKEN issued by the OIDC provider;
-        # no stored PAT required for ghcr.io.
-        password: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Determine Docker tags
-      id: tags
-      env:
-        EVENT_NAME: ${{ github.event_name }}
-        GIT_REF: ${{ github.ref }}
-        REPOSITORY: ${{ github.repository }}
-        COMMIT_SHA: ${{ github.sha }}
-        RUN_ID: ${{ github.run_id }}
-        TARGET_REGISTRY_INPUT: ${{ inputs.registry || github.event.inputs.registry || '' }}
-      run: |
-        VERSION="${{ steps.version.outputs.version }}"
-        TAGS=""
-        RELEASE_TAG_REGEX='^(v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|enterprise-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|hyperscaler-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|military-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|minimal-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?)$'
-        REPO_LC="$(echo "${REPOSITORY}" | tr '[:upper:]' '[:lower:]')"
-        GHCR_REPO="ghcr.io/${REPO_LC}"
-        DOCKERHUB_REPO="themisdb/themisdb"
-        TARGET_REGISTRY="${TARGET_REGISTRY_INPUT:-ghcr.io}"
-        RELEASE_TYPE="$(tr -d '\r\n' < RELEASE_TYPE 2>/dev/null || echo stable)"
-        RELEASE_TYPE="$(printf '%s' "${RELEASE_TYPE}" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9')"
-
-        if [[ -z "${RELEASE_TYPE}" ]]; then
-          RELEASE_TYPE="stable"
-        fi
-        case "${RELEASE_TYPE}" in
-          nightly|alpha|beta|rc|stable) ;;
-          *)
-            echo "::error::Invalid RELEASE_TYPE '${RELEASE_TYPE}' for Docker tag derivation. Expected one of: nightly, alpha, beta, rc, stable"
-            exit 1
-            ;;
-        esac
-
-        append_tag() {
-          local candidate="$1"
-          if [[ -z "${TAGS}" ]]; then
-            TAGS="${candidate}"
-          else
-            TAGS="${TAGS},${candidate}"
+          if [[ -z "${RELEASE_TYPE}" ]]; then
+            RELEASE_TYPE="stable"
           fi
-        }
-
-        normalize_version() {
-          local v="$1"
-          v="${v#v}"
-          v="${v#enterprise-v}"
-          v="${v#hyperscaler-v}"
-          v="${v#military-v}"
-          v="${v#minimal-v}"
-          printf '%s' "${v}"
-        }
-
-        BASE_VERSION="$(normalize_version "${VERSION}")"
-        MINOR_VERSION="$(echo "${BASE_VERSION}" | cut -d. -f1-2)"
-        TODAY="$(date -u +%Y%m%d)"
-
-        # Published release tags are derived from the canonical release type plus the base version.
-        if [[ "${VERSION}" =~ ${RELEASE_TAG_REGEX} ]]; then
-          if [[ "${RELEASE_TYPE}" == "stable" ]]; then
-            if [[ "${TARGET_REGISTRY}" == "docker.io" || "${TARGET_REGISTRY}" == "both" ]]; then
-              append_tag "${DOCKERHUB_REPO}:${BASE_VERSION}"
-              append_tag "${DOCKERHUB_REPO}:${MINOR_VERSION}"
-              append_tag "${DOCKERHUB_REPO}:latest"
-            fi
-            if [[ "${TARGET_REGISTRY}" == "ghcr.io" || "${TARGET_REGISTRY}" == "both" ]]; then
-              append_tag "${GHCR_REPO}:${BASE_VERSION}"
-              append_tag "${GHCR_REPO}:${MINOR_VERSION}"
-              append_tag "${GHCR_REPO}:latest"
-            fi
-          elif [[ "${RELEASE_TYPE}" == "nightly" ]]; then
-            if [[ "${TARGET_REGISTRY}" == "docker.io" || "${TARGET_REGISTRY}" == "both" ]]; then
-              append_tag "${DOCKERHUB_REPO}:nightly"
-              append_tag "${DOCKERHUB_REPO}:nightly-${TODAY}"
-              append_tag "${DOCKERHUB_REPO}:${BASE_VERSION}-nightly-${TODAY}"
-            fi
-            if [[ "${TARGET_REGISTRY}" == "ghcr.io" || "${TARGET_REGISTRY}" == "both" ]]; then
-              append_tag "${GHCR_REPO}:nightly"
-              append_tag "${GHCR_REPO}:nightly-${TODAY}"
-              append_tag "${GHCR_REPO}:${BASE_VERSION}-nightly-${TODAY}"
-            fi
-          else
-            if [[ "${TARGET_REGISTRY}" == "docker.io" || "${TARGET_REGISTRY}" == "both" ]]; then
-              append_tag "${DOCKERHUB_REPO}:${BASE_VERSION}-${RELEASE_TYPE}"
-              append_tag "${DOCKERHUB_REPO}:${MINOR_VERSION}-${RELEASE_TYPE}"
-            fi
-            if [[ "${TARGET_REGISTRY}" == "ghcr.io" || "${TARGET_REGISTRY}" == "both" ]]; then
-              append_tag "${GHCR_REPO}:${BASE_VERSION}-${RELEASE_TYPE}"
-              append_tag "${GHCR_REPO}:${MINOR_VERSION}-${RELEASE_TYPE}"
-            fi
-          fi
-
-        # For develop-based builds, prefer GHCR; workflow_dispatch can target Docker Hub explicitly.
-        elif [[ "${GIT_REF}" == "refs/heads/develop" ]]; then
-          SHORT_SHA="$(echo "${COMMIT_SHA}" | cut -c1-7)"
-          if [[ "${TARGET_REGISTRY}" == "docker.io" || "${TARGET_REGISTRY}" == "both" ]]; then
-            append_tag "${DOCKERHUB_REPO}:dev-${SHORT_SHA}"
-            append_tag "${DOCKERHUB_REPO}:develop"
-          fi
-          if [[ "${TARGET_REGISTRY}" == "ghcr.io" || "${TARGET_REGISTRY}" == "both" ]]; then
-            append_tag "${GHCR_REPO}:dev-${SHORT_SHA}"
-            append_tag "${GHCR_REPO}:develop"
-          fi
-
-        # For non-release manual builds outside develop, honor the selected registry.
-        else
-          if [[ "${TARGET_REGISTRY}" == "docker.io" || "${TARGET_REGISTRY}" == "both" ]]; then
-            append_tag "${DOCKERHUB_REPO}:manual-${RUN_ID}"
-          fi
-          if [[ "${TARGET_REGISTRY}" == "ghcr.io" || "${TARGET_REGISTRY}" == "both" ]]; then
-            append_tag "${GHCR_REPO}:manual-${RUN_ID}"
-          fi
-        fi
-
-        echo "value=${TAGS}" >> "${GITHUB_OUTPUT}"
-        echo "Tags to be pushed: ${TAGS}"
-
-    - name: Prepare Docker build context
-      shell: bash
-      run: |
-        set -euo pipefail
-        mkdir -p internal llama.cpp models
-        touch internal/.gitkeep models/.gitkeep
-        git submodule sync -- vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF
-        git submodule update --init --depth 1 vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF
-        mkdir -p vcpkg/downloads
-
-        test -f vcpkg/scripts/buildsystems/vcpkg.cmake
-        test -f whisper.cpp/CMakeLists.txt
-        test -f stable-diffusion.cpp/CMakeLists.txt
-        test -e ffmpeg
-        test -e external/GIUF
-
-        if [ ! -f llama.cpp/CMakeLists.txt ]; then
-          LLAMA_CPP_GIT_TAG="$(perl -ne 'print "$1\n" if /set\s*\(\s*LLAMA_CPP_GIT_TAG\s+"([^"]+)"/' cmake/Dependencies.cmake | head -n 1)"
-          if [ -z "${LLAMA_CPP_GIT_TAG}" ]; then
-            echo "::error::Unable to determine LLAMA_CPP_GIT_TAG from cmake/Dependencies.cmake"
-            exit 1
-          fi
-
-          echo "Fetching llama.cpp at pinned revision ${LLAMA_CPP_GIT_TAG}"
-          rm -rf llama.cpp
-          if [[ "${LLAMA_CPP_GIT_TAG}" =~ ^[0-9a-fA-F]{40}$ ]]; then
-            git clone --filter=blob:none --no-checkout https://github.com/ggerganov/llama.cpp.git llama.cpp
-            git -C llama.cpp checkout "${LLAMA_CPP_GIT_TAG}"
-            ACTUAL_LLAMA_CPP_COMMIT="$(git -C llama.cpp rev-parse HEAD)"
-            if [[ ! "${ACTUAL_LLAMA_CPP_COMMIT}" == "${LLAMA_CPP_GIT_TAG}"* ]]; then
-              echo "::error::llama.cpp checkout mismatch: expected prefix ${LLAMA_CPP_GIT_TAG}, got ${ACTUAL_LLAMA_CPP_COMMIT}"
+          case "${RELEASE_TYPE}" in
+            nightly|alpha|beta|rc|stable) ;;
+            *)
+              echo "::error::Invalid RELEASE_TYPE '${RELEASE_TYPE}' for Docker tag derivation. Expected one of: nightly, alpha, beta, rc, stable"
               exit 1
+              ;;
+          esac
+
+          append_tag() {
+            local candidate="$1"
+            if [[ -z "${TAGS}" ]]; then
+              TAGS="${candidate}"
+            else
+              TAGS="${TAGS},${candidate}"
+            fi
+          }
+
+          normalize_version() {
+            local v="$1"
+            v="${v#v}"
+            v="${v#enterprise-v}"
+            v="${v#hyperscaler-v}"
+            v="${v#military-v}"
+            v="${v#minimal-v}"
+            printf '%s' "${v}"
+          }
+
+          BASE_VERSION="$(normalize_version "${VERSION}")"
+          MINOR_VERSION="$(echo "${BASE_VERSION}" | cut -d. -f1-2)"
+          TODAY="$(date -u +%Y%m%d)"
+
+          if [[ "${VERSION}" =~ ${RELEASE_TAG_REGEX} ]]; then
+            if [[ "${RELEASE_TYPE}" == "stable" ]]; then
+              if [[ "${TARGET_REGISTRY}" == "docker.io" || "${TARGET_REGISTRY}" == "both" ]]; then
+                append_tag "${DOCKERHUB_REPO}:${BASE_VERSION}"
+                append_tag "${DOCKERHUB_REPO}:${MINOR_VERSION}"
+                append_tag "${DOCKERHUB_REPO}:latest"
+              fi
+              if [[ "${TARGET_REGISTRY}" == "ghcr.io" || "${TARGET_REGISTRY}" == "both" ]]; then
+                append_tag "${GHCR_REPO}:${BASE_VERSION}"
+                append_tag "${GHCR_REPO}:${MINOR_VERSION}"
+                append_tag "${GHCR_REPO}:latest"
+              fi
+            elif [[ "${RELEASE_TYPE}" == "nightly" ]]; then
+              if [[ "${TARGET_REGISTRY}" == "docker.io" || "${TARGET_REGISTRY}" == "both" ]]; then
+                append_tag "${DOCKERHUB_REPO}:nightly"
+                append_tag "${DOCKERHUB_REPO}:nightly-${TODAY}"
+                append_tag "${DOCKERHUB_REPO}:${BASE_VERSION}-nightly-${TODAY}"
+              fi
+              if [[ "${TARGET_REGISTRY}" == "ghcr.io" || "${TARGET_REGISTRY}" == "both" ]]; then
+                append_tag "${GHCR_REPO}:nightly"
+                append_tag "${GHCR_REPO}:nightly-${TODAY}"
+                append_tag "${GHCR_REPO}:${BASE_VERSION}-nightly-${TODAY}"
+              fi
+            else
+              if [[ "${TARGET_REGISTRY}" == "docker.io" || "${TARGET_REGISTRY}" == "both" ]]; then
+                append_tag "${DOCKERHUB_REPO}:${BASE_VERSION}-${RELEASE_TYPE}"
+                append_tag "${DOCKERHUB_REPO}:${MINOR_VERSION}-${RELEASE_TYPE}"
+              fi
+              if [[ "${TARGET_REGISTRY}" == "ghcr.io" || "${TARGET_REGISTRY}" == "both" ]]; then
+                append_tag "${GHCR_REPO}:${BASE_VERSION}-${RELEASE_TYPE}"
+                append_tag "${GHCR_REPO}:${MINOR_VERSION}-${RELEASE_TYPE}"
+              fi
+            fi
+          elif [[ "${GIT_REF}" == "refs/heads/develop" ]]; then
+            SHORT_SHA="$(echo "${COMMIT_SHA}" | cut -c1-7)"
+            if [[ "${TARGET_REGISTRY}" == "docker.io" || "${TARGET_REGISTRY}" == "both" ]]; then
+              append_tag "${DOCKERHUB_REPO}:dev-${SHORT_SHA}"
+              append_tag "${DOCKERHUB_REPO}:develop"
+            fi
+            if [[ "${TARGET_REGISTRY}" == "ghcr.io" || "${TARGET_REGISTRY}" == "both" ]]; then
+              append_tag "${GHCR_REPO}:dev-${SHORT_SHA}"
+              append_tag "${GHCR_REPO}:develop"
             fi
           else
-            git clone --depth 1 --branch "${LLAMA_CPP_GIT_TAG}" https://github.com/ggerganov/llama.cpp.git llama.cpp
-            ACTUAL_LLAMA_CPP_TAG="$(git -C llama.cpp describe --tags --exact-match HEAD 2>/dev/null || true)"
-            if [ "${ACTUAL_LLAMA_CPP_TAG}" != "${LLAMA_CPP_GIT_TAG}" ]; then
-              echo "::error::llama.cpp checkout mismatch: expected tag ${LLAMA_CPP_GIT_TAG}, got ${ACTUAL_LLAMA_CPP_TAG:-<none>}"
-              exit 1
+            if [[ "${TARGET_REGISTRY}" == "docker.io" || "${TARGET_REGISTRY}" == "both" ]]; then
+              append_tag "${DOCKERHUB_REPO}:manual-${RUN_ID}"
+            fi
+            if [[ "${TARGET_REGISTRY}" == "ghcr.io" || "${TARGET_REGISTRY}" == "both" ]]; then
+              append_tag "${GHCR_REPO}:manual-${RUN_ID}"
             fi
           fi
-        fi
 
-        mkdir -p llama.cpp/models
-        touch llama.cpp/models/.gitkeep
+          echo "value=${TAGS}" >> "${GITHUB_OUTPUT}"
+          echo "Tags to be pushed: ${TAGS}"
 
-        test -f llama.cpp/CMakeLists.txt
+      - name: Determine push policy
+        id: push-policy
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            if [[ "${{ github.event.inputs.push_to_registry || 'false' }}" == "true" ]]; then
+              echo "push_requested=true" >> "${GITHUB_OUTPUT}"
+            else
+              echo "push_requested=false" >> "${GITHUB_OUTPUT}"
+            fi
+            echo "registry=${{ github.event.inputs.registry || 'ghcr.io' }}" >> "${GITHUB_OUTPUT}"
+          elif [[ "${{ github.event_name }}" == "workflow_call" ]]; then
+            if [[ "${{ inputs.push_to_registry }}" == "true" ]]; then
+              echo "push_requested=true" >> "${GITHUB_OUTPUT}"
+            else
+              echo "push_requested=false" >> "${GITHUB_OUTPUT}"
+            fi
+            echo "registry=${{ inputs.registry || 'ghcr.io' }}" >> "${GITHUB_OUTPUT}"
+          else
+            echo "push_requested=true" >> "${GITHUB_OUTPUT}"
+            echo "registry=ghcr.io" >> "${GITHUB_OUTPUT}"
+          fi
+          echo "include_tinyllama=${{ ((github.event_name == 'workflow_call' && inputs.include_tinyllama == true) || (github.event_name != 'workflow_call' && (github.event.inputs.include_tinyllama || 'true') == 'true')) && 'true' || 'false' }}" >> "${GITHUB_OUTPUT}"
+          echo "tinyllama_force_download=${{ ((github.event_name == 'workflow_call' && inputs.tinyllama_force_download == true) || (github.event_name != 'workflow_call' && (github.event.inputs.tinyllama_force_download || 'false') == 'true')) && 'true' || 'false' }}" >> "${GITHUB_OUTPUT}"
 
-    - name: Detect host CA bundle
-      id: host-ca
-      shell: bash
-      run: |
-        set -euo pipefail
-        CA_BUNDLE_PATH="$(python3 -c 'import ssl; print(ssl.get_default_verify_paths().cafile or "")' 2>/dev/null || true)"
-        if [ -z "${CA_BUNDLE_PATH}" ] || [ ! -f "${CA_BUNDLE_PATH}" ]; then
-          echo "::error::Unable to locate host CA bundle via python3 ssl defaults"
-          exit 1
-        fi
-        echo "path=${CA_BUNDLE_PATH}" >> "${GITHUB_OUTPUT}"
+  build-platforms:
+    name: "Build: Docker Platform Images"
+    needs: [mark-release-pending, prepare-release-context]
+    if: >
+      always() && (
+        github.event_name == 'workflow_dispatch' ||
+        github.event_name == 'workflow_call'
+      ) && needs.prepare-release-context.result == 'success'
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [linux/amd64, linux/arm64]
+    uses: ./.github/workflows/reusable-docker-image-platform.yml
+    with:
+      platform: ${{ matrix.platform }}
+      version: ${{ needs.prepare-release-context.outputs.version }}
+      tag_list: ${{ needs.prepare-release-context.outputs.tag_list }}
+      registry: ${{ needs.prepare-release-context.outputs.registry }}
+      push_to_registry: ${{ needs.prepare-release-context.outputs.push_requested == 'true' }}
+      include_tinyllama: ${{ needs.prepare-release-context.outputs.include_tinyllama == 'true' }}
+      tinyllama_force_download: ${{ needs.prepare-release-context.outputs.tinyllama_force_download == 'true' }}
+      source_run_id: ${{ github.run_id }}
+      source_sha: ${{ github.sha }}
+    secrets: inherit
 
-    - name: Build release candidate image for security gate
-      id: build-candidate
-      uses: docker/build-push-action@4f58ea79222b3b9dc2c8bbdd6debcef730109a75  # v6.9.0
-      with:
-        context: .
-        file: ./docker/Dockerfile.unified
-        target: runtime
-        pull: false
-        load: true
-        secret-files: |
-          extra_ca_bundle=${{ steps.host-ca.outputs.path }}
-        push: false
-        platforms: linux/amd64
-        tags: themisdb/themisdb:release-gate-${{ github.run_number }}
-        build-args: |
-          THEMIS_EDITION=COMMUNITY
-          VERSION=${{ steps.version.outputs.version }}
-          VCPKG_MANIFEST_HASH=${{ hashFiles('docker/vcpkg-*.json', 'vcpkg-configuration.json', 'ports/**') }}
-          INCLUDE_TINYLLAMA=${{ ((github.event_name == 'workflow_call' && inputs.include_tinyllama == true) || (github.event_name != 'workflow_call' && (github.event.inputs.include_tinyllama || 'true') == 'true')) && 'ON' || 'OFF' }}
-          TINYLLAMA_FORCE_DOWNLOAD=${{ ((github.event_name == 'workflow_call' && inputs.tinyllama_force_download == true) || (github.event_name != 'workflow_call' && (github.event.inputs.tinyllama_force_download || 'false') == 'true')) && '1' || '0' }}
-        cache-from: |
-          type=gha,scope=themisdb-docker-unified
-          type=gha,scope=themisdb-docker-unified-${{ github.ref_name || 'detached' }}
-        cache-to: type=gha,mode=max,scope=themisdb-docker-unified
+  merge-image-manifest:
+    name: "Publish: Docker Multi-Arch Manifest"
+    needs: [prepare-release-context, build-platforms]
+    if: >
+      always() &&
+      needs.prepare-release-context.result == 'success' &&
+      needs.build-platforms.result == 'success' &&
+      needs.prepare-release-context.outputs.push_requested == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+    steps:
+      - name: Download platform digests
+        uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85  # v4.1.3
+        with:
+          pattern: docker-digest-*
+          merge-multiple: true
+          path: ./docker-digests
 
-    - name: Release image vulnerability gate (Trivy)
-      if: |
-        (github.event_name == 'release') ||
-        (github.event_name == 'push' && github.ref == 'refs/heads/develop') ||
-        (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true') ||
-        (github.event_name == 'workflow_call' && inputs.push_to_registry == true)
-      shell: bash
-      run: |
-        set -euo pipefail
-        IMAGE_TAG="themisdb/themisdb:release-gate-${{ github.run_number }}"
-        echo "Scanning image ${IMAGE_TAG} for HIGH/CRITICAL OS and library vulns"
-        IMAGE_TAR="${RUNNER_TEMP}/release-gate-image.tar"
-        IMAGE_TAR_MOUNT="/tmp/release-gate-image.tar"
-        docker image inspect "${IMAGE_TAG}" >/dev/null 2>&1 || {
-          echo "::error::Image ${IMAGE_TAG} not found locally; cannot run Trivy release gate scan."
-          exit 1
-        }
-        docker save "${IMAGE_TAG}" -o "${IMAGE_TAR}"
-        if [ ! -s "${IMAGE_TAR}" ]; then
-          echo "::error::Failed to export ${IMAGE_TAG} to ${IMAGE_TAR}; cannot run Trivy release gate scan."
-          exit 1
-        fi
-        mkdir -p "${RUNNER_TEMP}/trivy-cache"
-        # Scan from a saved image tar to avoid docker-socket requirements inside the Trivy container.
-        docker run --rm \
-          -v "${IMAGE_TAR}:${IMAGE_TAR_MOUNT}:ro" \
-          -v "${RUNNER_TEMP}/trivy-cache:/tmp/trivy-cache" \
-          aquasec/trivy:0.64.0 \
-          image \
-          --input "${IMAGE_TAR_MOUNT}" \
-          --cache-dir /tmp/trivy-cache \
-          --scanners vuln \
-          --severity CRITICAL,HIGH \
-          --ignore-unfixed \
-          --format table \
-          --exit-code 1
+      - name: Log in to Docker Hub
+        if: |
+          contains(needs.prepare-release-context.outputs.tag_list, 'themisdb/themisdb:')
+        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567  # v3.3.0
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Build and push Docker image
-      id: build
-      if: |
-        (github.event_name == 'release') ||
-        (github.event_name == 'push' && github.ref == 'refs/heads/develop') ||
-        (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true') ||
-        (github.event_name == 'workflow_call' && inputs.push_to_registry == true)
-      # Keep this aligned with the job timeout to avoid pre-emptive action timeout.
-      timeout-minutes: 355
-      uses: docker/build-push-action@4f58ea79222b3b9dc2c8bbdd6debcef730109a75  # v6.9.0
-      with:
-        context: .
-        file: ./docker/Dockerfile.unified
-        target: runtime
-        pull: false
-        secret-files: |
-          extra_ca_bundle=${{ steps.host-ca.outputs.path }}
-        push: true
-        platforms: linux/amd64,linux/arm64
-        tags: ${{ steps.tags.outputs.value }}
-        build-args: |
-          THEMIS_EDITION=COMMUNITY
-          VERSION=${{ steps.version.outputs.version }}
-          VCPKG_MANIFEST_HASH=${{ hashFiles('docker/vcpkg-*.json', 'vcpkg-configuration.json', 'ports/**') }}
-          INCLUDE_TINYLLAMA=${{ ((github.event_name == 'workflow_call' && inputs.include_tinyllama == true) || (github.event_name != 'workflow_call' && (github.event.inputs.include_tinyllama || 'true') == 'true')) && 'ON' || 'OFF' }}
-          TINYLLAMA_FORCE_DOWNLOAD=${{ ((github.event_name == 'workflow_call' && inputs.tinyllama_force_download == true) || (github.event_name != 'workflow_call' && (github.event.inputs.tinyllama_force_download || 'false') == 'true')) && '1' || '0' }}
-        cache-from: |
-          type=gha,scope=themisdb-docker-unified
-          type=gha,scope=themisdb-docker-unified-${{ github.ref_name || 'detached' }}
-        cache-to: type=gha,mode=max,scope=themisdb-docker-unified
-        provenance: true
-        sbom: true
+      - name: Log in to GitHub Container Registry
+        if: |
+          contains(needs.prepare-release-context.outputs.tag_list, 'ghcr.io/')
+        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567  # v3.3.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Capture docker build errors as JSON
-      if: failure()
-      shell: bash
-      run: |
-        # docker/build-push-action writes to Actions log, not a file.
-        # Write a minimal structured error record so downstream aggregation
-        # always finds a *-errors.json file on failure.
-        cat > docker-errors.json <<'EOF'
-        {
-          "workflow": "docker-image",
-          "run_id": "${{ github.run_id }}",
-          "run_number": "${{ github.run_number }}",
-          "errors": [
-            {
-              "type": "docker_build_failure",
-              "severity": "critical",
-              "message": "Docker image build failed — see Actions log for details",
-              "timestamp": "$(date -u +%FT%TZ)"
-            }
-          ]
-        }
-        EOF
+      - name: Create final multi-arch manifest
+        id: manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t tags < <(printf '%s' "${{ needs.prepare-release-context.outputs.tag_list }}" | tr ',' '\n' | sed '/^$/d')
+          refs=()
+          for digest_file in ./docker-digests/*; do
+            [ -f "${digest_file}" ] || continue
+            refs+=("$(tr -d '\r\n' < "${digest_file}")")
+          done
 
-    - name: Print build result
-      if: always()
-      run: |
-        echo "──────────────────────────────────────────────"
-        echo "  Docker build complete"
-        echo "  Version   : ${{ steps.version.outputs.version }}"
-        echo "  Tags      : ${{ steps.tags.outputs.value }}"
-        echo "  Digest    : ${{ steps.build.outputs.digest || 'not yet pushed' }}"
-        echo "  Platforms : linux/amd64, linux/arm64"
-        if [ -n "${{ steps.build.outputs.digest }}" ]; then
-          echo "  ✅ Image pushed and digest available for SLSA attestation."
-        else
-          echo "  ℹ️  No digest (PR build or push not requested)."
-        fi
-        echo "──────────────────────────────────────────────"
+          expected_platform_count=2
+          if [ "${#refs[@]}" -lt "${expected_platform_count}" ]; then
+            echo "::error::Expected at least ${expected_platform_count} platform digests to assemble the final manifest, but found ${#refs[@]}."
+            ls -la ./docker-digests || true
+            exit 1
+          fi
 
-    - name: Generate SLSA provenance attestation
-      # Attach build provenance to the pushed image digest (SLSA Level 2).
-      # Skipped for PR builds (digest only available after push).
-      if: |
-        steps.build.outputs.digest != '' &&
-        (
-          (github.event_name == 'release') ||
-          (github.event_name == 'push' && github.ref == 'refs/heads/develop') ||
-          (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true') ||
-          (github.event_name == 'workflow_call' && inputs.push_to_registry == true)
-        )
-      uses: actions/attest-build-provenance@v1  # v1.4.3
-      with:
-        subject-name: ${{ steps.tags.outputs.value }}
-        subject-digest: ${{ steps.build.outputs.digest }}
-        push-to-registry: true
+          create_cmd=(docker buildx imagetools create)
+          for tag in "${tags[@]}"; do
+            create_cmd+=( -t "${tag}" )
+          done
+          for ref in "${refs[@]}"; do
+            create_cmd+=( "${ref}" )
+          done
+          "${create_cmd[@]}"
 
-    - name: Print SLSA attestation result
-      if: always()
-      run: |
-        echo "──────────────────────────────────────────────"
-        echo "  SLSA attestation"
-        DIGEST="${{ steps.build.outputs.digest }}"
-        if [ -n "${DIGEST}" ]; then
-          echo "  ✅ Provenance attestation generated (SLSA Level 2)"
-          echo "  Subject name   : ${{ steps.tags.outputs.value }}"
-          echo "  Subject digest : ${DIGEST}"
-        else
-          echo "  ⏭️  Attestation skipped (no digest — PR build or no push)"
-        fi
-        echo "──────────────────────────────────────────────"
+          PRIMARY_TAG="${tags[0]}"
+          echo "primary_tag=${PRIMARY_TAG}" >> "${GITHUB_OUTPUT}"
+          DIGEST="$(docker buildx imagetools inspect "${PRIMARY_TAG}" --format '{{json .Manifest.Digest}}' | tr -d '\"')"
+          echo "digest=${DIGEST}" >> "${GITHUB_OUTPUT}"
+          echo "Created multi-arch manifest for ${PRIMARY_TAG} with digest ${DIGEST}"
 
-    - name: Upload docker errors
-      if: always() && hashFiles('docker-errors.json') != ''
-      uses: actions/upload-artifact@v5
-      with:
-        name: docker-errors-${{ github.run_number }}
-        path: docker-errors.json
-        retention-days: 7
+      - name: Generate SLSA provenance attestation
+        if: steps.manifest.outputs.digest != ''
+        uses: actions/attest-build-provenance@v1  # v1.4.3
+        with:
+          subject-name: ${{ steps.manifest.outputs.primary_tag }}
+          subject-digest: ${{ steps.manifest.outputs.digest }}
+          push-to-registry: true
 
-    - name: Capture image info
-      id: image-info
-      run: |
-        TAGS="${{ steps.tags.outputs.value }}"
-        echo "images=${TAGS}" >> "${GITHUB_OUTPUT}"
-
-    - name: Docker Hub image summary
-      if: github.event_name == 'release' || (github.event_name == 'push' && github.ref == 'refs/heads/develop')
-      env:
-        VERSION_OUTPUT: ${{ steps.version.outputs.version }}
-        TAG_LIST: ${{ steps.tags.outputs.value }}
-        DIGEST_OUTPUT: ${{ steps.build.outputs.digest }}
-      run: |
-        {
-          echo "### 🐳 Docker Image Published"
-          echo
-          echo "**Version:** ${VERSION_OUTPUT}"
-          echo "**Tags:** ${TAG_LIST}"
-          echo "**Digest:** ${DIGEST_OUTPUT}"
-          echo "**SLSA Provenance:** attached via actions/attest-build-provenance"
-          echo
-          echo "**Pull commands:**"
-          echo '```bash'
-          while IFS= read -r TAG; do
-            echo "docker pull ${TAG}"
-          done < <(tr ',' '\n' <<< "${TAG_LIST}")
-          echo '```'
-        } >> "${GITHUB_STEP_SUMMARY}"
+      - name: Print manifest result
+        if: always()
+        shell: bash
+        run: |
+          echo "──────────────────────────────────────────────"
+          echo "  Docker manifest finalized"
+          echo "  Primary tag : ${{ steps.manifest.outputs.primary_tag || 'not available' }}"
+          echo "  Digest      : ${{ steps.manifest.outputs.digest || 'not available' }}"
+          echo "──────────────────────────────────────────────"
 
   finalize-release-status:
     name: "Release: Finalize Docker Status"
-    needs: [mark-release-pending, build-and-push]
+    needs: [mark-release-pending, prepare-release-context, build-platforms, merge-image-manifest]
     if: always()
     runs-on: ubuntu-latest
     permissions:
@@ -663,16 +476,17 @@ jobs:
       issues: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09  # v5
 
       - name: Resolve final Docker outcome
         id: status
         shell: bash
         env:
-          BUILD_RESULT: ${{ needs.build-and-push.result }}
+          PLATFORM_RESULT: ${{ needs.build-platforms.result }}
+          MANIFEST_RESULT: ${{ needs.merge-image-manifest.result }}
         run: |
           set -euo pipefail
-          if [ "${BUILD_RESULT}" = "success" ]; then
+          if [ "${MANIFEST_RESULT}" = "success" ]; then
             {
               echo "status_label=ci/build-ok"
               echo "status_text=passing"
@@ -680,7 +494,7 @@ jobs:
               echo "status_reason=docker image publication succeeded"
               echo "status_markers="
             } >> "${GITHUB_OUTPUT}"
-          elif [ "${BUILD_RESULT}" = "cancelled" ]; then
+          elif [ "${PLATFORM_RESULT}" = "cancelled" ] || [ "${MANIFEST_RESULT}" = "cancelled" ]; then
             {
               echo "status_label=ci/build-cancelled"
               echo "status_text=cancelled"

@@ -151,6 +151,7 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | `reusable-benchmark-runner.yml` | Reusable: Benchmark Runner (Benchmark execution reusable) | build-benchmarks |
 | `reusable-docs-db-builder.yml` | Reusable: Docs-to-ThemisDB Database Builder (Docs DB generation) | maintenance-docs-db-build |
 | `reusable-status-flags-and-issues.yml` | Reusable: Status Flags and Issues (Status/issue automation) | maintenance, release |
+| `reusable-docker-image-platform.yml` | Reusable: Docker Image Platform Build (Per-platform Docker build + digest handoff) | release-docker-image |
 
 ## Compliance Scorecard
 
