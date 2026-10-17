@@ -188,10 +188,10 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
 
     def test_release_build_matrix_community_only_excludes_experimental_macos_lane(self) -> None:
         workflow_text = RELEASE_BUILD_MATRIX_WORKFLOW.read_text(encoding="utf-8")
-        community_only_logic = "if build_matrix == \"community-only\":\n                   return lane_id in {\"linux-amd64\", \"linux-arm64\", \"windows-amd64\"}"
 
-        self.assertIn(community_only_logic, workflow_text)
-        self.assertNotIn('return lane_id in {"linux-amd64", "linux-arm64", "windows-amd64", "macos-arm64"}', workflow_text)
+        self.assertIn('if build_matrix == "community-only":', workflow_text)
+        self.assertIn('return lane_id in {"linux-amd64", "linux-arm64", "windows-amd64"}', workflow_text)
+        self.assertNotIn('"macos-arm64"', workflow_text.split('if build_matrix == "community-only":', 1)[1].split('if build_matrix.endswith("-only")', 1)[0])
 
     def test_wordpress_press_dispatch_falls_back_to_synthetic_context(self) -> None:
         workflow_text = WORDPRESS_PRESS_WORKFLOW.read_text(encoding="utf-8")
