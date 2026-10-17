@@ -49,7 +49,7 @@ public:
     );
     
     WebSocketSession(
-        beast::ssl_stream<beast::tcp_stream> stream,
+        beast::ssl_stream<tcp::socket> stream,
         HttpServer* server
     );
     
@@ -200,7 +200,7 @@ private:
     
     // WebSocket stream (plain or TLS)
     std::unique_ptr<websocket::stream<beast::tcp_stream>> ws_plain_;
-    std::unique_ptr<websocket::stream<beast::ssl_stream<beast::tcp_stream>>> ws_tls_;
+    std::unique_ptr<websocket::stream<beast::ssl_stream<tcp::socket>>> ws_tls_;
     
     HttpServer* server_;
     beast::flat_buffer buffer_;

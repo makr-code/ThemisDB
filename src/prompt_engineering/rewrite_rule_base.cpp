@@ -16,6 +16,7 @@
 
 #include "prompt_engineering/rewrite_rule.h"
 #include <spdlog/spdlog.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
 #include <chrono>
 
 namespace themis {

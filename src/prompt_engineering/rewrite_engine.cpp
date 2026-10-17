@@ -22,6 +22,7 @@
 #include <algorithm>
 #include <chrono>
 #include <spdlog/spdlog.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
 #include <nlohmann/json.hpp>
 #include <mutex>
 #include <shared_mutex>
