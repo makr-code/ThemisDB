@@ -170,7 +170,6 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          chmod +x .github/scripts/version-release-type-manager.sh
           .github/scripts/version-release-type-manager.sh validate-input-version "${{ inputs.version || github.event.inputs.version }}"
 
       - name: Detect tag/version
