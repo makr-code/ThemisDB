@@ -163,11 +163,18 @@ struct ModePack {
 // Mode Spec Loader + Validator
 // ============================================================================
 
+/**
+ * @brief Validation outcome for mode-spec loading and consistency checks.
+ */
 struct ModeSpecValidationResult {
     bool                     ok = true;
     std::vector<std::string> errors;
     std::vector<std::string> warnings;
 
+    /**
+     * @brief Evaluate validation success in boolean contexts.
+     * @return `true` when validation succeeded and no blocking errors were found.
+     */
     explicit operator bool() const { return ok; }
 };
 
@@ -638,12 +645,12 @@ private:
      * @brief Assemble Prompt.
      * @param[in] query Input parameter.
      * @param[in] docs Input parameter.
-     * @param[in] param Input parameter.
+     * @param[in] mode Input parameter.
      * @return Return value.
      */
     std::string assemblePrompt(const std::string&                         query,
                                 const std::vector<RAGContext::Document>&   docs,
-                                const ModeSpec&                            /*mode*/) const;
+                                const ModeSpec&                            mode) const;
 
     /**
      * @brief Emit Observability.
