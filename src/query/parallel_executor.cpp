@@ -61,6 +61,9 @@ public:
      * @details Calls: emplace_back().
      */
     void run(F&& f) {
+        if (cancelled_.load(std::memory_order_acquire)) {
+            return;
+        }
         std::lock_guard<std::mutex> lock(tasks_mutex_);
         if (cancelled_.load(std::memory_order_acquire)) {
             return;

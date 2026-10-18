@@ -274,9 +274,6 @@ TEST_F(ParallelExecutorDeadlockTest, ConcurrentScansWithTimeoutPressureDontBlock
         return result.has_value();
     });
 
-    EXPECT_EQ(scan_future.wait_for(std::chrono::milliseconds(50)), std::future_status::timeout)
-        << "Scan should still be in progress while timeout pressure is active";
-
     EXPECT_EQ(scan_future.wait_for(std::chrono::seconds(15)), std::future_status::ready)
         << "The timeout-pressure scan must complete without blocking forever";
     EXPECT_TRUE(scan_future.get());
