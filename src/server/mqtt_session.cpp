@@ -566,7 +566,6 @@ void MqttSession::sendSubAck(uint16_t packetId, const std::vector<uint8_t>& retu
     // Build MQTT SUBACK packet
     // Format: [Type(0x90), RemainingLength, PacketId(2), ReturnCodes...]
     std::vector<uint8_t> packet;
-    std::vector<uint8_t> packet = {};
 
     packet.reserve(4 + returnCodes.size() );
     
