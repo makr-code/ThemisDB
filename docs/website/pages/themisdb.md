@@ -1,3 +1,5 @@
+--- title: "ThemisDB: Multi-Model-Datenbank mit nativer KI – ohne Cloud-Abhängigkeit"; slug: "themisdb-multi-model-datenbank-mit-nativer-ki-ohne-cloud-abhaengigkeit"; summary: "Main product landing page highlighting a single multi-model database with native AI and cloud independence."; category: "documentation"; tags: ["documentation", "product", "architecture"]; status: "publish"; readiness: "ready"; score: 88; author: "ThemisDB"; coauthors: ["Anthropic Claude", "GitHub Copilot"]; language: "de"; source_origin: "source-links/docs"; source_path: "source-links/docs/website/pages/themisdb.md"; hash: "fee0a43c4c798a83ed45b961dc97ba6b72629bb98a5107ad4fd7fd62d9be65f0" ---
+
 <!--
   META-INFORMATIONEN
   WordPress-Slug:    /themisdb

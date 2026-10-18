@@ -14,6 +14,10 @@ function(themis_register_module_test)
         themis_sync_runtime_dlls_for_target("${TRM_TARGET}")
     endif()
 
+    if(COMMAND themis_set_test_out_dir)
+        themis_set_test_out_dir("${TRM_TARGET}" "${TRM_MODULE}")
+    endif()
+
     if(NOT TRM_MODULE)
         message(FATAL_ERROR "themis_register_module_test requires MODULE")
     endif()

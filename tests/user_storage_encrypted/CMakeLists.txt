@@ -94,6 +94,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test_phase2_error_codes_focused.cpp")
     if(NOT TARGET ${_target})
         add_executable(${_target}
             test_phase2_error_codes_focused.cpp
+            ${THEMIS_ROOT_DIR}/src/user_storage_encrypted/diagnostic_events.cpp
         )
         target_include_directories(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/include

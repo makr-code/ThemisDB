@@ -46,6 +46,7 @@
     "ai_context/**/*.md",
     ".github/**/*.md",
     "tests/**/*.md",
+    "src/**/FEATURES.md",
     "README.md",
     "QUICKSTART.md",
     "SETUP.md",

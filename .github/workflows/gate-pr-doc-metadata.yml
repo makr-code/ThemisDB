@@ -21,6 +21,7 @@ on:
       - 'ai_context/**/*.md'
       - '.github/**/*.md'
       - 'tests/**/*.md'
+      - 'src/**/FEATURES.md'
       - 'README.md'
       - 'QUICKSTART.md'
       - 'SETUP.md'
@@ -32,6 +33,7 @@ on:
       - 'DOCUMENTATION_GOVERNANCE.md'
       - '.github/doc-metadata-gate.json'
       - 'scripts/validate_doc_metadata.py'
+      - 'scripts/validate_module_features.py'
       - 'tests/test_doc_metadata_gate.py'
       - '.github/workflows/gate-pr-doc-metadata.yml'
   push:
@@ -45,6 +47,7 @@ on:
       - 'ai_context/**/*.md'
       - '.github/**/*.md'
       - 'tests/**/*.md'
+      - 'src/**/FEATURES.md'
       - 'README.md'
       - 'QUICKSTART.md'
       - 'SETUP.md'
@@ -56,6 +59,7 @@ on:
       - 'DOCUMENTATION_GOVERNANCE.md'
       - '.github/doc-metadata-gate.json'
       - 'scripts/validate_doc_metadata.py'
+      - 'scripts/validate_module_features.py'
       - 'tests/test_doc_metadata_gate.py'
       - '.github/workflows/gate-pr-doc-metadata.yml'
   workflow_dispatch:
@@ -103,12 +107,106 @@ jobs:
           fi
 
       - name: Run markdown metadata gate
+        if: always()
         run: |
           python3 scripts/validate_doc_metadata.py \
             --repo-root . \
             --config .github/doc-metadata-gate.json \
             --files-from /tmp/doc-metadata-files.txt \
             --report-json /tmp/doc-metadata-report.json
+
+      - name: Run module feature gate
+        id: module_feature_gate
+        if: always()
+        run: |
+          python3 scripts/validate_module_features.py \
+            --repo-root . \
+            --config .github/doc-metadata-gate.json \
+            --files-from /tmp/doc-metadata-files.txt \
+            --report-json /tmp/module-feature-report.json
+
+      - name: Generate per-file docs issues
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p /tmp/doc-file-issues
+          python3 scripts/prepare_doc_file_issues.py \
+            --metadata-report /tmp/doc-metadata-report.json \
+            --feature-report /tmp/module-feature-report.json \
+            --output-dir /tmp/doc-file-issues
+
+      - name: Create per-file documentation issues
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ ! -f /tmp/doc-file-issues/issues_manifest.json ]; then
+            echo "No file-level doc issues to create."
+            exit 0
+          fi
+
+          python3 - <<'PY'
+          import json
+          import os
+          import subprocess
+          from pathlib import Path
+
+          repo = os.environ['GITHUB_REPOSITORY']
+          issue_dir = Path('/tmp/doc-file-issues')
+          manifest = json.loads((issue_dir / 'issues_manifest.json').read_text(encoding='utf-8'))
+
+          def ensure_label(name: str) -> None:
+              result = subprocess.run(
+                  ['gh', 'label', 'list', '--limit', '200', '--json', 'name', '--repo', repo],
+                  check=True,
+                  capture_output=True,
+                  text=True,
+                  env=os.environ.copy(),
+              )
+              labels = {item['name'] for item in json.loads(result.stdout)}
+              if name in labels:
+                  return
+              subprocess.run(['gh', 'label', 'create', name, '--color', 'D4C5F9', '--repo', repo], check=True, env=os.environ.copy(), stdout=subprocess.DEVNULL)
+
+          for label in ['type:documentation', 'status/needs-triage', 'priority:medium', 'quality/doc-metadata-failed']:
+              ensure_label(label)
+
+          issues = json.loads(subprocess.run(
+              ['gh', 'issue', 'list', '--state', 'open', '--limit', '200', '--json', 'number,title,body', '--repo', repo],
+              check=True,
+              capture_output=True,
+              text=True,
+              env=os.environ.copy(),
+          ).stdout)
+
+          for item in manifest.get('issues', []):
+              marker = item['marker']
+              title = item['title']
+              body = (issue_dir / item['output']).read_text(encoding='utf-8')
+              match = next((issue for issue in issues if marker in (issue.get('body') or '')), None)
+              if match:
+                  subprocess.run(
+                      ['gh', 'issue', 'edit', str(match['number']), '--title', title, '--body-file', str(issue_dir / item['output']), '--repo', repo],
+                      check=True,
+                      env=os.environ.copy(),
+                  )
+                  subprocess.run(
+                      ['gh', 'issue', 'edit', str(match['number']), '--add-label', 'type:documentation', '--add-label', 'status/needs-triage', '--add-label', 'priority:medium', '--repo', repo],
+                      check=True,
+                      env=os.environ.copy(),
+                  )
+                  continue
+
+              subprocess.run(
+                  ['gh', 'issue', 'create', '--title', title, '--body-file', str(issue_dir / item['output']), '--repo', repo,
+                   '--label', 'type:documentation', '--label', 'status/needs-triage', '--label', 'priority:medium'] +
+                  (['--label', 'quality/doc-metadata-failed'] if item['kind'] == 'metadata' else []),
+                  check=True,
+                  env=os.environ.copy(),
+              )
+          PY
 
       - name: Write job summary
         if: always()

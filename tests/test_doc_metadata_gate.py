@@ -17,7 +17,9 @@ if str(GITHUB_SCRIPTS_DIR) not in sys.path:
     sys.path.insert(0, str(GITHUB_SCRIPTS_DIR))
 
 import analyze_code_maturity as maturity_gate  # noqa: E402
+import prepare_doc_file_issues as doc_issue_gate  # noqa: E402
 import validate_doc_metadata as gate  # noqa: E402
+import validate_module_features as feature_gate  # noqa: E402
 
 
 class DocMetadataGateTests(unittest.TestCase):
@@ -140,6 +142,90 @@ class DocMetadataGateTests(unittest.TestCase):
         )
         self.assertEqual(report.verdict, "PASS")
         self.assertEqual(report.files_checked, 0)
+
+    def test_src_feature_pages_are_included(self) -> None:
+        file_path = self.root / "src" / "query" / "FEATURES.md"
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+        file_path.write_text(
+            "---\n"
+            "Author: ThemisDB Contributors\n"
+            "Created: 2026-10-18\n"
+            "Last Updated: 2026-10-18\n"
+            "Status: active\n"
+            "---\n\n"
+            "# Query in ThemisDB\n\n"
+            "A modern database needs a query layer that turns natural user intent into reproducible execution plans. "
+            "ThemisDB combines SQL-like semantics, planner guidance, and hybrid execution so teams can ask for data, "
+            "insights, and operational views without stitching together separate systems.\n\n"
+            "This module is the connective tissue between clients, storage, and orchestration. It keeps behaviour explainable, "
+            "observable, and safe under production load.\n",
+            encoding="utf-8",
+        )
+
+        report = gate.build_report(["src/query/FEATURES.md"], self.root, self.config)
+        self.assertEqual(report.verdict, "PASS")
+        self.assertEqual(report.files_checked, 1)
+
+    def test_module_feature_gate_rejects_shallow_pages(self) -> None:
+        file_path = self.root / "src" / "query" / "FEATURES.md"
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+        file_path.write_text(
+            "---\n"
+            "Author: ThemisDB Contributors\n"
+            "Created: 2026-10-18\n"
+            "Last Updated: 2026-10-18\n"
+            "Status: active\n"
+            "---\n\n"
+            "# Query\n\n"
+            "This page is too short and does not explain the module in ThemisDB context.\n",
+            encoding="utf-8",
+        )
+
+        report = feature_gate.build_report(["src/query/FEATURES.md"], self.root, self.config)
+        self.assertEqual(report.verdict, "FAIL")
+        self.assertTrue(report.results[0].errors)
+
+    def test_per_file_issue_bundle_is_created(self) -> None:
+        failing_metadata = {
+            "verdict": "FAIL",
+            "files_seen": 1,
+            "files_checked": 1,
+            "files_skipped": 0,
+            "files_with_errors": 1,
+            "results": [{
+                "file": "docs/guide.md",
+                "errors": ["missing required field 'Created'", "field 'Status' must be one of: active, approved"],
+            }],
+        }
+        failing_feature = {
+            "verdict": "FAIL",
+            "files_seen": 1,
+            "files_checked": 1,
+            "files_skipped": 0,
+            "files_with_errors": 1,
+            "results": [{
+                "file": "src/query/FEATURES.md",
+                "errors": ["FEATURES.md should explain why the module matters in production and operational terms."],
+            }],
+        }
+        output_dir = self.root / "tmp-doc-issues"
+        metadata_report = output_dir / "metadata.json"
+        feature_report = output_dir / "feature.json"
+        metadata_report.parent.mkdir(parents=True, exist_ok=True)
+        metadata_report.write_text(json.dumps(failing_metadata), encoding="utf-8")
+        feature_report.write_text(json.dumps(failing_feature), encoding="utf-8")
+
+        manifest = doc_issue_gate.build_manifest(metadata_report, "metadata", output_dir)
+        manifest.extend(doc_issue_gate.build_manifest(feature_report, "feature", output_dir))
+
+        self.assertEqual(len(manifest), 2)
+        self.assertTrue((output_dir / "docs-guide.md-metadata.md").exists())
+        self.assertTrue((output_dir / "src-query-FEATURES.md-feature.md").exists())
+
+        metadata_issue = (output_dir / "docs-guide.md-metadata.md").read_text(encoding="utf-8")
+        self.assertIn("## Summary", metadata_issue)
+        self.assertIn("## Acceptance Criteria", metadata_issue)
+        self.assertIn("## Direct instructions for Copilot", metadata_issue)
 
 
 if __name__ == "__main__":

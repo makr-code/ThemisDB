@@ -891,6 +891,19 @@ else()
     add_executable(themis_tests ${ALL_TEST_SOURCES})
 endif()
 
+# The unified runner is a single large binary that must not share the root
+# `bin/` output path with module-focused executables. On Windows/Ninja the
+# shared output can be opened by multiple stages at once (link + post-build DLL
+# sync), which triggers LNK1104 on themis_tests.exe even though the source is
+# otherwise valid.
+set_target_properties(themis_tests PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${THEMIS_TESTS_RUNTIME_SUBDIR}/unified"
+    RUNTIME_OUTPUT_DIRECTORY_DEBUG "${THEMIS_TESTS_RUNTIME_SUBDIR}/unified/Debug"
+    RUNTIME_OUTPUT_DIRECTORY_RELEASE "${THEMIS_TESTS_RUNTIME_SUBDIR}/unified/Release"
+    RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO "${THEMIS_TESTS_RUNTIME_SUBDIR}/unified/RelWithDebInfo"
+    RUNTIME_OUTPUT_DIRECTORY_MINSIZEREL "${THEMIS_TESTS_RUNTIME_SUBDIR}/unified/MinSizeRel"
+)
+
 # If we detected a monolithic `themis_core` target earlier in the configure
 # step, link it now that `themis_tests` has been created. This resolves
 # symbols in modular builds without attempting to add sources that may

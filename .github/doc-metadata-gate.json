@@ -5,7 +5,8 @@
     "security/**/*.md",
     "ai_context/**/*.md",
     ".github/**/*.md",
-    "tests/**/*.md"
+    "tests/**/*.md",
+    "src/**/FEATURES.md"
   ],
   "exclude": [
     "CHANGELOG.md",

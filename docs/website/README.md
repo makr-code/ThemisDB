@@ -1,3 +1,5 @@
+--- title: "ThemisDB Website – Marketing-Inhalte"; slug: "themisdb-website-marketing-inhalte"; summary: "Public marketing overview and landing page framework for ThemisDB."; category: "documentation"; tags: ["documentation", "marketing", "community"]; status: "publish"; readiness: "ready"; score: 88; author: "ThemisDB"; coauthors: ["Anthropic Claude", "GitHub Copilot"]; language: "de"; source_origin: "source-links/docs"; source_path: "source-links/docs/website/README.md"; hash: "4c4b68fec4dc6449a26540f80b68d0a42b09a58dc51c4f7ca9d47b940b38d2d7" ---
+
 # ThemisDB Website – Marketing-Inhalte
 
 Dieser Ordner enthält die Inhalte (Copy, Struktur, Block-Anweisungen) für die öffentliche

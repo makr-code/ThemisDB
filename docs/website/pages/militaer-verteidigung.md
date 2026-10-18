@@ -1,3 +1,5 @@
+--- title: "Military Edition: Air-Gap, Resilienz und lokale KI in DDIL-Umgebungen"; slug: "military-edition-air-gap-resilienz-und-lokale-ki-in-ddil-umgebungen"; summary: "Defense-focused landing page for resilient air-gapped operations and local AI in constrained environments."; category: "documentation"; tags: ["documentation", "security", "operations"]; status: "publish"; readiness: "ready"; score: 88; author: "ThemisDB"; coauthors: ["Anthropic Claude", "GitHub Copilot"]; language: "de"; source_origin: "source-links/docs"; source_path: "source-links/docs/website/pages/militaer-verteidigung.md"; hash: "38efa8d87627934a8c2c8769e3a8b32930cfe014ff33e99ee1bf3640324419dc" ---
+
 <!--
   META-INFORMATIONEN
   WordPress-Slug:    /militaer-verteidigung

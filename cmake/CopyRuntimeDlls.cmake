@@ -10,6 +10,12 @@ if(NOT DEFINED DST_DIR OR "${DST_DIR}" STREQUAL "")
     message(FATAL_ERROR "CopyRuntimeDlls.cmake requires DST_DIR")
 endif()
 
+# Multiple focused test targets can share the same output directory and invoke
+# this script in parallel. Serialize per destination directory to avoid races
+# between copy_if_different and GET_RUNTIME_DEPENDENCIES/dumpbin scans.
+set(_copy_runtime_lock "${DST_DIR}/.copy-runtime-dlls.lock")
+file(LOCK "${_copy_runtime_lock}" GUARD PROCESS)
+
 file(MAKE_DIRECTORY "${DST_DIR}")
 
 function(_is_windows_system_path INPUT_PATH OUT_VAR)
@@ -243,6 +249,11 @@ if(DEFINED TARGET_FILE AND NOT "${TARGET_FILE}" STREQUAL "")
                 set(_conflict_candidates "${${_conflict_var}}")
                 set(_has_system_candidate FALSE)
                 set(_has_non_system_candidate FALSE)
+                set(_has_dst_candidate FALSE)
+                set(_has_dep_root_candidate FALSE)
+                set(_has_other_candidate FALSE)
+
+                file(TO_CMAKE_PATH "${DST_DIR}" _dst_norm)
                 foreach(_candidate IN LISTS _conflict_candidates)
                     _is_windows_system_path("${_candidate}" _candidate_is_system)
                     if(_candidate_is_system)
@@ -250,9 +261,38 @@ if(DEFINED TARGET_FILE AND NOT "${TARGET_FILE}" STREQUAL "")
                     else()
                         set(_has_non_system_candidate TRUE)
                     endif()
+
+                    file(TO_CMAKE_PATH "${_candidate}" _candidate_norm)
+                    string(FIND "${_candidate_norm}" "${_dst_norm}/" _dst_pos)
+                    if(_dst_pos EQUAL 0)
+                        set(_has_dst_candidate TRUE)
+                        continue()
+                    endif()
+
+                    set(_is_dep_root FALSE)
+                    foreach(_dep_root IN LISTS _expanded_dep_dirs)
+                        file(TO_CMAKE_PATH "${_dep_root}" _dep_root_norm)
+                        string(FIND "${_candidate_norm}" "${_dep_root_norm}/" _dep_pos)
+                        if(_dep_pos EQUAL 0)
+                            set(_is_dep_root TRUE)
+                            break()
+                        endif()
+                    endforeach()
+
+                    if(_is_dep_root)
+                        set(_has_dep_root_candidate TRUE)
+                    else()
+                        set(_has_other_candidate TRUE)
+                    endif()
                 endforeach()
 
                 if(_has_system_candidate AND _has_non_system_candidate)
+                    continue()
+                endif()
+
+                # Expected and harmless: one candidate in the module-local output
+                # directory and another in configured dependency roots.
+                if(_has_dst_candidate AND _has_dep_root_candidate AND NOT _has_other_candidate)
                     continue()
                 endif()
 

@@ -1,3 +1,5 @@
+--- title: "ThemisDB Enterprise Edition: Hyperscaler-Features ohne Hyperscaler-Abhängigkeit"; slug: "themisdb-enterprise-edition-hyperscaler-features-ohne-hyperscaler-abhaengigkeit"; summary: "Enterprise landing page for platform teams, security, operational resilience, and self-hosted scale."; category: "documentation"; tags: ["documentation", "enterprise", "security"]; status: "publish"; readiness: "ready"; score: 88; author: "ThemisDB"; coauthors: ["Anthropic Claude", "GitHub Copilot"]; language: "de"; source_origin: "source-links/docs"; source_path: "source-links/docs/website/pages/enterprise.md"; hash: "37739f5def7de10cd0c02c1f3008abb7f3c4237beea076282a7d46794c2a1ba8" ---
+
 <!--
   META-INFORMATIONEN
   WordPress-Slug:    /enterprise

@@ -1,3 +1,5 @@
+--- title: "ThemisDB für Entwickler: Multi-Model + lokale KI – in 30 Minuten zum PoC"; slug: "themisdb-fuer-entwickler-multi-model-lokale-ki-in-30-minuten-zum-poc"; summary: "Developer landing page focused on PostgreSQL compatibility, local AI, and rapid PoC onboarding."; category: "documentation"; tags: ["documentation", "developer", "api"]; status: "publish"; readiness: "ready"; score: 88; author: "ThemisDB"; coauthors: ["Anthropic Claude", "GitHub Copilot"]; language: "de"; source_origin: "source-links/docs"; source_path: "source-links/docs/website/pages/developer.md"; hash: "cb797d62ae4cf12ff6464d5e8c69a4727538a060fd856bb8095b3dba41fe9a34" ---
+
 <!--
   META-INFORMATIONEN
   WordPress-Slug:    /developer

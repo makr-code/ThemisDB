@@ -18,6 +18,7 @@ Every active module must be understandable in the same shape, regardless of subs
 For each module under `src/<module>/` and `include/<module>/`, maintain the following artifacts when relevant:
 
 - `README.md`
+- `FEATURES.md` (marketing-oriented capability profile; WordPress content basis)
 - `ARCHITECTURE.md`
 - `ROADMAP.md`
 - `CHANGELOG.md`
@@ -40,6 +41,7 @@ Minimum rules:
 Each primary module file must remain structured and action-oriented:
 
 - `README.md`: purpose, scope, quickstart, build/run, known limitations, related docs
+- `FEATURES.md`: marketing summary, capability highlights, business value, target scenarios, and references to developer docs
 - `ARCHITECTURE.md`: context, components, data flow, interfaces, failure paths, non-goals
 - `ROADMAP.md`: current status, in progress/planned items, implementation phases 1-6, readiness checklist, known issues, breaking changes
 - `FUTURE_ENHANCEMENTS.md`: scope, design constraints, required interfaces, implementation notes, test strategy, performance targets, security/reliability
@@ -172,3 +174,130 @@ The repository standard is:
 - Source code and documentation remain aligned as a single module contract.
 
 If a module cannot be explained by this model, it is a compliance gap until the documentation and evidence are brought into alignment.
+
+## 7. Developer-quality documentation matrix for non-marketing docs
+
+The repository also distinguishes between module capability pages and engineering-oriented developer documentation. Not every file is a marketing-facing feature page. Many files must satisfy a stricter engineering-quality bar centered on architecture, research, implementation, operations, and trust.
+
+### 7.1 Shared quality rules for all developer docs
+
+Every developer-facing document must be able to answer these questions:
+
+- What is the purpose of this document and who is the intended reader?
+- What is the source of truth behind the statement?
+- What module, subsystem, or contract does it describe?
+- Which failure modes, edge cases, or trade-offs apply?
+- Why does this matter operationally or technically?
+- What is the correct next action for a developer, maintainer, or operator?
+
+There is no blanket marketing standard for developer docs. The standard is:
+
+- source-grounded
+- technically explicit
+- operationally relevant
+- reviewer- and maintainer-friendly
+- verifiable against module code, architecture, or operating evidence
+
+### 7.2 Doc type expectations
+
+#### `FEATURES.md`
+
+Purpose: capability and system-role summary.
+
+Required focus:
+- problem or scenario being solved
+- module role in ThemisDB
+- concrete capabilities
+- business or operational value
+- known limitations and trade-offs
+- references to underlying module docs and source evidence
+
+Quality rule:
+- Keep it readable, but do not drift into generic marketing copy.
+- A capability page is not a substitute for module architecture or implementation docs.
+
+#### `ARCHITECTURE.md`
+
+Purpose: system boundaries, contracts, runtime flow, and responsibility model.
+
+Required focus:
+- module boundaries and ownership
+- interfaces and contracts
+- data flow or event flow
+- failure domains
+- design constraints and non-goals
+
+Quality rule:
+- Clear ownership and explicit boundaries are more important than narrative polish.
+
+#### `RESEARCH.md`, `MODELING.md`, `EMBEDDING.md`
+
+Purpose: evidence and evaluation content for method-heavy work.
+
+Required focus:
+- problem definition and assumptions
+- method or model description
+- data basis and constraints
+- metrics, evaluation, and benchmarks
+- trade-offs and limits
+- reproducibility or validation path
+
+Quality rule:
+- Claims must be measurable, evidence-based, and capable of review.
+- Avoid vague phrases like "better", "optimized", or "improved" without a benchmark or metric.
+
+#### `IMPLEMENTATION.md`, `API.md`, `MODULE_GUIDE.md`
+
+Purpose: engineering execution guidance and operational contract details.
+
+Required focus:
+- purpose and scope
+- interfaces and public contracts
+- inputs, outputs, and invariants
+- edge cases and exceptions
+- validation or test expectations
+
+Quality rule:
+- The document must be actionable for a developer implementing or integrating the module.
+
+#### `RUNBOOK.md`, `OPERATIONS.md`
+
+Purpose: incident handling and operational recovery.
+
+Required focus:
+- failure modes and symptoms
+- diagnosis path
+- recovery steps and rollback conditions
+- observability signals and relevant metrics
+- safety boundaries and escalation notes
+
+Quality rule:
+- Documents must support real operations and incident triage, not abstract architecture discussion.
+
+#### `SECURITY.md`, `TRUST.md`
+
+Purpose: trust boundaries, risk posture, and control model.
+
+Required focus:
+- trust model and boundaries
+- authentication and authorization posture
+- key handling and secrets exposure risk
+- mitigation and incident handling
+- operational review boundary
+
+Quality rule:
+- Security documentation must name boundaries and risk explicitly rather than relying on implied trust.
+
+### 7.3 Common quality gate for all docs
+
+A developer-facing document is acceptable when it satisfies all of the following:
+
+- It states the purpose and target reader.
+- It identifies the relevant module or subsystem.
+- It references the canonical source of truth or supporting evidence.
+- It names failure modes, edge cases, or trade-offs.
+- It explains operational or engineering relevance.
+- It avoids unsupported or vague product language.
+- It can be used by a maintainer or developer to make a concrete decision.
+
+This is the repo-standard for engineering-quality documentation and should be treated as the default bar for any change that adds or updates internal developer docs.

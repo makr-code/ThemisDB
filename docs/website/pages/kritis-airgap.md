@@ -1,3 +1,5 @@
+--- title: "KRITIS-ready Datenplattform: Air-Gap, Datensouveränität, lokale KI"; slug: "kritis-ready-datenplattform-air-gap-datensouveraenitaet-lokale-ki"; summary: "Public landing page describing secure air-gapped architecture and sovereign AI for critical infrastructure."; category: "documentation"; tags: ["documentation", "security", "governance"]; status: "publish"; readiness: "ready"; score: 88; author: "ThemisDB"; coauthors: ["Anthropic Claude", "GitHub Copilot"]; language: "de"; source_origin: "source-links/docs"; source_path: "source-links/docs/website/pages/kritis-airgap.md"; hash: "a9daae8c988d6750758aabaf9f0a6cfcaabe163ee8f9cfb89b290678dd14633c" ---
+
 <!--
   META-INFORMATIONEN
   WordPress-Slug:    /kritis-airgap

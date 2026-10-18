@@ -3,7 +3,7 @@
  * @brief Diagnostic event system for structured logging and observability
  */
 
-#include "error_codes.hpp"
+#include "user_storage_encrypted/error_codes.hpp"
 #include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>
 #include <chrono>
