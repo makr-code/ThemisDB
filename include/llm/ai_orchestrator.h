@@ -163,7 +163,7 @@ struct ModePack {
 // Mode Spec Loader + Validator
 // ============================================================================
 
-struct ValidationResult {
+struct ModeSpecValidationResult {
     bool                     ok = true;
     std::vector<std::string> errors;
     std::vector<std::string> warnings;
@@ -174,17 +174,17 @@ struct ValidationResult {
 class ModeSpecLoader {
 public:
     static ModePack loadFromFile(const std::string& path,
-                                 ValidationResult*  result_out = nullptr);
+                                 ModeSpecValidationResult*  result_out = nullptr);
 
     static ModePack loadFromString(const std::string& yaml_text,
-                                   ValidationResult*  result_out = nullptr);
+                                   ModeSpecValidationResult*  result_out = nullptr);
 
     /**
      * @brief Validate.
      * @param[in] pack Input parameter.
      * @return Return value.
      */
-    static ValidationResult validate(const ModePack& pack);
+    static ModeSpecValidationResult validate(const ModePack& pack);
 };
 
 // ============================================================================
@@ -677,4 +677,3 @@ public:
 #endif // THEMIS_ENABLE_MCP
 
 } // namespace themis::llm
-

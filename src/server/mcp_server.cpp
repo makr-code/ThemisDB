@@ -76,7 +76,7 @@ McpServer::McpServer(asio::io_context& io_context, const Config& config)
     guard_cfg.approval_threshold     = themis::security::OperationClass::DESTRUCTIVE;
     guard_cfg.approval_timeout_s     = 60;
     guard_cfg.auto_snapshot          = true;
-    guard_cfg.snapshot_dir           = themis::security::themisDefaultSnapshotDir();
+    guard_cfg.snapshot_dir           = themisDefaultSnapshotDir();
     guard_cfg.environment            = "development";  // Override via attachConfig()
     guard_cfg.block_critical_in_prod = true;
     operation_guard_ = std::make_unique<themis::security::AiOperationGuard>(std::move(guard_cfg));
@@ -156,7 +156,7 @@ McpServer::McpServer(asio::io_context& io_context, const Config& config)
         std::string mode_yaml_path = {};
         // HIGH-GAP FIX: unnecessary_copy — use string_view for const static path
         constexpr std::string_view kModeYamlKey = "config/ai_ml/llm/modes/default.yaml";
-        if (auto resolved = themis::config::ConfigPathResolver::tryResolve(kModeYamlKey)) {
+        if (auto resolved = themis::config::ConfigPathResolver::tryResolve(std::string(kModeYamlKey))) {
             mode_yaml_path = *resolved;
         } else {
             mode_yaml_path = std::string(kModeYamlKey);
@@ -273,7 +273,8 @@ void McpServer::start() {
         if (stdio_transport_) {
             stdio_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });
             stdio_transport_->start();
-            if (stdio_transport_->isRunning()) {
+            if (const auto stdio = std::dynamic_pointer_cast<StdioTransport>(stdio_transport_);
+                stdio && stdio->isRunning()) {
                 spdlog::info("MCP stdio transport started");
             } else {
                 spdlog::warn("MCP stdio transport disabled: no supported stdio reader is available on this platform");
@@ -366,7 +367,7 @@ void McpServer::attachDatabase(std::shared_ptr<RocksDBWrapper> db) {
         query_engine_ = std::make_unique<QueryEngine>(*db, *index_mgr_, *graph_mgr);
         
         // Initialize PromptManager and load system prompts
-        prompt_mgr_ = std::make_unique<PromptManager>();
+        prompt_mgr_ = std::make_unique<themis::prompt_engineering::PromptManager>();
         
         // Try to load prompts from YAML file
         std::string prompt_file = themis::config::ConfigPathResolver::mapLegacyToNew("config/llm_system_prompts.yaml");
@@ -604,7 +605,7 @@ json McpServer::handleRequest(const json& request) {
             return createError(-32601, "Method not found: " + method);
         }
     } catch (const std::exception& e) {
-        errors::logError(ErrorCode::ERR_MCP_TRANSPORT_FAILED, e.what());
+        errors::logError(errors::ErrorCode::ERR_MCP_TRANSPORT_FAILED, e.what());
         return createError(-32603, std::string("Internal error: ") + e.what());
     }
 }
@@ -3142,7 +3143,7 @@ json McpServer::handleAiRollback(const std::string& snapshot_id) {
 
     const std::string snap_base = operation_guard_
         ? operation_guard_->config().snapshot_dir
-        : themis::security::themisDefaultSnapshotDir();
+        : themisDefaultSnapshotDir();
     const std::filesystem::path base_normal =
         std::filesystem::path(snap_base).lexically_normal();
     const std::filesystem::path snapshot_path =
@@ -3216,7 +3217,7 @@ json McpServer::handleAiRollback(const std::string& snapshot_id) {
 json McpServer::toolAiCleanupSnapshots(const json& /*args*/) {
     const std::string snap_dir = operation_guard_
         ? operation_guard_->config().snapshot_dir
-        : themis::security::themisDefaultSnapshotDir();
+        : themisDefaultSnapshotDir();
 
     const int safe_retention_days = (snapshot_retention_days_ > 0) ? snapshot_retention_days_ : 7;
     const int safe_max_gb         = (snapshot_max_total_gb_ > 0) ? snapshot_max_total_gb_ : 100;
@@ -3822,7 +3823,7 @@ void WebSocketTransport::handleMessage(const std::string& session_id, const std:
             sendToSession(session_id, response);
         }
     } catch (const std::exception& e) {
-        errors::logError(ErrorCode::ERR_MCP_TRANSPORT_FAILED, e.what());
+        errors::logError(errors::ErrorCode::ERR_MCP_TRANSPORT_FAILED, e.what());
         
         // Send error response
         json error_response = {
@@ -4459,14 +4460,22 @@ json McpServer::toolSchemaValidate(const json& args) {
             auto& schema_mgr = *schema_mgr_;
             try {
                 auto table_info = schema_mgr.getTable(collection);
-                // Validate required columns are present in document
-                for (const auto& col : table_info.columns) {
-                    if (col.not_null && !document.contains(col.name)) {
-                        validation_errors.push_back({
-                            {"field",   col.name},
-                            {"message", fmt::format("Required field '{}' is missing", col.name)}
-                        });
+                // Validate required properties are present in document
+                if (table_info.has_value()) {
+                    for (const auto& col : table_info->properties) {
+                        if (!col.nullable && !document.contains(col.name)) {
+                            validation_errors.push_back({
+                                {"field",   col.name},
+                                {"message", fmt::format("Required field '{}' is missing", col.name)}
+                            });
+                        }
                     }
+                } else {
+                    return {
+                        {"valid",  true},
+                        {"errors", json::array()},
+                        {"note",   fmt::format("Collection '{}' not found in schema; document accepted", collection)}
+                    };
                 }
             } catch (const std::exception& schema_err) {
                 // Collection not found in schema — treat as unvalidated
@@ -4505,19 +4514,6 @@ json McpServer::toolExplainQuery(const json& args) {
 
         const std::string query_str = args["query"].get<std::string>();
         const std::string language  = args.value("language", "aql");
-
-        // Attempt query engine explain if available
-        if (query_engine_ && language == "aql") {
-            try {
-                auto plan = query_engine_->explain(query_str);
-                if (plan) {
-                    spdlog::info("explain_query: AQL explain succeeded query='{}'", query_str);
-                    return {{"plan", *plan}};
-                }
-            } catch (...) {
-                // fall through to stub plan
-            }
-        }
 
         // Fallback: basic parse-validation stub
         spdlog::info("explain_query: returning stub plan for language={}", language);

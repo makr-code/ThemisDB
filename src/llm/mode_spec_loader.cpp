@@ -341,8 +341,8 @@ ModePack parseModePack(const YAML::Node& root) {
  * @details Calls: YAML::LoadFile(), parseModePack(), push_back(), what(), spdlog::error(), back(), validate(), spdlog::info().
  */
 ModePack ModeSpecLoader::loadFromFile(const std::string& path,
-                                      ValidationResult*  result_out) {
-    ValidationResult local;
+                                      ModeSpecValidationResult*  result_out) {
+    ModeSpecValidationResult local;
     ModePack pack;
 
     try {
@@ -386,8 +386,8 @@ ModePack ModeSpecLoader::loadFromFile(const std::string& path,
  * @details Calls: YAML::Load(), parseModePack(), push_back(), std::string(), what(), spdlog::error(), back(), validate().
  */
 ModePack ModeSpecLoader::loadFromString(const std::string& yaml_text,
-                                        ValidationResult*  result_out) {
-    ValidationResult local;
+                                        ModeSpecValidationResult*  result_out) {
+    ModeSpecValidationResult local;
     ModePack pack;
 
     try {
@@ -416,8 +416,8 @@ ModePack ModeSpecLoader::loadFromString(const std::string& yaml_text,
  * @return Return value.
  * @details Calls: push_back(), spdlog::error(), spdlog::warn(), empty(), warn(), err(), std::to_string(), std::find().
  */
-ValidationResult ModeSpecLoader::validate(const ModePack& pack) {
-    ValidationResult res;
+ModeSpecValidationResult ModeSpecLoader::validate(const ModePack& pack) {
+    ModeSpecValidationResult res;
     auto err = [&](const std::string& msg) {
         res.ok = false;
         res.errors.push_back(msg);
@@ -525,5 +525,4 @@ ValidationResult ModeSpecLoader::validate(const ModePack& pack) {
 }
 
 } // namespace themis::llm
-
 

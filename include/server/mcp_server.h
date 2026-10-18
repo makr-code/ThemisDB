@@ -47,6 +47,12 @@ enum class SecurityEventType : int;
 }
 
 namespace themis {
+class RocksDBWrapper;
+class SecondaryIndexManager;
+class SchemaManager;
+namespace query { class QueryEngine; }
+namespace prompt_engineering { class PromptManager; }
+
 namespace server {
 
 using json = nlohmann::json;
@@ -55,14 +61,10 @@ namespace asio = boost::asio;
 // Forward declarations
 class McpTransport;
 class HttpServer;
-class RocksDBWrapper;
-class SecondaryIndexManager;
-class SchemaManager;
-class QueryEngine;
-
-namespace prompt_engineering {
-class PromptManager;
-}
+using RocksDBWrapper = ::themis::RocksDBWrapper;
+using SecondaryIndexManager = ::themis::SecondaryIndexManager;
+using SchemaManager = ::themis::SchemaManager;
+using QueryEngine = ::themis::query::QueryEngine;
 
 class McpServer : public std::enable_shared_from_this<McpServer> {
 public:
