@@ -361,6 +361,12 @@ jobs:
       fail-fast: false
       matrix:
         platform: [linux/amd64, linux/arm64]
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+      security-events: write
     uses: ./.github/workflows/reusable-docker-image-platform.yml
     with:
       platform: ${{ matrix.platform }}
