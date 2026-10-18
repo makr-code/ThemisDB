@@ -187,9 +187,10 @@ public:
                                    ModeSpecValidationResult*  result_out = nullptr);
 
     /**
-     * @brief Validate.
-     * @param[in] pack Input parameter.
-     * @return Return value.
+     * @brief Validate a loaded mode pack for schema and cross-reference consistency.
+     * @param[in] pack Parsed mode-pack content to validate.
+     * @return Validation result containing `ok` status plus aggregated errors and warnings.
+     *         `ok` is `false` when blocking validation errors are present.
      */
     static ModeSpecValidationResult validate(const ModePack& pack);
 };
