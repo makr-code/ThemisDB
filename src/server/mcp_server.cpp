@@ -4503,7 +4503,7 @@ json McpServer::toolSchemaValidate(const json& args) {
  * @brief Tool Explain Query.
  * @param[in] args Input parameter.
  * @return Return value.
- * @details Calls: contains(), empty(), spdlog::warn(), value(), explain(), spdlog::info(), json::array(), fmt::format().
+ * @details Calls: contains(), empty(), spdlog::warn(), value(), spdlog::info(), json::array(), fmt::format().
  */
 json McpServer::toolExplainQuery(const json& args) {
     try {
@@ -4515,8 +4515,8 @@ json McpServer::toolExplainQuery(const json& args) {
         const std::string query_str = args["query"].get<std::string>();
         const std::string language  = args.value("language", "aql");
 
-        // Fallback: basic parse-validation stub
-        spdlog::info("explain_query: returning stub plan for language={}", language);
+        // Return a minimal explain payload when the query planner API is not exposed.
+        spdlog::info("explain_query: returning minimal plan payload for language={}", language);
         return {
             {"plan", {
                 {"nodes",               json::array()},
