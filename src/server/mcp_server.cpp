@@ -273,8 +273,8 @@ void McpServer::start() {
         if (stdio_transport_) {
             stdio_transport_->setMessageHandler([this](const json& req) { return handleRequest(req); });
             stdio_transport_->start();
-            if (const auto stdio = std::dynamic_pointer_cast<StdioTransport>(stdio_transport_);
-                stdio && stdio->isRunning()) {
+            const auto stdio = std::static_pointer_cast<StdioTransport>(stdio_transport_);
+            if (stdio->isRunning()) {
                 spdlog::info("MCP stdio transport started");
             } else {
                 spdlog::warn("MCP stdio transport disabled: no supported stdio reader is available on this platform");
