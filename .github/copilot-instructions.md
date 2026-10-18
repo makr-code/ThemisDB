@@ -475,6 +475,41 @@ Documentation is a required quality artifact, not an optional add-on.
 - README/API docs must stay synchronized with architecture and behavior changes.
 - Enforcement is achieved via prompt rules, review checklists, and manual sign-off.
 
+### 10.5 Mandatory AI provenance declaration for generated documentation
+
+When a document, section, or generated artifact was created or materially edited by an AI system, the responsible AI MUST declare that fact in the document metadata and, when relevant, in a short provenance note. This is a repository-wide documentation convention for Copilot, Claude, Ollama, and other AI agents.
+
+Required metadata keys:
+
+- `AI_Used`: `true` or `false`
+- `AI_Models`: comma-separated model names or roles, or `unknown`
+- `AI_Contributor`: model/agent name or `unknown`
+- `Human_Review`: `true` or `false`
+- `Human_Author`: human maintainer or contributor name
+
+Example YAML block:
+
+```yaml
+---
+Author: "ThemisDB Team"
+Created: "2026-10-17"
+Last Updated: "2026-10-17"
+Status: "active"
+AI_Used: true
+AI_Models: "GitHub Copilot, Ollama/qwen2.5-coder:14b"
+AI_Contributor: "GitHub Copilot"
+Human_Review: true
+Human_Author: "ThemisDB Team"
+---
+```
+
+If the exact model backend cannot be determined with certainty, the document must state this explicitly instead of claiming a specific model with false certainty:
+
+- "Exact model backend not verifiable from final document text alone."
+- "AI-assisted generation; model attribution is approximate and not guaranteed."
+
+This requirement applies to Markdown docs, architecture notes, roadmap entries, public docs, and any AI-generated narrative content in this repository.
+
 ## 11) Legacy-Code Governance (mandatory)
 
 Legacy code paths are forbidden by default in AI-generated changes.
