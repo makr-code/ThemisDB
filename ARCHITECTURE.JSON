@@ -20,8 +20,8 @@
     },
     {
       "name": "ENFORCEMENT_WAIVERS.md",
-      "sha256_prefix": "adfac235451f8f82",
-      "size_bytes": "213",
+      "sha256_prefix": "e9c511148c607750",
+      "size_bytes": "338",
       "type": "report"
     },
     {
@@ -733,7 +733,7 @@
     {
       "category": "governance",
       "path": "ARCHITECTURE.md",
-      "sha256_prefix": "191e1e8b6a953039"
+      "sha256_prefix": "651842e8e4b91f83"
     },
     {
       "category": "governance",
@@ -758,7 +758,7 @@
     {
       "category": "governance",
       "path": "DOCUMENTATION_GOVERNANCE.md",
-      "sha256_prefix": "d18d5667fbca3b12"
+      "sha256_prefix": "3c2b4c053d7a2cfe"
     },
     {
       "category": "governance",
@@ -2468,7 +2468,7 @@
     {
       "category": "docs",
       "path": "docs/code_maturity_report.md",
-      "sha256_prefix": "ca48ee454333f337"
+      "sha256_prefix": "96ad3c93aa68c8dc"
     },
     {
       "category": "docs",
@@ -3443,7 +3443,7 @@
     {
       "category": "docs",
       "path": "docs/governance/MERGE_GATE_BOT_CONFIG.md",
-      "sha256_prefix": "9462bdcac144d6d3"
+      "sha256_prefix": "222c5e743607be31"
     },
     {
       "category": "docs",
@@ -3533,7 +3533,7 @@
     {
       "category": "docs",
       "path": "docs/governance/RELEASE_GOVERNANCE.md",
-      "sha256_prefix": "dcfd450c2626361d"
+      "sha256_prefix": "de449a8285cc13e1"
     },
     {
       "category": "docs",
@@ -6958,7 +6958,7 @@
     {
       "category": "docs",
       "path": "docs/website/README.md",
-      "sha256_prefix": "fedcae3ae2374fd9"
+      "sha256_prefix": "3043bcc68a484d38"
     },
     {
       "category": "docs",
@@ -6976,7 +6976,7 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-10-16T12:38:59.058209+00:00",
+  "generated_at": "2026-10-19T02:06:53.037440+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
     "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-10-12\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `c22f201e19477f22`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
@@ -9052,15 +9052,15 @@
   ],
   "schema_version": "1.0.0",
   "source_hashes": {
-    "ARCHITECTURE.md": "191e1e8b6a953039",
+    "ARCHITECTURE.md": "651842e8e4b91f83",
     "FUTURE_ENHANCEMENTS.md": "de552eeef9d1ac51",
     "ROADMAP.md": "79ab391b9bacce7a",
     "ai_context/ARCHITECTURE_CLASSIFICATION.md": "57a7f2182a1193c8",
     "ai_context/MODULES_AND_NAMESPACES.md": "bf42dba44a39f8cb",
     "ai_context/api_contracts/": "6384de3aba1abb3b",
     "ai_context/developer_llm_wiki/": "ab798b11352db027",
-    "ai_working/": "510293e9e049f386",
-    "docs/": "b97b776d2d00235c"
+    "ai_working/": "69c0d84d42fe992b",
+    "docs/": "782f3e76edeb5527"
   },
   "statistics": {
     "ai_working_artifact_count": 26,
