@@ -14,6 +14,9 @@ ARG TARGETARCH
 ARG EXTRA_CA_CERT_B64=""
 ARG VCPKG_COMMIT=10b7a178346f3f0abef60cecd5130e295afd8da4
 
+ARG INCLUDE_TINYLLAMA=OFF
+ARG TINYLLAMA_FORCE_DOWNLOAD=0
+
 ENV DEBIAN_FRONTEND=noninteractive
 ENV VCPKG_ROOT=/opt/vcpkg
 ENV VCPKG_FORCE_SYSTEM_BINARIES=1
@@ -177,13 +180,13 @@ RUN --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked \
     echo "Using VCPKG_MANIFEST_HASH=${VCPKG_MANIFEST_HASH}"; \
     TRIPLET=$(cat /tmp/triplet.txt); \
     export VCPKG_BUILD_TYPE=release; \
-    export VCPKG_MAX_CONCURRENCY=1; \
+    export VCPKG_MAX_CONCURRENCY=${VCPKG_MAX_CONCURRENCY:-4}; \
     export VCPKG_DOWNLOAD_TOOL=aria2; \
     export VCPKG_USE_ARIA2=1; \
     export VCPKG_DOWNLOADER=aria2; \
     export CURL_RETRIES=10; \
     export CURL_TIMEOUT=600; \
-    export CMAKE_BUILD_PARALLEL_LEVEL=1; \
+    export CMAKE_BUILD_PARALLEL_LEVEL=${CMAKE_BUILD_PARALLEL_LEVEL:-4}; \
     mkdir -p /build/vcpkg_installed; \
     mkdir -p /build/ports; \
     find /opt/vcpkg/downloads -name '*.part' -delete || true; \
@@ -272,23 +275,22 @@ RUN if [ "$ENABLE_LLM" = "ON" ]; then \
             -DLLAMA_BUILD_EXAMPLES=OFF \
             -DLLAMA_BUILD_SERVER=OFF \
             -DLLAMA_BUILD_SHARED_LIB=ON && \
-        ninja -C build -j$(nproc) && \
+    ninja -C build -j"${CMAKE_BUILD_PARALLEL_LEVEL:-4}" && \
         echo "llama.cpp build completed"; \
     else \
         echo "LLM disabled"; \
         mkdir -p /opt/llama.cpp/build/lib; \
     fi
-
 # Optional TinyLlama provisioning with local-first fallback:
 # 1) Use local TinyLlama GGUF from models/ or llama.cpp/models/ when present.
 # 2) Fallback to Hugging Face download when no local candidate exists.
 RUN set -eux; \
-    if [ "${INCLUDE_TINYLLAMA}" = "ON" ] || [ "${INCLUDE_TINYLLAMA}" = "on" ] || [ "${INCLUDE_TINYLLAMA}" = "true" ] || [ "${INCLUDE_TINYLLAMA}" = "TRUE" ]; then \
+    if [ "${INCLUDE_TINYLLAMA:-OFF}" = "ON" ] || [ "${INCLUDE_TINYLLAMA:-OFF}" = "on" ] || [ "${INCLUDE_TINYLLAMA:-OFF}" = "true" ] || [ "${INCLUDE_TINYLLAMA:-OFF}" = "TRUE" ]; then \
         if [ ! -f /opt/themis-models/default.gguf ] || [ "${TINYLLAMA_FORCE_DOWNLOAD}" = "1" ]; then \
             MODEL_DIR=/opt/themis-models OUTPUT_NAME=default.gguf FORCE=${TINYLLAMA_FORCE_DOWNLOAD} HF_URL="${TINYLLAMA_HF_URL}" LOCAL_SEARCH_DIRS="/opt/local-models/models:/opt/local-models/llama-cpp-models" /usr/local/bin/download-tinyllama-hf.sh; \
         fi; \
     else \
-        echo "INCLUDE_TINYLLAMA is OFF; skipping model download"; \
+        echo "INCLUDE_TINYLLAMA is OFF by default; skipping model download"; \
     fi
 
 # ============================================================================
@@ -422,7 +424,7 @@ RUN set -eux; \
         -DOPENSSL_ROOT_DIR="/src/vcpkg_installed/${TRIPLET}" \
         -DOpenSSL_DIR="/src/vcpkg_installed/${TRIPLET}/share/openssl" \
         ${EXTRA_ARGS} && \
-    cmake --build "${THEMIS_BUILD_DIR}" --target "${THEMIS_BUILD_TARGET}" --parallel "$(nproc)"
+    cmake --build "${THEMIS_BUILD_DIR}" --target "${THEMIS_BUILD_TARGET}" --parallel "${CMAKE_BUILD_PARALLEL_LEVEL:-4}"
 
 # ============================================================================
 # Stage 5: runtime - Production image (optimized for size and startup)
