@@ -139,7 +139,7 @@ jobs:
     needs: mark-build-pending
     uses: ./.github/workflows/release-build-matrix.yml
     with:
-      build_matrix: os
+      build_matrix: community-only
       os: all
       architecture: all
       edition: community
