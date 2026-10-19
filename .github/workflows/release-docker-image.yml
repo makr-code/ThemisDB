@@ -121,6 +121,9 @@ concurrency:
   group: docker-image-${{ github.workflow }}-${{ github.ref_type || 'ref' }}-${{ github.ref_name || github.sha }}-${{ inputs.registry || github.event.inputs.registry || 'ghcr.io' }}-${{ inputs.push_to_registry || github.event.inputs.push_to_registry || 'false' }}
   cancel-in-progress: false
 
+permissions:
+  contents: read
+
 jobs:
   mark-release-pending:
     name: "Release: Mark Docker Status"
