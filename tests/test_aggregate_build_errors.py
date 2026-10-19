@@ -137,6 +137,60 @@ class AggregateBuildErrorsTests(unittest.TestCase):
             self.assertEqual(state["total_unique_errors"], 1)
             self.assertEqual(grouped["entries"][0]["file"], "src/index/multi_gpu_vector_index.cpp")
 
+    def test_script_accepts_windows_paths_in_compiler_diagnostics(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            temp_root = Path(tmp_dir)
+            artifacts_dir = temp_root / "artifacts"
+            run_dir = artifacts_dir / "run-1"
+            run_dir.mkdir(parents=True)
+
+            (run_dir / "_metadata.json").write_text(
+                json.dumps(
+                    {
+                        "run_id": 4001,
+                        "run_number": 1,
+                        "workflow": "Build: Mainline",
+                        "created_at": "2026-09-22T10:00:00Z",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            (run_dir / "build.log").write_text(
+                "C:\\work\\ThemisDB\\src\\index\\multi_gpu_vector_index.cpp(254): error C2039: 'bad_member': is not a member of 'X'\n",
+                encoding="utf-8",
+            )
+
+            output_file = temp_root / "aggregated-errors.md"
+            grouped_file = temp_root / "aggregated-errors-by-module-file.json"
+            state_file = temp_root / "aggregated-error-state.json"
+            tracks_file = temp_root / "chronic-triage-baseline.json"
+
+            env = os.environ.copy()
+            env.update(
+                {
+                    "ERROR_ARTIFACTS_DIR": str(artifacts_dir),
+                    "OUTPUT_FILE": str(output_file),
+                    "GROUPED_OUTPUT_FILE": str(grouped_file),
+                    "CURRENT_STATE_FILE": str(state_file),
+                    "TRACKS_OUTPUT_FILE": str(tracks_file),
+                    "GITHUB_WORKSPACE": str(temp_root),
+                }
+            )
+
+            result = subprocess.run(
+                ["node", str(SCRIPT_PATH)],
+                cwd=REPO_ROOT,
+                capture_output=True,
+                text=True,
+                env=env,
+            )
+
+            self.assertEqual(result.returncode, 0, msg=result.stdout + result.stderr)
+            grouped = json.loads(grouped_file.read_text(encoding="utf-8"))
+            self.assertEqual(grouped["stats"]["total_unique_errors"], 1)
+            self.assertEqual(grouped["entries"][0]["file"], "src/index/multi_gpu_vector_index.cpp")
+            self.assertEqual(grouped["entries"][0]["diagnostics"][0]["file"], "src/index/multi_gpu_vector_index.cpp")
+
     def test_state_snapshot_prefers_chronic_when_capped(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             temp_root = Path(tmp_dir)
