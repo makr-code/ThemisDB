@@ -434,7 +434,7 @@ jobs:
 
           expected_platform_count=1
           if [ "${#refs[@]}" -lt "${expected_platform_count}" ]; then
-            echo "::error::Expected at least ${expected_platform_count} platform digest to assemble the final manifest, but found ${#refs[@]}."
+            echo "::error::Expected at least ${expected_platform_count} platform digest(s) to assemble the final manifest, but found ${#refs[@]}."
             ls -la ./docker-digests || true
             exit 1
           fi

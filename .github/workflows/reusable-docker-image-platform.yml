@@ -210,16 +210,17 @@ jobs:
 
       - name: Release image vulnerability gate (Trivy)
         if: |
-          (inputs.push_to_registry && (
+          inputs.push_to_registry && (
             (github.event_name == 'release') ||
             (github.event_name == 'push' && github.ref == 'refs/heads/develop') ||
             (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true') ||
             (github.event_name == 'workflow_call' && inputs.push_to_registry == true)
-          )) || (!inputs.push_to_registry)
+          )
         shell: bash
+        env:
+          IMAGE_TAG: themisdb/themisdb:release-gate-${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
         run: |
           set -euo pipefail
-          IMAGE_TAG="themisdb/themisdb:release-gate-${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}"
           echo "Scanning image ${IMAGE_TAG} for HIGH/CRITICAL OS and library vulns"
           IMAGE_TAR="${RUNNER_TEMP}/release-gate-image-${{ steps.platform-tag.outputs.value }}.tar"
           IMAGE_TAR_MOUNT="/tmp/release-gate-image.tar"
@@ -251,20 +252,21 @@ jobs:
         if: (inputs.push_to_registry == true || inputs.push_to_registry == 'true')
         timeout-minutes: 170
         shell: bash
+        env:
+          IMAGE_TAG: themisdb/themisdb:release-gate-${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
+          REGISTRY_TAG: ghcr.io/${{ github.repository_owner }}/themisdb:${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
         run: |
           set -euo pipefail
-          IMAGE_TAG="themisdb/themisdb:release-gate-${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}"
-          REGISTRY_TAG="ghcr.io/${{ github.repository_owner }}/themisdb:${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}"
           docker tag "${IMAGE_TAG}" "${REGISTRY_TAG}"
-          PUSH_OUTPUT="$(docker push "${REGISTRY_TAG}" 2>&1)"
-          echo "${PUSH_OUTPUT}"
-          DIGEST="$(printf '%s\n' "${PUSH_OUTPUT}" | awk '/digest:/{print $3}' | tail -n 1)"
-          if [ -z "${DIGEST}" ]; then
-            echo "::error::Unable to determine pushed digest from docker push output"
+          docker push "${REGISTRY_TAG}" > /tmp/docker-push.log 2>&1
+          cat /tmp/docker-push.log
+          DIGEST="$(docker inspect --format='{{if .RepoDigests}}{{index .RepoDigests 0}}{{else}}{{"<no value>"}}{{end}}' "${REGISTRY_TAG}" 2>/dev/null || true)"
+          if [ -z "${DIGEST}" ] || [ "${DIGEST}" = "<null>" ] || [ "${DIGEST}" = "<no value>" ]; then
+            echo "::error::Unable to determine pushed digest for ${REGISTRY_TAG} from docker inspect"
             exit 1
           fi
-          echo "digest=${DIGEST}" >> "${GITHUB_OUTPUT}"
-          echo "registry_ref=${REGISTRY_TAG}@${DIGEST}" >> "${GITHUB_OUTPUT}"
+          echo "digest=${DIGEST#*@}" >> "${GITHUB_OUTPUT}"
+          echo "registry_ref=${REGISTRY_TAG}@${DIGEST#*@}" >> "${GITHUB_OUTPUT}"
 
       - name: Write digest artifact
         if: (inputs.push_to_registry == true || inputs.push_to_registry == 'true')
