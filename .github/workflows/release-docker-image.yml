@@ -35,7 +35,7 @@ on:
       include_tinyllama:
         description: "Include TinyLlama model in image (downloaded during Docker build)"
         required: false
-        default: false
+        default: true
         type: boolean
       tinyllama_force_download:
         description: "Force TinyLlama re-download during Docker build"
@@ -68,7 +68,7 @@ on:
       include_tinyllama:
         description: "Include TinyLlama model in image"
         required: false
-        default: "false"
+        default: "true"
         type: choice
         options:
           - "true"
@@ -346,7 +346,7 @@ jobs:
             echo "push_requested=true" >> "${GITHUB_OUTPUT}"
             echo "registry=ghcr.io" >> "${GITHUB_OUTPUT}"
           fi
-          echo "include_tinyllama=${{ ((github.event_name == 'workflow_call' && inputs.include_tinyllama == true) || (github.event_name != 'workflow_call' && (github.event.inputs.include_tinyllama || 'false') == 'true')) && 'true' || 'false' }}" >> "${GITHUB_OUTPUT}"
+          echo "include_tinyllama=${{ ((github.event_name == 'workflow_call' && inputs.include_tinyllama == true) || (github.event_name != 'workflow_call' && (github.event.inputs.include_tinyllama || 'true') == 'true')) && 'true' || 'false' }}" >> "${GITHUB_OUTPUT}"
           echo "tinyllama_force_download=${{ ((github.event_name == 'workflow_call' && inputs.tinyllama_force_download == true) || (github.event_name != 'workflow_call' && (github.event.inputs.tinyllama_force_download || 'false') == 'true')) && 'true' || 'false' }}" >> "${GITHUB_OUTPUT}"
 
   build-platforms:
