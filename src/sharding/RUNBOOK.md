@@ -28,7 +28,7 @@ This runbook is the operator-facing guide for the principal failure modes in the
 
 ### Immediate actions
 
-1. Confirm shard reachability and determining quorum count.
+1. Confirm shard reachability and determine quorum count.
 2. Check whether the primary and required replicas are reachable.
 3. Inspect the coordinator and health monitor logs for failover decisions.
 4. Stop write traffic to the affected shard family until quorum is restored.
