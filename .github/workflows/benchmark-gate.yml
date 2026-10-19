@@ -111,7 +111,12 @@ jobs:
         run: |
           set -euo pipefail
           sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends ninja-build
+          sudo apt-get install -y --no-install-recommends \
+            ninja-build \
+            autoconf \
+            autoconf-archive \
+            automake \
+            libtool
           git submodule sync -- vcpkg || true
           git submodule update --init --depth 1 vcpkg
           test -f vcpkg/scripts/buildsystems/vcpkg.cmake || {
