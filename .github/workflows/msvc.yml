@@ -83,7 +83,7 @@ jobs:
       - name: Configure CMake
         env:
           CMAKE_PREFIX_PATH: 'C:/msys64/usr;C:/Strawberry/perl/site/lib;C:/Strawberry/perl/vendor/lib;C:/Strawberry/perl/lib'
-        run: cmake -B ${{ env.build }}
+        run: cmake -B ${{ env.build }} -DTHEMIS_DIAGNOSTIC_MODE=ON -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON
 
       # Build is not required unless generated source files are used
       # - name: Build CMake
