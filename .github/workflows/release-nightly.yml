@@ -433,6 +433,7 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Upsert nightly tracker issue
+        id: nightly_tracker
         uses: ./.github/actions/status-flags-and-issues
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -457,6 +458,7 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           operation: replace_status_group
+          issue-number: ${{ steps.nightly_tracker.outputs.issue-number }}
           issue-title: '[Release] Status tracker — nightly'
           issue-marker: '<!-- release-nightly:type:release-status -->'
           labels-to-add: ${{ steps.status.outputs.status_label }}
@@ -470,6 +472,7 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           operation: comment_issue
+          issue-number: ${{ steps.nightly_tracker.outputs.issue-number }}
           issue-title: '[Release] Status tracker — nightly'
           issue-marker: '<!-- release-nightly:type:release-status -->'
           issue-body: '${{ steps.status.outputs.status_icon }} Nightly release `${{ github.sha }}` — [run ${{ github.run_id }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})'
