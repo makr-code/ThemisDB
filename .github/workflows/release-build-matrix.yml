@@ -189,6 +189,9 @@ jobs:
                   "id": "linux-amd64",
                   "enabled": lane_enabled("linux-amd64"),
                   "runs_on": "ubuntu-24.04",
+                  "arch": "x64",
+                  "compiler": "gcc",
+                  "triplet": "x64-linux",
                   "setup_command": "set -euo pipefail\nsudo apt-get update -qq\nsudo apt-get install -y --no-install-recommends \\\n  build-essential cmake ninja-build pkg-config sccache ccache \\\n  autoconf autoconf-archive automake libtool curl ca-certificates \\\n  libssl-dev zlib1g-dev libzstd-dev libcurl4-openssl-dev libkrb5-dev \\\n  libgtest-dev libgmock-dev librocksdb-dev libfmt-dev libspdlog-dev \\\n  libtbb-dev libyaml-cpp-dev libboost-dev libprotobuf-dev protobuf-compiler \\\n  dpkg-dev rpm\ngit submodule sync -- vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF || true\ngit submodule update --init --depth 1 vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF\ntest -f vcpkg/scripts/buildsystems/vcpkg.cmake || {\n  echo \"::error::vcpkg submodule/toolchain missing before bootstrap\"\n  exit 1\n}\nexport VCPKG_ROOT=\"${GITHUB_WORKSPACE}/vcpkg\"\nexport PATH=\"${VCPKG_ROOT}:${PATH}\"\n./vcpkg/bootstrap-vcpkg.sh -disableMetrics",
                   "configure_command": "set -euo pipefail\nexport VCPKG_ROOT=\"${GITHUB_WORKSPACE}/vcpkg\"\nexport PATH=\"${VCPKG_ROOT}:${PATH}\"\nexport VCPKG_FORCE_SYSTEM_BINARIES=true\nexport VCPKG_BUILD_TYPE=release\nexport CMAKE_C_COMPILER_LAUNCHER=sccache\nexport CMAKE_CXX_COMPILER_LAUNCHER=sccache\ncmake --preset linux-release ${CMAKE_FLAGS} 2>&1 | tee configure-linux-release.log",
                   "build_command": "set -euo pipefail\nexport VCPKG_ROOT=\"${GITHUB_WORKSPACE}/vcpkg\"\nexport PATH=\"${VCPKG_ROOT}:${PATH}\"\nexport VCPKG_FORCE_SYSTEM_BINARIES=true\nexport VCPKG_BUILD_TYPE=release\nexport CMAKE_C_COMPILER_LAUNCHER=sccache\nexport CMAKE_CXX_COMPILER_LAUNCHER=sccache\ncmake --build --preset linux-release --parallel 16 2>&1 | tee build-linux-release.log",
@@ -205,6 +208,9 @@ jobs:
                   "id": "linux-arm64",
                   "enabled": lane_enabled("linux-arm64"),
                   "runs_on": "ubuntu-24.04-arm",
+                  "arch": "arm64",
+                  "compiler": "gcc",
+                  "triplet": "arm64-linux",
                   "setup_command": "set -euo pipefail\nsudo apt-get update -qq\nsudo apt-get install -y --no-install-recommends \\\n  build-essential cmake ninja-build pkg-config sccache ccache \\\n  autoconf autoconf-archive automake libtool \\\n  librocksdb-dev libgtest-dev libgmock-dev libssl-dev zlib1g-dev libzstd-dev \\\n  libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \\\n  libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libkrb5-dev \\\n  libvulkan-dev glslc \\\n  libcpp-httplib-dev \\\n  libboost-dev libboost-system-dev libboost-filesystem-dev \\\n  libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev \\\n  dpkg-dev rpm\ngit submodule sync -- vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF || true\ngit submodule update --init --depth 1 vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF\ntest -f vcpkg/scripts/buildsystems/vcpkg.cmake || {\n  echo \"::error::vcpkg submodule/toolchain missing before bootstrap\"\n  exit 1\n}\nexport VCPKG_ROOT=\"${GITHUB_WORKSPACE}/vcpkg\"\nexport PATH=\"${VCPKG_ROOT}:${PATH}\"\n./vcpkg/bootstrap-vcpkg.sh -disableMetrics",
                   "configure_command": "set -euo pipefail\nexport VCPKG_ROOT=\"${GITHUB_WORKSPACE}/vcpkg\"\nexport PATH=\"${VCPKG_ROOT}:${PATH}\"\nexport VCPKG_FORCE_SYSTEM_BINARIES=true\nexport CMAKE_C_COMPILER_LAUNCHER=sccache\nexport CMAKE_CXX_COMPILER_LAUNCHER=sccache\ncmake --preset linux-arm64-release ${CMAKE_FLAGS} 2>&1 | tee configure-linux-arm64-release.log",
                   "build_command": "set -euo pipefail\nexport VCPKG_ROOT=\"${GITHUB_WORKSPACE}/vcpkg\"\nexport PATH=\"${VCPKG_ROOT}:${PATH}\"\nexport VCPKG_FORCE_SYSTEM_BINARIES=true\nexport CMAKE_C_COMPILER_LAUNCHER=sccache\nexport CMAKE_CXX_COMPILER_LAUNCHER=sccache\ncmake --build --preset linux-arm64-release --parallel 8 2>&1 | tee build-linux-arm64-release.log",
@@ -221,6 +227,9 @@ jobs:
                   "id": "windows-amd64",
                   "enabled": lane_enabled("windows-amd64"),
                   "runs_on": "windows-latest",
+                  "arch": "x64",
+                  "compiler": "msvc",
+                  "triplet": "x64-windows",
                   "setup_command": "set -euo pipefail\nchoco install -y sccache || echo \"::warning::sccache install via choco failed; continuing without sccache cache.\"\ngit submodule sync -- vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF || true\ngit submodule update --init --depth 1 vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF\ntest -f vcpkg/scripts/buildsystems/vcpkg.cmake || {\n  echo \"::error::vcpkg submodule/toolchain missing before bootstrap\"\n  exit 1\n}\n./vcpkg/bootstrap-vcpkg.bat -disableMetrics",
                   "configure_command": "set -euo pipefail\nexport VCPKG_MAX_CONCURRENCY=2\nexport CMAKE_BUILD_PARALLEL_LEVEL=4\nexport CMAKE_C_COMPILER_LAUNCHER=sccache\nexport CMAKE_CXX_COMPILER_LAUNCHER=sccache\ncmake --preset windows-release ${CMAKE_FLAGS} 2>&1 | tee configure-windows-release.log",
                   "build_command": "set -euo pipefail\nexport VCPKG_MAX_CONCURRENCY=2\nexport CMAKE_BUILD_PARALLEL_LEVEL=4\nexport CMAKE_C_COMPILER_LAUNCHER=sccache\nexport CMAKE_CXX_COMPILER_LAUNCHER=sccache\ncmake --build --preset windows-release --parallel 4 2>&1 | tee build-windows-release.log",
@@ -238,6 +247,9 @@ jobs:
                   "id": "macos-arm64",
                   "enabled": lane_enabled("macos-arm64"),
                   "runs_on": "macos-14",
+                  "arch": "arm64",
+                  "compiler": "clang",
+                  "triplet": "arm64-osx",
                   "setup_command": "set -euo pipefail\necho \"Using macos-14 intentionally for ARM64 runner stability in release matrix lane.\"\necho \"macOS ARM64 lane uses Homebrew/system dependencies by design (no vcpkg toolchain).\"\nexport HOMEBREW_NO_AUTO_UPDATE=1\nexport HOMEBREW_NO_INSTALL_CLEANUP=1\nbrew install \\\n  cmake ninja pkg-config sccache \\\n  openssl@3 zstd rocksdb fmt spdlog nlohmann-json tbb \\\n  yaml-cpp mimalloc curl cpp-httplib boost grpc protobuf pugixml || true\ngit submodule sync -- vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF || true\ngit submodule update --init --depth 1 vcpkg whisper.cpp stable-diffusion.cpp ffmpeg external/GIUF || true",
                   "configure_command": "set -euo pipefail\nif command -v sccache >/dev/null 2>&1; then\n  export CMAKE_C_COMPILER_LAUNCHER=sccache\n  export CMAKE_CXX_COMPILER_LAUNCHER=sccache\nfi\ncmake --preset macos-arm64-release ${CMAKE_FLAGS} 2>&1 | tee configure-macos-release.log",
                   "build_command": "set -euo pipefail\nif command -v sccache >/dev/null 2>&1; then\n  export CMAKE_C_COMPILER_LAUNCHER=sccache\n  export CMAKE_CXX_COMPILER_LAUNCHER=sccache\nfi\ncmake --build --preset macos-arm64-release --parallel 8 2>&1 | tee build-macos-release.log",
@@ -279,6 +291,9 @@ jobs:
     with:
       enable_sccache_gha: false
       runs_on: ${{ matrix.runs_on }}
+      cache_arch: ${{ matrix.arch }}
+      cache_compiler: ${{ matrix.compiler }}
+      vcpkg_triplet: ${{ matrix.triplet }}
       shell: bash
       fetch_depth: '0'
       setup_command: ${{ matrix.setup_command }}

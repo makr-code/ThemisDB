@@ -173,6 +173,9 @@ jobs:
     with:
       enable_sccache_gha: true
       runs_on: ubuntu-24.04
+      cache_arch: x64
+      cache_compiler: gcc
+      vcpkg_triplet: x64-linux
       shell: bash
       fetch_depth: '0'
       submodules: false
@@ -194,6 +197,9 @@ jobs:
     with:
       enable_sccache_gha: true
       runs_on: ubuntu-24.04
+      cache_arch: x64
+      cache_compiler: gcc
+      vcpkg_triplet: x64-linux
       shell: bash
       fetch_depth: '0'
       submodules: false
