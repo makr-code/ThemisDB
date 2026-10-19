@@ -413,12 +413,6 @@ jobs:
         github.event_name == 'workflow_dispatch' ||
         github.event_name == 'workflow_call'
       ) && needs.prepare-release-context.result == 'success'
-    permissions:
-      contents: read
-      packages: write
-      id-token: write
-      attestations: write
-      security-events: write
     strategy:
       fail-fast: false
       matrix:

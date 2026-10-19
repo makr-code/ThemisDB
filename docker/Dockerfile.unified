@@ -229,7 +229,7 @@ RUN --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked \
 FROM base AS llama
 
 ARG ENABLE_LLM=ON
-ARG INCLUDE_TINYLLAMA=OFF
+ARG INCLUDE_TINYLLAMA=ON
 ARG LLM_MODEL=tinyllama
 ARG LLM_MODEL_FILE=
 ARG LLM_MODEL_URL=
