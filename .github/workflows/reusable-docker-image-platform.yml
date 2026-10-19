@@ -94,7 +94,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 180
     outputs:
-      digest: ${{ steps.push.outputs.digest }}
+      digest: ${{ steps.build-candidate.outputs.digest }}
       platform_tag: ${{ steps.platform-tag.outputs.value }}
     steps:
       - name: Guard platform build budget
@@ -240,7 +240,8 @@ jobs:
           pull: false
           secret-files: |
             extra_ca_bundle=${{ steps.host-ca.outputs.path }}
-          load: true
+          load: ${{ ! (inputs.push_to_registry == true || inputs.push_to_registry == 'true') }}
+          push: ${{ inputs.push_to_registry == true || inputs.push_to_registry == 'true' }}
           platforms: ${{ inputs.platform }}
           provenance: true
           sbom: true
@@ -259,28 +260,38 @@ jobs:
             type=gha,scope=themisdb-docker-unified-${{ github.ref_name || 'detached' }}
           cache-to: type=gha,mode=max,scope=themisdb-docker-unified
 
+      - name: Pull pushed image locally for release-gate scan
+        if: inputs.push_to_registry
+        shell: bash
+        env:
+          REGISTRY_TAG: ghcr.io/${{ github.repository_owner }}/themisdb:${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
+        run: |
+          set -euo pipefail
+          docker pull "${REGISTRY_TAG}"
+          docker image inspect "${REGISTRY_TAG}" >/dev/null 2>&1 || {
+            echo "::error::Image ${REGISTRY_TAG} not found locally after push; cannot run Trivy release gate scan."
+            exit 1
+          }
+
       - name: Trivy vulnerability scan
         if: inputs.push_to_registry
         shell: bash
         env:
-          IMAGE_TAG: themisdb/themisdb:release-gate-${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
+          IMAGE_REF: ghcr.io/${{ github.repository_owner }}/themisdb:${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
         run: |
           set -euo pipefail
-          echo "Scanning image ${IMAGE_TAG} for HIGH/CRITICAL OS and library vulns"
+          echo "Scanning image ${IMAGE_REF} for HIGH/CRITICAL OS and library vulns"
           IMAGE_TAR="${RUNNER_TEMP}/release-gate-image-${{ steps.platform-tag.outputs.value }}.tar"
-          IMAGE_TAR_MOUNT="/tmp/release-gate-image.tar"
-          docker image inspect "${IMAGE_TAG}" >/dev/null 2>&1 || {
-            echo "::error::Image ${IMAGE_TAG} not found locally; cannot run Trivy release gate scan."
+          docker image inspect "${IMAGE_REF}" >/dev/null 2>&1 || {
+            echo "::error::Image ${IMAGE_REF} not found locally; cannot run Trivy release gate scan."
             exit 1
           }
-          docker save "${IMAGE_TAG}" -o "${IMAGE_TAR}"
+          docker save "${IMAGE_REF}" -o "${IMAGE_TAR}"
           if [ ! -s "${IMAGE_TAR}" ]; then
-            echo "::error::Failed to export ${IMAGE_TAG} to ${IMAGE_TAR}; cannot run Trivy release gate scan."
+            echo "::error::Failed to export ${IMAGE_REF} to ${IMAGE_TAR}; cannot run Trivy release gate scan."
             exit 1
           fi
           mkdir -p "${RUNNER_TEMP}/trivy-cache"
-          docker image inspect "${IMAGE_REF}" >/dev/null
-          docker save "${IMAGE_REF}" -o "${IMAGE_TAR}"
           docker run --rm \
             -v "${IMAGE_TAR}:/tmp/image.tar:ro" \
             -v "${RUNNER_TEMP}/trivy-cache:/tmp/trivy-cache" \
@@ -294,33 +305,12 @@ jobs:
             --format table \
             --exit-code 1
 
-      - name: Push platform image to registry
-        id: push
-        if: (inputs.push_to_registry == true || inputs.push_to_registry == 'true')
-        timeout-minutes: 170
-        shell: bash
-        env:
-          IMAGE_TAG: themisdb/themisdb:release-gate-${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
-          REGISTRY_TAG: ghcr.io/${{ github.repository_owner }}/themisdb:${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
-        run: |
-          set -euo pipefail
-          docker tag "${IMAGE_TAG}" "${REGISTRY_TAG}"
-          docker push "${REGISTRY_TAG}" > /tmp/docker-push.log 2>&1
-          cat /tmp/docker-push.log
-          DIGEST="$(docker inspect --format='{{if .RepoDigests}}{{index .RepoDigests 0}}{{else}}{{"<no value>"}}{{end}}' "${REGISTRY_TAG}" 2>/dev/null || true)"
-          if [ -z "${DIGEST}" ] || [ "${DIGEST}" = "<null>" ] || [ "${DIGEST}" = "<no value>" ]; then
-            echo "::error::Unable to determine pushed digest for ${REGISTRY_TAG} from docker inspect"
-            exit 1
-          fi
-          echo "digest=${DIGEST#*@}" >> "${GITHUB_OUTPUT}"
-          echo "registry_ref=${REGISTRY_TAG}@${DIGEST#*@}" >> "${GITHUB_OUTPUT}"
-
       - name: Write digest artifact
         if: (inputs.push_to_registry == true || inputs.push_to_registry == 'true')
         shell: bash
         run: |
           set -euo pipefail
-          DIGEST="${{ steps.push.outputs.digest }}"
+          DIGEST="${{ steps.build-candidate.outputs.digest }}"
           IMAGE_REF="ghcr.io/${{ github.repository_owner }}/themisdb:${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}@${DIGEST}"
           echo "${IMAGE_REF}" > "docker-digest-${{ steps.platform-tag.outputs.value }}.txt"
           echo "Platform digest ref: ${IMAGE_REF}"
@@ -341,5 +331,5 @@ jobs:
           echo "  Docker platform build complete"
           echo "  Version   : ${{ inputs.version }}"
           echo "  Platform  : ${{ inputs.platform }}"
-          echo "  Digest    : ${{ steps.push.outputs.digest || 'not pushed' }}"
+          echo "  Digest    : ${{ steps.build-candidate.outputs.digest || 'not pushed' }}"
           echo "──────────────────────────────────────────────"
