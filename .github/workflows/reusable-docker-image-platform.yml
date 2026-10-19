@@ -27,12 +27,27 @@ on:
         default: true
         type: boolean
       include_tinyllama:
-        description: "Whether TinyLlama should be included in the Docker image"
+        description: "Whether an LLM model should be included in the Docker image"
         required: false
         default: true
         type: boolean
+      llm_model:
+        description: "LLM preset to bundle (tinyllama, qwen2.5-coder-7b-instruct, llama-3.2-3b-instruct, custom)"
+        required: false
+        default: "tinyllama"
+        type: string
+      llm_model_url:
+        description: "Optional direct Hugging Face or model URL for an alternate GGUF"
+        required: false
+        default: ""
+        type: string
+      llm_model_file:
+        description: "Optional output model filename used for cache reuse and artifact naming"
+        required: false
+        default: ""
+        type: string
       tinyllama_force_download:
-        description: "Whether TinyLlama should be redownloaded during build"
+        description: "Whether the selected model should be redownloaded during build"
         required: false
         default: false
         type: boolean
@@ -202,6 +217,9 @@ jobs:
             VERSION=${{ inputs.version }}
             VCPKG_MANIFEST_HASH=${{ hashFiles('docker/vcpkg-*.json', 'vcpkg-configuration.json', 'ports/**') }}
             INCLUDE_TINYLLAMA=${{ inputs.include_tinyllama && 'ON' || 'OFF' }}
+            LLM_MODEL=${{ inputs.llm_model || 'tinyllama' }}
+            LLM_MODEL_URL=${{ inputs.llm_model_url || '' }}
+            LLM_MODEL_FILE=${{ inputs.llm_model_file || '' }}
             TINYLLAMA_FORCE_DOWNLOAD=${{ inputs.tinyllama_force_download && '1' || '0' }}
           cache-from: |
             type=gha,scope=themisdb-docker-unified
