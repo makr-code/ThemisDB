@@ -183,6 +183,57 @@ jobs:
           echo "value=${PLATFORM_TAG}" >> "${GITHUB_OUTPUT}"
           echo "Platform tag: ${PLATFORM_TAG}"
 
+      - name: Build platform image for local security scan
+        id: local-build
+        if: inputs.push_to_registry
+        timeout-minutes: 170
+        uses: docker/build-push-action@4f58ea79222b3b9dc2c8bbdd6debcef730109a75  # v6.9.0
+        with:
+          context: .
+          file: ./docker/Dockerfile.unified
+          target: runtime
+          pull: false
+          secret-files: |
+            extra_ca_bundle=${{ steps.host-ca.outputs.path }}
+          load: true
+          platforms: ${{ inputs.platform }}
+          provenance: true
+          sbom: true
+          tags: ghcr.io/${{ github.repository_owner }}/themisdb:${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
+          build-args: |
+            THEMIS_EDITION=COMMUNITY
+            VERSION=${{ inputs.version }}
+            VCPKG_MANIFEST_HASH=${{ hashFiles('docker/vcpkg-*.json', 'vcpkg-configuration.json', 'ports/**') }}
+            INCLUDE_TINYLLAMA=${{ inputs.include_tinyllama && 'ON' || 'OFF' }}
+            TINYLLAMA_FORCE_DOWNLOAD=${{ inputs.tinyllama_force_download && '1' || '0' }}
+          cache-from: |
+            type=gha,scope=themisdb-docker-unified
+            type=gha,scope=themisdb-docker-unified-${{ github.ref_name || 'detached' }}
+          cache-to: type=gha,mode=max,scope=themisdb-docker-unified
+
+      - name: Trivy vulnerability scan
+        if: inputs.push_to_registry
+        shell: bash
+        run: |
+          set -euo pipefail
+          IMAGE_REF="ghcr.io/${{ github.repository_owner }}/themisdb:${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}"
+          IMAGE_TAR="${RUNNER_TEMP}/docker-scan-${{ steps.platform-tag.outputs.value }}.tar"
+          mkdir -p "${RUNNER_TEMP}/trivy-cache"
+          docker image inspect "${IMAGE_REF}" >/dev/null
+          docker save "${IMAGE_REF}" -o "${IMAGE_TAR}"
+          docker run --rm \
+            -v "${IMAGE_TAR}:/tmp/image.tar:ro" \
+            -v "${RUNNER_TEMP}/trivy-cache:/tmp/trivy-cache" \
+            aquasec/trivy:0.64.0 \
+            image \
+            --input /tmp/image.tar \
+            --cache-dir /tmp/trivy-cache \
+            --scanners vuln \
+            --severity CRITICAL,HIGH \
+            --ignore-unfixed \
+            --format table \
+            --exit-code 1
+
       - name: Push platform image digest
         id: push
         if: inputs.push_to_registry
@@ -238,62 +289,4 @@ jobs:
           echo "  Version   : ${{ inputs.version }}"
           echo "  Platform  : ${{ inputs.platform }}"
           echo "  Digest    : ${{ steps.push.outputs.digest || 'not pushed' }}"
-          echo "──────────────────────────────────────────────"
-
-  scan:
-    name: "Scan: Docker security ${{ inputs.platform }}"
-    needs: build
-    if: >
-      inputs.push_to_registry && (
-        github.event_name == 'release' ||
-        github.event_name == 'workflow_dispatch' ||
-        github.event_name == 'workflow_call' ||
-        (github.event_name == 'push' && github.ref == 'refs/heads/develop')
-      )
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567  # v3.3.0
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Pull platform image for security scan
-        shell: bash
-        run: |
-          set -euo pipefail
-          IMAGE_REF="ghcr.io/${{ github.repository_owner }}/themisdb:${{ github.run_number }}-${{ needs.build.outputs.platform_tag }}"
-          echo "Pulling ${IMAGE_REF} for Trivy scan"
-          docker pull "${IMAGE_REF}"
-
-      - name: Trivy vulnerability scan
-        shell: bash
-        run: |
-          set -euo pipefail
-          IMAGE_REF="ghcr.io/${{ github.repository_owner }}/themisdb:${{ github.run_number }}-${{ needs.build.outputs.platform_tag }}"
-          IMAGE_TAR="${RUNNER_TEMP}/docker-scan-${{ needs.build.outputs.platform_tag }}.tar"
-          mkdir -p "${RUNNER_TEMP}/trivy-cache"
-          docker save "${IMAGE_REF}" -o "${IMAGE_TAR}"
-          docker run --rm \
-            -v "${IMAGE_TAR}:/tmp/image.tar:ro" \
-            -v "${RUNNER_TEMP}/trivy-cache:/tmp/trivy-cache" \
-            aquasec/trivy:0.64.0 \
-            image \
-            --input /tmp/image.tar \
-            --cache-dir /tmp/trivy-cache \
-            --scanners vuln \
-            --severity CRITICAL,HIGH \
-            --ignore-unfixed \
-            --format table \
-            --exit-code 1
-
-      - name: Print scan result
-        if: always()
-        shell: bash
-        run: |
-          echo "──────────────────────────────────────────────"
-          echo "  Docker security scan complete"
-          echo "  Platform : ${{ inputs.platform }}"
           echo "──────────────────────────────────────────────"
