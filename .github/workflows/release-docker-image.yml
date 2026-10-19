@@ -33,12 +33,27 @@ on:
         default: ""
         type: string
       include_tinyllama:
-        description: "Include TinyLlama model in image (downloaded during Docker build)"
+        description: "Include an LLM model in the Docker image (default: TinyLlama)"
         required: false
         default: true
         type: boolean
+      llm_model:
+        description: "Model preset: tinyllama, qwen2.5-coder-7b-instruct, llama-3.2-3b-instruct, or custom"
+        required: false
+        default: "tinyllama"
+        type: string
+      llm_model_url:
+        description: "Optional direct model URL for a custom GGUF override"
+        required: false
+        default: ""
+        type: string
+      llm_model_file:
+        description: "Optional cache filename for the selected GGUF model"
+        required: false
+        default: ""
+        type: string
       tinyllama_force_download:
-        description: "Force TinyLlama re-download during Docker build"
+        description: "Force a fresh download of the selected model during Docker build"
         required: false
         default: false
         type: boolean
@@ -66,15 +81,35 @@ on:
         required: false
         type: string
       include_tinyllama:
-        description: "Include TinyLlama model in image"
+        description: "Include an LLM model in the image"
         required: false
         default: "true"
         type: choice
         options:
           - "true"
           - "false"
+      llm_model:
+        description: "LLM preset to include in the Docker image"
+        required: false
+        default: "tinyllama"
+        type: choice
+        options:
+          - "tinyllama"
+          - "qwen2.5-coder-7b-instruct"
+          - "llama-3.2-3b-instruct"
+          - "custom"
+      llm_model_url:
+        description: "Direct GGUF URL for custom model overrides"
+        required: false
+        default: ""
+        type: string
+      llm_model_file:
+        description: "Optional GGUF filename for cache reuse"
+        required: false
+        default: ""
+        type: string
       tinyllama_force_download:
-        description: "Force TinyLlama re-download during Docker build"
+        description: "Force a fresh download of the selected model during Docker build"
         required: false
         default: "false"
         type: choice
@@ -82,13 +117,12 @@ on:
           - "false"
           - "true"
 
-permissions:
-  contents: read
-  issues: write
-
 concurrency:
   group: docker-image-${{ github.workflow }}-${{ github.ref_type || 'ref' }}-${{ github.ref_name || github.sha }}-${{ inputs.registry || github.event.inputs.registry || 'ghcr.io' }}-${{ inputs.push_to_registry || github.event.inputs.push_to_registry || 'false' }}
   cancel-in-progress: false
+
+permissions:
+  contents: read
 
 jobs:
   mark-release-pending:
@@ -142,6 +176,9 @@ jobs:
       push_requested: ${{ steps.push-policy.outputs.push_requested }}
       registry: ${{ steps.push-policy.outputs.registry }}
       include_tinyllama: ${{ steps.push-policy.outputs.include_tinyllama }}
+      llm_model: ${{ steps.push-policy.outputs.llm_model }}
+      llm_model_url: ${{ steps.push-policy.outputs.llm_model_url }}
+      llm_model_file: ${{ steps.push-policy.outputs.llm_model_file }}
       tinyllama_force_download: ${{ steps.push-policy.outputs.tinyllama_force_download }}
     steps:
       - name: Checkout
@@ -346,8 +383,26 @@ jobs:
             echo "push_requested=true" >> "${GITHUB_OUTPUT}"
             echo "registry=ghcr.io" >> "${GITHUB_OUTPUT}"
           fi
-          echo "include_tinyllama=${{ ((github.event_name == 'workflow_call' && inputs.include_tinyllama == true) || (github.event_name != 'workflow_call' && (github.event.inputs.include_tinyllama || 'true') == 'true')) && 'true' || 'false' }}" >> "${GITHUB_OUTPUT}"
-          echo "tinyllama_force_download=${{ ((github.event_name == 'workflow_call' && inputs.tinyllama_force_download == true) || (github.event_name != 'workflow_call' && (github.event.inputs.tinyllama_force_download || 'false') == 'true')) && 'true' || 'false' }}" >> "${GITHUB_OUTPUT}"
+          if [[ "${{ github.event_name }}" == "workflow_call" ]]; then
+            INCLUDE_TINYLLAMA="${{ inputs.include_tinyllama || 'true' }}"
+            LLM_MODEL="${{ inputs.llm_model || 'tinyllama' }}"
+            LLM_MODEL_URL="${{ inputs.llm_model_url || '' }}"
+            LLM_MODEL_FILE="${{ inputs.llm_model_file || '' }}"
+            FORCE_DOWNLOAD="${{ inputs.tinyllama_force_download || 'false' }}"
+          else
+            INCLUDE_TINYLLAMA="${{ github.event.inputs.include_tinyllama || 'true' }}"
+            LLM_MODEL="${{ github.event.inputs.llm_model || 'tinyllama' }}"
+            LLM_MODEL_URL="${{ github.event.inputs.llm_model_url || '' }}"
+            LLM_MODEL_FILE="${{ github.event.inputs.llm_model_file || '' }}"
+            FORCE_DOWNLOAD="${{ github.event.inputs.tinyllama_force_download || 'false' }}"
+          fi
+          {
+            echo "include_tinyllama=${INCLUDE_TINYLLAMA}"
+            echo "llm_model=${LLM_MODEL}"
+            echo "llm_model_url=${LLM_MODEL_URL}"
+            echo "llm_model_file=${LLM_MODEL_FILE}"
+            echo "tinyllama_force_download=${FORCE_DOWNLOAD}"
+          } >> "${GITHUB_OUTPUT}"
 
   build-platforms:
     name: "Build: Docker Platform Images"
@@ -357,22 +412,10 @@ jobs:
         github.event_name == 'workflow_dispatch' ||
         github.event_name == 'workflow_call'
       ) && needs.prepare-release-context.result == 'success'
-    permissions:
-      contents: read
-      packages: write
-      id-token: write
-      attestations: write
-      security-events: write
     strategy:
       fail-fast: false
       matrix:
-        platform: [linux/amd64, linux/arm64]
-    permissions:
-      contents: read
-      packages: write
-      id-token: write
-      attestations: write
-      security-events: write
+        platform: [linux/amd64]
     uses: ./.github/workflows/reusable-docker-image-platform.yml
     with:
       platform: ${{ matrix.platform }}
@@ -381,6 +424,9 @@ jobs:
       registry: ${{ needs.prepare-release-context.outputs.registry }}
       push_to_registry: ${{ needs.prepare-release-context.outputs.push_requested == 'true' }}
       include_tinyllama: ${{ needs.prepare-release-context.outputs.include_tinyllama == 'true' }}
+      llm_model: ${{ needs.prepare-release-context.outputs.llm_model }}
+      llm_model_url: ${{ needs.prepare-release-context.outputs.llm_model_url }}
+      llm_model_file: ${{ needs.prepare-release-context.outputs.llm_model_file }}
       tinyllama_force_download: ${{ needs.prepare-release-context.outputs.tinyllama_force_download == 'true' }}
       source_run_id: ${{ github.run_id }}
       source_sha: ${{ github.sha }}
@@ -438,9 +484,9 @@ jobs:
             refs+=("$(tr -d '\r\n' < "${digest_file}")")
           done
 
-          expected_platform_count=2
+          expected_platform_count=1
           if [ "${#refs[@]}" -lt "${expected_platform_count}" ]; then
-            echo "::error::Expected at least ${expected_platform_count} platform digests to assemble the final manifest, but found ${#refs[@]}."
+            echo "::error::Expected at least ${expected_platform_count} platform digest(s) to assemble the final manifest, but found ${#refs[@]}."
             ls -la ./docker-digests || true
             exit 1
           fi
