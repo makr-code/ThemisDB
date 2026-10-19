@@ -29,7 +29,7 @@ on:
       include_tinyllama:
         description: "Whether TinyLlama should be included in the Docker image"
         required: false
-        default: false
+        default: true
         type: boolean
       tinyllama_force_download:
         description: "Whether TinyLlama should be redownloaded during build"
