@@ -77,7 +77,19 @@ permissions:
   security-events: write
 
 jobs:
+  prepare-llm-model-cache:
+    if: ${{ inputs.include_tinyllama == true || inputs.include_tinyllama == 'true' }}
+    uses: ./.github/workflows/reusable-llm-model-cache.yml
+    with:
+      include_tinyllama: ${{ inputs.include_tinyllama }}
+      llm_model: ${{ inputs.llm_model || 'tinyllama' }}
+      llm_model_url: ${{ inputs.llm_model_url || '' }}
+      llm_model_file: ${{ inputs.llm_model_file || '' }}
+      tinyllama_force_download: ${{ inputs.tinyllama_force_download }}
+      cache_key_suffix: ${{ github.ref_name || github.sha }}
+
   build:
+    needs: [prepare-llm-model-cache]
     name: "Build: Docker ${{ inputs.platform }}"
     runs-on: ubuntu-latest
     timeout-minutes: 180
@@ -197,6 +209,26 @@ jobs:
           PLATFORM_TAG="$(echo '${{ inputs.platform }}' | tr '/:' '-' | tr '[:upper:]' '[:lower:]')"
           echo "value=${PLATFORM_TAG}" >> "${GITHUB_OUTPUT}"
           echo "Platform tag: ${PLATFORM_TAG}"
+
+      - name: Reuse prepared model cache in build context
+        if: ${{ inputs.include_tinyllama == true || inputs.include_tinyllama == 'true' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          MODEL_DIR="${{ github.workspace }}/.cache/themis-llm-models"
+          mkdir -p "${MODEL_DIR}"
+          if [[ -n "${{ inputs.llm_model_file || '' }}" ]]; then
+            MODEL_FILE="${{ inputs.llm_model_file }}"
+          else
+            MODEL_FILE="${{ inputs.llm_model || 'tinyllama' }}.gguf"
+          fi
+          if [[ -f "${MODEL_DIR}/${MODEL_FILE}" ]]; then
+            mkdir -p ./models
+            cp -f "${MODEL_DIR}/${MODEL_FILE}" "./models/${MODEL_FILE}"
+            echo "Injected cached model into Docker context: ./models/${MODEL_FILE}"
+          else
+            echo "No reusable model cache found for ${MODEL_FILE}; Docker build will fetch it itself."
+          fi
 
       - name: Build platform image once for local scan and optional registry push
         id: build-candidate

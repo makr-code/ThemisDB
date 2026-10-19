@@ -1,0 +1,140 @@
+name: "Reusable: LLM Model Cache"
+
+on:
+  workflow_call:
+    inputs:
+      include_tinyllama:
+        description: "Whether an LLM model should be included in the image"
+        required: false
+        default: true
+        type: boolean
+      llm_model:
+        description: "LLM preset to bundle"
+        required: false
+        default: "tinyllama"
+        type: string
+      llm_model_url:
+        description: "Optional direct model URL"
+        required: false
+        default: ""
+        type: string
+      llm_model_file:
+        description: "Optional GGUF filename"
+        required: false
+        default: ""
+        type: string
+      tinyllama_force_download:
+        description: "Force a fresh LLM model download"
+        required: false
+        default: false
+        type: boolean
+      cache_key_suffix:
+        description: "Optional suffix to disambiguate release environments"
+        required: false
+        default: ""
+        type: string
+    outputs:
+      cache_key:
+        description: "Stable cache key for the model bundle"
+        value: ${{ jobs.prepare.outputs.cache_key }}
+      model_path:
+        description: "Prepared model path on the runner"
+        value: ${{ jobs.prepare.outputs.model_path }}
+      model_file:
+        description: "Prepared model filename"
+        value: ${{ jobs.prepare.outputs.model_file }}
+      cache_hit:
+        description: "Whether the model cache was restored from a prior run"
+        value: ${{ jobs.prepare.outputs.cache_hit }}
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    name: "Prepare: LLM model cache"
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      cache_key: ${{ steps.cache-key.outputs.value }}
+      model_path: ${{ steps.prepare.outputs.model_path }}
+      model_file: ${{ steps.prepare.outputs.model_file }}
+      cache_hit: ${{ steps.cache-state.outputs.cache_hit }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09  # v5
+
+      - name: Derive stable cache key
+        id: cache-key
+        shell: bash
+        run: |
+          set -euo pipefail
+          MODEL_KEY="${{ inputs.llm_model || 'tinyllama' }}"
+          MODEL_URL="${{ inputs.llm_model_url || '' }}"
+          MODEL_FILE="${{ inputs.llm_model_file || '' }}"
+          CACHE_BASE="llm-model-${{ runner.os }}-${{ runner.arch }}-${MODEL_KEY}"
+          if [[ -n "${MODEL_URL}" ]]; then
+            CACHE_BASE="${CACHE_BASE}-url-${MODEL_URL}"
+          fi
+          if [[ -n "${MODEL_FILE}" ]]; then
+            CACHE_BASE="${CACHE_BASE}-file-${MODEL_FILE}"
+          fi
+          if [[ -n "${{ inputs.cache_key_suffix }}" ]]; then
+            CACHE_BASE="${CACHE_BASE}-${{ inputs.cache_key_suffix }}"
+          fi
+          echo "value=${CACHE_BASE}" >> "${GITHUB_OUTPUT}"
+          echo "Cache key: ${CACHE_BASE}"
+
+      - name: Restore model cache
+        id: restore
+        uses: actions/cache@v4
+        with:
+          path: .cache/themis-llm-models
+          key: ${{ steps.cache-key.outputs.value }}
+          restore-keys: |
+            ${{ steps.cache-key.outputs.value }}
+            llm-model-${{ runner.os }}-${{ runner.arch }}-
+        env:
+          SEGMENT_DOWNLOAD_TIMEOUT_MINS: 5
+
+      - name: Detect restored cache
+        id: cache-state
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -d "${{ github.workspace }}/.cache/themis-llm-models" ]] && find "${{ github.workspace }}/.cache/themis-llm-models" -mindepth 1 -print -quit | grep -q .; then
+            echo "cache-hit=true" >> "${GITHUB_OUTPUT}"
+          else
+            echo "cache-hit=false" >> "${GITHUB_OUTPUT}"
+          fi
+
+      - name: Prepare model bundle
+        id: prepare
+        shell: bash
+        env:
+          INCLUDE_TINYLLAMA: ${{ inputs.include_tinyllama }}
+          LLM_MODEL: ${{ inputs.llm_model || 'tinyllama' }}
+          LLM_MODEL_URL: ${{ inputs.llm_model_url || '' }}
+          LLM_MODEL_FILE: ${{ inputs.llm_model_file || '' }}
+          TINYLLAMA_FORCE_DOWNLOAD: ${{ inputs.tinyllama_force_download && 'true' || 'false' }}
+          MODEL_DIR: ${{ github.workspace }}/.cache/themis-llm-models
+        run: |
+          set -euo pipefail
+          mkdir -p "${MODEL_DIR}"
+          chmod +x .github/scripts/prepare-llm-model-cache.sh
+          ./.github/scripts/prepare-llm-model-cache.sh
+          if [[ -n "${LLM_MODEL_FILE}" ]]; then
+            FILE_NAME="${LLM_MODEL_FILE}"
+          else
+            FILE_NAME="${LLM_MODEL:-tinyllama}.gguf"
+          fi
+          echo "model_path=${MODEL_DIR}" >> "${GITHUB_OUTPUT}"
+          echo "model_file=${FILE_NAME}" >> "${GITHUB_OUTPUT}"
+          echo "Prepared ${MODEL_DIR}/${FILE_NAME}"
+
+      - name: Save model cache
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: .cache/themis-llm-models
+          key: ${{ steps.cache-key.outputs.value }}
