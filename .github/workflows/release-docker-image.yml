@@ -415,7 +415,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [linux/amd64]
+        platform: [linux/amd64, linux/arm64]
     uses: ./.github/workflows/reusable-docker-image-platform.yml
     with:
       platform: ${{ matrix.platform }}
