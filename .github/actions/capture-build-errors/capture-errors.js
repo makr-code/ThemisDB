@@ -123,20 +123,20 @@ function generateFingerprint(type, data) {
 // ============================================================================
 
 // GCC/Clang: file:line:col: error: message
-matcher.register('gcc-error', /^([^:\s][^:]*):(\d+):\d+:\s+(error):\s+(.+)$/gm, (m) => ({
+matcher.register('gcc-error', /^(.+):(\d+):(\d+):\s*(error):\s+(.+)$/gm, (m) => ({
   type: 'compiler_error',
   subtype: 'gcc_error',
   severity: SEVERITY.HIGH,
   file: normalizePath(m[1]),
   line: parseInt(m[2], 10),
-  column: 1,
-  message: m[4],
-  fingerprint: generateFingerprint('compiler_error', { file: m[1], line: m[2], message: m[4] })
+  column: parseInt(m[3], 10),
+  message: m[5],
+  fingerprint: generateFingerprint('compiler_error', { file: m[1], line: m[2], message: m[5] })
 }));
 
 // GCC/Clang: compiler warnings (conversion, deprecation, unused, etc.)
-matcher.register('gcc-warning', /^([^:\s][^:]*):(\d+):\d+:\s+(warning):\s+(.+)$/gm, (m) => {
-  const msg = m[4];
+matcher.register('gcc-warning', /^(.+):(\d+):(\d+):\s*(warning):\s+(.+)$/gm, (m) => {
+  const msg = m[5];
   let severity = SEVERITY.LOW;
   if (msg.includes('deprecated') || msg.includes('will be removed')) severity = SEVERITY.MEDIUM;
   if (msg.includes('conversion') || msg.includes('narrowing')) severity = SEVERITY.MEDIUM;
@@ -150,14 +150,14 @@ matcher.register('gcc-warning', /^([^:\s][^:]*):(\d+):\d+:\s+(warning):\s+(.+)$/
     severity,
     file: normalizePath(m[1]),
     line: parseInt(m[2], 10),
-    column: 1,
+    column: parseInt(m[3], 10),
     message: msg,
     fingerprint: generateFingerprint('compiler_warning', { file: m[1], line: m[2], message: msg })
   };
 });
 
 // MSVC: file(line): error XXX: message
-matcher.register('msvc-error', /^([^:()]+)\((\d+)\):\s+error\s+\w+:\s+(.+)$/gm, (m) => ({
+matcher.register('msvc-error', /^(.+?)\((\d+)\):\s*(?:fatal error|error)\s+\w+:\s+(.+)$/gm, (m) => ({
   type: 'compiler_error',
   subtype: 'msvc_error',
   severity: SEVERITY.HIGH,
@@ -169,7 +169,7 @@ matcher.register('msvc-error', /^([^:()]+)\((\d+)\):\s+error\s+\w+:\s+(.+)$/gm, 
 }));
 
 // MSVC: compiler warnings
-matcher.register('msvc-warning', /^([^:()]+)\((\d+)\):\s+warning\s+\w+:\s+(.+)$/gm, (m) => {
+matcher.register('msvc-warning', /^(.+?)\((\d+)\):\s*warning\s+\w+:\s+(.+)$/gm, (m) => {
   const msg = m[3];
   let severity = SEVERITY.LOW;
   if (msg.includes('deprecated') || msg.includes('obsolete')) severity = SEVERITY.MEDIUM;
@@ -188,7 +188,7 @@ matcher.register('msvc-warning', /^([^:()]+)\((\d+)\):\s+warning\s+\w+:\s+(.+)$/
 });
 
 // CMake errors: CMake Error at file:line
-matcher.register('cmake-error', /CMake Error at ([^:]+):(\d+)\s+\(([^)]+)\):\s*\n\s+(.+?)(?=\n|$)/gm, (m) => ({
+matcher.register('cmake-error', /CMake Error at (.+):(\d+)\s+\(([^)]+)\):\s*\n\s+(.+?)(?=\n|$)/gm, (m) => ({
   type: 'cmake_error',
   severity: SEVERITY.HIGH,
   file: normalizePath(m[1]),
@@ -199,7 +199,7 @@ matcher.register('cmake-error', /CMake Error at ([^:]+):(\d+)\s+\(([^)]+)\):\s*\
 }));
 
 // CMake warnings
-matcher.register('cmake-warning', /CMake Warning at ([^:]+):(\d+)\s+\(([^)]+)\):\s*\n\s+(.+?)(?=\n|$)/gm, (m) => ({
+matcher.register('cmake-warning', /CMake Warning at (.+):(\d+)\s+\(([^)]+)\):\s*\n\s+(.+?)(?=\n|$)/gm, (m) => ({
   type: 'cmake_warning',
   severity: SEVERITY.LOW,
   file: normalizePath(m[1]),
