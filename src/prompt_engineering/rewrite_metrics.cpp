@@ -14,7 +14,7 @@
  * (Automatisch generiert, Änderungen werden überschrieben)
  */
 
-#include "rewrite_engine.h"
+#include "prompt_engineering/rewrite_engine.h"
 #include <chrono>
 #include <spdlog/spdlog.h>
 #include <nlohmann/json.hpp>

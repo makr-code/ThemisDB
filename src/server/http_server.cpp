@@ -246,8 +246,8 @@ namespace server {
 
 HttpServer::HttpServer(
     const Config& config,
-    std::shared_ptr<RocksDBWrapper> storage,
-    std::shared_ptr<SecondaryIndexManager> secondary_index,
+    std::shared_ptr<themis::RocksDBWrapper> storage,
+    std::shared_ptr<themis::SecondaryIndexManager> secondary_index,
     std::shared_ptr<GraphIndexManager> graph_index,
     std::shared_ptr<VectorIndexManager> vector_index,
     std::shared_ptr<TransactionManager> tx_manager,
@@ -271,8 +271,8 @@ HttpServer::HttpServer(
 
 HttpServer::HttpServer(
     const Config& config,
-    std::shared_ptr<RocksDBWrapper> storage,
-    std::shared_ptr<SecondaryIndexManager> secondary_index,
+    std::shared_ptr<themis::RocksDBWrapper> storage,
+    std::shared_ptr<themis::SecondaryIndexManager> secondary_index,
     std::shared_ptr<GraphIndexManager> graph_index,
     std::shared_ptr<VectorIndexManager> vector_index,
     std::shared_ptr<TransactionManager> tx_manager,
@@ -1206,10 +1206,17 @@ HttpServer::HttpServer(
     
     // Initialize Changefeed API Handler if changefeed is available
     if (changefeed_) {
+#ifdef THEMIS_ENABLE_SSE
+        auto sse_manager_view = sse_manager_
+            ? std::shared_ptr<themis::server::SseConnectionManager>(
+                  sse_manager_.get(),
+                  [](themis::server::SseConnectionManager*) {})
+            : std::shared_ptr<themis::server::SseConnectionManager>();
+#endif
         changefeed_api_ = std::make_unique<themis::server::ChangefeedApiHandler>(
             storage_, changefeed_,
 #ifdef THEMIS_ENABLE_SSE
-            sse_manager_,
+            sse_manager_view,
 #else
             nullptr,
 #endif
@@ -1265,10 +1272,12 @@ HttpServer::HttpServer(
 
     // Initialize Ethics AI API Handler
     try {
-        ethics_query_engine_ = std::make_unique<QueryEngine>(*storage_, *secondary_index_);
+        ethics_query_engine_ = std::make_unique<themis::QueryEngine>(*storage_, *secondary_index_);
         ethics_api_ = std::make_unique<themis::server::EthicsApiHandler>(
             storage_,
-            std::shared_ptr<QueryEngine>(ethics_query_engine_.get(), [](QueryEngine*) {}),
+            std::shared_ptr<themis::QueryEngine>(
+                ethics_query_engine_.get(),
+                [](themis::QueryEngine*) {}),
             auth_
         );
         THEMIS_INFO("Ethics AI API Handler initialized");
@@ -1428,7 +1437,7 @@ HttpServer::HttpServer(
     // Initialize SchemaManager and Schema API Handler
     try {
         if (storage_ && storage_->isOpen()) {
-            schema_manager_ = std::make_unique<SchemaManager>(*storage_, secondary_index_.get());
+            schema_manager_ = std::make_unique<themis::SchemaManager>(*storage_, secondary_index_.get());
             schema_api_handler_ = std::make_unique<server::SchemaApiHandler>(
                 storage_, secondary_index_, schema_manager_.get());
 
@@ -1494,7 +1503,7 @@ HttpServer::HttpServer(
     // The engine must be created before the handler and declared after it
     // in the class so that it is destroyed first (reverse member-order).
     if (storage_ && secondary_index_) {
-        graphql_query_engine_ = std::make_unique<QueryEngine>(
+        graphql_query_engine_ = std::make_unique<themis::QueryEngine>(
             *storage_, *secondary_index_);
         graphql_api_handler_ = std::make_unique<server::GraphQLApiHandler>(
             graphql_query_engine_.get());
@@ -1529,7 +1538,8 @@ HttpServer::HttpServer(
         // declaration order in http_server.h guarantees this: unique_ptr members
         // are destroyed in reverse declaration order, so task_scheduler_ is
         // destroyed before task_scheduler_engine_.
-        task_scheduler_engine_ = std::make_unique<QueryEngine>(*storage_, *secondary_index_);
+        task_scheduler_engine_ = std::make_unique<themis::QueryEngine>(
+            *storage_, *secondary_index_);
         task_scheduler_ = std::make_unique<TaskScheduler>(
             task_scheduler_engine_.get(),
             sched_cfg,
@@ -12762,7 +12772,7 @@ http::response<http::string_body> HttpServer::handleFusionSearch(
         std::string fusionMode = body.value("fusion_mode", "rrf"); // "rrf" or "weighted"
         
         // Text search parameters (optional)
-        std::vector<SecondaryIndexManager::FulltextResult> textResults;
+        std::vector<themis::SecondaryIndexManager::FulltextResult> textResults;
         bool hasTextQuery = body.contains("text_query") && body.contains("text_column");
         
         if (hasTextQuery) {
@@ -13422,7 +13432,7 @@ http::response<http::string_body> HttpServer::handleCreateIndex(
                 std::string column = body["column"].get<std::string>();
                 
                 // Parse optional config
-                SecondaryIndexManager::FulltextConfig config;
+                themis::SecondaryIndexManager::FulltextConfig config;
                 if (body.contains("config") && body["config"].is_object()) {
                     auto configObj = body["config"];
                     config.stemming_enabled = configObj.value("stemming_enabled", false);
@@ -14193,13 +14203,6 @@ void HttpServer::Session::processRequest() {
                 ws_auth_token = *token;
             }
             
-            // Capture the request path before moving the request
-            std::string ws_path = std::string(request_.target());
-            auto qs = ws_path.find('?');
-            if (qs != std::string::npos) {
-              ws_path = ws_path.substr(0, qs);
-            }
-
             // Create WebSocket session and transfer socket ownership
             auto ws_session = std::make_shared<WebSocketSession>(
                 std::move(socket_),
@@ -14600,13 +14603,6 @@ void HttpServer::SslSession::processRequest() {
                 ws_auth_token = *token;
             }
 
-            // Capture the request path before moving the request
-            std::string ws_path = std::string(request_.target());
-            auto qs = ws_path.find('?');
-            if (qs != std::string::npos) {
-              ws_path = ws_path.substr(0, qs);
-            }
-            
             // Create WebSocket session and transfer SSL stream ownership
             auto ws_session = std::make_shared<WebSocketSession>(
                 std::move(stream_),

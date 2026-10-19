@@ -238,12 +238,13 @@ jobs:
           file: ./docker/Dockerfile.unified
           target: runtime
           pull: false
-          load: true
           secret-files: |
             extra_ca_bundle=${{ steps.host-ca.outputs.path }}
-          push: false
+          load: true
           platforms: ${{ inputs.platform }}
-          tags: themisdb/themisdb:release-gate-${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
+          provenance: true
+          sbom: true
+          tags: ghcr.io/${{ github.repository_owner }}/themisdb:${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
           build-args: |
             THEMIS_EDITION=COMMUNITY
             VERSION=${{ inputs.version }}
@@ -258,14 +259,8 @@ jobs:
             type=gha,scope=themisdb-docker-unified-${{ github.ref_name || 'detached' }}
           cache-to: type=gha,mode=max,scope=themisdb-docker-unified
 
-      - name: Release image vulnerability gate (Trivy)
-        if: |
-          inputs.push_to_registry && (
-            (github.event_name == 'release') ||
-            (github.event_name == 'push' && github.ref == 'refs/heads/develop') ||
-            (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true') ||
-            (github.event_name == 'workflow_call' && inputs.push_to_registry == true)
-          )
+      - name: Trivy vulnerability scan
+        if: inputs.push_to_registry
         shell: bash
         env:
           IMAGE_TAG: themisdb/themisdb:release-gate-${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
@@ -284,12 +279,14 @@ jobs:
             exit 1
           fi
           mkdir -p "${RUNNER_TEMP}/trivy-cache"
+          docker image inspect "${IMAGE_REF}" >/dev/null
+          docker save "${IMAGE_REF}" -o "${IMAGE_TAR}"
           docker run --rm \
-            -v "${IMAGE_TAR}:${IMAGE_TAR_MOUNT}:ro" \
+            -v "${IMAGE_TAR}:/tmp/image.tar:ro" \
             -v "${RUNNER_TEMP}/trivy-cache:/tmp/trivy-cache" \
             aquasec/trivy:0.64.0 \
             image \
-            --input "${IMAGE_TAR_MOUNT}" \
+            --input /tmp/image.tar \
             --cache-dir /tmp/trivy-cache \
             --scanners vuln \
             --severity CRITICAL,HIGH \

@@ -139,7 +139,7 @@ jobs:
     needs: mark-build-pending
     uses: ./.github/workflows/release-build-matrix.yml
     with:
-      build_matrix: os
+      build_matrix: community-only
       os: all
       architecture: all
       edition: community
@@ -165,6 +165,27 @@ jobs:
             echo ""
             echo "- Matrix job result: ${{ needs.step2-platform-matrix.result }}"
           } >> "$GITHUB_STEP_SUMMARY"
+
+  fast-compile-check:
+    name: "Build: Mainline Fast Compile Check"
+    needs: step2-architecture-summary
+    uses: ./.github/workflows/reusable-cmake-build.yml
+    with:
+      enable_sccache_gha: true
+      runs_on: ubuntu-24.04
+      shell: bash
+      fetch_depth: '0'
+      submodules: false
+      working_directory: .
+      setup_command: >-
+        set -euo pipefail; echo "Build: Mainline faster compile feedback lane"; git config --file .git/config --remove-section submodule.plugins/themisdb_ethic_ai || true; git config --file .git/config --remove-section submodule.plugins/themisdb_importer || true; git config --file .git/config --remove-section submodule.plugins/themisdb_storage || true; git config --file .git/config --remove-section submodule.plugins/themisdb_llm_wiki || true; git config --file .git/config --remove-section submodule.plugins/themisdb_plugin_signer || true; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libgtest-dev libgmock-dev libssl-dev zlib1g-dev libzstd-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libvulkan-dev glslc libcpp-httplib-dev libboost-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev dpkg-dev rpm; echo "Fast-path dependencies installed"
+      configure_command: >-
+        export SCCACHE_GHA_ENABLED=true; cmake -S . -B build-fast -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
+      build_command: >-
+        export SCCACHE_GHA_ENABLED=true;
+        set -euo pipefail;
+        cmake --build build-fast --parallel 12 --target themis_base
+      summary_title: "Build: Mainline Fast Compile Check"
 
   build:
     name: "Build: Mainline (Linux)"

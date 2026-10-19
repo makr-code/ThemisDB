@@ -163,28 +163,36 @@ struct ModePack {
 // Mode Spec Loader + Validator
 // ============================================================================
 
-struct ValidationResult {
+/**
+ * @brief Validation outcome for mode-spec loading and consistency checks.
+ */
+struct ModeSpecValidationResult {
     bool                     ok = true;
     std::vector<std::string> errors;
     std::vector<std::string> warnings;
 
+    /**
+     * @brief Evaluate validation success in boolean contexts.
+     * @return `true` when validation succeeded and no blocking errors were found.
+     */
     explicit operator bool() const { return ok; }
 };
 
 class ModeSpecLoader {
 public:
     static ModePack loadFromFile(const std::string& path,
-                                 ValidationResult*  result_out = nullptr);
+                                 ModeSpecValidationResult*  result_out = nullptr);
 
     static ModePack loadFromString(const std::string& yaml_text,
-                                   ValidationResult*  result_out = nullptr);
+                                   ModeSpecValidationResult*  result_out = nullptr);
 
     /**
-     * @brief Validate.
-     * @param[in] pack Input parameter.
-     * @return Return value.
+     * @brief Validate a loaded mode pack for schema and cross-reference consistency.
+     * @param[in] pack Parsed mode-pack content to validate.
+     * @return Validation result containing `ok` status plus aggregated errors and warnings.
+     *         `ok` is `false` when blocking validation errors are present.
      */
-    static ValidationResult validate(const ModePack& pack);
+    static ModeSpecValidationResult validate(const ModePack& pack);
 };
 
 // ============================================================================
@@ -638,12 +646,12 @@ private:
      * @brief Assemble Prompt.
      * @param[in] query Input parameter.
      * @param[in] docs Input parameter.
-     * @param[in] param Input parameter.
+     * @param[in] mode Input parameter.
      * @return Return value.
      */
     std::string assemblePrompt(const std::string&                         query,
                                 const std::vector<RAGContext::Document>&   docs,
-                                const ModeSpec&                            /*mode*/) const;
+                                const ModeSpec&                            mode) const;
 
     /**
      * @brief Emit Observability.
@@ -677,4 +685,3 @@ public:
 #endif // THEMIS_ENABLE_MCP
 
 } // namespace themis::llm
-

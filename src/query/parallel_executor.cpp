@@ -65,9 +65,10 @@ public:
             return;
         }
         std::lock_guard<std::mutex> lock(tasks_mutex_);
-        if (!cancelled_.load(std::memory_order_relaxed)) {
-            tasks_.emplace_back(std::forward<F>(f));
+        if (cancelled_.load(std::memory_order_acquire)) {
+            return;
         }
+        tasks_.emplace_back(std::forward<F>(f));
     }
 
     /**
@@ -98,7 +99,9 @@ public:
      * semantics so waiting code observes the stop request promptly.
      */
     void cancel_group_execution() noexcept {
+        std::lock_guard<std::mutex> lock(tasks_mutex_);
         cancelled_.store(true, std::memory_order_release);
+        tasks_.clear();
     }
 
     /**

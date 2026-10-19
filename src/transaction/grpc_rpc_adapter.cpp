@@ -12,8 +12,9 @@
  *
  * Phase-2 maps directly to `CommitTransaction` / `RollbackTransaction`.
  *
- * All gRPC code lives inside `#ifdef THEMIS_HAS_CORE_GRPC` blocks.  When the
- * flag is absent (e.g. unit-test / headless builds) both adapters return
+ * All gRPC code lives inside guarded blocks that require both
+ * `THEMIS_HAS_CORE_GRPC` and generated core proto stubs. When either condition
+ * is missing (e.g. unit-test / headless builds), both adapters return
  * fail-closed callables that log a warning and vote ABORT / throw, preventing
  * silent data loss.
  *
@@ -35,12 +36,17 @@
 #include <string>
 #include <thread>
 
-// ── gRPC-specific includes (only when the gRPC transport is compiled in) ──────
-#ifdef THEMIS_HAS_CORE_GRPC
+// ── gRPC-specific includes (only when gRPC is compiled *and* proto stubs exist) ──
+#if defined(THEMIS_HAS_CORE_GRPC) && __has_include("themis_core.grpc.pb.h") && \
+    __has_include("themis_core.pb.h")
 #include <grpcpp/grpcpp.h>
-// Generated stub header (produced by protoc from proto/themis_core.proto)
+// Generated stub headers (produced by protoc from proto/themis_core.proto)
 #include "themis_core.grpc.pb.h"
-#endif  // THEMIS_HAS_CORE_GRPC
+#include "themis_core.pb.h"
+#define THEMIS_HAS_CORE_GRPC_PROTO 1
+#else
+#define THEMIS_HAS_CORE_GRPC_PROTO 0
+#endif
 
 namespace themis::transaction {
 
@@ -66,7 +72,7 @@ constexpr std::chrono::milliseconds kRetryDelays[3] = {
 
 constexpr int kMaxRetries = 3;
 
-#ifdef THEMIS_HAS_CORE_GRPC
+#if THEMIS_HAS_CORE_GRPC_PROTO
 /**
  * @brief Build gRPC channel credentials from an optional MtlsConfig.
  *
@@ -122,7 +128,7 @@ makeChannelArguments(const std::optional<MtlsConfig>& mtls)
     }
     return args;
 }
-#endif  // THEMIS_HAS_CORE_GRPC
+#endif  // THEMIS_HAS_CORE_GRPC_PROTO
 
 }  // namespace
 
@@ -135,7 +141,7 @@ DistributedTransactionManager::RpcPhase1Fn GrpcRpcPhase1Adapter::make(
     std::chrono::milliseconds                  timeout,
     std::optional<MtlsConfig>                  mtls)
 {
-#ifdef THEMIS_HAS_CORE_GRPC
+#if THEMIS_HAS_CORE_GRPC_PROTO
     // Capture by value so the returned callable is self-contained and safe to
     // call from any thread after the creator scope has exited.
     return [node_addresses, timeout, mtls](
@@ -201,7 +207,7 @@ DistributedTransactionManager::RpcPhase1Fn GrpcRpcPhase1Adapter::make(
         return true;
     };
 
-#else  // THEMIS_HAS_CORE_GRPC not defined — fail-closed stub
+#else  // gRPC transport unavailable or generated core proto stubs missing — fail-closed stub
 
     return [node_addresses, timeout, mtls](const std::string& node_id,
                                           const std::string& txn_id,
@@ -211,27 +217,30 @@ DistributedTransactionManager::RpcPhase1Fn GrpcRpcPhase1Adapter::make(
         const bool insecure_allowed = mtls.has_value() && mtls->allow_insecure;
 
         if (node_addresses.empty() || !configured_remote) {
-            THEMIS_WARN("GrpcRpcPhase1Adapter: THEMIS_HAS_CORE_GRPC is not defined — "
+            THEMIS_WARN("GrpcRpcPhase1Adapter: gRPC transport unavailable "
+                        "(THEMIS_HAS_CORE_GRPC undefined or themis_core.grpc.pb.h missing) — "
                         "node={} txn={} no reachable gRPC endpoint; voting ABORT",
                         node_id, txn_id);
             return false;
         }
 
         if (insecure_allowed) {
-            THEMIS_WARN("GrpcRpcPhase1Adapter: THEMIS_HAS_CORE_GRPC is not defined — "
+            THEMIS_WARN("GrpcRpcPhase1Adapter: gRPC transport unavailable "
+                        "(THEMIS_HAS_CORE_GRPC undefined or themis_core.grpc.pb.h missing) — "
                         "node={} txn={} insecure test override set; voting ABORT",
                         node_id, txn_id);
             return false;
         }
 
-        THEMIS_WARN("GrpcRpcPhase1Adapter: THEMIS_HAS_CORE_GRPC is not defined — "
+        THEMIS_WARN("GrpcRpcPhase1Adapter: gRPC transport unavailable "
+                    "(THEMIS_HAS_CORE_GRPC undefined or themis_core.grpc.pb.h missing) — "
                     "node={} txn={} configured remote target has no gRPC transport; fail-closed",
                     node_id, txn_id);
         throw std::runtime_error(
             "GrpcRpcPhase1Adapter: no gRPC transport available; missing credentials or compilation flag");
     };
 
-#endif  // THEMIS_HAS_CORE_GRPC
+#endif  // THEMIS_HAS_CORE_GRPC_PROTO
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -243,7 +252,7 @@ DistributedTransactionManager::RpcPhase2Fn GrpcRpcPhase2Adapter::make(
     std::chrono::milliseconds                  timeout,
     std::optional<MtlsConfig>                  mtls)
 {
-#ifdef THEMIS_HAS_CORE_GRPC
+#if THEMIS_HAS_CORE_GRPC_PROTO
 
     return [node_addresses, timeout, mtls](
                const std::string& node_id,
@@ -350,7 +359,7 @@ DistributedTransactionManager::RpcPhase2Fn GrpcRpcPhase2Adapter::make(
             " after " + std::to_string(kMaxRetries) + " attempts");
     };
 
-#else  // THEMIS_HAS_CORE_GRPC not defined — fail-closed stub
+#else  // gRPC transport unavailable or generated core proto stubs missing — fail-closed stub
 
     (void)node_addresses;
     (void)timeout;
@@ -360,15 +369,17 @@ DistributedTransactionManager::RpcPhase2Fn GrpcRpcPhase2Adapter::make(
               const std::string& txn_id,
               bool               do_commit)
     {
-        THEMIS_WARN("GrpcRpcPhase2Adapter: THEMIS_HAS_CORE_GRPC is not defined — "
+        THEMIS_WARN("GrpcRpcPhase2Adapter: gRPC transport unavailable "
+                    "(THEMIS_HAS_CORE_GRPC undefined or themis_core.grpc.pb.h missing) — "
                     "node={} txn={} {} cannot be delivered (no gRPC transport)",
                     node_id, txn_id, do_commit ? "COMMIT" : "ROLLBACK");
         throw std::runtime_error(
-            "GrpcRpcPhase2Adapter: no gRPC transport (THEMIS_HAS_CORE_GRPC not defined) "
+            "GrpcRpcPhase2Adapter: no gRPC transport (THEMIS_HAS_CORE_GRPC undefined "
+            "or themis_core.grpc.pb.h missing) "
             "for node=" + node_id + " txn=" + txn_id);
     };
 
-#endif  // THEMIS_HAS_CORE_GRPC
+#endif  // THEMIS_HAS_CORE_GRPC_PROTO
 }
 
 }  // namespace themis::transaction
