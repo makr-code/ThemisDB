@@ -293,7 +293,7 @@ RUN if [ "$ENABLE_LLM" = "ON" ]; then \
 # 3) Keep the file cache mounted so CI does not re-download the same model each run.
 RUN --mount=type=cache,id=llm-model-cache-${TARGETARCH},target=/opt/themis-models \
     set -eux; \
-    if [ "${INCLUDE_TINYLLAMA:-OFF}" = "ON" ] || [ "${INCLUDE_TINYLLAMA:-OFF}" = "on" ] || [ "${INCLUDE_TINYLLAMA:-OFF}" = "true" ] || [ "${INCLUDE_TINYLLAMA:-OFF}" = "TRUE" ]; then \
+    if [ "${INCLUDE_TINYLLAMA:-ON}" = "ON" ] || [ "${INCLUDE_TINYLLAMA:-ON}" = "on" ] || [ "${INCLUDE_TINYLLAMA:-ON}" = "true" ] || [ "${INCLUDE_TINYLLAMA:-ON}" = "TRUE" ]; then \
         MODEL_KEY="${LLM_MODEL:-tinyllama}"; \
         MODEL_FILE="${LLM_MODEL_FILE:-${MODEL_KEY}.gguf}"; \
         MODEL_URL="${LLM_MODEL_URL:-${TINYLLAMA_HF_URL:-}}"; \
@@ -325,7 +325,7 @@ RUN --mount=type=cache,id=llm-model-cache-${TARGETARCH},target=/opt/themis-model
             echo "Reusing cached LLM model: /opt/themis-models/${MODEL_FILE}"; \
         fi; \
     else \
-        echo "INCLUDE_TINYLLAMA is OFF by default; skipping model download"; \
+        echo "INCLUDE_TINYLLAMA is disabled; skipping model download"; \
     fi
 
 # ============================================================================
