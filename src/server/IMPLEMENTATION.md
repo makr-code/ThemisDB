@@ -4,8 +4,8 @@ Created: "2026-10-19"
 Last Updated: "2026-10-19"
 Status: "active"
 AI_Used: true
-AI_Models: "unknown"
-AI_Contributor: "unknown"
+AI_Models: "MAI-Code-1.1-Flash"
+AI_Contributor: "MAI-Code-1.1-Flash"
 Human_Review: true
 Human_Author: "ThemisDB Contributors"
 ---
