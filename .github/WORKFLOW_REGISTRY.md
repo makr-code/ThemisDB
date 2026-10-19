@@ -152,6 +152,7 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | `reusable-docs-db-builder.yml` | Reusable: Docs-to-ThemisDB Database Builder (Docs DB generation) | maintenance-docs-db-build |
 | `reusable-status-flags-and-issues.yml` | Reusable: Status Flags and Issues (Status/issue automation) | maintenance, release |
 | `reusable-docker-image-platform.yml` | Reusable: Docker Image Platform Build (Per-platform Docker build + digest handoff) | release-docker-image |
+| `reusable-llm-model-cache.yml` | Reusable: LLM Model Cache (Shared model-cache restore/save for LLM workflows) | reusable-docker-image-platform |
 
 ## Compliance Scorecard
 
