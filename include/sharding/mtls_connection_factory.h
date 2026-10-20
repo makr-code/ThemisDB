@@ -114,14 +114,24 @@ public:
     };
     
     /**
-     * @brief Construct factory with SSL context and configuration
-     * 
+     * @brief Construct factory with default configuration.
+     *
+     * Equivalent to `MTLSConnectionFactory(ssl_context, Config{})`.
+     *
      * @param ssl_context OpenSSL SSL_CTX pointer (must outlive this factory)
-     * @param config Factory configuration
-     * 
+     *
      * @throws std::invalid_argument if ssl_context is null
      */
     MTLSConnectionFactory(SSL_CTX* ssl_context);
+
+    /**
+     * @brief Construct factory with explicit configuration.
+     *
+     * @param ssl_context OpenSSL SSL_CTX pointer (must outlive this factory)
+     * @param config Factory configuration for timeouts, verification, and logging
+     *
+     * @throws std::invalid_argument if ssl_context is null
+     */
     MTLSConnectionFactory(SSL_CTX* ssl_context, const Config& config);
     
     ~MTLSConnectionFactory() override = default;
