@@ -247,8 +247,8 @@ class ErrorAggregator {
     let currentCompiler = 'unknown';
 
     const msvcRegex = /^.*?([A-Za-z]:\\[^:(]+|[^:(\s][^:(]*?)\((\d+)(?:,(\d+))?\):\s*(fatal error|error|warning)\s*(C\d+)\s*:\s*(.+)$/;
-    const gccClangRegex = /^.*?([^:\n]+):(\d+):(\d+):\s*(fatal error|error|warning):\s*(.+)$/;
-    const gccClangNoColRegex = /^.*?([^:\n]+):(\d+):\s*(fatal error|error|warning):\s*(.+)$/;
+    const gccClangRegex = /^.*?((?:[A-Za-z]:)?[^:\n]+):(\d+):(\d+):\s*(fatal error|error|warning):\s*(.+)$/;
+    const gccClangNoColRegex = /^.*?((?:[A-Za-z]:)?[^:\n]+):(\d+):\s*(fatal error|error|warning):\s*(.+)$/;
 
     for (const rawLine of lines) {
       const line = rawLine.replace(/^\d{4}-\d{2}-\d{2}T[^ ]+Z\s+/, '');

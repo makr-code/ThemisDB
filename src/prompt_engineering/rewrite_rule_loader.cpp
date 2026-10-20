@@ -18,6 +18,7 @@
 #include <sstream>
 #include <regex>
 #include <spdlog/spdlog.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
 #include <nlohmann/json.hpp>
 #include <yaml-cpp/yaml.h>
 

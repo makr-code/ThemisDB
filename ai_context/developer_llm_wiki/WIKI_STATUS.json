@@ -1,15 +1,16 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-10-12T03:13:20+00:00",
+  "generated_at": "2026-10-19T03:03:08+00:00",
   "mode": "incremental",
-  "source_count": 7958,
-  "source_hash": "712cb8ef8b61301a2844dcd349e8ac313a8a267cb14963a333024f19f3bdceea",
+  "source_count": 7986,
+  "source_hash": "4db05528d055dbebf71c00e189b7878470d634ca99657f85cc770a5a7cdd1d31",
   "delta": {
-    "added_count": 7958,
+    "added_count": 7986,
     "removed_count": 0,
     "changed_count": 0,
     "added_preview": [
+      ".github/workflows/benchmark-gate.yml",
       ".github/workflows/benchmark-performance-gate.yml",
       ".github/workflows/build-benchmarks.yml",
       ".github/workflows/build-clang-fast.yml",
@@ -22,10 +23,12 @@
       ".github/workflows/build-wave-b-llm-benchmarks.yml",
       ".github/workflows/build-wave-b-transaction.yml",
       ".github/workflows/build-widget.yml",
+      ".github/workflows/codeql.yml",
       ".github/workflows/compliance-governance-gates.yml",
       ".github/workflows/compliance-supply-chain.yml",
       ".github/workflows/copilot-code-review.yml",
       ".github/workflows/coverage-report-nightly.yml",
+      ".github/workflows/crda.yml",
       ".github/workflows/edition-hyperscaler-ci.yml",
       ".github/workflows/ga-promotion-signoff.yml",
       ".github/workflows/gate-copilot-regression.yml",
@@ -36,6 +39,7 @@
       ".github/workflows/gate-pr-doc-metadata.yml",
       ".github/workflows/gate-pr-doxygen-governance.yml",
       ".github/workflows/gate-pr-edition-license.yml",
+      ".github/workflows/gate-pr-final-runtime-api.yml",
       ".github/workflows/gate-pr-hash-sbom.yml",
       ".github/workflows/gate-pr-merge-readiness.yml",
       ".github/workflows/gate-pr-module-doxygen-xml.yml",
@@ -55,15 +59,11 @@
       ".github/workflows/maintenance-ai-working.yml",
       ".github/workflows/maintenance-architecture-ci.yml",
       ".github/workflows/maintenance-build-issues.yml",
-      ".github/workflows/maintenance-ci-health.yml",
-      ".github/workflows/maintenance-compendium-sync.yml",
-      ".github/workflows/maintenance-docs-db-build.yml",
-      ".github/workflows/maintenance-docs.yml",
-      ".github/workflows/maintenance-housekeeping.yml"
+      ".github/workflows/maintenance-ci-health.yml"
     ],
     "removed_preview": [],
     "changed_preview": []
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "eadf0271d5fed7e3da8465abfda890843a9b03843dc64489ab10399a3ac55eaa"
+  "manifest_sha256": "bb0e2b5242c00f79aaf75a603c3c48cf5b9fa416937b8b3f6082e66c8802a5dc"
 }

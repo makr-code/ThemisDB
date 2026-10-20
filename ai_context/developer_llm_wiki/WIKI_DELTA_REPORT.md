@@ -1,16 +1,17 @@
 # Developer LLM Wiki — Delta Report
 
-Datum: 2026-10-12
+Datum: 2026-10-19
 Status: Active
 
 ## Summary
 
-- Added: 7958
+- Added: 7986
 - Removed: 0
 - Changed: 0
 
 ## Added
 
+- .github/workflows/benchmark-gate.yml
 - .github/workflows/benchmark-performance-gate.yml
 - .github/workflows/build-benchmarks.yml
 - .github/workflows/build-clang-fast.yml
@@ -23,10 +24,12 @@ Status: Active
 - .github/workflows/build-wave-b-llm-benchmarks.yml
 - .github/workflows/build-wave-b-transaction.yml
 - .github/workflows/build-widget.yml
+- .github/workflows/codeql.yml
 - .github/workflows/compliance-governance-gates.yml
 - .github/workflows/compliance-supply-chain.yml
 - .github/workflows/copilot-code-review.yml
 - .github/workflows/coverage-report-nightly.yml
+- .github/workflows/crda.yml
 - .github/workflows/edition-hyperscaler-ci.yml
 - .github/workflows/ga-promotion-signoff.yml
 - .github/workflows/gate-copilot-regression.yml
@@ -37,6 +40,7 @@ Status: Active
 - .github/workflows/gate-pr-doc-metadata.yml
 - .github/workflows/gate-pr-doxygen-governance.yml
 - .github/workflows/gate-pr-edition-license.yml
+- .github/workflows/gate-pr-final-runtime-api.yml
 - .github/workflows/gate-pr-hash-sbom.yml
 - .github/workflows/gate-pr-merge-readiness.yml
 - .github/workflows/gate-pr-module-doxygen-xml.yml
@@ -65,11 +69,14 @@ Status: Active
 - .github/workflows/maintenance-pr-failure-diagnosis.yml
 - .github/workflows/maintenance-soll-ist-gap-issues.yml
 - .github/workflows/maintenance-workflow-guardrails-observe.yml
+- .github/workflows/msvc.yml
+- .github/workflows/nightly-governance-audit.yml
 - .github/workflows/publish-wiki.yml
 - .github/workflows/release-build-matrix.yml
 - .github/workflows/release-changelog.yml
 - .github/workflows/release-docker-approval.yml
 - .github/workflows/release-docker-image.yml
+- .github/workflows/release-evidence-chain.yml
 - .github/workflows/release-linux-distribution.yml
 - .github/workflows/release-linux-distro-approval.yml
 - .github/workflows/release-mainline-approval.yml
@@ -84,6 +91,7 @@ Status: Active
 - .github/workflows/release-wordpress-press.yml
 - .github/workflows/reusable-benchmark-runner.yml
 - .github/workflows/reusable-cmake-build.yml
+- .github/workflows/reusable-docker-image-platform.yml
 - .github/workflows/reusable-docs-db-builder.yml
 - .github/workflows/reusable-status-flags-and-issues.yml
 - .github/workflows/security-codeql.yml
@@ -203,15 +211,7 @@ Status: Active
 - docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE4_TEST_GENERATION_SPEC.md
 - docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE4_TEST_REPORT.md
 - docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE5_BENCHMARK_QUICK_REFERENCE.md
-- docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE5_BENCHMARK_RESULTS.md
-- docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE5_BENCHMARK_SPEC.md
-- docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE5_CI_INTEGRATION_GUIDE.md
-- docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE5_DELIVERY_SUMMARY.md
-- docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE5_INDEX.md
-- docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE6_ACCEPTANCE_TRACKING.md
-- docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE6_AGGREGATION_REPORT.md
-- docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE6_FINAL_SIGNOFF_PLAN.md
-- ... truncated (7758 more)
+- ... truncated (7786 more)
 
 ## Removed
 

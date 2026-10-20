@@ -441,7 +441,7 @@ bool ParallelDownloader::defaultFetch(
 
     WriteCtx ctx{fp.get()};
     curl_easy_setopt(curl.get(), CURLOPT_URL,             url.c_str());
-    curl_easy_setopt([[maybe_unused]] curl.get(), CURLOPT_WRITEFUNCTION,   static_cast<curl_write_callback>(write_cb));
+    curl_easy_setopt(curl.get(), CURLOPT_WRITEFUNCTION,   static_cast<curl_write_callback>(write_cb));
     curl_easy_setopt(curl.get(), CURLOPT_WRITEDATA,       &ctx);
     curl_easy_setopt(curl.get(), CURLOPT_FOLLOWLOCATION,  1L);
     curl_easy_setopt(curl.get(), CURLOPT_CONNECTTIMEOUT,  connect_timeout_s);

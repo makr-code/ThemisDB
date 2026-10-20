@@ -27,12 +27,27 @@ on:
         default: true
         type: boolean
       include_tinyllama:
-        description: "Whether TinyLlama should be included in the Docker image"
+        description: "Whether an LLM model should be included in the Docker image"
         required: false
         default: true
         type: boolean
+      llm_model:
+        description: "LLM preset to bundle (tinyllama, qwen2.5-coder-7b-instruct, llama-3.2-3b-instruct, custom)"
+        required: false
+        default: "tinyllama"
+        type: string
+      llm_model_url:
+        description: "Optional direct Hugging Face or model URL for an alternate GGUF"
+        required: false
+        default: ""
+        type: string
+      llm_model_file:
+        description: "Optional output model filename used for cache reuse and artifact naming"
+        required: false
+        default: ""
+        type: string
       tinyllama_force_download:
-        description: "Whether TinyLlama should be redownloaded during build"
+        description: "Whether the selected model should be redownloaded during build"
         required: false
         default: false
         type: boolean
@@ -62,12 +77,24 @@ permissions:
   security-events: write
 
 jobs:
+  prepare-llm-model-cache:
+    if: ${{ inputs.include_tinyllama == true || inputs.include_tinyllama == 'true' }}
+    uses: ./.github/workflows/reusable-llm-model-cache.yml
+    with:
+      include_tinyllama: ${{ inputs.include_tinyllama }}
+      llm_model: ${{ inputs.llm_model || 'tinyllama' }}
+      llm_model_url: ${{ inputs.llm_model_url || '' }}
+      llm_model_file: ${{ inputs.llm_model_file || '' }}
+      tinyllama_force_download: ${{ inputs.tinyllama_force_download }}
+      cache_key_suffix: ${{ github.ref_name || github.sha }}
+
   build:
+    needs: [prepare-llm-model-cache]
     name: "Build: Docker ${{ inputs.platform }}"
     runs-on: ubuntu-latest
     timeout-minutes: 180
     outputs:
-      digest: ${{ steps.push.outputs.digest }}
+      digest: ${{ steps.build-candidate.outputs.digest }}
       platform_tag: ${{ steps.platform-tag.outputs.value }}
     steps:
       - name: Guard platform build budget
@@ -183,7 +210,27 @@ jobs:
           echo "value=${PLATFORM_TAG}" >> "${GITHUB_OUTPUT}"
           echo "Platform tag: ${PLATFORM_TAG}"
 
-      - name: Build release candidate image for security gate
+      - name: Reuse prepared model cache in build context
+        if: ${{ inputs.include_tinyllama == true || inputs.include_tinyllama == 'true' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          MODEL_DIR="${{ github.workspace }}/.cache/themis-llm-models"
+          mkdir -p "${MODEL_DIR}"
+          if [[ -n "${{ inputs.llm_model_file || '' }}" ]]; then
+            MODEL_FILE="${{ inputs.llm_model_file }}"
+          else
+            MODEL_FILE="${{ inputs.llm_model || 'tinyllama' }}.gguf"
+          fi
+          if [[ -f "${MODEL_DIR}/${MODEL_FILE}" ]]; then
+            mkdir -p ./models
+            cp -f "${MODEL_DIR}/${MODEL_FILE}" "./models/${MODEL_FILE}"
+            echo "Injected cached model into Docker context: ./models/${MODEL_FILE}"
+          else
+            echo "No reusable model cache found for ${MODEL_FILE}; Docker build will fetch it itself."
+          fi
+
+      - name: Build platform image once for local scan and optional registry push
         id: build-candidate
         uses: docker/build-push-action@4f58ea79222b3b9dc2c8bbdd6debcef730109a75  # v6.9.0
         with:
@@ -191,74 +238,10 @@ jobs:
           file: ./docker/Dockerfile.unified
           target: runtime
           pull: false
-          load: true
           secret-files: |
             extra_ca_bundle=${{ steps.host-ca.outputs.path }}
-          push: false
-          platforms: ${{ inputs.platform }}
-          tags: themisdb/themisdb:release-gate-${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
-          build-args: |
-            THEMIS_EDITION=COMMUNITY
-            VERSION=${{ inputs.version }}
-            VCPKG_MANIFEST_HASH=${{ hashFiles('docker/vcpkg-*.json', 'vcpkg-configuration.json', 'ports/**') }}
-            INCLUDE_TINYLLAMA=${{ inputs.include_tinyllama && 'ON' || 'OFF' }}
-            TINYLLAMA_FORCE_DOWNLOAD=${{ inputs.tinyllama_force_download && '1' || '0' }}
-          cache-from: |
-            type=gha,scope=themisdb-docker-unified
-            type=gha,scope=themisdb-docker-unified-${{ github.ref_name || 'detached' }}
-          cache-to: type=gha,mode=max,scope=themisdb-docker-unified
-
-      - name: Release image vulnerability gate (Trivy)
-        if: |
-          inputs.push_to_registry && (
-            (github.event_name == 'release') ||
-            (github.event_name == 'push' && github.ref == 'refs/heads/develop') ||
-            (github.event_name == 'workflow_dispatch' && github.event.inputs.push_to_registry == 'true') ||
-            (github.event_name == 'workflow_call' && inputs.push_to_registry == true)
-          )
-        shell: bash
-        run: |
-          set -euo pipefail
-          IMAGE_TAG="themisdb/themisdb:release-gate-${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}"
-          echo "Scanning image ${IMAGE_TAG} for HIGH/CRITICAL OS and library vulns"
-          IMAGE_TAR="${RUNNER_TEMP}/release-gate-image-${{ steps.platform-tag.outputs.value }}.tar"
-          IMAGE_TAR_MOUNT="/tmp/release-gate-image.tar"
-          docker image inspect "${IMAGE_TAG}" >/dev/null 2>&1 || {
-            echo "::error::Image ${IMAGE_TAG} not found locally; cannot run Trivy release gate scan."
-            exit 1
-          }
-          docker save "${IMAGE_TAG}" -o "${IMAGE_TAR}"
-          if [ ! -s "${IMAGE_TAR}" ]; then
-            echo "::error::Failed to export ${IMAGE_TAG} to ${IMAGE_TAR}; cannot run Trivy release gate scan."
-            exit 1
-          fi
-          mkdir -p "${RUNNER_TEMP}/trivy-cache"
-          docker run --rm \
-            -v "${IMAGE_TAR}:${IMAGE_TAR_MOUNT}:ro" \
-            -v "${RUNNER_TEMP}/trivy-cache:/tmp/trivy-cache" \
-            aquasec/trivy:0.64.0 \
-            image \
-            --input "${IMAGE_TAR_MOUNT}" \
-            --cache-dir /tmp/trivy-cache \
-            --scanners vuln \
-            --severity CRITICAL,HIGH \
-            --ignore-unfixed \
-            --format table \
-            --exit-code 1
-
-      - name: Push platform image digest
-        id: push
-        if: inputs.push_to_registry
-        timeout-minutes: 170
-        uses: docker/build-push-action@4f58ea79222b3b9dc2c8bbdd6debcef730109a75  # v6.9.0
-        with:
-          context: .
-          file: ./docker/Dockerfile.unified
-          target: runtime
-          pull: false
-          secret-files: |
-            extra_ca_bundle=${{ steps.host-ca.outputs.path }}
-          push: true
+          load: ${{ ! (inputs.push_to_registry == true || inputs.push_to_registry == 'true') }}
+          push: ${{ inputs.push_to_registry == true || inputs.push_to_registry == 'true' }}
           platforms: ${{ inputs.platform }}
           provenance: true
           sbom: true
@@ -268,18 +251,66 @@ jobs:
             VERSION=${{ inputs.version }}
             VCPKG_MANIFEST_HASH=${{ hashFiles('docker/vcpkg-*.json', 'vcpkg-configuration.json', 'ports/**') }}
             INCLUDE_TINYLLAMA=${{ inputs.include_tinyllama && 'ON' || 'OFF' }}
+            LLM_MODEL=${{ inputs.llm_model || 'tinyllama' }}
+            LLM_MODEL_URL=${{ inputs.llm_model_url || '' }}
+            LLM_MODEL_FILE=${{ inputs.llm_model_file || '' }}
             TINYLLAMA_FORCE_DOWNLOAD=${{ inputs.tinyllama_force_download && '1' || '0' }}
           cache-from: |
             type=gha,scope=themisdb-docker-unified
             type=gha,scope=themisdb-docker-unified-${{ github.ref_name || 'detached' }}
           cache-to: type=gha,mode=max,scope=themisdb-docker-unified
 
+      - name: Pull pushed image locally for release-gate scan
+        if: inputs.push_to_registry
+        shell: bash
+        env:
+          REGISTRY_TAG: ghcr.io/${{ github.repository_owner }}/themisdb:${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
+        run: |
+          set -euo pipefail
+          docker pull "${REGISTRY_TAG}"
+          docker image inspect "${REGISTRY_TAG}" >/dev/null 2>&1 || {
+            echo "::error::Image ${REGISTRY_TAG} not found locally after push; cannot run Trivy release gate scan."
+            exit 1
+          }
+
+      - name: Trivy vulnerability scan
+        if: inputs.push_to_registry
+        shell: bash
+        env:
+          IMAGE_REF: ghcr.io/${{ github.repository_owner }}/themisdb:${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
+        run: |
+          set -euo pipefail
+          echo "Scanning image ${IMAGE_REF} for HIGH/CRITICAL OS and library vulns"
+          IMAGE_TAR="${RUNNER_TEMP}/release-gate-image-${{ steps.platform-tag.outputs.value }}.tar"
+          docker image inspect "${IMAGE_REF}" >/dev/null 2>&1 || {
+            echo "::error::Image ${IMAGE_REF} not found locally; cannot run Trivy release gate scan."
+            exit 1
+          }
+          docker save "${IMAGE_REF}" -o "${IMAGE_TAR}"
+          if [ ! -s "${IMAGE_TAR}" ]; then
+            echo "::error::Failed to export ${IMAGE_REF} to ${IMAGE_TAR}; cannot run Trivy release gate scan."
+            exit 1
+          fi
+          mkdir -p "${RUNNER_TEMP}/trivy-cache"
+          docker run --rm \
+            -v "${IMAGE_TAR}:/tmp/image.tar:ro" \
+            -v "${RUNNER_TEMP}/trivy-cache:/tmp/trivy-cache" \
+            aquasec/trivy:0.64.0 \
+            image \
+            --input /tmp/image.tar \
+            --cache-dir /tmp/trivy-cache \
+            --scanners vuln \
+            --severity CRITICAL,HIGH \
+            --ignore-unfixed \
+            --format table \
+            --exit-code 1
+
       - name: Write digest artifact
         if: (inputs.push_to_registry == true || inputs.push_to_registry == 'true')
         shell: bash
         run: |
           set -euo pipefail
-          DIGEST="${{ steps.push.outputs.digest }}"
+          DIGEST="${{ steps.build-candidate.outputs.digest }}"
           IMAGE_REF="ghcr.io/${{ github.repository_owner }}/themisdb:${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}@${DIGEST}"
           echo "${IMAGE_REF}" > "docker-digest-${{ steps.platform-tag.outputs.value }}.txt"
           echo "Platform digest ref: ${IMAGE_REF}"
@@ -300,5 +331,5 @@ jobs:
           echo "  Docker platform build complete"
           echo "  Version   : ${{ inputs.version }}"
           echo "  Platform  : ${{ inputs.platform }}"
-          echo "  Digest    : ${{ steps.push.outputs.digest || 'not pushed' }}"
+          echo "  Digest    : ${{ steps.build-candidate.outputs.digest || 'not pushed' }}"
           echo "──────────────────────────────────────────────"

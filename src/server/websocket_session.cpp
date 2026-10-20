@@ -46,7 +46,7 @@ WebSocketSession::WebSocketSession(tcp::socket socket, HttpServer* server)
     THEMIS_INFO("WebSocket session created (plain): {}", session_id_);
 }
 
-WebSocketSession::WebSocketSession(beast::ssl_stream<beast::tcp_stream> stream, HttpServer* server)
+WebSocketSession::WebSocketSession(beast::ssl_stream<tcp::socket> stream, HttpServer* server)
     : server_(server)
     , active_(false)
     , is_tls_(true)
@@ -56,7 +56,7 @@ WebSocketSession::WebSocketSession(beast::ssl_stream<beast::tcp_stream> stream, 
     , cdc_from_sequence_(0)
     , cdc_last_sent_sequence_(0)
 {
-    ws_tls_ = std::make_unique<websocket::stream<beast::ssl_stream<beast::tcp_stream>>>(std::move(stream));
+    ws_tls_ = std::make_unique<websocket::stream<beast::ssl_stream<tcp::socket>>>(std::move(stream));
     
     // Generate unique session ID
     boost::uuids::uuid uuid = boost::uuids::random_generator()();

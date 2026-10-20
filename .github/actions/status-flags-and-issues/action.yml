@@ -243,11 +243,11 @@ runs:
             }
           };
 
-          const findOpenIssueByMarkerOrTitle = async () => {
+          const findIssueByMarkerOrTitle = async () => {
             const all = await github.paginate(github.rest.issues.listForRepo, {
               owner,
               repo,
-              state: 'open',
+              state: 'all',
               per_page: 100,
             });
             if (issueMarker) {
@@ -266,7 +266,7 @@ runs:
               const byNumber = await issueFromNumber(issueNumberRaw);
               if (byNumber) return byNumber;
             }
-            return await findOpenIssueByMarkerOrTitle();
+            return await findIssueByMarkerOrTitle();
           };
 
           const buildAuditSuffix = () => {
