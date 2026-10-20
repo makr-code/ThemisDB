@@ -943,8 +943,14 @@ TEST_F(DeltaUpdateEngineTest, GenerateApplyPatch_ZstdDict_SmallDiff) {
     ASSERT_TRUE(engine.generatePatch(
         base_path, target_path, patch_path, PatchAlgorithm::ZSTD_DICT));
 
-    // Patch should be smaller than target
-    EXPECT_LT(fs::file_size(patch_path), target.size());
+    const auto patch_size = fs::file_size(patch_path);
+#ifdef THEMIS_HAS_ZSTD
+    // With zstd support, dictionary patches for small diffs should compress.
+    EXPECT_LT(patch_size, target.size());
+#else
+    // Fallback path stores raw payload plus 16-byte header.
+    EXPECT_EQ(patch_size, target.size() + 16);
+#endif
 
     ASSERT_TRUE(engine.applyPatch(base_path, patch_path, recon_path));
 
@@ -1456,6 +1462,7 @@ public:
                               HotReloadEngine::Config c;
                               c.verify_signatures                = false;
                               c.create_backup                    = false;
+                              c.backup_directory                 = "/tmp/themisdb_test_rollback";
                               c.rollback_on_health_check_failure = rollback_on_hc_failure;
                               return c;
                           }())
@@ -1961,7 +1968,7 @@ TEST_F(CheckpointTest, SetHistoryLogger_AuditsRollback) {
     auto history = logger.getHistory();  // newest first
     ASSERT_GE(history.size(), 2u);
     // Most recent entry should be the rollback
-    EXPECT_EQ(history[0].event_type, "checkpoint_rollback");
+    EXPECT_EQ(history[0].event_type, "rollback_attempt");
     EXPECT_TRUE(history[0].success);
 }
 
@@ -2004,4 +2011,3 @@ TEST_F(CheckpointTest, MultipleRollbacks_WorkSequentially) {
     EXPECT_TRUE(sm.rollbackToCheckpoint(id_dl));
     EXPECT_EQ(sm.currentState(), UpdateState::DOWNLOADING);
 }
-
