@@ -260,6 +260,9 @@ jobs:
           cmake --build build-pr-release-critical --parallel "${PARALLEL_JOBS}";
         fi
       validation_mode: none
+      artifact_name: pr-release-critical-build-dir
+      artifact_paths: build-pr-release-critical
+      artifact_retention_days: '7'
       runs_on: ubuntu-latest
       shell: bash
       fetch_depth: '0'
@@ -280,6 +283,12 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 1
+
+      - name: Restore release-critical build directory
+        uses: actions/download-artifact@v5
+        with:
+          name: pr-release-critical-build-dir
+          path: .
 
       - name: Run release-critical CTest gate
         id: ctest_gate
