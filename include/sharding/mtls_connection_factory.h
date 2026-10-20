@@ -121,7 +121,8 @@ public:
      * 
      * @throws std::invalid_argument if ssl_context is null
      */
-    MTLSConnectionFactory(SSL_CTX* ssl_context, const Config& config = Config{});
+    MTLSConnectionFactory(SSL_CTX* ssl_context);
+    MTLSConnectionFactory(SSL_CTX* ssl_context, const Config& config);
     
     ~MTLSConnectionFactory() override = default;
     
