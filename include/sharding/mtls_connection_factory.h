@@ -123,6 +123,16 @@ public:
      * @throws std::invalid_argument if ssl_context is null
      */
     explicit MTLSConnectionFactory(SSL_CTX* ssl_context);
+
+    /**
+     * @brief Construct factory with SSL context and custom configuration
+     *
+     * @param ssl_context OpenSSL SSL_CTX pointer (must outlive this factory)
+     * @param config Factory configuration that controls timeouts, verification,
+     *        and logging behavior for created connections.
+     *
+     * @throws std::invalid_argument if ssl_context is null
+     */
     MTLSConnectionFactory(SSL_CTX* ssl_context, const Config& config);
     
     ~MTLSConnectionFactory() override = default;
