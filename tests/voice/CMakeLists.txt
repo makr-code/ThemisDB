@@ -10,13 +10,21 @@ foreach(_src IN LISTS VOICE_MODULE_TEST_SOURCES)
     set(_ctest "${_stem}_voice_FocusedTests")
     set(_extra_sources)
 
-    if(TARGET ${_target})
-        continue()
-    endif()
-
     if(_stem STREQUAL "test_voice_api_handler")
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/server/voice_api_handler.cpp
+        )
+    endif()
+
+    if(_stem STREQUAL "test_voice_audit_logging" OR _stem STREQUAL "test_voice_multi_session_teardown")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/voice/voice_audit_logger.cpp
+        )
+    endif()
+
+    if(_stem STREQUAL "test_voice_stream_validation")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/voice/voice_stream_validator.cpp
         )
     endif()
 
@@ -38,10 +46,17 @@ foreach(_src IN LISTS VOICE_MODULE_TEST_SOURCES)
         )
     endif()
 
-    add_executable(${_target}
-        "${_src}"
-        ${_extra_sources}
-    )
+    if(NOT TARGET ${_target})
+        add_executable(${_target}
+            "${_src}"
+            ${_extra_sources}
+        )
+    else()
+        target_sources(${_target} PRIVATE
+            "${_src}"
+            ${_extra_sources}
+        )
+    endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}
         ${THEMIS_ROOT_DIR}/include

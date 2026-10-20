@@ -2714,6 +2714,7 @@ set(THEMIS_CORE_SOURCES
     $<$<BOOL:${BOOST_FOUND}>:../src/utils/http_client_pool.cpp>
     $<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/utils/grpc_channel_pool.cpp>
     ../src/utils/thread_pool_manager.cpp
+    ../src/utils/thread_guard.cpp
     ../src/themis/build_info.cpp
     ../src/themis/license_info.cpp
     ../src/utils/runtime_license_gate.cpp

@@ -1,0 +1,735 @@
+[0/2] Re-checking globbed directories...
+[1/633] Performing build step for 'vulkan-shaders-gen'
+ninja: no work to do.
+[2/633] Performing install step for 'vulkan-shaders-gen'
+-- Up-to-date: C:/Projects/ThemisDB/build-msvc-windows-debug/Debug/./vulkan-shaders-gen.exe
+[3/633] Completed 'vulkan-shaders-gen'
+[4/633] Linking CXX static library lib\themis_query.lib
+[5/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\prompt_engineering\prompt_ab_experiment.cpp.obj
+[6/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\prompt_engineering\prompt_library_io.cpp.obj
+[7/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\prompt_engineering\rag_context_budget_manager.cpp.obj
+[8/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\prompt_engineering\prompt_quality_evaluator.cpp.obj
+[9/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\prompt_engineering\tree_of_thoughts.cpp.obj
+C:\Projects\ThemisDB\src\prompt_engineering\tree_of_thoughts.cpp(337): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\src\prompt_engineering\tree_of_thoughts.cpp(380): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "int", Datenverlust mglich
+[10/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\prompt_engineering\protegi_optimizer.cpp.obj
+[11/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\prompt_engineering\dspy_module.cpp.obj
+[12/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\prompt_engineering\structured_output.cpp.obj
+[13/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\ssm_state_rocksdb_store.cpp.obj
+C:\Projects\ThemisDB\src\llm\ssm_state_rocksdb_store.cpp(318): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "uint32_t", Datenverlust mglich
+[14/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\prompt_engineering\markdown_utils.cpp.obj
+[15/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\prompt_engineering\prompt_compressor.cpp.obj
+C:\Projects\ThemisDB\src\prompt_engineering\prompt_compressor.cpp(102): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\src\prompt_engineering\prompt_compressor.cpp(102): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "const int", Datenverlust mglich
+C:\Projects\ThemisDB\src\prompt_engineering\prompt_compressor.cpp(231): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\src\prompt_engineering\prompt_compressor.cpp(231): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "const int", Datenverlust mglich
+[16/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\prompt_engineering\adversarial_prompt_tester.cpp.obj
+[17/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\prompt_engineering\prompt_template_validator.cpp.obj
+[18/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\prompt_engineering\prompt_template_compiler.cpp.obj
+[19/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\distributed_knowledge\cross_shard_feedback_sync.cpp.obj
+[20/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\distributed_knowledge\adapter_capability_announcement.cpp.obj
+[21/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\distributed_knowledge\lora_federation_coordinator.cpp.obj
+[22/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\api\federation_admin_handler.cpp.obj
+[23/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\block_table.cpp.obj
+[24/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\paged_block_manager.cpp.obj
+C:\Projects\ThemisDB\src\llm\paged_block_manager.cpp(192): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\src\llm\paged_block_manager.cpp(218): warning C4267: "return": Konvertierung von "size_t" nach "int", Datenverlust mglich
+[25/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\paged_kv_cache.cpp.obj
+[26/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\paged_kv_cache_manager.cpp.obj
+[27/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\llm_plugin_manager.cpp.obj
+[28/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\model_loader.cpp.obj
+[29/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\model_quantization_pipeline.cpp.obj
+[30/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\model_downloader.cpp.obj
+[31/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\aql_train_parser.cpp.obj
+[32/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\aql\llm_aql_embedding_bridge.cpp.obj
+[33/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\llama_wrapper.cpp.obj
+C:\Projects\ThemisDB\src\llm\llama_wrapper.cpp(1476): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\src\llm\llama_wrapper.cpp(1587): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\src\llm\llama_wrapper.cpp(3153): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\src\llm\llama_wrapper.cpp(3318): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\src\llm\llama_wrapper.cpp(3436): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\src\llm\llama_wrapper.cpp(3520): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+[34/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llama_cpp\llama_cpp_plugin.cpp.obj
+[35/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\llama_lora_adapter.cpp.obj
+[36/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\llama_grammar_adapter.cpp.obj
+[37/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\llamacpp_inference_engine.cpp.obj
+[38/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\shared_worker_pool.cpp.obj
+[39/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\async_inference_engine.cpp.obj
+[40/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\speculative_decoder.cpp.obj
+C:\Projects\ThemisDB\src\llm\speculative_decoder.cpp(309): warning C4267: "return": Konvertierung von "size_t" nach "int", Datenverlust mglich
+[41/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\kv_prefix_transfer_manager.cpp.obj
+[42/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lookup_decoder.cpp.obj
+[43/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\model_router.cpp.obj
+[44/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\adapter_registry.cpp.obj
+[45/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\final_layer_orchestrator.cpp.obj
+[46/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\inference_engine_enhanced.cpp.obj
+[47/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\streaming_handler.cpp.obj
+[48/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\openai_compat_adapter.cpp.obj
+[49/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\ethical_guidelines_manager.cpp.obj
+[50/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\constitutional_reasoning_engine.cpp.obj
+[51/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\ai\cai_ethics_integration.cpp.obj
+[52/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\ethics_ai\ethics_evaluator.cpp.obj
+[53/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\ethics_aware_confidence_detector.cpp.obj
+[54/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\ai_decision_auditor.cpp.obj
+[55/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\decision_record_yaml_processor.cpp.obj
+[56/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\storage\schema_dead_weight_detector.cpp.obj
+[57/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\storage\storage_layout_advisor.cpp.obj
+[58/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\transaction\transaction_semantic_advisor.cpp.obj
+C:\Projects\ThemisDB\src\transaction\transaction_semantic_advisor.cpp(89): warning C4267: "=": Konvertierung von "size_t" nach "_Ty", Datenverlust mglich
+        with
+        [
+            _Ty=int
+        ]
+[59/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\temporal\temporal_migrator.cpp.obj
+[60/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\moral_analyzer.cpp.obj
+[61/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\multi_perspective_generator.cpp.obj
+C:\Projects\ThemisDB\src\llm\multi_perspective_generator.cpp(710): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\src\llm\multi_perspective_generator.cpp(710): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "const int", Datenverlust mglich
+[62/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\meta_prompt_generator.cpp.obj
+[63/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\prompt_evaluator.cpp.obj
+[64/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\prompt_optimizer.cpp.obj
+[65/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\inference_handle.cpp.obj
+[66/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\llm_security_utils.cpp.obj
+[67/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\safety\classifier.cpp.obj
+[68/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\safety\guardian.cpp.obj
+[69/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\safety\monitoring.cpp.obj
+[70/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\vision_config.cpp.obj
+[71/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\vision_resource_monitor.cpp.obj
+[72/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\feedback_store.cpp.obj
+[73/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\llm_model_storage.cpp.obj
+[74/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\llm_model_audit_logger.cpp.obj
+[75/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\lora_audit_logger.cpp.obj
+[76/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\kv_cache_buffer.cpp.obj
+[77/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\multi_lora_manager.cpp.obj
+C:\Projects\ThemisDB\src\llm\multi_lora_manager.cpp(1024): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+[78/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\gguf_loader.cpp.obj
+[79/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\grammar.cpp.obj
+[80/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\grammar_cache.cpp.obj
+[81/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\json_schema_converter.cpp.obj
+[82/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\llm_prefix_cache.cpp.obj
+[83/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\continuous_batch_scheduler.cpp.obj
+[84/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\mixed_precision_inference.cpp.obj
+[85/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\adaptive_vram_allocator.cpp.obj
+[86/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\active_vram_allocator.cpp.obj
+[87/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\multi_gpu_memory_coordinator.cpp.obj
+C:\Projects\ThemisDB\src\llm\multi_gpu_memory_coordinator.cpp(211): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\src\llm\multi_gpu_memory_coordinator.cpp(244): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+[88/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\gpu_safe_fail.cpp.obj
+[89/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\token_quota_manager.cpp.obj
+[90/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\grafana_metrics.cpp.obj
+[91/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\distributed_training_coordinator.cpp.obj
+[92/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\sampling_strategy.cpp.obj
+[93/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\feedback_plugin_basic.cpp.obj
+[94/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_security_validator.cpp.obj
+[95/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_certificate_store.cpp.obj
+[96/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\security\signature_verifier.cpp.obj
+[97/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\distributed_dataloader.cpp.obj
+[98/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\kernels\cpu_fused_kernels.cpp.obj
+[99/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\paged_memory_manager.cpp.obj
+[100/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\paged_optimizer.cpp.obj
+[101/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\cache\embedding_cache.cpp.obj
+[102/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\lora_layers.cpp.obj
+[103/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\lora_orchestrator.cpp.obj
+C:\Projects\ThemisDB\src\llm\lora_framework\lora_orchestrator.cpp(177): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\src\llm\lora_framework\lora_orchestrator.cpp(316): warning C4267: "+=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+[104/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\lora_feedback_storage.cpp.obj
+[105/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\lora_training_config.cpp.obj
+[106/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\feedback_plugin.cpp.obj
+[107/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\lora_provenance.cpp.obj
+[108/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\lora_package_provenance.cpp.obj
+[109/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\lora_storage_service_themisdb.cpp.obj
+[110/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\lora_checkpoint_manager.cpp.obj
+[111/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\lora_training_service.cpp.obj
+C:\Projects\ThemisDB\src\llm\lora_framework\lora_training_service.cpp(2500): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "int", Datenverlust mglich
+[112/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\adapter_consistency_checker.cpp.obj
+[113/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\gradient_utils.cpp.obj
+[114/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\mixed_precision.cpp.obj
+[115/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\lr_scheduler.cpp.obj
+[116/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\data_loader.cpp.obj
+C:\Projects\ThemisDB\src\llm\lora_framework\data_loader.cpp(440): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+[117/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\distributed_trainer.cpp.obj
+[118/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\quantized_model.cpp.obj
+[119/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\gguf_converter.cpp.obj
+[120/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\llama_tokenizer.cpp.obj
+[121/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\base_model_adapter.cpp.obj
+[122/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\quantization.cpp.obj
+[123/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\model_compatibility.cpp.obj
+[124/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\resource_profiler.cpp.obj
+[125/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\training_service_registry.cpp.obj
+[126/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\byzantine_detector.cpp.obj
+C:\Projects\ThemisDB\src\llm\byzantine_detector.cpp(521): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\src\llm\byzantine_detector.cpp(521): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "const int", Datenverlust mglich
+[127/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\security\vram_secure_clear.cpp.obj
+[128/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\gpu_memory_manager.cpp.obj
+[129/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\vram_allocator.cpp.obj
+[130/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\gpu_memory.cpp.obj
+[131/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\gpu_tensor.cpp.obj
+[132/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\gpu_lora_layers.cpp.obj
+[133/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\flash_lora.cpp.obj
+[134/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\gpu_data_loader.cpp.obj
+[135/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\gpu_embedding_layer.cpp.obj
+[136/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\multi_gpu_lora_layer.cpp.obj
+[137/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\multi_gpu.cpp.obj
+C:\Projects\ThemisDB\src\llm\lora_framework\multi_gpu.cpp(219): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+[138/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\multi_gpu_trainer.cpp.obj
+[139/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\nccl_backend.cpp.obj
+[140/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\rccl_backend.cpp.obj
+[141/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\custom_allreduce.cpp.obj
+[142/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\adaptive_batcher.cpp.obj
+[143/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\gpu_utilization_monitor.cpp.obj
+[144/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\gradient_checkpointing.cpp.obj
+[145/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\gpu_training_loop.cpp.obj
+C:\Projects\ThemisDB\src\llm\lora_framework\gpu_training_loop.cpp(411): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "int", Datenverlust mglich
+[146/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\self_rag.cpp.obj
+[147/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\targ_retrieval.cpp.obj
+[148/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\cost_model_builder.cpp.obj
+C:\Projects\ThemisDB\src\rag\cost_model_builder.cpp(382): warning C4189: "sum_squared_error": Lokale Variable ist initialisiert aber nicht referenziert
+C:\Projects\ThemisDB\src\rag\cost_model_builder.cpp(383): warning C4189: "data_point": Lokale Variable ist initialisiert aber nicht referenziert
+C:\Projects\ThemisDB\src\rag\cost_model_builder.cpp(442): warning C4244: "=": Konvertierung von "double" in "unsigned __int64", mglicher Datenverlust
+[149/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\rag_context_assembler.cpp.obj
+[150/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\knowledge_gap_detector.cpp.obj
+C:\Projects\ThemisDB\src\rag\knowledge_gap_detector.cpp(1918): warning C4267: "return": Konvertierung von "size_t" nach "int", Datenverlust mglich
+[151/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\llm_integration.cpp.obj
+[152/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\llm_judge_client.cpp.obj
+[153/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\llm_judge_integration.cpp.obj
+[154/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\nli_faithfulness_verifier.cpp.obj
+[155/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\quality_control_pipeline.cpp.obj
+[156/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\prompt_templates.cpp.obj
+[157/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\response_parser.cpp.obj
+[158/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\faithfulness_evaluator.cpp.obj
+[159/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\relevance_evaluator.cpp.obj
+[160/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\completeness_evaluator.cpp.obj
+[161/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\coherence_evaluator.cpp.obj
+[162/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\geval_evaluator.cpp.obj
+[163/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\rag_judge.cpp.obj
+[164/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\reranker.cpp.obj
+[165/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\document_summarizer.cpp.obj
+[166/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\document_splitter.cpp.obj
+[167/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\hybrid_retriever.cpp.obj
+[168/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\lora_enhanced_retriever.cpp.obj
+[169/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\citation_highlighter.cpp.obj
+[170/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\wiki_chunk_splitter.cpp.obj
+[171/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\wiki_rag_source.cpp.obj
+[172/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\wiki_index_store.cpp.obj
+[173/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\distributed_rag_evaluator.cpp.obj
+[174/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\prompt_injection_detector.cpp.obj
+[175/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\evaluation_report_exporter.cpp.obj
+[176/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\evaluation_cache.cpp.obj
+[177/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\calibration_manager.cpp.obj
+[178/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\batch_evaluator.cpp.obj
+[179/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\bias_detector.cpp.obj
+[180/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\adversarial_tester.cpp.obj
+[181/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\dpr_vectorizer.cpp.obj
+[182/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\fairness_detector.cpp.obj
+[183/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\aql\llm_aql_handler.cpp.obj
+[184/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\aql\llm_validation_pipeline.cpp.obj
+[185/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\aql\aql_query_validator.cpp.obj
+[186/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\aql\aql_query_builder.cpp.obj
+[187/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\aql\aql_schema_provider.cpp.obj
+[188/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\aql\aql_fewshot_example_library.cpp.obj
+[189/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\aql\aql_syntax_highlighter.cpp.obj
+[190/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\aql\aql_confidence_scorer.cpp.obj
+[191/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\aql\llm_metrics_collector.cpp.obj
+[192/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\llm_client_default.cpp.obj
+[193/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\multimodal_rag.cpp.obj
+[194/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\ab_testing_framework.cpp.obj
+[195/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\agentic_rag.cpp.obj
+[196/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\delegate_evaluator.cpp.obj
+[197/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\bayesian_optimizer.cpp.obj
+[198/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\claim_extractor.cpp.obj
+[199/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\continuous_learning_client.cpp.obj
+[200/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\cot_evaluator.cpp.obj
+[201/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\hallucination_dashboard.cpp.obj
+[202/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\http_metrics_client.cpp.obj
+[203/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\judge_config.cpp.obj
+[204/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\judge_ensemble.cpp.obj
+[205/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\knowledge_graph_retriever.cpp.obj
+[206/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\kg\knowledge_graph_adapter.cpp.obj
+[207/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\learning_metrics.cpp.obj
+[208/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\llm_meta_analyzer.cpp.obj
+[209/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\onnx_model_loader.cpp.obj
+[210/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\pairwise_comparator.cpp.obj
+[211/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\quality_control_factory.cpp.obj
+[212/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\rubric_evaluator.cpp.obj
+[213/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\rag\streaming_retriever.cpp.obj
+[214/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\server\llm_api_handler.cpp.obj
+[215/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\server\model_integrity_verifier.cpp.obj
+[216/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\server\lora_api_handler.cpp.obj
+[217/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\voice\voice_assistant.cpp.obj
+[218/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\voice\voice_assistant_llm.cpp.obj
+[219/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\voice\audio_preprocessing.cpp.obj
+[220/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\voice\emotion_analyzer.cpp.obj
+[221/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\voice\voice_accessibility.cpp.obj
+[222/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\voice\voice_audio_storage.cpp.obj
+[223/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\voice\voice_authenticator.cpp.obj
+C:\Projects\ThemisDB\src\voice\voice_authenticator.cpp(144): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+[224/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\voice\voice_batch_processor.cpp.obj
+[225/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\voice\voice_browser_streaming.cpp.obj
+[226/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\voice\voice_error_handler.cpp.obj
+[227/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\voice\voice_intent_detector.cpp.obj
+[228/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\voice\voice_macro_manager.cpp.obj
+[229/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\voice\voice_meeting_support.cpp.obj
+[230/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\voice\voice_model_cache.cpp.obj
+[231/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\voice\voice_security.cpp.obj
+[232/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\voice\voice_session_manager.cpp.obj
+[233/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\voice\voice_telephony.cpp.obj
+[234/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\voice\voice_tts_customizer.cpp.obj
+[235/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\voice\wake_word_detector.cpp.obj
+[236/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\content\stt_processor.cpp.obj
+C:\Projects\ThemisDB\src\content\stt_processor.cpp(1069): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\src\content\stt_processor.cpp(1069): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "const int", Datenverlust mglich
+[237/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\content\tts_processor.cpp.obj
+[238/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\vulkan_buffer.cpp.obj
+[239/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\vulkan_context.cpp.obj
+[240/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\vulkan_pipeline.cpp.obj
+[241/633] Building CXX object cmake\CMakeFiles\themis_llm.dir\__\src\llm\lora_framework\kernels\vulkan_kernels.cpp.obj
+[242/633] Linking CXX shared library bin\themis_graph.dll
+[243/633] Linking CXX static library lib\themis_shard_proto.lib
+[244/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\urn.cpp.obj
+[245/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\consistent_hash.cpp.obj
+[246/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\shard_topology.cpp.obj
+[247/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\urn_resolver.cpp.obj
+[248/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\pki_shard_certificate.cpp.obj
+[249/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\mtls_client.cpp.obj
+[250/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\mtls_connection_pool.cpp.obj
+[251/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\signed_request.cpp.obj
+[252/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\remote_executor.cpp.obj
+[253/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\shard_rpc_client.cpp.obj
+[254/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\shard_router.cpp.obj
+[255/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\rebalance_operation.cpp.obj
+[256/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\data_migrator.cpp.obj
+[257/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\shard_load_detector.cpp.obj
+[258/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\auto_rebalancer.cpp.obj
+[259/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\prometheus_metrics.cpp.obj
+[260/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\metrics_registry.cpp.obj
+[261/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\health_check.cpp.obj
+[262/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\admin_api.cpp.obj
+[263/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\shard_repair_engine.cpp.obj
+[264/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\cloud_agent.cpp.obj
+[265/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\gossip_protocol.cpp.obj
+[266/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\gossip_config_manager.cpp.obj
+[267/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\distributed_coordinator.cpp.obj
+[268/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\transaction\global_transaction_manager.cpp.obj
+[269/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\search\distributed_hybrid_search.cpp.obj
+[270/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\shard_resource_manager.cpp.obj
+[271/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\locality_aware_router.cpp.obj
+[272/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\adaptive_shard_router.cpp.obj
+[273/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\capability_matcher.cpp.obj
+[274/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\utils\capability_auto_generator.cpp.obj
+[275/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\metadata_shard.cpp.obj
+[276/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\metadata\distributed_catalog.cpp.obj
+[277/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\metadata_wal.cpp.obj
+[278/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\metadata_snapshot.cpp.obj
+[279/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\cache\bounded_lru_cache.cpp.obj
+[280/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\server\rpc\blob_transfer_handler.cpp.obj
+[281/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\raft_configuration.cpp.obj
+[282/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\raft_log.cpp.obj
+[283/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\raft_state.cpp.obj
+[284/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\raft_wal_integration.cpp.obj
+[285/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\raft_consensus.cpp.obj
+[286/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\raft_shard_manager.cpp.obj
+[287/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\quorum_manager.cpp.obj
+[288/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\partition_detector.cpp.obj
+[289/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\replica_consistency.cpp.obj
+[290/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\stream_protocol.cpp.obj
+[291/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\wal_applier.cpp.obj
+[292/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\wal_manager.cpp.obj
+[293/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\wal_shipper.cpp.obj
+[294/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\secure_transport_client.cpp.obj
+[295/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\replication_coordinator.cpp.obj
+[296/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\replica_topology.cpp.obj
+[297/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\multi_primary_coordinator.cpp.obj
+[298/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\health_monitor.cpp.obj
+[299/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\truetime.cpp.obj
+[300/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\distributed_time_coordinator.cpp.obj
+[301/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\distributed_transaction.cpp.obj
+[302/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\transaction\distributed_transaction_manager.cpp.obj
+[303/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\two_phase_commit_participant.cpp.obj
+[304/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\two_phase_commit_coordinator.cpp.obj
+[305/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\consensus_factory.cpp.obj
+[306/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\raft_consensus_adapter.cpp.obj
+[307/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\gossip_consensus_adapter.cpp.obj
+[308/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\paxos_consensus.cpp.obj
+[309/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\raid_paxos_consensus.cpp.obj
+[310/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\paxos_wal.cpp.obj
+[311/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\paxos_snapshot.cpp.obj
+[312/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\paxos_state_persistence.cpp.obj
+[313/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\dual_consensus_orchestrator.cpp.obj
+[314/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\cross_shard_transaction.cpp.obj
+[315/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\cross_shard_fk_validator.cpp.obj
+[316/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\cross_shard_ssi_manager.cpp.obj
+[317/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\transaction_wal.cpp.obj
+[318/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\transaction_snapshot.cpp.obj
+[319/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\hardware_migration_manager.cpp.obj
+[320/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\redundancy_strategy.cpp.obj
+[321/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\hot_spare_manager.cpp.obj
+[322/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\predictive_detector.cpp.obj
+[323/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\shard_rpc_server.cpp.obj
+[324/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\cloud_backup.cpp.obj
+[325/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\orphan_detector.cpp.obj
+[326/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\gpu_erasure_coder.cpp.obj
+[327/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\shard_durability.cpp.obj
+[328/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\operational_metrics.cpp.obj
+[329/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\admin_operations.cpp.obj
+[330/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\sharding_manager_edition.cpp.obj
+[331/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\slo_monitor.cpp.obj
+[332/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\epoch_fencing.cpp.obj
+[333/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\lora_artifact_distribution.cpp.obj
+[334/633] Building CXX object cmake\CMakeFiles\themis_sharding.dir\__\src\sharding\cloud_sdk_integration_stubs.cpp.obj
+[335/633] Linking CXX static library lib\themis_llm.lib
+[336/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\ingestion_manager.cpp.obj
+C:\Projects\ThemisDB\src\ingestion\ingestion_manager.cpp(735): warning C4456: Deklaration von "stats" blendet vorherige lokale Deklaration aus
+C:\Projects\ThemisDB\src\ingestion\ingestion_manager.cpp(683): note: Siehe Deklaration von "stats"
+[337/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\filesystem_ingester.cpp.obj
+C:\Projects\ThemisDB\src\ingestion\filesystem_ingester.cpp(263): warning C4267: "Argument": Konvertierung von "size_t" nach "int", Datenverlust mglich
+[338/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\api_connector.cpp.obj
+[339/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\entity_assembler.cpp.obj
+[340/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\ingestion_sinks.cpp.obj
+[341/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\legal_domain.cpp.obj
+[342/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\workflow_engine.cpp.obj
+[343/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\steps\base_entity_assembler_step.cpp.obj
+[344/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\steps\chunk_embed_step.cpp.obj
+[345/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\steps\chunk_text_step.cpp.obj
+[346/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\steps\decompress_step.cpp.obj
+[347/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\steps\deontic_step.cpp.obj
+[348/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\steps\format_parse_step.cpp.obj
+[349/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\steps\legal_metadata_step.cpp.obj
+[350/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\steps\legal_reference_step.cpp.obj
+[351/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\steps\llm_extract_step.cpp.obj
+[352/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\steps\ner_step.cpp.obj
+[353/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\steps\parse_text_step.cpp.obj
+[354/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\huggingface_connector.cpp.obj
+[355/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\kafka_connector.cpp.obj
+[356/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\s3_connector.cpp.obj
+[357/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\object_storage_connector.cpp.obj
+[358/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\database_connector.cpp.obj
+[359/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\web_crawler_connector.cpp.obj
+[360/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\ingestion_coordinator.cpp.obj
+[361/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\cdc_connector.cpp.obj
+[362/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\deontic_extractor.cpp.obj
+[363/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\semantic_validator.cpp.obj
+[364/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\agentic_reference_validator.cpp.obj
+[365/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\ingestion_quality_judge.cpp.obj
+[366/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\reindex_decision_engine.cpp.obj
+[367/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\canary_deployment_manager.cpp.obj
+[368/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\llm_adapter.cpp.obj
+[369/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\steps\chunk_tt_decompose_step.cpp.obj
+[370/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\ingestion\steps\tensor_core_bridge_step.cpp.obj
+[371/633] Building CXX object cmake\CMakeFiles\themis_ingestion.dir\__\src\toolbox\ingestion_toolbox.cpp.obj
+[372/633] Linking CXX static library lib\themis_sharding.lib
+[373/633] Building CXX object cmake\CMakeFiles\themis_training.dir\__\src\training\auto_labeler.cpp.obj
+[374/633] Building CXX object cmake\CMakeFiles\themis_training.dir\__\src\training\ada_lora_adapter.cpp.obj
+[375/633] Building CXX object cmake\CMakeFiles\themis_training.dir\__\src\training\adalora_tt_bridge.cpp.obj
+[376/633] Building CXX object cmake\CMakeFiles\themis_training.dir\__\src\training\adapter_serving.cpp.obj
+[377/633] Building CXX object cmake\CMakeFiles\themis_training.dir\__\src\training\database_domain_auto_labeler.cpp.obj
+[378/633] Building CXX object cmake\CMakeFiles\themis_training.dir\__\src\training\incremental_lora_trainer.cpp.obj
+[379/633] Building CXX object cmake\CMakeFiles\themis_training.dir\__\src\training\knowledge_graph_enricher.cpp.obj
+[380/633] Building CXX object cmake\CMakeFiles\themis_training.dir\__\src\training\lora_adapter.cpp.obj
+[381/633] Building CXX object cmake\CMakeFiles\themis_training.dir\__\src\training\lora_adapter_merger.cpp.obj
+[382/633] Building CXX object cmake\CMakeFiles\themis_training.dir\__\src\training\lora_checkpoint_manager.cpp.obj
+[383/633] Building CXX object cmake\CMakeFiles\themis_training.dir\__\src\training\lora_data_selection.cpp.obj
+[384/633] Building CXX object cmake\CMakeFiles\themis_training.dir\__\src\training\modality_parser.cpp.obj
+[385/633] Building CXX object cmake\CMakeFiles\themis_training.dir\__\src\training\multi_task_lora.cpp.obj
+[386/633] Building CXX object cmake\CMakeFiles\themis_training.dir\__\src\training\provenance_tracker.cpp.obj
+[387/633] Building CXX object cmake\CMakeFiles\themis_training.dir\__\src\training\training_pipeline.cpp.obj
+[388/633] Building CXX object cmake\CMakeFiles\themis_training.dir\__\src\rag\continuous_learning_orchestrator.cpp.obj
+[389/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\content_type.cpp.obj
+[390/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\content_manager.cpp.obj
+C:\Projects\ThemisDB\src\content\content_manager.cpp(1222): warning C4267: "Argument": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\src\content\content_manager.cpp(1231): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\src\content\content_manager.cpp(1337): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\src\content\content_manager.cpp(2719): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\src\content\content_manager.cpp(2798): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\src\content\content_manager.cpp(2879): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\src\content\content_manager.cpp(3228): warning C4267: "Argument": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\src\content\content_manager.cpp(3316): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+[391/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\html_processor.cpp.obj
+[392/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\text_processor.cpp.obj
+[393/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\markdown_processor.cpp.obj
+[394/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\content_validator.cpp.obj
+[395/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\deduplication_checker.cpp.obj
+[396/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\cache\bounded_lru_cache.cpp.obj
+[397/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\image_processor.cpp.obj
+[398/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\mock_clip_processor.cpp.obj
+[399/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\mime_detector.cpp.obj
+[400/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\content_policy.cpp.obj
+[401/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\content_metrics.cpp.obj
+[402/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\content_errors.cpp.obj
+[403/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\content_fs.cpp.obj
+[404/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\version_manager.cpp.obj
+[405/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\embedding_pipeline.cpp.obj
+C:\Projects\ThemisDB\src\content\embedding_pipeline.cpp(86): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "int", Datenverlust mglich
+[406/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\language_detector.cpp.obj
+[407/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\content_manager_embedding.cpp.obj
+[408/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\pdf_processor.cpp.obj
+[409/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\ocr_processor.cpp.obj
+[410/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\archive_processor.cpp.obj
+[411/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\async_ingestion_worker.cpp.obj
+C:\Projects\ThemisDB\src\content\async_ingestion_worker.cpp(460): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\src\content\async_ingestion_worker.cpp(913): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\include\nlohmann/json.hpp(6420): warning C4459: Deklaration von "last" blendet globale Deklaration aus
+C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\include\chrono(205): note: Siehe Deklaration von "std::chrono::last"
+C:\Projects\ThemisDB\include\nlohmann/json.hpp(6420): note: der Vorlageninstanziierungskontext (der lteste zuerst) ist
+C:\Projects\ThemisDB\include\nlohmann/json.hpp(6509): note: Siehe Verweis auf die gerade kompilierte Instanziierung "iterator_input_adapter_factory<IteratorType,void>::adapter_type nlohmann::json_abi_v3_11_2::detail::input_adapter(IteratorType,IteratorType)" der Funktions-Vorlage.
+C:\Projects\ThemisDB\include\nlohmann/json.hpp(6509): note: Siehe Verweis auf die gerade kompilierte Klasse Vorlage-Instanziierung "nlohmann::json_abi_v3_11_2::detail::iterator_input_adapter_factory<const char *,void>".
+C:\Projects\ThemisDB\include\nlohmann/json.hpp(6420): note: beim Kompilieren der Klasse Vorlage-Memberfunktion "nlohmann::json_abi_v3_11_2::detail::iterator_input_adapter<const char *> nlohmann::json_abi_v3_11_2::detail::iterator_input_adapter_factory<const char *,void>::create(IteratorType,IteratorType)"
+        with
+        [
+            IteratorType=const char *
+        ]
+C:\Projects\ThemisDB\include\nlohmann/json.hpp(6455): note: Ersten Verweis auf "nlohmann::json_abi_v3_11_2::detail::iterator_input_adapter_factory<const char *,void>::create" in "nlohmann::json_abi_v3_11_2::detail::input_adapter" anzeigen
+C:\Projects\ThemisDB\include\nlohmann/json.hpp(23212): note: Ersten Verweis auf "nlohmann::json_abi_v3_11_2::detail::input_adapter" in "nlohmann::json_abi_v3_11_2::basic_json<std::map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::json_abi_v3_11_2::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>::parse" anzeigen
+C:\Projects\ThemisDB\include\nlohmann/json.hpp(24321): note: Ersten Verweis auf "nlohmann::json_abi_v3_11_2::basic_json<std::map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::json_abi_v3_11_2::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>::parse" in "nlohmann::json_abi_v3_11_2::literals::json_literals::operator ""_json" anzeigen
+C:\Projects\ThemisDB\include\nlohmann/json.hpp(6214): warning C4459: Deklaration von "last" blendet globale Deklaration aus
+C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.44.35207\include\chrono(205): note: Siehe Deklaration von "std::chrono::last"
+C:\Projects\ThemisDB\include\nlohmann/json.hpp(6214): note: der Vorlageninstanziierungskontext (der lteste zuerst) ist
+C:\Projects\ThemisDB\include\nlohmann/json.hpp(6560): note: Siehe Verweis auf die gerade kompilierte Klasse Vorlage-Instanziierung "nlohmann::json_abi_v3_11_2::detail::iterator_input_adapter<const char *>".
+C:\Projects\ThemisDB\include\nlohmann/json.hpp(6214): note: beim Kompilieren der Klasse Vorlage-Memberfunktion "nlohmann::json_abi_v3_11_2::detail::iterator_input_adapter<const char *>::iterator_input_adapter(IteratorType,IteratorType)"
+        with
+        [
+            IteratorType=const char *
+        ]
+C:\Projects\ThemisDB\include\nlohmann/json.hpp(6422): note: Ersten Verweis auf "nlohmann::json_abi_v3_11_2::detail::iterator_input_adapter<const char *>::iterator_input_adapter" in "nlohmann::json_abi_v3_11_2::detail::iterator_input_adapter_factory<const char *,void>::create" anzeigen
+C:\Projects\ThemisDB\include\nlohmann/json.hpp(6455): note: Ersten Verweis auf "nlohmann::json_abi_v3_11_2::detail::iterator_input_adapter_factory<const char *,void>::create" in "nlohmann::json_abi_v3_11_2::detail::input_adapter" anzeigen
+C:\Projects\ThemisDB\include\nlohmann/json.hpp(23212): note: Ersten Verweis auf "nlohmann::json_abi_v3_11_2::detail::input_adapter" in "nlohmann::json_abi_v3_11_2::basic_json<std::map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::json_abi_v3_11_2::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>::parse" anzeigen
+C:\Projects\ThemisDB\include\nlohmann/json.hpp(24321): note: Ersten Verweis auf "nlohmann::json_abi_v3_11_2::basic_json<std::map,std::vector,std::string,bool,int64_t,uint64_t,double,std::allocator,nlohmann::json_abi_v3_11_2::adl_serializer,std::vector<uint8_t,std::allocator<uint8_t>>>::parse" in "nlohmann::json_abi_v3_11_2::literals::json_literals::operator ""_json" anzeigen
+[412/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\ingestion_plugin.cpp.obj
+[413/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\audio_processor.cpp.obj
+[414/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\video_processor.cpp.obj
+[415/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\geo_processor.cpp.obj
+[416/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\cad_processor.cpp.obj
+[417/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\content_logger.cpp.obj
+[418/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\content_security.cpp.obj
+[419/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\abuse_detector.cpp.obj
+[420/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\content_manager_llm.cpp.obj
+[421/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\pipeline\zstd_compression.cpp.obj
+[422/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\pipeline\content_chunker.cpp.obj
+[423/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\pipeline\bulk_upload_interface.cpp.obj
+[424/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\pipeline\async_bulk_uploader.cpp.obj
+[425/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\pipeline\multimodal_chunker.cpp.obj
+[426/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\adapters\archive_extractor_adapter.cpp.obj
+[427/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\adapters\audio_extractor_adapter.cpp.obj
+[428/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\adapters\format_extractor_factory.cpp.obj
+[429/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\adapters\image_extractor_adapter.cpp.obj
+[430/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\adapters\office_extractor_adapter.cpp.obj
+[431/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\adapters\pdf_extractor_adapter.cpp.obj
+[432/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\content\adapters\text_extractor_adapter.cpp.obj
+[433/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\aql\aql_ingestion_bridge.cpp.obj
+[434/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\rag\rag_ingestion_bridge.cpp.obj
+[435/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\toolbox\content_toolbox_bridge.cpp.obj
+[436/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\toolbox\toolbox_builder.cpp.obj
+[437/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\toolbox\toolbox_registry.cpp.obj
+[438/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\importers\huggingface_ingestion_plugin.cpp.obj
+C:\Projects\ThemisDB\src\importers\huggingface_ingestion_plugin.cpp(625): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\src\importers\huggingface_ingestion_plugin.cpp(651): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+[439/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\projects\collaboration_manager.cpp.obj
+[440/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\projects\in_memory_project_audit_log.cpp.obj
+[441/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\projects\project_diff.cpp.obj
+[442/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\projects\project_lifecycle.cpp.obj
+[443/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\projects\project_metrics.cpp.obj
+[444/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\projects\project_template.cpp.obj
+[445/633] Building CXX object cmake\CMakeFiles\themis_content.dir\__\src\projects\project_versioning.cpp.obj
+[446/633] Linking CXX shared library bin\themis_ingestion.dll
+[447/633] Linking CXX static library lib\themis_training.lib
+[448/633] Linking CXX shared library bin\themis_content.dll
+[449/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\execution\query_scheduler.cpp.obj
+[450/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\execution\thread_pool_manager.cpp.obj
+[451/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\http_server.cpp.obj
+[452/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\http_shutdown_manager.cpp.obj
+[453/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\transaction_api_handler.cpp.obj
+[454/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\distributed_txn_api_handler.cpp.obj
+[455/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\api_auth_config.cpp.obj
+[456/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\api_security_audit.cpp.obj
+[457/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\session_api_handler.cpp.obj
+[458/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\saml_auth_provider.cpp.obj
+[459/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\oauth2_provider.cpp.obj
+[460/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\opa_adapter.cpp.obj
+[461/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\request_validation_middleware.cpp.obj
+[462/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\http_type_adapter.cpp.obj
+[463/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\chunked_response_writer.cpp.obj
+[464/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\health_error_service.cpp.obj
+[465/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\error_api_handler.cpp.obj
+[466/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\serverless_function_api_handler.cpp.obj
+[467/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\udf_api_handler.cpp.obj
+[468/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\async_job_api_handler.cpp.obj
+[469/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\task_scheduler_api_handler.cpp.obj
+[470/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\scheduler\distributed_task_coordinator.cpp.obj
+C:\Projects\ThemisDB\src\scheduler\distributed_task_coordinator.cpp(235): warning C4101: "ex": Unreferenzierte lokale Variable
+[471/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\scheduler\event_trigger.cpp.obj
+[472/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\scheduler\external_scheduler_adapter.cpp.obj
+[473/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\scheduler\hybrid_retention_manager.cpp.obj
+[474/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\scheduler\task_anomaly_detector.cpp.obj
+[475/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\scheduler\task_audit_event.cpp.obj
+[476/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\scheduler\task_audit_manager.cpp.obj
+C:\Projects\ThemisDB\src\scheduler\task_audit_manager.cpp(817): warning C4267: "Argument": Konvertierung von "size_t" nach "int", Datenverlust mglich
+[477/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\scheduler\task_result_store.cpp.obj
+[478/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\scheduler\task_execution_result.cpp.obj
+[479/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\scheduler\task_scheduler.cpp.obj
+C:\Projects\ThemisDB\src\scheduler\task_scheduler.cpp(1140): warning C4267: "+=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+[480/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\branch_api_handler.cpp.obj
+[481/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\merge_api_handler.cpp.obj
+[482/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\diff_api_handler.cpp.obj
+[483/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\rope_api_handler.cpp.obj
+[484/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\bpmn_api_handler.cpp.obj
+[485/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\geo_topology_api_handler.cpp.obj
+[486/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\replication_topology_api_handler.cpp.obj
+[487/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\cache_admin_api_handler.cpp.obj
+[488/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\api_key_mgmt_handler.cpp.obj
+[489/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\snapshot_api_handler.cpp.obj
+[490/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\pitr_api_handler.cpp.obj
+[491/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\storage\pitr_manager.cpp.obj
+[492/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\mvcc_api_handler.cpp.obj
+[493/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\cdc\cdc_admin.cpp.obj
+[494/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\feedback_api_handler.cpp.obj
+[495/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\ai_plugin_api_handler.cpp.obj
+[496/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\ai\ai_plugin_generator.cpp.obj
+[497/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\scraper_plugin_api_handler.cpp.obj
+[498/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\scraper\scraper_metadata_writer.cpp.obj
+[499/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\maintenance\database_maintenance_orchestrator.cpp.obj
+C:\Projects\ThemisDB\src\maintenance\database_maintenance_orchestrator.cpp(704): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\src\maintenance\database_maintenance_orchestrator.cpp(746): warning C4267: "=": Konvertierung von "size_t" nach "int", Datenverlust mglich
+[500/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\maintenance\maintenance_schedule_store.cpp.obj
+[501/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\maintenance\maintenance_registry.cpp.obj
+[502/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\maintenance_api_handler.cpp.obj
+[503/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\cache_api_handler.cpp.obj
+[504/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\admin_api_handler.cpp.obj
+[505/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\vector_api_handler.cpp.obj
+[506/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\spatial_api_handler.cpp.obj
+[507/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\openapi_route_registry.cpp.obj
+[508/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\monitoring_api_handler.cpp.obj
+cl : Befehlszeile warning D9025 : "/Zm200" wird durch "/Zm1000" berschrieben
+[509/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\query_api_handler.cpp.obj
+[510/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\policy_api_handler.cpp.obj
+[511/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\prompt_api_handler.cpp.obj
+[512/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\graph_api_handler.cpp.obj
+[513/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\index_api_handler.cpp.obj
+cl : Befehlszeile warning D9025 : "/Zm200" wird durch "/Zm1000" berschrieben
+[514/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\timeseries_api_handler.cpp.obj
+[515/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\entity_api_handler.cpp.obj
+[516/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\content_api_handler.cpp.obj
+[517/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\changefeed_api_handler.cpp.obj
+[518/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\wal_api_handler.cpp.obj
+C:\Projects\ThemisDB\src\server\wal_api_handler.cpp(232): warning C4267: "Argument": Konvertierung von "size_t" nach "int", Datenverlust mglich
+[519/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\audit_api_handler.cpp.obj
+C:\Projects\ThemisDB\src\server\audit_api_handler.cpp(241): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "int", Datenverlust mglich
+[520/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\pki_api_handler.cpp.obj
+[521/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\saga_api_handler.cpp.obj
+[522/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\pii_api_handler.cpp.obj
+[523/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\retention_api_handler.cpp.obj
+C:\Projects\ThemisDB\src\server\retention_api_handler.cpp(115): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "int", Datenverlust mglich
+[524/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\keys_api_handler.cpp.obj
+[525/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\classification_api_handler.cpp.obj
+[526/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\reports_api_handler.cpp.obj
+[527/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\schema_api_handler.cpp.obj
+[528/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\ranger_adapter.cpp.obj
+[529/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\security\query_masking_policy.cpp.obj
+[530/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\rate_limiter.cpp.obj
+[531/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\rate_limiter_v2.cpp.obj
+[532/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\adaptive_rate_limiter.cpp.obj
+[533/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\cost_based_rate_limiter.cpp.obj
+[534/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\rate_limiting_middleware.cpp.obj
+[535/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\load_shedder.cpp.obj
+[536/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\auth\auth_rate_limiter.cpp.obj
+[537/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\api_version.cpp.obj
+[538/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\response_transformer.cpp.obj
+[539/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\api_gateway.cpp.obj
+[540/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\distributed_gateway.cpp.obj
+[541/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\request_coalescing.cpp.obj
+[542/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\smart_routing.cpp.obj
+[543/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\update_api_handler.cpp.obj
+[544/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\hot_reload_api_handler.cpp.obj
+[545/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\export_api_handler.cpp.obj
+[546/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\continuous_query_api_handler.cpp.obj
+[547/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\shard_repair_api_handler.cpp.obj
+[548/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\tenant_manager.cpp.obj
+[549/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\sharding_metrics_handler.cpp.obj
+[550/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\sse_connection_manager.cpp.obj
+[551/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\wal_grpc_service.cpp.obj
+[552/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\pitr_grpc_service.cpp.obj
+[553/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\cdn_cache_middleware.cpp.obj
+[554/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\import_api_handler.cpp.obj
+[555/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\import_wizard_builder.cpp.obj
+[556/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\profiling_api_handler.cpp.obj
+[557/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\ethics_api_handler.cpp.obj
+[558/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\prompt_engineering_grpc_service.cpp.obj
+[559/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\themis_core_grpc_service.cpp.obj
+[560/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\websocket_session.cpp.obj
+[561/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\mqtt_session.cpp.obj
+[562/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\mqtt_client_service.cpp.obj
+[563/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\mcp_server.cpp.obj
+[564/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\grpc_web_proxy_handler.cpp.obj
+[565/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\wasm_handler_registry.cpp.obj
+C:\Projects\ThemisDB\src\server\wasm_handler_registry.cpp(147): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "int", Datenverlust mglich
+[566/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\buffer_api_handler.cpp.obj
+[567/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\compliance_reporting_api_handler.cpp.obj
+[568/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\policy_manager_api_handler.cpp.obj
+[569/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\policy_template_api_handler.cpp.obj
+[570/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\policy_validation_api_handler.cpp.obj
+[571/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\policy_versioning_api_handler.cpp.obj
+[572/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\prompt_engineering_api_handler.cpp.obj
+[573/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\review_scheduling_api_handler.cpp.obj
+[574/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\graphql_api_handler.cpp.obj
+[575/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\api\ws_handler.cpp.obj
+[576/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\api\graphql_ws_handler.cpp.obj
+[577/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\api\grpc_server.cpp.obj
+[578/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\api\themisdb_grpc_service.cpp.obj
+[579/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\wire_protocol_server.cpp.obj
+[580/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\themis\wire_protocol_server.cpp.obj
+C:\Projects\ThemisDB\src\themis\wire_protocol_server.cpp(662): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "int", Datenverlust mglich
+C:\Projects\ThemisDB\src\themis\wire_protocol_server.cpp(662): warning C4267: "Initialisierung": Konvertierung von "size_t" nach "const int", Datenverlust mglich
+[581/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\qos_manager.cpp.obj
+[582/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\raft_load_balancer.cpp.obj
+[583/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\wire_protocol_helpers.cpp.obj
+[584/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\wire_protocol_connection_pool.cpp.obj
+C:\Projects\ThemisDB\src\network\wire_protocol_connection_pool.cpp(488): warning C4101: "e": Unreferenzierte lokale Variable
+C:\Projects\ThemisDB\src\network\wire_protocol_connection_pool.cpp(571): warning C4101: "e": Unreferenzierte lokale Variable
+[585/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\wire_protocol_v2.cpp.obj
+[586/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\wire_protocol_performance.cpp.obj
+[587/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\wire_protocol_zero_copy.cpp.obj
+[588/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\wire_protocol_batch.cpp.obj
+[589/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\io_uring_batcher.cpp.obj
+[590/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\connection_compression.cpp.obj
+[591/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\grpc_transport.cpp.obj
+[592/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\geo_topology_router.cpp.obj
+[593/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\socket_timeout_manager.cpp.obj
+[594/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\adaptive_circuit_breaker.cpp.obj
+[595/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\udp_fast_path.cpp.obj
+[596/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\retry_policy.cpp.obj
+[597/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\wire_retry_policy.cpp.obj
+[598/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\multipath_tcp.cpp.obj
+[599/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\bbr_congestion_control.cpp.obj
+[600/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\network_observability.cpp.obj
+[601/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\wire_protocol_server_ws.cpp.obj
+[602/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\network\kernel_bypass.cpp.obj
+[603/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\hsm_provider_global.cpp.obj
+[604/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\workload_fingerprint_engine.cpp.obj
+[605/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\alertmanager.cpp.obj
+[606/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\provenance_store.cpp.obj
+[607/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\continuous_profiler.cpp.obj
+[608/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\ebpf_tracer.cpp.obj
+[609/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\distributed_flame_graph.cpp.obj
+[610/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\slo_reporter.cpp.obj
+[611/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\metric_anomaly_detector.cpp.obj
+[612/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\ml_anomaly_detector.cpp.obj
+C:\Projects\ThemisDB\src\observability\ml_anomaly_detector.cpp(406): warning C4267: "Argument": Konvertierung von "size_t" nach "int", Datenverlust mglich
+[613/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\query_profiler.cpp.obj
+[614/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\storage_profiler.cpp.obj
+[615/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\performance_analyzer.cpp.obj
+[616/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\tracer.cpp.obj
+[617/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\log_aggregator.cpp.obj
+[618/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\alerting_engine.cpp.obj
+[619/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\metric_aggregator.cpp.obj
+[620/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\metrics_stream_server.cpp.obj
+[621/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\advanced_metrics.cpp.obj
+[622/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\opentelemetry_tracer.cpp.obj
+[623/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\root_cause_analyzer.cpp.obj
+[624/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\log_search_engine.cpp.obj
+[625/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\observability\tenant_metrics_namespace.cpp.obj
+[626/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\src\server\rpc\rpc_service_impl.cpp.obj
+[627/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\proto_generated\themis_wire_v1.pb.cc.obj
+[628/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\proto_generated\themisdb.pb.cc.obj
+[629/633] Building CXX object cmake\CMakeFiles\themis_network.dir\__\proto_generated\themisdb.grpc.pb.cc.obj
+[630/633] Linking CXX static library lib\themis_network.lib
+[631/633] Building CXX object cmake\tests\utils\CMakeFiles\module_utils_test_phase1_resource_management_focused.dir\test_phase1_resource_management.cpp.obj
+C:\Projects\ThemisDB\tests\utils\test_phase1_resource_management.cpp(88): warning C4189: "ref": Lokale Variable ist initialisiert aber nicht referenziert
+[632/633] Linking CXX executable bin\tests_by_module\utils\Debug\module_utils_test_phase1_resource_management_focused.exe; Resolving runtime dependencies for module_utils_test_phase1_resource_management_focused

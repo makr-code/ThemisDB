@@ -302,6 +302,7 @@ set(THEMIS_BASE_SOURCES
     ../src/utils/boost_throw_exception.cpp
     ../src/utils/file_utils.cpp
     ../src/utils/thread_pool_manager.cpp
+    ../src/utils/thread_guard.cpp
     ../src/utils/consistent_hash.cpp
     ../src/utils/checksum_utils.cpp
     ../src/utils/sampled_logger.cpp

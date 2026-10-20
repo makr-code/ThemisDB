@@ -1,0 +1,22 @@
+[0/2] Re-checking globbed directories...
+[1/667] Performing build step for 'vulkan-shaders-gen'
+ninja: no work to do.
+[2/667] Performing install step for 'vulkan-shaders-gen'
+-- Up-to-date: C:/Projects/ThemisDB/build-msvc-windows-debug/Debug/./vulkan-shaders-gen.exe
+[3/667] Completed 'vulkan-shaders-gen'
+[4/667] Building CXX object cmake\CMakeFiles\themis_graph.dir\__\src\graph\rotate_completion.cpp.obj
+[5/667] Building CXX object cmake\CMakeFiles\themis_graph.dir\__\src\graph\path_constraints.cpp.obj
+[6/667] Building CXX object cmake\CMakeFiles\themis_graph.dir\__\src\graph\distributed_graph.cpp.obj
+[7/667] Building CXX object cmake\CMakeFiles\themis_graph.dir\__\src\graph\gpu_traversal.cpp.obj
+[8/667] Building CXX object cmake\CMakeFiles\themis_graph.dir\__\src\graph\parallel_traversal.cpp.obj
+[9/667] Building CXX object cmake\CMakeFiles\themis_graph.dir\__\src\graph\scheduled_edge_refresh.cpp.obj
+[10/667] Building CXX object cmake\CMakeFiles\themis_graph.dir\__\src\graph\graph_query_rewriter.cpp.obj
+[11/667] Building CXX object cmake\CMakeFiles\themis_graph.dir\__\src\graph\graph_query_cache.cpp.obj
+[12/667] Building CXX object cmake\CMakeFiles\themis_graph.dir\__\src\graph\graph_error_taxonomy.cpp.obj
+[13/667] Building CXX object cmake\CMakeFiles\themis_shard_proto.dir\__\proto_generated\shard_rpc.pb.cc.obj
+[14/667] Building CXX object cmake\CMakeFiles\themis_shard_proto.dir\__\proto_generated\shard_rpc.grpc.pb.cc.obj
+[15/667] Linking CXX static library lib\themis_query.lib
+FAILED: [code=1104] lib/themis_query.lib 
+C:\WINDOWS\system32\cmd.exe /C "cd . && C:\PROGRA~1\MICROS~3\2022\PROFES~1\VC\Tools\MSVC\1444~1.352\bin\Hostx64\x64\lib.exe /nologo /machine:x64 /out:lib\themis_query.lib @CMakeFiles\themis_query.rsp && cd ."
+LINK : fatal error LNK1104: Datei "lib\themis_query.lib" kann nicht geöffnet werden.
+ninja: build stopped: subcommand failed.
