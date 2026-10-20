@@ -3697,6 +3697,24 @@ if(NOT Protobuf_FOUND)
     find_package(Protobuf MODULE QUIET)
 endif()
 
+if(NOT Protobuf_FOUND)
+    # Keep monolithic source selection aligned with ModularBuild.cmake:
+    # these translation units require generated shard_rpc.pb.h message types.
+    list(REMOVE_ITEM THEMIS_CORE_SOURCES
+        ../src/sharding/shard_repair_engine.cpp
+        ../src/sharding/shard_rpc_server.cpp
+        ../src/server/rpc/blob_transfer_handler.cpp
+        ../src/sharding/gossip_config_manager.cpp
+        ../src/sharding/gossip_consensus_adapter.cpp
+        ../src/sharding/shard_resource_manager.cpp
+        ../src/sharding/distributed_coordinator.cpp
+        ../src/sharding/consensus_factory.cpp
+        ../src/sharding/locality_aware_router.cpp
+        ../src/sharding/orphan_detector.cpp
+    )
+    message(WARNING "Protobuf not found: excluding protobuf-dependent sharding RPC/gossip sources and their direct dependents")
+endif()
+
 if(Protobuf_FOUND)
     set(WIRE_V1_PROTO ${THEMIS_ROOT_DIR}/src/network/themis_wire_v1.proto)
     set(WIRE_V1_PROTO_GEN_DIR ${CMAKE_BINARY_DIR}/proto_generated)
