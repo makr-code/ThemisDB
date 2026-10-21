@@ -52,7 +52,7 @@ jobs:
           "VCPKG_ROOT=$env:GITHUB_WORKSPACE/vcpkg" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
           & "$env:GITHUB_WORKSPACE/vcpkg/bootstrap-vcpkg.bat" -disableMetrics
-          & "$env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe" install zlib fmt spdlog --classic --triplet x64-windows --disable-metrics
+          & "$env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe" install zlib fmt spdlog boost-filesystem boost-system --classic --triplet x64-windows --disable-metrics
 
       - name: Ensure sccache is available
         shell: pwsh
@@ -70,8 +70,10 @@ jobs:
           }
 
           $vcpkgLibDir = Join-Path $env:GITHUB_WORKSPACE 'vcpkg/installed/x64-windows/lib'
-          if (-not (Test-Path (Join-Path $vcpkgLibDir 'zlib.lib')) -or -not (Test-Path (Join-Path $vcpkgLibDir 'fmt.lib')) -or -not (Test-Path (Join-Path $vcpkgLibDir 'spdlog.lib'))) {
-            & "$env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe" install zlib fmt spdlog --classic --triplet x64-windows --disable-metrics
+          $hasBoostFilesystem = @(Get-ChildItem -Path $vcpkgLibDir -Filter 'boost_filesystem*.lib' -ErrorAction SilentlyContinue).Count -gt 0
+          $hasBoostSystem = @(Get-ChildItem -Path $vcpkgLibDir -Filter 'boost_system*.lib' -ErrorAction SilentlyContinue).Count -gt 0
+          if (-not (Test-Path (Join-Path $vcpkgLibDir 'zlib.lib')) -or -not (Test-Path (Join-Path $vcpkgLibDir 'fmt.lib')) -or -not (Test-Path (Join-Path $vcpkgLibDir 'spdlog.lib')) -or -not $hasBoostFilesystem -or -not $hasBoostSystem) {
+            & "$env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe" install zlib fmt spdlog boost-filesystem boost-system --classic --triplet x64-windows --disable-metrics
           }
 
           sccache --version
