@@ -24,6 +24,7 @@
 #include <chrono>
 #include <openssl/evp.h>
 #include <memory>
+#include <stdexcept>
 
 #ifdef THEMIS_ENABLE_CURL
 #include <curl/curl.h>
@@ -86,7 +87,26 @@ HotReloadEngine::HotReloadEngine(
     
     // Create directories
     fs::create_directories(config_.download_directory);
-    fs::create_directories(config_.backup_directory);
+    std::error_code backup_dir_ec;
+    fs::create_directories(config_.backup_directory, backup_dir_ec);
+    if (backup_dir_ec) {
+        const auto fallback_backup_dir =
+            fs::temp_directory_path() / "themisdb" / "rollback";
+        LOG_WARN("HotReloadEngine: failed to create backup directory '{}': {}. "
+                 "Falling back to '{}'",
+                 config_.backup_directory,
+                 backup_dir_ec.message(),
+                 fallback_backup_dir.string());
+
+        config_.backup_directory = fallback_backup_dir.string();
+        std::error_code fallback_ec;
+        fs::create_directories(config_.backup_directory, fallback_ec);
+        if (fallback_ec) {
+            throw std::runtime_error(
+                "HotReloadEngine: failed to create fallback backup directory '" +
+                config_.backup_directory + "': " + fallback_ec.message());
+        }
+    }
 
     // Initialise history logger if a path is configured
     if (!config_.history_log_path.empty()) {

@@ -164,6 +164,11 @@ TEST_F(QoSManagerCommandInjectionTest, PathTraversalRejected) {
         "eth0/../config",
         "./eth0",
         "eth0/.",
+        ".eth0",
+        "eth0.",
+        "eth0..",
+        "..eth0",
+        "eth0..1",
     };
 
     for (const auto& name : traversal_names) {

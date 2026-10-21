@@ -41,6 +41,27 @@ jobs:
       - name: Prepare vcpkg dependencies
         shell: pwsh
         run: |
+          $ErrorActionPreference = 'Stop'
+
+          function Invoke-WithRetry {
+            param(
+              [scriptblock]$Command,
+              [int]$MaxAttempts = 3,
+              [int]$DelaySeconds = 5
+            )
+            for ($attempt = 1; $attempt -le $MaxAttempts; $attempt++) {
+              try {
+                & $Command
+                return
+              } catch {
+                if ($attempt -eq $MaxAttempts) {
+                  throw
+                }
+                Start-Sleep -Seconds ($DelaySeconds * $attempt)
+              }
+            }
+          }
+
           git submodule sync -- vcpkg
           git submodule update --init --depth 1 vcpkg
 
@@ -50,14 +71,38 @@ jobs:
 
           "$env:GITHUB_WORKSPACE/vcpkg" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
           "VCPKG_ROOT=$env:GITHUB_WORKSPACE/vcpkg" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          "VCPKG_DOWNLOADS=$env:GITHUB_WORKSPACE/.vcpkg-downloads" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          "VCPKG_DEFAULT_BINARY_CACHE=$env:GITHUB_WORKSPACE/.vcpkg-binary-cache" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
-          & "$env:GITHUB_WORKSPACE/vcpkg/bootstrap-vcpkg.bat" -disableMetrics
-          & "$env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe" install zlib fmt --classic --triplet x64-windows --disable-metrics
+          New-Item -ItemType Directory -Force -Path "$env:GITHUB_WORKSPACE/.vcpkg-downloads" | Out-Null
+          New-Item -ItemType Directory -Force -Path "$env:GITHUB_WORKSPACE/.vcpkg-binary-cache" | Out-Null
+
+          Invoke-WithRetry -Command { & "$env:GITHUB_WORKSPACE/vcpkg/bootstrap-vcpkg.bat" -disableMetrics }
+          Invoke-WithRetry -Command { & "$env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe" install zlib fmt spdlog boost-filesystem boost-system --classic --triplet x64-windows --disable-metrics }
 
       - name: Ensure sccache is available
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
+
+          function Invoke-WithRetry {
+            param(
+              [scriptblock]$Command,
+              [int]$MaxAttempts = 3,
+              [int]$DelaySeconds = 5
+            )
+            for ($attempt = 1; $attempt -le $MaxAttempts; $attempt++) {
+              try {
+                & $Command
+                return
+              } catch {
+                if ($attempt -eq $MaxAttempts) {
+                  throw
+                }
+                Start-Sleep -Seconds ($DelaySeconds * $attempt)
+              }
+            }
+          }
 
           foreach ($tool in @('cmake')) {
             if (-not (Get-Command $tool -ErrorAction SilentlyContinue)) {
@@ -65,16 +110,15 @@ jobs:
             }
           }
 
-          if (-not (Get-Command choco -ErrorAction SilentlyContinue)) {
-            throw "Chocolatey is required to install the missing Windows zlib dependency before configure."
-          }
-
-          if (-not (Get-ChildItem 'C:\Program Files\Git\usr\bin\zlib1.dll' -ErrorAction SilentlyContinue) -and -not (Get-ChildItem 'C:\vcpkg\installed\x64-windows\lib\zlib.lib' -ErrorAction SilentlyContinue)) {
-            choco install -y zlib --no-progress
-          }
-
           if (-not (Get-Command sccache -ErrorAction SilentlyContinue)) {
             choco install -y sccache --no-progress
+          }
+
+          $vcpkgLibDir = Join-Path $env:GITHUB_WORKSPACE 'vcpkg/installed/x64-windows/lib'
+          $hasBoostFilesystem = @(Get-ChildItem -Path $vcpkgLibDir -Filter 'boost_filesystem*.lib' -ErrorAction SilentlyContinue).Count -gt 0
+          $hasBoostSystem = @(Get-ChildItem -Path $vcpkgLibDir -Filter 'boost_system*.lib' -ErrorAction SilentlyContinue).Count -gt 0
+          if (-not (Test-Path (Join-Path $vcpkgLibDir 'zlib.lib')) -or -not (Test-Path (Join-Path $vcpkgLibDir 'fmt.lib')) -or -not (Test-Path (Join-Path $vcpkgLibDir 'spdlog.lib')) -or -not $hasBoostFilesystem -or -not $hasBoostSystem) {
+            Invoke-WithRetry -Command { & "$env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe" install zlib fmt spdlog boost-filesystem boost-system --classic --triplet x64-windows --disable-metrics }
           }
 
           sccache --version

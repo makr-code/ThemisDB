@@ -19,6 +19,7 @@
 #include <charconv>
 #include <cctype>
 #include <string_view>
+#include <utility>
 
 namespace themis {
 namespace api {
@@ -29,10 +30,10 @@ namespace http = boost::beast::http;
 // Construction
 // ---------------------------------------------------------------------------
 
-WsChangeHandler::WsChangeHandler(std::shared_ptr<asio::io_context> executor, std::shared_ptr<ConnectionProvider> connector, EndpointConfig& endpoint_config) : 
-    executor_(executor), 
-    connector_(connector), 
-    endpoint_config_(endpoint_config) {}
+WsChangeHandler::WsChangeHandler(std::shared_ptr<AuthMiddleware> auth,
+                                 Changefeed* changefeed) :
+    auth_(std::move(auth)),
+    changefeed_(changefeed) {}
 
 // ---------------------------------------------------------------------------
 // Static helpers
@@ -187,73 +188,6 @@ WsChangeHandler::validate(const http::request<http::string_body>& req) const
 
     decision.should_upgrade = true;
     return decision;
-}
-
-// ---------------------------------------------------------------------------
-// ProcessMessage
-// ---------------------------------------------------------------------------
-
-/**
- * @brief Process Message.
- * @param[in] message Input parameter.
- * @details Implements ProcessMessage without additional internal calls.
- */
-void WsChangeHandler::ProcessMessage(const std::string& message) { /* implementation follows */ }
-
-// ---------------------------------------------------------------------------
-// OnConnectionOpened
-// ---------------------------------------------------------------------------
-
-/**
- * @brief On Connection Opened.
- * @param[in,out] ws Input/output parameter.
- * @details Implements OnConnectionOpened without additional internal calls.
- */
-void WsChangeHandler::OnConnectionOpened(boost::beast::websocket::stream<tcp::socket>& ws) { /* implementation follows */ }
-
-/**
- * @brief On Connection Opened.
- * @param[in,out] ws Input/output parameter.
- * @param[in] userId Input parameter.
- * @details Implements onConnectionOpened without additional internal calls.
- */
-void WsChangeHandler::onConnectionOpened(WebSocket* ws, const std::string& userId) {
-    // Implementation details for successful connection setup and initialization logic
-}
-
-// ---------------------------------------------------------------------------
-// OnConnectionClosed
-// ---------------------------------------------------------------------------
-
-/**
- * @brief On Connection Closed.
- * @param[in,out] ws Input/output parameter.
- * @param[in] closeCode Input parameter.
- * @param[in] closeReason Input parameter.
- * @details Implements onConnectionClosed without additional internal calls.
- */
-void WsChangeHandler::onConnectionClosed(WebSocket* ws, int closeCode, const std::string& closeReason) {
-    // Implementation details for connection closing logic
-}
-
-// ---------------------------------------------------------------------------
-// handleError
-// ---------------------------------------------------------------------------
-
-/**
- * @brief Handle Error.
- * @param[in] e Input parameter.
- * @details Implements handleError without additional internal calls.
- */
-void WsChangeHandler::handleError(const std::exception& e) { /* implementation follows */ }
-
-/**
- * @brief Handle Web Socket Message.
- * @param[in] rawMessage Input parameter.
- * @details Implements HandleWebSocketMessage without additional internal calls.
- */
-void WsChangeHandler::HandleWebSocketMessage(const std::string& rawMessage) {
-    // Implementation details for parsing, validation, and dispatching messages go here.
 }
 
 } // namespace api

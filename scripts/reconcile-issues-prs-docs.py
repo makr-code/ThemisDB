@@ -151,6 +151,97 @@ def normalize_version(v: str | None) -> str | None:
     return out
 
 
+def is_open_issue_state(state: str | None) -> bool:
+    return str(state or "").lower() == "open"
+
+
+def linked_open_issue_milestones(
+    linked_issue_numbers: list[int],
+    issue_milestone_by_number: dict[int, str | None],
+    issue_state_by_number: dict[int, str],
+) -> list[str]:
+    milestones: list[str] = []
+    for issue_number in linked_issue_numbers:
+        if not is_open_issue_state(issue_state_by_number.get(issue_number)):
+            continue
+        milestone = issue_milestone_by_number.get(issue_number)
+        if milestone:
+            milestones.append(milestone)
+    return milestones
+
+
+def build_pr_alignment_proposals(
+    prs: list[dict],
+    issue_milestone_by_number: dict[int, str | None],
+    issue_state_by_number: dict[int, str],
+) -> list[dict]:
+    proposals: list[dict] = []
+    for pr in prs:
+        pr_num_raw = pr.get("number")
+        if pr_num_raw is None:
+            continue
+        try:
+            pr_num = int(pr_num_raw)
+        except (TypeError, ValueError):
+            continue
+        pr_state = str(pr.get("state") or "").lower()
+        if pr_state != "open":
+            continue
+
+        current_pr_milestone = (pr.get("milestone") or {}).get("title")
+        linked_issues = []
+        for ref in pr.get("closingIssuesReferences") or []:
+            num = ref.get("number")
+            if isinstance(num, (int, str)) and str(num).strip():
+                try:
+                    linked_issues.append(int(num))
+                except (TypeError, ValueError):
+                    continue
+        if not linked_issues:
+            continue
+
+        linked_issue_milestones = linked_open_issue_milestones(
+            linked_issues,
+            issue_milestone_by_number,
+            issue_state_by_number,
+        )
+        if not linked_issue_milestones:
+            continue
+
+        open_linked_issues = [
+            issue_number for issue_number in linked_issues
+            if is_open_issue_state(issue_state_by_number.get(issue_number))
+        ]
+        counts = Counter(linked_issue_milestones)
+        suggested_pr_milestone, top_count = counts.most_common(1)[0]
+        coverage = top_count / float(len(linked_issue_milestones))
+
+        if current_pr_milestone == suggested_pr_milestone:
+            continue
+
+        if len(counts) == 1:
+            confidence = "high"
+            reason = "all linked open issues share the same milestone"
+        elif coverage >= 0.7:
+            confidence = "medium"
+            reason = f"majority linked-issue milestone coverage={coverage:.2f}"
+        else:
+            continue
+
+        proposals.append({
+            "pr_number": pr_num,
+            "pr_title": pr.get("title"),
+            "pr_state": pr_state,
+            "current_pr_milestone": current_pr_milestone,
+            "suggested_pr_milestone": suggested_pr_milestone,
+            "confidence": confidence,
+            "reason": reason,
+            "linked_issues": sorted(open_linked_issues),
+            "linked_issue_milestone_counts": dict(counts),
+        })
+    return proposals
+
+
 def fetch_issues() -> list[dict]:
     out = run_gh([
         "issue",
@@ -293,10 +384,12 @@ def main() -> int:
     proposals = []
     overload_rebalance_proposals = []
     issue_milestone_by_number: dict[int, str | None] = {}
+    issue_state_by_number: dict[int, str] = {}
     for i in issues:
         num = int(i["number"])
         milestone = ((i.get("milestone") or {}) or {}).get("title")
         issue_milestone_by_number[num] = milestone
+        issue_state_by_number[num] = str(i.get("state") or "").lower()
         roadmap = roadmap_targets.get(num)
         module = infer_module(i, roadmap_targets)
         linked_prs = sorted(issue_to_prs.get(num, []))
@@ -315,6 +408,9 @@ def main() -> int:
             "roadmap_source": roadmap.get("roadmap") if roadmap else None,
         }
         dataset.append(rec)
+
+        if not is_open_issue_state(i.get("state")):
+            continue
 
         # Skip issues already in a legacy version
         if milestone in LEGACY_VERSIONS:
@@ -417,51 +513,11 @@ def main() -> int:
                 })
 
     # PR milestone alignment against linked issue milestones.
-    pr_alignment_proposals = []
-    for pr in prs:
-        pr_num = int(pr.get("number"))
-        current_pr_milestone = ((pr.get("milestone") or {}) or {}).get("title")
-        linked_issues = [
-            int(r["number"]) for r in (pr.get("closingIssuesReferences") or [])
-            if isinstance(r.get("number"), int)
-        ]
-        if not linked_issues:
-            continue
-
-        linked_issue_milestones = [
-            issue_milestone_by_number.get(n) for n in linked_issues
-            if issue_milestone_by_number.get(n)
-        ]
-        if not linked_issue_milestones:
-            continue
-
-        counts = Counter(linked_issue_milestones)
-        suggested_pr_milestone, top_count = counts.most_common(1)[0]
-        coverage = top_count / float(len(linked_issue_milestones))
-
-        if current_pr_milestone == suggested_pr_milestone:
-            continue
-
-        if len(counts) == 1:
-            confidence = "high"
-            reason = "all linked issues share the same milestone"
-        elif coverage >= 0.7:
-            confidence = "medium"
-            reason = f"majority linked-issue milestone coverage={coverage:.2f}"
-        else:
-            continue
-
-        pr_alignment_proposals.append({
-            "pr_number": pr_num,
-            "pr_title": pr.get("title"),
-            "pr_state": str(pr.get("state") or "").lower(),
-            "current_pr_milestone": current_pr_milestone,
-            "suggested_pr_milestone": suggested_pr_milestone,
-            "confidence": confidence,
-            "reason": reason,
-            "linked_issues": sorted(linked_issues),
-            "linked_issue_milestone_counts": dict(counts),
-        })
+    pr_alignment_proposals = build_pr_alignment_proposals(
+        prs,
+        issue_milestone_by_number,
+        issue_state_by_number,
+    )
 
     today = str(date.today())
 

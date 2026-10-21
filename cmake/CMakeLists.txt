@@ -3698,6 +3698,24 @@ if(NOT Protobuf_FOUND)
     find_package(Protobuf MODULE QUIET)
 endif()
 
+if(NOT Protobuf_FOUND)
+    # Keep monolithic source selection aligned with ModularBuild.cmake:
+    # these translation units require generated shard_rpc.pb.h message types.
+    list(REMOVE_ITEM THEMIS_CORE_SOURCES
+        ../src/sharding/shard_repair_engine.cpp
+        ../src/sharding/shard_rpc_server.cpp
+        ../src/server/rpc/blob_transfer_handler.cpp
+        ../src/sharding/gossip_config_manager.cpp
+        ../src/sharding/gossip_consensus_adapter.cpp
+        ../src/sharding/shard_resource_manager.cpp
+        ../src/sharding/distributed_coordinator.cpp
+        ../src/sharding/consensus_factory.cpp
+        ../src/sharding/locality_aware_router.cpp
+        ../src/sharding/orphan_detector.cpp
+    )
+    message(WARNING "Protobuf not found: excluding protobuf-dependent sharding RPC/gossip sources and their direct dependents")
+endif()
+
 if(Protobuf_FOUND)
     set(WIRE_V1_PROTO ${THEMIS_ROOT_DIR}/src/network/themis_wire_v1.proto)
     set(WIRE_V1_PROTO_GEN_DIR ${CMAKE_BINARY_DIR}/proto_generated)
@@ -4123,7 +4141,7 @@ if(MSVC)
     set_source_files_properties(
         ../src/server/monitoring_api_handler.cpp
         ../src/server/index_api_handler.cpp
-        PROPERTIES COMPILE_OPTIONS "/bigobj;/Zm1000"
+        PROPERTIES COMPILE_OPTIONS "/bigobj;/Zm2000"
     )
 endif()
 
@@ -4878,7 +4896,10 @@ if(THEMIS_ENABLE_GRPC)
     target_compile_definitions(themis_core PUBLIC THEMIS_HAS_CORE_GRPC)
     message(STATUS "gRPC support enabled (inter-shard communication)")
     find_package(gRPC CONFIG)
-    find_package(Protobuf CONFIG)
+    find_package(Protobuf CONFIG QUIET)
+    if(NOT Protobuf_FOUND)
+        find_package(Protobuf MODULE QUIET)
+    endif()
     if(gRPC_FOUND AND Protobuf_FOUND)
         if(NOT TARGET gRPC::grpc++_reflection)
             # vcpkg static triplet may not export reflection target; try to create an imported target

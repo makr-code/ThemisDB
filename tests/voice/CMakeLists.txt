@@ -35,7 +35,7 @@ foreach(_src IN LISTS VOICE_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/voice/voice_audit_logger.cpp
             ${THEMIS_ROOT_DIR}/src/voice/voice_session_manager.cpp
         )
-    elseif(_stem STREQUAL "test_voice_session_chaos_isolation")
+    elseif(_stem STREQUAL "test_voice_session_chaos_isolation" OR _stem STREQUAL "test_voice_stream_validation")
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/voice/voice_stream_validator.cpp
             ${THEMIS_ROOT_DIR}/src/voice/voice_liveness_checker.cpp

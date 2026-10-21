@@ -120,6 +120,7 @@ TEST_F(RollbackHardeningTest, ADD_04_CheckpointCountTracking) {
 TEST_F(RollbackHardeningTest, ADD_05_PartialRollbackFallbackImmediateAbort) {
     ASSERT_TRUE(state_machine_.transition(UpdateState::DOWNLOADING, "1.0.0", ""));
     auto cp = state_machine_.createCheckpoint("before_apply");
+    ASSERT_TRUE(state_machine_.transition(UpdateState::VERIFYING, "", ""));
     ASSERT_TRUE(state_machine_.transition(UpdateState::APPLYING, "", ""));
     
     bool success = state_machine_.rollbackToCheckpointWithFallback(
@@ -164,6 +165,7 @@ TEST_F(RollbackHardeningTest, ADD_08_RollbackCallbackInvocation) {
     
     ASSERT_TRUE(state_machine_.transition(UpdateState::DOWNLOADING, "1.0.0", ""));
     auto cp = state_machine_.createCheckpoint("test");
+    ASSERT_TRUE(state_machine_.transition(UpdateState::VERIFYING, "", ""));
     ASSERT_TRUE(state_machine_.transition(UpdateState::APPLYING, "", ""));
     
     state_machine_.emitRollbackDiagnostic(cp, true, "");
@@ -414,4 +416,3 @@ TEST_F(CoordinatedRollbackTest, ADD_20_LeaderLastSequencing) {
     // Leader should have highest sequence number
     EXPECT_EQ(leader_status->sequence_number, 2);
 }
-

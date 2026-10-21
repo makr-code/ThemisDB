@@ -1,87 +1,96 @@
-# Vector Search Module Roadmap
+---
+Author: "ThemisDB Team"
+Created: "2026-10-21"
+Last Updated: "2026-10-21"
+Status: "active"
+AI_Used: true
+AI_Models: "GitHub Copilot"
+AI_Contributor: "GitHub Copilot"
+Human_Review: true
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: current | live implementation under src/index and include/index | validated: 2026-10-12 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+# Vector Search Module Roadmap
 
 ## Current Status
 
-The vector-search feature is active in the shared index subsystem. This module acts as the governance-facing summary for the feature, while the implementation remains under `src/index/` and `include/index/`.
-
-- [x] Vector-search contract and operational expectations documented for release review
-- [x] Module lifecycle and risk tracking aligned to the live index implementation
-- [x] Test and benchmark artifacts connected to release gates
-- [x] Module docs aligned to the canonical source ownership boundary
+- [x] Governance-facing vector-search docs restored around the live shared index implementation
+- [x] Module ownership boundary documented: implementation lives under `src/index/` and `include/index/`
+- [x] Validation path connects to the shared test and benchmark artifacts
+- [x] Known limitations and future work are tracked explicitly rather than implied as current features
 
 ## In Progress
 
-- [~] Phase 5 hardening and performance tuning in the shared index subsystem (Target: Q4 2026)
-- [~] Distributed index persistence and sharding planning for larger-scale search deployments (Target: Q1 2027)
+- [~] Performance hardening in the shared index subsystem (Target: Q4 2026)
+- [~] Distributed persistence and sharding design review for large-scale deployments (Target: Q1 2027)
 
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
 
-- [x] Define module scope and release boundaries for vector search
-- [x] Document the source-of-truth ownership boundary under `src/index/`
-- [x] Capture correctness, metric validation, and search-result expectations
+- [x] Define the governance boundary for the module around the shared index implementation
+- [x] Record canonical ownership paths under `src/index/` and `include/index/`
+- [x] Document metric validation and explicit error semantics as release-facing contract notes
 
 ### Phase 2: Core Implementation
 
-- [x] Confirm the canonical implementation remains under `src/index/` and `include/index/`
-- [x] Align module docs to the real implementation footprint and validation evidence
-- [x] Keep the module summary focused on operational contract and risk tracking
+- [x] Confirm the real code path is the shared vector-index runtime rather than a duplicate tree under `src/vector_search/`
+- [x] Align module documentation to the implemented API footprint and test evidence
+- [x] Keep the module summary focused on operational contract and release evidence
 
 ### Phase 3: Error Handling & Edge Cases
 
-- [x] Document invalid-dimension and NaN/Inf rejection paths
-- [x] Maintain explicit handling for empty-index and unsupported-metric cases
-- [x] Track planning gaps in `MODULE_GAPS.md` instead of implying unavailable features
+- [x] Document invalid-dimension and unsupported-metric rejection paths
+- [x] Keep empty-index and malformed-input handling in the tracking docs rather than as hidden assumptions
+- [x] Record outstanding gaps in `MODULE_GAPS.md` to avoid overstating product readiness
 
 ### Phase 4: Tests
 
-- [x] Connect module docs to soak and stress tests in `tests/integration/` and `tests/vector_search/`
-- [x] Link release gates to the actual benchmark entry points
-- [x] Keep the module aligned to the live validation artifacts
+- [x] Connect the module to `tests/vector_search/test_vector_search_highcardinality_stress.cpp`
+- [x] Link the module to the gate benchmark in `benchmarks/vector_search/bench_vector_search_dedicated_gates.cpp`
+- [x] Preserve evidence-based validation rather than fulfilling docs through stale narratives
 
 ### Phase 5: Performance / Hardening
 
-- [~] Continue performance tuning in the shared index subsystem
-- [~] Validate benchmark gates under the existing release matrix
-- [x] Keep the module docs synchronized with the current optimization scope
+- [~] Continue performance tuning in the shared index subsystem under established benchmark gates
+- [~] Validate workload-specific hardening against release-profile measurements
+- [x] Keep documentation aligned to the actual optimization scope and not to speculative features
 
 ### Phase 6: Documentation & Acceptance
 
-- [x] Restore and align the required governance set for the module
-- [x] Keep the module reviewable and traceable to live source/test artifacts
-- [x] Remove stale markdown that no longer reflects the active contract
+- [x] Restore required governance docs for the module
+- [x] Remove stale/unsupported implementation claims from the module surface
+- [x] Keep the issue/action packet aligned to the live source and test evidence
 
 ## Production Readiness Checklist
 
-- [x] Module governance docs present and current
-- [x] Module source ownership boundaries clarified
-- [x] Risk and limitation tracking updated
-- [x] Benchmark, soak, and stress test references connected to the module scope
-- [x] Release-facing docs aligned with the actual implementation footprint
-- [~] Ongoing performance hardening remains in the shared index subsystem
+- [x] Module ownership and source-of-truth boundaries are explicit
+- [x] Governance docs are present and aligned with the live implementation
+- [x] Known limits are represented as planned work, not current capabilities
+- [x] Test and benchmark references exist in the current repo
+- [x] Release-facing docs remain traceable to actual source artifacts
+- [~] Additional performance hardening remains active in the shared index subsystem
 
 ## Known Issues & Limitations
 
-1. **Implementation is externalized** — the live code is owned by the shared `index` subsystem rather than by this directory.
-2. **Distributed persistence and sharding are still planned** — they are documented as future work rather than implied as current features.
-3. **Performance hardening remains ongoing** — benchmark gates are valid only with the current shared index implementation.
+1. The live vector-search implementation is owned by the shared index subsystem, not by the `src/vector_search/` directory.
+2. Distributed persistence and sharding remain planned work and are tracked as such.
+3. The module docs and release gates should be treated as governance evidence, not as a second runtime implementation surface.
 
 ## Breaking Changes
 
-No breaking API or governance change is introduced by this documentation alignment; the change is a corrective stabilization of the module contract to match the actual source footprint.
+No breaking API or governance change is introduced by this documentation alignment. The change is corrective and keeps the module contract aligned to the live source footprint.
 
 ## Module Evidence Sources
 
 - `src/index/README.md`
+- `include/index/vector_index.h`
+- `include/index/multi_vector_search.h`
 - `src/index/vector_index.cpp`
 - `src/index/advanced_vector_index.cpp`
 - `src/index/ann_index.cpp`
+- `src/index/ann_frontdoor.cpp`
 - `src/index/multi_vector_search.cpp`
-- `include/index/multi_vector_search.h`
 - `tests/integration/test_vector_search_soak.cpp`
 - `tests/vector_search/test_vector_search_highcardinality_stress.cpp`
 - `benchmarks/vector_search/bench_vector_search_dedicated_gates.cpp`

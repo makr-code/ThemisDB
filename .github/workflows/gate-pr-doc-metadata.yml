@@ -158,54 +158,66 @@ jobs:
           manifest = json.loads((issue_dir / 'issues_manifest.json').read_text(encoding='utf-8'))
 
           def ensure_label(name: str) -> None:
-              result = subprocess.run(
-                  ['gh', 'label', 'list', '--limit', '200', '--json', 'name', '--repo', repo],
-                  check=True,
+              probe = subprocess.run(
+                  ['gh', 'label', 'view', name, '--repo', repo],
+                  check=False,
                   capture_output=True,
                   text=True,
                   env=os.environ.copy(),
               )
-              labels = {item['name'] for item in json.loads(result.stdout)}
-              if name in labels:
+              if probe.returncode == 0:
                   return
-              subprocess.run(['gh', 'label', 'create', name, '--color', 'D4C5F9', '--repo', repo], check=True, env=os.environ.copy(), stdout=subprocess.DEVNULL)
+              subprocess.run(
+                  ['gh', 'label', 'create', name, '--color', 'D4C5F9', '--repo', repo],
+                  check=True,
+                  env=os.environ.copy(),
+              )
 
-          for label in ['type:documentation', 'status/needs-triage', 'priority:medium', 'quality/doc-metadata-failed']:
-              ensure_label(label)
+          try:
+              for label in ['type:documentation', 'status/needs-triage', 'priority:medium', 'quality/doc-metadata-failed']:
+                  ensure_label(label)
 
-          issues = json.loads(subprocess.run(
-              ['gh', 'issue', 'list', '--state', 'open', '--limit', '200', '--json', 'number,title,body', '--repo', repo],
-              check=True,
-              capture_output=True,
-              text=True,
-              env=os.environ.copy(),
-          ).stdout)
+              issues = json.loads(subprocess.run(
+                  ['gh', 'issue', 'list', '--state', 'open', '--limit', '200', '--json', 'number,title,body', '--repo', repo],
+                  check=True,
+                  capture_output=True,
+                  text=True,
+                  env=os.environ.copy(),
+              ).stdout)
+          except subprocess.CalledProcessError as exc:
+              detail = (exc.stderr or exc.stdout or str(exc)).strip()
+              print(f"::warning::Skipping per-file documentation issue sync due to GitHub API/permission error: {detail}")
+              raise SystemExit(0)
 
           for item in manifest.get('issues', []):
               marker = item['marker']
               title = item['title']
               body = (issue_dir / item['output']).read_text(encoding='utf-8')
               match = next((issue for issue in issues if marker in (issue.get('body') or '')), None)
-              if match:
-                  subprocess.run(
-                      ['gh', 'issue', 'edit', str(match['number']), '--title', title, '--body-file', str(issue_dir / item['output']), '--repo', repo],
-                      check=True,
-                      env=os.environ.copy(),
-                  )
-                  subprocess.run(
-                      ['gh', 'issue', 'edit', str(match['number']), '--add-label', 'type:documentation', '--add-label', 'status/needs-triage', '--add-label', 'priority:medium', '--repo', repo],
-                      check=True,
-                      env=os.environ.copy(),
-                  )
-                  continue
+              try:
+                  if match:
+                      subprocess.run(
+                          ['gh', 'issue', 'edit', str(match['number']), '--title', title, '--body-file', str(issue_dir / item['output']), '--repo', repo],
+                          check=True,
+                          env=os.environ.copy(),
+                      )
+                      subprocess.run(
+                          ['gh', 'issue', 'edit', str(match['number']), '--add-label', 'type:documentation', '--add-label', 'status/needs-triage', '--add-label', 'priority:medium', '--repo', repo],
+                          check=True,
+                          env=os.environ.copy(),
+                      )
+                      continue
 
-              subprocess.run(
-                  ['gh', 'issue', 'create', '--title', title, '--body-file', str(issue_dir / item['output']), '--repo', repo,
-                   '--label', 'type:documentation', '--label', 'status/needs-triage', '--label', 'priority:medium'] +
-                  (['--label', 'quality/doc-metadata-failed'] if item['kind'] == 'metadata' else []),
-                  check=True,
-                  env=os.environ.copy(),
-              )
+                  subprocess.run(
+                      ['gh', 'issue', 'create', '--title', title, '--body-file', str(issue_dir / item['output']), '--repo', repo,
+                       '--label', 'type:documentation', '--label', 'status/needs-triage', '--label', 'priority:medium'] +
+                      (['--label', 'quality/doc-metadata-failed'] if item['kind'] == 'metadata' else []),
+                      check=True,
+                      env=os.environ.copy(),
+                  )
+              except subprocess.CalledProcessError as exc:
+                  detail = (exc.stderr or exc.stdout or str(exc)).strip()
+                  print(f"::warning::Skipping per-file documentation issue item '{title}' due to GitHub API/permission error: {detail}")
           PY
 
       - name: Write job summary

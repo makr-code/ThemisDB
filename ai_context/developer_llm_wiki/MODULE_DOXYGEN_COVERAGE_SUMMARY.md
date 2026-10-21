@@ -1,10 +1,10 @@
 # Module Doxygen Coverage Summary
 
-- Module: image_analysis
+- Module: vector_search
 - Source mode: direct_doxygen_markers
-- Symbol presence ratio: 0.6667
-- Ownership: {'internal': 15, 'external': 0}
-- missing_symbol: 4
-- missing_brief: 59
-- missing_param_docs: 31
-- missing_return_docs: 35
+- Symbol presence ratio: 0.5
+- Ownership: {'internal': 2, 'external': 0}
+- missing_symbol: 1
+- missing_brief: 6
+- missing_param_docs: 5
+- missing_return_docs: 5
