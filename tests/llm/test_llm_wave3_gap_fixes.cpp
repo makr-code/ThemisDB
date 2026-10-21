@@ -30,6 +30,8 @@
 
 namespace themis::llm {
 
+using ValidationResult = ModeSpecValidationResult;
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Minimal test helpers
 // ─────────────────────────────────────────────────────────────────────────────

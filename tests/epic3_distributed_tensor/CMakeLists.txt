@@ -65,6 +65,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_manifest_store_phase_a.cpp")
     add_executable(test_manifest_store_phase_a
         test_manifest_store_phase_a.cpp
         ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/manifest_store.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/artifact_manifest.cc
     )
 
     target_include_directories(test_manifest_store_phase_a PRIVATE

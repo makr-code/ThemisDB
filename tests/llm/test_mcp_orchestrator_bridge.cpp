@@ -22,6 +22,8 @@
 
 using namespace themis::llm;
 
+using ValidationResult = ModeSpecValidationResult;
+
 // ─── Test YAML ───────────────────────────────────────────────────────────────
 
 static const char* kTwoModePack = R"yaml(

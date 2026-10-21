@@ -17,6 +17,8 @@
 
 using namespace themis::llm;
 
+using ValidationResult = ModeSpecValidationResult;
+
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
 // Minimal ILLMPlugin stub that returns the raw prompt text as the response.
