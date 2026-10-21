@@ -83,11 +83,15 @@ No breaking API or governance change is introduced by this documentation alignme
 
 ## Module Evidence Sources
 
+- `src/index/README.md`
 - `include/index/vector_index.h`
 - `include/index/multi_vector_search.h`
 - `src/index/vector_index.cpp`
 - `src/index/advanced_vector_index.cpp`
+- `src/index/ann_index.cpp`
+- `src/index/ann_frontdoor.cpp`
 - `src/index/multi_vector_search.cpp`
+- `tests/integration/test_vector_search_soak.cpp`
 - `tests/vector_search/test_vector_search_highcardinality_stress.cpp`
 - `benchmarks/vector_search/bench_vector_search_dedicated_gates.cpp`
 

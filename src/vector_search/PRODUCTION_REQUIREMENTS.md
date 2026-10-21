@@ -1,3 +1,15 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-21"
+Last Updated: "2026-10-21"
+Status: "active"
+AI_Used: true
+AI_Models: "GitHub Copilot"
+AI_Contributor: "GitHub Copilot"
+Human_Review: true
+Human_Author: "ThemisDB Team"
+---
+
 # Vector Search Module - Production Requirements
 
 <!-- Status: current | validated: 2026-09-22 -->

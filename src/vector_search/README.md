@@ -12,7 +12,7 @@ Human_Author: "ThemisDB Team"
 
 # Vector Search Module
 
-## Zweck
+## Purpose
 
 This module documents the governance-facing contract for ThemisDB vector search. The live implementation is not maintained under `src/vector_search/`; the canonical code lives in the shared index subsystem under `src/index/` and `include/index/`.
 
@@ -34,17 +34,20 @@ Out of scope:
 ## Quickstart (Build/Run)
 
 ```bash
-# configure and build the relevant validation target
-cmake --preset linux-release
-cmake --build --preset linux-release --target test_vector_search_highcardinality_stress
+# list available presets and select the one that matches your platform
+cmake --list-presets
+
+# example: a platform-matching preset such as linux-release or windows-release
+cmake --preset <your-preset>
+cmake --build --preset <your-preset> --target test_vector_search_highcardinality_stress
 
 # focused validation
-ctest --preset linux-release -R 'vector_search' --output-on-failure
+ctest --preset <your-preset> -R 'vector_search' --output-on-failure
 ```
 
 The repository's live artifacts for this module are the shared index sources, the validation test in `tests/vector_search/`, and the release benchmark in `benchmarks/vector_search/`.
 
-## API/CLI Einstieg
+## API / CLI Entry Points
 
 - Canonical implementation: `include/index/vector_index.h`, `include/index/multi_vector_search.h`
 - Shared runtime sources: `src/index/vector_index.cpp`, `src/index/advanced_vector_index.cpp`, `src/index/multi_vector_search.cpp`
@@ -53,7 +56,7 @@ The repository's live artifacts for this module are the shared index sources, th
 
 This module should be read as the governance and evidence layer for those real APIs, not as a second code path.
 
-## Integrationsueberblick
+## Integration Overview
 
 ```mermaid
 flowchart LR
@@ -64,7 +67,7 @@ flowchart LR
     E --> F[release readiness review]
 ```
 
-Kurzinterpretation: The vector search module coordinates governance and validation around the shared index subsystem. Runtime behavior, performance gates, and API contracts are still owned by the index implementation under `src/index/` and `include/index/`.
+Interpretation: the vector search module coordinates governance and validation around the shared index subsystem. Runtime behavior, performance gates, and API contracts are still owned by the index implementation under `src/index/` and `include/index/`.
 
 ## Known Limitations
 
@@ -72,7 +75,7 @@ Kurzinterpretation: The vector search module coordinates governance and validati
 - Distributed indexing and persistent sharding remain planned work rather than current capabilities.
 - Performance and reliability expectations must be validated against the real benchmark/test artifacts and not inferred from historical documentation alone.
 
-## Verweise
+## References
 
 - [ARCHITECTURE.md](ARCHITECTURE.md)
 - [ROADMAP.md](ROADMAP.md)
