@@ -92,6 +92,9 @@ void SSLDeleter::operator()(SSL* ptr) const {
 // MTLSConnectionFactory
 // ===========================================================================
 
+MTLSConnectionFactory::MTLSConnectionFactory(SSL_CTX* ssl_context)
+    : MTLSConnectionFactory(ssl_context, Config{}) {}
+
 MTLSConnectionFactory::MTLSConnectionFactory(SSL_CTX* ssl_context, const Config& config)
     : ssl_context_(ssl_context), config_(config) {
     
