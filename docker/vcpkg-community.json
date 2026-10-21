@@ -12,6 +12,7 @@
         "zstd"
       ]
     },
+    "fmt",
     "gtest",
     "benchmark",
     "cpp-httplib",
