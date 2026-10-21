@@ -7,14 +7,18 @@ _SCRIPT = Path(__file__).parent.parent / "scripts" / "reconcile-issues-prs-docs.
 
 def _load_module():
     spec = importlib.util.spec_from_file_location("reconcile_issues_prs_docs", _SCRIPT)
+    if spec is None or spec.loader is None:
+        raise FileNotFoundError(f"Unable to load reconciliation script from {_SCRIPT}")
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     return mod
 
 
+MODULE = _load_module()
+
 
 def test_linked_open_issue_milestones_ignores_closed_links():
-    mod = _load_module()
+    mod = MODULE
     linked_issue_numbers = [101, 202, 303, 404]
     issue_milestone_by_number = {
         101: "v1.4.0",
@@ -42,7 +46,7 @@ def test_linked_open_issue_milestones_ignores_closed_links():
 
 
 def test_pr_alignment_ignores_closed_prs_and_closed_linked_issues():
-    mod = _load_module()
+    mod = MODULE
     prs = [
         {
             "number": 500,
