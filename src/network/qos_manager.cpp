@@ -36,15 +36,37 @@ namespace {
 
 static bool isValidInterfaceName(std::string_view iface) noexcept {
     if (iface.empty() || iface.size() > 15) {
-      return false;
+        return false;
     }
-    if (iface.front() == '-') {
-      return false;
+
+    const auto is_ascii_alnum = [](unsigned char ch) {
+        return std::isalnum(ch) != 0;
+    };
+
+    if (iface.front() == '-' || iface.front() == '.' ||
+        iface.back() == '-' || iface.back() == '.') {
+        return false;
     }
-    return std::all_of(iface.begin(), iface.end(), [](char c) {
-        return std::isalnum(static_cast<unsigned char>(c)) ||
-               c == '-' || c == '_' || c == '.';
-    });
+
+    bool saw_alnum = false;
+    for (size_t i = 0; i < iface.size(); ++i) {
+        const unsigned char ch = static_cast<unsigned char>(iface[i]);
+        if (is_ascii_alnum(ch)) {
+            saw_alnum = true;
+            continue;
+        }
+
+        if (ch == '-' || ch == '_' || ch == '.') {
+            if (i + 1 < iface.size() && ch == '.' && iface[i + 1] == '.') {
+                return false;
+            }
+            continue;
+        }
+
+        return false;
+    }
+
+    return saw_alnum;
 }
 
 #if defined(__linux__)
