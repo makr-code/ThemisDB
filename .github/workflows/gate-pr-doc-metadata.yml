@@ -158,17 +158,12 @@ jobs:
           manifest = json.loads((issue_dir / 'issues_manifest.json').read_text(encoding='utf-8'))
 
           def ensure_label(name: str) -> None:
-              result = subprocess.run(
-                  ['gh', 'label', 'list', '--limit', '200', '--json', 'name', '--repo', repo],
+              subprocess.run(
+                  ['gh', 'label', 'create', name, '--color', 'D4C5F9', '--repo', repo, '--force'],
                   check=True,
-                  capture_output=True,
-                  text=True,
                   env=os.environ.copy(),
+                  stdout=subprocess.DEVNULL,
               )
-              labels = {item['name'] for item in json.loads(result.stdout)}
-              if name in labels:
-                  return
-              subprocess.run(['gh', 'label', 'create', name, '--color', 'D4C5F9', '--repo', repo], check=True, env=os.environ.copy(), stdout=subprocess.DEVNULL)
 
           for label in ['type:documentation', 'status/needs-triage', 'priority:medium', 'quality/doc-metadata-failed']:
               ensure_label(label)
