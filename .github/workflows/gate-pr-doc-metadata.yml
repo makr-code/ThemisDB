@@ -158,8 +158,19 @@ jobs:
           manifest = json.loads((issue_dir / 'issues_manifest.json').read_text(encoding='utf-8'))
 
           def ensure_label(name: str) -> None:
+              probe = subprocess.run(
+                  ['gh', 'label', 'view', name, '--repo', repo],
+                  check=False,
+                  capture_output=True,
+                  text=True,
+                  env=os.environ.copy(),
+              )
+              if probe.returncode == 0:
+                  return
+              if 'not found' not in (probe.stderr or '').lower():
+                  raise subprocess.CalledProcessError(probe.returncode, probe.args, output=probe.stdout, stderr=probe.stderr)
               subprocess.run(
-                  ['gh', 'label', 'create', name, '--color', 'D4C5F9', '--repo', repo, '--force'],
+                  ['gh', 'label', 'create', name, '--color', 'D4C5F9', '--repo', repo],
                   check=True,
                   env=os.environ.copy(),
               )
