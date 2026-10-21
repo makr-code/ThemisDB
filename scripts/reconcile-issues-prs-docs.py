@@ -151,6 +151,25 @@ def normalize_version(v: str | None) -> str | None:
     return out
 
 
+def is_open_issue(issue: dict) -> bool:
+    return str(issue.get("state") or "").lower() == "open"
+
+
+def linked_open_issue_milestones(
+    linked_issue_numbers: list[int],
+    issue_milestone_by_number: dict[int, str | None],
+    issue_state_by_number: dict[int, str],
+) -> list[str]:
+    milestones: list[str] = []
+    for issue_number in linked_issue_numbers:
+        if issue_state_by_number.get(issue_number) != "open":
+            continue
+        milestone = issue_milestone_by_number.get(issue_number)
+        if milestone:
+            milestones.append(milestone)
+    return milestones
+
+
 def fetch_issues() -> list[dict]:
     out = run_gh([
         "issue",
@@ -293,10 +312,12 @@ def main() -> int:
     proposals = []
     overload_rebalance_proposals = []
     issue_milestone_by_number: dict[int, str | None] = {}
+    issue_state_by_number: dict[int, str] = {}
     for i in issues:
         num = int(i["number"])
         milestone = ((i.get("milestone") or {}) or {}).get("title")
         issue_milestone_by_number[num] = milestone
+        issue_state_by_number[num] = str(i.get("state") or "").lower()
         roadmap = roadmap_targets.get(num)
         module = infer_module(i, roadmap_targets)
         linked_prs = sorted(issue_to_prs.get(num, []))
@@ -315,6 +336,9 @@ def main() -> int:
             "roadmap_source": roadmap.get("roadmap") if roadmap else None,
         }
         dataset.append(rec)
+
+        if not is_open_issue(i):
+            continue
 
         # Skip issues already in a legacy version
         if milestone in LEGACY_VERSIONS:
@@ -420,6 +444,10 @@ def main() -> int:
     pr_alignment_proposals = []
     for pr in prs:
         pr_num = int(pr.get("number"))
+        pr_state = str(pr.get("state") or "").lower()
+        if pr_state != "open":
+            continue
+
         current_pr_milestone = ((pr.get("milestone") or {}) or {}).get("title")
         linked_issues = [
             int(r["number"]) for r in (pr.get("closingIssuesReferences") or [])
@@ -428,10 +456,11 @@ def main() -> int:
         if not linked_issues:
             continue
 
-        linked_issue_milestones = [
-            issue_milestone_by_number.get(n) for n in linked_issues
-            if issue_milestone_by_number.get(n)
-        ]
+        linked_issue_milestones = linked_open_issue_milestones(
+            linked_issues,
+            issue_milestone_by_number,
+            issue_state_by_number,
+        )
         if not linked_issue_milestones:
             continue
 
@@ -444,17 +473,17 @@ def main() -> int:
 
         if len(counts) == 1:
             confidence = "high"
-            reason = "all linked issues share the same milestone"
+            reason = "all linked open issues share the same milestone"
         elif coverage >= 0.7:
             confidence = "medium"
-            reason = f"majority linked-issue milestone coverage={coverage:.2f}"
+            reason = f"majority linked open-issue milestone coverage={coverage:.2f}"
         else:
             continue
 
         pr_alignment_proposals.append({
             "pr_number": pr_num,
             "pr_title": pr.get("title"),
-            "pr_state": str(pr.get("state") or "").lower(),
+            "pr_state": pr_state,
             "current_pr_milestone": current_pr_milestone,
             "suggested_pr_milestone": suggested_pr_milestone,
             "confidence": confidence,
