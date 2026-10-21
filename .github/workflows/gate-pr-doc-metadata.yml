@@ -167,8 +167,6 @@ jobs:
               )
               if probe.returncode == 0:
                   return
-              if 'not found' not in (probe.stderr or '').lower():
-                  raise subprocess.CalledProcessError(probe.returncode, probe.args, output=probe.stdout, stderr=probe.stderr)
               subprocess.run(
                   ['gh', 'label', 'create', name, '--color', 'D4C5F9', '--repo', repo],
                   check=True,
