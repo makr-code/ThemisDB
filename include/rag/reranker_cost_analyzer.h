@@ -162,6 +162,7 @@ class RerankerCostAnalyzer {
   // Tenant daily consumption tracking
   std::map<std::string, float> tenant_daily_consumption_;
   std::map<std::string, float> tenant_daily_budgets_;
+  std::map<std::string, float> tenant_forecasts_;
 
   // Aggregation helpers
   void AggregateHourly();
