@@ -12,20 +12,20 @@ def _load_module():
     return mod
 
 
-mod = _load_module()
-
 
 def test_linked_open_issue_milestones_ignores_closed_links():
-    linked_issue_numbers = [101, 202, 303]
+    mod = _load_module()
+    linked_issue_numbers = [101, 202, 303, 404]
     issue_milestone_by_number = {
         101: "v1.4.0",
-        202: "v1.4.0",
+        202: "v1.9.9",
         303: "v1.3.1",
     }
     issue_state_by_number = {
         101: "open",
         202: "closed",
         303: "open",
+        404: "open",
     }
 
     assert mod.linked_open_issue_milestones(
@@ -34,8 +34,15 @@ def test_linked_open_issue_milestones_ignores_closed_links():
         issue_state_by_number,
     ) == ["v1.4.0", "v1.3.1"]
 
+    assert mod.linked_open_issue_milestones(
+        [404],
+        {},
+        {404: "open"},
+    ) == []
+
 
 def test_pr_alignment_ignores_closed_prs_and_closed_linked_issues():
+    mod = _load_module()
     prs = [
         {
             "number": 500,
@@ -51,42 +58,39 @@ def test_pr_alignment_ignores_closed_prs_and_closed_linked_issues():
             "milestone": {"title": "v1.4.0"},
             "closingIssuesReferences": [{"number": 101}],
         },
+        {
+            "number": 502,
+            "title": "open pr with active mismatch",
+            "state": "open",
+            "milestone": {"title": "v1.3.0"},
+            "closingIssuesReferences": [{"number": 203}],
+        },
     ]
     issue_milestone_by_number = {
         101: "v1.4.0",
         202: "v1.4.0",
+        203: "v1.4.0",
     }
     issue_state_by_number = {
         101: "open",
         202: "closed",
+        203: "open",
     }
 
-    proposals = []
-    for pr in prs:
-        pr_num = int(pr.get("number"))
-        pr_state = str(pr.get("state") or "").lower()
-        if pr_state != "open":
-            continue
+    proposals = mod.build_pr_alignment_proposals(
+        prs,
+        issue_milestone_by_number,
+        issue_state_by_number,
+    )
 
-        current_pr_milestone = ((pr.get("milestone") or {}) or {}).get("title")
-        linked_issues = [
-            int(r["number"]) for r in (pr.get("closingIssuesReferences") or [])
-            if isinstance(r.get("number"), int)
-        ]
-        linked_issue_milestones = mod.linked_open_issue_milestones(
-            linked_issues,
-            issue_milestone_by_number,
-            issue_state_by_number,
-        )
-        if not linked_issue_milestones:
-            continue
-
-        counts = mod.Counter(linked_issue_milestones)
-        suggested_pr_milestone, _ = counts.most_common(1)[0]
-        if current_pr_milestone != suggested_pr_milestone:
-            proposals.append({
-                "pr_number": pr_num,
-                "suggested_pr_milestone": suggested_pr_milestone,
-            })
-
-    assert proposals == []
+    assert proposals == [{
+        "pr_number": 502,
+        "pr_title": "open pr with active mismatch",
+        "pr_state": "open",
+        "current_pr_milestone": "v1.3.0",
+        "suggested_pr_milestone": "v1.4.0",
+        "confidence": "high",
+        "reason": "all linked open issues share the same milestone",
+        "linked_issues": [203],
+        "linked_issue_milestone_counts": {"v1.4.0": 1},
+    }]
