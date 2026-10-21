@@ -162,7 +162,6 @@ jobs:
                   ['gh', 'label', 'create', name, '--color', 'D4C5F9', '--repo', repo, '--force'],
                   check=True,
                   env=os.environ.copy(),
-                  stdout=subprocess.DEVNULL,
               )
 
           for label in ['type:documentation', 'status/needs-triage', 'priority:medium', 'quality/doc-metadata-failed']:
