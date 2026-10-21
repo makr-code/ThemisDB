@@ -1,56 +1,85 @@
-# ThemisDB Vector Search Module
+---
+Author: "ThemisDB Team"
+Created: "2026-10-21"
+Last Updated: "2026-10-21"
+Status: "active"
+AI_Used: true
+AI_Models: "GitHub Copilot"
+AI_Contributor: "GitHub Copilot"
+Human_Review: true
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: current | implementation lives under src/index and include/index | validated: 2026-10-12 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+# Vector Search Module
 
-## Module Purpose
+## Zweck
 
-This module documents the operational contract and release-readiness evidence for ThemisDB vector-search behavior. The implementation itself is not colocated under `src/vector_search/`; it is owned by the shared index subsystem under `src/index/` and `include/index/`.
+This module documents the governance-facing contract for ThemisDB vector search. The live implementation is not maintained under `src/vector_search/`; the canonical code lives in the shared index subsystem under `src/index/` and `include/index/`.
 
-This directory exists as the governance-facing summary for the module: it describes the runtime contract, validation evidence, and known gaps without duplicating the live source tree.
-
-## Implementation Footprint
-
-The relevant live code and evidence are here:
-
-- `src/index/vector_index.cpp`
-- `src/index/advanced_vector_index.cpp`
-- `src/index/ann_index.cpp`
-- `src/index/multi_vector_search.cpp`
-- `include/index/multi_vector_search.h`
-- `tests/integration/test_vector_search_soak.cpp`
-- `tests/vector_search/test_vector_search_highcardinality_stress.cpp`
-- `benchmarks/vector_search/bench_vector_search_dedicated_gates.cpp`
-
-This module should be treated as the documentation and release boundary for vector search, not as an alternate implementation tree.
+The directory therefore serves as the module boundary for release evidence, operational expectations, and documented limits rather than as a duplicate implementation tree.
 
 ## Scope
 
 In scope:
-- vector search contract and module governance
-- ANN/index query expectations for retrieval workflows
-- operational limits and release gates
-- known gaps, tuning, and future work planning
+- vector-search governance and contract boundaries
+- release evidence and benchmark gate references
+- operational limits and known gaps
+- alignment to the live shared-index implementation
 
 Out of scope:
-- creating a shadow implementation under `src/vector_search/`
-- duplicating index logic that lives in the shared `index` subsystem
-- undocumented "future" behavior that is not traceable to the live source tree
+- duplicating vector-search implementation in `src/vector_search/`
+- claiming future capabilities as deployed features without source evidence
+- shadowing subsystem ownership in `src/index/` and `include/index/`
 
-## Runtime Behavior and Limits
+## Quickstart (Build/Run)
 
-- behavior is driven by the active backend and configuration in the shared index module
-- results are ordered by similarity or distance according to the selected metric and backend
-- performance and correctness expectations are validated through the existing benchmark and soak tests
+```bash
+# configure and build the relevant validation target
+cmake --preset linux-release
+cmake --build --preset linux-release --target test_vector_search_highcardinality_stress
 
-## Governance and Validation References
+# focused validation
+ctest --preset linux-release -R 'vector_search' --output-on-failure
+```
 
-- **Architecture:** [ARCHITECTURE.md](ARCHITECTURE.md)
-- **Implementation phases and status:** [ROADMAP.md](ROADMAP.md)
-- **Planned enhancements:** [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md)
-- **Audit summary:** [AUDIT.md](AUDIT.md)
-- **Security notes:** [SECURITY.md](SECURITY.md)
-- **Operational requirements:** [PRODUCTION_REQUIREMENTS.md](PRODUCTION_REQUIREMENTS.md)
-- **Performance objectives:** [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md)
-- **Known gaps:** [MODULE_GAPS.md](MODULE_GAPS.md)
-- **Change history:** [CHANGELOG.md](CHANGELOG.md)
+The repository's live artifacts for this module are the shared index sources, the validation test in `tests/vector_search/`, and the release benchmark in `benchmarks/vector_search/`.
+
+## API/CLI Einstieg
+
+- Canonical implementation: `include/index/vector_index.h`, `include/index/multi_vector_search.h`
+- Shared runtime sources: `src/index/vector_index.cpp`, `src/index/advanced_vector_index.cpp`, `src/index/multi_vector_search.cpp`
+- Stress coverage: `tests/vector_search/test_vector_search_highcardinality_stress.cpp`
+- Benchmark gate: `benchmarks/vector_search/bench_vector_search_dedicated_gates.cpp`
+
+This module should be read as the governance and evidence layer for those real APIs, not as a second code path.
+
+## Integrationsueberblick
+
+```mermaid
+flowchart LR
+    A[Client / Retrieval / Service] --> B[vector search contract]
+    B --> C[shared index subsystem]
+    C --> D[metric validation + search execution]
+    D --> E[tests and benchmark evidence]
+    E --> F[release readiness review]
+```
+
+Kurzinterpretation: The vector search module coordinates governance and validation around the shared index subsystem. Runtime behavior, performance gates, and API contracts are still owned by the index implementation under `src/index/` and `include/index/`.
+
+## Known Limitations
+
+- The module does not contain a separate implementation tree; it documents the contract around the shared index subsystem.
+- Distributed indexing and persistent sharding remain planned work rather than current capabilities.
+- Performance and reliability expectations must be validated against the real benchmark/test artifacts and not inferred from historical documentation alone.
+
+## Verweise
+
+- [ARCHITECTURE.md](ARCHITECTURE.md)
+- [ROADMAP.md](ROADMAP.md)
+- [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md)
+- [AUDIT.md](AUDIT.md)
+- [SECURITY.md](SECURITY.md)
+- [PRODUCTION_REQUIREMENTS.md](PRODUCTION_REQUIREMENTS.md)
+- [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md)
+- [MODULE_GAPS.md](MODULE_GAPS.md)
+- [CHANGELOG.md](CHANGELOG.md)
