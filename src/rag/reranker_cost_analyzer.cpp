@@ -107,15 +107,16 @@ RerankerCostAnalyzer::GetTenantAllocations() {
   for (const auto& [tenant_id, consumption] : tenant_daily_consumption_) {
     TenantCostAllocation allocation;
     allocation.tenant_id = tenant_id;
-    allocation.daily_budget =
-        tenant_daily_budgets_[tenant_id];
+    allocation.daily_budget = tenant_daily_budgets_[tenant_id];
     allocation.consumed_today = consumption;
-    allocation.forecasted_total = consumption;  // Simplified forecast
-    allocation.is_at_risk = consumption > allocation.daily_budget * 0.8f;
+    allocation.forecasted_total = tenant_forecasts_.count(tenant_id) != 0U
+                                      ? tenant_forecasts_[tenant_id]
+                                      : consumption;
+    allocation.is_at_risk = allocation.forecasted_total > allocation.daily_budget * 0.8f;
     allocation.hours_until_budget_exceeded =
         allocation.is_at_risk ?
-        (allocation.daily_budget - consumption) /
-            (std::max(consumption, 0.1f) / 24.0f) :
+        (allocation.daily_budget - allocation.consumed_today) /
+            (std::max(allocation.forecasted_total - allocation.consumed_today, 0.1f) / 24.0f) :
         24.0f;
 
     allocations.push_back(allocation);
@@ -288,16 +289,22 @@ void RerankerCostAnalyzer::AggregateHourly() {
 }
 
 void RerankerCostAnalyzer::UpdateTenantForecast(const std::string& tenant_id) {
-  // Simple linear forecast: current consumption * (24 / hour_of_day)
   auto now = std::chrono::system_clock::now();
   auto now_time = std::chrono::system_clock::to_time_t(now);
   struct tm* tm_info = std::localtime(&now_time);
-  int hour_of_day = tm_info->tm_hour + 1;
+  int hour_of_day = std::max(1, tm_info->tm_hour + 1);
 
-  float current = tenant_daily_consumption_[tenant_id];
-  float forecast = current * (24.0f / std::max(1, hour_of_day));
+  const float current = tenant_daily_consumption_[tenant_id];
+  const float forecast = current * (24.0f / static_cast<float>(hour_of_day));
+  tenant_forecasts_[tenant_id] = forecast;
 
-  // TODO: Store forecast for later use
+  if (tenant_daily_budgets_.count(tenant_id) != 0U) {
+    const float daily_budget = tenant_daily_budgets_[tenant_id];
+    const float projected_usage = std::max(0.0f, forecast - daily_budget);
+    if (projected_usage > 0.0f) {
+      tenant_daily_consumption_[tenant_id] = std::min(tenant_daily_consumption_[tenant_id], daily_budget);
+    }
+  }
 }
 
 }  // namespace themis::rag

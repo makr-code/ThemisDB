@@ -129,14 +129,27 @@ float RerankerBudgetGate::ComputeQueryComplexityFactor(
 
 float RerankerBudgetGate::ComputeResultUncertainty(
     const std::vector<Document>& results) {
-  // Compute variance in top-5 scores
-  if (results.size() < 5) {
-    return 0.5f;  // Low uncertainty if few results
+  if (results.empty()) {
+    return 0.5f;
   }
 
-  // TODO: This requires Document struct with score field
-  // For now, return fixed value
-  return 0.8f;  // High uncertainty boost
+  float score_sum = 0.0f;
+  float score_sq_sum = 0.0f;
+  const size_t sample_count = std::min<size_t>(results.size(), 5u);
+
+  for (size_t i = 0; i < sample_count; ++i) {
+    const float score = results[i].retrieval_score;
+    score_sum += score;
+    score_sq_sum += score * score;
+  }
+
+  const float mean = score_sum / static_cast<float>(sample_count);
+  const float variance = std::max(0.0f, score_sq_sum / static_cast<float>(sample_count) - mean * mean);
+  const float stddev = std::sqrt(variance);
+
+  // More variance among the top retrieval scores means greater ambiguity and therefore
+  // greater upside from reranking, but bounded in [0.4, 1.0] for stable ROI estimates.
+  return std::clamp(0.4f + stddev * 1.5f, 0.4f, 1.0f);
 }
 
 float RerankerBudgetGate::EstimateModelLatency(uint32_t context_tokens) {
