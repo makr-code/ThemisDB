@@ -57,8 +57,8 @@ static bool isValidInterfaceName(std::string_view iface) noexcept {
         }
 
         if (ch == '-' || ch == '_' || ch == '.') {
-            if (i + 1 < iface.size() && iface[i] == '.' && iface[i + 1] == '.') {
-               return false;
+            if (i + 1 < iface.size() && ch == '.' && iface[i + 1] == '.') {
+                return false;
             }
             continue;
         }
