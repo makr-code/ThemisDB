@@ -36,6 +36,7 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | `build-content-regression.yml` | Build: Content Regression [Wave D] (Content processing validation) | active |
 | `build-widget.yml` | Build: WinGet E2E Validation (Windows installer end-to-end) | active |
 | `build-ollama-router.yml` | Build: Copilot Ollama Router (VS Code extension build) | active |
+| `benchmark-thematic-suites.yml` | Benchmark: Thematic Suites (Scheduled thematic benchmark suites via reusable pipeline) | active |
 | `wave-a-gpu-ci-execution.yml` | Wave A GPU CI Execution (GPU + CPU Fallback matrix) | active |
 | `wave-a-gpu-phase3-baseline-execution.yml` | Wave A GPU Phase 3: Baseline Capture & Measurement | active |
 
@@ -149,6 +150,7 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 |----------|---------|-----------|
 | `reusable-cmake-build.yml` | Reusable CMake Build Pipeline (Build orchestration reusable) | mainline, gates, release |
 | `reusable-benchmark-runner.yml` | Reusable: Benchmark Runner (Benchmark execution reusable) | build-benchmarks |
+| `reusable-benchmark-build-run-report.yml` | Reusable: Benchmark Build/Run/Report (Thematic benchmark build/run/report pipeline) | benchmark-thematic-suites |
 | `reusable-docs-db-builder.yml` | Reusable: Docs-to-ThemisDB Database Builder (Docs DB generation) | maintenance-docs-db-build |
 | `reusable-status-flags-and-issues.yml` | Reusable: Status Flags and Issues (Status/issue automation) | maintenance, release |
 | `reusable-docker-image-platform.yml` | Reusable: Docker Image Platform Build (Per-platform Docker build + digest handoff) | release-docker-image |
