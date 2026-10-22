@@ -309,6 +309,43 @@ choco install themisdb
 \`\`\`
 ```
 
+## Release Review and SOC Sign-Off Requirements
+
+All release publication lanes must use an issue-based human approval record before any irreversible publish step. This preserves the "human in the loop" model used for GitHub Releases, Docker publication, WinGet submission, and distro packaging.
+
+### Required Release Review Issue
+
+Every release publication lane should open a tracking issue using a standardized template such as:
+
+- `.github/ISSUE_TEMPLATE/release_review.md`
+- `release-mainline-approval.yml` for GitHub Releases
+- `release-docker-approval.yml` for Docker publication
+- `release-winget-approval.yml` for WinGet publication
+- `release-linux-distro-approval.yml` for Linux package publication
+- `release-windows-distro-approval.yml` for Windows package publication
+
+These issues must capture:
+
+- version / tag / channel / edition
+- artifact source and release URL
+- checksum and signature evidence
+- SBOM / provenance / attestation details where applicable
+- approver identity and role
+- rationale for approval, hold, rejection, or rollback
+
+### SOC Evidence Expectations
+
+For any release or deployment lane that is externally visible or customer-facing, maintainers must record evidence that the issue-driven decision can be reviewed later. At minimum, the release issue should include:
+
+- the exact version being approved
+- the workflow run or artifact URL that produced the payload
+- the digest or hash used for verification
+- the approver identity and permission level
+- the final status (`approved`, `hold`, `reject`, or `rollback`)
+- a link to the resulting evidence chain entry from `.github/workflows/release-evidence-chain.yml`
+
+This aligns the release gate with the repo's SOC 2 evidence and compliance workflows and ensures that publication decisions remain traceable to a human approver.
+
 ## Approval Keywords Registry
 
 ### Global Keywords
