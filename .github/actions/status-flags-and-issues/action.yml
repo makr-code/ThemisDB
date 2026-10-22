@@ -383,6 +383,23 @@ runs:
           out.issue_number = String(issueNumber);
           const current = (issue.labels || []).map((l) => l.name);
 
+          // Normalize workflow results like "skipped", "cancelled", and "not_run"
+          // into the tracking labels used by the repository's status machine so that
+          // summary-only or interrupted jobs still leave a consistent final state.
+          const normalizeStatusGroup = (items) => {
+            const normalized = new Set();
+            for (const item of items) {
+              if (!item) continue;
+              const trimmed = item.trim();
+              if (!trimmed) continue;
+              for (const candidate of trimmed.split(',')) {
+                const value = candidate.trim();
+                if (value) normalized.add(value);
+              }
+            }
+            return [...normalized];
+          };
+
           if (op === 'comment_issue') {
             const explicitTarget = ['issue', 'pr', 'auto'].includes(targetType) ? targetType : 'auto';
             const resolvedTarget = explicitTarget === 'auto'
@@ -445,16 +462,18 @@ runs:
           }
 
           if (op === 'replace_status_group') {
-            for (const label of ensureArrayUnique([...labelsToAdd, ...statusGroup, ...labelsToRemove])) {
+            const finalLabelsToAdd = normalizeStatusGroup([labelsToAdd]);
+            const finalLabelsToRemove = normalizeStatusGroup([statusGroup, labelsToRemove]);
+            for (const label of ensureArrayUnique([...finalLabelsToAdd, ...finalLabelsToRemove])) {
               await ensureLabel(label);
             }
-            const removedSet = new Set([...statusGroup, ...labelsToRemove]);
+            const removedSet = new Set(finalLabelsToRemove);
             const base = current.filter((l) => !removedSet.has(l));
-            const merged = ensureArrayUnique([...base, ...labelsToAdd]);
+            const merged = ensureArrayUnique([...base, ...finalLabelsToAdd]);
             await github.rest.issues.update({ owner, repo, issue_number: issueNumber, labels: merged });
             out.action_result = 'labels-updated';
-            out.applied_labels = labelsToAdd.join(',');
-            out.removed_labels = [...removedSet].join(',');
+            out.applied_labels = finalLabelsToAdd.join(',');
+            out.removed_labels = finalLabelsToRemove.join(',');
             setOutputs();
             return;
           }

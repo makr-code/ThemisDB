@@ -52,6 +52,15 @@ List any alternative approaches you have considered and why they were rejected.
 - [ ] `vcpkg.json` `builtin-baseline` impact was reviewed and verified
 - [ ] Release artifact impact is documented (SBOM + checksum evidence)
 
+## Release / SOC Review
+
+If this feature or change impacts packaging, deployment, release publication, or customer exposure, confirm the release review checklist below before closing the issue.
+
+- [ ] Release impact and publication lane are identified
+- [ ] Human approval route is defined for downstream publication
+- [ ] Evidence chain / SOC checklist is ready for the target release
+- [ ] Rollback or hold path is documented for maintainers
+
 ## Additional Context
 
 Add any other context, mockups, or references here.
