@@ -6,6 +6,7 @@ name: "Benchmark: Thematic Suites"
 
 on:
   schedule:
+    - cron: '0 3 * * *'
     - cron: '0 3 * * 2'
   workflow_dispatch:
     inputs:
@@ -66,14 +67,37 @@ jobs:
             echo "hardware_profile=cpu" >> "$GITHUB_OUTPUT"
           fi
 
-  thematic-suite:
-    name: "Benchmark: ${{ matrix.suite }}"
+  thematic-suite-daily:
+    name: "Benchmark: baseline (daily)"
     needs: hardware-detection
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && github.event.schedule == '0 3 * * *') }}
     strategy:
       fail-fast: false
       matrix:
         suite:
           - baseline
+    uses: ./.github/workflows/reusable-benchmark-build-run-report.yml
+    with:
+      scenario_label: ${{ github.event_name == 'workflow_dispatch' && inputs.scenario || 'small_10k' }}
+      benchmark_suite: ${{ matrix.suite }}
+      benchmark_filter: ${{ github.event_name == 'workflow_dispatch' && inputs.benchmark_filter || '' }}
+      execution_backend: ${{ github.event_name == 'workflow_dispatch' && inputs.execution_backend || 'gbenchmark' }}
+      benchmark_framework: ${{ github.event_name == 'workflow_dispatch' && inputs.benchmark_framework || 'gbenchmark' }}
+      benchmark_min_time: ${{ (github.event_name == 'workflow_dispatch' && inputs.scenario == 'large_10m') && '0.50s' || (github.event_name == 'workflow_dispatch' && inputs.scenario == 'medium_1m') && '0.25s' || '0.10s' }}
+      benchmark_repetitions: 3
+      hardware_profile: ${{ needs.hardware-detection.outputs.hardware_profile }}
+      timeout_minutes: 180
+      run_hybrid_break_even: false
+      enable_ctest_validation: true
+
+  thematic-suite-weekly:
+    name: "Benchmark: ${{ matrix.suite }} (weekly)"
+    needs: hardware-detection
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && github.event.schedule == '0 3 * * 2') }}
+    strategy:
+      fail-fast: false
+      matrix:
+        suite:
           - core
           - index
           - search

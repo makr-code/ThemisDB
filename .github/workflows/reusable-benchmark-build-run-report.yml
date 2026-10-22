@@ -141,27 +141,14 @@ jobs:
           MIN_TIME="${{ inputs.benchmark_min_time }}"
           REPS="${{ inputs.benchmark_repetitions }}"
           FRAMEWORK="${{ inputs.benchmark_framework }}"
+          SUITE_MAP="benchmarks/benchmark_suite_map.json"
 
-          case "${SUITE}" in
-            baseline)
-              SUITE_BIN_REGEX='bench_(w4a_release_gates|p0_crud_baseline|sanity|smoke|phase1_.*|phase0_.*)'
-              ;;
-            core)
-              SUITE_BIN_REGEX='bench_(crud|mvcc|wal_stress|simple_insert_test|cross_functional_end_to_end|latency_comprehensive|scalability_comprehensive)'
-              ;;
-            index)
-              SUITE_BIN_REGEX='bench_(ann_.*|cuda_vs_cpu|simd_distance|category_b_gpu_cpu_parity|tensor_cpu_gpu_dispatch|gpu_backends)'
-              ;;
-            search)
-              SUITE_BIN_REGEX='bench_(rag_.*|.*search.*|fts_.*|hybrid_search)'
-              ;;
-            llm)
-              SUITE_BIN_REGEX='bench_(llm_.*|lora_.*|embedded_llm|phase1_flash_attention|raid_lora|legal_lora_pipeline)'
-              ;;
-            all|*)
-              SUITE_BIN_REGEX='^bench_'
-              ;;
-          esac
+          if [[ ! -f "${SUITE_MAP}" ]]; then
+            echo "::error::Missing benchmark suite map: ${SUITE_MAP}"
+            exit 1
+          fi
+
+          SUITE_BIN_REGEX="$(python3 -c "import json; data=json.load(open('${SUITE_MAP}', encoding='utf-8')); suites=data.get('suites', {}); s='${SUITE}'; s=s if s in suites else 'all'; print(suites.get(s, suites.get('all', {})).get('binary_regex', '^bench_'))")"
 
           mapfile -t BINARIES < <(find build/bench-suite -maxdepth 6 -type f -name 'bench_*' | sort)
           RUN_COUNT=0
