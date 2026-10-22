@@ -452,9 +452,6 @@ runs:
 
           if (op === 'clear_status') {
             const finalLabelsToRemove = normalizeStatusGroup([labelsToRemove, statusGroup]);
-            for (const label of ensureArrayUnique(finalLabelsToRemove)) {
-              await ensureLabel(label);
-            }
             const filtered = current.filter((l) => !finalLabelsToRemove.includes(l));
             await github.rest.issues.update({ owner, repo, issue_number: issueNumber, labels: filtered });
             out.action_result = 'labels-updated';
