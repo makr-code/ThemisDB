@@ -386,13 +386,18 @@ runs:
           // Normalize workflow results like "skipped", "cancelled", and "not_run"
           // into the tracking labels used by the repository's status machine so that
           // summary-only or interrupted jobs still leave a consistent final state.
-          const normalizeStatusGroup = (items) => {
+          // Accept both flat arrays and nested arrays from callers that pass a list
+          // wrapper such as [labelsToAdd] or [statusGroup, labelsToRemove].
+          const normalizeStatusGroup = (items = []) => {
             const normalized = new Set();
-            for (const item of items) {
-              if (!item) continue;
-              const trimmed = item.trim();
-              if (!trimmed) continue;
-              for (const candidate of trimmed.split(',')) {
+            const flattened = Array.isArray(items)
+              ? items.flatMap((item) => Array.isArray(item) ? item : [item])
+              : [items];
+            for (const item of flattened) {
+              if (item === null || item === undefined) continue;
+              const text = String(item).trim();
+              if (!text) continue;
+              for (const candidate of text.split(',')) {
                 const value = candidate.trim();
                 if (value) normalized.add(value);
               }
