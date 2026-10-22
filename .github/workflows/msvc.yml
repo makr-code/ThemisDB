@@ -78,7 +78,7 @@ jobs:
           New-Item -ItemType Directory -Force -Path "$env:GITHUB_WORKSPACE/.vcpkg-binary-cache" | Out-Null
 
           Invoke-WithRetry -Command { & "$env:GITHUB_WORKSPACE/vcpkg/bootstrap-vcpkg.bat" -disableMetrics }
-          Invoke-WithRetry -Command { & "$env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe" install zlib fmt spdlog boost-filesystem boost-system --classic --triplet x64-windows --disable-metrics }
+         Invoke-WithRetry -Command { & "$env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe" install zlib fmt spdlog curl cpp-httplib boost-filesystem boost-system --classic --triplet x64-windows --disable-metrics }
 
       - name: Ensure sccache is available
         shell: pwsh
@@ -117,8 +117,10 @@ jobs:
           $vcpkgLibDir = Join-Path $env:GITHUB_WORKSPACE 'vcpkg/installed/x64-windows/lib'
           $hasBoostFilesystem = @(Get-ChildItem -Path $vcpkgLibDir -Filter 'boost_filesystem*.lib' -ErrorAction SilentlyContinue).Count -gt 0
           $hasBoostSystem = @(Get-ChildItem -Path $vcpkgLibDir -Filter 'boost_system*.lib' -ErrorAction SilentlyContinue).Count -gt 0
-          if (-not (Test-Path (Join-Path $vcpkgLibDir 'zlib.lib')) -or -not (Test-Path (Join-Path $vcpkgLibDir 'fmt.lib')) -or -not (Test-Path (Join-Path $vcpkgLibDir 'spdlog.lib')) -or -not $hasBoostFilesystem -or -not $hasBoostSystem) {
-            Invoke-WithRetry -Command { & "$env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe" install zlib fmt spdlog boost-filesystem boost-system --classic --triplet x64-windows --disable-metrics }
+          $hasCurl = @(Get-ChildItem -Path $vcpkgLibDir -Filter 'curl*.lib' -ErrorAction SilentlyContinue).Count -gt 0
+          $hasCppHttpLib = @(Get-ChildItem -Path $vcpkgLibDir -Filter 'httplib*.lib' -ErrorAction SilentlyContinue).Count -gt 0
+          if (-not (Test-Path (Join-Path $vcpkgLibDir 'zlib.lib')) -or -not (Test-Path (Join-Path $vcpkgLibDir 'fmt.lib')) -or -not (Test-Path (Join-Path $vcpkgLibDir 'spdlog.lib')) -or -not $hasBoostFilesystem -or -not $hasBoostSystem -or -not $hasCurl -or -not $hasCppHttpLib) {
+            Invoke-WithRetry -Command { & "$env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe" install zlib fmt spdlog curl cpp-httplib boost-filesystem boost-system --classic --triplet x64-windows --disable-metrics }
           }
 
           sccache --version
