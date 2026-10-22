@@ -76,7 +76,8 @@ def _collect(prefix: str, benches: Iterable[dict]) -> Dict[Tuple[int, ...], floa
         if metric is None:
             continue
 
-        key = _extract_key(name)
+        key_source = str(entry.get("run_name", "")) or name
+        key = _extract_key(key_source)
         if not key:
             continue
 

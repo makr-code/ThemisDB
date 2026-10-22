@@ -58,10 +58,6 @@ concurrency:
   group: build-wave-b-llm-${{ github.ref }}
   cancel-in-progress: false
 
-env:
-  WAVE_B_DATA_DIR: benchmarks/wave_b_data
-  WAVE_B_RESULTS_DIR: benchmark-artifacts/wave_b_results
-
 jobs:
   hardware-detection:
     name: "Validate: Hardware Detection"

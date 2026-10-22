@@ -1,9 +1,15 @@
 import json
+import sys
 import tempfile
 import unittest
 from pathlib import Path
 
-from benchmarks.hybrid_break_even_report import generate_report
+# Allow direct import from benchmarks/ like sibling tests in this directory.
+_BENCHMARKS = Path(__file__).resolve().parent.parent
+if str(_BENCHMARKS) not in sys.path:
+    sys.path.insert(0, str(_BENCHMARKS))
+
+from hybrid_break_even_report import generate_report
 
 
 class HybridBreakEvenReportTest(unittest.TestCase):
@@ -17,10 +23,34 @@ class HybridBreakEvenReportTest(unittest.TestCase):
         ann = self._write_json(
             {
                 "benchmarks": [
-                    {"name": "BM_ANN_CPUSIMDDispatchBatchKnn/4000/128/10/1", "real_time": 1200, "time_unit": "us"},
-                    {"name": "BM_ANN_MixedPathGpuQueryAccelerator/4000/128/10/1", "real_time": 1400, "time_unit": "us"},
-                    {"name": "BM_ANN_CPUSIMDDispatchBatchKnn/16000/128/10/32", "real_time": 3200, "time_unit": "us"},
-                    {"name": "BM_ANN_MixedPathGpuQueryAccelerator/16000/128/10/32", "real_time": 1400, "time_unit": "us"},
+                    {
+                        "name": "BM_ANN_CPUSIMDDispatchBatchKnn/4000/128/10/1_mean",
+                        "run_name": "BM_ANN_CPUSIMDDispatchBatchKnn/4000/128/10/1",
+                        "aggregate_name": "mean",
+                        "real_time": 1200,
+                        "time_unit": "us",
+                    },
+                    {
+                        "name": "BM_ANN_MixedPathGpuQueryAccelerator/4000/128/10/1_mean",
+                        "run_name": "BM_ANN_MixedPathGpuQueryAccelerator/4000/128/10/1",
+                        "aggregate_name": "mean",
+                        "real_time": 1400,
+                        "time_unit": "us",
+                    },
+                    {
+                        "name": "BM_ANN_CPUSIMDDispatchBatchKnn/16000/128/10/32_mean",
+                        "run_name": "BM_ANN_CPUSIMDDispatchBatchKnn/16000/128/10/32",
+                        "aggregate_name": "mean",
+                        "real_time": 3200,
+                        "time_unit": "us",
+                    },
+                    {
+                        "name": "BM_ANN_MixedPathGpuQueryAccelerator/16000/128/10/32_mean",
+                        "run_name": "BM_ANN_MixedPathGpuQueryAccelerator/16000/128/10/32",
+                        "aggregate_name": "mean",
+                        "real_time": 1400,
+                        "time_unit": "us",
+                    },
                 ]
             }
         )
