@@ -37,6 +37,22 @@ on:
           - index
           - search
           - llm
+      execution_backend:
+        description: 'Execution backend'
+        required: true
+        default: 'gbenchmark'
+        type: choice
+        options:
+          - gbenchmark
+          - ctest
+      benchmark_framework:
+        description: 'Benchmark framework mode'
+        required: true
+        default: 'gbenchmark'
+        type: choice
+        options:
+          - gbenchmark
+          - cbenchmark
 
 concurrency:
   group: build-wave-b-llm-${{ github.ref }}
@@ -72,235 +88,21 @@ jobs:
 
   benchmark-execution:
     name: "Benchmark: (${{ matrix.scenario }})"
-    runs-on: ubuntu-latest
+    uses: ./.github/workflows/reusable-benchmark-build-run-report.yml
     needs: hardware-detection
-    timeout-minutes: 180
     strategy:
       fail-fast: false
       matrix:
         scenario: ${{ fromJson(inputs.scenario == 'all' && '["small_10k", "medium_1m", "large_10m"]' || format('["{0}"]', inputs.scenario)) }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-
-      - name: Install build dependencies
-        shell: bash
-        run: |
-          set -euo pipefail
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends \
-            build-essential \
-            ninja-build \
-            pkg-config \
-            python3 \
-            librocksdb-dev \
-            libgtest-dev \
-            libgmock-dev \
-            libssl-dev \
-            zlib1g-dev \
-            libfmt-dev \
-            libspdlog-dev \
-            libtbb-dev \
-            nlohmann-json3-dev \
-            libbenchmark-dev \
-            libboost-dev \
-            libboost-system-dev
-
-      - name: Prepare benchmark artifacts (prefer real, fallback stub)
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p "${{ env.WAVE_B_DATA_DIR }}" "${{ env.WAVE_B_RESULTS_DIR }}"
-          bash ./scripts/prepare_llm_bench_artifacts.sh --model-dir "${GITHUB_WORKSPACE}/models"
-          echo "THEMIS_MODEL_DIR=${GITHUB_WORKSPACE}/models" >> "$GITHUB_ENV"
-          if [[ -f "${GITHUB_WORKSPACE}/models/gguf/Meta-Llama-3-8B-Instruct.Q4_K_M.gguf" ]]; then
-            echo "THEMIS_LLM_STUB_MODELS=OFF" >> "$GITHUB_ENV"
-          else
-            echo "THEMIS_LLM_STUB_MODELS=ON" >> "$GITHUB_ENV"
-          fi
-
-      - name: Configure benchmark build
-        shell: bash
-        run: |
-          set -euo pipefail
-          cmake -S . -B build/wave-b-llm -G Ninja \
-            -DCMAKE_BUILD_TYPE=Release \
-            -DTHEMIS_BUILD_BENCHMARKS=ON \
-            -DTHEMIS_BUILD_TESTS=OFF \
-            -DTHEMIS_ENABLE_LLM=ON \
-            -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
-            -DTHEMIS_MODELS_MODE=SKIP
-
-      - name: Build Wave-B benchmark targets
-        shell: bash
-        run: |
-          set -euo pipefail
-          cmake --build build/wave-b-llm --parallel "$(nproc)" --target \
-            bench_llm_inference_performance \
-            bench_rag_hybrid_retriever \
-            bench_ann_cpu_gpu_dispatch \
-            bench_tensor_cpu_gpu_dispatch \
-            bench_category_b_gpu_cpu_parity
-
-      - name: Execute Wave-B benchmark suite
-        shell: bash
-        run: |
-          set -euo pipefail
-          RESULTS_DIR="${{ env.WAVE_B_RESULTS_DIR }}"
-          mkdir -p "${RESULTS_DIR}"
-
-          case "${{ matrix.scenario }}" in
-            small_10k)
-              MIN_TIME="0.10s"
-              ;;
-            medium_1m)
-              MIN_TIME="0.25s"
-              ;;
-            large_10m)
-              MIN_TIME="0.50s"
-              ;;
-            *)
-              MIN_TIME="0.10s"
-              ;;
-          esac
-
-          EXTRA_FILTER="${{ inputs.benchmark_filter }}"
-          BENCH_SUITE="${{ inputs.benchmark_suite }}"
-
-          run_benchmark() {
-            local target="$1"
-            local filter="$2"
-            local out_file="$3"
-
-            local bin="build/wave-b-llm/${target}"
-            if [[ ! -x "${bin}" ]]; then
-              echo "::warning::Benchmark binary not found: ${bin}; skipping."
-              return 0
-            fi
-
-            local args=(
-              "--benchmark_min_time=${MIN_TIME}"
-              "--benchmark_format=json"
-              "--benchmark_out=${out_file}"
-              "--benchmark_out_format=json"
-              "--benchmark_repetitions=3"
-            )
-
-            if [[ -n "${filter}" ]]; then
-              args+=("--benchmark_filter=${filter}")
-            fi
-
-            if ! "${bin}" "${args[@]}"; then
-              echo "::warning::${target} exited non-zero; preserving partial output if present."
-            fi
-          }
-
-          run_suite_all() {
-            run_benchmark "bench_llm_inference_performance" "BM_LLM_|BM_LoRA_" "${RESULTS_DIR}/llm_inference_${{ matrix.scenario }}.json"
-            run_benchmark "bench_rag_hybrid_retriever" "BM_RRF_|BM_Linear_|BM_HybridRetriever_" "${RESULTS_DIR}/rag_hybrid_${{ matrix.scenario }}.json"
-            run_benchmark "bench_ann_cpu_gpu_dispatch" "BM_ANN_CPUSIMDDispatchBatchKnn|BM_ANN_MixedPathGpuQueryAccelerator" "${RESULTS_DIR}/ann_dispatch_${{ matrix.scenario }}.json"
-            run_benchmark "bench_tensor_cpu_gpu_dispatch" "BM_TEN_S4_BatchSimilarityCPU|BM_TEN_S4_BatchSimilarityGPU" "${RESULTS_DIR}/tensor_dispatch_${{ matrix.scenario }}.json"
-            run_benchmark "bench_category_b_gpu_cpu_parity" "BM_CategoryB_" "${RESULTS_DIR}/graph_category_b_${{ matrix.scenario }}.json"
-          }
-
-          run_suite_baseline() {
-            run_benchmark "bench_ann_cpu_gpu_dispatch" "BM_Smoke_ANN_|BM_ANN_ScalarL2TopK" "${RESULTS_DIR}/baseline_ann_${{ matrix.scenario }}.json"
-            run_benchmark "bench_tensor_cpu_gpu_dispatch" "BM_Smoke_Tensor|BM_TEN_S1_CosineScalar|BM_TEN_S1_CosineSIMD" "${RESULTS_DIR}/baseline_tensor_${{ matrix.scenario }}.json"
-            run_benchmark "bench_llm_inference_performance" "BM_LoRA_Load|BM_LoRA_Apply|BM_LoRA_Remove" "${RESULTS_DIR}/baseline_llm_${{ matrix.scenario }}.json"
-          }
-
-          run_suite_core() {
-            run_benchmark "bench_llm_inference_performance" "BM_LLM_|BM_LoRA_ContextSwitch|BM_LoRA_Reuse" "${RESULTS_DIR}/core_llm_${{ matrix.scenario }}.json"
-          }
-
-          run_suite_index() {
-            run_benchmark "bench_ann_cpu_gpu_dispatch" "BM_ANN_CPUSIMDDispatchBatchKnn|BM_ANN_MixedPathGpuQueryAccelerator|BM_ANN_HNSWFrontdoorCosine" "${RESULTS_DIR}/index_ann_${{ matrix.scenario }}.json"
-            run_benchmark "bench_tensor_cpu_gpu_dispatch" "BM_TEN_S4_BatchSimilarityCPU|BM_TEN_S4_BatchSimilarityGPU|BM_TEN_G1_GemmCPUBackend" "${RESULTS_DIR}/index_tensor_${{ matrix.scenario }}.json"
-          }
-
-          run_suite_search() {
-            run_benchmark "bench_rag_hybrid_retriever" "BM_RRF_|BM_Linear_|BM_HybridRetriever_" "${RESULTS_DIR}/search_rag_${{ matrix.scenario }}.json"
-            run_benchmark "bench_category_b_gpu_cpu_parity" "BM_CategoryB_" "${RESULTS_DIR}/search_graph_${{ matrix.scenario }}.json"
-          }
-
-          run_suite_llm() {
-            run_benchmark "bench_llm_inference_performance" "BM_LLM_|BM_LoRA_" "${RESULTS_DIR}/llm_inference_${{ matrix.scenario }}.json"
-          }
-
-          if [[ -n "${EXTRA_FILTER}" ]]; then
-            run_benchmark "bench_llm_inference_performance" "${EXTRA_FILTER}" "${RESULTS_DIR}/llm_inference_${{ matrix.scenario }}.json"
-            run_benchmark "bench_rag_hybrid_retriever" "${EXTRA_FILTER}" "${RESULTS_DIR}/rag_hybrid_${{ matrix.scenario }}.json"
-            run_benchmark "bench_ann_cpu_gpu_dispatch" "${EXTRA_FILTER}" "${RESULTS_DIR}/ann_dispatch_${{ matrix.scenario }}.json"
-            run_benchmark "bench_tensor_cpu_gpu_dispatch" "${EXTRA_FILTER}" "${RESULTS_DIR}/tensor_dispatch_${{ matrix.scenario }}.json"
-            run_benchmark "bench_category_b_gpu_cpu_parity" "${EXTRA_FILTER}" "${RESULTS_DIR}/graph_category_b_${{ matrix.scenario }}.json"
-          else
-            case "${BENCH_SUITE}" in
-              all)
-                run_suite_all
-                ;;
-              baseline)
-                run_suite_baseline
-                ;;
-              core)
-                run_suite_core
-                ;;
-              index)
-                run_suite_index
-                ;;
-              search)
-                run_suite_search
-                ;;
-              llm)
-                run_suite_llm
-                ;;
-              *)
-                echo "::warning::Unknown benchmark_suite '${BENCH_SUITE}', defaulting to 'all'."
-                run_suite_all
-                ;;
-            esac
-          fi
-
-      - name: Generate break-even summary
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 benchmarks/hybrid_break_even_report.py \
-            --ann "${{ env.WAVE_B_RESULTS_DIR }}/ann_dispatch_${{ matrix.scenario }}.json" \
-            --tensor "${{ env.WAVE_B_RESULTS_DIR }}/tensor_dispatch_${{ matrix.scenario }}.json" \
-            --graph "${{ env.WAVE_B_RESULTS_DIR }}/graph_category_b_${{ matrix.scenario }}.json" \
-            --output-json "${{ env.WAVE_B_RESULTS_DIR }}/break_even_summary_${{ matrix.scenario }}.json" \
-            --output-md "${{ env.WAVE_B_RESULTS_DIR }}/break_even_summary_${{ matrix.scenario }}.md"
-
-      - name: Write Wave-B run metadata
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 - <<'PY'
-          import json
-          import os
-          from pathlib import Path
-
-          results_dir = Path(os.environ['WAVE_B_RESULTS_DIR'])
-          scenario = "${{ matrix.scenario }}"
-          payload = {
-              "status": "executed",
-              "scenario": scenario,
-              "hardware_profile": "${{ needs.hardware-detection.outputs.hardware_profile }}",
-              "run_id": os.environ.get("GITHUB_RUN_ID"),
-              "sha": os.environ.get("GITHUB_SHA"),
-              "result_files": sorted([p.name for p in results_dir.glob("*.json")]),
-          }
-          out = results_dir / f"results_{scenario}.json"
-          out.write_text(json.dumps(payload, indent=2), encoding="utf-8")
-          print(f"Wrote {out}")
-          PY
-
-      - name: Upload Wave-B artifacts
-        if: always()
-        uses: actions/upload-artifact@v5
-        with:
-          name: wave-b-results-${{ matrix.scenario }}
-          path: ${{ env.WAVE_B_RESULTS_DIR }}/
-          retention-days: 30
-          if-no-files-found: warn
+    with:
+      scenario_label: ${{ matrix.scenario }}
+      benchmark_suite: ${{ inputs.benchmark_suite }}
+      benchmark_filter: ${{ inputs.benchmark_filter }}
+      execution_backend: ${{ inputs.execution_backend }}
+      benchmark_framework: ${{ inputs.benchmark_framework }}
+      benchmark_min_time: ${{ matrix.scenario == 'small_10k' && '0.10s' || matrix.scenario == 'medium_1m' && '0.25s' || '0.50s' }}
+      benchmark_repetitions: 3
+      hardware_profile: ${{ needs.hardware-detection.outputs.hardware_profile }}
+      timeout_minutes: 180
+      run_hybrid_break_even: true
+      enable_ctest_validation: true
