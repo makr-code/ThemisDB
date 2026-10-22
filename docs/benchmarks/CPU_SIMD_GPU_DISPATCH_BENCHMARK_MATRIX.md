@@ -1,3 +1,15 @@
+---
+Author: "GitHub Copilot"
+Created: "2026-10-22"
+Last Updated: "2026-10-22"
+Status: "draft"
+AI_Used: true
+AI_Models: "GitHub Copilot Coding Agent"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+---
+
 # CPU SIMD vs GPU Dispatch — Benchmark Matrix
 ## ANN · Tensor · Graph Paths · Dynamic Tensor Updates
 
