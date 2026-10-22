@@ -33,6 +33,7 @@
 - [ ] Persistente Historisierung von Eval-Reports für Trendanalysen über Releases hinweg (Target: 2026-Q3)
 - [ ] Erweiterte Kostenmodelle (Cloud-Instance-Typen, Energie/KWh) in Gate-Entscheidungen integrieren (Target: 2026-Q3)
 - [ ] Schichtbezogene Benchmark-Matrix (ANN/Tensor/Graph/LLM) mit evidenzbasierten Referenzsuites dokumentieren (Target: 2026-Q3)
+- [~] Thematisch getrennte CI-Suiten (`baseline|core|index|search|llm`) über `.github/workflows/benchmark-thematic-suites.yml` + reusable Pipeline operationalisieren (Target: 2026-Q4)
 - [x] Baseline-Verzeichnis mit initialen Wave-4-Baseline-JSONs befüllen und in CI integrieren (Target: 2026-Q4)
 - [x] GitHub Actions Workflow `.github/workflows/benchmark-gate.yml` aktivieren (Wave 4 gate contract) (Target: 2026-Q4)
 - [x] `report_variance.py` als eigenständiges CI-Test-Target registrieren (Target: 2026-Q4)
