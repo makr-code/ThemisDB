@@ -50,6 +50,11 @@
   description: "Build infrastructure error requiring action"
   type: blocker
 
+- name: "ci/build-cancelled"
+  color: "FBCA04"
+  description: "Build or gate was cancelled, interrupted, or skipped before completion"
+  type: warning
+
 - name: "ci/dependency-stale"
   color: "E4E669"
   description: "Stale or outdated dependencies detected"

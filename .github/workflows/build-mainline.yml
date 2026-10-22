@@ -598,6 +598,14 @@ jobs:
               echo "status_reason=linux+macos pipeline succeeded"
               echo "status_markers="
             } >> "$GITHUB_OUTPUT"
+          elif [ "${BUILD_RESULT}" = "cancelled" ] || [ "${MACOS_RESULT}" = "cancelled" ]; then
+            {
+              echo "status_label=ci/build-cancelled"
+              echo "status_text=cancelled or interrupted"
+              echo "status_icon=⏹️"
+              echo "status_reason=workflow was cancelled before completion"
+              echo "status_markers=ci/build-cancelled"
+            } >> "$GITHUB_OUTPUT"
           elif [ "${MACOS_RESULT}" = "failure" ]; then
             {
               echo "status_label=ci/build-failed"
@@ -621,6 +629,14 @@ jobs:
               echo "status_icon=⚠️"
               echo "status_reason=validation/test stage failed (non-build blocker)"
               echo "status_markers=ci/test-failed"
+            } >> "$GITHUB_OUTPUT"
+          elif [ "${BUILD_RESULT}" = "skipped" ] || [ "${MACOS_RESULT}" = "skipped" ] || [ "${BUILD_RESULT}" = "not_run" ] || [ "${MACOS_RESULT}" = "not_run" ]; then
+            {
+              echo "status_label=ci/build-cancelled"
+              echo "status_text=not run / skipped"
+              echo "status_icon=⏭️"
+              echo "status_reason=required build lane was skipped or did not run"
+              echo "status_markers=ci/build-cancelled"
             } >> "$GITHUB_OUTPUT"
           else
             {
