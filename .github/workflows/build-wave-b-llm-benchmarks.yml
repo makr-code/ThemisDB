@@ -95,14 +95,18 @@ jobs:
             libboost-dev \
             libboost-system-dev
 
-      - name: Prepare benchmark artifacts (stub-only)
+      - name: Prepare benchmark artifacts (prefer real, fallback stub)
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p "${{ env.WAVE_B_DATA_DIR }}" "${{ env.WAVE_B_RESULTS_DIR }}"
-          bash ./scripts/prepare_llm_bench_artifacts.sh --stub-only --model-dir "${GITHUB_WORKSPACE}/models"
+          bash ./scripts/prepare_llm_bench_artifacts.sh --model-dir "${GITHUB_WORKSPACE}/models"
           echo "THEMIS_MODEL_DIR=${GITHUB_WORKSPACE}/models" >> "$GITHUB_ENV"
-          echo "THEMIS_LLM_STUB_MODELS=ON" >> "$GITHUB_ENV"
+          if [[ -f "${GITHUB_WORKSPACE}/models/gguf/Meta-Llama-3-8B-Instruct.Q4_K_M.gguf" ]]; then
+            echo "THEMIS_LLM_STUB_MODELS=OFF" >> "$GITHUB_ENV"
+          else
+            echo "THEMIS_LLM_STUB_MODELS=ON" >> "$GITHUB_ENV"
+          fi
 
       - name: Configure benchmark build
         shell: bash
