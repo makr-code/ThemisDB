@@ -4,18 +4,21 @@ about: Standardized human approval record for release publication and distributi
 title: "[release-review] "
 labels: ["release-review", "status/needs-approval", "security"]
 assignees: []
-Author: "ThemisDB Team"
-Created: "2026-10-22"
-Last Updated: "2026-10-22"
-Status: "active"
-AI_Used: true
-AI_Models: "GitHub Copilot"
-AI_Contributor: "GitHub Copilot"
-Human_Review: true
-Human_Author: "ThemisDB Team"
 ---
 
 ## Summary
+
+## Provenance
+
+- Author: "ThemisDB Team"
+- Created: "2026-10-22"
+- Last Updated: "2026-10-22"
+- Status: "active"
+- AI_Used: true
+- AI_Models: "GitHub Copilot"
+- AI_Contributor: "GitHub Copilot"
+- Human_Review: true
+- Human_Author: "ThemisDB Team"
 
 Describe the release or publication lane that needs human approval before public distribution.
 

@@ -73,7 +73,8 @@ permissions:
 
 concurrency:
   group: crda-${{ github.ref }}
-  cancel-in-progress: true
+  # Keep this false: canceling an in-flight CRDA scan can drop dependency findings that were already discovered for the current revision.
+  cancel-in-progress: false
 
 jobs:
   crda-scan:

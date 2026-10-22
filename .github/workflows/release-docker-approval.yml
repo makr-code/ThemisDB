@@ -80,10 +80,19 @@ jobs:
               });
               
               if (!['admin', 'maintain'].includes(permission.permission)) {
+                const bodyText = (context.payload.comment.body || '').trim();
+                if (/\/hold-docker\b|\/pause-docker\b|\/reject-docker\b|\/cancel-docker\b|\/rollback-docker\b/i.test(bodyText)) {
+                  await github.rest.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: context.payload.issue.number,
+                    body: `⛔ **Docker Command Ignored**\n\n**Requested By:** @${user}\n**Status:** Only repo admins and maintainers may issue hold/reject/rollback commands. This command was not processed because the commenter does not have the required permissions.`
+                  });
+                }
                 core.setFailed(`User ${user} does not have maintainer permissions`);
                 return;
               }
-              
+               
               if (holdCommand || rejectCommand || rollbackCommand) {
                 core.info(`Human-in-the-loop command detected by ${user}: hold/reject/rollback path`);
                 core.setOutput('is_maintainer', 'true');
@@ -121,7 +130,7 @@ jobs:
             core.notice(`Human review status recorded: ${status}`);
 
       - name: React to approval comment
-        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve'
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
