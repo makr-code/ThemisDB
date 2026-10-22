@@ -1,0 +1,117 @@
+name: "Benchmark: Thematic Suites"
+
+# Rechenaufwand-Score: R=6 (K=6, L=6, N=5) | last-calibrated: 2026-10-22
+# Purpose: Run separated thematic benchmark suites (baseline/core/index/search/llm)
+# using the reusable benchmark pipeline.
+
+on:
+  schedule:
+    - cron: '0 3 * * *'
+    - cron: '0 4 * * 2'
+  workflow_dispatch:
+    inputs:
+      scenario:
+        description: 'Benchmark scenario label'
+        required: true
+        default: 'small_10k'
+        type: choice
+        options:
+          - small_10k
+          - medium_1m
+          - large_10m
+      benchmark_filter:
+        description: 'Optional benchmark filter override'
+        required: false
+        default: ''
+        type: string
+      execution_backend:
+        description: 'Execution backend'
+        required: true
+        default: 'gbenchmark'
+        type: choice
+        options:
+          - gbenchmark
+          - ctest
+      benchmark_framework:
+        description: 'Benchmark framework mode'
+        required: true
+        default: 'gbenchmark'
+        type: choice
+        options:
+          - gbenchmark
+          - cbenchmark
+
+permissions:
+  contents: read
+
+concurrency:
+  group: benchmark-thematic-suites-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  hardware-detection:
+    name: "Validate: Hardware Detection"
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      hardware_profile: ${{ steps.detect.outputs.hardware_profile }}
+
+    steps:
+      - name: Detect Hardware
+        id: detect
+        shell: bash
+        run: |
+          if command -v nvidia-smi >/dev/null 2>&1; then
+            echo "hardware_profile=gpu" >> "$GITHUB_OUTPUT"
+          else
+            echo "hardware_profile=cpu" >> "$GITHUB_OUTPUT"
+          fi
+
+  thematic-suite-daily:
+    name: "Benchmark: baseline (daily)"
+    needs: hardware-detection
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && github.event.schedule == '0 3 * * *') }}
+    strategy:
+      fail-fast: false
+      matrix:
+        suite:
+          - baseline
+    uses: ./.github/workflows/reusable-benchmark-build-run-report.yml
+    with:
+      scenario_label: ${{ github.event_name == 'workflow_dispatch' && inputs.scenario || 'small_10k' }}
+      benchmark_suite: ${{ matrix.suite }}
+      benchmark_filter: ${{ github.event_name == 'workflow_dispatch' && inputs.benchmark_filter || '' }}
+      execution_backend: ${{ github.event_name == 'workflow_dispatch' && inputs.execution_backend || 'gbenchmark' }}
+      benchmark_framework: ${{ github.event_name == 'workflow_dispatch' && inputs.benchmark_framework || 'gbenchmark' }}
+      benchmark_min_time: ${{ (github.event_name == 'workflow_dispatch' && inputs.scenario == 'large_10m') && '0.50s' || (github.event_name == 'workflow_dispatch' && inputs.scenario == 'medium_1m') && '0.25s' || '0.10s' }}
+      benchmark_repetitions: 3
+      hardware_profile: ${{ needs.hardware-detection.outputs.hardware_profile }}
+      timeout_minutes: 180
+      run_hybrid_break_even: false
+      enable_ctest_validation: true
+
+  thematic-suite-weekly:
+    name: "Benchmark: ${{ matrix.suite }} (weekly)"
+    needs: hardware-detection
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && github.event.schedule == '0 4 * * 2') }}
+    strategy:
+      fail-fast: false
+      matrix:
+        suite:
+          - core
+          - index
+          - search
+          - llm
+    uses: ./.github/workflows/reusable-benchmark-build-run-report.yml
+    with:
+      scenario_label: ${{ github.event_name == 'workflow_dispatch' && inputs.scenario || 'small_10k' }}
+      benchmark_suite: ${{ matrix.suite }}
+      benchmark_filter: ${{ github.event_name == 'workflow_dispatch' && inputs.benchmark_filter || '' }}
+      execution_backend: ${{ github.event_name == 'workflow_dispatch' && inputs.execution_backend || 'gbenchmark' }}
+      benchmark_framework: ${{ github.event_name == 'workflow_dispatch' && inputs.benchmark_framework || 'gbenchmark' }}
+      benchmark_min_time: ${{ (github.event_name == 'workflow_dispatch' && inputs.scenario == 'large_10m') && '0.50s' || (github.event_name == 'workflow_dispatch' && inputs.scenario == 'medium_1m') && '0.25s' || '0.10s' }}
+      benchmark_repetitions: 3
+      hardware_profile: ${{ needs.hardware-detection.outputs.hardware_profile }}
+      timeout_minutes: 180
+      run_hybrid_break_even: ${{ matrix.suite == 'index' || matrix.suite == 'search' }}
+      enable_ctest_validation: true

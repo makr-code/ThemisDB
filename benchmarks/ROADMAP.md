@@ -23,7 +23,7 @@
   - [x] Szenario-Katalog erstellt: `docs/benchmarks/CPU_SIMD_GPU_BENCHMARK_SCENARIO_CATALOG.md`
   - [~] Benchmark-Binaries implementieren: `bench_ann_cpu_gpu_dispatch` ✅, `bench_tensor_cpu_gpu_dispatch` ✅, `bench_graph_cpu_gpu_dispatch`, `bench_tensor_update_dispatch`, `bench_tensor_commit_overhead`, `bench_cross_cutting` (Target: 2026-Q3)
   - [~] CTest-Smoke-Targets für neue Binaries registrieren: `smoke_bench_ann_cpu_gpu_dispatch` ✅, `smoke_bench_tensor_cpu_gpu_dispatch` ✅, weitere Targets offen (Target: 2026-Q3)
-  - [ ] Hardware-Runs auf GPU-Runner für Break-Even-Validierung (Target: 2026-Q3)
+  - [~] Hardware-Runs auf GPU-Runner für Break-Even-Validierung (Target: 2026-Q3) — Workflow `build-wave-b-llm-benchmarks.yml` erzeugt jetzt reale ANN/Tensor/LLM-Artefakte inkl. Break-Even-Report; repräsentative Self-Hosted-Hardware-Evidenz bleibt offen
   - [ ] Performance-Baselines in `benchmarks/baselines/` eintragen (Target: 2026-Q3)
 
 ## Planned Features
@@ -33,6 +33,9 @@
 - [ ] Persistente Historisierung von Eval-Reports für Trendanalysen über Releases hinweg (Target: 2026-Q3)
 - [ ] Erweiterte Kostenmodelle (Cloud-Instance-Typen, Energie/KWh) in Gate-Entscheidungen integrieren (Target: 2026-Q3)
 - [ ] Schichtbezogene Benchmark-Matrix (ANN/Tensor/Graph/LLM) mit evidenzbasierten Referenzsuites dokumentieren (Target: 2026-Q3)
+- [~] Thematisch getrennte CI-Suiten (`baseline|core|index|search|llm`) über `.github/workflows/benchmark-thematic-suites.yml` + reusable Pipeline operationalisieren (Target: 2026-Q4)
+  - [x] Suite-zu-Benchmark-Mapping in `benchmarks/benchmark_suite_map.json` versioniert
+  - [x] Cadence split: baseline daily, heavy suites weekly
 - [x] Baseline-Verzeichnis mit initialen Wave-4-Baseline-JSONs befüllen und in CI integrieren (Target: 2026-Q4)
 - [x] GitHub Actions Workflow `.github/workflows/benchmark-gate.yml` aktivieren (Wave 4 gate contract) (Target: 2026-Q4)
 - [x] `report_variance.py` als eigenständiges CI-Test-Target registrieren (Target: 2026-Q4)
@@ -81,7 +84,7 @@
 
 ## Known Issues & Limitations
 - [I] Statistische Verfahren basieren auf CPU-seitiger Python-Auswertung; sehr große Stichproben erhöhen Laufzeit deutlich.
-- [I] Ein benchmark-spezifischer Workflow `.github/workflows/benchmark-gate.yml` fehlt weiterhin; aktive PR-Gates existieren bereits unter `.github/workflows/`, decken den Benchmark-Registrierungsaudit aber noch nicht ab. Gate-Spezifikation liegt in `benchmarks/docs/CI_GATE.md` bereit.
+- [I] Wave-4 Gate (`.github/workflows/benchmark-gate.yml`) ist aktiv; zusätzliche representative-hardware Läufe für ANN/Tensor/LLM Break-Even sind weiterhin als separates Evidence-Pack erforderlich.
 - [I] Wave 4 Baseline-Verzeichnis (`benchmarks/wave4/baselines/`) ist initial leer — muss nach erstem validen Release-Lauf befüllt werden.
 - [I] `BackpressureSimulator` in `wave4_fixtures.h` ist nicht thread-safe für parallele Benchmark-Bodies; für Multi-Thread-Szenarien pro Thread instanziieren.
 

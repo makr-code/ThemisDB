@@ -1,3 +1,15 @@
+---
+Author: "GitHub Copilot"
+Created: "2026-10-22"
+Last Updated: "2026-10-22"
+Status: "draft"
+AI_Used: true
+AI_Models: "GitHub Copilot Coding Agent"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+---
+
 # CPU SIMD vs GPU Dispatch — Benchmark Matrix
 ## ANN · Tensor · Graph Paths · Dynamic Tensor Updates
 
@@ -460,7 +472,7 @@ first hardware run on the reference GPU runner
 
 ## 13. Acceleration Classification
 
-Based on preliminary estimates; final classification requires hardware validation.
+Based on preliminary estimates; final classification requires representative hardware validation. Synthetic or simulation-only benchmark paths are non-release signals and must not be used as release evidence.
 
 ### Acceleration-Friendly Workloads (GPU wins)
 
@@ -491,10 +503,10 @@ Based on preliminary estimates; final classification requires hardware validatio
 
 | Gap ID | Description | Owner | Target |
 |---|---|---|---|
-| `GAP-1` | Actual hardware run to validate break-even thresholds | Acceleration team | Q3 2026 |
+| `GAP-1` | Representative hardware run to validate break-even thresholds (release evidence) | Acceleration team | Q3 2026 |
 | `GAP-2` | Extend `bench_ann_cpu_gpu_dispatch.cpp` with quantised artifact and recall-quality scenarios | ANN team | Q3 2026 |
 | `GAP-3` | `bench_tensor_cpu_gpu_dispatch.cpp` implementation | Tensor team | Q3 2026 |
-| `GAP-4` | `bench_graph_cpu_gpu_dispatch.cpp` implementation | Graph team | Q3 2026 |
+| `GAP-4` | `bench_graph_cpu_gpu_dispatch.cpp` implementation (required before graph break-even can be release-gated) | Graph team | Q3 2026 |
 | `GAP-5` | `bench_tensor_update_dispatch.cpp` implementation | Tensor team | Q3 2026 |
 | `GAP-6` | `bench_tensor_commit_overhead.cpp` implementation | Storage/Tensor team | Q3 2026 |
 | `GAP-7` | Populate performance baselines table after first run | Acceleration team | Q3 2026 |
