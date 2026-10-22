@@ -46,7 +46,12 @@ jobs:
       (
         contains(github.event.comment.body, '/publish-docker') ||
         contains(github.event.comment.body, '/approve-docker') ||
-        contains(github.event.comment.body, '@publish-docker')
+        contains(github.event.comment.body, '@publish-docker') ||
+        contains(github.event.comment.body, '/hold-docker') ||
+        contains(github.event.comment.body, '/pause-docker') ||
+        contains(github.event.comment.body, '/reject-docker') ||
+        contains(github.event.comment.body, '/cancel-docker') ||
+        contains(github.event.comment.body, '/rollback-docker')
       )
     environment:
       name: docker-production
@@ -61,10 +66,12 @@ jobs:
         with:
           script: |
             const comment = context.payload.comment;
-            const issue = context.payload.issue;
+            const body = (comment.body || '').trim();
             const user = comment.user.login;
+            const holdCommand = /\/hold-docker\b|\/pause-docker\b/i.test(body);
+            const rejectCommand = /\/reject-docker\b|\/cancel-docker\b/i.test(body);
+            const rollbackCommand = /\/rollback-docker\b/i.test(body);
             
-            // Check if commenter is a maintainer or repo owner
             try {
               const { data: permission } = await github.rest.repos.getCollaboratorPermissionLevel({
                 owner: context.repo.owner,
@@ -77,11 +84,41 @@ jobs:
                 return;
               }
               
+              if (holdCommand || rejectCommand || rollbackCommand) {
+                core.info(`Human-in-the-loop command detected by ${user}: hold/reject/rollback path`);
+                core.setOutput('is_maintainer', 'true');
+                core.setOutput('status', holdCommand ? 'hold' : rejectCommand ? 'reject' : 'rollback');
+                return;
+              }
+              
               core.info(`✓ User ${user} has ${permission.permission} permission`);
               core.setOutput('is_maintainer', 'true');
+              core.setOutput('status', 'approve');
             } catch (error) {
               core.setFailed(`Failed to check permissions: ${error.message}`);
             }
+
+      - name: Handle hold/reject/rollback requests
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status != 'approve'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const user = context.payload.comment.user.login;
+            const status = '${{ steps.check_maintainer.outputs.status }}';
+            const body = {
+              hold: `⏸️ **Docker Publication Hold**\n\n**Requested By:** @${user}\n**Status:** The Docker publication is paused pending human review.\n**Next Step:** Investigate the blocker, fix the issue, and re-approve once it is resolved.`,
+              reject: `⛔ **Docker Publication Rejected**\n\n**Rejected By:** @${user}\n**Status:** The Docker publication is not approved for public registry push.\n**Next Step:** Correct the issue and request approval again after remediation.`,
+              rollback: `↩️ **Docker Rollback Requested**\n\n**Requested By:** @${user}\n**Status:** A rollback or hold is required before Docker tags are published or re-published.\n**Next Step:** Use the release rollback workflow and document the reason in the issue before retrying.`
+            }[status];
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              body,
+            });
+            core.notice(`Human review status recorded: ${status}`);
 
       - name: React to approval comment
         if: steps.check_maintainer.outputs.is_maintainer == 'true'
@@ -97,7 +134,7 @@ jobs:
 
       - name: Extract version from issue body
         id: extract_version
-        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve'
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
@@ -113,13 +150,13 @@ jobs:
             }
 
       - name: Checkout repository
-        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.extract_version.outputs.version != ''
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve' && steps.extract_version.outputs.version != ''
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
       - name: Verify release tag exists
-        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.extract_version.outputs.version != ''
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve' && steps.extract_version.outputs.version != ''
         id: verify_tag
         env:
           GH_TOKEN: ${{ github.token }}
@@ -142,7 +179,7 @@ jobs:
           fi
 
       - name: Trigger Docker publication workflow
-        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.extract_version.outputs.version != ''
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve' && steps.extract_version.outputs.version != ''
         env:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ steps.extract_version.outputs.version }}

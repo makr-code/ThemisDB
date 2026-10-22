@@ -41,7 +41,12 @@ jobs:
       (
         contains(github.event.comment.body, '/publish-linux') ||
         contains(github.event.comment.body, '/approve-linux') ||
-        contains(github.event.comment.body, '@publish-linux')
+        contains(github.event.comment.body, '@publish-linux') ||
+        contains(github.event.comment.body, '/hold-linux') ||
+        contains(github.event.comment.body, '/pause-linux') ||
+        contains(github.event.comment.body, '/reject-linux') ||
+        contains(github.event.comment.body, '/cancel-linux') ||
+        contains(github.event.comment.body, '/rollback-linux')
       )
     environment:
       name: linux-distro-production
@@ -55,6 +60,10 @@ jobs:
         with:
           script: |
             const user = context.payload.comment.user.login;
+            const body = (context.payload.comment.body || '').trim();
+            const holdCommand = /\/hold-linux\b|\/pause-linux\b/i.test(body);
+            const rejectCommand = /\/reject-linux\b|\/cancel-linux\b/i.test(body);
+            const rollbackCommand = /\/rollback-linux\b/i.test(body);
             const permission = await github.rest.repos.getCollaboratorPermissionLevel({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -65,14 +74,41 @@ jobs:
             const is_maintainer = level === 'admin' || level === 'maintain';
             
             core.setOutput('is_maintainer', is_maintainer ? 'true' : 'false');
+            if (is_maintainer && (holdCommand || rejectCommand || rollbackCommand)) {
+              core.setOutput('status', holdCommand ? 'hold' : rejectCommand ? 'reject' : 'rollback');
+            } else if (is_maintainer) {
+              core.setOutput('status', 'approve');
+            }
             
             if (!is_maintainer) {
               core.setFailed(`User @${user} does not have maintainer permissions (required: admin or maintain, found: ${level})`);
             }
 
+      - name: Handle hold/reject/rollback requests
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status != 'approve'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const user = context.payload.comment.user.login;
+            const status = '${{ steps.check_maintainer.outputs.status }}';
+            const body = {
+              hold: `⏸️ **Linux Distro Hold**\n\n**Requested By:** @${user}\n**Status:** The Linux distro publication is paused pending human review.\n**Next Step:** Resolve the blocker and re-request approval once package validation is complete.`,
+              reject: `⛔ **Linux Distro Publication Rejected**\n\n**Rejected By:** @${user}\n**Status:** The Linux distro publication is not approved.\n**Next Step:** Fix package metadata or installation issues and request approval again.`,
+              rollback: `↩️ **Linux Distro Rollback Requested**\n\n**Requested By:** @${user}\n**Status:** A rollback or hold is required before the Linux distro publication proceeds.\n**Next Step:** Use the release rollback workflow and document the reason before retrying.`
+            }[status];
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              body,
+            });
+            core.notice(`Human review status recorded: ${status}`);
+
       - name: Extract version from issue body
         id: extract_version
-        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve'
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
@@ -89,7 +125,7 @@ jobs:
             core.notice(`Extracted version: ${version}`);
 
       - name: Verify release tag exists
-        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve'
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
@@ -108,7 +144,7 @@ jobs:
             }
 
       - name: Dispatch Linux distro workflow
-        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve'
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |

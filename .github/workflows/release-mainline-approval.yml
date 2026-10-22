@@ -49,7 +49,12 @@ jobs:
       (
         contains(github.event.comment.body, '/publish-release') ||
         contains(github.event.comment.body, '/approve-release') ||
-        contains(github.event.comment.body, '@publish-release')
+        contains(github.event.comment.body, '@publish-release') ||
+        contains(github.event.comment.body, '/hold-release') ||
+        contains(github.event.comment.body, '/pause-release') ||
+        contains(github.event.comment.body, '/reject-release') ||
+        contains(github.event.comment.body, '/cancel-release') ||
+        contains(github.event.comment.body, '/rollback-release')
       )
     runs-on: ubuntu-24.04
     timeout-minutes: 10
@@ -61,10 +66,12 @@ jobs:
         with:
           script: |
             const comment = context.payload.comment;
-            const issue = context.payload.issue;
+            const body = (comment.body || '').trim();
             const user = comment.user.login;
+            const holdCommand = /\/hold-release\b|\/pause-release\b|\/hold-docker\b|\/hold-winget\b|\/hold-linux\b|\/hold-windows\b/i.test(body);
+            const rejectCommand = /\/reject-release\b|\/cancel-release\b|\/reject-docker\b|\/reject-winget\b|\/reject-linux\b|\/reject-windows\b/i.test(body);
+            const rollbackCommand = /\/rollback-release\b|\/rollback-docker\b|\/rollback-winget\b|\/rollback-linux\b|\/rollback-windows\b/i.test(body);
             
-            // Check if commenter is a maintainer or repo owner
             try {
               const { data: permission } = await github.rest.repos.getCollaboratorPermissionLevel({
                 owner: context.repo.owner,
@@ -77,11 +84,41 @@ jobs:
                 return;
               }
               
+              if (holdCommand || rejectCommand || rollbackCommand) {
+                core.info(`Human-in-the-loop command detected by ${user}: hold/reject/rollback path`);
+                core.setOutput('is_maintainer', 'true');
+                core.setOutput('status', holdCommand ? 'hold' : rejectCommand ? 'reject' : 'rollback');
+                return;
+              }
+              
               core.info(`✓ User ${user} has ${permission.permission} permission`);
               core.setOutput('is_maintainer', 'true');
+              core.setOutput('status', 'approve');
             } catch (error) {
               core.setFailed(`Failed to check permissions: ${error.message}`);
             }
+
+      - name: Handle hold/reject/rollback requests
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status != 'approve'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const user = context.payload.comment.user.login;
+            const status = '${{ steps.check_maintainer.outputs.status }}';
+            const body = {
+              hold: `⏸️ **Release Hold Requested**\n\n**Requested By:** @${user}\n**Status:** The release is paused pending human review.\n**Next Step:** Investigate the blocker, fix the issue, then re-run approval with a fresh /publish-release or /approve-release comment.`,
+              reject: `⛔ **Release Rejected**\n\n**Rejected By:** @${user}\n**Status:** The release is not approved for publication.\n**Next Step:** Correct the blocker, keep the issue open, and re-request approval after remediation.`,
+              rollback: `↩️ **Rollback Requested**\n\n**Requested By:** @${user}\n**Status:** A rollback or hold is required before the release can proceed.\n**Next Step:** Use the release rollback workflow and document the reason in the issue before retrying publication.`
+            }[status];
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              body,
+            });
+            core.notice(`Human review status recorded: ${status}`);
 
       - name: React to approval comment
         if: steps.check_maintainer.outputs.is_maintainer == 'true'
@@ -97,7 +134,7 @@ jobs:
 
       - name: Extract version from issue body
         id: extract_version
-        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve'
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
@@ -113,14 +150,14 @@ jobs:
             }
 
       - name: Checkout repository
-        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.extract_version.outputs.version != ''
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve' && steps.extract_version.outputs.version != ''
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
       - name: Fetch release draft
         id: fetch_release
-        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.extract_version.outputs.version != ''
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve' && steps.extract_version.outputs.version != ''
         env:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ steps.extract_version.outputs.version }}
@@ -141,7 +178,7 @@ jobs:
 
       - name: Create tracking issues for downstream registries
         id: create_tracking
-        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.extract_version.outputs.version != ''
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve' && steps.extract_version.outputs.version != ''
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
@@ -244,7 +281,7 @@ jobs:
 
       - name: Publish release (set draft=false)
         id: publish_release
-        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.extract_version.outputs.version != ''
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve' && steps.extract_version.outputs.version != ''
         env:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ steps.extract_version.outputs.version }}

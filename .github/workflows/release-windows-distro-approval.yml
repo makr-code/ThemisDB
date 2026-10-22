@@ -41,7 +41,12 @@ jobs:
       (
         contains(github.event.comment.body, '/publish-windows') ||
         contains(github.event.comment.body, '/approve-windows') ||
-        contains(github.event.comment.body, '@publish-windows')
+        contains(github.event.comment.body, '@publish-windows') ||
+        contains(github.event.comment.body, '/hold-windows') ||
+        contains(github.event.comment.body, '/pause-windows') ||
+        contains(github.event.comment.body, '/reject-windows') ||
+        contains(github.event.comment.body, '/cancel-windows') ||
+        contains(github.event.comment.body, '/rollback-windows')
       )
     environment:
       name: windows-distro-production
@@ -55,6 +60,10 @@ jobs:
         with:
           script: |
             const user = context.payload.comment.user.login;
+            const body = (context.payload.comment.body || '').trim();
+            const holdCommand = /\/hold-windows\b|\/pause-windows\b/i.test(body);
+            const rejectCommand = /\/reject-windows\b|\/cancel-windows\b/i.test(body);
+            const rollbackCommand = /\/rollback-windows\b/i.test(body);
             const permission = await github.rest.repos.getCollaboratorPermissionLevel({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -65,14 +74,41 @@ jobs:
             const is_maintainer = level === 'admin' || level === 'maintain';
             
             core.setOutput('is_maintainer', is_maintainer ? 'true' : 'false');
+            if (is_maintainer && (holdCommand || rejectCommand || rollbackCommand)) {
+              core.setOutput('status', holdCommand ? 'hold' : rejectCommand ? 'reject' : 'rollback');
+            } else if (is_maintainer) {
+              core.setOutput('status', 'approve');
+            }
             
             if (!is_maintainer) {
               core.setFailed(`User @${user} does not have maintainer permissions (required: admin or maintain, found: ${level})`);
             }
 
+      - name: Handle hold/reject/rollback requests
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status != 'approve'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const user = context.payload.comment.user.login;
+            const status = '${{ steps.check_maintainer.outputs.status }}';
+            const body = {
+              hold: `⏸️ **Windows Distro Hold**\n\n**Requested By:** @${user}\n**Status:** The Windows distro publication is paused pending human review.\n**Next Step:** Resolve the blocker and re-request approval once validation is complete.`,
+              reject: `⛔ **Windows Distro Publication Rejected**\n\n**Rejected By:** @${user}\n**Status:** The Windows distro publication is not approved.\n**Next Step:** Fix the installer or manifest issue and request approval again.`,
+              rollback: `↩️ **Windows Distro Rollback Requested**\n\n**Requested By:** @${user}\n**Status:** A rollback or hold is required before the Windows distro publication proceeds.\n**Next Step:** Use the release rollback workflow and document the reason before retrying.`
+            }[status];
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              body,
+            });
+            core.notice(`Human review status recorded: ${status}`);
+
       - name: Extract version from issue body
         id: extract_version
-        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve'
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
@@ -89,7 +125,7 @@ jobs:
             core.notice(`Extracted version: ${version}`);
 
       - name: Verify release tag exists
-        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve'
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
@@ -108,7 +144,7 @@ jobs:
             }
 
       - name: Dispatch Windows distro workflow
-        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve'
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |

@@ -319,12 +319,33 @@ These keywords work in any tracking issue with the appropriate label:
 | `/publish-release` | `release-review` | `release-mainline-approval.yml` | Publish GitHub Release |
 | `/approve-release` | `release-review` | `release-mainline-approval.yml` | Alias for `/publish-release` |
 | `@publish-release` | `release-review` | `release-mainline-approval.yml` | Mention-based trigger |
+| `/hold-release` | `release-review` | `release-mainline-approval.yml` | Pause publication pending maintainer investigation |
+| `/reject-release` | `release-review` | `release-mainline-approval.yml` | Explicitly reject/stop release publication |
+| `/rollback-release` | `release-review` | `release-mainline-approval.yml` | Request rollback or immediate hold before release goes live |
 | `/publish-docker` | `docker-release` | `release-docker-approval.yml` | Publish Docker images |
 | `/approve-docker` | `docker-release` | `release-docker-approval.yml` | Alias for `/publish-docker` |
 | `@publish-docker` | `docker-release` | `release-docker-approval.yml` | Mention-based trigger |
+| `/hold-docker` | `docker-release` | `release-docker-approval.yml` | Pause Docker publication |
+| `/reject-docker` | `docker-release` | `release-docker-approval.yml` | Reject Docker publication |
+| `/rollback-docker` | `docker-release` | `release-docker-approval.yml` | Request Docker rollback or hold |
 | `/publish-winget` | `winget-release` | `release-winget-approval.yml` | Submit to WinGet |
 | `/approve-winget` | `winget-release` | `release-winget-approval.yml` | Alias for `/publish-winget` |
 | `@publish-winget` | `winget-release` | `release-winget-approval.yml` | Mention-based trigger |
+| `/hold-winget` | `winget-release` | `release-winget-approval.yml` | Pause WinGet submission |
+| `/reject-winget` | `winget-release` | `release-winget-approval.yml` | Reject WinGet submission |
+| `/rollback-winget` | `winget-release` | `release-winget-approval.yml` | Request rollback before WinGet publication |
+| `/publish-linux` | `linux-distro-review` | `release-linux-distro-approval.yml` | Publish Linux distro bundle |
+| `/approve-linux` | `linux-distro-review` | `release-linux-distro-approval.yml` | Alias for `/publish-linux` |
+| `@publish-linux` | `linux-distro-review` | `release-linux-distro-approval.yml` | Mention-based trigger |
+| `/hold-linux` | `linux-distro-review` | `release-linux-distro-approval.yml` | Pause Linux distro publication |
+| `/reject-linux` | `linux-distro-review` | `release-linux-distro-approval.yml` | Reject Linux distro publication |
+| `/rollback-linux` | `linux-distro-review` | `release-linux-distro-approval.yml` | Request Linux rollback or hold |
+| `/publish-windows` | `windows-distro-review` | `release-windows-distro-approval.yml` | Publish Windows distro bundle |
+| `/approve-windows` | `windows-distro-review` | `release-windows-distro-approval.yml` | Alias for `/publish-windows` |
+| `@publish-windows` | `windows-distro-review` | `release-windows-distro-approval.yml` | Mention-based trigger |
+| `/hold-windows` | `windows-distro-review` | `release-windows-distro-approval.yml` | Pause Windows distro publication |
+| `/reject-windows` | `windows-distro-review` | `release-windows-distro-approval.yml` | Reject Windows distro publication |
+| `/rollback-windows` | `windows-distro-review` | `release-windows-distro-approval.yml` | Request Windows rollback or hold |
 | `/publish` | `wiki-review` | `wiki-publish-from-issue.yml` | Publish wiki (different system) |
 
 ### Multi-Word Approval Context

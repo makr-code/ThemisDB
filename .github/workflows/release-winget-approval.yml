@@ -40,7 +40,12 @@ jobs:
       (
         contains(github.event.comment.body, '/publish-winget') ||
         contains(github.event.comment.body, '/approve-winget') ||
-        contains(github.event.comment.body, '@publish-winget')
+        contains(github.event.comment.body, '@publish-winget') ||
+        contains(github.event.comment.body, '/hold-winget') ||
+        contains(github.event.comment.body, '/pause-winget') ||
+        contains(github.event.comment.body, '/reject-winget') ||
+        contains(github.event.comment.body, '/cancel-winget') ||
+        contains(github.event.comment.body, '/rollback-winget')
       )
     environment:
       name: winget-production
@@ -55,10 +60,13 @@ jobs:
         with:
           script: |
             const comment = context.payload.comment;
+            const body = (comment.body || '').trim();
             const issue = context.payload.issue;
             const user = comment.user.login;
+            const holdCommand = /\/hold-winget\b|\/pause-winget\b/i.test(body);
+            const rejectCommand = /\/reject-winget\b|\/cancel-winget\b/i.test(body);
+            const rollbackCommand = /\/rollback-winget\b/i.test(body);
             
-            // Check if commenter is a maintainer or repo owner
             try {
               const { data: permission } = await github.rest.repos.getCollaboratorPermissionLevel({
                 owner: context.repo.owner,
@@ -71,11 +79,41 @@ jobs:
                 return;
               }
               
+              if (holdCommand || rejectCommand || rollbackCommand) {
+                core.info(`Human-in-the-loop command detected by ${user}: hold/reject/rollback path`);
+                core.setOutput('is_maintainer', 'true');
+                core.setOutput('status', holdCommand ? 'hold' : rejectCommand ? 'reject' : 'rollback');
+                return;
+              }
+              
               core.info(`✓ User ${user} has ${permission.permission} permission`);
               core.setOutput('is_maintainer', 'true');
+              core.setOutput('status', 'approve');
             } catch (error) {
               core.setFailed(`Failed to check permissions: ${error.message}`);
             }
+
+      - name: Handle hold/reject/rollback requests
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status != 'approve'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const user = context.payload.comment.user.login;
+            const status = '${{ steps.check_maintainer.outputs.status }}';
+            const body = {
+              hold: `⏸️ **WinGet Submission Hold**\n\n**Requested By:** @${user}\n**Status:** The WinGet submission is paused pending human review.\n**Next Step:** Resolve the blocker and re-request approval once the package is valid.`,
+              reject: `⛔ **WinGet Submission Rejected**\n\n**Rejected By:** @${user}\n**Status:** The package is not approved for WinGet submission.\n**Next Step:** Fix the package metadata or validation issue and request approval again.`,
+              rollback: `↩️ **WinGet Rollback Requested**\n\n**Requested By:** @${user}\n**Status:** A rollback or hold is required before the WinGet submission proceeds.\n**Next Step:** Use the release rollback workflow and document the reason before retrying.`
+            }[status];
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              body,
+            });
+            core.notice(`Human review status recorded: ${status}`);
 
       - name: React to approval comment
         if: steps.check_maintainer.outputs.is_maintainer == 'true'
@@ -91,7 +129,7 @@ jobs:
 
       - name: Extract version from issue body
         id: extract_version
-        if: steps.check_maintainer.outputs.is_maintainer == 'true'
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve'
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
         with:
           script: |
@@ -107,13 +145,13 @@ jobs:
             }
 
       - name: Checkout repository
-        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.extract_version.outputs.version != ''
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve' && steps.extract_version.outputs.version != ''
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
       - name: Verify release tag exists
-        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.extract_version.outputs.version != ''
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve' && steps.extract_version.outputs.version != ''
         id: verify_tag
         env:
           GH_TOKEN: ${{ github.token }}
@@ -136,7 +174,7 @@ jobs:
           fi
 
       - name: Trigger WinGet submission workflow
-        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.extract_version.outputs.version != ''
+        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve' && steps.extract_version.outputs.version != ''
         env:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ steps.extract_version.outputs.version }}
