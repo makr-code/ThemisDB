@@ -25,6 +25,18 @@ on:
         required: false
         default: ''
         type: string
+      benchmark_suite:
+        description: 'Thematic benchmark suite'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - baseline
+          - core
+          - index
+          - search
+          - llm
 
 concurrency:
   group: build-wave-b-llm-${{ github.ref }}
@@ -154,6 +166,7 @@ jobs:
           esac
 
           EXTRA_FILTER="${{ inputs.benchmark_filter }}"
+          BENCH_SUITE="${{ inputs.benchmark_suite }}"
 
           run_benchmark() {
             local target="$1"
@@ -183,6 +196,38 @@ jobs:
             fi
           }
 
+          run_suite_all() {
+            run_benchmark "bench_llm_inference_performance" "BM_LLM_|BM_LoRA_" "${RESULTS_DIR}/llm_inference_${{ matrix.scenario }}.json"
+            run_benchmark "bench_rag_hybrid_retriever" "BM_RRF_|BM_Linear_|BM_HybridRetriever_" "${RESULTS_DIR}/rag_hybrid_${{ matrix.scenario }}.json"
+            run_benchmark "bench_ann_cpu_gpu_dispatch" "BM_ANN_CPUSIMDDispatchBatchKnn|BM_ANN_MixedPathGpuQueryAccelerator" "${RESULTS_DIR}/ann_dispatch_${{ matrix.scenario }}.json"
+            run_benchmark "bench_tensor_cpu_gpu_dispatch" "BM_TEN_S4_BatchSimilarityCPU|BM_TEN_S4_BatchSimilarityGPU" "${RESULTS_DIR}/tensor_dispatch_${{ matrix.scenario }}.json"
+            run_benchmark "bench_category_b_gpu_cpu_parity" "BM_CategoryB_" "${RESULTS_DIR}/graph_category_b_${{ matrix.scenario }}.json"
+          }
+
+          run_suite_baseline() {
+            run_benchmark "bench_ann_cpu_gpu_dispatch" "BM_Smoke_ANN_|BM_ANN_ScalarL2TopK" "${RESULTS_DIR}/baseline_ann_${{ matrix.scenario }}.json"
+            run_benchmark "bench_tensor_cpu_gpu_dispatch" "BM_Smoke_Tensor|BM_TEN_S1_CosineScalar|BM_TEN_S1_CosineSIMD" "${RESULTS_DIR}/baseline_tensor_${{ matrix.scenario }}.json"
+            run_benchmark "bench_llm_inference_performance" "BM_LoRA_Load|BM_LoRA_Apply|BM_LoRA_Remove" "${RESULTS_DIR}/baseline_llm_${{ matrix.scenario }}.json"
+          }
+
+          run_suite_core() {
+            run_benchmark "bench_llm_inference_performance" "BM_LLM_|BM_LoRA_ContextSwitch|BM_LoRA_Reuse" "${RESULTS_DIR}/core_llm_${{ matrix.scenario }}.json"
+          }
+
+          run_suite_index() {
+            run_benchmark "bench_ann_cpu_gpu_dispatch" "BM_ANN_CPUSIMDDispatchBatchKnn|BM_ANN_MixedPathGpuQueryAccelerator|BM_ANN_HNSWFrontdoorCosine" "${RESULTS_DIR}/index_ann_${{ matrix.scenario }}.json"
+            run_benchmark "bench_tensor_cpu_gpu_dispatch" "BM_TEN_S4_BatchSimilarityCPU|BM_TEN_S4_BatchSimilarityGPU|BM_TEN_G1_GemmCPUBackend" "${RESULTS_DIR}/index_tensor_${{ matrix.scenario }}.json"
+          }
+
+          run_suite_search() {
+            run_benchmark "bench_rag_hybrid_retriever" "BM_RRF_|BM_Linear_|BM_HybridRetriever_" "${RESULTS_DIR}/search_rag_${{ matrix.scenario }}.json"
+            run_benchmark "bench_category_b_gpu_cpu_parity" "BM_CategoryB_" "${RESULTS_DIR}/search_graph_${{ matrix.scenario }}.json"
+          }
+
+          run_suite_llm() {
+            run_benchmark "bench_llm_inference_performance" "BM_LLM_|BM_LoRA_" "${RESULTS_DIR}/llm_inference_${{ matrix.scenario }}.json"
+          }
+
           if [[ -n "${EXTRA_FILTER}" ]]; then
             run_benchmark "bench_llm_inference_performance" "${EXTRA_FILTER}" "${RESULTS_DIR}/llm_inference_${{ matrix.scenario }}.json"
             run_benchmark "bench_rag_hybrid_retriever" "${EXTRA_FILTER}" "${RESULTS_DIR}/rag_hybrid_${{ matrix.scenario }}.json"
@@ -190,11 +235,30 @@ jobs:
             run_benchmark "bench_tensor_cpu_gpu_dispatch" "${EXTRA_FILTER}" "${RESULTS_DIR}/tensor_dispatch_${{ matrix.scenario }}.json"
             run_benchmark "bench_category_b_gpu_cpu_parity" "${EXTRA_FILTER}" "${RESULTS_DIR}/graph_category_b_${{ matrix.scenario }}.json"
           else
-            run_benchmark "bench_llm_inference_performance" "BM_LLM_|BM_LoRA_" "${RESULTS_DIR}/llm_inference_${{ matrix.scenario }}.json"
-            run_benchmark "bench_rag_hybrid_retriever" "BM_RRF_|BM_Linear_|BM_HybridRetriever_" "${RESULTS_DIR}/rag_hybrid_${{ matrix.scenario }}.json"
-            run_benchmark "bench_ann_cpu_gpu_dispatch" "BM_ANN_CPUSIMDDispatchBatchKnn|BM_ANN_MixedPathGpuQueryAccelerator" "${RESULTS_DIR}/ann_dispatch_${{ matrix.scenario }}.json"
-            run_benchmark "bench_tensor_cpu_gpu_dispatch" "BM_TEN_S4_BatchSimilarityCPU|BM_TEN_S4_BatchSimilarityGPU" "${RESULTS_DIR}/tensor_dispatch_${{ matrix.scenario }}.json"
-            run_benchmark "bench_category_b_gpu_cpu_parity" "BM_CategoryB_" "${RESULTS_DIR}/graph_category_b_${{ matrix.scenario }}.json"
+            case "${BENCH_SUITE}" in
+              all)
+                run_suite_all
+                ;;
+              baseline)
+                run_suite_baseline
+                ;;
+              core)
+                run_suite_core
+                ;;
+              index)
+                run_suite_index
+                ;;
+              search)
+                run_suite_search
+                ;;
+              llm)
+                run_suite_llm
+                ;;
+              *)
+                echo "::warning::Unknown benchmark_suite '${BENCH_SUITE}', defaulting to 'all'."
+                run_suite_all
+                ;;
+            esac
           fi
 
       - name: Generate break-even summary
