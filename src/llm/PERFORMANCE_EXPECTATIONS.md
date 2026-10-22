@@ -96,6 +96,7 @@ prompt = 512 tokens, generation = 256 tokens, context window = 4096.
   each benchmark result artifact.
 - Promote ESTIMATE → MEASURED once a reproducible baseline run is captured on ThemisDB CI
   hardware and merged to `RELEASE_GATE_MANIFEST_LLM.json` (to be created).
+- Wave-B execution workflow `build-wave-b-llm-benchmarks.yml` now emits `break_even_summary_<scenario>.json` artifacts as baseline-candidate evidence for ANN/Tensor/LLM dispatch decisions; ESTIMATE values remain non-release until promoted to MEASURED with representative hardware proof.
 
 ## Validation
 - Expectations are considered met when mapped benchmarks run reproducibly in release profile and stay within configured thresholds.

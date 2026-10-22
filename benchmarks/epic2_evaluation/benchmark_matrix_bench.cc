@@ -14,6 +14,10 @@
  * 3. Serve as smoke-tests that the benchmark binary compiles and runs cleanly
  *    (Phase 7 CI integration, Issue #5438).
  *
+ * NON-RELEASE SIGNAL: The simulation benchmarks in this file are intentionally
+ * synthetic and must not be used as release-gate evidence until replaced with
+ * production-path benchmarks on representative hardware.
+ *
  * Benchmark groups
  * ----------------
  * - BM_Matrix_Record_*        : single record() call latency per scenario
