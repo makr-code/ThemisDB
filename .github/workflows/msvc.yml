@@ -78,7 +78,7 @@ jobs:
           New-Item -ItemType Directory -Force -Path "$env:GITHUB_WORKSPACE/.vcpkg-binary-cache" | Out-Null
 
           Invoke-WithRetry -Command { & "$env:GITHUB_WORKSPACE/vcpkg/bootstrap-vcpkg.bat" -disableMetrics }
-         Invoke-WithRetry -Command { & "$env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe" install zlib fmt spdlog curl cpp-httplib boost-filesystem boost-system --classic --triplet x64-windows --disable-metrics }
+          Invoke-WithRetry -Command { & "$env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe" install zlib fmt spdlog curl cpp-httplib boost-filesystem boost-system --classic --triplet x64-windows --disable-metrics }
 
       - name: Ensure sccache is available
         shell: pwsh
