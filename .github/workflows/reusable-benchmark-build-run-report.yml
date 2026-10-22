@@ -201,7 +201,8 @@ jobs:
             else
               "${BIN}" > "${RESULTS_DIR}/${NAME}.txt" 2>&1
               STATUS=$?
-              python3 -c "import json, pathlib; pathlib.Path('${OUT}').write_text(json.dumps({'binary':'${NAME}','framework':'${FRAMEWORK}','status':${STATUS}}), encoding='utf-8')"
+              BENCH_OUT="${OUT}" BENCH_NAME="${NAME}" BENCH_FRAMEWORK="${FRAMEWORK}" BENCH_STATUS="${STATUS}" \
+                python3 -c "import json, os, pathlib; pathlib.Path(os.environ['BENCH_OUT']).write_text(json.dumps({'binary': os.environ['BENCH_NAME'], 'framework': os.environ['BENCH_FRAMEWORK'], 'status': int(os.environ['BENCH_STATUS'])}), encoding='utf-8')"
             fi
             set -e
             if [[ ${STATUS} -eq 0 ]]; then
