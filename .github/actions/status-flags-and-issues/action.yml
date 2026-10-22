@@ -322,14 +322,15 @@ runs:
           }
 
           if (op === 'upsert_issue') {
-            for (const label of ensureArrayUnique([...labelsToAdd, ...statusGroup])) {
+            const finalLabelsToAdd = ensureArrayUnique([...labelsToAdd, ...statusGroup]);
+            for (const label of finalLabelsToAdd) {
               await ensureLabel(label);
             }
             let issue = await resolveIssue();
             const body = `${issueBody}${buildAuditSuffix()}`;
             if (issue) {
               const currentLabels = (issue.labels || []).map((l) => l.name);
-              const merged = ensureArrayUnique([...currentLabels, ...labelsToAdd]);
+              const merged = ensureArrayUnique([...currentLabels, ...finalLabelsToAdd]);
               const updateReq = {
                 owner,
                 repo,
@@ -341,7 +342,7 @@ runs:
               await github.rest.issues.update(updateReq);
               out.issue_number = String(issue.number);
               out.action_result = 'updated';
-              out.applied_labels = labelsToAdd.join(',');
+              out.applied_labels = finalLabelsToAdd.join(',');
               setOutputs();
               return;
             }
@@ -357,11 +358,11 @@ runs:
               repo,
               title: issueTitle,
               body,
-              labels: labelsToAdd,
+              labels: finalLabelsToAdd,
             });
             out.issue_number = String(created.number);
             out.action_result = 'created';
-            out.applied_labels = labelsToAdd.join(',');
+            out.applied_labels = finalLabelsToAdd.join(',');
             setOutputs();
             return;
           }
@@ -421,25 +422,27 @@ runs:
           }
 
           if (op === 'set_status') {
-            for (const label of ensureArrayUnique([...labelsToAdd, ...statusGroup])) {
+            const finalLabelsToAdd = ensureArrayUnique([...labelsToAdd, ...statusGroup]);
+            for (const label of finalLabelsToAdd) {
               await ensureLabel(label);
             }
-            const merged = ensureArrayUnique([...current, ...labelsToAdd]);
+            const merged = ensureArrayUnique([...current, ...finalLabelsToAdd]);
             await github.rest.issues.update({ owner, repo, issue_number: issueNumber, labels: merged });
             out.action_result = 'labels-updated';
-            out.applied_labels = labelsToAdd.join(',');
+            out.applied_labels = finalLabelsToAdd.join(',');
             setOutputs();
             return;
           }
 
           if (op === 'clear_status') {
-            for (const label of ensureArrayUnique([...labelsToRemove, ...statusGroup])) {
+            const finalLabelsToRemove = ensureArrayUnique([...labelsToRemove, ...statusGroup]);
+            for (const label of finalLabelsToRemove) {
               await ensureLabel(label);
             }
-            const filtered = current.filter((l) => !labelsToRemove.includes(l));
+            const filtered = current.filter((l) => !finalLabelsToRemove.includes(l));
             await github.rest.issues.update({ owner, repo, issue_number: issueNumber, labels: filtered });
             out.action_result = 'labels-updated';
-            out.removed_labels = labelsToRemove.join(',');
+            out.removed_labels = finalLabelsToRemove.join(',');
             setOutputs();
             return;
           }
