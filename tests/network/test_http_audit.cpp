@@ -10,6 +10,7 @@
 #include <unistd.h>
 #endif
 
+#include "test_artifacts.h"
 #include "server/http_server.h"
 #include "storage/rocksdb_wrapper.h"
 #include "index/secondary_index.h"
@@ -55,8 +56,8 @@ protected:
         std::this_thread::sleep_for(std::chrono::milliseconds(150));
 
         // Create a sample audit log line (plaintext payload JSON string)
-        std::filesystem::create_directories("data/logs");
-        std::ofstream ofs("data/logs/audit.jsonl", std::ios::app | std::ios::binary);
+        const auto audit_log_path = themis::test::central_log_path("audit.jsonl");
+        std::ofstream ofs(audit_log_path, std::ios::app | std::ios::binary);
             // Minimal event: user alice CREATE user entity
             nlohmann::json event = {
                 {"user", "alice"},
@@ -83,8 +84,8 @@ protected:
         if (std::filesystem::exists(db_path)) {
           std::filesystem::remove_all(db_path);
         }
-        if (std::filesystem::exists("data/logs/audit.jsonl")) {
-          std::filesystem::remove("data/logs/audit.jsonl");
+        if (std::filesystem::exists(themis::test::central_log_path("audit.jsonl"))) {
+          std::filesystem::remove(themis::test::central_log_path("audit.jsonl"));
         }
     }
 
@@ -161,9 +162,10 @@ TEST_F(AuditHttpApiTest, CsvExportReturnsHeaderAndRow) {
 
 TEST_F(AuditHttpApiTest, UrlDecodingAndIso8601RangeAndRateLimit) {
     // Append an entry with special chars and a known action
-    std::filesystem::create_directories("data/logs");
+    const auto audit_log_path = themis::test::central_log_path("audit.jsonl");
+    std::filesystem::create_directories(audit_log_path.parent_path());
     {
-        std::ofstream ofs("data/logs/audit.jsonl", std::ios::app | std::ios::binary);
+        std::ofstream ofs(audit_log_path, std::ios::app | std::ios::binary);
         nlohmann::json ev = {
             {"user", "alice+admin"},
             {"action", "VIEW/ACCESS"},

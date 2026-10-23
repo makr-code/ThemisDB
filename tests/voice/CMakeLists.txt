@@ -80,6 +80,8 @@ foreach(_src IN LISTS VOICE_MODULE_TEST_SOURCES)
             )
         else()
             target_link_libraries(${_target} PRIVATE
+                GTest::gtest
+                GTest::gtest_main
                 ${TEST_LIBS}
                 themis_core
                 spdlog::spdlog

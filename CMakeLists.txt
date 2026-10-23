@@ -1266,6 +1266,40 @@ else()
         "rocksdb, grpc, openssl-libs, boost-filesystem")
 endif()
 
+# Persist a per-build diagnostic log in the repo root logs/ directory. The
+# filename is the deterministic build UUID so each configure/build cycle is easy
+# to trace and correlate to its artifacts.
+set(THEMIS_BUILD_LOG_DIR "${CMAKE_SOURCE_DIR}/logs")
+file(MAKE_DIRECTORY "${THEMIS_BUILD_LOG_DIR}")
+
+if(DEFINED THEMIS_BUILD_UUID AND NOT "${THEMIS_BUILD_UUID}" STREQUAL "")
+    set(THEMIS_BUILD_LOG_PATH "${THEMIS_BUILD_LOG_DIR}/${THEMIS_BUILD_UUID}.log")
+    set(_THEMIS_BUILD_LOG_SCRIPT "${CMAKE_BINARY_DIR}/cmake/write_build_log.cmake")
+    configure_file("${CMAKE_SOURCE_DIR}/cmake/WriteBuildLog.cmake" "${_THEMIS_BUILD_LOG_SCRIPT}" COPYONLY)
+
+    add_custom_target(themis_build_log ALL
+        COMMAND ${CMAKE_COMMAND}
+            -DLOG_DIR="${THEMIS_BUILD_LOG_DIR}"
+            -DLOG_PATH="${THEMIS_BUILD_LOG_PATH}"
+            -DGENERATOR="${CMAKE_GENERATOR}"
+            -DBINARY_DIR="${CMAKE_BINARY_DIR}"
+            -DPROJECT_NAME="${PROJECT_NAME}"
+            -DVERSION="${THEMIS_VERSION}"
+            -DBUILD_TYPE="${CMAKE_BUILD_TYPE}"
+            -DTHEMIS_BUILD_UUID="${THEMIS_BUILD_UUID}"
+            -DTHEMIS_BUILD_ID="${THEMIS_BUILD_ID}"
+            -DTHEMIS_BUILD_TIMESTAMP="${THEMIS_BUILD_TIMESTAMP}"
+            -DTHEMIS_BUILD_CHANNEL="${THEMIS_BUILD_CHANNEL}"
+            -DTHEMIS_BUILD_VERSION_STRING="${THEMIS_BUILD_VERSION_STRING}"
+            -DTHEMIS_EDITION="${THEMIS_EDITION}"
+            -P "${_THEMIS_BUILD_LOG_SCRIPT}"
+        COMMENT "Writing build log ${THEMIS_BUILD_LOG_PATH}"
+        VERBATIM
+    )
+
+    file(WRITE "${THEMIS_BUILD_LOG_PATH}" "ThemisDB build log\n")
+endif()
+
 # include(CPack) must come AFTER all CPACK_* variables are set.
 include(CPack)
 

@@ -1,7 +1,7 @@
 # Optional compiler cache integration (sccache/ccache) to speed up incremental builds.
 
 option(THEMIS_ENABLE_COMPILER_CACHE
-       "Require compiler cache launcher (sccache) for all builds"
+       "Enable compiler cache launcher (sccache) when available for incremental builds"
        ON)
 
 set(THEMIS_COMPILER_CACHE_PROGRAM ""
@@ -9,9 +9,11 @@ set(THEMIS_COMPILER_CACHE_PROGRAM ""
     "Explicit cache launcher executable (must be sccache or a valid sccache-compatible path)")
 
 if(NOT THEMIS_ENABLE_COMPILER_CACHE)
-    message(FATAL_ERROR
-        "ThemisDB requires sccache for all builds. Remove -DTHEMIS_ENABLE_COMPILER_CACHE=OFF and ensure sccache is installed and on PATH."
-    )
+    unset(CMAKE_C_COMPILER_LAUNCHER CACHE)
+    unset(CMAKE_CXX_COMPILER_LAUNCHER CACHE)
+    set(THEMIS_COMPILER_CACHE_ACTIVE FALSE CACHE BOOL "Whether compiler cache launcher is active for this configure" FORCE)
+    message(STATUS "Compiler cache disabled by configuration (THEMIS_ENABLE_COMPILER_CACHE=OFF).")
+    return()
 endif()
 
 set(_themis_cache_candidates "")
@@ -116,7 +118,8 @@ if(THEMIS_COMPILER_CACHE_EXECUTABLE)
 else()
     unset(CMAKE_C_COMPILER_LAUNCHER CACHE)
     unset(CMAKE_CXX_COMPILER_LAUNCHER CACHE)
-    message(FATAL_ERROR
-        "ThemisDB requires sccache for all builds, but no compiler cache launcher was found. Tried: ${_themis_cache_candidates}. Install sccache or set THEMIS_COMPILER_CACHE_PROGRAM to a valid path."
+    set(THEMIS_COMPILER_CACHE_ACTIVE FALSE CACHE BOOL "Whether compiler cache launcher is active for this configure" FORCE)
+    message(WARNING
+        "No compiler cache launcher was found. Tried: ${_themis_cache_candidates}. Build will continue without the cache."
     )
 endif()

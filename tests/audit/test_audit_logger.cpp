@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 
+#include "test_artifacts.h"
 #include "utils/audit_logger.h"
 #include "security/mock_key_provider.h"
 #include "themis/edition.h"
@@ -25,7 +26,7 @@ protected:
         pki_cfg.service_id = "test";
         pki_ = std::make_shared<VCCPKIClient>(pki_cfg);
         
-        log_path_ = "data/logs/test_audit.jsonl";
+        log_path_ = themis::test::central_log_path("test_audit.jsonl").string();
         std::filesystem::remove(log_path_);
     }
     
@@ -228,7 +229,7 @@ TEST_F(AuditLoggerTest, ArchiveOldEntries) {
     
     // Archive entries older than 5 years
     auto archive_threshold = now - std::chrono::hours(24 * 365 * 5);
-    std::string archive_path = "data/logs/test_audit_archive.jsonl";
+    std::string archive_path = themis::test::central_log_path("test_audit_archive.jsonl").string();
     std::filesystem::remove(archive_path);
     
     size_t archived = logger.archiveOldEntries(archive_threshold, archive_path);
@@ -345,7 +346,7 @@ TEST_F(AuditLoggerTest, RetentionWithNoOldEntries) {
     
     // Try to archive/purge with thresholds that won't match anything
     auto recent_threshold = std::chrono::system_clock::now() - std::chrono::hours(24);
-    std::string archive_path = "data/logs/test_audit_archive2.jsonl";
+    std::string archive_path = themis::test::central_log_path("test_audit_archive2.jsonl").string();
     std::filesystem::remove(archive_path);
     
     size_t archived = logger.archiveOldEntries(recent_threshold, archive_path);
@@ -398,7 +399,7 @@ TEST_F(AuditLoggerTest, LogRotationOnSizeLimit) {
 }
 
 TEST_F(AuditLoggerTest, SecondaryLogPathMirror) {
-    std::string secondary_path = "data/logs/test_audit_secondary.jsonl";
+    std::string secondary_path = themis::test::central_log_path("test_audit_secondary.jsonl").string();
     std::filesystem::remove(secondary_path);
 
     AuditLoggerConfig cfg;

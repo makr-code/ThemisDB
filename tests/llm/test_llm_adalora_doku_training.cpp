@@ -31,6 +31,7 @@
 
 #include <gtest/gtest.h>
 
+#include "test_artifacts.h"
 #include "training/ada_lora_adapter.h"
 
 #include <algorithm>
@@ -62,13 +63,16 @@ std::string findDokuDbPath() {
 
     const char* env_ws = std::getenv("GITHUB_WORKSPACE");
     std::vector<std::filesystem::path> candidates = {
-        "build/test-assets/doku.db.json",
-        "../build/test-assets/doku.db.json",
-        "test-assets/doku.db.json",
+        themis::test::central_asset_path("doku.db.json"),
+        themis::test::central_asset_path("llm/doku.db.json"),
+        std::filesystem::path("assets/doku.db.json"),
+        std::filesystem::path("assets/llm/doku.db.json"),
     };
     if (env_ws) {
         candidates.insert(candidates.begin(),
-            std::filesystem::path(env_ws) / "build/test-assets/doku.db.json");
+            std::filesystem::path(env_ws) / "assets/doku.db.json");
+        candidates.insert(candidates.begin(),
+            std::filesystem::path(env_ws) / "assets/llm/doku.db.json");
     }
     for (const auto& c : candidates) {
         if (std::filesystem::exists(c) && std::filesystem::is_regular_file(c)) {

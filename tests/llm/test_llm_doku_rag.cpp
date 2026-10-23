@@ -12,6 +12,7 @@
 
 #include <gtest/gtest.h>
 
+#include "test_artifacts.h"
 #include "llm/wiki_index_store.h"
 #include "llm/wiki_rag_source.h"
 
@@ -44,14 +45,18 @@ std::string findDokuDbPath() {
     }
 
     std::vector<std::filesystem::path> candidates = {
-        std::filesystem::path("build/test-assets/doku.db.json"),
-        std::filesystem::path("build/test-assets/doku.db"),
-        std::filesystem::path("../build/test-assets/doku.db.json"),
-        std::filesystem::path("test-assets/doku.db.json"),
+        themis::test::central_asset_path("doku.db.json"),
+        themis::test::central_asset_path("doku.db"),
+        themis::test::central_asset_path("llm/doku.db.json"),
+        std::filesystem::path("assets/doku.db.json"),
+        std::filesystem::path("assets/llm/doku.db.json"),
+        std::filesystem::path("../assets/doku.db.json"),
     };
     if (env_ws) {
         candidates.insert(candidates.begin(),
-            std::filesystem::path(env_ws) / "build/test-assets/doku.db.json");
+            std::filesystem::path(env_ws) / "assets/doku.db.json");
+        candidates.insert(candidates.begin(),
+            std::filesystem::path(env_ws) / "assets/llm/doku.db.json");
     }
 
     for (const auto& c : candidates) {
