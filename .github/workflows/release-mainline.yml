@@ -182,6 +182,9 @@ jobs:
         uses: ./.github/actions/check-build-status
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+          # On this schedule-gated step, bootstrap always runs first and provides issue-number.
+          # If this step is ever generalized to non-schedule events, empty issue-number is valid:
+          # check-build-status will fall back to marker-based discovery.
           issue-number: ${{ steps.bootstrap_build_tracker.outputs.issue-number }}
           enforce: 'true'
           fail-if-missing: 'true'
