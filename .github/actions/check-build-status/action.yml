@@ -34,6 +34,13 @@ inputs:
       Set to 'false' to emit a warning and continue when no tracker issue exists.
     required: false
     default: 'true'
+  issue-number:
+    description: |
+      Optional tracker issue number to read directly (for example from a preceding
+      bootstrap-build-tracker step). When provided and valid, the action fetches
+      that issue before falling back to marker-based discovery.
+    required: false
+    default: ''
 
 outputs:
   build-status:
@@ -52,11 +59,13 @@ runs:
       env:
         ENFORCE: ${{ inputs.enforce }}
         FAIL_IF_MISSING: ${{ inputs.fail-if-missing }}
+        ISSUE_NUMBER: ${{ inputs.issue-number }}
       with:
         github-token: ${{ inputs.repo-token }}
         script: |
           const enforce      = process.env.ENFORCE      !== 'false';
           const failIfMissing = process.env.FAIL_IF_MISSING !== 'false';
+          const providedIssueNumber = (process.env.ISSUE_NUMBER || '').trim();
           const marker = '<!-- ci-build:type:build-status -->';
           const { owner, repo } = context.repo;
 
@@ -71,7 +80,33 @@ runs:
           };
 
           let tracker = null;
+          if (/^[0-9]+$/.test(providedIssueNumber)) {
+            try {
+              const response = await github.rest.issues.get({
+                owner,
+                repo,
+                issue_number: Number(providedIssueNumber),
+              });
+              const candidate = response.data;
+              if ((candidate.body || '').includes(marker)) {
+                tracker = candidate;
+                core.notice(`Using provided build-status tracker issue #${candidate.number}.`);
+              } else {
+                core.warning(
+                  `Provided issue #${candidate.number} does not contain the build-status marker; falling back to marker discovery.`
+                );
+              }
+            } catch (error) {
+              core.warning(
+                `Could not read provided tracker issue #${providedIssueNumber}; falling back to marker discovery (${error.message}).`
+              );
+            }
+          } else if (providedIssueNumber.length > 0) {
+            core.warning(`Ignoring non-numeric issue-number input: "${providedIssueNumber}".`);
+          }
+
           for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt += 1) {
+            if (tracker) break;
             tracker = await findTracker();
             if (tracker) break;
             if (attempt < MAX_ATTEMPTS) {
