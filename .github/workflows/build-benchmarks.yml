@@ -91,6 +91,7 @@ jobs:
           sparse-checkout: .github/actions
           sparse-checkout-cone-mode: false
       - name: Bootstrap build tracker issue (schedule gate)
+        id: bootstrap_build_tracker
         if: github.event_name == 'schedule'
         uses: ./.github/actions/bootstrap-build-tracker
         with:
@@ -99,6 +100,9 @@ jobs:
         uses: ./.github/actions/check-build-status
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+          # bootstrap_build_tracker is schedule-only; on workflow_dispatch this is empty.
+          # check-build-status accepts empty issue-number and falls back to marker discovery.
+          issue-number: ${{ steps.bootstrap_build_tracker.outputs.issue-number }}
           # Hard-fail on scheduled runs; warn only on manual dispatch.
           enforce: ${{ github.event_name == 'schedule' && 'true' || 'false' }}
           fail-if-missing: ${{ github.event_name == 'schedule' && 'true' || 'false' }}
