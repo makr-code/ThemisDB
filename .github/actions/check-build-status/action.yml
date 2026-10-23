@@ -75,7 +75,7 @@ runs:
             tracker = await findTracker();
             if (tracker) break;
             if (attempt < MAX_ATTEMPTS) {
-              const delayMs = RETRY_DELAY_MS * (2 ** (attempt - 1));
+              const delayMs = RETRY_DELAY_MS * (2 ** attempt);
               core.notice(
                 `Build-status tracker issue not visible yet; will retry (attempt ${attempt + 1} of ${MAX_ATTEMPTS}) after ${delayMs}ms...`
               );
