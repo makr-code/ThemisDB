@@ -61,6 +61,7 @@ runs:
           const { owner, repo } = context.repo;
 
           const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+          const MAX_ATTEMPTS = 3;
           const findTracker = async () => {
             const allIssues = await github.paginate(github.rest.issues.listForRepo, {
               owner, repo, state: 'open', per_page: 100,
@@ -69,11 +70,11 @@ runs:
           };
 
           let tracker = null;
-          for (let attempt = 1; attempt <= 3; attempt += 1) {
+          for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt += 1) {
             tracker = await findTracker();
             if (tracker) break;
-            if (attempt < 3) {
-              core.notice(`Build-status tracker issue not visible yet; retrying (${attempt}/3)...`);
+            if (attempt < MAX_ATTEMPTS) {
+              core.notice(`Build-status tracker issue not visible yet; retrying (${attempt}/${MAX_ATTEMPTS})...`);
               await sleep(2000);
             }
           }
