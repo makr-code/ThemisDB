@@ -34,6 +34,13 @@ inputs:
       Set to 'false' to emit a warning and continue when no tracker issue exists.
     required: false
     default: 'true'
+  issue-number:
+    description: |
+      Optional tracker issue number to read directly (for example from a preceding
+      bootstrap-build-tracker step). When provided and valid, the action fetches
+      that issue before falling back to marker-based discovery.
+    required: false
+    default: ''
 
 outputs:
   build-status:
@@ -52,18 +59,67 @@ runs:
       env:
         ENFORCE: ${{ inputs.enforce }}
         FAIL_IF_MISSING: ${{ inputs.fail-if-missing }}
+        ISSUE_NUMBER: ${{ inputs.issue-number }}
       with:
         github-token: ${{ inputs.repo-token }}
         script: |
           const enforce      = process.env.ENFORCE      !== 'false';
           const failIfMissing = process.env.FAIL_IF_MISSING !== 'false';
+          const providedIssueNumber = (process.env.ISSUE_NUMBER || '').trim();
           const marker = '<!-- ci-build:type:build-status -->';
           const { owner, repo } = context.repo;
 
-          const allIssues = await github.paginate(github.rest.issues.listForRepo, {
-            owner, repo, state: 'open', per_page: 100,
-          });
-          const tracker = allIssues.find(i => (i.body || '').includes(marker));
+          const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+          const MAX_ATTEMPTS = 3;
+          const BASE_RETRY_DELAY_MS = 2000;
+          const findTracker = async () => {
+            const allIssues = await github.paginate(github.rest.issues.listForRepo, {
+              owner, repo, state: 'open', per_page: 100,
+            });
+            return allIssues.find(i => (i.body || '').includes(marker));
+          };
+
+          let tracker = null;
+          if (/^[0-9]+$/.test(providedIssueNumber)) {
+            try {
+              const response = await github.rest.issues.get({
+                owner,
+                repo,
+                issue_number: Number(providedIssueNumber),
+              });
+              const candidate = response.data;
+              if ((candidate.body || '').includes(marker)) {
+                tracker = candidate;
+                core.notice(`Using provided build-status tracker issue #${candidate.number}.`);
+              } else {
+                core.warning(
+                  `Provided issue #${candidate.number} does not contain the build-status marker; falling back to marker discovery.`
+                );
+              }
+            } catch (error) {
+              core.warning(
+                `Could not read provided tracker issue #${providedIssueNumber}; falling back to marker discovery (${error.message}).`
+              );
+            }
+          } else if (providedIssueNumber.length > 0) {
+            core.warning(`Ignoring non-numeric issue-number input: "${providedIssueNumber}".`);
+          }
+
+          let attempt = 1;
+          while (!tracker && attempt <= MAX_ATTEMPTS) {
+            tracker = await findTracker();
+            if (!tracker && attempt < MAX_ATTEMPTS) {
+              const delayMs = BASE_RETRY_DELAY_MS * (2 ** (attempt - 1));
+              core.notice(
+                `Build-status tracker issue not visible yet; attempt ${attempt} of ${MAX_ATTEMPTS} failed. ` +
+                `Waiting ${delayMs}ms before the next attempt...`
+              );
+              await sleep(delayMs);
+            } else if (!tracker) {
+              core.notice(`Build-status tracker issue was not found after ${MAX_ATTEMPTS} attempt(s).`);
+            }
+            attempt += 1;
+          }
 
           if (!tracker) {
             const msg = 'No ci-build tracker issue found (marker: <!-- ci-build:type:build-status -->).';
@@ -110,4 +166,3 @@ runs:
               `Build status is unknown; proceeding with caution.`
             );
           }
-

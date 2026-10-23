@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0",
+  "suites": {
+    "all": {
+      "binary_regex": "^bench_"
+    },
+    "baseline": {
+      "binary_regex": "bench_(w4a_release_gates|p0_crud_baseline|sanity|smoke|phase1_.*|phase0_.*)"
+    },
+    "core": {
+      "binary_regex": "bench_(crud|mvcc|wal_stress|simple_insert_test|cross_functional_end_to_end|latency_comprehensive|scalability_comprehensive)"
+    },
+    "index": {
+      "binary_regex": "bench_(ann_.*|cuda_vs_cpu|simd_distance|category_b_gpu_cpu_parity|tensor_cpu_gpu_dispatch|gpu_backends)"
+    },
+    "search": {
+      "binary_regex": "bench_(rag_.*|.*search.*|fts_.*|hybrid_search)"
+    },
+    "llm": {
+      "binary_regex": "bench_(llm_.*|lora_.*|embedded_llm|phase1_flash_attention|raid_lora|legal_lora_pipeline)"
+    }
+  }
+}

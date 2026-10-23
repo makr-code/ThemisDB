@@ -1,27 +1,8 @@
 name: "Build: Wave B LLM Benchmarks"
 
-# Rechenaufwand-Score: R=8 (K=8, L=8, N=8) | last-calibrated: 2026-09-23
+# Rechenaufwand-Score: R=8 (K=8, L=8, N=8) | last-calibrated: 2026-10-22
 # Trigger policy: Manual dispatch-only; hardware-intensive benchmark execution.
-# Experimental Wave-B LLM inference + wiki embedding benchmarking.
-#
-# Purpose: Validate performance of:
-#   - TinyLlama inference (Q4_K_M quantization)
-#   - doku.db vector similarity search (HNSW index)
-#   - AdaLoRA fine-tuning integration
-#   - Multi-GPU index operations (Wave A GPU bridge)
-#
-# Scenarios:
-#   - small_10k:  10k documents, validate inference + embedding baseline
-#   - medium_1m:  1M documents, stress test retrieval latency
-#   - large_10m:  10M documents, measure scaling limits
-#   - all:        Run all scenarios sequentially (6–8 hours total)
-#
-# Inputs:
-#   - scenario: Benchmark scale (small_10k/medium_1m/large_10m/all)
-#
-# Output: Benchmark results uploaded as workflow artifact + optional issue comment
-# Trigger: Manual `gh workflow run` or GitHub UI dispatch
-# Non-blocking: Does not affect releases or PR gates
+# Wave-B benchmarking with real benchmark binaries (no skeleton placeholders).
 
 permissions:
   contents: read
@@ -39,23 +20,48 @@ on:
           - medium_1m
           - large_10m
           - all
-
+      benchmark_filter:
+        description: 'Optional Google Benchmark filter regex override'
+        required: false
+        default: ''
+        type: string
+      benchmark_suite:
+        description: 'Thematic benchmark suite'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - baseline
+          - core
+          - index
+          - search
+          - llm
+      execution_backend:
+        description: 'Execution backend'
+        required: true
+        default: 'gbenchmark'
+        type: choice
+        options:
+          - gbenchmark
+          - ctest
+      benchmark_framework:
+        description: 'Benchmark framework mode'
+        required: true
+        default: 'gbenchmark'
+        type: choice
+        options:
+          - gbenchmark
+          - cbenchmark
 
 concurrency:
-  # Keep a stable branch-level queue so manual/scheduled benchmark runs serialize on the
-  # same ref instead of creating a fresh run_id-based concurrency bucket for every run.
   group: build-wave-b-llm-${{ github.ref }}
   cancel-in-progress: false
-env:
-  WAVE_B_DATA_DIR: benchmarks/wave_b_data
-  WAVE_B_RESULTS_DIR: benchmarks/wave_b_results
 
 jobs:
   hardware-detection:
     name: "Validate: Hardware Detection"
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     timeout-minutes: 15
     outputs:
       hardware_profile: ${{ steps.detect.outputs.hardware_profile }}
@@ -76,50 +82,23 @@ jobs:
             echo "hardware_profile=cpu" >> "$GITHUB_OUTPUT"
           fi
 
-  data-preparation:
-    name: "Build: Data Preparation"
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    needs: hardware-detection
-    timeout-minutes: 30
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-
-      - name: Prepare Data
-        shell: bash
-        run: |
-          mkdir -p "${{ env.WAVE_B_DATA_DIR }}"
-          mkdir -p "${{ env.WAVE_B_RESULTS_DIR }}"
-          echo "Data preparation for ${{ inputs.scenario }}"
-
   benchmark-execution:
     name: "Benchmark: (${{ matrix.scenario }})"
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    needs: data-preparation
-    timeout-minutes: 120
+    uses: ./.github/workflows/reusable-benchmark-build-run-report.yml
+    needs: hardware-detection
     strategy:
+      fail-fast: false
       matrix:
         scenario: ${{ fromJson(inputs.scenario == 'all' && '["small_10k", "medium_1m", "large_10m"]' || format('["{0}"]', inputs.scenario)) }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-
-      - name: Execute Benchmark
-        shell: bash
-        run: |
-          echo "Executing benchmark: ${{ matrix.scenario }}"
-          mkdir -p ${{ env.WAVE_B_RESULTS_DIR }}
-          echo '{"status": "phase_1_skeleton", "scenario": "${{ matrix.scenario }}"}' > ${{ env.WAVE_B_RESULTS_DIR }}/results_${{ matrix.scenario }}.json
-
-      - name: Upload Results
-        uses: actions/upload-artifact@v5
-        with:
-          name: wave-b-results-${{ matrix.scenario }}
-          path: ${{ env.WAVE_B_RESULTS_DIR }}/
-          retention-days: 30
+    with:
+      scenario_label: ${{ matrix.scenario }}
+      benchmark_suite: ${{ inputs.benchmark_suite }}
+      benchmark_filter: ${{ inputs.benchmark_filter }}
+      execution_backend: ${{ inputs.execution_backend }}
+      benchmark_framework: ${{ inputs.benchmark_framework }}
+      benchmark_min_time: ${{ matrix.scenario == 'small_10k' && '0.10s' || matrix.scenario == 'medium_1m' && '0.25s' || '0.50s' }}
+      benchmark_repetitions: 3
+      hardware_profile: ${{ needs.hardware-detection.outputs.hardware_profile }}
+      timeout_minutes: 180
+      run_hybrid_break_even: true
+      enable_ctest_validation: true

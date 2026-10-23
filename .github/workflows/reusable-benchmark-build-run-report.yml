@@ -1,0 +1,305 @@
+name: "Reusable: Benchmark Build/Run/Report"
+
+on:
+  workflow_call:
+    inputs:
+      scenario_label:
+        description: 'Scenario label for output artifact naming'
+        required: true
+        type: string
+      benchmark_suite:
+        description: 'Thematic benchmark suite (all|baseline|core|index|search|llm)'
+        required: false
+        default: 'all'
+        type: string
+      benchmark_filter:
+        description: 'Optional Google Benchmark filter override'
+        required: false
+        default: ''
+        type: string
+      execution_backend:
+        description: 'Execution backend (gbenchmark|ctest)'
+        required: false
+        default: 'gbenchmark'
+        type: string
+      benchmark_framework:
+        description: 'Benchmark framework (gbenchmark|cbenchmark)'
+        required: false
+        default: 'gbenchmark'
+        type: string
+      benchmark_min_time:
+        description: 'Google Benchmark minimum time, e.g. 0.10s'
+        required: false
+        default: '0.10s'
+        type: string
+      benchmark_repetitions:
+        description: 'Google Benchmark repetitions'
+        required: false
+        default: 3
+        type: number
+      hardware_profile:
+        description: 'Hardware profile from caller'
+        required: false
+        default: 'unknown'
+        type: string
+      timeout_minutes:
+        description: 'Job timeout in minutes'
+        required: false
+        default: 180
+        type: number
+      run_hybrid_break_even:
+        description: 'Generate hybrid break-even report'
+        required: false
+        default: true
+        type: boolean
+      build_target:
+        description: 'CMake benchmark target to build from benchmark list'
+        required: false
+        default: 'themis_benchmarks_all_eligible'
+        type: string
+      enable_ctest_validation:
+        description: 'Run ctest smoke validation after benchmark execution'
+        required: false
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark-pipeline:
+    name: "Benchmark Pipeline: ${{ inputs.scenario_label }} / ${{ inputs.benchmark_suite }}"
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ inputs.timeout_minutes }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install build dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            build-essential \
+            ninja-build \
+            pkg-config \
+            python3 \
+            librocksdb-dev \
+            libgtest-dev \
+            libgmock-dev \
+            libssl-dev \
+            zlib1g-dev \
+            libfmt-dev \
+            libspdlog-dev \
+            libtbb-dev \
+            nlohmann-json3-dev \
+            libbenchmark-dev \
+            libboost-dev \
+            libboost-system-dev
+
+      - name: Prepare benchmark artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p benchmark-artifacts/results
+          bash ./scripts/prepare_llm_bench_artifacts.sh --model-dir "${GITHUB_WORKSPACE}/models"
+          echo "THEMIS_MODEL_DIR=${GITHUB_WORKSPACE}/models" >> "$GITHUB_ENV"
+          if [[ -f "${GITHUB_WORKSPACE}/models/gguf/Meta-Llama-3-8B-Instruct.Q4_K_M.gguf" ]]; then
+            echo "THEMIS_LLM_STUB_MODELS=OFF" >> "$GITHUB_ENV"
+          else
+            echo "THEMIS_LLM_STUB_MODELS=ON" >> "$GITHUB_ENV"
+          fi
+
+      - name: Configure benchmark build
+        shell: bash
+        run: |
+          set -euo pipefail
+          cmake -S . -B build/bench-suite -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DTHEMIS_BUILD_BENCHMARKS=ON \
+            -DTHEMIS_BUILD_TESTS=OFF \
+            -DTHEMIS_ENABLE_LLM=ON \
+            -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
+            -DTHEMIS_MODELS_MODE=SKIP
+
+      - name: Build benchmark target from CMake benchmark list
+        shell: bash
+        run: |
+          set -euo pipefail
+          cmake --build build/bench-suite --parallel "$(nproc)" --target "${{ inputs.build_target }}"
+
+      - name: Execute thematic benchmark suite
+        if: ${{ inputs.execution_backend == 'gbenchmark' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          RESULTS_DIR="benchmark-artifacts/results"
+          SUITE="${{ inputs.benchmark_suite }}"
+          EXTRA_FILTER="${{ inputs.benchmark_filter }}"
+          MIN_TIME="${{ inputs.benchmark_min_time }}"
+          REPS="${{ inputs.benchmark_repetitions }}"
+          FRAMEWORK="${{ inputs.benchmark_framework }}"
+          SUITE_MAP="benchmarks/benchmark_suite_map.json"
+
+          if [[ ! -f "${SUITE_MAP}" ]]; then
+            echo "::error::Missing benchmark suite map: ${SUITE_MAP}"
+            exit 1
+          fi
+
+          SUITE_BIN_REGEX="$(python3 -c "import json; data=json.load(open('${SUITE_MAP}', encoding='utf-8')); suites=data.get('suites', {}); s='${SUITE}'; s=s if s in suites else 'all'; print(suites.get(s, suites.get('all', {})).get('binary_regex', '^bench_'))")"
+
+          mapfile -t BINARIES < <(find build/bench-suite -maxdepth 6 -type f -name 'bench_*' | sort)
+          RUN_COUNT=0
+          FAIL_COUNT=0
+
+          for BIN in "${BINARIES[@]}"; do
+            if [[ ! -x "${BIN}" ]]; then
+              continue
+            fi
+            NAME="$(basename "${BIN}")"
+            if [[ ! "${NAME}" =~ ${SUITE_BIN_REGEX} ]]; then
+              continue
+            fi
+
+            OUT="${RESULTS_DIR}/${NAME}.json"
+            ARGS=()
+            if [[ "${FRAMEWORK}" == "gbenchmark" ]]; then
+              ARGS=(
+                "--benchmark_min_time=${MIN_TIME}"
+                "--benchmark_format=json"
+                "--benchmark_out=${OUT}"
+                "--benchmark_out_format=json"
+                "--benchmark_repetitions=${REPS}"
+              )
+              if [[ -n "${EXTRA_FILTER}" ]]; then
+                ARGS+=("--benchmark_filter=${EXTRA_FILTER}")
+              fi
+            else
+              echo "::warning::benchmark_framework='${FRAMEWORK}' requested; running ${NAME} in compatibility mode."
+            fi
+
+            echo "::group::Running ${NAME}"
+            set +e
+            if [[ "${FRAMEWORK}" == "gbenchmark" ]]; then
+              "${BIN}" "${ARGS[@]}"
+              STATUS=$?
+            else
+              "${BIN}" > "${RESULTS_DIR}/${NAME}.txt" 2>&1
+              STATUS=$?
+              BENCH_OUT="${OUT}" BENCH_NAME="${NAME}" BENCH_FRAMEWORK="${FRAMEWORK}" BENCH_STATUS="${STATUS}" \
+                python3 -c "import json, os, pathlib; pathlib.Path(os.environ['BENCH_OUT']).write_text(json.dumps({'binary': os.environ['BENCH_NAME'], 'framework': os.environ['BENCH_FRAMEWORK'], 'status': int(os.environ['BENCH_STATUS'])}), encoding='utf-8')"
+            fi
+            set -e
+            if [[ ${STATUS} -eq 0 ]]; then
+              RUN_COUNT=$((RUN_COUNT + 1))
+            else
+              echo "::warning::${NAME} exited non-zero."
+              FAIL_COUNT=$((FAIL_COUNT + 1))
+            fi
+            echo "::endgroup::"
+          done
+
+          {
+            echo "RUN_COUNT=${RUN_COUNT}"
+            echo "FAIL_COUNT=${FAIL_COUNT}"
+            echo "SUITE_BIN_REGEX=${SUITE_BIN_REGEX}"
+          } >> "$GITHUB_ENV"
+
+      - name: Execute ctest benchmark smoke suite
+        if: ${{ inputs.execution_backend == 'ctest' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p benchmark-artifacts/results
+          ctest --test-dir build/bench-suite \
+            --output-on-failure \
+            --output-junit benchmark-artifacts/results/ctest_${{ inputs.scenario_label }}.xml \
+            -R "smoke_bench_|bench_"
+          RUN_COUNT=$(grep -c "<testcase" benchmark-artifacts/results/ctest_${{ inputs.scenario_label }}.xml || true)
+          {
+            echo "RUN_COUNT=${RUN_COUNT}"
+            echo "FAIL_COUNT=0"
+            echo "SUITE_BIN_REGEX=ctest:smoke_bench_|bench_"
+          } >> "$GITHUB_ENV"
+
+      - name: Optional ctest smoke validation
+        if: ${{ inputs.enable_ctest_validation && inputs.execution_backend == 'gbenchmark' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          ctest --test-dir build/bench-suite --output-on-failure -R "smoke_bench_" || true
+
+      - name: Compare results against module expectations
+        if: ${{ inputs.execution_backend == 'gbenchmark' && inputs.benchmark_framework == 'gbenchmark' }}
+        shell: bash
+        run: |
+          set +e
+          python3 benchmarks/compare_expectations.py \
+            --src-dir src \
+            --results-dir benchmark-artifacts/results \
+            --output benchmark-artifacts/comparison_report.md \
+            --run-id "${{ github.run_id }}" \
+            --sha "${{ github.sha }}" \
+            --repo "${{ github.repository }}"
+          COMPARE_EXIT=$?
+          echo "compare_exit=${COMPARE_EXIT}" >> "$GITHUB_ENV"
+          if [[ ${COMPARE_EXIT} -eq 0 ]]; then
+            echo "COMPARE_STATUS=PASS" >> "$GITHUB_ENV"
+          else
+            echo "COMPARE_STATUS=FAIL" >> "$GITHUB_ENV"
+          fi
+          exit 0
+
+      - name: Set compare status for non-gbenchmark mode
+        if: ${{ !(inputs.execution_backend == 'gbenchmark' && inputs.benchmark_framework == 'gbenchmark') }}
+        shell: bash
+        run: |
+          echo "compare_exit=0" >> "$GITHUB_ENV"
+          echo "COMPARE_STATUS=SKIPPED" >> "$GITHUB_ENV"
+
+      - name: Generate hybrid break-even summary
+        if: ${{ inputs.run_hybrid_break_even }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 benchmarks/hybrid_break_even_report.py \
+            --ann benchmark-artifacts/results/bench_ann_cpu_gpu_dispatch.json \
+            --tensor benchmark-artifacts/results/bench_tensor_cpu_gpu_dispatch.json \
+            --graph benchmark-artifacts/results/bench_category_b_gpu_cpu_parity.json \
+            --output-json benchmark-artifacts/break_even_summary_${{ inputs.scenario_label }}.json \
+            --output-md benchmark-artifacts/break_even_summary_${{ inputs.scenario_label }}.md
+
+      - name: Write pipeline report
+        shell: bash
+        run: |
+          set -euo pipefail
+          REPORT="benchmark-artifacts/pipeline_report_${{ inputs.scenario_label }}_${{ inputs.benchmark_suite }}.md"
+          {
+            echo "# Benchmark Pipeline Report"
+            echo
+            echo "- Scenario: \`${{ inputs.scenario_label }}\`"
+            echo "- Suite: \`${{ inputs.benchmark_suite }}\`"
+            echo "- Hardware profile: \`${{ inputs.hardware_profile }}\`"
+            echo "- Binary selector: \`${SUITE_BIN_REGEX}\`"
+            echo "- Benchmarks executed: \`${RUN_COUNT}\`"
+            echo "- Benchmark failures: \`${FAIL_COUNT}\`"
+            echo "- Expectations compare: \`${COMPARE_STATUS:-SKIPPED}\`"
+            echo
+            echo "## Artifacts"
+            echo "- benchmark-artifacts/results/*.json"
+            echo "- benchmark-artifacts/comparison_report.md"
+            if [[ -f "benchmark-artifacts/break_even_summary_${{ inputs.scenario_label }}.md" ]]; then
+              echo "- benchmark-artifacts/break_even_summary_${{ inputs.scenario_label }}.md"
+            fi
+          } > "${REPORT}"
+
+      - name: Upload benchmark pipeline artifact
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: benchmark-pipeline-${{ inputs.scenario_label }}-${{ inputs.benchmark_suite }}-${{ github.run_id }}
+          path: benchmark-artifacts/
+          retention-days: 30
+          if-no-files-found: warn

@@ -213,8 +213,8 @@ jobs:
           cache_tag="$(sanitize "${{ runner.os }}-${runner_arch}-${toolchain_name}-${triplet_name}")"
           cache_scope="$(sanitize "${{ runner.os }}-${runner_arch}-${toolchain_name}-${triplet_name}")"
           sccache_dir="${GITHUB_WORKSPACE}/.cache/sccache-${cache_tag}"
-          vcpkg_cache_dir="${GITHUB_WORKSPACE}/.cache/vcpkg-binary-${cache_tag}"
-          vcpkg_downloads_dir="${GITHUB_WORKSPACE}/.cache/vcpkg-downloads-${cache_tag}"
+          vcpkg_cache_dir="${GITHUB_WORKSPACE}/.cache/vcpkg-binary/${cache_tag}"
+          vcpkg_downloads_dir="${GITHUB_WORKSPACE}/.cache/vcpkg-downloads/${cache_tag}"
 
           compiler_version=""
           if command -v gcc >/dev/null 2>&1; then
@@ -238,6 +238,8 @@ jobs:
             echo "VCPKG_DEFAULT_BINARY_CACHE=${vcpkg_cache_dir}"
             echo "VCPKG_BINARY_SOURCES=clear;files,${vcpkg_cache_dir},readwrite"
             echo "VCPKG_DOWNLOADS=${vcpkg_downloads_dir}"
+            echo "VCPKG_DOWNLOADS_ROOT=${vcpkg_downloads_dir}"
+            echo "VCPKG_FORCE_SYSTEM_BINARIES=true"
             echo "THEMIS_COMPILER_VERSION=$(printf '%s' "${compiler_version:-toolchain}" | tr ' ' '_' | tr -cd 'A-Za-z0-9_.-')"
             echo "THEMIS_CACHE_SCOPE=${cache_scope}"
           } >> "$GITHUB_ENV"
@@ -254,12 +256,23 @@ jobs:
             cmake-cache-${{ runner.os }}-${{ env.THEMIS_CACHE_TAG }}-
             cmake-cache-${{ runner.os }}-${{ env.THEMIS_CACHE_SCOPE }}-
             cmake-cache-${{ runner.os }}-
+          enableCrossOsArchive: false
 
       - name: Reset manifest installed tree
         shell: bash
         run: |
           set -euo pipefail
           rm -rf "${GITHUB_WORKSPACE}/vcpkg_installed"
+          mkdir -p "${GITHUB_WORKSPACE}/.cache/vcpkg-binary" "${GITHUB_WORKSPACE}/.cache/vcpkg-downloads"
+
+      - name: Print vcpkg cache resolution
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "vcpkg binary cache: ${VCPKG_DEFAULT_BINARY_CACHE:-<unset>}"
+          echo "vcpkg binary sources: ${VCPKG_BINARY_SOURCES:-<unset>}"
+          echo "vcpkg downloads: ${VCPKG_DOWNLOADS:-<unset>}"
+          ls -ld "${GITHUB_WORKSPACE}/.cache" "${GITHUB_WORKSPACE}/.cache/vcpkg-binary" "${GITHUB_WORKSPACE}/.cache/vcpkg-downloads" || true
 
       - name: Setup MSVC environment (Windows only)
         if: runner.os == 'Windows'

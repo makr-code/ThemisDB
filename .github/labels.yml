@@ -50,6 +50,11 @@
   description: "Build infrastructure error requiring action"
   type: blocker
 
+- name: "ci/build-cancelled"
+  color: "FBCA04"
+  description: "Build or gate was cancelled, interrupted, or skipped before completion"
+  type: warning
+
 - name: "ci/dependency-stale"
   color: "E4E669"
   description: "Stale or outdated dependencies detected"
@@ -91,6 +96,36 @@
   color: "FBCA04"
   description: "Requires explicit maintainer approval before proceeding"
   type: blocker
+
+- name: "release-review"
+  color: "D93F0B"
+  description: "Release publication tracking issue awaiting maintainer approval"
+  type: blocker
+
+- name: "docker-release"
+  color: "1D76DB"
+  description: "Docker publication tracking issue awaiting maintainer approval"
+  type: blocker
+
+- name: "winget-release"
+  color: "0052CC"
+  description: "WinGet publication tracking issue awaiting maintainer review"
+  type: blocker
+
+- name: "linux-distro-review"
+  color: "0E8A16"
+  description: "Linux distro publication tracking issue awaiting maintainer approval"
+  type: blocker
+
+- name: "windows-distro-review"
+  color: "5319E7"
+  description: "Windows distro publication tracking issue awaiting maintainer approval"
+  type: blocker
+
+- name: "distro-approved"
+  color: "0E8A16"
+  description: "Distro publication has been explicitly approved by a maintainer"
+  type: info
 
 - name: "status/needs-attention"
   color: "FBCA04"
