@@ -105,20 +105,20 @@ runs:
             core.warning(`Ignoring non-numeric issue-number input: "${providedIssueNumber}".`);
           }
 
-          for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt += 1) {
-            if (tracker) break;
+          let attempt = 1;
+          while (!tracker && attempt <= MAX_ATTEMPTS) {
             tracker = await findTracker();
-            if (tracker) break;
-            if (attempt < MAX_ATTEMPTS) {
+            if (!tracker && attempt < MAX_ATTEMPTS) {
               const delayMs = BASE_RETRY_DELAY_MS * (2 ** (attempt - 1));
               core.notice(
                 `Build-status tracker issue not visible yet (attempt ${attempt} of ${MAX_ATTEMPTS}); ` +
-                `retrying with attempt ${attempt + 1} after ${delayMs}ms...`
+                `retrying after ${delayMs}ms (next: attempt ${attempt + 1} of ${MAX_ATTEMPTS})...`
               );
               await sleep(delayMs);
-            } else {
+            } else if (!tracker) {
               core.notice(`Build-status tracker issue was not found after ${MAX_ATTEMPTS} attempt(s).`);
             }
+            attempt += 1;
           }
 
           if (!tracker) {
