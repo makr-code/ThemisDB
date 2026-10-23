@@ -1000,7 +1000,7 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends \
-            build-essential ninja-build \
+            build-essential ninja-build sccache \
             librocksdb-dev libgtest-dev libgmock-dev libssl-dev zlib1g-dev \
             libfmt-dev libspdlog-dev libtbb-dev nlohmann-json3-dev \
             libboost-dev libboost-system-dev libbenchmark-dev pkg-config
