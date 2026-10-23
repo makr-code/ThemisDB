@@ -812,10 +812,12 @@ std::string TaskAuditManager::generateAuditEntryHMAC(const TaskAuditEvent& event
     // Calculate HMAC-SHA256
     unsigned char hash[EVP_MAX_MD_SIZE];
     unsigned int hash_len = 0;
-    
+    const int key_len = static_cast<int>(config_.audit_hmac_key.size());
+    const int data_len = static_cast<int>(data.size());
+
     HMAC(EVP_sha256(),
-         config_.audit_hmac_key.data(), config_.audit_hmac_key.size(),
-         reinterpret_cast<const unsigned char*>(data.data()), data.size(),
+         config_.audit_hmac_key.empty() ? nullptr : config_.audit_hmac_key.data(), key_len,
+         reinterpret_cast<const unsigned char*>(data.data()), data_len,
          hash, &hash_len);
     
     // Convert to hex string

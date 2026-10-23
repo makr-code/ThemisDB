@@ -2,6 +2,12 @@ if(NOT DEFINED LOG_DIR OR NOT DEFINED LOG_PATH)
     message(FATAL_ERROR "WriteBuildLog.cmake requires LOG_DIR and LOG_PATH to be defined.")
 endif()
 
+foreach(_themis_log_var IN ITEMS LOG_DIR LOG_PATH)
+    if(DEFINED ${_themis_log_var})
+        string(REGEX REPLACE "^\"|\"$" "" ${_themis_log_var} "${${_themis_log_var}}")
+    endif()
+endforeach()
+
 file(MAKE_DIRECTORY "${LOG_DIR}")
 
 string(TIMESTAMP _THEMIS_BUILD_GENERATED_TS "%Y-%m-%dT%H:%M:%SZ" UTC)

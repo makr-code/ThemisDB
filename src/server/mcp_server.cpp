@@ -4015,8 +4015,8 @@ json McpServer::toolKgShortestPath(const json& args) {
             }
         }
 
-        int hop_count = edges.size();
-        bool found    = hop_count > 0 && hop_count <= max_hops;
+        const std::size_t hop_count = edges.size();
+        const bool found = hop_count > 0 && hop_count <= static_cast<std::size_t>(max_hops);
 
         spdlog::info("kg_shortest_path: from={} to={} hops={} found={}", from_node, to_node, hop_count, found);
         return {

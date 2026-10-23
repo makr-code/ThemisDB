@@ -144,9 +144,9 @@ std::vector<uint8_t> WasmHandlerRegistry::base64Decode(const std::string& encode
     int i = 0;
     unsigned char char4[4];
     unsigned char char3[3];
-    int len = encoded.size();
+    const std::size_t len = encoded.size();
 
-    int idx = 0;
+    std::size_t idx = 0;
     while (idx < len && encoded[idx] != '=' && isBase64(
                static_cast<unsigned char>(encoded[idx]))) {
         char4[i++] = static_cast<unsigned char>(encoded[idx]);

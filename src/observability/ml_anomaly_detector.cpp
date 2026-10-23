@@ -403,7 +403,8 @@ MLAnomalyDetector::detectAnomalies(const ForecastSeries& current_data) const {
     }
 
     // Forecast expected values for the same horizon.
-    auto forecast_points = forecast_model_.predict(pts.size());
+    const std::size_t horizon = std::min<std::size_t>(pts.size(), std::numeric_limits<int>::max());
+    auto forecast_points = forecast_model_.predict(static_cast<int>(horizon));
     std::vector<double> values = {};
 
     values.reserve(pts.size());

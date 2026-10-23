@@ -130,6 +130,11 @@ endif()
 # Make GoogleTest CMake helpers available (provides gtest_discover_tests)
 include(GoogleTest)
 
+# Shared test helpers live at the repository tests root; many module-scoped test
+# targets include them without a local relative path, so they must be on the
+# compiler include path for all test executables.
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+
 # Find yaml-cpp for test configuration (optional - tests that need it add it explicitly)
 find_package(yaml-cpp CONFIG QUIET)
 if(NOT yaml-cpp_FOUND)

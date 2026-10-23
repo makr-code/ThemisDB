@@ -214,12 +214,12 @@ static std::string buildComplianceReportPDF(const ComplianceReport &report) {
     pdf += "%PDF-1.4\n";
     pdf += "%\xE2\xE3\xCF\xD3\n";
 
-    int P           = page_streams.size();
-    int base_page   = 3;
-    int base_stream = base_page + P;
-    int font_f1_id  = base_stream + P;
-    int font_f2_id  = font_f1_id + 1;
-    int total_objs  = font_f2_id + 1;
+    const std::size_t P           = page_streams.size();
+    const int base_page   = 3;
+    const int base_stream = base_page + static_cast<int>(P);
+    const int font_f1_id  = base_stream + static_cast<int>(P);
+    const int font_f2_id  = font_f1_id + 1;
+    const int total_objs  = font_f2_id + 1;
 
     std::vector<size_t> offsets(static_cast<size_t>(total_objs) + 1, 0);
 

@@ -691,9 +691,10 @@ std::vector<OrchestratorJob> DatabaseMaintenanceOrchestrator::listJobs(
 
 nlohmann::json DatabaseMaintenanceOrchestrator::getStatus() const {
     nlohmann::json j;
-    j["running"]         = running_.load();
+    j["running"] = running_.load();
 
-    int enabled = 0, total = 0;
+    std::size_t enabled = 0;
+    std::size_t total = 0;
     {
         /**
          * @brief Lock.
@@ -704,12 +705,12 @@ nlohmann::json DatabaseMaintenanceOrchestrator::getStatus() const {
         total = schedules_.size();
         for (auto& [id, e] : schedules_) {
             if (e.enabled) {
-              ++enabled;
+                ++enabled;
             }
         }
     }
-    j["total_schedules"]   = total;
-    j["enabled_schedules"] = enabled;
+    j["total_schedules"]   = static_cast<int>(total);
+    j["enabled_schedules"] = static_cast<int>(enabled);
 
     int active = 0;
     {
@@ -743,10 +744,10 @@ MaintenanceHealthReport DatabaseMaintenanceOrchestrator::getHealthReport() const
          * @return Return value.
          */
         std::shared_lock<std::shared_mutex> lock(schedules_mutex_);
-        report.total_schedules = schedules_.size();
+        report.total_schedules = static_cast<int>(schedules_.size());
         for (auto& [id, e] : schedules_) {
             if (e.enabled) {
-              ++report.enabled_schedules;
+                ++report.enabled_schedules;
             }
         }
     }

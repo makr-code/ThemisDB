@@ -237,17 +237,17 @@ std::vector<AuditLogEntry> AuditApiHandler::readAuditLogs(const AuditQueryFilter
  */
 nlohmann::json AuditApiHandler::queryAuditLogs(const AuditQueryFilter& filter) {
     auto all_entries = readAuditLogs(filter);
-    
-    int total_count = all_entries.size();
-    int start_idx = (filter.page - 1) * filter.page_size;
-    int end_idx = std::min(start_idx + filter.page_size, total_count);
-    
+
+    const std::size_t total_count = all_entries.size();
+    const std::size_t start_idx = (static_cast<std::size_t>(filter.page > 0 ? filter.page - 1 : 0) * static_cast<std::size_t>(filter.page_size));
+    const std::size_t end_idx = std::min(start_idx + static_cast<std::size_t>(filter.page_size), total_count);
+
     nlohmann::json result;
     result["entries"] = nlohmann::json::array();
-    
+
     if (start_idx < total_count) {
     auto span = Tracer::startSpan("queryAuditLogs");
-        for (int i = start_idx; i < end_idx; i++) {
+        for (std::size_t i = start_idx; i < end_idx; ++i) {
             result["entries"].push_back(all_entries[i].toJson());
         }
     }
