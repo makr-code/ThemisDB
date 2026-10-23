@@ -77,7 +77,8 @@ runs:
             if (attempt < MAX_ATTEMPTS) {
               const delayMs = BASE_RETRY_DELAY_MS * (2 ** (attempt - 1));
               core.notice(
-                `Build-status tracker issue not visible yet; will retry (attempt ${attempt + 1} of ${MAX_ATTEMPTS}) after ${delayMs}ms...`
+                `Build-status tracker issue not visible yet (attempt ${attempt} of ${MAX_ATTEMPTS}); ` +
+                `retrying with attempt ${attempt + 1} after ${delayMs}ms...`
               );
               await sleep(delayMs);
             } else {
