@@ -75,13 +75,14 @@ runs:
             tracker = await findTracker();
             if (tracker) break;
             if (attempt < MAX_ATTEMPTS) {
-              core.notice(`Build-status tracker issue not visible yet; retrying (attempt ${attempt + 1} of ${MAX_ATTEMPTS})...`);
+              core.notice(`Build-status tracker issue not visible yet; will retry (attempt ${attempt + 1} of ${MAX_ATTEMPTS})...`);
               await sleep(RETRY_DELAY_MS);
+            } else {
+              core.notice(`Build-status tracker issue was not found after ${MAX_ATTEMPTS} attempt(s).`);
             }
           }
 
           if (!tracker) {
-            core.notice(`Build-status tracker issue was not found after ${MAX_ATTEMPTS} attempt(s).`);
             const msg = 'No ci-build tracker issue found (marker: <!-- ci-build:type:build-status -->).';
             if (failIfMissing && enforce) {
               core.setFailed(msg);
