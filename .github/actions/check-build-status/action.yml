@@ -109,10 +109,11 @@ runs:
           while (!tracker && attempt <= MAX_ATTEMPTS) {
             tracker = await findTracker();
             if (!tracker && attempt < MAX_ATTEMPTS) {
-              const delayMs = BASE_RETRY_DELAY_MS * (2 ** (attempt - 1));
+              const retryIndex = attempt - 1;
+              const delayMs = BASE_RETRY_DELAY_MS * (2 ** retryIndex);
               core.notice(
-                `Build-status tracker issue not visible yet (attempt ${attempt} of ${MAX_ATTEMPTS}); ` +
-                `retrying after ${delayMs}ms (next: attempt ${attempt + 1} of ${MAX_ATTEMPTS})...`
+                `Build-status tracker issue not visible yet; attempt ${attempt} of ${MAX_ATTEMPTS} failed. ` +
+                `Waiting ${delayMs}ms before the next attempt...`
               );
               await sleep(delayMs);
             } else if (!tracker) {
