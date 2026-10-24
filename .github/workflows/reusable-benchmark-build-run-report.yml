@@ -121,7 +121,6 @@ jobs:
             -DTHEMIS_BUILD_BENCHMARKS=ON \
             -DTHEMIS_BUILD_TESTS=OFF \
             -DTHEMIS_ENABLE_LLM=ON \
-            -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
             -DTHEMIS_MODELS_MODE=SKIP
 
       - name: Build benchmark target from CMake benchmark list
