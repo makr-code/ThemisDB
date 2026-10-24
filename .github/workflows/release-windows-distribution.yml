@@ -113,7 +113,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_call' || github.event_name == 'release'
-    continue-on-error: true
     permissions:
       contents: read
       issues: write

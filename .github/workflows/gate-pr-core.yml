@@ -196,11 +196,11 @@ jobs:
     uses: ./.github/workflows/gate-pr-community-failclosed.yml
 
   # ────────────────────────────────────────────────────────────────────────────
-  # AGGREGATED WAVE C POLICY GATES RESULT
-  # Waits for all 4 policy gates to complete
+  # AGGREGATED WAVE C POLICY GATES REPORTING
+  # Summary is explicit and does not enforce pass/fail semantics in the same job.
   # ────────────────────────────────────────────────────────────────────────────
-  wavec-policy-gates:
-    name: "Validate: Wave C Policy Gates (Aggregated)"
+  wavec-policy-gates-summary:
+    name: "Report: Wave C Policy Gates"
     runs-on: ubuntu-latest
     if: always()
     permissions:
@@ -225,15 +225,30 @@ jobs:
             echo ""
           } >> "$GITHUB_STEP_SUMMARY"
 
+  wavec-policy-gates-enforce:
+    name: "Gate: Wave C Policy Gates Enforcement"
+    runs-on: ubuntu-latest
+    if: always() && github.event_name == 'pull_request' && github.base_ref != ''
+    permissions:
+      contents: read
+    needs:
+      - wavec-policy-gates-private-plugin
+      - wavec-policy-gates-edition-license
+      - wavec-policy-gates-hash-sbom
+      - wavec-policy-gates-community-fail-closed
+    steps:
       - name: Fail if any Wave C policy gate failed
-        if: |
-          needs.wavec-policy-gates-private-plugin.result == 'failure' ||
-          needs.wavec-policy-gates-edition-license.result == 'failure' ||
-          needs.wavec-policy-gates-hash-sbom.result == 'failure' ||
-          needs.wavec-policy-gates-community-fail-closed.result == 'failure'
+        shell: bash
         run: |
-          echo "::error::One or more Wave C policy gates FAILED — review implementation per CI_POLICY_GATES_WAVE_C.md"
-          exit 1
+          set -euo pipefail
+          if [ "${{ needs.wavec-policy-gates-private-plugin.result }}" = "failure" ] || \
+             [ "${{ needs.wavec-policy-gates-edition-license.result }}" = "failure" ] || \
+             [ "${{ needs.wavec-policy-gates-hash-sbom.result }}" = "failure" ] || \
+             [ "${{ needs.wavec-policy-gates-community-fail-closed.result }}" = "failure" ]; then
+            echo "::error::One or more Wave C policy gates FAILED — review implementation per CI_POLICY_GATES_WAVE_C.md"
+            exit 1
+          fi
+          echo "All Wave C policy gates completed without failure."
 
   quality-test-build:
     name: "Build: PR Release-Critical Test Quality Line"

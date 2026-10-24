@@ -135,8 +135,9 @@ jobs:
       # -----------------------------------------------------------------------
       - name: Scan glossary term candidates
         id: glossary_scan
-        continue-on-error: true
+        shell: bash
         run: |
+          set -euo pipefail
           python scripts/scan_glossary_terms.py \
             --repo-root . \
             --output docs/glossary_candidates.json \
@@ -146,8 +147,9 @@ jobs:
       - name: Build enriched glossary index
         id: glossary_build
         if: steps.glossary_scan.outputs.candidates_found == 'true'
-        continue-on-error: true
+        shell: bash
         run: |
+          set -euo pipefail
           python scripts/build_glossary_with_copilot.py \
             --input docs/glossary_candidates.json \
             --output docs/glossary_index.json \
@@ -158,8 +160,9 @@ jobs:
       - name: Generate language-specific glossaries
         id: glossary_gen
         if: steps.glossary_build.outputs.index_created == 'true'
-        continue-on-error: true
+        shell: bash
         run: |
+          set -euo pipefail
           python scripts/generate_glossaries.py \
             --input docs/glossary_index.json \
             --output docs/ \

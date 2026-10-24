@@ -43,13 +43,23 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Post build failure comment on triggering PR
-        if: github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'failure' && github.event.workflow_run.name == 'Docker Image CI/CD'
+        if: >-
+          github.event_name == 'workflow_run' &&
+          github.event.workflow_run.conclusion == 'failure' &&
+          (github.event.workflow_run.name == 'Build: Mainline' || github.event.workflow_run.name == 'Release: Docker Image Consumer' || github.event.workflow_run.name == 'Docker Image CI/CD')
         uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea  # v9.0.0
         with:
           script: |
             const run = context.payload.workflow_run;
             if (!run) {
               core.info('No workflow_run payload — skipping PR comment.');
+              return;
+            }
+
+            const workflowName = run.name || 'CI Build';
+            const normalizedName = String(workflowName).trim();
+            if (!['Build: Mainline', 'Release: Docker Image Consumer', 'Docker Image CI/CD'].includes(normalizedName)) {
+              core.info(`Workflow run '${normalizedName}' is not a build job that should comment on PRs; skipping.`);
               return;
             }
 
@@ -71,7 +81,6 @@ jobs:
               return;
             }
 
-            const workflowName = run.name || 'CI Build';
             const runUrl = run.html_url || `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${run.id}`;
             const marker = '<!-- maintenance-build-issues-comment -->';
 

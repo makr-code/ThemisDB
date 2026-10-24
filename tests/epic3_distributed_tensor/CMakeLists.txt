@@ -319,6 +319,7 @@ list(FILTER EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES EXCLUDE REGEX ".*/test_manifes
 list(FILTER EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES EXCLUDE REGEX ".*/test_lifecycle_staleness_management\\.cpp$")
 list(FILTER EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES EXCLUDE REGEX ".*/test_tensor_delta_log\\.cpp$")
 list(FILTER EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES EXCLUDE REGEX ".*/test_tensor_rebuild_fallback\\.cpp$")
+list(FILTER EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES EXCLUDE REGEX ".*/test_phase_b_edge_cases\\.cpp$")
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/integrity_verification_test.cc")
     list(APPEND EPIC3_DISTRIBUTED_TENSOR_TEST_SOURCES
@@ -439,6 +440,7 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_phase_b_edge_cases.cpp")
 
     add_executable(module_epic3_distributed_tensor_phase_b_edge_cases_focused
         test_phase_b_edge_cases.cpp
+        ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/artifact_manifest.cc
     )
 
     target_include_directories(module_epic3_distributed_tensor_phase_b_edge_cases_focused PRIVATE

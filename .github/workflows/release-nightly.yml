@@ -54,7 +54,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-    continue-on-error: true
     permissions:
       contents: read
       issues: write
