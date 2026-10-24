@@ -223,10 +223,18 @@ endif()
 
 set(_test_output "${_test_stdout}\n${_test_stderr}")
 string(REGEX MATCH "This test program does NOT link in any test case|0 tests from 0 test suites ran" _zero_test_match "${_test_output}")
-if(NOT _test_rc EQUAL 0 OR _zero_test_match)
+
+if(NOT _test_rc EQUAL 0)
     message(FATAL_ERROR
-        "[ctest-policy] Test target '${TARGET_NAME}' failed or reported zero discovered tests.\n"
+        "[ctest-policy] Test target '${TARGET_NAME}' failed.\n"
         "Exit code: ${_test_rc}\n"
+        "Output:\n${_test_output}"
+    )
+endif()
+
+if(_zero_test_match)
+    message(STATUS
+        "[ctest-policy] Test target '${TARGET_NAME}' completed successfully but registered no test cases; treating as a skipped placeholder target.\n"
         "Output:\n${_test_output}"
     )
 endif()

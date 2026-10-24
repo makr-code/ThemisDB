@@ -225,6 +225,13 @@ jobs:
             compiler_version="$(cl 2>&1 | head -n 1 | tr -d '\r')"
           fi
 
+          cache_signature="${{ inputs.build_mode }}-${{ inputs.preset }}-${{ inputs.vcpkg_triplet }}-${{ inputs.cache_compiler }}-${{ inputs.configure_flags }}"
+          cache_signature="$(printf '%s' "${cache_signature}" | tr ':/ ' '__' | tr -cd 'A-Za-z0-9_.-')"
+
+          # Keep the build-tree cache stable across equivalent same-lane configure variants.
+          # The full configure-signature is still recorded for diagnostics, but the restore key
+          # should prioritize the actual lane fingerprint rather than the volatile flag string so
+          # GitHub Actions can hit the cache for repeated rebuilds on the same platform/toolchain.
           mkdir -p "${sccache_dir}"
           mkdir -p "${vcpkg_downloads_dir}"
           mkdir -p "${vcpkg_cache_dir}"
@@ -242,9 +249,11 @@ jobs:
             echo "VCPKG_FORCE_SYSTEM_BINARIES=true"
             echo "THEMIS_COMPILER_VERSION=$(printf '%s' "${compiler_version:-toolchain}" | tr ' ' '_' | tr -cd 'A-Za-z0-9_.-')"
             echo "THEMIS_CACHE_SCOPE=${cache_scope}"
+            echo "THEMIS_CACHE_SIGNATURE=${cache_signature}"
           } >> "$GITHUB_ENV"
 
       - name: Restore CMake build caches
+        id: restore_cmake_cache
         uses: actions/cache@v5
         with:
           path: |
@@ -258,12 +267,11 @@ jobs:
             cmake-cache-${{ runner.os }}-
           enableCrossOsArchive: false
 
-      - name: Reset manifest installed tree
+      - name: Print initial cache hit state
         shell: bash
         run: |
           set -euo pipefail
-          rm -rf "${GITHUB_WORKSPACE}/vcpkg_installed"
-          mkdir -p "${GITHUB_WORKSPACE}/.cache/vcpkg-binary" "${GITHUB_WORKSPACE}/.cache/vcpkg-downloads"
+          echo "dependency cache hit: ${{ steps.restore_cmake_cache.outputs.cache-hit || 'unknown' }}"
 
       - name: Print vcpkg cache resolution
         shell: bash
@@ -439,6 +447,34 @@ jobs:
             echo "resolved_build_dir=${BUILD_DIR}"
           } >> "$GITHUB_OUTPUT"
 
+      - name: Restore CMake build directory cache
+        id: restore_build_dir_cache
+        if: ${{ steps.resolve_mode.outputs.resolved_build_dir != '' }}
+        uses: actions/cache@v5
+        with:
+          path: |
+            ${{ steps.resolve_mode.outputs.resolved_build_dir }}/CMakeCache.txt
+            ${{ steps.resolve_mode.outputs.resolved_build_dir }}/CMakeFiles
+            ${{ steps.resolve_mode.outputs.resolved_build_dir }}/build.ninja
+            ${{ steps.resolve_mode.outputs.resolved_build_dir }}/compile_commands.json
+            ${{ steps.resolve_mode.outputs.resolved_build_dir }}/.ninja_deps
+            ${{ steps.resolve_mode.outputs.resolved_build_dir }}/.ninja_log
+          key: cmake-build-tree-${{ runner.os }}-${{ runner.arch }}-${{ inputs.cache_compiler || 'default' }}-${{ inputs.vcpkg_triplet || 'default' }}-${{ steps.resolve_mode.outputs.resolved_build_mode }}-${{ steps.resolve_mode.outputs.resolved_build_dir }}-${{ hashFiles('CMakeLists.txt', 'CMakePresets.json', 'vcpkg.json', 'vcpkg-configuration.json', 'cmake/**/*.cmake', 'cmake/**/*.txt', '**/CMakeLists.txt') }}
+          restore-keys: |
+            cmake-build-tree-${{ runner.os }}-${{ runner.arch }}-${{ inputs.cache_compiler || 'default' }}-${{ inputs.vcpkg_triplet || 'default' }}-${{ steps.resolve_mode.outputs.resolved_build_mode }}-${{ steps.resolve_mode.outputs.resolved_build_dir }}-
+            cmake-build-tree-${{ runner.os }}-${{ runner.arch }}-${{ inputs.cache_compiler || 'default' }}-${{ inputs.vcpkg_triplet || 'default' }}-${{ steps.resolve_mode.outputs.resolved_build_mode }}-
+            cmake-build-tree-${{ runner.os }}-${{ runner.arch }}-${{ inputs.cache_compiler || 'default' }}-${{ inputs.vcpkg_triplet || 'default' }}-
+          enableCrossOsArchive: false
+
+      - name: Prune stale local vcpkg state only on rebuild cache miss
+        if: ${{ steps.restore_build_dir_cache.outputs.cache-hit != 'true' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "No matching CMake build-tree cache hit; clearing stale local vcpkg install state before reconfigure."
+          rm -rf "${GITHUB_WORKSPACE}/vcpkg_installed"
+          mkdir -p "${GITHUB_WORKSPACE}/.cache/vcpkg-binary" "${GITHUB_WORKSPACE}/.cache/vcpkg-downloads"
+
       - name: Configure
         id: configure
         shell: bash
@@ -450,9 +486,11 @@ jobs:
         run: |
           set -euo pipefail
           cd "$WORKING_DIRECTORY"
-          find . -maxdepth 2 \( -name CMakeCache.txt -o -name CMakeFiles \) -print
-          find . -maxdepth 2 -name CMakeCache.txt -delete
-          find . -maxdepth 2 -type d -name CMakeFiles -prune -exec rm -rf {} +
+          echo "Reusing any existing CMake cache state when available; build directory cache is restored above."
+          if [ -n "${{ steps.resolve_mode.outputs.resolved_build_dir }}" ] && [ -d "${{ steps.resolve_mode.outputs.resolved_build_dir }}" ]; then
+            echo "Existing build dir detected: ${{ steps.resolve_mode.outputs.resolved_build_dir }}"
+            ls -la "${{ steps.resolve_mode.outputs.resolved_build_dir }}" | head -n 20 || true
+          fi
           script_path="$RUNNER_TEMP/cmake-build-configure.sh"
           configure_output_log="$RUNNER_TEMP/cmake-build-configure-output.log"
           printf '%s\n' "$CONFIGURE_COMMAND" > "$script_path"
