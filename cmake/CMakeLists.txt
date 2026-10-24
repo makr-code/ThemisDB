@@ -4141,7 +4141,7 @@ if(MSVC)
     set_source_files_properties(
         ../src/server/monitoring_api_handler.cpp
         ../src/server/index_api_handler.cpp
-        PROPERTIES COMPILE_OPTIONS "/bigobj;/Zm2000"
+        PROPERTIES COMPILE_OPTIONS "/bigobj"
     )
 endif()
 
