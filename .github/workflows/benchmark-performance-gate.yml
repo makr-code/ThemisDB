@@ -52,7 +52,6 @@ jobs:
       configure_flags: >-
         -DTHEMIS_BUILD_BENCHMARKS=ON
         -DTHEMIS_BUILD_TESTS=OFF
-        -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON
       build_targets: themis_benchmarks_all_eligible
       validation_mode: none
       benchmark_filter: ${{ inputs.benchmark_filter || '' }}
@@ -71,7 +70,6 @@ jobs:
       configure_flags: >-
         -DTHEMIS_BUILD_BENCHMARKS=ON
         -DTHEMIS_BUILD_TESTS=OFF
-        -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON
       benchmark_filter: ${{ inputs.benchmark_filter || '' }}
       benchmark_format: 'json'
       timeout_minutes: 90
