@@ -76,7 +76,7 @@ FORCE=0 \
 HF_URL="$MODEL_URL" \
 LOCAL_SEARCH_DIRS="${MODEL_DIR}:/opt/local-models/models:/opt/local-models/llama-cpp-models:/opt/themis-models" \
 LOCAL_MODEL_GLOB="*${MODEL_KEY}*.gguf" \
-"${PWD}/scripts/download-tinyllama-hf.sh"
+bash "${PWD}/scripts/download-tinyllama-hf.sh"
 
 echo "Prepared model cache artifact at ${TARGET_PATH}"
 exit 0
