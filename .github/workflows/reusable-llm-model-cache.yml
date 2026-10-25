@@ -121,9 +121,8 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p "${MODEL_DIR}"
-          chmod +x .github/scripts/prepare-llm-model-cache.sh
           chmod +x scripts/download-tinyllama-hf.sh
-          ./.github/scripts/prepare-llm-model-cache.sh
+          bash ./.github/scripts/prepare-llm-model-cache.sh
           if [[ -n "${LLM_MODEL_FILE}" ]]; then
             FILE_NAME="${LLM_MODEL_FILE}"
           else
