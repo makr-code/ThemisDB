@@ -149,6 +149,7 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
     if(_stem STREQUAL "test_wave_next_llm_threadsafety")
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/llm/ml_model_manager.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/llm_plugin_manager.cpp
         )
     endif()
     if(_stem STREQUAL "test_subagent_orchestration_focused")
