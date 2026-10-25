@@ -37,9 +37,20 @@ if (-not [string]::IsNullOrWhiteSpace($ForbiddenTestsCsv)) {
 
 Push-Location $SourceDir
 try {
-    $output = & ctest --preset $Preset -N 2>&1
+    $ctestArgs = @()
+    if (-not [string]::IsNullOrWhiteSpace($Preset)) {
+        $ctestArgs += @("--preset", $Preset)
+    }
+    if ($ctestArgs.Count -eq 0) {
+        $ctestArgs += @("--test-dir", $BuildDir)
+    }
+
+    $output = & ctest @ctestArgs -N 2>&1
+    if ($LASTEXITCODE -ne 0 -and -not [string]::IsNullOrWhiteSpace($Preset)) {
+        $output = & ctest --test-dir $BuildDir -N 2>&1
+    }
     if ($LASTEXITCODE -ne 0) {
-        throw "ctest preset inventory failed for '$Preset'."
+        throw "ctest preset inventory failed for '$Preset' and fallback build-dir inventory also failed."
     }
 }
 finally {

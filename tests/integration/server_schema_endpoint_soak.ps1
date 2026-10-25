@@ -24,6 +24,51 @@ if (-not (Test-Path -LiteralPath $ServerExe)) {
 if (-not (Test-Path -LiteralPath $CtlExe)) {
     throw "themisctl binary not found: $CtlExe"
 }
+
+function Add-ThemisRuntimePath {
+    $serverDir = Split-Path -Parent $ServerExe
+    $projectRoot = (Resolve-Path (Join-Path $serverDir "..\..")).Path
+    $runtimeDirs = @(
+        $serverDir,
+        (Join-Path $projectRoot "vcpkg_installed\x64-windows\debug\bin"),
+        (Join-Path $projectRoot "vcpkg_installed\x64-windows\bin")
+    )
+
+    $filtered = @()
+    foreach ($dir in $runtimeDirs) {
+        if ($dir -and (Test-Path -LiteralPath $dir)) {
+            $filtered += $dir
+        }
+    }
+
+    if ($filtered.Count -gt 0) {
+        $pathList = @()
+        foreach ($dir in $filtered) {
+            $pathList += $dir
+        }
+        $unique = @()
+        foreach ($dir in $pathList) {
+            if (-not ($unique -contains $dir)) {
+                $unique += $dir
+            }
+        }
+        $env:PATH = ($unique + ($env:PATH -split ';' | Where-Object { $_ -and $_.Trim() })) -join ';'
+    }
+}
+
+Add-ThemisRuntimePath
+
+function Get-FreeTcpPort {
+    $listener = [System.Net.Sockets.TcpListener]::new([System.Net.IPAddress]::Loopback, 0)
+    try {
+        $listener.Start()
+        return $listener.LocalEndpoint.Port
+    }
+    finally {
+        $listener.Stop()
+    }
+}
+
 if ($Iterations -lt 1) {
     throw "Iterations must be >= 1"
 }
@@ -31,7 +76,7 @@ if ($DelayMs -lt 0) {
     throw "DelayMs must be >= 0"
 }
 
-$port = 19000 + (Get-Random -Minimum 0 -Maximum 400)
+$port = Get-FreeTcpPort
 $tempRoot = Join-Path $env:TEMP ("themis_schema_soak_" + [guid]::NewGuid().ToString("N"))
 $null = New-Item -ItemType Directory -Path $tempRoot -Force
 

@@ -54,6 +54,9 @@ if(WIN32 AND EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_schema_manager.cpp")
         set_tests_properties(ServerSchemaEndpointSmoke PROPERTIES
             LABELS "server;endpoint;schema;smoke;process;std-gate"
             TIMEOUT 240
+            ENVIRONMENT_MODIFICATION
+                "PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin"
+                "PATH=path_list_prepend:${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/debug/bin"
         )
     endif()
 
@@ -82,6 +85,9 @@ if(WIN32 AND EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_schema_manager.cpp")
         set_tests_properties(ServerCoreEndpointContract PROPERTIES
             LABELS "server;endpoint;contract;schema;health;version;std-gate"
             TIMEOUT 240
+            ENVIRONMENT_MODIFICATION
+                "PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin"
+                "PATH=path_list_prepend:${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/debug/bin"
         )
     endif()
 
@@ -95,6 +101,9 @@ if(WIN32 AND EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_schema_manager.cpp")
         set_tests_properties(ServerErrorPathContract PROPERTIES
             LABELS "server;endpoint;contract;error;negative;std-gate"
             TIMEOUT 180
+            ENVIRONMENT_MODIFICATION
+                "PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin"
+                "PATH=path_list_prepend:${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/debug/bin"
         )
     endif()
 
@@ -108,6 +117,9 @@ if(WIN32 AND EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_schema_manager.cpp")
         set_tests_properties(ServerRestartResilience PROPERTIES
             LABELS "server;endpoint;restart;resilience;process;std-gate"
             TIMEOUT 300
+            ENVIRONMENT_MODIFICATION
+                "PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin"
+                "PATH=path_list_prepend:${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/debug/bin"
         )
     endif()
 
@@ -123,6 +135,9 @@ if(WIN32 AND EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_schema_manager.cpp")
         set_tests_properties(ServerSchemaEndpointSoak PROPERTIES
             LABELS "server;endpoint;schema;soak;process;std-gate-soak"
             TIMEOUT 300
+            ENVIRONMENT_MODIFICATION
+                "PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin"
+                "PATH=path_list_prepend:${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/debug/bin"
         )
     endif()
 

@@ -2951,24 +2951,29 @@ bool GraphQueryOptimizer::importCostModel(std::string_view json_model) {
     try {
         auto j = nlohmann::json::parse(json_model);
         if (!j.is_object()) {
-          return false;
+            return false;
         }
-        algo_cost_models_.clear();
+
+        std::unordered_map<TraversalAlgorithm, AlgorithmCostModel, std::hash<TraversalAlgorithm>> parsed_models;
         const auto& name_map = algoNameMap();
         for (auto& [key, val] : j.items()) {
             auto it = name_map.find(key);
-            if (it == name_map.end()) continue; // unknown algo – skip
+            if (it == name_map.end()) {
+                continue; // unknown algo – skip
+            }
             if (!val.is_object()) {
-              continue;
+                continue;
             }
             AlgorithmCostModel m;
             m.ema_cost_ms = val.value("ema_cost_ms", 0.0);
-            m.exec_count  = val.value("exec_count",  static_cast<uint32_t>(0));
-            m.confidence  = val.value("confidence",  0.0);
+            m.exec_count  = val.value("exec_count", static_cast<uint32_t>(0));
+            m.confidence  = val.value("confidence", 0.0);
             // Clamp to valid range
             m.confidence = std::max(0.0, std::min(1.0, m.confidence));
-            algo_cost_models_[it->second] = m;
+            parsed_models[it->second] = m;
         }
+
+        algo_cost_models_ = std::move(parsed_models);
         return true;
     } catch (...) {
         return false;

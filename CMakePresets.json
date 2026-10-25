@@ -871,6 +871,30 @@
       }
     },
     {
+      "name": "windows-release-gate",
+      "configurePreset": "windows-debug",
+      "filter": {
+        "include": {
+          "label": "std-gate"
+        },
+        "exclude": {
+          "label": "(manual|disabled|std-gate-soak)"
+        }
+      }
+    },
+    {
+      "name": "windows-release-gate-soak",
+      "configurePreset": "windows-debug",
+      "filter": {
+        "include": {
+          "label": "std-gate-soak"
+        },
+        "exclude": {
+          "label": "(manual|disabled)"
+        }
+      }
+    },
+    {
       "name": "hyperscaler-debug-windows",
       "configurePreset": "hyperscaler-debug-windows",
       "filter": {
