@@ -733,7 +733,7 @@
     {
       "category": "governance",
       "path": "ARCHITECTURE.md",
-      "sha256_prefix": "651842e8e4b91f83"
+      "sha256_prefix": "23996f856614da85"
     },
     {
       "category": "governance",
@@ -2068,7 +2068,7 @@
     {
       "category": "docs",
       "path": "docs/benchmarks/CPU_SIMD_GPU_DISPATCH_BENCHMARK_MATRIX.md",
-      "sha256_prefix": "cd814c2438b2e1c3"
+      "sha256_prefix": "55fda2e3cb0c77bc"
     },
     {
       "category": "docs",
@@ -2468,7 +2468,7 @@
     {
       "category": "docs",
       "path": "docs/code_maturity_report.md",
-      "sha256_prefix": "96ad3c93aa68c8dc"
+      "sha256_prefix": "26c44c8cda546054"
     },
     {
       "category": "docs",
@@ -3533,7 +3533,7 @@
     {
       "category": "docs",
       "path": "docs/governance/RELEASE_GOVERNANCE.md",
-      "sha256_prefix": "de449a8285cc13e1"
+      "sha256_prefix": "a5db19765f24d022"
     },
     {
       "category": "docs",
@@ -6976,14 +6976,14 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-10-19T02:06:53.037440+00:00",
+  "generated_at": "2026-10-26T02:08:47.380507+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
-    "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-10-12\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `c22f201e19477f22`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
+    "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-10-19\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `c22f201e19477f22`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
     "module_api_count": 80,
-    "source_count": 7958,
-    "wiki_generated_at": "2026-10-12T03:13:20+00:00",
-    "wiki_source_hash": "712cb8ef8b61301a2844dcd349e8ac313a8a267cb14963a333024f19f3bdceea"
+    "source_count": 7986,
+    "wiki_generated_at": "2026-10-19T03:03:08+00:00",
+    "wiki_source_hash": "4db05528d055dbebf71c00e189b7878470d634ca99657f85cc770a5a7cdd1d31"
   },
   "modules": [
     {
@@ -9052,15 +9052,15 @@
   ],
   "schema_version": "1.0.0",
   "source_hashes": {
-    "ARCHITECTURE.md": "651842e8e4b91f83",
+    "ARCHITECTURE.md": "23996f856614da85",
     "FUTURE_ENHANCEMENTS.md": "de552eeef9d1ac51",
     "ROADMAP.md": "79ab391b9bacce7a",
     "ai_context/ARCHITECTURE_CLASSIFICATION.md": "57a7f2182a1193c8",
     "ai_context/MODULES_AND_NAMESPACES.md": "bf42dba44a39f8cb",
     "ai_context/api_contracts/": "6384de3aba1abb3b",
-    "ai_context/developer_llm_wiki/": "ab798b11352db027",
+    "ai_context/developer_llm_wiki/": "dbaf79b3d8c534e5",
     "ai_working/": "69c0d84d42fe992b",
-    "docs/": "782f3e76edeb5527"
+    "docs/": "3425519e18c21195"
   },
   "statistics": {
     "ai_working_artifact_count": 26,
