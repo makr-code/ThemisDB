@@ -77,9 +77,20 @@ elseif(EXISTS "${_the_vcpkg_root}")
             string(TOLOWER "${_themis_zlib_value}" _themis_zlib_value_lower)
             string(TOLOWER "${_themis_vcpkg_root_path}" _themis_vcpkg_root_lower)
             string(TOLOWER "${_themis_vcpkg_installed_path}" _themis_vcpkg_installed_lower)
-            if(_themis_zlib_value_lower MATCHES ".*vcpkg.*" AND
-               NOT _themis_zlib_value_lower MATCHES "^${_themis_vcpkg_root_lower}.*" AND
-               NOT _themis_zlib_value_lower MATCHES "^${_themis_vcpkg_installed_lower}.*")
+            set(_themis_zlib_value_is_stale FALSE)
+            if(_themis_zlib_value_lower MATCHES ".*vcpkg.*")
+                if(_themis_zlib_value_lower MATCHES "^${_themis_vcpkg_root_lower}/packages/zlib_.*" AND
+                   NOT _themis_zlib_value_lower MATCHES "^${_themis_vcpkg_root_lower}/packages/zlib_${_themis_vcpkg_triplet}.*")
+                    set(_themis_zlib_value_is_stale TRUE)
+                elseif(_themis_zlib_value_lower MATCHES "^${_themis_vcpkg_installed_lower}/[^/]+.*" AND
+                        NOT _themis_zlib_value_lower MATCHES "^${_themis_vcpkg_installed_lower}/${_themis_vcpkg_triplet}.*")
+                    set(_themis_zlib_value_is_stale TRUE)
+                elseif(NOT _themis_zlib_value_lower MATCHES "^${_themis_vcpkg_root_lower}.*" AND
+                        NOT _themis_zlib_value_lower MATCHES "^${_themis_vcpkg_installed_lower}.*")
+                    set(_themis_zlib_value_is_stale TRUE)
+                endif()
+            endif()
+            if(_themis_zlib_value_is_stale)
                 unset(${_themis_zlib_var} CACHE)
             endif()
         endif()
