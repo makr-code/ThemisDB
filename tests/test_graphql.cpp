@@ -51,17 +51,33 @@ TEST(GraphQLParser, ParseFieldWithArguments) {
     EXPECT_FALSE(op.selections[0].arguments.empty());
 }
 
-TEST(GraphQLParser, RejectsFragmentDefinitionWithVersionGatedMessage) {
+TEST(GraphQLParser, ParsesFragmentDefinitionAndSpreadWhenDefinedBeforeUse) {
     const std::string query = R"(
         fragment userFields on User { id name }
         query GetUser { user { ...userFields } }
     )";
 
     auto result = Parser::parse(query);
+    ASSERT_TRUE(result.success);
+    ASSERT_EQ(result.document.fragments.size(), 1);
+    ASSERT_EQ(result.document.operations.size(), 1);
+    const auto& op = result.document.operations[0];
+    ASSERT_EQ(op.selections.size(), 1);
+    const auto& userField = op.selections[0];
+    ASSERT_EQ(userField.selections.size(), 2);
+    EXPECT_EQ(userField.selections[0].name, "id");
+    EXPECT_EQ(userField.selections[1].name, "name");
+}
+
+TEST(GraphQLParser, RejectsUnknownFragmentSpread) {
+    const std::string query = R"(
+        query GetUser { user { ...userFields } }
+    )";
+
+    auto result = Parser::parse(query);
     EXPECT_FALSE(result.success);
     ASSERT_FALSE(result.errors.empty());
-    EXPECT_NE(result.errors[0].message.find("unsupported"), std::string::npos);
-    EXPECT_NE(result.errors[0].message.find("v1.x"), std::string::npos);
+    EXPECT_NE(result.errors[0].message.find("Unknown fragment"), std::string::npos);
 }
 
 TEST(GraphQLParser, ParseIncludeAndSkipDirectives) {

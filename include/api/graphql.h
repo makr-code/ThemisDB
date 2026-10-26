@@ -262,14 +262,30 @@ struct Operation {
     std::vector<Field> selections;
 };
 
+struct FragmentDefinition {
+    std::string name;
+    std::string type_condition;
+    std::vector<Field> selections;
+};
+
 struct Document {
     std::vector<Operation> operations;
+    std::vector<FragmentDefinition> fragments;
     
     // Get operation by name (or first unnamed)
     const Operation* getOperation(std::string_view name = "") const {
         for (const auto& op : operations) {
             if (name.empty() || op.name == name) {
                 return &op;
+            }
+        }
+        return nullptr;
+    }
+
+    const FragmentDefinition* getFragment(std::string_view name) const {
+        for (const auto& fragment : fragments) {
+            if (fragment.name == name) {
+                return &fragment;
             }
         }
         return nullptr;
@@ -370,6 +386,8 @@ private:
     themis::Result<Operation> parseOperation();
     themis::Result<Field> parseField(size_t depth = 0);
     themis::Result<Field::Directive> parseDirective();
+    themis::Result<FragmentDefinition> parseFragmentDefinition();
+    themis::Result<std::vector<Field>> parseSelectionSet(size_t depth = 0);
     /**
      * @brief Parse Value.
      * @return Return value.
@@ -496,6 +514,7 @@ private:
     size_t field_count_ = 0;
     size_t ast_node_count_ = 0;
     size_t max_depth_reached_ = 0;
+    std::unordered_map<std::string, FragmentDefinition> fragment_definitions_;
     std::vector<ParseError> errors_;
 };
 

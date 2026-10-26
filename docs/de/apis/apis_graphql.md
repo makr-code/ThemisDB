@@ -364,7 +364,7 @@ auto objVal = Value::object(std::move(map));
 
 ## Limitationen
 
-- Keine Fragments (geplant)
+- Named Fragments unterstützt, wenn die Fragment-Definition im Dokument vor der Verwendung steht
 - Nur `@include(if: ...)` und `@skip(if: ...)` auf Field-Level unterstützt
 - Keine Inline Fragments
 - WebSocket-Subscriptions sind auf `subscription`-Operationen begrenzt
@@ -373,7 +373,7 @@ auto objVal = Value::object(std::move(map));
 ## Roadmap
 
 - [ ] HTTP Handler Integration
-- [ ] Fragment Support
+- [~] Fragment Support (named fragments ohne Forward-Reference)
 - [x] Basis-Directive Support (`@include`/`@skip`)
 - [x] Subscription über WebSocket (nur Subscription-Operationen)
 - [ ] Batching Support
