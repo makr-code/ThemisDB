@@ -48,6 +48,11 @@ TEST_F(PathValidationTest, ValidSegment_AlphanumericWithDashes_Accepted) {
     EXPECT_TRUE(v_.validatePathSegment("user_profile_123"));
 }
 
+TEST_F(PathValidationTest, ValidSegment_UrlEncodedCanonicalEntityKey_Accepted) {
+    EXPECT_TRUE(v_.validatePathSegment("users%3A42"));
+    EXPECT_TRUE(v_.validatePathSegment("tenant%3Aorders%3Aabc-123"));
+}
+
 TEST_F(PathValidationTest, EmptySegment_Rejected) {
     EXPECT_FALSE(v_.validatePathSegment(""));
 }

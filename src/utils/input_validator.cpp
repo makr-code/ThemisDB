@@ -93,38 +93,68 @@ bool InputValidator::validatePathSegment(const std::string& segment) const {
       return false;
     }
     if (segment.size() > 1024) return false; // arbitrary sane limit
-    // Reject traversal or separators
-    if (segment.find("..") != std::string::npos) {
-      return false;
-    }
-    if (segment.find('/') != std::string::npos) {
-      return false;
-    }
-    if (segment.find('\\') != std::string::npos) {
-      return false;
-    }
-    if (segment.find('%') != std::string::npos) {
-        // rudimentary: block encoded traversal attempts
-        std::string lower = segment;
-        std::transform(lower.begin(), lower.end(), lower.begin(), ::tolower);
-        if (lower.find("%2e") != std::string::npos) {
-          return false;
+
+    // Strictly validate the decoded form of the path segment, because HTTP path
+    // parameters may arrive percent-encoded (for example table:pk as table%3Apk).
+    // We allow only ASCII alnum, underscore, hyphen and the canonical colon
+    // separator after decoding; traversal markers and encoded separators like
+    // %2e, %2f, %5c are rejected.
+    for (size_t i = 0; i < segment.size(); ++i) {
+        const unsigned char c = static_cast<unsigned char>(segment[i]);
+
+        if (c == '%') {
+            if (i + 2 >= segment.size()) {
+                return false;
+            }
+
+            const unsigned char hi = static_cast<unsigned char>(segment[i + 1]);
+            const unsigned char lo = static_cast<unsigned char>(segment[i + 2]);
+            if (!std::isxdigit(hi) || !std::isxdigit(lo)) {
+                return false;
+            }
+
+            const unsigned char decoded = static_cast<unsigned char>(
+                (std::isdigit(hi) ? hi - '0' : std::tolower(hi) - 'a' + 10) * 16U +
+                (std::isdigit(lo) ? lo - '0' : std::tolower(lo) - 'a' + 10)
+            );
+
+            if (isAsciiControl(static_cast<char>(decoded))) {
+                return false;
+            }
+            if (decoded == '.' || decoded == '/' || decoded == '\\' || decoded == '%') {
+                return false;
+            }
+            if (!(std::isalnum(decoded) || decoded == '_' || decoded == '-' || decoded == ':')) {
+                return false;
+            }
+            i += 2;
+            continue;
         }
-    }
-    // No control chars
-    for (char c : segment) {
-        if (isAsciiControl(c)) {
-          return false;
+
+        if (isAsciiControl(static_cast<char>(c))) {
+            return false;
+        }
+        if (c == '.' || c == '/' || c == '\\' || c == '%') {
+            return false;
+        }
+        if (!(std::isalnum(c) || c == '_' || c == '-' || c == ':')) {
+            return false;
         }
     }
 
-    // Enforce conservative identifier format for path-like IDs.
-    // Allowed: ASCII alnum, underscore, hyphen.
-    for (char c : segment) {
-        const unsigned char uc = static_cast<unsigned char>(c);
-        if (!(std::isalnum(uc) || c == '_' || c == '-')) {
-            return false;
-        }
+    // Reject traversal markers in any raw/encoded representation before they reach
+    // downstream routing.
+    if (segment.find("..") != std::string::npos) {
+      return false;
+    }
+    if (segment.find("%2e") != std::string::npos || segment.find("%2E") != std::string::npos) {
+      return false;
+    }
+    if (segment.find("%2f") != std::string::npos || segment.find("%2F") != std::string::npos) {
+      return false;
+    }
+    if (segment.find("%5c") != std::string::npos || segment.find("%5C") != std::string::npos) {
+      return false;
     }
     return true;
 }

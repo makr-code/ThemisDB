@@ -5594,6 +5594,32 @@ if(THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED AND TARGET themis_user_storage_encrypted
     target_link_libraries(themis_server PRIVATE themis_user_storage_encrypted)
 endif()
 
+if(WIN32)
+    set(_themis_server_vcpkg_runtime_bin_dir "${CMAKE_BINARY_DIR}/bin")
+    if(DEFINED VCPKG_INSTALLED_DIR AND DEFINED VCPKG_TARGET_TRIPLET)
+        set(_themis_server_vcpkg_runtime_bin_dir "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin")
+        if(CMAKE_BUILD_TYPE STREQUAL "Debug" AND EXISTS "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin")
+            set(_themis_server_vcpkg_runtime_bin_dir "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/debug/bin")
+        endif()
+    elseif(EXISTS "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/bin")
+        set(_themis_server_vcpkg_runtime_bin_dir "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/bin")
+        if(CMAKE_BUILD_TYPE STREQUAL "Debug" AND EXISTS "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/debug/bin")
+            set(_themis_server_vcpkg_runtime_bin_dir "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/debug/bin")
+        endif()
+    endif()
+
+    add_custom_command(TARGET themis_server POST_BUILD
+        COMMAND ${CMAKE_COMMAND}
+            -DBIN_DIR=${CMAKE_BINARY_DIR}/bin
+            -DVCPKG_BIN_DIR=${_themis_server_vcpkg_runtime_bin_dir}
+            -DDST_DIR=$<TARGET_FILE_DIR:themis_server>
+            -DTARGET_FILE=$<TARGET_FILE:themis_server>
+            -P ${CMAKE_SOURCE_DIR}/cmake/CopyRuntimeDlls.cmake
+        COMMENT "Syncing runtime dependencies for themis_server"
+        VERBATIM
+    )
+endif()
+
 # Set output directory to bin/ folder (consistent with test binaries)
     set_target_properties(themis_server PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"

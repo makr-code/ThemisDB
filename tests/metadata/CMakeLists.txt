@@ -39,6 +39,7 @@ endif()
 
 if(WIN32 AND EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_schema_manager.cpp")
     set(_themis_schema_smoke_script "${CMAKE_CURRENT_LIST_DIR}/../integration/server_schema_endpoint_smoke.ps1")
+    set(_themis_crud_lifecycle_script "${CMAKE_CURRENT_LIST_DIR}/../integration/server_crud_lifecycle.ps1")
     set(_themis_core_contract_script "${CMAKE_CURRENT_LIST_DIR}/../integration/server_core_endpoint_contract.ps1")
     set(_themis_error_contract_script "${CMAKE_CURRENT_LIST_DIR}/../integration/server_error_path_contract.ps1")
     set(_themis_restart_resilience_script "${CMAKE_CURRENT_LIST_DIR}/../integration/server_restart_resilience.ps1")
@@ -58,6 +59,20 @@ if(WIN32 AND EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_schema_manager.cpp")
         )
     endif()
 
+    if(EXISTS "${_themis_crud_lifecycle_script}")
+        add_test(NAME ServerCrudLifecycle
+            COMMAND powershell -NoProfile -ExecutionPolicy Bypass
+                -File "${_themis_crud_lifecycle_script}"
+                -ServerExe "${CMAKE_BINARY_DIR}/bin/themis_server.exe"
+                -CtlExe "${CMAKE_BINARY_DIR}/bin/themisctl.exe"
+        )
+        set_tests_properties(ServerCrudLifecycle PROPERTIES
+            LABELS "server;endpoint;crud;create;read;update;delete;process;std-gate"
+            TIMEOUT 300
+            ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${CMAKE_BINARY_DIR}/bin\;PATH=path_list_prepend:${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/debug/bin"
+        )
+    endif()
+
     if(EXISTS "${_themis_std_gate_check_script}")
         add_test(NAME StdGateCompositionTests
             COMMAND powershell -NoProfile -ExecutionPolicy Bypass
@@ -65,7 +80,7 @@ if(WIN32 AND EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_schema_manager.cpp")
                 -SourceDir "${CMAKE_SOURCE_DIR}"
                 -BuildDir "${CMAKE_BINARY_DIR}"
                 -Preset "windows-release-gate"
-                -RequiredTestsCsv "SchemaManagerFocusedTests,ServerSchemaEndpointSmoke,ServerCoreEndpointContract,ServerErrorPathContract,ServerRestartResilience"
+                -RequiredTestsCsv "SchemaManagerFocusedTests,ServerSchemaEndpointSmoke,ServerCrudLifecycle,ServerCoreEndpointContract,ServerErrorPathContract,ServerRestartResilience"
         )
         set_tests_properties(StdGateCompositionTests PROPERTIES
             LABELS "std-gate;gate-contract;meta"
@@ -138,7 +153,7 @@ if(WIN32 AND EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_schema_manager.cpp")
                 -SourceDir "${CMAKE_SOURCE_DIR}"
                 -BuildDir "${CMAKE_BINARY_DIR}"
                 -Preset "windows-release-gate-soak"
-                -RequiredTestsCsv "SchemaManagerFocusedTests,ServerSchemaEndpointSmoke,ServerCoreEndpointContract,ServerErrorPathContract,ServerRestartResilience,ServerSchemaEndpointSoak"
+                -RequiredTestsCsv "SchemaManagerFocusedTests,ServerSchemaEndpointSmoke,ServerCrudLifecycle,ServerCoreEndpointContract,ServerErrorPathContract,ServerRestartResilience,ServerSchemaEndpointSoak"
         )
         set_tests_properties(StdGateSoakCompositionTests PROPERTIES
             LABELS "std-gate-soak;gate-contract;meta"

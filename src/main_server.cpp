@@ -1349,11 +1349,13 @@ int main(int argc, char* argv[]) {
             } else {
                 THEMIS_CRITICAL("HSM stub provider active without explicit opt-in; startup validation will block launch");
             }
-        if (runtime_stub_active) {
-            THEMIS_WARN("HSM stub provider active via explicit insecure override (DEVELOPMENT ONLY)");
-            startHSMWarningThread();
-        } else {
-            THEMIS_INFO("HSM provider is hardware-backed - production ready");
+
+            if (runtime_stub_active) {
+                THEMIS_WARN("HSM stub provider active via explicit insecure override (DEVELOPMENT ONLY)");
+                startHSMWarningThread();
+            } else {
+                THEMIS_INFO("HSM provider is hardware-backed - production ready");
+            }
         }
 
         const auto hsm_profile_validation = themis::server::validateHsmRuntimeForProfile(

@@ -87,10 +87,15 @@ try {
             throw "Server exited early with code $($serverProc.ExitCode)."
         }
 
-        & $CtlExe --host 127.0.0.1 --port $port version *> $null
-        if ($LASTEXITCODE -eq 0) {
-            $ready = $true
-            break
+        try {
+            $versionResponse = Invoke-WebRequest -Uri "http://127.0.0.1:$port/version" -Method Get -TimeoutSec 5 -UseBasicParsing
+            if ($versionResponse.StatusCode -ge 200 -and $versionResponse.StatusCode -lt 300) {
+                $ready = $true
+                break
+            }
+        }
+        catch {
+            # Server is still starting or not yet serving the API.
         }
 
         Start-Sleep -Milliseconds 300
@@ -100,9 +105,18 @@ try {
         throw "Server did not become ready within timeout."
     }
 
-    & $CtlExe --host 127.0.0.1 --port $port schema *> $null
-    if ($LASTEXITCODE -ne 0) {
-        throw "themisctl schema failed with exit code $LASTEXITCODE"
+    try {
+        $schemaResponse = Invoke-WebRequest -Uri "http://127.0.0.1:$port/api/v1/schema" -Method Get -TimeoutSec 10 -UseBasicParsing
+        if ($schemaResponse.StatusCode -lt 200 -or $schemaResponse.StatusCode -ge 300) {
+            throw "Schema request failed with HTTP status $($schemaResponse.StatusCode)."
+        }
+    }
+    catch {
+        $message = $_.Exception.Message
+        if ($null -ne $_.Exception.Response) {
+            $message = "HTTP status $($_.Exception.Response.StatusCode). $message"
+        }
+        throw "Schema endpoint probe failed: $message"
     }
 
     if ($serverProc.HasExited) {

@@ -1011,7 +1011,7 @@ static int cmdPut(const std::vector<std::string>& args) {
     const std::string& id   = args[0];
     const std::string& body = args[1];
 
-    // Validate JSON body
+    // Validate JSON body before wrapping it as the server expects.
     try {
         auto validated_json = json::parse(body);
         (void)validated_json;
@@ -1021,7 +1021,11 @@ static int cmdPut(const std::vector<std::string>& args) {
         return 2;
     }
 
-    Response r = httpPut("/entities/" + id, body);
+    json payload;
+    payload["key"] = id;
+    payload["blob"] = body;
+
+    Response r = httpPut("/entities/" + id, payload.dump());
     return handleResponse(r, "Entity '" + id + "' stored.");
 }
 

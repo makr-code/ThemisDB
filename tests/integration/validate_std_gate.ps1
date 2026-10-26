@@ -25,7 +25,7 @@ if (-not (Test-Path -LiteralPath $SourceDir)) {
     throw "Source directory not found: $SourceDir"
 }
 
-$requiredTests = @("SchemaManagerFocusedTests", "ServerSchemaEndpointSmoke")
+$requiredTests = @("SchemaManagerFocusedTests", "ServerSchemaEndpointSmoke", "ServerCrudLifecycle")
 if (-not [string]::IsNullOrWhiteSpace($RequiredTestsCsv)) {
     $requiredTests = $RequiredTestsCsv.Split(',') | ForEach-Object { $_.Trim() } | Where-Object { $_.Length -gt 0 }
 }
