@@ -1,9 +1,11 @@
 # 🔷 GraphQL API
 
+> **Author:** ThemisDB Team  
+> **Created:** 2025-12-22  
+> **Last Updated:** 2026-10-26  
 > **Kategorie:** Core API  
 > **Seit Version:** 1.3.0  
-> **Status:** ✅ Stable  
-> **Aktualisiert:** 22. Dezember 2025
+> **Status:** stable
 
 ---
 
