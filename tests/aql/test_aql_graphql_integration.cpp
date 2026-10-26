@@ -27,10 +27,13 @@
 #include "query/query_resource_limits.h"
 #include "query/functions/graphql_functions.h"
 #include "query/functions/function_registry.h"
+#include "server/graphql_api_handler.h"
+#include <limits>
 
 using namespace themis;
 using namespace themis::graphql;
 using namespace themis::query::functions;
+using themis::server::GraphQLApiHandler;
 
 // ============================================================================
 // Helpers
@@ -156,13 +159,116 @@ TEST(GraphQLAqlResolverTests, AqlResolverThrowsOnMissingQueryArg) {
     ExecutionContext ctx;
     GraphQLAqlResolverFactory::injectResolvers(ctx, doc, /*engine=*/nullptr);
 
-    // Intentionally pass no engine so the "no engine → null" fast-path fires
-    // before the argument validation.  Null engine → returns null, no throw.
     Field f;
     f.name = "aql";
-    // No arguments
-    auto result = ctx.resolvers["aql"](f, nullptr, ctx);
-    EXPECT_TRUE(result == nullptr || result->isNull());
+    EXPECT_THROW(ctx.resolvers["aql"](f, nullptr, ctx), std::runtime_error);
+}
+
+TEST(GraphQLAqlResolverTests, AqlResolverRejectsNonObjectVariablesArgument) {
+    auto doc = mustParse("{ apiVersion }");
+    ExecutionContext ctx;
+    GraphQLAqlResolverFactory::injectResolvers(ctx, doc, /*engine=*/nullptr);
+
+    Field f;
+    f.name = "aql";
+    f.arguments["query"] = Value::string("RETURN 1");
+    f.arguments["variables"] = Value::string("not-an-object");
+
+    EXPECT_THROW(ctx.resolvers["aql"](f, nullptr, ctx), std::runtime_error);
+}
+
+TEST(GraphQLAqlResolverTests, AqlResolverAcceptsObjectVariablesWithoutEngine) {
+    auto doc = mustParse("{ apiVersion }");
+    ExecutionContext ctx;
+    GraphQLAqlResolverFactory::injectResolvers(ctx, doc, /*engine=*/nullptr);
+
+    Field f;
+    f.name = "aql";
+    f.arguments["query"] = Value::string("FOR d IN users FILTER d.id == @id RETURN d");
+    f.arguments["variables"] = Value::object({{"id", Value::string("user-1")}});
+
+    EXPECT_NO_THROW({
+        auto result = ctx.resolvers["aql"](f, nullptr, ctx);
+        EXPECT_TRUE(result == nullptr || result->isNull());
+    });
+}
+
+TEST(GraphQLAqlResolverTests, AqlResolverRejectsNonStringCollectionBindVariable) {
+    auto doc = mustParse("{ apiVersion }");
+    ExecutionContext ctx;
+    GraphQLAqlResolverFactory::injectResolvers(ctx, doc, /*engine=*/nullptr);
+
+    Field f;
+    f.name = "aql";
+    f.arguments["query"] =
+        Value::string("FOR d IN @@coll FILTER d.id == @id RETURN d");
+    f.arguments["variables"] = Value::object({
+        {"@coll", Value::integer(42)},
+        {"id", Value::string("u1")}
+    });
+
+    EXPECT_THROW(ctx.resolvers["aql"](f, nullptr, ctx), std::runtime_error);
+}
+
+// ============================================================================
+// GraphQLApiHandlerVariableMappingTests
+// ============================================================================
+
+TEST(GraphQLApiHandlerVariableMappingTests, ConvertsNestedObjectsAndArrays) {
+    const nlohmann::json input = {
+        {"tenant", "acme"},
+        {"limit", 25},
+        {"flags", nlohmann::json::array({"fast", "strict"})},
+        {"filter", {{"status", "active"}, {"score", 0.95}}}
+    };
+
+    auto value = GraphQLApiHandler::jsonToGraphQLValue(input);
+    ASSERT_NE(value, nullptr);
+    ASSERT_TRUE(value->isObject());
+
+    const auto& root = value->asObject();
+    auto tenant_it = root.find("tenant");
+    ASSERT_NE(tenant_it, root.end());
+    ASSERT_TRUE(tenant_it->second->isString());
+    EXPECT_EQ(tenant_it->second->asString(), "acme");
+
+    auto limit_it = root.find("limit");
+    ASSERT_NE(limit_it, root.end());
+    ASSERT_TRUE(limit_it->second->isInt());
+    EXPECT_EQ(limit_it->second->asInt(), 25);
+
+    auto flags_it = root.find("flags");
+    ASSERT_NE(flags_it, root.end());
+    ASSERT_TRUE(flags_it->second->isList());
+    ASSERT_EQ(flags_it->second->asList().size(), 2u);
+    EXPECT_EQ(flags_it->second->asList()[0]->asString(), "fast");
+    EXPECT_EQ(flags_it->second->asList()[1]->asString(), "strict");
+
+    auto filter_it = root.find("filter");
+    ASSERT_NE(filter_it, root.end());
+    ASSERT_TRUE(filter_it->second->isObject());
+    const auto& filter_obj = filter_it->second->asObject();
+    auto status_it = filter_obj.find("status");
+    auto score_it = filter_obj.find("score");
+    ASSERT_NE(status_it, filter_obj.end());
+    ASSERT_NE(score_it, filter_obj.end());
+    EXPECT_EQ(status_it->second->asString(), "active");
+    EXPECT_DOUBLE_EQ(score_it->second->asFloat(), 0.95);
+}
+
+TEST(GraphQLApiHandlerVariableMappingTests, ConvertsLargeUnsignedToFloat) {
+    const nlohmann::json input = {
+        {"u64", std::numeric_limits<uint64_t>::max()}
+    };
+
+    auto value = GraphQLApiHandler::jsonToGraphQLValue(input);
+    ASSERT_NE(value, nullptr);
+    ASSERT_TRUE(value->isObject());
+
+    const auto& obj = value->asObject();
+    auto it = obj.find("u64");
+    ASSERT_NE(it, obj.end());
+    EXPECT_TRUE(it->second->isFloat());
 }
 
 // ============================================================================

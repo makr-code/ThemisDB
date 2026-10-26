@@ -87,8 +87,6 @@ namespace themis {
 namespace query {
 class QueryEngine;
 struct QueryResourceLimits;
-template <typename T, typename E> class expected;
-struct QueryError;
 }
 using QueryEngine = query::QueryEngine;
 }
@@ -166,6 +164,9 @@ nlohmann::json gqlValueToJson(const std::shared_ptr<Value>& v);
 // Resolver Factory
 // ============================================================================
 
+/**
+ * @brief Factory for binding AQL-backed resolver functions to a GraphQL execution context.
+ */
 class GraphQLAqlResolverFactory {
 public:
     explicit GraphQLAqlResolverFactory(::themis::QueryEngine* engine = nullptr)
@@ -197,6 +198,12 @@ public:
      */
     static ExecutionContext::Resolver makeSchemaVersionResolver();
 
+    /**
+     * @brief Inject Resolvers.
+     * @param[in,out] ctx Input/output parameter.
+     * @param[in] doc Input parameter.
+     * @param[in] eng Input parameter.
+     */
     static void injectResolvers(ExecutionContext& ctx,
                                 const Document& doc,
                                 ::themis::QueryEngine* eng);
@@ -213,7 +220,7 @@ private:
     std::string extractStringArg(const Field& field,
                                 const std::string& argName) const;
 
-    ::tl::expected<nlohmann::json, ::themis::query::QueryError> 
+    Result<nlohmann::json>
     executeAqlWithLimits(
         const std::string& aql,
         ::themis::QueryEngine& eng,

@@ -164,14 +164,42 @@ Parser::Result Parser::parseDocument() {
         return result;
     }
 
+    const auto startsWithKeyword = [this](std::string_view keyword) {
+        if (pos_ + keyword.size() > source_.size()) {
+            return false;
+        }
+        if (source_.substr(pos_, keyword.size()) != keyword) {
+            return false;
+        }
+        if (pos_ + keyword.size() < source_.size()) {
+            const char next = source_[pos_ + keyword.size()];
+            if (std::isalnum(next) || next == '_') {
+                return false;
+            }
+        }
+        return true;
+    };
+
     while (pos_ < source_.size()) {
-        auto opResult = parseOperation();
-        if (opResult) {
-            result.document.operations.push_back(std::move(*opResult));
+        if (startsWithKeyword("fragment")) {
+            auto fragmentResult = parseFragmentDefinition();
+            if (fragmentResult) {
+                fragment_definitions_[fragmentResult->name] = *fragmentResult;
+                result.document.fragments.push_back(std::move(*fragmentResult));
+            } else {
+                result.errors.push_back(convertToParseError(fragmentResult.error()));
+                result.success = false;
+                break;
+            }
         } else {
-            result.errors.push_back(convertToParseError(opResult.error()));
-            result.success = false;
-            break;
+            auto opResult = parseOperation();
+            if (opResult) {
+                result.document.operations.push_back(std::move(*opResult));
+            } else {
+                result.errors.push_back(convertToParseError(opResult.error()));
+                result.success = false;
+                break;
+            }
         }
         skipWhitespace();
     }
@@ -199,13 +227,6 @@ themis::Result<Operation> Parser::parseOperation() {
     }
 
     skipWhitespace();
-
-    // Explicit version-gated unsupported feature handling.
-    if (match("fragment")) {
-        return themis::Err<Operation>(
-            ErrorCode::ERR_QUERY_INVALID_SYNTAX,
-            "GraphQL fragment definitions are unsupported in v1.x API parser; planned for v2.0");
-    }
 
     // Check for operation type keyword
     if (match("query")) {
@@ -259,19 +280,11 @@ themis::Result<Operation> Parser::parseOperation() {
         return themis::Err<Operation>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected '{'");
     }
 
-    while (!peek('}')  && pos_ < source_.size()) {
-        skipWhitespace();
-        auto fieldResult = parseField(1); // Start at depth 1
-        if (!fieldResult) {
-            return themis::Err<Operation>(fieldResult.error().code(), fieldResult.error().context());
-        }
-        op.selections.push_back(std::move(*fieldResult));
-        skipWhitespace();
+    auto selectionSetResult = parseSelectionSet(1);
+    if (!selectionSetResult) {
+        return themis::Err<Operation>(selectionSetResult.error().code(), selectionSetResult.error().context());
     }
-
-    if (!match('}')) {
-        return themis::Err<Operation>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected '}'");
-    }
+    op.selections = std::move(*selectionSetResult);
 
     return themis::Ok(std::move(op));
 }
@@ -367,28 +380,175 @@ themis::Result<Field> Parser::parseField(size_t depth) {
 
     skipWhitespace();
 
-    // Nested selection set
-    if (peek('@')) {
-        return themis::Err<Field>(ErrorCode::ERR_QUERY_INVALID_SYNTAX,
-                                  "GraphQL directives are unsupported in v1.x API parser; planned for v2.0");
+    while (peek('@')) {
+        auto directiveResult = parseDirective();
+        if (!directiveResult) {
+            return themis::Err<Field>(directiveResult.error().code(), directiveResult.error().context());
+        }
+        field.directives.push_back(std::move(*directiveResult));
+        skipWhitespace();
     }
 
     if (match('{')) {
-        while (!peek('}')  && pos_ < source_.size()) {
-            skipWhitespace();
-            auto nestedFieldResult = parseField(depth + 1); // Increment depth for nested fields
-            if (!nestedFieldResult) {
-                return themis::Err<Field>(nestedFieldResult.error().code(), nestedFieldResult.error().context());
-            }
-            field.selections.push_back(std::move(*nestedFieldResult));
-            skipWhitespace();
+        auto nestedSelectionSetResult = parseSelectionSet(depth + 1);
+        if (!nestedSelectionSetResult) {
+            return themis::Err<Field>(nestedSelectionSetResult.error().code(),
+                                      nestedSelectionSetResult.error().context());
         }
-        if (!match('}')) {
-            return themis::Err<Field>(ErrorCode::ERR_QUERY_INVALID_SYNTAX, getLocationContext() + ": Expected '}'");
-        }
+        field.selections = std::move(*nestedSelectionSetResult);
     }
 
     return themis::Ok(std::move(field));
+}
+
+themis::Result<Field::Directive> Parser::parseDirective() {
+    if (!match('@')) {
+        return themis::Err<Field::Directive>(ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                                             getLocationContext() + ": Expected '@'");
+    }
+
+    auto nameResult = parseName();
+    if (!nameResult) {
+        return themis::Err<Field::Directive>(nameResult.error().code(), nameResult.error().context());
+    }
+
+    Field::Directive directive;
+    if (*nameResult == "include") {
+        directive.type = Field::Directive::Type::Include;
+    } else if (*nameResult == "skip") {
+        directive.type = Field::Directive::Type::Skip;
+    } else {
+        return themis::Err<Field::Directive>(ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                                             getLocationContext() + ": Unsupported directive '@" + *nameResult + "'");
+    }
+
+    skipWhitespace();
+    if (!match('(')) {
+        return themis::Err<Field::Directive>(ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                                             getLocationContext() + ": Expected '(' after directive name");
+    }
+
+    skipWhitespace();
+    auto argNameResult = parseName();
+    if (!argNameResult) {
+        return themis::Err<Field::Directive>(argNameResult.error().code(), argNameResult.error().context());
+    }
+    if (*argNameResult != "if") {
+        return themis::Err<Field::Directive>(ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                                             getLocationContext()
+                                                 + ": Directive argument must be 'if'");
+    }
+
+    skipWhitespace();
+    if (!match(':')) {
+        return themis::Err<Field::Directive>(ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                                             getLocationContext() + ": Expected ':' after directive argument");
+    }
+
+    skipWhitespace();
+    auto conditionResult = parseValue();
+    if (!conditionResult) {
+        return themis::Err<Field::Directive>(conditionResult.error().code(), conditionResult.error().context());
+    }
+    directive.condition = *conditionResult;
+
+    skipWhitespace();
+    if (!match(')')) {
+        return themis::Err<Field::Directive>(ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                                             getLocationContext() + ": Expected ')'");
+    }
+
+    return themis::Ok(std::move(directive));
+}
+
+themis::Result<FragmentDefinition> Parser::parseFragmentDefinition() {
+    if (!match("fragment")) {
+        return themis::Err<FragmentDefinition>(ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                                               getLocationContext() + ": Expected 'fragment'");
+    }
+
+    skipWhitespace();
+    auto fragmentNameResult = parseName();
+    if (!fragmentNameResult) {
+        return themis::Err<FragmentDefinition>(fragmentNameResult.error().code(), fragmentNameResult.error().context());
+    }
+
+    skipWhitespace();
+    if (!match("on")) {
+        return themis::Err<FragmentDefinition>(ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                                               getLocationContext() + ": Expected 'on' in fragment definition");
+    }
+
+    skipWhitespace();
+    auto typeConditionResult = parseName();
+    if (!typeConditionResult) {
+        return themis::Err<FragmentDefinition>(typeConditionResult.error().code(), typeConditionResult.error().context());
+    }
+
+    skipWhitespace();
+    if (!match('{')) {
+        return themis::Err<FragmentDefinition>(ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                                               getLocationContext() + ": Expected '{'");
+    }
+
+    auto selectionSetResult = parseSelectionSet(1);
+    if (!selectionSetResult) {
+        return themis::Err<FragmentDefinition>(selectionSetResult.error().code(), selectionSetResult.error().context());
+    }
+
+    FragmentDefinition definition;
+    definition.name = *fragmentNameResult;
+    definition.type_condition = *typeConditionResult;
+    definition.selections = std::move(*selectionSetResult);
+    return themis::Ok(std::move(definition));
+}
+
+themis::Result<std::vector<Field>> Parser::parseSelectionSet(size_t depth) {
+    std::vector<Field> selections;
+
+    while (!peek('}') && pos_ < source_.size()) {
+        skipWhitespace();
+        if (match("...")) {
+            skipWhitespace();
+            if (match("on")) {
+                return themis::Err<std::vector<Field>>(
+                    ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                    "GraphQL inline fragments are unsupported in v1.x API parser; planned for v2.0");
+            }
+
+            auto fragmentNameResult = parseName();
+            if (!fragmentNameResult) {
+                return themis::Err<std::vector<Field>>(fragmentNameResult.error().code(),
+                                                       fragmentNameResult.error().context());
+            }
+            auto fragmentIt = fragment_definitions_.find(*fragmentNameResult);
+            if (fragmentIt == fragment_definitions_.end()) {
+                return themis::Err<std::vector<Field>>(
+                    ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                    getLocationContext() + ": Unknown fragment '" + *fragmentNameResult
+                        + "' (fragment must be defined before usage)");
+            }
+            selections.insert(selections.end(),
+                              fragmentIt->second.selections.begin(),
+                              fragmentIt->second.selections.end());
+            skipWhitespace();
+            continue;
+        }
+
+        auto fieldResult = parseField(depth);
+        if (!fieldResult) {
+            return themis::Err<std::vector<Field>>(fieldResult.error().code(), fieldResult.error().context());
+        }
+        selections.push_back(std::move(*fieldResult));
+        skipWhitespace();
+    }
+
+    if (!match('}')) {
+        return themis::Err<std::vector<Field>>(ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                                               getLocationContext() + ": Expected '}'");
+    }
+
+    return themis::Ok(std::move(selections));
 }
 
 /**
@@ -917,11 +1077,32 @@ std::shared_ptr<Value> Executor::executeSelections(const std::vector<Field> &sel
     ValueMap result;
 
     for (const auto &field : selections) {
+        if (!shouldExecuteField(field, context)) {
+            continue;
+        }
         auto value                   = executeField(field, parent, context);
         result[field.responseName()] = value;
     }
 
     return Value::object(std::move(result));
+}
+
+bool Executor::shouldExecuteField(const Field &field, const ExecutionContext &context) {
+    for (const auto &directive : field.directives) {
+        auto condition = resolveValue(directive.condition, context);
+        if (!condition || !condition->isBool()) {
+            throw std::runtime_error("Directive condition must resolve to Boolean");
+        }
+
+        const bool conditionValue = condition->asBool();
+        if (directive.type == Field::Directive::Type::Include && !conditionValue) {
+            return false;
+        }
+        if (directive.type == Field::Directive::Type::Skip && conditionValue) {
+            return false;
+        }
+    }
+    return true;
 }
 
 /**
