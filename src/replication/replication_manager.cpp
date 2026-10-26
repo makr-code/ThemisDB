@@ -16,6 +16,7 @@
 
 #include "replication/replication_manager.h"
 #include "replication/geo_placement.h"
+#include "storage/wal_storage.h"
 #include <stdexcept>
 #include "replication/multi_master_replication.h"
 #include "utils/logger.h"
@@ -35,18 +36,9 @@
 #include <thread>
 #include <numeric>
 #include <type_traits>
-#include <cerrno>
 #include <lz4.h>
 #include <zstd.h>
 #include <snappy.h>
-
-#ifdef _WIN32
-#include <io.h>
-#include <fcntl.h>
-#else
-#include <fcntl.h>
-#include <unistd.h>
-#endif
 
 namespace themisdb {
 namespace replication {
@@ -468,14 +460,18 @@ WALManager::~WALManager() {
  */
 uint64_t WALManager::append(const WALEntry& entry) {
     std::lock_guard<std::mutex> lock(wal_mutex_);
-    
-    uint64_t seq = ++current_sequence_;
-    
-    // Create a copy with the assigned sequence number
+
+    if (!durability_wal_) {
+        throw std::runtime_error("WAL durability backend is not initialized");
+    }
+
+    uint64_t seq = current_sequence_.load() + 1;
+
+    // Create a copy with the assigned sequence number.
     WALEntry stored_entry = entry;
     stored_entry.sequence_number = seq;
     stored_entry.term = current_term_.load();
-    
+
     // Compute checksum if not provided
     if (stored_entry.checksum.empty()) {
         std::string content = stored_entry.operation + stored_entry.collection + 
@@ -492,25 +488,21 @@ uint64_t WALManager::append(const WALEntry& entry) {
         }
         stored_entry.checksum = oss.str();
     }
-    
-    // Serialize and write to current segment
+
     auto serialized = stored_entry.serialize();
-    
-    std::string segment_path = config_.wal_directory + "/wal_" + 
-                               std::to_string(seq / 10000) + ".log";
-    
-    std::ofstream ofs(segment_path, std::ios::binary | std::ios::app);
-    if (ofs) {
-        // Write length prefix
-        uint32_t len = static_cast<uint32_t>(serialized.size());
-        ofs.write(reinterpret_cast<char*>(&len), sizeof(len));
-        ofs.write(reinterpret_cast<char*>(serialized.data()),serialized.size());
-        
-        if (config_.wal_sync_on_commit) {
-            ofs.flush();
-        }
+
+    constexpr std::string_view kReplicationWalEntryType = "replication_entry";
+    std::string payload(serialized.begin(), serialized.end());
+    auto append_result = durability_wal_->appendPut(kReplicationWalEntryType, payload);
+    if (!append_result.has_value()) {
+        throw std::runtime_error("Failed to append replication WAL entry: " +
+                                 append_result.error().message());
     }
-    
+
+    seq = append_result.value();
+    stored_entry.sequence_number = seq;
+    current_sequence_.store(seq);
+    wal_entries_.push_back(std::move(stored_entry));
     return seq;
 }
 
@@ -522,125 +514,23 @@ uint64_t WALManager::append(const WALEntry& entry) {
  * @details Calls: lock(), reserve(), size(), std::to_string(), std::filesystem::exists(), ifs(), THEMIS_ERROR(), read().
  */
 std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t limit) {
-    // BATCH A FIX: Add timeout protection for file reads
     std::lock_guard<std::mutex> lock(wal_mutex_);
     std::vector<WALEntry> entries;
-    entries.reserve(limit);
-    
-    // Find starting segment
-    uint64_t segment_id = start_sequence / 10000;
-    
-    // WAVE1-FIX [no_timeout:558]: use configurable deadline from ReplicationConfig
-    // instead of a hardcoded magic number so operators can tune I/O patience.
-    const uint32_t FILE_IO_TIMEOUT_MS = config_.file_io_timeout_ms;
-    
-    for (uint64_t seg = segment_id; entries.size() < limit; ++seg) {
-        std::string segment_path = config_.wal_directory + "/wal_" + 
-                                   std::to_string(seg) + ".log";
-        
-        if (!std::filesystem::exists(segment_path)) {
-            break;
-        }
-        
-        // BATCH A FIX: Wrap file reading in timeout protection.
-        // All captures are by value (or shared_ptr) so the lambda is safe to
-        // run on a detached thread if executeWithTimeout times out.
-        // seg_entries collects results for this segment; they are merged into
-        // the outer `entries` accumulator only on success.
-        auto seg_entries = std::make_shared<std::vector<WALEntry>>();
-        const std::string seg_path_copy = segment_path;
-        auto readSegmentData = [this, seg_path_copy, seg_entries,
-                                 start_sequence, limit]() {
-            try {
-                std::ifstream ifs(seg_path_copy, std::ios::binary);
-                if (!ifs) {
-                    THEMIS_ERROR("Failed to open WAL segment: {}", seg_path_copy);
-                    return;
-                }
-                
-                while (seg_entries->size() < limit) {
-                    uint32_t len = 0;
-                    ifs.read(reinterpret_cast<char*>(&len), sizeof(len));
-                    if (ifs.eof() || len == 0) {
-                      break;
-                    }
-                    
-                    // BATCH D FIX: Guard against oversized or corrupt length fields
-                    // Use unsigned literals to avoid signed multiplication overflow (CWE-190).
-                    // Calculation: 64 * 1024 * 1024 = 67,108,864 bytes (67 MB max WAL record)
-                    // This is safely within uint32_t range [0, 4,294,967,295]
-                    static constexpr uint32_t MAX_WAL_RECORD_SIZE = 64 * 1024 * 1024;
-                    if (len > MAX_WAL_RECORD_SIZE) {
-                        THEMIS_ERROR("WAL segment {}: corrupt record length {}, stopping read", 
-                                   seg_path_copy, len);
-                        break;
-                    }
-                    
-                    // WAVE1-FIX [multiplication_overflow:549]:
-                    // ifs.gcount() returns std::streamsize (signed). Cast to the same
-                    // width as `len` (uint64_t) on both sides so no truncation or
-                    // unsigned wrap can produce a false match.  __builtin_mul_overflow
-                    // is additionally applied to the vector allocation so that any
-                    // future change to the element type is caught at compile time.
-                    const size_t element_size = sizeof(uint8_t);
-                    if (static_cast<size_t>(len) > (std::numeric_limits<size_t>::max() / element_size)) {
-                        THEMIS_ERROR("WAL segment {}: allocation-size overflow for "
-                                     "len={}, skipping entry", seg_path_copy, len);
-                        break;
-                    }
-                    const size_t alloc_bytes = static_cast<size_t>(len) * element_size;
-                    std::vector<uint8_t> data(alloc_bytes);
-                    ifs.read(reinterpret_cast<char*>(data.data()),
-                             static_cast<std::streamsize>(len));
-                    if (ifs.gcount() < 0 ||
-                        static_cast<uint64_t>(ifs.gcount()) != static_cast<uint64_t>(len)) {
-                        THEMIS_ERROR("WAL segment {}: incomplete read (expected {} bytes, got {})",
-                                   seg_path_copy, len, ifs.gcount());
-                        break;
-                    }
-                    
-                    auto entry = WALEntry::deserialize(data);
-                    if (!entry) {
-                        THEMIS_ERROR("WAL segment {}: failed to deserialize entry", seg_path_copy);
-                        continue;
-                    }
-                    
-                    if (entry->sequence_number >= start_sequence) {
-                        // Verify checksum to detect silent data corruption
-                        if (!entry->checksum.empty()) {
-                            std::string content = entry->operation + entry->collection +
-                                               entry->document_id + entry->data;
-                            unsigned char hash[SHA256_DIGEST_LENGTH];
-                            SHA256(reinterpret_cast<const unsigned char*>(content.c_str()),
-                                   content.size(), hash);
-                            std::ostringstream oss = {};
-                            for (int i = 0; i < SHA256_DIGEST_LENGTH; ++i) {
-                                oss << std::hex << std::setw(2) << std::setfill('0')
-                                    << static_cast<int>(hash[i]);
-                            }
-                            if (oss.str() != entry->checksum) {
-                                THEMIS_ERROR("WAL entry seq={} checksum mismatch – possible data corruption, skipping",
-                                           entry->sequence_number);
-                                continue;
-                            }
-                        }
-                        seg_entries->push_back(*entry);
-                    }
-                }
-            } catch (const std::exception& e) {
-                THEMIS_ERROR("Exception reading WAL segment {}: {}", seg_path_copy, e.what());
-            }
-        };
-        
-        // Execute segment read with timeout protection
-        if (!executeWithTimeout(FILE_IO_TIMEOUT_MS, readSegmentData)) {
-            THEMIS_WARN("Timeout reading WAL segment {}, stopping read", segment_path);
-            break;
-        }
-        // Merge per-segment results into the accumulator
-        entries.insert(entries.end(), seg_entries->begin(), seg_entries->end());
+    if (limit == 0) {
+        return entries;
     }
-    
+    entries.reserve(limit);
+
+    for (const auto& entry : wal_entries_) {
+        if (entry.sequence_number < start_sequence) {
+            continue;
+        }
+        entries.push_back(entry);
+        if (entries.size() >= limit) {
+            break;
+        }
+    }
+
     return entries;
 }
 
@@ -660,14 +550,19 @@ uint64_t WALManager::incrementTerm() {
  */
 void WALManager::truncateBefore(uint64_t sequence) {
     std::lock_guard<std::mutex> lock(wal_mutex_);
-    
-    uint64_t segment_id = sequence / 10000;
-    
-    // Remove old segments
-    for (uint64_t seg = 0; seg < segment_id; ++seg) {
-        std::string segment_path = config_.wal_directory + "/wal_" + 
-                                   std::to_string(seg) + ".log";
-        std::filesystem::remove(segment_path);
+
+    while (!wal_entries_.empty() && wal_entries_.front().sequence_number < sequence) {
+        wal_entries_.pop_front();
+    }
+
+    if (durability_wal_) {
+        auto checkpoint_result = durability_wal_->checkpoint(true);
+        if (!checkpoint_result.has_value()) {
+            THEMIS_WARN("Replication WAL checkpoint during truncate failed: {}",
+                        checkpoint_result.error().message());
+        } else {
+            current_sequence_.store(std::max(current_sequence_.load(), checkpoint_result.value()));
+        }
     }
 }
 
@@ -676,81 +571,36 @@ void WALManager::truncateBefore(uint64_t sequence) {
  * @details Calls: dir(), empty(), fs::exists(), THEMIS_WARN(), message(), fs::directory_iterator(), path(), extension().
  */
 void WALManager::sync() {
-    // Purpose: Force synchronization of all WAL files to persistent storage.
-    // Minimal portable implementation: iterate WAL files and call fsync/_commit
-    // on each file descriptor. This provides a best-effort durability guarantee
-    // and is preferable to a silent no-op.
-    std::error_code ec = {};
-    const fs::path dir(config_.wal_directory);
-    if (dir.empty() || !fs::exists(dir, ec)) {
-        if (ec) THEMIS_WARN("WALManager::sync: wal directory inaccessible: {}", ec.message());
+    std::lock_guard<std::mutex> lock(wal_mutex_);
+    if (!durability_wal_) {
         return;
     }
 
-    for (const auto& entry : fs::directory_iterator(dir, ec)) {
-        if (ec) {
-            THEMIS_WARN("WALManager::sync: directory iteration error: {}", ec.message());
-            break;
-        }
-        if (entry.path().extension() != ".log") {
-          continue;
-        }
-
-        // Open file descriptor and fsync it
-#ifdef _WIN32
-        // Windows CRT `_commit()` must operate on a writable handle; using a
-        // read-only descriptor here can trigger the lowio assertion
-        // "Invalid file descriptor. File possibly closed by a different thread".
-        // Opening in read/write mode keeps the underlying CRT state valid for the
-        // flush call while still being a local durability sync of the WAL file.
-        int fd = ::_open(entry.path().string().c_str(), _O_RDWR | _O_BINARY);
-        if (fd < 0) {
-            THEMIS_WARN("WALManager::sync: cannot open {}: {}", entry.path().string(), strerror(errno));
-            continue;
-        }
-        if (::_commit(fd) != 0) {
-            THEMIS_WARN("WALManager::sync: commit failed for {}", entry.path().string());
-        }
-        ::_close(fd);
-#else
-        // NOTE: Blocking local filesystem operation (open). 
-        // Expected timeout: microseconds to milliseconds. Configure OS watchdog for hung processes.
-        int fd = ::open(entry.path().c_str(), O_RDONLY | O_CLOEXEC);
-        if (fd < 0) {
-            THEMIS_WARN("WALManager::sync: cannot open {}: {}", entry.path().string(), strerror(errno));
-            continue;
-        }
-        // WAVE1-FIX [no_timeout:654]: wrap the blocking ::fsync in a configurable
-        // deadline (config_.file_io_timeout_ms).  A hung device will not stall the
-        // executeWithTimeout detaches on timeout, so the lambda must only
-        // capture by value.  captured_fd (int) and captured_path (string) are
-        // both copied; the original locals remain valid for the caller.
-        const int captured_fd = fd;
-        const std::string captured_path = entry.path().string();
-        const bool fsync_ok = executeWithTimeout(
-            config_.file_io_timeout_ms,
-            [captured_fd, captured_path]() {
-                if (::fsync(captured_fd) != 0) {
-                    // Warning is emitted from the owning thread below if timed out;
-                    // emit here too so the background thread leaves a trace.
-                    (void)captured_path; // suppress unused-capture warning
-                }
-            });
-        if (!fsync_ok) {
-            THEMIS_ERROR("WALManager::sync: fsync timed out or failed for {} "
-                         "(timeout={}ms) – durability not guaranteed",
-                         entry.path().string(), config_.file_io_timeout_ms);
-        }
-        ::close(fd);
-#endif
+    auto flush_result = durability_wal_->flush();
+    if (!flush_result.has_value()) {
+        THEMIS_WARN("Replication WAL flush failed: {}", flush_result.error().message());
     }
 }
 
 uint64_t WALManager::getSize() const {
     uint64_t total = 0;
-    for (const auto& entry : std::filesystem::directory_iterator(config_.wal_directory)) {
+    std::error_code ec = {};
+    if (!std::filesystem::exists(config_.wal_directory, ec)) {
+        return 0;
+    }
+
+    for (const auto& entry : std::filesystem::directory_iterator(config_.wal_directory, ec)) {
+        if (ec) {
+            THEMIS_WARN("Replication WAL size calculation failed: {}", ec.message());
+            break;
+        }
         if (entry.path().extension() == ".log") {
-            total += std::filesystem::file_size(entry.path());
+            total += std::filesystem::file_size(entry.path(), ec);
+            if (ec) {
+                THEMIS_WARN("Failed to read WAL file size for {}: {}",
+                            entry.path().string(), ec.message());
+                ec.clear();
+            }
         }
     }
     return total;
@@ -761,38 +611,55 @@ uint64_t WALManager::getSize() const {
  * @details Calls: std::filesystem::directory_iterator(), path(), extension(), ifs(), read(), eof(), data(), WALEntry::deserialize().
  */
 void WALManager::loadFromDisk() {
-    // Find highest sequence number from existing WAL files
-    uint64_t max_seq = 0;
-    uint64_t max_term = 0;
-    
-    for (const auto& entry : std::filesystem::directory_iterator(config_.wal_directory)) {
-        if (entry.path().extension() == ".log") {
-            std::ifstream ifs(entry.path(), std::ios::binary);
-            
-            while (true) {
-                uint32_t len = 0;
-                ifs.read(reinterpret_cast<char*>(&len), sizeof(len));
-                if (ifs.eof() || len == 0) {
-                  break;
-                }
-                
-                std::vector<uint8_t> data(len);
-                ifs.read(reinterpret_cast<char*>(data.data()), len);
-                if (ifs.eof()) {
-                  break;
-                }
-                
-                auto wal_entry = WALEntry::deserialize(data);
-                if (wal_entry) {
-                    max_seq = std::max(max_seq, wal_entry->sequence_number);
-                    max_term = std::max(max_term, wal_entry->term);
-                }
-            }
+    wal_entries_.clear();
+    current_sequence_.store(0);
+    current_term_.store(0);
+
+    themis::WALStorage::Config wal_config;
+    wal_config.dir = config_.wal_directory;
+    wal_config.rotation_threshold_bytes = config_.wal_segment_size_bytes;
+    wal_config.fsync_on_write = config_.wal_sync_on_commit;
+
+    auto recovery_callback = [this](const themis::WALStorage::Entry& recovered) {
+        if (recovered.type != themis::WALStorage::EntryType::PUT) {
+            return true;
         }
+
+        std::vector<uint8_t> payload(recovered.value.begin(), recovered.value.end());
+        auto wal_entry = WALEntry::deserialize(payload);
+        if (!wal_entry) {
+            THEMIS_WARN("Skipping invalid replication WAL entry at sequence {}",
+                        recovered.sequence);
+            return true;
+        }
+
+        wal_entry->sequence_number = recovered.sequence;
+        current_term_.store(std::max(current_term_.load(), wal_entry->term));
+        current_sequence_.store(std::max(current_sequence_.load(), recovered.sequence));
+        wal_entries_.push_back(*wal_entry);
+        return true;
+    };
+
+    auto storage_result = themis::WALStorage::open(wal_config, recovery_callback);
+    if (!storage_result.has_value()) {
+        throw std::runtime_error("Failed to open replication WAL storage: " +
+                                 storage_result.error().message());
     }
-    
-    current_sequence_.store(max_seq);
-    current_term_.store(max_term);
+
+    durability_wal_ = std::move(storage_result.value());
+    current_sequence_.store(std::max(current_sequence_.load(), durability_wal_->lastSequence()));
+}
+
+void WALManager::rotateSegment() {
+    if (durability_wal_) {
+        auto checkpoint_result = durability_wal_->checkpoint(false);
+        if (!checkpoint_result.has_value()) {
+            THEMIS_WARN("Replication WAL rotation checkpoint failed: {}",
+                        checkpoint_result.error().message());
+            return;
+        }
+        current_sequence_.store(std::max(current_sequence_.load(), checkpoint_result.value()));
+    }
 }
 
 // ============================================================================

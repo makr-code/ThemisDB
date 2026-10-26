@@ -8,13 +8,15 @@
  * @note This block is auto-generated and will be overwritten.
  */
 
-
 #include "sharding/wal_manager.h"
-#include <filesystem>
+#include "storage/wal_storage.h"
+#include "utils/logger.h"
+
+#include <algorithm>
 #include <chrono>
-#include <sstream>
+#include <filesystem>
 #include <iomanip>
-#include <cstring>
+#include <sstream>
 #include <stdexcept>
 
 namespace themis::sharding {
@@ -23,22 +25,15 @@ namespace themis::sharding {
 // LSN Implementation
 // ============================================================================
 
-/**
- * @brief From String.
- * @param[in] str Input parameter.
- * @return Return value.
- * @throws std::invalid_argument if an error occurs.
- * @details Calls: find(), std::stoull(), substr(), LSN().
- */
 LSN LSN::fromString(const std::string& str) {
     size_t pos = str.find('/');
     if (pos == std::string::npos) {
         throw std::invalid_argument("Invalid LSN format: " + str);
     }
-    
+
     uint64_t segment = std::stoull(str.substr(0, pos));
     uint64_t offset = std::stoull(str.substr(pos + 1));
-    
+
     return LSN(segment, offset);
 }
 
@@ -48,100 +43,72 @@ LSN LSN::fromString(const std::string& str) {
 
 std::vector<uint8_t> WALEntry::serialize() const {
     std::vector<uint8_t> result;
-    
+
     // Format: [type:1][timestamp:8][lsn_segment:8][lsn_offset:8][tx_id_len:4][tx_id][data_len:4][data]
-    
     result.push_back(static_cast<uint8_t>(type));
-    
-    // Timestamp (8 bytes, big-endian)
+
     for (int i = 7; i >= 0; --i) {
         result.push_back((timestamp >> (i * 8)) & 0xFF);
     }
-    
-    // LSN segment (8 bytes)
     for (int i = 7; i >= 0; --i) {
         result.push_back((lsn.segment >> (i * 8)) & 0xFF);
     }
-    
-    // LSN offset (8 bytes)
     for (int i = 7; i >= 0; --i) {
         result.push_back((lsn.offset >> (i * 8)) & 0xFF);
     }
-    
-    // Transaction ID length (4 bytes)
+
     uint32_t tx_id_len = static_cast<uint32_t>(transaction_id.size());
     for (int i = 3; i >= 0; --i) {
         result.push_back((tx_id_len >> (i * 8)) & 0xFF);
     }
-    
-    // Transaction ID
     result.insert(result.end(), transaction_id.begin(), transaction_id.end());
-    
-    // Data (JSON)
+
     std::string data_str = data.dump();
     uint32_t data_len = static_cast<uint32_t>(data_str.size());
-    
-    // Data length (4 bytes)
     for (int i = 3; i >= 0; --i) {
         result.push_back((data_len >> (i * 8)) & 0xFF);
     }
-    
-    // Data
     result.insert(result.end(), data_str.begin(), data_str.end());
-    
+
     return result;
 }
 
-/**
- * @brief Deserialize.
- * @param[in] bytes Input parameter.
- * @return Return value.
- * @throws std::runtime_error if an error occurs.
- * @details Calls: size(), std::string(), begin(), data_str(), nlohmann::json::parse().
- */
 WALEntry WALEntry::deserialize(const std::vector<uint8_t>& bytes) {
-    if (bytes.size() < 29) {  // Minimum size
+    if (bytes.size() < 29) {
         throw std::runtime_error("WAL entry too small");
     }
-    
+
     WALEntry entry;
     size_t pos = 0;
-    
-    // Type
+
     entry.type = static_cast<WALEntryType>(bytes[pos++]);
-    
-    // Timestamp
+
     entry.timestamp = 0;
     for (int i = 0; i < 8; ++i) {
         entry.timestamp = (entry.timestamp << 8) | bytes[pos++];
     }
-    
-    // LSN segment
+
     entry.lsn.segment = 0;
     for (int i = 0; i < 8; ++i) {
         entry.lsn.segment = (entry.lsn.segment << 8) | bytes[pos++];
     }
-    
-    // LSN offset
+
     entry.lsn.offset = 0;
     for (int i = 0; i < 8; ++i) {
         entry.lsn.offset = (entry.lsn.offset << 8) | bytes[pos++];
     }
-    
-    // Transaction ID length
+
     uint32_t tx_id_len = 0;
     for (int i = 0; i < 4; ++i) {
         tx_id_len = (tx_id_len << 8) | bytes[pos++];
     }
-    
-    // Transaction ID
+
     if (pos + tx_id_len > bytes.size()) {
         throw std::runtime_error("WAL entry truncated: transaction_id overruns buffer");
     }
     entry.transaction_id = std::string(bytes.begin() + pos, bytes.begin() + pos + tx_id_len);
     pos += tx_id_len;
-    
-    // Data length
+
     if (pos + 4 > bytes.size()) {
         throw std::runtime_error("WAL entry truncated: missing data_len field");
     }
@@ -149,14 +116,13 @@ WALEntry WALEntry::deserialize(const std::vector<uint8_t>& bytes) {
     for (int i = 0; i < 4; ++i) {
         data_len = (data_len << 8) | bytes[pos++];
     }
-    
-    // Data
+
     if (pos + data_len > bytes.size()) {
         throw std::runtime_error("WAL entry truncated: data overruns buffer");
     }
     std::string data_str(bytes.begin() + pos, bytes.begin() + pos + data_len);
     entry.data = nlohmann::json::parse(data_str);
-    
+
     return entry;
 }
 
@@ -170,80 +136,85 @@ size_t WALEntry::size() const {
 
 WALManager::WALManager(const WALManagerConfig& config)
     : config_(config), current_lsn_(1, 0), oldest_lsn_(1, 0) {
-    // Create WAL directory if it doesn't exist
-    namespace fs = std::filesystem;
-    if (!fs::exists(config_.wal_directory)) {
-        fs::create_directories(config_.wal_directory);
+    std::error_code ec = {};
+    std::filesystem::create_directories(config_.wal_directory, ec);
+
+    themis::WALStorage::Config durability_cfg;
+    durability_cfg.dir = config_.wal_directory;
+    durability_cfg.rotation_threshold_bytes = config_.segment_size;
+    durability_cfg.fsync_on_write = config_.sync_on_write;
+
+    auto open_res = themis::WALStorage::open(
+        durability_cfg,
+        [this](const themis::WALStorage::Entry& recovered) {
+            if (recovered.type != themis::WALStorage::EntryType::PUT) {
+                return true;
+            }
+
+            std::vector<uint8_t> payload(recovered.value.begin(), recovered.value.end());
+            WALEntry entry = WALEntry::deserialize(payload);
+            entry.lsn = sequenceToLsn(recovered.sequence);
+            entries_.push_back(entry);
+            current_lsn_ = sequenceToLsn(recovered.sequence + 1);
+            total_entries_++;
+            total_bytes_ += payload.size();
+            return true;
+        });
+
+    if (!open_res) {
+        throw std::runtime_error(
+            "Failed to initialize WALStorage for sharding WAL manager: " +
+            open_res.error().context());
     }
-    
-    // Load existing segments
-    loadExistingSegments();
-    
-    // Open current segment
-    openSegment(current_lsn_.segment);
+
+    durability_wal_ = std::move(*open_res);
+    if (!entries_.empty()) {
+        oldest_lsn_ = entries_.front().lsn;
+    }
 }
 
 WALManager::~WALManager() {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     flush();
-    closeSegment();
 }
 
-/**
- * @brief Append.
- * @param[in] entry Input parameter.
- * @return Return value.
- * @details Calls: lock(), std::chrono::system_clock::now(), time_since_epoch(), count(), serialize(), size(), flush(), rotateSegment().
- */
 LSN WALManager::append(const WALEntry& entry) {
     std::lock_guard<std::mutex> lock(mutex_);
-    
-    // Assign LSN
+    if (!durability_wal_) {
+        throw std::runtime_error("WALManager append called before durability WAL initialization");
+    }
+
     WALEntry entry_copy = entry;
-    entry_copy.lsn = current_lsn_;
+    entry_copy.lsn = sequenceToLsn(durability_wal_->lastSequence() + 1);
     entry_copy.timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now().time_since_epoch()
     ).count();
-    
-    // Serialize entry
-    auto bytes = entry_copy.serialize();
-    
-    // Check if we need to rotate segment
-    if (current_lsn_.offset + bytes.size() > config_.segment_size) {
-        flush();
-        rotateSegment();
+
+    const auto payload = entry_copy.serialize();
+    std::string value(payload.begin(), payload.end());
+    auto append_res = durability_wal_->appendPut("wal_entry", value);
+    if (!append_res) {
+        throw std::runtime_error("WALManager durable append failed: " +
+                                 append_res.error().context());
     }
-    
-    // Write to buffer
-    write_buffer_.insert(write_buffer_.end(), bytes.begin(), bytes.end());
-    
-    // Update LSN
-    LSN result_lsn = current_lsn_;
-    current_lsn_.offset += bytes.size();
-    
-    // Update statistics
+
+    entry_copy.lsn = sequenceToLsn(*append_res);
+    entries_.push_back(entry_copy);
+    current_lsn_ = sequenceToLsn(*append_res + 1);
+    if (entries_.size() == 1) {
+        oldest_lsn_ = entry_copy.lsn;
+    }
+
     total_entries_++;
-    total_bytes_ += bytes.size();
-    
-    // Flush if configured or buffer full
-    if (config_.sync_on_write || write_buffer_.size() >= config_.write_buffer_size) {
+    total_bytes_ += payload.size();
+
+    if (config_.sync_on_write) {
         flush();
     }
-    
-    return result_lsn;
+
+    return entry_copy.lsn;
 }
 
-/**
- * @brief Read.
- * @param[in] lsn Input parameter.
- * @return Return value.
- * @details Calls: readRange(), LSN(), empty().
- */
 std::optional<WALEntry> WALManager::read(const LSN& lsn) {
     auto entries = readRange(lsn, LSN(lsn.segment, lsn.offset + 1));
     if (entries.empty()) {
@@ -252,333 +223,119 @@ std::optional<WALEntry> WALManager::read(const LSN& lsn) {
     return entries[0];
 }
 
-/**
- * @brief Read Range.
- * @param[in] start_lsn Input parameter.
- * @param[in] end_lsn Input parameter.
- * @return Return value.
- * @details Calls: lock(), flush(), has_value(), getSegmentPath(), file(), is_open(), seekg(), tellg().
- */
-std::vector<WALEntry> WALManager::readRange(const LSN& start_lsn, 
+std::vector<WALEntry> WALManager::readRange(const LSN& start_lsn,
                                             const std::optional<LSN>& end_lsn) {
     std::lock_guard<std::mutex> lock(mutex_);
 
-    // Make in-memory buffered writes visible to readers.
-    flush();
-    
-    std::vector<WALEntry> result;
-    
-    // Determine which segments to read. The log starts at segment 1, while a
-    // zero-value LSN is used as the "from beginning" sentinel in callers.
-    uint64_t start_segment = start_lsn.segment == 0 ? 1 : start_lsn.segment;
-    uint64_t end_segment = end_lsn.has_value() ? end_lsn->segment : current_lsn_.segment;
-
-    if (end_segment == 0) {
-        end_segment = 1;
-    }
-    
-    for (uint64_t seg = start_segment; seg <= end_segment; ++seg) {
-        std::string seg_path = getSegmentPath(seg);
-        
-        std::ifstream file(seg_path, std::ios::binary);
-        if (!file.is_open()) {
-            continue;  // Segment doesn't exist
+    std::vector<WALEntry> result = {};
+    result.reserve(entries_.size());
+    for (const auto& entry : entries_) {
+        if (entry.lsn < start_lsn) {
+            continue;
         }
-        
-        // Read entire segment
-        file.seekg(0, std::ios::end);
-        size_t file_size = file.tellg();
-        file.seekg(0, std::ios::beg);
-        
-        std::vector<uint8_t> buffer(file_size);
-        file.read(reinterpret_cast<char*>(buffer.data()), file_size);
-        
-        // Parse entries
-        size_t pos = 0;
-        while (pos < buffer.size()) {
-            // Find entry size (need to peek at header)
-            if (pos + 29 > buffer.size()) {
-              break;
-            }
-            
-            std::vector<uint8_t> entry_bytes(buffer.begin() + pos, buffer.end());
-            
-            try {
-                WALEntry entry = WALEntry::deserialize(entry_bytes);
-                
-                // Check if within range
-                if (entry.lsn < start_lsn) {
-                    pos += entry.size();
-                    continue;
-                }
-                
-                if (end_lsn.has_value() && entry.lsn >= *end_lsn) {
-                    break;
-                }
-                
-                result.push_back(entry);
-                pos += entry.size();
-                
-            } catch (...) {
-                break;  // Corrupted entry or end of valid data
-            }
+        if (end_lsn.has_value() && entry.lsn >= *end_lsn) {
+            break;
         }
+        result.push_back(entry);
     }
-    
     return result;
 }
 
 LSN WALManager::getCurrentLSN() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     return current_lsn_;
 }
 
 LSN WALManager::getOldestLSN() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
     return oldest_lsn_;
 }
 
-/**
- * @brief Flush.
- * @details Calls: empty(), is_open(), write(), data(), size(), clear().
- */
 void WALManager::flush() {
-    // Must be called with mutex held
-    if (write_buffer_.empty()) {
+    if (!durability_wal_) {
         return;
     }
-    
-    if (!current_segment_ || !current_segment_->is_open()) {
-        return;
+    auto flush_res = durability_wal_->flush();
+    if (!flush_res) {
+        THEMIS_WARN("Sharding WALManager flush failed: {}", flush_res.error().context());
     }
-    
-    // Write buffer to file
-    current_segment_->write(reinterpret_cast<const char*>(write_buffer_.data()), 
-                           write_buffer_.size());
-    
-    // Always flush the C++ stream buffer so same-process readers can observe
-    // recently appended entries. sync_on_write controls fsync-level durability.
-    current_segment_->flush();
-    if (config_.sync_on_write) {
-        // Note: fsync() would be called here for true durability
-    }
-    
-    write_buffer_.clear();
 }
 
-/**
- * @brief Checkpoint.
- * @return Return value.
- * @details Calls: lock(), toString(), append().
- */
 LSN WALManager::checkpoint() {
-    std::lock_guard<std::mutex> lock(mutex_);
-    
-    // Create checkpoint entry
     WALEntry checkpoint_entry;
     checkpoint_entry.type = WALEntryType::CHECKPOINT;
     checkpoint_entry.data = {
-        {"checkpoint_lsn", current_lsn_.toString()}
+        {"checkpoint_lsn", getCurrentLSN().toString()}
     };
-    
-    return append(checkpoint_entry);
-}
 
-/**
- * @brief Truncate.
- * @param[in] lsn Input parameter.
- * @details Calls: lock(), getSegmentPath(), fs::exists(), fs::remove().
- */
-void WALManager::truncate(const LSN& lsn) {
+    const LSN lsn = append(checkpoint_entry);
+
     std::lock_guard<std::mutex> lock(mutex_);
-    
-    // Remove segments older than lsn.segment
-    namespace fs = std::filesystem;
-    
-    for (uint64_t seg = oldest_lsn_.segment; seg < lsn.segment; ++seg) {
-        std::string seg_path = getSegmentPath(seg);
-        if (fs::exists(seg_path)) {
-            fs::remove(seg_path);
+    if (durability_wal_) {
+        auto res = durability_wal_->checkpoint(false);
+        if (!res) {
+            THEMIS_WARN("Sharding WALManager checkpoint durability marker failed: {}",
+                        res.error().context());
         }
     }
-    
-    oldest_lsn_ = lsn;
+    return lsn;
+}
+
+void WALManager::truncate(const LSN& lsn) {
+    std::lock_guard<std::mutex> lock(mutex_);
+
+    auto first_to_keep = std::lower_bound(
+        entries_.begin(), entries_.end(), lsn,
+        [](const WALEntry& lhs, const LSN& rhs) { return lhs.lsn < rhs; });
+    entries_.erase(entries_.begin(), first_to_keep);
+
+    if (entries_.empty()) {
+        oldest_lsn_ = lsn;
+    } else {
+        oldest_lsn_ = entries_.front().lsn;
+    }
+
+    if (durability_wal_) {
+        auto res = durability_wal_->checkpoint(true);
+        if (!res) {
+            THEMIS_WARN("Sharding WALManager truncate checkpoint failed: {}",
+                        res.error().context());
+        }
+    }
 }
 
 WALManager::Statistics WALManager::getStatistics() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lock(mutex_);
-    
+
     Statistics stats;
     stats.total_entries = total_entries_;
     stats.total_bytes = total_bytes_;
     stats.current_lsn = current_lsn_;
     stats.oldest_lsn = oldest_lsn_;
-    
-    // Count segments
-    namespace fs = std::filesystem;
-    for (const auto& entry : fs::directory_iterator(config_.wal_directory)) {
-        if (entry.path().extension() == ".wal") {
-            stats.segments++;
-        }
-    }
-    
+    stats.segments = durability_wal_ ? durability_wal_->segmentCount() : 0;
     return stats;
 }
 
-/**
- * @brief Open Segment.
- * @param[in] segment_number Input parameter.
- * @throws std::runtime_error if an error occurs.
- * @details Calls: getSegmentPath(), is_open().
- */
-void WALManager::openSegment(uint64_t segment_number) {
-    std::string seg_path = getSegmentPath(segment_number);
-    
-    current_segment_ = std::make_unique<std::fstream>(
-        seg_path,
-        std::ios::in | std::ios::out | std::ios::binary | std::ios::app
-    );
-    
-    if (!current_segment_->is_open()) {
-        throw std::runtime_error("Failed to open WAL segment: " + seg_path);
-    }
-}
-
-/**
- * @brief Close Segment.
- * @details Calls: is_open(), close().
- */
-void WALManager::closeSegment() {
-    if (current_segment_ && current_segment_->is_open()) {
-        current_segment_->close();
-    }
-}
-
-/**
- * @brief Rotate Segment.
- * @details Calls: closeSegment(), openSegment(), cleanupOldSegments().
- */
-void WALManager::rotateSegment() {
-    // Must be called with mutex held
-    closeSegment();
-    
-    current_lsn_.segment++;
-    current_lsn_.offset = 0;
-    
-    openSegment(current_lsn_.segment);
-    cleanupOldSegments();
-}
+void WALManager::openSegment(uint64_t /*segment_number*/) {}
+void WALManager::closeSegment() {}
+void WALManager::rotateSegment() {}
 
 std::string WALManager::getSegmentPath(uint64_t segment_number) const {
     std::ostringstream oss = {};
-    oss << config_.wal_directory << "/wal_" 
-        << std::setfill('0') << std::setw(16) << std::hex << segment_number 
+    oss << config_.wal_directory << "/wal_"
+        << std::setfill('0') << std::setw(16) << std::hex << segment_number
         << ".wal";
     return oss.str();
 }
 
-/**
- * @brief Load Existing Segments.
- * @details Calls: fs::exists(), fs::directory_iterator(), path(), extension(), stem(), string(), substr(), std::stoull().
- */
-void WALManager::loadExistingSegments() {
-    namespace fs = std::filesystem;
-    
-    if (!fs::exists(config_.wal_directory)) {
-        return;
-    }
-    
-    // Find all WAL segments
-    std::vector<uint64_t> segments = {};
+void WALManager::loadExistingSegments() {}
+void WALManager::cleanupOldSegments() {}
 
-    for (const auto& entry : fs::directory_iterator(config_.wal_directory)) {
-        if (entry.path().extension() == ".wal") {
-            std::string filename = entry.path().stem().string();
-            // Parse segment number from "wal_XXXXXXXXXXXXXXXX"
-            if (filename.substr(0, 4) == "wal_") {
-                uint64_t seg_num = std::stoull(filename.substr(4), nullptr, 16);
-                segments.push_back(seg_num);
-            }
-        }
+LSN WALManager::sequenceToLsn(uint64_t sequence) const {
+    if (sequence == 0) {
+        return LSN(1, 0);
     }
-    
-    if (segments.empty()) {
-        current_lsn_ = LSN(1, 0);
-        oldest_lsn_ = LSN(1, 0);
-        return;
-    }
-    
-    // Sort segments
-    std::sort(segments.begin(), segments.end());
-    
-    oldest_lsn_.segment = segments.front();
-    oldest_lsn_.offset = 0;
-    
-    // Set current LSN to end of last segment
-    uint64_t last_segment = segments.back();
-    std::string last_seg_path = getSegmentPath(last_segment);
-    
-    std::ifstream file(last_seg_path, std::ios::binary | std::ios::ate);
-    if (file.is_open()) {
-        size_t file_size = file.tellg();
-        current_lsn_.segment = last_segment;
-        current_lsn_.offset = file_size;
-    }
-}
-
-/**
- * @brief Cleanup Old Segments.
- * @details Calls: fs::directory_iterator(), path(), extension(), stem(), string(), substr(), std::stoull(), push_back().
- */
-void WALManager::cleanupOldSegments() {
-    // Keep only max_segments
-    namespace fs = std::filesystem;
-    
-    std::vector<std::pair<uint64_t, std::string>> segments;
-    for (const auto& entry : fs::directory_iterator(config_.wal_directory)) {
-        if (entry.path().extension() == ".wal") {
-            std::string filename = entry.path().stem().string();
-            if (filename.substr(0, 4) == "wal_") {
-                uint64_t seg_num = std::stoull(filename.substr(4), nullptr, 16);
-                segments.push_back({seg_num, entry.path().string()});
-            }
-        }
-    }
-    
-    if (segments.size() <= config_.max_segments) {
-        return;
-    }
-    
-    // Sort by segment number
-    std::sort(segments.begin(), segments.end());
-    
-    // Remove oldest segments
-    size_t to_remove = segments.size() - config_.max_segments;
-    for (size_t i = 0; i < to_remove; ++i) {
-        fs::remove(segments[i].second);
-    }
-    
-    // Update oldest LSN
-    if (to_remove > 0) {
-        oldest_lsn_.segment = segments[to_remove].first;
-        oldest_lsn_.offset = 0;
-    }
+    return LSN(1, sequence);
 }
 
 } // namespace themis::sharding
-

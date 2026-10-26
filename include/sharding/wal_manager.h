@@ -54,6 +54,10 @@
 #include <cstdint>
 #include <nlohmann/json.hpp>
 
+namespace themis {
+class WALStorage;
+}
+
 namespace themis::sharding {
 
 /**
@@ -68,6 +72,7 @@ namespace themis::sharding {
  * - Position tracking (LSN - Log Sequence Number)
  * - Atomic log entries
  * - Crash recovery support
+ * - Canonical durability via storage::WALStorage backend (CRC + replay safety)
  */
 
 /** @brief Log sequence position identifying one byte-offset in WAL history. */
@@ -228,6 +233,8 @@ private:
     WALManagerConfig config_;
     
     mutable std::mutex mutex_;
+    std::unique_ptr<themis::WALStorage> durability_wal_;
+    std::vector<WALEntry> entries_;
     
     // Current write position
     LSN current_lsn_;
@@ -242,6 +249,9 @@ private:
     // Statistics
     std::atomic<uint64_t> total_entries_{0};
     std::atomic<uint64_t> total_bytes_{0};
+
+    /** @brief Convert monotonic WAL sequence to LSN representation. */
+    LSN sequenceToLsn(uint64_t sequence) const;
     
     /** @brief Open or create WAL segment file by segment number. */
     void openSegment(uint64_t segment_number);

@@ -43,6 +43,10 @@
 #include <map>
 #include <set>
 
+namespace themis {
+class WALStorage;
+}
+
 namespace themisdb {
 namespace replication {
 
@@ -402,6 +406,9 @@ public:
 
 /**
  * Write-Ahead Log Manager
+ *
+ * Uses themis::WALStorage as the canonical durability backend for
+ * replication persistence and recovery.
  */
 class WALManager {
 public:
@@ -441,6 +448,8 @@ private:
     std::atomic<uint64_t> current_sequence_{0};
     std::atomic<uint64_t> current_term_{0};
     std::mutex wal_mutex_;
+    std::unique_ptr<themis::WALStorage> durability_wal_;
+    std::deque<WALEntry> wal_entries_;
     
     // Internal file handling
     void rotateSegment();
