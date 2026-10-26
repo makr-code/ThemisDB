@@ -45,8 +45,12 @@ public:
 
     explicit LLMExtractiveCompressor(
         LLMAQLHandler& handler,
-        LLMInteractionStore* store = nullptr,
-        const Config& config = Config());
+        LLMInteractionStore* store = nullptr);
+
+    LLMExtractiveCompressor(
+        LLMAQLHandler& handler,
+        LLMInteractionStore* store,
+        const Config& config);
 
     // IHistoryCompressor implementation
     std::unique_ptr<CompressionResult> compressHistory(

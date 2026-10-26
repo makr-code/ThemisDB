@@ -90,6 +90,11 @@ std::vector<int32_t> parseRankedIndices(const std::string& response, std::size_t
 
 LLMExtractiveCompressor::LLMExtractiveCompressor(
     LLMAQLHandler& handler,
+    LLMInteractionStore* store)
+    : LLMExtractiveCompressor(handler, store, Config{}) {}
+
+LLMExtractiveCompressor::LLMExtractiveCompressor(
+    LLMAQLHandler& handler,
     LLMInteractionStore* store,
     const Config& config)
     : handler_(handler), store_(store), config_(config) {}
