@@ -109,15 +109,15 @@ std::shared_ptr<graphql::Value> GraphQLApiHandler::jsonToGraphQLValue(
     if (value.is_boolean()) {
         return graphql::Value::boolean(value.get<bool>());
     }
-    if (value.is_number_integer()) {
-        return graphql::Value::integer(value.get<int64_t>());
-    }
     if (value.is_number_unsigned()) {
         const auto unsigned_value = value.get<uint64_t>();
         if (unsigned_value <= static_cast<uint64_t>(std::numeric_limits<int64_t>::max())) {
             return graphql::Value::integer(static_cast<int64_t>(unsigned_value));
         }
         return graphql::Value::floating(static_cast<double>(unsigned_value));
+    }
+    if (value.is_number_integer()) {
+        return graphql::Value::integer(value.get<int64_t>());
     }
     if (value.is_number_float()) {
         return graphql::Value::floating(value.get<double>());

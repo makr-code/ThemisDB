@@ -99,11 +99,10 @@ std::string escapeSingleQuotedAqlString(std::string_view input) {
     std::string escaped = {};
     escaped.reserve(input.size());
     for (const char c : input) {
-        if (c == '\'') {
-            escaped += "''";
-        } else {
-            escaped.push_back(c);
+        if (c == '\\' || c == '\'') {
+            escaped.push_back('\\');
         }
+        escaped.push_back(c);
     }
     return escaped;
 }
@@ -112,11 +111,10 @@ std::string escapeBacktickIdentifier(std::string_view input) {
     std::string escaped = {};
     escaped.reserve(input.size());
     for (const char c : input) {
-        if (c == '`') {
-            escaped += "``";
-        } else {
-            escaped.push_back(c);
+        if (c == '\\' || c == '`') {
+            escaped.push_back('\\');
         }
+        escaped.push_back(c);
     }
     return escaped;
 }
