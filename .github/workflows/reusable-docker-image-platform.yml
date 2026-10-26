@@ -90,6 +90,11 @@ jobs:
 
   build:
     needs: [prepare-llm-model-cache]
+    if: >-
+      always() && (
+        needs.prepare-llm-model-cache.result == 'success' ||
+        needs.prepare-llm-model-cache.result == 'skipped'
+      )
     name: "Build: Docker ${{ inputs.platform }}"
     runs-on: ubuntu-latest
     timeout-minutes: 180
