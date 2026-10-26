@@ -64,9 +64,9 @@ json extractMcpResult(const json& mcp_response) {
  * @details Calls: json::object(), handleRequest(), contains(), spdlog::warn(), value(), empty(), registerTool(), buildMcpToolCallRequest().
  */
 
-void McpToolBridge::bridgeTools(themis::server::McpServer& mcp,
-                                 ToolRegistry&               registry,
-                                 const std::string&          prefix) {
+void McpToolBridge::bridgeTools(::themis::server::McpServer& mcp,
+                                ToolRegistry&                 registry,
+                                const std::string&            prefix) {
     // LIFETIME CONTRACT: The lambdas registered in `registry` capture `mcp` by
     // reference.  The caller MUST ensure that `mcp` outlives every ToolRegistry
     // that holds bridged handlers.  In practice, both McpServer and the
@@ -133,10 +133,10 @@ void McpToolBridge::bridgeTools(themis::server::McpServer& mcp,
  * @details Calls: empty(), registerTool(), buildMcpToolCallRequest(), handleRequest(), extractMcpResult(), spdlog::debug().
  */
 
-void McpToolBridge::bridgeTool(themis::server::McpServer& mcp,
-                                const std::string&         tool_name,
-                                ToolRegistry&               registry,
-                                const std::string&          alias) {
+void McpToolBridge::bridgeTool(::themis::server::McpServer& mcp,
+                               const std::string&            tool_name,
+                               ToolRegistry&                 registry,
+                               const std::string&            alias) {
     // LIFETIME CONTRACT: see bridgeTools() – mcp must outlive the registry entry.
     const std::string effective_alias = alias.empty() ? tool_name : alias;
 

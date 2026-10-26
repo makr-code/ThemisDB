@@ -24,6 +24,10 @@
 #include <unordered_map>
 #include <vector>
 
+namespace themis::server {
+class McpServer;
+}
+
 namespace themis::llm {
 
 using json = nlohmann::json;
@@ -667,20 +671,16 @@ private:
 // ============================================================================
 
 #ifdef THEMIS_ENABLE_MCP
-// Forward-declare McpServer to avoid a circular include between
-// llm/ai_orchestrator.h and server/mcp_server.h.
-namespace themis::server { class McpServer; }
-
 class McpToolBridge {
 public:
-    static void bridgeTools(themis::server::McpServer& mcp,
-                            ToolRegistry&               registry,
-                            const std::string&          prefix = "");
+    static void bridgeTools(::themis::server::McpServer& mcp,
+                            ToolRegistry&                 registry,
+                            const std::string&            prefix = "");
 
-    static void bridgeTool(themis::server::McpServer& mcp,
-                            const std::string&         tool_name,
-                            ToolRegistry&               registry,
-                            const std::string&          alias = "");
+    static void bridgeTool(::themis::server::McpServer& mcp,
+                           const std::string&            tool_name,
+                           ToolRegistry&                 registry,
+                           const std::string&            alias = "");
 };
 #endif // THEMIS_ENABLE_MCP
 
