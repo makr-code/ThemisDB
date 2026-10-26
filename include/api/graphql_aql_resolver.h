@@ -164,6 +164,9 @@ nlohmann::json gqlValueToJson(const std::shared_ptr<Value>& v);
 // Resolver Factory
 // ============================================================================
 
+/**
+ * @brief Factory for binding AQL-backed resolver functions to a GraphQL execution context.
+ */
 class GraphQLAqlResolverFactory {
 public:
     explicit GraphQLAqlResolverFactory(::themis::QueryEngine* engine = nullptr)
@@ -195,6 +198,12 @@ public:
      */
     static ExecutionContext::Resolver makeSchemaVersionResolver();
 
+    /**
+     * @brief Inject Resolvers.
+     * @param[in,out] ctx Input/output parameter.
+     * @param[in] doc Input parameter.
+     * @param[in] eng Input parameter.
+     */
     static void injectResolvers(ExecutionContext& ctx,
                                 const Document& doc,
                                 ::themis::QueryEngine* eng);

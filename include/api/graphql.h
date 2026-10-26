@@ -60,6 +60,9 @@ struct Value;
 using ValueMap = std::unordered_map<std::string, std::shared_ptr<Value>>;
 using ValueList = std::vector<std::shared_ptr<Value>>;
 
+/**
+ * @brief Represents a GraphQL literal or variable reference value.
+ */
 struct Value {
     enum class Type {
         Null,
@@ -210,15 +213,46 @@ struct Value {
     bool isVariableRef() const { return type == Type::VariableRef; }
     
     // Value getters
+    /**
+     * @brief As Bool.
+     * @return Return value.
+     */
     bool asBool() const { return std::get<bool>(data); }
+    /**
+     * @brief As Int.
+     * @return Return value.
+     */
     int64_t asInt() const { return std::get<int64_t>(data); }
+    /**
+     * @brief As Float.
+     * @return Return value.
+     */
     double asFloat() const { return std::get<double>(data); }
+    /**
+     * @brief As String.
+     * @return Return value.
+     */
     const std::string& asString() const { return std::get<std::string>(data); }
+    /**
+     * @brief As List.
+     * @return Return value.
+     */
     const ValueList& asList() const { return std::get<ValueList>(data); }
+    /**
+     * @brief As Object.
+     * @return Return value.
+     */
     const ValueMap& asObject() const { return std::get<ValueMap>(data); }
+    /**
+     * @brief As Variable Ref.
+     * @return Return value.
+     */
     const std::string& asVariableRef() const { return std::get<std::string>(data); }
 };
 
+/**
+ * @brief GraphQL field selection node including alias, arguments, and sub-selections.
+ */
 struct Field {
     struct Directive {
         enum class Type {
@@ -236,6 +270,10 @@ struct Field {
     std::vector<Directive> directives;  // Optional @include/@skip directives
     std::vector<Field> selections;  // Nested selections
     
+    /**
+     * @brief Response Name.
+     * @return Return value.
+     */
     const std::string& responseName() const {
         return alias.empty() ? name : alias;
     }
@@ -292,11 +330,18 @@ struct Document {
     }
 };
 
+/**
+ * @brief Parser error with source position details.
+ */
 struct ParseError {
     std::string message = {};
     size_t line = 0;
     size_t column = 0;
     
+    /**
+     * @brief To String.
+     * @return Return value.
+     */
     std::string toString() const {
         return "Line " + std::to_string(line) + ", Column " + std::to_string(column) + ": " + message;
     }
@@ -686,6 +731,9 @@ struct TypeDefinition {
     std::vector<std::string> interfaces;   // Implemented interfaces
 };
 
+/**
+ * @brief GraphQL schema registry and introspection policy container.
+ */
 class Schema {
 public:
     Schema();
@@ -721,8 +769,20 @@ public:
      */
     void setSubscriptionType(std::string_view name) { subscription_type_ = name; }
     
+    /**
+     * @brief Query Type.
+     * @return Return value.
+     */
     const std::string& queryType() const { return query_type_; }
+    /**
+     * @brief Mutation Type.
+     * @return Return value.
+     */
     const std::string& mutationType() const { return mutation_type_; }
+    /**
+     * @brief Subscription Type.
+     * @return Return value.
+     */
     const std::string& subscriptionType() const { return subscription_type_; }
     
     // Introspection policy
