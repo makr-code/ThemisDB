@@ -451,6 +451,9 @@ private:
     std::mutex wal_mutex_;
     std::unique_ptr<themis::WALStorage> durability_wal_;
     std::deque<WALEntry> wal_entries_;
+
+    // Keep the in-memory WAL replay buffer bounded to avoid OOM under lagging or long-lived replicas.
+    void trimInMemoryWalEntries();
     
     // Internal file handling
     void rotateSegment();

@@ -503,9 +503,7 @@ uint64_t WALManager::append(const WALEntry& entry) {
     stored_entry.sequence_number = seq;
     current_sequence_.store(seq);
     wal_entries_.push_back(std::move(stored_entry));
-    while (wal_entries_.size() > config_.max_in_memory_wal_entries) {
-        wal_entries_.pop_front();
-    }
+    trimInMemoryWalEntries();
     return seq;
 }
 
@@ -557,9 +555,7 @@ void WALManager::truncateBefore(uint64_t sequence) {
     while (!wal_entries_.empty() && wal_entries_.front().sequence_number < sequence) {
         wal_entries_.pop_front();
     }
-    while (wal_entries_.size() > config_.max_in_memory_wal_entries) {
-        wal_entries_.pop_front();
-    }
+    trimInMemoryWalEntries();
 
     if (durability_wal_) {
         auto checkpoint_result = durability_wal_->checkpoint(true);
@@ -643,9 +639,7 @@ void WALManager::loadFromDisk() {
         current_term_.store(std::max(current_term_.load(), wal_entry->term));
         current_sequence_.store(std::max(current_sequence_.load(), recovered.sequence));
         wal_entries_.push_back(*wal_entry);
-        while (wal_entries_.size() > config_.wal_retention_segments * 2 + 1024) {
-            wal_entries_.pop_front();
-        }
+        trimInMemoryWalEntries();
         return true;
     };
 
@@ -657,6 +651,17 @@ void WALManager::loadFromDisk() {
 
     durability_wal_ = std::move(storage_result.value());
     current_sequence_.store(std::max(current_sequence_.load(), durability_wal_->lastSequence()));
+}
+
+void WALManager::trimInMemoryWalEntries() {
+    if (config_.max_in_memory_wal_entries == 0) {
+        wal_entries_.clear();
+        return;
+    }
+
+    while (wal_entries_.size() > config_.max_in_memory_wal_entries) {
+        wal_entries_.pop_front();
+    }
 }
 
 void WALManager::rotateSegment() {
