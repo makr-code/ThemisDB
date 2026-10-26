@@ -51,31 +51,63 @@ TEST(GraphQLParser, ParseFieldWithArguments) {
     EXPECT_FALSE(op.selections[0].arguments.empty());
 }
 
-TEST(GraphQLParser, RejectsFragmentDefinitionWithVersionGatedMessage) {
+TEST(GraphQLParser, ParsesFragmentDefinitionAndSpreadWhenDefinedBeforeUse) {
     const std::string query = R"(
         fragment userFields on User { id name }
         query GetUser { user { ...userFields } }
     )";
 
     auto result = Parser::parse(query);
-    EXPECT_FALSE(result.success);
-    ASSERT_FALSE(result.errors.empty());
-    EXPECT_NE(result.errors[0].message.find("unsupported"), std::string::npos);
-    EXPECT_NE(result.errors[0].message.find("v1.x"), std::string::npos);
+    ASSERT_TRUE(result.success);
+    ASSERT_EQ(result.document.fragments.size(), 1);
+    ASSERT_EQ(result.document.operations.size(), 1);
+    const auto& op = result.document.operations[0];
+    ASSERT_EQ(op.selections.size(), 1);
+    const auto& userField = op.selections[0];
+    ASSERT_EQ(userField.selections.size(), 2);
+    EXPECT_EQ(userField.selections[0].name, "id");
+    EXPECT_EQ(userField.selections[1].name, "name");
 }
 
-TEST(GraphQLParser, RejectsFieldDirectivesWithVersionGatedMessage) {
+TEST(GraphQLParser, RejectsUnknownFragmentSpread) {
+    const std::string query = R"(
+        query GetUser { user { ...userFields } }
+    )";
+
+    auto result = Parser::parse(query);
+    EXPECT_FALSE(result.success);
+    ASSERT_FALSE(result.errors.empty());
+    EXPECT_NE(result.errors[0].message.find("Unknown fragment"), std::string::npos);
+}
+
+TEST(GraphQLParser, ParseIncludeAndSkipDirectives) {
     const std::string query = R"(
         query {
-            user @include(if: true) { id }
+            user @include(if: true) @skip(if: false) { id }
+        }
+    )";
+
+    auto result = Parser::parse(query);
+    ASSERT_TRUE(result.success);
+    ASSERT_EQ(result.document.operations.size(), 1);
+    ASSERT_EQ(result.document.operations[0].selections.size(), 1);
+    const auto& field = result.document.operations[0].selections[0];
+    ASSERT_EQ(field.directives.size(), 2);
+    EXPECT_EQ(field.directives[0].type, Field::Directive::Type::Include);
+    EXPECT_EQ(field.directives[1].type, Field::Directive::Type::Skip);
+}
+
+TEST(GraphQLParser, RejectsUnsupportedDirectiveName) {
+    const std::string query = R"(
+        query {
+            user @deprecated(if: true) { id }
         }
     )";
 
     auto result = Parser::parse(query);
     EXPECT_FALSE(result.success);
     ASSERT_FALSE(result.errors.empty());
-    EXPECT_NE(result.errors[0].message.find("directives"), std::string::npos);
-    EXPECT_NE(result.errors[0].message.find("v1.x"), std::string::npos);
+    EXPECT_NE(result.errors[0].message.find("Unsupported directive"), std::string::npos);
 }
 
 TEST(GraphQLParser, RejectsInlineFragmentsWithVersionGatedMessage) {
@@ -92,6 +124,74 @@ TEST(GraphQLParser, RejectsInlineFragmentsWithVersionGatedMessage) {
     ASSERT_FALSE(result.errors.empty());
     EXPECT_NE(result.errors[0].message.find("inline fragments"), std::string::npos);
     EXPECT_NE(result.errors[0].message.find("v1.x"), std::string::npos);
+}
+
+TEST(GraphQLExecutor, AppliesIncludeDirectiveWithVariableCondition) {
+    const std::string query = R"(
+        query($showName: Boolean!) {
+            user {
+                id
+                name @include(if: $showName)
+            }
+        }
+    )";
+    auto parseResult = Parser::parse(query);
+    ASSERT_TRUE(parseResult.success);
+
+    ExecutionContext ctx;
+    ctx.mask_errors = false;
+    ctx.variables["showName"] = Value::boolean(false);
+    ctx.resolvers["user"] = [](const Field&, const std::shared_ptr<Value>&, const ExecutionContext&) {
+        ValueMap user;
+        user["id"] = Value::string("u1");
+        user["name"] = Value::string("Ada");
+        return Value::object(std::move(user));
+    };
+
+    Executor executor;
+    auto result = executor.execute(parseResult.document, ctx);
+    ASSERT_FALSE(result.hasErrors());
+    ASSERT_TRUE(result.data->isObject());
+    const auto& root = result.data->asObject();
+    ASSERT_TRUE(root.contains("user"));
+    ASSERT_TRUE(root.at("user")->isObject());
+    const auto& user = root.at("user")->asObject();
+    EXPECT_TRUE(user.contains("id"));
+    EXPECT_FALSE(user.contains("name"));
+}
+
+TEST(GraphQLExecutor, AppliesSkipDirectiveWithVariableCondition) {
+    const std::string query = R"(
+        query($skipId: Boolean!) {
+            user {
+                id @skip(if: $skipId)
+                name
+            }
+        }
+    )";
+    auto parseResult = Parser::parse(query);
+    ASSERT_TRUE(parseResult.success);
+
+    ExecutionContext ctx;
+    ctx.mask_errors = false;
+    ctx.variables["skipId"] = Value::boolean(true);
+    ctx.resolvers["user"] = [](const Field&, const std::shared_ptr<Value>&, const ExecutionContext&) {
+        ValueMap user;
+        user["id"] = Value::string("u1");
+        user["name"] = Value::string("Ada");
+        return Value::object(std::move(user));
+    };
+
+    Executor executor;
+    auto result = executor.execute(parseResult.document, ctx);
+    ASSERT_FALSE(result.hasErrors());
+    ASSERT_TRUE(result.data->isObject());
+    const auto& root = result.data->asObject();
+    ASSERT_TRUE(root.contains("user"));
+    ASSERT_TRUE(root.at("user")->isObject());
+    const auto& user = root.at("user")->asObject();
+    EXPECT_FALSE(user.contains("id"));
+    EXPECT_TRUE(user.contains("name"));
 }
 
 // ============================================================================
@@ -139,4 +239,3 @@ TEST(GraphQLValue, CreateObjectValue) {
     EXPECT_TRUE(objVal->isObject());
     EXPECT_EQ(objVal->asObject().size(), 2);
 }
-

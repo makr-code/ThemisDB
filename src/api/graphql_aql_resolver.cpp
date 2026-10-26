@@ -16,11 +16,15 @@
 
 #include "api/graphql_aql_resolver.h"
 #include "api/graphql.h"
+#include "query/aql_runner.h"
 #include "query/query_resource_limits.h"
 #include <limits>
 #include <nlohmann/json.hpp>
+#include <algorithm>
+#include <cctype>
 #include <sstream>
 #include <stdexcept>
+#include <string_view>
 
 // Explicit namespace wrapping to survive Unity build concatenation issues
 namespace themis {
@@ -89,6 +93,92 @@ uint32_t scoreFieldsBounded(const std::vector<Field>& fields, uint32_t depth) {
         }
     }
     return local;
+}
+
+std::string escapeSingleQuotedAqlString(std::string_view input) {
+    std::string escaped = {};
+    escaped.reserve(input.size());
+    for (const char c : input) {
+        if (c == '\\' || c == '\'') {
+            escaped.push_back('\\');
+        }
+        escaped.push_back(c);
+    }
+    return escaped;
+}
+
+std::string escapeBacktickIdentifier(std::string_view input) {
+    std::string escaped = {};
+    escaped.reserve(input.size());
+    for (const char c : input) {
+        if (c == '\\' || c == '`') {
+            escaped.push_back('\\');
+        }
+        escaped.push_back(c);
+    }
+    return escaped;
+}
+
+std::string jsonToAqlLiteral(const nlohmann::json& value) {
+    if (value.is_null() || value.is_boolean() || value.is_number() ||
+        value.is_array() || value.is_object()) {
+        return value.dump();
+    }
+    if (value.is_string()) {
+        return "'" + escapeSingleQuotedAqlString(value.get<std::string>()) + "'";
+    }
+    return "null";
+}
+
+std::string applyBindVariablesToAql(const std::string& query,
+                                    const nlohmann::json& bind_vars) {
+    std::string resolved_query = query;
+    std::vector<std::pair<std::string, nlohmann::json>> ordered_bindings = {};
+    ordered_bindings.reserve(bind_vars.size());
+    for (auto it = bind_vars.begin(); it != bind_vars.end(); ++it) {
+        ordered_bindings.emplace_back(it.key(), it.value());
+    }
+    std::sort(ordered_bindings.begin(), ordered_bindings.end(),
+              [](const auto& lhs, const auto& rhs) {
+                  return lhs.first.size() > rhs.first.size();
+              });
+
+    const auto is_placeholder_char = [](char c) {
+        const auto uc = static_cast<unsigned char>(c);
+        return std::isalnum(uc) || c == '_' || c == '@';
+    };
+
+    for (const auto& [key, raw_value] : ordered_bindings) {
+        const std::string placeholder = "@" + key;
+        std::string replacement = {};
+
+        if (!key.empty() && key.front() == '@') {
+            if (!raw_value.is_string()) {
+                throw std::runtime_error(
+                    "AQL collection bind variable '" + key + "' must be a string");
+            }
+            replacement = "`" + escapeBacktickIdentifier(raw_value.get<std::string>()) + "`";
+        } else {
+            replacement = jsonToAqlLiteral(raw_value);
+        }
+
+        size_t pos = 0;
+        while ((pos = resolved_query.find(placeholder, pos)) != std::string::npos) {
+            const bool at_start = (pos == 0);
+            const bool at_end = (pos + placeholder.size() >= resolved_query.size());
+            const bool has_prefix_boundary =
+                at_start || !is_placeholder_char(resolved_query[pos - 1]);
+            const bool has_suffix_boundary =
+                at_end || !is_placeholder_char(resolved_query[pos + placeholder.size()]);
+            if (!has_prefix_boundary || !has_suffix_boundary) {
+                ++pos;
+                continue;
+            }
+            resolved_query.replace(pos, placeholder.size(), replacement);
+            pos += replacement.size();
+        }
+    }
+    return resolved_query;
 }
 } // namespace
 
@@ -241,30 +331,52 @@ nlohmann::json gqlValueToJson(const std::shared_ptr<Value>& v) {
 
 ExecutionContext::Resolver GraphQLAqlResolverFactory::makeAqlQueryResolver(
     const Document& doc) const {
-    (void)doc;
+    GraphQLAqlResolverFactory self(engine_);
     ::themis::QueryEngine* eng = engine_;
     const ::themis::query::QueryResourceLimits limits = 
         GraphQLComplexityEstimator::limitsFor(
             GraphQLComplexityEstimator::estimate(
                 std::make_shared<Document>(doc)));
 
-    return [eng, limits](
+    return [eng, limits, self](
         const Field& field,
         const std::shared_ptr<Value>& /*parent*/,
         const ExecutionContext& /*ctx*/) -> std::shared_ptr<Value>
     {
+        const std::string query = self.extractStringArg(field, "query");
+        if (query.empty()) {
+            throw std::runtime_error(
+                "GraphQL field '" + field.name + "' requires non-empty string argument 'query'");
+        }
+
+        std::string resolved_query = query;
+        auto variables_it = field.arguments.find("variables");
+        if (variables_it != field.arguments.end() && variables_it->second && !variables_it->second->isNull()) {
+            if (!variables_it->second->isObject()) {
+                throw std::runtime_error(
+                    "GraphQL field '" + field.name + "' argument 'variables' must be a JSON object");
+            }
+
+            const nlohmann::json bind_vars = gqlValueToJson(variables_it->second);
+            if (!bind_vars.is_object()) {
+                throw std::runtime_error(
+                    "GraphQL field '" + field.name + "' argument 'variables' must map to a JSON object");
+            }
+            resolved_query = applyBindVariablesToAql(query, bind_vars);
+        }
+
         if (!eng) {
             return Value::null();
         }
-        
-        try {
-            (void)field;
-            (void)limits;
-            auto result = Value::string("OK");
-            return result;
-        } catch (const std::exception&) {
-            return Value::null();
+
+        auto aql_result = self.executeAqlWithLimits(resolved_query, *eng, limits);
+        if (!aql_result) {
+            throw std::runtime_error(
+                "AQL execution failed for GraphQL field '" + field.name + "': " +
+                aql_result.error().message());
         }
+
+        return jsonToGqlValue(*aql_result);
     };
 }
 
@@ -327,6 +439,13 @@ std::string GraphQLAqlResolverFactory::extractStringArg(
         return {};
     }
     return it->second->asString();
+}
+
+Result<nlohmann::json> GraphQLAqlResolverFactory::executeAqlWithLimits(
+    const std::string& aql,
+    ::themis::QueryEngine& eng,
+    const ::themis::query::QueryResourceLimits& limits) const {
+    return ::themis::executeAqlWithLimits(aql, eng, limits);
 }
 
 } // namespace graphql

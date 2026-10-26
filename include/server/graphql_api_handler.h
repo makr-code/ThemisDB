@@ -54,6 +54,17 @@ public:
     http::response<http::string_body> handleSchemaGet(
         const http::request<http::string_body>& req);
 
+    /**
+     * @brief Convert a JSON value into the internal GraphQL value representation.
+     * @param[in] value JSON value from an HTTP GraphQL request (for example
+     * variable payloads).
+     * @return GraphQL value tree preserving scalar, list, and object structure.
+     * @note Integer values outside signed 64-bit range are converted to Float
+     * to avoid lossy or undefined integer coercion.
+     */
+    static std::shared_ptr<graphql::Value> jsonToGraphQLValue(
+        const nlohmann::json& value);
+
 private:
     QueryEngine* engine_ = nullptr;
 
