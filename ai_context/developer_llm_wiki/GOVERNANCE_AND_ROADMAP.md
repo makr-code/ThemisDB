@@ -1,6 +1,6 @@
 # Developer LLM Wiki — Governance and Roadmap
 
-Datum: 2026-10-19
+Datum: 2026-10-26
 Status: Active
 
 ## AI_WIKI_INTEGRATION_PLAYBOOK.md
@@ -374,48 +374,48 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md
 - Kategorie: governance_and_docs
-- Hash: `fbde283a35d7bc8f`
+- Hash: `c4f52b118733a5c8`
 - Titel: Developer LLM Wiki — Build/Test/CI/Operations
 - Auszug:
-  - Datum: 2026-10-19
+  - Datum: 2026-10-26
   - Status: Active
   - - Kategorie: build_test_ci
 
 ## ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `6247be8381fd5ad8`
+- Hash: `cb4905992a2945b2`
 - Titel: Developer LLM Wiki — Governance and Roadmap
 - Auszug:
-  - Datum: 2026-10-12
+  - Datum: 2026-10-19
   - Status: Active
   - - Kategorie: governance_and_docs
 
 ## ai_context/developer_llm_wiki/INDEX.md
 - Kategorie: governance_and_docs
-- Hash: `610488a5559e7d2f`
+- Hash: `c6bb81c725b40e5f`
 - Titel: Developer LLM Wiki — Index
 - Auszug:
-  - Datum: 2026-10-19
+  - Datum: 2026-10-26
   - Status: Active
   - Bezug: CI-verwaltete Entwickler-Wissensbasis fuer Coder-LLMs
 
 ## ai_context/developer_llm_wiki/MODULES_AND_APIS.md
 - Kategorie: governance_and_docs
-- Hash: `8a247554927c9fdb`
+- Hash: `90265a55058882b9`
 - Titel: Developer LLM Wiki — Modules and APIs
 - Auszug:
-  - Datum: 2026-10-19
+  - Datum: 2026-10-26
   - Status: Active
   - - Kategorie: modules_and_api
 
 ## ai_context/developer_llm_wiki/MODULE_DIRECT_DOXYGEN_CHECK.md
 - Kategorie: governance_and_docs
-- Hash: `9770fa0a41e3fca6`
-- Titel: Direct Doxygen Check: image_analysis
+- Hash: `3d30d546388ef585`
+- Titel: Direct Doxygen Check: vector_search
 - Auszug:
   - - Source mode: direct_doxygen_markers
-  - - Source files scanned: 7
-  - - Source symbols (raw/filter): 15 / 15
+  - - Source files scanned: 2
+  - - Source symbols (raw/filter): 2 / 2
 
 ## ai_context/developer_llm_wiki/MODULE_DOXYGEN_BASELINE_SUMMARY.md
 - Kategorie: governance_and_docs
@@ -437,12 +437,12 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/MODULE_DOXYGEN_COVERAGE_SUMMARY.md
 - Kategorie: governance_and_docs
-- Hash: `0ca82f626db5ac0f`
+- Hash: `e0dfe8624bb3756e`
 - Titel: Module Doxygen Coverage Summary
 - Auszug:
-  - - Module: image_analysis
+  - - Module: vector_search
   - - Source mode: direct_doxygen_markers
-  - - Symbol presence ratio: 0.6667
+  - - Symbol presence ratio: 0.5
 
 ## ai_context/developer_llm_wiki/MODULE_DOXYGEN_SMOKE_SUMMARY.md
 - Kategorie: governance_and_docs
@@ -473,12 +473,12 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md
 - Kategorie: governance_and_docs
-- Hash: `47cb38588b8e3a68`
+- Hash: `ee4200e507cbfc57`
 - Titel: Developer LLM Wiki — Delta Report
 - Auszug:
-  - Datum: 2026-10-12
+  - Datum: 2026-10-19
   - Status: Active
-  - - Added: 7958
+  - - Added: 7986
 
 ## ai_context/legacy_status/STATUS_2026_08_01.md
 - Kategorie: governance_and_docs

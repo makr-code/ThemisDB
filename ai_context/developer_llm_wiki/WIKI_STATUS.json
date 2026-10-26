@@ -1,17 +1,18 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-10-19T03:03:08+00:00",
+  "generated_at": "2026-10-26T03:05:20+00:00",
   "mode": "incremental",
-  "source_count": 7986,
-  "source_hash": "4db05528d055dbebf71c00e189b7878470d634ca99657f85cc770a5a7cdd1d31",
+  "source_count": 7989,
+  "source_hash": "f9c4e45e976ae4e3f61788cbb59e9f596999e8fe634836866ba8e73c4eb7c5bc",
   "delta": {
-    "added_count": 7986,
+    "added_count": 7989,
     "removed_count": 0,
     "changed_count": 0,
     "added_preview": [
       ".github/workflows/benchmark-gate.yml",
       ".github/workflows/benchmark-performance-gate.yml",
+      ".github/workflows/benchmark-thematic-suites.yml",
       ".github/workflows/build-benchmarks.yml",
       ".github/workflows/build-clang-fast.yml",
       ".github/workflows/build-content-regression.yml",
@@ -58,12 +59,11 @@
       ".github/workflows/gate-workflow-guidelines.yml",
       ".github/workflows/maintenance-ai-working.yml",
       ".github/workflows/maintenance-architecture-ci.yml",
-      ".github/workflows/maintenance-build-issues.yml",
-      ".github/workflows/maintenance-ci-health.yml"
+      ".github/workflows/maintenance-build-issues.yml"
     ],
     "removed_preview": [],
     "changed_preview": []
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "bb0e2b5242c00f79aaf75a603c3c48cf5b9fa416937b8b3f6082e66c8802a5dc"
+  "manifest_sha256": "1bfb8636a3a628cdf92e17ea5c29c6e7c2e40b1f1b85d1f600fc406d14c9dbbd"
 }

@@ -1,11 +1,11 @@
 # Developer LLM Wiki — Delta Report
 
-Datum: 2026-10-19
+Datum: 2026-10-26
 Status: Active
 
 ## Summary
 
-- Added: 7986
+- Added: 7989
 - Removed: 0
 - Changed: 0
 
@@ -13,6 +13,7 @@ Status: Active
 
 - .github/workflows/benchmark-gate.yml
 - .github/workflows/benchmark-performance-gate.yml
+- .github/workflows/benchmark-thematic-suites.yml
 - .github/workflows/build-benchmarks.yml
 - .github/workflows/build-clang-fast.yml
 - .github/workflows/build-content-regression.yml
@@ -89,10 +90,12 @@ Status: Active
 - .github/workflows/release-winget-approval.yml
 - .github/workflows/release-winget.yml
 - .github/workflows/release-wordpress-press.yml
+- .github/workflows/reusable-benchmark-build-run-report.yml
 - .github/workflows/reusable-benchmark-runner.yml
 - .github/workflows/reusable-cmake-build.yml
 - .github/workflows/reusable-docker-image-platform.yml
 - .github/workflows/reusable-docs-db-builder.yml
+- .github/workflows/reusable-llm-model-cache.yml
 - .github/workflows/reusable-status-flags-and-issues.yml
 - .github/workflows/security-codeql.yml
 - .github/workflows/security-consolidated.yml
@@ -208,10 +211,7 @@ Status: Active
 - docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE3_ERROR_HANDLING_CHECKLIST.md
 - docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE3_QUICK_REFERENCE.md
 - docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE4_QUICK_REFERENCE.md
-- docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE4_TEST_GENERATION_SPEC.md
-- docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE4_TEST_REPORT.md
-- docs/ARCHIVED/ai-working-history/ANALYTICS_PHASE5_BENCHMARK_QUICK_REFERENCE.md
-- ... truncated (7786 more)
+- ... truncated (7789 more)
 
 ## Removed
 

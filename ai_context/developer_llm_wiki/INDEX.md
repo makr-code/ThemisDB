@@ -1,6 +1,6 @@
 # Developer LLM Wiki — Index
 
-Datum: 2026-10-19
+Datum: 2026-10-26
 Status: Active
 Bezug: CI-verwaltete Entwickler-Wissensbasis fuer Coder-LLMs
 Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_ENHANCEMENTS.md, ai_context/COPILOT_INSTRUCTIONS.md
@@ -9,8 +9,8 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 
 - Ziel: Onboarding- und Coding-relevantes Wissen fuer Entwickler-LLMs
 - Laufmodus: INCREMENTAL
-- Quellen gesamt: 7986
-- Quellen-Hash: `4db05528d055dbebf71c00e189b7878470d634ca99657f85cc770a5a7cdd1d31`
+- Quellen gesamt: 7989
+- Quellen-Hash: `f9c4e45e976ae4e3f61788cbb59e9f596999e8fe634836866ba8e73c4eb7c5bc`
 
 ## Artefakte
 
@@ -24,7 +24,7 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 ## Source Distribution
 
 - modules_and_api: 2370
-- build_test_ci: 194
+- build_test_ci: 197
 - governance_and_docs: 5422
 - misc: 0
 
