@@ -69,6 +69,37 @@ function Get-FreeTcpPort {
     }
 }
 
+function Invoke-ThemisCtlProbe {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string[]]$Args
+    )
+
+    $output = @()
+    $exitCode = 0
+    $previousPreference = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+
+    try {
+        $output = & $CtlExe @Args 2>&1
+        if ($null -ne $LASTEXITCODE) {
+            $exitCode = [int]$LASTEXITCODE
+        }
+    }
+    catch {
+        $output = @($_.Exception.Message)
+        $exitCode = 1
+    }
+    finally {
+        $ErrorActionPreference = $previousPreference
+    }
+
+    return [pscustomobject]@{
+        ExitCode = $exitCode
+        Output   = @($output)
+    }
+}
+
 if ($Iterations -lt 1) {
     throw "Iterations must be >= 1"
 }
@@ -99,8 +130,8 @@ try {
             throw "Server exited early with code $($serverProc.ExitCode)."
         }
 
-        & $CtlExe --host 127.0.0.1 --port $port version *> $null
-        if ($LASTEXITCODE -eq 0) {
+        $probe = Invoke-ThemisCtlProbe -Args @('--host', '127.0.0.1', '--port', [string]$port, 'version')
+        if ($probe.ExitCode -eq 0) {
             $ready = $true
             break
         }
@@ -113,14 +144,14 @@ try {
     }
 
     for ($i = 1; $i -le $Iterations; $i++) {
-        & $CtlExe --host 127.0.0.1 --port $port health *> $null
-        if ($LASTEXITCODE -ne 0) {
-            throw "health command failed in iteration $i with exit code $LASTEXITCODE"
+        $healthProbe = Invoke-ThemisCtlProbe -Args @('--host', '127.0.0.1', '--port', [string]$port, 'health')
+        if ($healthProbe.ExitCode -ne 0) {
+            throw "health command failed in iteration $i with exit code $($healthProbe.ExitCode): $($healthProbe.Output -join ' ')"
         }
 
-        & $CtlExe --host 127.0.0.1 --port $port schema *> $null
-        if ($LASTEXITCODE -ne 0) {
-            throw "schema command failed in iteration $i with exit code $LASTEXITCODE"
+        $schemaProbe = Invoke-ThemisCtlProbe -Args @('--host', '127.0.0.1', '--port', [string]$port, 'schema')
+        if ($schemaProbe.ExitCode -ne 0) {
+            throw "schema command failed in iteration $i with exit code $($schemaProbe.ExitCode): $($schemaProbe.Output -join ' ')"
         }
 
         if ($serverProc.HasExited) {

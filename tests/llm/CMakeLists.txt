@@ -89,6 +89,11 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
         continue()
     endif()
 
+    if(_stem STREQUAL "test_subagent_orchestration_focused")
+        message(STATUS "Skipping legacy empty LLM focused test target: ${_stem}")
+        continue()
+    endif()
+
     add_executable(${_target} "${_src}")
     target_sources(${_target} PRIVATE
         ${_llm_observability_link_sources}
@@ -150,12 +155,6 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/llm/ml_model_manager.cpp
             ${THEMIS_ROOT_DIR}/src/llm/llm_plugin_manager.cpp
-        )
-    endif()
-    if(_stem STREQUAL "test_subagent_orchestration_focused")
-        target_sources(${_target} PRIVATE
-            ${THEMIS_ROOT_DIR}/src/llm/subagent_factory_impl.cpp
-            ${THEMIS_ROOT_DIR}/src/llm/subagent_coordinator_impl.cpp
         )
     endif()
     if(_stem STREQUAL "test_llm_workflow_orchestration_focused")
@@ -271,6 +270,25 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             ${THEMIS_ROOT_DIR}/src/llm/wiki_rag_source.cpp
         )
     endif()
+    if(_stem STREQUAL "test_wiki_crossdep_focused")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/src/llm/wiki_index_store.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/wiki_chunk_splitter.cpp
+            ${THEMIS_ROOT_DIR}/src/llm/wiki_rag_source.cpp
+            ${THEMIS_ROOT_DIR}/src/llm_wiki/workspace_state_manager.cpp
+        )
+        if(NOT TARGET themis_llm)
+            if(TARGET RocksDB::rocksdb)
+                target_link_libraries(${_target} PRIVATE RocksDB::rocksdb)
+            elseif(TARGET rocksdb)
+                target_link_libraries(${_target} PRIVATE rocksdb)
+            elseif(DEFINED THEMIS_ROCKSDB_TARGET AND THEMIS_ROCKSDB_TARGET)
+                target_link_libraries(${_target} PRIVATE ${THEMIS_ROCKSDB_TARGET})
+            else()
+                target_link_libraries(${_target} PRIVATE ${RocksDB_LIBRARIES})
+            endif()
+        endif()
+    endif()
     if(_stem STREQUAL "test_llm_doku_rag")
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/llm/wiki_index_store.cpp
@@ -319,7 +337,6 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
         endif()
     endif()
      if(_stem STREQUAL "test_llm_wiki_phase3_edge_cases" OR
-         _stem STREQUAL "test_wiki_crossdep_focused" OR
          _stem STREQUAL "test_llm_wiki_process_policy_manager")
         # Workspace state manager and edition gate are in themis_llm_wiki.
         # If the library target exists (added via src/llm_wiki), link it;
@@ -479,16 +496,6 @@ foreach(_src IN LISTS LLM_MODULE_TEST_SOURCES)
             TARGET ${_target}
             TIER unit
             TIMEOUT 300
-        )
-    elseif(_stem STREQUAL "test_subagent_orchestration_focused" OR
-           _stem STREQUAL "test_wiki_crossdep_focused")
-        themis_register_module_focused_test(
-            MODULE llm
-            NAME ${_ctest}
-            TARGET ${_target}
-            TIER unit
-            TIMEOUT 120
-            ARGS --gtest_fail_if_no_test_linked
         )
     elseif(_wave_b_labels)
         # Wave B LLM Wiki Phase 4 gap closure tests (LWP-RT-01, LWP-GATE-01, LWP-PERF-01)

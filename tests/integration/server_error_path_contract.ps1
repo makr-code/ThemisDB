@@ -63,6 +63,37 @@ function Get-FreeTcpPort {
     }
 }
 
+function Invoke-ThemisCtlProbe {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string[]]$Args
+    )
+
+    $output = @()
+    $exitCode = 0
+    $previousPreference = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+
+    try {
+        $output = & $CtlExe @Args 2>&1
+        if ($null -ne $LASTEXITCODE) {
+            $exitCode = [int]$LASTEXITCODE
+        }
+    }
+    catch {
+        $output = @($_.Exception.Message)
+        $exitCode = 1
+    }
+    finally {
+        $ErrorActionPreference = $previousPreference
+    }
+
+    return [pscustomobject]@{
+        ExitCode = $exitCode
+        Output   = @($output)
+    }
+}
+
 $port = Get-FreeTcpPort
 $tempRoot = Join-Path $env:TEMP ("themis_error_contract_" + [guid]::NewGuid().ToString("N"))
 $null = New-Item -ItemType Directory -Path $tempRoot -Force
@@ -86,8 +117,8 @@ try {
             throw "Server exited early with code $($serverProc.ExitCode)."
         }
 
-        & $CtlExe --host 127.0.0.1 --port $port version *> $null
-        if ($LASTEXITCODE -eq 0) {
+        $probe = Invoke-ThemisCtlProbe -Args @('--host', '127.0.0.1', '--port', [string]$port, 'version')
+        if ($probe.ExitCode -eq 0) {
             $ready = $true
             break
         }
@@ -117,9 +148,9 @@ try {
         throw "Expected HTTP 404 in error output. Actual output: $errorOutput"
     }
 
-    & $CtlExe --host 127.0.0.1 --port $port health *> $null
-    if ($LASTEXITCODE -ne 0) {
-        throw "Server not healthy after negative endpoint contract check."
+    $healthProbe = Invoke-ThemisCtlProbe -Args @('--host', '127.0.0.1', '--port', [string]$port, 'health')
+    if ($healthProbe.ExitCode -ne 0) {
+        throw "Server not healthy after negative endpoint contract check. $($healthProbe.Output -join ' ')"
     }
 }
 finally {

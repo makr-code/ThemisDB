@@ -887,7 +887,7 @@
       "configurePreset": "windows-debug",
       "filter": {
         "include": {
-          "label": "std-gate-soak"
+          "label": "std-gate"
         },
         "exclude": {
           "label": "(manual|disabled)"

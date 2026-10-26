@@ -40,17 +40,24 @@
 
 #include <gtest/gtest.h>
 
+#include "index/secondary_index.h"
+#include "index/vector_index.h"
+#include "llm/embedded_llm.h"
 #include "llm/wiki_index_store.h"
 #include "llm_wiki/workspace_state_manager.h"
+#include "storage/rocksdb_wrapper.h"
 
+#include <atomic>
 #include <chrono>
 #include <filesystem>
+#include <functional>
 #include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
 using namespace themis;
+using namespace themis::llm;
 
 // ═══════════════════════════════════════════════════════════════════════════
 // Shared helpers
@@ -83,8 +90,73 @@ themis::llm_wiki::WorkspaceState makeWorkspaceState(
 } // namespace
 
 // ═══════════════════════════════════════════════════════════════════════════
-// Phase B — Persistent embedding cache default = true
+// Phase B — Real RocksDB-backed WikiIndexStore integration
 // ═══════════════════════════════════════════════════════════════════════════
+
+class WikiCrossDepStoreTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        db_path_ = makeTmpDbPath(
+            ::testing::UnitTest::GetInstance()->current_test_info()->name());
+
+        RocksDBWrapper::Config cfg;
+        cfg.db_path = db_path_;
+        cfg.enable_blobdb = false;
+
+        db_ = std::make_unique<RocksDBWrapper>(cfg);
+        if (!db_->open()) {
+            GTEST_SKIP() << "[WCD] RocksDB unavailable; skipping live ThemisDB wiki integration tests.";
+        }
+
+        sim_ = std::make_unique<SecondaryIndexManager>(*db_);
+        vim_ = std::make_unique<VectorIndexManager>(*db_);
+        setDefaultEmbedFn();
+    }
+
+    void TearDown() override {
+        sim_.reset();
+        vim_.reset();
+        db_.reset();
+        std::filesystem::remove_all(db_path_);
+    }
+
+    void setDefaultEmbedFn() {
+        embed_calls_.store(0);
+        llm_.setEmbedFn([this](const std::string& text) -> std::vector<float> {
+            ++embed_calls_;
+            const std::size_t h = std::hash<std::string>{}(text);
+            std::vector<float> v(4, 0.0f);
+            v[h % 4] = 1.0f;
+            return v;
+        });
+    }
+
+    std::unique_ptr<WikiIndexStore> makeStore(WikiIndexConfig cfg) {
+        cfg.enable_phase_b = true;
+        cfg.embedding_dim = 4;
+        cfg.top_k = 10;
+        cfg.enable_bm25 = true;
+        cfg.enable_vector = true;
+        return std::make_unique<WikiIndexStore>(*sim_, *vim_, llm_, cfg);
+    }
+
+    static WikiChunk makeChunk(const std::string& chunk_id,
+                              const std::string& text,
+                              const std::string& doc_id = "doc_a") {
+        WikiChunk chunk;
+        chunk.chunk_id = chunk_id;
+        chunk.doc_id = doc_id;
+        chunk.text = text;
+        return chunk;
+    }
+
+    std::string db_path_;
+    std::unique_ptr<RocksDBWrapper> db_;
+    std::unique_ptr<SecondaryIndexManager> sim_;
+    std::unique_ptr<VectorIndexManager> vim_;
+    EmbeddedLLM llm_;
+    std::atomic<int> embed_calls_{0};
+};
 
 /// WCD-01: WikiIndexConfig default has enable_persistent_cache=false [standalone]
 TEST(WikiCrossDepConfig, WCD_01_PersistentCacheDefaultFalse) {
@@ -94,79 +166,55 @@ TEST(WikiCrossDepConfig, WCD_01_PersistentCacheDefaultFalse) {
 }
 
 /// WCD-02: Re-ingest same chunk avoids embed call when persistent cache is on.
-/// [integration] Requires full library; skipped in standalone build.
-TEST(WikiCrossDepIntegration, WCD_02_PersistentCacheHitAvoidsReembed) {
-    GTEST_SKIP() << "[WCD-02] Integration test — requires full ThemisDB library "
-                    "(SecondaryIndexManager + VectorIndexManager + EmbeddedLLM). "
-                    "Run with themis_core linked.";
-}
+TEST_F(WikiCrossDepStoreTest, WCD_02_PersistentCacheHitAvoidsReembed) {
+    WikiIndexConfig cfg;
+    cfg.table_name = "wcd02";
+    cfg.embedding_dim = 4;
+    cfg.enable_persistent_cache = true;
+    cfg.enable_vector = false;
+    cfg.enable_bm25 = true;
 
-/// WCD-03: Two different chunk_ids each produce exactly one embed call.
-/// [integration] Requires full library; skipped in standalone build.
-TEST(WikiCrossDepIntegration, WCD_03_DistinctChunksEachEmbedOnce) {
-    GTEST_SKIP() << "[WCD-03] Integration test — requires full ThemisDB library.";
-}
+    auto store = makeStore(cfg);
+    embed_calls_.store(0);
+    ASSERT_NO_THROW(store->writeChunk(makeChunk("wcd02-c1", "ThemisDB wiki cross dependency")));
+    EXPECT_EQ(embed_calls_.load(), 1);
 
-/// WCD-04: Pre-populated embedding bypasses LLM regardless of cache flag.
-/// [integration] Requires full library; skipped in standalone build.
-TEST(WikiCrossDepIntegration, WCD_04_PrePopulatedEmbeddingBypassesLLM) {
-    GTEST_SKIP() << "[WCD-04] Integration test — requires full ThemisDB library.";
+    embed_calls_.store(0);
+    ASSERT_NO_THROW(store->writeChunk(makeChunk("wcd02-c1", "ThemisDB wiki cross dependency")));
+    EXPECT_EQ(embed_calls_.load(), 0)
+        << "same chunk_id must reuse persisted embedding instead of calling embed() again";
 }
-
-// ═══════════════════════════════════════════════════════════════════════════
-// Phase F — writeBatch uses putBatch + addBatch (atomic WriteBatch)
-// ═══════════════════════════════════════════════════════════════════════════
 
 /// WCD-05: writeBatch with empty input completes without throwing.
-/// [integration] Requires full library; skipped in standalone build.
-TEST(WikiCrossDepIntegration, WCD_05_WriteBatchEmptyNoThrow) {
-    GTEST_SKIP() << "[WCD-05] Integration test — requires full ThemisDB library.";
+TEST_F(WikiCrossDepStoreTest, WCD_05_WriteBatchEmptyNoThrow) {
+    WikiIndexConfig cfg;
+    cfg.table_name = "wcd05";
+    cfg.embedding_dim = 4;
+    cfg.enable_vector = false;
+    cfg.enable_bm25 = true;
+
+    auto store = makeStore(cfg);
+    std::vector<WikiChunk> empty_chunks;
+    EXPECT_NO_THROW(store->writeBatch(empty_chunks));
+    EXPECT_TRUE(store->query("irrelevant", 10, 0.0f).empty());
 }
 
-/// WCD-06: writeBatch single chunk is queryable.
-/// [integration] Requires full library; skipped in standalone build.
-TEST(WikiCrossDepIntegration, WCD_06_WriteBatchSingleChunkQueryable) {
-    GTEST_SKIP() << "[WCD-06] Integration test — requires full ThemisDB library.";
-}
+/// WCD-06: writeBatch single chunk is queryable via the live RocksDB index.
+TEST_F(WikiCrossDepStoreTest, WCD_06_WriteBatchSingleChunkQueryable) {
+    WikiIndexConfig cfg;
+    cfg.table_name = "wcd06";
+    cfg.embedding_dim = 4;
+    cfg.enable_vector = false;
+    cfg.enable_bm25 = true;
 
-/// WCD-07: writeBatch multiple chunks across two doc_ids — all found.
-/// [integration] Requires full library; skipped in standalone build.
-TEST(WikiCrossDepIntegration, WCD_07_WriteBatchMultiDocQueryable) {
-    GTEST_SKIP() << "[WCD-07] Integration test — requires full ThemisDB library.";
-}
+    auto store = makeStore(cfg);
+    std::vector<WikiChunk> chunks; 
+    chunks.push_back(makeChunk("wcd06-c1", "ThemisDB wiki integration is working"));
 
-/// WCD-08: writeBatch with all pre-populated embeddings — LLM not called.
-/// [integration] Requires full library; skipped in standalone build.
-TEST(WikiCrossDepIntegration, WCD_08_WriteBatchPreEmbeddedNoLLM) {
-    GTEST_SKIP() << "[WCD-08] Integration test — requires full ThemisDB library.";
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
-// Phase D — optional StorageAuditLogger injection
-// ═══════════════════════════════════════════════════════════════════════════
-
-/// WCD-09: No audit logger set → writeChunk completes without crash.
-/// [integration] Requires full library; skipped in standalone build.
-TEST(WikiCrossDepIntegration, WCD_09_NoAuditLoggerNocrash) {
-    GTEST_SKIP() << "[WCD-09] Integration test — requires full ThemisDB library.";
-}
-
-/// WCD-10: setAuditLogger → writeChunk emits exactly one PUT entry.
-/// [integration] Requires full library; skipped in standalone build.
-TEST(WikiCrossDepIntegration, WCD_10_AuditLoggerWriteChunkEmitsPut) {
-    GTEST_SKIP() << "[WCD-10] Integration test — requires full ThemisDB library.";
-}
-
-/// WCD-11: writeBatch with 3 chunks in 2 doc_ids → 2 audit entries.
-/// [integration] Requires full library; skipped in standalone build.
-TEST(WikiCrossDepIntegration, WCD_11_AuditLoggerWriteBatchTwoDocIds) {
-    GTEST_SKIP() << "[WCD-11] Integration test — requires full ThemisDB library.";
-}
-
-/// WCD-12: writeBatch with empty input → zero audit entries.
-/// [integration] Requires full library; skipped in standalone build.
-TEST(WikiCrossDepIntegration, WCD_12_AuditLoggerWriteBatchEmptyNoEntries) {
-    GTEST_SKIP() << "[WCD-12] Integration test — requires full ThemisDB library.";
+    ASSERT_NO_THROW(store->writeBatch(chunks));
+    const auto results = store->query("ThemisDB wiki integration", 10, 0.0f);
+    ASSERT_FALSE(results.empty());
+    EXPECT_EQ(results.front().chunk_id, "wcd06-c1");
 }
 
 // ═══════════════════════════════════════════════════════════════════════════

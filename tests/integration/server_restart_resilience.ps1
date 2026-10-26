@@ -63,6 +63,40 @@ function Get-FreeTcpPort {
     }
 }
 
+function Invoke-ExternalProbe {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Exe,
+
+        [Parameter(Mandatory = $true)]
+        [string[]]$Args
+    )
+
+    $output = @()
+    $exitCode = 0
+    $previousPreference = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+
+    try {
+        $output = & $Exe @Args 2>&1
+        if ($null -ne $LASTEXITCODE) {
+            $exitCode = [int]$LASTEXITCODE
+        }
+    }
+    catch {
+        $output = @($_.Exception.Message)
+        $exitCode = 1
+    }
+    finally {
+        $ErrorActionPreference = $previousPreference
+    }
+
+    return [pscustomobject]@{
+        ExitCode = $exitCode
+        Output   = @($output)
+    }
+}
+
 function Wait-ServerReady {
     param(
         [string]$Exe,
@@ -71,8 +105,8 @@ function Wait-ServerReady {
     )
 
     while ((Get-Date) -lt $Deadline) {
-        & $Exe --host 127.0.0.1 --port $Port version *> $null
-        if ($LASTEXITCODE -eq 0) {
+        $probe = Invoke-ExternalProbe -Exe $Exe -Args @('--host', '127.0.0.1', '--port', [string]$Port, 'version')
+        if ($probe.ExitCode -eq 0) {
             return $true
         }
         Start-Sleep -Milliseconds 250
@@ -87,19 +121,19 @@ function Assert-Endpoints {
         [int]$Port
     )
 
-    & $Exe --host 127.0.0.1 --port $Port health *> $null
-    if ($LASTEXITCODE -ne 0) {
-        throw "health failed on port $Port"
+    $health = Invoke-ExternalProbe -Exe $Exe -Args @('--host', '127.0.0.1', '--port', [string]$Port, 'health')
+    if ($health.ExitCode -ne 0) {
+        throw "health failed on port $Port. $($health.Output -join ' ')"
     }
 
-    & $Exe --host 127.0.0.1 --port $Port schema *> $null
-    if ($LASTEXITCODE -ne 0) {
-        throw "schema failed on port $Port"
+    $schema = Invoke-ExternalProbe -Exe $Exe -Args @('--host', '127.0.0.1', '--port', [string]$Port, 'schema')
+    if ($schema.ExitCode -ne 0) {
+        throw "schema failed on port $Port. $($schema.Output -join ' ')"
     }
 
-    & $Exe --host 127.0.0.1 --port $Port version *> $null
-    if ($LASTEXITCODE -ne 0) {
-        throw "version failed on port $Port"
+    $version = Invoke-ExternalProbe -Exe $Exe -Args @('--host', '127.0.0.1', '--port', [string]$Port, 'version')
+    if ($version.ExitCode -ne 0) {
+        throw "version failed on port $Port. $($version.Output -join ' ')"
     }
 }
 
