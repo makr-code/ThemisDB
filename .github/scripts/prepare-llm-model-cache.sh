@@ -70,6 +70,7 @@ if [[ -f "$TARGET_PATH" ]]; then
     exit 0
 fi
 
+chmod +x "${PWD}/scripts/download-tinyllama-hf.sh"
 MODEL_DIR="$MODEL_DIR" \
 OUTPUT_NAME="$MODEL_FILE" \
 FORCE=0 \
