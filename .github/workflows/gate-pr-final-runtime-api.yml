@@ -38,7 +38,7 @@ jobs:
             build-essential cmake ninja-build pkg-config ccache \
             librocksdb-dev libgtest-dev libgmock-dev libbenchmark-dev libssl-dev zlib1g-dev libzstd-dev \
             libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
-            libyaml-cpp-dev libcurl4-openssl-dev libcpp-httplib-dev libbenchmark-dev libboost-system-dev \
+            libyaml-cpp-dev libcurl4-openssl-dev libcpp-httplib-dev libmsgpack-dev libbenchmark-dev libboost-system-dev \
             libboost-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc \
             libpugixml-dev libvulkan-dev
 
