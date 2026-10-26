@@ -231,38 +231,78 @@ TEST_F(WALChecksumTest, CorruptChecksumEntryIsDropped) {
     TempWALDir wd("/tmp/themis_wal_corrupt_test");
     ReplicationConfig cfg = makeConfig(wd.path);
 
-    WALManager wal(cfg);
+    uint64_t seq = 0;
+    {
+        WALManager wal(cfg);
 
-    // Append a valid entry
-    WALEntry entry;
-    entry.operation   = "UPDATE";
-    entry.collection  = "products";
-    entry.document_id = "prod1";
-    entry.data        = "{\"price\":99}";
-    uint64_t seq = wal.append(entry);
-    ASSERT_GT(seq, 0u);
+        // Append a valid entry
+        WALEntry entry;
+        entry.operation   = "UPDATE";
+        entry.collection  = "products";
+        entry.document_id = "prod1";
+        entry.data        = "{\"price\":99}";
+        seq = wal.append(entry);
+        ASSERT_GT(seq, 0u);
+    }
 
-    // Manually corrupt the checksum inside the WAL segment file
-    std::string seg_path = wd.path + "/wal_0.log";
+    // Manually corrupt one WAL byte on disk and verify recovery drops/truncates it.
+    std::string seg_path;
+    for (const auto& disk_entry : std::filesystem::directory_iterator(wd.path)) {
+        if (disk_entry.path().extension() == ".log") {
+            seg_path = disk_entry.path().string();
+            break;
+        }
+    }
+    ASSERT_FALSE(seg_path.empty());
     ASSERT_TRUE(std::filesystem::exists(seg_path));
 
     {
-        // Open the file for read+write; the checksum is near the end of the record.
+        // Open the file for read+write and flip a byte in the payload area.
+        // WALStorage replay validates CRC and truncates at the first bad entry.
         std::fstream fs(seg_path, std::ios::in | std::ios::out | std::ios::binary);
         ASSERT_TRUE(fs.is_open());
-        // Seek close to end and flip a byte to corrupt the checksum field
-        fs.seekg(static_cast<std::streamoff>(-4), std::ios::end);
+        fs.seekg(static_cast<std::streamoff>(-8), std::ios::end);
         std::uint8_t dummy{};
         fs.read(reinterpret_cast<char*>(&dummy), 1);
-        dummy ^= static_cast<std::uint8_t>(0x1u);
-        fs.seekp(static_cast<std::streamoff>(-4), std::ios::end);
+        dummy ^= static_cast<std::uint8_t>(0x80u);
+        fs.seekp(static_cast<std::streamoff>(-8), std::ios::end);
         fs.write(reinterpret_cast<const char*>(&dummy), 1);
     }
 
-    // readFrom should skip the corrupted entry
-    auto entries = wal.readFrom(seq, 10);
+    WALManager reopened(cfg);
+    auto entries = reopened.readFrom(seq, 10);
     EXPECT_EQ(entries.size(), 0u)
-        << "Corrupted entry should have been filtered out by checksum verification";
+        << "Corrupted WAL record should be discarded during replay recovery";
+}
+
+TEST_F(WALChecksumTest, ReplaysEntriesAfterRestart) {
+    TempWALDir wd("/tmp/themis_wal_recovery_test");
+    ReplicationConfig cfg = makeConfig(wd.path);
+
+    {
+        WALManager wal(cfg);
+        WALEntry first;
+        first.operation   = "INSERT";
+        first.collection  = "orders";
+        first.document_id = "o1";
+        first.data        = "{\"status\":\"new\"}";
+        ASSERT_GT(wal.append(first), 0u);
+
+        WALEntry second;
+        second.operation   = "UPDATE";
+        second.collection  = "orders";
+        second.document_id = "o1";
+        second.data        = "{\"status\":\"paid\"}";
+        ASSERT_GT(wal.append(second), 0u);
+    }
+
+    WALManager reopened(cfg);
+    auto entries = reopened.readFrom(1, 10);
+    ASSERT_EQ(entries.size(), 2u);
+    EXPECT_EQ(entries[0].document_id, "o1");
+    EXPECT_EQ(entries[0].operation, "INSERT");
+    EXPECT_EQ(entries[1].document_id, "o1");
+    EXPECT_EQ(entries[1].operation, "UPDATE");
 }
 
 // ============================================================================
