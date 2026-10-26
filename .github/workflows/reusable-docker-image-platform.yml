@@ -110,6 +110,17 @@ jobs:
           echo "Target platform: ${{ inputs.platform }}"
           echo "This job is intentionally capped below the GitHub-hosted 6h hard-stop so failures surface quickly and deterministically."
 
+      - name: Enforce bundled LLM requirement for packaging
+        shell: bash
+        run: |
+          set -euo pipefail
+          INCLUDE_TINYLLAMA='${{ inputs.include_tinyllama }}'
+          if [[ "${INCLUDE_TINYLLAMA}" != "true" && "${INCLUDE_TINYLLAMA}" != "True" && "${INCLUDE_TINYLLAMA}" != "1" ]]; then
+            echo "::error::Packaging and deployment require a bundled LLM model (TinyLlama or another model). Set include_tinyllama=true."
+            exit 1
+          fi
+          echo "Bundled model enabled: ${INCLUDE_TINYLLAMA}"
+
       - name: Checkout
         uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09  # v5
         with:

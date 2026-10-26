@@ -205,7 +205,8 @@ jobs:
             -f tag_name="v${VERSION}" \
             -f push_to_registry=true \
             -f registry=ghcr.io \
-            -f include_tinyllama=true
+            -f include_tinyllama=true \
+            -f llm_model=tinyllama
           
           echo "✓ Docker publication workflow dispatched"
 
