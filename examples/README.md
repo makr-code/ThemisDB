@@ -6,7 +6,7 @@ Beispielsammlung für API-, Datenmodell- und Integrations-Workflows.
 
 ## Struktur (Top-Level)
 
-- Numerische Lernpfade: `01_...` bis `24_...`
+- Numerische Lernpfade: `01_...` bis `25_...`
 - Themenordner: `llm/`, `geo/`, `security/`, `performance/`, `replication/`, `migration/` u. a.
 
 ## Schnellstart (verifiziertes Grundmuster)

@@ -1,0 +1,13 @@
+news_id,symbol,exchange,event_timestamp,horizon_days,future_return_pct,label,confidence,rationale
+n1,AAPL,NASDAQ,2024-02-02T09:30:00Z,3,4.5,bullish,0.81,"Strong services growth and guidance raise supports demand expansion"
+n2,MSFT,NASDAQ,2024-02-03T09:30:00Z,3,5.1,bullish,0.85,"AI infrastructure expansion and cloud demand outlook remain positive"
+n3,AMZN,NASDAQ,2024-02-05T09:30:00Z,3,3.4,bullish,0.74,"Automation lowers fulfillment costs and supports margin expansion"
+n4,SAP,XETRA,2024-02-19T09:30:00Z,3,2.8,bullish,0.7,"Enterprise ERP demand and contract renewals improve visibility"
+n5,TSLA,NASDAQ,2024-03-11T10:15:00Z,3,-4.2,bearish,0.8,"Production bottlenecks and export demand weakness weigh on margins"
+n6,NVDA,NASDAQ,2024-03-20T09:35:00Z,3,6.1,bullish,0.9,"AI demand and hyperscale GPU supply contracts support acceleration"
+n7,AMZN,NASDAQ,2024-04-18T09:20:00Z,3,3.1,bullish,0.73,"Cloud margin recovery and migration trends improve outlook"
+n8,AAPL,NASDAQ,2024-05-14T09:40:00Z,3,3.8,bullish,0.78,"Supply chain relief and premium iPhone demand improve sentiment"
+n9,NVDA,NASDAQ,2024-11-12T09:55:00Z,3,7.4,bullish,0.91,"Data-center buildout and next-wave AI demand remain strong"
+n10,MSFT,NASDAQ,2024-11-18T09:30:00Z,3,4.9,bullish,0.86,"Generative AI monetization strengthens enterprise platform adoption"
+n11,TSLA,NASDAQ,2024-12-03T10:05:00Z,3,-3.9,bearish,0.76,"Pricing reset and competition pressure reduce margin support"
+n12,SAP,XETRA,2024-12-03T10:05:00Z,3,2.9,bullish,0.68,"Recurring revenue resilience supports software demand"
