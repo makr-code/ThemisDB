@@ -87,8 +87,6 @@ namespace themis {
 namespace query {
 class QueryEngine;
 struct QueryResourceLimits;
-template <typename T, typename E> class expected;
-struct QueryError;
 }
 using QueryEngine = query::QueryEngine;
 }
@@ -213,7 +211,7 @@ private:
     std::string extractStringArg(const Field& field,
                                 const std::string& argName) const;
 
-    ::tl::expected<nlohmann::json, ::themis::query::QueryError> 
+    Result<nlohmann::json>
     executeAqlWithLimits(
         const std::string& aql,
         ::themis::QueryEngine& eng,

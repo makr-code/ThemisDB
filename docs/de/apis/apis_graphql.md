@@ -91,8 +91,15 @@ type Mutation {
   
   # Graph-Kante erstellen
   createEdge(source: ID!, target: ID!, type: String!, properties: JSON): Edge!
+
+  # AQL Mutation ausführen
+  aqlMutation(query: String!, variables: JSON): JSON
 }
 ```
+
+Hinweis: Für `aql`/`aqlMutation` muss `variables` (falls gesetzt) ein JSON-Objekt sein.
+Skalar-/Objekt-/Array-Werte werden vor AQL-Ausführung in `@name`-Platzhalter eingesetzt;
+Kollektion-Bindings über `@@name` erwarten einen String-Eintrag mit Schlüssel `@name`.
 
 ### Document Type
 
@@ -267,6 +274,9 @@ query GetUser($collection: String!, $id: ID!) {
 }
 ```
 
+Hinweis: Der HTTP-`variables`-Payload unterstützt neben Skalaren auch verschachtelte
+Objekte und Arrays; diese werden in die interne GraphQL-Value-Struktur übernommen.
+
 ### Mutation
 
 ```graphql
@@ -357,14 +367,15 @@ auto objVal = Value::object(std::move(map));
 - Keine Fragments (geplant)
 - Keine Directives (geplant)
 - Keine Inline Fragments
-- Keine Subscriptions über WebSocket (nur Polling)
+- WebSocket-Subscriptions sind auf `subscription`-Operationen begrenzt
+  (`/graphql`, `/v2/graphql/subscriptions`); Query/Mutation über WS ist nicht vorgesehen.
 
 ## Roadmap
 
 - [ ] HTTP Handler Integration
 - [ ] Fragment Support
 - [ ] Directive Support
-- [ ] Subscription über WebSocket
+- [x] Subscription über WebSocket (nur Subscription-Operationen)
 - [ ] Batching Support
 - [ ] Persisted Queries
 - [ ] Query Complexity Analysis

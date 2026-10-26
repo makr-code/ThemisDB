@@ -13,6 +13,7 @@
 #include "api/graphql_aql_resolver.h"
 #include "utils/tracing.h"
 #include <nlohmann/json.hpp>
+#include <limits>
 
 namespace themis {
 namespace server {
@@ -99,6 +100,49 @@ json GraphQLApiHandler::serializeValue(
     return json(nullptr);
 }
 
+std::shared_ptr<graphql::Value> GraphQLApiHandler::jsonToGraphQLValue(
+    const nlohmann::json& value)
+{
+    if (value.is_null()) {
+        return graphql::Value::null();
+    }
+    if (value.is_boolean()) {
+        return graphql::Value::boolean(value.get<bool>());
+    }
+    if (value.is_number_integer()) {
+        return graphql::Value::integer(value.get<int64_t>());
+    }
+    if (value.is_number_unsigned()) {
+        const auto unsigned_value = value.get<uint64_t>();
+        if (unsigned_value <= static_cast<uint64_t>(std::numeric_limits<int64_t>::max())) {
+            return graphql::Value::integer(static_cast<int64_t>(unsigned_value));
+        }
+        return graphql::Value::floating(static_cast<double>(unsigned_value));
+    }
+    if (value.is_number_float()) {
+        return graphql::Value::floating(value.get<double>());
+    }
+    if (value.is_string()) {
+        return graphql::Value::string(value.get<std::string>());
+    }
+    if (value.is_array()) {
+        graphql::ValueList list_values = {};
+        list_values.reserve(value.size());
+        for (const auto& element : value) {
+            list_values.push_back(jsonToGraphQLValue(element));
+        }
+        return graphql::Value::list(std::move(list_values));
+    }
+    if (value.is_object()) {
+        graphql::ValueMap object_values = {};
+        for (auto it = value.begin(); it != value.end(); ++it) {
+            object_values[it.key()] = jsonToGraphQLValue(it.value());
+        }
+        return graphql::Value::object(std::move(object_values));
+    }
+    return graphql::Value::null();
+}
+
 // ---------------------------------------------------------------------------
 // Public handlers
 // ---------------------------------------------------------------------------
@@ -172,16 +216,7 @@ http::response<http::string_body> GraphQLApiHandler::handlePost(
         if (body_json.contains("variables") &&
             body_json["variables"].is_object()) {
             for (auto& [k, v] : body_json["variables"].items()) {
-                if (v.is_string())
-                    ctx.variables[k] = graphql::Value::string(v.get<std::string>());
-                else if (v.is_number_integer())
-                    ctx.variables[k] = graphql::Value::integer(v.get<int64_t>());
-                else if (v.is_number_float())
-                    ctx.variables[k] = graphql::Value::floating(v.get<double>());
-                else if (v.is_boolean())
-                    ctx.variables[k] = graphql::Value::boolean(v.get<bool>());
-                else
-                    ctx.variables[k] = graphql::Value::null();
+                ctx.variables[k] = jsonToGraphQLValue(v);
             }
         }
 
