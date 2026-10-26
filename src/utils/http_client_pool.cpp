@@ -64,7 +64,7 @@ URLComponents parseURL(const std::string& url) {
 
 HTTPClientPool::HTTPClientPool(const Config& config)
     : config_(config)
-#ifdef HAVE_BOOST_BEAST
+#if THEMIS_HTTP_CLIENT_POOL_HAS_BOOST_BEAST
     , io_context_(std::make_shared<net::io_context>())
 #endif
 {
@@ -74,7 +74,7 @@ HTTPClientPool::HTTPClientPool(const Config& config)
         stripes_.push_back(std::make_unique<LockStripe>());
     }
     
-#ifdef HAVE_BOOST_BEAST
+#if THEMIS_HTTP_CLIENT_POOL_HAS_BOOST_BEAST
     // Start I/O thread pool
     io_threads_.reserve(config_.io_threads);
     for (size_t i = 0; i < config_.io_threads; ++i) {
@@ -93,7 +93,7 @@ HTTPClientPool::~HTTPClientPool() {
         stripe->cv.notify_all();
     }
     
-#ifdef HAVE_BOOST_BEAST
+#if THEMIS_HTTP_CLIENT_POOL_HAS_BOOST_BEAST
     // Stop io_context
     io_context_->stop();
 #endif
@@ -116,7 +116,7 @@ std::future<HTTPResponse> HTTPClientPool::post(const std::string& url,
     auto promise = std::make_shared<std::promise<HTTPResponse>>();
     auto future = promise->get_future();
     
-#ifdef HAVE_BOOST_BEAST
+#if THEMIS_HTTP_CLIENT_POOL_HAS_BOOST_BEAST
     // Post work to io_context instead of spawning new threads
     net::post(*io_context_, [this, url, body, headers, promise]() {
         std::shared_ptr<HTTPClient> client;
@@ -148,7 +148,7 @@ std::future<HTTPResponse> HTTPClientPool::post(const std::string& url,
     (void)body;
     (void)headers;
     promise->set_exception(std::make_exception_ptr(
-        std::runtime_error("HTTPClientPool requires Boost.Beast (HAVE_BOOST_BEAST not defined)")));
+        std::runtime_error("HTTPClientPool requires Boost.Beast headers to be available")));
 #endif
     
     return future;
@@ -160,7 +160,7 @@ std::future<HTTPResponse> HTTPClientPool::get(const std::string& url,
     auto promise = std::make_shared<std::promise<HTTPResponse>>();
     auto future = promise->get_future();
     
-#ifdef HAVE_BOOST_BEAST
+#if THEMIS_HTTP_CLIENT_POOL_HAS_BOOST_BEAST
     // Post work to io_context instead of spawning new threads
     net::post(*io_context_, [this, url, headers, promise]() {
         std::shared_ptr<HTTPClient> client;
@@ -191,7 +191,7 @@ std::future<HTTPResponse> HTTPClientPool::get(const std::string& url,
     (void)url;
     (void)headers;
     promise->set_exception(std::make_exception_ptr(
-        std::runtime_error("HTTPClientPool requires Boost.Beast (HAVE_BOOST_BEAST not defined)")));
+        std::runtime_error("HTTPClientPool requires Boost.Beast headers to be available")));
 #endif
     
     return future;
@@ -303,10 +303,10 @@ void HTTPClientPool::releaseConnection(std::shared_ptr<HTTPClient> client) {
  * @details Implements createClient without additional internal calls.
  */
 std::shared_ptr<HTTPClient> HTTPClientPool::createClient() {
-#ifdef HAVE_BOOST_BEAST
+#if THEMIS_HTTP_CLIENT_POOL_HAS_BOOST_BEAST
     return std::make_shared<BeastHTTPClient>(config_, io_context_);
 #else
-    throw std::runtime_error("HTTPClientPool requires Boost.Beast (HAVE_BOOST_BEAST not defined)");
+    throw std::runtime_error("HTTPClientPool requires Boost.Beast headers to be available");
 #endif
 }
 
@@ -435,7 +435,7 @@ void HTTPClientPool::warmup(size_t num_connections) {
 // BeastHTTPClient Implementation
 // ============================================================================
 
-#ifdef HAVE_BOOST_BEAST
+#if THEMIS_HTTP_CLIENT_POOL_HAS_BOOST_BEAST
 
 BeastHTTPClient::BeastHTTPClient(const HTTPClientPool::Config& config, std::shared_ptr<net::io_context> ioc)
     : config_(config)
@@ -600,7 +600,7 @@ HTTPResponse BeastHTTPClient::execute(
     }
 }
 
-#endif // HAVE_BOOST_BEAST
+#endif // THEMIS_HTTP_CLIENT_POOL_HAS_BOOST_BEAST
 
 } // namespace utils
 } // namespace themis

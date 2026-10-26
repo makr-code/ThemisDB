@@ -1,15 +1,8 @@
 name: "Build: Wave B Transaction"
 
 on:
-  push:
-    branches:
-      - develop
-    paths:
-      - "src/transaction/**"
-      - "tests/transaction/**"
-      - "include/transaction/**"
-      - "benchmarks/transaction/**"
-      - ".github/workflows/build-wave-b-transaction.yml"
+  schedule:
+    - cron: '30 4 * * *'
   workflow_dispatch:
     inputs:
       phase:
