@@ -503,6 +503,9 @@ uint64_t WALManager::append(const WALEntry& entry) {
     stored_entry.sequence_number = seq;
     current_sequence_.store(seq);
     wal_entries_.push_back(std::move(stored_entry));
+    while (wal_entries_.size() > config_.max_in_memory_wal_entries) {
+        wal_entries_.pop_front();
+    }
     return seq;
 }
 
@@ -552,6 +555,9 @@ void WALManager::truncateBefore(uint64_t sequence) {
     std::lock_guard<std::mutex> lock(wal_mutex_);
 
     while (!wal_entries_.empty() && wal_entries_.front().sequence_number < sequence) {
+        wal_entries_.pop_front();
+    }
+    while (wal_entries_.size() > config_.max_in_memory_wal_entries) {
         wal_entries_.pop_front();
     }
 
@@ -637,6 +643,9 @@ void WALManager::loadFromDisk() {
         current_term_.store(std::max(current_term_.load(), wal_entry->term));
         current_sequence_.store(std::max(current_sequence_.load(), recovered.sequence));
         wal_entries_.push_back(*wal_entry);
+        while (wal_entries_.size() > config_.wal_retention_segments * 2 + 1024) {
+            wal_entries_.pop_front();
+        }
         return true;
     };
 

@@ -187,6 +187,7 @@ struct ReplicationConfig {
     std::string wal_directory = "/var/lib/themisdb/wal";
     uint64_t wal_segment_size_bytes = 64 * 1024 * 1024;  // 64MB
     uint32_t wal_retention_segments = 100;
+    uint32_t max_in_memory_wal_entries = 10'000;  // Bound WAL replay buffer RAM use
     bool wal_sync_on_commit = true;
     
     // Quorum settings

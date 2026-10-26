@@ -158,6 +158,8 @@ struct WALManagerConfig {
     size_t segment_size = 16 * 1024 * 1024;  // 16 MB per segment
     /** @brief Maximum number of WAL segments retained on disk. */
     size_t max_segments = 100;                // Max segments to keep
+    /** @brief Maximum number of entries kept in memory for read-range serving. */
+    size_t max_in_memory_entries = 10'000;    // Bound RAM growth while still allowing replay
     /** @brief Flush stream on each append (durability over throughput). */
     bool sync_on_write = true;                // fsync after each write
     /** @brief Buffered-write threshold before forced flush. */
@@ -170,7 +172,7 @@ public:
     /** @brief Construct WAL manager with configured directory/segment policy. */
     explicit WALManager(const WALManagerConfig& config);
 
-    /** @brief Destructor flushes buffered writes and closes segment file. */
+    /** @brief Destructor flushes buffered writes and closes the underlying WAL. */
     ~WALManager();
     
     /**
@@ -222,12 +224,10 @@ public:
     Statistics getStatistics() const;
 
     /**
-     * @brief Initialize WAL manager (create directories, discover segments).
+     * @brief Initialize WAL manager storage state.
      * @return true on successful initialization.
      */
     bool initialize();
-
-    // (implementation provided after class to avoid defining member inside class)
 
 private:
     WALManagerConfig config_;
@@ -240,36 +240,15 @@ private:
     LSN current_lsn_;
     LSN oldest_lsn_;
     
-    // Current segment file
-    std::unique_ptr<std::fstream> current_segment_;
-    
-    // Write buffer
-    std::vector<uint8_t> write_buffer_;
-    
     // Statistics
     std::atomic<uint64_t> total_entries_{0};
     std::atomic<uint64_t> total_bytes_{0};
 
     /** @brief Convert monotonic WAL sequence to LSN representation. */
     LSN sequenceToLsn(uint64_t sequence) const;
-    
-    /** @brief Open or create WAL segment file by segment number. */
-    void openSegment(uint64_t segment_number);
-    
-    /** @brief Close active WAL segment file when open. */
-    void closeSegment();
-    
-    /** @brief Rotate active segment and apply retention cleanup. */
-    void rotateSegment();
-    
-    /** @brief Build filesystem path for a WAL segment number. */
-    std::string getSegmentPath(uint64_t segment_number) const;
-    
-    /** @brief Discover existing segments and recover current/oldest LSN. */
-    void loadExistingSegments();
-    
-    /** @brief Delete old segments beyond max_segments retention limit. */
-    void cleanupOldSegments();
+
+    /** @brief Keep the in-memory replay buffer bounded as WAL history grows. */
+    void trimInMemoryEntries();
 };
 
 /** @brief Snapshot counters and cursor positions for WAL manager state. */
@@ -295,6 +274,6 @@ inline bool themis::sharding::WALManager::initialize() {
     } catch (...) {
         // Ignore filesystem errors in tests
     }
-    loadExistingSegments();
+    trimInMemoryEntries();
     return true;
 }

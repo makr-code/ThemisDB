@@ -155,6 +155,7 @@ WALManager::WALManager(const WALManagerConfig& config)
             WALEntry entry = WALEntry::deserialize(payload);
             entry.lsn = sequenceToLsn(recovered.sequence);
             entries_.push_back(entry);
+            trimInMemoryEntries();
             current_lsn_ = sequenceToLsn(recovered.sequence + 1);
             total_entries_++;
             total_bytes_ += payload.size();
@@ -200,6 +201,7 @@ LSN WALManager::append(const WALEntry& entry) {
 
     entry_copy.lsn = sequenceToLsn(*append_res);
     entries_.push_back(entry_copy);
+    trimInMemoryEntries();
     current_lsn_ = sequenceToLsn(*append_res + 1);
     if (entries_.size() == 1) {
         oldest_lsn_ = entry_copy.lsn;
@@ -294,6 +296,7 @@ void WALManager::truncate(const LSN& lsn) {
     } else {
         oldest_lsn_ = entries_.front().lsn;
     }
+    trimInMemoryEntries();
 
     if (durability_wal_) {
         auto res = durability_wal_->checkpoint(true);
@@ -316,20 +319,27 @@ WALManager::Statistics WALManager::getStatistics() const {
     return stats;
 }
 
-void WALManager::openSegment(uint64_t /*segment_number*/) {}
-void WALManager::closeSegment() {}
-void WALManager::rotateSegment() {}
+void WALManager::trimInMemoryEntries() {
+    if (config_.max_in_memory_entries == 0) {
+        entries_.clear();
+        oldest_lsn_ = current_lsn_;
+        return;
+    }
 
-std::string WALManager::getSegmentPath(uint64_t segment_number) const {
-    std::ostringstream oss = {};
-    oss << config_.wal_directory << "/wal_"
-        << std::setfill('0') << std::setw(16) << std::hex << segment_number
-        << ".wal";
-    return oss.str();
+    const auto max_entries = config_.max_in_memory_entries;
+    if (entries_.size() <= max_entries) {
+        if (!entries_.empty()) {
+            oldest_lsn_ = entries_.front().lsn;
+        }
+        return;
+    }
+
+    const auto drop_count = entries_.size() - max_entries;
+    entries_.erase(entries_.begin(), entries_.begin() + static_cast<std::ptrdiff_t>(drop_count));
+    if (!entries_.empty()) {
+        oldest_lsn_ = entries_.front().lsn;
+    }
 }
-
-void WALManager::loadExistingSegments() {}
-void WALManager::cleanupOldSegments() {}
 
 LSN WALManager::sequenceToLsn(uint64_t sequence) const {
     if (sequence == 0) {
