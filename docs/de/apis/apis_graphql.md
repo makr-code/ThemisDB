@@ -365,7 +365,7 @@ auto objVal = Value::object(std::move(map));
 ## Limitationen
 
 - Keine Fragments (geplant)
-- Keine Directives (geplant)
+- Nur `@include(if: ...)` und `@skip(if: ...)` auf Field-Level unterstützt
 - Keine Inline Fragments
 - WebSocket-Subscriptions sind auf `subscription`-Operationen begrenzt
   (`/graphql`, `/v2/graphql/subscriptions`); Query/Mutation über WS ist nicht vorgesehen.
@@ -374,7 +374,7 @@ auto objVal = Value::object(std::move(map));
 
 - [ ] HTTP Handler Integration
 - [ ] Fragment Support
-- [ ] Directive Support
+- [x] Basis-Directive Support (`@include`/`@skip`)
 - [x] Subscription über WebSocket (nur Subscription-Operationen)
 - [ ] Batching Support
 - [ ] Persisted Queries
@@ -382,5 +382,5 @@ auto objVal = Value::object(std::move(map));
 
 ---
 
-**Letzte Aktualisierung:** 30. November 2025  
+**Letzte Aktualisierung:** 26. Oktober 2026  
 **Maintainer:** ThemisDB Team

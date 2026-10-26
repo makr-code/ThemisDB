@@ -220,9 +220,20 @@ struct Value {
 };
 
 struct Field {
+    struct Directive {
+        enum class Type {
+            Include,
+            Skip
+        };
+
+        Type type = Type::Include;
+        std::shared_ptr<Value> condition;
+    };
+
     std::string name = {};
     std::string alias;  // Optional alias
     std::unordered_map<std::string, std::shared_ptr<Value>> arguments;
+    std::vector<Directive> directives;  // Optional @include/@skip directives
     std::vector<Field> selections;  // Nested selections
     
     const std::string& responseName() const {
@@ -358,6 +369,7 @@ private:
      */
     themis::Result<Operation> parseOperation();
     themis::Result<Field> parseField(size_t depth = 0);
+    themis::Result<Field::Directive> parseDirective();
     /**
      * @brief Parse Value.
      * @return Return value.
@@ -596,6 +608,7 @@ private:
         const std::shared_ptr<Value>& parent,
         const ExecutionContext& context
     );
+    bool shouldExecuteField(const Field& field, const ExecutionContext& context);
     
     /**
      * @brief Execute Field.

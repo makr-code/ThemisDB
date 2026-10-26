@@ -367,10 +367,13 @@ themis::Result<Field> Parser::parseField(size_t depth) {
 
     skipWhitespace();
 
-    // Nested selection set
-    if (peek('@')) {
-        return themis::Err<Field>(ErrorCode::ERR_QUERY_INVALID_SYNTAX,
-                                  "GraphQL directives are unsupported in v1.x API parser; planned for v2.0");
+    while (peek('@')) {
+        auto directiveResult = parseDirective();
+        if (!directiveResult) {
+            return themis::Err<Field>(directiveResult.error().code(), directiveResult.error().context());
+        }
+        field.directives.push_back(std::move(*directiveResult));
+        skipWhitespace();
     }
 
     if (match('{')) {
@@ -389,6 +392,66 @@ themis::Result<Field> Parser::parseField(size_t depth) {
     }
 
     return themis::Ok(std::move(field));
+}
+
+themis::Result<Field::Directive> Parser::parseDirective() {
+    if (!match('@')) {
+        return themis::Err<Field::Directive>(ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                                             getLocationContext() + ": Expected '@'");
+    }
+
+    auto nameResult = parseName();
+    if (!nameResult) {
+        return themis::Err<Field::Directive>(nameResult.error().code(), nameResult.error().context());
+    }
+
+    Field::Directive directive;
+    if (*nameResult == "include") {
+        directive.type = Field::Directive::Type::Include;
+    } else if (*nameResult == "skip") {
+        directive.type = Field::Directive::Type::Skip;
+    } else {
+        return themis::Err<Field::Directive>(ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                                             getLocationContext() + ": Unsupported directive '@" + *nameResult + "'");
+    }
+
+    skipWhitespace();
+    if (!match('(')) {
+        return themis::Err<Field::Directive>(ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                                             getLocationContext() + ": Expected '(' after directive name");
+    }
+
+    skipWhitespace();
+    auto argNameResult = parseName();
+    if (!argNameResult) {
+        return themis::Err<Field::Directive>(argNameResult.error().code(), argNameResult.error().context());
+    }
+    if (*argNameResult != "if") {
+        return themis::Err<Field::Directive>(ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                                             getLocationContext()
+                                                 + ": Directive argument must be 'if'");
+    }
+
+    skipWhitespace();
+    if (!match(':')) {
+        return themis::Err<Field::Directive>(ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                                             getLocationContext() + ": Expected ':' after directive argument");
+    }
+
+    skipWhitespace();
+    auto conditionResult = parseValue();
+    if (!conditionResult) {
+        return themis::Err<Field::Directive>(conditionResult.error().code(), conditionResult.error().context());
+    }
+    directive.condition = *conditionResult;
+
+    skipWhitespace();
+    if (!match(')')) {
+        return themis::Err<Field::Directive>(ErrorCode::ERR_QUERY_INVALID_SYNTAX,
+                                             getLocationContext() + ": Expected ')'");
+    }
+
+    return themis::Ok(std::move(directive));
 }
 
 /**
@@ -917,11 +980,32 @@ std::shared_ptr<Value> Executor::executeSelections(const std::vector<Field> &sel
     ValueMap result;
 
     for (const auto &field : selections) {
+        if (!shouldExecuteField(field, context)) {
+            continue;
+        }
         auto value                   = executeField(field, parent, context);
         result[field.responseName()] = value;
     }
 
     return Value::object(std::move(result));
+}
+
+bool Executor::shouldExecuteField(const Field &field, const ExecutionContext &context) {
+    for (const auto &directive : field.directives) {
+        auto condition = resolveValue(directive.condition, context);
+        if (!condition || !condition->isBool()) {
+            throw std::runtime_error("Directive condition must resolve to Boolean");
+        }
+
+        const bool conditionValue = condition->asBool();
+        if (directive.type == Field::Directive::Type::Include && !conditionValue) {
+            return false;
+        }
+        if (directive.type == Field::Directive::Type::Skip && conditionValue) {
+            return false;
+        }
+    }
+    return true;
 }
 
 /**
