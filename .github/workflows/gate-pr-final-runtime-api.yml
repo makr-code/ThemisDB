@@ -40,7 +40,6 @@ jobs:
             libfmt-dev libspdlog-dev nlohmann-json3-dev libtbb-dev \
             libyaml-cpp-dev libcurl4-openssl-dev libcpp-httplib-dev libmsgpack-dev libbenchmark-dev libboost-system-dev \
             libboost-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc \
-            libmsgpack-dev \
             libpugixml-dev libvulkan-dev
 
       - name: Restore TinyLlama cache
