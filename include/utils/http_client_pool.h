@@ -283,9 +283,14 @@ private:
     std::shared_ptr<HTTPClient> acquireConnection();
     
     /**
-     * @brief Return connection to pool
+     * @brief Return connection to pool after a successful request.
      */
     void releaseConnection(std::shared_ptr<HTTPClient> client);
+
+    /**
+     * @brief Drop a connection that failed or became poisoned and should not be reused.
+     */
+    void invalidateConnection(std::shared_ptr<HTTPClient> client);
     
     /**
      * @brief Create new HTTP client instance
