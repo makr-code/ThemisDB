@@ -1,3 +1,10 @@
+---
+Author: "ThemisDB Team"
+Created: 2026-10-27
+Last Updated: 2026-10-27
+Status: active
+---
+
 # Workflow Actions Badges
 
 This page provides a badge for every workflow in `.github/workflows/`.
