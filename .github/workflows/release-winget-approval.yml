@@ -45,3 +45,20 @@ jobs:
       approved_label: winget-approved
       approval_note: |
         Monitor `release-winget.yml` for submission status and winget-pkgs PR creation.
+
+  summary:
+    name: "Validate: Wrapper Summary"
+    runs-on: ubuntu-latest
+    needs: [winget_publish_from_issue]
+    if: always()
+    steps:
+      - name: Write summary
+        run: |
+          {
+            echo "## Validate: Release WinGet Approval Wrapper"
+            echo ""
+            echo "| Job | Result |"
+            echo "|-----|--------|"
+            echo "| winget_publish_from_issue | ${{ needs.winget_publish_from_issue.result }} |"
+            echo "| Run | https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} |"
+          } >> "$GITHUB_STEP_SUMMARY"

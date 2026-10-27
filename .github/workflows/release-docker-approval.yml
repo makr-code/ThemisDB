@@ -46,3 +46,20 @@ jobs:
       approved_label: docker-approved
       approval_note: |
         Monitor `release-docker-image.yml` for registry publication.
+
+  summary:
+    name: "Validate: Wrapper Summary"
+    runs-on: ubuntu-latest
+    needs: [docker_publish_from_issue]
+    if: always()
+    steps:
+      - name: Write summary
+        run: |
+          {
+            echo "## Validate: Release Docker Approval Wrapper"
+            echo ""
+            echo "| Job | Result |"
+            echo "|-----|--------|"
+            echo "| docker_publish_from_issue | ${{ needs.docker_publish_from_issue.result }} |"
+            echo "| Run | https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} |"
+          } >> "$GITHUB_STEP_SUMMARY"

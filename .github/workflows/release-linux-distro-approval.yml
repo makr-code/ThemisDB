@@ -44,3 +44,20 @@ jobs:
       approved_label: distro-approved
       approval_note: |
         Monitor `release-linux-distribution.yml` for package publication to distro endpoints.
+
+  summary:
+    name: "Validate: Wrapper Summary"
+    runs-on: ubuntu-latest
+    needs: [linux_distro_publish_from_issue]
+    if: always()
+    steps:
+      - name: Write summary
+        run: |
+          {
+            echo "## Validate: Release Linux Distro Approval Wrapper"
+            echo ""
+            echo "| Job | Result |"
+            echo "|-----|--------|"
+            echo "| linux_distro_publish_from_issue | ${{ needs.linux_distro_publish_from_issue.result }} |"
+            echo "| Run | https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} |"
+          } >> "$GITHUB_STEP_SUMMARY"

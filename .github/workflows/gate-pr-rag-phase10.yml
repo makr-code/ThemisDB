@@ -44,3 +44,20 @@ jobs:
       tests_json: '["tests/rag/test_gradient_descent_optimizer.cpp","tests/rag/test_cost_model_builder.cpp","tests/rag/test_recommendation_engine.cpp"]'
       grep_checks_json: '[{"file":"src/rag/gradient_descent_optimizer.cpp","pattern":"Optimize|SetObjective|EstimateGradient|RegisterParameter","error":"Gradient descent optimization not implemented"},{"file":"src/rag/gradient_descent_optimizer.cpp","pattern":"learning_rate|convergence_epsilon|gradient","error":"Learning rate decay or gradient estimation not implemented"},{"file":"src/rag/cost_model_builder.cpp","pattern":"BuildModel|Predict|Evaluate|CrossValidationSplit","error":"Cost model fitting not implemented"},{"file":"src/rag/cost_model_builder.cpp","pattern":"DataPoint|coefficients|RMSE","error":"Model metrics not implemented"},{"file":"src/rag/recommendation_engine.cpp","pattern":"GenerateRecommendations|SimulateRecommendation|GetRationale","error":"Recommendation generation not implemented"},{"file":"src/rag/recommendation_engine.cpp","pattern":"roi_score|confidence|effort","error":"ROI scoring not implemented"}]'
       labels_csv: "rag-phase10-validated,quality/cost-optimization"
+
+  wrapper_summary:
+    name: "Validate: Wrapper Summary"
+    runs-on: ubuntu-22.04
+    needs: [phase10_validation]
+    if: always()
+    steps:
+      - name: Write summary
+        run: |
+          {
+            echo "## Validate: RAG Phase 10 Wrapper Summary"
+            echo ""
+            echo "| Job | Result |"
+            echo "|-----|--------|"
+            echo "| phase10_validation | ${{ needs.phase10_validation.result }} |"
+            echo "| Run | https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} |"
+          } >> "$GITHUB_STEP_SUMMARY"

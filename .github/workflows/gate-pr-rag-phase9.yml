@@ -44,3 +44,20 @@ jobs:
       tests_json: '["tests/rag/test_benchmark_suite.cpp","tests/rag/test_metric_computation.cpp","tests/rag/test_evaluation_result_store.cpp"]'
       grep_checks_json: '[{"file":"src/rag/metric_computation.cpp","pattern":"ComputeNDCG|computeNDCG|ComputeMRR|computeMRR|ComputeMAP|computeMAP|ComputePrecision|computePrecision|ComputeRecall|computeRecall","error":"Required IR metrics are not fully implemented"},{"file":"src/rag/metric_computation.cpp","pattern":"ComputeAll","error":"Composite metric computation not implemented"},{"file":"src/rag/benchmark_suite.cpp","pattern":"LoadDataset|RegisterQuery|RunQuery|ExportResults","error":"Benchmark suite core methods not implemented"},{"file":"src/rag/evaluation_result_store.cpp","pattern":"StoreRun|LoadResults|Compare|GetTrend|GenerateReport|ExportRun","error":"Result storage core methods not implemented"}]'
       labels_csv: "rag-phase9-validated,quality/research-eval"
+
+  wrapper_summary:
+    name: "Validate: Wrapper Summary"
+    runs-on: ubuntu-22.04
+    needs: [phase9_validation]
+    if: always()
+    steps:
+      - name: Write summary
+        run: |
+          {
+            echo "## Validate: RAG Phase 9 Wrapper Summary"
+            echo ""
+            echo "| Job | Result |"
+            echo "|-----|--------|"
+            echo "| phase9_validation | ${{ needs.phase9_validation.result }} |"
+            echo "| Run | https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} |"
+          } >> "$GITHUB_STEP_SUMMARY"

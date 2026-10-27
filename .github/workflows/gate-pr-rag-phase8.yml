@@ -44,3 +44,20 @@ jobs:
       tests_json: '["tests/rag/test_realtime_slo_tracker.cpp","tests/rag/test_otel_span_emitter.cpp","tests/rag/test_cost_attribution_tracker.cpp"]'
       grep_checks_json: '[{"file":"src/rag/realtime_slo_tracker.cpp","pattern":"RecordQuery|IsCompliant|GetHealthScore","error":"Core SLO methods not implemented"},{"file":"src/rag/otel_span_emitter.cpp","pattern":"SetAttribute|RecordEvent|EndSpan","error":"Span lifecycle methods not implemented"},{"file":"src/rag/cost_attribution_tracker.cpp","pattern":"RecordCost|GetTenantCost|GetBudgetAlerts","error":"Cost tracking methods not implemented"}]'
       labels_csv: "rag-phase8-validated,quality/observability"
+
+  wrapper_summary:
+    name: "Validate: Wrapper Summary"
+    runs-on: ubuntu-22.04
+    needs: [phase8_validation]
+    if: always()
+    steps:
+      - name: Write summary
+        run: |
+          {
+            echo "## Validate: RAG Phase 8 Wrapper Summary"
+            echo ""
+            echo "| Job | Result |"
+            echo "|-----|--------|"
+            echo "| phase8_validation | ${{ needs.phase8_validation.result }} |"
+            echo "| Run | https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} |"
+          } >> "$GITHUB_STEP_SUMMARY"

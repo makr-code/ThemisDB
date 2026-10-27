@@ -120,3 +120,22 @@ jobs:
           fi
           echo "❌ Phase 7 Freshness SLA Gate: FAIL"
           exit 1
+
+  wrapper_summary:
+    name: "Validate: Wrapper Summary"
+    runs-on: ubuntu-22.04
+    needs: [phase7_validation, phase7_tests, gate_status]
+    if: always()
+    steps:
+      - name: Write summary
+        run: |
+          {
+            echo "## Validate: RAG Phase 7 Wrapper Summary"
+            echo ""
+            echo "| Job | Result |"
+            echo "|-----|--------|"
+            echo "| phase7_validation | ${{ needs.phase7_validation.result }} |"
+            echo "| phase7_tests | ${{ needs.phase7_tests.result }} |"
+            echo "| gate_status | ${{ needs.gate_status.result }} |"
+            echo "| Run | https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} |"
+          } >> "$GITHUB_STEP_SUMMARY"
