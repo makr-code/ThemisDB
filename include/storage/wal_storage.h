@@ -139,16 +139,32 @@ public:
     // ── Write operations ──────────────────────────────────────────────────
 
     /**
-     * @brief Append a PUT entry.
+     * @brief Append a PUT entry to the active WAL segment.
      *
-     * @return The sequence number assigned to this entry.
+     * Stores the key/value pair durably according to the current fsync policy,
+     * then assigns the next monotonically increasing sequence number.
+     *
+     * @param key Logical key to persist. Empty keys are rejected by the WAL layer
+     *            and reported as an error in the returned Result.
+     * @param value Value payload to store. Empty values are permitted and are
+     *              serialized as a valid zero-length payload.
+     * @return The assigned sequence number on success, or an error describing
+     *         why the append could not be completed.
+     * @note This API does not throw; failures are surfaced through Result.
      */
     Result<uint64_t> appendPut(std::string_view key, std::string_view value);
 
     /**
-     * @brief Append a DELETE entry.
+     * @brief Append a DELETE entry to the active WAL segment.
      *
-     * @return The sequence number assigned to this entry.
+     * The delete is treated as a durable tombstone and will be replayed during
+     * recovery to remove any prior value for @p key.
+     *
+     * @param key Logical key to remove. Empty keys are rejected and reported as
+     *            an error in the returned Result.
+     * @return The assigned sequence number on success, or an error describing
+     *         why the delete could not be serialized.
+     * @note This API does not throw; failures are surfaced through Result.
      */
     Result<uint64_t> appendDelete(std::string_view key);
 
@@ -183,21 +199,60 @@ public:
 
     // ── Accessors ─────────────────────────────────────────────────────────
 
-    /** Return the sequence number of the last written entry. */
+    /**
+      * @brief Return the highest sequence number assigned to any WAL entry.
+      *
+      * This value reflects the latest successfully appended record and is used to
+      * determine how far the log has advanced.
+      *
+      * @return The most recent sequence number, or 0 when the WAL is empty.
+      */
     uint64_t lastSequence() const;
 
-    /** Return the number of WAL segment files currently on disk. */
+    /**
+      * @brief Return the number of WAL segment files currently present on disk.
+      *
+      * This count includes the active segment and any retained historical segments
+      * that have not yet been cleaned up by checkpoint rotation.
+      *
+      * @return Number of WAL segment files currently present for this instance.
+      */
     size_t segmentCount() const;
 
-    /** Flush buffered I/O to the OS (but not necessarily to disk). */
+    /**
+      * @brief Flush buffered writes to the OS file layer.
+      *
+      * The call guarantees that all pending writes are handed off to the OS, but
+      * it does not guarantee the underlying storage device has physically
+      * committed the data to stable media unless the fsync policy is enabled.
+      *
+      * @return Empty success result, or an error if the flush could not complete.
+      */
     Result<void> flush();
 
     // ── Key encoding helpers (public for testing) ─────────────────────────
 
-    /** Build the file name for a WAL segment. */
+    /**
+      * @brief Build the canonical on-disk file name for a WAL segment.
+      *
+      * Segment IDs are zero-padded to six digits to provide stable ordering in
+      * filesystem listings.
+      *
+      * @param segment_id Monotonic segment identifier to encode into the filename.
+      * @return Canonical segment filename in the form `wal_000001.log`.
+      */
     static std::string segmentName(uint64_t segment_id);
 
-    /** Parse the segment ID from a WAL segment file name (returns 0 on error). */
+    /**
+      * @brief Parse the segment identifier from a WAL filename.
+      *
+      * The helper accepts the canonical naming scheme emitted by
+      * segmentName() and returns the numeric segment ID. Invalid or unexpected
+      * names return 0.
+      *
+      * @param filename Candidate WAL filename to parse.
+      * @return Parsed segment ID, or 0 when the filename is malformed.
+      */
     static uint64_t parseSegmentId(const std::string& filename);
 
 private:
