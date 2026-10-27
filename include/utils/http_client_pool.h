@@ -78,7 +78,17 @@ struct URLComponents {
 };
 
 /**
- * @brief Parse URL into components
+ * @brief Parse a URL into protocol, host, port, and path components.
+ *
+ * Accepts fully qualified HTTP and HTTPS URLs such as
+ * `http://example.com:8080/api/v1/resource` and normalizes a missing port to
+ * the default 80/443 value and a missing path to `/`.
+ *
+ * @param url Absolute or host-qualified HTTP/HTTPS URL to parse.
+ * @return Structured URL components with the scheme, host, port, and path.
+ * @throws std::invalid_argument if the URL does not match the supported HTTP/HTTPS format.
+ * @note Callers should validate or reject malformed input before handing URLs to
+ *       network calls. The function does not perform DNS or reachability checks.
  */
 URLComponents parseURL(const std::string& url);
 
@@ -143,16 +153,12 @@ public:
      * @param url Target URL
      * @param body JSON request body
      * @param headers Additional HTTP headers
-     * @return Future with HTTP response (status_code=0 on acquisition failure)
-     * 
-     * @error_contract
-     * | Condition | Response | Recovery |
-     * |-----------|----------|----------|
-     * | Pool exhausted | status_code=0, body="POOL_EXHAUSTED" | Wait and retry |
-     * | Acquire timeout | status_code=0, body="ACQUIRE_TIMEOUT" | Use fallback service |
-     * | Connection timeout | status_code=0, body="CONNECT_TIMEOUT" | Check endpoint health |
-     * | Request timeout | status_code=504, body="Gateway Timeout" | Implement retry loop |
-     * 
+     * @return Future with HTTP response (status_code=0 on acquisition failure).
+     *
+     * The request resolves to a synthetic HTTP response when the pool is exhausted,
+     * a connection cannot be acquired, or the request times out. Callers should
+     * treat status_code == 0 as an error condition and retry with backoff.
+     *
      * @note Resource Limits (Phase 2.6):
      *       - Max Connections: Default 50 (configured by Config.max_connections)
      *       - Acquire Timeout: 10 seconds (max wait for available connection)
@@ -185,16 +191,12 @@ public:
      * 
      * @param url Target URL
      * @param headers Additional HTTP headers
-     * @return Future with HTTP response (status_code=0 on acquisition failure)
-     * 
-     * @error_contract
-     * | Condition | Response | Recovery |
-     * |-----------|----------|----------|
-     * | Pool exhausted | status_code=0, body="POOL_EXHAUSTED" | Wait and retry |
-     * | Acquire timeout | status_code=0, body="ACQUIRE_TIMEOUT" | Use fallback service |
-     * | Connection timeout | status_code=0, body="CONNECT_TIMEOUT" | Check endpoint health |
-     * | Request timeout | status_code=504, body="Gateway Timeout" | Implement retry loop |
-     * 
+     * @return Future with HTTP response (status_code=0 on acquisition failure).
+     *
+     * The request resolves to a synthetic HTTP response when the pool is exhausted,
+     * a connection cannot be acquired, or the request times out. Callers should
+     * treat status_code == 0 as an error condition and retry with backoff.
+     *
      * @note Resource Limits (Phase 2.6):
      *       - Max Connections: Default 50 (configured by Config.max_connections)
      *       - Acquire Timeout: 10 seconds (max wait for available connection)
