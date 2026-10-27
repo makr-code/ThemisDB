@@ -38,6 +38,30 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
+      - name: Restore vcpkg cache
+        id: restore_vcpkg_cache
+        uses: actions/cache@v5
+        with:
+          path: |
+            ${{ github.workspace }}/.vcpkg-downloads
+            ${{ github.workspace }}/.vcpkg-binary-cache
+            ${{ github.workspace }}/vcpkg_installed
+          key: msvc-vcpkg-${{ runner.os }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
+          restore-keys: |
+            msvc-vcpkg-${{ runner.os }}-
+
+      - name: Print vcpkg cache status
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Write-Host "vcpkg cache hit: ${{ steps.restore_vcpkg_cache.outputs.cache-hit || 'unknown' }}"
+          if (Test-Path "$env:GITHUB_WORKSPACE/vcpkg_installed") {
+            Write-Host "vcpkg_installed restored: yes"
+            Get-ChildItem "$env:GITHUB_WORKSPACE/vcpkg_installed" -Directory -ErrorAction SilentlyContinue | Select-Object -First 20 | ForEach-Object { Write-Host $_.FullName }
+          } else {
+            Write-Host "vcpkg_installed restored: no"
+          }
+
       - name: Prepare vcpkg dependencies
         shell: pwsh
         run: |

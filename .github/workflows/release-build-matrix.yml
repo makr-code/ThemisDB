@@ -289,7 +289,7 @@ jobs:
 
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
-      enable_sccache_gha: false
+      enable_sccache_gha: true
       runs_on: ${{ matrix.runs_on }}
       cache_arch: ${{ matrix.arch }}
       cache_compiler: ${{ matrix.compiler }}
