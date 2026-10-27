@@ -84,6 +84,42 @@ class DocMetadataGateTests(unittest.TestCase):
         self.assertIn("field 'Created' must use YYYY-MM-DD", report.results[0].errors[0])
         self.assertIn("field 'Status' must be one of:", report.results[0].errors[1])
 
+    def test_ai_metadata_is_required_when_ai_is_used(self) -> None:
+        file_path = self.root / "docs" / "ai_doc.md"
+        file_path.write_text(
+            "# AI Doc\n\n"
+            "**Author:** ThemisDB Contributors\n"
+            "**Created:** 2026-10-07\n"
+            "**Last Updated:** 2026-10-08\n"
+            "**Status:** active\n"
+            "**AI_Used:** true\n",
+            encoding="utf-8",
+        )
+
+        report = gate.build_report(["docs/ai_doc.md"], self.root, self.config)
+        self.assertEqual(report.verdict, "FAIL")
+        self.assertTrue(any("missing required field 'AI_Models'" in error for error in report.results[0].errors))
+
+    def test_ai_metadata_passes_when_all_fields_exist(self) -> None:
+        file_path = self.root / "docs" / "ai_doc.md"
+        file_path.write_text(
+            "# AI Doc\n\n"
+            "**Author:** ThemisDB Contributors\n"
+            "**Created:** 2026-10-07\n"
+            "**Last Updated:** 2026-10-08\n"
+            "**Status:** active\n"
+            "**AI_Used:** true\n"
+            "**AI_Models:** GitHub Copilot\n"
+            "**AI_Contributor:** GitHub Copilot\n"
+            "**Human_Review:** true\n"
+            "**Human_Author:** ThemisDB Contributors\n",
+            encoding="utf-8",
+        )
+
+        report = gate.build_report(["docs/ai_doc.md"], self.root, self.config)
+        self.assertEqual(report.verdict, "PASS")
+        self.assertEqual(report.files_checked, 1)
+
     def test_skill_front_matter_metadata_passes(self) -> None:
         skill_dir = self.root / ".github" / "skills" / "code-review"
         skill_dir.mkdir(parents=True, exist_ok=True)
