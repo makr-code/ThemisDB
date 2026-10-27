@@ -41,7 +41,7 @@ jobs:
       - name: Install coverage tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y lcov python3-pip jq sccache libfmt-dev libspdlog-dev libboost-system-dev libboost-filesystem-dev
+          sudo apt-get install -y lcov python3-pip jq sccache libfmt-dev libspdlog-dev libboost-system-dev libboost-filesystem-dev libcpp-httplib-dev
           pip3 install --upgrade pip
           echo "✓ Coverage tools installed"
       
@@ -61,6 +61,7 @@ jobs:
           cmake -S . -B build \
             -DTHEMIS_ENABLE_COVERAGE=ON \
             -DTHEMIS_BUILD_TESTS=ON \
+            -DTHEMIS_ENABLE_HTTP_SERVER=OFF \
             -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
             -DTHEMIS_DIAGNOSTIC_MODE=ON \
             -DCMAKE_BUILD_TYPE=Debug \
