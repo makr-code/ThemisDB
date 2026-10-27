@@ -1,0 +1,13 @@
+id,timestamp,source,symbol,exchange,headline,body,source_reliability
+n1,2024-02-02T09:30:00Z,Reuters,AAPL,NASDAQ,"Earnings beat and growth upgrade","Strong services growth and guidance raise supports demand expansion",0.81
+n2,2024-02-03T09:30:00Z,Bloomberg,MSFT,NASDAQ,"AI infrastructure expansion and cloud demand outlook remain positive","Generative AI growth and cloud demand create an upgrade cycle",0.85
+n3,2024-02-05T09:30:00Z,Reuters,AMZN,NASDAQ,"Automation lowers fulfillment costs and supports margin expansion","Customer demand and efficiency gains strengthen growth outlook",0.74
+n4,2024-02-19T09:30:00Z,FT,SAP,XETRA,"Enterprise ERP demand and contract renewals improve visibility","Business software growth and strong pipeline support upgrade decision",0.70
+n5,2024-03-11T10:15:00Z,Bloomberg,TSLA,NASDAQ,"Production bottlenecks and export demand weakness weigh on margins","Supply chain decline and margin pressure increase litigation risk",0.80
+n6,2024-03-20T09:35:00Z,Reuters,NVDA,NASDAQ,"AI demand and hyperscale GPU supply contracts support acceleration","Data-center buildout and demand acceleration create strong growth impression",0.90
+n7,2024-04-18T09:20:00Z,Reuters,AMZN,NASDAQ,"Cloud margin recovery and migration trends improve outlook","Revenue expansion and operating leverage drive upgrade sentiment",0.73
+n8,2024-05-14T09:40:00Z,AP,AAPL,NASDAQ,"Supply chain relief and premium iPhone demand improve sentiment","Inventory recovery and product demand support bullish guidance",0.78
+n9,2024-11-12T09:55:00Z,Reuters,NVDA,NASDAQ,"Data-center buildout and next-wave AI demand remain strong","Chip demand and hyperscale expansion drive record growth",0.91
+n10,2024-11-18T09:30:00Z,Bloomberg,MSFT,NASDAQ,"Generative AI monetization strengthens enterprise platform adoption","Consumption growth and product upgrade momentum remain positive",0.86
+n11,2024-12-03T10:05:00Z,Reuters,TSLA,NASDAQ,"Pricing reset and competition pressure reduce margin support","Price cuts and demand slowdown create bearish outlook",0.76
+n12,2024-12-03T10:05:00Z,FT,SAP,XETRA,"Recurring revenue resilience supports software demand","Subscription growth and contract renewal cadence improve operating outlook",0.68

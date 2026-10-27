@@ -1,0 +1,8 @@
+{"from_news": "n1", "to_symbol": "AAPL", "exchange": "NASDAQ", "action": "buy", "confidence": 0.9269157611118671, "score": 0.9298796587312388, "generated_at": "2026-01-02T10:00:00+00:00"}
+{"from_news": "n2", "to_symbol": "MSFT", "exchange": "NASDAQ", "action": "sell", "confidence": 0.8269362876333981, "score": -0.7913375537619973, "generated_at": "2026-01-03T10:00:00+00:00"}
+{"from_news": "n3", "to_symbol": "SAP", "exchange": "XETRA", "action": "buy", "confidence": 0.8522062115193144, "score": 0.8617231593133063, "generated_at": "2026-01-04T10:00:00+00:00"}
+{"from_news": "n4", "to_symbol": "TSLA", "exchange": "NASDAQ", "action": "sell", "confidence": 0.7620663435603662, "score": -0.6858090622290947, "generated_at": "2026-01-05T10:00:00+00:00"}
+{"from_news": "n5", "to_symbol": "NVDA", "exchange": "NASDAQ", "action": "buy", "confidence": 0.4909292512308419, "score": 0.36704178747263133, "generated_at": "2026-01-06T10:00:00+00:00"}
+{"from_news": "n6", "to_symbol": "ASML", "exchange": "EURONEXT", "action": "sell", "confidence": 0.6060915766727271, "score": -0.49298796667532435, "generated_at": "2026-01-07T10:00:00+00:00"}
+{"from_news": "n7", "to_symbol": "AMZN", "exchange": "NASDAQ", "action": "buy", "confidence": 0.7714085091393171, "score": 0.7162978701990245, "generated_at": "2026-01-08T10:00:00+00:00"}
+{"from_news": "n8", "to_symbol": "NFLX", "exchange": "NASDAQ", "action": "sell", "confidence": 0.8103266662082927, "score": -0.7718952374404182, "generated_at": "2026-01-09T10:00:00+00:00"}
