@@ -27,7 +27,7 @@ ThemisDB Module-Docs Issue Reporter
 
 Creates GitHub Issues for documentation findings that require human expertise.
 
-Two report modes, auto-detected from the JSON structure:
+Report modes, auto-detected from the JSON structure:
 
   module  — underdocumented/new modules (produced by module_docs_builder.py
             ``--issues-json``).  An issue is opened per module that has no
@@ -38,6 +38,10 @@ Two report modes, auto-detected from the JSON structure:
             ``scripts/drift-detector.py --format json``).  An issue is opened
             per secondary-doc file that has drifted past the configured
             threshold.
+
+  roadmap_drift — potentially stale ROADMAP [~] in-progress markers
+            (produced by ``scripts/verification/roadmap_status_drift.py``).
+            An issue is opened per module with suspicious [~] entries.
 
 Deduplication
 -------------
@@ -88,6 +92,7 @@ LABELS_DRIFT_STALE = ["type:documentation", "area:docs-audit", "priority:medium"
 
 TITLE_PREFIX_MODULE = "[MODULE]"
 TITLE_PREFIX_DRIFT = "[docs-drift]"
+TITLE_PREFIX_ROADMAP_DRIFT = "[roadmap-drift]"
 DEFAULT_MODULE_MILESTONE = "v1.8.0"
 
 # [R2] Default timeout for all gh CLI subprocess calls (seconds).
@@ -179,7 +184,9 @@ def _create_issue(
 
 
 def _detect_format(report: Dict[str, Any]) -> str:
-    """Return 'module' or 'drift' based on JSON structure."""
+    """Return report format key based on JSON structure."""
+    if report.get("kind") == "roadmap_progress_drift":
+        return "roadmap_drift"
     if "entries" in report and "drift_count" in report:
         return "drift"
     if "underdocumented_modules" in report or "modules" in report:
@@ -439,6 +446,109 @@ def process_drift_report(
 
 
 # ---------------------------------------------------------------------------
+# ROADMAP drift findings → issues
+# ---------------------------------------------------------------------------
+
+
+def _roadmap_drift_issue_title(module: str) -> str:
+    return f"{TITLE_PREFIX_ROADMAP_DRIFT} {module}: [~]-Status gegen Evidenz prüfen"
+
+
+def _roadmap_drift_issue_body(module_entry: Dict[str, Any]) -> str:
+    module = module_entry.get("module", "unknown")
+    roadmap = module_entry.get("roadmap", f"src/{module}/ROADMAP.md")
+    in_progress_count = module_entry.get("in_progress_count", 0)
+    suspected_count = module_entry.get("suspected_drift_count", 0)
+    items: List[Dict[str, Any]] = module_entry.get("suspected_items", [])
+
+    lines = []
+    for item in items[:40]:
+        sig = ", ".join(item.get("signals", []))
+        text = str(item.get("text", "")).replace("\n", " ").strip()
+        lines.append(f"- L{item.get('line', '?')}: {text} _(signals: {sig})_")
+    if len(items) > 40:
+        lines.append(f"- … und {len(items) - 40} weitere")
+
+    item_block = "\n".join(lines) if lines else "- _(keine Details)_"
+
+    return f"""\
+## Ziel
+
+Modulweiser Drift-Abgleich zwischen ROADMAP-Status und realem Umsetzungsstand für **`{module}`**.
+
+## Befund (heuristisch)
+
+| Feld | Wert |
+|------|------|
+| Modul | `{module}` |
+| ROADMAP | `{roadmap}` |
+| Gesamt `[~]` | {in_progress_count} |
+| Verdächtige `[~]` | {suspected_count} |
+| Erkannt von | `scripts/verification/roadmap_status_drift.py` |
+
+### Verdächtige Einträge
+
+{item_block}
+
+## Aufgaben
+
+- [ ] Jeden Eintrag gegen Source/Test/Benchmark/CI-Evidenz verifizieren
+- [ ] Tatsächlich abgeschlossene Punkte von `[~]` auf `[x]` setzen
+- [ ] Falls nicht abgeschlossen: Text auf echten Zwischenstand korrigieren
+- [ ] `ROADMAP.md` und ggf. `FUTURE_ENHANCEMENTS.md` konsistent halten
+- [ ] Doku-Sync als AI-gestützte PR vorbereiten (modulweise, reviewbar)
+
+## Definition of Done
+
+- [ ] Keine falsch markierten `[~]` mehr in `{roadmap}`
+- [ ] Statuswechsel mit nachvollziehbarer Evidenz belegt
+- [ ] Betroffene DE/EN-Sekundärdoku synchronisiert
+- [ ] PR enthält klare Liste der geänderten Statuszeilen
+"""
+
+
+def process_roadmap_drift_report(
+    report: Dict[str, Any],
+    repo: str,
+    dry_run: bool,
+    quiet: bool,
+) -> Tuple[int, int, int]:
+    modules: List[Dict[str, Any]] = report.get("modules", [])
+    created = skipped = failed = 0
+
+    if not quiet:
+        print(f"  Fetching existing '{TITLE_PREFIX_ROADMAP_DRIFT}' issues …")
+    existing_titles = (
+        _list_open_issue_titles(repo, TITLE_PREFIX_ROADMAP_DRIFT)
+        if not dry_run
+        else frozenset()
+    )
+    if not quiet:
+        print(f"  Found {len(existing_titles)} existing issue(s).\n")
+
+    for mod in modules:
+        module = str(mod.get("module", "unknown"))
+        title = _roadmap_drift_issue_title(module)
+        if title in existing_titles:
+            if not quiet:
+                print(f"  [{module}] ⏭  already exists — skipped")
+            skipped += 1
+            continue
+
+        labels = ["type:documentation", "area:docs-audit", "priority:medium", "status:open"]
+        body = _roadmap_drift_issue_body(mod)
+        ok = _create_issue(repo, title, labels, body, dry_run)
+        if ok:
+            if not quiet:
+                print(f"  [{module}] ✅ {'(dry-run) would create' if dry_run else 'created'}")
+            created += 1
+        else:
+            failed += 1
+
+    return created, skipped, failed
+
+
+# ---------------------------------------------------------------------------
 # Step summary
 # ---------------------------------------------------------------------------
 
@@ -540,6 +650,10 @@ def main(argv=None) -> int:
         )
     elif fmt == "drift":
         created, skipped, failed = process_drift_report(
+            report, args.repo, args.dry_run, args.quiet
+        )
+    elif fmt == "roadmap_drift":
+        created, skipped, failed = process_roadmap_drift_report(
             report, args.repo, args.dry_run, args.quiet
         )
     else:
