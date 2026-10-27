@@ -170,7 +170,16 @@ public:
 
     // ── Constructor / destructor ──────────────────────────────────────────────
 
-    explicit ChangeStreamCompressor(Config config = Config{});  // defined below
+    /**
+     * @brief Creates a compressor with default configuration.
+     */
+    ChangeStreamCompressor();
+
+    /**
+     * @brief Creates a compressor with explicit configuration overrides.
+     * @param[in] config Compression configuration.
+     */
+    explicit ChangeStreamCompressor(Config config);
 
     // Non-copyable (atomics), movable.
     ChangeStreamCompressor(const ChangeStreamCompressor&) = delete;
@@ -336,10 +345,8 @@ private:
 } // namespace cdc
 } // namespace themis
 
-// Out-of-line constructor definition: required to avoid GCC "default member
-// initializer … required before end of its enclosing class" diagnostic that
-// is triggered when a nested struct with defaulted members is used as a
-// default argument inside the class body.
+// Out-of-line constructor definitions keep this header portable across GCC
+// versions that reject nested-config default arguments inside the class body.
 namespace themis {
 namespace cdc {
 /**
@@ -347,6 +354,9 @@ namespace cdc {
  * @param[in] config Input parameter.
  * @return Return value.
  */
+inline ChangeStreamCompressor::ChangeStreamCompressor()
+    : ChangeStreamCompressor(Config{}) {}
+
 inline ChangeStreamCompressor::ChangeStreamCompressor(Config config)
     : config_(std::move(config)) {}
 } // namespace cdc
