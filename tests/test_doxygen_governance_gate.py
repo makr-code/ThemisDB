@@ -44,6 +44,26 @@ class DoxygenGovernanceGateTests(unittest.TestCase):
             ["/repo/include/storage/rocksdb_wrapper.h:339: warning: missing @return"],
         )
 
+    def test_filter_blocking_warnings_accepts_relative_repo_paths(self) -> None:
+        repo_root = Path("/repo")
+        warnings = [
+            "include/storage/rocksdb_wrapper.h:339: warning: missing @return",
+            "src/storage/rocksdb_wrapper.cpp:40: warning: documented symbol not found",
+            "include/query/query_engine.h:12: warning: include file missing",
+            "coverxygen failed with exit code 2",
+        ]
+
+        blocking = filter_blocking_doxygen_warnings(
+            repo_root,
+            warnings,
+            ["include/storage/rocksdb_wrapper.h"],
+        )
+
+        self.assertEqual(
+            blocking,
+            ["include/storage/rocksdb_wrapper.h:339: warning: missing @return"],
+        )
+
     def test_no_changed_public_headers_skips_doxygen(self) -> None:
         """
         Test the fix for issue #6610:
