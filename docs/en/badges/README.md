@@ -6,6 +6,12 @@ Workflow-generated metric badges resolve through committed JSON badge files in `
 
 ## Badges
 
+### Workflow Coverage
+
+| Badge Set | What it shows | Details |
+|-------|---------------|---------|
+| Workflow Actions Badges | One badge per workflow file in `.github/workflows/` | [workflow-actions.md](workflow-actions.md) |
+
 ### Row 1 – Build & Release
 
 | Badge | What it shows | Details |
