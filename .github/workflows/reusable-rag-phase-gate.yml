@@ -37,6 +37,10 @@ permissions:
   issues: write
   checks: write
 
+concurrency:
+  group: rag-phase-gate-${{ inputs.phase_id }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   phase_validation:
     name: "Validate: ${{ inputs.phase_title }}"
@@ -169,6 +173,22 @@ jobs:
               body,
             });
 
+      - name: Write gate summary
+        if: always()
+        run: |
+          report_path="/tmp/phase${{ inputs.phase_id }}_gate_report.md"
+          {
+            echo "## Validate: ${{ inputs.phase_title }} (Workflow Summary)"
+            echo ""
+            if [[ -f "${report_path}" ]]; then
+              cat "${report_path}"
+            else
+              echo "❌ Gate report unavailable."
+            fi
+            echo ""
+            echo "Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
   gate_status:
     name: "Validate: Gate Status Summary"
     runs-on: ubuntu-22.04
@@ -183,3 +203,62 @@ jobs:
           fi
           echo "❌ ${{ inputs.phase_title }} Gate: FAIL"
           exit 1
+
+  human-loop-escalation:
+    name: "Validate: Human-in-the-loop Escalation"
+    needs: [phase_validation, gate_status]
+    if: always() && needs.phase_validation.result != 'success' && github.event_name == 'pull_request'
+    uses: ./.github/workflows/reusable-status-flags-and-issues.yml
+    permissions:
+      contents: read
+      issues: write
+    secrets:
+      repo-token: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      operation: upsert_issue
+      issue-title: "Decision Required: ${{ inputs.phase_title }} gate failed"
+      issue-marker: "<!-- workflow-human-loop:rag-phase:${{ inputs.phase_id }} -->"
+      labels-to-add: "status/needs-approval,ci/failure,ci/test-failed"
+      issue-body: |
+        <!-- workflow-human-loop:rag-phase:${{ inputs.phase_id }} -->
+        # Human Decision Required: ${{ inputs.phase_title }}
+
+        The RAG phase gate failed and needs maintainer decision for next action.
+
+        - **Phase:** `${{ inputs.phase_id }}`
+        - **Title:** `${{ inputs.phase_title }}`
+        - **Run:** https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        - **Workflow:** `${{ github.workflow }}`
+        - **Ref:** `${{ github.ref }}`
+        - **Result:** `${{ needs.phase_validation.result }}`
+
+        ## Required Decision
+
+        Please choose one path and document it:
+        1. Fix immediately in current PR
+        2. Accept temporary waiver with explicit rationale and follow-up issue
+        3. De-scope phase changes from this PR
+      source-workflow: ${{ github.workflow }}
+      source-run-id: ${{ github.run_id }}
+      source-sha: ${{ github.sha }}
+
+  human-loop-resolution:
+    name: "Validate: Human-in-the-loop Resolution Labels"
+    needs: [phase_validation]
+    if: always() && needs.phase_validation.result == 'success' && github.event_name == 'pull_request'
+    uses: ./.github/workflows/reusable-status-flags-and-issues.yml
+    permissions:
+      contents: read
+      issues: write
+    secrets:
+      repo-token: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      operation: replace_status_group
+      issue-marker: "<!-- workflow-human-loop:rag-phase:${{ inputs.phase_id }} -->"
+      status-group: "status/needs-approval,status/needs-attention,status/needs-triage,status/resolved"
+      labels-to-add: "status/resolved"
+      labels-to-remove: "ci/failure,ci/test-failed"
+      allow-missing: "true"
+      source-workflow: ${{ github.workflow }}
+      source-run-id: ${{ github.run_id }}
+      source-sha: ${{ github.sha }}

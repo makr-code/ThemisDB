@@ -56,10 +56,19 @@ permissions:
   contents: read
   actions: write
 
+concurrency:
+  group: release-approval-gate-${{ github.event.issue.number || github.ref }}
+  cancel-in-progress: false
+
 jobs:
   approval-gate:
     name: "Validate: Release Approval Comment Gate"
     runs-on: ubuntu-latest
+    outputs:
+      gate-skip: ${{ steps.gate.outputs.skip }}
+      gate-status: ${{ steps.gate.outputs.status }}
+      gate-is-maintainer: ${{ steps.gate.outputs.is_maintainer }}
+      gate-version: ${{ steps.extract_version.outputs.version }}
     environment:
       name: ${{ inputs.environment_name }}
       url: ${{ inputs.environment_url }}
@@ -219,3 +228,77 @@ jobs:
               issue_number: context.payload.issue.number,
               labels: ['${{ inputs.approved_label }}'],
             });
+
+      - name: Write workflow summary
+        if: always()
+        run: |
+          set -euo pipefail
+          gate_skip="${{ steps.gate.outputs.skip }}"
+          gate_status="${{ steps.gate.outputs.status }}"
+          gate_maintainer="${{ steps.gate.outputs.is_maintainer }}"
+          gate_version="${{ steps.extract_version.outputs.version }}"
+          if [[ -z "${gate_status}" ]]; then
+            gate_status="n/a"
+          fi
+          if [[ -z "${gate_maintainer}" ]]; then
+            gate_maintainer="n/a"
+          fi
+          if [[ -z "${gate_version}" ]]; then
+            gate_version="n/a"
+          fi
+          {
+            echo "## Validate: Release Approval Comment Gate"
+            echo ""
+            echo "| Key | Value |"
+            echo "|-----|-------|"
+            echo "| Subject | ${{ inputs.subject }} |"
+            echo "| Issue Label Gate | ${{ inputs.issue_label }} |"
+            echo "| Maintainer | ${gate_maintainer} |"
+            echo "| Command Status | ${gate_status} |"
+            echo "| Skipped | ${gate_skip} |"
+            echo "| Extracted Version | ${gate_version} |"
+            echo "| Target Workflow | ${{ inputs.target_workflow_id }} |"
+            echo "| Environment | ${{ inputs.environment_name }} |"
+            echo "| Run | https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  human-loop-escalation:
+    name: "Validate: Human-in-the-loop Escalation"
+    needs: [approval-gate]
+    if: always() && needs.approval-gate.result != 'success' && github.event_name == 'issue_comment'
+    uses: ./.github/workflows/reusable-status-flags-and-issues.yml
+    permissions:
+      contents: read
+      issues: write
+    secrets:
+      repo-token: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      operation: upsert_issue
+      issue-title: "Decision Required: Release approval gate blocked (${{ inputs.subject }})"
+      issue-marker: "<!-- workflow-human-loop:release-approval:${{ inputs.target_workflow_id }} -->"
+      labels-to-add: "status/needs-approval,ci/failure"
+      issue-body: |
+        <!-- workflow-human-loop:release-approval:${{ inputs.target_workflow_id }} -->
+        # Human Decision Required: Release Approval Gate
+
+        The reusable release approval gate is blocked and needs maintainer decision.
+
+        - **Subject:** `${{ inputs.subject }}`
+        - **Environment:** `${{ inputs.environment_name }}`
+        - **Target Workflow:** `${{ inputs.target_workflow_id }}`
+        - **Run:** https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        - **Workflow:** `${{ github.workflow }}`
+        - **Ref:** `${{ github.ref }}`
+        - **Actor:** `${{ github.actor }}`
+        - **Result:** `${{ needs.approval-gate.result }}`
+
+        ## Required Maintainer Decision
+
+        Please decide one of:
+        1. Approve and re-run via canonical command
+        2. Hold and document blockers
+        3. Reject and document remediation requirements
+        4. Rollback and document rollback scope
+      source-workflow: ${{ github.workflow }}
+      source-run-id: ${{ github.run_id }}
+      source-sha: ${{ github.sha }}

@@ -2,7 +2,7 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-09-26
+> Last Updated: 2026-10-27
 > Status: active
 
 ## Scope
@@ -212,6 +212,11 @@ Kurzbeispiele:
 - **Gate-Feedback-Pflicht (Sprint 9)**: Blocking PR-Gates MÜSSEN bei Fehlern Label und PR-Kommentar setzen.
   Standardpattern: Job `gate-feedback` mit `needs: [<primary-jobs>]`, `if: failure() && github.event_name == 'pull_request'`,
   `permissions: { pull-requests: write, issues: write }` und `actions/github-script@v7` zum Setzen von `ci/failure` + Kommentar.
+- **Human-in-the-loop-Pflicht (Sprint 10)**: Jeder Workflow MUSS eine Run-`$GITHUB_STEP_SUMMARY` schreiben
+  (mindestens Scope, Ergebnis, nächster Schritt). Wenn eine Maintainer-/Produktentscheidung erforderlich ist
+  (z. B. Gate-Blocker, Hold/Reject/Rollback, Waiver), MUSS der Workflow ein dediziertes Tracker-Issue via
+  kanonischer Status-Action (`reusable-status-flags-and-issues.yml` / `.github/actions/status-flags-and-issues`) erstellen oder aktualisieren
+  und `status/needs-approval` setzen.
 - Copilot-Review-Runner-Konfigurationen muessen als selbstbegrenzte Workflows
   mit dem Jobnamen `copilot-setup-steps` und einem expliziten Ubuntu
   `runs-on` deklariert werden.
