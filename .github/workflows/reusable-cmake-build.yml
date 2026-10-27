@@ -235,6 +235,10 @@ jobs:
           mkdir -p "${sccache_dir}"
           mkdir -p "${vcpkg_downloads_dir}"
           mkdir -p "${vcpkg_cache_dir}"
+          vcpkg_binary_sources="clear;files,${vcpkg_cache_dir},readwrite"
+          if [ -n "${GITHUB_REPOSITORY_OWNER:-}" ]; then
+            vcpkg_binary_sources="${vcpkg_binary_sources};nuget,https://nuget.pkg.github.com/${GITHUB_REPOSITORY_OWNER}/index.json,read"
+          fi
           {
             echo "THEMIS_CACHE_TAG=${cache_tag}"
             echo "THEMIS_SCCACHE_DIR=${sccache_dir}"
@@ -243,7 +247,8 @@ jobs:
             echo "SCCACHE_DIR=${sccache_dir}"
             echo "SCCACHE_CACHE_SIZE=8G"
             echo "VCPKG_DEFAULT_BINARY_CACHE=${vcpkg_cache_dir}"
-            echo "VCPKG_BINARY_SOURCES=clear;files,${vcpkg_cache_dir},readwrite"
+            echo "VCPKG_BINARY_SOURCES=${vcpkg_binary_sources}"
+            echo "VCPKG_NUGET_REPOSITORY=${GITHUB_REPOSITORY:-themisdb-vcpkg-cache}"
             echo "VCPKG_DOWNLOADS=${vcpkg_downloads_dir}"
             echo "VCPKG_DOWNLOADS_ROOT=${vcpkg_downloads_dir}"
             echo "VCPKG_FORCE_SYSTEM_BINARIES=true"
@@ -260,7 +265,8 @@ jobs:
             ${{ env.THEMIS_SCCACHE_DIR }}
             ${{ env.THEMIS_VCPKG_DOWNLOADS_DIR }}
             ${{ env.THEMIS_VCPKG_CACHE_DIR }}
-          key: cmake-cache-${{ runner.os }}-${{ env.THEMIS_CACHE_TAG }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json', 'CMakePresets.json', 'cmake/**/*.cmake', 'cmake/**/*.txt', 'ports/**', 'ports-overlays/**', '.github/workflows/reusable-cmake-build.yml') }}-${{ env.THEMIS_COMPILER_VERSION }}
+            ${{ github.workspace }}/vcpkg_installed
+          key: cmake-cache-${{ runner.os }}-${{ env.THEMIS_CACHE_TAG }}-${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}-${{ env.THEMIS_COMPILER_VERSION }}
           restore-keys: |
             cmake-cache-${{ runner.os }}-${{ env.THEMIS_CACHE_TAG }}-
             cmake-cache-${{ runner.os }}-${{ env.THEMIS_CACHE_SCOPE }}-
@@ -281,6 +287,12 @@ jobs:
           echo "vcpkg binary sources: ${VCPKG_BINARY_SOURCES:-<unset>}"
           echo "vcpkg downloads: ${VCPKG_DOWNLOADS:-<unset>}"
           ls -ld "${GITHUB_WORKSPACE}/.cache" "${GITHUB_WORKSPACE}/.cache/vcpkg-binary" "${GITHUB_WORKSPACE}/.cache/vcpkg-downloads" || true
+          if [ -d "${GITHUB_WORKSPACE}/vcpkg_installed" ]; then
+            echo "vcpkg_installed restored: yes"
+            find "${GITHUB_WORKSPACE}/vcpkg_installed" -maxdepth 2 -mindepth 1 -type d | head -n 20 || true
+          else
+            echo "vcpkg_installed restored: no"
+          fi
 
       - name: Setup MSVC environment (Windows only)
         if: runner.os == 'Windows'
@@ -466,12 +478,12 @@ jobs:
             cmake-build-tree-${{ runner.os }}-${{ runner.arch }}-${{ inputs.cache_compiler || 'default' }}-${{ inputs.vcpkg_triplet || 'default' }}-
           enableCrossOsArchive: false
 
-      - name: Prune stale local vcpkg state only on rebuild cache miss
-        if: ${{ steps.restore_build_dir_cache.outputs.cache-hit != 'true' }}
+      - name: Prune stale local vcpkg state only when both caches miss
+        if: ${{ steps.restore_build_dir_cache.outputs.cache-hit != 'true' && steps.restore_cmake_cache.outputs.cache-hit != 'true' }}
         shell: bash
         run: |
           set -euo pipefail
-          echo "No matching CMake build-tree cache hit; clearing stale local vcpkg install state before reconfigure."
+          echo "No matching build-tree/dependency cache hit; clearing stale local vcpkg install state before reconfigure."
           rm -rf "${GITHUB_WORKSPACE}/vcpkg_installed"
           mkdir -p "${GITHUB_WORKSPACE}/.cache/vcpkg-binary" "${GITHUB_WORKSPACE}/.cache/vcpkg-downloads"
 
