@@ -140,13 +140,23 @@ struct WALEntry {
     std::string transaction_id; // Transaction ID (optional)
     nlohmann::json data;        // Operation data (JSON for flexibility)
     
-    /** @brief Serialize WAL entry into binary wire/storage format. */
+    /**
+     * @brief Serialize WAL entry into binary wire/storage format.
+     * @return Serialized binary representation containing type, LSN, timestamp and payload.
+     */
     std::vector<uint8_t> serialize() const;
     
-    /** @brief Deserialize WAL entry from binary bytes. */
+    /**
+     * @brief Deserialize WAL entry from binary bytes.
+     * @param bytes Binary payload produced by WALEntry::serialize().
+     * @return Decoded WAL entry.
+     */
     static WALEntry deserialize(const std::vector<uint8_t>& bytes);
     
-    /** @brief Return serialized entry size in bytes. */
+    /**
+     * @brief Return serialized entry size in bytes.
+     * @return Number of bytes required by serialize() output.
+     */
     size_t size() const;
 };
 
@@ -274,6 +284,10 @@ inline bool themis::sharding::WALManager::initialize() {
     } catch (...) {
         // Ignore filesystem errors in tests
     }
+    /**
+     * @brief Ensure in-memory replay buffer obeys configured entry limit during initialization.
+     * @return None.
+     */
     trimInMemoryEntries();
     return true;
 }
