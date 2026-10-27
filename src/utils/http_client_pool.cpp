@@ -64,7 +64,7 @@ URLComponents parseURL(const std::string& url) {
 
 HTTPClientPool::HTTPClientPool(const Config& config)
     : config_(config)
-#ifdef HAVE_BOOST_BEAST
+#if THEMIS_HTTP_CLIENT_POOL_HAS_BOOST_BEAST
     , io_context_(std::make_shared<net::io_context>())
 #endif
 {
@@ -74,7 +74,7 @@ HTTPClientPool::HTTPClientPool(const Config& config)
         stripes_.push_back(std::make_unique<LockStripe>());
     }
     
-#ifdef HAVE_BOOST_BEAST
+#if THEMIS_HTTP_CLIENT_POOL_HAS_BOOST_BEAST
     // Start I/O thread pool
     io_threads_.reserve(config_.io_threads);
     for (size_t i = 0; i < config_.io_threads; ++i) {
@@ -93,7 +93,7 @@ HTTPClientPool::~HTTPClientPool() {
         stripe->cv.notify_all();
     }
     
-#ifdef HAVE_BOOST_BEAST
+#if THEMIS_HTTP_CLIENT_POOL_HAS_BOOST_BEAST
     // Stop io_context
     io_context_->stop();
 #endif
@@ -109,6 +109,18 @@ HTTPClientPool::~HTTPClientPool() {
     clear();
 }
 
+namespace {
+
+HTTPResponse makeFailedResponse(const std::string& reason) {
+    HTTPResponse response;
+    response.status_code = 0;
+    response.body = reason;
+    response.headers["X-ThemisDB-Error"] = reason;
+    return response;
+}
+
+} // namespace
+
 std::future<HTTPResponse> HTTPClientPool::post(const std::string& url,
     const json& body,
     const std::unordered_map<std::string, std::string>& headers
@@ -116,8 +128,10 @@ std::future<HTTPResponse> HTTPClientPool::post(const std::string& url,
     auto promise = std::make_shared<std::promise<HTTPResponse>>();
     auto future = promise->get_future();
     
-#ifdef HAVE_BOOST_BEAST
-    // Post work to io_context instead of spawning new threads
+#if THEMIS_HTTP_CLIENT_POOL_HAS_BOOST_BEAST
+    // Post work to io_context instead of spawning new threads. Failed requests
+    // resolve to a synthetic HTTPResponse so callers can degrade gracefully rather
+    // than crash on a stale/poisoned connection.
     net::post(*io_context_, [this, url, body, headers, promise]() {
         std::shared_ptr<HTTPClient> client;
         try {
@@ -126,29 +140,28 @@ std::future<HTTPResponse> HTTPClientPool::post(const std::string& url,
             releaseConnection(client);
             requests_served_++;
             promise->set_value(std::move(response));
-        } catch (const std::exception &) {
+        } catch (const std::exception& ex) {
             if (client) {
-                releaseConnection(client);
+                invalidateConnection(client);
             }
-            promise->set_exception(std::current_exception());
-        } catch (const std::string &) {
+            promise->set_value(makeFailedResponse(std::string("REQUEST_FAILED: ") + ex.what()));
+        } catch (const std::string& ex) {
             if (client) {
-                releaseConnection(client);
+                invalidateConnection(client);
             }
-            promise->set_exception(std::current_exception());
-        } catch (const char *) {
+            promise->set_value(makeFailedResponse("REQUEST_FAILED: " + ex));
+        } catch (const char* ex) {
             if (client) {
-                releaseConnection(client);
+                invalidateConnection(client);
             }
-            promise->set_exception(std::current_exception());
+            promise->set_value(makeFailedResponse(std::string("REQUEST_FAILED: ") + (ex ? ex : "unknown")));
         }
     });
 #else
     (void)url;
     (void)body;
     (void)headers;
-    promise->set_exception(std::make_exception_ptr(
-        std::runtime_error("HTTPClientPool requires Boost.Beast (HAVE_BOOST_BEAST not defined)")));
+    promise->set_value(makeFailedResponse("REQUEST_FAILED: HTTPClientPool requires Boost.Beast headers to be available"));
 #endif
     
     return future;
@@ -160,8 +173,7 @@ std::future<HTTPResponse> HTTPClientPool::get(const std::string& url,
     auto promise = std::make_shared<std::promise<HTTPResponse>>();
     auto future = promise->get_future();
     
-#ifdef HAVE_BOOST_BEAST
-    // Post work to io_context instead of spawning new threads
+#if THEMIS_HTTP_CLIENT_POOL_HAS_BOOST_BEAST
     net::post(*io_context_, [this, url, headers, promise]() {
         std::shared_ptr<HTTPClient> client;
         try {
@@ -170,28 +182,27 @@ std::future<HTTPResponse> HTTPClientPool::get(const std::string& url,
             releaseConnection(client);
             requests_served_++;
             promise->set_value(std::move(response));
-        } catch (const std::exception &) {
+        } catch (const std::exception& ex) {
             if (client) {
-                releaseConnection(client);
+                invalidateConnection(client);
             }
-            promise->set_exception(std::current_exception());
-        } catch (const std::string &) {
+            promise->set_value(makeFailedResponse(std::string("REQUEST_FAILED: ") + ex.what()));
+        } catch (const std::string& ex) {
             if (client) {
-                releaseConnection(client);
+                invalidateConnection(client);
             }
-            promise->set_exception(std::current_exception());
-        } catch (const char *) {
+            promise->set_value(makeFailedResponse("REQUEST_FAILED: " + ex));
+        } catch (const char* ex) {
             if (client) {
-                releaseConnection(client);
+                invalidateConnection(client);
             }
-            promise->set_exception(std::current_exception());
+            promise->set_value(makeFailedResponse(std::string("REQUEST_FAILED: ") + (ex ? ex : "unknown")));
         }
     });
 #else
     (void)url;
     (void)headers;
-    promise->set_exception(std::make_exception_ptr(
-        std::runtime_error("HTTPClientPool requires Boost.Beast (HAVE_BOOST_BEAST not defined)")));
+    promise->set_value(makeFailedResponse("REQUEST_FAILED: HTTPClientPool requires Boost.Beast headers to be available"));
 #endif
     
     return future;
@@ -204,13 +215,14 @@ std::future<HTTPResponse> HTTPClientPool::get(const std::string& url,
  * @details Calls: getStripeIndex(), lock(), std::chrono::steady_clock::now(), empty(), front(), isStale(), pop_front(), fetch_add().
  */
 std::shared_ptr<HTTPClient> HTTPClientPool::acquireConnection() {
-    // Use striped locking to reduce contention
+    // Use striped locking to reduce contention.
+    // Stale and poisoned connections are removed before reuse so failed sockets do
+    // not contaminate the idle pool and stall later callers behind a dead client.
     size_t stripe_idx = getStripeIndex();
     auto& stripe = stripes_[stripe_idx];
     
     std::unique_lock<std::mutex> lock(stripe->mutex);
     
-    // Remove stale connections
     auto now = std::chrono::steady_clock::now();
     while (!stripe->connections.empty()) {
         auto& conn = stripe->connections.front();
@@ -218,12 +230,11 @@ std::shared_ptr<HTTPClient> HTTPClientPool::acquireConnection() {
             stripe->connections.pop_front();
             total_connections_--;
             stale_removed_++;
-        } else {
-            break;
+            continue;
         }
+        break;
     }
     
-    // Try to find an available connection
     for (auto& conn : stripe->connections) {
         if (!conn->in_use) {
             conn->in_use = true;
@@ -233,8 +244,6 @@ std::shared_ptr<HTTPClient> HTTPClientPool::acquireConnection() {
         }
     }
     
-    // Create new connection if under limit
-    // Use atomic increment to avoid race condition
     size_t current_count = total_connections_.fetch_add(1);
     if (current_count < config_.max_connections) {
         auto client = createClient();
@@ -245,19 +254,15 @@ std::shared_ptr<HTTPClient> HTTPClientPool::acquireConnection() {
         stripe->connections.push_back(pooled);
         connections_created_.fetch_add(1, std::memory_order_relaxed);
         return client;
-    } else {
-        // Exceeded limit, roll back the increment
-        total_connections_--;
     }
-    
-    // Wait for connection with timeout
+
+    total_connections_--;
     auto deadline = now + config_.acquire_timeout;
     while (true) {
         if (shutdown_.load()) {
             throw std::runtime_error("HTTPClientPool is shutting down");
         }
-        
-        // Check for available connection
+
         for (auto& conn : stripe->connections) {
             if (!conn->in_use) {
                 conn->in_use = true;
@@ -266,8 +271,7 @@ std::shared_ptr<HTTPClient> HTTPClientPool::acquireConnection() {
                 return conn->client;
             }
         }
-        
-        // Wait with timeout
+
         auto wait_status = stripe->cv.wait_until(lock, deadline);
         if (wait_status == std::cv_status::timeout) {
             acquire_timeouts_++;
@@ -282,7 +286,9 @@ std::shared_ptr<HTTPClient> HTTPClientPool::acquireConnection() {
  * @details Calls: lock(), std::chrono::steady_clock::now(), notify_one().
  */
 void HTTPClientPool::releaseConnection(std::shared_ptr<HTTPClient> client) {
-    // Find the connection in any stripe and mark as not in use
+    // Find the connection in any stripe and mark as not in use.
+    // A successful request gets reused immediately; failure paths call
+    // invalidateConnection() instead to keep bad sockets out of the pool.
     for (auto& stripe : stripes_) {
         std::lock_guard<std::mutex> lock(stripe->mutex);
         for (auto& conn : stripe->connections) {
@@ -296,6 +302,26 @@ void HTTPClientPool::releaseConnection(std::shared_ptr<HTTPClient> client) {
     }
 }
 
+void HTTPClientPool::invalidateConnection(std::shared_ptr<HTTPClient> client) {
+    for (auto& stripe : stripes_) {
+        std::lock_guard<std::mutex> lock(stripe->mutex);
+        auto it = std::remove_if(stripe->connections.begin(), stripe->connections.end(),
+            [client](const std::shared_ptr<PooledConnection>& conn) {
+                if (conn && conn->client == client) {
+                    return true;
+                }
+                return false;
+            });
+        if (it != stripe->connections.end()) {
+            stripe->connections.erase(it, stripe->connections.end());
+            total_connections_--;
+            stale_removed_++;
+            stripe->cv.notify_all();
+            return;
+        }
+    }
+}
+
 /**
  * @brief Create Client.
  * @return Return value.
@@ -303,10 +329,10 @@ void HTTPClientPool::releaseConnection(std::shared_ptr<HTTPClient> client) {
  * @details Implements createClient without additional internal calls.
  */
 std::shared_ptr<HTTPClient> HTTPClientPool::createClient() {
-#ifdef HAVE_BOOST_BEAST
+#if THEMIS_HTTP_CLIENT_POOL_HAS_BOOST_BEAST
     return std::make_shared<BeastHTTPClient>(config_, io_context_);
 #else
-    throw std::runtime_error("HTTPClientPool requires Boost.Beast (HAVE_BOOST_BEAST not defined)");
+    throw std::runtime_error("HTTPClientPool requires Boost.Beast headers to be available");
 #endif
 }
 
@@ -435,7 +461,7 @@ void HTTPClientPool::warmup(size_t num_connections) {
 // BeastHTTPClient Implementation
 // ============================================================================
 
-#ifdef HAVE_BOOST_BEAST
+#if THEMIS_HTTP_CLIENT_POOL_HAS_BOOST_BEAST
 
 BeastHTTPClient::BeastHTTPClient(const HTTPClientPool::Config& config, std::shared_ptr<net::io_context> ioc)
     : config_(config)
@@ -600,7 +626,7 @@ HTTPResponse BeastHTTPClient::execute(
     }
 }
 
-#endif // HAVE_BOOST_BEAST
+#endif // THEMIS_HTTP_CLIENT_POOL_HAS_BOOST_BEAST
 
 } // namespace utils
 } // namespace themis

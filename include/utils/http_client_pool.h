@@ -29,6 +29,7 @@
 #if defined(HAVE_BOOST_BEAST) || \
     (defined(__has_include) && __has_include(<boost/beast/core.hpp>) && \
      __has_include(<boost/asio/ip/tcp.hpp>) && __has_include(<boost/asio/ssl/stream.hpp>))
+#define THEMIS_HTTP_CLIENT_POOL_HAS_BOOST_BEAST 1
 // Boost.Beast for HTTP client
 #include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>
@@ -44,6 +45,8 @@ namespace http = beast::http;
 namespace net = boost::asio;
 namespace ssl = net::ssl;
 using tcp = net::ip::tcp;
+#else
+#define THEMIS_HTTP_CLIENT_POOL_HAS_BOOST_BEAST 0
 #endif
 
 using json = nlohmann::json;
@@ -280,9 +283,14 @@ private:
     std::shared_ptr<HTTPClient> acquireConnection();
     
     /**
-     * @brief Return connection to pool
+     * @brief Return connection to pool after a successful request.
      */
     void releaseConnection(std::shared_ptr<HTTPClient> client);
+
+    /**
+     * @brief Drop a connection that failed or became poisoned and should not be reused.
+     */
+    void invalidateConnection(std::shared_ptr<HTTPClient> client);
     
     /**
      * @brief Create new HTTP client instance
@@ -301,7 +309,7 @@ private:
     
     Config config_;
     std::vector<std::unique_ptr<LockStripe>> stripes_;
-#ifdef HAVE_BOOST_BEAST
+#if THEMIS_HTTP_CLIENT_POOL_HAS_BOOST_BEAST
     std::shared_ptr<net::io_context> io_context_;
 #endif
     std::vector<std::thread> io_threads_;
@@ -315,7 +323,7 @@ private:
     mutable std::atomic<size_t> round_robin_{0};
 };
 
-#ifdef HAVE_BOOST_BEAST
+#if THEMIS_HTTP_CLIENT_POOL_HAS_BOOST_BEAST
 /**
  * @brief Concrete HTTP client implementation using Boost.Beast
  */
@@ -347,7 +355,7 @@ private:
     std::shared_ptr<net::io_context> ioc_;
     ssl::context ssl_ctx_;
 };
-#endif // HAVE_BOOST_BEAST
+#endif // THEMIS_HTTP_CLIENT_POOL_HAS_BOOST_BEAST
 
 } // namespace utils
 } // namespace themis

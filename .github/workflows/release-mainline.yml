@@ -41,17 +41,6 @@ name: "Release: Packaging"
 on:
   schedule:
     - cron: '0 3 * * *'
-  push:
-    branches:
-      - develop
-      - community
-      - 'release/**'
-    tags:
-      - 'v*'
-      - 'enterprise-v*'
-      - 'hyperscaler-v*'
-      - 'military-v*'
-      - 'minimal-v*'
   release:
     types: [published, created]
   workflow_dispatch:

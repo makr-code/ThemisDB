@@ -4,47 +4,15 @@ name: "Build: Content Regression [Wave D]"
 # Trigger policy: repo framework score calibration for workflow cost controls.
 # ──────────────────────────────────────────────────────────────────────────────
 # Trigger policy:
-#   push to develop   → content regression check (ctest --label-include "content")
 #   schedule Sunday   → Wave-D soak run          (ctest --label-include "soak")
 #   workflow_dispatch → manual trigger for either job
 #
-# Implements the two recommended next steps from the Wave-D gate model:
-#   1. Regression-Check:  ctest --label-include "content"
-#   2. Wave-D Soak-Lauf:  ctest --label-include "soak" --timeout 600
+# Heavy content validation is intentionally limited to scheduled and manual runs to keep
+# the develop branch from triggering long-running regression jobs on every code push.
+# The lightweight PR gate remains the source of fast per-change feedback.
 # ──────────────────────────────────────────────────────────────────────────────
 
 on:
-  push:
-    branches:
-      - develop
-    paths:
-      - 'src/content/**/*.c'
-      - 'src/content/**/*.cc'
-      - 'src/content/**/*.cpp'
-      - 'src/content/**/*.cxx'
-      - 'src/content/**/*.h'
-      - 'src/content/**/*.hh'
-      - 'src/content/**/*.hpp'
-      - 'src/content/**/*.hxx'
-      - 'include/content/**/*.h'
-      - 'include/content/**/*.hh'
-      - 'include/content/**/*.hpp'
-      - 'include/content/**/*.hxx'
-      - 'tests/content/**/*.c'
-      - 'tests/content/**/*.cc'
-      - 'tests/content/**/*.cpp'
-      - 'tests/content/**/*.cxx'
-      - 'tests/content/**/*.h'
-      - 'tests/content/**/*.hh'
-      - 'tests/content/**/*.hpp'
-      - 'tests/content/**/*.hxx'
-      - 'tests/CMakeLists.txt'
-      - 'CMakeLists.txt'
-      - 'CMakePresets.json'
-      - 'cmake/**/*.cmake'
-      - 'cmake/**/*.txt'
-      - 'cmake/**/*.in'
-      - '.github/workflows/build-content-regression.yml'
   schedule:
     # Weekly Sunday 05:30 UTC — Wave D soak tests (content module)
     - cron: '30 5 * * 0'

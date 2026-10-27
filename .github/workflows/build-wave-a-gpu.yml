@@ -1,16 +1,8 @@
 name: "Build: Wave A GPU"
 
 on:
-  push:
-    branches:
-      - develop
-    paths:
-      - "src/gpu/**"
-      - "tests/gpu/**"
-      - "include/gpu/**"
-      - "include/themis/gpu/**"
-      - "benchmarks/gpu/**"
-      - ".github/workflows/build-wave-a-gpu.yml"
+  schedule:
+    - cron: '0 4 * * *'
   workflow_dispatch:
     inputs:
       phase:
