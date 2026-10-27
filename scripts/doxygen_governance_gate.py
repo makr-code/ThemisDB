@@ -220,12 +220,35 @@ def parse_warning_lines(raw_lines: Iterable[str]) -> List[str]:
 
 
 def extract_warning_path(repo_root: Path, warning: str) -> str | None:
-    prefix = f"{repo_root.as_posix().rstrip('/')}/"
-    if not warning.startswith(prefix):
+    candidate = warning.strip()
+    if not candidate:
         return None
-    rel_path, _sep, _rest = warning[len(prefix):].partition(":")
-    normalized = rel_path.strip().replace("\\", "/")
-    return normalized or None
+
+    normalized_warning = candidate.replace("\\", "/")
+    repo_prefix = repo_root.as_posix().rstrip("/")
+
+    if normalized_warning.startswith(repo_prefix + "/"):
+        rel_path = normalized_warning[len(repo_prefix) + 1 :]
+        rel_path, _sep, _rest = rel_path.partition(":")
+        normalized = rel_path.strip().replace("\\", "/")
+        return normalized.lstrip("./") or None
+
+    match = re.search(
+        r"(?P<path>(?:[A-Za-z]:)?(?:/|\./|\.?\.?/)?[A-Za-z0-9_./\\-]+\.(?:[hc]|[hc]pp|[hc]xx|hpp|hxx|cxx|hh))(?::\d+)?",
+        normalized_warning,
+        re.IGNORECASE,
+    )
+    if not match:
+        return None
+
+    rel_path = match.group("path").replace("\\", "/")
+    if rel_path.startswith(repo_prefix + "/"):
+        rel_path = rel_path[len(repo_prefix) + 1 :]
+    elif rel_path.startswith("./"):
+        rel_path = rel_path[2:]
+    elif rel_path.startswith("/") and repo_prefix not in rel_path:
+        return None
+    return rel_path.lstrip("./") or None
 
 
 def filter_blocking_doxygen_warnings(
