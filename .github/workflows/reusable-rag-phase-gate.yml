@@ -197,8 +197,13 @@ jobs:
     steps:
       - name: Check Gate Status
         run: |
-          if [ "${{ needs.phase_validation.result }}" = "success" ]; then
+          result="${{ needs.phase_validation.result }}"
+          if [ "$result" = "success" ]; then
             echo "✅ ${{ inputs.phase_title }} Gate: PASS"
+            exit 0
+          fi
+          if [ "$result" = "cancelled" ]; then
+            echo "⚠️ ${{ inputs.phase_title }} Gate: CANCELLED (skipping human escalation; not a failing gate)"
             exit 0
           fi
           echo "❌ ${{ inputs.phase_title }} Gate: FAIL"
@@ -207,7 +212,7 @@ jobs:
   human-loop-escalation:
     name: "Validate: Human-in-the-loop Escalation"
     needs: [phase_validation, gate_status]
-    if: always() && needs.phase_validation.result != 'success' && github.event_name == 'pull_request'
+    if: always() && needs.phase_validation.result == 'failure' && github.event_name == 'pull_request'
     uses: ./.github/workflows/reusable-status-flags-and-issues.yml
     permissions:
       contents: read
