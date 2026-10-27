@@ -164,7 +164,7 @@ jobs:
       status-group: "status/needs-approval,status/needs-attention,status/needs-triage,status/resolved"
       labels-to-add: "status/resolved"
       labels-to-remove: "ci/failure,ci/build-failed"
-      allow-missing: "true"
+      allow-missing: ${{ 'true' }}
       source-workflow: ${{ github.workflow }}
       source-run-id: ${{ github.run_id }}
       source-sha: ${{ github.sha }}
