@@ -43,10 +43,6 @@
 #include <map>
 #include <set>
 
-namespace themis {
-class WALStorage;
-}
-
 namespace themisdb {
 namespace replication {
 
@@ -187,7 +183,6 @@ struct ReplicationConfig {
     std::string wal_directory = "/var/lib/themisdb/wal";
     uint64_t wal_segment_size_bytes = 64 * 1024 * 1024;  // 64MB
     uint32_t wal_retention_segments = 100;
-    uint32_t max_in_memory_wal_entries = 10'000;  // Bound WAL replay buffer RAM use
     bool wal_sync_on_commit = true;
     
     // Quorum settings
@@ -407,9 +402,6 @@ public:
 
 /**
  * Write-Ahead Log Manager
- *
- * Uses themis::WALStorage as the canonical durability backend for
- * replication persistence and recovery.
  */
 class WALManager {
 public:
@@ -449,11 +441,6 @@ private:
     std::atomic<uint64_t> current_sequence_{0};
     std::atomic<uint64_t> current_term_{0};
     std::mutex wal_mutex_;
-    std::unique_ptr<themis::WALStorage> durability_wal_;
-    std::deque<WALEntry> wal_entries_;
-
-    // Keep the in-memory WAL replay buffer bounded to avoid OOM under lagging or long-lived replicas.
-    void trimInMemoryWalEntries();
     
     // Internal file handling
     void rotateSegment();

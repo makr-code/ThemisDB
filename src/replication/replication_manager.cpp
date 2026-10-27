@@ -89,6 +89,39 @@ namespace fs = std::filesystem;
 
 namespace {
 
+constexpr uint32_t kDefaultMaxInMemoryWalEntries = 10'000;
+
+struct WalManagerRuntimeState {
+    std::unique_ptr<themis::WALStorage> durability_wal;
+    std::deque<WALEntry> wal_entries;
+};
+
+std::mutex g_wal_manager_state_mutex;
+std::map<const WALManager*, WalManagerRuntimeState> g_wal_manager_states;
+
+WalManagerRuntimeState& walManagerState(const WALManager* manager) {
+    std::lock_guard<std::mutex> lock(g_wal_manager_state_mutex);
+    return g_wal_manager_states[manager];
+}
+
+void eraseWalManagerState(const WALManager* manager) {
+    std::lock_guard<std::mutex> lock(g_wal_manager_state_mutex);
+    g_wal_manager_states.erase(manager);
+}
+
+void trimInMemoryWalEntries(
+    std::deque<WALEntry>& wal_entries,
+    uint32_t max_in_memory_wal_entries = kDefaultMaxInMemoryWalEntries) {
+    if (max_in_memory_wal_entries == 0) {
+        wal_entries.clear();
+        return;
+    }
+
+    while (wal_entries.size() > max_in_memory_wal_entries) {
+        wal_entries.pop_front();
+    }
+}
+
 template<typename Func>
 /**
  * @brief Execute With Timeout.
@@ -450,6 +483,7 @@ WALManager::WALManager(const ReplicationConfig& config)
 
 WALManager::~WALManager() {
     sync();
+    eraseWalManagerState(this);
 }
 
 /**
@@ -460,8 +494,9 @@ WALManager::~WALManager() {
  */
 uint64_t WALManager::append(const WALEntry& entry) {
     std::lock_guard<std::mutex> lock(wal_mutex_);
+    auto& state = walManagerState(this);
 
-    if (!durability_wal_) {
+    if (!state.durability_wal) {
         throw std::runtime_error("WAL durability backend is not initialized");
     }
 
@@ -493,7 +528,7 @@ uint64_t WALManager::append(const WALEntry& entry) {
 
     constexpr std::string_view kReplicationWalEntryType = "replication_entry";
     std::string payload(serialized.begin(), serialized.end());
-    auto append_result = durability_wal_->appendPut(kReplicationWalEntryType, payload);
+    auto append_result = state.durability_wal->appendPut(kReplicationWalEntryType, payload);
     if (!append_result.has_value()) {
         throw std::runtime_error("Failed to append replication WAL entry: " +
                                  append_result.error().message());
@@ -502,8 +537,8 @@ uint64_t WALManager::append(const WALEntry& entry) {
     seq = append_result.value();
     stored_entry.sequence_number = seq;
     current_sequence_.store(seq);
-    wal_entries_.push_back(std::move(stored_entry));
-    trimInMemoryWalEntries();
+    state.wal_entries.push_back(std::move(stored_entry));
+    trimInMemoryWalEntries(state.wal_entries);
     return seq;
 }
 
@@ -516,13 +551,14 @@ uint64_t WALManager::append(const WALEntry& entry) {
  */
 std::vector<WALEntry> WALManager::readFrom(uint64_t start_sequence, uint32_t limit) {
     std::lock_guard<std::mutex> lock(wal_mutex_);
+    auto& state = walManagerState(this);
     std::vector<WALEntry> entries;
     if (limit == 0) {
         return entries;
     }
     entries.reserve(limit);
 
-    for (const auto& entry : wal_entries_) {
+    for (const auto& entry : state.wal_entries) {
         if (entry.sequence_number < start_sequence) {
             continue;
         }
@@ -551,14 +587,15 @@ uint64_t WALManager::incrementTerm() {
  */
 void WALManager::truncateBefore(uint64_t sequence) {
     std::lock_guard<std::mutex> lock(wal_mutex_);
+    auto& state = walManagerState(this);
 
-    while (!wal_entries_.empty() && wal_entries_.front().sequence_number < sequence) {
-        wal_entries_.pop_front();
+    while (!state.wal_entries.empty() && state.wal_entries.front().sequence_number < sequence) {
+        state.wal_entries.pop_front();
     }
-    trimInMemoryWalEntries();
+    trimInMemoryWalEntries(state.wal_entries);
 
-    if (durability_wal_) {
-        auto checkpoint_result = durability_wal_->checkpoint(true);
+    if (state.durability_wal) {
+        auto checkpoint_result = state.durability_wal->checkpoint(true);
         if (!checkpoint_result.has_value()) {
             THEMIS_WARN("Replication WAL checkpoint during truncate failed: {}",
                         checkpoint_result.error().message());
@@ -574,11 +611,12 @@ void WALManager::truncateBefore(uint64_t sequence) {
  */
 void WALManager::sync() {
     std::lock_guard<std::mutex> lock(wal_mutex_);
-    if (!durability_wal_) {
+    auto& state = walManagerState(this);
+    if (!state.durability_wal) {
         return;
     }
 
-    auto flush_result = durability_wal_->flush();
+    auto flush_result = state.durability_wal->flush();
     if (!flush_result.has_value()) {
         THEMIS_WARN("Replication WAL flush failed: {}", flush_result.error().message());
     }
@@ -613,7 +651,8 @@ uint64_t WALManager::getSize() const {
  * @details Calls: std::filesystem::directory_iterator(), path(), extension(), ifs(), read(), eof(), data(), WALEntry::deserialize().
  */
 void WALManager::loadFromDisk() {
-    wal_entries_.clear();
+    auto& state = walManagerState(this);
+    state.wal_entries.clear();
     current_sequence_.store(0);
     current_term_.store(0);
 
@@ -638,8 +677,8 @@ void WALManager::loadFromDisk() {
         wal_entry->sequence_number = recovered.sequence;
         current_term_.store(std::max(current_term_.load(), wal_entry->term));
         current_sequence_.store(std::max(current_sequence_.load(), recovered.sequence));
-        wal_entries_.push_back(*wal_entry);
-        trimInMemoryWalEntries();
+        state.wal_entries.push_back(*wal_entry);
+        trimInMemoryWalEntries(state.wal_entries);
         return true;
     };
 
@@ -649,24 +688,14 @@ void WALManager::loadFromDisk() {
                                  storage_result.error().message());
     }
 
-    durability_wal_ = std::move(storage_result.value());
-    current_sequence_.store(std::max(current_sequence_.load(), durability_wal_->lastSequence()));
-}
-
-void WALManager::trimInMemoryWalEntries() {
-    if (config_.max_in_memory_wal_entries == 0) {
-        wal_entries_.clear();
-        return;
-    }
-
-    while (wal_entries_.size() > config_.max_in_memory_wal_entries) {
-        wal_entries_.pop_front();
-    }
+    state.durability_wal = std::move(storage_result.value());
+    current_sequence_.store(std::max(current_sequence_.load(), state.durability_wal->lastSequence()));
 }
 
 void WALManager::rotateSegment() {
-    if (durability_wal_) {
-        auto checkpoint_result = durability_wal_->checkpoint(false);
+    auto& state = walManagerState(this);
+    if (state.durability_wal) {
+        auto checkpoint_result = state.durability_wal->checkpoint(false);
         if (!checkpoint_result.has_value()) {
             THEMIS_WARN("Replication WAL rotation checkpoint failed: {}",
                         checkpoint_result.error().message());
