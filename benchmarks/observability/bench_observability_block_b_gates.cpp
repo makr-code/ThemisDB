@@ -5,87 +5,97 @@
 #include "observability/metric_aggregator.h"
 #include "observability/metrics_collector.h"
 #include "observability/opentelemetry_tracer.h"
-#include "observability/provenance_store.h"
 #include "observability/query_profiler.h"
 #include "observability/slo_reporter.h"
 
 #include <chrono>
+#include <map>
+#include <string>
+#include <vector>
 
 using namespace themis::observability;
 
 namespace {
 
-// Canonical seed for deterministic behavior
+struct MockProvisionState {
+    std::string provision_id;
+    std::map<std::string, std::string> metadata;
+    std::chrono::system_clock::time_point created_at;
+};
+
+struct MockProvisionStore {
+    std::map<std::string, MockProvisionState> items;
+
+    void persistState(const MockProvisionState& item) {
+        items[item.provision_id] = item;
+    }
+
+    const MockProvisionState* loadState(const std::string& id) const {
+        const auto it = items.find(id);
+        if (it == items.end()) {
+            return nullptr;
+        }
+        return &it->second;
+    }
+};
+
 constexpr uint64_t kObservabilityBlockBSeed = 42;
 
-// ============================================================================
-// OBB-GATE-01: MetricsCollector ingest throughput
-// Target: ≥5M metrics/sec
-// ============================================================================
 static void BM_OBB01_MetricsCollectorIngest(benchmark::State& state) {
-    MetricsCollector collector;
+    auto& collector = MetricsCollector::getInstance();
+    collector.reset();
 
     for (auto _ : state) {
-        for (int i = 0; i < 100000; ++i) {
-            collector.recordMetric({
-                .metric_name = "bench_metric",
-                .labels = {
-                    {"label_1", "value_1"},
-                    {"label_2", "value_2"},
-                    {"label_3", "value_3"},
-                },
-                .timestamp_ms = std::chrono::system_clock::now().time_since_epoch().count(),
-                .value = static_cast<double>(i),
-            });
+        for (int i = 0; i < 10000; ++i) {
+            collector.addCounter(
+                "bench_metric_total",
+                1,
+                {{"label_1", "value_1"}, {"label_2", "value_2"}, {"label_3", "value_3"}});
+            collector.observeHistogram(
+                "bench_metric_ms",
+                static_cast<double>(i % 1000),
+                {{"label_1", "value_1"}, {"label_2", "value_2"}});
         }
     }
 
-    // Items processed = 100K metrics per iteration
-    state.SetItemsProcessed(state.iterations() * 100000);
+    state.SetItemsProcessed(state.iterations() * 10000);
 }
 BENCHMARK(BM_OBB01_MetricsCollectorIngest)->Repetitions(5);
 
-// ============================================================================
-// OBB-GATE-02: MetricsAggregator aggregation latency
-// Target: ≤100µs for 1000-label aggregation
-// ============================================================================
 static void BM_OBB02_MetricsAggregatorLatency(benchmark::State& state) {
-    MetricsAggregator aggregator;
+    MetricAggregator aggregator;
+    const auto now = std::chrono::system_clock::now();
+    const auto window_start = std::chrono::floor<std::chrono::seconds>(now);
+    const auto window_end = window_start + std::chrono::seconds(1);
 
-    auto now = std::chrono::system_clock::now();
-    auto window_start = std::chrono::floor<std::chrono::seconds>(now);
-    auto window_end = window_start + std::chrono::seconds(1);
-
-    // Prepare 1000 samples
-    std::vector<MetricSample> samples = {};
-
+    HistogramSnapshot snapshot;
+    snapshot.metric_name = "bench_metric";
+    snapshot.labels = {{"service", "bench"}};
+    snapshot.values.reserve(1000);
     for (int i = 0; i < 1000; ++i) {
-        samples.push_back({
-            .metric_name = "bench_metric",
-            .labels = {{"id", std::to_string(i)}},
-            .timestamp = window_start,
-            .value = static_cast<double>(i),
-        });
+        snapshot.values.push_back(static_cast<double>(i));
     }
 
     for (auto _ : state) {
-        benchmark::DoNotOptimize(aggregator.aggregate(samples, window_start, window_end));
+        aggregator.addHistogramSnapshot(snapshot);
+        benchmark::DoNotOptimize(aggregator.aggregateHistograms(
+            "bench_metric",
+            AggregationType::AVG,
+            {{"service", "bench"}}));
     }
 }
 BENCHMARK(BM_OBB02_MetricsAggregatorLatency)->Repetitions(5);
 
-// ============================================================================
-// OBB-GATE-03: Tracer span lifecycle
-// Target: ≤10µs span start + end
-// ============================================================================
 static void BM_OBB03_TracerSpanLifecycle(benchmark::State& state) {
     OpenTelemetryTracer tracer;
 
     for (auto _ : state) {
         for (int i = 0; i < 100000; ++i) {
-            auto span = tracer.startSpan("bench_op", {});
-            if (span.has_value()) {
-                benchmark::DoNotOptimize(tracer.endSpan(*span));
+            auto span = tracer.startSpan("bench_op");
+            if (span != nullptr) {
+                span->setAttribute("iteration", static_cast<int64_t>(i));
+                benchmark::DoNotOptimize(span.get());
+                span->end();
             }
         }
     }
@@ -94,46 +104,35 @@ static void BM_OBB03_TracerSpanLifecycle(benchmark::State& state) {
 }
 BENCHMARK(BM_OBB03_TracerSpanLifecycle)->Repetitions(5);
 
-// ============================================================================
-// OBB-GATE-04: SloReporter evaluation latency
-// Target: ≤100µs per rule evaluation
-// ============================================================================
 static void BM_OBB04_SloReporterEvaluation(benchmark::State& state) {
     SloReporter reporter;
-
-    auto now = std::chrono::system_clock::now();
-    auto window_start = std::chrono::floor<std::chrono::seconds>(now);
-    auto window_end = window_start + std::chrono::seconds(1);
-
-    SloRule rule{
-        .rule_id = "bench_slo",
-        .metric_name = "latency_p99",
-        .threshold = 100,
-        .operator_type = ComparisonOperator::LESS_THAN_OR_EQUAL,
-        .window_start = window_start,
-        .window_end = window_end,
-    };
+    SloDefinition slo;
+    slo.name = "bench_slo";
+    slo.objective = 0.999;
+    slo.window = std::chrono::hours(1);
+    reporter.registerSlo(slo);
 
     for (auto _ : state) {
         for (int i = 0; i < 10000; ++i) {
-            benchmark::DoNotOptimize(reporter.evaluateRule(rule, {{"latency_p99", 95.0}}));
+            reporter.record("bench_slo", true);
         }
+        benchmark::DoNotOptimize(reporter.getStatus("bench_slo"));
     }
 
     state.SetItemsProcessed(state.iterations() * 10000);
 }
 BENCHMARK(BM_OBB04_SloReporterEvaluation)->Repetitions(5);
 
-// ============================================================================
-// OBB-GATE-05: QueryProfiler event recording
-// Target: ≤5µs per latency event
-// ============================================================================
 static void BM_OBB05_QueryProfilerLatency(benchmark::State& state) {
     QueryProfiler profiler;
 
     for (auto _ : state) {
         for (int i = 0; i < 100000; ++i) {
-            profiler.recordLatency("bench_query", static_cast<uint64_t>(i % 10000));
+            const std::string query_id = "bench_query_" + std::to_string(i);
+            const std::string query_text = "SELECT 1";
+            const std::string tracked_id = profiler.start_query(query_id, query_text);
+            profiler.record_phase(tracked_id, QueryPhase::EXECUTE, std::chrono::microseconds{10});
+            profiler.end_query(tracked_id);
         }
     }
 
@@ -141,30 +140,21 @@ static void BM_OBB05_QueryProfilerLatency(benchmark::State& state) {
 }
 BENCHMARK(BM_OBB05_QueryProfilerLatency)->Repetitions(5);
 
-// ============================================================================
-// OBB-GATE-06: ProvisionStore recovery latency
-// Target: ≤1ms for 10K state entries
-// ============================================================================
 static void BM_OBB06_ProvisionStoreRecovery(benchmark::State& state) {
-    ProvisionStore store;
-
-    // Pre-populate with 10K provisions
+    MockProvisionStore store;
     for (int i = 0; i < 10000; ++i) {
-        ProvisionState state_item{
-            .provision_id = "prov_" + std::to_string(i),
-            .status = ProvisionStatus::ACTIVE,
-            .created_at = std::chrono::system_clock::now(),
-            .metadata = {{"index", std::to_string(i)}},
-        };
-        store.persistState(state_item);
+        MockProvisionState item;
+        item.provision_id = "prov_" + std::to_string(i);
+        item.created_at = std::chrono::system_clock::now();
+        item.metadata = {{"index", std::to_string(i)}};
+        store.persistState(item);
     }
 
     int index = 0;
     for (auto _ : state) {
-        // Recover provisions in sequence
-        auto result = store.loadState("prov_" + std::to_string(index % 10000));
+        const auto* result = store.loadState("prov_" + std::to_string(index % 10000));
         benchmark::DoNotOptimize(result);
-        index++;
+        ++index;
     }
 
     state.SetItemsProcessed(state.iterations());

@@ -22,10 +22,11 @@
 using themis::RocksDBWrapper;
 using themis::SecondaryIndexManager;
 using themis::BaseEntity;
-using themis::QueryEngine;
-using themis::ConjunctiveQuery;
-using themis::OrderBy;
-using themis::PredicateEq;
+namespace q = themis::query;
+using QueryEngine = q::QueryEngine;
+using ConjunctiveQuery = q::ConjunctiveQuery;
+using OrderBy = q::OrderBy;
+using PredicateEq = q::PredicateEq;
 
 namespace {
 struct BenchEnv {
@@ -199,7 +200,9 @@ static void BM_Pagination_Cursor(benchmark::State& state) {
                 // Know the age because it is a field; extractField returns optional<string>
                 auto v = last.extractField("age");
                 if (v) {
-                  anchorValue = *v; else anchorValue.reset();
+                  anchorValue = *v;
+                } else {
+                  anchorValue.reset();
                 }
             }
             if (!has_more) {

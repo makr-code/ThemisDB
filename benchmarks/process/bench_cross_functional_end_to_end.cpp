@@ -74,7 +74,7 @@ void createPluginManifest(const std::string& dir, const std::string& name, Plugi
 // ============================================================================
 
 #if defined(THEMIS_ENABLE_VOICE_ASSISTANT)
-static void BM_VoiceCommandWithMetrics(benchmark::State& state) {
+static void BM_VoiceCommandWithMetrics(::benchmark::State& state) {
     auto config = createVoiceConfig();
     VoiceAssistant assistant(config);
     auto& metrics = MetricsCollector::getInstance();
@@ -95,15 +95,15 @@ static void BM_VoiceCommandWithMetrics(benchmark::State& state) {
         metrics.recordContentImport("text/plain", command.size());
         
         std::string export_metrics = metrics.getPrometheusMetrics();
-        benchmark::DoNotOptimize(response);
-        benchmark::DoNotOptimize(export_metrics);
+        ::benchmark::DoNotOptimize(response);
+        ::benchmark::DoNotOptimize(export_metrics);
     }
     
     state.SetItemsProcessed(state.iterations());
 }
 BENCHMARK(BM_VoiceCommandWithMetrics);
 
-static void BM_PhoneCallProcessingWithFullMetrics(benchmark::State& state) {
+static void BM_PhoneCallProcessingWithFullMetrics(::benchmark::State& state) {
     auto config = createVoiceConfig();
     VoiceAssistant assistant(config);
     auto& metrics = MetricsCollector::getInstance();
@@ -132,7 +132,7 @@ static void BM_PhoneCallProcessingWithFullMetrics(benchmark::State& state) {
         metrics.recordQuery("phone_call_processing", duration_ms, 1); // NOPII: metric operation type literal, not a phone number
         metrics.recordMemoryUsage(audio_size);
         
-        benchmark::DoNotOptimize(result);
+        ::benchmark::DoNotOptimize(result);
     }
     
     state.SetItemsProcessed(state.iterations());
@@ -143,7 +143,7 @@ BENCHMARK(BM_PhoneCallProcessingWithFullMetrics)
     ->Arg(100)   // 100 KB
     ->Arg(1024); // 1 MB
 
-static void BM_MeetingProtocolWithMetrics(benchmark::State& state) {
+static void BM_MeetingProtocolWithMetrics(::benchmark::State& state) {
     auto config = createVoiceConfig();
     VoiceAssistant assistant(config);
     auto& metrics = MetricsCollector::getInstance();
@@ -171,7 +171,7 @@ static void BM_MeetingProtocolWithMetrics(benchmark::State& state) {
         metrics.recordQuery("meeting_protocol", duration_ms, 1);
         metrics.recordChunkCreation(meeting.participants.size());
         
-        benchmark::DoNotOptimize(protocol);
+        ::benchmark::DoNotOptimize(protocol);
     }
     
     state.SetItemsProcessed(state.iterations());
@@ -182,7 +182,7 @@ BENCHMARK(BM_MeetingProtocolWithMetrics)
     ->Arg(500)   // 500 KB - 25 min meeting
     ->Arg(2048); // 2 MB - 100 min meeting
 
-static void BM_AudioConversionWithMetrics(benchmark::State& state) {
+static void BM_AudioConversionWithMetrics(::benchmark::State& state) {
     auto config = createVoiceConfig();
     VoiceAssistant assistant(config);
     auto& metrics = MetricsCollector::getInstance();
@@ -207,7 +207,7 @@ static void BM_AudioConversionWithMetrics(benchmark::State& state) {
             metrics.recordTSStoreCompression("audio", ratio);
         }
         
-        benchmark::DoNotOptimize(converted);
+        ::benchmark::DoNotOptimize(converted);
     }
     
     state.SetItemsProcessed(state.iterations());
@@ -223,7 +223,7 @@ BENCHMARK(BM_AudioConversionWithMetrics)
 // Plugin + Query + Metrics Benchmarks
 // ============================================================================
 
-static void BM_PluginDiscoveryWithMetrics(benchmark::State& state) {
+static void BM_PluginDiscoveryWithMetrics(::benchmark::State& state) {
     const int num_plugins = state.range(0);
     std::string plugin_dir = "/tmp/bench_plugins_" + std::to_string(state.iterations());
     fs::create_directories(plugin_dir);
@@ -255,7 +255,7 @@ static void BM_PluginDiscoveryWithMetrics(benchmark::State& state) {
         metrics.recordQuery("plugin_discovery", duration_ms, count);
         metrics.recordIndexScan("plugin_index", count);
         
-        benchmark::DoNotOptimize(count);
+        ::benchmark::DoNotOptimize(count);
     }
     
     fs::remove_all(plugin_dir);
@@ -266,7 +266,7 @@ BENCHMARK(BM_PluginDiscoveryWithMetrics)
     ->Arg(50)
     ->Arg(100);
 
-static void BM_PluginQueryWithMetrics(benchmark::State& state) {
+static void BM_PluginQueryWithMetrics(::benchmark::State& state) {
     std::string plugin_dir = "/tmp/bench_plugin_query";
     fs::create_directories(plugin_dir);
     
@@ -318,7 +318,7 @@ static void BM_PluginQueryWithMetrics(benchmark::State& state) {
             metrics.recordIndexScan("type_index", typed.size());
         }
         
-        benchmark::DoNotOptimize(all_plugins);
+        ::benchmark::DoNotOptimize(all_plugins);
     }
     
     fs::remove_all(plugin_dir);
@@ -326,7 +326,7 @@ static void BM_PluginQueryWithMetrics(benchmark::State& state) {
 }
 BENCHMARK(BM_PluginQueryWithMetrics);
 
-static void BM_PluginInfoCacheWithMetrics(benchmark::State& state) {
+static void BM_PluginInfoCacheWithMetrics(::benchmark::State& state) {
     std::string plugin_dir = "/tmp/bench_plugin_cache";
     fs::create_directories(plugin_dir);
     
@@ -384,7 +384,7 @@ BENCHMARK(BM_PluginInfoCacheWithMetrics);
 // ============================================================================
 
 #if defined(THEMIS_ENABLE_VOICE_ASSISTANT)
-static void BM_CompleteVoiceWorkflowWithMetrics(benchmark::State& state) {
+static void BM_CompleteVoiceWorkflowWithMetrics(::benchmark::State& state) {
     auto config = createVoiceConfig();
     VoiceAssistant assistant(config);
     auto& metrics = MetricsCollector::getInstance();
@@ -429,7 +429,7 @@ static void BM_CompleteVoiceWorkflowWithMetrics(benchmark::State& state) {
         auto end = std::chrono::steady_clock::now();
         
         auto total_ms = std::chrono::duration<double, std::milli>(end - start).count();
-        benchmark::DoNotOptimize(total_ms);
+        ::benchmark::DoNotOptimize(total_ms);
     }
     
     state.SetItemsProcessed(state.iterations());
@@ -437,7 +437,7 @@ static void BM_CompleteVoiceWorkflowWithMetrics(benchmark::State& state) {
 BENCHMARK(BM_CompleteVoiceWorkflowWithMetrics);
 #endif
 
-static void BM_CompletePluginWorkflowWithMetrics(benchmark::State& state) {
+static void BM_CompletePluginWorkflowWithMetrics(::benchmark::State& state) {
     std::string plugin_dir = "/tmp/bench_plugin_workflow";
     fs::create_directories(plugin_dir);
     
@@ -491,19 +491,19 @@ static void BM_CompletePluginWorkflowWithMetrics(benchmark::State& state) {
             auto info = std::find_if(all.begin(), all.end(), [&name](const PluginManifest& manifest) {
                 return manifest.name == name;
             });
-            benchmark::DoNotOptimize(info);
+            ::benchmark::DoNotOptimize(info);
         }
         auto t4 = std::chrono::steady_clock::now();
         metrics.recordQuery("info_queries", std::chrono::duration<double, std::milli>(t4 - t3).count(), 10);
         
         // Step 5: Statistics
         auto loaded = manager.listLoadedPlugins();
-        benchmark::DoNotOptimize(loaded);
+        ::benchmark::DoNotOptimize(loaded);
         metrics.getPrometheusMetrics();
         auto end = std::chrono::steady_clock::now();
         
         auto total_ms = std::chrono::duration<double, std::milli>(end - start).count();
-        benchmark::DoNotOptimize(total_ms);
+        ::benchmark::DoNotOptimize(total_ms);
     }
     
     fs::remove_all(plugin_dir);
@@ -511,7 +511,7 @@ static void BM_CompletePluginWorkflowWithMetrics(benchmark::State& state) {
 }
 BENCHMARK(BM_CompletePluginWorkflowWithMetrics);
 
-static void BM_ConcurrentMultiComponentWorkload(benchmark::State& state) {
+static void BM_ConcurrentMultiComponentWorkload(::benchmark::State& state) {
 #if defined(THEMIS_ENABLE_VOICE_ASSISTANT)
     auto voice_config = createVoiceConfig();
     VoiceAssistant assistant(voice_config);
@@ -550,7 +550,7 @@ static void BM_ConcurrentMultiComponentWorkload(benchmark::State& state) {
         // Plugin operations
         auto all_plugins = plugin_manager.listPlugins();
         metrics.recordQuery("plugins", 1.0, all_plugins.size());
-        benchmark::DoNotOptimize(all_plugins);
+        ::benchmark::DoNotOptimize(all_plugins);
         
         // Multiple metric recordings
         for (int i = 0; i < 10; i++) {
@@ -564,8 +564,8 @@ static void BM_ConcurrentMultiComponentWorkload(benchmark::State& state) {
         auto end = std::chrono::steady_clock::now();
         auto duration_ms = std::chrono::duration<double, std::milli>(end - start).count();
         
-        benchmark::DoNotOptimize(duration_ms);
-        benchmark::DoNotOptimize(export_data);
+        ::benchmark::DoNotOptimize(duration_ms);
+        ::benchmark::DoNotOptimize(export_data);
     }
     
     fs::remove_all(plugin_dir);

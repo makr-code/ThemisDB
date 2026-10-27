@@ -58,7 +58,7 @@ class GPUPhaseCBenchmark : public benchmark::Fixture {
     delete[] ptr;
   }
   
-  void SetUp(const ::benchmark::State& state) override {
+  void SetUp(::benchmark::State& state) override {
     if (!handler) {
       state.SkipWithError("GPUErrorHandler::Create() returned nullptr");
     }
@@ -110,12 +110,12 @@ BENCHMARK_F(GPUPhaseCBenchmark, bench_query_accel_with_error_recovery)(benchmark
   
   // Benchmark: Simulate GPU attempt → error → CPU fallback
   for (auto _ : state) {
-    // Simulate GPU error occurrence (very cheap operation)
-    auto error_info = handler->recordErrorOccurrence(
-        GPUErrorClass::kMemoryCommunication,
-        "simulated H2D error"
-    );
-    
+    // Simulate the live handler path without using a stale benchmark-only API.
+    const auto policy = handler->defaultPolicy(GPUErrorClass::kMemoryCommunication);
+    const auto class_name = handler->errorClassName(GPUErrorClass::kMemoryCommunication);
+    benchmark::DoNotOptimize(policy);
+    benchmark::DoNotOptimize(class_name);
+
     // Apply recovery: CPU fallback
     float result = cpu_sum(data);
     benchmark::DoNotOptimize(result);
@@ -280,13 +280,12 @@ BENCHMARK_REGISTER_F(GPUPhaseCBenchmark, bench_error_handler_lookup)
 // ============================================================================
 
 BENCHMARK_F(GPUPhaseCBenchmark, bench_error_recording_concurrent)(benchmark::State& state) {
-  // Benchmark: Thread-safe error recording
+  // Benchmark: Thread-safe error classification and policy lookup
   for (auto _ : state) {
-    auto error_info = handler->recordErrorOccurrence(
-        GPUErrorClass::kKernelTimeout,
-        "benchmark concurrent recording"
-    );
-    benchmark::DoNotOptimize(error_info);
+    const auto policy = handler->defaultPolicy(GPUErrorClass::kKernelTimeout);
+    const auto class_name = handler->errorClassName(GPUErrorClass::kKernelTimeout);
+    benchmark::DoNotOptimize(policy);
+    benchmark::DoNotOptimize(class_name);
   }
   
   state.SetItemsProcessed(state.iterations());

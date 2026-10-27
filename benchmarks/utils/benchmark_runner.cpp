@@ -3,6 +3,8 @@
  * Measures performance of utils module hot paths
  */
 
+#include <benchmark/benchmark.h>
+
 #include <chrono>
 #include <vector>
 #include <iostream>
@@ -120,7 +122,8 @@ int main() {
         BloomFilterConfig cfg;
         cfg.expectedItems = 1000000;
         cfg.targetFalsePositiveRate = 0.01;
-        __asm__ volatile("" : : "r"(cfg.expectedItems) : );  // prevent optimization
+        benchmark::DoNotOptimize(cfg.expectedItems);
+        benchmark::DoNotOptimize(cfg.targetFalsePositiveRate);
     }));
     
     // GATE-UTL-02: RetryPolicy copy rate
@@ -129,7 +132,8 @@ int main() {
         orig.maxAttempts = 5;
         orig.backoffMultiplier = 2.0;
         RetryPolicy copy = orig;
-        __asm__ volatile("" : : "r"(copy.maxAttempts) : );
+        benchmark::DoNotOptimize(copy.maxAttempts);
+        benchmark::DoNotOptimize(copy.backoffMultiplier);
     }));
     
     // GATE-UTL-03: Error-code cast throughput
@@ -143,7 +147,7 @@ int main() {
             UtilsError::kPoolExhausted,
         };
         int32_t v = static_cast<int32_t>(kErrors[0]);
-        __asm__ volatile("" : : "r"(v) : );
+        benchmark::DoNotOptimize(v);
     }));
     
     // GATE-UTL-04: RetryPolicy batch alloc
@@ -152,7 +156,7 @@ int main() {
         for (auto& p : v) {
           p.maxAttempts = 3;
         }
-        __asm__ volatile("" : : "r"(v.data()) : );
+        benchmark::DoNotOptimize(v.data());
     }));
     
     // GATE-UTL-05: BloomFilterConfig batch alloc
@@ -162,7 +166,7 @@ int main() {
             c.expectedItems = 100;
             c.targetFalsePositiveRate = 0.01;
         }
-        __asm__ volatile("" : : "r"(v.data()) : );
+        benchmark::DoNotOptimize(v.data());
     }));
     
     // GATE-UTL-06: UtilsError switch dispatch
@@ -185,7 +189,7 @@ int main() {
             case UtilsError::kDeserInvalid:      result = 5; break;
             case UtilsError::kPoolExhausted:     result = 6; break;
         }
-        __asm__ volatile("" : : "r"(result) : );
+        benchmark::DoNotOptimize(result);
     }));
     
     // Output results to JSON

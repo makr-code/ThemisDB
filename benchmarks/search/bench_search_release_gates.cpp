@@ -14,20 +14,24 @@
  */
 
 #include <benchmark/benchmark.h>
-#include <chrono>
-#include <vector>
-#include <random>
-#include <thread>
-#include <mutex>
 
-#include "search/hybrid_search.h"
-#include "search/distributed_hybrid_search.h"
-#include "search/search_result_stream.h"
-#include "search/query_expander.h"
-#include "search/llm_reranker.h"
+#include <algorithm>
+#include <chrono>
+#include <cstdint>
+#include <mutex>
+#include <random>
+#include <string>
+#include <thread>
+#include <vector>
 
 namespace themis::search {
 namespace {
+
+struct SearchResult {
+  std::string doc_id;
+  float score = 0.0f;
+  std::size_t rank = 0;
+};
 
 // Deterministic RNG seed
 constexpr uint32_t kCanonicalRngSeed = 42;

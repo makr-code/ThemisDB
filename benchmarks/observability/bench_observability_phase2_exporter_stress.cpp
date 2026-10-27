@@ -380,8 +380,8 @@ static void BM_OBE_01_ExporterIngestHighLoad(benchmark::State& state) {
                 {"instance", "bench_" + to_string(i % 10)},
                 {"region", "us-east-1"}
             },
-            .timestamp_ns = chrono::high_resolution_clock::now()
-                .time_since_epoch().count()
+            .timestamp_ns = static_cast<uint64_t>(chrono::high_resolution_clock::now()
+                .time_since_epoch().count())
         };
         metrics.push_back(m);
     }
@@ -405,7 +405,7 @@ static void BM_OBE_01_ExporterIngestHighLoad(benchmark::State& state) {
     }
     
     state.SetItemsProcessed(state.iterations() * 1000);
-    state.counters["metrics_exported"] = exporter.getTotalExported();
+    state.counters["metrics_exported"] = static_cast<uint64_t>(exporter.getTotalExported());
 }
 BENCHMARK(BM_OBE_01_ExporterIngestHighLoad)->Repetitions(5);
 
@@ -439,8 +439,8 @@ static void BM_OBE_02_ConcurrentListenerNotification(benchmark::State& state) {
         size_t p95_idx = (latencies.size() * 95) / 100;
         size_t p99_idx = (latencies.size() * 99) / 100;
         
-        state.counters["p95_latency_us"] = latencies[p95_idx];
-        state.counters["p99_latency_us"] = latencies[p99_idx];
+        state.counters["p95_latency_us"] = static_cast<uint64_t>(latencies[p95_idx]);
+        state.counters["p99_latency_us"] = static_cast<uint64_t>(latencies[p99_idx]);
     }
     
     state.SetItemsProcessed(state.iterations() * 1000);
@@ -474,8 +474,8 @@ static void BM_OBE_03_MalformedInputReject(benchmark::State& state) {
                     .name = "valid.metric_" + to_string(i),
                     .value = static_cast<double>(value_dist(rng)),
                     .labels = {{"type", "valid"}},
-                    .timestamp_ns = chrono::high_resolution_clock::now()
-                        .time_since_epoch().count()
+                    .timestamp_ns = static_cast<uint64_t>(chrono::high_resolution_clock::now()
+                        .time_since_epoch().count())
                 };
                 accepted++;
             } else {
@@ -499,8 +499,8 @@ static void BM_OBE_03_MalformedInputReject(benchmark::State& state) {
     }
     
     state.SetItemsProcessed(state.iterations() * 10000);
-    state.counters["rejected_metrics"] = rejected;
-    state.counters["accepted_metrics"] = accepted;
+    state.counters["rejected_metrics"] = static_cast<uint64_t>(rejected);
+    state.counters["accepted_metrics"] = static_cast<uint64_t>(accepted);
 }
 BENCHMARK(BM_OBE_03_MalformedInputReject)->Repetitions(5);
 
@@ -554,8 +554,8 @@ static void BM_OBE_04_ListenerLifecycle(benchmark::State& state) {
         size_t p95_idx = (operation_latencies.size() * 95) / 100;
         size_t p99_idx = (operation_latencies.size() * 99) / 100;
         
-        state.counters["p95_lifecycle_us"] = operation_latencies[p95_idx];
-        state.counters["p99_lifecycle_us"] = operation_latencies[p99_idx];
+        state.counters["p95_lifecycle_us"] = static_cast<uint64_t>(operation_latencies[p95_idx]);
+        state.counters["p99_lifecycle_us"] = static_cast<uint64_t>(operation_latencies[p99_idx]);
     }
     
     state.SetItemsProcessed(state.iterations() * 100 * 3);  // 3 ops per iteration
@@ -579,9 +579,9 @@ static void BM_OBE_05_HintDeduplication(benchmark::State& state) {
     for (int i = 0; i < 1000; ++i) {
         Hint h{
             .hint_id = "hint_" + to_string(i % 100),  // Some duplicate IDs
-            .hint_value = hint_val_dist(rng),
-            .timestamp_ns = chrono::high_resolution_clock::now()
-                .time_since_epoch().count()
+            .hint_value = static_cast<uint64_t>(hint_val_dist(rng)),
+            .timestamp_ns = static_cast<uint64_t>(chrono::high_resolution_clock::now()
+                .time_since_epoch().count())
         };
         hints.push_back(h);
     }
@@ -616,9 +616,9 @@ static void BM_OBE_05_HintDeduplication(benchmark::State& state) {
         size_t p95_idx = (dedup_latencies.size() * 95) / 100;
         size_t p99_idx = (dedup_latencies.size() * 99) / 100;
         
-        state.counters["p95_dedup_us"] = dedup_latencies[p95_idx];
-        state.counters["p99_dedup_us"] = dedup_latencies[p99_idx];
-        state.counters["duplicates_found"] = duplicates_found;
+        state.counters["p95_dedup_us"] = static_cast<uint64_t>(dedup_latencies[p95_idx]);
+        state.counters["p99_dedup_us"] = static_cast<uint64_t>(dedup_latencies[p99_idx]);
+        state.counters["duplicates_found"] = static_cast<uint64_t>(duplicates_found);
     }
     
     state.SetItemsProcessed(state.iterations() * 1000);
@@ -675,9 +675,9 @@ static void BM_OBE_06_PatternMatching(benchmark::State& state) {
         size_t p95_idx = (match_latencies.size() * 95) / 100;
         size_t p99_idx = (match_latencies.size() * 99) / 100;
         
-        state.counters["p95_pattern_us"] = match_latencies[p95_idx];
-        state.counters["p99_pattern_us"] = match_latencies[p99_idx];
-        state.counters["total_pattern_matches"] = total_matches;
+        state.counters["p95_pattern_us"] = static_cast<uint64_t>(match_latencies[p95_idx]);
+        state.counters["p99_pattern_us"] = static_cast<uint64_t>(match_latencies[p99_idx]);
+        state.counters["total_pattern_matches"] = static_cast<uint64_t>(total_matches);
     }
     
     state.SetItemsProcessed(state.iterations() * 1000);

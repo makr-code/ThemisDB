@@ -168,19 +168,30 @@ static void BM_W4B_03_VectorSearchUnderContention(benchmark::State& state) {
     const int contenders = static_cast<int>(state.range(0));
 
     TempDir tmp;
-    themis::VectorIndexConfig cfg;
-    cfg.dimension = kDim;
-    cfg.db_path   = tmp.str();
-    auto idx = std::make_shared<themis::VectorIndexManager>(cfg);
+    themis::RocksDBWrapper::Config dbcfg;
+    dbcfg.db_path = tmp.str();
+    dbcfg.create_if_missing = true;
+    auto db = std::make_shared<themis::RocksDBWrapper>(dbcfg);
+    if (!db->open()) {
+        throw std::runtime_error("Failed to open RocksDB for W4B-03 benchmark");
+    }
+
+    auto idx = std::make_shared<themis::VectorIndexManager>(*db);
+    if (!idx->init("w4b_vector_contention", static_cast<int>(kDim)).ok) {
+        throw std::runtime_error("Failed to initialize vector index for W4B-03 benchmark");
+    }
 
     RandomGenerator rng(kW4CanonicalSeed);
     for (std::size_t i = 0; i < kIndexSz; ++i) {
-        idx->insert("cv_" + std::to_string(i), rng.genVec(kDim));
+        themis::BaseEntity entity("cv_" + std::to_string(i));
+        entity.setField("embedding", rng.genVec(kDim));
+        idx->addEntity(entity);
     }
 
     // Warmup before starting contenders.
     WarmupProtocol::run(kDefaultWarmupIterations, [&] {
-        benchmark::DoNotOptimize(idx->search(rng.genVec(kDim), kK));
+        const auto q = rng.genVec(kDim);
+        benchmark::DoNotOptimize(idx->searchKnn(q, static_cast<size_t>(kK)).second);
     });
 
     // Start background contenders.
@@ -207,7 +218,8 @@ static void BM_W4B_03_VectorSearchUnderContention(benchmark::State& state) {
         state.ResumeTiming();
 
         auto t0 = std::chrono::steady_clock::now();
-        benchmark::DoNotOptimize(idx->search(query, kK));
+        const auto result = idx->searchKnn(query, static_cast<size_t>(kK));
+        benchmark::DoNotOptimize(result.second);
         vt.record(std::chrono::steady_clock::now() - t0);
         ++total_queries;
     }

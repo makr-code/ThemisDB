@@ -166,22 +166,26 @@ BENCHMARK_DEFINE_F(VectorBenchFixture, W4A_03_VectorInsertThroughput)(benchmark:
     const int64_t batch = state.range(0);
 
     WarmupProtocol::run(kDefaultWarmupIterations, [&] {
-        idx_->insert("warmup_" + rng_.genKey(8), rng_.genVec(kDim));
+        themis::BaseEntity entity("warmup_" + rng_.genKey(8));
+        entity.setField("embedding", rng_.genVec(kDim));
+        idx_->addEntity(entity);
     });
 
     int64_t total_inserts = 0;
     for (auto _ : state) {
         state.PauseTiming();
-        std::vector<std::pair<std::string, std::vector<float>>> vecs;
+        std::vector<themis::BaseEntity> vecs;
         vecs.reserve(static_cast<std::size_t>(batch));
         for (int64_t i = 0; i < batch; ++i) {
-            vecs.emplace_back("v" + rng_.genKey(12), rng_.genVec(kDim));
+            themis::BaseEntity entity("v" + rng_.genKey(12));
+            entity.setField("embedding", rng_.genVec(kDim));
+            vecs.push_back(std::move(entity));
         }
         state.ResumeTiming();
 
-        for (auto& [id, vec] : vecs) {
-            idx_->insert(id, vec);
-            benchmark::DoNotOptimize(id);
+        for (auto& entity : vecs) {
+            idx_->addEntity(entity);
+            benchmark::DoNotOptimize(entity.getPrimaryKey());
         }
         total_inserts += batch;
     }
@@ -213,7 +217,8 @@ BENCHMARK_DEFINE_F(VectorBenchFixture, W4A_04_VectorSearchLatency)(benchmark::St
     constexpr int kK = 10;
 
     WarmupProtocol::run(kDefaultWarmupIterations, [&] {
-        benchmark::DoNotOptimize(idx_->search(rng_.genVec(kDim), kK));
+        const auto q = rng_.genVec(kDim);
+        benchmark::DoNotOptimize(idx_->searchKnn(q, static_cast<size_t>(kK)).second);
     });
 
     VarianceTracker vt;
@@ -224,7 +229,8 @@ BENCHMARK_DEFINE_F(VectorBenchFixture, W4A_04_VectorSearchLatency)(benchmark::St
         state.ResumeTiming();
 
         auto t0 = std::chrono::steady_clock::now();
-        benchmark::DoNotOptimize(idx_->search(query, kK));
+        const auto result = idx_->searchKnn(query, static_cast<size_t>(kK));
+        benchmark::DoNotOptimize(result.second);
         vt.record(std::chrono::steady_clock::now() - t0);
         ++total_queries;
     }

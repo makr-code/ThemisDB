@@ -63,6 +63,7 @@
  * @see tests/utils/test_utils_contract_hardening_focused.cpp
  */
 
+#include <chrono>
 #include <cstdint>
 #include <optional>
 #include <string>

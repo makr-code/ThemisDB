@@ -323,7 +323,7 @@ static std::vector<ProcessModelRecord> generateModelCollection(int count) {
 /**
  * RP-01: Simple Query (1k models)
  */
-static void BM_RP01_SimpleQuery(benchmark::State& state) {
+static void BM_RP01_SimpleQuery(::benchmark::State& state) {
     const int num_models = kMediumDatasetSize;
     auto models = generateModelCollection(num_models);
 
@@ -350,14 +350,14 @@ static void BM_RP01_SimpleQuery(benchmark::State& state) {
             auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
             latencies.push_back(static_cast<double>(duration_ms));
 
-            benchmark::DoNotOptimize(result);
+            ::benchmark::DoNotOptimize(result);
         }
     }
 
     if (!latencies.empty()) {
         std::sort(latencies.begin(), latencies.end());
         double p99 = latencies[std::min(size_t(99), latencies.size() - 1)];
-        state.counters["p99_ms"] = benchmark::Counter(p99, benchmark::Counter::kAvgIterations);
+        state.counters["p99_ms"] = ::benchmark::Counter(p99, ::benchmark::Counter::kAvgIterations);
     }
 
     state.SetItemsProcessed(50 * static_cast<int64_t>(state.iterations()));
@@ -368,7 +368,7 @@ BENCHMARK(BM_RP01_SimpleQuery)->Iterations(10)->ReportAggregatesOnly(true)->UseR
 /**
  * RP-02: Complex Query (1k models)
  */
-static void BM_RP02_ComplexQuery(benchmark::State& state) {
+static void BM_RP02_ComplexQuery(::benchmark::State& state) {
     const int num_models = kMediumDatasetSize;
     auto models = generateModelCollection(num_models);
 
@@ -383,13 +383,13 @@ static void BM_RP02_ComplexQuery(benchmark::State& state) {
         for (int i = 0; i < 50; ++i) {
             std::string state_filter = (i % 3 == 0) ? "ACTIVE" : "DRAFT";
             auto result = retriever->complexQuery(state_filter, "Model", i % 5, 10);
-            benchmark::DoNotOptimize(result);
+            ::benchmark::DoNotOptimize(result);
             queries_done++;
         }
     }
 
     state.SetItemsProcessed(queries_done);
-    state.counters["queries_per_sec"] = benchmark::Counter(queries_done, benchmark::Counter::kIsRate);
+    state.counters["queries_per_sec"] = ::benchmark::Counter(queries_done, ::benchmark::Counter::kIsRate);
 }
 
 BENCHMARK(BM_RP02_ComplexQuery)->Iterations(10)->ReportAggregatesOnly(true)->UseRealTime();
@@ -397,7 +397,7 @@ BENCHMARK(BM_RP02_ComplexQuery)->Iterations(10)->ReportAggregatesOnly(true)->Use
 /**
  * RP-03: Full-Text Search (1k models)
  */
-static void BM_RP03_FullTextSearch(benchmark::State& state) {
+static void BM_RP03_FullTextSearch(::benchmark::State& state) {
     const int num_models = kMediumDatasetSize;
     auto models = generateModelCollection(num_models);
 
@@ -416,7 +416,7 @@ static void BM_RP03_FullTextSearch(benchmark::State& state) {
         for (int i = 0; i < 50; ++i) {
             std::string term = search_terms[i % 5];
             auto result = retriever->fullTextSearch(term, 10);
-            benchmark::DoNotOptimize(result);
+            ::benchmark::DoNotOptimize(result);
             searches_done++;
         }
     }
@@ -429,7 +429,7 @@ BENCHMARK(BM_RP03_FullTextSearch)->Iterations(10)->ReportAggregatesOnly(true)->U
 /**
  * RP-04: Embedding Similarity Search (1k models)
  */
-static void BM_RP04_EmbeddingSimilarity(benchmark::State& state) {
+static void BM_RP04_EmbeddingSimilarity(::benchmark::State& state) {
     const int num_models = kMediumDatasetSize;
     auto models = generateModelCollection(num_models);
 
@@ -446,7 +446,7 @@ static void BM_RP04_EmbeddingSimilarity(benchmark::State& state) {
         for (int i = 0; i < 50; ++i) {
             float min_similarity = 0.5f + (i % 5) * 0.1f;
             auto result = retriever->embeddingSimilaritySearch(query_embedding, min_similarity, 10);
-            benchmark::DoNotOptimize(result);
+            ::benchmark::DoNotOptimize(result);
             searches_done++;
         }
     }
@@ -459,7 +459,7 @@ BENCHMARK(BM_RP04_EmbeddingSimilarity)->Iterations(10)->ReportAggregatesOnly(tru
 /**
  * RP-05: Pagination Query (10k models)
  */
-static void BM_RP05_PaginationQuery(benchmark::State& state) {
+static void BM_RP05_PaginationQuery(::benchmark::State& state) {
     const int num_models = kLargeDatasetSize;
     auto models = generateModelCollection(num_models);
 
@@ -473,7 +473,7 @@ static void BM_RP05_PaginationQuery(benchmark::State& state) {
     for (auto _ : state) {
         for (int page = 0; page < 10; ++page) {
             auto result = retriever->paginatedQuery("ACTIVE", page, 20);
-            benchmark::DoNotOptimize(result);
+            ::benchmark::DoNotOptimize(result);
             page_accesses++;
         }
     }
@@ -486,7 +486,7 @@ BENCHMARK(BM_RP05_PaginationQuery)->Iterations(5)->ReportAggregatesOnly(true)->U
 /**
  * RP-06: Concurrent Query (1k models, 4 threads)
  */
-static void BM_RP06_ConcurrentQuery(benchmark::State& state) {
+static void BM_RP06_ConcurrentQuery(::benchmark::State& state) {
     const int num_models = kMediumDatasetSize;
     const int num_threads = 4;
 
@@ -510,7 +510,7 @@ static void BM_RP06_ConcurrentQuery(benchmark::State& state) {
                 for (int q = 0; q < 100; ++q) {
                     std::string state_filter = (q % 3 == 0) ? "ACTIVE" : "DRAFT";
                     auto result = retriever->simpleQuery(state_filter, 10);
-                    benchmark::DoNotOptimize(result);
+                    ::benchmark::DoNotOptimize(result);
                     thread_queries[t]++;
                 }
             });
@@ -526,7 +526,7 @@ static void BM_RP06_ConcurrentQuery(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(total_queries);
-    state.counters["queries_per_sec"] = benchmark::Counter(total_queries, benchmark::Counter::kIsRate);
+    state.counters["queries_per_sec"] = ::benchmark::Counter(total_queries, ::benchmark::Counter::kIsRate);
 }
 
 BENCHMARK(BM_RP06_ConcurrentQuery)->Iterations(5)->ReportAggregatesOnly(true)->UseRealTime();
@@ -534,7 +534,7 @@ BENCHMARK(BM_RP06_ConcurrentQuery)->Iterations(5)->ReportAggregatesOnly(true)->U
 /**
  * RP-07: Query Under Churn (1k -> 10k models)
  */
-static void BM_RP07_QueryUnderChurn(benchmark::State& state) {
+static void BM_RP07_QueryUnderChurn(::benchmark::State& state) {
     const int small_model_count = kMediumDatasetSize;
     const int large_model_count = kLargeDatasetSize;
 
@@ -568,7 +568,7 @@ static void BM_RP07_QueryUnderChurn(benchmark::State& state) {
             auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
             latencies.push_back(static_cast<double>(duration_ms));
 
-            benchmark::DoNotOptimize(result);
+            ::benchmark::DoNotOptimize(result);
 
             // Add 10 new models every 10 queries
             if (queries_run++ % 10 == 0 && models_added < large_model_count) {
@@ -584,7 +584,7 @@ static void BM_RP07_QueryUnderChurn(benchmark::State& state) {
     if (!latencies.empty()) {
         std::sort(latencies.begin(), latencies.end());
         double p99 = latencies[std::min(size_t(99), latencies.size() - 1)];
-        state.counters["p99_ms"] = benchmark::Counter(p99, benchmark::Counter::kAvgIterations);
+        state.counters["p99_ms"] = ::benchmark::Counter(p99, ::benchmark::Counter::kAvgIterations);
     }
 
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()) * 50);
@@ -595,7 +595,7 @@ BENCHMARK(BM_RP07_QueryUnderChurn)->Iterations(5)->ReportAggregatesOnly(true)->U
 /**
  * RP-08: Ranking/Sorting (1k results)
  */
-static void BM_RP08_RankingAndSorting(benchmark::State& state) {
+static void BM_RP08_RankingAndSorting(::benchmark::State& state) {
     const int num_results = 1000;
 
     auto retriever = std::make_unique<ProcessModelRetriever>();
@@ -606,13 +606,13 @@ static void BM_RP08_RankingAndSorting(benchmark::State& state) {
     for (auto _ : state) {
         for (int i = 0; i < 20; ++i) {
             auto result = retriever->rankAndSort(candidates, 100);
-            benchmark::DoNotOptimize(result);
+            ::benchmark::DoNotOptimize(result);
             sorts_done++;
         }
     }
 
     state.SetItemsProcessed(sorts_done);
-    state.counters["sorts_per_sec"] = benchmark::Counter(sorts_done, benchmark::Counter::kIsRate);
+    state.counters["sorts_per_sec"] = ::benchmark::Counter(sorts_done, ::benchmark::Counter::kIsRate);
 }
 
 BENCHMARK(BM_RP08_RankingAndSorting)->Iterations(10)->ReportAggregatesOnly(true)->UseRealTime();

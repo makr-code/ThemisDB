@@ -28,6 +28,7 @@
 #include <random>
 #include <string>
 #include <memory>
+#include <unordered_map>
 #include <unordered_set>
 
 using namespace themis::governance;

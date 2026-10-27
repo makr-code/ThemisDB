@@ -14,6 +14,7 @@
  */
 
 #include <benchmark/benchmark.h>
+#include <memory>
 #include "aql/aql_syntax_highlighter.h"
 #include "aql/aql_confidence_scorer.h"
 #include "aql/aql_fewshot_example_library.h"

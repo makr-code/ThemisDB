@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-using themis::Coordinate;
+using themis::geo::Coordinate;
 using themis::geo::CrsId;
 using themis::geo::GeoMultiPolygon;
 using themis::geo::GeoPolygon;

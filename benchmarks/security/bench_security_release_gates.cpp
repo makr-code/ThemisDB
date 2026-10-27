@@ -33,6 +33,7 @@
 
 #include <benchmark/benchmark.h>
 
+#include "auth/auth_principal_contract.h"
 #include "security/security_api_contract.h"
 
 #include <algorithm>
@@ -106,7 +107,7 @@ static const std::string kBenchJwt =
 
 /// Structural JWT parse (header+payload split, no crypto).
 static bool validateJwtStructure(const std::string& token) {
-    if (token.size() > kMaxJwtTokenBytes) {
+    if (token.size() > themis::auth::kMaxJwtTokenBytes) {
       return false;
     }
     auto d1 = token.find('.');

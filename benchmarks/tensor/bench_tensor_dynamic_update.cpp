@@ -1,8 +1,8 @@
 #include <benchmark/benchmark.h>
 
-#include "src/distributed_tensor/include/tensor_delta_log.h"
-#include "src/distributed_tensor/include/snapshot_update_worker.h"
-#include "src/distributed_tensor/include/artifact_manifest.h"
+#include "distributed_tensor/include/tensor_delta_log.h"
+#include "distributed_tensor/include/snapshot_update_worker.h"
+#include "distributed_tensor/include/artifact_manifest.h"
 
 #include <algorithm>
 #include <chrono>

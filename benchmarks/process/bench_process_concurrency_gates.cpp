@@ -167,7 +167,7 @@ static bool simulateLink(const SimProcessModel& source,
 // CP-01: Concurrent CRUD Ops (Small Dataset - 100 models)
 // ============================================================================
 
-static void BM_CP01_ConcurrentCrud_Small(benchmark::State& state) {
+static void BM_CP01_ConcurrentCrud_Small(::benchmark::State& state) {
     const int num_models = kSmallDatasetSize;
     const int thread_count = kNumThreads;
     auto store = std::make_unique<ConcurrentModelStore>();
@@ -248,7 +248,7 @@ static void BM_CP01_ConcurrentCrud_Small(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(ops_done);
-    state.counters["ops_per_sec"] = benchmark::Counter(ops_done, benchmark::Counter::kIsRate);
+    state.counters["ops_per_sec"] = ::benchmark::Counter(ops_done, ::benchmark::Counter::kIsRate);
 }
 
 BENCHMARK(BM_CP01_ConcurrentCrud_Small)
@@ -260,7 +260,7 @@ BENCHMARK(BM_CP01_ConcurrentCrud_Small)
 // CP-02: Concurrent CRUD Ops (Medium Dataset - 1k models)
 // ============================================================================
 
-static void BM_CP02_ConcurrentCrud_Medium(benchmark::State& state) {
+static void BM_CP02_ConcurrentCrud_Medium(::benchmark::State& state) {
     const int num_models = kMediumDatasetSize;
     const int thread_count = kNumThreads;
     auto store = std::make_unique<ConcurrentModelStore>();
@@ -339,7 +339,7 @@ static void BM_CP02_ConcurrentCrud_Medium(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(ops_done);
-    state.counters["ops_per_sec"] = benchmark::Counter(ops_done, benchmark::Counter::kIsRate);
+    state.counters["ops_per_sec"] = ::benchmark::Counter(ops_done, ::benchmark::Counter::kIsRate);
 }
 
 BENCHMARK(BM_CP02_ConcurrentCrud_Medium)
@@ -351,7 +351,7 @@ BENCHMARK(BM_CP02_ConcurrentCrud_Medium)
 // CP-03: Concurrent Import (100 BPMN files)
 // ============================================================================
 
-static void BM_CP03_ConcurrentImport_Bpmn(benchmark::State& state) {
+static void BM_CP03_ConcurrentImport_Bpmn(::benchmark::State& state) {
     const int num_files = kSmallDatasetSize;
     const int thread_count = kNumThreads;
     auto store = std::make_unique<ConcurrentModelStore>();
@@ -386,7 +386,7 @@ static void BM_CP03_ConcurrentImport_Bpmn(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(imports_done);
-    state.counters["imports_per_sec"] = benchmark::Counter(imports_done, benchmark::Counter::kIsRate);
+    state.counters["imports_per_sec"] = ::benchmark::Counter(imports_done, ::benchmark::Counter::kIsRate);
 }
 
 BENCHMARK(BM_CP03_ConcurrentImport_Bpmn)
@@ -398,7 +398,7 @@ BENCHMARK(BM_CP03_ConcurrentImport_Bpmn)
 // CP-04: Concurrent Export (100 models)
 // ============================================================================
 
-static void BM_CP04_ConcurrentExport(benchmark::State& state) {
+static void BM_CP04_ConcurrentExport(::benchmark::State& state) {
     const int num_models = kSmallDatasetSize;
     const int thread_count = kNumThreads;
     auto store = std::make_unique<ConcurrentModelStore>();
@@ -428,7 +428,7 @@ static void BM_CP04_ConcurrentExport(benchmark::State& state) {
                     SimProcessModel m = {};
                     if (store->read(model_id, m)) {
                         std::string xml = simulateBpmnExport(m);
-                        benchmark::DoNotOptimize(xml);
+                        ::benchmark::DoNotOptimize(xml);
                         thread_exports[t]++;
                     }
                 }
@@ -445,7 +445,7 @@ static void BM_CP04_ConcurrentExport(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(exports_done);
-    state.counters["exports_per_sec"] = benchmark::Counter(exports_done, benchmark::Counter::kIsRate);
+    state.counters["exports_per_sec"] = ::benchmark::Counter(exports_done, ::benchmark::Counter::kIsRate);
 }
 
 BENCHMARK(BM_CP04_ConcurrentExport)
@@ -457,7 +457,7 @@ BENCHMARK(BM_CP04_ConcurrentExport)
 // CP-05: Concurrent Linking (100 models)
 // ============================================================================
 
-static void BM_CP05_ConcurrentLinking(benchmark::State& state) {
+static void BM_CP05_ConcurrentLinking(::benchmark::State& state) {
     const int num_models = kSmallDatasetSize;
     const int thread_count = kNumThreads;
     auto store = std::make_unique<ConcurrentModelStore>();
@@ -514,7 +514,7 @@ static void BM_CP05_ConcurrentLinking(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(links_done);
-    state.counters["links_per_sec"] = benchmark::Counter(links_done, benchmark::Counter::kIsRate);
+    state.counters["links_per_sec"] = ::benchmark::Counter(links_done, ::benchmark::Counter::kIsRate);
 }
 
 BENCHMARK(BM_CP05_ConcurrentLinking)
@@ -526,7 +526,7 @@ BENCHMARK(BM_CP05_ConcurrentLinking)
 // CP-06: Concurrent Retrieval (1k models)
 // ============================================================================
 
-static void BM_CP06_ConcurrentRetrieval_Medium(benchmark::State& state) {
+static void BM_CP06_ConcurrentRetrieval_Medium(::benchmark::State& state) {
     const int num_models = kMediumDatasetSize;
     const int thread_count = kNumThreads;
     auto store = std::make_unique<ConcurrentModelStore>();
@@ -575,7 +575,7 @@ static void BM_CP06_ConcurrentRetrieval_Medium(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(queries_done);
-    state.counters["queries_per_sec"] = benchmark::Counter(queries_done, benchmark::Counter::kIsRate);
+    state.counters["queries_per_sec"] = ::benchmark::Counter(queries_done, ::benchmark::Counter::kIsRate);
 }
 
 BENCHMARK(BM_CP06_ConcurrentRetrieval_Medium)

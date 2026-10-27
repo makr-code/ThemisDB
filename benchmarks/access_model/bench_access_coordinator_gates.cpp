@@ -26,9 +26,12 @@
 
 #include <atomic>
 #include <chrono>
+#include <cmath>
+#include <map>
 #include <memory>
 #include <random>
 #include <string>
+#include <thread>
 #include <vector>
 
 #include "access_model/access_coordinator.h"
@@ -221,6 +224,7 @@ BENCHMARK_F(BenchAccessCoordinator, GATE_ACM_01_L1ToL2Promotion)
     std::uniform_int_distribution<> key_dist(0, 99);
 
     int key_counter = 0;
+    auto start = std::chrono::steady_clock::now();
 
     for (auto _ : state) {
         std::string key = "promote_l1_l2_" + std::to_string(key_counter++);
@@ -231,12 +235,9 @@ BENCHMARK_F(BenchAccessCoordinator, GATE_ACM_01_L1ToL2Promotion)
 
         benchmark::DoNotOptimize(key);
     }
-
-    // Measure and check against gate
-    double us = state.iterations()
-               ? state.elapsed_real_time() * 1e6 /
-                     static_cast<double>(state.iterations())
-               : 0.0;
+    const auto elapsed_us = std::chrono::duration<double, std::micro>(
+        std::chrono::steady_clock::now() - start).count();
+    double us = state.iterations() ? elapsed_us / static_cast<double>(state.iterations()) : 0.0;
 
     gates::reportViolation("GATE-ACM-01", us, gates::kL1ToL2PromotionUs, "µs",
                           false);
@@ -253,6 +254,7 @@ BENCHMARK_F(BenchAccessCoordinator, GATE_ACM_02_CacheEvictionToStorageFeedback)
     // This measures the round-trip from cache eviction event to coordinator
     // processing
     int evict_counter = 0;
+    auto start = std::chrono::steady_clock::now();
 
     for (auto _ : state) {
         std::string key = "evict_feedback_" + std::to_string(evict_counter++);
@@ -267,10 +269,9 @@ BENCHMARK_F(BenchAccessCoordinator, GATE_ACM_02_CacheEvictionToStorageFeedback)
         benchmark::DoNotOptimize(key);
     }
 
-    double us = state.iterations()
-               ? state.elapsed_real_time() * 1e6 /
-                     static_cast<double>(state.iterations())
-               : 0.0;
+    const auto elapsed_us = std::chrono::duration<double, std::micro>(
+        std::chrono::steady_clock::now() - start).count();
+    double us = state.iterations() ? elapsed_us / static_cast<double>(state.iterations()) : 0.0;
 
     gates::reportViolation("GATE-ACM-02", us,
                           gates::kCacheEvictionRoundtripUs, "µs", false);
@@ -287,6 +288,7 @@ BENCHMARK_F(BenchAccessCoordinator, GATE_ACM_03_ColdToWarmPromotion)
     // Simulate promotion of ≤1MB object from COLD to WARM tier
     // Includes simulated storage I/O (but not actual I/O in this benchmark)
     int promotion_counter = 0;
+    auto start = std::chrono::steady_clock::now();
 
     for (auto _ : state) {
         std::string key = "promote_cold_warm_" + std::to_string(promotion_counter++);
@@ -301,10 +303,10 @@ BENCHMARK_F(BenchAccessCoordinator, GATE_ACM_03_ColdToWarmPromotion)
         benchmark::DoNotOptimize(key);
     }
 
-    double ms = state.iterations()
-               ? state.elapsed_real_time() * 1e3 /
-                     static_cast<double>(state.iterations())
-               : 0.0;
+    const double ms = state.iterations()
+        ? std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - start).count() /
+              static_cast<double>(state.iterations())
+        : 0.0;
 
     gates::reportViolation("GATE-ACM-03", ms, gates::kColdToWarmPromotionMs,
                           "ms", false);
@@ -321,6 +323,7 @@ BENCHMARK_F(BenchAccessCoordinator, GATE_ACM_04_EventProcessingThroughput)
     // Measure sustained event throughput with logging + metrics enabled
     // Target: ≥10K events/sec
     int event_counter = 0;
+    auto start = std::chrono::steady_clock::now();
 
     for (auto _ : state) {
         std::string key = "throughput_key_" + std::to_string(event_counter++);
@@ -337,8 +340,11 @@ BENCHMARK_F(BenchAccessCoordinator, GATE_ACM_04_EventProcessingThroughput)
         benchmark::DoNotOptimize(key);
     }
 
-    double seconds_elapsed = state.elapsed_real_time();
-    double events_per_sec = state.iterations() / seconds_elapsed;
+    const double seconds_elapsed = std::chrono::duration<double>(
+        std::chrono::steady_clock::now() - start).count();
+    double events_per_sec = seconds_elapsed > 0.0
+        ? static_cast<double>(state.iterations()) / seconds_elapsed
+        : 0.0;
 
     gates::reportViolation("GATE-ACM-04", events_per_sec,
                           gates::kEventThroughputPerSec, "events/sec", true);
@@ -381,6 +387,7 @@ BENCHMARK_F(BenchAccessCoordinator, GATE_ACM_06_PolicyDecisionOverhead)
     // Measure policy decision overhead per eviction event
     // Target: ≤10µs per eviction event
     int policy_counter = 0;
+    auto start = std::chrono::steady_clock::now();
 
     for (auto _ : state) {
         std::string key = "policy_decision_" + std::to_string(policy_counter++);
@@ -395,10 +402,9 @@ BENCHMARK_F(BenchAccessCoordinator, GATE_ACM_06_PolicyDecisionOverhead)
         benchmark::DoNotOptimize(key);
     }
 
-    double us = state.iterations()
-               ? state.elapsed_real_time() * 1e6 /
-                     static_cast<double>(state.iterations())
-               : 0.0;
+    const auto elapsed_us = std::chrono::duration<double, std::micro>(
+        std::chrono::steady_clock::now() - start).count();
+    double us = state.iterations() ? elapsed_us / static_cast<double>(state.iterations()) : 0.0;
 
     gates::reportViolation("GATE-ACM-06", us, gates::kPolicyDecisionOverheadUs,
                           "µs", false);

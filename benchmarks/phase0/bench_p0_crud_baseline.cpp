@@ -23,6 +23,7 @@
 #include <benchmark/benchmark.h>
 #include <iostream>
 #include <memory>
+#include <unordered_map>
 #include <random>
 #include <vector>
 #include <string>

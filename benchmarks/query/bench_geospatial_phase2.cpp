@@ -30,32 +30,45 @@ using namespace themis::query;
 // Test Fixtures
 // =============================================================================
 
-class GeospatialBenchmark : public ::testing::Test {
-protected:
+class GeospatialBenchmarkData {
+public:
     // 1M uniformly distributed points globally
     static constexpr size_t NUM_POINTS_LARGE = 1000000;
-    
+
     // 100K city polygons (clustered)
     static constexpr size_t NUM_POLYGONS = 100000;
-    
+
     // Spatial histogram for 1M points
     SpatialHistogram globalHistogram;
-    
-    void SetUp() override {
+
+    void SetUp() {
         // Build histogram for globally distributed points
         std::vector<std::pair<double, double>> points;
         points.reserve(10000);  // Sample 10K points for histogram
-        
+
         std::mt19937 rng(42);
         std::uniform_real_distribution<double> lonDist(-180.0, 180.0);
         std::uniform_real_distribution<double> latDist(-90.0, 90.0);
-        
+
         for (size_t i = 0; i < 10000; ++i) {
             points.push_back({lonDist(rng), latDist(rng)});
         }
-        
+
         globalHistogram = GeospatialCostEstimator::buildSpatialHistogram(points, 20);
         globalHistogram.totalPoints = NUM_POINTS_LARGE;
+    }
+};
+
+class GeospatialBenchmark : public ::testing::Test {
+protected:
+    static constexpr size_t NUM_POINTS_LARGE = GeospatialBenchmarkData::NUM_POINTS_LARGE;
+    static constexpr size_t NUM_POLYGONS = GeospatialBenchmarkData::NUM_POLYGONS;
+    SpatialHistogram globalHistogram;
+
+    void SetUp() override {
+        GeospatialBenchmarkData fixture;
+        fixture.SetUp();
+        globalHistogram = fixture.globalHistogram;
     }
 };
 
@@ -241,24 +254,24 @@ TEST_F(GeospatialBenchmark, REGRESSION_GATE_IndexSelection) {
 // =============================================================================
 
 static void BM_DistanceCostEstimation(benchmark::State& state) {
-    GeospatialBenchmark fixture;
+    GeospatialBenchmarkData fixture;
     fixture.SetUp();
-    
+
     for (auto _ : state) {
         auto cost = GeospatialCostEstimator::estimateDistanceCost(
-            1000000, 10000.0, true, &fixture.globalHistogram);
+            GeospatialBenchmarkData::NUM_POINTS_LARGE, 10000.0, true, &fixture.globalHistogram);
         benchmark::DoNotOptimize(cost);
     }
 }
 BENCHMARK(BM_DistanceCostEstimation);
 
 static void BM_ContainsCostEstimation(benchmark::State& state) {
-    GeospatialBenchmark fixture;
+    GeospatialBenchmarkData fixture;
     fixture.SetUp();
-    
+
     for (auto _ : state) {
         auto cost = GeospatialCostEstimator::estimateContainsCost(
-            1000000, 25, true, &fixture.globalHistogram);
+            GeospatialBenchmarkData::NUM_POINTS_LARGE, 25, true, &fixture.globalHistogram);
         benchmark::DoNotOptimize(cost);
     }
 }
@@ -274,26 +287,26 @@ static void BM_HintParsing(benchmark::State& state) {
 BENCHMARK(BM_HintParsing);
 
 static void BM_IndexSelection(benchmark::State& state) {
-    GeospatialBenchmark fixture;
+    GeospatialBenchmarkData fixture;
     fixture.SetUp();
-    
+
     std::map<std::string, IndexStatistics> indexes;
     IndexStatistics stats;
     stats.indexName = "idx_loc";
     stats.type = SpatialIndexType::RTREE;
     stats.averageHitRate = 0.8;
     indexes["idx_loc"] = stats;
-    
+
     DataDistribution dist;
     dist.type = DataDistribution::UNIFORM;
-    
+
     for (auto _ : state) {
         auto selected = GeospatialIndexSelector::selectIndex(
-            "DISTANCE", 1000000, indexes, dist, 10000.0);
+            "DISTANCE", GeospatialBenchmarkData::NUM_POINTS_LARGE, indexes, dist, 10000.0);
         benchmark::DoNotOptimize(selected);
     }
 }
 BENCHMARK(BM_IndexSelection);
 
 // Run benchmarks
-BENCHMARK_MAIN(argc, argv);
+BENCHMARK_MAIN();

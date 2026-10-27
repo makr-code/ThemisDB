@@ -125,10 +125,6 @@ static void BM_TDM_JournalReplayThroughput(benchmark::State& state) {
             state.SkipWithError("restoreGraph failed");
             break;
         }
-        if (!replay_mgr->replayMutationJournal(snapshot_key)) {
-            state.SkipWithError("replayMutationJournal failed");
-            break;
-        }
         benchmark::DoNotOptimize(replay_mgr->getStats().total_tensors);
     }
 

@@ -65,8 +65,8 @@ public:
         // Simulate causality analysis
         for (const auto& [from, to] : pairs) {
             output.events.push_back({});
-            benchmark::DoNotOptimize(from);
-            benchmark::DoNotOptimize(to);
+            ::benchmark::DoNotOptimize(from);
+            ::benchmark::DoNotOptimize(to);
         }
 
         output.unique_cases = input_log.unique_cases;
@@ -95,7 +95,7 @@ public:
         for (const auto& [activity, strength] : dependencies) {
             if (strength > 0.75) {
                 output.events.push_back({});
-                benchmark::DoNotOptimize(activity);
+                ::benchmark::DoNotOptimize(activity);
             }
         }
 
@@ -377,7 +377,7 @@ static DirectlyFollowsGraph generateDfg(const EventLog& log) {
 /**
  * BE-01: Multi-Format Import (5 formats, 100 files each)
  */
-static void BM_BE01_MultiFormatImport(benchmark::State& state) {
+static void BM_BE01_MultiFormatImport(::benchmark::State& state) {
     const int files_per_format = kSmallDatasetSize;
     const int num_formats = 5;
 
@@ -389,14 +389,14 @@ static void BM_BE01_MultiFormatImport(benchmark::State& state) {
             for (int i = 0; i < files_per_format; ++i) {
                 // Simulate import overhead
                 std::string content = "format_" + std::to_string(format) + "_file_" + std::to_string(i);
-                benchmark::DoNotOptimize(content);
+                ::benchmark::DoNotOptimize(content);
                 imports_done++;
             }
         }
     }
 
     state.SetItemsProcessed(imports_done);
-    state.counters["imports_per_sec"] = benchmark::Counter(imports_done, benchmark::Counter::kIsRate);
+    state.counters["imports_per_sec"] = ::benchmark::Counter(imports_done, ::benchmark::Counter::kIsRate);
 }
 
 BENCHMARK(BM_BE01_MultiFormatImport)
@@ -407,7 +407,7 @@ BENCHMARK(BM_BE01_MultiFormatImport)
 /**
  * BE-02: Process Mining Alpha Algorithm (1k event log)
  */
-static void BM_BE02_AlphaMiner(benchmark::State& state) {
+static void BM_BE02_AlphaMiner(::benchmark::State& state) {
     const int num_cases = 100;
     const int events_per_case = 10;
 
@@ -415,7 +415,7 @@ static void BM_BE02_AlphaMiner(benchmark::State& state) {
 
     for (auto _ : state) {
         auto result = ProcessMiningEngine::alphaMiner(log);
-        benchmark::DoNotOptimize(result);
+        ::benchmark::DoNotOptimize(result);
     }
 
     state.SetItemsProcessed(static_cast<int64_t>(log.events.size()) * state.iterations());
@@ -429,7 +429,7 @@ BENCHMARK(BM_BE02_AlphaMiner)
 /**
  * BE-03: Process Mining Heuristic Algorithm (1k event log)
  */
-static void BM_BE03_HeuristicMiner(benchmark::State& state) {
+static void BM_BE03_HeuristicMiner(::benchmark::State& state) {
     const int num_cases = 100;
     const int events_per_case = 10;
 
@@ -437,7 +437,7 @@ static void BM_BE03_HeuristicMiner(benchmark::State& state) {
 
     for (auto _ : state) {
         auto result = ProcessMiningEngine::heuristicMiner(log);
-        benchmark::DoNotOptimize(result);
+        ::benchmark::DoNotOptimize(result);
     }
 
     state.SetItemsProcessed(static_cast<int64_t>(log.events.size()) * state.iterations());
@@ -451,7 +451,7 @@ BENCHMARK(BM_BE03_HeuristicMiner)
 /**
  * BE-04: Process Mining Inductive Algorithm (1k event log)
  */
-static void BM_BE04_InductiveMiner(benchmark::State& state) {
+static void BM_BE04_InductiveMiner(::benchmark::State& state) {
     const int num_cases = 100;
     const int events_per_case = 10;
 
@@ -459,7 +459,7 @@ static void BM_BE04_InductiveMiner(benchmark::State& state) {
 
     for (auto _ : state) {
         auto result = ProcessMiningEngine::inductiveMiner(log);
-        benchmark::DoNotOptimize(result);
+        ::benchmark::DoNotOptimize(result);
     }
 
     state.SetItemsProcessed(static_cast<int64_t>(log.events.size()) * state.iterations());
@@ -473,7 +473,7 @@ BENCHMARK(BM_BE04_InductiveMiner)
 /**
  * BE-05: Conformance Checking (DFG vs log, 1k events)
  */
-static void BM_BE05_ConformanceChecking(benchmark::State& state) {
+static void BM_BE05_ConformanceChecking(::benchmark::State& state) {
     const int num_cases = 100;
     const int events_per_case = 10;
 
@@ -482,7 +482,7 @@ static void BM_BE05_ConformanceChecking(benchmark::State& state) {
 
     for (auto _ : state) {
         double conformance = ConformanceChecker::checkConformance(log, dfg);
-        benchmark::DoNotOptimize(conformance);
+        ::benchmark::DoNotOptimize(conformance);
     }
 
     state.SetItemsProcessed(static_cast<int64_t>(log.events.size()) * state.iterations());
@@ -496,7 +496,7 @@ BENCHMARK(BM_BE05_ConformanceChecking)
 /**
  * BE-06: Variant Analysis (event clustering, 1k events)
  */
-static void BM_BE06_VariantAnalysis(benchmark::State& state) {
+static void BM_BE06_VariantAnalysis(::benchmark::State& state) {
     const int num_cases = 100;
     const int events_per_case = 10;
 
@@ -504,7 +504,7 @@ static void BM_BE06_VariantAnalysis(benchmark::State& state) {
 
     for (auto _ : state) {
         auto variants = VariantAnalyzer::analyzeVariants(log);
-        benchmark::DoNotOptimize(variants);
+        ::benchmark::DoNotOptimize(variants);
     }
 
     state.SetItemsProcessed(static_cast<int64_t>(log.events.size()) * state.iterations());
@@ -518,7 +518,7 @@ BENCHMARK(BM_BE06_VariantAnalysis)
 /**
  * BE-07: LLM Process Descriptor (100 models)
  */
-static void BM_BE07_LlmDescriptor(benchmark::State& state) {
+static void BM_BE07_LlmDescriptor(::benchmark::State& state) {
     const int num_cases = 10;
     const int events_per_case = 10;
 
@@ -526,7 +526,7 @@ static void BM_BE07_LlmDescriptor(benchmark::State& state) {
 
     for (auto _ : state) {
         auto description = LlmProcessDescriptor::generateDescription(log);
-        benchmark::DoNotOptimize(description);
+        ::benchmark::DoNotOptimize(description);
     }
 
     state.SetItemsProcessed(static_cast<int64_t>(log.events.size()) * state.iterations());
@@ -540,7 +540,7 @@ BENCHMARK(BM_BE07_LlmDescriptor)
 /**
  * BE-08: BPMN to DFG Conversion (100 models)
  */
-static void BM_BE08_BpmnToDfgConversion(benchmark::State& state) {
+static void BM_BE08_BpmnToDfgConversion(::benchmark::State& state) {
     const int num_cases = 100;
     const int events_per_case = 10;
 
@@ -548,7 +548,7 @@ static void BM_BE08_BpmnToDfgConversion(benchmark::State& state) {
 
     for (auto _ : state) {
         auto dfg = generateDfg(log);
-        benchmark::DoNotOptimize(dfg);
+        ::benchmark::DoNotOptimize(dfg);
     }
 
     state.SetItemsProcessed(static_cast<int64_t>(log.events.size()) * state.iterations());
@@ -562,12 +562,12 @@ BENCHMARK(BM_BE08_BpmnToDfgConversion)
 /**
  * BE-09: Process Community Detection (1k model graph)
  */
-static void BM_BE09_CommunityDetection(benchmark::State& state) {
+static void BM_BE09_CommunityDetection(::benchmark::State& state) {
     const int num_models = kMediumDatasetSize;
 
     for (auto _ : state) {
         auto communities = CommunityDetector::detectCommunities(num_models);
-        benchmark::DoNotOptimize(communities);
+        ::benchmark::DoNotOptimize(communities);
     }
 
     state.SetItemsProcessed(num_models * state.iterations());
@@ -581,7 +581,7 @@ BENCHMARK(BM_BE09_CommunityDetection)
 /**
  * BE-10: RAG Knowledge Retrieval (1k models + queries)
  */
-static void BM_BE10_RagRetrieval(benchmark::State& state) {
+static void BM_BE10_RagRetrieval(::benchmark::State& state) {
     const int num_cases = 100;
     const int events_per_case = 10;
 
@@ -592,7 +592,7 @@ static void BM_BE10_RagRetrieval(benchmark::State& state) {
         int retrieval_rounds = 5;
         for (int r = 0; r < retrieval_rounds; ++r) {
             auto result = ProcessMiningEngine::alphaMiner(log);
-            benchmark::DoNotOptimize(result);
+            ::benchmark::DoNotOptimize(result);
         }
     }
 
@@ -607,7 +607,7 @@ BENCHMARK(BM_BE10_RagRetrieval)
 /**
  * BE-11: Combined End-to-End Scenario (import + mining + retrieval)
  */
-static void BM_BE11_EndToEndScenario(benchmark::State& state) {
+static void BM_BE11_EndToEndScenario(::benchmark::State& state) {
     const int num_cases = 100;
     const int events_per_case = 10;
 
@@ -627,11 +627,11 @@ static void BM_BE11_EndToEndScenario(benchmark::State& state) {
         // Step 4: Analyze variants
         auto variants = VariantAnalyzer::analyzeVariants(log);
 
-        benchmark::DoNotOptimize(alpha_result);
-        benchmark::DoNotOptimize(heur_result);
-        benchmark::DoNotOptimize(ind_result);
-        benchmark::DoNotOptimize(conformance);
-        benchmark::DoNotOptimize(variants);
+        ::benchmark::DoNotOptimize(alpha_result);
+        ::benchmark::DoNotOptimize(heur_result);
+        ::benchmark::DoNotOptimize(ind_result);
+        ::benchmark::DoNotOptimize(conformance);
+        ::benchmark::DoNotOptimize(variants);
     }
 
     state.SetItemsProcessed(state.iterations());
@@ -645,7 +645,7 @@ BENCHMARK(BM_BE11_EndToEndScenario)
 /**
  * BE-12: Sustained Load Stress Test
  */
-static void BM_BE12_StressTest(benchmark::State& state) {
+static void BM_BE12_StressTest(::benchmark::State& state) {
     const int num_cases = 50;
     const int events_per_case = 10;
 
@@ -657,7 +657,7 @@ static void BM_BE12_StressTest(benchmark::State& state) {
             threads.emplace_back([num_cases, events_per_case]() {
                 auto log = generateEventLog(num_cases, events_per_case);
                 auto result = ProcessMiningEngine::alphaMiner(log);
-                benchmark::DoNotOptimize(result);
+                ::benchmark::DoNotOptimize(result);
             });
         }
 

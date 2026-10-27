@@ -16,11 +16,14 @@
 #include "security/rbac.h"
 
 #include <nlohmann/json.hpp>
+#include <algorithm>
 #include <chrono>
 #include <filesystem>
 #include <fstream>
-#include <vector>
+#include <iostream>
 #include <mutex>
+#include <thread>
+#include <vector>
 
 using namespace themis;
 using namespace themis::security;

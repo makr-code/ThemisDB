@@ -1723,6 +1723,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/cache/bench_cache_eviction_coordinator.cp
 
    add_executable(bench_cache_eviction_coordinator
        cache/bench_cache_eviction_coordinator.cpp
+       ${CMAKE_SOURCE_DIR}/src/cache/eviction_listener.cpp
    )
 
    target_include_directories(bench_cache_eviction_coordinator PRIVATE
@@ -4071,11 +4072,14 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/voice/bench_voice_a8_baselines.cpp")
 
     add_executable(bench_voice_a8_baselines
         voice/bench_voice_a8_baselines.cpp
+        ${CMAKE_SOURCE_DIR}/src/voice/voice_stream_validator.cpp
+        ${CMAKE_SOURCE_DIR}/src/voice/voice_liveness_checker.cpp
     )
 
     target_include_directories(bench_voice_a8_baselines PRIVATE
         ${CMAKE_SOURCE_DIR}/benchmarks/voice
         ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
     )
 
     target_link_libraries(bench_voice_a8_baselines PRIVATE
@@ -5310,7 +5314,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/monitoring/bench_cycle_metrics.cpp" AND N
         ${CMAKE_CURRENT_SOURCE_DIR}/../include
         ${CMAKE_CURRENT_SOURCE_DIR}/../src
     )
-    target_link_libraries(bench_cycle_metrics PRIVATE themis_core Threads::Threads)
+    target_link_libraries(bench_cycle_metrics PRIVATE
+        themis_core
+        benchmark::benchmark
+        Threads::Threads
+    )
     themis_apply_benchmark_release_flags(bench_cycle_metrics)
     install(TARGETS bench_cycle_metrics RUNTIME DESTINATION bin/benchmarks COMPONENT benchmarks)
 endif()
@@ -5321,7 +5329,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/base/bench_auto_buffers.cpp" AND NOT TARG
         ${CMAKE_CURRENT_SOURCE_DIR}/../include
         ${CMAKE_CURRENT_SOURCE_DIR}/../src
     )
-    target_link_libraries(bench_auto_buffers PRIVATE themis_core Threads::Threads)
+    target_link_libraries(bench_auto_buffers PRIVATE
+        themis_core
+        benchmark::benchmark
+        Threads::Threads
+    )
     themis_apply_benchmark_release_flags(bench_auto_buffers)
     install(TARGETS bench_auto_buffers RUNTIME DESTINATION bin/benchmarks COMPONENT benchmarks)
 endif()
@@ -5332,7 +5344,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/maintenance/bench_docker_raid_comprehensi
         ${CMAKE_CURRENT_SOURCE_DIR}/../include
         ${CMAKE_CURRENT_SOURCE_DIR}/../src
     )
-    target_link_libraries(bench_docker_raid_comprehensive PRIVATE themis_core Threads::Threads)
+    target_link_libraries(bench_docker_raid_comprehensive PRIVATE
+        themis_core
+        benchmark::benchmark
+        Threads::Threads
+    )
     themis_apply_benchmark_release_flags(bench_docker_raid_comprehensive)
     install(TARGETS bench_docker_raid_comprehensive RUNTIME DESTINATION bin/benchmarks COMPONENT benchmarks)
 endif()
@@ -5343,7 +5359,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ann/bench_lossy_vs_lossless.cpp" AND NOT 
         ${CMAKE_CURRENT_SOURCE_DIR}/../include
         ${CMAKE_CURRENT_SOURCE_DIR}/../src
     )
-    target_link_libraries(bench_lossy_vs_lossless PRIVATE themis_core Threads::Threads)
+    target_link_libraries(bench_lossy_vs_lossless PRIVATE
+        themis_core
+        benchmark::benchmark
+        Threads::Threads
+    )
     themis_apply_benchmark_release_flags(bench_lossy_vs_lossless)
     install(TARGETS bench_lossy_vs_lossless RUNTIME DESTINATION bin/benchmarks COMPONENT benchmarks)
 endif()
@@ -5354,7 +5374,11 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/geo/bench_spatial_join.cpp" AND NOT TARGE
         ${CMAKE_CURRENT_SOURCE_DIR}/../include
         ${CMAKE_CURRENT_SOURCE_DIR}/../src
     )
-    target_link_libraries(bench_spatial_join PRIVATE themis_core Threads::Threads)
+    target_link_libraries(bench_spatial_join PRIVATE
+        themis_core
+        benchmark::benchmark
+        Threads::Threads
+    )
     themis_apply_benchmark_release_flags(bench_spatial_join)
     install(TARGETS bench_spatial_join RUNTIME DESTINATION bin/benchmarks COMPONENT benchmarks)
 endif()

@@ -81,7 +81,7 @@ static std::unique_ptr<RocksDBWrapper> setupDatabase(const std::string& path) {
 /**
  * @benchmark Alpha Miner performance
  */
-static void BM_ProcessMining_AlphaMiner(benchmark::State& state) {
+static void BM_ProcessMining_AlphaMiner(::benchmark::State& state) {
     auto log = createSyntheticEventLog(state.range(0), 10);
     
     auto db = setupDatabase("/tmp/bench_pm_alpha");
@@ -90,7 +90,7 @@ static void BM_ProcessMining_AlphaMiner(benchmark::State& state) {
     for (auto _ : state) {
         MiningConfig cfg; cfg.algorithm = MiningAlgorithm::ALPHA;
         auto model = mining.discoverProcess(log, cfg);
-        benchmark::DoNotOptimize(model);
+        ::benchmark::DoNotOptimize(model);
     }
     
     state.SetItemsProcessed(state.iterations() * log.traces.size());
@@ -107,7 +107,7 @@ BENCHMARK(BM_ProcessMining_AlphaMiner)
 /**
  * @benchmark Heuristic Miner performance
  */
-static void BM_ProcessMining_HeuristicMiner(benchmark::State& state) {
+static void BM_ProcessMining_HeuristicMiner(::benchmark::State& state) {
     auto log = createSyntheticEventLog(state.range(0), 10);
     
     auto db = setupDatabase("/tmp/bench_pm_heuristic");
@@ -116,7 +116,7 @@ static void BM_ProcessMining_HeuristicMiner(benchmark::State& state) {
     for (auto _ : state) {
         MiningConfig cfg; cfg.algorithm = MiningAlgorithm::HEURISTIC;
         auto model = mining.discoverProcess(log, cfg);
-        benchmark::DoNotOptimize(model);
+        ::benchmark::DoNotOptimize(model);
     }
     
     state.SetItemsProcessed(state.iterations() * log.traces.size());
@@ -133,7 +133,7 @@ BENCHMARK(BM_ProcessMining_HeuristicMiner)
 /**
  * @benchmark Inductive Miner performance
  */
-static void BM_ProcessMining_InductiveMiner(benchmark::State& state) {
+static void BM_ProcessMining_InductiveMiner(::benchmark::State& state) {
     auto log = createSyntheticEventLog(state.range(0), 10);
     
     auto db = setupDatabase("/tmp/bench_pm_inductive");
@@ -142,7 +142,7 @@ static void BM_ProcessMining_InductiveMiner(benchmark::State& state) {
     for (auto _ : state) {
         MiningConfig cfg; cfg.algorithm = MiningAlgorithm::INDUCTIVE;
         auto model = mining.discoverProcess(log, cfg);
-        benchmark::DoNotOptimize(model);
+        ::benchmark::DoNotOptimize(model);
     }
     
     state.SetItemsProcessed(state.iterations() * log.traces.size());
@@ -163,7 +163,7 @@ BENCHMARK(BM_ProcessMining_InductiveMiner)
 /**
  * @benchmark Event log extraction with varying log sizes
  */
-static void BM_ProcessMining_EventLogExtraction(benchmark::State& state) {
+static void BM_ProcessMining_EventLogExtraction(::benchmark::State& state) {
     auto db = setupDatabase("/tmp/bench_pm_extraction");
     ProcessMining mining(*db);
     
@@ -185,7 +185,7 @@ static void BM_ProcessMining_EventLogExtraction(benchmark::State& state) {
     
     for (auto _ : state) {
         auto log = mining.extractEventLog("event_log", config);
-        benchmark::DoNotOptimize(log);
+        ::benchmark::DoNotOptimize(log);
     }
     
     state.SetItemsProcessed(state.iterations() * num_cases);
@@ -201,7 +201,7 @@ BENCHMARK(BM_ProcessMining_EventLogExtraction)
 /**
  * @benchmark Processing large event logs with many traces
  */
-static void BM_ProcessMining_LargeLogProcessing(benchmark::State& state) {
+static void BM_ProcessMining_LargeLogProcessing(::benchmark::State& state) {
     auto log = createSyntheticEventLog(state.range(0), state.range(1));
     
     auto db = setupDatabase("/tmp/bench_pm_large");
@@ -210,7 +210,7 @@ static void BM_ProcessMining_LargeLogProcessing(benchmark::State& state) {
     MiningConfig cfg; cfg.algorithm = MiningAlgorithm::HEURISTIC;
     for (auto _ : state) {
         auto model = mining.discoverProcess(log, cfg);
-        benchmark::DoNotOptimize(model);
+        ::benchmark::DoNotOptimize(model);
     }
     
     state.SetItemsProcessed(state.iterations() * log.total_events);
@@ -230,7 +230,7 @@ BENCHMARK(BM_ProcessMining_LargeLogProcessing)
 /**
  * @benchmark DFG creation performance
  */
-static void BM_ProcessMining_DFGCreation(benchmark::State& state) {
+static void BM_ProcessMining_DFGCreation(::benchmark::State& state) {
     auto log = createSyntheticEventLog(state.range(0), 10);
     
     auto db = setupDatabase("/tmp/bench_pm_dfg");
@@ -238,7 +238,7 @@ static void BM_ProcessMining_DFGCreation(benchmark::State& state) {
     
     for (auto _ : state) {
         auto dfg = mining.createDFG(log);
-        benchmark::DoNotOptimize(dfg);
+        ::benchmark::DoNotOptimize(dfg);
     }
     
     state.SetItemsProcessed(state.iterations() * log.traces.size());
@@ -255,7 +255,7 @@ BENCHMARK(BM_ProcessMining_DFGCreation)
 /**
  * @benchmark DFG with performance metrics
  */
-static void BM_ProcessMining_DFGWithPerformance(benchmark::State& state) {
+static void BM_ProcessMining_DFGWithPerformance(::benchmark::State& state) {
     auto log = createSyntheticEventLog(state.range(0), 10);
     
     auto db = setupDatabase("/tmp/bench_pm_dfg_perf");
@@ -263,7 +263,7 @@ static void BM_ProcessMining_DFGWithPerformance(benchmark::State& state) {
     
     for (auto _ : state) {
         auto dfg = mining.createDFG(log); // Current API returns DFG only
-        benchmark::DoNotOptimize(dfg);
+        ::benchmark::DoNotOptimize(dfg);
     }
     
     state.SetItemsProcessed(state.iterations() * log.traces.size());
@@ -283,7 +283,7 @@ BENCHMARK(BM_ProcessMining_DFGWithPerformance)
 /**
  * @benchmark Variant analysis performance
  */
-static void BM_ProcessMining_VariantAnalysis(benchmark::State& state) {
+static void BM_ProcessMining_VariantAnalysis(::benchmark::State& state) {
     auto log = createSyntheticEventLog(state.range(0), 10);
     
     auto db = setupDatabase("/tmp/bench_pm_variants");
@@ -291,7 +291,7 @@ static void BM_ProcessMining_VariantAnalysis(benchmark::State& state) {
     
     for (auto _ : state) {
         auto variants = mining.analyzeVariants(log);
-        benchmark::DoNotOptimize(variants);
+        ::benchmark::DoNotOptimize(variants);
     }
     
     state.SetItemsProcessed(state.iterations() * log.traces.size());
@@ -308,7 +308,7 @@ BENCHMARK(BM_ProcessMining_VariantAnalysis)
 /**
  * @benchmark Variant clustering performance
  */
-static void BM_ProcessMining_VariantClustering(benchmark::State& state) {
+static void BM_ProcessMining_VariantClustering(::benchmark::State& state) {
     auto log = createSyntheticEventLog(state.range(0), 10);
     
     auto db = setupDatabase("/tmp/bench_pm_clustering");
@@ -316,7 +316,7 @@ static void BM_ProcessMining_VariantClustering(benchmark::State& state) {
     
     for (auto _ : state) {
         auto clusters = mining.clusterVariants(log, 5); // 5 clusters
-        benchmark::DoNotOptimize(clusters);
+        ::benchmark::DoNotOptimize(clusters);
     }
     
     state.SetItemsProcessed(state.iterations() * log.traces.size());
@@ -336,7 +336,7 @@ BENCHMARK(BM_ProcessMining_VariantClustering)
 /**
  * @benchmark Token replay conformance checking
  */
-static void BM_ProcessMining_ConformanceChecking(benchmark::State& state) {
+static void BM_ProcessMining_ConformanceChecking(::benchmark::State& state) {
     auto log = createSyntheticEventLog(state.range(0), 10);
     
     auto db = setupDatabase("/tmp/bench_pm_conformance");
@@ -351,7 +351,7 @@ static void BM_ProcessMining_ConformanceChecking(benchmark::State& state) {
     
     for (auto _ : state) {
         auto conformance = mining.checkConformance(log, model);
-        benchmark::DoNotOptimize(conformance);
+        ::benchmark::DoNotOptimize(conformance);
     }
     
     state.SetItemsProcessed(state.iterations() * log.traces.size());
@@ -371,7 +371,7 @@ BENCHMARK(BM_ProcessMining_ConformanceChecking)
 /**
  * @benchmark BPMN export performance
  */
-static void BM_ProcessMining_BPMNExport(benchmark::State& state) {
+static void BM_ProcessMining_BPMNExport(::benchmark::State& state) {
     auto log = createSyntheticEventLog(100, 10);
     
     auto db = setupDatabase("/tmp/bench_pm_bpmn");
@@ -386,7 +386,7 @@ static void BM_ProcessMining_BPMNExport(benchmark::State& state) {
     
     for (auto _ : state) {
         auto bpmn = mining.exportToBPMN(model);
-        benchmark::DoNotOptimize(bpmn);
+        ::benchmark::DoNotOptimize(bpmn);
     }
     
     std::filesystem::remove_all("/tmp/bench_pm_bpmn");
@@ -396,7 +396,7 @@ BENCHMARK(BM_ProcessMining_BPMNExport)->Unit(benchmark::kMicrosecond);
 /**
  * @benchmark Petri Net (PNML) export performance
  */
-static void BM_ProcessMining_PNMLExport(benchmark::State& state) {
+static void BM_ProcessMining_PNMLExport(::benchmark::State& state) {
     auto log = createSyntheticEventLog(100, 10);
     
     auto db = setupDatabase("/tmp/bench_pm_pnml");
@@ -407,7 +407,7 @@ static void BM_ProcessMining_PNMLExport(benchmark::State& state) {
     
     for (auto _ : state) {
         auto pnml = mining.exportToPNML(model);
-        benchmark::DoNotOptimize(pnml);
+        ::benchmark::DoNotOptimize(pnml);
     }
     
     std::filesystem::remove_all("/tmp/bench_pm_pnml");

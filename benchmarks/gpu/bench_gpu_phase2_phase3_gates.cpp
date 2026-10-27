@@ -15,9 +15,9 @@
 
 #include <benchmark/benchmark.h>
 #include "themis/gpu/load_balancer.h"
-#include "themis/gpu/gpu_memory_allocator.h"
-#include "themis/gpu/gpu_backend_dispatch_contract.h"
-#include "themis/gpu/gpu_backend_dispatch_diagnostics.h"
+#include "gpu/gpu_memory_allocator.h"
+#include "gpu/gpu_backend_dispatch_contract.h"
+#include "gpu/gpu_backend_dispatch_diagnostics.h"
 #include <vector>
 #include <random>
 

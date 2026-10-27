@@ -453,7 +453,7 @@ static std::string generateFimXml(int model_idx) {
 /**
  * PP-01: BPMN Parse (100 files)
  */
-static void BM_PP01_BpmnParse_Small(benchmark::State& state) {
+static void BM_PP01_BpmnParse_Small(::benchmark::State& state) {
     const int num_files = kSmallDatasetSize;
     std::vector<std::string> bpmn_files;
     
@@ -477,14 +477,14 @@ static void BM_PP01_BpmnParse_Small(benchmark::State& state) {
             auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
             latencies.push_back(static_cast<double>(duration_ms));
             
-            benchmark::DoNotOptimize(model);
+            ::benchmark::DoNotOptimize(model);
         }
     }
 
     if (!latencies.empty()) {
         std::sort(latencies.begin(), latencies.end());
         double p99 = latencies[std::min(size_t(99), latencies.size() - 1)];
-        state.counters["p99_ms"] = benchmark::Counter(p99, benchmark::Counter::kAvgIterations);
+        state.counters["p99_ms"] = ::benchmark::Counter(p99, ::benchmark::Counter::kAvgIterations);
     }
 
     state.SetItemsProcessed(num_files * static_cast<int64_t>(state.iterations()));
@@ -495,7 +495,7 @@ BENCHMARK(BM_PP01_BpmnParse_Small)->Iterations(10)->ReportAggregatesOnly(true)->
 /**
  * PP-02: BPMN Parse (1k files)
  */
-static void BM_PP02_BpmnParse_Medium(benchmark::State& state) {
+static void BM_PP02_BpmnParse_Medium(::benchmark::State& state) {
     const int num_files = kMediumDatasetSize;
     std::vector<std::string> bpmn_files;
     
@@ -508,13 +508,13 @@ static void BM_PP02_BpmnParse_Medium(benchmark::State& state) {
     for (auto _ : state) {
         for (const auto& bpmn_xml : bpmn_files) {
             auto model = BpmnParser::parse(bpmn_xml);
-            benchmark::DoNotOptimize(model);
+            ::benchmark::DoNotOptimize(model);
             parsed_count++;
         }
     }
 
     state.SetItemsProcessed(parsed_count);
-    state.counters["parse_rate"] = benchmark::Counter(parsed_count, benchmark::Counter::kIsRate);
+    state.counters["parse_rate"] = ::benchmark::Counter(parsed_count, ::benchmark::Counter::kIsRate);
 }
 
 BENCHMARK(BM_PP02_BpmnParse_Medium)->Iterations(5)->ReportAggregatesOnly(true)->UseRealTime();
@@ -522,7 +522,7 @@ BENCHMARK(BM_PP02_BpmnParse_Medium)->Iterations(5)->ReportAggregatesOnly(true)->
 /**
  * PP-03: EPK Parse (100 files)
  */
-static void BM_PP03_EpkParse(benchmark::State& state) {
+static void BM_PP03_EpkParse(::benchmark::State& state) {
     const int num_files = kSmallDatasetSize;
     std::vector<std::string> epk_files;
     
@@ -535,7 +535,7 @@ static void BM_PP03_EpkParse(benchmark::State& state) {
     for (auto _ : state) {
         for (const auto& epk_xml : epk_files) {
             auto model = EpkParser::parse(epk_xml);
-            benchmark::DoNotOptimize(model);
+            ::benchmark::DoNotOptimize(model);
             parsed_count++;
         }
     }
@@ -548,7 +548,7 @@ BENCHMARK(BM_PP03_EpkParse)->Iterations(10)->ReportAggregatesOnly(true)->UseReal
 /**
  * PP-04: CMMN Parse (100 files)
  */
-static void BM_PP04_CmmnParse(benchmark::State& state) {
+static void BM_PP04_CmmnParse(::benchmark::State& state) {
     const int num_files = kSmallDatasetSize;
     std::vector<std::string> cmmn_files;
     
@@ -561,7 +561,7 @@ static void BM_PP04_CmmnParse(benchmark::State& state) {
     for (auto _ : state) {
         for (const auto& cmmn_xml : cmmn_files) {
             auto model = CmmnParser::parse(cmmn_xml);
-            benchmark::DoNotOptimize(model);
+            ::benchmark::DoNotOptimize(model);
             parsed_count++;
         }
     }
@@ -574,7 +574,7 @@ BENCHMARK(BM_PP04_CmmnParse)->Iterations(10)->ReportAggregatesOnly(true)->UseRea
 /**
  * PP-05: DMN Parse (100 files)
  */
-static void BM_PP05_DmnParse(benchmark::State& state) {
+static void BM_PP05_DmnParse(::benchmark::State& state) {
     const int num_files = kSmallDatasetSize;
     std::vector<std::string> dmn_files;
     
@@ -587,7 +587,7 @@ static void BM_PP05_DmnParse(benchmark::State& state) {
     for (auto _ : state) {
         for (const auto& dmn_xml : dmn_files) {
             auto model = DmnParser::parse(dmn_xml);
-            benchmark::DoNotOptimize(model);
+            ::benchmark::DoNotOptimize(model);
             parsed_count++;
         }
     }
@@ -600,7 +600,7 @@ BENCHMARK(BM_PP05_DmnParse)->Iterations(10)->ReportAggregatesOnly(true)->UseReal
 /**
  * PP-06: OCEL Parse (100 logs)
  */
-static void BM_PP06_OcelParse(benchmark::State& state) {
+static void BM_PP06_OcelParse(::benchmark::State& state) {
     const int num_logs = kSmallDatasetSize;
     std::vector<std::string> ocel_logs;
     
@@ -613,7 +613,7 @@ static void BM_PP06_OcelParse(benchmark::State& state) {
     for (auto _ : state) {
         for (const auto& ocel_json : ocel_logs) {
             auto log = OcelParser::parse(ocel_json);
-            benchmark::DoNotOptimize(log);
+            ::benchmark::DoNotOptimize(log);
             parsed_count++;
         }
     }
@@ -626,7 +626,7 @@ BENCHMARK(BM_PP06_OcelParse)->Iterations(10)->ReportAggregatesOnly(true)->UseRea
 /**
  * PP-07: VCC/VPB Parse (100 files)
  */
-static void BM_PP07_VccVpbParse(benchmark::State& state) {
+static void BM_PP07_VccVpbParse(::benchmark::State& state) {
     const int num_files = kSmallDatasetSize;
     std::vector<std::string> vcc_vpb_files;
     
@@ -639,7 +639,7 @@ static void BM_PP07_VccVpbParse(benchmark::State& state) {
     for (auto _ : state) {
         for (const auto& vcc_vpb_xml : vcc_vpb_files) {
             auto model = VccVpbParser::parse(vcc_vpb_xml);
-            benchmark::DoNotOptimize(model);
+            ::benchmark::DoNotOptimize(model);
             parsed_count++;
         }
     }
@@ -652,7 +652,7 @@ BENCHMARK(BM_PP07_VccVpbParse)->Iterations(10)->ReportAggregatesOnly(true)->UseR
 /**
  * PP-08: FIM Parse (100 files)
  */
-static void BM_PP08_FimParse(benchmark::State& state) {
+static void BM_PP08_FimParse(::benchmark::State& state) {
     const int num_files = kSmallDatasetSize;
     std::vector<std::string> fim_files;
     
@@ -665,7 +665,7 @@ static void BM_PP08_FimParse(benchmark::State& state) {
     for (auto _ : state) {
         for (const auto& fim_xml : fim_files) {
             auto model = FimParser::parse(fim_xml);
-            benchmark::DoNotOptimize(model);
+            ::benchmark::DoNotOptimize(model);
             parsed_count++;
         }
     }

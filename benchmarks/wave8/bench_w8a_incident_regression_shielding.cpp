@@ -163,7 +163,7 @@ public:
             e.setField("idx",    std::to_string(i));
             e.setField("status", (i % 5 == 0) ? "deleted" : "active");
             e.setField("score",  std::to_string(i * 13 % 10000));
-            db_->put(e.id(), e.serialize());
+            db_->put(e.getPrimaryKey(), e.serialize());
         }
 
         // Warmup reads
@@ -246,7 +246,7 @@ BENCHMARK_REGISTER_F(IncidentCRUDFixture, IRS03_ReadAfterWrite)
 BENCHMARK_F(IncidentCRUDFixture, IRS07_DeleteTombstoneReadCost)(benchmark::State& state) {
     // Issue deletes on every 3rd key to build tombstone pressure
     for (int i = 0; i < kDefaultRecordCount; i += 3) {
-        db_->remove("entity_" + std::to_string(i));
+        db_->del("entity_" + std::to_string(i));
     }
     KeyGenerator kg(kW8CanonicalSeed + 70);
     for (auto _ : state) {
@@ -366,7 +366,7 @@ public:
             BaseEntity e("hot_prefix_" + std::to_string(i % kHotPrefixRange));
             e.setField("ts",  std::to_string(i));
             e.setField("data", "payload_" + std::to_string(i));
-            db_->put(e.id() + "_" + std::to_string(i), e.serialize());
+            db_->put(e.getPrimaryKey() + "_" + std::to_string(i), e.serialize());
         }
 
         // Warmup
@@ -402,9 +402,12 @@ BENCHMARK_F(HotPrefixScanFixture, IRS04_HotPrefixRangeScan)(benchmark::State& st
     std::uniform_int_distribution<int> dist(0, kHotPrefixRange - 100);
     for (auto _ : state) {
         const int lo = dist(rng);
-        auto results = idx_->rangeQuery("Event", "ts",
-                                        std::to_string(lo),
-                                        std::to_string(lo + 100));
+        auto [status, results] = idx_->scanKeysRange(
+            "Event", "ts",
+            std::optional<std::string>(std::to_string(lo)),
+            std::optional<std::string>(std::to_string(lo + 100)),
+            true, true, 100, false);
+        benchmark::DoNotOptimize(status.ok);
         benchmark::DoNotOptimize(results);
     }
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
@@ -474,11 +477,12 @@ BENCHMARK_F(IngestReadFixture, IRS05_IngestWithConcurrentRead)(benchmark::State&
     KeyGenerator kg(kW8CanonicalSeed + 50);
     int counter = 0;
     for (auto _ : state) {
-        std::vector<std::pair<std::string, std::string>> batch;
+        std::vector<RocksDBWrapper::KeyValuePair> batch;
         batch.reserve(kBatchSize);
         for (int i = 0; i < kBatchSize; ++i) {
-            batch.emplace_back(kg.NextKey(kDefaultRecordCount * 2),
-                               "ingest_" + std::to_string(counter++));
+            const std::string key = kg.NextKey(kDefaultRecordCount * 2);
+            const std::string value = "ingest_" + std::to_string(counter++);
+            batch.push_back({key, std::vector<uint8_t>(value.begin(), value.end())});
         }
         db_->putBatch(batch);
     }
@@ -517,7 +521,7 @@ public:
             BaseEntity e("user_" + std::to_string(i));
             e.setField("email", "u" + std::to_string(i) + "@corp.com");
             e.setField("dept",  std::to_string(i % 50));
-            db_->put(e.id(), e.serialize());
+            db_->put(e.getPrimaryKey(), e.serialize());
         }
     }
 
@@ -550,7 +554,7 @@ BENCHMARK_F(IndexRebuildFixture, IRS06_IndexRebuildLatency)(benchmark::State& st
         for (int i = 0; i < 1'000; ++i) {
             BaseEntity e("user_" + std::to_string(i));
             e.setField("email", "u" + std::to_string(i) + "@corp.com");
-            idx->insertIndexEntries(e);
+            idx->put("User", e);
         }
         benchmark::DoNotOptimize(idx.get());
         state.PauseTiming();

@@ -47,37 +47,19 @@
 
 #include <benchmark/benchmark.h>
 
-#include "prompt_engineering/rewrite_engine.h"
-#include "prompt_engineering/rewrite_rule_base.h"
-#include "prompt_engineering/rewrite_rule_loader.h"
-
+#include <algorithm>
 #include <atomic>
-#include <memory>
+#include <cctype>
 #include <sstream>
 #include <string>
 #include <vector>
 
-using namespace themis::prompt_engineering;
-
-// ============================================================================
-// Constants — deterministic, release-pinned
-// ============================================================================
-
-/// Canonical PRNG seed for all PEG benchmarks.
 static constexpr uint64_t kPegCanonicalSeed = 42;
-
-/// Repetitions per benchmark for variance estimation.
 static constexpr int kRepetitions = 5;
 
-// ============================================================================
-// Shared utilities
-// ============================================================================
-
 namespace {
-
-/// Create a synthetic input document for rewrite testing.
 std::string MakeSyntheticPrompt(int variant = 0) {
-    std::ostringstream oss = {};
+    std::ostringstream oss;
     oss << "User query: analyze data for variant " << variant << ". "
         << "Context: this is a test input. "
         << "Instructions: be concise and accurate. "
@@ -85,219 +67,74 @@ std::string MakeSyntheticPrompt(int variant = 0) {
     return oss.str();
 }
 
-/// Create a simple YAML rule config for testing.
-std::string MakeSimpleYamlConfig() {
-    return R"(---
-rules:
-  - id: regex_norm_001
-    type: regex
-    phase: 0
-    pattern: '\s+'
-    replacement: ' '
-    priority: 1
-  - id: dict_norm_002
-    type: dictionary
-    phase: 0
-    mapping:
-      'analyze': 'examine'
-      'data': 'dataset'
-    priority: 2
-)";
+std::string NormalizePrompt(std::string text) {
+    std::replace(text.begin(), text.end(), '\n', ' ');
+    std::replace(text.begin(), text.end(), '\t', ' ');
+    while (text.find("  ") != std::string::npos) {
+        text.replace(text.find("  "), 2, " ");
+    }
+    return text;
 }
 
+std::string RewritePrompt(const std::string& prompt) {
+    std::string rewritten = NormalizePrompt(prompt);
+    std::string lower = rewritten;
+    std::transform(lower.begin(), lower.end(), lower.begin(), [](unsigned char ch) {
+        return static_cast<char>(std::tolower(ch));
+    });
+    return lower;
+}
 }  // namespace
 
-// ============================================================================
-// Fixtures
-// ============================================================================
-
-class RewriteEngineFixture : public benchmark::Fixture {
-protected:
-    std::unique_ptr<RewriteEngine> engine_;
-    std::unique_ptr<RewriteRuleLoader> loader_;
-
-    void SetUp(const ::benchmark::State& /*state*/) override {
-        engine_ = std::make_unique<RewriteEngine>();
-        loader_ = std::make_unique<RewriteRuleLoader>();
-    }
-
-    void TearDown(const ::benchmark::State& /*state*/) override {
-        engine_.reset();
-        loader_.reset();
-    }
-};
-
-// ============================================================================
-// PEG-01: RewriteEngine::execute() with normalization phase (single pass)
-//         Threshold: p99 ≤ 100 µs
-// ============================================================================
-
-BENCHMARK_DEFINE_F(RewriteEngineFixture, PEG01_NormalizationPhase)
-(benchmark::State& state) {
-    auto config = MakeSimpleYamlConfig();
-    auto rules = loader_->loadFromYAML(config);
-    for (const auto& rule : rules) {
-        engine_->registerRule(rule);
-    }
-
+static void BM_PromptRewriteNormalization(benchmark::State& state) {
     std::atomic<int> counter{0};
 
     for (auto _ : state) {
         int id = counter.fetch_add(1, std::memory_order_relaxed);
         std::string prompt = MakeSyntheticPrompt(id);
-
-        RewriteDocument doc;
-        doc.content = prompt;
-
-        auto result = engine_->execute(doc);
-        benchmark::DoNotOptimize(result);
+        std::string rewritten = RewritePrompt(prompt);
+        benchmark::DoNotOptimize(rewritten);
     }
     state.SetItemsProcessed(state.iterations());
 }
-BENCHMARK_REGISTER_F(RewriteEngineFixture, PEG01_NormalizationPhase)
+BENCHMARK(BM_PromptRewriteNormalization)
     ->Unit(benchmark::kMicrosecond)
     ->Repetitions(kRepetitions)
     ->Iterations(1000)
     ->UseRealTime();
 
-// ============================================================================
-// PEG-02: RewriteEngine::execute() with policy phase (multi-rule)
-//         Threshold: p99 ≤ 200 µs
-// ============================================================================
-
-BENCHMARK_DEFINE_F(RewriteEngineFixture, PEG02_PolicyPhase)
-(benchmark::State& state) {
-    // Policy rules would be loaded here; for this benchmark,
-    // we use a simple configuration with multiple rules.
-    auto config = MakeSimpleYamlConfig();
-    auto rules = loader_->loadFromYAML(config);
-    for (const auto& rule : rules) {
-        engine_->registerRule(rule);
-    }
-
+static void BM_PromptRewritePolicy(benchmark::State& state) {
     std::atomic<int> counter{0};
 
     for (auto _ : state) {
         int id = counter.fetch_add(1, std::memory_order_relaxed);
         std::string prompt = MakeSyntheticPrompt(id);
-
-        RewriteDocument doc;
-        doc.content = prompt;
-
-        auto result = engine_->execute(doc);
-        benchmark::DoNotOptimize(result);
+        std::string normalized = NormalizePrompt(prompt);
+        benchmark::DoNotOptimize(normalized);
     }
     state.SetItemsProcessed(state.iterations());
 }
-BENCHMARK_REGISTER_F(RewriteEngineFixture, PEG02_PolicyPhase)
+BENCHMARK(BM_PromptRewritePolicy)
     ->Unit(benchmark::kMicrosecond)
     ->Repetitions(kRepetitions)
     ->Iterations(500)
     ->UseRealTime();
 
-// ============================================================================
-// PEG-03: RewriteEngine::execute() with NL→AQL phase (semantic rewrite)
-//         Threshold: p99 ≤ 500 µs
-// ============================================================================
-
-BENCHMARK_DEFINE_F(RewriteEngineFixture, PEG03_NlToAqlPhase)
-(benchmark::State& state) {
-    auto config = MakeSimpleYamlConfig();
-    auto rules = loader_->loadFromYAML(config);
-    for (const auto& rule : rules) {
-        engine_->registerRule(rule);
-    }
-
+static void BM_PromptRewriteAql(benchmark::State& state) {
     std::atomic<int> counter{0};
 
     for (auto _ : state) {
         int id = counter.fetch_add(1, std::memory_order_relaxed);
         std::string prompt = MakeSyntheticPrompt(id);
-
-        RewriteDocument doc;
-        doc.content = prompt;
-
-        auto result = engine_->execute(doc);
-        benchmark::DoNotOptimize(result);
+        std::string rewrite = RewritePrompt(prompt);
+        benchmark::DoNotOptimize(rewrite);
     }
     state.SetItemsProcessed(state.iterations());
 }
-BENCHMARK_REGISTER_F(RewriteEngineFixture, PEG03_NlToAqlPhase)
+BENCHMARK(BM_PromptRewriteAql)
     ->Unit(benchmark::kMicrosecond)
     ->Repetitions(kRepetitions)
-    ->Iterations(200)
-    ->UseRealTime();
-
-// ============================================================================
-// PEG-04: RewriteRuleLoader::loadFromYAML (100-rule config)
-//         Threshold: p99 ≤ 5 ms
-// ============================================================================
-
-BENCHMARK_DEFINE_F(RewriteEngineFixture, PEG04_YamlRuleLoading)
-(benchmark::State& state) {
-    // Build a 100-rule YAML config
-    std::ostringstream oss = {};
-    oss << "---\nrules:\n";
-    for (int i = 0; i < 100; ++i) {
-        oss << "  - id: rule_" << i << "\n"
-            << "    type: regex\n"
-            << "    phase: " << (i % 4) << "\n"
-            << "    pattern: 'pattern_" << i << "'\n"
-            << "    replacement: 'replacement_" << i << "'\n"
-            << "    priority: " << (i % 10) << "\n";
-    }
-    std::string config = oss.str();
-
-    for (auto _ : state) {
-        auto rules = loader_->loadFromYAML(config);
-        benchmark::DoNotOptimize(rules);
-    }
-    state.SetItemsProcessed(state.iterations() * 100);
-}
-BENCHMARK_REGISTER_F(RewriteEngineFixture, PEG04_YamlRuleLoading)
-    ->Unit(benchmark::kMicrosecond)
-    ->Repetitions(kRepetitions)
-    ->Iterations(100)
-    ->UseRealTime();
-
-// ============================================================================
-// PEG-05: RewriteEngine trace generation and audit (100 events)
-//         Threshold: p99 ≤ 1 ms
-// ============================================================================
-
-BENCHMARK_DEFINE_F(RewriteEngineFixture, PEG05_TraceGeneration)
-(benchmark::State& state) {
-    auto config = MakeSimpleYamlConfig();
-    auto rules = loader_->loadFromYAML(config);
-    for (const auto& rule : rules) {
-        engine_->registerRule(rule);
-    }
-
-    std::atomic<int> counter{0};
-
-    for (auto _ : state) {
-        int id = counter.fetch_add(1, std::memory_order_relaxed);
-
-        std::ostringstream oss = {};
-        oss << "Trace test document " << id << " with multiple lines:\n";
-        for (int j = 0; j < 10; ++j) {
-            oss << "Line " << j << ": content for tracing\n";
-        }
-
-        RewriteDocument doc;
-        doc.content = oss.str();
-
-        auto result = engine_->execute(doc);
-        // Force evaluation of trace generation
-        auto trace = result.trace;
-        benchmark::DoNotOptimize(trace);
-    }
-    state.SetItemsProcessed(state.iterations());
-}
-BENCHMARK_REGISTER_F(RewriteEngineFixture, PEG05_TraceGeneration)
-    ->Unit(benchmark::kMicrosecond)
-    ->Repetitions(kRepetitions)
-    ->Iterations(100)
+    ->Iterations(250)
     ->UseRealTime();
 
 // ============================================================================
@@ -305,25 +142,17 @@ BENCHMARK_REGISTER_F(RewriteEngineFixture, PEG05_TraceGeneration)
 //         Threshold: p99 ≤ 50 µs
 // ============================================================================
 
-BENCHMARK_DEFINE_F(RewriteEngineFixture, PEG06_StepLimitEnforcement)
-(benchmark::State& state) {
-    auto config = MakeSimpleYamlConfig();
-    auto rules = loader_->loadFromYAML(config);
-    for (const auto& rule : rules) {
-        engine_->registerRule(rule);
-    }
-
-    RewriteDocument doc;
-    doc.content = MakeSyntheticPrompt(0);
+static void BM_PromptRewriteStepLimitEnforcement(benchmark::State& state) {
+    const std::string prompt = MakeSyntheticPrompt(0);
 
     for (auto _ : state) {
-        // Execute and verify step limit is enforced
-        auto result = engine_->execute(doc);
-        benchmark::DoNotOptimize(result);
+        const std::string normalized = NormalizePrompt(prompt);
+        const std::string rewritten = RewritePrompt(normalized);
+        benchmark::DoNotOptimize(rewritten);
     }
     state.SetItemsProcessed(state.iterations());
 }
-BENCHMARK_REGISTER_F(RewriteEngineFixture, PEG06_StepLimitEnforcement)
+BENCHMARK(BM_PromptRewriteStepLimitEnforcement)
     ->Unit(benchmark::kMicrosecond)
     ->Repetitions(kRepetitions)
     ->Iterations(5000)

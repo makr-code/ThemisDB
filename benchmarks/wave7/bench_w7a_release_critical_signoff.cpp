@@ -150,9 +150,9 @@ private:
 /**
  * @brief Fixture for CRUD sign-off benchmarks (point read, upsert, mixed).
  *
- * Loads kDefaultRecordCount entities in SetUp() to provide a realistic working
- * set.  All measurement keys are drawn from the same PRNG seed so that the
- * access pattern is identical across runs.
+ * Uses the live RocksDB backend and canonical BaseEntity serialization so the
+ * benchmark reflects the current production storage API instead of a stale
+ * mock interface.
  */
 class CRUDSignoffFixture : public benchmark::Fixture {
 public:
@@ -165,16 +165,14 @@ public:
             throw std::runtime_error("W7A: failed to open RocksDB for CRUD sign-off");
         }
 
-        // Pre-load dataset
         for (int i = 0; i < kDefaultRecordCount; ++i) {
             BaseEntity e("entity_" + std::to_string(i));
-            e.setField("idx",    std::to_string(i));
+            e.setField("idx", std::to_string(i));
             e.setField("status", (i % 3 == 0) ? "active" : "inactive");
-            e.setField("score",  std::to_string(i * 7 % 1000));
-            db_->put(e.id(), e.serialize());
+            e.setField("score", std::to_string((i * 7) % 1000));
+            db_->put(e.getPrimaryKey(), e.serialize());
         }
 
-        // Warmup: discard first kWarmupIterations read/writes
         KeyGenerator warmup_kg(kW7CanonicalSeed + 1);
         for (int i = 0; i < kWarmupIterations; ++i) {
             std::string key = warmup_kg.NextKey(kDefaultRecordCount);
@@ -203,20 +201,18 @@ BENCHMARK_F(CRUDSignoffFixture, RCS01_PointRead)(benchmark::State& state) {
     }
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
 }
-// clang-format off
 BENCHMARK_REGISTER_F(CRUDSignoffFixture, RCS01_PointRead)
     ->Repetitions(kRepetitions)
     ->Unit(benchmark::kMicrosecond)
     ->UseRealTime()
     ->Name("W7A/RCS01_PointRead_p99_gate_200us");
-// clang-format on
 
 /// RCS-02: Upsert throughput gate (≥ 80 000 ops/s).
 BENCHMARK_F(CRUDSignoffFixture, RCS02_UpsertThroughput)(benchmark::State& state) {
     KeyGenerator kg(kW7CanonicalSeed + 2);
     int counter = 0;
     for (auto _ : state) {
-        const std::string key = kg.NextKey(kDefaultRecordCount * 2); // allow new keys
+        const std::string key = kg.NextKey(kDefaultRecordCount * 2);
         db_->put(key, "val_" + std::to_string(counter++));
     }
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
@@ -255,30 +251,27 @@ BENCHMARK_REGISTER_F(CRUDSignoffFixture, RCS05_MixedOLTP)
 // RCS-03 / RCS-04: Range scan and batch write
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Fixture for range-scan and batch sign-off benchmarks.
- */
 class RangeBatchSignoffFixture : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State&) override {
         db_path_ = UniqueDbPath("range");
         RemoveAll(db_path_);
 
-        db_  = std::make_unique<RocksDBWrapper>(DefaultConfig(db_path_));
-        idx_ = nullptr;
+        db_ = std::make_unique<RocksDBWrapper>(DefaultConfig(db_path_));
         if (!db_->open()) {
             throw std::runtime_error("W7A: failed to open RocksDB for range/batch sign-off");
         }
+
         idx_ = std::make_unique<SecondaryIndexManager>(*db_);
         idx_->createRangeIndex("Item", "score");
 
-        // Pre-load
         for (int i = 0; i < kDefaultRecordCount; ++i) {
             BaseEntity e("item_" + std::to_string(i));
             e.setField("score", std::to_string(i % 10000));
-            db_->put(e.id(), e.serialize());
+            db_->put(e.getPrimaryKey(), e.serialize());
+            idx_->put("Item", e);
         }
-        // Warmup
+
         KeyGenerator wkg(kW7CanonicalSeed + 10);
         for (int i = 0; i < kWarmupIterations; ++i) {
             std::string val = {};
@@ -294,7 +287,7 @@ public:
 
 protected:
     std::string db_path_ = {};
-    std::unique_ptr<RocksDBWrapper>        db_;
+    std::unique_ptr<RocksDBWrapper> db_;
     std::unique_ptr<SecondaryIndexManager> idx_;
 };
 
@@ -303,10 +296,17 @@ BENCHMARK_F(RangeBatchSignoffFixture, RCS03_RangeScan)(benchmark::State& state) 
     std::mt19937_64 rng(kW7CanonicalSeed + 3);
     std::uniform_int_distribution<int> dist(0, kDefaultRecordCount - 100);
     for (auto _ : state) {
-        int lo = dist(rng);
-        auto results = idx_->rangeQuery("Item", "score",
-                                        std::to_string(lo),
-                                        std::to_string(lo + 100));
+        const int lo = dist(rng);
+        const auto [status, results] = idx_->scanKeysRange(
+            "Item",
+            "score",
+            std::optional<std::string>(std::to_string(lo)),
+            std::optional<std::string>(std::to_string(lo + 100)),
+            true,
+            true,
+            100,
+            false);
+        benchmark::DoNotOptimize(status);
         benchmark::DoNotOptimize(results);
     }
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
@@ -322,11 +322,15 @@ BENCHMARK_F(RangeBatchSignoffFixture, RCS04_BatchWrite)(benchmark::State& state)
     KeyGenerator kg(kW7CanonicalSeed + 4);
     int counter = 0;
     for (auto _ : state) {
-        std::vector<std::pair<std::string, std::string>> batch;
+        std::vector<RocksDBWrapper::KeyValuePair> batch;
         batch.reserve(500);
         for (int i = 0; i < 500; ++i) {
-            std::string key = kg.NextKey(kDefaultRecordCount * 2);
-            batch.emplace_back(key, "bv_" + std::to_string(counter++));
+            const std::string key = kg.NextKey(kDefaultRecordCount * 2);
+            const std::string payload = "bv_" + std::to_string(counter++);
+            RocksDBWrapper::KeyValuePair kv{};
+            kv.key = key;
+            kv.value.assign(payload.begin(), payload.end());
+            batch.push_back(kv);
         }
         db_->putBatch(batch);
     }
@@ -342,39 +346,49 @@ BENCHMARK_REGISTER_F(RangeBatchSignoffFixture, RCS04_BatchWrite)
 // RCS-06: Vector ANN sign-off
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Fixture for vector search sign-off.
- */
 class VectorSignoffFixture : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State&) override {
         db_path_ = UniqueDbPath("vec");
         RemoveAll(db_path_);
 
-        VectorIndexConfig cfg;
-        cfg.db_path  = db_path_;
-        cfg.dimension = kVecDim;
-        vidx_ = std::make_unique<VectorIndex>(cfg);
+        db_ = std::make_unique<RocksDBWrapper>(DefaultConfig(db_path_));
+        if (!db_->open()) {
+            throw std::runtime_error("W7A: failed to open RocksDB for vector sign-off");
+        }
+
+        vidx_ = std::make_unique<VectorIndexManager>(*db_);
+        if (!vidx_->init("w7a_vec", static_cast<int>(kVecDim), VectorIndexManager::Metric::COSINE).ok) {
+            throw std::runtime_error("W7A: failed to initialize vector index");
+        }
 
         KeyGenerator kg(kW7CanonicalSeed + 6);
         for (int i = 0; i < 10'000; ++i) {
-            vidx_->insert("vec_" + std::to_string(i), kg.NextVec(kVecDim));
+            BaseEntity e("vec_" + std::to_string(i));
+            e.setField("embedding", kg.NextVec(kVecDim));
+            if (!vidx_->addEntity(e).ok) {
+                throw std::runtime_error("W7A: failed to add vector entity");
+            }
         }
-        // Warmup
+
         for (int i = 0; i < kWarmupIterations; ++i) {
             auto q = kg.NextVec(kVecDim);
-            benchmark::DoNotOptimize(vidx_->search(q, 10));
+            auto [status, results] = vidx_->searchKnn(q, 10);
+            benchmark::DoNotOptimize(status);
+            benchmark::DoNotOptimize(results);
         }
     }
 
     void TearDown(const ::benchmark::State&) override {
         vidx_.reset();
+        db_.reset();
         RemoveAll(db_path_);
     }
 
 protected:
     std::string db_path_ = {};
-    std::unique_ptr<VectorIndex> vidx_;
+    std::unique_ptr<RocksDBWrapper> db_;
+    std::unique_ptr<VectorIndexManager> vidx_;
 };
 
 /// RCS-06: ANN top-10 search p99 gate (≤ 200 µs).
@@ -382,7 +396,9 @@ BENCHMARK_F(VectorSignoffFixture, RCS06_AnnSearch)(benchmark::State& state) {
     KeyGenerator kg(kW7CanonicalSeed + 60);
     for (auto _ : state) {
         auto q = kg.NextVec(kVecDim);
-        benchmark::DoNotOptimize(vidx_->search(q, 10));
+        auto [status, results] = vidx_->searchKnn(q, 10);
+        benchmark::DoNotOptimize(status);
+        benchmark::DoNotOptimize(results);
     }
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
 }
@@ -396,46 +412,59 @@ BENCHMARK_REGISTER_F(VectorSignoffFixture, RCS06_AnnSearch)
 // RCS-07: Graph traversal sign-off
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Fixture for graph neighbourhood traversal sign-off.
- */
 class GraphSignoffFixture : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State&) override {
         db_path_ = UniqueDbPath("graph");
         RemoveAll(db_path_);
 
-        GraphIndexConfig gcfg;
-        gcfg.db_path = db_path_;
-        gidx_ = std::make_unique<GraphIndex>(gcfg);
+        db_ = std::make_unique<RocksDBWrapper>(DefaultConfig(db_path_));
+        if (!db_->open()) {
+            throw std::runtime_error("W7A: failed to open RocksDB for graph sign-off");
+        }
 
-        // Build a small scale-free graph
+        gidx_ = std::make_unique<GraphIndexManager>(*db_);
         constexpr int kNodes = 5'000;
         constexpr int kEdges = 4;
-        for (int i = 0; i < kNodes; ++i) {
-            gidx_->addNode("n" + std::to_string(i));
-        }
         std::mt19937_64 rng(kW7CanonicalSeed + 7);
         std::uniform_int_distribution<int> nd(0, kNodes - 1);
-        for (int i = 0; i < kNodes * kEdges; ++i) {
-            gidx_->addEdge("n" + std::to_string(nd(rng)),
-                           "n" + std::to_string(nd(rng)));
+
+        for (int i = 0; i < kNodes; ++i) {
+            BaseEntity node("n" + std::to_string(i));
+            node.setField("kind", "node");
+            db_->put(node.getPrimaryKey(), node.serialize());
         }
-        // Warmup
+
+        for (int i = 0; i < kNodes * kEdges; ++i) {
+            const std::string from = "n" + std::to_string(nd(rng));
+            const std::string to = "n" + std::to_string(nd(rng));
+            BaseEntity edge("edge_" + std::to_string(i));
+            edge.setField("id", edge.getPrimaryKey());
+            edge.setField("_from", from);
+            edge.setField("_to", to);
+            if (!gidx_->addEdge(edge).ok) {
+                throw std::runtime_error("W7A: failed to add graph edge");
+            }
+        }
+
         for (int i = 0; i < kWarmupIterations; ++i) {
-            benchmark::DoNotOptimize(
-                gidx_->neighbours("n" + std::to_string(i % kNodes)));
+            const std::string node_id = "n" + std::to_string(i % kNodes);
+            auto [status, neighbors] = gidx_->outNeighbors(node_id);
+            benchmark::DoNotOptimize(status);
+            benchmark::DoNotOptimize(neighbors);
         }
     }
 
     void TearDown(const ::benchmark::State&) override {
         gidx_.reset();
+        db_.reset();
         RemoveAll(db_path_);
     }
 
 protected:
     std::string db_path_ = {};
-    std::unique_ptr<GraphIndex> gidx_;
+    std::unique_ptr<RocksDBWrapper> db_;
+    std::unique_ptr<GraphIndexManager> gidx_;
 };
 
 /// RCS-07: Graph neighbourhood lookup p99 gate (≤ 500 µs).
@@ -444,8 +473,10 @@ BENCHMARK_F(GraphSignoffFixture, RCS07_GraphNeighbourhood)(benchmark::State& sta
     std::mt19937_64 rng(kW7CanonicalSeed + 70);
     std::uniform_int_distribution<int> nd(0, kNodes - 1);
     for (auto _ : state) {
-        benchmark::DoNotOptimize(
-            gidx_->neighbours("n" + std::to_string(nd(rng))));
+        const std::string node_id = "n" + std::to_string(nd(rng));
+        auto [status, neighbors] = gidx_->outNeighbors(node_id);
+        benchmark::DoNotOptimize(status);
+        benchmark::DoNotOptimize(neighbors);
     }
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
 }
@@ -459,19 +490,17 @@ BENCHMARK_REGISTER_F(GraphSignoffFixture, RCS07_GraphNeighbourhood)
 // RCS-08: Secondary-index lookup sign-off
 // ---------------------------------------------------------------------------
 
-/**
- * @brief Fixture for secondary-index lookup sign-off.
- */
 class SecondaryIndexSignoffFixture : public benchmark::Fixture {
 public:
     void SetUp(const ::benchmark::State&) override {
         db_path_ = UniqueDbPath("idx");
         RemoveAll(db_path_);
 
-        db_  = std::make_unique<RocksDBWrapper>(DefaultConfig(db_path_));
+        db_ = std::make_unique<RocksDBWrapper>(DefaultConfig(db_path_));
         if (!db_->open()) {
             throw std::runtime_error("W7A: failed to open RocksDB for index sign-off");
         }
+
         idx_ = std::make_unique<SecondaryIndexManager>(*db_);
         idx_->createIndex("User", "email", true);
         idx_->createRangeIndex("User", "age");
@@ -479,14 +508,16 @@ public:
         for (int i = 0; i < kDefaultRecordCount; ++i) {
             BaseEntity e("user_" + std::to_string(i));
             e.setField("email", "u" + std::to_string(i) + "@test.com");
-            e.setField("age",   std::to_string(18 + i % 60));
-            db_->put(e.id(), e.serialize());
-            idx_->insertIndexEntries(e);
+            e.setField("age", std::to_string(18 + (i % 60)));
+            db_->put(e.getPrimaryKey(), e.serialize());
+            idx_->put("User", e);
         }
-        // Warmup
+
         for (int i = 0; i < kWarmupIterations; ++i) {
-            benchmark::DoNotOptimize(
-                idx_->lookup("User", "email", "u" + std::to_string(i) + "@test.com"));
+            const int id = i % kDefaultRecordCount;
+            auto [status, keys] = idx_->scanKeysEqual("User", "email", "u" + std::to_string(id) + "@test.com");
+            benchmark::DoNotOptimize(status);
+            benchmark::DoNotOptimize(keys);
         }
     }
 
@@ -498,7 +529,7 @@ public:
 
 protected:
     std::string db_path_ = {};
-    std::unique_ptr<RocksDBWrapper>        db_;
+    std::unique_ptr<RocksDBWrapper> db_;
     std::unique_ptr<SecondaryIndexManager> idx_;
 };
 
@@ -507,9 +538,10 @@ BENCHMARK_F(SecondaryIndexSignoffFixture, RCS08_SecondaryIndexLookup)(benchmark:
     std::mt19937_64 rng(kW7CanonicalSeed + 8);
     std::uniform_int_distribution<int> dist(0, kDefaultRecordCount - 1);
     for (auto _ : state) {
-        int id = dist(rng);
-        benchmark::DoNotOptimize(
-            idx_->lookup("User", "email", "u" + std::to_string(id) + "@test.com"));
+        const int id = dist(rng);
+        auto [status, keys] = idx_->scanKeysEqual("User", "email", "u" + std::to_string(id) + "@test.com");
+        benchmark::DoNotOptimize(status);
+        benchmark::DoNotOptimize(keys);
     }
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
 }

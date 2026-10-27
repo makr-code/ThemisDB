@@ -183,7 +183,7 @@ public:
         for (int i = 0; i < kDatasetSize; ++i) {
             BaseEntity e("e_" + std::to_string(i));
             e.setField("v", std::to_string(i));
-            db_->put(e.id(), e.serialize());
+            db_->put(e.getPrimaryKey(), e.serialize());
         }
         KeyGenerator wkg(kW8CanonicalSeed + 1);
         for (int i = 0; i < kWarmupIterations; ++i) {
@@ -537,10 +537,12 @@ BENCHMARK_F(BatchWriteHardenedFixture, THD07_TightenedBatchWrite)(benchmark::Sta
     KeyGenerator kg(kW8CanonicalSeed + 77);
     int ctr = 0;
     for (auto _ : state) {
-        std::vector<std::pair<std::string, std::string>> batch;
+        std::vector<RocksDBWrapper::KeyValuePair> batch;
         batch.reserve(500);
         for (int i = 0; i < 500; ++i) {
-            batch.emplace_back(kg.NextKey(kDatasetSize * 2), "bv_" + std::to_string(ctr++));
+            const std::string key = kg.NextKey(kDatasetSize * 2);
+            const std::string value = "bv_" + std::to_string(ctr++);
+            batch.push_back({key, std::vector<uint8_t>(value.begin(), value.end())});
         }
         db_->putBatch(batch);
     }

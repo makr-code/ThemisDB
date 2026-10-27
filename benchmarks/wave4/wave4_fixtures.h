@@ -164,7 +164,7 @@ private:
  *
  * Usage:
  * @code
- *   LatencyInjector injector(/*min_us=*/50, /*max_us=*/200, kW4CanonicalSeed);
+ *   LatencyInjector injector(50, 200, kW4CanonicalSeed);
  *   for (auto _ : state) {
  *       injector.sleep();  // deterministic artificial delay
  *       doWork();

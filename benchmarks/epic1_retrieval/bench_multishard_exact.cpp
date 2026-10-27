@@ -89,13 +89,13 @@ private:
     std::string shard_id_ = {};
 };
 
-themis::graph::DistributedGraphManager makeManager(int total_shards) {
-    themis::graph::DistributedGraphManager manager;
-    manager.addShard("healthy-0", std::make_shared<HealthyExecutor>("healthy-0"));
+std::unique_ptr<themis::graph::DistributedGraphManager> makeManager(int total_shards) {
+    auto manager = std::make_unique<themis::graph::DistributedGraphManager>();
+    manager->addShard("healthy-0", std::make_shared<HealthyExecutor>("healthy-0"));
 
     for (int i = 1; i < total_shards; ++i) {
-        manager.addShard("failing-" + std::to_string(i),
-                         std::make_shared<FailingExecutor>("failing-" + std::to_string(i)));
+        manager->addShard("failing-" + std::to_string(i),
+                          std::make_shared<FailingExecutor>("failing-" + std::to_string(i)));
     }
     return manager;
 }
@@ -113,7 +113,7 @@ void BM_MultishardExact(benchmark::State& state) {
 
     for (int i = 0; i < kWarmupIterations; ++i) {
         const auto& [start, end] = queries[query_dist(rng)];
-        auto shortest = manager.shortestPath(start, end);
+        auto shortest = manager->shortestPath(start, end);
         if (!shortest.has_value()) {
             state.SkipWithError("Warmup failed: no exact path returned");
             return;
@@ -123,13 +123,13 @@ void BM_MultishardExact(benchmark::State& state) {
 
     for (auto _ : state) {
         const auto& [start, end] = queries[query_dist(rng)];
-        auto shortest = manager.shortestPath(start, end);
+        auto shortest = manager->shortestPath(start, end);
         if (!shortest.has_value()) {
             state.SkipWithError("Exact multi-shard benchmark failed: no path returned");
             break;
         }
         benchmark::DoNotOptimize(shortest->totalCost);
-        benchmark::DoNotOptimize(shortest->path);
+        benchmark::DoNotOptimize(shortest->path.size());
     }
 
     state.SetItemsProcessed(state.iterations() * shard_count);

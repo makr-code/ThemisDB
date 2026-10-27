@@ -5,9 +5,9 @@
 #include <random>
 #include <vector>
 
-using themis::GeometryInfo;
-using themis::GeometryType;
 using themis::geo::DbscanConfig;
+using themis::geo::GeometryInfo;
+using themis::geo::GeometryType;
 using themis::geo::GpuClusteringConfig;
 using themis::geo::dbscanCluster;
 

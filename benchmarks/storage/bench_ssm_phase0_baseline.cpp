@@ -70,31 +70,33 @@ static void bench_infini_attention_cpu_baseline(benchmark::State& state) {
     int seq_len = state.range(0);
     int hidden_dim = 768;
 
-    // Create CPU fallback (stub implementation)
-    auto infini_cpu = std::make_unique<InfiniAttentionCpuFallback>();
+    themis::llm::attention::InfiniAttentionCPU::Config cfg;
+    cfg.hidden_dim = hidden_dim;
+    cfg.seq_len = seq_len;
+    cfg.memory_size = 4096;
+    cfg.use_fp64 = false;
 
-    // Prepare dummy input tensors (not actually used by stub, but part of interface)
-    // In Phase 2, this will be replaced with real CUDA kernel
-    std::vector<float> query(seq_len * hidden_dim, 0.5f);
-    std::vector<float> key(seq_len * hidden_dim, 0.5f);
-    std::vector<float> value(seq_len * hidden_dim, 0.5f);
+    auto infini_cpu = std::make_unique<themis::llm::attention::InfiniAttentionCPU>(cfg);
+    if (!infini_cpu->initialize()) {
+        state.SkipWithError("InfiniAttentionCPU initialization failed");
+    }
 
-    // Warm-up: single invocation to initialize any caches
-    auto latency_ms = synthesize_infini_cpu_latency_ms(seq_len, hidden_dim);
+    Eigen::MatrixXf query = Eigen::MatrixXf::Zero(seq_len, hidden_dim);
+    Eigen::MatrixXf key = Eigen::MatrixXf::Zero(seq_len, hidden_dim);
+    Eigen::MatrixXf value = Eigen::MatrixXf::Zero(seq_len, hidden_dim);
+    Eigen::MatrixXf output = Eigen::MatrixXf::Zero(seq_len, hidden_dim);
+
+    double latency_ms = synthesize_infini_cpu_latency_ms(seq_len, hidden_dim);
     benchmark::DoNotOptimize(latency_ms);
 
-    // Main benchmark loop
     for (auto _ : state) {
-        // Simulate attention computation
+        benchmark::DoNotOptimize(infini_cpu->forward(query, key, value, output));
+        auto stats = infini_cpu->getMemoryStats();
+        benchmark::DoNotOptimize(stats);
         latency_ms = synthesize_infini_cpu_latency_ms(seq_len, hidden_dim);
-        // In real implementation, this would call infini_cpu->forward()
-        benchmark::DoNotOptimize(latency_ms);
-
-        // Collect synthetic metric for p99 latency
         state.counters["latency_ms"] = latency_ms;
     }
 
-    // Report final metrics
     state.counters["seq_len"] = seq_len;
     state.counters["vram_mb"] = synthesize_vram_footprint_mb(seq_len, hidden_dim);
     state.counters["throughput_tokens_per_sec"] = synthesize_tokens_per_second(latency_ms);
@@ -169,9 +171,9 @@ static void bench_context_quality_metrics_computation(benchmark::State& state) {
         for (int i = 0; i < num_samples; ++i) {
             // Synthetic context quality metrics
             ContextQualityMetrics metrics;
-            metrics.l1_tokens_in_context = 512;
-            metrics.l2_episodic_tokens = 1024;
-            metrics.l3_semantic_tokens = 2048;
+            metrics.l1_tokens = 512;
+            metrics.l2_tokens = 1024;
+            metrics.l3_tokens = 2048;
             metrics.state_retention_score = 0.85f;
             metrics.factual_drift_estimate = 0.15f;
             metrics.tokens_since_last_retrieval = 50;
@@ -211,16 +213,14 @@ BENCHMARK(bench_context_quality_metrics_computation)
 static void bench_drift_metrics_prometheus_export(benchmark::State& state) {
     int num_metrics = state.range(0);
 
-    // Create metrics collector
-    auto drift_collector = std::make_unique<DriftMetricsCollector>();
+    auto& drift_collector = themis::llm::metrics::SSMDriftMetrics::instance();
 
     for (auto _ : state) {
         for (int i = 0; i < num_metrics; ++i) {
-            // Simulate metric updates
-            drift_collector->recordDriftScore(0.35f);
-            drift_collector->recordStateCheckpoint();
-            drift_collector->recordHybridRouterDecision("transformer");
-            benchmark::DoNotOptimize(drift_collector.get());
+            drift_collector.recordFactualDriftScore("bench-session", 0.35);
+            drift_collector.recordSSMStateCheckpoint("bench-session", 4096u);
+            drift_collector.recordHybridRouterDecision("transformer");
+            benchmark::DoNotOptimize(drift_collector.exportPrometheus());
         }
     }
 

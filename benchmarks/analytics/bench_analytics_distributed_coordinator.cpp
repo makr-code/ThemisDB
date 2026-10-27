@@ -75,7 +75,7 @@ static void BenchCircuitBreakerStateTransition(benchmark::State& state) {
     for (auto _ : state) {
         auto start = std::chrono::high_resolution_clock::now();
         try {
-            coordinator->executeDistributed(query, "tenant-1");
+            coordinator->executeDistributed(query);
         } catch (...) {
             // Expected
         }
@@ -108,14 +108,18 @@ static void BenchConcurrentMergeStartup(benchmark::State& state) {
 
     themis::analytics::OLAPQuery query;
     query.dimensions.push_back({"dim1", "STRING"});
-    query.measures.push_back({"SUM", "value", "count"});
+    themis::analytics::Measure sum_measure;
+    sum_measure.name = "sum_value";
+    sum_measure.field = "value";
+    sum_measure.function = themis::analytics::Measure::Function::Sum;
+    query.measures.push_back(sum_measure);
 
     std::vector<std::chrono::nanoseconds> latencies;
 
     for (auto _ : state) {
         auto start = std::chrono::high_resolution_clock::now();
         try {
-            coordinator->executeDistributed(query, "tenant-1");
+            coordinator->executeDistributed(query);
         } catch (...) {
             // Expected
         }
@@ -168,7 +172,7 @@ static void BenchTimeoutRecoverySwitchover(benchmark::State& state) {
     executor->behavior = BenchShardExecutor::Behavior::FAIL;
     for (int i = 0; i < 2; ++i) {
         try {
-            coordinator->executeDistributed(query, "tenant-1");
+            coordinator->executeDistributed(query);
         } catch (...) {}
     }
 
@@ -180,7 +184,7 @@ static void BenchTimeoutRecoverySwitchover(benchmark::State& state) {
     for (auto _ : state) {
         auto start = std::chrono::high_resolution_clock::now();
         try {
-            coordinator->executeDistributed(query, "tenant-1");
+            coordinator->executeDistributed(query);
         } catch (...) {
             // May still fail depending on probe timing
         }
@@ -233,14 +237,18 @@ static void BenchDegradedModeThroughput(benchmark::State& state) {
 
     themis::analytics::OLAPQuery query;
     query.dimensions.push_back({"dim1", "STRING"});
-    query.measures.push_back({"SUM", "value", "count"});
+    themis::analytics::Measure sum_measure;
+    sum_measure.name = "sum_value";
+    sum_measure.field = "value";
+    sum_measure.function = themis::analytics::Measure::Function::Sum;
+    query.measures.push_back(sum_measure);
 
     // Measure normal throughput
     auto start = std::chrono::high_resolution_clock::now();
     int normal_count = 0;
     while (std::chrono::high_resolution_clock::now() - start < std::chrono::seconds{1}) {
         try {
-            coordinator->executeDistributed(query, "tenant-1");
+            coordinator->executeDistributed(query);
             normal_count++;
         } catch (...) {}
     }
@@ -253,7 +261,7 @@ static void BenchDegradedModeThroughput(benchmark::State& state) {
     int degraded_count = 0;
     while (std::chrono::high_resolution_clock::now() - start < std::chrono::seconds{1}) {
         try {
-            coordinator->executeDistributed(query, "tenant-1");
+            coordinator->executeDistributed(query);
             degraded_count++;
         } catch (...) {}
     }

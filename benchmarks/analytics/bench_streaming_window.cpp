@@ -54,24 +54,24 @@ constexpr int      kNumPartitionKeys  = 100;
  * @param num_keys    Number of distinct partition keys.
  * @return Vector of StreamRecord with monotonically advancing event times.
  */
-std::vector<themis::analytics::StreamRecord> makeRecords(int64_t n,
-                                                        int     span_minutes = 60,
-                                                        int     num_keys     = kNumPartitionKeys) {
+std::vector<themisdb::analytics::StreamRecord> makeRecords(int64_t n,
+                                                           int     span_minutes = 60,
+                                                           int     num_keys     = kNumPartitionKeys) {
     using namespace std::chrono;
     std::mt19937_64 rng(kCanonicalSeed);
 
     const auto    base    = system_clock::time_point{};
     const int64_t span_us = static_cast<int64_t>(span_minutes) * 60LL * 1'000'000LL;
 
-    std::vector<themis::analytics::StreamRecord> records;
+    std::vector<themisdb::analytics::StreamRecord> records;
     records.reserve(static_cast<size_t>(n));
 
     for (int64_t i = 0; i < n; ++i) {
-        themis::analytics::StreamRecord r;
+        themisdb::analytics::StreamRecord r;
         const int64_t offset_us = (n > 0 && span_us > 0) ? ((i * span_us) / n) : 0;
         r.event_time     = base + microseconds(offset_us);
         r.partition_key  = "key_" + std::to_string(static_cast<int>(rng() % static_cast<uint64_t>(num_keys)));
-        r.value          = static_cast<double>(rng() % 10000) / 100.0;
+        r.set("value", static_cast<double>(rng() % 10000) / 100.0);
         records.push_back(std::move(r));
     }
     return records;
@@ -85,7 +85,7 @@ std::vector<themis::analytics::StreamRecord> makeRecords(int64_t n,
  * @brief Baseline throughput: 1 M records into a TumblingWindow without record/window limits.
  */
 static void BM_TumblingWindow_IngestThroughput(benchmark::State &state) {
-    using namespace themis::analytics;
+    using namespace themisdb::analytics;
 
     const auto records = makeRecords(kNumRecords);
 
@@ -109,7 +109,7 @@ BENCHMARK(BM_TumblingWindow_IngestThroughput)->UseRealTime()->Unit(benchmark::kM
  *        when the open window count is bounded.
  */
 static void BM_TumblingWindow_SustainedLoad_Bounded(benchmark::State &state) {
-    using namespace themis::analytics;
+    using namespace themisdb::analytics;
 
     const auto records = makeRecords(kNumRecords);
 
@@ -136,7 +136,7 @@ BENCHMARK(BM_TumblingWindow_SustainedLoad_Bounded)->UseRealTime()->Unit(benchmar
  * Parameterised over window count (8, 64, 512) to show latency scaling.
  */
 static void BM_TumblingWindow_FlushLatency(benchmark::State &state) {
-    using namespace themis::analytics;
+    using namespace themisdb::analytics;
     using namespace std::chrono;
 
     const int64_t window_count = state.range(0);
@@ -155,10 +155,10 @@ static void BM_TumblingWindow_FlushLatency(benchmark::State &state) {
 
         // Ingest one record per window slot to open exactly window_count windows.
         for (int64_t i = 0; i < window_count; ++i) {
-            themis::analytics::StreamRecord r;
+            themisdb::analytics::StreamRecord r;
             r.event_time    = base + seconds(i * 10);
             r.partition_key = "key_0";
-            r.value         = static_cast<double>(i);
+            r.set("value", static_cast<double>(i));
             win->ingest(r);
         }
 
@@ -182,7 +182,7 @@ BENCHMARK(BM_TumblingWindow_FlushLatency)
  * @brief Baseline throughput for SlidingWindow without limits.
  */
 static void BM_SlidingWindow_IngestThroughput(benchmark::State &state) {
-    using namespace themis::analytics;
+    using namespace themisdb::analytics;
 
     const auto records = makeRecords(kNumRecords);
 
@@ -207,7 +207,7 @@ BENCHMARK(BM_SlidingWindow_IngestThroughput)->UseRealTime()->Unit(benchmark::kMi
  *        measures drop-path overhead when every window is already full.
  */
 static void BM_SlidingWindow_RecordLimitDrop(benchmark::State &state) {
-    using namespace themis::analytics;
+    using namespace themisdb::analytics;
 
     const auto records = makeRecords(kNumRecords);
 
@@ -236,7 +236,7 @@ BENCHMARK(BM_SlidingWindow_RecordLimitDrop)->UseRealTime()->Unit(benchmark::kMil
  * @brief Baseline throughput for SessionWindow with many partition keys.
  */
 static void BM_SessionWindow_IngestThroughput(benchmark::State &state) {
-    using namespace themis::analytics;
+    using namespace themisdb::analytics;
 
     const auto records = makeRecords(kNumRecords, 60, kNumPartitionKeys);
 
@@ -260,7 +260,7 @@ BENCHMARK(BM_SessionWindow_IngestThroughput)->UseRealTime()->Unit(benchmark::kMi
  *        session when the 101st key arrives.  Measures eviction path overhead.
  */
 static void BM_SessionWindow_BoundedSessions(benchmark::State &state) {
-    using namespace themis::analytics;
+    using namespace themisdb::analytics;
 
     const auto records = makeRecords(kNumRecords, 60, kNumPartitionKeys);
 

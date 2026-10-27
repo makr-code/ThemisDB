@@ -55,15 +55,15 @@ public:
 // ── Fixture helpers ──────────────────────────────────────────────────────────
 
 /// Build a coordinator with N registered and freshly-refreshed shards.
-ShardSummaryCoordinator makeCoordinator(int shard_count,
-                                        bool refreshed,
-                                        bool all_stale = false) {
+std::unique_ptr<ShardSummaryCoordinator> makeCoordinator(int shard_count,
+                                                       bool refreshed,
+                                                       bool all_stale = false) {
     auto fetcher = std::make_shared<BenchStubFetcher>();
-    ShardSummaryCoordinator c(fetcher);
+    auto c = std::make_unique<ShardSummaryCoordinator>(fetcher);
 
     for (int i = 0; i < shard_count; ++i) {
         const std::string sid = "shard-" + std::to_string(i);
-        c.registerShard(sid);
+        c->registerShard(sid);
         if (refreshed) {
             ShardSummary s;
             s.shard_id = sid;
@@ -73,7 +73,7 @@ ShardSummaryCoordinator makeCoordinator(int shard_count,
             const int64_t ts = all_stale
                 ? (kBenchNowMs - 7'200'000LL) // expired: 2 hours ago
                 : kRecentMs;
-            c.refreshShard(sid, s, ts);
+            c->refreshShard(sid, s, ts);
         }
     }
     return c;
@@ -105,7 +105,7 @@ void BSF01_SummaryFirstRoutingFresh(benchmark::State& state) {
 
     for (auto _ : state) {
         const auto decisions =
-            c.routeSummaryFirst(summaries, AccuracyMode::ADVISORY, kBenchNowMs);
+            c->routeSummaryFirst(summaries, AccuracyMode::ADVISORY, kBenchNowMs);
         benchmark::DoNotOptimize(decisions);
     }
 
@@ -129,7 +129,7 @@ void BSF02_SummaryFirstRoutingStale(benchmark::State& state) {
 
     for (auto _ : state) {
         const auto decisions =
-            c.routeSummaryFirst(summaries, AccuracyMode::ADVISORY, kBenchNowMs);
+            c->routeSummaryFirst(summaries, AccuracyMode::ADVISORY, kBenchNowMs);
         benchmark::DoNotOptimize(decisions);
     }
 
@@ -157,7 +157,7 @@ void BSF03_FreshnessConsensus(benchmark::State& state) {
     benchmark::DoNotOptimize(kCanonicalRngSeed);
 
     for (auto _ : state) {
-        const auto res = c.checkFreshnessConsensus(shard_ids, kBenchNowMs);
+        const auto res = c->checkFreshnessConsensus(shard_ids, kBenchNowMs);
         benchmark::DoNotOptimize(res);
     }
 
@@ -234,7 +234,7 @@ void BSF06_RoutingLatencyScaling(benchmark::State& state) {
 
     for (auto _ : state) {
         const auto decisions =
-            c.routeSummaryFirst(summaries, AccuracyMode::ADVISORY, kBenchNowMs);
+            c->routeSummaryFirst(summaries, AccuracyMode::ADVISORY, kBenchNowMs);
         benchmark::DoNotOptimize(decisions);
     }
 
@@ -264,7 +264,7 @@ void BSF07_ConsensusLatency(benchmark::State& state) {
     benchmark::DoNotOptimize(kCanonicalRngSeed);
 
     for (auto _ : state) {
-        const auto res = c.checkFreshnessConsensus(shard_ids, kBenchNowMs);
+        const auto res = c->checkFreshnessConsensus(shard_ids, kBenchNowMs);
         benchmark::DoNotOptimize(res);
     }
 
@@ -296,7 +296,7 @@ void BSF08_RefreshThroughput(benchmark::State& state) {
 
     int64_t ts = kBenchNowMs;
     for (auto _ : state) {
-        const auto results = c.refreshAll(summaries, ts);
+        const auto results = c->refreshAll(summaries, ts);
         benchmark::DoNotOptimize(results);
         ts += 1000;  // Increment time to vary results
     }
@@ -423,8 +423,8 @@ void BSF12_PlannerLatencyP99(benchmark::State& state) {
     // Simulate a planner decision: route + check consensus
     for (auto _ : state) {
         const auto decisions =
-            c.routeSummaryFirst(summaries, AccuracyMode::ADVISORY, kBenchNowMs);
-        const auto consensus = c.checkFreshnessConsensus(shard_ids, kBenchNowMs);
+            c->routeSummaryFirst(summaries, AccuracyMode::ADVISORY, kBenchNowMs);
+        const auto consensus = c->checkFreshnessConsensus(shard_ids, kBenchNowMs);
         benchmark::DoNotOptimize(decisions);
         benchmark::DoNotOptimize(consensus);
     }

@@ -44,9 +44,17 @@
 
 #include <benchmark/benchmark.h>
 #include "maintenance/maintenance_api_contract.h"
+#include "maintenance/maintenance_health_report.h"
 
 #include <cstdint>
+#include <chrono>
+#include <deque>
+#include <filesystem>
+#include <fstream>
+#include <mutex>
+#include <nlohmann/json.hpp>
 #include <string>
+#include <unordered_set>
 #include <vector>
 
 namespace themis {
@@ -170,13 +178,6 @@ BENCHMARK(BM_MTN04_BatchCast)
  *
  * Gate: p99 ≤ 50 µs
  */
-#include <mutex>
-#include <unordered_set>
-#include <string>
-#include <deque>
-#include <nlohmann/json.hpp>
-#include "maintenance/maintenance_health_report.h"
-
 static void BM_MTN05_InFlightGuard(benchmark::State& state) {
     std::mutex mu = {};
     std::unordered_set<std::string> in_flight;
@@ -210,9 +211,6 @@ BENCHMARK(BM_MTN05_InFlightGuard)
  * Uses UseRealTime() to measure wall-clock time (I/O bound).
  * Gate: p99 ≤ 2 ms.
  */
-#include <filesystem>
-#include <fstream>
-
 namespace {
 static std::string make_mtn06_schedule_json(int idx) {
     nlohmann::json j;

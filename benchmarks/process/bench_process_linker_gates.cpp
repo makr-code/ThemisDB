@@ -250,7 +250,7 @@ static std::vector<std::pair<int, int>> generateLinkChain(int length) {
 // LP-01: Linking Latency (100 pairs)
 // ============================================================================
 
-static void BM_LP01_LinkingLatency(benchmark::State& state) {
+static void BM_LP01_LinkingLatency(::benchmark::State& state) {
     const int num_models = kSmallDatasetSize;
     const int num_links = kSmallDatasetSize;
 
@@ -279,7 +279,7 @@ static void BM_LP01_LinkingLatency(benchmark::State& state) {
     if (!latencies.empty()) {
         std::sort(latencies.begin(), latencies.end());
         double p99 = latencies[std::min(size_t(99), latencies.size() - 1)];
-        state.counters["p99_ms"] = benchmark::Counter(p99, benchmark::Counter::kAvgIterations);
+        state.counters["p99_ms"] = ::benchmark::Counter(p99, ::benchmark::Counter::kAvgIterations);
     }
 
     state.SetItemsProcessed(num_links * static_cast<int64_t>(state.iterations()));
@@ -294,7 +294,7 @@ BENCHMARK(BM_LP01_LinkingLatency)
 // LP-02: Cyclic Dependency Detection (1k models)
 // ============================================================================
 
-static void BM_LP02_CyclicDependencyDetection(benchmark::State& state) {
+static void BM_LP02_CyclicDependencyDetection(::benchmark::State& state) {
     const int num_models = kMediumDatasetSize;
 
     auto models = generateProcessModels(num_models);
@@ -324,14 +324,14 @@ static void BM_LP02_CyclicDependencyDetection(benchmark::State& state) {
             auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
             latencies.push_back(static_cast<double>(duration_ms));
 
-            benchmark::DoNotOptimize(has_cycle);
+            ::benchmark::DoNotOptimize(has_cycle);
         }
     }
 
     if (!latencies.empty()) {
         std::sort(latencies.begin(), latencies.end());
         double p99 = latencies[std::min(size_t(9), latencies.size() - 1)];
-        state.counters["p99_ms"] = benchmark::Counter(p99, benchmark::Counter::kAvgIterations);
+        state.counters["p99_ms"] = ::benchmark::Counter(p99, ::benchmark::Counter::kAvgIterations);
     }
 
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()) * 10);
@@ -346,7 +346,7 @@ BENCHMARK(BM_LP02_CyclicDependencyDetection)
 // LP-03: Link Validation (1k links)
 // ============================================================================
 
-static void BM_LP03_LinkValidation(benchmark::State& state) {
+static void BM_LP03_LinkValidation(::benchmark::State& state) {
     const int num_models = kMediumDatasetSize;
     const int num_links = kMediumDatasetSize;
 
@@ -372,12 +372,12 @@ static void BM_LP03_LinkValidation(benchmark::State& state) {
             }
         }
 
-        benchmark::DoNotOptimize(validated);
+        ::benchmark::DoNotOptimize(validated);
     }
 
     state.SetItemsProcessed(num_links * static_cast<int64_t>(state.iterations()));
     state.counters["validations_per_sec"] =
-        benchmark::Counter(num_links, benchmark::Counter::kIsRate);
+        ::benchmark::Counter(num_links, ::benchmark::Counter::kIsRate);
 }
 
 BENCHMARK(BM_LP03_LinkValidation)
@@ -389,7 +389,7 @@ BENCHMARK(BM_LP03_LinkValidation)
 // LP-04: Graph Traversal (10k nodes)
 // ============================================================================
 
-static void BM_LP04_GraphTraversal(benchmark::State& state) {
+static void BM_LP04_GraphTraversal(::benchmark::State& state) {
     const int num_models = kLargeDatasetSize;
     const int num_links = kLargeDatasetSize / 2;
 
@@ -426,14 +426,14 @@ static void BM_LP04_GraphTraversal(benchmark::State& state) {
             auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
             latencies.push_back(static_cast<double>(duration_ms));
 
-            benchmark::DoNotOptimize(reachable);
+            ::benchmark::DoNotOptimize(reachable);
         }
     }
 
     if (!latencies.empty()) {
         std::sort(latencies.begin(), latencies.end());
         double p99 = latencies[std::min(size_t(9), latencies.size() - 1)];
-        state.counters["p99_ms"] = benchmark::Counter(p99, benchmark::Counter::kAvgIterations);
+        state.counters["p99_ms"] = ::benchmark::Counter(p99, ::benchmark::Counter::kAvgIterations);
     }
 
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()) * 10);
@@ -457,7 +457,7 @@ struct LinkRecord {
     bool is_stale{false};
 };
 
-static void BM_LP05_StaleLinkDetection(benchmark::State& state) {
+static void BM_LP05_StaleLinkDetection(::benchmark::State& state) {
     const int num_links = 5000;
     const int64_t stale_threshold_ms = 3600000;  // 1 hour
     
@@ -499,13 +499,13 @@ static void BM_LP05_StaleLinkDetection(benchmark::State& state) {
             std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
         detection_times.push_back(static_cast<double>(duration_ms));
         
-        benchmark::DoNotOptimize(stale_count);
+        ::benchmark::DoNotOptimize(stale_count);
     }
 
     if (!detection_times.empty()) {
         std::sort(detection_times.begin(), detection_times.end());
         double p99 = detection_times[std::min(size_t(99), detection_times.size() - 1)];
-        state.counters["p99_ms"] = benchmark::Counter(p99, benchmark::Counter::kAvgIterations);
+        state.counters["p99_ms"] = ::benchmark::Counter(p99, ::benchmark::Counter::kAvgIterations);
     }
 
     state.SetItemsProcessed(num_links * static_cast<int64_t>(state.iterations()));
@@ -520,7 +520,7 @@ BENCHMARK(BM_LP05_StaleLinkDetection)
 // LP-06: Batch Link Operations
 // ============================================================================
 
-static void BM_LP06_BatchLinkOperations(benchmark::State& state) {
+static void BM_LP06_BatchLinkOperations(::benchmark::State& state) {
     const int batch_size = 1000;
     
     std::vector<double> batch_times = {};
@@ -560,14 +560,14 @@ static void BM_LP06_BatchLinkOperations(benchmark::State& state) {
             std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
         batch_times.push_back(static_cast<double>(duration_ms));
         
-        benchmark::DoNotOptimize(valid_count);
-        benchmark::DoNotOptimize(batch_links);
+        ::benchmark::DoNotOptimize(valid_count);
+        ::benchmark::DoNotOptimize(batch_links);
     }
 
     if (!batch_times.empty()) {
         std::sort(batch_times.begin(), batch_times.end());
         double p99 = batch_times[std::min(size_t(99), batch_times.size() - 1)];
-        state.counters["p99_ms"] = benchmark::Counter(p99, benchmark::Counter::kAvgIterations);
+        state.counters["p99_ms"] = ::benchmark::Counter(p99, ::benchmark::Counter::kAvgIterations);
     }
 
     state.SetItemsProcessed(batch_size * static_cast<int64_t>(state.iterations()));

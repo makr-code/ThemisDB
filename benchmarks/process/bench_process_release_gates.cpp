@@ -7,7 +7,7 @@ using namespace themis::process;
 
 static constexpr uint64_t kCanonicalSeed = 42;
 
-static void BM_ProcError_Cast(benchmark::State& state) {
+static void BM_ProcError_Cast(::benchmark::State& state) {
     static const ProcError kErrors[] = {
         ProcError::kUnsupportedElement,
         ProcError::kInvalidTransition,
@@ -18,12 +18,12 @@ static void BM_ProcError_Cast(benchmark::State& state) {
     uint64_t idx = 0;
     for (auto _ : state) {
         int32_t v = static_cast<int32_t>(kErrors[idx++ % 5]);
-        benchmark::DoNotOptimize(v);
+        ::benchmark::DoNotOptimize(v);
     }
 }
 BENCHMARK(BM_ProcError_Cast)->Repetitions(5)->ReportAggregatesOnly(true);
 
-static void BM_ProcError_SwitchDispatch(benchmark::State& state) {
+static void BM_ProcError_SwitchDispatch(::benchmark::State& state) {
     static const ProcError kErrors[] = {
         ProcError::kUnsupportedElement,
         ProcError::kInvalidTransition,
@@ -42,12 +42,12 @@ static void BM_ProcError_SwitchDispatch(benchmark::State& state) {
             case ProcError::kDeserialiserFailed:  result = 4; break;
             case ProcError::kExecutionTimeout:    result = 5; break;
         }
-        benchmark::DoNotOptimize(result);
+        ::benchmark::DoNotOptimize(result);
     }
 }
 BENCHMARK(BM_ProcError_SwitchDispatch)->Repetitions(5)->ReportAggregatesOnly(true);
 
-static void BM_ProcError_RangeCheck(benchmark::State& state) {
+static void BM_ProcError_RangeCheck(::benchmark::State& state) {
     static const ProcError kErrors[] = {
         ProcError::kUnsupportedElement,
         ProcError::kInvalidTransition,
@@ -59,12 +59,12 @@ static void BM_ProcError_RangeCheck(benchmark::State& state) {
     for (auto _ : state) {
         int32_t v = static_cast<int32_t>(kErrors[idx++ % 5]);
         bool inRange = (v >= 7600 && v <= 7699);
-        benchmark::DoNotOptimize(inRange);
+        ::benchmark::DoNotOptimize(inRange);
     }
 }
 BENCHMARK(BM_ProcError_RangeCheck)->Repetitions(5)->ReportAggregatesOnly(true);
 
-static void BM_ProcError_BatchCast(benchmark::State& state) {
+static void BM_ProcError_BatchCast(::benchmark::State& state) {
     const int N = static_cast<int>(state.range(0));
     static const ProcError kErrors[] = {
         ProcError::kUnsupportedElement,
@@ -78,7 +78,7 @@ static void BM_ProcError_BatchCast(benchmark::State& state) {
         v.reserve(static_cast<size_t>(N));
         for (int i = 0; i < N; ++i)
             v.push_back(static_cast<int32_t>(kErrors[i % 5]));
-        benchmark::DoNotOptimize(v.data());
+        ::benchmark::DoNotOptimize(v.data());
     }
     state.SetItemsProcessed(state.iterations() * N);
 }

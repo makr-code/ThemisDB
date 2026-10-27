@@ -103,10 +103,10 @@ static void BM_ValidateInsert(benchmark::State& state) {
     AQLParser            parser;
     AqlMutationValidator validator;
     auto node = parser.parseMutation(kInsertAql);
-    BENCHMARK_UNUSED(node);
+    benchmark::DoNotOptimize(node);
 
     for (auto _ : state) {
-        auto result = validator.validate(*node);
+        auto result = validator.validate(*node.value());
         benchmark::DoNotOptimize(result);
     }
 }
@@ -121,7 +121,7 @@ static void BM_TranslateInsert(benchmark::State& state) {
     auto node = parser.parseMutation(kInsertAql);
 
     for (auto _ : state) {
-        auto plan = translator.translate(node);
+        auto plan = translator.translate(node.value());
         benchmark::DoNotOptimize(plan);
     }
 }
@@ -137,7 +137,7 @@ static void BM_ExecuteInsert(benchmark::State& state) {
     BenchStorage          ctx;
 
     auto node = parser.parseMutation(kInsertAql);
-    auto plan = translator.translate(node);
+    auto plan = translator.translate(node.value());
 
     for (auto _ : state) {
         ctx.store.clear();
@@ -160,7 +160,7 @@ static void BM_ExecuteInsertBatch(benchmark::State& state) {
 
     // Pre-translate once; re-execute N times per iteration
     auto node = parser.parseMutation(kInsertAql);
-    auto plan = translator.translate(node);
+    auto plan = translator.translate(node.value());
 
     for (auto _ : state) {
         ctx.store.clear();
@@ -183,7 +183,7 @@ static void BM_ExecuteRemove(benchmark::State& state) {
     MutationExecutor      executor;
 
     auto node = parser.parseMutation(kRemoveAql);
-    auto plan = translator.translate(node);
+    auto plan = translator.translate(node.value());
 
     for (auto _ : state) {
         BenchStorage ctx;

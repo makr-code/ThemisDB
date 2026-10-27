@@ -214,17 +214,28 @@ BENCHMARK_DEFINE_F(DeterministicFixture, W4C_04_VectorSearchVariance)(
     constexpr int         kK       = 10;
 
     TempDir tmp;
-    themis::VectorIndexConfig vcfg;
-    vcfg.dimension = kDim;
-    vcfg.db_path   = tmp.str();
-    auto idx = std::make_shared<themis::VectorIndexManager>(vcfg);
+    themis::RocksDBWrapper::Config dbcfg;
+    dbcfg.db_path = tmp.str();
+    dbcfg.create_if_missing = true;
+    auto db = std::make_shared<themis::RocksDBWrapper>(dbcfg);
+    if (!db->open()) {
+        throw std::runtime_error("Failed to open RocksDB for W4C-04 benchmark");
+    }
+
+    auto idx = std::make_shared<themis::VectorIndexManager>(*db);
+    if (!idx->init("w4c_vector_variance", static_cast<int>(kDim)).ok) {
+        throw std::runtime_error("Failed to initialize vector index for W4C-04 benchmark");
+    }
 
     for (std::size_t i = 0; i < kIndexSz; ++i) {
-        idx->insert("vc_" + std::to_string(i), rng_.genVec(kDim));
+        themis::BaseEntity entity("vc_" + std::to_string(i));
+        entity.setField("embedding", rng_.genVec(kDim));
+        idx->addEntity(entity);
     }
 
     WarmupProtocol::run(kDefaultWarmupIterations, [&] {
-        benchmark::DoNotOptimize(idx->search(rng_.genVec(kDim), kK));
+        const auto q = rng_.genVec(kDim);
+        benchmark::DoNotOptimize(idx->searchKnn(q, static_cast<size_t>(kK)).second);
     });
     tracker_.reset();
 
@@ -235,7 +246,8 @@ BENCHMARK_DEFINE_F(DeterministicFixture, W4C_04_VectorSearchVariance)(
         state.ResumeTiming();
 
         auto t0 = std::chrono::steady_clock::now();
-        benchmark::DoNotOptimize(idx->search(query, kK));
+        const auto result = idx->searchKnn(query, static_cast<size_t>(kK));
+        benchmark::DoNotOptimize(result.second);
         tracker_.record(std::chrono::steady_clock::now() - t0);
         ++total_queries;
     }

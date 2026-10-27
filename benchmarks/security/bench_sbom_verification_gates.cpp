@@ -53,7 +53,9 @@ public:
         size_t pos = 0;
         while ((pos = json_content.find("\"name\"", pos)) != std::string::npos) {
             Artifact art;
-            
+            size_t ver_end = std::string::npos;
+            size_t url_end = std::string::npos;
+
             // Extract name
             size_t name_start = json_content.find('\"', pos + 7);
             size_t name_end = json_content.find('\"', name_start + 1);
@@ -65,7 +67,7 @@ public:
             size_t ver_pos = json_content.find("\"version\"", name_end);
             if (ver_pos != std::string::npos) {
                 size_t ver_start = json_content.find('\"', ver_pos + 10);
-                size_t ver_end = json_content.find('\"', ver_start + 1);
+                ver_end = json_content.find('\"', ver_start + 1);
                 if (ver_start != std::string::npos && ver_end != std::string::npos) {
                     art.version = json_content.substr(ver_start + 1, ver_end - ver_start - 1);
                 }
@@ -75,7 +77,7 @@ public:
             size_t url_pos = json_content.find("\"url\"", ver_end);
             if (url_pos != std::string::npos) {
                 size_t url_start = json_content.find('\"', url_pos + 6);
-                size_t url_end = json_content.find('\"', url_start + 1);
+                url_end = json_content.find('\"', url_start + 1);
                 if (url_start != std::string::npos && url_end != std::string::npos) {
                     art.source_url = json_content.substr(url_start + 1, url_end - url_start - 1);
                 }
@@ -94,7 +96,7 @@ public:
             if (!art.name.empty()) {
                 artifacts.push_back(art);
             }
-            pos = url_end;
+            pos = (url_end == std::string::npos) ? pos + 1 : url_end;
         }
         return artifacts;
     }

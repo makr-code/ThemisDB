@@ -36,6 +36,7 @@
 #include <benchmark/benchmark.h>
 
 #include <algorithm>
+#include <numeric>
 #include <atomic>
 #include <chrono>
 #include <filesystem>

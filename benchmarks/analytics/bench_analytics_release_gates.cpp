@@ -64,6 +64,7 @@
 #include <cmath>
 #include <cstdint>
 #include <limits>
+#include <numeric>
 #include <optional>
 #include <random>
 #include <string>

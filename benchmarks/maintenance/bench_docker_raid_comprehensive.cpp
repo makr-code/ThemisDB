@@ -36,11 +36,41 @@
 #include <iostream>
 
 // Prometheus Metrics Export
+#if __has_include(<prometheus/exposer.h>)
 #include <prometheus/exposer.h>
 #include <prometheus/registry.h>
 #include <prometheus/counter.h>
 #include <prometheus/gauge.h>
 #include <prometheus/histogram.h>
+#else
+#include <memory>
+#include <string>
+namespace prometheus {
+class Registry {};
+
+class Exposer {
+public:
+    explicit Exposer(const std::string&) {}
+    void RegisterCollectable(const std::shared_ptr<Registry>&) {}
+};
+
+template <typename T>
+class Family {
+public:
+    Family& Name(const std::string&) { return *this; }
+    Family& Help(const std::string&) { return *this; }
+    T& Register(Registry&) { static T value; return value; }
+};
+
+class Gauge {};
+class Counter {};
+class Histogram {};
+
+inline Family<Gauge> BuildGauge() { return {}; }
+inline Family<Histogram> BuildHistogram() { return {}; }
+inline Family<Counter> BuildCounter() { return {}; }
+}  // namespace prometheus
+#endif
 
 // Docker SDK (assuming available or simulated)
 #ifdef _WIN32

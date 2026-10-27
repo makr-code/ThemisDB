@@ -4,6 +4,7 @@
 #include <random>
 #include <string>
 #include <algorithm>
+#include <numeric>
 #include <memory>
 #include <unordered_map>
 #include <queue>
@@ -178,7 +179,7 @@ private:
         if (!correlations.empty()) {
             std::sort(correlations.begin(), correlations.end());
             int median_corr = correlations[correlations.size() / 2];
-            benchmark::DoNotOptimize(median_corr);
+            ::benchmark::DoNotOptimize(median_corr);
         }
 
         // Simulate severity aggregation
@@ -187,7 +188,7 @@ private:
             total_severity += event.severity_level;
         }
         double avg_severity = static_cast<double>(total_severity) / incident.events.size();
-        benchmark::DoNotOptimize(avg_severity);
+        ::benchmark::DoNotOptimize(avg_severity);
     }
 };
 
@@ -276,7 +277,7 @@ static std::vector<ProcessIncident> generateIncidents(int count) {
 /**
  * @brief Measure baseline classification performance
  */
-static void BM_GO01_ClassificationBaseline(benchmark::State& state) {
+static void BM_GO01_ClassificationBaseline(::benchmark::State& state) {
     const int num_incidents = kMediumDatasetSize;
     auto incidents = generateIncidents(num_incidents);
     auto classifier = std::make_unique<BaselineIncidentClassifier>();
@@ -285,14 +286,14 @@ static void BM_GO01_ClassificationBaseline(benchmark::State& state) {
     for (auto _ : state) {
         for (const auto& incident : incidents) {
             auto type = classifier->classifyBaseline(incident);
-            benchmark::DoNotOptimize(type);
+            ::benchmark::DoNotOptimize(type);
             classifications_done++;
         }
     }
 
     state.SetItemsProcessed(classifications_done);
     state.counters["classifications_per_sec"] =
-        benchmark::Counter(classifications_done, benchmark::Counter::kIsRate);
+        ::benchmark::Counter(classifications_done, ::benchmark::Counter::kIsRate);
 }
 
 BENCHMARK(BM_GO01_ClassificationBaseline)
@@ -303,7 +304,7 @@ BENCHMARK(BM_GO01_ClassificationBaseline)
 /**
  * @brief Measure enhanced classification performance (with diagnostics)
  */
-static void BM_GO01_ClassificationEnhanced(benchmark::State& state) {
+static void BM_GO01_ClassificationEnhanced(::benchmark::State& state) {
     const int num_incidents = kMediumDatasetSize;
     auto incidents = generateIncidents(num_incidents);
     auto classifier = std::make_unique<EnhancedIncidentClassifier>();
@@ -312,14 +313,14 @@ static void BM_GO01_ClassificationEnhanced(benchmark::State& state) {
     for (auto _ : state) {
         for (const auto& incident : incidents) {
             auto type = classifier->classifyWithDiagnostics(incident);
-            benchmark::DoNotOptimize(type);
+            ::benchmark::DoNotOptimize(type);
             classifications_done++;
         }
     }
 
     state.SetItemsProcessed(classifications_done);
     state.counters["classifications_per_sec"] =
-        benchmark::Counter(classifications_done, benchmark::Counter::kIsRate);
+        ::benchmark::Counter(classifications_done, ::benchmark::Counter::kIsRate);
 }
 
 BENCHMARK(BM_GO01_ClassificationEnhanced)
@@ -330,7 +331,7 @@ BENCHMARK(BM_GO01_ClassificationEnhanced)
 /**
  * @brief Measure classification overhead ratio (Enhanced/Baseline)
  */
-static void BM_GO01_ClassificationOverhead(benchmark::State& state) {
+static void BM_GO01_ClassificationOverhead(::benchmark::State& state) {
     const int num_incidents = kSmallDatasetSize;
     auto incidents = generateIncidents(num_incidents);
 
@@ -356,7 +357,7 @@ static void BM_GO01_ClassificationOverhead(benchmark::State& state) {
             auto duration_us =
                 std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
             baseline_latencies.push_back(static_cast<double>(duration_us));
-            benchmark::DoNotOptimize(type);
+            ::benchmark::DoNotOptimize(type);
         }
 
         // Measure enhanced
@@ -367,7 +368,7 @@ static void BM_GO01_ClassificationOverhead(benchmark::State& state) {
             auto duration_us =
                 std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
             enhanced_latencies.push_back(static_cast<double>(duration_us));
-            benchmark::DoNotOptimize(type);
+            ::benchmark::DoNotOptimize(type);
         }
     }
 
@@ -383,11 +384,11 @@ static void BM_GO01_ClassificationOverhead(benchmark::State& state) {
         if (baseline_mean > 0.0) {
             double overhead_pct = ((enhanced_mean - baseline_mean) / baseline_mean) * 100.0;
             state.counters["overhead_percent"] =
-                benchmark::Counter(overhead_pct, benchmark::Counter::kAvgIterations);
+                ::benchmark::Counter(overhead_pct, ::benchmark::Counter::kAvgIterations);
             state.counters["baseline_us"] =
-                benchmark::Counter(baseline_mean, benchmark::Counter::kAvgIterations);
+                ::benchmark::Counter(baseline_mean, ::benchmark::Counter::kAvgIterations);
             state.counters["enhanced_us"] =
-                benchmark::Counter(enhanced_mean, benchmark::Counter::kAvgIterations);
+                ::benchmark::Counter(enhanced_mean, ::benchmark::Counter::kAvgIterations);
         }
     }
 
@@ -409,7 +410,7 @@ struct GraphLink {
     int weight{1};
 };
 
-static void BM_GO02_LinkTraversalLatency(benchmark::State& state) {
+static void BM_GO02_LinkTraversalLatency(::benchmark::State& state) {
     const int num_links = 1000;
     std::vector<GraphLink> links;
     
@@ -432,7 +433,7 @@ static void BM_GO02_LinkTraversalLatency(benchmark::State& state) {
             
             // Simulate link traversal
             std::string path = link.source + "->" + link.target;
-            benchmark::DoNotOptimize(path);
+            ::benchmark::DoNotOptimize(path);
             
             auto end = std::chrono::high_resolution_clock::now();
             auto duration_ms = 
@@ -445,7 +446,7 @@ static void BM_GO02_LinkTraversalLatency(benchmark::State& state) {
         std::sort(latencies.begin(), latencies.end());
         size_t p95_idx = std::min(size_t(latencies.size() * 95 / 100), latencies.size() - 1);
         double p95 = latencies[p95_idx];
-        state.counters["p95_ms"] = benchmark::Counter(p95, benchmark::Counter::kAvgIterations);
+        state.counters["p95_ms"] = ::benchmark::Counter(p95, ::benchmark::Counter::kAvgIterations);
     }
 
     state.SetItemsProcessed(static_cast<int64_t>(latencies.size()));
@@ -460,7 +461,7 @@ BENCHMARK(BM_GO02_LinkTraversalLatency)
 // GO-03: Graph Construction Time
 // ============================================================================
 
-static void BM_GO03_GraphConstructionTime(benchmark::State& state) {
+static void BM_GO03_GraphConstructionTime(::benchmark::State& state) {
     const int num_models = 100;
     
     std::vector<double> construction_times = {};
@@ -488,7 +489,7 @@ static void BM_GO03_GraphConstructionTime(benchmark::State& state) {
             std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
         construction_times.push_back(static_cast<double>(duration_ms));
         
-        benchmark::DoNotOptimize(graph_edges);
+        ::benchmark::DoNotOptimize(graph_edges);
     }
 
     if (!construction_times.empty()) {
@@ -497,7 +498,7 @@ static void BM_GO03_GraphConstructionTime(benchmark::State& state) {
                                   construction_times.size() - 1);
         double p95 = construction_times[p95_idx];
         state.counters["p95_ms"] = 
-            benchmark::Counter(p95, benchmark::Counter::kAvgIterations);
+            ::benchmark::Counter(p95, ::benchmark::Counter::kAvgIterations);
     }
 
     state.SetItemsProcessed(num_models * num_models / 2 * static_cast<int64_t>(state.iterations()));
@@ -512,7 +513,7 @@ BENCHMARK(BM_GO03_GraphConstructionTime)
 // GO-04: Cycle Detection Performance
 // ============================================================================
 
-static void BM_GO04_CycleDetectionPerformance(benchmark::State& state) {
+static void BM_GO04_CycleDetectionPerformance(::benchmark::State& state) {
     const int num_nodes = 1000;
     std::vector<std::vector<int>> adjacency_list(num_nodes);
     
@@ -563,7 +564,7 @@ static void BM_GO04_CycleDetectionPerformance(benchmark::State& state) {
             std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
         detection_times.push_back(static_cast<double>(duration_ms));
         
-        benchmark::DoNotOptimize(has_cycle);
+        ::benchmark::DoNotOptimize(has_cycle);
     }
 
     if (!detection_times.empty()) {
@@ -572,7 +573,7 @@ static void BM_GO04_CycleDetectionPerformance(benchmark::State& state) {
                                   detection_times.size() - 1);
         double p95 = detection_times[p95_idx];
         state.counters["p95_ms"] = 
-            benchmark::Counter(p95, benchmark::Counter::kAvgIterations);
+            ::benchmark::Counter(p95, ::benchmark::Counter::kAvgIterations);
     }
 
     state.SetItemsProcessed(static_cast<int64_t>(detection_times.size()) * num_nodes);
@@ -587,7 +588,7 @@ BENCHMARK(BM_GO04_CycleDetectionPerformance)
 // GO-05: Community Detection
 // ============================================================================
 
-static void BM_GO05_CommunityDetection(benchmark::State& state) {
+static void BM_GO05_CommunityDetection(::benchmark::State& state) {
     const int num_nodes = 500;
     std::vector<std::vector<int>> adjacency_list(num_nodes);
     
@@ -641,7 +642,7 @@ static void BM_GO05_CommunityDetection(benchmark::State& state) {
             std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
         detection_times.push_back(static_cast<double>(duration_ms));
         
-        benchmark::DoNotOptimize(num_components);
+        ::benchmark::DoNotOptimize(num_components);
     }
 
     if (!detection_times.empty()) {
@@ -650,7 +651,7 @@ static void BM_GO05_CommunityDetection(benchmark::State& state) {
                                   detection_times.size() - 1);
         double p95 = detection_times[p95_idx];
         state.counters["p95_ms"] = 
-            benchmark::Counter(p95, benchmark::Counter::kAvgIterations);
+            ::benchmark::Counter(p95, ::benchmark::Counter::kAvgIterations);
     }
 
     state.SetItemsProcessed(static_cast<int64_t>(detection_times.size()) * num_nodes);
@@ -665,7 +666,7 @@ BENCHMARK(BM_GO05_CommunityDetection)
 // GO-06: Complex Graph p95 Latency
 // ============================================================================
 
-static void BM_GO06_ComplexGraphP95Latency(benchmark::State& state) {
+static void BM_GO06_ComplexGraphP95Latency(::benchmark::State& state) {
     const int num_nodes = 5000;
     std::vector<std::vector<int>> adjacency_list(num_nodes);
     
@@ -706,8 +707,8 @@ static void BM_GO06_ComplexGraphP95Latency(benchmark::State& state) {
             std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
         operation_times.push_back(static_cast<double>(duration_ms));
         
-        benchmark::DoNotOptimize(total_edges);
-        benchmark::DoNotOptimize(max_degree);
+        ::benchmark::DoNotOptimize(total_edges);
+        ::benchmark::DoNotOptimize(max_degree);
     }
 
     if (!operation_times.empty()) {
@@ -716,7 +717,7 @@ static void BM_GO06_ComplexGraphP95Latency(benchmark::State& state) {
                                   operation_times.size() - 1);
         double p95 = operation_times[p95_idx];
         state.counters["p95_ms"] = 
-            benchmark::Counter(p95, benchmark::Counter::kAvgIterations);
+            ::benchmark::Counter(p95, ::benchmark::Counter::kAvgIterations);
     }
 
     state.SetItemsProcessed(static_cast<int64_t>(operation_times.size()) * num_nodes);

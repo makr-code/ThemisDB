@@ -139,14 +139,24 @@ static void BM_W4D_02_VectorSearchSentinel(benchmark::State& state) {
     constexpr std::size_t kQueries = 50;
 
     TempDir tmp;
-    themis::VectorIndexConfig vcfg;
-    vcfg.dimension = kDim;
-    vcfg.db_path   = tmp.str();
-    auto idx = std::make_shared<themis::VectorIndexManager>(vcfg);
+    themis::RocksDBWrapper::Config dbcfg;
+    dbcfg.db_path = tmp.str();
+    dbcfg.create_if_missing = true;
+    auto db = std::make_shared<themis::RocksDBWrapper>(dbcfg);
+    if (!db->open()) {
+        throw std::runtime_error("Failed to open RocksDB for W4D-02 benchmark");
+    }
+
+    auto idx = std::make_shared<themis::VectorIndexManager>(*db);
+    if (!idx->init("w4d_vector_sentinel", static_cast<int>(kDim)).ok) {
+        throw std::runtime_error("Failed to initialize vector index for W4D-02 benchmark");
+    }
 
     RandomGenerator rng(kW4CanonicalSeed);
     for (std::size_t i = 0; i < kIndexSz; ++i) {
-        idx->insert("sentinel_" + std::to_string(i), rng.genVec(kDim));
+        themis::BaseEntity entity("sentinel_" + std::to_string(i));
+        entity.setField("embedding", rng.genVec(kDim));
+        idx->addEntity(entity);
     }
 
     // Generate deterministic query set.
@@ -158,16 +168,16 @@ static void BM_W4D_02_VectorSearchSentinel(benchmark::State& state) {
     }
 
     WarmupProtocol::run(kDefaultWarmupIterations, [&] {
-        benchmark::DoNotOptimize(idx->search(queries[0], kK));
+        benchmark::DoNotOptimize(idx->searchKnn(queries[0], static_cast<size_t>(kK)).second);
     });
 
     int64_t sentinel_sum = 0;
     int64_t total_queries = 0;
     for (auto _ : state) {
         for (const auto& q : queries) {
-            auto results = idx->search(q, kK);
-            sentinel_sum += static_cast<int64_t>(results.size());
-            benchmark::DoNotOptimize(results);
+            const auto result = idx->searchKnn(q, static_cast<size_t>(kK));
+            sentinel_sum += static_cast<int64_t>(result.second.size());
+            benchmark::DoNotOptimize(result.second);
             ++total_queries;
         }
     }
@@ -207,10 +217,17 @@ static void BM_W4D_03_PipelineHealthCheck(benchmark::State& state) {
     db->open();
 
     // Vector component.
-    themis::VectorIndexConfig vcfg;
-    vcfg.dimension = 64;
-    vcfg.db_path   = vector_dir.str();
-    auto idx = std::make_shared<themis::VectorIndexManager>(vcfg);
+    themis::RocksDBWrapper::Config vector_db_cfg;
+    vector_db_cfg.db_path = vector_dir.str();
+    vector_db_cfg.create_if_missing = true;
+    auto vector_db = std::make_shared<themis::RocksDBWrapper>(vector_db_cfg);
+    if (!vector_db->open()) {
+        throw std::runtime_error("Failed to open RocksDB for W4D-03 vector component");
+    }
+    auto idx = std::make_shared<themis::VectorIndexManager>(*vector_db);
+    if (!idx->init("w4d_pipeline_health", 64).ok) {
+        throw std::runtime_error("Failed to initialize vector index for W4D-03 pipeline health");
+    }
 
     // Graph component — use RocksDBWrapper + GraphIndexManager (canonical API).
     themis::RocksDBWrapper::Config gcfg;
@@ -224,7 +241,11 @@ static void BM_W4D_03_PipelineHealthCheck(benchmark::State& state) {
 
     // Pre-populate.
     db->put("health_key", "health_val");
-    idx->insert("health_vec", rng.genVec(64));
+    {
+        themis::BaseEntity health_vec("health_vec");
+        health_vec.setField("embedding", rng.genVec(64));
+        idx->addEntity(health_vec);
+    }
     // Sentinel edge: "health_node" -> "health_node" (self-loop) makes the node
     // reachable via outNeighbors without needing a separate getNode() API.
     {
@@ -251,8 +272,8 @@ static void BM_W4D_03_PipelineHealthCheck(benchmark::State& state) {
 
         // Vector check.
         {
-            auto results = idx->search(rng.genVec(64), 1);
-            if (!results.empty()) {
+            const auto result = idx->searchKnn(rng.genVec(64), 1);
+            if (!result.second.empty()) {
               iter_mask |= 0x02u;
             }
         }
@@ -260,7 +281,7 @@ static void BM_W4D_03_PipelineHealthCheck(benchmark::State& state) {
         // Graph check: outNeighbors returns ok + non-empty list if sentinel is present.
         {
             auto [st, neighbours] = graph->outNeighbors("health_node");
-            if (st.ok() && !neighbours.empty()) {
+            if (st.ok && !neighbours.empty()) {
               iter_mask |= 0x04u;
             }
         }
@@ -342,10 +363,17 @@ static void BM_W4D_05_ConsolidatedWorkloadProfile(benchmark::State& state) {
     auto db = std::make_shared<themis::RocksDBWrapper>(scfg);
     db->open();
 
-    themis::VectorIndexConfig vcfg;
-    vcfg.dimension = kDim;
-    vcfg.db_path   = vdir.str();
-    auto idx = std::make_shared<themis::VectorIndexManager>(vcfg);
+    themis::RocksDBWrapper::Config vector_cfg;
+    vector_cfg.db_path = vdir.str();
+    vector_cfg.create_if_missing = true;
+    auto vector_db = std::make_shared<themis::RocksDBWrapper>(vector_cfg);
+    if (!vector_db->open()) {
+        throw std::runtime_error("Failed to open RocksDB for W4D-05 vector component");
+    }
+    auto idx = std::make_shared<themis::VectorIndexManager>(*vector_db);
+    if (!idx->init("w4d_consolidated_profile", static_cast<int>(kDim)).ok) {
+        throw std::runtime_error("Failed to initialize vector index for W4D-05 benchmark");
+    }
 
     themis::RocksDBWrapper::Config gcfg;
     gcfg.db_path = gdir.str();
@@ -360,7 +388,11 @@ static void BM_W4D_05_ConsolidatedWorkloadProfile(benchmark::State& state) {
     // Warmup: add a few edges to warm up all components.
     WarmupProtocol::run(kDefaultWarmupIterations, [&] {
         db->put(rng.genKey(16), rng.genKey(64));
-        idx->insert(rng.genKey(8), rng.genVec(kDim));
+        {
+            themis::BaseEntity entity(rng.genKey(8));
+            entity.setField("embedding", rng.genVec(kDim));
+            idx->addEntity(entity);
+        }
         std::string eid = "w_" + std::to_string(edge_counter++);
         themis::BaseEntity e(eid);
         e.setField("_from", rng.genKey(4));
@@ -389,7 +421,9 @@ static void BM_W4D_05_ConsolidatedWorkloadProfile(benchmark::State& state) {
         }
         {
             auto t0 = std::chrono::steady_clock::now();
-            idx->insert(vk, vec);
+            themis::BaseEntity vector_entity(vk);
+            vector_entity.setField("embedding", vec);
+            idx->addEntity(vector_entity);
             vector_vt.record(std::chrono::steady_clock::now() - t0);
         }
         {

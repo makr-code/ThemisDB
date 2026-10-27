@@ -223,7 +223,7 @@ hnswScan(const std::vector<SimProcessModel>& store,
 // graph normalization.  Arg: number of BPMN task nodes per model (10/50/200).
 // ─────────────────────────────────────────────────────────────────────────────
 
-static void BM_ProcessModelImport(benchmark::State& state) {
+static void BM_ProcessModelImport(::benchmark::State& state) {
     const int node_count = static_cast<int>(state.range(0));
     int model_idx = 0;
 
@@ -240,8 +240,8 @@ static void BM_ProcessModelImport(benchmark::State& state) {
         pos = 0;
         while ((pos = xml.find("sequenceFlow id=", pos)) != std::string::npos) { ++edges; ++pos; }
 
-        benchmark::DoNotOptimize(nodes);
-        benchmark::DoNotOptimize(edges);
+        ::benchmark::DoNotOptimize(nodes);
+        ::benchmark::DoNotOptimize(edges);
     }
 
     state.SetItemsProcessed(state.iterations());
@@ -263,7 +263,7 @@ BENCHMARK(BM_ProcessModelImport)
 // Arg: description length in bytes (256 / 1024 / 4096).
 // ─────────────────────────────────────────────────────────────────────────────
 
-static void BM_ProcessEmbeddingGenerate(benchmark::State& state) {
+static void BM_ProcessEmbeddingGenerate(::benchmark::State& state) {
     const int text_len = static_cast<int>(state.range(0));
 
     // Fill description buffer with a realistic cycling ASCII phrase
@@ -277,7 +277,7 @@ static void BM_ProcessEmbeddingGenerate(benchmark::State& state) {
 
     for (auto _ : state) {
         auto emb = generateEmbedding(description);
-        benchmark::DoNotOptimize(emb.data());
+        ::benchmark::DoNotOptimize(emb.data());
     }
 
     state.SetBytesProcessed(state.iterations() * text_len);
@@ -299,7 +299,7 @@ BENCHMARK(BM_ProcessEmbeddingGenerate)
 // Arg: embedding dimensions (64 / 256 / 1024).
 // ─────────────────────────────────────────────────────────────────────────────
 
-static void BM_ProcessEmbeddingPersist(benchmark::State& state) {
+static void BM_ProcessEmbeddingPersist(::benchmark::State& state) {
     const int dims = static_cast<int>(state.range(0));
 
     SimProcessModel model;
@@ -331,7 +331,7 @@ static void BM_ProcessEmbeddingPersist(benchmark::State& state) {
         oss << "]}";
 
         auto result = oss.str();
-        benchmark::DoNotOptimize(result.data());
+        ::benchmark::DoNotOptimize(result.data());
     }
 
     state.SetBytesProcessed(state.iterations() * dims * static_cast<int>(sizeof(float)));
@@ -352,7 +352,7 @@ BENCHMARK(BM_ProcessEmbeddingPersist)
 // Arg: store size (10 / 100 / 1000 models).
 // ─────────────────────────────────────────────────────────────────────────────
 
-static void BM_ProcessFullTextSearch(benchmark::State& state) {
+static void BM_ProcessFullTextSearch(::benchmark::State& state) {
     const int store_size = static_cast<int>(state.range(0));
     const auto store = buildModelStore(store_size);
 
@@ -378,7 +378,7 @@ static void BM_ProcessFullTextSearch(benchmark::State& state) {
         std::sort(results.begin(), results.end(),
                   [](const auto& a, const auto& b) { return a.first > b.first; });
 
-        benchmark::DoNotOptimize(results.data());
+        ::benchmark::DoNotOptimize(results.data());
     }
 
     state.SetItemsProcessed(state.iterations() * store_size);
@@ -399,14 +399,14 @@ BENCHMARK(BM_ProcessFullTextSearch)
 // Arg: store size (10 / 100 / 1000 models).
 // ─────────────────────────────────────────────────────────────────────────────
 
-static void BM_ProcessHnswRetrieve(benchmark::State& state) {
+static void BM_ProcessHnswRetrieve(::benchmark::State& state) {
     const int store_size = static_cast<int>(state.range(0));
     const auto store     = buildModelStore(store_size);
     const auto query_emb = generateEmbedding("Bauantragsverfahren Genehmigung DSGVO");
 
     for (auto _ : state) {
         auto top = hnswScan(store, query_emb, kDefaultTopK);
-        benchmark::DoNotOptimize(top.data());
+        ::benchmark::DoNotOptimize(top.data());
     }
 
     state.SetItemsProcessed(state.iterations() * store_size);
@@ -429,7 +429,7 @@ BENCHMARK(BM_ProcessHnswRetrieve)
 // Arg: number of state changes to process in batch (10 / 100 / 500).
 // ─────────────────────────────────────────────────────────────────────────────
 
-static void BM_ProcessStateChangeEmbed(benchmark::State& state) {
+static void BM_ProcessStateChangeEmbed(::benchmark::State& state) {
     const int change_count = static_cast<int>(state.range(0));
 
     static const char* const kTargetStates[] = {
@@ -446,7 +446,7 @@ static void BM_ProcessStateChangeEmbed(benchmark::State& state) {
                 "]. Timestamp: " + std::to_string(INT64_C(1700000000) + i);
 
             auto emb = generateEmbedding(text);
-            benchmark::DoNotOptimize(emb.data());
+            ::benchmark::DoNotOptimize(emb.data());
         }
     }
 

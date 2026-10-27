@@ -55,8 +55,8 @@ constexpr uint64_t kCanonicalSeed = 42;
     return batch;
 }
 
-std::vector<::themis::analytics::StreamRecord> makeHighCardinalityRecords(std::size_t count) {
-    using ::themis::analytics::StreamRecord;
+std::vector<::themisdb::analytics::StreamRecord> makeHighCardinalityRecords(std::size_t count) {
+    using ::themisdb::analytics::StreamRecord;
 
     std::vector<StreamRecord> records;
     records.reserve(count);
@@ -128,11 +128,11 @@ static void BM_AO03_HighCardinalityStreamingBounded(benchmark::State& state) {
     auto records = makeHighCardinalityRecords(static_cast<std::size_t>(state.range(0)));
 
     for (auto _ : state) {
-        ::themis::analytics::TumblingWindowConfig config;
+        ::themisdb::analytics::TumblingWindowConfig config;
         config.size = std::chrono::seconds(30);
         config.max_distinct_partition_keys = 64;
 
-        auto window = ::themis::analytics::createTumblingWindow(config);
+        auto window = ::themisdb::analytics::createTumblingWindow(config);
         for (const auto& record : records) {
             benchmark::DoNotOptimize(window->ingest(record));
         }

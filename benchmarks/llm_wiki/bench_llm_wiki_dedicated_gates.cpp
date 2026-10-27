@@ -42,6 +42,7 @@
 
 #include <atomic>
 #include <cstdint>
+#include <memory>
 #include <mutex>
 #include <string>
 #include <unordered_map>
@@ -82,14 +83,15 @@ struct CacheStub {
 
 } // namespace
 
-// Pre-warm shared index for throughput/latency benchmarks
+// Pre-warm shared index for throughput/latency benchmarks. Use a pointer-based
+// singleton to avoid copying a noncopyable std::mutex into a static object.
 static WikiIndexStub& sharedIndex() {
-    static WikiIndexStub idx = [](){
-        WikiIndexStub s;
-        for (uint64_t i = 0; i < 4096; ++i) s.sync(i);
-        return s;
+    static std::unique_ptr<WikiIndexStub> idx = [](){
+        auto p = std::make_unique<WikiIndexStub>();
+        for (uint64_t i = 0; i < 4096; ++i) p->sync(i);
+        return p;
     }();
-    return idx;
+    return *idx;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

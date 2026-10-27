@@ -1,5 +1,6 @@
 #include <benchmark/benchmark.h>
 #include "llm/lora_framework/lora_layers.h"
+#include <chrono>
 #include <memory>
 #include <vector>
 #include <cassert>
@@ -457,8 +458,13 @@ static void BM_Extended_TrainingSession_1000Steps(benchmark::State& state) {
             // Backward pass
             auto grads = seq.backward(loss);
             
-            // Zero gradients for next iteration
-            seq.zero_grad();
+            // Clear parameter gradients using the live Tensor API.
+            for (auto* param : seq.parameters()) {
+                if (param != nullptr && param->grad != nullptr) {
+                    param->grad->fill(0.0f);
+                }
+            }
+            benchmark::DoNotOptimize(grads);
         }
         
         auto end = std::chrono::high_resolution_clock::now();
@@ -521,7 +527,12 @@ static void BM_Concurrent_AdapterTraining(benchmark::State& state) {
                 auto output = adapters[i]->forward(inputs[i]);
                 auto loss = output - targets[i];
                 auto grads = adapters[i]->backward(loss);
-                adapters[i]->zero_grad();
+
+                for (auto* param : adapters[i]->parameters()) {
+                    if (param != nullptr && param->grad != nullptr) {
+                        param->grad->fill(0.0f);
+                    }
+                }
                 
                 benchmark::DoNotOptimize(grads);
             }
@@ -561,7 +572,12 @@ static void BM_LargeBatchTraining_MemoryPressure(benchmark::State& state) {
             auto output = seq.forward(batch_input);
             auto loss = output - batch_target;
             auto grads = seq.backward(loss);
-            seq.zero_grad();
+
+            for (auto* param : seq.parameters()) {
+                if (param != nullptr && param->grad != nullptr) {
+                    param->grad->fill(0.0f);
+                }
+            }
             
             benchmark::DoNotOptimize(grads);
         }

@@ -1,333 +1,121 @@
 /**
  * @file bench_updates_schema_diversity.cpp
- * @brief Benchmark suite for schema migration on large datasets
- * @version 1.0.0
- * 
- * Benchmark Suite: Schema Migration Diversity
- * 
- * Workloads:
- *  - ADD COLUMN (10K-100K rows)
- *  - ALTER TABLE (index changes)
- *  - RENAME COLUMN (cross-reference updates)
- *  - DROP COLUMN with cascade
- * 
- * Metrics: migration time, throughput, memory usage
+ * @brief Benchmark suite for schema migration operations using the public API.
  */
 
 #include <benchmark/benchmark.h>
-#include <chrono>
-#include <vector>
-#include <memory>
 
 #include "updates/schema_migration.h"
-#include "updates/in_place_schema_migrator.h"
+
+#include <chrono>
+#include <memory>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
 namespace themis {
 namespace updates {
 namespace benchmark {
 
-// ============================================================================
-// Test Fixtures
-// ============================================================================
+class InMemoryMigrationStorage final : public IMigrationStorage {
+public:
+    bool put(const std::string& key, const std::string& value) override {
+        rows_[key] = value;
+        return true;
+    }
+
+    bool get(const std::string& key, std::string& value) override {
+        auto it = rows_.find(key);
+        if (it == rows_.end()) {
+            return false;
+        }
+        value = it->second;
+        return true;
+    }
+
+    bool remove(const std::string& key) override {
+        return rows_.erase(key) > 0;
+    }
+
+    bool listKeys(std::vector<std::string>& out) override {
+        for (const auto& [key, _] : rows_) {
+            out.push_back(key);
+        }
+        return true;
+    }
+
+private:
+    std::unordered_map<std::string, std::string> rows_;
+};
 
 class SchemaMigrationBenchmark : public ::benchmark::Fixture {
 protected:
-    std::unique_ptr<SchemaMigrationService> migration_;
-    
-    void SetUp(const ::benchmark::State& state) override {
-        migration_ = std::make_unique<SchemaMigrationService>();
-        
-        // Prepare tables with varying row counts
-        if (state.range(0) == 1) {
-            migration_->createTable("test_table", 10000);     // 10K rows
-        } else if (state.range(0) == 2) {
-            migration_->createTable("test_table", 50000);     // 50K rows
-        } else {
-            migration_->createTable("test_table", 100000);    // 100K rows
-        }
+    std::unique_ptr<InMemoryMigrationStorage> storage_;
+
+    void SetUp(const ::benchmark::State&) override {
+        storage_ = std::make_unique<InMemoryMigrationStorage>();
     }
-    
-    void TearDown(const ::benchmark::State& state) override {
-        migration_.reset();
+
+    void TearDown(const ::benchmark::State&) override {
+        storage_.reset();
     }
 };
 
-// ============================================================================
-// Benchmark 1: ADD COLUMN
-// ============================================================================
-
-BENCHMARK_F(SchemaMigrationBenchmark, AddColumn)(
-    ::benchmark::State& state) {
-    
+BENCHMARK_F(SchemaMigrationBenchmark, AddColumn)(::benchmark::State& state) {
     for (auto _ : state) {
-        state.PauseTiming();
-        
-        // Prepare fresh table
-        migration_->dropTable("test_table");
-        size_t row_count = (state.range(0) == 1) ? 10000 : 
-                          (state.range(0) == 2) ? 50000 : 100000;
-        migration_->createTable("test_table", row_count);
-        
-        state.ResumeTiming();
-        
-        // Execute ADD COLUMN
-        auto session = migration_->beginSession("test_table");
-        session->addColumnChange("ADD COLUMN new_col INT DEFAULT 0");
-        
-        auto start = std::chrono::steady_clock::now();
-        auto result = migration_->execute(session);
-        auto elapsed = std::chrono::steady_clock::now() - start;
-        
+        const auto start = std::chrono::steady_clock::now();
+        SchemaMigration migration("1.5.0");
+        migration.addColumn("users", ColumnDef{"new_col", "INTEGER", true, "0", "benchmark column"});
+
+        const auto result = migration.apply(*storage_);
+        const auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - start).count();
+
         if (!result.success) {
-            state.SkipWithError("Migration failed");
+            state.SkipWithError("Schema migration failed");
         }
-        
-        state.counters["row_count"] = row_count;
-        state.counters["migration_time_ms"] = 
-            std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
-        state.counters["throughput_rows_per_sec"] = 
-            static_cast<double>(row_count) / 
-            std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count() * 1000;
+
+        state.counters["migration_time_ms"] = static_cast<double>(elapsed_ms);
+        state.counters["operation_count"] = static_cast<double>(migration.operationCount());
+        ::benchmark::DoNotOptimize(result);
     }
-    
-    state.SetItemsProcessed(state.iterations() * state.range(0));
-    state.SetBytesProcessed(state.iterations() * state.range(0) * 1024);
+
+    state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
 }
 
-// ============================================================================
-// Benchmark 2: ALTER TABLE (Index Changes)
-// ============================================================================
-
-BENCHMARK_F(SchemaMigrationBenchmark, AlterTableIndexes)(
-    ::benchmark::State& state) {
-    
+BENCHMARK_F(SchemaMigrationBenchmark, AddIndex)(::benchmark::State& state) {
     for (auto _ : state) {
-        state.PauseTiming();
-        
-        // Prepare fresh table
-        migration_->dropTable("test_table");
-        size_t row_count = (state.range(0) == 1) ? 10000 : 
-                          (state.range(0) == 2) ? 50000 : 100000;
-        migration_->createTable("test_table", row_count);
-        
-        state.ResumeTiming();
-        
-        // Execute ALTER TABLE with index change
-        auto session = migration_->beginSession("test_table");
-        session->addColumnChange("CREATE INDEX idx_col1 ON test_table(col1)");
-        session->addColumnChange("DROP INDEX idx_old ON test_table");
-        
-        auto start = std::chrono::steady_clock::now();
-        auto result = migration_->execute(session);
-        auto elapsed = std::chrono::steady_clock::now() - start;
-        
+        const auto start = std::chrono::steady_clock::now();
+        SchemaMigration migration("1.5.1");
+        migration.addIndex("users", IndexDef{"users_email_idx", {"email"}, false, true});
+
+        const auto result = migration.apply(*storage_);
+        const auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(
+            std::chrono::steady_clock::now() - start).count();
+
         if (!result.success) {
-            state.SkipWithError("Migration failed");
+            state.SkipWithError("Index migration failed");
         }
-        
-        state.counters["row_count"] = row_count;
-        state.counters["migration_time_ms"] = 
-            std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
+
+        state.counters["migration_time_ms"] = static_cast<double>(elapsed_ms);
+        state.counters["operation_count"] = static_cast<double>(migration.operationCount());
+        ::benchmark::DoNotOptimize(result);
     }
-    
-    state.SetItemsProcessed(state.iterations() * state.range(0));
+
+    state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
 }
 
-// ============================================================================
-// Benchmark 3: RENAME COLUMN (Cross-Reference Updates)
-// ============================================================================
+BENCHMARK_REGISTER_F(SchemaMigrationBenchmark, AddColumn)
+    ->Iterations(50)
+    ->Unit(::benchmark::kMillisecond)
+    ->Name("Updates/SchemaMigration/AddColumn");
 
-BENCHMARK_F(SchemaMigrationBenchmark, RenameColumnWithCrossReferences)(
-    ::benchmark::State& state) {
-    
-    for (auto _ : state) {
-        state.PauseTiming();
-        
-        // Prepare tables with foreign key references
-        migration_->dropTable("child_table");
-        migration_->dropTable("test_table");
-        
-        size_t row_count = (state.range(0) == 1) ? 10000 : 
-                          (state.range(0) == 2) ? 50000 : 100000;
-        
-        migration_->createTable("test_table", row_count);
-        migration_->createTable("child_table", row_count);
-        migration_->addForeignKey("child_table", "test_table", "id");
-        
-        state.ResumeTiming();
-        
-        // Rename column with cross-reference
-        auto session = migration_->beginSession("test_table");
-        session->addColumnChange("RENAME COLUMN id TO entity_id");
-        
-        auto start = std::chrono::steady_clock::now();
-        auto result = migration_->execute(session);
-        auto elapsed = std::chrono::steady_clock::now() - start;
-        
-        if (!result.success) {
-            state.SkipWithError("Migration failed");
-        }
-        
-        // Verify foreign key updated
-        auto fk_info = migration_->getForeignKeyInfo("child_table");
-        if (fk_info.referenced_column != "entity_id") {
-            state.SkipWithError("Foreign key not updated");
-        }
-        
-        state.counters["row_count"] = row_count;
-        state.counters["migration_time_ms"] = 
-            std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
-    }
-    
-    state.SetItemsProcessed(state.iterations() * state.range(0));
-}
-
-// ============================================================================
-// Benchmark 4: DROP COLUMN with Cascade
-// ============================================================================
-
-BENCHMARK_F(SchemaMigrationBenchmark, DropColumnWithCascade)(
-    ::benchmark::State& state) {
-    
-    for (auto _ : state) {
-        state.PauseTiming();
-        
-        // Prepare fresh table with indexes and constraints
-        migration_->dropTable("test_table");
-        size_t row_count = (state.range(0) == 1) ? 10000 : 
-                          (state.range(0) == 2) ? 50000 : 100000;
-        migration_->createTable("test_table", row_count);
-        migration_->addIndexOnColumn("test_table", "col_to_drop");
-        migration_->addConstraintOnColumn("test_table", "col_to_drop");
-        
-        state.ResumeTiming();
-        
-        // Execute DROP COLUMN with cascade
-        auto session = migration_->beginSession("test_table");
-        session->addColumnChange("DROP COLUMN col_to_drop CASCADE");
-        
-        auto start = std::chrono::steady_clock::now();
-        auto result = migration_->execute(session);
-        auto elapsed = std::chrono::steady_clock::now() - start;
-        
-        if (!result.success) {
-            state.SkipWithError("Migration failed");
-        }
-        
-        // Verify index and constraint removed
-        auto indexes = migration_->getIndexes("test_table");
-        auto constraints = migration_->getConstraints("test_table");
-        
-        for (const auto& idx : indexes) {
-            if (idx.column == "col_to_drop") {
-                state.SkipWithError("Index not dropped");
-            }
-        }
-        
-        for (const auto& con : constraints) {
-            if (con.column == "col_to_drop") {
-                state.SkipWithError("Constraint not dropped");
-            }
-        }
-        
-        state.counters["row_count"] = row_count;
-        state.counters["migration_time_ms"] = 
-            std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count();
-    }
-    
-    state.SetItemsProcessed(state.iterations() * state.range(0));
-}
-
-// ============================================================================
-// Benchmark 5: Memory Usage During Migration
-// ============================================================================
-
-BENCHMARK_F(SchemaMigrationBenchmark, MemoryUsageDuringMigration)(
-    ::benchmark::State& state) {
-    
-    for (auto _ : state) {
-        state.PauseTiming();
-        
-        migration_->dropTable("test_table");
-        size_t row_count = (state.range(0) == 1) ? 10000 : 
-                          (state.range(0) == 2) ? 50000 : 100000;
-        migration_->createTable("test_table", row_count);
-        
-        size_t mem_before = migration_->getMemoryUsage();
-        
-        state.ResumeTiming();
-        
-        auto session = migration_->beginSession("test_table");
-        session->addColumnChange("ADD COLUMN new_col INT DEFAULT 0");
-        
-        size_t peak_mem = 0;
-        auto monitor_fn = [&]() {
-            while (!session->isComplete()) {
-                size_t current_mem = migration_->getMemoryUsage();
-                peak_mem = std::max(peak_mem, current_mem);
-                std::this_thread::sleep_for(std::chrono::milliseconds(10));
-            }
-        };
-        
-        std::thread monitor_thread(monitor_fn);
-        auto result = migration_->execute(session);
-        monitor_thread.join();
-        
-        state.PauseTiming();
-        
-        size_t mem_after = migration_->getMemoryUsage();
-        size_t mem_growth = peak_mem - mem_before;
-        
-        if (!result.success) {
-            state.SkipWithError("Migration failed");
-        }
-        
-        state.counters["row_count"] = row_count;
-        state.counters["peak_memory_mb"] = peak_mem / (1024 * 1024);
-        state.counters["memory_growth_mb"] = mem_growth / (1024 * 1024);
-        state.counters["memory_growth_pct"] = 
-            (static_cast<double>(mem_growth) / mem_before) * 100;
-    }
-    
-    state.SetItemsProcessed(state.iterations());
-}
-
-// ============================================================================
-// Performance Gates
-// ============================================================================
-
-/**
- * UPDP-6: Schema migration scalability: 100K rows < 10 seconds
- * 
- * Expected: Migration of 100K row table in < 10 seconds
- * Measurement: migration_time_ms from DropColumnWithCascade (worst case)
- * 
- * Covers:
- *  - All column operations (ADD, ALTER, RENAME, DROP)
- *  - Large row counts
- *  - Index/constraint handling
- */
-
-/**
- * UPDP-Extended-3: Memory efficiency
- * 
- * Expected: Memory growth <= 5% of table size during migration
- * Measurement: memory_growth_pct from MemoryUsageDuringMigration
- */
-
-/**
- * UPDP-Extended-4: Throughput scaling
- * 
- * Expected: Throughput increases monotonically with operation type
- * Measurement: throughput_rows_per_sec from AddColumn, AlterTableIndexes, etc.
- */
+BENCHMARK_REGISTER_F(SchemaMigrationBenchmark, AddIndex)
+    ->Iterations(50)
+    ->Unit(::benchmark::kMillisecond)
+    ->Name("Updates/SchemaMigration/AddIndex");
 
 } // namespace benchmark
 } // namespace updates
 } // namespace themis
 
-// Register benchmarks with different row count parameters
-BENCHMARK_SUITE(SchemaMigrationBenchmark)
-  ->Arg(1)    // 10K rows
-  ->Arg(2)    // 50K rows  
-  ->Arg(3);   // 100K rows

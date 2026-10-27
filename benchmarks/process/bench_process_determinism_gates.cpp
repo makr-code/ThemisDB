@@ -77,7 +77,7 @@ public:
 
         auto end = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
-        benchmark::DoNotOptimize(duration);
+        ::benchmark::DoNotOptimize(duration);
 
         return true;
     }
@@ -203,7 +203,7 @@ public:
 
         auto end = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
-        benchmark::DoNotOptimize(duration);
+        ::benchmark::DoNotOptimize(duration);
 
         return true;
     }
@@ -273,7 +273,7 @@ static std::vector<ProcessModelRevision> generateRevisionHistory(
 // DP-01: Conflict Resolution (100 conflicts)
 // ============================================================================
 
-static void BM_DP01_ConflictResolution(benchmark::State& state) {
+static void BM_DP01_ConflictResolution(::benchmark::State& state) {
     const int num_conflicts = kSmallDatasetSize;
     auto resolver = std::make_unique<ConflictResolver>();
     auto conflicts = generateConflicts(num_conflicts);
@@ -297,9 +297,9 @@ static void BM_DP01_ConflictResolution(benchmark::State& state) {
     }
 
     state.SetItemsProcessed(num_conflicts * static_cast<int64_t>(state.iterations()));
-    state.counters["p99_ms"] = benchmark::Counter(
+    state.counters["p99_ms"] = ::benchmark::Counter(
         latencies.empty() ? 0.0 : *std::max_element(latencies.begin(), latencies.end()),
-        benchmark::Counter::kAvgIterations);
+        ::benchmark::Counter::kAvgIterations);
 }
 
 BENCHMARK(BM_DP01_ConflictResolution)
@@ -311,7 +311,7 @@ BENCHMARK(BM_DP01_ConflictResolution)
 // DP-02: Rollback Single (10 revisions)
 // ============================================================================
 
-static void BM_DP02_RollbackSingle(benchmark::State& state) {
+static void BM_DP02_RollbackSingle(::benchmark::State& state) {
     const std::string model_id = "test_model";
     const int num_revisions = kLargeRevisions;
     auto store = std::make_unique<RevisionStore>();
@@ -331,8 +331,8 @@ static void BM_DP02_RollbackSingle(benchmark::State& state) {
         auto end = std::chrono::high_resolution_clock::now();
 
         auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-        state.counters["rollback_ms"] = benchmark::Counter(
-            static_cast<double>(duration_ms), benchmark::Counter::kAvgIterations);
+        state.counters["rollback_ms"] = ::benchmark::Counter(
+            static_cast<double>(duration_ms), ::benchmark::Counter::kAvgIterations);
     }
 
     state.SetItemsProcessed(num_revisions * static_cast<int64_t>(state.iterations()));
@@ -347,7 +347,7 @@ BENCHMARK(BM_DP02_RollbackSingle)
 // DP-03: Rollback Batch (100 models)
 // ============================================================================
 
-static void BM_DP03_RollbackBatch(benchmark::State& state) {
+static void BM_DP03_RollbackBatch(::benchmark::State& state) {
     const int num_models = kSmallDatasetSize;
     const int revisions_per_model = 5;
     auto store = std::make_unique<RevisionStore>();
@@ -375,9 +375,9 @@ static void BM_DP03_RollbackBatch(benchmark::State& state) {
         auto end = std::chrono::high_resolution_clock::now();
 
         auto duration_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-        benchmark::DoNotOptimize(rolled_back);
-        state.counters["rollback_ms"] = benchmark::Counter(
-            static_cast<double>(duration_ms), benchmark::Counter::kAvgIterations);
+        ::benchmark::DoNotOptimize(rolled_back);
+        state.counters["rollback_ms"] = ::benchmark::Counter(
+            static_cast<double>(duration_ms), ::benchmark::Counter::kAvgIterations);
     }
 
     state.SetItemsProcessed(num_models * revisions_per_model * static_cast<int64_t>(state.iterations()));
@@ -392,7 +392,7 @@ BENCHMARK(BM_DP03_RollbackBatch)
 // DP-04: Transaction Serialization
 // ============================================================================
 
-static void BM_DP04_TransactionSerialization(benchmark::State& state) {
+static void BM_DP04_TransactionSerialization(::benchmark::State& state) {
     const int num_transactions = 100;
     auto serializer = std::make_unique<TransactionSerializer>();
 
@@ -438,7 +438,7 @@ static void BM_DP04_TransactionSerialization(benchmark::State& state) {
         if (!latencies.empty()) {
             std::sort(latencies.begin(), latencies.end());
             double p99 = latencies[std::min(size_t(99), latencies.size() - 1)];
-            state.counters["p99_ms"] = benchmark::Counter(p99, benchmark::Counter::kAvgIterations);
+            state.counters["p99_ms"] = ::benchmark::Counter(p99, ::benchmark::Counter::kAvgIterations);
         }
     }
 
@@ -454,7 +454,7 @@ BENCHMARK(BM_DP04_TransactionSerialization)
 // DP-05: Deterministic Output Verification
 // ============================================================================
 
-static void BM_DP05_DeterministicOutputVerification(benchmark::State& state) {
+static void BM_DP05_DeterministicOutputVerification(::benchmark::State& state) {
     const int num_models = 100;
     std::mt19937_64 rng(kCanonicalRngSeed);
     std::uniform_int_distribution<> content_dist(0, 9999);
@@ -489,7 +489,7 @@ static void BM_DP05_DeterministicOutputVerification(benchmark::State& state) {
         }
 
         // Verify outputs match
-        benchmark::DoNotOptimize(first_output == second_output);
+        ::benchmark::DoNotOptimize(first_output == second_output);
     }
 
     state.SetItemsProcessed(num_models * 2 * static_cast<int64_t>(state.iterations()));
@@ -522,7 +522,7 @@ struct VersionClock {
     }
 };
 
-static void BM_DP06_VersionClockOperations(benchmark::State& state) {
+static void BM_DP06_VersionClockOperations(::benchmark::State& state) {
     const int num_clocks = 1000;
     std::vector<VersionClock> clocks;
     
@@ -540,7 +540,7 @@ static void BM_DP06_VersionClockOperations(benchmark::State& state) {
 
         // Perform clock comparisons
         for (const auto& clock : clocks) {
-            benchmark::DoNotOptimize(test_clock.isAfter(clock));
+            ::benchmark::DoNotOptimize(test_clock.isAfter(clock));
         }
 
         // Perform clock increments

@@ -48,6 +48,7 @@
 
 #include "exporters/exporters_api_contract.h"
 
+#include <array>
 #include <atomic>
 #include <cstdint>
 #include <optional>

@@ -462,6 +462,7 @@ BENCHMARK_REGISTER_F(DocumentStoreFixture, DST_BM_08_SchemaValidationThroughput)
  * items_processed / elapsed_time.
  */
 BENCHMARK_DEFINE_F(DocumentStoreFixture, GATE_DOC_05_PutThroughput_100k_ops_s)(benchmark::State& state) {
+    const auto t0 = std::chrono::steady_clock::now();
     for (auto _ : state) {
         themis::document::DocumentRecord r;
         r.id            = "gate05_" + std::to_string(iterCounter_++);
@@ -469,11 +470,14 @@ BENCHMARK_DEFINE_F(DocumentStoreFixture, GATE_DOC_05_PutThroughput_100k_ops_s)(b
         r.body          = {{"v", 1}};
         benchmark::DoNotOptimize(store_->put(r));
     }
+    const auto t1 = std::chrono::steady_clock::now();
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
     state.counters["gate_min_ops_per_s"] = kGateDoc05OpsPerSec;
 
-    const double ops_per_s = static_cast<double>(state.iterations()) /
-                             state.elapsed_time();
+    const double elapsed_s = std::chrono::duration<double>(t1 - t0).count();
+    const double ops_per_s = elapsed_s > 0.0
+        ? static_cast<double>(state.iterations()) / elapsed_s
+        : 0.0;
     state.counters["ops_per_s"] = ops_per_s;
     if (ops_per_s < kGateDoc05OpsPerSec) {
         state.SkipWithError("GATE-DOC-05 FAILED: put() throughput below 100 000 ops/s");
@@ -497,15 +501,19 @@ BENCHMARK_REGISTER_F(DocumentStoreFixture, GATE_DOC_05_PutThroughput_100k_ops_s)
  */
 BENCHMARK_DEFINE_F(DocumentStoreFixture, GATE_DOC_06_GetLatency_p99_100us)(benchmark::State& state) {
     std::uniform_int_distribution<int> dist(0, kPreloadCount - 1);
+    const auto t0 = std::chrono::steady_clock::now();
     for (auto _ : state) {
         const auto& id = preloadedIds_[static_cast<std::size_t>(dist(rng_))];
         benchmark::DoNotOptimize(store_->get(kReadCollection, id));
     }
+    const auto t1 = std::chrono::steady_clock::now();
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
     state.counters["gate_p99_limit_us"] = kGateDoc06UsP99;
 
-    const double mean_us = (state.elapsed_time() * 1e6) /
-                           static_cast<double>(state.iterations());
+    const double elapsed_s = std::chrono::duration<double>(t1 - t0).count();
+    const double mean_us = elapsed_s > 0.0
+        ? (elapsed_s * 1e6) / static_cast<double>(state.iterations())
+        : 0.0;
     state.counters["mean_us"] = mean_us;
     if (mean_us > kGateDoc06UsP99) {
         state.SkipWithError("GATE-DOC-06 FAILED: mean latency exceeds 100 µs gate");

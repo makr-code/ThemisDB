@@ -46,14 +46,14 @@
 
 #include <benchmark/benchmark.h>
 
-#include "chimera/themisdb_adapter.h"
-#include "chimera/adapter_config.h"
+#include "chimera/themisdb_adapter.hpp"
+#include "chimera/database_adapter.hpp"
 
 #include <memory>
 #include <string>
 #include <vector>
 
-using namespace themis::chimera;
+using namespace chimera;
 
 // ============================================================================
 // Constants — deterministic, release-pinned
@@ -74,14 +74,16 @@ protected:
     std::unique_ptr<ThemisDBAdapter> adapter_;
 
     void SetUp(const ::benchmark::State& /*state*/) override {
-        // Initialize adapter with default configuration
-        AdapterConfig cfg;
-        cfg.enable_connection_pooling = true;
-        cfg.pool_size = 10;
-        adapter_ = std::make_unique<ThemisDBAdapter>(cfg);
+        adapter_ = std::make_unique<ThemisDBAdapter>();
+        const auto connect_result = adapter_->connect("themisdb://benchmark.localhost:5432/themisdb_bench");
+        benchmark::DoNotOptimize(connect_result);
     }
 
     void TearDown(const ::benchmark::State& /*state*/) override {
+        if (adapter_) {
+            const auto disconnect_result = adapter_->disconnect();
+            benchmark::DoNotOptimize(disconnect_result);
+        }
         adapter_.reset();
     }
 };
@@ -94,9 +96,8 @@ protected:
 BENCHMARK_DEFINE_F(ChimeraAdapterFixture, CHM01_ConnectWithPooling)
 (benchmark::State& state) {
     for (auto _ : state) {
-        auto conn = adapter_->connect();
-        benchmark::DoNotOptimize(conn);
-        // Connection will be released at end of iteration
+        auto connect_result = adapter_->connect("themisdb://benchmark.localhost:5432/themisdb_bench");
+        benchmark::DoNotOptimize(connect_result);
     }
     state.SetItemsProcessed(state.iterations());
 }
@@ -113,11 +114,10 @@ BENCHMARK_REGISTER_F(ChimeraAdapterFixture, CHM01_ConnectWithPooling)
 
 BENCHMARK_DEFINE_F(ChimeraAdapterFixture, CHM02_ExecuteQuery)
 (benchmark::State& state) {
-    auto conn = adapter_->connect();
-    std::string query = "SELECT * FROM test_table WHERE id = ?";
+    std::string query = "SELECT * FROM test_table WHERE id = 1";
 
     for (auto _ : state) {
-        auto result = adapter_->executeQuery(query, conn);
+        auto result = adapter_->execute_query(query, {});
         benchmark::DoNotOptimize(result);
     }
     state.SetItemsProcessed(state.iterations());
@@ -136,8 +136,10 @@ BENCHMARK_REGISTER_F(ChimeraAdapterFixture, CHM02_ExecuteQuery)
 BENCHMARK_DEFINE_F(ChimeraAdapterFixture, CHM03_Disconnect)
 (benchmark::State& state) {
     for (auto _ : state) {
-        auto conn = adapter_->connect();
-        adapter_->disconnect(conn);
+        const auto connect_result = adapter_->connect("themisdb://benchmark.localhost:5432/themisdb_bench");
+        benchmark::DoNotOptimize(connect_result);
+        const auto disconnect_result = adapter_->disconnect();
+        benchmark::DoNotOptimize(disconnect_result);
     }
     state.SetItemsProcessed(state.iterations());
 }
@@ -154,16 +156,17 @@ BENCHMARK_REGISTER_F(ChimeraAdapterFixture, CHM03_Disconnect)
 
 BENCHMARK_DEFINE_F(ChimeraAdapterFixture, CHM04_ExecuteBatch)
 (benchmark::State& state) {
-    auto conn = adapter_->connect();
-    std::vector<std::string> queries = {};
+    std::vector<std::string> queries;
 
     for (int i = 0; i < 100; ++i) {
         queries.push_back("INSERT INTO test_table VALUES (" + std::to_string(i) + ")");
     }
 
     for (auto _ : state) {
-        auto results = adapter_->executeBatch(queries, conn);
-        benchmark::DoNotOptimize(results);
+        for (const auto& q : queries) {
+            auto result = adapter_->execute_query(q, {});
+            benchmark::DoNotOptimize(result);
+        }
     }
     state.SetItemsProcessed(state.iterations() * 100);
 }
@@ -180,12 +183,16 @@ BENCHMARK_REGISTER_F(ChimeraAdapterFixture, CHM04_ExecuteBatch)
 
 BENCHMARK_DEFINE_F(ChimeraAdapterFixture, CHM05_TransactionCommit)
 (benchmark::State& state) {
-    auto conn = adapter_->connect();
-
     for (auto _ : state) {
-        adapter_->beginTransaction(conn);
-        adapter_->executeQuery("INSERT INTO test_table VALUES (1)", conn);
-        adapter_->commitTransaction(conn);
+        auto tx_result = adapter_->begin_transaction({});
+        benchmark::DoNotOptimize(tx_result);
+        if (tx_result.is_ok()) {
+            const auto tx_id = tx_result.value.value();
+            auto exec_result = adapter_->execute_query("INSERT INTO test_table VALUES (1)", {});
+            benchmark::DoNotOptimize(exec_result);
+            auto commit_result = adapter_->commit_transaction(tx_id);
+            benchmark::DoNotOptimize(commit_result);
+        }
     }
     state.SetItemsProcessed(state.iterations());
 }
@@ -203,9 +210,8 @@ BENCHMARK_REGISTER_F(ChimeraAdapterFixture, CHM05_TransactionCommit)
 BENCHMARK_DEFINE_F(ChimeraAdapterFixture, CHM06_ErrorHandling)
 (benchmark::State& state) {
     for (auto _ : state) {
-        // Trigger error condition and verify error handling
         try {
-            auto result = adapter_->executeQuery("INVALID QUERY");
+            auto result = adapter_->execute_query("INVALID QUERY", {});
             benchmark::DoNotOptimize(result);
         } catch (const std::exception& e) {
             benchmark::DoNotOptimize(e);

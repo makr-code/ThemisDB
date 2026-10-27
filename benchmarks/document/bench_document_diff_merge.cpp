@@ -434,15 +434,19 @@ BENCHMARK_REGISTER_F(DocumentDiffMergeFixture, DDM_BM_08_MergeIdenticalDocuments
  *       --benchmark_repetitions=10 and post-process with report_variance.py.
  */
 BENCHMARK_DEFINE_F(DocumentDiffMergeFixture, GATE_DOC_01_LargeDocDiff_p99_500us)(benchmark::State& state) {
+    const auto t0 = std::chrono::steady_clock::now();
     for (auto _ : state) {
         benchmark::DoNotOptimize(
             engine_->diff(kCollection, kLargeBaseId, kLargeTargetId));
     }
+    const auto t1 = std::chrono::steady_clock::now();
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
     state.counters["gate_p99_limit_us"] = kGateDoc01UsP99;
 
-    const double mean_us = (state.elapsed_time() * 1e6) /
-                           static_cast<double>(state.iterations());
+    const double elapsed_s = std::chrono::duration<double>(t1 - t0).count();
+    const double mean_us = elapsed_s > 0.0
+        ? (elapsed_s * 1e6) / static_cast<double>(state.iterations())
+        : 0.0;
     state.counters["mean_us"] = mean_us;
     if (mean_us > kGateDoc01UsP99) {
         state.SkipWithError("GATE-DOC-01 FAILED: mean latency exceeds 500 µs gate");
@@ -465,16 +469,20 @@ BENCHMARK_REGISTER_F(DocumentDiffMergeFixture, GATE_DOC_01_LargeDocDiff_p99_500u
  * conflict) and asserts that mean latency is within the 200 µs hard gate.
  */
 BENCHMARK_DEFINE_F(DocumentDiffMergeFixture, GATE_DOC_02_CleanMerge_p99_200us)(benchmark::State& state) {
+    const auto t0 = std::chrono::steady_clock::now();
     for (auto _ : state) {
         benchmark::DoNotOptimize(
             engine_->merge(kCollection, kMergeBaseId, kMergeOursId, kMergeTheirsId,
                            themis::document::MergeStrategy::FAIL));
     }
+    const auto t1 = std::chrono::steady_clock::now();
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
     state.counters["gate_p99_limit_us"] = kGateDoc02UsP99;
 
-    const double mean_us = (state.elapsed_time() * 1e6) /
-                           static_cast<double>(state.iterations());
+    const double elapsed_s = std::chrono::duration<double>(t1 - t0).count();
+    const double mean_us = elapsed_s > 0.0
+        ? (elapsed_s * 1e6) / static_cast<double>(state.iterations())
+        : 0.0;
     state.counters["mean_us"] = mean_us;
     if (mean_us > kGateDoc02UsP99) {
         state.SkipWithError("GATE-DOC-02 FAILED: mean latency exceeds 200 µs gate");

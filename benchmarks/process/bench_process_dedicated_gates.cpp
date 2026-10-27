@@ -98,11 +98,11 @@ private:
 // Single-threaded: spawn one process per iteration and immediately terminate
 // it to keep the table from growing unboundedly.
 // ─────────────────────────────────────────────────────────────────────────────
-static void BM_PM_BM_01_SpawnLatencyP95(benchmark::State& state) {
+static void BM_PM_BM_01_SpawnLatencyP95(::benchmark::State& state) {
     BenchStubProcessManager mgr;
     for (auto _ : state) {
         const uint64_t pid = mgr.spawn();
-        benchmark::DoNotOptimize(pid);
+        ::benchmark::DoNotOptimize(pid);
         mgr.terminate(pid);
     }
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
@@ -119,7 +119,7 @@ BENCHMARK(BM_PM_BM_01_SpawnLatencyP95)
 // Pre-allocate a pool of processes; single-threaded sequential terminate.
 // Refills the pool when it runs low.
 // ─────────────────────────────────────────────────────────────────────────────
-static void BM_PM_BM_02_TerminateLatencyP95(benchmark::State& state) {
+static void BM_PM_BM_02_TerminateLatencyP95(::benchmark::State& state) {
     constexpr int kPool = 1000;
     BenchStubProcessManager mgr;
 
@@ -153,13 +153,13 @@ BENCHMARK(BM_PM_BM_02_TerminateLatencyP95)
 //
 // Single-threaded: measure raw signal-bus send throughput (p99 target).
 // ─────────────────────────────────────────────────────────────────────────────
-static void BM_PM_BM_03_SignalDeliverP99(benchmark::State& state) {
+static void BM_PM_BM_03_SignalDeliverP99(::benchmark::State& state) {
     BenchStubSignalBus bus;
     uint64_t pid = 1;
     for (auto _ : state) {
         bus.send(pid, 15);
         ++pid;
-        benchmark::DoNotOptimize(pid);
+        ::benchmark::DoNotOptimize(pid);
     }
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
 }
@@ -175,7 +175,7 @@ BENCHMARK(BM_PM_BM_03_SignalDeliverP99)
 // 4 threads each perform spawn+terminate in a tight loop for N iterations.
 // Measures aggregate spawn throughput under contention.
 // ─────────────────────────────────────────────────────────────────────────────
-static void BM_PM_BM_04_ConcurrentSpawnThroughput(benchmark::State& state) {
+static void BM_PM_BM_04_ConcurrentSpawnThroughput(::benchmark::State& state) {
     constexpr unsigned kThreads = 4;
     const auto kIter = static_cast<uint64_t>(state.range(0));
 
@@ -196,7 +196,7 @@ static void BM_PM_BM_04_ConcurrentSpawnThroughput(benchmark::State& state) {
         for (auto& th : threads) th.join();
 
         state.PauseTiming();
-        benchmark::DoNotOptimize(mgr.active());
+        ::benchmark::DoNotOptimize(mgr.active());
         state.ResumeTiming();
     }
     state.SetItemsProcessed(

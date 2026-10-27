@@ -433,16 +433,20 @@ BENCHMARK_REGISTER_F(RoundTripFixture, RTP_BM_08_ConcurrentRelayLoad)
  * counter for automated release manifest comparison.
  */
 BENCHMARK_DEFINE_F(RoundTripFixture, GATE_DOC_03_BeginRelay_p99_1ms)(benchmark::State& state) {
+    const auto t0 = std::chrono::steady_clock::now();
     for (auto _ : state) {
         const int64_t id = iterCounter_.fetch_add(1, std::memory_order_relaxed);
         benchmark::DoNotOptimize(
             editor_->beginRelay("gate03_relay_" + std::to_string(id), "seed_document"));
     }
+    const auto t1 = std::chrono::steady_clock::now();
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
     state.counters["gate_p99_limit_us"] = kGateDoc03UsP99;
 
-    const double mean_us = (state.elapsed_time() * 1e6) /
-                           static_cast<double>(state.iterations());
+    const double elapsed_s = std::chrono::duration<double>(t1 - t0).count();
+    const double mean_us = elapsed_s > 0.0
+        ? (elapsed_s * 1e6) / static_cast<double>(state.iterations())
+        : 0.0;
     state.counters["mean_us"] = mean_us;
     if (mean_us > kGateDoc03UsP99) {
         state.SkipWithError("GATE-DOC-03 FAILED: mean latency exceeds 1 ms gate");
@@ -465,15 +469,19 @@ BENCHMARK_REGISTER_F(RoundTripFixture, GATE_DOC_03_BeginRelay_p99_1ms)
  * that mean latency is within the 200 µs hard gate.
  */
 BENCHMARK_DEFINE_F(RoundTripFixture, GATE_DOC_04_LoadInteraction_p99_200us)(benchmark::State& state) {
+    const auto t0 = std::chrono::steady_clock::now();
     for (auto _ : state) {
         benchmark::DoNotOptimize(
             editor_->loadInteraction(kPreloadedRelay, 5));
     }
+    const auto t1 = std::chrono::steady_clock::now();
     state.SetItemsProcessed(static_cast<int64_t>(state.iterations()));
     state.counters["gate_p99_limit_us"] = kGateDoc04UsP99;
 
-    const double mean_us = (state.elapsed_time() * 1e6) /
-                           static_cast<double>(state.iterations());
+    const double elapsed_s = std::chrono::duration<double>(t1 - t0).count();
+    const double mean_us = elapsed_s > 0.0
+        ? (elapsed_s * 1e6) / static_cast<double>(state.iterations())
+        : 0.0;
     state.counters["mean_us"] = mean_us;
     if (mean_us > kGateDoc04UsP99) {
         state.SkipWithError("GATE-DOC-04 FAILED: mean latency exceeds 200 µs gate");

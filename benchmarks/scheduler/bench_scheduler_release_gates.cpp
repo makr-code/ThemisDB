@@ -43,10 +43,21 @@
 #include <benchmark/benchmark.h>
 #include "scheduler/scheduler_api_contract.h"
 
+#include <chrono>
 #include <cstdint>
 #include <string>
 
 namespace themis {
+namespace scheduler {
+struct TaskRegistrationDescriptor {
+    std::string task_id;
+    std::string task_name;
+    bool allow_concurrent = false;
+    std::uint64_t priority = 0;
+    std::chrono::seconds retry_interval{0};
+};
+}  // namespace scheduler
+
 namespace bench {
 namespace sch {
 

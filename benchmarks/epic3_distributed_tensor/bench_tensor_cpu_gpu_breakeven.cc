@@ -55,18 +55,18 @@ constexpr int64_t kRecentMs = kRefNowMs - 30'000LL; // 30 s ago
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
 /// Build a coordinator with N freshly-refreshed shards (CPU path only).
-ShardSummaryCoordinator makeFreshCoordinator(int n) {
-    ShardSummaryCoordinator c;
+std::unique_ptr<ShardSummaryCoordinator> makeFreshCoordinator(int n) {
+    auto c = std::make_unique<ShardSummaryCoordinator>();
     for (int i = 0; i < n; ++i) {
         const std::string sid = "s-" + std::to_string(i);
-        c.registerShard(sid);
+        c->registerShard(sid);
         ShardSummary s;
         s.shard_id = sid;
         s.shard_relevance =
             0.5f + static_cast<float>(i % 10) * 0.04f;
         s.freshness_state = SummaryFreshnessState::FRESH;
         s.freshness_ttl_seconds = 3600;
-        c.refreshShard(sid, s, kRecentMs);
+        c->refreshShard(sid, s, kRecentMs);
     }
     return c;
 }
@@ -117,7 +117,7 @@ void BGPU01_ShardScoringCPU(benchmark::State& state) {
 
     for (auto _ : state) {
         const auto decisions =
-            c.routeSummaryFirst(summaries, AccuracyMode::ADVISORY, kRefNowMs);
+            c->routeSummaryFirst(summaries, AccuracyMode::ADVISORY, kRefNowMs);
         // Accumulate to prevent dead-code elimination.
         float acc = 0.0f;
         for (const auto& d : decisions) {
@@ -179,7 +179,7 @@ void BGPU03_FreshnessConsensusCPU(benchmark::State& state) {
     benchmark::DoNotOptimize(kCanonicalRngSeed);
 
     for (auto _ : state) {
-        const auto res = c.checkFreshnessConsensus(shard_ids, kRefNowMs);
+        const auto res = c->checkFreshnessConsensus(shard_ids, kRefNowMs);
         benchmark::DoNotOptimize(res);
     }
 

@@ -272,20 +272,23 @@ BENCHMARK_REGISTER_F(W5dGateFixture, Gate1_ReadLatency)
  * Emits gate_pass, throughput counters.
  */
 BENCHMARK_DEFINE_F(W5dGateFixture, Gate2_WriteThroughput)(benchmark::State& state) {
+    double elapsed_s = 0.0;
     for (auto _ : state) {
+        const auto t0 = std::chrono::steady_clock::now();
         BaseEntity e("gw_" + std::to_string(writeSeq_));
         e.setField("cat", rng_.key(4));
         e.setField("seq", static_cast<int64_t>(writeSeq_));
         idx_->put("gate", e);
         ++writeSeq_;
+        const auto t1 = std::chrono::steady_clock::now();
+        elapsed_s += std::chrono::duration<double>(t1 - t0).count();
     }
 
     state.SetItemsProcessed(state.iterations());
 
-    const double elapsed_s = state.elapsed_real_time() > 0
-        ? state.elapsed_real_time()
-        : 1.0;
-    const double throughput = static_cast<double>(state.iterations()) / elapsed_s;
+    const double throughput = state.iterations() > 0
+        ? static_cast<double>(state.iterations()) / std::max(elapsed_s, 1e-12)
+        : 0.0;
     const bool pass = throughput >= kGateWriteMinOpsS;
 
     state.counters["throughput"] = throughput;

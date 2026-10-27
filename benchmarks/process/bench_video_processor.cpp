@@ -1,9 +1,9 @@
 #include <benchmark/benchmark.h>
 
 // Video processor benchmarks disabled; plugin interface unavailable in this build.
-static void BM_VideoProcessor_Disabled(benchmark::State& state) {
+static void BM_VideoProcessor_Disabled(::benchmark::State& state) {
     for (auto _ : state) {
-        benchmark::DoNotOptimize(state.iterations());
+        ::benchmark::DoNotOptimize(state.iterations());
     }
 }
 
