@@ -333,7 +333,7 @@ jobs:
 
       - name: Upload platform digest
         if: (inputs.push_to_registry == true || inputs.push_to_registry == 'true')
-        uses: actions/upload-artifact@c4b38be1ef23f3d4efcbdcecc1ea1d9c22d6e5f9  # v5
+        uses: actions/upload-artifact@v5
         with:
           name: docker-digest-${{ steps.platform-tag.outputs.value }}
           path: docker-digest-${{ steps.platform-tag.outputs.value }}.txt
