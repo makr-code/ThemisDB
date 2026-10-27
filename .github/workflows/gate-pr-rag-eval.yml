@@ -47,6 +47,7 @@ jobs:
           fetch-depth: 0
       
       - name: Validate Evaluation Contract Documentation
+        id: check-contract-docs
         run: |
           # Check that EVALUATION_CONTRACT_V1.md exists and contains binding metrics
           echo "✓ Checking EVALUATION_CONTRACT_V1.md..."
@@ -67,6 +68,7 @@ jobs:
           echo "✓ All 6 core metrics documented"
       
       - name: Validate Baseline Registry
+        id: check-baseline-registry
         run: |
           echo "✓ Checking baseline registry..."
           if [ ! -f "benchmarks/rag/data/baselines_v1.json" ]; then
@@ -83,6 +85,7 @@ jobs:
           echo "✓ Baseline registry valid"
       
       - name: Validate Acceptance Report Template
+        id: check-acceptance-template
         run: |
           echo "✓ Checking acceptance report template..."
           if [ ! -f "src/rag/RAG_EVAL_ACCEPTANCE_REPORT_TEMPLATE.md" ]; then
@@ -99,6 +102,7 @@ jobs:
           echo "✓ Acceptance report template valid"
       
       - name: Check for Regression Threshold Violations
+        id: check-regression-thresholds
         run: |
           echo "✓ Validating regression thresholds..."
           
@@ -182,6 +186,22 @@ jobs:
               issue_number: context.issue.number,
               body: report
             });
+
+      - name: Write workflow summary
+        if: always()
+        run: |
+          {
+            echo "## Validate: RAG Eval Contract v1"
+            echo ""
+            echo "| Check | Outcome |"
+            echo "|-------|---------|"
+            echo "| Contract documentation | ${{ steps.check-contract-docs.outcome }} |"
+            echo "| Baseline registry | ${{ steps.check-baseline-registry.outcome }} |"
+            echo "| Acceptance report template | ${{ steps.check-acceptance-template.outcome }} |"
+            echo "| Regression thresholds | ${{ steps.check-regression-thresholds.outcome }} |"
+            echo "| Job result | ${{ job.status }} |"
+            echo "| Run | https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} |"
+          } >> "$GITHUB_STEP_SUMMARY"
   
   release_critical_rag_tests:
     name: "Build: release_critical RAG Tests"
@@ -229,3 +249,58 @@ jobs:
             echo "❌ RAG Evaluation Contract v1 Gate: FAIL"
             exit 1
           fi
+
+  human-loop-escalation:
+    name: "Validate: Human-in-the-loop Escalation"
+    needs: [eval_contract_validation, gate_status]
+    if: always() && needs.eval_contract_validation.result != 'success' && github.event_name == 'pull_request'
+    uses: ./.github/workflows/reusable-status-flags-and-issues.yml
+    permissions:
+      contents: read
+      issues: write
+    secrets:
+      repo-token: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      operation: upsert_issue
+      issue-title: "Decision Required: RAG eval contract gate failed"
+      issue-marker: "<!-- workflow-human-loop:rag-eval-contract -->"
+      labels-to-add: "status/needs-approval,ci/failure,ci/test-failed"
+      issue-body: |
+        <!-- workflow-human-loop:rag-eval-contract -->
+        # Human Decision Required: RAG Eval Contract Gate
+
+        The RAG evaluation contract gate failed and needs maintainer decision.
+
+        - **Run:** https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        - **Workflow:** `${{ github.workflow }}`
+        - **Ref:** `${{ github.ref }}`
+        - **Result:** `${{ needs.eval_contract_validation.result }}`
+
+        ## Required Decision
+        1. Fix now in current PR
+        2. Approve temporary waiver with rationale and follow-up issue
+        3. De-scope RAG changes from this PR
+      source-workflow: ${{ github.workflow }}
+      source-run-id: ${{ github.run_id }}
+      source-sha: ${{ github.sha }}
+
+  human-loop-resolution:
+    name: "Validate: Human-in-the-loop Resolution Labels"
+    needs: [eval_contract_validation]
+    if: always() && needs.eval_contract_validation.result == 'success' && github.event_name == 'pull_request'
+    uses: ./.github/workflows/reusable-status-flags-and-issues.yml
+    permissions:
+      contents: read
+      issues: write
+    secrets:
+      repo-token: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      operation: replace_status_group
+      issue-marker: "<!-- workflow-human-loop:rag-eval-contract -->"
+      status-group: "status/needs-approval,status/needs-attention,status/needs-triage,status/resolved"
+      labels-to-add: "status/resolved"
+      labels-to-remove: "ci/failure,ci/test-failed"
+      allow-missing: "true"
+      source-workflow: ${{ github.workflow }}
+      source-run-id: ${{ github.run_id }}
+      source-sha: ${{ github.sha }}

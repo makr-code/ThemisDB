@@ -25,6 +25,7 @@ concurrency:
 permissions:
   contents: read
   pull-requests: write
+  issues: write
 
 jobs:
   hash-sbom-validation:
@@ -202,3 +203,74 @@ jobs:
             - ${{ steps.check-sbom-variance.outcome == 'success' && '✅' || '❌' }} Private plugin variance detection
             - ℹ️ Approved SBOM registry: `docs/governance/SBOM_APPROVED_VERSIONS.md`
           error-summary: ${{ steps.collect-errors.outputs.summary }}
+
+      - name: Write workflow summary
+        if: always()
+        run: |
+          {
+            echo "## Validate: Hash & SBOM Integrity"
+            echo ""
+            echo "| Check | Outcome |"
+            echo "|-------|---------|"
+            echo "| CMake hash integrity | ${{ steps.check-hashes.outcome }} |"
+            echo "| SBOM generation/registry | ${{ steps.check-sbom-generate.outcome }} |"
+            echo "| SBOM edition consistency | ${{ steps.check-sbom-edition.outcome }} |"
+            echo "| SBOM private variance | ${{ steps.check-sbom-variance.outcome }} |"
+            echo "| Job result | ${{ job.status }} |"
+            echo "| Run | https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  human-loop-escalation:
+    name: "Validate: Human-in-the-loop Escalation"
+    needs: [hash-sbom-validation]
+    if: always() && needs.hash-sbom-validation.result != 'success' && github.event_name == 'pull_request'
+    uses: ./.github/workflows/reusable-status-flags-and-issues.yml
+    permissions:
+      contents: read
+      issues: write
+    secrets:
+      repo-token: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      operation: upsert_issue
+      issue-title: "Decision Required: Hash and SBOM gate failed"
+      issue-marker: "<!-- workflow-human-loop:hash-sbom -->"
+      labels-to-add: "status/needs-approval,ci/failure,security"
+      issue-body: |
+        <!-- workflow-human-loop:hash-sbom -->
+        # Human Decision Required: Hash & SBOM Integrity Gate
+
+        The hash/SBOM integrity gate failed and needs maintainer/security decision.
+
+        - **Run:** https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        - **Workflow:** `${{ github.workflow }}`
+        - **Ref:** `${{ github.ref }}`
+        - **Result:** `${{ needs.hash-sbom-validation.result }}`
+
+        ## Required Decision
+        1. Fix now in current PR
+        2. Approve temporary waiver with rationale and follow-up issue
+        3. Remove/adjust affected dependency/SBOM change scope
+      source-workflow: ${{ github.workflow }}
+      source-run-id: ${{ github.run_id }}
+      source-sha: ${{ github.sha }}
+
+  human-loop-resolution:
+    name: "Validate: Human-in-the-loop Resolution Labels"
+    needs: [hash-sbom-validation]
+    if: always() && needs.hash-sbom-validation.result == 'success' && github.event_name == 'pull_request'
+    uses: ./.github/workflows/reusable-status-flags-and-issues.yml
+    permissions:
+      contents: read
+      issues: write
+    secrets:
+      repo-token: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      operation: replace_status_group
+      issue-marker: "<!-- workflow-human-loop:hash-sbom -->"
+      status-group: "status/needs-approval,status/needs-attention,status/needs-triage,status/resolved"
+      labels-to-add: "status/resolved"
+      labels-to-remove: "ci/failure,security"
+      allow-missing: "true"
+      source-workflow: ${{ github.workflow }}
+      source-run-id: ${{ github.run_id }}
+      source-sha: ${{ github.sha }}
