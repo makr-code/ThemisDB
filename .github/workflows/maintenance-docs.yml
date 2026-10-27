@@ -41,8 +41,10 @@ on:
       - 'scripts/docs-orphan-check.py'
       - 'scripts/root-docs-hygiene.py'
       - 'scripts/src-include-docs-align.py'
+      - 'scripts/verification/roadmap_status_drift.py'
       - 'scripts/create_docs_audit_issues.py'
       - 'scripts/reconcile-issues-prs-docs.py'
+      - 'tools/ci/module_docs_issue_reporter.py'
       - '.github/scripts/code_maturity_header_writer.py'
       - '.github/ISSUE_TEMPLATE/docs_audit.md'
       - '.github/workflows/maintenance-docs.yml'
@@ -101,6 +103,10 @@ on:
         default: false
       seed_docs_audit_issues:
         description: 'Create/update baseline docs-audit issues from the maintained issue catalog'
+        type: boolean
+        default: false
+      seed_roadmap_drift_issues:
+        description: 'Create/update module-wise issues for suspected ROADMAP [~] status drift'
         type: boolean
         default: false
 
@@ -883,6 +889,112 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 scripts/create_docs_audit_issues.py --create --repo "${{ github.repository }}"
+
+  roadmap-status-drift:
+    name: "Validate: ROADMAP [~] status drift"
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '0 5 * * 1'
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
+        with:
+          python-version: '3.11'
+
+      - name: "Validate: Scan ROADMAP [~] drift"
+        id: roadmap_drift
+        run: |
+          python3 scripts/verification/roadmap_status_drift.py \
+            --repo-root . \
+            --output-json /tmp/roadmap-status-drift.json \
+            --output-md /tmp/roadmap-status-drift.md
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          data = json.loads(Path("/tmp/roadmap-status-drift.json").read_text(encoding="utf-8"))
+          summary = data.get("summary", {})
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+              fh.write(f"suspected_items={summary.get('suspected_drift_items', 0)}\n")
+              fh.write(f"suspected_modules={summary.get('modules_with_suspected_drift', 0)}\n")
+          PY
+
+      - name: Upload ROADMAP drift artifacts
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: roadmap-status-drift-${{ github.run_number }}
+          path: |
+            /tmp/roadmap-status-drift.json
+            /tmp/roadmap-status-drift.md
+          retention-days: 30
+          if-no-files-found: ignore
+
+      - name: Write ROADMAP drift summary
+        if: always()
+        run: |
+          {
+            echo "## ROADMAP [~] Status Drift"
+            if [ -f /tmp/roadmap-status-drift.md ]; then
+              cat /tmp/roadmap-status-drift.md
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Open tracker issue for ROADMAP drift
+        if: always() && steps.roadmap_drift.outputs.suspected_items != '0'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: upsert_issue
+          issue-title: '[Docs] ROADMAP [~] status drift findings'
+          issue-marker: '<!-- docs-roadmap-drift:weekly -->'
+          issue-body: |
+            <!-- docs-roadmap-drift:weekly -->
+            ## ROADMAP [~] status drift — findings detected
+
+            The scheduled drift scan detected possible stale in-progress markers:
+
+            - Suspected stale `[~]` items: `${{ steps.roadmap_drift.outputs.suspected_items }}`
+            - Modules with suspected drift: `${{ steps.roadmap_drift.outputs.suspected_modules }}`
+
+            See the workflow artifact `roadmap-status-drift-<run_number>` for the full module breakdown.
+
+            **Action required:** verify module ROADMAP entries and update `[~]` vs `[x]` status based on source-backed evidence.
+          labels-to-add: 'quality,documentation,status/needs-attention'
+          status-group: 'quality,documentation,status/needs-attention,status/resolved'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: "Validate: Create module-wise roadmap drift issues"
+        if: github.event_name == 'workflow_dispatch' && inputs.seed_roadmap_drift_issues == true && steps.roadmap_drift.outputs.suspected_items != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 tools/ci/module_docs_issue_reporter.py \
+            --report /tmp/roadmap-status-drift.json \
+            --repo "${{ github.repository }}"
+
+      - name: "Validate: Mark roadmap-drift tracker issue resolved when clean"
+        if: always() && steps.roadmap_drift.outputs.suspected_items == '0'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: replace_status_group
+          issue-title: '[Docs] ROADMAP [~] status drift findings'
+          issue-marker: '<!-- docs-roadmap-drift:weekly -->'
+          labels-to-add: 'status/resolved'
+          status-group: 'status/needs-attention,status/resolved'
+          allow-missing: 'true'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
 
   docs-reconciliation:
     name: "Validate: Docs issue/PR reconciliation"
