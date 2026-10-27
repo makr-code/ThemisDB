@@ -207,7 +207,7 @@ jobs:
   human-loop-escalation:
     name: "Validate: Human-in-the-loop Escalation"
     needs: [phase_validation, gate_status]
-    if: always() && needs.phase_validation.result != 'success' && github.event_name == 'pull_request'
+    if: always() && !cancelled() && needs.phase_validation.result != 'success' && github.event_name == 'pull_request'
     uses: ./.github/workflows/reusable-status-flags-and-issues.yml
     permissions:
       contents: read
