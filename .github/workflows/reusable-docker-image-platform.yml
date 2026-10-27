@@ -226,6 +226,20 @@ jobs:
           echo "value=${PLATFORM_TAG}" >> "${GITHUB_OUTPUT}"
           echo "Platform tag: ${PLATFORM_TAG}"
 
+      - name: Compute cache scopes
+        id: cache-scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          sanitize() {
+            printf '%s' "$1" | tr '/: ' '-' | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9._-'
+          }
+          PLATFORM_SCOPE="$(sanitize "${{ inputs.platform }}")"
+          MODEL_SCOPE="$(sanitize "${{ inputs.llm_model || 'tinyllama' }}")"
+          REF_SCOPE="$(sanitize "${{ github.ref_name || 'detached' }}")"
+          echo "shared=themisdb-docker-unified-${PLATFORM_SCOPE}-${MODEL_SCOPE}" >> "${GITHUB_OUTPUT}"
+          echo "lane=themisdb-docker-unified-${PLATFORM_SCOPE}-${MODEL_SCOPE}-${REF_SCOPE}" >> "${GITHUB_OUTPUT}"
+
       - name: Reuse prepared model cache in build context
         if: ${{ inputs.include_tinyllama == true || inputs.include_tinyllama == 'true' }}
         shell: bash
@@ -272,9 +286,11 @@ jobs:
             LLM_MODEL_FILE=${{ inputs.llm_model_file || '' }}
             TINYLLAMA_FORCE_DOWNLOAD=${{ inputs.tinyllama_force_download && '1' || '0' }}
           cache-from: |
-            type=gha,scope=themisdb-docker-unified
-            type=gha,scope=themisdb-docker-unified-${{ github.ref_name || 'detached' }}
-          cache-to: type=gha,mode=max,scope=themisdb-docker-unified
+            type=gha,scope=${{ steps.cache-scope.outputs.shared }}
+            type=gha,scope=${{ steps.cache-scope.outputs.lane }}
+          cache-to: |
+            type=gha,mode=max,scope=${{ steps.cache-scope.outputs.shared }}
+            type=gha,mode=max,scope=${{ steps.cache-scope.outputs.lane }}
 
       - name: Pull pushed image locally for release-gate scan
         if: inputs.push_to_registry
@@ -338,6 +354,8 @@ jobs:
           name: docker-digest-${{ steps.platform-tag.outputs.value }}
           path: docker-digest-${{ steps.platform-tag.outputs.value }}.txt
           retention-days: 7
+          if-no-files-found: error
+          overwrite: true
 
       - name: Print build result
         if: always()
