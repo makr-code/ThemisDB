@@ -153,12 +153,15 @@ RUN --mount=type=cache,id=themis-vcpkg-downloads-${TARGETARCH},target=/opt/vcpkg
     set -eux; \
     TRIPLET=$(cat /tmp/triplet.txt); \
     EDITION_UPPER=$(echo "${THEMIS_EDITION}" | tr '[:lower:]' '[:upper:]'); \
+    ln -sfn /build/vcpkg_installed /src/vcpkg_installed; \
     cmake -S /src -B /src/build -G Ninja \
         -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake \
         -DVCPKG_TARGET_TRIPLET=${TRIPLET} \
-        -DVCPKG_INSTALLED_DIR=/build/vcpkg_installed \
+        -DVCPKG_INSTALLED_DIR=/src/vcpkg_installed \
         -DVCPKG_MANIFEST_MODE=OFF \
+        -DVCPKG_MANIFEST_INSTALL=OFF \
+        -DCMAKE_PREFIX_PATH="/src/vcpkg_installed/${TRIPLET};/src/vcpkg_installed/${TRIPLET}/share;/src/vcpkg_installed/${TRIPLET}/lib/cmake" \
         -DTHEMIS_COMPILER_CACHE_PROGRAM=/usr/bin/sccache \
         -DTHEMIS_EDITION=${EDITION_UPPER} \
         -DTHEMIS_ENABLE_LLM=${ENABLE_LLM} \
