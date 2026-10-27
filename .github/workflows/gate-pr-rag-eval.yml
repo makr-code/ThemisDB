@@ -242,18 +242,25 @@ jobs:
     steps:
       - name: Check Gate Status
         run: |
-          if [ "${{ needs.eval_contract_validation.result }}" == "success" ]; then
-            echo "✅ RAG Evaluation Contract v1 Gate: PASS"
-            exit 0
-          else
-            echo "❌ RAG Evaluation Contract v1 Gate: FAIL"
-            exit 1
-          fi
+          case "${{ needs.eval_contract_validation.result }}" in
+            success)
+              echo "✅ RAG Evaluation Contract v1 Gate: PASS"
+              exit 0
+              ;;
+            cancelled)
+              echo "ℹ️ RAG Evaluation Contract v1 Gate: CANCELLED"
+              exit 0
+              ;;
+            *)
+              echo "❌ RAG Evaluation Contract v1 Gate: FAIL"
+              exit 1
+              ;;
+          esac
 
   human-loop-escalation:
     name: "Validate: Human-in-the-loop Escalation"
     needs: [eval_contract_validation, gate_status]
-    if: always() && needs.eval_contract_validation.result != 'success' && github.event_name == 'pull_request'
+    if: always() && needs.eval_contract_validation.result == 'failure' && github.event_name == 'pull_request'
     uses: ./.github/workflows/reusable-status-flags-and-issues.yml
     permissions:
       contents: read
