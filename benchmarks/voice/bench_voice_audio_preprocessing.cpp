@@ -11,7 +11,7 @@
  */
 
 #include <benchmark/benchmark.h>
-#include "benchmarks/voice/benchmark_fixtures.h"
+#include "benchmark_fixtures.h"
 
 #include <algorithm>
 #include <chrono>

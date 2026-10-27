@@ -29,6 +29,7 @@
 // =============================================================================
 
 namespace themis::voice::benchmark {
+namespace benchmark = ::benchmark;
 
 // RNG seed (per MEASUREMENT_HYGIENE.md)
 static constexpr uint64_t kCanonicalRngSeed = 42;
@@ -232,9 +233,9 @@ private:
  * Base fixture for all voice benchmarks.
  * Provides common setup/teardown and utilities.
  */
-class VoiceBenchmarkFixture : public benchmark::Fixture {
+class VoiceBenchmarkFixture : public ::benchmark::Fixture {
 public:
-    void SetUp(const benchmark::State& /*unused*/) override {
+    void SetUp(const ::benchmark::State& /*unused*/) override {
         // Initialize deterministic RNG
         rng_.seed(kCanonicalRngSeed);
         
@@ -245,7 +246,7 @@ public:
         stream_buffer_ = std::make_unique<MockStreamBuffer>();
     }
 
-    void TearDown(const benchmark::State& /*unused*/) override {
+    void TearDown(const ::benchmark::State& /*unused*/) override {
         stt_processor_.reset();
         tts_processor_.reset();
         llm_processor_.reset();
@@ -289,7 +290,7 @@ protected:
  */
 class STTTTSLatencyFixture : public VoiceBenchmarkFixture {
 public:
-    void SetUp(const benchmark::State& state) override {
+    void SetUp(const ::benchmark::State& state) override {
         VoiceBenchmarkFixture::SetUp(state);
         // Additional STT/TTS setup if needed
     }
@@ -300,12 +301,12 @@ public:
  */
 class StreamingThroughputFixture : public VoiceBenchmarkFixture {
 public:
-    void SetUp(const benchmark::State& state) override {
+    void SetUp(const ::benchmark::State& state) override {
         VoiceBenchmarkFixture::SetUp(state);
         stream_buffer_->clear();
     }
 
-    void TearDown(const benchmark::State& state) override {
+    void TearDown(const ::benchmark::State& state) override {
         stream_buffer_->clear();
         VoiceBenchmarkFixture::TearDown(state);
     }
@@ -316,12 +317,12 @@ public:
  */
 class SessionLifecycleFixture : public VoiceBenchmarkFixture {
 public:
-    void SetUp(const benchmark::State& state) override {
+    void SetUp(const ::benchmark::State& state) override {
         VoiceBenchmarkFixture::SetUp(state);
         sessions_.clear();
     }
 
-    void TearDown(const benchmark::State& state) override {
+    void TearDown(const ::benchmark::State& state) override {
         sessions_.clear();
         VoiceBenchmarkFixture::TearDown(state);
     }
@@ -335,7 +336,7 @@ protected:
  */
 class AudioPreprocessingFixture : public VoiceBenchmarkFixture {
 public:
-    void SetUp(const benchmark::State& state) override {
+    void SetUp(const ::benchmark::State& state) override {
         VoiceBenchmarkFixture::SetUp(state);
     }
 };
@@ -345,7 +346,7 @@ public:
  */
 class AssistantLatencyFixture : public VoiceBenchmarkFixture {
 public:
-    void SetUp(const benchmark::State& state) override {
+    void SetUp(const ::benchmark::State& state) override {
         VoiceBenchmarkFixture::SetUp(state);
     }
 };

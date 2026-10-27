@@ -209,16 +209,24 @@ public:
 
     void SetUp(::benchmark::State& state) override {
         tmpDir_ = std::make_unique<TempDir>();
-        themis::VectorIndexConfig cfg;
-        cfg.dimension = kDim;
-        cfg.db_path   = tmpDir_->str();
-        idx_ = std::make_shared<themis::VectorIndexManager>(cfg);
+        themis::RocksDBWrapper::Config cfg;
+        cfg.db_path = tmpDir_->str();
+        cfg.create_if_missing = true;
+        db_ = std::make_shared<themis::RocksDBWrapper>(cfg);
+        if (!db_->open()) {
+            throw std::runtime_error("Failed to open RocksDB for vector benchmark fixture");
+        }
+
+        idx_ = std::make_shared<themis::VectorIndexManager>(*db_);
+        idx_->init("bench_vec_fixture", static_cast<int>(kDim));
 
         const std::size_t n = static_cast<std::size_t>(
             state.range(0) > 0 ? state.range(0) : static_cast<int64_t>(kDefaultVectors));
         for (std::size_t i = 0; i < n; ++i) {
             auto v = rng_.genVec(kDim);
-            idx_->insert("doc_" + std::to_string(i), v);
+            themis::BaseEntity entity("doc_" + std::to_string(i));
+            entity.setField("embedding", v);
+            idx_->addEntity(entity);
         }
     }
 
@@ -229,6 +237,7 @@ public:
 
 protected:
     std::unique_ptr<TempDir>                    tmpDir_;
+    std::shared_ptr<themis::RocksDBWrapper>    db_;
     std::shared_ptr<themis::VectorIndexManager> idx_;
     RandomGenerator                              rng_;
 };

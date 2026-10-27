@@ -10,7 +10,7 @@
  */
 
 #include <benchmark/benchmark.h>
-#include "benchmarks/voice/benchmark_fixtures.h"
+#include "benchmark_fixtures.h"
 
 #include <algorithm>
 #include <chrono>
@@ -33,6 +33,7 @@ BENCHMARK_F(StreamingThroughputFixture, VoiceStreaming_ChunkThroughput)(benchmar
     // Generate 100ms audio chunks (typical streaming chunk size)
     std::vector<uint8_t> chunk = generateAudio(100);  // 100ms per chunk
     int64_t total_chunks = 0;
+    const auto start = std::chrono::steady_clock::now();
 
     for (auto _ : state) {
         // Process 100 chunks per iteration
@@ -52,9 +53,10 @@ BENCHMARK_F(StreamingThroughputFixture, VoiceStreaming_ChunkThroughput)(benchmar
         }
     }
 
-    // Calculate throughput: chunks per second
-    // Each chunk is 100ms, so chunks per second = (total_chunks / iterations) * (1000 / 100)
-    double throughput = static_cast<double>(total_chunks) / state.elapsed_real_time();
+    const auto elapsed_seconds = std::chrono::duration<double>(std::chrono::steady_clock::now() - start).count();
+    const double throughput = elapsed_seconds > 0.0
+        ? static_cast<double>(total_chunks) / elapsed_seconds
+        : 0.0;
 
     utils::checkGate(static_cast<int64_t>(throughput * 1'000'000'000), 
                      gates::kGateStreamThroughput * 1'000'000'000,
@@ -147,6 +149,7 @@ BENCHMARK_F(StreamingThroughputFixture, VoiceStreaming_MultipleStreamsThroughput
 
     std::vector<uint8_t> chunk = generateAudio(100);  // 100ms chunk
     int64_t total_chunks = 0;
+    const auto start = std::chrono::steady_clock::now();
 
     for (auto _ : state) {
         // Process 10 chunks per stream per iteration
@@ -163,8 +166,10 @@ BENCHMARK_F(StreamingThroughputFixture, VoiceStreaming_MultipleStreamsThroughput
         }
     }
 
-    // Calculate combined throughput
-    double combined_throughput = static_cast<double>(total_chunks) / state.elapsed_real_time();
+    const auto elapsed_seconds = std::chrono::duration<double>(std::chrono::steady_clock::now() - start).count();
+    const double combined_throughput = elapsed_seconds > 0.0
+        ? static_cast<double>(total_chunks) / elapsed_seconds
+        : 0.0;
 
     // Gate check: 5000 chunks/sec combined
     utils::checkGate(static_cast<int64_t>(combined_throughput),

@@ -32,7 +32,8 @@
 #include <vector>
 
 // Forward declarations (to be linked against src implementation)
-namespace themis::benchmark {
+namespace themis {
+namespace benchmark {
 
 // Constants (matching Wave 7 canonical setup)
 static const int kCanonicalRngSeed = 42;
@@ -48,11 +49,11 @@ static const int kCanonicalRngSeed = 42;
  *  - No regression from Phase 2.4
  *  - If failed, blocks Phase 3 sign-off
  */
-static void Phase3_Wave7_ReadLatencyP99(benchmark::State& state) {
+static void Phase3_Wave7_ReadLatencyP99(::benchmark::State& state) {
     // TODO: Implement read latency measurement
     // Gate: p99 <= 200µs
     for (auto _ : state) {
-        benchmark::DoNotOptimize(0);
+        ::benchmark::DoNotOptimize(0);
     }
 }
 
@@ -65,11 +66,11 @@ static void Phase3_Wave7_ReadLatencyP99(benchmark::State& state) {
  *  - No regression from Phase 2.4
  *  - If failed, blocks Phase 3 sign-off
  */
-static void Phase3_Wave7_WriteThroughput(benchmark::State& state) {
+static void Phase3_Wave7_WriteThroughput(::benchmark::State& state) {
     // TODO: Implement write throughput measurement
     // Gate: >= 80k ops/s
     for (auto _ : state) {
-        benchmark::DoNotOptimize(0);
+        ::benchmark::DoNotOptimize(0);
     }
 }
 
@@ -82,11 +83,11 @@ static void Phase3_Wave7_WriteThroughput(benchmark::State& state) {
  *  - No regression from Phase 2.4
  *  - If failed, blocks Phase 3 sign-off
  */
-static void Phase3_Wave7_RangeLatencyP99(benchmark::State& state) {
+static void Phase3_Wave7_RangeLatencyP99(::benchmark::State& state) {
     // TODO: Implement range latency measurement
     // Gate: p99 <= 500µs
     for (auto _ : state) {
-        benchmark::DoNotOptimize(0);
+        ::benchmark::DoNotOptimize(0);
     }
 }
 
@@ -99,11 +100,11 @@ static void Phase3_Wave7_RangeLatencyP99(benchmark::State& state) {
  *  - No regression from Phase 2.4
  *  - If failed, blocks Phase 3 sign-off
  */
-static void Phase3_Wave7_BatchLatencyP99(benchmark::State& state) {
+static void Phase3_Wave7_BatchLatencyP99(::benchmark::State& state) {
     // TODO: Implement batch latency measurement
     // Gate: p99 <= 5ms
     for (auto _ : state) {
-        benchmark::DoNotOptimize(0);
+        ::benchmark::DoNotOptimize(0);
     }
 }
 
@@ -118,11 +119,11 @@ static void Phase3_Wave7_BatchLatencyP99(benchmark::State& state) {
  *  - Current p50 >= baseline (no regression)
  *  - Improvement >= 0% (neutral is acceptable)
  */
-static void Phase3_RegressionQueryLatencyP50(benchmark::State& state) {
+static void Phase3_RegressionQueryLatencyP50(::benchmark::State& state) {
     // TODO: Implement p50 latency regression check
     // Baseline: TBD (measure in Week 1)
     for (auto _ : state) {
-        benchmark::DoNotOptimize(0);
+        ::benchmark::DoNotOptimize(0);
     }
 }
 
@@ -134,11 +135,11 @@ static void Phase3_RegressionQueryLatencyP50(benchmark::State& state) {
  *  - Hit ratio >= 85% on production-like workload
  *  - Improvement vs. Phase 2.4 baseline (est. ~40%)
  */
-static void Phase3_RegressionCacheHitRatio(benchmark::State& state) {
+static void Phase3_RegressionCacheHitRatio(::benchmark::State& state) {
     // TODO: Implement cache hit ratio measurement
     // Target: >= 85%
     for (auto _ : state) {
-        benchmark::DoNotOptimize(0);
+        ::benchmark::DoNotOptimize(0);
     }
 }
 
@@ -151,11 +152,11 @@ static void Phase3_RegressionCacheHitRatio(benchmark::State& state) {
  *  - Connection pool not saturated
  *  - Thread pool not bottleneck
  */
-static void Phase3_RegressionResourcePoolUtilization(benchmark::State& state) {
+static void Phase3_RegressionResourcePoolUtilization(::benchmark::State& state) {
     // TODO: Implement peak utilization measurement
     // Target: <= 80%
     for (auto _ : state) {
-        benchmark::DoNotOptimize(0);
+        ::benchmark::DoNotOptimize(0);
     }
 }
 
@@ -168,11 +169,11 @@ static void Phase3_RegressionResourcePoolUtilization(benchmark::State& state) {
  *  - Load distributed evenly across shards
  *  - No outlier shards
  */
-static void Phase3_RegressionLoadBalancingVariance(benchmark::State& state) {
+static void Phase3_RegressionLoadBalancingVariance(::benchmark::State& state) {
     // TODO: Implement variance measurement across shards
     // Target: <= 10%
     for (auto _ : state) {
-        benchmark::DoNotOptimize(0);
+        ::benchmark::DoNotOptimize(0);
     }
 }
 
@@ -189,11 +190,11 @@ static void Phase3_RegressionLoadBalancingVariance(benchmark::State& state) {
  *  - Cache (P3-02) provides hit on repeated queries
  *  - End-to-end latency improved vs. Phase 2.4
  */
-static void Phase3_IntegrationFullStackQuery(benchmark::State& state) {
+static void Phase3_IntegrationFullStackQuery(::benchmark::State& state) {
     // TODO: Implement full-stack query benchmark
     // Measures: query latency with all optimizations
     for (auto _ : state) {
-        benchmark::DoNotOptimize(0);
+        ::benchmark::DoNotOptimize(0);
     }
 }
 
@@ -207,11 +208,11 @@ static void Phase3_IntegrationFullStackQuery(benchmark::State& state) {
  *  - Throughput improved vs. Phase 2.4
  *  - Latency distribution stable
  */
-static void Phase3_IntegrationConcurrentMixedWorkload(benchmark::State& state) {
+static void Phase3_IntegrationConcurrentMixedWorkload(::benchmark::State& state) {
     // TODO: Implement concurrent workload benchmark
     // Measures: throughput and latency under concurrent load
     for (auto _ : state) {
-        benchmark::DoNotOptimize(0);
+        ::benchmark::DoNotOptimize(0);
     }
 }
 
@@ -224,11 +225,11 @@ static void Phase3_IntegrationConcurrentMixedWorkload(benchmark::State& state) {
  *  - No memory leaks in cache or pools
  *  - Cache eviction maintains memory bounds
  */
-static void Phase3_IntegrationMemoryStability(benchmark::State& state) {
+static void Phase3_IntegrationMemoryStability(::benchmark::State& state) {
     // TODO: Implement memory stability check
     // Measures: memory footprint over time
     for (auto _ : state) {
-        benchmark::DoNotOptimize(0);
+        ::benchmark::DoNotOptimize(0);
     }
 }
 
@@ -242,15 +243,16 @@ static void Phase3_IntegrationMemoryStability(benchmark::State& state) {
  *  - 5% queries with 500ms SLA
  *  - Compliance >= 99% for all classes
  */
-static void Phase3_IntegrationSLAComplianceUnderLoad(benchmark::State& state) {
+static void Phase3_IntegrationSLAComplianceUnderLoad(::benchmark::State& state) {
     // TODO: Implement SLA compliance measurement
     // Measures: compliance rate by SLA class
     for (auto _ : state) {
-        benchmark::DoNotOptimize(0);
+        ::benchmark::DoNotOptimize(0);
     }
 }
 
-}  // namespace themis::benchmark
+}  // namespace benchmark
+}  // namespace themis
 
 // ===== Google Benchmark Registration =====
 

@@ -16,7 +16,7 @@
  */
 
 #include <benchmark/benchmark.h>
-#include "benchmarks/voice/benchmark_fixtures.h"
+#include "benchmark_fixtures.h"
 
 #include <algorithm>
 #include <chrono>
@@ -210,6 +210,7 @@ BENCHMARK_F(STTTTSLatencyFixture, VoiceSTT_NoiseAudio)(benchmark::State& state) 
 BENCHMARK_F(STTTTSLatencyFixture, VoiceTTS_ShortText)(benchmark::State& state) {
     std::vector<int64_t> latencies_ns;
     latencies_ns.reserve(state.max_iterations);
+    size_t last_audio_bytes = 0;
 
     for (auto _ : state) {
         // 10-word response
@@ -220,6 +221,7 @@ BENCHMARK_F(STTTTSLatencyFixture, VoiceTTS_ShortText)(benchmark::State& state) {
         auto audio = tts_processor_->synthesize(text);
         auto end = std::chrono::steady_clock::now();
 
+        last_audio_bytes = audio.size();
         int64_t latency_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
         latencies_ns.push_back(latency_ns);
         benchmark::DoNotOptimize(audio);
@@ -235,7 +237,7 @@ BENCHMARK_F(STTTTSLatencyFixture, VoiceTTS_ShortText)(benchmark::State& state) {
 
     state.counters["p95_ms"] = p95_ns / 1'000'000.0;
     state.counters["p99_ms"] = p99_ns / 1'000'000.0;
-    state.counters["audio_bytes"] = benchmark::Counter(audio.size(), benchmark::Counter::kAvgThreads);
+    state.counters["audio_bytes"] = benchmark::Counter(static_cast<double>(last_audio_bytes), benchmark::Counter::kAvgThreads);
     state.SetLabel("TTS ShortText (10 words): p95 < 1s, p99 < 2s");
 }
 
@@ -249,6 +251,7 @@ BENCHMARK_F(STTTTSLatencyFixture, VoiceTTS_ShortText)(benchmark::State& state) {
 BENCHMARK_F(STTTTSLatencyFixture, VoiceTTS_MediumText)(benchmark::State& state) {
     std::vector<int64_t> latencies_ns;
     latencies_ns.reserve(state.max_iterations);
+    size_t last_audio_bytes = 0;
 
     for (auto _ : state) {
         // 100-word response (approximately)
@@ -261,6 +264,7 @@ BENCHMARK_F(STTTTSLatencyFixture, VoiceTTS_MediumText)(benchmark::State& state) 
         auto audio = tts_processor_->synthesize(text);
         auto end = std::chrono::steady_clock::now();
 
+        last_audio_bytes = audio.size();
         int64_t latency_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
         latencies_ns.push_back(latency_ns);
         benchmark::DoNotOptimize(audio);
@@ -276,7 +280,7 @@ BENCHMARK_F(STTTTSLatencyFixture, VoiceTTS_MediumText)(benchmark::State& state) 
 
     state.counters["p95_ms"] = p95_ns / 1'000'000.0;
     state.counters["p99_ms"] = p99_ns / 1'000'000.0;
-    state.counters["audio_bytes"] = benchmark::Counter(audio.size(), benchmark::Counter::kAvgThreads);
+    state.counters["audio_bytes"] = benchmark::Counter(static_cast<double>(last_audio_bytes), benchmark::Counter::kAvgThreads);
     state.SetLabel("TTS MediumText (100 words): p95 < 3s, p99 < 5s");
 }
 

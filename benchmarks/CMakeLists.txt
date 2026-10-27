@@ -3109,34 +3109,36 @@ endif()
 # ============================================================================
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ann/bench_hnsw_prefilter_minimal.cpp")
-    message(STATUS "Adding HNSW Pre-filter benchmarks (Issue #1884)")
-
-    add_executable(bench_hnsw_prefilter_minimal
-        ann/bench_hnsw_prefilter_minimal.cpp
-    )
-
-    target_link_libraries(bench_hnsw_prefilter_minimal PRIVATE
-        ${BENCHMARK_LIBS}
-        themis_core
-        Threads::Threads
-    )
-
     if(TARGET hnswlib::hnswlib)
+        message(STATUS "Adding HNSW Pre-filter benchmarks (Issue #1884)")
+
+        add_executable(bench_hnsw_prefilter_minimal
+            ann/bench_hnsw_prefilter_minimal.cpp
+        )
+
+        target_link_libraries(bench_hnsw_prefilter_minimal PRIVATE
+            ${BENCHMARK_LIBS}
+            themis_core
+            Threads::Threads
+        )
+
         target_link_libraries(bench_hnsw_prefilter_minimal PRIVATE hnswlib::hnswlib)
+
+        target_compile_definitions(bench_hnsw_prefilter_minimal PRIVATE
+            THEMIS_BENCHMARK_BUILD=1
+        )
+
+        themis_apply_benchmark_release_flags(bench_hnsw_prefilter_minimal)
+
+        install(TARGETS bench_hnsw_prefilter_minimal
+            RUNTIME DESTINATION bin/benchmarks
+            COMPONENT benchmarks
+        )
+
+        message(STATUS "  HnswPrefilterMinimal: HNSW pre-filter vs post-filter recall/QPS, selective-filter throughput")
+    else()
+        message(STATUS "Skipping HNSW pre-filter benchmark: hnswlib dependency not available")
     endif()
-
-    target_compile_definitions(bench_hnsw_prefilter_minimal PRIVATE
-        THEMIS_BENCHMARK_BUILD=1
-    )
-
-    themis_apply_benchmark_release_flags(bench_hnsw_prefilter_minimal)
-
-    install(TARGETS bench_hnsw_prefilter_minimal
-        RUNTIME DESTINATION bin/benchmarks
-        COMPONENT benchmarks
-    )
-
-    message(STATUS "  HnswPrefilterMinimal: HNSW pre-filter vs post-filter recall/QPS, selective-filter throughput")
 endif()
 
 # ============================================================================

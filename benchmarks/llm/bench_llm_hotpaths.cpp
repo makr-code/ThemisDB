@@ -385,7 +385,8 @@ static void BM_LLM07_StreamCallbackOverhead(benchmark::State& state) {
         cb(token);
     }
     for (auto _ : state) {
-        benchmark::DoNotOptimize(cb(token));
+        cb(token);
+        benchmark::DoNotOptimize(token);
     }
     state.SetLabel("GATE-LLM-07: p99 <= 10 us");
 }

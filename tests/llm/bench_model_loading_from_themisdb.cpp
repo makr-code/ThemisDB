@@ -413,7 +413,8 @@ int main(int argc, char** argv) {
     ::benchmark::Initialize(&argc, argv);
     if (::benchmark::ReportUnrecognizedArguments(argc, argv)) {
         g_state->teardown();
-        delete g_state = {};
+        delete g_state;
+        g_state = nullptr;
         return 1;
     }
     
@@ -422,7 +423,8 @@ int main(int argc, char** argv) {
     
     // Cleanup
     g_state->teardown();
-    delete g_state = {};
+    delete g_state;
+    g_state = nullptr;
     
     return 0;
 }

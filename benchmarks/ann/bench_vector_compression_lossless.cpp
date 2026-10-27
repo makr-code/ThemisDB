@@ -421,7 +421,8 @@ public:
     }
     
     static int32_t zigzag_decode(uint32_t n) {
-        return static_cast<int32_t>((n >> 1) ^ -(n & 1));
+        const uint32_t sign_bit = n & 1U;
+        return static_cast<int32_t>((n >> 1) ^ static_cast<uint32_t>(-(static_cast<int32_t>(sign_bit))));
     }
     
     static void encode(std::vector<uint8_t>& output, uint32_t value) {

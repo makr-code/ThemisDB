@@ -58,6 +58,7 @@
 #include "auth/federated_identity_manager.h"
 #include "auth/oidc_provider.h"
 #include "auth/distributed_token_blacklist.h"
+#include "auth/ldap_connection_pool.h"
 
 #include <algorithm>
 #include <chrono>
