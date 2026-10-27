@@ -1,3 +1,10 @@
+---
+Author: "ThemisDB Team"
+Created: 2026-10-27
+Last Updated: 2026-10-27
+Status: active
+---
+
 # Badge Documentation
 
 This section documents the repository badges used in the [ThemisDB README](../../../README.md) and related badge reference pages.
