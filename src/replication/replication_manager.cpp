@@ -661,7 +661,7 @@ void WALManager::loadFromDisk() {
     wal_config.rotation_threshold_bytes = config_.wal_segment_size_bytes;
     wal_config.fsync_on_write = config_.wal_sync_on_commit;
 
-    auto recovery_callback = [this](const themis::WALStorage::Entry& recovered) {
+    auto recovery_callback = [this, &state](const themis::WALStorage::Entry& recovered) {
         if (recovered.type != themis::WALStorage::EntryType::PUT) {
             return true;
         }
