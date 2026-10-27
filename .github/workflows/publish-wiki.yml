@@ -153,8 +153,7 @@ jobs:
           python scripts/build_glossary_with_copilot.py \
             --input docs/glossary_candidates.json \
             --output docs/glossary_index.json \
-            --repo-root . \
-            --enable-copilot false
+            --repo-root .
           echo "index_created=true" >> "$GITHUB_OUTPUT"
 
       - name: Generate language-specific glossaries
