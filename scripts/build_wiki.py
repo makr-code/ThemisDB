@@ -209,6 +209,12 @@ def _inject_term_links(
     text = CODE_BLOCK_RE.sub(preserve_code, text)
     
     # Inject term links
+    def _glossary_anchor(label: str) -> str:
+        anchor = re.sub(r"[^\w\s-]", "", label.strip().lower())
+        anchor = re.sub(r"\s+", "-", anchor)
+        anchor = re.sub(r"-{2,}", "-", anchor).strip("-")
+        return anchor
+
     def replace_term(match):
         term_name = match.group(1)
         
@@ -223,8 +229,8 @@ def _inject_term_links(
                 
                 # Create wiki link
                 display_name = term_data.get("name", term_name)
-                # Wiki link format: [[Display Name|Wiki-Page-Name]] or [[Display Name]]
-                return f"[[{display_name}]]"
+                # Route glossary terms to the generated Glossary page anchor.
+                return f"[[{display_name}|Glossary#{_glossary_anchor(display_name)}]]"
         
         return match.group(0)
     
@@ -804,6 +810,7 @@ _MODULE_DOC_TYPES: list[tuple[str, str]] = [
 _EXPLICIT_MAPPINGS: dict[str, str] = {
     "docs/en/Home.md": "Home",
     "README.md": "Repository-README",
+    "docs/glossary.md": "Glossary",
     "docs/FAQ.md": "FAQ",
     "docs/QUICK_REFERENCE.md": "Quick-Reference",
     "docs/EDITION_COMPARISON.md": "Edition-Comparison",
