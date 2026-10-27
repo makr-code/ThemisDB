@@ -1,0 +1,113 @@
+name: "Reusable: PR Build Components Gate"
+
+on:
+  workflow_call: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-build-components-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release-critical-tests:
+    name: "Validate: Release-Critical Test Suite"
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      SCCACHE_GHA_ENABLED: "false"
+    permissions:
+      contents: read
+    if: >
+      github.event_name == 'pull_request' &&
+      contains(fromJSON('["develop","community","enterprise","hyperscaler","military"]'), github.base_ref)
+    steps:
+      - uses: actions/checkout@v5
+      - name: Setup C++ build dependencies
+        uses: ./.github/actions/setup-cpp-build
+        with:
+          cc: gcc-12
+          cxx: g++-12
+          extra-packages: librocksdb-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev libgtest-dev libgmock-dev libbenchmark-dev
+
+      - name: Configure (community-release)
+        run: |
+          set -euo pipefail
+          cmake --preset community-release \
+            -DTHEMIS_BUILD_TESTS=ON 2>&1 | tee /tmp/release-critical-configure.log
+
+      - name: Build release-critical targets
+        run: |
+          set -euo pipefail
+          cmake --build build-community-release \
+            --target themis_release_critical_tests \
+            --parallel "$(nproc)" 2>&1 | tee /tmp/release-critical-build.log
+
+      - name: Run release-critical tests
+        run: |
+          set -euo pipefail
+          ctest --test-dir build-community-release \
+            --label-regex '(^|;)release_critical($|;)' \
+            --label-exclude '(^|;)(not_release_critical|focus|kind:focused|autogen)($|;)' \
+            --output-on-failure \
+            --parallel 1 \
+            --timeout 120 2>&1 | tee /tmp/release-critical-ctest.log
+
+      - name: Upload release-critical triage bundle
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: release-critical-triage-${{ github.run_number }}
+          path: |
+            /tmp/release-critical-configure.log
+            /tmp/release-critical-build.log
+            /tmp/release-critical-ctest.log
+          if-no-files-found: ignore
+          retention-days: 30
+
+  final-runtime-api-gate:
+    name: "Validate: Final Runtime API Gate (TinyLlama + docs.db)"
+    needs: release-critical-tests
+    if: >
+      github.event_name == 'pull_request' &&
+      (github.base_ref == 'develop' || github.base_ref == 'community')
+    permissions:
+      contents: read
+    uses: ./.github/workflows/gate-pr-final-runtime-api.yml
+
+  build-components-summary:
+    name: "Validate: Build Components Summary"
+    runs-on: ubuntu-latest
+    if: always() && github.event_name == 'pull_request'
+    needs:
+      - release-critical-tests
+      - final-runtime-api-gate
+    steps:
+      - name: Validate reusable build components outcomes
+        run: |
+          set -euo pipefail
+
+          release_result="${{ needs.release-critical-tests.result }}"
+          runtime_result="${{ needs.final-runtime-api-gate.result }}"
+
+          {
+            echo "## Build Components Gate"
+            echo ""
+            echo "| Gate | Result |"
+            echo "|------|--------|"
+            echo "| Release-Critical Tests | ${release_result} |"
+            echo "| Final Runtime API Gate | ${runtime_result} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [[ "${release_result}" != "success" && "${release_result}" != "skipped" ]]; then
+            echo "::error::release-critical-tests failed with result=${release_result}"
+            exit 1
+          fi
+
+          if [[ "${{ github.base_ref }}" == "develop" || "${{ github.base_ref }}" == "community" ]]; then
+            if [[ "${runtime_result}" != "success" ]]; then
+              echo "::error::final-runtime-api-gate failed for ${GITHUB_BASE_REF} with result=${runtime_result}"
+              exit 1
+            fi
+          fi

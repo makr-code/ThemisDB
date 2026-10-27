@@ -26,6 +26,13 @@ on:
       - 'src/**/*.hh'
       - 'src/**/*.hpp'
       - 'src/**/*.hxx'
+      - 'include/**/*.h'
+      - 'include/**/*.hh'
+      - 'include/**/*.hpp'
+      - 'include/**/*.hxx'
+      - 'include/**/*.ipp'
+      - 'include/**/*.tpp'
+      - 'include/themis/api.h'
       # Plugin manifests and build files (edition-license, plugin-boundary, community-failclosed)
       - 'plugins/**/plugin.toml'
       - 'plugins/**/plugin.json'
@@ -41,6 +48,7 @@ on:
       - 'plugins/**/*.hh'
       - 'plugins/**/*.hpp'
       - 'plugins/**/*.hxx'
+      - '.gitmodules'
       # Build system (hash-sbom)
       - 'CMakeLists.txt'
       - 'CMakePresets.json'
@@ -48,6 +56,15 @@ on:
       - 'cmake/**/*.cmake'
       - 'cmake/**/*.txt'
       - 'cmake/**/*.in'
+      - 'cmake/PrivatePlugins.cmake'
+      - 'cmake/features/PrivatePluginFeatures.cmake'
+      # Gate definitions (ensure orchestration reruns on gate changes)
+      - '.github/workflows/gate-pr-merge-readiness.yml'
+      - '.github/workflows/gate-pr-community-failclosed.yml'
+      - '.github/workflows/gate-pr-edition-license.yml'
+      - '.github/workflows/gate-pr-hash-sbom.yml'
+      - '.github/workflows/gate-pr-plugin-boundary.yml'
+      - '.github/workflows/gate-pr-final-runtime-api.yml'
 
 concurrency:
   group: gate-pr-merge-readiness-${{ github.event.pull_request.number || github.ref }}

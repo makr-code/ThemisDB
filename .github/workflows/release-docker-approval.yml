@@ -1,29 +1,5 @@
 name: "Release: Docker Approval Gate"
 
-# Publishes Docker images to container registries (GHCR and/or Docker Hub)
-# when a maintainer approves via issue comment on the Docker release tracking issue.
-#
-# Approval keywords: /publish-docker, /approve-docker, @publish-docker
-#
-# Flow:
-#   1. release-mainline.yml succeeds and creates stable release
-#   2. Automatic tracking issue is created with Docker build metrics
-#   3. Maintainer reviews release quality and posts: "/publish-docker"
-#   4. This workflow (release-docker-approval.yml) reacts and publishes to registries
-#   5. Closes the tracking issue if successful
-#
-# Rationale:
-#   - Human-controlled: maintainer decides when/if to push to public registries
-#   - Tracking: every push is recorded with timestamp and approver
-#   - Reversible: approval can be deferred if issues arise with the release
-#   - Prevents accidental public pushes: default workflow_dispatch has push_to_registry=false
-#
-# Security:
-#   - OIDC-based auth to GHCR (no long-lived secrets)
-#   - Least-privilege permissions at workflow and job level
-#   - Validates release tag before pushing
-#   - Requires maintainer approval (not just any GitHub user)
-
 on:
   issue_comment:
     types: [created, edited]
@@ -53,206 +29,20 @@ jobs:
         contains(github.event.comment.body, '/cancel-docker') ||
         contains(github.event.comment.body, '/rollback-docker')
       )
-    environment:
-      name: docker-production
-      url: https://github.com/${{ github.repository }}/actions/workflows/release-docker-approval.yml
-    runs-on: ubuntu-24.04
-    timeout-minutes: 25
-
-    steps:
-      - name: Verify commenter is a maintainer
-        id: check_maintainer
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
-        with:
-          script: |
-            const comment = context.payload.comment;
-            const body = (comment.body || '').trim();
-            const user = comment.user.login;
-            const holdCommand = /\/hold-docker\b|\/pause-docker\b/i.test(body);
-            const rejectCommand = /\/reject-docker\b|\/cancel-docker\b/i.test(body);
-            const rollbackCommand = /\/rollback-docker\b/i.test(body);
-            
-            try {
-              const { data: permission } = await github.rest.repos.getCollaboratorPermissionLevel({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                username: user,
-              });
-              
-              if (!['admin', 'maintain'].includes(permission.permission)) {
-                const bodyText = (context.payload.comment.body || '').trim();
-                if (/\/hold-docker\b|\/pause-docker\b|\/reject-docker\b|\/cancel-docker\b|\/rollback-docker\b/i.test(bodyText)) {
-                  await github.rest.issues.createComment({
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    issue_number: context.payload.issue.number,
-                    body: `⛔ **Docker Command Ignored**\n\n**Requested By:** @${user}\n**Status:** Only repo admins and maintainers may issue hold/reject/rollback commands. This command was not processed because the commenter does not have the required permissions.`
-                  });
-                }
-                core.setFailed(`User ${user} does not have maintainer permissions`);
-                return;
-              }
-               
-              if (holdCommand || rejectCommand || rollbackCommand) {
-                core.info(`Human-in-the-loop command detected by ${user}: hold/reject/rollback path`);
-                core.setOutput('is_maintainer', 'true');
-                core.setOutput('status', holdCommand ? 'hold' : rejectCommand ? 'reject' : 'rollback');
-                return;
-              }
-              
-              core.info(`✓ User ${user} has ${permission.permission} permission`);
-              core.setOutput('is_maintainer', 'true');
-              core.setOutput('status', 'approve');
-            } catch (error) {
-              core.setFailed(`Failed to check permissions: ${error.message}`);
-            }
-
-      - name: Handle hold/reject/rollback requests
-        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status != 'approve'
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
-        with:
-          script: |
-            const issue = context.payload.issue;
-            const user = context.payload.comment.user.login;
-            const status = '${{ steps.check_maintainer.outputs.status }}';
-            const body = {
-              hold: `⏸️ **Docker Publication Hold**\n\n**Requested By:** @${user}\n**Status:** The Docker publication is paused pending human review.\n**Next Step:** Investigate the blocker, fix the issue, and re-approve once it is resolved.`,
-              reject: `⛔ **Docker Publication Rejected**\n\n**Rejected By:** @${user}\n**Status:** The Docker publication is not approved for public registry push.\n**Next Step:** Correct the issue and request approval again after remediation.`,
-              rollback: `↩️ **Docker Rollback Requested**\n\n**Requested By:** @${user}\n**Status:** A rollback or hold is required before Docker tags are published or re-published.\n**Next Step:** Use the release rollback workflow and document the reason in the issue before retrying.`
-            }[status];
-
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issue.number,
-              body,
-            });
-            core.notice(`Human review status recorded: ${status}`);
-
-      - name: React to approval comment
-        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve'
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
-        with:
-          script: |
-            await github.rest.reactions.createForIssueComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              comment_id: context.payload.comment.id,
-              content: '+1',
-            });
-
-      - name: Extract version from issue body
-        id: extract_version
-        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve'
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
-        with:
-          script: |
-            const issueBody = context.payload.issue.body;
-            // Match "## Release Version: X.Y.Z"
-            const versionMatch = issueBody.match(/##\s+Release Version:\s+v?(\d+\.\d+\.\d+)/);
-            if (versionMatch) {
-              const version = versionMatch[1];
-              core.setOutput('version', version);
-              core.info(`✓ Extracted version: ${version}`);
-            } else {
-              core.setFailed('Could not extract version from issue body');
-            }
-
-      - name: Checkout repository
-        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve' && steps.extract_version.outputs.version != ''
-        uses: actions/checkout@v5
-        with:
-          fetch-depth: 0
-
-      - name: Verify release tag exists
-        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve' && steps.extract_version.outputs.version != ''
-        id: verify_tag
-        env:
-          GH_TOKEN: ${{ github.token }}
-          VERSION: ${{ steps.extract_version.outputs.version }}
-        run: |
-          set -euo pipefail
-          TAG="v${VERSION}"
-          
-          # Check if tag exists
-          if git rev-parse "$TAG" >/dev/null 2>&1; then
-            echo "✓ Tag $TAG exists locally"
-          else
-            echo "Tag $TAG not found locally; checking GitHub"
-            if gh release view "$TAG" --repo "${{ github.repository }}" >/dev/null 2>&1; then
-              echo "✓ Release $TAG exists on GitHub"
-            else
-              echo "::error::Release $TAG not found"
-              exit 1
-            fi
-          fi
-
-      - name: Trigger Docker publication workflow
-        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve' && steps.extract_version.outputs.version != ''
-        env:
-          GH_TOKEN: ${{ github.token }}
-          VERSION: ${{ steps.extract_version.outputs.version }}
-        run: |
-          set -euo pipefail
-          
-          echo "Triggering Docker publication for version: $VERSION"
-          
-          # Trigger release-docker-image workflow via workflow_dispatch
-          # Note: push_to_registry defaults to 'false' in workflow_dispatch for safety
-          gh workflow run release-docker-image.yml \
-            --repo "${{ github.repository }}" \
-            --ref develop \
-            -f tag_name="v${VERSION}" \
-            -f push_to_registry=true \
-            -f registry=ghcr.io \
-            -f include_tinyllama=true \
-            -f llm_model=tinyllama
-          
-          echo "✓ Docker publication workflow dispatched"
-
-      - name: Comment approval status
-        if: steps.check_maintainer.outputs.is_maintainer == 'true'
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
-        with:
-          script: |
-            const issue = context.payload.issue;
-            const version = '${{ steps.extract_version.outputs.version }}';
-            const user = context.payload.comment.user.login;
-            
-            const comment = `✅ **Docker Publication Approved**\n\n**Approved By:** @${user}\n**Version:** ${version}\n**GitHub Environment:** \`docker-production\`\n**Workflow:** \`release-docker-image.yml\`\n**Status:** Dispatched to the Docker production environment after maintainer approval\n\n**Publication Target:** GHCR (ghcr.io/makr-code/themisdb:${version})\n\n**Next Steps:**\n1. Confirm the \`docker-production\` GitHub Environment approval is active\n2. Monitor the Docker build workflow in Actions\n3. Images will be pushed to GHCR after successful build\n4. Pull the image via: \`docker pull ghcr.io/makr-code/themisdb:${version}\`\n5. Release notes: https://github.com/${{ github.repository }}/releases/tag/v${version}\n\n**Tracking:** This issue will auto-close when Docker publication succeeds.`;
-            
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issue.number,
-              body: comment,
-            });
-
-      - name: Update issue on success
-        if: success() && steps.check_maintainer.outputs.is_maintainer == 'true'
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
-        with:
-          script: |
-            const issue = context.payload.issue;
-            await github.rest.issues.update({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issue.number,
-              state: 'closed',
-              state_reason: 'completed',
-            });
-
-      - name: Update issue on failure
-        if: failure() && steps.check_maintainer.outputs.is_maintainer == 'true'
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
-        with:
-          script: |
-            const issue = context.payload.issue;
-            const failureReason = `${{ job.status }}`;
-            
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issue.number,
-              body: `❌ **Docker Publication Failed**\n\nJob Status: ${failureReason}\n\nPlease check the workflow logs and try again.`,
-            });
+    uses: ./.github/workflows/reusable-release-approval-comment-gate.yml
+    with:
+      issue_label: docker-release
+      match_regex: "/publish-docker\\b|/approve-docker\\b|@publish-docker\\b|/hold-docker\\b|/pause-docker\\b|/reject-docker\\b|/cancel-docker\\b|/rollback-docker\\b"
+      hold_regex: "/hold-docker\\b|/pause-docker\\b"
+      reject_regex: "/reject-docker\\b|/cancel-docker\\b"
+      rollback_regex: "/rollback-docker\\b"
+      subject: "Docker Publication"
+      environment_name: docker-production
+      environment_url: https://github.com/${{ github.repository }}/actions/workflows/release-docker-approval.yml
+      target_workflow_id: release-docker-image.yml
+      target_ref: develop
+      dispatch_inputs_json: '{"push_to_registry":"true","registry":"ghcr.io","include_tinyllama":"true","llm_model":"tinyllama"}'
+      version_input_name: tag_name
+      approved_label: docker-approved
+      approval_note: |
+        Monitor `release-docker-image.yml` for registry publication.

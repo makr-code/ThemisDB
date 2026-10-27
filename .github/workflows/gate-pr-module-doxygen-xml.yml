@@ -1,4 +1,4 @@
-name: "Gate: PR Module Doxygen XML"
+name: "Maintenance: Module Doxygen XML"
 
 # Rechenaufwand-Score: R=2 (K=2, L=2, N=2)
 # Generates per-module Doxygen XML artifacts for changed src/<module> C/C++ files.
@@ -68,7 +68,7 @@ permissions:
 
 jobs:
   module-doxygen-xml:
-    name: "Validate: Module Doxygen XML"
+    name: "Build: Module Doxygen XML Artifacts"
     runs-on: ubuntu-latest
     timeout-minutes: 35
     steps:

@@ -8,23 +8,6 @@ name: "Gate: PR Core [Hash & SBOM Integrity]"
 
 on:
   workflow_call: {}
-  pull_request:
-    types: [opened, edited, synchronize, reopened]
-    branches:
-      - develop
-      - community
-      - enterprise
-      - hyperscaler
-      - military
-      - minimal
-    paths:
-      - 'CMakeLists.txt'
-      - 'CMakePresets.json'
-      - 'vcpkg.json'
-      - 'cmake/**/*.cmake'
-      - 'cmake/**/*.txt'
-      - 'cmake/**/*.in'
-      - '.github/workflows/gate-pr-hash-sbom.yml'
   push:
     branches: [develop]
     paths:

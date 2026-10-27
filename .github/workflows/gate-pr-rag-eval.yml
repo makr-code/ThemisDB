@@ -185,46 +185,33 @@ jobs:
   
   release_critical_rag_tests:
     name: "Build: release_critical RAG Tests"
-    runs-on: ubuntu-22.04
-    timeout-minutes: 60
     if: contains(github.event.pull_request.labels.*.name, 'rag-tests') || contains(github.event.pull_request.labels.*.name, 'release_critical')
-    
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-      
-      - name: Install Build Dependencies
-        run: |
-          sudo apt-get update && sudo apt-get install -y \
-            cmake ninja-build g++-13 libfmt-dev libspdlog-dev nlohmann-json3-dev libboost-filesystem-dev libboost-system-dev libyaml-cpp-dev libcurl4-openssl-dev libgtest-dev libgmock-dev libbenchmark-dev librocksdb-dev libsnappy-dev liblz4-dev libpugixml-dev libcpp-httplib-dev
-          cargo install sccache || (curl -L https://github.com/mozilla/sccache/releases/download/v0.7.7/sccache-v0.7.7-x86_64-unknown-linux-musl.tar.gz | tar -xz -C /tmp && sudo mv /tmp/sccache-v0.7.7-x86_64-unknown-linux-musl/sccache /usr/local/bin/)
-      
-      - name: Configure
-        run: |
-          cmake -B /tmp/rag-build \
-            -DCMAKE_BUILD_TYPE=Debug \
-            -DTHEMIS_DIAGNOSTIC_MODE=ON \
-            -DTHEMIS_BUILD_TESTS=ON
-      
-      - name: Build RAG Tests
-        run: |
-          cmake --build /tmp/rag-build --parallel 4 --target \
-            module_rag_test_wave7_bm25_positional_fts_focused \
-            module_rag_test_wave7_rag_costmodel_guardrail_focused \
-            rag_ai_pipeline_test
-      
-      - name: Run release_critical RAG Tests
-        run: |
-          cd /tmp/rag-build
-          ctest -L "release_critical" -R "rag" -V --output-on-failure
-      
-      - name: Upload Test Results
-        if: always()
-        uses: actions/upload-artifact@v5
-        with:
-          name: rag-eval-test-results
-          path: /tmp/rag-build/Testing/Temporary/
-          retention-days: 30
+    uses: ./.github/workflows/reusable-cmake-build.yml
+    with:
+      runs_on: ubuntu-22.04
+      shell: bash
+      setup_command: |
+        sudo apt-get update && sudo apt-get install -y \
+          cmake ninja-build g++-13 libfmt-dev libspdlog-dev nlohmann-json3-dev libboost-filesystem-dev libboost-system-dev libyaml-cpp-dev libcurl4-openssl-dev libgtest-dev libgmock-dev libbenchmark-dev librocksdb-dev libsnappy-dev liblz4-dev libpugixml-dev libcpp-httplib-dev
+        cargo install sccache || (curl -L https://github.com/mozilla/sccache/releases/download/v0.7.7/sccache-v0.7.7-x86_64-unknown-linux-musl.tar.gz | tar -xz -C /tmp && sudo mv /tmp/sccache-v0.7.7-x86_64-unknown-linux-musl/sccache /usr/local/bin/)
+      configure_command: |
+        cmake -B /tmp/rag-build \
+          -DCMAKE_BUILD_TYPE=Debug \
+          -DTHEMIS_DIAGNOSTIC_MODE=ON \
+          -DTHEMIS_BUILD_TESTS=ON
+      build_command: |
+        cmake --build /tmp/rag-build --parallel 4 --target \
+          module_rag_test_wave7_bm25_positional_fts_focused \
+          module_rag_test_wave7_rag_costmodel_guardrail_focused \
+          rag_ai_pipeline_test
+      validation_command: |
+        cd /tmp/rag-build
+        ctest -L "release_critical" -R "rag" -V --output-on-failure
+      artifact_name: rag-eval-test-results
+      artifact_paths: /tmp/rag-build/Testing/Temporary/
+      artifact_retention_days: "30"
+      summary_title: "Build: release_critical RAG Tests"
+      timeout_minutes: "60"
 
   gate_status:
     name: "Validate: Gate Status Summary"

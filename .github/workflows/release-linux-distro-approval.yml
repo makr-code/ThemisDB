@@ -1,26 +1,5 @@
 name: "Release: Linux Distro Approval Gate"
 
-# Publishes Linux distribution packages (DEB/RPM) when a maintainer approves
-# via issue comment on the Linux distro tracking issue.
-#
-# Approval keywords: /publish-linux, /approve-linux, @publish-linux
-#
-# Flow:
-#   1. release-mainline-approval.yml publishes GitHub Release
-#   2. Tracking issue is created for Linux distro packaging
-#   3. Maintainer reviews distro packaging readiness
-#   4. Posts approval comment: "/publish-linux"
-#   5. This workflow validates and dispatches release-linux-distribution.yml
-#   6. Linux distro workflow builds DEB/RPM packages and uploads to distro endpoints
-#   7. Closes the tracking issue
-#
-# Rationale:
-#   - Independent gate: maintainer explicitly approves distro publication
-#   - Quality gate: allows verification of package metadata before public distribution
-#   - Tracking: every distro release has a persistent audit trail
-#   - Reversible: can defer or cancel distro publication if issues arise
-#   - Safety: requires explicit approval; no accidental distro releases
-
 on:
   issue_comment:
     types: [created, edited]
@@ -28,6 +7,7 @@ on:
 permissions:
   issues: write
   contents: read
+  actions: write
 
 concurrency:
   group: release-linux-distro-${{ github.event.issue.number }}
@@ -48,166 +28,19 @@ jobs:
         contains(github.event.comment.body, '/cancel-linux') ||
         contains(github.event.comment.body, '/rollback-linux')
       )
-    environment:
-      name: linux-distro-production
-      url: https://github.com/${{ github.repository }}/actions/workflows/release-linux-distro-approval.yml
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Validate maintainer permission
-        id: check_maintainer
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
-        with:
-          script: |
-            const user = context.payload.comment.user.login;
-            const body = (context.payload.comment.body || '').trim();
-            const holdCommand = /\/hold-linux\b|\/pause-linux\b/i.test(body);
-            const rejectCommand = /\/reject-linux\b|\/cancel-linux\b/i.test(body);
-            const rollbackCommand = /\/rollback-linux\b/i.test(body);
-            const permission = await github.rest.repos.getCollaboratorPermissionLevel({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              username: user,
-            });
-            
-            const level = permission.data.permission;
-            const is_maintainer = level === 'admin' || level === 'maintain';
-            
-            core.setOutput('is_maintainer', is_maintainer ? 'true' : 'false');
-            if (is_maintainer && (holdCommand || rejectCommand || rollbackCommand)) {
-              core.setOutput('status', holdCommand ? 'hold' : rejectCommand ? 'reject' : 'rollback');
-            } else if (is_maintainer) {
-              core.setOutput('status', 'approve');
-            }
-            
-            if (!is_maintainer) {
-              core.setFailed(`User @${user} does not have maintainer permissions (required: admin or maintain, found: ${level})`);
-            }
-
-      - name: Handle hold/reject/rollback requests
-        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status != 'approve'
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
-        with:
-          script: |
-            const issue = context.payload.issue;
-            const user = context.payload.comment.user.login;
-            const status = '${{ steps.check_maintainer.outputs.status }}';
-            const body = {
-              hold: `⏸️ **Linux Distro Hold**\n\n**Requested By:** @${user}\n**Status:** The Linux distro publication is paused pending human review.\n**Next Step:** Resolve the blocker and re-request approval once package validation is complete.`,
-              reject: `⛔ **Linux Distro Publication Rejected**\n\n**Rejected By:** @${user}\n**Status:** The Linux distro publication is not approved.\n**Next Step:** Fix package metadata or installation issues and request approval again.`,
-              rollback: `↩️ **Linux Distro Rollback Requested**\n\n**Requested By:** @${user}\n**Status:** A rollback or hold is required before the Linux distro publication proceeds.\n**Next Step:** Use the release rollback workflow and document the reason before retrying.`
-            }[status];
-
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issue.number,
-              body,
-            });
-            core.notice(`Human review status recorded: ${status}`);
-
-      - name: Extract version from issue body
-        id: extract_version
-        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve'
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
-        with:
-          script: |
-            const body = context.payload.issue.body || '';
-            const match = body.match(/## Release Version:\s*v?(\d+\.\d+\.\d+)/);
-            
-            if (!match) {
-              core.setFailed('Could not extract release version from issue body. Expected format: "## Release Version: v2.5.0"');
-              return;
-            }
-            
-            const version = match[1];
-            core.setOutput('version', version);
-            core.notice(`Extracted version: ${version}`);
-
-      - name: Verify release tag exists
-        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve'
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
-        with:
-          script: |
-            const version = '${{ steps.extract_version.outputs.version }}';
-            const tag = `v${version}`;
-            
-            try {
-              await github.rest.git.getRef({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                ref: `tags/${tag}`,
-              });
-              core.notice(`✓ Release tag ${tag} exists`);
-            } catch (error) {
-              core.setFailed(`Release tag ${tag} does not exist. Cannot publish distro packages.`);
-            }
-
-      - name: Dispatch Linux distro workflow
-        if: steps.check_maintainer.outputs.is_maintainer == 'true' && steps.check_maintainer.outputs.status == 'approve'
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
-        with:
-          script: |
-            const version = '${{ steps.extract_version.outputs.version }}';
-            
-            const run = await github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: 'release-linux-distribution.yml',
-              ref: 'develop',
-              inputs: {
-                version: version,
-                publish_bundle: 'true',
-                channel: 'stable',
-              },
-            });
-            
-            core.notice(`✓ Dispatched release-linux-distribution.yml for v${version}`);
-
-      - name: Comment approval status
-        if: steps.check_maintainer.outputs.is_maintainer == 'true'
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
-        with:
-          script: |
-            const issue = context.payload.issue;
-            const version = '${{ steps.extract_version.outputs.version }}';
-            const user = context.payload.comment.user.login;
-            
-            const comment = `✅ **Linux Distro Publication Approved**\n\n**Approved By:** @${user}\n**Version:** ${version}\n**GitHub Environment:** \`linux-distro-production\`\n**Workflow:** \`release-linux-distribution.yml\`\n**Channel:** stable\n**Status:** Linux distro workflow dispatched after maintainer approval in the production environment\n\n**Next:**\n- Confirm the \`linux-distro-production\` GitHub Environment approval is active\n- Monitor \`release-linux-distribution.yml\` run for build status\n- Packages will be uploaded to Linux distro endpoints on success\n- This issue will close on completion\n\n**Tracking:** Issue #${{ github.event.issue.number }} — Linux distro release approval`;
-            
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issue.number,
-              body: comment,
-            });
-
-      - name: Update issue label
-        if: steps.check_maintainer.outputs.is_maintainer == 'true'
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
-        with:
-          script: |
-            const issue = context.payload.issue;
-            await github.rest.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issue.number,
-              labels: ['distro-approved'],
-            });
-
-      - name: Update issue on completion
-        if: always() && steps.check_maintainer.outputs.is_maintainer == 'true'
-        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
-        with:
-          script: |
-            const issue = context.payload.issue;
-            const success = context.payload.action === 'created' || context.payload.action === 'edited';
-            
-            if (success) {
-              await github.rest.issues.update({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: issue.number,
-                state: 'open',
-              });
-            }
+    uses: ./.github/workflows/reusable-release-approval-comment-gate.yml
+    with:
+      issue_label: linux-distro-review
+      match_regex: "/publish-linux\\b|/approve-linux\\b|@publish-linux\\b|/hold-linux\\b|/pause-linux\\b|/reject-linux\\b|/cancel-linux\\b|/rollback-linux\\b"
+      hold_regex: "/hold-linux\\b|/pause-linux\\b"
+      reject_regex: "/reject-linux\\b|/cancel-linux\\b"
+      rollback_regex: "/rollback-linux\\b"
+      subject: "Linux Distro Publication"
+      environment_name: linux-distro-production
+      environment_url: https://github.com/${{ github.repository }}/actions/workflows/release-linux-distro-approval.yml
+      target_workflow_id: release-linux-distribution.yml
+      target_ref: develop
+      dispatch_inputs_json: '{"publish_bundle":"true","channel":"stable"}'
+      approved_label: distro-approved
+      approval_note: |
+        Monitor `release-linux-distribution.yml` for package publication to distro endpoints.
