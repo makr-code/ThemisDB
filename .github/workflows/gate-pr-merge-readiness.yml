@@ -26,6 +26,13 @@ on:
       - 'src/**/*.hh'
       - 'src/**/*.hpp'
       - 'src/**/*.hxx'
+      - 'include/**/*.h'
+      - 'include/**/*.hh'
+      - 'include/**/*.hpp'
+      - 'include/**/*.hxx'
+      - 'include/**/*.ipp'
+      - 'include/**/*.tpp'
+      - 'include/themis/api.h'
       # Plugin manifests and build files (edition-license, plugin-boundary, community-failclosed)
       - 'plugins/**/plugin.toml'
       - 'plugins/**/plugin.json'
@@ -41,6 +48,7 @@ on:
       - 'plugins/**/*.hh'
       - 'plugins/**/*.hpp'
       - 'plugins/**/*.hxx'
+      - '.gitmodules'
       # Build system (hash-sbom)
       - 'CMakeLists.txt'
       - 'CMakePresets.json'
@@ -48,6 +56,15 @@ on:
       - 'cmake/**/*.cmake'
       - 'cmake/**/*.txt'
       - 'cmake/**/*.in'
+      - 'cmake/PrivatePlugins.cmake'
+      - 'cmake/features/PrivatePluginFeatures.cmake'
+      # Gate definitions (ensure orchestration reruns on gate changes)
+      - '.github/workflows/gate-pr-merge-readiness.yml'
+      - '.github/workflows/gate-pr-community-failclosed.yml'
+      - '.github/workflows/gate-pr-edition-license.yml'
+      - '.github/workflows/gate-pr-hash-sbom.yml'
+      - '.github/workflows/gate-pr-plugin-boundary.yml'
+      - '.github/workflows/gate-pr-final-runtime-api.yml'
 
 concurrency:
   group: gate-pr-merge-readiness-${{ github.event.pull_request.number || github.ref }}
@@ -56,6 +73,7 @@ concurrency:
 permissions:
   contents: read
   pull-requests: write
+  issues: write
 
 # ──────────────────────────────────────────────────────────────────────────────
 jobs:
@@ -186,6 +204,23 @@ jobs:
             - ${{ steps.evaluate.outputs.plugin_icon }} Plugin Boundary (`${{ needs.call-plugin-boundary.result }}`)
             - ${{ steps.evaluate.outputs.runtime_icon }} Final Runtime API (`${{ needs.call-final-runtime-api.result }}`)
           error-summary: "${{ steps.evaluate.outputs.all_passed != 'true' && format('Failed gates: {0}', steps.evaluate.outputs.failed_gates) || '' }}"
+
+      - name: Write workflow summary
+        if: always()
+        run: |
+          {
+            echo "## Validate: PR Merge Readiness"
+            echo ""
+            echo "| Gate | Result |"
+            echo "|------|--------|"
+            echo "| Community Fail-Closed | ${{ needs.call-community-failclosed.result }} |"
+            echo "| Edition & License | ${{ needs.call-edition-license.result }} |"
+            echo "| Hash & SBOM Integrity | ${{ needs.call-hash-sbom.result }} |"
+            echo "| Plugin Boundary | ${{ needs.call-plugin-boundary.result }} |"
+            echo "| Final Runtime API | ${{ needs.call-final-runtime-api.result }} |"
+            echo "| Verdict | ${{ steps.evaluate.outputs.all_passed == 'true' && 'PASS' || 'FAIL' }} |"
+            echo "| Run | https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} |"
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Enforce merge-readiness verdict
         run: |

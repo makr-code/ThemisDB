@@ -1,0 +1,304 @@
+name: "Reusable: Release Approval Comment Gate"
+
+on:
+  workflow_call:
+    inputs:
+      issue_label:
+        required: true
+        type: string
+      match_regex:
+        required: true
+        type: string
+      hold_regex:
+        required: true
+        type: string
+      reject_regex:
+        required: true
+        type: string
+      rollback_regex:
+        required: true
+        type: string
+      subject:
+        required: true
+        type: string
+      environment_name:
+        required: true
+        type: string
+      environment_url:
+        required: true
+        type: string
+      target_workflow_id:
+        required: true
+        type: string
+      target_ref:
+        required: false
+        default: develop
+        type: string
+      dispatch_inputs_json:
+        required: false
+        default: "{}"
+        type: string
+      version_input_name:
+        required: false
+        default: version
+        type: string
+      approved_label:
+        required: false
+        default: "distro-approved"
+        type: string
+      approval_note:
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  issues: write
+  contents: read
+  actions: write
+
+concurrency:
+  group: release-approval-gate-${{ github.event.issue.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  approval-gate:
+    name: "Validate: Release Approval Comment Gate"
+    runs-on: ubuntu-latest
+    outputs:
+      gate-skip: ${{ steps.gate.outputs.skip }}
+      gate-status: ${{ steps.gate.outputs.status }}
+      gate-is-maintainer: ${{ steps.gate.outputs.is_maintainer }}
+      gate-version: ${{ steps.extract_version.outputs.version }}
+    environment:
+      name: ${{ inputs.environment_name }}
+      url: ${{ inputs.environment_url }}
+    steps:
+      - name: Validate maintainer and command
+        id: gate
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+        env:
+          ISSUE_LABEL: ${{ inputs.issue_label }}
+          MATCH_REGEX: ${{ inputs.match_regex }}
+          HOLD_REGEX: ${{ inputs.hold_regex }}
+          REJECT_REGEX: ${{ inputs.reject_regex }}
+          ROLLBACK_REGEX: ${{ inputs.rollback_regex }}
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const body = (context.payload.comment.body || '').trim();
+            const user = context.payload.comment.user.login;
+            const labels = (issue.labels || []).map((l) => l.name);
+
+            if (!labels.includes(process.env.ISSUE_LABEL)) {
+              core.setOutput('skip', 'true');
+              core.notice(`Skipping: issue label '${process.env.ISSUE_LABEL}' not found`);
+              return;
+            }
+
+            if (!(new RegExp(process.env.MATCH_REGEX, 'i')).test(body)) {
+              core.setOutput('skip', 'true');
+              core.notice('Skipping: comment does not contain an approval/hold/reject/rollback command');
+              return;
+            }
+
+            const permission = await github.rest.repos.getCollaboratorPermissionLevel({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              username: user,
+            });
+
+            const level = permission.data.permission;
+            const isMaintainer = level === 'admin' || level === 'maintain';
+            core.setOutput('is_maintainer', isMaintainer ? 'true' : 'false');
+            if (!isMaintainer) {
+              core.setFailed(`User @${user} does not have maintainer permissions (required: admin or maintain, found: ${level})`);
+              return;
+            }
+
+            const hold = new RegExp(process.env.HOLD_REGEX, 'i').test(body);
+            const reject = new RegExp(process.env.REJECT_REGEX, 'i').test(body);
+            const rollback = new RegExp(process.env.ROLLBACK_REGEX, 'i').test(body);
+            core.setOutput('status', hold ? 'hold' : reject ? 'reject' : rollback ? 'rollback' : 'approve');
+
+      - name: Handle hold/reject/rollback requests
+        if: steps.gate.outputs.skip != 'true' && steps.gate.outputs.is_maintainer == 'true' && steps.gate.outputs.status != 'approve'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const user = context.payload.comment.user.login;
+            const subject = '${{ inputs.subject }}';
+            const status = '${{ steps.gate.outputs.status }}';
+            const body = {
+              hold: `⏸️ **${subject} Hold**\n\n**Requested By:** @${user}\n**Status:** Publication is paused pending human review.\n**Next Step:** Resolve blockers and request approval again.`,
+              reject: `⛔ **${subject} Rejected**\n\n**Rejected By:** @${user}\n**Status:** Publication is not approved.\n**Next Step:** Remediate and request approval again.`,
+              rollback: `↩️ **${subject} Rollback Requested**\n\n**Requested By:** @${user}\n**Status:** A rollback or hold is required before publication proceeds.\n**Next Step:** Use rollback workflow and document reason before retrying.`
+            }[status];
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              body,
+            });
+
+      - name: Extract version from issue body
+        id: extract_version
+        if: steps.gate.outputs.skip != 'true' && steps.gate.outputs.is_maintainer == 'true' && steps.gate.outputs.status == 'approve'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+        with:
+          script: |
+            const body = context.payload.issue.body || '';
+            const match = body.match(/## Release Version:\s*v?(\d+\.\d+\.\d+)/);
+            if (!match) {
+              core.setFailed('Could not extract release version from issue body. Expected format: "## Release Version: v2.5.0"');
+              return;
+            }
+            core.setOutput('version', match[1]);
+
+      - name: Verify release tag exists
+        if: steps.gate.outputs.skip != 'true' && steps.gate.outputs.is_maintainer == 'true' && steps.gate.outputs.status == 'approve'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+        with:
+          script: |
+            const version = '${{ steps.extract_version.outputs.version }}';
+            const tag = `v${version}`;
+            try {
+              await github.rest.git.getRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: `tags/${tag}`,
+              });
+            } catch (error) {
+              core.setFailed(`Release tag ${tag} does not exist. Cannot publish.`);
+            }
+
+      - name: Dispatch target workflow
+        if: steps.gate.outputs.skip != 'true' && steps.gate.outputs.is_maintainer == 'true' && steps.gate.outputs.status == 'approve'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+        env:
+          WORKFLOW_ID: ${{ inputs.target_workflow_id }}
+          TARGET_REF: ${{ inputs.target_ref }}
+          EXTRA_INPUTS_JSON: ${{ inputs.dispatch_inputs_json }}
+          VERSION_INPUT_NAME: ${{ inputs.version_input_name }}
+        with:
+          script: |
+            const version = '${{ steps.extract_version.outputs.version }}';
+            const extraInputs = JSON.parse(process.env.EXTRA_INPUTS_JSON || '{}');
+            const versionInputName = process.env.VERSION_INPUT_NAME || 'version';
+            const workflowInputs = { ...extraInputs, [versionInputName]: version };
+
+            await github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: process.env.WORKFLOW_ID,
+              ref: process.env.TARGET_REF,
+              inputs: workflowInputs,
+            });
+
+      - name: Comment approval status
+        if: steps.gate.outputs.skip != 'true' && steps.gate.outputs.is_maintainer == 'true' && steps.gate.outputs.status == 'approve'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const version = '${{ steps.extract_version.outputs.version }}';
+            const user = context.payload.comment.user.login;
+            const subject = '${{ inputs.subject }}';
+            const note = `${{ inputs.approval_note }}`.trim();
+            const extra = note ? `\n\n${note}` : '';
+
+            const body = `✅ **${subject} Approved**\n\n**Approved By:** @${user}\n**Version:** ${version}\n**Environment:** \`${{ inputs.environment_name }}\`\n**Workflow:** \`${{ inputs.target_workflow_id }}\`\n**Status:** Workflow dispatched after maintainer approval.${extra}`;
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue.number,
+              body,
+            });
+
+      - name: Update issue label
+        if: steps.gate.outputs.skip != 'true' && steps.gate.outputs.is_maintainer == 'true' && steps.gate.outputs.status == 'approve'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+        with:
+          script: |
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              labels: ['${{ inputs.approved_label }}'],
+            });
+
+      - name: Write workflow summary
+        if: always()
+        run: |
+          set -euo pipefail
+          gate_skip="${{ steps.gate.outputs.skip }}"
+          gate_status="${{ steps.gate.outputs.status }}"
+          gate_maintainer="${{ steps.gate.outputs.is_maintainer }}"
+          gate_version="${{ steps.extract_version.outputs.version }}"
+          if [[ -z "${gate_status}" ]]; then
+            gate_status="n/a"
+          fi
+          if [[ -z "${gate_maintainer}" ]]; then
+            gate_maintainer="n/a"
+          fi
+          if [[ -z "${gate_version}" ]]; then
+            gate_version="n/a"
+          fi
+          {
+            echo "## Validate: Release Approval Comment Gate"
+            echo ""
+            echo "| Key | Value |"
+            echo "|-----|-------|"
+            echo "| Subject | ${{ inputs.subject }} |"
+            echo "| Issue Label Gate | ${{ inputs.issue_label }} |"
+            echo "| Maintainer | ${gate_maintainer} |"
+            echo "| Command Status | ${gate_status} |"
+            echo "| Skipped | ${gate_skip} |"
+            echo "| Extracted Version | ${gate_version} |"
+            echo "| Target Workflow | ${{ inputs.target_workflow_id }} |"
+            echo "| Environment | ${{ inputs.environment_name }} |"
+            echo "| Run | https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  human-loop-escalation:
+    name: "Validate: Human-in-the-loop Escalation"
+    needs: [approval-gate]
+    if: always() && needs.approval-gate.result != 'success' && github.event_name == 'issue_comment'
+    uses: ./.github/workflows/reusable-status-flags-and-issues.yml
+    permissions:
+      contents: read
+      issues: write
+    secrets:
+      repo-token: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      operation: upsert_issue
+      issue-title: "Decision Required: Release approval gate blocked (${{ inputs.subject }})"
+      issue-marker: "<!-- workflow-human-loop:release-approval:${{ inputs.target_workflow_id }} -->"
+      labels-to-add: "status/needs-approval,ci/failure"
+      issue-body: |
+        <!-- workflow-human-loop:release-approval:${{ inputs.target_workflow_id }} -->
+        # Human Decision Required: Release Approval Gate
+
+        The reusable release approval gate is blocked and needs maintainer decision.
+
+        - **Subject:** `${{ inputs.subject }}`
+        - **Environment:** `${{ inputs.environment_name }}`
+        - **Target Workflow:** `${{ inputs.target_workflow_id }}`
+        - **Run:** https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        - **Workflow:** `${{ github.workflow }}`
+        - **Ref:** `${{ github.ref }}`
+        - **Actor:** `${{ github.actor }}`
+        - **Result:** `${{ needs.approval-gate.result }}`
+
+        ## Required Maintainer Decision
+
+        Please decide one of:
+        1. Approve and re-run via canonical command
+        2. Hold and document blockers
+        3. Reject and document remediation requirements
+        4. Rollback and document rollback scope
+      source-workflow: ${{ github.workflow }}
+      source-run-id: ${{ github.run_id }}
+      source-sha: ${{ github.sha }}

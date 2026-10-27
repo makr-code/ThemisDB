@@ -1,0 +1,264 @@
+name: "Reusable: RAG Phase Gate"
+
+on:
+  workflow_call:
+    inputs:
+      phase_id:
+        required: true
+        type: string
+      phase_title:
+        required: true
+        type: string
+      headers_json:
+        required: true
+        type: string
+      impls_json:
+        required: true
+        type: string
+      tests_json:
+        required: true
+        type: string
+      grep_checks_json:
+        required: false
+        default: "[]"
+        type: string
+      labels_csv:
+        required: false
+        default: ""
+        type: string
+      timeout_minutes:
+        required: false
+        default: "30"
+        type: string
+
+permissions:
+  pull-requests: write
+  contents: read
+  issues: write
+  checks: write
+
+concurrency:
+  group: rag-phase-gate-${{ inputs.phase_id }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  phase_validation:
+    name: "Validate: ${{ inputs.phase_title }}"
+    runs-on: ubuntu-22.04
+    timeout-minutes: ${{ fromJSON(inputs.timeout_minutes) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Validate files and semantic checks
+        env:
+          PHASE_ID: ${{ inputs.phase_id }}
+          PHASE_TITLE: ${{ inputs.phase_title }}
+          HEADERS_JSON: ${{ inputs.headers_json }}
+          IMPLS_JSON: ${{ inputs.impls_json }}
+          TESTS_JSON: ${{ inputs.tests_json }}
+          GREP_CHECKS_JSON: ${{ inputs.grep_checks_json }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import re
+          import subprocess
+          from pathlib import Path
+
+          phase_id = os.environ["PHASE_ID"]
+          phase_title = os.environ["PHASE_TITLE"]
+          headers = json.loads(os.environ["HEADERS_JSON"])
+          impls = json.loads(os.environ["IMPLS_JSON"])
+          tests = json.loads(os.environ["TESTS_JSON"])
+          grep_checks = json.loads(os.environ.get("GREP_CHECKS_JSON", "[]"))
+
+          def ensure_exists(paths, kind):
+            for p in paths:
+              if not Path(p).is_file():
+                raise SystemExit(f"FAIL: missing {kind} file: {p}")
+
+          ensure_exists(headers, "header")
+          ensure_exists(impls, "implementation")
+          ensure_exists(tests, "test")
+
+          warnings = []
+          test_case_count = {}
+          for h in headers:
+            txt = Path(h).read_text(encoding="utf-8", errors="replace")
+            if "@brief" not in txt and "@details" not in txt:
+              warnings.append(f"Incomplete Doxygen comments in {h}")
+
+          test_regex = re.compile(r"TEST_F\(|TEST\(")
+          for t in tests:
+            txt = Path(t).read_text(encoding="utf-8", errors="replace")
+            count = len(test_regex.findall(txt))
+            test_case_count[t] = count
+            if count < 1:
+              warnings.append(f"No test cases found in {t}")
+
+          for check in grep_checks:
+            file_path = check["file"]
+            pattern = check["pattern"]
+            error = check["error"]
+            txt = Path(file_path).read_text(encoding="utf-8", errors="replace")
+            if not re.search(pattern, txt):
+              raise SystemExit(f"FAIL: {error} ({file_path})")
+
+          tmp = Path("/tmp")
+          for impl in impls:
+            obj = tmp / f"phase{phase_id}-{Path(impl).stem}.o"
+            subprocess.run(
+              ["g++", "-std=c++20", "-Iinclude", "-c", impl, "-o", str(obj)],
+              check=True,
+            )
+
+          report = tmp / f"phase{phase_id}_gate_report.md"
+          total_tests = sum(test_case_count.values())
+          with report.open("w", encoding="utf-8") as f:
+            f.write(f"## {phase_title} Gate Report\n\n")
+            f.write(f"**PR:** {os.environ.get('GITHUB_REF_NAME', 'unknown')}\n\n")
+            f.write("### Validation Checklist\n")
+            f.write(f"- [x] Headers present: {len(headers)}\n")
+            f.write(f"- [x] Implementations present: {len(impls)}\n")
+            f.write(f"- [x] Tests present: {len(tests)}\n")
+            f.write(f"- [x] Semantic checks passed: {len(grep_checks)}\n")
+            f.write("- [x] Compilation successful with g++ -std=c++20\n")
+            f.write(f"- [x] Detected test cases: {total_tests}\n\n")
+            if warnings:
+              f.write("### Warnings\n")
+              for w in warnings:
+                f.write(f"- ⚠ {w}\n")
+              f.write("\n")
+            f.write("### Gate Status\n")
+            f.write("✓ **PASS**\n")
+
+          print(f"report_path={report}")
+          PY
+
+      - name: Apply Gate Labels
+        if: success() && inputs.labels_csv != ''
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+        with:
+          script: |
+            const labels = '${{ inputs.labels_csv }}'
+              .split(',')
+              .map((v) => v.trim())
+              .filter(Boolean);
+            if (labels.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels,
+              });
+            }
+
+      - name: Comment Gate Status
+        if: always()
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+        with:
+          script: |
+            const fs = require('fs');
+            const reportPath = '/tmp/phase${{ inputs.phase_id }}_gate_report.md';
+            const body = fs.existsSync(reportPath)
+              ? fs.readFileSync(reportPath, 'utf8')
+              : `## ${{ inputs.phase_title }} Gate Report\n\n❌ Report generation failed.`;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body,
+            });
+
+      - name: Write gate summary
+        if: always()
+        run: |
+          report_path="/tmp/phase${{ inputs.phase_id }}_gate_report.md"
+          {
+            echo "## Validate: ${{ inputs.phase_title }} (Workflow Summary)"
+            echo ""
+            if [[ -f "${report_path}" ]]; then
+              cat "${report_path}"
+            else
+              echo "❌ Gate report unavailable."
+            fi
+            echo ""
+            echo "Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  gate_status:
+    name: "Validate: Gate Status Summary"
+    runs-on: ubuntu-22.04
+    needs: [phase_validation]
+    if: always()
+    steps:
+      - name: Check Gate Status
+        run: |
+          if [ "${{ needs.phase_validation.result }}" = "success" ]; then
+            echo "✅ ${{ inputs.phase_title }} Gate: PASS"
+            exit 0
+          fi
+          echo "❌ ${{ inputs.phase_title }} Gate: FAIL"
+          exit 1
+
+  human-loop-escalation:
+    name: "Validate: Human-in-the-loop Escalation"
+    needs: [phase_validation, gate_status]
+    if: always() && needs.phase_validation.result != 'success' && github.event_name == 'pull_request'
+    uses: ./.github/workflows/reusable-status-flags-and-issues.yml
+    permissions:
+      contents: read
+      issues: write
+    secrets:
+      repo-token: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      operation: upsert_issue
+      issue-title: "Decision Required: ${{ inputs.phase_title }} gate failed"
+      issue-marker: "<!-- workflow-human-loop:rag-phase:${{ inputs.phase_id }} -->"
+      labels-to-add: "status/needs-approval,ci/failure,ci/test-failed"
+      issue-body: |
+        <!-- workflow-human-loop:rag-phase:${{ inputs.phase_id }} -->
+        # Human Decision Required: ${{ inputs.phase_title }}
+
+        The RAG phase gate failed and needs maintainer decision for next action.
+
+        - **Phase:** `${{ inputs.phase_id }}`
+        - **Title:** `${{ inputs.phase_title }}`
+        - **Run:** https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        - **Workflow:** `${{ github.workflow }}`
+        - **Ref:** `${{ github.ref }}`
+        - **Result:** `${{ needs.phase_validation.result }}`
+
+        ## Required Decision
+
+        Please choose one path and document it:
+        1. Fix immediately in current PR
+        2. Accept temporary waiver with explicit rationale and follow-up issue
+        3. De-scope phase changes from this PR
+      source-workflow: ${{ github.workflow }}
+      source-run-id: ${{ github.run_id }}
+      source-sha: ${{ github.sha }}
+
+  human-loop-resolution:
+    name: "Validate: Human-in-the-loop Resolution Labels"
+    needs: [phase_validation]
+    if: always() && needs.phase_validation.result == 'success' && github.event_name == 'pull_request'
+    uses: ./.github/workflows/reusable-status-flags-and-issues.yml
+    permissions:
+      contents: read
+      issues: write
+    secrets:
+      repo-token: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      operation: replace_status_group
+      issue-marker: "<!-- workflow-human-loop:rag-phase:${{ inputs.phase_id }} -->"
+      status-group: "status/needs-approval,status/needs-attention,status/needs-triage,status/resolved"
+      labels-to-add: "status/resolved"
+      labels-to-remove: "ci/failure,ci/test-failed"
+      allow-missing: ${{ 'true' }}
+      source-workflow: ${{ github.workflow }}
+      source-run-id: ${{ github.run_id }}
+      source-sha: ${{ github.sha }}

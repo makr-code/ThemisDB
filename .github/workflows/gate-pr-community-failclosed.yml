@@ -8,40 +8,6 @@ name: "Gate: PR Core [Community Fail-Closed]"
 
 on:
   workflow_call: {}
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
-    branches:
-      - community
-      - minimal
-    paths:
-      - 'src/**/*.c'
-      - 'src/**/*.cc'
-      - 'src/**/*.cpp'
-      - 'src/**/*.cxx'
-      - 'src/**/*.h'
-      - 'src/**/*.hh'
-      - 'src/**/*.hpp'
-      - 'src/**/*.hxx'
-      - 'plugins/**/plugin.toml'
-      - 'plugins/**/plugin.json'
-      - 'plugins/**/CMakeLists.txt'
-      - 'plugins/**/*.cmake'
-      - 'plugins/**/*.in'
-      - 'plugins/**/*.txt'
-      - 'plugins/**/*.c'
-      - 'plugins/**/*.cc'
-      - 'plugins/**/*.cpp'
-      - 'plugins/**/*.cxx'
-      - 'plugins/**/*.h'
-      - 'plugins/**/*.hh'
-      - 'plugins/**/*.hpp'
-      - 'plugins/**/*.hxx'
-      - 'include/themis/api.h'
-      - 'CMakeLists.txt'
-      - 'cmake/**/*.cmake'
-      - 'cmake/**/*.txt'
-      - 'cmake/**/*.in'
-      - '.github/workflows/gate-pr-community-failclosed.yml'
   push:
     branches: [community, minimal]
     paths:
@@ -81,6 +47,7 @@ concurrency:
 permissions:
   contents: read
   pull-requests: write
+  issues: write
 
 jobs:
   community-fail-closed-validation:
@@ -331,3 +298,76 @@ jobs:
             - ${{ steps.check-build-config.outcome == 'success' && '✅' || '❌' }} Community-only build config validation
             - ${{ steps.check-secrets.outcome == 'success' && '✅' || '❌' }} No enterprise secrets leakage
           error-summary: ${{ steps.collect-errors.outputs.summary }}
+
+      - name: Write workflow summary
+        if: always()
+        run: |
+          {
+            echo "## Validate: Community Fail-Closed Validation"
+            echo ""
+            echo "| Check | Outcome |"
+            echo "|-------|---------|"
+            echo "| Silent fallback | ${{ steps.check-fallback.outcome }} |"
+            echo "| License disclaimers | ${{ steps.check-license.outcome }} |"
+            echo "| Telemetry guardrails | ${{ steps.check-telemetry.outcome }} |"
+            echo "| Private references | ${{ steps.check-private-references.outcome }} |"
+            echo "| Build config | ${{ steps.check-build-config.outcome }} |"
+            echo "| Secret leakage | ${{ steps.check-secrets.outcome }} |"
+            echo "| Job result | ${{ job.status }} |"
+            echo "| Run | https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  human-loop-escalation:
+    name: "Validate: Human-in-the-loop Escalation"
+    needs: [community-fail-closed-validation]
+    if: always() && needs.community-fail-closed-validation.result != 'success' && github.event_name == 'pull_request'
+    uses: ./.github/workflows/reusable-status-flags-and-issues.yml
+    permissions:
+      contents: read
+      issues: write
+    secrets:
+      repo-token: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      operation: upsert_issue
+      issue-title: "Decision Required: Community fail-closed gate failed"
+      issue-marker: "<!-- workflow-human-loop:community-fail-closed -->"
+      labels-to-add: "status/needs-approval,ci/failure"
+      issue-body: |
+        <!-- workflow-human-loop:community-fail-closed -->
+        # Human Decision Required: Community Fail-Closed Gate
+
+        The fail-closed policy gate failed and needs maintainer decision.
+
+        - **Run:** https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        - **Workflow:** `${{ github.workflow }}`
+        - **Ref:** `${{ github.ref }}`
+        - **Result:** `${{ needs.community-fail-closed-validation.result }}`
+
+        ## Required Decision
+        1. Fix now in current PR
+        2. Approve temporary waiver with rationale and follow-up issue
+        3. Remove/adjust affected change scope
+      source-workflow: ${{ github.workflow }}
+      source-run-id: ${{ github.run_id }}
+      source-sha: ${{ github.sha }}
+
+  human-loop-resolution:
+    name: "Validate: Human-in-the-loop Resolution Labels"
+    needs: [community-fail-closed-validation]
+    if: always() && needs.community-fail-closed-validation.result == 'success' && github.event_name == 'pull_request'
+    uses: ./.github/workflows/reusable-status-flags-and-issues.yml
+    permissions:
+      contents: read
+      issues: write
+    secrets:
+      repo-token: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      operation: replace_status_group
+      issue-marker: "<!-- workflow-human-loop:community-fail-closed -->"
+      status-group: "status/needs-approval,status/needs-attention,status/needs-triage,status/resolved"
+      labels-to-add: "status/resolved"
+      labels-to-remove: "ci/failure"
+      allow-missing: ${{ 'true' }}
+      source-workflow: ${{ github.workflow }}
+      source-run-id: ${{ github.run_id }}
+      source-sha: ${{ github.sha }}

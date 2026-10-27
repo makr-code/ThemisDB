@@ -155,101 +155,6 @@ jobs:
           print(f"Workflow preflight passed for {len(changed_wf)} changed workflow file(s).")
           PY
 
-  # ────────────────────────────────────────────────────────────────────────────
-  # WAVE C POLICY GATES — Invokes all 4 policy gate workflows
-  # Enforces security boundaries, edition compatibility, and supply-chain integrity
-  # ────────────────────────────────────────────────────────────────────────────
-  wavec-policy-gates-private-plugin:
-    name: "Gate: Wave C — Private/Public Plugin Boundary"
-    needs: preflight-ci-policy
-    if: github.event_name == 'pull_request' && github.base_ref != ''
-    permissions:
-      contents: read
-      pull-requests: write
-    uses: ./.github/workflows/gate-pr-plugin-boundary.yml
-
-  wavec-policy-gates-edition-license:
-    name: "Gate: Wave C — Edition & License Validation"
-    needs: preflight-ci-policy
-    if: github.event_name == 'pull_request' && github.base_ref != ''
-    permissions:
-      contents: read
-      pull-requests: write
-    uses: ./.github/workflows/gate-pr-edition-license.yml
-
-  wavec-policy-gates-hash-sbom:
-    name: "Gate: Wave C — Hash & SBOM Integrity"
-    needs: preflight-ci-policy
-    if: github.event_name == 'pull_request' && github.base_ref != ''
-    permissions:
-      contents: read
-      pull-requests: write
-    uses: ./.github/workflows/gate-pr-hash-sbom.yml
-
-  wavec-policy-gates-community-fail-closed:
-    name: "Gate: Wave C — Community Fail-Closed Validation"
-    needs: preflight-ci-policy
-    if: github.event_name == 'pull_request' && github.base_ref != ''
-    permissions:
-      contents: read
-      pull-requests: write
-    uses: ./.github/workflows/gate-pr-community-failclosed.yml
-
-  # ────────────────────────────────────────────────────────────────────────────
-  # AGGREGATED WAVE C POLICY GATES REPORTING
-  # Summary is explicit and does not enforce pass/fail semantics in the same job.
-  # ────────────────────────────────────────────────────────────────────────────
-  wavec-policy-gates-summary:
-    name: "Report: Wave C Policy Gates"
-    runs-on: ubuntu-latest
-    if: always()
-    permissions:
-      contents: read
-    needs:
-      - wavec-policy-gates-private-plugin
-      - wavec-policy-gates-edition-license
-      - wavec-policy-gates-hash-sbom
-      - wavec-policy-gates-community-fail-closed
-    steps:
-      - name: Report Wave C policy gate results
-        run: |
-          {
-            echo "## Wave C Policy Gates Results"
-            echo ""
-            echo "| Gate | Result |"
-            echo "|------|--------|"
-            echo "| Private/Public Plugin Boundary | ${{ needs.wavec-policy-gates-private-plugin.result }} |"
-            echo "| Edition & License Validation | ${{ needs.wavec-policy-gates-edition-license.result }} |"
-            echo "| Hash & SBOM Integrity | ${{ needs.wavec-policy-gates-hash-sbom.result }} |"
-            echo "| Community Fail-Closed | ${{ needs.wavec-policy-gates-community-fail-closed.result }} |"
-            echo ""
-          } >> "$GITHUB_STEP_SUMMARY"
-
-  wavec-policy-gates-enforce:
-    name: "Gate: Wave C Policy Gates Enforcement"
-    runs-on: ubuntu-latest
-    if: always() && github.event_name == 'pull_request' && github.base_ref != ''
-    permissions:
-      contents: read
-    needs:
-      - wavec-policy-gates-private-plugin
-      - wavec-policy-gates-edition-license
-      - wavec-policy-gates-hash-sbom
-      - wavec-policy-gates-community-fail-closed
-    steps:
-      - name: Fail if any Wave C policy gate failed
-        shell: bash
-        run: |
-          set -euo pipefail
-          if [ "${{ needs.wavec-policy-gates-private-plugin.result }}" = "failure" ] || \
-             [ "${{ needs.wavec-policy-gates-edition-license.result }}" = "failure" ] || \
-             [ "${{ needs.wavec-policy-gates-hash-sbom.result }}" = "failure" ] || \
-             [ "${{ needs.wavec-policy-gates-community-fail-closed.result }}" = "failure" ]; then
-            echo "::error::One or more Wave C policy gates FAILED — review implementation per CI_POLICY_GATES_WAVE_C.md"
-            exit 1
-          fi
-          echo "All Wave C policy gates completed without failure."
-
   quality-test-build:
     name: "Build: PR Release-Critical Test Quality Line"
     needs: preflight-ci-policy
@@ -528,78 +433,16 @@ jobs:
           PY
 
   # ────────────────────────────────────────────────────────────────────────────
-  # GATE 4 — Release-Critical Tests  ← MANDATORY GATE (RELEASE_STRATEGY.md §2.3)
-  # Applies to: PRs targeting develop + all edition branches
+  # GATE 4/4b — Build Components Orchestrator
+  # Applies to: PRs targeting protected branches
   # ────────────────────────────────────────────────────────────────────────────
-  release-critical-tests:
-    name: "Validate: Release-Critical Test Suite"
-    runs-on: ubuntu-latest
-    timeout-minutes: 45
+  build-components-gate:
+    name: "Gate: PR Build Components Orchestrator"
     needs: preflight-ci-policy
-    env:
-      SCCACHE_GHA_ENABLED: "false"
+    if: github.event_name == 'pull_request'
     permissions:
       contents: read
-    if: >
-      github.event_name == 'pull_request' &&
-      contains(fromJSON('["develop","community","enterprise","hyperscaler","military"]'), github.base_ref)
-    steps:
-      - uses: actions/checkout@v5
-      - name: Setup C++ build dependencies
-        uses: ./.github/actions/setup-cpp-build
-        with:
-          cc: gcc-12
-          cxx: g++-12
-          extra-packages: librocksdb-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libboost-system-dev libboost-filesystem-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev libgtest-dev libgmock-dev libbenchmark-dev
-
-      - name: Configure (community-release)
-        run: |
-          set -euo pipefail
-          cmake --preset community-release \
-            -DTHEMIS_BUILD_TESTS=ON 2>&1 | tee /tmp/release-critical-configure.log
-
-      - name: Build release-critical targets
-        run: |
-          set -euo pipefail
-          cmake --build build-community-release \
-            --target themis_release_critical_tests \
-            --parallel "$(nproc)" 2>&1 | tee /tmp/release-critical-build.log
-
-      - name: Run release-critical tests
-        run: |
-          set -euo pipefail
-          ctest --test-dir build-community-release \
-            --label-regex '(^|;)release_critical($|;)' \
-            --label-exclude '(^|;)(not_release_critical|focus|kind:focused|autogen)($|;)' \
-            --output-on-failure \
-            --parallel 1 \
-            --timeout 120 2>&1 | tee /tmp/release-critical-ctest.log
-
-      - name: Upload release-critical triage bundle
-        if: always()
-        uses: actions/upload-artifact@v5
-        with:
-          name: release-critical-triage-${{ github.run_number }}
-          path: |
-            /tmp/release-critical-configure.log
-            /tmp/release-critical-build.log
-            /tmp/release-critical-ctest.log
-          if-no-files-found: ignore
-          retention-days: 30
-
-  # ────────────────────────────────────────────────────────────────────────────
-  # GATE 4b — Final Runtime API Gate (Phase-1 rollout)
-  # Applies to: PRs targeting develop/community; runs after release-critical
-  # ────────────────────────────────────────────────────────────────────────────
-  final-runtime-api-gate:
-    name: "Validate: Final Runtime API Gate (TinyLlama + docs.db)"
-    needs: release-critical-tests
-    if: >
-      github.event_name == 'pull_request' &&
-      (github.base_ref == 'develop' || github.base_ref == 'community')
-    permissions:
-      contents: read
-    uses: ./.github/workflows/gate-pr-final-runtime-api.yml
+    uses: ./.github/workflows/reusable-pr-build-components-gate.yml
 
   # ────────────────────────────────────────────────────────────────────────────
   # GATE 5 — Reproducible Build Metadata
@@ -1200,11 +1043,10 @@ jobs:
     if: always()
     needs:
       - preflight-ci-policy
-      - wavec-policy-gates
       - community-pipeline-policy
       - high-exception-record
       - private-plugin-boundary
-      - release-critical-tests
+      - build-components-gate
       - reproducible-builds
       - scanner-delta-report
       - submodule-commit-pins
@@ -1212,7 +1054,6 @@ jobs:
       - scoped-checkout-validation
       - private-credential-scan
       - secret-scan
-      - final-runtime-api-gate
     steps:
       - name: Write summary
         if: always()
@@ -1223,11 +1064,10 @@ jobs:
             echo "| Gate | Result |"
             echo "|------|--------|"
             echo "| Preflight CI Policy + Workflow Lint | ${{ needs.preflight-ci-policy.result }} |"
-            echo "| **Wave C Policy Gates** | ${{ needs.wavec-policy-gates.result }} |"
             echo "| Community Pipeline Policy | ${{ needs.community-pipeline-policy.result }} |"
             echo "| High Exception Record | ${{ needs.high-exception-record.result }} |"
             echo "| Private Plugin Boundary | ${{ needs.private-plugin-boundary.result }} |"
-            echo "| Release-Critical Tests (**MANDATORY**) | ${{ needs.release-critical-tests.result }} |"
+            echo "| Build Components (release_critical + final runtime API) | ${{ needs.build-components-gate.result }} |"
             echo "| Reproducible Builds | ${{ needs.reproducible-builds.result }} |"
             echo "| Scanner Delta Report | ${{ needs.scanner-delta-report.result }} |"
             echo "| Submodule Commit Pins | ${{ needs.submodule-commit-pins.result }} |"
@@ -1235,32 +1075,10 @@ jobs:
             echo "| Scoped Checkout Validation (Wave C B3) | ${{ needs.scoped-checkout-validation.result }} |"
             echo "| Private-Credential Scanning (Wave C B3) | ${{ needs.private-credential-scan.result }} |"
             echo "| Secret Scanning (non-blocking) | ${{ needs.secret-scan.result }} |"
-            if [ "${{ github.event_name }}" = "pull_request" ] && [ "${{ github.base_ref }}" != "develop" ] && [ "${{ github.base_ref }}" != "community" ]; then
-              echo "| Final Runtime API Gate (TinyLlama + docs.db) | not-applicable |"
-            else
-              echo "| Final Runtime API Gate (TinyLlama + docs.db) | ${{ needs.final-runtime-api-gate.result }} |"
-            fi
           } >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Fail if mandatory Wave C policy gates failed
-        if: needs.wavec-policy-gates.result != '' && needs.wavec-policy-gates.result == 'failure'
-        run: |
-          echo "::error::Wave C policy gates FAILED — review implementation per CI_POLICY_GATES_WAVE_C.md"
-          exit 1
-
       - name: Fail if mandatory release-critical gate failed
-        if: needs.release-critical-tests.result != '' && needs.release-critical-tests.result == 'failure'
+        if: needs.build-components-gate.result != '' && needs.build-components-gate.result == 'failure'
         run: |
-          echo "::error::release-critical-tests FAILED — this is a mandatory gate per RELEASE_STRATEGY.md §2.3"
-          exit 1
-
-      - name: Fail if mandatory final-runtime-api gate failed
-        if: >-
-          github.event_name == 'pull_request' &&
-          (github.base_ref == 'develop' || github.base_ref == 'community') &&
-          needs.final-runtime-api-gate.result != '' &&
-          (needs.final-runtime-api-gate.result == 'failure' ||
-           needs.final-runtime-api-gate.result == 'cancelled')
-        run: |
-          echo "::error::final-runtime-api-gate FAILED — final runtime API gate is mandatory for develop/community rollout phase."
+          echo "::error::build-components-gate FAILED — mandatory release-critical/final-runtime checks did not pass."
           exit 1

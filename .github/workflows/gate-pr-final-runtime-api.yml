@@ -1,4 +1,4 @@
-name: "Gate: PR Final Runtime API"
+name: "Reusable: PR Final Runtime API Gate"
 
 # Rechenaufwand-Score: R=5 (K=6, L=5, N=5) | last-calibrated: 2026-10-12
 # Trigger policy: final blocking runtime gate with TinyLlama/docs.db inference checks.
