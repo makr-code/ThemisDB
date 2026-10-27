@@ -115,6 +115,17 @@ def resolve_field(metadata: dict[str, str], aliases: list[str]) -> str | None:
     return None
 
 
+def parse_bool_string(value: str | None) -> bool | None:
+    if value is None:
+        return None
+    normalized = value.strip().lower()
+    if normalized in {"true", "1", "yes", "y", "on"}:
+        return True
+    if normalized in {"false", "0", "no", "n", "off"}:
+        return False
+    return None
+
+
 def validate_file(file_path: Path, rel_path: str, config: dict) -> FileResult:
     metadata = collect_metadata(file_path, int(config.get("max_scan_lines", 40)))
     required_fields = config["required_fields"]
@@ -137,6 +148,26 @@ def validate_file(file_path: Path, rel_path: str, config: dict) -> FileResult:
                 + ", ".join(sorted(allowed_statuses))
                 + f" (got '{value}')"
             )
+
+    ai_used_value = resolve_field(metadata, ["AI_Used", "AiUsed", "ai_used"])
+    ai_used = parse_bool_string(ai_used_value)
+    if ai_used_value is not None and ai_used is None:
+        errors.append("field 'AI_Used' must be a boolean value (true/false)")
+    if ai_used is True:
+        for label, aliases in {
+            "AI_Models": ["AI_Models", "AiModels", "ai_models"],
+            "AI_Contributor": ["AI_Contributor", "AiContributor", "ai_contributor"],
+            "Human_Review": ["Human_Review", "HumanReview", "human_review"],
+            "Human_Author": ["Human_Author", "HumanAuthor", "human_author"],
+        }.items():
+            value = resolve_field(metadata, aliases)
+            if not value:
+                errors.append(f"missing required field '{label}' because AI_Used is true")
+                continue
+            if label in {"Human_Review"}:
+                parsed = parse_bool_string(value)
+                if parsed is None:
+                    errors.append("field 'Human_Review' must be a boolean value (true/false)")
 
     return FileResult(file=rel_path, errors=errors)
 

@@ -5,7 +5,14 @@
 > **Last Updated:** 2026-10-26  
 > **Kategorie:** Core API  
 > **Seit Version:** 1.3.0  
-> **Status:** stable
+> **Status:** stable  
+> **AI_Used:** true  
+> **AI_Models:** unknown  
+> **AI_Contributor:** GitHub Copilot  
+> **Human_Review:** true  
+> **Human_Author:** ThemisDB Team
+
+Exact model backend not verifiable from final document text alone.
 
 ---
 
