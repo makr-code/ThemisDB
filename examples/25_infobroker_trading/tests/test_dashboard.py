@@ -14,8 +14,8 @@ from models import StrategyProfile
 
 class DashboardTests(unittest.TestCase):
     def test_dashboard_png_is_generated(self) -> None:
-        news = load_news(ROOT / "data" / "news_realistic.csv")
-        prices = load_prices(ROOT / "data" / "prices_realistic.csv")
+        news = load_news(ROOT / "sample_data" / "news_realistic.csv")
+        prices = load_prices(ROOT / "sample_data" / "prices_realistic.csv")
         with tempfile.TemporaryDirectory() as tmpdir:
             output = Path(tmpdir) / "dashboard.png"
             build_dashboard(news, prices, [], output, StrategyProfile.LONG_TERM)

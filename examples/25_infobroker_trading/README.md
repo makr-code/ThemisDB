@@ -90,8 +90,8 @@ sequenceDiagram
 - `forecast_layer.py` – Hybridprognosen aus Event-Sentiment und Zeitreihenkontext.
 - `models.py` – Datenmodelle.
 - `DEEP_RESEARCH_ARCHITECTURE.md` – umfassendes Architektur- und Hypothesenpapier als Gemini-Startpunkt.
-- `data/news_realistic.csv` – realistischere historische News-Beispiele.
-- `data/prices_realistic.csv` – zeitlich abgestimmte Preisreihen.
+- `sample_data/news_realistic.csv` – realistischere historische News-Beispiele.
+- `sample_data/prices_realistic.csv` – zeitlich abgestimmte Preisreihen.
 - `labels_training.csv` – Event-zu-Return-Labels zur Forecast-Qualitätsprüfung.
 - `tests/` – fokussierte Unit-Tests inklusive Dashboard-Check.
 

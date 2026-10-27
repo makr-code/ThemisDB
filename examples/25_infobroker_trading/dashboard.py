@@ -188,8 +188,8 @@ def launch_window(news_items: Iterable[NewsItem], market_bars: Iterable[MarketBa
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Visual dashboard generator for infobroker trading demo")
-    parser.add_argument("--news-csv", default="data/news_realistic.csv", help="Path to the news CSV.")
-    parser.add_argument("--price-csv", default="data/prices_realistic.csv", help="Path to the price CSV.")
+    parser.add_argument("--news-csv", default="sample_data/news_realistic.csv", help="Path to the news CSV.")
+    parser.add_argument("--price-csv", default="sample_data/prices_realistic.csv", help="Path to the price CSV.")
     parser.add_argument("--profile", choices=[profile.value for profile in StrategyProfile], default=StrategyProfile.LONG_TERM.value)
     parser.add_argument("--min-confidence", type=float, default=0.45, help="Minimum confidence threshold for signal generation.")
     parser.add_argument("--dashboard-output", default="out/infobroker_dashboard.png", help="PNG output path for the dashboard.")

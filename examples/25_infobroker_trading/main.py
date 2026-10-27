@@ -71,12 +71,12 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--news-csv",
-        default="data/news_realistic.csv",
+        default="sample_data/news_realistic.csv",
         help="Path to historical news feed.",
     )
     parser.add_argument(
         "--price-csv",
-        default="data/prices_realistic.csv",
+        default="sample_data/prices_realistic.csv",
         help="Path to historical prices feed.",
     )
     parser.add_argument(

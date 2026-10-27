@@ -4,6 +4,7 @@ ThemisDB multi-model export helpers.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 import re
@@ -26,7 +27,8 @@ def _feature_vector(text: str, dimensions: int = 12) -> List[float]:
         return vector
 
     for token in tokens:
-        idx = hash(token) % dimensions
+        digest = hashlib.sha1(token.encode("utf-8")).digest()
+        idx = int.from_bytes(digest[:4], byteorder="big", signed=False) % dimensions
         vector[idx] += 1.0
 
     norm = math.sqrt(sum(value * value for value in vector)) or 1.0

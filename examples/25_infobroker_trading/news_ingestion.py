@@ -11,6 +11,8 @@ from typing import Iterable, List, Sequence
 from xml.etree import ElementTree as ET
 
 import requests
+from defusedxml import ElementTree as DefusedET
+from defusedxml.common import DefusedXmlException
 
 from models import NewsItem
 
@@ -125,7 +127,10 @@ def _parse_atom_items(root: ET.Element, source: NewsFeedSource, max_items: int) 
 
 
 def _parse_feed_xml(xml_bytes: bytes, source: NewsFeedSource, max_items: int) -> List[NewsItem]:
-    root = ET.fromstring(xml_bytes)
+    try:
+        root = DefusedET.fromstring(xml_bytes)
+    except (DefusedXmlException, ET.ParseError, ValueError) as exc:
+        raise ValueError(f"malformed or unsafe feed XML for source {source.id}: {exc}") from exc
     root_tag = _strip_tag(root.tag).lower()
     if root_tag == "rss":
         return _parse_rss_items(root, source, max_items)

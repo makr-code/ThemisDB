@@ -16,14 +16,14 @@ from main import load_news, load_prices
 
 class ForecastPipelineTests(unittest.TestCase):
     def test_build_forecasts_generates_records_per_horizon(self) -> None:
-        news = load_news(ROOT / "data" / "news_realistic.csv")
-        prices = load_prices(ROOT / "data" / "prices_realistic.csv")
+        news = load_news(ROOT / "sample_data" / "news_realistic.csv")
+        prices = load_prices(ROOT / "sample_data" / "prices_realistic.csv")
         forecasts = build_forecasts(news, prices, horizons=(1, 3))
         self.assertEqual(len(forecasts), len(news) * 2)
 
     def test_forecast_evaluation_compares_against_labels(self) -> None:
-        news = load_news(ROOT / "data" / "news_realistic.csv")
-        prices = load_prices(ROOT / "data" / "prices_realistic.csv")
+        news = load_news(ROOT / "sample_data" / "news_realistic.csv")
+        prices = load_prices(ROOT / "sample_data" / "prices_realistic.csv")
         labels = load_labels(str(ROOT / "labels_training.csv"))
         forecasts = build_forecasts(news, prices, horizons=(3,))
         report = evaluate_forecasts(forecasts, labels)
@@ -42,9 +42,9 @@ class ForecastPipelineTests(unittest.TestCase):
                     "--profile",
                     "long_term",
                     "--news-csv",
-                    str(ROOT / "data" / "news_realistic.csv"),
+                    str(ROOT / "sample_data" / "news_realistic.csv"),
                     "--price-csv",
-                    str(ROOT / "data" / "prices_realistic.csv"),
+                    str(ROOT / "sample_data" / "prices_realistic.csv"),
                     "--labels-csv",
                     str(ROOT / "labels_training.csv"),
                     "--forecast-report-json",
