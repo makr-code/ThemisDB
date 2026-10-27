@@ -82,14 +82,19 @@ def build_dashboard(
     signals: Iterable,
     output_path: Path,
     profile: StrategyProfile,
+    report=None,
 ) -> Path:
-    """Render a PNG dashboard with price evolution and trade-event markers."""
+    """Render a richer PNG dashboard with pricing, event timeline, and pipeline metrics."""
     prices = list(market_bars)
     series_by_symbol = _price_by_symbol(prices)
     signal_list = list(signals)
+    all_news = list(news_items)
 
-    fig, axes = plt.subplots(2, 1, figsize=(14, 9), gridspec_kw={"height_ratios": [3, 1]})
-    ax_main, ax_events = axes
+    if report is None:
+        report = run_backtest(profile=profile, signals=signal_list, market_bars=prices)
+
+    fig, axes = plt.subplots(3, 1, figsize=(14, 11), gridspec_kw={"height_ratios": [3, 1, 1.05]})
+    ax_main, ax_events, ax_summary = axes
 
     for symbol, bars in sorted(series_by_symbol.items()):
         timestamps = [bar.timestamp for bar in bars]
@@ -116,7 +121,6 @@ def build_dashboard(
         )
         ax_events.axvline(signal.generated_at, color=color, linestyle="--", alpha=0.5)
 
-    all_news = list(news_items)
     for item in all_news:
         ax_events.axvline(item.timestamp, color="gray", linestyle="-", linewidth=0.8, alpha=0.4)
         ax_events.text(item.timestamp, 0.55, item.symbol, rotation=90, va="center", ha="center", fontsize=7)
@@ -128,9 +132,33 @@ def build_dashboard(
 
     ax_events.set_ylim(0, 1)
     ax_events.set_yticks([])
-    ax_events.set_ylabel("News")
+    ax_events.set_ylabel("News / Signals")
     ax_events.set_xlabel("Time")
     ax_events.grid(False)
+
+    summary_lines = [
+        "Pipeline overview",
+        f"News events: {len(all_news)}",
+        f"Signals: {len(signal_list)} | Executed trades: {len(report.trades)}",
+        f"Strategy return: {report.strategy_return_pct:.2%}",
+        f"Benchmark return: {report.benchmark_return_pct:.2%}",
+        f"Win rate: {report.win_rate:.2%}",
+        f"Max drawdown: {report.max_drawdown_pct:.2%}",
+        f"Sharpe-like: {report.sharpe_like:.3f}",
+        f"Skipped signals: {report.skipped_signals}",
+    ]
+    ax_summary.axis("off")
+    ax_summary.text(
+        0.02,
+        0.98,
+        "\n".join(summary_lines),
+        va="top",
+        ha="left",
+        fontsize=9,
+        family="monospace",
+        transform=ax_summary.transAxes,
+    )
+    ax_summary.set_title("Evaluation summary", fontsize=10)
 
     fig.autofmt_xdate()
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -209,7 +237,7 @@ def main() -> None:
         launch_window(news, prices, signals, profile)
     else:
         output_path = Path(args.dashboard_output)
-        build_dashboard(news, prices, signals, output_path, profile)
+        build_dashboard(news, prices, signals, output_path, profile, report=report)
         print(f"Dashboard saved to {output_path}")
         print(f"Signals: {len(signals)} | Executed trades: {len(report.trades)} | Strategy return: {report.strategy_return_pct:.2%}")
 
