@@ -335,11 +335,14 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if command -v ninja >/dev/null 2>&1; then
+          if command -v ninja >/dev/null 2>&1 && ninja --version >/dev/null 2>&1; then
             echo "Ninja already available at: $(command -v ninja)"
             exit 0
           fi
-          if command -v ninja-build >/dev/null 2>&1; then
+          if command -v ninja >/dev/null 2>&1; then
+            echo "::warning::Found 'ninja' at $(command -v ninja), but it is not executable. Falling back to ninja-build."
+          fi
+          if command -v ninja-build >/dev/null 2>&1 && ninja-build --version >/dev/null 2>&1; then
             shim_dir="$RUNNER_TEMP/themis-tools"
             mkdir -p "$shim_dir"
             ln -sf "$(command -v ninja-build)" "$shim_dir/ninja"
@@ -347,7 +350,7 @@ jobs:
             echo "Created ninja shim at ${shim_dir}/ninja -> $(command -v ninja-build)"
             exit 0
           fi
-          echo "::error::Ninja executable is required but neither 'ninja' nor 'ninja-build' is available."
+          echo "::error::Ninja executable is required but no working 'ninja' or 'ninja-build' binary is available."
           exit 1
 
       - name: Ensure vcpkg baseline commit is available
