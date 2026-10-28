@@ -193,6 +193,15 @@ class PreflightReleasePolicyRegressionTests(unittest.TestCase):
         self.assertIn('return lane_id in {"linux-amd64", "linux-arm64", "windows-amd64"}', workflow_text)
         self.assertNotIn('"macos-arm64"', workflow_text.split('if build_matrix == "community-only":', 1)[1].split('if build_matrix.endswith("-only")', 1)[0])
 
+    def test_release_build_matrix_macos_arm64_disables_sccache_github_backend(self) -> None:
+        workflow_text = RELEASE_BUILD_MATRIX_WORKFLOW.read_text(encoding="utf-8")
+        lane_block = extract_release_matrix_lane_slice(workflow_text, "macos-arm64")
+
+        self.assertIn('export SCCACHE_GHA_ENABLED=false', lane_block)
+        self.assertIn('sccache --stop-server || true', lane_block)
+        self.assertIn('SCCACHE_GHA_ENABLED=false', lane_block)
+        self.assertIn('if command -v sccache >/dev/null 2>&1 && [ \\\"${SCCACHE_GHA_ENABLED:-true}\\\" != \\\"false\\\" ]; then', lane_block)
+
     def test_wordpress_press_dispatch_falls_back_to_synthetic_context(self) -> None:
         workflow_text = WORDPRESS_PRESS_WORKFLOW.read_text(encoding="utf-8")
 
