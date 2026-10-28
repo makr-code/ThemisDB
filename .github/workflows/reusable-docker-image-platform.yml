@@ -122,7 +122,7 @@ jobs:
           echo "Bundled model enabled: ${INCLUDE_TINYLLAMA}"
 
       - name: Checkout
-        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09  # v5
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           ref: ${{ github.sha }}
