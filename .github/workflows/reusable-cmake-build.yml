@@ -545,6 +545,34 @@ jobs:
             set -o pipefail
             set -e
           fi
+          if [ "$status" -ne 0 ] && grep -Eq "sccache: error: Server startup failed|cache storage failed to read" "$configure_output_log"; then
+            echo "::warning::Transient sccache backend failure detected during configure; disabling sccache launcher and retrying once."
+            if command -v sccache >/dev/null 2>&1; then
+              sccache --stop-server >/dev/null 2>&1 || true
+            fi
+            BUILD_DIR="${{ steps.resolve_mode.outputs.resolved_build_dir }}"
+            if [ -n "${BUILD_DIR:-}" ] && [ -d "$BUILD_DIR" ]; then
+              while IFS= read -r -d '' _cache; do
+                perl -i -pe \
+                  's|CMAKE_C_COMPILER_LAUNCHER:STRING=\S+|CMAKE_C_COMPILER_LAUNCHER:STRING=|g;
+                   s|CMAKE_CXX_COMPILER_LAUNCHER:STRING=\S+|CMAKE_CXX_COMPILER_LAUNCHER:STRING=|g' \
+                  "${_cache}" || true
+                _toolchain_path="$(sed -n 's|^CMAKE_TOOLCHAIN_FILE:[^=]*=||p' "${_cache}" | head -n1)"
+                if [ -n "${_toolchain_path}" ] && [ ! -f "${_toolchain_path}" ]; then
+                  perl -i -pe 's|^CMAKE_TOOLCHAIN_FILE:[^=]*=.*$|CMAKE_TOOLCHAIN_FILE:STRING=|g' "${_cache}" || true
+                fi
+              done < <(find "$BUILD_DIR" -maxdepth 4 -name 'CMakeCache.txt' -print0 2>/dev/null) || true
+              cmake -S . -B "$BUILD_DIR" -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER= -DCMAKE_TOOLCHAIN_FILE= || {
+                echo "::warning::cmake reconfigure failed while disabling sccache; retrying configure with patched CMakeCache entries."
+              }
+            fi
+            set +e
+            set +o pipefail
+            bash "$script_path" 2>&1 | tee -a "$configure_output_log"
+            status=${PIPESTATUS[0]}
+            set -o pipefail
+            set -e
+          fi
           exit "$status"
 
       - name: Build
