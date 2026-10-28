@@ -102,7 +102,7 @@ jobs:
           New-Item -ItemType Directory -Force -Path "$env:GITHUB_WORKSPACE/.vcpkg-binary-cache" | Out-Null
 
           Invoke-WithRetry -Command { & "$env:GITHUB_WORKSPACE/vcpkg/bootstrap-vcpkg.bat" -disableMetrics }
-          Invoke-WithRetry -Command { & "$env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe" install zlib fmt spdlog curl cpp-httplib boost-filesystem boost-system yaml-cpp lz4 snappy 'rocksdb[snappy,zlib,zstd]' --classic --triplet x64-windows --disable-metrics }
+          Invoke-WithRetry -Command { & "$env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe" install zlib fmt spdlog curl cpp-httplib boost-filesystem boost-system boost-asio boost-beast boost-uuid pugixml yaml-cpp lz4 snappy 'rocksdb[snappy,zlib,zstd]' --classic --triplet x64-windows --disable-metrics }
 
       - name: Ensure sccache is available
         shell: pwsh
@@ -139,12 +139,13 @@ jobs:
           }
 
           $vcpkgLibDir = Join-Path $env:GITHUB_WORKSPACE 'vcpkg/installed/x64-windows/lib'
+          $vcpkgIncludeDir = Join-Path $env:GITHUB_WORKSPACE 'vcpkg/installed/x64-windows/include'
           $hasBoostFilesystem = @(Get-ChildItem -Path $vcpkgLibDir -Filter 'boost_filesystem*.lib' -ErrorAction SilentlyContinue).Count -gt 0
           $hasBoostSystem = @(Get-ChildItem -Path $vcpkgLibDir -Filter 'boost_system*.lib' -ErrorAction SilentlyContinue).Count -gt 0
           $hasCurl = @(Get-ChildItem -Path $vcpkgLibDir -Filter 'curl*.lib' -ErrorAction SilentlyContinue).Count -gt 0
           $hasCppHttpLib = @(Get-ChildItem -Path $vcpkgLibDir -Filter 'httplib*.lib' -ErrorAction SilentlyContinue).Count -gt 0
-          if (-not (Test-Path (Join-Path $vcpkgLibDir 'zlib.lib')) -or -not (Test-Path (Join-Path $vcpkgLibDir 'fmt.lib')) -or -not (Test-Path (Join-Path $vcpkgLibDir 'spdlog.lib')) -or -not $hasBoostFilesystem -or -not $hasBoostSystem -or -not $hasCurl -or -not $hasCppHttpLib) {
-            Invoke-WithRetry -Command { & "$env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe" install zlib fmt spdlog curl cpp-httplib boost-filesystem boost-system yaml-cpp lz4 snappy 'rocksdb[snappy,zlib,zstd]' --classic --triplet x64-windows --disable-metrics }
+          if (-not (Test-Path (Join-Path $vcpkgLibDir 'zlib.lib')) -or -not (Test-Path (Join-Path $vcpkgLibDir 'fmt.lib')) -or -not (Test-Path (Join-Path $vcpkgLibDir 'spdlog.lib')) -or -not (Test-Path (Join-Path $vcpkgIncludeDir 'boost/beast.hpp')) -or -not (Test-Path (Join-Path $vcpkgIncludeDir 'boost/asio.hpp')) -or -not (Test-Path (Join-Path $vcpkgIncludeDir 'boost/uuid/uuid.hpp')) -or -not (Test-Path (Join-Path $vcpkgIncludeDir 'pugixml.hpp')) -or -not $hasBoostFilesystem -or -not $hasBoostSystem -or -not $hasCurl -or -not $hasCppHttpLib) {
+            Invoke-WithRetry -Command { & "$env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe" install zlib fmt spdlog curl cpp-httplib boost-filesystem boost-system boost-asio boost-beast boost-uuid pugixml yaml-cpp lz4 snappy 'rocksdb[snappy,zlib,zstd]' --classic --triplet x64-windows --disable-metrics }
           }
 
           sccache --version
@@ -155,9 +156,16 @@ jobs:
           CMAKE_PREFIX_PATH: 'C:/msys64/usr;C:/Strawberry/perl/site/lib;C:/Strawberry/perl/vendor/lib;C:/Strawberry/perl/lib'
         run: cmake -B ${{ env.build }} -DTHEMIS_DIAGNOSTIC_MODE=ON -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON
 
-      # Build is not required unless generated source files are used
-      # - name: Build CMake
-      #   run: cmake --build ${{ env.build }}
+      - name: Generate docs importer source if target exists
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $targets = cmake --build ${{ env.build }} --target help
+          if ($targets -match '(^|\s)import_docs_rocksdb(\s|$)') {
+            cmake --build ${{ env.build }} --target import_docs_rocksdb --config Debug
+          } else {
+            Write-Host "import_docs_rocksdb target not present; skipping pre-generation."
+          }
 
       - name: Initialize MSVC Code Analysis
         uses: microsoft/msvc-code-analysis-action@04825f6d9e00f87422d6bf04e1a38b1f3ed60d99
