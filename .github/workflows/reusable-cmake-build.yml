@@ -524,7 +524,7 @@ jobs:
           echo "Reusing any existing CMake cache state when available; build directory cache is restored above."
           if [ -n "${{ steps.resolve_mode.outputs.resolved_build_dir }}" ] && [ -d "${{ steps.resolve_mode.outputs.resolved_build_dir }}" ]; then
             echo "Existing build dir detected: ${{ steps.resolve_mode.outputs.resolved_build_dir }}"
-            ls -la "${{ steps.resolve_mode.outputs.resolved_build_dir }}" | head -n 20 || true
+            find "${{ steps.resolve_mode.outputs.resolved_build_dir }}" -mindepth 1 -maxdepth 1 -printf '%M %u %g %s %TY-%Tm-%Td %TH:%TM %f\n' | head -n 20 || true
           fi
           script_path="$RUNNER_TEMP/cmake-build-configure.sh"
           configure_output_log="$RUNNER_TEMP/cmake-build-configure-output.log"

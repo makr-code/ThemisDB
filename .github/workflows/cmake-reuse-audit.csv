@@ -1,0 +1,100 @@
+workflow,uses_reusable_cmake_build,inline_cmake_or_ctest,classification
+benchmark-gate.yml,no,yes,direct/inline CMake-or-CTest
+benchmark-performance-gate.yml,yes,no,uses reusable-cmake-build.yml
+benchmark-thematic-suites.yml,no,no,exception-or-not-relevant
+build-benchmarks.yml,no,yes,direct/inline CMake-or-CTest
+build-clang-fast.yml,yes,no,uses reusable-cmake-build.yml
+build-content-regression.yml,no,yes,direct/inline CMake-or-CTest
+build-llm-inference.yml,no,yes,direct/inline CMake-or-CTest
+build-mainline.yml,yes,yes,uses reusable-cmake-build.yml
+build-ollama-router.yml,no,no,exception-or-not-relevant
+build-sanitizer-nightly.yml,yes,no,uses reusable-cmake-build.yml
+build-wave-a-gpu.yml,no,yes,direct/inline CMake-or-CTest
+build-wave-b-llm-benchmarks.yml,no,no,exception-or-not-relevant
+build-wave-b-transaction.yml,no,yes,direct/inline CMake-or-CTest
+build-widget.yml,no,no,exception-or-not-relevant
+codeql.yml,no,no,exception-or-not-relevant
+compliance-governance-gates.yml,no,no,exception-or-not-relevant
+compliance-supply-chain.yml,no,no,exception-or-not-relevant
+copilot-code-review.yml,no,no,exception-or-not-relevant
+coverage-report-nightly.yml,no,yes,direct/inline CMake-or-CTest
+crda.yml,no,no,exception-or-not-relevant
+edition-hyperscaler-ci.yml,yes,no,uses reusable-cmake-build.yml
+ga-promotion-signoff.yml,no,no,exception-or-not-relevant
+gate-copilot-regression.yml,no,no,exception-or-not-relevant
+gate-distributed-knowledge.yml,yes,yes,uses reusable-cmake-build.yml
+gate-pr-benchmark-ctest.yml,no,no,exception-or-not-relevant
+gate-pr-community-failclosed.yml,no,no,exception-or-not-relevant
+gate-pr-core.yml,yes,yes,uses reusable-cmake-build.yml
+gate-pr-doc-metadata.yml,no,no,exception-or-not-relevant
+gate-pr-doxygen-governance.yml,no,no,exception-or-not-relevant
+gate-pr-edition-license.yml,no,no,exception-or-not-relevant
+gate-pr-final-runtime-api.yml,no,yes,direct/inline CMake-or-CTest
+gate-pr-hash-sbom.yml,no,no,exception-or-not-relevant
+gate-pr-merge-readiness.yml,no,no,exception-or-not-relevant
+gate-pr-module-doxygen-xml.yml,no,no,exception-or-not-relevant
+gate-pr-plugin-boundary.yml,no,no,exception-or-not-relevant
+gate-pr-primary-doc-structure.yml,no,no,exception-or-not-relevant
+gate-pr-rag-eval.yml,yes,no,uses reusable-cmake-build.yml
+gate-pr-rag-phase10.yml,no,no,exception-or-not-relevant
+gate-pr-rag-phase7.yml,yes,no,uses reusable-cmake-build.yml
+gate-pr-rag-phase8.yml,no,no,exception-or-not-relevant
+gate-pr-rag-phase9.yml,no,no,exception-or-not-relevant
+gate-pr-rag-security.yml,no,yes,direct/inline CMake-or-CTest
+gate-pr-rag-version.yml,no,yes,direct/inline CMake-or-CTest
+gate-pr-version-targeting.yml,no,no,exception-or-not-relevant
+gate-release-benchmark-validation.yml,no,no,exception-or-not-relevant
+gate-wave-closure.yml,no,no,exception-or-not-relevant
+gate-workflow-guidelines.yml,no,no,exception-or-not-relevant
+maintenance-ai-working.yml,no,no,exception-or-not-relevant
+maintenance-architecture-ci.yml,no,no,exception-or-not-relevant
+maintenance-build-issues.yml,no,no,exception-or-not-relevant
+maintenance-ci-health.yml,no,no,exception-or-not-relevant
+maintenance-compendium-sync.yml,no,no,exception-or-not-relevant
+maintenance-docs-db-build.yml,no,no,exception-or-not-relevant
+maintenance-docs.yml,no,no,exception-or-not-relevant
+maintenance-housekeeping.yml,no,no,exception-or-not-relevant
+maintenance-issues.yml,no,no,exception-or-not-relevant
+maintenance-pr-failure-diagnosis.yml,no,no,exception-or-not-relevant
+maintenance-soll-ist-gap-issues.yml,no,no,exception-or-not-relevant
+maintenance-workflow-guardrails-observe.yml,no,no,exception-or-not-relevant
+msvc.yml,no,yes,direct/inline CMake-or-CTest
+nightly-governance-audit.yml,no,no,exception-or-not-relevant
+publish-wiki.yml,no,no,exception-or-not-relevant
+release-build-matrix.yml,yes,no,uses reusable-cmake-build.yml
+release-changelog.yml,no,no,exception-or-not-relevant
+release-docker-approval.yml,no,no,exception-or-not-relevant
+release-docker-image.yml,no,no,exception-or-not-relevant
+release-evidence-chain.yml,no,no,exception-or-not-relevant
+release-linux-distribution.yml,no,no,exception-or-not-relevant
+release-linux-distro-approval.yml,no,no,exception-or-not-relevant
+release-mainline-approval.yml,no,no,exception-or-not-relevant
+release-mainline.yml,no,yes,direct/inline CMake-or-CTest
+release-nightly.yml,no,no,exception-or-not-relevant
+release-promote.yml,no,no,exception-or-not-relevant
+release-rollback.yml,no,no,exception-or-not-relevant
+release-windows-distribution.yml,no,no,exception-or-not-relevant
+release-windows-distro-approval.yml,no,no,exception-or-not-relevant
+release-winget-approval.yml,no,no,exception-or-not-relevant
+release-winget.yml,no,no,exception-or-not-relevant
+release-wordpress-press.yml,no,no,exception-or-not-relevant
+reusable-benchmark-build-run-report.yml,no,yes,direct/inline CMake-or-CTest
+reusable-benchmark-runner.yml,no,yes,direct/inline CMake-or-CTest
+reusable-cmake-build.yml,no,yes,direct/inline CMake-or-CTest
+reusable-docker-image-platform.yml,no,no,exception-or-not-relevant
+reusable-docs-db-builder.yml,no,no,exception-or-not-relevant
+reusable-llm-model-cache.yml,no,no,exception-or-not-relevant
+reusable-pr-build-components-gate.yml,no,yes,direct/inline CMake-or-CTest
+reusable-rag-phase-gate.yml,no,no,exception-or-not-relevant
+reusable-release-approval-comment-gate.yml,no,no,exception-or-not-relevant
+reusable-status-flags-and-issues.yml,no,no,exception-or-not-relevant
+security-codeql.yml,no,yes,direct/inline CMake-or-CTest
+security-consolidated.yml,no,no,exception-or-not-relevant
+security-dast-zap.yml,no,no,exception-or-not-relevant
+security-fortify.yml,no,no,exception-or-not-relevant
+security-fuzzing.yml,yes,no,uses reusable-cmake-build.yml
+security-pentest-quarterly.yml,no,no,exception-or-not-relevant
+wave-a-gpu-ci-execution.yml,no,yes,direct/inline CMake-or-CTest
+wave-a-gpu-phase3-baseline-execution.yml,no,no,exception-or-not-relevant
+wiki-pr-gate.yml,no,no,exception-or-not-relevant
+wiki-publish-from-issue.yml,no,no,exception-or-not-relevant

@@ -96,9 +96,41 @@ jobs:
           print(f'Validated {len(baseline_names)} baseline entries against {len(required_names)} required Wave 4 gates.')
           PY
 
+  build-wave4-release-gates:
+    name: "Build: Wave 4 release gate benchmark"
+    needs: validate-baselines
+    uses: ./.github/workflows/reusable-cmake-build.yml
+    with:
+      runs_on: ubuntu-24.04
+      timeout_minutes: '60'
+      fetch_depth: '1'
+      setup_command: |
+        set -euo pipefail
+        sudo apt-get update -qq
+        sudo apt-get install -y --no-install-recommends \
+          ninja-build \
+          autoconf \
+          autoconf-archive \
+          automake \
+          libtool
+        git submodule sync -- vcpkg || true
+        git submodule update --init --depth 1 vcpkg
+        test -f vcpkg/scripts/buildsystems/vcpkg.cmake || {
+          echo "::error::vcpkg toolchain missing after submodule initialization"
+          exit 1
+        }
+        ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
+      preset: linux-release
+      build_targets: bench_w4a_release_gates
+      validation_mode: none
+      artifact_name: wave4-gate-build-bin-${{ github.run_number }}
+      artifact_paths: build/linux-release/bin/benchmarks/bench_w4a_release_gates
+      artifact_retention_days: '7'
+      summary_title: "Build: Wave 4 release gate benchmark"
+
   run-wave4-release-gates:
     name: "Validate: Wave 4 release critical gates"
-    needs: validate-baselines
+    needs: [validate-baselines, build-wave4-release-gates]
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     steps:
@@ -107,32 +139,11 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Prepare benchmark toolchain prerequisites
-        run: |
-          set -euo pipefail
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends \
-            ninja-build \
-            autoconf \
-            autoconf-archive \
-            automake \
-            libtool
-          git submodule sync -- vcpkg || true
-          git submodule update --init --depth 1 vcpkg
-          test -f vcpkg/scripts/buildsystems/vcpkg.cmake || {
-            echo "::error::vcpkg toolchain missing after submodule initialization"
-            exit 1
-          }
-          ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
-
-      - name: Configure benchmark build
-        run: |
-          set -euo pipefail
-          export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"
-          export PATH="${VCPKG_ROOT}:${PATH}"
-          export VCPKG_FORCE_SYSTEM_BINARIES=true
-          cmake --preset linux-release
-          cmake --build --preset linux-release --parallel 16 --target bench_w4a_release_gates
+      - name: Download benchmark build artifact
+        uses: actions/download-artifact@v5
+        with:
+          name: wave4-gate-build-bin-${{ github.run_number }}
+          path: .
 
       - name: Run release gate benchmark
         env:
@@ -140,6 +151,11 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p benchmark-artifacts
+          test -x ./build/linux-release/bin/benchmarks/bench_w4a_release_gates || {
+            echo "::error::Missing benchmark binary from reusable build artifact"
+            find ./build -maxdepth 5 -type f 2>/dev/null | head -n 50 || true
+            exit 1
+          }
           ./build/linux-release/bin/benchmarks/bench_w4a_release_gates \
             --benchmark_filter='W4A' \
             --benchmark_out=benchmark-artifacts/w4a_release_gates.json \

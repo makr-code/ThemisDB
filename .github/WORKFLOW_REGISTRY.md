@@ -2,10 +2,10 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-10-15
-> Update Note: Added missing security workflow entries (`codeql.yml`, `crda.yml`, `msvc.yml`) for registry-sync compliance
+> Last Updated: 2026-10-28
+> Update Note: Added CMake-reuse audit section and refreshed totals/classification sync
 > Status: active
-> Total Workflows: 90 (verified 2026-10-15)
+> Total Workflows: 99 (verified 2026-10-28)
 
 ## Zielbild
 
@@ -18,6 +18,62 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 - **Klare Verantwortlichkeit:** Jeder Workflow hat definierte Trigger und Zweck.
 - **Konsistente Governance:** Alle Workflows folgen Naming-, Concurrency- und Trigger-Policies.
 - **Drift Prevention:** Registry-Update ist erforderlich bei neuen Workflows (Pre-Commit-Hook in Phase 3).
+
+## CMake-Reuse Audit (2026-10-28)
+
+- Vollständige Datei-basierte Klassifizierung aller 99 Workflow-Dateien:
+  `.github/workflows/cmake-reuse-audit.csv`
+- Klassifizierungslogik:
+  - `uses reusable-cmake-build.yml`
+  - `direct/inline CMake-or-CTest`
+  - `exception-or-not-relevant`
+
+### Audit-Summary (alle `.github/workflows/*.yml`)
+
+| Klasse | Anzahl |
+|---|---:|
+| uses reusable-cmake-build.yml | 11 |
+| direct/inline CMake-or-CTest | 18 |
+| exception-or-not-relevant | 70 |
+
+### Workflows mit direkter CMake/CTest-Logik (ohne `reusable-cmake-build.yml`) und begründete Ausnahmen
+
+| Workflow | Ausnahmegrund |
+|---|---|
+| `benchmark-gate.yml` | Wave-4 Gate mit eigener Baseline-Manifest-Prüfung und benchmark-spezifischem Evidenz-Output; derzeit bewusst als eigenständige Gate-Lane. |
+| `build-benchmarks.yml` | Stark spezialisierte Multi-Lane Benchmark-Orchestrierung (Voice/GPU/Soak/Wave-A) mit heterogenen Targets und Artefakten. |
+| `build-content-regression.yml` | Content/Wave-D Regression mit eigener Test- und Soak-Orchestrierung außerhalb eines einzelnen Build-Line-Contracts. |
+| `build-llm-inference.yml` | Modell-/Inference-spezifische Build+Test-Pipeline inkl. LLM-Artefakt-Vorbereitung. |
+| `build-wave-a-gpu.yml` | GPU-spezifische Matrix-Lane mit Hardware-/Backend-spezifischer Ausführung. |
+| `build-wave-b-transaction.yml` | Transaktionsspezifische Build-/Testlane mit fokussierten Targets. |
+| `coverage-report-nightly.yml` | Coverage-Instrumentierung und Report-Erzeugung (nightly) als spezialisierter Ablauf. |
+| `gate-pr-final-runtime-api.yml` | Wiederverwendbarer Final-Runtime-Gate-Workflow mit TinyLlama/docs.db + Runtime-API/Docker-Prüfungen. |
+| `gate-pr-rag-security.yml` | Sicherheitsgate mit isolierten Security-Target-Builds und Security-spezifischer Auswertung. |
+| `gate-pr-rag-version.yml` | Versions-/Reindex-Governance-Gate mit gezielten Canary-Tests. |
+| `release-mainline.yml` | Kanonischer Release-Orchestrator (CPack/Release-Publish/Distribution) mit mehrstufigem Release-Vertrag. |
+| `reusable-benchmark-build-run-report.yml` | Reusable Benchmark-Pipeline (Build/Run/Report) mit eigenem benchmark-zentriertem Vertrag. |
+| `reusable-benchmark-runner.yml` | Reusable Benchmark-Runner mit eigener benchmark-zentrierter Build/Run-Semantik. |
+| `reusable-pr-build-components-gate.yml` | Reusable PR-Components-Gate mit zielgerichteter Build+CTest-Selektion. |
+| `wave-a-gpu-ci-execution.yml` | Wave-A GPU Execution/Baseline-Lane mit eigenem GPU-validierungsfokussiertem Ablauf. |
+| `security-codeql.yml` | Security-Scan-Lane mit analyzer-spezifischen Build-Anforderungen. |
+| `msvc.yml` | Windows/MSVC-analyzebezogene Build-Lane, separat vom Linux-zentrierten CMake-Reuse-Vertrag. |
+| `reusable-cmake-build.yml` | Das CMake-Reuse-Template selbst (intentional inline CMake, kein Consumer). |
+
+### Konsolidierung in diesem Change
+
+- `gate-distributed-knowledge.yml` wurde auf `reusable-cmake-build.yml` umgestellt.
+- Ergebnis: diese Gate-Lane nutzt jetzt den gemeinsamen CMake-Reuse-Pfad und behält die bestehenden Consumer-Jobs (`ctest` gegen Producer-Artefakt) unverändert bei.
+
+### Fokus-Dateien aus dem CI-Audit-Request
+
+| Workflow | Status |
+|---|---|
+| `gate-pr-benchmark-ctest.yml` | `exception-or-not-relevant` (führt kein CMake/CTest-Build aus; validiert Benchmark-Registrierung via Python-Audit) |
+| `benchmark-gate.yml` | `direct/inline CMake-or-CTest` (dokumentierte Ausnahme, siehe Tabelle oben) |
+| `benchmark-performance-gate.yml` | `uses reusable-cmake-build.yml` |
+| `build-benchmarks.yml` | `direct/inline CMake-or-CTest` (dokumentierte Ausnahme, siehe Tabelle oben) |
+| `compliance-governance-gates.yml` | `exception-or-not-relevant` (Governance-/Policy-Lane ohne CMake/CTest-Build) |
+| `nightly-governance-audit.yml` | `exception-or-not-relevant` (Nightly-Governance-Audit ohne CMake/CTest-Build) |
 
 ## Aktiver Workflow-Kern: Alle 90 Workflow-Dateien
 
