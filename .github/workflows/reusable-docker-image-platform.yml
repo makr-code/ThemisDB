@@ -127,6 +127,16 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.sha }}
 
+      - name: Validate Dockerfile model-case syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          if grep -nE '^[[:space:]]*;\\$' docker/Dockerfile.unified >/tmp/invalid-case-terminators.txt; then
+            printf '%s\n' "::error::Invalid shell case terminator found in docker/Dockerfile.unified (found ';\\' instead of ';;\\')."
+            cat /tmp/invalid-case-terminators.txt
+            exit 1
+          fi
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349  # v3.7.1
 
