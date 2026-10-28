@@ -131,7 +131,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if grep -nE '^[[:space:]]*;\\$' docker/Dockerfile.unified >/tmp/invalid-case-terminators.txt; then
+          if grep -nE '^[[:space:]]*;[[:space:]]*\\$' docker/Dockerfile.unified >/tmp/invalid-case-terminators.txt; then
             printf '%s\n' "::error::Invalid shell case terminator found in docker/Dockerfile.unified (found ';\\' instead of ';;\\')."
             cat /tmp/invalid-case-terminators.txt
             exit 1
