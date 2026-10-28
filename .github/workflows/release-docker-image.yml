@@ -185,7 +185,7 @@ jobs:
       tinyllama_force_download: ${{ steps.push-policy.outputs.tinyllama_force_download }}
     steps:
       - name: Checkout
-        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09  # v5
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           ref: ${{ github.sha }}
@@ -537,7 +537,7 @@ jobs:
       issues: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09  # v5
+        uses: actions/checkout@v5
 
       - name: Resolve final Docker outcome
         id: status
