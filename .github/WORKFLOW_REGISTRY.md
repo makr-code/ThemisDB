@@ -144,7 +144,7 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | `crda.yml` | Security: Trivy Dependency Scan (dependency vulnerability scanning + SARIF upload) | pull_request / manual |
 | `msvc.yml` | Security: Microsoft C++ Code Analysis (Windows static analysis + SARIF upload) | scheduled |
 
-### 6. REUSABLE WORKFLOWS (4 Workflows)
+### 6. REUSABLE WORKFLOWS (10 Workflows)
 
 | Workflow | Purpose | Consumers |
 |----------|---------|-----------|
@@ -155,6 +155,9 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | `reusable-status-flags-and-issues.yml` | Reusable: Status Flags and Issues (Status/issue automation) | maintenance, release |
 | `reusable-docker-image-platform.yml` | Reusable: Docker Image Platform Build (Per-platform Docker build + digest handoff) | release-docker-image |
 | `reusable-llm-model-cache.yml` | Reusable: LLM Model Cache (Shared model-cache restore/save for LLM workflows) | reusable-docker-image-platform |
+| `reusable-pr-build-components-gate.yml` | Reusable: PR Build Components Gate (Release-critical + runtime API gate bundle for PRs) | gate-pr-core |
+| `reusable-rag-phase-gate.yml` | Reusable: RAG Phase Gate (Shared PR gate for RAG phase file/semantic/compile checks) | gate-pr-rag-phase7/8/9/10 |
+| `reusable-release-approval-comment-gate.yml` | Reusable: Release Approval Comment Gate (Maintainer-command issue_comment release dispatch gate) | release-*-approval workflows |
 
 ## Compliance Scorecard
 
