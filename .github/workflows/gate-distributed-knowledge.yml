@@ -98,51 +98,47 @@ concurrency:
 jobs:
   build-distributed-knowledge:
     name: "Build: Producer (distributed_knowledge)"
-    runs-on: ubuntu-latest
-    timeout-minutes: 45
+    uses: ./.github/workflows/reusable-cmake-build.yml
     permissions:
       contents: read
       actions: read
-    env:
-      # Keep the local sccache launcher enabled, but avoid hard dependency on
-      # the GitHub Actions cache backend for this producer gate. Recent runs
-      # failed when the GHA cache service returned HTML/503 responses during
-      # sccache server startup.
-      SCCACHE_GHA_ENABLED: "false"
-      SCCACHE_IGNORE_SERVER_IO_ERROR: "1"
-      SCCACHE_ERROR_WHEN_DISCONNECTED: "false"
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v5
-
-      - name: Setup C++ build dependencies
-        uses: ./.github/actions/setup-cpp-build
-        with:
-          cc: gcc-12
-          cxx: g++-12
-          extra-packages: librocksdb-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev libboost-system-dev libbenchmark-dev libgrpc++-dev libprotobuf-dev protobuf-compiler-grpc libpugixml-dev libgtest-dev libgmock-dev
-
-      - name: Configure (community-release)
-        run: |
-          set -euo pipefail
-          cmake --preset community-release -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=ON
-
-      - name: Build focused validation targets once
-        run: |
-          set -euo pipefail
-          cmake --build build-community-release \
-            --target module_distributed_knowledge_test_dk_contract_hardening_focused \
-            --target module_distributed_knowledge_test_adapter_capability_announcement_focused \
-            --target bench_dk_release_gates \
-            --parallel "$(nproc)"
-
-      - name: Upload build tree for consumer jobs
-        uses: actions/upload-artifact@v5
-        with:
-          name: dk-build-tree-${{ github.run_number }}
-          path: build-community-release/
-          retention-days: 7
-          if-no-files-found: error
+    with:
+      runs_on: ubuntu-latest
+      timeout_minutes: '45'
+      fetch_depth: '0'
+      enable_sccache_gha: false
+      setup_command: |
+        set -euo pipefail
+        sudo apt-get update -qq
+        sudo apt-get install -y --no-install-recommends \
+          cmake ninja-build gcc-12 g++-12 libgtest-dev pkg-config git libfmt-dev libboost-dev \
+          libboost-filesystem-dev libvulkan-dev glslc libcpp-httplib-dev \
+          librocksdb-dev libssl-dev zlib1g-dev libspdlog-dev nlohmann-json3-dev \
+          libtbb-dev libyaml-cpp-dev libmimalloc-dev libcurl4-openssl-dev \
+          libboost-system-dev libbenchmark-dev libgrpc++-dev libprotobuf-dev \
+          protobuf-compiler-grpc libpugixml-dev libgmock-dev
+        if [ ! -f /usr/lib/libgtest.a ] && \
+           [ ! -f /usr/lib/x86_64-linux-gnu/libgtest.a ] && \
+           [ ! -f /usr/lib/aarch64-linux-gnu/libgtest.a ]; then
+          cd /usr/src/gtest
+          sudo cmake -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_C_COMPILER=gcc-12 \
+            -DCMAKE_CXX_COMPILER=g++-12 .
+          sudo make -j"$(nproc)"
+          sudo cp lib/*.a /usr/lib/ 2>/dev/null || \
+          sudo cp *.a /usr/lib/ 2>/dev/null || true
+        fi
+      preset: community-release
+      configure_flags: -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=ON
+      build_targets: >-
+        module_distributed_knowledge_test_dk_contract_hardening_focused
+        module_distributed_knowledge_test_adapter_capability_announcement_focused
+        bench_dk_release_gates
+      validation_mode: none
+      artifact_name: dk-build-tree-${{ github.run_number }}
+      artifact_paths: build-community-release/
+      artifact_retention_days: '7'
+      summary_title: "Build: Producer (distributed_knowledge)"
 
   validate-unit-tests:
     name: "Validate: Unit Tests Consumer"
