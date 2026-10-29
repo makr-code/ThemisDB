@@ -1,10 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-29"
+Last Updated: "2026-10-29"
+Status: "active"
+---
+
 # ThemisDB Documentation Index
 
 > **📝 Note on Documentation Language**  
 > This is a translation of the ThemisDB documentation. The **authoritative and most up-to-date documentation is maintained in German** (`docs/de/`).  
 > Translations may lag behind the German version. For the latest information, please refer to the [German documentation](../de/README.md).
 
-**Last Updated:** April 2026  
+**Last Updated:** 2026-10-29  
 **Version:** 1.8.0-rc1  
 **Type:** Documentation Index  
 **Language:** English (Translation)
