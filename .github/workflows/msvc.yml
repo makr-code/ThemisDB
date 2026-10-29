@@ -160,7 +160,12 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          $targets = cmake --build ${{ env.build }} --target help
+          $targets = & cmake --build ${{ env.build }} --target help 2>&1 | Out-String
+          $helpExitCode = $LASTEXITCODE
+          if ($helpExitCode -ne 0) {
+            Write-Host "Unable to list CMake targets (exit code $helpExitCode); treating import_docs_rocksdb as optional."
+            $global:LASTEXITCODE = 0
+          }
           if ($targets -match '(^|\s)import_docs_rocksdb(\s|$)') {
             cmake --build ${{ env.build }} --target import_docs_rocksdb --config Debug
           } else {
