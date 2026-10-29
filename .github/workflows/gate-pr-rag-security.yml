@@ -299,3 +299,19 @@ jobs:
             echo "❌ RAG Security Guardrails Gate: FAIL"
             exit 1
           fi
+
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs:
+      - security_guardrails_validation
+      - isolation_tests
+      - gate_status
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "RAG security guardrails and optional tenant-isolation tests"
+          job-results: ${{ toJSON(needs) }}

@@ -1,0 +1,65 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-action.json
+name: 'Write Workflow Run Summary'
+description: 'Write job outcomes and next steps to the GitHub Actions run summary.'
+
+inputs:
+  scope:
+    description: 'Short description of the workflow scope.'
+    required: true
+  job-results:
+    description: 'JSON object containing the results of dependent jobs.'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Write run summary
+      shell: python
+      env:
+        SCOPE: ${{ inputs.scope }}
+        JOB_RESULTS: ${{ inputs.job-results }}
+        RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      run: |
+        import json
+        import os
+
+        jobs = json.loads(os.environ["JOB_RESULTS"])
+        results = {
+            name: details.get("result", "unknown")
+            for name, details in jobs.items()
+        }
+        failed = sorted(name for name, result in results.items() if result == "failure")
+        cancelled = sorted(name for name, result in results.items() if result == "cancelled")
+        skipped = sorted(name for name, result in results.items() if result == "skipped")
+
+        if failed:
+            status = "FAIL"
+            next_step = f"Inspect failed jobs ({', '.join(failed)}) and address the reported errors."
+        elif cancelled:
+            status = "CANCELLED"
+            next_step = f"Review cancelled jobs ({', '.join(cancelled)}) and rerun if appropriate."
+        elif skipped:
+            status = "PASS WITH SKIPS"
+            next_step = f"Confirm skipped jobs ({', '.join(skipped)}) were excluded by the expected conditions."
+        else:
+            status = "PASS"
+            next_step = "Continue with the normal review, merge, or release process."
+
+        lines = [
+            "## Workflow run summary",
+            "",
+            f"- **Scope:** {os.environ['SCOPE']}",
+            f"- **Result:** {status}",
+            f"- **Run:** [{os.environ['RUN_URL']}]({os.environ['RUN_URL']})",
+            "",
+            "| Job | Result |",
+            "|---|---|",
+        ]
+        lines.extend(
+            f"| `{name}` | {result} |"
+            for name, result in sorted(results.items())
+        )
+        lines.extend(["", f"**Next step:** {next_step}", ""])
+
+        with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as summary:
+            summary.write("\n".join(lines))
