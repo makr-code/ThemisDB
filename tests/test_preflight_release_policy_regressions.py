@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 
+import os
 import re
+import shutil
+import subprocess
+import tempfile
+import textwrap
 import unittest
 from pathlib import Path
 
@@ -8,6 +13,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 BUILD_MAINLINE_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "build-mainline.yml"
 RELEASE_BUILD_MATRIX_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "release-build-matrix.yml"
+REUSABLE_CMAKE_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "reusable-cmake-build.yml"
 WORDPRESS_PRESS_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "release-wordpress-press.yml"
 TESTS_CMAKELISTS = REPO_ROOT / "tests" / "CMakeLists.txt"
 DOCS_ROCKSDB_GENERATOR = REPO_ROOT / "scripts" / "generate_docs_rocksdb.py"
@@ -78,6 +84,81 @@ def extract_release_matrix_lane_slice(workflow_text: str, lane_id: str) -> str:
 
 
 class PreflightReleasePolicyRegressionTests(unittest.TestCase):
+    @unittest.skipUnless(
+        os.name == "posix" and all(shutil.which(tool) for tool in ("bash", "cmake", "ninja")),
+        "requires Bash, CMake and Ninja",
+    )
+    def test_linux_ninja_setup_precedes_shadowing_ninja_on_path(self) -> None:
+        workflow_text = REUSABLE_CMAKE_WORKFLOW.read_text(encoding="utf-8")
+        step = workflow_text.split("      - name: Ensure Ninja binary is discoverable (Linux)\n", 1)[1]
+        script = textwrap.dedent(step.split("        run: |\n", 1)[1].split("\n      - name:", 1)[0])
+
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            system_bin = root / "system"
+            shadow_bin = root / "shadow"
+            system_bin.mkdir()
+            shadow_bin.mkdir()
+            ninja = system_bin / "ninja"
+            ninja.symlink_to(shutil.which("ninja"))
+            shadow_ninja = shadow_bin / "ninja"
+            shadow_ninja.write_text(
+                '#!/bin/sh\nif [ "$1" = "--version" ]; then echo 1.11.1; exit 0; fi\nexit 1\n',
+                encoding="utf-8",
+            )
+            shadow_ninja.chmod(0o755)
+            github_env = root / "github_env"
+            github_path = root / "github_path"
+            github_env.touch()
+            github_path.touch()
+            environment = {
+                **os.environ,
+                "PATH": f"{shadow_bin}{os.pathsep}{os.environ['PATH']}",
+                "GITHUB_ENV": str(github_env),
+                "GITHUB_PATH": str(github_path),
+                "RUNNER_TEMP": str(root),
+            }
+            subprocess.run(
+                ["bash", "-e", "-o", "pipefail", "-c", script.replace("/usr/bin", str(system_bin))],
+                env=environment,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            added_paths = github_path.read_text(encoding="utf-8").splitlines()
+            ninja_dir = root / "cmake-ninja"
+            self.assertEqual(added_paths, [str(ninja_dir)])
+            self.assertEqual(list(ninja_dir.iterdir()), [ninja_dir / "ninja"])
+            self.assertEqual((ninja_dir / "ninja").resolve(), ninja.resolve())
+            environment["PATH"] = os.pathsep.join([*reversed(added_paths), environment["PATH"]])
+            # CMake and vcpkg must discover Ninja through PATH, not a shell-only cache variable.
+            environment.pop("CMAKE_MAKE_PROGRAM", None)
+            source = root / "source"
+            source.mkdir()
+            (source / "CMakeLists.txt").write_text(
+                "cmake_minimum_required(VERSION 3.23)\nproject(NinjaDiscovery NONE)\n",
+                encoding="utf-8",
+            )
+            build = root / "build"
+            subprocess.run(
+                ["cmake", "-S", str(source), "-B", str(build), "-G", "Ninja"],
+                env=environment,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            self.assertIn(
+                f"CMAKE_MAKE_PROGRAM:FILEPATH={ninja_dir / 'ninja'}",
+                (build / "CMakeCache.txt").read_text(encoding="utf-8"),
+            )
+            subprocess.run(
+                ["cmake", "--build", str(build)],
+                env=environment,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+
     def test_release_build_matrix_submodule_sync_only_references_declared_paths(self) -> None:
         workflow_text = RELEASE_BUILD_MATRIX_WORKFLOW.read_text(encoding="utf-8")
         gitmodules_text = (REPO_ROOT / ".gitmodules").read_text(encoding="utf-8")
