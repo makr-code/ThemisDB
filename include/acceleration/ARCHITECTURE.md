@@ -1,163 +1,103 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+---
+Author: "ThemisDB Team"
+Created: "2026-10-29"
+Last Updated: "2026-10-29"
+Status: "active"
+AI_Used: true
+AI_Models: "GitHub Copilot"
+AI_Contributor: "GitHub Copilot"
+Human_Review: true
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: current | validated: 2026-06-01 -->
+> Build: `cmake --preset linux-release && cmake --build --preset linux-release`
+
+<!-- Status: current | validated: 2026-10-29 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/acceleration/ARCHITECTURE.md -->
 
 # Acceleration Module — Public Header Architecture
 
-**Module Path:** `include/acceleration/`  
-**Implementation:** `../../src/acceleration/`  
+**Module path:** `include/acceleration/`
+**Implementation:** `../../src/acceleration/`
 **Canonical architecture doc:** [`../../src/acceleration/ARCHITECTURE.md`](../../src/acceleration/ARCHITECTURE.md)
 
----
+## Overview
 
-## 1. Overview
+The public API in `include/acceleration/` defines the stable contract used by vector index, geo, graph, and AI inference callers. The current implementation is centered on `BackendRegistry`, `DeviceManager`, `AiHardwareDispatcher`, and the backend interfaces declared in `compute_backend.h` and `kernel_invocation.h`.
 
-`include/acceleration/` defines the **public compute-backend dispatch, GPU/CPU/Vulkan/OpenCL acceleration, FAISS GPU KNN, tensor-core matmul, multi-GPU coordination, and kernel fallback API contract** for ThemisDB.
+For runtime internals and data-flow details see:
+- [`../../src/acceleration/ARCHITECTURE.md`](../../src/acceleration/ARCHITECTURE.md)
+- [`../../src/acceleration/README.md`](../../src/acceleration/README.md)
 
-For runtime composition and implementation internals see:
-→ [`../../src/acceleration/ARCHITECTURE.md`](../../src/acceleration/ARCHITECTURE.md)
+## Header groups
 
----
+### Compute-backend contract
 
-## 2. Header Groups
+| Header | Public types | Purpose |
+|---|---|---|
+| `compute_backend.h` | `BackendType`, `PrecisionMode`, `DeviceCapabilityInfo`, `BackendCapabilities`, `IComputeBackend`, `IVectorBackend`, `IGraphBackend`, `IGeoBackend`, `IMatrixBackend`, `BackendRegistry` | Stable backend contract and runtime registry |
+| `cpu_backend.h` | `CPUVectorBackend`, `CPUGraphBackend`, `CPUGeoBackend`, `CPUMatrixBackend` | CPU fallback implementations |
+| `cuda_backend.h` | `CUDAVectorBackend`, `CUDAGraphBackend`, `CUDAGeoBackend`, `CUDAMatrixBackend` | CUDA entry points and runtime wrappers |
+| `hip_backend.h` | `HIPVectorBackend`, `HIPGeoBackend` | HIP/ROCm integration surface |
+| `opencl_backend.h` | `OpenCLVectorBackend` | OpenCL backend surface |
+| `vulkan_backend.h` | `VulkanVectorBackend`, `VulkanGeoBackend` | Vulkan compute integration surface |
+| `quantized_backend.h` | quantized backend interfaces | INT8/INT4-style execution contracts |
 
-### 2.1 Compute Backend Interfaces
+### Dispatch, kernels, async execution
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `compute_backend.h` | `IComputeBackend` | Pluggable compute-backend contract |
-| `cpu_backend.h` | `CPUBackend` | CPU SIMD execution backend |
-| `cuda_backend.h` | `CUDABackend` | CUDA execution and memory backend |
-| `hip_backend.h` | `HIPBackend` | HIP/ROCm execution backend |
-| `opencl_backend.h` | `OpenCLBackend` | OpenCL cross-vendor backend |
-| `vulkan_backend.h` | `VulkanBackend` | Vulkan compute backend |
-| `quantized_backend.h` | `QuantizedBackend` | INT8/FP16 quantised execution backend |
-### 2.2 Dispatch and Fallback
+| Header | Public types | Purpose |
+|---|---|---|
+| `ai_hardware_dispatcher.h` | `AiInferenceRequest`, `AiInferenceResult`, `AiHardwareCapability`, `AiHardwareDispatcher` | AI inference routing across CPU/NPU/GPU backends |
+| `kernel_invocation.h` | `ANNKernelDispatch`, `GeoKernelDispatch`, `KernelResult` types | Fixed kernel launch interfaces |
+| `kernel_fallback_dispatcher.h` | `ANNKernelFallbackDispatcher`, `GeoKernelFallbackDispatcher` | Retry + fail-closed fallback logic |
+| `compute_graph.h` | `ComputeGraph` | DAG-style execution graph |
+| `compute_future.h` | `ComputeFuture<T>` | Async result handle |
+| `graph_kernel_classification.h` | kernel category enums and traits | Bounded graph routing classification |
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `ai_hardware_dispatcher.h` | `AIHardwareDispatcher` | Hardware-capability-based kernel dispatcher |
-| `kernel_fallback_dispatcher.h` | `KernelFallbackDispatcher` | Graceful fallback across GPU/CPU tiers |
-| `kernel_invocation.h` | `KernelInvocation` | Unified kernel launch wrapper |
-| `compute_graph.h` | `ComputeGraph` | DAG-based heterogeneous compute graph |
-| `compute_future.h` | `ComputeFuture` | Async compute result future |
-### 2.3 Device and Multi-GPU Management
+### Device and multi-GPU management
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `device_manager.h` | `DeviceManager` | GPU/CPU device lifecycle and selection |
-| `multi_gpu_backend.h` | `MultiGPUBackend` | Multi-device execution coordination |
-| `nccl_vector_backend.h` | `NCCLVectorBackend` | NCCL collective communication backend |
-| `rccl_vector_backend.h` | `RCCLVectorBackend` | RCCL collective communication backend (AMD) |
-| `vllm_resource_manager.h` | `VLLMResourceManager` | vLLM-compatible resource manager |
-### 2.4 Specialised Accelerators
+| Header | Public types | Purpose |
+|---|---|---|
+| `device_manager.h` | `DeviceManager`, `DeviceCapabilityInfo` | Device probing, caching, and deterministic override hooks |
+| `multi_gpu_backend.h` | `MultiGPUBackend` | multi-device orchestration |
+| `nccl_vector_backend.h` | `NCCLVectorBackend` | NCCL collective path |
+| `rccl_vector_backend.h` | `RCCLVectorBackend` | RCCL collective path |
+| `vllm_resource_manager.h` | `VLLMResourceManager` | GPU lease/resource management for vLLM paths |
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `faiss_gpu_backend.h` | `FAISSGPUBackend` | FAISS GPU vector-search backend |
-| `tensor_core_matmul.h` | `TensorCoreMatmul` | Tensor-core batched GEMM |
-| `geo_acceleration_bridge.h` | `GeoAccelerationBridge` | GPU-accelerated geospatial operations |
-| `graphics_backends.h` | `GraphicsBackend` | Graphics-API compute integration |
-| `vec_knn.h` | `VecKNN` | Batched KNN search entry point |
-### 2.5 Kernel Classification and Safety
+### Specialized accelerators and validation
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `graph_kernel_classification.h` | `KernelCategory`, `KernelType`, `KernelClassificationTraits` | Bounded graph kernel classification framework (Issue #5469) |
+| Header | Public types | Purpose |
+|---|---|---|
+| `faiss_gpu_backend.h` | FAISS-wrapped GPU backend types | FAISS GPU KNN routing |
+| `tensor_core_matmul.h` | `TensorCoreMatmul` | FP16/BF16 matrix multiply helpers |
+| `geo_acceleration_bridge.h` | `GeoAccelerationBridge` | Geospatial acceleration bridge |
+| `graphics_backends.h` | DirectX/Vulkan/OpenGL wrapper types | graphics API compute integration |
+| `vec_knn.h` | `VecKNN` | vector nearest-neighbour search entry point |
+| `batch_validator.h` | `BatchValidator` | payload validation and bounded execution checks |
+| `plugin_loader.h` | `PluginLoader` | dynamic backend plugin loading |
+| `plugin_security.h` | `PluginSecurity` | plugin trust and verification checks |
+| `shader_integrity.h` | `ShaderIntegrity` | shader validation before execution |
+| `error_codes.h` | `AccelerationErrorCode` and enumerations | structured error taxonomy |
+| `error_context.h` | `ErrorContext` | error context propagation |
 
-### 2.6 Security and Validation
+## Runtime flow
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `batch_validator.h` | `BatchValidator` | Input batch shape and safety validation |
-| `plugin_loader.h` | `PluginLoader` | Dynamic backend plugin loading |
-| `plugin_security.h` | `PluginSecurity` | Backend plugin signature and sandbox checks |
-| `shader_integrity.h` | `ShaderIntegrity` | Shader/kernel binary integrity verification |
-| `error_codes.h` | `AccelerationError` | Typed error codes for backend failures |
-| `error_context.h` | `ErrorContext` | Error propagation context carrier |
+1. `DeviceManager::probeDevices()` / `refresh()` enumerates capabilities and caches the result for up to 60 seconds.
+2. `DeviceManager::setEnumerateFn()` allows deterministic injection in focused tests while preserving CPU fallback synthesis for empty snapshots.
+3. `BackendRegistry::initializeRuntime()` selects the best backend for vector, graph, and geo requirements based on capability probing.
+4. Selected backends are consumed via `getSelectedVectorBackend()`, `getSelectedGraphBackend()`, and `getSelectedGeoBackend()`.
+5. Optional runtime failures route through structured error objects and fail-closed fallback paths before unsafe execution proceeds.
 
----
+## Runtime guarantees
 
-## 3. Bounded Graph Kernels Classification Framework (Issue #5469)
+- CPU fallback is always available, and empty or unhealthy capability snapshots yield a synthetic `CPU Fallback` device.
+- Public API names must remain in `themis::acceleration`; no implementation-only types should be surfaced in `include/acceleration/`.
+- `THEMIS_ENABLE_*` feature gates control availability of GPU-specific surfaces; builds without SDKs remain supported through CPU paths.
+- Multi-device and plugin paths are constrained by explicit validation and bounded execution rules.
 
-The Acceleration module implements a three-category classification framework for graph operations eligible for GPU acceleration:
+## Contract notes
 
-### Categories
-
-| Category | Eligibility | Semantics | Timeline |
-|----------|-------------|-----------|----------|
-| **A: Acceleration-Eligible** | ✅ GPU safe (no constraints) | Advisory candidates | Phase A (Q3 2026) |
-| **B: Conditional Acceleration** | ⚠️ GPU with validation gates | Advisory with validation | Phase B (Q3 2026+) |
-| **C: CPU-First Only** | ❌ Never GPU | Truth-bearing, exact | Never GPU |
-
-### Category A Examples
-
-- ANN distance kernels (L2, Cosine, Inner Product)
-- TopK selection
-- Vector KNN insertion
-- Tensor Core matrix multiply
-
-**Constraint**: Must have CPU fallback; output validated before use.
-
-### Category B Examples
-
-- Geospatial distance (with coordinate validation gates)
-- Geospatial containment (with polygon validation gates)
-- Graph BFS (bounded k ≤ 3, frontier ≤ 10K nodes)
-- Graph Dijkstra (bounded pairs, edge weight validation)
-
-**Constraint**: Input/output validation gates required; CPU fallback mandatory; exact parity test required.
-
-### Category C Examples (CPU-Only)
-
-- ACL enforcement (security-critical)
-- Provenance chains (determinism-critical)
-- Policy validation (compliance-critical)
-- Exact multi-hop validation (correctness-critical)
-- Irregular truth-bearing traversals (schema-dependent)
-
-**Constraint**: No GPU path; CPU execution always required.
-
-### Kernel Safety Guarantees
-
-1. ✅ **Graph Truth remains canonical** — CPU-computed results are source of truth
-2. ✅ **GPU outputs remain advisory-only** — GPU kernels produce candidates for downstream validation
-3. ✅ **Summary-first never replaces exact-on-demand** — GPU summaries don't bypass CPU checks
-4. ✅ **Policy decisions on CPU first** — All security/compliance decisions are CPU-side
-5. ✅ **Provenance chains unbroken** — Evidence chains constructed on CPU with exact ordering
-6. ✅ **ACL enforcement non-negotiable** — Access control gates pre-process all GPU operations
-7. ✅ **Fallback-to-CPU always available** — Every GPU operation has CPU fallback
-
-### Integration Point
-
-```cpp
-// Compile-time kernel classification query
-using Traits = KernelClassificationTraits<KernelType::ANN_L2_DISTANCE>;
-static_assert(Traits.category == KernelCategory::ACCELERATION_ELIGIBLE);
-static_assert(Traits.has_cpu_fallback);
-static_assert(Traits.is_advisory_only);
-```
-
-### References
-
-- [`../../docs/acceleration/BOUNDED_GRAPH_KERNELS.md`](../../docs/acceleration/BOUNDED_GRAPH_KERNELS.md) — Full classification framework
-- [`../../docs/acceleration/KERNEL_ACCELERATION_EXAMPLES.md`](../../docs/acceleration/KERNEL_ACCELERATION_EXAMPLES.md) — Code patterns (allowed/disallowed)
-- [`graph_kernel_classification.h`](graph_kernel_classification.h) — Classification enums and traits
-- [`../../benchmarks/bounded_kernel_validation.cpp`](../../benchmarks/bounded_kernel_validation.cpp) — Validation tests and benchmarks
-- Issue #5469 — Kernel classification definition
-
----
-
-## 4. Namespace Layout
-
-All public types reside in the `themis::acceleration` namespace (or a sub-namespace).
-
----
-
-## 5. Contract Notes
-
-- Headers in `include/acceleration/` expose the **stable public API**; internal types live in `src/acceleration/`.
-- Clients depend only on types declared here; implementation details in `src/` may change without notice.
-- For breaking-change policy see [`../../VERSIONING.md`](../../VERSIONING.md).
-- Layer association: **ANN/Tensor**.
+- Headers in `include/acceleration/` are the public API surface; implementation details live in `src/acceleration/`.
+- Breaking changes must follow the project versioning policy in [`../../VERSIONING.md`](../../VERSIONING.md).
+- Current module status is validated against the source code in `src/acceleration/*` and the current tests under `tests/acceleration/`.
+- Some advanced GPU and parity gates remain hardware-dependent and are explicitly tracked in the module roadmap rather than described as fully validated on all hosts.

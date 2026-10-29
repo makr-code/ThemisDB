@@ -1,63 +1,77 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+---
+Author: "ThemisDB Team"
+Created: "2026-10-29"
+Last Updated: "2026-10-29"
+Status: "active"
+AI_Used: true
+AI_Models: "GitHub Copilot"
+AI_Contributor: "GitHub Copilot"
+Human_Review: true
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: current | validated: 2026-06-01 -->
+> Build: `cmake --preset linux-release && cmake --build --preset linux-release`
+
+<!-- Status: current | validated: 2026-10-29 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/acceleration/FUTURE_ENHANCEMENTS.md -->
 
 # Acceleration Module — Public Header Future Enhancements
 
-**Module Path:** `include/acceleration/`  
-**Canonical implementation enhancements:** [`../../src/acceleration/FUTURE_ENHANCEMENTS.md`](../../src/acceleration/FUTURE_ENHANCEMENTS.md)
-
----
+**Module path:** `include/acceleration/`
+**Canonical runtime enhancements:** [`../../src/acceleration/FUTURE_ENHANCEMENTS.md`](../../src/acceleration/FUTURE_ENHANCEMENTS.md)
 
 ## Scope
 
-Planned enhancements to the **public header contract** in `include/acceleration/`. Runtime, algorithm, and benchmark work remains tracked in:
+This file tracks only the public header-facing roadmap. Runtime behavior, multi-device hardening, plugin validation, and benchmark gates stay in the implementation roadmap and are not inferred to be complete just because the header contract is stable.
 
-→ [`../../src/acceleration/FUTURE_ENHANCEMENTS.md`](../../src/acceleration/FUTURE_ENHANCEMENTS.md)
+## Design constraints
 
----
+- Public headers must not expose internal implementation-only types or layout assumptions.
+- New APIs should remain additive unless the project explicitly approves a breaking change.
+- Capability and backend contract changes must stay aligned with `VERSIONING.md` and the runtime implementation in `src/acceleration/`.
+- Any new public API that introduces hardware or plugin behavior must document the validation and fallback contract.
 
-## Design Constraints
+## Required interfaces
 
-- `[x]` Public headers must not expose internal implementation types or arena/memory layout details to callers.
-- `[x]` Breaking changes to types in `include/acceleration/` require a MAJOR version bump per `VERSIONING.md`.
-- `[x]` New entry points should be additive; existing stable APIs remain source-compatible.
-- `[x]` Layer association (**ANN/Tensor**) must be preserved in all header expansions.
+Current public surfaces cover:
+- backend registration and capability probing
+- vector/graph/geo backend selection
+- AI hardware dispatch
+- plugin and shader validation
+- multi-GPU and vLLM resource-management contracts
 
----
+## Planned enhancements
 
-## Required Interfaces (Header Contract)
+### Short term
 
-Current public surfaces cover: compute-backend dispatch, GPU/CPU/Vulkan/OpenCL acceleration, FAISS GPU KNN, tensor-core matmul, multi-GPU coordination, and kernel fallback.
+- [ ] Add explicit `[[nodiscard]]` / `noexcept` annotations to public query APIs where semantics are clear and safe.
+- [ ] Add structured diagnostic types for public backend failure paths where exceptions or statuses are not yet explicit.
+- [ ] Document migration notes for any deprecated or superseded public acceleration API entries.
 
-Planned extensions follow the same namespace (`themis::acceleration`) and include-guard conventions.
+### Medium term
 
----
+- [ ] Add convenience factory helpers for backend selection patterns used by index/geo/graph consumers.
+- [ ] Revisit public ABI markers and compatibility expectations for long-lived acceleration APIs.
+- [ ] Expand public examples covering CPU fallback semantics, DEVICE injection, and plugin failure paths.
 
-## Planned Enhancements
+### Long term
 
-### Short-Term (Q3 2026)
+- [ ] Evaluate a C++20 module or wrapper layer for `include/acceleration/` if stable ABI and packaging requirements justify it.
+- [ ] Keep header-level abstraction and implementation-level behavior aligned as the accelerator stack grows.
 
-- [ ] Add `[[deprecated]]` annotations to any legacy entry points with migration notes
-- [ ] Add explicit `noexcept` specifications to query/read paths where safe
-- [ ] Add structured diagnostic types for all thrown exceptions
+## Test strategy
 
-### Medium-Term (Q4 2026)
+- Verify public API changes with focused compile-time and runtime tests under `tests/acceleration/`.
+- Exercise CPU fallback paths and deterministic capability injection before exposing new selection APIs.
+- Keep plugin security, shader validation, and multi-device resource changes covered by the module regression and security tests.
 
-- [ ] Expand public surface with convenience factory functions for common usage patterns
-- [ ] Add Concepts (C++20) constraints to template parameters in public headers
-- [ ] Introduce explicit ABI stability markers (`THEMIS_STABLE_ABI`) to long-term interfaces
+## Performance and security goals
 
-### Long-Term (2027+)
+- Do not widen the public API without a corresponding validation path.
+- Preserve deterministic CPU fallback behavior under invalid or unavailable hardware states.
+- Ensure new public interfaces document error modes and bounded execution semantics.
 
-- [ ] Module-interface (C++20 modules) wrapper for `include/acceleration/` entry points
-- [ ] Header-only usage path for embedding scenarios (where feasible)
-- [ ] Extended layer-mapping documentation for ANN/Tensor integration patterns
+## TODO / open assumptions
 
----
-
-## Alignment with Strategic Plan
-
-Enhancements align with `FUTURE_PLAN.md` layer **ANN/Tensor**. For cross-layer integration planning see:
-→ [`../../src/ai/FUTURE_ENHANCEMENTS.md`](../../src/ai/FUTURE_ENHANCEMENTS.md)
+- Detailed long-term ABI or module-wrapper strategy remains a future design decision; no implementation commitment is made yet.
+- Hardware-specific throughput targets remain tracked at the runtime and benchmark layer and are not assumed to be generic header-level semantics.

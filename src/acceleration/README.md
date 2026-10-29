@@ -1,69 +1,81 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-29"
+Last Updated: "2026-10-29"
+Status: "active"
+AI_Used: true
+AI_Models: "GitHub Copilot"
+AI_Contributor: "GitHub Copilot"
+Human_Review: true
+Human_Author: "ThemisDB Team"
+---
+
 # ThemisDB Acceleration Module
 
-<!-- Status: PRODUCTION_CANDIDATE | Phase 1-4 complete | validated: 2026-08-10 -->
+<!-- Status: PRODUCTION_CANDIDATE | Phase 1-4 complete | validated: 2026-10-29 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Module Purpose
+## Module purpose
 
-The Acceleration module provides hardware-aware compute backends and fallback dispatch paths for performance-critical operations in ThemisDB.
+The acceleration module manages capability-driven backend selection, runtime discovery, and fail-closed fallback behavior for performance-critical operations in ThemisDB. It provides the execution contracts for CPU, CUDA, HIP, Vulkan, OpenCL, and AI-specific dispatch surfaces while keeping the public API in `include/acceleration/` distinct from the implementation in `src/acceleration/`.
 
-## Relevant Interfaces
+## Relevant interfaces
 
-| Interface / File | Role |
+| Interface / file | Role |
 |---|---|
-| backend_registry.cpp | runtime backend discovery and selection |
-| compute_backend.cpp | core backend contract and shared interfaces |
-| device_manager.cpp | device probing and capability metadata |
-| ai_hardware_dispatcher.cpp | AI workload dispatch across available hardware |
-| plugin_loader.cpp | dynamic backend/plugin loading path |
-| plugin_security.cpp | plugin validation and security checks |
-| shader_integrity.cpp | shader integrity validation before runtime use |
-| multi_gpu_backend.cpp | multi-device fan-out and merge behavior |
-| nccl_vector_backend.cpp | NCCL-based vector backend operations |
-| rccl_vector_backend.cpp | RCCL-based vector backend operations |
-| vllm_resource_manager.cpp | shared resource management for vLLM-related paths |
+| `backend_registry.cpp` | runtime backend discovery and backend registration |
+| `compute_backend.cpp` | core backend contract and registry implementation |
+| `device_manager.cpp` | capability probing, cache behavior, CPU fallback synthesis |
+| `ai_hardware_dispatcher.cpp` | AI workload dispatch across available hardware |
+| `plugin_loader.cpp` | dynamic plugin loading path |
+| `plugin_security.cpp` | plugin trust validation and deny-path diagnostics |
+| `shader_integrity.cpp` | shader and kernel validation before runtime execution |
+| `multi_gpu_backend.cpp` | multi-device fan-out and merge behavior |
+| `nccl_vector_backend.cpp` | NCCL collective/vector backend implementation |
+| `rccl_vector_backend.cpp` | RCCL collective/backend implementation |
+| `vllm_resource_manager.cpp` | shared resource lease/state management for vLLM |
 
 ## Scope
 
 In scope:
-- backend registration, selection, and capability-driven dispatch
-- GPU and CPU acceleration backends with deterministic fallback behavior
-- plugin and shader validation for acceleration runtime surfaces
-- multi-GPU and resource-management coordination paths
-- acceleration-specific observability and runtime diagnostics
-- deterministic device-probe injection for focused hardware-detection tests
+- backend registration and capability-driven dispatch
+- CPU/GPU fallback selection logic and deterministic fail-closed behavior
+- plugin and shader validation for runtime execution
+- multi-GPU and shared resource coordination
+- acceleration observability and focused test injection paths
 
 Out of scope:
-- higher-level business logic in consuming modules
-- external driver/SDK internals beyond exposed integration boundaries
-- non-acceleration transport and API bootstrap logic
+- higher-level business logic in consumer modules
+- direct vendor SDK internals beyond the public integration boundary
+- transport/bootstrap logic outside the acceleration layer
 
-## Known Limitations
+## Known limitations
 
-- runtime behavior depends on hardware, driver, and build-flag configuration
-- when runtime discovery yields no usable accelerator snapshot, the module exposes a synthetic `CPU Fallback` device and keeps backend selection fail-closed
-- some backend combinations remain deployment-specific and environment-dependent
-- advanced distributed and plugin scenarios require continuous hardening evidence
+- Runtime behavior depends on hardware, driver state, and build-feature configuration.
+- If discovery produces no healthy accelerator snapshot, the module emits a synthetic CPU fallback device and keeps backend selection fail-closed.
+- Some backend combinations remain deployment-specific and require hardware-in-the-loop validation rather than universal local correctness claims.
+- Advanced plugin and multi-device scenarios continue to require explicit benchmark and regression evidence before release sign-off.
 
-## Sourcecode Verification (Module: acceleration/readme)
+## Source verification
 
 - Verified files:
-  - src/acceleration/backend_registry.cpp
-  - src/acceleration/compute_backend.cpp
-  - src/acceleration/device_manager.cpp
-  - src/acceleration/ai_hardware_dispatcher.cpp
-  - src/acceleration/plugin_loader.cpp
-  - src/acceleration/plugin_security.cpp
-  - src/acceleration/shader_integrity.cpp
-  - src/acceleration/multi_gpu_backend.cpp
-  - src/acceleration/nccl_vector_backend.cpp
-  - src/acceleration/rccl_vector_backend.cpp
-  - src/acceleration/vllm_resource_manager.cpp
+  - `src/acceleration/backend_registry.cpp`
+  - `src/acceleration/compute_backend.cpp`
+  - `src/acceleration/device_manager.cpp`
+  - `src/acceleration/ai_hardware_dispatcher.cpp`
+  - `src/acceleration/plugin_loader.cpp`
+  - `src/acceleration/plugin_security.cpp`
+  - `src/acceleration/shader_integrity.cpp`
+  - `src/acceleration/multi_gpu_backend.cpp`
+  - `src/acceleration/nccl_vector_backend.cpp`
+  - `src/acceleration/rccl_vector_backend.cpp`
+  - `src/acceleration/vllm_resource_manager.cpp`
 - Verified behavior surfaces:
-  - backend selection and fallback dispatch
-  - deterministic device probing, CPU-fallback synthesis, and focused test injection
-  - plugin and shader trust/validation controls
-  - multi-device and resource-management integration
+  - backend registration and selection
+  - deterministic fallback and CPU synthesis behavior
+  - plugin, shader, and resource validation paths
+  - multi-device coordination and shared resource management
 - Note:
-  - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
-  - implementation history remains in CHANGELOG.md
+  - detailed roadmap and gate status remain in `ROADMAP.md` and `FUTURE_ENHANCEMENTS.md`
+  - implementation history remains in `CHANGELOG.md`
+  - hardware-only performance claims are not treated as universal module guarantees without explicit benchmark evidence
