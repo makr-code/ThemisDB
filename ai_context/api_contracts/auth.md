@@ -1,6 +1,6 @@
 # Auth Module Contract
 
-Datum: 2026-09-23
+Datum: 2026-10-29
 **Status:** Active  
 **Module:** auth (Authentication, authorization, principal contracts)  
 **Primary:** include/auth/auth_principal_contract.h, src/auth/ROADMAP.md

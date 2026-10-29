@@ -1,6 +1,6 @@
 # Memory Management Policy — Core Rules
 
-Datum: 2026-09-23
+Datum: 2026-10-29
 **Status:** Active, Enforced  
 **Primary:** src/base/resource.h, include/base/*.h  
 **Bezug:** RAII, smart pointers, ownership contracts

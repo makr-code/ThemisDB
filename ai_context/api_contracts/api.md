@@ -1,6 +1,6 @@
 # API Module Contract
 
-Datum: 2026-09-23
+Datum: 2026-10-29
 **Status:** Active  
 **Module:** api (HTTP/gRPC/GraphQL transport)  
 **Primary:** include/api/api_transport_contracts.h, src/api/ROADMAP.md

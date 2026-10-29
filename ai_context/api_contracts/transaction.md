@@ -1,6 +1,6 @@
 # Transaction Module Contract
 
-Datum: 2026-09-23
+Datum: 2026-10-29
 **Status:** Active  
 **Module:** transaction (Coordinator, 2PC/3PC/SAGA patterns)  
 **Primary:** include/transaction/transaction_coordinator.h, src/transaction/ROADMAP.md

@@ -1,6 +1,6 @@
 # OOP & Separation of Concerns Principles
 
-Datum: 2026-09-23
+Datum: 2026-10-29
 **Status:** Active  
 **Primary:** include/**/*.h, src/*/ARCHITECTURE.md  
 **Bezug:** Design patterns, interfaces, module boundaries

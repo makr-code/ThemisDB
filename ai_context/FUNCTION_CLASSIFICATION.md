@@ -1,6 +1,6 @@
 # Function Classification Framework
 
-Datum: 2026-09-23
+Datum: 2026-10-29
 **Status:** Active  
 **Primary:** src/*/ROADMAP.md, include/**/*.h  
 **Bezug:** API-Ebenen, Aufgaben, Performance-Kritikalität
