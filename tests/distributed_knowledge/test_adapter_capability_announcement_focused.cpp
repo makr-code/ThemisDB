@@ -280,6 +280,37 @@ TEST_F(AdapterCapabilityAnnouncementTest, MultiplePublishersForSameShard) {
     EXPECT_EQ(gossip_messages_[1]["adapter_id"], "adapter-2");
 }
 
+TEST_F(AdapterCapabilityAnnouncementTest, InboundAnnouncementIsDeserializedAndDispatched) {
+    GossipAdapterPublisher publisher("local-shard", make_gossip_fn());
+    std::vector<AdapterCapabilityAnnouncement> received;
+    publisher.setAnnouncementCallback(
+        [&received](const AdapterCapabilityAnnouncement& announcement) {
+            received.push_back(announcement);
+        });
+
+    publisher.handleInboundMessage(json{
+        {"shard_id", "remote-shard"},
+        {"adapter_id", "adapter-remote"},
+        {"adapter_version", "2.1.0"},
+        {"domain_type", "VECTOR_SEARCH"},
+        {"federation_round", 17},
+        {"is_withdrawal", true},
+        {"announced_at_ms", 1234}
+    });
+
+    ASSERT_EQ(received.size(), 1U);
+    EXPECT_EQ(received.front().shard_id, "remote-shard");
+    EXPECT_EQ(received.front().adapter_id, "adapter-remote");
+    EXPECT_EQ(received.front().adapter_version, "2.1.0");
+    EXPECT_EQ(received.front().domain_type, AdapterDomainType::VECTOR_SEARCH);
+    EXPECT_EQ(received.front().federation_round, 17U);
+    EXPECT_TRUE(received.front().is_withdrawal);
+    EXPECT_EQ(
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            received.front().announced_at.time_since_epoch()).count(),
+        1234);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // ACA-TRUST-01..05 — FederationTrustPolicy / fail-closed enforcement
 // ─────────────────────────────────────────────────────────────────────────────

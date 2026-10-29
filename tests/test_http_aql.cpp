@@ -375,6 +375,48 @@ TEST_F(HttpAqlApiTest, CursorPagination_SecondPage) {
     }
 }
 
+TEST_F(HttpAqlApiTest, CursorPagination_FullFinalPageHasNoContinuation) {
+    const std::string query =
+        "FOR user IN users SORT user.name ASC LIMIT 5 RETURN user";
+    std::string cursor;
+    std::set<std::string> seen_items;
+
+    for (int page = 0; page < 3; ++page) {
+        json req = {
+            {"query", query},
+            {"use_cursor", true}
+        };
+        if (!cursor.empty()) {
+            req["cursor"] = cursor;
+        }
+
+        auto res = post("/query/aql", req);
+        ASSERT_EQ(res.result(), http::status::ok) << res.body();
+        const auto body = json::parse(res.body());
+        ASSERT_TRUE(body.contains("items")) << body.dump(2);
+        ASSERT_TRUE(body.contains("batch_size")) << body.dump(2);
+        ASSERT_TRUE(body.contains("has_more")) << body.dump(2);
+        ASSERT_EQ(body["batch_size"].get<int>(), 5) << body.dump(2);
+        ASSERT_EQ(body["items"].size(), 5u) << body.dump(2);
+
+        const bool expected_has_more = page < 2;
+        EXPECT_EQ(body["has_more"].get<bool>(), expected_has_more) << body.dump(2);
+        if (expected_has_more) {
+            ASSERT_TRUE(body.contains("next_cursor")) << body.dump(2);
+            cursor = body["next_cursor"].get<std::string>();
+            ASSERT_FALSE(cursor.empty());
+        } else {
+            EXPECT_FALSE(body.contains("next_cursor")) << body.dump(2);
+        }
+
+        for (const auto& item : body["items"]) {
+            seen_items.insert(item.dump());
+        }
+    }
+
+    EXPECT_EQ(seen_items.size(), 15u);
+}
+
 TEST_F(HttpAqlApiTest, CursorPagination_InvalidCursor) {
     json req = {
         {"query", "FOR user IN users RETURN user"},
@@ -623,4 +665,3 @@ TEST_F(HttpAqlApiTest, Cursor_With_Filter_Respects_Filter_Set) {
     EXPECT_EQ(e1["name"], "Diana");
     EXPECT_FALSE(body2["has_more"].get<bool>());
 }
-

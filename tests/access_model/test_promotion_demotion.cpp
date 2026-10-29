@@ -120,6 +120,17 @@ TEST_F(PromotionDemotionTest, APD_05_ShouldDemoteL1ToL2) {
     EXPECT_TRUE(policy.shouldDemoteL1ToL2(86401));  // > 24 hours
 }
 
+// APD-09: L1 demotion requires strictly exceeding the configured age boundary
+TEST_F(PromotionDemotionTest, APD_09_L1DemotionAtBoundaryRequiresOneMoreSecond) {
+    AgeBasedPolicy policy;
+    policy.l1_zero_access_days = 1;
+
+    EXPECT_FALSE(policy.shouldDemoteL1ToL2(86400))
+        << "An entry exactly one day old has not exceeded the threshold.";
+    EXPECT_TRUE(policy.shouldDemoteL1ToL2(86401))
+        << "An entry one second beyond the threshold is eligible for demotion.";
+}
+
 // APD-06: Hot→warm storage demotion decision
 TEST_F(PromotionDemotionTest, APD_06_ShouldDemoteHotToWarm) {
     AgeBasedPolicy policy;

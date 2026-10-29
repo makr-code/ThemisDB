@@ -298,3 +298,20 @@ TEST(ChaosCallbackDeterminismTest, CCD08_MultipleSchedulesSameNodeFireSequential
     EXPECT_TRUE(injector->isFaultActive("ccd08-n1", FaultType::NODE_FAILURE));
     EXPECT_TRUE(injector->isFaultActive("ccd08-n1", FaultType::DISK_FAILURE));
 }
+
+// ============================================================================
+// CCD-09: Inclusive probability bounds are accepted.
+// ============================================================================
+
+TEST(ChaosCallbackDeterminismTest, CCD09_ProbabilityRangeEndpointsAreAccepted) {
+    FaultInjector fi{"ccd09"};
+
+    EXPECT_TRUE(fi.injectFault(
+        FaultSpec{FaultType::RANDOM_FAILURE, "ccd09-zero", 0ms, 0.0}));
+    EXPECT_TRUE(fi.injectFault(
+        FaultSpec{FaultType::RANDOM_FAILURE, "ccd09-one", 0ms, 1.0}));
+
+    EXPECT_TRUE(fi.isFaultActive("ccd09-zero", FaultType::RANDOM_FAILURE));
+    EXPECT_TRUE(fi.isFaultActive("ccd09-one", FaultType::RANDOM_FAILURE));
+    EXPECT_EQ(fi.activeFaultCount(), 2u);
+}

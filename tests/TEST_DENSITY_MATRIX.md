@@ -1,9 +1,18 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-09-14
+Last Updated: 2026-10-29
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+---
+
 # Source-Validated Test Density Matrix (`src/`)
 
-**Author:** ThemisDB Contributors  
-**Created:** 2026-09-14  
-**Last Updated:** 2026-09-14  
-**Status:** active
+AI-assisted update; exact model backend not verifiable from final document text alone.
 
 ## Scope
 
@@ -36,20 +45,112 @@ Non-canonical historical reports such as `tests/TEST_COVERAGE_REPORT.md` are con
 - historical markdown summaries are excluded from closure accounting
 - docs-only `src/` paths are excluded from code-bearing module counts
 
-## Summary Snapshot (source-validated 2026-09-14)
+## Summary Snapshot (source-validated 2026-10-29)
 
-- `src/` top-level module paths: **72**
-- code-bearing module paths: **69**
+- `src/` top-level module paths: **73**
+- code-bearing module paths: **70**
 - docs-only paths: **3** → `ai_working`, `llm_streaming`, `vector_search`
-- code-bearing modules with direct module-owned tests: **65 / 69**
-- code-bearing modules with direct module-owned benchmarks: **65 / 69**
-- code-bearing modules with both direct tests and direct benchmarks: **63 / 69**
+- code-bearing modules with direct module-owned tests: **69 / 70**
+- code-bearing modules with direct module-owned benchmarks: **69 / 70**
+- code-bearing modules with both direct tests and direct benchmarks: **69 / 70**
+
+Counts describe source ownership, **not** executed tests, line coverage, or behavioral
+closure. Code-bearing means at least one recursive `.c`, `.cc`, `.cpp`, or `.cxx`
+source; header-only and documentation paths are not counted as implementation modules.
+The three documentation-only paths remain in scope for the directory inventory.
 
 ### Immediate ownership gaps
 
-- **No module-owned tests and no module-owned benchmarks:** `distributed_tensor`, `execution`
-- **No module-owned tests, but benchmarks exist:** `llama_cpp`, `stable_diffusion`
-- **No module-owned benchmarks, but tests exist:** `evaluation`, `retrieval`
+- **No module-owned tests and no module-owned benchmarks:** `llm_l_wiki`
+- The previous ownership gaps for `distributed_tensor`, `execution`, `llama_cpp`,
+  `stable_diffusion`, `evaluation`, and `retrieval` now have owned sources. Their
+  presence does not establish that dependency-heavy integration paths ran.
+
+## Focused boundary review (2026-10-29)
+
+The bounded review compared implementation contracts, existing tests, and owned
+benchmark workloads across all 70 code-bearing modules. It adds **50 GoogleTest
+cases across 25 modules** without changing production code. **49 added cases**
+passed against real production implementations; the HTTP/AQL pagination case
+remains unrun. Benchmark ownership or throughput loops alone are not correctness
+evidence for these edge cases.
+
+| Module | Added cases | Contract exercised | Test source |
+|---|---:|---|---|
+| `acceleration` | 4 | Empty output, inclusive distance limits, invalid distance diagnostics, absent-edge weights | [batch boundaries](acceleration/test_acceleration_batch_boundary_focused.cpp) |
+| `access_model` | 1 | Demotion requires strictly exceeding the configured age threshold | [promotion/demotion](access_model/test_promotion_demotion.cpp) |
+| `analytics` | 4 | Ring wraparound/move ownership; percentile interpolation, endpoints, input preservation | [detail boundaries](analytics/test_detail_boundary_focused.cpp) |
+| `chaos` | 1 | Inclusive probability endpoints | [callback determinism](chaos/test_chaos_callback_determinism.cpp) |
+| `config` | 3 | Updating full/expired LRU entries and removing interleaved expired entries | [LRU boundaries](config/test_lru_boundary_focused.cpp) |
+| `core` | 2 | Label snapshot ownership and present-but-empty secret values | [concern value boundaries](core/test_concerns_value_boundary_focused.cpp) |
+| `distributed_knowledge` | 1 | Inbound announcement parsing and callback dispatch | [adapter announcements](distributed_knowledge/test_adapter_capability_announcement_focused.cpp) |
+| `document` | 1 | Eleven-digit interaction indices exceed minimum snapshot-ID padding without truncation | [round-trip persistence](document/test_document_round_trip_persistence_focused.cpp) |
+| `evaluation` | 3 | MRR below top-k; duplicates outside top-k and in ground truth | [retrieval metrics](evaluation/test_evaluation_retrieval_metrics_focused.cpp) |
+| `geo` | 3 | Antimeridian distances/bearings and pole-to-pole distance | [math boundaries](geo/test_math_boundary_focused.cpp) |
+| `graph` | 1 | L1 hits refresh recency before eviction/demotion to L2 | [query cache](graph/test_graph_query_cache.cpp) |
+| `importers` | 2 | Phone normalization and preservation of non-North-American prefixes | [entity matching](importers/test_importers_entity_matching_focused.cpp) |
+| `ingestion` | 3 | Exact memory cap, rejection without FIFO corruption, persistent peak counters, zero timeout | [queue boundaries](ingestion/test_queue_boundary_focused.cpp) |
+| `llm_wiki` | 1 | Corrupt-checksum state recovery from a valid transaction-log entry | [wiki edge cases](llm_wiki/test_llm_wiki_edge_cases_focused.cpp) |
+| `network` | 3 | Permanent-error budget, zero-budget reset, policy ownership and multiplier clamp | [retry context](network/test_retry_context_boundary_focused.cpp) |
+| `performance` | 2 | SPSC wraparound, exact drop counts, ownership on rejected move | [metrics ring](performance/test_metrics_ring_boundary_focused.cpp) |
+| `projects` | 1 | Nested document differences retain full field paths | [contract hardening](projects/test_projects_contract_hardening_focused.cpp) |
+| `prompt_engineering` | 2 | Escaped JSON delimiters and top-level required keys versus nested keys | [structured output](prompt_engineering/test_structured_output_focused.cpp) |
+| `query` | 1 | A full final cursor page emits neither continuation nor duplicates; **unrun** | [HTTP/AQL pagination](test_http_aql.cpp) |
+| `rpc_grpc` | 1 | Circuit-breaker state labels and unknown-state diagnostic; canonical CTest registration restored | [circuit breaker](rpc_grpc/test_rpc_grpc_circuit_breaker_focused.cpp) |
+| `search` | 2 | Short strings and repeated n-grams use multiset overlap | [fuzzy matcher](search/test_fuzzy_matcher_focused.cpp) |
+| `stable_diffusion` | 2 | Repeated case-insensitive keyword removal and empty-policy pass-through | [prompt sanitizer](stable_diffusion/test_sd_prompt_sanitizer_focused.cpp) |
+| `temporal` | 1 | Removing duplicate key/interval entries preserves another key's same interval | [temporal index](temporal/test_temporal_index.cpp) |
+| `toolbox` | 1 | SHA-256 over embedded NUL and high-bit bytes | [binary fingerprints](toolbox/test_content_fingerprinter_binary_focused.cpp) |
+| `utils` | 4 | Zero retry budget, engaged false payload, move-only success, exception propagation | [retry boundaries](utils/test_utils_retry_boundary_focused.cpp) |
+
+### Execution evidence and limits
+
+- GNU C++ 13.3.0, C++20, GoogleTest 1.14.0: **26/26 CTest suites passed**
+  normally and **26/26 passed with UBSan** (`-fsanitize=undefined
+  -fno-sanitize-recover=all`). This comprises the 24 runnable changed module suites
+  plus the existing utility and wire-protocol retry suites.
+- Validation used a session-local CMake harness, actual production headers/sources,
+  and `tests/cmake/RegisterModuleTests.cmake`, with explicit module labels and
+  timeouts. It did **not** substitute fake implementations or imply a successful
+  full-project build. The harness is not a new repository build entrypoint.
+- Three isolated mutations were rejected by the new tests: rejecting an enqueue
+  exactly at its memory cap, removing percentile sorting, and omitting ring-buffer
+  drop accounting. Production files were not mutated in the worktree.
+- The repository `community-debug` configure remains blocked by missing RocksDB.
+  The new HTTP/AQL test and dependency-complete module builds therefore remain
+  pending. Model-backed, hardware-dependent, integration and performance suites
+  were not executed as part of this portable boundary pass.
+- The consulted developer Wiki snapshot has `generated_at` 2026-10-26 and 7,989
+  sources, but many module/build entries contain only binary/unreadable notices.
+  Source contracts and canonical testing standards take precedence over that
+  incomplete synthesis.
+- Consulted [testing standards](TESTING_STANDARDS.md),
+  [benchmark standards](../benchmarks/BENCHMARK_STANDARDS.md),
+  [measurement hygiene](../benchmarks/MEASUREMENT_HYGIENE.md), and the repository's
+  [historical research guide](../benchmarks/docs/ADVANCED_BENCHMARK_RESEARCH.md).
+  External GoogleTest documentation and paper retrieval failed due DNS; no
+  independently retrieved paper or new performance result is claimed.
+
+### Unclosed behavioral work
+
+The review does not certify exhaustive coverage. The following modules retain
+explicit unresolved work:
+
+| Modules | Remaining evidence needed |
+|---|---|
+| `ai` | Built-in HTTP transport timeout/status behavior with a controlled local server, rather than only callbacks |
+| `ethics_ai` | Malformed on-disk philosophy-profile reload during a live discourse round |
+| `image_analysis`, `onnx_clip` | Known-image results and numerical parity with real provider/model assets |
+| `llama_cpp`, `llm`, `rag` | Real model lifecycle, cancellation/backpressure, and representative retrieval/judge quality |
+| `training`, `voice`, `whisper`, `gpu` | Real checkpoint recovery, audio model behavior, and representative hardware |
+| `llm_l_wiki` | Dedicated owned tests/benchmarks and executable module wiring |
+| `retrieval` | Replace/integrate `DualReadValidator::ExecuteQuery`'s existing empty-result placeholder before claiming retrieval-quality validation |
+| `security` | Existing roadmap pentest remediation and its evidence; this test-only pass is not a fresh security audit |
+
+`projects` still needs a persisted three-way merge-conflict scenario, and
+`stable_diffusion` still needs config-file CRLF/trailing-whitespace normalization
+coverage. For the other 31 code-bearing modules, this bounded inspection did not
+identify an additional defensible gap; that is **not** a coverage-closure claim.
 
 ## Priority A — Integration hubs and flow owners
 
@@ -98,18 +199,19 @@ Non-canonical historical reports such as `tests/TEST_COVERAGE_REPORT.md` are con
 | `config` | `tests/config/` | `benchmarks/config/` | `tests/config/*.cpp`, `benchmarks/config/*.cpp` | Owned suites exist; next step is explicit flow and `release_critical` mapping. |
 | `core` | `tests/core/` | `benchmarks/core/` | `tests/core/*.cpp`, `benchmarks/core/*.cpp` | Owned suites exist; next step is explicit flow and `release_critical` mapping. |
 | `distributed_knowledge` | `tests/distributed_knowledge/` | `benchmarks/distributed_knowledge/` | `tests/distributed_knowledge/test_federated_rag_merger_focused.cpp`, `tests/distributed_knowledge/test_lora_federation_coordinator_focused.cpp` | Owned suites exist; next step is explicit flow and `release_critical` mapping. |
-| `distributed_tensor` | — | — | `tests/epic3_distributed_tensor/`, `tests/tensor/test_tensor_mid_layer_integration.cpp` | No module-owned tests or benchmarks; closure must start with dedicated owner suites. |
+| `distributed_tensor` | `tests/distributed_tensor/` | `benchmarks/distributed_tensor/` | `tests/epic3_distributed_tensor/`, `tests/tensor/test_tensor_mid_layer_integration.cpp` | Owned sources now exist; distributed fault/recovery execution still needs evidence. |
 | `document` | `tests/document/` | `benchmarks/document/` | `tests/test_cross_module_german_egov.cpp`, `benchmarks/document/*.cpp` | Owned suites exist; next step is explicit flow and `release_critical` mapping. |
 | `ethics_ai` | `tests/ethics_ai/` | `benchmarks/ethics_ai/` | `tests/ethics_ai/*.cpp`, `benchmarks/ethics_ai/*.cpp` | Owned suites exist; next step is explicit flow and `release_critical` mapping. |
-| `evaluation` | `tests/evaluation/` | — | `tests/evaluation/test_evaluation_*.cpp`, `tests/epic2_evaluation/*.cc` | Direct tests exist, but module-owned benchmark/perf evidence is missing. |
-| `execution` | — | — | `tests/test_parallel_executor.cpp`, `tests/test_vectorized_execution.cpp`, `tests/integration/test_load_balancing.cpp`, `tests/integration/test_resource_pooling.cpp` | No module-owned tests or benchmarks; closure must start with dedicated owner suites. |
+| `evaluation` | `tests/evaluation/` | `benchmarks/evaluation/` | `tests/evaluation/test_evaluation_*.cpp`, `tests/epic2_evaluation/*.cc` | Retrieval metric boundary cases ran; judge/harness integration and performance execution remain separate. |
+| `execution` | `tests/execution/` | `benchmarks/execution/` | `tests/test_parallel_executor.cpp`, `tests/test_vectorized_execution.cpp`, `tests/integration/test_load_balancing.cpp`, `tests/integration/test_resource_pooling.cpp` | Owned sources now exist; executor cancellation and resource-lifecycle runtime evidence remain required. |
 | `failover` | `tests/failover/` | `benchmarks/failover/` | `tests/failover/*.cpp`, `benchmarks/failover/*.cpp` | Owned suites exist; next step is explicit flow and `release_critical` mapping. |
 | `geo` | `tests/geo/` | `benchmarks/geo/` | `tests/test_cross_module_geo_spatial.cpp`, `tests/query/test_geospatial_phase2_integration.cpp` | Owned suites exist; next step is explicit flow and `release_critical` mapping. |
 | `gpu` | `tests/gpu/` | `benchmarks/gpu/` | `tests/gpu/*.cpp`, `benchmarks/gpu/*.cpp` | Roadmap-open hardening remains; source evidence exists but closure is not complete. |
 | `graph` | `tests/graph/` | `benchmarks/graph/` | `tests/integration/pipeline/rag_ai_pipeline_test.cpp`, `tests/test_cross_module_graph_lineage.cpp` | Owned suites exist; next step is explicit flow and `release_critical` mapping. |
 | `image_analysis` | `tests/image_analysis/` | `benchmarks/image_analysis/` | `tests/image_analysis/test_image_analysis_phase1_focused.cpp`, `tests/test_image_analysis_quality.cpp` | Owned suites exist; next step is explicit flow and `release_critical` mapping. |
 | `ingestion` | `tests/ingestion/` | `benchmarks/ingestion/` | `tests/integration/pipeline/ingestion_pipeline_test.cpp`, `tests/integration/pipeline/cross_module_ingest_index_query_test.cpp` | Owned suites exist; next step is explicit flow and `release_critical` mapping. |
-| `llama_cpp` | — | `benchmarks/llama_cpp/` | `tests/llm/test_llama_cpp_plugin_validation_gates.cpp`, `tests/llm/test_llama_cpp_real_inference.cpp`, `tests/llm/test_llama_wrapper_state.cpp` | No module-owned test sources; indirect evidence exists but dedicated suites are missing. |
+| `llama_cpp` | `tests/llama_cpp/` | `benchmarks/llama_cpp/` | `tests/llm/test_llama_cpp_plugin_validation_gates.cpp`, `tests/llm/test_llama_cpp_real_inference.cpp`, `tests/llm/test_llama_wrapper_state.cpp` | Owned sources now exist; real-model/backend validation requires the corresponding dependencies and artifacts. |
+| `llm_l_wiki` | — | — | `src/llm_l_wiki/wikipedia/wiki_workspace_orchestrator.cpp` (source only, not test evidence) | No module-owned tests, benchmarks, or test CMake file; do not infer coverage from the distinct `llm_wiki` module. |
 | `llm_wiki` | `tests/llm_wiki/` | `benchmarks/llm_wiki/` | `tests/llm/test_llm_wiki_*.cpp`, `benchmarks/llm_wiki/*.cpp` | Roadmap-open hardening remains; source evidence exists but closure is not complete. |
 | `maintenance` | `tests/maintenance/` | `benchmarks/maintenance/` | `tests/maintenance/test_maintenance_*_focused.cpp`, `benchmarks/maintenance/*.cpp` | Owned suites exist; next step is explicit flow and `release_critical` mapping. |
 | `metadata` | `tests/metadata/` | `benchmarks/metadata/` | `tests/metadata/*.cpp`, `benchmarks/metadata/*.cpp` | Owned suites exist; next step is explicit flow and `release_critical` mapping. |
@@ -119,10 +221,10 @@ Non-canonical historical reports such as `tests/TEST_COVERAGE_REPORT.md` are con
 | `projects` | `tests/projects/` | `benchmarks/projects/` | `tests/projects/*.cpp`, `benchmarks/projects/*.cpp` | Owned suites exist; next step is explicit flow and `release_critical` mapping. |
 | `prompt_engineering` | `tests/prompt_engineering/` | `benchmarks/prompt_engineering/` | `tests/prompt_engineering/*.cpp`, `benchmarks/prompt_engineering/*.cpp` | Owned suites exist; next step is explicit flow and `release_critical` mapping. |
 | `replication` | `tests/replication/` | `benchmarks/replication/` | `tests/replication/*.cpp`, `benchmarks/replication/*.cpp` | Owned suites exist; next step is explicit flow and `release_critical` mapping. |
-| `retrieval` | `tests/retrieval/` | — | `tests/search/test_layered_retrieval_integration_phase4.cpp`, `tests/rag/test_rag_adaptive_retrieval.cpp` | Direct tests exist, but module-owned benchmark/perf evidence is missing. |
+| `retrieval` | `tests/retrieval/` | `benchmarks/retrieval/` | `tests/search/test_layered_retrieval_integration_phase4.cpp`, `tests/rag/test_rag_adaptive_retrieval.cpp` | Owned sources now exist; layered fallback and quality/performance runtime evidence remain separate. |
 | `scraper` | `tests/scraper/` | `benchmarks/scraper/` | `tests/scraper/test_scraper_plugin.cpp`, `tests/scraper/test_scraper_*_focused.cpp` | Owned suites exist; next step is explicit flow and `release_critical` mapping. |
 | `search` | `tests/search/` | `benchmarks/search/` | `tests/search/*.cpp`, `benchmarks/search/*.cpp` | Roadmap-open hardening remains; source evidence exists but closure is not complete. |
-| `stable_diffusion` | — | `benchmarks/stable_diffusion/` | `tests/plugins/test_plugin_registrar_fail_closed.cpp`, `benchmarks/stable_diffusion/*.cpp` | No module-owned test sources; indirect evidence exists but dedicated suites are missing. |
+| `stable_diffusion` | `tests/stable_diffusion/` | `benchmarks/stable_diffusion/` | `tests/plugins/test_plugin_registrar_fail_closed.cpp`, `benchmarks/stable_diffusion/*.cpp` | Owned sources now exist; model-backed image generation requires backend and model artifacts. |
 | `temporal` | `tests/temporal/` | `benchmarks/temporal/` | `tests/test_cross_module_temporal_bitemporal.cpp` | Owned suites exist; next step is explicit flow and `release_critical` mapping. |
 | `tensor` | `tests/tensor/` | `benchmarks/tensor/` | `tests/integration/pipeline/rag_ai_pipeline_test.cpp`, `tests/tensor/test_tensor_mid_layer_integration.cpp` | Owned suites exist; next step is explicit flow and `release_critical` mapping. |
 | `themis` | `tests/themis/` | `benchmarks/themis/` | `tests/themis/*.cpp`, `benchmarks/themis/*.cpp` | Owned suites exist; next step is explicit flow and `release_critical` mapping. |

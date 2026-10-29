@@ -135,3 +135,26 @@ TEST_F(LlmWikiEdgeCaseTest, WE6_CorruptThenValidSave_RecoversByLoad) {
     EXPECT_TRUE(status.ok()) << status.message;
     EXPECT_EQ(loaded.version, "2.0.0");
 }
+
+TEST_F(LlmWikiEdgeCaseTest, WE7_ChecksumCorruptionRecoversLatestValidLogEntry) {
+    WorkspaceStateManager mgr(tmp_dir_);
+    WorkspaceState saved;
+    saved.workspace_root = tmp_dir_.string();
+    saved.version = "3.4.5";
+    saved.links["source"] = {"reference"};
+    ASSERT_TRUE(mgr.save(saved).ok());
+
+    {
+        std::ofstream state_file(tmp_dir_ / "wiki" / "state.json", std::ios::trunc);
+        ASSERT_TRUE(state_file.is_open());
+        state_file << R"({"version":"corrupt","created_at":"","last_updated":"","workspace_root":"bad","checksum":"deadbeef"})";
+    }
+
+    WorkspaceState recovered;
+    const auto status = mgr.load(recovered);
+
+    EXPECT_EQ(status.code, WorkspaceStatus::Code::CorruptState);
+    EXPECT_EQ(recovered.version, "3.4.5");
+    ASSERT_EQ(recovered.links.count("source"), 1U);
+    EXPECT_EQ(recovered.links.at("source"), (std::vector<std::string>{"reference"}));
+}

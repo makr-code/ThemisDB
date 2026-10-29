@@ -16,7 +16,9 @@ using namespace themis::evaluation;
 
 // ── helpers ───────────────────────────────────────────────────────────────────
 
-static std::vector<RankedResult> make_ranked(std::initializer_list<const char*> ids) {
+namespace {
+
+std::vector<RankedResult> make_ranked(std::initializer_list<const char*> ids) {
     std::vector<RankedResult> v = {};
 
     v.reserve(ids.size());
@@ -27,7 +29,7 @@ static std::vector<RankedResult> make_ranked(std::initializer_list<const char*> 
     return v;
 }
 
-static std::vector<std::string> make_gt(std::initializer_list<const char*> ids) {
+std::vector<std::string> make_gt(std::initializer_list<const char*> ids) {
     std::vector<std::string> out = {};
 
     out.reserve(ids.size());
@@ -174,3 +176,35 @@ TEST(EvaluationRetrievalMetricsFocusedTests, RM14_MetricError_KindIsPreserved) {
         EXPECT_EQ(e.kind(), MetricErrorKind::EmptyGroundTruth);
     }
 }
+
+TEST(EvaluationRetrievalMetricsFocusedTests, RelevantResultBelowKOnlyContributesToMrr) {
+    const auto metrics = computeRetrievalQuality(
+        make_ranked({"irrelevant", "relevant"}), make_gt({"relevant"}), 1, 10);
+    EXPECT_DOUBLE_EQ(metrics.recall_at_k, 0.0);
+    EXPECT_DOUBLE_EQ(metrics.precision_at_k, 0.0);
+    EXPECT_DOUBLE_EQ(metrics.ndcg_at_k, 0.0);
+    EXPECT_DOUBLE_EQ(metrics.mrr, 0.5);
+    EXPECT_DOUBLE_EQ(metrics.candidate_reduction_ratio, 0.9);
+}
+
+TEST(EvaluationRetrievalMetricsFocusedTests, DuplicateBelowKStillRejectsEntireRanking) {
+    try {
+        static_cast<void>(computeRetrievalQuality(
+            make_ranked({"a", "b", "b"}), make_gt({"a"}), 1));
+        FAIL() << "Expected duplicate detection outside the top-k window";
+    } catch (const MetricError& error) {
+        EXPECT_EQ(error.kind(), MetricErrorKind::DuplicateEntries);
+    }
+}
+
+TEST(EvaluationRetrievalMetricsFocusedTests, DuplicateGroundTruthIsNotSilentlyDeduplicated) {
+    try {
+        static_cast<void>(computeRetrievalQuality(
+            make_ranked({"a", "b"}), make_gt({"a", "a"}), 2));
+        FAIL() << "Expected duplicate ground-truth labels to be rejected";
+    } catch (const MetricError& error) {
+        EXPECT_EQ(error.kind(), MetricErrorKind::DuplicateEntries);
+    }
+}
+
+} // namespace
