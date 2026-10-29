@@ -76,6 +76,10 @@ permissions:
   attestations: write
   security-events: write
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   prepare-llm-model-cache:
     if: ${{ inputs.include_tinyllama == true || inputs.include_tinyllama == 'true' }}

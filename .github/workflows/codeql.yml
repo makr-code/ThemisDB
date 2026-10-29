@@ -11,6 +11,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: deprecated-codeql-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   deprecated-notice:
     name: "Security: CodeQL - Deprecated Stub"

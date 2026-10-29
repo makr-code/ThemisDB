@@ -45,14 +45,6 @@ on:
         options:
           - gbenchmark
           - ctest
-      benchmark_framework:
-        description: 'Benchmark framework mode'
-        required: true
-        default: 'gbenchmark'
-        type: choice
-        options:
-          - gbenchmark
-          - cbenchmark
 
 concurrency:
   group: build-wave-b-llm-${{ github.ref }}
@@ -95,7 +87,6 @@ jobs:
       benchmark_suite: ${{ inputs.benchmark_suite }}
       benchmark_filter: ${{ inputs.benchmark_filter }}
       execution_backend: ${{ inputs.execution_backend }}
-      benchmark_framework: ${{ inputs.benchmark_framework }}
       benchmark_min_time: ${{ matrix.scenario == 'small_10k' && '0.10s' || matrix.scenario == 'medium_1m' && '0.25s' || '0.50s' }}
       benchmark_repetitions: 3
       hardware_profile: ${{ needs.hardware-detection.outputs.hardware_profile }}

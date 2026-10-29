@@ -19,6 +19,10 @@ permissions:
   checks: write
   pull-requests: write
 
+concurrency:
+  group: build-wave-b-transaction-${{ github.ref }}
+  cancel-in-progress: false
+
 env:
   CMAKE_BUILD_TYPE: Release
   THEMIS_EDITION: COMMUNITY

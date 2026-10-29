@@ -61,6 +61,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   benchmark-pipeline:
     name: "Benchmark Pipeline: ${{ inputs.scenario_label }} / ${{ inputs.benchmark_suite }}"
