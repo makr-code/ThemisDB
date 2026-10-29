@@ -199,12 +199,12 @@ jobs:
           if stale:
               violations.append(f"Registry Sync: {len(stale)} stale workflow references: {', '.join(sorted(stale))}")
 
-          # Check 9: PR gate run summaries
-          for wf in glob.glob('.github/workflows/gate-pr-*.yml'):
+          # Check 9: Workflow run summaries
+          for wf in glob.glob('.github/workflows/*.yml'):
               with open(wf, 'r') as f:
                   content = f.read()
               if 'GITHUB_STEP_SUMMARY' not in content and './.github/actions/write-run-summary' not in content:
-                  violations.append(f"{os.path.basename(wf)}: PR gate must write a GITHUB_STEP_SUMMARY")
+                  violations.append(f"{os.path.basename(wf)}: workflow must write a GITHUB_STEP_SUMMARY")
 
           # Output results
           print(f"\n{'=' * 60}")
