@@ -30,12 +30,8 @@ foreach(_src IN LISTS GPU_MODULE_TEST_SOURCES)
         continue()
     endif()
 
-    # This suite includes <cuda.h> directly and must only compile in real CUDA builds.
-    if(_stem STREQUAL "test_cuda_wrapper_integration" AND NOT THEMIS_ENABLE_CUDA)
-        message(STATUS "Skipping ${_target} (THEMIS_ENABLE_CUDA=OFF, direct <cuda.h> dependency)")
-        continue()
-    endif()
-
+    # test_cuda_wrapper_integration is intentionally CPU-stub safe and can run
+    # without CUDA by validating the RAII lifecycle contract in the non-CUDA path.
     add_executable(${_target} "${_src}")
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}
