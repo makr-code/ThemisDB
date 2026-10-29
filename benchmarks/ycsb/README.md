@@ -142,6 +142,26 @@ not production performance or cross-database ranking. The test server was stoppe
 The external comparison requirements remain in
 [`../BENCHMARK_STANDARDS.md`](../BENCHMARK_STANDARDS.md).
 
+### Release Optimization Control
+
+The local `vscode-windows-release` preset disables the two-handler MSVC
+low-memory optimization override through
+`THEMIS_MSVC_HEAVY_HANDLER_LOW_MEMORY=OFF`. Default CI behavior is unchanged.
+The exact cache behavior and build requirements are documented in
+[`../../cmake/README.md`](../../cmake/README.md).
+
+The earlier Release run at `release_ycsb/20261029_200312/` contains twelve
+successful runs (1000 records/2000 operations, three sequential repetitions per
+workload), but used the old `/Od` overrides. Its results retain their original
+binary hash. After the local `/O2` rebuild, four separate 100-record/200-operation
+functional smokes passed under
+`optimized_release_validation/20261029_204406/` with their own hash and compiler
+commands. The different protocols do not establish an optimization speedup.
+
+The optimized Index-Stats probe returned 200 using `GET /index/stats` with a
+JSON body. The query-string form returned 404 before handler dispatch; this
+routing observation is retained separately and was not changed by the build fix.
+
 ## Bezug
 
 - Benchmark-Root: [`../README.md`](../README.md)

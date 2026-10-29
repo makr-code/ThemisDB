@@ -3369,9 +3369,11 @@ namespace {
     };
 
     /**
-     * @brief Classify Route.
-     * @param[in] req Input parameter.
-     * @return Return value.
+    * @brief Classify an HTTP request without modifying its target.
+    * @param[in] req Request whose method and endpoint path select the route.
+    * @return Matching route, or NotFound for an unsupported path or method.
+    * @note Index statistics match the path without query parameters; the handler
+    *       receives the original target to validate table and column parameters.
      * @details Calls: method(), std::string(), target(), find(), substr(), rfind(), data(), size().
      */
     Route classifyRoute(const http::request<http::string_body>& req) {
@@ -3498,7 +3500,7 @@ namespace {
         if (target == "/index/drop" && method == http::verb::post) {
           return Route::IndexDropPost;
         }
-        if (target == "/index/stats" && method == http::verb::get) {
+                if (path_only == "/index/stats" && method == http::verb::get) {
           return Route::IndexStatsGet;
         }
         if (target == "/index/rebuild" && method == http::verb::post) {

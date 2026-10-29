@@ -456,14 +456,40 @@ TEST_F(ApiIntegrationTest, IndexCreate_ValidRequest_Returns200) {
 }
 
 TEST_F(ApiIntegrationTest, IndexStats_Returns200) {
-    auto res = get("/index/stats");
-    if (res.result() == http::status::bad_request) {
-        // Endpoint requires table parameter; GET helper cannot attach JSON body.
-        GTEST_SKIP() << "Index stats requires table parameter in this build";
-    }
-    EXPECT_EQ(res.result(), http::status::ok) << res.body();
+    auto res = get("/index/stats?table=idx_test_col");
+    ASSERT_EQ(res.result(), http::status::ok) << res.body();
     json body;
     ASSERT_NO_THROW(body = json::parse(res.body()));
+    EXPECT_TRUE(body.is_array());
+    EXPECT_TRUE(body.empty());
+}
+
+TEST_F(ApiIntegrationTest, IndexStats_QueryPreservesTableAndColumn) {
+    const json request = {
+        {"table", "idx_test_col"},
+        {"field", "country"},
+        {"column", "country"},
+        {"type", "hash"}
+    };
+    auto created = post("/index/create", request);
+    ASSERT_EQ(created.result(), http::status::ok) << created.body();
+
+    auto res = get("/index/stats?table=idx_test_col&column=country");
+    ASSERT_EQ(res.result(), http::status::ok) << res.body();
+    json body;
+    ASSERT_NO_THROW(body = json::parse(res.body()));
+    EXPECT_EQ(body.at("table"), "idx_test_col");
+    EXPECT_EQ(body.at("column"), "country");
+}
+
+TEST_F(ApiIntegrationTest, IndexStats_EmptyQueryTable_Returns400) {
+    auto res = get("/index/stats?table=");
+    EXPECT_EQ(res.result(), http::status::bad_request) << res.body();
+}
+
+TEST_F(ApiIntegrationTest, IndexStats_NearMatchPath_Returns404) {
+    auto res = get("/index/stats/extra?table=idx_test_col");
+    EXPECT_EQ(res.result(), http::status::not_found) << res.body();
 }
 
 // ===========================================================================
