@@ -39,7 +39,7 @@ permissions:
 
 concurrency:
   group: rag-phase-gate-${{ inputs.phase_id }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   phase_validation:

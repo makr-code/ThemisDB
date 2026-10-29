@@ -22,7 +22,7 @@ on:
 
 concurrency:
   group: wave-a-gpu-ci-exec-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   # Phase 1: Health Check & Environment Detection

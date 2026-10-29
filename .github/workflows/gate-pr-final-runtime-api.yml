@@ -11,7 +11,7 @@ permissions:
 
 concurrency:
   group: gate-pr-final-runtime-api-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 env:
   THEMIS_ADMIN_ENDPOINT: 'http://localhost:18080'

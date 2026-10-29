@@ -44,7 +44,7 @@ on:
 
 concurrency:
   group: edition-license-${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 permissions:
   contents: read

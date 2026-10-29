@@ -76,7 +76,7 @@ on:
 
 concurrency:
   group: maintenance-housekeeping-${{ github.event_name }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 permissions:
   contents: read
