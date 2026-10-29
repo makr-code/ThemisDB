@@ -30,6 +30,12 @@ When documentation sources conflict, use this order:
 
 Archived or ai_working artifacts are evidence/history by default and are not normative unless explicitly promoted.
 
+### Active vs historical status artifacts
+
+- Active status artifacts: root governance and release docs, module-local `src/<module>/ROADMAP.md`, current audit/release evidence documents, and live `ai_context/` operational summaries.
+- Historical artifacts: `ai_working/` execution snapshots, planning decks, launch summaries, and older status bundles. These are evidence-only records and must never be treated as the current release/GA source of truth.
+- When a derivative artifact conflicts with `ROADMAP.md`, the canonical roadmap and active governance docs override the historical text.
+
 ## Wiki Source Classes And Weighting
 
 For GitHub wiki generation, every source is assigned a class and weight.

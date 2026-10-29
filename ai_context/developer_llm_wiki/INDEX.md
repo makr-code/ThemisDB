@@ -12,6 +12,12 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 - Quellen gesamt: 7989
 - Quellen-Hash: `f9c4e45e976ae4e3f61788cbb59e9f596999e8fe634836866ba8e73c4eb7c5bc`
 
+## Status And Source-of-Truth Governance
+
+- Release-readiness, GA status, blocker state, and implementation posture are canonical only in `ROADMAP.md` and active governance/release docs.
+- `ai_context/developer_llm_wiki/` is active operational context: useful for implementation guidance and review, but it must not redefine the status of the project.
+- `ai_working/` artifacts are historical evidence and planning snapshots. They are non-normative unless explicitly promoted by the root governance documents.
+
 ## Artefakte
 
 - [MODULES_AND_APIS.md](MODULES_AND_APIS.md)

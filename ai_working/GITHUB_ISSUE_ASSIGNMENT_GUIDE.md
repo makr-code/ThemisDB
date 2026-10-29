@@ -7,6 +7,9 @@ Status: "GitHub Issue-Based Team Assignment Ready"
 
 # Wave 10 Phase 1: GitHub Issue-Based Team Assignment
 
+> Status: Historical planning snapshot only; current release-readiness and blocker state come from `ROADMAP.md`.
+> This file is evidence-only and non-normative. It does not authorize launch or GA claims.
+
 ## 🎯 Requirement Acknowledged
 ✅ **Team assignments running via GitHub Issues** (not manual form)
 

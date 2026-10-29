@@ -25,6 +25,13 @@ ThemisDB is a high-performance multi-model database with native AI/LLM integrati
 **Overall Timeline:** Q1 2026 – Q4 2027  
 **Current Release:** v2.4.0-alpha
 
+## Canonical Status Authority
+
+- `ROADMAP.md` is the single source of truth for release-readiness, GA status, blocker status, and implementation posture in active workflow documentation.
+- `ai_context/` contains active operational context for AI agents and engineering coordination; it is explanatory and must remain aligned to the root roadmap rather than redefining the project status.
+- `ai_working/` contains historical execution snapshots and evidence records. These files are explicitly non-normative and must not be used as the basis for current GA or launch claims unless explicitly promoted by root governance documents.
+- Canonical read order for active status: `ROADMAP.md` -> module `src/<module>/ROADMAP.md` -> current governance/release docs -> `ai_context/` operational summaries -> `ai_working/` historical evidence.
+
 ## Source-Verified Reality Check (2026-09-09)
 
 This roadmap is now aligned to a source-backed reality check instead of optimistic documentation-only signals.

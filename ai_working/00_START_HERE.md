@@ -1,12 +1,14 @@
 # 🚀 Full Open Implementation — START HERE
 
-> **Status Sync (2026-08-26):** Dieses Dokument ist ein **Koordinations-/Historien-Einstieg** in `ai_working/` und **keine kanonische Statusquelle**.
+> **Status Sync (2026-08-26):** Dieses Dokument ist ein **historischer Planungs-/Evidenzsnapshot** in `ai_working/` und **keine kanonische Statusquelle**.
 > Für aktuellen Projektstatus immer zuerst:
 > 1. `/home/runner/work/ThemisDB/ThemisDB/ROADMAP.md`
 > 2. `/home/runner/work/ThemisDB/ThemisDB/docs/governance/GA_PROMOTION_SIGN_OFF.md`
 > 3. `/home/runner/work/ThemisDB/ThemisDB/audit/IMPLEMENTATION_AUDIT_2026-08-26.md`
 >
-> **Wichtig:** In diesem Dokument referenzierte Dateien wie `IMPLEMENTATION_SUMMARY.md`, `GA_EXECUTION_MASTER_BOARD.md`, `PHASE1_EXECUTION_BOARD.md` sind im aktuellen `ai_working/` Stand nicht vorhanden und als historische Referenzen zu behandeln.
+> **Wichtig:** `ai_working/` dokumentiert historische Entscheidungs- und Planungsstände; alle Launch-/GA-/"All Systems Go"-Claims in diesem Bereich sind als evidence-only und nicht normativ zu behandeln. Der aktuelle Status muss aus der Root-Roadmap und aktiven Governance-Dokumenten abgeleitet werden.
+>
+> **Historisch und nicht bindend:** In diesem Dokument referenzierte Dateien wie `IMPLEMENTATION_SUMMARY.md`, `GA_EXECUTION_MASTER_BOARD.md`, `PHASE1_EXECUTION_BOARD.md` sind im aktuellen `ai_working/` Stand nicht vorhanden und als historische Referenzen zu behandeln.
 
 **Generated:** 2026-08-02  
 **Updated:** 2026-08-10  

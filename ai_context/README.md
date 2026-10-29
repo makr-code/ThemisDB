@@ -15,6 +15,12 @@ Persistente Wissensbasis für KI-Agenten im ThemisDB-Repository.
 
 `ai_context/` enthält langlebige, kuratierte Wissensartefakte, die Agenten für konsistente Implementierungsentscheidungen benötigen.
 
+## Status Governance
+
+- Aktueller Release-/GA-Status: nur in `ROADMAP.md` und dem jeweils aktuellen Governance-/Release-Set definieren.
+- Canonical read order: `ROADMAP.md` → module `src/<module>/ROADMAP.md` → aktuelle Governance-/Release-Dokumente → `ai_context/` operational summaries → `ai_working/` historische Snapshots.
+- `ai_working/` ist explizit historisch/evidenzbasiert und nicht normativ. Historische Launch-/GA-Claims sind nur als Kontext für vergangene Planungen zu lesen, nicht als aktuelle Projektstatus-Quelle.
+
 ## Ablage-Konventionen
 
 - Nur stabile, modulübergreifend relevante Inhalte ablegen
