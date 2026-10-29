@@ -24,6 +24,12 @@ Human_Author: "ThemisDB Team"
 
 This file tracks the public header contract for the acceleration module. Runtime implementation status, benchmark gates, and hardware-dependent validation remain in the canonical implementation roadmap because those are not guaranteed to hold on every development host.
 
+## v2.5.0 / v3.0.0 public contract focus
+
+- v2.5.0: stabilize the public acceleration contract around deterministic capability selection, fail-closed fallback semantics, and release-ready benchmark evidence.
+- v3.0.0: standardize distributed multi-device and resource-management expectations across optional backends and clarified support tiers.
+- Public API documentation should not overstate hardware availability; all optional backend claims remain tied to benchmark evidence and tested deployment profiles.
+
 ## Current status
 
 The public API currently includes the core compute-backend contract, capability selector, AI hardware dispatcher, fallback dispatchers, plugin validation interfaces, and multi-device resource management surfaces. The major runtime design points are aligned with the implementation code under `src/acceleration/`.
