@@ -36,6 +36,18 @@ namespace query {
 
 static constexpr size_t kDefaultResultQueueCapacity = 65536;
 
+/**
+ * @brief Bounded queue used to fan out query results to subscribed consumers.
+ *
+ * The queue provides a single-producer/single-consumer style handoff for result
+ * batches emitted by `ContinuousQueryEngineImpl`. It serializes access with a
+ * mutex and wakes blocked readers via a condition variable. When the queue is at
+ * capacity the oldest result is dropped to keep the consumer side responsive under
+ * bursty workloads.
+ *
+ * @note The queue is intentionally bounded: callers must treat dropped items as a
+ * normal backpressure mechanism rather than as an error condition.
+ */
 class ResultQueue {
 public:
     explicit ResultQueue(size_t capacity = kDefaultResultQueueCapacity);
@@ -59,8 +71,19 @@ public:
      */
     void cancel() noexcept;
 
+    /**
+     * @brief Returns the number of queued results currently waiting to be read.
+     * @return Number of buffered result items in the queue.
+     * @note The value is sampled while holding the queue mutex, so it reflects a
+     * consistent snapshot of the queue depth for a single call.
+     */
     [[nodiscard]] size_t depth() const noexcept;
-    [[nodiscard]] bool   isCancelled() const noexcept;
+
+    /**
+     * @brief Reports whether the queue has been cancelled for shutdown.
+     * @return `true` if cancellation has been requested; otherwise `false`.
+     */
+    [[nodiscard]] bool isCancelled() const noexcept;
 
 private:
     mutable std::mutex       mutex_;
