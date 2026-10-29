@@ -22,11 +22,6 @@ on:
         required: false
         default: 'gbenchmark'
         type: string
-      benchmark_framework:
-        description: 'Benchmark framework (gbenchmark|cbenchmark)'
-        required: false
-        default: 'gbenchmark'
-        type: string
       benchmark_min_time:
         description: 'Google Benchmark minimum time, e.g. 0.10s'
         required: false
@@ -141,7 +136,6 @@ jobs:
           EXTRA_FILTER="${{ inputs.benchmark_filter }}"
           MIN_TIME="${{ inputs.benchmark_min_time }}"
           REPS="${{ inputs.benchmark_repetitions }}"
-          FRAMEWORK="${{ inputs.benchmark_framework }}"
           SUITE_MAP="benchmarks/benchmark_suite_map.json"
 
           if [[ ! -f "${SUITE_MAP}" ]]; then
@@ -165,34 +159,26 @@ jobs:
             fi
 
             OUT="${RESULTS_DIR}/${NAME}.json"
-            ARGS=()
-            if [[ "${FRAMEWORK}" == "gbenchmark" ]]; then
-              ARGS=(
-                "--benchmark_min_time=${MIN_TIME}"
-                "--benchmark_format=json"
-                "--benchmark_out=${OUT}"
-                "--benchmark_out_format=json"
-                "--benchmark_repetitions=${REPS}"
-              )
-              if [[ -n "${EXTRA_FILTER}" ]]; then
-                ARGS+=("--benchmark_filter=${EXTRA_FILTER}")
-              fi
-            else
-              echo "::warning::benchmark_framework='${FRAMEWORK}' requested; running ${NAME} in compatibility mode."
+            ARGS=(
+              "--benchmark_min_time=${MIN_TIME}"
+              "--benchmark_format=json"
+              "--benchmark_out=${OUT}"
+              "--benchmark_out_format=json"
+              "--benchmark_repetitions=${REPS}"
+            )
+            if [[ -n "${EXTRA_FILTER}" ]]; then
+              ARGS+=("--benchmark_filter=${EXTRA_FILTER}")
             fi
 
             echo "::group::Running ${NAME}"
             set +e
-            if [[ "${FRAMEWORK}" == "gbenchmark" ]]; then
-              "${BIN}" "${ARGS[@]}"
-              STATUS=$?
-            else
-              "${BIN}" > "${RESULTS_DIR}/${NAME}.txt" 2>&1
-              STATUS=$?
-              BENCH_OUT="${OUT}" BENCH_NAME="${NAME}" BENCH_FRAMEWORK="${FRAMEWORK}" BENCH_STATUS="${STATUS}" \
-                python3 -c "import json, os, pathlib; pathlib.Path(os.environ['BENCH_OUT']).write_text(json.dumps({'binary': os.environ['BENCH_NAME'], 'framework': os.environ['BENCH_FRAMEWORK'], 'status': int(os.environ['BENCH_STATUS'])}), encoding='utf-8')"
-            fi
+            "${BIN}" "${ARGS[@]}"
+            STATUS=$?
             set -e
+            if [[ ${STATUS} -eq 0 ]] && ! python3 -c 'import json, pathlib, sys; data=json.loads(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8")); rows=data.get("benchmarks"); sys.exit(0 if isinstance(rows, list) and len(rows) > 0 else 1)' "${OUT}"; then
+              echo "::error::${NAME} did not produce non-empty Google Benchmark JSON."
+              STATUS=1
+            fi
             if [[ ${STATUS} -eq 0 ]]; then
               RUN_COUNT=$((RUN_COUNT + 1))
             else
@@ -207,6 +193,11 @@ jobs:
             echo "FAIL_COUNT=${FAIL_COUNT}"
             echo "SUITE_BIN_REGEX=${SUITE_BIN_REGEX}"
           } >> "$GITHUB_ENV"
+
+          if [[ ${RUN_COUNT} -eq 0 || ${FAIL_COUNT} -ne 0 ]]; then
+            echo "::error::Benchmark gate requires at least one valid result and zero failed binaries (ran=${RUN_COUNT}, failed=${FAIL_COUNT})."
+            exit 1
+          fi
 
       - name: Execute ctest benchmark smoke suite
         if: ${{ inputs.execution_backend == 'ctest' }}
@@ -233,7 +224,7 @@ jobs:
           ctest --test-dir build/bench-suite --output-on-failure -R "smoke_bench_" || true
 
       - name: Compare results against module expectations
-        if: ${{ inputs.execution_backend == 'gbenchmark' && inputs.benchmark_framework == 'gbenchmark' }}
+        if: ${{ inputs.execution_backend == 'gbenchmark' }}
         shell: bash
         run: |
           set +e
@@ -254,7 +245,7 @@ jobs:
           exit 0
 
       - name: Set compare status for non-gbenchmark mode
-        if: ${{ !(inputs.execution_backend == 'gbenchmark' && inputs.benchmark_framework == 'gbenchmark') }}
+        if: ${{ inputs.execution_backend != 'gbenchmark' }}
         shell: bash
         run: |
           echo "compare_exit=0" >> "$GITHUB_ENV"

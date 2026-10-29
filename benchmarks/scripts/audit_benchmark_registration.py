@@ -48,12 +48,12 @@ def normalize_cpp_token(token: str, cmake_dir: Path) -> str | None:
 
 
 NAMED_REGISTRATION_PATTERNS = [
-    # themis_add_standard_benchmark(target source.cpp)
-    r"themis_add_standard_benchmark\(\s*[^\s\)]+\s+([^\s\)]+\.cpp)\s*\)",
+    # themis_add_standard_benchmark(target source.cpp [optional arguments])
+    r"themis_add_standard_benchmark\(\s*[^\s\)]+\s+([^\s\)]+\.cpp)\b[^\)]*\)",
     # wave5_add_benchmark(target source.cpp label)
     r"wave5_add_benchmark\(\s*[^\s\)]+\s+([^\s\)]+\.cpp)\s*[^\)]*\)",
     # add_w7_benchmark(target source.cpp)
-    r"add_w7_benchmark\(\s*[^\s\)]+\s+([^\s\)]+\.cpp)\s*\)",
+    r"add_w7_benchmark\(\s*[^\s\)]+\s+([^\s\)]+\.cpp)\b[^\)]*\)",
 ]
 
 

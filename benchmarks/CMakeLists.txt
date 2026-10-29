@@ -44,42 +44,6 @@ function(themis_apply_benchmark_release_flags target_name)
     )
 endfunction()
 
-# ============================================================================
-# Standalone Benchmarks (no Google Benchmark required – custom main())
-# These benchmarks use synthetic data and have no external dependencies beyond
-# the packages already required for the importer build.
-# ============================================================================
-
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/importers/bench_importer_throughput.cpp")
-    message(STATUS "Adding Importer Throughput benchmarks (standalone, no live broker)")
-
-    add_executable(bench_importer_throughput
-        importers/bench_importer_throughput.cpp
-    )
-
-    target_include_directories(bench_importer_throughput PRIVATE
-        ${CMAKE_SOURCE_DIR}/include
-    )
-
-    target_link_libraries(bench_importer_throughput PRIVATE
-        nlohmann_json::nlohmann_json
-        Threads::Threads
-    )
-
-    target_compile_definitions(bench_importer_throughput PRIVATE
-        THEMIS_BENCHMARK_BUILD=1
-    )
-
-    themis_apply_benchmark_release_flags(bench_importer_throughput)
-
-    install(TARGETS bench_importer_throughput
-        RUNTIME DESTINATION bin/benchmarks
-        COMPONENT benchmarks
-    )
-
-    message(STATUS "  Importer Throughput: PostgreSQL COPY/INSERT, SQLite, MongoDB NDJSON, Kafka mock-import (AC-8/AC-9)")
-endif()
-
 # Find Google Benchmark
 find_package(benchmark QUIET CONFIG)
 if(NOT benchmark_FOUND)
@@ -210,6 +174,9 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/query/CMakeLists.txt")
 endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/rag/CMakeLists.txt")
     add_subdirectory(rag)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/retrieval/CMakeLists.txt")
+  add_subdirectory(retrieval)
 endif()
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/llm_wiki/CMakeLists.txt")
     add_subdirectory(llm_wiki)
@@ -347,6 +314,9 @@ endif()
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/distributed_tensor/CMakeLists.txt")
     add_subdirectory(distributed_tensor)
+endif()
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/onnx_clip/CMakeLists.txt")
+  add_subdirectory(onnx_clip)
 endif()
 
 themis_add_standard_benchmark(bench_ycsb ycsb/bench_ycsb.cpp)
@@ -4873,17 +4843,30 @@ endif()
 
 # Aggregate build target for all benchmark executables that are currently
 # eligible under edition/feature gating.
-set(_eligible_benchmark_targets "")
-get_property(_benchmark_dir_targets DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}" PROPERTY BUILDSYSTEM_TARGETS)
-foreach(_candidate_target ${_benchmark_dir_targets})
+function(themis_collect_benchmark_targets directory output_var)
+  set(_benchmark_targets "")
+
+  get_property(_directory_targets DIRECTORY "${directory}" PROPERTY BUILDSYSTEM_TARGETS)
+  foreach(_candidate_target IN LISTS _directory_targets)
     if(_candidate_target MATCHES "^bench_" OR _candidate_target MATCHES "^benchmark_" OR _candidate_target STREQUAL "llm_bench")
-        themis_is_suite_enabled(_candidate_enabled "${_candidate_target}")
-        if(_candidate_enabled)
-            list(APPEND _eligible_benchmark_targets ${_candidate_target})
+      themis_is_suite_enabled(_candidate_enabled "${_candidate_target}")
+      if(_candidate_enabled)
+        list(APPEND _benchmark_targets ${_candidate_target})
+      endif()
         endif()
-    endif()
-endforeach()
-list(REMOVE_DUPLICATES _eligible_benchmark_targets)
+  endforeach()
+
+  get_property(_subdirectories DIRECTORY "${directory}" PROPERTY SUBDIRECTORIES)
+  foreach(_subdirectory IN LISTS _subdirectories)
+    themis_collect_benchmark_targets("${_subdirectory}" _child_benchmark_targets)
+    list(APPEND _benchmark_targets ${_child_benchmark_targets})
+  endforeach()
+
+  list(REMOVE_DUPLICATES _benchmark_targets)
+  set(${output_var} "${_benchmark_targets}" PARENT_SCOPE)
+endfunction()
+
+themis_collect_benchmark_targets("${CMAKE_CURRENT_SOURCE_DIR}" _eligible_benchmark_targets)
 
 add_custom_target(themis_benchmarks_all_eligible)
 if(_eligible_benchmark_targets)
@@ -4943,26 +4926,6 @@ if(WIN32)
         set(_themis_vcpkg_runtime_bin_dir "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin")
     endif()
 
-    function(themis_sync_runtime_dlls_for_benchmark_target target_name)
-        add_custom_command(TARGET ${target_name} POST_BUILD
-            COMMAND ${CMAKE_COMMAND}
-                -DBIN_DIR=${CMAKE_BINARY_DIR}/bin
-                -DVCPKG_BIN_DIR=${_themis_vcpkg_runtime_bin_dir}
-                -DDST_DIR=$<TARGET_FILE_DIR:${target_name}>
-                -P ${CMAKE_SOURCE_DIR}/cmake/CopyRuntimeDlls.cmake
-            COMMENT "Syncing core runtime DLLs for ${target_name}"
-        )
-
-        add_custom_command(TARGET ${target_name} POST_BUILD
-            COMMAND ${CMAKE_COMMAND}
-                -DBIN_DIR=$<TARGET_FILE_DIR:${target_name}>
-                -DVCPKG_BIN_DIR=${CMAKE_BINARY_DIR}/bin
-                -DDST_DIR=${CMAKE_BINARY_DIR}/bin
-                -P ${CMAKE_SOURCE_DIR}/cmake/CopyRuntimeDlls.cmake
-            COMMENT "Syncing benchmark runtime DLLs for ${target_name} into build/bin"
-        )
-    endfunction()
-
     add_custom_target(sync_benchmark_runtime_dlls
         COMMAND ${CMAKE_COMMAND}
             -DBIN_DIR=${CMAKE_BINARY_DIR}/bin
@@ -4981,11 +4944,12 @@ if(WIN32)
         if(TARGET ${_benchmark_runtime_target})
             get_target_property(_benchmark_runtime_type ${_benchmark_runtime_target} TYPE)
             if(_benchmark_runtime_type STREQUAL "EXECUTABLE")
-                themis_sync_runtime_dlls_for_benchmark_target(${_benchmark_runtime_target})
                 add_dependencies(sync_benchmark_runtime_dlls ${_benchmark_runtime_target})
             endif()
         endif()
     endforeach()
+
+        add_dependencies(themis_benchmarks_all_eligible sync_benchmark_runtime_dlls)
 endif()
 
 themis_report_benchmark_coverage("${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_LIST_FILE}")

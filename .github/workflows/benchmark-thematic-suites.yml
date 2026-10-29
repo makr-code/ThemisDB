@@ -32,15 +32,6 @@ on:
         options:
           - gbenchmark
           - ctest
-      benchmark_framework:
-        description: 'Benchmark framework mode'
-        required: true
-        default: 'gbenchmark'
-        type: choice
-        options:
-          - gbenchmark
-          - cbenchmark
-
 permissions:
   contents: read
 
@@ -82,7 +73,6 @@ jobs:
       benchmark_suite: ${{ matrix.suite }}
       benchmark_filter: ${{ github.event_name == 'workflow_dispatch' && inputs.benchmark_filter || '' }}
       execution_backend: ${{ github.event_name == 'workflow_dispatch' && inputs.execution_backend || 'gbenchmark' }}
-      benchmark_framework: ${{ github.event_name == 'workflow_dispatch' && inputs.benchmark_framework || 'gbenchmark' }}
       benchmark_min_time: ${{ (github.event_name == 'workflow_dispatch' && inputs.scenario == 'large_10m') && '0.50s' || (github.event_name == 'workflow_dispatch' && inputs.scenario == 'medium_1m') && '0.25s' || '0.10s' }}
       benchmark_repetitions: 3
       hardware_profile: ${{ needs.hardware-detection.outputs.hardware_profile }}
@@ -108,7 +98,6 @@ jobs:
       benchmark_suite: ${{ matrix.suite }}
       benchmark_filter: ${{ github.event_name == 'workflow_dispatch' && inputs.benchmark_filter || '' }}
       execution_backend: ${{ github.event_name == 'workflow_dispatch' && inputs.execution_backend || 'gbenchmark' }}
-      benchmark_framework: ${{ github.event_name == 'workflow_dispatch' && inputs.benchmark_framework || 'gbenchmark' }}
       benchmark_min_time: ${{ (github.event_name == 'workflow_dispatch' && inputs.scenario == 'large_10m') && '0.50s' || (github.event_name == 'workflow_dispatch' && inputs.scenario == 'medium_1m') && '0.25s' || '0.10s' }}
       benchmark_repetitions: 3
       hardware_profile: ${{ needs.hardware-detection.outputs.hardware_profile }}

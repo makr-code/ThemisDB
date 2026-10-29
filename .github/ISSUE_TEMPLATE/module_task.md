@@ -51,5 +51,6 @@ assignees: []
 - Risk/constraint: {{RISK_CONSTRAINT}}
 - Ownership/path rule: {{OWNERSHIP_PATH}}
 - Follow the module quick rules in [.github/copilot/module-quick-rules.md](../copilot/module-quick-rules.md) and the detailed guidance in [.github/MODULE_DEVELOPER_DOCUMENTATION_GUIDELINES.md](../MODULE_DEVELOPER_DOCUMENTATION_GUIDELINES.md).
+- Use the issue blueprint in [docs/MODULE_EVOLUTION_ISSUE_BLUEPRINT.md](../../docs/MODULE_EVOLUTION_ISSUE_BLUEPRINT.md) to ensure the task is bounded, evidence-based, and rollout-ready.
 - Add exactly one `area:*` label matching the module and keep `type:*`, `priority:*`, and `status:*` aligned with [.github/GOVERNANCE.md](../GOVERNANCE.md).
 - Archive or delete markdown files that are no longer relevant, except the governance documentation.

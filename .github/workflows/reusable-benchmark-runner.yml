@@ -139,10 +139,15 @@ jobs:
 
             echo "::group::Running ${NAME}"
             if "${BIN}" "${ARGS[@]}"; then
-              echo "  ✅ ${NAME} completed"
-              RUN_COUNT=$((RUN_COUNT + 1))
+              if python3 -c 'import json, pathlib, sys; data=json.loads(pathlib.Path(sys.argv[1]).read_text(encoding="utf-8")); rows=data.get("benchmarks"); sys.exit(0 if isinstance(rows, list) and len(rows) > 0 else 1)' "${OUT}"; then
+                echo "  ${NAME} completed with benchmark rows"
+                RUN_COUNT=$((RUN_COUNT + 1))
+              else
+                echo "::error::${NAME} produced no non-empty Google Benchmark JSON."
+                FAIL_COUNT=$((FAIL_COUNT + 1))
+              fi
             else
-              echo "  ⚠️  ${NAME} exited with non-zero status (recorded)"
+              echo "::error::${NAME} exited with non-zero status."
               FAIL_COUNT=$((FAIL_COUNT + 1))
             fi
             echo "::endgroup::"
@@ -152,6 +157,10 @@ jobs:
           echo "FAIL_COUNT=${FAIL_COUNT}" >> "$GITHUB_ENV"
 
           echo "Completed: ${RUN_COUNT} benchmark(s) run, ${FAIL_COUNT} non-zero exit(s)."
+          if [[ ${RUN_COUNT} -eq 0 || ${FAIL_COUNT} -ne 0 ]]; then
+            echo "::error::Benchmark gate requires at least one valid result and zero failed binaries (ran=${RUN_COUNT}, failed=${FAIL_COUNT})."
+            exit 1
+          fi
         # Harness-level errors (e.g. missing build dir, failed find/mapfile) should fail the step.
         # Individual benchmark binary failures are recorded in FAIL_COUNT but do not abort the loop.
 

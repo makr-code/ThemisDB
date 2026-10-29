@@ -306,6 +306,9 @@ protected:
 
 using themis::bench::onnx_clip::OnnxClipCpuFixture;
 using themis::bench::onnx_clip::OnnxClipCpuWarmFixture;
+using themis::bench::onnx_clip::OnnxClipLatencyRegressionFixture;
+using themis::bench::onnx_clip::OnnxClipInitializationProfiler;
+using themis::bench::onnx_clip::MockOnnxClipModel;
 
 /**
  * @brief FCP-01: Single-image latency benchmark (target: ≤ 150 ms).

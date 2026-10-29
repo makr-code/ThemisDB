@@ -12,6 +12,116 @@ Detailed implementation backlogs live close to code and are aggregated in module
 - Module-specific enhancement details are tracked in `src/FUTURE_ENHANCEMENTS.md` and `src/<module>/FUTURE_ENHANCEMENTS.md`.
 - Archived enhancement snapshots are stored in `docs/ARCHIVED/ai-working-history/`.
 
+## Overall v2.5.0 → v3.0.0 module evolution concept
+
+The module issue portfolio is not meant to be a collection of isolated documentation tasks. It forms a single evidence-first rollout for the project-wide transition from v2.5.0 to v3.0.0.
+
+### Goal
+
+Convert each module from a vague or partially documented status into an explicit, source-backed engineering target with measurable validation and release gate conditions.
+
+### Core principle
+
+Every module issue must answer the same questions with direct evidence:
+
+- What is the actual current state of the module today?
+- Which source files, contracts, and tests define that state?
+- What is the required v3.0.0 target state and why does it matter?
+- Which runtime constraints, failure modes, and safety gates must hold?
+- What validation proves the module is ready for the next release phase?
+
+### Release wave model
+
+The rollout is organized as phases instead of a single monolithic roadmap item:
+
+1. Phase 1 — evidence and state normalization
+   - confirm the real source state for each module
+   - align docs, tests, and implementation around current evidence
+   - identify missing or misleading statements in roadmap/module docs
+
+2. Phase 2 — contract and architecture hardening
+   - define the public contract and internal boundaries
+   - remove ambiguity from API, lifecycle, and failure semantics
+   - establish explicit compatibility and degraded-state behavior
+
+3. Phase 3 — performance and reliability improvements
+   - tie backend selection, queue policies, caching, retrieval, and execution to measurable targets
+   - enforce bounded retry/fallback behavior and fail-safe transitions
+   - prioritize modules with direct latency or correctness risk
+
+4. Phase 4 — security, resilience, and validation
+   - verify authorization, policy enforcement, trigger safety, and recovery design
+   - require fail-closed behavior under invalid or partial trust state
+   - prove resilience and failure handling under representative load
+
+5. Phase 5 — release-grade evidence and module handoff
+   - complete benchmark, tests, and operational proof for each module
+   - document unresolved risks and dependencies explicitly
+   - hand off to the release-ready branch only after evidence is stable
+
+### Module rollout order
+
+The first priority set contains the modules that define the core system behaviour and the highest risk for release trust:
+
+- acceleration
+- query
+- search
+- llm
+- rag
+- gpu
+- sharding
+- replication
+- auth
+- security
+
+The next wave covers integration and platform layers:
+
+- access_model
+- ai
+- ai_working
+- analytics
+- api
+- aql
+- cache
+- cdc
+- chaos
+- config
+- content
+- core
+- distributed_knowledge
+- distributed_tensor
+- execution
+- failover
+- governance
+- graph
+- index
+- ingestion
+- maintenance
+- observability
+- performance
+- plugins
+- process
+- projects
+- scheduler
+- server
+- storage
+- training
+- transaction
+
+The remaining modules follow the same rule: each issue must be module-specific, evidence-based, and tied back to the release wave plan instead of treated as standalone documentation churn.
+
+### Acceptance gates for the overall plan
+
+A module is ready to move forward only if all of the following are true:
+
+- the current state is verified against source and tests
+- invalid, partial, or degraded execution states are explicit
+- performance and safety claims are tied to measurable thresholds
+- documentation and code agree on the public contract and failure behavior
+- rollback, validation, and remaining risks are recorded
+
+This is the baseline for the v2.5.0 → v3.0.0 release transition: engineering evidence first, then implementation, then final verification and handoff.
+
 ## Source-Verified Roadmap Reality (2026-09-07)
 
 The enhancement plan must follow the same evidence discipline as the roadmap itself: no status claim is treated as release evidence unless backed by source, tests, or CI artifacts.
@@ -56,6 +166,9 @@ The enhancement plan must follow the same evidence discipline as the roadmap its
 - [src/README.md](src/README.md)
 - [ROADMAP.md](ROADMAP.md)
 - [CHANGELOG.md](CHANGELOG.md)
+- [docs/MODULE_EVOLUTION_ISSUE_BLUEPRINT.md](docs/MODULE_EVOLUTION_ISSUE_BLUEPRINT.md)
+
+All v2.5.0 → v3.0.0 work must follow the issue blueprint to keep module-level enhancement requests concrete, evidence-based, and rollout-ready.
 
 ## Governance Constraints
 
