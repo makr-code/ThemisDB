@@ -1,7 +1,12 @@
 ╔═══════════════════════════════════════════════════════════════════════════╗
-║                       WAVE 10 PHASE 1: READY TO LAUNCH                    ║
-║                   All Planning Complete, All Systems GO 🚀                ║
+║                WAVE 10 PHASE 1: HISTORICAL SNAPSHOT ONLY                 ║
+║         Evidence-only planning record; current status comes from ROADMAP. ║
 ╚═══════════════════════════════════════════════════════════════════════════╝
+
+STATUS GOVERNANCE:
+  - Use ROADMAP.md as the canonical source for release readiness and blocker state.
+  - This ai_working snapshot is historical evidence, not a live launch recommendation.
+  - GA / "all systems go" language in historical planning files is non-normative.
 
 USER REQUIREMENT CONFIRMED: Block D + A Parallel Execution
 ═══════════════════════════════════════════════════════════════════════════
