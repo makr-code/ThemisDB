@@ -1,22 +1,27 @@
-# Primary Sources — `metadata`
-<!-- status: current | validated: 2026-05-31 | commit: HEAD -->
-**Datum:** 2026-05-31
-**Status:** current
+[docs](../../index.md) > [de](../index.md) > [metadata](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
+**Datum:** 2026-10-29  
+**Status:** draft  
 **Primary (Quelle der Wahrheit):**
-- `src/metadata/README.md`
+- `include/metadata/ARCHITECTURE.md`
+- `include/metadata/FUTURE_ENHANCEMENTS.md`
+- `include/metadata/README.md`
+- `include/metadata/ROADMAP.md`
 - `src/metadata/ARCHITECTURE.md`
-- `src/metadata/ROADMAP.md`
+- `src/metadata/AUDIT.md`
+- `src/metadata/CHANGELOG.md`
+- `src/metadata/DOXYGEN.md`
+- `src/metadata/FEATURES.md`
 - `src/metadata/FUTURE_ENHANCEMENTS.md`
 - `src/metadata/MODULE_GAPS.md`
-- `src/metadata/SECURITY.md`
-- `src/metadata/AUDIT.md`
 - `src/metadata/PERFORMANCE_EXPECTATIONS.md`
-- `src/metadata/CHANGELOG.md`
+- `src/metadata/PRODUCTION_REQUIREMENTS.md`
+- `src/metadata/README.md`
+- `src/metadata/ROADMAP.md`
+- `src/metadata/SECURITY.md`
 
 **Bezug / Reference:**
-- Inventory-Baseline: `ai_working/developer_docs_inventory_report.md`
-- Alignment-Baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
-- Regel: neuere Planungsdokumente sind fuehrend gegenueber aelteren historischen Dokumenten.
+- Tool: `tools/module_docs_builder.py`
+- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `metadata`
 
 ---
 
@@ -30,7 +35,10 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`metadata`*
 
 | Datei | Pfad |
 |-------|------|
+| `ARCHITECTURE.md` | [`include/metadata/ARCHITECTURE.md`](../../../include/metadata/ARCHITECTURE.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`include/metadata/FUTURE_ENHANCEMENTS.md`](../../../include/metadata/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/metadata/README.md`](../../../include/metadata/README.md) |
+| `ROADMAP.md` | [`include/metadata/ROADMAP.md`](../../../include/metadata/ROADMAP.md) |
 
 ### `src/metadata/`
 
@@ -39,11 +47,16 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`metadata`*
 | `ARCHITECTURE.md` | [`src/metadata/ARCHITECTURE.md`](../../../src/metadata/ARCHITECTURE.md) |
 | `AUDIT.md` | [`src/metadata/AUDIT.md`](../../../src/metadata/AUDIT.md) |
 | `CHANGELOG.md` | [`src/metadata/CHANGELOG.md`](../../../src/metadata/CHANGELOG.md) |
+| `DOXYGEN.md` | [`src/metadata/DOXYGEN.md`](../../../src/metadata/DOXYGEN.md) |
+| `FEATURES.md` | [`src/metadata/FEATURES.md`](../../../src/metadata/FEATURES.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/metadata/FUTURE_ENHANCEMENTS.md`](../../../src/metadata/FUTURE_ENHANCEMENTS.md) |
+| `MODULE_GAPS.md` | [`src/metadata/MODULE_GAPS.md`](../../../src/metadata/MODULE_GAPS.md) |
+| `PERFORMANCE_EXPECTATIONS.md` | [`src/metadata/PERFORMANCE_EXPECTATIONS.md`](../../../src/metadata/PERFORMANCE_EXPECTATIONS.md) |
+| `PRODUCTION_REQUIREMENTS.md` | [`src/metadata/PRODUCTION_REQUIREMENTS.md`](../../../src/metadata/PRODUCTION_REQUIREMENTS.md) |
 | `README.md` | [`src/metadata/README.md`](../../../src/metadata/README.md) |
 | `ROADMAP.md` | [`src/metadata/ROADMAP.md`](../../../src/metadata/ROADMAP.md) |
 | `SECURITY.md` | [`src/metadata/SECURITY.md`](../../../src/metadata/SECURITY.md) |
 
 ---
 
-*Aktualisiert: 2026-05-31*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-10-29*

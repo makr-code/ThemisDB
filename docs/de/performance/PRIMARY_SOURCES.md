@@ -1,21 +1,27 @@
-[docs](../../index.md) > [de](../index.md) > [performance](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
-**Datum:** 2026-05-31
-**Status:** current
+[docs](../../index.md) > [de](../index.md) > [performance](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
+**Datum:** 2026-10-29  
+**Status:** draft  
 **Primary (Quelle der Wahrheit):**
-- `src/performance/README.md`
+- `include/performance/ARCHITECTURE.md`
+- `include/performance/FUTURE_ENHANCEMENTS.md`
+- `include/performance/README.md`
+- `include/performance/ROADMAP.md`
 - `src/performance/ARCHITECTURE.md`
-- `src/performance/ROADMAP.md`
+- `src/performance/AUDIT.md`
+- `src/performance/CHANGELOG.md`
+- `src/performance/DOXYGEN.md`
+- `src/performance/FEATURES.md`
 - `src/performance/FUTURE_ENHANCEMENTS.md`
 - `src/performance/MODULE_GAPS.md`
-- `src/performance/SECURITY.md`
-- `src/performance/AUDIT.md`
 - `src/performance/PERFORMANCE_EXPECTATIONS.md`
-- `src/performance/CHANGELOG.md`
+- `src/performance/PRODUCTION_REQUIREMENTS.md`
+- `src/performance/README.md`
+- `src/performance/ROADMAP.md`
+- `src/performance/SECURITY.md`
 
 **Bezug / Reference:**
-- Inventory-Baseline: `ai_working/developer_docs_inventory_report.md`
-- Alignment-Baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
-- Regel: neuere Planungsdokumente sind fuehrend gegenueber aelteren historischen Dokumenten.
+- Tool: `tools/module_docs_builder.py`
+- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `performance`
 
 ---
 
@@ -30,12 +36,9 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`performanc
 | Datei | Pfad |
 |-------|------|
 | `ARCHITECTURE.md` | [`include/performance/ARCHITECTURE.md`](../../../include/performance/ARCHITECTURE.md) |
-| `AUDIT.md` | [`include/performance/AUDIT.md`](../../../include/performance/AUDIT.md) |
-| `CHANGELOG.md` | [`include/performance/CHANGELOG.md`](../../../include/performance/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/performance/FUTURE_ENHANCEMENTS.md`](../../../include/performance/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/performance/README.md`](../../../include/performance/README.md) |
 | `ROADMAP.md` | [`include/performance/ROADMAP.md`](../../../include/performance/ROADMAP.md) |
-| `SECURITY.md` | [`include/performance/SECURITY.md`](../../../include/performance/SECURITY.md) |
 
 ### `src/performance/`
 
@@ -44,11 +47,16 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`performanc
 | `ARCHITECTURE.md` | [`src/performance/ARCHITECTURE.md`](../../../src/performance/ARCHITECTURE.md) |
 | `AUDIT.md` | [`src/performance/AUDIT.md`](../../../src/performance/AUDIT.md) |
 | `CHANGELOG.md` | [`src/performance/CHANGELOG.md`](../../../src/performance/CHANGELOG.md) |
+| `DOXYGEN.md` | [`src/performance/DOXYGEN.md`](../../../src/performance/DOXYGEN.md) |
+| `FEATURES.md` | [`src/performance/FEATURES.md`](../../../src/performance/FEATURES.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/performance/FUTURE_ENHANCEMENTS.md`](../../../src/performance/FUTURE_ENHANCEMENTS.md) |
+| `MODULE_GAPS.md` | [`src/performance/MODULE_GAPS.md`](../../../src/performance/MODULE_GAPS.md) |
+| `PERFORMANCE_EXPECTATIONS.md` | [`src/performance/PERFORMANCE_EXPECTATIONS.md`](../../../src/performance/PERFORMANCE_EXPECTATIONS.md) |
+| `PRODUCTION_REQUIREMENTS.md` | [`src/performance/PRODUCTION_REQUIREMENTS.md`](../../../src/performance/PRODUCTION_REQUIREMENTS.md) |
 | `README.md` | [`src/performance/README.md`](../../../src/performance/README.md) |
 | `ROADMAP.md` | [`src/performance/ROADMAP.md`](../../../src/performance/ROADMAP.md) |
 | `SECURITY.md` | [`src/performance/SECURITY.md`](../../../src/performance/SECURITY.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-10-29*

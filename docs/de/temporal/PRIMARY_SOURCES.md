@@ -1,21 +1,29 @@
 [docs](../../index.md) > [de](../index.md) > [temporal](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-05-31
-**Status:** current
+**Datum:** 2026-10-29  
+**Status:** draft  
 **Primary (Quelle der Wahrheit):**
-- `src/temporal/README.md`
+- `include/temporal/ARCHITECTURE.md`
+- `include/temporal/FUTURE_ENHANCEMENTS.md`
+- `include/temporal/README.md`
+- `include/temporal/ROADMAP.md`
 - `src/temporal/ARCHITECTURE.md`
-- `src/temporal/ROADMAP.md`
+- `src/temporal/AUDIT.md`
+- `src/temporal/CHANGELOG.md`
+- `src/temporal/DOXYGEN.md`
+- `src/temporal/FEATURES.md`
 - `src/temporal/FUTURE_ENHANCEMENTS.md`
 - `src/temporal/MODULE_GAPS.md`
-- `src/temporal/SECURITY.md`
-- `src/temporal/AUDIT.md`
 - `src/temporal/PERFORMANCE_EXPECTATIONS.md`
-- `src/temporal/CHANGELOG.md`
+- `src/temporal/PRODUCTION_REQUIREMENTS.md`
+- `src/temporal/README.md`
+- `src/temporal/ROADMAP.md`
+- `src/temporal/SECURITY.md`
+- `src/temporal/TEMPORAL_MODULE_STATUS_VALIDATION.md`
 
 **Bezug / Reference:**
-- Inventory-Baseline: `ai_working/developer_docs_inventory_report.md`
-- Alignment-Baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
-- Regel: neuere Planungsdokumente sind fuehrend gegenueber aelteren historischen Dokumenten.
+- Tool: `tools/module_docs_builder.py`
+- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `temporal`
+
 ---
 
 # Primary Sources — `temporal`
@@ -29,12 +37,9 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`temporal`*
 | Datei | Pfad |
 |-------|------|
 | `ARCHITECTURE.md` | [`include/temporal/ARCHITECTURE.md`](../../../include/temporal/ARCHITECTURE.md) |
-| `AUDIT.md` | [`include/temporal/AUDIT.md`](../../../include/temporal/AUDIT.md) |
-| `CHANGELOG.md` | [`include/temporal/CHANGELOG.md`](../../../include/temporal/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/temporal/FUTURE_ENHANCEMENTS.md`](../../../include/temporal/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/temporal/README.md`](../../../include/temporal/README.md) |
 | `ROADMAP.md` | [`include/temporal/ROADMAP.md`](../../../include/temporal/ROADMAP.md) |
-| `SECURITY.md` | [`include/temporal/SECURITY.md`](../../../include/temporal/SECURITY.md) |
 
 ### `src/temporal/`
 
@@ -43,11 +48,17 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`temporal`*
 | `ARCHITECTURE.md` | [`src/temporal/ARCHITECTURE.md`](../../../src/temporal/ARCHITECTURE.md) |
 | `AUDIT.md` | [`src/temporal/AUDIT.md`](../../../src/temporal/AUDIT.md) |
 | `CHANGELOG.md` | [`src/temporal/CHANGELOG.md`](../../../src/temporal/CHANGELOG.md) |
+| `DOXYGEN.md` | [`src/temporal/DOXYGEN.md`](../../../src/temporal/DOXYGEN.md) |
+| `FEATURES.md` | [`src/temporal/FEATURES.md`](../../../src/temporal/FEATURES.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/temporal/FUTURE_ENHANCEMENTS.md`](../../../src/temporal/FUTURE_ENHANCEMENTS.md) |
+| `MODULE_GAPS.md` | [`src/temporal/MODULE_GAPS.md`](../../../src/temporal/MODULE_GAPS.md) |
+| `PERFORMANCE_EXPECTATIONS.md` | [`src/temporal/PERFORMANCE_EXPECTATIONS.md`](../../../src/temporal/PERFORMANCE_EXPECTATIONS.md) |
+| `PRODUCTION_REQUIREMENTS.md` | [`src/temporal/PRODUCTION_REQUIREMENTS.md`](../../../src/temporal/PRODUCTION_REQUIREMENTS.md) |
 | `README.md` | [`src/temporal/README.md`](../../../src/temporal/README.md) |
 | `ROADMAP.md` | [`src/temporal/ROADMAP.md`](../../../src/temporal/ROADMAP.md) |
 | `SECURITY.md` | [`src/temporal/SECURITY.md`](../../../src/temporal/SECURITY.md) |
+| `TEMPORAL_MODULE_STATUS_VALIDATION.md` | [`src/temporal/TEMPORAL_MODULE_STATUS_VALIDATION.md`](../../../src/temporal/TEMPORAL_MODULE_STATUS_VALIDATION.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-10-29*

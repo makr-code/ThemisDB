@@ -1,51 +1,82 @@
-[docs](../../index.md) > [en](../index.md) > [replication](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
-**Date:** 2026-05-31
-**Status:** current
-**Primary Source (source of truth):**
-- `src/replication/README.md`
+[docs](../../index.md) > [en](../index.md) > [replication](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
+**Date:** 2026-10-29  
+**Status:** draft  
+**Primary Source:**
+- `include/replication/ARCHITECTURE.md`
+- `include/replication/FUTURE_ENHANCEMENTS.md`
+- `include/replication/README.md`
+- `include/replication/ROADMAP.md`
+- `src/replication/API.md`
 - `src/replication/ARCHITECTURE.md`
-- `src/replication/ROADMAP.md`
-- `src/replication/FUTURE_ENHANCEMENTS.md`
-- `src/replication/MODULE_GAPS.md`
-- `src/replication/SECURITY.md`
 - `src/replication/AUDIT.md`
-- `src/replication/PERFORMANCE_EXPECTATIONS.md`
 - `src/replication/CHANGELOG.md`
+- `src/replication/DOXYGEN.md`
+- `src/replication/EMBEDDING.md`
+- `src/replication/FEATURES.md`
+- `src/replication/FUTURE_ENHANCEMENTS.md`
+- `src/replication/IMPLEMENTATION.md`
+- `src/replication/MODELING.md`
+- `src/replication/MODULE_GAPS.md`
+- `src/replication/MODULE_GAPS_BATCH4.md`
+- `src/replication/MODULE_GUIDE.md`
+- `src/replication/OPERATIONS.md`
+- `src/replication/PERFORMANCE_EXPECTATIONS.md`
+- `src/replication/PRODUCTION_REQUIREMENTS.md`
+- `src/replication/README.md`
+- `src/replication/RESEARCH.md`
+- `src/replication/ROADMAP.md`
+- `src/replication/RUNBOOK.md`
+- `src/replication/SECURITY.md`
+- `src/replication/TRUST.md`
 
 **Reference:**
-- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
-- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Tool: `tools/module_docs_builder.py`
+- Context: Auto-generated index of all primary Markdown files for module `replication`
 
 ---
 
-# Primary Sources - replication
+# Primary Sources — `replication`
 
-This page defines authoritative replication docs for workload and behavior alignment.
+This index lists all Markdown documentation files for module **`replication`** from the detected source directories for that module.
 
-## Alignment Policy
+## Primary Markdown Files
 
-- Newer planning docs are more relevant than older reports.
-- `FUTURE_ENHANCEMENTS.md` and `MODULE_GAPS.md` are the leading workload sources.
-- Historical implementation status reports are secondary context only.
+### `include/replication/`
 
-## Planning Sources
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`include/replication/ARCHITECTURE.md`](../../../include/replication/ARCHITECTURE.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`include/replication/FUTURE_ENHANCEMENTS.md`](../../../include/replication/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`include/replication/README.md`](../../../include/replication/README.md) |
+| `ROADMAP.md` | [`include/replication/ROADMAP.md`](../../../include/replication/ROADMAP.md) |
 
-| File | Role |
-|---|---|
-| `src/replication/FUTURE_ENHANCEMENTS.md` | target replication behavior and hardening plan |
-| `src/replication/MODULE_GAPS.md` | active backlog and severity workload |
-| `src/replication/ROADMAP.md` | milestone and phase planning |
+### `src/replication/`
 
-## Runtime and Governance Sources
-
-| File | Role |
-|---|---|
-| `src/replication/ARCHITECTURE.md` | runtime replication design |
-| `src/replication/SECURITY.md` | security and trust constraints |
-| `src/replication/AUDIT.md` | verification evidence |
-| `src/replication/PERFORMANCE_EXPECTATIONS.md` | benchmark and latency contracts |
-| `src/replication/CHANGELOG.md` | change traceability |
+| File | Path |
+|------|------|
+| `API.md` | [`src/replication/API.md`](../../../src/replication/API.md) |
+| `ARCHITECTURE.md` | [`src/replication/ARCHITECTURE.md`](../../../src/replication/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/replication/AUDIT.md`](../../../src/replication/AUDIT.md) |
+| `CHANGELOG.md` | [`src/replication/CHANGELOG.md`](../../../src/replication/CHANGELOG.md) |
+| `DOXYGEN.md` | [`src/replication/DOXYGEN.md`](../../../src/replication/DOXYGEN.md) |
+| `EMBEDDING.md` | [`src/replication/EMBEDDING.md`](../../../src/replication/EMBEDDING.md) |
+| `FEATURES.md` | [`src/replication/FEATURES.md`](../../../src/replication/FEATURES.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/replication/FUTURE_ENHANCEMENTS.md`](../../../src/replication/FUTURE_ENHANCEMENTS.md) |
+| `IMPLEMENTATION.md` | [`src/replication/IMPLEMENTATION.md`](../../../src/replication/IMPLEMENTATION.md) |
+| `MODELING.md` | [`src/replication/MODELING.md`](../../../src/replication/MODELING.md) |
+| `MODULE_GAPS.md` | [`src/replication/MODULE_GAPS.md`](../../../src/replication/MODULE_GAPS.md) |
+| `MODULE_GAPS_BATCH4.md` | [`src/replication/MODULE_GAPS_BATCH4.md`](../../../src/replication/MODULE_GAPS_BATCH4.md) |
+| `MODULE_GUIDE.md` | [`src/replication/MODULE_GUIDE.md`](../../../src/replication/MODULE_GUIDE.md) |
+| `OPERATIONS.md` | [`src/replication/OPERATIONS.md`](../../../src/replication/OPERATIONS.md) |
+| `PERFORMANCE_EXPECTATIONS.md` | [`src/replication/PERFORMANCE_EXPECTATIONS.md`](../../../src/replication/PERFORMANCE_EXPECTATIONS.md) |
+| `PRODUCTION_REQUIREMENTS.md` | [`src/replication/PRODUCTION_REQUIREMENTS.md`](../../../src/replication/PRODUCTION_REQUIREMENTS.md) |
+| `README.md` | [`src/replication/README.md`](../../../src/replication/README.md) |
+| `RESEARCH.md` | [`src/replication/RESEARCH.md`](../../../src/replication/RESEARCH.md) |
+| `ROADMAP.md` | [`src/replication/ROADMAP.md`](../../../src/replication/ROADMAP.md) |
+| `RUNBOOK.md` | [`src/replication/RUNBOOK.md`](../../../src/replication/RUNBOOK.md) |
+| `SECURITY.md` | [`src/replication/SECURITY.md`](../../../src/replication/SECURITY.md) |
+| `TRUST.md` | [`src/replication/TRUST.md`](../../../src/replication/TRUST.md) |
 
 ---
 
-*Updated for docs-vs-planning alignment sweep on 2026-05-31.*
+*Auto-generated by `tools/module_docs_builder.py` · 2026-10-29*

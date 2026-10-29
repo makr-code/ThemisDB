@@ -1,22 +1,33 @@
 [docs](../../index.md) > [de](../index.md) > [graph](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-05-31
-**Status:** current
+**Datum:** 2026-10-29  
+**Status:** draft  
 **Primary (Quelle der Wahrheit):**
-- `src/graph/README.md`
-- `src/graph/ARCHITECTURE.md`
-- `src/graph/ROADMAP.md`
-- `src/graph/FUTURE_ENHANCEMENTS.md`
-- `src/graph/MODULE_GAPS.md`
-- `src/graph/SECURITY.md`
-- `src/graph/AUDIT.md`
-- `src/graph/PERFORMANCE_EXPECTATIONS.md`
-- `src/graph/CHANGELOG.md`
+- `include/graph/ARCHITECTURE.md`
+- `include/graph/FUTURE_ENHANCEMENTS.md`
+- `include/graph/README.md`
+- `include/graph/ROADMAP.md`
 - `src/graph/ADVANCED_FEATURES_README.md`
+- `src/graph/ARCHITECTURE.md`
+- `src/graph/AUDIT.md`
+- `src/graph/CHANGELOG.md`
+- `src/graph/DOXYGEN.md`
+- `src/graph/FEATURES.md`
+- `src/graph/FUTURE_ENHANCEMENTS.md`
+- `src/graph/GRAPH_API_CONTRACTS_PHASE1.md`
+- `src/graph/GRAPH_PHASE1_ANALYSIS_SYNTHESIS.md`
+- `src/graph/GRAPH_PHASE1_IMPLEMENTATION_SUMMARY.md`
+- `src/graph/GRAPH_PHASE2_ERROR_HARDENING_PLAN.md`
+- `src/graph/MODULE_GAPS.md`
+- `src/graph/PERFORMANCE_EXPECTATIONS.md`
+- `src/graph/PRODUCTION_REQUIREMENTS.md`
+- `src/graph/README.md`
+- `src/graph/ROADMAP.md`
+- `src/graph/SECURITY.md`
 
 **Bezug / Reference:**
-- Inventory-Baseline: `ai_working/developer_docs_inventory_report.md`
-- Alignment-Baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
-- Regel: neuere Planungsdokumente sind fuehrend gegenueber aelteren historischen Dokumenten.
+- Tool: `tools/module_docs_builder.py`
+- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `graph`
+
 ---
 
 # Primary Sources — `graph`
@@ -30,12 +41,9 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`graph`** a
 | Datei | Pfad |
 |-------|------|
 | `ARCHITECTURE.md` | [`include/graph/ARCHITECTURE.md`](../../../include/graph/ARCHITECTURE.md) |
-| `AUDIT.md` | [`include/graph/AUDIT.md`](../../../include/graph/AUDIT.md) |
-| `CHANGELOG.md` | [`include/graph/CHANGELOG.md`](../../../include/graph/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/graph/FUTURE_ENHANCEMENTS.md`](../../../include/graph/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/graph/README.md`](../../../include/graph/README.md) |
 | `ROADMAP.md` | [`include/graph/ROADMAP.md`](../../../include/graph/ROADMAP.md) |
-| `SECURITY.md` | [`include/graph/SECURITY.md`](../../../include/graph/SECURITY.md) |
 
 ### `src/graph/`
 
@@ -45,11 +53,20 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`graph`** a
 | `ARCHITECTURE.md` | [`src/graph/ARCHITECTURE.md`](../../../src/graph/ARCHITECTURE.md) |
 | `AUDIT.md` | [`src/graph/AUDIT.md`](../../../src/graph/AUDIT.md) |
 | `CHANGELOG.md` | [`src/graph/CHANGELOG.md`](../../../src/graph/CHANGELOG.md) |
+| `DOXYGEN.md` | [`src/graph/DOXYGEN.md`](../../../src/graph/DOXYGEN.md) |
+| `FEATURES.md` | [`src/graph/FEATURES.md`](../../../src/graph/FEATURES.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/graph/FUTURE_ENHANCEMENTS.md`](../../../src/graph/FUTURE_ENHANCEMENTS.md) |
+| `GRAPH_API_CONTRACTS_PHASE1.md` | [`src/graph/GRAPH_API_CONTRACTS_PHASE1.md`](../../../src/graph/GRAPH_API_CONTRACTS_PHASE1.md) |
+| `GRAPH_PHASE1_ANALYSIS_SYNTHESIS.md` | [`src/graph/GRAPH_PHASE1_ANALYSIS_SYNTHESIS.md`](../../../src/graph/GRAPH_PHASE1_ANALYSIS_SYNTHESIS.md) |
+| `GRAPH_PHASE1_IMPLEMENTATION_SUMMARY.md` | [`src/graph/GRAPH_PHASE1_IMPLEMENTATION_SUMMARY.md`](../../../src/graph/GRAPH_PHASE1_IMPLEMENTATION_SUMMARY.md) |
+| `GRAPH_PHASE2_ERROR_HARDENING_PLAN.md` | [`src/graph/GRAPH_PHASE2_ERROR_HARDENING_PLAN.md`](../../../src/graph/GRAPH_PHASE2_ERROR_HARDENING_PLAN.md) |
+| `MODULE_GAPS.md` | [`src/graph/MODULE_GAPS.md`](../../../src/graph/MODULE_GAPS.md) |
+| `PERFORMANCE_EXPECTATIONS.md` | [`src/graph/PERFORMANCE_EXPECTATIONS.md`](../../../src/graph/PERFORMANCE_EXPECTATIONS.md) |
+| `PRODUCTION_REQUIREMENTS.md` | [`src/graph/PRODUCTION_REQUIREMENTS.md`](../../../src/graph/PRODUCTION_REQUIREMENTS.md) |
 | `README.md` | [`src/graph/README.md`](../../../src/graph/README.md) |
 | `ROADMAP.md` | [`src/graph/ROADMAP.md`](../../../src/graph/ROADMAP.md) |
 | `SECURITY.md` | [`src/graph/SECURITY.md`](../../../src/graph/SECURITY.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-10-29*

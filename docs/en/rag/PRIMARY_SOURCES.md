@@ -1,22 +1,50 @@
-[docs](../../index.md) > [en](../index.md) > [rag](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
-**Date:** 2026-05-31
-**Status:** current
-**Primary Source (source of truth):**
-- `src/rag/README.md`
+[docs](../../index.md) > [en](../index.md) > [rag](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
+**Date:** 2026-10-29  
+**Status:** draft  
+**Primary Source:**
+- `include/rag/ARCHITECTURE.md`
+- `include/rag/FUTURE_ENHANCEMENTS.md`
+- `include/rag/README.md`
+- `include/rag/ROADMAP.md`
+- `src/rag/ADAPTIVE_ROUTING_SPECIFICATION.md`
 - `src/rag/ARCHITECTURE.md`
-- `src/rag/ROADMAP.md`
-- `src/rag/FUTURE_ENHANCEMENTS.md`
-- `src/rag/MODULE_GAPS.md`
-- `src/rag/SECURITY.md`
 - `src/rag/AUDIT.md`
-- `src/rag/PERFORMANCE_EXPECTATIONS.md`
+- `src/rag/BATCH_6_INTEGRATION_SUMMARY.md`
 - `src/rag/CHANGELOG.md`
+- `src/rag/COST_OPTIMIZER_SPECIFICATION.md`
+- `src/rag/DOXYGEN.md`
+- `src/rag/EVALUATION_CONTRACT_V1.md`
+- `src/rag/FEATURES.md`
+- `src/rag/FRESHNESS_SLA_SPECIFICATION.md`
+- `src/rag/FUTURE_ENHANCEMENTS.md`
+- `src/rag/GATE_VERIFICATION_FRAMEWORK.md`
+- `src/rag/KNOWN_ISSUES_MITIGATION.md`
+- `src/rag/KNOWN_ISSUES_REMEDIATION_SUMMARY.md`
+- `src/rag/MODULE_GAPS.md`
+- `src/rag/MODULE_STATUS.md`
+- `src/rag/OBSERVABILITY_SLO_SPECIFICATION.md`
+- `src/rag/PERFORMANCE_EXPECTATIONS.md`
+- `src/rag/PHASE_11_ACCEPTANCE_REPORT.md`
+- `src/rag/PHASE_11_SPECIFICATION.md`
+- `src/rag/PHASE_12_ACCEPTANCE_REPORT.md`
+- `src/rag/PHASE_12_SPECIFICATION.md`
+- `src/rag/PHASE_13_ACCEPTANCE_REPORT.md`
+- `src/rag/PHASE_13_SPECIFICATION.md`
+- `src/rag/PHASE_5_6_ACCEPTANCE_REPORT.md`
+- `src/rag/PRODUCTION_REQUIREMENTS.md`
 - `src/rag/QUALITY_CONTROL_README.md`
+- `src/rag/RAG_EVAL_ACCEPTANCE_REPORT_TEMPLATE.md`
+- `src/rag/RAG_PHASES_1_10_COMPLETION_REPORT.md`
+- `src/rag/README.md`
+- `src/rag/RERANKING_BUDGET_GATE_SPECIFICATION.md`
+- `src/rag/RESEARCH_EVAL_HARNESS_SPECIFICATION.md`
+- `src/rag/ROADMAP.md`
+- `src/rag/SECURITY.md`
+- `src/rag/examples/README.md`
 
 **Reference:**
-- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
-- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
-- Policy: newer planning docs are prioritized over older historical docs.
+- Tool: `tools/module_docs_builder.py`
+- Context: Auto-generated index of all primary Markdown files for module `rag`
 
 ---
 
@@ -31,23 +59,46 @@ This index lists all Markdown documentation files for module **`rag`** from the 
 | File | Path |
 |------|------|
 | `ARCHITECTURE.md` | [`include/rag/ARCHITECTURE.md`](../../../include/rag/ARCHITECTURE.md) |
-| `AUDIT.md` | [`include/rag/AUDIT.md`](../../../include/rag/AUDIT.md) |
-| `CHANGELOG.md` | [`include/rag/CHANGELOG.md`](../../../include/rag/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/rag/FUTURE_ENHANCEMENTS.md`](../../../include/rag/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/rag/README.md`](../../../include/rag/README.md) |
 | `ROADMAP.md` | [`include/rag/ROADMAP.md`](../../../include/rag/ROADMAP.md) |
-| `SECURITY.md` | [`include/rag/SECURITY.md`](../../../include/rag/SECURITY.md) |
 
 ### `src/rag/`
 
 | File | Path |
 |------|------|
+| `ADAPTIVE_ROUTING_SPECIFICATION.md` | [`src/rag/ADAPTIVE_ROUTING_SPECIFICATION.md`](../../../src/rag/ADAPTIVE_ROUTING_SPECIFICATION.md) |
 | `ARCHITECTURE.md` | [`src/rag/ARCHITECTURE.md`](../../../src/rag/ARCHITECTURE.md) |
 | `AUDIT.md` | [`src/rag/AUDIT.md`](../../../src/rag/AUDIT.md) |
+| `BATCH_6_INTEGRATION_SUMMARY.md` | [`src/rag/BATCH_6_INTEGRATION_SUMMARY.md`](../../../src/rag/BATCH_6_INTEGRATION_SUMMARY.md) |
 | `CHANGELOG.md` | [`src/rag/CHANGELOG.md`](../../../src/rag/CHANGELOG.md) |
+| `COST_OPTIMIZER_SPECIFICATION.md` | [`src/rag/COST_OPTIMIZER_SPECIFICATION.md`](../../../src/rag/COST_OPTIMIZER_SPECIFICATION.md) |
+| `DOXYGEN.md` | [`src/rag/DOXYGEN.md`](../../../src/rag/DOXYGEN.md) |
+| `EVALUATION_CONTRACT_V1.md` | [`src/rag/EVALUATION_CONTRACT_V1.md`](../../../src/rag/EVALUATION_CONTRACT_V1.md) |
+| `FEATURES.md` | [`src/rag/FEATURES.md`](../../../src/rag/FEATURES.md) |
+| `FRESHNESS_SLA_SPECIFICATION.md` | [`src/rag/FRESHNESS_SLA_SPECIFICATION.md`](../../../src/rag/FRESHNESS_SLA_SPECIFICATION.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/rag/FUTURE_ENHANCEMENTS.md`](../../../src/rag/FUTURE_ENHANCEMENTS.md) |
+| `GATE_VERIFICATION_FRAMEWORK.md` | [`src/rag/GATE_VERIFICATION_FRAMEWORK.md`](../../../src/rag/GATE_VERIFICATION_FRAMEWORK.md) |
+| `KNOWN_ISSUES_MITIGATION.md` | [`src/rag/KNOWN_ISSUES_MITIGATION.md`](../../../src/rag/KNOWN_ISSUES_MITIGATION.md) |
+| `KNOWN_ISSUES_REMEDIATION_SUMMARY.md` | [`src/rag/KNOWN_ISSUES_REMEDIATION_SUMMARY.md`](../../../src/rag/KNOWN_ISSUES_REMEDIATION_SUMMARY.md) |
+| `MODULE_GAPS.md` | [`src/rag/MODULE_GAPS.md`](../../../src/rag/MODULE_GAPS.md) |
+| `MODULE_STATUS.md` | [`src/rag/MODULE_STATUS.md`](../../../src/rag/MODULE_STATUS.md) |
+| `OBSERVABILITY_SLO_SPECIFICATION.md` | [`src/rag/OBSERVABILITY_SLO_SPECIFICATION.md`](../../../src/rag/OBSERVABILITY_SLO_SPECIFICATION.md) |
+| `PERFORMANCE_EXPECTATIONS.md` | [`src/rag/PERFORMANCE_EXPECTATIONS.md`](../../../src/rag/PERFORMANCE_EXPECTATIONS.md) |
+| `PHASE_11_ACCEPTANCE_REPORT.md` | [`src/rag/PHASE_11_ACCEPTANCE_REPORT.md`](../../../src/rag/PHASE_11_ACCEPTANCE_REPORT.md) |
+| `PHASE_11_SPECIFICATION.md` | [`src/rag/PHASE_11_SPECIFICATION.md`](../../../src/rag/PHASE_11_SPECIFICATION.md) |
+| `PHASE_12_ACCEPTANCE_REPORT.md` | [`src/rag/PHASE_12_ACCEPTANCE_REPORT.md`](../../../src/rag/PHASE_12_ACCEPTANCE_REPORT.md) |
+| `PHASE_12_SPECIFICATION.md` | [`src/rag/PHASE_12_SPECIFICATION.md`](../../../src/rag/PHASE_12_SPECIFICATION.md) |
+| `PHASE_13_ACCEPTANCE_REPORT.md` | [`src/rag/PHASE_13_ACCEPTANCE_REPORT.md`](../../../src/rag/PHASE_13_ACCEPTANCE_REPORT.md) |
+| `PHASE_13_SPECIFICATION.md` | [`src/rag/PHASE_13_SPECIFICATION.md`](../../../src/rag/PHASE_13_SPECIFICATION.md) |
+| `PHASE_5_6_ACCEPTANCE_REPORT.md` | [`src/rag/PHASE_5_6_ACCEPTANCE_REPORT.md`](../../../src/rag/PHASE_5_6_ACCEPTANCE_REPORT.md) |
+| `PRODUCTION_REQUIREMENTS.md` | [`src/rag/PRODUCTION_REQUIREMENTS.md`](../../../src/rag/PRODUCTION_REQUIREMENTS.md) |
 | `QUALITY_CONTROL_README.md` | [`src/rag/QUALITY_CONTROL_README.md`](../../../src/rag/QUALITY_CONTROL_README.md) |
+| `RAG_EVAL_ACCEPTANCE_REPORT_TEMPLATE.md` | [`src/rag/RAG_EVAL_ACCEPTANCE_REPORT_TEMPLATE.md`](../../../src/rag/RAG_EVAL_ACCEPTANCE_REPORT_TEMPLATE.md) |
+| `RAG_PHASES_1_10_COMPLETION_REPORT.md` | [`src/rag/RAG_PHASES_1_10_COMPLETION_REPORT.md`](../../../src/rag/RAG_PHASES_1_10_COMPLETION_REPORT.md) |
 | `README.md` | [`src/rag/README.md`](../../../src/rag/README.md) |
+| `RERANKING_BUDGET_GATE_SPECIFICATION.md` | [`src/rag/RERANKING_BUDGET_GATE_SPECIFICATION.md`](../../../src/rag/RERANKING_BUDGET_GATE_SPECIFICATION.md) |
+| `RESEARCH_EVAL_HARNESS_SPECIFICATION.md` | [`src/rag/RESEARCH_EVAL_HARNESS_SPECIFICATION.md`](../../../src/rag/RESEARCH_EVAL_HARNESS_SPECIFICATION.md) |
 | `ROADMAP.md` | [`src/rag/ROADMAP.md`](../../../src/rag/ROADMAP.md) |
 | `SECURITY.md` | [`src/rag/SECURITY.md`](../../../src/rag/SECURITY.md) |
 
@@ -59,4 +110,4 @@ This index lists all Markdown documentation files for module **`rag`** from the 
 
 ---
 
-*Auto-generated by `tools/module_docs_builder.py` · 2026-04-17*
+*Auto-generated by `tools/module_docs_builder.py` · 2026-10-29*

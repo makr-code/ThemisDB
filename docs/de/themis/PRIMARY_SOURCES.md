@@ -1,21 +1,33 @@
 [docs](../../index.md) > [de](../index.md) > [themis](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-05-31
-**Status:** current
+**Datum:** 2026-10-29  
+**Status:** draft  
 **Primary (Quelle der Wahrheit):**
-- `src/themis/README.md`
+- `include/themis/ARCHITECTURE.md`
+- `include/themis/FUTURE_ENHANCEMENTS.md`
+- `include/themis/README.md`
+- `include/themis/ROADMAP.md`
+- `include/themis/base/README.md`
+- `include/themis/gpu/PHASE_C_IMPLEMENTATION_NOTES.md`
+- `include/themis/gpu/README.md`
 - `src/themis/ARCHITECTURE.md`
-- `src/themis/ROADMAP.md`
-- `src/themis/FUTURE_ENHANCEMENTS.md`
-- `src/themis/MODULE_GAPS.md`
-- `src/themis/SECURITY.md`
 - `src/themis/AUDIT.md`
-- `src/themis/PERFORMANCE_EXPECTATIONS.md`
+- `src/themis/BUILD_TEST_EVIDENCE.md`
 - `src/themis/CHANGELOG.md`
+- `src/themis/DOXYGEN.md`
+- `src/themis/FEATURES.md`
+- `src/themis/FUTURE_ENHANCEMENTS.md`
+- `src/themis/ISSUE_5675_CLOSURE_SUMMARY.md`
+- `src/themis/MODULE_GAPS.md`
+- `src/themis/PERFORMANCE_EXPECTATIONS.md`
+- `src/themis/PRODUCTION_REQUIREMENTS.md`
+- `src/themis/README.md`
+- `src/themis/ROADMAP.md`
+- `src/themis/SECURITY.md`
 
 **Bezug / Reference:**
-- Inventory-Baseline: `ai_working/developer_docs_inventory_report.md`
-- Alignment-Baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
-- Regel: neuere Planungsdokumente sind fuehrend gegenueber aelteren historischen Dokumenten.
+- Tool: `tools/module_docs_builder.py`
+- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `themis`
+
 ---
 
 # Primary Sources — `themis`
@@ -29,12 +41,9 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`themis`** 
 | Datei | Pfad |
 |-------|------|
 | `ARCHITECTURE.md` | [`include/themis/ARCHITECTURE.md`](../../../include/themis/ARCHITECTURE.md) |
-| `AUDIT.md` | [`include/themis/AUDIT.md`](../../../include/themis/AUDIT.md) |
-| `CHANGELOG.md` | [`include/themis/CHANGELOG.md`](../../../include/themis/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/themis/FUTURE_ENHANCEMENTS.md`](../../../include/themis/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/themis/README.md`](../../../include/themis/README.md) |
 | `ROADMAP.md` | [`include/themis/ROADMAP.md`](../../../include/themis/ROADMAP.md) |
-| `SECURITY.md` | [`include/themis/SECURITY.md`](../../../include/themis/SECURITY.md) |
 
 ### `include/themis/base/`
 
@@ -46,6 +55,7 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`themis`** 
 
 | Datei | Pfad |
 |-------|------|
+| `PHASE_C_IMPLEMENTATION_NOTES.md` | [`include/themis/gpu/PHASE_C_IMPLEMENTATION_NOTES.md`](../../../include/themis/gpu/PHASE_C_IMPLEMENTATION_NOTES.md) |
 | `README.md` | [`include/themis/gpu/README.md`](../../../include/themis/gpu/README.md) |
 
 ### `src/themis/`
@@ -54,12 +64,19 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`themis`** 
 |-------|------|
 | `ARCHITECTURE.md` | [`src/themis/ARCHITECTURE.md`](../../../src/themis/ARCHITECTURE.md) |
 | `AUDIT.md` | [`src/themis/AUDIT.md`](../../../src/themis/AUDIT.md) |
+| `BUILD_TEST_EVIDENCE.md` | [`src/themis/BUILD_TEST_EVIDENCE.md`](../../../src/themis/BUILD_TEST_EVIDENCE.md) |
 | `CHANGELOG.md` | [`src/themis/CHANGELOG.md`](../../../src/themis/CHANGELOG.md) |
+| `DOXYGEN.md` | [`src/themis/DOXYGEN.md`](../../../src/themis/DOXYGEN.md) |
+| `FEATURES.md` | [`src/themis/FEATURES.md`](../../../src/themis/FEATURES.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/themis/FUTURE_ENHANCEMENTS.md`](../../../src/themis/FUTURE_ENHANCEMENTS.md) |
+| `ISSUE_5675_CLOSURE_SUMMARY.md` | [`src/themis/ISSUE_5675_CLOSURE_SUMMARY.md`](../../../src/themis/ISSUE_5675_CLOSURE_SUMMARY.md) |
+| `MODULE_GAPS.md` | [`src/themis/MODULE_GAPS.md`](../../../src/themis/MODULE_GAPS.md) |
+| `PERFORMANCE_EXPECTATIONS.md` | [`src/themis/PERFORMANCE_EXPECTATIONS.md`](../../../src/themis/PERFORMANCE_EXPECTATIONS.md) |
+| `PRODUCTION_REQUIREMENTS.md` | [`src/themis/PRODUCTION_REQUIREMENTS.md`](../../../src/themis/PRODUCTION_REQUIREMENTS.md) |
 | `README.md` | [`src/themis/README.md`](../../../src/themis/README.md) |
 | `ROADMAP.md` | [`src/themis/ROADMAP.md`](../../../src/themis/ROADMAP.md) |
 | `SECURITY.md` | [`src/themis/SECURITY.md`](../../../src/themis/SECURITY.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-10-29*

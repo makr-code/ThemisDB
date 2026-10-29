@@ -1,21 +1,40 @@
 [docs](../../index.md) > [en](../index.md) > [sharding](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Date:** 2026-05-31
-**Status:** current
-**Primary Source (source of truth):**
-- `src/sharding/README.md`
+**Date:** 2026-10-29  
+**Status:** draft  
+**Primary Source:**
+- `include/sharding/ARCHITECTURE.md`
+- `include/sharding/FUTURE_ENHANCEMENTS.md`
+- `include/sharding/README.md`
+- `include/sharding/ROADMAP.md`
+- `src/sharding/API.md`
 - `src/sharding/ARCHITECTURE.md`
-- `src/sharding/ROADMAP.md`
-- `src/sharding/FUTURE_ENHANCEMENTS.md`
-- `src/sharding/MODULE_GAPS.md`
-- `src/sharding/SECURITY.md`
 - `src/sharding/AUDIT.md`
-- `src/sharding/PERFORMANCE_EXPECTATIONS.md`
 - `src/sharding/CHANGELOG.md`
+- `src/sharding/DOXYGEN.md`
+- `src/sharding/EMBEDDING.md`
+- `src/sharding/FEATURES.md`
+- `src/sharding/FUTURE_ENHANCEMENTS.md`
+- `src/sharding/IMPLEMENTATION.md`
+- `src/sharding/MODELING.md`
+- `src/sharding/MODULE_GAPS.md`
+- `src/sharding/MODULE_GUIDE.md`
+- `src/sharding/OPERATIONS.md`
+- `src/sharding/PERFORMANCE_EXPECTATIONS.md`
+- `src/sharding/PRODUCTION_REQUIREMENTS.md`
+- `src/sharding/README.md`
+- `src/sharding/RESEARCH.md`
+- `src/sharding/ROADMAP.md`
+- `src/sharding/RUNBOOK.md`
+- `src/sharding/SECURITY.md`
+- `src/sharding/TODO_CRITICAL_GAPS.md`
+- `src/sharding/TRUST.md`
+- `src/sharding/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`
+- `src/sharding/kickstarter_story.md`
 
 **Reference:**
-- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
-- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
-- Policy: newer planning docs are prioritized over older historical docs.
+- Tool: `tools/module_docs_builder.py`
+- Context: Auto-generated index of all primary Markdown files for module `sharding`
+
 ---
 
 # Primary Sources — `sharding`
@@ -29,25 +48,39 @@ This index lists all Markdown documentation files for module **`sharding`** from
 | File | Path |
 |------|------|
 | `ARCHITECTURE.md` | [`include/sharding/ARCHITECTURE.md`](../../../include/sharding/ARCHITECTURE.md) |
-| `AUDIT.md` | [`include/sharding/AUDIT.md`](../../../include/sharding/AUDIT.md) |
-| `CHANGELOG.md` | [`include/sharding/CHANGELOG.md`](../../../include/sharding/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/sharding/FUTURE_ENHANCEMENTS.md`](../../../include/sharding/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/sharding/README.md`](../../../include/sharding/README.md) |
 | `ROADMAP.md` | [`include/sharding/ROADMAP.md`](../../../include/sharding/ROADMAP.md) |
-| `SECURITY.md` | [`include/sharding/SECURITY.md`](../../../include/sharding/SECURITY.md) |
 
 ### `src/sharding/`
 
 | File | Path |
 |------|------|
+| `API.md` | [`src/sharding/API.md`](../../../src/sharding/API.md) |
 | `ARCHITECTURE.md` | [`src/sharding/ARCHITECTURE.md`](../../../src/sharding/ARCHITECTURE.md) |
 | `AUDIT.md` | [`src/sharding/AUDIT.md`](../../../src/sharding/AUDIT.md) |
 | `CHANGELOG.md` | [`src/sharding/CHANGELOG.md`](../../../src/sharding/CHANGELOG.md) |
+| `DOXYGEN.md` | [`src/sharding/DOXYGEN.md`](../../../src/sharding/DOXYGEN.md) |
+| `EMBEDDING.md` | [`src/sharding/EMBEDDING.md`](../../../src/sharding/EMBEDDING.md) |
+| `FEATURES.md` | [`src/sharding/FEATURES.md`](../../../src/sharding/FEATURES.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/sharding/FUTURE_ENHANCEMENTS.md`](../../../src/sharding/FUTURE_ENHANCEMENTS.md) |
+| `IMPLEMENTATION.md` | [`src/sharding/IMPLEMENTATION.md`](../../../src/sharding/IMPLEMENTATION.md) |
+| `MODELING.md` | [`src/sharding/MODELING.md`](../../../src/sharding/MODELING.md) |
+| `MODULE_GAPS.md` | [`src/sharding/MODULE_GAPS.md`](../../../src/sharding/MODULE_GAPS.md) |
+| `MODULE_GUIDE.md` | [`src/sharding/MODULE_GUIDE.md`](../../../src/sharding/MODULE_GUIDE.md) |
+| `OPERATIONS.md` | [`src/sharding/OPERATIONS.md`](../../../src/sharding/OPERATIONS.md) |
+| `PERFORMANCE_EXPECTATIONS.md` | [`src/sharding/PERFORMANCE_EXPECTATIONS.md`](../../../src/sharding/PERFORMANCE_EXPECTATIONS.md) |
+| `PRODUCTION_REQUIREMENTS.md` | [`src/sharding/PRODUCTION_REQUIREMENTS.md`](../../../src/sharding/PRODUCTION_REQUIREMENTS.md) |
 | `README.md` | [`src/sharding/README.md`](../../../src/sharding/README.md) |
+| `RESEARCH.md` | [`src/sharding/RESEARCH.md`](../../../src/sharding/RESEARCH.md) |
 | `ROADMAP.md` | [`src/sharding/ROADMAP.md`](../../../src/sharding/ROADMAP.md) |
+| `RUNBOOK.md` | [`src/sharding/RUNBOOK.md`](../../../src/sharding/RUNBOOK.md) |
 | `SECURITY.md` | [`src/sharding/SECURITY.md`](../../../src/sharding/SECURITY.md) |
+| `TODO_CRITICAL_GAPS.md` | [`src/sharding/TODO_CRITICAL_GAPS.md`](../../../src/sharding/TODO_CRITICAL_GAPS.md) |
+| `TRUST.md` | [`src/sharding/TRUST.md`](../../../src/sharding/TRUST.md) |
+| `WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md` | [`src/sharding/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`](../../../src/sharding/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md) |
+| `kickstarter_story.md` | [`src/sharding/kickstarter_story.md`](../../../src/sharding/kickstarter_story.md) |
 
 ---
 
-*Auto-generated by `tools/module_docs_builder.py` · 2026-04-17*
+*Auto-generated by `tools/module_docs_builder.py` · 2026-10-29*
