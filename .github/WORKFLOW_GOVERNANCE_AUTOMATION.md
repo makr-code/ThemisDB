@@ -130,7 +130,7 @@ All workflows must follow naming prefixes:
 
 ### 4. GitHub Action Pinning
 - Follow the tiered requirements in `ACTION_PIN_POLICY.md`
-- Tier 1 third-party actions require full commit SHAs; Tier 2 and Tier 3 follow their documented stable-version rules
+- Tier 1 third-party actions require full commit SHAs; Tier 2–4 follow the version rules and exceptions documented in `ACTION_PIN_POLICY.md`
 - Local `./.github/actions/...` references are bound to the workflow repository commit and cannot take an independent `@<sha>` suffix
 - Do not use `@main` or `@master` for third-party actions
 

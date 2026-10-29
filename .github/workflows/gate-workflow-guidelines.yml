@@ -181,6 +181,7 @@ jobs:
 
               # Check 5: Tier 1 third-party actions require immutable commit SHAs.
               tier1_actions = (
+                  'actions/create-release',
                   'github/codeql-action',
                   'aquasecurity/fortify-action',
                   'fortify/github-action',
