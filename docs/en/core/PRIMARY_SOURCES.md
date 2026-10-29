@@ -1,61 +1,75 @@
-[docs](../../index.md) > [en](../index.md) > [core](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
-**Date:** 2026-05-31
-**Status:** current
-**Primary Source (source of truth):**
-- `src/core/README.md`
+[docs](../../index.md) > [en](../index.md) > [core](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
+**Date:** 2026-10-29  
+**Status:** draft  
+**Primary Source:**
+- `include/core/ARCHITECTURE.md`
+- `include/core/FUTURE_ENHANCEMENTS.md`
+- `include/core/README.md`
+- `include/core/ROADMAP.md`
+- `include/core/concerns/CACHE_STRATEGIES_README.md`
+- `include/core/concerns/README.md`
 - `src/core/ARCHITECTURE.md`
-- `src/core/ROADMAP.md`
-- `src/core/FUTURE_ENHANCEMENTS.md`
-- `src/core/MODULE_GAPS.md`
-- `src/core/SECURITY.md`
 - `src/core/AUDIT.md`
+- `src/core/CHANGELOG.md`
+- `src/core/CLOSURE_CHECKLIST.md`
+- `src/core/DOXYGEN.md`
+- `src/core/FEATURES.md`
+- `src/core/FUTURE_ENHANCEMENTS.md`
+- `src/core/MODULE_EVIDENCE.md`
+- `src/core/MODULE_GAPS.md`
 - `src/core/PERFORMANCE_EXPECTATIONS.md`
 - `src/core/PRODUCTION_REQUIREMENTS.md`
-- `src/core/CHANGELOG.md`
+- `src/core/README.md`
+- `src/core/ROADMAP.md`
+- `src/core/SECURITY.md`
 
 **Reference:**
-- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
-- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
-- Context: module-level docs alignment where newer planning docs are prioritized over historical docs.
+- Tool: `tools/module_docs_builder.py`
+- Context: Auto-generated index of all primary Markdown files for module `core`
 
 ---
 
-# Primary Sources - core
+# Primary Sources — `core`
 
-This page defines which core documents in `src/core/` are authoritative for planning and behavior alignment.
+This index lists all Markdown documentation files for module **`core`** from the detected source directories for that module.
 
-## Alignment Policy
+## Primary Markdown Files
 
-- Newer documents are considered more relevant than older documents.
-- `FUTURE_ENHANCEMENTS.md` and `MODULE_GAPS.md` are the main workload inputs.
-- Historical implementation reports in `docs/` are secondary unless they are newer than planning docs and source-verified.
+### `include/core/`
 
-## Authoritative Planning Inputs
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`include/core/ARCHITECTURE.md`](../../../include/core/ARCHITECTURE.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`include/core/FUTURE_ENHANCEMENTS.md`](../../../include/core/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`include/core/README.md`](../../../include/core/README.md) |
+| `ROADMAP.md` | [`include/core/ROADMAP.md`](../../../include/core/ROADMAP.md) |
 
-| File | Role |
-|---|---|
-| `src/core/FUTURE_ENHANCEMENTS.md` | target behavior, constraints, and planned interfaces |
-| `src/core/MODULE_GAPS.md` | current gap workload and severity snapshot |
-| `src/core/ROADMAP.md` | phased execution and milestone status |
+### `include/core/concerns/`
 
-## Authoritative Runtime and Governance Inputs
+| File | Path |
+|------|------|
+| `CACHE_STRATEGIES_README.md` | [`include/core/concerns/CACHE_STRATEGIES_README.md`](../../../include/core/concerns/CACHE_STRATEGIES_README.md) |
+| `README.md` | [`include/core/concerns/README.md`](../../../include/core/concerns/README.md) |
 
-| File | Role |
-|---|---|
-| `src/core/ARCHITECTURE.md` | runtime architecture and dependency boundaries |
-| `src/core/SECURITY.md` | security controls and constraints |
-| `src/core/AUDIT.md` | verification and evidence status |
-| `src/core/PERFORMANCE_EXPECTATIONS.md` | benchmark contracts and performance gates |
-| `src/core/PRODUCTION_REQUIREMENTS.md` | production-readiness requirements |
-| `src/core/CHANGELOG.md` | change traceability |
+### `src/core/`
 
-## Secondary References (non-authoritative)
-
-- `include/core/*` markdown files
-- historical docs under `docs/` (for example archived reports)
-
-Use these for context, not as the primary source of current workload status.
+| File | Path |
+|------|------|
+| `ARCHITECTURE.md` | [`src/core/ARCHITECTURE.md`](../../../src/core/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/core/AUDIT.md`](../../../src/core/AUDIT.md) |
+| `CHANGELOG.md` | [`src/core/CHANGELOG.md`](../../../src/core/CHANGELOG.md) |
+| `CLOSURE_CHECKLIST.md` | [`src/core/CLOSURE_CHECKLIST.md`](../../../src/core/CLOSURE_CHECKLIST.md) |
+| `DOXYGEN.md` | [`src/core/DOXYGEN.md`](../../../src/core/DOXYGEN.md) |
+| `FEATURES.md` | [`src/core/FEATURES.md`](../../../src/core/FEATURES.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/core/FUTURE_ENHANCEMENTS.md`](../../../src/core/FUTURE_ENHANCEMENTS.md) |
+| `MODULE_EVIDENCE.md` | [`src/core/MODULE_EVIDENCE.md`](../../../src/core/MODULE_EVIDENCE.md) |
+| `MODULE_GAPS.md` | [`src/core/MODULE_GAPS.md`](../../../src/core/MODULE_GAPS.md) |
+| `PERFORMANCE_EXPECTATIONS.md` | [`src/core/PERFORMANCE_EXPECTATIONS.md`](../../../src/core/PERFORMANCE_EXPECTATIONS.md) |
+| `PRODUCTION_REQUIREMENTS.md` | [`src/core/PRODUCTION_REQUIREMENTS.md`](../../../src/core/PRODUCTION_REQUIREMENTS.md) |
+| `README.md` | [`src/core/README.md`](../../../src/core/README.md) |
+| `ROADMAP.md` | [`src/core/ROADMAP.md`](../../../src/core/ROADMAP.md) |
+| `SECURITY.md` | [`src/core/SECURITY.md`](../../../src/core/SECURITY.md) |
 
 ---
 
-*Updated for docs-vs-planning alignment sweep on 2026-05-31.*
+*Auto-generated by `tools/module_docs_builder.py` · 2026-10-29*

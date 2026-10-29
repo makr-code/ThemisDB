@@ -1,51 +1,66 @@
-[docs](../../index.md) > [de](../index.md) > [importers](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
-**Datum:** 2026-05-31
-**Status:** current
+[docs](../../index.md) > [de](../index.md) > [importers](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
+**Datum:** 2026-10-29  
+**Status:** draft  
 **Primary (Quelle der Wahrheit):**
-- `src/importers/README.md`
+- `include/importers/ARCHITECTURE.md`
+- `include/importers/FUTURE_ENHANCEMENTS.md`
+- `include/importers/README.md`
+- `include/importers/ROADMAP.md`
 - `src/importers/ARCHITECTURE.md`
-- `src/importers/ROADMAP.md`
+- `src/importers/AUDIT.md`
+- `src/importers/BUILD_STATUS.md`
+- `src/importers/CHANGELOG.md`
+- `src/importers/DOXYGEN.md`
+- `src/importers/FEATURES.md`
 - `src/importers/FUTURE_ENHANCEMENTS.md`
 - `src/importers/MODULE_GAPS.md`
-- `src/importers/SECURITY.md`
-- `src/importers/AUDIT.md`
+- `src/importers/MODULE_GAPS_BATCH5.md`
 - `src/importers/PERFORMANCE_EXPECTATIONS.md`
-- `src/importers/CHANGELOG.md`
+- `src/importers/PRODUCTION_REQUIREMENTS.md`
+- `src/importers/README.md`
+- `src/importers/ROADMAP.md`
+- `src/importers/SECURITY.md`
 
 **Bezug / Reference:**
-- Inventory-Baseline: `ai_working/developer_docs_inventory_report.md`
-- Alignment-Baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
+- Tool: `tools/module_docs_builder.py`
+- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `importers`
 
 ---
 
-# Primary Sources - importers
+# Primary Sources — `importers`
 
-Diese Seite definiert die fuehrenden Importer-Dokumente fuer Workload- und Verhaltensabgleich.
+Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`importers`** aus den erkannten Quellverzeichnissen des Moduls.
 
-## Abgleichsregeln
+## Primäre Markdown-Dateien
 
-- Neuere Dokumente sind relevanter als aeltere Dokumente.
-- `FUTURE_ENHANCEMENTS.md` und `MODULE_GAPS.md` sind die primaeren Workload-Quellen.
-- Historische Reports sind sekundaerer Kontext, sofern nicht juenger und source-verifiziert.
+### `include/importers/`
 
-## Fuehrende Planungsquellen
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`include/importers/ARCHITECTURE.md`](../../../include/importers/ARCHITECTURE.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`include/importers/FUTURE_ENHANCEMENTS.md`](../../../include/importers/FUTURE_ENHANCEMENTS.md) |
+| `README.md` | [`include/importers/README.md`](../../../include/importers/README.md) |
+| `ROADMAP.md` | [`include/importers/ROADMAP.md`](../../../include/importers/ROADMAP.md) |
 
-| Datei | Rolle |
-|---|---|
-| `src/importers/FUTURE_ENHANCEMENTS.md` | Zielverhalten und Hardening-Plan |
-| `src/importers/MODULE_GAPS.md` | aktive Restarbeiten und Severity-Cluster |
-| `src/importers/ROADMAP.md` | Milestones und Umsetzungsphasen |
+### `src/importers/`
 
-## Fuehrende Runtime- und Governance-Quellen
-
-| Datei | Rolle |
-|---|---|
-| `src/importers/ARCHITECTURE.md` | Laufzeitdesign und Modulgrenzen |
-| `src/importers/SECURITY.md` | Security-Kontrollen und Restriktionen |
-| `src/importers/AUDIT.md` | Verifikations-Evidenz |
-| `src/importers/PERFORMANCE_EXPECTATIONS.md` | Performance-Vertraege |
-| `src/importers/CHANGELOG.md` | Aenderungs-Traceability |
+| Datei | Pfad |
+|-------|------|
+| `ARCHITECTURE.md` | [`src/importers/ARCHITECTURE.md`](../../../src/importers/ARCHITECTURE.md) |
+| `AUDIT.md` | [`src/importers/AUDIT.md`](../../../src/importers/AUDIT.md) |
+| `BUILD_STATUS.md` | [`src/importers/BUILD_STATUS.md`](../../../src/importers/BUILD_STATUS.md) |
+| `CHANGELOG.md` | [`src/importers/CHANGELOG.md`](../../../src/importers/CHANGELOG.md) |
+| `DOXYGEN.md` | [`src/importers/DOXYGEN.md`](../../../src/importers/DOXYGEN.md) |
+| `FEATURES.md` | [`src/importers/FEATURES.md`](../../../src/importers/FEATURES.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`src/importers/FUTURE_ENHANCEMENTS.md`](../../../src/importers/FUTURE_ENHANCEMENTS.md) |
+| `MODULE_GAPS.md` | [`src/importers/MODULE_GAPS.md`](../../../src/importers/MODULE_GAPS.md) |
+| `MODULE_GAPS_BATCH5.md` | [`src/importers/MODULE_GAPS_BATCH5.md`](../../../src/importers/MODULE_GAPS_BATCH5.md) |
+| `PERFORMANCE_EXPECTATIONS.md` | [`src/importers/PERFORMANCE_EXPECTATIONS.md`](../../../src/importers/PERFORMANCE_EXPECTATIONS.md) |
+| `PRODUCTION_REQUIREMENTS.md` | [`src/importers/PRODUCTION_REQUIREMENTS.md`](../../../src/importers/PRODUCTION_REQUIREMENTS.md) |
+| `README.md` | [`src/importers/README.md`](../../../src/importers/README.md) |
+| `ROADMAP.md` | [`src/importers/ROADMAP.md`](../../../src/importers/ROADMAP.md) |
+| `SECURITY.md` | [`src/importers/SECURITY.md`](../../../src/importers/SECURITY.md) |
 
 ---
 
-*Aktualisiert im docs-vs-planungs Alignment-Sweep am 2026-05-31.*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-10-29*

@@ -1,21 +1,31 @@
-[docs](../../index.md) > [de](../index.md) > [voice](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
-**Datum:** 2026-05-31
-**Status:** current
+[docs](../../index.md) > [de](../index.md) > [voice](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
+**Datum:** 2026-10-29  
+**Status:** draft  
 **Primary (Quelle der Wahrheit):**
-- `src/voice/README.md`
+- `include/voice/ARCHITECTURE.md`
+- `include/voice/ARCHITECTURE_TEARDOWN_SAFETY.md`
+- `include/voice/FUTURE_ENHANCEMENTS.md`
+- `include/voice/PRODUCTION_REQUIREMENTS_AUDIT.md`
+- `include/voice/README.md`
+- `include/voice/ROADMAP.md`
+- `include/voice/VOICE_SESSION_CONTRACT.md`
 - `src/voice/ARCHITECTURE.md`
-- `src/voice/ROADMAP.md`
+- `src/voice/AUDIT.md`
+- `src/voice/CHANGELOG.md`
+- `src/voice/DOXYGEN.md`
+- `src/voice/FEATURES.md`
 - `src/voice/FUTURE_ENHANCEMENTS.md`
 - `src/voice/MODULE_GAPS.md`
-- `src/voice/SECURITY.md`
-- `src/voice/AUDIT.md`
 - `src/voice/PERFORMANCE_EXPECTATIONS.md`
-- `src/voice/CHANGELOG.md`
+- `src/voice/PRODUCTION_REQUIREMENTS.md`
+- `src/voice/README.md`
+- `src/voice/ROADMAP.md`
+- `src/voice/SECURITY.md`
+- `src/voice/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`
 
 **Bezug / Reference:**
-- Inventory-Baseline: `ai_working/developer_docs_inventory_report.md`
-- Alignment-Baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
-- Regel: neuere Planungsdokumente sind fuehrend gegenueber aelteren historischen Dokumenten.
+- Tool: `tools/module_docs_builder.py`
+- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `voice`
 
 ---
 
@@ -30,12 +40,12 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`voice`** a
 | Datei | Pfad |
 |-------|------|
 | `ARCHITECTURE.md` | [`include/voice/ARCHITECTURE.md`](../../../include/voice/ARCHITECTURE.md) |
-| `AUDIT.md` | [`include/voice/AUDIT.md`](../../../include/voice/AUDIT.md) |
-| `CHANGELOG.md` | [`include/voice/CHANGELOG.md`](../../../include/voice/CHANGELOG.md) |
+| `ARCHITECTURE_TEARDOWN_SAFETY.md` | [`include/voice/ARCHITECTURE_TEARDOWN_SAFETY.md`](../../../include/voice/ARCHITECTURE_TEARDOWN_SAFETY.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/voice/FUTURE_ENHANCEMENTS.md`](../../../include/voice/FUTURE_ENHANCEMENTS.md) |
+| `PRODUCTION_REQUIREMENTS_AUDIT.md` | [`include/voice/PRODUCTION_REQUIREMENTS_AUDIT.md`](../../../include/voice/PRODUCTION_REQUIREMENTS_AUDIT.md) |
 | `README.md` | [`include/voice/README.md`](../../../include/voice/README.md) |
 | `ROADMAP.md` | [`include/voice/ROADMAP.md`](../../../include/voice/ROADMAP.md) |
-| `SECURITY.md` | [`include/voice/SECURITY.md`](../../../include/voice/SECURITY.md) |
+| `VOICE_SESSION_CONTRACT.md` | [`include/voice/VOICE_SESSION_CONTRACT.md`](../../../include/voice/VOICE_SESSION_CONTRACT.md) |
 
 ### `src/voice/`
 
@@ -44,11 +54,17 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`voice`** a
 | `ARCHITECTURE.md` | [`src/voice/ARCHITECTURE.md`](../../../src/voice/ARCHITECTURE.md) |
 | `AUDIT.md` | [`src/voice/AUDIT.md`](../../../src/voice/AUDIT.md) |
 | `CHANGELOG.md` | [`src/voice/CHANGELOG.md`](../../../src/voice/CHANGELOG.md) |
+| `DOXYGEN.md` | [`src/voice/DOXYGEN.md`](../../../src/voice/DOXYGEN.md) |
+| `FEATURES.md` | [`src/voice/FEATURES.md`](../../../src/voice/FEATURES.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/voice/FUTURE_ENHANCEMENTS.md`](../../../src/voice/FUTURE_ENHANCEMENTS.md) |
+| `MODULE_GAPS.md` | [`src/voice/MODULE_GAPS.md`](../../../src/voice/MODULE_GAPS.md) |
+| `PERFORMANCE_EXPECTATIONS.md` | [`src/voice/PERFORMANCE_EXPECTATIONS.md`](../../../src/voice/PERFORMANCE_EXPECTATIONS.md) |
+| `PRODUCTION_REQUIREMENTS.md` | [`src/voice/PRODUCTION_REQUIREMENTS.md`](../../../src/voice/PRODUCTION_REQUIREMENTS.md) |
 | `README.md` | [`src/voice/README.md`](../../../src/voice/README.md) |
 | `ROADMAP.md` | [`src/voice/ROADMAP.md`](../../../src/voice/ROADMAP.md) |
 | `SECURITY.md` | [`src/voice/SECURITY.md`](../../../src/voice/SECURITY.md) |
+| `WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md` | [`src/voice/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`](../../../src/voice/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-10-29*

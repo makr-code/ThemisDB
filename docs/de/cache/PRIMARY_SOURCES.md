@@ -1,24 +1,27 @@
-[docs](../../index.md) > [de](../index.md) > [cache](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)
-**Datum:** 2026-05-31
-**Status:** current
+[docs](../../index.md) > [de](../index.md) > [cache](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
+**Datum:** 2026-10-29  
+**Status:** draft  
 **Primary (Quelle der Wahrheit):**
-- `src/cache/README.md`
+- `include/cache/ARCHITECTURE.md`
+- `include/cache/FUTURE_ENHANCEMENTS.md`
+- `include/cache/README.md`
+- `include/cache/ROADMAP.md`
 - `src/cache/ARCHITECTURE.md`
-- `src/cache/ROADMAP.md`
+- `src/cache/AUDIT.md`
+- `src/cache/CHANGELOG.md`
+- `src/cache/DOXYGEN.md`
+- `src/cache/FEATURES.md`
 - `src/cache/FUTURE_ENHANCEMENTS.md`
 - `src/cache/MODULE_GAPS.md`
-- `src/cache/SECURITY.md`
-- `src/cache/AUDIT.md`
 - `src/cache/PERFORMANCE_EXPECTATIONS.md`
-- `src/cache/CHANGELOG.md`
+- `src/cache/PRODUCTION_REQUIREMENTS.md`
+- `src/cache/README.md`
+- `src/cache/ROADMAP.md`
+- `src/cache/SECURITY.md`
 
 **Bezug / Reference:**
-- Inventory-Baseline: `ai_working/developer_docs_inventory_report.md`
-- Alignment-Baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
-- Regel: neuere Planungsdokumente sind fuehrend gegenueber aelteren historischen Dokumenten.
-
-> Hinweis: In `include/cache/` existiert derzeit nur `README.md` als modulbezogene Markdown-Datei.
-> Fuehrende Planungs- und Laufzeitdokumentation liegt in `src/cache/`.
+- Tool: `tools/module_docs_builder.py`
+- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `cache`
 
 ---
 
@@ -32,7 +35,10 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`cache`** a
 
 | Datei | Pfad |
 |-------|------|
+| `ARCHITECTURE.md` | [`include/cache/ARCHITECTURE.md`](../../../include/cache/ARCHITECTURE.md) |
+| `FUTURE_ENHANCEMENTS.md` | [`include/cache/FUTURE_ENHANCEMENTS.md`](../../../include/cache/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/cache/README.md`](../../../include/cache/README.md) |
+| `ROADMAP.md` | [`include/cache/ROADMAP.md`](../../../include/cache/ROADMAP.md) |
 
 ### `src/cache/`
 
@@ -41,11 +47,16 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`cache`** a
 | `ARCHITECTURE.md` | [`src/cache/ARCHITECTURE.md`](../../../src/cache/ARCHITECTURE.md) |
 | `AUDIT.md` | [`src/cache/AUDIT.md`](../../../src/cache/AUDIT.md) |
 | `CHANGELOG.md` | [`src/cache/CHANGELOG.md`](../../../src/cache/CHANGELOG.md) |
+| `DOXYGEN.md` | [`src/cache/DOXYGEN.md`](../../../src/cache/DOXYGEN.md) |
+| `FEATURES.md` | [`src/cache/FEATURES.md`](../../../src/cache/FEATURES.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/cache/FUTURE_ENHANCEMENTS.md`](../../../src/cache/FUTURE_ENHANCEMENTS.md) |
+| `MODULE_GAPS.md` | [`src/cache/MODULE_GAPS.md`](../../../src/cache/MODULE_GAPS.md) |
+| `PERFORMANCE_EXPECTATIONS.md` | [`src/cache/PERFORMANCE_EXPECTATIONS.md`](../../../src/cache/PERFORMANCE_EXPECTATIONS.md) |
+| `PRODUCTION_REQUIREMENTS.md` | [`src/cache/PRODUCTION_REQUIREMENTS.md`](../../../src/cache/PRODUCTION_REQUIREMENTS.md) |
 | `README.md` | [`src/cache/README.md`](../../../src/cache/README.md) |
 | `ROADMAP.md` | [`src/cache/ROADMAP.md`](../../../src/cache/ROADMAP.md) |
 | `SECURITY.md` | [`src/cache/SECURITY.md`](../../../src/cache/SECURITY.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-04-17*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-10-29*

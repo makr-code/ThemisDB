@@ -1,21 +1,32 @@
 [docs](../../index.md) > [en](../index.md) > [prompt_engineering](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Date:** 2026-05-31
-**Status:** current
-**Primary Source (source of truth):**
-- `src/prompt_engineering/README.md`
+**Date:** 2026-10-29  
+**Status:** draft  
+**Primary Source:**
+- `include/prompt_engineering/ARCHITECTURE.md`
+- `include/prompt_engineering/FUTURE_ENHANCEMENTS.md`
+- `include/prompt_engineering/README.md`
+- `include/prompt_engineering/ROADMAP.md`
 - `src/prompt_engineering/ARCHITECTURE.md`
-- `src/prompt_engineering/ROADMAP.md`
-- `src/prompt_engineering/FUTURE_ENHANCEMENTS.md`
-- `src/prompt_engineering/MODULE_GAPS.md`
-- `src/prompt_engineering/SECURITY.md`
 - `src/prompt_engineering/AUDIT.md`
-- `src/prompt_engineering/PERFORMANCE_EXPECTATIONS.md`
 - `src/prompt_engineering/CHANGELOG.md`
+- `src/prompt_engineering/DOXYGEN.md`
+- `src/prompt_engineering/ERROR_TAXONOMY_REFERENCE.md`
+- `src/prompt_engineering/FEATURES.md`
+- `src/prompt_engineering/FUTURE_ENHANCEMENTS.md`
+- `src/prompt_engineering/ISSUE_5663_CLOSURE_EVIDENCE.md`
+- `src/prompt_engineering/MODULE_GAPS.md`
+- `src/prompt_engineering/PERFORMANCE_EXPECTATIONS.md`
+- `src/prompt_engineering/PHASE_1_COMPLETION_SUMMARY.md`
+- `src/prompt_engineering/PHASE_1_CONTRACT.md`
+- `src/prompt_engineering/PRODUCTION_REQUIREMENTS.md`
+- `src/prompt_engineering/README.md`
+- `src/prompt_engineering/ROADMAP.md`
+- `src/prompt_engineering/SECURITY.md`
 
 **Reference:**
-- Inventory baseline: `ai_working/developer_docs_inventory_report.md`
-- Alignment baseline: `ai_working/docs_module_alignment_report_2026-05-31.md`
-- Policy: newer planning docs are prioritized over older historical docs.
+- Tool: `tools/module_docs_builder.py`
+- Context: Auto-generated index of all primary Markdown files for module `prompt_engineering`
+
 ---
 
 # Primary Sources — `prompt_engineering`
@@ -29,12 +40,9 @@ This index lists all Markdown documentation files for module **`prompt_engineeri
 | File | Path |
 |------|------|
 | `ARCHITECTURE.md` | [`include/prompt_engineering/ARCHITECTURE.md`](../../../include/prompt_engineering/ARCHITECTURE.md) |
-| `AUDIT.md` | [`include/prompt_engineering/AUDIT.md`](../../../include/prompt_engineering/AUDIT.md) |
-| `CHANGELOG.md` | [`include/prompt_engineering/CHANGELOG.md`](../../../include/prompt_engineering/CHANGELOG.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`include/prompt_engineering/FUTURE_ENHANCEMENTS.md`](../../../include/prompt_engineering/FUTURE_ENHANCEMENTS.md) |
 | `README.md` | [`include/prompt_engineering/README.md`](../../../include/prompt_engineering/README.md) |
 | `ROADMAP.md` | [`include/prompt_engineering/ROADMAP.md`](../../../include/prompt_engineering/ROADMAP.md) |
-| `SECURITY.md` | [`include/prompt_engineering/SECURITY.md`](../../../include/prompt_engineering/SECURITY.md) |
 
 ### `src/prompt_engineering/`
 
@@ -43,11 +51,20 @@ This index lists all Markdown documentation files for module **`prompt_engineeri
 | `ARCHITECTURE.md` | [`src/prompt_engineering/ARCHITECTURE.md`](../../../src/prompt_engineering/ARCHITECTURE.md) |
 | `AUDIT.md` | [`src/prompt_engineering/AUDIT.md`](../../../src/prompt_engineering/AUDIT.md) |
 | `CHANGELOG.md` | [`src/prompt_engineering/CHANGELOG.md`](../../../src/prompt_engineering/CHANGELOG.md) |
+| `DOXYGEN.md` | [`src/prompt_engineering/DOXYGEN.md`](../../../src/prompt_engineering/DOXYGEN.md) |
+| `ERROR_TAXONOMY_REFERENCE.md` | [`src/prompt_engineering/ERROR_TAXONOMY_REFERENCE.md`](../../../src/prompt_engineering/ERROR_TAXONOMY_REFERENCE.md) |
+| `FEATURES.md` | [`src/prompt_engineering/FEATURES.md`](../../../src/prompt_engineering/FEATURES.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/prompt_engineering/FUTURE_ENHANCEMENTS.md`](../../../src/prompt_engineering/FUTURE_ENHANCEMENTS.md) |
+| `ISSUE_5663_CLOSURE_EVIDENCE.md` | [`src/prompt_engineering/ISSUE_5663_CLOSURE_EVIDENCE.md`](../../../src/prompt_engineering/ISSUE_5663_CLOSURE_EVIDENCE.md) |
+| `MODULE_GAPS.md` | [`src/prompt_engineering/MODULE_GAPS.md`](../../../src/prompt_engineering/MODULE_GAPS.md) |
+| `PERFORMANCE_EXPECTATIONS.md` | [`src/prompt_engineering/PERFORMANCE_EXPECTATIONS.md`](../../../src/prompt_engineering/PERFORMANCE_EXPECTATIONS.md) |
+| `PHASE_1_COMPLETION_SUMMARY.md` | [`src/prompt_engineering/PHASE_1_COMPLETION_SUMMARY.md`](../../../src/prompt_engineering/PHASE_1_COMPLETION_SUMMARY.md) |
+| `PHASE_1_CONTRACT.md` | [`src/prompt_engineering/PHASE_1_CONTRACT.md`](../../../src/prompt_engineering/PHASE_1_CONTRACT.md) |
+| `PRODUCTION_REQUIREMENTS.md` | [`src/prompt_engineering/PRODUCTION_REQUIREMENTS.md`](../../../src/prompt_engineering/PRODUCTION_REQUIREMENTS.md) |
 | `README.md` | [`src/prompt_engineering/README.md`](../../../src/prompt_engineering/README.md) |
 | `ROADMAP.md` | [`src/prompt_engineering/ROADMAP.md`](../../../src/prompt_engineering/ROADMAP.md) |
 | `SECURITY.md` | [`src/prompt_engineering/SECURITY.md`](../../../src/prompt_engineering/SECURITY.md) |
 
 ---
 
-*Auto-generated by `tools/module_docs_builder.py` · 2026-04-17*
+*Auto-generated by `tools/module_docs_builder.py` · 2026-10-29*
