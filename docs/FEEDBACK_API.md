@@ -1,3 +1,10 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-29"
+Last Updated: "2026-10-29"
+Status: "active"
+---
+
 # Feedback API Documentation
 
 ## Overview
