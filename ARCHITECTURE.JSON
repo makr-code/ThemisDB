@@ -2,8 +2,8 @@
   "ai_working_artifacts": [
     {
       "name": "00_START_HERE.md",
-      "sha256_prefix": "5558c4492c2ca9f6",
-      "size_bytes": "10548",
+      "sha256_prefix": "32f2f702122b61ff",
+      "size_bytes": "10880",
       "type": "report"
     },
     {
@@ -20,20 +20,20 @@
     },
     {
       "name": "ENFORCEMENT_WAIVERS.md",
-      "sha256_prefix": "e9c511148c607750",
-      "size_bytes": "338",
+      "sha256_prefix": "6f2c0f5745cebf1d",
+      "size_bytes": "509",
       "type": "report"
     },
     {
       "name": "GITHUB_ISSUE_ASSIGNMENT_GUIDE.md",
-      "sha256_prefix": "8dd39ad2ff33fd48",
-      "size_bytes": "8571",
+      "sha256_prefix": "1d58ebae1ac1e256",
+      "size_bytes": "8776",
       "type": "report"
     },
     {
       "name": "LAUNCH_STATUS_SUMMARY.txt",
-      "sha256_prefix": "7449455de7078307",
-      "size_bytes": "10122",
+      "sha256_prefix": "cd4fba0bf35ca41e",
+      "size_bytes": "10392",
       "type": "session_summary"
     },
     {
@@ -56,14 +56,14 @@
     },
     {
       "name": "README_WAVE10_PHASE1.md",
-      "sha256_prefix": "0960821938548d42",
-      "size_bytes": "7844",
+      "sha256_prefix": "4590bf74dec356c6",
+      "size_bytes": "8018",
       "type": "wave_report"
     },
     {
       "name": "WAVE10_PHASE1_EXECUTIVE_SUMMARY.md",
-      "sha256_prefix": "1db972e6f539caf2",
-      "size_bytes": "7405",
+      "sha256_prefix": "9727f0f62e3b390a",
+      "size_bytes": "7432",
       "type": "wave_report"
     },
     {
@@ -733,12 +733,12 @@
     {
       "category": "governance",
       "path": "ARCHITECTURE.md",
-      "sha256_prefix": "23996f856614da85"
+      "sha256_prefix": "2b51cd58319e9914"
     },
     {
       "category": "governance",
       "path": "ROADMAP.md",
-      "sha256_prefix": "79ab391b9bacce7a"
+      "sha256_prefix": "dbdd09372170b719"
     },
     {
       "category": "governance",
@@ -758,7 +758,7 @@
     {
       "category": "governance",
       "path": "DOCUMENTATION_GOVERNANCE.md",
-      "sha256_prefix": "3c2b4c053d7a2cfe"
+      "sha256_prefix": "012844c2433c76e1"
     },
     {
       "category": "governance",
@@ -2468,7 +2468,7 @@
     {
       "category": "docs",
       "path": "docs/code_maturity_report.md",
-      "sha256_prefix": "26c44c8cda546054"
+      "sha256_prefix": "5476ebf2e125c5e4"
     },
     {
       "category": "docs",
@@ -2878,7 +2878,7 @@
     {
       "category": "docs",
       "path": "docs/de/README.md",
-      "sha256_prefix": "70b9825a0de92e7b"
+      "sha256_prefix": "c2c696d3f65ae9cc"
     },
     {
       "category": "docs",
@@ -3088,7 +3088,7 @@
     {
       "category": "docs",
       "path": "docs/en/README.md",
-      "sha256_prefix": "665eebb3d1d1808d"
+      "sha256_prefix": "426a7a9f79a3920a"
     },
     {
       "category": "docs",
@@ -6976,14 +6976,14 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-10-26T02:08:47.380507+00:00",
+  "generated_at": "2026-10-29T07:18:38.792057+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
-    "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-10-19\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `c22f201e19477f22`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
+    "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-10-26\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `c22f201e19477f22`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
     "module_api_count": 80,
-    "source_count": 7986,
-    "wiki_generated_at": "2026-10-19T03:03:08+00:00",
-    "wiki_source_hash": "4db05528d055dbebf71c00e189b7878470d634ca99657f85cc770a5a7cdd1d31"
+    "source_count": 7989,
+    "wiki_generated_at": "2026-10-26T03:05:20+00:00",
+    "wiki_source_hash": "f9c4e45e976ae4e3f61788cbb59e9f596999e8fe634836866ba8e73c4eb7c5bc"
   },
   "modules": [
     {
@@ -9052,15 +9052,15 @@
   ],
   "schema_version": "1.0.0",
   "source_hashes": {
-    "ARCHITECTURE.md": "23996f856614da85",
+    "ARCHITECTURE.md": "2b51cd58319e9914",
     "FUTURE_ENHANCEMENTS.md": "de552eeef9d1ac51",
-    "ROADMAP.md": "79ab391b9bacce7a",
+    "ROADMAP.md": "dbdd09372170b719",
     "ai_context/ARCHITECTURE_CLASSIFICATION.md": "57a7f2182a1193c8",
     "ai_context/MODULES_AND_NAMESPACES.md": "bf42dba44a39f8cb",
-    "ai_context/api_contracts/": "6384de3aba1abb3b",
-    "ai_context/developer_llm_wiki/": "dbaf79b3d8c534e5",
-    "ai_working/": "69c0d84d42fe992b",
-    "docs/": "3425519e18c21195"
+    "ai_context/api_contracts/": "ff71327044f8d28f",
+    "ai_context/developer_llm_wiki/": "df69c09e9cbabea9",
+    "ai_working/": "4c2a20aeb4f5749f",
+    "docs/": "bbbbe55e05f891d4"
   },
   "statistics": {
     "ai_working_artifact_count": 26,
