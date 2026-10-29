@@ -136,6 +136,19 @@ jobs:
             cat /tmp/invalid-case-terminators.txt
             exit 1
           fi
+          awk '
+            /^RUN --mount=type=cache,id=llm-model-cache-\$\{TARGETARCH\},target=\/opt\/themis-models \\/ { in_block=1 }
+            in_block { print }
+            in_block && /^# =+/ { exit }
+          ' docker/Dockerfile.unified \
+            | sed '/^# =\+/,$d' \
+            | sed 's/[[:space:]]*\\$//' \
+            > /tmp/llm-model-provisioning.sh
+          if ! /bin/sh -n /tmp/llm-model-provisioning.sh; then
+            printf '%s\n' "::error::Shell syntax check failed for Dockerfile model provisioning block."
+            sed -n '1,120p' /tmp/llm-model-provisioning.sh
+            exit 1
+          fi
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349  # v3.7.1
