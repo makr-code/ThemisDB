@@ -27,6 +27,7 @@ Human_Author: "ThemisDB Team"
 - Keep capability discovery and plugin trust validation before execution.
 - Avoid broad API changes without explicit migration notes and benchmark evidence.
 - Treat performance claims as hardware-specific evidence until benchmarks are published for each relevant host profile.
+- Align implementation decisions with system-design evidence: queue discipline, locality-aware dispatch, and fail-closed fallback are more important than raw kernel throughput alone.
 
 ### Required Interfaces
 - `DeviceManager` / `BackendRegistry` capability and selection API

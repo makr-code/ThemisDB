@@ -25,6 +25,31 @@ Production-grade acceleration runtime with backend selection, fallback orchestra
 
 The acceleration module is a production candidate in its core architecture: backend registration, capability probing, fail-closed fallback logic, plugin trust validation, and multi-device coordination are all present in the implementation and test surface. The strongest evidence is in deterministic fallback and routing behavior, while the main remaining risk is hardware-specific validation depth for distributed and optional backend operations.
 
+### Research evidence and best-practice baseline
+
+The roadmap is not based on generic claims about “GPU speedups” or “accelerator efficiency.” It is anchored to the engineering realities that repeatedly dominate accelerator work in databases and vector systems:
+
+- Johnson, Douze, and Jégou, “Faiss: A Library for Efficient Similarity Search and Clustering of Dense Vectors” (2019). The key lesson is that large-scale vector search gains are real, but they depend on memory placement, index choice, batching, and hardware-aware dispatch; without those guards, the system can regress even when a GPU is available. This directly supports the v2.5.0 requirement to lock the backend capability matrix and benchmark the actual dispatch path on representative CPU/GPU profiles.
+- Blagodurov et al., “A Case for NUMA-aware Thread Scheduling” (EuroSys 2010). The practical implication is straightforward: local data placement and topology-aware scheduling matter as much as raw compute throughput. This is why the module must treat NUMA locality, device affinity, and queue discipline as first-class reliability features rather than optional tuning.
+- Dean and Barroso, “The Tail at Scale” (Communications of the ACM, 2013). The relevant design principle is that tail latency is controlled by bounded queues, explicit failover, and conservative retry policy rather than by optimizing the happy path alone. This aligns with the v3.0.0 objective to standardize multi-device scheduling, queue discipline, and partial-failure isolation.
+- Blem et al., “Dark Silicon and the End of Multicore Scaling” (ISCA 2013) and a broader systems body of work on hardware heterogeneity. The core lesson is that compute acceleration is a system-level optimization problem, not a single-kernel win: one must coordinate topology, memory movement, and fallback semantics. This is why the module should enforce fail-closed selection and not silently execute on stale capability data.
+
+This translates into concrete engineering rules for ThemisDB:
+
+- capability detection and trust validation happen before compute dispatch;
+- the fast path is benchmarked and bounded, not assumed to be universally faster;
+- fallback is deterministic and explicit, never silent;
+- queue growth, locality, and equipment health are treated as operational control variables, not afterthoughts.
+
+### Real improvements the roadmap is targeting
+
+The roadmap does not promise vague “performance wins.” It is tied to specific engineering improvements that are common in real accelerator systems and directly testable in ThemisDB:
+
+- Vector-index acceleration: literature on ANN and GPU-accelerated similarity search shows that the large gains appear when indices stay device-resident, workloads are batched, and the dispatch path is measured end-to-end. The v2.5.0 gate is therefore explicit: for the selected RTX-class ANN path, the system should achieve a measured ≥8× speedup over the CPU baseline while retaining deterministic fallback under invalid capability or trust states.
+- NUMA-aware placement: the performance literature on NUMA scheduling shows that locality and scheduling choices can materially influence throughput and latency. The operational requirement here is not a generic slogan; it is a release gate: backend selection p99 < 10 µs and fallback overhead ≤ 5% under representative NUMA and mixed-device conditions.
+- Tail-latency control: the “Tail at Scale” literature shows that tail latency is dominated by queue buildup, retry amplification, and degraded execution policies, not just raw throughput. The v3.0.0 target is therefore concrete: bounded queue growth, no unbounded retry loops, and an explicit partial-device failure policy under sustained load.
+- Fail-closed safety: the practical requirement in high-risk acceleration systems is that invalid plugins or stale capability data must not execute. This is reflected in the release gates: zero silent execution on trust or capability failure and explicit deny/fail-closed behavior for all malformed or degraded states.
+
 ### v2.5.0 priorities
 
 - [ ] Lock backend capability matrix and fallback semantics for CPU/GPU and optional backends (Target: v2.5.0)
