@@ -269,6 +269,10 @@ set(THEMIS_BASE_SOURCES
     ../src/utils/stemmer.cpp
     ../src/utils/stopwords.cpp
     ../src/utils/normalizer.cpp
+    ../src/failover/topology_snapshot.cpp
+    ../src/toolbox/text_normalizer.cpp
+    ../src/toolbox/language_detector.cpp
+    ../src/toolbox/content_fingerprinter.cpp
     ../src/utils/simd_distance.cpp
     ../src/utils/update_checker.cpp
     ../src/utils/http_client_pool.cpp
@@ -410,6 +414,7 @@ set(THEMIS_STORAGE_SOURCES
     # Core storage engine
     ../src/storage/rocksdb_wrapper.cpp
     ../src/storage/base_entity.cpp
+    ../src/document/round_trip_editor.cpp
     ../src/storage/key_schema.cpp
     ../src/storage/backup_manager.cpp
     ../src/storage/columnar_format.cpp
@@ -427,6 +432,9 @@ set(THEMIS_STORAGE_SOURCES
     ../src/tensor/tensor_ingestion_bridge.cpp
     ../src/tensor/tensor_core_bridge.cpp
     ../src/tensor/tensor_fingerprint_graph.cpp
+    ../src/tensor/tensor_compression_routing_accelerator.cpp
+    ../src/tensor/tensor_routing_strategy.cpp
+    ../src/tensor/tensor_redundancy_detection.cpp
     ../src/tensor/tensor_error_handling.cpp
     ../src/tensor/tensor_summary_types.cpp
     ../src/tensor/compression_strategy.cpp
@@ -703,6 +711,9 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/aql_parser.cpp
     ../src/query/aql_parser_json.cpp
     ../src/query/aql_parser_service.cpp
+    ../src/query/fts_executor.cpp
+    ../src/query/index_cache.cpp
+    ../src/query/bm25_scorer.cpp
     ../src/query/sql_parser.cpp
     ../src/query/aql_translator.cpp
     ../src/query/aql_mutation_translator.cpp
@@ -740,6 +751,7 @@ set(THEMIS_QUERY_SOURCES
     ../src/query/query_compiler.cpp
     ../src/query/materialized_view.cpp
     ../src/query/mutation_executor.cpp
+    ../src/query/aql_mutation_validator.cpp
     # Vectorized Execution Engine – column-store style batch processing (Issue #2434)
     ../src/query/vectorized_execution.cpp
     ../src/query/sparql_parser.cpp
@@ -2102,6 +2114,7 @@ set(THEMIS_GEO_SOURCES
     ../src/geo/rtree_cursor.cpp
     ../src/geo/spatial_join_filter.cpp
     ../src/geo/temporal_spatial_query_builder.cpp
+    ../src/geo/geo_backend_dispatch.cpp
     ../src/acceleration/geo_acceleration_bridge.cpp
     ../src/index/spatial_index.cpp
     ../src/api/geo_index_hooks.cpp
@@ -2172,6 +2185,7 @@ endif()
 set(THEMIS_GRAPH_SOURCES
     ../src/graph/graph_query_optimizer.cpp
     ../src/graph/explain_plan.cpp
+    ../src/graph/tensor_deduplication_manager.cpp
     ../src/graph/tensor_fingerprint_graph.cpp
     ../src/index/graph_analytics.cpp
     ../src/query/result_stream.cpp
@@ -2698,13 +2712,18 @@ function(themis_build_modular)
         STATIC_MODULE
     )
     if(MSVC)
+        option(THEMIS_MSVC_HEAVY_HANDLER_LOW_MEMORY
+            "Disable optimization of heavy HTTP handlers to reduce MSVC compiler memory usage"
+            ON
+        )
         set_target_properties(themis_network PROPERTIES
             UNITY_BUILD OFF
         )
         # Files that must NOT enter a unity batch:
         # - monitoring_api_handler / index_api_handler: /O2 on windows-latest
-        #   can trigger cl.exe C1060 (out of heap space). We force /Od for
-        #   non-Debug builds with /bigobj and keep the global /Zm200 setting.
+        #   can trigger cl.exe C1060 (out of heap space). The default low-memory
+        #   option applies /Od outside Debug; benchmark hosts can opt out.
+        #   Keep /bigobj and the global /Zm200 setting in both cases.
         #   A larger per-file /Zm override has proven unstable in CI.
         # - distributed_flame_graph: defines 'parseFolded' in anonymous namespace
         #   which causes C2375 (redefinition / different linkage) when merged with
@@ -2714,7 +2733,7 @@ function(themis_build_modular)
             ${CMAKE_SOURCE_DIR}/src/server/index_api_handler.cpp
             PROPERTIES
                 SKIP_UNITY_BUILD_INCLUSION ON
-                COMPILE_OPTIONS "/bigobj;$<$<NOT:$<CONFIG:Debug>>:/Od>"
+                COMPILE_OPTIONS "/bigobj;$<$<AND:$<BOOL:${THEMIS_MSVC_HEAVY_HANDLER_LOW_MEMORY}>,$<NOT:$<CONFIG:Debug>>>:/Od>"
         )
         set_source_files_properties(
             ${CMAKE_SOURCE_DIR}/src/observability/distributed_flame_graph.cpp

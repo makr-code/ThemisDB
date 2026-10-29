@@ -88,7 +88,7 @@ class YCSBWorkload(Enum):
     WORKLOAD_C = "C"  # 100% read (Read-only)
     WORKLOAD_D = "D"  # Read mostly, latest records inserted
     WORKLOAD_E = "E"  # 95% scan, 5% insert
-    WORKLOAD_F = "F"  # 50% read, 25% read-modify-write, 25% write
+    WORKLOAD_F = "F"  # 50% read, 50% read-modify-write
 
 
 @dataclass
@@ -102,63 +102,39 @@ class YCSBBenchmarkResult:
     read_count: int = 0
     write_count: int = 0
     scan_count: int = 0
+    insert_count: int = 0
+    read_modify_write_count: int = 0
     
     # Performance
     throughput_ops_sec: float = 0.0  # Operations per second
     latency_mean_ms: float = 0.0
+    latency_p50_ms: float = 0.0
     latency_p95_ms: float = 0.0
     latency_p99_ms: float = 0.0
     latency_p999_ms: float = 0.0
     
     # Reference Values
-    expected_throughput_ops_sec: float = 0.0  # Industry reference
-    expected_latency_p95_ms: float = 0.0
+    expected_throughput_ops_sec: Optional[float] = None
+    expected_latency_p95_ms: Optional[float] = None
     
     # Comparison
-    throughput_ratio: float = 0.0  # Actual vs Expected
-    latency_ratio: float = 0.0
+    throughput_ratio: Optional[float] = None
+    latency_ratio: Optional[float] = None
     
     # Metadata
     timestamp: str = field(default_factory=lambda: datetime.now().isoformat())
     hardware_profile: Optional[str] = None
+    seed: int = 42
+    benchmark_kind: str = "ycsb_inspired"
+    external_comparison_ready: bool = False
 
 
 class YCSBBenchmark:
-    """YCSB Benchmark Implementation"""
-    
-    # Industry Reference Values (from YCSB paper & common implementations)
-    REFERENCE_VALUES = {
-        "A": {  # 50% read, 50% write
-            "throughput_ops_sec": 10000,  # Typical SSD-backed RDBMS
-            "latency_p95_ms": 2.5,
-            "latency_p99_ms": 5.0,
-        },
-        "B": {  # 95% read, 5% write
-            "throughput_ops_sec": 50000,  # Cache-like performance
-            "latency_p95_ms": 0.5,
-            "latency_p99_ms": 1.0,
-        },
-        "C": {  # 100% read
-            "throughput_ops_sec": 100000,  # Read-only optimal
-            "latency_p95_ms": 0.2,
-            "latency_p99_ms": 0.5,
-        },
-        "D": {  # Read latest
-            "throughput_ops_sec": 8000,
-            "latency_p95_ms": 3.0,
-            "latency_p99_ms": 6.0,
-        },
-        "E": {  # Scan heavy
-            "throughput_ops_sec": 1000,  # Scans are slower
-            "latency_p95_ms": 50.0,
-            "latency_p99_ms": 100.0,
-        },
-        "F": {  # Read-modify-write
-            "throughput_ops_sec": 5000,
-            "latency_p95_ms": 5.0,
-            "latency_p99_ms": 10.0,
-        },
-    }
+    """Seeded YCSB-inspired operation runner, not the upstream YCSB driver.
+
+    Adapters own key selection, data preparation and database error checking.
+    These measurements do not establish standard compliance or an industry rank.
+    """
     
     WORKLOAD_DEFINITIONS = {
         "A": {"read": 50, "write": 50, "scan": 0, "insert": 0},
@@ -166,7 +142,7 @@ class YCSBBenchmark:
         "C": {"read": 100, "write": 0, "scan": 0, "insert": 0},
         "D": {"read": 95, "write": 0, "scan": 0, "insert": 5},
         "E": {"read": 0, "write": 0, "scan": 95, "insert": 5},
-        "F": {"read": 50, "write": 25, "scan": 0, "insert": 25},
+        "F": {"read": 50, "read_modify_write": 50},
     }
     
     def __init__(self, database_name: str):
@@ -176,15 +152,27 @@ class YCSBBenchmark:
     async def run_workload(self,
                           workload: YCSBWorkload,
                           num_operations: int = 10000,
-                          operation_fn=None) -> YCSBBenchmarkResult:
+                          operation_fn=None,
+                          seed: int = 42) -> YCSBBenchmarkResult:
         """
         Run YCSB Workload
         
         Args:
             workload: YCSB Workload (A-F)
             num_operations: Number of operations to execute
-            operation_fn: Async function (read/write/scan/insert)
+            operation_fn: Async database function accepting read, write, scan,
+                insert or read_modify_write. Must raise on database failure.
+            seed: Random seed for reproducible operation selection per run.
+
+        Raises:
+            ValueError: If no callable database adapter or positive integer count
+                is provided. Adapter exceptions propagate without storing a result.
         """
+
+        if not callable(operation_fn):
+            raise ValueError("YCSB requires an explicit async database operation adapter")
+        if isinstance(num_operations, bool) or not isinstance(num_operations, int) or num_operations <= 0:
+            raise ValueError("num_operations must be a positive integer")
         
         print(f"\nYCSB Workload {workload.value}:")
         print(f"  Operations: {num_operations}")
@@ -194,27 +182,24 @@ class YCSBBenchmark:
             workload=workload.value,
             database=self.database_name,
             total_operations=num_operations,
+            seed=seed,
         )
         
         # Get workload distribution
         distribution = self.WORKLOAD_DEFINITIONS[workload.value]
+        generator = random.Random(seed)
         
-        # Simulate operations
         latencies = []
         start_time = time.perf_counter()
         
         for i in range(num_operations):
             # Determine operation type based on distribution
-            op_type = self._select_operation(distribution)
+            op_type = self._select_operation(distribution, generator)
             
             # Execute operation
             op_start = time.perf_counter()
             
-            if operation_fn:
-                await operation_fn(op_type)
-            else:
-                # Default simulation
-                await self._simulate_operation(op_type)
+            await operation_fn(op_type)
             
             latency_ms = (time.perf_counter() - op_start) * 1000
             latencies.append(latency_ms)
@@ -226,6 +211,10 @@ class YCSBBenchmark:
                 result.write_count += 1
             elif op_type == "scan":
                 result.scan_count += 1
+            elif op_type == "insert":
+                result.insert_count += 1
+            elif op_type == "read_modify_write":
+                result.read_modify_write_count += 1
         
         elapsed = time.perf_counter() - start_time
         
@@ -235,54 +224,29 @@ class YCSBBenchmark:
         if latencies:
             sorted_latencies = sorted(latencies)
             result.latency_mean_ms = statistics.mean(latencies)
+            result.latency_p50_ms = self._percentile(sorted_latencies, 50)
             result.latency_p95_ms = self._percentile(sorted_latencies, 95)
             result.latency_p99_ms = self._percentile(sorted_latencies, 99)
             result.latency_p999_ms = self._percentile(sorted_latencies, 99.9)
         
-        # Get reference values
-        ref = self.REFERENCE_VALUES[workload.value]
-        result.expected_throughput_ops_sec = ref["throughput_ops_sec"]
-        result.expected_latency_p95_ms = ref["latency_p95_ms"]
-        
-        # Calculate ratios
-        if result.expected_throughput_ops_sec > 0:
-            result.throughput_ratio = result.throughput_ops_sec / result.expected_throughput_ops_sec
-        
-        if result.expected_latency_p95_ms > 0:
-            result.latency_ratio = result.latency_p95_ms / result.expected_latency_p95_ms
-        
         # Print results
         print(f"  Throughput:     {result.throughput_ops_sec:,.0f} ops/sec")
-        print(f"  Expected:       {result.expected_throughput_ops_sec:,.0f} ops/sec")
-        print(f"  Ratio:          {result.throughput_ratio:.2f}x {'✅' if result.throughput_ratio >= 0.8 else '⚠️'}")
-        print(f"  P95 Latency:    {result.latency_p95_ms:.3f}ms (expected: {result.expected_latency_p95_ms:.3f}ms)")
+        print(f"  P50 Latency:    {result.latency_p50_ms:.3f}ms")
+        print(f"  P95 Latency:    {result.latency_p95_ms:.3f}ms")
         print(f"  P99 Latency:    {result.latency_p99_ms:.3f}ms")
+        print("  Comparison:     not established (YCSB-inspired local driver)")
         
         self.results[f"workload_{workload.value}"] = result
         return result
     
-    async def _simulate_operation(self, op_type: str):
-        """Simulate YCSB operation"""
-        
-        latencies = {
-            "read": 1.0,      # 1ms read
-            "write": 2.0,     # 2ms write
-            "scan": 20.0,     # 20ms scan
-            "insert": 1.5,    # 1.5ms insert
-        }
-        
-        latency_ms = latencies.get(op_type, 1.0)
-        jitter = random.gauss(latency_ms / 1000, latency_ms / 10000)
-        await asyncio.sleep(max(jitter, 0.0001))
-    
-    def _select_operation(self, distribution: Dict[str, int]) -> str:
+    def _select_operation(self, distribution: Dict[str, int], generator: random.Random) -> str:
         """Select operation based on workload distribution"""
-        r = random.random() * 100
+        r = generator.random() * 100
         cumulative = 0
         
         for op_type, percentage in distribution.items():
             cumulative += percentage
-            if r <= cumulative:
+            if r < cumulative:
                 return op_type
         
         return "read"  # Default

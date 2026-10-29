@@ -1,5 +1,13 @@
 # ROADMAP
 
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot
+**Human_Review:** false
+**Human_Author:** unknown
+
+Exact model backend not verifiable from final document text alone.
+
 ## Current Status
 - [x] Wissenschaftliches Evaluations-Framework in `benchmarks/scripts/scientific_evaluation_framework.py` implementiert (Target: 2026-Q2)
 - [x] Dokumentierter End-to-End-Playbook- und Katalogpfad in `benchmarks/docs/SCIENTIFIC_EVALUATION_FRAMEWORK.md` bereitgestellt (Target: 2026-Q2)
@@ -10,6 +18,13 @@
 - [x] Wave-6-Release-Candidate-Suite inkl. finaler Guardrails/Drift-/Sättigungs-/Recovery-Auswertung über `benchmarks/ci_wave6_release_candidate_experiments.json` und Framework-Reportfelder umgesetzt (Target: 2026-Q3)
 
 ## In Progress
+- [~] Cross-database comparison readiness (Target: 2026-Q4)
+  - [x] Define domain-specific YCSB/ANN-Benchmarks/VectorDBBench/ClickBench/LDBC SNB evidence requirements in `BENCHMARK_STANDARDS.md`.
+  - [x] MSVC runner: process CPU/peak memory/I/O, run manifest, case filtering, repetitions, bounded execution and error-aware JSON acceptance; verified with importer smoke runs.
+  - [x] Python YCSB-inspired A/B/C/F canonical HTTP adapter and CLI: corrected F mix, seeded operation selection, readback validation, p50/p95/p99 and owned cleanup. Twenty focused tests pass; isolated Community Debug live smokes completed all four workloads (100 records/200 operations each) with optional server-PID phase CPU/I/O and memory snapshots. No upstream conformance or production performance is claimed.
+  - [ ] Integrate pinned reference drivers/adapters and dataset/query/ground-truth checksums; validate operation semantics and correctness before claiming external comparability.
+  - [ ] Collect server-scoped resources, storage footprint and request latency histograms; keep client cost and setup/index build separate.
+  - [ ] Complete the 273-binary resource pass; triage native crashes, hardware-dependent measurement errors and the gossip network/scalability timeout. The interrupted baseline pass is incomplete.
 - [~] Wave-6-Operability-Härtung: reproduzierbarer Repro-/Triage-Runbook-Pfad für finale Go/No-Go-Entscheidungen (Target: 2026-Q3)
 - [x] **Wave 4 (B4-A):** Release-kritische Governance-Benchmarks (W4A-01..W4A-06) + `release_gate_manifest.json` implementiert (Target: 2026-Q3)
 - [x] **Wave 4 (B4-B):** Resilience/Degradations-Szenarien (W4B-01..W4B-06): Latenz-Injektion, Backpressure, CPU-Contention, Partial-Failure, Recovery (Target: 2026-Q3)
@@ -89,4 +104,7 @@
 - [I] `BackpressureSimulator` in `wave4_fixtures.h` ist nicht thread-safe für parallele Benchmark-Bodies; für Multi-Thread-Szenarien pro Thread instanziieren.
 
 ## Breaking Changes
-- Keine Breaking Changes: bestehende Benchmark-Skripte bleiben unverändert, Wave 4 ist additiv.
+- Python YCSB now rejects missing operation adapters rather than simulating database operations. YCSB suite callers must supply `operation_adapters`; old adapter-free demo/full-suite invocations intentionally stop.
+- `standard_benchmarks_integration.py` CLI now requires `--endpoint`, `--workload` and `--output` and runs only the canonical HTTP YCSB-inspired path. Workloads D/E are not supported by this adapter. Optional `--server-pid` observes a verified local listening process; no SDK namespace encoding is used.
+- Unverified YCSB expectation/ratio fields are now `null`; industry-grade comparisons are no longer emitted. Consumers must not interpret missing reference evidence as zero performance.
+- Wave 4 additions remain additive.

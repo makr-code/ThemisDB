@@ -175,9 +175,9 @@ public:
         
         int sub_batch_size = total_batch_size / split_factor;
         for (int i = 0; i < split_factor; ++i) {
-            double _ = 0.0;
-            auto _ = encodeBatch(Backend::kCPU, sub_batch_size, _);
-            (void)_;
+            double elapsed_seconds = 0.0;
+            const int measured_throughput = encodeBatch(Backend::kCPU, sub_batch_size, elapsed_seconds);
+            (void)measured_throughput;
         }
         
         auto end = std::chrono::steady_clock::now();

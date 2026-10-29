@@ -39,14 +39,23 @@ Features:
 
 Author: ThemisDB Team
 Date: 2025-12-04
+
+YCSB runs require explicit database adapters and do not produce industry grades.
+The CLI runs only the HTTP-backed YCSB-inspired A/B/C/F path. Other benchmark
+methods in this historical module have not been validated as reference drivers.
 """
 
+import argparse
 import asyncio
 import json
+import math
+import platform
+import time
 from pathlib import Path
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any, Optional, Callable, Awaitable
 from dataclasses import dataclass, asdict
 from datetime import datetime
+from urllib.parse import urlsplit
 
 from standard_benchmarks import (
     YCSBBenchmark,
@@ -118,8 +127,21 @@ class StandardBenchmarkRunner:
     
     async def run_ycsb_suite(self,
                             databases: List[str],
-                            workloads: Optional[List[YCSBWorkload]] = None) -> Dict[str, Any]:
-        """Run YCSB benchmarks for multiple databases"""
+                            workloads: Optional[List[YCSBWorkload]] = None,
+                            operation_adapters: Optional[Dict[str, Callable[[str], Awaitable[None]]]] = None,
+                            num_operations: int = 10000,
+                            seed: int = 42) -> Dict[str, Any]:
+        """Run YCSB-inspired measurements against explicit database adapters.
+
+        Adapters prepare their own dataset and raise on failed operations.
+        All database names must have a callable adapter before measurement starts.
+        No external comparison or industry grade is inferred from these results.
+        """
+
+        if not databases or operation_adapters is None or any(
+            not callable(operation_adapters.get(database)) for database in databases
+        ):
+            raise ValueError("Every database requires an explicit async YCSB operation adapter")
         
         if workloads is None:
             workloads = [YCSBWorkload.WORKLOAD_A, YCSBWorkload.WORKLOAD_C]
@@ -129,35 +151,29 @@ class StandardBenchmarkRunner:
         print("="*80)
         
         results = []
-        comparisons = []
         
         for database_name in databases:
             print(f"\n{database_name}:")
             ycsb = YCSBBenchmark(database_name)
             
             for workload in workloads:
-                result = await ycsb.run_workload(workload, num_operations=10000)
-                results.append(asdict(result))
-                
-                # Create comparison
-                comparison = StandardBenchmarkComparison(
-                    standard_name=f"YCSB_{workload.value}",
-                    database_name=database_name,
-                    actual_value=result.throughput_ops_sec,
-                    expected_value=result.expected_throughput_ops_sec,
-                    ratio=result.throughput_ratio,
-                    meets_expectation=result.throughput_ratio >= 0.8,
+                result = await ycsb.run_workload(
+                    workload,
+                    num_operations=num_operations,
+                    operation_fn=operation_adapters[database_name],
+                    seed=seed,
                 )
-                comparisons.append(comparison)
-        
-        self.results["ycsb"] = comparisons
-        
-        self._print_comparison_report("YCSB", comparisons)
+                results.append(asdict(result))
+
+        self.results["ycsb"] = []
         
         return {
             "benchmark": "YCSB",
+            "benchmark_kind": "ycsb_inspired",
+            "external_comparison_ready": False,
+            "comparison_status": "not_established",
             "results": results,
-            "comparisons": [asdict(c) for c in comparisons],
+            "comparisons": [],
         }
     
     async def run_tpcc_suite(self,
@@ -405,20 +421,136 @@ class StandardBenchmarkRunner:
 # EXAMPLE USAGE
 # ============================================================================
 
+def _process_snapshot(process, phase):
+    """Capture one local process, excluding children and physical disk metrics."""
+    if not process.is_running():
+        raise RuntimeError("Observed server process exited or its PID was reused")
+    with process.oneshot():
+        memory = process.memory_info()
+        cpu = process.cpu_times()
+        counters = process.io_counters()
+        return {
+            "phase": phase,
+            "monotonic_seconds": time.perf_counter(),
+            "rss_bytes": memory.rss,
+            "virtual_memory_bytes": memory.vms,
+            "private_bytes": getattr(memory, "private", None),
+            "peak_working_set_lifetime_bytes": getattr(memory, "peak_wset", None),
+            "peak_commit_lifetime_bytes": getattr(memory, "peak_pagefile", None),
+            "page_fault_count": getattr(memory, "num_page_faults", None),
+            "cpu_seconds": cpu.user + cpu.system,
+            "io_read_bytes": counters.read_bytes if counters.read_bytes >= 0 else None,
+            "io_write_bytes": counters.write_bytes if counters.write_bytes >= 0 else None,
+        }
+
+
+def _server_resource_report(process, samples):
+    """Keep endpoint memory samples distinct from process-lifetime high waters."""
+    phases = []
+    for phase, before, after in zip(("load", "measurement", "cleanup"), samples, samples[1:]):
+        phases.append({
+            "phase": phase,
+            "wall_seconds": after["monotonic_seconds"] - before["monotonic_seconds"],
+            "cpu_seconds": after["cpu_seconds"] - before["cpu_seconds"],
+            "io_read_bytes": (after["io_read_bytes"] - before["io_read_bytes"]
+                              if after["io_read_bytes"] is not None and before["io_read_bytes"] is not None else None),
+            "io_write_bytes": (after["io_write_bytes"] - before["io_write_bytes"]
+                               if after["io_write_bytes"] is not None and before["io_write_bytes"] is not None else None),
+        })
+    return {
+        "pid": process.pid,
+        "process_create_time": process.create_time(),
+        "executable": process.exe(),
+        "scope": "local listening server process only; excludes children and client",
+        "limitations": "Memory samples are phase endpoints, not phase maxima. Windows peak counters cover the server lifetime. I/O is process I/O, not physical disk I/O. No GPU/energy/disk-footprint metrics.",
+        "samples": samples,
+        "phases": phases,
+    }
+
+
 async def main():
-    """Example: Run standard benchmarks"""
-    
-    runner = StandardBenchmarkRunner()
-    
-    # Test databases
-    databases = ["ThemisDB", "PostgreSQL", "MongoDB"]
-    
-    # Run all benchmarks
-    results = await runner.run_full_suite(databases)
-    
-    print("\n" + "="*80)
-    print("✅ Standard Benchmarks Complete")
-    print("="*80)
+    """Measure a real ThemisDB endpoint; fail without publishing on any error."""
+    parser = argparse.ArgumentParser(description="Serial HTTP-backed YCSB-inspired measurements (not upstream YCSB)")
+    parser.add_argument("--endpoint", required=True)
+    parser.add_argument("--workload", choices=["A", "B", "C", "F"], required=True)
+    parser.add_argument("--record-count", type=int, default=1000)
+    parser.add_argument("--operations", type=int, default=10000)
+    parser.add_argument("--field-count", type=int, default=10)
+    parser.add_argument("--field-length", type=int, default=100)
+    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--timeout", type=float, default=10.0)
+    parser.add_argument("--server-pid", type=int)
+    parser.add_argument("--output", type=Path, required=True)
+    arguments = parser.parse_args()
+    endpoint = urlsplit(arguments.endpoint)
+    if (endpoint.scheme not in {"http", "https"} or not endpoint.hostname or
+            endpoint.username is not None or endpoint.password is not None or
+            endpoint.query or endpoint.fragment or endpoint.path not in {"", "/"}):
+        parser.error("endpoint must be an HTTP(S) origin without credentials, path, query or fragment")
+    if any(value <= 0 for value in (
+            arguments.record_count, arguments.operations, arguments.field_count, arguments.field_length)):
+        parser.error("record count, operations and field dimensions must be positive")
+    if not math.isfinite(arguments.timeout) or arguments.timeout <= 0:
+        parser.error("timeout must be finite and positive")
+    if arguments.output.exists():
+        parser.error("output already exists; choose a new result path")
+    if arguments.server_pid is not None and (
+            arguments.server_pid <= 0 or endpoint.hostname not in {"127.0.0.1", "::1", "localhost"}):
+        parser.error("server-pid requires a positive local PID and a loopback endpoint")
+
+    import httpx
+    from ycsb.themisdb_adapter import ThemisDBYCSBAdapter
+
+    server_process = None
+    samples = []
+    if arguments.server_pid is not None:
+        import psutil
+        server_process = psutil.Process(arguments.server_pid)
+        port = endpoint.port or (443 if endpoint.scheme == "https" else 80)
+        if not any(connection.status == psutil.CONN_LISTEN and connection.laddr.port == port
+                   for connection in server_process.net_connections(kind="tcp")):
+            parser.error("server-pid is not listening on the requested endpoint port")
+
+    with httpx.Client(base_url=arguments.endpoint, timeout=arguments.timeout, trust_env=False) as client:
+        adapter = ThemisDBYCSBAdapter(
+            client, arguments.workload, record_count=arguments.record_count,
+            field_count=arguments.field_count, field_length=arguments.field_length, seed=arguments.seed,
+        )
+        try:
+            if server_process is not None:
+                samples.append(_process_snapshot(server_process, "before_load"))
+            await adapter.load()
+            if server_process is not None:
+                samples.append(_process_snapshot(server_process, "after_load"))
+            result = await YCSBBenchmark("ThemisDB").run_workload(
+                YCSBWorkload(arguments.workload), arguments.operations, adapter, seed=arguments.seed
+            )
+            if server_process is not None:
+                samples.append(_process_snapshot(server_process, "after_measurement"))
+        finally:
+            await adapter.cleanup()
+            if server_process is not None:
+                samples.append(_process_snapshot(server_process, "after_cleanup"))
+
+    report = {
+        "schema_version": 1,
+        "benchmark_kind": "ycsb_inspired",
+        "external_comparison_ready": False,
+        "endpoint": arguments.endpoint,
+        "environment": {"python": platform.python_version(), "platform": platform.platform()},
+        "dataset": {"record_count": arguments.record_count, "field_count": arguments.field_count,
+                    "field_length": arguments.field_length, "seed": arguments.seed},
+        "protocol": {"concurrency": 1, "key_distribution": "uniform", "cache_state": "warm_after_load",
+                     "write_semantics": "whole_record_replacement", "rmw_atomic": False,
+                     "latency_scope": "HTTP client, thread dispatch, validation and HTTP round trips",
+                     "setup_and_cleanup_in_measured_loop": False},
+        "server_resources": _server_resource_report(server_process, samples) if server_process is not None else None,
+        "result": asdict(result),
+    }
+    arguments.output.parent.mkdir(parents=True, exist_ok=True)
+    with arguments.output.open("x", encoding="utf-8") as output:
+        json.dump(report, output, indent=2, allow_nan=False)
+    print(f"YCSB-inspired result: {arguments.output}")
 
 
 if __name__ == "__main__":

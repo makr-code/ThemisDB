@@ -15,9 +15,9 @@
 ╠═════════════════════════════════════════════════════════════════════╣
   Status: ✅ Production Ready                                          ║
 ╚═════════════════════════════════════════════════════════════════════╝
-"""
 
-"""ThemisDB Python SDK with topology-aware routing and batch helpers."""
+ThemisDB Python SDK with topology-aware routing and batch helpers.
+"""
 
 from __future__ import annotations
 

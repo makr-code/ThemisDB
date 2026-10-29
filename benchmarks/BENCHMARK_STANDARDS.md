@@ -1,4 +1,18 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-08-21
+Last Updated: 2026-10-29
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: unknown
+---
+
 # ThemisDB Benchmark Standards
+
+Exact model backend not verifiable from final document text alone.
 
 Status: Canonical
 Scope: All C++ benchmark files under benchmarks/ and related CMake/CTest wiring.
@@ -101,3 +115,91 @@ hygiene provides deeper execution detail.
 - [ ] I/O paths use real-time measurements where required
 - [ ] CTest smoke registration is valid (if applicable)
 - [ ] Reproducibility controls are documented and active
+
+## 8. Resource And Runner Contract
+
+`run_benchmarks_msvc.ps1` records executable-lifetime CPU time, wall time,
+peak working set, peak commit, page faults and process I/O in
+`resource_summary.csv`. These include setup, calibration and teardown, not
+just the measured loop. They are not per-operation memory measurements.
+Exit-time private bytes can be small after allocator cleanup and must not
+be substituted for peak memory. Child processes and remote servers are excluded;
+GPU memory, energy, physical disk I/O and persistent disk footprint are not measured.
+
+- `run_manifest.json` records source revision, dirty-worktree flag, CMake-cache
+  hash, selected executable/runner hashes, OS, CPU, RAM and requested execution
+  parameters. A dirty-worktree flag is not a source snapshot: archive the patch
+  and runtime dependency versions before publication. An empty binary selection
+  returns exit code 2 rather than reporting a successful run.
+- `-Filter` selects binaries; `-BenchmarkFilter` selects Google Benchmark cases.
+  `-Repetitions` repeats cases. Repetition aggregates are not request percentiles.
+- `-TimeoutSeconds` bounds each binary (default 300 seconds). A timeout is a
+  failed measurement, not a slow successful sample. Increase the bound explicitly
+  for deliberately long workloads.
+- Exit code zero, a nonempty measurement array and no `error_occurred` entries
+  are required for acceptance. Partial suites with failed/skipped cases are not
+  accepted as complete suites. Missing hardware must be reported separately.
+- Status/resource CSVs are checkpointed before the next binary starts. Raw JSON
+  remains untouched; normalized `real_time_ns`/`cpu_time_ns` are in nanoseconds.
+- Any failed suite makes the runner return a nonzero exit code, even when other
+  suites succeed. The generated run README records accepted versus discovered suites.
+
+Example resource/reproducibility check, not an external database comparison:
+
+```powershell
+.\benchmarks\run_benchmarks_msvc.ps1 -BuildRoot .\build-msvc-windows-release `
+  -Filter '^bench_importer_throughput\.exe$' `
+  -BenchmarkFilter '^BM_Importer_Postgres/10000/0/1$' `
+  -MinTime 0.1s -Repetitions 3 -TimeoutSeconds 60
+```
+
+## 9. Cross-Database Comparability
+
+Google Benchmark standardizes the measurement harness, not database semantics.
+The MSVC runner therefore labels results `internal_component_benchmark` and
+`external_comparison_ready=false`. Neither `bench_ycsb` (YCSB Lite) nor SIMD,
+tensor or distance-kernel timings establish end-to-end database rankings.
+
+| Domain | Reference workload | Evidence required before a comparable run |
+|---|---|---|
+| KV / serving | YCSB A-F | Pinned upstream client/workload revision; identical operation mixes, key distributions, record/field sizes and scan semantics; validated read/write success and durability |
+| Vector index | ANN-Benchmarks | Identical dataset/query/ground-truth hashes, distance metric and k; recall@k versus throughput/latency; index build time and size; distinguish index-only from database access |
+| Vector database | VectorDBBench | Pinned runner/dataset and matching client concurrency/filter semantics; recall@k, latency, throughput, ingestion/index build time and server resources |
+| Analytics | ClickBench | Identical dataset/queries, result validation, engine configuration, cold/warm policy, per-query times, load time and storage footprint |
+| Graph | LDBC SNB | Pinned workload variant/version, generator scale factor, updates/queries, driver and validation evidence; report deviations, not an unsupported compliance claim |
+
+Every published comparison must archive:
+
+- Harness, adapter, database version/build flags, source patch, binary hashes,
+  dataset/query checksums, seeds and all database/index settings.
+- CPU/GPU model and memory, RAM limit, storage/filesystem, OS, network topology,
+  client/server placement, resource limits and comparable hardware allocations.
+- Durability/consistency/isolation settings, compression, caches and cache state;
+  separate load/index build, warmup, steady measurement and recovery phases.
+- Actual concurrency, arrival model and duration; operation counts/errors,
+  throughput and request-level p50/p95/p99 with explicit units. Never derive
+  request quantiles from Google Benchmark means or repetition aggregates.
+- Correctness/quality gates (including recall for ANN), repeated independent
+  trials, dispersion/confidence intervals and complete failed/timeout evidence.
+- Server process/container resource scope separate from the load generator;
+  peak memory, CPU time, disk footprint and I/O definitions, plus GPU metrics
+  where applicable. Unavailable metrics remain explicitly unavailable, not zero.
+- Upstream version/license/provenance and any publication restrictions reviewed
+  for the exact artifacts used; raw result and configuration artifacts retained.
+
+Match each reference workload's prescribed measurement protocol. The 0.1-second
+runner default is a smoke/baseline setting, not a sufficient publication protocol.
+Matching names or adding metadata does not make an adapter standard-conformant.
+Reference-driver adapters and validated external datasets remain open work in
+`ROADMAP.md`; current local runs must not be presented as certified results.
+
+The Python YCSB-inspired canonical HTTP path is documented in
+[`ycsb/README.md`](ycsb/README.md). It requires real operation adapters and has no
+sleep fallback or unverified industry-grade comparison. Its serial A/B/C/F
+adapter validates reads and cleans up its own dataset, but uses uniform
+keys, whole-record updates and non-atomic RMW. These are explicit deviations,
+not an upstream-driver integration. Optional `--server-pid` captures local
+server endpoint-memory snapshots and phase CPU/process-I/O deltas; Windows
+high-water memory counters cover the whole process lifetime, not a workload.
+Without explicit observation, server resources remain unavailable. Four short
+Community Debug live smokes verified this path, not comparative performance.

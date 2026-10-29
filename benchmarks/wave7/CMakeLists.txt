@@ -30,6 +30,7 @@ function(add_w7_benchmark TARGET_NAME SOURCE_FILE)
 
     target_link_libraries(${TARGET_NAME} PRIVATE
         benchmark::benchmark
+        benchmark::benchmark_main
         themis_core
         Threads::Threads
     )

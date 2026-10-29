@@ -5235,17 +5235,23 @@ themis_add_standard_benchmark(bench_tensor_deduplication_manager tensor/bench_te
 themis_add_standard_benchmark(bench_tensor_integration_baseline tensor/bench_tensor_integration_baseline.cpp)
 
 # ── Dynamic Tensor Update benchmarks — sub-issue #5472 (BDU-01..10) ─────────
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tensor/bench_tensor_dynamic_update.cpp" AND NOT TARGET bench_tensor_dynamic_update)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tensor/bench_tensor_dynamic_update.cpp")
+  if(NOT TARGET bench_tensor_dynamic_update)
     add_executable(bench_tensor_dynamic_update
-        tensor/bench_tensor_dynamic_update.cpp
-        ${CMAKE_SOURCE_DIR}/src/distributed_tensor/src/tensor_delta_log.cc
-        ${CMAKE_SOURCE_DIR}/src/distributed_tensor/src/snapshot_update_worker.cc
-        ${CMAKE_SOURCE_DIR}/src/distributed_tensor/src/stale_artifact_detector.cc
-        ${CMAKE_SOURCE_DIR}/src/distributed_tensor/src/error_recovery_handler.cc
-        ${CMAKE_SOURCE_DIR}/src/distributed_tensor/src/crash_recovery_checkpoint.cc
-        ${CMAKE_SOURCE_DIR}/src/distributed_tensor/src/distributed_lock_manager.cc
-        ${CMAKE_SOURCE_DIR}/src/distributed_tensor/src/artifact_invalidation.cc
+      tensor/bench_tensor_dynamic_update.cpp
     )
+    target_link_libraries(bench_tensor_dynamic_update PRIVATE ${BENCHMARK_LIBS})
+  endif()
+
+  target_sources(bench_tensor_dynamic_update PRIVATE
+    ${CMAKE_SOURCE_DIR}/src/distributed_tensor/src/tensor_delta_log.cc
+    ${CMAKE_SOURCE_DIR}/src/distributed_tensor/src/snapshot_update_worker.cc
+    ${CMAKE_SOURCE_DIR}/src/distributed_tensor/src/stale_artifact_detector.cc
+    ${CMAKE_SOURCE_DIR}/src/distributed_tensor/src/error_recovery_handler.cc
+    ${CMAKE_SOURCE_DIR}/src/distributed_tensor/src/crash_recovery_checkpoint.cc
+    ${CMAKE_SOURCE_DIR}/src/distributed_tensor/src/distributed_lock_manager.cc
+    ${CMAKE_SOURCE_DIR}/src/distributed_tensor/src/artifact_invalidation.cc
+  )
     target_include_directories(bench_tensor_dynamic_update PRIVATE
         ${CMAKE_SOURCE_DIR}
         ${CMAKE_SOURCE_DIR}/include

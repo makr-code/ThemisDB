@@ -1,0 +1,404 @@
+2026/10/29-16:29:58.299093 7dac RocksDB version: 11.8.1
+2026/10/29-16:29:58.299213 7dac Git sha 0
+2026/10/29-16:29:58.299247 7dac Compile date 2026-10-14 18:27:39
+2026/10/29-16:29:58.299352 7dac DB SUMMARY
+2026/10/29-16:29:58.299393 7dac Host name (Env):  DESKTOP-712S8LO
+2026/10/29-16:29:58.299417 7dac DB Session ID:  LT1QAJI5HYP50NLO0BO9
+2026/10/29-16:29:58.299818 7dac SST files in themis_provenance_store dir, Total Num: 0, files: 
+2026/10/29-16:29:58.299850 7dac Write Ahead Log file in themis_provenance_store: 000004.log size: 0 ; 
+2026/10/29-16:29:58.299877 7dac                         Options.error_if_exists: 0
+2026/10/29-16:29:58.299901 7dac                       Options.create_if_missing: 1
+2026/10/29-16:29:58.299923 7dac                         Options.paranoid_checks: 1
+2026/10/29-16:29:58.300050 7dac                        Options.open_files_async: 0
+2026/10/29-16:29:58.300084 7dac             Options.flush_verify_memtable_count: 1
+2026/10/29-16:29:58.300094 7dac          Options.compaction_verify_record_count: 1
+2026/10/29-16:29:58.300103 7dac                               Options.track_and_verify_wals_in_manifest: 0
+2026/10/29-16:29:58.300132 7dac                               Options.track_and_verify_wals: 0
+2026/10/29-16:29:58.300142 7dac        Options.verify_sst_unique_id_in_manifest: 1
+2026/10/29-16:29:58.300151 7dac                                     Options.env: 000001FB78DBD840
+2026/10/29-16:29:58.300161 7dac                                      Options.fs: WinFS
+2026/10/29-16:29:58.300171 7dac                                Options.info_log: 000001FB7ED71D80
+2026/10/29-16:29:58.300180 7dac                Options.max_file_opening_threads: 16
+2026/10/29-16:29:58.300206 7dac                Options.read_io_executor_threads: 1
+2026/10/29-16:29:58.300234 7dac                              Options.statistics: 0000000000000000
+2026/10/29-16:29:58.300243 7dac                               Options.use_fsync: 0
+2026/10/29-16:29:58.300252 7dac                       Options.max_log_file_size: 0
+2026/10/29-16:29:58.300261 7dac                   Options.log_file_time_to_roll: 0
+2026/10/29-16:29:58.300271 7dac                       Options.keep_log_file_num: 1000
+2026/10/29-16:29:58.300281 7dac                    Options.recycle_log_file_num: 0
+2026/10/29-16:29:58.300291 7dac                     Options.async_wal_precreate: 0
+2026/10/29-16:29:58.300301 7dac                         Options.allow_fallocate: 1
+2026/10/29-16:29:58.300310 7dac                        Options.allow_mmap_reads: 0
+2026/10/29-16:29:58.300319 7dac                       Options.allow_mmap_writes: 0
+2026/10/29-16:29:58.300328 7dac                        Options.use_direct_reads: 0
+2026/10/29-16:29:58.300338 7dac             Options.use_direct_io_for_compaction_reads: 0
+2026/10/29-16:29:58.300348 7dac         Options.use_direct_io_for_flush_and_compaction: 0
+2026/10/29-16:29:58.300358 7dac          Options.create_missing_column_families: 0
+2026/10/29-16:29:58.300367 7dac                              Options.db_log_dir: 
+2026/10/29-16:29:58.300377 7dac                                 Options.wal_dir: 
+2026/10/29-16:29:58.300385 7dac                Options.table_cache_numshardbits: 6
+2026/10/29-16:29:58.300394 7dac                         Options.WAL_ttl_seconds: 0
+2026/10/29-16:29:58.300403 7dac                       Options.WAL_size_limit_MB: 0
+2026/10/29-16:29:58.300412 7dac                        Options.max_write_batch_group_size_bytes: 1048576
+2026/10/29-16:29:58.300422 7dac                     Options.is_fd_close_on_exec: 1
+2026/10/29-16:29:58.300432 7dac                   Options.advise_random_on_open: 1
+2026/10/29-16:29:58.300442 7dac                    Options.db_write_buffer_size: 0
+2026/10/29-16:29:58.300451 7dac                    Options.write_buffer_manager: 000001FB78DD8FC0
+2026/10/29-16:29:58.300461 7dac                      Options.use_adaptive_mutex: 0
+2026/10/29-16:29:58.300469 7dac                            Options.rate_limiter: 0000000000000000
+2026/10/29-16:29:58.300484 7dac     Options.sst_file_manager.rate_bytes_per_sec: 0
+2026/10/29-16:29:58.300497 7dac                       Options.wal_recovery_mode: 2
+2026/10/29-16:29:58.300534 7dac                  Options.enable_thread_tracking: 0
+2026/10/29-16:29:58.300546 7dac                  Options.enable_pipelined_write: 0
+2026/10/29-16:29:58.300555 7dac                  Options.unordered_write: 0
+2026/10/29-16:29:58.300562 7dac         Options.allow_concurrent_memtable_write: 1
+2026/10/29-16:29:58.300570 7dac      Options.enable_write_thread_adaptive_yield: 1
+2026/10/29-16:29:58.300578 7dac             Options.write_thread_max_yield_usec: 100
+2026/10/29-16:29:58.300586 7dac            Options.write_thread_slow_yield_usec: 3
+2026/10/29-16:29:58.300596 7dac                               Options.row_cache: None
+2026/10/29-16:29:58.300604 7dac                              Options.wal_filter: None
+2026/10/29-16:29:58.300619 7dac             Options.avoid_flush_during_recovery: 0
+2026/10/29-16:29:58.300628 7dac         Options.enforce_write_buffer_manager_during_recovery: 1
+2026/10/29-16:29:58.300635 7dac             Options.allow_ingest_behind: 0
+2026/10/29-16:29:58.300643 7dac             Options.two_write_queues: 0
+2026/10/29-16:29:58.300650 7dac             Options.manual_wal_flush: 0
+2026/10/29-16:29:58.300660 7dac             Options.wal_compression: 0
+2026/10/29-16:29:58.300668 7dac             Options.background_close_inactive_wals: 0
+2026/10/29-16:29:58.300677 7dac             Options.atomic_flush: 0
+2026/10/29-16:29:58.300685 7dac             Options.avoid_unnecessary_blocking_io: 0
+2026/10/29-16:29:58.300693 7dac             Options.prefix_seek_opt_in_only: 0
+2026/10/29-16:29:58.300700 7dac                 Options.persist_stats_to_disk: 0
+2026/10/29-16:29:58.300708 7dac                 Options.write_dbid_to_manifest: 1
+2026/10/29-16:29:58.300716 7dac                 Options.reuse_manifest_on_open: 0
+2026/10/29-16:29:58.300725 7dac                 Options.write_identity_file: 1
+2026/10/29-16:29:58.300733 7dac                 Options.log_readahead_size: 0
+2026/10/29-16:29:58.300742 7dac                 Options.file_checksum_gen_factory: Unknown
+2026/10/29-16:29:58.300750 7dac                 Options.best_efforts_recovery: 0
+2026/10/29-16:29:58.300758 7dac                Options.max_bgerror_resume_count: 2147483647
+2026/10/29-16:29:58.300766 7dac            Options.bgerror_resume_retry_interval: 1000000
+2026/10/29-16:29:58.300774 7dac             Options.allow_data_in_errors: 0
+2026/10/29-16:29:58.300782 7dac             Options.db_host_id: __hostname__
+2026/10/29-16:29:58.300791 7dac             Options.enforce_single_del_contracts: true
+2026/10/29-16:29:58.300800 7dac             Options.metadata_write_temperature: kUnknown
+2026/10/29-16:29:58.300809 7dac             Options.wal_write_temperature: kUnknown
+2026/10/29-16:29:58.300817 7dac             Options.max_background_jobs: 2
+2026/10/29-16:29:58.300825 7dac             Options.max_background_compactions: -1
+2026/10/29-16:29:58.300832 7dac             Options.max_subcompactions: 1
+2026/10/29-16:29:58.300840 7dac             Options.avoid_flush_during_shutdown: 0
+2026/10/29-16:29:58.300848 7dac           Options.writable_file_max_buffer_size: 1048576
+2026/10/29-16:29:58.300856 7dac             Options.delayed_write_rate : 16777216
+2026/10/29-16:29:58.300865 7dac             Options.max_total_wal_size: 0
+2026/10/29-16:29:58.300873 7dac             Options.delete_obsolete_files_period_micros: 21600000000
+2026/10/29-16:29:58.300881 7dac                   Options.stats_dump_period_sec: 600
+2026/10/29-16:29:58.300889 7dac                 Options.stats_persist_period_sec: 600
+2026/10/29-16:29:58.300897 7dac                 Options.stats_history_buffer_size: 1048576
+2026/10/29-16:29:58.300904 7dac                          Options.max_open_files: -1
+2026/10/29-16:29:58.300912 7dac                          Options.bytes_per_sync: 0
+2026/10/29-16:29:58.300922 7dac                      Options.wal_bytes_per_sync: 0
+2026/10/29-16:29:58.300945 7dac                   Options.strict_bytes_per_sync: 0
+2026/10/29-16:29:58.300971 7dac       Options.compaction_readahead_size: 2097152
+2026/10/29-16:29:58.301079 7dac                  Options.max_background_flushes: -1
+2026/10/29-16:29:58.301104 7dac                  Options.max_manifest_file_size: 1073741824
+2026/10/29-16:29:58.301119 7dac                  Options.max_manifest_space_amp_pct: 500
+2026/10/29-16:29:58.301134 7dac             Options.manifest_preallocation_size: 4194304
+2026/10/29-16:29:58.301148 7dac       Options.verify_manifest_content_on_close: 0
+2026/10/29-16:29:58.301162 7dac          Options.optimize_manifest_for_recovery: 0
+2026/10/29-16:29:58.301176 7dac Options.daily_offpeak_time_utc: 
+2026/10/29-16:29:58.301200 7dac Options.max_compaction_trigger_wakeup_seconds: 43200
+2026/10/29-16:29:58.301217 7dac                          Options.fast_sst_open: 0
+2026/10/29-16:29:58.301238 7dac Compression algorithms supported:
+2026/10/29-16:29:58.301249 7dac 	kZSTD supported: 1
+2026/10/29-16:29:58.301258 7dac 	kCustomCompressionA3 supported: 0
+2026/10/29-16:29:58.301267 7dac 	kSnappyCompression supported: 1
+2026/10/29-16:29:58.301275 7dac 	kCustomCompressionA5 supported: 0
+2026/10/29-16:29:58.301284 7dac 	kBZip2Compression supported: 0
+2026/10/29-16:29:58.301299 7dac 	kZlibCompression supported: 1
+2026/10/29-16:29:58.301315 7dac 	kLZ4Compression supported: 0
+2026/10/29-16:29:58.301330 7dac 	kXpressCompression supported: 0
+2026/10/29-16:29:58.301340 7dac 	kCustomCompressionA7 supported: 0
+2026/10/29-16:29:58.301348 7dac 	kLZ4HCCompression supported: 0
+2026/10/29-16:29:58.301356 7dac 	kCustomCompressionB2 supported: 0
+2026/10/29-16:29:58.301364 7dac 	kCustomCompression9C supported: 0
+2026/10/29-16:29:58.301372 7dac 	kCustomCompression80 supported: 0
+2026/10/29-16:29:58.301396 7dac 	kCustomCompressionB3 supported: 0
+2026/10/29-16:29:58.301411 7dac 	kCustomCompression9B supported: 0
+2026/10/29-16:29:58.301425 7dac 	kCustomCompression81 supported: 0
+2026/10/29-16:29:58.301439 7dac 	kCustomCompressionB0 supported: 0
+2026/10/29-16:29:58.301452 7dac 	kCustomCompression9A supported: 0
+2026/10/29-16:29:58.301466 7dac 	kCustomCompression82 supported: 0
+2026/10/29-16:29:58.301478 7dac 	kCustomCompressionB1 supported: 0
+2026/10/29-16:29:58.301492 7dac 	kCustomCompression83 supported: 0
+2026/10/29-16:29:58.301508 7dac 	kCustomCompressionB6 supported: 0
+2026/10/29-16:29:58.301522 7dac 	kCustomCompression84 supported: 0
+2026/10/29-16:29:58.301536 7dac 	kCustomCompressionB7 supported: 0
+2026/10/29-16:29:58.301548 7dac 	kCustomCompression9F supported: 0
+2026/10/29-16:29:58.301559 7dac 	kCustomCompression85 supported: 0
+2026/10/29-16:29:58.301572 7dac 	kCustomCompressionB4 supported: 0
+2026/10/29-16:29:58.301586 7dac 	kCustomCompression9E supported: 0
+2026/10/29-16:29:58.301598 7dac 	kCustomCompression86 supported: 0
+2026/10/29-16:29:58.301607 7dac 	kCustomCompressionB5 supported: 0
+2026/10/29-16:29:58.301616 7dac 	kCustomCompression9D supported: 0
+2026/10/29-16:29:58.301626 7dac 	kCustomCompression87 supported: 0
+2026/10/29-16:29:58.301638 7dac 	kCustomCompression88 supported: 0
+2026/10/29-16:29:58.301650 7dac 	kCustomCompression89 supported: 0
+2026/10/29-16:29:58.301663 7dac 	kCustomCompression92 supported: 0
+2026/10/29-16:29:58.301677 7dac 	kCustomCompression8A supported: 0
+2026/10/29-16:29:58.301693 7dac 	kCustomCompression91 supported: 0
+2026/10/29-16:29:58.301709 7dac 	kCustomCompression8B supported: 0
+2026/10/29-16:29:58.301723 7dac 	kCustomCompression90 supported: 0
+2026/10/29-16:29:58.301737 7dac 	kCustomCompression8C supported: 0
+2026/10/29-16:29:58.301749 7dac 	kCustomCompression97 supported: 0
+2026/10/29-16:29:58.301760 7dac 	kCustomCompression8D supported: 0
+2026/10/29-16:29:58.301773 7dac 	kCustomCompression96 supported: 0
+2026/10/29-16:29:58.301786 7dac 	kCustomCompression8E supported: 0
+2026/10/29-16:29:58.301801 7dac 	kCustomCompression95 supported: 0
+2026/10/29-16:29:58.301816 7dac 	kCustomCompression8F supported: 0
+2026/10/29-16:29:58.301831 7dac 	kCustomCompression93 supported: 0
+2026/10/29-16:29:58.301841 7dac 	kCustomCompression94 supported: 0
+2026/10/29-16:29:58.301850 7dac 	kCustomCompression98 supported: 0
+2026/10/29-16:29:58.301858 7dac 	kCustomCompression99 supported: 0
+2026/10/29-16:29:58.301909 7dac 	kCustomCompressionA0 supported: 0
+2026/10/29-16:29:58.301928 7dac 	kCustomCompressionA1 supported: 0
+2026/10/29-16:29:58.301939 7dac 	kCustomCompressionA2 supported: 0
+2026/10/29-16:29:58.301951 7dac 	kCustomCompressionA4 supported: 0
+2026/10/29-16:29:58.301963 7dac 	kCustomCompressionA6 supported: 0
+2026/10/29-16:29:58.301976 7dac 	kCustomCompressionA8 supported: 0
+2026/10/29-16:29:58.301988 7dac 	kCustomCompressionA9 supported: 0
+2026/10/29-16:29:58.302002 7dac 	kCustomCompressionAA supported: 0
+2026/10/29-16:29:58.302012 7dac 	kCustomCompressionAB supported: 0
+2026/10/29-16:29:58.302022 7dac 	kCustomCompressionAC supported: 0
+2026/10/29-16:29:58.302031 7dac 	kCustomCompressionAD supported: 0
+2026/10/29-16:29:58.302041 7dac 	kCustomCompressionAE supported: 0
+2026/10/29-16:29:58.302049 7dac 	kCustomCompressionAF supported: 0
+2026/10/29-16:29:58.302057 7dac 	kCustomCompressionB8 supported: 0
+2026/10/29-16:29:58.302065 7dac 	kCustomCompressionB9 supported: 0
+2026/10/29-16:29:58.302074 7dac 	kCustomCompressionBA supported: 0
+2026/10/29-16:29:58.302083 7dac 	kCustomCompressionBB supported: 0
+2026/10/29-16:29:58.302095 7dac 	kCustomCompressionBC supported: 0
+2026/10/29-16:29:58.302110 7dac 	kCustomCompressionBD supported: 0
+2026/10/29-16:29:58.302125 7dac 	kCustomCompressionBE supported: 0
+2026/10/29-16:29:58.302140 7dac 	kCustomCompressionBF supported: 0
+2026/10/29-16:29:58.302154 7dac 	kCustomCompressionC0 supported: 0
+2026/10/29-16:29:58.302169 7dac 	kCustomCompressionC1 supported: 0
+2026/10/29-16:29:58.302179 7dac 	kCustomCompressionC2 supported: 0
+2026/10/29-16:29:58.302187 7dac 	kCustomCompressionC3 supported: 0
+2026/10/29-16:29:58.302197 7dac 	kCustomCompressionC4 supported: 0
+2026/10/29-16:29:58.302207 7dac 	kCustomCompressionC5 supported: 0
+2026/10/29-16:29:58.302216 7dac 	kCustomCompressionC6 supported: 0
+2026/10/29-16:29:58.302225 7dac 	kCustomCompressionC7 supported: 0
+2026/10/29-16:29:58.302236 7dac 	kCustomCompressionC8 supported: 0
+2026/10/29-16:29:58.302247 7dac 	kCustomCompressionC9 supported: 0
+2026/10/29-16:29:58.302259 7dac 	kCustomCompressionCA supported: 0
+2026/10/29-16:29:58.302272 7dac 	kCustomCompressionCB supported: 0
+2026/10/29-16:29:58.302287 7dac 	kCustomCompressionCC supported: 0
+2026/10/29-16:29:58.302303 7dac 	kCustomCompressionCD supported: 0
+2026/10/29-16:29:58.302319 7dac 	kCustomCompressionCE supported: 0
+2026/10/29-16:29:58.302334 7dac 	kCustomCompressionCF supported: 0
+2026/10/29-16:29:58.302348 7dac 	kCustomCompressionD0 supported: 0
+2026/10/29-16:29:58.302363 7dac 	kCustomCompressionD1 supported: 0
+2026/10/29-16:29:58.302377 7dac 	kCustomCompressionD2 supported: 0
+2026/10/29-16:29:58.302391 7dac 	kCustomCompressionD3 supported: 0
+2026/10/29-16:29:58.302406 7dac 	kCustomCompressionD4 supported: 0
+2026/10/29-16:29:58.302422 7dac 	kCustomCompressionD5 supported: 0
+2026/10/29-16:29:58.302438 7dac 	kCustomCompressionD6 supported: 0
+2026/10/29-16:29:58.302452 7dac 	kCustomCompressionD7 supported: 0
+2026/10/29-16:29:58.302466 7dac 	kCustomCompressionD8 supported: 0
+2026/10/29-16:29:58.302481 7dac 	kCustomCompressionD9 supported: 0
+2026/10/29-16:29:58.302496 7dac 	kCustomCompressionDA supported: 0
+2026/10/29-16:29:58.302510 7dac 	kCustomCompressionDB supported: 0
+2026/10/29-16:29:58.302521 7dac 	kCustomCompressionDC supported: 0
+2026/10/29-16:29:58.302531 7dac 	kCustomCompressionDD supported: 0
+2026/10/29-16:29:58.302539 7dac 	kCustomCompressionDE supported: 0
+2026/10/29-16:29:58.302548 7dac 	kCustomCompressionDF supported: 0
+2026/10/29-16:29:58.302556 7dac 	kCustomCompressionE0 supported: 0
+2026/10/29-16:29:58.302568 7dac 	kCustomCompressionE1 supported: 0
+2026/10/29-16:29:58.302582 7dac 	kCustomCompressionE2 supported: 0
+2026/10/29-16:29:58.302597 7dac 	kCustomCompressionE3 supported: 0
+2026/10/29-16:29:58.302613 7dac 	kCustomCompressionE4 supported: 0
+2026/10/29-16:29:58.302628 7dac 	kCustomCompressionE5 supported: 0
+2026/10/29-16:29:58.302643 7dac 	kCustomCompressionE6 supported: 0
+2026/10/29-16:29:58.302656 7dac 	kCustomCompressionE7 supported: 0
+2026/10/29-16:29:58.302686 7dac 	kCustomCompressionE8 supported: 0
+2026/10/29-16:29:58.302700 7dac 	kCustomCompressionE9 supported: 0
+2026/10/29-16:29:58.302708 7dac 	kCustomCompressionEA supported: 0
+2026/10/29-16:29:58.302718 7dac 	kCustomCompressionEB supported: 0
+2026/10/29-16:29:58.302727 7dac 	kCustomCompressionEC supported: 0
+2026/10/29-16:29:58.302737 7dac 	kCustomCompressionED supported: 0
+2026/10/29-16:29:58.302746 7dac 	kCustomCompressionEE supported: 0
+2026/10/29-16:29:58.302754 7dac 	kCustomCompressionEF supported: 0
+2026/10/29-16:29:58.302763 7dac 	kCustomCompressionF0 supported: 0
+2026/10/29-16:29:58.302771 7dac 	kCustomCompressionF1 supported: 0
+2026/10/29-16:29:58.302780 7dac 	kCustomCompressionF2 supported: 0
+2026/10/29-16:29:58.302794 7dac 	kCustomCompressionF3 supported: 0
+2026/10/29-16:29:58.302805 7dac 	kCustomCompressionF4 supported: 0
+2026/10/29-16:29:58.302814 7dac 	kCustomCompressionF5 supported: 0
+2026/10/29-16:29:58.302822 7dac 	kCustomCompressionF6 supported: 0
+2026/10/29-16:29:58.302830 7dac 	kCustomCompressionF7 supported: 0
+2026/10/29-16:29:58.302839 7dac 	kCustomCompressionF8 supported: 0
+2026/10/29-16:29:58.302848 7dac 	kCustomCompressionF9 supported: 0
+2026/10/29-16:29:58.302860 7dac 	kCustomCompressionFA supported: 0
+2026/10/29-16:29:58.302871 7dac 	kCustomCompressionFB supported: 0
+2026/10/29-16:29:58.302883 7dac 	kCustomCompressionFC supported: 0
+2026/10/29-16:29:58.302898 7dac 	kCustomCompressionFD supported: 0
+2026/10/29-16:29:58.302907 7dac 	kCustomCompressionFE supported: 0
+2026/10/29-16:29:58.302929 7dac Fast CRC32 supported: Not supported on x86
+2026/10/29-16:29:58.302944 7dac DMutex implementation: std::mutex
+2026/10/29-16:29:58.302955 7dac Jemalloc supported: 0
+2026/10/29-16:29:58.313078 7dac [db\db_impl\db_impl_open.cc:341] Creating manifest 1 
+2026/10/29-16:29:58.367630 7dac [db\version_set.cc:6563] Recovering from manifest file: themis_provenance_store/MANIFEST-000001
+2026/10/29-16:29:58.368075 7dac [db\column_family.cc:713] --------------- Options for column family [default]:
+2026/10/29-16:29:58.368158 7dac               Options.comparator: leveldb.BytewiseComparator
+2026/10/29-16:29:58.368195 7dac           Options.merge_operator: None
+2026/10/29-16:29:58.368256 7dac        Options.compaction_filter: None
+2026/10/29-16:29:58.368293 7dac        Options.compaction_filter_factory: None
+2026/10/29-16:29:58.368308 7dac  Options.sst_partitioner_factory: None
+2026/10/29-16:29:58.368322 7dac         Options.memtable_factory: SkipListFactory
+2026/10/29-16:29:58.368353 7dac            Options.table_factory: BlockBasedTable
+2026/10/29-16:29:58.368413 7dac            table_factory options:   flush_block_policy_factory: FlushBlockBySizePolicyFactory (000001FB7BD31360)
+  cache_index_and_filter_blocks: 0
+  cache_index_and_filter_blocks_with_high_priority: 1
+  pin_l0_filter_and_index_blocks_in_cache: 0
+  pin_top_level_index_and_filter: 1
+  index_type: 0
+  data_block_index_type: 0
+  index_shortening: 1
+  data_block_hash_table_util_ratio: 0.750000
+  checksum: 4
+  no_block_cache: 0
+  block_cache: 000001FB7BC66BB0
+  block_cache_name: AutoHyperClockCache
+  block_cache_options:
+    capacity : 33554432
+    num_shard_bits : 0
+    strict_capacity_limit : 0
+    memory_allocator : None
+  persistent_cache: 0000000000000000
+  block_size: 4096
+  block_size_deviation: 10
+  block_restart_interval: 16
+  index_block_restart_interval: 1
+  metadata_block_size: 4096
+  partition_filters: 0
+  use_delta_encoding: 1
+  filter_policy: nullptr
+  user_defined_index_factory: nullptr
+  use_udi_as_primary_index: 0
+  fail_if_no_udi_on_open: 0
+  whole_key_filtering: 1
+  verify_compression: 0
+  read_amp_bytes_per_bit: 0
+  format_version: 7
+  uniform_cv_threshold: -1.000000
+  enable_index_compression: 1
+  block_align: 0
+  super_block_alignment_size: 0
+  super_block_alignment_space_overhead_ratio: 128
+  max_auto_readahead_size: 262144
+  prepopulate_block_cache: 0
+  initial_auto_readahead_size: 8192
+  num_file_reads_for_auto_readahead: 2
+2026/10/29-16:29:58.368452 7dac        Options.write_buffer_size: 67108864
+2026/10/29-16:29:58.368472 7dac  Options.max_write_buffer_number: 2
+2026/10/29-16:29:58.368533 7dac          Options.compression: Snappy
+2026/10/29-16:29:58.368547 7dac                  Options.bottommost_compression: Disabled
+2026/10/29-16:29:58.368560 7dac       Options.prefix_extractor: nullptr
+2026/10/29-16:29:58.368571 7dac   Options.memtable_insert_with_hint_prefix_extractor: nullptr
+2026/10/29-16:29:58.368602 7dac             Options.num_levels: 7
+2026/10/29-16:29:58.368615 7dac        Options.min_write_buffer_number_to_merge: 1
+2026/10/29-16:29:58.368629 7dac     Options.max_write_buffer_size_to_maintain: 0
+2026/10/29-16:29:58.368640 7dac            Options.bottommost_compression_opts.window_bits: -14
+2026/10/29-16:29:58.368653 7dac                  Options.bottommost_compression_opts.level: 32767
+2026/10/29-16:29:58.368666 7dac               Options.bottommost_compression_opts.strategy: 0
+2026/10/29-16:29:58.368700 7dac         Options.bottommost_compression_opts.max_dict_bytes: 0
+2026/10/29-16:29:58.368714 7dac         Options.bottommost_compression_opts.zstd_max_train_bytes: 0
+2026/10/29-16:29:58.368730 7dac         Options.bottommost_compression_opts.parallel_threads: 1
+2026/10/29-16:29:58.368746 7dac                  Options.bottommost_compression_opts.enabled: false
+2026/10/29-16:29:58.368778 7dac         Options.bottommost_compression_opts.max_dict_buffer_bytes: 0
+2026/10/29-16:29:58.368793 7dac         Options.bottommost_compression_opts.use_zstd_dict_trainer: true
+2026/10/29-16:29:58.368824 7dac            Options.compression_opts.window_bits: -14
+2026/10/29-16:29:58.368857 7dac                  Options.compression_opts.level: 32767
+2026/10/29-16:29:58.368870 7dac               Options.compression_opts.strategy: 0
+2026/10/29-16:29:58.368882 7dac         Options.compression_opts.max_dict_bytes: 0
+2026/10/29-16:29:58.368914 7dac         Options.compression_opts.zstd_max_train_bytes: 0
+2026/10/29-16:29:58.368947 7dac         Options.compression_opts.use_zstd_dict_trainer: true
+2026/10/29-16:29:58.368961 7dac         Options.compression_opts.parallel_threads: 1
+2026/10/29-16:29:58.368995 7dac                  Options.compression_opts.enabled: false
+2026/10/29-16:29:58.369009 7dac         Options.compression_opts.max_dict_buffer_bytes: 0
+2026/10/29-16:29:58.369022 7dac      Options.level0_file_num_compaction_trigger: 4
+2026/10/29-16:29:58.369034 7dac          Options.level0_slowdown_writes_trigger: 20
+2026/10/29-16:29:58.369082 7dac              Options.level0_stop_writes_trigger: 36
+2026/10/29-16:29:58.369096 7dac                   Options.target_file_size_base: 67108864
+2026/10/29-16:29:58.369109 7dac             Options.target_file_size_multiplier: 1
+2026/10/29-16:29:58.369121 7dac            Options.target_file_size_is_upper_bound: 0
+2026/10/29-16:29:58.369133 7dac                Options.max_bytes_for_level_base: 268435456
+2026/10/29-16:29:58.369145 7dac Options.level_compaction_dynamic_level_bytes: 1
+2026/10/29-16:29:58.369158 7dac          Options.max_bytes_for_level_multiplier: 10.000000
+2026/10/29-16:29:58.369171 7dac Options.max_bytes_for_level_multiplier_addtl[0]: 1
+2026/10/29-16:29:58.369184 7dac Options.max_bytes_for_level_multiplier_addtl[1]: 1
+2026/10/29-16:29:58.369197 7dac Options.max_bytes_for_level_multiplier_addtl[2]: 1
+2026/10/29-16:29:58.369209 7dac Options.max_bytes_for_level_multiplier_addtl[3]: 1
+2026/10/29-16:29:58.369242 7dac Options.max_bytes_for_level_multiplier_addtl[4]: 1
+2026/10/29-16:29:58.369255 7dac Options.max_bytes_for_level_multiplier_addtl[5]: 1
+2026/10/29-16:29:58.369268 7dac Options.max_bytes_for_level_multiplier_addtl[6]: 1
+2026/10/29-16:29:58.369281 7dac       Options.max_sequential_skip_in_iterations: 8
+2026/10/29-16:29:58.369310 7dac          Options.memtable_op_scan_flush_trigger: 0
+2026/10/29-16:29:58.369323 7dac      Options.memtable_avg_op_scan_flush_trigger: 0
+2026/10/29-16:29:58.369357 7dac      Options.min_tombstones_for_range_conversion: 0
+2026/10/29-16:29:58.369372 7dac                    Options.max_compaction_bytes: 1677721600
+2026/10/29-16:29:58.369409 7dac                        Options.arena_block_size: 1048576
+2026/10/29-16:29:58.369425 7dac   Options.soft_pending_compaction_bytes_limit: 68719476736
+2026/10/29-16:29:58.369438 7dac   Options.hard_pending_compaction_bytes_limit: 274877906944
+2026/10/29-16:29:58.369464 7dac                Options.disable_auto_compactions: 0
+2026/10/29-16:29:58.369473 7dac                        Options.compaction_style: kCompactionStyleLevel
+2026/10/29-16:29:58.369482 7dac                          Options.compaction_pri: kMinOverlappingRatio
+2026/10/29-16:29:58.369491 7dac Options.compaction_options_universal.size_ratio: 1
+2026/10/29-16:29:58.369500 7dac Options.compaction_options_universal.min_merge_width: 2
+2026/10/29-16:29:58.369528 7dac Options.compaction_options_universal.max_merge_width: 4294967295
+2026/10/29-16:29:58.369537 7dac Options.compaction_options_universal.max_size_amplification_percent: 200
+2026/10/29-16:29:58.369544 7dac Options.compaction_options_universal.compression_size_percent: -1
+2026/10/29-16:29:58.369555 7dac Options.compaction_options_universal.stop_style: kCompactionStopStyleTotalSize
+2026/10/29-16:29:58.369564 7dac Options.compaction_options_universal.max_read_amp: -1
+2026/10/29-16:29:58.369579 7dac Options.compaction_options_universal.reduce_file_locking: 1
+2026/10/29-16:29:58.369608 7dac Options.compaction_options_fifo.max_table_files_size: 1073741824
+2026/10/29-16:29:58.369635 7dac Options.compaction_options_fifo.allow_compaction: 0
+2026/10/29-16:29:58.369646 7dac                   Options.table_properties_collectors: 
+2026/10/29-16:29:58.369654 7dac                   Options.inplace_update_support: 0
+2026/10/29-16:29:58.369661 7dac                 Options.inplace_update_num_locks: 10000
+2026/10/29-16:29:58.369669 7dac               Options.memtable_prefix_bloom_size_ratio: 0.000000
+2026/10/29-16:29:58.369677 7dac               Options.memtable_whole_key_filtering: 0
+2026/10/29-16:29:58.369685 7dac   Options.memtable_huge_page_size: 0
+2026/10/29-16:29:58.369693 7dac                           Options.bloom_locality: 0
+2026/10/29-16:29:58.369701 7dac                    Options.max_successive_merges: 0
+2026/10/29-16:29:58.369708 7dac             Options.strict_max_successive_merges: 0
+2026/10/29-16:29:58.369715 7dac                Options.optimize_filters_for_hits: 0
+2026/10/29-16:29:58.369723 7dac                Options.paranoid_file_checks: 0
+2026/10/29-16:29:58.369730 7dac                Options.force_consistency_checks: 1
+2026/10/29-16:29:58.369737 7dac                Options.report_bg_io_stats: 0
+2026/10/29-16:29:58.369746 7dac                Options.disallow_memtable_writes: 0
+2026/10/29-16:29:58.369754 7dac                               Options.ttl: 2592000
+2026/10/29-16:29:58.369762 7dac          Options.periodic_compaction_seconds: 0
+2026/10/29-16:29:58.369769 7dac                        Options.default_temperature: kUnknown
+2026/10/29-16:29:58.369777 7dac  Options.preclude_last_level_data_seconds: 0
+2026/10/29-16:29:58.369784 7dac    Options.preserve_internal_time_seconds: 0
+2026/10/29-16:29:58.369791 7dac                       Options.enable_blob_files: false
+2026/10/29-16:29:58.369798 7dac                           Options.min_blob_size: 0
+2026/10/29-16:29:58.369806 7dac                          Options.blob_file_size: 268435456
+2026/10/29-16:29:58.369814 7dac                   Options.blob_compression_type: NoCompression
+2026/10/29-16:29:58.369821 7dac             Options.blob_compression_opts.level: 32767
+2026/10/29-16:29:58.369828 7dac          Options.enable_blob_garbage_collection: false
+2026/10/29-16:29:58.369836 7dac      Options.blob_garbage_collection_age_cutoff: 0.250000
+2026/10/29-16:29:58.369844 7dac Options.blob_garbage_collection_force_threshold: 1.000000
+2026/10/29-16:29:58.369852 7dac          Options.blob_compaction_readahead_size: 0
+2026/10/29-16:29:58.369880 7dac                Options.blob_file_starting_level: 0
+2026/10/29-16:29:58.369889 7dac         Options.experimental_mempurge_threshold: 0.000000
+2026/10/29-16:29:58.369898 7dac            Options.memtable_max_range_deletions: 0
+2026/10/29-16:29:58.369909 7dac                  Options.cf_allow_ingest_behind: false
+2026/10/29-16:29:58.369919 7dac   Options.memtable_batch_lookup_optimization: false
+2026/10/29-16:29:58.369927 7dac              Options.enable_blob_direct_write: false
+2026/10/29-16:29:58.369935 7dac            Options.blob_direct_write_partitions: 1
+2026/10/29-16:29:58.373514 7dac [db\version_set.cc:6622] Recovered from manifest file:themis_provenance_store/MANIFEST-000001 succeeded,manifest_file_number is 1, next_file_number is 3, last_sequence is 0, log_number is 0,prev_log_number is 0,max_column_family is 0,min_log_number_to_keep is 0
+2026/10/29-16:29:58.373556 7dac [db\version_set.cc:6631] Column family [default] (ID 0), log number is 0
+2026/10/29-16:29:58.373591 7dac [db\db_impl\db_impl_open.cc:728] DB ID: 98c1d985-d3ad-11f1-8eb2-b42e99fe92b3
+2026/10/29-16:29:58.374087 7dac [WARN] [db\db_impl\db_impl_open.cc:2970] DB::Open() failed: Corruption: While creating a new Db, wal_dir contains existing log file: : 000004.log
+2026/10/29-16:29:58.374133 7dac [db\db_impl\db_impl.cc:544] Shutdown: canceling all background work
+2026/10/29-16:29:58.374341 7dac [db\db_impl\db_impl.cc:1026] Shutdown complete

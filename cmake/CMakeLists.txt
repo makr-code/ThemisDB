@@ -2045,6 +2045,11 @@ _themis_mark_public_optional_source(THEMIS_HAS_PUBLIC_BLOB_BACKEND_AZURE "src/st
 set(THEMIS_CORE_SOURCES
     ../src/storage/rocksdb_wrapper.cpp
     ../src/storage/base_entity.cpp
+    ../src/document/round_trip_editor.cpp
+    ../src/failover/topology_snapshot.cpp
+    ../src/toolbox/text_normalizer.cpp
+    ../src/toolbox/language_detector.cpp
+    ../src/toolbox/content_fingerprinter.cpp
     ../src/storage/key_schema.cpp
     ../src/storage/backup_manager.cpp
     ../src/storage/database_connection_manager.cpp
@@ -2060,13 +2065,18 @@ set(THEMIS_CORE_SOURCES
     ../src/tensor/tensor_mmap_bridge.cpp
     ../src/tensor/hiss_structural_search.cpp
     ../src/tensor/tensor_index_manager.cpp
+    ../src/tensor/tensor_compression_routing_accelerator.cpp
+    ../src/tensor/tensor_routing_strategy.cpp
+    ../src/tensor/tensor_redundancy_detection.cpp
     ../src/tensor/tensor_fingerprint_graph.cpp
     ../src/tensor/tensor_error_handling.cpp
     ../src/tensor/tensor_ingestion_bridge.cpp
     ../src/tensor/tensor_core_bridge.cpp
+    ../src/geo/geo_backend_dispatch.cpp
     # Distributed Tensor Retrieval (EPIC 3)
     ../src/tensor/tensor_summary_types.cpp
     ../src/tensor/compression_strategy.cpp
+    ../src/graph/tensor_deduplication_manager.cpp
     ../src/graph/tensor_fingerprint_graph.cpp
     ../src/distributed_tensor/src/distributed_planner.cc
     ../src/storage/batch_write_optimizer.cpp
@@ -6152,6 +6162,21 @@ if(EXISTS "${THEMIS_ROOT_DIR}/src/distributed_tensor/CMakeLists.txt" AND
    NOT TARGET themis_distributed_tensor)
     add_subdirectory(${THEMIS_ROOT_DIR}/src/distributed_tensor
                      ${CMAKE_CURRENT_BINARY_DIR}/src/distributed_tensor)
+endif()
+
+if(THEMIS_BUILD_BENCHMARKS AND TARGET themis_distributed_tensor)
+    foreach(_distributed_tensor_benchmark IN ITEMS
+            bench_epic2_evaluation_storage_strategy_bench
+            bench_epic3_distributed_tensor_placement_strategy_bench
+            bench_epic3_distributed_tensor_integrity_verification_bench
+            bench_epic3_distributed_tensor_recovery_rebuild_bench
+            bench_epic3_distributed_tensor_distributed_retrieval_bench
+            bench_tensor_dynamic_update)
+        if(TARGET ${_distributed_tensor_benchmark})
+            target_link_libraries(${_distributed_tensor_benchmark}
+                PRIVATE themis_distributed_tensor)
+        endif()
+    endforeach()
 endif()
 
 # Enterprise Modules (new modular DLL architecture)
