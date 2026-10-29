@@ -309,6 +309,26 @@ TEST_F(RoundTripPersistenceTest, RTP10_SnapshotBodyContainsAllRequiredFields) {
     EXPECT_EQ(body["document"], "seed-body");
 }
 
+// RTP-11: an index wider than the minimum ID padding width is not truncated
+TEST_F(RoundTripPersistenceTest, RTP11_IndexBeyondTenDigitsRemainsAddressable) {
+    constexpr std::size_t kIndexBeyondPaddingWidth = 10'000'000'000ULL;
+    ASSERT_TRUE(editor_.beginRelay("rtp11", "seed").has_value());
+    ASSERT_TRUE(editor_.saveInteraction("rtp11", kIndexBeyondPaddingWidth,
+                                        "large-index", "large-index-document").has_value());
+
+    const std::string expected_id = "rtp11:10000000000";
+    auto stored = store_.get(kCol, expected_id);
+    ASSERT_TRUE(stored.has_value());
+    ASSERT_TRUE(stored.value().has_value())
+        << "The 10-character width is a minimum; larger indices must remain addressable.";
+    EXPECT_EQ(stored.value().value().body["interaction_index"], kIndexBeyondPaddingWidth);
+
+    auto loaded = editor_.loadInteraction("rtp11", kIndexBeyondPaddingWidth);
+    ASSERT_TRUE(loaded.has_value());
+    ASSERT_TRUE(loaded.value().has_value());
+    EXPECT_EQ(loaded.value().value().document, "large-index-document");
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // RoundTripDiagnostics tests  (RTD-01 … RTD-04)
 // ─────────────────────────────────────────────────────────────────────────────

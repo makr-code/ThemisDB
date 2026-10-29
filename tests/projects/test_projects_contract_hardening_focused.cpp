@@ -5,6 +5,7 @@
  */
 
 #include <gtest/gtest.h>
+#include "projects/project_diff.h"
 #include "projects/projects_api_contract.h"
 
 #include <algorithm>
@@ -74,4 +75,31 @@ TEST(ProjectsContractTest, PRJ08_AllCodesGe7700) {
     }) {
         EXPECT_GE(v, 7700);
     }
+}
+
+TEST(ProjectsContractTest, PRJ09_NestedDocumentChangesReportFullFieldPaths) {
+    const themis::projects::ProjectDiff diff(nullptr);
+    const nlohmann::json before = {
+        {"metadata", {{"owner", {{"name", "Ada"}}}, {"retired", true}}}
+    };
+    const nlohmann::json after = {
+        {"metadata", {{"owner", {{"name", "Grace"}}}, {"active", true}}}
+    };
+
+    const auto changes = diff.diffDocuments(before, after);
+
+    ASSERT_EQ(changes.totalChanges(), 3u);
+    const auto has_change = [&changes](const std::string& path,
+                                       themis::projects::DeltaType type) {
+        return std::any_of(changes.entries.begin(), changes.entries.end(),
+                           [&path, type](const auto& entry) {
+                               return entry.field_path == path && entry.type == type;
+                           });
+    };
+    EXPECT_TRUE(has_change("/metadata/owner/name",
+                           themis::projects::DeltaType::MODIFIED));
+    EXPECT_TRUE(has_change("/metadata/retired",
+                           themis::projects::DeltaType::REMOVED));
+    EXPECT_TRUE(has_change("/metadata/active",
+                           themis::projects::DeltaType::ADDED));
 }

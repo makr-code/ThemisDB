@@ -9,12 +9,20 @@ foreach(_src IN LISTS PROMPT_ENGINEERING_MODULE_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_prompt_engineering_${_stem}_focused")
     set(_ctest "${_stem}_prompt_engineering_FocusedTests")
+    set(_extra_sources)
 
     if(TARGET ${_target})
         continue()
     endif()
 
-    add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_structured_output_focused")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/prompt_engineering/structured_output.cpp
+            ${THEMIS_ROOT_DIR}/src/prompt_engineering/markdown_utils.cpp
+        )
+    endif()
+
+    add_executable(${_target} "${_src}" ${_extra_sources})
     # Link against themis_core for prompt_engineering module
     target_link_libraries(${_target} PRIVATE
         ${TEST_LIBS}

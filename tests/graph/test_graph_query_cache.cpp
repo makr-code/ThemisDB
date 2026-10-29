@@ -201,6 +201,24 @@ TEST_F(GraphQueryCacheTest, L1Full_OldestEntryDemotedToL2) {
     EXPECT_EQ(s.l2_size, 1u);  // 1 demoted to L2
 }
 
+TEST_F(GraphQueryCacheTest, L1HitRefreshesRecencyBeforeDemotion) {
+    GraphQueryCache::Config cfg;
+    cfg.l1_capacity = 2;
+    cfg.l2_capacity = 4;
+    GraphQueryCache cache(cfg);
+
+    cache.put("oldest", {"oldest-result"});
+    cache.put("newer", {"newer-result"});
+    ASSERT_TRUE(cache.get("oldest").has_value());  // Refresh oldest to MRU.
+
+    cache.put("new-entry", {"new-result"});  // The untouched "newer" is LRU.
+
+    ASSERT_TRUE(cache.get("oldest").has_value());
+    ASSERT_TRUE(cache.get("newer").has_value());
+    EXPECT_EQ(cache.getStats().l2_promotions, 1u)
+        << "Only the untouched LRU entry should have been demoted to L2.";
+}
+
 TEST_F(GraphQueryCacheTest, DemotedEntry_StillAccessibleViaL2) {
     for (int i = 0; i < 4; ++i) {
         cache_->put("k" + std::to_string(i), {"r" + std::to_string(i)});

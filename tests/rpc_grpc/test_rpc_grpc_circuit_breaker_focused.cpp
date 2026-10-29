@@ -290,3 +290,14 @@ TEST(CircuitBreakerFocused, CB12_MinCallsWindowPreventsEarlyTrip) {
     }
     EXPECT_EQ(cb.state(), CircuitState::kOpen);
 }
+
+// ============================================================================
+// CB-13 — State labels remain safe for unknown enum values.
+// ============================================================================
+
+TEST(CircuitBreakerFocused, CB13_StateLabelsCoverKnownAndUnknownValues) {
+    EXPECT_STREQ(circuitStateToString(CircuitState::kClosed), "CLOSED");
+    EXPECT_STREQ(circuitStateToString(CircuitState::kOpen), "OPEN");
+    EXPECT_STREQ(circuitStateToString(CircuitState::kHalfOpen), "HALF_OPEN");
+    EXPECT_STREQ(circuitStateToString(static_cast<CircuitState>(0xFF)), "UNKNOWN");
+}

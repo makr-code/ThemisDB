@@ -104,6 +104,20 @@ TEST_F(TemporalIndexTest, Remove_ExistingEntry_SizeDecreases) {
     EXPECT_EQ(idx.size(), 0u);
 }
 
+TEST_F(TemporalIndexTest, Remove_ExactDuplicateEntriesLeavesOtherKeyIntact) {
+    idx.insert(makeEntry("duplicate", 100, 200, {{"version", 1}}));
+    idx.insert(makeEntry("duplicate", 100, 200, {{"version", 2}}));
+    idx.insert(makeEntry("other", 100, 200));
+
+    EXPECT_EQ(idx.remove("duplicate", {100, 200}), 2u)
+        << "Removal matches the key and interval and removes all matching duplicates.";
+    EXPECT_EQ(idx.size(), 1u);
+
+    const auto remaining = idx.queryPoint(150);
+    ASSERT_EQ(remaining.size(), 1u);
+    EXPECT_EQ(remaining.front().key, "other");
+}
+
 TEST_F(TemporalIndexTest, RemoveKey_RemovesAllVersions) {
     idx.insert(makeEntry("k1", 100, 200));
     idx.insert(makeEntry("k1", 200, 300));

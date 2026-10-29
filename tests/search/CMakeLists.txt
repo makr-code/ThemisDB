@@ -15,7 +15,11 @@ foreach(_src IN LISTS SEARCH_MODULE_TEST_SOURCES)
         continue()
     endif()
 
-    if(_stem STREQUAL "test_layered_retrieval_integration_phase4")
+    if(_stem STREQUAL "test_fuzzy_matcher_focused")
+        list(APPEND _extra_sources
+            ${THEMIS_ROOT_DIR}/src/search/fuzzy_matcher.cpp
+        )
+    elseif(_stem STREQUAL "test_layered_retrieval_integration_phase4")
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/search/layered_retrieval_orchestrator.cpp
             ${THEMIS_ROOT_DIR}/src/tensor/tensor_fingerprint_graph.cpp
