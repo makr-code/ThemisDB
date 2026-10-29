@@ -118,26 +118,31 @@ set(BENCHMARK_LIBS
 )
 
 function(themis_add_standard_benchmark target_name source_file)
-    set(_benchmark_source "${source_file}")
-    if(IS_ABSOLUTE "${source_file}")
-        set(_benchmark_source "${source_file}")
-    elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${source_file}")
-        set(_benchmark_source "${CMAKE_CURRENT_SOURCE_DIR}/${source_file}")
-    elseif(EXISTS "${source_file}")
-        set(_benchmark_source "${source_file}")
-    endif()
+    set(_benchmark_sources "")
+    foreach(_candidate IN LISTS source_file ${ARGN})
+        if(IS_ABSOLUTE "${_candidate}")
+            list(APPEND _benchmark_sources "${_candidate}")
+        elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${_candidate}")
+            list(APPEND _benchmark_sources "${CMAKE_CURRENT_SOURCE_DIR}/${_candidate}")
+        elseif(EXISTS "${_candidate}")
+            list(APPEND _benchmark_sources "${_candidate}")
+        else()
+            message(STATUS "Benchmark source not found at ${_candidate}")
+        endif()
+    endforeach()
 
-    if(NOT EXISTS "${_benchmark_source}")
-        message(STATUS "Benchmark source not found at ${source_file}")
+    list(LENGTH _benchmark_sources _benchmark_source_count)
+    if(_benchmark_source_count EQUAL 0)
         return()
     endif()
 
     if(TARGET ${target_name})
+        target_sources(${target_name} PRIVATE ${_benchmark_sources})
         return()
     endif()
 
     add_executable(${target_name}
-            "${_benchmark_source}"
+            ${_benchmark_sources}
     )
 
     target_link_libraries(${target_name} PRIVATE
@@ -5419,6 +5424,15 @@ themis_add_standard_benchmark(bench_api_transport api/bench_api_transport.cpp)
 
 # Phase 5 release-gate benchmarks (GATE-API-01..06 + p95/p99 envelopes)
 themis_add_standard_benchmark(bench_api_release_gates api/bench_api_release_gates.cpp)
+if(TARGET bench_api_release_gates)
+    target_sources(bench_api_release_gates PRIVATE
+        ${CMAKE_SOURCE_DIR}/src/api/api_transport_policy.cpp
+    )
+    target_include_directories(bench_api_release_gates PRIVATE
+        ${CMAKE_SOURCE_DIR}/include/api
+        ${CMAKE_SOURCE_DIR}/src/api
+    )
+endif()
 
 # ============================================================================
 # Wave 3C — Infrastructure Module Release-Gate Benchmarks (Phase 5)
@@ -5479,9 +5493,33 @@ themis_add_standard_benchmark(bench_analytics_critical_paths_focused        anal
 # Module: chimera
 themis_add_standard_benchmark(bench_chimera_adapter                         chimera/bench_chimera_adapter.cpp)
 themis_add_standard_benchmark(bench_chimera_dedicated_gates                 chimera/bench_chimera_dedicated_gates.cpp)
+if(TARGET bench_chimera_adapter)
+    target_sources(bench_chimera_adapter PRIVATE
+        ${CMAKE_SOURCE_DIR}/src/chimera/themisdb_adapter.cpp
+        ${CMAKE_SOURCE_DIR}/external/chimera/src/chimera/adapter_factory.cpp
+    )
+    target_include_directories(bench_chimera_adapter PRIVATE
+        ${CMAKE_SOURCE_DIR}/include/chimera
+        ${CMAKE_SOURCE_DIR}/src/chimera
+        ${CMAKE_SOURCE_DIR}/external/chimera/include
+    )
+endif()
 
 # Module: config
 themis_add_standard_benchmark(bench_config_release_gates                    config/bench_config_release_gates.cpp)
+if(TARGET bench_config_release_gates)
+    target_sources(bench_config_release_gates PRIVATE
+        ${CMAKE_SOURCE_DIR}/src/config/config_path_resolver.cpp
+        ${CMAKE_SOURCE_DIR}/src/config/config_file_watcher.cpp
+        ${CMAKE_SOURCE_DIR}/src/config/config_metrics_exporter.cpp
+        ${CMAKE_SOURCE_DIR}/src/config/config_schema_validator.cpp
+        ${CMAKE_SOURCE_DIR}/src/config/config_audit_log.cpp
+    )
+    target_include_directories(bench_config_release_gates PRIVATE
+        ${CMAKE_SOURCE_DIR}/include/config
+        ${CMAKE_SOURCE_DIR}/src/config
+    )
+endif()
 
 # Module: content
 themis_add_standard_benchmark(bench_text_extraction                         content/bench_text_extraction.cpp)
@@ -5501,9 +5539,28 @@ themis_add_standard_benchmark(bench_evaluation_dedicated_gates              eval
 # Module: geo
 themis_add_standard_benchmark(bench_geo_cuda_kernel_gating                  geo/bench_geo_cuda_kernel_gating.cpp)
 themis_add_standard_benchmark(bench_geo_release_gates                       geo/bench_geo_release_gates.cpp)
+if(TARGET bench_geo_cuda_kernel_gating)
+    target_sources(bench_geo_cuda_kernel_gating PRIVATE
+        ${CMAKE_SOURCE_DIR}/src/geo/geo_backend_dispatch.cpp
+    )
+    target_include_directories(bench_geo_cuda_kernel_gating PRIVATE
+        ${CMAKE_SOURCE_DIR}/include/geo
+        ${CMAKE_SOURCE_DIR}/src/geo
+    )
+endif()
 
 # Module: governance
 themis_add_standard_benchmark(bench_audit_export_high_volume                governance/bench_audit_export_high_volume.cpp)
+if(TARGET bench_audit_export_high_volume)
+    target_sources(bench_audit_export_high_volume PRIVATE
+        ${CMAKE_SOURCE_DIR}/src/governance/audit_batch_writer.cpp
+        ${CMAKE_SOURCE_DIR}/src/governance/governance_audit_integrity.cpp
+    )
+    target_include_directories(bench_audit_export_high_volume PRIVATE
+        ${CMAKE_SOURCE_DIR}/include/governance
+        ${CMAKE_SOURCE_DIR}/src/governance
+    )
+endif()
 
 # Module: gpu
 themis_add_standard_benchmark(bench_gpu_cpu_breakeven_category_a            gpu/bench_gpu_cpu_breakeven_category_a.cpp)

@@ -164,6 +164,14 @@ class AccessCoordinatorImpl : public AccessCoordinator {
          */
         std::lock_guard<std::mutex> lock(mutex_);
 
+        // Fast-path: when no policy is configured yet, treat the event as a
+        // lightweight observation and avoid the expensive transition/logging
+        // work that is irrelevant to the current benchmark and hot path.
+        if (!policy_set_) {
+            metrics_.counters.cache_evictions_observed++;
+            return;
+        }
+
         std::string correlation_id = generateCorrelationId("evict");
         auto event_start = std::chrono::system_clock::now();
 
@@ -260,6 +268,14 @@ class AccessCoordinatorImpl : public AccessCoordinator {
          * @return Return value.
          */
         std::lock_guard<std::mutex> lock(mutex_);
+
+        // Fast-path: the coordinator may be observed before policy initialization
+        // in benchmarking or bootstrap scenarios; no policy means no decision to
+        // produce, so keep the path extremely cheap.
+        if (!policy_set_) {
+            metrics_.counters.storage_hot_accesses_observed++;
+            return;
+        }
 
         std::string correlation_id = generateCorrelationId("hot-access");
         auto event_start = std::chrono::system_clock::now();

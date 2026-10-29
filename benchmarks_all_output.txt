@@ -1,0 +1,20 @@
+=== bench_access_coordinator_gates.exe ===
+2026-10-28T20:02:17+01:00
+Running C:\Projects\ThemisDB\build-msvc-windows-release\bin\bench_access_coordinator_gates.exe
+Run on (20 X 3696 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x10)
+  L1 Instruction 32 KiB (x10)
+  L2 Unified 256 KiB (x10)
+  L3 Unified 20480 KiB (x1)
+----------------------------------------------------------------------------------------------------------------------------
+Benchmark                                                                  Time             CPU   Iterations UserCounters...
+----------------------------------------------------------------------------------------------------------------------------
+BenchAccessCoordinator/GATE_ACM_01_L1ToL2Promotion                       123 ns          156 ns       100000 items_per_second=6.4M/s
+BenchAccessCoordinator/GATE_ACM_02_CacheEvictionToStorageFeedback        130 ns          156 ns       100000 items_per_second=6.4M/s
+BenchAccessCoordinator/GATE_ACM_03_ColdToWarmPromotion                   245 ns         1562 ns        10000 items_per_second=640k/s
+BenchAccessCoordinator/GATE_ACM_04_EventProcessingThroughput             133 ns          156 ns       100000 items_per_second=6.4M/s
+BenchAccessCoordinator/GATE_ACM_05_MemoryOverhead                   15770580 ns        0.000 ns           10 items_per_second=inf/s
+BenchAccessCoordinator/GATE_ACM_06_PolicyDecisionOverhead                136 ns          156 ns       100000 items_per_second=6.4M/s
+
+BENCHMARK_SUMMARY: Microsoft.PowerShell.Commands.GenericMeasureInfo.Count executables run

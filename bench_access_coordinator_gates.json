@@ -1,0 +1,131 @@
+{
+  "context": {
+    "date": "2026-10-28T19:59:23+01:00",
+    "host_name": "DESKTOP-712S8LO",
+    "executable": "C:\\Projects\\ThemisDB\\build-msvc-windows-release\\bin\\bench_access_coordinator_gates.exe",
+    "num_cpus": 20,
+    "mhz_per_cpu": 3696,
+    "caches": [
+      {
+        "type": "Data",
+        "level": 1,
+        "size": 32768,
+        "num_sharing": 2
+      },
+      {
+        "type": "Instruction",
+        "level": 1,
+        "size": 32768,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 2,
+        "size": 262144,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 3,
+        "size": 20971520,
+        "num_sharing": 20
+      }
+    ],
+    "load_avg": [],
+    "library_version": "v1.9.0",
+    "library_build_type": "release",
+    "json_schema_version": 1
+  },
+  "benchmarks": [
+    {
+      "name": "BenchAccessCoordinator/GATE_ACM_01_L1ToL2Promotion",
+      "family_index": 0,
+      "per_family_instance_index": 0,
+      "run_name": "BenchAccessCoordinator/GATE_ACM_01_L1ToL2Promotion",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 100000,
+      "real_time": 1.3149600010365248e+02,
+      "cpu_time": 1.5625000000000000e+02,
+      "time_unit": "ns",
+      "items_per_second": 6.4000000000000000e+06
+    },
+    {
+      "name": "BenchAccessCoordinator/GATE_ACM_02_CacheEvictionToStorageFeedback",
+      "family_index": 1,
+      "per_family_instance_index": 0,
+      "run_name": "BenchAccessCoordinator/GATE_ACM_02_CacheEvictionToStorageFeedback",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 1000000,
+      "real_time": 1.4606450009159744e+02,
+      "cpu_time": 1.5625000000000000e+02,
+      "time_unit": "ns",
+      "items_per_second": 6.4000000000000000e+06
+    },
+    {
+      "name": "BenchAccessCoordinator/GATE_ACM_03_ColdToWarmPromotion",
+      "family_index": 2,
+      "per_family_instance_index": 0,
+      "run_name": "BenchAccessCoordinator/GATE_ACM_03_ColdToWarmPromotion",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 100000,
+      "real_time": 3.2162000192329288e+02,
+      "cpu_time": 3.1250000000000000e+02,
+      "time_unit": "ns",
+      "items_per_second": 3.2000000000000000e+06
+    },
+    {
+      "name": "BenchAccessCoordinator/GATE_ACM_04_EventProcessingThroughput",
+      "family_index": 3,
+      "per_family_instance_index": 0,
+      "run_name": "BenchAccessCoordinator/GATE_ACM_04_EventProcessingThroughput",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 10000,
+      "real_time": 1.4165001921355724e+02,
+      "cpu_time": 1.5625000000000000e+03,
+      "time_unit": "ns",
+      "items_per_second": 6.4000000000000000e+05
+    },
+    {
+      "name": "BenchAccessCoordinator/GATE_ACM_05_MemoryOverhead",
+      "family_index": 4,
+      "per_family_instance_index": 0,
+      "run_name": "BenchAccessCoordinator/GATE_ACM_05_MemoryOverhead",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 10,
+      "real_time": 1.5689640003256500e+07,
+      "cpu_time": 0.0000000000000000e+00,
+      "time_unit": "ns",
+      "items_per_second": Infinity
+    },
+    {
+      "name": "BenchAccessCoordinator/GATE_ACM_06_PolicyDecisionOverhead",
+      "family_index": 5,
+      "per_family_instance_index": 0,
+      "run_name": "BenchAccessCoordinator/GATE_ACM_06_PolicyDecisionOverhead",
+      "run_type": "iteration",
+      "repetitions": 1,
+      "repetition_index": 0,
+      "threads": 1,
+      "iterations": 100000,
+      "real_time": 1.4343799790367484e+02,
+      "cpu_time": 1.5625000000000000e+02,
+      "time_unit": "ns",
+      "items_per_second": 6.4000000000000000e+06
+    }
+  ]
+}
