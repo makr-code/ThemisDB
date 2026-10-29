@@ -301,23 +301,23 @@ RUN --mount=type=cache,id=llm-model-cache-${TARGETARCH},target=/opt/themis-model
             tinyllama|TinyLlama|tinyllama-1.1b) \
                 DEFAULT_URL="https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf"; \
                 MODEL_URL="${MODEL_URL:-${DEFAULT_URL}}"; \
-                ;;\
+                ;; \
             qwen2.5-coder|qwen2.5-coder-7b-instruct|Qwen2.5-Coder|Qwen2.5-Coder-7B-Instruct) \
                 MODEL_URL="${MODEL_URL:-https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct-GGUF/resolve/main/qwen2.5-coder-7b-instruct-q4_k_m.gguf}"; \
-                ;;\
+                ;; \
             llama3.2|llama-3.2|llama-3.2-3b-instruct|llama-3.2-3b) \
                 MODEL_URL="${MODEL_URL:-https://huggingface.co/unsloth/Meta-Llama-3.2-3B-Instruct-GGUF/resolve/main/Meta-Llama-3.2-3B-Instruct-Q4_K_M.gguf}"; \
-                ;;\
+                ;; \
             custom|none|disabled) \
                 echo "LLM model selection '${MODEL_KEY}' is disabled for this build; skipping model download"; \
                 exit 0; \
-                ;;\
+                ;; \
             *) \
                 if [ -z "${MODEL_URL}" ]; then \
                     echo "ERROR: No built-in URL exists for LLM model '${MODEL_KEY}'. Set llm_model_url or llm_model_file in CI."; \
                     exit 1; \
                 fi; \
-                ;;\
+                ;; \
         esac; \
         if [ ! -f "/opt/themis-models/${MODEL_FILE}" ] || [ "${TINYLLAMA_FORCE_DOWNLOAD}" = "1" ]; then \
             MODEL_DIR=/opt/themis-models OUTPUT_NAME="${MODEL_FILE}" FORCE=${TINYLLAMA_FORCE_DOWNLOAD} HF_URL="${MODEL_URL}" LOCAL_SEARCH_DIRS="/opt/local-models/models:/opt/local-models/llama-cpp-models:/opt/themis-models" LOCAL_MODEL_GLOB="*${MODEL_KEY}*.gguf" /usr/local/bin/download-tinyllama-hf.sh; \
