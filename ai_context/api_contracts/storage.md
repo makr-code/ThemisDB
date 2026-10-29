@@ -1,6 +1,6 @@
 # Storage Module Contract
 
-Datum: 2026-09-23
+Datum: 2026-10-29
 **Status:** Active  
 **Module:** storage (RocksDB backend, K-V layer, LSM-tree)  
 **Primary:** include/storage/storage_engine.h, src/storage/ROADMAP.md

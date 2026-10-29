@@ -1,6 +1,6 @@
 # LLM Module Contract
 
-Datum: 2026-09-23
+Datum: 2026-10-29
 **Status:** Active  
 **Module:** llm (LLM inference, model switching, context mgmt)  
 **Primary:** include/llm/inference_engine.h, src/llm/ROADMAP.md

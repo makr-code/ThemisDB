@@ -1,6 +1,6 @@
 # KNOWLEDGE Conflicts Register
 
-Datum: 2026-09-23
+Datum: 2026-10-29
 Status: Active
 Bezug: Zentrales Konfliktregister fuer AI-Wiki-Widersprueche und Klaerungen
 Primary (Quelle der Wahrheit): AI_WIKI_INTEGRATION_PLAYBOOK.md, DOCUMENTATION_GOVERNANCE.md
@@ -67,7 +67,7 @@ Jeder Konflikt muss enthalten:
 <!-- AUTO-CONFLICTS-START -->
 ## Auto-Detected Conflicts (Managed)
 
-Generated: 2026-07-28
+Generated: 2026-10-29
 
 - Keine automatisch detektierten High/Critical-Konflikte im letzten Lauf.
 
