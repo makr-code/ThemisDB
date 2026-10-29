@@ -51,6 +51,19 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [hardware-detection, benchmark-execution]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Wave B LLM benchmarks"
+          job-results: ${{ toJSON(needs) }}
+
   hardware-detection:
     name: "Validate: Hardware Detection"
     runs-on: ubuntu-latest

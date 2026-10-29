@@ -31,6 +31,19 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [wiki_publish_from_issue]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Human-approved wiki publication from an issue"
+          job-results: ${{ toJSON(needs) }}
+
   wiki_publish_from_issue:
     name: "Publish: Wiki on approval comment"
     if: |

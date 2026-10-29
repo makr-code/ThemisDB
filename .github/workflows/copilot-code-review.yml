@@ -20,6 +20,19 @@ concurrency:
 
 jobs:
   # The job name must remain `copilot-setup-steps` so Copilot can detect it.
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [copilot-setup-steps]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Copilot code-review runner setup"
+          job-results: ${{ toJSON(needs) }}
+
   copilot-setup-steps:
     runs-on: ubuntu-latest
     steps:

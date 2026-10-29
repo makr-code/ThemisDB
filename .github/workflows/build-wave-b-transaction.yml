@@ -36,6 +36,19 @@ env:
   VCPKG_DOWNLOADS: ${{ github.workspace }}/.cache/vcpkg-downloads-ubuntu-${{ github.ref_name || github.ref }}
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [configure, compile-tests, smoke-tests, full-transaction-test-suite, chaos-recovery-evidence, phase4-benchmark-baseline, collect-artifacts, publish-results, check-results]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Wave B transaction build, tests, and recovery evidence"
+          job-results: ${{ toJSON(needs) }}
+
   configure:
     name: "Build: CMake Configuration"
     runs-on: ubuntu-latest

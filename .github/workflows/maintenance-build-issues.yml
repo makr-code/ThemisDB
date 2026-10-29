@@ -28,6 +28,19 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [aggregate-build-errors]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Build failure issue aggregation"
+          job-results: ${{ toJSON(needs) }}
+
   aggregate-build-errors:
     name: "Maintenance: Aggregate & Create Build Error Issues"
     runs-on: ubuntu-latest

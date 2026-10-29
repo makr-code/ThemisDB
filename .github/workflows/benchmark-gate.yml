@@ -42,6 +42,19 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [validate-baselines, build-wave4-release-gates, run-wave4-release-gates]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Wave 4 release benchmark gates"
+          job-results: ${{ toJSON(needs) }}
+
   validate-baselines:
     name: "Validate: Baseline evidence"
     runs-on: ubuntu-24.04

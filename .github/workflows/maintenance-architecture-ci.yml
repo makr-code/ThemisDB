@@ -43,6 +43,19 @@ permissions:
   pull-requests: write
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [generate-architecture]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Architecture CI validation"
+          job-results: ${{ toJSON(needs) }}
+
   generate-architecture:
     name: "Maintenance: Generate Architecture Model"
     runs-on: ubuntu-latest

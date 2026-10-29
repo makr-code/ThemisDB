@@ -48,6 +48,18 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [mark-release-pending, check-changes, set-release-type, build-matrix, generate-metadata, publish-release, publish-docker, finalize-release-status, notify]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Nightly build, release, and Docker publication"
+          job-results: ${{ toJSON(needs) }}
 
   mark-release-pending:
     name: "Release: Mark Nightly Status"

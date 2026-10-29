@@ -50,6 +50,19 @@ permissions:
   issues: write
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [drift-scan, open-tracker-issue, no-drift-close-issue]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Compendium drift detection and tracker maintenance"
+          job-results: ${{ toJSON(needs) }}
+
   drift-scan:
     name: "Maintenance: Compendium Drift Scan"
     runs-on: ubuntu-latest

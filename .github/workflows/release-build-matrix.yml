@@ -50,6 +50,19 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [linux-release, windows-release, prepare-release-matrix, release-platform-matrix]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Cross-platform release build matrix"
+          job-results: ${{ toJSON(needs) }}
+
   linux-release:
     name: "Build: Linux Release"
     runs-on: ubuntu-24.04

@@ -66,6 +66,19 @@ jobs:
   # ─────────────────────────────────────────────────────────────────────────────
   # 1. Download Windows release assets from GitHub Release
   # ─────────────────────────────────────────────────────────────────────────────
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [download-release-assets, generate-checksums, generate-manifests, validate-manifests, submit-winget-pr, notify]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "WinGet end-to-end release validation"
+          job-results: ${{ toJSON(needs) }}
+
   download-release-assets:
     name: "Release: Download Release Assets"
     runs-on: ubuntu-latest

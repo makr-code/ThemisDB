@@ -44,6 +44,19 @@ defaults:
     working-directory: tools/copilot-ollama-router
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [ci]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Copilot Ollama Router CI"
+          job-results: ${{ toJSON(needs) }}
+
   ci:
     name: "Build: Compile · Lint · Test"
     runs-on: ubuntu-latest

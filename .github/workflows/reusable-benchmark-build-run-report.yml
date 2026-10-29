@@ -66,6 +66,19 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [benchmark-pipeline]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Reusable benchmark build, execution, and report"
+          job-results: ${{ toJSON(needs) }}
+
   benchmark-pipeline:
     name: "Benchmark Pipeline: ${{ inputs.scenario_label }} / ${{ inputs.benchmark_suite }}"
     runs-on: ubuntu-latest

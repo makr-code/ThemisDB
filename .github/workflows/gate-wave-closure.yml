@@ -31,6 +31,19 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [validate-wave-closure-packages, gate-feedback]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Wave closure package and evidence validation"
+          job-results: ${{ toJSON(needs) }}
+
   validate-wave-closure-packages:
     name: "Validate: Wave A→D closure packages"
     runs-on: ubuntu-latest

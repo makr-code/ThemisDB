@@ -26,6 +26,19 @@ permissions:
   contents: read
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [analyze]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Microsoft C++ code analysis"
+          job-results: ${{ toJSON(needs) }}
+
   analyze:
     permissions:
       contents: read # for actions/checkout to fetch code

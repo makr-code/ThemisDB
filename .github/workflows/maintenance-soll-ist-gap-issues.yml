@@ -27,6 +27,19 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [soll_ist_sync]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Roadmap versus implementation gap issue synchronization"
+          job-results: ${{ toJSON(needs) }}
+
   soll_ist_sync:
     runs-on: ubuntu-latest
     timeout-minutes: 20

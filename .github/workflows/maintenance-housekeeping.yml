@@ -87,6 +87,19 @@ permissions:
 # Job 1: Label sync
 # ─────────────────────────────────────────────────────────────────────────────
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [sync-labels, sync-milestones, assign-milestone, recommend-closures]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Repository housekeeping and maintenance"
+          job-results: ${{ toJSON(needs) }}
+
   sync-labels:
     name: "Maintenance: Sync labels from .github/labels.yml"
     runs-on: ubuntu-latest

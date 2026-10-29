@@ -61,6 +61,19 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [detect-default-setup, analyze, analyze-csharp, analyze-rust, codeql-gate]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "CodeQL static analysis and gate results"
+          job-results: ${{ toJSON(needs) }}
+
   detect-default-setup:
     name: "Security: Detect CodeQL setup mode"
     runs-on: ubuntu-latest

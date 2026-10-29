@@ -28,6 +28,19 @@ concurrency:
   cancel-in-progress: false  # Maintenance jobs should not be cancelled
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [diagnose-pr-failure]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "PR failure diagnosis recommendations"
+          job-results: ${{ toJSON(needs) }}
+
   diagnose-pr-failure:
     name: "Maintenance: PR Failure Diagnosebericht"
     runs-on: ubuntu-latest
@@ -197,4 +210,3 @@ jobs:
             core.setOutput('diagnosis_status', 'success');
             core.notice(`Diagnosis successfully posted to ${prRefs.length} PR(s).`);
             return;
-

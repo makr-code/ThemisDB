@@ -70,6 +70,18 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [mark-release-pending, detect-release, download-artifacts, generate-checksums, generate-manifests, validate-manifests, create-fork-pr, finalize-release-status, notify]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "WinGet release manifest validation and submission"
+          job-results: ${{ toJSON(needs) }}
 
   mark-release-pending:
     name: "Release: Mark WinGet Status"

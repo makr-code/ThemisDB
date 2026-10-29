@@ -79,6 +79,19 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [crda-scan]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Trivy dependency scan"
+          job-results: ${{ toJSON(needs) }}
+
   crda-scan:
     permissions:
       contents: read            # for actions/checkout to fetch code

@@ -81,6 +81,19 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [prepare-llm-model-cache, build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Reusable Docker platform build"
+          job-results: ${{ toJSON(needs) }}
+
   prepare-llm-model-cache:
     if: ${{ inputs.include_tinyllama == true || inputs.include_tinyllama == 'true' }}
     uses: ./.github/workflows/reusable-llm-model-cache.yml
