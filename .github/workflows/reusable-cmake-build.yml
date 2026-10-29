@@ -342,25 +342,26 @@ jobs:
             sudo apt-get install -y --no-install-recommends ninja-build
           fi
 
+          # CMake and vcpkg discover Ninja through PATH, not the CMAKE_MAKE_PROGRAM environment variable.
           if [ -x /usr/bin/ninja ] && /usr/bin/ninja --version >/dev/null 2>&1; then
+            ninja_path="/usr/bin/ninja"
             echo "Using system Ninja at: /usr/bin/ninja"
-            echo "CMAKE_MAKE_PROGRAM=/usr/bin/ninja" >> "$GITHUB_ENV"
-            exit 0
-          fi
-          if command -v ninja >/dev/null 2>&1 && ninja --version >/dev/null 2>&1; then
+          elif command -v ninja >/dev/null 2>&1 && ninja --version >/dev/null 2>&1; then
             ninja_path="$(command -v ninja)"
             echo "Ninja already available at: ${ninja_path}"
-            echo "CMAKE_MAKE_PROGRAM=${ninja_path}" >> "$GITHUB_ENV"
-            exit 0
-          fi
-          if command -v ninja-build >/dev/null 2>&1 && ninja-build --version >/dev/null 2>&1; then
+          elif command -v ninja-build >/dev/null 2>&1 && ninja-build --version >/dev/null 2>&1; then
             ninja_path="$(command -v ninja-build)"
             echo "Using ninja-build binary at: ${ninja_path}"
-            echo "CMAKE_MAKE_PROGRAM=${ninja_path}" >> "$GITHUB_ENV"
-            exit 0
+          else
+            echo "::error::Ninja executable is required but no working 'ninja' or 'ninja-build' binary is available after install."
+            exit 1
           fi
-          echo "::error::Ninja executable is required but no working 'ninja' or 'ninja-build' binary is available after install."
-          exit 1
+
+          # Expose only Ninja so other runner tool versions keep their PATH precedence.
+          ninja_dir="${RUNNER_TEMP}/cmake-ninja"
+          mkdir -p "$ninja_dir"
+          ln -sf "$ninja_path" "$ninja_dir/ninja"
+          echo "$ninja_dir" >> "$GITHUB_PATH"
 
       - name: Ensure vcpkg baseline commit is available
         shell: bash
