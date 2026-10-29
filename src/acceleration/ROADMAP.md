@@ -1,3 +1,15 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-29"
+Last Updated: "2026-10-29"
+Status: "active"
+AI_Used: true
+AI_Models: "GitHub Copilot"
+AI_Contributor: "GitHub Copilot"
+Human_Review: true
+Human_Author: "ThemisDB Team"
+---
+
 # Acceleration Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
@@ -5,9 +17,90 @@
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Rollout Plan: ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §4 (Phase B–C), §7 (risk) -->
 
-## Current Status
+## Research-based module assessment (2026-10-29)
 
 Production-grade acceleration runtime with backend selection, fallback orchestration, plugin/security guards, and multi-device integration.
+
+### Current maturity
+
+The acceleration module is a production candidate in its core architecture: backend registration, capability probing, fail-closed fallback logic, plugin trust validation, and multi-device coordination are all present in the implementation and test surface. The strongest evidence is in deterministic fallback and routing behavior, while the main remaining risk is hardware-specific validation depth for distributed and optional backend operations.
+
+### v2.5.0 priorities
+
+- [ ] Lock backend capability matrix and fallback semantics for CPU/GPU and optional backends (Target: v2.5.0)
+  - Dependencies: `DeviceManager`, `BackendRegistry`, `compute_backend.cpp`, `device_manager.cpp`
+  - KPI: backend selection p99 < 10 µs; no silent execution on trust or capability failure
+- [ ] Re-baseline benchmark gates and fallback overhead under representative hardware profiles (Target: v2.5.0)
+  - Dependencies: `benchmarks/acceleration/`, release gate suite, GPU/CPU validation host
+  - KPI: fallback overhead ≤ 5%; no regression beyond approved tolerance band
+- [ ] Harden plugin/security and shader integrity checks under degraded runtime conditions (Target: v2.5.0)
+  - Dependencies: `plugin_loader.cpp`, `plugin_security.cpp`, `shader_integrity.cpp`
+  - KPI: 100% deny/fail-closed coverage for invalid plugin or integrity path
+- [ ] Publish a release-level runbook and support matrix for optional acceleration backends (Target: v2.5.0)
+  - Dependencies: docs, benchmark evidence, operator guidance
+  - KPI: all release claims map to tested host profiles and explicit exceptions
+
+### v3.0.0 priorities
+
+- [ ] Standardize multi-device scheduling, queue discipline, and resource isolation under partial device failures (Target: v3.0.0)
+  - Dependencies: `multi_gpu_backend.cpp`, `nccl_vector_backend.cpp`, `rccl_vector_backend.cpp`, `vllm_resource_manager.cpp`
+  - KPI: bounded queue growth, no unbounded retry loops, p95 latency within release envelope
+- [ ] Define a major-release support matrix for supported optional backends and compatibility expectations (Target: v3.0.0)
+  - Dependencies: benchmark evidence, release process, architecture docs
+  - KPI: documented support tiers with explicit deployment exceptions
+- [ ] Align observability, alerting, and runbooks with the production release model (Target: v3.0.0)
+  - Dependencies: module diagnostics, release evidence chain, operational docs
+  - KPI: operator-critical paths have actionable telemetry and incident guidance
+
+### Wave plan
+
+#### Wave 1 — v2.5.0 stabilization (effort: medium)
+- Goal: lock the contract and produce proof-backed release confidence for the main dispatch and fallback paths.
+- Tasks: backend capability matrix lock, benchmark re-baseline, fail-closed regression hardening, release documentation
+- Dependencies: `DeviceManager`, `BackendRegistry`, benchmark gates, docs
+- Risk: benchmark drift and unverified assumptions across hardware profiles
+- KPI: regression suite passes; benchmark gates stable; no silent fallback on invalid state
+
+#### Wave 2 — v2.5.0 security and integrity hardening (effort: medium)
+- Goal: prevent invalid plugin, integrity, or degraded backend states from executing silently.
+- Tasks: trust-validation stress tests, shader integrity checks, operator diagnostics
+- Dependencies: `plugin_loader.cpp`, `plugin_security.cpp`, `shader_integrity.cpp`
+- Risk: operational false positives or blocking valid devices
+- KPI: 100% validation failure coverage and fail-closed execution behavior
+
+#### Wave 3 — v2.5.0 → v3.0.0 distributed resilience (effort: high)
+- Goal: use shared resource and multi-device contracts to reduce contention and partial-device failure risk.
+- Tasks: multi-GPU queue and retry policy review, partial-failure soak coverage, merge determinism validation
+- Dependencies: multi-device backend files and soak tests
+- Risk: throughput loss or unstable merge behavior under partially healthy clusters
+- KPI: p95 latency remains in release envelope, queue growth remains bounded
+
+#### Wave 4 — v3.0.0 support-tier policy and architecture closure (effort: medium)
+- Goal: convert the current feature-rich backend surface into a supportable major-version contract.
+- Tasks: support matrix, compatibility policy, documented optional backend commitments
+- Dependencies: benchmark evidence and public API review
+- Risk: unsupported backend claims or undocumented runtime assumptions
+- KPI: all GA claims supported by tested profiles and explicit exceptions
+
+#### Wave 5 — v3.0.0 release closure (effort: medium)
+- Goal: complete the module evidence chain and operational readiness package before release sign-off.
+- Tasks: final benchmark artifact collection, runbook review, changelog/doc sync, approval checklist
+- Dependencies: all prior waves, release evidence chain, docs governance
+- Risk: release evidence mismatch between docs and runtime reality
+- KPI: release checklist complete and archived with the module evidence trail
+
+### Risk and trade-off assessment
+
+Main trade-off: the module is already broad and capable, but optional backend support remains environment-sensitive. The safest path is to treat v2.5.0 as a stabilization and proof release, and v3.0.0 as the point where distributed multi-device policy and support tiers become explicit and release-governed rather than assumed.
+
+### Validation strategy
+
+- Unit and regression: `tests/acceleration/test_acceleration_regression.cpp`, failure-handling tests, plugin/security regressions
+- Benchmarks: `benchmarks/acceleration/` dispatch, selection, and fallback gates
+- Security/governance: fail-closed validation, plugin/SDK trust checks, release documentation review
+- KPI summary: selection p99 < 10 µs, fallback overhead ≤ 5%, zero silent execution on invalid trust/capability state
+
+## Current Status
 
 ### Closure Backlog (source-validated)
 - [~] Convert all open Acceleration roadmap items into closure artifacts with explicit evidence type (`code`, `test`, `benchmark`, `CI artifact`, `roadmap/changelog sync`). (Target: Q4 2026)

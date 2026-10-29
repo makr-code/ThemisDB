@@ -5,6 +5,12 @@
 ## Current Status
 - [~] Modul `tests/acceleration` dokumentiert; Backlog für weitere Härtung und Ausbau wird gepflegt.
 
+## v2.5.0 / v3.0.0 validation focus
+
+- [ ] v2.5.0: lock backend selection, regression, and fail-closed fallback gates so the acceleration module remains deterministic under partial device loss and invalid capability data.
+- [ ] v3.0.0: extend soak, multi-device, and benchmark validation to cover distributed scheduling and shared resource contention under sustained load.
+- [ ] Every wave must report the target validation artifact, execution host profile, and release KPI to avoid undocumented hardware-only claims.
+
 ## In Progress
 - [ ] Dokumentations- und Qualitätslücken schließen (Target: 2026-Q2)
 
