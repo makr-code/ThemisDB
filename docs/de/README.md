@@ -1,10 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-29"
+Last Updated: "2026-10-29"
+Status: "active"
+---
+
 # ThemisDB Dokumentations-Index
 
 > **📝 Hinweis zur Dokumentationssprache**  
 > Dies ist die **maßgebliche und aktuellste Dokumentation** von ThemisDB.  
 > Übersetzungen sind in anderen Sprachen verfügbar: [English](../en/README.md) | [Français](../fr/README.md) | [Español](../es/README.md) | [日本語](../ja/README.md)
 
-**Stand:** 6. April 2026  
+**Stand:** 2026-10-29  
 **Version:** 1.8.0-rc1  
 **Typ:** Dokumentations-Index  
 **Sprache:** Deutsch (Hauptdokumentation)
