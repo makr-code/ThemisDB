@@ -11,7 +11,24 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: deprecated-codeql-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [deprecated-notice]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Deprecated CodeQL workflow notice"
+          job-results: ${{ toJSON(needs) }}
+
   deprecated-notice:
     name: "Security: CodeQL - Deprecated Stub"
     runs-on: ubuntu-latest

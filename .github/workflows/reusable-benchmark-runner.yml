@@ -44,7 +44,24 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [run-benchmarks]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Reusable benchmark runner"
+          job-results: ${{ toJSON(needs) }}
+
   run-benchmarks:
     name: "Validate: Benchmark Execution"
     runs-on: ${{ inputs.runs_on }}

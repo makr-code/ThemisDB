@@ -27,6 +27,19 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [sanitizer-build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Nightly sanitizer build"
+          job-results: ${{ toJSON(needs) }}
+
   sanitizer-build:
     permissions:
       contents: read

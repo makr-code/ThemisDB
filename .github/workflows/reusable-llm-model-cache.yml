@@ -50,7 +50,24 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [prepare]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Reusable LLM model cache preparation"
+          job-results: ${{ toJSON(needs) }}
+
   prepare:
     name: "Prepare: LLM model cache"
     runs-on: ubuntu-latest

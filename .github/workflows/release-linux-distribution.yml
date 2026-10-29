@@ -121,6 +121,19 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [mark-release-pending, detect-release, download-assets, prepare-linux-distro-bundle, publish-linux-distro-bundle, finalize-release-status]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Linux distribution package release"
+          job-results: ${{ toJSON(needs) }}
+
   mark-release-pending:
     name: "Release: Mark Linux Distro Status"
     runs-on: ubuntu-latest

@@ -326,3 +326,17 @@ jobs:
         run: |
           echo "::error::Doxygen governance gate failed."
           exit 1
+
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs:
+      - doxygen-governance
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Changed public C/C++ API Doxygen governance"
+          job-results: ${{ toJSON(needs) }}

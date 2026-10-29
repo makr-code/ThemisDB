@@ -2,10 +2,15 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-10-28
-> Update Note: Added CMake-reuse audit section and refreshed totals/classification sync
+> Last Updated: 2026-10-29
+> Update Note: Corrected workflow inventory and stale references; added run summaries to PR gates
 > Status: active
-> Total Workflows: 99 (verified 2026-10-28)
+> Total Workflows: 99 (verified 2026-10-29)
+> AI_Used: true
+> AI_Models: "GitHub Copilot agent; exact model backend not verifiable from final document text alone"
+> AI_Contributor: "GitHub Copilot"
+> Human_Review: false
+> Human_Author: "ThemisDB Team"
 
 ## Zielbild
 
@@ -14,7 +19,7 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 
 ## Leitprinzipien
 
-- **Keine Schatten-CI:** Alle 90 Workflow-Dateien sind in diesem Registry dokumentiert.
+- **Keine Schatten-CI:** Alle 99 aktiven Workflow-Dateien sind in diesem Registry dokumentiert.
 - **Klare Verantwortlichkeit:** Jeder Workflow hat definierte Trigger und Zweck.
 - **Konsistente Governance:** Alle Workflows folgen Naming-, Concurrency- und Trigger-Policies.
 - **Drift Prevention:** Registry-Update ist erforderlich bei neuen Workflows (Pre-Commit-Hook in Phase 3).
@@ -146,7 +151,6 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 | `release-evidence-chain.yml` | Release: Evidence Chain (Hash-linked release evidence ledger + verification) | governance |
 | `release-rollback.yml` | Release: Rollback (Release rollback orchestration) | recovery |
 | `release-wordpress-press.yml` | Release: WordPress Press (Blog/announcement publish) | communication |
-| `automation-community.yml` | Automation: Community (Community branch sync automation) | automation |
 | `edition-hyperscaler-ci.yml` | Edition: Hyperscaler [CI] (Hyperscaler-edition specific CI) | edition-specific |
 | `ga-promotion-signoff.yml` | Governance: GA Promotion Sign-Off (GA promotion approval workflow) | governance |
 | `benchmark-performance-gate.yml` | Benchmark: Performance Gate (Performance regression detection) | quality |
@@ -437,6 +441,7 @@ This is the reference design for future workflow changes and should remain the d
 
 ## Recent Updates
 
+- **2026-10-29**: Reconciled the registry against the 99 active workflows; removed the stale community automation reference
 - **2026-09-26**: Comprehensive inventory of all 83 workflows; added categorization and governance scorecard
 - **2026-09-09**: Initial lean registry (76 workflows documented)
 

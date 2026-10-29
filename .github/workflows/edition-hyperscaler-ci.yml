@@ -51,6 +51,19 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [hyperscaler-build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Hyperscaler edition CI"
+          job-results: ${{ toJSON(needs) }}
+
   hyperscaler-build:
     if: github.ref == 'refs/heads/hyperscaler'
     uses: ./.github/workflows/reusable-cmake-build.yml

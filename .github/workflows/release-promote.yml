@@ -73,9 +73,21 @@ permissions:
 
 concurrency:
   group: ci-release-promote-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [extract-release-context, bump-version, update-changelog, create-release-pr, notify]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Release promotion and pull request creation"
+          job-results: ${{ toJSON(needs) }}
 
   extract-release-context:
     name: "Release: Extract Context"

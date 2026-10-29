@@ -11,7 +11,7 @@ permissions:
 
 concurrency:
   group: gate-pr-final-runtime-api-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 env:
   THEMIS_ADMIN_ENDPOINT: 'http://localhost:18080'
@@ -218,6 +218,21 @@ jobs:
             /tmp/final-runtime-api-gate-container.log
           if-no-files-found: ignore
           retention-days: 14
+
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs:
+      - llm-docsdb-inference-gate
+      - final-runtime-api-gate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Final runtime API and TinyLlama/docs.db inference gates"
+          job-results: ${{ toJSON(needs) }}
 
       - name: Stop ThemisDB container
         if: always()

@@ -108,6 +108,19 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [mark-release-pending, detect-release, download-assets, prepare-windows-distro-bundle, publish-windows-distro-bundle, finalize-release-status]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Windows distribution release"
+          job-results: ${{ toJSON(needs) }}
+
   mark-release-pending:
     name: "Release: Mark Windows Distro Status"
     runs-on: ubuntu-latest

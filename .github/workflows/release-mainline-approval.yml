@@ -42,6 +42,19 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [release_publish_from_issue]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Maintainer-approved GitHub release publication"
+          job-results: ${{ toJSON(needs) }}
+
   release_publish_from_issue:
     name: "Publish: GitHub Release on Approval Comment"
     if: |

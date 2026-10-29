@@ -35,6 +35,19 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [copilot-regression-guard, gate-feedback]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Copilot code-review regression gate"
+          job-results: ${{ toJSON(needs) }}
+
   copilot-regression-guard:
     name: "Gate: Copilot regression guard (build + pattern checks)"
     runs-on: ubuntu-latest

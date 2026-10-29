@@ -150,3 +150,18 @@ jobs:
               issue_number: prNumber,
               body: `> [!CAUTION]\n> **${gate}** gate failed.\n> Review the [workflow run](${runUrl}) for details.\n> The \`ci/failure\` label has been applied.`,
             });
+
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs:
+      - validate-target-version
+      - gate-feedback
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "PR target-version and milestone validation"
+          job-results: ${{ toJSON(needs) }}

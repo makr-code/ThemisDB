@@ -129,6 +129,19 @@ permissions:
   security-events: write
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [mark-release-pending, prepare-release-context, build-platforms, merge-image-manifest, finalize-release-status]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Docker image build, manifest, and release status"
+          job-results: ${{ toJSON(needs) }}
+
   mark-release-pending:
     name: "Release: Mark Docker Status"
     runs-on: ubuntu-latest

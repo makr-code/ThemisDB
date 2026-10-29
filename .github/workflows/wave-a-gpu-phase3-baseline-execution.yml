@@ -43,6 +43,19 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [phase3-setup, phase3-gpu-measurement, phase3-cpu-measurement, phase3-consolidate, phase3-report]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Wave A GPU Phase 3 baseline capture and measurement"
+          job-results: ${{ toJSON(needs) }}
+
   phase3-setup:
     name: "Benchmark: Phase 3 Setup & Infrastructure Validation"
     runs-on: ubuntu-latest

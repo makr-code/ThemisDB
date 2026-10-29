@@ -27,6 +27,10 @@ permissions:
   checks: write
   pull-requests: write
 
+concurrency:
+  group: build-wave-a-gpu-${{ github.ref }}
+  cancel-in-progress: false
+
 env:
   CMAKE_BUILD_TYPE: Release
   THEMIS_EDITION: COMMUNITY
@@ -40,6 +44,19 @@ env:
   VCPKG_DOWNLOADS: ${{ github.workspace }}/.cache/vcpkg-downloads-ubuntu-${{ github.ref_name || github.ref }}
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [configure, compile-tests, full-gpu-test-suite, cuda-audit, representative-hardware-baselines, collect-artifacts, publish-results, verify-results]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Wave A GPU build, testing, audit, and baseline evidence"
+          job-results: ${{ toJSON(needs) }}
+
   configure:
     name: "Build: CMake Configuration (GPU)"
     runs-on: ubuntu-latest

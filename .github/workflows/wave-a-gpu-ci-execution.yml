@@ -22,10 +22,23 @@ on:
 
 concurrency:
   group: wave-a-gpu-ci-exec-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   # Phase 1: Health Check & Environment Detection
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [phase1-health-check, phase2-build-gpu-module, phase3-test-execution, phase4-baseline-validation, phase5-summary]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Wave A GPU CI execution and baseline validation"
+          job-results: ${{ toJSON(needs) }}
+
   phase1-health-check:
     name: "Validate: Phase 1 - Health Check & GPU/CPU Detection"
     runs-on: ubuntu-latest

@@ -26,6 +26,19 @@ permissions:
   contents: read
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [analyze]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Microsoft C++ code analysis"
+          job-results: ${{ toJSON(needs) }}
+
   analyze:
     permissions:
       contents: read # for actions/checkout to fetch code
@@ -183,7 +196,7 @@ jobs:
 
       # Upload SARIF file to GitHub Code Scanning Alerts
       - name: Upload SARIF to GitHub
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@4bfa242aa49c5f7c6770b98670d354a7dfac05f8 # v3
         with:
           sarif_file: ${{ steps.run-analysis.outputs.sarif }}
 

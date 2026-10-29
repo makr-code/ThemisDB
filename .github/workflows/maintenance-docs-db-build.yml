@@ -77,6 +77,19 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [build-docs-db]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Documentation database build"
+          job-results: ${{ toJSON(needs) }}
+
   build-docs-db:
     name: "Build: Docs DB: docs/ → ThemisDB"
     uses: ./.github/workflows/reusable-docs-db-builder.yml

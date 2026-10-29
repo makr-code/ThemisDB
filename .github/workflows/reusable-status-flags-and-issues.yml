@@ -100,6 +100,19 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [status]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Reusable issue and status tracking operation"
+          job-results: ${{ toJSON(needs) }}
+
   status:
     runs-on: ubuntu-latest
     timeout-minutes: 5

@@ -276,3 +276,19 @@ jobs:
             echo "❌ RAG Embedding Version Governance Gate: FAIL (result: $result)"
             exit 1
           fi
+
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs:
+      - version_governance_validation
+      - reindex_decision_tests
+      - gate_status
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "RAG embedding version governance and optional reindex tests"
+          job-results: ${{ toJSON(needs) }}

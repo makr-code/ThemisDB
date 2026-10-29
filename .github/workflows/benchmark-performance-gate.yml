@@ -42,6 +42,18 @@ concurrency:
 
 # ─────────────────────────────────────────────────────────────────────────────
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [benchmark-quality-build, build-and-run, report]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Benchmark build, performance run, and quality report"
+          job-results: ${{ toJSON(needs) }}
 
   benchmark-quality-build:
     name: "Build: Benchmark Quality Line"

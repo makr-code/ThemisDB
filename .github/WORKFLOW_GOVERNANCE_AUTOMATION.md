@@ -2,10 +2,15 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-26
-> Last Updated: 2026-09-26
+> Last Updated: 2026-10-29
 > Implemented: 2026-09-26
 > Status: ACTIVE
 > Scope: Automated enforcement of WORKFLOW_GUIDELINES.md and WORKFLOW_REGISTRY.md
+> AI_Used: true
+> AI_Models: "GitHub Copilot agent; exact model backend not verifiable from final document text alone"
+> AI_Contributor: "GitHub Copilot"
+> Human_Review: false
+> Human_Author: "ThemisDB Team"
 
 ## Overview
 
@@ -44,8 +49,8 @@ git config core.hooksPath .githooks
 ```
 ❌ WORKFLOW REGISTRY SYNC CHECK FAILED
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  Total workflows: 83
-  Documented: 82
+  Total workflows: 99
+  Documented: 98
   Missing from REGISTRY:
     - my-new-workflow.yml
 
@@ -69,10 +74,9 @@ git config core.hooksPath .githooks
 |-------|----------|-----|
 | Naming Convention (Build:/Gate:/Release:/etc.) | VIOLATION | Add proper prefix to workflow `name:` field |
 | Concurrency block present | WARNING | Add `concurrency:` section with `group` and `cancel-in-progress` |
-| Matrix workflows with qualified groups | WARNING | Ensure `group:` includes `${{ matrix.* }}` variables |
-| cancel-in-progress: true without matrix | WARNING | Use `false` or qualify with matrix dimensions |
-| GitHub Actions floating versions | WARNING | Pin to SHA (e.g., `actions/checkout@692973e3d...`) |
-| push.tags without branches guard | VIOLATION | Add `branches: [develop, main, community, release/**]` |
+| Protected workflow cancellation | WARNING | Do not cancel scheduled, release, reusable, or dispatch-only runs |
+| Tier 1 action pinning | WARNING | Pin security-critical third-party actions to full commit SHAs |
+| push.tags without branches guard | VIOLATION | Add the canonical `develop`, `community`, or release branch guard |
 | Registry sync (all workflows documented) | VIOLATION | Update `WORKFLOW_REGISTRY.md` |
 
 ### Outputs
@@ -114,7 +118,8 @@ All workflows must follow naming prefixes:
 ### 2. Concurrency Configuration
 - All workflows MUST define `concurrency:` block
 - `group:` must uniquely identify workflow + trigger context
-- For matrix workflows: `group` MUST include matrix dimensions (e.g., `${{ matrix.phase }}`)
+- Workflow-level groups serialize complete workflow runs; they do not need matrix dimensions
+- Add matrix dimensions only to job-level groups when independently limiting matrix jobs
 - `cancel-in-progress:` should be `false` unless explicitly justified
 
 ### 3. Trigger Policy
@@ -124,9 +129,10 @@ All workflows must follow naming prefixes:
 - All triggers must be explicitly scoped (no repo-wide wildcards)
 
 ### 4. GitHub Action Pinning
-- All `uses:` statements must reference SHA or stable version
-- PROHIBITED: `@latest`, `@main`, `@master` (floating versions)
-- REQUIRED: `@v1.2.3` (or SHA) for supply chain security
+- Follow the tiered requirements in `ACTION_PIN_POLICY.md`
+- Tier 1 third-party actions require full commit SHAs; Tier 2–4 follow the version rules and exceptions documented in `ACTION_PIN_POLICY.md`
+- Local `./.github/actions/...` references are bound to the workflow repository commit and cannot take an independent `@<sha>` suffix
+- Do not use `@main` or `@master` for third-party actions
 
 ### 5. Registry Sync
 - Every workflow in `.github/workflows/*.yml` MUST be documented in `WORKFLOW_REGISTRY.md`
@@ -196,15 +202,20 @@ push:
   branches: [develop, community, release/**]  # ← Add this
 ```
 
-### CI-Gate: "Matrix workflow without matrix-qualified concurrency"
+### Matrix job concurrency
 
-**Problem**: Workflow has `matrix:` but concurrency group doesn't include matrix vars
+Workflow-level concurrency controls whether complete workflow runs may overlap. Matrix jobs within the same run execute in parallel and do not require a matrix-qualified workflow group. If a matrix job defines its own concurrency group, include the matrix dimensions that must run independently to avoid cancelling or serializing unrelated matrix variants.
 
-**Solution**:
+Example job-scoped isolation:
 ```yaml
-concurrency:
-  group: my-workflow-${{ github.ref }}-${{ matrix.os }}-${{ matrix.compiler }}  # ← Add matrix vars
-  cancel-in-progress: false
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    concurrency:
+      group: build-${{ github.ref }}-${{ matrix.os }}
+      cancel-in-progress: false
 ```
 
 ## Metrics & Observability
@@ -215,7 +226,7 @@ concurrency:
 - Failed gate creates GitHub issue (via `upsert_issue` action)
 
 ### Compliance Coverage
-- All 83 workflows monitored
+- All active workflows monitored
 - Violations block PR merge
 - Warnings tracked for compliance reporting
 
@@ -230,7 +241,7 @@ concurrency:
 ## References
 
 - [WORKFLOW_GUIDELINES.md](.github/WORKFLOW_GUIDELINES.md) — Normative specification
-- [WORKFLOW_REGISTRY.md](.github/WORKFLOW_REGISTRY.md) — Workflow inventory (83 workflows)
+- [WORKFLOW_REGISTRY.md](.github/WORKFLOW_REGISTRY.md) — Workflow inventory (99 workflows)
 - [.github/workflows/gate-workflow-guidelines.yml](.github/workflows/gate-workflow-guidelines.yml) — CI-gate implementation
 - [.github/pre-commit-hooks/workflow-registry-sync.sh](.github/pre-commit-hooks/workflow-registry-sync.sh) — Pre-commit hook
 - [setup-git-hooks.sh](setup-git-hooks.sh) — Installation script

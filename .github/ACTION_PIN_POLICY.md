@@ -2,10 +2,15 @@
 
 Author: ThemisDB Contributors
 Created: 2026-09-23
-Last Updated: 2026-09-23
+Last Updated: 2026-10-29
 Status: active
 Scope: All ThemisDB CI/CD workflows
 Objective: Balance security, reliability, and cross-platform compatibility
+AI_Used: true
+AI_Models: "GitHub Copilot agent; exact model backend not verifiable from final document text alone"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 
 ## Overview
 
@@ -17,7 +22,7 @@ Version pinning for third-party GitHub Actions is governed by a **4-tier classif
 
 ### Tier 1: MUST PIN (Security/Stability Critical)
 
-**Requirement:** Full commit SHA pins (immutable reference)  
+**Requirement:** Third-party actions use full commit SHA pins (immutable reference)
 **Format:** `uses: owner/action@<40-char-sha> # v<semver>`
 
 **Actions:**
@@ -25,13 +30,12 @@ Version pinning for third-party GitHub Actions is governed by a **4-tier classif
 - `aquasecurity/fortify-action` — SAST compliance gate
 - `github/security-consolidation` — Security correlation and reporting
 - `softprops/action-gh-release` — Release signing and credential handling
-- `./.github/actions/status-flags-and-issues` — Private plugin boundary enforcement
-- `./.github/actions/manage-governance-issue` — Governance tracker mutations
+- Repository-local actions such as `./.github/actions/status-flags-and-issues` and `./.github/actions/manage-governance-issue` — security-critical code reviewed and versioned with the workflow repository commit
 
 **Rationale:**
 - Prevents security bypass via silent action upgrades
 - Protects sensitive workflows that manage credentials, signing, or access control
-- Repository-internal actions require SHA pins to prevent accidental regressions
+- Repository-local actions are bound to the workflow repository revision; relative-path action references cannot be independently pinned with `@<sha>`
 
 **Review Cadence:** Quarterly; any upgrade requires security sign-off
 
@@ -155,8 +159,8 @@ These actions MUST always use full SHA pins:
 | `github/codeql-action` | SAST gate; prevents silent security bypass | 2026-09-01 |
 | `aquasecurity/fortify-action` | SAST/DAST compliance gate | 2026-09-01 |
 | `softprops/action-gh-release` | Release signing & credential handling | 2026-09-01 |
-| `./.github/actions/status-flags-and-issues` | Private plugin boundary enforcement | 2026-09-01 |
-| `./.github/actions/manage-governance-issue` | Governance tracker mutations | 2026-09-01 |
+| `./.github/actions/status-flags-and-issues` | Local source is bound to the workflow repository commit; review changes together | 2026-10-29 |
+| `./.github/actions/manage-governance-issue` | Local source is bound to the workflow repository commit; review changes together | 2026-10-29 |
 | `actions/create-release` (if used) | Release artifact signing | 2026-09-01 |
 
 ---
@@ -232,7 +236,7 @@ A: Report issue; revert to previous major version if needed; escalate to action 
 A: Yes; it's encouraged where possible, but not required. Semantic version tags are sufficient.
 
 **Q: What about internal (`./.github/actions/`) actions?**  
-A: Always use SHA pins (Tier 1). They're part of the codebase and subject to git history tracking.
+A: Keep the relative path reference. The action source is checked out at the workflow repository commit and cannot use an independent `@<sha>` suffix. Review changes to the workflow and local action together.
 
 ---
 

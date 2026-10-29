@@ -63,6 +63,18 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [validate-rollback, delete-github-release, delete-docker-tags, revert-version, notify-rollback]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Release rollback and recovery steps"
+          job-results: ${{ toJSON(needs) }}
 
   validate-rollback:
     name: "Validate: Rollback Request"

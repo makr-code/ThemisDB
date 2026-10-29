@@ -52,6 +52,19 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  run-summary:
+    name: "Validate: Run Summary"
+    if: always()
+    needs: [build-clang-fast]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: ./.github/actions/write-run-summary
+        with:
+          scope: "Fast Clang build"
+          job-results: ${{ toJSON(needs) }}
+
   build-clang-fast:
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:

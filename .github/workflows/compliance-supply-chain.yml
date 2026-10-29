@@ -27,7 +27,7 @@ on:
 
 concurrency:
   group: compliance-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 permissions:
   contents: read

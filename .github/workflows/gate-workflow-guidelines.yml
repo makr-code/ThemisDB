@@ -19,6 +19,7 @@ on:
       - '.github/workflows/*.yml'
       - '.github/WORKFLOW_GUIDELINES.md'
       - '.github/WORKFLOW_REGISTRY.md'
+      - '.github/actions/write-run-summary/action.yml'
       - '.github/workflows/gate-workflow-guidelines.yml'
   schedule:
     - cron: '0 2 * * *'  # Daily 02:00 UTC
@@ -56,6 +57,9 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
+
+      - name: Validate workflow syntax with actionlint
+        run: docker run --rm -v "$GITHUB_WORKSPACE:/repo" -w /repo rhysd/actionlint:latest -color
 
       - name: Set up Python
         uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c  # v6.0.0
@@ -140,20 +144,69 @@ jobs:
               if 'concurrency:' not in content:
                   warnings.append(f"{wf_name}: Missing concurrency block (recommended for all workflows)")
 
-              # Check 3: If has matrix, concurrency group must include matrix variables
-              if 'matrix:' in content and 'concurrency:' in content:
-                  if 'matrix.' not in content[content.find('concurrency:'):content.find('concurrency:') + 500]:
-                      warnings.append(f"{wf_name}: Matrix workflow without matrix-qualified concurrency group (may cause mutual cancellation)")
+              # Workflow-level concurrency controls whole runs; only warn when
+              # release, scheduled, or reusable work can cancel without a PR trigger.
+              trigger_match = re.search(
+                  r'^on:\s*(?:#.*)?\n((?:^[ \t]+.*\n|^[ \t]*\n)*)',
+                  content,
+                  re.MULTILINE,
+              )
+              trigger_block = trigger_match.group(1) if trigger_match else ''
+              events = set(re.findall(r'^  ([a-z_]+):', trigger_block, re.MULTILINE))
+              inline_trigger = re.search(r'^on:\s*\[([^\]]+)\]', content, re.MULTILINE)
+              if inline_trigger:
+                  events.update(re.findall(r'[a-z_]+', inline_trigger.group(1)))
+              concurrency_match = re.search(
+                  r'^concurrency:\s*(?:#.*)?\n((?:^[ \t]+.*\n|^[ \t]*\n)*)',
+                  content,
+                  re.MULTILINE,
+              )
+              concurrency_block = concurrency_match.group(1) if concurrency_match else ''
+              cancels_runs = re.search(
+                  r'^  cancel-in-progress:\s*true(?:\s+#.*)?$',
+                  concurrency_block,
+                  re.MULTILINE,
+              )
+              has_pr_trigger = bool({'pull_request', 'pull_request_target'} & events)
+              protected_events = {'release', 'schedule', 'workflow_call'} & events
+              dispatch_only = (
+                  'workflow_dispatch' in events
+                  and not ({'pull_request', 'pull_request_target', 'push'} & events)
+              )
+              if cancels_runs and not has_pr_trigger and (protected_events or dispatch_only):
+                  warnings.append(
+                      f"{wf_name}: cancel-in-progress: true can interrupt "
+                      "release, scheduled, reusable, or dispatch-only work"
+                  )
 
-              # Check 4: cancel-in-progress should be false (or qualified matrix)
-              if 'cancel-in-progress: true' in content:
-                  if 'matrix.' not in content[content.find('concurrency:'):content.find('concurrency:') + 500]:
-                      warnings.append(f"{wf_name}: cancel-in-progress: true without matrix qualification (can cancel unrelated jobs)")
-
-              # Check 5: GitHub Actions should use SHA pinning
-              floating_actions = re.findall(r'uses:\s+([a-zA-Z0-9_/-]+)@(v\d+|latest|main|master)', content)
-              if floating_actions:
-                  warnings.append(f"{wf_name}: {len(floating_actions)} GitHub Actions use floating versions (should use SHA for supply chain security)")
+              # Check 5: Tier 1 third-party actions require immutable commit SHAs.
+              tier1_actions = (
+                  'actions/create-release',
+                  'github/codeql-action',
+                  'aquasecurity/fortify-action',
+                  'fortify/github-action',
+                  'github/security-consolidation',
+                  'softprops/action-gh-release',
+              )
+              unpinned_tier1 = []
+              for action_spec in re.findall(
+                  r'^\s*uses:\s*([^\s#]+)',
+                  content,
+                  re.MULTILINE,
+              ):
+                  if '@' not in action_spec:
+                      continue
+                  action, ref = action_spec.rsplit('@', 1)
+                  if any(
+                      action == tier1 or action.startswith(tier1 + '/')
+                      for tier1 in tier1_actions
+                  ) and not re.fullmatch(r'[0-9a-fA-F]{40}', ref):
+                      unpinned_tier1.append(action_spec)
+              if unpinned_tier1:
+                  warnings.append(
+                      f"{wf_name}: Tier 1 actions require full SHA pins: "
+                      + ', '.join(unpinned_tier1)
+                  )
 
               # Check 6: Trigger policy - push tags must have branches guard
               if 'push:' in content and 'tags:' in content:
@@ -191,6 +244,16 @@ jobs:
           missing = actual - documented
           if missing:
               violations.append(f"Registry Sync: {len(missing)} workflows not documented: {', '.join(sorted(missing))}")
+          stale = documented - actual
+          if stale:
+              violations.append(f"Registry Sync: {len(stale)} stale workflow references: {', '.join(sorted(stale))}")
+
+          # Check 9: Workflow run summaries
+          for wf in glob.glob('.github/workflows/*.yml'):
+              with open(wf, 'r') as f:
+                  content = f.read()
+              if 'GITHUB_STEP_SUMMARY' not in content and './.github/actions/write-run-summary' not in content:
+                  violations.append(f"{os.path.basename(wf)}: workflow must write a GITHUB_STEP_SUMMARY")
 
           # Output results
           print(f"\n{'=' * 60}")
