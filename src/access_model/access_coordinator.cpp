@@ -3,14 +3,7 @@
 //
 // @file
 // @brief Access Coordinator implementation: orchestrates cache↔storage tier transitions
-// @version 2.0.0 (Phase 1-2 frozen API contract + Phase 2-3 implementation)
-// @score 95/100 (Phase 2 core logic complete; Phase 3 integration stubs in progress)
-//
-// **Change Governance:**
-// - access_coordinator.h: frozen API contract (Phase 1-2)
-// - This file: Phase 2-3 implementations (core event loop, policy decisions, metrics)
-// - Backward compatibility: all changes preserve existing public API
-// - Feature gates: THEMISDB_CACHE_COORDINATOR_ENABLED, THEMISDB_STORAGE_COORDINATOR_ENABLED
+// @brief Coordinates validated, bounded data transfers across registered tiers.
 
 #include "access_model/access_coordinator.h"
 
@@ -133,11 +126,6 @@ class AccessCoordinatorImpl : public AccessCoordinator {
     }
 
     void start() override {
-        /**
-         * @brief Lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
         if (running_) {
           return;
@@ -170,11 +158,6 @@ class AccessCoordinatorImpl : public AccessCoordinator {
 
     void shutdown() override {
         {
-            /**
-             * @brief Lock.
-             * @param[in] mutex_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lock(mutex_);
             if (!running_ && pending_tasks_.empty()) {
               return;
@@ -210,11 +193,6 @@ class AccessCoordinatorImpl : public AccessCoordinator {
 
     // Event listening (from cache/storage)
     void onEviction(const EvictionEvent& event) override {
-        /**
-         * @brief Lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
 
         const auto event_start = std::chrono::steady_clock::now();
@@ -333,11 +311,6 @@ class AccessCoordinatorImpl : public AccessCoordinator {
     }
 
     void onHotAccess(const AccessEvent& event) override {
-        /**
-         * @brief Lock.
-         * @param[in] mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lock(mutex_);
 
         const auto event_start = std::chrono::steady_clock::now();

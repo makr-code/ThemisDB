@@ -18,9 +18,21 @@ Human_Author: "ThemisDB Team"
 
 ---
 
-## Overview
+## Zweck
 
-The `access_model` module provides unified access tier abstraction and coordination between cache and storage layers in ThemisDB.
+The `access_model` module coordinates data movement between cache and storage
+tiers through a common adapter contract. It owns transition scheduling and
+policy decisions; adapter implementations and their underlying persistence
+remain owned by the embedding cache/storage modules.
+
+## Scope
+
+- **In scope:** tier registration and validation, promotion/demotion requests,
+  bounded background work, policy thresholds, transition metrics and recent
+  transition history.
+- **Out of scope:** adapter construction or persistence, atomic transactions
+  across independent tiers, automatic retries, and application-specific
+  listener lifecycle.
 
 ### Key Components
 
@@ -46,27 +58,44 @@ The `access_model` module provides unified access tier abstraction and coordinat
 
 ## Architecture
 
+## Integrationsueberblick
+
+```mermaid
+flowchart LR
+    Cache["Cache tiers"] -->|eviction event| Coordinator["AccessCoordinator"]
+    Storage["Storage tiers"] -->|hot-access event| Coordinator
+    Coordinator -->|bounded work| Source["Source AccessTier"]
+    Source -->|get key| Coordinator
+    Coordinator -->|put value| Destination["Destination AccessTier"]
+    Coordinator -->|metrics and transition history| Telemetry["Observers"]
 ```
-┌─────────────────────────────────────────────────┐
-│  AccessCoordinator (Broker)                     │
-│  • Listens to cache eviction signals            │
-│  • Listens to storage access patterns           │
-│  • Orchestrates promotion/demotion workers      │
-│  • Applies unified age-based policies           │
-│  • Tracks metrics & correlation IDs             │
-└────────┬──────────────────────┬─────────────────┘
-         │                      │
-    ┌────▼──────┐          ┌────▼─────────┐
-    │Cache Tiers│          │StorageTiers  │
-    │L1/L2/L3   │          │Hot/Warm/Cold │
-    │Implement  │          │Implement     │
-    │AccessTier │          │AccessTier    │
-    └───────────┘          └──────────────┘
+
+Kurzinterpretation: Cache and storage adapters emit events to the coordinator.
+For accepted transitions, the coordinator reads from the source and writes to
+the destination; adapter ownership and persistence are unchanged.
+
+## Quickstart (Build/Run)
+
+Configure with the repository's existing CMake setup and tests enabled, then
+build and run a focused coordinator test:
+
+```bash
+cmake -S . -B build -DTHEMIS_BUILD_TESTS=ON
+cmake --build build --target module_access_model_test_access_coordinator_focused
+ctest --test-dir build -R 'module_access_model_test_access_coordinator_focused' --output-on-failure
 ```
+
+The application must construct and initialize the coordinator with healthy
+cache and storage adapters before starting workers. See
+[`IMPLEMENTATION.md`](./IMPLEMENTATION.md) for lifecycle and adapter contracts.
 
 ---
 
-## Usage
+## API/CLI Einstieg
+
+There is no module-specific CLI. The public C++ entry points are declared in
+`include/access_model/access_coordinator.h`; tier adapters implement
+`include/access_model/access_tier_interface.h`.
 
 ### 1. Initialize the Coordinator
 
@@ -124,6 +153,17 @@ auto result = coordinator->promoteAsync("key_abc",
 Promotion reads the source and writes the destination while retaining the
 source. Check `result.success` and `result.error_message`; adapter-level
 verification remains necessary.
+
+## Known Limitations
+
+- Separate tier adapters do not participate in an atomic transaction. A failed
+  source invalidation after a successful destination write can leave duplicate
+  copies and reports the demotion as failed.
+- Queue admission is bounded, but a blocked adapter call can delay shutdown.
+  Event listener callbacks are `void`; queue rejection is visible through
+  coordinator metrics/history rather than a callback return value.
+- Per-key counters and transition history are bounded and are not durable audit
+  records. See [`TRUST.md`](./TRUST.md) and [`OPERATIONS.md`](./OPERATIONS.md).
 
 ---
 
@@ -195,7 +235,7 @@ ctest -R "test_access_model_e2e" -V
 
 ---
 
-## See Also
+## Verweise
 
 - [`ARCHITECTURE.md`](./ARCHITECTURE.md) — Component and data-flow details
 - [`ROADMAP.md`](./ROADMAP.md) — Delivery phases and readiness checklist
