@@ -2,7 +2,7 @@
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
 Last Updated: "2026-10-30"
-Status: "active"
+Status: "review"
 AI_Used: true
 AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
@@ -38,7 +38,7 @@ Exact model backend not verifiable from final document text alone.
 - **Activation:** `EvalMode::WASM`, a configured bundle path, no injected `WasmEvalFn`, and a build without `THEMIS_ENABLE_OPA_WASM`.
 - **Behavior difference:** the current stub checks only that the bundle exists, then returns a permissive `offen`/`observe` decision; it does not evaluate Rego.
 - **Operational rule:** do not rely on this path for production authorization or export controls. Use the supported external/native evaluator and verify the active mode.
-- **Removal condition:** replace the stub with a real WASM evaluator and verify enforcement before enabling this mode. The source comment lists target `v1.6.0`, but the repository version is `2.4.0` and no matching target appears in the current governance roadmap or future-enhancements file; treat the milestone as unverified and reconcile it in the source of truth.
+- **Removal condition:** replace the stub with a real WASM evaluator and verify enforcement before enabling this mode. The prior source-comment target `v1.6.0` is stale; the module roadmap and future-enhancements plan now explicitly mark the release target as unverified pending maintainer confirmation.
 
 ## Incident handling
 
