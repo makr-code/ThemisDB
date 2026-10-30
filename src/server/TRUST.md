@@ -1,12 +1,12 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-10-19"
+Last Updated: "2026-10-30"
 Status: "active"
 AI_Used: true
-AI_Models: "MAI-Code-1.1-Flash"
-AI_Contributor: "MAI-Code-1.1-Flash"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
@@ -56,6 +56,9 @@ The server layer assumes the following:
 - session handling is bounded to protocol-specific state,
 - service-level denials remain explicit and distinguishable from backend issues,
 - operators have enough visibility to separate auth, quota, and overload incidents.
+- production uses secure authentication defaults rather than the development profile, which disables auth and endpoint-specific restrictions.
+- route-level public exceptions (including health/status endpoints) are intentional and their metadata is safe to expose.
+- any Kerberos `fallback_to_basic` setting is explicitly reviewed as a change to the authentication boundary.
 
 ## Incident handling
 
@@ -69,4 +72,16 @@ If an incident is suspected in this module:
 
 ## Summary
 
-The `server` module is a security-critical runtime component because it decides which external activity may reach the rest of ThemisDB. Its trust posture depends on explicit validation, bounded overload control, and clean session isolation rather than permissive default behavior.
+The `server` module mediates external activity, but its effective posture depends on the selected auth profile, route policy, enabled protocol, and deployment configuration. `createDevDefaults()` is not suitable for an untrusted production-facing interface; secure defaults still include specific public, rate-limited status endpoints.
+
+## Secret handling and incident response
+
+Treat tokens, provider credentials, and TLS private keys as bearer secrets. Restrict their source, runtime exposure, and rotation permissions. During an incident, identify the affected route and protocol, revoke credentials, preserve audit evidence, and verify scope enforcement and public-route exposure before reopening traffic. Report vulnerabilities privately through [project SECURITY.md](../../SECURITY.md); use [SOP-05](../../SOP.md) and [SOP-08](../../SOP.md).
+
+## Source references
+
+- `src/server/auth_middleware.cpp`
+- `src/server/api_auth_config.cpp`
+- `src/server/rate_limiting_middleware.cpp`
+- `src/server/voice_api_handler.cpp`
+- [Module security summary](SECURITY.md)

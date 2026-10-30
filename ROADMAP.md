@@ -3,8 +3,16 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.4.0-alpha  
-**Last Updated:** 2026-09-28 (Q3 2026 quarterly pentest completion; security compliance updates)  
-**Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). Wave C (Security Production Validation) remains complete with all exit criteria passing 2026-08-18, but GA promotion is still gated by unresolved Wave-A/B evidence (Transaction/GPU `release_critical` CI green and representative-hardware baselines) plus final human sign-off at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9. **Q3 2026 quarterly pentest complete (2026-09-28): 0 critical findings, 1 high finding (30-day remediation deadline), gate PASS. See `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`.**
+**Last Updated:** 2026-10-30 (Wave C evidence status and governance target reconciliation)
+**Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). Wave C (Security Production Validation) remains open: the latest tracked closure manifest (2026-10-01) records C1/C2 as successful, C3 sustained-load evidence as pending, and C4 compliance sign-off as in progress. Its linked validation artifact expired 2026-10-30; refresh the evidence before promoting these gates. GA promotion also remains gated by unresolved Wave-A/B evidence and final human sign-off at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9. **Q3 2026 quarterly pentest complete (2026-09-28): 0 critical findings, 1 high finding (30-day remediation deadline), gate PASS. See `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`.**
+<!--
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Exact model backend not verifiable from final document text alone.
+-->
 
 > For module-specific details see each module's `src/<module>/ROADMAP.md`.
 >
@@ -60,7 +68,7 @@ This roadmap is now aligned to a source-backed reality check instead of optimist
 |---|---:|---|
 | **Wave A** | ~70% | Transaction and GPU remain the main blockers; sharding/replication/voice are materially advanced |
 | **Wave B** | ~80% | Search, access model, and LLM wiki are substantially implemented; representative-hardware evidence still incomplete |
-| **Wave C** | ~75% | Security and audit primitives exist; audit and policy-gate evidence is useful but not fully end-to-end production-certified |
+| **Wave C** | ~75% | Latest tracked manifest (2026-10-01): C1/C2 success, C3 pending, C4 in progress; linked validation artifact expired 2026-10-30, so refreshed evidence is required before closure |
 | **Wave D** | ~10–20% | Mostly planning and operability work; implementation is still in early stage |
 
 ### Release-critical blockers, source-validated
@@ -260,19 +268,22 @@ This execution contract is the active implementation sequence to close hardening
 - [~] Release decisions are based on representative hardware baselines, not module-local-only scaffolding benchmarks (Target: Q4 2026) — partial closure; remaining modules (LLM Wiki Phase B, GPU, Transaction, Voice) require representative-hardware CI validation
 
 ### Wave C — Security Production Validation (Q4 2026)
-- [x] **Track 1 — Security module:** ✅ COMPLETE 2026-08-18 — Vault/HSM/PKI integration validation, provider failover (4 scenarios, all fail-closed), real RLS/query workloads (20k+ rows, p99 SLA verified), concurrent policy updates (32k events, zero data races), and policy-conflict edge cases (deterministic deny-precedence proven). Evidence: `src/security/WAVE_C_CLOSURE_EVIDENCE.md`
-- [x] **Track 2 — Audit module:** ✅ COMPLETE 2026-08-18 — Tamper-evidence integrity under concurrent load (4k events, 100% chain integrity), high-volume export (50k+ events, 8.6k events/sec, zero data loss), operational resilience (transient retry, quota mgmt), and compliance framework integration (ISO27001, GDPR, BSIC5, NIS2). Evidence: `audit/WAVE_C_AUDIT_EVIDENCE.md`, `audit/docs/integration/audit_security_matrix.md`
-- [x] **Track 3 — CI policy gates:** ✅ COMPLETE 2026-08-18 — Private/public plugin boundaries (Gate 1), edition/license validation (Gate 2), hash/SBOM integrity (Gate 3), fail-closed community builds (Gate 4). All 4 workflows linted & integrated; 5 integration test PRs executed successfully. Evidence: `docs/governance/WAVE_C_POLICY_GATE_EVIDENCE.md`, `docs/governance/CI_POLICY_GATES_WAVE_C.md`, `docs/governance/SBOM_APPROVED_VERSIONS.md`
+- **Current evidence snapshot:** `audit/evidence/waves/manifests/security_wave_c_closure_manifest.json` (generated 2026-10-01); its linked validation artifact expired 2026-10-30. This is the latest tracked snapshot, not fresh execution evidence.
+- [~] **C1 — Policy gates:** success in the tracked snapshot; refresh the expired run/artifact evidence before closure.
+- [~] **C2 — Fail-closed boundary:** success in the tracked snapshot; refresh the expired run/artifact evidence before closure.
+- [ ] **C3 — Sustained-load evidence:** pending; no dedicated authoritative Wave-C sustained-load artifact bundle is linked.
+- [~] **C4 — Compliance sign-off bundle:** in progress; sanitizer and pentest bundles are present, but final governance sign-off is pending.
+- Historical security, audit, and CI policy-gate reports dated 2026-08-18 document delivered implementation and test work. They do not supersede the open C3/C4 states in the latest tracked closure manifest.
 
 ### Wave C Exit Criteria (Gate to Wave D)
-- [x] Production-style security integration evidence is complete ✅ (2026-08-18)
-- [x] Audit evidence remains trustworthy under sustained load and export stress ✅ (2026-08-18)
-- [x] Policy gates consistently block boundary/license/hash/SBOM regressions ✅ (2026-08-18)
+- [~] Policy-gate and fail-closed boundary checks passed in the latest tracked snapshot (C1/C2); refreshed evidence is required.
+- [ ] Production-style sustained-load security evidence is complete (C3 pending).
+- [~] Compliance sign-off bundle remains in progress (C4; final governance sign-off pending).
 
 ### Wave C Implementation Summary
-- **Date:** 2026-08-17 to 2026-08-18
-- **Implementation Guide:** `docs/governance/WAVE_C_IMPLEMENTATION_COMPLETE.md`
-- **Status:** ALL EXIT CRITERIA PASS — Ready for Wave D handoff (Q1 2027)
+- **Historical implementation period:** 2026-08-17 to 2026-08-18
+- **Implementation report:** `docs/governance/WAVE_C_IMPLEMENTATION_COMPLETE.md` (historical implementation record)
+- **Current status:** OPEN; Wave D handoff and security-readiness promotion require refreshed C3 evidence and C4 closure.
 
 ### Wave D — Operability Hardening (Q1 2027)
 - [~] Observability expansion: distributed tracing, high-cardinality stress, exporter reliability, and operator remediation hints across core modules (Target: Q1 2027) — Phase 2A/2B/2C plans documented in `docs/operability/WAVE_D_ROADMAP.md`; implementation pending Wave A/B hardware gate confirmation
@@ -2212,7 +2223,8 @@ Focus: Zero-trust, advanced compliance, and penetration-tested security posture.
 - [I] SAML 2.0 SP/IdP-initiated SSO completion (Target: Q1 2027)
 
 #### 5.3 Governance
-- [I] OPA (Open Policy Agent) integration (Target: Q1 2027)
+- [I] OPA (Open Policy Agent) integration through the planned external/native evaluator path (Target: Q1 2027)
+- [?] Replace the permissive OPA WASM stub with real WASM policy evaluation; release target is unverified pending maintainer confirmation. Do not treat the source comment’s historical `v1.6.0` as a current target; see `src/governance/ROADMAP.md` and `src/governance/FUTURE_ENHANCEMENTS.md`.
 - [I] Automated CCPA/CPRA data subject rights fulfilment (Target: Q1 2027)
 
 #### 5.4 Acceleration — Security Audit

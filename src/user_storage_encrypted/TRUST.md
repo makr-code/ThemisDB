@@ -1,12 +1,12 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-21
-Last Updated: 2026-10-21
+Last Updated: 2026-10-30
 Status: active
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: unknown
-Human_Review: true
+AI_Contributor: GitHub Copilot
+Human_Review: false
 Human_Author: ThemisDB Contributors
 ---
 
@@ -56,12 +56,12 @@ These controls are not mere comments; they are actual runtime checks embedded in
 The following assumptions should not be treated as valid in production:
 
 - a missing gocryptfs binary is a harmless nuisance
-- a key derivation fallback can silently replace a stronger production path
+- a KDF fallback preserves compatibility with keys derived by older algorithms
 - rotation can continue without persistent state validation
 - stale mount state is always harmless and can be ignored
 - a partially successful mount should be considered a healthy storage outcome
 
-The code contradicts each of these assumptions by using explicit error propagation and fail-closed behavior.
+The implementation validates path/key inputs and returns errors on unavailable backends or failed derivation. The built-in KDF uses Argon2id when available, or PBKDF2-HMAC-SHA256 when libargon2 is unavailable; keys created with the older iterative-SHA-256 path are not compatible with this fallback.
 
 ## Incident handling
 
@@ -87,4 +87,10 @@ These are all explicitly visible in source and should not be treated as routine 
 
 ## Current trust posture
 
-The module is source-grounded and production-oriented, but it is not presented as a purely immutable trust boundary. The roadmap and the implementation comments explicitly note continuing hardening work. The correct posture is: strong runtime controls with remaining operational hardening, not blanket trust that all future operating conditions are closed.
+The encrypted storage boundary includes the host OS, gocryptfs executable, mount configuration, persistent salt/state, and configured key provider. Key material is passed to the subprocess through standard input, but remains sensitive in process memory and on the trusted host. Restrict the service account and mount/salt paths; retain the required salt and key versions for recovery.
+
+This page is not a production-readiness certification. Validate the selected KDF and key provider, mount behavior, rotation state, and recovery path for the deployment.
+
+## Incident response
+
+If mount integrity or key custody is in doubt, stop access to the affected storage level, preserve diagnostics and rotation state, revoke/rotate the affected provider key, and verify recovery with the retained salt and approved key version before reopening. Report vulnerabilities privately through [project SECURITY.md](../../SECURITY.md); use [SOP-05](../../SOP.md) and [SOP-08](../../SOP.md).

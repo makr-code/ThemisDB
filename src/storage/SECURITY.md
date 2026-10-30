@@ -1,9 +1,22 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-30"
+Last Updated: "2026-10-30"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Security - Storage Module
 
-<!-- Status: current | validated: 2026-07-19 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · TRUST.md -->
 
-Report vulnerabilities via project-level SECURITY.md.
+Report vulnerabilities privately via [project SECURITY.md](../../SECURITY.md). This page does not certify all stored data or backups as encrypted.
 
 ## Security Scope
 
@@ -21,7 +34,8 @@ Security in the storage module focuses on deterministic durability and recovery 
 ## Implemented Security Controls
 
 - storage and replay operations expose explicit result states.
-- integrity and audit paths are available at storage boundary.
+- encrypted blob storage uses AES-256-GCM and verifies the authentication tag; it protects only data routed through that backend.
+- the default no-op field-encryption and key-provider implementations are rejected only when production mode is detected (`THEMIS_PRODUCTION_MODE` or `THEMIS_ENVIRONMENT=production`).
 - backup/PITR and maintenance faults remain observable.
 - blob/redundancy/tiering failures surface deterministic outcomes.
 
@@ -30,6 +44,13 @@ Security in the storage module focuses on deterministic durability and recovery 
 - broaden fault-injection coverage for replay/recovery corruption scenarios.
 - expand stress coverage for concurrent write + maintenance contention.
 - tighten diagnostics taxonomy across storage recovery incident classes.
+- The default storage audit logger writes log records to files without encryption; protect the log directory and access path as sensitive data.
+- Backup encryption is an explicit option, not an implication of field or blob encryption. Protect backup, WAL, manifest, and recovery files according to deployment policy.
+- Configure and validate production-mode flags and inject real encryption/key providers; otherwise development defaults may return plaintext or dummy key material.
+
+## Permission and Incident Handling
+
+Restrict database, WAL, backup, audit-log, and key-provider access to the service identity and authorized operators. If integrity or confidentiality is in doubt, pause writes, preserve WAL and backup evidence, validate a known-good backup and its integrity before restoring, and verify recovery on an isolated copy. Follow [SOP-05](../../SOP.md) and [SOP-08](../../SOP.md).
 
 ## Sourcecode Verification (Module: storage/security)
 
@@ -43,5 +64,11 @@ Security in the storage module focuses on deterministic durability and recovery 
   - src/storage/encrypted_blob_backend.cpp
 - Verified controls:
   - explicit durability/recovery error signaling
-  - storage integrity and audit surfaces
+  - encrypted-blob authentication and storage integrity surfaces
   - bounded encrypted blob behavior
+
+- Additional source references:
+  - `src/storage/storage_engine.cpp`
+  - `src/storage/encrypted_blob_backend.cpp`
+  - `src/storage/storage_audit_logger.cpp`
+  - [Trust and risk model](TRUST.md)

@@ -1,13 +1,23 @@
 # Governance Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-18 -->
-<!-- Validation Cycle: 2026-07-18 synchronization complete (Issue #5647) -->
+<!-- Status: current | validated: 2026-10-30 -->
+<!-- Validation Cycle: 2026-10-30 Wave C status and OPA WASM planning synchronized; maintainer confirmation pending -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+<!--
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Exact model backend not verifiable from final document text alone.
+-->
 
 ## Current Status
 
 Production governance runtime exists across policy enforcement/lifecycle, compliance controls/reporting, masking/lineage/model governance, and OPA integration surfaces.
+
+The built-in OPA WASM path is still a permissive stub when no evaluator is injected; it is not suitable for production authorization. Replacing it is planned, but the release target remains unverified pending maintainer confirmation.
 
 ## In Progress
 
@@ -16,6 +26,9 @@ Production governance runtime exists across policy enforcement/lifecycle, compli
 - [~] diagnostics consistency improvements for denial, conflict, and fallback incidents (Target: Q3 2026)
 
 ## Planned Features
+
+### OPA WASM Evaluation
+- [?] Replace the permissive bundle-existence stub with real OPA WASM policy evaluation; define and verify fail-closed behavior before enabling production use (Target: unverified; maintainer confirmation required).
 
 ### Short-term (3-6 months)
 - [ ] tighten deterministic behavior under high-volume mixed-policy/per-tenant scenarios (Target: Q4 2026)
