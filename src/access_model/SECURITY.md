@@ -1,42 +1,56 @@
-# Security - Access Model Module
+---
+Author: "ThemisDB Team"
+Created: "2026-09-21"
+Last Updated: "2026-10-30"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: current | validated: 2026-09-21 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · PRODUCTION_REQUIREMENTS.md -->
+# Security - Access Model Module
 
 Report vulnerabilities via the project-level SECURITY.md.
 
 ## Security Scope
 
-Security in the access_model module focuses on auditability of tier transitions, bounded resource
-behavior, and deterministic fail-closed operation when tier backends are unavailable.
+`access_model` is an in-process tier coordination library, not an authentication,
+authorization, tenant-isolation, or durable audit subsystem. The application must
+authorize callers, validate tier adapters, and protect diagnostic data.
 
 ## Threat Model
 
 | Threat | Current Mitigation Surface |
 |---|---|
-| Unauthorized data promotion to higher-trust tier | Promotion events require explicit listener callbacks; no silent promotion paths |
-| Unbounded event queue leading to memory exhaustion | `max_queue_depth` configuration bound; metrics gauge: `event_queue_depth` |
-| Dangling worker threads on abnormal shutdown | Deterministic `shutdown()` path; in-flight operations complete or abort |
-| Audit trail loss for tier transition decisions | Structured logging with correlation IDs in `access_model_logging.cpp` |
-| Stale trace context contaminating unrelated requests | Thread-local `TraceContext` scope in `access_model_trace.h`; cleared on request boundary |
-| Policy misconfiguration silently degrading tier safety | All tier registrations validated at `initialize()`; missing tier → fail-closed |
+| Unauthorized or cross-tenant transition | No identity or tenant authorization is performed; listener callers are trusted. |
+| Queue-driven memory exhaustion | `pending_tasks_` is an unbounded `std::queue`; no `max_queue_depth` setting or queue-depth gauge exists. |
+| Work loss during shutdown | Workers exit when `running_` becomes false and do not drain queued tasks. |
+| Missing audit evidence | The default logger catches and suppresses logging exceptions; records are best-effort, not a durable audit trail. |
+| Sensitive identifiers in logs | Event keys are included in structured log messages; restrict and redact logs. |
+| Invalid tier or policy configuration | `initialize()` copies the map without validating its entries. `setAgePolicy()` does not call `AgeBasedPolicy::isValid()`. |
+| False success or data integrity assumption | Current worker processing reports success without invoking tier `get`/`put`; results do not prove data movement. |
 
-## Implemented Security Controls
+## Controls Present
 
-- All tier transition events emit structured log records with correlation IDs; audit trail
-  is preserved for incident diagnostics.
-- Explicit fail-closed behavior when a target tier is unavailable during promotion/demotion.
-- Thread-local trace context prevents cross-request correlation-ID contamination.
-- Bounded thread pool and event queue prevent resource exhaustion under high event throughput.
-- No silent-permit or silent-ignore paths in coordinator event processing.
+- Coordinator state and task-queue access use a mutex; worker threads are joined
+  during shutdown.
+- `AgeBasedPolicy::isValid()` is available for caller-side validation of
+  selected threshold relationships.
+- Structured logs and correlation IDs support diagnosis when logging succeeds.
+- `TraceContextManager::ScopedContext` restores the previous thread-local
+  context when its scope ends.
+
+These controls do not establish authorization, bounded resource use, fail-closed
+tier registration, or durable audit guarantees.
 
 ## Security Follow-ups
 
-- Continue hardening coordinator behavior under concurrent degraded-tier scenarios.
-- Align trace correlation IDs with Wave D distributed tracing spans for end-to-end audit trails.
-- Validate that policy override paths (planned in FUTURE_ENHANCEMENTS.md) maintain the same
-  fail-closed guarantees as the base age-based policy.
-- Confirm that per-key policy overrides cannot be used to bypass tier access controls.
+- Validate the tier map and policy before accepting production events.
+- Add bounded queue/backpressure behavior and define shutdown handling for queued work.
+- Implement real tier transfer semantics and surface backend failures before treating results as successful.
+- Ensure application-level authorization, log access controls, and key redaction are in place.
 
 ## Sourcecode Verification (Module: access_model/security)
 
@@ -47,9 +61,10 @@ behavior, and deterministic fail-closed operation when tier backends are unavail
   - `src/access_model/age_based_policy.cpp`
   - `include/access_model/access_model_trace.h`
   - `include/access_model/access_coordinator.h`
-- Verified controls:
-  - Correlation-ID propagation (thread-local TraceContext, `access_model_trace.h`)
-  - Structured logging for all tier transitions (`access_model_logging.h/cpp`)
-  - Bounded thread-pool lifecycle in coordinator constructor/destructor
-  - Fail-closed tier registration validation at `initialize()`
-  - No silent promotion/demotion paths in event processing loops
+- Source behavior is summarized in [`TRUST.md`](./TRUST.md); the queue is
+  unbounded, tier initialization is not validated, logging is best-effort, and
+  current worker results do not execute data transfers.
+
+---
+
+**AI provenance:** Exact model backend not verifiable from final document text alone.

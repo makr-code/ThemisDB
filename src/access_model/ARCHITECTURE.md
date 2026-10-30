@@ -1,8 +1,20 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-08-03"
+Last Updated: "2026-10-30"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
 # Architecture - Access Model Module
 
 **Version:** 1.0.0  
-**Status:** 🟡 ALPHA (Phase 1 API Definition)  
-**Validated:** 2026-08-03  
+**Status:** Active; this document describes the intended contract
+**Validated:** 2026-10-30
 **Links:** [`README.md`](./README.md) · [`ROADMAP.md`](./ROADMAP.md) · [`../../docs/architecture/UNIFIED_ACCESS_MODEL.md`](../../docs/architecture/UNIFIED_ACCESS_MODEL.md)
 
 ---
@@ -45,7 +57,7 @@ The `access_model` module bridges cache and storage tiers through the `AccessCoo
 
 | Contract | Behavior |
 |----------|----------|
-| **AccessTier Interface** | Unified get/put/invalidate/promote/demote API |
+| **AccessTier Interface** | Unified get/put/invalidate and tier-state API; coordinator methods request promotion/demotion |
 | **Eviction Listener** | Cache notifies coordinator on LRU/LFU/TTL eviction |
 | **Promotion Listener** | Storage notifies coordinator on hot access patterns |
 | **AgeBasedPolicy** | Unified migration thresholds for all tiers |
@@ -100,7 +112,7 @@ The `access_model` module bridges cache and storage tiers through the `AccessCoo
 
 ### For Cache Module
 - Existing `AdaptiveQueryCache`, `BoundedLRUCache` APIs **unchanged**
-- `AccessCoordinator` is **opt-in** (feature flag)
+- `AccessCoordinator` integration is opt-in through listener registration; the module does not define a feature-flag option
 - Default: cache operates independently (no coordinator)
 
 ### For Storage Module
@@ -109,14 +121,14 @@ The `access_model` module bridges cache and storage tiers through the `AccessCoo
 - `AccessCoordinator` callbacks are **optional listeners**
 
 ### Migration Path
-1. Enable coordinator at startup (feature flag: `THEMISDB_ACCESS_COORDINATOR_ENABLED`)
+1. Construct and initialize the coordinator in the owning application
 2. Register cache/storage tier implementations
 3. Set unified `AgeBasedPolicy`
 4. Observe metrics; adjust thresholds if needed
 
 ---
 
-## Sourcecode Verification (Phase 1 API Definition)
+## Sourcecode Verification
 
 **Files:**
 - `include/access_model/access_tier_interface.h` — Abstract tier contract
@@ -125,17 +137,20 @@ The `access_model` module bridges cache and storage tiers through the `AccessCoo
 - `include/access_model/age_based_policy.h` — Unified policy
 - `include/access_model/access_metrics.h` — Observability
 
-**Verified Claims:**
+**Verified interface claims:**
 - ✅ Unified tier abstraction with explicit contracts
 - ✅ Coordinator broker with clear responsibilities
-- ✅ Backward-compatible opt-in design
+- ✅ Listener registration can be omitted by existing cache/storage callers
 - ✅ Observable transitions with correlation IDs
 
-**Pending (Phase 2+):**
-- Implementation: `access_coordinator.cpp`
-- Integration hooks: cache → coordinator → storage
-- Tests: ACM-01..ACM-12
-- Release gates: GATE-ACM-01..06
+### Current implementation boundary
+
+The architecture above describes the intended coordination contract. Current
+source does not validate the tier map in `initialize()`, does not bound the task
+queue, and does not call tier `get`/`put` operations when processing promotion
+or demotion tasks. A successful coordinator result is therefore not evidence
+that data moved. See [`IMPLEMENTATION.md`](./IMPLEMENTATION.md) for verified
+runtime behavior and remaining gaps.
 
 ---
 
@@ -155,3 +170,7 @@ The `access_model` module bridges cache and storage tiers through the `AccessCoo
 |--------|-----|-------|
 | `cache` | `include/access_model/access_coordinator.h`, `include/access_model/access_tier_interface.h` | `AdaptiveQueryCache` uses `AccessCoordinator` and `AccessTier` interface for opt-in tier-transition coordination (`include/cache/adaptive_query_cache.h:12-13`) |
 | `storage` | `include/access_model/access_coordinator.h` | `TieredStorageManager` registers as an `AccessTier` for hot→warm→cold migration coordination (`include/storage/tiered_storage.h`) |
+
+---
+
+**AI provenance:** Exact model backend not verifiable from final document text alone.
