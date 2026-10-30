@@ -37,6 +37,7 @@ namespace access_model {
 // § 1  Mock Tiers & Fixtures
 // ============================================================================
 
+/** @brief Mock adapter used to test access-model end-to-end event flow. */
 class MockAccessTier : public AccessTier {
  public:
     MOCK_METHOD(TierGetResult, get, (std::string_view, const TierAccessOptions&),
@@ -64,6 +65,7 @@ class MockAccessTier : public AccessTier {
     MOCK_METHOD(bool, isHealthy, (), (const, override));
 };
 
+/** @brief End-to-end fixture containing all access-model tier identities. */
 class AccessModelE2ETest : public ::testing::Test {
  protected:
     void SetUp() override {
@@ -88,6 +90,11 @@ class AccessModelE2ETest : public ::testing::Test {
             .WillByDefault(testing::Return(TierLevel::STORAGE_WARM));
         ON_CALL(*cold_storage_, getTierLevel)
             .WillByDefault(testing::Return(TierLevel::STORAGE_COLD));
+        ON_CALL(*l1_tier_, isHealthy).WillByDefault(testing::Return(true));
+        ON_CALL(*l2_tier_, isHealthy).WillByDefault(testing::Return(true));
+        ON_CALL(*l3_tier_, isHealthy).WillByDefault(testing::Return(true));
+        ON_CALL(*warm_storage_, isHealthy).WillByDefault(testing::Return(true));
+        ON_CALL(*cold_storage_, isHealthy).WillByDefault(testing::Return(true));
 
         // Set up size and capacity expectations
         ON_CALL(*l1_tier_, getCurrentSizeBytes).WillByDefault(testing::Return(0));
@@ -382,8 +389,7 @@ TEST_F(AccessModelE2ETest, T11_EmptyCoordinator_NoTiersRegistered) {
     auto empty_coord = createAccessCoordinator(2);
     // Initialize with empty map (or don't initialize)
     std::map<TierLevel, std::shared_ptr<AccessTier>> empty_tiers;
-    EXPECT_TRUE(empty_coord->initialize(empty_tiers));
-    empty_coord->start();
+    EXPECT_FALSE(empty_coord->initialize(empty_tiers));
     
     // Try to emit events on empty coordinator
     empty_coord->onStorageAccess("key", TierLevel::STORAGE_COLD, 1,
@@ -391,8 +397,7 @@ TEST_F(AccessModelE2ETest, T11_EmptyCoordinator_NoTiersRegistered) {
     
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
     
-    EXPECT_TRUE(empty_coord->isRunning());
-    empty_coord->shutdown();
+    EXPECT_FALSE(empty_coord->isRunning());
 }
 
 TEST_F(AccessModelE2ETest, T12_SingleTierPromotion_DemotionNOP) {
@@ -410,8 +415,7 @@ TEST_F(AccessModelE2ETest, T12_SingleTierPromotion_DemotionNOP) {
         .WillByDefault(testing::Return(100 * 1024 * 1024));
     
     single_tier[TierLevel::L1_WORKING] = l1_only;
-    EXPECT_TRUE(single_coord->initialize(single_tier));
-    single_coord->start();
+    EXPECT_FALSE(single_coord->initialize(single_tier));
     
     single_coord->onStorageAccess("key", TierLevel::L1_WORKING, 1,
                                  std::chrono::seconds(10));
@@ -420,8 +424,7 @@ TEST_F(AccessModelE2ETest, T12_SingleTierPromotion_DemotionNOP) {
     
     std::this_thread::sleep_for(std::chrono::milliseconds(50));
     
-    EXPECT_TRUE(single_coord->isRunning());
-    single_coord->shutdown();
+    EXPECT_FALSE(single_coord->isRunning());
 }
 
 TEST_F(AccessModelE2ETest, T13_RapidFireEvents_100EventsIn10ms_QueueBackpressure) {

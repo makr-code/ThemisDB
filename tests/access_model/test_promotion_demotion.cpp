@@ -21,6 +21,7 @@ namespace access_model {
 // § 1  Tests: Demotion Plan
 // ============================================================================
 
+/** @brief Tests policy predicates and promotion/demotion result structures. */
 class PromotionDemotionTest : public ::testing::Test {};
 
 // APD-01: Create demotion plan with all fields

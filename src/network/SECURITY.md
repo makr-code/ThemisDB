@@ -1,11 +1,24 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-30"
+Last Updated: "2026-10-30"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · TRUST.md -->
 
 # Security - Network Module
 
-> Report vulnerabilities via [SECURITY.md](../../../SECURITY.md).
+> Report vulnerabilities privately via [project SECURITY.md](../../SECURITY.md). This page describes module controls, not product-wide certification.
 
 ## Threat Model
 
@@ -32,6 +45,13 @@
 
 - Security behavior depends on runtime deployment configuration and enabled transport surfaces.
 - Some policy depth (for example, network-specific IPv6 CIDR governance) remains roadmap work and is not treated as fully enforced in this module documentation.
+- Authentication is configuration-dependent: the wire server enforces its credential checks only when `require_auth` is enabled. When enabled, its startup validation requires a non-empty `SCRAM-SHA-256` configuration and rejects blank or invalid tokens.
+- Transport encryption is not authorization. QUIC pins TLS 1.3, but other listeners and TLS enablement depend on their transport configuration and deployment certificates.
+- Treat authentication tokens, private keys, and certificate files as secrets; restrict their provisioning and filesystem permissions and never log or commit their contents.
+
+## Incident Handling
+
+On suspected listener, certificate, or credential compromise, disable the affected listener or revoke the credential, preserve network audit and server logs, and verify transport and auth settings before reopening traffic. Use [SOP-05](../../SOP.md) and [SOP-08](../../SOP.md).
 
 ## Sourcecode Verification (Module: network/security)
 
@@ -51,4 +71,9 @@
   - security event/audit logging surfaces
   - command injection prevention (interface name validation + safe posix_spawn)
 - Test coverage:
-  - `tests/network/test_qos_manager_command_injection.cpp` (comprehensive regression tests for command injection vulnerability)
+  - `tests/network/test_qos_manager_command_injection.cpp` (QoS command-injection regression tests)
+
+- Additional source references:
+  - `src/network/wire_protocol_server.cpp`
+  - `src/network/quic_transport.cpp`
+  - [Trust and risk model](TRUST.md)

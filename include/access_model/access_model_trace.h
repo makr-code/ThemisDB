@@ -44,6 +44,7 @@ using CorrelationID = std::string;
 // § 2  Trace Context
 // ============================================================================
 
+/** @brief Thread-local correlation and optional parent-span context. */
 struct TraceContext {
     CorrelationID correlation_id;
     
@@ -81,6 +82,7 @@ struct TraceContext {
 // § 3  Trace Context Manager (Thread-Local Storage)
 // ============================================================================
 
+/** @brief Manages trace context scoped to the current thread. */
 class TraceContextManager {
 public:
     static CorrelationID generateCorrelationID(
@@ -113,6 +115,7 @@ public:
     // § 3a  RAII Helper for Scoped Context
     // ========================================================================
     
+    /** @brief RAII guard that restores the prior thread-local trace context. */
     class ScopedContext {
     public:
         /**
@@ -166,4 +169,3 @@ public:
 
 }  // namespace access_model
 }  // namespace themis
-

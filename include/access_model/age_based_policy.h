@@ -40,6 +40,11 @@ enum class DataHotnessLevel {
 // § 2  Age-Based Policy
 // ============================================================================
 
+/**
+ * @brief Thresholds for age-based tier decisions and access-driven promotion.
+ * @note isValid() checks selected threshold ordering; zero age thresholds may
+ *       disable individual predicates but are not accepted in all combinations.
+ */
 struct AgeBasedPolicy {
 
     uint32_t l1_zero_access_days = 1;

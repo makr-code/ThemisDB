@@ -1,7 +1,7 @@
 # ThemisDB Cache Module
 
 <!-- Status: PRODUCTION_CANDIDATE | Phase 1-4 complete | validated: 2026-08-10 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · MODULE_GUIDE.md -->
 
 ## Module Purpose
 
@@ -13,7 +13,7 @@ The cache module provides multi-tier caching infrastructure for query and embedd
 |---|---|
 | adaptive_query_cache.cpp | multi-tier adaptive cache facade and policies |
 | bounded_lru_cache.cpp | bounded in-memory LRU cache tier behavior |
-| semantic_cache.cpp | semantic fingerprint/similarity cache support |
+| semantic_cache.cpp | exact prompt-and-parameter fingerprint cache backed by RocksDB |
 | embedding_cache.cpp | embedding-specific cache storage/query behavior |
 | warmup.cpp | bulk warmup and preload paths |
 | predictive_prefetcher.cpp | predictive prefetch candidate handling |
@@ -42,6 +42,16 @@ Out of scope:
 - behavior depends on configured cache tiers, limits, and feature flags.
 - distributed paths depend on selected coordination backends.
 - cache operations return structured failure paths for invalid/degraded conditions.
+
+## Developer Documentation
+
+- [Module guide](MODULE_GUIDE.md) — integration workflow and documentation map
+- [API](API.md) — public cache surfaces and call constraints
+- [Implementation](IMPLEMENTATION.md) — source map and behavior invariants
+- [Modeling](MODELING.md) and [research](RESEARCH.md) — policy assumptions and evaluation
+- [Embedding cache](EMBEDDING.md) — similarity lookup contract and limits
+- [Operations](OPERATIONS.md) and [runbook](RUNBOOK.md) — monitoring and incident recovery
+- [Trust boundaries](TRUST.md) — data, tenant, and backend responsibilities
 
 ## Sourcecode Verification (Module: cache/readme)
 

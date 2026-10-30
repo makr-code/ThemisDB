@@ -19,6 +19,20 @@ Human_Author: "ThemisDB Team"
 
 The acceleration module manages capability-driven backend selection, runtime discovery, and fail-closed fallback behavior for performance-critical operations in ThemisDB. It provides the execution contracts for CPU, CUDA, HIP, Vulkan, OpenCL, and AI-specific dispatch surfaces while keeping the public API in `include/acceleration/` distinct from the implementation in `src/acceleration/`.
 
+## Developer documentation
+
+| Document | Use it for |
+|---|---|
+| [RESEARCH.md](./RESEARCH.md) | Evaluation assumptions, methods, and benchmark evidence |
+| [MODELING.md](./MODELING.md) | Capability and backend-selection model |
+| [EMBEDDING.md](./EMBEDDING.md) | Embedding inference and vector-similarity request contracts |
+| [IMPLEMENTATION.md](./IMPLEMENTATION.md) | Runtime construction, dispatch, and fallback flow |
+| [API.md](./API.md) | Public backend and dispatcher interfaces |
+| [MODULE_GUIDE.md](./MODULE_GUIDE.md) | Developer onboarding, build, and focused tests |
+| [RUNBOOK.md](./RUNBOOK.md) | Diagnosis and recovery for backend incidents |
+| [OPERATIONS.md](./OPERATIONS.md) | Readiness, observability, and benchmark operations |
+| [TRUST.md](./TRUST.md) | Trust boundaries and security incident handling |
+
 ## Relevant interfaces
 
 | Interface / file | Role |

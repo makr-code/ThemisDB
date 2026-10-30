@@ -1,74 +1,46 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Last Updated: "2026-10-30"
+Status: "review"
 AI_Used: true
-AI_Models: "MAI-Code-1.1-Flash"
-AI_Contributor: "MAI-Code-1.1-Flash"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
 Exact model backend not verifiable from final document text alone.
 
-# API Module Implementation Guide
+Source level: 1
+SOT domain: module-behavior
+Canonical references: `include/api/api_transport_contracts.h`, `include/api/api_transport_policy.h`, `include/api/grpc_server.h`, `src/api/grpc_server.cpp`, `src/api/graphql.cpp`, `src/api/ws_handler.cpp`, `tests/api/test_api_transport_hardening.cpp`
+Related issues: #7093, #7167
 
-## Primary implementation map
+# API transport implementation
 
-The module's implementation is organized around protocol-specific entry points and shared policy enforcement.
+## Purpose and boundary
 
-### GraphQL
+For developers changing transport adapters and shared request policy in `src/api/`. Server-side request routing/admission belongs to `src/server/`; this module supplies transport-facing contracts and adapters.
 
-- `src/api/graphql.cpp` implements parsing, validation, and query-cache behavior.
-- The parser checks query size, nesting depth, field count, and AST node count before accepting a document.
-- Unsupported fragment definitions are explicitly rejected with a versioned parser error.
+## Implementation map
 
-### gRPC
+- `api_transport_contracts.h` defines versions, payload/path/header bounds, capability flags, and failure classes.
+- `api_transport_policy.h` implements a shared HTTP-handler decorator with configurable bounds and transport validation.
+- `grpc_server.cpp`, `graphql.cpp`, and `ws_handler.cpp` implement protocol-specific paths; tracing/export behavior is in `tracing_middleware.cpp` and `otlp_exporter.cpp`.
 
-- `src/api/grpc_server.cpp` owns startup validation and registration state.
-- The server validates port, host, TLS parameters, and message-size limits before binding.
-- The lifecycle uses a mutex to serialize startup and shutdown while avoiding lock contention across the expensive socket bind path.
+## Invariants and failure cases
 
-### WebSocket and CDC
+- The shared contract lists v1/v2 and a 10 MiB default maximum payload; the policy config is normalized so its configured payload/path bounds cannot exceed the contract maxima.
+- Preserve explicit malformed-request, oversized-payload, unsupported-version, missing/mismatched-content-type, unauthorized, rate-limit, and unavailable-capability classifications.
+- Transport-specific optional features must not be documented as universal; check the adapter’s capabilities and compile/configuration guards.
+- gRPC initialization/start return boolean success; propagate failure rather than assuming a bound server.
 
-- `src/api/ws_handler.cpp` validates the target path and optional auth token.
-- CDC subscription requests are required to present the `cdc:subscribe` authorization scope.
-- Query-string parser logic accepts `from_sequence` and `key_prefix`, and invalid values fall back to safe defaults rather than causing ambiguous stream behavior.
+## Change and validation steps
 
-### Tracing and telemetry
+1. Change the shared contract only when all affected adapters and callers are understood.
+2. Keep protocol-specific parsing and shared policy boundaries separate.
+3. Use `tests/api/test_api_transport_hardening.cpp`, `test_api_grpc_server.cpp`, or the closest adapter test.
+4. Run the affected target registered by `tests/api/CMakeLists.txt`.
 
-- `src/api/tracing_middleware.cpp` adds correlation data and request context propagation.
-- `src/api/otlp_exporter.cpp` owns OTLP export, queueing, flush semantics, and bounded degradation under pressure.
-
-## Core invariants
-
-1. Fail closed on invalid protocol input.
-2. Keep resource limits explicit and bounded.
-3. Do not allow an optional capability to mask a transport error.
-4. Preserve clear operator-visible diagnostics in the failure path.
-5. Keep request-state and transport state local to the request or connection.
-
-## Edge cases handled by implementation
-
-- empty or whitespace-only GraphQL document
-- GraphQL depth or field-count violations
-- invalid gRPC port or empty host
-- gRPC server with no registered services
-- unauthorized WebSocket CDC subscription
-- malformed sequence or key prefix query values
-- exporter queue pressure or flush failure
-
-## Validation expectations
-
-Implementation work in this module should validate:
-
-- parser boundaries for empty and invalid documents
-- gRPC startup with invalid or partially configured values
-- WebSocket access denial and valid subscription flow
-- OTLP exporter queue and retry behavior under overload
-- transport policy rejection logic for malformed or unsupported requests
-
-## Practical guidance
-
-When modifying the API layer, keep changes small and explicit. The module's value is not complexity; it is predictable transport behavior. Prefer design that makes invalid requests fail clearly and makes optional components degrade in a traceable way.
+See `API.md`, `MODULE_GUIDE.md`, and `SECURITY.md`.

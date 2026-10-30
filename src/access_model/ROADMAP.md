@@ -1,7 +1,7 @@
 # Access Model Module - Roadmap
 
 **Version:** 1.0.0  
-**Status:** ACTIVE (Phase 2-6 complete; Wave B GA-ready)  
+**Status:** ACTIVE (runtime transfer hardening implemented; verification and Wave B evidence pending)
 **Last Validated:** 2026-08-17  
 **Phase 5-6 Plan:** `ai_working/ACCESS_MODEL_PHASE_56_IMPLEMENTATION_PLAN.md`
 
@@ -12,14 +12,10 @@
 ## Current Status
 
 **Phase 1 Complete:** Unified architecture documented, core interfaces defined.  
-**Phase 2 Complete:** Core coordinator, age-based policy, metrics, CMakeLists.txt, and ACM-01..08 unit tests delivered (2026-08-09).  
-**Phase 3 Complete:** Cache integration with full eviction event emission (BLOCK 2 Phase 2).  
-**Phase 4 Complete:** Storage integration with promotion detection (BLOCK 3 Phase 2).  
-**Phase 5-6 Complete:** ✅ Full observability, E2E tests, and performance gates delivered 2026-08-17
-  - Phase 5.1-5.4: Structured logging, trace correlation, metrics, runbooks — COMPLETE ✅
-  - Phase 6.1-6.5: E2E tests (15), concurrency tests (12), benchmarks (6 gates) — COMPLETE ✅
-  - Documentation: Runbooks (5 scenarios), Dashboards (8 panels), Gate Framework — COMPLETE ✅
-  - Release Status: PRODUCTION READY for Wave B GA promotion
+**Phase 2 Runtime Hardening:** Tier validation, real adapter transfers, bounded queue admission, completion ownership, metrics, and bounded transition history are implemented. Focused test/build verification remains pending.
+**Phases 3-4 Integration:** Cache eviction and storage hot-access listeners are present; backend-level integration evidence remains deployment-specific.
+**Phases 5-6 Observability & Hardening:** Structured logs, trace context, metrics, and focused regression coverage are present. Representative hardware, sanitizer, and release-gate evidence remains pending.
+  - Release Status: NOT READY for Wave B GA until focused tests and authoritative Wave B evidence pass.
 
 ---
 
@@ -38,7 +34,7 @@
 - [x] Define AgeBasedPolicy (unified aging)
 - [x] Define AccessMetrics (observability)
 
-### Phase 2: Core Coordinator Implementation 🟢 (COMPLETE — 2026-08-09)
+### Phase 2: Core Coordinator Implementation 🟡 (runtime hardening implemented; verification pending)
 - [x] access_coordinator.cpp implementation (530 LOC, Phase 2 core logic complete)
   - [x] Tier registry management
   - [x] Eviction signal processing
@@ -83,7 +79,7 @@
 - [x] Integration tests: storage→coordinator→cache (Target: Q4 2026)
   - [x] CAI-07,08,09,10 test cases ready in test_cache_storage_integration.cpp
 
-### Phase 5: Observability & Diagnostics ✅ (COMPLETE 2026-08-17)
+### Phase 5: Observability & Diagnostics 🟡 (implementation present; validation pending)
 - [x] Structured logging for all transitions (COMPLETE ✅)
   - [x] Create `access_model_logging.h` with TierTransitionLog, EvictionEventLog, PromotionDecisionLog structs
   - [x] Instrument AccessCoordinatorImpl (10+ logging points)
@@ -92,11 +88,9 @@
   - [x] Create `access_model_trace.h` with TraceContext, CorrelationID
   - [x] Thread-local context management
   - [x] ID flow through entire event chain
-- [x] Metrics dashboard panels (COMPLETE ✅)
-  - [x] Counters: promotion_attempts, promotion_successes, demotion_attempts, demotion_successes
-  - [x] Histograms: promotion_latency_ms, demotion_latency_ms (p50/p95/p99)
-  - [x] Gauges: event_queue_depth, worker_thread_utilization
-  - [x] Prometheus-compatible output
+- [x] Metrics query surface for operation counters and event/promotion/demotion latency histograms
+  - [x] Queue depth and configured capacity in aggregate snapshots
+  - [ ] Embedding-application export and worker-utilization telemetry
 - [x] Operator runbooks (5+ scenarios) — COMPLETE ✅
   - [x] Symptom 1: Promotions not happening
   - [x] Symptom 2: Worker pool stuck
@@ -105,13 +99,13 @@
   - [x] Symptom 5: Policy conflicts
 - [x] Dashboard guide & examples — COMPLETE ✅
 
-### Phase 6: Tests & Hardening ✅ (COMPLETE 2026-08-17)
-- [x] E2E integration tests (test_access_model_e2e.cpp) (COMPLETE ✅)
+### Phase 6: Tests & Hardening 🟡 (regression cases added; validation pending)
+- [~] E2E integration tests (test_access_model_e2e.cpp)
   - [x] 15+ test scenarios (promotion chains, demotion chains, policy, edge cases)
   - [x] Acceptance: All PASS in <5s, ASan/TSan/UBSan clean, >85% coverage
-- [x] Concurrent operation tests (test_coordination_concurrency.cpp) (COMPLETE ✅)
-  - [x] 12+ concurrency patterns (concurrent events, tier operations, thread pool stress)
-  - [x] Acceptance: TSan-clean (0 races), no event loss, queue depth stable
+- [~] Concurrent operation tests (test_coordination_concurrency.cpp)
+  - [x] Concurrent events, tier operations, thread-pool stress, bounded queue admission, and shutdown drain coverage
+  - [ ] Re-run under TSan; demonstrate queue-depth bound under sustained load
 - [x] Benchmark gates (bench_access_coordinator_gates.cpp) (COMPLETE ✅)
   - [x] GATE-ACM-01: L1→L2 promotion ≤50µs p99
   - [x] GATE-ACM-02: Cache eviction→storage feedback ≤100µs p99
@@ -133,22 +127,24 @@
 - [x] Core architecture documented (UNIFIED_ACCESS_MODEL.md)
 - [x] Integration guide documented (CACHE_STORAGE_INTEGRATION.md)
 - [x] Interfaces frozen (access_tier_interface.h, access_coordinator.h, etc.)
-- [x] Core coordinator implemented (`access_coordinator.cpp`, 530 LOC) ✅ **Done 2026-08-09**
-- [x] Unit tests ACM-01..ACM-08 (`tests/access_model/test_access_coordinator_focused.cpp`) ✅ **Done 2026-08-09**
+- [x] Coordinator transfer, queue, lifecycle, metrics, and history logic implemented
+- [~] Focused tests cover transfer behavior and failure paths; execute them in a configured build
 - [x] Cache integration (CAI-01..CAI-10 in `test_cache_storage_integration.cpp`) ✅ **Done 2026-08-09**
 - [x] Storage integration (CAI-07..10 via TieredStorageManager + PromotionListener) ✅ **Done 2026-08-09**
-- [x] Observability (Phase 5 complete 2026-08-17)
-- [x] Integration tests: full-stack e2e (Phase 6 complete 2026-08-17)
-- [x] Release benchmarks: GATE-ACM-01..06 (Phase 6 complete 2026-08-17)
-- [x] Operator runbooks (Phase 5/6 complete 2026-08-17)
+- [~] Observability counters and histograms validated after build
+- [~] Integration tests: full-stack e2e
+- [~] Release benchmarks: GATE-ACM-01..06 on representative hardware
+- [x] Operator runbooks describe runtime contracts and failure recovery
 
 ---
 
 ## Known Issues & Limitations
 
-- Phase 5-6 observability, e2e/concurrency testing, and benchmark gates were completed and source-validated on 2026-08-17; keep derivative checklists synchronized with the validated source state
-- Phases 2-4 core implementation and unit/integration tests complete as of 2026-08-09
-- Wave B entry gate remains `[~]` pending final authoritative hardware artifacts for Transaction/GPU (Wave A external dependency; no implementation gap in this module)
+- Focused runtime tests and full module builds must pass before this follow-up is considered verified; the current local diagnostic configure is blocked by missing system `fmt`.
+- Tier adapters are not coordinated transactionally. A failed source invalidation after destination placement may leave duplicate copies; the owning application must reconcile them.
+- An adapter call that blocks indefinitely can delay `shutdown()` because accepted tasks are drained rather than cancelled.
+- Queue admission is bounded, but `void` event listeners cannot return a rejection; consumers must monitor queue-full failure counters and transition records.
+- Wave B entry gate remains `[~]` pending authoritative hardware artifacts for Transaction/GPU (Wave A external dependency).
 
 ---
 

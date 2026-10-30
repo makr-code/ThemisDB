@@ -1,4 +1,18 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-30"
+Last Updated: "2026-10-30"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
 # ThemisDB AI Module
+
+AI provenance note: Exact model backend not verifiable from final document text alone.
 
 <!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
@@ -17,6 +31,11 @@ It validates prompts, calls a configured endpoint, parses JSON responses, and ma
 | AIPluginGenerator::validatePrompt | enforces required prompt constraints |
 | AIPluginGenerator::generatePlugin | orchestrates request and response mapping |
 
+## Developer Documentation
+
+Use [MODULE_GUIDE.md](./MODULE_GUIDE.md) as the index for the API, implementation,
+research, operations, and trust documentation.
+
 ## Scope
 
 In scope:
@@ -32,7 +51,7 @@ Out of scope:
 
 ## Runtime Behavior and Limits
 
-- `validatePrompt` rejects empty descriptions and descriptions longer than 8192 characters.
+- `validatePrompt` rejects empty descriptions and descriptions longer than 8192 bytes.
 - `generatePlugin` always validates input before I/O.
 - Endpoint invocation uses either `Config::endpoint_invoke_fn` or built-in curl path.
 - Non-2xx responses and invalid JSON return structured `ERR_PLUGIN_LOAD_FAILED` errors.

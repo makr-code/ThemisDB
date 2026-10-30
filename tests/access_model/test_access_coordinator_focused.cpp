@@ -19,8 +19,12 @@
 
 #include <atomic>
 #include <chrono>
+#include <future>
 #include <memory>
+#include <mutex>
+#include <stdexcept>
 #include <thread>
+#include <unordered_map>
 #include <vector>
 
 #include "access_model/access_coordinator.h"
@@ -34,33 +38,56 @@ namespace access_model {
 // § 1  Test doubles & fixtures
 // ============================================================================
 
+/** @brief Stateful test adapter that preserves values across tier operations. */
 class TestAccessTier : public AccessTier {
  public:
+    /**
+     * @brief Create a test adapter for one tier.
+     * @param[in] level Tier identity reported to the coordinator.
+     * @param[in] name Human-readable tier name.
+     */
     explicit TestAccessTier(TierLevel level, std::string name)
         : level_(level), name_(std::move(name)) {}
 
-    TierGetResult get(std::string_view, const TierAccessOptions&) override {
+    TierGetResult get(std::string_view key, const TierAccessOptions&) override {
+        std::lock_guard<std::mutex> lock(mutex_);
         TierGetResult result;
-        result.success = false;
+        const auto it = values_.find(std::string(key));
+        result.success = it != values_.end();
         result.current_tier = level_;
+        if (result.success) {
+            result.value = it->second;
+            result.size_bytes = result.value.size();
+        } else {
+            result.error_message = "key not found";
+        }
         result.latency_us = std::chrono::microseconds(0);
         result.age_secs = std::chrono::seconds(0);
         return result;
     }
 
-    TierPutResult put(std::string_view, std::string_view,
+    TierPutResult put(std::string_view key, std::string_view value,
                       const TierAccessOptions&) override {
+        std::lock_guard<std::mutex> lock(mutex_);
+        values_[std::string(key)] = std::string(value);
         TierPutResult result;
         result.success = true;
         result.placed_in_tier = level_;
+        result.size_bytes = value.size();
         result.latency_us = std::chrono::microseconds(0);
         return result;
     }
 
-    bool invalidate(std::string_view) override { return true; }
+    bool invalidate(std::string_view key) override {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return values_.erase(std::string(key)) != 0;
+    }
     TierLevel getTierLevel() const override { return level_; }
     std::string getTierName() const override { return name_; }
-    bool hasKey(std::string_view) const override { return false; }
+    bool hasKey(std::string_view key) const override {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return values_.count(std::string(key)) != 0;
+    }
     std::size_t getCurrentSizeBytes() const override { return 0; }
     std::size_t getMaxCapacityBytes() const override { return kMaxTierCapacity; }
     std::size_t getEntryCount() const override { return 0; }
@@ -78,12 +105,38 @@ class TestAccessTier : public AccessTier {
     bool initialize() override { return true; }
     void shutdown() override {}
     bool isHealthy() const override { return true; }
+    void seed(std::string key, std::string value) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        values_[std::move(key)] = std::move(value);
+    }
 
  private:
     TierLevel level_;
     std::string name_;
+    mutable std::mutex mutex_;
+    std::unordered_map<std::string, std::string> values_;
 };
 
+/** @brief Test tier that pauses reads so queue admission and draining are deterministic. */
+class BlockingTestAccessTier : public TestAccessTier {
+ public:
+    BlockingTestAccessTier()
+        : TestAccessTier(TierLevel::STORAGE_COLD, "STORAGE_COLD") {}
+
+    TierGetResult get(std::string_view key,
+                      const TierAccessOptions& options) override {
+        get_started = true;
+        while (!release_get) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
+        return TestAccessTier::get(key, options);
+    }
+
+    std::atomic<bool> get_started{false};
+    std::atomic<bool> release_get{false};
+};
+
+/** @brief Fixture for isolated coordinator behavior and edge-case tests. */
 class AccessCoordinatorFocusedTest : public ::testing::Test {
  protected:
     void SetUp() override {
@@ -275,6 +328,7 @@ TEST_F(AccessCoordinatorFocusedTest, ACM03_TierRecommendation) {
 
 TEST_F(AccessCoordinatorFocusedTest, ACM04_AsyncPromotionExecution) {
     coordinator_->start();
+    cold_storage_->seed("test_key", "promoted-value");
     
     auto future = coordinator_->promoteAsync(
         "test_key",
@@ -288,12 +342,29 @@ TEST_F(AccessCoordinatorFocusedTest, ACM04_AsyncPromotionExecution) {
     EXPECT_TRUE(result.success);
     EXPECT_EQ(result.from_tier, TierLevel::STORAGE_COLD);
     EXPECT_EQ(result.to_tier, TierLevel::L3_SEMANTIC);
-    EXPECT_EQ(result.size_bytes, 0);  // Simplified implementation
+    EXPECT_EQ(result.size_bytes, std::string("promoted-value").size());
+    EXPECT_TRUE(cold_storage_->hasKey("test_key"));
+    EXPECT_TRUE(l3_->hasKey("test_key"));
     
     auto metrics = coordinator_->getAccessModelMetrics();
     EXPECT_EQ(metrics.counters.promotions_initiated, 1);
     EXPECT_EQ(metrics.counters.promotions_succeeded, 1);
     
+    coordinator_->shutdown();
+}
+
+TEST_F(AccessCoordinatorFocusedTest, ACM04_MissingSourceKeyFailsWithoutFalseSuccess) {
+    coordinator_->start();
+    const auto result = coordinator_->promoteAsync(
+        "missing_key", TierLevel::STORAGE_COLD, TierLevel::L3_SEMANTIC, 128).get();
+
+    EXPECT_FALSE(result.success);
+    EXPECT_FALSE(result.error_message.empty());
+    EXPECT_FALSE(l3_->hasKey("missing_key"));
+    const auto metrics = coordinator_->getAccessModelMetrics();
+    EXPECT_EQ(metrics.counters.promotions_succeeded, 0);
+    EXPECT_EQ(metrics.counters.promotions_failed, 1);
+    EXPECT_EQ(metrics.tier_promotion_latency_us_.count(), 1);
     coordinator_->shutdown();
 }
 
@@ -303,6 +374,7 @@ TEST_F(AccessCoordinatorFocusedTest, ACM04_MultipleAsyncPromotions) {
     std::vector<std::future<PromotionResult>> futures;
     
     for (int i = 0; i < 5; ++i) {
+        warm_storage_->seed("key_" + std::to_string(i), "value");
         futures.emplace_back(coordinator_->promoteAsync(
             "key_" + std::to_string(i),
             TierLevel::STORAGE_WARM,
@@ -347,6 +419,7 @@ TEST_F(AccessCoordinatorFocusedTest, ACM05_DemotionPlanCreation) {
 
 TEST_F(AccessCoordinatorFocusedTest, ACM05_DemotionPlanExecution) {
     coordinator_->start();
+    l2_->seed("test_key", "demoted-value");
     
     auto plan = coordinator_->planDemotion(
         "test_key",
@@ -361,6 +434,8 @@ TEST_F(AccessCoordinatorFocusedTest, ACM05_DemotionPlanExecution) {
     
     EXPECT_TRUE(result.has_value());
     EXPECT_TRUE(result->success);
+    EXPECT_FALSE(l2_->hasKey("test_key"));
+    EXPECT_TRUE(warm_storage_->hasKey("test_key"));
     EXPECT_EQ(result->from_tier, TierLevel::L2_EPISODIC);
     EXPECT_EQ(result->to_tier, TierLevel::STORAGE_WARM);
     
@@ -436,8 +511,80 @@ TEST_F(AccessCoordinatorFocusedTest, ACM07_MetricsCollection) {
     
     EXPECT_EQ(metrics.counters.cache_evictions_observed, 5);
     EXPECT_GT(metrics.event_processing_latency_us_.count(), 0);
+    EXPECT_EQ(coordinator_->getKeyMetrics("key_4").evictions, 1);
+    EXPECT_EQ(coordinator_->getTierMetrics(TierLevel::L1_WORKING).evictions, 5);
     
     coordinator_->shutdown();
+}
+
+TEST_F(AccessCoordinatorFocusedTest, ACM09_BoundedQueueCompletesAndDrainsFutures) {
+    auto source = std::make_shared<BlockingTestAccessTier>();
+    auto destination =
+        std::make_shared<TestAccessTier>(TierLevel::L3_SEMANTIC, "L3_SEMANTIC");
+    source->seed("key", "value");
+
+    auto bounded = createAccessCoordinator(1, 1);
+    const std::map<TierLevel, std::shared_ptr<AccessTier>> tiers{
+        {TierLevel::STORAGE_COLD, source},
+        {TierLevel::L3_SEMANTIC, destination},
+    };
+    ASSERT_TRUE(bounded->initialize(tiers));
+    bounded->start();
+
+    auto first = bounded->promoteAsync(
+        "key", TierLevel::STORAGE_COLD, TierLevel::L3_SEMANTIC, 5);
+    while (!source->get_started) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    }
+    auto queued = bounded->promoteAsync(
+        "key", TierLevel::STORAGE_COLD, TierLevel::L3_SEMANTIC, 5);
+    auto rejected = bounded->promoteAsync(
+        "key", TierLevel::STORAGE_COLD, TierLevel::L3_SEMANTIC, 5);
+    EXPECT_FALSE(rejected.get().success);
+    EXPECT_EQ(bounded->getAccessModelMetrics().counters.pending_queue_depth, 1);
+
+    auto shutdown = std::async(std::launch::async, [&bounded] {
+        bounded->shutdown();
+    });
+    while (bounded->isRunning()) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    }
+    source->release_get = true;
+    shutdown.get();
+
+    EXPECT_TRUE(first.get().success);
+    EXPECT_TRUE(queued.get().success);
+    const auto metrics = bounded->getAccessModelMetrics();
+    EXPECT_EQ(metrics.counters.pending_queue_depth, 0);
+    EXPECT_EQ(metrics.counters.max_queue_depth, 1);
+    EXPECT_EQ(metrics.counters.promotions_succeeded, 2);
+}
+
+TEST_F(AccessCoordinatorFocusedTest, ACM09_RejectsZeroQueueCapacity) {
+    EXPECT_THROW(createAccessCoordinator(1, 0), std::invalid_argument);
+}
+
+TEST_F(AccessCoordinatorFocusedTest, ACM10_RejectsInvalidPolicyAndBoundsNewestFirstHistory) {
+    AgeBasedPolicy invalid_policy;
+    invalid_policy.l1_promotion_threshold = 1;
+    EXPECT_THROW(coordinator_->setAgePolicy(invalid_policy), std::invalid_argument);
+
+    coordinator_->setAgePolicy(AgeBasedPolicy{});
+    for (int i = 0; i < 1002; ++i) {
+        EvictionEvent event{
+            .key = "history_" + std::to_string(i),
+            .tier = TierLevel::L1_WORKING,
+            .access_count = 0,
+            .last_access_age_secs = std::chrono::seconds(0),
+        };
+        coordinator_->onEviction(event);
+    }
+
+    const auto recent = coordinator_->getRecentTransitions(2);
+    ASSERT_EQ(recent.size(), 2);
+    EXPECT_EQ(recent[0].key, "history_1001");
+    EXPECT_EQ(recent[1].key, "history_1000");
+    EXPECT_EQ(coordinator_->getRecentTransitions(2000).size(), 1000);
 }
 
 TEST_F(AccessCoordinatorFocusedTest, ACM07_LatencyHistogramTracking) {

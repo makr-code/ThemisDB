@@ -554,8 +554,10 @@ jobs:
           fi
           script_path="$RUNNER_TEMP/cmake-build-configure.sh"
           configure_output_log="$RUNNER_TEMP/cmake-build-configure-output.log"
+          configure_started="$RUNNER_TEMP/cmake-build-configure-start"
           printf '%s\n' "$CONFIGURE_COMMAND" > "$script_path"
           : > "$configure_output_log"
+          touch "$configure_started"
           set +e
           set +o pipefail
           bash "$script_path" 2>&1 | tee -a "$configure_output_log"
@@ -571,6 +573,15 @@ jobs:
             set -o pipefail
             set -e
           fi
+          if [ "$status" -ne 0 ] && [ -d vcpkg/buildtrees/detect_compiler ]; then
+            # vcpkg reports log paths, not the nested compiler error needed by recovery.
+            while IFS= read -r -d '' log; do
+              {
+                printf '\n--- %s ---\n' "$log"
+                cat "$log"
+              } | tee -a "$configure_output_log"
+            done < <(find vcpkg/buildtrees/detect_compiler -type f -newer "$configure_started" \( -name '*-out.log' -o -name '*-err.log' \) -print0)
+          fi
           if [ "$status" -ne 0 ] && grep -Eq "sccache: error: Server startup failed|cache storage failed to read" "$configure_output_log"; then
             echo "::warning::Transient sccache backend failure detected during configure; disabling sccache launcher and retrying once."
             if command -v sccache >/dev/null 2>&1; then
@@ -579,6 +590,8 @@ jobs:
             BUILD_DIR="${{ steps.resolve_mode.outputs.resolved_build_dir }}"
             if [ -n "${BUILD_DIR:-}" ] && [ -d "$BUILD_DIR" ]; then
               # Reuse cached configure options; rerunning the preset would re-enable the launcher.
+              # Nested vcpkg configures also inherit launcher environment variables.
+              unset CMAKE_C_COMPILER_LAUNCHER CMAKE_CXX_COMPILER_LAUNCHER
               set +e
               set +o pipefail
               cmake "$BUILD_DIR" -DTHEMIS_ENABLE_COMPILER_CACHE=OFF -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER= 2>&1 | tee -a "$configure_output_log"

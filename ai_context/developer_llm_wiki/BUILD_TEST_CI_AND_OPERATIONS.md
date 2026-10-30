@@ -57,8 +57,12 @@ guidance; use workflow sources and concrete run logs as evidence.
   [ARM64 job 123993876135](https://github.com/makr-code/ThemisDB/actions/runs/41034175988/job/123993876135)
   failed linking `themis_server` with vcpkg fmt v11 and Ubuntu spdlog 1.12.
   The manifest now leaves both libraries to apt; the provider regression check
-  is in `tests/test_docker_runtime_package_regressions.py`. A successful full
-  ARM64 image build still requires CI verification.
+  is in `tests/test_docker_runtime_package_regressions.py` and runs before Buildx
+  setup in `reusable-docker-image-platform.yml` for both architectures.
+  Retry job 124024436376 still used the old manifest with explicit vcpkg fmt;
+  its link command mixed Ubuntu spdlog 1.12 with vcpkg fmt 11.0.2.
+  A successful full ARM64 image build with the corrected manifest still requires
+  CI verification.
 - Follow-up PR evidence exposed separate cache/permission defects: RAG phases 7–10
   need PR-write permission in both caller and callee for labels/comments, even when
   compilation passed. The reusable CMake build no longer registers an unprepared
@@ -69,6 +73,15 @@ guidance; use workflow sources and concrete run logs as evidence.
   analyzer memory failures still need successful full-build evidence.
   Custom configure callers declare `build_directory` explicitly, including release
   matrix lanes; cache-disabled recovery uses that cache's original source directory.
+- Linux AMD64 release job
+  [124033550929](https://github.com/makr-code/ThemisDB/actions/runs/40996218967/job/124033550929)
+  failed inside vcpkg compiler detection before the outer Ninja diagnostic.
+  The run did not retain the nested error logs, so its underlying compiler failure
+  is unconfirmed. The reusable CMake workflow now prints fresh compiler-detection
+  output/error logs before checking for recoverable sccache errors. Cache-disabled
+  configure retries clear inherited launcher environment variables as well as the
+  CMake cache entries, so nested vcpkg probes do not reuse a failing launcher.
+  Other compiler errors remain fatal; a full release CI run is still required.
 - Evidence window: 2026-10-29 05:23 to 2026-10-30 05:23 UTC.
   Representative runs:
   [missing summary checkout](https://github.com/makr-code/ThemisDB/actions/runs/41003835208),

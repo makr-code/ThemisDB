@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-30"
+Last Updated: "2026-10-30"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 > **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
 
 <!-- Status: current | validated: 2026-05-31 -->
@@ -5,7 +19,7 @@
 
 # Security — Core Module
 
-> For reporting security vulnerabilities, see the project-level [SECURITY.md](../../../SECURITY.md).
+> For reporting security vulnerabilities, see the project-level [SECURITY.md](../../SECURITY.md).
 
 ## Security Scope
 
@@ -55,7 +69,7 @@ The Core module provides the dependency injection framework, structured logging,
 ## Known Limitations
 
 - Secrets interface (`ISecrets`) is implemented (Issue #1417): `InMemorySecrets` (map-backed, thread-safe) and `EnvSecretsProvider` (environment-variable-backed with configurable prefix) are available; config-driven selection via `Config::secretsAdapter` (`"noop"`, `"inmemory"`, `"env"`).
-- Plugin-based adapter loading (Issue #1706) is not yet implemented; adapter selection requires recompilation.
+- Runtime adapter loading is implemented through `AdapterRegistry::loadFromPlugin()`. Optional `.sig` SHA-256 digest checking detects content mismatch but does not authenticate a publisher; the default registry policy is `kTrustAll`. See [TRUST.md](TRUST.md).
 - Log message content is caller-controlled; there is no automatic PII scrubbing at the core logger level.
 - Core security bootstrap is fail-closed by design in production mode, but deployment correctness still depends on operator-supplied Vault/HSM/JWT configuration values.
 

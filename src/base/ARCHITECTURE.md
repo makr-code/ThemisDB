@@ -1,81 +1,84 @@
-# Architecture - Base Module
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-30"
+Last Updated: "2026-10-30"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "README.md"
+  - "API.md"
+  - "../../include/themis/base/module_loader.h"
+  - "../../include/themis/base/module_sandbox.h"
+  - "../../include/themis/base/hot_reload_manager.h"
+  - "../../include/themis/base/plugin_dependency_graph.h"
+  - "../../include/base/buffer_pool.h"
+  - "../../include/base/resource_pool_manager.h"
+  - "../themis/module_loader.cpp"
+  - "module_sandbox.cpp"
+  - "hot_reload_manager.cpp"
+  - "buffer_pool.cpp"
+Related_Issue: "#7167 (closes #7091)"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
 
-<!-- Status: current | validated: 2026-09-09 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+Exact model backend not verifiable from final document text alone.
 
-## Overview
+# Base Module Architecture
 
-The base module is the runtime foundation for module extensibility. It composes loading, validation, dependency resolution, isolation, and reload behavior into a single platform-facing layer consumed by other modules.
+## Scope, boundaries, and ownership
 
-## Main Execution Planes
+The base area contains two related foundations: module/plugin lifecycle APIs under `themis::modules` and shared resource-pool utilities under `themis::resource`. It owns module loading/verification, dependency resolution, sandbox/WASM integration, hot reload, and generic buffer/connection-pool support; it does not own plugin-specific business behavior.
 
-1. Loader and trust plane
-- dynamic module load/unload lifecycle
-- trust, integrity, and policy gating before activation
+**Source ownership caveat:** `src/base/module_loader.cpp` identifies itself as a deprecated legacy copy. The canonical platform-independent loader implementation is [`src/themis/module_loader.cpp`](../themis/module_loader.cpp), with platform-specific sources alongside it. Do not infer current loader behavior from the legacy copy.
 
-2. Dependency and registry plane
-- dependency graph and compatibility ordering
-- remote registry retrieval and validation path
+## Components and public interfaces
 
-3. Isolation and runtime plane
-- module sandbox boundaries and limits
-- wasm isolation and runtime injection hooks
+| Component | Public interface | Source-backed responsibility |
+|---|---|---|
+| Module lifecycle | [`ModuleLoader`](../../include/themis/base/module_loader.h) | Register/load/unload modules and expose verification, lifecycle, and error state. |
+| Isolation and ABI | [`ModuleSandbox`](../../include/themis/base/module_sandbox.h), [`WasmPluginSandbox`](../../include/themis/base/wasm_plugin_sandbox.h), [`WasmRuntimeInjector`](../../include/themis/base/wasm_runtime_injector.h) | Apply configured sandbox/ABI controls and select explicitly registered WASM runtimes. |
+| Dependency, reload, registry | [`PluginDependencyGraph`](../../include/themis/base/plugin_dependency_graph.h), [`HotReloadManager`](../../include/themis/base/hot_reload_manager.h), [`RemoteRegistryClient`](../../include/themis/base/remote_registry_client.h) | Resolve dependency order, manage reload/rollback, and retrieve/validate registry artifacts. |
+| Generic resource pools | [`BufferPool`](../../include/base/buffer_pool.h), [`ResourcePoolManager`](../../include/base/resource_pool_manager.h) | Reuse size-class buffers and coordinate generic connection/buffer/thread resource pools. |
 
-4. Reload and operations plane
-- hot reload with rollback semantics
-- observability and runtime status surfaces
+## Data and event flow
 
-## Core Contracts
+1. A module artifact is registered/resolved and checked for path, metadata, compatibility, and security requirements before activation.
+2. Dependency resolution produces a load order; configured sandbox and runtime hooks apply at the module boundary.
+3. Hot reload tracks candidate activation and rollback state; remote registry download is a separate intake path before loader hand-off.
+4. Independent resource-pool callers acquire/release pooled buffers or connection slots and can inspect pool statistics.
 
-| Contract | Behavior |
+Evidence: [`module_loader.cpp`](../themis/module_loader.cpp), [`module_sandbox.cpp`](module_sandbox.cpp), [`hot_reload_manager.cpp`](hot_reload_manager.cpp), [`plugin_dependency_graph.cpp`](plugin_dependency_graph.cpp), [`buffer_pool.cpp`](buffer_pool.cpp), and [`resource_pool_manager.cpp`](resource_pool_manager.cpp).
+
+## Failure domains and edge cases
+
+- Missing/invalid artifacts, signature/hash or ABI checks, and dependency cycles can stop activation before a module is usable.
+- Sandbox setup or absent optional WASM runtime limits the corresponding execution path; do not treat configured isolation as universal across all plugins.
+- Reload candidate failure can trigger rollback; rollback failure is a distinct error state.
+- Registry authentication/download/checksum failure blocks that artifact intake path.
+- Buffer requests larger than the fixed slab classes use the system allocator; pool acquisition/configuration failures are separate from module-load failures.
+
+## Explicit non-goals
+
+- Implementing plugin domain logic, module APIs, or database request execution.
+- Guaranteeing every module is dynamically loaded or sandboxed at runtime.
+- Treating legacy `src/base/module_loader.cpp` as the canonical loader implementation.
+- Claiming every pool design target or performance figure is met without current benchmark evidence.
+
+## Verified cross-module references
+
+| Boundary | Evidence and link |
 |---|---|
-| loader interfaces | validate and activate/deactivate modules safely |
-| dependency interfaces | express and resolve load order constraints |
-| sandbox interfaces | enforce bounded execution policies |
-| reload interfaces | coordinate swap/rollback without full restart |
+| Plugin security | Canonical `src/themis/module_loader.cpp` includes `acceleration/plugin_security.h`; see [`PluginSecurity`](../../include/acceleration/plugin_security.h). |
+| Hash verification | The loader includes Themis module hash-verification support; see [`module_hash_verifier.h`](../../include/themis/module_hash_verifier.h). |
+| Server consumer | `src/server/http_server.cpp` includes `themis/base/module_loader.h`; see [server module README](../server/README.md). |
 
-## Failure Semantics
+## References
 
-- invalid or untrusted module artifacts fail closed during load.
-- dependency/compatibility conflicts return structured resolution failures.
-- sandbox/runtime setup failures block unsafe execution paths.
-
-## Sourcecode Verification (Module: base/architecture)
-
-- Verified files:
-  - src/base/module_loader.cpp
-  - src/base/plugin_dependency_graph.cpp
-  - src/base/module_sandbox.cpp
-  - src/base/wasm_plugin_sandbox.cpp
-  - src/base/wasm_runtime_injector.cpp
-  - src/base/hot_reload_manager.cpp
-  - src/base/remote_registry_client.cpp
-- Verified architecture claims:
-  - explicit loader, dependency, isolation, and reload planes
-  - bounded failure behavior around trust and runtime activation
-  - dedicated base-layer composition for extensible modules
-
-## Module Dependencies
-
-### Direct Upstream Dependencies (this module uses)
-| Module | Interface / File | Purpose |
-|--------|-----------------|---------|
-| utils | `include/utils/` | Logging, audit, and thread helpers consumed during load/reload lifecycle |
-
-### Direct Downstream Consumers (modules that use this module)
-| Module | Via | Notes |
-|--------|-----|-------|
-| server | `include/base/module_loader.h` | Server uses base to dynamically load/unload extension modules at runtime |
-| plugins | `include/base/` (ModuleLoader) | Plugin manager delegates module sandboxing and reload to the base layer |
-
-## Integration Points
-
-### Critical Integration: Module Load / Unload Lifecycle
-**Files:** `src/base/module_loader.cpp`, `src/base/hot_reload_manager.cpp` ↔ `server/` and `plugins/`
-**Contract:** Callers (server, plugins) invoke load/unload/reload through the ModuleLoader API; base module owns trust, integrity, and sandbox decisions exclusively.
-**Thread Safety:** Load/unload operations are serialised under an internal lifecycle mutex; hot-reload acquires the same lock for atomic swap.
-
-### Critical Integration: Wasm Sandbox Isolation
-**Files:** `src/base/wasm_plugin_sandbox.cpp`, `src/base/wasm_runtime_injector.cpp`
-**Contract:** Wasm plugins execute inside isolated sandbox instances; host callbacks injected via `WasmRuntimeInjector` must be side-effect-free.
-**Thread Safety:** Each sandbox instance is single-threaded; host callback invocations must not re-enter the sandbox.
+- [Module README](README.md) · [API reference](API.md) · [module roadmap](ROADMAP.md)
+- [`module_loader.h`](../../include/themis/base/module_loader.h) · [`hot_reload_manager.h`](../../include/themis/base/hot_reload_manager.h) · [`resource_pool_manager.h`](../../include/base/resource_pool_manager.h)
