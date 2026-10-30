@@ -223,6 +223,18 @@ RUN --mount=type=cache,target=/opt/vcpkg/downloads,sharing=locked \
     fi; \
     echo "Hybrid dependency installation complete (apt + vcpkg)"
 
+# COMMUNITY links Ubuntu's compiled spdlog; vcpkg fmt headers would change its ABI.
+RUN set -eu; \
+    if [ "$(printf '%s' "${THEMIS_EDITION}" | tr '[:upper:]' '[:lower:]')" = "community" ]; then \
+        TRIPLET=$(cat /tmp/triplet.txt); \
+        for library in fmt spdlog; do \
+            if [ -e "/build/vcpkg_installed/${TRIPLET}/include/${library}" ]; then \
+                echo "ERROR: COMMUNITY must use Ubuntu fmt/spdlog together; found vcpkg ${library} for ${TRIPLET}"; \
+                exit 1; \
+            fi; \
+        done; \
+    fi
+
 # ============================================================================
 # Stage 3: llama - Build llama.cpp (optional, for LLM support)
 # ============================================================================
