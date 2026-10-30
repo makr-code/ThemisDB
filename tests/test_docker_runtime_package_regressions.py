@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
 import json
+import os
 import re
+import subprocess
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -103,6 +106,41 @@ class DockerRuntimePackageRegressionTests(unittest.TestCase):
             with self.subTest(library=library):
                 self.assertIn(f"lib{library}-dev", deps_packages)
                 self.assertNotIn(library, vcpkg_dependencies)
+
+    @unittest.skipUnless(Path("/bin/sh").is_file(), "Requires the Docker build's POSIX shell")
+    def test_community_dependency_guard_rejects_mixed_logging_providers(self) -> None:
+        deps_stage = extract_stage(self._dockerfile_text(), "deps", base_image="base")
+        match = re.search(
+            r"^RUN set -eu; \\\n(?P<body>(?:[^\n]*\\\n)*[^\n]*)",
+            deps_stage,
+            re.MULTILINE,
+        )
+        self.assertIsNotNone(match, "Missing COMMUNITY logging provider guard")
+        command = match.group("body").replace("\\\n", "")
+
+        for triplet in ("x64-linux", "arm64-linux"):
+            for edition in ("COMMUNITY", "community", "ENTERPRISE"):
+                for library in (None, "fmt", "spdlog"):
+                    with self.subTest(triplet=triplet, edition=edition, library=library):
+                        with tempfile.TemporaryDirectory() as temporary:
+                            root = Path(temporary)
+                            (root / "triplet.txt").write_text(triplet, encoding="utf-8")
+                            if library:
+                                (root / triplet / "include" / library).mkdir(parents=True)
+                            result = subprocess.run(
+                                [
+                                    "/bin/sh", "-eu", "-c",
+                                    command.replace("/build/vcpkg_installed", temporary)
+                                    .replace("/tmp/triplet.txt", str(root / "triplet.txt")),
+                                ],
+                                env={**os.environ, "THEMIS_EDITION": edition},
+                                capture_output=True,
+                                text=True,
+                            )
+                            rejected = edition.lower() == "community" and library is not None
+                            self.assertEqual(result.returncode, int(rejected), result.stderr)
+                            if rejected:
+                                self.assertIn(f"found vcpkg {library} for {triplet}", result.stdout)
 
     def test_runtime_stage_uses_ubuntu_2404_runtime_packages(self) -> None:
         runtime_stage = extract_stage(self._dockerfile_text(), "runtime")

@@ -63,6 +63,15 @@ guidance; use workflow sources and concrete run logs as evidence.
   its link command mixed Ubuntu spdlog 1.12 with vcpkg fmt 11.0.2.
   A successful full ARM64 image build with the corrected manifest still requires
   CI verification.
+  AMD64 job [124204379008](https://github.com/makr-code/ThemisDB/actions/runs/41034175988/job/124204379008)
+  also built the old `910fe92` revision: it installed vcpkg fmt 11.0.2 alongside
+  Ubuntu spdlog 1.12 and failed linking `themis_server` with unresolved
+  `spdlog::details::log_msg` symbols using `fmt::v11`. The current COMMUNITY
+  manifest already excludes fmt. The Docker dependency stage now rejects
+  vcpkg fmt/spdlog headers for COMMUNITY, including transitive installations,
+  before compiling the server. Shell regression tests cover both architectures.
+  Re-running the old commit cannot validate this fix; a new run on the corrected
+  revision is required for full-image verification.
 - Follow-up PR evidence exposed separate cache/permission defects: RAG phases 7–10
   need PR-write permission in both caller and callee for labels/comments, even when
   compilation passed. The reusable CMake build no longer registers an unprepared
