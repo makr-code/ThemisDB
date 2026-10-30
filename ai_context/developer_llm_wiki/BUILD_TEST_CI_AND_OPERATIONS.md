@@ -73,6 +73,15 @@ guidance; use workflow sources and concrete run logs as evidence.
   analyzer memory failures still need successful full-build evidence.
   Custom configure callers declare `build_directory` explicitly, including release
   matrix lanes; cache-disabled recovery uses that cache's original source directory.
+- Linux AMD64 release job
+  [124033550929](https://github.com/makr-code/ThemisDB/actions/runs/40996218967/job/124033550929)
+  failed inside vcpkg compiler detection before the outer Ninja diagnostic.
+  The run did not retain the nested error logs, so its underlying compiler failure
+  is unconfirmed. The reusable CMake workflow now prints fresh compiler-detection
+  output/error logs before checking for recoverable sccache errors. Cache-disabled
+  configure retries clear inherited launcher environment variables as well as the
+  CMake cache entries, so nested vcpkg probes do not reuse a failing launcher.
+  Other compiler errors remain fatal; a full release CI run is still required.
 - Evidence window: 2026-10-29 05:23 to 2026-10-30 05:23 UTC.
   Representative runs:
   [missing summary checkout](https://github.com/makr-code/ThemisDB/actions/runs/41003835208),

@@ -313,7 +313,10 @@ def test_cmake_cache_retries_disable_forced_launcher_without_resetting_toolchain
 
 @pytest.mark.parametrize("stage", ["Configure", "Build"])
 @pytest.mark.parametrize("retry_status", [0, 9])
-def test_cmake_cache_recovery_propagates_status(tmp_path: Path, stage, retry_status):
+@pytest.mark.parametrize("nested_error", [False, True])
+def test_cmake_cache_recovery_propagates_status(tmp_path: Path, stage, retry_status, nested_error):
+    if nested_error and stage == "Build":
+        pytest.skip("vcpkg compiler detection runs during configure")
     workflow = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "reusable-cmake-build.yml"
     steps = yaml.safe_load(workflow.read_text(encoding="utf-8"))["jobs"]["build"]["steps"]
     script = next(step["run"] for step in steps if step.get("name") == stage)
@@ -325,11 +328,18 @@ def test_cmake_cache_recovery_propagates_status(tmp_path: Path, stage, retry_sta
         '#!/bin/bash\n'
         'echo "$*" >> "$CALLS_FILE"\n'
         'if [[ "$*" == *"-DTHEMIS_ENABLE_COMPILER_CACHE=OFF"* ]]; then\n'
+        '  if [[ "$TEST_STAGE" == Configure && ( -v CMAKE_C_COMPILER_LAUNCHER || -v CMAKE_CXX_COMPILER_LAUNCHER ) ]]; then exit 8; fi\n'
         '  touch "$RETRY_DONE"\n'
         '  exit "$RETRY_STATUS"\n'
         'fi\n'
         'if [[ "$1" == "--build" && -f "$RETRY_DONE" ]]; then exit 0; fi\n'
-        'echo "sccache: error: Server startup failed"\n'
+        'if [[ "$NESTED_ERROR" == True ]]; then\n'
+        '  mkdir -p vcpkg/buildtrees/detect_compiler\n'
+        '  echo "sccache: error: Server startup failed" > vcpkg/buildtrees/detect_compiler/config-x64-linux-rel-err.log\n'
+        '  echo "error: vcpkg was unable to detect the active compiler information"\n'
+        'else\n'
+        '  echo "sccache: error: Server startup failed"\n'
+        'fi\n'
         'exit 1\n',
         encoding="utf-8",
     )
@@ -347,6 +357,10 @@ def test_cmake_cache_recovery_propagates_status(tmp_path: Path, stage, retry_sta
         "CALLS_FILE": str(calls),
         "RETRY_DONE": str(tmp_path / "retry-done"),
         "RETRY_STATUS": str(retry_status),
+        "TEST_STAGE": stage,
+        "NESTED_ERROR": str(nested_error),
+        "CMAKE_C_COMPILER_LAUNCHER": "sccache",
+        "CMAKE_CXX_COMPILER_LAUNCHER": "sccache",
     }
     result = subprocess.run(["bash", "-c", script], env=env, capture_output=True, text=True)
     assert result.returncode == retry_status, result.stdout + result.stderr
@@ -354,6 +368,38 @@ def test_cmake_cache_recovery_propagates_status(tmp_path: Path, stage, retry_sta
     assert len(commands) == (3 if stage == "Build" and retry_status == 0 else 2)
     assert "-DTHEMIS_ENABLE_COMPILER_CACHE=OFF" in commands[1]
     assert "-DCMAKE_TOOLCHAIN_FILE=" not in commands[1]
+    if nested_error:
+        assert "config-x64-linux-rel-err.log" in result.stdout
+        assert "sccache: error: Server startup failed" in result.stdout
+
+
+@pytest.mark.parametrize("configure_status,stale_log", [(0, False), (23, False), (23, True)])
+def test_cmake_compiler_diagnostics_do_not_retry_unrelated_errors(tmp_path: Path, configure_status, stale_log):
+    workflow = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "reusable-cmake-build.yml"
+    steps = yaml.safe_load(workflow.read_text(encoding="utf-8"))["jobs"]["build"]["steps"]
+    script = next(step["run"] for step in steps if step.get("name") == "Configure")
+    build_dir = tmp_path / "build"
+    build_dir.mkdir()
+    script = script.replace("${{ steps.resolve_mode.outputs.resolved_build_dir }}", str(build_dir))
+    log = tmp_path / "vcpkg" / "buildtrees" / "detect_compiler" / "config-x64-linux-rel-err.log"
+    log.parent.mkdir(parents=True)
+    if stale_log:
+        log.write_text("sccache: error: Server startup failed\n", encoding="utf-8")
+        os.utime(log, (1, 1))
+    command = "" if stale_log else 'echo "compiler syntax error" > "$COMPILER_LOG"; '
+    env = {
+        **os.environ,
+        "WORKING_DIRECTORY": str(tmp_path),
+        "RUNNER_TEMP": str(tmp_path),
+        "RUNNER_ARCH": "X64",
+        "CONFIGURE_COMMAND": command + f"exit {configure_status}",
+        "COMPILER_LOG": str(log),
+    }
+    result = subprocess.run(["bash", "-c", script], env=env, capture_output=True, text=True)
+    assert result.returncode == configure_status, result.stdout + result.stderr
+    assert ("compiler syntax error" in result.stdout) == (configure_status != 0 and not stale_log)
+    assert "sccache: error: Server startup failed" not in result.stdout
+    assert "Transient sccache backend failure" not in result.stdout
 
 
 @pytest.mark.parametrize("directory", ["", "build-fast", "/tmp/rag-build"])
