@@ -1,9 +1,22 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-30"
+Last Updated: "2026-10-30"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Security - Server Module
 
-<!-- Status: current | validated: 2026-08-17 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · TRUST.md -->
 
-Report vulnerabilities via project-level SECURITY.md.
+Report vulnerabilities privately via [project SECURITY.md](../../SECURITY.md). This page describes server controls, not product-wide certification.
 
 ## Security Scope
 
@@ -30,15 +43,14 @@ Security in the server module focuses on authentication and request-control midd
 - deepen validation for overload and request-flood edge scenarios across mixed endpoint traffic.
 - tighten diagnostics consistency across auth, throttle, and health/error rejection paths.
 - broaden protocol-specific hardening coverage for server-owned session surfaces.
+- `ApiAuthConfig::createSecureDefaults()` enables authentication and assigns scopes to protected routes. `createDevDefaults()` disables authentication and removes endpoint-specific restrictions; never use the development profile on an untrusted interface.
+- Health/version and several status endpoints are public in the secure defaults and remain rate-limited; restrict their exposure if their metadata is sensitive.
+- Kerberos configuration exposes a `fallback_to_basic` option. Review it explicitly; a weaker fallback must not silently broaden accepted identities.
+- Bearer/API tokens, JWTs, provider secrets, and TLS private keys are sensitive runtime inputs. Keep them out of source, logs, command arguments, and public diagnostics.
 
-## Phase 1 Auth Hardening Closure (Q2 2026)
+## Incident Handling
 
-Auth hardening is complete. The API contract is frozen at `include/server/server_api_contract.h`:
-- **§2 Auth Gate Contract** — explicit per-route authentication and authorization gate semantics.
-- **§6 Error Taxonomy** — 12+ error classes with documented fail-closed semantics; no silent auth bypass.
-- **§8 Threading Guarantees** — thread-safety contracts for all middleware and handler entry points.
-
-SCH-01..SCH-20 regression coverage is active in `tests/server/test_server_contract_hardening_focused.cpp` (Phase 4 test suite, 20 deterministic GTest cases). Voice API JWT/OIDC Bearer-Token validation is complete: JWT signature, expiry (`exp`), issuer (`iss`), audience (`aud` = `"themis-voice-api"`), and JTI revocation; fail-closed on any validation failure.
+For suspected ingress/auth compromise, restrict or disable the affected route/listener, revoke exposed credentials, preserve auth/audit and rate-limit evidence, and verify the active auth profile and per-route scopes before restoring access. Follow [SOP-05](../../SOP.md) and [SOP-08](../../SOP.md).
 
 ## Sourcecode Verification (Module: server/security)
 
@@ -55,3 +67,9 @@ SCH-01..SCH-20 regression coverage is active in `tests/server/test_server_contra
   - dedicated auth and request-control middleware
   - explicit overload and health signaling
   - bounded server-owned session/runtime surfaces
+
+- Additional source references:
+  - `src/server/api_auth_config.cpp`
+  - `src/server/auth_middleware.cpp`
+  - `src/server/voice_api_handler.cpp`
+  - [Trust and security boundaries](TRUST.md)

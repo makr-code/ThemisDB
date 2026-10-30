@@ -1,16 +1,16 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-10-19"
+Last Updated: "2026-10-30"
 Status: "active"
 AI_Used: true
-AI_Models: "MAI-Code-1.1-Flash"
-AI_Contributor: "MAI-Code-1.1-Flash"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
-AI-assisted drafting for this document was performed with MAI-Code-1.1-Flash in the current task session.
+Exact model backend not verifiable from final document text alone.
 
 # Storage Trust and Security Boundary
 
@@ -26,7 +26,7 @@ Risk: a write path appears successful while the durable state is not actually sa
 
 ### 2. Unsafe default configuration
 
-Risk: production runs with default no-op encryption, key providers, or index managers. The source explicitly rejects these defaults in `storage_engine.cpp` rather than allowing them to proceed.
+Risk: a deployment uses default no-op encryption, key providers, or index managers without production mode being detected. `storage_engine.cpp` rejects some defaults only when `THEMIS_PRODUCTION_MODE` or `THEMIS_ENVIRONMENT=production` is set; deployments must set the intended mode and inject real providers.
 
 ### 3. Recovery path corruption
 
@@ -41,6 +41,7 @@ Risk: tampering or corruption is not surfaced clearly. The module includes secur
 - fail-closed production configuration checks,
 - explicit WAL durability requirements,
 - manifest-driven backup validation,
+- AES-256-GCM blob encryption when the encrypted blob backend is configured,
 - integrity and audit surfaces for storage state,
 - failure classification and explicit diagnostics for recovery and pressure events.
 
@@ -50,21 +51,17 @@ The storage module assumes:
 
 - the configured filesystem and backend are reliable enough for the durability contract,
 - production deployments do not use insecure default providers,
+- only the encrypted-blob path encrypts its wrapped payload; this does not establish that WAL, backup, manifest, or audit files are encrypted,
+- storage audit records are protected by host/filesystem access controls because the logger writes them as files,
 - recovery paths are validated before restoration,
 - maintenance and compaction processes remain observable and bounded.
 
 Any violation of these assumptions should be treated as a real integrity or availability event.
 
-## Incident handling
-
-If storage integrity or replay correctness is in doubt:
-
-1. stop write traffic to limit the blast radius,
-2. preserve the current WAL and backup state for forensic review,
-3. validate the last known-good backup or snapshot,
-4. classify the failure as durability, recovery, or configuration-related,
-5. restore only from a validated state after the failing dependency has been corrected.
-
 ## Bottom line
 
-The trust posture of ThemisDB depends on storage remaining explicit, deterministic, and fail-closed. The module's design is intentionally conservative: it treats silent degradation as unacceptable and keeps recovery and integrity checking as first-class operational concerns.
+Storage is a confidentiality and integrity boundary, but this page is not a certification that every persistence path is encrypted or recoverable. Verify provider configuration, file permissions, backup encryption, and restore evidence for the actual deployment.
+
+## Incident handling
+
+When storage integrity or replay correctness is in doubt, stop write traffic, preserve the current WAL and backup state, classify the issue as durability, recovery, key-provider, or configuration related, and test restoration from a validated backup before replacing production state. Do not report recovery as complete until integrity checks pass. Use [project SECURITY.md](../../SECURITY.md) for private vulnerability reporting and [SOP-08](../../SOP.md) for operational response.

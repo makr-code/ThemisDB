@@ -1,18 +1,18 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-21
-Last Updated: 2026-10-21
+Last Updated: 2026-10-30
 Status: active
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: unknown
-Human_Review: true
+AI_Contributor: GitHub Copilot
+Human_Review: false
 Human_Author: ThemisDB Contributors
 ---
 
-# Auth Module Trust and Risk Model
+Exact model backend not verifiable from final document text alone.
 
-AI provenance note: Exact model backend not verifiable from final document text alone.
+# Auth Module Trust and Risk Model
 
 This document defines the trust boundaries and risk posture for the auth module as implemented in `src/auth` and consumed by the broader ThemisDB runtime.
 
@@ -39,6 +39,8 @@ The implementation requires the following assumptions to hold for safe operation
 - revocation state remains available or the system remains in a fail-closed mode
 - session boundaries are bounded and not allowed to grow unobservably
 - provider errors are classified and are not transformed into silent success
+- issuer and audience checks are configured when required: the default JWT validator does not require either check unless explicitly configured
+- operators account for the configured JWKS cache lifetime (600 seconds by default) when responding to issuer-key rotation or revocation
 
 Violating these assumptions creates direct trust issues for downstream authorization and business execution.
 
@@ -125,10 +127,14 @@ If a trust incident occurs, the expected workflow is:
 
 ## 6. Residual risk
 
-The auth module is robust, but trust remains a risk area whenever external providers or distributed components participate in identity decisions. The remaining risk is not theoretical; it is operational: malformed provider metadata, stale keys, inconsistent session state, or backend degradation can all widen the risk window if they are handled permissively.
+Trust remains a risk whenever external providers or distributed components participate in identity decisions: malformed provider metadata, stale keys, inconsistent session state, or backend degradation can widen the risk window if handled permissively.
 
 The module’s documented design is to avoid that by keeping trust decisions explicit, bounded, and observable.
 
 ## 7. Summary
 
 The auth module’s trust model is conservative by design. It treats identity, session state, and provider metadata as sensitive runtime assets and requires explicit proof before any downstream authorization or business execution proceeds.
+
+## 8. Operational Response
+
+If a token, signing key, provider, or revocation store is suspected compromised or unavailable, keep affected requests denied, revoke credentials at the issuer, invalidate relevant sessions, and retain audit evidence. Restore trust only after validating issuer, audience, key-set freshness, and revocation behavior. Use the private channel in [project SECURITY.md](../../SECURITY.md), with [SOP-05](../../SOP.md) for vulnerability response and [SOP-08](../../SOP.md) for operational incidents.

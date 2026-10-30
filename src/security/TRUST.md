@@ -1,18 +1,18 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-19
-Last Updated: 2026-10-19
+Last Updated: 2026-10-30
 Status: active
 AI_Used: true
-AI_Models: MAI-Code-1.1-Flash
-AI_Contributor: unknown
-Human_Review: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
 Human_Author: ThemisDB Contributors
 ---
 
 # Security Trust and Risk Model
 
-AI provenance note: Exact model backend not verifiable from final document text alone.
+Exact model backend not verifiable from final document text alone.
 
 
 This document defines the trust boundaries and risks that matter for the security module. It is grounded in the contract in `include/security/security_api_contract.h`, the enforcement logic in `src/security`, and the active module roadmap.
@@ -65,6 +65,10 @@ The following assumptions are not safe in the module's current design:
 
 These are explicitly contrary to the contract and the implementation style.
 
+Secret values are also not protected from a privileged process reader: `SecretManager` retains versions in memory, and a Vault token is held in provider configuration. Use host-level access controls and an external secret-management lifecycle; do not treat in-process storage as encrypted-at-rest protection.
+
+`FieldEncryption::createDefault()` uses an in-memory mock key provider only for test/demo use and is guarded in non-test builds. A software HSM stub can also be explicitly enabled; that stub does not provide hardware isolation or persistent hardware-backed key protection.
+
 ## Incident handling
 
 When trust is broken or a control fails:
@@ -77,4 +81,8 @@ When trust is broken or a control fails:
 
 ## Current posture
 
-The security module is production-evidenced and actively hardened, but the roadmap and gap tracker still record that full production closure remains pending. That is a trust posture requirement, not a deficiency of the documentation. The module should therefore be treated as strong but not universally closed for all future threat scenarios.
+This module document does not certify production readiness. Use the root `ROADMAP.md`, the active module gap tracker, and release evidence for current posture; where those sources disagree, do not infer a stronger security assurance. Provider configuration, key custody, and host access remain deployment responsibilities.
+
+## Operational Response
+
+On suspected compromise, disable or revoke the affected identity/key at its authoritative provider, preserve relevant audit evidence, identify impacted key versions and protected data, and verify recovery with the replacement key before resuming writes. Report vulnerabilities through [project SECURITY.md](../../SECURITY.md), not a public issue; follow [SOP-05](../../SOP.md) and [SOP-08](../../SOP.md).
