@@ -42,8 +42,12 @@ foreach(_src IN LISTS SERVER_MODULE_TEST_SOURCES)
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
     )
+    set(_server_test_libs ${TEST_LIBS})
+    if(_stem STREQUAL "test_api_integration" AND TEST_GMOCK_LIB)
+        list(REMOVE_ITEM _server_test_libs ${TEST_GMOCK_LIB})
+    endif()
     target_link_libraries(${_target} PRIVATE
-        ${TEST_LIBS}
+        ${_server_test_libs}
         ${_server_benchmark_target}
         themis_core
         spdlog::spdlog

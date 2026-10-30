@@ -289,10 +289,13 @@ def _load_benchmark_json(path: Path) -> dict[str, BenchmarkResult]:
 
 
 def _load_all_results(results_dir: Path) -> dict[str, BenchmarkResult]:
-    """Merge all benchmark JSON files in results_dir into a single name→result map."""
+    """Merge results, choosing the most sampled file for duplicate case names."""
     combined: dict[str, BenchmarkResult] = {}
-    for json_file in results_dir.rglob("*.json"):
-        combined.update(_load_benchmark_json(json_file))
+    for json_file in sorted(results_dir.rglob("*.json")):
+        for name, result in _load_benchmark_json(json_file).items():
+            existing = combined.get(name)
+            if existing is None or (result.iterations or 0) > (existing.iterations or 0):
+                combined[name] = result
     return combined
 
 

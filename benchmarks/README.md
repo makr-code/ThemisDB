@@ -1,3 +1,17 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-01-03
+Last Updated: 2026-10-30
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: unknown
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset nightly-bench-sweep && cmake --build --preset nightly-bench-sweep`
 
 # ThemisDB Benchmarks (`benchmarks/`)
@@ -74,9 +88,20 @@ Ausführung erfolgt entweder über erzeugte Benchmark-Binaries (`bench_*`) oder 
 - **Top-Level Benchmarks** (`benchmarks/bench*.cpp`, `benchmark_*.cpp`) bleiben nur für noch nicht migrierte oder bewusst globale Targets im Root erhalten.
 - **Modul-Benchmarks** folgen dem Muster `benchmarks/<module>/CMakeLists.txt` (analog `tests/<module>/...`), z. B. `benchmarks/ai/`, `benchmarks/analytics/`, `benchmarks/aql/`, `benchmarks/core/`, `benchmarks/query/`, `benchmarks/rag/`, `benchmarks/server/`, `benchmarks/transaction/`, `benchmarks/performance_optimizations/`.
 - **Manuelle/Script-basierte Benchmarks** (`*.py`, `*.sh`, `*.ps1`) sind absichtlich **nicht** als CTest-Gates registriert und werden über ihre Runner ausgeführt.
+- Ausnahme für die Abschlussauswertung: Der Benchmark-CTest-Preset startet nach allen `tier:benchmark`-Smokes `compare_expectations.py` als Fixture-Cleanup und schreibt den Erwartungsbericht.
 - **Intentionale Exclusions** bleiben explizit dokumentiert (aktuell: `performance_optimizations/phase2/benchmark_phase2.cpp`, Placeholder/disabled).
 
-Hinweis zur CTest-Integration: Benchmarks sind standardmäßig keine obligatorischen CTest-Checks; sie werden über dedizierte Benchmark-Presets/Runner und Build-Targets ausgeführt.
+Hinweis zur CTest-Integration: Benchmarks sind keine allgemeinen Unit-Test-Gates. Der unabhängige Windows-Benchmarkpfad nutzt den Configure-Preset `vscode-windows-bench-release`, das Build-Preset `windows-bench-release` und den Test-Preset `vscode-windows-benchmark-smokes`. Der letzte CTest-Schritt archiviert Vorläufe und verarbeitet die Google-Benchmark-JSONs aus `build/windows-bench-release/bench_results/current/`.
+
+Ausführung des vollständigen Windows-Benchmark-Smoke-Laufs mit abschließender Erwartungsauswertung:
+
+```powershell
+cmake --preset vscode-windows-bench-release
+cmake --build --preset windows-bench-release --parallel 16
+ctest --preset vscode-windows-benchmark-smokes --output-on-failure
+```
+
+Der Testpreset ist vom normalen Unit-Test-Preset getrennt und verwendet kein CTest-Dashboard-`-T test`. Er führt die Google-Benchmark-Smokes seriell aus; danach erzeugt `compare_expectations.py` den Report `benchmark_comparison_report.md`. Roh-JSON-Dateien und Reports liegen in `build/windows-bench-release/bench_results/current/`, vorherige Ergebnisse in `bench_results/archive/`.
 
 ## Kompatibilitaetsmatrix (Cleanup-Transition)
 

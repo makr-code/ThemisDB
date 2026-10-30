@@ -220,7 +220,18 @@ if(DEFINED TARGET_FILE AND NOT "${TARGET_FILE}" STREQUAL "")
             if(_dep_is_system)
                 continue()
             endif()
-            _copy_single_file_if_needed("${_dep}" "${DST_DIR}")
+
+            # GET_RUNTIME_DEPENDENCIES may resolve an existing, stale DLL beside
+            # the executable before searching BIN_DIR. Prefer the just-built
+            # project module when both files have the same canonical name.
+            get_filename_component(_dep_name "${_dep}" NAME)
+            string(TOLOWER "${_dep_name}" _dep_name_lower)
+            if(_dep_name_lower MATCHES "^themis.*\\.dll$" AND
+               DEFINED BIN_DIR AND EXISTS "${BIN_DIR}/${_dep_name}")
+                _copy_single_file_if_needed("${BIN_DIR}/${_dep_name}" "${DST_DIR}")
+            else()
+                _copy_single_file_if_needed("${_dep}" "${DST_DIR}")
+            endif()
         endif()
     endforeach()
 

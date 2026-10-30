@@ -87,5 +87,11 @@ foreach(_src IN LISTS EPIC2_EVALUATION_PLANNED_BENCHMARKS)
         if(TARGET themis_distributed_tensor)
             target_link_libraries(${_target} PRIVATE themis_distributed_tensor)
         endif()
+        themis_register_benchmark_ctest(
+            NAME   "${_target}"
+            TARGET "${_target}"
+            MODULE "epic2_evaluation"
+            TIMEOUT 120
+        )
     endif()
 endforeach()

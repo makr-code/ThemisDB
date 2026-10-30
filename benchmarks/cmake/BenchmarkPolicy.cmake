@@ -10,6 +10,7 @@ include_guard(GLOBAL)
 #   - Uses $<TARGET_FILE:...> so CTest resolves the binary path at run-time.
 #   - Mandatory labels: module, tier:benchmark, kind.
 #   - Explicit timeout and JSON output arguments enforced uniformly.
+#   - A unique result file for every CTest name, including duplicate targets.
 # =============================================================================
 
 include(CMakeParseArguments)
@@ -69,13 +70,13 @@ function(themis_register_benchmark_ctest)
 
     # Ensure output directory exists at configure time so the benchmark can
     # write its JSON report without failing on a missing directory.
-    set(_out_dir "${CMAKE_BINARY_DIR}/bench_results")
+    set(_out_dir "${CMAKE_BINARY_DIR}/bench_results/current")
     file(MAKE_DIRECTORY "${_out_dir}")
 
     add_test(
         NAME    "${TRB_NAME}"
         COMMAND $<TARGET_FILE:${TRB_TARGET}>
-            "--benchmark_out=${_out_dir}/${TRB_TARGET}.json"
+            "--benchmark_out=${_out_dir}/${TRB_NAME}.json"
             "--benchmark_out_format=json"
             "--benchmark_min_time=${TRB_MIN_TIME}"
             ${TRB_EXTRA_ARGS}
@@ -115,7 +116,59 @@ function(themis_register_benchmark_ctest)
     endif()
 
     set_tests_properties("${TRB_NAME}" PROPERTIES
-        LABELS  "${_labels}"
-        TIMEOUT "${TRB_TIMEOUT}"
+        LABELS            "${_labels}"
+        TIMEOUT           "${TRB_TIMEOUT}"
+        FIXTURES_REQUIRED "themis_google_benchmark_run"
+    )
+endfunction()
+
+# Add one benchmark-suite setup and one post-processing cleanup test. CTest
+# schedules the cleanup after every benchmark requiring the run fixture, even
+# when a benchmark fails, and auto-adds fixture setup/cleanup for label subsets.
+function(themis_register_benchmark_postprocess_ctest)
+    set(options)
+    set(oneValueArgs NAME SCRIPT RESULTS_DIR ARCHIVE_DIR REPORT_PATH TIMEOUT)
+    cmake_parse_arguments(TRP "${options}" "${oneValueArgs}" "" ${ARGN})
+
+    foreach(_required IN ITEMS NAME SCRIPT RESULTS_DIR ARCHIVE_DIR REPORT_PATH)
+        if(NOT TRP_${_required})
+            message(FATAL_ERROR "themis_register_benchmark_postprocess_ctest requires ${_required}")
+        endif()
+    endforeach()
+
+    if(NOT EXISTS "${TRP_SCRIPT}")
+        message(FATAL_ERROR "Benchmark postprocessor not found: ${TRP_SCRIPT}")
+    endif()
+
+    if(NOT TRP_TIMEOUT)
+        set(TRP_TIMEOUT 600)
+    endif()
+
+    find_package(Python3 REQUIRED COMPONENTS Interpreter)
+
+    add_test(
+        NAME "${TRP_NAME}_prepare"
+        COMMAND "${CMAKE_COMMAND}"
+            "-DRESULTS_DIR=${TRP_RESULTS_DIR}"
+            "-DARCHIVE_DIR=${TRP_ARCHIVE_DIR}"
+            -P "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/PrepareBenchmarkResults.cmake"
+    )
+    set_tests_properties("${TRP_NAME}_prepare" PROPERTIES
+        LABELS "module:benchmark_reporting;tier:benchmark;kind:setup"
+        FIXTURES_SETUP "themis_google_benchmark_run"
+        TIMEOUT 60
+    )
+
+    add_test(
+        NAME "${TRP_NAME}"
+        COMMAND "${Python3_EXECUTABLE}" "${TRP_SCRIPT}"
+            --src-dir "${THEMIS_BENCHMARK_ROOT}/src"
+            --results-dir "${TRP_RESULTS_DIR}"
+            --output "${TRP_REPORT_PATH}"
+    )
+    set_tests_properties("${TRP_NAME}" PROPERTIES
+        LABELS "module:benchmark_reporting;tier:benchmark;kind:postprocess"
+        FIXTURES_CLEANUP "themis_google_benchmark_run"
+        TIMEOUT "${TRP_TIMEOUT}"
     )
 endfunction()

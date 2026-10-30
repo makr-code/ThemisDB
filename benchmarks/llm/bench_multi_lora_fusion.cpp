@@ -408,19 +408,23 @@ BENCHMARK_CAPTURE(BM_FusionStrategy, Scheduled, FusionStrategy::SCHEDULED);
 // ═══════════════════════════════════════════════════════════
 
 static void BM_FusionScalability(benchmark::State& state) {
+    THEMIS_BENCH_SKIP_IF_ARTIFACT_MISSING(
+        state, themis::bench::resolveLoraPath(), "LoRA adapter");
+
     MultiLoRAManager::Config config;
     config.max_lora_vram_mb = 4096;
     config.max_lora_slots = 64;
     config.enable_adapter_fusion = true;
     
     MultiLoRAManager manager(config);
+    const std::string lora_path = themis::bench::resolveLoraPath();
     
     int num_adapters = state.range(0);
     
     // Load required number of LoRAs
     for (int i = 0; i < num_adapters; ++i) {
         std::string id = "scale-lora-" + std::to_string(i);
-        manager.loadLoRA(id, "/path/to/" + std::to_string(i) + ".bin", "base", 1.0f);
+        manager.loadLoRA(id, lora_path, "base", 1.0f);
     }
     
     // Prepare fusion config
@@ -454,6 +458,9 @@ BENCHMARK(BM_FusionScalability)
 // ═══════════════════════════════════════════════════════════
 
 BENCHMARK_F(MultiLoRAFusionFixture, CacheClearPerformance)(benchmark::State& state) {
+        if (!ensureReady(state)) {
+            return;
+        }
     for (auto _ : state) {
         state.PauseTiming();
         

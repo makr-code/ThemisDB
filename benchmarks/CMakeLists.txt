@@ -8886,38 +8886,6 @@ if(THEMIS_BUILD_BENCHMARKS)
       TIMEOUT 120
     )
   endif()
-  if(TARGET bench_w5a_production_workloads)
-    themis_register_benchmark_ctest(
-      NAME   bench_w5a_production_workloads
-      TARGET bench_w5a_production_workloads
-      MODULE "wavew"
-      TIMEOUT 120
-    )
-  endif()
-  if(TARGET bench_w5b_degradation)
-    themis_register_benchmark_ctest(
-      NAME   bench_w5b_degradation
-      TARGET bench_w5b_degradation
-      MODULE "wavew"
-      TIMEOUT 120
-    )
-  endif()
-  if(TARGET bench_w5c_determinism)
-    themis_register_benchmark_ctest(
-      NAME   bench_w5c_determinism
-      TARGET bench_w5c_determinism
-      MODULE "wavew"
-      TIMEOUT 120
-    )
-  endif()
-  if(TARGET bench_w5d_governance)
-    themis_register_benchmark_ctest(
-      NAME   bench_w5d_governance
-      TARGET bench_w5d_governance
-      MODULE "wavew"
-      TIMEOUT 120
-    )
-  endif()
   if(TARGET bench_w7_p2d05_compression_state_store)
     themis_register_benchmark_ctest(
       NAME   bench_w7_p2d05_compression_state_store
@@ -9031,5 +8999,14 @@ if(THEMIS_BUILD_BENCHMARKS)
       TIMEOUT 120
     )
   endif()
+
+  themis_register_benchmark_postprocess_ctest(
+    NAME        benchmark_postprocess_expectations
+    SCRIPT      "${CMAKE_CURRENT_SOURCE_DIR}/compare_expectations.py"
+    RESULTS_DIR "${CMAKE_BINARY_DIR}/bench_results/current"
+    ARCHIVE_DIR "${CMAKE_BINARY_DIR}/bench_results/archive"
+    REPORT_PATH "${CMAKE_BINARY_DIR}/bench_results/current/benchmark_comparison_report.md"
+    TIMEOUT     600
+  )
 
 endif()

@@ -18,6 +18,7 @@ Exact model backend not verifiable from final document text alone.
 - [x] Wave-6-Release-Candidate-Suite inkl. finaler Guardrails/Drift-/Sättigungs-/Recovery-Auswertung über `benchmarks/ci_wave6_release_candidate_experiments.json` und Framework-Reportfelder umgesetzt (Target: 2026-Q3)
 
 ## In Progress
+- [x] Final CTest post-processing for Google Benchmark smoke runs: `vscode-windows-benchmark-smokes` is serial, uses a result-archive fixture, and runs `compare_expectations.py` as the final cleanup step even after benchmark failures (Target: 2026-Q4)
 - [~] Cross-database comparison readiness (Target: 2026-Q4)
   - [x] Define domain-specific YCSB/ANN-Benchmarks/VectorDBBench/ClickBench/LDBC SNB evidence requirements in `BENCHMARK_STANDARDS.md`.
   - [x] MSVC runner: process CPU/peak memory/I/O, run manifest, case filtering, repetitions, bounded execution and error-aware JSON acceptance; verified with importer smoke runs.

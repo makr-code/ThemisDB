@@ -72,6 +72,24 @@ benchmark structure and registration rules.
 - Script-only benchmarks may remain outside CTest but must document runner flow.
 - No orphaned CTest entries pointing to missing benchmark binaries; the helper
   already guards against this automatically.
+- The `vscode-windows-benchmark-smokes` test preset runs only `tier:benchmark`
+  tests serially. It is independent of the normal unit-test presets. Use the
+  configure preset `vscode-windows-bench-release` and build preset
+  `windows-bench-release`; local CTest runs use
+  `ctest --preset vscode-windows-benchmark-smokes --output-on-failure` (no
+  dashboard `-T test` mode).
+- A CTest fixture archives prior output before the benchmark smokes and schedules
+  `compare_expectations.py` as fixture cleanup. CTest runs that cleanup last,
+  including when one or more benchmark smokes fail. The postprocessor's report
+  failure is surfaced as a CTest failure as well.
+- Each benchmark smoke writes `<CTest-name>.json` under
+  `build/windows-bench-release/bench_results/current/` to avoid output
+  collisions when a target has multiple smoke registrations. Previous result
+  directories are preserved under `bench_results/archive/`; the final report is
+  `benchmark_comparison_report.md` in the current run directory.
+- This comparison step evaluates cases documented in
+  `src/*/PERFORMANCE_EXPECTATIONS.md`. It does not execute or analyze ordinary
+  unit tests, and an expectation missing from the JSON is reported as `NOT_RUN`.
 
 ### 4.1 Canonical Registration Pattern
 
@@ -90,7 +108,7 @@ The helper enforces:
 - `$<TARGET_FILE:TARGET>` resolution — CTest finds the binary regardless of
   output directory structure.
 - Mandatory label set: `module:<module>;tier:benchmark;kind:smoke`.
-- JSON output written to `${CMAKE_BINARY_DIR}/bench_results/<target>.json`.
+- JSON output written to `${CMAKE_BINARY_DIR}/bench_results/current/<CTest-name>.json`.
 - Standard `--benchmark_min_time=0.1s` unless overridden via `MIN_TIME`.
 - Guard: the entry is silently skipped when the target is not available (avoids
   orphaned CTest entries when a benchmark is disabled by a feature flag).

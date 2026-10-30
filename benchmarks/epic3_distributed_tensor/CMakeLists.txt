@@ -27,6 +27,8 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_tensor_partial_refit.cc")
         )
         target_sources(
             module_epic3_distributed_tensor_bench_partial_refit_focused PRIVATE
+            ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/artifact_manifest.cc
+            ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/manifest_store.cpp
             ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/tensor_delta_log.cc
             ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/snapshot_update_worker.cc
             ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/crash_recovery_checkpoint.cc
@@ -61,6 +63,7 @@ if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_tensor_summary_first.cc")
                 PRIVATE themis_distributed_tensor)
         else()
             target_sources(module_epic3_distributed_tensor_bench_summary_first_focused PRIVATE
+                ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/artifact_manifest.cc
                 ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/shard_summary_coordinator.cc
                 ${THEMIS_ROOT_DIR}/src/distributed_tensor/src/manifest_store.cc
             )
@@ -84,5 +87,11 @@ foreach(_src IN LISTS EPIC3_DISTRIBUTED_TENSOR_BENCHMARKS)
         if(TARGET themis_distributed_tensor)
             target_link_libraries(${_target} PRIVATE themis_distributed_tensor)
         endif()
+        themis_register_benchmark_ctest(
+            NAME   "${_target}"
+            TARGET "${_target}"
+            MODULE "epic3_distributed_tensor"
+            TIMEOUT 120
+        )
     endif()
 endforeach()
