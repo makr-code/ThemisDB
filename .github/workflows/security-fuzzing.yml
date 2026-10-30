@@ -58,6 +58,7 @@ jobs:
       setup_command: |
         sudo apt-get update && sudo apt-get install -y afl++
         sudo apt-get install -y cmake ninja-build clang libboost-dev
+      build_directory: build-fuzz
       configure_command: |
         cmake -B build-fuzz \
           -DCMAKE_BUILD_TYPE=Debug \

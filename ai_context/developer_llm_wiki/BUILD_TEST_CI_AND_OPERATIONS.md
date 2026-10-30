@@ -58,6 +58,8 @@ guidance; use workflow sources and concrete run logs as evidence.
   on reconfigure errors. The release-critical job budget is 120 minutes; this is
   not proof that its full build passes. Nightly/packaging Ninja discovery and MSVC
   analyzer memory failures still need successful full-build evidence.
+  Custom configure callers declare `build_directory` explicitly, including release
+  matrix lanes; cache-disabled recovery uses that cache's original source directory.
 - Evidence window: 2026-10-29 05:23 to 2026-10-30 05:23 UTC.
   Representative runs:
   [missing summary checkout](https://github.com/makr-code/ThemisDB/actions/runs/41003835208),

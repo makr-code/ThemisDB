@@ -301,7 +301,7 @@ def test_cmake_cache_retries_disable_forced_launcher_without_resetting_toolchain
     steps = yaml.safe_load(workflow.read_text(encoding="utf-8"))["jobs"]["build"]["steps"]
     for name in ("Configure", "Build"):
         script = next(step["run"] for step in steps if step.get("name") == name)
-        retry = next(line for line in script.splitlines() if 'cmake -S . -B "$BUILD_DIR"' in line)
+        retry = next(line for line in script.splitlines() if 'cmake "$BUILD_DIR"' in line)
         assert "-DTHEMIS_ENABLE_COMPILER_CACHE=OFF" in retry
         assert "-DCMAKE_C_COMPILER_LAUNCHER=" in retry
         assert "-DCMAKE_CXX_COMPILER_LAUNCHER=" in retry
@@ -354,6 +354,50 @@ def test_cmake_cache_recovery_propagates_status(tmp_path: Path, stage, retry_sta
     assert len(commands) == (3 if stage == "Build" and retry_status == 0 else 2)
     assert "-DTHEMIS_ENABLE_COMPILER_CACHE=OFF" in commands[1]
     assert "-DCMAKE_TOOLCHAIN_FILE=" not in commands[1]
+
+
+@pytest.mark.parametrize("directory", ["", "build-fast", "/tmp/rag-build"])
+def test_cmake_resolver_honors_explicit_binary_directory(tmp_path: Path, directory):
+    workflow = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "reusable-cmake-build.yml"
+    steps = yaml.safe_load(workflow.read_text(encoding="utf-8"))["jobs"]["build"]["steps"]
+    step = next(step for step in steps if step.get("id") == "resolve_mode")
+    output = tmp_path / "outputs"
+    env = {
+        **os.environ,
+        **{key: "" for key in step["env"]},
+        "PRESET": "check",
+        "BUILD_DIRECTORY": directory,
+        "GITHUB_OUTPUT": str(output),
+    }
+    subprocess.run(["bash", "-c", step["run"]], env=env, check=True, capture_output=True)
+    expected = directory or "build-check"
+    assert f"resolved_build_dir={expected}\n" in output.read_text(encoding="utf-8")
+    assert f"cmake -S . -B {expected} -G Ninja" in output.read_text(encoding="utf-8")
+
+
+def test_custom_cmake_callers_declare_binary_directories():
+    workflows = Path(__file__).resolve().parents[2] / ".github" / "workflows"
+    expected = {
+        "build-mainline.yml": {"build-fast", "build"},
+        "build-clang-fast.yml": {"build-clang-fast"},
+        "build-sanitizer-nightly.yml": {"build-sanitizer"},
+        "edition-hyperscaler-ci.yml": {"build-hyperscaler"},
+        "gate-pr-rag-eval.yml": {"/tmp/rag-build"},
+        "security-fuzzing.yml": {"build-fuzz"},
+    }
+    for name, directories in expected.items():
+        jobs = yaml.safe_load((workflows / name).read_text(encoding="utf-8"))["jobs"]
+        actual = {
+            job["with"]["build_directory"]
+            for job in jobs.values()
+            if job.get("uses") == "./.github/workflows/reusable-cmake-build.yml"
+        }
+        assert actual == directories
+    matrix = yaml.safe_load((workflows / "release-build-matrix.yml").read_text(encoding="utf-8"))
+    assert any(
+        job.get("with", {}).get("build_directory") == "${{ matrix.build_directory }}"
+        for job in matrix["jobs"].values()
+    )
 
 
 def test_docker_nested_concurrency_groups_do_not_collide():

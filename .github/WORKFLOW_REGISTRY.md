@@ -43,7 +43,9 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 - Der Reusable-CMake-Build nutzt den vorhandenen dateibasierten vcpkg-Cache statt
   eines unvorbereiteten NuGet-Feeds. Bei sccache-Backendfehlern deaktiviert der
   bestehende Retry die CMake-Cache-Option tatsächlich, erhält die Toolchain und
-  propagiert Reconfigure-Fehler. Release-Critical-Builds erhalten 120 statt 45 Minuten;
+  propagiert Reconfigure-Fehler. Custom-Caller deklarieren ihre tatsächlichen
+  Binärverzeichnisse über `build_directory` für Cache und Recovery.
+  Release-Critical-Builds erhalten 120 statt 45 Minuten;
   ein vollständiger erfolgreicher Build bleibt separat nachzuweisen.
 - Abgelaufene Ausführungsfreigaben benötigen eine Maintainer-Aktion. Der im
   MSVC-Lauf beobachtete C1060-Analyser-Speicherfehler bleibt separat zu verifizieren;

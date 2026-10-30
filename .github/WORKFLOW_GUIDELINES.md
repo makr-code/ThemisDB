@@ -107,6 +107,9 @@ flowchart TD
   Sein sccache-Retry muss `THEMIS_ENABLE_COMPILER_CACHE=OFF` setzen, die vorhandene
   Toolchain erhalten und Reconfigure-Fehler weiterreichen. Ein erneuter Preset-Aufruf
   darf die deaktivierte Cache-Option nicht wieder einschalten.
+  Custom-Configure-Aufrufe geben ihr tatsächliches Binärverzeichnis mit
+  `build_directory` an, damit Cache und Recovery dasselbe Verzeichnis verwenden.
+  Recovery konfiguriert das vorhandene Cache-Verzeichnis, nicht pauschal die Root-Quelle.
 - Fehlgeschlagene Läufe ohne Jobs können abgelaufene Ausführungsfreigaben sein.
   Dies ist kein Testfehler; Maintainer müssen die Ausführung freigeben.
 - Beim Wave-4-Gate wird das CMake-Preset explizit ausgeführt. Der Benchmark läuft

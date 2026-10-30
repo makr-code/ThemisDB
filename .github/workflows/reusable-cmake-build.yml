@@ -73,6 +73,11 @@ on:
         required: false
         default: ''
         type: string
+      build_directory:
+        description: "Actual CMake binary directory for custom configure commands; defaults to build-<preset>."
+        required: false
+        default: ''
+        type: string
       configure_flags:
         required: false
         default: ''
@@ -413,6 +418,7 @@ jobs:
         env:
           BUILD_MODE: ${{ inputs.build_mode }}
           PRESET: ${{ inputs.preset }}
+          BUILD_DIRECTORY: ${{ inputs.build_directory }}
           CONFIGURE_FLAGS: ${{ inputs.configure_flags }}
           BUILD_TARGETS: ${{ inputs.build_targets }}
           VALIDATION_MODE: ${{ inputs.validation_mode }}
@@ -425,7 +431,7 @@ jobs:
         run: |
           set -euo pipefail
           PRESET_NAME="${PRESET:-default}"
-          BUILD_DIR="build-${PRESET_NAME}"
+          BUILD_DIR="${BUILD_DIRECTORY:-build-${PRESET_NAME}}"
           case "$BUILD_MODE" in
             tests)
               if [ -z "$CONFIGURE_COMMAND" ]; then
@@ -575,7 +581,7 @@ jobs:
               # Reuse cached configure options; rerunning the preset would re-enable the launcher.
               set +e
               set +o pipefail
-              cmake -S . -B "$BUILD_DIR" -DTHEMIS_ENABLE_COMPILER_CACHE=OFF -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER= 2>&1 | tee -a "$configure_output_log"
+              cmake "$BUILD_DIR" -DTHEMIS_ENABLE_COMPILER_CACHE=OFF -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER= 2>&1 | tee -a "$configure_output_log"
               status=${PIPESTATUS[0]}
               set -o pipefail
               set -e
@@ -612,7 +618,7 @@ jobs:
               sccache --stop-server >/dev/null 2>&1 || true
             fi
             if [ -n "${BUILD_DIR:-}" ] && [ -d "$BUILD_DIR" ]; then
-              cmake -S . -B "$BUILD_DIR" -DTHEMIS_ENABLE_COMPILER_CACHE=OFF -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER= 2>&1 | tee -a "$build_output_log"
+              cmake "$BUILD_DIR" -DTHEMIS_ENABLE_COMPILER_CACHE=OFF -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER= 2>&1 | tee -a "$build_output_log"
             fi
             set +e
             set +o pipefail
