@@ -145,12 +145,12 @@ The `access_model` module bridges cache and storage tiers through the `AccessCoo
 
 ### Current implementation boundary
 
-The architecture above describes the intended coordination contract. Current
-source does not validate the tier map in `initialize()`, does not bound the task
-queue, and does not call tier `get`/`put` operations when processing promotion
-or demotion tasks. A successful coordinator result is therefore not evidence
-that data moved. See [`IMPLEMENTATION.md`](./IMPLEMENTATION.md) for verified
-runtime behavior and remaining gaps.
+The implementation validates registered tiers, bounds queued work, and performs
+ordered tier reads/writes; demotion invalidates the source only after destination
+placement succeeds. Independent tier backends are not atomic: if source
+invalidation fails after the destination write, both copies may remain and the
+operation reports failure. See [`IMPLEMENTATION.md`](./IMPLEMENTATION.md) for
+runtime behavior, queue rejection, and adapter error handling.
 
 ---
 

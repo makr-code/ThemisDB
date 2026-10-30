@@ -38,6 +38,7 @@ namespace access_model {
 // § 1  Structured Log Entry Types
 // ============================================================================
 
+/** @brief Structured record emitted after a tier transition attempt. */
 struct TierTransitionLog {
     std::string key;
     
@@ -58,6 +59,7 @@ struct TierTransitionLog {
     std::string status;  // "SUCCESS", "REJECTED", "FAILED", "DEFERRED"
 };
 
+/** @brief Structured record of an observed cache eviction and its decision. */
 struct EvictionEventLog {
     std::string key = {};
     
@@ -80,6 +82,7 @@ struct EvictionEventLog {
     std::chrono::system_clock::time_point timestamp;
 };
 
+/** @brief Structured record of a promotion-policy evaluation. */
 struct PromotionDecisionLog {
     std::string key;
     
@@ -108,6 +111,7 @@ struct PromotionDecisionLog {
     std::chrono::system_clock::time_point timestamp;
 };
 
+/** @brief Structured record for coordinator worker lifecycle events. */
 struct CoordinatorLifecycleLog {
     std::string event_type;
     
@@ -124,6 +128,7 @@ struct CoordinatorLifecycleLog {
 // § 2  Logging Interface
 // ============================================================================
 
+/** @brief Sink interface for structured access-model diagnostic records. */
 class AccessModelLogger {
 public:
     /**
@@ -157,6 +162,7 @@ public:
     virtual void logCoordinatorLifecycle(const CoordinatorLifecycleLog& log) = 0;
 };
 
+/** @brief Default logger implementation backed by the project logger. */
 class DefaultAccessModelLogger : public AccessModelLogger {
 public:
     void logTierTransition(const TierTransitionLog& log) override;
@@ -173,5 +179,4 @@ AccessModelLogger& accessModelLogger();
 
 }  // namespace access_model
 }  // namespace themis
-
 

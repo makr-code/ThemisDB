@@ -25,25 +25,25 @@ authorize callers, validate tier adapters, and protect diagnostic data.
 | Threat | Current Mitigation Surface |
 |---|---|
 | Unauthorized or cross-tenant transition | No identity or tenant authorization is performed; listener callers are trusted. |
-| Queue-driven memory exhaustion | `pending_tasks_` is an unbounded `std::queue`; no `max_queue_depth` setting or queue-depth gauge exists. |
-| Work loss during shutdown | Workers exit when `running_` becomes false and do not drain queued tasks. |
+| Queue-driven memory exhaustion | Pending tasks and demotion plans are limited by the configured queue capacity (default 10,000); queue-full callback failures are reported in counters/history. |
+| Work loss during shutdown | Shutdown stops admission and drains accepted tasks before joining workers; blocked adapter calls can delay shutdown. |
 | Missing audit evidence | The default logger catches and suppresses logging exceptions; records are best-effort, not a durable audit trail. |
 | Sensitive identifiers in logs | Event keys are included in structured log messages; restrict and redact logs. |
-| Invalid tier or policy configuration | `initialize()` copies the map without validating its entries. `setAgePolicy()` does not call `AgeBasedPolicy::isValid()`. |
-| False success or data integrity assumption | Current worker processing reports success without invoking tier `get`/`put`; results do not prove data movement. |
+| Invalid tier or policy configuration | `initialize()` rejects invalid registries; policy updates throw when `AgeBasedPolicy::isValid()` fails. |
+| Partial demotion | Destination is written before source invalidation; an invalidation failure reports failure but can leave duplicate copies. Backends are not transactionally coupled. |
 
 ## Controls Present
 
 - Coordinator state and task-queue access use a mutex; worker threads are joined
   during shutdown.
-- `AgeBasedPolicy::isValid()` is available for caller-side validation of
-  selected threshold relationships.
+- Tier identity, health, and required cache/storage coverage are checked during
+  initialization; policy updates validate selected threshold relationships.
 - Structured logs and correlation IDs support diagnosis when logging succeeds.
 - `TraceContextManager::ScopedContext` restores the previous thread-local
   context when its scope ends.
 
-These controls do not establish authorization, bounded resource use, fail-closed
-tier registration, or durable audit guarantees.
+These controls do not establish authorization, durable audit guarantees,
+cross-tier transactionality, or backend recovery.
 
 ## Security Follow-ups
 
@@ -61,9 +61,9 @@ tier registration, or durable audit guarantees.
   - `src/access_model/age_based_policy.cpp`
   - `include/access_model/access_model_trace.h`
   - `include/access_model/access_coordinator.h`
-- Source behavior is summarized in [`TRUST.md`](./TRUST.md); the queue is
-  unbounded, tier initialization is not validated, logging is best-effort, and
-  current worker results do not execute data transfers.
+- Source behavior is summarized in [`TRUST.md`](./TRUST.md); queue admission and
+  tier registration are bounded/validated, while logging remains best-effort
+  and cross-backend transfers are not transactional.
 
 ---
 

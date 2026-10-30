@@ -46,42 +46,41 @@ inventory is also registered in `cmake/CMakeLists.txt`.
 5. Unregister external listeners before destroying the coordinator, then call
    `shutdown()` to stop and join its workers.
 
-## Current implementation limits
+## Runtime contracts and remaining limits
 
-The source behavior is narrower than the intended tier-transition contract;
-these limits must be accounted for before integrating or claiming production
-data movement:
+- `initialize()` rejects empty, cache-only/storage-only, null, unhealthy,
+  `UNKNOWN`, or tier-identity-mismatched registries. It validates adapters but
+  leaves their initialization and lifetime to the embedding application.
+- `setAgePolicy()` and `setPromotionThresholds()` reject invalid threshold
+  combinations with `std::invalid_argument`; invalid updates do not replace the
+  active policy.
+- The task queue and pending demotion-plan registry each use the configured
+  `max_queue_depth`. The default is 10,000; use the two-argument factory overload
+  to set a deployment-specific bound. Aggregate metrics expose current and
+  configured queue depth. Event callbacks are `void`, so inspect failure
+  counters/history when queue admission is rejected.
+- Promotion calls source `get()` then destination `put()` and keeps the source.
+  Demotion calls destination `put()` before source `invalidate()`. A failed
+  source invalidation reports failure even though the destination copy may
+  exist. The coordinator cannot make independent backends transactional and
+  does not retry or deduplicate operations.
+- Tier calls happen outside the coordinator mutex. The adapter's `get()`,
+  `put()`, health check, and invalidation results determine operation status.
+  An eviction callback whose key is no longer readable from its source adapter
+  fails safely instead of reporting data movement.
+- The coordinator retains per-key counters for up to 10,000 recently touched
+  keys and per-tier counters for registered tiers. Aggregate histograms record
+  event-processing, policy-decision, promotion, and demotion latency.
+- Accepted queued work is drained during `shutdown()`; a currently blocked
+  adapter call can delay its return. Stop/unregister event producers first.
+- Transition history is bounded to 1,000 records and returned newest-first.
+- Policy handlers currently use only selected age/access thresholds; they do not
+  implement per-key/tag overrides or frequency-based policy.
 
-- `initialize()` copies the supplied map and returns true; it does not reject
-  an empty map, null tier pointer, missing cache/storage tier, or unhealthy
-  tier.
-- `setAgePolicy()` stores the policy without calling `AgeBasedPolicy::isValid()`.
-- `pending_tasks_` is an unbounded `std::queue`; no `max_queue_depth` setting or
-  queue-depth accessor is implemented.
-- `processPromotionTask()` creates a successful result and transition record
-  without calling any registered tier's `get()` or `put()`. The demotion path
-  checks that both tier keys exist, then returns a success result without
-  transferring data.
-- `getKeyMetrics()` and `getTierMetrics()` currently return default-initialized
-  metrics. `getAccessModelMetrics()` returns coordinator counters/histograms.
-- The coordinator does not currently call the metrics histogram recording
-  methods; its histogram fields remain unpopulated by coordinator event/task
-  processing.
-- `shutdown()` stops workers; a worker exits when `running_` becomes false and
-  does not drain queued work.
-- `promoteAsync()` stores a weak reference to its promise in the queued task.
-  The local owning pointer is not retained by the coordinator after the call,
-  so callers must not assume the returned future will receive a completed
-  `PromotionResult`.
-- Event-handler paths trim transition history after 1,000 records, but worker
-  completion does not apply the same trimming rule; the history can grow beyond
-  1,000. `getRecentTransitions(limit)` returns insertion order when the history
-  fits within `limit`, but newest-first when it truncates. Do not rely on a
-  stable ordering or bounded history until this is corrected.
-
-These are implementation facts, not desired behavior. Tests with mock tiers do
-not prove a real tier transfer. Track fixes with the module roadmap and add
-regression tests before changing these contracts.
+The focused coordinator tests use stateful test tiers to verify actual
+read/write/invalidate calls. They do not establish persistence, atomicity, or
+recovery guarantees for production adapters; adapter-level integration and
+representative-hardware evidence remain necessary.
 
 ## Validation
 

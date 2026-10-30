@@ -30,16 +30,17 @@ movement.
 1. Record the incident time window, affected tier pair, configuration/policy
    version, and whether the coordinator reports `isRunning()`.
 2. Capture `getAccessModelMetrics()` and a bounded `getRecentTransitions(limit)`
-   sample. The method limits its returned sample, but retained history may grow
-   beyond 1,000 records because worker-completion paths do not apply the same
-   trimming as event handlers.
+   sample. Inspect `pending_queue_depth`, `max_queue_depth`, failure counters,
+   and newest-first transition records; retained history is capped at 1,000.
 3. Collect access-model log entries (`access_model::eviction`,
    `access_model::promotion_decision`, `access_model::tier_transition`, and
    `access_model::coordinator_lifecycle`) for that window.
-4. Check the caller's tier map and listener wiring. `initialize()` currently
-   accepts an empty or incomplete map; it is not a registration health check.
-5. Verify the destination tier's real backend state independently. Current
-   worker code reports bookkeeping outcomes without invoking tier `get`/`put`.
+4. Check that `initialize()` returned true, all registered adapters report the
+   expected tier identity and health, and both cache and storage tiers exist.
+   The coordinator does not initialize adapters for the application.
+5. Verify source and destination backend state independently. Promotion reads
+   then writes; demotion writes then invalidates. A reported failure after
+   destination placement can mean both copies remain.
 
 Redact keys and other customer identifiers before sharing logs outside the
 restricted incident channel; keys are included in structured log records.
@@ -54,16 +55,23 @@ restricted incident channel; keys are included in structured log records.
 - Confirm listener setters were given a live coordinator pointer and that the
   coordinator has not been shut down.
 
+If the queue is full, a callback cannot return an admission status. The
+coordinator records a failed transition/counter; reduce event ingress or raise
+capacity only after workload sizing and adapter checks. For `promoteAsync()`,
+inspect the completed failure future.
+
 If these checks pass but no transition record appears, preserve the policy,
 event metadata, counters, logs, and a minimal reproducer for engineering review.
 
 ## Symptom: result says success but data did not move
 
-Treat this as a module limitation, not a storage recovery condition. The worker
-currently creates a successful result without invoking a tier operation; the
-demotion path similarly returns a result after checking registry keys. Do not
-retry blindly or delete the source copy based on this status. Keep authoritative
-data in its existing tier and route reads/writes through the owning backend.
+Inspect the result's `error_message` and the transition record. A successful
+promotion means source `get()` and destination `put()` succeeded; promotion
+retains the source. A successful demotion also requires source invalidation
+after destination placement. If invalidation fails, the result is a failure and
+both copies may remain. Compare backend contents before retrying or cleaning up;
+the coordinator does not provide cross-tier transactions, retries, or
+deduplication.
 
 Disable the integration at its owner by unregistering the cache/storage
 listener. If the owner has no safe live toggle, use its established deployment
@@ -71,20 +79,21 @@ rollback procedure; this module does not define one.
 
 ## Symptom: shutdown or pending work
 
-`shutdown()` sets the running state false, wakes workers, and joins them. Workers
-exit on that state and do not drain the queue. Do not use shutdown as a queue
-flush. If work is pending, preserve logs and backend state, disable new listener
-events, and escalate before restart or retry decisions. The queue depth is not
-available through the public API.
+`shutdown()` stops queue admission, wakes workers, drains accepted tasks, and
+joins them. A blocked adapter call can delay it. Unregister listener producers
+before shutdown. If an adapter is stuck, preserve logs/backend state and follow
+the owning application's established process-level recovery procedure; the
+module has no cancellation or force-drain API.
 
 ## Escalation packet
 
 Include build/revision, policy values, tier registration summary, listener
 ownership/lifetime, coordinator lifecycle state, metrics snapshot, transition
 records, relevant redacted logs, and independent backend read/write evidence.
-Escalate to the access-model and owning cache/storage maintainers when observed
-success diverges from backend state, when futures fail to complete, or when
-events disappear during shutdown.
+Escalate to the access-model and owning cache/storage maintainers when backend
+state differs from the reported result, queue-full rejection persists, an
+adapter reports partial demotion, a future fails to complete, or shutdown
+exceeds the adapter's expected operation window.
 
 For normal metric interpretation see [`OPERATIONS.md`](./OPERATIONS.md); for
 source-level failure modes see [`TRUST.md`](./TRUST.md).

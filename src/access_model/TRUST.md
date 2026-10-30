@@ -28,10 +28,11 @@ cache/storage adapter -> listener callback -> AccessCoordinator -> tier registry
                                                         -> logger/metrics
 ```
 
-The tier registry is supplied by the caller. `initialize()` copies the map but
-does not validate null references, required tier coverage, tier health, or
-ownership. Applications must validate adapters and lifetime before registering
-listeners.
+The tier registry is supplied by the caller. `initialize()` checks for non-null,
+healthy adapters whose reported tier matches the map key and requires at least
+one cache and one storage tier. It does not initialize adapters or own their
+lifetime. Applications must keep them alive while callbacks or coordinator
+operations can run.
 
 ## Data exposure and correlation
 
@@ -49,24 +50,24 @@ authorization evidence.
 
 ## Controls present and limitations
 
-- Coordinator state and its task queue are guarded by a mutex; lifecycle
-  methods start and join worker threads.
+- Coordinator state and its task queue are guarded by a mutex. The configured
+  queue limit also bounds pending demotion plans; default capacity is 10,000.
+  Shutdown drains accepted tasks before joining workers.
 - Default logs and aggregate counters provide diagnostic evidence. The logger
   catches and suppresses logging exceptions, so logging is best-effort.
-- `AgeBasedPolicy::isValid()` checks selected threshold relationships, but
-  callers must invoke it; `setAgePolicy()` does not enforce it.
-- Unknown, missing, or unhealthy tier configurations are not fail-closed at
-  `initialize()`; the method stores the supplied map and returns true.
-- The task queue is unbounded; no `max_queue_depth` enforcement or queue-depth
-  gauge is implemented.
-- The worker currently reports promotion success without invoking a tier
-  operation; demotion execution likewise does not transfer data. Do not use
-  coordinator outcomes as integrity or authorization evidence.
+- Invalid age-policy updates are rejected with `std::invalid_argument`.
+- Promotion reads from the source and writes to the destination. Demotion writes
+  before invalidating the source; a failed invalidation may leave duplicates,
+  which are reported as failure. The operation has no cross-backend transaction,
+  rollback, retry, or deduplication.
+- Queue-full rejection is visible in aggregate counters/history; async callers
+  also receive a failed future. The queue-depth gauge reports pending work, not
+  in-flight workers.
 - Event payloads are not authenticated or tenant-scoped by this module.
 
-These limits mean this library should not be treated as a security boundary or
-as a durable audit system. The application must enforce permissions, validate
-tier configuration, protect telemetry, and verify backend changes.
+The library is not an authorization boundary or durable audit system. The
+application must enforce permissions, initialize adapters, protect telemetry,
+verify backend changes, and handle duplicate-copy recovery.
 
 ## Incident handling
 

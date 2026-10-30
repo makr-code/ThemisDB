@@ -38,10 +38,19 @@ The tier interface does not define persistence, encoding, or vector semantics.
 ## Coordinator contract
 
 `createAccessCoordinator(std::size_t thread_pool_size = 4)` returns a shared
-coordinator. Its lifecycle methods are `initialize(tiers)`, `start()`,
-`shutdown()`, and `isRunning()`. `setAgePolicy()` assigns the policy and
-activates event-handler decisions. `setPromotionThresholds()` only changes the
-two count thresholds; by itself it does not mark a policy as configured.
+coordinator with a 10,000-task queue limit. The overload
+`createAccessCoordinator(thread_pool_size, max_queue_depth)` configures that
+limit; both values must be non-zero. `initialize(tiers)` rejects empty or
+cache-only/storage-only registries, null/unhealthy adapters, `UNKNOWN` entries,
+and mismatched tier identities. It validates but does not initialize adapters.
+Call `start()` only after successful initialization. `shutdown()` rejects new
+queued work, drains accepted work, and joins workers; a blocked adapter operation
+can therefore delay shutdown.
+
+`setAgePolicy()` throws `std::invalid_argument` and leaves the current policy
+unchanged when `AgeBasedPolicy::isValid()` fails. `setPromotionThresholds()`
+also throws if the resulting policy is invalid; by itself it does not activate
+event-handler decisions.
 
 `EvictionListener::onCacheEvicted` carries key, source tier, size, access count,
 age since access, and reason. `PromotionListener::onStorageAccess` carries key,
@@ -51,31 +60,33 @@ callbacks to `EvictionEvent` and `AccessEvent`.
 Other operations are `promoteAsync`, `planDemotion`, `executeDemotion`,
 `getKeyMetrics`, `getTierMetrics`, `getAccessModelMetrics`, and
 `getRecentTransitions`. A demotion plan is identified by its `plan_id`; an
-unknown plan or an unregistered source/destination tier returns `std::nullopt`.
+unknown/consumed plan returns `std::nullopt`. A plan with a known identifier
+returns a `DemotionResult`, including a failed result if a tier operation fails.
 
 ## Important edge behavior
 
-- The current `initialize()` implementation copies the map and returns true; it
-  does not validate its contents or initialize tier objects.
-- `setAgePolicy()` does not reject a policy for which `AgeBasedPolicy::isValid()`
-  is false. Callers that need that check must perform it themselves.
-- `promoteAsync()` returns a failed result immediately if the coordinator is not
-  running. When running, current worker code does not invoke tier operations and
-  stores only a weak pointer to the completion promise; future completion is
-  therefore not a reliable data-transfer signal.
-- Current demotion execution checks plan/tier registration but performs no
-  tier-to-tier data movement.
-- `getKeyMetrics()` and `getTierMetrics()` return empty/default metrics.
-- `AccessModelMetrics` declares latency histograms, but coordinator event/task
-  processing does not currently record samples into them.
-- `getRecentTransitions()` is insertion-ordered when the full history fits
-  within the requested limit and newest-first when truncation is needed.
+- `promoteAsync()` copies the fetched value with source `get()` and destination
+  `put()`; it retains the source. Its future reports queue-full, missing-key,
+  unhealthy-tier, adapter, and placement errors.
+- Demotion writes to the destination before invalidating the source. If
+  invalidation fails, the result reports failure and both copies may remain.
+  The operation is not an atomic transaction across tier backends.
+- Cache eviction/hot-access callbacks are `void`. If a qualifying event cannot
+  be queued (stopped coordinator or full queue), the coordinator records a failed
+  transition/counter; inspect metrics rather than assuming callback acceptance.
+- Per-key metrics retain up to 10,000 recently observed keys; an evicted key
+  returns default metrics. Per-tier metrics include observed access/eviction and
+  transition counts.
+- `AccessModelMetrics` records event, policy, promotion, and demotion latency
+  samples. Its counters also report current and configured pending queue depth.
+- Transition history retains at most 1,000 records and
+  `getRecentTransitions(limit)` always returns newest-first.
 - `UNKNOWN` is a sentinel; `classifyTier(UNKNOWN)` currently returns
   `TierClassification::STORAGE`.
 
-Consumers must treat success counters/results as coordinator bookkeeping, not
-proof that a value was moved. See [`IMPLEMENTATION.md`](./IMPLEMENTATION.md)
-before relying on asynchronous operations.
+The tier operations are sequential and do not provide backend rollback,
+cross-tier atomicity, retry, or deduplication. Applications must verify adapter
+semantics and reconcile the reported partial-demotion case.
 
 ## Compatibility and validation
 

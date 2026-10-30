@@ -19,14 +19,13 @@ provide an HTTP endpoint, command-line control plane, Prometheus exporter, or
 operator-managed queue interface. The application embedding it is responsible
 for exposing telemetry and deployment controls.
 
-The coordinator exposes aggregate `AccessModelMetrics` and recent transition
-records. The metrics structure declares initiated/succeeded/failed promotion
-and demotion counters, observed eviction/hot-access counters, and
-event-processing, promotion, and policy-decision latency histograms. Current
-coordinator event/task processing updates counters but does not record samples
-to the latency histograms. `getKeyMetrics()` and `getTierMetrics()` currently
-return empty metrics. The coordinator does not expose queue depth or worker
-utilization, despite those being discussed in some older module material.
+The coordinator exposes aggregate `AccessModelMetrics`, per-key/per-tier
+counters, and recent transition records. Aggregate metrics include initiated,
+succeeded, and failed promotion/demotion counters; observed eviction/hot-access
+counters; event-processing, policy-decision, promotion, and demotion histograms;
+and current/configured pending-task queue depth. Per-key history is retained for
+up to 10,000 recently touched keys; per-tier metrics cover registered tiers.
+Worker utilization is not exposed.
 
 Structured logs include tier transition, eviction, promotion decision, and
 lifecycle events with key, tier, reason/status, latency, thread ID, and
@@ -50,24 +49,27 @@ logger; absence of a log line is not proof that no event occurred.
 
 ## Capacity and failure handling
 
-The worker count is fixed when the coordinator is constructed. The pending task
-queue is an unbounded FIFO, and its depth cannot be queried through the current
-API. If event volume outpaces processing, the module has no built-in queue
-backpressure control; the caller must reduce or stop event production using
-its own safe integration controls and escalate before increasing concurrency.
+The worker count and maximum pending queue depth are fixed at construction. The
+default queue capacity is 10,000; deployments should choose a value based on
+measured ingress and backend latency. Pending demotion plans are limited by the
+same capacity. If the task queue fills, `promoteAsync()` completes immediately
+with failure, while `void` event callbacks record rejection in metrics/history.
+Reduce ingress or tune the configured limit only after confirming the backend
+can sustain the resulting concurrency.
 
-Do not use `promotions_succeeded`/`demotions_succeeded` as a data-integrity
-signal. Current task processing does not execute tier transfers. Verify
-application/backend behavior independently and follow
+Compare `promotions_succeeded`/`demotions_succeeded` with backend state.
+Transfers invoke adapters, but they are not cross-tier transactions: a failed
+source invalidation after destination placement can leave duplicates. Follow
 [`RUNBOOK.md`](./RUNBOOK.md) when counters, futures, or backend state disagree.
 
 ## Shutdown and rollback
 
 Unregister event listeners before destroying the coordinator. `shutdown()`
-stops and joins workers but does not drain pending tasks; capture diagnostic
-state before stopping it. Rollback is controlled by the application that owns
-the integration: this module defines no runtime feature flag, remote endpoint,
-or release rollback command.
+rejects new queue admission, drains accepted tasks, and joins workers. An
+adapter call without a timeout may delay shutdown; capture diagnostic state
+first. Rollback is controlled by the application that owns the integration:
+this module defines no runtime feature flag, remote endpoint, or release
+rollback command.
 
 ---
 

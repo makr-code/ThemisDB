@@ -192,6 +192,7 @@ std::string AccessMetrics::describe() const {
 AccessModelMetrics::AccessModelMetrics()
     : event_processing_latency_us_(1000, 100000),  // 1000 buckets, up to 100ms
       tier_promotion_latency_us_(1000, 200000),    // 1000 buckets, up to 200ms
+      tier_demotion_latency_us_(1000, 200000),     // 1000 buckets, up to 200ms
       policy_decision_latency_us_(100, 10000)      // 100 buckets, up to 10ms
 {
 }
@@ -212,6 +213,10 @@ void AccessModelMetrics::recordEventProcessingLatency(uint64_t latency_us) {
  */
 void AccessModelMetrics::recordTierPromotionLatency(uint64_t latency_us) {
     tier_promotion_latency_us_.record(latency_us);
+}
+
+void AccessModelMetrics::recordTierDemotionLatency(uint64_t latency_us) {
+    tier_demotion_latency_us_.record(latency_us);
 }
 
 /**
@@ -258,6 +263,8 @@ std::string AccessModelMetrics::describe() const {
         << event_processing_latency_us_.percentile(95) << ",\n"
         << "  tier_promotion_latency_p95_us="
         << tier_promotion_latency_us_.percentile(95) << ",\n"
+        << "  tier_demotion_latency_p95_us="
+        << tier_demotion_latency_us_.percentile(95) << ",\n"
         << "  coordination_overhead_percent="
         << std::fixed << std::setprecision(2) << coordinationOverheadPercent()
         << "%\n"
@@ -272,6 +279,8 @@ std::string AccessModelMetrics::detailedReport() const {
         << event_processing_latency_us_.describe() << "\n\n"
         << "### Tier Promotion Latency\n"
         << tier_promotion_latency_us_.describe() << "\n\n"
+        << "### Tier Demotion Latency\n"
+        << tier_demotion_latency_us_.describe() << "\n\n"
         << "### Policy Decision Latency\n"
         << policy_decision_latency_us_.describe() << "\n\n"
         << "### Operation Counters\n"

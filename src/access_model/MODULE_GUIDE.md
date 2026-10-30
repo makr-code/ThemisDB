@@ -41,16 +41,19 @@ for current behavior and limitations.
 2. Keep the coordinator in an owning `shared_ptr` for at least as long as any
    registered listener can call it. Cache/storage listener setters use raw
    listener pointers; unregister them before the coordinator is destroyed.
-3. Construct the coordinator with a worker count, build a map keyed by each
-   adapter's `TierLevel`, and call `initialize()`.
-4. Set an `AgeBasedPolicy`, check `isValid()` explicitly if the application
-   requires policy validation, and then call `start()`.
+3. Construct the coordinator with a worker count and explicit queue limit for
+   the deployment, build a map keyed by each adapter's `TierLevel`, and call
+   `initialize()`. Initialization rejects unhealthy, mismatched, or incomplete
+   cache/storage registries; it does not call adapter `initialize()`.
+4. Set an `AgeBasedPolicy`; invalid policies throw `std::invalid_argument`.
+   Call `start()` only after initialization succeeds.
 5. Register the coordinator as each adapter's listener. Confirm which callbacks
    the adapter actually emits; listener registration alone does not move data.
 6. Observe coordinator counters, transition records, and structured logs. Verify
    the adapter's actual read/write effects independently.
 7. Unregister listeners, then call `shutdown()` before releasing the coordinator.
-   Shutdown does not drain queued work.
+   Shutdown rejects new queued work, drains accepted tasks, and joins workers.
+   A blocked backend adapter may delay shutdown.
 
 The existing cache and storage modules expose listener setters in
 `include/cache/adaptive_query_cache.h` and `include/storage/tiered_storage.h`.
@@ -65,9 +68,10 @@ event metadata (tier, access count, age/window, size, and reason), not payload
 semantics. `L3_SEMANTIC` is a tier identity and does not imply embedding
 generation or similarity search; see [`EMBEDDING.md`](./EMBEDDING.md).
 
-The event handlers use only part of `AgeBasedPolicy`, and the queue is currently
-unbounded. Do not use the documented benchmark targets as deployment capacity
-limits without running the evidence procedure in
+The event handlers use only part of `AgeBasedPolicy`. The task queue and pending
+plan registry are bounded by the configured queue limit (default 10,000), but
+that default is not a deployment capacity recommendation. Use the evidence
+procedure in
 [`WAVE_B_BENCHMARK_EVIDENCE_BUNDLE.md`](./WAVE_B_BENCHMARK_EVIDENCE_BUNDLE.md).
 
 ## Test path

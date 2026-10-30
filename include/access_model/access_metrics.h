@@ -27,6 +27,7 @@ namespace access_model {
 // § 1  Latency Histogram
 // ============================================================================
 
+/** @brief Fixed-bucket latency summary with an overflow bucket. */
 class LatencyHistogram {
 public:
     /**
@@ -91,6 +92,7 @@ private:
 // § 2  Per-Key / Per-Tier Access Metrics
 // ============================================================================
 
+/** @brief Counters and optional latency samples retained for a key or tier. */
 struct AccessMetrics {
     uint64_t access_count = 0;    ///< Total get/put accesses
     uint64_t cache_hits = 0;      ///< Accesses satisfied from cache
@@ -143,6 +145,7 @@ struct AccessMetrics {
 // § 3  Aggregated Coordinator Metrics
 // ============================================================================
 
+/** @brief Promotion, demotion, event, and pending-queue snapshot values. */
 struct AccessOperationCounters {
     uint64_t promotions_initiated = 0;          ///< Promotions queued
     uint64_t promotions_succeeded = 0;          ///< Promotions completed OK
@@ -152,14 +155,16 @@ struct AccessOperationCounters {
     uint64_t demotions_failed = 0;              ///< Demotions that failed
     uint64_t cache_evictions_observed = 0;      ///< Cache eviction signals received
     uint64_t storage_hot_accesses_observed = 0; ///< Hot-access signals received
+    uint64_t pending_queue_depth = 0;            ///< Tasks waiting for a worker
+    uint64_t max_queue_depth = 0;                ///< Configured waiting-task limit
 };
 
 /**
  * @brief Aggregated coordinator-level metrics for access model operations.
  *
  * Collects operation counters and latency histograms across the full
- * promotion/demotion pipeline. Thread-safe per-histogram recording via
- * atomic increments in the underlying LatencyHistogram buckets.
+ * promotion/demotion pipeline. The coordinator serializes writes to its
+ * snapshot; callers using a standalone instance must serialize access.
  */
 class AccessModelMetrics {
 public:
@@ -178,6 +183,12 @@ public:
      * @param[in] latency_us Input parameter.
      */
     void recordTierPromotionLatency(uint64_t latency_us);
+
+    /**
+     * @brief Record one completed or failed demotion latency sample.
+     * @param[in] latency_us End-to-end demotion latency in microseconds.
+     */
+    void recordTierDemotionLatency(uint64_t latency_us);
 
     /**
      * @brief Record Policy Decision Latency.
@@ -216,6 +227,8 @@ public:
     LatencyHistogram event_processing_latency_us_;
 
     LatencyHistogram tier_promotion_latency_us_;
+
+    LatencyHistogram tier_demotion_latency_us_;
 
     LatencyHistogram policy_decision_latency_us_;
 };

@@ -47,6 +47,7 @@ namespace access_model {
 // § 1  Thin Event-Listener Interfaces (used by cache & storage modules)
 // ============================================================================
 
+/** @brief Callback contract for cache adapters reporting completed evictions. */
 struct EvictionListener {
     /**
      * @brief Eviction Listener.
@@ -69,6 +70,7 @@ struct EvictionListener {
                                 std::string_view eviction_reason) = 0;
 };
 
+/** @brief Callback contract for storage adapters reporting hot-key accesses. */
 struct PromotionListener {
     /**
      * @brief Promotion Listener.
@@ -92,6 +94,7 @@ struct PromotionListener {
 // § 2  Structured Event Types (used by AccessCoordinator internal interface)
 // ============================================================================
 
+/** @brief Normalized cache eviction metadata consumed by the coordinator. */
 struct EvictionEvent {
     std::string key;
 
@@ -108,6 +111,7 @@ struct EvictionEvent {
     std::string correlation_id;
 };
 
+/** @brief Normalized access metadata consumed by the promotion policy. */
 struct AccessEvent {
     std::string key;
 
@@ -120,6 +124,7 @@ struct AccessEvent {
     std::string correlation_id;
 };
 
+/** @brief Status and timing for an asynchronous source-to-destination copy. */
 struct PromotionResult {
     bool success = false;
 
@@ -138,6 +143,7 @@ struct PromotionResult {
     std::chrono::system_clock::time_point completed_at = std::chrono::system_clock::now();
 };
 
+/** @brief Auditable in-memory record of an attempted tier transition. */
 struct AccessTransitionEvent {
     std::string key;
 
@@ -162,31 +168,42 @@ struct AccessTransitionEvent {
 // § 3  AccessCoordinator Interface
 // ============================================================================
 
+/**
+ * @brief Coordinates bounded background tier promotions and planned demotions.
+ * @note Adapter backends are independent; transfer operations are not atomic.
+ */
 class AccessCoordinator {
 public:
     /**
-     * @brief Access Coordinator.
-     * @return Return value.
+     * @brief Destroy the coordinator and release its implementation resources.
+     * @note Call shutdown() and unregister external listeners before destruction.
      */
     virtual ~AccessCoordinator() = default;
 
 
     /**
-     * @brief Initialize the coordinator with the full tier registry.
+     * @brief Validate and register the tier adapters used for transitions.
      * @param[in] all_tiers Map from TierLevel to the corresponding AccessTier instance.
-     *            Must contain at least one cache tier and one storage tier.
-     * @return true on success; false if any tier reference is null or configuration is invalid.
+     *            Must contain at least one cache tier and one storage tier. Every
+     *            entry must be non-null, healthy, and report the mapped tier level.
+     * @return true on success; false for an empty, inconsistent, unhealthy, or
+     *         cache-only/storage-only registry.
+     * @note Tier adapters are owned by the caller and must remain alive through
+     *       shutdown().
      */
     virtual bool initialize(
         const std::map<TierLevel, std::shared_ptr<AccessTier>>& all_tiers) = 0;
 
     /**
-     * @brief Start.
+     * @brief Start worker threads after successful initialization.
+     * @note Calling start() more than once while running has no effect.
      */
     virtual void start() = 0;
 
     /**
-     * @brief Shutdown.
+     * @brief Stop accepting work, drain queued tasks, and join all workers.
+     * @note A task already executing is allowed to finish; queued futures are
+     *       completed before this method returns.
      */
     virtual void shutdown() = 0;
 
@@ -254,27 +271,34 @@ public:
 
 
     /**
-     * @brief Set Age Policy.
-     * @param[in] policy Input parameter.
+     * @brief Set the validated age and access thresholds used by event handlers.
+     * @param[in] policy Policy whose threshold ordering must satisfy isValid().
+     * @throws std::invalid_argument if the policy is invalid; the current policy
+     *         remains unchanged.
      */
     virtual void setAgePolicy(const AgeBasedPolicy& policy) = 0;
 
     /**
-     * @brief Set Promotion Thresholds.
-     * @param[in] cache_threshold Input parameter.
-     * @param[in] storage_threshold Input parameter.
+     * @brief Replace the cache and storage access-count thresholds.
+     * @param[in] cache_threshold Non-zero L1 promotion threshold.
+     * @param[in] storage_threshold Non-zero storage promotion threshold.
+     * @throws std::invalid_argument if the resulting policy is invalid; no update
+     *         is applied in that case.
      */
     virtual void setPromotionThresholds(uint64_t cache_threshold,
                                         uint64_t storage_threshold) = 0;
 
 
     /**
-     * @brief Promote Async.
-     * @param[in] key Input parameter.
-     * @param[in] from_tier Input parameter.
-     * @param[in] to_tier Input parameter.
-     * @param[in] size_bytes Input parameter.
-     * @return Return value.
+     * @brief Copy a key from a source tier into a destination tier asynchronously.
+     * @param[in] key Non-empty key present in from_tier.
+     * @param[in] from_tier Registered source tier; it is retained on success.
+     * @param[in] to_tier Registered destination tier, distinct from from_tier.
+     * @param[in] size_bytes Expected size used when the source reports no size.
+     * @return A future completed with transfer status, including queue-full,
+     *         missing-key, adapter, and shutdown failures.
+     * @note The coordinator retains the promise until completion. A valid future
+     *       is always completed, including when shutdown drains queued work.
      */
     virtual std::future<PromotionResult> promoteAsync(const std::string& key,
                                                      TierLevel from_tier,
@@ -282,12 +306,12 @@ public:
                                                      uint64_t size_bytes) = 0;
 
     /**
-     * @brief Plan Demotion.
-     * @param[in] key Input parameter.
-     * @param[in] from_tier Input parameter.
-     * @param[in] to_tier Input parameter.
-     * @param[in] data_size_bytes Input parameter.
-     * @return Return value.
+     * @brief Create a one-shot plan to move a key to a lower tier.
+     * @param[in] key Non-empty key expected in from_tier.
+     * @param[in] from_tier Registered source tier.
+     * @param[in] to_tier Registered destination tier, distinct from from_tier.
+     * @param[in] data_size_bytes Expected size used if the source omits its size.
+     * @return A plan on valid input; otherwise std::nullopt.
      */
     virtual std::optional<DemotionPlan> planDemotion(const std::string& key,
                                                      TierLevel from_tier,
@@ -295,31 +319,34 @@ public:
                                                      uint64_t data_size_bytes) = 0;
 
     /**
-     * @brief Execute Demotion.
-     * @param[in] plan_id Identifier of the plan.
-     * @return Return value.
+     * @brief Move the planned key, invalidating the source only after destination
+     *        placement succeeds.
+     * @param[in] plan_id Identifier returned by planDemotion().
+     * @return A result for a known plan, including adapter failures; std::nullopt
+     *         if the identifier is unknown or has already been consumed.
      */
     virtual std::optional<DemotionResult> executeDemotion(
         const std::string& plan_id) = 0;
 
 
     /**
-     * @brief Get Key Metrics.
-     * @param[in] key Input parameter.
-     * @return Return value.
+     * @brief Return retained access and transition counters for a key.
+     * @param[in] key Exact key to query.
+     * @return A metrics snapshot, or default metrics if the key is not retained.
      */
     virtual AccessMetrics getKeyMetrics(const std::string& key) = 0;
 
     /**
-     * @brief Get Tier Metrics.
-     * @param[in] tier_level Input parameter.
-     * @return Return value.
+     * @brief Return access and transition counters for a registered tier.
+     * @param[in] tier_level Tier to query.
+     * @return A metrics snapshot, or default metrics if the tier is unknown.
      */
     virtual AccessMetrics getTierMetrics(TierLevel tier_level) = 0;
 
     /**
-     * @brief Get Access Model Metrics.
-     * @return Return value.
+     * @brief Return coordinator counters and latency histograms.
+     * @return A consistent snapshot including current and maximum pending queue
+     *         depth.
      */
     virtual AccessModelMetrics getAccessModelMetrics() = 0;
 
@@ -344,6 +371,16 @@ public:
  */
 std::shared_ptr<AccessCoordinator> createAccessCoordinator(
     std::size_t thread_pool_size = 4);
+
+/**
+ * @brief Create an access coordinator with explicit worker and queue limits.
+ * @param[in] thread_pool_size Number of worker threads; must be greater than zero.
+ * @param[in] max_queue_depth Maximum number of waiting tasks; must be greater than zero.
+ * @return Shared pointer to a coordinator with bounded task admission.
+ * @throws std::invalid_argument if either limit is zero.
+ */
+std::shared_ptr<AccessCoordinator> createAccessCoordinator(
+    std::size_t thread_pool_size, std::size_t max_queue_depth);
 
 }  // namespace access_model
 }  // namespace themis

@@ -43,6 +43,7 @@ namespace access_model {
 // § 1  Tier Identity & Classification
 // ============================================================================
 
+/** @brief Identifies a cache or persistent-storage tier; UNKNOWN is a sentinel. */
 enum class TierLevel {
     L1_WORKING,      ///< Cache: Working memory (register-like, <1µs latency)
     L2_EPISODIC,     ///< Cache: Episodic/result-set memory (1-10µs)
@@ -53,6 +54,7 @@ enum class TierLevel {
     UNKNOWN,         ///< Sentinel value: tier not yet determined or invalid
 };
 
+/** @brief Groups tier levels by volatile-cache versus persistent-storage role. */
 enum class TierClassification {
     CACHE,     ///< In-memory tier (L1/L2/L3)
     STORAGE,   ///< Persistent tier (hot/warm/cold)
@@ -109,6 +111,7 @@ constexpr std::string_view tierLevelName(TierLevel level) {
 // § 2  Data Transfer Options & Results
 // ============================================================================
 
+/** @brief Correlation, destination, wait, and callback context for a tier call. */
 struct TierAccessOptions {
     std::string correlation_id;
 
@@ -121,6 +124,7 @@ struct TierAccessOptions {
     std::function<void(bool success, const std::string& error)> on_complete;
 };
 
+/** @brief Value and status returned by an AccessTier::get() operation. */
 struct TierGetResult {
     bool success = false;
 
@@ -139,6 +143,7 @@ struct TierGetResult {
     std::chrono::seconds age_secs;
 };
 
+/** @brief Placement status returned by an AccessTier::put() operation. */
 struct TierPutResult {
     bool success = false;
 
@@ -153,6 +158,7 @@ struct TierPutResult {
     std::string correlation_id;
 };
 
+/** @brief Result details for a tier promotion operation. */
 struct TierPromotionResult {
     bool success = false;
 
@@ -175,6 +181,10 @@ struct TierPromotionResult {
 // § 3  AccessTier Interface (Abstract)
 // ============================================================================
 
+/**
+ * @brief Adapter contract for reading, writing, invalidating, and measuring one tier.
+ * @note Implementations are caller-owned and must remain alive while registered.
+ */
 class AccessTier {
 public:
     /**
@@ -329,6 +339,7 @@ public:
 // § 4  Specialized Tier Interfaces
 // ============================================================================
 
+/** @brief AccessTier specialization for adapters that emit eviction events. */
 class CacheTier : public virtual AccessTier {
 public:
     /**
@@ -341,6 +352,7 @@ public:
                                uint64_t access_count) = 0;
 };
 
+/** @brief AccessTier specialization for adapters that emit hot-access events. */
 class StorageTier : public virtual AccessTier {
 public:
     /**
@@ -363,4 +375,3 @@ inline constexpr TierLevel kNoTier = static_cast<TierLevel>(-1);
 
 }  // namespace access_model
 }  // namespace themis
-

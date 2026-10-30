@@ -118,12 +118,12 @@ storage_hot->setPromotionListener(coordinator.get());
 auto result = coordinator->promoteAsync("key_abc",
                                         TierLevel::STORAGE_COLD,
                                         TierLevel::L3_SEMANTIC,
-                                        4096);
+                                        4096).get();
 ```
 
-The current worker implementation does not call tier `get`/`put`; its success
-result is not evidence that data moved. See [`IMPLEMENTATION.md`](./IMPLEMENTATION.md)
-before using this API for data movement.
+Promotion reads the source and writes the destination while retaining the
+source. Check `result.success` and `result.error_message`; adapter-level
+verification remains necessary.
 
 ---
 
@@ -132,7 +132,7 @@ before using this API for data movement.
 ### Metrics
 
 ```cpp
-// Key/tier-specific coordinator metrics currently return default values.
+// Per-key metrics are retained for up to 10,000 recently touched keys.
 auto key_metrics = coordinator->getKeyMetrics("key_abc");
 
 // Get aggregate coordinator metrics

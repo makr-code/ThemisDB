@@ -32,26 +32,27 @@ Current implementation limits are called out explicitly below.
   sufficient for all deployment profiles — set based on expected event throughput.
 - **MUST:** Age-based policy thresholds explicitly configured at startup; default values are
   reference values only and must be tuned for the deployment's tier sizes and access patterns.
-- **MUST:** Validate the tier registry in the owning application before
-  `initialize()`. The current method copies the supplied map and returns true
-  without validating it.
-- **MUST:** Call `AgeBasedPolicy::isValid()` before `setAgePolicy()` when policy
-  validation is required; the coordinator does not call it.
-- **MUST NOT:** Treat successful promotion/demotion counters or results as proof
-  of data transfer. Current worker code does not invoke tier `get`/`put`.
+- **MUST:** Check the boolean result from `initialize()`; it validates non-null,
+  healthy, correctly identified adapters and requires both cache and storage
+  tiers. Adapter initialization and lifetime remain the application's duty.
+- **MUST:** Handle `std::invalid_argument` from invalid policy/threshold updates.
+- **MUST:** Verify production adapter `get`/`put`/`invalidate` behavior and
+  reconcile partial demotions. Destination write precedes source invalidation;
+  invalidation failure may leave both copies.
 - **MUST:** Export and monitor `AccessModelMetrics` through the embedding
-  application. This module does not provide a Prometheus endpoint; per-key and
-  per-tier coordinator queries currently return default metrics.
-- **MUST NOT:** Claim bounded queue memory or configure `max_queue_depth` as if
-  the module supports it. The task queue is unbounded and has no depth accessor.
-  Production use that can generate unbounded event volume must remain blocked
-  until the module or its caller provides tested backpressure.
+  application. This module does not provide a Prometheus endpoint; per-key
+  counters retain at most 10,000 touched keys, per-tier counters are retained
+  for registered tiers, and aggregate metrics expose current/maximum queue depth.
+- **MUST:** Choose an explicit queue limit appropriate to the deployment. The
+  pending task queue and demotion-plan registry are bounded; rejected callback
+  work is reported through failure counters/history, while `promoteAsync()`
+  returns an immediately completed failure future.
 - **MUST:** Restrict logs and redact keys before external sharing; structured
   access-model log entries include keys.
 
 ## Ownership and security assumptions
 
-- The application owns authorization, tenant isolation, tier health checks,
+- The application owns authorization, tenant isolation, adapter initialization,
   telemetry export, and deployment rollback.
 - Cache/storage adapters and their listener pointers must remain valid while
   callbacks can occur.
@@ -59,19 +60,19 @@ Current implementation limits are called out explicitly below.
 ## Operational Bounds
 
 - Configuration values must be deployment-specific; default values are not production-safe.
-- Resource limits and event ingress must match deployment requirements. The
-  coordinator queue is currently unbounded.
+- Resource limits and event ingress must match deployment requirements; the
+  default queue capacity is a safety bound, not a workload-sizing recommendation.
 - Stop event producers/unregister listener pointers before calling `shutdown()`;
-  shutdown joins workers but does not drain queued tasks.
+  shutdown drains accepted work and can wait indefinitely for a blocked adapter.
 
 ## Minimum Production Check (Audit-ready)
 
 - [ ] Thread pool size explicitly configured (not default-only)
 - [ ] Age-based policy thresholds explicitly configured
-- [ ] Tier map validated by the owning application before initialization
-- [ ] Policy validated with `AgeBasedPolicy::isValid()` before assignment
-- [ ] Real tier transfer and backend-error behavior verified by adapter tests
-- [ ] Bounded event ingress/backpressure and shutdown behavior implemented and tested
+- [ ] `initialize()` result checked and adapter initialization/lifetime verified
+- [ ] Invalid policy updates handled as `std::invalid_argument`
+- [ ] Real tier transfer, partial-demotion recovery, and backend errors verified by adapter tests
+- [ ] Queue limit sized; rejection and shutdown-drain behavior monitored
 - [ ] Telemetry exported by the application and compared with backend state
 - [ ] Log access restricted and sensitive keys redacted for external reports
 - [ ] Listener ownership and shutdown order tested
