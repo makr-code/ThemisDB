@@ -37,7 +37,7 @@ These are in-process API surfaces, not metric names guaranteed to be scraped by 
 - Confirm the manager is running and the last result is understood.
 - Track the `current_queue_depth`, `tasks_dropped_queue_full`, `failed_failovers`, retry totals, and `failed_runs` trends.
 - Verify quorum, replica health, and fencing before planned failover/DR activity.
-- Run a dry-run plan review before non-dry-run recovery, while remembering that dry run skips the mutation/restore phases.
+- Run a dry-run plan review before non-dry-run recovery, but do not treat it as a quorum or snapshot-availability check: built-in DR prechecks return early, snapshot validation only checks ID presence on a non-dry-run, and built-in restore/traffic handlers do not perform external actions. Review registered step hooks separately because they replace built-in handlers.
 - Retain quorum-log and DR step-result evidence through incident closure.
 
 ## Operating safeguards
