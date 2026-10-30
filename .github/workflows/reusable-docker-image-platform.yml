@@ -170,6 +170,9 @@ jobs:
             exit 1
           fi
 
+      - name: Validate Docker dependency providers and runtime packages
+        run: python3 tests/test_docker_runtime_package_regressions.py -v
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349  # v3.7.1
 

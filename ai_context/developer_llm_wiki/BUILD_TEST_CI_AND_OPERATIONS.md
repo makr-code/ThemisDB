@@ -57,8 +57,12 @@ guidance; use workflow sources and concrete run logs as evidence.
   [ARM64 job 123993876135](https://github.com/makr-code/ThemisDB/actions/runs/41034175988/job/123993876135)
   failed linking `themis_server` with vcpkg fmt v11 and Ubuntu spdlog 1.12.
   The manifest now leaves both libraries to apt; the provider regression check
-  is in `tests/test_docker_runtime_package_regressions.py`. A successful full
-  ARM64 image build still requires CI verification.
+  is in `tests/test_docker_runtime_package_regressions.py` and runs before Buildx
+  setup in `reusable-docker-image-platform.yml` for both architectures.
+  Retry job 124024436376 still used the old manifest with explicit vcpkg fmt;
+  its link command mixed Ubuntu spdlog 1.12 with vcpkg fmt 11.0.2.
+  A successful full ARM64 image build with the corrected manifest still requires
+  CI verification.
 - Follow-up PR evidence exposed separate cache/permission defects: RAG phases 7–10
   need PR-write permission in both caller and callee for labels/comments, even when
   compilation passed. The reusable CMake build no longer registers an unprepared
