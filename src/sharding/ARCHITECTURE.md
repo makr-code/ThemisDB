@@ -1,107 +1,82 @@
-# Architecture - Sharding Module
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-30"
+Last Updated: "2026-10-30"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "README.md"
+  - "API.md"
+  - "../../include/sharding/shard_router.h"
+  - "../../include/sharding/distributed_coordinator.h"
+  - "../../include/sharding/consensus_factory.h"
+  - "../../include/sharding/cross_shard_transaction.h"
+  - "../../include/sharding/wal_manager.h"
+  - "../../include/sharding/auto_rebalancer.h"
+  - "shard_router.cpp"
+  - "cross_shard_transaction.cpp"
+  - "wal_manager.cpp"
+Related_Issue: "#7167 (closes #7091)"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
 
-<!-- Status: current | validated: 2026-09-09 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+Exact model backend not verifiable from final document text alone.
 
-## Overview
+# Sharding Module Architecture
 
-The sharding module composes shard routing, consensus-aware coordination, cross-shard transaction control, repair/rebalance/migration behavior, and operational health/metrics surfaces into a bounded distributed data-partitioning subsystem.
+## Scope, boundaries, and ownership
 
-## Main Execution Planes
+`src/sharding/` owns partition topology, shard routing, distributed coordination/consensus adapters, cross-shard transaction orchestration, shard WAL integration, and migration/rebalance/repair operations. It does not own the underlying storage engine or the separate replication module's replica lifecycle.
 
-1. Routing and placement plane
-- key/tenant/request to shard decision behavior
-- consistent hash and adaptive routing behavior
+## Components and public interfaces
 
-2. Coordination and transaction plane
-- distributed coordinator and consensus-integrated operation behavior
-- cross-shard transaction and 2PC flow behavior
+| Component | Public interface | Source-backed responsibility |
+|---|---|---|
+| Topology and routing | [`ShardRouter`](../../include/sharding/shard_router.h), [`ShardTopology`](../../include/sharding/shard_topology.h), [`AdaptiveShardRouter`](../../include/sharding/adaptive_shard_router.h) | Select routing strategy and address requests against configured shard topology. |
+| Coordination | [`DistributedCoordinator`](../../include/sharding/distributed_coordinator.h), [`ConsensusFactory`](../../include/sharding/consensus_factory.h), [`QuorumManager`](../../include/sharding/quorum_manager.h) | Coordinate tasks and choose among the available consensus implementations. |
+| Cross-shard transactions | [`CrossShardTransactionCoordinator`](../../include/sharding/cross_shard_transaction.h), [`TwoPhaseCommitCoordinator`](../../include/sharding/two_phase_commit_coordinator.h) | Coordinate prepare/decision work across participants and expose transaction state. |
+| Durability and operations | [`WALManager`](../../include/sharding/wal_manager.h), [`WALApplier`](../../include/sharding/wal_applier.h), [`AutoRebalancer`](../../include/sharding/auto_rebalancer.h), [`DataMigrator`](../../include/sharding/data_migrator.h) | Record/apply shard WAL state and manage rebalance/migration work. |
 
-3. Durability and operations plane
-- WAL, repair, rebalancing, migration, and health/metrics behavior
+The source contains multiple consensus adapters (including Raft, Paxos, and Gossip); this architecture does not treat one adapter as the only supported implementation.
 
-## Core Contracts
+## Data and event flow
 
-| Contract | Behavior |
+1. A query/request is classified and routed using the current topology and routing policy.
+2. Remote execution and shard-local operations return results/status to the routing/coordinator path.
+3. Cross-shard transactions coordinate participant work; the sharding WAL records sharding/transaction state through its configured storage-backed path.
+4. Rebalance, migration, and repair components act on topology/health information and report operation state to their callers.
+
+Evidence includes [`shard_router.cpp`](shard_router.cpp), [`cross_shard_transaction.cpp`](cross_shard_transaction.cpp), [`wal_manager.cpp`](wal_manager.cpp), and [`auto_rebalancer.cpp`](auto_rebalancer.cpp).
+
+## Failure domains and edge cases
+
+- Invalid or empty topology and unavailable target shards prevent normal routing; remote execution errors are distinct from local planning errors.
+- Quorum/consensus outcomes can prevent a coordination decision. An in-doubt transaction is a separate recovery state, not a confirmed commit.
+- WAL persistence/replay errors affect shard state recovery; migration/rebalance conflicts can leave an operation incomplete and require the operation-specific recovery path.
+- Timeouts, circuit breakers, and health monitors are component-specific; no universal automatic failover behavior is assumed.
+
+## Explicit non-goals
+
+- Owning record persistence, RocksDB internals, or general backup/PITR.
+- Owning replication-manager membership and WAL-to-replica delivery.
+- Query-language parsing or client transport protocol handling.
+- Assuming every configured consensus backend, cloud adapter, or optional hardware path is enabled.
+
+## Verified cross-module references
+
+| Boundary | Evidence and link |
 |---|---|
-| routing contract | deterministic shard selection under topology constraints |
-| coordination contract | explicit distributed decision and consensus outcomes |
-| transaction contract | explicit cross-shard commit/abort semantics |
-| operations contract | bounded repair/rebalance/migration with observable states |
+| Query federation | `query_federation.cpp` requires a `sharding::ShardRouter`; see [query architecture](../query/ARCHITECTURE.md). |
+| Storage WAL | `wal_manager.cpp` includes `storage/wal_storage.h`; see [storage architecture](../storage/ARCHITECTURE.md). |
+| Replication separation | Replication and sharding have separate public contracts; see [replication architecture](../replication/ARCHITECTURE.md). |
 
-## Failure Semantics
+## References
 
-- routing/topology mismatches return explicit failures.
-- cross-shard transaction errors surface deterministic abort/rollback outcomes.
-- repair/rebalance job failures remain explicit and diagnosable.
-- WAL/quorum/health degradation is surfaced through operational signals.
-
-## Module Dependencies
-
-### Direct Upstream Dependencies (this module uses)
-
-| Module | Interface / File | Purpose |
-|--------|-----------------|---------|
-| `storage` | `include/storage/rocksdb_wrapper.h`, `include/storage/storage_engine.h` | Persistent KV store (data reads/writes backing shard data) |
-| `transaction` | `include/transaction/recoverable_two_phase_coordinator.h` | Cross-shard 2PC coordination (managed circular dep) |
-| `distributed_knowledge` | `include/distributed_knowledge/` | Federated knowledge routing per shard topology |
-| `utils` | `include/utils/` | Utility helpers |
-| `themis/edition` | `include/themis/edition.h` | Edition capability gating for advanced sharding features |
-
-### Direct Downstream Consumers (modules that use this module)
-
-| Module | Via | Notes |
-|--------|-----|-------|
-| `server` | `include/sharding/shard_router.h`, `include/sharding/adaptive_shard_router.h` | HTTP request shard routing |
-| `query` | `include/sharding/shard_router.h` | Federated query scatter-gather |
-| `transaction` | `include/sharding/truetime.h`, `include/sharding/wal_manager.h` | TrueTime and WAL for distributed transactions |
-| `storage` | `include/sharding/redundancy_strategy.h` | Storage consults sharding for redundancy placement |
-| `distributed_knowledge` | `include/sharding/` | Cross-shard knowledge graph coordination and partition routing |
-| `distributed_tensor` | `include/sharding/` | Cross-shard tensor collective operations and partition management |
-| `analytics` | `include/sharding/` | Shard-aware query planning for distributed aggregations |
-
----
-
-## Integration Points
-
-### Critical Integration: Sharding → Storage (Data Access)
-**Files:** `src/sharding/shard_router.cpp` ↔ `include/storage/rocksdb_wrapper.h`
-**Contract:** After routing decisions, the shard layer delegates actual KV reads/writes to storage. Shard router does not buffer data; it only resolves shard ownership.
-**Thread Safety:** Storage wrapper is concurrent-safe; shard router state uses shared_mutex for topology reads.
-**Failure Mode:** Storage unavailability on target shard → explicit routing error returned; shard repair engine is triggered asynchronously.
-
-### Critical Integration: Sharding ↔ Transaction (2PC Circular)
-**Files:** `src/sharding/cross_shard_transaction.cpp` ↔ `include/transaction/recoverable_two_phase_coordinator.h`; `src/transaction/distributed_transaction_manager.cpp` ↔ `include/sharding/truetime.h`
-**Contract:** Cross-shard transaction calls into `RecoverableTwoPhaseCoordinator`; TrueTime from sharding timestamps distributed commits. Circular dependency is managed: sharding imports transaction coordinator header; transaction imports sharding TrueTime header only.
-**Thread Safety:** 2PC coordinator uses internal locking; TrueTime is lock-free read.
-**Failure Mode:** Coordinator crash mid-2PC → WAL-based recovery on restart; participant timeout → abort broadcast.
-
-### Critical Integration: Sharding → WAL (Durability)
-**Files:** `src/sharding/wal_manager.cpp` ↔ `include/storage/rocksdb_wrapper.h` (WAL backend)
-**Contract:** All topology-change and shard-migration events are WAL-logged before acknowledgment. WAL replay restores shard state on restart.
-**Thread Safety:** WAL manager serialises writes with internal mutex; reads are concurrent.
-**Failure Mode:** WAL write failure → shard operation rejected; WAL corruption → recovery mode with manual repair tooling.
-
-### Critical Integration: Sharding → Distributed Coordinator (Consensus)
-**Files:** `src/sharding/distributed_coordinator.cpp` ↔ `include/sharding/consensus_module.h`, `include/sharding/consensus_factory.h`
-**Contract:** Distributed coordinator delegates leader election and quorum decisions to the consensus module (Raft-based via `consensus_factory`). Shard topology changes require quorum agreement before commit.
-**Thread Safety:** Consensus module manages its own election-state mutex; coordinator observes consensus outcomes via callback.
-**Failure Mode:** Loss of quorum → coordinator enters read-only safe mode; leader re-election is automatic via Raft timeout.
-
----
-
-## Sourcecode Verification (Module: sharding/architecture)
-
-- Verified files:
-  - src/sharding/shard_router.cpp
-  - src/sharding/adaptive_shard_router.cpp
-  - src/sharding/distributed_coordinator.cpp
-  - src/sharding/cross_shard_transaction.cpp
-  - src/sharding/shard_repair_engine.cpp
-  - src/sharding/auto_rebalancer.cpp
-  - src/sharding/wal_manager.cpp
-  - src/sharding/health_monitor.cpp
-- Verified architecture claims:
-  - routing/placement + coordination/transaction + durability/operations plane split
-  - explicit failure boundaries for routing, transaction, and job-execution faults
-  - module-local ownership of sharding-domain behavior
+- [Module README](README.md) · [API notes](API.md) · [module roadmap](ROADMAP.md)
+- [`sharding_api_contract.h`](../../include/sharding/sharding_api_contract.h) · [`shard_router.h`](../../include/sharding/shard_router.h) · [`cross_shard_transaction.h`](../../include/sharding/cross_shard_transaction.h)

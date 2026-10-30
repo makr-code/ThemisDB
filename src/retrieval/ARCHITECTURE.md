@@ -1,70 +1,70 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-30"
+Last Updated: "2026-10-30"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "README.md"
+  - "API.md"
+  - "../../include/retrieval/retrieval.h"
+  - "../../include/retrieval/dual_read_validator.h"
+  - "include/lora_package.h"
+  - "dual_read_validator.cpp"
+  - "src/lora_package.cc"
+  - "CMakeLists.txt"
+Related_Issue: "#7167 (closes #7091)"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Retrieval Module Architecture
 
-<!-- Status: current | validated: 2026-09-09 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+## Scope, boundaries, and ownership
 
-## Overview
+The checked-in `src/retrieval/` implementation is narrower than a general retrieval engine. It contains a dual-read quality validator and a separately built LoRA artifact/manifest library. The public `include/retrieval/retrieval.h` is an umbrella-header placeholder; it does not include or declare a general ANN/search pipeline.
 
-`src/retrieval` provides the EPIC 1 retrieval contract layer with seven sub-surfaces:
-ANN frontdoor, tensor mid-layer, graph validation, LoRA packaging, model switching,
-federated summaries, and retrieval observability.
+## Components and public interfaces
 
-At current scope, architecture is contract-first: public headers in `include/` define
-types/interfaces and matching translation units in `src/` keep scaffold ownership clear.
-
-## Component Map
-
-> Source files (`*.h`, `*.cc`) are deferred to the implementation PR.
-> The table below documents planned file ownership; no code files exist yet.
-
-| Component | Planned contract | Planned implementation |
+| Component | Public interface | Source-backed responsibility |
 |---|---|---|
-| ANN frontdoor | `include/ann_frontdoor.h` | `src/ann_frontdoor.cc` |
-| Tensor mid-layer | `include/tensor_midlayer.h` | `src/tensor_midlayer.cc` |
-| Graph validation | `include/graph_validator.h` | `src/graph_validator.cc` |
-| LoRA package | `include/lora_package.h` | `src/lora_package.cc` |
-| Model switch | `include/model_switch.h` | `src/model_switch.cc` |
-| Federated summaries | `include/federated_summaries.h` | `src/federated_summaries.cc` |
-| Retrieval observability | `include/retrieval_observability.h` | `src/retrieval_observability.cc` |
+| Public include surface | [`retrieval.h`](../../include/retrieval/retrieval.h) | Umbrella include file; current contents do not wire in the implementation headers. |
+| Dual-read validation | [`DualReadValidator`](../../include/retrieval/dual_read_validator.h) | Compare current/previous index result sets and compute Recall@10, nDCG@10, and MRR@10 metrics. |
+| Adapter artifacts | [`lora_package.h`](include/lora_package.h) | `LoRAPackage`, `PortableAdapterProduct`, `LoRAManifestStore`, and integrity helper APIs exposed by the `themis_retrieval` target's include directory. |
 
-## Boundaries
+The artifact implementation is built from [`src/lora_package.cc`](src/lora_package.cc) by [`CMakeLists.txt`](CMakeLists.txt). The top-level `src/retrieval/dual_read_validator.cpp` is a separate implementation source.
 
-In scope:
-- EPIC 1 retrieval contracts and ownership boundaries
-- cross-epic integration seams with EPIC 2 evaluation and EPIC 3 distributed artifacts
-- phase-gated implementation planning references
+## Data and event flow
 
-Out of scope at scaffold stage:
-- production retrieval algorithm behavior claims
-- benchmark-backed SLO/SLA claims
-- default enablement in product build/test pipelines
+1. `DualReadValidator` accepts current/previous index paths and uses configured ground truth; `RetrievalMetrics` separately exposes `HasRegression()` and `ComputeDeltas()`.
+2. Its current `ExecuteQuery()` implementation is a placeholder that returns an empty result vector. Consequently, `ValidateQuery()` returns current-result metrics (and logs a previous-result metric) that are zero-valued with the current executor; it does not itself return a computed current-versus-previous delta or perform a live index comparison.
+3. The LoRA artifact path serializes package/product metadata, computes/verifies manifest hashes, and stores/lists package and product records through `LoRAManifestStore`.
 
-## Integration Surfaces
+## Failure domains and edge cases
 
-- Planning: `docs/EPIC1_ARCHITECTURE.md` and per-sub-issue EPIC 1 design docs
-- Planned contracts: `src/retrieval/include/*.h` (deferred to implementation PR)
-- Planned implementation: `src/retrieval/src/*.cc` (deferred to implementation PR)
-- Cross-epic dependency sequencing: `docs/EPIC1_2_3_DEPENDENCIES.md`
+- Empty ground truth produces zero-valued metric calculations; the placeholder query path also produces empty result sets.
+- `ValidateQueryBatch()` logs and rethrows a caught validation exception rather than converting it to a successful batch result.
+- Artifact JSON parsing, manifest integrity checks, signature-verifier configuration, and local manifest-store operations are separate error points.
+- The umbrella header's documented broader intent must not be read as proof of a production retrieval executor.
 
-## Module Dependencies
+## Explicit non-goals
 
-### Direct Upstream Dependencies (this module uses)
-| Module | Interface / File | Purpose |
-|--------|-----------------|---------|
-| index | `include/index/` (vector index interfaces) | ANN frontdoor and tensor mid-layer use vector index structures for similarity search |
-| storage | `include/storage/` | Planned: retrieval artifact persistence and caching |
-| llm | `include/llm/` | Planned: model-switch surface for retrieval-time adapter selection |
+- ANN/vector query execution, hybrid search fusion, RAG context assembly, or model inference.
+- Claiming the dual-read validator currently queries actual index backends.
+- Treating planned EPIC files or stale README/API statements as implemented behavior.
 
-### Direct Downstream Consumers (modules that use this module)
-| Module | Via | Notes |
-|--------|-----|-------|
-| rag | `include/retrieval/` | RAG module is the primary consumer of retrieval ANN/tensor/graph/LoRA surfaces |
+## Verified cross-module references
 
-## Integration Points
+The inspected retrieval implementation has no direct include or call edge to index, search, RAG, or LLM modules: the dual-read executor is a stub and the artifact target only links JSON support. Search provides a separate search composition surface; see [search architecture](../search/ARCHITECTURE.md). No runtime integration between these two pages is claimed.
 
-### Critical Integration: RAG Retrieval Contract
-**Files:** `include/retrieval/ann_frontdoor.h`, `tensor_midlayer.h` ↔ `rag/`
-**Contract:** RAG issues ANN and tensor similarity queries through retrieval frontdoor interfaces; results are typed ranked lists compatible with RAG fusion logic.
-**Thread Safety:** Contract-first scaffold stage; thread-safety model deferred to implementation PR.
+## References
 
-> **Note:** This module is at EPIC 1 scaffold stage. All component files listed above are planned contracts. Implementation is deferred to a future PR. All claims are aspirational until source is delivered.
+- [Module README](README.md) · [API notes](API.md) · [module roadmap](ROADMAP.md)
+- [`dual_read_validator.h`](../../include/retrieval/dual_read_validator.h) · [`retrieval.h`](../../include/retrieval/retrieval.h) · [`include/lora_package.h`](include/lora_package.h)
