@@ -1,16 +1,18 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
+Last Updated: "2026-10-30"
 Status: "active"
 AI_Used: true
-AI_Models: "GitHub Copilot"
+AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
-Human_Review: true
+Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
 
 # Observability Operations Guide
+
+Exact model backend not verifiable from final document text alone.
 
 ## Purpose
 
@@ -27,6 +29,19 @@ Operators should watch the following categories:
 - profiling overhead and retained diagnostic volume.
 
 The module exposes these signals through metrics and status outputs rather than through hidden side effects.
+
+## Actionable metric and event checks
+
+| Signal | Interpretation and operator action |
+|---|---|
+| `malformed_telemetry_rejections_total{metric,reason}` | Rejected metric samples; group by `reason` and `metric`, then fix the emitting labels or cardinality at the source. Do not mask the rejection by dropping the counter. |
+| `exporter_failures_total{exporter}` and `exporter_recoveries_total{exporter}` | Cumulative failure/recovery counts. Compare rates or deltas per exporter; a recovery does not reset the failure counter. |
+| `exporter_health_status{exporter}` | Exporter health state; investigate unhealthy status alongside the backend endpoint and delivery logs. |
+| `themis_otel_active_spans`, `themis_otel_dropped_spans_total`, `themis_otel_spans_total` | Active, dropped, and processed span signals from the OpenTelemetry tracer. Correlate drops with sampling, propagation, and exporter health. |
+| `themis_slo_met`, `themis_slo_error_budget_remaining`, `themis_slo_burn_rate` (plus fast/medium/slow burn-rate gauges) | SLO status and budget burn. Alert on deployment-defined SLO policy; inspect the contributing request/error series before changing the SLO. |
+| Alert firing/resolution and delivery warnings | `Alertmanager` and `AlertingEngine` report rule transitions and send/resolve failures. Restore the receiver, then verify active-alert state and delivery rather than assuming an alert was replayed. |
+
+These are real emitted identifiers from the observability sources, but not every deployment exposes every tracer/SLO component. Confirm exporter registration and scrape configuration before creating an alert against a series.
 
 ## Typical Health Checks
 
@@ -59,7 +74,7 @@ The observability module owns the runtime behavior of in-process telemetry and d
 
 - confirm endpoint configuration,
 - verify the network path and target service health,
-- confirm the exporter failure counter increments and recovery counter resets once connectivity returns,
+- compare `exporter_recoveries_total` as a counter delta; it does not reset,
 - ensure telemetry processing continues locally instead of failing the whole application.
 
 ### During trace anomalies
@@ -94,3 +109,6 @@ The module is expected to remain non-silent in degraded states. The operator sho
 - [PRODUCTION_REQUIREMENTS.md](PRODUCTION_REQUIREMENTS.md)
 - [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md)
 - [ARCHITECTURE.md](ARCHITECTURE.md)
+- `src/observability/metrics_collector.cpp`
+- `src/observability/opentelemetry_tracer.cpp`
+- `src/observability/slo_reporter.cpp`

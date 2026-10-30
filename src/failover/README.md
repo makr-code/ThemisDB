@@ -17,6 +17,11 @@ Production-capable automatic failover orchestration and disaster recovery execut
 | include/failover/auto_failover_manager.h | failover manager API/contracts |
 | include/failover/disaster_recovery_manager.h | disaster recovery API/contracts |
 
+## Operations
+
+- [RUNBOOK.md](RUNBOOK.md) — incident diagnosis and safe recovery
+- [OPERATIONS.md](OPERATIONS.md) — runtime signals and operating safeguards
+
 ## Scope
 
 In scope:
