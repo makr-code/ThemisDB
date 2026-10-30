@@ -1,12 +1,12 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-19
-Last Updated: 2026-10-19
+Last Updated: 2026-10-30
 Status: active
 AI_Used: true
-AI_Models: MAI-Code-1.1-Flash
-AI_Contributor: unknown
-Human_Review: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
 Human_Author: ThemisDB Contributors
 ---
 
@@ -38,6 +38,14 @@ Operational teams should monitor:
 - anomaly or injection detection rates
 
 The repo has existing code and evidence classes for this in `security_evidence_collector.*` and the benchmark suites in `benchmarks/security`.
+
+### Implemented counters and evidence fields
+
+`AccessControlManager::getMetrics()` exposes internal counters for `authentication_success`, `authentication_failure`, `authorization_success`, `authorization_failure`, and `access_denied`. `ZeroTrustPolicyEnforcer::getMetrics()` exposes request total/allowed/denied and identity/network-policy failure counters. These are component snapshots, not named Prometheus series guaranteed to be scrapeable.
+
+Audit records are emitted for authentication and authorization outcomes when audit logging is enabled. For evidence exports, inspect `AuditLogExport::chain_intact`, event counts, retention status, and `SecurityEvidenceCollector::lastExportMetrics()` (`events_sent`, `events_confirmed`, `resend_count`, `atomicity_guaranteed`, `idempotency_verified`). These export values describe the last export only; verify them after each export and retain the resulting bundle.
+
+Alert on sustained authentication/identity failures, unusual deny growth, missing or revoked key versions, broken audit-chain integrity, or incomplete evidence export. Compare counter deltas and investigate the corresponding principal/policy/provider event; do not lower deny thresholds or switch to allow-on-error to suppress alerts.
 
 ## Normal operating posture
 
@@ -82,3 +90,11 @@ Recovery should be narrow and evidence-backed:
 ## Operational boundaries and signs of risk
 
 The module remains at a measured readiness level because the source and roadmap explicitly state that final module sign-off is still pending until remaining gap closure is complete. Operators should treat any temporary fallback as a restricted state, not as a normal production condition.
+
+## References
+
+- [RUNBOOK.md](RUNBOOK.md)
+- [SECURITY.md](SECURITY.md)
+- `include/security/access_control_manager.h`
+- `include/security/security_evidence_collector.h`
+- `include/security/zero_trust_policy_enforcer.h`

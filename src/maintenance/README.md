@@ -16,6 +16,11 @@ Production-capable maintenance workflows, compaction, cleanup, and resource mana
 | maintenance_schedule_store.cpp | schedule persistence and recovery |
 | maintenance_registry.cpp | default maintenance setup and schedule bundles |
 
+## Operations
+
+- [RUNBOOK.md](RUNBOOK.md) — job and schedule incident response
+- [OPERATIONS.md](OPERATIONS.md) — health, metrics, and safe controls
+
 ## Scope
 
 In scope:

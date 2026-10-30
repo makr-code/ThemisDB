@@ -1,16 +1,16 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-10-19"
+Last Updated: "2026-10-30"
 Status: "active"
 AI_Used: true
-AI_Models: "MAI-Code-1.1-Flash"
-AI_Contributor: "MAI-Code-1.1-Flash"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
-AI-assisted drafting for this document was performed with MAI-Code-1.1-Flash in the current task session.
+Exact model backend not verifiable from final document text alone.
 
 # Storage Operations Guide
 
@@ -28,6 +28,20 @@ Operators should pay attention to the following categories:
 - storage pressure and filesystem capacity,
 - backup manifest and restore validation,
 - integrity and audit signals from the security and audit layers.
+
+### Concrete diagnostics and metrics
+
+The storage error path emits diagnostics through the `storage.audit` logger with `code`, `incident`, `severity`, `op`, `resource`, `msg`, and `recovery` fields. In particular, `WAL_WRITE_FAILED`, `WAL_CORRUPTED`, `RECOVERY_INCOMPLETE`, `CHECKPOINT_FAILED`, `BACKUP_CORRUPTED`, `RESTORE_FAILED`, and `STORAGE_EXHAUSTED` require operator review. Recovery-fault events identify conditions such as `torn_wal_entry`, `checkpoint_invalid`, `recovery_timeout`, `wal_corruption`, and `recovery_retry_exhausted`.
+
+The implemented Prometheus family for blob redundancy is:
+
+- `themis_blob_redundancy_total_blobs`, `themis_blob_redundancy_healthy_blobs`,
+  `themis_blob_redundancy_degraded_blobs`, and `themis_blob_redundancy_critical_blobs`
+- `themis_blob_redundancy_logical_bytes`, `themis_blob_redundancy_physical_bytes`,
+  `themis_blob_redundancy_storage_efficiency`, and
+  `themis_blob_redundancy_repairs_total`
+
+Alert on increasing critical/degraded blob counts or failed durability/recovery codes; correlate them with affected IDs and repair results. The source does not identify a single module-wide metric series for every WAL, MVCC, backup, and compaction path, so use the named error/audit diagnostics for those paths rather than assuming a metric exists.
 
 ## Daily operations
 
@@ -78,3 +92,12 @@ Escalate to the storage owner or release governance when:
 ## Operating principle
 
 The storage module favors explicit, diagnosable failures over silent degradation. The operator's task is therefore not to guess whether the system is okay; it is to confirm that each critical subsystem remains validateable and recoverable.
+
+## References
+
+- [RUNBOOK.md](RUNBOOK.md)
+- [ARCHITECTURE.md](ARCHITECTURE.md)
+- `include/storage/storage_api_contract.h`
+- `src/storage/storage_error_diagnostics.cpp`
+- `src/storage/storage_recovery_fault_handler.cpp`
+- `src/storage/blob_redundancy_manager.cpp`

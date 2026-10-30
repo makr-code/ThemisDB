@@ -1,8 +1,10 @@
 # Chaos Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-09-16 -->
+<!-- Status: current | validated: 2026-10-30 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+<!-- AI_Used: true | AI_Models: unknown | AI_Contributor: GitHub Copilot | Human_Review: false | Human_Author: ThemisDB Team -->
+<!-- Exact model backend not verifiable from final document text alone. -->
 
 ## Current Status
 
@@ -118,11 +120,11 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 
 ### Wave D Contribution for `chaos`
 - [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-  - Delivered: test_chaos_highcardinality_stress.cpp (200 fault descriptors, 4-thread concurrent inject/recover, scheduler under 50 concurrent faults); RUNBOOK_CHAOS_FAULT_INJECTION.md (2026-09-16)
+  - Delivered: `tests/chaos/test_chaos_highcardinality_stress.cpp` (200 fault descriptors, 4-thread concurrent inject/recover, scheduler under 50 concurrent faults); the former root runbook is now a redirect because its claimed runtime signals were not implemented.
 - [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
   - Delivered: tests/integration/test_chaos_fault_soak.cpp — FaultInjectRecoverCycle (recover=100%), SchedulerStabilityUnderLoad, CallbackDispatchReliability (2026-09-16)
 - [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
-  - Delivered: docs/operability/RUNBOOK_CHAOS_FAULT_INJECTION.md — 5 scenarios: inject runaway, scheduler deadlock, callback queue overflow, process scope exceeded, registry corruption (2026-09-16)
+  - Delivered: `src/chaos/RUNBOOK.md` and `src/chaos/OPERATIONS.md` — current, source-verified recovery and signal boundaries.
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -135,12 +137,12 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
   - Delivered: CHAOS-MB-01..03 in bench_chaos_microbenchmarks.cpp; full hardware baselines pending Wave D sign-off
 - [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
-  - Delivered: docs/operability/RUNBOOK_CHAOS_FAULT_INJECTION.md (5 scenarios, D1 trace span cross-links, alert reference)
+  - Delivered: `src/chaos/RUNBOOK.md` and `src/chaos/OPERATIONS.md`; the runtime currently has no native chaos trace spans, exported metrics, or alert rules.
 
 ### Wave D Closure Batch (2026-09-16)
 
 All three Wave D `[ ]` items closed. Evidence:
 - `tests/integration/test_chaos_fault_soak.cpp` — 3 soak cases (FaultInjectRecoverCycle recover=100%, SchedulerStabilityUnderLoad always STOPPED, CallbackDispatchReliability no re-entry)
 - `tests/chaos/test_chaos_highcardinality_stress.cpp` — 3 stress cases (200 descriptors, 4-thread concurrent inject/recover, scheduler under 50 concurrent faults)
-- `docs/operability/RUNBOOK_CHAOS_FAULT_INJECTION.md` — 5 operator scenarios with [CHAOS:*] log-tag patterns and Wave D D1 trace span cross-links
+- `docs/operability/RUNBOOK_CHAOS_FAULT_INJECTION.md` — deprecated redirect to the source-verified module guides; historical CLI/metric/span claims are not runtime behavior
 - `benchmarks/chaos/bench_chaos_microbenchmarks.cpp` — CHAOS-MB-01..03 p99 and throughput gate benchmarks

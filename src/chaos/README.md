@@ -13,6 +13,11 @@ The chaos module provides in-process fault injection and deterministic chaos sch
 |---|---|
 | chaos_framework.cpp | fault injection registry and scheduler runtime implementation |
 
+## Operations
+
+- [RUNBOOK.md](RUNBOOK.md) — simulated-fault diagnosis and cleanup
+- [OPERATIONS.md](OPERATIONS.md) — supported signals and safety boundary
+
 ## Scope
 
 In scope:
