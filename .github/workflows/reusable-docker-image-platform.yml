@@ -77,7 +77,7 @@ permissions:
   security-events: write
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: docker-platform-${{ github.workflow }}-${{ github.ref }}-${{ inputs.platform }}
   cancel-in-progress: false
 
 jobs:
@@ -89,6 +89,9 @@ jobs:
     permissions:
       contents: read
     steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
       - uses: ./.github/actions/write-run-summary
         with:
           scope: "Reusable Docker platform build"
@@ -113,7 +116,7 @@ jobs:
         needs.prepare-llm-model-cache.result == 'skipped'
       )
     name: "Build: Docker ${{ inputs.platform }}"
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.platform == 'linux/arm64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
     timeout-minutes: 180
     outputs:
       digest: ${{ steps.build-candidate.outputs.digest }}
@@ -313,8 +316,8 @@ jobs:
           load: ${{ ! (inputs.push_to_registry == true || inputs.push_to_registry == 'true') }}
           push: ${{ inputs.push_to_registry == true || inputs.push_to_registry == 'true' }}
           platforms: ${{ inputs.platform }}
-          provenance: true
-          sbom: true
+          provenance: ${{ inputs.push_to_registry == true || inputs.push_to_registry == 'true' }}
+          sbom: ${{ inputs.push_to_registry == true || inputs.push_to_registry == 'true' }}
           tags: ghcr.io/${{ github.repository_owner }}/themisdb:${{ github.run_number }}-${{ steps.platform-tag.outputs.value }}
           build-args: |
             THEMIS_EDITION=COMMUNITY

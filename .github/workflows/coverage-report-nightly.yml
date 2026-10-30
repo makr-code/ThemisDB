@@ -15,7 +15,7 @@ on:
 
 env:
   THEMIS_AUTO_BOOTSTRAP_DEPS: 'OFF'
-  THEMIS_ALLOW_MISSING_ROCKSDB: 'ON'
+  THEMIS_ALLOW_MISSING_ROCKSDB: 'OFF'
   THEMIS_DIAGNOSTIC_MODE: 'ON'
 
 permissions:
@@ -41,7 +41,7 @@ jobs:
       - name: Install coverage tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y lcov python3-pip jq sccache libfmt-dev libspdlog-dev libboost-system-dev libboost-filesystem-dev libcpp-httplib-dev libyaml-cpp-dev libcurl4-openssl-dev
+          sudo apt-get install -y lcov python3-pip jq sccache libfmt-dev libspdlog-dev libboost-system-dev libboost-filesystem-dev libcpp-httplib-dev libyaml-cpp-dev libcurl4-openssl-dev librocksdb-dev nlohmann-json3-dev libgtest-dev libgmock-dev libpugixml-dev
           pip3 install --upgrade pip
           echo "✓ Coverage tools installed"
       
@@ -62,7 +62,7 @@ jobs:
             -DTHEMIS_ENABLE_COVERAGE=ON \
             -DTHEMIS_BUILD_TESTS=ON \
             -DTHEMIS_ENABLE_HTTP_SERVER=OFF \
-            -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON \
+            -DTHEMIS_ALLOW_MISSING_ROCKSDB=OFF \
             -DTHEMIS_DIAGNOSTIC_MODE=ON \
             -DCMAKE_BUILD_TYPE=Debug \
             -DCMAKE_CXX_COMPILER=g++ \

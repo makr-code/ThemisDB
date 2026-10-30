@@ -2,8 +2,15 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-10-27
+> Last Updated: 2026-10-30
 > Status: active
+> AI_Used: true
+> AI_Models: unknown
+> AI_Contributor: GitHub Copilot
+> Human_Review: false
+> Human_Author: ThemisDB Team
+>
+> Exact model backend not verifiable from final document text alone.
 
 ## Scope
 Diese Richtlinie gilt fuer den schlanken, release-zentrierten Workflow-Kern.
@@ -81,6 +88,47 @@ flowchart TD
 5. Label-Operationen ueber kanonische Status-Action/State-Machine fuehren.
 6. Lokal validieren (`pwsh ... test-github-actions-local.ps1 -Mode lint`).
 7. Bei Struktur-/Governance-Aenderungen `WORKFLOW_REGISTRY.md` + diese Guideline synchron halten.
+
+### Lokale Summary-Actions und Fehlerdiagnose
+
+- Jeder Job mit `./.github/actions/write-run-summary` braucht zuvor einen eigenen,
+  bedingungslosen Checkout ins Standard-Workspace; ein Checkout in einem anderen Job reicht nicht.
+  Summary-Checkouts verwenden `persist-credentials: false` und `contents: read`.
+- `tools/ci/check_workflow_boundaries.py` prüft diese Reihenfolge; Regressionstests:
+  `python -m pytest tools/tests/test_check_workflow_boundaries.py -q`.
+- Bei `startup_failure` zuerst die Workflow-Annotation prüfen: aufrufende Jobs müssen
+  benötigte Berechtigungen verschachtelter Workflows explizit erlauben. Berechtigungen
+  nur am betroffenen Aufruf erweitern, nicht pauschal für den gesamten Workflow.
+- RAG-Phasen brauchen für Labels/Kommentare an Pull Requests `pull-requests: write`
+  im Caller und Reusable; erfolgreiche Compiler-Prüfungen schließen einen
+  nachgelagerten HTTP-403-Fehler nicht aus.
+- Der Reusable-CMake-Build verwendet den dateibasierten vcpkg-Cache, ohne automatisch
+  einen NuGet-Feed und dessen Tool-/Authentifizierungsanforderungen zu registrieren.
+  Sein sccache-Retry muss `THEMIS_ENABLE_COMPILER_CACHE=OFF` setzen, die vorhandene
+  Toolchain erhalten und Reconfigure-Fehler weiterreichen. Ein erneuter Preset-Aufruf
+  darf die deaktivierte Cache-Option nicht wieder einschalten.
+  Custom-Configure-Aufrufe geben ihr tatsächliches Binärverzeichnis mit
+  `build_directory` an, damit Cache und Recovery dasselbe Verzeichnis verwenden.
+  Recovery konfiguriert das vorhandene Cache-Verzeichnis, nicht pauschal die Root-Quelle.
+- Fehlgeschlagene Läufe ohne Jobs können abgelaufene Ausführungsfreigaben sein.
+  Dies ist kein Testfehler; Maintainer müssen die Ausführung freigeben.
+- Beim Wave-4-Gate wird das CMake-Preset explizit ausgeführt. Der Benchmark läuft
+  im Build-Job mit seinen gemeinsam genutzten Laufzeitbibliotheken; nur die
+  JSON-Ergebnisse werden zum separaten Baseline-Vergleich übertragen.
+- Gemischte PR-/Wartungs-/Release-Workflows dürfen
+  `cancel-in-progress: ${{ github.event_name == 'pull_request' }}` verwenden:
+  PR-Synchronisierungen werden abgebrochen, manuelle Release- und Wartungsläufe nicht.
+- Verschachtelte Docker-Workflows verwenden getrennte Concurrency-Namensräume
+  (`docker-image-`, `docker-platform-`, `llm-model-cache-`); Plattformgruppen enthalten
+  zusätzlich `inputs.platform`. `github.workflow` bezeichnet auch im aufgerufenen
+  Workflow den Aufrufer und trennt verschachtelte Aufrufe daher nicht.
+  Modell-Cache-Aufrufe dürfen untereinander serialisieren, aber niemals den
+  wartenden Plattform-Aufrufer sperren. `cancel-in-progress: false` allein verhindert
+  keine Kollisionen: GitHub kann ältere wartende Aufrufe derselben Gruppe ersetzen.
+- Der Core-Preflight akzeptiert repository-lokale `uses` ohne Versionssuffix und
+  SHA-Pins mit Inline-Kommentaren. Er prüft neue externe Pins, Self-Push-Kommandos
+  und `continue-on-error: true` auf hinzugefügten Diff-Zeilen, statt unveränderte
+  Release-/Diagnose-Schritte bei einem Summary-Fix erneut zu beanstanden.
 
 ## Do / Don't (Quick Reference)
 ### Do

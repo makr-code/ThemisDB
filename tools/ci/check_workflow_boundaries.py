@@ -123,8 +123,31 @@ def _validate_concurrency(data: dict, workflow_path: str, violations: list[str])
             f"{workflow_path}: concurrency.group must not include github.run_id; use github.ref or github.event.pull_request.number instead"
         )
 
-    if concurrency.get("cancel-in-progress") is not True:
+    cancel = concurrency.get("cancel-in-progress")
+    pr_only_cancellation = "${{ github.event_name == 'pull_request' }}"
+    if cancel is not True and cancel != pr_only_cancellation:
         violations.append(f"{workflow_path}: pull_request workflows must set cancel-in-progress: true")
+
+
+def _validate_summary_checkout(data: dict, workflow_path: str, violations: list[str]) -> None:
+    for job_name, job in (data.get("jobs") or {}).items():
+        has_checkout = False
+        for step in job.get("steps", []):
+            uses = step.get("uses", "")
+            checkout_options = step.get("with") or {}
+            if (
+                uses.startswith("actions/checkout@")
+                and "if" not in step
+                and not step.get("continue-on-error", False)
+                and checkout_options.get("path", ".") in ("", ".")
+                and "repository" not in checkout_options
+            ):
+                has_checkout = True
+            if uses == "./.github/actions/write-run-summary" and not has_checkout:
+                violations.append(
+                    f"{workflow_path}: job {job_name} must check out the repository "
+                    "before using the local write-run-summary action"
+                )
 
 
 def validate_workflow_file(path: Path) -> list[str]:
@@ -140,6 +163,7 @@ def validate_workflow_file(path: Path) -> list[str]:
         return [f"{workflow_path}: missing 'on' trigger configuration"]
 
     _validate_permissions(data, workflow_path, violations)
+    _validate_summary_checkout(data, workflow_path, violations)
 
     if _has_event(on_config, "pull_request"):
         pull_request = _event_config(on_config, "pull_request")

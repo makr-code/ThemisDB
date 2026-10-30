@@ -76,7 +76,7 @@ on:
 
 concurrency:
   group: maintenance-housekeeping-${{ github.event_name }}-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 permissions:
   contents: read
@@ -95,6 +95,9 @@ jobs:
     permissions:
       contents: read
     steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
       - uses: ./.github/actions/write-run-summary
         with:
           scope: "Repository housekeeping and maintenance"

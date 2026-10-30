@@ -59,6 +59,9 @@ jobs:
     permissions:
       contents: read
     steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
       - uses: ./.github/actions/write-run-summary
         with:
           scope: "Hyperscaler edition CI"
@@ -101,6 +104,7 @@ jobs:
 
         mkdir -p /tmp/themis-hyperscaler
         echo "${THEMIS_HYPERSCALER_LICENSE_B64}" | base64 -d > /tmp/themis-hyperscaler/license.json
+      build_directory: build-hyperscaler
       configure_command: |
         set -euo pipefail
         cmake -S cmake -B build-hyperscaler \

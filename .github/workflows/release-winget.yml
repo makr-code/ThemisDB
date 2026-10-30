@@ -78,6 +78,9 @@ jobs:
     permissions:
       contents: read
     steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
       - uses: ./.github/actions/write-run-summary
         with:
           scope: "WinGet release manifest validation and submission"
