@@ -50,6 +50,16 @@ Out of scope:
 - unsupported connector paths degrade deterministically with explicit outcomes.
 - quality and workflow phases depend on configured thresholds and enabled adapters.
 
+## Developer Documentation
+
+- [Module guide](./MODULE_GUIDE.md) — onboarding, build, and test entry points.
+- [Implementation](./IMPLEMENTATION.md) and [API contract](./API.md) — runtime behavior and integration boundaries.
+- [Research](./RESEARCH.md), [modeling](./MODELING.md), and [embedding](./EMBEDDING.md) — evaluation assumptions and representation constraints.
+- [Runbook](./RUNBOOK.md) and [operations](./OPERATIONS.md) — diagnosis, recovery, and observability.
+- [Trust model](./TRUST.md) — trust boundaries, risks, and controls.
+
+> Exact model backend not verifiable from final document text alone.
+
 ## Sourcecode Verification (Module: ingestion/readme)
 
 - Verified files:
