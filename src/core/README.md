@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-30"
+Last Updated: "2026-10-30"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 <!-- Status: current | validated: 2026-05-31 -->
 
@@ -371,8 +385,8 @@ export THEMIS_ENVIRONMENT=production
    - Recommendation: Limit unique label combinations
 
 5. **Plugin Loading**
-   - Adapter plugin loading without rebuild remains open (Issue #1706)
-   - Adapter selection is currently configuration-driven among compiled adapters
+   - Runtime adapter plugin loading is implemented through `AdapterRegistry::loadFromPlugin()` and the `themis_plugin_register` ABI.
+   - Optional SHA-256 digest enforcement is an integrity check, not publisher authentication; see [TRUST.md](TRUST.md).
 
 6. **Audit Sink Durability Depends on Adapter**
    - `NoOpAuditLog` is valid for tests/minimal mode but not compliance-grade
