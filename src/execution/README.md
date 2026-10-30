@@ -1,7 +1,14 @@
-**Author:** ThemisDB Contributors  
-**Created:** 2026-09-21  
-**Last Updated:** 2026-09-22  
+**Author:** ThemisDB Contributors
+**Created:** 2026-09-21
+**Last Updated:** 2026-10-30
 **Status:** active
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot
+**Human_Review:** false
+**Human_Author:** ThemisDB Team
+
+Exact model backend not verifiable from final document text alone.
 
 # Execution Module
 
@@ -137,6 +144,7 @@ flowchart LR
 | `benchmarks/execution/bench_execution_dedicated_gates.cpp` | Dedicated execution benchmark gates (EX-BM-01..04) |
 
 - [`ARCHITECTURE.md`](ARCHITECTURE.md) — component boundaries, state flow, and failure paths
+- [`MODULE_GUIDE.md`](MODULE_GUIDE.md) — index to developer documentation and source ownership
 - [`ROADMAP.md`](ROADMAP.md) — delivery status, remaining gaps, and phased plan
 - [`CHANGELOG.md`](CHANGELOG.md) — implementation and documentation history
 - [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md) — planned feature upgrades from the current bounded baseline
