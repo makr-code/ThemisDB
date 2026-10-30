@@ -52,4 +52,4 @@ currently passes them.
 - [Research protocol](RESEARCH.md)
 - [Implementation inventory](IMPLEMENTATION.md)
 
-> AI-assisted documentation; exact model backend not verifiable from final document text alone.
+> AI-assisted documentation. Exact model backend not verifiable from final document text alone.

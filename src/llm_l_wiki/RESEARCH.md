@@ -64,4 +64,4 @@ representative deployment evidence.
 - [Embedding evaluation requirements](EMBEDDING.md)
 - [`llm_l_wiki` test ownership record](../../tests/TEST_DENSITY_MATRIX.md)
 
-> AI-assisted documentation; exact model backend not verifiable from final document text alone.
+> AI-assisted documentation. Exact model backend not verifiable from final document text alone.

@@ -59,4 +59,4 @@ before release.
 - [Implementation prerequisites](IMPLEMENTATION.md)
 - [Repository test-density evidence](../../tests/TEST_DENSITY_MATRIX.md)
 
-> AI-assisted documentation; exact model backend not verifiable from final document text alone.
+> AI-assisted documentation. Exact model backend not verifiable from final document text alone.

@@ -52,4 +52,4 @@ No `llm_l_wiki`-specific telemetry or incident severity threshold is defined.
 - [Architecture and failure boundary](ARCHITECTURE.md)
 - [Separate `llm_wiki` docs](../llm_wiki/README.md)
 
-> AI-assisted documentation; exact model backend not verifiable from final document text alone.
+> AI-assisted documentation. Exact model backend not verifiable from final document text alone.

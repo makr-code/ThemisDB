@@ -55,4 +55,4 @@ records no module-owned tests or benchmarks for `llm_l_wiki`. The neighboring
 [`src/llm_wiki/CMakeLists.txt`](../llm_wiki/CMakeLists.txt) registers a different
 target; it is not a build recipe or test result for this module.
 
-> AI-assisted documentation; exact model backend not verifiable from final document text alone.
+> AI-assisted documentation. Exact model backend not verifiable from final document text alone.

@@ -49,4 +49,4 @@ dependency requirements here.
 - [Runbook](RUNBOOK.md) and [operations gates](OPERATIONS.md)
 - [Test-density matrix](../../tests/TEST_DENSITY_MATRIX.md)
 
-> AI-assisted documentation; exact model backend not verifiable from final document text alone.
+> AI-assisted documentation. Exact model backend not verifiable from final document text alone.

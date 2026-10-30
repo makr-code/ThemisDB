@@ -1,29 +1,46 @@
-# LLM L Wiki Module
+---
+Author: "ThemisDB Team"
+Created: "2026-10-29"
+Last Updated: "2026-10-30"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: current | validated: 2026-10-29 -->
-<!-- Links: ../../../src/llm_l_wiki/README.md · ../../../src/llm_l_wiki/FEATURES.md -->
+# Modul `llm_l_wiki`
 
-## Overview
+## Geltungsbereich und aktueller Stand
 
-The `llm_l_wiki` module provides a lightweight wiki-oriented LLM workflow for retrieval, summarization, and knowledge curation tasks that require document grounding and structured narrative recall.
+Diese Seite beschreibt ausschließlich `src/llm_l_wiki/`. Im geprüften
+Repository-Stand enthält dieser Pfad Dokumentation und die leere Datei
+`wikipedia/wiki_workspace_orchestrator.cpp`. Für diesen Pfad wurden kein
+Build-Target, kein öffentliches Modul-Header und keine eigenen Tests gefunden.
+Damit ist hier derzeit keine ausführbare Funktion source-belegt.
 
-## Primary sources
+`src/llm_wiki/` ist ein separates Modul. Dessen Implementierung, APIs,
+Sicherheitszusagen und Testergebnisse dürfen nicht `llm_l_wiki` zugerechnet
+werden.
 
-- `src/llm_l_wiki/` — implementation and knowledge-gathering logic
-- `src/llm_l_wiki/FEATURES.md` — feature overview and functional scope
-- `src/llm_l_wiki/ARCHITECTURE.md` — underlying architecture notes
+## Kanonische Entwicklerdokumentation
 
-## Key responsibilities
+- [Architektur](../../../src/llm_l_wiki/ARCHITECTURE.md)
+- [Implementierungsstatus](../../../src/llm_l_wiki/IMPLEMENTATION.md)
+- [API-Status](../../../src/llm_l_wiki/API.md)
+- [Entwicklerleitfaden](../../../src/llm_l_wiki/MODULE_GUIDE.md)
+- [Betriebsanleitung](../../../src/llm_l_wiki/RUNBOOK.md)
+- [Betrieb](../../../src/llm_l_wiki/OPERATIONS.md)
+- [Sicherheit](../../../src/llm_l_wiki/SECURITY.md) und
+  [Vertrauensmodell](../../../src/llm_l_wiki/TRUST.md)
+- [Primärquellenverzeichnis](PRIMARY_SOURCES.md)
 
-- knowledge ingestion and structured summarization
-- retrieval support for wiki-style material
-- linkage between LLM-generated context and curated source documents
+## Evidenz
 
-## Related documentation
+Die Aussagen sind auf den Quellbestand des Moduls und dessen Build- und
+Testzuordnung beschränkt. Die
+[Test-Dichtematrix](../../../tests/TEST_DENSITY_MATRIX.md) führt für
+`llm_l_wiki` keine modul-eigenen Tests oder Benchmarks auf.
 
-- [src/llm_l_wiki/README.md](../../../src/llm_l_wiki/README.md)
-- [src/llm_l_wiki/FEATURES.md](../../../src/llm_l_wiki/FEATURES.md)
-
-## Validation
-
-This file re-aligns the German-facing documentation with the source module’s LLM-wiki feature set and support paths.
+> KI-gestützte Dokumentation. Exact model backend not verifiable from final document text alone.

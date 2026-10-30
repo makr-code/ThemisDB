@@ -55,4 +55,4 @@ process. No module-local incident tooling is present.
 - [Security boundary](SECURITY.md)
 - [API status](API.md)
 
-> AI-assisted documentation; exact model backend not verifiable from final document text alone.
+> AI-assisted documentation. Exact model backend not verifiable from final document text alone.

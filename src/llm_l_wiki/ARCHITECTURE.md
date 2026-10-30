@@ -62,4 +62,4 @@ traffic to `llm_l_wiki` or treat adjacent-module behavior as a fallback.
 - [Repository test-density evidence](../../tests/TEST_DENSITY_MATRIX.md)
 - [Separate `llm_wiki` target](../llm_wiki/CMakeLists.txt)
 
-> AI-assisted documentation; exact model backend not verifiable from final document text alone.
+> AI-assisted documentation. Exact model backend not verifiable from final document text alone.

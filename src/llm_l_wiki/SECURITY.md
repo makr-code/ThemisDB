@@ -51,4 +51,4 @@ telemetry.
 - [Runbook](RUNBOOK.md)
 - [Repository documentation/security requirements](../../.github/MODULE_DEVELOPER_DOCUMENTATION_GUIDELINES.md)
 
-> AI-assisted documentation; exact model backend not verifiable from final document text alone.
+> AI-assisted documentation. Exact model backend not verifiable from final document text alone.

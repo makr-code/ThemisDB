@@ -48,4 +48,4 @@ be backed by a header contract, implementation, and tests in the same module.
 - [Implementation inventory](IMPLEMENTATION.md)
 - [Module documentation requirements](../../.github/MODULE_DEVELOPER_DOCUMENTATION_GUIDELINES.md)
 
-> AI-assisted documentation; exact model backend not verifiable from final document text alone.
+> AI-assisted documentation. Exact model backend not verifiable from final document text alone.

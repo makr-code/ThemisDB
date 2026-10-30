@@ -45,4 +45,4 @@ identifies `llm_l_wiki` as having no module-owned tests or benchmarks. This
 page makes no claims about retrieval quality, model support, embeddings,
 latency, security controls, or production readiness.
 
-> AI-assisted update; exact model backend not verifiable from final document text alone.
+> AI-assisted update. Exact model backend not verifiable from final document text alone.
