@@ -3,7 +3,7 @@
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
 > Last Updated: 2026-10-30
-> Update Note: Repaired summary checkouts, reusable permission contracts, and benchmark/coverage/MSVC prerequisites; workflow inventory unchanged
+> Update Note: Repaired CI permission contracts and prerequisites; documented Phase 9 gate disposition; workflow inventory unchanged
 > Status: active
 > Total Workflows: 99 (verified 2026-10-29)
 > AI_Used: true
@@ -31,6 +31,12 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 - `gate-pr-core.yml` delegiert `issues: write` nur am Build-Components-Aufruf;
   RAG-Phasen 7–10 und ihr Reusable benötigen `pull-requests: write` für
   PR-Labels/-Kommentare; `issues: write` allein genügt dort nicht.
+- Decision for issue #7574 / Phase 9 run 41026805438: option 1 (fix immediately
+  in PR #7571) was selected. The gate report recorded all four semantic checks
+  and compilation as passing, with 29 test cases detected; the workflow failed
+  afterward when its PR label/comment API calls returned HTTP 403. Commit
+  `910fe92` granted `pull-requests: write` to the Phase 9 caller and shared
+  reusable gate. PR #7571 merged on 2026-10-30. No waiver or de-scope was accepted.
 - Housekeeping und Release-Promotion brechen nur überholte PR-Läufe ab;
   manuelle Release-/Wartungsläufe bleiben gegen Abbruch geschützt.
 - Docker-Consumer, Plattform-Builder und Modell-Cache nutzen getrennte
