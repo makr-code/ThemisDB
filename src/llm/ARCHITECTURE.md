@@ -1,377 +1,81 @@
-# LLM Module - Architecture Guide
-
-<!-- Status: enhanced | validated: 2026-08-17 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · THREADING.md · OPERATIONS.md -->
-
-Version: 2.0 (Phase 6 Enhanced)
-Last Updated: 2026-09-09
-Module Path: src/llm/
-Status: PRODUCTION (Wave 5 GA)
-
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-30"
+Last Updated: "2026-10-30"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "README.md"
+  - "API.md"
+  - "../../include/llm/embedded_llm.h"
+  - "../../include/llm/async_inference_engine.h"
+  - "../../include/llm/llm_plugin_interface.h"
+  - "../../include/llm/model_router.h"
+  - "../../include/llm/prompt_policy.h"
+  - "../../include/llm/streaming_handler.h"
+  - "embedded_llm.cpp"
+  - "async_inference_engine.cpp"
+  - "llm_plugin_manager.cpp"
+Related_Issue: "#7167 (closes #7091)"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
 
-## 1. Overview
+Exact model backend not verifiable from final document text alone.
 
-The LLM module provides inference execution, routing, model and adapter lifecycle control, streaming, policy enforcement, and runtime safety surfaces for ThemisDB AI capabilities. The module is designed for production use with robust concurrency controls, fail-closed behavior patterns, and comprehensive observability.
+# LLM Module Architecture
 
-**Key Properties:**
-- **Thread-Safe:** Yes (see [THREADING.md](THREADING.md) for detailed model)
-- **Async-First:** Yes (non-blocking inference paths throughout)
-- **Fail-Closed:** Yes (safe degradation on resource exhaustion, timeout, or backend failure)
-- **GPU/CPU:** Both (automatic fallback; configurable routing)
-- **Distributed:** Yes (federated inference via deployment plugins)
+## Scope, boundaries, and ownership
 
----
+`src/llm/` owns model-backed inference runtime surfaces: embedded and asynchronous requests, model/backend selection, prompt policy, streaming response helpers, model/adapter lifecycle, and inference resource support. The module does not own client protocol endpoints, search ranking, or durable database storage.
 
-## 2. Architecture Surfaces
+## Components and public interfaces
 
-| Surface | Source files | Primary Role |
+| Component | Public interface | Source-backed responsibility |
 |---|---|---|
-| **Core Inference Engines** | `async_inference_engine.cpp`, `inference_engine_enhanced.cpp` | Asynchronous request submission, routing, and execution coordination |
-| **Scheduling & Queueing** | `shared_worker_pool.cpp`, `continuous_batch_scheduler.cpp` | Worker pool management and batch request scheduling |
-| **Routing & Orchestration** | `model_router.cpp`, `ai_orchestrator.cpp` | Rule-based model/worker selection and multi-request orchestration |
-| **Model & Plugin Lifecycle** | `llm_plugin_manager.cpp`, `model_loader.cpp`, `model_downloader.cpp` | Load, unload, switch, and manage inference backends and model files |
-| **Adapter & LoRA Lifecycle** | `multi_lora_manager.cpp`, `adapter_load_balancer.cpp`, `lora_router.cpp` | Load, hot-swap, and unload LoRA adapter chains |
-| **Streaming & Response Shaping** | `streaming_handler.cpp`, `openai_compat_adapter.cpp` | Token streaming, callback framing, and OpenAI protocol adaptation |
-| **Policy & Safety Controls** | `prompt_policy.cpp`, `llm_security_utils.cpp`, `production_validator.cpp` | Prompt validation, safety guardrails, and production readiness checks |
-| **Caching & Resource Controls** | `llm_response_cache.cpp`, `kv_cache_buffer.cpp`, `token_quota_manager.cpp` | KV cache management, response caching, and token quota enforcement |
-| **GPU Memory & Acceleration** | `gpu_memory_manager.cpp`, `active_vram_allocator.cpp`, `kernel_fusion.cu` | GPU memory allocation, defragmentation, and fused kernel compilation |
+| Embedded inference | [`EmbeddedLLM`](../../include/llm/embedded_llm.h) | Configure model/runtime access and expose generation/embedding callbacks and methods. |
+| Async execution | [`AsyncInferenceEngine`](../../include/llm/async_inference_engine.h), [`InferenceHandle`](../../include/llm/inference_handle.h) | Submit/manage asynchronous requests and represent request completion/cancellation state. |
+| Backend and routing | [`ILLMPlugin`](../../include/llm/llm_plugin_interface.h), [`LLMPluginManager`](../../include/llm/llm_plugin_manager.h), [`ModelRouter`](../../include/llm/model_router.h) | Register/select backend plugins and route model requests. |
+| Prompt and streaming | [`PromptPolicy`](../../include/llm/prompt_policy.h), [`StreamingHandler`](../../include/llm/streaming_handler.h) | Apply configured prompt rules and format/dispatch streaming output. |
+| Runtime resources | [`SharedWorkerPool`](../../include/llm/shared_worker_pool.h), [`TokenQuotaManager`](../../include/llm/token_quota_manager.h), [`GPU memory manager`](../../include/llm/gpu_memory_manager.h) | Schedule work and expose token/GPU resource controls. |
 
----
+## Request and event flow
 
-## 3. Runtime Control Flow
+1. A caller submits through an embedded or asynchronous inference interface.
+2. Where wired, prompt policy and routing determine whether and where the request proceeds; async execution uses worker-pool and request-management components.
+3. The selected engine/plugin performs inference; token output can pass through streaming helpers and final responses can use the configured cache/resource components.
+4. Backend status and request completion are returned through the corresponding synchronous result, handle, or callback.
 
-```
-Request Entry
-    ↓
-[1] Policy/Guard Checks (prompt_policy, llm_security_utils)
-    ↓ (pass → continue; fail → reject early)
-[2] Routing & Model Selection (model_router, ai_orchestrator)
-    ↓
-[3] Adapter/Plugin Selection (lora_router, llm_plugin_manager)
-    ↓
-[4] Queue & Scheduler (shared_worker_pool, continuous_batch_scheduler)
-    ↓
-[5] Backend Inference (inference_engine, llamacpp/plugin)
-    ↓ (with streaming callbacks, KV cache, resource limits)
-[6] Response Framing & Emit (streaming_handler, openai_compat_adapter)
-    ↓
-[7] Cache Store (llm_response_cache, llm_prefix_cache)
-    ↓
-Response Completion
-```
+See [`embedded_llm.cpp`](embedded_llm.cpp), [`async_inference_engine.cpp`](async_inference_engine.cpp), [`llm_plugin_manager.cpp`](llm_plugin_manager.cpp), and [`model_router.cpp`](model_router.cpp). The sequence is configurable; not every request traverses every listed component.
 
-**Error Flow:**
-- Policy rejection → immediate HTTP 400/403 response
-- Model not loaded → attempt load; if fails → HTTP 503 with retry hint
-- VRAM exhausted → evict LRU model, retry; if still fails → HTTP 429 (backpressure)
-- Inference timeout → cancel in-flight request, return HTTP 408 (or incomplete stream)
-- Backend unavailable → fail-closed (CPU fallback if available; else HTTP 503)
+## Failure domains and edge cases
 
----
+- Invalid prompt-rule regex/configuration is rejected when rules are installed.
+- Missing model/plugin, model-load errors, and backend inference errors are distinct from successful empty output.
+- Async queue, deadline, cancellation, and resource exhaustion affect request completion; callers must inspect the result/status.
+- `EmbeddedLLM` contains a fallback embedding helper; that behavior does not imply a general fallback for text generation or backend failures.
 
-## 4. Integration Boundaries
+## Explicit non-goals
 
-| Direction | Integration | Contract |
-|---|---|---|
-| **Used by** | API layer (`api/llm_handler.h`), orchestration features, ingestion pipeline (`ingestion/llm_adapter.h`), RAG systems | Async request submission, streaming callbacks, lifecycle hooks |
-| **Uses** | Backend plugins (llama.cpp, VLLM, etc.), GPU drivers, RocksDB (state store), file system (models), optional hardware accelerators | Pluggable inference, storage abstraction, model loading |
-| **Exposes** | Core inference APIs, routing hooks, adapter lifecycle hooks, streaming callbacks, policy guards | Public headers in `include/llm/` |
+- Owning HTTP/gRPC/WebSocket endpoint behavior.
+- Owning search fusion/ranking or RAG retrieval candidate generation.
+- Owning durable storage semantics for state/cache backends.
+- Guaranteeing GPU availability, distributed inference, or a specific performance envelope for every build.
 
----
+## Verified cross-module references
 
-## 5. Concurrency Model
+| Boundary | Evidence and link |
+|---|---|
+| Search reranking | Search exposes an injected LLM reranker/backend interface; see [search architecture](../search/ARCHITECTURE.md) and [`search/llm_reranker.h`](../../include/search/llm_reranker.h). |
+| Storage-backed state | LLM sources include storage interfaces for selected persisted state/model paths; see [storage architecture](../storage/ARCHITECTURE.md). |
+| Query integration | Query has LLM/LoRA function interfaces; this is a caller integration, not ownership of the query engine. See [query architecture](../query/ARCHITECTURE.md). |
 
-**Thread-Safety Guarantee:** High.
+## References
 
-The module uses a layered concurrency model with explicit synchronization at key points:
-
-1. **Shared Worker Pool** (`shared_worker_pool.cpp`)
-   - Thread-safe work queue with FIFO scheduling
-   - Multiple worker threads execute inference tasks in parallel
-   - Coordination via lock-free queue or mutex-protected deque
-
-2. **Model Lifecycle** (`llm_plugin_manager.cpp`)
-   - Single-writer, multiple-reader semantics for model load/unload
-   - Protected by `model_load_mutex_` (read-write lock)
-   - In-flight requests hold read locks; loader holds write lock
-
-3. **Adapter Lifecycle** (`multi_lora_manager.cpp`)
-   - LoRA hot-swap protected by `adapter_lifecycle_mutex_`
-   - Prevents concurrent load/switch/unload on same adapter chain
-   - Readers proceed under read lock; writers acquire exclusive lock
-
-4. **Response Cache** (`llm_response_cache.cpp`, `llm_prefix_cache.cpp`)
-   - Atomic operations on cache keys and reference counts
-   - Lock-free or RCU (read-copy-update) patterns where possible
-   - RocksDB backend provides transactional semantics for persistent cache
-
-5. **Streaming Callbacks**
-   - Per-request token buffer isolation (no shared state)
-   - Caller responsible for thread-safe accumulation of streamed tokens
-
-6. **GPU Memory** (`gpu_memory_manager.cpp`, `active_vram_allocator.cpp`)
-   - Mutex-protected allocation/deallocation
-   - No concurrent access to the same GPU buffer
-
-**For detailed thread-safety contracts, see [THREADING.md](THREADING.md).**
-
----
-
-## 6. Resource Management
-
-### Memory Model
-
-- **Heap:** Standard C++ dynamic allocation via `std::unique_ptr`, `std::shared_ptr`
-- **GPU Memory:** Managed by `gpu_memory_manager.cpp` with quota enforcement and defragmentation
-- **KV Cache:** Managed by `kv_cache_buffer.cpp` with page-based allocation and LRU eviction
-- **Response Cache:** Managed by `llm_response_cache.cpp` with configurable TTL and size limits
-- **Model Cache:** Managed by `model_loader.cpp` with size quotas and LRU unload policy
-
-### Cleanup & Shutdown
-
-- Models unloaded in reverse load order during module shutdown
-- Adapters unloaded and cache cleared before module cleanup
-- GPU memory defragmented before final cleanup
-- All pending inference requests are cancelled with `CancellationToken`
-
----
-
-## 7. Error Handling & Fail-Closed Behavior
-
-**Fail-Closed Principle:** The module defaults to safe degradation and refuses unsafe operation.
-
-| Scenario | Behavior | Status Code |
-|---|---|---|
-| **Policy Violation** | Reject request; log violation; audit trail | `Status::kPolicyViolation` |
-| **Model Not Found** | Return 404 if not loadable; suggest alternatives | `Status::kNotFound` |
-| **Model Load Failure** | Reject new inference; do not proceed; audit log | `Status::kModelLoadFailed` |
-| **VRAM Exhaustion** | Evict LRU models; retry; if persistent → backpressure | `Status::kOutOfMemory` |
-| **Request Timeout** | Cancel in-flight work; return `kDeadlineExceeded` | `Status::kDeadlineExceeded` |
-| **Stream Abort** | Stop token generation; cleanup in-flight resources; signal caller | `Status::kCancelled` |
-| **Backend Unavailable** | Attempt CPU inference fallback; fail fast if unavailable | `Status::kUnavailable` |
-| **Plugin Load Failure** | Skip plugin; try next available backend; log error; do not crash | `Status::kFailedPrecondition` |
-
-**Key Guarantee:** No silent failures. All errors are explicitly surfaced to the caller or logged for observability.
-
----
-
-## 8. Performance Expectations & Constraints
-
-### Latency
-
-- **First-token latency (cached model):** ~50–200 ms (GPU) / ~200–500 ms (CPU)
-- **Streaming throughput:** 50–100 tokens/sec (typical GPU, varies by model size)
-- **KV cache page allocation:** ~5–10 μs (lock-free)
-- **Model switch latency:** ~500 ms–2s (load from disk/network)
-
-### Throughput
-
-- **Concurrent requests:** Depends on model size and GPU memory; typically 10–100 concurrent requests on a single GPU
-- **Batch scheduling:** Continuous batching up to configurable limit (default: 1024 tokens/batch)
-- **Worker threads:** Configurable; default: `std::thread::hardware_concurrency()`
-
-### Resource Constraints
-
-- **GPU Memory:** Configurable quota per model; default: 80% of available VRAM
-- **Response Cache:** Configurable max size; default: 1 GB
-- **Token Quota:** Configurable per-request and per-model; default: unlimited
-- **Timeout:** Configurable per-request; default: 300 seconds
-
----
-
-## 9. Known Limits & Future Work
-
-### Current Limitations
-
-- **Distributed Inference:** Requires deployment wiring (not default-on); federated paths tested in Wave B
-- **Multi-GPU Coordination:** Basic support via `multi_gpu_memory_coordinator.cpp`; advanced NCCL/collective ops in Wave C
-- **Mixed-Precision Inference:** Supported but not auto-tuned; manual quantization pipeline
-- **Long-Context Handling:** Up to model limit (~100k tokens); efficient paging in Wave C
-
-### Wave C Enhancements (Future)
-
-- Speculative decoding integration for up to 2x speedup
-- Distributed end-to-end inference optimization
-- Advanced GPU memory fragmentation recovery
-- Persistent embedding cache (RocksDB integration)
-
----
-
-## 10. Sourcecode Verification (Module: llm/architecture — Phase 6)
-
-### Verified Files
-
-**Core Inference:**
-- ✅ `src/llm/async_inference_engine.cpp` (Phase 5+)
-- ✅ `src/llm/inference_engine_enhanced.cpp` (Phase 5+)
-- ✅ `src/llm/shared_worker_pool.cpp` (Phase 5+)
-- ✅ `src/llm/continuous_batch_scheduler.cpp` (Phase 5+)
-
-**Routing & Orchestration:**
-- ✅ `src/llm/model_router.cpp` (Phase 5+)
-- ✅ `src/llm/ai_orchestrator.cpp` (Phase 5+)
-- ✅ `src/llm/llm_plugin_manager.cpp` (Phase 5+)
-
-**Adapter & LoRA:**
-- ✅ `src/llm/multi_lora_manager.cpp` (Phase 5+)
-- ✅ `src/llm/adapter_load_balancer.cpp` (Phase 5+)
-- ✅ `src/llm/lora_router.cpp` (Phase 5+)
-
-**Streaming & Safety:**
-- ✅ `src/llm/streaming_handler.cpp` (Phase 5+)
-- ✅ `src/llm/openai_compat_adapter.cpp` (Phase 5+)
-- ✅ `src/llm/prompt_policy.cpp` (Phase 5+)
-- ✅ `src/llm/llm_security_utils.cpp` (Phase 5+)
-- ✅ `src/llm/production_validator.cpp` (Phase 5+)
-
-**Resource Management:**
-- ✅ `src/llm/token_quota_manager.cpp` (Phase 5+)
-- ✅ `src/llm/llm_response_cache.cpp` (Phase 5+)
-- ✅ `src/llm/kv_cache_buffer.cpp` (Phase 5+)
-- ✅ `src/llm/gpu_memory_manager.cpp` (Phase 6)
-- ✅ `src/llm/active_vram_allocator.cpp` (Phase 6)
-
-### Verified Interfaces & Behavior
-
-- ✅ Request submit/schedule/execute flow
-- ✅ Routing and lifecycle integration points
-- ✅ Streaming and policy guard control surfaces
-- ✅ Thread-safety contracts (Phase 6: documented in THREADING.md)
-- ✅ Fail-closed error handling patterns (Phase 6: documented in OPERATIONS.md)
-- ✅ Resource cleanup and shutdown sequencing
-
-### Quality Gate Status
-
-| Gate | Status | Evidence |
-|---|---|---|
-| **Documentation** | ✅ PHASE 6 COMPLETE | ARCHITECTURE.md, README.md, THREADING.md, OPERATIONS.md, API_REFERENCE.md, DEVELOPER_GUIDE.md |
-| **Thread Safety** | ✅ DOCUMENTED | THREADING.md with detailed contracts and synchronization primitives |
-| **Fail-Closed** | ✅ DOCUMENTED | OPERATIONS.md with error handling runbooks and recovery procedures |
-| **Build & Tests** | ✅ VERIFIED | CI green on develop; Wave 5 acceptance gates passed |
-| **Inline Docs** | ✅ ONGOING | @file headers added to all .cpp files; function-level docs for public APIs |
-
-### Known Issues & Tracking
-
-- Wave B tracking issue: https://github.com/makr-code/ThemisDB/issues/5039
-- Dependent Wave A issue: https://github.com/makr-code/ThemisDB/issues/5038
-- Follow-on Wave C issue: https://github.com/makr-code/ThemisDB/issues/5040
-- Phase 6 Documentation Enhancement: Tracked in this MODULE_GAPS.md remediation
-
----
-
-## 11. Related Documentation
-
-- **README.md:** Quick start, API overview, configuration
-- **THREADING.md:** Detailed thread-safety model and synchronization contracts
-- **OPERATIONS.md:** Operational runbooks, debugging, performance tuning
-- **API_REFERENCE.md:** Complete API documentation and usage patterns
-- **DEVELOPER_GUIDE.md:** Contributing guide, testing strategy, build procedures
-- **CONFIGURATION.md:** Configuration options, environment variables, tuning guide
-- **ROADMAP.md:** Feature pipeline and release planning
-- **FUTURE_ENHANCEMENTS.md:** Planned enhancements and Wave C work
-
----
-
-## Module Dependencies
-
-### Direct Upstream Dependencies (this module uses)
-
-| Module | Interface / File | Purpose |
-|--------|-----------------|---------|
-| acceleration | `include/acceleration/compute_backend.h`, `include/acceleration/device_manager.h` | GPU/CPU backend dispatch, hardware-accelerated kernel execution |
-| cache | `include/cache/` | KV-cache page management and response-cache integration |
-| index | `include/index/ann_frontdoor.h`, `include/index/vector_index.h` | Vector search during RAG-side retrieval triggered from inference paths |
-| storage | `include/storage/` (base entity) | Persistent model-state and response-cache RocksDB back-end |
-| query | `include/query/` (AQL evaluation) | AQL query parsing executed within inference context (**circular — see §Known Design Issues**) |
-| rag | `include/rag/rag_context_assembler.h`, `include/rag/rag_ingestion_bridge.h` | Context-window assembly budget, retrieval integration |
-| sharding | `include/sharding/` | Distributed/federated inference shard coordination |
-| ethics_ai | `include/ethics_ai/` | Bias and constitutional-reasoning policy checks |
-| governance | `include/governance/` | Decision-record enforcement and audit trail |
-| metadata | `include/metadata/` | Model-card metadata, capability tagging |
-| observability | `include/observability/` | Inference span telemetry, throughput metrics |
-| security | `include/security/` | Prompt sanitisation, credential-isolation at inference boundary |
-| utils | `include/utils/` | Common utilities (logging, string helpers) |
-| llama_cpp | `include/llama_cpp/llama_cpp_plugin.h`, `src/llama_cpp/` | llama.cpp-backed inference plugin surface loaded by the LLM module |
-| server (circular) | `include/server/mcp_server.h` | MCP tool-bridge server handle (**circular — see §Known Design Issues**) |
-
-### Direct Downstream Consumers (modules that use this module)
-
-| Module | Via | Notes |
-|--------|-----|-------|
-| rag | `include/llm/inference_engine.h`, `include/llm/context_window_budget.h`, `include/llm/llm_plugin_interface.h` | RAG inference calls and context-window budget computation |
-| search | `include/search/llm_reranker.h` (injected `LlmBackend` callback) | Optional LLM re-ranking step in `HybridSearch` and `LayeredRetrievalOrchestrator` |
-| query | `include/llm/lora_framework/lora_orchestrator.h` | AQL LoRA function dispatch (**circular — see §Known Design Issues**) |
-| api | `api/llm_handler.h` | HTTP/gRPC inference endpoint routing |
-| ingestion | `ingestion/llm_adapter.h` | Document enrichment via LLM inference |
-| `training` | `include/llm/lora_framework/` | LoRA adapter training drives LLM fine-tuning lifecycle |
-| `distributed_tensor` | `include/llm/` | Distributed tensor collectives for multi-GPU LLM inference |
-| `llm_wiki` | `include/llm/` | Wiki knowledge retrieval via LLM generation interfaces |
-| `governance` | `include/llm/` | AI governance bias auditing uses LLM inference interfaces |
-
----
-
-## Integration Points
-
-### Critical Integration: ILLMPlugin — Hot-Plug Backend Interface
-**Files:** `include/llm/llm_plugin_interface.h` ↔ `src/llm/llm_plugin_manager.cpp`
-**Contract:** Plugins implement `ILLMPlugin` (pure-virtual, `class ILLMPlugin` line 338) for llama.cpp, ONNX, Whisper, and custom backends. `llm_plugin_manager.cpp` loads/unloads plugins under `model_load_mutex_` (single-writer, multiple-reader).
-**Thread Safety:** Plugin methods must be re-entrant; lifecycle transitions (load/unload) acquire exclusive write lock.
-**Failure Mode:** Plugin load failure → skip plugin, try next backend, log `Status::kFailedPrecondition`; no crash.
-
-### Critical Integration: LlmReranker Backend — Search Injection Point
-**Files:** `include/search/llm_reranker.h` ↔ `src/llm/async_inference_engine.cpp`
-**Contract:** `LlmReranker::LlmBackend` is a `std::function<std::string(const std::string&)>` injected at construction. Missing backend → `llm_unavailable` result returned; no mock fallback (`LLMJudgeIntegration` similarly fail-closed).
-**Thread Safety:** Caller is responsible for `LlmBackend` callable thread-safety; `LlmReranker` instance itself is not thread-safe — use per-thread instances.
-**Failure Mode:** Backend returns empty/error → `SearchStats::rerank_fallback = true`; original ranking preserved.
-
-### Critical Integration: ContextWindowBudget — RAG Budget Handoff
-**Files:** `include/llm/context_window_budget.h` ↔ `src/rag/rag_context_assembler.cpp`
-**Contract:** `ContextWindowBudget::compute()` is called by RAG assembler to derive the maximum retrieval-context token slice. Response reservation guaranteed at `max(min_response_tokens, 20% window)`.
-**Thread Safety:** Stateless computation; safe for concurrent calls.
-**Failure Mode:** Zero-budget configuration → assembler returns empty context with explicit error, does not proceed.
-
-### Critical Integration: MCP Tool Bridge → Server (Circular)
-**Files:** `src/llm/mcp_tool_bridge.cpp` → `include/server/mcp_server.h`
-**Contract:** `mcp_tool_bridge.cpp` acquires a handle to the running MCP server to register LLM tool descriptors. This creates a compile-time circular include between `llm` and `server`.
-**Thread Safety:** Server handle acquired once at startup under server-init lock; tool registration is single-threaded at boot.
-**Failure Mode:** Server not yet initialised → bridge defers registration; tools unavailable until server ready.
-
-### Critical Integration: LoRA Orchestrator ↔ Query (Circular)
-**Files:** `src/query/functions/lora_functions.cpp` ↔ `include/llm/lora_framework/lora_orchestrator.h`
-**Contract:** AQL exposes LoRA activation as a query function; `lora_functions.cpp` includes `lora_orchestrator.h`. Conversely, `src/llm/` includes `query/` headers for AQL evaluation.
-**Thread Safety:** LoRA hot-swap protected by `adapter_lifecycle_mutex_`; AQL dispatch is read-only during execution.
-**Failure Mode:** Circular dependency managed at link time; no runtime deadlock risk identified, but build-order sensitivity exists (see §Known Design Issues).
-
----
-
-## Known Design Issues
-
-### Issue 1 — Circular Dependency: `llm` ↔ `server`
-
-| Property | Detail |
-|----------|--------|
-| **Files** | `src/llm/mcp_tool_bridge.cpp` includes `include/server/mcp_server.h` |
-| **Direction** | `llm` → `server` (compile-time include); `server` → `llm` (runtime service call) |
-| **Risk** | Build-order sensitivity; linker cycle if not broken via forward declaration or DI |
-| **Mitigation status** | Forward declaration partially applied; full DI refactor tracked in Wave C |
-| **Tracking** | Follow-on Wave C issue: https://github.com/makr-code/ThemisDB/issues/5040 |
-
-### Issue 2 — Circular Dependency: `llm` ↔ `query`
-
-| Property | Detail |
-|----------|--------|
-| **Files** | `src/llm/` includes `query/` (AQL evaluation); `src/query/functions/lora_functions.cpp` includes `include/llm/lora_framework/lora_orchestrator.h` |
-| **Direction** | Bidirectional at include level |
-| **Risk** | Header inclusion cycle; potential for ODR violations if not carefully gated |
-| **Mitigation status** | Currently managed via `#pragma once` guards and careful include ordering; refactor to interface injection planned |
-| **Tracking** | Wave B tracking issue: https://github.com/makr-code/ThemisDB/issues/5039 |
-
-### Issue 3 — Open: Distributed Collectives + Multi-Tenant Isolation
-
-| Property | Detail |
-|----------|--------|
-| **Description** | Distributed inference collective ops (NCCL/RCCL) and per-tenant VRAM isolation not yet production-wired |
-| **Impact** | Multi-tenant deployments must use single-tenant mode; advanced GPU reduction ops unavailable |
-| **Tracking** | Wave C: https://github.com/makr-code/ThemisDB/issues/5040 |
-
+- [Module README](README.md) · [API contract](API.md) · [module roadmap](ROADMAP.md)
+- [`llm_api_contract.h`](../../include/llm/llm_api_contract.h) · [`embedded_llm.h`](../../include/llm/embedded_llm.h) · [`llm_plugin_interface.h`](../../include/llm/llm_plugin_interface.h)

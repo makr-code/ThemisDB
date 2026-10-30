@@ -1,92 +1,81 @@
-# Architecture - Observability Module
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-30"
+Last Updated: "2026-10-30"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "README.md"
+  - "API.md"
+  - "../../include/observability/metrics_collector.h"
+  - "../../include/observability/tracer.h"
+  - "../../include/observability/opentelemetry_tracer.h"
+  - "../../include/observability/alerting_engine.h"
+  - "../../include/observability/query_profiler.h"
+  - "metrics_collector.cpp"
+  - "tracer.cpp"
+  - "opentelemetry_tracer.cpp"
+  - "alerting_engine.cpp"
+Related_Issue: "#7167 (closes #7091)"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
 
-<!-- Status: current | validated: 2026-09-09 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+Exact model backend not verifiable from final document text alone.
 
-## Overview
+# Observability Module Architecture
 
-The observability module composes metrics collection, tracing, profiling, streaming, anomaly detection, and alerting into a bounded operational visibility subsystem for ThemisDB.
+## Scope, boundaries, and ownership
 
-## Main Execution Planes
+`src/observability/` owns in-process telemetry collection and observability processing: metrics, spans/trace propagation, query/storage profiling, aggregation, alert rules, log analysis, and diagnostics. External telemetry backends and notification services remain integrations; this module does not own application request semantics.
 
-1. Metrics and export plane
-- metric recording, aggregation, export, and streaming paths
-- tenant-aware namespace and cardinality control behavior
+## Components and public interfaces
 
-2. Tracing and profiling plane
-- span lifecycle and OpenTelemetry integration
-- query/storage/continuous and eBPF profiling surfaces
+| Component | Public interface | Source-backed responsibility |
+|---|---|---|
+| Metrics | [`MetricsCollector`](../../include/observability/metrics_collector.h), [`AdvancedMetrics`](../../include/observability/advanced_metrics.h), [`TenantMetricsNamespace`](../../include/observability/tenant_metrics_namespace.h) | Record/aggregate metrics, enforce metric/label constraints, and expose text/health data. |
+| Tracing | [`ObservabilityTracer`](../../include/observability/tracer.h), [`OpenTelemetryTracer`](../../include/observability/opentelemetry_tracer.h), [`DistributedTracingSDK`](../../include/observability/distributed_tracing_sdk.h) | Span lifecycle and propagation/export integration. |
+| Profiling and diagnostics | [`QueryProfiler`](../../include/observability/query_profiler.h), [`StorageProfiler`](../../include/observability/storage_profiler.h), [`PerformanceAnalyzer`](../../include/observability/performance_analyzer.h) | Collect query/storage profiling data and derive diagnostics. |
+| Alerts and analysis | [`AlertingEngine`](../../include/observability/alerting_engine.h), [`Alertmanager`](../../include/observability/alertmanager.h), [`RootCauseAnalyzer`](../../include/observability/root_cause_analyzer.h) | Evaluate configured rules, route notifications, and analyze incidents. |
+| Provenance | [`ProvenanceStore`](../../include/observability/provenance_store.h) | Persist and query retrieval-step provenance records through the implementation's RocksDB-backed store. |
 
-3. Alerting and diagnostics plane
-- rule-based alerting, anomaly detection, and root-cause analysis
-- SLO/SLA burn-rate reporting and operational diagnostics
+## Data and event flow
 
-## Core Contracts
+1. Instrumented modules call metric and tracing APIs with measurements, labels, and span context.
+2. Collectors validate bounded inputs and aggregate/export data; trace export may use the API module's OTLP exporter.
+3. Profilers and log/metric analysis components derive diagnostics; the alerting engine evaluates configured rules and invokes notification channels.
+4. Retrieval provenance records are stored through a separate provenance-store interface.
 
-| Contract | Behavior |
+See [`metrics_collector.cpp`](metrics_collector.cpp), [`tracer.cpp`](tracer.cpp), [`opentelemetry_tracer.cpp`](opentelemetry_tracer.cpp), and [`provenance_store.cpp`](provenance_store.cpp).
+
+## Failure domains and edge cases
+
+- Invalid metric labels/cardinality limits can reject or constrain metric series; metric input problems must not be interpreted as application success evidence.
+- Exporter unavailability and notification-channel failures are downstream integration failures; they can affect telemetry delivery without changing the instrumented operation's result.
+- Profiling and tracing may be disabled or sampled; absence of a span/sample is not proof that no operation occurred.
+- Provenance persistence has its own RocksDB/open/write failure domain, separate from in-memory metric or tracing work.
+
+## Explicit non-goals
+
+- Owning the external Prometheus, OTLP, Jaeger, Zipkin, or notification backend.
+- Owning query/storage/LLM behavior merely because it is instrumented.
+- Guaranteeing every telemetry event is exported or that telemetry is a transactionally complete audit record.
+
+## Verified cross-module references
+
+| Boundary | Evidence and link |
 |---|---|
-| metrics contract | deterministic metric record/export/aggregation semantics |
-| tracing contract | explicit span lifecycle and propagation behavior |
-| profiling contract | bounded profiler data capture and analysis behavior |
-| alerting contract | deterministic rule evaluation and notification surfaces |
+| API exporter | `opentelemetry_tracer.cpp` includes `api/otlp_exporter.h`; see [API architecture](../api/ARCHITECTURE.md). |
+| Query profiling | Query module exposes a query-profiler path; see [query architecture](../query/ARCHITECTURE.md). |
+| Security/redaction | `metrics_collector.cpp` includes the PII redaction policy; see [security architecture](../security/ARCHITECTURE.md). |
+| Retrieval provenance | The provenance record names retrieval steps; this is a telemetry contract, not evidence that every retrieval path writes a record. |
 
-## Failure Semantics
+## References
 
-- invalid observability input/configuration fails with explicit outcomes.
-- export/integration failures are surfaced explicitly.
-- profiling and alerting incidents remain observable and non-silent.
-
-## Module Dependencies
-
-### Direct Upstream Dependencies (this module uses)
-| Module | Interface / File | Purpose |
-|--------|-----------------|---------|
-| utils | `include/utils/` (time, string, concurrency helpers) | Timestamp normalisation, label formatting, and thread-safe counter primitives |
-
-### Direct Downstream Consumers (modules that use this module)
-| Module | Via | Notes |
-|--------|-----|-------|
-| server | `include/observability/metrics_collector.h`, `include/observability/tracer.h` | Per-request latency, error counters, and distributed trace span creation |
-| query | `include/observability/query_profiler.h`, `include/observability/tracer.h` | Query execution profiling and span propagation through the query pipeline |
-| transaction | `include/observability/metrics_collector.h`, `include/observability/tracer.h` | Transaction commit/abort counters and MVCC span telemetry |
-| storage | `include/observability/storage_profiler.h`, `include/observability/metrics_collector.h` | I/O latency profiles and compaction metric emission |
-| llm | `include/observability/metrics_collector.h`, `include/observability/tracer.h` | Inference latency histograms and model-call span creation |
-| rag | `include/observability/metrics_collector.h`, `include/observability/tracer.h` | Retrieval pipeline metrics and span propagation |
-| replication | `include/observability/metrics_collector.h` | Replication lag counters and heartbeat metrics |
-| maintenance | `include/observability/metrics_collector.h`, `include/observability/audit_logger.h` | Job execution counters and maintenance-event audit emission |
-
-## Integration Points
-
-### Critical Integration: MetricsCollector ↔ All Modules
-**Files:** `include/observability/metrics_collector.h` ↔ all consuming `src/<module>/` cpp files
-**Contract:** `MetricsCollector::record(metric_name, value, labels)` is a non-throwing fire-and-forget call; it must never block the caller's critical path. Internal buffer overflow silently drops samples and increments a dedicated `metrics.dropped` counter.
-**Thread Safety:** `MetricsCollector` is fully thread-safe; concurrent `record()` calls from any thread are permitted.
-**Failure Mode:** Export failures (Prometheus/OTLP endpoint unavailable) are surfaced in the `metrics.export_errors` counter; in-process recording continues unaffected.
-
-### Critical Integration: QueryProfiler ↔ Query Execution
-**Files:** `include/observability/query_profiler.h` ↔ `src/query/` execution pipeline
-**Contract:** A `ProfilerScope` RAII guard is acquired at query parse time and released at result flush; timings are attributed per execution stage (parse, plan, execute, encode).
-**Thread Safety:** Each query context owns its own `ProfilerScope`; the underlying `QueryProfiler` aggregator uses internal locking for cross-thread rollup.
-**Failure Mode:** If the profiler is disabled or encounters an internal error the RAII guard is a no-op; query execution is never gated on profiler availability.
-
-### Critical Integration: ProvenanceStore ↔ Audit Consumers
-**Files:** `include/observability/audit_logger.h` ↔ `src/auth/`, `src/security/`, `src/server/`
-**Contract:** `AuditLogger::emit(event)` serialises a structured audit record to the `ProvenanceStore`; the call is synchronous to provide write-before-response ordering for security-sensitive events.
-**Thread Safety:** `AuditLogger` is thread-safe; multiple modules may call `emit()` concurrently.
-**Failure Mode:** `ProvenanceStore` write failure propagates as `AuditWriteError`; the caller decides whether to abort the triggering operation (security paths abort; metrics paths continue).
-
-
-
-- Verified files:
-  - src/observability/metrics_collector.cpp
-  - src/observability/tracer.cpp
-  - src/observability/opentelemetry_tracer.cpp
-  - src/observability/query_profiler.cpp
-  - src/observability/storage_profiler.cpp
-  - src/observability/alerting_engine.cpp
-  - src/observability/metric_aggregator.cpp
-  - src/observability/root_cause_analyzer.cpp
-- Verified architecture claims:
-  - explicit metrics/tracing/profiling/alerting execution planes
-  - deterministic failure boundaries across observability workflows
-  - module-local ownership of observability orchestration behavior
+- [Module README](README.md) · [API contract](API.md) · [module roadmap](ROADMAP.md)
+- [`observability_api_contract.h`](../../include/observability/observability_api_contract.h) · [`metrics_collector.h`](../../include/observability/metrics_collector.h) · [`opentelemetry_tracer.h`](../../include/observability/opentelemetry_tracer.h)

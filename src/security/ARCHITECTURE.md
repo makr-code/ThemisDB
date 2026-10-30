@@ -1,134 +1,84 @@
-> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-30"
+Last Updated: "2026-10-30"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "security"
+Canonical_References:
+  - "README.md"
+  - "API.md"
+  - "../../include/security/key_provider.h"
+  - "../../include/security/encryption.h"
+  - "../../include/security/rbac.h"
+  - "../../include/security/aql_injection_detector.h"
+  - "../../include/security/query_masking_policy.h"
+  - "../../include/security/security_evidence_collector.h"
+  - "field_encryption.cpp"
+  - "rbac.cpp"
+  - "aql_injection_detector.cpp"
+Related_Issue: "#7167 (closes #7091)"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
 
-# Security Module - Architecture Guide
+Exact model backend not verifiable from final document text alone.
 
-**Version:** 1.2
-**Last Updated:** 2026-09-09
-**Module Path:** `src/security/`
+# Security Module Architecture
 
-## 1. Overview
+## Scope, boundaries, and ownership
 
-The security module provides encryption, key/provider integration, access-control/policy enforcement, detection, and audit-evidence surfaces for ThemisDB.
+`src/security/` owns security-specific primitives and policy surfaces: key-provider integration, encryption, authorization and row-level controls, query/payload checks, masking/redaction, and security evidence. It supplies these controls to callers; the server owns transport admission, while storage and query own their respective data and execution paths.
 
-## 2. Design Principles
+## Components and public interfaces
 
-- Fail-closed behavior on invalid or unsafe security states.
-- Deny-by-default policy behavior for access control paths.
-- Separation of cryptographic key/provider responsibilities from data-plane logic.
-- Source-verifiable security controls over speculative claims.
-
-## 3. Component Architecture
-
-### 3.1 Key Components
-
-| File | Role |
-|---|---|
-| `field_encryption.cpp` / `encrypted_field.cpp` | field-level encryption/decryption paths |
-| `vault_key_provider.cpp` / `pki_key_provider.cpp` / `hsm_provider_pkcs11.cpp` | key/provider integration |
-| `rbac.cpp` / `access_control_manager.cpp` / `row_level_security.cpp` | authorization and row-level enforcement |
-| `query_masking_policy.cpp` / `pii_redaction_policy.cpp` | masking and PII policy behavior |
-| `aql_injection_detector.cpp` | query-injection detection surface |
-| `zero_trust_policy_enforcer.cpp` | request-level policy enforcement |
-| `security_evidence_collector.cpp` | security evidence aggregation and export surfaces |
-| `behavioral_anomaly_detector.cpp` / `malware_scanner.cpp` | detection and threat-signal paths |
-
-### 3.2 Data Flow (Simplified)
-
-```
-Request/data path
-  -> access-control/policy decision
-  -> optional masking/redaction
-  -> encryption/decryption/key-provider paths (where required)
-  -> evidence/audit signal emission
-
-Detection path
-  -> query/content/security event input
-  -> detector/scanner scoring or validation
-  -> security status/event output
-```
-
-## 4. Integration Points
-
-| Direction | Module | Interface |
+| Component | Public interface | Source-backed responsibility |
 |---|---|---|
-| Used by | `src/server/` | request-time policy and security checks |
-| Used by | `src/query/` | query-level security checks and masking |
-| Used by | `src/storage/` | encryption/key-provider integration points |
-| Uses | utility/audit components | evidence and chained audit output |
+| Key and encryption | [`KeyProvider`](../../include/security/key_provider.h), [`encryption.h`](../../include/security/encryption.h) | Key metadata/provider access and field encryption/decryption operations. |
+| Authorization and policy | [`RBAC`](../../include/security/rbac.h), [`AccessControlManager`](../../include/security/access_control_manager.h), [`ZeroTrustPolicyEnforcer`](../../include/security/zero_trust_policy_enforcer.h), [`RowLevelSecurity`](../../include/security/row_level_security.h) | Role/permission decisions and request/row policy checks. |
+| Query and data protection | [`AQLInjectionDetector`](../../include/security/aql_injection_detector.h), [`QueryMaskingPolicy`](../../include/security/query_masking_policy.h), [`PIIRedactionPolicy`](../../include/security/pii_redaction_policy.h) | Parameterized-query validation, result masking, and redaction policies. |
+| Evidence and specialized controls | [`SecurityEvidenceCollector`](../../include/security/security_evidence_collector.h), [`MalwareScanner`](../../include/security/malware_scanner.h), [`AiOperationGuard`](../../include/security/ai_operation_guard.h) | Evidence export, scanning, and AI-operation guard decisions. |
 
-## 5. Threading and Concurrency Model
+This table names representative contracts; TLS, PKI, HSM, timestamping, and other security helpers have their own narrower headers.
 
-- Security control paths are designed for concurrent runtime usage.
-- Shared registries/caches/providers are protected by explicit synchronization in their implementations.
-- Security-sensitive state transitions must remain deterministic under concurrency.
+## Data and decision flow
 
-## 6. Security and Reliability Considerations
+Security components are invoked at their owning boundaries rather than forming one mandatory global pipeline:
 
-- Invalid critical security state should lead to deny/reject behavior.
-- Key/provider dependency failures are handled through explicit error paths.
-- Detection and audit/evidence paths must remain operationally bounded.
+1. A request-side caller supplies identity/context to an access-control or policy interface.
+2. Query callers may validate AQL parameters and apply result masking/redaction.
+3. Data callers may invoke field encryption with a configured key provider.
+4. Audit/evidence callers collect security records and export structured evidence.
 
-## 7. Known Limitations and Future Work
+For example, `AQLInjectionDetector` accepts query text and parameters; `FieldEncryption` uses the security key-provider/encryption APIs; `RBAC` implements permission matching. See [`field_encryption.cpp`](field_encryption.cpp), [`rbac.cpp`](rbac.cpp), and [`aql_injection_detector.cpp`](aql_injection_detector.cpp).
 
-- Some high-assurance runtime envelopes still require broader benchmark evidence.
-- Some dependency-failure combinations remain under ongoing hardening verification.
-- A fresh full security-gap rescan and remaining non-TSA Batch-4 closure work are still open in `MODULE_GAPS.md`.
-- Operator-facing policy and diagnostics clarity is still being improved.
+## Failure domains and edge cases
 
-## 8. Module Dependencies
+- Missing, revoked, or unavailable keys can block key-dependent operations; encryption errors must not be interpreted as plaintext success.
+- Invalid policy or identity context can yield denial/rejection; callers remain responsible for honoring the returned decision.
+- Invalid query parameters or detector failures are separate from parser/executor failures in the query module.
+- Security evidence export depends on its configured audit/evidence inputs and output path; it is not itself proof that every caller emitted an event.
 
-### Direct Upstream Dependencies (this module uses)
-| Module | Interface / File | Purpose |
-|--------|-----------------|---------|
-| utils | `include/utils/` (crypto helpers, string sanitization) | Low-level cryptographic primitives and input-sanitization utilities |
-| metadata | `include/metadata/schema_audit_log.h` | Schema-level audit log integration for DDL-event security evidence |
-| observability | `include/observability/audit_logger.h`, `include/observability/metrics_collector.h` | Structured security-event audit emission and policy-decision metric recording |
+## Explicit non-goals
 
-### Direct Downstream Consumers (modules that use this module)
-| Module | Via | Notes |
-|--------|-----|-------|
-| server | `include/security/rbac.h`, `include/security/zero_trust_policy_enforcer.h` | Request-time RBAC decisions and zero-trust policy evaluation at HTTP ingress |
-| query | `include/security/query_masking_policy.h`, `include/security/pii_redaction_policy.h`, `include/security/aql_injection_detector.h` | Result-set masking, PII redaction, and injection detection during query execution |
-| storage | `include/security/security_signature.h`, `include/security/field_encryption.h` | Storage-layer write signing and field-level encryption/decryption |
-| index | `include/security/field_encryption.h` | Encrypted index field reads/writes |
-| llm | `include/security/pii_redaction_policy.h` | PII stripping before LLM prompt submission |
-| rag | `include/security/pii_redaction_policy.h` | PII stripping in retrieved context before generation |
+- Owning the HTTP/gRPC listener, transport routing, or the complete authentication session lifecycle.
+- Owning database persistence, query execution, or application business rules.
+- Claiming all security controls are enabled in every deployment or that module-level presence establishes production sign-off.
 
-## 9. Integration Points
+## Verified cross-module references
 
-### Critical Integration: RbacManager ↔ Server Request Pipeline
-**Files:** `include/security/rbac.h` ↔ `src/server/http_server.cpp`
-**Contract:** `RbacManager::authorize(principal, resource, action)` returns `ALLOW` or `DENY`; the server must not route the request further on `DENY`. Decision is synchronous and must complete within the configured policy timeout.
-**Thread Safety:** `RbacManager` is read-concurrent after policy load; policy reloads use an atomic swap under `std::shared_mutex`.
-**Failure Mode:** Deny-by-default — any exception or timeout from `authorize()` is treated as `DENY`.
+| Boundary | Evidence and link |
+|---|---|
+| Query | `aql_injection_detector.h` consumes query parser types and `aql_runner.cpp` includes security policy interfaces; see [query architecture](../query/ARCHITECTURE.md). |
+| Storage | Storage has its own signature and encrypted-blob components; no direct `FieldEncryption` hand-off from storage was confirmed in the inspected source. See [storage architecture](../storage/ARCHITECTURE.md). |
+| API/server | `AccessControlManager` includes server authentication/policy interfaces; `api/ws_handler.cpp` uses server `AuthMiddleware`. See [API architecture](../api/ARCHITECTURE.md). |
+| Audit utilities | Security evidence code uses the utility audit logger; this page does not claim an observability-module dependency. |
 
-### Critical Integration: FieldEncryption ↔ Storage Write Path
-**Files:** `include/security/field_encryption.h` ↔ `src/storage/` write path
-**Contract:** Designated fields are encrypted before serialisation using the active `KeyProvider` DEK. The storage layer must not persist plaintext for encrypted-field columns.
-**Thread Safety:** `FieldEncryption` instances are stateless post-init; `KeyProvider` access is internally synchronized.
-**Failure Mode:** `KeyProvider` unavailability propagates as `EncryptionKeyUnavailable`; the write is rejected, not silently stored in plaintext.
+## References
 
-### Critical Integration: AqlInjectionDetector ↔ Query Module
-**Files:** `include/security/aql_injection_detector.h` ↔ `src/query/` parse pipeline
-**Contract:** `AqlInjectionDetector::scan(query_ast)` returns a risk score and optional violation list; queries exceeding the configured threshold are rejected before execution planning.
-**Thread Safety:** Detector is stateless; safe for concurrent calls.
-**Failure Mode:** Scanner error returns `SCAN_ERROR`; query execution is blocked, not passed through.
-
-
-
-- Verified files:
-  - `src/security/field_encryption.cpp`
-  - `src/security/vault_key_provider.cpp`
-  - `src/security/hsm_provider_pkcs11.cpp`
-  - `src/security/pki_key_provider.cpp`
-  - `src/security/rbac.cpp`
-  - `src/security/access_control_manager.cpp`
-  - `src/security/row_level_security.cpp`
-  - `src/security/query_masking_policy.cpp`
-  - `src/security/aql_injection_detector.cpp`
-  - `src/security/zero_trust_policy_enforcer.cpp`
-  - `src/security/security_evidence_collector.cpp`
-- Verified interfaces/behaviors:
-  - encryption and key-provider surfaces
-  - policy enforcement and access-control behavior
-  - detection and security evidence collection paths
+- [Module README](README.md) · [API reference](API.md) · [module roadmap](ROADMAP.md) · [module gaps](MODULE_GAPS.md)
+- [`security_api_contract.h`](../../include/security/security_api_contract.h) · [`key_provider.h`](../../include/security/key_provider.h) · [`security_evidence_collector.h`](../../include/security/security_evidence_collector.h)
