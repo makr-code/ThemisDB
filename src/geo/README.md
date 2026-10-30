@@ -1,7 +1,20 @@
-# ThemisDB Geo Module
+---
+Author: "ThemisDB Team"
+Created: "2026-10-30"
+Last Updated: "2026-10-30"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Source_Level: "L1"
+SOT_Domain: "module-behavior"
+---
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Links: ARCHITECTURE.md · API.md · MODULE_GUIDE.md · ROADMAP.md -->
+
+# ThemisDB Geo Module
 
 ## Module Purpose
 
@@ -49,6 +62,38 @@ Out of scope:
 - GPU paths may fall back to CPU under unsupported/degraded conditions.
 - exact/approximate precision mode affects performance and result behavior trade-offs.
 
+## Quickstart: build and run a focused check
+
+Geo is compiled into the parent ThemisDB build; `src/geo` does not provide a
+standalone server executable. From a configured build tree with tests enabled,
+build and run the GeoJSON geometry suite:
+
+```sh
+cmake --build <build-dir> --target module_geo_test_geo_json_geometry_focused
+ctest --test-dir <build-dir> -R '^test_geo_json_geometry_GeoFocusedTests$' --output-on-failure
+```
+
+This validates the focused geometry test only. Use the root build and service
+deployment guidance to launch ThemisDB; for geo-specific test coverage and
+backend requirements, see [IMPLEMENTATION.md](./IMPLEMENTATION.md).
+
+## Developer documentation
+
+| Document | Use it for |
+|---|---|
+| [ARCHITECTURE.md](./ARCHITECTURE.md) | Component boundaries, data flow, and failure domains |
+| [RESEARCH.md](./RESEARCH.md) | Algorithm assumptions, evaluation evidence, and limits |
+| [MODELING.md](./MODELING.md) | Geometry, coordinate, and query data models |
+| [EMBEDDING.md](./EMBEDDING.md) | Geographic point projection used by the FAISS k-NN bridge |
+| [IMPLEMENTATION.md](./IMPLEMENTATION.md) | Source layout, build variants, and focused validation |
+| [API.md](./API.md) | Public geo interfaces and the binding contract |
+| [MODULE_GUIDE.md](./MODULE_GUIDE.md) | Developer entry points and change workflow |
+| [RUNBOOK.md](./RUNBOOK.md) | Incident diagnosis, recovery, and escalation |
+| [OPERATIONS.md](./OPERATIONS.md) | Normal health, capacity, and performance operations |
+| [TRUST.md](./TRUST.md) | Input, authorization, backend, and extension trust boundaries |
+| [SECURITY.md](./SECURITY.md) | Module threat model and security-control summary |
+| [ROADMAP.md](./ROADMAP.md) · [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md) | Planned work and research direction |
+
 ## Sourcecode Verification (Module: geo/readme)
 
 - Verified files:
@@ -78,3 +123,7 @@ Out of scope:
 - Note:
   - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
   - historical entries remain in CHANGELOG.md
+
+---
+
+**AI provenance:** Exact model backend not verifiable from final document text alone.
