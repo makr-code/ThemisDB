@@ -29,14 +29,22 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 - `msvc.yml` installiert nlohmann-json und erkennt das Importer-Projekt direkt,
   statt ein vom Visual-Studio-Generator nicht unterstütztes `help`-Target abzufragen.
 - `gate-pr-core.yml` delegiert `issues: write` nur am Build-Components-Aufruf;
-  `reusable-rag-phase-gate.yml` benötigt lediglich `pull-requests: read`.
+  RAG-Phasen 7–10 und ihr Reusable benötigen `pull-requests: write` für
+  PR-Labels/-Kommentare; `issues: write` allein genügt dort nicht.
 - Housekeeping und Release-Promotion brechen nur überholte PR-Läufe ab;
   manuelle Release-/Wartungsläufe bleiben gegen Abbruch geschützt.
 - Docker-Consumer, Plattform-Builder und Modell-Cache nutzen getrennte
   Concurrency-Namensräume. AMD64 und ARM64 haben eigene Plattformgruppen;
   Cache-Vorbereitung serialisiert unabhängig von ihren wartenden Aufrufern.
+  Builds verwenden native AMD64-/ARM64-Runner. Provenance/SBOM bleiben für
+  Registry-Pushes aktiv, aber nicht für den inkompatiblen lokalen Docker-Exporter.
 - Der Core-Preflight erkennt lokale Action-/Workflow-Referenzen und kommentierte
   SHA-Pins korrekt; neue Policy-Verstöße werden anhand der hinzugefügten Zeilen geprüft.
+- Der Reusable-CMake-Build nutzt den vorhandenen dateibasierten vcpkg-Cache statt
+  eines unvorbereiteten NuGet-Feeds. Bei sccache-Backendfehlern deaktiviert der
+  bestehende Retry die CMake-Cache-Option tatsächlich, erhält die Toolchain und
+  propagiert Reconfigure-Fehler. Release-Critical-Builds erhalten 120 statt 45 Minuten;
+  ein vollständiger erfolgreicher Build bleibt separat nachzuweisen.
 - Abgelaufene Ausführungsfreigaben benötigen eine Maintainer-Aktion. Der im
   MSVC-Lauf beobachtete C1060-Analyser-Speicherfehler bleibt separat zu verifizieren;
   die Reparaturen unterdrücken ihn nicht.

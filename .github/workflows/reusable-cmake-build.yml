@@ -236,9 +236,6 @@ jobs:
           mkdir -p "${vcpkg_downloads_dir}"
           mkdir -p "${vcpkg_cache_dir}"
           vcpkg_binary_sources="clear;files,${vcpkg_cache_dir},readwrite"
-          if [ -n "${GITHUB_REPOSITORY_OWNER:-}" ]; then
-            vcpkg_binary_sources="${vcpkg_binary_sources};nuget,https://nuget.pkg.github.com/${GITHUB_REPOSITORY_OWNER}/index.json,read"
-          fi
           {
             echo "THEMIS_CACHE_TAG=${cache_tag}"
             echo "THEMIS_SCCACHE_DIR=${sccache_dir}"
@@ -248,7 +245,6 @@ jobs:
             echo "SCCACHE_CACHE_SIZE=8G"
             echo "VCPKG_DEFAULT_BINARY_CACHE=${vcpkg_cache_dir}"
             echo "VCPKG_BINARY_SOURCES=${vcpkg_binary_sources}"
-            echo "VCPKG_NUGET_REPOSITORY=${GITHUB_REPOSITORY:-themisdb-vcpkg-cache}"
             echo "VCPKG_DOWNLOADS=${vcpkg_downloads_dir}"
             echo "VCPKG_DOWNLOADS_ROOT=${vcpkg_downloads_dir}"
             echo "VCPKG_FORCE_SYSTEM_BINARIES=true"
@@ -576,26 +572,14 @@ jobs:
             fi
             BUILD_DIR="${{ steps.resolve_mode.outputs.resolved_build_dir }}"
             if [ -n "${BUILD_DIR:-}" ] && [ -d "$BUILD_DIR" ]; then
-              while IFS= read -r -d '' _cache; do
-                perl -i -pe \
-                  's|CMAKE_C_COMPILER_LAUNCHER:STRING=\S+|CMAKE_C_COMPILER_LAUNCHER:STRING=|g;
-                   s|CMAKE_CXX_COMPILER_LAUNCHER:STRING=\S+|CMAKE_CXX_COMPILER_LAUNCHER:STRING=|g' \
-                  "${_cache}" || true
-                _toolchain_path="$(sed -n 's|^CMAKE_TOOLCHAIN_FILE:[^=]*=||p' "${_cache}" | head -n1)"
-                if [ -n "${_toolchain_path}" ] && [ ! -f "${_toolchain_path}" ]; then
-                  perl -i -pe 's|^CMAKE_TOOLCHAIN_FILE:[^=]*=.*$|CMAKE_TOOLCHAIN_FILE:STRING=|g' "${_cache}" || true
-                fi
-              done < <(find "$BUILD_DIR" -maxdepth 4 -name 'CMakeCache.txt' -print0 2>/dev/null) || true
-              cmake -S . -B "$BUILD_DIR" -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER= -DCMAKE_TOOLCHAIN_FILE= || {
-                echo "::warning::cmake reconfigure failed while disabling sccache; retrying configure with patched CMakeCache entries."
-              }
+              # Reuse cached configure options; rerunning the preset would re-enable the launcher.
+              set +e
+              set +o pipefail
+              cmake -S . -B "$BUILD_DIR" -DTHEMIS_ENABLE_COMPILER_CACHE=OFF -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER= 2>&1 | tee -a "$configure_output_log"
+              status=${PIPESTATUS[0]}
+              set -o pipefail
+              set -e
             fi
-            set +e
-            set +o pipefail
-            bash "$script_path" 2>&1 | tee -a "$configure_output_log"
-            status=${PIPESTATUS[0]}
-            set -o pipefail
-            set -e
           fi
           exit "$status"
 
@@ -628,19 +612,7 @@ jobs:
               sccache --stop-server >/dev/null 2>&1 || true
             fi
             if [ -n "${BUILD_DIR:-}" ] && [ -d "$BUILD_DIR" ]; then
-              while IFS= read -r -d '' _cache; do
-                perl -i -pe \
-                  's|CMAKE_C_COMPILER_LAUNCHER:STRING=\S+|CMAKE_C_COMPILER_LAUNCHER:STRING=|g;
-                   s|CMAKE_CXX_COMPILER_LAUNCHER:STRING=\S+|CMAKE_CXX_COMPILER_LAUNCHER:STRING=|g' \
-                  "${_cache}" || true
-                _toolchain_path="$(sed -n 's|^CMAKE_TOOLCHAIN_FILE:[^=]*=||p' "${_cache}" | head -n1)"
-                if [ -n "${_toolchain_path}" ] && [ ! -f "${_toolchain_path}" ]; then
-                  perl -i -pe 's|^CMAKE_TOOLCHAIN_FILE:[^=]*=.*$|CMAKE_TOOLCHAIN_FILE:STRING=|g' "${_cache}" || true
-                fi
-              done < <(find "$BUILD_DIR" -maxdepth 4 -name 'CMakeCache.txt' -print0 2>/dev/null) || true
-              cmake -S . -B "$BUILD_DIR" -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER= -DCMAKE_TOOLCHAIN_FILE= || {
-                echo "::warning::cmake reconfigure failed while disabling sccache; retrying build with patched CMakeCache entries."
-              }
+              cmake -S . -B "$BUILD_DIR" -DTHEMIS_ENABLE_COMPILER_CACHE=OFF -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER= 2>&1 | tee -a "$build_output_log"
             fi
             set +e
             set +o pipefail

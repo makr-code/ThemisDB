@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import os
 import sys
 import subprocess
 from pathlib import Path
@@ -288,8 +289,71 @@ def test_core_gate_delegates_issue_permissions_to_build_components():
     core = yaml.safe_load((workflows / "gate-pr-core.yml").read_text(encoding="utf-8"))
     assert core["jobs"]["build-components-gate"]["permissions"]["issues"] == "write"
     rag = yaml.safe_load((workflows / "reusable-rag-phase-gate.yml").read_text(encoding="utf-8"))
-    assert rag["permissions"]["pull-requests"] == "read"
+    assert rag["permissions"]["pull-requests"] == "write"
     assert rag["permissions"]["issues"] == "write"
+    for phase in range(7, 11):
+        caller = yaml.safe_load((workflows / f"gate-pr-rag-phase{phase}.yml").read_text(encoding="utf-8"))
+        assert caller["permissions"]["pull-requests"] == "write"
+
+
+def test_cmake_cache_retries_disable_forced_launcher_without_resetting_toolchain():
+    workflow = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "reusable-cmake-build.yml"
+    steps = yaml.safe_load(workflow.read_text(encoding="utf-8"))["jobs"]["build"]["steps"]
+    for name in ("Configure", "Build"):
+        script = next(step["run"] for step in steps if step.get("name") == name)
+        retry = next(line for line in script.splitlines() if 'cmake -S . -B "$BUILD_DIR"' in line)
+        assert "-DTHEMIS_ENABLE_COMPILER_CACHE=OFF" in retry
+        assert "-DCMAKE_C_COMPILER_LAUNCHER=" in retry
+        assert "-DCMAKE_CXX_COMPILER_LAUNCHER=" in retry
+        assert "-DCMAKE_TOOLCHAIN_FILE=" not in retry
+    scripts = "\n".join(step.get("run", "") for step in steps)
+    assert 'vcpkg_binary_sources="clear;files,${vcpkg_cache_dir},readwrite"' in scripts
+    assert ";nuget," not in scripts
+
+
+@pytest.mark.parametrize("stage", ["Configure", "Build"])
+@pytest.mark.parametrize("retry_status", [0, 9])
+def test_cmake_cache_recovery_propagates_status(tmp_path: Path, stage, retry_status):
+    workflow = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "reusable-cmake-build.yml"
+    steps = yaml.safe_load(workflow.read_text(encoding="utf-8"))["jobs"]["build"]["steps"]
+    script = next(step["run"] for step in steps if step.get("name") == stage)
+    build_dir = tmp_path / "build"
+    build_dir.mkdir()
+    script = script.replace("${{ steps.resolve_mode.outputs.resolved_build_dir }}", str(build_dir))
+    cmake = tmp_path / "cmake"
+    cmake.write_text(
+        '#!/bin/bash\n'
+        'echo "$*" >> "$CALLS_FILE"\n'
+        'if [[ "$*" == *"-DTHEMIS_ENABLE_COMPILER_CACHE=OFF"* ]]; then\n'
+        '  touch "$RETRY_DONE"\n'
+        '  exit "$RETRY_STATUS"\n'
+        'fi\n'
+        'if [[ "$1" == "--build" && -f "$RETRY_DONE" ]]; then exit 0; fi\n'
+        'echo "sccache: error: Server startup failed"\n'
+        'exit 1\n',
+        encoding="utf-8",
+    )
+    cmake.chmod(0o755)
+    calls = tmp_path / "calls"
+    env = {
+        **os.environ,
+        "PATH": f"{tmp_path}:{os.environ['PATH']}",
+        "WORKING_DIRECTORY": str(tmp_path),
+        "RUNNER_TEMP": str(tmp_path),
+        "RUNNER_ARCH": "X64",
+        "BUILD_DIR": str(build_dir),
+        "CONFIGURE_COMMAND": "cmake --preset check",
+        "BUILD_COMMAND": f"cmake --build {build_dir}",
+        "CALLS_FILE": str(calls),
+        "RETRY_DONE": str(tmp_path / "retry-done"),
+        "RETRY_STATUS": str(retry_status),
+    }
+    result = subprocess.run(["bash", "-c", script], env=env, capture_output=True, text=True)
+    assert result.returncode == retry_status, result.stdout + result.stderr
+    commands = calls.read_text(encoding="utf-8").splitlines()
+    assert len(commands) == (3 if stage == "Build" and retry_status == 0 else 2)
+    assert "-DTHEMIS_ENABLE_COMPILER_CACHE=OFF" in commands[1]
+    assert "-DCMAKE_TOOLCHAIN_FILE=" not in commands[1]
 
 
 def test_docker_nested_concurrency_groups_do_not_collide():
@@ -321,6 +385,17 @@ def test_docker_nested_concurrency_groups_do_not_collide():
     assert len({amd64, arm64, model}) == 3
     assert model == resolve_group(cache, "linux/arm64")
     assert not any(group.startswith("docker-image-") for group in (amd64, arm64, model))
+
+
+def test_docker_local_export_avoids_attestation_manifest_and_uses_native_runners():
+    workflow = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "reusable-docker-image-platform.yml"
+    build = yaml.safe_load(workflow.read_text(encoding="utf-8"))["jobs"]["build"]
+    assert build["runs-on"] == "${{ inputs.platform == 'linux/arm64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}"
+    candidate = next(step for step in build["steps"] if step.get("id") == "build-candidate")["with"]
+    push = "${{ inputs.push_to_registry == true || inputs.push_to_registry == 'true' }}"
+    assert candidate["push"] == candidate["provenance"] == candidate["sbom"] == push
+    assert candidate["load"] == "${{ ! (inputs.push_to_registry == true || inputs.push_to_registry == 'true') }}"
+    assert candidate["target"] == "runtime"
 
 
 def test_wave4_gate_runs_benchmark_with_build_runtime_and_transfers_results():

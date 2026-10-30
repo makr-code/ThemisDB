@@ -32,7 +32,7 @@ on:
         type: string
 
 permissions:
-  pull-requests: read
+  pull-requests: write
   contents: read
   issues: write
   checks: write

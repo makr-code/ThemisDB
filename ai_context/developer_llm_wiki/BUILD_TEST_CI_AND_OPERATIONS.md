@@ -46,6 +46,18 @@ guidance; use workflow sources and concrete run logs as evidence.
   [Run 41026987740](https://github.com/makr-code/ThemisDB/actions/runs/41026987740)
   still used the old `develop` revision and never reached an actual image build:
   summary checkout failures and cancelled model preparation occurred first.
+  The branch verification passed both model-cache preparations and their summaries,
+  then exposed Docker export rejecting attestation manifest lists with `--load`.
+  Registry publications retain provenance/SBOM; local exports omit those unsupported
+  attestations. Platform builds select native AMD64/ARM64 runners.
+- Follow-up PR evidence exposed separate cache/permission defects: RAG phases 7–10
+  need PR-write permission in both caller and callee for labels/comments, even when
+  compilation passed. The reusable CMake build no longer registers an unprepared
+  NuGet binary source. Its existing sccache recovery disables the forced launcher
+  via `THEMIS_ENABLE_COMPILER_CACHE=OFF`, preserves the cached toolchain and fails
+  on reconfigure errors. The release-critical job budget is 120 minutes; this is
+  not proof that its full build passes. Nightly/packaging Ninja discovery and MSVC
+  analyzer memory failures still need successful full-build evidence.
 - Evidence window: 2026-10-29 05:23 to 2026-10-30 05:23 UTC.
   Representative runs:
   [missing summary checkout](https://github.com/makr-code/ThemisDB/actions/runs/41003835208),

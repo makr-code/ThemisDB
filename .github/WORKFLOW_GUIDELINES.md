@@ -99,6 +99,14 @@ flowchart TD
 - Bei `startup_failure` zuerst die Workflow-Annotation prüfen: aufrufende Jobs müssen
   benötigte Berechtigungen verschachtelter Workflows explizit erlauben. Berechtigungen
   nur am betroffenen Aufruf erweitern, nicht pauschal für den gesamten Workflow.
+- RAG-Phasen brauchen für Labels/Kommentare an Pull Requests `pull-requests: write`
+  im Caller und Reusable; erfolgreiche Compiler-Prüfungen schließen einen
+  nachgelagerten HTTP-403-Fehler nicht aus.
+- Der Reusable-CMake-Build verwendet den dateibasierten vcpkg-Cache, ohne automatisch
+  einen NuGet-Feed und dessen Tool-/Authentifizierungsanforderungen zu registrieren.
+  Sein sccache-Retry muss `THEMIS_ENABLE_COMPILER_CACHE=OFF` setzen, die vorhandene
+  Toolchain erhalten und Reconfigure-Fehler weiterreichen. Ein erneuter Preset-Aufruf
+  darf die deaktivierte Cache-Option nicht wieder einschalten.
 - Fehlgeschlagene Läufe ohne Jobs können abgelaufene Ausführungsfreigaben sein.
   Dies ist kein Testfehler; Maintainer müssen die Ausführung freigeben.
 - Beim Wave-4-Gate wird das CMake-Preset explizit ausgeführt. Der Benchmark läuft
