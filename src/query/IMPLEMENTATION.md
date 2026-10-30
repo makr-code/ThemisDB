@@ -1,88 +1,48 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Last Updated: "2026-10-30"
+Status: "review"
 AI_Used: true
-AI_Models: "MAI-Code-1.1-Flash"
-AI_Contributor: "MAI-Code-1.1-Flash"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
 Exact model backend not verifiable from final document text alone.
 
-# Query Module Implementation Notes
+Source level: 1
+SOT domain: module-behavior
+Canonical references: `include/query/aql_parser.h`, `include/query/query_engine.h`, `src/query/aql_parser.cpp`, `src/query/query_engine.cpp`, `tests/query/test_aql_parser_service.cpp`
+Related issues: #7093, #7167
 
-## Purpose
+# Query implementation
 
-This document describes the implementation realities of the Query module as they exist in the source tree. It is meant to answer: how does the module behave at execution time, what invariants matter, and which edge cases must remain explicit.
+## Purpose and boundary
 
-## Core implementation structure
+For query maintainers changing AQL parsing or query execution. The public parser and execution declarations are in `include/query/`; implementation belongs in `src/query/`. This guide describes those contracts, not a guarantee that every query form uses one identical runtime pipeline.
 
-The Query module is currently organized around a few concrete responsibilities:
+## Implementation map
 
-- parsing and validation (`aql_parser.cpp`, `aql_parser_json.cpp`, `aql_safety_validator.cpp`),
-- translation to execution structures (`aql_translator.cpp`),
-- planner and optimizer behavior (`query_optimizer.cpp`, `adaptive_optimizer.cpp`, `optimizer_cost_model.cpp`),
-- execution runtime (`query_engine.cpp`, `result_stream.cpp`, `let_evaluator.cpp`, `window_evaluator.cpp`),
-- cache and semantic reuse (`query_cache.cpp`, `query_cache_manager.cpp`, `semantic_cache.cpp`),
-- federation and distributed execution (`query_federation.cpp`, `cross_cluster_federation.cpp`),
-- runtime controls (`query_canceller.cpp`, `continuous_query_engine.cpp`).
+- `aql_parser.cpp` implements `AQLParser`; `parse()` returns `Result<std::shared_ptr<Query>>`.
+- `query_engine.cpp` implements query execution entry points declared by `QueryEngine`; these return typed `Result<T>` values.
+- Parser scope bookkeeping and collection validation are exposed separately through `ParserScopeContext`.
 
-## Invariants
+## Invariants and failure cases
 
-The implementation is strongest when these invariants hold:
+- Propagate parse and execution errors as errors; do not turn invalid input into an apparently valid query.
+- Preserve the parser’s AST and `Result` contract when changing syntax or translation.
+- Scope validation returns a result and is a distinct API; callers must not assume it is automatically applied to every execution path.
+- Query forms and execution methods are distinct; update only the path and result type affected by a change.
 
-1. Query input is parsed before execution.
-   - The parser is the canonical syntax boundary. Malformed input should be rejected early rather than processed implicitly.
+## Change and validation steps
 
-2. Planning happens before execution.
-   - The optimizer chooses a strategy, but the execution layer still owns the actual call path and cancellation semantics.
+1. Identify the affected declaration in `include/query/` and its implementation in `src/query/`.
+2. Keep input validation and execution errors observable to the caller.
+3. Add or adjust focused tests; start with `tests/query/test_aql_parser_service.cpp` for parser-service changes and `tests/query/test_continuous_query_engine.cpp` for continuous-query changes.
+4. Run the corresponding test target registered by `tests/query/CMakeLists.txt`.
 
-3. Access checks are explicit.
-   - In `QueryEngine`, collection access checks are enforced via callback logic when configured. Hidden access bypasses are treated as a correctness violation.
+## Related module references
 
-4. Runtime work stays bounded.
-   - Query result streaming, cancellation, TTLs, memory caps, and federation timeouts are not optional quality-of-life features; they are part of the execution contract.
-
-5. Cache reuse remains safe.
-   - Exact caches operate under dependency and TTL semantics. Semantic caches require similarity thresholds and valid index state to be considered safe.
-
-## Edge cases that matter
-
-### Malformed AQL or invalid syntax
-
-The parser should reject malformed expressions, unclosed calls, invalid tokens, and bad operator sequences before execution. Failures should remain deterministic and explainable to both developers and operators.
-
-### Null or empty query input
-
-The cache and parser surfaces explicitly reject empty or invalid query contents. This is a major guardrail because empty input often hides upstream validation bugs or malformed client requests.
-
-### Oversized result sets
-
-The exact-cache layer enforces result-size and memory-bound checks before inserting entries. This prevents a large result set from damaging cache stability or causing memory pressure across the query runtime.
-
-### Expired or invalid cache entries
-
-TTL and dependency invalidation are required behaviors for cache correctness. Expired entries should be evicted cleanly rather than reused as valid results.
-
-### Federated failure and partial results
-
-Distributed execution is a separate failure domain from local execution. Timeout, retry metadata, and merge behavior need to be explicit so that partial or degraded results are not mistaken for full correctness.
-
-### Cancellation and long-running queries
-
-Continuous queries and query cancellation must operate cooperatively. A canceled or timed-out query should not leave runtime state behind in a partially updated or inconsistent shape.
-
-## Implementation guidance
-
-When changing the Query module, the safest approach is to preserve these boundaries:
-
-- keep parsing and validation separate from execution,
-- keep planner and runtime concerns separated,
-- keep cache behavior explicit and measurable,
-- keep federation and local execution boundaries visible,
-- keep cancellation and timeout behavior documented with the code path that changes.
-
-Any change that makes the query path harder to explain or harder to test should be treated as a design risk, not just a refactor.
+See `API.md`, `MODULE_GUIDE.md`, `ARCHITECTURE.md`, and `ROADMAP.md` in this directory.

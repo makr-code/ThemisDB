@@ -1,66 +1,42 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Last Updated: "2026-10-30"
+Status: "review"
 AI_Used: true
-AI_Models: "MAI-Code-1.1-Flash"
-AI_Contributor: "MAI-Code-1.1-Flash"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
 Exact model backend not verifiable from final document text alone.
 
-# API Module Contract Notes
+Source level: 1
+SOT domain: api-contract
+Canonical references: `include/api/api_transport_contracts.h`, `include/api/api_transport_policy.h`, `include/api/grpc_server.h`, `include/api/ws_handler.h`, `include/api/api_error_taxonomy.h`
+Related issues: #7093, #7167
 
-## Purpose
+# API transport contract
 
-This document describes the public-facing contract of the `api` module: how transport logic, request admission, and service exposure are expected to behave at the boundary between external clients and internal ThemisDB services.
+## Shared transport contract
 
-## Public contract surfaces
+`ITransportContract` exposes adapter capabilities, supported versions, failure classification, and an adapter name. The shared constants declare API versions v1/v2, a 10 MiB maximum payload, a 4096-byte path limit, and an 8192-byte header-value limit. The policy middleware may lower the payload/path limits, but normalization caps them at the shared maxima.
 
-The public contracts are primarily defined in `include/api`:
+`TransportFailureClass` distinguishes malformed requests, oversized payloads, unsupported versions, content-type issues, unauthorized requests, rate limiting, unavailable capabilities, and internal errors. Keep these classes distinct when mapping responses.
 
-- `graphql.h` — GraphQL parser, AST model, and runtime value representation
-- `graphql_aql_resolver.h` — GraphQL/AQL resolver entry points
-- `graphql_ws_handler.h` — GraphQL subscription transport adapter
-- `grpc_server.h` — gRPC lifecycle and service registration API
-- `ws_handler.h` — WebSocket CDC request validation and upgrade contract
-- `otlp_exporter.h` — OTLP export and queue semantics
-- `api_transport_contracts.h` — shared API transport contract definitions
-- `api_transport_policy.h` — request admission policy and failure-class mapping
+## Adapter surfaces
 
-## Contract expectations
+- `TransportPolicyMiddleware` wraps an `IHttpHandler`; its `handle()` returns `Result<HttpResponse>`.
+- `GrpcApiServer` exposes `initialize`, service registration, `start`, `stop`, and `isRunning`; initialization/start report success as `bool`.
+- `WsChangeHandler::validate()` returns an `UpgradeDecision`; its fields include upgrade decision, rejection status/reason, and parsed subscription context.
+- GraphQL and other protocol APIs are defined in their matching `include/api/` headers; confirm the declaration before relying on behavior not listed here.
 
-### GraphQL
+## Integration obligations and edge cases
 
-The GraphQL layer accepts a document string and enforces maximum size, maximum nesting depth, field cardinality, and AST node count. Unsupported fragment syntax is rejected explicitly. The design is fail-closed and intends to keep large or malicious requests from consuming excessive runtime resources.
+- Check payload/path bounds and API-version/content-type requirements before dispatch where the shared policy applies.
+- Treat unsupported version, malformed input, missing credentials, and unavailable adapter capability as explicit failures.
+- `ITransportContract` defaults to no capabilities; callers must inspect a concrete adapter rather than assume optional features.
+- Test boundary values and rejected requests using `tests/api/test_api_transport_hardening.cpp` and the nearest protocol test.
 
-### gRPC
-
-gRPC startup requires a valid host and port, an initialized configuration, and at least one bound service. The server also enforces sensible message-size limits and can optionally load configuration values from `config/networking/grpc.yaml` when present.
-
-### WebSocket change stream
-
-The WebSocket endpoint is a privileged CDC stream. It requires the advertised path, valid auth context, and the `cdc:subscribe` permission scope before upgrade. Optional filters such as `from_sequence` and `key_prefix` are parsed carefully and must not open the stream to ambiguous or invalid request state.
-
-### Observability export
-
-OTLP and tracing export paths are not allowed to silently block the main request path. Error and backpressure behavior is expected to be explicit and bounded so operators can distinguish missing telemetry from a live service failure.
-
-## Failure semantics
-
-The API layer defines explicit errors rather than hidden recovery:
-
-- malformed GraphQL input is invalid syntax
-- invalid port or missing setup is rejected before bind
-- unauthorized stream access is denied
-- unsupported capability or transport mismatch is mapped to the shared failure taxonomy
-- exporter pressure is surfaced as warnings or dropped spans with explicit accounting
-
-These semantics are intentional: clients and operators should be able to reason about the boundary without reading through the implementation internals.
-
-## Compatibility guidance
-
-The module's release contract has to remain stable across deployment profiles and transport combinations. Changes to public API behavior should preserve the logical semantics of the transport contract: explicit errors, bounded resource usage, and well-defined observability degradation under overload.
+See `IMPLEMENTATION.md` and `MODULE_GUIDE.md` for source navigation.

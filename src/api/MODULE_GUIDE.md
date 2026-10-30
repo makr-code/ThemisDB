@@ -1,76 +1,41 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Last Updated: "2026-10-30"
+Status: "review"
 AI_Used: true
-AI_Models: "MAI-Code-1.1-Flash"
-AI_Contributor: "MAI-Code-1.1-Flash"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
 Exact model backend not verifiable from final document text alone.
 
-# API Module Developer Guide
+Source level: 1
+SOT domain: module-behavior
+Canonical references: `include/api/`, `src/api/`, `tests/api/CMakeLists.txt`, `include/api/api_transport_contracts.h`
+Related issues: #7093, #7167
 
-## Purpose
+# API module guide
 
-This guide is the entry point for working on the `api` module. It connects the public contract, implementation files, and operational expectations without repeating the full architecture or roadmap docs.
+## Audience and ownership
 
-## Recommended reading order
+For maintainers changing HTTP-facing transport policy, GraphQL/gRPC/WebSocket adapters, or telemetry export. The API module owns transport adaptation; server routing and endpoint policy are maintained in `src/server/`.
 
-1. `README.md` — module purpose and interface summary
-2. `ARCHITECTURE.md` — boundaries, execution planes, and failure domains
-3. `API.md` — public contract expectations and failure semantics
-4. `IMPLEMENTATION.md` — implementation map and key invariants
-5. `ROADMAP.md` and `FUTURE_ENHANCEMENTS.md` — active status and pending hardening work
-6. `RUNBOOK.md` and `OPERATIONS.md` — diagnosis, operator action, and recovery flows
-7. `TRUST.md` — security posture and boundary assumptions
+## Choose the relevant boundary
 
-## Ownership map
+- Shared version/size/failure policy: `api_transport_contracts.h`, `api_transport_policy.h`.
+- Protocol-specific behavior: use the matching file under `include/api/` and `src/api/`.
+- gRPC lifecycle: `grpc_server.h` / `grpc_server.cpp`.
+- WebSocket change-stream validation: `ws_handler.h` / `ws_handler.cpp`.
 
-- Public API: `include/api/`
-- Internal implementation: `src/api/`
-- Related runtime integration: `src/server/`, `src/observability/`, and entry points under `src/main*`
+## Maintainer workflow
 
-## Key subsystem entry points
+1. Check whether the behavior is shared policy or adapter-specific.
+2. Verify bounds, capability declarations, return types, and failure class in the public header.
+3. Exercise invalid/oversized input and optional-feature absence, not only the success path.
+4. Add or run a focused test under `tests/api/`; transport hardening coverage is in `test_api_transport_hardening.cpp`.
+5. Update `API.md` for changed client-visible behavior and `IMPLEMENTATION.md` for changed internal flow.
 
-### GraphQL
-
-- `include/api/graphql.h`
-- `src/api/graphql.cpp`
-- `include/api/graphql_aql_resolver.h`
-
-### gRPC
-
-- `include/api/grpc_server.h`
-- `src/api/grpc_server.cpp`
-- `src/api/themisdb_grpc_service.cpp`
-
-### WebSocket / CDC
-
-- `include/api/ws_handler.h`
-- `src/api/ws_handler.cpp`
-- `src/api/graphql_ws_handler.cpp`
-
-### Export and tracing
-
-- `include/api/tracing_middleware.h`
-- `src/api/tracing_middleware.cpp`
-- `include/api/otlp_exporter.h`
-- `src/api/otlp_exporter.cpp`
-
-## Change checklist
-
-Before merging a transport or API change, confirm:
-
-- malformed request input is rejected explicitly
-- auth and subscription checks remain in the transport layer
-- optional capabilities degrade predictably and remain observable
-- resource limits are still enforced and documented
-- tests or benchmarking updates cover the changed behavior
-
-## Known quality bar
-
-The module is production-facing and boundary-heavy. A patch is not considered complete if it only changes syntax or improves local readability without preserving the API contract and observable failure semantics.
+See `ARCHITECTURE.md`, `RUNBOOK.md`, and `SECURITY.md` for wider boundaries.

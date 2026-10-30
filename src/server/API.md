@@ -1,94 +1,39 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-10-19"
-Status: "active"
+Last Updated: "2026-10-30"
+Status: "review"
 AI_Used: true
-AI_Models: "MAI-Code-1.1-Flash"
-AI_Contributor: "MAI-Code-1.1-Flash"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
 Exact model backend not verifiable from final document text alone.
 
-# Server API and Contract Notes
+Source level: 1
+SOT domain: api-contract
+Canonical references: `include/server/api_gateway.h`, `include/server/auth_middleware.h`, `src/server/api_gateway.cpp`, `src/server/auth_middleware.cpp`, `tests/server/test_api_gateway.cpp`
+Related issues: #7093, #7167
 
-## Purpose
+# Server API contract
 
-This document captures the public contract of the `server` module as implemented in the runtime gateway, headers, middleware, and endpoint surfaces. It is intentionally focused on behavior that a caller or operator can infer from the code and runtime responses.
+## Public surfaces
 
-## Primary API surfaces
+- `APIGateway::handleRequest()` receives an HTTP request and a local-handler callback and returns an HTTP response.
+- `APIGateway::Config` controls optional routing/admission features, request limits/timeouts, metrics, and API version checks. Runtime behavior depends on these settings and the dependencies supplied at construction.
+- `AuthMiddleware` exposes configuration for JWT, Kerberos, mTLS, API-key, and token paths. Authorization returns `AuthResult`, including `authorized`, user/tenant context, and a reason.
 
-### Gateway surface
+## Caller obligations and failure cases
 
-The `APIGateway` contract governs how inbound requests are normalized, validated, and dispatched. The major responsibilities are:
+- Configure and inject the checks required by the deployment; do not assume gateway features are active from the existence of an API alone.
+- Inspect `AuthResult.authorized` before using its identity context, and preserve the denial reason where the caller reports or audits the result.
+- Route/version normalization, admission rejection, and handler execution are separate branches; preserve the intended request path when changing one.
+- Avoid assigning a universal HTTP status mapping unless it is defined by the changed handler or response code.
 
-- verification of auth state,
-- rate-limit and load-shed admission,
-- route target selection,
-- local or sharded dispatch,
-- response construction for rejection and success.
+## Validation references
 
-### Middleware surfaces
+Use `tests/server/test_api_gateway.cpp`, `test_server_contract_hardening_focused.cpp`, and the nearest auth/handler test registered in `tests/server/CMakeLists.txt`.
 
-The middleware stack defines the server's admission policy:
-
-- `AuthMiddleware` validates credentials and roles,
-- `RateLimitingMiddleware` applies per-client and per-path quota enforcement,
-- `LoadShedder` blocks degraded or overloaded traffic, often in a priority-aware way.
-
-### Session and protocol surfaces
-
-The server provides protocol entry points for:
-
-- HTTP request handling,
-- WebSocket session management,
-- MQTT consumer/session handling,
-- PostgreSQL wire sessions,
-- gRPC service exposure.
-
-These are boundaries for transport semantics, not storage backends.
-
-## Failure contract
-
-The server API uses explicit request-level failure semantics, not silent degradation:
-
-- 401 Unauthorized: authentication rejected or missing
-- 403 Forbidden: authenticated client lacks required scope or policy rights
-- 429 Too Many Requests: rate limit exceeded
-- 503 Service Unavailable: overloaded or backend unavailable
-- 504 Gateway Timeout: request exceeded deadline or server-side timeout policy
-
-These codes are integral to the module's trust model and should stay consistent when changing server behavior.
-
-## Versioning and routing behavior
-
-The API gateway strips version prefixes from target paths for downstream routing, while keeping the original request available for validation and tracing. This allows the module to support versioned public URLs without forcing every downstream endpoint to understand route prefix semantics.
-
-## Endpoint organization
-
-Endpoint handlers in the server module are intended to wrap concrete ThemisDB operations, including but not limited to:
-
-- admin and maintenance endpoints,
-- entity, query, and schema endpoints,
-- vector, graph, and timeseries execution,
-- LLM, prompt, and model management,
-- health and error surfaces.
-
-The important invariant is that these endpoint handlers remain behind the server's admission and authorization gates.
-
-## Threading and concurrency contract
-
-The server layer's concurrency model is based on bounded, explicit state: mutexes protect mutable configuration and connection state, while atomic metrics and counters support load and quota tracking. This keeps the runtime safe under concurrent client traffic without conflating request state with deep database execution state.
-
-## Edge-case expectations
-
-- Requests with invalid or malformed metadata should be rejected before entering a handler.
-- Overload conditions should be signaled to the client immediately rather than hidden through delayed processing.
-- Disconnections and session teardown must not create stale, shared runtime state.
-- Versioned or sharded routing should remain deterministic and explainable.
-
-## Summary
-
-The server API contract is intentionally explicit: clients get predictable responses, operators get clear failure modes, and internal modules remain protected from invalid or overloaded external traffic.
+See `IMPLEMENTATION.md` for source mapping and `MODULE_GUIDE.md` for maintainer workflow.
