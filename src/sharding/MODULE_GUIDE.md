@@ -1,99 +1,41 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-10-19"
-Status: "active"
+Last Updated: "2026-10-30"
+Status: "review"
 AI_Used: true
-AI_Models: "MAI-Code-1.1-Flash"
-AI_Contributor: "MAI-Code-1.1-Flash"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
 Exact model backend not verifiable from final document text alone.
 
-# Sharding Module Guide
+Source level: 1
+SOT domain: module-behavior
+Canonical references: `include/sharding/sharding_api_contract.h`, `include/sharding/shard_router.h`, `src/sharding/`, `tests/sharding/CMakeLists.txt`
+Related issues: #7093, #7167
 
-## Who this module is for
+# Sharding module guide
 
-This module is for engineers working on:
+## Audience and ownership
 
-- shard placement and route selection,
-- cross-shard transaction safety,
-- topology change and migration handling,
-- health/failover logic,
-- operational diagnostics and recovery under degraded topology.
+For maintainers working on routing, cluster coordination, cross-shard transactions, WAL, or shard migration. This is a distributed correctness boundary; module contract text is in `include/sharding/sharding_api_contract.h`.
 
-## Entry points
+## Start with the change boundary
 
-Start here when working in the module:
+- Routing: `shard_router.h`, `src/sharding/shard_router.cpp`.
+- Cross-shard state: transaction/coordination headers and their implementation.
+- WAL or migration: identify its exact header and corresponding source; do not assume a router change covers it.
+- Contract regression evidence: `tests/sharding/test_sharding_contract_hardening_focused.cpp`.
 
-- `src/sharding/README.md` — module purpose and high-level scope
-- `src/sharding/ARCHITECTURE.md` — execution planes and contracts
-- `include/sharding/sharding_api_contract.h` — normative contract
-- `src/sharding/ROADMAP.md` — current status and phase plan
-- `src/sharding/FUTURE_ENHANCEMENTS.md` — future-risk items and required semantics
+## Maintainer workflow
 
-## Most relevant source files
+1. Read the relevant contract section before changing behavior.
+2. Follow the state/return path through the implementation, including timeout, unavailable-shard, and recovery cases.
+3. Preserve explicit outcomes for exhausted fallback, quorum/coordination failure, WAL corruption, and migration failure.
+4. Add focused tests and run the matching target from `tests/sharding/CMakeLists.txt`.
+5. Update `API.md` when callers observe a contract change; update `IMPLEMENTATION.md` when invariants or source mapping change.
 
-### Routing and topology
-
-- `src/sharding/consistent_hash.cpp`
-- `src/sharding/shard_router.cpp`
-- `src/sharding/adaptive_shard_router.cpp`
-- `src/sharding/locality_aware_router.cpp`
-
-### Coordination and transactions
-
-- `src/sharding/distributed_coordinator.cpp`
-- `src/sharding/cross_shard_transaction.cpp`
-- `src/sharding/two_phase_commit_coordinator.cpp`
-- `src/sharding/distributed_transaction.cpp`
-
-### Durability and recovery
-
-- `src/sharding/wal_manager.cpp`
-- `src/sharding/wal_applier.cpp`
-- `src/sharding/data_migrator.cpp`
-- `src/sharding/shard_repair_engine.cpp`
-- `src/sharding/auto_rebalancer.cpp`
-
-### Health and operations
-
-- `src/sharding/health_monitor.cpp`
-- `src/sharding/quorum_manager.cpp`
-- `src/sharding/operational_metrics.cpp`
-- `src/sharding/prometheus_metrics.cpp`
-
-## Working rules for changes
-
-1. Preserve the contractual error taxonomy in `sharding_api_contract.h`.
-2. Treat lost quorum and WAL corruption as fail-closed conditions.
-3. Do not silently route around invalid topology.
-4. Do not treat migration or rebalance as best-effort background work.
-5. Keep health and metrics explicit; do not hide degraded operation behind generic success responses.
-
-## Debugging approach
-
-When investigating a sharding issue:
-
-1. confirm the route decision and topology view,
-2. inspect transaction or coordinator state,
-3. validate WAL ordering and replay state,
-4. check the reason for health/failover transitions,
-5. confirm whether migration or repair is in progress before assuming a backend issue.
-
-## Production-readiness checklist
-
-Before shipping a change in this module, verify:
-
-- route semantics stay deterministic,
-- transaction states remain explicit,
-- quorum checks fail closed,
-- WAL replay remains ordered and verifiable,
-- migration can rollback or fail explicitly,
-- operational metrics remain useful for triage.
-
-## Summary
-
-This module is a distributed safety layer in ThemisDB. The right mental model is not simply “data partitioning,” but “explicit topology-aware correctness under distributed failure.”
+See `ARCHITECTURE.md`, `ROADMAP.md`, and `RUNBOOK.md` for broader topology and operations context.
