@@ -52,6 +52,7 @@ The test inventory evolves with CMake registration. Inspect `tests/governance/CM
 ## Related documentation
 
 - [README](README.md) · [Architecture](ARCHITECTURE.md) · [Roadmap](ROADMAP.md)
-- [API](API.md) · [Implementation](IMPLEMENTATION.md) · [Research](RESEARCH.md)
+- [API](API.md) · [Implementation](IMPLEMENTATION.md) · [Research](RESEARCH.md) · [Modeling](MODELING.md)
+- [Embedding boundary](EMBEDDING.md)
 - [Runbook](RUNBOOK.md) · [Operations](OPERATIONS.md) · [Trust](TRUST.md)
 - [Public-header index](../../include/governance/README.md)
