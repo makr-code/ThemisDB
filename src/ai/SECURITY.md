@@ -1,4 +1,18 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-30"
+Last Updated: "2026-10-30"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
 # Security - AI Module
+
+AI provenance note: Exact model backend not verifiable from final document text alone.
 
 <!-- Status: current | validated: 2026-06-01 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
@@ -9,7 +23,7 @@ Report vulnerabilities via project-level SECURITY.md.
 
 | Threat | Current Mitigation |
 |---|---|
-| oversized or malformed prompt input | local validation rejects empty and >8192-char description |
+| oversized or malformed prompt input | local validation rejects empty and >8192-byte description |
 | endpoint misuse or connectivity failures | explicit endpoint presence check, timeout bounds, transport error handling |
 | untrusted endpoint response | non-2xx rejected, JSON parse guarded, mandatory payload checks enforced |
 | sensitive log leakage | debug logging truncates prompt text |

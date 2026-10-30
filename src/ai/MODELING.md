@@ -33,7 +33,7 @@ flow is:
 The output contains generated source, tests, CMake text, manifest data,
 dependencies, and a security report. These fields are model-provided content;
 the generator's structural validation is not compilation or static analysis.
-The description must be 1–8,192 characters; each capabilities/dependencies list
+The description must be 1–8,192 bytes; each capabilities/dependencies list
 is capped at 64 unique tokens (maximum token lengths 128/256 characters).
 Default request and response size limits are 256 KiB and 8 MiB, and the default
 transport timeout is 10 seconds. Transient transport failures get at most three

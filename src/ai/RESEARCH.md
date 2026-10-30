@@ -33,7 +33,7 @@ fields. Transport failures, non-2xx responses, invalid JSON, and missing
 `implementation_code` produce errors instead of a successful partial result.
 
 The current request contract requires a non-empty description of at most 8,192
-characters; capability and dependency lists each allow at most 64 unique tokens,
+bytes; capability and dependency lists each allow at most 64 unique tokens,
 with token limits of 128 and 256 characters respectively. Defaults include a
 10-second timeout, 256 KiB serialized-request limit, and 8 MiB response limit.
 Transient transport failures are retried up to three attempts with 100/200 ms

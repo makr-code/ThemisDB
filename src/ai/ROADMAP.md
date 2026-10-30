@@ -1,4 +1,18 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-30"
+Last Updated: "2026-10-30"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
 # AI Module Roadmap
+
+AI provenance note: Exact model backend not verifiable from final document text alone.
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
 <!-- Status: current | validated: 2026-09-16 -->
@@ -95,7 +109,7 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 ## Known Issues and Limitations
 
 - Wave C C1/C2 production-runtime integration now covers `AIPluginGenerator` and `LLMAQLHandler` (`executeInfer`, `executeInferStreaming`, `executeRAG`, `executeChat`) via opt-in safety-gate and telemetry hooks.
-- Schema-level validation for all LLM output fields is enforced: code fields ≤ 1 MiB, `security_report` ≤ 64 KiB, `version` ≤ 64 chars (defaults to `0.1.0`), `manifest.description` truncated at 8192 chars, oversized `build_dependencies` entries silently dropped.
+- Schema-level validation for all LLM output fields is enforced: code fields ≤ 1 MiB, `security_report` ≤ 64 KiB, `version` ≤ 64 chars (defaults to `0.1.0`), `manifest.description` truncated at 8192 bytes, oversized `build_dependencies` entries silently dropped.
 
 ## Wave C Timeline and Dependencies
 
@@ -142,7 +156,7 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 > **Closure Date:** 2026-09-16 | **Evidence:** `src/ai/WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`
 
 ### A1: Prompt Validation Hardening
-- [x] Description length enforced (max 8 192 chars)
+- [x] Description length enforced (max 8 192 bytes)
 - [x] Token-list size limits (required_capabilities, dependencies)
 - [x] Duplicate token detection and rejection
 - [x] ASCII control-character stripping on all string fields
@@ -165,7 +179,7 @@ Production runtime exists for prompt validation, endpoint invocation, JSON mappi
 - [x] Generated code ≤ 1 MiB per field
 - [x] `security_report` ≤ 64 KiB
 - [x] `version` ≤ 64 chars (default `0.1.0`)
-- [x] `manifest.description` truncated at 8 192 chars
+- [x] `manifest.description` truncated at 8 192 bytes
 - [x] Oversized `build_dependencies` entries dropped
 
 ### A5: Fail-Closed Error Handling
