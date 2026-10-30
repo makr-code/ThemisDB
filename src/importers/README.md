@@ -1,3 +1,21 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-30"
+Last Updated: "2026-10-30"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References: "src/importers/README.md; include/importers/README.md; include/importers/importers_api_contract.h; tests/importers/test_importers_contract_hardening_focused.cpp"
+Related_Reference: "makr-code/ThemisDB#7124"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # ThemisDB Importers Module
 
 <!-- Status: Production Ready (Wave B Performance) | validated: 2026-08-14 -->
@@ -75,10 +93,11 @@ Out of scope:
 ## HuggingFace Legal Ingestion (MVP)
 
 - `init()`/`shutdown()` lifecycle for plugin boot and teardown
-- `runFullImport(...)` for snapshot ingest with canonical tables (`hf_dataset_catalog`, `legal_document`, `legal_annotation`, `training_example`, `compliance_audit`)
-- `runIncrementalUpdate(...)` for delta refresh with dirty-record tracking, idempotent upsert, checkpoint/resume
+- `runFullImport(...)` normalizes supplied `seed_rows` into in-memory catalog, document, annotation, training-example, and compliance-audit maps
+- `runIncrementalUpdate(...)` normalizes supplied `changed_rows` and tracks dirty records; its checkpoint token is in-memory, and the `resume_from_checkpoint` flag does not restore a saved source position
 - `validateQuality()` for quality/compliance gates (license, minimal content quality)
 - `exportAdaLoraJsonl(...)` for deterministic AdaLoRA JSONL output (`instruction/input/target/system` or `prompt/response`)
+- `fetchRawRows(...)` currently returns the rows supplied by the caller; this is not a live HuggingFace API connector or durable database writer
 
 ## Sourcecode Verification (Module: importers/readme)
 
@@ -106,8 +125,35 @@ Out of scope:
   - src/importers/blockchain_integrity.cpp
   - src/importers/federated_learning.cpp
   - src/importers/graphql_federation.cpp
+  - src/importers/huggingface_ingest_plugin.cpp
+  - src/importers/wikipedia_plugin.cpp
+  - src/importers/wikipedia_pipeline.cpp
+  - src/importers/wikipedia_dump_reader.cpp
+  - src/importers/wikipedia_xml_parser.cpp
+  - src/importers/wikipedia_transform.cpp
+  - src/importers/wikipedia_project_graph.cpp
+  - src/importers/wikipedia_project_vector.cpp
+  - src/importers/wikipedia_project_process.cpp
+  - src/importers/wikipedia_project_timeseries.cpp
+  - src/importers/wikipedia_checkpoint.cpp
+  - src/importers/wikipedia_validator.cpp
 - Verified behavior surfaces:
   - source import execution, schema/validation/conflict handling, audit/MDM and advanced helper integration
+  - Wikipedia XML full/delta processing, dirty-page projection rebuild and portable validation/export
+  - HuggingFace caller-supplied row normalization, validation, checkpoint token, and JSONL export behavior
 - Note:
   - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
   - historical entries remain in CHANGELOG.md
+
+
+## Developer Documentation
+
+- [Research and evaluation](./RESEARCH.md)
+- [Schema and data modeling](./MODELING.md)
+- [Embedding boundary](./EMBEDDING.md)
+- [Implementation workflow](./IMPLEMENTATION.md)
+- [Public API reference](./API.md)
+- [Developer module guide](./MODULE_GUIDE.md)
+- [Incident runbook](./RUNBOOK.md)
+- [Operations guide](./OPERATIONS.md)
+- [Trust model](./TRUST.md)
