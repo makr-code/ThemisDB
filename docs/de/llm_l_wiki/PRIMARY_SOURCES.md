@@ -1,5 +1,5 @@
 [docs](../../index.md) > [de](../index.md) > [llm_l_wiki](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-10-30  
+**Datum:** 2026-10-30
 **Status:** draft  
 **Primary (Quelle der Wahrheit):**
 - `src/llm_l_wiki/API.md`
