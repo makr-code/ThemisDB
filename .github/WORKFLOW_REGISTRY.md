@@ -32,6 +32,9 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
   `reusable-rag-phase-gate.yml` benötigt lediglich `pull-requests: read`.
 - Housekeeping und Release-Promotion brechen nur überholte PR-Läufe ab;
   manuelle Release-/Wartungsläufe bleiben gegen Abbruch geschützt.
+- Docker-Consumer, Plattform-Builder und Modell-Cache nutzen getrennte
+  Concurrency-Namensräume. AMD64 und ARM64 haben eigene Plattformgruppen;
+  Cache-Vorbereitung serialisiert unabhängig von ihren wartenden Aufrufern.
 - Der Core-Preflight erkennt lokale Action-/Workflow-Referenzen und kommentierte
   SHA-Pins korrekt; neue Policy-Verstöße werden anhand der hinzugefügten Zeilen geprüft.
 - Abgelaufene Ausführungsfreigaben benötigen eine Maintainer-Aktion. Der im

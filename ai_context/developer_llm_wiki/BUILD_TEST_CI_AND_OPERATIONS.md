@@ -40,6 +40,12 @@ guidance; use workflow sources and concrete run logs as evidence.
 - Core preflight accepts local `uses` references and inline SHA comments; new
   pinning/self-push/non-blocking-step violations are checked on added diff lines.
   Housekeeping and promotion cancel superseded PR runs without cancelling manual work.
+- Docker's consumer, platform builds and nested model cache use distinct concurrency
+  namespaces; platform groups include the target architecture. The inherited
+  `github.workflow` value alone does not distinguish caller and callee.
+  [Run 41026987740](https://github.com/makr-code/ThemisDB/actions/runs/41026987740)
+  still used the old `develop` revision and never reached an actual image build:
+  summary checkout failures and cancelled model preparation occurred first.
 - Evidence window: 2026-10-29 05:23 to 2026-10-30 05:23 UTC.
   Representative runs:
   [missing summary checkout](https://github.com/makr-code/ThemisDB/actions/runs/41003835208),

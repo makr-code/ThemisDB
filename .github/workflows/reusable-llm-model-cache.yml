@@ -51,7 +51,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: llm-model-cache-${{ github.workflow }}-${{ github.ref }}-${{ inputs.llm_model }}-${{ inputs.cache_key_suffix }}
   cancel-in-progress: false
 
 jobs:

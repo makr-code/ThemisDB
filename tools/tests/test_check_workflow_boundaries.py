@@ -292,6 +292,37 @@ def test_core_gate_delegates_issue_permissions_to_build_components():
     assert rag["permissions"]["issues"] == "write"
 
 
+def test_docker_nested_concurrency_groups_do_not_collide():
+    workflows = Path(__file__).resolve().parents[2] / ".github" / "workflows"
+    platform = yaml.safe_load((workflows / "reusable-docker-image-platform.yml").read_text(encoding="utf-8"))
+    cache = yaml.safe_load((workflows / "reusable-llm-model-cache.yml").read_text(encoding="utf-8"))
+    parent = yaml.safe_load((workflows / "release-docker-image.yml").read_text(encoding="utf-8"))
+    assert parent["jobs"]["build-platforms"]["strategy"]["matrix"]["platform"] == [
+        "linux/amd64", "linux/arm64",
+    ]
+
+    def resolve_group(workflow, target):
+        group = workflow["concurrency"]["group"]
+        for expression, value in {
+            "github.workflow": "Release: Docker Image Consumer",
+            "github.ref": "refs/heads/develop",
+            "inputs.platform": target,
+            "inputs.llm_model": "tinyllama",
+            "inputs.cache_key_suffix": "develop",
+        }.items():
+            group = group.replace("${{ " + expression + " }}", value)
+        assert "${{" not in group
+        assert workflow["concurrency"]["cancel-in-progress"] is False
+        return group
+
+    amd64 = resolve_group(platform, "linux/amd64")
+    arm64 = resolve_group(platform, "linux/arm64")
+    model = resolve_group(cache, "linux/amd64")
+    assert len({amd64, arm64, model}) == 3
+    assert model == resolve_group(cache, "linux/arm64")
+    assert not any(group.startswith("docker-image-") for group in (amd64, arm64, model))
+
+
 def test_wave4_gate_runs_benchmark_with_build_runtime_and_transfers_results():
     workflow = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "benchmark-gate.yml"
     jobs = yaml.safe_load(workflow.read_text(encoding="utf-8"))["jobs"]

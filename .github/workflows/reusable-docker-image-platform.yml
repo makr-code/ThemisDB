@@ -77,7 +77,7 @@ permissions:
   security-events: write
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: docker-platform-${{ github.workflow }}-${{ github.ref }}-${{ inputs.platform }}
   cancel-in-progress: false
 
 jobs:

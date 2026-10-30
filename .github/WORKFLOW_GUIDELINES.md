@@ -107,6 +107,13 @@ flowchart TD
 - Gemischte PR-/Wartungs-/Release-Workflows dürfen
   `cancel-in-progress: ${{ github.event_name == 'pull_request' }}` verwenden:
   PR-Synchronisierungen werden abgebrochen, manuelle Release- und Wartungsläufe nicht.
+- Verschachtelte Docker-Workflows verwenden getrennte Concurrency-Namensräume
+  (`docker-image-`, `docker-platform-`, `llm-model-cache-`); Plattformgruppen enthalten
+  zusätzlich `inputs.platform`. `github.workflow` bezeichnet auch im aufgerufenen
+  Workflow den Aufrufer und trennt verschachtelte Aufrufe daher nicht.
+  Modell-Cache-Aufrufe dürfen untereinander serialisieren, aber niemals den
+  wartenden Plattform-Aufrufer sperren. `cancel-in-progress: false` allein verhindert
+  keine Kollisionen: GitHub kann ältere wartende Aufrufe derselben Gruppe ersetzen.
 - Der Core-Preflight akzeptiert repository-lokale `uses` ohne Versionssuffix und
   SHA-Pins mit Inline-Kommentaren. Er prüft neue externe Pins, Self-Push-Kommandos
   und `continue-on-error: true` auf hinzugefügten Diff-Zeilen, statt unveränderte
