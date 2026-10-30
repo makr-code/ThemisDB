@@ -71,6 +71,15 @@ Use this module documentation to:
 
 ## References
 
+- [Research and reproducibility](./RESEARCH.md)
+- [Modeling assumptions and metrics](./MODELING.md)
+- [Embedding evaluation](./EMBEDDING.md)
+- [Implementation guide](./IMPLEMENTATION.md)
+- [API contracts](./API.md)
+- [Developer module guide](./MODULE_GUIDE.md)
+- [Runbook](./RUNBOOK.md)
+- [Operations](./OPERATIONS.md)
+- [Trust model](./TRUST.md)
 - `docs/IMPLEMENTATION_ROADMAP.md`
 - `docs/EPIC2_ARCHITECTURE.md`
 - `docs/EPIC1_2_3_DEPENDENCIES.md`
