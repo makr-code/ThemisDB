@@ -26,6 +26,7 @@ namespace access_model {
 // § 1  Trace Context Tests
 // ============================================================================
 
+/** @brief Tests thread-local trace-context lifecycle and isolation. */
 class TraceContextTest : public ::testing::Test {
 protected:
     void SetUp() override {
@@ -111,6 +112,7 @@ TEST_F(TraceContextTest, ThreadLocalIsolation) {
 // § 2  Structured Logging Tests
 // ============================================================================
 
+/** @brief Tests structured access-model log record construction. */
 class LoggingTest : public ::testing::Test {
 protected:
     void SetUp() override {
@@ -193,6 +195,7 @@ TEST_F(LoggingTest, LogCoordinatorLifecycle) {
 // § 3  Integration Tests
 // ============================================================================
 
+/** @brief Tests correlation propagation across logging scopes. */
 class ObservabilityIntegrationTest : public ::testing::Test {
 protected:
     void SetUp() override {

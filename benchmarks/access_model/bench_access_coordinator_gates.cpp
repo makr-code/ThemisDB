@@ -57,6 +57,14 @@ constexpr double kPolicyDecisionOverheadUs = 10.0;   // GATE-ACM-06
 // Regression tolerance (±10%)
 constexpr double kRegressionTolerancePct = 10.0;
 
+/**
+ * @brief Print a diagnostic when a measured benchmark violates its target.
+ * @param[in] gate_name Stable gate identifier used in the diagnostic.
+ * @param[in] measured Observed value in the unit named by unit.
+ * @param[in] target Configured minimum or maximum target.
+ * @param[in] unit Unit label printed with measured and target values.
+ * @param[in] is_minimum True when measured must be at least target.
+ */
 inline void reportViolation(const char* gate_name, double measured,
                            double target, const char* unit, bool is_minimum) {
     double delta = measured - target;
@@ -87,6 +95,7 @@ inline void reportViolation(const char* gate_name, double measured,
 // § 2  Mock Access Tier for Benchmarking
 // ============================================================================
 
+/** @brief Lightweight tier adapter exposing configurable capacity for benchmarks. */
 class BenchmarkAccessTier : public AccessTier {
  public:
     TierGetResult get(std::string_view, const TierAccessOptions&) override {
@@ -151,9 +160,18 @@ class BenchmarkAccessTier : public AccessTier {
 
     bool isHealthy() const override { return true; }
 
+    /**
+     * @brief Create a benchmark tier with a fixed identity and capacity.
+     * @param[in] level Tier identity reported to the coordinator.
+     * @param[in] capacity Maximum capacity reported by the adapter.
+     */
     explicit BenchmarkAccessTier(TierLevel level, std::size_t capacity)
         : tier_level_(level), max_capacity_(capacity), current_size_(0) {}
 
+    /**
+     * @brief Set the mock tier's current storage usage.
+     * @param[in] size Current usage in bytes.
+     */
     void setCurrentSize(std::size_t size) { current_size_.store(size); }
 
  private:
@@ -166,6 +184,7 @@ class BenchmarkAccessTier : public AccessTier {
 // § 3  Benchmark Fixture
 // ============================================================================
 
+/** @brief Shared setup for access-coordinator performance-gate cases. */
 class BenchAccessCoordinator : public benchmark::Fixture {
  protected:
     void SetUp(const benchmark::State& state) override {

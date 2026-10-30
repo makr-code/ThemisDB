@@ -1,12 +1,22 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-09-21"
+Last Updated: "2026-10-30"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
 # Access Model Module - Production Requirements
 
-<!-- Status: current | validated: 2026-09-21 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · SECURITY.md -->
+## Purpose and scope
 
-## Purpose and Scope
-
-This document defines the **canonical production readiness requirements** for the access_model module.
-It covers the `AccessCoordinator`, `AgeBasedPolicy`, `AccessMetrics`, and tier-transition infrastructure.
+This document states production requirements for the access_model module. A
+requirement is not evidence that the implementation already satisfies it.
+Current implementation limits are called out explicitly below.
 
 ## Document Boundary (Canonical Split)
 
@@ -22,40 +32,54 @@ It covers the `AccessCoordinator`, `AgeBasedPolicy`, `AccessMetrics`, and tier-t
   sufficient for all deployment profiles — set based on expected event throughput.
 - **MUST:** Age-based policy thresholds explicitly configured at startup; default values are
   reference values only and must be tuned for the deployment's tier sizes and access patterns.
-- **MUST:** All tier registrations validated at coordinator initialization; missing or misconfigured
-  tier references must cause fail-closed startup behavior.
-- **MUST NOT:** Disable correlation-ID emission or structured logging in production deployments;
-  these are required for incident diagnostics.
-- **MUST NOT:** Run coordinator with an unbounded event queue in production; set explicit
-  `max_queue_depth` to prevent unbounded memory growth.
-- **MUST:** Metrics endpoint (Prometheus-compatible) must be reachable for SLO monitoring.
+- **MUST:** Check the boolean result from `initialize()`; it validates non-null,
+  healthy, correctly identified adapters and requires both cache and storage
+  tiers. Adapter initialization and lifetime remain the application's duty.
+- **MUST:** Handle `std::invalid_argument` from invalid policy/threshold updates.
+- **MUST:** Verify production adapter `get`/`put`/`invalidate` behavior and
+  reconcile partial demotions. Destination write precedes source invalidation;
+  invalidation failure may leave both copies.
+- **MUST:** Export and monitor `AccessModelMetrics` through the embedding
+  application. This module does not provide a Prometheus endpoint; per-key
+  counters retain at most 10,000 touched keys, per-tier counters are retained
+  for registered tiers, and aggregate metrics expose current/maximum queue depth.
+- **MUST:** Choose an explicit queue limit appropriate to the deployment. The
+  pending task queue and demotion-plan registry are bounded; rejected callback
+  work is reported through failure counters/history, while `promoteAsync()`
+  returns an immediately completed failure future.
+- **MUST:** Restrict logs and redact keys before external sharing; structured
+  access-model log entries include keys.
 
-## Mandatory Security Requirements
+## Ownership and security assumptions
 
-- Tier transitions are logged with correlation IDs; audit trail must be preserved.
-- Errors in tier-transition paths propagate as explicit error codes; no silent-permit fallback.
-- Coordinator must not promote data to a higher-trust tier without a valid promotion event.
-- Thread-pool lifecycle (init/shutdown) must be deterministic; no dangling worker threads.
+- The application owns authorization, tenant isolation, adapter initialization,
+  telemetry export, and deployment rollback.
+- Cache/storage adapters and their listener pointers must remain valid while
+  callbacks can occur.
 
 ## Operational Bounds
 
 - Configuration values must be deployment-specific; default values are not production-safe.
-- Resource limits (thread pool size, queue depth, tier sizes) must match deployment requirements.
-- External tier dependencies (cache/storage backends) must be initialized before coordinator
-  `initialize()` is called; late-binding tiers are not supported.
-- Coordinator `shutdown()` must be called before process exit; in-flight promotions complete
-  or are aborted deterministically.
+- Resource limits and event ingress must match deployment requirements; the
+  default queue capacity is a safety bound, not a workload-sizing recommendation.
+- Stop event producers/unregister listener pointers before calling `shutdown()`;
+  shutdown drains accepted work and can wait indefinitely for a blocked adapter.
 
 ## Minimum Production Check (Audit-ready)
 
 - [ ] Thread pool size explicitly configured (not default-only)
 - [ ] Age-based policy thresholds explicitly configured
-- [ ] All tier references validated at startup
-- [ ] Event queue depth bounded (`max_queue_depth` set)
-- [ ] Correlation-ID emission and structured logging active
-- [ ] Metrics endpoint reachable for SLO monitoring
-- [ ] Coordinator `shutdown()` called on process exit
-- [ ] Production mode indicated via `THEMIS_PRODUCTION_MODE` or `THEMIS_ENVIRONMENT`
+- [ ] `initialize()` result checked and adapter initialization/lifetime verified
+- [ ] Invalid policy updates handled as `std::invalid_argument`
+- [ ] Real tier transfer, partial-demotion recovery, and backend errors verified by adapter tests
+- [ ] Queue limit sized; rejection and shutdown-drain behavior monitored
+- [ ] Telemetry exported by the application and compared with backend state
+- [ ] Log access restricted and sensitive keys redacted for external reports
+- [ ] Listener ownership and shutdown order tested
+- [ ] Mapped release benchmarks run on representative hardware with artifacts
+
+Do not mark this module production-ready on the basis of interface or benchmark
+scaffolding alone while unmet implementation requirements remain.
 
 ## Review / Sourcecode Audit Evidence
 
@@ -71,3 +95,7 @@ It covers the `AccessCoordinator`, `AgeBasedPolicy`, `AccessMetrics`, and tier-t
 - `src/access_model/access_model_logging.cpp`
 - `include/access_model/access_model_trace.h`
 - `src/access_model/access_model_trace.cpp`
+
+---
+
+**AI provenance:** Exact model backend not verifiable from final document text alone.

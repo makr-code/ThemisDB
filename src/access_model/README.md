@@ -1,14 +1,38 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-08-03"
+Last Updated: "2026-10-30"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
 # Access Model Module
 
 **Version:** 1.0.0  
-**Status:** 🟡 ALPHA (Phase 1 API Definition)  
-**Validated:** 2026-08-03
+**Status:** Active; see [`ROADMAP.md`](./ROADMAP.md) for program status and [`IMPLEMENTATION.md`](./IMPLEMENTATION.md) for source-verified limits
+**Validated:** 2026-10-30
 
 ---
 
-## Overview
+## Zweck
 
-The `access_model` module provides unified access tier abstraction and coordination between cache and storage layers in ThemisDB.
+The `access_model` module coordinates data movement between cache and storage
+tiers through a common adapter contract. It owns transition scheduling and
+policy decisions; adapter implementations and their underlying persistence
+remain owned by the embedding cache/storage modules.
+
+## Scope
+
+- **In scope:** tier registration and validation, promotion/demotion requests,
+  bounded background work, policy thresholds, transition metrics and recent
+  transition history.
+- **Out of scope:** adapter construction or persistence, atomic transactions
+  across independent tiers, automatic retries, and application-specific
+  listener lifecycle.
 
 ### Key Components
 
@@ -26,35 +50,52 @@ The `access_model` module provides unified access tier abstraction and coordinat
 
 1. **Single Responsibility:** Cache manages memory; Storage manages persistence; Coordinator manages transitions
 2. **Dependency Inversion:** Both layers use abstract `AccessTier` interface
-3. **Backward Compatible:** Opt-in via feature flag; existing APIs unchanged
-4. **Observable:** All transitions logged with correlation IDs
+3. **Backward Compatible:** Integration is opt-in through listener registration; existing cache/storage APIs remain unchanged
+4. **Observable:** Coordinator decisions and transitions are logged with correlation IDs where the event path emits a record
 5. **Testable:** Mock coordinator for unit tests; deterministic integration tests
 
 ---
 
 ## Architecture
 
+## Integrationsueberblick
+
+```mermaid
+flowchart LR
+    Cache["Cache tiers"] -->|eviction event| Coordinator["AccessCoordinator"]
+    Storage["Storage tiers"] -->|hot-access event| Coordinator
+    Coordinator -->|bounded work| Source["Source AccessTier"]
+    Source -->|get key| Coordinator
+    Coordinator -->|put value| Destination["Destination AccessTier"]
+    Coordinator -->|metrics and transition history| Telemetry["Observers"]
 ```
-┌─────────────────────────────────────────────────┐
-│  AccessCoordinator (Broker)                     │
-│  • Listens to cache eviction signals            │
-│  • Listens to storage access patterns           │
-│  • Orchestrates promotion/demotion workers      │
-│  • Applies unified age-based policies           │
-│  • Tracks metrics & correlation IDs             │
-└────────┬──────────────────────┬─────────────────┘
-         │                      │
-    ┌────▼──────┐          ┌────▼─────────┐
-    │Cache Tiers│          │StorageTiers  │
-    │L1/L2/L3   │          │Hot/Warm/Cold │
-    │Implement  │          │Implement     │
-    │AccessTier │          │AccessTier    │
-    └───────────┘          └──────────────┘
+
+Kurzinterpretation: Cache and storage adapters emit events to the coordinator.
+For accepted transitions, the coordinator reads from the source and writes to
+the destination; adapter ownership and persistence are unchanged.
+
+## Quickstart (Build/Run)
+
+Configure with the repository's existing CMake setup and tests enabled, then
+build and run a focused coordinator test:
+
+```bash
+cmake -S . -B build -DTHEMIS_BUILD_TESTS=ON
+cmake --build build --target module_access_model_test_access_coordinator_focused
+ctest --test-dir build -R 'module_access_model_test_access_coordinator_focused' --output-on-failure
 ```
+
+The application must construct and initialize the coordinator with healthy
+cache and storage adapters before starting workers. See
+[`IMPLEMENTATION.md`](./IMPLEMENTATION.md) for lifecycle and adapter contracts.
 
 ---
 
-## Usage
+## API/CLI Einstieg
+
+There is no module-specific CLI. The public C++ entry points are declared in
+`include/access_model/access_coordinator.h`; tier adapters implement
+`include/access_model/access_tier_interface.h`.
 
 ### 1. Initialize the Coordinator
 
@@ -88,24 +129,41 @@ policy.l1_promotion_threshold = 10;
 coordinator->setAgePolicy(policy);
 ```
 
-### 3. Register Listeners
+### 3. Start and Register Listeners
 
 ```cpp
+coordinator->start();
+
 // Cache tier notifies on eviction
-cache_l1->registerEvictionListener(coordinator.get());
+cache_l1->setEvictionListener(coordinator.get());
 
 // Storage tier notifies on hot access
-storage_hot->registerPromotionListener(coordinator.get());
+storage_hot->setPromotionListener(coordinator.get());
 ```
 
 ### 4. Initiate Promotion (Optional)
 
 ```cpp
-auto result = coordinator->promoteAsync("key_abc", 
-                                       TierLevel::STORAGE_COLD,
-                                       TierLevel::L3_SEMANTIC,
-                                       {.max_wait_ms = 100ms});
+auto result = coordinator->promoteAsync("key_abc",
+                                        TierLevel::STORAGE_COLD,
+                                        TierLevel::L3_SEMANTIC,
+                                        4096).get();
 ```
+
+Promotion reads the source and writes the destination while retaining the
+source. Check `result.success` and `result.error_message`; adapter-level
+verification remains necessary.
+
+## Known Limitations
+
+- Separate tier adapters do not participate in an atomic transaction. A failed
+  source invalidation after a successful destination write can leave duplicate
+  copies and reports the demotion as failed.
+- Queue admission is bounded, but a blocked adapter call can delay shutdown.
+  Event listener callbacks are `void`; queue rejection is visible through
+  coordinator metrics/history rather than a callback return value.
+- Per-key counters and transition history are bounded and are not durable audit
+  records. See [`TRUST.md`](./TRUST.md) and [`OPERATIONS.md`](./OPERATIONS.md).
 
 ---
 
@@ -114,64 +172,39 @@ auto result = coordinator->promoteAsync("key_abc",
 ### Metrics
 
 ```cpp
-// Get key-specific metrics
+// Per-key metrics are retained for up to 10,000 recently touched keys.
 auto key_metrics = coordinator->getKeyMetrics("key_abc");
-// → current_tier: L2_EPISODIC
-// → total_accesses: 42
-// → promotion_path: [COLD, WARM, L3, L2]
 
-// Get tier-specific metrics
+// Get aggregate coordinator metrics
 auto tier_metrics = coordinator->getTierMetrics(TierLevel::L1_WORKING);
-// → hit_rate: 0.92
-// → avg_get_latency: 500ns
-// → current_size_bytes: 50MB
-
-// Get coordinator-level metrics
 auto model_metrics = coordinator->getAccessModelMetrics();
-// → promotions_succeeded: 1520
-// → coordinator_overhead_percent: 2.3
 ```
 
 ### Structured Logging
 
-All transitions logged with correlation ID:
+Structured coordinator log records include correlation IDs where emitted.
+Logging is best-effort; do not treat it as a durable audit record:
 
-```json
-{
-  "timestamp": "2026-08-03T09:18:54Z",
-  "correlation_id": "acm-promo-a1b2c3d4",
-  "event": "promotion_complete",
-  "key": "query_result_x",
-  "from_tier": "STORAGE_COLD",
-  "to_tier": "L3_SEMANTIC",
-  "latency_ms": 45,
-  "reason": "storage_hot_access"
-}
+```text
+access_model::tier_transition | key=query_result_x | from=STORAGE_COLD |
+to=L3_SEMANTIC | reason=explicit_promotion | latency_ms=0 | status=SUCCESS |
+correlation_id=promo-task-1 | thread_id=...
 ```
 
 ---
 
 ## Configuration
 
-### CMake Feature Flag
+### Build integration
 
-```cmake
-option(THEMISDB_ACCESS_COORDINATOR_ENABLED 
-       "Enable unified access model coordinator" ON)
-```
+The module source is registered in the core build and its local CMake file
+defines a standalone `themis_access_model` target when needed. The module does
+not define a CMake or runtime feature-flag option; integration is enabled by
+constructing the coordinator and registering its listeners.
 
-### Runtime Config
-
-```ini
-[access_model]
-enabled = true
-coordinator_thread_pool_size = 4
-
-[age_based_policy]
-hot_to_warm_days = 30
-warm_to_cold_days = 90
-l1_promotion_threshold = 10
-```
+The module does not parse a runtime configuration file. Map application
+settings to `createAccessCoordinator(thread_pool_size)` and the
+`AgeBasedPolicy` fields before starting the coordinator.
 
 ---
 
@@ -202,7 +235,7 @@ ctest -R "test_access_model_e2e" -V
 
 ---
 
-## See Also
+## Verweise
 
 - [`ARCHITECTURE.md`](./ARCHITECTURE.md) — Component and data-flow details
 - [`ROADMAP.md`](./ROADMAP.md) — Delivery phases and readiness checklist
@@ -213,6 +246,7 @@ ctest -R "test_access_model_e2e" -V
 - [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md) — Benchmark gates
 - [`PRODUCTION_REQUIREMENTS.md`](./PRODUCTION_REQUIREMENTS.md) — Production readiness requirements
 - [`MODULE_GAPS.md`](./MODULE_GAPS.md) — Open gap tracking
+- [`MODULE_GUIDE.md`](./MODULE_GUIDE.md) — Integration and developer-document map
 - [`docs/architecture/UNIFIED_ACCESS_MODEL.md`](../../docs/architecture/UNIFIED_ACCESS_MODEL.md) — Architectural overview
 - [`docs/architecture/CACHE_STORAGE_INTEGRATION.md`](../../docs/architecture/CACHE_STORAGE_INTEGRATION.md) — Integration patterns
 - [`src/cache/ROADMAP.md`](../cache/ROADMAP.md) — Cache module roadmap
@@ -222,12 +256,9 @@ ctest -R "test_access_model_e2e" -V
 
 ## Roadmap
 
-- **Phase 1:** Architecture & interfaces (DONE)
-- **Phase 2:** Core coordinator implementation (IN PROGRESS)
-- **Phase 3:** Cache module integration (PLANNED)
-- **Phase 4:** Storage module integration (PLANNED)
-- **Phase 5:** Observability & diagnostics (PLANNED)
-- **Phase 6:** Tests & release gates (PLANNED)
+The canonical phase status, open hardware evidence, and release dependencies
+are maintained in [`ROADMAP.md`](./ROADMAP.md). Do not use this summary to
+override that source of truth.
 
 ---
 
@@ -236,3 +267,6 @@ ctest -R "test_access_model_e2e" -V
 - Copilot (Initial implementation)
 - Community (Contributions welcome)
 
+---
+
+**AI provenance:** Exact model backend not verifiable from final document text alone.

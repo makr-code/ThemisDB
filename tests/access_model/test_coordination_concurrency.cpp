@@ -36,6 +36,7 @@ namespace access_model {
 // § 1  Mock Tier & Thread-Safe Counter
 // ============================================================================
 
+/** @brief Mock tier adapter for concurrent coordinator callback tests. */
 class MockAccessTier : public AccessTier {
  public:
     MOCK_METHOD(TierGetResult, get, (std::string_view, const TierAccessOptions&),
@@ -63,6 +64,7 @@ class MockAccessTier : public AccessTier {
     MOCK_METHOD(bool, isHealthy, (), (const, override));
 };
 
+/** @brief Fixture for concurrent queue, event, metrics, and lifecycle checks. */
 class AccessCoordinatorConcurrencyTest : public ::testing::Test {
  protected:
     void SetUp() override {
@@ -87,6 +89,11 @@ class AccessCoordinatorConcurrencyTest : public ::testing::Test {
             .WillByDefault(testing::Return(TierLevel::STORAGE_WARM));
         ON_CALL(*cold_storage_, getTierLevel)
             .WillByDefault(testing::Return(TierLevel::STORAGE_COLD));
+        ON_CALL(*l1_tier_, isHealthy).WillByDefault(testing::Return(true));
+        ON_CALL(*l2_tier_, isHealthy).WillByDefault(testing::Return(true));
+        ON_CALL(*l3_tier_, isHealthy).WillByDefault(testing::Return(true));
+        ON_CALL(*warm_storage_, isHealthy).WillByDefault(testing::Return(true));
+        ON_CALL(*cold_storage_, isHealthy).WillByDefault(testing::Return(true));
 
         // Set up capacities for all tiers
         ON_CALL(*l1_tier_, getCurrentSizeBytes).WillByDefault(testing::Return(0));

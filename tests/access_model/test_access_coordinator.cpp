@@ -13,6 +13,9 @@
 
 #include <map>
 #include <memory>
+#include <mutex>
+#include <stdexcept>
+#include <unordered_map>
 #include <vector>
 
 #include "access_model/access_coordinator.h"
@@ -28,33 +31,56 @@ namespace access_model {
 // § 1  TestAccessTier — minimal deterministic AccessTier for coordinator tests
 // ============================================================================
 
+/** @brief Thread-safe in-memory tier used to exercise real coordinator transfers. */
 class TestAccessTier : public AccessTier {
  public:
+    /**
+     * @brief Create a stateful test tier with a fixed identity.
+     * @param[in] level Tier identity reported to the coordinator.
+     * @param[in] name Human-readable name returned by getTierName().
+     */
     explicit TestAccessTier(TierLevel level, std::string name)
         : level_(level), name_(std::move(name)) {}
 
-    TierGetResult get(std::string_view, const TierAccessOptions&) override {
+    TierGetResult get(std::string_view key, const TierAccessOptions&) override {
+        std::lock_guard<std::mutex> lock(mutex_);
         TierGetResult result;
-        result.success = false;
+        const auto it = values_.find(std::string(key));
+        result.success = it != values_.end();
         result.current_tier = level_;
+        if (result.success) {
+            result.value = it->second;
+            result.size_bytes = result.value.size();
+        } else {
+            result.error_message = "key not found";
+        }
         result.latency_us = std::chrono::microseconds(0);
         result.age_secs = std::chrono::seconds(0);
         return result;
     }
 
-    TierPutResult put(std::string_view, std::string_view,
+    TierPutResult put(std::string_view key, std::string_view value,
                       const TierAccessOptions&) override {
+        std::lock_guard<std::mutex> lock(mutex_);
+        values_[std::string(key)] = std::string(value);
         TierPutResult result;
         result.success = true;
         result.placed_in_tier = level_;
+        result.size_bytes = value.size();
         result.latency_us = std::chrono::microseconds(0);
         return result;
     }
 
-    bool invalidate(std::string_view) override { return true; }
+    bool invalidate(std::string_view key) override {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return values_.erase(std::string(key)) != 0;
+    }
     TierLevel getTierLevel() const override { return level_; }
     std::string getTierName() const override { return name_; }
-    bool hasKey(std::string_view) const override { return false; }
+    bool hasKey(std::string_view key) const override {
+        std::lock_guard<std::mutex> lock(mutex_);
+        return values_.count(std::string(key)) != 0;
+    }
     std::size_t getCurrentSizeBytes() const override { return 0; }
     std::size_t getMaxCapacityBytes() const override { return kMaxTierCapacity; }
     std::size_t getEntryCount() const override { return 0; }
@@ -71,17 +97,26 @@ class TestAccessTier : public AccessTier {
     }
     bool initialize() override { return true; }
     void shutdown() override {}
-    bool isHealthy() const override { return true; }
+    bool isHealthy() const override { return healthy_; }
+    void setHealthy(bool healthy) { healthy_ = healthy; }
+    void seed(std::string key, std::string value) {
+        std::lock_guard<std::mutex> lock(mutex_);
+        values_[std::move(key)] = std::move(value);
+    }
 
  private:
     TierLevel level_;
     std::string name_;
+    bool healthy_ = true;
+    mutable std::mutex mutex_;
+    std::unordered_map<std::string, std::string> values_;
 };
 
 // ============================================================================
 // § 2  Test Fixture
 // ============================================================================
 
+/** @brief Shared fixture with one stateful adapter for each access-model tier. */
 class AccessCoordinatorTest : public ::testing::Test {
  protected:
     void SetUp() override {
@@ -101,6 +136,10 @@ class AccessCoordinatorTest : public ::testing::Test {
         }
     }
 
+    /**
+     * @brief Return the fixture's cache and storage adapter registry.
+     * @return A tier-level-keyed map containing healthy test adapters.
+     */
     std::map<TierLevel, std::shared_ptr<AccessTier>> allTiers() {
         return {
             {TierLevel::L1_WORKING, l1_},
@@ -134,10 +173,26 @@ TEST_F(AccessCoordinatorTest, ACM_01_InitializeWithTiers) {
     EXPECT_FALSE(coordinator_->isRunning());
 }
 
-// ACM-02: Initialize with empty tier map succeeds
+// ACM-02: Initialize rejects an empty tier map
 TEST_F(AccessCoordinatorTest, ACM_02_InitializeEmptyTiers) {
     std::map<TierLevel, std::shared_ptr<AccessTier>> empty_tiers;
-    EXPECT_TRUE(coordinator_->initialize(empty_tiers));
+    EXPECT_FALSE(coordinator_->initialize(empty_tiers));
+    EXPECT_THROW(coordinator_->start(), std::logic_error);
+}
+
+TEST_F(AccessCoordinatorTest, ACM_02_InitializeRejectsNullAndUnhealthyTiers) {
+    auto invalid_tiers = allTiers();
+    invalid_tiers[TierLevel::STORAGE_COLD] = nullptr;
+    EXPECT_FALSE(coordinator_->initialize(invalid_tiers));
+
+    cold_->setHealthy(false);
+    EXPECT_FALSE(coordinator_->initialize(allTiers()));
+}
+
+TEST_F(AccessCoordinatorTest, ACM_02_InitializeRejectsMismatchedTierIdentity) {
+    auto invalid_tiers = allTiers();
+    invalid_tiers[TierLevel::STORAGE_COLD] = warm_;
+    EXPECT_FALSE(coordinator_->initialize(invalid_tiers));
 }
 
 // ACM-03: Set age-based policy
@@ -262,6 +317,7 @@ TEST_F(AccessCoordinatorTest, ACM_07_OnHotAccessColdTierPromotesToWarm) {
 TEST_F(AccessCoordinatorTest, ACM_08_PromoteAsyncReturnsCorrectTiers) {
     coordinator_->initialize(allTiers());
     coordinator_->start();
+    cold_->seed("promo_key", "promoted-value");
 
     auto future = coordinator_->promoteAsync(
         "promo_key", TierLevel::STORAGE_COLD, TierLevel::L3_SEMANTIC,
@@ -271,6 +327,10 @@ TEST_F(AccessCoordinatorTest, ACM_08_PromoteAsyncReturnsCorrectTiers) {
     auto result = future.get();  // Blocks until promotion completes or errors
     EXPECT_EQ(result.from_tier, TierLevel::STORAGE_COLD);
     EXPECT_EQ(result.to_tier, TierLevel::L3_SEMANTIC);
+    EXPECT_TRUE(result.success);
+    EXPECT_EQ(result.size_bytes, std::string("promoted-value").size());
+    EXPECT_TRUE(cold_->hasKey("promo_key"));
+    EXPECT_TRUE(l3_->hasKey("promo_key"));
 }
 
 // ACM-09: promoteAsync on non-running coordinator returns immediate failure
@@ -307,6 +367,7 @@ TEST_F(AccessCoordinatorTest, ACM_10_PlanDemotionReturnsValidPlan) {
 // ACM-11: executeDemotion with valid plan_id succeeds
 TEST_F(AccessCoordinatorTest, ACM_11_ExecuteDemotionValidPlan) {
     coordinator_->initialize(allTiers());
+    l1_->seed("demotion_key", "demoted-value");
 
     auto plan = coordinator_->planDemotion(
         "demotion_key", TierLevel::L1_WORKING, TierLevel::L2_EPISODIC, 2048);
@@ -316,6 +377,8 @@ TEST_F(AccessCoordinatorTest, ACM_11_ExecuteDemotionValidPlan) {
     auto result = coordinator_->executeDemotion(plan->plan_id);
     ASSERT_TRUE(result.has_value());
     EXPECT_TRUE(result->success);
+    EXPECT_FALSE(l1_->hasKey("demotion_key"));
+    EXPECT_TRUE(l2_->hasKey("demotion_key"));
     EXPECT_EQ(result->from_tier, TierLevel::L1_WORKING);
     EXPECT_EQ(result->to_tier, TierLevel::L2_EPISODIC);
 }
@@ -326,12 +389,27 @@ TEST_F(AccessCoordinatorTest, ACM_12_ExecuteDemotionUnknownPlan) {
     EXPECT_FALSE(result.has_value());
 }
 
+TEST_F(AccessCoordinatorTest, ACM_12_ExecuteDemotionReportsMissingSource) {
+    ASSERT_TRUE(coordinator_->initialize(allTiers()));
+    const auto plan = coordinator_->planDemotion(
+        "missing_source", TierLevel::L1_WORKING, TierLevel::L2_EPISODIC, 128);
+    ASSERT_TRUE(plan.has_value());
+
+    const auto result = coordinator_->executeDemotion(plan->plan_id);
+    ASSERT_TRUE(result.has_value());
+    EXPECT_FALSE(result->success);
+    EXPECT_FALSE(result->error_message.empty());
+    EXPECT_FALSE(l2_->hasKey("missing_source"));
+    EXPECT_EQ(coordinator_->getAccessModelMetrics().counters.demotions_failed, 1);
+}
+
 // ============================================================================
 // § 8  Metrics & Observability
 // ============================================================================
 
 // ACM-13: getAccessModelMetrics returns non-negative counters
 TEST_F(AccessCoordinatorTest, ACM_13_GetMetricsReturnsSaneValues) {
+    coordinator_->initialize(allTiers());
     coordinator_->start();
 
     auto metrics = coordinator_->getAccessModelMetrics();

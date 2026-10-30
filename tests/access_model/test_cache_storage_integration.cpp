@@ -44,6 +44,7 @@ namespace test {
 // Mock EvictionListener
 // ============================================================================
 
+/** @brief Captures cache eviction callbacks in integration tests. */
 class MockEvictionListener : public EvictionListener {
 public:
     MOCK_METHOD(void, onCacheEvicted,
@@ -57,6 +58,7 @@ public:
 // Mock PromotionListener
 // ============================================================================
 
+/** @brief Captures storage hot-access callbacks in integration tests. */
 class MockPromotionListener : public PromotionListener {
 public:
     MOCK_METHOD(void, onStorageAccess,
@@ -69,6 +71,7 @@ public:
 // Mock AccessTier (for coordinator-level integration tests)
 // ============================================================================
 
+/** @brief Mock tier adapter for coordinator-facing integration cases. */
 class MockAccessTier : public AccessTier {
 public:
     MOCK_METHOD(TierGetResult, get,
@@ -97,6 +100,7 @@ public:
 // Test Fixtures
 // ============================================================================
 
+/** @brief Fixture for cache/storage notification wiring tests. */
 class CacheStorageIntegrationTest : public ::testing::Test {
 protected:
     void SetUp() override {
