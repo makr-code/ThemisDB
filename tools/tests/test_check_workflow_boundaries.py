@@ -334,8 +334,12 @@ def test_coverage_installs_real_test_and_storage_dependencies():
         ("steps:\n      - uses: vendor/action@v1", True, 1),
         ("steps:\n      - uses: vendor/action@v1", False, 0),
         ("steps:\n      - run: |\n          git push origin HEAD", True, 1),
+        ("steps:\n      - run: git push origin HEAD", True, 1),
+        ('steps:\n      - run: "git push origin HEAD"', True, 1),
+        ("steps:\n      - run: 'git push origin HEAD'", True, 1),
         ("steps:\n      - run: |\n          git push origin HEAD", False, 0),
         ("steps:\n      - run: echo check\n        continue-on-error: true", True, 1),
+        ("steps:\n      - continue-on-error: true\n        run: echo check", True, 1),
         ("steps:\n      - run: echo check\n        continue-on-error: true", False, 0),
     ],
 )

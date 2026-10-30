@@ -156,9 +156,10 @@ jobs:
                           errors.append(f"{wf}: third-party action must be pinned to full SHA: {spec}")
                   if s not in added_lines:
                       continue
-                  if re.search(r'(^|[;&|]\s*)git\s+push\b', s):
+                  command_line = re.sub(r'^(?:-\s+)?run:\s*["\']?', '', s)
+                  if re.search(r'(^|[;&|]\s*)git\s+push\b', command_line):
                       errors.append(f"{wf}: self-mutating git push is not allowed")
-                  if re.fullmatch(r'continue-on-error:\s*true(?:\s+#.*)?', s):
+                  if re.fullmatch(r'(?:-\s+)?continue-on-error:\s*true(?:\s+#.*)?', s):
                       errors.append(f"{wf}: replace continue-on-error with explicit non-blocking job classification")
 
           if errors:
