@@ -50,6 +50,15 @@ guidance; use workflow sources and concrete run logs as evidence.
   then exposed Docker export rejecting attestation manifest lists with `--load`.
   Registry publications retain provenance/SBOM; local exports omit those unsupported
   attestations. Platform builds select native AMD64/ARM64 runners.
+- COMMUNITY Docker builds keep fmt and spdlog together in Ubuntu's
+  `libfmt-dev`/`libspdlog-dev` packages. Do not add a standalone vcpkg fmt
+  dependency to `docker/vcpkg-community.json`: CMake prefers that fmt over the
+  system package, but Ubuntu's compiled spdlog uses the system fmt ABI.
+  [ARM64 job 123993876135](https://github.com/makr-code/ThemisDB/actions/runs/41034175988/job/123993876135)
+  failed linking `themis_server` with vcpkg fmt v11 and Ubuntu spdlog 1.12.
+  The manifest now leaves both libraries to apt; the provider regression check
+  is in `tests/test_docker_runtime_package_regressions.py`. A successful full
+  ARM64 image build still requires CI verification.
 - Follow-up PR evidence exposed separate cache/permission defects: RAG phases 7–10
   need PR-write permission in both caller and callee for labels/comments, even when
   compilation passed. The reusable CMake build no longer registers an unprepared

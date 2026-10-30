@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import json
 import re
 import unittest
 from pathlib import Path
@@ -33,9 +34,9 @@ LEGACY_UBUNTU_2204_RUNTIME_PACKAGE_TOKENS = frozenset(
 )
 
 
-def extract_stage(text: str, stage_name: str) -> str:
+def extract_stage(text: str, stage_name: str, base_image: str = "ubuntu:24.04") -> str:
     match = re.search(
-        rf"^FROM ubuntu:24\.04 AS {re.escape(stage_name)}\n(?P<body>.*?)(?=^FROM |\Z)",
+        rf"^FROM {re.escape(base_image)} AS {re.escape(stage_name)}\n(?P<body>.*?)(?=^FROM |\Z)",
         text,
         re.MULTILINE | re.DOTALL,
     )
@@ -84,6 +85,24 @@ class DockerRuntimePackageRegressionTests(unittest.TestCase):
     @staticmethod
     def _dockerfile_text() -> str:
         return DOCKERFILE.read_text(encoding="utf-8")
+
+    def test_community_logging_dependencies_use_system_packages(self) -> None:
+        deps_packages = extract_installed_packages(
+            extract_stage(self._dockerfile_text(), "deps", base_image="base"), "deps"
+        )
+        manifest = json.loads(
+            (REPO_ROOT / "docker" / "vcpkg-community.json").read_text(encoding="utf-8")
+        )
+        vcpkg_dependencies = {
+            dependency if isinstance(dependency, str) else dependency["name"]
+            for dependency in manifest["dependencies"]
+        }
+
+        # Compiled spdlog and its fmt headers must use the same ABI/provider.
+        for library in ("fmt", "spdlog"):
+            with self.subTest(library=library):
+                self.assertIn(f"lib{library}-dev", deps_packages)
+                self.assertNotIn(library, vcpkg_dependencies)
 
     def test_runtime_stage_uses_ubuntu_2404_runtime_packages(self) -> None:
         runtime_stage = extract_stage(self._dockerfile_text(), "runtime")
