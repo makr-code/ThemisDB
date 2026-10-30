@@ -34,6 +34,9 @@ jobs:
     permissions:
       contents: read
     steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
       - uses: ./.github/actions/write-run-summary
         with:
           scope: "Microsoft C++ code analysis"
@@ -115,7 +118,7 @@ jobs:
           New-Item -ItemType Directory -Force -Path "$env:GITHUB_WORKSPACE/.vcpkg-binary-cache" | Out-Null
 
           Invoke-WithRetry -Command { & "$env:GITHUB_WORKSPACE/vcpkg/bootstrap-vcpkg.bat" -disableMetrics }
-          Invoke-WithRetry -Command { & "$env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe" install zlib fmt spdlog curl cpp-httplib boost-filesystem boost-system boost-asio boost-beast boost-uuid pugixml yaml-cpp lz4 snappy 'rocksdb[snappy,zlib,zstd]' --classic --triplet x64-windows --disable-metrics }
+          Invoke-WithRetry -Command { & "$env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe" install zlib fmt spdlog curl cpp-httplib boost-filesystem boost-system boost-asio boost-beast boost-uuid pugixml yaml-cpp nlohmann-json lz4 snappy 'rocksdb[snappy,zlib,zstd]' --classic --triplet x64-windows --disable-metrics }
 
       - name: Ensure sccache is available
         shell: pwsh
@@ -157,8 +160,8 @@ jobs:
           $hasBoostSystem = @(Get-ChildItem -Path $vcpkgLibDir -Filter 'boost_system*.lib' -ErrorAction SilentlyContinue).Count -gt 0
           $hasCurl = @(Get-ChildItem -Path $vcpkgLibDir -Filter 'curl*.lib' -ErrorAction SilentlyContinue).Count -gt 0
           $hasCppHttpLib = @(Get-ChildItem -Path $vcpkgLibDir -Filter 'httplib*.lib' -ErrorAction SilentlyContinue).Count -gt 0
-          if (-not (Test-Path (Join-Path $vcpkgLibDir 'zlib.lib')) -or -not (Test-Path (Join-Path $vcpkgLibDir 'fmt.lib')) -or -not (Test-Path (Join-Path $vcpkgLibDir 'spdlog.lib')) -or -not (Test-Path (Join-Path $vcpkgIncludeDir 'boost/beast.hpp')) -or -not (Test-Path (Join-Path $vcpkgIncludeDir 'boost/asio.hpp')) -or -not (Test-Path (Join-Path $vcpkgIncludeDir 'boost/uuid/uuid.hpp')) -or -not (Test-Path (Join-Path $vcpkgIncludeDir 'pugixml.hpp')) -or -not $hasBoostFilesystem -or -not $hasBoostSystem -or -not $hasCurl -or -not $hasCppHttpLib) {
-            Invoke-WithRetry -Command { & "$env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe" install zlib fmt spdlog curl cpp-httplib boost-filesystem boost-system boost-asio boost-beast boost-uuid pugixml yaml-cpp lz4 snappy 'rocksdb[snappy,zlib,zstd]' --classic --triplet x64-windows --disable-metrics }
+          if (-not (Test-Path (Join-Path $vcpkgLibDir 'zlib.lib')) -or -not (Test-Path (Join-Path $vcpkgLibDir 'fmt.lib')) -or -not (Test-Path (Join-Path $vcpkgLibDir 'spdlog.lib')) -or -not (Test-Path (Join-Path $vcpkgIncludeDir 'boost/beast.hpp')) -or -not (Test-Path (Join-Path $vcpkgIncludeDir 'boost/asio.hpp')) -or -not (Test-Path (Join-Path $vcpkgIncludeDir 'boost/uuid/uuid.hpp')) -or -not (Test-Path (Join-Path $vcpkgIncludeDir 'pugixml.hpp')) -or -not (Test-Path (Join-Path $vcpkgIncludeDir 'nlohmann/json_fwd.hpp')) -or -not $hasBoostFilesystem -or -not $hasBoostSystem -or -not $hasCurl -or -not $hasCppHttpLib) {
+            Invoke-WithRetry -Command { & "$env:GITHUB_WORKSPACE/vcpkg/vcpkg.exe" install zlib fmt spdlog curl cpp-httplib boost-filesystem boost-system boost-asio boost-beast boost-uuid pugixml yaml-cpp nlohmann-json lz4 snappy 'rocksdb[snappy,zlib,zstd]' --classic --triplet x64-windows --disable-metrics }
           }
 
           sccache --version
@@ -173,14 +176,12 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          $targets = & cmake --build ${{ env.build }} --target help 2>&1 | Out-String
-          $helpExitCode = $LASTEXITCODE
-          if ($helpExitCode -ne 0) {
-            Write-Host "Unable to list CMake targets (exit code $helpExitCode); treating import_docs_rocksdb as optional."
-            $global:LASTEXITCODE = 0
-          }
-          if ($targets -match '(^|\s)import_docs_rocksdb(\s|$)') {
+          $importerProject = Join-Path '${{ env.build }}' 'import_docs_rocksdb.vcxproj'
+          if (Test-Path $importerProject) {
             cmake --build ${{ env.build }} --target import_docs_rocksdb --config Debug
+            if ($LASTEXITCODE -ne 0) {
+              throw "Documentation importer generation failed (exit code $LASTEXITCODE)."
+            }
           } else {
             Write-Host "import_docs_rocksdb target not present; skipping pre-generation."
           }

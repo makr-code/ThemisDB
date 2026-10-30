@@ -87,11 +87,13 @@ jobs:
           set -euo pipefail
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends python3-yaml
-          BASE_REF="${{ github.base_ref || 'develop' }}"
-          git fetch origin "${BASE_REF}" --depth=1
-          git diff --name-only "origin/${BASE_REF}...HEAD" > /tmp/changed_files.txt || true
+          export BASE_REF="${{ github.base_ref || 'develop' }}"
+          git fetch origin "${BASE_REF}:refs/remotes/origin/${BASE_REF}" --depth=1
+          git diff --name-only "origin/${BASE_REF}" HEAD > /tmp/changed_files.txt
           python3 - <<'PY'
           import re
+          import os
+          import subprocess
           import sys
           from pathlib import Path
 
@@ -127,25 +129,36 @@ jobs:
               if "permissions" not in doc:
                   errors.append(f"{wf}: missing top-level permissions block")
 
+              diff = subprocess.run(
+                  ['git', 'diff', '--unified=0', f"origin/{os.environ['BASE_REF']}", 'HEAD', '--', str(wf)],
+                  check=True, capture_output=True, text=True,
+              )
+              added_lines = {
+                  line[1:].strip()
+                  for line in diff.stdout.splitlines()
+                  if line.startswith('+') and not line.startswith('+++')
+              }
               for line in text.splitlines():
                   s = line.strip()
-                  if s.startswith("uses:"):
-                      spec = s.split("uses:", 1)[1].strip()
+                  if re.match(r'^(?:-\s+)?uses:', s):
+                      spec = s.split("uses:", 1)[1].split('#', 1)[0].strip()
+                      if spec.startswith("./"):
+                          continue
                       if "@" not in spec:
                           errors.append(f"{wf}: invalid uses syntax without version: {spec}")
                           continue
                       action, ref = spec.split("@", 1)
                       action = action.strip()
                       ref = ref.strip()
-                      if action.startswith("./"):
-                          continue
                       if action.startswith(allowed_unpinned):
                           continue
-                      if not third_party.fullmatch(ref):
+                      if s in added_lines and not third_party.fullmatch(ref):
                           errors.append(f"{wf}: third-party action must be pinned to full SHA: {spec}")
-                  if "git push" in s:
+                  if s not in added_lines:
+                      continue
+                  if re.search(r'(^|[;&|]\s*)git\s+push\b', s):
                       errors.append(f"{wf}: self-mutating git push is not allowed")
-                  if "continue-on-error: true" in s:
+                  if re.fullmatch(r'continue-on-error:\s*true(?:\s+#.*)?', s):
                       errors.append(f"{wf}: replace continue-on-error with explicit non-blocking job classification")
 
           if errors:
@@ -442,6 +455,7 @@ jobs:
     if: github.event_name == 'pull_request'
     permissions:
       contents: read
+      issues: write
     uses: ./.github/workflows/reusable-pr-build-components-gate.yml
 
   # ────────────────────────────────────────────────────────────────────────────

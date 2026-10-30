@@ -2,9 +2,11 @@
 from __future__ import annotations
 
 import sys
+import subprocess
 from pathlib import Path
 
 import yaml
+import pytest
 
 _HERE = Path(__file__).resolve().parent
 _TOOLS = _HERE.parent
@@ -177,6 +179,195 @@ def test_main_returns_zero_for_irrelevant_changes(tmp_path: Path):
 
     rc = guard.main(["--repo-root", str(tmp_path), "--diff-file", str(diff)])
     assert rc == 0
+
+
+@pytest.mark.parametrize(
+    "checkout",
+    [
+        [],
+        [{"uses": "actions/checkout@v5", "if": "false"}],
+        [{"uses": "actions/checkout@v5", "continue-on-error": True}],
+        [{"uses": "actions/checkout@v5", "with": {"path": "other"}}],
+        [{"uses": "actions/checkout@v5", "with": {"repository": "other/repo"}}],
+    ],
+)
+def test_local_summary_requires_unconditional_checkout_in_same_job(tmp_path: Path, checkout):
+    workflow = tmp_path / "summary.yml"
+    workflow.write_text(
+        yaml.safe_dump({
+            "name": "Summary",
+            "on": {"workflow_dispatch": None},
+            "permissions": {"contents": "read"},
+            "jobs": {
+                "build": {"steps": [{"uses": "actions/checkout@v5"}]},
+                "summary": {
+                    "steps": checkout + [
+                        {"uses": "./.github/actions/write-run-summary"},
+                        {"uses": "actions/checkout@v5"},
+                    ],
+                },
+            },
+        }),
+        encoding="utf-8",
+    )
+    violations = guard.validate_workflow_file(workflow)
+    assert len(violations) == 1
+    assert "job summary must check out the repository" in violations[0]
+
+
+def test_local_summary_accepts_prior_checkout(tmp_path: Path):
+    workflow = tmp_path / "summary.yml"
+    _write_workflow(
+        workflow,
+        """
+name: Summary
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  summary:
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/write-run-summary
+""",
+    )
+    assert guard.validate_workflow_file(workflow) == []
+
+
+@pytest.mark.parametrize(
+    ("cancel", "accepted"),
+    [
+        ("${{ github.event_name == 'pull_request' }}", True),
+        ("${{ github.event_name != 'pull_request' }}", False),
+        (False, False),
+    ],
+)
+def test_mixed_workflows_cancel_only_pull_requests(tmp_path: Path, cancel, accepted):
+    workflow = tmp_path / "mixed.yml"
+    workflow.write_text(
+        yaml.safe_dump({
+            "name": "Mixed workflow",
+            "on": {
+                "pull_request": {
+                    "branches": ["develop"],
+                    "paths": [".github/workflows/mixed.yml"],
+                },
+                "workflow_dispatch": None,
+            },
+            "permissions": {"contents": "read"},
+            "concurrency": {"group": "mixed-${{ github.ref }}", "cancel-in-progress": cancel},
+            "jobs": {"check": {"steps": [{"run": "echo ok"}]}},
+        }),
+        encoding="utf-8",
+    )
+    violations = guard.validate_workflow_file(workflow)
+    assert (violations == []) is accepted
+
+
+def test_repository_summary_jobs_check_out_local_action():
+    workflows = Path(__file__).resolve().parents[2] / ".github" / "workflows"
+    violations = []
+    summary_jobs = 0
+    for workflow in sorted(workflows.glob("*.yml")):
+        data = yaml.safe_load(workflow.read_text(encoding="utf-8"))
+        summary_jobs += sum(
+            step.get("uses") == "./.github/actions/write-run-summary"
+            for job in data.get("jobs", {}).values()
+            for step in job.get("steps", [])
+        )
+        guard._validate_summary_checkout(data, str(workflow), violations)
+    assert summary_jobs > 0
+    assert violations == []
+
+
+def test_core_gate_delegates_issue_permissions_to_build_components():
+    workflows = Path(__file__).resolve().parents[2] / ".github" / "workflows"
+    core = yaml.safe_load((workflows / "gate-pr-core.yml").read_text(encoding="utf-8"))
+    assert core["jobs"]["build-components-gate"]["permissions"]["issues"] == "write"
+    rag = yaml.safe_load((workflows / "reusable-rag-phase-gate.yml").read_text(encoding="utf-8"))
+    assert rag["permissions"]["pull-requests"] == "read"
+    assert rag["permissions"]["issues"] == "write"
+
+
+def test_wave4_gate_runs_benchmark_with_build_runtime_and_transfers_results():
+    workflow = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "benchmark-gate.yml"
+    jobs = yaml.safe_load(workflow.read_text(encoding="utf-8"))["jobs"]
+    build = jobs["build-wave4-release-gates"]["with"]
+    assert "--preset linux-release" in build["configure_command"]
+    assert "-DTHEMIS_BUILD_BENCHMARKS=ON" in build["configure_command"]
+    assert "--target bench_w4a_release_gates" in build["build_command"]
+    results = Path(build["artifact_paths"])
+    assert results == Path("benchmark-artifacts/w4a_release_gates.json")
+    assert "./build-linux-release/bin/bench_w4a_release_gates" in build["validation_command"]
+    assert f"--benchmark_out={results}" in build["validation_command"]
+    assert "BENCHMARK_SEED=42" in build["validation_command"]
+    steps = jobs["run-wave4-release-gates"]["steps"]
+    download = next(step for step in steps if step.get("uses", "").startswith("actions/download-artifact@"))
+    assert download["with"]["name"] == build["artifact_name"]
+    assert download["with"]["path"] == str(results.parent)
+    compare = next(step["run"] for step in steps if "report_variance.py" in step.get("run", ""))
+    assert f"--input {results}" in compare
+
+
+def test_coverage_installs_real_test_and_storage_dependencies():
+    workflow = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "coverage-report-nightly.yml"
+    data = yaml.safe_load(workflow.read_text(encoding="utf-8"))
+    assert data["env"]["THEMIS_ALLOW_MISSING_ROCKSDB"] == "OFF"
+    steps = data["jobs"]["coverage-collection"]["steps"]
+    install = next(step["run"] for step in steps if step.get("name") == "Install coverage tools")
+    for package in ("librocksdb-dev", "nlohmann-json3-dev", "libgtest-dev", "libgmock-dev", "libpugixml-dev"):
+        assert package in install.split()
+    configure = next(step["run"] for step in steps if step.get("name") == "CMake configure (with coverage enabled)")
+    assert "-DTHEMIS_BUILD_TESTS=ON" in configure
+    assert "-DTHEMIS_ALLOW_MISSING_ROCKSDB=OFF" in configure
+
+
+@pytest.mark.parametrize(
+    ("body", "introduced", "exit_code"),
+    [
+        ("uses: ./.github/workflows/reusable.yml", True, 0),
+        ("steps:\n      - uses: ./.github/actions/local", True, 0),
+        ("steps:\n      - uses: vendor/action@" + "a" * 40 + " # pinned", True, 0),
+        ("steps:\n      - uses: vendor/action@v1", True, 1),
+        ("steps:\n      - uses: vendor/action@v1", False, 0),
+        ("steps:\n      - run: |\n          git push origin HEAD", True, 1),
+        ("steps:\n      - run: |\n          git push origin HEAD", False, 0),
+        ("steps:\n      - run: echo check\n        continue-on-error: true", True, 1),
+        ("steps:\n      - run: echo check\n        continue-on-error: true", False, 0),
+    ],
+)
+def test_core_preflight_local_refs_comments_and_new_policy_violations(
+    tmp_path: Path, monkeypatch, body, introduced, exit_code
+):
+    source = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "gate-pr-core.yml"
+    data = yaml.safe_load(source.read_text(encoding="utf-8"))
+    step = next(
+        step for step in data["jobs"]["preflight-ci-policy"]["steps"]
+        if step.get("name") == "Run workflow preflight checks"
+    )
+    code = step["run"].split("python3 - <<'PY'\n", 1)[1].rsplit("\nPY", 1)[0]
+    workflow = tmp_path / ".github" / "workflows" / "test.yml"
+    text = "name: Test\non: workflow_dispatch\npermissions:\n  contents: read\njobs:\n  check:\n    " + body + "\n"
+    _write_workflow(workflow, text)
+    changed = tmp_path / "changed-files.txt"
+    changed.write_text(".github/workflows/test.yml\n", encoding="utf-8")
+    code = code.replace('"/tmp/changed_files.txt"', repr(str(changed)))
+    diff = "\n".join("+" + line for line in text.splitlines()) if introduced else ""
+    monkeypatch.setattr(
+        subprocess, "run",
+        lambda *args, **kwargs: subprocess.CompletedProcess(args[0], 0, stdout=diff),
+    )
+    monkeypatch.setenv("BASE_REF", "develop")
+    monkeypatch.chdir(tmp_path)
+    try:
+        exec(compile(code, str(source), "exec"), {})
+    except SystemExit as exc:
+        assert exc.code == exit_code
+    else:
+        assert exit_code == 0
 
 
 def test_merge_readiness_requires_final_runtime_api_gate(tmp_path: Path):

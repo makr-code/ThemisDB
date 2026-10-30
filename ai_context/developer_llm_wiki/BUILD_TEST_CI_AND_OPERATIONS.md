@@ -1,7 +1,52 @@
 # Developer LLM Wiki — Build/Test/CI/Operations
 
+> Author: ThemisDB Team
+> Created: 2026-10-26
+> Last Updated: 2026-10-30
+> Status: active
+> AI_Used: true
+> AI_Models: unknown
+> AI_Contributor: GitHub Copilot
+> Human_Review: false
+> Human_Author: ThemisDB Team
+>
+> Exact model backend not verifiable from final document text alone.
+
 Datum: 2026-10-26
 Status: Active
+
+## CI repair context (2026-10-30)
+
+The generated source inventory below and `WIKI_STATUS.json` describe the
+2026-10-26 snapshot (7,989 sources), not a fresh validation of current workflows.
+Its workflow entries contain hashes and unreadable titles rather than operational
+guidance; use workflow sources and concrete run logs as evidence.
+
+- Summary jobs must check out the repository before invoking the local
+  `write-run-summary` action. Checkouts in other jobs do not share a workspace.
+  See [Workflow Guidelines](../../.github/WORKFLOW_GUIDELINES.md) and
+  [boundary guard](../../tools/ci/check_workflow_boundaries.py).
+- Wave-4 explicitly configures the `linux-release` preset with benchmarks enabled,
+  builds and executes `bench_w4a_release_gates` in the same job so its shared
+  runtime libraries remain available. Only
+  `benchmark-artifacts/w4a_release_gates.json` is transferred for baseline comparison. Source:
+  [benchmark-gate.yml](../../.github/workflows/benchmark-gate.yml).
+- Coverage requires real RocksDB; thematic benchmarks require Boost.Filesystem.
+  MSVC requires nlohmann-json headers and importer generation before analysis.
+  See the [repair scope](../../.github/WORKFLOW_REGISTRY.md#ci-remediation-2026-10-30).
+- Invalid nested-workflow permissions and expired execution approvals are different
+  failure classes. Only the former are fixed by workflow code; approvals require
+  maintainer intervention. MSVC analyzer C1060 remains a separate resource risk.
+- Core preflight accepts local `uses` references and inline SHA comments; new
+  pinning/self-push/non-blocking-step violations are checked on added diff lines.
+  Housekeeping and promotion cancel superseded PR runs without cancelling manual work.
+- Evidence window: 2026-10-29 05:23 to 2026-10-30 05:23 UTC.
+  Representative runs:
+  [missing summary checkout](https://github.com/makr-code/ThemisDB/actions/runs/41003835208),
+  [nested permissions](https://github.com/makr-code/ThemisDB/actions/runs/40954398766),
+  [coverage prerequisite](https://github.com/makr-code/ThemisDB/actions/runs/40990478535),
+  [expired approval](https://github.com/makr-code/ThemisDB/actions/runs/40960673012).
+  Local validation is not evidence that these historical runs have turned green.
 
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci

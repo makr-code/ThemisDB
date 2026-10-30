@@ -50,6 +50,9 @@ jobs:
     permissions:
       contents: read
     steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
       - uses: ./.github/actions/write-run-summary
         with:
           scope: "Wave 4 release benchmark gates"
@@ -135,9 +138,18 @@ jobs:
         ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
       preset: linux-release
       build_targets: bench_w4a_release_gates
-      validation_mode: none
-      artifact_name: wave4-gate-build-bin-${{ github.run_number }}
-      artifact_paths: build/linux-release/bin/benchmarks/bench_w4a_release_gates
+      configure_command: cmake --preset linux-release -B build-linux-release -DTHEMIS_BUILD_BENCHMARKS=ON
+      build_command: cmake --build build-linux-release --target bench_w4a_release_gates --parallel 2
+      validation_command: |
+        set -euo pipefail
+        mkdir -p benchmark-artifacts
+        BENCHMARK_SEED=42 ./build-linux-release/bin/bench_w4a_release_gates \
+          --benchmark_filter='W4A' \
+          --benchmark_out=benchmark-artifacts/w4a_release_gates.json \
+          --benchmark_out_format=json \
+          --benchmark_repetitions=5
+      artifact_name: wave4-gate-results-${{ github.run_number }}
+      artifact_paths: benchmark-artifacts/w4a_release_gates.json
       artifact_retention_days: '7'
       summary_title: "Build: Wave 4 release gate benchmark"
 
@@ -152,28 +164,11 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Download benchmark build artifact
+      - name: Download benchmark results
         uses: actions/download-artifact@v5
         with:
-          name: wave4-gate-build-bin-${{ github.run_number }}
-          path: .
-
-      - name: Run release gate benchmark
-        env:
-          BENCHMARK_SEED: '42'
-        run: |
-          set -euo pipefail
-          mkdir -p benchmark-artifacts
-          test -x ./build/linux-release/bin/benchmarks/bench_w4a_release_gates || {
-            echo "::error::Missing benchmark binary from reusable build artifact"
-            find ./build -maxdepth 5 -type f 2>/dev/null | head -n 50 || true
-            exit 1
-          }
-          ./build/linux-release/bin/benchmarks/bench_w4a_release_gates \
-            --benchmark_filter='W4A' \
-            --benchmark_out=benchmark-artifacts/w4a_release_gates.json \
-            --benchmark_out_format=json \
-            --benchmark_repetitions=5
+          name: wave4-gate-results-${{ github.run_number }}
+          path: benchmark-artifacts
 
       - name: Set up Python
         uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c

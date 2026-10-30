@@ -2,8 +2,8 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-10-29
-> Update Note: Corrected workflow inventory and stale references; added run summaries to PR gates
+> Last Updated: 2026-10-30
+> Update Note: Repaired summary checkouts, reusable permission contracts, and benchmark/coverage/MSVC prerequisites; workflow inventory unchanged
 > Status: active
 > Total Workflows: 99 (verified 2026-10-29)
 > AI_Used: true
@@ -16,6 +16,27 @@
 
 Dieses Repository nutzt ein bewusst strukturiertes, release-orientiertes CI/CD-System.
 Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
+
+### CI remediation (2026-10-30)
+
+- Alle 50 Aufrufe der lokalen Run-Summary-Action führen den Checkout im eigenen Job
+  ohne persistierte Zugangsdaten aus; Workflow-Anzahl, Trigger und Gate-Ergebnisse bleiben unverändert.
+- `benchmark-gate.yml` nutzt das Linux-Release-Preset explizit und führt den
+  Benchmark im Build-Job mit dessen Shared Libraries aus. Nur JSON-Ergebnisse
+  werden als Artifact zum Baseline-Vergleich übertragen.
+- `coverage-report-nightly.yml` installiert RocksDB und verbietet fehlende RocksDB-Abhängigkeiten;
+  `reusable-benchmark-build-run-report.yml` installiert Boost.Filesystem.
+- `msvc.yml` installiert nlohmann-json und erkennt das Importer-Projekt direkt,
+  statt ein vom Visual-Studio-Generator nicht unterstütztes `help`-Target abzufragen.
+- `gate-pr-core.yml` delegiert `issues: write` nur am Build-Components-Aufruf;
+  `reusable-rag-phase-gate.yml` benötigt lediglich `pull-requests: read`.
+- Housekeeping und Release-Promotion brechen nur überholte PR-Läufe ab;
+  manuelle Release-/Wartungsläufe bleiben gegen Abbruch geschützt.
+- Der Core-Preflight erkennt lokale Action-/Workflow-Referenzen und kommentierte
+  SHA-Pins korrekt; neue Policy-Verstöße werden anhand der hinzugefügten Zeilen geprüft.
+- Abgelaufene Ausführungsfreigaben benötigen eine Maintainer-Aktion. Der im
+  MSVC-Lauf beobachtete C1060-Analyser-Speicherfehler bleibt separat zu verifizieren;
+  die Reparaturen unterdrücken ihn nicht.
 
 ## Leitprinzipien
 
