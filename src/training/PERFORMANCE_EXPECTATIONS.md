@@ -70,6 +70,6 @@ defined by these two targets.
 
 ## Source references
 
-- [`../benchmarks/training/CMakeLists.txt`](../../benchmarks/training/CMakeLists.txt)
+- [`benchmarks/training/CMakeLists.txt`](../../benchmarks/training/CMakeLists.txt)
 - [`benchmarks/training/README.md`](../../benchmarks/training/README.md)
 - [`ROADMAP.md`](./ROADMAP.md) — open data-reader and benchmark work.

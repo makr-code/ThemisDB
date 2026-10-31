@@ -1,7 +1,26 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-06-04"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # training Module - Developer Gap Note
 
 > Auto-generated from ai_working\gap_scan_results.json.
 > This file is overwritten on each regeneration.
+>
+> **Historical snapshot:** Generated 2026-06-04. Its finding counts and
+> `Critical Findings Present` status are not current scanner results. No fresh
+> gap scan was run for this documentation update; regenerate this report and
+> reconcile it with `AUDIT.md` and `SECURITY.md` before treating it as current.
 
 ## Scan Snapshot
 

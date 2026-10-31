@@ -42,13 +42,18 @@ and training stages according to `PipelineConfig`. Individual components also
 expose their own interfaces; their input types and failure results are defined
 in the corresponding public headers.
 
-The roadmap still tracks real bounded database-backed sample readers for the
-training iterator, trainer, and full pipeline as unfinished. Existing
-offline/test paths must not be described as database reads. Selection
-clustering currently uses a character-statistic heuristic rather than the
-configured embedding model, and the optional OCR path does not return
-recognized image text. See [`MODELING.md`](./MODELING.md),
-[`EMBEDDING.md`](./EMBEDDING.md), and [`ROADMAP.md`](./ROADMAP.md).
+The trainer supports bounded reads from its configured training collection
+through an injected `QueryEngine`; invalid collections, query failures, and
+empty valid datasets fail closed. The pipeline can persist labeled samples and
+train from that collection; focused RocksDB tests cover both paths. The
+pipeline's selection stage currently records selection results but does not
+pass the selected subset directly to the trainer, which reads its configured
+collection separately. `TrainingDataIterator` is owned by `llm`, not this
+module. Broader input-route benchmarks and end-to-end acceptance remain open
+in [`ROADMAP.md`](./ROADMAP.md). Selection clustering currently uses a
+character-statistic heuristic rather than the configured embedding model, and
+the optional OCR path does not return recognized image text. See
+[`MODELING.md`](./MODELING.md) and [`EMBEDDING.md`](./EMBEDDING.md).
 
 ## Build and focused tests
 

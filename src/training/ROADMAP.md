@@ -27,7 +27,7 @@ Production-usable training runtime exists for labeling, enrichment, LoRA/AdaLoRA
 - [~] hardening training and checkpoint behavior under extended adapter lifecycle pressure (Target: Q3 2026)
 - [~] improving diagnostics consistency across labeling, training, and serving-handoff stages (Target: Q3 2026)
 - [~] stabilizing benchmark-backed release guardrails for training hot paths (Target: Q3 2026)
-- [~] implement real DB-backed sample loading and one benchmark per supported LoRA data path, including AQL iterator, collection training, and full pipeline (Target: Q4 2026)
+- [~] broaden benchmark and integration coverage across supported training inputs; bounded QueryEngine reads in the trainer and persisted-label pipeline path are implemented and covered by focused RocksDB tests (Target: Q4 2026)
 
 ## Planned Features
 
@@ -38,7 +38,7 @@ Production-usable training runtime exists for labeling, enrichment, LoRA/AdaLoRA
 
 ### Mid-term (6-12 months)
 - [ ] re-baseline p95/p99 envelopes for adapter lifecycle and training-step-sensitive paths (Target: Q1 2027)
-- [x] broaden benchmark depth for training pipeline and enrichment workload diversity (Wave D: bench_training_dedicated_gates.cpp — TR-BM-01..04 delivered 2026-09-16)
+- [x] add dedicated in-process dispatch/checkpoint/sync benchmark cases (Wave D: `bench_training_dedicated_gates.cpp`, TR-BM-01..04; stub-only measurements, not pipeline/enrichment release evidence)
 - [x] harden long-run reliability under sustained training and deployment pressure (Wave D: test_training_pipeline_soak.cpp — 3 soak cases delivered 2026-09-16)
 - [~] Wave B B3: Multi-task LoRA shared-base/domain-gating training rollout (Target: Q1–Q2 2027) — core impl + ablation/benchmark tests done
 
@@ -51,12 +51,14 @@ Production-usable training runtime exists for labeling, enrichment, LoRA/AdaLoRA
 ### Phase 2: Core Implementation
 - [ ] complete hardening for trainer, checkpoint, and merge internals (Target: Q4 2026)
 - [ ] align enrichment and serving-handoff behavior to bounded runtime contracts (Target: Q4 2026)
-- [ ] load bounded, validated samples from the configured ThemisDB collection into IncrementalLoRATrainer (Target: Q4 2026)
-- [ ] implement TrainingDataIterator AQL execution and connect TrainingPipeline QueryEngine injection, sample persistence, and training reads (Target: Q4 2026)
+- [x] load bounded, validated samples from the configured ThemisDB collection into `IncrementalLoRATrainer` (QueryEngine path; focused RocksDB tests cover exact counts, empty data, and invalid collection names)
+- [x] inject `QueryEngine` and sample storage into `TrainingPipeline`, persist labeled samples, and train from the configured collection (focused RocksDB test verifies persisted and consumed sample counts)
+- [~] clarify/validate dataflow between pipeline selection output and trainer collection reads; the current pipeline records selection results but the trainer reads its configured collection separately (Target: Q4 2026)
+- [x] implement AQL batch reads in `TrainingDataIterator` (owned by `llm`; see `src/llm/training_data_iterator.cpp`; this is not a training-module implementation)
 
 ### Phase 3: Error Handling and Edge Cases
 - [ ] standardize fail-safe behavior for checkpoint faults, adapter merge failures, and enrichment gaps (Target: Q4 2026)
-- [ ] fail closed on DB query errors and invalid collection names; count and skip malformed/empty samples deterministically (Target: Q4 2026)
+- [x] fail closed on DB query errors, invalid collection names, invalid result shapes, and collections with no valid samples; malformed rows are skipped
 - [x] unify diagnostics across dataset, training, and adapter incident classes (Wave D: RUNBOOK_TRAINING_PIPELINE.md — 5 log patterns delivered 2026-09-16)
 
 ### Phase 4: Tests
@@ -64,10 +66,11 @@ Production-usable training runtime exists for labeling, enrichment, LoRA/AdaLoRA
 - [x] AdaLoRA rebuild-gate contract — LORA-08 (cache HIT / MISS / force-rebuild, 4-phase test) (2026-08-24)
 - [x] expand focused regressions for LoRA/AdaLoRA, checkpoint, and serving edge scenarios (Wave D: test_training_highcardinality_stress.cpp delivered 2026-09-16)
 - [x] extend deterministic stress fixtures for training-lifecycle workloads (Wave D: test_training_highcardinality_stress.cpp — HighCardinalityBatchDispatch, ConcurrentCheckpointStress, GradientAccumulationStress 2026-09-16)
-- [ ] add isolated RocksDB/QueryEngine tests for iterator batches, trainer sample counts, persisted labels, and DB-backed pipeline training (Target: Q4 2026)
+- [x] add isolated RocksDB/QueryEngine tests for bounded trainer reads, persisted labels, and DB-backed pipeline training (`test_incremental_lora_db_training.cpp`, `test_training_pipeline_db.cpp`)
+- [ ] extend cross-route integration coverage for iterator batches and selection-to-training behavior (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
-- [x] lock benchmark-backed release gates for training hot paths (Wave D: bench_training_dedicated_gates.cpp — TR-BM-01..04 delivered 2026-09-16)
+- [x] add descriptive targets for adapter lifecycle and in-process dispatch/checkpoint/sync measurements; the dedicated stub targets do not enforce threshold failures
 - [ ] benchmark built-in, custom, JSON, trainBatch, AQL iterator, collection, and pipeline paths with separate read/preprocess/train/end-to-end counters (Target: Q4 2026)
 - [ ] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
 

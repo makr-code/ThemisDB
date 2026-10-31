@@ -1,4 +1,22 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Security - Training Module
+
+> Scanner totals in the historical issue #5414 notes below are not a current
+> security assessment. No new scanner run was performed for this documentation
+> update; see [`AUDIT.md`](./AUDIT.md) for the discrepancy and follow-up.
 
 <!-- Status: current | validated: 2026-06-01 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
@@ -32,19 +50,21 @@ Security in the training module focuses on deterministic training-data handling,
 - deepen stress coverage for concurrent training and adapter lifecycle scenarios.
 - tighten diagnostics taxonomy across labeling, checkpoint, and serving incidents.
 
-## Scanner Finding Resolution (issue #5414, batches 1–6, 13–14)
+## Historical Scanner Finding Triage (issue #5414, batches 1–6, 13–14)
 
-All 295 Critical/High findings from the gap scanner have been resolved:
+The issue #5414 triage report recorded 295 Critical/High findings:
 - **Fixed (7 genuine defects):** data_race in `incremental_lora_trainer` (router
   mutex), `adalora_tt_bridge` (fingerprint_graph mutex), and `adalora_tt_bridge`
   export-cache access (`cache_mutex_`); model_integrity_gap in
   `lora_checkpoint_manager` (path-traversal + SHA-256 field validation);
   no_timeout in `provenance_tracker` (write_timeout_ms enforcement).
-- **Confirmed false positives (288 findings):** full justification per category in
-  `MODULE_GAPS.md` batches 3–6 and post-fix notes in batch 14; root causes include
-  scanner triggering on float-tensor variable names, auto-generated comment
-  headers, pimpl-pointer calls, and sentinel equality comparisons. No exploitable
-  defects remain open.
+- **Reported false positives (288 findings):** the issue #5414 triage record
+  states that justifications were documented in `MODULE_GAPS.md` batches 3–6
+  and 14; the checked-in snapshot is dated 2026-06-04 and reports 171 total
+  findings, so it does not reconcile those counts. The cited scanner triggers
+  included float-tensor variable names, generated comment headers, pimpl-pointer
+  calls, and sentinel equality comparisons. These are historical claims only
+  and do not establish the current scanner count or open-finding state.
 
 ## Sourcecode Verification (Module: training/security)
 

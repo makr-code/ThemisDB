@@ -1,4 +1,24 @@
-> **Status:** 2026-06-01 – mit aktuellem Training-Code (`training_pipeline.cpp`) abgeglichen.
+> ---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+> **Implementation status (2026-10-31):** This document states production
+> requirements; it is not evidence that the module implements them. The
+> training API scan found SHA-256 checkpoint integrity but no adapter-signing
+> API or module-level data authorization mechanism. Adapter signing,
+> authorization, and the listed deployment-mode variables remain unverified
+> requirements; integration owners must provide evidence before claiming
+> compliance.
 
 # ThemisDB Training Module - Production Requirements
 
@@ -10,7 +30,7 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Training-P
 ## Dokumentabgrenzung (Canonical Split)
 
 - **`src/training/PRODUCTION_REQUIREMENTS.md` (dieses Dokument):** verpflichtende Produktionsanforderungen (MUST/MUST NOT), Sicherheitsannahmen, Betriebsgrenzen.
-- **`src/training/README.md`:** Funktionsübersicht, Architekturkontext, API- und Nutzungsbeispiele.
+- **`src/training/README.md`:** Funktionsübersicht, Architekturkontext, Build- und Testhinweise.
 - **`src/training/ROADMAP.md`:** Lieferphasen, offene/abgeschlossene Features, Readiness-Planung.
 - **`src/training/FUTURE_ENHANCEMENTS.md`:** mittelfristige/langfristige Erweiterungen und Forschungsfelder.
 

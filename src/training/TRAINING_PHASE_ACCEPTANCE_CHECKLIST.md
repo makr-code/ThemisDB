@@ -1,4 +1,25 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-08-07"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Training Module - Phase Acceptance Checklist
+
+> **Historical status notice:** The issue #5678 validation and readiness
+> statements below are a snapshot from 2026-08-07, not current release or
+> acceptance evidence. The current source of truth is
+> [`ROADMAP.md`](./ROADMAP.md). The test/benchmark inventory and DB path notes
+> were checked against current sources on 2026-10-31; older checklist claims
+> remain historical unless explicitly refreshed below.
 
 **Module**: training  
 **Roadmap Path**: `src/training/ROADMAP.md`  
@@ -79,9 +100,8 @@
 | test_training_pipeline_injection_qw40.cpp | module_training_test_training_pipeline_injection_qw40_focused | ✓ Created | 9,226 bytes |
 | test_training_service_registry.cpp | module_training_test_training_service_registry_focused | ✓ Created | 9,936 bytes |
 
-**Total Test Files**: 8 focused test targets  
-**Test Registry**: `tests/training/CMakeLists.txt` (45 lines, properly configured)  
-**Estimated Coverage**: 8 focused unit test suites covering convergence, optimizer, diagnostics, LoRA adapter, Phase 2, pipeline E2E, injection testing, and service registry
+**Current Test Files**: 23 `test_*.cpp` sources under `tests/training/`; CMake discovers and registers each as a focused test target. The eight rows above are examples from the historical checklist, not an exhaustive inventory.
+**Test Registry**: `tests/training/CMakeLists.txt`; each focused target has the `training` label and a 120-second timeout.
 
 #### Benchmark Files
 
@@ -259,19 +279,20 @@ As documented in `src/training/ROADMAP.md` lines 64-69:
 
 ### Test Execution Summary
 
-**Test Targets Available**: 8 focused unit tests in `tests/training/`
+**Test Targets Available**: 23 focused unit-test sources in `tests/training/`
 
 **Expected Execution**:
 ```bash
-ctest --preset community-release-allow-missing-rocksdb -L training -V
+cmake --build <build-dir> --target module_training_test_training_pipeline_db_focused
+ctest --test-dir <build-dir> -L training --output-on-failure
 ```
 
-**Benchmark Targets Available**: 2 benchmark files with 10+ performance gates
+**Training-directory Benchmark Targets Available**: `bench_training_lifecycle_gates` and `bench_training_dedicated_gates`. The dedicated TR-BM cases use stubs and are not production-path performance evidence.
 
 **Expected Benchmark Execution**:
 ```bash
-./build-community-debug-allow-missing-rocksdb/bin/bench_lora_training
-./build-community-debug-allow-missing-rocksdb/bin/bench_gpu_training_cycle
+<build-dir>/bin/bench_training_lifecycle_gates
+<build-dir>/bin/bench_training_dedicated_gates
 ```
 
 ---
@@ -280,13 +301,13 @@ ctest --preset community-release-allow-missing-rocksdb -L training -V
 
 ### Roadmap Synchronization
 
-✓ **VALIDATED**: Issue #5678 snapshot matches current `src/training/ROADMAP.md`
+**Historical only:** Issue #5678 snapshot reflects the roadmap as reviewed on 2026-08-07; it does not establish that the current roadmap lines or acceptance state match.
 
 - All "In Progress" items match lines 13-15
 - All "Planned Features" items match lines 20-28
 - All completed items in Phase 6 documented with evidence
 
-✓ **VALIDATED**: Issue #5678 snapshot matches current `src/training/FUTURE_ENHANCEMENTS.md`
+**Historical only:** Issue #5678 future-work snapshot is not a current validation of `FUTURE_ENHANCEMENTS.md`.
 
 - Scope section aligns with lines 6-10
 - Design Constraints align with lines 12-17
@@ -294,7 +315,7 @@ ctest --preset community-release-allow-missing-rocksdb -L training -V
 
 ### Documentation Evidence
 
-✓ All module documentation files present and current:
+Module documentation inventory (presence does not imply current status):
 - src/training/ROADMAP.md (106 lines, comprehensive)
 - src/training/FUTURE_ENHANCEMENTS.md (81 lines, comprehensive)
 - src/training/ARCHITECTURE.md (present)
@@ -305,18 +326,18 @@ ctest --preset community-release-allow-missing-rocksdb -L training -V
 
 ### Test Infrastructure Evidence
 
-✓ All test infrastructure configured:
-- 8 focused test files in tests/training/
+✓ Focused test registration:
+- 23 focused test source files in `tests/training/`
 - CMakeLists.txt properly configured with themis_register_module_focused_test()
 - GTest framework integrated
 - CTest labels configured
 
 ### Benchmark Infrastructure Evidence
 
-✓ Benchmark infrastructure in place:
-- benchmarks/bench_lora_training.cpp
-- benchmarks/gpu/bench_gpu_training_cycle.cpp
-- google-benchmark framework configured
+✓ Training-directory benchmark targets:
+- `benchmarks/training/bench_training_lifecycle_gates.cpp`
+- `benchmarks/training/bench_training_dedicated_gates.cpp` (stub measurements)
+- `benchmarks/llm/bench_lora_training.cpp` and `benchmarks/gpu/bench_gpu_training_cycle.cpp` are separate benchmark targets.
 
 ---
 
@@ -327,10 +348,10 @@ ctest --preset community-release-allow-missing-rocksdb -L training -V
 | API Contract & Design (Phase 1) | ✓ Complete | Lines 53-54 ROADMAP |
 | Core Implementation (Phase 2) | [~] 60% | Q3-Q4 2026 hardening in progress |
 | Error Handling (Phase 3) | [~] 40% | Standardization tasks queued for Q4 |
-| Tests (Phase 4) | [x] Ready | 8 focused test targets configured |
+| Tests (Phase 4) | [x] Registered | 23 focused test sources are discovered from `tests/training/` |
 | Performance & Hardening (Phase 5) | [~] 50% | Benchmarks defined; gates stabilizing |
 | Documentation (Phase 6) | ✓ Complete | All docs aligned and verified |
-| Production Readiness | ✓ Ready | Core surfaces production-usable |
+| Production Readiness | [~] In progress | A production-usable core runtime exists; roadmap hardening and acceptance work remains |
 
 ---
 
@@ -385,10 +406,11 @@ ctest --preset community-release-allow-missing-rocksdb -L training -V
 - [src/training/ARCHITECTURE.md](../ARCHITECTURE.md) - Architectural overview and component descriptions
 - [src/training/README.md](../README.md) - Quick start and usage guide
 - [src/training/SECURITY.md](../SECURITY.md) - Security posture and failure handling
-- [src/training/PERFORMANCE_EXPECTATIONS.md](../PERFORMANCE_EXPECTATIONS.md) - Performance targets and benchmarks
+- [src/training/PERFORMANCE_EXPECTATIONS.md](./PERFORMANCE_EXPECTATIONS.md) - Performance targets and benchmarks
 - [src/training/CHANGELOG.md](../CHANGELOG.md) - Historical changes and release notes
 - [tests/training/CMakeLists.txt](../../tests/training/CMakeLists.txt) - Test registration
-- [benchmarks/bench_lora_training.cpp](../../benchmarks/bench_lora_training.cpp) - LoRA training benchmarks
+- [benchmarks/training/README.md](../../benchmarks/training/README.md) - training-directory benchmark scope and limitations
+- [benchmarks/llm/bench_lora_training.cpp](../../benchmarks/llm/bench_lora_training.cpp) - LLM LoRA benchmarks
 - [benchmarks/gpu/bench_gpu_training_cycle.cpp](../../benchmarks/gpu/bench_gpu_training_cycle.cpp) - GPU training benchmarks
 
 ---

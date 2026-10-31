@@ -1,4 +1,24 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-09-20"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # TRAINING DOXYGEN
+
+> **Generated snapshot:** The symbol inventory below was generated on
+> 2026-09-20 and has not been regenerated against the source reviewed on
+> 2026-10-31. Treat symbol coverage and counts as historical until this file is
+> regenerated. The old Windows build path is intentionally not used as a
+> repository reference.
 
 Author: ThemisDB Contributors
 Created: 2026-09-20
@@ -7,8 +27,8 @@ Status: active
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\training\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\training\doxygen-warnings.log`
+- XML index snapshot: [`../../ai_context/developer_llm_wiki/module_doxygen_artifacts/training/xml/index.xml`](../../ai_context/developer_llm_wiki/module_doxygen_artifacts/training/xml/index.xml)
+- TODO: regenerate the XML and this summary from the current source, then replace the historical file/compound metrics.
 
 ## Structure Metrics
 - C/C++ Files (scanned): 60
@@ -8518,4 +8538,3 @@ Status: active
   - `s` (std::string): Input parameter.
 - Return: Return value.
 - Details: s Input parameter. Return value. Calls: empty(), back(), pop_back().
-

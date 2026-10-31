@@ -45,15 +45,20 @@ claimed by older versions of this page.
 3. Optional graph enrichment can query configured graph data and an injected
    vector index.
 4. `TrainingPipeline` conditionally coordinates preparation, quality/drift
-   checks, selection, and training according to `PipelineConfig`.
+   checks, selection, and training according to `PipelineConfig`. Its current
+   selection stage records results but does not pass the selected subset
+   directly to the trainer.
 5. The trainer/checkpoint manager persist or resume adapter state; the
    `ILLMRouter` integration separately handles deployment and rollback.
 
-The data-selection clustering path currently uses a character-statistic
-heuristic, not a learned embedding service. The optional OCR path does not
-produce recognized image text. The module roadmap also tracks real bounded
-database-backed readers for the iterator, trainer, and pipeline as unfinished;
-offline/test behavior must not be presented as production database evidence.
+The trainer supports bounded reads from its configured collection through an
+injected `QueryEngine`; invalid collections, query failures, and empty valid
+datasets fail closed. The pipeline can persist labeled samples and train from
+that collection, and focused RocksDB tests exercise these paths. The separate
+`TrainingDataIterator` is owned by `llm`, not this module. Broader input-route
+benchmarks and end-to-end acceptance remain open. The data-selection clustering
+path uses a character-statistic heuristic, not a learned embedding service; the
+optional OCR path does not produce recognized image text.
 
 ## Ownership and failure boundaries
 

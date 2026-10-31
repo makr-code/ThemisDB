@@ -14,7 +14,7 @@ Exact model backend not verifiable from final document text alone.
 
 # Training Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-05-31 | issue #5678 verification: 2026-08-07 ✓ -->
+<!-- Source review: 2026-10-31; remaining benchmark and selection-to-training items are open. -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md · TRAINING_PHASE_ACCEPTANCE_CHECKLIST.md -->
 
 ## Scope
@@ -22,8 +22,9 @@ Exact model backend not verifiable from final document text alone.
 - hardening and refinement of training runtime behavior
 - deterministic reliability improvements for dataset/training/adapter paths
 - stronger benchmark-backed guardrails for training hot paths
-- actual bounded DB-backed sample readers for IncrementalLoRATrainer, TrainingDataIterator, and TrainingPipeline
-- per-source benchmark coverage for built-in, in-memory/custom, JSON, trainBatch, AQL iterator, collection, and full-pipeline paths
+- benchmark coverage for the implemented bounded trainer collection-read and persisted-label pipeline paths
+- explicit, tested dataflow semantics between pipeline selection output and the trainer's configured collection
+- per-source benchmark coverage for supported in-memory/custom, JSON, AQL iterator, collection, and full-pipeline routes
 
 ## Design Constraints
 
@@ -40,8 +41,8 @@ Exact model backend not verifiable from final document text alone.
 | training interfaces | stable LoRA/AdaLoRA lifecycle semantics |
 | checkpoint interfaces | explicit save/resume/verify behavior |
 | adapter interfaces | bounded merge and serving-handoff behavior |
-| DB sample reader | QueryEngine-backed collection/AQL reads with stable batching, limits, and explicit error reporting |
-| DB training injection | non-owning QueryEngine integration for trainer/pipeline with documented lifetime and thread-safety |
+| DB sample reader | Existing trainer/pipeline `QueryEngine` paths retain bounded reads, input validation, and explicit failure reporting |
+| DB training injection | Existing non-owning `QueryEngine` injection keeps its lifetime contract; selection-to-training behavior needs explicit integration semantics |
 
 ## Implementation Notes
 
@@ -49,8 +50,8 @@ Exact model backend not verifiable from final document text alone.
 - standardize incident taxonomy for labeling, enrichment, and serving classes.
 - expand resilience tests for prolonged adapter lifecycle workloads.
 - broaden benchmark depth for training-pipeline and checkpoint scenarios.
-- persist auto-labeled samples before training and consume the configured target collection rather than an empty vector.
-- keep DB read/convert/train timing separate; never label deterministic synthetic fallback as DB-backed training.
+- preserve the tested label-persistence and trainer collection-read behavior; clarify that the current selection stage does not pass its selected subset directly to the trainer.
+- add separate DB read, conversion, and training measurements; never label synthetic or stub work as DB-backed training.
 
 ### Wave B B3: Multi-Task LoRA Training Enablement
 **Priority:** High
@@ -68,14 +69,14 @@ Exact model backend not verifiable from final document text alone.
 - regressions for checkpoint corruption, merge conflicts, and rollback edge cases.
 - deterministic stress runs for training and adapter-serving handoff workloads.
 - release-profile benchmark runs for mapped training targets.
-- focused RocksDB/QueryEngine tests for empty collections, malformed samples, batch boundaries, and query failures.
-- benchmark smoke tests must emit one JSON result per path and pass through the comparison-report fixture.
+- retain focused RocksDB/QueryEngine coverage for bounded trainer reads, invalid collection names, empty data, persisted labels, and pipeline sample counts; add tests for selection-to-training semantics and remaining failure/batch boundaries.
+- add benchmark smoke and comparison-report validation when per-route DB benchmarks are implemented; current `benchmarks/training/` targets do not provide those cases.
 
 ## Performance Targets
 
 - training hot paths remain inside regression budgets.
-- adapter lifecycle and training-step-sensitive operations remain stable at p95/p99 envelopes.
-- mapped benchmark manifests reach no-missing-case status for release gating.
+- establish p95/p99 envelopes from reproducible release-profile measurements before treating them as targets.
+- map supported input routes to benchmarks before claiming complete release-gate coverage.
 
 ## Security / Reliability
 
@@ -84,10 +85,10 @@ Exact model backend not verifiable from final document text alone.
 - enforce predictable degradation under capability or runtime pressure.
 - keep diagnostics actionable for production training incidents.
 
-## DB-Backed Training Data Path Benchmarks
+## Future DB-Backed Training Data Path Benchmarks
 
 ### Scope
-- Measure sample acquisition and LoRA training for every supported input route: built-in AQL samples, custom/in-memory samples, JSON file/object import, prepared `TrainingData` batches, AQL iterator, direct collection training, and TrainingPipeline end-to-end.
+- No DB-backed training-data benchmark currently exists in `benchmarks/training/`. Add measurements for trainer collection reads, persisted-label pipeline runs, and the separate `llm` AQL iterator; include other input routes only after verifying that the current implementation supports them.
 
 ### Design Constraints
 - DB paths use an isolated RocksDB-backed `QueryEngine` fixture and deterministic records.
@@ -95,13 +96,13 @@ Exact model backend not verifiable from final document text alone.
 - Model-backed fine-tuning requires a real GGUF artifact and is reported separately from the CPU LoRA update-core benchmark.
 
 ### Required Interfaces
-- `TrainingDataIterator` must execute a read-only AQL query and return bounded stable batches.
-- `IncrementalLoRATrainer` and `TrainingPipeline` must accept a non-owning `QueryEngine` while preserving existing constructor call sites.
-- Auto-labeled sample persistence and trainer reads must use the configured source/target collections.
+- Preserve the existing non-owning `QueryEngine` contracts for `IncrementalLoRATrainer` and `TrainingPipeline`.
+- Measure the current trainer read and pipeline persistence paths separately; document that pipeline selection results are not currently passed directly to the trainer.
+- `TrainingDataIterator` is owned by `llm`; retain its bounded AQL batch contract and report it as a separate path.
 
 ### Test Strategy
-- Verify exact sample counts and content for each DB reader; cover empty, malformed, limited, and failed-query cases.
-- Run each benchmark path in CTest with temporary DB cleanup and valid JSON output.
+- Extend the existing RocksDB tests to cover sample contents, malformed rows, limits, failed queries, and the selection/trainer boundary where applicable.
+- Run benchmark executables separately from CTest; verify temporary database cleanup and machine-readable output when that reporting is implemented.
 
 ### Performance Targets
 - Report database read, sample conversion, LoRA update, and end-to-end p50/p95 elapsed time, samples/s, and bytes/s separately.

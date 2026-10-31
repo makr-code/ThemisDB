@@ -37,9 +37,15 @@ source-grounded capability summary, not a release-readiness statement.
 
 ## Limits relevant to integration
 
-- The roadmap still tracks real bounded database-backed sample readers for the
-  iterator, trainer, and complete pipeline as unfinished. Offline/test behavior
-  is not evidence that these paths read production collections.
+- `IncrementalLoRATrainer` can read up to `max_training_samples` from its
+  configured collection through an injected `QueryEngine`; invalid collections,
+  failed queries, and empty valid datasets fail closed. The pipeline can persist
+  labeled samples and train from that collection. Focused RocksDB tests cover
+  these paths, but do not establish all production deployment behavior.
+- `TrainingDataIterator` is owned by `llm`, not this module. The pipeline's
+  selection stage records its output but does not pass the selected subset
+  directly to the trainer, which reads its configured collection separately.
+  Broader route benchmarks and acceptance remain open in `ROADMAP.md`.
 - Selection clustering currently uses character statistics, not embeddings
   produced by the configured model name.
 - The optional OCR path does not currently return recognized image text.

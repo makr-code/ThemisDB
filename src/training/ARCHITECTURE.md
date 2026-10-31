@@ -14,7 +14,7 @@ Exact model backend not verifiable from final document text alone.
 
 # Architecture - Training Module
 
-<!-- Status: current | validated: 2026-09-09 -->
+<!-- Status: current | source paths and dataflow reviewed: 2026-10-31 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Overview
@@ -34,11 +34,23 @@ The training module composes auto-labeling and enrichment behavior, LoRA/AdaLoRA
 
 ## Training Data Paths
 
-- Prepared input paths: AQL built-in samples, custom/in-memory samples, JSON import, and `TrainingData` batch composition.
-- DB-backed paths: `LegalAutoLabeler` reads a source collection through an injected `QueryEngine`; generated samples are persisted to the configured target collection; `IncrementalLoRATrainer` reads that collection; `TrainingDataIterator` executes AQL and yields batches.
-- End-to-end path: `TrainingPipeline` wires the same `QueryEngine` through labeling, sample persistence, selection, and training.
-- Data-source timings are reported separately from LoRA updates; DB failures never count as a successful DB-backed run.
-- Until the DB reader implementations land, the iterator, trainer collection read, and pipeline selection paths are not considered production DB paths.
+- Prepared input paths include in-memory/custom inputs and configured collections.
+- DB-backed paths: `LegalAutoLabeler` reads a source collection through an
+  injected `QueryEngine`; the pipeline can persist generated samples to the
+  configured target collection; `IncrementalLoRATrainer` can read bounded
+  `input`/`output` records from its configured training collection. Invalid
+  collection identifiers, query errors, invalid result shapes, and empty valid
+  sample sets fail closed.
+- The focused RocksDB pipeline test verifies persisted labels are consumed by
+  training when selection is disabled. The pipeline's selection stage currently
+  records the selected subset and counts but does not pass those samples to the
+  trainer; the trainer reads its configured collection separately.
+- `TrainingDataIterator` is implemented in the `llm` module and has its own AQL
+  batch-reading path. Its behavior and integration are not owned by
+  `src/training/`.
+- Trainer/pipeline DB paths have focused tests, but per-input-route benchmarks
+  and broader integration acceptance remain open. Offline/test behavior is not
+  evidence of a live database read.
 
 ## Core Contracts
 
@@ -87,19 +99,19 @@ The training module composes auto-labeling and enrichment behavior, LoRA/AdaLoRA
 ### Direct Downstream Consumers (modules that use this module)
 | Module | Via | Notes |
 |--------|-----|-------|
-| rag | `include/training/` (lora_data_selection.h) | RAG data-selection step calls training module for LoRA dataset curation |
+| rag | `include/training/lora_data_selection.h` | `ContinuousLearningOrchestrator` composes `DataSelectionPipeline` for RAG retraining; see `include/rag/continuous_learning_orchestrator.h` and `src/rag/continuous_learning_orchestrator.cpp` |
 
 ## Integration Points
 
 ### Critical Integration: LLM Adapter Serving Handoff
-**Files:** `src/training/lora_adapter.cpp`, `lora_adapter_merger.cpp` ↔ `llm/`
-**Contract:** Trained adapters are handed to the LLM module via a standardised serving-handoff interface; adapter format must match the LLM module's expected schema.
-**Thread Safety:** Handoff is a one-time atomic swap; no concurrent writes to the adapter object are permitted after handoff.
+**Files:** `src/training/incremental_lora_trainer.cpp`, `include/training/adapter_serving.h` ↔ the injected `ILLMRouter`.
+**Contract:** `deployVersionEx()` and `rollbackVersionEx()` return a `DeployResult`; the caller checks the result and confirms the external router state. Router availability and the traffic-weight update are separate from training success.
+**Thread Safety:** The trainer protects router access and serializes weight updates with `router_mutex_`. Atomic request-level routing behavior is the injected router implementation's contract, not an adapter-object swap performed by this module.
 
 ### Critical Integration: RAG LoRA Data Selection
-**Files:** `src/training/training_pipeline.cpp` ↔ `rag/lora_data_selection.h`
-**Contract:** RAG calls training data-selection to filter and score training samples; selection outputs are deterministic for the same input dataset snapshot.
-**Thread Safety:** Selection runs as an isolated pipeline stage; no shared mutable state with RAG during selection.
+**Files:** `src/rag/continuous_learning_orchestrator.cpp` ↔ `include/training/lora_data_selection.h`
+**Contract:** The RAG continuous-learning orchestrator owns and calls `DataSelectionPipeline` to select candidate samples before retraining. This is separate from `TrainingPipeline`'s selection stage; that stage currently records results but does not pass its selected subset directly to its trainer.
+**Thread Safety:** Ownership and synchronization are defined by the RAG orchestrator and training selection interfaces; do not assume there is no shared mutable state without checking those contracts.
 
 ## Planning Traceability
 

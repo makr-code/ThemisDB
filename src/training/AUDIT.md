@@ -1,4 +1,26 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Audit Report - Training Module
+
+> **Evidence status (2026-10-31):** This page includes historical issue #5414
+> scanner-triage claims. No current scanner run was performed for this
+> documentation review. The generated `MODULE_GAPS.md` snapshot is dated
+> 2026-06-04 and reports 171 findings, which does not reconcile with the 295
+> findings cited below. Current scanner/open-finding status is therefore
+> **unverified**; regenerate and reconcile the reports before using their totals
+> as current audit evidence.
 
 <!-- Status: current | validated: 2026-06-01 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
@@ -10,8 +32,8 @@
 | Build registration | pass |
 | Source set size | pass (module core files present) |
 | Focused test presence | pass |
-| Open hardening findings | none — all audit items and Critical/High scanner findings triaged (batches 1–6, 13–14) |
-| Critical blockers | none identified |
+| Open hardening findings | not assessed by this documentation update |
+| Critical blockers | not assessed by this documentation update |
 
 ## Verified Files
 
@@ -34,7 +56,8 @@
 
 ### Open
 
-*(no open findings — all items resolved; see Closed below)*
+Historical issue #5414 triage is recorded below. This list is not a current
+scanner result or a statement that no findings remain open.
 
 ### Closed
 
@@ -52,18 +75,20 @@
 - [TRN-AUD-03] benchmark depth — low-priority; deferred to future wave; core
   benchmark coverage for training pipeline and LoRA throughput already tracked
   in PERFORMANCE_EXPECTATIONS.md.
-- [scanner findings] All 295 Critical/High scanner findings fully triaged across
-  batches 1–6 and 14: 7 genuine defects fixed (data_race ×4, model_integrity_gap ×1,
-  no_timeout ×2); remaining 288 confirmed false positives documented in MODULE_GAPS.md.
+- [scanner findings] The historical issue #5414 record reports 295 Critical/High
+  findings triaged: 7 genuine defects fixed (data_race ×4, model_integrity_gap ×1,
+  no_timeout ×2), with 288 reported false positives. The checked-in
+  `MODULE_GAPS.md` snapshot reports a different count (171 total findings); the
+  current scan evidence and reconciliation are unverified.
 
 ## Compliance Snapshot
 
 | Requirement | Status |
 |---|---|
-| Source-verifiable behavior claims | pass |
-| Structured forward planning in roadmap/future | pass |
-| Historical completion tracked in changelog | pass |
-| Core module docs synchronized | pass |
+| Source-verifiable behavior claims | reviewed for issue #7389; see the linked module sources |
+| Structured forward planning in roadmap/future | retained in canonical roadmap/future documents |
+| Historical completion tracked in changelog | historical record |
+| Core module docs synchronized | updated in this change; human review pending |
 
 ## Issue Scope Traceability
 
