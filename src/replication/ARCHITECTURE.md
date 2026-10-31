@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -22,7 +22,7 @@ Canonical_References:
   - "replication_manager.cpp"
   - "logical_replication.cpp"
   - "async_wal_shipper.cpp"
-Related_Issue: "#7167 (closes #7091)"
+Related_Issue: "#7373"
 Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
 
@@ -43,21 +43,31 @@ Exact model backend not verifiable from final document text alone.
 | WAL shipping | [`AsyncWalShipper`](../../include/replication/async_wal_shipper.h) | Bounded asynchronous segment queue, worker dispatch, lag accounting, and configured callbacks. |
 | Conflict and status | [`ConflictResolution`](../../include/replication/conflict_resolution.h), [`LagAlertManager`](../../include/replication/lag_alert_manager.h), [`Observability`](../../include/replication/observability.h) | Conflict resolver choices, lag alerts, and replication health snapshots. |
 
+`observability.h` declares `ReplicationObserver`; the table's `Observability` label is
+the component, not a public class name. `kafka_change_stream.h` and
+`multi_master_replication.h` have no same-named `.cpp` in this module directory. This
+inventory does not establish whether their behavior is implemented elsewhere or wired
+into the current runtime.
+
 ## Data and event flow
 
 1. Replication configuration and membership are managed through the manager/consensus surfaces.
 2. A storage WAL record or logical change is encoded/selected for the configured replication path.
 3. Logical subscribers consume changes through slots/streams; the async shipper queues WAL segments and dispatches them through its configured handler.
-4. Multi-writer conflict helpers resolve competing entries according to the selected resolver; lag and health components expose state to callers.
+4. Conflict resolver APIs can resolve competing writes when invoked by their caller; lag and health components expose state through separate APIs.
 
 The manager includes `storage/wal_storage.h`; see [`replication_manager.cpp`](replication_manager.cpp), [`logical_replication.cpp`](logical_replication.cpp), and [`async_wal_shipper.cpp`](async_wal_shipper.cpp).
 
 ## Failure domains and edge cases
 
 - Replica heartbeat/election/ack timeouts and quorum requirements affect promotion or synchronous write acknowledgement according to configuration.
-- A full async shipping queue rejects/drops a segment according to its enqueue result and updates drop accounting; callers must handle the result and lag signals.
+- A full async shipping queue returns `false` from `enqueueSegment()`; callers must handle this backpressure result and the shipper statistics.
 - A paused replication slot retains its progress position; stale consumers can therefore constrain log retention.
-- Network/ship-handler, schema-event, or conflict-resolver errors are separate from local storage failures and must be surfaced through the corresponding callback/status path.
+- Ship-handler, schema-event, or conflict-resolver errors are separate component concerns. Exact propagation/retry semantics are not uniform; consult each public interface and implementation.
+
+**TODO:** Verify whether the module-local test CMake file is included by the active top-level
+configure path, and identify any out-of-module implementation/wiring for the two
+header-only declarations noted above.
 
 ## Explicit non-goals
 
