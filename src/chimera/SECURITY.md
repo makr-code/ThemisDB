@@ -1,41 +1,35 @@
-# Security - Chimera Module
+---
+Author: unknown (original author not verified)
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: AI documentation assistant
+Human_Review: false
+Human_Author: unknown
+---
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+Exact model backend not verifiable from final document text alone.
 
-Report vulnerabilities via project-level SECURITY.md.
+# Chimera security boundaries
 
-## Security Scope
+**Purpose / audience:** identify security-relevant boundaries for maintainers. This is not a security audit or assurance that controls are complete.
 
-Security in the chimera module focuses on safe adapter lifecycle handling, bounded dispatch behavior, structured failure reporting, and minimizing ambiguity between simulation and engine-backed paths.
+## Boundaries requiring configuration-specific review
 
-## Threat Model
+- External connections, credentials, TLS, authentication, and authorization depend on the selected adapter and its compiled driver path. Do not infer these controls from the common adapter interface.
+- `MongoDBAdapter` masks credentials in its stored connection string; that alone is not a comprehensive secret-handling review. Neo4j and Qdrant have separate connection implementations and compile-time guards.
+- `THEMISDB_ENGINE_AVAILABLE` controls engine-specific dispatch code. Simulation behavior is not a substitute for testing the production engine path.
+- Retry policies can amplify load if incorrectly configured. Current `RetryExecutor::should_retry` does not inspect the concrete error code, so selective retry semantics are not established.
+- `THEMIS_BUILD_CHIMERA` defaults to `OFF`; enabling the option does not establish a secure deployment configuration.
 
-| Threat | Current Mitigation Surface |
-|---|---|
-| operation attempts without valid adapter connection state | explicit connection-state checks and structured errors |
-| unsupported engine dispatch ambiguity | explicit not-implemented error signaling on unavailable paths |
-| capability/behavior drift in adapter contract reporting | centralized capability reporting surfaces in adapter runtime |
-| accidental exposure via simulation-vs-engine mismatch | documented conditional dispatch boundaries and explicit failure behavior |
+## Required review before deployment
 
-## Implemented Security Controls
+Review the exact build definitions, external dependency versions, connection/authentication settings, secret redaction, error/log output, resource/time limits, and adapter-specific failure behavior. Run security and integration validation for the deployed configuration and record it separately. Report vulnerabilities through the project-level [`SECURITY.md`](../../SECURITY.md).
 
-- adapter operations enforce connection preconditions.
-- unsupported dispatch paths fail explicitly and non-silently.
-- capability reporting is surfaced through adapter contract methods.
-- adapter runtime state is process-local and bounded.
+## Evidence
 
-## Security Follow-ups
+`include/chimera/{mongodb_adapter,neo4j_adapter,qdrant_adapter,retry_executor,themisdb_adapter}.hpp`, corresponding `src/chimera/*.cpp`, `CMakeLists.txt`, `cmake/ChimeraAdapters.cmake`.
 
-- continue hardening behavior parity between simulation and engine-backed paths.
-- maintain deterministic error taxonomy for dispatch and capability failures.
-- keep diagnostics actionable for adapter integration incidents.
-
-## Sourcecode Verification (Module: chimera/security)
-
-- Verified files:
-  - src/chimera/themisdb_adapter.cpp
-- Verified controls:
-  - explicit connection-state gating
-  - structured unsupported-dispatch failures
-  - bounded adapter runtime and capability surfaces
+Issue/milestone: #7336 / DOC-WEEKLY-2026-44.

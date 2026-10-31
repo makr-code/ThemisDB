@@ -1,79 +1,37 @@
-# chimera — MODULE_GAPS.md (Phase 5 Verified)
-
-This file documents all documentation and code quality gaps in the **chimera** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
-
-## Summary
-
-## Marker-Validierung 2026-08-31
-
-- Quelle: `audit/MARKER_LOCATIONS_2026-08-31.md`
-- Ergebnis: **38 reale Gaps**, **1 Doku-Leaks**
-- Klassifikation: Doku-Leaks kommen aus auto-generierten `@note Gap Summary`-Headerzeilen und sind keine fehlende Produktionslogik.
-- Real-Beispiel: `GAP-0364` → `src/chimera/mongodb_adapter.cpp:67` (// TODO: Actual mongocxx client creation)
-- Doku-Leak-Beispiel: `GAP-0402` → `src/chimera/themisdb_adapter.cpp:7` (* @note Gap Summary: total=19; TODO=1, Stub=6, Unimpl=0, Mock=1, Sim=11, Debt=0, C=6, H=18, M=28, L=0)
-- Korrespondierende Gesamtliste: `audit/MARKER_GAP_CLASSIFICATION_2026-08-31.md`
-
-- **Total Gaps**: 491
-- **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
-- **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)
-
-### By Severity
-
-- **CRITICAL**: 9
-- **HIGH**: 181
-- **MEDIUM**: 298
-- **LOW**: 3
-
-### By Type
-
-- braces_imbalance: 4
-- braces_imbalance_midfile: 133
-- cast_to_smaller_type: 1
-- chimera_retry_duplication: 29
-- circular_lock_ordering: 26
-- db_connection_leak: 4
-- iterator_invalidation: 6
-- legacy_or_compat_path: 1
-- manual_cleanup: 1
-- missing_adr_reference: 1
-- missing_noexcept_on_move: 1
-- missing_volatile: 2
-- module_doc_linkset_drift: 2
-- no_retry_logic: 4
-- null_dereference: 2
-- o_n_squared: 5
-- pointer_arithmetic_unbounded: 1
-- repeated_search: 2
-- scope_mismatch: 262
-- sensitive_data_logging: 1
-- string_concat_loop: 2
-- todo_as_productionlogic: 1
-
-## Top 20 Gaps
-
-- [braces_imbalance] mongodb_adapter.cpp:1 (CRITICAL)
-- [braces_imbalance] qdrant_adapter.cpp:1 (CRITICAL)
-- [braces_imbalance] themisdb_adapter.cpp:1 (CRITICAL)
-- [iterator_invalidation] themisdb_adapter.cpp:520 (CRITICAL)
-- [iterator_invalidation] themisdb_adapter.cpp:570 (CRITICAL)
-- [iterator_invalidation] themisdb_adapter.cpp:579 (CRITICAL)
-- [iterator_invalidation] themisdb_adapter.cpp:588 (CRITICAL)
-- [iterator_invalidation] themisdb_adapter.cpp:625 (CRITICAL)
-- [iterator_invalidation] themisdb_adapter.cpp:686 (CRITICAL)
-- [braces_imbalance] neo4j_adapter.cpp:1 (HIGH)
-- [chimera_retry_duplication] retry_executor.cpp:21 (HIGH)
-- [no_retry_logic] neo4j_adapter.cpp:44 (HIGH)
-- [no_retry_logic] qdrant_adapter.cpp:44 (HIGH)
-- [no_retry_logic] mongodb_adapter.cpp:46 (HIGH)
-- [chimera_retry_duplication] retry_executor.cpp:56 (HIGH)
-- [no_retry_logic] themisdb_adapter.cpp:74 (HIGH)
-- [repeated_search] themisdb_adapter.cpp:138 (HIGH)
-- [circular_lock_ordering] themisdb_adapter.cpp:185 (HIGH)
-- [repeated_search] themisdb_adapter.cpp:190 (HIGH)
-- [circular_lock_ordering] themisdb_adapter.cpp:214 (HIGH)
-
-... and 471 more gaps.
-
+---
+Author: unknown (original author not verified)
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: AI documentation assistant
+Human_Review: false
+Human_Author: unknown
 ---
 
-**Phase 5 Verification Notes**: External GitHub submodules (llama.cpp, whisper.cpp, vcpkg, etc.) are explicitly excluded from this analysis via Phase 5 filtering. This ensures all gaps are from themis_core (100% scope accuracy).
+Exact model backend not verifiable from final document text alone.
+
+# Chimera module gaps and evidence limits
+
+**Purpose / audience:** current documentation-level gaps visible from headers, implementations, tests, and CMake. This is not a code-scanner report.
+
+## Verified documentation gaps
+
+- **Build boundary:** the feature defaults off; enabled wiring references the external CHIMERA checkout. Local adapter source files should not be presented as automatically built or production-enabled.
+- **CMake source reconciliation:** the canonical adapter list adds the local ThemisDB implementation and external adapter sources, but does not list the local retry, batch, transaction, MongoDB, Neo4j, or Qdrant implementation files. The focused-test helper also appends local adapter source paths not present in the current `src/chimera/` inventory (including `adapter_factory.cpp` and several external-vendor adapter names). Whether those paths cause a configure/build failure was not tested.
+- **Vendor support boundary:** MongoDB, Neo4j, and Qdrant code is conditional and partial. The build configuration inspected does not establish that all three compile definitions or libraries are enabled.
+- **Retry policy:** `RetryExecutor::should_retry` does not inspect the concrete error code, despite the policy carrying retry categories/codes.
+- **Batch/transaction claims:** `batch_executor.cpp` is an anchor, while concrete queues are adapter-specific. Transaction context/state recording is not proof of distributed transaction coordination.
+- **Evidence quality:** old maturity scores, LOC totals, broad gap counts, and "ready/validated" statements are not corroborated by the source inspected for this update and have been removed from the current status record.
+- **Tests and performance:** source presence and CMake declarations are not test execution evidence. Dedicated benchmark cases include stubs and must not be used as measurements of production routing.
+
+## Follow-up needed
+
+Confirm supported feature combinations and external dependency setup in a real configure/build review; run the focused tests and identify exactly which targets register; run benchmarks only with a documented environment and compare against a maintained baseline. Those actions were not performed for issue #7336.
+
+## References
+
+`src/chimera/*.cpp`, `include/chimera/*.hpp`, `cmake/ChimeraAdapters.cmake`, `tests/CMakeLists.txt`, `tests/chimera/CMakeLists.txt`, `benchmarks/chimera/*.cpp`.
+
+Issue/milestone: #7336 / DOC-WEEKLY-2026-44.

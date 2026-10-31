@@ -1,37 +1,31 @@
-> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+---
+Author: unknown (original author not verified)
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: AI documentation assistant
+Human_Review: false
+Human_Author: unknown
+---
 
-# FUTURE_ENHANCEMENTS
+Exact model backend not verifiable from final document text alone.
 
-## tests/chimera
+# Chimera test follow-up candidates
 
-### Scope
-- Ausbau der Modulfähigkeiten in `tests/chimera` für Stabilität, Wartbarkeit und Betriebsreife.
-- Schließen dokumentierter Funktions- und Qualitätslücken.
+**Purpose / audience:** concrete test-infrastructure candidates based on current sources and CMake; not scheduled commitments.
 
-### Design Constraints
-- Rückwärtskompatibilität zu bestehenden Modulverträgen sicherstellen.
-- Kein Sicherheits- oder Compliance-Regression durch Erweiterungen.
-- Deterministisches, nachvollziehbares Fehlerverhalten beibehalten.
+- Establish whether `tests/chimera/CMakeLists.txt` is intended to be included. If so, wire it explicitly and verify which globbed tests can compile; otherwise remove the assumption from module guidance.
+- Make CMake registrations correspond to present source files and distinguish local tests from tests supplied by `external/chimera`.
+- Add configuration-specific coverage for engine-enabled versus simulation paths and for each optional vendor driver that maintainers choose to support.
+- Exercise `RetryExecutor` against concrete error results; current implementation does not classify on the result's error code.
+- Keep stub-only high-cardinality tests labeled as synthetic; add integration coverage before using them to support claims about real routing.
 
-### Required Interfaces
-- Öffentliche APIs/CLI/Config-Verträge bleiben klar versioniert.
-- Interne Schnittstellen werden explizit dokumentiert und getestet.
+## Validation evidence
 
-### Implementation Notes
-- Erweiterungen inkrementell in kleinen, überprüfbaren Schritten liefern.
-- Abhängigkeiten minimieren und vorhandene Infrastruktur wiederverwenden.
-- Observability (Logs/Metriken/Tracing) für neue kritische Pfade ergänzen.
+For any future test claim, record the configure option/dependencies, exact target and CTest name, command, and result. No test or build was run for issue #7336.
 
-### Test Strategy
-- Unit-Tests für neue Kernlogik und Fehlerpfade.
-- Integrations-/End-to-End-Tests für modulübergreifende Flows.
-- Regressionstests für bereits ausgelieferte Funktionalität.
+References: `tests/CMakeLists.txt`, `tests/chimera/CMakeLists.txt`, `tests/chimera/*.cpp`, `include/chimera/retry_executor.hpp`.
 
-### Performance Targets
-- Keine signifikante Regression in Latenz/Throughput gegenüber Baseline.
-- Kritische Pfade mit reproduzierbaren Benchmarks absichern.
-
-### Security / Reliability
-- Security-Reviews für neue Eingabe- und Integrationsflächen.
-- Robuste Fehlerbehandlung, Timeouts und Recovery-Verhalten sicherstellen.
-- Relevante Änderungen durch Audit-Artefakte nachvollziehbar machen.
+Issue/milestone: #7336 / DOC-WEEKLY-2026-44.

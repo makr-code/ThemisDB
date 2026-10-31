@@ -1,42 +1,36 @@
-# PERFORMANCE_EXPECTATIONS - src/chimera
+---
+Author: unknown (original author not verified)
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: AI documentation assistant
+Human_Review: false
+Human_Author: unknown
+---
 
-## Scope
+Exact model backend not verifiable from final document text alone.
 
-- Module: src/chimera
-- This file defines measurable chimera module performance expectations for release gating.
+# Chimera benchmark coverage and performance expectations
 
-## Benchmark Reference
+**Purpose / audience:** identify benchmarked code and distinguish it from enforced performance criteria. No benchmark was run for issue #7336.
 
-- Relevant benchmark file:
-  - benchmarks/llm_bench.cpp
+## Checked-in benchmark cases
 
-## Specific Expectations
-
-| Target ID | Expectation | Benchmark case |
+| Source | Coverage | Important limitation |
 |---|---|---|
-| CHI-1 | adapter request parsing path remains within release baseline budget | BM_OpenAICompatAdapter_ParseRequest |
-| CHI-2 | adapter response building path remains within release baseline budget | BM_OpenAICompatAdapter_BuildResponse |
-| CHI-3 | adapter parse/build roundtrip path remains bounded in release profile | BM_OpenAICompatAdapter_RoundTrip |
+| `benchmarks/chimera/bench_chimera_adapter.cpp` | CHM-01..06: connect, query, disconnect, 100 sequential query calls, transaction commit, error handling | Fixture default-constructs `ThemisDBAdapter`; it does not establish live-engine or connection-pool performance. Source comments mention thresholds, but no threshold enforcement is claimed here. |
+| `benchmarks/chimera/bench_chimera_dedicated_gates.cpp` | CH-BM-01..04: routing counter, fallback counter, route decision, 100-value average | Uses local `RouterStub` and `stubMerge`, not production adapter/router code. Not a production release gate. |
 
-## Module Hard Gates (v1.0 docs baseline)
+`benchmarks/CMakeLists.txt` declares standard benchmark targets for both sources. `benchmarks/chimera/CMakeLists.txt` also registers globbed `bench_*.cpp` files when benchmark support is enabled. Actual inclusion depends on the enclosing benchmark configuration.
 
-| Gate ID | Expectation | Measurement |
-|---|---|---|
-| CIG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
-| CIG-2 | adapter compatibility path p99 <= release threshold | p99 from mapped adapter benchmark cases |
-| CIG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
+## Expectations
 
-## Validation
+There is no source-backed basis here for numerical release thresholds, p95/p99 guarantees, or a claim that a benchmark run passed. To establish a release gate, connect a real adapter workload to the relevant CMake/CI gate, define the measurement environment and baseline, and record executed results.
 
-- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
-- Current mapping is a compatibility proxy and should be replaced by dedicated chimera-native benchmark cases.
+## References
 
-## Sourcecode Verification (Module: chimera/performance)
+`benchmarks/chimera/bench_chimera_adapter.cpp`, `benchmarks/chimera/bench_chimera_dedicated_gates.cpp`, `benchmarks/CMakeLists.txt`, `benchmarks/chimera/CMakeLists.txt`.
 
-- Verified benchmark source:
-  - benchmarks/llm_bench.cpp
-- Verified mapping surfaces:
-  - OpenAI compatibility adapter parse, build, and roundtrip benchmark paths
-- Result:
-  - Referenced benchmark cases exist in current benchmark source.
-  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.
+Issue/milestone: #7336 / DOC-WEEKLY-2026-44.

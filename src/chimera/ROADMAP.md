@@ -1,115 +1,51 @@
-# Chimera Module Roadmap
+---
+Author: unknown (original author not verified)
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: AI documentation assistant
+Human_Review: false
+Human_Author: unknown
+---
 
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-27 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+Exact model backend not verifiable from final document text alone.
 
-## Current Status
+# Chimera roadmap notes
 
-Production adapter runtime (v0.0.47, 96/100 maturity score) exists for the current ThemisDB adapter implementation, including simulation-mode behavior and conditional engine-dispatch integration surfaces. Core module documentation is aligned to source-verifiable behavior. Build system corrected 2026-07-27 (CMakeLists.txt).
+**Status basis:** source and CMake inspection for issue #7336 only. This file does not establish release status, maturity, or completed runtime validation.
 
-**Gap-Closure Wave 2 (2026-08-31):** All MongoDB, Neo4j, and Qdrant adapter methods that previously silently returned `ok` without a real library now:
-- Are guarded by `#ifdef THEMIS_CHIMERA_MONGO` / `#ifdef THEMIS_CHIMERA_NEO4J` / `#ifdef THEMIS_CHIMERA_QDRANT`
-- Return `ErrorCode::NOT_IMPLEMENTED` with an actionable message in the `#else` branch
-- Carry `// NOT IMPLEMENTED: Requires <library>. Gate: THEMIS_CHIMERA_<NAME>` comments
-- Do **not** silently report success when the library is unavailable
+## Current source posture
 
-## In Progress
+- The ThemisDB adapter, retry, batch, and transaction-context components are present in the local source tree.
+- MongoDB, Neo4j, and Qdrant adapters are present locally but have conditional driver paths; their availability is configuration-dependent and is not established by this roadmap.
+- `THEMIS_BUILD_CHIMERA` defaults `OFF`. With it enabled, `cmake/ChimeraAdapters.cmake` adds external CHIMERA adapter source files and the local ThemisDB adapter. CMake test registrations include additional local/external references, so a supported configuration and successful build still need to be established.
+- Local test and benchmark source files exist; their existence is not evidence that targets built or tests/benchmarks passed.
 
-- [~] hardening parity between simulation-mode and engine-backed dispatch paths (Target: Q3 2026, evidence: 2200+ test LOC)
-- [~] benchmark stabilization for adapter request/response compatibility pathways (Target: Q3 2026)
-- [~] diagnostics consistency improvements for capability and dispatch failure classes (Target: Q3 2026)
-- [x] v1.0.0: Production ThemisDB Adapter Integration core surfaces (delivered 2026-07-18)
-- [~] v1.1.0: Transaction Management with ACID properties and savepoints (Target: Q3 2026)
-- [~] v1.1.0: Error Recovery with exponential backoff retry strategy (Target: Q3 2026)
-- [~] v1.1.0: Batch Operation Optimization for throughput (Target: Q3 2026)
-- [~] v1.2.0: MongoDB/Qdrant/Neo4j Real Driver Integration (Target: Q4 2026)
-  - [x] Gap-Closure Wave 2 (2026-08-31): `#ifdef` guards + fail-closed `NOT_IMPLEMENTED` returns for all adapter methods requiring `mongocxx` / `neo4j-cpp-driver` / `qdrant-client-cpp`
-  - [ ] Wire real `mongocxx::client` behind `THEMIS_CHIMERA_MONGO` (Target: Q4 2026)
-  - [ ] Wire real `neo4j-cpp-driver` behind `THEMIS_CHIMERA_NEO4J` (Target: Q4 2026)
-  - [ ] Wire real `qdrant-client-cpp` gRPC calls behind `THEMIS_CHIMERA_QDRANT` (Target: Q4 2026)
+## Candidate next work (uncommitted)
 
-## Planned Features
+- [ ] Reconcile CMake adapter and focused-test source lists with files actually present; document the external checkout requirements.
+- [ ] Specify supported combinations for engine injection and MongoDB/Neo4j/Qdrant driver compilation.
+- [ ] Correct retry behavior or narrow its documented guarantees; test concrete retryable and non-retryable errors.
+- [ ] Define transaction semantics and avoid implying distributed coordination unless implemented and tested.
+- [ ] Tie any performance thresholds to real adapter workloads and an executed, maintained CI gate; identify stub benchmarks as synthetic.
 
-### Short-term (3-6 months)
-- [x] tighten deterministic behavior across adapter dispatch edge permutations (Delivered: Wave D 2026-09-16 — high-cardinality stress)
-- [x] expand regression coverage for engine-availability and fallback behavior (Delivered: Wave D — `tests/chimera/test_chimera_highcardinality_stress.cpp`)
-- [x] improve operator diagnostics for adapter contract and runtime mismatch incidents (Delivered: Wave D — `docs/operability/RUNBOOK_CHIMERA.md`)
+## Readiness checklist and known issues
 
-### Mid-term (6-12 months)
-- [~] re-baseline adapter p95/p99 envelopes for release-profile compatibility paths (Target: Q1 2027)
-- [~] add dedicated chimera-native benchmark coverage for adapter operations (Delivered: Wave D — `benchmarks/chimera/bench_chimera_dedicated_gates.cpp` CH-BM-01..04)
-- [~] evaluate modular multi-vendor adapter expansion strategy within src/chimera (Target: Q1 2027)
+- [ ] Confirm the enabled CMake configuration and external checkout build.
+- [ ] Record passing focused tests for each supported adapter/driver combination.
+- [ ] Establish supported engine-dispatch and vendor-driver behavior.
+- [ ] Verify retry, transaction, and performance claims with targeted evidence.
 
-## Implementation Phases
+Known issue: the current documentation/source inventory does not establish which optional vendor paths are supported in a shipped binary. No planned breaking change is evidenced by this inspection; compatibility policy remains dependent on the selected external contract.
 
-### Phase 1: Design / API Contract
-- [x] freeze adapter contract semantics for active major line (2026-08-09: CHIMERA_ADAPTER_CONTRACT.md created; lifecycle + dispatch contracts frozen)
-- [x] define explicit error taxonomy for connection/capability/dispatch failures (2026-08-09: DISPATCH_FAILED=14, CAPABILITY_MISMATCH=15 added to ErrorCode; taxonomy in CHIMERA_ADAPTER_CONTRACT.md §3)
+## Readiness boundary
 
-### Phase 2: Core Implementation
-- [~] complete hardening for lifecycle and dispatch internals (Target: Q4 2026)
-- [~] align simulation and engine-backed behavior to bounded runtime contracts (Target: Q4 2026)
+No dated release targets, phase completion, test-pass claim, production designation, or maturity score is asserted. Track those only when supported by current root governance/release evidence and configuration-specific validation.
 
-### Phase 3: Error Handling and Edge Cases
-- [x] Gap-Closure Wave 2: all third-party adapter methods return `NOT_IMPLEMENTED` when library not compiled in — no silent success (2026-08-31)
-- [ ] standardize fail-closed behavior for invalid connection/dispatch states (Target: Q4 2026)
-- [~] unify diagnostics across capability mismatch and unsupported-path classes (Target: Q4 2026)
+## References
 
-### Phase 4: Tests
-- [x] expand focused regressions for adapter lifecycle and dispatch edge scenarios (Delivered: Wave D — `tests/chimera/test_chimera_highcardinality_stress.cpp`)
-- [~] extend deterministic fixture coverage for engine-injection permutations (Target: Q4 2026)
+`CMakeLists.txt`, `cmake/ChimeraAdapters.cmake`, `tests/CMakeLists.txt`, `tests/chimera/CMakeLists.txt`, `benchmarks/CMakeLists.txt`, [`ARCHITECTURE.md`](ARCHITECTURE.md).
 
-### Phase 5: Performance and Hardening
-- [x] lock benchmark-backed release gates for adapter compatibility hot paths (Target: Q4 2026) — GATE-CHM-01..06 benchmarks delivered (2026-08-07)
-- [~] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026) — Benchmark execution in progress (2026-08-07)
-
-### Phase 6: Documentation and Acceptance
-- [x] core chimera module docs aligned to source-verifiable behavior (completed 2026-07-18)
-- [x] roadmap/future planning separated from historical changelog entries (completed 2026-07-18)
-- [x] build system corrected and test infrastructure validated (completed 2026-07-27)
-- [x] module acceptance criteria documented and traceable (completed 2026-08-07)
-- [x] Doxygen metadata: v0.0.47, 96/100 maturity score, production-ready classification (completed 2026-08-07)
-
-## Production Readiness Checklist
-
-- [x] core chimera surfaces documented and source-verified (completed 2026-07-18)
-- [x] module-level security and failure behavior documented (completed 2026-07-18)
-- [x] benchmark mapping documented in performance expectations (completed 2026-07-18)
-- [x] build system validated and test infrastructure corrected (completed 2026-07-27)
-- [~] remaining hardening tasks in progress for dispatch parity and edge cases (target Q4 2026)
-- [~] release benchmark stabilization in progress (target Q4 2026, framework ready 2026-08-07)
-- [x] focused test suite available: 2200+ LOC across 3 test files (test_themisdb_adapter.cpp, test_chimera_streaming.cpp, test_chimera_prepared_statements.cpp)
-
-## Known Issues and Limitations
-
-- current source layout contains the ThemisDB adapter implementation only; third-party adapters (MongoDB, Qdrant, Neo4j) are on roadmap for v1.2.0.
-- behavior parity for all engine-backed dispatch paths requires continued hardening; simulation paths are fully functional and tested.
-- benchmark depth remains limited for chimera-native adapter pathways; compatibility pathways are validated.
-- RocksDB dependency required for community-release builds (librocksdb-dev); linux-release preset requires vcpkg.
-
-## Breaking Changes
-
-No breaking chimera-module contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.
-
-## Program Execution Model — Wave Context
-
-This module is a **contributing module** in the program-level Wave A → B → C → D execution model.
-It does not own a primary wave deliverable but must remain `release_critical`-green throughout all waves
-and must deliver Wave D operability improvements in Q1 2027.
-See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
-
-### Wave D Contribution for `chimera`
-- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Delivered: 2026-09-16 — `tests/chimera/test_chimera_highcardinality_stress.cpp`, CH-BM-01..04 benchmark gates)
-- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Delivered: 2026-09-16 — `tests/integration/test_chimera_soak.cpp`)
-- [x] Ensure runbook coverage for operator-critical scenarios in this module (Delivered: 2026-09-16 — `docs/operability/RUNBOOK_CHIMERA.md`)
-
-### Cross-Wave Requirements
-- `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
-- p95/p99 benchmarks must be refreshed on representative hardware before Wave D sign-off (Target: Q1 2027)
-- No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
-
-### Program-Level Success Criteria (contribution)
-- [x] This module's distributed/acceleration paths fail closed (Delivered: Wave D 2026-09-16)
-- [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Delivered: CH-BM-01..04 in `benchmarks/chimera/bench_chimera_dedicated_gates.cpp`)
-- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Delivered: `docs/operability/RUNBOOK_CHIMERA.md`)
+Issue/milestone: #7336 / DOC-WEEKLY-2026-44.

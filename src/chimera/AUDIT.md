@@ -1,52 +1,39 @@
-# Audit Report - Chimera Module
+---
+Author: unknown (original author not verified)
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: AI documentation assistant
+Human_Review: false
+Human_Author: unknown
+---
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+Exact model backend not verifiable from final document text alone.
 
-## Summary
+# Chimera source audit notes
 
-| Metric | Result |
-|---|---|
-| Build registration | pass |
-| Source set size | 1 implementation file in src/chimera |
-| Focused test presence | pass |
-| Open hardening findings | yes |
-| Critical blockers | none identified |
+**Purpose / audience:** identify what was and was not checked for developers planning an audit. This is not a completed security or release audit.
 
-## Verified Files
+## Review scope for issue #7336
 
-- src/chimera/themisdb_adapter.cpp
+Source and wiring were inspected for documentation synchronization: public headers in `include/chimera/`, local implementations in `src/chimera/`, focused tests, benchmark sources, and the relevant CMake entries. No build, test, security scanner, or benchmark was run.
 
-## Findings
+## Evidence and limits
 
-### Open
+- The local source tree contains ThemisDB, retry, batch, transaction, MongoDB, Neo4j, and Qdrant implementation files.
+- The default `THEMIS_BUILD_CHIMERA` value is `OFF`.
+- Vendor code paths are conditional; CMake's canonical adapter source list also references `external/chimera`. The presence of local adapter files alone does not establish that they are part of the default or enabled production target.
+- `RetryExecutor::should_retry` currently uses coarse policy booleans and does not inspect a result's concrete error code. This is a behavior limitation, not a finding that a runtime test was performed.
+- `batch_executor.cpp` contains no shared queue/flush implementation; adapter-specific implementations live elsewhere.
 
-1. [CHI-AUD-01] dispatch parity hardening remains active.
-- Severity: medium
-- Evidence: roadmap/future retain active tasks for simulation-vs-engine path consistency.
-- Action: close remaining dispatch parity regressions and behavior alignment checks.
+## Audit status
 
-2. [CHI-AUD-02] capability and failure-taxonomy diagnostics require continued tightening.
-- Severity: medium
-- Evidence: planned work remains for capability/dispatch mismatch diagnostic consistency.
-- Action: unify taxonomy and expand deterministic error-path coverage.
+No comprehensive source audit, runtime validation, or production-readiness assessment is claimed here. Any security or audit conclusion requires a separately scoped review with build configuration, dependency versions, executed tests, and deployment settings recorded.
 
-3. [CHI-AUD-03] benchmark depth is currently proxy-oriented.
-- Severity: low
-- Evidence: current mapping uses existing adapter compatibility benchmark symbols.
-- Action: add dedicated chimera-native adapter benchmarks and calibrate release thresholds.
+## References
 
-### Closed
+`include/chimera/*.hpp`, `src/chimera/*.cpp`, `cmake/ChimeraAdapters.cmake`, `tests/CMakeLists.txt`, `tests/chimera/CMakeLists.txt`.
 
-- core chimera runtime surfaces are present and source-verified.
-- documentation set is synchronized to source-verifiable claims.
-- changelog/roadmap role separation is aligned to governance pattern.
-
-## Compliance Snapshot
-
-| Requirement | Status |
-|---|---|
-| Source-verifiable behavior claims | pass |
-| Structured forward planning in roadmap/future | pass |
-| Historical completion tracked in changelog | pass |
-| Core module docs synchronized | pass |
+Issue/milestone: #7336 / DOC-WEEKLY-2026-44.

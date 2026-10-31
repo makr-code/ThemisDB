@@ -1,25 +1,35 @@
-> WARNING: Historical changelog entries describe implementation state at the time they were recorded.
+---
+Author: unknown (original author not verified)
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: AI documentation assistant
+Human_Review: false
+Human_Author: unknown
+---
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+Exact model backend not verifiable from final document text alone.
 
-# Changelog - Chimera Module
+# Chimera documentation changelog
 
-All notable changes to the chimera module are documented here.
-The format is based on Keep a Changelog.
+Historical entries below record prior documentation activity; they are not evidence that a build, release gate, or production review passed.
 
 ## [Unreleased]
 
 ### Changed
-- Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
-- Performance expectations aligned to explicit existing adapter benchmark symbols from current benchmark sources.
+- Issue #7336: synchronized scoped module documentation with checked-in public headers, local implementations, tests, benchmark sources, and CMake wiring.
+- Clarified default-off build configuration and conditional/external adapter boundaries; removed unsupported maturity, release-readiness, performance-gate, and test-validation assertions.
 
 ## [2026-04-16]
 
 ### Changed
-- consolidated primary documentation and migration alignment for chimera docs.
+- Earlier documentation consolidation was recorded. Its implementation and validation claims are historical and are not reasserted here.
 
 ## [2026-04-08]
 
 ### Added
-- baseline chimera module documentation set.
+- Earlier baseline documentation set was recorded.
+
+Issue/milestone: #7336 / DOC-WEEKLY-2026-44.
