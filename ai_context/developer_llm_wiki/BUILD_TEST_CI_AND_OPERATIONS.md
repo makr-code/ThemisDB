@@ -2,7 +2,7 @@
 
 > Author: ThemisDB Team
 > Created: 2026-10-26
-> Last Updated: 2026-10-30
+> Last Updated: 2026-10-31
 > Status: active
 > AI_Used: true
 > AI_Models: unknown
@@ -91,6 +91,19 @@ guidance; use workflow sources and concrete run logs as evidence.
   configure retries clear inherited launcher environment variables as well as the
   CMake cache entries, so nested vcpkg probes do not reuse a failing launcher.
   Other compiler errors remain fatal; a full release CI run is still required.
+- Linux AMD64 release job
+  [124425510353](https://github.com/makr-code/ThemisDB/actions/runs/41163259618/job/124425510353)
+  recovered from a compiler-probe sccache failure, then failed building Arrow 25.0.1
+  when Arrow rediscovered sccache and contacted the same unavailable GitHub cache
+  backend. Clearing CMake launchers alone does not prevent dependency-side discovery.
+  The existing configure/build recovery now exports `SCCACHE_GHA_ENABLED=false`
+  and persists it through `GITHUB_ENV`; rediscovered sccache can use the configured
+  local cache rather than the failed remote backend. Source:
+  [reusable-cmake-build.yml](../../.github/workflows/reusable-cmake-build.yml).
+  Shell regression coverage in
+  [test_check_workflow_boundaries.py](../../tools/tests/test_check_workflow_boundaries.py)
+  verifies backend isolation, persistence, and fatal retry errors. A full release
+  run on the corrected revision is still required.
 - Evidence window: 2026-10-29 05:23 to 2026-10-30 05:23 UTC.
   Representative runs:
   [missing summary checkout](https://github.com/makr-code/ThemisDB/actions/runs/41003835208),

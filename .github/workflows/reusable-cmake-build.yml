@@ -587,6 +587,9 @@ jobs:
             if command -v sccache >/dev/null 2>&1; then
               sccache --stop-server >/dev/null 2>&1 || true
             fi
+            # Dependency builds can rediscover sccache even with empty CMake launchers.
+            export SCCACHE_GHA_ENABLED=false
+            echo "SCCACHE_GHA_ENABLED=false" >> "$GITHUB_ENV"
             BUILD_DIR="${{ steps.resolve_mode.outputs.resolved_build_dir }}"
             if [ -n "${BUILD_DIR:-}" ] && [ -d "$BUILD_DIR" ]; then
               # Reuse cached configure options; rerunning the preset would re-enable the launcher.
@@ -630,6 +633,8 @@ jobs:
             if command -v sccache >/dev/null 2>&1; then
               sccache --stop-server >/dev/null 2>&1 || true
             fi
+            export SCCACHE_GHA_ENABLED=false
+            echo "SCCACHE_GHA_ENABLED=false" >> "$GITHUB_ENV"
             if [ -n "${BUILD_DIR:-}" ] && [ -d "$BUILD_DIR" ]; then
               cmake "$BUILD_DIR" -DTHEMIS_ENABLE_COMPILER_CACHE=OFF -DCMAKE_C_COMPILER_LAUNCHER= -DCMAKE_CXX_COMPILER_LAUNCHER= 2>&1 | tee -a "$build_output_log"
             fi
