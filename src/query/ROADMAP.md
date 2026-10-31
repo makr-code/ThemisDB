@@ -5,7 +5,7 @@ Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "OpenAI API assistant (model unknown)"
+AI_Contributor: "GitHub Copilot"
 Human_Review: false
 Human_Author: "unknown"
 ---
