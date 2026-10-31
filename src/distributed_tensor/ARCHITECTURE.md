@@ -22,11 +22,11 @@ implementation sources are listed in `src/distributed_tensor/CMakeLists.txt`.
 That CMake file builds the static target `themis_distributed_tensor`, links
 `themis_base`, and conditionally links `themis_core` and `themis_tensor` if
 those targets are available. The project CMake default is C++20, but the module
-target privately requests `cxx_std_17`. The public
-`tensor_storage_strategy.h` includes `<span>` and uses `std::span` (C++20), so
-the public API is not established as C++17-compatible. The effective
-requirement for external installed-header consumers is unresolved because the
-module target's feature request is private.
+target publicly requests `cxx_std_20`. The public
+`tensor_storage_strategy.h` includes `<span>` and exposes `std::span`, so C++20
+is a public-header requirement. Consumers linking the CMake target inherit the
+feature requirement; direct users of the installed headers must select C++20
+themselves.
 
 ## Component ownership
 

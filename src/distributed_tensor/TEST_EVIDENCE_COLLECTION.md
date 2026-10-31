@@ -78,11 +78,28 @@ configuration. Historical test counts and pass-status statements still require
 their original execution artifacts; source registration alone does not confirm
 that they passed.
 
+## Validation attempt (2026-10-31)
+
+- Configure command: `cmake -S . -B /tmp/themis-distributed-tensor-build
+  -DCMAKE_TOOLCHAIN_FILE= -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON
+  -DTHEMIS_DIAGNOSTIC_MODE=ON -DTHEMIS_BUILD_TESTS=ON
+  -DTHEMIS_BUILD_BENCHMARKS=ON -DCMAKE_BUILD_TYPE=Debug`.
+- Environment: CMake 3.31.6, GNU 13.3.0, Linux x86_64.
+- Result: configuration stopped at `cmake/Dependencies.cmake:727` because the
+  required `fmt` library was not found. The build tree was not generated, so no
+  module or EPIC 3 test/benchmark target could be built or run.
+- A standalone syntax-only compile of
+  `include/distributed_tensor/tensor_storage_strategy.h` passed with C++20; the
+  same header was rejected with C++17 at `std::span`, confirming its language
+  requirement. This does not substitute for building the CMake target.
+- `python3 tests/test_ai_dev_llm_wiki_sync.py` passed all 3 wiki-sync regression
+  tests; these do not test the distributed-tensor module.
+
 ## Current evidence gaps
 
-- Test execution and pass status have not been checked in this documentation
-  task.
-- No benchmark results or representative-hardware measurements are recorded
-  here.
+- Distributed-tensor test pass status remains unverified because configuration
+  stopped before targets were generated.
+- No benchmark was built or run; no representative-hardware measurements or
+  production sign-off are recorded here.
 - The configured sources do not, on their own, establish coverage adequacy for
   every production integration path.

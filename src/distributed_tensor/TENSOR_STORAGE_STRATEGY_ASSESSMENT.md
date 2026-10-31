@@ -24,9 +24,9 @@ Exact model backend not verifiable from final document text alone.
 > recommendations, not measurements recorded by the current module benchmark.
 > The storage-strategy test source is picked up by the separate EPIC 3 test
 > CMake configuration; source registration is not evidence that it passed.
-> This public API uses `std::span` (C++20), whereas the module target privately
-> requests `cxx_std_17`; see the C++ standard caveat in the public-header
-> README. External consumer requirement propagation is unresolved.
+> This public API uses `std::span` and therefore requires C++20. The module
+> target propagates `cxx_std_20` to CMake consumers; direct users of the
+> installed headers must also compile as C++20.
 
 ## Scope
 

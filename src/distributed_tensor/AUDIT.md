@@ -19,7 +19,7 @@ Exact model backend not verifiable from final document text alone.
 
 | Area | Source evidence |
 |---|---|
-| Library/API standard | `src/distributed_tensor/CMakeLists.txt` declares `themis_distributed_tensor` and privately requests `cxx_std_17`; project CMake defaults to C++20. `tensor_storage_strategy.h` uses C++20 `std::span`, so C++17 compatibility of the installed public API is not established and consumer propagation is unresolved. |
+| Library/API standard | `src/distributed_tensor/CMakeLists.txt` declares the public `cxx_std_20` compile feature. `tensor_storage_strategy.h` exposes `std::span`, so the installed public API requires C++20; CMake consumers linking the target inherit that requirement. |
 | Integrity implementation | The target compiles root-level `integrity_verification.cc`, where `simple_sha256_hash()` is FNV-1a demonstration code. The separate nested SHA-256 implementation is not in this target's source list; no cryptographic SHA-256/Merkle security guarantee applies to the default target. |
 | Training coordinator | `TensorTrainingCoordinator` invokes registered worker callbacks synchronously in-process; it does not implement network transport or distributed worker coordination. |
 | Build graph | `cmake/CMakeLists.txt` conditionally adds the module target. |
@@ -36,11 +36,16 @@ Exact model backend not verifiable from final document text alone.
 - The EPIC 3 directories are present and configured separately from the
   `distributed_tensor/` directories. They are current source registrations;
   historical pass-status claims still require original execution artifacts.
-- Current CMake registration confirms targets and source paths only. No
-  configure, build, CTest, benchmark, or runtime validation was performed for
-  this documentation task.
-- No test/benchmark execution, measured performance result, or
-  production-readiness conclusion is established by this source audit.
+- Current CMake registration confirms targets and source paths only. A
+  diagnostic configure was attempted for this follow-up but stopped at
+  `cmake/Dependencies.cmake:727` because the required `fmt` library was
+  unavailable; no build tree or module targets were generated.
+- A standalone syntax-only compile of the public storage-strategy header passed
+  as C++20 and was rejected as C++17 at `std::span`, matching the declared
+  language requirement.
+- No distributed-tensor test or benchmark execution, measured performance
+  result, or production-readiness conclusion is established by this source
+  audit.
 
 ## Open verification gaps
 

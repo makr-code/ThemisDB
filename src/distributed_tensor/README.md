@@ -29,15 +29,12 @@ manifests, shard placement, integrity verification, recovery, distributed
 planning, tensor infrastructure, in-process training-job coordination, and
 storage strategy.
 The module target is the static library `themis_distributed_tensor`. The
-repository CMake configuration defaults to C++20, while the module target
-privately requests `cxx_std_17`. However,
 `include/distributed_tensor/tensor_storage_strategy.h` includes `<span>` and
-uses `std::span`, which is a C++20 API. Therefore the installed public API
-cannot be described as C++17-compatible. Whether the target's private feature
-request adequately communicates the public-header requirement to external
-consumers is unresolved; no compatibility build was run. The source CMake file
-links `themis_base` and conditionally links `themis_core` and `themis_tensor`
-when those targets exist.
+exposes `std::span`, so the public API requires C++20. The target declares
+`cxx_std_20` as a `PUBLIC` compile feature so CMake consumers linking the target
+inherit the requirement. Direct users of the installed headers must also
+compile as C++20. The source CMake file links `themis_base` and conditionally
+links `themis_core` and `themis_tensor` when those targets exist.
 
 The module target's `integrity_verification.cc` uses an FNV-1a demonstration
 hash in `simple_sha256_hash()`. The separately present nested
@@ -67,7 +64,16 @@ cryptographic security guarantee.
 - `benchmarks/epic3_distributed_tensor/CMakeLists.txt` separately configures
   the placement, integrity, recovery, retrieval, partial-refit, and
   summary-first benchmark sources when benchmarks are enabled.
-- No build, test, or benchmark execution is asserted by this document.
+
+## Verification attempt (2026-10-31)
+
+A diagnostic configure with tests and benchmarks enabled used CMake 3.31.6,
+GNU 13.3.0, Debug mode, and an empty toolchain file. Configuration stopped at
+`cmake/Dependencies.cmake:727` because the required `fmt` library was not
+available; no build tree targets were generated. Consequently, no
+distributed-tensor test or benchmark executable was built or run. A standalone
+syntax check of `tensor_storage_strategy.h` passed with `-std=c++20` and was
+rejected with `-std=c++17` at `std::span`, as expected.
 
 ## Component references
 
@@ -88,8 +94,9 @@ inventory.
 
 `TensorTrainingCoordinator` runs worker callbacks synchronously in-process; it
 does not provide networked or distributed worker execution. The source and
-headers establish implementation surfaces, but this repository view alone does
-not establish passing test results, production enablement, cross-module
-deployment, or benchmark outcomes. Historical EPIC 3 plans and
-evidence records remain historical; consult the current source, build
-registration, and [`ROADMAP.md`](ROADMAP.md) before making status claims.
+headers establish implementation surfaces, but the attempted configure did not
+establish module test pass status, production enablement, cross-module
+deployment, or benchmark outcomes. Representative-hardware performance and
+production sign-off remain unverified. Historical EPIC 3 plans and evidence
+records remain historical; consult the current source, build registration, and
+[`ROADMAP.md`](ROADMAP.md) before making status claims.

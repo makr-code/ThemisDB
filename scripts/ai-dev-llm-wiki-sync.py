@@ -251,6 +251,20 @@ def render_index(entries: Sequence[SourceEntry], generated_at: str, full_sync: b
     mode = "FULL_SYNC" if full_sync else "INCREMENTAL"
     return "\n".join(
         [
+            "---",
+            'Author: "ThemisDB Team"',
+            'Created: "2026-10-31"',
+            f'Last Updated: "{generated_at[:10]}"',
+            'Status: "active"',
+            "AI_Used: true",
+            'AI_Models: "unknown"',
+            'AI_Contributor: "GitHub Copilot"',
+            "Human_Review: false",
+            'Human_Author: "ThemisDB Team"',
+            "---",
+            "",
+            "> Exact model backend not verifiable from final document text alone.",
+            "",
             "# Developer LLM Wiki — Index",
             "",
             f"Datum: {generated_at[:10]}",
@@ -333,6 +347,20 @@ def render_modules_and_apis(repo_root: Path, entries: Sequence[SourceEntry]) -> 
     lines = _render_section(repo_root, entries, "Developer LLM Wiki — Modules and APIs", "modules_and_api")
     return "\n".join(
         [
+            "---",
+            'Author: "ThemisDB Team"',
+            'Created: "2026-10-31"',
+            f'Last Updated: "{datetime.now(UTC).strftime("%Y-%m-%d")}"',
+            'Status: "active"',
+            "AI_Used: true",
+            'AI_Models: "unknown"',
+            'AI_Contributor: "GitHub Copilot"',
+            "Human_Review: false",
+            'Human_Author: "ThemisDB Team"',
+            "---",
+            "",
+            "> Exact model backend not verifiable from final document text alone.",
+            "",
             *lines[:4],
             "",
             "## Curated module contexts",

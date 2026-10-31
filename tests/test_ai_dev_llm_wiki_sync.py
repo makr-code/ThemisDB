@@ -28,10 +28,12 @@ class CuratedModuleIndexTests(unittest.TestCase):
         self.assertIn("[IMPORTERS.md](IMPORTERS.md)", index)
         self.assertIn("[UPDATES.md](UPDATES.md)", index)
         self.assertIn("[DISTRIBUTED_TENSOR.md](DISTRIBUTED_TENSOR.md)", index)
+        self.assertIn("AI_Used: true", index)
         self.assertIn("must not redefine project status", index)
         self.assertIn("[Importer module context](IMPORTERS.md)", modules)
         self.assertIn("[Updates module context](UPDATES.md)", modules)
         self.assertIn("[Distributed tensor module context](DISTRIBUTED_TENSOR.md)", modules)
+        self.assertIn("AI_Used: true", modules)
 
     def test_previous_source_manifest_is_used_for_delta(self):
         wiki_sync = _load_module()

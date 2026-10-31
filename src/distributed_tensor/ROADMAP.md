@@ -24,10 +24,10 @@ Exact model backend not verifiable from final document text alone.
 
 The current module target is `themis_distributed_tensor`, built from the source
 list in `src/distributed_tensor/CMakeLists.txt`. It declares nine public headers.
-The project CMake default is C++20, while this target privately requests
-`cxx_std_17`; `tensor_storage_strategy.h` uses C++20 `std::span`. C++17
-compatibility of the installed public API is therefore not established, and
-external consumer requirement propagation remains unresolved. Local CMake files register three focused test executables and
+The target publicly requests `cxx_std_20`, matching the `std::span` API in
+`tensor_storage_strategy.h`; CMake consumers linking the target inherit the
+requirement, and direct header consumers must compile as C++20. Local CMake
+files register three focused test executables and
 one in-process benchmark under `tests/distributed_tensor/` and
 `benchmarks/distributed_tensor/`. Separately, `tests/CMakeLists.txt` adds
 `tests/epic3_distributed_tensor/`, whose CMake registers the EPIC 3
@@ -38,8 +38,10 @@ placement, integrity, recovery, retrieval, partial-refit, and summary-first
 sources.
 
 These registrations confirm configured source paths, not the historical test
-counts or pass claims reported below. No test, build, benchmark, or runtime
-validation was performed for this documentation reconciliation.
+counts or pass claims reported below. A diagnostic configure was attempted for
+this follow-up but stopped at `cmake/Dependencies.cmake:727` because the
+required `fmt` library was unavailable; no build tree or module targets were
+generated. No module test or benchmark was run.
 
 The source inventory establishes implementation surfaces, but not production
 enablement, release readiness, or measured runtime behavior. Phase labels and
@@ -63,7 +65,8 @@ acceleration) targets 2027+.
 **Module readiness**: the module implementation and test/benchmark source
 registrations are present. Phase 3/4 pass status, benchmark evidence,
 acceptance, and production enablement require execution evidence and remain
-unverified by this source-only review.
+unverified. Representative-hardware performance and production sign-off remain
+pending.
 
 ## In Progress
 

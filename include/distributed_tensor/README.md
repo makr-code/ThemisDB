@@ -72,15 +72,13 @@ After configuring a repository build with this module enabled:
 cmake --build <build-dir> --target themis_distributed_tensor
 ```
 
-## C++ standard caveat
+## C++ standard
 
-The project CMake configuration defaults to C++20, while the module target
-privately requests `cxx_std_17`. The public
-`tensor_storage_strategy.h` includes `<span>` and exposes `std::span`, which
-requires C++20. Do not assume the installed public API is C++17-compatible.
-Whether the private target feature request propagates the public header's
-requirement to external consumers is unresolved; no compatibility build was
-performed for this documentation review.
+The public `tensor_storage_strategy.h` includes `<span>` and exposes
+`std::span`, so consumers of the installed headers require C++20. The
+`themis_distributed_tensor` CMake target declares `cxx_std_20` as a `PUBLIC`
+compile feature, which propagates the requirement to CMake consumers linking
+that target.
 
 ## Related documentation
 
