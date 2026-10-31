@@ -57,7 +57,7 @@ graphql::Field                    — name + arguments (Value map) + selection s
 graphql::SelectionSet             — ordered list of Field
 graphql::Operation                — type (query/mutation/subscription) + name + variable definitions + selection
 graphql::Document                 — operations and named fragment definitions
-graphql::QueryLimits              — query size, depth, field/node, subscription, and introspection limits
+graphql::QueryLimits              — query size, depth, field count, AST nodes, subscriptions, and introspection
 graphql::Parser                   — static parse(query, limits) → Parser::Result
 graphql::Executor                 — execute(Document, ExecutionContext, operation name) → Executor::Result
 graphql::Schema                   — type registry + introspect()
@@ -65,7 +65,7 @@ graphql::Cache                    — GraphQL cache helper types (graphql_cache.
 graphql::QueryPlanCache           — LRU cache: hash(query_string) → Document (graphql_cache.h)
 graphql::ResponseCache            — LRU cache: hash(Document+vars) → JSON (graphql_cache.h)
 graphql::Metrics / QueryTimer     — Prometheus-style counters + RAII timer (graphql_metrics.h)
-graphql::GraphQLAQLResolverFactory — constructs GraphQL-to-AQL integration (graphql_aql_resolver.h)
+graphql::GraphQLAqlResolverFactory — constructs GraphQL-to-AQL integration (graphql_aql_resolver.h)
 ```
 
 ### 3.2 Transport and Middleware (`themis::api`)
@@ -79,7 +79,7 @@ api::IGraphQLSchemaBuilder                — programmatic schema construction (
 api::GraphQLWsHandler                     — graphql-transport-ws protocol handler (graphql_ws_handler.h)
 api::IHttpHandler / HttpRequest / HttpResponse — HTTP dispatch interface (http_handler.h)
 api::IWebSocketHandler / WebSocketSession — RFC-6455 WebSocket interface (websocket_handler.h)
-api::WsChangeHandler                      — CDC WebSocket upgrade + frame dispatcher (ws_handler.h)
+api::WsChangeHandler                      — CDC WebSocket upgrade validation and subscription parameter extraction (ws_handler.h)
 api::ISubscriptionMultiplexer             — live query fan-out interface (subscription_multiplexer.h)
 api::TracingMiddleware                    — X-Correlation-ID propagation (tracing_middleware.h)
 api::CorrelationId / ICorrelationIDProvider — 16-byte UUID correlation IDs (correlation_id.h)

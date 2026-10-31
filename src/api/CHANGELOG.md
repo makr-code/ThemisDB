@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > WARNING: Historical changelog entries describe implementation state at the time they were recorded.
 
-<!-- Status: current | validated: 2026-09-16 -->
+<!-- Status: review | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog - API Module
@@ -10,11 +24,15 @@ The format is based on Keep a Changelog.
 
 ## [Unreleased]
 
+### Documentation
+- Refreshed API module documentation against current headers, implementation, tests, and benchmark sources; marked the generated Doxygen snapshot stale.
+- `PERFORMANCE_EXPECTATIONS.md` records that several API benchmark target labels do not match their mapped benchmark cases; mapping correction remains open.
+
 ### Added (Wave D — Q1 2027 operability, 2026-08-19 to 2026-09-16)
 - `tests/api/test_api_wave_d_stress.cpp`: Wave D stress, soak, and operator-hint coverage tests — high-cardinality tracing stress, exporter retry/failure resilience, 100k-request soak simulation, concurrent mixed-load soak, operator ERR_-prefix diagnostics.
 - `docs/API_TRANSPORT_RUNBOOK.md`: operator runbook covering GraphQL/gRPC/WebSocket/OTLP failure scenarios, ERR_-prefixed remediation steps, Prometheus alert rule examples, escalation path, and SLA targets.
 - `benchmarks/server/bench_api_endpoints.cpp`: server endpoint load benchmarks for transport hot paths.
-- `benchmarks/bench_api_release_gates.cpp`: release-gate benchmarks GATE-API-01..06 with documented per-gate limits.
+- `benchmarks/api/bench_api_release_gates.cpp`: release-gate benchmark cases GATE-API-01..06 with documented per-case target budgets.
 
 ### Changed (Wave A/B/C documentation finalization, 2026-09-16)
 - `src/api/MODULE_GAPS.md`: Wave A, B, C status updated from `[~]` to `[x]` with per-wave closure evidence; Sign-off Gate State extended with Wave A/B/C/D and AUDIT/CHANGELOG sync gates.
@@ -28,9 +46,9 @@ The format is based on Keep a Changelog.
 - `src/api/ws_handler.cpp`: structured `AuditLogBuilder(AuthorizationFailure)` event added for `cdc:subscribe` rejections.
 
 ### Added (Phase 4 + Q4 2026 degraded-mode — 2026-07-18 to 2026-08-19)
-- `tests/api/test_api_phase4_concurrency.cpp` (14 tests): 32×50 concurrency matrix, payload/path boundary, method×version×payload combination matrix (36 combos), taxonomy correctness, policy config normalization.
-- `tests/api/test_api_degraded_mode.cpp` (10 tests): capability unavailability, non-gated path success, transient degradation, policy+degraded composition, concurrent mixed traffic, actionable diagnostic messages for all 9 failure classes.
-- `benchmarks/bench_api_release_gates.cpp` (13 benchmarks): GATE-API-01..06 locked with documented limits; `BM_PolicySustainedGetThroughput`, `BM_PolicySustainedPostThroughput`, `BM_PolicyMixedRequestTypes` sustained-load baselines.
+- `tests/api/test_api_phase4_concurrency.cpp`: 32×50 concurrency matrix, payload/path boundary, method×version×payload combination matrix, taxonomy correctness, and policy config normalization.
+- `tests/api/test_api_degraded_mode.cpp`: capability unavailability, non-gated path success, transient degradation, policy+degraded composition, concurrent mixed traffic, and diagnostic messages.
+- `benchmarks/api/bench_api_release_gates.cpp` (14 registered cases in current source): GATE-API-01..06 and sustained/mixed request loops.
 - `include/api/api_transport_contracts.h`: `ITransportContract`, `TransportContractValidator`, `TransportCapability`, `TransportFailureClass` (9 classes), `kSupportedApiVersions`, `kMaxPayloadBytes`, `kMaxPathBytes`.
 - `include/api/api_error_taxonomy.h`: `ApiErrorTaxonomy` — `toErrorCode()`, `toHttpStatus()`, `toMessage()` (ERR_TRANSPORT_* prefixes), `isClientError()` covering all 9 `TransportFailureClass` values.
 - `include/api/api_transport_policy.h` + `src/api/api_transport_policy.cpp`: `TransportPolicyMiddleware` — 5-rule fail-closed `IHttpHandler` + `ITransportContract` decorator; thread-safe, immutable after construction.
@@ -38,10 +56,10 @@ The format is based on Keep a Changelog.
 ## [2.1.0] - 2026-07-18
 
 ### Added (Q3 2026 hardening — Phase 1–3 + test baseline)
-- `tests/api/test_api_transport_hardening.cpp` (13 tests): fail-closed behavior, payload/size limits, version negotiation, Content-Type enforcement, correlation ID propagation, concurrency safety (16 threads × 100 requests).
-- `tests/api/test_api_error_handling.cpp` (12 tests): error condition coverage, degraded mode, error recovery, message quality.
-- `tests/api/test_api_observability.cpp` (12 tests): request-lifecycle metrics, queue depth and session count tracking, bounded resource enforcement (1000 queue, 100 sessions), 8-thread concurrency safety.
-- `benchmarks/bench_api_transport.cpp` (13 benchmarks): request parsing, validation, response serialization, tracing overhead, edge-case throughput.
+- `tests/api/test_api_transport_hardening.cpp`: fail-closed behavior, payload/size limits, version negotiation, Content-Type enforcement, correlation ID propagation, and concurrency safety.
+- `tests/api/test_api_error_handling.cpp`: error condition coverage, degraded mode, error recovery, and message quality.
+- `tests/api/test_api_observability.cpp`: request-lifecycle metrics, queue depth and session count tracking, bounded resource enforcement, and concurrency safety.
+- `benchmarks/api/bench_api_transport.cpp` (13 registered cases): mock-handler request handling, validation, response/header construction, correlation-ID, and sequential-request measurements.
 - `src/api/graphql_ws_handler.cpp`: fail-closed handling for invalid JSON frames, pre-init messages, missing `id` on subscribe/complete, unknown message types.
 - `src/api/graphql_aql_resolver.cpp`: bounded recursion depth (`kMaxComplexityScoringDepth`), overflow-checked complexity accumulation (`checkedAdd`), typed exception handling.
 - `src/api/grpc_server.cpp` (critical fix): `lock.lock()` replaced with `lock.try_lock_for(std::chrono::seconds(5))`; fail-closed startup on lock-timeout.

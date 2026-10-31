@@ -33,7 +33,7 @@ All headers use `#pragma once`. Some provide inline implementation, including va
 | [`graphql_cache.h`](graphql_cache.h) | `Cache`, `QueryPlanCache`, and `ResponseCache` |
 | [`graphql_metrics.h`](graphql_metrics.h) | `Metrics` and `QueryTimer` for GraphQL request metrics |
 | [`graphql_schema_builder.h`](graphql_schema_builder.h) | `IGraphQLSchemaBuilder` and schema descriptor/result types |
-| [`graphql_aql_resolver.h`](graphql_aql_resolver.h) | `GraphQLComplexityEstimator` and `GraphQLAQLResolverFactory` for GraphQL-to-AQL integration |
+| [`graphql_aql_resolver.h`](graphql_aql_resolver.h) | `GraphQLComplexityEstimator` and `GraphQLAqlResolverFactory` for GraphQL-to-AQL integration |
 | [`graphql_ws_handler.h`](graphql_ws_handler.h) | `api::GraphQLWsHandler` — GraphQL over the `graphql-transport-ws` protocol |
 | [`grpc_server.h`](grpc_server.h) | `GrpcApiServer` and `GrpcServerConfig` — gRPC server lifecycle (compiled only when `THEMIS_ENABLE_GRPC` is defined) |
 | [`grpc_bridge.h`](grpc_bridge.h) | `IGRPCBridge` and gRPC service/request metadata types; no concrete bridge implementation is declared here |
