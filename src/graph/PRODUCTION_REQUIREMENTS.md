@@ -1,51 +1,45 @@
-> **Status:** 2026-06-01 – mit aktuellem Graph-Code (`path_constraints.cpp`) abgeglichen.
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: ThemisDB documentation orchestration specialist
+Human_Review: false
+Human_Author: unknown
+Source level: level1
+SOT domain: module-behavior
+Canonical source references:
+  - SECURITY.md
+  - TRUST.md
+  - ../../include/graph/
+  - ../../include/server/graph_api_handler.h
+  - ../../include/index/graph_index.h
+Related milestone: DOC-WEEKLY-2026-44
+AI_Model_Note: Exact model backend not verifiable from final document text alone.
+---
 
-# ThemisDB Graph Module - Production Requirements
+# Graph production-integration checklist (non-normative)
 
-## Zweck und Geltungsbereich
+This page is an integration review aid, not a source-backed deployment policy or proof of
+production readiness. The graph C++ APIs do not, by themselves, establish request authentication,
+tenant authorization, startup configuration validation, deployment limits, audit retention, or
+service rollback behavior.
 
-Dieses Dokument ist der **kanonische Referenzpunkt für produktive Mindestanforderungen** des Graph-Moduls.
-Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Graph-Path-Constraints, Query-Explain-Plan, Graph-Analytics.
+Before deploying an integration, the owning service and security teams should define and verify:
 
-## Dokumentabgrenzung (Canonical Split)
+- authorization and tenant isolation at the server/API boundary;
+- caller-supplied traversal limits appropriate to the workload;
+- handling for truncated, timed-out, failed, or partial results;
+- accelerator and shard failure behavior for the selected API;
+- persistence, transaction, backup, restore, and audit requirements in the owning index/storage
+  and deployment components.
 
-- **`src/graph/PRODUCTION_REQUIREMENTS.md` (dieses Dokument):** verpflichtende Produktionsanforderungen (MUST/MUST NOT), Sicherheitsannahmen, Betriebsgrenzen.
-- **`src/graph/README.md`:** Funktionsübersicht, Architekturkontext, API- und Nutzungsbeispiele.
-- **`src/graph/ROADMAP.md`:** Lieferphasen, offene/abgeschlossene Features, Readiness-Planung.
-- **`src/graph/FUTURE_ENHANCEMENTS.md`:** mittelfristige/langfristige Erweiterungen und Forschungsfelder.
+Do not infer that these controls are enabled from graph constraint APIs or a server constructor
+dependency. See [graph trust boundaries](TRUST.md) and the repository
+[security policy](../../SECURITY.md).
 
-## Verbindliche Produktionsanforderungen
-
-- **MUST:** Graph-Traversal-Tiefe (`path_constraints.cpp`) mit expliziten Limits konfiguriert; unbegrenzte Traversal nicht zulässig.
-- **MUST:** Graph-Query-Autorisierung aktiv; Tenant-Namespace-Isolation für Graph-Operationen erzwungen.
-- **MUST:** Alle sicherheitsrelevanten Konfigurationswerte beim Start validiert; fehlende oder ungültige Werte führen zu Fail-Closed-Verhalten.
-- **MUST NOT:** Sicherheits- oder Autorisierungs-Checks in Produktionspfaden deaktivieren.
-
-## Verbindliche Sicherheitsanforderungen
-
-- Sicherheitsrelevante Operationen werden über dedizierte Kontroll-Surfaces geleitet.
-- Fehler in sicherheitskritischen Pfaden werden als explizite Fehlercodes propagiert; kein Silent-Permit.
-- Audit-Logging für sicherheitsrelevante Operationen aktiv in Produktionsdeployments.
-
-## Betriebsgrenzen
-
-- Konfigurationswerte müssen deployment-spezifisch gesetzt sein; Default-Werte gelten nicht als produktionssicher.
-- Ressourcen-Limits (Größen, Counts, Timeouts) müssen mit den Deployment-Anforderungen übereinstimmen.
-- Externe Abhängigkeiten müssen mit expliziten Verbindungs-Timeouts und Retry-Policies konfiguriert sein.
-
-## Minimaler Produktions-Check (Audit-fähig)
-
-- [ ] Modul-Konfiguration vollständig und beim Start validiert
-- [ ] Sicherheits- und Autorisierungs-Checks aktiv
-- [ ] Ressourcen-Limits explizit konfiguriert (keine Unlimited-Defaults)
-- [ ] Audit-Logging aktiv
-- [ ] Externe Abhängigkeiten mit Timeout und Retry konfiguriert
-- [ ] Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt
-
-## Review / Sourcecode-Audit-Nachweis
-
-### Betroffene Dateien im Review
-
-- `src/graph/PRODUCTION_REQUIREMENTS.md`
-- `src/graph/path_constraints.cpp`
-- `src/graph/explain_plan.cpp`
+**TODO:** the previous document named `THEMIS_PRODUCTION_MODE` and `THEMIS_ENVIRONMENT` as
+requirements without a graph-source/configuration reference. The responsible deployment owner
+must establish any applicable environment-variable policy.
