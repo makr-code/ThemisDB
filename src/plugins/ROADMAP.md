@@ -1,183 +1,112 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Plugins Module Roadmap
 
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-08-05 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
-<!-- Issue: #5660 — Module Development Status 2026-07-18 -->
-<!-- Evidence Summary: All Phase 1-6 items validated; focused tests (PLG-01..40) and release-gate benchmarks (GATE-PLG-01..04) in place -->
+This page records source-visible implementation surfaces and unresolved
+verification work. It does not assert release readiness or test results.
+Project-wide readiness and blocker status are governed by
+[`../../ROADMAP.md`](../../ROADMAP.md).
 
 ## Current Status
 
-Production plugin runtime exists for lifecycle management, manifest/signature validation, hot-plug behavior, health/metrics monitoring, and OCI/RPC integration surfaces. Phase 1-6 implementation complete with comprehensive error handling and edge case coverage.
+The source tree contains a native plugin manager, a separate typed factory
+registry, edition policy checks, health and hot-plug monitoring, metrics, OCI
+retrieval, a signed-catalog API, and a configurable WASM loader. Source presence
+does not establish that a specific build or test has succeeded.
 
 ## In Progress
 
-- [x] Phase 3 implementation hardening (Target: Q4 2026) — DELIVERED 2026-08-05
-  - Phase 3A: ✅ Comprehensive error handling and fail-safe behavior
-    - Implementation: Concurrent state validation, partial state recovery, ABI compatibility checking
-    - Evidence: src/plugins/plugin_manager.cpp (new error handling methods), include/plugins/plugin_manager.h
-    - Methods: validateConcurrentStateChange(), recoverPartialRegistryState(), validateABICompatibility()
-    - Error codes: Consistent taxonomy with [CATEGORY:CODE] tagged messages
-    - Tests: PLG-29..PLG-40 in test_plugin_error_handling_phase3.cpp
-  - Phase 3B: ✅ Edge case handling (8 edge cases)
-    - Concurrent load/unload (PLG-29)
-    - Signature verification timeout (PLG-30)
-    - Registry partial state recovery (PLG-31)
-    - Missing optional manifest fields (PLG-32)
-    - Hot-reload ABI incompatibility (PLG-33)
-    - Plugin initialization failure (PLG-34)
-    - Resource leak during unload (PLG-35)
-    - Rapid load/unload cycles (PLG-36)
-  - Phase 3C: ✅ Unified diagnostics
-    - Implementation: getDiagnosticsForPlugin(), formatDiagnosticMessage()
-    - Diagnostic categories: [VALIDATION:*], [LIFECYCLE:*], [SECURITY:*], [INTERNAL:*]
-    - Diagnostic message consistency (PLG-39)
-  - Integration roadmap: PHASE3_IMPLEMENTATION_SUMMARY.md
+- [!] Verify approved artifact-provenance policy across manifest, explicit-path,
+  OCI, signed-catalog, and WASM paths (Target: not assigned).
+- [!] Confirm whether native plugins require an isolation boundary beyond
+  host-process loading (Target: not assigned).
+- [!] Establish durable audit/metrics retention requirements at the system
+  boundary (Target: not assigned).
 
 ## Planned Features
 
-### Short-term (3-6 months)
-- [x] implement comprehensive error handling for plugin lifecycle and edge cases (Target: Q4 2026) — COMPLETED 2026-08-05
-  - Evidence: Phase 3 error handling implementation in plugin_manager.cpp
-  - Status: PLG-29..40 tests created and ready for execution
-- [x] expand test coverage with phase 4 focused tests for all edge cases (Target: Q4 2026) — COMPLETED 2026-08-05
-  - Evidence: test_plugin_error_handling_phase3.cpp (12 comprehensive tests)
-  - Status: All tests ready for execution
-- [x] lock release-gate benchmarks with performance targets (Target: Q4 2026) — COMPLETED 2026-08-05
-  - Evidence: bench_plugins_release_gates.cpp with GATE-PLG-01..04
-  - Status: GATE-PLG-01 ≤50/100ms, GATE-PLG-02 ≤30ms, GATE-PLG-03 ≥10k ops/s, GATE-PLG-04 ≤200ms
+- [!] Add end-to-end lifecycle, hot-plug, OCI, or WASM benchmarks only after an
+  owner defines scope and a reproducible baseline (Target: not assigned).
+- [!] Reconcile implementation-specific failures with the normative vocabulary
+  in `include/plugins/plugins_api_contract.h` (Target: not assigned).
 
-### Mid-term (6-12 months)
-- [ ] implement async plugin lifecycle operations with futures/promises (Target: Q1 2027)
-- [ ] add persistent plugin operation audit log with retention policy (Target: Q1 2027)
-- [ ] implement predictive plugin failure detection using metrics (Target: Q2 2027)
-- [ ] add plugin rollback to last known good version capability (Target: Q2 2027)
-
+These are candidates for owner and policy review, not approved commitments.
 
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [x] freeze lifecycle/security/monitoring contracts for active major line (Target: Q3 2026) — evidence: include/plugins/plugins_api_contract.h
-- [x] define explicit error taxonomy for plugin failure classes (Target: Q3 2026) — evidence: include/plugins/plugins_api_contract.h
+
+- [!] Confirm the supported load-path policy and its provenance guarantees
+  against `plugin_manager.h`, `oci_registry_client.h`, and
+  `signed_plugin_repository.h` (Target: not assigned).
 
 ### Phase 2: Core Implementation
-- [x] complete hardening for plugin lifecycle and registry internals (Target: Q4 2026) — DELIVERED 2026-08-05
-  - [x] Phase 2A: lifecycle state machine with explicit transitions (UNLOADED/LOADING/LOADED/UNLOADING)
-    - Implementation: integrated into plugin_manager.cpp load/unload operations
-    - Evidence: PluginLifecycleState enum + transition validation in include/plugins/plugin_interface.h
-    - Evidence: lifecycle state tracking in PluginEntry struct (include/plugins/plugin_manager.h)
-    - Evidence: state machine transitions in loadPlugin/unloadPlugin (src/plugins/plugin_manager.cpp)
-    - Tests: PLG-09..PLG-16 in test_plugin_lifecycle_state_machine.cpp
-  - [x] Phase 2B: registry concurrency hardening
-    - Audit: PluginRegistry concurrency verified using reader-writer lock pattern
-    - Evidence: registerFactory/create/hasPlugin use proper shared_lock/unique_lock
-    - Re-registration is atomic (entire operation under exclusive lock)
-    - Tests: PLG-17..PLG-22 in test_registry_concurrency_hardening.cpp
-  - [x] Phase 2C: manifest/signature validation tightening
-    - Implementation: validatePluginForLoad() function with 4-stage validation contract
-    - Evidence: unified validation function in src/plugins/plugin_manager.cpp
-    - Stages: manifest schema → semantic → signature → capability
-    - Tests: PLG-23..PLG-28 in test_validation_contract_hardening.cpp
-- [ ] align hot-plug/health/integration behavior to bounded runtime contracts (Target: Q4 2026)
+
+- [x] Source declares manager-owned plugin lifecycle and a separate typed
+  factory registry; see `plugin_manager.cpp` and `plugin_registry.cpp`.
+- [!] Verify build/runtime wiring for each optional WASM backend (Target: not
+  assigned).
 
 ### Phase 3: Error Handling and Edge Cases
-- [x] standardize fail-safe behavior for invalid manifests/signatures and reload faults (Target: Q4 2026) — DELIVERED 2026-08-05
-  - [x] Phase 3A: Comprehensive error handling and edge case coverage
-    - Implementation: 7 error handling methods for all edge cases
-    - Evidence: src/plugins/plugin_manager.cpp (validateConcurrentStateChange, recoverPartialRegistryState, etc.)
-    - Handlers: All 8 edge cases covered with fail-safe semantics
-    - Tests: PLG-29..PLG-37 in test_plugin_error_handling_phase3.cpp
-  - [x] Phase 3B: Unified diagnostics infrastructure
-    - Implementation: formatDiagnosticMessage(), getDiagnosticsForPlugin()
-    - Evidence: Diagnostic tagging with [CATEGORY:CODE] format
-    - Consistency: All error paths use consistent message format
-    - Tests: PLG-39 diagnostic consistency validation
-  - [x] Phase 3C: Recovery procedures and retry logic
-    - Implementation: Atomic state rollback, partial state recovery
-    - Evidence: recoverPartialRegistryState() with LOADING/UNLOADING rollback
-    - Retry: Error recovery allows retry of failed operations
-    - Tests: PLG-40 error recovery and retry logic
+
+- [!] Compare manager and distribution failure behavior with the API contract
+  and document any remaining differences (Target: not assigned).
 
 ### Phase 4: Tests
-- [x] expand focused regressions for plugin churn and capability edge scenarios (Target: Q4 2026) — DELIVERED 2026-08-05
-  - Evidence: test_plugin_error_handling_phase3.cpp
-  - Coverage: PLG-29..PLG-40 (12 comprehensive tests)
-  - Status: All tests created and ready for execution
-- [x] extend deterministic stress fixtures for hot-plug and registry operations (Target: Q4 2026)
-  - Evidence: PLG-29 concurrent load/unload, PLG-36 rapid cycles, PLG-37 concurrent operations
-  - Stress scenarios: 1000+ concurrent ops, rapid reload cycles, concurrent registry updates
-  - Status: All stress fixtures in test suite
+
+- [x] Focused test sources are registered by `tests/plugins/CMakeLists.txt`
+  when the test configuration and GTest are available.
+- [!] Record actual test results only after an authorized test run (Target: not
+  assigned).
 
 ### Phase 5: Performance and Hardening
-- [x] lock benchmark-backed release gates for plugin hot paths (Target: Q4 2026) — DELIVERED 2026-08-05
-  - Evidence: benchmarks/plugins/bench_plugins_release_gates.cpp
-  - Gates: GATE-PLG-01..04 with performance targets
-  - GATE-PLG-01: Load latency p95/p99 ≤50ms/≤100ms
-  - GATE-PLG-02: Unload latency p95 ≤30ms
-  - GATE-PLG-03: Registry throughput ≥10k ops/s
-  - GATE-PLG-04: Reload latency ≤200ms
-- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
-  - Phase 3 overhead: <1% on plugin lifecycle latency
-  - Error path performance: No degradation vs. normal paths
-  - Stress test performance: All gates maintained under load
+
+- [x] `bench_plugins_release_gates` is registered for contract/error-path
+  microbenchmarks when benchmarks are enabled.
+- [!] Establish reproducible end-to-end plugin lifecycle baselines before
+  claiming lifecycle performance gates (Target: not assigned).
 
 ### Phase 6: Documentation and Acceptance
-- [x] core plugins module docs aligned to source-verifiable behavior
-  - Evidence: PHASE3_IMPLEMENTATION_SUMMARY.md with complete implementation details
-  - Verification: All code locations and methods documented
-- [x] roadmap/future planning separated from historical changelog entries
-  - ROADMAP.md: Phase 1-6 status documented
-  - FUTURE_ENHANCEMENTS.md: Post-Phase-6 work identified
-- [x] production readiness checklist complete (ALL ITEMS CHECKED)
+
+- [x] Developer docs describe source-supported API, runtime, trust, and test
+  boundaries.
+- [!] Obtain human review and policy decisions for the open items in this
+  roadmap (Target: not assigned).
 
 ## Production Readiness Checklist
 
-- [x] core plugin surfaces documented and source-verified
-- [x] module-level security and failure behavior documented
-- [x] benchmark mapping documented in performance expectations
-- [x] focused contract hardening tests (PLG-01..PLG-40) validated for error taxonomy and edge cases
-- [x] release benchmark gates (GATE-PLG-01..GATE-PLG-04) locked for hot-path latency budgets
-- [x] release benchmark stabilization complete
-- [x] Phase 3-6 hardening tasks complete for lifecycle/security/integration edge paths
-- [x] comprehensive error handling for all failure scenarios
-- [x] diagnostic consistency verified across all error paths
-- [x] recovery procedures documented and tested
-- [x] operator runbooks prepared
+- [!] Approved artifact provenance and publisher-authentication policy across
+  all load paths.
+- [!] Documented native-code isolation decision and operational boundary.
+- [!] Approved persistent audit/metrics retention policy.
+- [!] Reproducible focused-test and benchmark evidence for the target build.
+- [x] Source-level load-path and trust distinctions are documented.
 
-## Known Issues and Limitations
+## Known Issues & Limitations
 
-- runtime behavior depends on plugin manifest quality, signatures, and enabled runtime features.
-- timeout handling uses simple thread-based approach; async I/O deadline semantics planned for Q1 2027.
-- diagnostic persistence is in-memory only; persistent audit log planned for Q1 2027.
-- stress testing scenarios are simulated; full production-scale testing planned for Q1 2027.
-- benchmark breadth should continue expanding for advanced repository/runtime scenarios (Q1 2027 target).
+- Native shared-library plugins execute in the host process; this module does
+  not provide native process isolation.
+- Manifest `.sig` hash comparison, binary verification, pinned-key Ed25519
+  catalog verification, OCI layer digests, and WASM expected hashes are distinct
+  controls; see [`TRUST.md`](./TRUST.md).
+- OCI digest verification does not by itself establish publisher identity.
+- The WASM loader callback is application-supplied; this module does not
+  establish its validation behavior or a general sandbox guarantee.
+- In-process health/metrics APIs do not establish durable audit retention.
 
 ## Breaking Changes
 
-No breaking plugin contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.
-
-## Program Execution Model — Wave Context
-
-This module is scoped to **Wave C — Security Production Validation** in the program-level wave model.
-Wave C begins only after Wave B exit criteria are met.
-See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D gate model and exit criteria.
-
-### Wave C Scope for `plugins`
-- [~] Plugins: enforce private/public plugin boundaries, edition/license validation, hash/SBOM checks, and fail-closed community builds (Target: Q4 2026)
-  - [x] Wave C Batch 2: Manifest Fail-Closed Validation (2026-08-18)
-    - [x] Enhanced validation methods: validateManifestEditionRestrictions(), validateManifestPublicPrivateBoundary()
-    - [x] Error codes [8700-8799]: PLUGIN_EDITION_MISMATCH, PLUGIN_LICENSE_DENIED, PLUGIN_LICENSE_FEATURE_INVALID, PLUGIN_ALLOWED_EDITIONS_MALFORMED, PLUGIN_PRIVATE_IN_COMMUNITY, PLUGIN_PATH_VISIBILITY_MISMATCH, PLUGIN_RESTRICTED_NO_CONTEXT
-    - [x] ≥16 focused test cases in test_plugin_manifest_edition_gates_focused.cpp (TESTS: TEST-1..TEST-16)
-    - [x] CI gate enhancement: manifest-edition-gates job in .github/workflows/ci-pr-gates.yml
-    - [x] Manifest schema enforcement via JSON Schema validation
-
-### Wave C Entry Gate (prerequisite from Wave B)
-- [ ] Wave B gate is closed: retrieval chain baselines stable, ACM observability gates closed, hardware baselines confirmed (Target: Q4 2026)
-
-### Wave C Exit Criteria (this module's contribution)
-- [ ] Production-style security integration evidence complete (Target: Q4 2026)
-- [ ] Integrity and reliability verified under sustained load (Target: Q4 2026)
-- [ ] Policy gates consistently block boundary/license/hash/SBOM regressions (Target: Q4 2026)
-
-### Dependencies on Later Waves
-- Wave D operability hardening depends on stable Wave C security controls.
+No public API change is made by this documentation update. No approved
+plugin-contract breaking change was verified in the sources consulted.

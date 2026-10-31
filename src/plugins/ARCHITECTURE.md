@@ -10,83 +10,97 @@ Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
 
-Exact model backend not verifiable from final document text alone.
+> Exact model backend not verifiable from final document text alone.
 
-# Architecture - Plugins Module
+# Plugins module architecture
 
-<!-- Status: review | validated: 2026-10-31 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+The module contains several related but distinct extension surfaces. Its
+primary native path is the manifest-backed `PluginManager`; the typed
+`PluginRegistry`, signed catalog, OCI client, health monitor, hot-plug monitor,
+RPC registry, and optional WASM loader are separate components. Public
+declarations are in [`../../include/plugins/`](../../include/plugins/).
 
-## Overview
+## Native manifest load dataflow
 
-The plugins module composes plugin lifecycle orchestration, manifest/security validation, hot-plug monitoring, health/metrics reporting, and remote repository integration into a bounded extension subsystem for ThemisDB.
+```mermaid
+flowchart LR
+  A["plugin.json"] --> B["scanPluginDirectory / manifest parser"]
+  B --> C["manager entry + dependency declarations"]
+  C --> D["loadPlugin(name): dependency and edition/license checks"]
+  D --> E["manifest and binary validation"]
+  E --> F["platform loader: dlopen / LoadLibrary"]
+  F --> G["createPlugin()"]
+  G --> H["initialize(config)"]
+  H --> I["loaded entry + frozen capability snapshot"]
+  I --> J["manager-owned instance returned to caller"]
+```
 
-## Main Execution Planes
+`PluginManager::loadPlugin(name)` is the manifest-backed route. It validates
+the manifest name/schema and applicable policy before activation; dependencies
+are loaded before the requested plugin. The plugin exports `createPlugin` and
+`destroyPlugin` (normally via `THEMIS_PLUGIN_IMPL`). Initialization failure
+rolls back the new instance; successful initialization captures the reported
+capabilities. Capability negotiation and explicit escalation checks are
+separate operations, not implicit per-call checks.
 
-1. Lifecycle and registry plane
-- plugin load/unload/reload orchestration
-- plugin registration and capability/edition gating
+## Other surfaces and trust distinctions
 
-2. Security and validation plane
-- manifest parsing and signature verification
-- capability validation and runtime compatibility checks
+```mermaid
+flowchart LR
+  O["OCI reference"] --> P["registry manifest and binary layer"]
+  P --> Q["layer media type + SHA-256 digest"]
+  Q --> R["cache path"]
+  R --> S["loadPluginFromPath"]
+  S --> T["binary verifier + native library loading"]
+```
 
-3. Monitoring and integration plane
-- plugin metrics, health monitoring, and hot-plug behavior
-- OCI/rpc and WASM-related integration surfaces
+- `loadPluginFromPath(path, config)` does not parse `plugin.json`; it therefore
+  does not apply manifest edition/license rules.
+- `loadPluginFromOci(...)` retrieves and digest-checks an OCI plugin layer, then
+  uses the explicit-path loader. A digest check does not authenticate a
+  publisher.
+- `SignedPluginRepository` verifies catalog entries with pinned Ed25519 keys.
+  This separate API is not automatically used by each manager load path.
+- `PluginRegistry` stores typed factories; it is not the manager's
+  manifest-backed loaded-instance map.
+- `PluginHotPlugMonitor` maps filesystem events to manager operations.
+  Monitoring is disabled by default; enabling it can cause automatic operations
+  according to its configuration.
+- `PluginHealthMonitor` tracks registered `ISelfHealingPlugin` pointers and may
+  invoke recovery. The caller owns the pointer lifetime.
+- `PluginMetricsCollector` takes and publishes a snapshot to an `IMetrics`
+  sink; its caller controls collection cadence.
+- `loadWasmPlugin()` checks its expected hash and runtime license gate. The
+  loader supports a registered `WasmPluginLoadFn`; built-in Wasmtime/WasmEdge
+  paths require their compile-time runtime support. These source facts do not
+  establish a general sandbox or isolation guarantee.
 
-## Core Contracts
+For threat and signature semantics, see [`TRUST.md`](./TRUST.md); for function
+signatures and return behavior, see [`API.md`](./API.md).
 
-| Contract | Behavior |
-|---|---|
-| lifecycle contract | deterministic plugin state transitions and rollback behavior |
-| security contract | explicit manifest/signature/capability enforcement |
-| monitoring contract | bounded health and metrics reporting behavior |
-| integration contract | deterministic repository/rpc/runtime integration behavior |
+## Visible implementation dependencies
 
-## Failure Semantics
+`plugin_manager.cpp` uses plugin-local interfaces, the acceleration
+`PluginSecurityVerifier`, edition/runtime-license gates, utility logging and
+tracing, JSON, OpenSSL, and platform shared-library APIs. OCI retrieval uses
+libcurl, JSON, and OpenSSL. This is a source-visible dependency summary, not a
+complete link graph.
 
-- invalid manifest/signature/capability input fails with explicit outcomes.
-- reload failures preserve deterministic fallback behavior.
-- unavailable integrations are surfaced as explicit errors.
+**TODO — downstream integration inventory:** This source review did not
+establish a complete set of server or domain-module callers of
+`PluginManager`. Do not rely on older claims that transaction, LLM, or server
+modules consume this manager through specific interfaces without verifying
+their actual call sites.
 
-## Sourcecode Verification (Module: plugins/architecture)
+## Build, test, and benchmark boundaries
 
-- Verified files:
-  - src/plugins/plugin_manager.cpp
-  - src/plugins/plugin_registry.cpp
-  - src/plugins/plugin_hot_plug_monitor.cpp
-  - src/plugins/plugin_health_monitor.cpp
-  - src/plugins/signed_plugin_repository.cpp
-  - src/plugins/oci_registry_client.cpp
-- Verified architecture claims:
-  - explicit lifecycle/security/monitoring/integration planes
-  - deterministic failure boundaries across plugin workflows
-  - module-local ownership of plugin orchestration behavior
-
-## Module Dependencies
-
-### Direct Upstream Dependencies (this module uses)
-| Module | Interface / File | Purpose |
-|--------|-----------------|---------|
-| utils | `include/utils/` | Logging, audit, and thread helpers for plugin lifecycle management |
-| base | `include/base/module_loader.h` | Base module provides sandbox and wasm isolation primitives consumed by plugins |
-
-### Direct Downstream Consumers (modules that use this module)
-| Module | Via | Notes |
-|--------|-----|-------|
-| server | `include/plugins/plugin_manager.h` | Server loads and unloads plugins via plugin manager |
-| transaction | `include/plugins/` | Transaction module loads transaction extension plugins |
-| llm | `include/plugins/` | LLM module loads inference backend plugins (e.g., llama_cpp, onnx_clip) |
-
-## Integration Points
-
-### Critical Integration: Server Plugin Lifecycle
-**Files:** `src/plugins/plugin_manager.cpp` ↔ `server/`
-**Contract:** Host integrations use `PluginManager::loadPlugin()` / `unloadPlugin()` for manifest-backed extension lifecycle; that path validates the manifest and binary policy and applies edition/license restrictions before activation. Reported capabilities are snapshotted after initialization; negotiation and escalation checks are separate APIs. Explicit-path and OCI loading have distinct manifest-policy semantics; see [TRUST.md](./TRUST.md).
-**Thread Safety:** Load/unload operations are serialised under an internal lifecycle mutex; hot-plug monitor may trigger reload asynchronously but acquires the same lock.
-
-### Critical Integration: LLM Inference Backend Plugins
-**Files:** `src/plugins/plugin_registry.cpp` ↔ `llm/`
-**Contract:** LLM module queries plugin registry for available inference backends by capability tag; registered plugin capabilities must remain stable after registration.
-**Thread Safety:** Registry reads are concurrent-safe; registrations are performed at startup under a write lock.
+- `tests/plugins/CMakeLists.txt` discovers `test_*.cpp` and registers focused
+  unit-test targets when `THEMIS_BUILD_TESTS` and the test dependencies are
+  enabled. See [`../../tests/plugins/README.md`](../../tests/plugins/README.md).
+- `benchmarks/plugins/CMakeLists.txt` registers
+  `bench_plugins_release_gates` when `THEMIS_BUILD_BENCHMARKS` is enabled. Its
+  current cases measure error-code casts/dispatch and registration-descriptor
+  allocation, not end-to-end plugin load latency. See
+  [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md).
+- Source presence or target registration does not establish a successful
+  build, test run, benchmark result, or production-readiness status.

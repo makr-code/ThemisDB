@@ -38,10 +38,11 @@ their own operational plan.
 - Restrict write access to plugin directories and cache directories to the
   deployment mechanism. Hot-plug can react to directory changes without a
   separate operator confirmation.
-- Configure OCI credentials per registry only where required. `OciRegistryClient`
-  defaults to a 30-second request timeout and a 10-second connect timeout;
-  registry authentication may be anonymous if no credentials are configured.
-  HTTPS peer and hostname verification are enabled in the client.
+- Configure OCI credentials per registry according to deployment policy.
+  `OciRegistryClient` defaults to a 30-second request timeout; no separate
+  connect-timeout default is exposed by its current interface. Registry
+  authentication may be anonymous if no credentials are configured. HTTPS peer
+  and hostname verification are enabled in the client.
 - Treat the `PluginHealthMonitor` pointer registration as a lifetime contract:
   the monitored plugin must outlive its registration. Review recovery and
   auto-disable settings before enabling automatic remediation.
