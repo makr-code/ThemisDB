@@ -1,11 +1,24 @@
-> **Status:** 2026-06-01 – mit aktuellem Ingestion-Code (`ingestion_manager.cpp`) abgeglichen.
+> **Status:** Deployment-Anforderungen fuer Integratoren; nicht als Implementierungsnachweis zu lesen. Quelle zuletzt geprueft: 2026-10-31.
 
 # ThemisDB Ingestion Module - Production Requirements
 
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot
+**Human_Review:** false
+**Human_Author:** ThemisDB Team
+
+> Exact model backend not verifiable from final document text alone.
+
 ## Zweck und Geltungsbereich
 
-Dieses Dokument ist der **kanonische Referenzpunkt für produktive Mindestanforderungen** des Ingestion-Moduls.
-Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Ingestion-Manager, Ingestion-Coordinator, Ingestion-Pipeline.
+Dieses Dokument ist der kanonische **Deployment-Anforderungskatalog** fuer
+Integratoren. Die MUST-Regeln sind keine Behauptung, dass `IngestionManager`
+selbst Autorisierung, eine deploymentweite Queue-Grenze, Audit-Logging oder
+vollstaendige Fail-Closed-Konfigurationspruefung bereitstellt. Der in-process
+Admin-Wrapper bietet keine HTTP-Authentisierung/Autorisierung; die Service- und
+Deployment-Schicht muss die entsprechenden Kontrollen implementieren und
+nachweisen.
 
 ## Dokumentabgrenzung (Canonical Split)
 
@@ -16,16 +29,16 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Ingestion-
 
 ## Verbindliche Produktionsanforderungen
 
-- **MUST:** Ingestion-Pipeline mit Autorisierung; kein unauthentifizierter Daten-Ingestion-Trigger.
-- **MUST:** Ingestion-Rate und Queue-Größe mit definierten Limits konfiguriert; Backpressure-Mechanismus aktiv.
-- **MUST:** Alle sicherheitsrelevanten Konfigurationswerte beim Start validiert; fehlende oder ungültige Werte führen zu Fail-Closed-Verhalten.
+- **MUST (deployment):** Ingestion-Trigger und Admin-Methoden nur hinter der vom betreibenden Service bereitgestellten Autorisierung exponieren.
+- **MUST (deployment):** Quellenlimits, Rate/Timeouts und etwaige Queue-/Backpressure-Grenzen explizit konfigurieren und die konkrete Connector-Unterstuetzung verifizieren. Es gibt keinen hier nachgewiesenen universellen Queue-Limit-Schalter.
+- **MUST (deployment):** Sicherheitsrelevante Konfigurationen vor Freigabe validieren; eine repo-weite Durchsetzung von Fail-Closed beim Start ist fuer diesen Katalog nicht nachgewiesen (TODO: konkreten Aufrufer und Startpfad verifizieren).
 - **MUST NOT:** Sicherheits- oder Autorisierungs-Checks in Produktionspfaden deaktivieren.
 
-## Verbindliche Sicherheitsanforderungen
+## Verbindliche Sicherheitsanforderungen (Deployment-Abnahmekriterien, keine Modul-Funktionszusage)
 
 - Sicherheitsrelevante Operationen werden über dedizierte Kontroll-Surfaces geleitet.
 - Fehler in sicherheitskritischen Pfaden werden als explizite Fehlercodes propagiert; kein Silent-Permit.
-- Audit-Logging für sicherheitsrelevante Operationen aktiv in Produktionsdeployments.
+- Audit-Logging fuer sicherheitsrelevante Operationen ist eine Deployment-Anforderung; ein vollstaendiger Ingestion-Audit-Log ist durch die Modul-API nicht belegt.
 
 ## Betriebsgrenzen
 
@@ -40,7 +53,7 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Ingestion-
 - [ ] Ressourcen-Limits explizit konfiguriert (keine Unlimited-Defaults)
 - [ ] Audit-Logging aktiv
 - [ ] Externe Abhängigkeiten mit Timeout und Retry konfiguriert
-- [ ] Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt
+- [ ] TODO: `THEMIS_PRODUCTION_MODE` / `THEMIS_ENVIRONMENT` ist in den geprueften Ingestion-Quellen nicht als Modul-Konfiguration belegt; nur dokumentieren, wenn die konkrete Deployment-Integration bestaetigt ist.
 
 ## Review / Sourcecode-Audit-Nachweis
 

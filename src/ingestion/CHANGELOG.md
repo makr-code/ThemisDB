@@ -3,6 +3,14 @@
 <!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot
+**Human_Review:** false
+**Human_Author:** ThemisDB Team
+
+> Exact model backend not verifiable from final document text alone.
+
 # Changelog - Ingestion Module
 
 All notable changes to the ingestion module are documented here.
@@ -11,6 +19,7 @@ The format is based on Keep a Changelog.
 ## [Unreleased]
 
 ### Changed
+- Documentation sync (2026-10-31): corrected current API/architecture claims against headers, implementation, focused test registration, and benchmark sources; labeled stale scanner/audit/design artifacts as historical.
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
 - Performance expectations updated to explicit verified ingestion benchmark symbols from ingestion throughput, quality-judge, extraction, and timeseries-ingestion suites.
 

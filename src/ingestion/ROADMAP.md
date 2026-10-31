@@ -1,35 +1,53 @@
 # Ingestion Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-18 -->
+<!-- Status: current planning view; code state checked 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot
+**Human_Review:** false
+**Human_Author:** ThemisDB Team
+
+> Exact model backend not verifiable from final document text alone.
 
 ## Current Status
 
-Production ingestion runtime exists across multi-source connectors, orchestration controls, validation/quality gating, and workflow-driven extraction support.
+Connector, manager, coordinator, validation, workflow, and sink interfaces and
+implementations exist. This is not a production-readiness certification:
+deployment security, persistence handoff, connector coverage, and operational
+limits are caller- and path-specific.
+
+> **Evidence rule (2026-10-31):** Dates and completion marks below are retained
+> planning history unless explicitly revalidated. Current headers,
+> implementations, tests, and CMake configuration override older scanner/gap
+> reports. The reindex decision helper and canary helper exist; an integrated
+> index migration, dual-read query path, persistent manifest lifecycle, and
+> traffic routing are not established by those helpers alone.
 
 ## In Progress
 
-- [~] hardening connector parity and deterministic fallback across mixed capability environments (Target: Q3 2026)
-- [~] benchmark stabilization for ingestion throughput, extraction, and quality-judge hot paths (Target: Q3 2026)
-- [~] diagnostics consistency for connector, validation, and workflow incident classes (Target: Q3 2026)
+- [ ] TODO: revalidate connector parity and fallback behavior with current connector tests (original target: Q3 2026).
+- [ ] TODO: revalidate benchmark baselines and release enforcement; benchmark source labels are not run evidence (original target: Q3 2026).
+- [ ] TODO: confirm diagnostics coverage for each connector, validation, and workflow failure class (original target: Q3 2026).
   - [x] Canonical retry taxonomy bridge added in `ingestion_api_contract.h` (`toRetryTimeoutSource`, `toRetryExhaustionReason`) with focused assertions in `test_ingestion_contract_hardening_focused.cpp` (Delivered: 2026-08-09)
-- [~] route filesystem ingestion through `WorkflowEngine` profile execution path when engine is configured (Target: Q4 2026)
+- [x] filesystem sources can enter the `WorkflowEngine` path when configured/eligible; that manager path does not currently deliver its result to a sink.
   - [~] extend parity path: `workflow_engine_mode=filesystem` now enables workflow-based execution for plugin/object-storage sources that provide filesystem-backed locations (Target: Q4 2026)
   - [x] source-integrity remediation for workflow routing core completed: compile-breaking token corruption in `workflow_engine.cpp` and malformed method scoping/call tokens in `ingestion_manager.cpp` removed; workflow dispatch path is source-validated again (Delivered: 2026-09-07)
-- [~] **Phase D: Embedding & Index Version Governance** (Target: Q4 2026)
+- [~] **Phase D: Embedding & Index Version Governance** (planning; implementation is partial, target Q4 2026)
   - **Specification Document**: `src/ingestion/EMBEDDING_VERSION_GOVERNANCE.md` (2026-09-24 CREATED)
   - **Core Ingestion Changes**:
-    - Reindex decision engine triggered on embedding model/dimension/chunking changes
-    - Dual-read query-time comparison (read current index, compare against candidate index during canary)
-    - Safe embedding model migration without requiring full re-ingestion
-  - **Index Manifest V1 Schema**: `src/index/INDEX_MANIFEST_V1_SCHEMA.json` for RocksDB persistence
+    - [x] Reindex decision helper detects model ID, dimension, chunking profile ID, or schema-major changes; focused tests exist.
+    - [ ] TODO: dual-read query-time comparison and live traffic routing are not verified in the ingestion implementation.
+    - [ ] TODO: safe migration without full re-ingestion is a proposal, not a behavior established by the helper.
+  - [x] Schema file exists at `src/index/INDEX_MANIFEST_V1_SCHEMA.json`; ingestion-side persistence/loading and durability tests are not established here.
   - **Acceptance Criteria**:
-    - Reindex triggers fire correctly on all 4 conditions (model_id, embedding_dim, chunking_profile_id, schema major version)
-    - Dual-read comparison produces bit-identical validation results
-    - Index manifest RocksDB persistence validated with data durability tests
-  - **CMake Feature Gate**: `THEMIS_EMBEDDING_VERSION_GOVERNANCE` enables canary deployment pattern
-  - **CI Gate**: `.github/workflows/gate-pr-rag-version.yml` validates version governance on ingestion changes
+    - [x] Decision helper and focused tests cover all 4 conditions (model ID, embedding dimension, chunking profile ID, schema major version); this is not automatic migration.
+    - [ ] TODO: dual-read comparison and the stated bit-identical result criterion require an implemented integration and test evidence.
+    - [ ] TODO: manifest persistence/durability acceptance remains unverified.
+  - **CMake Feature Gate:** `THEMIS_EMBEDDING_VERSION_GOVERNANCE` was not found in current CMake configuration; do not describe it as an active switch without new evidence.
+  - **CI Gate:** the workflow file exists, but its existence alone does not establish that it validates all ingestion version-governance behavior; inspect its current triggers/checks.
 
 ## Planned Features
 
@@ -56,7 +74,7 @@ Production ingestion runtime exists across multi-source connectors, orchestratio
 ### Phase 2: Core Implementation
 - [~] complete hardening for connector intake and orchestration internals (Target: Q4 2026)
 - [~] align validation/quality/workflow behavior to bounded runtime contracts (Target: Q4 2026)
-- [~] move `IngestionManager` filesystem main-path execution to profile-driven workflow engine routing with fail-closed processing errors (Target: Q4 2026)
+- [x] Manager has an optional/configured filesystem profile workflow path; it does not hand the assembled result to a sink, so end-to-end processing/persistence is not complete.
 
 ### Phase 3: Error Handling and Edge Cases
 - [~] standardize fail-safe behavior for unsupported/degraded connector scenarios (Target: Q4 2026)
@@ -71,10 +89,9 @@ Production ingestion runtime exists across multi-source connectors, orchestratio
 
 ### Phase 5: Performance and Hardening
 - [x] lock benchmark-backed release gates for ingestion hot paths (Delivered: Q3 2026)
-- [x] validate p95/p99 and throughput behavior against release baselines (Delivered: Q3 2026)
+- [ ] TODO: validate p95/p99 and throughput against a recorded release baseline on representative hardware (original completion mark requires current evidence).
   - Benchmark file: `benchmarks/ingestion/bench_ingestion_release_gates.cpp`
-  - Gates: INRG-01..INRG-06 (write ≥500k/s, batch ≤5ms, schema ≤100µs,
-    buffer ≤10µs, backpressure ≤50µs, quota ≤50µs)
+  - INRG-01..INRG-06 have source-declared thresholds. The cases use mock/in-memory operations; this roadmap has no current run/baseline evidence proving production performance or release-gate enforcement.
   - kIngestionCanonicalSeed = 42; Repetitions(5)
 
 ### Phase 6: Documentation and Acceptance
@@ -119,6 +136,6 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [x] This module's distributed/acceleration paths fail closed (Delivered: Wave D 2026-09-16)
-- [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Delivered: IN-BM-01..04 in `benchmarks/ingestion/bench_ingestion_dedicated_gates.cpp`)
-- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Delivered: `docs/operability/RUNBOOK_INGESTION_PIPELINE.md`)
+- [ ] TODO: verify fail-closed behavior for distributed/acceleration paths against their active implementations and tests.
+- [ ] TODO: no representative-hardware IN-BM run/baseline is linked here; benchmark source thresholds are not measured evidence.
+- [ ] Runbook source exists, but deployment alerting/diagnostics integration must be verified outside this module.

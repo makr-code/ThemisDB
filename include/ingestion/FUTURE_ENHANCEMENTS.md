@@ -1,9 +1,17 @@
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: planning/backlog; implementation not implied | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/ingestion/FUTURE_ENHANCEMENTS.md -->
 
 # Ingestion Module — Public Header Future Enhancements
+
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot
+**Human_Review:** false
+**Human_Author:** ThemisDB Team
+
+> Exact model backend not verifiable from final document text alone.
 
 **Module Path:** `include/ingestion/`  
 **Canonical implementation enhancements:** [`../../src/ingestion/FUTURE_ENHANCEMENTS.md`](../../src/ingestion/FUTURE_ENHANCEMENTS.md)
@@ -16,6 +24,10 @@ Planned enhancements to the **public header contract** in `include/ingestion/`. 
 
 → [`../../src/ingestion/FUTURE_ENHANCEMENTS.md`](../../src/ingestion/FUTURE_ENHANCEMENTS.md)
 
+> Items and target quarters below are planning notes, not statements about
+> current implementation or release commitment. Verify current declarations and
+> build configuration before treating a proposal as an accepted contract.
+
 ---
 
 ## Design Constraints
@@ -23,7 +35,7 @@ Planned enhancements to the **public header contract** in `include/ingestion/`. 
 - `[x]` Public headers must not expose internal implementation types or arena/memory layout details to callers.
 - `[x]` Breaking changes to types in `include/ingestion/` require a MAJOR version bump per `VERSIONING.md`.
 - `[x]` New entry points should be additive; existing stable APIs remain source-compatible.
-- `[x]` Layer association (**ANN Frontdoor**) must be preserved in all header expansions.
+- `[ ]` TODO: establish the module's layer association from a current canonical architecture source; **ANN Frontdoor** is an unverified historical label.
 
 ---
 
@@ -53,11 +65,13 @@ Planned extensions follow the same namespace (`themis::ingestion`) and include-g
 
 - [ ] Module-interface (C++20 modules) wrapper for `include/ingestion/` entry points
 - [ ] Header-only usage path for embedding scenarios (where feasible)
-- [ ] Extended layer-mapping documentation for ANN Frontdoor integration patterns
+- [ ] TODO: document a layer-mapping only after the module's current strategic association is verified; do not assume the former ANN Frontdoor label.
 
 ---
 
 ## Alignment with Strategic Plan
 
-Enhancements align with `FUTURE_PLAN.md` layer **ANN Frontdoor**. For cross-layer integration planning see:
+The alignment with `FUTURE_PLAN.md` and the former **ANN Frontdoor** label is
+unverified; confirm the current strategic source before using it. For cross-layer
+planning, see:
 → [`../../src/ai/FUTURE_ENHANCEMENTS.md`](../../src/ai/FUTURE_ENHANCEMENTS.md)
