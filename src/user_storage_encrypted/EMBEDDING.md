@@ -1,12 +1,12 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-21
-Last Updated: 2026-10-21
+Last Updated: 2026-10-31
 Status: active
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: unknown
-Human_Review: true
+AI_Contributor: GitHub Copilot
+Human_Review: false
 Human_Author: ThemisDB Contributors
 ---
 
@@ -14,69 +14,61 @@ Human_Author: ThemisDB Contributors
 
 Exact model backend not verifiable from final document text alone.
 
-This module is embedded into ThemisDB as an optional plugin-like component under `src/user_storage_encrypted` with its public API in `include/user_storage_encrypted`. The actual build wiring is visible in `src/user_storage_encrypted/CMakeLists.txt` and the plugin metadata is generated through the build system.
+The public declarations are under `include/user_storage_encrypted/`; the
+implementation and build definition are under `src/user_storage_encrypted/`.
+The generated manifest template and example configuration are under
+`plugins/user_storage_encrypted/`.
 
-## Module boundary
+## Build and plugin boundary
 
-The module owns the encrypted container lifecycle and its policy-aware storage orchestration. It is not a general-purpose storage engine; it is a bounded feature that integrates with the wider ThemisDB runtime through plugin registration and configuration.
+`THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED` controls the shared
+`themis_user_storage_encrypted` library and is defined with default `ON`,
+subject to edition configuration. CMake detects libargon2 and defines
+`THEMIS_HAS_ARGON2` when found; otherwise the KDF uses the PBKDF2-HMAC-SHA256
+fallback. The plugin manifest template sets `auto_load` to `false`; building
+the target does not establish that the host loads it.
 
-The key ownership split is:
+`MultiLevelEncryptedStorage` implements `IThemisPlugin` and returns
+`user_storage_encrypted` from `getName()`. Build-time and host registration
+are separate concerns. Optional server handler compilation/linking is
+conditional; this guide makes no claim that HTTP routes are wired or active.
 
-- public API: `include/user_storage_encrypted/`
-- implementation: `src/user_storage_encrypted/`
-- plugin build: `src/user_storage_encrypted/CMakeLists.txt`
-- plugin config example: `plugins/user_storage_encrypted/config/storage_config.yaml.example`
+## Runtime configuration
 
-## Build-time embedding
+The JSON input to `initialize(const char*)` has a
+`multi_level_storage.levels` array (not a top-level `levels` array). Plain
+levels use `path`; encrypted levels require `encrypted_dir`, `mount_point`,
+and `encryption.key_id`, with provider options in the nested `encryption`
+object. See `plugins/user_storage_encrypted/config/storage_config.yaml.example`.
 
-The module is conditionally enabled via `THEMIS_PLUGIN_USER_STORAGE_ENCRYPTED` in `src/user_storage_encrypted/CMakeLists.txt`.
+Initialization parses and validates configuration, attempts stale-mount
+cleanup, checks backend availability for encrypted levels, obtains key
+providers, creates a container when needed, and mounts it. The plugin
+constructs the backend without a KDF service. Although the backend supports
+direct KDF-enabled construction, the current multi-level configuration path
+does not enable it.
 
-When enabled, the build creates a shared library named `themis_user_storage_encrypted` and installs it under the plugin directory. The CMake file also detects `libargon2`, exposes `THEMIS_HAS_ARGON2`, and falls back to PBKDF2 if Argon2 is unavailable. This is a direct runtime configuration pitfall: the module is built in two compile-time modes, and both are considered supported in the implementation comments.
+Rotation fields are parsed but the plugin does not create or start
+`KeyRotationScheduler`; scheduler integration must be performed separately.
 
-## Runtime embedding
+## Host dependencies and operational limits
 
-The class `MultiLevelEncryptedStorage` implements `IThemisPlugin` and exposes the plugin name `user_storage_encrypted`. In practice the module is intended to be loaded as an optional plugin when the build flag is on, and the plugin registration path is part of the host/build integration rather than the module's own source files.
+Encrypted mount behavior depends on gocryptfs and host FUSE support. Vault
+provider configuration uses `vault_addr` and the process `VAULT_TOKEN`;
+HSM provider configuration requires an HSM library path. The current health
+check tests backend initialization and mounted state, not ongoing provider or
+scheduler health. Metrics include an emitted container-size gauge that current
+source does not update.
 
-The plugin is designed to manage:
+Do not treat the separate `user_storage_encrypted_api_contract.h` comments as
+proof that every operation is atomic or that cleanup failures are returned;
+see [API.md](API.md).
 
-- encrypted storage level configuration
-- security-specific per-level key providers
-- periodic key rotation callbacks
-- health and metrics reporting
+## Build references
 
-## Data-flow embedding
-
-The current implementation uses a structured runtime flow:
-
-1. Configuration is loaded into `LevelConfig` entries.
-2. `validateConfiguration()` checks structural assumptions.
-3. `initializeLevel()` starts each configured level.
-4. options, mount points, and provider configs are bound at runtime.
-5. operational health is exposed through `getMetricsText()` and `checkHealth()`.
-
-This means the module expects to be embedded in a host that can provide configuration and lifecycle control, but it does not assume the host will do all the encrypted storage enforcement itself.
-
-## Host expectations
-
-The module assumes the embedding environment provides:
-
-- a valid `gocryptfs` binary
-- kernel or OS support for FUSE / mount operations
-- filesystem permissions to create mount points and encrypted directories
-- a configuration source for level metadata and rotation intervals
-
-If those assumptions fail, the module surfaces them explicitly rather than masking them. This is consistent with the fail-closed contract in `user_storage_encrypted_api_contract.h`.
-
-## Operational embedding considerations
-
-When embedding this module in a larger service, treat the following as requirements:
-
-- enable the plugin only when host support and permissions are confirmed
-- validate mount points before startup
-- use explicit key provider configuration rather than relying on default-insecure state
-- monitor rotation schedules and stale mount reconciliation
-- treat backend unavailability as a system-level signal, not a soft warning
-
-## Limitations of the current embedding model
-
-The source does not show a more general plugin registry abstraction inside this module itself; the module is designed as a local subsystem boundary and relies on the host runtime for broader orchestration and lifecycle management. The embedding is therefore intentionally narrow and production-oriented, but not a full application server integration layer.
+- `src/user_storage_encrypted/CMakeLists.txt`
+- `cmake/features/PluginFeatures.cmake`
+- `plugins/user_storage_encrypted/plugin.json.in`
+- `plugins/user_storage_encrypted/config/storage_config.yaml.example`
+- `include/user_storage_encrypted/multi_level_storage.hpp`
+- `src/user_storage_encrypted/multi_level_storage.cpp`

@@ -1,54 +1,44 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/user_storage_encrypted/ROADMAP.md -->
-
-# User Storage Encrypted Module — Public Header Roadmap
-
-**Module Path:** `include/user_storage_encrypted/`  
-**Canonical implementation roadmap:** [`../../src/user_storage_encrypted/ROADMAP.md`](../../src/user_storage_encrypted/ROADMAP.md)
-
+---
+Author: ThemisDB Contributors
+Created: 2026-06-01
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
 ---
 
-## Overview
+# Public Header Roadmap - user_storage_encrypted
 
-Tracks public `user_storage_encrypted` API contract stability, header-level coverage work, and future public entry points. Runtime implementation work remains in:
+Exact model backend not verifiable from final document text alone.
 
-→ [`../../src/user_storage_encrypted/ROADMAP.md`](../../src/user_storage_encrypted/ROADMAP.md)
+This derivative roadmap tracks public-header documentation and API review.
+Implementation milestones remain in
+[`../../src/user_storage_encrypted/ROADMAP.md`](../../src/user_storage_encrypted/ROADMAP.md).
 
----
+## Current header surface
 
-## Current Status
+The operational headers declare types under `themis::plugins::user_storage`.
+The separate `user_storage_encrypted_api_contract.h` uses
+`themis::user_storage_encrypted`; the relationship between the two contracts
+requires maintainer clarification before stability claims are made.
 
-All headers in `include/user_storage_encrypted/` are present and expose the per-user encrypted storage with pluggable backends (gocryptfs), key derivation, key rotation scheduling, multi-level storage, and security levels surface.
+## Follow-up candidates
 
----
+- [ ] Resolve operational API versus frozen contract discrepancies.
+- [ ] Add header compile checks to the documented build/test flow.
+- [ ] Document supported platform boundaries and exact public signatures.
+- [ ] Review compatibility and ABI guarantees under repository versioning
+      policy.
 
-## Completed ✅
+These are documentation/API-review candidates, not delivery commitments or
+verified milestones. No layer association is asserted here.
 
-- [x] Public header surfaces documented in `ARCHITECTURE.md`
-- [x] Canonical cross-links to `src/user_storage_encrypted/` implementation docs established
-- [x] Layer association (**Graph**) marked and verified against `FUTURE_PLAN.md`
-- [x] Namespace layout (`themis::user_storage_encrypted`) documented
+## References
 
----
-
-## In Progress
-
-- [ ] Per-header deprecation and breaking-change notices aligned with `VERSIONING.md` (Target: 2026-Q3)
-
----
-
-## Planned
-
-- [ ] API contract index for high-frequency entry points with usage examples (Target: 2026-Q3)
-- [ ] Compatibility matrix (C++17/20 and platform coverage) per header group (Target: 2026-Q4)
-- [ ] CI-enforced compile checks for all public headers (Target: 2026-Q4)
-
----
-
-## Production Readiness Checklist
-
-- [x] Public header surfaces documented
-- [x] Canonical links to implementation docs set
-- [ ] Deprecation annotations consistent
+- [Header inventory](README.md)
+- [Header architecture](ARCHITECTURE.md)
+- [Header enhancement candidates](FUTURE_ENHANCEMENTS.md)
+- [Canonical module roadmap](../../src/user_storage_encrypted/ROADMAP.md)

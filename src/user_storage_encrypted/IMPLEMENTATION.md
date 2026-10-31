@@ -1,12 +1,12 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-21
-Last Updated: 2026-10-21
+Last Updated: 2026-10-31
 Status: active
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: unknown
-Human_Review: true
+AI_Contributor: GitHub Copilot
+Human_Review: false
 Human_Author: ThemisDB Contributors
 ---
 
@@ -14,84 +14,107 @@ Human_Author: ThemisDB Contributors
 
 Exact model backend not verifiable from final document text alone.
 
-This document explains how the module's implementation maps to the contract in `include/user_storage_encrypted/user_storage_encrypted_api_contract.h` and the concrete source under `src/user_storage_encrypted`.
+## Backend: `gocryptfs_backend.cpp`
 
-## Primary implementation files
+`GocryptfsBackend` validates encrypted-directory and mount-point paths in
+`createContainer()` and `mountContainer()`, checks mount state, resolves key
+material, and invokes gocryptfs via argument vectors rather than a shell.
+Key bytes are supplied through a stdin pipe on supported POSIX builds.
+`checkAvailability()` probes `gocryptfs` and, on Linux, `/dev/fuse`.
+The backend's public constructor accepts an optional non-owning
+`KeyDerivationService*`; with no service it uses the supplied key material
+directly. The multi-level plugin currently constructs it without a KDF.
 
-### `gocryptfs_backend.cpp`
+Do not generalize this to “all external commands validate all arguments”:
+availability probes use constant command arguments, and stale-mount cleanup
+uses its own process-execution path. Some backend command paths use timed
+pipe I/O, but the source does not establish one end-to-end process timeout
+guarantee for every invocation.
 
-This file implements the backend lifecycle that creates and manages gocryptfs-backed encrypted directories.
+## Key derivation: `key_derivation_service.cpp`
 
-The implementation includes:
+`Argon2idKeyDerivationService` implements both
+`IKeyDerivationService` (Result-based methods) and
+`KeyDerivationService` (domain-separated vector methods). CMake enables
+Argon2id when libargon2 is found; otherwise code uses a PBKDF2-HMAC-SHA256
+fallback. `setDeriveKeyFn()` is a test/custom bridge; if the injected callback
+throws, `deriveKey()` falls through to the built-in implementation.
 
-- path validation (`validatePath` and `validateHexKey`)
-- rejection of unsafe gocryptfs flags
-- secure zeroization helper for transient key buffers
-- `checkAvailability()` for binary and FUSE validation
-- mount and unmount behavior for encrypted containers
-- stale mount cleanup and command execution wrappers
+The constructor's `Argon2idParams` are not shared by both APIs: the built-in
+Argon2id path in `deriveKey()` uses fixed `kTimeCost`, `kMemoryCost`,
+`kParallelism`, and `kKeyLength`, ignoring `params_`. The domain-separated
+`derive()` path uses `params_` for Argon2id. Its PBKDF2 fallback uses the
+configured output length but a fixed 310,000 rounds, not `params_.iterations`.
 
-The substantive invariant is that the module validates all arguments before it invokes external commands; command injection prevention is a deliberate implementation concern, not a secondary cleanup step.
+`GocryptfsBackend::resolveKey()` stores a raw salt file at
+`<encrypted_dir>/.themis_kdf_salt` when a KDF service is configured. The
+multi-level orchestrator does not configure this service. Salt persistence
+does not itself establish permissions, backup, or key-version policy.
 
-### `key_derivation_service.cpp`
+`Argon2idKeyDerivationService::derive()` clears its temporary concatenated
+password buffer after the KDF call, but does not wipe the caller-owned
+master-key or salt inputs. Other temporary key buffers have only path-specific
+cleanup; this is not the frozen contract's general passphrase-and-salt zeroing
+guarantee. See [API contract comparison](API.md).
 
-This file builds the KDF layer. The module uses Argon2id when the environment supports it and PBKDF2-HMAC-SHA256 as a fallback. The underlying code validates empty master keys and salts, generates random salts, and serializes salt persistence when needed.
+## Rotation: `key_rotation_scheduler.cpp`
 
-Important implementation semantics:
+The scheduler has one dedicated polling thread for eligible automatic
+schedules, per-security-level state, and optional `IRotationStore` persistence.
+Scheduled callbacks are called with `(level, true, "")`; thrown callback
+exceptions are swallowed. The scheduler then advances and persists
+`last_check_ms`, including after a thrown callback. `isRotationDue()` and
+`getNextRotationTime()` only check/report schedule timestamps.
+`triggerRotation()` manually invokes the callback on the caller's thread,
+without checking due time or `auto_rotate`; it is not a storage rotation. The
+scheduler mutex is held during callbacks, so re-entry into scheduler methods
+can deadlock. `shutdown()` wakes the condition variable and joins the polling
+thread.
 
-- empty master_key or salt is rejected
-- the injected derive-key callback is treated as optional and non-authoritative
-- build-time `THEMIS_HAS_ARGON2` changes the real implementation path
-- the fallback path is explicitly documented as not compatible with legacy key derivation results
+The separate `MultiLevelEncryptedStorage::rotateKey()` calls the configured
+key provider, creates and mounts a new container, copies data, attempts
+to unmount both containers, renames directories, and remounts. It is not called by
+`triggerRotation()` or wired to parsed scheduler configuration. Some
+intermediate unmount and rollback results are ignored; remount failure can
+return after the new directory is installed, with the old directory left as a
+backup and no code rollback. Successful remount is followed by best-effort
+backup removal; failure only logs a warning. The unmount/rename/remount
+sequence provides no zero-downtime guarantee. The source does not
+establish a transactional rotation or guarantee that the old key remains
+active on every failure path.
 
-### `key_rotation_scheduler.cpp`
+## Orchestration: `multi_level_storage.cpp`
 
-This file implements rotation scheduling and persistence. It stores per-level state keyed by security level, persists JSON metadata such as `last_check_ms` and `interval_days`, and uses a dedicated thread to evaluate schedule health.
+Configuration is read from `multi_level_storage.levels`. Plain entries use
+`path`; encrypted entries use `encrypted_dir`, `mount_point`, and nested
+`encryption.key_id` / provider fields. Validation checks required strings but
+does not implement every security or deployment policy.
 
-The scheduler intentionally ensures that shutdown wakes the thread promptly and that failed callback attempts are swallowed without corrupting schedule state. That is a design trade-off: it prioritizes scheduler liveness and resilience while still requiring operator observability outside the scheduler itself.
+Initialization reconciles mount state, initializes each level, probes
+gocryptfs for encrypted entries, resolves the provider, creates a container
+when needed, and mounts it. User/group records are JSON files in per-level
+`users/` and `groups/` paths. `checkLevelHealth()` checks backend presence
+and mount state, not provider or scheduler health.
 
-### `multi_level_storage.cpp`
+Metrics are emitted as Prometheus text. Mount and rotation counters are
+updated by their respective operations, but the current source does not
+update `container_size_bytes`. `unmountAll()` currently discards individual
+unmount errors and returns success; callers should not infer successful
+unmount from its return value alone.
 
-This file is the orchestration layer. It:
+## Contract and source references
 
-- loads configuration
-- validates level structure
-- reconciles stale mounts left by earlier crashes
-- initializes each configured level
-- exposes mount/unmount/rotation behavior
-- provides health and metrics output
+The header `user_storage_encrypted_api_contract.h` describes a separate
+error-value contract and includes guarantees not all demonstrated by the
+operational source. See [API.md](API.md) for the discrepancy and follow-up
+needed. Canonical implementation references:
 
-The class also includes explicit log and error handling for stale mount cleanup, which is a direct operational measure to reduce divergence across restarts.
-
-## Invariants and failure handling
-
-The source consistently enforces the contract's fail-closed posture:
-
-- invalid configuration does not continue silently
-- unavailability of gocryptfs or FUSE is treated as an explicit error
-- rotation callbacks are invoked with explicit state
-- stale mounts are cleaned up but not treated as the caller's failure to recover
-
-The module does not hide backend failures behind a generic success path. Instead, it surfaces them as errors or logs and keeps them visible for operator diagnosis.
-
-## Observability and metrics
-
-`MultiLevelEncryptedStorage::getMetricsText()` emits Prometheus-style metrics. The public API comments in `include/user_storage_encrypted/multi_level_storage.hpp` list the relevant families:
-
-- `user_storage_mounts_active`
-- `user_storage_mount_operations_total`
-- `user_storage_key_rotations_total`
-- `user_storage_container_size_bytes`
-
-The implementation is designed to be readable by operators and integration tests without requiring deep internal knowledge of the low-level backend.
-
-## Known implementation gaps
-
-The source and roadmap together make the remaining work clear:
-
-- introduce broader invalid-path and host-environment validation coverage
-- harden scheduler failure handling across callback and persistence edge cases
-- increase end-to-end encrypted lifecycle test coverage
-- keep benchmark baselines aligned with production-like mount patterns
-
-These gaps are part of the module's active roadmap and should be treated as expected follow-up work rather than as undocumented defects.
+- `include/user_storage_encrypted/gocryptfs_backend.hpp`
+- `include/user_storage_encrypted/key_derivation_service.hpp`
+- `include/user_storage_encrypted/key_rotation_scheduler.hpp`
+- `include/user_storage_encrypted/multi_level_storage.hpp`
+- `src/user_storage_encrypted/CMakeLists.txt`
+- `src/user_storage_encrypted/gocryptfs_backend.cpp`
+- `src/user_storage_encrypted/key_derivation_service.cpp`
+- `src/user_storage_encrypted/key_rotation_scheduler.cpp`
+- `src/user_storage_encrypted/multi_level_storage.cpp`

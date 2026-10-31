@@ -1,43 +1,47 @@
-# PERFORMANCE_EXPECTATIONS - src/user_storage_encrypted
+---
+Author: ThemisDB Contributors
+Created: 2026-08-08
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+---
 
-## Scope
+# Performance Expectations - user_storage_encrypted
 
-- Module: src/user_storage_encrypted
-- This file defines measurable user_storage_encrypted performance expectations for release gating.
+Exact model backend not verifiable from final document text alone.
 
-## Benchmark Reference
+This page maps existing benchmark sources to the behavior they actually
+measure. The repository sources inspected do not establish benchmark results,
+hardware-specific baselines, or automated enforcement of the numeric labels
+in benchmark comments.
 
-- Relevant benchmark files:
-  - benchmarks/bench_user_storage_mount_latency.cpp
+## Benchmark mapping
 
-## Specific Expectations
-
-| Target ID | Expectation | Benchmark case |
+| Source | Cases | Evidence class / limit |
 |---|---|---|
-| USEP-1 | backend initialization, availability check, and mount-state inspection remain bounded | GocryptfsBenchFixture/Initialize, GocryptfsBenchFixture/CheckAvailability, GocryptfsBenchFixture/IsMounted |
-| USEP-2 | fast-fail mount and unmount paths remain bounded under invalid or unavailable backend conditions | GocryptfsBenchFixture/MountContainer_FastFail, GocryptfsBenchFixture/UnmountContainer_FastFail |
-| USEP-3 | lifecycle dispatch and repeated mount/unmount cycles remain bounded | GocryptfsBenchFixture/MountUnmountCycle, BM_MountDispatch_NoKDF, GocryptfsBenchFixture/BackendMeta |
+| `benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp` | Backend initialization, availability, mount-state, fast-fail paths, optional API mount cycle, dispatch | API-level probe/fast-fail measurements; cycle may invoke gocryptfs; not registered by the module CMake file |
+| `benchmarks/user_storage_encrypted/bench_user_storage_encrypted_release_gates.cpp` | Enum cast, switch dispatch, descriptor construction, batch casts | Microbenchmarks of contract/data handling; not encrypted mount or I/O |
+| `benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp` | Named mount/unmount/KDF/rotation/concurrency/write cases | Sleep-based placeholders and simulations; not production runtime measurement |
+| `benchmarks/user_storage_encrypted/bench_encrypted_storage_dedicated_gates.cpp` | Stub write/read/rotation/string enc-dec | In-process stub only; not production encryption or storage |
 
-## Module Hard Gates (v1.0 docs baseline)
+`benchmarks/user_storage_encrypted/CMakeLists.txt` registers release-gates,
+lifecycle-gates, and dedicated-gates targets when benchmarks are enabled. It
+explicitly registers only the lifecycle-gates target as a CTest benchmark
+smoke entry with `user_storage_encrypted` and `release_critical` labels.
 
-| Gate ID | Expectation | Measurement |
-|---|---|---|
-| USEG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
-| USEG-2 | encrypted mount lifecycle p99 <= release threshold | p99 from mapped encrypted storage benchmark cases |
-| USEG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
+## Current evidence status
 
-## Validation
+- The benchmark C++ sources contain candidate thresholds/labels, but do not
+  assert them as pass/fail gates.
+- No benchmark result or baseline capture is recorded here.
+- Representative hardware, gocryptfs/FUSE version, compiler/build mode, and
+  repeated-run data are needed before publishing p95/p99 or throughput claims.
+- Simulated and stub-backed cases must not be used to claim user-visible
+  encrypted-storage performance.
 
-- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
-- Mapping should be expanded as additional encrypted-storage benchmark scenarios are introduced.
-
-## Sourcecode Verification (Module: user_storage_encrypted/performance)
-
-- Verified benchmark sources:
-  - benchmarks/bench_user_storage_mount_latency.cpp
-- Verified mapping surfaces:
-  - backend initialization and availability behavior
-  - mount-state, fast-fail, and mount/unmount cycle behavior
-- Result:
-  - Referenced benchmark cases exist in current benchmark sources.
-  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.
+See [benchmark directory notes](../../benchmarks/user_storage_encrypted/README.md)
+for build and registration details.
