@@ -56,7 +56,7 @@ The label includes all tests registered by [`tests/prompt_engineering/CMakeLists
 
 1. Preserve the distinction between manager struct validation and JSON validator injection heuristics.
 2. Add regression coverage for empty/missing state, malformed input, and error/blocked outcomes.
-3. For rewrite-rule changes, cover phase ordering, priority ties, loader rejection, trace limits, and max-step termination as applicable.
+3. For rewrite-rule changes, add behavior-level coverage for phase ordering, priority ties, loader rejection, trace limits, and max-step termination as applicable. The current `test_rewrite_engine_focused.cpp` checks interface contracts only.
 4. For evaluator or optimizer changes, use fixed cases and record configuration/provider details.
 5. Run the focused tests, then the relevant benchmark cases; compare against the release baseline described in [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md).
 6. Update the relevant module docs in the same change; do not claim a production-safe default unless source and deployment configuration establish it.
@@ -65,6 +65,7 @@ The label includes all tests registered by [`tests/prompt_engineering/CMakeLists
 
 - Test success does not establish that the evaluation fixtures represent production prompts.
 - The default evaluator is lexical unless a provider is attached.
+- RewriteEngine core code exists, but request-pipeline integration and rule-behavior coverage remain incomplete in the roadmap.
 - Prompt substitution and injection detection do not replace downstream authorization or output validation.
 - Operational symptoms and recovery paths are in [`RUNBOOK.md`](./RUNBOOK.md) and [`OPERATIONS.md`](./OPERATIONS.md).
 

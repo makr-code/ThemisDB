@@ -32,7 +32,7 @@ This page is a map of the C++ public interfaces, not a replacement for their dec
 ## Additional public surfaces
 
 - [`prompt_injection_detector.h`](../../include/prompt_engineering/prompt_injection_detector.h): scores prompt and response text, reports matched heuristic patterns, and returns a sanitized copy. Detection is not an authorization decision.
-- [`rewrite_engine.h`](../../include/prompt_engineering/rewrite_engine.h), [`rewrite_rule.h`](../../include/prompt_engineering/rewrite_rule.h), and [`rewrite_rule_loader.h`](../../include/prompt_engineering/rewrite_rule_loader.h): deterministic phased rewrite contracts, rule registration, and YAML loading restricted to lexical rules.
+- [`rewrite_engine.h`](../../include/prompt_engineering/rewrite_engine.h), [`rewrite_rule.h`](../../include/prompt_engineering/rewrite_rule.h), and [`rewrite_rule_loader.h`](../../include/prompt_engineering/rewrite_rule_loader.h): deterministic phased rewrite contracts, rule registration, and YAML loading restricted to lexical rules. The core is not automatically invoked by the integration façade; see [`ROADMAP.md`](./ROADMAP.md) for integration status.
 - [`prompt_ab_experiment.h`](../../include/prompt_engineering/prompt_ab_experiment.h) and [`prompt_regression_runner.h`](../../include/prompt_engineering/prompt_regression_runner.h): variant assignment, outcome summaries, and fixture-based regression checks.
 - Other headers expose template compilation, structured output, RAG prompt building, context budgets, reflection, reasoning helpers, compression, and adversarial testing. See the directory's header inventory in [`include/prompt_engineering/README.md`](../../include/prompt_engineering/README.md); consult individual headers for exact behavior.
 

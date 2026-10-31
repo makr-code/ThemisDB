@@ -43,6 +43,8 @@ Create an engine with `create_rewrite_engine()`. Rules are registered by unique 
 
 Only regex and dictionary rules are accepted from YAML. Validate the candidate configuration and exercise it in tests before deploying it. Loading is all-or-nothing at the loader boundary; the engine skips IDs already registered rather than replacing their definitions. Policy and semantic rules must be registered as C++ implementations.
 
+The core is compiled into `themis_core`, but the integration façade does not currently invoke it automatically. Pipeline wiring and behavior-level rule regression coverage remain open in [`ROADMAP.md`](./ROADMAP.md); check the actual caller before assuming a prompt is rewritten.
+
 ## Implementation and test workflow
 
 1. Update the public header contract first for interface changes, then keep implementation and module docs aligned.

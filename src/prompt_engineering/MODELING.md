@@ -37,7 +37,9 @@ The A/B framework compares explicit control and treatment version IDs and select
 
 The rewrite engine is a deterministic rule executor, distinct from an LLM inference model. It runs phases in this order: input normalization, policy enforcement, NL-to-AQL preprocessing, then post-generation canonicalization. Within a phase, rules are sorted by ascending priority with registration order preserved for ties. It repeats a phase while transformations continue, subject to a step limit; a failed rule or terminal block stops the pipeline.
 
-YAML configuration is restricted to regex and dictionary lexical rules. Semantic and policy rules are implemented and registered in C++. A YAML loader failure does not append partially loaded rules to its output vector. See [`rewrite_engine.h`](../../include/prompt_engineering/rewrite_engine.h), [`rewrite_rule.h`](../../include/prompt_engineering/rewrite_rule.h), and [`rewrite_rule_loader.cpp`](./rewrite_rule_loader.cpp).
+YAML configuration is restricted to regex and dictionary lexical rules. Policy and semantic rule implementations are C++-only. A YAML loader failure does not append partially loaded rules to its output vector. See [`rewrite_engine.h`](../../include/prompt_engineering/rewrite_engine.h), [`rewrite_rule.h`](../../include/prompt_engineering/rewrite_rule.h), and [`rewrite_rule_loader.cpp`](./rewrite_rule_loader.cpp).
+
+This describes the engine core, not automatic request-pipeline behavior. The module roadmap tracks wiring the core into prompt and NL-to-AQL flows, and functional rule-execution coverage, as incomplete. Do not infer production integration from the presence of the engine implementation.
 
 ## Assumptions and evaluation
 
