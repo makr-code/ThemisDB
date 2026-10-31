@@ -100,7 +100,7 @@ TEST_F(QoSManagerCommandInjectionTest, ShellMetacharactersRejected) {
         "eth0\\nwhoami",            // Newline (may escape validation)
         "eth0\twhoami",             // Tab character
         "eth0\rwhoami",             // Carriage return
-        "eth0\x00whoami",           // Null byte
+        std::string("eth0\0whoami", 11),  // Embedded null byte
         "eth0*",                    // Glob wildcard
         "eth0?",                    // Glob single char
         "eth0[0-9]",                // Character class

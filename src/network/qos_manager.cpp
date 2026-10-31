@@ -18,7 +18,6 @@
 #include <algorithm>
 #include <array>
 #include <cerrno>
-#include <cctype>
 #include <cinttypes>
 #include <cstdio>
 #include <cstring>
@@ -40,7 +39,9 @@ static bool isValidInterfaceName(std::string_view iface) noexcept {
     }
 
     const auto is_ascii_alnum = [](unsigned char ch) {
-        return std::isalnum(ch) != 0;
+        return (ch >= 'A' && ch <= 'Z') ||
+               (ch >= 'a' && ch <= 'z') ||
+               (ch >= '0' && ch <= '9');
     };
 
     if (iface.front() == '-' || iface.front() == '.' ||
