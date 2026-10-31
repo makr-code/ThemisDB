@@ -1,19 +1,37 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Distributed Knowledge Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | source/configuration review: 2026-10-31; no build or tests run -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
-Production distributed_knowledge runtime exists across capability exchange, federated coordination, cross-shard retrieval merge, feedback synchronization, and federated distillation integration surfaces.
+Source/header surfaces exist for capability exchange, federated coordination,
+cross-shard retrieval merge, feedback synchronization, and federated
+distillation. However, the current module library source list omits the
+distillation implementation, so its availability through
+`themis_distributed_knowledge` is unconfirmed.
 
-Q3 2026 Status Update (2026-07-28):
+Q3 2026 baseline update (2026-07-28; test-source inventory checked 2026-10-31):
 - Core module implementation complete with 5 key federation surfaces
-- Focused test infrastructure established: 58 unit tests covering all surfaces, aligned with actual production APIs
+- Current test-source inventory: 107 GoogleTest declarations across 9 translation units, including the five component-focused suites and four supplemental suites; source presence is not evidence that tests were built or run.
 - Test targets follow module test pattern: `module_distributed_knowledge_test_<base>_focused`
   (filename `test_<base>_focused.cpp` → stem stripped of `_focused` → target appends `_focused`)
-- All test files compile against real header APIs (AdapterCapabilityAnnouncement, LoRAFederationCoordinator, FederatedRAGMerger, CrossShardFeedbackSync, FederatedDistillationCoordinator)
+- Component-focused suites exercise public headers; contract-hardening and high-cardinality stress sources include mock/simulated behavior. This audit did not verify compilation.
 - Evidence gathering in progress for hardening priorities
 
 ## In Progress
@@ -89,17 +107,15 @@ Q3 2026 Status Update (2026-07-28):
   - kDKContractSeed = 42; all tests self-contained, no external I/O
 
 ### Phase 5: Performance and Hardening
-- [x] lock benchmark-backed release gates for federation and merge hot paths (Delivered: Q3 2026)
-- [x] validate p95/p99 and throughput behavior against release baselines (Delivered: Q3 2026)
-  - Benchmark file: `benchmarks/distributed_knowledge/bench_dk_release_gates.cpp`
-  - Gates: DKRG-01..DKRG-06 (insert ≥100k/s, neighbours ≤500µs, path ≤5ms,
-    LWW ≤100µs, federation-union ≤5ms, serialization ≤100µs)
-  - kDKCanonicalSeed = 42; Repetitions(5)
+- [~] benchmark sources and declared thresholds exist for component operations and DKRG-01..DKRG-06; this documentation audit found no run output or baseline comparison that verifies achieved p95/p99 or throughput.
+  - Component benchmarks: `benchmarks/distributed_knowledge/bench_distributed_knowledge.cpp` and `benchmarks/distributed_knowledge/bench_distributed_knowledge_or.cpp`.
+  - `bench_dk_release_gates.cpp` uses in-memory/mock entity, graph, federation-union, and serialization helpers; its thresholds do not by themselves establish production-path performance.
+  - `kDKCanonicalSeed = 42`; the release-gate source declares 5 repetitions. Benchmark execution and release-baseline evidence remain to be confirmed.
 
 ### Phase 6: Documentation and Acceptance
 - [x] core distributed_knowledge module docs aligned to source-verifiable behavior
 - [x] roadmap/future planning separated from historical changelog entries
-- [x] focused test infrastructure created (58 unit tests, 5 surface areas, Q3 2026)
+- [x] focused test infrastructure created (current source inventory: 107 test declarations across 9 translation units; execution status not established by this source audit)
 - [x] Phase 1-6 Wave 3B Category-D closure delivered (Q3 2026)
   - Contract header, 16 focused tests (DKC-01..16), 6 release-gate benchmarks (DKRG-01..06)
 
@@ -114,34 +130,39 @@ Q3 2026 Status Update (2026-07-28):
 
 ## Test Evidence (Q3 2026 Deliverable)
 
-**Focused Test Infrastructure:** Created 2026-07-28
+**Focused Test Sources:** Created starting 2026-07-28; current source inventory checked 2026-10-31
 
-Test files location: `tests/distributed_knowledge/test_*_focused.cpp`
+Test source location: `tests/distributed_knowledge/test_*.cpp`
 
 Test coverage by module surface:
 
 | Surface | Test File | Tests | Coverage |
 |---------|-----------|-------|----------|
-| Adapter Capability Announcement | test_adapter_capability_announcement_focused.cpp | ACA-01..ACA-10 (10) | Gossip publish, domain types, multicast behavior |
+| Adapter Capability Announcement | test_adapter_capability_announcement_focused.cpp | 16 declarations (ACA-01..ACA-10, inbound dispatch, and 5 trust-policy cases) | Gossip publish, domain types, inbound dispatch, trust-policy behavior |
 | LoRA Federation Coordinator | test_lora_federation_coordinator_focused.cpp | LFC-01..LFC-12 (12) | Aggregation requests, state machine, timeout handling |
 | Federated RAG Merger | test_federated_rag_merger_focused.cpp | FRM-01..FRM-12 (12) | Merge requests, dedup, partial failure, top-K truncation |
 | Cross-Shard Feedback Sync | test_cross_shard_feedback_sync_focused.cpp | CSS-01..CSS-12 (12) | Feedback events, batching, dedup, replay detection, privacy filtering |
-| Federated Distillation Coordinator | test_federated_distillation_coordinator_focused.cpp | FDC-01..FDC-12 (12) | Distillation requests, DP parameters, policy gates, privacy budgets |
+| Federated Distillation Coordinator | test_federated_distillation_coordinator_focused.cpp | 15 declarations (FDC-01..FDC-12 plus 3 bounded-policy cases) | Distillation requests, DP parameters, policy gates, privacy budgets |
+| Contract hardening | test_dk_contract_hardening_focused.cpp | 16 | Contract checks; several cases use local mock/simulated behavior rather than module runtime calls |
+| Diagnostics and hardening policy | test_dk_diagnostics_focused.cpp | 14 | Diagnostic emitter dispatch and `MergeHardeningPolicy` semantics |
+| LLM/RAG context | test_distributed_knowledge_llm_focused.cpp | 7 | RAG merger configuration, merge, context formatting, and timeout path |
+| High-cardinality stress | test_distributed_knowledge_highcardinality_stress.cpp | 3 | In-process stub/simulation stress only; not real shard or module-runtime validation |
 
-**Total Test Suite: 58 focused unit tests**
+**Total source declarations: 107 across 9 files.** This is a static count from the test sources, not a passing-test result.
 
 Test registration pattern: `module_distributed_knowledge_<stem>_focused`
 CTest tier: unit
 Timeout: 120s
 Labels: distributed_knowledge
 
-Target status: Ready for build integration (test files complete, CMakeLists.txt configured per module pattern)
+Target registration is configured through the `test_*.cpp` glob in `tests/distributed_knowledge/CMakeLists.txt`; this audit did not build or execute the targets.
 
 ## Known Issues and Limitations
 
 - behavior remains sensitive to shard availability, timeout configuration, and policy gates.
 - selected partial-failure and replay-edge flows require continued hardening.
 - benchmark coverage should continue expanding beyond current federation core paths.
+- `src/distributed_knowledge/CMakeLists.txt` does not list `federated_distillation_coordinator.cpp` in the `themis_distributed_knowledge` source set. The test subdirectory has a fallback reference when that target is absent, and the top-level test configuration also references the source; intended production-library ownership remains unresolved.
 
 ## Breaking Changes
 

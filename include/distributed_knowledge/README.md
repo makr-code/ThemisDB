@@ -1,10 +1,24 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # distributed_knowledge — Public Headers
 
 **Module Path:** `include/distributed_knowledge/`
 **Implementation:** `../../src/distributed_knowledge/`
-**Last Updated:** 2026-05-11
+**Last Updated:** 2026-10-31
 
 ## Purpose
 
@@ -44,10 +58,11 @@ Public interfaces for ThemisDB's distributed knowledge federation — cross-shar
 
 ## Runtime behavior and limits
 
-- Raw training data and raw prompt/query text are not exchanged between shards.
-- Federation and distillation enforce DP-budget and policy-gate checks; invalid settings can block round execution.
+- Aggregation and distillation can reject invalid privacy-budget or policy conditions; the checks differ by component and optional callbacks/policies must be configured by the caller.
 - RAG merge may skip failed/timed-out shards; merged output remains bounded by `top_k`.
-- Feedback sync rejects malformed embeddings when validation is enabled and deduplicates repeated `summary_id`s.
+- Feedback publishing rejects a non-empty embedding whose dimension differs from the configured limit when validation is enabled; inbound processing deduplicates repeated `summary_id`s but does not apply that dimension check.
+- The API does not expose dedicated raw training-data or query-text fields for gradient/feedback exchange, but `EncryptedGradient::data` is opaque JSON and retrieval documents carry caller-provided content. The module therefore cannot guarantee that callers never send raw content; see [`src/distributed_knowledge/TRUST.md`](../../src/distributed_knowledge/TRUST.md).
+- LoRA aggregation checks its configured privacy budget and any configured cross-border policy; distillation checks its privacy budget plus optional policy/bounded-policy gates. These controls do not replace caller-side authentication or authorization.
 
 ## Build
 

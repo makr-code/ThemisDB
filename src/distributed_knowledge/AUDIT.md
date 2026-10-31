@@ -1,17 +1,31 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Audit Report - Distributed Knowledge Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-10-31 (source/configuration inspection; no build or tests run) -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 ## Summary
 
 | Metric | Result |
 |---|---|
-| Build registration | pass |
+| Build registration | module target registered; source-list discrepancy noted below |
 | Source set size | 5 implementation files in src/distributed_knowledge |
 | Focused test presence | pass |
 | Open hardening findings | yes |
-| Critical blockers | none identified |
+| Critical blockers | not assessed by this source-only documentation audit |
 
 ## Verified Files
 
@@ -24,6 +38,11 @@
 ## Findings
 
 ### Open
+
+0. [DK-AUD-00] distillation implementation source is not listed in the module library target.
+- Severity: unresolved build-integration question.
+- Evidence: `src/distributed_knowledge/CMakeLists.txt` lists capability, LoRA, RAG, and feedback sources but omits `federated_distillation_coordinator.cpp`; the source exists and is referenced by test configurations.
+- Action: confirm the intended production-library target ownership and update build wiring or documentation accordingly. This audit did not build the target.
 
 1. [DK-AUD-01] timeout and partial-shard merge edge parity remains active.
 - Severity: medium
