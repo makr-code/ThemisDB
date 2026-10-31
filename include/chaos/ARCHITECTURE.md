@@ -1,44 +1,51 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/chaos/ARCHITECTURE.md -->
-
-# Chaos Engineering Module — Public Header Architecture
-
-**Module Path:** `include/chaos/`  
-**Implementation:** `../../src/chaos/`  
-**Canonical architecture doc:** [`../../src/chaos/ARCHITECTURE.md`](../../src/chaos/ARCHITECTURE.md)
-
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: OpenAI
+Human_Review: false
+Human_Author: ThemisDB Contributors
 ---
 
-## 1. Overview
+Exact model backend not verifiable from final document text alone.
 
-`include/chaos/` defines the **public fault injection, chaos experiment orchestration, and resilience testing API contract** for ThemisDB.
+# Chaos public-header architecture
 
-For runtime composition and implementation internals see:
-→ [`../../src/chaos/ARCHITECTURE.md`](../../src/chaos/ARCHITECTURE.md)
+`include/chaos/chaos_framework.h` declares the process-local `FaultInjector`
+registry and `ChaosScheduler`; `include/chaos/chaos_contract.h` states the
+v1.x contract and recommended interoperability limits. Runtime implementation
+details are in [`../../src/chaos/ARCHITECTURE.md`](../../src/chaos/ARCHITECTURE.md).
 
----
+## Public surface and implementation boundary
 
-## 2. Header Groups
+The public types are in `themis::chaos`. The framework stores/query fault
+descriptors and schedules them; it does not itself manipulate network or disk
+I/O. Consumer code defines any simulated effect. The header declares a fixed
+tick or condition-variable wake strategy, but the queue has no enforced capacity.
 
-### 2.1 Chaos Framework
+## Runtime enforcement visible in source
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `chaos_framework.h` | `ChaosFramework` | Fault injection and chaos experiment orchestration |
+- `injectFault()` rejects an empty target ID and probabilities below 0 or above
+  1; it does not sample the probability or reject NaN with its current
+  comparisons.
+- The runtime does not enforce the contract's recommended duration, tick,
+  queue-size, identifier-size, or callback-count bounds.
+- `stop()` joins the worker and retains pending entries; `clearPending()` clears
+  them explicitly.
+- Callback registration is unsynchronized. Injection callbacks run after
+  registry mutation; recovery callbacks run synchronously while the registry
+  mutex is held.
 
----
+## Build and verification references
 
-## 3. Namespace Layout
+Focused tests are discovered from `tests/chaos/test_*.cpp` by
+[`../../tests/chaos/CMakeLists.txt`](../../tests/chaos/CMakeLists.txt); that
+directory currently contains eight test sources. Benchmark source/build status
+is tracked in [`../../benchmarks/chaos/README.md`](../../benchmarks/chaos/README.md).
 
-All public types reside in the `themis::chaos` namespace (or a sub-namespace).
-
----
-
-## 4. Contract Notes
-
-- Headers in `include/chaos/` expose the **stable public API**; internal types live in `src/chaos/`.
-- Clients depend only on types declared here; implementation details in `src/` may change without notice.
-- For breaking-change policy see [`../../VERSIONING.md`](../../VERSIONING.md).
-- Layer association: **LLM/Graph**.
+The HTTP admin integration is separate from this public header API. Its source
+and build guard are described in the implementation architecture page; enabling
+the feature is a deployment decision, not a property of these headers.

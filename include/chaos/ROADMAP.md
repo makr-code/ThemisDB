@@ -1,7 +1,16 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: OpenAI
+Human_Review: false
+Human_Author: ThemisDB Contributors
+---
 
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/chaos/ROADMAP.md -->
+Exact model backend not verifiable from final document text alone.
 
 # Chaos Engineering Module — Public Header Roadmap
 
@@ -20,7 +29,9 @@ Tracks public `chaos` API contract stability, header-level coverage work, and fu
 
 ## Current Status
 
-All headers in `include/chaos/` are present and expose the fault injection, chaos experiment orchestration, and resilience testing surface.
+The two inspected headers declare `FaultInjector`, `ChaosScheduler`, fault
+descriptors, and the v1.x interoperability contract. This is a source inventory,
+not a claim that every recommended contract limit is enforced at runtime.
 
 ---
 
@@ -28,7 +39,7 @@ All headers in `include/chaos/` are present and expose the fault injection, chao
 
 - [x] Public header surfaces documented in `ARCHITECTURE.md`
 - [x] Canonical cross-links to `src/chaos/` implementation docs established
-- [x] Layer association (**LLM/Graph**) marked and verified against `FUTURE_PLAN.md`
+- [ ] **TODO/assumption:** confirm whether this module has an assigned architecture layer; the headers do not establish the former LLM/Graph association.
 - [x] Namespace layout (`themis::chaos`) documented
 
 ---
@@ -52,3 +63,6 @@ All headers in `include/chaos/` are present and expose the fault injection, chao
 - [x] Public header surfaces documented
 - [x] Canonical links to implementation docs set
 - [ ] Deprecation annotations consistent
+
+Dates in the open/planned items are unverified proposals, not delivery
+commitments. Confirm the current planning authority before assigning a milestone.
