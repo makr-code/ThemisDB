@@ -372,24 +372,6 @@ Status: Active
   - Status: Active
   - Bezug: ThemisDB-weites Provenienz- und Degradationsmodell fuer menschliche, hybride und LLM-synthetische Inhalte
 
-## ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md
-- Kategorie: governance_and_docs
-- Hash: `70426e080a695da2`
-- Titel: Developer LLM Wiki — Build/Test/CI/Operations
-- Auszug:
-  - Datum: 2026-10-31
-  - Status: Active
-  - - Kategorie: build_test_ci
-
-## ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md
-- Kategorie: governance_and_docs
-- Hash: `d38edc59afad2167`
-- Titel: Developer LLM Wiki — Governance and Roadmap
-- Auszug:
-  - Datum: 2026-10-26
-  - Status: Active
-  - - Kategorie: governance_and_docs
-
 ## ai_context/developer_llm_wiki/IMPORTERS.md
 - Kategorie: governance_and_docs
 - Hash: `aba92d33f74af838`
@@ -398,24 +380,6 @@ Status: Active
   - ---
   - Author: "ThemisDB Team"
   - Created: "2026-10-31"
-
-## ai_context/developer_llm_wiki/INDEX.md
-- Kategorie: governance_and_docs
-- Hash: `da73cd68bf17bf88`
-- Titel: Developer LLM Wiki — Index
-- Auszug:
-  - Datum: 2026-10-31
-  - Status: Active
-  - Bezug: CI-verwaltete Entwickler-Wissensbasis fuer Coder-LLMs
-
-## ai_context/developer_llm_wiki/MODULES_AND_APIS.md
-- Kategorie: governance_and_docs
-- Hash: `277660cdfa68b6bb`
-- Titel: Developer LLM Wiki — Modules and APIs
-- Auszug:
-  - Datum: 2026-10-31
-  - Status: Active
-  - - Importer module context (IMPORTERS.md) — shared contracts, connector boundaries, focused test evidence, and operational limits.
 
 ## ai_context/developer_llm_wiki/MODULE_DIRECT_DOXYGEN_CHECK.md
 - Kategorie: governance_and_docs
@@ -482,21 +446,12 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/UPDATES.md
 - Kategorie: governance_and_docs
-- Hash: `1f54959ef1845527`
+- Hash: `6e18be74f473e3df`
 - Titel: Updates — Developer LLM Wiki
 - Auszug:
   - ---
   - Author: "ThemisDB Team"
   - Created: "2026-10-31"
-
-## ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md
-- Kategorie: governance_and_docs
-- Hash: `cef2ec05bf1a791d`
-- Titel: Developer LLM Wiki — Delta Report
-- Auszug:
-  - Datum: 2026-10-26
-  - Status: Active
-  - - Added: 7989
 
 ## ai_context/legacy_status/STATUS_2026_08_01.md
 - Kategorie: governance_and_docs
@@ -722,3 +677,48 @@ Status: Active
   - **Status**: ✅ COMPLETE
   - **Date**: 2026-08-15
   - **Location**: `src/analytics/ARCHITECTURE.md` (new section)
+
+## docs/ARCHIVED/ai-working-history/ANALYTICS_GAP_CLOSURE_FINAL_REPORT_TEMPLATE.md
+- Kategorie: governance_and_docs
+- Hash: `302552ccd136d37e`
+- Titel: Analytics Module Gap Closure — Final Report
+- Auszug:
+  - **Status:** 🟡 IN PROGRESS (Phases 2-5 completion awaited)
+  - **Generated:** 2026-08-15T09:11:07Z
+  - **Module:** Analytics (`src/analytics/`)
+
+## docs/ARCHIVED/ai-working-history/ANALYTICS_GAP_CLOSURE_INDEX.md
+- Kategorie: governance_and_docs
+- Hash: `fc997e2601a360fa`
+- Titel: Analytics Module Gap Closure — Master Index
+- Auszug:
+  - **Project**: ThemisDB Analytics Module Gap Closure
+  - **Status**: 🟢 **WEEK 1 COMPLETE** (Phases 1-5 delivered, Phase 6 initial review done)
+  - **Timeline**: 4-5 weeks (target completion 2026-09-13)
+
+## docs/ARCHIVED/ai-working-history/ANALYTICS_GAP_CLOSURE_MASTER_TRACKER.md
+- Kategorie: governance_and_docs
+- Hash: `524c1f8b7b082505`
+- Titel: Analytics Module Gap Closure - Master Execution Tracker
+- Auszug:
+  - **Start Date**: 2026-08-15 10:46:00 UTC
+  - **Target Completion**: 2026-08-15 11:45:00 UTC (60 minutes total)
+  - **Framework**: Phase 1-6 Implementation Framework with Parallel Subagent Execution
+
+## docs/ARCHIVED/ai-working-history/ANALYTICS_GAP_CLOSURE_PR_SUMMARY.md
+- Kategorie: governance_and_docs
+- Hash: `7e038c3107fb7623`
+- Titel: Analytics Module Gap Closure Implementation [Phases 1-6 Complete]
+- Auszug:
+  - **Title**: Analytics: Implement 40 gap closures (35 critical + 5 stubs) - Complete Process Mining, AutoML, Forecasting, CEP, Knowledge Base
+  - **Type**: Feature / Gap Closure
+  - **Priority**: P0 (Critical)
+
+## docs/ARCHIVED/ai-working-history/ANALYTICS_GAP_CLOSURE_STATUS_2026_08_15.md
+- Kategorie: governance_and_docs
+- Hash: `6312067c8df73e4a`
+- Titel: Analytics Module Gap Closure — Status Report
+- Auszug:
+  - **Date**: 2026-08-15 (Week 1)
+  - **Status**: 🟢 ON TRACK
+  - The Analytics Module gap closure project is executing across 6 coordinated phases using subagent framework. Phase 1 (CRITICAL validation) is **COMPLETE**. Phase 2 Batch A-1 (circular_lock_ordering) is **COMPLETE**. Phases 2-6 executing in parallel.

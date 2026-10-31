@@ -23,6 +23,13 @@ MODULES_MD = WIKI_ROOT / "MODULES_AND_APIS.md"
 OPS_MD = WIKI_ROOT / "BUILD_TEST_CI_AND_OPERATIONS.md"
 GOV_MD = WIKI_ROOT / "GOVERNANCE_AND_ROADMAP.md"
 SOURCES_JSON = WIKI_ROOT / "SOURCE_MANIFEST.json"
+GENERATED_WIKI_SOURCES = {
+    str(INDEX_MD),
+    str(MODULES_MD),
+    str(OPS_MD),
+    str(GOV_MD),
+    str(DELTA_MD),
+}
 
 ROOT_DOCS = [
     "ROADMAP.md",
@@ -148,6 +155,8 @@ def collect_sources(repo_root: Path, full_sync: bool) -> List[SourceEntry]:
     unique_files: Dict[str, Path] = {}
     for file_path in files:
         r = rel(file_path, repo_root)
+        if r in GENERATED_WIKI_SOURCES:
+            continue
         if r.startswith(EXCLUDE_PREFIXES):
             continue
         if "/.git/" in r or r.startswith(".git/"):

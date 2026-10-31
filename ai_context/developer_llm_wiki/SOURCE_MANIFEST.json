@@ -1,8 +1,8 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-10-31T11:10:50+00:00",
-  "source_count": 9424,
+  "generated_at": "2026-10-31T11:12:38+00:00",
+  "source_count": 9419,
   "sources": [
     {
       "path": ".github/workflows/benchmark-gate.yml",
@@ -985,38 +985,10 @@
       "modified_utc": "2026-10-31T11:07:02+00:00"
     },
     {
-      "path": "ai_context/developer_llm_wiki/BUILD_TEST_CI_AND_OPERATIONS.md",
-      "category": "governance_and_docs",
-      "size": 18807,
-      "sha256": "70426e080a695da2e20931ba8cadbadda17ef0a5b2ba991290c25aaae134b411",
-      "modified_utc": "2026-10-31T11:07:02+00:00"
-    },
-    {
-      "path": "ai_context/developer_llm_wiki/GOVERNANCE_AND_ROADMAP.md",
-      "category": "governance_and_docs",
-      "size": 24485,
-      "sha256": "d38edc59afad21670c68c37ad669b25c61fc2f6573290f803955b18bbd527939",
-      "modified_utc": "2026-10-31T11:07:02+00:00"
-    },
-    {
       "path": "ai_context/developer_llm_wiki/IMPORTERS.md",
       "category": "governance_and_docs",
       "size": 6335,
       "sha256": "aba92d33f74af8386435c2ce066feda7bf3694bf5f690cf48ef3442d7425fcf5",
-      "modified_utc": "2026-10-31T11:07:02+00:00"
-    },
-    {
-      "path": "ai_context/developer_llm_wiki/INDEX.md",
-      "category": "governance_and_docs",
-      "size": 1749,
-      "sha256": "da73cd68bf17bf88519591f02a18bf1f86a9d50d904391c7a05b5c11ab7309a9",
-      "modified_utc": "2026-10-31T11:07:02+00:00"
-    },
-    {
-      "path": "ai_context/developer_llm_wiki/MODULES_AND_APIS.md",
-      "category": "governance_and_docs",
-      "size": 10693,
-      "sha256": "277660cdfa68b6bb9230cc2ff8aedd0895d9b167fe3f71611abf4cfca3d08ab0",
       "modified_utc": "2026-10-31T11:07:02+00:00"
     },
     {
@@ -1071,16 +1043,9 @@
     {
       "path": "ai_context/developer_llm_wiki/UPDATES.md",
       "category": "governance_and_docs",
-      "size": 6015,
-      "sha256": "1f54959ef1845527f7a2ff57fd871acd9caedeb4225588bfee45e41a0bcd95bc",
-      "modified_utc": "2026-10-31T11:10:10+00:00"
-    },
-    {
-      "path": "ai_context/developer_llm_wiki/WIKI_DELTA_REPORT.md",
-      "category": "governance_and_docs",
-      "size": 10655,
-      "sha256": "cef2ec05bf1a791d1cc0f0cceacf6718e8d736deed3a10a35bbd6a5f0e289ab8",
-      "modified_utc": "2026-10-31T11:07:02+00:00"
+      "size": 6200,
+      "sha256": "6e18be74f473e3df2da9b50de0a870f26238556a32803f1e95bad3bb8a34864b",
+      "modified_utc": "2026-10-31T11:12:19+00:00"
     },
     {
       "path": "ai_context/legacy_status/STATUS_2026_08_01.md",
@@ -54040,9 +54005,9 @@
     {
       "path": "scripts/ai-dev-llm-wiki-sync.py",
       "category": "build_test_ci",
-      "size": 20687,
-      "sha256": "bf0c98bbb68183c47333f15c7c4f8d06268cdeefeb6443457ca5a36b9ed5aa42",
-      "modified_utc": "2026-10-31T11:10:33+00:00"
+      "size": 20870,
+      "sha256": "6562ba7a1b5ea081bebb5505ba7ab554220fc15368c123374af427a949320502",
+      "modified_utc": "2026-10-31T11:11:42+00:00"
     },
     {
       "path": "scripts/ai-working-compact.py",

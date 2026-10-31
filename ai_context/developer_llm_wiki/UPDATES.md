@@ -11,6 +11,9 @@ Human_Author: "ThemisDB Team"
 Source_Level: "level1"
 SOT_Domain: "module-behavior"
 Canonical_References: "include/updates/update_state_machine.h; include/updates/updates_api_contract.h; include/updates/release_manifest.h; include/updates/delta_update_engine.h; src/updates/README.md; src/updates/ARCHITECTURE.md; src/updates/API.md; src/updates/IMPLEMENTATION.md; src/updates/OPERATIONS.md; src/updates/TRUST.md; tests/updates/CMakeLists.txt"
+source: "src/updates/README.md; include/updates/update_state_machine.h; include/updates/delta_update_engine.h; tests/updates/CMakeLists.txt"
+source_class: "secondary"
+source_weight: 60
 ---
 
 > Exact model backend not verifiable from final document text alone.

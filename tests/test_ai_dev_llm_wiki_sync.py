@@ -27,6 +27,7 @@ class CuratedModuleIndexTests(unittest.TestCase):
 
         self.assertIn("[IMPORTERS.md](IMPORTERS.md)", index)
         self.assertIn("[UPDATES.md](UPDATES.md)", index)
+        self.assertIn("must not redefine project status", index)
         self.assertIn("[Importer module context](IMPORTERS.md)", modules)
         self.assertIn("[Updates module context](UPDATES.md)", modules)
 
@@ -71,6 +72,35 @@ class CuratedModuleIndexTests(unittest.TestCase):
         self.assertEqual(delta["added"], ["src/updates/API.md"])
         self.assertEqual(delta["removed"], [])
         self.assertEqual(delta["changed"], ["src/updates/README.md"])
+
+    def test_source_scan_excludes_generated_wiki_but_keeps_curated_pages(self):
+        wiki_sync = _load_module()
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            repo_root = Path(temp_dir)
+            wiki_dir = repo_root / "ai_context" / "developer_llm_wiki"
+            wiki_dir.mkdir(parents=True)
+            for name in (
+                "INDEX.md",
+                "MODULES_AND_APIS.md",
+                "BUILD_TEST_CI_AND_OPERATIONS.md",
+                "GOVERNANCE_AND_ROADMAP.md",
+                "WIKI_DELTA_REPORT.md",
+                "IMPORTERS.md",
+                "UPDATES.md",
+            ):
+                (wiki_dir / name).write_text(f"# {name}\n", encoding="utf-8")
+
+            sources = wiki_sync.collect_sources(repo_root, full_sync=True)
+
+        source_paths = {source.path for source in sources}
+        self.assertEqual(
+            source_paths,
+            {
+                "ai_context/developer_llm_wiki/IMPORTERS.md",
+                "ai_context/developer_llm_wiki/UPDATES.md",
+            },
+        )
 
 
 if __name__ == "__main__":
