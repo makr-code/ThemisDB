@@ -1,8 +1,22 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 > **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
 
 # Network Module - Architecture Guide
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: review | validated: 2026-10-31 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 **Version:** 1.3
@@ -29,7 +43,7 @@ The network module provides the wire-protocol server runtime, transport adapters
 
 1. Accept connection and parse frames in wire session context.
 2. Enforce auth/session checks and request guards before operation execution.
-3. Dispatch supported opcodes to storage/query/index integration hooks.
+3. Dispatch supported opcodes to configured storage/query/index integration hooks; unavailable integrations return structured errors.
 4. Emit framed responses and maintain connection stats/error counters.
 5. Apply timeout/rate/backpressure/circuit-breaker behavior on overload/failure paths.
 
@@ -43,7 +57,8 @@ The network module provides the wire-protocol server runtime, transport adapters
 
 ## 5. Concurrency Model
 
-- Session-level wire handling and asynchronous response writes are coordinated inside `wire_protocol_server.cpp`.
+- Each session uses asynchronous socket operations on the server's shared Asio I/O context; it does not own a dedicated connection thread.
+- Heavy handlers are posted to the server worker pool with per-dispatch payload storage so the I/O thread can continue reading safely.
 - Shared counters/registries and connection maps use explicit synchronization and atomic state in hot paths.
 - Timeout and breaker helpers run independently and feed rejection/close decisions back into connection/session flow.
 
@@ -79,70 +94,34 @@ The network module provides the wire-protocol server runtime, transport adapters
   - timeout/backpressure/circuit-breaker behavior
   - batching/zero-copy/compression optimization paths
 
-## 8. EnvoyXDSClient — xDS Resource Subscription Lifecycle
+## 8. EnvoyXdsClient — xDS REST polling
 
-`EnvoyXDSClient` (implemented in `src/network/envoy_xds.cpp`,
-public header `include/network/envoy_xds.h`) provides dynamic service-mesh
-configuration updates via the xDS (Discovery Service) protocol used by Envoy
-Proxy, Istio, and compatible control planes.
+`EnvoyXdsClient` in `include/network/envoy_xds.h` is compiled with
+`THEMIS_ENABLE_SERVICE_MESH`. It polls an xDS v3 control plane using separate
+HTTP/1.1 JSON POST requests; it does not maintain a gRPC streaming connection.
+The current implementation uses a plain TCP stream, so the control-plane
+connection is not TLS-protected by this client.
 
-### Subscription Lifecycle
+`start()` launches one polling thread. In each pass it requests enabled LDS,
+CDS, EDS, and RDS resources, parses changed responses, updates per-resource
+versions, and invokes the corresponding configured callback. `stop()` signals
+the polling thread and joins it. The defaults are a 15-second poll interval,
+a 5-second wait after a pass with no updates or errors, a 10-second per-request
+timeout, and control-plane port 15010; see `EnvoyXdsClient::Config` for the
+runtime switches and values.
 
-```
-  Start
-    │
-    ├─ connect()  ──────→  TCP/gRPC stream established to xDS management server
-    │                        (configurable host:port, TLS optional)
-    │
-    ├─ subscribe(type)  ──→  DiscoveryRequest sent for resource type:
-    │                          - Cluster Discovery Service  (CDS)  — backend clusters
-    │                          - Listener Discovery Service (LDS)  — front-door listeners
-    │                          - Endpoint Discovery Service (EDS)  — per-cluster endpoints
-    │                          - Route Configuration Service (RDS) — routing rules
-    │
-    ├─ onResponse(DiscoveryResponse)
-    │    ├─ Parse resources from response (TypeUrl dispatch)
-    │    ├─ Invoke registered callback per resource type
-    │    └─ Send ACK (DiscoveryRequest with same version_info) or NACK on parse error
-    │
-    ├─ Reconnect loop (on stream error)
-    │    ├─ Exponential backoff: 100 ms → 200 ms → 400 ms … max 30 s
-    │    └─ Re-subscribe all active resource types after reconnect
-    │
-    └─ disconnect() ──────→  Stream closed; no further callbacks fired
-```
+Callbacks run on the polling thread while `callbacks_mutex_` is held. Keep
+callbacks short and do not call callback-registration methods from them, since
+those methods acquire the same mutex. Do not call `stop()` from a callback;
+it would attempt to join the current polling thread. Consumers must apply
+received configuration themselves: `ServiceMeshIntegration` provides health
+probes and does not automatically connect the xDS client to the topology
+router or load balancer.
 
-### Resource Callback Contract
-
-- Callbacks registered via `setClusterCallback()`, `setListenerCallback()`,
-  `setEndpointCallback()`, and `setRouteCallback()`.
-- Callbacks are invoked from the I/O thread while the internal lock is **not**
-  held — it is safe to call `subscribe()` / `disconnect()` from within a callback.
-- Callbacks must not block: delegate heavy processing to a separate thread.
-- A NACK (parse failure) does NOT invoke the callback; the previous resource
-  state is retained.
-
-### Thread Safety
-
-- `connect()`, `disconnect()`, and `subscribe()` are safe to call from any
-  thread (internal mutex protects stream state).
-- Multiple concurrent `subscribe()` calls for the same resource type are
-  idempotent (only one DiscoveryRequest is sent per inflight round-trip).
-
-### Error Handling
-
-| Condition                     | Behaviour                                      |
-|-------------------------------|------------------------------------------------|
-| xDS server unreachable        | Reconnect loop with exponential backoff        |
-| DiscoveryResponse parse error | NACK sent; previous resource state retained    |
-| Resource version conflict     | Version mismatch logged; full re-subscribe     |
-| Stream reset by server        | Reconnect loop triggered                       |
-
-### Integration with ServiceMesh
-
-`ServiceMesh` holds an `EnvoyXDSClient` instance and wires the cluster/endpoint
-callbacks directly into `GeoTopologyRouter` and `RaftLoadBalancer` for
-live topology updates without a restart.
+Request or parse failures are counted in the per-resource statistics; the
+client waits for the configured reconnect interval before the next polling
+pass. The implementation does not perform exponential backoff or send a
+stream-level ACK/NACK.
 
 ## Module Dependencies
 
@@ -154,7 +133,7 @@ live topology updates without a restart.
 ### Direct Downstream Consumers (modules that use this module)
 | Module | Via | Notes |
 |--------|-----|-------|
-| server | `include/network/wire_protocol_server.h` (WireProtocolServer, IoUringBatchedSender) | Server layer binds the wire-protocol runtime for native client connections |
+| server | `include/network/wire_protocol_server.h` (`WireProtocolServer`) | Server layer binds the wire-protocol runtime for native client connections |
 | (node-to-node) | internal transport APIs | Internal replication and distributed coordination paths use network transport adapters |
 
 ## Integration Points
@@ -162,9 +141,9 @@ live topology updates without a restart.
 ### Critical Integration: Wire Protocol Server ↔ Server Layer
 **Files:** `src/network/wire_protocol_server.cpp` ↔ `server/`
 **Contract:** `WireProtocolServer` dispatches opcodes to storage/query/index integration hooks configured at server startup; handler pointers must remain valid for the server lifetime.
-**Thread Safety:** Each client session runs on a dedicated connection thread; shared handler state must use external synchronisation supplied by the server layer.
+**Thread Safety:** Sessions use the server's shared Asio I/O context and may dispatch heavy handlers to its worker pool. Shared application dependencies must remain valid and synchronized for concurrent handler access.
 
-### Critical Integration: Envoy xDS / Service Mesh (expanded)
+### Envoy xDS / Service Mesh
 **Files:** `src/network/envoy_xds.cpp`, `src/network/service_mesh.cpp`
-**Contract:** `EnvoyXDSClient` feeds live topology updates to `GeoTopologyRouter` and `RaftLoadBalancer` via registered callbacks; callbacks are invoked from the I/O thread without holding the internal lock.
-**Thread Safety:** `connect()`, `disconnect()`, and `subscribe()` are safe from any thread; callbacks must not block (see §8 above).
+**Contract:** `EnvoyXdsClient` exposes parsed xDS responses through callbacks. The service-mesh probe server is a separate component; applying xDS updates to routing remains the callback consumer's responsibility.
+**Thread Safety:** xDS callbacks execute on the polling thread with `callbacks_mutex_` held. Keep them short and avoid reentering callback-registration or lifecycle methods (see §8).

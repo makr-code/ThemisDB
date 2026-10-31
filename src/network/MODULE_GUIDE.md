@@ -32,14 +32,14 @@ dispatch behavior.
 
 ## Build and run focused tests
 
-Configure using a repository-supported preset, for example
-`cmake --preset linux-ninja-release`, then build the corresponding focused
-target and run its registered CTest case:
+The `linux-release` preset defaults to tests disabled. Enable them explicitly,
+then build the corresponding focused target and run its registered CTest case:
 
 ```sh
-cmake --build build-linux-ninja-release \
+cmake --preset linux-release -DTHEMIS_BUILD_TESTS=ON
+cmake --build build-gcc-linux-release \
   --target module_network_test_network_contract_hardening_focused_focused
-ctest --test-dir build-linux-ninja-release \
+ctest --test-dir build-gcc-linux-release \
   -R '^test_network_contract_hardening_focused_network_FocusedTests$' \
   --output-on-failure
 ```
@@ -58,9 +58,8 @@ changed behavior. For example:
 | UDP packet validation/ACK behavior | `test_udp_server.cpp` |
 | QoS command argument safety | `test_qos_manager_command_injection.cpp` |
 
-Build availability depends on the configured dependencies and feature flags.
-Use the actual configured build directory if it is not
-`build-linux-ninja-release`.
+Build availability depends on configured dependencies and feature flags. If
+the preset or binary directory differs, use the actual configured build tree.
 
 ## Change checklist
 

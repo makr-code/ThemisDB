@@ -1,6 +1,20 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
 
-<!-- Status: current | validated: 2026-06-01 -->
+> Exact model backend not verifiable from final document text alone.
+
+> **Build/tests:** `cmake --preset linux-release -DTHEMIS_BUILD_TESTS=ON`, then build in `build-gcc-linux-release`.
+
+<!-- Status: review | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/network/ROADMAP.md -->
 
 # Network Module — Public Header Roadmap
@@ -20,7 +34,7 @@ Tracks public network API contract stability, planned header additions, and brea
 
 ## Current Status
 
-All 28 production network headers are present (25 original + 3 new: `multipath_tcp.h`, `bbr_congestion_control.h`, `network_observability.h`). `AdaptiveCircuitBreaker` now supports per-error-class thresholds (NCB-PEC-01..08). `WireProtocolZeroCopy` has `writeToWithSendfile()` for large payload paths. `EnvoyXDSClient` xDS lifecycle is documented in `src/network/ARCHITECTURE.md §8`.
+The current public surface contains 31 headers; optional transport headers do not imply that their build features are enabled. `AdaptiveCircuitBreaker` supports per-error-class thresholds, and `ZeroCopyFrameBuilder` exposes `writeToWithSendfile()`. The service-mesh-gated `EnvoyXdsClient` uses REST polling; see `src/network/ARCHITECTURE.md` for its current lifecycle and constraints.
 
 ---
 
@@ -51,11 +65,11 @@ All 28 production network headers are present (25 original + 3 new: `multipath_t
 
 ---
 
-## Planned
+## Added API surface and remaining work
 
-- [x] `multipath_tcp.h` — MPTCP subflow management interface (Target: 2026-Q3) — include/network/multipath_tcp.h + src/network/multipath_tcp.cpp
-- [x] `bbr_congestion_control.h` — BBRv2 congestion control configuration (Target: 2026-Q4) — include/network/bbr_congestion_control.h + src/network/bbr_congestion_control.cpp
-- [x] `network_observability.h` — unified per-connection trace/metric emission (Target: 2026-Q4) — include/network/network_observability.h + src/network/network_observability.cpp
+- [x] `multipath_tcp.h` — `MptcpSubflowManager` subflow-management API (Target: 2026-Q3)
+- [x] `bbr_congestion_control.h` — `BbrConfig` and `BbrCongestionController` API (Target: 2026-Q4)
+- [x] `network_observability.h` — `INetworkObservabilitySink` and `NetworkObservabilityRegistry` APIs (Target: 2026-Q4)
 - [ ] Stabilize `kernel_bypass.h` as unconditional when DPDK is vendored (Target: 2027-Q1)
 
 ---
