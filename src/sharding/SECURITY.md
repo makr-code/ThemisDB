@@ -1,9 +1,35 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: security
+Canonical_References:
+  - ../../include/sharding/sharding_api_contract.h
+  - ../../SECURITY.md
+  - ../../tests/sharding/CMakeLists.txt
+Related_Issue: "#7381"
+Related_Milestone: DOC-WEEKLY-2026-W44
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Security - Sharding Module
 
-<!-- Status: current | validated: 2026-07-18 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 Report vulnerabilities via project-level SECURITY.md.
+
+> **Scope limitation:** This is a threat-surface overview, not a security audit or assurance that
+> the described mitigations are enforced on every path. No authentication, authorization,
+> transport, or cryptographic review was performed for this issue. **TODO:** verify security
+> controls against the concrete implementations, deployment configuration, and registered tests.
 
 ## Security Scope
 
@@ -31,7 +57,7 @@ Security in the sharding module focuses on deterministic routing and transaction
 - tighten diagnostics taxonomy across migration and repair incident classes.
 - deepen stress coverage for concurrent cross-shard transaction pressure.
 
-## Sourcecode Verification (Module: sharding/security)
+## Reference implementation surfaces (not a verification record)
 
 - Verified files:
   - src/sharding/shard_router.cpp
@@ -40,7 +66,5 @@ Security in the sharding module focuses on deterministic routing and transaction
   - src/sharding/shard_repair_engine.cpp
   - src/sharding/auto_rebalancer.cpp
   - src/sharding/health_monitor.cpp
-- Verified controls:
-  - bounded routing and explicit transaction outcomes
-  - deterministic repair/rebalance/migration failure signaling
-  - actionable health/quorum observability behavior
+- The public contract and component sources are starting points for review; their presence does
+  not prove these controls are complete or uniformly applied.

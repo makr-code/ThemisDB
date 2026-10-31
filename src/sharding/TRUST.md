@@ -1,18 +1,28 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-19"
-Last Updated: "2026-10-19"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "MAI-Code-1.1-Flash"
-AI_Contributor: "MAI-Code-1.1-Flash"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
+Source_Level: level1
+SOT_Domain: security
+Canonical_References: `../../include/sharding/sharding_api_contract.h`, `../../SECURITY.md`
+Related_Issue: "#7381"
+Related_Milestone: DOC-WEEKLY-2026-W44
 ---
 
 Exact model backend not verifiable from final document text alone.
 
 # Sharding Trust and Security Boundaries
+
+> **Scope limitation:** This is a conceptual trust-boundary map, not a security assessment or
+> proof that every listed control is enforced on every path. Statements about quorum, transport,
+> WAL, and migration are contract- or component-specific. **TODO:** perform a path-by-path security
+> review before using this page as a deployment assurance.
 
 ## Trust boundary
 

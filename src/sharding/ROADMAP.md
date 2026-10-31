@@ -1,31 +1,79 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References:
+  - ../../include/sharding/sharding_api_contract.h
+  - ../../tests/sharding/CMakeLists.txt
+  - ../../benchmarks/sharding/CMakeLists.txt
+Related_Issue: "#7381"
+Related_Milestone: DOC-WEEKLY-2026-W44
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Sharding Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-08-10 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Rollout Plan: ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §4 (Phase C), §7 (risk) -->
 <!-- Issue Link: makr-code/ThemisDB#5620 (development status snapshot) -->
 
 ## Current Status
 
-Production-capable sharding runtime exists for routing/placement, distributed coordination, cross-shard transaction execution, and rebalancing/repair/operational observability. Cloud-backup coordinator startup now attempts real S3/Azure/GCS SDK initialization from `CloudBackupConfig` and fails closed if the required provider callbacks still cannot be resolved.
+> **Status evidence note (2026-10-31):** Checkboxes and completion statements below preserve
+> historical roadmap assertions. This static documentation audit confirms current source files and
+> selected test/benchmark registrations only; it did not build or run them, verify CI state, inspect
+> every cloud-provider path, or establish production/GA readiness. Revalidate each claim before
+> using it as a current release decision.
 
-This module is in the source-validated “implemented + hardening” state: the core runtime exists and is operationally relevant, but GA readiness still requires release-critical CI green, representative-hardware benckmark evidence, and operator validation under topology churn.
+> The root aggregate [`../../ROADMAP.md`](../../ROADMAP.md) currently reports Wave A at
+> approximately 70%, with sharding materially advanced but transaction/GPU blockers and other
+> evidence still open. The local Wave A closure claims below are historical module evidence and do
+> not imply project-wide Wave A completion. **TODO:** reconcile module-specific remaining work with
+> the root roadmap's current distributed-maturity entry before marking this roadmap complete.
+> The root roadmap also lists Sharding 3.2 work (automatic rebalancing, cross-datacenter
+> latency-aware routing, and global secondary indexes) as open/planned. This conflicts with older
+> local closure wording; treat those local checkboxes as historical until the two roadmaps and
+> current acceptance evidence are reconciled.
+
+The source tree contains routing, coordination/consensus, transaction, WAL, migration/rebalance,
+repair, and operational components. The v1.x API contract is described in
+`../../include/sharding/sharding_api_contract.h`. Current tests are conditionally registered in
+`../../tests/sharding/CMakeLists.txt`; benchmark availability depends on
+`THEMIS_BUILD_BENCHMARKS` and the selected CMake configuration.
+
+**TODO:** current CI results, production readiness, provider SDK behavior, benchmark measurements,
+and operator validation must be established from fresh build/runtime evidence; this static review
+does not establish them.
 
 **Wave Alignment (see root ROADMAP.md § Program Execution Model):**
 - **Wave A (Q3–Q4 2026):** Multi-shard exact-path gate (Phase C), topology-change auto-rebalance, latency-aware routing, distributed write stress
 - **Wave A Exit Criteria:** Deterministic chaos evidence (network partition, coordinator failure, cascade) + thread-safety sign-off + release-critical CI GREEN + p95/p99 baselines
 - **Tier 1 Criticality:** Runtime-critical for distributed databases; thread-safety and fail-closed guarantees mandatory
-- **Rollout Readiness:** 75% 🟡 (core runtime implemented; GA evidence and benchmark closure still pending)
+- **Rollout Readiness:** TODO — this static review does not establish a current readiness percentage.
 
-**Hybrid Retrieval Rollout Readiness**: 75% 🟡 (issue #5468).
+**Hybrid Retrieval Rollout Readiness**: TODO — current integration/rollout state is not established here (issue #5468).
 - Phase A (single-shard exact): ✅ Ready — single-shard path is stable.
 - Phase B (multi-shard exact): ✅ Implemented — source-valid runtime exists; release-grade hardening and CI validation still in progress.
 - Phase C (distributed summary-first): 🟡 In hardening — runtime semantics exist, but full load/chaos validation pending.
 - **Critical**: Multi-shard remains gated on release-critical validation and benchmark evidence; no silent fallback is allowed in production paths.
 - Rollout risk detail: `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §7`
 
-## Recently Completed
+## Historical Completion Record (unrevalidated)
+
+The dated `[x]` entries in this section and later phase checklists are preserved from prior roadmap
+snapshots; they are not current delivery tasks or evidence of present CI/runtime status. **TODO:**
+move durable completion history to `CHANGELOG.md` in a separately reviewed cleanup; retain only
+open/in-progress work here.
 
 - [x] **P6-01** (2026-07-20): 32 GTest cases for 2PC/3PC consistency verification delivered in
   `tests/sharding/test_sharding_phase6_hardening.cpp` (TXC-01..TXC-32). All cases pass with
