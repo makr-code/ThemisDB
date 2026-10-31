@@ -1,3 +1,18 @@
+**Author:** ThemisDB Contributors
+**Created:** 2026-10-31
+**Last Updated:** 2026-10-31
+**Status:** active
+**Source level:** Level 1 — `src/content/`
+**SOT domain:** `module-behavior`
+**Canonical source references:** [manager API](../../include/content/content_manager.h), [manager implementation](content_manager.cpp), [server manager setup](../server/http_server.cpp), [module architecture](ARCHITECTURE.md), [processor API](../../include/content/content_processor.h)
+**Related milestone:** DOC-WEEKLY-2026-44
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** themisdb-doc-orchestrator
+**Human_Review:** false
+**Human_Author:** ThemisDB Contributors
+**Provenance note:** Exact model backend not verifiable from final document text alone.
+
 # ThemisDB Content Module
 
 <!-- Status: current | validated: 2026-08-15 -->
@@ -65,6 +80,24 @@ Out of scope:
 - behavior depends on enabled processors, policies, and feature flags.
 - large/complex payload behavior depends on configured limits and pipeline settings.
 - degraded processor dependencies produce structured runtime failure behavior.
+
+## Current ContentManager integration boundary (source-checked 2026-10-31)
+
+The public processor inventory is not a map of direct `ContentManager` dispatch. In the
+current `content_manager.cpp`, `ingestRawBlob()` directly uses `HtmlProcessor` for
+HTML/XHTML, `MarkdownProcessor` for Markdown, and the OCR helper when requested by
+configuration. Its archive branch consults a registered `ArchiveProcessor`; without one,
+it stores the archive with metadata rather than extracting it. The stream path handles
+selected line-oriented text formats separately and sends other formats through bounded
+buffering to the raw-blob path.
+
+The manager implementation has no direct calls to the PDF, Office, image, audio, video,
+CAD, or geospatial processor classes. `src/server/http_server.cpp` registers a
+`TextProcessor`, but the raw-blob path's category registry does not establish that this
+processor handles every text MIME type. Public headers and standalone implementations do
+not by themselves establish complete manager/server integration.
+**TODO:** trace the caller/server/plugin paths for those processors before making
+end-to-end extraction claims. Until then, treat that integration as unverified.
 
 ## Sourcecode Verification (Module: content/readme)
 

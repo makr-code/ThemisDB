@@ -1,4 +1,17 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+**Author:** ThemisDB Contributors
+**Created:** 2026-10-31
+**Last Updated:** 2026-10-31
+**Status:** active
+**Source level:** Level 1 — `src/content/`
+**SOT domain:** `module-behavior`
+**Canonical source references:** [pipeline public headers](../../../include/content/pipeline/), [async uploader implementation](async_bulk_uploader.cpp), [async worker API](../../../include/content/async_ingestion_worker.h), [pipeline tests](../../../tests/content/test_content_pipeline.cpp), [test registration](../../../tests/content/CMakeLists.txt)
+**Related milestone:** DOC-WEEKLY-2026-44
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** themisdb-doc-orchestrator
+**Human_Review:** false
+**Human_Author:** ThemisDB Contributors
+**Provenance note:** Exact model backend not verifiable from final document text alone.
 
 # Content Pipeline Module
 
@@ -75,7 +88,9 @@ auto reassembled = chunker.reassemble(chunks);
 
 Simplified base interface for batch content upload (namespace `themis::content::pipeline`).
 
-**Integration**: For production async uploads, use `AsyncBulkUploader` (see below) which wraps this interface and integrates with `ContentManager::ingest()`.
+**Integration**: `AsyncBulkUploader` (see below) implements this interface and submits
+work through `AsyncIngestionWorker`; the manager's synchronous intake entry points are
+`ContentManager::ingestRawBlob()` and `ContentManager::ingestStream()`.
 
 **Use Cases**:
 - Simple batch upload scenarios
@@ -110,7 +125,12 @@ auto results = uploader.bulk_upload(contents, metadata_list);
 
 ### AsyncBulkUploader
 
-Production async uploader (`class AsyncBulkUploader : public BulkUploadInterface`) that wraps `ContentManager::ingest()` with a configurable worker thread pool (namespace `themis::content::pipeline`, header `content/pipeline/async_bulk_uploader.h`).
+`AsyncBulkUploader` is an asynchronous uploader implementing `BulkUploadInterface` and
+submitting work through
+`AsyncIngestionWorker::submitFile()` / `submitBatch()`. The wrapper does not call a
+`ContentManager::ingest()` method; the manager's synchronous entry points are
+`ingestRawBlob()` and `ingestStream()`. An upload result may report `IN_PROGRESS`, so
+check the job status before treating it as completed.
 
 **Use Cases**:
 - High-throughput production batch ingestion
@@ -128,10 +148,9 @@ Multi-modal chunk assembler supporting text, image, and metadata content types (
 
 The Content Pipeline module is designed to integrate with:
 
-1. **Content Manager**: For content type detection and routing
-2. **Storage Layer**: For efficient content persistence
-3. **RAID System**: For distributed content storage
-4. **Vector Search**: For embedding generation and similarity search
+1. **Content Manager**: For content type detection, routing, and intake
+2. **Storage Layer**: For content persistence
+3. **Vector/graph/full-text indexes**: For the index paths exposed by `ContentManager`
 
 ### Integration Examples
 
@@ -147,7 +166,8 @@ auto compressed = themis::utils::zstd_compress(data, 3);
 
 #### Using AsyncIngestionWorker for Production
 ```cpp
-// For production batch uploads, use AsyncIngestionWorker
+// For asynchronous manager ingestion, use `AsyncIngestionWorker` (or its
+`AsyncBulkUploader` wrapper)
 #include "content/async_ingestion_worker.h"
 
 AsyncIngestionConfig config;
@@ -155,21 +175,24 @@ config.worker_thread_count = 4;
 AsyncIngestionWorker worker(content_manager, config);
 worker.start();
 
-// Submit batch job
-IngestionJob job;
-job.job_id = "batch-001";
-job.type = IngestionJobType::BATCH_FILES;
-// ... configure job
-worker.submitJob(job);
+std::vector<std::pair<std::string, std::string>> files = {
+    {"report.pdf", pdf_bytes}
+};
+std::string job_id = worker.submitBatch(files, "user-123");
 ```
 
 ## Testing
 
-Unit tests are available in `tests/test_content_pipeline.cpp`.
+The pipeline unit tests are
+[`tests/content/test_content_pipeline.cpp`](../../../tests/content/test_content_pipeline.cpp).
+`tests/content/CMakeLists.txt` registers `test_*.cpp` files as focused tests. For example,
+configure a system-package debug build with the module tests enabled, then build and run
+this focused test:
 
-Run tests with:
 ```bash
-./build/themis_tests --gtest_filter="ContentPipeline*"
+cmake --preset community-debug -DTHEMIS_BUILD_TESTS=ON
+cmake --build --preset community-debug --target module_content_test_content_pipeline_focused
+ctest --test-dir build-community-debug -R '^test_content_pipeline_content_FocusedTests$'
 ```
 
 ## Performance Considerations
