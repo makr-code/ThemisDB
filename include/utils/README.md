@@ -62,8 +62,8 @@ safe arithmetic, and a collection of data-structure and concurrency primitives.
 | `lek_manager.h` | `LEKManager` | Local Encryption Key (AES-256 DEK) management and automated rotation |
 | `pki_client.h` | `VCCPKIClient`, `PKIConfig`, `SignatureResult` | Local/REST signing and verification; optional TLS pinning and trust-store configuration |
 | `openssl_deleter.h` | `OpenSSLDeleter` | RAII deleters for OpenSSL objects (`BIO`, `EVP_PKEY`, etc.) |
-| `checksum_utils.h` | `crc32()`, `sha256()` | CRC-32 and SHA-256 data integrity checksums |
-| `hash_util.h` | `hashBytes()`, `hashString()` | General-purpose MurmurHash / FNV-1a utilities |
+| `checksum_utils.h` | `calculateSHA256()`, deprecated `calculateMD5()` | File checksum helpers; MD5 is retained for legacy verification only |
+| `hash_util.h` | `themis::hash::fnv1a32()`, `fnv1a64()` | FNV-1a hash functions |
 | `uuid.h` | `generate_uuid_v4()`, `generate_uuid_v7()` | UUIDv4 and timestamped UUIDv7 helpers |
 
 ### Compression and Serialisation
@@ -74,8 +74,8 @@ safe arithmetic, and a collection of data-structure and concurrency primitives.
 | `lz4_codec.h` | `LZ4Codec` | LZ4 block compress/decompress |
 | `serialization.h` | `Serialization::Encoder`, `Serialization::Decoder` | Typed binary serialization with nesting, size, and bounds checks |
 | `compression_metrics.h` | `CompressionMetrics` | Compression ratio and throughput tracking |
-| `lossless_vector_compression.h` | `LosslessVectorCompressor` | Lossless float-vector compression (bit-packing) |
-| `lossless_vector_integration.h` | `LosslessVectorIntegration` | Integration helpers for lossless vector compression |
+| `lossless_vector_compression.h` | Experimental `SparseVectorCodec`, `VarIntCodec`, `DictionaryCodec`, `AdaptiveCompressor` | Experimental lossless codecs under `themis::experimental`; disabled by default |
+| `lossless_vector_integration.h` | Experimental `VectorCompressionHelper` | Experimental integration helpers under `themis::experimental` |
 
 ### Text Processing
 
@@ -133,9 +133,9 @@ safe arithmetic, and a collection of data-structure and concurrency primitives.
 |---|---|---|
 | `expected.h` | `tl::expected<T,E>` | Result / expected-value type (tl::expected or built-in fallback) |
 | `error_registry.h` | `ErrorRegistry` | Centralised error code registry |
-| `safe_access.h` | `safeGet()`, `safeAt()` | Bounds-checked container access |
-| `safe_arithmetic.h` | `safeAdd()`, `safeMul()` | Overflow-safe arithmetic |
-| `safe_cast.h` | `safeCast<T>()` | Checked numeric casts (throws on narrowing) |
+| `safe_access.h` | `safe_get()` | Bounds-checked optional access to vector/map elements |
+| `safe_arithmetic.h` | `safe_add()` and related helpers | Overflow/underflow-checked arithmetic returning optional values |
+| `safe_cast.h` | `safe_cast<T>()`, `FloatBits` | Same-size bitwise conversion; not a checked numeric narrowing cast |
 | `pointer_utils.h` | `notNull()`, `downcast()` | Non-null assertion and safe `dynamic_cast` |
 | `unaligned_access.h` | `readUnaligned<T>()` | Safe unaligned memory reads (memcpy-based) |
 | `memory_utils.h` | `alignedAlloc()`, `secureZero()` | Aligned allocation and cryptographic-safe memory zeroing |
@@ -174,8 +174,8 @@ safe arithmetic, and a collection of data-structure and concurrency primitives.
 - **Tracer / Span**: Tracing behavior depends on the build configuration and sampler. See `tracing.h` for initialization, exporter, flush, and no-op behavior.
 - **VCCPKIClient**: Stub paths are compiled only when `THEMIS_TEST_MODE` is defined. Configure local key/certificate or PKI service paths and explicit trust/pinning settings for production.
 - **UUIDv7**: `generate_uuid_v7()` encodes the Unix timestamp in milliseconds and uses random suffix bits from a thread-local `std::mt19937_64`. **TODO:** the header comment claims same-process monotonic ordering, but the implementation generates independent random suffixes within a millisecond; do not rely on that ordering until the contract and implementation are reconciled.
-- **`safeCast<T>()`**: Throws `std::overflow_error` on narrowing conversion failures.
-- **`safeAt()` / `safeGet()`**: Throws `std::out_of_range` on out-of-bounds access.
+- **`safe_cast<T>()`**: Performs a same-size bitwise conversion for trivially copyable types; it does not validate numeric range.
+- **`safe_get()`**: Returns an optional reference; missing indices/keys produce `std::nullopt`.
 
 ## Usage Snippets
 
@@ -250,7 +250,7 @@ std::string id = themis::utils::generate_uuid_v7();
 | `AuditLogVerifier` reports a chain error | Log contents or checkpoint do not validate | Preserve the log and verifier result; investigate file-system access and the configured chain/checkpoint |
 | Traces are not exported | Tracing support is disabled, no exporter is configured, or exporter initialization/flush failed | Check the build option and `Tracer` initialization/flush result in `tracing.h` |
 | Safe Zstd operation returns an error | Unsupported codec, invalid input, or configured size/ratio bounds | Inspect the returned error and validate the input; do not bypass the bounds |
-| `safeCast<T>()` throws `overflow_error` | Value out of target type range | Validate input range before casting or use a wider target type |
+| `safe_get()` returns `std::nullopt` | Index/key is absent | Check the optional result before using the reference |
 | PKI operation fails | Missing key/certificate, trust configuration, or service availability | Check `SignatureResult::ok`, `PKIConfig`, and the documented failure result; test stubs are not production fallback |
 
 ## Related Documentation

@@ -1,4 +1,24 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-08-08"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Production Readiness Checklist - Utils Module
+
+> Historical checklist snapshot validated on 2026-08-17. Checked boxes,
+> benchmark file paths, and phase sign-offs are historical assertions, not
+> current release evidence. Use [`ROADMAP.md`](ROADMAP.md) for active module
+> status and [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md) for
+> the currently registered benchmark scope.
 
 <!-- Status: current | created: 2026-08-08 | validated: 2026-08-17 -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md · SECURITY.md · AUDIT.md -->

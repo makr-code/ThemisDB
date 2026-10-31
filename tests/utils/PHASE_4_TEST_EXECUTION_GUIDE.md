@@ -30,8 +30,9 @@ ctest --test-dir build-community-debug -R test_utils_pii_unicode_edge_cases_util
 ```
 
 The target and test name above come from the CMake rule for
-`test_utils_pii_unicode_edge_cases.cpp`. For other `test_utils_*.cpp` files,
-the rule forms target names as
+`test_utils_pii_unicode_edge_cases.cpp`. For other auto-discovered
+`test_utils_*.cpp` files (not targets registered earlier explicitly), the rule
+forms target names as
 `module_utils_<source-stem>_autofocused` and CTest names as
 `<source-stem>_utils_AutoFocusedTests`.
 
