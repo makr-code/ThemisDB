@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -53,11 +53,12 @@ Use this order to avoid treating a subsystem summary as the API contract:
 ## Build and test discovery
 
 `tests/analytics/CMakeLists.txt` creates a focused executable for each
-`test_*.cpp` source and registers it with the `AnalyticsFocusedTests` CTest
-label. In a configured build:
+`test_*.cpp` source. The CTest case name ends with `_AnalyticsFocusedTests`;
+its labels are `module:analytics`, `tier:unit`, `kind:focused`, and `focus`.
+In a configured build:
 
 1. List module-focused tests with
-   `ctest --test-dir <build> -N -L AnalyticsFocusedTests`.
+   `ctest --test-dir <build> -N -L 'module:analytics'`.
 2. Build the matching `module_analytics_test_<name>_focused` target and run
    its registered CTest case; the executable also accepts GoogleTest filters
    for narrower iteration.

@@ -19,10 +19,10 @@ Exact model backend not verifiable from final document text alone.
 > recommendations do not describe the current module state, and the recorded
 > build/test evidence has not been rerun as part of this documentation update.
 
-**Issue**: makr-code/ThemisDB#5627 - [module:analytics] Development Status 2026-07-18  
-**Parent Epic**: makr-code/ThemisDB#5624  
-**Area Label**: area:analytics  
-**Roadmap Path**: src/analytics/ROADMAP.md  
+**Issue**: makr-code/ThemisDB#5627 - [module:analytics] Development Status 2026-07-18
+**Parent Epic**: makr-code/ThemisDB#5624
+**Area Label**: area:analytics
+**Roadmap Path**: src/analytics/ROADMAP.md
 **Synchronization Date**: 2026-08-19
 
 ---
@@ -40,7 +40,7 @@ Documentation artifacts synchronized and traceable to implementation:
 | Core runtime surfaces documented | ARCHITECTURE.md | 2026-07-19 | ✅ |
 | Security & failure behavior | SECURITY.md | 2026-07-19 | ✅ |
 | Mapped benchmark expectations | PERFORMANCE_EXPECTATIONS.md | Current | ✅ |
-| API documentation coverage | All 24 headers | 2026-07-19 | ✅ |
+| API documentation coverage | 24 headers in the 2026-07-19 snapshot | 2026-07-19 | ✅ |
 | Production readiness | MODULE_EVIDENCE.md | 2026-07-19 | ✅ |
 | Roadmap synchronization | ROADMAP.md | 2026-07-19 | ✅ |
 | Future enhancements tracked | FUTURE_ENHANCEMENTS.md | 2026-07-19 | ✅ |
@@ -74,7 +74,7 @@ Documentation artifacts synchronized and traceable to implementation:
 - All tests in production-ready status
 - Documentation: MODULE_EVIDENCE.md § Focused Analytics Test Suite
 
-**Current Environment Note**
+**Environment Context (Historical)**
 - Local Linux environment requires RocksDB for community-release preset
 - Windows evidence from 2026-07-18 is retained as historical reference evidence
 - Current build status requires a new run; historical evidence does not carry
@@ -169,7 +169,7 @@ The analytics module is in active development with partial implementation comple
 | Item | Status | Date | Evidence |
 |------|--------|------|----------|
 | Module Acceptance Criteria | ✅ COMPLETE | 2026-07-19 | MODULE_EVIDENCE.md |
-| Build & Test Evidence | ✅ CURRENT | 2026-07-18 | MODULE_EVIDENCE.md |
+| Build & Test Evidence | Historical record (not current validation) | 2026-07-18 | MODULE_EVIDENCE.md |
 | Parent Epic Linkage | ✅ READY | 2026-07-19 | This document |
 | Status Labels | ✅ UPDATED | 2026-07-19 | All docs synchronized |
 | Closure Reason | ✅ DOCUMENTED | 2026-07-19 | This document |

@@ -1,9 +1,28 @@
-> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
 
 # ROADMAP
 
+> **Planning status:** The Q2–Q4 2026 targets below are inherited planning
+> placeholders, not a current test-gap assessment. This documentation update
+> did not revalidate their status. The runtime roadmap is
+> [`../../src/analytics/ROADMAP.md`](../../src/analytics/ROADMAP.md); test
+> inventory and commands are in [`README.md`](./README.md).
+
 ## Current Status
-- [~] Modul `tests/analytics` dokumentiert; Backlog für weitere Härtung und Ausbau wird gepflegt.
+- The folder contains focused test sources registered by
+  [`CMakeLists.txt`](./CMakeLists.txt); no test pass status is asserted here.
 
 ## In Progress
 - [ ] Dokumentations- und Qualitätslücken schließen (Target: 2026-Q2)

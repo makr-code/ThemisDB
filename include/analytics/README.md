@@ -40,6 +40,17 @@ top-level header map.
 - [Implementation contracts and focused validation map](../../src/analytics/IMPLEMENTATION.md)
 - [Analytics test build and registration](../../tests/analytics/README.md)
 
+## Installation
+
+These headers are part of the ThemisDB source/build tree; this module does not
+provide a separate package installation procedure.
+
+## Usage
+
+Include the component header you need, use the namespace declared there, and
+check the component's status/capability contract before consuming results.
+See the [API map](../../src/analytics/API.md) for examples and integration rules.
+
 Build options and optional-backend availability are defined by the repository's
 CMake configuration. Do not infer a feature flag or runtime capability from a
 header filename alone; inspect the owning header and implementation.

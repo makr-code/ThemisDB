@@ -20,15 +20,17 @@ Exact model backend not verifiable from final document text alone.
 > inventory and header counts below were checked on 2026-10-31; they do not
 > establish test or Doxygen coverage.
 
-<!-- Status: current | validated: 2026-08-19 -->
+<!-- Historical evidence record; section dates identify the recorded validations. -->
 <!-- Issue: #5627 (Development Status 2026-07-18) -->
 <!-- Links: ROADMAP.md · FUTURE_ENHANCEMENTS.md · README.md -->
 
 ## Evidence Summary
 
-This document provides build and test evidence for the analytics module's current state and validates synchronization with ROADMAP.md and FUTURE_ENHANCEMENTS.md.
+This document preserves dated build, test, and documentation evidence. It does
+not validate the current revision; the recorded build and test were not rerun
+for this documentation update.
 
-### Security Hardening Evidence Update (2026-08-19)
+### Security Hardening Evidence Snapshot (2026-08-19)
 
 - `model_serving`: SHA-256 integrity verification path added for `loadModel` with fail-closed mismatch handling.
 - `ml_serving`: secure transport baseline enforced (`https://` default, plaintext HTTP requires explicit opt-in).
@@ -148,9 +150,10 @@ the files cited in the historical evidence:
 - Top-level implementation `.cpp` files: 28
 - No current Doxygen coverage percentage is asserted by this inventory.
 
-## Module Acceptance Criteria Status
+## Module Acceptance Criteria Snapshot (2026-08-19)
 
-✅ **All module acceptance criteria met:**
+The criteria below were reported met in the historical validation; they have
+not been re-audited against the current revision here.
 
 1. **Core runtime surfaces documented**
    - ✅ OLAP execution engine
@@ -172,12 +175,11 @@ the files cited in the historical evidence:
    - ✅ Roadmap phases traceable to implementation
 
 4. **Evidence updated**
-   - ✅ Build evidence: 2026-07-18 (windows-release)
-   - ✅ Test evidence: 13/13 tests PASS
-   - ✅ Date synchronized: 2026-08-19
-   - ✅ Validation chain complete
+   - Recorded build evidence: 2026-07-18 (windows-release)
+   - Recorded test evidence: 13/13 tests PASS on 2026-07-18
+   - Documentation synchronization recorded: 2026-08-19
 
-## Production Readiness Summary
+## Production Readiness Snapshot (2026-08-19)
 
 | Criterion | Status | Notes |
 |---|---|---|
@@ -190,7 +192,7 @@ the files cited in the historical evidence:
 | Distributed hardening | ⏸️ IN-PROGRESS | Cross-cluster scenarios (Q1 2027) |
 | Operability diagnostics | ✅ COMPLETE | Correlation IDs, failure classes, operator hints, and runbook coverage added |
 
-## Roadmap Status Summary
+## Roadmap Status Snapshot (2026-09-16)
 
 ### Completed (Phase 6 ✅)
 - Core analytics module docs aligned to source-verifiable behavior
@@ -216,7 +218,7 @@ the files cited in the historical evidence:
 |---|---|---|
 | Module Owner | ✅ VERIFIED | 2026-08-19 |
 | Documentation | ✅ SYNCHRONIZED | 2026-08-19 |
-| Tests | ✅ PASSING | 2026-07-18 |
+| Tests | Historical 13/13 pass record | 2026-07-18 |
 | Security Review | ✅ COMPLETE | 2026-05-31 |
 
 ---

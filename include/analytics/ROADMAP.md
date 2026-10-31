@@ -57,9 +57,14 @@ distributed analytics coordination.
 
 ## In Progress
 
-- [ ] Align streaming-window and CEP header docs around shared event-schema expectations (Target: 2026-Q3)
-- [ ] Document Arrow Flight server-capability matrix for batch-vs-streaming consumers (Target: 2026-Q3)
+- [!] Align streaming-window and CEP header docs around shared event-schema expectations (Target: 2026-Q3; past target, status not reverified)
+- [!] Document Arrow Flight server-capability matrix for batch-vs-streaming consumers (Target: 2026-Q3; past target, status not reverified)
 - [x] Extend serving-header security contract with model-integrity and transport-policy controls (`model_serving.h`, `ml_serving.h`) (Completed 2026-08-19)
+
+`[!]` marks the two Q3 items for revalidation; this documentation refresh does
+not claim they are still in progress or complete. Use the canonical
+[`../../src/analytics/ROADMAP.md`](../../src/analytics/ROADMAP.md) for runtime
+work status.
 
 ---
 

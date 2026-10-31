@@ -23,14 +23,20 @@ and does not define runtime APIs.
 [`CMakeLists.txt`](./CMakeLists.txt) discovers each top-level `test_*.cpp` and
 creates one executable named
 `module_analytics_<source-stem>_focused`. It registers a CTest case named
-`<source-stem>_AnalyticsFocusedTests` with the `AnalyticsFocusedTests` label,
-unit tier, and a 120-second timeout. CMake may add implementation sources to a
-test target where required; consult the target definition for exact linkage.
+`<source-stem>_AnalyticsFocusedTests` with labels `module:analytics`,
+`tier:unit`, `kind:focused`, and `focus`, and a 120-second timeout. CMake may
+add implementation sources to a test target where required; consult the target
+definition for exact linkage.
 
 For example, `test_analytics_memory_pool.cpp` produces
 `module_analytics_test_analytics_memory_pool_focused`.
 
-## Build and run
+## Installation
+
+Focused test executables are build artifacts and are not installed as runtime
+components. Configure the repository with tests enabled to create them.
+
+## Usage
 
 Configure a build with tests enabled (and the repository's required
 dependencies), then build a focused target and run its CTest case:
@@ -44,7 +50,7 @@ ctest --test-dir build-analytics-tests -R 'test_analytics_memory_pool_AnalyticsF
 List the registered analytics tests with:
 
 ```bash
-ctest --test-dir build-analytics-tests -N -L AnalyticsFocusedTests
+ctest --test-dir build-analytics-tests -N -L 'module:analytics'
 ```
 
 Use the test source and owning public header as the authority for fixtures,

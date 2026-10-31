@@ -18,7 +18,7 @@ Exact model backend not verifiable from final document text alone.
 > validated on 2026-08-19, not a new audit performed by this documentation
 > update. Revalidate open findings before treating them as current.
 
-<!-- Status: current | validated: 2026-08-19 -->
+<!-- Historical audit snapshot: 2026-08-19; current source inventory checked 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · MODULE_EVIDENCE.md -->
 
 ## Summary

@@ -26,6 +26,18 @@ The analytics module provides analytical runtime capabilities for OLAP execution
 - [Implementation guide](./IMPLEMENTATION.md): invariants and test mapping.
 - [Operations](./OPERATIONS.md) and [incident runbook](./RUNBOOK.md): deployment and failure handling.
 
+## Installation
+
+Analytics is built as part of ThemisDB; this module does not document a
+standalone installation procedure. Use the repository CMake configuration for
+the desired platform and optional dependencies.
+
+## Usage
+
+Start with the [module guide](./MODULE_GUIDE.md), then use the
+[API map](./API.md) and the owning public header for exact request types and
+behavior.
+
 ## Relevant Interfaces
 
 | Interface / File | Role |

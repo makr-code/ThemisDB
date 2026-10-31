@@ -60,6 +60,10 @@ error behavior.
 
 ## Planned Enhancements
 
+The Q3 2026 heading below is a past planning target. Its completion status was
+not established by this documentation review; check the canonical module
+roadmap before treating it as active work.
+
 ### Short-Term (Q3 2026)
 
 - Align streaming-window and CEP header docs around a shared event-schema and schema-evolution contract.

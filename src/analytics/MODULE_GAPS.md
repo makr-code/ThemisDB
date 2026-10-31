@@ -1,6 +1,26 @@
-# analytics — MODULE_GAPS.md (Phase 5 Verified)
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-This file documents all documentation and code quality gaps in the **analytics** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
+Exact model backend not verifiable from final document text alone.
+
+# Analytics module gap-scan snapshot (2026-08-31)
+
+> **Historical scanner output:** Counts, classifications, and line references
+> below are from the 2026-08-31 scan and later listed batch notes. They are not
+> a current code audit or live gap count; verify each finding against current
+> source before acting on it.
+
+The original Phase 5 scan recorded documentation and code-quality findings for
+the **analytics** module with external submodule filtering.
 
 ## Summary
 
@@ -17,7 +37,7 @@ This file documents all documentation and code quality gaps in the **analytics**
 - **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
 - **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5); Batch 4 closures applied 2026-08-19
 
-### CRITICAL Gaps — Current Status (post-Batch 4)
+### CRITICAL Gaps — Status Recorded Post-Batch 4
 - **Closed (code fixed)**: `prompt_injection`, `multiplication_overflow` (circuit breaker backoff), `missing_dtor` ×3, `iterator_invalidation` (jit_aggregation), `model_integrity_gap`, `no_transit_encryption` ×4
 - **Closed (false positive / stale)**: `braces_imbalance` ×4 (all files depth=0 verified), `iterator_invalidation` automl:325 + olap:543 (stale line refs, code safe)
 - **Noted / architecture-delegated**: `db_connection_leak` ×3 in streaming_window (connection ownership delegated to caller via ConnectionGuard RAII contract)
