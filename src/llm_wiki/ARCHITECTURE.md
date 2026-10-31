@@ -1,529 +1,131 @@
-# LLM Wiki Module — Architecture
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: PRODUCTION_READY | validated: 2026-09-09 -->
+# LLM Wiki Architecture
 
-## Overview
+## Kontext
 
-The LLM wiki module is a standalone semantic knowledge core within ThemisDB. It provides plugin-based integration for external knowledge sources (Confluence, Notion, internal wikis) into ThemisDB's LLM workflow, and it is strongly coupled to `llm` for orchestration and to `llama_cpp` for local inference-backed retrieval, summarization, and generation support. The module enables controlled knowledge base access with guardrails, access policies, and dynamic workspace isolation.
+The LLM Wiki module is a C++ plugin/core library, not a standalone user, ACL, or multi-backend wiki service. The public contract is `themis::plugins::llm_wiki::ILLMWikiPlugin` in [`include/llm_wiki/llm_wiki_plugin_interface.h`](../../include/llm_wiki/llm_wiki_plugin_interface.h). The module implementation and CMake target live under `src/llm_wiki/`.
 
-## Dependencies
+The root [`ROADMAP.md`](../../ROADMAP.md) owns project-level release status. This architecture page documents current source behavior and must not be used as evidence that release or production gates have passed.
 
-- `llm` for orchestration, prompt planning, and response assembly
-- `llama_cpp` for local inference-backed retrieval and summarization flows
-- `prompt_engineering` for retrieval planning and prompt enhancement handoff
-- `retrieval` for semantic search and ranking support
-- `metadata` for provenance, revision, and audit integration
-- RocksDB for persistent workspace state and Phase B cache support
+## Komponenten
 
-## Module Dependencies
+| Component | Source | Current responsibility |
+|---|---|---|
+| Plugin contract | `include/llm_wiki/llm_wiki_plugin_interface.h`, `llm_wiki_status.h` | Typed request/result structures, plugin lifecycle and operation declarations |
+| Plugin implementation | `src/llm_wiki/wikipedia/llm_wiki_plugin_impl.cpp` | Edition check, configuration parsing, current ingest/query behavior, optional policy load/reload |
+| Workspace orchestrator | `src/llm_wiki/wikipedia/wiki_workspace_orchestrator.cpp` | Workspace files, page/state/log updates, basic lint and statistics |
+| Edition gate | `src/llm_wiki/edition_gate.cpp` | Compile-time Enterprise/Community decision and feature checks |
+| Guardrail utilities | `src/llm_wiki/guardrail_patterns.h` and a separate local matcher in the plugin implementation | Pattern screening; the plugin path uses only its local fixed-string list |
+| Workspace state manager | `src/llm_wiki/workspace_state_manager.cpp`, public declaration in `include/llm_wiki/workspace_state_manager.h` | Separate JSON state persistence, checksum comparison, and attempted log recovery |
+| Process policy manager | `src/llm_wiki/process_policy_manager.cpp` | YAML parsing, schema validation, and semantic invariant checks |
+| Optional RocksDB wrapper | `src/llm_wiki/rocksdb_wiki_store.cpp`, public declaration in `include/llm_wiki/rocksdb_wiki_store.h` | Low-level key/value operations when a RocksDB target is available |
 
-### Direct Upstream Dependencies (this module uses)
-| Module | Interface / File | Purpose |
-|--------|-----------------|---------|
-| llm | `include/llm/` | Orchestration, prompt planning, and response assembly |
-| llama_cpp | `include/llama_cpp/` | Local inference-backed retrieval and summarisation |
-| prompt_engineering | `include/prompt_engineering/` | Retrieval prompt planning and prompt enhancement handoff |
-| retrieval | `include/retrieval/` | Semantic search and ANN ranking for wiki article lookup |
-| metadata | `include/metadata/` | Provenance, revision tracking, and audit integration |
-| index | `include/index/` (BM25 + HNSW + RRF) | Hybrid sparse+dense ranking for wiki retrieval pipeline |
-| storage | `include/storage/` (RocksDB backend) | Persistent workspace state and Phase B wiki cache |
+There is no `WikiContextManager`, result-cache component, runtime identity provider, or plugin router in this module's current source tree.
 
-### Direct Downstream Consumers (modules that use this module)
-| Module | Via | Notes |
-|--------|-----|-------|
-| server | `include/llm_wiki/wiki_context_manager.h` | Server exposes wiki query and knowledge-base management APIs |
+## Schnittstellen
 
-## Design Principles
+The public interface declares lifecycle, ingestion, query, workspace, statistics, and Wikipedia dump operations. The current implementation does not fulfill every declared behavior; see [`API.md`](API.md). `WikiContextManager`, an access-control service, a result cache, and a plugin router are not interfaces in this module.
 
-1. **Plugin Architecture:** Multiple wiki backends supported through standardized interface
-2. **Workspace Isolation:** Separate knowledge bases per tenant/workspace; no cross-contamination
-3. **Access Control:** Hierarchical permission model (public, authenticated, role-based)
-4. **Query Optimization:** Caching and indexing for efficient knowledge retrieval
-5. **Guardrails:** LLM-specific safety checks and rate limiting
-6. **Audit Trail:** All knowledge access logged for compliance and debugging
+## Datenfluss
 
-## Adaptive Schema Evolution Policy
-
-The LLM Wiki schema is intentionally extensible, but evolution must be controlled to preserve determinism, compatibility, and auditability.
-
-### Stable Core vs Extension Surface
-
-Stable core fields are mandatory for all persisted wiki entities:
-
-- `schema_version`
-- `entity_type`
-- `provenance`
-- `confidence`
-- `created_at`
-- `updated_at`
-
-All non-core additions must live in an `extensions` object and must not redefine core semantics.
-
-### Extension Rules
-
-1. Extensions must use namespaced keys to avoid collisions.
-2. Unknown extensions are ignored by readers by default (forward compatibility).
-3. Writers may emit only extension namespaces enabled by policy for the current edition and workspace.
-4. Security-sensitive extensions require explicit allowlist approval in governance policy.
-5. Any extension that affects retrieval ranking, confidence, or allow-deny behavior must be auditable.
-
-### Versioning and Migration Contract
-
-1. Minor schema versions may add optional fields and extension namespaces.
-2. Major schema versions may change semantics and require explicit migration plans.
-3. Every migration must provide:
-   - deterministic transformation rules
-   - backward-read behavior definition
-   - rollback behavior
-   - migration audit events
-4. Migrations must be idempotent and safe to rerun.
-5. Legacy compatibility shims are forbidden unless explicitly human-approved and time-bounded.
-
-### Capability Registry
-
-Schema evolution is governed through capability declarations:
-
-- Reader capability: which schema versions and extension namespaces can be interpreted.
-- Writer capability: which schema versions and extension namespaces may be emitted.
-- Governance capability: which policy packs are required for sensitive extensions.
-
-Capabilities are evaluated at startup and on policy refresh to prevent partial-rollout inconsistencies.
-
-### Validation Policy
-
-Validation must fail closed for:
-
-- missing core fields
-- malformed provenance
-- invalid confidence domain
-- unauthorized extension namespaces
-- extension payloads that violate policy constraints
-
-Validation may soft-ignore unknown but policy-safe extensions while preserving the raw payload for future-compatible reads.
-
-### Reference Schema Artifact
-
-The reference schema for persisted wiki entities is defined in:
-
-- `src/llm_wiki/schema/llm_wiki_entity.schema.json`
-
-This artifact is the canonical contract for stable-core fields, extension namespace constraints, provenance structure, and governance payload shape.
-
-## Scientific Adaptation Loop
-
-The module should adapt using a scientific control loop:
-
-1. Observe: collect request, retrieval, governance, and re-anchor telemetry.
-2. Hypothesize: derive candidate policy or weighting adjustments.
-3. Experiment: evaluate on shadow or canary traffic within bounded risk.
-4. Validate: require measurable gain without governance regression.
-5. Deploy: promote the new policy and capture rollback handles.
-
-### Learning Signals
-
-- answer utility feedback
-- correction or override frequency
-- re-anchor frequency
-- provenance confidence drift
-- deny-path and guardrail trigger rates
-
-### Safety Constraints For Adaptation
-
-- No adaptation may bypass entitlement, guardrail, or provenance validation gates.
-- Adaptive ranking changes must remain explainable via persisted decision metadata.
-- Confidence threshold changes require policy versioning and audit traceability.
-
-## YAML Process Orchestration Control Plane
-
-LLM Wiki process execution is orchestrated through a versioned YAML policy so adaptation behavior can be changed without code edits.
-
-- Policy artifact: `src/llm_wiki/process/llm_wiki_process_policy.yaml`
-- Policy schema: `src/llm_wiki/schema/llm_wiki_process_policy.schema.json`
-
-### Runtime Contract
-
-1. Load YAML policy at startup and on controlled refresh points.
-2. Validate policy against schema and governance constraints.
-3. Materialize stage plan (`ingest`, `extract`, `synthesize`, `validate`, `re_anchor`).
-4. Execute stage gates according to schedule class (interactive, near-real-time, batch).
-5. Emit decision telemetry for each request and adaptation cycle.
-
-### How ML Works With The Policy
-
-The ML controller does not rewrite arbitrary process logic. It optimizes only approved knobs inside policy-defined hard bounds.
-
-1. Observe outcomes: utility, latency, deny rate, re-anchor rate, confidence drift.
-2. Propose knob updates (for example evidence size or confidence thresholds).
-3. Apply in `shadow` or `canary` mode first.
-4. Promote only if policy goals improve and security metrics do not regress.
-5. Roll back automatically when rollback thresholds are violated.
-
-### Non-Negotiable Safety Invariants
-
-- `second_planner_allowed` must remain `false`.
-- Fail-closed validation must stay enabled.
-- Entitlement and guardrail gates are never tunable by ML.
-- Policy snapshots and reason codes are mandatory for auditable decisions.
-
-## Architecture Diagram
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│  LLM Inference Request                                      │
-│  • Query requiring external knowledge                       │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-                       ▼
-┌─────────────────────────────────────────────────────────────┐
-│  WikiContextManager (Main API)                              │
-│  • Coordinate wiki access and guardrails                    │
-│  • Manage workspace isolation                               │
-│  • Apply access policies                                    │
-└──────────────────────┬──────────────────────────────────────┘
-                       │
-        ┌──────────────┼──────────────┐
-        │              │              │
-        ▼              ▼              ▼
-   ┌──────────┐ ┌──────────┐ ┌──────────────┐
-   │Confluence│ │Notion    │ │Internal Wiki │
-   │Plugin    │ │Plugin    │ │Plugin        │
-   │          │ │          │ │              │
-   └────┬─────┘ └────┬─────┘ └──────┬───────┘
-        │            │              │
-        └────────────┼──────────────┘
-                     │
-                     ▼
-        ┌────────────────────────┐
-        │  AccessControl         │
-        │  • Permission checks   │
-        │  • Workspace isolation │
-        │  • Rate limiting       │
-        └────────────────────────┘
-                     │
-                     ▼
-        ┌────────────────────────┐
-        │  Guardrails & Filters  │
-        │  • Content validation  │
-        │  • Sensitivity checks  │
-        │  • Token counting      │
-        └────────────────────────┘
-                     │
-                     ▼
-        ┌────────────────────────┐
-        │  Result Cache          │
-        │  • Query results       │
-        │  • TTL-based eviction  │
-        │  • Per-workspace keys  │
-        └────────────────────────┘
+```mermaid
+flowchart TD
+    Init[initialize config] --> Gate[compile-time edition gate]
+    Gate --> Policy[optional policy parse and validation]
+    Caller[Plugin caller] --> Ingest[LLMWikiPluginImpl ingest]
+    Ingest --> Placeholder[placeholder chunk]
+    Placeholder --> Workspace[workspace file/state updates]
+    Caller --> Query[LLMWikiPluginImpl query]
+    Query --> Screen[plugin-local pattern screen]
+    Screen --> Memory[filtered in-memory chunks]
+    Caller --> Dump[ingestWikipediaDump]
+    Dump --> Fixed[fixed result counts; no dump processing]
 ```
 
-## Core Components
+**Kurzinterpretation:** The diagram traces current initialization, placeholder ingestion, in-memory query filtering, and the unimplemented dump operation.
 
-### WikiContextManager
+The diagram describes actual source behavior and intentionally calls out incomplete operations.
 
-**Purpose:** Unified interface for retrieving contextual knowledge from configured wiki sources.
+## Sequenz (kritischer Ablauf)
 
-**Responsibilities:**
-- Route queries to appropriate wiki backend(s)
-- Apply access control policies
-- Enforce guardrails (token limits, content filters)
-- Cache results for efficiency
-- Track usage for rate limiting and audit
-
-**Public API:**
-```cpp
-class WikiContextManager {
-  Result<WikiContext> getContext(
-    const LLMQuery& query,
-    const WorkspaceId& workspace,
-    const UserId& user
-  );
-  
-  Result<std::vector<WikiArticle>> search(
-    const std::string& query_text,
-    const WorkspaceId& workspace
-  );
-};
+```mermaid
+sequenceDiagram
+    participant C as Caller
+    participant P as LLMWikiPluginImpl
+    participant E as EditionGate
+    participant W as WorkspaceOrchestrator
+    C->>P: initialize(config_json)
+    P->>E: check compile-time edition
+    E-->>P: allow or deny
+    opt process_policy_path is configured
+        P->>P: parse, schema-validate, check invariants
+    end
+    C->>P: ingest(source_path, options)
+    P->>W: write source reference and supplied placeholder chunk
+    W-->>P: workspace operation result
+    C->>P: query(text, options)
+    P->>P: filter in-memory chunks; options unused
+    P-->>C: filtered in-memory results
 ```
 
-### Plugin Interface
+**Interpretation:** This sequence shows the plugin's current calls and explicitly distinguishes its in-memory query path from workspace index retrieval.
 
-**Purpose:** Standardized contract for wiki backend implementations.
+## Fehlerpfade und Resilienz
 
-**Responsibilities:**
-- Connect to wiki source (API, database, file system)
-- Execute queries/searches
-- Return article/document results
-- Handle authentication with wiki system
-- Implement caching and rate limiting
+- Edition denial returns `PermissionDenied` during initialization.
+- Invalid JSON or invalid configured policy produces a non-`Ok` initialization status. A failed hot reload retains the prior in-memory policy.
+- Ingest before initialization and policy reload errors produce an ingestion error result; other filesystem failures can be logged while the workspace operation continues.
+- Query before initialization or after policy reload failure returns an empty result. An unsafe query is empty unless `fail_open` is true.
+- The workspace manager's checksum is non-cryptographic, and recovery behavior differs by parse/checksum failure; see [`RUNBOOK.md`](RUNBOOK.md).
+- Plugin `ingest()` and `query()` use an exclusive mutex. `WorkspaceStateManager` callers must serialize access separately.
 
-**Plugin Abstraction:**
-```cpp
-class WikiPlugin {
-  virtual Result<std::vector<Article>> search(
-    const std::string& query
-  ) = 0;
-  
-  virtual Result<Article> getArticle(const ArticleId& id) = 0;
-  
-  virtual Result<> authenticate(const Credentials& creds) = 0;
-};
-```
+### Initialization
 
-### Access Control Layer
+`LLMWikiPluginImpl::initialize(config_json)` checks the compile-time edition gate, parses JSON settings, and loads a process policy only when `process_policy_path` is supplied. Optional hot reload checks the file timestamp and keeps the previous in-memory policy if a candidate fails validation. An empty JSON string returns `Ok` before setting `initialized_`; callers should provide the expected non-empty configuration and check the returned status.
 
-**Purpose:** Enforce permission policies and workspace isolation.
+The policy manager validates policy structure and selected invariants. Although the YAML describes process stages, schedules, telemetry, and rollout, the current plugin does not implement that complete orchestration/ML control plane in its request paths.
 
-**Access Model:**
-- **Workspace-Level:** Separate knowledge bases per tenant
-- **Document-Level:** Granular permissions (public, authenticated, role-based)
-- **User-Level:** Identity and role tracking
-- **Query-Level:** Rate limiting per user/workspace
+### Ingestion
 
-**Permission Checks:**
-```
-Can user access document?
-  ├─► Is document public? → YES
-  ├─► Is user authenticated? → Check workspace
-  └─► Does user have required role? → Check document ACL
-```
+`ingest()` takes the plugin's exclusive mutex, rejects use before initialization or after policy reload failure, and creates a generic placeholder chunk when the configured glob matches. The workspace orchestrator copies the source file when possible and writes a Markdown page containing the supplied chunks, updates workspace metadata/state, rebuilds the index file, and appends a log entry. The current plugin does not read and split the source file into content chunks; filesystem copy failure is logged but does not itself prevent page creation.
 
-### Guardrails & Content Filters
+### Query
 
-**Purpose:** Prevent sensitive content leakage and enforce LLM safety.
+`query()` also takes the exclusive plugin mutex. It runs the plugin-local fixed-string check against the query; a flagged query returns no candidates unless `fail_open` is enabled. If a workspace exists, it filters the in-memory chunk vector and returns the remaining chunks. The implementation does not use `top_k`, `min_score`, `save_as_page`, or `workspace_root`, and it does not invoke an index reader for retrieval.
 
-**Enforcement Points:**
+The workspace orchestrator has a separate query method that accepts an `IWikiIndexReader`, applies top-k/min-score, and can save query results. That method is not the path used by `LLMWikiPluginImpl::query()` in this checkout.
 
-1. **Content Sensitivity Filtering**
-   - Detect and filter: credentials, PII, confidential markings
-   - Signature-based (regex patterns, keyword lists)
-   - Configurable per workspace
+### Wikipedia operation
 
-2. **Token Counting**
-   - Measure context tokens before including
-   - Respect LLM context window limits
-   - Graceful truncation if over limit
+`ingestWikipediaDump()` currently ignores its arguments and returns a result with fixed counts. The public declaration and availability checks must not be mistaken for an operational dump-import path.
 
-3. **Rate Limiting**
-   - Per-user, per-workspace rate limits
-   - Query quota management
-   - Token consumption tracking
+## Persistence and policy boundaries
 
-4. **Audit Logging**
-   - All access logged with: user, workspace, documents, timestamp
-   - Enables compliance and forensics
+The workspace orchestrator stores human-readable pages and JSON workspace metadata beneath its configured root. `WorkspaceStateManager` is a distinct state representation; its checksum routine uses 64-bit FNV-1a despite the `sha256:` label, and its methods require caller-side synchronization. Neither mechanism provides cryptographic integrity or authenticated provenance.
 
-### Query Cache
+`RocksDbWikiStore` is optional at configure/build time. CMake conditionally links the store when it finds a supported RocksDB target. Do not infer end-to-end plugin persistence from the presence of the wrapper or a build definition alone.
 
-**Purpose:** Reduce repeated queries to wiki backends.
+## Nicht-Ziele
 
-**Strategy:**
-- Key: `<workspace_id, query_hash>`
-- Value: cached results with TTL
-- LRU eviction when capacity exceeded
-- Configurable TTL per workspace
+The current source does not establish semantic embeddings, content parsing, production query ranking, multi-backend federation, a cache, background scheduling, adaptive ML updates, production audit telemetry, or a release performance guarantee. Future designs in [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md) remain planned work until code and tests demonstrate them.
 
-**Configuration:**
-- Max cache size: configurable (default: 1 GB)
-- TTL: configurable (default: 1 hour)
-- Enable/disable per workspace
+## Verweise
 
-## Data Flow
+- [`README.md`](README.md) — module scope and limitations
+- [`ROADMAP.md`](ROADMAP.md) — implementation status and acceptance gates
+- [`SECURITY.md`](SECURITY.md) and [`TRUST.md`](TRUST.md) — security boundaries
+- [`PRODUCTION_REQUIREMENTS.md`](PRODUCTION_REQUIREMENTS.md) — release-readiness requirements
+- [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md) — performance evidence requirements
 
-### Context Retrieval Pipeline
-
-```
-LLM Query (+ workspace + user)
-  │
-  ├─► Query Cache Lookup
-  │   ├─► Cache hit → Return cached results
-  │   └─► Cache miss → Continue
-  │
-  ├─► Identify wiki sources
-  │
-  ├─► For each wiki source:
-  │   ├─► Check access permissions (user)
-  │   ├─► Execute search query
-  │   └─► Get ranked results
-  │
-  ├─► Apply Guardrails:
-  │   ├─► Filter sensitive content
-  │   ├─► Count tokens
-  │   └─► Rank by relevance
-  │
-  ├─► Query Cache Store
-  │   └─► Cache results with TTL
-  │
-  └─► Return context to LLM
-       ├─► Ranked articles
-       ├─► Token count
-       └─► Audit event logged
-```
-
-### Workspace Isolation Model
-
-```
-ThemisDB Cluster
-  │
-  ├─► Workspace A
-  │   ├─► Users: alice, bob
-  │   ├─► Wiki Sources: Internal Wiki A, Confluence
-  │   ├─► Cache: isolated L1 (workspace A only)
-  │   └─► Audit Log: workspace A events only
-  │
-  ├─► Workspace B
-  │   ├─► Users: charlie, diana
-  │   ├─► Wiki Sources: Notion, GitHub Wiki
-  │   ├─► Cache: isolated L1 (workspace B only)
-  │   └─► Audit Log: workspace B events only
-  │
-  └─► Global
-      ├─► Shared Cache L2 (cross-workspace, anonymous)
-      └─► Central Audit Log (all events, workspace-tagged)
-```
-
-## Plugin Ecosystem
-
-### Built-In Plugins
-
-1. **Confluence Plugin**
-   - Atlassian Confluence API integration
-   - Authentication: API tokens, OAuth
-   - Search: CQL (Confluence Query Language)
-   - Caching: REST API rate limit aware
-
-2. **Notion Plugin**
-   - Notion API (v1) integration
-   - Authentication: ******
-   - Search: Notion database queries
-   - Caching: TTL-aware
-
-3. **Internal Wiki Plugin**
-   - Custom markdown/JSON file system
-   - No authentication required
-   - Full-text search via indexing
-   - File-system watcher for dynamic updates
-
-### Plugin Development Guide
-
-To implement a custom wiki plugin:
-
-1. Extend `WikiPlugin` base class
-2. Implement `search()` and `getArticle()` methods
-3. Handle authentication and credentials
-4. Implement local caching where appropriate
-5. Return results in standardized Article format
-
-Example:
-```cpp
-class CustomWikiPlugin : public WikiPlugin {
-  Result<std::vector<Article>> search(const std::string& query) override {
-    // Connect to custom wiki API
-    // Execute search
-    // Parse results into Article objects
-    // Apply local caching
-    // Return results
-  }
-};
-```
-
-## Concurrency Model
-
-### Thread Safety
-
-1. **Per-Workspace Access:** Multiple readers allowed
-   - Search operations don't modify wiki state
-   - Read-write lock per workspace
-   - Enables concurrent queries
-
-2. **Cache Updates:** Atomic with compare-and-swap
-   - Prevents race conditions during cache write
-   - Minimal lock contention
-
-3. **Plugin Access:** Thread-safe plugin calls
-   - Plugins responsible for own synchronization
-   - Context manager serializes plugin invocations
-
-### Synchronization Primitives
-
-- `std::shared_mutex` for per-workspace access control
-- `std::atomic<>` for cache counters
-- `std::condition_variable` for plugin coordination
-
-## Performance Characteristics
-
-### Target Latencies (P99)
-
-- **Cache Hit:** < 1 ms
-- **Single Plugin Query:** < 500 ms (depends on wiki backend)
-- **Multi-Plugin Query:** < 1000 ms (parallel queries)
-- **Context Retrieval End-to-End:** < 2 seconds
-
-### Throughput
-
-- **Queries/sec:** > 10 concurrent queries
-- **Cache Capacity:** > 10k documents
-- **Plugin Concurrency:** > 5 concurrent plugin operations
-
-### Resource Consumption
-
-- **Per-Workspace Memory:** < 100 MB (caches + state)
-- **Cache Memory:** ~10 KB per cached result
-- **Total Memory:** < 1 GB for typical deployment
-
-## Error Handling
-
-### Graceful Degradation
-
-1. **Plugin Unavailable** → Skip that source; continue with others
-2. **Query Timeout** → Return partial results from other sources
-3. **Access Denied** → Return empty results; log audit event
-4. **Cache Corruption** → Bypass cache; recompute results
-5. **Token Limit Exceeded** → Truncate results to fit limit
-
-### Error Codes (E9600–E9699)
-
-- E9600: Wiki plugin not found
-- E9601: Authentication failed with wiki backend
-- E9602: Query timeout
-- E9603: Access denied for user/workspace
-- E9604: Content sensitivity filter blocked result
-
-## Integration Points
-
-### LLM Inference Pipeline
-
-Wiki context is fetched and injected into LLM prompt:
-1. LLM query received
-2. WikiContextManager retrieves relevant context
-3. Context injected into system prompt
-4. LLM generates response with context
-
-### Document Indexing
-
-When documents reference wiki articles:
-1. Extract article references
-2. Validate user access to articles
-3. Pre-fetch and cache for RAG pipeline
-
-### Critical Integration: WikiContextManager ↔ LLM
-**Files:** `include/llm_wiki/wiki_context_manager.h` ↔ `llm/`
-**Contract:** LLM calls `WikiContextManager::getContext(query, workspace)` before inference; returned context is injected into the system prompt as read-only evidence; wiki module must not mutate injected context after delivery.
-**Thread Safety:** Context retrieval is concurrent-safe; workspace-scoped caches are protected by per-workspace read-write locks.
-
-### Critical Integration: BM25 + HNSW + RRF Hybrid Retrieval
-**Files:** wiki retrieval pipeline ↔ `index/` (BM25 + HNSW + RRF)
-**Contract:** Wiki retrieval issues parallel BM25 (sparse) and HNSW (dense) queries; RRF fusion merges ranked lists; index module owns cursor lifecycle.
-**Thread Safety:** Index queries are concurrent-safe; fusion is per-request and stateless.
-
-### Critical Integration: RocksDB Backend
-**Files:** wiki workspace state ↔ `storage/` (RocksDB)
-**Contract:** Workspace metadata and Phase B cache are persisted in a dedicated RocksDB column family; reads and writes follow the storage module's transaction contract.
-**Thread Safety:** All RocksDB access is serialised through the storage module's concurrency primitives.
-
-## See Also
-
-- [`ROADMAP.md`](ROADMAP.md) — Implementation phases and deliverables
-- [`README.md`](README.md) — Module overview
-- [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md) — Planned features
-- [`../../include/llm_wiki/wiki_context_manager.h`](../../include/llm_wiki/wiki_context_manager.h) — Public API
+> Exact model backend not verifiable from final document text alone.

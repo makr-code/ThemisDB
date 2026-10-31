@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -10,272 +10,46 @@ Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
 
-# Security - LLM Wiki Module
+# LLM Wiki Security
 
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · TRUST.md -->
+## Purpose and security posture
 
-> This page records security objectives and review surfaces; it is not proof
-> that every listed control is enforced by the current plugin path. For
-> source-verified boundaries and residual risks, see
-> [`TRUST.md`](TRUST.md). In particular, the plugin-local query matcher is
-> separate from `guardrail_patterns.h`, the workspace checksum implementation
-> is FNV-1a rather than cryptographic SHA-256, and the edition gate does not
-> perform an independent runtime license check.
+This page documents source-visible trust boundaries and residual risks for `llm_wiki`. It is not a security certification. The integrating service must provide authentication, authorization, tenant routing, and deployment controls that are outside the plugin contract.
 
-## Threat Model
+## Trust boundaries and controls
 
-| Threat | Impact | Mitigation Surface |
+| Boundary | Source-visible behavior | Residual risk |
 |---|---|---|
-| Prompt injection attacks via malicious wiki content | Unauthorized LLM behavior, information disclosure | Pattern checks exist, but the plugin-local matcher is a separate, smaller substring list; not a comprehensive defense |
-| Cross-workspace data leakage | Privilege escalation, data breach | Workspace-root separation; identity and tenant routing must be enforced by the caller |
-| Corrupted workspace state causing incorrect responses | Reliability failure, incorrect information delivery | State checksum comparison and log recovery; checksum is non-cryptographic |
-| Unauthorized edition access (e.g., Military features in Community) | Feature/data access violation, compliance failure | Compile-time edition gate; independent runtime license checks are not implemented here |
-| Policy tampering via malformed YAML process policies | Denial of service, security gate bypass | Schema validation, fail-closed loading, hot-reload safety |
-| Inadequate provenance validation allowing synthetic chain growth | Low-confidence answers, attribution failure | Entity schema declares provenance fields; complete runtime chain enforcement is not established by the current plugin path |
-| Unaudited evidence acceptance at synthesis time | Untrusted answer generation | Policy and schema describe governance data; do not assume every synthesis path enforces an evidence allowlist |
+| Query and chunk text | The plugin has a small case-folded fixed-string matcher. `guardrail_patterns.h` is a separate, broader utility. | Matching is heuristic and incomplete; bypass/false-positive risk remains. With `fail_open=true`, a flagged query continues. |
+| Edition availability | `edition_gate.cpp` maps `THEMISDB_LLM_WIKI_ENTERPRISE_ENABLED` to Enterprise, otherwise Community. | No independent runtime license verification; the gate does not establish caller authorization. |
+| Workspace selection | Workspace files are written below the configured root. | The plugin does not authenticate users or enforce tenant-to-root mapping or document ACLs. Filesystem ownership and service authorization are integration responsibilities. |
+| Workspace state | JSON state is checked against a 64-bit FNV-1a checksum formatted with a `sha256:` prefix; recovery attempts use stored log data. | This is not cryptographic integrity or tamper evidence. The state manager requires caller-side synchronization. |
+| Process policy | A configured YAML file is schema-validated and checked for semantic invariants; optional hot reload retains the prior in-memory policy on candidate failure. | File permissions and provenance are operator responsibilities. The declared policy stages/rollout are not all implemented in current plugin request paths. |
+| Persisted content and logs | Workspace pages and logs include ingested/query-derived content and source references. | Treat workspaces, backups, and diagnostics as sensitive; the module does not establish actor-attributed audit logging. |
 
-## Security Control Objectives
+## Security requirements for integrators
 
-### Input Validation Boundaries
+- Authenticate callers and authorize each tenant/workspace operation before calling the plugin.
+- Restrict the workspace and policy files to the service identity; use separate roots where tenant isolation is required.
+- Treat user queries, source documents, provider outputs, workspace files, and policy files as untrusted input.
+- Do not use a successful pattern check or checksum as proof of safe content, authorization, or tamper resistance.
+- Keep secrets in the deployment secret manager; do not store them in pages, state, policy files, or logs.
+- Preserve workspace data and sanitized logs before incident recovery. Escalate suspected cross-tenant exposure, policy tampering, or state corruption.
+- Apply request-size, concurrency, timeout, memory, and disk limits outside the module until enforceable module-level limits are implemented.
 
-#### Boundary 1: Prompt Injection Detection
-**Location:** Query and chunk checks in the plugin path; broader patterns are defined separately
-**Protection:** The plugin-local matcher uses a small substring list. `guardrail_patterns.h` has a separate whitespace-normalizing checker; do not assume its full pattern set is wired into the plugin path.
-**Checked by the current plugin query path:**
-- Query text, using a local substring matcher
-- Candidate chunk text, using the same local matcher
+## Known security gaps
 
-**Pattern categories declared by `guardrail_patterns.h` (not all verified in the plugin matcher):**
-- Shell command injection (>, |, ;, &, $, `, backtick escapes)
-- Code/syntax injection (Python, SQL, regex, custom DSLs)
-- Encoding attacks (Unicode, UTF-7, mixed-case, nested escapes)
-- Privilege escalation (role-switching commands, permission-elevation payloads)
-- Control-flow disruption (context switching, instruction override, ignore-previous-instruction variants)
+- Incomplete plugin-local prompt-injection matching and `fail_open` behavior.
+- Compile-time edition selection without independent runtime license validation.
+- No plugin-level user identity, authorization service, or actor-attributed audit trail.
+- Non-cryptographic workspace checksum and limited recovery semantics.
+- No established end-to-end runtime evidence-allowlist or provenance trust enforcement on the plugin query path.
+- No source-backed module-wide resource limits.
 
-**Rationale:** Intended to reduce adversarial influence; this filter is not a comprehensive defense.
+## Security test evidence
 
-#### Boundary 2: Workspace Isolation
-**Location:** Workspace creation and access paths
-**Protection:** Workspace roots provide storage separation; caller authorization and tenant-to-root routing remain integration responsibilities
-**Boundary considerations:**
-- Workspace files are rooted under the configured workspace path.
-- The plugin interface does not authenticate a user or enforce document-level ACLs.
-- Tenant identity and workspace-root selection must be enforced by the caller.
+Relevant test sources include `tests/llm/test_llm_wiki_edition_gates.cpp`, `test_llm_wiki_phase3_edge_cases_focused.cpp`, `test_llm_wiki_process_policy_manager.cpp`, and `test_llm_wiki_block4_backend_gate.cpp`. Their existence is not evidence that a specific build lane has executed or passed them; use configured test results and security review for release decisions.
 
-**Rationale:** Multi-tenant safety; prevents privilege escalation across workspace boundaries.
+See [`TRUST.md`](TRUST.md) for the source-grounded trust model and [`RUNBOOK.md`](RUNBOOK.md) for incident response guidance.
 
-#### Boundary 3: Edition-Gated Access Control
-**Location:** Plugin instantiation and operation-level checks
-**Protection:** Compile-time enablement controls the current edition decision; no independent runtime license validation is implemented by `edition_gate.cpp`
-**Current implementation:**
-- Plugin initialization checks the compile-time edition gate.
-- The gate currently resolves to Enterprise when enabled and Community otherwise.
-- Separate runtime licensing and Military-specific pattern selection are not implemented in `edition_gate.cpp`.
-
-**Rationale:** Ensures compliance with edition licensing and security posture requirements.
-
-#### Boundary 4: Checksum & State Validation
-**Location:** Workspace state persistence and load paths
-**Protection:** Compare the stored checksum and attempt log recovery on eligible failures; implementation is 64-bit FNV-1a with a `sha256:` prefix, not cryptographic SHA-256
-**Current implementation:**
-- State writes include a checksum generated by a 64-bit FNV-1a routine.
-- Loads compare a present checksum; this is not cryptographic integrity protection.
-- Recovery reads the last valid JSON log entry; it does not replay individual transactions.
-
-**Rationale:** Prevents silent state corruption leading to incorrect responses.
-
-#### Boundary 5: YAML Process Policy Validation
-**Location:** Policy loader initialization and hot-reload
-**Protection:** Validate policy against JSON schema; fail closed on schema violation
-**Enforced on:**
-- Initial policy load (fail-closed on schema error)
-- Hot-reload updates (restore last-known-good on validation failure)
-- Runtime invariant checks (bounds validation on timing, threshold, gate settings)
-
-**Rationale:** Prevents malformed policies from bypassing security gates or causing denial of service.
-
-#### Boundary 6: Provenance Chain Validation
-**Location:** Entity schema and policy model
-**Protection:** Provenance and governance fields are represented in schema/policy; do not infer complete runtime enforcement from those declarations alone
-**Current implementation:**
-- The entity schema declares provenance fields, but a complete runtime evidence-package gate is not established by the current plugin path.
-
-**Rationale:** Prevents low-confidence, excessively-derived, or untrusted evidence from contaminating answer synthesis.
-
-### Concurrency & Thread Safety
-
-#### Shared Data Protection
-
-The plugin implementation serializes its current `ingest()` and `query()`
-paths with an exclusive `std::shared_mutex` lock. The standalone
-`WorkspaceStateManager` explicitly requires caller-side synchronization.
-Thread-safety guarantees must be checked for each concrete component; the
-presence of a mutex in the plugin does not establish lock-free or concurrent
-query execution.
-
-#### Query Operations
-- Current plugin query calls take the exclusive plugin mutex.
-- No shared-reader performance guarantee is established by this implementation.
-
-#### Modification Operations
-- Plugin ingestion and policy reload take the plugin mutex.
-- Workspace manager callers must serialize access to its persistence methods.
-
-#### Known Limitations
-
-- `WorkspaceStateManager` methods are not thread-safe; callers must serialize
-  access.
-- The plugin's current `ingest()` and `query()` operations use an exclusive
-  mutex, so they do not establish parallel query execution.
-- Policy hot-reload runs under the plugin mutex and may block other plugin
-  operations.
-
-### Memory and Pattern Matching
-
-#### Workspace Storage
-- Workspace state is represented with dynamically sized maps and vectors.
-- The module does not establish a general ingest-size or memory ceiling;
-  enforce workload limits at the integrating service.
-
-#### Policy Objects
-- Policy parameters validated at load time
-- Adjustable knobs must have corresponding valid bounds.
-- Policy-file access and deployment permissions remain operator
-  responsibilities.
-
-#### Guard Pattern Matching
-- Guard patterns are fixed string literals; matching is substring search, not
-  compiled regular expressions.
-- The plugin-local matcher is a distinct implementation with a smaller set.
-- A match result is a heuristic filter, not an authorization decision.
-
-### Error Reporting
-
-The plugin SDK status type distinguishes `Ok`, `Error`, `PermissionDenied`,
-`InvalidArgument`, and `NotInitialized`. Workspace persistence and policy
-loading use separate status enums. Do not rely on `E6500`–`E6507` labels as
-stable codes unless the integrating build defines and returns them; the
-current public status header uses enum categories and messages.
-
-## Defense-in-Depth Objectives
-
-### Layer 1: Input Acceptance (Guardrails)
-- The current query path checks query text and candidate chunk text against a local fixed-string list.
-- With `fail_open=true`, a flagged query is allowed to continue; this must not be treated as a security boundary.
-- The plugin source does not establish a comprehensive content-validation or audit-logging guarantee.
-
-### Layer 2: Workspace Isolation
-- Store each workspace beneath its configured root and restrict that root to the service identity.
-- Validate tenant-to-root mapping in the integrating service; the plugin does not establish user/document authorization.
-
-### Layer 3: Edition Gating
-- Initialization applies the compile-time edition check and returns a permission-denied status when disabled.
-- Do not infer independent runtime license validation or edition-specific capability behavior from that check.
-
-### Layer 4: State Integrity
-- Compute and persist checksums on workspace modifications
-- Validate checksums before using workspace state
-- Detect and reject silently corrupted state
-
-### Layer 5: Provenance Validation
-- Use the entity schema as a structural contract for provenance fields.
-- Verify runtime chain-depth, confidence, and origin enforcement before relying on it; schema declarations alone do not enforce those policies.
-
-### Layer 6: Policy Enforcement
-- Validate YAML policies against schema
-- Enforce fail-closed semantics on policy load/reload
-- Preserve last-known-good policy on rollback
-
-### Layer 7: Error Isolation
-- Preserve source files and logs before recovery or rollback.
-- Treat incomplete or empty results as ambiguous unless accompanied by an explicit status.
-- Validate recovery on copies before restoring workspace data.
-
-## Integration Security Boundaries
-
-### LLM Module Integration
-- Treat queries and returned chunks as untrusted data.
-- The plugin API does not provide an authorization identity for the upstream LLM caller.
-- **Boundary:** Enforce prompt assembly and data authorization in the integrating LLM/service layer.
-
-### Retrieval Module Integration
-- Retrieval/index configuration is a separate subsystem; trace the actual query path before assuming its evidence checks are applied.
-- **Boundary:** The current plugin query implementation shown in source does not establish a complete provenance allowlist.
-
-### Server Integration
-- The module source does not define the server's authentication or request-sanitization behavior.
-- **Boundary:** The server must authenticate callers and enforce tenant/workspace authorization before invoking the plugin.
-
-### Plugin Boundary
-- Plugin initialization checks the compile-time edition decision.
-- **Boundary:** Verify the shipped binary's build flags and factory before deployment; plugin metadata alone is not a license check.
-
-## Operational Security
-
-### Audit Trail
-- The workspace orchestrator appends operational entries to `wiki/log.md`;
-  the state manager appends serialized state records to `wiki/state.log`.
-- The current plugin-local query matcher does not log the matched pattern or
-  query context.
-- The edition gate may emit a warning through the configured logger, but the
-  module does not establish an actor-attributed audit trail.
-- Protect workspace logs as sensitive operational data.
-
-### Access Control Audit
-- The module does not provide user identities, periodic access scans, or
-  denial-rate alerts; implement those controls in the integrating service.
-
-### Policy Change Control
-- Configured policies are schema- and invariant-validated before use.
-- Hot reload is opt-in and retains the previous in-memory policy when a
-  candidate fails validation.
-- The module does not persist policy history alongside workspace state or
-  provide a canary controller; keep reviewed policy revisions and rollback
-  artifacts in deployment change management.
-
-### Maintenance Windows
-- Workspace validation procedures documented
-- Recovery procedures for checksum failures
-- Health check commands for operational triage
-- Policy update and validation procedures
-
-## Known Vulnerabilities & Mitigations
-
-| Vulnerability | Severity | Status | Mitigation |
-|---|---|---|---|
-| Incomplete plugin guardrail matching | High | Residual risk | Plugin matcher is a small substring list; enforce authorization independently and test the concrete path |
-| Unicode or encoded pattern evasion | High | Residual risk | Pattern normalization is limited; do not treat matching as a security boundary |
-| Excessive input or evidence resource use | High | Not established | Apply request and resource limits in the integrating service |
-| Unauthorized schema extensions | Medium | Partial | JSON Schema restricts extension key shape; verify runtime policy authorization before relying on it |
-| Malformed policy input | Medium | Schema validated | Policy loading performs schema and invariant validation; protect policy file access |
-| Provenance confidence manipulation | Medium | Runtime enforcement not established | Preserve source references and independently verify provenance gates |
-
-## Security Testing
-
-### Current Test Coverage
-- Unit tests for guardrail pattern rejection (LWP-05)
-- Edition access control enforcement tests (LWP-07)
-- Workspace isolation and checksum validation tests (LWP-06)
-- YAML policy schema validation tests
-- Concurrent access stress tests (no data leakage)
-- Error handling tests for malformed inputs
-
-### Planned Test Coverage (Phase 5-6)
-- Fuzzing: Malicious wiki content and query patterns
-- Concurrency race detection via ThreadSanitizer
-- Policy tampering resilience (corrupted YAML files)
-- Cross-workspace boundary violation attempts
-- Large-scale provenance chain attack scenarios
-- Edition gate bypass attempts
-- Guardrail pattern evasion (unicode, encoding)
-
-## Compliance Notes
-
-- The workspace manager does not provide cryptographic integrity: its FNV-1a checksum is not SHA-256.
-- The state task map accepts arbitrary string values; operators must not store credentials or secrets in workspace state.
-- The source does not establish a complete user authorization or actor-attributed audit-trail guarantee; provide these controls at integration boundaries.
-- Do not assume telemetry is emitted or that workspaces are tenant-isolated without verifying the deployed integration and filesystem permissions.
-
----
-
-See [PRODUCTION_REQUIREMENTS.md](PRODUCTION_REQUIREMENTS.md) for operational security boundaries and constraints.
+> Exact model backend not verifiable from final document text alone.
