@@ -1,4 +1,6 @@
-> **Status:** 2026-06-01 – mit aktuellem Cache-Code (`bounded_lru_cache.cpp`) abgeglichen.
+> **Status:** Deployment policy; source-enforcement boundary reviewed 2026-10-31.
+<!-- Last Updated: 2026-10-31 | AI_Used: true | AI_Models: unknown | AI_Contributor: GitHub Copilot Coding Agent | Human_Review: false | Human_Author: ThemisDB Team
+Exact model backend not verifiable from final document text alone. -->
 
 # ThemisDB Cache Module - Production Requirements
 
@@ -17,7 +19,7 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Bounded-LR
 ## Verbindliche Produktionsanforderungen
 
 - **MUST:** Cache-Size-Limits explizit konfiguriert; kein Unlimited-Cache.
-- **MUST:** Distributed-Cache-Coordinator mit Replications-Policy konfiguriert.
+- **MUST (wenn verteilte Koordination für das Deployment vorgesehen ist):** Distributed-Cache-Coordinator und Replications-Policy explizit konfigurieren. `AdaptiveQueryCache::Config::enable_replication` ist standardmäßig deaktiviert.
 - **MUST:** Alle sicherheitsrelevanten Konfigurationswerte beim Start validiert; fehlende oder ungültige Werte führen zu Fail-Closed-Verhalten.
 - **MUST NOT:** Sicherheits- oder Autorisierungs-Checks in Produktionspfaden deaktivieren.
 
@@ -41,6 +43,10 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Bounded-LR
 - [ ] Audit-Logging aktiv
 - [ ] Externe Abhängigkeiten mit Timeout und Retry konfiguriert
 - [ ] Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt
+
+## Abgrenzung zur Implementierung
+
+Die obigen MUST-Aussagen sind Deployment-Anforderungen, keine Zusicherung, dass jede Cache-Klasse sie selbst erzwingt. Im Quellcode ist `AdaptiveQueryCache::Config::validate()` als Konfigurationsprüfung belegt; ein modulweiter Validator für alle Cache-, Coordinator- und Backend-Konfigurationen ist nicht belegt. Cache-interne Durchsetzung von Audit-Logging und Produktionsmodus-Umgebungsvariablen ist ebenfalls **TODO/unverified**; diese Kontrollen müssen an der zuständigen Service-/Storage-Grenze geprüft werden. `THEMIS_PRODUCTION_MODE` und `THEMIS_ENVIRONMENT` sind projektweite Storage-/Service-Konventionen, keine hier nachgewiesenen Cache-Modul-Schalter.
 
 ## Review / Sourcecode-Audit-Nachweis
 

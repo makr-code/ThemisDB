@@ -1,4 +1,5 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+<!-- Last Updated: 2026-10-31 | AI_Used: true | AI_Models: unknown | AI_Contributor: GitHub Copilot Coding Agent | Human_Review: false | Human_Author: ThemisDB Team
+Exact model backend not verifiable from final document text alone. -->
 
 <!-- Status: current | validated: 2026-06-01 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/cache/ROADMAP.md -->
@@ -20,7 +21,7 @@ Tracks public cache API contract stability, distributed-cache header coverage, a
 
 ## Current Status
 
-All 26 cache headers are present and cover adaptive query/result caches, embedding/semantic caching, tenant-aware partitioning, distributed invalidation/replication, and cache observability.
+The public header directory currently contains 33 `.h`/`.hpp` files covering adaptive query/result caches, embedding and prompt-keyed semantic caching, tenant-aware partitioning, distributed invalidation/replication, and cache observability. Header presence does not imply runtime enablement.
 
 ---
 

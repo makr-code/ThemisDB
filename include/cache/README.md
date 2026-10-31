@@ -1,9 +1,9 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
-
 # Cache Module — Public Headers
 
 **Module Path:** `include/cache/`
 **Implementation:** `../../src/cache/`
+<!-- Last Updated: 2026-10-31 | AI_Used: true | AI_Models: unknown | AI_Contributor: GitHub Copilot Coding Agent | Human_Review: false | Human_Author: ThemisDB Team
+Exact model backend not verifiable from final document text alone. -->
 
 ## Purpose
 
@@ -32,14 +32,20 @@ Public interfaces and declarations for ThemisDB's multi-layer caching subsystem.
 | `cache_partition.h` | `CachePartition` — namespace-isolated cache slice |
 | `cache_replication.h` | `CacheReplication` — cross-node cache replication interface |
 | `cache_replication_coordinator.h` | `CacheReplicationCoordinator` — orchestrates replication peers |
+| `cache_contract.h` | `CacheFailureClass` — shared cache failure taxonomy and contract helpers |
+| `cache_eviction_policy.h` | `CacheEvictionPolicy`, policy implementations, factory |
 | `eviction_policy.h` | `IEvictionPolicy`, `EvictionPolicyFactory` |
+| `eviction.h` | `EvictionScheduler` and eviction scoring types |
+| `eviction_listener.h` | `IEvictionListener`, `EvictionListenerManager` |
+| `cache_manager.h` | `CacheManager` — cache management and event surfaces |
 | `arc_cache.h` | `ARCCache` — Adaptive Replacement Cache |
 | `bounded_lru_cache.h` | `BoundedLRUCache` — capacity-capped LRU cache |
+| `lru_cache.h`, `lru_cache.hpp` | `LRUCache` — generic LRU cache declaration and template implementation |
 | `l1_tinylfu_cache.h` | `L1TinyLFUCache` — frequency-based L1 admission filter |
 | `enhanced_query_cache.h` | `EnhancedQueryCache` — query-plan result cache |
 | `adaptive_query_cache.h` | `AdaptiveQueryCache` — workload-adaptive query cache |
 | `result_cache.h` | `ResultCache` — generic query result store |
-| `semantic_cache.h` | `SemanticCache` — embedding-based semantic deduplication |
+| `semantic_cache.h` | `SemanticCache` — exact prompt-and-parameter key in RocksDB |
 | `embedding_cache.h` | `EmbeddingCache` — vector embedding result cache |
 | `predictive_prefetcher.h` | `PredictivePrefetcher` — ML-driven cache prefetcher |
 | `distributed_cache_coordinator.h` | `DistributedCacheCoordinator` — cluster-wide cache coordination |
@@ -50,7 +56,7 @@ Public interfaces and declarations for ThemisDB's multi-layer caching subsystem.
 | `request_coalescer.h` | `RequestCoalescer` — deduplicates concurrent identical cache fills |
 | `adaptive_ttl_policy.h` | `AdaptiveTTLPolicy` — workload-driven TTL adjustment |
 | `aligned_vector_allocator.h` | `AlignedVectorAllocator` — SIMD-aligned allocator for cache buffers |
-| `cache_hit_rate_slo_monitor.h` | `CacheHitRateSLOMonitor` — alerting for hit-rate SLO violations |
+| `cache_hit_rate_slo_monitor.h` | `CacheHitRateSloMonitor` — alerting for hit-rate and latency SLO violations |
 | `l3_encryption_config.h` | `L3EncryptionConfig` — at-rest encryption settings for L3 tier |
 
 ## Usage
@@ -79,15 +85,20 @@ Important configuration entry points are declared in:
 ## Build
 
 ```cmake
-cmake --preset release && cmake --build build/release --target themis-cache
+cmake --preset community-release
+cmake --build build-community-release
 ```
+
+There is no standalone `themis-cache` CMake target. This builds the repository's configured targets; the community preset uses system dependencies and disables tests and benchmarks by default.
 
 ## See Also
 
 - [`../../src/cache/README.md`](../../src/cache/README.md) — implementation details
 
-## Installation
+## CMake integration
 
 ```cmake
-target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
+target_link_libraries(your_target PRIVATE themis_core)
 ```
+
+`themis_core` supplies the repository include paths and linked module dependencies. **TODO:** External installation/export instructions are not established by the cache module's CMake configuration.

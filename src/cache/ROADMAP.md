@@ -3,19 +3,21 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
 <!-- Status: current | validated: 2026-09-16 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+<!-- AI_Used: true | AI_Models: unknown | AI_Contributor: GitHub Copilot Coding Agent | Human_Review: false | Human_Author: ThemisDB Team
+Exact model backend not verifiable from final document text alone. -->
 
 ## Current Status
 
 Production cache runtime exists across adaptive query cache, semantic/embedding cache surfaces, warmup and predictive paths, plus distributed coordination and replication components.
-Validation refresh for issue `#5632` confirms priorities remain correct; evidence refresh is blocked in this environment by missing RocksDB system dependency.
+The last documented validation refresh for issue `#5632` (2026-09-16) kept these priorities; that session reported its build evidence blocked by the RocksDB system dependency. Build/tests were not rerun for this documentation-only issue `#7333` update.
 
 ## In Progress
 
 - [x] hardening distributed consistency and degradation behavior across cache coordinators (Target: Q3 2026)
   - Delivered: `include/cache/cache_contract.h` §5–§7 (coordinator capability flags, fail-closed semantics, async replication consistency)
   - Delivered: `tests/cache/test_cache_coordinator_degradation.cpp` (CCD-01..CCD-08)
-- [x] benchmark stabilization for cache hot paths and release-gate envelopes (Target: Q3 2026)
-  - Delivered: `benchmarks/cache/release_gate_manifest_cache.json` (GATE-CAC-01..06, SGATE-CAC-01..04)
+- [x] define benchmark cases and release-gate manifest for cache hot paths (Target: Q3 2026)
+  - Delivered: `benchmarks/cache/release_gate_manifest_cache.json` (GATE-CAC-01..06, GATE-CAP-01..06, SGATE-CAC-01..04)
   - Delivered: `benchmarks/cache/CACHE_BENCHMARK_RUNBOOK.md`
 - [x] diagnostics consistency improvements for tenant/invalidation/replication failures (Target: Q3 2026)
   - Delivered: `include/cache/cache_contract.h` §3 (CacheFailureClass taxonomy + fail-closed predicate)
@@ -88,13 +90,13 @@ Validation refresh for issue `#5632` confirms priorities remain correct; evidenc
 
 ### Phase 5: Performance and Hardening
 - [x] lock benchmark-backed release gates for cache hot paths (Target: Q4 2026)
-  - Benchmarks/files: `benchmarks/bench_adaptive_query_cache.cpp`, `benchmarks/bench_embedding_cache_performance.cpp`.
+  - Benchmarks/files: `benchmarks/query/bench_adaptive_query_cache.cpp`, `benchmarks/cache/bench_embedding_cache_performance.cpp`, `benchmarks/cache/bench_cache_eviction_coordinator.cpp`.
   - Gates: mapped cache cases must have no missing manifest entries in release-profile runs.
-  - **Delivered:** `benchmarks/cache/release_gate_manifest_cache.json` (GATE-CAC-01..06, SGATE-CAC-01..04, manifest completeness policy for 16 required benchmark IDs)
-- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
-  - Performance targets: hold module budgets defined in `PERFORMANCE_EXPECTATIONS.md` and document regressions >10%.
-  - Validation: compare release baseline manifests and preserve reproducibility metadata.
-  - **Delivered:** `benchmarks/cache/CACHE_BENCHMARK_RUNBOOK.md` (execution, gate validation, regression protocol, evidence package requirements); regression tolerance policy = 10% per manifest.
+  - **Delivered:** `benchmarks/cache/release_gate_manifest_cache.json` (GATE-CAC-01..06, GATE-CAP-01..06, SGATE-CAC-01..04, manifest completeness policy for 24 required benchmark IDs)
+- [~] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+  - Performance targets: hold module budgets defined in `PERFORMANCE_EXPECTATIONS.md`; the manifest declares a 10% regression policy.
+  - Validation: preserve reproducibility metadata and obtain a cache-aware report covering all three benchmark outputs and manifest metrics.
+  - **Delivered:** `benchmarks/cache/CACHE_BENCHMARK_RUNBOOK.md` (execution and completeness procedure, regression protocol, evidence requirements). Full gate reporting remains TODO because the current reporter does not accept the multi-output suite or map all manifest metrics; see the runbook.
 
 ### Phase 6: Documentation and Acceptance
 - [x] core cache module docs aligned to source-verifiable behavior
@@ -113,7 +115,7 @@ Validation refresh for issue `#5632` confirms priorities remain correct; evidenc
 - [x] focused regression tests for coordinator degradation (CCD-01..08) and tenant isolation (CTI-01..08)
 - [x] contract hardening tests (CCH-01..08) validate all §1–§7 invariants
 - [~] remaining deep stubs in coordinator implementations require human approval for legacy-path marking
-- [~] release-gate benchmark execution still blocked by RocksDB dependency in sandbox environment
+- [~] release-gate execution evidence pending; the prior #5632 session reported a RocksDB dependency block, and this #7333 docs-only pass did not rerun builds or benchmarks. The current multi-output validator gap is tracked in `CACHE_BENCHMARK_RUNBOOK.md`.
 - [x] MODULE_GAPS critical/high gap closure (2026-08-19): CRITICAL blocking_no_timeout, missing_dtor, no_timeout fixed; HIGH null_dereference (57), circular_lock_ordering (114) addressed
 
 ## Evidence Summary (Session: 2026-07-27)
@@ -126,7 +128,7 @@ Validation refresh for issue `#5632` confirms priorities remain correct; evidenc
 | `tests/cache/test_cache_contract_hardening.cpp` | 3/4 | CCH-01..CCH-08 contract validation |
 | `tests/cache/test_cache_coordinator_degradation.cpp` | 4a | CCD-01..CCD-08 degraded coordinator tests |
 | `tests/cache/test_cache_tenant_isolation_hardening.cpp` | 4b | CTI-01..CTI-08 tenant isolation edge cases |
-| `benchmarks/cache/release_gate_manifest_cache.json` | 5 | GATE-CAC-01..06 + SGATE-CAC-01..04 |
+| `benchmarks/cache/release_gate_manifest_cache.json` | 5 | GATE-CAC-01..06 + GATE-CAP-01..06 + SGATE-CAC-01..04 |
 | `benchmarks/cache/CACHE_BENCHMARK_RUNBOOK.md` | 5 | Benchmark execution and validation runbook |
 
 ### Build Evidence
