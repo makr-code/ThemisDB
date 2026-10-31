@@ -20,8 +20,10 @@ This guide is for developers implementing changes in `src/config`. Public
 interfaces are in [`../../include/config/`](../../include/config/README.md);
 implementations are in this directory and focused tests are in
 [`../../tests/config/`](../../tests/config/README.md). Preserve the frozen
-v1.x contract in [`../../include/config/config_contract.h`](../../include/config/config_contract.h)
-and record intentional contract changes in module release documentation.
+v1.x intended policy in
+[`../../include/config/config_contract.h`](../../include/config/config_contract.h),
+but distinguish declared values from runtime-enforced guarantees as recorded in
+[`MODULE_GAPS.md`](MODULE_GAPS.md).
 
 ## Implementation surfaces
 
@@ -54,18 +56,22 @@ and record intentional contract changes in module release documentation.
 - The audit entry shape contains requested/resolved paths, timestamp,
   legacy-fallback and cache-hit flags. Do not treat this in-memory path log as a
   durable or operator-attributed change audit.
-- `ConfigEncryptedStore::tryGet()` catches decryption and decoding exceptions
-  and returns `std::nullopt`; preserve this caveat in callers and docs.
+- `ConfigEncryptedStore::tryGet()` returns `std::nullopt` only for an absent
+  entry. Decryption failures propagate as `ConfigEncryptionException`.
+- `ConfigEncryptedStore::rotateKey()` uses the exclusive store lock across
+  re-encryption and commit. Concurrent reads and writes block until it finishes;
+  failed preparation leaves the previous key and entries in place.
 
 ## Input bounds and failure behavior
 
-`config_contract.h` declares limits for config file size, path length, schema
-size, key/value lengths, top-level key count, nesting, watcher timing, and
-collected validation errors. The contract is normative, but current
-implementation enforcement is not verified for every declared limit.
-**TODO:** compare each declared boundary with implementation and focused test
-coverage before claiming that it is enforced. Add below/at/above boundary tests
-for any confirmed gaps.
+`config_contract.h` contains policy constants that are not all enforced. The
+current code does not enforce its declared file/schema/path/key/value size,
+top-level-key, nesting, or collected-error-count caps. Watcher interval and
+operation-timeout constants do not control the event-driven platform backends.
+The resolver does reject traversal and embedded NULs; schema checks can impose
+per-schema string constraints such as `maxLength`. The detailed audit is in
+[`MODULE_GAPS.md`](MODULE_GAPS.md); do not rely on an unenforced policy constant
+as an input safety boundary.
 
 ## Verification workflow
 

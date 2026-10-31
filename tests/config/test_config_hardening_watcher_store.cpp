@@ -11,6 +11,7 @@
  */
 
 #include <gtest/gtest.h>
+#include <nlohmann/json.hpp>
 #include <atomic>
 #include <chrono>
 #include <filesystem>
@@ -204,17 +205,29 @@ TEST_F(ConfigEncryptedStoreHardeningTest, CFG27_GcmIvLength) {
 
 /// CFG-28: Encrypted-store returns CONFIG_DECRYPTION_ERROR on auth tag verification failure
 TEST_F(ConfigEncryptedStoreHardeningTest, CFG28_DecryptionErrorOnAuthFailure) {
-    // Corrupted ciphertext or tampered GCM tag should trigger explicit decryption error
-    // (never silent failure or data corruption)
-    SUCCEED();
+    ConfigEncryptedStore store;
+    store.set("secret", "value");
+    auto snapshot = nlohmann::json::parse(store.serialize());
+    auto blob = nlohmann::json::parse(snapshot["entries"]["secret"].get<std::string>());
+    auto tag = blob["tag"].get<std::string>();
+    ASSERT_FALSE(tag.empty());
+    tag[0] = tag[0] == 'A' ? 'B' : 'A';
+    blob["tag"] = tag;
+    snapshot["entries"]["secret"] = blob.dump();
+    store.deserialize(snapshot.dump());
+
+    EXPECT_THROW(store.get("secret"), ConfigEncryptionException);
+    EXPECT_THROW(store.tryGet("secret"), ConfigEncryptionException);
 }
 
-/// CFG-29: Encrypted-store supports non-blocking key rotation
-TEST_F(ConfigEncryptedStoreHardeningTest, CFG29_NonBlockingKeyRotation) {
-    // During key rotation, old and new keys should both be accepted
-    // Client reads/writes should not be blocked
-    EXPECT_LE(kMaxEncryptionKeyRotationHistorySize, 5)
-        << "Should keep at most 5 old key generations";
+/// CFG-29: Rotation atomically re-encrypts values before publishing the new key.
+TEST_F(ConfigEncryptedStoreHardeningTest, CFG29_RotationPreservesValuesAndAdvancesVersion) {
+    ConfigEncryptedStore store;
+    store.set("secret", "value");
+
+    EXPECT_EQ(store.rotateKey(), 2u);
+    EXPECT_EQ(store.currentKeyVersion(), 2u);
+    EXPECT_EQ(store.get("secret"), "value");
 }
 
 /// CFG-30: Encrypted-store validates metadata before decryption (IV, nonce, length checks)

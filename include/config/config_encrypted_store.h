@@ -98,9 +98,10 @@ public:
     std::string get(const std::string& config_key) const;
 
     /**
-     * @brief Try Get.
-     * @param[in] config_key Input parameter.
-     * @return Return value.
+     * @brief Retrieve a value when the key is present.
+     * @param[in] config_key Key to look up.
+     * @return The plaintext value, or std::nullopt only when the key is absent.
+     * @throws ConfigEncryptionException if the stored blob cannot be decrypted.
      */
     std::optional<std::string> tryGet(const std::string& config_key) const;
 
@@ -140,8 +141,12 @@ public:
     // -------------------------------------------------------------------------
 
     /**
-     * @brief Rotate Key.
-     * @return Return value.
+     * @brief Re-encrypt all entries with a newly generated key.
+     * @return The new key version.
+     * @throws ConfigEncryptionException if key generation or re-encryption fails;
+     *         on failure the existing key and entries remain unchanged.
+     * @note Rotation holds the exclusive store lock for the full operation, so
+     *       concurrent reads and writes wait until rotation completes.
      */
     uint32_t rotateKey();
 

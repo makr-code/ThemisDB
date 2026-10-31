@@ -15,14 +15,16 @@ the root [`../../ROADMAP.md`](../../ROADMAP.md).
 
 ## In Progress
 
-- [ ] Compare every bound in `include/config/config_contract.h` with code and
-  focused tests; record which are enforced and which are not.
+- [~] Audit the policy constants in `include/config/config_contract.h`; the
+  current enforcement findings are recorded in `MODULE_GAPS.md`. Implementing
+  the confirmed missing bounds remains open.
 - [ ] Specify and test the exact schema keyword subset; resolve the mismatch
   between the "Draft 7 subset" contract wording and actual implementation.
 - [ ] Verify file-watcher behavior and downstream reload/apply handling on each
   supported platform; watcher notification alone is not a reload guarantee.
-- [ ] Resolve the `ConfigEncryptedStore::tryGet()` ambiguity between absence
-  and decrypt/decoding failure, or ensure callers explicitly account for it.
+- [x] Make `tryGet()` return `std::nullopt` only for absence and propagate
+  decryption failures; document that key rotation blocks concurrent access
+  while the atomic re-encryption holds the exclusive store lock.
 - [ ] Collect benchmark runs and an authoritative baseline before marking any
   thresholds measured or release-blocking.
 
@@ -43,8 +45,8 @@ therefore unverified and is not carried forward as a fact.
    unverified.
 3. **Error handling and edge cases:** selected behavior has focused tests;
    completeness is unverified.
-4. **Tests:** test sources and root CMake registrations exist; no tests were
-   run for this documentation update.
+4. **Tests:** focused test sources and root CMake registrations exist; run the
+   encrypted-store tests for the updated absence/error semantics.
 5. **Performance and hardening:** benchmark sources exist; measured baselines
    and pass/fail gates are unverified.
 6. **Documentation and acceptance:** this documentation set was reconciled
@@ -60,11 +62,9 @@ therefore unverified and is not carried forward as a fact.
 
 ## Known Issues and Limitations
 
-- Contract declarations and implementation/test evidence are not reconciled for
-  every bound.
+- Contract policy constants are not all runtime-enforced; see `MODULE_GAPS.md`.
 - Validator behavior is a subset; full Draft 7 support is not established.
-- `tryGet()` returns `std::nullopt` for both missing and caught decrypt/
-  decoding failures.
+- Several declared input and watcher bounds remain unenforced.
 - Watcher cache invalidation does not establish consumer reload/apply success.
 - Benchmark labels and targets do not establish measured threshold compliance.
 

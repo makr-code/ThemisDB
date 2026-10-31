@@ -72,16 +72,18 @@ proof that every invariant is currently enforced. See
 ## Encrypted store — `ConfigEncryptedStore`
 
 - `set(key, plaintext)` rejects an empty key; `get()` throws
-  `ConfigKeyNotFoundException` for absence, while `tryGet()` returns
-  `std::nullopt`.
+  `ConfigKeyNotFoundException` for absence. `tryGet()` returns `std::nullopt`
+  only for an absent key and propagates decryption failures.
 - `remove()` reports whether an entry existed; `contains()`, `keys()`, `size()`,
   and `clear()` inspect or mutate the in-memory store.
-- `rotateKey()` returns the new key version and re-encrypts the store.
+- `rotateKey()` returns the new key version and atomically re-encrypts the store.
+  It holds an exclusive lock throughout, so concurrent reads and writes wait
+  until rotation completes.
 - `serialize()` / `deserialize()` persist a JSON snapshot representation. The
   snapshot includes key bytes and must be protected as secret material.
-- The object is non-copyable and non-movable. `get()` reports crypto failures
-  explicitly; `tryGet()` suppresses caught decrypt/decoding failures as noted
-  below. Malformed snapshot input to `deserialize()` is reported as an error.
+- The object is non-copyable and non-movable. `get()` and `tryGet()` report
+  crypto failures explicitly. Malformed snapshot input to `deserialize()` is
+  reported as an error.
 
 Detailed contracts: [`config_path_resolver.h`](../../include/config/config_path_resolver.h),
 [`config_schema_validator.h`](../../include/config/config_schema_validator.h),
@@ -90,8 +92,7 @@ Detailed contracts: [`config_path_resolver.h`](../../include/config/config_path_
 [`config_errors.h`](../../include/config/config_errors.h).
 
 **Important error distinction:** `ConfigEncryptedStore::get()` throws for a
-missing key and propagates decryption failures. `tryGet()` returns
-`std::nullopt` both for a missing key and for caught decryption/decoding
-exceptions; do not use it when those states must be distinguished.
+missing key. `tryGet()` represents absence with `std::nullopt`; decryption
+failures propagate as `ConfigEncryptionException`.
 `serialize()` includes the current key bytes (base64-encoded), so its output is
 secret material, not encrypted backup.

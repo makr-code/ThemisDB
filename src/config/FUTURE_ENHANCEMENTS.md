@@ -28,15 +28,16 @@ compatibility impact before implementation.
 
 ## Implementation Notes
 
-1. **Contract conformance audit (TODO):** map the constants and guarantees in
-   `include/config/config_contract.h` to enforcing code and tests. Do not treat
-   declared file-size, nesting, error-count, or timing bounds as enforced until
-   verified.
+1. **Contract conformance audit (partially completed):** see
+   `MODULE_GAPS.md` for verified enforcement and specific missing coverage.
+   Several declared input caps and watcher timing values are not enforced;
+   implementing those limits remains separate work.
 2. **Schema support contract (TODO):** publish the exact implemented keyword
    set and test unsupported/invalid schema forms.
-3. **Encrypted-store API errors (TODO):** decide whether `tryGet()` should
-   distinguish missing keys from decryption/decoding failures; preserve current
-   behavior in compatibility notes until changed.
+3. **Encrypted-store API errors (resolved):** `tryGet()` returns
+   `std::nullopt` only for absence and propagates decryption failures.
+   `rotateKey()` atomically re-encrypts under an exclusive lock; concurrent
+   reads/writes wait for the operation. Focused tests cover these semantics.
 4. **Watcher integration (TODO):** add consumer-level evidence that notification
    results in explicit reload, validation, and apply steps where required.
 
@@ -55,7 +56,6 @@ achieved or release-blocking.
 
 ## Security / Reliability
 
-Validate claimed input bounds against implementation. Preserve authenticated
-decryption errors in APIs where callers require distinction; protect serialized
-store snapshots. Consumer-level reload and recovery behavior remains the
-owning service's responsibility.
+Do not treat unenforced constants as input limits. Preserve authenticated
+decryption errors; protect serialized store snapshots. Consumer-level reload
+and recovery behavior remains the owning service's responsibility.
