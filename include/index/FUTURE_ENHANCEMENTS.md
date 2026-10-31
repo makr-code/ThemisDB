@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Planning snapshot last source-checked: 2026-06-01; short-term Q3 2026 targets have elapsed. -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/index/FUTURE_ENHANCEMENTS.md -->
 
 # Index Module — Public Header Future Enhancements
@@ -39,6 +53,9 @@ Planned extensions follow the same namespace (`themis::index`) and include-guard
 
 ### Short-Term (Q3 2026)
 
+> These milestones have elapsed and have not been rebaselined; the bullets are
+> historical planning items, not current delivery commitments.
+
 - [ ] Add `[[deprecated]]` annotations to any legacy entry points with migration notes
 - [ ] Add explicit `noexcept` specifications to query/read paths where safe
 - [ ] Add structured diagnostic types for all thrown exceptions
@@ -57,7 +74,9 @@ Planned extensions follow the same namespace (`themis::index`) and include-guard
 
 ---
 
-## Alignment with Strategic Plan
+## Alignment with Module Planning
 
-Enhancements align with `FUTURE_PLAN.md` layer **ANN Frontdoor**. For cross-layer integration planning see:
-→ [`../../src/ai/FUTURE_ENHANCEMENTS.md`](../../src/ai/FUTURE_ENHANCEMENTS.md)
+Runtime and algorithm enhancements are tracked in
+[`../../src/index/FUTURE_ENHANCEMENTS.md`](../../src/index/FUTURE_ENHANCEMENTS.md)
+and [`../../src/index/ROADMAP.md`](../../src/index/ROADMAP.md). No separate
+`FUTURE_PLAN.md` source is referenced by this module.

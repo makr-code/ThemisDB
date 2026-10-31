@@ -29,7 +29,7 @@ files.
 
 - Registration logic and target names are maintained in
   [`CMakeLists.txt`](CMakeLists.txt); root test configuration discovers this
-  module file.
+  module file when `THEMIS_BUILD_TESTS=ON`. Many standard presets disable tests.
 - Several suites are explicitly skipped in the focused loops because they
   target a superseded contract. A source file's presence therefore does not
   guarantee that it is built or registered in every configuration.

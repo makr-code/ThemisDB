@@ -41,7 +41,8 @@ filters and tenant-qualified names.
 | Tiered and distributed vector paths | `tiered_index_manager.cpp`, `distributed_vector_index.cpp` |
 
 These are navigation pointers, not a complete file inventory. Public
-declarations are under [`../../include/index/`](../../include/index/README.md).
+declarations are under `../../include/index/`; consult the
+[source-checked API reference](API.md) and the declarations themselves.
 
 ## Developer references
 
@@ -56,7 +57,8 @@ declarations are under [`../../include/index/`](../../include/index/README.md).
 
 ## Build and validation
 
-Index tests are registered from [`../../tests/index/CMakeLists.txt`](../../tests/index/CMakeLists.txt).
+When `THEMIS_BUILD_TESTS=ON`, index tests are registered from
+[`../../tests/index/CMakeLists.txt`](../../tests/index/CMakeLists.txt).
 The benchmark in `benchmarks/index/` is conditional on the repository benchmark
 build option; see its README for the configured preset and target. Select a
 backend-specific test/build configuration before treating CPU-only test results

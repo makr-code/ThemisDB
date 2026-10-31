@@ -1,4 +1,27 @@
-# Index Module — Frozen Core Contracts
+---
+Author: "ThemisDB Team"
+Created: "2026-08-09"
+Last Updated: "2026-10-31"
+Status: deprecated
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+# Index Module — Historical Contract Notes
+
+> **Superseded:** The “frozen” label and contract details below are not a
+> normative description of the current API. The current declarations and
+> behavior do not fully match this document; for example, frontdoor result
+> validation does not filter positive infinity, and the module API reference
+> records additional mismatches. Do not use this page to infer frozen ABI or
+> release compatibility guarantees. Start with
+> [`../../src/index/API.md`](../../src/index/API.md), then verify the matching
+> headers and implementations.
 
 **Version:** 1.0.0 (Frozen)  
 **Status:** FROZEN — Q3 2026 gate delivery  

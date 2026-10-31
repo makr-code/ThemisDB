@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # PERFORMANCE_EXPECTATIONS - src/index
 
 ## Scope
@@ -8,12 +22,12 @@
 ## Benchmark Reference
 
 - Relevant benchmark files:
-  - benchmarks/bench_vector_search.cpp
-  - benchmarks/bench_gpu_vector_index.cpp
-  - benchmarks/bench_index_rebuild.cpp
-  - benchmarks/bench_spatial_index.cpp
-  - benchmarks/bench_binary_quantization.cpp
-  - benchmarks/bench_approximate_radius_search.cpp
+  - benchmarks/ann/bench_vector_search.cpp
+  - benchmarks/gpu/bench_gpu_vector_index.cpp
+  - benchmarks/index/bench_index_rebuild.cpp
+  - benchmarks/geo/bench_spatial_index.cpp
+  - benchmarks/ann/bench_binary_quantization.cpp
+  - benchmarks/search/bench_approximate_radius_search.cpp
 
 ## Specific Expectations
 
@@ -26,7 +40,12 @@
 | IDXP-5 | binary quantization pipelines remain bounded for encode/decode/distance workloads | BM_BinaryQuant_Training, BM_BinaryQuant_Encode, BM_BinaryQuant_BatchEncode, BM_BinaryQuant_Decode, BM_BinaryQuant_HammingDistance, BM_BinaryQuant_BatchHammingDistance, BM_BinaryQuant_AsymmetricDistance, BM_BinaryQuant_CompressionRatio, BM_BinaryQuant_EndToEnd |
 | IDXP-6 | approximate radius search behavior remains bounded across dataset and target variations | BM_RadiusSearch_DatasetSize, BM_RadiusSearch_RadiusVariation, BM_RadiusSearch_BatchSearch, BM_RadiusSearch_TargetCount, BM_RadiusSearch_EstimateCount, BM_RadiusSearch_SearchById, BM_RadiusSearch_Metrics |
 
-## Module Hard Gates (v1.0 docs baseline)
+## Proposed Benchmark Thresholds (enforcement not verified)
+
+The thresholds below are documentation targets only. Registration of benchmark
+targets does not establish that these thresholds are enforced by CI. Confirm
+the release workflow, comparison baseline, and measured case before treating a
+target as a release gate.
 
 | Gate ID | Expectation | Measurement |
 |---|---|---|
@@ -42,16 +61,16 @@
 ## Sourcecode Verification (Module: index/performance)
 
 - Verified benchmark sources:
-  - benchmarks/bench_vector_search.cpp
-  - benchmarks/bench_gpu_vector_index.cpp
-  - benchmarks/bench_index_rebuild.cpp
-  - benchmarks/bench_spatial_index.cpp
-  - benchmarks/bench_binary_quantization.cpp
-  - benchmarks/bench_approximate_radius_search.cpp
+  - benchmarks/ann/bench_vector_search.cpp
+  - benchmarks/gpu/bench_gpu_vector_index.cpp
+  - benchmarks/index/bench_index_rebuild.cpp
+  - benchmarks/geo/bench_spatial_index.cpp
+  - benchmarks/ann/bench_binary_quantization.cpp
+  - benchmarks/search/bench_approximate_radius_search.cpp
 - Verified mapping surfaces:
   - vector and GPU-vector search/build paths
   - rebuild and spatial index paths
   - quantization and radius-search paths
 - Result:
   - Referenced benchmark cases exist in current benchmark sources.
-  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.
+  - Benchmark target registration exists; enforcement of the stated thresholds requires separate CI/workflow evidence.

@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 <!-- Status: current | validated: 2026-06-01 -->
@@ -28,21 +42,21 @@ All headers in `include/index/` are present and expose the vector indexes (HNSW,
 
 - [x] Public header surfaces documented in `ARCHITECTURE.md`
 - [x] Canonical cross-links to `src/index/` implementation docs established
-- [x] Layer association (**ANN Frontdoor**) marked and verified against `FUTURE_PLAN.md`
-- [x] Namespace layout (`themis::index`) documented
+- [x] Current API reference linked to source-checked behavior in `src/index/API.md`
+- [!] Namespace placement must be read from each declaring header; a module-wide namespace claim is not verified.
 
 ---
 
 ## In Progress
 
-- [ ] Per-header deprecation and breaking-change notices aligned with `VERSIONING.md` (Target: 2026-Q3)
+- [?] Rebaseline the per-header deprecation/breaking-change review; the previous Q3 2026 target has elapsed and no replacement milestone is confirmed.
 
 ---
 
 ## Planned
 
-- [ ] API contract index for high-frequency entry points with usage examples (Target: 2026-Q3)
-- [ ] Compatibility matrix (C++17/20 and platform coverage) per header group (Target: 2026-Q4)
+- [x] Source-checked API reference for high-frequency entry points: `../../src/index/API.md`
+- [ ] Compatibility matrix for the repository's C++20 baseline and supported platforms (Target: 2026-Q4)
 - [ ] CI-enforced compile checks for all public headers (Target: 2026-Q4)
 
 ---
