@@ -227,7 +227,8 @@ External research and analysis documents:
 
 ## Documentation & Review/Audit References
 
-- [docs/Home.md](docs/Home.md)
+- [docs/README.md](docs/README.md) — documentation hub
+- [docs/Home.md](docs/Home.md) — language selector
 - [docs/governance/documentation-history/DOCUMENTATION_REVIEW_SCHEDULE.md](docs/governance/documentation-history/DOCUMENTATION_REVIEW_SCHEDULE.md)
 - [docs/PR_DOCUMENTATION_CHECKLIST.md](docs/PR_DOCUMENTATION_CHECKLIST.md)
 - [docs/de/development/SOURCE_CODE_AUDIT.md](docs/de/development/SOURCE_CODE_AUDIT.md)

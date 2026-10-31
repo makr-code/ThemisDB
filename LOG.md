@@ -117,3 +117,10 @@ Zuletzt geprueft (Root-Sync): 2026-07-28
 - Aktion: Abgeschlossene Adapter- und Doxygen-Berichte sowie Architektur-Prompts nach `docs/ARCHIVED/root-reports/2026-10-31/` verschoben; betroffene Referenzen aktualisiert.
 - Abgrenzung: Aktive Root-Navigation und Governance bleiben im Repository-Root; historische Berichte sind nicht normativ.
 - Relevanz fuer AI-Wiki: Der Root-Index verweist auf aktive Einstiegspunkte und benennt das neue Berichtsarchiv.
+
+## [2026-10-31] readme-navigation-refresh | README und Docs-Einstiege aktualisiert
+
+- Quellen: `ROADMAP.md`, `QUICKSTART.md`, `SETUP.md`, `BRANCHING_STRATEGY.md`, `DOCUMENTATION_GOVERNANCE.md`, `docs/README.md`.
+- Aktion: Veraltete Release-/Modulstatus-Snapshots und Dopplungen aus `README.md` entfernt; Root- und Dokumentationsnavigation auf kanonische Einstiegsseiten ausgerichtet.
+- Aktion: Veraltete Version, Marketing-Metriken und nicht mehr gültige Wiki-Pfade aus `docs/Home.md` entfernt; sprachneutrale Weiterleitung auf gepflegte Indizes eingerichtet.
+- Relevanz fuer AI-Wiki: README und Docs-Home verweisen für Status und Release-Reife auf die kanonische Roadmap statt eigene Statuswahrheiten zu führen.

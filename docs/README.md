@@ -1,13 +1,25 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-09-21"
-Last Updated: "2026-09-21"
+Last Updated: "2026-10-31"
 Status: "active"
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
 ---
+
+[docs](README.md) > [de](de/README.md) > [index](README.md)
+
+**Datum:** 2026-10-31  
+**Status:** active  
+**Primary (Quelle der Wahrheit):** `docs/README.md`, `docs/de/README.md`, `docs/en/README.md`  
+**Bezug / Reference:** Root navigation for maintained documentation in `docs/`.
 
 # ThemisDB Documentation
 
-Last updated: 2026-09-21
+Exact model backend not verifiable from final document text alone.
 
 This file is the main entry point for documentation navigation in the `docs/` directory.
 
@@ -41,17 +53,18 @@ Use these links for day-to-day product usage and operations:
 - Docs PR policy: [governance/DOCS_PR_POLICY.md](governance/DOCS_PR_POLICY.md)
 - **Documentation restructuring plan (As-Is → To-Be, migration roadmap):** [../DOCUMENTATION_RESTRUCTURING_PLAN.md](../DOCUMENTATION_RESTRUCTURING_PLAN.md)
 
-## Root cleanup rule
 ## Dokumentations-Toolchain
 
 - Konsolidierter Build-/Preview-/Publish-Flow: [README-DOCUMENTATION.md](README-DOCUMENTATION.md)
 
-## Root-Aufraeumregel
+## Documentation layout and maintenance
 
-The `docs/` root should contain only:
+Keep the `docs/` root focused on:
 - entry points and navigation
 - cross-cutting guides with long-term value
 - clearly named top-level hubs
 
-Working notes, temporary review files, and old implementation summaries should be moved to subfolders such as `archive/`, `implementation-history/`, or module-specific directories.
-Arbeitsnotizen, temporaere Review-Dateien und alte Implementierungszusammenfassungen gehoeren in Unterordner wie `archive/`, `implementation-history/` oder modulspezifische Bereiche.
+Move working notes, temporary review files, and completed implementation
+summaries into governed archive/history or module-specific directories. Follow
+[Documentation Governance](../DOCUMENTATION_GOVERNANCE.md) and the
+[documentation restructuring plan](../DOCUMENTATION_RESTRUCTURING_PLAN.md).
