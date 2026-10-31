@@ -1,7 +1,31 @@
-# Audit Report - Retrieval Module
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "archived"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "ThemisDB documentation orchestration assistant"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "README.md"
+  - "ARCHITECTURE.md"
+  - "ROADMAP.md"
+---
 
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+Exact model backend not verifiable from final document text alone.
+
+# Historical audit snapshot — 2026-06-01
+
+The findings and pass/fail values below are retained as a historical record
+from the date shown. They are stale and were not refreshed in this change.
+In particular, the source-count, deferred implementation, test/benchmark,
+roadmap-phase, and compliance statements do not describe the current tree.
+Use the module README, architecture, and roadmap for the current source
+inventory; do not treat this snapshot as a current audit or release approval.
 
 ## Summary
 

@@ -1,12 +1,12 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "GitHub Copilot"
-AI_Contributor: "GitHub Copilot"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "ThemisDB documentation orchestration assistant"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
@@ -16,64 +16,64 @@ Exact model backend not verifiable from final document text alone.
 
 ## Purpose
 
-This document captures the current trust boundary of the retrieval module as implemented in source. The module's trust responsibilities are narrow but important: it governs adapter integrity, lifecycle state, and retrieval regression evaluation.
+This document describes only source-level behavior. The module does not establish a deployment trust policy or govern lifecycle transitions.
 
 ## Trust boundaries
 
 ### 1. Artifact boundary
 
-The principal trust boundary is the `LoRAPackage` / `PortableAdapterProduct` lifecycle. These objects are not treated as neutral data; they encode policy, provenance, and integrity. The implementation treats them as trust-bearing assets.
+`LoRAPackage` and `PortableAdapterProduct` are data structures with provenance, policy, integrity, and status fields. The presence of these fields does not enforce a trust policy.
 
 The boundary breaks down as follows:
 
-- package metadata is inserted into a manifest store,
-- integrity is checked via hashing and verification helpers,
-- deployment status is controlled by lifecycle state,
-- a package is not considered safe to use without a verified state and policy context.
+- records are inserted into an in-memory manifest store;
+- manifest SHA-256 can be recomputed and compared by explicit verification calls;
+- status values are serialized metadata; the store does not enforce transitions;
+- deployment authorization and safe-use decisions are outside this module.
 
 ### 2. Retrieval evaluation boundary
 
-The second boundary is the metric comparison path in `DualReadValidator`. Here the critical trust question is simple: is the current retrieval state meaningfully better or worse than the prior known-good state?
+The second surface is metric computation in `DualReadValidator`. Its query executor is a placeholder, so the current API does not compare actual index outputs.
 
-The implementation avoids ungrounded claims by requiring explicit ground truth and metric computation. It does not treat a new retrieval score as authoritative in the absence of evaluation data.
+Ground truth is provided as a map by `SetGroundTruth()`; missing entries return empty data. `ValidateQuery()` computes current-result metrics, logs previous-result recall, and does not return a comparison delta. No live retrieval trust gate is implemented.
 
 ## Risk model
 
 The main risks are:
 
-- tampered artifact metadata,
-- invalid or missing hash chains,
-- unauthorized adapter deployment,
-- retrieval regression hidden by silhouette metrics or stale ground truth,
-- silent trust drift between package status and runtime deployment state.
-
-These are precisely the risks that the current design tries to surface with explicit state transitions and verification logic.
+- records accepted by CRUD operations without semantic validation;
+- confusion between manifest-hash verification and signature authenticity;
+- stale or absent caller-supplied ground truth;
+- interpreting empty placeholder results or synthetic tests as retrieval evidence;
+- assuming artifact status fields enforce deployment policy.
 
 ## Controls in source
 
 The current source-level controls include:
 
-- deterministic canonical JSON serialization,
-- SHA-256 integrity checking,
-- explicit status enums for package and product lifecycle states,
-- mutex-protected manifest storage,
-- ground-truth-aware metric evaluation,
-- fail-closed behavior when no valid evaluation signal exists.
+- canonical JSON serialization and SHA-256 manifest-hash verification;
+- an optional verifier callback, invoked only when it is configured and a
+  signature is present;
+- mutex-protected, process-local package/product maps;
+- metric helper functions, with empty metrics for empty results/ground truth.
+
+These are limited code-level mechanisms, not a complete trust or security
+system. In particular, unsigned artifacts can pass hash verification, and
+neither storage persistence nor lifecycle/deployment enforcement is present.
 
 ## Incident handling
 
-If a package integrity or retrieval regression incident occurs:
-
-1. quarantine the impacted package or index,
-2. compare with the last known-good artifact or retrieval baseline,
-3. preserve evidence from the manifest store and evaluation logs,
-4. prevent further deployment until the cause is understood,
-5. document the remediation and rollback action in the runbook.
+Incident handling, quarantine, rollback, and evidence retention are not
+implemented by this module. The consuming system must define those procedures;
+the module's in-memory store is not durable incident evidence.
 
 ## Trust posture
 
-The module is intentionally conservative. It is designed to prefer explicit failure and clear evidence over optimistic permissiveness. That trust posture is appropriate for an early-stage retrieval foundation used to guard model adaptation and evaluation quality.
+The source provides narrow hash and metric helpers, but does not by itself
+establish a production trust posture. Do not infer safety or readiness from
+the field names, test-local trust registry, or placeholder validator.
 
 ## Conclusion
 
-The retrieval module's trust model is operationally simple: packages and retrieval quality are treated as evidence-bearing artifacts that must be verified and measured before they are trusted. That is the correct boundary until broader retrieval rollout and full multi-shard deployment are ready.
+See [security boundaries](SECURITY.md), [API behavior](API.md), and
+[architecture](ARCHITECTURE.md) for the verified implementation limits.

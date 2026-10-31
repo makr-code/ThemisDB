@@ -1,14 +1,24 @@
-# RETRIEVAL DOXYGEN
+---
+Author: "ThemisDB Contributors"
+Created: "2026-09-20"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "ThemisDB documentation orchestration assistant"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
 
-Author: ThemisDB Contributors
-Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+# Retrieval Doxygen snapshot
 
-## Source
-- This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\retrieval\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\retrieval\doxygen-warnings.log`
+Exact model backend not verifiable from final document text alone.
+
+## Source note
+- This derived report was generated on 2026-09-20 from retrieval-scoped Doxygen XML.
+- The original machine-local XML and warnings-log paths are not repository references and are not available as canonical sources here.
+- Source paths recorded below are relative to the repository. This report is a snapshot, not the canonical API reference; verify declarations against source headers.
+- Test and benchmark types in this output include test-local mocks and stubs, not production retrieval components.
 
 ## Structure Metrics
 - C/C++ Files (scanned): 8
@@ -848,4 +858,3 @@ Status: active
 - Brief: n/a
 - Parameters:
   - `other` (const RetrievalResult &): n/a
-

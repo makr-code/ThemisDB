@@ -1,12 +1,12 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "GitHub Copilot"
-AI_Contributor: "GitHub Copilot"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "ThemisDB documentation orchestration assistant"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
@@ -16,7 +16,7 @@ Exact model backend not verifiable from final document text alone.
 
 ## Scope
 
-This document covers the API surfaces that are actually present in the current source tree for the retrieval module. It focuses on the public contract in `src/retrieval/include/lora_package.h` and the validation helper in `src/retrieval/include/retrieval/dual_read_validator.h`.
+This page describes the checked-in artifact declarations in `src/retrieval/include/lora_package.h` and the validator declarations in `include/retrieval/dual_read_validator.h`. These are separate surfaces: the `themis_retrieval` library compiles the LoRA artifact implementation; `dual_read_validator.cpp` is not in that target's source list. `include/retrieval/retrieval.h` is an umbrella placeholder with no includes or declarations.
 
 ## Public artifact contract
 
@@ -43,7 +43,7 @@ The type exposes serialization and helper methods:
 
 ### `PortableAdapterProduct`
 
-`PortableAdapterProduct` models the deployable, model-bound adapter result. It includes:
+`PortableAdapterProduct` models metadata for a model-bound adapter product. The structure alone does not build or deploy a product. It includes:
 
 - product identity, source package linkage, and runtime binding
 - target model architecture and quantization details
@@ -60,7 +60,7 @@ The class exposes:
 
 ### `LoRAManifestStore`
 
-`LoRAManifestStore` provides the registry surface for persisted artifact state. The API includes:
+`LoRAManifestStore` is an in-memory registry backed by `std::unordered_map` containers and a mutex. The API includes:
 
 - `setSignatureVerifier(...)`
 - `storePackage(...)` / `loadPackage(...)` / `deletePackage(...)`
@@ -72,7 +72,7 @@ The class exposes:
 - `exportProducts()` / `importProducts(...)`
 - `packageCount()` / `productCount()`
 
-This is the operational API for integrity-aware package management.
+CRUD and import/export operate on this process-local store; they do not provide persistence or enforce lifecycle/deployment policies.
 
 ## Integrity helper API
 
@@ -104,32 +104,26 @@ It exposes:
 
 ### `DualReadValidator`
 
-`DualReadValidator` compares a current index against a previous one using a shared query and ground-truth state.
-
-The API includes:
+`DualReadValidator` accepts current and previous index path strings and uses a query-to-judgments map supplied through `SetGroundTruth()`. Its public API includes:
 
 - constructor with current index path and previous index path
-- `ComputeRecallAtK(...)`
-- `ComputeNdcgAtK(...)`
-- `ComputeMrrAtK(...)`
-- `ExecuteQuery(...)`
-- `ComputeMetrics(...)`
 - `ValidateQuery(...)`
 - `ValidateQueryBatch(...)`
 - `GetGroundTruth(...)`
 - `SetGroundTruth(...)`
 
-This is a validation API, not a broad retrieval execution framework.
+`RetrievalMetrics` also exposes `HasRegression(...)` and `ComputeDeltas(...)`. The private `ExecuteQuery()` currently returns an empty vector. `ValidateQuery()` returns current and previous result vectors and metrics for the current results; it only logs the previous recall and does not return a comparison delta. Missing judgments return an empty vector. Empty results or ground truth produce zero-valued quality metrics. Batch metrics average per-query recall, nDCG, and MRR when the batch is nonempty. The `Compute*AtK` and `ComputeMetrics` helpers are private implementation methods.
 
 ## Edge cases and contract expectations
 
-The source is clear about the following expectations:
+The source establishes the following behavior:
 
-- missing or malformed JSON should fail rather than silently coerce data,
-- empty ground-truth sets produce zero-valued metric output rather than false positives,
-- all verification paths are explicit and inspectable,
-- lifecycle status and deployment gating are part of the contract, not incidental metadata.
+- `from_json()` requires selected identity fields but reads many remaining fields optionally; do not assume every absent field is rejected.
+- empty ground-truth input produces zero-valued quality metrics.
+- manifest verification fails for missing records, missing manifest hashes, or hash mismatches.
+- the optional signature verifier runs only if a verifier callback is configured and the artifact has a non-empty signature. A missing callback or signature does not itself fail verification when the manifest hash matches.
+- lifecycle enums are stored/serialized metadata; the store does not enforce transitions or deployment gates.
 
 ## Conclusion
 
-The module's active API is narrow but disciplined: it exposes the package lifecycle and integrity contract, plus the retrieval-quality regression check needed to compare retrieval behavior across index versions.
+The checked-in API is narrow: an in-memory LoRA artifact manifest helper and a dual-read metrics helper whose query executor remains a placeholder. It is not evidence of a complete retrieval runtime or production deployment system.

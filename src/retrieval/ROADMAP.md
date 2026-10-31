@@ -1,20 +1,49 @@
-# Retrieval Module Roadmap
+---
+Author: "ThemisDB Contributors"
+Created: "2026-07-06"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "ThemisDB documentation orchestration assistant"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "README.md"
+  - "ARCHITECTURE.md"
+  - "CMakeLists.txt"
+  - "include/lora_package.h"
+  - "src/lora_package.cc"
+  - "../../include/retrieval/dual_read_validator.h"
+  - "../../include/retrieval/retrieval.h"
+  - "../../tests/retrieval/CMakeLists.txt"
+  - "../../benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp"
+---
 
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-16 -->
-<!-- Status: current | validated: 2026-07-06 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
-<!-- Rollout Plan: ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md -->
+Exact model backend not verifiable from final document text alone.
 
-## Current Status
+# Retrieval Module Roadmap and status
 
-Phase 3 (Issue #5416) delivered: LoRAPackage and PortableAdapterProduct artifact
-classes, serialization APIs, integrity helpers, and LoRAManifestStore implemented.
-55 GTest cases and a Google Benchmark suite are in place.
+## Verified current state (2026-10-31)
 
-**Hybrid Retrieval Rollout**: staged rollout plan mapped to module readiness in
-`ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md` (issue #5468). Four phases: A (exact-first),
-B (local tensor + ANN), C (distributed coordination), D (optional GPU).
+- `themis_retrieval` is a static C++17 target built from `src/lora_package.cc`; it is enabled by default through `THEMIS_BUILD_RETRIEVAL`.
+- `LoRAManifestStore` is mutex-protected in-memory storage with package/product CRUD, import/export, manifest-hash verification, and an optional signature-verifier callback. It is not persistent and does not enforce lifecycle or deployment policy.
+- `DualReadValidator` is declared in `include/retrieval/dual_read_validator.h`; its `ExecuteQuery()` returns an empty result vector. `ValidateQuery()` does not return a comparison delta.
+- Five focused retrieval test sources exist under `tests/retrieval/`; several are test-local mocks or stubs. The dedicated benchmark is synthetic routing and stub CPU/GPU work.
+- No production retrieval runtime, runtime configuration system, production benchmark baseline, or production-readiness approval is established by these files.
+
+The remainder of this file retains an older rollout plan as historical
+planning material. Its checkboxes, issue statuses, test/benchmark results,
+release gates, and target dates have not been independently revalidated and
+must not be read as current implementation or approval evidence. In
+particular, statements about Phase A-D, EPIC delivery, soak tests, observability,
+and production enablement are historical claims only. Update or retire this
+planning record only after the relevant owners and canonical evidence are
+identified.
+
+## Historical rollout plan (unverified snapshot)
 
 ## In Progress
 

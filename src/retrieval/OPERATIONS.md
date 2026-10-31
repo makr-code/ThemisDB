@@ -1,12 +1,12 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "GitHub Copilot"
-AI_Contributor: "GitHub Copilot"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "ThemisDB documentation orchestration assistant"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
@@ -16,17 +16,17 @@ Exact model backend not verifiable from final document text alone.
 
 ## Purpose
 
-This document captures how the retrieval module is operated today. It is grounded in actual source behavior, especially the LoRA artifact lifecycle and retrieval regression checks already implemented in the module.
+This document records the limited callable behavior and operational boundaries of the current code. It is not a deployment runbook or an assertion that the module is operating in production.
 
 ## Operational responsibilities
 
-The current retrieval module is responsible for three narrow but important operations:
+The checked-in code exposes these narrow operations:
 
-1. maintain a source-of-truth package registry for adapter artifacts,
-2. verify hash and signature-related integrity before a package is trusted,
-3. compare current retrieval quality against a prior baseline using explicit metrics.
+1. keep packages and products in a process-local, mutex-protected map,
+2. allow callers to verify manifest hashes and optionally invoke a signature callback,
+3. compute metrics from explicitly supplied result and ground-truth vectors.
 
-This is a governance and validation role, not a full-stage retrieval platform role.
+These APIs do not enforce artifact governance or perform live retrieval validation.
 
 ## Runtime inputs and outputs
 
@@ -47,55 +47,55 @@ Outputs include:
 - verification booleans,
 - export/import payloads.
 
-### Dual-read validation
+### Dual-read metrics helper
 
 Inputs include:
 
-- index path and evaluation path,
-- query text,
-- result list,
-- ground-truth judgment list.
+- for `ValidateQuery()`: query text and top-k, with judgments previously supplied through `SetGroundTruth()`;
+- for metric helpers: a caller-provided result vector and ground-truth vector.
 
 Outputs include:
 
-- recall / nDCG / MRR values,
-- delta values between current and prior evaluation,
-- validation summary and aggregate metrics.
+- current-result recall / nDCG / MRR values,
+- previous result vectors (currently empty because `ExecuteQuery()` is a placeholder),
+- batch averages for nonempty batches.
+
+`ValidateQuery()` does not return the previous metrics or a current-versus-previous delta. `RetrievalMetrics::HasRegression()` and `ComputeDeltas()` are separate helpers that callers can invoke with metrics they already have.
 
 ## Monitoring signals
 
-The existing source produces operationally useful signals through logs and explicit return values.
+The source logs method-level diagnostics and returns helper results; it does not provide production monitoring or audit signals.
 
 Key signals to watch:
 
-- verification failures,
-- a missing ground-truth cache,
-- regression deltas outside the configured tolerance,
-- lifecycle transitions into `DEPRECATED` or `REVOKED`,
-- manifest or signature mismatches during import.
+- a false result from explicit manifest verification,
+- a warning when a query has no cached ground truth,
+- metric helper results supplied to `HasRegression()` by a caller.
+
+The store does not emit lifecycle-transition or audit events. The signature callback is only invoked when configured and a signature is non-empty; absence of either does not fail a matching manifest hash.
 
 ## Safety posture
 
-The module follows a fail-closed posture:
+The module does not implement a general fail-closed operational policy:
 
-- missing or malformed package metadata should block trust,
-- invalid signature or hash states are not silently ignored,
-- retrieval metrics are only meaningful with explicit ground truth,
-- a regression should lead to operator review, not automatic promotion.
+- selected missing/malformed JSON fields can throw, while many fields remain optional,
+- explicit hash verification returns false for missing records, empty manifest hashes, or hash mismatches,
+- metrics are only informative when supplied with real results and judgments,
+- no automatic promotion/rollback decision is implemented.
 
-## Operational checklist
+## Caller-side considerations (not module controls)
 
-Before shipping or promoting retrieval-related code, confirm:
+If an application builds on these APIs, it must independently decide:
 
-- [ ] all package hashes are verifiable,
-- [ ] artifact status transitions are intentional and auditable,
-- [ ] query ground truth is loaded before metric comparison,
-- [ ] regression thresholds are reviewed before enabling a rollout,
-- [ ] fallback conditions are documented for the current index or manifest store.
+- how artifact data is persisted and protected,
+- whether signatures are mandatory and which trusted verifier is used,
+- how lifecycle/deployment authorization is enforced,
+- how real retrieval results and ground truth are obtained,
+- how verification failures and operational recovery are handled.
 
 ## Failure handling
 
-The recommended flow on failure is:
+The following are application-owner actions, not behavior implemented by this module:
 
 1. stop trust progression for the impacted artifact or index,
 2. capture the exact mismatch or metric delta,
@@ -105,4 +105,4 @@ The recommended flow on failure is:
 
 ## Conclusion
 
-Operationally, the retrieval module should be treated as a controlled trust and measurement layer. It protects artifact integrity and makes retrieval quality explicit before the broader retrieval stack matures.
+No independent runtime configuration or production operator procedure is provided here. See [module limits](README.md), [API behavior](API.md), and [security boundaries](SECURITY.md).

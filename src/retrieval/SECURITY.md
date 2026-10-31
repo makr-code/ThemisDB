@@ -1,36 +1,59 @@
-# Retrieval Module Security
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "ThemisDB documentation orchestration assistant"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "README.md"
+  - "API.md"
+  - "include/lora_package.h"
+  - "src/lora_package.cc"
+  - "../../include/retrieval/dual_read_validator.h"
+  - "dual_read_validator.cpp"
+---
 
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ARCHITECTURE.md · AUDIT.md -->
+Exact model backend not verifiable from final document text alone.
 
-## Scope
+# Retrieval module security boundaries
 
-This file documents security posture for EPIC 1 retrieval contracts in scaffold phase.
-Current files define interfaces and ownership boundaries; production runtime logic is
-tracked in later delivery phases.
+## Implemented code-level checks
 
-## Security Posture (Current)
+- The artifact library computes manifest SHA-256 values and compares a stored
+  manifest hash with a recomputed canonical representation.
+- `LoRAManifestStore` protects its in-memory package/product maps and verifier
+  callback with a mutex.
+- A signature-verifier callback is optional. It is called only when configured
+  and when the artifact has a non-empty signature. A matching manifest hash
+  can pass verification when either is absent; the code does not establish a
+  mandatory-signature policy.
+- `from_json()` checks selected required fields but treats many other fields
+  as optional. `storePackage()` and `storeProduct()` check for a non-empty ID,
+  not a deployment authorization or lifecycle transition.
+- The dual-read query executor returns no results. Its metrics therefore do
+  not validate a live index or provide a production security gate.
 
-- module documentation files are present and reviewed
-- contract headers (`*.h`) and implementation files (`*.cc`) are planned but deferred to the implementation PR
-- no claims are made about completed production-hardening behavior
-- phase-gated rollout requires explicit tests before production enablement
+## Not provided by this module
 
-## Primary Risks to Track
+The checked-in target provides no persistent or access-controlled store, key
+management, signer trust registry, deployment authorization, lifecycle-policy
+enforcement, audit event system, runtime configuration, or production
+retrieval path. Tests that use a local signer registry or hybrid retrieval
+mock do not implement these controls in the library.
 
-1. input validation gaps once retrieval payload handling becomes active
-2. policy drift between model switch, graph validation, and observability contracts
-3. incomplete degraded-mode behavior for optional retrieval backends
-
-## Required Controls for Phase Advancement
-
-- explicit validation/error semantics in each EPIC 1 contract
-- fail-closed behavior for unsupported capability paths
-- contract and edge-case tests in `tests/epic1_retrieval/`
-- benchmark-backed regressions before default pipeline enablement
+Do not treat this page as a production security certification. The consuming
+application must determine and document its own security policy and integration
+controls; those requirements are not defined by the present module code.
 
 ## References
 
-- `src/retrieval/include/README.md`
-- `src/retrieval/src/README.md`
-- `src/retrieval/ROADMAP.md`
+- [API reference](API.md)
+- [Architecture](ARCHITECTURE.md)
+- [Trust boundary notes](TRUST.md)
+- [Focused tests and their limits](../../tests/retrieval/README.md)

@@ -1,12 +1,12 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "GitHub Copilot"
-AI_Contributor: "GitHub Copilot"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "ThemisDB documentation orchestration assistant"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
@@ -16,7 +16,7 @@ Exact model backend not verifiable from final document text alone.
 
 ## Purpose
 
-This runbook covers the operational actions for the currently implemented retrieval module surfaces: LoRA artifact integrity management and dual-read retrieval regression checks.
+This page is guidance for an application integrating the module, not an operator runbook for a production retrieval service. The module itself has no persistent store, deployment controls, or live index query path. `DualReadValidator::ExecuteQuery()` returns an empty result vector, and `ValidateQuery()` does not return a comparison delta.
 
 ## Common symptoms
 
@@ -26,12 +26,12 @@ Symptoms:
 
 - `verifyPackageIntegrity()` or `verifyProductIntegrity()` returns false,
 - manifest hash does not match the canonical JSON representation,
-- a package is marked as invalid or suspicious during import.
+- a caller's import or verification handling reports an issue.
 
 Action:
 
 1. Recompute the artifact manifest using the canonical JSON serialization path.
-2. Validate the reported `weights_hash` and `manifest_hash`.
+2. Recompute and compare the manifest hash. This API does not read or verify the referenced weight file.
 3. Confirm whether the package was imported from an untrusted source or tampered with.
 4. Reject or quarantine the artifact before deployment.
 
@@ -43,9 +43,9 @@ Escalation:
 
 Symptoms:
 
-- `RetrievalMetrics::HasRegression()` indicates a downgrade,
-- recall, nDCG, or MRR falls outside the expected tolerance threshold,
-- current results show a clear delta against previous index evaluation.
+- a caller-supplied pair of `RetrievalMetrics` makes `HasRegression()` return true.
+
+`ValidateQuery()` does not calculate this comparison; its current/previous query result vectors are empty because the executor is a placeholder.
 
 Action:
 
@@ -63,7 +63,7 @@ Escalation:
 Symptoms:
 
 - `GetGroundTruth()` returns nothing,
-- dual-read validation reports zero or surprising values,
+- metrics are zero or surprising,
 - warning logs note that no ground truth is cached for the query.
 
 Action:
@@ -77,8 +77,8 @@ Action:
 Use the following checklist before rollout or promotion:
 
 - [ ] artifact hashes have been recomputed and verified,
-- [ ] package status is consistent with the lifecycle policy,
-- [ ] signature verification callback is configured for untrusted imports,
+- [ ] the consuming application has defined how status fields are interpreted; this store does not enforce transitions,
+- [ ] the consuming application has decided whether signatures are mandatory; the callback is optional in this implementation,
 - [ ] all critical queries have ground truth loaded,
 - [ ] regression deltas are reviewed before promoting a new retrieval build,
 - [ ] package or product records are not silently reclassified without evidence.
@@ -87,7 +87,7 @@ Use the following checklist before rollout or promotion:
 
 ### Recovery from bad package state
 
-- remove or quarantine the bad package from the manifest store,
+- remove the bad package from this process-local store if appropriate; quarantine requires an external system,
 - confirm that no derived product continues to reference the invalid package,
 - restore the last valid package version if necessary,
 - re-run integrity verification on all restored artifacts.
@@ -110,4 +110,4 @@ Escalate to module or release ownership when:
 
 ## Conclusion
 
-The runbook is intentionally conservative: the module is only safe when artifact integrity and retrieval quality are explicit, measured, and traceable.
+These are application-side response suggestions, not implemented module controls. The in-memory manifest store is not durable incident evidence, and no rollback, quarantine, or alerting mechanism is provided by this module.

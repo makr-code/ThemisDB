@@ -1,43 +1,44 @@
-# Retrieval Module - Future Enhancements
+---
+Author: "ThemisDB Contributors"
+Created: "2026-09-24"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "ThemisDB documentation orchestration assistant"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "README.md"
+  - "ROADMAP.md"
+  - "API.md"
+  - "PERFORMANCE_EXPECTATIONS.md"
+---
 
-<!-- Status: current | validated: 2026-09-24 -->
-<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
+Exact model backend not verifiable from final document text alone.
 
-## Scope
+# Retrieval follow-up questions
 
-- transition EPIC 1 retrieval contracts from scaffold to production behavior
-- deepen reliability, observability, and policy controls across retrieval layers
-- complete benchmark-backed readiness gates for release integration
+This is a non-normative list of open questions, not a delivery commitment or
+approved feature plan. The checked-in module currently provides an in-memory
+LoRA artifact manifest helper and a separate dual-read metrics helper whose
+query executor is a placeholder.
 
-## Design Constraints
+## Unresolved design and ownership questions
 
-- keep contract compatibility within the active major release line
-- preserve explicit dependency sequencing with EPIC 2 and EPIC 3
-- fail safely when optional backend capabilities are unavailable
+- Is a persistent manifest backend intended, and if so, which owning module
+  and security policy define its storage, key management, and retention?
+- Is a real index integration for `DualReadValidator` intended? Identify the
+  authoritative query API and test owner before specifying behavior.
+- Are ANN, hybrid retrieval, embedding, reranking, shard coordination, or GPU
+  paths in scope for this module? No such implementation is established by
+  the current source.
+- What representative workload and hardware would support future performance
+  acceptance? The existing benchmark is synthetic and cannot set a baseline.
 
-## Planned Enhancement Themes
-
-1. runtime hardening for error handling and degraded-mode behavior
-2. deeper contract and scenario test coverage for multi-stage retrieval flows
-3. benchmark-backed performance envelopes and release gates
-4. clearer operational diagnostics for policy/governance decisions
-
-## Validation Strategy
-
-- expand `tests/epic1_retrieval/` for contract, edge-case, and integration scenarios
-- implement `benchmarks/epic1_retrieval/` for stage-level and end-to-end profiling
-- promote only after roadmap phase-gate criteria are satisfied
-
-## RAG-Readiness Audit Backlog (2026-09-23)
-
-- [ ] Retrieval-Scopes zwischen README/ROADMAP/Future Enhancements konsolidieren (Target: Q4 2026)
-  - Rationale: Aktuelle Modultexte enthalten widerspruechliche Reifeaussagen (Scaffold vs. fortgeschrittener Rollout).
-  - Umsetzungsschritte: (1) deklarativen Ist-Scope fuer `src/retrieval` festschreiben, (2) nicht gelieferte EPIC-Surfaces explizit als geplant markieren, (3) Verweise auf `src/rag`/`src/index` fuer aktive Retrieval-Pfade klaeren.
-  - Abhaengigkeiten: `src/retrieval/README.md`, `src/retrieval/src/README.md`, `src/retrieval/ROADMAP.md`.
-  - Messbares DoD: Keine widerspruechlichen Reifestatus mehr in retrieval-nahen Moduldokumenten; alle Claims source-verifizierbar.
-
-- [ ] Verbindlicher Delivery-Entscheid fuer EPIC1 Retrieval-Sources (Target: Q1 2027)
-  - Rationale: Fuer RAG-Planbarkeit muss klar sein, welche Retrieval-Surfaces real geliefert werden oder dauerhaft out-of-scope bleiben.
-  - Umsetzungsschritte: (1) pro geplanter Source (`ann_frontdoor`, `tensor_midlayer`, `graph_validator`, ...) Entscheidung `implementieren` vs `retiren`, (2) Gate-Kriterien je Entscheidung, (3) CMake/Test-Mapping.
-  - Abhaengigkeiten: `src/index`, `src/query`, `src/rag`, `tests/epic1_retrieval`.
-  - Messbares DoD: 100% der EPIC1-Sources haben Status + Termin + Test-Gate; kein "unassigned"-Eintrag.
+No phase dates, acceptance thresholds, or production-readiness commitments are
+assigned here. Those need an owner and canonical source before they can be
+documented. See the [verified status](ROADMAP.md) and
+[performance evidence](PERFORMANCE_EXPECTATIONS.md).
