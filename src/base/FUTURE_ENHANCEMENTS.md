@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-07-27"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Base Module - Future Enhancements
 
 <!-- Status: current | validated: 2026-07-27 -->
@@ -12,7 +26,7 @@
 ## Design Constraints
 
 - base runtime contracts remain backward compatible within major release line.
-- module activation paths remain fail-closed for trust/integrity violations.
+- activation should fail closed for configured trust/integrity checks; universal enforcement is not established across all load settings.
 - sandbox/runtime execution remains bounded and observable.
 - reload transitions remain deterministic and rollback-capable.
 
@@ -39,7 +53,7 @@
   success/failure cycles, multiple modules registered with callbacks invoked in order,
   and state save/restore callback error isolation. Completed 2026-07-27 (Issue #5631).
 
-- `benchmarks/bench_base_hot_paths.cpp` provides the base hot-path release gates:
+- `benchmarks/base/bench_base_hot_paths.cpp` provides the base hot-path release gates:
   GATE-BASE-01 (isModuleLoaded ≥500k ops/s), GATE-BASE-02 (getMetrics ≥100k ops/s),
   GATE-BASE-03 (registeredModules p99 ≤5µs at 10 modules), GATE-BASE-04
   (isRollbackAvailable p99 ≤1µs), GATE-BASE-05 (buildFromResolver 100-node chain ≤1ms),
@@ -55,7 +69,7 @@
   (format prefix consistency, resolveDescription/isKnownCode coverage). 10 test suites,
   55+ GTest cases. Completed 2026-07-27 (Issue #5631).
 
-- `benchmarks/bench_base_wasm_sandbox.cpp` delivers the mid-term dedicated microbenchmark
+- `benchmarks/base/bench_base_wasm_sandbox.cpp` delivers the mid-term dedicated microbenchmark
   targets (Q1 2027): GATE-BASE-07 (WasmPluginSandbox loadFromBytes valid WASM),
   GATE-BASE-08 (loadFromBytes invalid bytes fast-fail), GATE-BASE-09 (AbiChecker
   checkVersions throughput), GATE-BASE-10 (BaseErrorTaxonomy resolveDescription/format),
@@ -71,6 +85,14 @@
 - dependency conflict and rollback regression scenarios.
 - degraded backend and registry fault-path deterministic tests.
 - release-profile benchmark runs for mapped base targets.
+
+**Registration evidence (2026-10-31):** `tests/CMakeLists.txt` discovers module
+CMake files with `CONFIGURE_DEPENDS` and adds `tests/base/`. Its `test_*.cpp`
+targets are registered as focused unit tests; the separate focused soak target
+has a 7200-second timeout and `soak` label. The helper supplies
+`module:base`, `tier:unit`/`tier:soak`, `kind:focused`, and `focus` labels; the
+local CMake file adds `base` and `soak`. This establishes CMake registration,
+not successful compilation or test execution.
 
 ## Performance Targets
 

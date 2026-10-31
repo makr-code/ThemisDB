@@ -1,12 +1,12 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
-AI_Models: "GitHub Copilot, MAI-Code-1.1-Flash"
-AI_Contributor: "GitHub Copilot"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
@@ -16,7 +16,10 @@ Exact model backend not verifiable from final document text alone.
 
 ## Model summary
 
-The base module is modeled as a lifecycle-control layer around modular execution. The primary state model is not “module exists on disk,” but “module is known, validated, isolated, and either active or recoverable.”
+The base area is modeled as a lifecycle-control layer around modular execution.
+The loader tracks more than file existence; validation depends on configured
+checks, isolation is optional/platform-dependent, and module state is reported
+through the lifecycle API.
 
 The concrete modeling primitives are:
 
@@ -25,7 +28,7 @@ The concrete modeling primitives are:
 - `ModuleFailureHistory` for failure accounting and backoff/quarantine behavior
 - `PluginDependencyGraph` for dependency topology and ordering
 - `ModuleSandbox` and `WasmPluginSandbox` for execution boundaries
-- `HotReloadManager` for atomic swap + rollback states
+- `HotReloadManager` for candidate loading, reload results, and rollback state
 - `ABTestManager` for experiment-controlled rollout decisions
 
 ## Structural model
@@ -66,28 +69,27 @@ Execution boundaries are modeled as a layered concept:
 
 ### 4. Reload model
 
-The hot reload model is an operational state machine rather than a simple file replacement. The key lifecycle steps are:
+The hot reload model is an operational state machine rather than a simple file replacement. Its current implementation creates an availability gap while replacing a module; emergency restoration after a failed final load is best-effort. Its key steps include:
 
 1. validate the registered module and ensure the old version is still the current one,
 2. save state where configured,
 3. notify `BEFORE_UNLOAD`,
-4. load the candidate artifact,
-5. unload the old module,
-6. finalize the new module under the canonical name,
-7. preserve a rollback slot until the new version is stable.
+4. load the candidate artifact under a temporary key,
+5. unload the old module and temporary candidate,
+6. load the candidate again under the canonical name,
+7. preserve rollback information according to configuration and operation outcome.
 
-The design does not permit a lazy “just point the registry at a new binary” operation. It requires a deterministic transitional path.
+The implementation has explicit transition/error handling, but it does not guarantee uninterrupted availability or successful emergency restoration.
 
 ## Invariants
 
 The source implies the following invariants:
 
-- a module is not considered active until verification and health checks pass,
+- configured verification/health checks must pass before the loader advances through the corresponding activation stages,
 - incompatible ABI versions must not be activated,
 - optional dependencies do not create hard-load ordering requirements,
-- a reload must not mutate the old module identity silently while the new binary is still unproven,
-- rollback must remain available while the old module can still be repointed,
-- runtime execution must remain constrained under memory and CPU pressure.
+- callers must inspect reload results; rollback is configurable and only available when a backup exists,
+- configured runtime constraints apply only where the relevant backend/platform supports them.
 
 ## Failure domains
 
@@ -116,4 +118,4 @@ This separation is the foundation of the module’s safety model.
 
 ## Consequences for changes
 
-Any change that modifies module loading, dependency ordering, WAASM runtime injection, or reload semantics must preserve the above invariants. A patch that weakens verification or allows unsafe activation without an explicit contract change is not just a low-level bug; it alters the trust model of the entire module.
+Any change that modifies module loading, dependency ordering, WASM runtime injection, or reload semantics must preserve source-backed checks and report unresolved behavior rather than claiming stronger guarantees. A patch that weakens verification or allows unsafe activation without an explicit contract change alters the trust model of the module.

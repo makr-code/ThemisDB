@@ -1,52 +1,48 @@
-# PERFORMANCE_EXPECTATIONS - src/base
+---
+Author: "ThemisDB Contributors"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
 
-## Scope
+Exact model backend not verifiable from final document text alone.
 
-- Module: src/base
-- This file defines measurable base module performance expectations for release gating.
+# Base performance expectations
 
-## Benchmark Reference
+## Current benchmark mapping
 
-- Relevant benchmark files:
-  - benchmarks/bench_plugin_system.cpp
-  - benchmarks/bench_module_load_hot_reload.cpp
-  - benchmarks/bench_themis_core.cpp
+The base benchmark sources are in `benchmarks/base/` and are registered from
+`benchmarks/CMakeLists.txt` when the files exist:
 
-## Specific Expectations
-
-| Target ID | Expectation | Benchmark case |
+| Target | Source | Current defined coverage |
 |---|---|---|
-| BAS-1 | plugin directory scan with populated fixtures remains within release baseline budget | BM_ScanDirectoryWithPlugins |
-| BAS-2 | plugin metadata query paths remain bounded | BM_GetPluginInfo, BM_GetAllPlugins |
-| BAS-3 | plugin load/unload and reload cycle remains bounded | BM_LoadUnloadPlugin, BM_ReloadPlugin |
-| BAS-4 | module list growth behavior remains bounded | BM_GetAllLoadedModules_Growth |
-| BAS-5 | module load with hash verification remains bounded | BM_ModuleLoad_WithHashVerify |
-| BAS-6 | concurrent plugin query path remains bounded under configured thread ranges | BM_ConcurrentQueries, BM_ConcurrentGetAllPlugins |
-| BAS-7 | typical plugin workflow path remains bounded in release profile | BM_TypicalWorkflow |
+| `bench_base_hot_paths` | `bench_base_hot_paths.cpp` | GATE-BASE-01..06: `ModuleLoader` query/metrics, `HotReloadManager` registered modules and rollback availability, 100-node `PluginDependencyGraph` construction, and reload fast-fail. |
+| `bench_base_wasm_sandbox` | `bench_base_wasm_sandbox.cpp` | GATE-BASE-07..12: WASM valid/invalid loading, `AbiChecker`, taxonomy functions, and inactive `ModuleSandbox` statistics; additional sandbox/graph microbenchmarks are present. |
 
-## Module Hard Gates (v1.0 docs baseline)
+These are benchmarked lifecycle/WASM surfaces. The buffer-pool and resource
+pool implementations are not part of these two benchmark targets.
 
-| Gate ID | Expectation | Measurement |
-|---|---|---|
-| BG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
-| BG-2 | loader and query path p99 <= release threshold | p99 from mapped plugin-system benchmark cases |
-| BG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
+## Interpretation and limits
 
-## Validation
+- The source and CMake definitions establish that benchmark targets and labels
+  are defined; they do not establish that the gates have passed.
+- The target values are benchmark labels/expectations. No current
+  representative-hardware measurements or CI comparison results were verified
+  in this documentation audit.
+- `src/base/ROADMAP.md` states that the baseline JSON contains thresholds but
+  hardware measurement/sign-off remains pending.
+- `src/base/buffer_pool.cpp` and `resource_pool_manager.cpp` are registered in
+  modular and monolithic builds. Performance measurements for their integrated
+  build path remain unverified; source registration does not establish benchmark
+  results.
 
-- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
-- For proxy-only targets, keep follow-up benchmark hardening explicitly tracked.
+## Canonical references
 
-## Sourcecode Verification (Module: base/performance)
-
-- Verified benchmark sources:
-  - benchmarks/bench_plugin_system.cpp
-  - benchmarks/bench_module_load_hot_reload.cpp
-  - benchmarks/bench_themis_core.cpp
-- Verified mapping surfaces:
-  - plugin scan, query, load/unload, reload paths
-  - module growth and hash-verified load path
-  - concurrent and workflow benchmark paths
-- Result:
-  - Referenced benchmark cases exist in current benchmark sources.
-  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.
+- [`benchmarks/base/README.md`](../../benchmarks/base/README.md)
+- [`benchmarks/CMakeLists.txt`](../../benchmarks/CMakeLists.txt)
+- [`src/base/ROADMAP.md`](ROADMAP.md), Program-Level Success Criteria

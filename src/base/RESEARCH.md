@@ -1,12 +1,12 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
-AI_Models: "GitHub Copilot, MAI-Code-1.1-Flash"
-AI_Contributor: "GitHub Copilot"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
@@ -16,9 +16,11 @@ Exact model backend not verifiable from final document text alone.
 
 ## Scope
 
-This review is grounded in the concrete runtime interfaces in `include/themis/base/` and the implementation files under `src/base/`:
+This review is grounded in runtime interfaces in `include/themis/base/` and
+implementation files under `src/base/`; the loader implementation is in
+`src/themis/`, not the legacy copy under `src/base/`:
 
-- `module_loader.h` and `module_loader.cpp`
+- `module_loader.h` and canonical `src/themis/module_loader.cpp`
 - `module_sandbox.h` and `module_sandbox.cpp`
 - `hot_reload_manager.h` and `hot_reload_manager.cpp`
 - `plugin_dependency_graph.h` and `plugin_dependency_graph.cpp`
@@ -26,27 +28,35 @@ This review is grounded in the concrete runtime interfaces in `include/themis/ba
 - `wasm_plugin_sandbox.h` / `wasm_plugin_sandbox.cpp`
 - `ab_test_manager.h`
 
-The base module is not a domain feature layer; it is the runtime contract that allows ThemisDB to load, verify, isolate, and swap executable extension modules without destabilizing the host process.
+The base area is not a domain feature layer; it provides module lifecycle,
+verification, optional isolation, and reload APIs. The availability and
+guarantees of these controls depend on configuration and runtime integration.
 
 ## Problem statement
 
-The central design tension is clear from the source: extension modules must be safe to load, safe to execute, and safe to replace while the DB remains online. The design solves this by separating verification, dependency analysis, isolation, and hot-swap legality into distinct stages instead of letting load behavior become a monolithic single-step action.
+The central design tension is clear from the source: extension modules need
+verification, execution controls, and managed replacement. The APIs separate
+these concerns; they do not establish that each is automatically enabled or
+that replacement preserves uninterrupted availability. The current reload
+implementation has a documented availability gap and best-effort restoration.
 
 The source evidence is explicit:
 
-- `ModuleSecurityVerifier` enforces signature and trust policy checks before activation.
+- `ModuleSecurityVerifier` provides configurable signature/trust-policy checks; an unsigned-load option exists, so signature enforcement is not universal.
 - `LoadStage` enumerates a staged lifecycle from `UNLOADED` through `VERIFYING`, `VALIDATED`, `STAGING`, `ACTIVATING`, and `ACTIVE`.
 - `AbiChecker` validates ABI compatibility and required symbol presence before switching a module into usage.
 - `ModuleSandbox` constrains OS-level execution with memory, CPU, and cgroup-aware protections when the platform supports them.
-- `HotReloadManager` loads a replacement candidate before unloading the old module, then keeps rollback state available until the new version stabilizes.
-- `PluginDependencyGraph` detects cycles and computes a safe load order before modules are activated or re-ordered.
-- `RemoteRegistryClient` verifies registry metadata, checksum, and auth before a module artifact is stored locally.
+- `HotReloadManager` loads a candidate before unloading the old module, then performs a second load under the canonical key. This creates an availability gap; restoration after final-load failure is best-effort.
+- `PluginDependencyGraph` can detect cycles and compute an order; caller integration determines whether the analysis gates activation.
+- `RemoteRegistryClient` supports configured authentication and checksum validation. It accepts both HTTP and HTTPS, so transport encryption is not universal.
 
 ## Research questions
 
 ### 1. Why is the loader staged instead of a single direct load?
 
-The staged lifecycle is a control-plane design, not just bookkeeping. It allows the system to fail closed at each boundary:
+The staged lifecycle is a control-plane design, not just bookkeeping. It
+exposes staged failure states; actual checks and fail-closed behavior depend on
+the configured verification path:
 
 - missing artifact or untrusted signature
 - ABI mismatch or missing required symbol
@@ -62,15 +72,18 @@ The implementation treats trust and execution as different responsibilities. A m
 
 ### 3. Why is hot reload designed around rollback?
 
-The `HotReloadManager` contract prefers atomic replacement with a rollback slot. Source comments in `hot_reload_manager.h` explicitly describe atomic swap semantics and state-preserving reload behavior. This is a practical answer to the operational reality that in-place replacement must preserve availability while still allowing a failed upgrade to be reversed without a process restart.
+The implementation loads a temporary candidate, unloads the old and temporary
+modules, then loads under the canonical name. This creates an availability gap;
+emergency restoration after final-load failure is best-effort. State callbacks
+and rollback are configuration- and outcome-dependent.
 
 ## Assumptions and constraints
 
 - The base layer is a runtime infrastructure boundary, not a user-facing data or query layer.
-- Every module is expected to pass trust and compatibility checks before activation.
+- The loader exposes trust and compatibility checks; enabled checks depend on configuration and caller path.
 - Execution limits are best-effort where the platform does not support a mechanism; the code degrades safely rather than silently disabling all constraints.
-- The registry and dependency system are designed to reject unsafe or incompatible combinations instead of trying to force them into a running state.
-- Hot reload is intentionally operationally conservative: success requires safe activation and explicit rollback state.
+- The dependency graph exposes rejection/ordering analysis, but automatic use by every loader path is not established.
+- Hot reload returns explicit outcomes; success/rollback guarantees must be read from the result and configuration, not assumed.
 
 ## Implementation evidence
 
@@ -81,33 +94,47 @@ The following patterns appear directly in the implementation:
 - `ModuleSandbox` checks cgroup support, process limits, and optional WASM isolation features when available.
 - `WasmRuntimeAdapter` bridges runtime injection to `WasmPluginSandbox`, allowing pluggable runtime implementations behind a stable interface.
 - `PluginDependencyGraph::detectCycles()` and `topologicalOrder()` identify dependency ordering constraints that must be respected for safe startup.
-- `RemoteRegistryClient` authenticates, downloads, and checksum-verifies plugin payloads before handing them to the loader.
+- `RemoteRegistryClient` supports configured authentication and checksum checks before handing payloads to the loader; plaintext HTTP is accepted with a warning.
 - `ABTestManager` introduces optional version experiments without a restart, which is a deployment-time extension of the same lifecycle model.
 
-## Evaluation criteria
+## Evaluation criteria (design goals, not validation results)
 
 The design is good when the following remain true:
 
-- invalid or incompatible modules fail closed,
-- module ordering remains deterministic and cycle-safe,
-- sandbox limits are enforced when the OS provides the primitives,
-- reload succeeds without breaking the previous version before the new one is proven safe,
+- invalid/incompatible modules fail closed when the relevant checks are enabled,
+- module ordering remains deterministic and cycle-safe when the graph analysis is used,
+- configured sandbox limits are enforced when the OS provides the primitives,
+- reload reports failure and handles the previous-version/rollback path according to the implementation; the unload/reload sequence creates an availability gap and emergency restoration is best-effort,
 - operators can diagnose failure with explicit error codes and remediation hints.
+
+The relevant measurable surfaces and defined gates are listed in
+[`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md). No benchmark run,
+test run, or representative-hardware result was produced for this review; use
+the current benchmark targets and record actual results before making
+performance/readiness claims.
 
 ## Trade-offs
 
 ### Safety vs. ease of deployment
 
-The base layer intentionally refuses modules that fail trust or ABI checks. This increases operational discipline but reduces “best effort” module loading and prevents hidden platform instability.
+The base layer can refuse modules that fail enabled trust or ABI checks. The
+verification configuration is not universal, so do not generalize this to
+every load path.
 
 ### Bounded execution vs. maximum flexibility
 
-Sandboxing and WASM isolation impose limits. The trade-off is a tighter operational envelope in exchange for predictable failures and reduced blast radius.
+When enabled and supported, sandboxing/WASM controls impose limits; they are
+not universal guarantees across all platforms or runtime configurations.
 
 ### Availability vs. correctness
 
-The reload design preserves availability by loading a new candidate before dropping the old binary, but this requires more coordination and state management. The implementation chooses explicit validation and rollback over optimistic replacement.
+The implementation unloads the old and temporary modules before reloading under
+the canonical key. Callers must inspect the result and configured rollback
+state; uninterrupted availability is not guaranteed.
 
 ## Conclusion
 
-The base module is best understood as ThemisDB’s runtime trust and lifecycle foundation. It exists to make module change safe, inspectable, and reversible. That is why the implementation separates validation, dependency modeling, resource isolation, and reload semantics rather than collapsing them into a single loosely-typed plugin load path.
+The base area provides APIs for runtime trust, lifecycle, dependency analysis,
+optional isolation, and reload. The coverage and guarantees available to an
+application depend on configuration, platform/backend support, and caller
+integration.

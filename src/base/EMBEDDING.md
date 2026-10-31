@@ -1,12 +1,12 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
-AI_Models: "GitHub Copilot, MAI-Code-1.1-Flash"
-AI_Contributor: "GitHub Copilot"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
@@ -23,10 +23,10 @@ The base module is embedded into the wider system as the runtime boundary for mo
 The module is connected to the rest of ThemisDB through a small set of operational surfaces:
 
 - `ModuleLoader` handles module discovery, verification, activation, and unloading.
-- `HotReloadManager` coordinates atomic replacement and rollback during live upgrades.
-- `PluginDependencyGraph` exposes ordering and cycle analysis for module dependency constraints.
-- `RemoteRegistryClient` pulls plugin artifacts from an authenticated registry and validates them before local installation.
-- `ModuleSandbox` and `WasmPluginSandbox` bound execution resources and provide isolation.
+- `HotReloadManager` coordinates candidate loading, reload results, and configured rollback. Replacement unloads the old and temporary candidate modules before loading under the canonical key, so availability is interrupted; restoration after final-load failure is best-effort.
+- `PluginDependencyGraph` exposes ordering and cycle analysis; callers must invoke/use the analysis where needed.
+- `RemoteRegistryClient` supports credentials and artifact validation. HTTP and HTTPS are accepted, with a warning for plaintext HTTP.
+- `ModuleSandbox` and `WasmPluginSandbox` expose configurable, platform/runtime-dependent controls; they do not imply universal isolation.
 - `ABTestManager` supports incremental conversion of a module variant to production without a full restart.
 
 ## Integration pattern
@@ -45,30 +45,31 @@ This separation is deliberate. It ensures that callers do not need to combine se
 
 ### Module activation flow
 
-1. Module path is resolved by `ModuleLoader`.
-2. `ModuleSecurityVerifier` validates the artifact and policy.
-3. `ModuleMetadata` is extracted and checked for ABI compatibility.
-4. `AbiChecker` verifies required symbols and ABI version compatibility.
-5. The module enters the staged lifecycle and is activated only after the checks pass.
+1. The caller passes a module path to `ModuleLoader`.
+2. The loader's configured verification path checks the artifact/policy; unsigned-load configuration exists, so signature verification is not universal.
+3. The loader exposes metadata and ABI compatibility checks. `AbiChecker` is a separate API; do not assume every caller invokes it.
+4. The loader reports lifecycle/result state; activation depends on the configured checks and their outcome.
 
 ### Hot reload flow
 
 1. `HotReloadManager` validates the registration and current module state.
 2. It saves state if configured and emits `BEFORE_UNLOAD` notifications.
-3. It loads the candidate artifact before unloading the current version.
-4. It preserves a rollback path and updates the canonical module name only after the new version is loadable.
-5. It emits lifecycle notifications and keeps rollback data available.
+3. It loads the candidate under a temporary key before unloading the current version.
+4. It unloads the temporary candidate and loads the replacement under the canonical key; failure and emergency restore paths are represented in the result/implementation.
+5. Rollback availability depends on configuration and the recorded backup; callers must inspect the result.
 
 ### Wasm integration flow
 
-1. `WasmPluginSandbox` validates the binary and the host allowlist.
-2. It creates or binds a runtime via `WasmRuntimeInjector`.
-3. It applies sandbox resource limits and execution restrictions.
-4. It exposes a narrow, explicit host-function boundary to imported WASM calls.
+1. `WasmPluginSandbox` validates the binary and host-function allowlist.
+2. A runtime is created/injected only if an implementation is registered/selected; without one, the sandbox is validation-only.
+3. Configured sandbox limits are applied subject to platform support.
+4. Registered host functions define the API available to the runtime.
 
 ## Dependency implications
 
-The dependency graph is not merely descriptive. It is part of the runtime contract, because Startup and reload ordering are legal only when the dependency topology is valid. A module cannot be safely loaded without considering the dependency graph and ABI compatibility wire.
+The dependency graph provides analysis for startup/reload integrations, but the
+loader does not automatically invoke `PluginDependencyGraph` in every path.
+Callers must ensure their integration uses dependency validation as required.
 
 ## Operational embedding guidance
 
@@ -82,4 +83,16 @@ When embedding or extending the base module, keep the following rules in mind:
 
 ## Source-grounded summary
 
-The source shows that the base module is best understood as an execution substrate with guardrails. It is embedded into the wider ThemisDB runtime by providing a single, conservative lifecycle model: verify first, order safely, isolate execution, activate only under valid conditions, and preserve rollback if a change cannot be proved safe.
+The source shows that the base area offers lifecycle and safety controls. Their
+coverage depends on configuration, platform/backend availability, and caller
+integration; the documentation does not claim that every control is applied
+universally.
+
+## Validation path
+
+For a concrete integration, check the selected header contract, the matching
+implementation and build source list, then the test target's parent-CMake
+registration. For benchmark claims, use
+[`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md) and attach measured
+results; gate definitions alone are not validation evidence. The source-list
+and test-registration gaps are summarized in [`AUDIT.md`](AUDIT.md).

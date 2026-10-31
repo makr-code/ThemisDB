@@ -3,17 +3,19 @@
  * @brief Phase 3 P3-03-A/B: Unified resource pool orchestrator for ThemisDB.
  *
  * Provides:
- *  - @ref AdaptiveConnectionPool — pool of generic connection slots with
- *    dynamic min/max sizing and acquisition-timeout.
- *  - @ref ResourcePoolManager — unified facade over the connection pool,
- *    buffer pool (@ref BufferPool), and thread pool
- *    (@ref themis::utils::ThreadPoolManager).
+ *  - @ref AdaptiveConnectionPool — pool of generic integer slots with
+ *    dynamic min/max sizing and acquisition timeout; it does not own
+ *    connection objects.
+ *  - @ref ResourcePoolManager — facade over the connection-slot and
+ *    buffer pools.
  *
- * Design goals (P3-03 acceptance criteria):
+ * Design goals (P3-03 acceptance criteria; not all are implemented):
  *  - Connection pool: min=5, max=50, scale-up latency < 10 ms.
- *  - Leak detection: borrowed resources timed out and reclaimed.
  *  - Saturation monitoring: alert threshold at > 80 % utilization.
- *  - Unified statistics across all pool types.
+ *  - Unified statistics for the connection and buffer pools.
+ *
+ * Thread-pool ownership and leak reclamation are not implemented. The
+ * leak_timeout configuration field is currently unused.
  *
  * @version 1.0.0
  * @note Maturity: 🟢 PRODUCTION-READY
@@ -164,7 +166,7 @@ public:
         AdaptiveConnectionPool::Config  conn_pool;    ///< Connection pool config.
         BufferPool::Config              buffer_pool;  ///< Buffer pool config.
         double saturation_alert_threshold = 0.80;
-        std::chrono::seconds leak_timeout{30};
+        std::chrono::seconds leak_timeout{30}; ///< Currently unused; no borrow reclamation is implemented.
     };
 
     struct GlobalStatistics {
