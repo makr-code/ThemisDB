@@ -242,7 +242,7 @@ curl -X POST http://localhost:8765/v2/search/vector \
 | Production deployment | [docs/de/guides/guides_deployment.md](docs/de/guides/guides_deployment.md) |
 | Performance tuning | [docs/performance/PERFORMANCE_EXPECTATIONS.md](docs/performance/PERFORMANCE_EXPECTATIONS.md) |
 | Examples | [examples/](examples/) |
-| Full documentation | [docs/Home.md](docs/Home.md) |
+| Full documentation | [docs/README.md](docs/README.md) |
 
 ---
 

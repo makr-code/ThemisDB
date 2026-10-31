@@ -18,7 +18,8 @@ Then use the references below.
 
 ## Documentation Links
 
-- [docs/Home.md](docs/Home.md) — complete documentation
+- [docs/README.md](docs/README.md) — documentation hub
+- [docs/Home.md](docs/Home.md) — language selector
 - [docs/FAQ.md](docs/FAQ.md) — frequently asked questions
 - [docs/api/API_REFERENCE.md](docs/api/API_REFERENCE.md) — API reference
 - [docs/EDITION_COMPARISON.md](docs/EDITION_COMPARISON.md) — edition overview
@@ -64,4 +65,3 @@ For enterprise support and licensing context, review [docs/EDITION_COMPARISON.md
 
 ---
 Zuletzt geprueft (Root-Sync): 2026-05-26
-

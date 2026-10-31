@@ -1,9 +1,21 @@
+---
+Author: ThemisDB Team
+Created: 2026-07-28
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
+
 # LOG
 
 Datum: 2026-07-28
 Status: Active
 Bezug: Chronologisches, append-only Betriebslog fuer AI-Wiki-Betrieb und Knowledge-Governance in ThemisDB
-Primary (Quelle der Wahrheit): CHANGELOG.md, AI_WIKI_INTEGRATION_PLAYBOOK.md, ai_context/KNOWLEDGE_LINT_REPORT.md, .github/workflows/08-maintenance_ai-context-wiki-sync.yml
+Primary (Quelle der Wahrheit): CHANGELOG.md, AI_WIKI_INTEGRATION_PLAYBOOK.md, ai_context/KNOWLEDGE_LINT_REPORT.md, .github/workflows/maintenance-docs.yml
 
 ---
 
@@ -98,3 +110,17 @@ Zuletzt geprueft (Root-Sync): 2026-07-28
 - Aktion: Source-grounded Modulkontext in `ai_context/developer_llm_wiki/IMPORTERS.md` angelegt und in Wiki-Index sowie Modules-and-APIs-Navigation verlinkt; der Index-Generator behält beide Einträge bei.
 - Abgrenzung: Der erzeugte Gesamtquellenbestand und `WIKI_STATUS.json` wurden nicht neu synchronisiert; sie bleiben der ausgewiesene Snapshot vom 2026-10-26.
 - Relevanz fuer AI-Wiki: Importer-API-Vertrag, Connector-spezifische Grenzen, fokussierte Testevidenz und Betriebsrisiken sind auffindbar, ohne den breiten Generatorlauf auszuführen.
+
+## [2026-10-31] root-docs-cleanup | Historische Root-Berichte archiviert
+
+- Quellen: `DOCUMENTATION_GOVERNANCE.md`, `INDEX.md`, `docs/reports/README.md`.
+- Aktion: Abgeschlossene Adapter- und Doxygen-Berichte sowie Architektur-Prompts nach `docs/ARCHIVED/root-reports/2026-10-31/` verschoben; betroffene Referenzen aktualisiert.
+- Abgrenzung: Aktive Root-Navigation und Governance bleiben im Repository-Root; historische Berichte sind nicht normativ.
+- Relevanz fuer AI-Wiki: Der Root-Index verweist auf aktive Einstiegspunkte und benennt das neue Berichtsarchiv.
+
+## [2026-10-31] readme-navigation-refresh | README und Docs-Einstiege aktualisiert
+
+- Quellen: `ROADMAP.md`, `QUICKSTART.md`, `SETUP.md`, `BRANCHING_STRATEGY.md`, `DOCUMENTATION_GOVERNANCE.md`, `docs/README.md`.
+- Aktion: Veraltete Release-/Modulstatus-Snapshots und Dopplungen aus `README.md` entfernt; Root- und Dokumentationsnavigation auf kanonische Einstiegsseiten ausgerichtet.
+- Aktion: Veraltete Version, Marketing-Metriken und nicht mehr gültige Wiki-Pfade aus `docs/Home.md` entfernt; sprachneutrale Weiterleitung auf gepflegte Indizes eingerichtet.
+- Relevanz fuer AI-Wiki: README und Docs-Home verweisen für Status und Release-Reife auf die kanonische Roadmap statt eigene Statuswahrheiten zu führen.
