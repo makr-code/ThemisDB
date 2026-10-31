@@ -1,10 +1,12 @@
 /**
  * @file timeseries_api_contract.h
- * @brief Frozen timeseries runtime contract semantics for the active v1.x line.
+ * @brief Timeseries runtime contract semantics.
  *
  * This header defines the normative contract for the timeseries module covering
  * write ordering, range-query semantics, downsampling determinism, Gorilla
- * compression fidelity, and retention policy enforcement.
+ * compression fidelity, and retention policy enforcement. TSStore timestamps
+ * and range bounds are signed Unix epoch milliseconds, matching tsstore.h and
+ * the persisted key format; no implicit nanosecond conversion is performed.
  *
  * ## Contract Scope
  *
@@ -18,8 +20,12 @@
  *
  * ## Versioning
  *
- * This contract is stable within v1.x.  Breaking changes require a v2.0 bump
- * with migration notes and a CHANGELOG entry.
+ * This contract remains stable within v1.x. TSStore's concrete timestamp and
+ * ordering behavior is documented here from the implementation: signed epoch
+ * milliseconds and configurable late-arrival validation. The former
+ * nanosecond/strict-order declarations were not implemented by TSStore. The
+ * legacy nanosecond constants remain deprecated for source compatibility and
+ * do not constrain TSStore values.
  *
  * @see src/timeseries/ROADMAP.md  — Phase 1 contract item
  * @see include/timeseries/ROADMAP.md — Phase 6 documentation item
@@ -37,27 +43,37 @@ namespace timeseries {
 // ============================================================================
 // § 1  Write contract
 //
-// Timestamp monotonicity:
-//   Within a named series, timestamps MUST be strictly monotonically increasing
-//   (each new point's timestamp > the previous point's timestamp).  An attempt
-//   to insert a point with timestamp ≤ the series tail returns
-//   TIMESTAMP_OUT_OF_ORDER unless the caller uses the explicit out-of-order
-//   insert API (which may incur a re-sort cost).
+// Units:
+//   TSStore::DataPoint::timestamp_ms is a signed Unix epoch timestamp in
+//   milliseconds. TSStore range-query bounds, Gorilla timestamps, and
+//   late_arrival_window_ms use the same millisecond unit. The store does not
+//   convert timestamps or reject zero/negative values solely because of sign.
 //
-// Null timestamp:
-//   A null or zero timestamp value is rejected with TIMESTAMP_OUT_OF_ORDER.
-//   Every data point must carry a positive, non-zero Unix nanosecond timestamp.
+// Ordering:
+//   TSStore::Config::late_arrival_window_ms controls ordering validation for
+//   putDataPoint(), putDataPoints(), and putBatch(). A non-positive value disables the
+//   per-instance watermark check and accepts timestamps in any order. A
+//   positive value W initializes a per-series watermark on the first write,
+//   advances it only when a larger timestamp arrives, accepts timestamps at
+//   or above watermark-W (including equality with the watermark), and rejects
+//   smaller values with ERR_TIMESERIES_LATE_ARRIVAL. Accepted older points do
+//   not move the watermark. This is bounded late-arrival handling, not strict
+//   monotonic ordering; duplicate timestamps are not rejected by this check.
+//   Watermarks are in memory and are not persisted across TSStore instances.
 // ============================================================================
 
-/// Minimum accepted point timestamp (Unix nanoseconds; 1 ns after epoch).
+/// Maximum signed millisecond timestamp; also used as an open-ended range sentinel.
+inline constexpr std::int64_t kMaxPointTimestampMs = INT64_MAX;
+
+/// @deprecated Not a TSStore timestamp constraint; use millisecond units.
+[[deprecated("TSStore timestamps use milliseconds; this nanosecond constant does not apply")]]
 inline constexpr std::int64_t kMinPointTimestampNs = 1LL;
 
-/// Maximum accepted point timestamp (approximately year 2554; sentinel for "open end").
-/// Set to INT64_MAX to represent an unbounded open interval end.
+/// @deprecated Not a TSStore timestamp constraint; use kMaxPointTimestampMs.
+[[deprecated("TSStore timestamps use milliseconds; use kMaxPointTimestampMs")]]
 inline constexpr std::int64_t kMaxPointTimestampNs = INT64_MAX;
 
-/// Maximum number of out-of-order points buffered per series before a forced
-/// re-sort flush is triggered.
+/// Out-of-order staging-buffer threshold used by TsEdgeCaseHandler, not TSStore.
 inline constexpr std::size_t kMaxOutOfOrderBuffer = 10'000u;
 
 // ============================================================================
@@ -153,7 +169,8 @@ inline constexpr std::int64_t kMinDownsamplingResolutionNs = 1'000LL;
 enum class TimeseriesErrorCode : int {
     // ── Phase 1-2: Base error codes ──
     
-    /// New point timestamp is not greater than the current series tail timestamp.
+    /// Contract-model timestamp ordering error; TSStore reports its own
+    /// ERR_TIMESERIES_LATE_ARRIVAL error through Result.
     TIMESTAMP_OUT_OF_ORDER        = 400,
 
     /// Named series does not exist or has been dropped.

@@ -143,7 +143,7 @@ Created:
      • Integration workflow testing
 
 Documentation:
-  4. QDRANT_ADAPTER_PHASE2_IMPLEMENTATION.md (NEW)
+  4. docs/ARCHIVED/root-reports/2026-10-31/QDRANT_ADAPTER_PHASE2_IMPLEMENTATION.md (NEW)
      • Comprehensive implementation guide
      • Architecture and design decisions
      • Test coverage matrix
@@ -244,7 +244,7 @@ Existing Tests:
   external/chimera/tests/chimera/test_qdrant_adapter.cpp
 
 Implementation Documentation:
-  QDRANT_ADAPTER_PHASE2_IMPLEMENTATION.md
+  docs/ARCHIVED/root-reports/2026-10-31/QDRANT_ADAPTER_PHASE2_IMPLEMENTATION.md
 
 SIGN-OFF
 ═══════════════════════════════════════════════════════════════════════════════

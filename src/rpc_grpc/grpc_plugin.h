@@ -45,14 +45,20 @@ public:
     void resetStats() override;
 
     /**
-     * @brief ----------------------------------------------------------------------- v0.
-     * @param[in] cert_path Path to the cert.
-     * @param[in] key_path Path to the key.
-     * @param[in] ca_path Path to the ca.
-     * @return True when the operation succeeds.
-     * @details 2.0 extensions -----------------------------------------------------------------------
+     * @brief Rebuild the running TLS listener with replacement credentials.
+     * @param cert_path Path to the replacement certificate chain PEM.
+     * @param key_path Path to the matching replacement private-key PEM.
+     * @param ca_path Path to the CA PEM used by the listener.
+     * @return True only when the listener starts with the replacement material.
+     *         False on validation or startup failure; after a startup failure,
+     *         the previous configuration is restarted when possible.
+     * @note Reload drains and stops the current listener before rebinding it.
+     *       If starting with new material fails, rollback is attempted; if that
+     *       also fails, the server remains stopped. This operation is not
+     *       zero-downtime.
+     * @warning Callers must serialize this operation with initialize(), start(),
+     *          stop(), and registerService().
      */
-
     bool reloadTls(const std::string& cert_path,
                    const std::string& key_path,
                    const std::string& ca_path);
@@ -100,6 +106,8 @@ public:
                    const std::string& client_cn = "");
 
 private:
+    bool startWithCredentials(std::shared_ptr<grpc::ServerCredentials> credentials);
+
     RPCServerConfig config_;
     std::unique_ptr<grpc::Server> server_;
     std::atomic<bool> running_{false};
@@ -109,7 +117,7 @@ private:
     std::string admin_address_;   ///< Non-empty when admin port is bound.
     std::chrono::steady_clock::time_point start_time_;
 
-    // Current TLS credentials (updated by reloadTls()).
+    // Credentials used for the most recent successful server start.
     mutable std::mutex tls_mutex_;
     std::shared_ptr<grpc::ServerCredentials> credentials_;
 
@@ -207,4 +215,3 @@ private:
 } // namespace rpc
 } // namespace plugins
 } // namespace themis
-

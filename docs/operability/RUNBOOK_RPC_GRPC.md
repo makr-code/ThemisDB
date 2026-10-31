@@ -2,8 +2,21 @@
 
 **Author:** ThemisDB Contributors
 **Created:** 2026-09-16
-**Last Updated:** 2026-09-16
-**Status:** active
+**Last Updated:** 2026-10-31
+**Status:** deprecated
+
+> **Superseded:** This page contains operational commands and log/metric names
+> that are not implemented by the current `src/rpc_grpc` source. Treat it as
+> historical context only. Use the [source-verified module runbook](../../src/rpc_grpc/RUNBOOK.md)
+> for current diagnosis and recovery steps.
+
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot
+**Human_Review:** false
+**Human_Author:** ThemisDB Team
+
+Exact model backend not verifiable from final document text alone.
 
 **Audience:** Database Operators, SREs, Transport Platform Team Lead
 **Purpose:** Triage and recover from gRPC service unavailability, stream adapter failures, reload timeouts, and transport errors

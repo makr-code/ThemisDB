@@ -1,7 +1,7 @@
 # ThemisDB Themis Core Module
 
 <!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Links: ARCHITECTURE.md · RESEARCH.md · MODELING.md · EMBEDDING.md · IMPLEMENTATION.md · API.md · MODULE_GUIDE.md · RUNBOOK.md · OPERATIONS.md · TRUST.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Module Purpose
 
@@ -40,6 +40,19 @@ Out of scope:
 - module loading requires deterministic verification and dependency ordering.
 - platform-specific loading paths are explicit and diagnosable.
 - wire protocol behavior remains bounded by server and session constraints.
+
+## Developer Documentation
+
+- [Architecture](./ARCHITECTURE.md) describes module boundaries and runtime flows.
+- [Research](./RESEARCH.md), [modeling](./MODELING.md), and
+  [embedding](./EMBEDDING.md) record the evidence and algorithm scope; this
+  module does not implement vector embedding generation.
+- [Implementation](./IMPLEMENTATION.md), [API](./API.md), and
+  [module guide](./MODULE_GUIDE.md) support code changes and integration.
+- [Runbook](./RUNBOOK.md), [operations](./OPERATIONS.md), and
+  [trust](./TRUST.md) cover incident handling and security boundaries.
+- The [core operator runbook](../../docs/operability/RUNBOOK_THEMIS_CORE.md)
+  is the operational reference for alert names, signals, and recovery procedures.
 
 ## Sourcecode Verification (Module: themis/readme)
 

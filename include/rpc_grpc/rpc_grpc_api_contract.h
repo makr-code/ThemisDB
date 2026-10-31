@@ -1,29 +1,32 @@
 /**
  * @file rpc_grpc_api_contract.h
- * @brief Frozen gRPC plugin and server lifecycle API contract for v1.x.
+ * @brief Design contract and shared defaults for the rpc_grpc module.
  * @version 1.0.0
  *
  * ## §Purpose
  *
- * Defines the normative contract for the rpc_grpc module covering gRPC server
- * lifecycle operations, TLS/mTLS credential management, service registration,
- * stream adapter behaviour, and method-level observability.
+ * Defines contract types and shared defaults for the rpc_grpc module. This is
+ * not the IRPCServer interface implemented by src/rpc_grpc/grpc_plugin.cpp;
+ * consult that runtime API and implementation for behavior not explicitly
+ * wired to this header.
  *
  * ## §API Contracts
  *
- * Key behavioural invariants:
+ * Intended behavioral invariants:
  *   1. A gRPC server may not accept requests before StartServer() completes
  *      successfully; any call in kStopped state yields kServerNotRunning.
- *   2. Service registration is idempotent if the name and handler match;
- *      conflicting registrations (same name, different handler) produce
- *      kServiceRegistration.
- *   3. TLS credential reload is atomic: the old credentials remain active
- *      until the new certificate chain is fully validated.  Failed reload
- *      leaves credentials unchanged and returns kCredentialLoadFailed.
+ *   2. The current runtime registers externally owned grpc::Service pointers
+ *      before start; null, late, and duplicate-pointer registrations are
+ *      rejected or ignored. No service-count limit is enforced.
+ *   3. TLS reload validates new material before stopping the listener, then
+ *      restarts it with the new files. Failure to start with new material
+ *      triggers a restart attempt with the previous configuration; reload
+ *      returns true only when the new listener starts. The operation has
+ *      downtime, and rollback failure leaves the listener stopped.
  *   4. Stream aborts propagate kStreamAborted to all in-flight RPC handlers on
  *      that stream; handlers MUST NOT access stream state after receiving it.
- *   5. All method dispatch operations are O(1) hash-map lookups; unknown
- *      methods produce kMethodNotFound, never a crash.
+ *   5. A service dispatcher should reject unknown methods with
+ *      kMethodNotFound rather than crashing.
  *
  * ## §Error Taxonomy
  *
@@ -44,8 +47,8 @@
  *   serialise them externally.
  * - Service dispatch is thread-safe and lock-free after registration is
  *   complete.
- * - Credential reload acquires a short read-write lock; concurrent RPC calls
- *   proceed on the old credentials until the lock is released.
+ * - TLS reload is a stop/start operation, not an atomic in-place credential
+ *   swap. Callers must serialize it with other lifecycle operations.
  *
  * ## §Contract Freeze
  *
@@ -58,6 +61,7 @@
 #pragma once
 
 #include <cstdint>
+#include <cstddef>
 #include <string>
 #include <chrono>
 
@@ -108,8 +112,11 @@ enum class RpcServerState : int32_t {
 /// Default gRPC keepalive time (ping interval when idle).
 inline constexpr std::chrono::seconds kDefaultKeepaliveTime{30};
 
-/// Default maximum receive message size in bytes (4 MiB).
-inline constexpr std::size_t kDefaultMaxReceiveMessageBytes = 4u * 1024u * 1024u;
+/// Default maximum receive message size in bytes (100 MiB).
+inline constexpr std::size_t kDefaultMaxReceiveMessageBytes = 100u * 1024u * 1024u;
+
+/// Default maximum send message size in bytes (100 MiB).
+inline constexpr std::size_t kDefaultMaxSendMessageBytes = 100u * 1024u * 1024u;
 
 /// Maximum service name length in bytes.
 inline constexpr std::size_t kMaxServiceNameBytes = 256;
@@ -122,13 +129,16 @@ inline constexpr std::size_t kMaxMethodNameBytes = 512;
 // ============================================================================
 
 /**
- * @brief Descriptor for a gRPC service being registered on a running server.
+ * @brief Reference metadata for a gRPC service registration.
+ *
+ * This descriptor is not consumed by the current GRPCServer::registerService
+ * implementation; its fields do not enforce service or stream limits.
  */
 struct RpcServiceDescriptor {
     std::string service_name;   ///< Fully-qualified gRPC service name.
     std::string proto_file;     ///< Path to .proto file (informational; may be empty).
     bool        require_auth{true}; ///< Whether the service requires authenticated callers.
-    uint32_t    max_concurrent_streams{100}; ///< Per-service concurrent stream cap.
+    uint32_t    max_concurrent_streams{100}; ///< Intended metadata; not enforced by GRPCServer.
 };
 
 // ============================================================================

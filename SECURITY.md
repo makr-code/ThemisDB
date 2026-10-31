@@ -338,7 +338,7 @@ ThemisDB implements **defense-in-depth** security across all layers:
 
 - 🛡️ **[Security Posture Guide](docs/production/SECURITY_POSTURE.md)** — dev vs. production defaults, hardening checklist, threat model, integrator checklist
 - 📋 **[Production Runbook](docs/production/RUNBOOKS/CORE_MODULE_RUNBOOK.md)** — required env vars, startup sequence, failure modes, mitigations
-- 🖥️ [systemd deployment files](deploy/systemd/) — hardened service unit, production drop-in, env template
+- 🖥️ [systemd deployment files](deployment/systemd/) — hardened service unit, production drop-in, env template
 - ☸️ [Kubernetes production Helm values](docs/production/examples/k8s_production_values.yaml) — TLS, secrets, probes, autoscaling
 
 </details>

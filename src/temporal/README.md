@@ -72,3 +72,9 @@ Out of scope:
 - Note:
   - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
   - historical entries remain in CHANGELOG.md
+
+## Developer Documentation
+
+- [Research and evaluation](RESEARCH.md) · [Temporal model](MODELING.md) · [Embedding boundary](EMBEDDING.md)
+- [Implementation](IMPLEMENTATION.md) · [API reference](API.md) · [Module guide](MODULE_GUIDE.md)
+- [Runbook](RUNBOOK.md) · [Operations](OPERATIONS.md) · [Trust boundaries](TRUST.md)

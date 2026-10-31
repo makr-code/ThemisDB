@@ -12,15 +12,16 @@
  * - **Concurrency Safety**: Watermark mutex + atomic counters for lock-free stats
  * - **Deterministic Flush Coordination**: Integrated with AdaptiveFlushController
  * - **Contract Alignment**: Validates all operations against timeseries_api_contract.h
- * - **Deterministic Late-Arrival Handling**: Watermark-based window with out-of-order buffering
+ * - **Late-Arrival Handling**: Watermark-based configurable acceptance window
  * 
  * ## Key Guarantees
  * 
- * 1. **Write Monotonicity**: Within a series, timestamps strictly increasing
- * 2. **Late-Arrival Window**: Configurable window allows controlled out-of-order writes
+ * 1. **Timestamp Unit**: Signed Unix epoch milliseconds
+ * 2. **Late-Arrival Window**: Non-positive values skip validation; positive values
+ *    reject timestamps strictly below the per-series watermark minus the window
  * 3. **Graceful Degradation**: Buffer full → fall back to direct write (no data loss)
  * 4. **Metric/Entity Validation**: Empty names rejected at write-time (ERR_API_INVALID_REQUEST)
- * 5. **Watermark Tracking**: Per-series (metric:entity) watermark prevents double-counting
+ * 5. **Watermark Tracking**: Per-series watermark advances only for a new maximum
  * 
  * ## Adaptive Buffering Strategy
  * 
@@ -40,9 +41,9 @@
  * ## Contract Compliance
  * 
  * Implements:
- * - Write contract (§1): Monotonic timestamps, null rejection, out-of-order handling
- * - Late-arrival semantics: Configurable window (default 0 = strict ordering)
- * - Error codes: TIMESTAMP_OUT_OF_ORDER, ERR_API_INVALID_REQUEST, ERR_STORAGE_TRANSACTION_FAILED
+ * - Write contract (§1): Millisecond timestamps and configurable late-arrival handling
+ * - Late-arrival semantics: Positive windows enforce a cutoff; the default disables it
+ * - Error codes: ERR_TIMESERIES_LATE_ARRIVAL, ERR_API_INVALID_REQUEST, ERR_STORAGE_TRANSACTION_FAILED
  * 
  * @see include/timeseries/tsstore.h
  * @see include/timeseries/timeseries_api_contract.h § 1

@@ -7,14 +7,14 @@ Report vulnerabilities via project-level SECURITY.md.
 
 ## Security Scope
 
-Security in the rpc_grpc module focuses on fail-closed TLS/mTLS initialization, explicit credential reload behavior, deterministic lifecycle transitions, and observable request-path telemetry.
+Security in the rpc_grpc module focuses on fail-closed TLS/mTLS initialization, validated listener-restart credential reload with rollback attempt, deterministic lifecycle transitions, and observable request-path telemetry.
 
 ## Threat Model
 
 | Threat | Current Mitigation Surface |
 |---|---|
 | insecure/invalid TLS startup fallback | fail-closed credential loading behavior |
-| runtime credential drift or invalid reloads | explicit reload validation and failure signaling |
+| runtime credential drift or invalid reloads | validate before listener restart; attempt old-config rollback on startup failure |
 | untracked RPC request handling anomalies | per-method observability and access-log surfaces |
 | unsafe lifecycle transitions | explicit lifecycle state checks and deterministic outcomes |
 

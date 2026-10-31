@@ -3,6 +3,122 @@
 Datum: 2026-10-31
 Status: Active
 
+## CI repair context (2026-10-30)
+
+The generated source inventory below and `WIKI_STATUS.json` describe the
+2026-10-26 snapshot (7,989 sources), not a fresh validation of current workflows.
+Its workflow entries contain hashes and unreadable titles rather than operational
+guidance; use workflow sources and concrete run logs as evidence.
+
+- Summary jobs must check out the repository before invoking the local
+  `write-run-summary` action. Checkouts in other jobs do not share a workspace.
+  See [Workflow Guidelines](../../.github/WORKFLOW_GUIDELINES.md) and
+  [boundary guard](../../tools/ci/check_workflow_boundaries.py).
+- Wave-4 explicitly configures the `linux-release` preset with benchmarks enabled,
+  builds and executes `bench_w4a_release_gates` in the same job so its shared
+  runtime libraries remain available. Only
+  `benchmark-artifacts/w4a_release_gates.json` is transferred for baseline comparison. Source:
+  [benchmark-gate.yml](../../.github/workflows/benchmark-gate.yml).
+- Coverage requires real RocksDB; thematic benchmarks require Boost.Filesystem.
+  MSVC requires nlohmann-json headers and importer generation before analysis.
+  See the [repair scope](../../.github/WORKFLOW_REGISTRY.md#ci-remediation-2026-10-31).
+- Invalid nested-workflow permissions and expired execution approvals are different
+  failure classes. Only the former are fixed by workflow code; approvals require
+  maintainer intervention. MSVC analyzer C1060 remains a separate resource risk.
+- Core preflight accepts local `uses` references and inline SHA comments; new
+  pinning/self-push/non-blocking-step violations are checked on added diff lines.
+  Housekeeping and promotion cancel superseded PR runs without cancelling manual work.
+- Docker's consumer, platform builds and nested model cache use distinct concurrency
+  namespaces; platform groups include the target architecture. The inherited
+  `github.workflow` value alone does not distinguish caller and callee.
+  [Run 41026987740](https://github.com/makr-code/ThemisDB/actions/runs/41026987740)
+  still used the old `develop` revision and never reached an actual image build:
+  summary checkout failures and cancelled model preparation occurred first.
+  The branch verification passed both model-cache preparations and their summaries,
+  then exposed Docker export rejecting attestation manifest lists with `--load`.
+  Registry publications retain provenance/SBOM; local exports omit those unsupported
+  attestations. Platform builds select native AMD64/ARM64 runners.
+- COMMUNITY Docker builds keep fmt and spdlog together in Ubuntu's
+  `libfmt-dev`/`libspdlog-dev` packages. Do not add a standalone vcpkg fmt
+  dependency to `docker/vcpkg-community.json`: CMake prefers that fmt over the
+  system package, but Ubuntu's compiled spdlog uses the system fmt ABI.
+  [ARM64 job 123993876135](https://github.com/makr-code/ThemisDB/actions/runs/41034175988/job/123993876135)
+  failed linking `themis_server` with vcpkg fmt v11 and Ubuntu spdlog 1.12.
+  The manifest now leaves both libraries to apt; the provider regression check
+  is in `tests/test_docker_runtime_package_regressions.py` and runs before Buildx
+  setup in `reusable-docker-image-platform.yml` for both architectures.
+  Retry job 124024436376 still used the old manifest with explicit vcpkg fmt;
+  its link command mixed Ubuntu spdlog 1.12 with vcpkg fmt 11.0.2.
+  A successful full ARM64 image build with the corrected manifest still requires
+  CI verification.
+  AMD64 job [124204379008](https://github.com/makr-code/ThemisDB/actions/runs/41034175988/job/124204379008)
+  also built the old `910fe92` revision: it installed vcpkg fmt 11.0.2 alongside
+  Ubuntu spdlog 1.12 and failed linking `themis_server` with unresolved
+  `spdlog::details::log_msg` symbols using `fmt::v11`. The current COMMUNITY
+  manifest already excludes fmt. The Docker dependency stage now rejects
+  vcpkg fmt/spdlog headers for COMMUNITY, including transitive installations,
+  before compiling the server. Shell regression tests cover both architectures.
+  Re-running the old commit cannot validate this fix; a new run on the corrected
+  revision is required for full-image verification.
+- Follow-up PR evidence exposed separate cache/permission defects: RAG phases 7–10
+  need PR-write permission in both caller and callee for labels/comments, even when
+  compilation passed. The reusable CMake build no longer registers an unprepared
+  NuGet binary source. Its existing sccache recovery disables the forced launcher
+  via `THEMIS_ENABLE_COMPILER_CACHE=OFF`, preserves the cached toolchain and fails
+  on reconfigure errors. The release-critical job budget is 120 minutes; this is
+  not proof that its full build passes. Nightly/packaging Ninja discovery and MSVC
+  analyzer memory failures still need successful full-build evidence.
+  Custom configure callers declare `build_directory` explicitly, including release
+  matrix lanes; cache-disabled recovery uses that cache's original source directory.
+- Linux AMD64 release job
+  [124033550929](https://github.com/makr-code/ThemisDB/actions/runs/40996218967/job/124033550929)
+  failed inside vcpkg compiler detection before the outer Ninja diagnostic.
+  The run did not retain the nested error logs, so its underlying compiler failure
+  is unconfirmed. The reusable CMake workflow now prints fresh compiler-detection
+  output/error logs before checking for recoverable sccache errors. Cache-disabled
+  configure retries clear inherited launcher environment variables as well as the
+  CMake cache entries, so nested vcpkg probes do not reuse a failing launcher.
+  Other compiler errors remain fatal; a full release CI run is still required.
+- Linux AMD64 release job
+  [124425510353](https://github.com/makr-code/ThemisDB/actions/runs/41163259618/job/124425510353)
+  recovered from a compiler-probe sccache failure, then failed building Arrow 25.0.1
+  when Arrow rediscovered sccache and contacted the same unavailable GitHub cache
+  backend. Clearing CMake launchers alone does not prevent dependency-side discovery.
+  The existing configure/build recovery now exports `SCCACHE_GHA_ENABLED=false`
+  and persists it through `GITHUB_ENV`; rediscovered sccache can use the configured
+  local cache rather than the failed remote backend. Source:
+  [reusable-cmake-build.yml](../../.github/workflows/reusable-cmake-build.yml).
+  Shell regression coverage in
+  [test_check_workflow_boundaries.py](../../tools/tests/test_check_workflow_boundaries.py)
+  verifies backend isolation, persistence, and fatal retry errors. A full release
+  run on the corrected revision is still required.
+- Evidence window: 2026-10-29 05:23 to 2026-10-30 05:23 UTC.
+  Representative runs:
+  [missing summary checkout](https://github.com/makr-code/ThemisDB/actions/runs/41003835208),
+  [nested permissions](https://github.com/makr-code/ThemisDB/actions/runs/40954398766),
+  [coverage prerequisite](https://github.com/makr-code/ThemisDB/actions/runs/40990478535),
+  [expired approval](https://github.com/makr-code/ThemisDB/actions/runs/40960673012).
+  Local validation is not evidence that these historical runs have turned green.
+
+## CI repair context (2026-10-31)
+
+- Run [41166806169](https://github.com/makr-code/ThemisDB/actions/runs/41166806169)
+  failed in Linux AMD64 and ARM64 release lanes when the GitHub Actions artifact
+  cache returned an outage response to sccache while vcpkg compiled Arrow.
+- Linux release lanes now disable the remote sccache GHA backend while retaining
+  sccache's local cache directory persisted by `actions/cache`. The release matrix
+  passes the per-lane boolean directly; a fallback must not turn explicit `false`
+  into `true`.
+- ARM64 job [124497145202](https://github.com/makr-code/ThemisDB/actions/runs/41163259618/job/124497145202)
+  failed for the same reason: sccache's `ghac` backend returned HTTP 400 during
+  Arrow compilation. Ninja was executing those compilation commands; the later
+  outer CMake Ninja diagnostic was secondary. This run used the older
+  `0f6f0c9def30b95adff8475a143432876e6ae56d` revision, not the current backend fix.
+  Executable regression coverage in `tools/tests/test_check_workflow_boundaries.py`
+  checks both ARM64 selectors, apt-provided sccache, and local-backend environment
+  inheritance through the generated configure/build commands. Full native ARM64
+  release verification still requires a new CI run on the corrected revision.
+
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci
 - Hash: `aca5342a1a4719e8`
