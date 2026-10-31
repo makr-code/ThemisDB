@@ -55,6 +55,11 @@ nullable columns are compatible; breaking column or key changes require an
 explicit migration. Bad-row policy is explicit: skip with an error summary or
 fail the import. The contract classifies timeout and unavailable-connector
 errors as retryable; this does not make every connector failure safe to replay.
+The contract-hardening mock models an identical-source replay as successful
+with no added rows and a different source under the same ID as
+`IMPORT_DUPLICATE_ID`. No coordinator in `src/importers/` currently consumes the
+versioned contract enum, so this test is not evidence of live connector
+conformance.
 
 The common interface also exposes an optional `permission_check` callback.
 When supplied it is invoked for `("import", "write")`; omission does not provide
@@ -119,6 +124,9 @@ headers, implementation files, and tests. If this summary conflicts with those
 sources, follow the canonical contract and implementation evidence and correct
 this page.
 
-The compiled wiki inventory and `WIKI_STATUS.json` still describe the
-2026-10-26 generation snapshot; this page does not claim that a full wiki-source
-rescan or validation was run.
+`WIKI_STATUS.json` records a `full_sync` metadata generation at
+2026-10-31T11:12:38Z, and `SOURCE_MANIFEST.json` records this page as inventoried
+at 11:07:02Z. These timestamps establish the freshness of that inventory
+snapshot, not validation of the current working-tree content: this page has
+changed since the manifest entry, and no subsequent importer-context/content
+validation is claimed here.

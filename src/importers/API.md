@@ -95,9 +95,10 @@ failed `ImportStats` result.
 
 `importers_api_contract.h` declares stability within v1.x and says breaking
 changes require a v2.0 change. This is the contract's stated policy, not proof
-that every connector currently conforms. In particular, its idempotent replay
-wording differs from the duplicate-ID rejection behavior in the focused mock
-suite; see [`BUILD_STATUS.md`](./BUILD_STATUS.md) for the unresolved test/API
-drift. Review
+that every connector currently conforms. Under that contract, replaying the
+same source with the same `import_id` succeeds without adding rows; reusing the
+ID for a different source is rejected as `IMPORT_DUPLICATE_ID`. The focused
+mock models these two cases, but does not establish live connector behavior or
+connector-wide conformance; see [`BUILD_STATUS.md`](./BUILD_STATUS.md). Review
 [`ROADMAP.md`](./ROADMAP.md) and [`CHANGELOG.md`](./CHANGELOG.md) for active
 module planning and recorded history.

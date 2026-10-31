@@ -143,7 +143,11 @@ Out of scope:
   - HuggingFace caller-supplied row normalization, validation, checkpoint token, and JSONL export behavior
 - Note:
   - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md; release history is recorded separately in CHANGELOG.md
-  - TODO: reconcile contract wording and mock behavior for duplicate `import_id` replay before claiming connector-wide idempotency
+  - Contract-hardening mock coverage now models successful, no-added-row replay
+    for an identical source and rejection when the same `import_id` is reused
+    for a different source. This is not connector-wide idempotency evidence:
+    `src/importers/` has no coordinator implementation using the versioned
+    contract enum.
 
 
 ## Developer Documentation

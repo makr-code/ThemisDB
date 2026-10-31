@@ -86,10 +86,11 @@ strategies change record semantics and must be part of the test case, not an
 unstated benchmark default.
 
 The contract tests intentionally model the coordinator and do not replace
-connector integration, failure-injection, or recovery tests. Their mock rejects
-a repeated `import_id`, whereas the contract header describes idempotent replay.
-This API/test discrepancy is unresolved (TODO: reconcile outside this
-documentation-only change). Consult the
+connector integration, failure-injection, or recovery tests. Their mock models
+same-source replay under the same `import_id` as successful without adding rows,
+and rejects a different source under that ID, following the contract header.
+No coordinator in `src/importers/` currently uses the versioned contract enum,
+so this test does not verify live implementation conformance. Consult the
 [focused-test registration](../../tests/importers/CMakeLists.txt), the
 [module roadmap](./ROADMAP.md), and the connector-specific suites before
 making a release or compatibility claim.

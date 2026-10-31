@@ -61,9 +61,11 @@ not imply that every connector implements every option.
 
 - `importer_interface.h` defines connector-facing error types; `importers_api_contract.h`
   declares a separate contract error enum and semantics.
-- The two headers are distinct contracts. The latter's same-`import_id` idempotency
-  statement conflicts with duplicate-ID rejection in the focused mock test; see
-  [`BUILD_STATUS.md`](./BUILD_STATUS.md) (TODO: reconcile outside this docs-only task).
+- The two headers are distinct contracts. The versioned contract specifies
+  successful, no-added-row replay for the same source and `import_id`, and
+  `IMPORT_DUPLICATE_ID` for a different source under that ID. The focused mock
+  models these cases; see [`BUILD_STATUS.md`](./BUILD_STATUS.md). No coordinator
+  in `src/importers/` currently consumes the versioned contract enum.
 - Check a concrete connector and its focused tests before asserting fallback,
   transaction, checkpoint, or option behavior.
 

@@ -22,8 +22,10 @@ Related_Reference: "makr-code/ThemisDB#7353"
 
 ## Current repository evidence (2026-10-31)
 
-This update verifies checked-in configuration and registration declarations; no
-CMake configure, compilation, CTest run, or benchmark run was performed.
+This update verifies checked-in configuration and registration declarations.
+The contract-hardening test source was compiled directly with GCC and GoogleTest
+1.14, and all 16 tests passed. No CMake configure, CTest run, full project build,
+or benchmark run was performed.
 
 - `community-release` is Release with `THEMIS_BUILD_TESTS=OFF` and
   `THEMIS_BUILD_BENCHMARKS=OFF`. `community-release-allow-missing-rocksdb`
@@ -42,9 +44,11 @@ CMake configure, compilation, CTest run, or benchmark run was performed.
   `themis_add_standard_benchmark()`. Google Benchmark must be found by the
   parent benchmark configuration.
 - The contract test is a self-contained mock, not live connector or database
-  atomicity evidence. Its duplicate `import_id` test rejects replay while
-  `importers_api_contract.h` states replay is idempotent: TODO, reconcile this
-  API/test discrepancy in a source-code change.
+  atomicity evidence. It now models identical-source replay as successful with
+  no added rows, and rejects reuse of an ID for a different source, matching
+  `importers_api_contract.h` (the row sequence represents source identity in
+  the mock). The versioned contract enum is not consumed by a coordinator in
+  `src/importers/`; this mock does not prove live connector conformance.
 - The six IMRG labels and thresholds are benchmark-source targets, not proof of
   current measurements or a pass/fail CI gate. See
   [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md).
@@ -140,7 +144,7 @@ endforeach()
 
 #### IMCH-01..04: Idempotency Contract
 - **IMCH-01:** Re-importing same data with same import_id produces no duplicates
-- **IMCH-02:** import_id uniqueness is enforced; duplicate rejected
+- **IMCH-02:** Reusing an import_id for a different source is rejected
 - **IMCH-03:** Different import_id with same data is accepted (new import)
 - **IMCH-04:** Committed row count matches source row count
 

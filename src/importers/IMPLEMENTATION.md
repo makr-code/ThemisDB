@@ -44,8 +44,10 @@ transaction or resume behavior in every implementation.
 ## Shared invariants
 
 The module contract requires source ordering to be preserved, partial state to
-remain invisible until the governed commit, and same-`import_id` replay to be
-idempotent at the coordinator. Additive nullable columns are compatible;
+remain invisible until the governed commit, and replay of the same source with
+the same `import_id` to succeed without adding rows at the coordinator. Reusing
+the ID for a different source is rejected as `IMPORT_DUPLICATE_ID`. Additive
+nullable columns are compatible;
 breaking schema changes require an explicit migration. The bad-row
 disposition controls whether a row is skipped or the import fails. These
 requirements are specified in
@@ -84,11 +86,13 @@ Focused C++ tests in the module-local registration file are discovered from
 `module_importers_<stem>_focused` targets and `<stem>_importers_FocusedTests`
 CTest cases. That file currently discovers 12 `test_*.cpp` files and skips
 three named suites before target creation. The contract hardening suite is
-self-contained and mocks the coordinator; its duplicate-ID rejection test
-conflicts with the API header's idempotent-replay wording. Treat this as
-unresolved API/test drift (TODO: reconcile in a source-code issue), not as proof
-of live connector semantics. Connector-specific changes also need matching
-regressions; mocked tests do not prove live I/O or database atomicity.
+self-contained and mocks the coordinator: identical-source replay succeeds
+without additional rows, while a different source under the same ID is rejected.
+This tests the declared contract only. The versioned contract enum is not used
+by an import coordinator in `src/importers/`, so the test is not evidence that
+live connectors implement coordinator-level replay semantics. Connector-specific
+changes also need matching regressions; mocked tests do not prove live I/O or
+database atomicity.
 
 References: [API contracts](./API.md), [module guide](./MODULE_GUIDE.md),
 [research evidence](./RESEARCH.md), [roadmap](./ROADMAP.md).

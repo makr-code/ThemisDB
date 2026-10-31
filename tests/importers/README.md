@@ -25,7 +25,9 @@ known suites before local target creation, and registers the remaining sources
 as `module_importers_<stem>_focused` targets with focused CTest names. Check
 that file for current exclusions and labels.
 
-The contract-hardening suite uses inline mocks, not live connector I/O. Its
-repeated-`import_id` mock behavior conflicts with the idempotent-replay wording
-in `include/importers/importers_api_contract.h`; this remains TODO for source
-and test owners. See [build/test status](../../src/importers/BUILD_STATUS.md).
+The contract-hardening suite uses inline mocks, not live connector I/O. It
+models identical-source replay with the same `import_id` as success with no
+additional committed rows, and rejects a different source under an existing
+ID. The versioned contract enum is not used by an import coordinator in
+`src/importers/`, so this test does not establish live connector behavior.
+See [build/test status](../../src/importers/BUILD_STATUS.md).
