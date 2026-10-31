@@ -1,54 +1,39 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/config/ROADMAP.md -->
-
-# Config Module — Public Header Roadmap
-
-**Module Path:** `include/config/`  
-**Canonical implementation roadmap:** [`../../src/config/ROADMAP.md`](../../src/config/ROADMAP.md)
-
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
 ---
 
-## Overview
+Exact model backend not verifiable from final document text alone.
 
-Tracks public `config` API contract stability, header-level coverage work, and future public entry points. Runtime implementation work remains in:
+# Config Public Header Status
 
-→ [`../../src/config/ROADMAP.md`](../../src/config/ROADMAP.md)
+## Current inventory
 
----
+The public header directory contains declarations for path resolution, schema
+validation, file watching, encrypted storage, errors, audit, metrics, cache,
+mapping metadata, contract constants, and a migration-scanner helper. See
+[`README.md`](README.md) for the file-level index.
 
-## Current Status
+This inventory does not establish that all symbols have complete Doxygen
+documentation, that every contract constant is enforced, or that ABI stability
+is guaranteed. Runtime status and release readiness belong to
+[`../../src/config/ROADMAP.md`](../../src/config/ROADMAP.md) and the root
+[`../../ROADMAP.md`](../../ROADMAP.md), respectively.
 
-All headers in `include/config/` are present and expose the runtime configuration management, validation, encryption, hot-reload, audit logging, and metrics export surface.
+## Open verification items
 
----
+- [ ] Reconcile public API comments with actual implementation error semantics.
+- [ ] Verify `config_contract.h` bounds against code and focused tests.
+- [ ] Establish public-header compile and platform coverage from build/CI
+  evidence before publishing a compatibility matrix.
+- [ ] Confirm the API stability policy against the root versioning policy.
 
-## Completed ✅
-
-- [x] Public header surfaces documented in `ARCHITECTURE.md`
-- [x] Canonical cross-links to `src/config/` implementation docs established
-- [x] Layer association (**Graph**) marked and verified against `FUTURE_PLAN.md`
-- [x] Namespace layout (`themis::config`) documented
-
----
-
-## In Progress
-
-- [ ] Per-header deprecation and breaking-change notices aligned with `VERSIONING.md` (Target: 2026-Q3)
-
----
-
-## Planned
-
-- [ ] API contract index for high-frequency entry points with usage examples (Target: 2026-Q3)
-- [ ] Compatibility matrix (C++17/20 and platform coverage) per header group (Target: 2026-Q4)
-- [ ] CI-enforced compile checks for all public headers (Target: 2026-Q4)
-
----
-
-## Production Readiness Checklist
-
-- [x] Public header surfaces documented
-- [x] Canonical links to implementation docs set
-- [ ] Deprecation annotations consistent
+Do not treat the former "Graph" layer classification or undated public API
+stability claims as verified; no supporting canonical source was identified.

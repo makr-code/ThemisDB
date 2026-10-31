@@ -1,67 +1,105 @@
-# Architecture - Config Module
-
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
-
-## Overview
-
-The config module composes path resolution, schema validation, metrics/audit observability, file-watch triggers, and encrypted config storage into a unified configuration runtime layer.
-
-## Main Execution Planes
-
-1. Resolution and mapping plane
-- resolve config paths with mapped fallback semantics
-- maintain deterministic resolution and compatibility behavior
-
-2. Validation plane
-- schema-driven config validation and parsing guard paths
-- structured error signaling for invalid config payloads
-
-3. Observability and operations plane
-- metrics export and access-audit surfaces
-- file watcher integration for config change signaling
-
-4. Secure storage plane
-- encrypted config key/value storage for sensitive settings
-- key-rotation-aware secure persistence behavior
-
-## Core Contracts
-
-| Contract | Behavior |
-|---|---|
-| resolution interfaces | deterministic path mapping and fallback behavior |
-| validation interfaces | explicit schema and parse validation outcomes |
-| observability interfaces | stable metrics and audit reporting surfaces |
-| secure-store interfaces | bounded encrypted storage and rotation semantics |
-
-## Failure Semantics
-
-- invalid or unresolved config inputs fail with structured errors.
-- schema/parse failures remain explicit and non-silent.
-- watcher and exporter degradation paths remain bounded and diagnosable.
-
-## Sourcecode Verification (Module: config/architecture)
-
-- Verified files:
-  - src/config/config_path_resolver.cpp
-  - src/config/config_schema_validator.cpp
-  - src/config/config_metrics_exporter.cpp
-  - src/config/config_file_watcher.cpp
-  - src/config/config_encrypted_store.cpp
-  - src/config/config_audit_log.cpp
-- Verified architecture claims:
-  - explicit resolution, validation, observability, and secure-store planes
-  - bounded failure behavior for config lifecycle paths
-  - dedicated module-layer composition for config runtime concerns
+---
+Author: "ThemisDB Contributors"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
 ---
 
-### Direct Downstream Consumers (modules that use this module)
+Exact model backend not verifiable from final document text alone.
 
-| Module | Via | Notes |
-|--------|-----|-------|
-| `server` | `include/config/config_path_resolver.h`, `include/config/config_metrics_exporter.h` | HTTP server, auth middleware, MCP server, and monitoring handler resolve paths and export config metrics (`src/server/http_server.cpp`, `src/server/auth_middleware.cpp`, `src/server/mcp_server.cpp`, `src/server/monitoring_api_handler.cpp`) |
-| `content` | `include/config/config_path_resolver.h`, `include/config/config_schema_validator.h` | Async ingestion worker, MIME detector, and OCR processor resolve runtime config paths and validate schemas (`src/content/async_ingestion_worker.cpp`, `src/content/mime_detector.cpp`, `src/content/ocr_processor.cpp`) |
-| `index` | `include/config/config_path_resolver.h` | `VectorIndex` resolves index data path from config at construction (`src/index/vector_index.cpp`) |
-| `llm_wiki` | `include/config/config_path_resolver.h`, `include/config/config_schema_validator.h` | Process policy manager and Wikipedia LLM plugin resolve paths and validate config schemas (`src/llm_wiki/process_policy_manager.cpp`, `src/llm_wiki/wikipedia/llm_wiki_plugin_impl.cpp`) |
-| `utils` | `include/config/config_path_resolver.h` | PII detector resolves pattern-list config paths at runtime (`src/utils/pii_detector.cpp`) |
-| `main` | `include/config/config_path_resolver.h`, `include/config/config_metrics_exporter.h` | Server entry point initializes config resolution and starts the metrics exporter (`src/main_server.cpp`) |
+# Architecture — Config Module
+
+## Purpose and boundaries
+
+This is the implementation architecture for `src/config`. Public declarations
+are in `include/config/`; focused tests are under `tests/config/`. The module
+offers independent support components, not an end-to-end settings transaction:
+consumer services decide when to reload, validate, authorize and apply settings.
+
+## Components and data flow
+
+```mermaid
+flowchart TD
+  Caller --> Resolver[ConfigPathResolver]
+  Resolver --> Map[Legacy mapping and environment candidate paths]
+  Map --> Cache[Shared LRU cache with TTL]
+  Cache --> Filesystem[Filesystem probes]
+  Filesystem -->|resolved path| Caller
+  Filesystem -->|successful resolution| Audit[Optional in-memory audit log]
+  Resolver --> Metrics[Resolver counters]
+  Metrics --> Exporter[ConfigMetricsExporter]
+  Directory --> Watcher[ConfigFileWatcher]
+  Watcher -->|debounced event| Resolver
+  Resolver -->|clear cache only| Cache
+  Caller --> Validator[ConfigSchemaValidator]
+  Validator -->|parse + schema diagnostics| Caller
+  Caller --> Store[ConfigEncryptedStore]
+  Store -->|AES-256-GCM encrypted values| Memory[In-memory map]
+```
+
+### Resolution
+
+`ConfigPathResolver::tryResolve()` normalizes and validates a requested path,
+consults the process-wide cache and tries candidate paths produced from the
+legacy mapping and selected environment. The production environment has no
+overlay; development and staging use their corresponding overlay candidates.
+Successful paths are cached and can be added to the optional audit log.
+`resolve()` wraps absence in `ConfigNotFoundException`.
+
+### Parsing and validation
+
+`ConfigSchemaValidator` converts JSON or YAML input to `nlohmann::json` and
+walks the provided schema. File extension selects YAML for `.yaml` and `.yml`;
+other file suffixes use JSON. `validateWithSchemaFile()` resolves the schema
+path if the resolver finds it; the config path is loaded directly. The
+validator supports only implemented schema keywords and local `#` references;
+do not infer full Draft 7 support from the contract header.
+
+### Watch and observability
+
+`ConfigFileWatcher` uses platform-specific event APIs (Linux inotify, Apple
+kqueue, Windows directory notifications) and a debounced callback. It filters
+for `.yaml`, `.yml`, and `.json` file events. The resolver's callback invalidates
+the path cache; settings are not automatically parsed or applied.
+`ConfigMetricsExporter` renders resolver/cache counters in Prometheus text or
+registers collectors. `ConfigAuditLog` is an optional bounded in-memory log of
+successful path resolutions, not durable compliance evidence.
+
+### Encrypted store
+
+`ConfigEncryptedStore` owns a process-local generated 32-byte key and a map of
+encrypted blobs. AES-256-GCM uses 12-byte IVs and 16-byte tags in the current
+implementation. `rotateKey()` re-encrypts entries before replacing the key and
+store while holding the exclusive lock. `serialize()` includes the current key
+bytes; it is not safe to treat the snapshot as ciphertext-only backup.
+
+## Failure and known gaps
+
+- Path lookup may return no result; `resolve()` throws, while `tryResolve()`
+  returns an empty optional.
+- File parse errors become validation diagnostics; `loadAsJson()` throws
+  `SchemaValidationException`.
+- `ConfigEncryptedStore::get()` reports missing keys and crypto failures by
+  exceptions; `tryGet()` collapses caught decrypt/parse failures into
+  `std::nullopt`.
+- The contract header declares limits and behaviors that are not all established
+  by focused tests. See [`MODULE_GAPS.md`](MODULE_GAPS.md); verify enforcement
+  before documenting them as runtime guarantees.
+
+## Source references
+
+- `src/config/config_path_resolver.cpp`
+- `src/config/config_schema_validator.cpp`
+- `src/config/config_file_watcher.cpp`
+- `src/config/config_metrics_exporter.cpp`
+- `src/config/config_audit_log.cpp`
+- `src/config/config_encrypted_store.cpp`
+- `include/config/config_contract.h`
+
+**TODO:** The previous downstream-consumer table has not been re-audited against
+current call sites and is omitted rather than repeated as verified architecture.

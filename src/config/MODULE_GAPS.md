@@ -1,76 +1,62 @@
-# config — MODULE_GAPS.md (Phase 5 Verified)
-
-This file documents all documentation and code quality gaps in the **config** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
-
-## Summary
-
-- **Total Gaps**: 895
-- **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
-- **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)
-
-### By Severity
-
-- **CRITICAL**: 13
-- **HIGH**: 33
-- **MEDIUM**: 847
-- **LOW**: 2
-
-### By Type
-
-- braces_imbalance: 2
-- copy_overhead: 1
-- db_connection_leak: 4
-- exception_in_destructor: 2
-- hardcoded_path: 3
-- legacy_or_compat_path: 12
-- lock_contention: 4
-- manual_cleanup: 17
-- memory_order: 1
-- missing_dtor: 4
-- missing_noexcept_on_move: 3
-- missing_volatile: 2
-- module_doc_linkset_drift: 2
-- no_timeout: 4
-- null_dereference: 5
-- path_traversal: 1
-- posix_only_api: 1
-- range_temporary: 3
-- resource_leaked_in_exception: 3
-- scope_mismatch: 797
-- size_assumption: 1
-- smart_ptr_misuse: 1
-- stale_doc_section_reference: 1
-- string_concat_loop: 2
-- todo_as_productionlogic: 12
-- unchecked_array_index: 2
-- uninitialized_access: 3
-- uninitialized_array: 2
-
-## Top 20 Gaps
-
-- [braces_imbalance] config_file_watcher.cpp:1 (CRITICAL)
-- [braces_imbalance] config_path_resolver.cpp:1 (CRITICAL)
-- [missing_dtor] config_metrics_exporter.cpp:40 (CRITICAL)
-- [missing_dtor] config_metrics_exporter.cpp:62 (CRITICAL)
-- [no_timeout] config_file_watcher.cpp:244 (CRITICAL)
-- [no_timeout] config_file_watcher.cpp:249 (CRITICAL)
-- [exception_in_destructor] config_encrypted_store.cpp:348 (CRITICAL)
-- [exception_in_destructor] config_encrypted_store.cpp:401 (CRITICAL)
-- [no_timeout] config_file_watcher.cpp:422 (CRITICAL)
-- [missing_dtor] config_file_watcher.cpp:428 (CRITICAL)
-- [missing_dtor] config_file_watcher.cpp:429 (CRITICAL)
-- [no_timeout] config_file_watcher.cpp:475 (CRITICAL)
-- [smart_ptr_misuse] config_path_resolver.cpp:1348 (CRITICAL)
-- [uninitialized_access] config_audit_log.cpp:16 (HIGH)
-- [uninitialized_access] config_metrics_exporter.cpp:16 (HIGH)
-- [memory_order] config_audit_log.cpp:53 (HIGH)
-- [db_connection_leak] config_file_watcher.cpp:86 (HIGH)
-- [posix_only_api] config_file_watcher.cpp:110 (HIGH)
-- [lock_contention] config_path_resolver.cpp:141 (HIGH)
-- [resource_leaked_in_exception] config_metrics_exporter.cpp:209 (HIGH)
-
-... and 875 more gaps.
-
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
 ---
 
-**Phase 5 Verification Notes**: External GitHub submodules (llama.cpp, whisper.cpp, vcpkg, etc.) are explicitly excluded from this analysis via Phase 5 filtering. This ensures all gaps are from themis_core (100% scope accuracy).
+Exact model backend not verifiable from final document text alone.
+
+# Config Module Gaps
+
+## Scope and evidence status
+
+This is a small, source-review gap list, not a fresh automated scanner result.
+The former counts (895 gaps from a `C:\Projects\...` scan) are stale and are
+not evidence of current findings. No current whole-repository gap scan was run.
+
+## Open documentation and verification items
+
+1. **Contract-to-implementation bounds — TODO.** `config_contract.h` declares
+   limits for input sizes, nesting, error collection and watcher timing.
+   Verify each against code paths and focused tests before claiming enforcement.
+2. **Schema keyword coverage — TODO.** Document the exact supported keyword
+   set and test unsupported keywords explicitly. The implementation and current
+   tests do not establish full Draft 7 conformance.
+3. **Encrypted-store error semantics — verified caveat.** `get()` throws on
+   absence/decryption failure; `tryGet()` catches decryption/decoding errors
+   and returns `std::nullopt`, conflating those cases.
+4. **Watcher end-to-end reload — TODO.** Current watcher delivery and resolver
+   cache invalidation do not prove that a consuming service reloads and applies
+   validated settings.
+5. **Benchmark evidence — TODO.** Benchmark source labels name desired
+   thresholds, but no run result or maintained baseline was inspected for this
+   documentation update. See [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md).
+6. **Release-gate benchmark API mismatch — TODO.** The current
+   `bench_config_release_gates.cpp` calls `ConfigSchemaValidator::validate()`
+   with a JSON value, while `config_schema_validator.h` declares the file-path
+   overload and `validateFromString()`; no matching JSON-value overload was
+   found in the reviewed implementation. Target buildability is unverified;
+   reconcile the benchmark call and API before relying on this target.
+7. **Contract/runtime mismatch — TODO.** The contract describes key rotation as
+   non-blocking to readers/writers, but `ConfigEncryptedStore::rotateKey()`
+   takes an exclusive `shared_mutex` lock while re-encrypting entries. The
+   contract also declares a maximum validation-error count that was not
+   confirmed in the inspected validator path.
+
+## Evidence reviewed
+
+- `src/config/*.cpp`
+- `include/config/*.h`
+- `tests/config/test_config_*.cpp`
+- `tests/CMakeLists.txt`
+- `benchmarks/config/*.cpp`
+- [`IMPLEMENTATION.md`](IMPLEMENTATION.md)
+
+**TODO:** Replace these review notes with specific issue IDs and reproducible
+test evidence when the open verification work is completed.

@@ -1,51 +1,70 @@
-> **Status:** 2026-06-01 – mit aktuellem Config-Code (`config_encrypted_store.cpp`) abgeglichen.
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
 
-# ThemisDB Config Module - Production Requirements
+Exact model backend not verifiable from final document text alone.
 
-## Zweck und Geltungsbereich
+# Config Module Production Boundary
 
-Dieses Dokument ist der **kanonische Referenzpunkt für produktive Mindestanforderungen** des Config-Moduls.
-Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Verschlüsselter Config-Store, Config-Audit-Log, Config-File-Watcher.
+## Purpose and status
 
-## Dokumentabgrenzung (Canonical Split)
+This page describes code-backed operational boundaries for `src/config`; it
+does not certify the module or define deployment-wide production policy. The
+previous revision listed mandatory controls (including always-on audit logging,
+operator-attributed change records, external retries and unrelated environment
+variables) that are not implemented by this module and are removed here.
 
-- **`src/config/PRODUCTION_REQUIREMENTS.md` (dieses Dokument):** verpflichtende Produktionsanforderungen (MUST/MUST NOT), Sicherheitsannahmen, Betriebsgrenzen.
-- **`src/config/README.md`:** Funktionsübersicht, Architekturkontext, API- und Nutzungsbeispiele.
-- **`src/config/ROADMAP.md`:** Lieferphasen, offene/abgeschlossene Features, Readiness-Planung.
-- **`src/config/FUTURE_ENHANCEMENTS.md`:** mittelfristige/langfristige Erweiterungen und Forschungsfelder.
+## Verified implementation behavior
 
-## Verbindliche Produktionsanforderungen
+- `ConfigPathResolver` initializes `THEMIS_CONFIG_ENV` to `DEV`, `STAGING`, or
+  `PROD`; absent or unrecognized values select `PROD`. Cache defaults are 1,000
+  entries and 300 seconds; optional overrides are
+  `THEMIS_CONFIG_CACHE_SIZE` and `THEMIS_CONFIG_CACHE_TTL`.
+- `ConfigAuditLog` is disabled by default, bounded in memory (10,000 entries by
+  default), and records resolution metadata, not operator-attributed
+  configuration changes.
+- `ConfigFileWatcher` can signal file changes. It does not parse, validate, or
+  atomically apply settings.
+- `ConfigEncryptedStore` uses a generated in-memory key and AES-256-GCM. Its
+  serialized representation includes that key and is therefore sensitive.
+- Schema validation returns diagnostics, but the code supports a subset of
+  schema behavior. Do not equate parse success or this component's presence
+  with production configuration validation.
 
-- **MUST:** Config-Encrypted-Store mit aktivem Verschlüsselungs-Provider; kein Plaintext-Config-Store für sensitive Werte.
-- **MUST:** Config-Audit-Log aktiv; alle Konfigurationsänderungen werden mit Zeitstempel und Operator protokolliert.
-- **MUST:** Alle sicherheitsrelevanten Konfigurationswerte beim Start validiert; fehlende oder ungültige Werte führen zu Fail-Closed-Verhalten.
-- **MUST NOT:** Sicherheits- oder Autorisierungs-Checks in Produktionspfaden deaktivieren.
+## Deployment-owner checks
 
-## Verbindliche Sicherheitsanforderungen
+- Confirm the service that consumes the configuration owns authorization,
+  reload/apply sequencing, secret delivery, persistence, backups, and incident
+  recovery.
+- Restrict filesystem access to configuration paths and protect serialized
+  store snapshots as secret material.
+- Enable the resolver audit log only when its in-memory path records are useful;
+  do not rely on it as durable or compliance-grade evidence.
+- Test actual service startup, failure handling and reload behavior in the
+  deployment environment. This module's focused tests do not establish those
+  cross-service properties.
 
-- Sicherheitsrelevante Operationen werden über dedizierte Kontroll-Surfaces geleitet.
-- Fehler in sicherheitskritischen Pfaden werden als explizite Fehlercodes propagiert; kein Silent-Permit.
-- Audit-Logging für sicherheitsrelevante Operationen aktiv in Produktionsdeployments.
+## Explicit gaps
 
-## Betriebsgrenzen
+- **TODO:** document deployment-specific production requirements in the owning
+  service's canonical runbook; no universal deployment policy is established
+  by `src/config`.
+- **TODO:** verify enforcement of each bound declared in
+  `include/config/config_contract.h` against the implementation and focused
+  tests before describing it as a production control.
 
-- Konfigurationswerte müssen deployment-spezifisch gesetzt sein; Default-Werte gelten nicht als produktionssicher.
-- Ressourcen-Limits (Größen, Counts, Timeouts) müssen mit den Deployment-Anforderungen übereinstimmen.
-- Externe Abhängigkeiten müssen mit expliziten Verbindungs-Timeouts und Retry-Policies konfiguriert sein.
+## Canonical module references
 
-## Minimaler Produktions-Check (Audit-fähig)
-
-- [ ] Modul-Konfiguration vollständig und beim Start validiert
-- [ ] Sicherheits- und Autorisierungs-Checks aktiv
-- [ ] Ressourcen-Limits explizit konfiguriert (keine Unlimited-Defaults)
-- [ ] Audit-Logging aktiv
-- [ ] Externe Abhängigkeiten mit Timeout und Retry konfiguriert
-- [ ] Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt
-
-## Review / Sourcecode-Audit-Nachweis
-
-### Betroffene Dateien im Review
-
-- `src/config/PRODUCTION_REQUIREMENTS.md`
-- `src/config/config_encrypted_store.cpp`
-- `src/config/config_audit_log.cpp`
+- [`ARCHITECTURE.md`](ARCHITECTURE.md)
+- [`IMPLEMENTATION.md`](IMPLEMENTATION.md)
+- [`SECURITY.md`](SECURITY.md)
+- [`TRUST.md`](TRUST.md)
+- `include/config/config_contract.h`
