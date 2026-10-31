@@ -68,9 +68,10 @@ No build, test or benchmark was run for this documentation-only update.
 The local module CMake files contain component-library and test/benchmark
 registrations, some guarded by dependency or option checks. The module evidence
 documents historical validation attempts; they are not current execution
-results. The EPIC 2 root maturity summary and the checked-in module source/build
-inventory have an unresolved storage-strategy and maturity-status discrepancy;
-see [ROADMAP.md](./ROADMAP.md).
+results. The root roadmap now identifies the storage assessor as
+`distributed_tensor`-owned and does not claim aggregate EPIC 2 acceptance
+without execution evidence. The separate EPIC 2 storage benchmark measures
+synthetic shard placement, not the assessor; see [ROADMAP.md](./ROADMAP.md).
 
 ## Related documentation
 

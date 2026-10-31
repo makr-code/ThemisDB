@@ -50,6 +50,10 @@ is linked.
 | `artifact_lifecycle.cc` | Lifecycle state computation and metadata transitions | Make stale, invalidated, rebuilding, and failed states distinguishable |
 
 `src/evaluation/CMakeLists.txt` has no storage-strategy source or target. The
+`StorageStrategyAssessor` implementation and focused-test registration are
+owned by `distributed_tensor` (`themis_distributed_tensor`); this is separate
+from the EPIC 2 benchmark harness, which calls `DefaultShardPlacementStrategy`
+with synthetic node inputs. The
 separately located `benchmarks/epic2_evaluation/artifact_staleness_bench.cc`
 exists, but `benchmarks/epic2_evaluation/CMakeLists.txt` does not register it.
 That directory declares planner-decision and planner-error-path executables

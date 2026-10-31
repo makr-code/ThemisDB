@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.4.0-alpha  
-**Last Updated:** 2026-10-30 (Wave C evidence status and governance target reconciliation)
+**Last Updated:** 2026-10-31 (Wave C and EPIC 2 source/evidence reconciliation)
 **Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). Wave C (Security Production Validation) remains open: the latest tracked closure manifest (2026-10-01) records C1/C2 as successful, C3 sustained-load evidence as pending, and C4 compliance sign-off as in progress. Its linked validation artifact expired 2026-10-30; refresh the evidence before promoting these gates. GA promotion also remains gated by unresolved Wave-A/B evidence and final human sign-off at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9. **Q3 2026 quarterly pentest complete (2026-09-28): 0 critical findings, 1 high finding (30-day remediation deadline), gate PASS. See `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`.**
 <!--
 AI_Used: true
@@ -1501,7 +1501,7 @@ Plan: `src/MODULE_GAP_ANALYSIS_WAVE2.md` (Wave 2 + Wave 3 konsolidiert).
 | **distributed_tensor** | THIN/PLACEHOLDER | LOC=0, Stub/KLOC=0, Tests=0, TestRefs=0 |
 | **document** | HARDENING | LOC=2362, Stub/KLOC=8,89, Tests=47, TestRefs=20 |
 | **ethics_ai** | HARDENING | LOC=6315, Stub/KLOC=10,45, Tests=0, TestRefs=42 |
-| **evaluation** | HARDENING | LOC=860, Stub/KLOC=0, Tests=40+, TestRefs=0 | EPIC 2 complete: all 7 components (2.1 Hardware Profiles, 2.2 Benchmark Matrix, 2 Phase 2 Metrics/Ablation, 2.4 Approximation Rules, 2.5 Query Planner, 2.6 Artifact Lifecycle, 2.7 Storage Strategy) implemented, tested (220+ tests), benchmarked |
+| **evaluation** | HARDENING | LOC=860, Stub/KLOC=0, Tests=40+, TestRefs=0 | EPIC 2 implementation spans `evaluation` and `distributed_tensor`. The `StorageStrategyAssessor` (2.7) is implemented in `distributed_tensor` and has a test source included by its focused-test CMake registration. The separate EPIC 2 `storage_strategy_bench` uses `DefaultShardPlacementStrategy` with synthetic nodes, not `StorageStrategyAssessor`. Source/CMake presence does not verify 220+ passing tests or completed benchmark evidence; aggregate acceptance remains unverified. |
 | **execution** | HARDENING | Scheduler/thread-pool core delivered; hardening and deployment gate tracking active (`src/execution/ROADMAP.md`) |
 | **exporters** | HARDENING | LOC=9810, Stub/KLOC=7,03, Tests=378, TestRefs=15 |
 | **failover** | HARDENING | LOC=1259, Stub/KLOC=6,35, Tests=17, TestRefs=6 |

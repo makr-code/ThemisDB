@@ -23,14 +23,15 @@ benchmark.
 | EPIC 2 benchmarks | Separate CMake: planner decision/error targets require `epic2_evaluation_lib`; matrix requires Google Benchmark plus `themis_evaluation`; storage source goes through the standard benchmark helper. Artifact-staleness exercises `ArtifactLifecycleManager` with Google Benchmark but is not registered. Planner harnesses report in-process call percentiles; matrix workload simulations are explicitly synthetic/non-release; storage calls `DefaultShardPlacementStrategy` with synthetic nodes. No measurements were made for this update. |
 | Public include entry point | `include/evaluation/evaluation.h` currently contains no component includes or declarations. |
 
-### Blocking documentation/status gap
+### Current aggregate evidence gap
 
-Root `ROADMAP.md` states that evaluation EPIC 2 is complete and includes
-storage strategy among delivered components. The checked module source and
-CMake do not establish that claim or its aggregate test count. Root roadmap is
-out of scope here; maintainer reconciliation is required. See
-[ROADMAP.md](./ROADMAP.md). Do not use the historical findings below as current
-validation evidence.
+Root `ROADMAP.md` now identifies the storage assessor as a
+`distributed_tensor` implementation and leaves EPIC 2 aggregate acceptance
+unverified. Its implementation and focused-test source/registration are present
+there; the EPIC 2 benchmark instead calls `DefaultShardPlacementStrategy` with
+synthetic nodes. Source/CMake registration does not verify the aggregate 220+
+passing-test count or completed benchmark runs. See [ROADMAP.md](./ROADMAP.md).
+Do not use the historical findings below as current execution evidence.
 
 ---
 

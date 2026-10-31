@@ -16,7 +16,10 @@ query-path selection and artifact lifecycle metadata. CMake declares
 `themis_evaluation` for five sources, plus conditional query-planner,
 approximation and lifecycle targets. There is no `storage_strategy` header,
 source or module-library target in the `src/evaluation` inventory checked for
-this update.
+this update. The `StorageStrategyAssessor` implementation is in
+`src/distributed_tensor/src/tensor_storage_strategy.cc`, built by
+`themis_distributed_tensor`; its focused test source is included by the
+distributed-tensor test registration. It is not an evaluation-module target.
 
 The public-path `include/evaluation/evaluation.h` currently contains no
 component declarations. Detailed paths and target ownership are in
@@ -37,33 +40,31 @@ component declarations. Detailed paths and target ownership are in
   registered there. Planner cases measure in-process `selectPath()` calls and
   report latency percentiles; matrix cases include synthetic workload
   simulations; artifact staleness exercises `ArtifactLifecycleManager` through
-  Google Benchmark without a registered target; storage placement calls
-  `DefaultShardPlacementStrategy` with synthetic node inputs.
+  Google Benchmark without a registered target; the storage benchmark calls
+  `DefaultShardPlacementStrategy` with synthetic node inputs, not
+  `StorageStrategyAssessor`.
 - Source registrations and benchmark output capabilities do not establish that
   targets were built, tests passed, or benchmark results were captured. No
   build, test or benchmark was run for this documentation-only update.
 
-### Aggregate-status conflict
+### Root aggregate status and evidence
 
-Root `ROADMAP.md` currently summarizes evaluation EPIC 2 as complete, reports a
-test count, and includes storage strategy among delivered components. The
-module source/build inventory reviewed here does not contain an evaluation-
-module storage-strategy implementation, and this scoped audit does not verify
-the aggregate test count or claimed benchmark evidence. Root `ROADMAP.md` is
-outside this task's edit scope. A maintainer must reconcile its maturity
-summary and the module implementation/evidence before either is used as a
-release-status claim. This update does not close or reclassify issue #5643.
+Root `ROADMAP.md` now identifies the cross-module implementation ownership and
+does not claim EPIC 2 acceptance as complete. The storage assessor and its
+focused-test registration are owned by `distributed_tensor`; the EPIC 2
+benchmark is a separate synthetic placement harness. Neither registration
+proves execution. The aggregate 220+ passing-test count and completed benchmark
+evidence remain unverified, so they are not presented as acceptance evidence.
+This documentation update does not close or reclassify issue #5643.
 
 ## In Progress
 
-- [ ] Reconcile the root maturity aggregate with module-owned source, target
-  and executable evidence; determine whether root storage-strategy wording
-  refers to an implementation outside this module.
 - [ ] Record build/test/benchmark execution results only after running the
   applicable targets in a configured environment. Keep registration separate
   from execution evidence.
-- [ ] Confirm the intended owner and delivery status of storage strategy before
-  claiming it as an evaluation-module capability.
+- [x] Identify the storage-strategy implementation and focused-test registration
+  as `distributed_tensor`-owned; do not describe them as evaluation-module
+  targets.
 - [ ] Verify downstream workflow integration only against actual consumers and
   accepted module gates.
 
@@ -73,8 +74,9 @@ No new runtime feature or delivery commitment is established by this
 documentation-only update. The following remain candidates pending ownership,
 scope and acceptance decisions:
 
-- Determine whether storage-strategy support belongs to this module or another
-  canonical owner; do not infer module ownership from the separate benchmark.
+- Confirm whether the EPIC 2 benchmark is intended to measure
+  `StorageStrategyAssessor` or the separate `DefaultShardPlacementStrategy`;
+  align its name and evidence with the intended contract.
 - Assess downstream workflow integration after verifying consumers and their
   required contracts.
 
@@ -96,8 +98,8 @@ do not mean a release gate passed.
 **Core implementation**
 
 - [x] Inventory the seven implementation files and their CMake target ownership.
-- [ ] Resolve whether storage strategy is an evaluation-module deliverable and,
-  if so, identify its canonical interface, implementation, target and tests.
+- [x] Identify the separate storage-assessor interface, implementation, library
+  target and focused-test registration under `distributed_tensor`.
 
 ### Phase 3
 
@@ -134,12 +136,15 @@ do not mean a release gate passed.
 
 - [x] Synchronize the scoped module documentation for issue #7344 while
   preserving dated acceptance and sign-off records as historical.
-- [ ] Reconcile the root maturity summary and obtain the required human review
-  and acceptance evidence before asserting module readiness.
+- [x] Align the root maturity summary with the cross-module source and CMake
+  ownership.
+- [ ] Obtain current human-reviewed build, test and benchmark acceptance
+  evidence before asserting module readiness.
 
 ## Production Readiness Checklist
 
-- [ ] Resolve the root roadmap versus module-source maturity discrepancy.
+- [x] Resolve the root roadmap versus module-source ownership discrepancy.
+- [ ] Establish current aggregate test and benchmark execution evidence.
 - [ ] Establish current build and focused-test results in an available,
   configured environment.
 - [ ] Capture and review benchmark results with hardware/build context; do not
@@ -150,14 +155,14 @@ do not mean a release gate passed.
 
 ## Known Issues & Limitations
 
-- Root `ROADMAP.md` and the module-local source/evidence record conflict;
-  maintainer reconciliation is required.
+- Root `ROADMAP.md` now distinguishes cross-module implementation presence from
+  aggregate EPIC 2 acceptance; current execution evidence is still missing.
 - `include/evaluation/evaluation.h` is an empty umbrella, while component
   declarations are under `src/evaluation/include/`.
-- `storage_strategy` appears in root and historical planning material but has
-  no source/header or module-library target in the evaluation-module inventory
-  checked here; a separate EPIC 2 benchmark calls a strategy implementation
-  outside this module.
+- `StorageStrategyAssessor` is owned by `distributed_tensor`, not this module.
+  The separately registered EPIC 2 benchmark calls
+  `DefaultShardPlacementStrategy` with synthetic nodes and does not establish
+  measured `StorageStrategyAssessor` performance.
 - Conditional CMake registrations do not prove execution. The local evaluation
   benchmark uses stubs; the EPIC 2 matrix simulations are synthetic, and
   artifact-staleness benchmark source is not registered.

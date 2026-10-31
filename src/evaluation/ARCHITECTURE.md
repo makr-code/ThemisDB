@@ -62,15 +62,20 @@ umbrella-header path alone.
 - Local test and benchmark registrations do not prove execution or downstream
   production integration.
 
-## Status conflict requiring maintainer reconciliation
+## Cross-module ownership and aggregate evidence
 
-Root `ROADMAP.md` currently summarizes evaluation EPIC 2 as complete and names
-storage strategy among its delivered components. The checked-in module source
-and CMake inventory reviewed for this update does not contain a
-`storage_strategy` implementation. The aggregate maturity claim, its test-count
-summary and the local source/build evidence have not been reconciled here. The
-root file is out of this task's edit scope; do not treat this architecture page
-as resolving that status conflict.
+The storage-strategy implementation is not part of the evaluation module:
+`StorageStrategyAssessor` is declared in
+`include/distributed_tensor/tensor_storage_strategy.h`, implemented in
+`src/distributed_tensor/src/tensor_storage_strategy.cc`, and included in the
+`themis_distributed_tensor` library. Its test source is registered through the
+focused-test glob in `tests/epic3_distributed_tensor/CMakeLists.txt`.
+
+The EPIC 2 `storage_strategy_bench` is a distinct harness that calls
+`DefaultShardPlacementStrategy` with synthetic node inputs; it does not measure
+`StorageStrategyAssessor`. Root `ROADMAP.md` now records these ownership limits
+and leaves aggregate acceptance unverified: source and CMake registrations do
+not prove 220+ passing tests or completed benchmark runs.
 
 ## References
 

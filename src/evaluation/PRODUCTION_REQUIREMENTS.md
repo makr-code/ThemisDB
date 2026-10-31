@@ -4,8 +4,8 @@
 > intended requirements, not evidence that the checked-in implementation,
 > deployment or current release satisfies them. No production-readiness,
 > security, build, test or benchmark audit was performed for issue #7344.
-> Current source/target boundaries and the unresolved root roadmap discrepancy
-> are summarized in [ROADMAP.md](./ROADMAP.md).
+> Current source/target boundaries and the remaining aggregate execution-evidence
+> gap are summarized in [ROADMAP.md](./ROADMAP.md).
 
 # ThemisDB Evaluation Module - Production Requirements
 

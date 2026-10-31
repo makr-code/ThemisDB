@@ -26,6 +26,10 @@ presented as a passing execution result.
 - `tests/epic2_evaluation/CMakeLists.txt` declares hardware-profile, planner,
   approximation, matrix, metrics, lifecycle, ablation and query-cache tests
   under separate target/dependency conditions.
+- Storage assessment is owned separately by `distributed_tensor`:
+  `tensor_storage_strategy.cc` is part of `themis_distributed_tensor`, and
+  `test_tensor_storage_strategy.cpp` is included by the focused-test source glob
+  in `tests/epic3_distributed_tensor/CMakeLists.txt`.
 - `benchmarks/evaluation/CMakeLists.txt` discovers the local dedicated-gates
   benchmark only when benchmarks are enabled. Its cases are stub-based and the
   source does not calculate p50/p95/p99 percentiles.
@@ -43,11 +47,12 @@ presented as a passing execution result.
   behaviors, not benchmark results for this update.
 - `include/evaluation/evaluation.h` currently contains no component includes.
 
-The root `ROADMAP.md` aggregate currently labels evaluation EPIC 2 complete and
-lists storage strategy. That claim and its test-count summary are not reconciled
-with the module-local source/build evidence above. See [ROADMAP.md](./ROADMAP.md)
-and [AUDIT.md](./AUDIT.md); the root file was not changed because it is outside
-the requested scope.
+Root `ROADMAP.md` now identifies the cross-module storage-assessment ownership
+and distinguishes registered source from verified execution. The EPIC 2
+`storage_strategy_bench` calls `DefaultShardPlacementStrategy` with synthetic
+nodes, not `StorageStrategyAssessor`. The aggregate 220+ passing-test count and
+completed benchmark evidence remain unverified. See [ROADMAP.md](./ROADMAP.md)
+and [AUDIT.md](./AUDIT.md).
 
 The dated evidence and blocker notes below are retained as historical records.
 Their 2026-07/2026-08 environment state and target inventory must not be read as

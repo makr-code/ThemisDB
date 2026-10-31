@@ -9,7 +9,8 @@
 > environment, prove current code correctness or production readiness, or
 > establish that the same blocker persists. No build/test/benchmark was run for
 > the 2026-10-31 documentation refresh. See the current registration inventory
-> and unresolved aggregate-status conflict in [MODULE_EVIDENCE.md](./MODULE_EVIDENCE.md).
+> and cross-module ownership/acceptance-evidence reconciliation in
+> [MODULE_EVIDENCE.md](./MODULE_EVIDENCE.md).
 
 <!-- Status: 2026-08-08 — Environment blocker documented -->
 <!-- Issue: #5643 (Development Status) -->
