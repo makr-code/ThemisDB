@@ -64,11 +64,12 @@ public:
         if (cancelled_.load(std::memory_order_acquire)) {
             return;
         }
+        std::function<void()> task(std::forward<F>(f));
         std::lock_guard<std::mutex> lock(tasks_mutex_);
         if (cancelled_.load(std::memory_order_acquire)) {
             return;
         }
-        tasks_.emplace_back(std::forward<F>(f));
+        tasks_.emplace_back(std::move(task));
     }
 
     /**
@@ -99,9 +100,12 @@ public:
      * semantics so waiting code observes the stop request promptly.
      */
     void cancel_group_execution() noexcept {
-        std::lock_guard<std::mutex> lock(tasks_mutex_);
         cancelled_.store(true, std::memory_order_release);
-        tasks_.clear();
+        std::vector<std::function<void()>> cancelled_tasks;
+        {
+            std::lock_guard<std::mutex> lock(tasks_mutex_);
+            cancelled_tasks.swap(tasks_);
+        }
     }
 
     /**
@@ -184,7 +188,8 @@ inline bool waitWithTimeout(tbb::task_group& tg, double timeout_seconds = 5.0) n
         }
     });
 
-    tg.wait();  // Returns promptly once cancelled or all tasks finish.
+    // Cancellation skips queued work; active tasks must return before wait completes.
+    tg.wait();
     done->store(true, std::memory_order_release);
 
     // [WAVE3B-DEADLOCK-FIX: Timed watchdog join to prevent deadlock]
