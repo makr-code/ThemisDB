@@ -30,6 +30,11 @@ rate limits, transport encryption, client isolation, or a complete defense
 against application-level injection. The handler buffers the full SSE response,
 and the caller/HTTP server owns transport behavior.
 
+The separate OpenAI-compatible `POST /v1/chat/completions` path uses API-key
+validation via `PolicyEngine`, not the JWT bearer-token gate. It also buffers
+SSE output. No route-level evidence was found for request-ID validation,
+disconnect cancellation, or bounded response-buffer limits.
+
 ## Unverified trust boundaries
 
 The helper interface receives a token, request ID, and callback sink, but the
@@ -50,8 +55,9 @@ backpressure controls, or diagnostic redaction.
 - Document concurrency and sink ownership before concurrent use.
 
 `tests/llm/test_streaming_handler.cpp` checks selected escaping and helper
-behavior, but does not validate the HTTP route or transport security. The
-stress/soak fixtures and benchmark use local stubs and provide no production
+behavior. `tests/llm/test_llm_aql_explain_stream_api.cpp` checks unauthenticated
+route behavior but not successful authenticated delivery or transport security.
+The stress/soak fixtures and benchmark use local stubs and provide no production
 security validation.
 
 ## Sources

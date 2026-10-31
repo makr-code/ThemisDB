@@ -32,6 +32,12 @@ buffer-occupancy, or cleanup metric was verified. The route's query parameters
 are `prompt`, `request_id`, and `max_tokens` (default 512; maximum accepted
 value 4096).
 
+The OpenAI-compatible stream path logs the selected model, prompt length,
+requested maximum tokens, and final SSE body size. It uses API-key validation
+via `PolicyEngine`, rather than the bearer-token gate used by the other LLM
+routes. No streaming-specific metric or per-stream cancellation signal was
+verified.
+
 ## Proposed incident triage (unverified)
 
 Operators still need an owner-specific procedure to identify the request,

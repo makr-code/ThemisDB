@@ -22,6 +22,8 @@ generation; it does not provide incremental network writes. The helper API
 formats strings and invokes a supplied sink; it does not expose a stream ID
 registry, connection state, metrics, queue, or recovery operations. The
 test/benchmark stubs do not establish production incident behavior.
+The OpenAI-compatible `POST /v1/chat/completions` streaming mode also buffers
+the complete SSE response and uses the API-key authorization path.
 
 ## Scenarios requiring verified procedures
 

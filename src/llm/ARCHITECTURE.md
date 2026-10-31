@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -22,6 +22,7 @@ Canonical_References:
   - "embedded_llm.cpp"
   - "async_inference_engine.cpp"
   - "llm_plugin_manager.cpp"
+  - "../server/llm_api_handler.cpp"
 Related_Issue: "#7167 (closes #7091)"
 Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
@@ -62,6 +63,15 @@ route currently accepts `prompt`, `request_id`, and `max_tokens` query
 parameters; `max_tokens` defaults to 512 and accepted values are capped at
 4096. No dedicated streaming configuration or transport cancellation/
 backpressure contract was verified.
+
+The same handler exposes OpenAI-compatible `POST /v1/chat/completions`
+streaming when the request body sets `stream: true`. It assigns an inference
+callback that appends OpenAI-compatible SSE chunks, then returns the buffered
+complete response with a final chunk and `[DONE]`; inference exceptions return
+JSON errors. This path also does not write chunks incrementally to the network.
+`AsyncInferenceEngine` cancellation/deadline controls apply to requests
+submitted through that engine; these synchronous HTTP streaming paths do not
+submit through it.
 
 ## Failure domains and edge cases
 

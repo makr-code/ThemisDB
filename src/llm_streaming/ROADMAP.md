@@ -22,8 +22,9 @@ callback helper in `src/llm/streaming_handler.cpp`, declared in
 `GET /api/v1/llm/stream` calls `EmbeddedLLM::generateStreamingSSE`, buffers
 events in memory, and returns a `string_body` response after generation. It
 does not use `StreamingHandler` and does not provide incremental network
-delivery. The module stress test, integration soak, and dedicated benchmark
-use in-process stubs and do not test this route.
+delivery. The OpenAI-compatible `POST /v1/chat/completions` path also buffers
+SSE chunks when `stream: true`. The module stress test, integration soak, and
+dedicated benchmark use in-process stubs and do not test either route.
 
 - [~] Document the helper API and its limits.
 - [x] Identify the HTTP route, inference callback, and buffered response path.
@@ -46,6 +47,8 @@ use in-process stubs and do not test this route.
   Their metrics and outcomes are not evidence of runtime performance.
 - `tests/llm/test_streaming_handler.cpp` tests the helper directly, but not
   end-to-end transport, cancellation, backpressure, or concurrent sink order.
+- `tests/llm/test_llm_aql_explain_stream_api.cpp` checks unauthenticated route
+  handling, but not successful authenticated streaming generation/delivery.
 - The module-focused test CMake globs local `test_*.cpp` stubs, registers them
   at stress tier with a 300-second timeout, and does not link the `llm`
   implementation.

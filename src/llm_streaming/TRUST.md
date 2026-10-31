@@ -28,20 +28,26 @@ Bearer-token validation occurs before route dispatch. SSE events are buffered
 into one response body and returned after generation; the source does not prove
 incremental network delivery or client-disconnect cancellation.
 
+The OpenAI-compatible `POST /v1/chat/completions` streaming mode uses a
+separate API-key validation path through `PolicyEngine`, and likewise buffers
+the complete response.
+
 ## What remains unverified
 
 - Association of supplied request IDs with authenticated users and model output.
-- Identity validation and association of request IDs with authenticated users.
+- Identity validation and authorization behavior beyond the route's initial
+  authentication checks.
 - Sink ownership, concurrency, and whether event order is preserved.
 - Cancellation, timeout, queue/backpressure, and cleanup behavior.
 - Production diagnostics, deployment controls, and security testing.
 
-The direct helper unit test covers selected formatting/callback cases. No
-route-level integration test for the HTTP/SSE endpoint was identified. The
-in-process stress/soak tests and benchmark use local stand-ins. None validates
-the unverified production boundaries above. The module's lifecycle, ordering,
-and failure requirements remain proposed until implemented and tested in the
-owning runtime.
+The direct helper unit test covers selected formatting/callback cases. The
+server API smoke test checks unauthenticated route handling but does not cover
+successful authenticated generation or delivery. The in-process stress/soak
+tests and benchmark use local stand-ins. None validates the unverified
+production boundaries above. The module's lifecycle, ordering, and failure
+requirements remain proposed until implemented and tested in the owning
+runtime.
 
 ## Trust conclusion
 

@@ -37,15 +37,21 @@ claim a complete runtime or an external research review.
   not incremental network delivery and it does not call `StreamingHandler`.
 - The route parses `prompt`, `request_id`, and `max_tokens`; the default token
   limit is 512 and accepted query values are capped at 4096.
+- `tests/llm/test_llm_aql_explain_stream_api.cpp` checks unauthenticated route
+  handling for `/api/v1/llm/stream`; it does not exercise successful
+  authenticated generation or delivery.
 
 The helper's atomic callback index does not establish ordered concurrent sink
 delivery. The source reviewed does not establish session lifecycle,
 backpressure, disconnect cancellation, gRPC, or streaming metrics.
+`AsyncInferenceEngine` has separate cancellation/deadline APIs, but the
+streaming HTTP handlers do not submit through it.
 
 ## Open design questions
 
 1. Is buffered SSE sufficient, or must the route write events incrementally?
-2. Which route-level tests verify the actual inference-to-response path?
+2. Which tests should cover successful authenticated inference-to-response
+   delivery and terminal/error behavior?
 3. Which component should own disconnect cancellation, backpressure, and
    cleanup if incremental delivery is required?
 4. Is the helper callback invoked concurrently, and what sink ordering contract

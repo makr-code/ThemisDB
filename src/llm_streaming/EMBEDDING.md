@@ -58,9 +58,10 @@ backpressure, and no stream-specific configuration keys were verified.
 `tests/llm/test_streaming_handler.cpp` directly covers helper formatting,
 callback delivery/indexing, and empty-sink rejection. The stress/soak tests and
 dedicated benchmark use separate in-process stubs and do not exercise the HTTP
-route. The route exists in source, but route-level integration test coverage was
-not identified; broader cancellation, backpressure, and network-flush behavior
-remain unverified.
+route. `tests/llm/test_llm_aql_explain_stream_api.cpp` checks unauthenticated
+route/auth behavior but does not exercise successful authenticated generation
+or event delivery. Broader cancellation, backpressure, and network-flush
+behavior remain unverified.
 
 **TODO / assumption:** add route-level tests and decide whether the current
 buffered response satisfies the required transport behavior.

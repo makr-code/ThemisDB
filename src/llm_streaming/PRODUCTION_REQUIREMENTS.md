@@ -18,12 +18,13 @@ Exact model backend not verifiable from final document text alone.
 
 `src/llm_streaming/` is docs-only. The helper is in
 `src/llm/streaming_handler.cpp` and `include/llm/streaming_handler.h`. A separate
-HTTP/SSE inference route exists at `GET /api/v1/llm/stream`; it buffers the
+HTTP/SSE inference route exists at `GET /api/v1/llm/stream` and an
+OpenAI-compatible streaming mode at `POST /v1/chat/completions`; both buffer the
 complete response body before returning it, rather than delivering events
-incrementally over the network. The route has no verified disconnect
-cancellation or backpressure implementation, and the stub-based module
-tests/benchmark do not validate it. Requirements below distinguish this current
-behavior from proposed acceptance work.
+incrementally over the network.
+Neither route has verified disconnect cancellation or backpressure, and the
+stub-based module tests/benchmark do not validate them. Requirements below
+distinguish this current behavior from proposed acceptance work.
 
 ## Proposed ownership and behavior requirements
 
@@ -42,9 +43,13 @@ behavior from proposed acceptance work.
 
 ## Acceptance evidence (not yet demonstrated)
 
-- [x] current HTTP route, caller, and buffered response are mapped to source
+- [x] current HTTP routes, callers, and buffered response behavior are mapped
+      to source
 - [x] direct helper unit tests exist for escaping, indexes, sink behavior, and
       empty-sink exception semantics
+- [x] a server API smoke test checks unauthenticated route/auth behavior
+- [ ] add authenticated route integration tests for generated events and
+      terminal/error response behavior
 - [ ] execute/maintain those tests and extend coverage for callback copies and
       concurrency semantics
 - [ ] route integration tests exercise actual inference callbacks, response

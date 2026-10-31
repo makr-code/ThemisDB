@@ -46,12 +46,14 @@ API; it is not an end-to-end transport inventory.
 
 ## Generation status
 
-The repository generator is `scripts/generate_module_doxygen_xml.py` and
-supports `--modules`, `--write-module-markdown`, and required output locations
-for `--output-root`, `--manifest`, and `--summary-md`. No generated XML artifact
-or completed generator run for this updated inventory was reviewed here.
-Generate API output from the canonical `llm` header/implementation if needed;
-do not characterize that output as an inventory of `src/llm_streaming/`.
+On 2026-10-31, `scripts/generate_module_doxygen_xml.py` completed for module
+`llm` with Doxygen 1.9.8 and `Doxyfile.audit`: status PASS, 555 C/C++ files,
+1,829 compounds, 1,072 classes/structs, and 175 namespaces. The XML index and
+warnings log were generated under `/tmp/themis-module-doxygen/artifacts/llm/`;
+the manifest and summary are under `/tmp/themis-module-doxygen/`. These are
+temporary generated artifacts and are not tracked in the repository.
 
-**TODO:** record the invocation's actual output paths after a current Doxygen
-run. The old absolute `C:\Projects\...` paths are intentionally not retained.
+The run covers `llm` source/header inputs, not `src/llm_streaming/` as a
+separate module; this directory has no C++ source or header. The generated
+`src/llm/DOXYGEN.md` summary is derived from that module-scoped run and should
+not be characterized as an inventory of this directory.

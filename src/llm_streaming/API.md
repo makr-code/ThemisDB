@@ -68,9 +68,21 @@ network transport.
 `request_id`, and optional `max_tokens` query parameters (default 512, maximum
 4096). The handler accumulates the complete SSE body before returning an HTTP
 `string_body` response, so this endpoint does not provide incremental network
-delivery. The route-level lifecycle, disconnect cancellation, backpressure, and
-route integration test coverage remain unverified. The module stress/soak tests
-are stubs and do not test this route.
+delivery. The route smoke test
+`tests/llm/test_llm_aql_explain_stream_api.cpp` checks unauthorized/missing
+prompt handling but not successful authenticated generation or event delivery.
+Disconnect cancellation and backpressure remain unverified. The module
+stress/soak tests are stubs and do not test this route.
+
+The OpenAI-compatible `POST /v1/chat/completions` handler also supports
+`"stream": true`. It sets `InferenceRequest::stream_callback`, gathers formatted
+SSE chunks in memory, appends the final chunk and `[DONE]`, then returns a
+complete `string_body` response. It does not expose a stream cancellation or
+backpressure API.
+
+`AsyncInferenceEngine` has separate cancellation/deadline support, but these
+HTTP handlers do not submit their streaming requests through it; those controls
+are not part of either route's contract.
 
 ## Source references
 

@@ -28,11 +28,24 @@ returns a `http::string_body` response after generation. The route does not use
 `StreamingHandler` and does not send each event to the network as it is
 generated.
 
+The OpenAI-compatible `POST /v1/chat/completions` handler has a separate
+streaming mode (`stream: true`). It installs a callback on the parsed inference
+request, converts callback values into OpenAI-compatible SSE chunks, appends
+the final chunk and `[DONE]`, and returns a complete `string_body` response.
+This path also buffers rather than incrementally writing to the connection.
+
+`AsyncInferenceEngine` exposes cancellation/deadline behavior for its own
+requests, but neither HTTP streaming handler submits through that engine. Those
+controls therefore do not establish cancellation or timeout behavior for these
+routes.
+
 `tests/llm/test_streaming_handler.cpp` directly tests the formatting helper and
 callback adapter. Separately, the stress/soak files in
 `tests/llm_streaming/` and `tests/integration/test_llm_streaming_soak.cpp`,
 plus the benchmark in `benchmarks/llm_streaming/`, use local stubs; those
 fixtures do not call the helper or a network/model backend.
+`tests/llm/test_llm_aql_explain_stream_api.cpp` checks unauthenticated route
+handling but not successful authenticated generation or event delivery.
 
 ## Concrete helper and runtime flows
 
@@ -101,8 +114,10 @@ streaming or transport validation.
 - `src/llm/embedded_llm.cpp`
 - `src/server/llm_api_handler.cpp`
 - `src/llm/embedded_llm_stub.cpp`
+- `tests/llm/test_llm_aql_explain_stream_api.cpp`
 - `cmake/ModularBuild.cmake`
 - `tests/llm/test_streaming_handler.cpp`
+- `tests/llm/test_llm_aql_explain_stream_api.cpp`
 - `tests/llm_streaming/CMakeLists.txt`
 - `tests/CMakeLists.txt`
 - `tests/integration/CMakeLists.txt`

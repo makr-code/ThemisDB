@@ -36,6 +36,12 @@ aber keine inkrementelle Übertragung zum Client; die Route nutzt den
 `StreamingHandler`-Helper nicht. Die atomare Indexvergabe des Helpers stellt
 bei parallelen Aufrufen keine Reihenfolge der Sink-Zustellung sicher.
 
+Auch `POST /v1/chat/completions` unterstützt `stream: true`: Der Handler
+wandelt Callback-Ausgaben in OpenAI-kompatible SSE-Chunks um, sammelt sie
+inklusive finalem Chunk und `[DONE]` im Speicher und liefert anschließend einen
+vollständigen `string_body`-Response zurück. Auch hier erfolgt kein
+inkrementelles Flushen an den Client.
+
 ## Validierung und Grenzen
 
 `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`,
@@ -44,6 +50,10 @@ bei parallelen Aufrufen keine Reihenfolge der Sink-Zustellung sicher.
 eigene In-Process-Stubs. Sie rufen den `StreamingHandler` nicht auf. Die dort
 genannten Last- oder Performance-Schwellen sind daher keine gemessenen
 Eigenschaften einer Streaming-Runtime.
+
+`tests/llm/test_llm_aql_explain_stream_api.cpp` prüft unauthentifizierte
+Route-/Auth-Fälle, aber keine erfolgreiche authentifizierte Generierung oder
+SSE-Zustellung.
 
 Der Route-Code verarbeitet `prompt`, `request_id` und `max_tokens` als
 Query-Parameter; `max_tokens` ist standardmäßig 512 und akzeptiert Werte bis

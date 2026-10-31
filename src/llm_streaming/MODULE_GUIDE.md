@@ -37,12 +37,14 @@ Exact model backend not verifiable from final document text alone.
   `tests/integration/test_llm_streaming_soak.cpp` use in-process stubs.
 - `tests/llm/test_streaming_handler.cpp` directly tests the formatting helper
   and callback adapter, but not transport integration.
+- `tests/llm/test_llm_aql_explain_stream_api.cpp` checks unauthenticated route
+  handling, not successful streaming generation or event delivery.
 - `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp` benchmarks
   stubs rather than the helper.
 
 No header under `include/llm_streaming/` was found. The route has no verified
 disconnect cancellation, bounded backpressure, stream-specific configuration,
-or route-level integration test.
+or successful authenticated route-level integration test.
 
 ## Build/test registration
 

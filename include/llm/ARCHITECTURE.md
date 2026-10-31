@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 <!-- Status: current | validated: 2026-06-01 -->
@@ -172,7 +186,7 @@ For runtime composition — inference engine internals, LoRA hot-swap, paged-all
 
 | Header | Public Type | Purpose |
 |--------|------------|---------|
-| `streaming_handler.h` | `StreamingHandler` | SSE event and HTTP chunk string formatting plus a caller-supplied sink callback adapter |
+| `streaming_handler.h` | `StreamingHandler` | SSE event and HTTP chunk string formatting plus a caller-supplied sink callback adapter; not the server route implementation |
 | `grafana_metrics.h` | `GrafanaMetrics` | Grafana-compatible metrics emission |
 | `llm_interaction_store.h` | `LLMInteractionStore` | Persistent interaction log for observability |
 | `llm_ingestion_bridge.h` | `LLMIngestionBridge` | Bridge for LLM-augmented data ingestion |

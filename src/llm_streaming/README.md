@@ -36,6 +36,11 @@ stream-specific configuration keys, cancellation/disconnect propagation,
 backpressure controller, or streaming metrics were verified. The module tests,
 soak, and benchmark remain local stub scenarios, not tests of this server path.
 
+The OpenAI-compatible `POST /v1/chat/completions` path also supports
+`"stream": true`. It installs an inference callback that appends adapter-built
+SSE chunks to a string, then returns the complete `string_body` response with a
+final chunk and `[DONE]`. It likewise does not flush chunks incrementally.
+
 ## Evidence paths
 
 | Path | Verified role |
@@ -45,11 +50,14 @@ soak, and benchmark remain local stub scenarios, not tests of this server path.
 | `src/llm/embedded_llm.cpp` | Inference callback and SSE event formatting |
 | `src/server/llm_api_handler.cpp` | Buffered HTTP/SSE route and response construction |
 | `tests/llm/test_streaming_handler.cpp` | Direct helper unit tests (not runtime integration) |
+| `tests/llm/test_llm_aql_explain_stream_api.cpp` | Route/auth smoke checks; no successful authenticated generation/delivery test |
 | `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp` | In-process stub stress tests |
 | `tests/integration/test_llm_streaming_soak.cpp` | In-process stub soak tests |
 | `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp` | In-process stub benchmark |
 
 The direct unit test covers helper behavior, not a server/transport path. The
+route smoke test checks unauthorized/missing-prompt requests but does not
+exercise successful authenticated generation or event delivery. The
 stress/soak/benchmark files do not call `StreamingHandler`; their outcomes are
 not runtime integration or performance evidence.
 

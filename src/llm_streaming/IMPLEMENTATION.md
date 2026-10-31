@@ -53,6 +53,17 @@ does not generate token events: it calls `generate` once and invokes its
 callback with a terminal-style event. No stream-specific runtime configuration,
 client-disconnect cancellation, or bounded transport backpressure was found.
 
+The OpenAI-compatible `POST /v1/chat/completions` handler implements an
+independent streaming mode. When the request body has `stream: true`, it sets
+`InferenceRequest::stream_callback`, calls `LLMPluginManager::generate`, and
+appends formatted OpenAI-compatible chunks to a string. On success it appends a
+final chunk and `[DONE]`, then returns an HTTP `string_body` SSE response. The
+route also buffers until generation completes; exceptions produce a JSON error
+response rather than an SSE terminal chunk.
+`tests/llm/test_llm_aql_explain_stream_api.cpp` only checks unauthenticated
+dispatch/auth behavior for the general stream route; it does not verify
+successful authenticated generation or SSE delivery.
+
 ## Tests and benchmark: scope
 
 - `tests/llm/test_streaming_handler.cpp` directly tests SSE formatting and
@@ -62,6 +73,8 @@ client-disconnect cancellation, or bounded transport backpressure was found.
   sink ordering, or callback-copy behavior.
 - The CMake registration description mentions cancellation/backpressure, but
   those behaviors are not exercised by this test source.
+- `tests/llm/test_llm_aql_explain_stream_api.cpp` tests route/auth rejection
+  paths; it is not an end-to-end generation or delivery test.
 - `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp` tests
   locally defined session, queue, and sequence-checking stubs.
 - `tests/integration/test_llm_streaming_soak.cpp` tests its own local token,

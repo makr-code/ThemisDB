@@ -37,6 +37,11 @@ on success (or an error event if generation throws), then returns a
 transport delivery. The route has query parameters `prompt`, `request_id`, and
 `max_tokens` (default 512, accepted maximum 4096).
 
+`POST /v1/chat/completions` also has a `stream: true` mode. It calls
+`LLMPluginManager::generate` with a callback that appends adapter-formatted SSE
+chunks, then returns one complete response body with a final chunk and `[DONE]`.
+Exceptions in this path return a JSON error response.
+
 ## Proposed runtime model (not established)
 
 The states `open`, `active`, `cancelled`, and `closed`, plus per-stream
