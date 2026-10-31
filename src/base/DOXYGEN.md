@@ -2,15 +2,40 @@
 
 Author: ThemisDB Contributors
 Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+Last Updated: 2026-10-31
+Status: archived
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot coding agent
+Human_Review: false
+Human_Author: ThemisDB Contributors
+
+Exact model backend not verifiable from final document text alone.
+
+> Historical generated snapshot from 2026-09-20T09:10:36Z; it was not
+> regenerated for this source audit. A current source-selection check confirms
+> 36 C/C++ inputs (2 under `include/base`, 10 under `src/base`, 7 under
+> `tests/base`, and 17 under `benchmarks/base`), and their names match the
+> snapshot's 36 file compounds. The 165-compound count and the remaining symbol
+> inventory are historical and have not been revalidated against current code.
 
 ## Source
-- This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\base\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\base\doxygen-warnings.log`
+- Generator: `scripts/generate_module_doxygen_xml.py`, using `Doxyfile.audit`.
+- Historical manifest: `ai_context/developer_llm_wiki/MODULE_DOXYGEN_BASELINE.json`
+  (`generated_at`: `2026-09-20T09:10:36Z`).
+- From the repository root, regenerate XML and its manifest/summary with:
 
-## Structure Metrics
+  ```bash
+  python3 scripts/generate_module_doxygen_xml.py --repo-root . --modules base --output-root build/module-doxygen --manifest build/module-doxygen/manifest.json --summary-md build/module-doxygen/summary.md --doxyfile Doxyfile.audit
+  ```
+
+- To regenerate this Markdown as well, add `--write-module-markdown`. The
+  generator currently writes absolute resolved XML/log paths into the Markdown;
+  normalize those to repository-relative paths before publishing, or fix the
+  generator to emit portable paths first. Do not treat compound or symbol
+  counts as current until that Doxygen run completes successfully.
+
+## Historical Structure Metrics (2026-09-20)
 - C/C++ Files (scanned): 36
 - Compounds: 165
 - Classes/Structs: 95
@@ -5796,4 +5821,3 @@ Status: active
 - Parameters:
   - `<unnamed>` (BaseEntitySetFieldTest): n/a
   - `<unnamed>` (SetFieldFailsClosedForEmptyFieldName): n/a
-

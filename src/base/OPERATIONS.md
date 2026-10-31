@@ -1,12 +1,12 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
-AI_Models: "GitHub Copilot, MAI-Code-1.1-Flash"
-AI_Contributor: "GitHub Copilot"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
@@ -16,18 +16,43 @@ Exact model backend not verifiable from final document text alone.
 
 ## Mission
 
-The base module is the runtime operations substrate for execution safety. When a module is failing, the most important question is not “did the process crash,” but “which boundary rejected or destabilized the module, and what should the operator do next?”
+The base module exposes lifecycle, registry, reload, and optional sandbox APIs.
+It is not by itself a complete execution-safety boundary: native modules run in
+the host process, and several sandbox restrictions are currently skipped with
+warnings.
 
 ## Primary operational surfaces
 
 The relevant runtime artifacts are:
 
-- `ModuleLoader` — lifecycle and verification objective
-- `ModuleSandbox` — resource and isolation guardrails
-- `HotReloadManager` — in-place change and rollback behavior
-- `PluginDependencyGraph` — dependency legality and startup ordering
-- `RemoteRegistryClient` — registry-driven artifact acquisition
-- `ABTestManager` — rollout and promotion state
+- `ModuleLoader` — configured lifecycle and verification steps
+- `ModuleSandbox` — optional, platform-dependent resource/isolation controls
+- `HotReloadManager` — reload result and configured rollback behavior
+- `PluginDependencyGraph` — caller-invoked dependency analysis and ordering
+- `RemoteRegistryClient` — registry-driven artifact acquisition; HTTP URLs are accepted with a warning
+- `ABTestManager` — experiment state and promotion/rollback API
+
+`ModuleSandbox` resource controls act on the current process, not a separate
+process per native module. Linux cgroup/`RLIMIT` and Windows Job Object behavior
+depends on platform support and setup. Network, filesystem, and syscall
+restrictions may be skipped. Check `launchWarnings()` and `lastError()`; a
+successful launch alone does not prove that every requested control took effect.
+`HotReloadManager::Config::sandboxConfig` is optional; when unset, the manager
+does not create its sandbox. The public header contracts an atomic swap, but the
+inspected implementation unloads the old module and temporary candidate before
+reloading under the canonical name. Treat this as a contract/implementation
+discrepancy and do not promise uninterrupted availability until reconciled.
+
+The normal `ModuleLoader` verifier path supports a caller-configured hash
+manifest; only modules listed in it receive the additional SHA-256 comparison.
+`PluginBundleLoader` verifies an Ed25519 manifest when given a public key and
+rejects unsigned bundles by default unless unsigned loading is explicitly
+enabled. Revocation error values exist, but the normal loader path is not shown
+to invoke CRL/OCSP checks.
+
+This guide is a symptom-oriented aid, not proof that each named error occurs in
+every production path. See `RUNBOOK.md` and `include/themis/base/` for the
+source-defined error taxonomy and API.
 
 ## Symptom-driven response model
 
@@ -54,9 +79,13 @@ Operator action:
 
 Symptoms:
 
-- module was modified in transit,
-- signer is not trusted,
-- certificate is revoked or expired.
+- supplied hash/signature does not match, or the configured trust policy rejects
+  the metadata/issuer,
+- certificate is outside its validity dates or the configured trust check fails.
+
+The normal `ModuleLoader` verification path does not call the implemented
+CRL/OCSP methods. Do not treat this symptom list as evidence that revocation is
+checked.
 
 Relevant codes:
 
@@ -65,9 +94,11 @@ Relevant codes:
 
 Operator action:
 
-- confirm the artifact was signed by a trusted key,
+- identify the verifier used by the caller and compare the artifact metadata,
+  signature/hash, and expected issuer against that verifier's effective policy,
 - inspect whether the module is stale or replaced without approval,
-- verify revocation and trust policy settings.
+- if revocation checking is required, use a verifier confirmed to perform it;
+  the normal loader path is not shown to invoke CRL/OCSP checks.
 
 ### ABI or symbol mismatch
 
@@ -100,12 +131,14 @@ Relevant codes:
 
 - `BASE_SANDBOX_LAUNCH_FAILED`
 - `BASE_SANDBOX_RESOURCE_LIMIT`
-- `BASE_SANDBOX_DEGRADED_STATE`
+- `BASE_SANDBOX_DEGRADED`
 
 Operator action:
 
-- confirm platform support for cgroups or job objects,
-- inspect memory and CPU caps,
+- inspect `ModuleSandbox::launchWarnings()` and `lastError()` to see which
+  controls were skipped or failed,
+- confirm resource limits at the host-process level; they do not isolate an
+  in-process native plugin from ThemisDB,
 - verify the plugin uses only allowed host functions and valid WASM bytecode.
 
 ### Dependency or ordering failure
@@ -119,8 +152,8 @@ Symptoms:
 Relevant codes:
 
 - `BASE_DEPENDENCY_CYCLE`
-- `BASE_DEPENDENCY_MISSING_REQUIREMENT`
-- `BASE_DEPENDENCY_VERSION_MISMATCH`
+- `BASE_DEPENDENCY_MISSING_REQUIRED`
+- `BASE_DEPENDENCY_VERSION_RANGE_MISMATCH`
 
 Operator action:
 
@@ -145,9 +178,13 @@ Relevant codes:
 
 Operator action:
 
-- inspect the previous version path and restore it if needed,
+- inspect the previous version path and request rollback only when a backup was
+  retained and the result/configuration indicates rollback is available,
 - check logs for candidate load failures,
 - review the callback state and whether `preserveState` is viable for the module.
+  The header promises an atomic swap, while the implementation's unload/reload
+  sequence appears to leave a gap; resolve this discrepancy before relying on
+  continuous availability.
 
 ### Registry or download issues
 
@@ -159,13 +196,14 @@ Symptoms:
 
 Relevant codes:
 
-- `BASE_REGISTRY_AUTH_FAILED`
+- `BASE_REGISTRY_AUTH_FAILURE`
 - `BASE_REGISTRY_CHECKSUM_MISMATCH`
 - `BASE_REGISTRY_DOWNLOAD_FAILED`
 
 Operator action:
 
-- verify registry credentials and TLS configuration,
+- verify the configured `RegistryConfig` credential fields and TLS options;
+  credential storage/rotation is the owning application's responsibility,
 - check download path and file integrity,
 - review timeout and retry budgets for transient network issues.
 
@@ -179,7 +217,18 @@ Operationally important signals include:
 - warning or error spans emitted from reload operations,
 - module health check failure details.
 
-These should be used together with the taxonomy to reduce incident time and avoid generic “module failed” triage.
+`RequestStats` retry/timeout counts and the registered observability hooks are
+source-defined. Names of exported metrics, server/admin commands, alert rules,
+and deployment configuration keys are not defined by the base API and must be
+treated as deployment-specific examples, not built-in ThemisDB interfaces.
+
+`RegistryConfig` does define `auth_token`, `api_key`, `verify_ssl` (default
+true), `ca_bundle_path`, and `pinned_public_key`. Credentials are sent as
+request headers; storage/rotation is outside this client. HTTP is accepted with
+a warning, and `verify_ssl=false` disables certificate and host verification.
+
+These signals should be used together with the taxonomy to reduce incident time
+and avoid generic “module failed” triage.
 
 ## Recovery strategy
 

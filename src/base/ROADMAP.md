@@ -1,7 +1,21 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-07-27"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Base Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-27 -->
+<!-- Status: current | source/build-definition review: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
@@ -11,7 +25,7 @@ Production runtime foundations exist for secure module loading, sandboxing, depe
 ## In Progress
 
 - [x] hardening of runtime edge behavior across loader/sandbox/reload paths (Target: Q3 2026) — completed 2026-07-27: reload rollback regression suite + sandbox degraded-state tests delivered in test_base_reload_regression.cpp
-- [x] benchmark stabilization and baseline hardening for base hot paths (Target: Q3 2026) — completed 2026-07-27: GATE-BASE-01..06 release gates implemented in bench_base_hot_paths.cpp
+- [x] base hot-path benchmark target definitions delivered (Target: Q3 2026) — completed 2026-07-27: GATE-BASE-01..06 source/labels in `benchmarks/base/bench_base_hot_paths.cpp`; this does not assert a measured gate pass.
 - [x] consistency tightening for dependency and registry failure diagnostics (Target: Q3 2026) — completed 2026-07-27: unified taxonomy delivered in base_error_taxonomy.h with all diagnostic builders
 
 ## Planned Features
@@ -22,7 +36,7 @@ Production runtime foundations exist for secure module loading, sandboxing, depe
 - [x] improve operator-facing diagnostics for module activation and rollback classes (Target: Q4 2026) — completed 2026-07-27: see test_base_future_enhancements.cpp suite 10 (OperatorDiagnosticsTest)
 
 ### Mid-term (6-12 months)
-- [x] re-baseline p95/p99 and throughput envelopes for base module benchmark mappings (Target: Q1 2027) — completed 2026-07-27: GATE-BASE-07..12 in benchmarks/bench_base_wasm_sandbox.cpp
+- [~] define and measure p95/p99 and throughput envelopes for base benchmark mappings (Target: Q1 2027) — GATE-BASE-07..12 source/labels exist in `benchmarks/base/bench_base_wasm_sandbox.cpp`; representative-hardware measurement/sign-off remains pending.
 - [x] reduce proxy-like mappings through additional dedicated base microbenchmarks (Target: Q1 2027) — completed 2026-07-27: dedicated wasm/sandbox/AbiChecker/taxonomy benchmarks in bench_base_wasm_sandbox.cpp
 - [x] finalize remaining wasm/runtime backend hardening for production profiles (Target: Q1 2027) — completed 2026-07-27: wasm validation-only mode, fuel-budget, host-function allowlist tests delivered
 
@@ -42,11 +56,11 @@ Production runtime foundations exist for secure module loading, sandboxing, depe
 
 ### Phase 4: Tests
 - [x] expand focused regressions for reload rollback and dependency conflict scenarios (Target: Q4 2026) — completed 2026-07-27: tests/base/test_base_reload_regression.cpp (10 test suites, 40+ cases)
-- [x] extend deterministic fixture coverage for sandbox/runtime and registry permutations (Target: Q4 2026) — completed 2026-07-27: SandboxDegradedStateTest and RegistryConfigValidationTest suites
+- [x] add deterministic test-source coverage for sandbox/runtime and registry permutations (Target: Q4 2026) — suites exist in `tests/base/test_base_future_enhancements.cpp`; module-local test CMake is auto-discovered by `tests/CMakeLists.txt`.
 
 ### Phase 5: Performance and Hardening
-- [x] lock benchmark-backed release gates for base hot paths (Target: Q4 2026) — completed 2026-07-27: GATE-BASE-01..06 in benchmarks/bench_base_hot_paths.cpp
-- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026) — completed 2026-07-27: gate labels embedded in each benchmark for CI gate enforcement
+- [x] define benchmark release-gate cases for base hot paths (Target: Q4 2026) — GATE-BASE-01..06 in `benchmarks/base/bench_base_hot_paths.cpp`; this is source coverage, not measured gate validation.
+- [?] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026) — gate labels are embedded in benchmark source; representative hardware results and comparison evidence remain pending.
 
 ### Phase 6: Documentation and Acceptance
 - [x] core base module docs aligned to source-verifiable behavior
@@ -59,14 +73,16 @@ Production runtime foundations exist for secure module loading, sandboxing, depe
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
 - [x] remaining hardening tasks closed for runtime and backend edge cases — completed 2026-07-27
-- [x] release benchmark stabilization completed for target envelopes — completed 2026-07-27: bench_base_hot_paths.cpp
-- [x] wasm/sandbox and AbiChecker dedicated benchmarks delivered — completed 2026-07-27: bench_base_wasm_sandbox.cpp
+- [x] benchmark source/target definitions delivered — `benchmarks/base/bench_base_hot_paths.cpp`; passing target envelopes have not been established here.
+- [x] wasm/sandbox and AbiChecker dedicated benchmark source delivered — `benchmarks/base/bench_base_wasm_sandbox.cpp`; representative-hardware results remain pending.
 - [x] future enhancement test coverage delivered (short-term + mid-term targets) — completed 2026-07-27: test_base_future_enhancements.cpp
 
 ## Known Issues and Limitations
 
 - behavior remains partly capability-dependent on enabled runtime backends/options.
-- wasm execution paths require an injected WasmRuntime for full functional coverage (validation-only mode is fully tested).
+- wasm execution paths require an injected WasmRuntime for execution; test source coverage and module-local CMake registration are present, but test execution was not verified in this documentation audit.
+- `tests/CMakeLists.txt` discovers module CMake files with `CONFIGURE_DEPENDS` and adds `tests/base/`. Base `test_*.cpp` targets are focused unit tests; the focused soak target has a 7200-second timeout. The helper labels tests with `module:base`, `tier:unit`/`tier:soak`, `kind:focused`, and `focus`; the local file adds `base` and `soak`. Registration does not establish build or test success.
+- `src/base/buffer_pool.cpp` and `resource_pool_manager.cpp` are absent from the inspected modular `THEMIS_BASE_SOURCES` and monolithic `THEMIS_CORE_SOURCES` lists; intended integration is unresolved.
 - GATE-BASE-07..12 thresholds are benchmark labels; CI enforcement requires a benchmark-comparison step. Wave D delivers `benchmarks/baselines/base/wave_d_baselines.json` with defined thresholds; wiring the comparison step into CI is tracked as a post-Wave-D follow-up. p95/p99 values on representative hardware are a prerequisite for closing the benchmark Program-Level Success Criterion (see ROADMAP.md §Program-Level Success Criteria).
 
 ## Breaking Changes

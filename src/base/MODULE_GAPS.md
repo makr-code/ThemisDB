@@ -1,25 +1,45 @@
-# base — MODULE_GAPS.md (Phase 5 Verified + Re-Scan Aligned)
+---
+Author: "ThemisDB Contributors"
+Created: "2026-08-24"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
 
-This file documents all documentation and code quality gaps in the **base** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
+Exact model backend not verifiable from final document text alone.
 
-## Re-Scan / Count-Abgleich (2026-08-24)
+# base — MODULE_GAPS.md (historical snapshot; not current gap evidence)
+
+This file preserves gap-scanner and baseline figures reported as of
+2026-08-24. They are historical records, not a current code audit or evidence of
+current gap status. **The current gap count is unknown; zero must not be read as
+the current count or as superseding the 801-gap baseline.** The document does
+not establish that those two historical tallies used identical inputs or
+filters. No gap scanner was run for this documentation review.
+
+## Historical module re-scan report (2026-08-24; not current)
 
 - **Re-scan command**: `python tools/gap_scanner.py --repo . --output ai_working --module base`
-- **Current scanner artifact**: `ai_working/gap_scan_base.json`
-- **Current scanner counts**: Total **0** = CRITICAL **0** + HIGH **0** + MEDIUM **0** + LOW **0**
+- **Referenced artifact**: `ai_working/gap_scan_base.json` (not present in the checkout reviewed here)
+- **Historical reported counts**: Total **0** = CRITICAL **0** + HIGH **0** + MEDIUM **0** + LOW **0**. Preserved as a prior report only; the referenced artifact is unavailable here, so these counts cannot be independently checked.
 - **Category split**: none
 - **Scope split**: none
 
-> Note: `tools/gap_scanner.py` currently writes the gap list correctly but leaves
-> `summary` empty; counts above are reconciled directly from the regenerated
-> `gaps` entries.
+> Historical note: prior documentation reported that `tools/gap_scanner.py`
+> wrote the gap list but left `summary` empty, and that the total was counted
+> from `gaps`. That reconciliation cannot be independently verified without
+> the referenced artifact.
 
-## Summary
+## Historical count records (2026-08-24; not current)
 
-- **Total Gaps (Phase 5 baseline)**: 801 *(was 803; 2 closed 2026-08-24 in batch D)*
-- **Total Gaps (current module re-scan)**: 0 *(see re-scan section above)*
-- **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
-- **Last Updated**: 2026-08-24 (base-gap-closures-batch-d + re-scan count alignment)
+- **Phase 5 baseline**: 801 *(reported as 803 before two batch-D closures)*
+- **Separate module re-scan report**: 0 *(historical result only; not a current count or a demonstrated replacement for the Phase 5 baseline)*
+- **Current gap status**: unknown; this file is not current gap evidence.
+- **Historical report date**: 2026-08-24 (base-gap-closures-batch-d and module re-scan report)
 
 ### By Severity (Phase 5 baseline)
 
@@ -28,7 +48,7 @@ This file documents all documentation and code quality gaps in the **base** modu
 - **MEDIUM**: 741 *(was 739)* — +2 (analysis notes from batch C; no new regressions in batch D)
 - **LOW**: 2
 
-### By Severity (current module re-scan)
+### By Severity (2026-08-24 module re-scan; historical)
 
 - **CRITICAL**: 0
 - **HIGH**: 0

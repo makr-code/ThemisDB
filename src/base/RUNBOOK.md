@@ -1,12 +1,54 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-09-16"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Base Module — Operator Runbook
 
 <!-- Status: Wave D delivery | created: 2026-09-16 -->
 <!-- Links: README.md · ROADMAP.md · ARCHITECTURE.md · include/themis/base/base_error_taxonomy.h -->
 
-This runbook covers operator-critical scenarios for the **base** module. Each
-section maps to an error-code group in `include/themis/base/base_error_taxonomy.h`
-and provides symptoms, diagnostic commands, remediation steps, and alert
-guidance.
+This runbook summarizes source-defined error-code groups in
+`include/themis/base/base_error_taxonomy.h` and offers diagnostic suggestions.
+The presence of a taxonomy entry does not prove that every integration emits
+that code or exposes the same operator surface.
+Native modules run in the ThemisDB process; `ModuleSandbox` resource limits
+apply to the current process rather than isolating each native module. Linux
+cgroup/`RLIMIT` and Windows Job Object controls are platform/setup-dependent.
+The inspected network, filesystem, and syscall restriction methods warn and
+skip. A successful sandbox launch is not proof that every configured control
+took effect. The normal `ModuleLoader` verifier path does not call the
+implemented CRL/OCSP methods, so this runbook does not assert revocation checks.
+The canonical loader also supports an explicitly loaded hash manifest and a
+separate `PluginBundleLoader` Ed25519-signature path when a key is configured;
+it defines revoked-certificate error/reporting values, which do not prove that
+the normal path checks revocation. Unsigned bundles require explicit opt-in in
+the implementation, although the bundle-loader class overview comment says
+signature checking is skipped without a key; that header wording conflicts with
+the setter documentation and implementation.
+The repository sources inspected do not define a `themisdb-admin` executable,
+the example Prometheus metric names below, or the referenced deployment
+configuration keys. Treat those commands, metric names, and settings as
+illustrative placeholders that must be mapped to the operator's actual
+deployment. Registry clients accept HTTP as well as HTTPS; HTTP emits a warning
+and does not provide transport encryption.
+
+Use API field names only where declared in the headers. For example,
+`RegistryConfig` includes `auth_token`, `api_key`, `download_dir`, `timeout_ms`,
+`max_retries`, `max_total_retry_time_ms`, `verify_ssl`, `ca_bundle_path`, and
+`pinned_public_key`; it does not define an application deployment mapping.
+Sample keys such as `sandbox.operation_timeout_s` and `sandbox.allow_degraded`
+are not `ModuleSandbox::Config` fields. Treat sample paths and deployment
+settings as placeholders unless the owning application's mapping confirms them.
 
 ---
 
@@ -43,21 +85,21 @@ guidance.
 ### Diagnostic commands
 
 ```bash
-# Inspect the last N log lines for loader errors
+# Example only: adapt the service name/log backend to the deployment.
 journalctl -u themisdb --since "10 minutes ago" | grep BASE_LOADER
 
-# Check that the module binary exists and is readable
+# Generic filesystem checks; replace the example path.
 ls -lh /path/to/plugin.so
 file /path/to/plugin.so
 
-# Verify library dependencies are satisfied
+# Platform-specific example (Linux).
 ldd /path/to/plugin.so
 
-# Check for SELinux/AppArmor denials
+# Platform-specific examples; these tools may not be installed.
 ausearch -m AVC -ts recent | grep themisdb
 journalctl -k | grep apparmor | grep themisdb
 
-# Verify code signature (if applicable)
+# A file hash alone does not establish signature trust.
 openssl dgst -sha256 /path/to/plugin.so
 ```
 
@@ -65,17 +107,22 @@ openssl dgst -sha256 /path/to/plugin.so
 
 **1100 — PATH\_NOT\_FOUND**
 1. Confirm the deployment script copied the module to the configured path.
-2. Check `module_loader_config.path` in the ThemisDB configuration file.
+2. Confirm the configured path through the owning application's supported configuration.
 3. Verify the process user has `r-x` permission on the file and parent directory.
 
 **1101 — SIGNATURE\_REJECTED**
-1. Re-sign the module with a key in the trusted keyring.
-2. Confirm the signing key has not expired (`openssl x509 -noout -dates`).
-3. Verify the binary was not altered in transit (compare SHA-256 with artifact registry).
+1. Identify the verifier used by the caller and compare the artifact metadata,
+   supplied signature/hash, and expected issuer against that verifier's policy.
+2. Where the active verifier exposes a signing certificate, check its validity
+   dates; this is not evidence that revocation is checked.
+3. Compare the artifact's SHA-256 with the value from the trusted release
+   process. Do not assume a generic OS keyring is used by `ModuleLoader`.
+4. If `setHashManifest()` is configured, confirm the module name has an entry;
+   modules absent from the manifest are not rejected by that manifest check.
 
 **1102 — ABI\_MISMATCH**
 1. Rebuild the module against the current ThemisDB SDK headers.
-2. Ensure `THEMIS_ABI_VERSION` in the module's build matches the host.
+2. Compare the module's declared ABI metadata against the host contract.
 3. Deploy the correct module version for the running ThemisDB release.
 
 **1103 — LOAD\_FAILED**
@@ -91,7 +138,7 @@ openssl dgst -sha256 /path/to/plugin.so
 **1105 — HEALTH\_CHECK\_FAILED**
 1. Identify the failing health check from the diagnostic message.
 2. Confirm all staged-loading prerequisites (ports, databases, endpoints) are up.
-3. Increase health-check retry budget if the dependency has a slow start.
+3. If the owning application provides a retry setting, review its configured budget.
 
 ---
 
@@ -136,23 +183,26 @@ journalctl -u themisdb --since "1 hour ago" | grep BASE_SANDBOX
 
 **1150 — LAUNCH\_FAILED**
 1. Check the `lastError()` detail in the 1150 log line for the root cause.
-2. Confirm `seccomp`, `cgroups`, and namespace support are available on this kernel.
-3. Review AppArmor/SELinux policy for sandbox syscalls.
+2. Inspect `ModuleSandbox::launchWarnings()` for controls that were skipped.
+3. Do not assume network namespaces, filesystem restrictions, or seccomp were
+   applied; the inspected methods warn and skip those controls.
 
 **1151 — RESOURCE\_LIMIT**
-1. Raise `sandbox.memory_limit_mb` or `sandbox.cpu_share` in module config if the workload is legitimate.
-2. Otherwise investigate the module for memory leaks (use `/proc/<pid>/status` RSS tracking).
-3. Collect a heap profile before killing the module if recurrence is suspected.
+1. Review the actual `ModuleSandbox::Config` fields and deployment mapping before changing limits.
+2. Confirm whether the configured cgroup, `RLIMIT`, or Job Object limit took
+   effect on the current process; this is not per-plugin process isolation.
+3. Otherwise investigate memory usage using deployment-appropriate tooling.
+4. Collect a heap profile before terminating the host process if recurrence is suspected.
 
 **1152 — TIMEOUT**
-1. Raise `sandbox.operation_timeout_s` if the operation legitimately needs more time.
+1. Review the actual sandbox/operation timeout contract; no `sandbox.operation_timeout_s` API field was found.
 2. Check the module for blocking I/O or deadlocks (attach `gdb` or use `strace -p`).
 3. If the timeout recurs, consider rolling back to the previous module version.
 
 **1153 — DEGRADED**
 1. Read the unsupported constraint list from the diagnostic.
 2. Upgrade the host kernel if the missing features are security-critical.
-3. If degraded-state is acceptable, set `sandbox.allow_degraded = true` and document the acceptance in the change record.
+3. If degraded state is acceptable under policy, record the acceptance in the change record; no `sandbox.allow_degraded` API field was found.
 
 ---
 
@@ -166,6 +216,7 @@ journalctl -u themisdb --since "1 hour ago" | grep BASE_SANDBOX
 | 1201 | `BASE_RELOAD_ROLLBACK_FAILED` | Reload of the backup binary failed during rollback |
 | 1202 | `BASE_RELOAD_CANDIDATE_LOAD_FAILED` | New module binary failed to load during hot-reload |
 | 1203 | `BASE_RELOAD_STATE_RESTORE_FAILED` | State restore callback returned failure |
+| 1204 | `BASE_RELOAD_NOT_REGISTERED` | Module is not registered with `HotReloadManager` |
 
 ### Symptoms
 
@@ -176,17 +227,17 @@ journalctl -u themisdb --since "1 hour ago" | grep BASE_SANDBOX
 ### Diagnostic commands
 
 ```bash
-# Check current module state
-themisdb-admin module status <module_name>
+# Placeholder: no built-in admin CLI contract was found in the inspected sources.
+# Obtain module state through the deployment's supported management surface.
 
 # List registered modules and backup availability
-themisdb-admin module list --show-rollback
+# Inspect the HotReloadManager state through the owning application.
 
-# Trigger a manual rollback via admin CLI
-themisdb-admin module rollback <module_name>
+# Placeholder: use the deployment's supported management API.
+# Invoke rollback through the owning application only when its API allows it.
 
 # Inspect reload stats
-themisdb-admin module stats <module_name>
+# Inspect HotReloadManager::getStats() through the owning application.
 ```
 
 ### Remediation
@@ -198,12 +249,24 @@ themisdb-admin module stats <module_name>
 **1201 — ROLLBACK\_FAILED**
 1. The backup binary is no longer accessible (deleted or unmounted).
 2. Redeploy the known-good binary to the backup path and retry.
-3. If the path is unknown, check `themisdb-admin module history <module_name>`.
+3. If the path is unknown, obtain the registered module history through the
+   owning application's supported management surface (no built-in
+   `themisdb-admin` command was found in the inspected sources).
 
 **1202 — CANDIDATE\_LOAD\_FAILED**
 1. The new binary has a loader error — follow BASE\_LOADER\_\* remediation above.
-2. The old module remains active and the system is stable.
+2. In the initial candidate-load failure branch, the old module remains loaded;
+   this does not cover a later canonical-name load failure after the old module
+   has been unloaded.
 3. Fix the new binary's issue and retry the deployment.
+
+The `HotReloadManager` header contracts an atomic swap: the old handle remains
+until the new module is initialized, and failure keeps the old module running.
+The inspected implementation later unloads the old module and temporary
+candidate before loading under the canonical name; on failure it attempts a
+best-effort restore from the prior path. Treat the API contract and this
+implementation sequence as unreconciled rather than promising uninterrupted
+availability. `Config::sandboxConfig` is optional and empty by default.
 
 **1203 — STATE\_RESTORE\_FAILED**
 1. Examine the state-restore callback logs for the specific failure.
@@ -214,13 +277,13 @@ themisdb-admin module stats <module_name>
 
 ```bash
 # 1. Verify rollback is available
-themisdb-admin module rollback-available <module_name>
+# Check HotReloadManager::isRollbackAvailable() through the owning application.
 
 # 2. Trigger rollback
-themisdb-admin module rollback <module_name>
+# Request rollback through the owning application's supported management API.
 
 # 3. Confirm the version reverted
-themisdb-admin module version <module_name>
+# Confirm version through ModuleLoader/HotReloadManager in the owning application.
 
 # 4. Monitor for 5 minutes
 journalctl -u themisdb -f | grep <module_name>
@@ -248,15 +311,8 @@ journalctl -u themisdb -f | grep <module_name>
 ### Diagnostic commands
 
 ```bash
-# Export current dependency graph as DOT for visualisation
-themisdb-admin dependency export --format dot > deps.dot
-dot -Tsvg deps.dot -o deps.svg
-
-# Detect cycles
-themisdb-admin dependency check-cycles
-
-# List conflicts
-themisdb-admin dependency check-conflicts
+# The public PluginDependencyGraph API can export DOT/JSON/ASCII and report
+# cycles. No admin CLI commands for this API were found in the inspected sources.
 ```
 
 ### Remediation
@@ -302,7 +358,7 @@ themisdb-admin dependency check-conflicts
 ### Diagnostic commands
 
 ```bash
-# Check registry connectivity
+# Example only; replace the endpoint and credentials with deployment values.
 curl -v https://registry.example.com/api/v1/health
 
 # Verify auth token validity (replace with actual endpoint)
@@ -312,8 +368,7 @@ curl -H "Authorization: ******" \
 # Check retry-exhaust metrics (Prometheus example)
 # themisdb_registry_retry_exhausted_total
 
-# Inspect last request stats via admin CLI
-themisdb-admin registry stats
+# Inspect RemoteRegistryClient::lastRequestStats() through the owning application.
 
 # Verify TLS configuration
 openssl s_client -connect registry.example.com:443 -showcerts </dev/null 2>&1 | grep -E "Verify|CN="
@@ -327,14 +382,20 @@ openssl s_client -connect registry.example.com:443 -showcerts </dev/null 2>&1 | 
 3. If transient, the retry logic (max\_retries, exponential back-off) will resolve it automatically.
 
 **1301 — AUTH\_FAILURE**
-1. Rotate the `auth_token` or `api_key` in `RegistryConfig`.
-2. Verify the token has not expired and has the correct permissions.
-3. Confirm the registry URL matches the token's audience.
+1. Rotate `RegistryConfig::auth_token` or `api_key` using the owning
+   application's secret-management process; this client does not store or
+   rotate credentials.
+2. Confirm token validity/authorization with the registry provider; expiry,
+   scopes, and audience rules are provider-specific.
+3. Use HTTPS with `verify_ssl=true` unless an explicitly reviewed test setup
+   requires otherwise; HTTP is accepted by the client with a warning.
 
 **1302 — CHECKSUM\_MISMATCH**
-1. The downloaded binary was corrupted in transit or the registry metadata is stale.
-2. Delete the partial file from `download_dir` and retry.
-3. If the mismatch persists, escalate to the registry maintainer — the registry entry may point to a tampered artifact.
+1. Compare the registry entry's expected SHA-256 with the value from the
+   independent release artifact; the client cannot determine why they differ.
+2. The client removes the downloaded file on a hash mismatch. If no expected
+   `sha256` was supplied, the client skips this integrity check instead.
+3. Ask the registry owner to validate the metadata and artifact before retrying.
 
 **1303 — DOWNLOAD\_FAILED**
 1. Check `max_retries` and `max_total_retry_time_ms` in `RegistryConfig` — they may be too low for the network latency.
@@ -350,7 +411,9 @@ openssl s_client -connect registry.example.com:443 -showcerts </dev/null 2>&1 | 
 | `retry_exhausted_count` | Number of request sequences that exhausted all retry budget |
 | `timeout_count` | Number of individual attempts that timed out (CURLE\_OPERATION\_TIMEDOUT) |
 
-These counters can be exported via the `ObservabilityHook` callback:
+These counters can be observed through the `ObservabilityHook` callback. The
+metric names in this example are user-chosen; the base API does not register
+Prometheus metrics itself:
 
 ```cpp
 client->setObservabilityHook([](const RequestStats& stats) {
@@ -364,8 +427,9 @@ client->setObservabilityHook([](const RequestStats& stats) {
 
 ## Prometheus Alert Rules (Reference)
 
-The following alert definitions are reference examples. Adjust thresholds to
-match your deployment's SLA and baseline behaviour.
+The following alert definitions and metric names are examples only; they are
+not emitted or registered by this module. Map them to metrics exported by the
+application and adjust thresholds to its SLA and baseline behaviour.
 
 ```yaml
 # Alert: registry retry-exhaust rate is elevated
@@ -419,6 +483,6 @@ match your deployment's SLA and baseline behaviour.
 
 ---
 
-*Last updated: 2026-09-16 — Wave D delivery*
+*Last updated: 2026-10-31 — source/build-definition reconciliation*
 *Maintainer: ThemisDB base module team*
 *Source of Truth: `include/themis/base/base_error_taxonomy.h`*

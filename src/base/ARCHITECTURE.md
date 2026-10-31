@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -44,14 +44,16 @@ The base area contains two related foundations: module/plugin lifecycle APIs und
 | Module lifecycle | [`ModuleLoader`](../../include/themis/base/module_loader.h) | Register/load/unload modules and expose verification, lifecycle, and error state. |
 | Isolation and ABI | [`ModuleSandbox`](../../include/themis/base/module_sandbox.h), [`WasmPluginSandbox`](../../include/themis/base/wasm_plugin_sandbox.h), [`WasmRuntimeInjector`](../../include/themis/base/wasm_runtime_injector.h) | Apply configured sandbox/ABI controls and select explicitly registered WASM runtimes. |
 | Dependency, reload, registry | [`PluginDependencyGraph`](../../include/themis/base/plugin_dependency_graph.h), [`HotReloadManager`](../../include/themis/base/hot_reload_manager.h), [`RemoteRegistryClient`](../../include/themis/base/remote_registry_client.h) | Resolve dependency order, manage reload/rollback, and retrieve/validate registry artifacts. |
-| Generic resource pools | [`BufferPool`](../../include/base/buffer_pool.h), [`ResourcePoolManager`](../../include/base/resource_pool_manager.h) | Reuse size-class buffers and coordinate generic connection/buffer/thread resource pools. |
+| Generic resource pools | [`BufferPool`](../../include/base/buffer_pool.h), [`ResourcePoolManager`](../../include/base/resource_pool_manager.h) | Reuse size-class buffers and generic integer slots; no thread-pool ownership or leak-reclamation path is implemented by `ResourcePoolManager`. |
 
 ## Data and event flow
 
-1. A module artifact is registered/resolved and checked for path, metadata, compatibility, and security requirements before activation.
-2. Dependency resolution produces a load order; configured sandbox and runtime hooks apply at the module boundary.
-3. Hot reload tracks candidate activation and rollback state; remote registry download is a separate intake path before loader hand-off.
-4. Independent resource-pool callers acquire/release pooled buffers or connection slots and can inspect pool statistics.
+1. A caller passes an artifact path to `ModuleLoader`; the loader checks existence and runs its configured verification, metadata, and activation steps.
+2. `PluginDependencyGraph` can analyze a resolver or registry snapshot and report cycles/order; it is a separate API, not evidence that every load path automatically consults it.
+3. Sandbox constraints apply only when configured and depend on platform support. WASM execution additionally requires an injected/registered runtime.
+4. Hot reload loads a candidate under a temporary key before unloading the current module, but subsequently unloads the candidate and loads it under the canonical key. The public header contracts an atomic swap; this implementation sequence appears inconsistent with that contract. Inspect result and rollback state, and do not claim uninterrupted availability until the discrepancy is reconciled.
+5. Remote registry download is a separate intake path. HTTP and HTTPS URLs are accepted; HTTP triggers a warning, so transport encryption is not guaranteed.
+6. Independent resource-pool callers can acquire/release buffers or connection slots and inspect statistics; the pool implementation sources are absent from the modular `THEMIS_BASE_SOURCES` and the monolithic `THEMIS_CORE_SOURCES` lists inspected.
 
 Evidence: [`module_loader.cpp`](../themis/module_loader.cpp), [`module_sandbox.cpp`](module_sandbox.cpp), [`hot_reload_manager.cpp`](hot_reload_manager.cpp), [`plugin_dependency_graph.cpp`](plugin_dependency_graph.cpp), [`buffer_pool.cpp`](buffer_pool.cpp), and [`resource_pool_manager.cpp`](resource_pool_manager.cpp).
 
@@ -62,6 +64,7 @@ Evidence: [`module_loader.cpp`](../themis/module_loader.cpp), [`module_sandbox.c
 - Reload candidate failure can trigger rollback; rollback failure is a distinct error state.
 - Registry authentication/download/checksum failure blocks that artifact intake path.
 - Buffer requests larger than the fixed slab classes use the system allocator; pool acquisition/configuration failures are separate from module-load failures.
+- `ResourcePoolManager::Config::leak_timeout` is declared but not consumed in its implementation; its header's thread-pool and leak-detection design goals are not realized by the inspected class/source.
 
 ## Explicit non-goals
 
@@ -69,6 +72,22 @@ Evidence: [`module_loader.cpp`](../themis/module_loader.cpp), [`module_sandbox.c
 - Guaranteeing every module is dynamically loaded or sandboxed at runtime.
 - Treating legacy `src/base/module_loader.cpp` as the canonical loader implementation.
 - Claiming every pool design target or performance figure is met without current benchmark evidence.
+
+## Build and test registration evidence
+
+In modular mode, `cmake/ModularBuild.cmake` uses `THEMIS_BASE_SOURCES` to build
+`themis_base` from the lifecycle/sandbox/registry/WASM sources under `src/base/`
+and the canonical loader at `src/themis/module_loader.cpp`. It omits
+`src/base/module_loader.cpp`, `buffer_pool.cpp`, and
+`resource_pool_manager.cpp`. In that mode, `cmake/CMakeLists.txt` defines
+`themis_core` as an interface target linking the modules. `tests/CMakeLists.txt`
+discovers module CMake files using `CONFIGURE_DEPENDS` and adds
+`tests/base/CMakeLists.txt`. That file registers `test_*.cpp` as focused unit
+tests and adds a focused soak target with a 7200-second timeout. The registration
+helper supplies `module:base`, `tier:unit`/`tier:soak`, `kind:focused`, and
+`focus` labels; the local file adds `base` and `soak` labels. The root test file
+also separately registers the reload-regression and BaseEntity field tests.
+These definitions establish registration, not successful build or execution.
 
 ## Verified cross-module references
 
