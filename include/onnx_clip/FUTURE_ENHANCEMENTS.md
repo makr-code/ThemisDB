@@ -1,41 +1,75 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "ThemisDB documentation orchestration assistant"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "api-contract"
+Canonical_Sources:
+  - "src/onnx_clip/onnx_clip_plugin.h"
+  - "src/onnx_clip/onnx_clip_plugin.cpp"
+  - "include/plugins/image_analysis_interface.h"
+  - "src/onnx_clip/FUTURE_ENHANCEMENTS.md"
+Related_Issue: "#7365"
+---
 
-<!-- Status: current | validated: 2026-09-28 -->
+Exact model backend not verifiable from final document text alone.
+
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/onnx_clip/FUTURE_ENHANCEMENTS.md · ../../src/onnx_clip/PRODUCTION_REQUIREMENTS.md -->
 
-# ONNX CLIP Module — Public Header Future Enhancements
+# ONNX CLIP Interface Enhancement Proposals
 
-**Module Path:** `include/onnx_clip/`  
+**Documentation directory:** `include/onnx_clip/`
 **Canonical implementation enhancements:** [`../../src/onnx_clip/FUTURE_ENHANCEMENTS.md`](../../src/onnx_clip/FUTURE_ENHANCEMENTS.md)
 
 ---
 
 ## Scope
 
-Planned enhancements to the **public header contract** in `include/onnx_clip/`. Runtime, algorithm, and benchmark work remains tracked in:
+This directory currently contains documentation only; there are no C++ headers
+under `include/onnx_clip/`. The plugin declaration is the source-local
+[`../../src/onnx_clip/onnx_clip_plugin.h`](../../src/onnx_clip/onnx_clip_plugin.h),
+in namespace `themis::plugins::image`. Items below are unapproved proposals for
+future interface/documentation work. Runtime, algorithm, and benchmark work is
+tracked in:
 
 → [`../../src/onnx_clip/FUTURE_ENHANCEMENTS.md`](../../src/onnx_clip/FUTURE_ENHANCEMENTS.md)
 
 ---
 
-## Design Constraints
+## Proposed Design Constraints
 
-- `[x]` Public headers must not expose internal implementation types or arena/memory layout details to callers.
-- `[x]` Breaking changes to types in `include/onnx_clip/` require a MAJOR version bump per `VERSIONING.md`.
-- `[x]` New entry points should be additive; existing stable APIs remain source-compatible.
-- `[x]` Layer association (**Tensor/LLM**) must be preserved in all header expansions.
-
----
-
-## Required Interfaces (Header Contract)
-
-Current public surfaces cover: ONNX-runtime CLIP model integration for vision-language embeddings.
-
-Planned extensions follow the same namespace (`themis::onnx_clip`) and include-guard conventions.
+- Public headers should not expose internal implementation types or arena/memory layout details to callers.
+- Breaking changes to a future public API must follow `VERSIONING.md`.
+- New entry points should be additive where compatible with the approved API design.
+- `[ ]` Keep future declarations aligned with the existing `themis::plugins::image` interface and repository API/versioning policy.
 
 ---
 
-## Planned Enhancements
+## Possible future header interface (not defined)
+
+There is no public C++ header in `include/onnx_clip/`. The current class
+declaration is source-local and implements `IImageAnalysisBackend`; it is not an
+ONNX Runtime inference contract.
+
+No public header contract or destination directory is approved here. If
+maintainers approve a public header, its namespace, location, and include
+contract must be decided then; do not assume `include/onnx_clip/` or
+`themis::onnx_clip`.
+
+---
+
+## Unapproved proposals
+
+The Q3/Q4 2026 labels below are legacy planning labels, not an active schedule,
+approved header contract, or evidence that public headers exist. The listed
+ideas do not commit to placing headers in this documentation directory. Confirm
+scope, location, and dates with maintainers before treating them as planned work.
 
 ### Short-Term (Q3 2026)
 
@@ -51,13 +85,14 @@ Planned extensions follow the same namespace (`themis::onnx_clip`) and include-g
 
 ### Long-Term (2027+)
 
-- [ ] Module-interface (C++20 modules) wrapper for `include/onnx_clip/` entry points
-- [ ] Header-only usage path for embedding scenarios (where feasible)
-- [ ] Extended layer-mapping documentation for Tensor/LLM integration patterns
+- [ ] Consider a C++20 module wrapper if a public interface is approved (location TBD)
+- [ ] Evaluate a header-only delivery only if maintainers approve that API shape
+- [ ] Add layer-mapping documentation only if a relevant integration is approved
 
 ---
 
 ## Alignment with Strategic Plan
 
-Enhancements align with `FUTURE_PLAN.md` layer **Tensor/LLM**. For cross-layer integration planning see:
-→ [`../../src/ai/FUTURE_ENHANCEMENTS.md`](../../src/ai/FUTURE_ENHANCEMENTS.md)
+These proposals do not establish a Tensor/LLM layer association or a delivery
+schedule. Reconcile any cross-module integration proposal with the canonical
+module roadmap before treating it as planned work.
