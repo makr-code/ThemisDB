@@ -1,23 +1,23 @@
 {
-  "module": "network",
+  "module": "vector_search",
   "source_mode": "direct_doxygen_markers",
   "source_graph_used": false,
   "source_graph_path": "/home/runner/work/ThemisDB/ThemisDB/ai_working/sourcecode_graph.json",
-  "source_files_scanned": 139,
-  "source_symbols_total": 1027,
-  "source_symbols_after_filter": 851,
-  "doxygen_members_total": 2073,
-  "doxygen_members_after_filter": 965,
-  "source_symbol_names": 527,
-  "doxygen_symbol_names": 644,
-  "source_not_in_doxygen_count": 143,
-  "doxygen_not_in_source_count": 260,
+  "source_files_scanned": 2,
+  "source_symbols_total": 2,
+  "source_symbols_after_filter": 2,
+  "doxygen_members_total": 11,
+  "doxygen_members_after_filter": 7,
+  "source_symbol_names": 2,
+  "doxygen_symbol_names": 6,
+  "source_not_in_doxygen_count": 1,
+  "doxygen_not_in_source_count": 5,
   "coverage": {
-    "symbol_presence_ratio": 0.7287,
-    "missing_symbol_count": 143,
-    "missing_brief_count": 451,
-    "missing_param_docs_count": 237,
-    "missing_return_docs_count": 284
+    "symbol_presence_ratio": 0.5,
+    "missing_symbol_count": 1,
+    "missing_brief_count": 6,
+    "missing_param_docs_count": 5,
+    "missing_return_docs_count": 5
   },
   "ownership": {
     "path_policy": {
@@ -49,562 +49,209 @@
       "classification_rule": "everything outside internal roots is treated as external / third-party boundary"
     },
     "source_symbols": {
-      "internal": 851,
+      "internal": 2,
       "external": 0
     },
     "doxygen_members": {
-      "internal": 799,
-      "external": 166
+      "internal": 6,
+      "external": 1
     },
     "externally_scoped_symbols": []
   },
   "by_rule": {
-    "missing_symbol": 143,
-    "missing_brief": 451,
-    "missing_param_docs": 237,
-    "missing_return_docs": 284
+    "missing_symbol": 1,
+    "missing_brief": 6,
+    "missing_param_docs": 5,
+    "missing_return_docs": 5
   },
   "by_rule_scope": {
     "missing_symbol": {
-      "include": 51,
-      "tests": 13,
-      "benchmarks": 9,
-      "mixed": 13,
-      "src": 57
+      "benchmarks": 1
     },
     "missing_brief": {
-      "tests": 100,
-      "other": 80,
-      "include": 238,
-      "src": 24,
-      "benchmarks": 9
+      "tests": 6
     },
     "missing_param_docs": {
-      "tests": 83,
-      "include": 140,
-      "src": 11,
-      "benchmarks": 3
+      "tests": 5
     },
     "missing_return_docs": {
-      "tests": 85,
-      "include": 185,
-      "src": 9,
-      "benchmarks": 5
+      "tests": 5
     }
   },
   "by_scope": {
-    "src": 101,
-    "tests": 281,
-    "benchmarks": 26,
-    "include": 614,
-    "other": 80,
-    "mixed": 13
+    "src": 0,
+    "tests": 16,
+    "benchmarks": 1,
+    "include": 0,
+    "other": 0
   },
   "samples": {
     "source_not_in_doxygen": [
-      "AuditEventType",
-      "BackpressureStateMirror",
-      "BenchConnectionAcceptor",
-      "BenchFrame",
-      "BenchRateLimiter",
-      "BenchSessionMap",
-      "BenchTopologyRouter",
-      "CircuitState",
-      "ClusterEndpoint",
-      "ClusterInfo",
-      "CongestionAlgorithm",
-      "DrainLoopMirror",
-      "EnvoyXdsClient",
-      "GrpcTransport",
-      "HTTP2ServerPushTest",
-      "InFlightGuard",
-      "ListenerInfo",
-      "LoadBalancingStrategy",
-      "MptcpSubflowState",
-      "NetworkErrorCode",
-      "NetworkResultCode",
-      "NetworkSpanKind",
-      "PacketType",
-      "Priority",
-      "QUICClient"
+      "GateFlatIndex"
     ],
     "doxygen_not_in_source": [
-      "AuditHttpApiTest",
-      "BatchIOVec",
-      "CdnCacheMiddlewareTest",
-      "ConnectionState",
-      "CqRing",
-      "CursorEntry",
-      "DedupEntry",
-      "ErrorApiHttpTest",
-      "ErrorStats",
-      "HttpAdaptiveIndexTest",
-      "HttpAqlApiTest",
-      "HttpAqlCollectTest",
-      "HttpAqlCursorEdgeTest",
-      "HttpAqlFulltextOrTest",
-      "HttpAqlFulltextScoreTest",
-      "HttpAqlGraphApiTest",
-      "HttpAqlJoinTest",
-      "HttpAqlLetTest",
-      "HttpChangefeedGovernanceTest",
-      "HttpChangefeedSseExtendedTest",
-      "HttpChangefeedSseTest",
-      "HttpChangefeedTest",
-      "HttpConfigTest",
-      "HttpContentApiTest",
-      "HttpFusionSearchTest"
+      "insert",
+      "knn",
+      "l2sq",
+      "makeVec",
+      "size"
     ],
     "findings": [
       {
         "rule": "missing_symbol",
-        "symbol": "AuditEventType",
+        "symbol": "GateFlatIndex",
         "count": 1,
-        "scope": "include",
+        "scope": "benchmarks",
         "scope_breakdown": {
-          "include": 1
+          "benchmarks": 1
         },
         "source_examples": [
           {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/include/network/network_audit_log.h",
-            "line": 27,
+            "file": "/home/runner/work/ThemisDB/ThemisDB/benchmarks/vector_search/bench_vector_search_dedicated_gates.cpp",
+            "line": 63,
             "kind": "class",
-            "name": "AuditEventType",
-            "scope": "include"
+            "name": "GateFlatIndex",
+            "scope": "benchmarks"
           }
         ]
       },
       {
-        "rule": "missing_symbol",
-        "symbol": "BackpressureStateMirror",
-        "count": 1,
+        "rule": "missing_brief",
+        "symbol": "FlatVectorIndex",
+        "kind": "function",
+        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
+        "line": 60,
+        "scope": "tests"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "FlatVectorIndex",
+        "kind": "function",
+        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
+        "line": 60,
         "scope": "tests",
-        "scope_breakdown": {
-          "tests": 1
-        },
-        "source_examples": [
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/tests/network/test_wire_protocol_backpressure.cpp",
-            "line": 115,
-            "kind": "struct",
-            "name": "BackpressureStateMirror",
-            "scope": "tests"
-          }
-        ]
+        "param_total": 1,
+        "param_docs_count": 0
       },
       {
-        "rule": "missing_symbol",
-        "symbol": "BenchConnectionAcceptor",
-        "count": 1,
-        "scope": "benchmarks",
-        "scope_breakdown": {
-          "benchmarks": 1
-        },
-        "source_examples": [
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/benchmarks/network/bench_network_release_gates.cpp",
-            "line": 154,
-            "kind": "class",
-            "name": "BenchConnectionAcceptor",
-            "scope": "benchmarks"
-          }
-        ]
+        "rule": "missing_brief",
+        "symbol": "insert",
+        "kind": "function",
+        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
+        "line": 62,
+        "scope": "tests"
       },
       {
-        "rule": "missing_symbol",
-        "symbol": "BenchFrame",
-        "count": 1,
-        "scope": "benchmarks",
-        "scope_breakdown": {
-          "benchmarks": 1
-        },
-        "source_examples": [
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/benchmarks/network/bench_network_release_gates.cpp",
-            "line": 70,
-            "kind": "struct",
-            "name": "BenchFrame",
-            "scope": "benchmarks"
-          }
-        ]
-      },
-      {
-        "rule": "missing_symbol",
-        "symbol": "BenchRateLimiter",
-        "count": 1,
-        "scope": "benchmarks",
-        "scope_breakdown": {
-          "benchmarks": 1
-        },
-        "source_examples": [
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/benchmarks/network/bench_network_release_gates.cpp",
-            "line": 121,
-            "kind": "class",
-            "name": "BenchRateLimiter",
-            "scope": "benchmarks"
-          }
-        ]
-      },
-      {
-        "rule": "missing_symbol",
-        "symbol": "BenchSessionMap",
-        "count": 1,
-        "scope": "benchmarks",
-        "scope_breakdown": {
-          "benchmarks": 1
-        },
-        "source_examples": [
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/benchmarks/network/bench_network_release_gates.cpp",
-            "line": 96,
-            "kind": "class",
-            "name": "BenchSessionMap",
-            "scope": "benchmarks"
-          }
-        ]
-      },
-      {
-        "rule": "missing_symbol",
-        "symbol": "BenchTopologyRouter",
-        "count": 1,
-        "scope": "benchmarks",
-        "scope_breakdown": {
-          "benchmarks": 1
-        },
-        "source_examples": [
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/benchmarks/network/bench_network_routing_gates.cpp",
-            "line": 91,
-            "kind": "class",
-            "name": "BenchTopologyRouter",
-            "scope": "benchmarks"
-          }
-        ]
-      },
-      {
-        "rule": "missing_symbol",
-        "symbol": "CircuitState",
-        "count": 1,
-        "scope": "include",
-        "scope_breakdown": {
-          "include": 1
-        },
-        "source_examples": [
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/include/network/adaptive_circuit_breaker.h",
-            "line": 28,
-            "kind": "class",
-            "name": "CircuitState",
-            "scope": "include"
-          }
-        ]
-      },
-      {
-        "rule": "missing_symbol",
-        "symbol": "ClusterEndpoint",
-        "count": 1,
-        "scope": "include",
-        "scope_breakdown": {
-          "include": 1
-        },
-        "source_examples": [
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/include/network/envoy_xds.h",
-            "line": 130,
-            "kind": "struct",
-            "name": "ClusterEndpoint",
-            "scope": "include"
-          }
-        ]
-      },
-      {
-        "rule": "missing_symbol",
-        "symbol": "ClusterInfo",
-        "count": 1,
-        "scope": "include",
-        "scope_breakdown": {
-          "include": 1
-        },
-        "source_examples": [
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/include/network/envoy_xds.h",
-            "line": 138,
-            "kind": "struct",
-            "name": "ClusterInfo",
-            "scope": "include"
-          }
-        ]
-      },
-      {
-        "rule": "missing_symbol",
-        "symbol": "CongestionAlgorithm",
-        "count": 1,
-        "scope": "include",
-        "scope_breakdown": {
-          "include": 1
-        },
-        "source_examples": [
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/include/network/bbr_congestion_control.h",
-            "line": 48,
-            "kind": "class",
-            "name": "CongestionAlgorithm",
-            "scope": "include"
-          }
-        ]
-      },
-      {
-        "rule": "missing_symbol",
-        "symbol": "DrainLoopMirror",
-        "count": 1,
+        "rule": "missing_param_docs",
+        "symbol": "insert",
+        "kind": "function",
+        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
+        "line": 62,
         "scope": "tests",
-        "scope_breakdown": {
-          "tests": 1
-        },
-        "source_examples": [
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/tests/network/test_http_timeout_patterns.cpp",
-            "line": 128,
-            "kind": "struct",
-            "name": "DrainLoopMirror",
-            "scope": "tests"
-          }
-        ]
+        "param_total": 2,
+        "param_docs_count": 0
       },
       {
-        "rule": "missing_symbol",
-        "symbol": "EnvoyXdsClient",
-        "count": 1,
-        "scope": "include",
-        "scope_breakdown": {
-          "include": 1
-        },
-        "source_examples": [
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/include/network/envoy_xds.h",
-            "line": 125,
-            "kind": "class",
-            "name": "EnvoyXdsClient",
-            "scope": "include"
-          }
-        ]
+        "rule": "missing_return_docs",
+        "symbol": "insert",
+        "kind": "function",
+        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
+        "line": 62,
+        "scope": "tests"
       },
       {
-        "rule": "missing_symbol",
-        "symbol": "GrpcTransport",
-        "count": 1,
-        "scope": "include",
-        "scope_breakdown": {
-          "include": 1
-        },
-        "source_examples": [
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/include/network/grpc_transport.h",
-            "line": 90,
-            "kind": "class",
-            "name": "GrpcTransport",
-            "scope": "include"
-          }
-        ]
+        "rule": "missing_brief",
+        "symbol": "knn",
+        "kind": "function",
+        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
+        "line": 73,
+        "scope": "tests"
       },
       {
-        "rule": "missing_symbol",
-        "symbol": "HTTP2ServerPushTest",
-        "count": 1,
+        "rule": "missing_param_docs",
+        "symbol": "knn",
+        "kind": "function",
+        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
+        "line": 73,
         "scope": "tests",
-        "scope_breakdown": {
-          "tests": 1
-        },
-        "source_examples": [
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/tests/network/test_http2_server_push.cpp",
-            "line": 15,
-            "kind": "class",
-            "name": "HTTP2ServerPushTest",
-            "scope": "tests"
-          }
-        ]
+        "param_total": 2,
+        "param_docs_count": 0
       },
       {
-        "rule": "missing_symbol",
-        "symbol": "InFlightGuard",
-        "count": 1,
+        "rule": "missing_return_docs",
+        "symbol": "knn",
+        "kind": "function",
+        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
+        "line": 73,
+        "scope": "tests"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "size",
+        "kind": "function",
+        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
+        "line": 93,
+        "scope": "tests"
+      },
+      {
+        "rule": "missing_return_docs",
+        "symbol": "size",
+        "kind": "function",
+        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
+        "line": 93,
+        "scope": "tests"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "makeVec",
+        "kind": "function",
+        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
+        "line": 40,
+        "scope": "tests"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "makeVec",
+        "kind": "function",
+        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
+        "line": 40,
         "scope": "tests",
-        "scope_breakdown": {
-          "tests": 1
-        },
-        "source_examples": [
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/tests/network/test_http_timeout_patterns.cpp",
-            "line": 149,
-            "kind": "struct",
-            "name": "InFlightGuard",
-            "scope": "tests"
-          }
-        ]
+        "param_total": 2,
+        "param_docs_count": 0
       },
       {
-        "rule": "missing_symbol",
-        "symbol": "ListenerInfo",
-        "count": 1,
-        "scope": "include",
-        "scope_breakdown": {
-          "include": 1
-        },
-        "source_examples": [
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/include/network/envoy_xds.h",
-            "line": 146,
-            "kind": "struct",
-            "name": "ListenerInfo",
-            "scope": "include"
-          }
-        ]
+        "rule": "missing_return_docs",
+        "symbol": "makeVec",
+        "kind": "function",
+        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
+        "line": 40,
+        "scope": "tests"
       },
       {
-        "rule": "missing_symbol",
-        "symbol": "LoadBalancingStrategy",
-        "count": 1,
-        "scope": "include",
-        "scope_breakdown": {
-          "include": 1
-        },
-        "source_examples": [
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/include/network/raft_load_balancer.h",
-            "line": 36,
-            "kind": "class",
-            "name": "LoadBalancingStrategy",
-            "scope": "include"
-          }
-        ]
+        "rule": "missing_brief",
+        "symbol": "l2sq",
+        "kind": "function",
+        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
+        "line": 48,
+        "scope": "tests"
       },
       {
-        "rule": "missing_symbol",
-        "symbol": "MptcpSubflowState",
-        "count": 1,
-        "scope": "include",
-        "scope_breakdown": {
-          "include": 1
-        },
-        "source_examples": [
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/include/network/multipath_tcp.h",
-            "line": 37,
-            "kind": "class",
-            "name": "MptcpSubflowState",
-            "scope": "include"
-          }
-        ]
+        "rule": "missing_param_docs",
+        "symbol": "l2sq",
+        "kind": "function",
+        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
+        "line": 48,
+        "scope": "tests",
+        "param_total": 2,
+        "param_docs_count": 0
       },
       {
-        "rule": "missing_symbol",
-        "symbol": "NetworkErrorCode",
-        "count": 1,
-        "scope": "include",
-        "scope_breakdown": {
-          "include": 1
-        },
-        "source_examples": [
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/include/network/network_api_contract.h",
-            "line": 183,
-            "kind": "class",
-            "name": "NetworkErrorCode",
-            "scope": "include"
-          }
-        ]
-      },
-      {
-        "rule": "missing_symbol",
-        "symbol": "NetworkResultCode",
-        "count": 1,
-        "scope": "include",
-        "scope_breakdown": {
-          "include": 1
-        },
-        "source_examples": [
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/include/network/network_observability.h",
-            "line": 78,
-            "kind": "class",
-            "name": "NetworkResultCode",
-            "scope": "include"
-          }
-        ]
-      },
-      {
-        "rule": "missing_symbol",
-        "symbol": "NetworkSpanKind",
-        "count": 1,
-        "scope": "include",
-        "scope_breakdown": {
-          "include": 1
-        },
-        "source_examples": [
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/include/network/network_observability.h",
-            "line": 59,
-            "kind": "class",
-            "name": "NetworkSpanKind",
-            "scope": "include"
-          }
-        ]
-      },
-      {
-        "rule": "missing_symbol",
-        "symbol": "PacketType",
-        "count": 1,
-        "scope": "include",
-        "scope_breakdown": {
-          "include": 1
-        },
-        "source_examples": [
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/include/network/wire_protocol.h",
-            "line": 71,
-            "kind": "class",
-            "name": "PacketType",
-            "scope": "include"
-          }
-        ]
-      },
-      {
-        "rule": "missing_symbol",
-        "symbol": "Priority",
-        "count": 1,
-        "scope": "include",
-        "scope_breakdown": {
-          "include": 1
-        },
-        "source_examples": [
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/include/network/qos_manager.h",
-            "line": 46,
-            "kind": "class",
-            "name": "Priority",
-            "scope": "include"
-          }
-        ]
-      },
-      {
-        "rule": "missing_symbol",
-        "symbol": "QUICClient",
-        "count": 1,
-        "scope": "include",
-        "scope_breakdown": {
-          "include": 1
-        },
-        "source_examples": [
-          {
-            "file": "/home/runner/work/ThemisDB/ThemisDB/include/network/quic_server.h",
-            "line": 346,
-            "kind": "class",
-            "name": "QUICClient",
-            "scope": "include"
-          }
-        ]
+        "rule": "missing_return_docs",
+        "symbol": "l2sq",
+        "kind": "function",
+        "file": "tests/vector_search/test_vector_search_highcardinality_stress.cpp",
+        "line": 48,
+        "scope": "tests"
       }
     ]
   }
