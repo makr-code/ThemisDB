@@ -1,32 +1,37 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-18"
-Last Updated: "2026-10-18"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 ---
 
-# Index in ThemisDB
+# Index module features
 
-## Ueberblick
-Das Modul index stellt core indexing and retrieval acceleration for ThemisDB across vector, secondary, spatial, graph, and advanced index pathways, including GPU-aware execution, compression, quantization, and operational index lifecycle controls. Im Modulkontext werden Aussagen mit [Architekturgrenzen](./ARCHITECTURE.md), [Release-Planung](./ROADMAP.md), [Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md) abgeglichen. Im Betrieb sind dabei insbesondere [Latenz](https://en.wikipedia.org/wiki/Latency_(engineering)), [Observability](https://en.wikipedia.org/wiki/Observability) und [Determinismus](https://en.wikipedia.org/wiki/Deterministic_algorithm) relevante Qualitaetskriterien. Fuer Querschnittskontext wird das Modul mit den relevanten Stellen im [Compendium](./../../docs/compendium/docs/index.md) verknuepft.
+This inventory identifies feature families implemented by the index module; it
+does not imply that every backend is enabled in every build or validated on
+every hardware target.
 
-## Kern-Features im Detail
-Die erste Kernfaehigkeit ist **unified index coordination surfaces**. Das beschreibt einen konkreten, in den Modulquellen referenzierten Verantwortungsbereich.
+| Feature family | Current source entry points |
+|---|---|
+| ANN routing and search result metadata | `ann_frontdoor.cpp`, `include/index/ann_frontdoor.h` |
+| Vector index lifecycle and search | `vector_index.cpp`, `include/index/vector_index.h` |
+| Secondary and full-text indexing | `secondary_index.cpp`, `inverted_index.cpp` |
+| Spatial and graph indexing | `spatial_index.cpp`, `graph_index.cpp` |
+| GPU-aware vector indexing | `gpu_vector_index.cpp`, `gpu_vector_index_vulkan.cpp` |
+| Distributed and tiered vector indexes | `distributed_vector_index.cpp`, `tiered_index_manager.cpp` |
+| Compression and quantization | `index_compression.cpp`, `product_quantizer.cpp`, `binary_quantizer.cpp`, `residual_quantizer.cpp` |
+| Index manifest serialization | `index_manifest_v1.cpp` |
 
-Die zweite Kernfaehigkeit ist **ANN/vector index lifecycle and search behavior**. Dadurch bleiben Integrationspfade zwischen Modulgrenzen reproduzierbar und operativ auswertbar.
+## Validation and status
 
-Die dritte Kernfaehigkeit ist **advanced vector indexing extensions**. Das unterstuetzt stabile Abnahme- und Aenderungsprozesse entlang der Modul-Roadmap.
-
-```mermaid
-flowchart LR
-    A[Produktanforderung] --> B[Index Modul]
-    B --> C[Implementierung und Integrationspfade]
-    C --> D[Test- und Betriebsnachweise]
-    D --> E[Kundennutzen im Betrieb]
-```
-
-## Kundennutzen und Abgrenzung
-Kundinnen und Kunden erhalten damit vor allem besser planbares Systemverhalten, kuerzere Eingrenzungszeiten bei Stoerungen und transparentere Release-Risiken. Diese Seite ist ein fachlich-kommunikativer Ueberblick; normative API-, Compliance- und Freigabeaussagen verbleiben in den kanonischen Modulquellen.
-
-## Einordnung und Quellen
-Primaere modulnahe Quellen: [README.md](./README.md), [ARCHITECTURE.md](./ARCHITECTURE.md), [ROADMAP.md](./ROADMAP.md), [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md), [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md), [SECURITY.md](./SECURITY.md). Sekundaere Querschnittsquellen: [docs/index/README.md](./../../docs/index/README.md), [Compendium Index](./../../docs/compendium/docs/index.md). Aussagen wurden auf diese Quellenbasis begrenzt; bei fehlenden Modulquellen werden keine weitergehenden Produktclaims ergänzt.
+Public API details and implementation caveats are documented in
+[`API.md`](API.md) and the corresponding headers. Test registration is defined
+in [`../../tests/index/CMakeLists.txt`](../../tests/index/CMakeLists.txt).
+Backend readiness and remaining validation gates are tracked in
+[`ROADMAP.md`](ROADMAP.md); feature presence alone is not evidence of
+production readiness or GPU parity.

@@ -1,4 +1,31 @@
-# AnnFrontdoor Rollout Guide
+---
+Author: "ThemisDB Team"
+Created: "2026-08-09"
+Last Updated: "2026-10-31"
+Status: deprecated
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+# AnnFrontdoor Rollout Notes (Historical)
+
+> **Status:** The examples and migration checklist below describe a 2026-08
+> rollout snapshot and are not current implementation instructions. Their
+> signatures, configuration fields, defaults, and completion state have not
+> been validated against current source. Use
+> [`../../src/index/API.md`](../../src/index/API.md) and
+> [`../../src/index/MODULE_GUIDE.md`](../../src/index/MODULE_GUIDE.md) for the
+> current interface and integration preconditions.
+>
+> Current code still contains a direct `VectorIndexManager` path in
+> `HybridSearch::search()` when no `AnnFrontdoor` is set. The approval and
+> removal status for that existing path are not established by this source
+> check; do not copy it as a new fallback pattern.
 
 **Version:** 1.0.0  
 **Status:** ACTIVE — Q3 2026 migration delivery  
@@ -62,12 +89,13 @@ for (const auto& candidate : result.candidates) {
 
 ### 3.3 Logging the Routing Decision
 
-Use `result.routing_reason` and `result.strategy_used` for observability:
+Use the route and fallback metadata declared by `AnnFrontdoorResult`:
 
 ```cpp
-THEMIS_DEBUG("ANN routing: strategy={} reason={}",
+THEMIS_DEBUG("ANN route: strategy={} fallback={} reason={}",
     index::annStrategyName(result.strategy_used),
-    result.routing_reason);
+    result.fallback_mode,
+    result.fallback_reason_code);
 ```
 
 ### 3.4 Handling Partial Distributed Results
@@ -105,22 +133,24 @@ The legacy fallback MUST be removed before the v2.x line is released.
 
 ## 5. Configuration
 
-`AnnFrontdoor::Config` key fields:
+Current `AnnFrontdoor::Config` fields relevant to routing:
 
 | Field | Default | Meaning |
 |---|---|---|
-| `hnsw_max_dataset_size` | 1,000,000 | Dataset size above which HNSW is not selected |
-| `scann_max_dataset_size` | 5,000,000 | Dataset size above which DiskANN is selected |
-| `default_k` | 10 | Top-k used when caller passes `k ≤ 0` |
-| `fail_closed` | false | When true, partial shard failures return an error instead of degraded results |
+| `hnsw_max_elements` | 1,000,000 | Element threshold used by HNSW routing |
+| `scann_max_elements` | 50,000,000 | Element threshold used by ScaNN routing |
+| `default_k` | 100 | Top-k used when caller passes `k ≤ 0` |
+| `distributed_allow_partial_results` | true | Controls whether partial shard results are accepted |
 
 ---
 
 ## 6. Error Handling
 
-Use `include/index/index_error_codes.h` for structured error reporting.
-`AnnFrontdoor::search()` does not throw for recoverable failures — check
-`result.candidates.empty()` for "no results" scenarios.
+`AnnFrontdoor::search()` rejects a null query pointer and zero dimension with
+`std::invalid_argument`. Backend exceptions may also propagate from dispatch.
+An empty candidate list alone does not distinguish an empty match from an
+unavailable backend or a degraded route; inspect the returned error and routing
+metadata. See [`../../src/index/API.md`](../../src/index/API.md).
 
 ---
 
