@@ -1,3 +1,17 @@
+---
+Author: ThemisDB Team
+Created: 2026-06-01
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build build/linux-release --target themis_core`
 
 # Ethics AI Module — Public Headers
@@ -12,24 +26,31 @@ plugin-facing operations for ethical debate orchestration, decision synthesis, R
 integration, profile handling, and structured debate artifacts used by the source module in
 `src/ethics_ai/`.
 
+Root `ROADMAP.md` identifies `plugins/themisdb_ethic_ai/` as the canonical plugin implementation. These in-tree headers document the local public/compatibility interface and do not establish the external plugin's current contract or release integration.
+
 ## Header Entry-Points
 
 | Header | Primary API | Runtime Role |
 |--------|-------------|--------------|
 | `ethics_ai_plugin_interface.h` | `IEthicsAIPlugin` | Main plugin contract (`initializeDebate`, `makeDecision`, storage, metrics, config) |
 | `ethics_ai_types.h` | Domain structs/enums (`EthicalArgument`, `EthicalDecision`, `PhilosophyProfile`, `RAGContext`, `Status`) | Shared data model across plugin, store, RAG, and debate flow |
-| `ethics_profile_registry.h` | `EthicsProfileRegistry` | Lazy-load profile index + cache for many ethics schools |
-| `ethics_selection_router.h` | `IEthicsSelectionRouter`, `EthicsSelectionRouter` | Multi-stage school pre-selection for large profile sets |
+| `ethics_profile_registry.h` | `IEthicsProfileRegistry`, `EthicsProfileRegistry` | Profile index and lookup interface/implementation |
+| `ethics_selection_router.h` | `EthicsSelectionRouter`, `DiscourseMode`, `RouterConfig` | School routing and LDM plan types |
+| `discourse_orchestrator.h` | `DiscourseOrchestrator` | LDM Ebene-1/2 helper API |
+| `meta_verdict_builder.h` | `MetaVerdictBuilder` | MetaVerdict assembly from supplied results/grounding |
+| `mirror_school_handler.h` | `MirrorSchoolHandler` | Mirror-school helper API |
 | `prior_round_compressor.h` | `PriorRoundCompressor` | Context compression of previous rounds |
-| `cross_school_tension_resolver.h` | `CrossSchoolTensionResolver` | Selection of high-signal opposing schools/arguments |
-| `convergence_marker_engine.h` | `ConvergenceMarkerEngine` | Convergence marker extraction and preamble generation |
+| `cross_school_tension_resolver.h` | `CrossSchoolTensionResolver` | Cross-school tension helper |
+| `convergence_marker_engine.h` | `ConvergenceMarkerEngine` | Convergence marker extraction |
 | `synthesis_matrix_builder.h` | `SynthesisMatrixBuilder` | Compact matrix view for final synthesis stage |
-| `llm_cascade_router.h` | `ILlmCascadeRouter` | Model routing per discourse stage/token budget |
+| `llm_cascade_router.h` | `ILlmCascadeRouter`, `LlmCascadeRouter` | Model routing helper |
 | `tournament_mode_selector.h` | `TournamentModeSelector` | Tournament-style opponent injection support |
 | `position_abstract_validator.h` | `PositionAbstractValidator` | Schema checks for round position abstracts |
 | `discourse_memory_store.h` | `DiscourseMemoryStore` | Episodic discourse memory storage/retrieval |
 
 ## Public API Behavior
+
+Public types are declared in `themis::plugins::ethics` (including types in `include/ethics_ai/`); see the declarations in the headers for the precise contract. The presence of LDM helper headers does not establish that the plugin decision path calls them. The current plugin path does not inject a live LLM callback into those helpers; by default their inference helpers use deterministic synthetic output.
 
 ### Lifecycle and Access
 
@@ -58,13 +79,15 @@ integration, profile handling, and structured debate artifacts used by the sourc
 
 | Key | Type | Effect |
 |-----|------|--------|
-| `philosophy_dir` | string | Optional profile directory loaded during plugin initialization |
+| `philosophy_dir` | string | Parsed and stored during initialization; the initialization-time load currently fails before the plugin is marked initialized, and its error is ignored |
 
 Additional key/value pairs can be stored via `setConfig()` and retrieved via `getConfig()`, but only keys consumed by source components influence behavior.
 
 ### Known Limits
 
-- Full LLM-backed argument generation and real embedding integration are still roadmap/future-enhancement topics.
+- LDM helpers use deterministic fallback output unless a caller injects inference; the current plugin entrypoint does not perform that injection.
+- LDM benchmark targets use mock registries/stub inference and do not establish production LLM behavior.
+- `initialize()` currently calls `loadPhilosophyProfiles()` before setting `initialized_`; that method returns `Status::Error("Plugin not initialized")`, and `initialize()` ignores the result. After successful initialization, callers must explicitly call `loadPhilosophyProfiles(path)` and handle its `std::variant<size_t, Status>` result.
 - Behavior without initialized storage/profile inputs is intentionally fail-fast via `Status::Error`.
 
 ## Installation
@@ -80,21 +103,30 @@ against the ThemisDB plugin/runtime components used by your deployment setup.
 
 using themis::plugins::ethics::IEthicsAIPlugin;
 using themis::plugins::ethics::EthicalDecision;
+using themis::plugins::ethics::Status;
 
 // In production this instance is typically obtained from ThemisDB's plugin manager.
 IEthicsAIPlugin* plugin = /* injected by plugin manager */ nullptr;
 
 if (plugin && plugin->initialize(R"({"philosophy_dir":"plugins/ethics_ai/philosophies"})")) {
-    auto decisionOrStatus = plugin->makeDecision(
-        "Should an autonomous system prioritize safety over task completion?",
-        {"utilitarianism", "kantian_ethics", "virtue_ethics"},
-        "autonomous_systems",
-        true
-    );
+    // initialize() currently does not load this configured directory.
+    auto profilesOrStatus =
+        plugin->loadPhilosophyProfiles("plugins/ethics_ai/philosophies");
 
-    if (std::holds_alternative<EthicalDecision>(decisionOrStatus)) {
-        const auto& decision = std::get<EthicalDecision>(decisionOrStatus);
-        // consume decision.decision_text / decision.confidence / decision.consensus_level
+    if (std::holds_alternative<Status>(profilesOrStatus)) {
+        // Handle std::get<Status>(profilesOrStatus).
+    } else {
+        auto decisionOrStatus = plugin->makeDecision(
+            "Should an autonomous system prioritize safety over task completion?",
+            {"utilitarianism", "kant", "socratic"},
+            "autonomous_systems",
+            true
+        );
+
+        if (std::holds_alternative<EthicalDecision>(decisionOrStatus)) {
+            const auto& decision = std::get<EthicalDecision>(decisionOrStatus);
+            // consume decision.decision_text / decision.confidence / decision.consensus_level
+        }
     }
 }
 ```

@@ -1,32 +1,41 @@
 ---
-Author: "ThemisDB Team"
-Created: "2026-10-18"
-Last Updated: "2026-10-18"
-Status: "active"
+Author: ThemisDB Team
+Created: 2026-10-18
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
 ---
 
-# Ethics-Ai in ThemisDB
+Exact model backend not verifiable from final document text alone.
 
-## Ueberblick
-Das Modul ethics_ai stellt multi-philosophy ethics reasoning runtime surfaces for ThemisDB, including discourse orchestration, argument persistence, philosophy profile loading, RAG context assembly, decision evaluation, and plugin integration. Im Modulkontext werden Aussagen mit [Architekturgrenzen](./ARCHITECTURE.md), [Release-Planung](./ROADMAP.md), [Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md) abgeglichen. Im Betrieb sind dabei insbesondere [Latenz](https://en.wikipedia.org/wiki/Latency_(engineering)), [Observability](https://en.wikipedia.org/wiki/Observability) und [Determinismus](https://en.wikipedia.org/wiki/Deterministic_algorithm) relevante Qualitaetskriterien. Fuer Querschnittskontext wird das Modul mit den relevanten Stellen im [Compendium](./../../docs/compendium/docs/index.md) verknuepft.
+# Ethics AI Module Features
 
-## Kern-Features im Detail
-Die erste Kernfaehigkeit ist **plugin lifecycle and runtime wiring**. Das beschreibt einen konkreten, in den Modulquellen referenzierten Verantwortungsbereich.
+## Role
 
-Die zweite Kernfaehigkeit ist **debate initialization, continuation, and decision synthesis**. Dadurch bleiben Integrationspfade zwischen Modulgrenzen reproduzierbar und operativ auswertbar.
+The module provides an ethics plugin runtime that loads philosophy profiles, initializes and continues debates, stores arguments/decisions, assembles RAG context, evaluates decisions, and exposes plugin metrics/lifecycle operations.
 
-Die dritte Kernfaehigkeit ist **argument/decision/profile storage and retrieval**. Das unterstuetzt stabile Abnahme- und Aenderungsprozesse entlang der Modul-Roadmap.
+## Source-backed capabilities
 
-```mermaid
-flowchart LR
-    A[Produktanforderung] --> B[Ethics-Ai Modul]
-    B --> C[Implementierung und Integrationspfade]
-    C --> D[Test- und Betriebsnachweise]
-    D --> E[Kundennutzen im Betrieb]
-```
+- Profile loading and lookup through the loader/registry APIs.
+- Debate, argument, decision, and context helper paths in the module runtime.
+- Selection and LDM planning/helper APIs, including equal initial weight in non-selection plans.
+- Focused test and benchmark targets registered by CMake.
 
-## Kundennutzen und Abgrenzung
-Kundinnen und Kunden erhalten damit vor allem besser planbares Systemverhalten, kuerzere Eingrenzungszeiten bei Stoerungen und transparentere Release-Risiken. Diese Seite ist ein fachlich-kommunikativer Ueberblick; normative API-, Compliance- und Freigabeaussagen verbleiben in den kanonischen Modulquellen.
+## Limitations and trade-offs
 
-## Einordnung und Quellen
-Primaere modulnahe Quellen: [README.md](./README.md), [ARCHITECTURE.md](./ARCHITECTURE.md), [ROADMAP.md](./ROADMAP.md), [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md), [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md), [SECURITY.md](./SECURITY.md). Sekundaere Querschnittsquellen: [docs/ethics_ai/README.md](./../../docs/ethics_ai/README.md), [Compendium Index](./../../docs/compendium/docs/index.md). Aussagen wurden auf diese Quellenbasis begrenzt; bei fehlenden Modulquellen werden keine weitergehenden Produktclaims ergänzt.
+- The current plugin decision flow delegates to `EthicalDiscourseEngine`; it does not invoke `EthicsSelectionRouter`, `DiscourseOrchestrator`, `MetaVerdictBuilder`, or `MirrorSchoolHandler`.
+- The fixed plugin CMake source list compiles some LDM helpers, but compile inclusion is not runtime integration. The default orchestrator fallback ignores dilemma text and selects synthetic output from `school_id.size() % 3` (the source comment calls it hash-based).
+- LDM helper defaults use deterministic synthetic output. LDM benchmark fixtures use a mock registry/stub inference and do not establish production latency or decision quality.
+- The asset directory contains 26 YAML profile files; the loaded count depends on the configured profile directory.
+- This page makes no regulatory-compliance or release-readiness claim.
+
+## References
+
+- Runtime and source limits: [README.md](README.md), [ARCHITECTURE.md](ARCHITECTURE.md)
+- Current implementation work: [ROADMAP.md](ROADMAP.md), [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md)
+- Benchmark mapping and evidence limits: [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md)
+- Security and operational requirements: [SECURITY.md](SECURITY.md), [PRODUCTION_REQUIREMENTS.md](PRODUCTION_REQUIREMENTS.md)

@@ -1,6 +1,20 @@
+---
+Author: ThemisDB Team
+Created: 2026-07-28
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Ethics AI Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-07-28 -->
+<!-- Status: current | source review: 2026-10-31; design targets are distinguished from delivered behavior -->
 <!-- Links: ARCHITECTURE.md · README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 <!-- Research: docs/research/ethics_discourse_process_equality.md -->
 
@@ -30,7 +44,9 @@
 
 ## Layered Discourse Model (LDM)
 
-<!-- Delivery status: [x] Delivered — 2026-07-28 (Ebene-1/2/3 + Mirror-School-Modus) -->
+<!-- Design/specification status: helper APIs and deterministic tests exist; production LLM/legal-DB pipeline integration is not verified. -->
+
+> **Source verification (2026-10-31):** Treat this section's architecture, interfaces, test scenarios, and performance values as design constraints/targets, not proof of delivered production behavior. The fixed plugin target compiles selected LDM helper translation units, but the plugin decision path does not call them or inject callbacks. The orchestrator fallback ignores dilemma text and currently derives its synthetic result from `school_id.size() % 3` (described as hash-based in its source comment); mirror helper fallback is also deterministic. Ebene-2 does not run the described multi-round dialogue, `MetaVerdictBuilder` ignores cluster positions and receives legal grounding as input, and the LDM benchmark fixtures use a mock registry/stub inference. See `src/ethics_ai/ROADMAP.md` and `PERFORMANCE_EXPECTATIONS.md`.
 
 ### Scope
 
@@ -63,15 +79,15 @@ Full design rationale and complexity analysis: `docs/research/ethics_discourse_p
 
 ### Implementation Notes
 
-#### Ebene-1 — Parallele Erstbewertung (O(N)) — **delivered 2026-07-28**
+#### Ebene-1 — Parallel initial scoring (O(N)) — **helper implementation present; production inference wiring unverified**
 
-- All N schools respond simultaneously to the dilemma context.
+- The helper launches one inference callback per school; with the default callback it returns deterministic synthetic output and does not use the dilemma text.
 - Each school produces: `DiscourseRoundOutput` (verdict + ≤3 core_thesis_ids + position_abstract ≤100 tokens).
 - Equal initial weight `w₀ = 1/N`; no domain-based boost applied.
 - LLM timeout per school → failsafe verdict `ABSTAIN`; school remains in `participating_schools`.
-- Expected N_active (non-ABSTAIN) ≈ 14–18 for typical ethical dilemmas.
+- No source-backed estimate for typical non-ABSTAIN school counts is available.
 
-#### Ebene-2 — Clusterdiskurs (O(K²·R), K≤6, R≤3) — **delivered 2026-07-28**
+#### Ebene-2 — Cluster discourse — **partial helper implementation; design target not delivered end-to-end**
 
 Taxonomy-class cluster assignments (static default, dynamic in LDM-6):
 
@@ -84,10 +100,7 @@ Cluster E — Nicht-Mainstream:   nietzsche, marx, schopenhauer, dilthey, arendt
 Cluster F — Institutionell:     behoerden_ethik, universitaere_ethik, wiener, merton, leopold
 ```
 
-Discourse proceeds as:
-1. Intra-cluster consolidation → one `ClusterPosition` per cluster (≈ 24 steps)
-2. Inter-cluster dialogue on structural tension axes (≈ 90 steps, K×(K-1)/2 = 15 pairs × 3 rounds)
-3. `convergence_compatible` relations short-circuit redundant inter-cluster rounds
+Current helper behavior: it creates a majority `ClusterPosition` for non-ABSTAIN schools in each non-empty cluster and adds a record per configured tension-axis label. It does not execute the specified multi-round inter-cluster dialogue or use `convergence_compatible` to short-circuit rounds.
 
 Structural tension axes (always activated):
 - Axis 1: Kant (Selbstzweck) ↔ Utilitarismus (Greatest Happiness)
@@ -98,7 +111,7 @@ Structural tension axes (always activated):
 `round_role_weights` from school YAML remain unchanged — they represent each school's
 authentic argumentative character, not a selection bias.
 
-#### Ebene-3 — Normative Synthese (O(1) + Legal-Lookup) — **delivered 2026-07-28**
+#### Ebene-3 — MetaVerdict assembly — **basic helper present; legal retrieval and weighted synthesis are not implemented here**
 
 Convergence-counting (not weighted aggregation):
 
@@ -112,16 +125,11 @@ MetaVerdict thresholds:
   < 0.40 → DISSENT (no majority — reported as result, not error)
 ```
 
-Post-hoc domain weight (after equal-participation): `domain_override.weight_boost`
-is applied as a multiplier on each school's convergence vote weight in Ebene-3 only.
-This respects deployment context without pre-filtering.
+Current helper behavior counts non-ABSTAIN input votes with unit weight. It does not load profile domain overrides, apply `weight_boost`, or perform a legal database lookup.
 
-Legal-DB grounding appended to MetaVerdict:
-- Retrieve applicable norms (GG Art. 1, DSGVO Art. 5, EU AI Act Art. 22, …)
-- Attach `citation_ids` (document references, not LLM text)
-- Set `override_permitted` from dominant school's `regulatory_constraints`
+`MetaVerdictBuilder` copies a supplied `LegalGrounding` and maps supplied norm references to citation records. Legal retrieval and deriving `override_permitted` from profile constraints require caller-side integration not established by this helper.
 
-#### Mirror-School-Modus — **delivered 2026-07-28**
+#### Mirror-School-Modus — **helper present; production inference wiring unverified**
 
 Non-western schools (islamische_ethik, konfuzianismus, buddhistische_ethik, juedische_bioethik)
 participate as structural self-reflection mirrors when `cross_cultural_sensitivity` is active:
@@ -133,7 +141,7 @@ participate as structural self-reflection mirrors when `cross_cultural_sensitivi
 | `technical_compliance`, `infrastructure` | OFF |
 
 Mirror-school output: `position_abstract` (≤100 tokens) + `strongest_tension` only.
-Cost: 1 LLM inference step per mirror school (parallel to Ebene-2).
+The helper uses a deterministic fallback unless an inference callback is supplied; no production LLM cost/latency claim is established.
 Output persisted in `MetaVerdict.minority_dissent[]` — always visible in audit trail.
 
 Cross-Cultural Convergence flag (`cross_cultural_flag: true`): set when ≥ 2 schools from
@@ -148,9 +156,7 @@ the same verdict. This is a qualitatively stronger signal than intra-cultural co
 - Integration: cross-cultural convergence: Kant + Islamische Ethik + Konfuzianismus → PROHIBIT on dignity dilemma
 - Integration: DISSENT scenario: no majority among clusters → DISSENT MetaVerdict with full audit
 - Integration: mirror-school presence in MetaVerdict.minority_dissent even for CLEAR_CONSENSUS
-- Performance: Ebene-1 P95 ≤ 200 ms (22 schools parallel)
-- Performance: LAYERED_FULL end-to-end P95 ≤ 8 s
-- Performance: LAYERED_FAST end-to-end P95 ≤ 1.2 s
+- Performance values below remain targets; the checked-in benchmarks use stub fixtures, and there is no LDM full-mode end-to-end benchmark.
 
 ### Performance Targets
 
@@ -256,7 +262,7 @@ for Fiqh terminology (islamische_ethik), Wǔlún/Yì/Rén (konfuzianismus), Karu
 ## References
 
 - Research paper: `docs/research/ethics_discourse_process_equality.md`
-- School profiles: `assets/ethics_ai/*.yaml` (22 schools)
+- School-profile files: `assets/ethics_ai/*.yaml` (26 YAML files at the 2026-10-31 inventory; loaded runtime count depends on configured profile directory)
 - Router interface: `include/ethics_ai/ethics_selection_router.h`
 - Types: `include/ethics_ai/ethics_ai_types.h` (`DiscourseRoundOutput`, `EpisodicMemoryEntry`)
 - Legal grounding: `include/rag/knowledge_graph_retriever.h`, `include/rag/citation_highlighter.h`

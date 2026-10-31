@@ -1,98 +1,56 @@
-# PERFORMANCE_EXPECTATIONS - src/ethics_ai
+---
+Author: ThemisDB Team
+Created: 2026-07-28
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
 
-<!-- Status: current | validated: 2026-07-28 -->
+Exact model backend not verifiable from final document text alone.
 
-## Scope
+# Ethics AI Performance Expectations
 
-- Module: src/ethics_ai
-- This file defines measurable ethics_ai module performance expectations for release gating.
+## Purpose and evidence boundary
 
-## Benchmark Reference
+This file maps named benchmark cases to the `ethics_ai` paths they exercise. A benchmark target or target value is not a measured result or a release gate unless a recorded run and threshold-enforcing job establish that separately.
 
-- Relevant benchmark files:
-  - benchmarks/bench_ethics_ai_plugin.cpp
-  - benchmarks/ethics_ai/bench_ldm.cpp
+## Runtime benchmark cases
 
-## Specific Expectations — Current Production (SELECTION_ONLY)
+Source: `benchmarks/ethics_ai/bench_ethics_ai_plugin.cpp`. The root `benchmarks/CMakeLists.txt` has a separate conditional creation/CTest-registration block for `bench_ethics_ai_plugin`; it checks for `bench_ethics_ai_plugin.cpp` at the `benchmarks/` root before compiling the nested source. With the checked-in paths that existence guard is false, so the block skips this target. The benchmark suite itself is added only when `THEMIS_BUILD_BENCHMARKS=ON` and Google Benchmark is found.
 
-| Target ID | Expectation | Benchmark case |
-|---|---|---|
-| EAIP-1 | single-school decision path remains within release baseline budget | BM_DiscourseEngine_MakeDecisionSingleSchool |
-| EAIP-2 | five-school decision path remains bounded under benchmark profile | BM_DiscourseEngine_MakeDecisionFiveSchools |
-| EAIP-3 | context assembly and batch context paths remain bounded | BM_RAGContextEngine_BuildContext, BM_RAGContextEngine_BuildContextBatch10 |
-| EAIP-4 | vector semantic lookup path remains bounded at configured input scale | BM_RAGContextEngine_VectorSemanticSearch512 |
-| EAIP-5 | evaluator decision recording path remains bounded and stable | BM_EthicsEvaluator_RecordDecision |
-| EAIP-6 | debate continuation path remains bounded under round progression | BM_DiscourseEngine_ContinueDebateRound |
+| Path | Source-defined benchmark case(s) |
+|---|---|
+| Profile loader | `BM_PhilosophyLoader_LoadSingleProfile`, `BM_PhilosophyLoader_GetProfile`, `BM_PhilosophyLoader_HasProfile`, `BM_PhilosophyLoader_ListSchools` |
+| Argument store | `BM_ArgumentStore_StoreArgument`, `BM_ArgumentStore_GetArgument`, `BM_ArgumentStore_GetArgumentsByPhilosophy`, `BM_ArgumentStore_StoreDecision`, `BM_ArgumentStore_StoreDebateRound`, `BM_ArgumentStore_GetDebateTranscript` |
+| RAG context | `BM_RAGContextEngine_BuildContext`, `BM_RAGContextEngine_BuildContextBatch10`, `BM_RAGContextEngine_FindSimilarDilemmas`, `BM_RAGContextEngine_TraverseArgumentChain`, `BM_RAGContextEngine_VectorSemanticSearch512` |
+| Discourse engine | `BM_DiscourseEngine_InitializeDebate`, `BM_DiscourseEngine_MakeDecisionSingleSchool`, `BM_DiscourseEngine_MakeDecisionFiveSchools`, `BM_DiscourseEngine_MakeDecisionWithRAG`, `BM_DiscourseEngine_ContinueDebateRound` |
+| Evaluator | `BM_EthicsEvaluator_EvaluateDecision`, `BM_EthicsEvaluator_EvaluateDecisionNoArgs`, `BM_EthicsEvaluator_EvaluateDecisionManyArgs`, `BM_EthicsEvaluator_RecordDecision`, `BM_EthicsEvaluator_GetMetricsText` |
 
-## Specific Expectations — Layered Discourse Model (LDM)
+These cases are present in source, but no current target registration, result, or release baseline is asserted here.
 
-### Ebene-1: Parallel Equal-Weight Initial Scoring
+## LDM helper benchmark cases
 
-| Target ID | Expectation | Measurement |
-|---|---|---|
-| LDM-E1-1 | Ebene-1 for N=22 schools completes in P95 ≤ 200 ms (fully parallel LLM batch) | BM_LDM_Ebene1_22Schools |
-| LDM-E1-2 | ABSTAIN failsafe on LLM timeout adds ≤ 10 ms overhead per school | BM_LDM_Ebene1_TimeoutFailsafe |
-| LDM-E1-3 | DiscourseOrchestratorPlan generation (school → cluster assignment) ≤ 5 ms | BM_LDM_PlanGeneration (benchmarks/ethics_ai/bench_ldm.cpp) |
+Source: `benchmarks/ethics_ai/bench_ldm.cpp`; the root benchmark CMake file adds this subdirectory when its `CMakeLists.txt` exists. The CMake target `bench_ethics_ai_ldm` is created only when `benchmark::benchmark` and `themis_core` targets are available, and registered with CTest only when present. The suite also requires the root benchmark build to be enabled and Google Benchmark to be found. Cases use a deterministic mock registry and stub inference, not a live LLM or legal database.
 
-### Ebene-2: Cluster Discourse
+| Benchmark case | Source-comment target | Measured scope |
+|---|---:|---|
+| `BM_LDM_PlanGeneration` | `< 5 ms` | plan generation |
+| `BM_LDM_Ebene1_22Schools` | `P95 ≤ 200 ms` | parallel helper with default deterministic inference |
+| `BM_LDM_Ebene1_TimeoutFailsafe` | `≤ 10 ms` overhead | timeout bookkeeping with fast stub |
+| `BM_LDM_MetaVerdictAssembly` | `≤ 50 ms` | MetaVerdict assembly on supplied mock outputs |
+| `BM_LDM_MirrorSchool_Parallel4` | `≤ 200 ms` | four mirror helper calls with default stub |
+| `BM_LDM_EndToEnd_LAYERED_FAST` | `P95 ≤ 1.2 s` | Ebene-1 stub plus MetaVerdict assembly; no legal lookup |
+| `BM_LDM_AuditLog_Append` | `≤ 5%` overhead is stated as a gate goal | in-memory append and export |
+| `BM_LDM_AuditLog_ExportOnly` | `≤ 5%` overhead is stated as a gate goal | in-memory export of a pre-populated log |
 
-| Target ID | Expectation | Measurement |
-|---|---|---|
-| LDM-E2-1 | LAYERED_FULL Ebene-2 (6 clusters, 3 rounds, ≈10 parallel batches) P95 ≤ 6 s | BM_LDM_Ebene2_FullClusters |
-| LDM-E2-2 | LAYERED_FAST Ebene-2 (axis-1 only) P95 ≤ 800 ms | BM_LDM_Ebene2_FastAxis1 |
-| LDM-E2-3 | intra-cluster consolidation (4 schools → ClusterPosition) P95 ≤ 400 ms | BM_LDM_ClusterConsolidation |
+The source does not define `BM_LDM_EndToEnd_Full`, an Ebene-2/full-cluster benchmark, a legal-retrieval benchmark, or the previously documented single-mirror/cluster-consolidation/efficiency-ratio cases. The benchmark comments name gate goals, but this mapping does not establish that numerical thresholds are measured or enforced in CI.
 
-### Ebene-3: MetaVerdict + Legal Grounding
+## Validation status
 
-| Target ID | Expectation | Measurement |
-|---|---|---|
-| LDM-E3-1 | convergence-counting MetaVerdict assembly ≤ 50 ms | BM_LDM_MetaVerdictAssembly (benchmarks/ethics_ai/bench_ldm.cpp) |
-| LDM-E3-2 | legal-DB norm lookup (KnowledgeGraphRetriever) ≤ 50 ms | BM_LDM_LegalGrounding |
-| LDM-E3-3 | full Ebene-3 P95 ≤ 500 ms | BM_LDM_Ebene3_Full |
-
-### Mirror-School-Modus
-
-| Target ID | Expectation | Measurement |
-|---|---|---|
-| LDM-MS-1 | mirror-school output (position_abstract + strongest_tension) per school ≤ 200 ms | BM_LDM_MirrorSchool_Single |
-| LDM-MS-2 | 4 mirror schools parallel ≤ 200 ms total | BM_LDM_MirrorSchool_Parallel4 |
-
-### End-to-End Targets
-
-| Target ID | Mode | P95 Target | Benchmark |
-|---|---|---|---|
-| LDM-ETE-1 | LAYERED_FULL (N=22, K=6, R=3) | ≤ 8 s | BM_LDM_EndToEnd_Full (benchmarks/ethics_ai/bench_ldm.cpp) |
-| LDM-ETE-2 | LAYERED_FAST (N=22, axis-1+domain cluster) | ≤ 1.2 s | BM_LDM_EndToEnd_Fast (benchmarks/ethics_ai/bench_ldm.cpp) |
-| LDM-ETE-3 | Efficiency vs naive full discourse (N=22, N×N×R) | factor ≥ 30× faster | BM_LDM_EfficiencyRatio |
-
-## Module Hard Gates (v1.0 docs baseline)
-
-| Gate ID | Expectation | Measurement |
-|---|---|---|
-| EAIG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
-| EAIG-2 | ethics hot-path p99 <= release threshold | p99 from mapped ethics_ai benchmark cases |
-| EAIG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
-| EAIG-4 (LDM) | LAYERED_FULL P95 ≤ 8 s end-to-end | BM_LDM end-to-end suite |
-| EAIG-5 (LDM) | LAYERED_FAST P95 ≤ 1.2 s end-to-end | BM_LDM_Fast end-to-end suite |
-
-## Validation
-
-- Existing expectations (EAIP-*) are met when mapped benchmarks run reproducibly in release
-  profile and remain inside configured thresholds.
-- LDM expectations (LDM-*) are active release gates; corresponding benchmark targets are
-  present in `benchmarks/ethics_ai/bench_ldm.cpp`.
-- Mapping should be expanded as additional ethics_ai benchmark scenarios are introduced.
-
-## Sourcecode Verification (Module: ethics_ai/performance)
-
-- Verified benchmark sources:
-  - benchmarks/bench_ethics_ai_plugin.cpp
-  - benchmarks/ethics_ai/bench_ldm.cpp
-- Verified mapping surfaces:
-  - discourse single/five-school decision benchmark cases
-  - context build and vector semantic benchmark cases
-  - evaluator record and debate continuation benchmark paths
-  - LDM Ebene-1/2/3 and end-to-end benchmark cases
-- Result:
-  - Referenced benchmark cases exist in current benchmark sources.
-  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.
+- Benchmark source identifiers and CMake registration conditions were inspected on 2026-10-31. The plugin benchmark block's current root-path guard does not match its nested source path; the LDM target is dependency-gated.
+- No benchmark binary was run for this documentation update; no hardware baseline is claimed.
+- For current implementation limitations, see `ARCHITECTURE.md` and `ROADMAP.md`.

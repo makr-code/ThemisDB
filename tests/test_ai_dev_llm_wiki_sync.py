@@ -27,6 +27,11 @@ class CuratedModuleIndexTests(unittest.TestCase):
 
         self.assertIn("[IMPORTERS.md](IMPORTERS.md)", index)
         self.assertIn("[UPDATES.md](UPDATES.md)", index)
+        self.assertIn("[Ethics AI module context](ETHICS_AI.md)", index)
+        self.assertIn("must not redefine project status", index)
+        self.assertIn("[Importer module context](IMPORTERS.md)", modules)
+        self.assertIn("[Updates module context](UPDATES.md)", modules)
+        self.assertIn("[Ethics AI module context](ETHICS_AI.md)", modules)
         self.assertIn("[DISTRIBUTED_TENSOR.md](DISTRIBUTED_TENSOR.md)", index)
         self.assertIn("AI_Used: true", index)
         self.assertIn("must not redefine project status", index)
@@ -90,6 +95,7 @@ class CuratedModuleIndexTests(unittest.TestCase):
                 "BUILD_TEST_CI_AND_OPERATIONS.md",
                 "GOVERNANCE_AND_ROADMAP.md",
                 "WIKI_DELTA_REPORT.md",
+                "ETHICS_AI.md",
                 "IMPORTERS.md",
                 "UPDATES.md",
                 "DISTRIBUTED_TENSOR.md",
@@ -103,6 +109,7 @@ class CuratedModuleIndexTests(unittest.TestCase):
             source_paths,
             {
                 "ai_context/developer_llm_wiki/IMPORTERS.md",
+                "ai_context/developer_llm_wiki/ETHICS_AI.md",
                 "ai_context/developer_llm_wiki/UPDATES.md",
                 "ai_context/developer_llm_wiki/DISTRIBUTED_TENSOR.md",
             },
