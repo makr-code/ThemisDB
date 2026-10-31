@@ -1,13 +1,30 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > ⚠️ **Header Audit** — validate findings against actual header files. Mark resolved items as `[x]`.
 
-<!-- Status: current | validated: 2026-05-11 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/api/AUDIT.md -->
 
 # Audit Report — API Module Public Headers
 
-**Last Audit:** 2026-05-11
+**Header inventory checked:** 2026-10-31
+**Last detailed audit:** 2026-05-11
 **Auditor:** Copilot
-**Status:** ✅ Pass (with open items)
+**Status:** Review required; detailed findings below have not been fully revalidated.
+
+The current inventory is source-checked. Earlier compliance and finding statements remain
+historical until a full header audit is repeated.
 
 For the full source-level audit (implementation files, test coverage, build system) see:
 
@@ -19,12 +36,12 @@ For the full source-level audit (implementation files, test coverage, build syst
 
 | Metric | Result |
 |--------|--------|
-| Total public headers | 24 |
-| `#pragma once` coverage | ✅ 24/24 |
-| `[[nodiscard]]` on factory/error methods | ✅ All confirmed |
-| Build-conditional headers properly guarded | ✅ `THEMIS_ENABLE_GRPC`, `THEMIS_ENABLE_WEBSOCKET`, `THEMIS_ENABLE_OTEL` |
-| Deprecated symbols documented | ⚠️ 4 symbols in `api_gateway_hook.h` (see below) |
-| No implementation code in headers | ✅ (constexpr / template bodies only) |
+| Total public headers | 28 |
+| `#pragma once` coverage | ✅ 28/28 |
+| `[[nodiscard]]` on factory/error methods | Not revalidated in this inventory pass |
+| Build-conditional headers | `THEMIS_ENABLE_GRPC`, `THEMIS_ENABLE_WEBSOCKET`; Prometheus integration uses `THEMIS_HAS_PROMETHEUS` |
+| Deprecated symbols documented | ⚠️ 4 symbols in `api_gateway_hook.h` (historical finding; revalidate) |
+| Inline implementation | Present in several headers; see `ARCHITECTURE.md` |
 | Open stubs / pure-virtual with no impl | ⚠️ `IGRPCBridge` — no concrete implementation |
 
 ---
@@ -42,7 +59,7 @@ For the full source-level audit (implementation files, test coverage, build syst
 | `grpc_server.h` | ✅ | Requires `THEMIS_ENABLE_GRPC` |
 | `grpc_bridge.h` | ⚠️ | Pure-virtual `IGRPCBridge`; no concrete implementation in codebase |
 | `themisdb_grpc_service.h` | ✅ | Requires `THEMIS_ENABLE_GRPC` |
-| `themisdb_grpc_service_factory.h` | ✅ | |
+| `themisdb_grpc_service_factory.h` | ✅ | `ThemisDBGrpcServiceFactory` |
 | `http_handler.h` | ✅ | |
 | `websocket_handler.h` | ✅ | |
 | `ws_handler.h` | ✅ | Requires `THEMIS_ENABLE_WEBSOCKET` |
@@ -50,7 +67,7 @@ For the full source-level audit (implementation files, test coverage, build syst
 | `tracing_middleware.h` | ✅ | |
 | `correlation_id.h` | ✅ | |
 | `rate_limiter.h` | ✅ | `std::shared_mutex` for read path; stale-bucket TTL eviction added |
-| `audit_logger.h` | ✅ | Non-blocking handler dispatch; `FileAuditLogHandler` added |
+| `graphql_audit_logger.h` | ✅ | `themis::graphql` audit logger and file handler |
 | `otlp_exporter.h` | ✅ | Persistent `CURL*` handle; `std::deque` queue; Prometheus counters |
 | `persisted_queries.h` | ⚠️ | `QueryAllowList::enabled_ = false` by default; no production startup warning |
 | `geo_index_hooks.h` | ✅ | |
@@ -58,6 +75,9 @@ For the full source-level audit (implementation files, test coverage, build syst
 | `api_version_router.h` | ✅ | |
 | `aql_utils.h` | ✅ | `aqlEscapeLiteral()`, `isValidAqlIdentifier()` — added v1.9.1 |
 | `federation_admin_handler.h` | ✅ | |
+| `api_transport_contracts.h` | ✅ | Transport versions, capabilities, failure classes, and validator |
+| `api_transport_policy.h` | ✅ | Policy middleware with bounded payload/path configuration |
+| `api_error_taxonomy.h` | ✅ | Transport failure to error/status mapping |
 
 ---
 
@@ -97,7 +117,7 @@ For the full source-level audit (implementation files, test coverage, build syst
 | **Status** | Open |
 | **Header** | `persisted_queries.h` |
 | **Evidence** | `QueryAllowList` constructor sets `enabled_ = false`; no startup warning emitted in NDEBUG builds |
-| **Action** | Add startup warning; document activation path in operations runbook (see `FUTURE_ENHANCEMENTS.md` §4) |
+| **Action** | Verify request-enforcement integration before describing the enabled flag as a production control (see `FUTURE_ENHANCEMENTS.md` §4) |
 
 ---
 
@@ -118,7 +138,7 @@ For the full source-level audit (implementation files, test coverage, build syst
 | ID | Description | Resolved In |
 |----|-------------|------------|
 | HDR-R001 | `RateLimiter::allow()` nested lock contention (`OperationRateLimiter` outer mutex + `RateLimiter` inner mutex) | `rate_limiter.h` — `std::shared_mutex` migration |
-| HDR-R002 | `AuditLogger::log()` held mutex during handler callbacks | `audit_logger.h` — copy-under-lock, invoke outside critical section |
+| HDR-R002 | `AuditLogger::log()` held mutex during handler callbacks | `graphql_audit_logger.h` — copy-under-lock, invoke outside critical section |
 | HDR-R003 | `ResponseCache::invalidatePattern()` always cleared entire cache | `graphql_cache.h` — selective eviction by collection tag |
 | HDR-R004 | `OtlpExporter` opened new CURL handle per flush | `otlp_exporter.h` / `otlp_exporter.cpp` — persistent handle |
 | HDR-R005 | `GraphQLWsHandler` raw `self` pointer in CDC callback | `graphql_ws_handler.h` — `alive_` atomic flag |
@@ -128,9 +148,13 @@ For the full source-level audit (implementation files, test coverage, build syst
 ## Compliance
 
 - All headers use `#pragma once` — no legacy include-guard macros.
-- `[[nodiscard]]` applied to all factory functions and `Result<T>`-returning methods.
-- Build-conditional headers (`grpc_server.h`, `themisdb_grpc_service.h`, `ws_handler.h`, `otlp_exporter.h`) are not included unconditionally.
-- No PII or secrets in header files.
+- The `[[nodiscard]]` and secret/PII checks from the 2026-05 audit have not been repeated.
+- The current source guards gRPC and WebSocket header surfaces with `THEMIS_ENABLE_GRPC` and `THEMIS_ENABLE_WEBSOCKET`; `otlp_exporter.h` directly includes libcurl and is not guarded by `THEMIS_ENABLE_OTEL`.
+
+## Revalidation TODO
+
+- [ ] Re-run the detailed audit of all 28 headers, including `[[nodiscard]]`, build guards, ABI risks, and the four findings above.
+- [ ] Confirm which deprecated gateway-hook symbols still have no external callers before making removal claims.
 
 ---
 

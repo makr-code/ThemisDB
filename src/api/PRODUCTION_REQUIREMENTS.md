@@ -1,4 +1,18 @@
-> **Status:** 2026-06-01 – mit aktuellem Api-Code (`grpc_server.cpp`) abgeglichen.
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+> **Status:** Anforderungen sind normativ; die Erfüllung durch eine konkrete Produktions-Deployment-Konfiguration wurde in diesem Dokumentations-Review nicht verifiziert.
 
 # ThemisDB Api Module - Production Requirements
 
@@ -16,8 +30,8 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für gRPC-Serve
 
 ## Verbindliche Produktionsanforderungen
 
-- **MUST:** API-Endpunkte mit Auth-Middleware abgesichert.
-- **MUST:** GraphQL-Input-Validierung aktiv; Schema-Enforcement erzwungen.
+- **MUST:** Geschützte API-Endpunkte müssen Auth-Middleware explizit in ihrer Request-Kette aktivieren.
+- **MUST:** GraphQL-Eingaben müssen mit geeigneten `QueryLimits` validiert werden; Schema- und Autorisierungsprüfungen dürfen nicht allein aus dem Parser abgeleitet werden.
 - **MUST:** Alle sicherheitsrelevanten Konfigurationswerte beim Start validiert; fehlende oder ungültige Werte führen zu Fail-Closed-Verhalten.
 - **MUST NOT:** Sicherheits- oder Autorisierungs-Checks in Produktionspfaden deaktivieren.
 
@@ -25,31 +39,31 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für gRPC-Serve
 
 - Sicherheitsrelevante Operationen werden über dedizierte Kontroll-Surfaces geleitet.
 - Fehler in sicherheitskritischen Pfaden werden als explizite Fehlercodes propagiert; kein Silent-Permit.
-- Audit-Logging für sicherheitsrelevante Operationen aktiv in Produktionsdeployments.
+- Audit-Logging für sicherheitsrelevante Operationen muss für das jeweilige Deployment konfiguriert und geprüft sein.
 
 ## Betriebsgrenzen
 
-- Konfigurationswerte müssen deployment-spezifisch gesetzt sein; Default-Werte gelten nicht als produktionssicher.
+- Konfigurationswerte müssen deployment-spezifisch geprüft sein; Modul-Defaults sind keine Aussage zur Sicherheit einer Deployment-Konfiguration.
 - Ressourcen-Limits (Größen, Counts, Timeouts) müssen mit den Deployment-Anforderungen übereinstimmen.
 - Externe Abhängigkeiten (Backends, Registries, Koordinatoren) müssen mit expliziten Verbindungs-Timeouts und Retry-Policies konfiguriert sein.
 
 ## Minimaler Produktions-Check (Audit-fähig)
 
-- [x] Modul-Konfiguration vollständig und beim Start validiert
-- [x] Sicherheits- und Autorisierungs-Checks aktiv
-- [x] Ressourcen-Limits explizit konfiguriert (keine Unlimited-Defaults)
-- [x] Audit-Logging aktiv
-- [x] Externe Abhängigkeiten mit Timeout und Retry konfiguriert
-- [x] Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt
+- [?] Modul-Konfiguration und Startvalidierung anhand des konkreten Deployment-Profils nachweisen
+- [?] Authentifizierungs- und Autorisierungsprüfungen für jede geschützte Route nachweisen
+- [?] Ressourcen-Limits explizit konfigurieren und ihre wirksame Durchsetzung im jeweiligen Handler-Pfad nachweisen
+- [?] Audit-Logging für sicherheitsrelevante Operationen im Deployment nachweisen
+- [?] Externe Abhängigkeiten und ihre konkreten Timeout-/Retry-Verträge pro Adapter prüfen
+- [?] Produktionsmodus und zugehörige Laufzeitkonfiguration anhand des Deployments nachweisen; dieses Modul-Dokument belegt keine allgemeine Umgebungsvariable
 
-### Evidenz zur Checklisten-Erfüllung (2026-08-19)
+### Historische Code-Evidenz (2026-08-19; kein aktueller Deployment-Nachweis)
 
-- **Startzeit-Konfigurationsvalidierung**: `src/api/grpc_server.cpp` validiert Startup-Konfiguration (z. B. Message-Size-Limits, BuildAndStart-Fail-Closed).
-- **Sicherheits-/Autorisierungschecks**: `src/api/api_transport_policy.cpp` erzwingt fail-closed Transport-Policy-Regeln; `src/api/ws_handler.cpp` behält Authz-Gates für Subscription-Pfade.
-- **Explizite Ressourcen-Limits**: `include/api/api_transport_contracts.h` und `src/api/api_transport_policy.cpp` erzwingen Payload-/Path-Limits; `src/api/graphql_aql_resolver.cpp` begrenzt Komplexitäts-Tiefe und Overflow.
-- **Audit-Logging**: `src/api/ws_handler.cpp` und `src/api/otlp_exporter.cpp` emittieren strukturierte Warn-/Fehlerpfade mit ERR_-Präfixen für Betriebs-Triage.
-- **Timeout/Retry externe Abhängigkeiten**: `src/api/grpc_server.cpp` nutzt zeitgebundene Lock-Reakquise beim Serverstart; `src/api/otlp_exporter.cpp` nutzt Retry-with-backoff für Exportpfade.
-- **Produktionsmodus-Gating**: Reflection in gRPC wird in `src/api/grpc_server.cpp` auf Nicht-Produktionskontexte begrenzt (`!NDEBUG && !THEMIS_TEST_BUILD`).
+- **gRPC-Startvalidierung**: `src/api/grpc_server.cpp` validiert unter anderem Message-Size-Limits und behandelt `BuildAndStart()`-Fehler.
+- **Request- und Autorisierungspfade**: `TransportPolicyMiddleware` lehnt Policy-Verstöße fail-closed ab, wenn sie in die Handler-Kette eingebaut ist; `WsChangeHandler` prüft CDC-Berechtigungen vor der Upgrade-Entscheidung.
+- **Ressourcen-Limits**: `api_transport_contracts.h`, `api_transport_policy.cpp`, `graphql.cpp` und `graphql_aql_resolver.cpp` enthalten Payload-/Path-, GraphQL- und Komplexitätsgrenzen.
+- **Audit und Telemetrie sind getrennte Pfade**: `ws_handler.cpp` kann strukturierte Audit-Ereignisse für CDC-Autorisierungsfehler erfassen; `graphql_audit_logger.h` stellt Audit-Logging bereit. OTLP-Exporter-Warnungen sind kein Audit-Logging.
+- **Exporter-Retry**: `src/api/otlp_exporter.cpp` implementiert Wiederholungs-/Backoff-Verhalten für den Exportpfad. Das belegt keine allgemeine Retry- oder Timeout-Policy aller externen Abhängigkeiten.
+- **gRPC-Reflection**: Der Quellcode schränkt Reflection abhängig von Build-/Test-Kontexten ein; diese historische Codebeobachtung ersetzt keine Deployment-Prüfung.
 
 ## Review / Sourcecode-Audit-Nachweis
 

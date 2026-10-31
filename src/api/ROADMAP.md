@@ -1,7 +1,21 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # API Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-18 -->
+<!-- Status: review | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
@@ -23,15 +37,15 @@ Production API adapter surfaces exist for GraphQL, gRPC, WebSocket, tracing midd
 - [x] complete remaining API surface specification and contract consistency tasks (Target: Q4 2026)
   - Evidence: api_transport_contracts.h, api_error_taxonomy.h, api_transport_policy.h/cpp
 - [x] strengthen degraded-mode handling for optional transport features (Target: Q4 2026)
-  - Evidence: tests/api/test_api_degraded_mode.cpp — 10 tests covering capability unavailability, transient degradation, policy+degraded composition, concurrent mixed traffic
+  - Evidence: `tests/api/test_api_degraded_mode.cpp` covers capability unavailability, transient degradation, policy+degraded composition, and concurrent mixed traffic.
 - [x] extend integration diagnostics for protocol-level failure classes (Target: Q4 2026)
   - Evidence: `DegradedModeDiagnosticsTest/AllFailureClassesHaveActionableMessages` validates that every failure class produces an ERR_-prefixed actionable message for operator triage
 
 ### Mid-term (6-12 months)
 - [x] expand direct benchmark coverage for currently proxy-like API goals (Target: Q1 2027)
-  - Evidence: benchmarks/bench_api_transport.cpp + benchmarks/bench_api_release_gates.cpp + benchmarks/server/bench_api_endpoints.cpp cover transport-policy hot paths, release gates, and server endpoint load loops.
+  - Evidence: `benchmarks/api/bench_api_transport.cpp` + `benchmarks/api/bench_api_release_gates.cpp` + `benchmarks/server/bench_api_endpoints.cpp` cover mock transport helpers, policy gates, and server endpoint loops.
 - [x] re-baseline API latency and throughput envelopes for representative load profiles (Target: Q1 2027)
-  - Evidence: gate benchmarks GATE-API-01..06 and sustained-load benches (`BM_PolicySustainedGetThroughput`, `BM_PolicySustainedPostThroughput`, `BM_PolicyMixedRequestTypes`) plus WaveD soak scenarios in tests/api/test_api_wave_d_stress.cpp.
+  - Evidence: gate cases GATE-API-01..06 and sustained/mixed loops exist in `benchmarks/api/bench_api_release_gates.cpp`; Wave D soak scenarios are in `tests/api/test_api_wave_d_stress.cpp`. Target-label mapping and measured baseline status remain unverified; see `PERFORMANCE_EXPECTATIONS.md`.
 - [x] harden multi-transport operational controls across deployment topologies (Target: Q1 2027)
   - Evidence: fail-closed transport policy middleware, bounded gRPC startup lock reacquisition timeout, and explicit GraphQL WS protocol error responses for malformed/pre-init/unknown message types.
 
@@ -63,7 +77,7 @@ Production API adapter surfaces exist for GraphQL, gRPC, WebSocket, tracing midd
 
 ### Phase 5: Performance and Hardening
 - [x] lock benchmark-backed release gates for API parsing/execution/serialization hot paths (Target: Q4 2026)
-  - Evidence: benchmarks/bench_api_release_gates.cpp — GATE-API-01..06 with documented per-gate limits (≤5 µs GET, ≤10 µs POST, ≤5 µs rejection paths, ≤1 µs taxonomy mapping)
+  - Evidence: `benchmarks/api/bench_api_release_gates.cpp` — GATE-API-01..06 with documented target budgets; see `PERFORMANCE_EXPECTATIONS.md` for mapping caveat and baseline-validation limits.
 - [x] validate p95/p99 envelopes under representative concurrency profiles (Target: Q4 2026)
   - Evidence: `BM_PolicySustainedGetThroughput`, `BM_PolicySustainedPostThroughput`, `BM_PolicyMixedRequestTypes` benchmarks establishing sequential and mixed-type throughput baselines
 
@@ -75,20 +89,21 @@ Production API adapter surfaces exist for GraphQL, gRPC, WebSocket, tracing midd
 
 - [x] core transport adapter surfaces documented and source-verified
 - [x] security and failure handling documented at module level
-- [x] benchmark mapping documented in performance expectations
+- [~] benchmark inventory and mapping caveat documented in `PERFORMANCE_EXPECTATIONS.md`; target-label reconciliation remains open
 - [x] remaining API hardening items closed (protocol hardening + concurrency tests complete)
-- [x] all targeted release-gate benchmarks stabilized (13 transport benchmarks added)
+- [!] benchmark cases and commented target budgets exist; a passing release-baseline result and semantic target-map reconciliation are not established by this documentation review
 - [x] Phase 1: transport-surface contracts locked (api_transport_contracts.h)
 - [x] Phase 2: hardening deltas closed — TransportPolicyMiddleware enforces 5 canonical rules
 - [x] Phase 3: error taxonomy unified — ApiErrorTaxonomy covers all 9 failure classes
 - [x] Phase 4: concurrency/edge regressions expanded (14 tests in test_api_phase4_concurrency.cpp)
 - [x] Phase 5: release-gate benchmarks locked (GATE-API-01..06 in bench_api_release_gates.cpp)
-- [x] Q4 2026 degraded-mode hardening complete (10 tests in test_api_degraded_mode.cpp)
+- [x] Q4 2026 degraded-mode hardening covered in `tests/api/test_api_degraded_mode.cpp`; per-file test counts are not used as status evidence.
 
 ## Known Issues and Limitations
 
 - transport surfaces remain configuration/capability dependent by deployment profile.
 - some API surfaces may require feature flags for optional protocol support (WebSocket, gRPC reflection).
+- `benchmarks/benchmark_target_mapping.json` currently assigns several API target labels to unrelated cases; do not use those entries as direct release evidence until reconciled.
 - remaining medium-severity cleanup is tracked in MODULE_GAPS.md Wave A/B/C backlog; no open critical API transport blocker remains.
 
 ## Breaking Changes
