@@ -1,17 +1,40 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+---
+Author: "ThemisDB Team"
+Created: "2026-04-17"
+Last Updated: "2026-10-31"
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
 
 # index
 
-Pfad: `tests/index`
+Path: `tests/index/`
 
-## Zweck
-Dieser Ordner enthält 0 Unterordner und 9 Dateien und bildet einen abgegrenzten Teil der Repository-Struktur.
+## Purpose
 
-## Dateien nach Kategorien
-- **Sourcecode**: `test_ann_index.cpp`, `test_distributed_vector_index.cpp`, `test_gpu_memory_oversubscription.cpp`, `test_hnsw_recall_integration.cpp`, `test_index_compression.cpp`, `test_learned_index.cpp`, `test_matryoshka_truncation.cpp`, `test_spatial_correctness_integration.cpp`, `test_tiered_index_migration.cpp`
+This directory contains focused C++ tests for ANN routing, vector indexes,
+index management and manifests, GPU fallback/memory behavior, compression,
+spatial correctness, tier migration, and hardening. The test sources are not a
+single uniform suite: CMake registers `test_*.cpp` files as focused tests and
+also creates a second autofocused registration for eligible `test_index_*.cpp`
+files.
 
-## Hinweise
-- Änderungen in diesem Ordner sollten mit den übergeordneten Architektur- und Sicherheitsrichtlinien des Projekts abgestimmt werden.
-- Für tieferliegende Teilbereiche existieren ggf. zusätzliche README- und Moduldokumente.
+## Registration and limits
 
-_Automatisch erzeugt/aktualisiert am 2026-04-17._
+- Registration logic and target names are maintained in
+  [`CMakeLists.txt`](CMakeLists.txt); root test configuration discovers this
+  module file.
+- Several suites are explicitly skipped in the focused loops because they
+  target a superseded contract. A source file's presence therefore does not
+  guarantee that it is built or registered in every configuration.
+- GPU-related tests do not establish hardware parity unless run on the
+  corresponding supported device and build.
+
+For current index behavior, see [`../../src/index/API.md`](../../src/index/API.md)
+and [`../../src/index/MODULE_GUIDE.md`](../../src/index/MODULE_GUIDE.md).
