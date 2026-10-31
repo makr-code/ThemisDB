@@ -1,21 +1,43 @@
-# STORAGE DOXYGEN
+---
+Author: "ThemisDB Contributors"
+Created: "2026-09-20"
+Last Updated: "2026-10-31"
+Status: "archived"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "../../Doxyfile"
+  - "../../include/storage/"
+  - "../../src/storage/"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
 
-Author: ThemisDB Contributors
-Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+Exact model backend not verifiable from final document text alone.
 
-## Source
-- This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\storage\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\storage\doxygen-warnings.log`
+# Storage Doxygen snapshot
 
-## Structure Metrics
-- C/C++ Files (scanned): 164
-- Compounds: 547
-- Classes/Structs: 307
-- Namespaces: 64
-- File Compounds: 164
+Historical generated inventory retained for reference; it is not a current API
+index or source of truth. The original XML and warnings-log paths were
+machine-local and are omitted; their artifacts and the source revision are not
+available in this checkout. The counts and symbol list are unverified against
+the current tree. Regenerate this file from the repository's current Doxygen
+configuration before using it for API review. See `include/storage/*.h` for
+current declarations.
+
+## Snapshot source and metrics (unverified)
+
+- The original generation command, source revision, XML index, and warnings log
+  are unavailable in this checkout.
+- TODO: regenerate the storage Doxygen XML and this inventory from the current
+  repository; record a repo-relative command, source revision, and warnings
+  artifact before treating the output as current.
+- Historical counts (unverified): 164 C/C++ files scanned; 547 compounds; 307
+  classes/structs; 64 namespaces; 164 file compounds.
 
 ## Namespaces
 - @041270124372221233365030045160276077305042116252
@@ -13883,4 +13905,3 @@ Status: active
 - Source: `include/storage/transaction_retry_manager.h`:196
 - Brief: Destructor.
 - Parameters: none
-

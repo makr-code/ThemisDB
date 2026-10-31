@@ -1,12 +1,38 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-07-19"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "../../ROADMAP.md"
+  - "../../include/storage/storage_engine.h"
+  - "../../include/storage/tiered_storage.h"
+  - "../../include/storage/wal_storage.h"
+  - "../../tests/storage/CMakeLists.txt"
+  - "../../benchmarks/storage/CMakeLists.txt"
+  - "../../benchmarks/storage/bench_storage_release_gates.cpp"
+  - "../../benchmarks/storage/bench_storage_dedicated_gates.cpp"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Storage Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-19 -->
+<!-- Status: current | source inventory checked: 2026-10-31; execution status not revalidated -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
-Production-capable storage runtime exists for durable persistence, MVCC/WAL lifecycle behavior, backup/PITR flows, blob/tiering behavior, and storage audit/integrity surfaces. Source revalidation on 2026-09-03 confirms fail-closed guards are now active for missing storage dependency prerequisites in production (`StorageEngine` default encryption/key-provider/index-manager and null index-manager), and `ggml_tensor_bridge.cpp` now fail-closes in production when allocator, prefetch, or TT type-registration backends are unavailable while preserving explicit test-only fallbacks under `THEMIS_UNIT_TEST`.
+The source tree contains the storage, MVCC, WAL, backup/PITR, blob/tiering, and integrity components listed below. Their presence does not establish a combined transaction path, deployment configuration, or blanket production-readiness claim. `StorageEngine` production-mode dependency checks are implemented in `storage_engine.cpp`; other status claims require matching current execution evidence.
 
 ## In Progress
 
@@ -24,14 +50,10 @@ Production-capable storage runtime exists for durable persistence, MVCC/WAL life
     - [x] Hot pattern detection in runMigrationCycle()
   - [x] Implement predictive promotion callbacks with access window tracking
 
-## Planned Features
+## Existing source surfaces and remaining validation
 
 ### Short-term (3-6 months)
-- [ ] integrate with AccessCoordinator for unified cache-storage tier management (Target: Q4 2026)
-  - Add PromotionListener callbacks to emit hot-access signals to coordinator
-  - Implement coordinator-guided promotion paths (cold→warm→L3)
-  - Extend TieredStorageManager with coordinator hooks
-  - See: `src/access_model/ROADMAP.md` Phase 4
+- [x] `TieredStorageManager` declares `setPromotionListener()` and migration-cycle APIs; this records source presence, not verified application bootstrap wiring or cache-placement behavior.
 - [x] make `BackupManager::decompressPath()` fail closed or perform real decompression when zstd/lz4 are unavailable; unsupported restore builds now reject the operation instead of copying raw bytes verbatim (Target: Q4 2026)
 - [x] make `BackupManager::decryptFile()` fail closed or perform real decryption when OpenSSL is unavailable; unsupported restore builds now reject the operation instead of copying ciphertext verbatim (Target: Q4 2026)
 - [~] wire the remaining `ggml_tensor_bridge.cpp` production injection seams (`GgmlAllocFn`, `PrefetchFn`, `TypeRegistrationFn`) at server initialization (Target: Q4 2026)
@@ -57,13 +79,9 @@ Production-capable storage runtime exists for durable persistence, MVCC/WAL life
 These items are part of the next-phase **Track 2: Distributed Systems Maturity — 3.4 Storage** plan
 (see `ROADMAP.md §Track 2`). Hard gate per item: deterministic under-load benchmark + `release_critical` CI green.
 
-- [ ] **Tiered storage (hot/warm/cold) with automatic data migration**: implement age- and
-  access-frequency-based tier migration; data that has not been accessed within a configurable
-  window automatically demoted from hot (NVMe) → warm (HDD) → cold (object storage) (Target: Q4 2026)
-  - Inputs: tier policy config (`storage.tier.hot_max_age_s`, `storage.tier.warm_max_age_s`,
-    `storage.tier.cold_backend`); access-frequency tracker
-  - Acceptance: migration runs without blocking foreground I/O; cold-to-hot promotion completes
-    within 100 ms for objects ≤ 1 MB; `storage_tier_migration_total` counter wired; `release_critical` green
+- [~] **Tiered storage validation:** `include/storage/tiered_storage.h` declares hot/warm/cold paths, age/access policies, a background worker, and migration statistics. The Q4 latency, non-blocking, and metric acceptance claims below require implementation-level tests and recorded results; do not treat them as established guarantees.
+  - TODO: verify policy behavior and concurrent foreground I/O against current tests.
+  - TODO: verify whether `storage_tier_migration_total` is exported; the header exposes an in-process `Stats` structure, not that named metric.
 - [ ] **Cloud-native S3/GCS/Azure backend hardening**: harden the existing cloud backend adapter
   for sustained production use: retry with exponential backoff, integrity checksums (MD5/CRC32C),
   multipart upload for objects > 100 MB, SDK version pinning (Target: Q4 2026)
@@ -100,8 +118,8 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity �
 - [x] Extend deterministic stress fixtures for mixed write + maintenance workloads (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
-- [x] Lock benchmark-backed release gates for storage hot paths: SGRG-01..SGRG-06 in benchmarks/storage/bench_storage_release_gates.cpp (WAL throughput ≥100k ops/s, MVCC read p99≤100µs, MVCC write p99≤500µs, checkpoint p99≤10ms, tiering decision p99≤50µs, compaction check p99≤100µs) (Target: Q4 2026)
-- [x] Validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] Add SGRG-01..SGRG-06 benchmark harnesses in `benchmarks/storage/bench_storage_release_gates.cpp`. The harness uses in-memory mocks and contains target labels; it is not evidence that production storage met these thresholds.
+- [!] Representative-hardware p95/p99 and throughput comparison against a release baseline is not evidenced by the benchmark source or CMake registration; TODO: link executed results before marking validated.
 
 ### Phase 6: Documentation and Acceptance
 - [x] core storage module docs aligned to source-verifiable behavior
@@ -124,7 +142,7 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity �
 - [x] Storage pressure manager: include/storage/storage_pressure_manager.h (Phase 3)
 - [x] Phase 3 focused tests: tests/storage/test_storage_phase3_error_handling_focused.cpp (24 test cases)
 - [~] remaining hardening tasks closed for durability/recovery edge paths
-- [x] release benchmark stabilization complete
+- [x] benchmark gate harness sources and CMake registration exist; measured release-baseline stabilization is not established by this checklist
   - Wave D dedicated gates ST-BM-01..04 delivered in `benchmarks/storage/bench_storage_dedicated_gates.cpp`
 
 ## Known Issues and Limitations
