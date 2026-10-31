@@ -1,6 +1,24 @@
-# Audit Report - Metadata Module
+# Audit Report — Metadata Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+**Author:** ThemisDB Contributors  
+**Created:** 2026-10-31  
+**Last Updated:** 2026-10-31  
+**Status:** archived  
+**AI_Used:** true  
+**AI_Models:** unknown  
+**AI_Contributor:** GitHub Copilot coding agent / ThemisDB documentation orchestrator  
+**Human_Review:** false  
+**Human_Author:** ThemisDB Contributors  
+**Source level:** level1 — module-local  
+**SOT domain:** module-behavior  
+**Canonical source references:** [metadata roadmap](./ROADMAP.md), [metadata source tree](./)  
+**Related issue / milestone:** [#7362](https://github.com/makr-code/ThemisDB/issues/7362) · DOC-WEEKLY-2026-W44
+
+> Exact model backend not verifiable from final document text alone.
+
+> Historical audit snapshot validated 2026-05-31. Findings and pass/fail
+> statuses below were not re-audited for issue #7362 and are not current
+> release or security evidence.
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 ## Summary
