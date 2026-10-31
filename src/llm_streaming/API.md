@@ -1,102 +1,68 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
-AI_Models: "GitHub Copilot"
+AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
-Human_Review: true
+Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
 
+Exact model backend not verifiable from final document text alone.
+
 # API Contract: LLM Streaming
 
-This document describes the API contract implied by the existing source and design evidence for the `llm_streaming` layer. It is intentionally grounded in the concrete helper layer already present in `src/llm/streaming_handler.cpp` rather than in generic “best practice” language.
+This page records the small, source-backed formatting-helper API in
+`include/llm/streaming_handler.h`. It is not a contract for a complete streaming
+service: `src/llm_streaming/` contains no runtime implementation, and this
+header does not establish server, network, cancellation, or backpressure APIs.
 
-## Core contract
+## Public helper surface
 
-The canonical runtime-facing contract is a token-delivery interface with explicit boundaries:
+Namespace: `themis::llm`; class: `StreamingHandler`.
 
-- request/session identity
-- token payload emission
-- finish or cancel state
-- explicit error or overflow handling
+### `formatSseEvent(token, request_id, index, done = false)`
 
-## Concrete helper surface
+Returns an SSE `data:` block containing a JSON object with the `id`, `token`,
+`index`, and `done` fields, followed by two newline characters. String values
+are escaped for JSON, including control characters. The caller supplies the
+index; this function does not maintain sequence state.
 
-The current source evidence exposes the following public helper behavior:
+### `formatDoneEvent(request_id)`
 
-### `StreamingHandler::formatSseEvent()`
+Returns `data: [DONE]\n\n`. The request ID is used for a debug log message and
+is not included in the returned wire string.
 
-Purpose:
-- format one emitted token as an SSE data payload
+### `formatChunkedData(data)`
 
-Inputs:
-- `token`: emitted content
-- `request_id`: request or stream identity
-- `index`: per-stream sequence number
-- `done`: terminal completion signal
+Returns one HTTP/1.1 chunk-framing string: hexadecimal byte length, CRLF, data,
+then CRLF. An empty input formats a zero-length chunk. The helper does not own
+an HTTP connection or manage a complete response.
 
-Output:
-- UTF-8 string in the form `data: {"id":"...","token":"...","index":N,"done":true|false}\n\n`
+### `makeStreamCallback(sink, request_id)`
 
-Behavior:
-- escapes JSON special characters safely
-- preserves order by using a per-stream index
-- remains transport-safe for SSE cursors and client reconstruction
+Returns a callback that assigns a zero-based index using a shared
+`std::atomic<size_t>` counter with `std::memory_order_relaxed`, then calls
+`sink` with an SSE event having `done=false`. An empty `sink` causes
+`std::invalid_argument`. Copies of the returned callback share the counter.
+This helper does not emit a final `[DONE]` event automatically. Atomic index
+allocation does not serialize sink calls or guarantee concurrent calls reach
+the sink in index order; sink thread safety and transport behavior are caller
+responsibilities.
 
-### `StreamingHandler::formatDoneEvent()`
+## Explicitly not established by this API
 
-Purpose:
-- emit the stream-complete sentinel used by SSE-style clients
+No public API is present here for opening/closing sessions, cancellation,
+backpressure, stream registries, gRPC, error codes, or lifecycle state
+transitions. Those remain design topics unless implemented and tested in an
+owning runtime path. The current stub tests are not proof of those behaviors.
 
-Output:
-- `data: [DONE]\n\n`
+## Source references
 
-### `StreamingHandler::formatChunkedData()`
-
-Purpose:
-- emit HTTP chunked-transfer framing for a payload
-
-Behavior:
-- prepends the chunk length in hexadecimal
-- ensures the chunk ends with CRLF framing
-
-### `StreamingHandler::makeStreamCallback()`
-
-Purpose:
-- wrap a sink callback with request-scoped token formatting
-
-Behavior:
-- validates sink is non-null
-- maintains per-request token index via an atomic counter
-- serializes token emission into SSE payloads before delivering to the sink
-
-## Error semantics
-
-The contract should treat the following as explicit failure modes:
-
-- stream not found / no active stream session
-- cancellation requested while stream is active
-- backpressure threshold exceeded
-- token ordering violation
-- client disconnect while stream is still active
-- timeout while awaiting completion or drain
-
-The repository documents these semantics in `src/llm_streaming/ARCHITECTURE.md` and `docs/operability/RUNBOOK_LLM_STREAMING.md`.
-
-## API invariants
-
-The implementation should uphold these invariants:
-
-1. each stream has a single identity and a single owner
-2. the sink callback is non-null when stream output is enabled
-3. token sequences are monotonic within a stream
-4. a terminal state is explicit and not inferred
-5. stream cleanup is idempotent
-6. diagnostics are emitted before resource teardown is complete
-
-## Compatibility note
-
-This file reflects the current source-grounded API contract, not a claim that the full streaming runtime is complete under `src/llm_streaming/`. The repository’s governance requires that any production-ready API be backed by canonical runtime ownership and validation evidence outside this module path.
+- `include/llm/streaming_handler.h`
+- `src/llm/streaming_handler.cpp`
+- Direct helper unit tests: `tests/llm/test_streaming_handler.cpp`
+- Validation stubs: `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`
+  and `tests/integration/test_llm_streaming_soak.cpp`

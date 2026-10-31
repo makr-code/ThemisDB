@@ -1,88 +1,133 @@
-# LLM Streaming Module Roadmap
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: PLANNING_ONLY | docs-only module path | source-validated: 2026-10-07 -->
-<!-- Links: README.md · ARCHITECTURE.md · PRODUCTION_REQUIREMENTS.md -->
+Exact model backend not verifiable from final document text alone.
+
+# LLM Streaming Module Roadmap
 
 ## Current Status
 
-The `llm_streaming` module currently acts as a specification and traceability layer, not a production runtime implementation directory. The repository evidence confirms that the local module directory contains documentation and validation-only artifacts, while the canonical runtime implementation is owned by other modules.
+`src/llm_streaming/` is docs-only. The checked implementation is a formatting
+and callback helper in `src/llm/streaming_handler.cpp`, declared in
+`include/llm/streaming_handler.h`; its actual production caller and transport
+integration were not established. The module stress test, integration soak,
+and dedicated benchmark use in-process stubs and do not call this helper.
 
-- [~] establish canonical ownership mapping for streaming semantics to `src/llm/`, `src/server/`, and related runtime modules (Target: Q4 2026)
-- [~] define fail-closed requirements for cancellation, ordering, and backpressure (Target: Q4 2026)
-- [~] preserve bounded, source-traceable design evidence for future runtime implementation (Target: Q4 2026)
+- [~] Document the helper API and its limits.
+- [ ] Identify and document the runtime owner, caller, and transport integration.
+- [~] Maintain direct helper unit coverage; add runtime integration tests if an
+      owning path is established.
+- [ ] Establish verified runtime behavior and release evidence before making
+      production-readiness claims.
 
-### Sourcecode Reality Check (2026-10-07)
+### Source Reality Check (2026-10-31)
 
-- `src/llm_streaming/` contains docs and validation artifacts only; there are no colocated production `.cpp`/`.h` files in this directory.
-- `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp` and `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp` are deliberately in-process simulation/stub validation layers.
-- Any production runtime claim must reference canonical implementation files outside this directory before it is treated as source evidence.
+- `src/llm_streaming/` contains Markdown files and `.gitkeep`, not `.cpp` or
+  `.h` implementation files.
+- The helper supports SSE string formatting, a `[DONE]` string, HTTP chunk
+  framing, and a sink callback adapter. It does not implement session
+  lifecycle, cancellation, backpressure, server routing, or gRPC.
+- The stub tests model counters, a bounded queue, and synthetic sequence checks.
+  Their metrics and outcomes are not evidence of runtime performance.
+- `tests/llm/test_streaming_handler.cpp` tests the helper directly, but not
+  end-to-end transport, cancellation, backpressure, or concurrent sink order.
+- The module-focused test CMake globs local `test_*.cpp` stubs, registers them
+  at stress tier with a 300-second timeout, and does not link the `llm`
+  implementation.
 
-## In Progress
+## In Progress / Planned
 
-- [~] traceability cleanup: align streaming contract docs to canonical runtime owners (Target: Q4 2026)
-- [~] production requirements definition for explicit lifecycle, cancellation, and error semantics (Target: Q4 2026)
-- [~] validation criteria for future runtime implementation and operator diagnostics (Target: Q4 2026)
+- [~] Maintain source-backed API documentation and explicitly mark unknowns.
+- [ ] Trace the helper's real caller and determine the canonical runtime owner.
+- [ ] Specify callback concurrency and whether the sink must preserve order.
+- [ ] Decide whether lifecycle, cancellation, disconnect, backpressure, and
+      diagnostics are in scope for the owning runtime.
+- [x] Basic unit tests exercise the helper's public formatting/callback API.
+- [ ] Add tests for callback-copy/concurrency semantics and any established
+      end-to-end path.
 
 ## Implementation Phases
 
-### Phase 1: Design / API Contract
+### Phase 1: API and ownership clarification
 
-- [~] define stream lifecycle states (`open`, `active`, `cancelled`, `closed`) (Target: Q4 2026)
-- [~] define non-silent failure behaviors for ordering, backpressure, and cancellation (Target: Q4 2026)
-- [~] assign canonical owner modules for runtime behavior: `src/llm/` and `src/server/` (Target: Q4 2026)
-- [~] document source-traceability rules for future production implementation (Target: Q4 2026)
+- [x] Inventory the public `StreamingHandler` declarations and implementation.
+- [~] Record a provisional ownership map; actual caller/integration remains
+      unverified.
+- [ ] Confirm callback concurrency and sink contract.
 
-### Phase 2: Core Implementation
+### Phase 2: Runtime integration (planned; owner not established)
 
-- [ ] implement actual streaming runtime in the canonical owning module(s) if product work is authorized
-- [ ] add explicit request/session routing and stream registry ownership for server-side runtime
-- [ ] add token ordering and cancellation propagation in the runtime layer
-- [ ] add per-stream telemetry and explicit fail-closed cleanup on disconnect or timeout
+- [ ] Identify approved canonical runtime owner and actual request-to-sink path.
+- [ ] Implement only the lifecycle and transport behavior assigned to that owner.
+- [ ] Define cancellation, completion, and error propagation based on source.
 
-### Phase 3: Error Handling & Edge Cases
+### Phase 3: Reliability and security validation (planned)
 
-- [ ] handle cancelled, stale, and disconnected streams without silent data loss
-- [ ] define backpressure overflow and recovery semantics under sustained load
-- [ ] ensure token order violation detection triggers explicit diagnostics and recovery
-- [ ] validate boundary conditions for empty streams, invalid sequences, and concurrent close/cancel races
+- [ ] Test JSON/SSE formatting, sink errors, callback copies, and concurrent use.
+- [ ] If runtime features exist, validate cancellation, disconnect,
+      backpressure, cleanup, and delivery ordering at their actual boundary.
+- [ ] Document configuration and observability only when implemented.
 
-### Phase 4: Tests
+### Phase 4: Tests (planned)
 
-- [ ] add unit tests for token-order, cancellation, and cleanup semantics in canonical runtime code
-- [ ] add integration tests for request-to-stream lifecycle under actual server or LLM runtime paths
-- [ ] add concurrency stress coverage for stream registry, cancellation, and backpressure behavior
-- [ ] verify no regression in adjacent LLM and server paths
+- [x] Direct unit tests for `StreamingHandler` exist.
+- [ ] Extend direct helper tests for callback copies and concurrent invocation.
+- [ ] Add integration coverage only after a canonical runtime owner and actual
+      request-to-sink path are established.
+- [ ] Keep stub stress and soak coverage clearly separate from helper/runtime
+      evidence.
 
-### Phase 5: Performance / Hardening
+### Phase 5: Performance / Hardening (planned)
 
-- [ ] measure p95/p99 token latency and backpressure response times on representative hardware
-- [ ] set explicit throughput and memory budgets for real runtime streams
-- [ ] validate failure recovery and auto-cleanup under sustained concurrent sessions
-- [ ] document benchmark thresholds and rollback criteria before production promotion
+- [ ] Confirm whether benchmark source labels are intended requirements; they
+      are currently stub labels, not executable gates or verified thresholds.
+- [ ] Define measurable performance criteria and a hardware profile after
+      product ownership and runtime behavior are established.
+- [ ] Capture representative runtime measurements and hardening evidence before
+      setting release thresholds.
+- [ ] Validate any implemented concurrency, cancellation, backpressure, and
+      cleanup behavior at its actual runtime boundary.
 
-### Phase 6: Documentation & Acceptance
+### Phase 6: Documentation & Acceptance (planned)
 
-- [ ] publish canonical API and runtime ownership docs for the production implementation
-- [ ] add operator runbook and alerting requirements for stream recovery and cancellation storms
-- [ ] require source-traceable implementation evidence before any release classification above `planning` or `design-only`
+- [ ] Align public API and operational docs with verified runtime behavior.
+- [ ] Document the approved runtime owner, caller, configuration, and supported
+      transport from canonical sources.
+- [ ] Require traceable implementation, tests, and operational evidence for
+      any production claim.
 
 ## Production Readiness Checklist
 
-- [ ] canonical runtime implementation exists outside `src/llm_streaming/`
-- [ ] stream lifecycle states are owned and documented in a real runtime module
-- [ ] cancellation and failure semantics are explicitly tested
-- [ ] backpressure and ordering invariants are validated under load
-- [ ] p95/p99 latency and throughput baselines exist for representative hardware
-- [ ] operator diagnostics and runbook coverage are in place
-- [ ] release evidence is mapped to actual runtime files rather than design-only docs
+- [ ] Runtime owner, caller, and supported transport are source-traceable.
+- [ ] Public helper is directly tested; integration behavior is tested where
+      applicable.
+- [ ] Any lifecycle, cancellation, backpressure, and ordering guarantees are
+      implemented and validated in the owning path.
+- [ ] Runtime performance criteria and representative measurements are
+      documented.
+- [ ] Configuration, diagnostics, and operational procedures are verified.
 
 ## Known Issues & Limitations
 
-1. `src/llm_streaming/` is currently docs-only and cannot be treated as a production runtime source path.
-2. The current validation files are stub-based simulation tests; they prove the design assumptions, not a shipping implementation.
-3. Without canonical runtime ownership, streaming claims remain non-release-grade and require traceability mapping.
-4. Benchmark values in this directory are specification-level placeholders until backed by runtime implementation evidence.
+1. `src/llm_streaming/` has no runtime implementation.
+2. The helper's atomic index does not serialize concurrent sink delivery.
+3. Stress/soak fixtures and benchmark operate on local stubs, not the helper.
+4. No runtime configuration, lifecycle/error API, metrics, or deployment
+   limits were established by the sources reviewed.
+5. Values printed by the stub benchmark are labels, not executable gates,
+   verified thresholds, release targets, or results.
 
 ## Breaking Changes
 
-None expected while the module remains in design-only status. Any future production implementation must be introduced as a real runtime contract change and updated in the canonical module documentation and release evidence.
+No runtime contract change is established by this documentation. Any future
+API or runtime changes must be recorded against the canonical implementation
+and its tests.

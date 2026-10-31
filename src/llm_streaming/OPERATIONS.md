@@ -1,76 +1,53 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
-AI_Models: "GitHub Copilot"
+AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
-Human_Review: true
+Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
 
+Exact model backend not verifiable from final document text alone.
+
 # Operations: LLM Streaming
 
-This document describes the operational expectations for LLM streaming in ThemisDB. It is a governance and operations guide rather than a runtime implementation note, because the repository currently keeps the actual runtime implementation outside `src/llm_streaming/` and traces it back to the canonical modules.
+## Status and scope
 
-## Operational goals
+This is design-time operational guidance, not a verified production runbook.
+The source-backed `StreamingHandler` formats strings and calls a supplied
+sink; it does not expose a stream registry, metrics, queue depth, cancellation,
+or server connection. The tests and benchmark use local stubs.
 
-The stream layer must remain:
+## Signals currently supported by source
 
-- responsive under latency pressure
-- observable during failure and overload
-- safe when a client disconnects or a model stalls
-- traceable via a per-stream identity throughout the request lifecycle
+The helper emits a debug log when `formatDoneEvent(request_id)` is called. It
+does not define the `[LLM_STREAM:...]` event names listed in older drafts, nor
+does the current test source emit those as runtime logs; similar strings occur
+in test assertion messages only. No stream count, latency, throughput,
+buffer-occupancy, or cleanup metric was verified.
 
-## Metrics and diagnostics
+## Proposed incident triage (unverified)
 
-The repository’s runbook implies the following operator visibility model:
+If a future runtime provides streaming, operators will need an owner-specific
+procedure to identify the request, distinguish model/sink/transport failures,
+and verify termination and cleanup. The available sources do not identify
+commands, dashboards, configuration, retry actions, or a supported recovery
+procedure. Do not use the checklist below as an operational instruction until
+it is populated from the deployed implementation:
 
-- stream count and active session count
-- token throughput and output latency
-- queue depth or buffer occupancy
-- overflow, stall, disconnect, and ordering events
-- cleanup completion and stream termination rate
+- identify the affected request using a verified runtime correlation field;
+- inspect documented runtime diagnostics and transport status;
+- confirm the actual terminal result and cleanup behavior;
+- escalate using the owning service's established procedure.
 
-The most concrete operational signals already named in the repository are:
+**TODO:** replace this provisional checklist with verified signals, commands,
+owners, and recovery steps after runtime integration exists.
 
-- `[LLM_STREAM:BufferOverflow]`
-- `[LLM_STREAM:GenerationStall]`
-- `[LLM_STREAM:BackpressureCascade]`
-- `[LLM_STREAM:Disconnected]`
-- `[LLM_STREAM:TokenOrderViolation]`
+## Readiness boundary
 
-## Recommended operational checks
-
-### During steady-state operation
-
-- confirm token throughput remains within the deployment profile budget
-- confirm backlog is not steadily increasing without recovery
-- check whether cancellation or disconnect events correlate with queue growth
-
-### During incident response
-
-1. identify the affected `stream_id`
-2. determine whether the root cause is upstream generation, transport, or sink pressure
-3. validate whether cleanup succeeded and whether the final state was `cancelled` or `closed`
-4. measure whether queue occupancy returned to a healthy range after the incident
-
-## Recovery posture
-
-The operational stance is fail-closed rather than silent degrade:
-
-- do not continue emitting after a stream is known to be cancelled
-- do not silently swallow sequence violations
-- do not regress into hidden buffer overflow or a stale terminal state
-- surface the root cause through logs, metrics, or explicit error propagation
-
-## Release-readiness threshold
-
-The module is not release-grade until the actual runtime implementation is tied to:
-
-- canonical source ownership outside `src/llm_streaming/`
-- stress and soak validation in the owning runtime path
-- operator evidence and runbook coverage matching the failure modes above
-
-This keeps operations aligned with the repository’s source-traceability rules.
+The mock/stub stress, soak, and benchmark sources do not establish production
+operability or release readiness. See `RUNBOOK.md` for the scenario-level
+assumptions and `PRODUCTION_REQUIREMENTS.md` for proposed acceptance gates.

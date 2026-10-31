@@ -1,69 +1,73 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
-AI_Models: "GitHub Copilot"
+AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
-Human_Review: true
+Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
 
-# Module Guide: LLM Streaming
+Exact model backend not verifiable from final document text alone.
 
-This guide explains how to read and use the `llm_streaming` module documentation in a way that matches the repository’s documentation contract and source-ownership rules.
+# Module Guide: LLM Streaming
 
 ## Reading order
 
-Use this order when working in the module:
+1. `README.md` — current scope and evidence boundary
+2. `API.md` — public helper surface
+3. `ARCHITECTURE.md` — helper flow and design topics
+4. `ROADMAP.md` and `PRODUCTION_REQUIREMENTS.md` — planned work and acceptance
+5. `IMPLEMENTATION.md`, `MODELING.md`, `OPERATIONS.md`, `RUNBOOK.md`,
+   `SECURITY.md`, and `TRUST.md` — bounded evidence and unresolved assumptions
 
-1. `README.md` — scope and current status
-2. `ARCHITECTURE.md` — lifecycle, ownership, and failure domains
-3. `ROADMAP.md` — implementation phases and readiness status
-4. `PRODUCTION_REQUIREMENTS.md` — required source, governance, and release gates
-5. domain-specific companion docs (`RESEARCH.md`, `MODELING.md`, `API.md`, `RUNBOOK.md`, `SECURITY.md`, `TRUST.md`)
+## Current ownership and paths
 
-## What this module is today
+- `src/llm_streaming/` contains documentation and `.gitkeep`, not runtime code.
+- The source-backed helper is in `src/llm/streaming_handler.cpp`, declared in
+  `include/llm/streaming_handler.h`.
+- `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp` and
+  `tests/integration/test_llm_streaming_soak.cpp` use in-process stubs.
+- `tests/llm/test_streaming_handler.cpp` directly tests the formatting helper
+  and callback adapter, but not transport integration.
+- `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp` benchmarks
+  stubs rather than the helper.
 
-The `llm_streaming` directory is a design and traceability layer. The module is not a colocated production source directory today, and this is explicitly stated in the module README and roadmap. That means the module’s value is not in shipping code directly; it is in creating the contract that the canonical runtime modules must satisfy.
+The checked evidence does not establish a `src/server/` integration path or a
+header under `include/llm_streaming/`.
 
-## Canonical ownership map
+## Build/test registration
 
-The runtime ownership should be tracked as follows:
+The helper unit test is registered in `tests/CMakeLists.txt` (when
+`THEMIS_ENABLE_LLM` is enabled) as target `test_llm_streaming_handler` and
+CTest name `LlmStreamingHandlerFocusedTests`. The focused stress test is
+registered by `tests/llm_streaming/CMakeLists.txt`
+under target
+`module_llm_streaming_test_llm_streaming_highcardinality_stress_focused` and
+CTest name `test_llm_streaming_highcardinality_stress_LLMStreamingFocusedTests`.
+The module CMake file globs `test_*.cpp`, registers via
+`themis_register_module_focused_test`, and assigns stress tier/300-second
+timeout; its target links test libraries and Threads, not the `llm`
+implementation. Benchmark registration is opt-in via
+`THEMIS_BUILD_BENCHMARKS`; the module file globs `bench_*.cpp` and calls
+`themis_add_standard_benchmark`.
+The integration soak is listed in `tests/integration/CMakeLists.txt` as
+`test_llm_streaming_soak`; CTest sets `THEMIS_SOAK_DURATION_MS=5000`, while the
+test implementation defaults to 60,000 ms (CTest timeout 120 seconds). It is
+stub-based, distinct from the direct source-helper unit test. The benchmark
+target is `bench_llm_streaming_dedicated_gates` and is conditional on benchmark
+builds.
+See those CMake files for the exact project build workflow.
 
-- `src/llm/` — token generation and runtime delivery glue
-- `src/server/` — request lifecycle and client transport boundary
-- `tests/llm_streaming/` — validation-only stress and design evidence
-- `benchmarks/llm_streaming/` — benchmark evidence for design assumptions
+## How to assess future readiness
 
-If a real runtime implementation is added here, it must be explicitly reflected in the roadmap, architecture, and production requirements doc before being treated as release-grade evidence.
+Before making a runtime or release claim, identify the production caller and
+owner, extend direct helper coverage where needed, test any transport
+integration, and verify cancellation, ordering, backpressure, configuration,
+and observability in that runtime. The existing stubs alone do not satisfy
+these criteria.
 
-## How to evaluate implementation readiness
-
-A future production implementation should be considered ready only when it can be mapped to all of the following:
-
-- real source ownership in a canonical module
-- unit and integration tests covering stream lifecycle and overflow conditions
-- benchmark or performance evidence on representative hardware
-- operator runbook coverage for failure modes
-- documented trust and security assumptions
-
-## Operators and maintainers
-
-Use this module as a contract reference if you are:
-
-- designing a new streaming feature
-- diagnosing token-order or backpressure issues
-- reviewing cross-module release evidence
-- preparing a design review before implementation in the canonical runtime modules
-
-## Related sources
-
-- `src/llm/streaming_handler.cpp`
-- `include/llm/streaming_handler.h`
-- `tests/integration/test_llm_streaming_soak.cpp`
-- `docs/operability/RUNBOOK_LLM_STREAMING.md`
-- `docs/architecture/DATA_FLOW_PATHS.md`
-
-This guide exists to keep the documentation set coherent and to reduce false claims that the module is already shipping production code when the repository’s evidence says it is still a design layer.
+**TODO:** update this map when a concrete runtime integration is found and
+covered by tests.

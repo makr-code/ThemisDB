@@ -1,59 +1,46 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
-AI_Models: "GitHub Copilot"
+AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
-Human_Review: true
+Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
 
-# Trust Model: LLM Streaming
+Exact model backend not verifiable from final document text alone.
 
-The trust model for `llm_streaming` is intentionally conservative. The repository does not treat this directory as a complete production implementation. Instead, it treats this module as the contract layer that defines the trust expectations for the actual runtime implementations owned by `src/llm/` and `src/server/`.
+# Trust Notes: LLM Streaming
 
-## What is trusted
+## What the sources establish
 
-The module trusts the following:
+The public `StreamingHandler` helper accepts string data and a caller-supplied
+sink. Its implementation formats SSE/chunked strings, assigns atomic indexes
+in the callback adapter, rejects an empty sink, and logs a request ID when
+formatting the fixed `[DONE]` sentinel. This is a limited local API surface,
+not evidence of an end-to-end trusted streaming path.
 
-- the canonical runtime implementation is the actual source of truth for stream emission and cleanup
-- the model or inference layer is responsible for producing tokens without violating stream identity semantics
-- the transport layer is responsible for maintaining a valid connection and surfacing disconnects
-- diagnostics and operator runbooks are faithfully maintained for the documented failure modes
+## What remains unverified
 
-## What is not trusted without validation
+- The runtime caller, model-to-helper handoff, and transport boundary.
+- Identity validation and association of request IDs with authenticated users.
+- Sink ownership, concurrency, and whether event order is preserved.
+- Cancellation, timeout, queue/backpressure, and cleanup behavior.
+- Production diagnostics, deployment controls, and security testing.
 
-The repository explicitly warns against treating the following as production-grade evidence unless mapped to real runtime implementation:
-
-- docs-only claims in `src/llm_streaming/`
-- validation-only stress tests that model behavior without owning canonical runtime code
-- benchmark assumptions that are not connected to shipped runtime files
-
-This is why `src/llm_streaming/PRODUCTION_REQUIREMENTS.md` requires source-traceable ownership before a module claim becomes release-grade.
-
-## Trust boundaries and handoff points
-
-A stream crosses several boundaries:
-
-1. model output to runtime adapter
-2. runtime adapter to transport framing
-3. transport framing to client sink
-4. operator diagnostics to incident response
-
-Each boundary must be explicit. If the boundary is not explicit, trust is reduced because the system cannot explain if a failure occurred in generation, transport, or cleanup.
-
-## Safety and failure assumptions
-
-The design relies on these assumptions:
-
-- sequence numbers are meaningful and can be checked
-- cancellation and timeout are explicit, not implicit
-- overflow is a boundary event, not a silent data-loss mode
-- a stream is either active, cancelled, or closed, and it does not remain in an ambiguous state
-- evidence is tied to the runtime implementation, not merely to the docs layer
+The direct helper unit test covers selected formatting/callback cases. The
+in-process stress/soak tests and benchmark use local stand-ins. None validates
+the unverified production boundaries above. The module's lifecycle, ordering,
+and failure requirements remain proposed until implemented and tested in the
+owning runtime.
 
 ## Trust conclusion
 
-The current trust model is: credible but provisional. It is fit for design, planning, and reviewer governance while real production runtime behavior is still owned by canonical runtime modules. The module should be treated as a source-grounded specification only until those real runtime files and tests are in place and pass the relevant operational gates.
+Trust should be limited to the exact helper behavior documented in `API.md`.
+No wider production trust or security posture can be inferred from this
+directory's design documentation or stub-based validation.
+
+**TODO:** revise this assessment when the actual caller, runtime ownership,
+transport, and integration tests are source-verifiable.

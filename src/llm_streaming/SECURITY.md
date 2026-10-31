@@ -1,68 +1,58 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
-AI_Models: "GitHub Copilot"
+AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
-Human_Review: true
+Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
 
-# Security Considerations: LLM Streaming
+Exact model backend not verifiable from final document text alone.
 
-This document records the security-relevant characteristics of the LLM streaming contract. It is intentionally grounded in the repository’s existing security posture around streaming components, transport-layer formatters, and operator diagnostics.
+# Security Notes: LLM Streaming
 
-## Trust boundaries
+## Verified implementation behavior
 
-The relevant trust boundaries are:
+`src/llm/streaming_handler.cpp` escapes backslash, double quote, common JSON
+control characters, and other bytes below `0x20` when building the `token`
+and `id` JSON string values in `formatSseEvent`. It emits a structured SSE
+`data:` line. `formatDoneEvent` logs the request ID at debug level and returns
+the fixed `data: [DONE]\n\n` string. `makeStreamCallback` rejects an empty sink
+by throwing `std::invalid_argument`.
 
-- upstream model or inference layer
-- request/session orchestration
-- transport boundary (HTTP/SSE/gRPC or other stream boundaries)
-- client or sink consumer
-- operator diagnostics and log output
+These are narrow formatting/input checks. They do not establish authentication,
+authorization, request-ID validation, payload size limits, rate limits,
+transport security, client isolation, or a complete defense against
+application-level injection. The caller owns transport and sink behavior.
 
-A stream crosses more than one trust boundary, so the contract must keep state transitions explicit and auditable.
+## Unverified trust boundaries
 
-## Key risks
+The helper interface receives a token, request ID, and callback sink. The
+checked code does not show who supplies or validates them, whether a network
+boundary exists, or how diagnostics are protected. Do not assume HTTP/gRPC
+integration, lifecycle checks, cancellation, or backpressure controls.
 
-### 1. Partial or ambiguous stream state
+## Security review requirements for future integration
 
-A token stream that continues after cancellation or disconnect can produce partial responses that look valid but are operationally unsafe. The design therefore requires explicit states and cleanup.
+- Validate or constrain request identifiers and sensitive text before logging.
+- Review maximum token/event sizes and the caller's buffering behavior.
+- Verify that the actual transport applies the intended authentication and
+  authorization policies.
+- Exercise JSON escaping and error behavior through direct tests and any real
+  transport integration.
+- Document concurrency and sink ownership before concurrent use.
 
-### 2. Ordering violations
+`tests/llm/test_streaming_handler.cpp` checks selected escaping and helper
+behavior, but does not validate transport security or a production path. The
+stress/soak fixtures and benchmark use local stubs and provide no production
+security validation.
 
-If a token order is silently re-ordered or lost, downstream clients may receive semantically corrupted content. The repository treats ordering violation as an explicit failure category.
+## Sources
 
-### 3. Queue exhaustion and backpressure failures
-
-If the upstream producer keeps writing while the sink is saturated, the stream becomes unstable. The design uses bounded overflow behavior and explicit diagnostics, not silent truncation.
-
-### 4. Diagnostic leakage
-
-Logs and metadata must not reveal more than necessary about internal session state. Request IDs, stream IDs, and error reasons are useful, but they should remain bounded and deliberate.
-
-## Controls
-
-The repository’s documented controls are straightforward and suitable for the current contract stage:
-
-- explicit state transitions for open/active/cancelled/closed streams
-- request-scoped identity and index values for tracking
-- fail-closed handling on overflow or cancellation
-- JSON escaping for payloads to avoid injection-like malformed output
-- operator event names tied to specific failure modes
-
-The actual source evidence for the serialization safeguards is in `src/llm/streaming_handler.cpp`, which escapes control characters and wraps payloads in a structured event format before writing them to the sink.
-
-## Source-grounded control evidence
-
-- `src/llm/streaming_handler.cpp`: escapes JSON control characters and maintains structured token events
-- `src/llm_streaming/ARCHITECTURE.md`: documents fail-closed behavior for cancellation and overflow
-- `docs/operability/RUNBOOK_LLM_STREAMING.md`: defines diagnostics and escalation for the failure classes
-- `tests/integration/test_llm_streaming_soak.cpp`: validates the failure behavior under load via in-process stubs
-
-## Security posture statement
-
-The current posture is not “fully production-verified streaming security”; it is a conservative, source-grounded contract that makes lifecycle and overflow behavior explicit and operator-visible. That is the correct posture for a docs-first module while runtime ownership remains elsewhere.
+- `include/llm/streaming_handler.h`
+- `src/llm/streaming_handler.cpp`
+- `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`
+- `tests/integration/test_llm_streaming_soak.cpp`

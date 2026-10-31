@@ -1,49 +1,72 @@
-# ThemisDB LLM Streaming Module — Production Requirements
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-> Status: source-validated design contract only (2026-10-07)
->
-> This module is not a production implementation directory today. The requirements below define the minimum governance rules for any future runtime implementation and for the evidence trail that must accompany it.
+Exact model backend not verifiable from final document text alone.
 
-## Purpose and Scope
+# LLM Streaming — Production Requirements (Proposed)
 
-The `llm_streaming` module is the contract layer for streaming semantics, lifecycle guarantees, and operator expectations. It must not be treated as a shipping runtime source path until a real implementation exists in a canonical module and is source-traceable from this document and the roadmap.
+## Current status
 
-## Canonical Ownership Rule
+`src/llm_streaming/` is docs-only. The checked runtime source is the
+`StreamingHandler` formatting/callback helper in `src/llm/streaming_handler.cpp`
+and `include/llm/streaming_handler.h`. There is no verified end-to-end streaming
+runtime, cancellation API, backpressure configuration, or network integration
+in the examined sources. Requirements below are acceptance proposals, not
+implemented product behavior.
 
-- Production runtime behavior must live in the owning module(s), not in `src/llm_streaming/`.
-- If runtime code is added here, it must be justified by explicit source ownership and matching references in `README.md`, `ARCHITECTURE.md`, and `ROADMAP.md`.
-- Existing validation files in `tests/llm_streaming/` and `benchmarks/llm_streaming/` remain non-production artifacts unless they are upgraded to real runtime evidence.
+## Proposed ownership and behavior requirements
 
-## Required Product Behavior
+- Identify the canonical owner and actual caller before assigning lifecycle
+  responsibilities.
+- Define and test stream identity, completion, cancellation, disconnect, and
+  cleanup behavior in that owner.
+- Specify ordering semantics under concurrent callback invocations; the
+  helper's atomic index does not serialize sink delivery.
+- Define backpressure limits, error propagation, configuration, and recovery
+  only if a runtime queue/controller is implemented.
+- Add diagnostics and operator procedures that correspond to observable
+  source behavior.
 
-- A stream must have a well-defined lifecycle: open, active, cancelled, closed.
-- Token order must be explicit and deterministic for a single stream unless the runtime defines a bounded reordering policy.
-- Cancellation must trigger cleanup and explicit terminal state transitions.
-- Backpressure overflow must yield explicit fail-closed behavior rather than silent truncation.
-- Client disconnects and upstream failures must be observable and diagnosable.
+## Acceptance evidence (not yet demonstrated)
 
-## Governance Requirements
+- [ ] runtime owner and caller are mapped to source and a supported transport
+- [x] direct helper unit tests exist for escaping, indexes, sink behavior, and
+      empty-sink exception semantics
+- [ ] execute/maintain those tests and extend coverage for callback copies and
+      concurrency semantics
+- [ ] runtime integration tests exercise actual delivery, terminal behavior,
+      cancellation, disconnect, and any backpressure implementation
+- [ ] performance criteria are confirmed, measured, and reported on a stated
+      hardware profile; stub benchmark labels are not baselines
+- [ ] configuration, diagnostics, and operational procedures are verified
+- [ ] release claims are traceable to the owning implementation and evidence
 
-- Any production claim must be backed by real implementation files, tests, and CI or benchmark evidence.
-- Design-only docs must not use release-grade language without matching runtime evidence.
-- The module path may remain docs-only until a canonical implementation is introduced and validated.
+## Existing validation and build references
 
-## Minimum Acceptance Gates
+- Direct helper unit test:
+  `tests/llm/test_streaming_handler.cpp`
+- Focused stub test source:
+  `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`
+- Integration soak stub source:
+  `tests/integration/test_llm_streaming_soak.cpp`
+- Stub benchmark:
+  `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp`
+- CMake registration: `tests/llm_streaming/CMakeLists.txt`,
+  `tests/integration/CMakeLists.txt`, and
+  `benchmarks/llm_streaming/CMakeLists.txt`
 
-Before a runtime implementation is declared production-ready, the following gates must be satisfied:
+The unit test is evidence for its individual helper cases. The stub stress,
+soak, and benchmark sources are not acceptance evidence for a production
+runtime.
 
-- [ ] a canonical runtime source path is identified and documented
-- [ ] stream lifecycle semantics are implemented and tested
-- [ ] cancellation and disconnect recoveries are validated
-- [ ] backpressure overflow conditions are bounded and observable
-- [ ] p95/p99 latency and throughput baselines are captured on representative hardware
-- [ ] operator diagnostics and runbook coverage exist for failure scenarios
-
-## Required References
-
-- `README.md`
-- `ARCHITECTURE.md`
-- `ROADMAP.md`
-- `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`
-- `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp`
-- `docs/architecture/DATA_FLOW_PATHS.md`
+**TODO / assumption:** product owner, deployment profile, exact runtime
+integration, and release milestone are not established by the sources reviewed.
