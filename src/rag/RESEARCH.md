@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -24,13 +24,20 @@ measured or met.
 
 ## Problem and method
 
-The RAG retrieval path combines sparse and dense candidate rankings, then can
-apply a cross-encoder reranker and evaluate the resulting evidence. The
+The RAG retrieval path combines sparse and dense candidate rankings, can apply
+a reranking stage, and can evaluate the resulting evidence. The
 `HybridRetriever` accepts BM25 and vector candidate lists and fuses them using
 weighted Reciprocal Rank Fusion (RRF) by default, or normalized linear scores
 when configured. RRF avoids adding incomparable raw BM25 and vector scores, but
 its output depends on each input list's ordering and the configured weights and
 constant.
+
+Although the reranker API exposes an ONNX model path, the current
+`CrossEncoderReranker::computeScore()` uses its heuristic scorer for every
+candidate; the ONNX forward pass is not implemented. Model loading and the
+`used_model` flag do not demonstrate learned scoring. Evaluation claims must
+identify this as heuristic ranking unless a real inference path is added and
+validated.
 
 `DPRVectorizer` supplies separate query and passage encoders. The helper
 `retrieveWithVectorizer()` encodes the query and the content of the supplied
