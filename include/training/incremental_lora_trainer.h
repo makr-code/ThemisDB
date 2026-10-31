@@ -23,6 +23,10 @@
 #include <chrono>
 #include <limits>
 
+namespace themis::query {
+class QueryEngine;
+}
+
 namespace themis {
 namespace training {
 
@@ -127,6 +131,7 @@ struct TrainingResult {
     double validation_loss = 0.0;
     double accuracy = 0.0;
     size_t samples_trained = 0;
+    double data_load_time_seconds = 0.0; ///< Time spent reading and validating DB training samples.
     double training_time_seconds = 0.0;
     std::string error_message;
     int gpus_used = 1;                ///< Number of GPUs used during training
@@ -147,6 +152,7 @@ using TrainingCallback = std::function<void(size_t epoch,
  */
 struct IncrementalTrainingConfig {
     std::string training_data_collection; ///< Collection with training samples
+    size_t max_training_samples = 100000; ///< Maximum DB samples buffered per training run
     std::string base_model_path;          ///< Path to base model (GGUF)
     std::string adapter_version;          ///< Starting adapter version (empty = new)
     
@@ -234,6 +240,18 @@ public:
      */
     explicit IncrementalLoRATrainer(const IncrementalTrainingConfig& config,
                                     const std::string& db_connection);
+
+    /**
+     * @brief Construct a trainer with an optional live DB query engine.
+     * @param config Training configuration.
+     * @param db_connection Connection label retained for checkpoint paths.
+     * @param query_engine Non-owning pointer used to fetch training_data_collection;
+     *                     it must outlive the trainer. With an engine, DB failures
+     *                     and empty datasets fail closed instead of using synthetic input.
+     */
+    IncrementalLoRATrainer(const IncrementalTrainingConfig& config,
+                           const std::string& db_connection,
+                           query::QueryEngine* query_engine);
     
     ~IncrementalLoRATrainer();
     

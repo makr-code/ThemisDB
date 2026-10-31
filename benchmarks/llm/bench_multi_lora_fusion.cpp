@@ -445,22 +445,21 @@ static void BM_FusionScalability(benchmark::State& state) {
     }
     
     state.SetItemsProcessed(state.iterations());
-    state.SetComplexityN(num_adapters);
+    state.counters["adapter_count"] = num_adapters;
 }
 
 BENCHMARK(BM_FusionScalability)
     ->RangeMultiplier(2)
-    ->Range(2, 16)
-    ->Complexity();
+    ->Range(2, 16);
 
 // ═══════════════════════════════════════════════════════════
 // Memory Efficiency Benchmark
 // ═══════════════════════════════════════════════════════════
 
 BENCHMARK_F(MultiLoRAFusionFixture, CacheClearPerformance)(benchmark::State& state) {
-        if (!ensureReady(state)) {
-            return;
-        }
+    if (!ensureReady(state)) {
+        return;
+    }
     for (auto _ : state) {
         state.PauseTiming();
         

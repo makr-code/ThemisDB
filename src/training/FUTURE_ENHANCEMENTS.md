@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Training Module - Future Enhancements
 
 <!-- Status: current | validated: 2026-05-31 | issue #5678 verification: 2026-08-07 ✓ -->
@@ -8,6 +22,8 @@
 - hardening and refinement of training runtime behavior
 - deterministic reliability improvements for dataset/training/adapter paths
 - stronger benchmark-backed guardrails for training hot paths
+- actual bounded DB-backed sample readers for IncrementalLoRATrainer, TrainingDataIterator, and TrainingPipeline
+- per-source benchmark coverage for built-in, in-memory/custom, JSON, trainBatch, AQL iterator, collection, and full-pipeline paths
 
 ## Design Constraints
 
@@ -24,6 +40,8 @@
 | training interfaces | stable LoRA/AdaLoRA lifecycle semantics |
 | checkpoint interfaces | explicit save/resume/verify behavior |
 | adapter interfaces | bounded merge and serving-handoff behavior |
+| DB sample reader | QueryEngine-backed collection/AQL reads with stable batching, limits, and explicit error reporting |
+| DB training injection | non-owning QueryEngine integration for trainer/pipeline with documented lifetime and thread-safety |
 
 ## Implementation Notes
 
@@ -31,6 +49,8 @@
 - standardize incident taxonomy for labeling, enrichment, and serving classes.
 - expand resilience tests for prolonged adapter lifecycle workloads.
 - broaden benchmark depth for training-pipeline and checkpoint scenarios.
+- persist auto-labeled samples before training and consume the configured target collection rather than an empty vector.
+- keep DB read/convert/train timing separate; never label deterministic synthetic fallback as DB-backed training.
 
 ### Wave B B3: Multi-Task LoRA Training Enablement
 **Priority:** High
@@ -48,6 +68,8 @@
 - regressions for checkpoint corruption, merge conflicts, and rollback edge cases.
 - deterministic stress runs for training and adapter-serving handoff workloads.
 - release-profile benchmark runs for mapped training targets.
+- focused RocksDB/QueryEngine tests for empty collections, malformed samples, batch boundaries, and query failures.
+- benchmark smoke tests must emit one JSON result per path and pass through the comparison-report fixture.
 
 ## Performance Targets
 
@@ -61,6 +83,34 @@
 - preserve explicit failure signaling for labeling, adapter, and serving faults.
 - enforce predictable degradation under capability or runtime pressure.
 - keep diagnostics actionable for production training incidents.
+
+## DB-Backed Training Data Path Benchmarks
+
+### Scope
+- Measure sample acquisition and LoRA training for every supported input route: built-in AQL samples, custom/in-memory samples, JSON file/object import, prepared `TrainingData` batches, AQL iterator, direct collection training, and TrainingPipeline end-to-end.
+
+### Design Constraints
+- DB paths use an isolated RocksDB-backed `QueryEngine` fixture and deterministic records.
+- Query/collection failure must not silently fall back to synthetic samples.
+- Model-backed fine-tuning requires a real GGUF artifact and is reported separately from the CPU LoRA update-core benchmark.
+
+### Required Interfaces
+- `TrainingDataIterator` must execute a read-only AQL query and return bounded stable batches.
+- `IncrementalLoRATrainer` and `TrainingPipeline` must accept a non-owning `QueryEngine` while preserving existing constructor call sites.
+- Auto-labeled sample persistence and trainer reads must use the configured source/target collections.
+
+### Test Strategy
+- Verify exact sample counts and content for each DB reader; cover empty, malformed, limited, and failed-query cases.
+- Run each benchmark path in CTest with temporary DB cleanup and valid JSON output.
+
+### Performance Targets
+- Report database read, sample conversion, LoRA update, and end-to-end p50/p95 elapsed time, samples/s, and bytes/s separately.
+- Compare the same host/profile against its stored baseline; flag throughput regression above 10 percent. Do not compare model-backed and CPU-core-only cases as equivalent workloads.
+
+### Security / Reliability
+- Validate collection identifiers before AQL construction and bind all data values.
+- Bound result count and batch memory; expose skipped/invalid sample counts.
+- Keep benchmark fixtures isolated; no model, prompt, or tenant data may be written outside the temporary benchmark DB.
 
 ## Planning Traceability
 

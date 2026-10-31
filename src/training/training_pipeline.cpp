@@ -13,6 +13,9 @@
 // Copyright (c) 2026 ThemisDB Contributors
 
 #include "training/training_pipeline.h"
+#include "index/secondary_index.h"
+#include "query/aql_runner.h"
+#include "query/query_engine.h"
 #include "llm/prompt_safety_utils.h"
 #include <stdexcept>
 #include <chrono>
@@ -30,6 +33,16 @@ namespace training {
 namespace {
 
 constexpr const char* kBlockedCallbackMessage = "message blocked by prompt policy";
+
+bool isValidCollectionIdentifier(const std::string& collection) {
+    if (collection.empty() ||
+        !(std::isalpha(static_cast<unsigned char>(collection.front())) || collection.front() == '_')) {
+        return false;
+    }
+    return std::all_of(collection.begin() + 1, collection.end(), [](unsigned char ch) {
+        return std::isalnum(ch) || ch == '_';
+    });
+}
 
 /**
  * @brief Sanitize Training Pipeline Message.
@@ -100,12 +113,19 @@ public:
      * @param[in] db_connection Input parameter.
      * @return Return value.
      */
-    explicit Impl(const PipelineConfig& config, const std::string& db_connection)
+        explicit Impl(const PipelineConfig& config,
+                const std::string& db_connection,
+                ::themis::query::QueryEngine* query_engine,
+                ::themis::SecondaryIndexManager* sample_storage)
         : config_(config)
         , db_connection_(db_connection)
-        , labeler_(std::make_unique<LegalAutoLabeler>(config.labeler_config, db_connection))
+          , query_engine_(query_engine)
+          , sample_storage_(sample_storage)
+          , labeler_(std::make_unique<LegalAutoLabeler>(
+              config.labeler_config, db_connection, query_engine, sample_storage))
         , enricher_(std::make_unique<KnowledgeGraphEnricher>(config.enricher_config, db_connection))
-        , trainer_(std::make_unique<IncrementalLoRATrainer>(config.trainer_config, db_connection))
+          , trainer_(std::make_unique<IncrementalLoRATrainer>(
+              config.trainer_config, db_connection, query_engine))
         , data_selector_(std::make_unique<DataSelectionPipeline>(config.data_selection_config)) {
         // Phase 3: initialise provenance tracker when enabled
         if (config_.enable_provenance) {
@@ -136,7 +156,14 @@ public:
         // QW-40: Fail-closed guards against prompt injection
         // Guard 1 (Location 182): labeler_config validation (empty input)
         if (config_.labeler_config.target_collection.empty()) {
+            stats.error_message = "training pipeline target collection must not be empty";
             return stats;  // Fail-closed: return immediately
+        }
+        if (query_engine_ && (!sample_storage_ ||
+            !isValidCollectionIdentifier(config_.labeler_config.source_collection) ||
+            !isValidCollectionIdentifier(config_.labeler_config.target_collection))) {
+            stats.error_message = "DB-backed training pipeline requires valid source/target collections and a sample writer";
+            return stats;
         }
 
         // Guard 2 (Location 229): drift_threshold validation (range check)
@@ -169,8 +196,17 @@ public:
 
             stats.documents_labeled = ls.documents_processed;
             stats.samples_created   = ls.samples_created;
+            stats.samples_persisted = ls.samples_persisted;
             stats.high_confidence   = ls.high_confidence_samples;
             metrics.endStage("labeling");
+
+            if (!ls.error_message.empty()) {
+                stats.error_message = ls.error_message;
+                stats.total_elapsed_seconds = std::chrono::duration<double>(
+                    std::chrono::steady_clock::now() - pipeline_start).count();
+                last_stats_ = stats;
+                return stats;
+            }
 
             emitCallback("labeling", ls.documents_processed,
                          "Labeling complete: " + std::to_string(ls.samples_created) + " samples");
@@ -276,6 +312,14 @@ public:
 
             metrics.endStage("data_selection");
 
+            if (!sel.success && !sel.error_message.empty()) {
+                stats.error_message = sel.error_message;
+                stats.total_elapsed_seconds = std::chrono::duration<double>(
+                    std::chrono::steady_clock::now() - pipeline_start).count();
+                last_stats_ = stats;
+                return stats;
+            }
+
             emitCallback("data_selection",
                          static_cast<size_t>(sel.selected_samples.size()),
                          "Data selection complete: " +
@@ -293,6 +337,8 @@ public:
                 });
 
             stats.training_success = tr.success;
+            stats.training_samples_consumed = tr.samples_trained;
+            stats.data_load_time_seconds = tr.data_load_time_seconds;
             stats.training_loss    = tr.training_loss;
             stats.accuracy         = tr.accuracy;
             stats.adapter_version  = tr.version;
@@ -379,13 +425,51 @@ public:
      * @details Calls: setConfig(), run(), std::move(), callback(), sanitizeTrainingPipelineMessage().
      */
     DataSelectionResult runDataSelection(SelectionProgressCallback callback) {
-        // In production: load candidate samples via AQL query:
-        //   FOR sample IN @collection
-        //     RETURN {id: sample._key, text: CONCAT(sample.input, " ", sample.output)}
-        //
-        // In simulation: run with an empty candidate list so the pipeline
-        // executes all stages and produces a valid (empty) result.
         std::vector<DataSample> candidates;
+
+        if (query_engine_) {
+            const auto& collection = config_.trainer_config.training_data_collection.empty()
+                ? config_.labeler_config.target_collection
+                : config_.trainer_config.training_data_collection;
+            if (!isValidCollectionIdentifier(collection) || config_.data_selection_config.target_samples == 0) {
+                DataSelectionResult failure;
+                failure.error_message = "DB-backed data selection requires a valid collection and positive target_samples";
+                return failure;
+            }
+            const std::string query = "FOR sample IN " + collection +
+                " LIMIT " + std::to_string(config_.data_selection_config.target_samples) +
+                " RETURN sample";
+            auto result = ::themis::executeAql(query, *query_engine_);
+            if (!result) {
+                DataSelectionResult failure;
+                failure.error_message = "DB-backed data-selection query failed: " + result.error().message();
+                return failure;
+            }
+            const auto& response = result.value();
+            const nlohmann::json* rows = nullptr;
+            if (response.is_array()) {
+                rows = &response;
+            } else if (response.is_object() && response.contains("results") && response["results"].is_array()) {
+                rows = &response["results"];
+            }
+            if (!rows) {
+                DataSelectionResult failure;
+                failure.error_message = "DB-backed data-selection query returned an invalid result shape";
+                return failure;
+            }
+            candidates.reserve(rows->size());
+            for (const auto& row : *rows) {
+                if (!row.is_object() || !row.contains("input") || !row["input"].is_string() ||
+                    !row.contains("output") || !row["output"].is_string()) {
+                    continue;
+                }
+                const std::string text = row["input"].get<std::string>() + " " + row["output"].get<std::string>();
+                const std::string id = row.value("_key", std::string{});
+                if (!text.empty() && !id.empty()) {
+                    candidates.emplace_back(id, text);
+                }
+            }
+        }
 
         // Allow live config reload on each call
         data_selector_->setConfig(config_.data_selection_config);
@@ -625,7 +709,7 @@ public:
             config_.trainer_config.learning_rate = best_lr;
             // Recreate the trainer with the updated config
             trainer_ = std::make_unique<IncrementalLoRATrainer>(
-                config_.trainer_config, db_connection_);
+                config_.trainer_config, db_connection_, query_engine_);
         }
 
         return result;
@@ -634,6 +718,8 @@ public:
 private:
     PipelineConfig                          config_;
     std::string                             db_connection_;
+    ::themis::query::QueryEngine*            query_engine_ = nullptr;  // borrowed
+    ::themis::SecondaryIndexManager*         sample_storage_ = nullptr; // borrowed
     std::unique_ptr<LegalAutoLabeler>       labeler_;
     std::unique_ptr<KnowledgeGraphEnricher> enricher_;
     std::unique_ptr<IncrementalLoRATrainer> trainer_;
@@ -672,7 +758,13 @@ private:
 // ============================================================================
 TrainingPipeline::TrainingPipeline(const PipelineConfig& config,
                                     const std::string& db_connection)
-    : impl_(std::make_unique<Impl>(config, db_connection)) {}
+    : TrainingPipeline(config, db_connection, nullptr, nullptr) {}
+
+TrainingPipeline::TrainingPipeline(const PipelineConfig& config,
+                                   const std::string& db_connection,
+                                   query::QueryEngine* query_engine,
+                                   SecondaryIndexManager* sample_storage)
+    : impl_(std::make_unique<Impl>(config, db_connection, query_engine, sample_storage)) {}
 
 TrainingPipeline::~TrainingPipeline() = default;
 

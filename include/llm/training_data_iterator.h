@@ -15,9 +15,16 @@
 #include "storage/rocksdb_wrapper.h"
 #include "llm/adapter_registry.h"
 #include <memory>
+#include <map>
+#include <optional>
 #include <string>
 #include <vector>
 #include <functional>
+#include <chrono>
+
+namespace themis::query {
+class QueryEngine;
+}
 
 namespace themis {
 namespace llm {
@@ -32,6 +39,7 @@ public:
     struct Config {
         // Batch configuration
         size_t batch_size = 32;
+        size_t max_samples = 100000;
         size_t prefetch_batches = 2;
         
         // Streaming configuration
@@ -106,6 +114,18 @@ public:
     );
 
     /**
+     * @brief Construct an iterator with a borrowed AQL query engine.
+     * @param db Open RocksDB wrapper used by the query engine.
+     * @param exporter Exporter configuration used for field mappings and quality policy.
+     * @param query_engine Non-owning query engine; it must outlive this iterator.
+     */
+    TrainingDataIterator(
+        std::shared_ptr<RocksDBWrapper> db,
+        std::shared_ptr<exporters::JSONLLLMExporter> exporter,
+        query::QueryEngine* query_engine
+    );
+
+    /**
      * @brief Training Data Iterator.
      * @param[in] db Input parameter.
      * @param[in] exporter Input parameter.
@@ -117,14 +137,36 @@ public:
         std::shared_ptr<exporters::JSONLLLMExporter> exporter,
         Config config
     );
+
+    /**
+     * @brief Construct an iterator with custom batching and a borrowed query engine.
+     * @param db Open RocksDB wrapper used by the query engine.
+     * @param exporter Exporter configuration used for field mappings and quality policy.
+     * @param config Batch and filtering limits; batch_size must be greater than zero.
+     * @param query_engine Non-owning query engine; it must outlive this iterator.
+     */
+    TrainingDataIterator(
+        std::shared_ptr<RocksDBWrapper> db,
+        std::shared_ptr<exporters::JSONLLLMExporter> exporter,
+        Config config,
+        query::QueryEngine* query_engine
+    );
+
+    /**
+     * @brief Replace the borrowed AQL query engine.
+     * @param query_engine Non-owning pointer, or nullptr to detach the DB source.
+     * @note The iterator must not be used concurrently with this call.
+     */
+    void setQueryEngine(query::QueryEngine* query_engine) noexcept;
     
     // Iterator Operations
     
     /**
-     * @brief Initialize.
-     * @param[in] aql_query Input parameter.
-     * @param[in] metadata Input parameter.
-     * @return True when the operation succeeds.
+     * @brief Execute a read-only AQL query and prepare stable training batches.
+     * @param aql_query Read-only AQL returning sample objects; mutation queries are rejected.
+     * @param metadata Adapter metadata associated with this dataset.
+     * @return True when the query succeeds, including a valid empty result; false on missing
+     *         dependencies, malformed query/results, or unsupported enrichment requirements.
      */
     bool initialize(const std::string& aql_query, const AdapterMetadata& metadata);
     
@@ -171,9 +213,12 @@ public:
         nlohmann::json toJson() const;
     };
     
-    IteratorStats getStats() const { return stats_; }
+    IteratorStats getStats() const;
     
     const Config& getConfig() const { return config_; }
+
+    /** @brief Return the diagnostic for the most recent failed initialization. */
+    const std::string& lastError() const noexcept { return last_error_; }
     
     /**
      * @brief Set Config.
@@ -184,7 +229,9 @@ public:
 private:
     std::shared_ptr<RocksDBWrapper> db_;
     std::shared_ptr<exporters::JSONLLLMExporter> exporter_;
+    query::QueryEngine* query_engine_ = nullptr;  // borrowed; caller owns lifetime
     Config config_;
+    std::string last_error_;
     
     // Iterator state
     bool initialized_ = false;
@@ -213,23 +260,23 @@ private:
      * @param[in] entity Input parameter.
      * @return Return value.
      */
-    TrainingSample convertToTrainingSample(const BaseEntity& entity);
+    TrainingSample convertToTrainingSample(const BaseEntity& row) const;
     /**
      * @brief Shuffle Samples.
      */
     void shuffleSamples();
     /**
-     * @brief Enrich Sample With Graph Context.
+        * @brief Attach precomputed graph context from row metadata when enabled.
      * @param[in,out] sample Input/output parameter.
      */
     void enrichSampleWithGraphContext(TrainingSample& sample);
     /**
-     * @brief Enrich Sample With Vector Context.
+        * @brief Attach precomputed vector context from row metadata when enabled.
      * @param[in,out] sample Input/output parameter.
      */
     void enrichSampleWithVectorContext(TrainingSample& sample);
     /**
-     * @brief Enrich Sample With Relational Context.
+        * @brief Attach precomputed relational context from row metadata when enabled.
      * @param[in,out] sample Input/output parameter.
      */
     void enrichSampleWithRelationalContext(TrainingSample& sample);
@@ -238,7 +285,7 @@ private:
      * @param[in] sample Input parameter.
      * @return True when the operation succeeds.
      */
-    bool passesQualityFilter(const TrainingSample& sample) const;
+    bool passesQualityFilter(const TrainingSample& sample);
 };
 
 class TrainingQueryBuilder {

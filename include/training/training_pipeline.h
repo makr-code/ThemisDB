@@ -38,9 +38,12 @@ namespace training {
  * @brief Overall pipeline execution statistics (Phase 7)
  */
 struct PipelineStats {
+    std::string error_message;
+
     // Auto-labeler stage
     size_t documents_labeled     = 0;
     size_t samples_created       = 0;
+    size_t samples_persisted     = 0;
     size_t high_confidence       = 0;
 
     // Enricher stage
@@ -49,8 +52,10 @@ struct PipelineStats {
 
     // Trainer stage
     bool   training_success      = false;
+    size_t training_samples_consumed = 0;
     double training_loss         = 0.0;
     double accuracy              = 0.0;
+    double data_load_time_seconds = 0.0; ///< DB sample-read time reported by IncrementalLoRATrainer.
     std::string adapter_version;
 
     // Data selection stage
@@ -340,6 +345,18 @@ public:
      */
     explicit TrainingPipeline(const PipelineConfig& config,
                                const std::string& db_connection);
+
+    /**
+     * @brief Construct a pipeline with shared non-owning DB dependencies.
+     * @param config Pipeline configuration.
+     * @param db_connection Informational connection label retained for checkpoint paths.
+     * @param query_engine AQL engine used for source/target collection reads; must outlive the pipeline.
+     * @param sample_storage Index manager used to persist auto-labeled samples; must outlive the pipeline.
+     */
+    TrainingPipeline(const PipelineConfig& config,
+                     const std::string& db_connection,
+                     query::QueryEngine* query_engine,
+                     SecondaryIndexManager* sample_storage);
 
     ~TrainingPipeline();
 

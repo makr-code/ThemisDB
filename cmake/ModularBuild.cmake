@@ -1344,6 +1344,7 @@ set(THEMIS_LLM_SOURCES
     ../src/llm/applications/themis_help_lora.cpp
     ../src/llm/feedback_store.cpp
     ../src/llm/llm_model_storage.cpp
+    ../src/llm/training_data_iterator.cpp
     ../src/llm/llm_model_audit_logger.cpp
     ../src/llm/lora_framework/lora_audit_logger.cpp
     ../src/llm/kv_cache_buffer.cpp

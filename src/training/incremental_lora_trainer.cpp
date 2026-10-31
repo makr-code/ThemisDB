@@ -12,12 +12,15 @@
 #include "training/incremental_lora_trainer.h"
 #include "training/adapter_serving.h"
 #include "training/lora_checkpoint_manager.h"
+#include "query/aql_runner.h"
+#include "query/query_engine.h"
 #include "llm/prompt_safety_utils.h"
 #include "utils/checksum_utils.h"
 #include "utils/logger.h"
 #include <nlohmann/json.hpp>
 #include <algorithm>
 #include <atomic>
+#include <cctype>
 #include <unordered_set>
 #include <cerrno>
 #include <chrono>
@@ -269,9 +272,12 @@ public:
      * @param[in] db_connection Input parameter.
      * @return Return value.
      */
-    explicit Impl(const IncrementalTrainingConfig& config, const std::string& db_connection)
+    explicit Impl(const IncrementalTrainingConfig& config,
+                  const std::string& db_connection,
+                  ::themis::query::QueryEngine* query_engine)
         : config_(config)
         , db_connection_(db_connection)
+        , query_engine_(query_engine)
         , checkpointing_enabled_(false)
         , checkpoint_steps_(100) {
     }
@@ -316,10 +322,9 @@ public:
         // Reset metrics for this run
         metrics_.reset();
 
-        // Phase 3: Load training data
-        // Production: FOR sample IN @collection RETURN {input: sample.input, output: sample.output}
+        // Offline mode intentionally retains the deterministic synthetic fallback.
+        // Supplying a QueryEngine switches to the fail-closed DB-backed path below.
         std::vector<std::pair<std::string, std::string>> training_data;
-        // training_data populated via AQL when database is connected
 
         // Phase 3: Determine base version
         std::string base_version = (mode == TrainingMode::INITIAL)
@@ -330,6 +335,19 @@ public:
         try {
             // Phase 3: Validate hyperparameters
             validateHyperparameters();
+
+            if (query_engine_ != nullptr) {
+                const auto data_load_start = std::chrono::steady_clock::now();
+                const bool loaded = loadTrainingDataFromDatabase(training_data, result.error_message);
+                result.data_load_time_seconds = std::chrono::duration<double>(
+                    std::chrono::steady_clock::now() - data_load_start).count();
+                if (!loaded) {
+                    result.success = false;
+                    result.samples_trained = 0;
+                    training_active_.store(false);
+                    return result;
+                }
+            }
 
             // Initialize real LoRA weight matrices and Adam optimizer.
             // Safe even without THEMIS_ENABLE_LLM: the function is a no-op in that case.
@@ -1078,6 +1096,7 @@ public:
 
     IncrementalTrainingConfig config_;
     std::string db_connection_;
+    ::themis::query::QueryEngine* query_engine_ = nullptr;  // borrowed; caller owns lifetime
     bool checkpointing_enabled_;
     size_t checkpoint_steps_;
     std::map<std::string, VersionRecord> version_registry_;
@@ -1140,6 +1159,67 @@ public:
     std::shared_ptr<llm::lora::MultiGPULoRALayer>   multi_gpu_layer_;
     bool multi_gpu_training_ = false;
 #endif
+
+    bool loadTrainingDataFromDatabase(
+        std::vector<std::pair<std::string, std::string>>& training_data,
+        std::string& error_message) const {
+        const auto& collection = config_.training_data_collection;
+        if (collection.empty() || config_.max_training_samples == 0) {
+            error_message = "DB-backed LoRA training requires a collection and positive max_training_samples";
+            return false;
+        }
+        const auto isIdentifierStart = [](unsigned char ch) {
+            return std::isalpha(ch) != 0 || ch == '_';
+        };
+        const auto isIdentifierChar = [](unsigned char ch) {
+            return std::isalnum(ch) != 0 || ch == '_';
+        };
+        if (!isIdentifierStart(static_cast<unsigned char>(collection.front())) ||
+            !std::all_of(collection.begin() + 1, collection.end(), isIdentifierChar)) {
+            error_message = "DB-backed LoRA training rejected an invalid collection identifier";
+            return false;
+        }
+
+        const std::string aql =
+            "FOR sample IN " + collection +
+            " LIMIT " + std::to_string(config_.max_training_samples) +
+            " RETURN { input: sample.input, output: sample.output }";
+        auto query_result = ::themis::executeAql(aql, *query_engine_);
+        if (!query_result) {
+            error_message = "DB-backed LoRA training query failed: " + query_result.error().message();
+            return false;
+        }
+
+        const auto& response = query_result.value();
+        const nlohmann::json* rows = nullptr;
+        if (response.is_array()) {
+            rows = &response;
+        } else if (response.is_object() && response.contains("results") && response["results"].is_array()) {
+            rows = &response["results"];
+        }
+        if (rows == nullptr) {
+            error_message = "DB-backed LoRA training query returned an invalid result shape";
+            return false;
+        }
+
+        training_data.reserve(std::min(rows->size(), config_.max_training_samples));
+        for (const auto& row : *rows) {
+            if (!row.is_object() || !row.contains("input") || !row.contains("output") ||
+                !row["input"].is_string() || !row["output"].is_string()) {
+                continue;
+            }
+            auto input = row["input"].get<std::string>();
+            auto output = row["output"].get<std::string>();
+            if (!input.empty() && !output.empty()) {
+                training_data.emplace_back(std::move(input), std::move(output));
+            }
+        }
+        if (training_data.empty()) {
+            error_message = "DB-backed LoRA training collection contained no valid input/output samples";
+            return false;
+        }
+        return true;
+    }
 
     // -------------------------------------------------------------------------
     // LoRA weight initialization
@@ -1990,7 +2070,13 @@ public:
 // Public API implementation
 IncrementalLoRATrainer::IncrementalLoRATrainer(const IncrementalTrainingConfig& config,
                                                const std::string& db_connection)
-    : impl_(std::make_unique<Impl>(config, db_connection)) {
+    : IncrementalLoRATrainer(config, db_connection, nullptr) {
+}
+
+IncrementalLoRATrainer::IncrementalLoRATrainer(const IncrementalTrainingConfig& config,
+                                               const std::string& db_connection,
+                                               query::QueryEngine* query_engine)
+    : impl_(std::make_unique<Impl>(config, db_connection, query_engine)) {
 }
 
 IncrementalLoRATrainer::~IncrementalLoRATrainer() = default;

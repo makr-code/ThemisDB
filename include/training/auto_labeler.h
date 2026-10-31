@@ -29,6 +29,7 @@ namespace analytics {
 namespace query {
     class QueryEngine;
 }
+class SecondaryIndexManager;
 
 namespace training {
 
@@ -67,8 +68,11 @@ struct TrainingSample {
 struct LabelingStats {
     size_t documents_processed = 0;
     size_t samples_created = 0;
+    size_t samples_persisted = 0;
     size_t high_confidence_samples = 0;  ///< confidence >= 0.8
     size_t low_confidence_samples = 0;   ///< confidence < 0.5
+    size_t persistence_errors = 0;
+    std::string error_message;
     double elapsed_seconds = 0.0;
     
     LabelingStats() = default;
@@ -157,6 +161,19 @@ public:
     explicit LegalAutoLabeler(const AutoLabelConfig& config,
                               const std::string& db_connection,
                               query::QueryEngine* engine = nullptr);
+
+    /**
+     * @brief Construct a DB-backed labeler with explicit sample persistence.
+     * @param config Labeling configuration.
+     * @param db_connection Informational connection label.
+     * @param engine Non-owning AQL QueryEngine; must outlive the labeler.
+     * @param sample_storage Non-owning index manager used to persist target-collection samples;
+     *                       it must outlive the labeler.
+     */
+    LegalAutoLabeler(const AutoLabelConfig& config,
+                     const std::string& db_connection,
+                     query::QueryEngine* engine,
+                     SecondaryIndexManager* sample_storage);
     
     ~LegalAutoLabeler();
     

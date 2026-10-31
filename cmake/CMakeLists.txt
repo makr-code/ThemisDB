@@ -5188,6 +5188,7 @@ if(THEMIS_ENABLE_LLM)
         ../src/llm/gguf_loader.cpp           # GGUF model file loader with memory-mapping
         ../src/llm/llamacpp_inference_engine.cpp # llama.cpp inference engine with PagedAttention
         ../src/llm/llm_model_storage.cpp     # LLM model storage and metadata management
+        ../src/llm/training_data_iterator.cpp # QueryEngine-backed bounded training sample batches
         
         # Week 13-14: Production Validation & Testing (P1 Enterprise Features)
         ../src/llm/production_validator.cpp  # Production-grade LLM validation and benchmarking

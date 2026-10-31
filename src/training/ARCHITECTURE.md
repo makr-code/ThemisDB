@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Architecture - Training Module
 
 <!-- Status: current | validated: 2026-09-09 -->
@@ -17,6 +31,14 @@ The training module composes auto-labeling and enrichment behavior, LoRA/AdaLoRA
 
 3. Governance and orchestration plane
 - provenance tracking, data selection, and end-to-end training pipeline behavior
+
+## Training Data Paths
+
+- Prepared input paths: AQL built-in samples, custom/in-memory samples, JSON import, and `TrainingData` batch composition.
+- DB-backed paths: `LegalAutoLabeler` reads a source collection through an injected `QueryEngine`; generated samples are persisted to the configured target collection; `IncrementalLoRATrainer` reads that collection; `TrainingDataIterator` executes AQL and yields batches.
+- End-to-end path: `TrainingPipeline` wires the same `QueryEngine` through labeling, sample persistence, selection, and training.
+- Data-source timings are reported separately from LoRA updates; DB failures never count as a successful DB-backed run.
+- Until the DB reader implementations land, the iterator, trainer collection read, and pipeline selection paths are not considered production DB paths.
 
 ## Core Contracts
 

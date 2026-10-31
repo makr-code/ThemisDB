@@ -19,6 +19,13 @@
 | TRNP-2 | LoRA layer construction and forward/backward paths remain bounded | BM_LoRALayer_Construction, BM_LoRALayer_Forward, BM_LoRALayer_Backward, BM_LoRALayer_RankImpact |
 | TRNP-3 | attention and sequential LoRA composition paths remain bounded | BM_AttentionLoRA_Construction, BM_AttentionLoRA_Forward, BM_AttentionLoRA_Backward, BM_Sequential_Construction, BM_Sequential_Forward, BM_Sequential_Backward, BM_CompositePattern_Overhead |
 | TRNP-4 | parameter and memory efficiency paths remain bounded | BM_LoRALayer_ParameterCount, BM_LoRALayer_ParameterAccess, BM_Sequential_ParameterCollection, BM_LoRALayer_MemoryUsage, BM_Compare_LoRAvsFullFinetuning |
+| TRNP-5 | DB-backed sample acquisition is bounded and deterministic | BM_TrainingDataIterator_AQL, BM_IncrementalLoRA_CollectionRead |
+| TRNP-6 | full DB-backed labeling-to-training path reports stage costs independently | BM_TrainingPipeline_DB_EndToEnd |
+| TRNP-7 | non-DB inputs remain separately measurable and are not labeled DB-backed | BM_LoRAData_Builtin, BM_LoRAData_Custom, BM_LoRAData_JSON, BM_LoRAData_Batch |
+
+## Data-Path Metrics
+
+The new data-path benchmark reports, per source: records fetched, valid/skipped samples, bytes read, DB query time, conversion time, trainer update time, end-to-end time, samples/second, and p50/p95 latency. DB paths use a temporary RocksDB-backed `QueryEngine`; failed reads must fail the benchmark rather than silently exercise synthetic fallback. Baseline comparisons use the same host and build profile and flag throughput regressions above 10 percent.
 
 ## Module Hard Gates (v1.0 docs baseline)
 

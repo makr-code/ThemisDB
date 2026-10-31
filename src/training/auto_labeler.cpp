@@ -13,6 +13,7 @@
 #include "training/modality_parser.h"
 #include "analytics/nlp_text_analyzer.h"
 #include "query/aql_runner.h"
+#include "index/secondary_index.h"
 #include "storage/base_entity.h"
 #include "utils/logger.h"
 #include <stdexcept>
@@ -84,11 +85,14 @@ class LegalAutoLabeler::Impl {
 public:
     friend class LegalAutoLabeler;
 
-    explicit Impl(const AutoLabelConfig& config, const std::string& db_connection,
-                  ::themis::query::QueryEngine* engine)
+    explicit Impl(const AutoLabelConfig& config,
+                  const std::string& db_connection,
+                  ::themis::query::QueryEngine* engine,
+                  ::themis::SecondaryIndexManager* sample_storage)
         : config_(config)
         , db_connection_(db_connection)
         , query_engine_(engine)
+        , sample_storage_(sample_storage)
         , total_processed_(0)
         , total_errors_(0) {
 
@@ -147,7 +151,12 @@ public:
 
                 // Flush batch when it reaches batch_size
                 if (batch.size() >= config_.batch_size) {
-                    persistSampleBatch(batch);
+                    std::string persistence_error;
+                    if (!persistSampleBatch(batch, stats.samples_persisted, persistence_error)) {
+                        stats.persistence_errors++;
+                        stats.error_message = std::move(persistence_error);
+                        break;
+                    }
                     batch.clear();
                     batch.reserve(config_.batch_size);
                 }
@@ -168,7 +177,11 @@ public:
 
         // Flush remaining batch
         if (!batch.empty()) {
-            persistSampleBatch(batch);
+            std::string persistence_error;
+            if (!persistSampleBatch(batch, stats.samples_persisted, persistence_error)) {
+                stats.persistence_errors++;
+                stats.error_message = std::move(persistence_error);
+            }
         }
 
         auto end_time = std::chrono::steady_clock::now();
@@ -357,7 +370,12 @@ public:
                 }
 
                 if (batch.size() >= config_.batch_size) {
-                    persistSampleBatch(batch);
+                    std::string persistence_error;
+                    if (!persistSampleBatch(batch, stats.samples_persisted, persistence_error)) {
+                        stats.persistence_errors++;
+                        stats.error_message = std::move(persistence_error);
+                        break;
+                    }
                     batch.clear();
                     batch.reserve(config_.batch_size);
                 }
@@ -376,7 +394,11 @@ public:
         }
 
         if (!batch.empty()) {
-            persistSampleBatch(batch);
+            std::string persistence_error;
+            if (!persistSampleBatch(batch, stats.samples_persisted, persistence_error)) {
+                stats.persistence_errors++;
+                stats.error_message = std::move(persistence_error);
+            }
         }
 
         auto end_time = std::chrono::steady_clock::now();
@@ -444,10 +466,12 @@ private:
     AutoLabelConfig config_;
     std::string db_connection_;
     ::themis::query::QueryEngine* query_engine_;   ///< AQL engine (non-owning); nullptr in offline/test mode
+    ::themis::SecondaryIndexManager* sample_storage_; ///< Target-collection writer (non-owning)
     std::unique_ptr<analytics::NlpTextAnalyzer> nlp_analyzer_;
     std::unique_ptr<ModalityDetector> modality_detector_; ///< Multi-modal document parser (Phase 3)
     std::atomic<size_t> total_processed_;
     std::atomic<size_t> total_errors_;
+    std::atomic<size_t> sample_sequence_{0};
     mutable std::mutex pipeline_mutex_;
     mutable std::mutex offline_corpus_mutex_;
     std::unordered_map<std::string, std::string> offline_corpus_;
@@ -719,13 +743,55 @@ private:
         return modalities;
     }
 
-    // Phase 1: Persist a batch of samples to the target collection
-    void persistSampleBatch(const std::vector<TrainingSample>& batch) const {
-        if (batch.empty() || db_connection_.empty()) {
-            return;
+    // Persist accepted samples through the same SecondaryIndexManager used by the QueryEngine.
+    bool persistSampleBatch(const std::vector<TrainingSample>& batch,
+                            size_t& persisted,
+                            std::string& error) {
+        if (batch.empty()) {
+            return true;
         }
-        // In production: execute aql_templates::BATCH_INSERT_SAMPLES
-        // binding @samples to serialized batch and @target_collection to config_.target_collection
+        if (!sample_storage_) {
+            if (query_engine_) {
+                error = "DB-backed auto-labeling requires a target collection writer";
+                return false;
+            }
+            return true;
+        }
+        if (!isValidCollectionIdentifier(config_.target_collection)) {
+            error = "Auto-labeler rejected an invalid target collection identifier";
+            return false;
+        }
+
+        for (const auto& sample : batch) {
+            const auto sequence = sample_sequence_.fetch_add(1, std::memory_order_relaxed);
+            const std::string key = sample.source_id + "_" + std::to_string(sequence);
+            BaseEntity entity(key);
+            entity.setField("input", sample.input);
+            entity.setField("output", sample.output);
+            entity.setField("category", sample.category);
+            entity.setField("confidence", static_cast<double>(sample.confidence));
+            entity.setField("source_id", sample.source_id);
+            entity.setField("metadata", sample.metadata);
+            entity.setField("modality", std::to_string(static_cast<int>(sample.modality)));
+
+            const auto status = sample_storage_->put(config_.target_collection, entity);
+            if (!status.ok) {
+                error = "Auto-labeler failed to persist training sample '" + key + "': " + status.message;
+                return false;
+            }
+            ++persisted;
+        }
+        return true;
+    }
+
+    static bool isValidCollectionIdentifier(const std::string& collection) {
+        if (collection.empty() ||
+            !(std::isalpha(static_cast<unsigned char>(collection.front())) || collection.front() == '_')) {
+            return false;
+        }
+        return std::all_of(collection.begin() + 1, collection.end(), [](unsigned char ch) {
+            return std::isalnum(ch) || ch == '_';
+        });
     }
 
     // Phase 1: Accumulate per-sample statistics
@@ -841,7 +907,14 @@ private:
 LegalAutoLabeler::LegalAutoLabeler(const AutoLabelConfig& config,
                                    const std::string& db_connection,
                                    ::themis::query::QueryEngine* engine)
-    : impl_(std::make_unique<Impl>(config, db_connection, engine)) {
+    : LegalAutoLabeler(config, db_connection, engine, nullptr) {
+}
+
+LegalAutoLabeler::LegalAutoLabeler(const AutoLabelConfig& config,
+                                   const std::string& db_connection,
+                                   ::themis::query::QueryEngine* engine,
+                                   ::themis::SecondaryIndexManager* sample_storage)
+    : impl_(std::make_unique<Impl>(config, db_connection, engine, sample_storage)) {
 }
 
 LegalAutoLabeler::~LegalAutoLabeler() = default;

@@ -24,6 +24,10 @@ foreach(_src IN LISTS TRAINING_MODULE_TEST_SOURCES)
         spdlog::spdlog
         Threads::Threads
     )
+    if((_stem STREQUAL "test_incremental_lora_db_training" OR
+        _stem STREQUAL "test_training_pipeline_db") AND TARGET themis_training)
+        target_link_libraries(${_target} PRIVATE themis_training)
+    endif()
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
     themis_register_module_focused_test(
