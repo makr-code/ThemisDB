@@ -153,7 +153,7 @@ The API expects the following invariants to hold:
 
 A caller should treat the following as expected failure cases rather than as hidden non-failures:
 
-- invalid dimension mismatch,
+- query dimension mismatch,
 - vector-dimension mismatch (query and batch/MVCC entity-write overloads),
 - malformed input vectors,
 - unsupported advanced backend configuration (not every unavailable backend

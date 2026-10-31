@@ -45,7 +45,10 @@ Key responsibilities:
 - persist and reload state,
 - reconcile storage drift through rebuild and incremental reindex flows.
 
-The implementation also includes audit-logging hooks, expression-evaluation hooks, and optional advanced-index configuration that is rejected when required support is absent.
+The implementation also includes audit-logging hooks, expression-evaluation
+hooks, and optional advanced-index configuration. Unsupported configurations
+may return a failed status or warn and fall back, depending on the selected
+backend.
 
 ### MultiVectorSearch
 
