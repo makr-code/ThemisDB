@@ -1,3 +1,21 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-08-25"
+Last Updated: "2026-10-31"
+Status: "historical"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+>
+> **Historical closure evidence:** This record describes fixes/tests as of
+> 2026-08-25. It does not assert that every dependent production path remains
+> wired or that later regressions are absent; verify current source and tests.
+
 # WAVE_3D_CLOSURE_EVIDENCE.md — network module
 
 **Wave:** 3-D  

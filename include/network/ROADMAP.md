@@ -61,7 +61,7 @@ The current public surface contains 31 headers; optional transport headers do no
 ## In Progress
 
 - [x] Extend `AdaptiveCircuitBreaker` with per-error-class thresholds (Target: 2026-Q3) — NCB-PEC-01..08 in tests/network/test_network_cb_per_error_class_focused.cpp
-- [x] Document `EnvoyXDSClient` xDS resource subscription lifecycle in ARCHITECTURE (Target: 2026-Q3)
+- [x] Document `EnvoyXdsClient` xDS v3 REST polling lifecycle and callback constraints in ARCHITECTURE (Target: 2026-Q3)
 
 ---
 

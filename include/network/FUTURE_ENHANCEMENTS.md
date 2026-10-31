@@ -38,7 +38,7 @@ Planned enhancements to the **public header contract** in `include/network/`. Im
 - `[x]` `KernelBypass` header must compile without DPDK headers when `THEMIS_ENABLE_KERNEL_BYPASS` is not defined.
 - `[x]` `IoUringBatcher` must not expose `io_uring_sqe*` in public API; callers submit via typed request structs.
 - `[x]` `QUICServer` and `WireProtocolServer` must share no state; each owns its accept loop.
-- `[x]` `GeoTopologyRouter` decisions must be observable via `NetworkAuditLog` for compliance.
+- `[ ]` Wire `GeoTopologyRouter` decisions into an audit event sink for compliance; `NetworkAuditLog` currently provides a standalone API and is not automatically connected to router or wire-server call sites.
 - `[x]` All compression configuration is in `ConnectionCompression`; per-message override is not permitted.
 
 ---

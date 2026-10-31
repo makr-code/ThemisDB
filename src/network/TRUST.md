@@ -1,8 +1,8 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
 AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
@@ -39,7 +39,7 @@ Exact model backend not verifiable from final document text alone.
 
 ## Incident handling
 
-Disable or isolate the affected listener first; revoke exposed credentials/certificates, retain connection/audit evidence, identify impacted protocol and time range, and restore only after validating the corrected listener configuration and authentication path. Report vulnerabilities through [project SECURITY.md](../../SECURITY.md), using [SOP-05](../../SOP.md) and [SOP-08](../../SOP.md).
+Disable or isolate the affected listener first; revoke exposed credentials/certificates, retain available connection logs and any audit events where the owning service wired `NetworkAuditLog`, identify impacted protocol and time range, and restore only after validating the corrected listener configuration and authentication path. Report vulnerabilities through [project SECURITY.md](../../SECURITY.md), using [SOP-05](../../SOP.md) and [SOP-08](../../SOP.md).
 
 ## Source references
 

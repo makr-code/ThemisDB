@@ -1,4 +1,21 @@
-> **Status:** 2026-06-01 – mit aktuellem Network-Code (`wire_protocol_server.cpp`, `socket_timeout_manager.cpp`, `adaptive_circuit_breaker.cpp`, `network_audit_log.cpp`) abgeglichen.
+---
+Author: "ThemisDB Contributors"
+Created: "unknown (pre-existing document; creation date not recorded)"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+>
+> **Source review (2026-10-31):** This document defines requirements, not proof
+> that every requirement is wired into the runtime. In particular,
+> `NetworkAuditLog` has a standalone implementation but no production call-site
+> integration was found in the inspected network sources/build registration.
 
 # ThemisDB Network Module - Production Requirements
 
@@ -16,7 +33,7 @@ Es definiert verbindliche Anforderungen für Transportabsicherung, Authentifizie
 
 ## Verbindliche Transportanforderungen
 
-- **MUST:** `validateTransportSecurity(...)` beim Start aufrufen; unsichere Deployments werden abgewiesen.
+- **MUST:** `validateTransportSecurity(...)` vor `start()` aufrufen; `start()` prüft die Transportsicherheit ebenfalls als Fail-Closed-Gate.
 - **MUST:** `auth_token` nicht leer/blank; Startup-Validierung des Wire-Protocol-Servers weist leere Tokens ab.
 - **MUST:** Constant-time Token-Compare (`CRYPTO_memcmp`) in Auth-Validierungspfaden aktiv; kein String-Compare mit Early-Return.
 - **MUST NOT:** Protokoll-Downgrade zu Klartextverbindungen in Produktionsdeployments erlauben.
@@ -37,7 +54,8 @@ Es definiert verbindliche Anforderungen für Transportabsicherung, Authentifizie
 
 ### 3) Netzwerk-Audit-Logging
 
-- **MUST:** `network_audit_log.cpp` in Produktionspfaden aktiv; sicherheitsrelevante Verbindungsereignisse werden protokolliert.
+- **MUST:** `NetworkAuditLog` in Produktionspfade integrieren, damit sicherheitsrelevante Verbindungsereignisse protokolliert werden.
+- **Current gap:** Der Typ und die Implementierung existieren, aber die Integration in Wire-Protocol-Produktionspfade ist im geprüften Source/CMake nicht nachgewiesen. Die Anforderung bleibt offen.
 
 ## Betriebsgrenzen (aktuelles Network-Verhalten)
 
@@ -54,8 +72,8 @@ Es definiert verbindliche Anforderungen für Transportabsicherung, Authentifizie
 - [ ] Connection-Limits pro IP konfiguriert
 - [ ] Socket-Timeout-Manager aktiv
 - [ ] Circuit-Breaker konfiguriert und beobachtbar
-- [ ] Network-Audit-Log aktiv
-- [ ] Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt
+- [ ] Network-Audit-Log in Produktionspfaden integriert und mit Tests belegt
+- [ ] Produktionsmodus durch den aufrufenden Prozess gemäß `TransportSecurityChecker` konfiguriert; konkrete Startparameter außerhalb dieses Moduls verifizieren
 
 ## Review / Sourcecode-Audit-Nachweis
 
