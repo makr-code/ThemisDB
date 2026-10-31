@@ -24,10 +24,14 @@ The benchmark sources are registered by the repository-level [`../CMakeLists.txt
 Configure the repository with benchmarks enabled, then build and run the registered targets:
 
 ```bash
-cmake --preset <existing-preset> -DTHEMIS_BUILD_BENCHMARKS=ON
-cmake --build <build-directory> --target bench_prompt_engineering bench_rewrite_engine
-<build-directory>/bin/bench_prompt_engineering --benchmark_format=json
-<build-directory>/bin/bench_rewrite_engine --benchmark_format=json
+cmake --preset community-release-allow-missing-rocksdb \
+  -DTHEMIS_BUILD_BENCHMARKS=ON
+cmake --build build-community-release-allow-missing-rocksdb \
+  --target bench_prompt_engineering bench_rewrite_engine
+build-community-release-allow-missing-rocksdb/bin/bench_prompt_engineering \
+  --benchmark_format=json
+build-community-release-allow-missing-rocksdb/bin/bench_rewrite_engine \
+  --benchmark_format=json
 ```
 
 The targets are only available when the Google Benchmark dependency is found. Benchmark source comments contain proposed microbenchmark thresholds; they are not evidence of measured release performance or a completed release gate.

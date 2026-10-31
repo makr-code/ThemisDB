@@ -47,7 +47,7 @@ For direct manager use, validate the template, create or fetch it, check the opt
 - Inspect result fields (`valid`, `errors`, `warnings`, `is_injection`, `success`, `blocked`) rather than assuming a call succeeded.
 - Treat absent template/version IDs as an explicit miss. A manager creation failure is signaled by an empty returned ID.
 - Keep provider outputs consistent with the embedding contract in [`EMBEDDING.md`](./EMBEDDING.md).
-- The stable error-code taxonomy is declared in [`prompt_engineering_errors.h`](../../include/prompt_engineering/prompt_engineering_errors.h); error context fields include the operation and remediation hint.
+- The error-code enum and formatter are declared in [`prompt_engineering_errors.h`](../../include/prompt_engineering/prompt_engineering_errors.h). It does not define a shared error-context type; inspect the specific operation's result or exception contract.
 - Use [`IMPLEMENTATION.md`](./IMPLEMENTATION.md) for persistence, concurrency, and rewrite invariants.
 
 ## Validation

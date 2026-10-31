@@ -1,62 +1,44 @@
-# Audit Report - Prompt Engineering Module
+---
+Author: "ThemisDB Team"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+> Exact model backend not verifiable from final document text alone.
 
-## Summary
+# Prompt Engineering Documentation Audit
 
-| Metric | Result |
-|---|---|
-| Build registration | pass |
-| Source set size | pass (module core files present) |
-| Focused test presence | pass |
-| Open hardening findings | yes |
-| Critical blockers | none identified |
+## Scope and limits
 
-## Verified Files
+This is a documentation-to-source consistency review for `prompt_engineering`, checked against current headers, implementation files, and CMake test/benchmark registration on 2026-10-31. It is not a security audit, build result, test pass report, or production-readiness sign-off.
 
-- src/prompt_engineering/prompt_manager.cpp
-- src/prompt_engineering/prompt_version_control.cpp
-- src/prompt_engineering/prompt_optimizer.cpp
-- src/prompt_engineering/prompt_evaluator.cpp
-- src/prompt_engineering/feedback_collector.cpp
-- src/prompt_engineering/prompt_engineering_metrics.cpp
-- src/prompt_engineering/prompt_template_compiler.cpp
-- src/prompt_engineering/prompt_template_validator.cpp
-- src/prompt_engineering/prompt_regression_runner.cpp
-- src/prompt_engineering/prompt_performance_tracker.cpp
-- src/prompt_engineering/prompt_ab_experiment.cpp
+## Source evidence checked
 
-## Findings
+- Public interfaces: [`../../include/prompt_engineering/`](../../include/prompt_engineering/)
+- Runtime implementation: current `src/prompt_engineering/*.cpp`
+- Test discovery and target naming: [`../../tests/prompt_engineering/CMakeLists.txt`](../../tests/prompt_engineering/CMakeLists.txt)
+- Test sources: [`../../tests/prompt_engineering/`](../../tests/prompt_engineering/)
+- Benchmark sources and repository registration: [`../../benchmarks/prompt_engineering/`](../../benchmarks/prompt_engineering/) and [`../../benchmarks/CMakeLists.txt`](../../benchmarks/CMakeLists.txt)
+- Production source registration: repository [`../../cmake/CMakeLists.txt`](../../cmake/CMakeLists.txt)
 
-### Open
+## Findings reflected in current docs
 
-1. [PE-AUD-01] adversarial template and injection edge hardening remains active.
-- Severity: medium
-- Evidence: roadmap/future retain active hardening for adversarial and malformed template paths.
-- Action: expand deterministic regressions and diagnostics for injection/validation incidents.
+- Public-header inventory and example call flows now defer signatures to the actual headers.
+- The error enum contains 62 values; the enum does not establish that each code is emitted at runtime.
+- The module test CMake file discovers all `test_*.cpp` files. The rewrite-engine focused test currently contains three interface/compile-contract cases, not rule-execution tests.
+- `bench_rewrite_engine.cpp` uses local synthetic helpers and does not measure `RewriteEngine` or `RewriteRuleLoader`.
+- Historical issue and generated Doxygen/gap-scan artifacts are snapshots, not current test or readiness evidence.
 
-2. [PE-AUD-02] optimization/evaluation diagnostics need deeper consistency.
-- Severity: medium
-- Evidence: active follow-up work for optimizer/evaluator failure taxonomy alignment.
-- Action: unify incident classification and operator-facing diagnostics.
+## Remaining verification
 
-3. [PE-AUD-03] advanced benchmark depth should grow beyond current baseline coverage.
-- Severity: low
-- Evidence: core benchmark mapping is valid; advanced workflows need broader direct benchmarks.
-- Action: add benchmark depth for complex concurrent/adversarial prompt workflows.
+- Run the `prompt_engineering` CTest label and record the result before claiming current tests pass.
+- Add behavioral rewrite tests and direct rewrite-engine benchmarks before claiming rewrite integration or performance readiness.
+- Generated Doxygen and module-gap outputs require regeneration from current inputs before their symbol inventories or findings are used as current evidence.
 
-### Closed
-
-- core prompt engineering runtime surfaces are present and source-verified.
-- documentation set is synchronized to source-verifiable claims.
-- changelog/roadmap role separation is aligned to module governance pattern.
-
-## Compliance Snapshot
-
-| Requirement | Status |
-|---|---|
-| Source-verifiable behavior claims | pass |
-| Structured forward planning in roadmap/future | pass |
-| Historical completion tracked in changelog | pass |
-| Core module docs synchronized | pass |
+Current build and test commands are documented in [`MODULE_GUIDE.md`](./MODULE_GUIDE.md); roadmap status and limitations are in [`ROADMAP.md`](./ROADMAP.md).

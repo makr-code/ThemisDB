@@ -1,3 +1,19 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-08-05"
+Last Updated: "2026-10-31"
+Status: "archived"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+>
+> Historical Phase 1 snapshot from 2026-08-05; its planned feature flags, error-code count, and test evidence are not current implementation/build status. The current error enum contains 62 values, and the proposed rewrite feature flags are not defined by the current CMake configuration. See [`ROADMAP.md`](./ROADMAP.md) and [`ERROR_TAXONOMY_REFERENCE.md`](./ERROR_TAXONOMY_REFERENCE.md).
+
 # Prompt Engineering Roadmap Implementation - Phase 1 Summary (2026-08-05)
 
 ## Status: ✅ PHASE 1 COMPLETE

@@ -1,80 +1,38 @@
-# Architecture - Prompt Engineering Module
+---
+Author: "ThemisDB Team"
+Created: "2026-09-09"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: current | validated: 2026-09-09 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+> Exact model backend not verifiable from final document text alone.
 
-## Overview
+# Architecture — Prompt Engineering Module
 
-The prompt_engineering module composes template lifecycle operations, context-injection and validation, prompt version control, optimization/evaluation loops, and feedback/metrics tracking into a bounded prompt-quality subsystem.
+## Scope and build boundary
 
-## Main Execution Planes
+Public interfaces are declared under [`../../include/prompt_engineering/`](../../include/prompt_engineering/); implementation is in this directory. The root CMake source list adds the module implementation to `themis_core`. The library provides prompt-related operations and hooks; it does not own LLM serving, transport, or host authorization.
 
-1. Template and versioning plane
-- template create/get/inject/validate behavior
-- prompt commit/history and revision tracking behavior
+## Main runtime paths
 
-2. Quality optimization plane
-- optimization loop orchestration and scoring behavior
-- prompt output evaluation and regression support behavior
+1. **Template lifecycle:** `PromptManager` validates, stores, reads, and renders templates. It can operate in memory or use non-owning RocksDB handles supplied by its caller. `injectContext()` performs literal placeholder substitution; it does not escape inserted values.
+2. **Version and quality workflows:** `PromptVersionControl` manages prompt revisions; `PromptEvaluator` scores outputs; `PromptOptimizer` runs a bounded loop using caller-supplied callbacks and cases.
+3. **Integration hooks:** `PromptEngineeringIntegration::beforeExecution()` constructs an execution context and enhanced prompt. The host performs the model call and supplies its result to `afterExecution()`.
+4. **Feedback and observability:** feedback and metric objects collect module-local records; the host owns persistence policy, metrics transport, and alert routing.
+5. **Rewrite API:** `RewriteEngine` executes registered rules through ordered phases. This is separate from the integration hooks and is not automatically applied to requests.
 
-3. Feedback and metrics plane
-- feedback capture and aggregate stats behavior
-- prompt metrics recording and performance tracking surfaces
+## Failure and concurrency boundaries
 
-## Core Contracts
+Validation results, optional lookups, and rewrite results communicate operation outcomes; callers must inspect them. Persistence failures and provider failures have operation-specific behavior—see [`IMPLEMENTATION.md`](./IMPLEMENTATION.md) and the corresponding headers. Do not infer a module-wide thread-safety guarantee; follow each interface's documented synchronization and lifetime contract.
 
-| Contract | Behavior |
-|---|---|
-| template contract | deterministic create/get/inject/validate semantics |
-| versioning contract | explicit commit/history semantics for prompt revisions |
-| optimization contract | bounded optimization/evaluation loop behavior |
-| observability contract | explicit feedback and metrics recording behavior |
+## Integration references
 
-## Failure Semantics
-
-- invalid templates fail explicitly in validation paths.
-- missing template IDs return explicit misses.
-- version/optimization failures remain observable and non-silent.
-- metrics/feedback recording failures are surfaced as explicit outcomes.
-
-## Sourcecode Verification (Module: prompt_engineering/architecture)
-
-- Verified files:
-  - src/prompt_engineering/prompt_manager.cpp
-  - src/prompt_engineering/prompt_version_control.cpp
-  - src/prompt_engineering/prompt_optimizer.cpp
-  - src/prompt_engineering/prompt_evaluator.cpp
-  - src/prompt_engineering/feedback_collector.cpp
-  - src/prompt_engineering/prompt_engineering_metrics.cpp
-- Verified architecture claims:
-  - template/versioning + optimization + feedback/metrics plane split
-  - explicit failure boundaries for invalid templates, misses, and loop faults
-  - module-local ownership of prompt engineering behavior surfaces
-
-## Module Dependencies
-
-### Direct Upstream Dependencies (this module uses)
-| Module | Interface / File | Purpose |
-|--------|-----------------|---------|
-| utils | `include/utils/` | Logging, audit, and observability helpers |
-| observability (utils) | `include/utils/tracing.h` | Telemetry for prompt optimization loop iterations |
-| storage | `include/storage/` | Persists prompt templates and version history |
-
-### Direct Downstream Consumers (modules that use this module)
-| Module | Via | Notes |
-|--------|-----|-------|
-| server | `server/prompt_api_handler.h` | Server exposes prompt template CRUD and optimization APIs |
-| rag | `include/prompt_engineering/` (rag_prompt_builder.h) | RAG module uses prompt builder to construct retrieval-augmented prompt contexts |
-| llm | `include/prompt_engineering/` | LLM module injects validated templates into inference context |
-
-## Integration Points
-
-### Critical Integration: RAG Prompt Builder
-**Files:** `src/prompt_engineering/prompt_manager.cpp` ↔ `rag/rag_prompt_builder.h`
-**Contract:** RAG calls `prompt_manager.inject(context)` to fill template placeholders with retrieved evidence; template ownership remains with prompt_engineering.
-**Thread Safety:** Template reads are concurrent-safe; version commits are serialised under the versioning lock.
-
-### Critical Integration: Server Prompt API
-**Files:** `server/prompt_api_handler.h` ↔ `include/prompt_engineering/`
-**Contract:** Server delegates all prompt CRUD and optimization trigger calls; prompt_engineering is the sole owner of template state.
-**Thread Safety:** All public API methods are thread-safe under internal locking.
+- Public interfaces and exact declarations: [`../../include/prompt_engineering/README.md`](../../include/prompt_engineering/README.md)
+- Hook sequence and error guidance: [`API.md`](./API.md)
+- Persistence, rewrite, and test boundaries: [`IMPLEMENTATION.md`](./IMPLEMENTATION.md)
+- Operational responsibilities: [`OPERATIONS.md`](./OPERATIONS.md)
