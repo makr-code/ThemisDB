@@ -1,4 +1,20 @@
-> **Status:** 2026-06-01 – mit aktuellem Updates-Code (`update_state_machine.cpp`) abgeglichen.
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
+> Historical status note (2026-06-01): this document was then compared with
+> `update_state_machine.cpp`; the current audit does not establish that the
+> requirements below are implemented or enforced.
 
 # ThemisDB Updates Module - Production Requirements
 
