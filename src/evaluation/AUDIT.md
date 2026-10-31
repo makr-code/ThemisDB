@@ -25,13 +25,14 @@ benchmark.
 
 ### Current aggregate evidence gap
 
-Root `ROADMAP.md` now identifies the storage assessor as a
-`distributed_tensor` implementation and leaves EPIC 2 aggregate acceptance
-unverified. Its implementation and focused-test source/registration are present
-there; the EPIC 2 benchmark instead calls `DefaultShardPlacementStrategy` with
-synthetic nodes. Source/CMake registration does not verify the aggregate 220+
-passing-test count or completed benchmark runs. See [ROADMAP.md](./ROADMAP.md).
-Do not use the historical findings below as current execution evidence.
+Root `ROADMAP.md` now records related storage APIs in `distributed_tensor` but
+does not claim that they establish the exact item 2.7 mapping or EPIC 2
+acceptance. The storage assessor and focused-test source/registration are
+present there; the EPIC 2 benchmark instead calls `DefaultShardPlacementStrategy`
+with synthetic nodes. Source/CMake registration does not verify the aggregate
+220+ passing-test count or completed benchmark runs. See
+[ROADMAP.md](./ROADMAP.md). Do not use the historical findings below as current
+execution evidence.
 
 ---
 

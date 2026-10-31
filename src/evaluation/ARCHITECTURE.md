@@ -73,9 +73,10 @@ focused-test glob in `tests/epic3_distributed_tensor/CMakeLists.txt`.
 
 The EPIC 2 `storage_strategy_bench` is a distinct harness that calls
 `DefaultShardPlacementStrategy` with synthetic node inputs; it does not measure
-`StorageStrategyAssessor`. Root `ROADMAP.md` now records these ownership limits
-and leaves aggregate acceptance unverified: source and CMake registrations do
-not prove 220+ passing tests or completed benchmark runs.
+`StorageStrategyAssessor`. Root `ROADMAP.md` now records these implementation
+locations but leaves the exact mapping to item 2.7 and aggregate acceptance
+unverified: source and CMake registrations do not prove 220+ passing tests or
+completed benchmark runs.
 
 ## References
 

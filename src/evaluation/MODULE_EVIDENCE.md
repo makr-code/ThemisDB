@@ -47,12 +47,13 @@ presented as a passing execution result.
   behaviors, not benchmark results for this update.
 - `include/evaluation/evaluation.h` currently contains no component includes.
 
-Root `ROADMAP.md` now identifies the cross-module storage-assessment ownership
-and distinguishes registered source from verified execution. The EPIC 2
-`storage_strategy_bench` calls `DefaultShardPlacementStrategy` with synthetic
-nodes, not `StorageStrategyAssessor`. The aggregate 220+ passing-test count and
-completed benchmark evidence remain unverified. See [ROADMAP.md](./ROADMAP.md)
-and [AUDIT.md](./AUDIT.md).
+Root `ROADMAP.md` now records related implementation locations and distinguishes
+registered source from verified execution, while leaving the exact mapping to
+item 2.7 unverified. The EPIC 2 `storage_strategy_bench` calls
+`DefaultShardPlacementStrategy` with synthetic nodes, not
+`StorageStrategyAssessor`. The aggregate 220+ passing-test count and completed
+benchmark evidence remain unverified. See [ROADMAP.md](./ROADMAP.md) and
+[AUDIT.md](./AUDIT.md).
 
 The dated evidence and blocker notes below are retained as historical records.
 Their 2026-07/2026-08 environment state and target inventory must not be read as

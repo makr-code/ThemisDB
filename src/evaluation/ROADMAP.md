@@ -49,13 +49,13 @@ component declarations. Detailed paths and target ownership are in
 
 ### Root aggregate status and evidence
 
-Root `ROADMAP.md` now identifies the cross-module implementation ownership and
-does not claim EPIC 2 acceptance as complete. The storage assessor and its
-focused-test registration are owned by `distributed_tensor`; the EPIC 2
-benchmark is a separate synthetic placement harness. Neither registration
-proves execution. The aggregate 220+ passing-test count and completed benchmark
-evidence remain unverified, so they are not presented as acceptance evidence.
-This documentation update does not close or reclassify issue #5643.
+Root `ROADMAP.md` now records the related implementation locations without
+claiming a verified mapping from these APIs to item 2.7, and does not claim
+EPIC 2 acceptance as complete. The storage assessor and its focused-test
+registration are owned by `distributed_tensor`; the EPIC 2 benchmark is a
+separate synthetic placement harness. Neither registration proves execution.
+The aggregate 220+ passing-test count and completed benchmark evidence remain
+unverified. This documentation update does not close or reclassify issue #5643.
 
 ## In Progress
 

@@ -1501,7 +1501,7 @@ Plan: `src/MODULE_GAP_ANALYSIS_WAVE2.md` (Wave 2 + Wave 3 konsolidiert).
 | **distributed_tensor** | THIN/PLACEHOLDER | LOC=0, Stub/KLOC=0, Tests=0, TestRefs=0 |
 | **document** | HARDENING | LOC=2362, Stub/KLOC=8,89, Tests=47, TestRefs=20 |
 | **ethics_ai** | HARDENING | LOC=6315, Stub/KLOC=10,45, Tests=0, TestRefs=42 |
-| **evaluation** | HARDENING | LOC=860, Stub/KLOC=0, Tests=40+, TestRefs=0 | EPIC 2 implementation spans `evaluation` and `distributed_tensor`. The `StorageStrategyAssessor` (2.7) is implemented in `distributed_tensor` and has a test source included by its focused-test CMake registration. The separate EPIC 2 `storage_strategy_bench` uses `DefaultShardPlacementStrategy` with synthetic nodes, not `StorageStrategyAssessor`. Source/CMake presence does not verify 220+ passing tests or completed benchmark evidence; aggregate acceptance remains unverified. |
+| **evaluation** | HARDENING | LOC=860, Stub/KLOC=0, Tests=40+, TestRefs=0 | Related storage APIs (`DefaultShardPlacementStrategy`, `StorageStrategyAssessor`) and a focused test source are present under `distributed_tensor`; the EPIC 2 benchmark calls `DefaultShardPlacementStrategy` with synthetic nodes, not `StorageStrategyAssessor`. Current sources do not establish that either API is root item 2.7, nor verify 220+ passing tests or completed benchmark evidence; aggregate acceptance remains unverified. |
 | **execution** | HARDENING | Scheduler/thread-pool core delivered; hardening and deployment gate tracking active (`src/execution/ROADMAP.md`) |
 | **exporters** | HARDENING | LOC=9810, Stub/KLOC=7,03, Tests=378, TestRefs=15 |
 | **failover** | HARDENING | LOC=1259, Stub/KLOC=6,35, Tests=17, TestRefs=6 |
