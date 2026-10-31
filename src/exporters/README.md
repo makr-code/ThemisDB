@@ -1,15 +1,25 @@
-# ThemisDB Exporters Module
-
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
-<!--
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: GitHub Copilot
+AI_Contributor: "GitHub Copilot"
 Human_Review: false
-Human_Author: ThemisDB Team
+Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References: "include/exporters/*.h; src/exporters/*.cpp; tests/exporters/CMakeLists.txt"
+Related: "Issue #7346; DOC-WEEKLY-2026-44"
+---
+
+# ThemisDB Exporters Module
+
 Exact model backend not verifiable from final document text alone.
--->
+
+<!-- Status: reviewed against source 2026-10-31 -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Module Purpose
 
@@ -24,7 +34,7 @@ The exporters module provides data export runtime surfaces for ThemisDB, includi
 | arrow_ipc_exporter.cpp | Arrow IPC export paths |
 | huggingface_exporter.cpp | HuggingFace dataset export format generation |
 | huggingface_hub_client.cpp | HuggingFace Hub upload client workflows |
-| streaming_exporter.cpp | bounded-memory streaming export |
+| streaming_exporter.cpp | cursor/page-based streaming export |
 | incremental_exporter.cpp | watermark-based delta export |
 | join_exporter.cpp | cross-collection join export |
 | aql_predicate_filter.cpp | AQL predicate export filtering |
@@ -53,7 +63,11 @@ Out of scope:
 
 - export behavior depends on selected format and exporter options.
 - policy, filtering, and PII paths can reject or mutate records before output.
-- streaming and incremental modes provide bounded-memory export behavior.
+- cursor streaming processes pages through a buffered writer; its
+  `max_buffer_bytes` setting triggers flushes but is not a total-process-memory
+  cap. Incremental export filters a caller-supplied entity vector by a
+  persisted sequence watermark; it does not fetch records or provide a
+  general bounded-input scan.
 
 ## Sourcecode Verification (Module: exporters/readme)
 

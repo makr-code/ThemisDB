@@ -1,4 +1,26 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-09-20"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References: "include/exporters/*.h; scripts/generate_module_doxygen_xml.py"
+Related: "Issue #7346; DOC-WEEKLY-2026-44"
+---
+
 # EXPORTERS DOXYGEN
+
+Exact model backend not verifiable from final document text alone.
+
+> TODO: This generated snapshot points to a prior machine-local XML directory
+> and reports inventories from its generation run. Regenerate it from current
+> headers and implementation before relying on its symbol counts or details.
 
 Author: ThemisDB Contributors
 Created: 2026-09-20
@@ -6229,4 +6251,3 @@ Status: active
 - Source: `include/exporters/streaming_exporter.h`:48
 - Brief: n/a
 - Parameters: none
-

@@ -1,9 +1,30 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References: "src/exporters/*.cpp; include/exporters/*.h; tests/exporters/CMakeLists.txt"
+Related: "Issue #7346; DOC-WEEKLY-2026-44"
+---
+
 # Audit Report - Exporters Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+Exact model backend not verifiable from final document text alone.
+
+<!-- Status: historical snapshot | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 ## Summary
+
+> TODO: Re-run the audit against current source and record exact build/test
+> commands and results before treating the findings below as current.
 
 | Metric | Result |
 |---|---|
