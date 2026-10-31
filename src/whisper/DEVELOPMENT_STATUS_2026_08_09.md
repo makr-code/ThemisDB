@@ -1,4 +1,21 @@
-# Whisper Module - Development Status Verification (Issue #5684)
+---
+Author: "ThemisDB Team"
+Created: "2026-08-09"
+Last Updated: "2026-10-31"
+Status: "archived"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+>
+> Historical evidence snapshot from 2026-08-09; its test/build blockers and roadmap checkboxes
+> are not current status. Consult [`ROADMAP.md`](ROADMAP.md) and [`AUDIT.md`](AUDIT.md).
+
+# Whisper Module - Historical Development Status Verification (Issue #5684)
 
 **Issue**: makr-code/ThemisDB#5684 - [module:whisper] Development Status 2026-07-18  
 **Parent Epic**: makr-code/ThemisDB#5624  
