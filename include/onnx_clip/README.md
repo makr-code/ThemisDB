@@ -1,9 +1,22 @@
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > **Build (Linux):** `cmake --preset linux-release && cmake --build --preset linux-release`
 > **Build (Windows):** `cmake --preset windows-release && cmake --build --preset windows-release`
 
 # onnx_clip Module Headers
 
-<!-- Status: current | validated: 2026-09-28 | Primary: src/onnx_clip/ | Secondary: docs/de/onnx_clip/ -->
+<!-- Status: current | source-checked: 2026-10-31 | Primary: src/onnx_clip/ | Secondary: docs/de/onnx_clip/ -->
 <!-- Links: ../../src/onnx_clip/README.md · ../../src/onnx_clip/ROADMAP.md · ../../src/onnx_clip/FUTURE_ENHANCEMENTS.md -->
 
 This directory currently contains module-facing documentation only. The ONNX-CLIP public
@@ -37,6 +50,7 @@ The `PluginConfig` consumed by `initialize()` currently reads:
 | `max_batch_size` | integer | `16` on CPU, `64` otherwise | Upper bound for sub-batch splitting in `generateEmbeddingBatch()` |
 | `model.path` | string | empty | Optional model file path used for integrity verification |
 | `model.expected_sha256` | string | empty | If set together with `model.path`, `initialize()` verifies the file hash and fails on mismatch |
+| `enable_mmap_loading` | boolean | `false` | Attempts read-only mapping for a non-empty `model.path`; mapped bytes are not used for inference |
 
 ## Runtime Behavior, Errors, and Limits
 
@@ -87,7 +101,7 @@ target_include_directories(your_target PRIVATE
 
 ## Troubleshooting
 
-- **`initialize()` selects CPU although `AUTO` was requested**: expected in the current generic implementation; choose `BackendType::CUDA`, `DIRECTML`, or `TENSORRT` explicitly if the surrounding build supports them.
+- **A provider is not used after selecting its backend enum**: expected in the current reference implementation. Explicit backend values are stored, not probed or used to execute model inference.
 - **`generateEmbeddingBatch()` is slower than expected for large batches**: the module currently sub-splits into sequential batches; see `FUTURE_ENHANCEMENTS.md` and `PERFORMANCE_EXPECTATIONS.md` for the native-batch follow-up.
 - **Integrity verification does not run in local builds**: set `model.path` and `model.expected_sha256`, then ensure OpenSSL is available or register `setModelHashFn()` in non-OpenSSL builds.
 

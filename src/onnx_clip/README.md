@@ -23,7 +23,7 @@ Exact model backend not verifiable from final document text alone.
 
 **Version:** 0.3.0
 **Status:** contract-validated reference implementation
-**Last Updated:** 2026-10-08
+**Last Updated:** 2026-10-31
 **Module Path:** `src/onnx_clip/`
 **Namespace:** `themis::plugins::image`
 
