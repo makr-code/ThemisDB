@@ -1,11 +1,11 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot"
+AI_Contributor: "ThemisDB documentation orchestration specialist"
 Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
@@ -26,8 +26,10 @@ objectives.
 The canonical policy surface is `themis::gpu::IVRAMPolicy`, implemented by the
 edition-aware `themis::gpu::GPUMemoryManager`. It accounts for process/edition
 usage and, when a non-empty tenant is supplied and a quota is registered,
-tenant usage. The LLM and LoRA allocators are documented as delegating through
-this policy; see [ARCHITECTURE.md](ARCHITECTURE.md) and
+tenant usage. Selected LLM and LoRA allocation paths call the canonical
+manager, but the inspected calls use model/tag labels and do not pass tenant
+IDs; registered tenant-specific quotas therefore do not automatically apply
+through those calls. See [ARCHITECTURE.md](ARCHITECTURE.md) and
 [`ivram_policy.h`](../../include/themis/gpu/ivram_policy.h).
 
 `GPUConfig` provides these inputs to startup validation:

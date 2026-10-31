@@ -1,5 +1,10 @@
 # Wave A GPU CUDA Reduction - Issue #6575 Tracking Checklist
 
+> Historical issue-tracking snapshot dated 2026-09-23. “Complete,” “ready,”
+> test/build, and sign-off statements below record the report's status at that
+> time and are not current validation. Current test registration is defined by
+> `tests/gpu/CMakeLists.txt`.
+
 **Issue:** makr-code/ThemisDB#6575 — Wave-A GPU CUDA Reduction + Representative-Hardware Baseline Evidence  
 **Created:** 2026-09-23  
 **Status:** ✅ **PHASE 1 & 2 COMPLETE** — GPU infrastructure deployed with CPU fallback; 75% CUDA reduction achieved; Phase 3 (baseline capture) and Phase 4 (sign-off) ready to proceed

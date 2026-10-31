@@ -1,4 +1,26 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-04"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References: "Current source under src/exporters/ and include/exporters/"
+Related: "Issue #7346; DOC-WEEKLY-2026-44"
+---
+
 # exporters Module - Developer Gap Note
+
+Exact model backend not verifiable from final document text alone.
+
+> TODO: The scan below is a dated, generated snapshot from 2026-06-04, not a
+> current or adjudicated defect list. Re-run the scanner and review each finding
+> against current source before using its severity/counts for decisions.
 
 > Auto-generated from ai_working\gap_scan_results.json.
 > This file is overwritten on each regeneration.

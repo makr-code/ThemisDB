@@ -1,32 +1,67 @@
 ---
-Author: "ThemisDB Team"
-Created: "2026-10-18"
-Last Updated: "2026-10-18"
-Status: "active"
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
 ---
 
-# Config in ThemisDB
+Exact model backend not verifiable from final document text alone.
 
-## Ueberblick
-Das Modul config stellt configuration resolution, validation, observability, and secure config-storage support surfaces for ThemisDB runtime and operations. Im Modulkontext werden Aussagen mit [Architekturgrenzen](./ARCHITECTURE.md), [Release-Planung](./ROADMAP.md), [Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md) abgeglichen. Im Betrieb sind dabei insbesondere [Latenz](https://en.wikipedia.org/wiki/Latency_(engineering)), [Observability](https://en.wikipedia.org/wiki/Observability) und [Determinismus](https://en.wikipedia.org/wiki/Deterministic_algorithm) relevante Qualitaetskriterien. Fuer Querschnittskontext wird das Modul mit den relevanten Stellen im [Compendium](./../../docs/compendium/docs/index.md) verknuepft.
+# Config Module Capabilities
 
-## Kern-Features im Detail
-Die erste Kernfaehigkeit ist **config path mapping, resolution, and fallback behavior**. Das beschreibt einen konkreten, in den Modulquellen referenzierten Verantwortungsbereich.
+## Reader and scope
 
-Die zweite Kernfaehigkeit ist **schema-based validation and parsing guard surfaces**. Dadurch bleiben Integrationspfade zwischen Modulgrenzen reproduzierbar und operativ auswertbar.
+For developers integrating or changing `src/config`. The module is a set of
+runtime support components; it does not own application-level rollout or
+consumer authorization.
 
-Die dritte Kernfaehigkeit ist **config metrics export and collection interfaces**. Das unterstuetzt stabile Abnahme- und Aenderungsprozesse entlang der Modul-Roadmap.
+## Implemented capability surfaces
 
-```mermaid
-flowchart LR
-    A[Produktanforderung] --> B[Config Modul]
-    B --> C[Implementierung und Integrationspfade]
-    C --> D[Test- und Betriebsnachweise]
-    D --> E[Kundennutzen im Betrieb]
-```
+- **Path lookup:** `ConfigPathResolver` normalizes paths, applies entries from
+  its legacy mapping table, checks environment candidates, optionally caches
+  results, and exposes throwing (`resolve`) and optional (`tryResolve`) forms.
+- **Parsing and schema evaluation:** `ConfigSchemaValidator` loads JSON/YAML,
+  evaluates the schema keywords implemented in its source, and returns
+  diagnostics. It is not a complete Draft 7 implementation.
+- **Change notification:** `ConfigFileWatcher` debounces supported filesystem
+  events. The resolver's watcher callback clears its path cache; settings reload
+  and application remain the caller's responsibility.
+- **Observability:** `ConfigMetricsExporter` exports resolver/cache metrics.
+  `ConfigAuditLog` optionally stores bounded successful-resolution records in
+  process memory; it is not durable compliance evidence.
+- **Encrypted storage:** `ConfigEncryptedStore` stores in-memory values using
+  AES-256-GCM and can re-encrypt entries on key rotation. Its serialized
+  snapshot includes the current key bytes.
 
-## Kundennutzen und Abgrenzung
-Kundinnen und Kunden erhalten damit vor allem besser planbares Systemverhalten, kuerzere Eingrenzungszeiten bei Stoerungen und transparentere Release-Risiken. Diese Seite ist ein fachlich-kommunikativer Ueberblick; normative API-, Compliance- und Freigabeaussagen verbleiben in den kanonischen Modulquellen.
+## Engineering and operational relevance
 
-## Einordnung und Quellen
-Primaere modulnahe Quellen: [README.md](./README.md), [ARCHITECTURE.md](./ARCHITECTURE.md), [ROADMAP.md](./ROADMAP.md), [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md), [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md), [SECURITY.md](./SECURITY.md). Sekundaere Querschnittsquellen: [docs/config/README.md](./../../docs/config/README.md), [Compendium Index](./../../docs/compendium/docs/index.md). Aussagen wurden auf diese Quellenbasis begrenzt; bei fehlenden Modulquellen werden keine weitergehenden Produktclaims ergänzt.
+The caller can use the resolver, validator, notification, metrics, and storage
+interfaces independently. This makes failure handling explicit at those
+boundaries, but does not make reloads atomic or establish end-to-end service
+availability; those properties depend on the consuming service.
+
+## Engineering limits and trade-offs
+
+- `tryResolve()` returns no value for both invalid and unavailable paths; use
+  diagnostics or the throwing API when the distinction matters.
+- `tryGet()` returns `std::nullopt` only for an absent key and propagates
+  decryption failures as `ConfigEncryptionException`.
+- Watch notifications are not a reload transaction and can be debounced.
+- Schema contract limits and full keyword conformance need implementation/test
+  verification; see [`MODULE_GAPS.md`](MODULE_GAPS.md).
+- Serialized store output must be protected as key material.
+
+## Sources
+
+- [`README.md`](README.md), [`ARCHITECTURE.md`](ARCHITECTURE.md),
+  [`API.md`](API.md)
+- `include/config/config_path_resolver.h`
+- `include/config/config_schema_validator.h`
+- `include/config/config_file_watcher.h`
+- `include/config/config_encrypted_store.h`
+- Implementations under `src/config/`

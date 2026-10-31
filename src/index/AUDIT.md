@@ -1,6 +1,25 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-08-02"
+Last Updated: "2026-10-31"
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Audit Report - Index Module
 
-<!-- Status: current | validated: 2026-08-02 -->
+> **Historical snapshot:** This report was last validated on 2026-08-02. Its
+> counts, blocker summary, and source list are not current audit evidence.
+> Re-run the audit and record reproducible inputs/results before using it for
+> readiness or security decisions.
+
+<!-- Status: historical | validated: 2026-08-02 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 ## Summary

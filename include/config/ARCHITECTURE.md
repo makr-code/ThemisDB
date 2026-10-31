@@ -1,61 +1,51 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/config/ARCHITECTURE.md -->
-
-# Config Module — Public Header Architecture
-
-**Module Path:** `include/config/`  
-**Implementation:** `../../src/config/`  
-**Canonical architecture doc:** [`../../src/config/ARCHITECTURE.md`](../../src/config/ARCHITECTURE.md)
-
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
 ---
 
-## 1. Overview
+Exact model backend not verifiable from final document text alone.
 
-`include/config/` defines the **public runtime configuration management, validation, encryption, hot-reload, audit logging, and metrics export API contract** for ThemisDB.
+# Config Public API Architecture
 
-For runtime composition and implementation internals see:
-→ [`../../src/config/ARCHITECTURE.md`](../../src/config/ARCHITECTURE.md)
+## Boundary
 
----
+`include/config/` declares the public-facing C++ interfaces used by
+`src/config/`. It does not describe the runtime implementation as header-only,
+does not establish ABI guarantees, and does not own application-level config
+rollout. The implementation flow is documented in
+[`../../src/config/ARCHITECTURE.md`](../../src/config/ARCHITECTURE.md).
 
-## 2. Header Groups
+## Interface groups
 
-### 2.1 Core Config
+1. **Path resolution:** `ConfigPathResolver` exposes optional/throwing
+   resolution, legacy mapping metadata, environment selection, cache controls,
+   optional SIGHUP/file watcher registration, metrics and audit controls.
+2. **Parse and validate:** `ConfigSchemaValidator` exposes file/string parsing
+   and `ValidationResult` diagnostics.
+3. **Change notification:** `ConfigFileWatcher` owns its worker lifecycle and
+   invokes a debounced callback; callers decide what to reload.
+4. **Metrics and audit:** `ConfigMetricsExporter` exports resolver/cache
+   counters; `ConfigAuditLog` stores bounded in-memory path records.
+5. **Encrypted storage:** `ConfigEncryptedStore` provides CRUD, key rotation
+   and serialization. Snapshots contain key bytes.
+6. **Supporting types:** error classes, `LRUCacheWithTTL`, path-mapping
+   metadata, and the migration scanner utility.
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `config_file_watcher.h` | `ConfigFileWatcher` | Inotify-based hot-reload watcher |
-| `config_schema_validator.h` | `ConfigSchemaValidator` | JSON-schema configuration validation |
-| `config_path_resolver.h` | `ConfigPathResolver` | Multi-root config path resolution |
-| `config_migration_scanner_impl.h` | `ConfigMigrationScannerImpl` | Legacy config migration scanner |
-| `lru_cache.h` | `LRUCache` | Generic LRU cache for config lookups |
-| `path_mapping_metadata.h` | `PathMappingMetadata` | Path-alias metadata registry |
-### 2.2 Security and Auditing
+## Contract interpretation
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `config_encrypted_store.h` | `ConfigEncryptedStore` | Envelope-encrypted config store |
-| `config_audit_log.h` | `ConfigAuditLog` | Change audit log for config mutations |
-### 2.3 Observability
+`config_contract.h` records intended v1.x cross-component constraints. Compare
+its claims with implementation and focused test coverage before treating each
+one as enforced. The previous header architecture assigned the module to
+"Graph" and described the watcher as inotify-only; those claims are not
+supported by the current API and implementation inventory and are removed.
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `config_metrics_exporter.h` | `ConfigMetricsExporter` | Prometheus metrics export for config system |
-| `config_errors.h` | `ConfigError` | Typed config error codes |
-
----
-
-## 3. Namespace Layout
-
-All public types reside in the `themis::config` namespace (or a sub-namespace).
-
----
-
-## 4. Contract Notes
-
-- Headers in `include/config/` expose the **stable public API**; internal types live in `src/config/`.
-- Clients depend only on types declared here; implementation details in `src/` may change without notice.
-- For breaking-change policy see [`../../VERSIONING.md`](../../VERSIONING.md).
-- Layer association: **Graph**.
+For versioning requirements, consult the root
+[`../../VERSIONING.md`](../../VERSIONING.md). No independent ABI or platform
+compatibility matrix was verified for this update.

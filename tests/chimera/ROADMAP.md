@@ -1,56 +1,34 @@
-> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+---
+Author: unknown (original author not verified)
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: AI documentation assistant
+Human_Review: false
+Human_Author: unknown
+---
 
-# ROADMAP
+Exact model backend not verifiable from final document text alone.
 
-## Current Status
-- [x] Modul `tests/chimera` dokumentiert und CMakeLists.txt korrigiert (2026-07-27)
-- [x] Fokussierte Test-Infrastruktur aktiv und validiert
-- [x] 2200+ LOC Testabdeckung über 3 Testdateien
+# Chimera test roadmap notes
 
-## In Progress
-- [~] Dokumentations- und Qualitätslücken schließen (Target: 2026-Q4)
-- [~] Adapter-Lifecycle und Dispatch-Härtung (Target: Q4 2026)
+**Status basis:** test sources and CMake declarations inspected for issue #7336; no build or test run.
 
-## Planned Features
-- [ ] Schnittstellen und Verantwortlichkeiten präzisieren (Target: 2026-Q3)
-- [ ] Testabdeckung für kritische Pfade erweitern (Target: 2026-Q3)
-- [ ] Betriebs- und Security-Härtung abschließen (Target: 2026-Q4)
+## Current inventory and caveats
 
-## Implementation Phases
-### Phase 1: Design / API-Vertrag
-- [ ] Öffentliche und interne Interfaces des Moduls konsolidieren (Target: 2026-Q2)
-- [ ] Eingabe-/Ausgabeverträge und Fehlermodelle festlegen (Target: 2026-Q2)
+The directory contains ThemisDB adapter, streaming, prepared-statement, MongoDB phase-2, and stub-based high-cardinality stress tests. Root CMake conditionally registers three local test executables under `THEMIS_BUILD_CHIMERA`; additional helper registrations may resolve against local or external source paths. The local `tests/chimera/CMakeLists.txt` is not shown as included by the inspected CMake hierarchy. Thus complete target registration is not established.
 
-### Phase 2: Core-Implementierung
-- [ ] Kernlogik gemäß Schnittstellenvertrag vervollständigen (Target: 2026-Q3)
-- [ ] Integrationspunkte zu abhängigen Modulen stabilisieren (Target: 2026-Q3)
+## Follow-up
 
-### Phase 3: Fehlerbehandlung & Edge Cases
-- [ ] Fehlerfälle systematisch abdecken (Target: 2026-Q3)
-- [ ] Edge-Case-Handling und Guardrails ergänzen (Target: 2026-Q3)
+- [ ] Resolve the intended inclusion and ownership of `tests/chimera/CMakeLists.txt`.
+- [ ] Reconcile local and external test source lists with files in the chosen checkout.
+- [ ] Establish build/test results for each supported feature and vendor-driver configuration.
+- [ ] Keep stub-only stress tests separate from claims about production dispatch or release readiness.
 
-### Phase 4: Tests
-- [ ] Unit-Tests für Kernpfade ausbauen (Target: 2026-Q3)
-- [ ] Integrations- und Regressionstests ergänzen (Target: 2026-Q3)
+No completion, test-pass, coverage, or production-readiness status is asserted.
 
-### Phase 5: Performance/Hardening
-- [ ] Performance-Bottlenecks messen und reduzieren (Target: 2026-Q4)
-- [ ] Security- und Reliability-Hardening abschließen (Target: 2026-Q4)
+References: `tests/CMakeLists.txt`, `tests/chimera/CMakeLists.txt`, `tests/chimera/*.cpp`, `CMakeLists.txt`.
 
-### Phase 6: Dokumentation & Abnahme
-- [ ] Betriebs- und Entwicklerdokumentation aktualisieren (Target: 2026-Q4)
-- [ ] Modulabnahme anhand Checklisten und Akzeptanzkriterien durchführen (Target: 2026-Q4)
-
-## Production Readiness Checklist
-- [x] CMakeLists.txt korrigiert - Tests werden jetzt korrekt registriert
-- [x] Test-Targets registriert: module_chimera_<test>_focused mit ctest label
-- [x] Testabdeckung: 2200+ LOC (test_themisdb_adapter.cpp, test_chimera_streaming.cpp, test_chimera_prepared_statements.cpp)
-- [~] Definierte Fehlersemantik und Recovery-Pfade in Härtung (Q4 2026)
-- [~] Security-Review und Dependency-Checks (Q4 2026)
-- [x] Monitoring/Observability-Anforderungen berücksichtigt
-
-## Known Issues & Limitations
-- [!] Detailtiefe der Modul-spezifischen Akzeptanzkriterien variiert und wird sukzessive geschärft.
-
-## Breaking Changes
-- Keine bekannten Breaking Changes dokumentiert.
+Issue/milestone: #7336 / DOC-WEEKLY-2026-44.

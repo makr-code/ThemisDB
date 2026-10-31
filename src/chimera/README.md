@@ -1,48 +1,41 @@
-# ThemisDB Chimera Module
-
-**Status:** PRODUCTION_CANDIDATE  
-**Phase:** 6 (Documentation & Acceptance) — ✅ COMPLETE  
-**Last Updated:** 2026-08-10  
-**Owner:** Multi-Model Integration Team
-
+---
+Author: unknown (original author not verified)
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: AI documentation assistant
+Human_Review: false
+Human_Author: unknown
 ---
 
-## Module Purpose
+Exact model backend not verifiable from final document text alone.
 
-The chimera module provides adapter-layer runtime surfaces for ThemisDB integration in multi-model benchmarking and interoperability scenarios, centered on the ThemisDB adapter implementation. Phase 1-6 complete with all release gates validated.
+# Chimera module
 
-## Relevant Interfaces
+**Purpose / audience:** developer entry point for the checked-in adapter interfaces and implementations. This page describes source presence, not a product-support promise.
 
-| Interface / File | Role |
-|---|---|
-| themisdb_adapter.cpp | core ThemisDB adapter implementation and runtime dispatch/simulation paths |
+## Scope and API
 
-## Scope
+Public headers are in [`../../include/chimera/`](../../include/chimera/). `ThemisDBAdapter` implements CHIMERA's database, async, streaming, and prepared-statement surfaces. It also accepts optional ThemisDB query/vector/graph engine pointers; engine dispatch is conditional. Supporting headers define retry, batch, and transaction-context APIs.
 
-In scope:
-- ThemisDB adapter behavior and lifecycle within chimera runtime surfaces
-- simulation and optional engine-dispatch adapter paths
-- adapter-facing error handling and capability exposure semantics
+Local `MongoDBAdapter`, `Neo4jAdapter`, and `QdrantAdapter` declarations and implementations also exist. Their backend paths are conditional on compile definitions and external dependencies. The main CMake adapter list references external `external/chimera` implementations in addition to the local ThemisDB adapter; do not infer every local class is enabled in a normal build.
 
-Out of scope:
-- vendor adapter implementations not present in src/chimera
-- external benchmark harness orchestration beyond module interfaces
-- non-adapter business logic outside chimera integration boundaries
+## Build and tests
 
-## Runtime Behavior and Limits
+The root option `THEMIS_BUILD_CHIMERA` is `OFF` by default. Enabling the suite uses `cmake/ChimeraAdapters.cmake` and requires the external CHIMERA checkout used there; the listed sources do not include every local `src/chimera/*.cpp`. Focused test wiring is conditional and has both local and external source references, including local source paths not present in the current directory inventory; see [`../../tests/chimera/README.md`](../../tests/chimera/README.md). No configure, build, or test run is claimed here.
 
-- runtime behavior depends on connection state and configured dispatch mode.
-- simulation paths are available when engine-backed paths are not active.
-- unsupported engine-backed dispatches return structured not-implemented failures.
+### Quickstart
 
-## Sourcecode Verification (Module: chimera/readme)
+For an intended Chimera-enabled build, configure with `-DTHEMIS_BUILD_CHIMERA=ON` only after initializing the required external checkout and dependencies; then inspect the generated targets before building. The enabled CMake source lists have mixed local/external references, so a successful configure/build for a particular checkout is not asserted by this guide.
 
-- Verified files:
-  - src/chimera/themisdb_adapter.cpp
-- Verified behavior surfaces:
-  - connection/capability and adapter dispatch lifecycle paths
-  - simulation-mode operation coverage and structured error handling
-  - conditional engine-backed dispatch boundaries
-- Note:
-  - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
-  - historical entries remain in CHANGELOG.md
+## Limitations
+
+The retry helper currently does not classify by concrete error code; batch execution is adapter-specific; transaction helper state does not establish distributed atomicity. The dedicated CHIMERA benchmark file contains local stubs. See [`ARCHITECTURE.md`](ARCHITECTURE.md), [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md), and [`SECURITY.md`](SECURITY.md).
+
+## Canonical references
+
+`include/chimera/*.hpp`, `src/chimera/*.cpp`, `CMakeLists.txt`, `cmake/ChimeraAdapters.cmake`, `tests/CMakeLists.txt`, `benchmarks/CMakeLists.txt`.
+
+Issue/milestone: #7336 / DOC-WEEKLY-2026-44.

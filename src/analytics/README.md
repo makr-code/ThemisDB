@@ -1,11 +1,42 @@
-# ThemisDB Analytics Module
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: current | validated: 2026-08-19 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+Exact model backend not verifiable from final document text alone.
+
+# ThemisDB Analytics Module
 
 ## Module Purpose
 
 The analytics module provides analytical runtime capabilities for OLAP execution, streaming analytics, CEP, forecasting, anomaly detection, process mining, ML serving, and analytics export paths.
+
+## Developer documentation
+
+- [Module guide](./MODULE_GUIDE.md): onboarding, component selection, and focused validation.
+- [API map](./API.md): public interfaces and integration rules.
+- [Architecture](./ARCHITECTURE.md): runtime areas, data flow, and module boundaries.
+- [Implementation guide](./IMPLEMENTATION.md): invariants and test mapping.
+- [Operations](./OPERATIONS.md) and [incident runbook](./RUNBOOK.md): deployment and failure handling.
+
+## Installation
+
+Analytics is built as part of ThemisDB; this module does not document a
+standalone installation procedure. Use the repository CMake configuration for
+the desired platform and optional dependencies.
+
+## Usage
+
+Start with the [module guide](./MODULE_GUIDE.md), then use the
+[API map](./API.md) and the owning public header for exact request types and
+behavior.
 
 ## Relevant Interfaces
 
@@ -56,7 +87,7 @@ Out of scope:
 
 ---
 
-## Sourcecode Verification (Module: analytics/readme)
+## Sourcecode Verification (Module: analytics/readme; 2026-08-19 snapshot)
 
 - Verified files:
   - src/analytics/olap.cpp

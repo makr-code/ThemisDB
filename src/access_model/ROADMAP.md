@@ -1,8 +1,20 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
 # Access Model Module - Roadmap
 
-**Version:** 1.0.0  
+**Version:** 1.0.0<br>
 **Status:** ACTIVE (runtime transfer hardening implemented; verification and Wave B evidence pending)
-**Last Validated:** 2026-08-17  
+**Last Validated:** 2026-10-31
 **Phase 5-6 Plan:** `ai_working/ACCESS_MODEL_PHASE_56_IMPLEMENTATION_PLAN.md`
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
@@ -11,11 +23,11 @@
 
 ## Current Status
 
-**Phase 1 Complete:** Unified architecture documented, core interfaces defined.  
+**Phase 1 Complete:** Unified architecture documented, core interfaces defined.<br>
 **Phase 2 Runtime Hardening:** Tier validation, real adapter transfers, bounded queue admission, completion ownership, metrics, and bounded transition history are implemented. Focused test/build verification remains pending.
 **Phases 3-4 Integration:** Cache eviction and storage hot-access listeners are present; backend-level integration evidence remains deployment-specific.
 **Phases 5-6 Observability & Hardening:** Structured logs, trace context, metrics, and focused regression coverage are present. Representative hardware, sanitizer, and release-gate evidence remains pending.
-  - Release Status: NOT READY for Wave B GA until focused tests and authoritative Wave B evidence pass.
+  - Release readiness is canonical in the repository [`ROADMAP.md`](../../ROADMAP.md). The current benchmark source does not substantiate the module's historical gate-pass claims; see [`MODULE_GAPS.md`](./MODULE_GAPS.md) for the documentation/source discrepancy.
 
 ---
 
@@ -80,14 +92,14 @@
   - [x] CAI-07,08,09,10 test cases ready in test_cache_storage_integration.cpp
 
 ### Phase 5: Observability & Diagnostics 🟡 (implementation present; validation pending)
-- [x] Structured logging for all transitions (COMPLETE ✅)
+- [x] Structured logging for queued transition attempts and policy-enabled event decisions
   - [x] Create `access_model_logging.h` with TierTransitionLog, EvictionEventLog, PromotionDecisionLog structs
   - [x] Instrument AccessCoordinatorImpl (10+ logging points)
   - [x] Use spdlog fmt integration for structured fields
-- [x] Trace correlation ID propagation (COMPLETE ✅)
+- [x] Thread-local trace context and correlation IDs for emitted diagnostics
   - [x] Create `access_model_trace.h` with TraceContext, CorrelationID
   - [x] Thread-local context management
-  - [x] ID flow through entire event chain
+  - [x] Worker-scoped trace context and correlation IDs for emitted diagnostics
 - [x] Metrics query surface for operation counters and event/promotion/demotion latency histograms
   - [x] Queue depth and configured capacity in aggregate snapshots
   - [ ] Embedding-application export and worker-utilization telemetry
@@ -102,23 +114,17 @@
 ### Phase 6: Tests & Hardening 🟡 (regression cases added; validation pending)
 - [~] E2E integration tests (test_access_model_e2e.cpp)
   - [x] 15+ test scenarios (promotion chains, demotion chains, policy, edge cases)
-  - [x] Acceptance: All PASS in <5s, ASan/TSan/UBSan clean, >85% coverage
+  - [ ] Record focused-test, sanitizer, and coverage results from a configured build
 - [~] Concurrent operation tests (test_coordination_concurrency.cpp)
   - [x] Concurrent events, tier operations, thread-pool stress, bounded queue admission, and shutdown drain coverage
   - [ ] Re-run under TSan; demonstrate queue-depth bound under sustained load
-- [x] Benchmark gates (bench_access_coordinator_gates.cpp) (COMPLETE ✅)
-  - [x] GATE-ACM-01: L1→L2 promotion ≤50µs p99
-  - [x] GATE-ACM-02: Cache eviction→storage feedback ≤100µs p99
-  - [x] GATE-ACM-03: Cold→warm promotion ≤100ms p99
-  - [x] GATE-ACM-04: Event processing ≥10K events/sec
-  - [x] GATE-ACM-05: Memory overhead ≤50MB
-  - [x] GATE-ACM-06: Policy decision ≤10µs p99
-- [x] Release-critical gate: GATE-ACM-01..06 verification (COMPLETE ✅)
-  - [x] All gates defined and framework documented
-  - [x] Baseline captured, regression rules enforced (±10% tolerance)
-  - [x] Documented hardware profiles
-- [x] Gate verification framework — COMPLETE ✅
-- [x] Regression validation (cache/storage benchmarks ≤5% delta) (COMPLETE ✅)
+- [~] Benchmark gate target constants and six benchmark cases are present; current cases do not validate the named full paths
+  - [x] GATE-ACM-01..06 target constants and case names are defined
+  - [ ] Configure a valid policy and exercise the intended decisions/transfers
+  - [ ] Measure latency percentiles and memory use with valid methods
+  - [ ] Compare against a recorded baseline and fail validation on violations
+- [ ] Release-critical GATE-ACM-01..06 performance verification
+  - [ ] Re-capture representative-hardware results after benchmark coverage is corrected
 
 ---
 
@@ -133,7 +139,7 @@
 - [x] Storage integration (CAI-07..10 via TieredStorageManager + PromotionListener) ✅ **Done 2026-08-09**
 - [~] Observability counters and histograms validated after build
 - [~] Integration tests: full-stack e2e
-- [~] Release benchmarks: GATE-ACM-01..06 on representative hardware
+- [ ] Release benchmarks: GATE-ACM-01..06 with valid end-to-end coverage on representative hardware
 - [x] Operator runbooks describe runtime contracts and failure recovery
 
 ---
@@ -144,6 +150,7 @@
 - Tier adapters are not coordinated transactionally. A failed source invalidation after destination placement may leave duplicate copies; the owning application must reconcile them.
 - An adapter call that blocks indefinitely can delay `shutdown()` because accepted tasks are drained rather than cancelled.
 - Queue admission is bounded, but `void` event listeners cannot return a rejection; consumers must monitor queue-full failure counters and transition records.
+- The current benchmark fixture does not set an `AgeBasedPolicy`; callback cases therefore bypass policy decisions and transfers. Its memory case does not measure RSS, and latency checks report average elapsed time rather than p99. See [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md).
 - Wave B entry gate remains `[~]` pending authoritative hardware artifacts for Transaction/GPU (Wave A external dependency).
 
 ---
@@ -157,11 +164,11 @@ No breaking access-model contract is planned; any API/behavioral break requires 
 ## Success Criteria
 
 - ✅ Zero breaking changes to existing cache/storage APIs
-- ✅ All new code covered by focused tests (ACM-01..ACM-12)
-- ✅ Release gates for promotion/demotion latency pass
-- ✅ Cross-module integration tests green (CAI-01..CAI-08)
-- ✅ Documentation audit pass (4/4 conformance)
-- ✅ No regressions in cache/storage benchmarks
+- [~] Focused and integration test sources exist; configured-build and sanitizer results still need to be recorded
+- [ ] Release gates for promotion/demotion latency pass on representative hardware
+- [ ] Cross-module integration tests pass in a configured build
+- [ ] Benchmark harness measures the documented policy, transfer, percentile, and memory targets
+- [ ] Cache/storage benchmark regression results are attached
 
 ---
 
@@ -180,7 +187,8 @@ Wave B begins only after Wave A exit criteria are met.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D gate model and exit criteria.
 
 ### Wave B Scope for `access_model`
-- [x] Access Model: complete Phase 5–6 observability, concurrency/e2e tests, and benchmark closure for GATE-ACM-01..06 (COMPLETE 2026-08-17) ✅
+- [x] Phase 5–6 observability and test sources delivered.
+- [~] GATE-ACM-01..06 benchmark closure requires a corrected harness and reproducible evidence; the current cases do not exercise the named full paths.
 
 ### Wave B Entry Gate (prerequisite from Wave A)
 - [~] Wave A gate closure in progress (Target: Q4 2026): Transaction and GPU `release_critical` CI lanes are green on `develop` (runs `34313051247`/`34313042741`); authoritative representative-hardware artifact output and chaos/recovery evidence remain pending.
@@ -189,10 +197,10 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
   - See root `ROADMAP.md` §Wave A Closure Batch for current execution order
 
 ### Wave B Exit Criteria (this module's contribution)
-- [x] Stable p95/p99 and bounded memory confirmed on representative hardware (VERIFIED 2026-08-17) ✅
-- [x] Benchmark and observability gates closed with reproducible evidence (GATE-ACM-01..06 DEFINED) ✅
-- [x] Release decisions based on representative hardware baselines, not scaffolding benchmarks only (FRAMEWORK DOCUMENTED) ✅
-- [~] Representative-hardware baseline re-capture for GATE-ACM-01..06 — see [`WAVE_B_BENCHMARK_EVIDENCE_BUNDLE.md`](./WAVE_B_BENCHMARK_EVIDENCE_BUNDLE.md) for checklist and run instructions (pending Q4 2026)
+- [ ] Stable p95/p99 and bounded memory confirmed on representative hardware
+- [ ] Benchmark and observability gates closed with reproducible evidence
+- [ ] Release decisions supported by representative-hardware baselines
+- [~] Correct benchmark coverage, then capture representative-hardware baselines; see [`WAVE_B_BENCHMARK_EVIDENCE_BUNDLE.md`](./WAVE_B_BENCHMARK_EVIDENCE_BUNDLE.md)
 
 ### Dependencies on Later Waves
 - Wave C security validation depends on stable Wave B performance baselines.
@@ -202,3 +210,7 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 - Runbook with D1 Trace Span annotations: [`docs/operability/RUNBOOK_ACCESS_MODEL_PROMOTION.md`](../../docs/operability/RUNBOOK_ACCESS_MODEL_PROMOTION.md) — D1 Span table and `otel-query` examples added 2026-09-16
 - Phase 2A trace instrumentation targets for `access_coordinator.cpp` / `include/access_model/access_model_trace.h`: See runbook §Wave D D1 Distributed Trace Span Cross-Links
 - Wave D roadmap: [`docs/operability/WAVE_D_ROADMAP.md`](../../docs/operability/WAVE_D_ROADMAP.md)
+
+---
+
+**AI provenance:** Exact model backend not verifiable from final document text alone.

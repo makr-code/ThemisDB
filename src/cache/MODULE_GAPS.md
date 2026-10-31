@@ -1,4 +1,9 @@
-# cache — MODULE_GAPS.md (Phase 5 Verified — Gap Closure in Progress)
+<!-- Last Updated: 2026-10-31 | AI_Used: true | AI_Models: unknown | AI_Contributor: GitHub Copilot Coding Agent | Human_Review: false | Human_Author: ThemisDB Team
+Exact model backend not verifiable from final document text alone. -->
+
+# cache — MODULE_GAPS.md (Historical Phase 5 Scan — Current Rescan TODO)
+
+> **Evidence boundary:** Counts and closure claims below are dated scanner/session snapshots from August 2026, not a current full-tree gap report. A fresh scan and maintainer review are TODO; do not infer current defect counts or status from this historical record.
 
 This file documents all documentation and code quality gaps in the **cache** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
 

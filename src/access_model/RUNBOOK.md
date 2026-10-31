@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -52,8 +52,10 @@ restricted incident channel; keys are included in structured log records.
 - Compare the event's `access_count` with `storage_promotion_threshold`.
 - For cold-storage access, verify that `STORAGE_WARM` is in the caller's tier
   map; otherwise the event handler cannot queue its selected destination.
-- Confirm listener setters were given a live coordinator pointer and that the
-  coordinator has not been shut down.
+- Confirm listener setters were given live host-owned bridge pointers. The
+  bridges must implement the listener interfaces and forward to a running
+  coordinator; `AccessCoordinator` is not itself an `EvictionListener` or
+  `PromotionListener`.
 
 If the queue is full, a callback cannot return an admission status. The
 coordinator records a failed transition/counter; reduce event ingress or raise

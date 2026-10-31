@@ -1,154 +1,137 @@
-# AQL Assistance Module — Frozen Contract Semantics
-
-**Version:** 1.0.0 (Frozen)  
-**Status:** FROZEN — Q3 2026 gate delivery  
-**Last Validated:** 2026-08-09  
-**Frozen By:** Copilot agent (roadmap gate: Phase 1 Design / API Contract)
-
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 ---
 
-## 1. Scope
+Exact model backend not verifiable from final document text alone.
 
-This document defines the **frozen contract semantics** for the AQL Assistance
-module's public translation and validation APIs, and the **explicit failure
-contracts** for unsupported provider and capability modes.
+# AQL Assistance API Contract and Implementation Review
 
-Once frozen, changes to any semantic defined here require a version bump and
-a corresponding CHANGELOG entry.
+## Status and source precedence
 
----
+This document reconciles the AQL assistance contract with the implementation
+reviewed on 2026-10-31. The former "Frozen Contract Semantics" text described
+intended behavior, but several of its promises were not implemented. Those
+statements are no longer presented as runtime guarantees. The current public
+signatures are defined by
+[`../../include/aql/llm_aql_handler.h`](../../include/aql/llm_aql_handler.h);
+implementation observations below are grounded in
+[`llm_aql_handler.cpp`](llm_aql_handler.cpp) and focused tests.
 
-## 2. Translation Output Contract
+This is a documentation reconciliation, not a change to runtime behavior or an
+approval to change the frozen API/versioning policy. Any future code change to
+make the runtime meet a stronger contract requires the applicable API review,
+tests, and release-note/versioning decision.
 
-### 2.1 `LLMAQLHandler::translateNLToAQL()`
+## Public translation surface
 
-**Return value semantics:**
+`LLMAQLHandler` publicly declares `translateNLToAQL()`,
+`translateNLToAQLStreaming()`, `translateNLToAQLWithConfidence()`,
+`translateNLToAQLWithExamples()`, and batch translation methods. The function
+`validateAQLWithParser()` is a file-local helper in `llm_aql_handler.cpp`; it
+is not a public `LLMAQLHandler` method.
 
-| Condition | Return |
-|---|---|
-| Successful translation | Non-empty AQL string, syntactically valid per the AQL grammar |
-| Empty natural-language input (after trim) | `""` — empty string, no exception |
-| Input exceeds prompt size limit | throws `LLMException(PROMPT_TOO_LONG)` |
-| Input contains injection patterns | throws `LLMException(PROMPT_INJECTION)` |
-| LLM backend unavailable | throws `LLMException(INFERENCE_FAILED)` |
-| Generated output fails validation | throws `LLMException(INVALID_RESPONSE)` |
+## Observed translation and validation behavior
 
-**Determinism:** The function is **not** deterministic across LLM provider invocations.
-Callers requiring reproducibility must fix the temperature and seed via
-`LLMAQLHandler::Config::temperature` and `LLMAQLHandler::Config::seed`.
+### Input and empty requests
 
-**Thread safety:** Concurrent calls to `translateNLToAQL()` from multiple threads
-are safe provided each thread owns a separate `LLMAQLHandler` instance.
-Shared-instance concurrent calls are **not** supported and will produce
-undefined behaviour.
+- `translateNLToAQL()` sanitizes the natural-language input and schema context
+  for configured length limits, null bytes, and listed prompt-injection
+  patterns. It does not special-case empty or whitespace-only natural-language
+  input before invoking the generation path. Therefore, empty input has no
+  guaranteed empty-string or no-exception result; the provider response and
+  validation mode determine the outcome.
+- The internal generated-AQL validation helper rejects an empty generated
+  candidate. Under the default `WARN_ONLY` mode, a validation failure is logged
+  and the candidate is still returned. `REJECT_ON_ERROR` throws
+  `LLMException(INVALID_RESPONSE)`; `RETRY_ON_ERROR` retries with sanitized
+  validation feedback and rejects after the configured attempts are exhausted.
+- `RETRY_ON_ERROR` uses `validation_config.max_retries + 1` total attempts.
+  The handler's default validation mode is `WARN_ONLY`; the default
+  `validation_config.max_retries` is 1. Do not interpret that configuration as
+  a guarantee that every translation receives an additional attempt.
 
-### 2.2 `LLMAQLHandler::translateNLToAQLWithConfidence()`
+### Parser service
 
-Returns `AQLTranslationResult { aql_query, confidence }` where:
+- `Config::parser_service` defaults to null, but handler construction creates a
+  default parser service when one is not injected.
+- Calling `setParserService(nullptr)` explicitly disables parser-backed
+  validation. The helper then uses `AQLQueryValidator` string-level checks;
+  that fallback is not equivalent to parser/AST validation.
+- The helper returns its validation result internally. It is not a public
+  validation API and does not execute a query against a database.
+- Parsing or string-level validation does not establish authorization or
+  semantic correctness against live data. The translation path separately
+  applies its configured collection-access check and schema-scope check.
 
-- `aql_query` follows the same semantics as § 2.1
-- `confidence.score` is in range `[0.0, 1.0]`
-- `confidence.score == 0.0` indicates an unscored result (scorer unavailable)
-- `confidence.score < 0.5` is the threshold below which the query SHOULD be
-  discarded or flagged for human review
+### Errors, streaming, and determinism
 
-### 2.3 `LLMAQLHandler::translateNLToAQLStreaming()`
+- Over-limit input throws `LLMException(PROMPT_TOO_LONG)`. Detected null bytes
+  and prompt-injection patterns throw `LLMException(PROMPT_INJECTION)`.
+- Validation rejection uses `LLMException(INVALID_RESPONSE)`. Provider and
+  other failures follow their actual call paths; this document does not promise
+  a single retry/error mapping for every provider failure.
+- Streaming translation applies the same input sanitization and validation
+  mode. Callback chunks are partial and must not be executed; use only the
+  final returned value and still enforce the host application's execution
+  authorization.
+- `LLMAQLHandler::Config` does not define `temperature` or `seed` fields.
+  Provider options are supplied through the relevant request APIs. The
+  implementation makes no cross-provider determinism guarantee.
 
-- Streams LLM explanation tokens via the registered callback
-- The final returned `std::string` is identical to `translateNLToAQL()`
-- Partial streamed output MUST NOT be executed as AQL — only the final return
-  value is validated and safe for execution
-- Exception semantics identical to § 2.1
+## Declared error codes versus implemented behavior
 
----
+[`../../include/aql/llm_error_codes.h`](../../include/aql/llm_error_codes.h)
+declares `PROVIDER_UNSUPPORTED` (6001) and `CAPABILITY_UNSUPPORTED` (6002).
+The module source/header search for this review found no corresponding
+throw-sites. Their former provider/capability trigger conditions,
+non-retryability promises, and remediation requirements are therefore
+**unverified intended contract**, not established behavior. Add explicit
+implementation and focused tests before documenting those conditions as
+runtime guarantees.
 
-## 3. Validation Output Contract
+Other numeric values in the enum are defined by the header. Specific retry
+count, timeout, and error mapping must be verified against the operation's
+implementation rather than inferred from the enum or the former frozen table.
 
-### 3.1 `LLMAQLHandler::validateAQLWithParser()`
+## Concurrency and ownership
 
-**Return value semantics:**
+The former frozen text asserted that separate handler instances are safe and
+shared-instance concurrent calls cause undefined behavior. That assertion is
+not established by the public declarations or the tests reviewed here. Do not
+rely on a thread-safety guarantee without an API-level contract and dedicated
+concurrency evidence. Follow ownership/lifetime annotations in the individual
+headers for borrowed dependencies and adapters.
 
-| Condition | Return |
-|---|---|
-| Syntactically valid AQL | `true` |
-| Syntactically invalid AQL | `false` (no exception) |
-| Empty input (after trim) | `false` |
-| Parser unavailable (no `IAQLParserBackend` set) | `false`, logs `WARN` |
+## Focused evidence
 
-The validation call does **not** execute the query against a live database.
-Semantic errors (wrong collection name, missing field) are NOT detected.
+Relevant current test sources include:
 
----
+- [`../../tests/aql/test_aql_api_stability.cpp`](../../tests/aql/test_aql_api_stability.cpp)
+- [`../../tests/aql/test_aql_llm_validation_pipeline.cpp`](../../tests/aql/test_aql_llm_validation_pipeline.cpp)
+- [`../../tests/aql/test_aql_llm_validation_pipeline_phase04.cpp`](../../tests/aql/test_aql_llm_validation_pipeline_phase04.cpp)
+- [`../../tests/aql/test_llm_aql_handler_phase03.cpp`](../../tests/aql/test_llm_aql_handler_phase03.cpp)
+- [`../../tests/aql/test_aql_translation_recovery.cpp`](../../tests/aql/test_aql_translation_recovery.cpp)
 
-## 4. Failure Contracts — Unsupported Provider / Capability Modes
+The test registration and target naming are defined in
+[`../../tests/aql/CMakeLists.txt`](../../tests/aql/CMakeLists.txt). These source
+references are not a claim that the tests were run or that every behavior above
+has a dedicated regression test.
 
-### 4.1 Error Codes
+## Reconciliation follow-up
 
-Two dedicated error codes are frozen in `LLMErrorCode` (6xxx range):
-
-| Code | Value | Semantics |
-|---|---|---|
-| `PROVIDER_UNSUPPORTED` | 6001 | The configured LLM provider does not support the requested operation mode |
-| `CAPABILITY_UNSUPPORTED` | 6002 | The model or adapter does not expose the requested capability |
-
-### 4.2 `PROVIDER_UNSUPPORTED` — Triggering Conditions
-
-Thrown as `LLMException(PROVIDER_UNSUPPORTED, <message>)` when:
-
-- Streaming is requested (`translateNLToAQLStreaming`) but the configured
-  provider does not support streaming completions
-- Batch translation is requested but the provider supports only single-shot
-  completions
-- Context-window extension is requested but the provider does not support it
-
-**Caller contract:**
-- `PROVIDER_UNSUPPORTED` is **non-retryable**
-- Callers MUST NOT retry with the same provider configuration
-- Callers SHOULD fall back to a non-streaming / single-shot equivalent or
-  surface a configuration error to the operator
-
-### 4.3 `CAPABILITY_UNSUPPORTED` — Triggering Conditions
-
-Thrown as `LLMException(CAPABILITY_UNSUPPORTED, <message>)` when:
-
-- LoRA fine-tuning is requested on a model that is not LoRA-capable (e.g.,
-  a quantized base model without adapter slots)
-- A feature requiring a specific model capability flag is requested but that
-  flag is absent from the loaded model's metadata
-
-**Caller contract:**
-- `CAPABILITY_UNSUPPORTED` is **non-retryable**
-- Callers MUST surface this as a configuration error
-- The specific unsupported capability name MUST appear in the exception message
-
-### 4.4 Degraded-Mode vs. Hard-Failure Decision Table
-
-| Condition | Behaviour | Error Code |
-|---|---|---|
-| Provider unavailable (transient network) | Retry up to `Config::max_retries` → `INFERENCE_FAILED` | 4001 |
-| Provider unsupported mode | Hard fail immediately | 6001 |
-| Capability absent from model | Hard fail immediately | 6002 |
-| Provider timeout | Retry → `TIMEOUT` | 4004 |
-| Prompt too long | Hard fail immediately | 1002 |
-
----
-
-## 5. Backward Compatibility
-
-- The types and error codes defined in this document are frozen as of v1.6.0.
-- New output fields may be **added** to result structs without a major version bump
-  (additive changes only).
-- Removal or semantic change of any field or error code requires a **major version bump**
-  (v2.x) and an explicit deprecation notice in CHANGELOG.md.
-
----
-
-## 6. Contract Validation
-
-Tests enforcing this contract are in:
-
-- `tests/aql/test_aql_assistance_contract_focused.cpp` (contract smoke tests)
-- `tests/aql/test_aql_assistance_phase4_focused.cpp` (error handling paths)
-
-See also: `include/aql/llm_error_codes.h` (frozen error taxonomy),
-`include/aql/llm_aql_handler.h` (translation/validation API signatures).
+- Do not silently change the runtime to match the former frozen prose. First
+  decide whether the implementation or intended API contract is canonical.
+- If changing runtime semantics, add regression tests for empty input,
+  validation modes, null parser service, streaming, and unsupported capability
+  handling; then update the API/versioning and changelog records as required.
+- If retaining the present runtime, preserve this source-grounded behavior
+  description and add tests for any contract guarantee that maintainers choose
+  to make normative.

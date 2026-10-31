@@ -1,9 +1,22 @@
 # Audit Report - Ingestion Module
 
-<!-- Status: current | validated: 2026-07-18 -->
+<!-- Status: historical audit snapshot | validated: 2026-07-18; not a current release audit -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot
+**Human_Review:** false
+**Human_Author:** ThemisDB Team
+
+> Exact model backend not verifiable from final document text alone.
+
 ## Summary
+
+> This is the 2026-07-18 audit snapshot. Its counts, sample test result,
+> maturity statements, and "critical blockers" row are historical. No full
+> source/build/test audit was performed for this update; current code and CMake
+> sources supersede this snapshot for present status.
 
 | Metric | Result |
 |---|---|

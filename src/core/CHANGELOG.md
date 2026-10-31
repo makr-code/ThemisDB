@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 > ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: historical snapshot; last validation annotation: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog — Core Module
@@ -9,9 +23,12 @@ All notable changes to the Core module are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
-- Plugin-based adapter loading without recompile (Issue #1706)
+- Plugin-based adapter loading without recompile (Issue #1706) is already implemented;
+  it is not an outstanding feature (see `src/core/ROADMAP.md`).
 - Documentation refresh (Welle 1): core README/ARCHITECTURE/ROADMAP/SECURITY/AUDIT/PRODUCTION_REQUIREMENTS/FUTURE_ENHANCEMENTS aligned with current source and verified issue mapping.
-- PERFORMANCE_EXPECTATIONS aligned to direct core DI/logging/cache benchmark cases in `benchmarks/bench_di_logging.cpp`; stale TPCC/vector parent proxies removed.
+- Historical benchmark note: `PERFORMANCE_EXPECTATIONS.md` previously referenced
+  `benchmarks/bench_di_logging.cpp`, which is absent from the current repository.
+  No direct Core benchmark result is claimed; see `PERFORMANCE_EXPECTATIONS.md`.
 
 ### Roadmap Completion Archive (moved from ROADMAP on 2026-05-31)
 - ConcernsContext: central DI hub for cross-cutting concerns

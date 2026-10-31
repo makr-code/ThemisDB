@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -14,10 +14,12 @@ Human_Author: "ThemisDB Team"
 
 ## Purpose and scope
 
-This page documents the ingestion-side embedding contract and the currently
-implemented reindex decision logic. It is for engineers wiring an embedding
-backend or changing chunk/vector metadata. It does not specify the RAG query
-path or claim that this module performs a complete index migration.
+This page documents the ingestion-side embedding contract and implemented
+reindex decision helper. It is for engineers wiring an embedding backend or
+changing chunk/vector metadata. It does not specify the RAG query path or claim
+that this module performs a complete index migration. A separate
+`CanaryDeploymentManager` helper exists, but its presence is not evidence that
+the decision helper is integrated with a live index or that it routes traffic.
 
 ## Embedding contract
 
@@ -52,11 +54,15 @@ changes, 1,800 for chunking, and 7,200 for schema-major changes), and an
 metadata family.
 
 This engine is a decision helper. In the inspected implementation it does not
-persist a manifest, build an index, perform dual reads, execute canary rollout,
-or switch/restore a previous index. The specification examples in
+persist a manifest, build an index, perform dual reads, or invoke the separate
+canary helper. The canary helper records supplied query measurements and phase
+state, but current source does not establish traffic routing or a persisted
+index switch/rollback integration. Its ranking metrics are derived from supplied
+recall values; treat them as helper/test values, not independent retrieval
+quality evidence. The specification examples in
 [`EMBEDDING_VERSION_GOVERNANCE.md`](./EMBEDDING_VERSION_GOVERNANCE.md) describe
 broader governance design; their sample commands, environment variables, and
-rollout behavior must not be assumed to exist based on this helper alone.
+rollout behavior must not be assumed to exist based on these helpers alone.
 
 ## Reproducibility and trade-offs
 
@@ -78,6 +84,7 @@ This optional path does not replace ordinary vector embeddings.
 
 - [`test_ingestion_inference_backend.cpp`](../../tests/ingestion/test_ingestion_inference_backend.cpp) checks backend availability and default behavior.
 - [`test_reindex_decision_engine.cpp`](../../tests/ingestion/test_reindex_decision_engine.cpp) covers all four triggers, no-change behavior, simplified APIs, and metadata serialization.
+- [`test_canary_deployment_manager.cpp`](../../tests/ingestion/test_canary_deployment_manager.cpp) exercises helper phase/metric behavior, not a live index migration.
 - [`steps/chunk_embed_step.cpp`](./steps/chunk_embed_step.cpp) and [`steps/chunk_tt_decompose_step.cpp`](./steps/chunk_tt_decompose_step.cpp) define current step behavior.
 
 > Exact model backend not verifiable from final document text alone.

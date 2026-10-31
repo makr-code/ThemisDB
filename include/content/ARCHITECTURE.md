@@ -1,4 +1,17 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+**Author:** ThemisDB Contributors
+**Created:** 2026-10-31
+**Last Updated:** 2026-10-31
+**Status:** active
+**Source level:** Level 1 — `include/content/`
+**SOT domain:** `api-contract`
+**Canonical source references:** [manager API](content_manager.h), [manager implementation](../../src/content/content_manager.cpp), [processor-chain config](processor_chain_config.h), [module architecture](../../src/content/ARCHITECTURE.md)
+**Related milestone:** DOC-WEEKLY-2026-44
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** themisdb-doc-orchestrator
+**Human_Review:** false
+**Human_Author:** ThemisDB Contributors
+**Provenance note:** Exact model backend not verifiable from final document text alone.
 
 <!-- Status: current | validated: 2026-05-11 -->
 <!-- Links: README.md · ../../src/content/ARCHITECTURE.md · ../../src/content/ROADMAP.md · ../../src/content/FUTURE_ENHANCEMENTS.md -->
@@ -22,7 +35,8 @@ interfaces, and configuration structures consumed by:
 - Plugin authors registering custom content processors
 - Embedders integrating ThemisDB as a library
 
-All headers are `#pragma once` guarded and contain no non-trivial implementation code.
+Headers define the public interfaces and defaults; most implementation is in `src/content/`.
+Some configuration, serialization, and helper methods are inline in public headers.
 
 For full architectural details — data-flow diagrams, threading model, integration point map —
 see the canonical document:
@@ -68,7 +82,7 @@ content::ContentManager           — pipeline orchestrator:
     ├── getContentBlob()          — retrieve raw binary blob
     ├── getContentChunks()        — retrieve ordered chunks
     ├── assembleContent()         — reconstruct full content from chunks
-    ├── searchContent()           — vector similarity search (HNSW)
+    ├── searchContent()           — vector search through the supplied vector-index manager
     ├── searchContentHybrid()     — hybrid vector + fulltext (RRF)
     ├── searchWithExpansion()     — RAG-style graph-expanded search
     ├── deleteContent()           — cascade delete content and all chunks
@@ -86,11 +100,11 @@ content::ContentManager           — pipeline orchestrator:
     ├── setDeduplicationChecker() — attach DeduplicationChecker
     ├── setMalwareFilter()        — attach MalwareFilterManager
     ├── setProcessorChainConfig() — configure per-stage pipeline
-    └── getStats() / getMetrics() — statistics and Prometheus counters
+    └── getStats() / getMetrics() — statistics and manager-owned atomic counters
 content::ContentManager::IngestResult       — ingestion outcome + per-stage diagnostics
 content::ContentManager::IngestResult::StageOutcome — per-stage name/success/attempts/error
 content::ContentManager::Stats              — total counts by category + storage bytes
-content::ContentManager::Metrics            — atomic Prometheus counters (compression, dedup)
+content::ContentManager::Metrics            — atomic compression and dedup counters; not a Prometheus serializer
 ```
 
 ### 3.3 Processor Interface (`content_processor.h`)
@@ -166,10 +180,13 @@ Headers that require optional compile-time dependencies are guarded as follows:
 |---|---|---|
 | `THEMIS_ENABLE_OCR` | `ocr_processor.h` — `OCRProcessor` | Tesseract ≥ 4.1, Leptonica |
 | `THEMIS_ENABLE_PDF` | `pdf_processor.h` — `PDFProcessor` | poppler-cpp |
-| `THEMIS_ENABLE_FFMPEG` | `video_processor.h` — frame/scene extraction path | FFmpeg |
+| `THEMIS_HAS_FFMPEG` | `video_processor.h` — FFmpeg-backed paths | CMake defines this when FFmpeg is detected |
 | `THEMIS_ENABLE_LLM` | `content_manager.h` — LLM analysis methods | LLM plugin (`src/llm/`) |
-| `THEMIS_ENABLE_LIBREOFFICE` | `office_processor.h` — legacy DOC/XLS/PPT via LibreOffice headless | LibreOffice runtime |
 | `THEMIS_HAS_ZSTD` | `pipeline/zstd_compression.h` | libzstd |
+
+Legacy DOC/XLS/PPT extraction may use the runtime path in
+`OfficeProcessor::Config::libreoffice_path`; the current CMake files do not define a
+`THEMIS_ENABLE_LIBREOFFICE` option.
 
 ---
 
@@ -199,16 +216,18 @@ pipeline/async_bulk_uploader.h
 
 ---
 
-## 6. Compatibility and Stability Guarantees
+## 6. Compatibility and Configuration Notes
 
-- **ABI stability:** Public types in `include/content/` follow semantic versioning. Breaking
-  changes (member reordering, virtual-table changes) trigger a major version bump.
-- **`[[nodiscard]]`:** Factory functions, search methods, and error-returning methods use
-  `[[nodiscard]]` to prevent silently discarded results.
-- **Plugin stability:** `IIngestionPlugin` and `IContentPlugin` interfaces are stable for
-  the duration of the v1.x line; additions are source-compatible extensions only.
-- **`ProcessorChainConfig` defaults:** All stages are enabled by default when no config is
-  set; `setProcessorChainConfig()` is additive (sets only the stages you specify).
+- **API/ABI policy:** Follow repository [`VERSIONING.md`](../../VERSIONING.md) and the
+  declarations in the relevant header; this overview does not assert an independent ABI
+  guarantee.
+- **Stage defaults:** `StageConfig` defaults to enabled, zero retries, a 100 ms retry
+  delay, and `continue_on_error == false`.
+- **Configuration precedence:** `ProcessorChainConfig` selects one complete entry in this
+  order: exact MIME type, category, then global default. `ContentManager::setProcessorChainConfig()`
+  replaces the stored configuration; it does not merge partial entries.
+- **Thread safety:** No module-wide thread-safety guarantee is asserted here. Consult each
+  API's implementation and caller synchronization requirements.
 
 ---
 

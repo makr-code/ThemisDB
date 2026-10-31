@@ -1,32 +1,54 @@
 ---
-Author: "ThemisDB Team"
+Author: "ThemisDB Contributors"
 Created: "2026-10-18"
-Last Updated: "2026-10-18"
+Last Updated: "2026-10-31"
 Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Exact model backend not verifiable from final document text alone.
 ---
 
-# Cdc in ThemisDB
+# CDC features
 
-## Ueberblick
-Das Modul CDC stellt change data capture runtime surfaces for ThemisDB, including changefeed recording, stream delivery, replay, transport integration, and operational administration for change-event pipelines. Phase 1-6 complete with all release gates validated. Im Modulkontext werden Aussagen mit [Architekturgrenzen](./ARCHITECTURE.md), [Release-Planung](./ROADMAP.md), [Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md) abgeglichen. Im Betrieb sind dabei insbesondere [Latenz](https://en.wikipedia.org/wiki/Latency_(engineering)), [Observability](https://en.wikipedia.org/wiki/Observability) und [Determinismus](https://en.wikipedia.org/wiki/Deterministic_algorithm) relevante Qualitaetskriterien. Fuer Querschnittskontext wird das Modul mit den relevanten Stellen im [Compendium](./../../docs/compendium/docs/index.md) verknuepft.
+The CDC module exposes change-event persistence, retrieval, subscription,
+replay, delivery coordination, transport, and administration APIs. These are
+module capabilities, not a claim that every optional transport is enabled or
+that all production-readiness gates have passed. Current implementation
+readiness and outstanding work are tracked in [`ROADMAP.md`](./ROADMAP.md).
 
-## Kern-Features im Detail
-Die erste Kernfaehigkeit ist **core capture/replay/event stream behavior**. Das beschreibt einen konkreten, in den Modulquellen referenzierten Verantwortungsbereich.
+## Implemented surfaces
 
-Die zweite Kernfaehigkeit ist **buffering and retrieval surfaces for change events**. Dadurch bleiben Integrationspfade zwischen Modulgrenzen reproduzierbar und operativ auswertbar.
+- **Changefeed:** `themis::Changefeed` assigns sequence numbers, stores event
+  records in RocksDB, supports filtered reads and push subscriptions, and
+  provides retention and redaction operations.
+- **Delivery:** `DeliveryTracker` manages in-memory pending acknowledgements and
+  redelivery; `ConsumerGroupManager` persists group configuration and committed
+  offsets while keeping in-flight records in process memory.
+- **Replay and failure handling:** replay controllers read bounded event ranges;
+  `DeadLetterQueue` and the outbox provide distinct persistence and recovery
+  paths.
+- **Transports:** `KafkaCDCProducer` requires `THEMIS_ENABLE_KAFKA` and
+  librdkafka. `WsTransport` is available only with
+  `THEMIS_ENABLE_WEBSOCKET`.
+- **Administration and integrations:** CDC admin/metrics interfaces expose
+  diagnostics and retention controls; separate APIs cover tenant buffers,
+  cross-collection streams, Debezium formatting, schema encoding, and
+  materialized-view updates.
 
-Die dritte Kernfaehigkeit ist **tenant-scoped buffer lifecycle and quotas**. Das unterstuetzt stabile Abnahme- und Aenderungsprozesse entlang der Modul-Roadmap.
+The outbox writer records an entry through a caller-provided RocksDB
+transaction. The relay later appends to the changefeed and updates outbox state
+in separate operations; this is not a single atomic operation across the
+application write, feed append, and relay state.
 
-```mermaid
-flowchart LR
-    A[Produktanforderung] --> B[Cdc Modul]
-    B --> C[Implementierung und Integrationspfade]
-    C --> D[Test- und Betriebsnachweise]
-    D --> E[Kundennutzen im Betrieb]
-```
+## Verification
 
-## Kundennutzen und Abgrenzung
-Kundinnen und Kunden erhalten damit vor allem besser planbares Systemverhalten, kuerzere Eingrenzungszeiten bei Stoerungen und transparentere Release-Risiken. Diese Seite ist ein fachlich-kommunikativer Ueberblick; normative API-, Compliance- und Freigabeaussagen verbleiben in den kanonischen Modulquellen.
+Focused unit tests are registered from `tests/cdc/test_*.cpp` by
+[`tests/cdc/CMakeLists.txt`](../../tests/cdc/CMakeLists.txt). Their presence is
+not evidence that a build or test run passed. See
+[`IMPLEMENTATION.md`](./IMPLEMENTATION.md) for the focused validation map and
+[`include/cdc/README.md`](../../include/cdc/README.md) for build instructions.
 
-## Einordnung und Quellen
-Primaere modulnahe Quellen: [README.md](./README.md), [ARCHITECTURE.md](./ARCHITECTURE.md), [ROADMAP.md](./ROADMAP.md), [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md), [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md), [SECURITY.md](./SECURITY.md). Sekundaere Querschnittsquellen: [docs/cdc/README.md](./../../docs/cdc/README.md), [Compendium Index](./../../docs/compendium/docs/index.md). Aussagen wurden auf diese Quellenbasis begrenzt; bei fehlenden Modulquellen werden keine weitergehenden Produktclaims ergänzt.
+**Exact model backend not verifiable from final document text alone.**

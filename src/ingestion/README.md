@@ -1,31 +1,42 @@
 # ThemisDB Ingestion Module
 
-<!-- Status: Production Ready (Wave B Performance) | validated: 2026-08-14 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · MODULE_GAPS_BATCH5.md · PERFORMANCE_EXPECTATIONS.md -->
-<!-- Wave Context: Wave B (Performance Consolidation Q3-Q4 2026) — Backpressure + Ordering Guarantees + Schema Enforcement -->
+<!-- Status: implementation present; deployment readiness is caller-specific | validated: 2026-10-31 -->
+<!-- Links: ARCHITECTURE.md · API.md · IMPLEMENTATION.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
+
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot
+**Human_Review:** false
+**Human_Author:** ThemisDB Team
+
+> Exact model backend not verifiable from final document text alone.
 
 ## Module Purpose
 
-Production-capable data ingestion paths providing batch/streaming entry points, backpressure and flow control, ordering guarantees, and schema validation/enforcement for ThemisDB. **Batch 5 enhancement focus: Backpressure determinism, ordering guarantee reliability, schema enforcement under sustained load**.
+The module provides source connectors, `IngestionManager` orchestration, optional
+workflow execution, validation/quarantine, coordinator interfaces, and sink
+contracts. These interfaces do not imply production durability, universal
+backpressure, or global ordering guarantees. Actual behavior depends on the
+selected connector, configuration, injected backends, and caller wiring.
 
 ## Relevant Interfaces
 
 | Interface / File | Role |
 |---|---|
 | ingestion_manager.cpp | central ingestion orchestration and source lifecycle |
-| ingestion_coordinator.cpp | parallel/distributed ingestion coordination |
-| ingestion_sinks.cpp | sink-layer output behavior |
+| ingestion_coordinator.cpp | worker dispatch and aggregation via coordinator interfaces |
+| ingestion_sinks.cpp | implementations of sink adapters |
 | ingestion_quality_judge.cpp | ingestion quality evaluation and feedback control |
 | filesystem_ingester.cpp | local filesystem source ingestion |
 | api_connector.cpp | generic API source connector |
 | kafka_connector.cpp | Kafka source connector |
 | cdc_connector.cpp | CDC source connector behavior |
-| database_connector.cpp | database/JDBC style source connector |
+| database_connector.cpp | database source connector; backend/protocol support is implementation-specific |
 | object_storage_connector.cpp | object storage source connector |
 | s3_connector.cpp | S3-focused source connector |
 | web_crawler_connector.cpp | crawl/sitemap ingestion source |
 | huggingface_connector.cpp | HuggingFace dataset source connector |
-| schema_validator.cpp | schema validation behavior |
+| ingestion_manager.cpp | manager-applied schema validation configuration |
 | semantic_validator.cpp | semantic quality validation |
 | deontic_extractor.cpp | legal deontic extraction support |
 | agentic_reference_validator.cpp | reference validation support |
@@ -46,9 +57,19 @@ Out of scope:
 
 ## Runtime Behavior and Limits
 
-- behavior depends on configured connector capabilities and runtime feature flags.
-- unsupported connector paths degrade deterministically with explicit outcomes.
-- quality and workflow phases depend on configured thresholds and enabled adapters.
+- `IngestionManager::ingestSource()` dispatches through a connector, or through
+  the filesystem workflow branch when that path is enabled/configured.
+- The workflow engine executes ordered steps and returns extraction/entity
+  output. The current filesystem workflow branch does not hand that output to a
+  sink; its processed count is not evidence of persistence.
+- `IngestionCoordinator` partitions source configurations among workers; durable
+  cross-process checkpointing/leadership requires injected implementations.
+- Reports can represent partial success. Review per-source counts, errors, and
+  quarantine entries rather than treating a non-empty report as a transaction.
+- `IngestionAdminApi` is in-process; network exposure, authentication, and
+  authorization belong to the owning service.
+- Limits, fallback behavior, and inference evaluation are connector- and
+  configuration-specific; verify the concrete implementation and tests.
 
 ## Developer Documentation
 
@@ -57,6 +78,11 @@ Out of scope:
 - [Research](./RESEARCH.md), [modeling](./MODELING.md), and [embedding](./EMBEDDING.md) — evaluation assumptions and representation constraints.
 - [Runbook](./RUNBOOK.md) and [operations](./OPERATIONS.md) — diagnosis, recovery, and observability.
 - [Trust model](./TRUST.md) — trust boundaries, risks, and controls.
+
+Public API, implementation, build, and test evidence: [`API.md`](./API.md),
+[`IMPLEMENTATION.md`](./IMPLEMENTATION.md), and [`MODULE_GUIDE.md`](./MODULE_GUIDE.md).
+The older scanner and Batch 5 reports below are dated historical snapshots, not
+current code-status or release-readiness evidence.
 
 > Exact model backend not verifiable from final document text alone.
 
@@ -76,7 +102,6 @@ Out of scope:
   - src/ingestion/s3_connector.cpp
   - src/ingestion/web_crawler_connector.cpp
   - src/ingestion/huggingface_connector.cpp
-  - src/ingestion/schema_validator.cpp
   - src/ingestion/semantic_validator.cpp
   - src/ingestion/deontic_extractor.cpp
   - src/ingestion/agentic_reference_validator.cpp

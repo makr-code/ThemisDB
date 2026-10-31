@@ -1,6 +1,20 @@
+---
+Author: ThemisDB Team
+Created: 2026-06-01
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | header inventory reviewed: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/ethics_ai/ROADMAP.md -->
 
 # Ethics AI Module — Public Header Roadmap
@@ -20,7 +34,7 @@ Tracks public `ethics_ai` API contract stability, header-level coverage work, an
 
 ## Current Status
 
-All headers in `include/ethics_ai/` are present and expose the multi-school ethical reasoning, argument synthesis, discourse memory, profile registry, and LLM cascade routing surface.
+The directory currently contains public headers for ethics types/plugin contracts, profile routing, LDM helper APIs, memory/compression, validation, synthesis, tournament selection, and cascade routing. See `ARCHITECTURE.md` for the inventory. Public declarations do not establish runtime integration; LDM pipeline wiring remains an implementation follow-up in `../../src/ethics_ai/ROADMAP.md`.
 
 ---
 
@@ -28,8 +42,8 @@ All headers in `include/ethics_ai/` are present and expose the multi-school ethi
 
 - [x] Public header surfaces documented in `ARCHITECTURE.md`
 - [x] Canonical cross-links to `src/ethics_ai/` implementation docs established
-- [x] Layer association (**LLM**) marked and verified against `FUTURE_PLAN.md`
-- [x] Namespace layout (`themis::ethics_ai`) documented
+- [x] Layer association (**LLM**) recorded in module documentation; the prior `FUTURE_PLAN.md` reference is not present in the current tree
+- [x] Namespace layout (`themis::plugins::ethics`) documented
 
 ---
 
@@ -38,6 +52,8 @@ All headers in `include/ethics_ai/` are present and expose the multi-school ethi
 - [ ] Per-header deprecation and breaking-change notices aligned with `VERSIONING.md` (Target: 2026-Q3)
 
 ---
+
+> The Q3/Q4 2026 target labels above are original planning dates. Q3 has elapsed; no revised milestone is asserted here. Current header inventory and source/runtime status are in `ARCHITECTURE.md` and `../../src/ethics_ai/ROADMAP.md`.
 
 ## Planned
 

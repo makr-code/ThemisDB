@@ -1,11 +1,10 @@
-> **Status:** 2026-06-01 – mit aktuellem Document-Code (`round_trip_editor.cpp`) abgeglichen.
+> **Source review:** 2026-10-31. Anforderungen unten unterscheiden Modulgarantien von Deployment-Aufgaben; source inspection is not deployment sign-off.
 
 # ThemisDB Document Module - Production Requirements
 
 ## Zweck und Geltungsbereich
 
-Dieses Dokument ist der **kanonische Referenzpunkt für produktive Mindestanforderungen** des Document-Moduls.
-Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Document-Processing und Round-Trip-Editor.
+Dieses Dokument grenzt die im Modulcode vorhandenen Garantien von Anforderungen ab, die ein Produktionsadapter oder Deployment zusätzlich nachweisen muss. Der Modulcode enthält keine vollständige Produktionskonfiguration oder Deployment-Validierung.
 
 ## Dokumentabgrenzung (Canonical Split)
 
@@ -14,37 +13,25 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Document-P
 - **`src/document/ROADMAP.md`:** Lieferphasen, offene/abgeschlossene Features, Readiness-Planung.
 - **`src/document/FUTURE_ENHANCEMENTS.md`:** mittelfristige/langfristige Erweiterungen und Forschungsfelder.
 
-## Verbindliche Produktionsanforderungen
+## Im Modulcode nachgewiesene Grenzen
 
-- **MUST:** Dokument-Input-Validierung aktiv; malformed Dokumente werden mit explizitem Fehlercode abgewiesen.
-- **MUST:** Round-Trip-Editor-Ausgabe gegen Schema validiert bevor Persistierung.
-- **MUST:** Alle sicherheitsrelevanten Konfigurationswerte beim Start validiert; fehlende oder ungültige Werte führen zu Fail-Closed-Verhalten.
-- **MUST NOT:** Sicherheits- oder Autorisierungs-Checks in Produktionspfaden deaktivieren.
+- `InMemoryDocumentStore` hält Datensätze im Prozessspeicher; ein `IDocumentStore` Vertrag allein stellt keine dauerhafte Persistenz bereit.
+- `InMemoryDocumentSchemaEvolution` prüft registrierte Pflichtfelder und JSON-Typen. `StoreBackedRoundTripEditor` ruft diese Validierung nicht selbst auf.
+- Der Round-Trip-Editor speichert Snapshots über die `IDocumentStore` Schnittstelle und gibt Store-Fehler zurück.
+- Die geprüften Dokument-Header implementieren keine deploymentweite Startkonfiguration, Authentisierung/Autorisierung, Ressourcenlimits, externe Verbindungsrichtlinien oder Produktions-Audit-Pipeline.
+- Der XDOMEA-In-Memory-Connector ersetzt keine XSD-Validierung; siehe [SECURITY.md](SECURITY.md).
 
-## Verbindliche Sicherheitsanforderungen
+## TODO für Produktionsintegrationen
 
-- Sicherheitsrelevante Operationen werden über dedizierte Kontroll-Surfaces geleitet.
-- Fehler in sicherheitskritischen Pfaden werden als explizite Fehlercodes propagiert; kein Silent-Permit.
-- Audit-Logging für sicherheitsrelevante Operationen aktiv in Produktionsdeployments.
+Der Betreiber muss für die konkrete Integration nachweisen, dass:
 
-## Betriebsgrenzen
+- ein geeigneter persistenter Store eingesetzt und dessen Ausfall-/Wiederherstellungsverhalten geprüft wird;
+- Autorisierung und Zugriffskontrolle außerhalb der bloßen Dokument-API durchgesetzt werden;
+- benötigte Schema- und XML/XSD-Validierung an der Integrationsgrenze ausgeführt wird;
+- Größen-/Zeitlimits, Fehlerprotokollierung und Audit-Anforderungen konfiguriert sind.
 
-- Konfigurationswerte müssen deployment-spezifisch gesetzt sein; Default-Werte gelten nicht als produktionssicher.
-- Ressourcen-Limits (Größen, Counts, Timeouts) müssen mit den Deployment-Anforderungen übereinstimmen.
-- Externe Abhängigkeiten müssen mit expliziten Verbindungs-Timeouts und Retry-Policies konfiguriert sein.
+Diese Punkte sind Deployment-Anforderungen, keine bereits vom hier geprüften In-Memory-Code garantierten Kontrollen. TODO: den verantwortlichen Integrationsowner und konkrete Nachweise pro Deployment dokumentieren.
 
-## Minimaler Produktions-Check (Audit-fähig)
+## Prüfbasis
 
-- [ ] Modul-Konfiguration vollständig und beim Start validiert
-- [ ] Sicherheits- und Autorisierungs-Checks aktiv
-- [ ] Ressourcen-Limits explizit konfiguriert (keine Unlimited-Defaults)
-- [ ] Audit-Logging aktiv
-- [ ] Externe Abhängigkeiten mit Timeout und Retry konfiguriert
-- [ ] Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt
-
-## Review / Sourcecode-Audit-Nachweis
-
-### Betroffene Dateien im Review
-
-- `src/document/PRODUCTION_REQUIREMENTS.md`
-- `src/document/round_trip_editor.cpp`
+Geprüft am 2026-10-31: `document_store.h`, `document_manager.h`, `document_schema_evolution.h`, `xdomea_connector.h`, `round_trip_editor.h` und `round_trip_editor.cpp`. Keine Produktionsumgebung oder Laufzeitkonfiguration wurde auditiert.

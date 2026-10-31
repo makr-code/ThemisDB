@@ -1,50 +1,67 @@
-# PERFORMANCE_EXPECTATIONS - src/api
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
 
-## Scope
+Exact model backend not verifiable from final document text alone.
 
-- Module: src/api
-- This file defines measurable API module performance expectations for release gating.
+# API Performance Expectations
 
-## Benchmark Reference
+## Benchmark sources
 
-- Relevant benchmark file:
-  - benchmarks/bench_api_endpoints.cpp
-
-## Specific Expectations
-
-| Target ID | Expectation | Benchmark case |
+| Source | Coverage | Limitations |
 |---|---|---|
-| API-1 | GraphQL parse simple uncached path remains within release baseline budget | BM_GraphQL_Parse_Simple_Uncached |
-| API-2 | GraphQL parse simple cached path remains within release baseline budget | BM_GraphQL_Parse_Simple_Cached |
-| API-3 | GraphQL parse complex path remains within release baseline budget | BM_GraphQL_Parse_Complex_Uncached |
-| API-4 | GraphQL invalid-query rejection path remains bounded | BM_GraphQL_Parse_Invalid |
-| API-5 | GraphQL execution path remains within release baseline budget | BM_GraphQL_Execute_MockResolver |
-| API-6 | correlation-id generation and header-check overhead remain bounded | BM_CorrelationId_Generate_UUIDv4, BM_CorrelationId_Header_Check |
-| API-7 | JSON serialization path remains within release baseline budget | BM_Json_Serialize_SingleDocument, BM_Json_Serialize_PaginatedList |
-| API-8 | JSON deserialization and HTTP message build paths remain bounded | BM_Json_Deserialize_PutRequest, BM_HttpMessage_Build_GetRequest, BM_HttpMessage_Build_PostRequest |
-| API-9 | API endpoint hot path remains within release baseline budget | BM_HttpServer_Health_Endpoint, BM_HttpServer_Documents_List_Persistent |
+| [`../../benchmarks/api/bench_api_transport.cpp`](../../benchmarks/api/bench_api_transport.cpp) | Mock-handler transport, response construction, validation, correlation-ID, and sequential-request microbenchmarks | Measures the adapter/helper path, not a running HTTP server |
+| [`../../benchmarks/api/bench_api_release_gates.cpp`](../../benchmarks/api/bench_api_release_gates.cpp) | `TransportPolicyMiddleware`, `ApiErrorTaxonomy`, and `TransportContractValidator` cases (`GATE-API-01..06`) | Source comments state target budgets; benchmark execution alone does not establish that a CI baseline passed |
+| [`../../benchmarks/server/bench_api_endpoints.cpp`](../../benchmarks/server/bench_api_endpoints.cpp) | GraphQL parse/execute, correlation IDs, JSON serialization/deserialization, HTTP message construction, and in-process endpoint roundtrips | Server endpoint cases require their linked runtime dependencies and a usable RocksDB environment |
 
-## Module Hard Gates (v1.0 docs baseline)
+The endpoint benchmark target is registered in `benchmarks/server/CMakeLists.txt`.
+The two API-local targets are registered by `benchmarks/CMakeLists.txt`.
+All are available only when `THEMIS_BUILD_BENCHMARKS` is enabled and Google Benchmark is found.
 
-| Gate ID | Expectation | Measurement |
-|---|---|---|
-| AG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
-| AG-2 | parser/execute/serialization path p99 <= release threshold | p99 from mapped bench_api_endpoints cases |
-| AG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
+## Current cases
 
-## Validation
+The endpoint benchmark source currently defines the following families:
 
-- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
-- For proxy-only targets, keep follow-up benchmark hardening explicitly tracked.
+- GraphQL parse: simple uncached, simple cached, complex uncached, and invalid input.
+- GraphQL execution: parse plus execution with a mock resolver.
+- Correlation ID: UUIDv4 generation and existing-header check.
+- JSON and HTTP: single-document/paginated serialization, PUT deserialization, and GET/POST message construction.
+- HTTP endpoints: health check and persistent document-list roundtrips.
+- Shared transport: GET/POST handling, malformed-request validation, response/header construction, and version negotiation.
+- Transport release gates: valid/rejected policy requests, error-taxonomy conversion, contract validation, and sustained/mixed request loops.
 
-## Sourcecode Verification (Module: api/performance)
+## Mapping caveat
 
-- Verified benchmark source:
-  - benchmarks/bench_api_endpoints.cpp
-- Verified mapping surfaces:
-  - GraphQL parse/execute benchmark cases
-  - correlation and serialization benchmark cases
-  - endpoint hot-path benchmark cases
-- Result:
-  - Referenced benchmark cases exist in current benchmark source.
-  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.
+`benchmarks/benchmark_target_mapping.json` currently assigns several API target labels to
+benchmark cases that do not measure those labels (for example, the WebSocket-subscription,
+concurrent-WebSocket, bulk-insert, and OTLP-flush labels map to JSON serialization or GraphQL
+parsing cases). Do not interpret those entries as direct measurements of the labeled behavior.
+
+TODO: Reconcile the API target labels and primary benchmark cases in the mapping file before using
+those IDs as release evidence. That JSON file is outside this documentation update's requested
+Markdown scope.
+
+## Documented target budgets
+
+`bench_api_release_gates.cpp` documents the following per-operation targets:
+
+| Gate | Case family | Commented target |
+|---|---|---:|
+| GATE-API-01 | Valid GET policy handling | ≤ 5 µs/op |
+| GATE-API-02 | Valid POST policy handling | ≤ 10 µs/op |
+| GATE-API-03 | Oversized-payload rejection | ≤ 5 µs/op |
+| GATE-API-04 | Unsupported-version rejection | ≤ 5 µs/op |
+| GATE-API-05 | Error-code/HTTP-status mapping | ≤ 1 µs/op |
+| GATE-API-06 | Contract validation | ≤ 5 µs/op |
+
+These are targets documented beside the benchmark cases, not a report of measured results. Compare
+benchmark output against the configured release baseline and environment-specific acceptance gate
+before claiming a performance pass.

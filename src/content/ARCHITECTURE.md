@@ -1,44 +1,86 @@
-# Architecture - Content Module
+**Author:** ThemisDB Contributors
+**Created:** 2026-10-31
+**Last Updated:** 2026-10-31
+**Status:** active
+**Source level:** Level 1 — `src/content/`
+**SOT domain:** `module-behavior`
+**Canonical source references:** [manager API](../../include/content/content_manager.h), [manager implementation](content_manager.cpp), [server manager setup](../server/http_server.cpp), [processor-chain config](../../include/content/processor_chain_config.h), [streaming tests](../../tests/content/test_content_streaming_ingestion.cpp), [content test registration](../../tests/content/CMakeLists.txt)
+**Related milestone:** DOC-WEEKLY-2026-44
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** themisdb-doc-orchestrator
+**Human_Review:** false
+**Human_Author:** ThemisDB Contributors
+**Provenance note:** Exact model backend not verifiable from final document text alone.
 
-<!-- Status: current | validated: 2026-09-09 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · MODULE_GAPS_BATCH5.md -->
+# Architecture - Content Module
 
 ## Overview
 
-The content module composes ingestion, extraction, validation, enrichment, and storage-integration surfaces into a unified content-processing runtime. It provides deterministic routing from content type detection through processor execution and post-processing stages.
+The content module exposes raw-blob and stream ingestion, format processors, optional
+enrichment, and storage/index integration through `ContentManager`. Exact behavior depends
+on the registered processor, configured stages, and optional build/runtime dependencies.
+The flow below describes the current manager implementation; it is not a guarantee that
+every optional stage runs for every input.
 
 ## Main Execution Planes
 
-1. Ingestion and routing plane
-- mime/content classification and processor selection
-- sync and async ingestion orchestration paths
+1. Intake and routing
+- `ingestRawBlob()` validates a supplied filename; when MIME is omitted, it attempts
+  content-type detection and then filename-extension lookup.
+- `ingestStream()` validates the detected/header MIME. Line-oriented text formats use the
+  streaming path; other formats are buffered up to `max_buffered_bytes` (default 256 MiB)
+  before using the raw-blob path.
+- The raw-blob manager path does not dispatch every category through the registered
+  `IContentProcessor` map. In the current implementation it has direct HTML/XHTML and
+  Markdown paths, an opt-in OCR path, and a special archive path that consults a
+  registered `ArchiveProcessor`. If no archive processor is registered, the archive is
+  stored with metadata instead of extracted.
+- The server setup currently registers a `TextProcessor`, but this is not evidence that
+  the raw-blob path invokes that processor for all text MIME types.
+- Other public processor classes are not, by their presence alone, evidence of a direct
+  `ContentManager::ingestRawBlob()` route. TODO: map any caller/server/plugin dispatch for
+  the remaining format processors before claiming end-to-end manager extraction support.
 
-2. Validation and security plane
-- schema/format validation and policy enforcement
-- archive/content safety checks and bounded rejection behavior
+2. Processing and persistence
+- Processing builds content metadata and chunk specifications, then uses
+  `importContent()` for persistence.
+- The manager writes content/blob and chunk records through the supplied storage manager;
+  it also writes full-text/vector data when those interfaces and corresponding data are
+  available. Graph relations are added for chunk/parent-child relationships where the
+  relevant path applies.
+- Validation, security, deduplication, and enrichment are capability/configuration
+  dependent. Do not infer that every control or optional enrichment is enabled by default.
 
-3. Extraction and enrichment plane
-- format-specific extraction (text, image, PDF, Office, audio/video)
-- OCR, language, LLM, and embedding integration paths
+3. Retrieval paths
+- `searchContent()` uses the vector-index manager.
+- `searchContentHybrid()` combines the available vector and full-text results using
+  reciprocal-rank fusion; `searchWithExpansion()` traverses graph-index neighbors.
+- These are separate API paths and require the corresponding index dependencies/data.
 
-4. Deduplication and operations plane
-- hash/perceptual deduplication checks
-- metrics, logging, versioning, and plugin extension surfaces
+4. Asynchronous intake
+- `AsyncIngestionWorker` owns worker threads and a bounded queue. It is an optional
+  wrapper around manager calls, not an ingestion thread pool owned by `ContentManager`.
+- A submitted stream is non-owning and must remain alive while the job processes it.
 
 ## Core Contracts
 
 | Contract | Behavior |
 |---|---|
-| ingestion interfaces | deterministic content intake and processor routing |
-| validation/security interfaces | explicit pre-processing gates and failure semantics |
-| extraction/enrichment interfaces | format-aware extraction and optional enhancement paths |
-| operations interfaces | stable metrics/audit/plugin extension behavior |
+| ingestion interfaces | manager methods and registered processor routing |
+| stage configuration | exact MIME configuration, then category configuration, then global defaults |
+| result reporting | `IngestResult` reports required-stage success and any populated stage outcomes |
+| retrieval interfaces | vector, hybrid full-text/vector, and graph-expanded search paths |
 
 ## Failure Semantics
 
-- unsupported or invalid inputs fail with structured content errors.
-- dependency-degraded processors return explicit non-silent failure states.
-- policy/security violations fail closed before downstream processing.
+- `IngestResult` reports success/failure and an error string; callers should inspect
+  per-stage outcomes where populated. A returned content ID alone does not prove that
+  optional enrichment completed.
+- Validation and format behavior depends on the path and enabled dependencies; this
+  document does not claim that every malformed input is rejected by one shared gate.
+- `ProcessorChainConfig` controls stage enablement and retry behavior; the manager's
+  implementation determines how each configured stage is applied.
 
 ## Sourcecode Verification (Module: content/architecture)
 
@@ -60,31 +102,40 @@ The content module composes ingestion, extraction, validation, enrichment, and s
 
 ## Module Dependencies
 
-### Direct Upstream Dependencies (this module uses)
+### Direct manager dependencies
 | Module | Interface / File | Purpose |
 |--------|-----------------|---------|
-| storage | `include/storage/` (blob interfaces) | Persists processed content objects and binary blobs |
-| ingestion | `include/ingestion/` | Sources raw content streams for extraction and routing |
-| utils | `include/utils/` | Logging, compression, MIME helpers, and thread-pool services |
+| storage | `RocksDBWrapper` | Content metadata, blobs, and chunks |
+| index | `VectorIndexManager`, `GraphIndexManager`, `SecondaryIndexManager` | Vector, graph, and full-text operations |
+| security | optional `FieldEncryption` and malware-filter interfaces | Optional integrations passed to or attached to the manager |
 
-### Direct Downstream Consumers (modules that use this module)
-| Module | Via | Notes |
-|--------|-----|-------|
-| server | `server/content_manager.h`, `content_processor.h`, `mime_detector.h` | Exposes content ingest, process, and MIME-type APIs to the server layer |
+`ContentManager`'s constructor takes the storage and three index managers; field encryption
+is optional. Async processing is provided separately by `AsyncIngestionWorker`.
 
 ## Integration Points
 
-### Critical Integration: Storage Blob Persistence
-**Files:** `src/content/content_manager.cpp` ↔ `storage/` (blob interfaces)
-**Contract:** Content objects are stored as blobs through storage interfaces after processing; content module does not own block-layer storage.
-**Thread Safety:** Each content processing pipeline stage uses an independent storage session; concurrent blob writes are serialised by the storage layer.
+### Storage and indexes
+**Sources:** `content_manager.cpp`, `ContentManager` declaration
+**Observed behavior:** `importContent()` writes content/chunk data through the supplied
+storage manager and interacts with the supplied vector, secondary, and graph indexes for
+the corresponding paths. This page makes no claim about independent storage sessions or
+write serialization.
 
-### Critical Integration: Ingestion Feed
-**Files:** `src/content/content_manager.cpp` ↔ `ingestion/ingestion_manager.cpp`
-**Contract:** Ingestion delivers raw data streams to content processing; content module must not call back into ingestion to avoid circular dependencies.
-**Thread Safety:** Hand-off is via queue or callback; content processing runs in its own thread pool.
+### Processor and stage configuration
+`registerProcessor()` stores a non-null processor under its first supported category;
+the current raw-blob manager implementation consults this map in its archive branch.
+`ProcessorChainConfig::getEffectiveConfig()` selects an exact MIME entry, otherwise a
+category entry, otherwise `default_config`; it does not merge entries. Stage defaults and
+JSON forms are defined by the public configuration header.
 
-### Critical Integration: Server Content APIs
-**Files:** `server/content_manager.h`, `server/mime_detector.h` ↔ `include/content/`
-**Contract:** Server delegates content intake and MIME classification to this module; public interfaces must remain stable across server releases.
-**Thread Safety:** All public content API methods are thread-safe under internal locking.
+### Threading boundary
+`AsyncIngestionWorker` has worker threads and queue synchronization. The public
+`ContentManager` declaration does not promise that all manager methods are thread-safe;
+callers must not infer a module-wide locking guarantee from the asynchronous wrapper.
+
+## Validation references
+
+- [Manager contract and caveats](API.md)
+- [Processor-chain contract](../../include/content/processor_chain_config.h)
+- [Streaming ingestion tests](../../tests/content/test_content_streaming_ingestion.cpp)
+- [Focused test registration](../../tests/content/CMakeLists.txt)

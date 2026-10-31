@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/failover/ROADMAP.md -->
 
 # Failover Module — Public Header Roadmap
@@ -20,7 +34,7 @@ Tracks public `failover` API contract stability, header-level coverage work, and
 
 ## Current Status
 
-All headers in `include/failover/` are present and expose the automatic failover management and disaster recovery coordination surface.
+The five headers in `include/failover/` declare automatic failover, disaster-recovery coordination, shared contracts, a local quorum log, and topology snapshots. Runtime status is tracked in [`../../src/failover/ROADMAP.md`](../../src/failover/ROADMAP.md) and root [`../../ROADMAP.md`](../../ROADMAP.md).
 
 ---
 
@@ -28,22 +42,22 @@ All headers in `include/failover/` are present and expose the automatic failover
 
 - [x] Public header surfaces documented in `ARCHITECTURE.md`
 - [x] Canonical cross-links to `src/failover/` implementation docs established
-- [x] Layer association (**Graph**) marked and verified against `FUTURE_PLAN.md`
+- [x] Header inventory aligned to the current five-file public surface
 - [x] Namespace layout (`themis::failover`) documented
 
 ---
 
-## In Progress
+## Open API Documentation Work
 
-- [ ] Per-header deprecation and breaking-change notices aligned with `VERSIONING.md` (Target: 2026-Q3)
+- [ ] Confirm and document any intended API stability/deprecation policy with maintainers; no module-specific deprecation policy is inferred here.
 
 ---
 
 ## Planned
 
-- [ ] API contract index for high-frequency entry points with usage examples (Target: 2026-Q3)
-- [ ] Compatibility matrix (C++17/20 and platform coverage) per header group (Target: 2026-Q4)
-- [ ] CI-enforced compile checks for all public headers (Target: 2026-Q4)
+- [ ] Maintain the API entry-point summary against the public headers.
+- [ ] Add a compatibility matrix only after supported language versions and platforms are established by canonical build configuration.
+- [ ] Confirm whether standalone compile checks for every public header are registered in CI.
 
 ---
 
@@ -51,4 +65,4 @@ All headers in `include/failover/` are present and expose the automatic failover
 
 - [x] Public header surfaces documented
 - [x] Canonical links to implementation docs set
-- [ ] Deprecation annotations consistent
+- [ ] Deprecation/stability policy confirmed by maintainers

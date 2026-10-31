@@ -1,11 +1,22 @@
-> **Status:** 2026-06-01 – mit aktuellem Auth-Code (`api_key_authenticator.cpp`) abgeglichen.
+> **Status:** 2026-10-31 – mit aktuellem Auth-Code (`api_key_authenticator.cpp`) abgeglichen.
 
 # ThemisDB Auth Module - Production Requirements
+
+- **AI_Used:** true
+- **AI_Models:** unknown
+- **AI_Contributor:** GitHub Copilot
+- **Human_Review:** false
+- **Human_Author:** unknown
+Exact model backend not verifiable from final document text alone.
 
 ## Zweck und Geltungsbereich
 
 Dieses Dokument ist der **kanonische Referenzpunkt für produktive Mindestanforderungen** des Auth-Moduls.
 Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für API-Key-Authenticator, Auth-Rate-Limiter, Federated-Identity.
+
+Die folgenden MUST-Anforderungen sind normative Deployment-Anforderungen,
+keine Aussage, dass der Auth-Code sie automatisch erzwingt. Die Implementierung
+und Einbindung müssen pro Deployment geprüft werden.
 
 ## Dokumentabgrenzung (Canonical Split)
 
@@ -41,7 +52,7 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für API-Key-Au
 - [ ] Ressourcen-Limits explizit konfiguriert (keine Unlimited-Defaults)
 - [ ] Audit-Logging aktiv
 - [ ] Externe Abhängigkeiten mit Timeout und Retry konfiguriert
-- [ ] Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt
+- [ ] Produktionsmodus gemäß dem Deployment-Vertrag gesetzt; ein Auth-Modul-Umgebungsvariablenname ist in den geprüften Auth-Quellen nicht belegt
 
 ## Review / Sourcecode-Audit-Nachweis
 

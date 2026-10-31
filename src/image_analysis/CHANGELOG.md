@@ -2,6 +2,7 @@
 
 <!-- Status: current | synchronized: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+<!-- Source level: level 1 | SOT domain: module-behavior -->
 
 # Changelog - Image Analysis Module
 
@@ -11,7 +12,7 @@
 **Status:** active
 **AI_Used:** true
 **AI_Models:** unknown
-**AI_Contributor:** OpenAI ChatGPT
+**AI_Contributor:** GitHub Copilot
 **Human_Review:** false
 **Human_Author:** ThemisDB Contributors
 
@@ -23,7 +24,8 @@ The format is based on Keep a Changelog.
 ## [Unreleased]
 
 ### Changed
-- Reconciled module documentation with the optional-dependency paths and actual test/benchmark source scope; clarified that the checked-in mock benchmarks do not provide real OCR/detection performance evidence.
+- Reconciled module documentation with optional-dependency behavior and actual CMake integration: the local plugin targets are not added by root CMake, while [`tests/CMakeLists.txt`](../../tests/CMakeLists.txt) auto-discovers the module test CMake file.
+- Clarified benchmark registration from [`benchmarks/CMakeLists.txt`](../../benchmarks/CMakeLists.txt): two synthetic targets are registered under `image_analysis`; the third synthetic program is registered under `benchmark_image`. None provides real OCR/detection performance evidence.
 
 ## [1.0.0] - 2026-08-10
 
@@ -49,7 +51,7 @@ The format is based on Keep a Changelog.
   - `tests/integration/test_image_analysis_soak.cpp`
   - `tests/legacy/image/test_image_analysis_interface.cpp`
 - Additional test files under `tests/legacy/image/` and `tests/`.
-- **Benchmark sources (Phase 5)** — three synthetic/mock benchmark programs; they are not real Tesseract or YOLOv8 latency/throughput validation:
+- **Benchmark sources (Phase 5)** — three synthetic/mock benchmark programs; two are registered under benchmark module `image_analysis` and the third under `benchmark_image`. They are not real Tesseract or YOLOv8 latency/throughput validation:
   - `benchmarks/image_analysis/bench_image_analysis.cpp`
   - `benchmarks/image_analysis/bench_image_analysis_latency.cpp`
   - `benchmarks/image_analysis/benchmark_image_analysis.cpp`

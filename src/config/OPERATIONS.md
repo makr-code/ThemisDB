@@ -1,68 +1,65 @@
 ---
-Author: "ThemisDB Team"
+Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
 Human_Review: false
-Human_Author: "ThemisDB Team"
+Human_Author: "ThemisDB Contributors"
 ---
 
 Exact model backend not verifiable from final document text alone.
 
 # Config Module Operations
 
-## Purpose and operational boundary
+## Boundary
 
-This page describes routine deployment and monitoring for config-module
-surfaces. The module resolves paths, validates data, reports file changes,
-exports counters, and stores encrypted values in memory. It does not manage
-deployment rollout, guarantee that a consumer applied a reload, or provide a
-durable external audit backend.
+This guide covers the module-level APIs only. `src/config` resolves paths,
+parses/validates data, emits file-change notifications, exports resolver
+counters, retains optional in-memory path audit entries, and stores encrypted
+values in process memory. It does not own application rollout, reload/apply
+transactions, external secret management, or durable audit storage.
 
-## Startup and configuration
+## Environment and resolver cache
 
-- Set `THEMIS_CONFIG_ENV` explicitly for deployments. Supported values are
-  `dev`, `staging`, and `prod`; the default and invalid-value fallback is
-  `prod`.
-- Confirm expected files and schemas are readable by the service identity and
-  pass validation before enabling dependent services.
-- Resolver cache defaults are 1,000 entries with a 300-second TTL. The
-  implementation also recognizes `THEMIS_CONFIG_CACHE_SIZE` and
-  `THEMIS_CONFIG_CACHE_TTL`; inspect startup logs for invalid or out-of-range
-  values.
-- If file-change reload is needed, start the watcher on an existing directory
-  and check the returned status. The default debounce is 200 ms. Registering
-  SIGHUP is a separate POSIX mechanism.
+- `THEMIS_CONFIG_ENV` accepts `dev`, `staging`, or `prod` (case-normalized).
+  Absent, invalid-character, or unknown values select `prod`.
+- Cache defaults are 1,000 entries and 300 seconds. Optional process-start
+  variables are `THEMIS_CONFIG_CACHE_SIZE` (accepted range 10–100,000) and
+  `THEMIS_CONFIG_CACHE_TTL` (1–86,400 seconds). Invalid values fall back to
+  defaults. These are read during static initialization; set them before
+  process startup.
+- `setEnvironment()` clears the shared resolver cache. Do not assume changing
+  an environment variable after initialization changes the active environment.
 
-## Health signals
+## Signals and observability
 
-- Monitor resolver resolution hits/misses, legacy fallbacks, unmapped requests,
-  and cache hits/misses. A rising fallback count is a migration signal; an
-  unmapped path or growing miss rate may indicate bad deployment configuration.
-- `ConfigMetricsExporter::collect()` provides Prometheus exposition. When
-  registering collectors, use a stable registry and avoid unbounded label
-  values.
-- Enable the resolver audit log only when operationally required. It is
-  disabled by default, retains at most 10,000 entries by default, and records
-  path-level resolution details in process memory; it is not durable audit
-  evidence.
-- Watcher logs indicate start failures and callback errors. A successful watcher
-  only establishes change notification and cache invalidation, not successful
-  service reload.
+- `ConfigMetricsExporter::collect()` emits resolver/cache counters and gauges
+  in Prometheus text format. Registry integration is provided when available
+  in the build.
+- Resolver audit logging is disabled by default; its default maximum is
+  10,000 in-memory successful-resolution records. Entries include requested and
+  resolved paths, timestamp, legacy-fallback and cache-hit flags, not operator
+  identity or a durable change history.
+- Watcher startup takes a directory path and debounce interval (default
+  200 ms). `startHotReload()` returns false on failure; a successful start only
+  enables notification/cache clearing.
+- `registerSighupHandler()` is a separate POSIX API and must be called by the
+  application. SIGHUP clears the resolver cache on a subsequent resolution;
+  it does not reload settings. Windows treats registration as a no-op.
 
-## Recovery and rollback
+## Safe handling
 
-For missing paths or invalid schemas, correct or roll back the deployment
-configuration and validate it before the service consumes it. For watcher
-failure, use the owning service's supported restart/reload procedure or the
-POSIX SIGHUP cache-clear mechanism where applicable; verify the new config was
-actually loaded. For encrypted-store errors, stop unsafe writes and restore only
-from a protected, verified snapshot. Do not delete or replace key material
-without preserving recoverability.
+- Validate actual files with the consuming service's schema/configuration
+  rules; do not infer service readiness from resolver success.
+- Restrict access to filesystem config paths and redact sensitive values from
+  logs and tickets.
+- Treat `ConfigEncryptedStore::serialize()` output as secret key material: the
+  serialized JSON contains the store's key bytes.
+- Confirm settings were loaded, validated and applied by the owner after a
+  watcher event or cache clear.
 
-Use [`RUNBOOK.md`](RUNBOOK.md) for incident steps and
-[`PRODUCTION_REQUIREMENTS.md`](PRODUCTION_REQUIREMENTS.md) for the module's
-production requirements.
+For symptom-driven steps see [`RUNBOOK.md`](RUNBOOK.md); for data boundaries
+see [`TRUST.md`](TRUST.md).

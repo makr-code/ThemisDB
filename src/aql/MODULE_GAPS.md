@@ -1,12 +1,31 @@
-# aql — MODULE_GAPS.md (Phase 5 Verified)
+---
+Author: "ThemisDB Team"
+Created: "2026-08-24"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-This file documents all documentation and code quality gaps in the **aql** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
+Exact model backend not verifiable from final document text alone.
+
+# aql — MODULE_GAPS.md (Historical Phase 5 Scan Snapshot)
+
+This file preserves a gap-scanner report from the 2026-08-24 Phase 5 run. Its
+counts, line numbers, severities, and completion notes are historical scan
+output, not a current inventory or verified statement about the working tree.
+The scanner's reported totals are not independently reproducible from this
+document. Do not treat it as the current audit record; see
+[`AUDIT.md`](AUDIT.md) for the scope of the 2026-10-31 documentation review.
 
 ## Summary
 
-- **Total Gaps (original scan)**: 1993
+- **Total Gaps (original scan report)**: 1993 (historical scanner output; not revalidated)
 - **Gaps Closed (2026-08-24 Wave A–D batch)**: 9 confirmed code gaps + 7 scanner false positives documented
-- **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
+- **Status**: Historical scan artifact; current findings unverified
 - **Last Updated**: 2026-08-24 (Wave A–D gap closure batch)
 
 ### By Severity
@@ -92,7 +111,9 @@ Closed high-confidence production gaps in this batch:
 
 ---
 
-**Phase 5 Verification Notes**: External GitHub submodules (llama.cpp, whisper.cpp, vcpkg, etc.) are explicitly excluded from this analysis via Phase 5 filtering. This ensures all gaps are from themis_core (100% scope accuracy).
+**Historical Phase 5 scanner note**: The report says external GitHub submodules
+(llama.cpp, whisper.cpp, vcpkg, etc.) were excluded. That filtering result and
+the stated scope accuracy were not independently validated in this review.
 
 ---
 

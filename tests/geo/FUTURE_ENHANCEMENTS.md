@@ -1,37 +1,27 @@
-> **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
+# Geo test-suite future work
 
-# FUTURE_ENHANCEMENTS
+## Scope
 
-## tests/geo
+This file tracks candidate additions to
+`tests/geo/`. The source's focused test
+registration is defined in
+`tests/geo/CMakeLists.txt`.
 
-### Scope
-- Ausbau der Modulfähigkeiten in `tests/geo` für Stabilität, Wartbarkeit und Betriebsreife.
-- Schließen dokumentierter Funktions- und Qualitätslücken.
+## Evidence-based candidate
 
-### Design Constraints
-- Rückwärtskompatibilität zu bestehenden Modulverträgen sicherstellen.
-- Kein Sicherheits- oder Compliance-Regression durch Erweiterungen.
-- Deterministisches, nachvollziehbares Fehlerverhalten beibehalten.
+- Add a dedicated test for `GeoFaissKnn`. The public API exists in
+  `include/geo/geo_faiss_knn.h`, and
+  `src/geo/EMBEDDING.md` documents that no
+  module test or benchmark currently covers it. Cover point-only input
+  filtering, mapping results back to original input indices, query/radius
+  behavior, and backend reporting. This is a proposed test, not existing
+  coverage or a measured performance target.
 
-### Required Interfaces
-- Öffentliche APIs/CLI/Config-Verträge bleiben klar versioniert.
-- Interne Schnittstellen werden explizit dokumentiert und getestet.
+**TODO:** Assign an implementation issue/owner and agree on the build variants
+before setting a delivery date. Other test gaps should be added only with
+specific source/API evidence and an acceptance test.
 
-### Implementation Notes
-- Erweiterungen inkrementell in kleinen, überprüfbaren Schritten liefern.
-- Abhängigkeiten minimieren und vorhandene Infrastruktur wiederverwenden.
-- Observability (Logs/Metriken/Tracing) für neue kritische Pfade ergänzen.
+---
 
-### Test Strategy
-- Unit-Tests für neue Kernlogik und Fehlerpfade.
-- Integrations-/End-to-End-Tests für modulübergreifende Flows.
-- Regressionstests für bereits ausgelieferte Funktionalität.
-
-### Performance Targets
-- Keine signifikante Regression in Latenz/Throughput gegenüber Baseline.
-- Kritische Pfade mit reproduzierbaren Benchmarks absichern.
-
-### Security / Reliability
-- Security-Reviews für neue Eingabe- und Integrationsflächen.
-- Robuste Fehlerbehandlung, Timeouts und Recovery-Verhalten sicherstellen.
-- Relevante Änderungen durch Audit-Artefakte nachvollziehbar machen.
+**AI_Used:** true · **AI_Models:** unknown · **AI_Contributor:** GitHub Copilot coding agent · **Human_Review:** false · **Human_Author:** ThemisDB Contributors
+Exact model backend not verifiable from final document text alone.

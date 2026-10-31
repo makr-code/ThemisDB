@@ -1,4 +1,23 @@
-> **Status:** 2026-06-01 – mit aktuellem Cdc-Code (`changefeed.cpp`) abgeglichen.
+---
+Author: "ThemisDB Contributors"
+Created: "unknown"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> **Hinweis zum Nachweis:** Dieses Dokument formuliert normative Anforderungen,
+> ist aber kein Beleg dafür, dass jeder Punkt im aktuellen Code erzwungen oder
+> in einem Deployment umgesetzt wird. Die frühere Code-Abgleich-Angabe vom
+> 2026-06-01 wurde in diesem Dokumentationsreview nicht erneut validiert.
+
+> **AI-Provenienz:** AI_Used: true; AI_Models: unknown; AI_Contributor:
+> GitHub Copilot; Human_Review: false; Human_Author: ThemisDB Contributors.
+> Exact model backend not verifiable from final document text alone.
 
 # ThemisDB Cdc Module - Production Requirements
 

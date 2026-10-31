@@ -1,12 +1,12 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "MAI-Code-1.1-Flash"
-AI_Contributor: "MAI-Code-1.1-Flash"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
@@ -45,7 +45,10 @@ A request enters through an adapter-specific entry point and then flows through 
 4. business dispatch or stream setup
 5. response serialization and observability emission
 
-This can be seen in the middleware and server flows: `TransportPolicyMiddleware` checks protocol-level constraints before the inner handler is called, and the WebSocket handler validates both auth and query-string filtering before upgrading the connection.
+This can be seen in the middleware and server flows: `TransportPolicyMiddleware` checks its
+configured constraints before calling the inner handler when installed in that handler chain.
+`WsChangeHandler` validates CDC authorization and query parameters, then returns an upgrade
+decision; the host server performs the actual protocol upgrade.
 
 ## Primary contract objects
 

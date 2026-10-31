@@ -1,7 +1,14 @@
 # ThemisDB Auth Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+
+- **AI_Used:** true
+- **AI_Models:** unknown
+- **AI_Contributor:** GitHub Copilot
+- **Human_Review:** false
+- **Human_Author:** unknown
+Exact model backend not verifiable from final document text alone.
 
 ## Module Purpose
 

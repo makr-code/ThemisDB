@@ -53,7 +53,7 @@ Useful implementation entry points:
   proof of CPU computation without an execution path that actually performs
   the work.
 
-The dispatch error taxonomy and frozen behavior are documented in
+The dispatch error taxonomy and declared bounds are summarized in
 [`GPU_CONTRACT.md`](../../include/gpu/GPU_CONTRACT.md).
 
 ## Change validation

@@ -1,32 +1,52 @@
 ---
-Author: "ThemisDB Team"
-Created: "2026-10-18"
-Last Updated: "2026-10-18"
-Status: "active"
+Author: ThemisDB Contributors
+Created: 2026-10-18
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: OpenAI
+Human_Review: false
+Human_Author: ThemisDB Contributors
 ---
 
-# Chaos in ThemisDB
+Exact model backend not verifiable from final document text alone.
 
-## Ueberblick
-Das Modul chaos stellt in-process fault injection and deterministic chaos scheduling surfaces for resilience testing and controlled failure simulation in ThemisDB environments. Im Modulkontext werden Aussagen mit [Architekturgrenzen](./ARCHITECTURE.md), [Release-Planung](./ROADMAP.md), [Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md) abgeglichen. Im Betrieb sind dabei insbesondere [Latenz](https://en.wikipedia.org/wiki/Latency_(engineering)), [Observability](https://en.wikipedia.org/wiki/Observability) und [Determinismus](https://en.wikipedia.org/wiki/Deterministic_algorithm) relevante Qualitaetskriterien. Fuer Querschnittskontext wird das Modul mit den relevanten Stellen im [Compendium](./../../docs/compendium/docs/index.md) verknuepft.
+# Chaos module capabilities
 
-## Kern-Features im Detail
-Die erste Kernfaehigkeit ist **fault injection registry and scheduler runtime implementation**. Das beschreibt einen konkreten, in den Modulquellen referenzierten Verantwortungsbereich.
+## Purpose and audience
 
-Die zweite Kernfaehigkeit ist **process fault lifecycle registration and recovery controls**. Dadurch bleiben Integrationspfade zwischen Modulgrenzen reproduzierbar und operativ auswertbar.
+This page summarizes source-visible capabilities for developers integrating
+chaos simulation into tests. It is not a claim that the module produces real
+infrastructure failures or is a production control plane.
 
-Die dritte Kernfaehigkeit ist **driven fault activation**. Das unterstuetzt stabile Abnahme- und Aenderungsprozesse entlang der Modul-Roadmap.
+## Implemented surface
 
-```mermaid
-flowchart LR
-    A[Produktanforderung] --> B[Chaos Modul]
-    B --> C[Implementierung und Integrationspfade]
-    C --> D[Test- und Betriebsnachweise]
-    D --> E[Kundennutzen im Betrieb]
-```
+- `FaultInjector` stores, queries, expires, and recovers process-local fault
+  descriptors identified by target and fault type.
+- `ChaosScheduler` queues time-triggered descriptors and checks for due entries
+  using a configured tick and wake strategy.
+- Registered callbacks receive synchronous injection/recovery notifications.
+- Server files contain guarded `/admin/chaos/*` handler/route code. **TODO:**
+  validate the optional build; CMake scopes `THEMIS_CHAOS_ADMIN` to
+  `themis_server` although `http_server.cpp` is compiled into `themis_core`, and
+  route setup uses a `ChaosScheduler` constructor not declared by the API.
+  CMake defaults the option to `OFF`.
 
-## Kundennutzen und Abgrenzung
-Kundinnen und Kunden erhalten damit vor allem besser planbares Systemverhalten, kuerzere Eingrenzungszeiten bei Stoerungen und transparentere Release-Risiken. Diese Seite ist ein fachlich-kommunikativer Ueberblick; normative API-, Compliance- und Freigabeaussagen verbleiben in den kanonischen Modulquellen.
+The runtime does not enact the fault labels against network or disk I/O. It
+does not enforce all limits recommended in `include/chaos/chaos_contract.h`;
+callbacks are not exception-isolated, and pending entries are not capacity
+bounded.
 
-## Einordnung und Quellen
-Primaere modulnahe Quellen: [README.md](./README.md), [ARCHITECTURE.md](./ARCHITECTURE.md), [ROADMAP.md](./ROADMAP.md), [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md), [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md), [SECURITY.md](./SECURITY.md). Sekundaere Querschnittsquellen: [docs/chaos/README.md](./../../docs/chaos/README.md), [Compendium Index](./../../docs/compendium/docs/index.md). Aussagen wurden auf diese Quellenbasis begrenzt; bei fehlenden Modulquellen werden keine weitergehenden Produktclaims ergänzt.
+## Value and limitations
+
+The idea that these APIs improve customer outcomes, incident response, or
+release predictability is **TODO/assumption**; no such outcome is established by
+the module code or the benchmark source. Benchmarks declare scenarios and
+threshold counters, but successful measurements are not established here.
+
+Canonical evidence: [`README.md`](README.md),
+[`ARCHITECTURE.md`](ARCHITECTURE.md),
+[`../../include/chaos/chaos_framework.h`](../../include/chaos/chaos_framework.h),
+[`../../src/chaos/chaos_framework.cpp`](chaos_framework.cpp), and
+[`../../benchmarks/chaos/README.md`](../../benchmarks/chaos/README.md).

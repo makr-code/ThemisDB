@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -13,7 +13,7 @@ Human_Author: "ThemisDB Team"
 > Exact model backend not verifiable from final document text alone.
 
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Historical validation annotation: 2026-05-31; current executable evidence is tracked in MODULE_EVIDENCE.md. -->
 
 # ThemisDB Core Module
 
@@ -40,7 +40,7 @@ The Core module provides the foundational cross-cutting concerns infrastructure 
 - Dependency injection infrastructure via ConcernsContext
 - Pluggable adapter interfaces for external frameworks
 - Configuration-driven initialization
-- Production-safe defaults with environment detection
+- Production-mode checks that enforce configured adapter constraints
 
 **Out of Scope:**
 - Data storage and persistence (handled by storage module)
@@ -56,21 +56,23 @@ The Core module provides the foundational cross-cutting concerns infrastructure 
 Central hub for managing cross-cutting concerns using the Service Locator + Dependency Injection patterns.
 
 ```cpp
-// Create a production-ready context with real implementations
+// Create a context using the configured adapters
 auto context = ConcernsContext::create(config);
 
 // Access concerns
 context->logger().info("Database started");
 auto span = context->tracer().startSpan("query_execution");
 context->metrics().incrementCounter("requests_total");
-context->cache().set("key", "value");
+context->cache().put("key", CacheEntry{"value"});
 span->end();
 ```
 
 **Features:**
-- Thread-safe immutable context after creation
+- Context owns adapters; runtime replacement is supported, and replacement-aware
+  callers can use `resolve<T>()` shared handles.
 - Factory methods for different environments (production, testing, custom)
-- Lazy initialization for optional components
+- Configuration-based selection of tracer, metrics, cache, secrets, feature-flag,
+  audit-log, and circuit-breaker adapters
 - Environment variable detection for production mode
 
 ### Core Interfaces
@@ -97,8 +99,8 @@ logger->debug("Query plan: {}", query_plan);
 Distributed tracing abstraction for request correlation and performance analysis.
 
 **Adapters:**
-- `OtelTracerAdapter` - OpenTelemetry integration for distributed tracing
-- `NoOpTracer` - Zero-overhead implementation
+- `OpenTelemetryTracerAdapter` - OpenTelemetry integration for distributed tracing
+- `NoOpTracer` - No-op implementation
 
 **Usage:**
 ```cpp
@@ -114,7 +116,7 @@ Metrics collection interface for monitoring and alerting.
 
 **Adapters:**
 - `PrometheusMetricsAdapter` - Prometheus metrics format
-- `NoOpMetrics` - Zero-overhead implementation
+- `NoOpMetrics` - No-op implementation
 
 **Usage:**
 ```cpp
@@ -136,11 +138,11 @@ Generic caching abstraction supporting multiple eviction strategies.
 
 **Usage:**
 ```cpp
-if (auto value = cache->get("query_result:123")) {
-    return *value;
+if (auto entry = cache->get("query_result:123")) {
+    return entry->payload;
 }
 auto result = execute_query();
-cache->set("query_result:123", result);
+cache->put("query_result:123", CacheEntry{result});
 ```
 
 ### Security Initialization
@@ -203,7 +205,8 @@ Provides secure initialization routines for cryptographic components and key man
 ### Error Cases
 - Invalid configuration throws `std::runtime_error` with formatted validation errors (e.g., invalid adapter names or broken tracing endpoint settings).
 - Passing `nullptr` to runtime `replace*` methods throws `std::invalid_argument`.
-- Enabling `cacheAdapter="redis"` without a usable Redis URL falls back to in-memory cache behavior.
+- `cacheAdapter="redis"` with an empty `cacheRedisUrl` is rejected by
+  `ConfigValidator`; it does not fall back to in-memory cache.
 
 ### Limits
 - `maxMetricCardinality` defaults to `1000` label combinations per metric name to guard against memory blow-ups.
@@ -272,12 +275,12 @@ void processRequest(Request req, std::shared_ptr<ConcernsContext> ctx) {
     // Check cache
     if (auto cached = ctx->cache().get(req.cache_key())) {
         ctx->metrics().incrementCounter("cache_hits");
-        return *cached;
+        return cached->payload;
     }
 
     // Process and cache result
     auto result = doWork(req);
-    ctx->cache().set(req.cache_key(), result);
+    ctx->cache().put(req.cache_key(), CacheEntry{result});
 
     span->end();
 }
@@ -350,15 +353,16 @@ export THEMIS_ENVIRONMENT=production
 ## Performance Characteristics
 
 ### Memory Footprint
-- **ConcernsContext**: ~200 bytes (shared pointers to adapters)
-- **No-op implementations**: Near-zero overhead (inline no-ops)
-- **Cache**: Configurable (default 100MB for InMemoryCacheImpl)
+- **ConcernsContext**: No measured object-size figure is asserted here; the context owns its concern adapters.
+- **No-op implementations**: Avoid backend operations; no measured latency claim is made here
+- **Cache**: In-memory cache capacity is configured by `cacheMaxSize` (default
+  10,000 entries); this is an entry limit, not a byte-size guarantee.
 
 ### CPU Overhead
-- **No-op adapters**: <1ns per call (optimized away by compiler)
-- **Spdlog adapter**: ~50-100ns per log call (async mode)
-- **Prometheus metrics**: ~200-500ns per metric update
-- **OTEL tracing**: ~1-5μs per span creation
+
+This page does not provide measured Core benchmark results. See
+[`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md) for the current
+benchmark inventory and evidence limitations.
 
 ### Recommendations
 - Use no-op implementations for hot paths (e.g., tight loops)
@@ -394,18 +398,21 @@ export THEMIS_ENVIRONMENT=production
 
 ## Status
 
-**Production Ready** (validated 2026-05-31)
+This overview is not a release-readiness attestation. Delivered scope is tracked in
+[`ROADMAP.md`](ROADMAP.md); executable build/test evidence is tracked separately in
+[`MODULE_EVIDENCE.md`](MODULE_EVIDENCE.md).
 
 ✅ **Stable Features:**
 - Core interfaces (ILogger, ITracer, IMetrics, ICache)
 - ConcernsContext factory and reconfiguration methods
-- Adapter implementations (spdlog, OTEL, Prometheus)
+- Adapter implementations (spdlog, OpenTelemetry, Jaeger, Zipkin, Prometheus)
 - Production mode detection
-- Thread-safe operations
+- Adapter resolution and replacement synchronization via `std::shared_mutex`; other thread-safety guarantees depend on each adapter and API usage
 - Secrets, feature flags, and audit concerns in DI context
 
 ⚠️ **Operational Caveats:**
-- Plugin-based adapter loading still pending
+- Plugin-based adapter loading is implemented through `AdapterRegistry::loadFromPlugin()`;
+  see [`ROADMAP.md`](ROADMAP.md) and [`TRUST.md`](TRUST.md) for scope and trust limits.
 - Audit durability depends on selected audit adapter
 
 🔬 **Active Evolution:**

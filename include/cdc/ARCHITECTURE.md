@@ -1,86 +1,58 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/cdc/ARCHITECTURE.md -->
-
-# CDC (Change Data Capture) Module — Public Header Architecture
-
-**Module Path:** `include/cdc/`  
-**Implementation:** `../../src/cdc/`  
-**Canonical architecture doc:** [`../../src/cdc/ARCHITECTURE.md`](../../src/cdc/ARCHITECTURE.md)
-
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source level: "level1"
+SOT domain: "api-contract"
+Canonical source references: "include/cdc/README.md; include/cdc/cdc_delivery_contract.h; include/cdc/changefeed.h; include/cdc/consumer_group.h; include/cdc/outbox.h"
+Related milestone: "DOC-WEEKLY-2026-44"
 ---
 
-## 1. Overview
+# CDC public-header architecture
 
-`include/cdc/` defines the **public change feeds, delivery guarantees, Kafka CDC, Debezium format, fan-in, replay, pause/resume, WebSocket transport, and outbox pattern API contract** for ThemisDB.
+`include/cdc/` declares interfaces used by the CDC feed and its surrounding
+delivery components. The implementation and data flow are described in
+[`../../src/cdc/ARCHITECTURE.md`](../../src/cdc/ARCHITECTURE.md); the complete
+header inventory is in [`README.md`](./README.md).
 
-For runtime composition and implementation internals see:
-→ [`../../src/cdc/ARCHITECTURE.md`](../../src/cdc/ARCHITECTURE.md)
+## Interface groups
 
----
+- **Feed and persistence:** `Changefeed` is declared in namespace `themis`;
+  `ChangefeedBuffer` shares the feed event type and buffering APIs.
+- **Delivery and replay:** `DeliveryTracker`, `ConsumerGroupManager`, and
+  `ICDCReplayController` expose separate acknowledgement, group-offset, and
+  replay-session mechanisms.
+- **Transport:** `ICDCTransport` defines `start`, `stop`, and `publish`.
+  `KafkaCDCProducer` and `WsTransport` are conditional on their build flags.
+- **Durable failure handling:** `OutboxWriter` writes with a caller-provided
+  RocksDB transaction; `OutboxRelay` forwards records later. These stages are
+  not one atomic operation. `DeadLetterQueue` exposes a separate failure queue.
+- **Operations:** `CDCAdmin` and `CDCMetrics` expose control, diagnostic, and
+  metric data structures; the deployment determines how these are authorized
+  and exported.
+- **Event transformations and integration:** schema encoding, filtering,
+  fan-in, compression, cross-collection streams, and materialized-view
+  maintenance are separate interfaces rather than an implicit end-to-end
+  pipeline.
 
-## 2. Header Groups
+Most public types reside in `themis::cdc`; `Changefeed` and
+`ChangefeedBuffer` are in `themis`. See the declarations for exact names,
+ownership, and feature guards. `cdc_delivery_contract.h` is the canonical
+source for sequence, delivery, replay, and transport-failure invariants.
 
-### 2.1 Core CDC API
+## Source references
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `changefeed.h` | `Changefeed` | Primary change-feed subscription entry point |
-| `changefeed_buffer.h` | `ChangefeedBuffer` | Bounded change-event buffer |
-| `cdc_admin.h` | `CDCAdmin` | Admin API for feed lifecycle management |
-| `cdc_error.h` | `CDCError` | Typed CDC error codes |
-| `cdc_metrics.h` | `CDCMetrics` | Change-feed telemetry and counters |
-| `cdc_ws_handler.h` | `CDCWSHandler` | WebSocket handler for change events |
-### 2.2 Delivery and Reliability
+- [CDC public header inventory](./README.md)
+- [Delivery contract](./cdc_delivery_contract.h)
+- [Feed API](./changefeed.h)
+- [Consumer-group API](./consumer_group.h)
+- [Outbox API](./outbox.h)
+- [Implementation architecture](../../src/cdc/ARCHITECTURE.md)
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `icdc_backpressure_signal.h` | `ICDCBackpressureSignal` | Back-pressure signalling interface |
-| `icdc_batch_commit_coordinator.h` | `ICDCBatchCommitCoordinator` | Batched commit coordination |
-| `icdc_pause_control.h` | `ICDCPauseControl` | Feed pause and resume control |
-| `icdc_replay_controller.h` | `ICDCReplayController` | Historical replay from checkpoint |
-| `delivery_tracker.h` | `DeliveryTracker` | At-least-once delivery tracking |
-| `dead_letter_queue.h` | `DeadLetterQueue` | Failed-delivery quarantine queue |
-| `idelivery_guarantee_config.h` | `IDeliveryGuaranteeConfig` | Delivery-guarantee configuration interface |
-| `outbox.h` | `Outbox` | Transactional outbox for durable CDC |
-### 2.3 Schema and Format
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `icdc_event_schema.h` | `ICDCEventSchema` | Event schema contract interface |
-| `debezium_format.h` | `DebeziumFormat` | Debezium-compatible change event serialisation |
-| `schema_registry.h` | `SchemaRegistry` | Schema registry client for CDC events |
-| `icdc_filter_pipeline.h` | `ICDCFilterPipeline` | Composable event filter pipeline |
-### 2.4 Transport and Fan-out
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `kafka_cdc_producer.h` | `KafkaCDCProducer` | Kafka producer for change events |
-| `icdc_transport.h` | `ICDCTransport` | Pluggable transport interface |
-| `ws_transport.h` | `WSTransport` | WebSocket transport adapter |
-| `icdc_fan_in.h` | `ICDCFanIn` | Multi-source fan-in aggregator |
-| `cross_collection_stream.h` | `CrossCollectionStream` | Cross-collection change stream |
-| `consumer_group.h` | `ConsumerGroup` | Consumer group coordination |
-| `tenant_buffer_manager.h` | `TenantBufferManager` | Per-tenant event buffer management |
-| `change_stream_compressor.h` | `ChangeStreamCompressor` | Lossless change stream compression |
-### 2.5 Derived Views
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `cdc_materialized_view.h` | `CDCMaterializedView` | CDC-driven materialised view maintenance |
-
----
-
-## 3. Namespace Layout
-
-All public types reside in the `themis::cdc` namespace (or a sub-namespace).
-
----
-
-## 4. Contract Notes
-
-- Headers in `include/cdc/` expose the **stable public API**; internal types live in `src/cdc/`.
-- Clients depend only on types declared here; implementation details in `src/` may change without notice.
-- For breaking-change policy see [`../../VERSIONING.md`](../../VERSIONING.md).
-- Layer association: **Graph/Tensor**.
+**Exact model backend not verifiable from final document text alone.**

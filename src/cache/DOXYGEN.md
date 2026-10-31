@@ -2,8 +2,17 @@
 
 Author: ThemisDB Contributors
 Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+Last Updated: 2026-10-31
+Status: archived
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot Coding Agent
+Human_Review: false
+Human_Author: ThemisDB Team
+
+Exact model backend not verifiable from final document text alone.
+
+> **Archived generated snapshot:** the inventory and signatures below came from Doxygen XML dated 2026-09-20. They are not verified against the current tree. Use `include/cache/*.h` as the current API authority and regenerate this snapshot from current XML before relying on its symbol inventory.
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
@@ -8770,4 +8779,3 @@ Status: active
 - Source: `tests/cache/test_cache_eviction_multilevel_hardening.cpp`:86
 - Brief: n/a
 - Parameters: none
-

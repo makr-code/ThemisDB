@@ -1,14 +1,14 @@
 **Author:** ThemisDB Team
 **Created:** 2026-10-30
-**Last Updated:** 2026-10-30
+**Last Updated:** 2026-10-31
 **Status:** active
 **Source level:** Level 1 — `src/content/`
 **SOT domain:** `module-behavior`
-**Canonical source references:** [manager implementation](content_manager.cpp), [manager API](../../include/content/content_manager.h), [processor chain](../../include/content/processor_chain_config.h), [streaming tests](../../tests/content/test_content_streaming_ingestion.cpp), [architecture](ARCHITECTURE.md)
+**Canonical source references:** [manager implementation](content_manager.cpp), [server manager setup](../server/http_server.cpp), [manager API](../../include/content/content_manager.h), [processor chain](../../include/content/processor_chain_config.h), [streaming tests](../../tests/content/test_content_streaming_ingestion.cpp), [architecture](ARCHITECTURE.md)
 **Related issue:** #7109
 **AI_Used:** true
 **AI_Models:** unknown
-**AI_Contributor:** GitHub Copilot
+**AI_Contributor:** GitHub Copilot; themisdb-doc-orchestrator
 **Human_Review:** false
 **Human_Author:** ThemisDB Team
 **Provenance note:** Exact model backend not verifiable from final document text alone.
@@ -30,9 +30,14 @@ See [architecture](ARCHITECTURE.md).
 - MIME selection uses a detected content type when the caller omits one, then tries a
   filename extension. If no MIME can be selected, ingestion returns an unsuccessful
   result.
-- The selected category determines the processor route. Archive handling has a specific
-  path; if no archive processor is registered, the current code stores the archive as a
-  blob with metadata rather than extracting it.
+- The current raw-blob manager path does not dispatch every category through the
+  registered `IContentProcessor` map. It directly handles HTML/XHTML, Markdown, and
+  opt-in OCR; the archive path consults a registered `ArchiveProcessor`. If no archive
+  processor is registered, it stores the archive with metadata rather than extracting it.
+- The manager source does not directly invoke PDF, Office, image, audio, video, CAD, or
+  geospatial extraction classes. The current server setup registers a `TextProcessor`,
+  but that does not establish an end-to-end route for every text MIME type. TODO: verify
+  caller/server/plugin integration before claiming routes for the remaining processors.
 - The pipeline builds metadata/chunk specifications and calls `importContent()` for
   persistence. The `IngestResult` carries success, IDs, an error string, and
   per-stage outcomes where populated.

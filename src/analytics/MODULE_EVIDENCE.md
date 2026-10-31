@@ -1,14 +1,36 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Analytics Module - Build and Test Evidence
 
-<!-- Status: current | validated: 2026-08-19 -->
+> **Historical evidence record:** The build and test output below is from
+> 2026-07-18. This documentation update did not rerun that build or test, so
+> this record is not evidence that the current revision passes. The test-source
+> inventory and header counts below were checked on 2026-10-31; they do not
+> establish test or Doxygen coverage.
+
+<!-- Historical evidence record; section dates identify the recorded validations. -->
 <!-- Issue: #5627 (Development Status 2026-07-18) -->
 <!-- Links: ROADMAP.md · FUTURE_ENHANCEMENTS.md · README.md -->
 
 ## Evidence Summary
 
-This document provides build and test evidence for the analytics module's current state and validates synchronization with ROADMAP.md and FUTURE_ENHANCEMENTS.md.
+This document preserves dated build, test, and documentation evidence. It does
+not validate the current revision; the recorded build and test were not rerun
+for this documentation update.
 
-### Security Hardening Evidence Update (2026-08-19)
+### Security Hardening Evidence Snapshot (2026-08-19)
 
 - `model_serving`: SHA-256 integrity verification path added for `loadModel` with fail-closed mismatch handling.
 - `ml_serving`: secure transport baseline enforced (`https://` default, plaintext HTTP requires explicit opt-in).
@@ -79,7 +101,12 @@ EXIT CODE: 0
 
 ## Focused Analytics Test Suite
 
-The analytics module includes 20+ focused test files:
+The historical validation inventory below lists 20 focused test files; it is
+not the complete current suite. CMake discovers all top-level `test_*.cpp`
+files in `tests/analytics/`. There are 41 such files in the tree as of
+2026-10-31. See [`../../tests/analytics/README.md`](../../tests/analytics/README.md)
+for current target naming and execution instructions. The list below records
+the files cited in the historical evidence:
 
 | Test File | Purpose | Status |
 |---|---|---|
@@ -106,26 +133,27 @@ The analytics module includes 20+ focused test files:
 
 ## Documentation Validation
 
-**Verification Checklist**
+**Historical Verification Checklist (2026-08-19)**
 - [x] ROADMAP.md synchronized (validated 2026-08-19)
 - [x] FUTURE_ENHANCEMENTS.md synchronized (validated 2026-08-19)
 - [x] README.md updated with current date (validated 2026-08-19)
 - [x] ARCHITECTURE.md current (validated 2026-08-19)
 - [x] SECURITY.md current (validated 2026-08-19)
 - [x] PRODUCTION_REQUIREMENTS.md current (validated 2026-08-19)
-- [x] All 24 header files have Doxygen @file documentation
+- [ ] Current Doxygen `@file` coverage has not been measured in this update
 - [x] All public APIs documented with @brief, @param, @return, @code examples
 - [x] Maturity metadata present in all headers (version, score, status)
 
-**Doxygen Coverage**
-- Header Files: 24/24 (100%)
-- Implementation Files: 24/24 (100%)
-- Public API Methods: >90% documented
-- Detail Headers: 4/4 (100%)
+**Current source inventory (2026-10-31)**
+- Public top-level headers: 31
+- Detail headers: 4
+- Top-level implementation `.cpp` files: 28
+- No current Doxygen coverage percentage is asserted by this inventory.
 
-## Module Acceptance Criteria Status
+## Module Acceptance Criteria Snapshot (2026-08-19)
 
-✅ **All module acceptance criteria met:**
+The criteria below were reported met in the historical validation; they have
+not been re-audited against the current revision here.
 
 1. **Core runtime surfaces documented**
    - ✅ OLAP execution engine
@@ -147,12 +175,11 @@ The analytics module includes 20+ focused test files:
    - ✅ Roadmap phases traceable to implementation
 
 4. **Evidence updated**
-   - ✅ Build evidence: 2026-07-18 (windows-release)
-   - ✅ Test evidence: 13/13 tests PASS
-   - ✅ Date synchronized: 2026-08-19
-   - ✅ Validation chain complete
+   - Recorded build evidence: 2026-07-18 (windows-release)
+   - Recorded test evidence: 13/13 tests PASS on 2026-07-18
+   - Documentation synchronization recorded: 2026-08-19
 
-## Production Readiness Summary
+## Production Readiness Snapshot (2026-08-19)
 
 | Criterion | Status | Notes |
 |---|---|---|
@@ -165,7 +192,7 @@ The analytics module includes 20+ focused test files:
 | Distributed hardening | ⏸️ IN-PROGRESS | Cross-cluster scenarios (Q1 2027) |
 | Operability diagnostics | ✅ COMPLETE | Correlation IDs, failure classes, operator hints, and runbook coverage added |
 
-## Roadmap Status Summary
+## Roadmap Status Snapshot (2026-09-16)
 
 ### Completed (Phase 6 ✅)
 - Core analytics module docs aligned to source-verifiable behavior
@@ -191,7 +218,7 @@ The analytics module includes 20+ focused test files:
 |---|---|---|
 | Module Owner | ✅ VERIFIED | 2026-08-19 |
 | Documentation | ✅ SYNCHRONIZED | 2026-08-19 |
-| Tests | ✅ PASSING | 2026-07-18 |
+| Tests | Historical 13/13 pass record | 2026-07-18 |
 | Security Review | ✅ COMPLETE | 2026-05-31 |
 
 ---

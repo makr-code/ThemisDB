@@ -1,32 +1,73 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-18"
-Last Updated: "2026-10-18"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 ---
 
 # Access-Model in ThemisDB
 
-## Ueberblick
-Das Modul access_model stellt unified access tier abstraction and coordination between cache and storage layers in ThemisDB. Im Modulkontext werden Aussagen mit [Architekturgrenzen](./ARCHITECTURE.md), [Release-Planung](./ROADMAP.md), [Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md) abgeglichen. Im Betrieb sind dabei insbesondere [Latenz](https://en.wikipedia.org/wiki/Latency_(engineering)), [Observability](https://en.wikipedia.org/wiki/Observability) und [Determinismus](https://en.wikipedia.org/wiki/Deterministic_algorithm) relevante Qualitaetskriterien. Fuer Querschnittskontext wird das Modul mit den relevanten Stellen im [Compendium](./../../docs/compendium/docs/index.md) verknuepft.
+## Überblick
 
-## Kern-Features im Detail
-Die erste Kernfaehigkeit ist **Abstract tier interface (base contract)**. Das beschreibt einen konkreten, in den Modulquellen referenzierten Verantwortungsbereich.
+`access_model` stellt einen gemeinsamen `AccessTier`-Vertrag und einen
+`AccessCoordinator` bereit, der Cache- und Storage-Adapter für angeforderte
+Tier-Übergänge koordiniert. Der Host besitzt die Adapter und entscheidet,
+welche Listener er registriert.
 
-Die zweite Kernfaehigkeit ist **Broker for promotion/demotion**. Dadurch bleiben Integrationspfade zwischen Modulgrenzen reproduzierbar und operativ auswertbar.
+## Fähigkeiten
 
-Die dritte Kernfaehigkeit ist **Data structures for tier transitions**. Das unterstuetzt stabile Abnahme- und Aenderungsprozesse entlang der Modul-Roadmap.
+- **Einheitliche Tier-Adapter:** `AccessTier` definiert stringbasierte
+  `get`-/`put`-/`invalidate`-Operationen sowie Identitäts-, Gesundheits- und
+  Kapazitätsabfragen. `CacheTier` und `StorageTier` ergänzen optionale
+  Eviction- beziehungsweise Hot-Access-Meldungen.
+- **Gesteuerte Übergänge:** Der Coordinator validiert die Tier-Registrierung,
+  nimmt Listener-Ereignisse und explizite Requests an und verarbeitet
+  zugelassene Arbeit über einen begrenzten Worker-Queue-Pfad.
+- **Policy und Diagnose:** `AgeBasedPolicy` stellt globale Alters- und
+  Zugriffsschwellen bereit; Metriken und strukturierte Logs liefern
+  Diagnoseinformationen zu Beobachtungen und Übergangsversuchen.
 
 ```mermaid
 flowchart LR
-    A[Produktanforderung] --> B[Access-Model Modul]
-    B --> C[Implementierung und Integrationspfade]
-    C --> D[Test- und Betriebsnachweise]
-    D --> E[Kundennutzen im Betrieb]
+    Cache["Cache adapter"] -->|EvictionListener| Bridge["Host-owned listener bridge"]
+    Storage["Storage adapter"] -->|PromotionListener| Bridge
+    Bridge -->|forward callbacks| Coordinator["AccessCoordinator"]
+    Coordinator -->|get / put; invalidate for demotion| Tiers["Registered AccessTier adapters"]
+    Coordinator --> Metrics["Counters, latency histograms, transition history"]
 ```
 
-## Kundennutzen und Abgrenzung
-Kundinnen und Kunden erhalten damit vor allem besser planbares Systemverhalten, kuerzere Eingrenzungszeiten bei Stoerungen und transparentere Release-Risiken. Diese Seite ist ein fachlich-kommunikativer Ueberblick; normative API-, Compliance- und Freigabeaussagen verbleiben in den kanonischen Modulquellen.
+## Operativer Nutzen und Einsatzszenarien
+
+Ein Host mit mehreren Cache- und Storage-Adaptern kann Übergangslogik über einen
+gemeinsamen Vertrag bündeln, statt jedes Adapterpaar direkt miteinander zu
+verknüpfen. Das erleichtert die zentrale Konfiguration von Schwellen und die
+Diagnose von Übergangsversuchen anhand gemeinsamer Metriken und Logs. Es ersetzt
+weder die Adapterverwaltung des Hosts noch liefert es ein SLA oder einen
+Nachweis, dass die definierten Performance-Ziele erreicht werden.
+
+## Einsatz und Grenzen
+
+- Die Integration ist hostseitig opt-in: Es gibt keinen Modul-Feature-Flag und
+  keine Konfigurationsdatei.
+- Promotion kopiert per Quell-`get()` und Ziel-`put()` und lässt die Quelle
+  bestehen. Demotion invalidiert die Quelle erst nach erfolgreichem Ziel-`put()`.
+- Die Adapteroperationen bilden keine gemeinsame Transaktion. Fehler bei der
+  Quellinvalidierung können daher doppelte Kopien hinterlassen; automatische
+  Wiederholung oder Deduplizierung bietet das Modul nicht.
+- Vor dem Registrieren von Event-Produzenten muss der Host einen gültigen
+  Policy-Wert setzen. Ereignisse ohne gesetzte Policy werden gezählt, lösen aber
+  keine Policy-Entscheidung aus.
 
 ## Einordnung und Quellen
-Primaere modulnahe Quellen: [README.md](./README.md), [ARCHITECTURE.md](./ARCHITECTURE.md), [ROADMAP.md](./ROADMAP.md), [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md), [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md), [SECURITY.md](./SECURITY.md). Sekundaere Querschnittsquellen: [Compendium Index](./../../docs/compendium/docs/index.md). Aussagen wurden auf diese Quellenbasis begrenzt; bei fehlenden Modulquellen werden keine weitergehenden Produktclaims ergänzt.
+
+Normative API- und Ablaufdetails stehen in [API.md](./API.md) und
+[ARCHITECTURE.md](./ARCHITECTURE.md). Betriebsgrenzen und Anforderungen sind in
+[OPERATIONS.md](./OPERATIONS.md), [SECURITY.md](./SECURITY.md) und
+[PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md) beschrieben.
+
+**AI provenance:** Exact model backend not verifiable from final document text alone.

@@ -1,4 +1,20 @@
-> **Status:** 2026-08-18 – Retrospective closure of Q4 2026 EU AI Act compliance work (2026-08-09). Art. 13/22 compliance complete; audit types finalized; production-grade baseline verified.
+---
+Author: ThemisDB Team
+Created: 2026-08-18
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
+
+Exact model backend not verifiable from final document text alone.
+
+> **Historical status note (2026-08-18):** The prior retrospective reported Art. 13/22 closure and a production-grade baseline. That report is not current test, hardware, production-integration, or legal compliance evidence. The requirements and checklist below remain the normative requirements; current status is tracked in `ROADMAP.md`.
+
+> This file defines requirements, not a claim that the current plugin enforces them. In particular, this source review did not find `THEMIS_PRODUCTION_MODE` or `THEMIS_ENVIRONMENT` handling in the `ethics_ai` plugin; verify deployment-specific enforcement outside this module before relying on that checklist item.
 
 # ThemisDB Ethics_ai Module - Production Requirements
 

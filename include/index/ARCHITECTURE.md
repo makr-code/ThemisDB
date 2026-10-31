@@ -1,3 +1,22 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+> **Status:** This header inventory is historical and incomplete. It is not a
+> stable ABI declaration; verify names, namespace, behavior, and thread-safety
+> against each current header. The source-grounded reference is
+> [`../../src/index/API.md`](../../src/index/API.md).
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 <!-- Status: current | validated: 2026-06-01 -->
@@ -13,7 +32,10 @@
 
 ## 1. Overview
 
-`include/index/` defines the **public vector indexes (HNSW, ANN, GPU), graph indexes, secondary/spatial/temporal indexes, product quantisation, learned indexes, and multi-GPU support API contract** for ThemisDB.
+`include/index/` contains declarations for vector/ANN, graph, secondary,
+spatial, temporal, acceleration, quantization, and lifecycle components.
+Presence in this directory does not guarantee that a backend is enabled in a
+given build.
 
 For runtime composition and implementation internals see:
 → [`../../src/index/ARCHITECTURE.md`](../../src/index/ARCHITECTURE.md)
@@ -98,13 +120,18 @@ For runtime composition and implementation internals see:
 
 ## 3. Namespace Layout
 
-All public types reside in the `themis::index` namespace (or a sub-namespace).
+Namespace placement is header-specific; use the namespace declared by the
+header rather than assuming a module-wide namespace.
 
 ---
 
 ## 4. Contract Notes
 
-- Headers in `include/index/` expose the **stable public API**; internal types live in `src/index/`.
-- Clients depend only on types declared here; implementation details in `src/` may change without notice.
+- Headers under `include/index/` contain the declarations used by callers; this
+  document does not promise ABI stability or that every type is supported for
+  external use.
+- Match each declaration with its implementation under `src/index/` before
+  relying on behavior or thread-safety.
 - For breaking-change policy see [`../../VERSIONING.md`](../../VERSIONING.md).
-- Layer association: **ANN Frontdoor**.
+- For current API behavior and caveats see
+  [`../../src/index/API.md`](../../src/index/API.md).

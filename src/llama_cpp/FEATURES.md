@@ -1,32 +1,48 @@
 ---
-Author: "ThemisDB Team"
+Author: "ThemisDB Contributors"
 Created: "2026-10-18"
-Last Updated: "2026-10-18"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_Sources: "include/llama_cpp/llama_cpp_plugin.h; include/llama_cpp/llama_cpp_registrar.h; src/llama_cpp/llama_cpp_plugin.cpp; src/llama_cpp/llama_cpp_registrar.cpp"
+Related_Issue: "#7356"
+Related_Milestone: "DOC-WEEKLY-2026-44"
 ---
 
-# Llama-Cpp in ThemisDB
+> Exact model backend not verifiable from final document text alone.
 
-## Ueberblick
-Exposes the existing LlamaWrapper infrastructure as a dynamically loadable plugin. LlamaCppPlugin supports text generation, RAG augmentation, embeddings, and LoRA adapter lifecycle management. A stub mode is available for CI environments without a model file. Im Modulkontext werden Aussagen mit [Architekturgrenzen](./ARCHITECTURE.md), [Release-Planung](./ROADMAP.md), [Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md) abgeglichen. Im Betrieb sind dabei insbesondere [Latenz](https://en.wikipedia.org/wiki/Latency_(engineering)), [Observability](https://en.wikipedia.org/wiki/Observability) und [Determinismus](https://en.wikipedia.org/wiki/Deterministic_algorithm) relevante Qualitaetskriterien. Fuer Querschnittskontext wird das Modul mit den relevanten Stellen im [Compendium](./../../docs/compendium/docs/index.md) verknuepft.
+# llama_cpp Features
 
-## Kern-Features im Detail
-Die erste Kernfaehigkeit ist **ILLMPlugin, THEMIS_LLM_PLUGIN()**. Das beschreibt einen konkreten, in den Modulquellen referenzierten Verantwortungsbereich.
+`LlamaCppPlugin` implements the `ILLMPlugin` integration. Runtime behavior is
+conditional on build configuration and backend availability; advertised
+capabilities and `loadModel()` success alone do not prove production readiness.
+See [`PRODUCTION_REQUIREMENTS.md`](PRODUCTION_REQUIREMENTS.md).
 
-Die zweite Kernfaehigkeit ist **registration helpers and hot-reload callback type**. Dadurch bleiben Integrationspfade zwischen Modulgrenzen reproduzierbar und operativ auswertbar.
+## Implemented surfaces
 
-Die dritte Kernfaehigkeit ist **plugin implementation and dynamic loading entry points**. Das unterstuetzt stabile Abnahme- und Aenderungsprozesse entlang der Modul-Roadmap.
+- **Model lifecycle and generation:** optional `LlamaWrapper` integration when
+  `THEMIS_LLM_ENABLED` is compiled in; test-only synthetic generation is
+  controlled by `THEMIS_LLAMA_CPP_STUB_MODE`.
+- **RAG prompt assembly:** `generateRAG()` builds bounded context using
+  `RAGContextAssembler`, then dispatches through `generate()`.
+- **Embeddings:** wrapper or injected callback output when available; otherwise
+  the loaded-plugin fallback is a 384-element zero vector, not a semantic
+  embedding.
+- **LoRA operations:** an in-memory registry and size/GGUF-magic checks for
+  imports. Registry entries and accepted bytes do not themselves activate
+  adapter weights.
+- **Integration helpers:** plugin/adapter creation and registration through
+  `LlamaCppPluginRegistrar`; generation supports policy and pre-dispatch
+  cancellation hooks, streaming callbacks, and sequential `generateBatch()`.
+- **Observability:** inference, error, and stream-retry counters plus model and
+  registry metadata.
 
-```mermaid
-flowchart LR
-    A[Produktanforderung] --> B[Llama-Cpp Modul]
-    B --> C[Implementierung und Integrationspfade]
-    C --> D[Test- und Betriebsnachweise]
-    D --> E[Kundennutzen im Betrieb]
-```
-
-## Kundennutzen und Abgrenzung
-Kundinnen und Kunden erhalten damit vor allem besser planbares Systemverhalten, kuerzere Eingrenzungszeiten bei Stoerungen und transparentere Release-Risiken. Diese Seite ist ein fachlich-kommunikativer Ueberblick; normative API-, Compliance- und Freigabeaussagen verbleiben in den kanonischen Modulquellen.
-
-## Einordnung und Quellen
-Primaere modulnahe Quellen: [README.md](./README.md), [ARCHITECTURE.md](./ARCHITECTURE.md), [ROADMAP.md](./ROADMAP.md), [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md), [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md), [SECURITY.md](./SECURITY.md). Sekundaere Querschnittsquellen: [docs/llama_cpp/README.md](./../../docs/llama_cpp/README.md), [Compendium Index](./../../docs/compendium/docs/index.md). Aussagen wurden auf diese Quellenbasis begrenzt; bei fehlenden Modulquellen werden keine weitergehenden Produktclaims ergänzt.
+The public declarations are in
+[`../../include/llama_cpp/llama_cpp_plugin.h`](../../include/llama_cpp/llama_cpp_plugin.h)
+and [`../../include/llama_cpp/llama_cpp_registrar.h`](../../include/llama_cpp/llama_cpp_registrar.h).

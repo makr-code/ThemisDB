@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <nlohmann/json.hpp>
 #include "config/config_encrypted_store.h"
 
 #include <algorithm>
@@ -121,6 +122,20 @@ TEST_F(ConfigEncryptedStoreTest, TryGetReturnsValueWhenPresent) {
 TEST_F(ConfigEncryptedStoreTest, TryGetReturnsNulloptWhenAbsent) {
     auto result = store_->tryGet("missing");
     EXPECT_FALSE(result.has_value());
+}
+
+TEST_F(ConfigEncryptedStoreTest, TryGetPropagatesDecryptionFailure) {
+    store_->set("corrupt", "value");
+    auto snapshot = nlohmann::json::parse(store_->serialize());
+    auto blob = nlohmann::json::parse(snapshot["entries"]["corrupt"].get<std::string>());
+    auto tag = blob["tag"].get<std::string>();
+    ASSERT_FALSE(tag.empty());
+    tag[0] = tag[0] == 'A' ? 'B' : 'A';
+    blob["tag"] = tag;
+    snapshot["entries"]["corrupt"] = blob.dump();
+    store_->deserialize(snapshot.dump());
+
+    EXPECT_THROW(store_->tryGet("corrupt"), ConfigEncryptionException);
 }
 
 // ============================================================================

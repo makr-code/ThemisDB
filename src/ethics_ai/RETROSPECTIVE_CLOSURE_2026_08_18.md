@@ -1,4 +1,21 @@
+---
+Author: ThemisDB Team
+Created: 2026-08-18
+Last Updated: 2026-10-31
+Status: archived
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Ethics AI Module — Retrospective Gap Closure Summary (2026-08-18)
+
+> **Historical snapshot, not current sign-off:** The completion statements below report the status recorded at the time. This document does not establish current passing tests, representative-hardware performance, production LLM/legal-database integration, release readiness, or a legal compliance determination. Current source and `ROADMAP.md` take precedence.
+> Historical file references such as `src/ethics_ai/cluster_discourse_engine.cpp` do not describe the current in-tree file inventory.
 
 ## Overview
 

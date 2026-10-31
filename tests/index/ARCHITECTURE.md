@@ -1,20 +1,35 @@
-> **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-# ARCHITECTURE
+Exact model backend not verifiable from final document text alone.
 
-## Kontext
-- Modul/Ordner: `tests/index`
-- Rolle innerhalb der Gesamtarchitektur von ThemisDB.
+# Index test architecture
 
-## Verantwortlichkeiten
-- Bereitstellung der in diesem Ordner enthaltenen Bausteine/Artefakte
-- Integration mit benachbarten Schichten (API, Query, Storage, Distributed)
-- Einhaltung von Stabilitäts-, Sicherheits- und Wartbarkeitszielen
+`tests/index/` is a module-level verification layer, not a runtime subsystem.
+Each C++ test source exercises index APIs or lifecycle behavior; registration,
+link dependencies, labels, and exclusions are defined in
+[`CMakeLists.txt`](CMakeLists.txt).
 
-## Schnittstellen
-- Nach außen: über öffentliche APIs/Konfigurationsdateien/CLI-Pfade
-- Nach innen: über interne Module desselben Funktionsbereichs
+## Test boundaries
 
-## Nicht-Ziele
-- Keine Duplizierung von Logik, die in übergeordneten Core-Modulen verankert ist
-- Keine Umgehung zentraler Sicherheits- und Compliance-Vorgaben
+- Unit and focused integration tests validate public index behavior against
+  local test fixtures and configured dependencies.
+- Tests that need CUDA linkage or runtime support are conditionally configured;
+  other GPU fallback tests do not prove numerical behavior on a GPU.
+- Release-critical labels are assigned to selected distributed-vector and
+  hardening suites by the module CMake file.
+- Suites excluded from registration are not evidence of currently passing
+  behavior; check the current CMake conditions before relying on them.
+
+Use the source-level behavior references in
+[`../../src/index/API.md`](../../src/index/API.md) and the module
+[`README.md`](../../src/index/README.md) to choose tests for a change.

@@ -1,12 +1,32 @@
-# index — MODULE_GAPS.md (Phase 5 Verified)
+---
+Author: "ThemisDB Team"
+Created: "2026-08-14"
+Last Updated: "2026-10-31"
+Status: archived
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+# index — MODULE_GAPS.md (Historical Phase 5 Snapshot)
+
+> **Historical scanner snapshot:** The gap counts and classifications below are
+> from an unreproducible scan associated with a local Windows workspace. They
+> are not current findings or readiness evidence. Re-run the scanner on the
+> current tree and record the tool version, command, source revision, and output
+> before relying on any count.
 
 This file documents all documentation and code quality gaps in the **index** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
 
 ## Summary
 
 - **Total Gaps**: 7712
-- **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
-- **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)
+- **Status**: Historical scan; no current rescan evidence recorded
+- **Last Updated**: C:\Projects\ThemisDB (original local scan path; not reproducible from this repository)
 
 **Batch 3 Wave Correlation (2026-08-14):**
 - **Wave B Gaps** (~800 IMPL gaps): GPU vector index CUDA backend (L2/cosine/inner-product kernels), HIP backend, buffer lifecycle RAII hardening, concurrency fixes
@@ -230,4 +250,3 @@ A `VkBufferRaii` move-only scope guard has been added to `gpu_vector_index_vulka
 ---
 
 **Phase 5 Verification Notes**: External GitHub submodules (llama.cpp, whisper.cpp, vcpkg, etc.) are explicitly excluded from this analysis via Phase 5 filtering. This ensures all gaps are from themis_core (100% scope accuracy).
-

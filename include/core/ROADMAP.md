@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Historical validation annotation: 2026-06-01; header names cross-checked 2026-10-31. -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/core/ROADMAP.md -->
 
 # Core Module — Public Header Roadmap
@@ -20,7 +34,7 @@ This document tracks public API contract stability, planned header additions, an
 
 ## Current Status
 
-All production-required bootstrap headers are present and `#pragma once` guarded. The initialization sequence contract is stable for v1.x.
+The current public bootstrap headers are present and `#pragma once` guarded. The headers do not define one fixed cross-subsystem initialization sequence; see [`ARCHITECTURE.md`](ARCHITECTURE.md).
 
 ---
 
@@ -29,11 +43,11 @@ All production-required bootstrap headers are present and `#pragma once` guarded
 - [x] `config_hot_reloader.h` — `IConfigHotReloader` hot-reload contracts
 - [x] `config_validator.h` — `ConfigValidator` pre-start validation
 - [x] `health_probe.h` — `IHealthProbe` / `IHealthProbeRegistry` contracts
-- [x] `index_initialization.h` — `IndexInitializationBuilder` bootstrap contract
+- [x] `index_initialization.h` — `IndexManagerBuilder` bootstrap contract
 - [x] `production_mode.h` — `ProductionMode` safety checks
 - [x] `query_engine_builder.h` — `QueryEngineBuilder` fluent builder
 - [x] `security_initialization.h` — `SecurityLayerBuilder` ACL/crypto bootstrap
-- [x] `storage_initialization.h` — `StorageInitializationBuilder` RocksDB/WAL bootstrap
+- [x] `storage_initialization.h` — `StorageEngineBuilder` storage bootstrap
 - [x] `concerns/` subdirectory — cross-cutting concerns API set (`ILogger`, `ITracer`, `IMetrics`, `ICache`, etc.)
 
 ---

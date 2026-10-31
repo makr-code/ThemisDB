@@ -1,5 +1,10 @@
 # GPU Module Development Status - Issue #5648 Closure Checklist
 
+> Historical closure evidence synchronized 2026-08-01. The build, test count,
+> pass status, and readiness statements below describe that dated report only;
+> they are not current build/test evidence. See `MODULE_EVIDENCE.md` and the
+> current `tests/gpu/CMakeLists.txt` for registration facts.
+
 **Issue**: makr-code/ThemisDB#5648 - [module:gpu] Development Status 2026-07-18  
 **Parent Epic**: makr-code/ThemisDB#5624  
 **Area Label**: area:gpu  

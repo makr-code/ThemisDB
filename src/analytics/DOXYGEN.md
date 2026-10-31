@@ -1,9 +1,23 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-09-20"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # ANALYTICS DOXYGEN
 
-Author: ThemisDB Contributors
-Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+> **Generated snapshot:** The index below was generated on 2026-09-20. It is
+> not a current API inventory; use the checked-in headers and implementation
+> as the source of truth. Regenerate this report from the current Doxygen XML
+> before using its counts or generated symbol list.
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
@@ -11607,13 +11621,13 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
-#### `T & operator[](size_t index)`
+#### `T & operator&#91;&#93;(size_t index)`
 - Source: `tests/analytics/test_analytics_memory_safety_focused.cpp`:73
 - Brief: n/a
 - Parameters:
   - `index` (size_t): n/a
 
-#### `const T & operator[](size_t index) const`
+#### `const T & operator&#91;&#93;(size_t index) const`
 - Source: `tests/analytics/test_analytics_memory_safety_focused.cpp`:80
 - Brief: n/a
 - Parameters:
@@ -11831,13 +11845,13 @@ Status: active
 - Brief: n/a
 - Parameters: none
 
-#### `T & operator[](size_t index)`
+#### `T & operator&#91;&#93;(size_t index)`
 - Source: `tests/analytics/test_analytics_memory_safety_focused.cpp`:112
 - Brief: n/a
 - Parameters:
   - `index` (size_t): n/a
 
-#### `const T & operator[](size_t index) const`
+#### `const T & operator&#91;&#93;(size_t index) const`
 - Source: `tests/analytics/test_analytics_memory_safety_focused.cpp`:119
 - Brief: n/a
 - Parameters:
@@ -17419,7 +17433,7 @@ Status: active
 - Return: Return value.
 - Details: Return value. Exception safety: noexcept.
 
-#### `uint32_t operator[](size_t pos) const`
+#### `uint32_t operator&#91;&#93;(size_t pos) const`
 - Source: `include/analytics/columnar_execution.h`:97
 - Brief: n/a
 - Parameters:
@@ -18707,4 +18721,3 @@ Status: active
 - Source: `tests/analytics/test_analytics_phase2_a2_connection_safety.cpp`:534
 - Brief: n/a
 - Parameters: none
-

@@ -1,63 +1,55 @@
-# Audit Report - Distributed Tensor Module
+# Distributed Tensor Module Source Audit
 
-<!-- Status: current | validated: 2026-07-17 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+**Last Updated:** 2026-10-31
+**Source level:** Level 1 — module implementation
+**SOT domain:** module-behavior
+**Canonical references:** `src/distributed_tensor/CMakeLists.txt`, `cmake/CMakeLists.txt`, `tests/CMakeLists.txt`, `tests/distributed_tensor/CMakeLists.txt`, `tests/epic3_distributed_tensor/CMakeLists.txt`, `tests/integration/CMakeLists.txt`, `benchmarks/CMakeLists.txt`, `benchmarks/distributed_tensor/CMakeLists.txt`, `benchmarks/epic3_distributed_tensor/CMakeLists.txt`
+**Related:** Issue #7341
 
-## Summary
+<!--
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot Coding Agent
+Human_Review: false
+Human_Author: unknown
+Exact model backend not verifiable from final document text alone.
+-->
 
-| Metric | Result |
+## Source inventory checked
+
+| Area | Source evidence |
 |---|---|
-| Build registration | pass (`src/distributed_tensor/CMakeLists.txt` + `cmake/CMakeLists.txt`) |
-| Source set size | 7 implementation files compiled into `themis_distributed_tensor` |
-| Contract set size | 7 public headers under `include/distributed_tensor/` |
-| Core docs synchronized | pass |
-| Benchmark governance scaffold | pass (`benchmarks/epic3_distributed_tensor/` metadata present) |
-| Critical blockers | measured runtime evidence still blocked on implementation PR |
+| Library/API standard | `src/distributed_tensor/CMakeLists.txt` declares the public `cxx_std_20` compile feature. `tensor_storage_strategy.h` exposes `std::span`, so the installed public API requires C++20; CMake consumers linking the target inherit that requirement. |
+| Integrity implementation | The target compiles root-level `integrity_verification.cc`, where `simple_sha256_hash()` is FNV-1a demonstration code. The separate nested SHA-256 implementation is not in this target's source list; no cryptographic SHA-256/Merkle security guarantee applies to the default target. |
+| Training coordinator | `TensorTrainingCoordinator` invokes registered worker callbacks synchronously in-process; it does not implement network transport or distributed worker coordination. |
+| Build graph | `cmake/CMakeLists.txt` conditionally adds the module target. |
+| Public API | Nine headers are listed in the module's `DISTRIBUTED_TENSOR_PUBLIC_HEADERS`. |
+| Local tests | `tests/distributed_tensor/CMakeLists.txt` registers three focused test executables from the three local test source files. |
+| EPIC 3 tests | `tests/CMakeLists.txt` adds `tests/epic3_distributed_tensor/`; its CMake registers the phase/contract test sources and an integrity-verification benchmark target. |
+| Integration test | `tests/integration/CMakeLists.txt` includes `test_distributed_tensor_soak.cpp` when the source exists and assigns it a 120-second timeout. |
+| Benchmarks | `benchmarks/CMakeLists.txt` adds both benchmark directories. `benchmarks/distributed_tensor/` selects the local dedicated-gates source; `benchmarks/epic3_distributed_tensor/` defines four standard benchmark sources plus partial-refit and summary-first targets. |
 
-## Verified Files
+## Audit findings
 
-- `src/distributed_tensor/README.md`
-- `include/distributed_tensor/*.h`
-- `src/distributed_tensor/*.cc`
-- `src/distributed_tensor/include/README.md`
-- `src/distributed_tensor/CMakeLists.txt`
-- `tests/epic3_distributed_tensor/CMakeLists.txt`
-- `tests/epic3_distributed_tensor/test_phase3_failure_semantics.cpp`
-- `benchmarks/epic3_distributed_tensor/README.md`
-- `benchmarks/epic3_distributed_tensor/phase5_workload_profiles.json`
-- `benchmarks/epic3_distributed_tensor/release_gate_manifest_epic3.json`
+- The earlier audit's seven-file source count and seven-header count are
+  incomplete for the current target source list.
+- The EPIC 3 directories are present and configured separately from the
+  `distributed_tensor/` directories. They are current source registrations;
+  historical pass-status claims still require original execution artifacts.
+- Current CMake registration confirms targets and source paths only. A
+  diagnostic configure was attempted for this follow-up but stopped at
+  `cmake/Dependencies.cmake:727` because the required `fmt` library was
+  unavailable; no build tree or module targets were generated.
+- A standalone syntax-only compile of the public storage-strategy header passed
+  as C++20 and was rejected as C++17 at `std::span`, matching the declared
+  language requirement.
+- No distributed-tensor test or benchmark execution, measured performance
+  result, or production-readiness conclusion is established by this source
+  audit.
 
-> Phase 3 delivery verified that the module now builds in the community preset
-> and that the focused EPIC 3 regression suite passes in CTest.
+## Open verification gaps
 
-## Findings
-
-### Open
-
-1. [DT-AUD-01] Broad fault-injection and full contract coverage are still pending.
-- Severity: medium
-- Evidence: only the focused Phase 3 regression suite is wired today.
-- Action: expand Phase 4 coverage across all EPIC 3 components and fault classes.
-
-2. [DT-AUD-02] Dedicated distributed benchmarks are pending.
-- Severity: medium
-- Evidence: Phase 5 benchmark governance metadata now exists, but runtime benchmark sources,
-  result bundles, and the dedicated test suite are still missing.
-- Action: land runtime benchmark/test sources and record gate outcomes.
-
-### Closed
-
-- EPIC 3 contract ownership and file mapping are documented.
-- Phase 3 runtime failure and degraded-mode semantics are implemented and tested.
-- root-level governance docs now cover architecture, security, roadmap, performance, and audit views.
-- Phase 5 benchmark gates, deterministic profiles, and triage inputs are defined without
-  asserting unmeasured production behavior.
-
-## Compliance Snapshot
-
-| Requirement | Status |
-|---|---|
-| Source-verifiable behavior claims | pass |
-| Structured forward planning | pass |
-| Security posture documented | pass |
-| Performance expectations documented | pass |
+Test pass status, representative-hardware performance, production integration,
+and release enablement remain unverified here. Historical EPIC 3 evidence
+references should be checked against their original CI artifacts before being
+used as current evidence.

@@ -1,12 +1,19 @@
 # Changelog — ai_working Module
 
-<!-- Status: current | validated: 2026-09-21 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+<!-- AI_Used: true | AI_Models: unknown | AI_Contributor: GitHub Copilot | Human_Review: false | Human_Author: unknown -->
+<!-- Exact model backend not verifiable from final document text alone. -->
 
 All notable governance and structural changes to the `ai_working` module are documented here.
 The format follows Keep a Changelog conventions.
 
 ## [Unreleased]
+
+### Changed
+- Validated module documentation against the current source, build scaffold, archival helper, and maintenance workflow (2026-10-31).
+- Clarified that the freshness command checks required-file presence and minimum content, not whether claims or dates are current.
+- Documented that `--archive-stale` archives all non-protected top-level Markdown files in `src/ai_working/`, without determining semantic staleness.
 
 ### Added
 - `scripts/archive_ai_working.py` — archival automation script with `--archive-stale` and `--check-freshness` modes (2026-09-21).
@@ -16,7 +23,7 @@ The format follows Keep a Changelog conventions.
 - Governance docs aligned to module-quick-rules.md and MODULE_DEVELOPER_DOCUMENTATION_GUIDELINES.md.
 
 ### Changed
-- Replaced placeholder README.md, ROADMAP.md, and API.md in `docs/ai_working/` with substantive content.
+- Replaced placeholder README.md, ROADMAP.md, and API.md in `docs/ai_working/` with substantive content. (Historical entry; current state of those paths was not revalidated for this changelog update.)
 - Updated MODULE_GAPS.md to reflect resolved documentation gap.
 
 ### Archived

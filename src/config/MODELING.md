@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -25,16 +25,17 @@ describes software models, not trained or statistical models.
 A request begins with a caller-provided path. `ConfigPathResolver` normalizes
 and validates it, maps known legacy names, and probes the environment overlay
 when the active environment is `dev` or `staging`. Production has no overlay.
-The resolver may return a cached result; the cache identity includes both the
-environment and normalized path so a result from one environment is not reused
-in another. `tryResolve()` represents absence as `std::nullopt`; `resolve()`
-reports missing paths with `ConfigNotFoundException` and attempted-path details.
+The resolver may return a cached result; the cache key is the environment
+string and normalized path. `setEnvironment()` clears the shared cache when the
+selected environment changes. `tryResolve()` represents absence as
+`std::nullopt`; `resolve()` reports missing paths with
+`ConfigNotFoundException` and attempted-path details.
 
 The resolver's observable counters separate successful resolutions, misses,
 legacy fallback, new-path use, unmapped requests, and cache hits or misses. A
-path mapping also has metadata used for deprecation reporting. Do not treat
-fallback as an equivalent permanent configuration source: observe and migrate
-legacy use instead.
+path mapping also has metadata used for deprecation reporting. Cache key
+composition and candidate precedence are implementation details; focused tests
+cover selected examples, not every mapping permutation.
 
 ## Validation model
 
@@ -42,15 +43,19 @@ The input is parsed as JSON or YAML into a JSON value, then checked against the
 provided schema. `ValidationResult` carries a validity flag, collected errors
 and warnings, and config/schema path context. Local `$ref` pointers are walked
 within the root schema; remote references are not fetched. The v1.x contract
-defines a Draft 7 subset, resource bounds, and a maximum collected-error count
-in [`../../include/config/config_contract.h`](../../include/config/config_contract.h).
+labels the intended schema support a Draft 7 subset and declares resource
+bounds and a maximum collected-error count in
+[`../../include/config/config_contract.h`](../../include/config/config_contract.h).
+Current implementation enforcement and full keyword coverage have not been
+verified; do not rely on the contract alone as proof of enforcement.
 Unsupported keywords and unknown formats are not a basis for a security
 decision without a test proving enforcement.
 
 ## Watcher and reload model
 
-`ConfigFileWatcher` observes YAML, YML, and JSON files using the platform
-backend (Linux inotify, Apple kqueue, or Windows directory notifications). File
+`ConfigFileWatcher` filters filesystem events to YAML, YML, and JSON files
+using the platform backend (Linux inotify, Apple kqueue, or Windows directory
+notifications). File
 events enter a debounced callback path. The path resolver uses that callback to
 clear its cache; the watcher does not parse a replacement config, validate it,
 or atomically apply settings. Concurrent filesystem changes may collapse into
@@ -61,7 +66,8 @@ one notification, so consumers should load and validate the final file state.
 The store maps config keys to blobs containing a key version, IV, ciphertext,
 and GCM authentication tag. Reads authenticate and decrypt the full value;
 `rotateKey()` re-encrypts all current entries before swapping key and store, so
-an encryption/decryption failure leaves the prior state in place. The
+an encryption/decryption failure before the swap leaves the prior entries in
+place. The
 serialization model includes the current key material as well as entries;
 serialized data is therefore a sensitive credential-bearing artifact.
 

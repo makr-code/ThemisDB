@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -24,15 +24,19 @@ coordinator methods.
 The main boundary is:
 
 ```text
-cache/storage adapter -> listener callback -> AccessCoordinator -> tier registry
-                                                        -> logger/metrics
+cache/storage adapter -> host-owned listener bridge -> AccessCoordinator
+                                                   -> tier registry
+                                                   -> logger/metrics
 ```
 
-The tier registry is supplied by the caller. `initialize()` checks for non-null,
-healthy adapters whose reported tier matches the map key and requires at least
-one cache and one storage tier. It does not initialize adapters or own their
-lifetime. Applications must keep them alive while callbacks or coordinator
-operations can run.
+The cache and storage setters accept raw pointers to listener implementations.
+`AccessCoordinator` does not implement `EvictionListener` or
+`PromotionListener`; a host-owned bridge must forward callbacks to its public
+event methods. The tier registry is supplied by the caller. `initialize()`
+checks for non-null, healthy adapters whose reported tier matches the map key
+and requires at least one cache and one storage tier. It does not initialize
+adapters or own their lifetime. Applications must keep them alive while
+callbacks or coordinator operations can run.
 
 ## Data exposure and correlation
 

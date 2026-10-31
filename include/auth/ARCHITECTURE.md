@@ -1,9 +1,16 @@
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/auth/ARCHITECTURE.md -->
 
 # Auth Module — Public Header Architecture
+
+- **AI_Used:** true
+- **AI_Models:** unknown
+- **AI_Contributor:** GitHub Copilot
+- **Human_Review:** false
+- **Human_Author:** unknown
+Exact model backend not verifiable from final document text alone.
 
 **Module Path:** `include/auth/`
 **Implementation:** `../../src/auth/`
@@ -13,7 +20,7 @@
 
 ## 1. Overview
 
-`include/auth/` defines the **public identity, credential-verification, and authorization-policy contract** for ThemisDB. The 37 headers cover token validation, federated and enterprise authentication, MFA/passwordless flows, session and revocation handling, auth-rate protection, and auditable authorization decisions.
+`include/auth/` defines the **public identity, credential-verification, and authorization-policy contract** for ThemisDB. The directory currently contains 41 headers covering token validation, federated and enterprise authentication, MFA/passwordless flows, session and revocation handling, auth-rate protection, and auditable authorization decisions.
 
 For runtime composition details — provider adapters, session/revocation internals, and trust/policy enforcement — see:
 → [`../../src/auth/ARCHITECTURE.md`](../../src/auth/ARCHITECTURE.md)
@@ -73,6 +80,7 @@ For runtime composition details — provider adapters, session/revocation intern
 | `api_key_authenticator.h` | `ApiKeyAuthenticator` | Static API key authentication |
 | `auth_audit_logger.h` / `auth_metrics.h` | `AuthAuditLogger`, `AuthMetrics` | Security-audit and metrics emission |
 | `auth_event_bus.h` / `auth_worker_thread_pool.h` | `AuthEventBus`, `AuthWorkerThreadPool` | Async eventing and worker execution |
+| `auth_principal_contract.h` / `auth_redaction.h` | Shared principal/failure contracts and redaction helpers | Shared contract and sensitive-data handling |
 | `auth_error.h` | `AuthError` | Structured auth error contract |
 
 ---
@@ -88,6 +96,6 @@ For runtime composition details — provider adapters, session/revocation intern
 ## 4. Public Contract Notes
 
 - Authentication adapters must fail closed for invalid credentials, malformed tokens, and unsupported provider states.
-- Revocation and session headers define stable contracts for distributed invalidation, while backend-specific implementations remain swappable.
+- Session lifecycle and token-revocation are separate public surfaces; distributed revocation is provided by `DistributedTokenBlacklist` and should not be inferred from `SessionManager`.
 - Authorization and zero-trust headers expose auditable decision surfaces consumed by `include/server/` middleware and API handlers.
 - Security-sensitive helpers such as `SecureMemory` and TOTP secret encryption remain part of the public contract because embedders may supply their own storage backends.

@@ -1,6 +1,28 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+Exact model backend not verifiable from final document text alone.
+
 # api — MODULE_GAPS.md (Re-baselined)
 
 This file is the single source of truth for API-module-specific gap closure status.
+
+> **Snapshot boundary:** scanner and sign-off evidence below is from August/September 2026; no
+> runtime scanner or test suite was rerun for the 2026-10-31 documentation review. The current
+> documentation review found stale benchmark mappings and historical audit claims; those findings
+> do not reopen source-code scanner findings, but older “all docs synchronized” statements are not
+> current evidence.
 
 ## Re-baseline Snapshot
 

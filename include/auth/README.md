@@ -1,8 +1,21 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+> **Build preset:** `linux-release` is defined in `CMakePresets.json`; consult
+> the current CMake build presets for the configure/build commands.
 
 # Auth Module Headers
 
+- **AI_Used:** true
+- **AI_Models:** unknown
+- **AI_Contributor:** GitHub Copilot
+- **Human_Review:** false
+- **Human_Author:** unknown
+Exact model backend not verifiable from final document text alone.
+
 Public interfaces and declarations for the ThemisDB authentication module.
+The headers are the API authority. This guide is an index, not a guarantee of
+thread safety, compliance certification, performance, or behavior beyond what
+the individual declarations and implementations establish. Older per-type
+thread-safety statements and examples below are not verified concurrency
+contracts; check the current header and implementation before relying on them.
 
 ## Table of Contents
 
@@ -78,7 +91,7 @@ session management, audit logging, and metrics.
 - JWKS caching with configurable TTL
 - Claim extraction (sub, email, tenant_id, roles, groups)
 - User-specific key derivation (HKDF)
-- Group-based access control
+- Extraction of configured token group and role claims (authorization is a separate concern)
 
 **Example:**
 ```cpp
@@ -136,7 +149,9 @@ if (result.success) {
 }
 ```
 
-**Thread Safety:** No (create separate instance per thread or use mutex)
+**Concurrency:** The header does not promise that one instance may be shared
+concurrently; verify the implementation and external GSSAPI/SSPI provider
+requirements before sharing it.
 
 **Platform-Specific:**
 - Linux: Requires MIT Kerberos or Heimdal development libraries
@@ -220,10 +235,16 @@ if (mfa.validateTOTP(enrollment.secret_base32, user_entered_code)) {
 
 using namespace themis::auth;
 
-OAuthDeviceFlow flow(authorization_endpoint, token_endpoint, client_id);
-auto response = flow.startDeviceAuthorization({"openid", "profile"});
+OAuthDeviceFlow::Config config;
+config.device_authorization_endpoint = authorization_endpoint;
+config.token_endpoint = token_endpoint;
+config.client_id = client_id;
+config.scopes = {"openid", "profile"};
+OAuthDeviceFlow flow(config);
+auto response = flow.requestDeviceCode();
 // Display response.verification_uri and response.user_code to user
-auto token = flow.pollForToken(response.device_code, response.interval);
+OAuthDeviceFlow::PollStatus status;
+auto token = flow.pollForToken(response.device_code, status);
 ```
 
 **Thread Safety:** Yes
@@ -245,10 +266,17 @@ auto token = flow.pollForToken(response.device_code, response.interval);
 
 using namespace themis::auth;
 
-OAuthPKCEFlow flow(authorization_endpoint, token_endpoint, client_id, redirect_uri);
-auto [auth_url, code_verifier] = flow.generateAuthorizationURL({"openid", "profile"});
+OAuthPKCEFlow::Config config;
+config.authorization_endpoint = authorization_endpoint;
+config.token_endpoint = token_endpoint;
+config.client_id = client_id;
+config.redirect_uri = redirect_uri;
+config.scopes = {"openid", "profile"};
+OAuthPKCEFlow flow(config);
+auto challenge = flow.generateChallenge();
+auto auth_url = flow.buildAuthorizationUrl(challenge);
 // Redirect user to auth_url
-auto token = flow.exchangeCodeForToken(authorization_code, code_verifier);
+auto token = flow.exchangeCode(authorization_code, challenge.code_verifier);
 ```
 
 **Thread Safety:** Yes
@@ -308,7 +336,7 @@ LDAPAuthenticator ldap(cfg);
 
 auto result = ldap.authenticate("alice", "secret");
 if (result.success) {
-    // result.dn, result.attributes, result.roles available
+    // LDAPAuthResult exposes dn, roles, groups, and error_message.
 }
 ```
 
@@ -374,7 +402,7 @@ if (result.success) {
 
 **Key Classes:**
 
-- `SessionManager`: Session creation, validation, refresh, and revocation
+- `SessionManager`: Session creation, validation, termination, and expiry pruning
 
 **Thread Safety:** Yes (internal mutex on session map)
 
@@ -386,7 +414,7 @@ if (result.success) {
 
 **Key Classes:**
 
-- `TokenBlacklist`: JTI-based revocation store (in-memory with optional RocksDB persistence)
+- `TokenBlacklist`: in-memory JTI-based revocation store; persistent backends are separate types
 
 **Thread Safety:** Yes
 
@@ -429,7 +457,8 @@ if (result.success) {
 - `AuthRateLimitConfig`: Configuration (max attempts, window, lockout duration)
 - `AuthAnomalyEvent`: Anomaly detection event
 
-**Thread Safety:** Yes (lock-free per-identity buckets)
+**Concurrency:** Verify the concrete limiter/backend implementation; no
+lock-free guarantee is made here.
 
 ---
 
@@ -502,7 +531,7 @@ if (result.success) {
 
 ### jwt_key_rotation_manager.h
 
-**Purpose:** Automated JWT signing key rotation with zero-downtime overlap period
+**Purpose:** JWT signing-key rotation management
 
 **Key Classes:**
 
@@ -514,14 +543,14 @@ if (result.success) {
 
 ### totp_replay_cache.h
 
-**Purpose:** One-time code replay prevention via a lock-free ring buffer
+**Purpose:** One-time code replay prevention
 
 **Key Classes:**
 
-- `TOTPReplayCache`: O(1) lock-free cache for used TOTP codes
+- `TOTPReplayCache`: replay-cache interface for used TOTP codes
 - `SecureMFAValidator`: Combines replay-prevention with TOTP validation
 
-**Thread Safety:** Yes (lock-free)
+**Concurrency:** No lock-free or thread-safety guarantee is asserted by this guide.
 
 ---
 
@@ -557,10 +586,12 @@ if (result.success) {
 ```cpp
 struct JWTClaims {
     std::string sub;                          // Subject (user ID)
+    std::string jti;                          // Token ID, used for revocation where configured
     std::string email;                        // User email
     std::string tenant_id;                    // Tenant ID
     std::vector<std::string> groups;          // Group memberships
     std::vector<std::string> roles;           // Role assignments
+    std::vector<std::string> scopes;          // OAuth scopes
     std::string issuer;                       // Token issuer
     std::chrono::system_clock::time_point expiration;
     std::optional<std::chrono::system_clock::time_point> not_before;
@@ -687,7 +718,9 @@ Derives user-specific encryption key using HKDF.
 
 **Returns:** Derived 256-bit key
 
-**Security:** Uses HKDF with SHA-256, user ID as salt, field name as info
+**Security:** The current implementation passes `claims.sub` as the HKDF salt,
+`"user-field:" + field_name` as info, and requests 32 output bytes. The caller
+must supply and protect the DEK.
 
 ---
 
@@ -830,13 +863,12 @@ Validates TOTP code against secret.
 **Returns:** `true` if code valid within time window
 
 **Time Window:**
-- Default: ±1 time step (±30 seconds)
-- Prevents replay attacks
+- Default tolerance: ±1 time step (±30 seconds)
+- Replay protection requires the separate replay-cache facility and integration.
 - Accommodates clock drift
 
 **Rate Limiting:**
-- Implement externally (max 5 attempts per minute)
-- Lock account after 10 failed attempts
+- Configure an appropriate rate-limiting and lockout policy in the embedding application.
 
 ---
 
@@ -920,6 +952,10 @@ try {
 ---
 
 ### Kerberos SSO with Fallback
+
+The following is illustrative application pseudocode, not a module-provided
+fallback policy. Only fall back between authentication methods when the
+embedding application's explicit policy allows it.
 
 ```cpp
 #include "auth/gssapi_authenticator.h"
@@ -1018,57 +1054,11 @@ response.sendError(401, "Invalid MFA code");
 
 ## Thread Safety
 
-### Thread-Safe Components
-
-All components except `GSSAPIAuthenticator` are thread-safe and can be shared across threads:
-
-| Component | Thread-Safe | Notes |
-|-----------|-------------|-------|
-| `JWTValidator` | ✅ Yes | JWKS cache uses internal mutex |
-| `MFAAuthenticator` | ✅ Yes | Stateless validation |
-| `OAuthDeviceFlow` | ✅ Yes | Immutable after construction |
-| `OAuthPKCEFlow` | ✅ Yes | Immutable after construction |
-| `OIDCProvider` | ✅ Yes | Discovery doc cached with mutex |
-| `SAMLAuthenticator` | ✅ Yes | Stateless per-request validation |
-| `LDAPAuthenticator` | ✅ Yes | New connection per call |
-| `MTLSAuthenticator` | ✅ Yes | Stateless certificate validation |
-| `WebAuthnAuthenticator` | ✅ Yes | |
-| `ApiKeyAuthenticator` | ✅ Yes | Immutable key store |
-| `FederatedIdentityManager` | ✅ Yes | |
-| `SessionManager` | ✅ Yes | Internal mutex on session map |
-| `TokenBlacklist` | ✅ Yes | |
-| `PasswordPolicy` | ✅ Yes | Stateless evaluation |
-| `PrincipalValidator` | ✅ Yes | |
-| `AuthRateLimiter` | ✅ Yes | Lock-free per-identity buckets |
-| `AuthMetrics` | ✅ Yes | Atomic counters |
-| `AuthAuditLogger` | ✅ Yes | |
-| `JWKSValidator` | ✅ Yes | Mutex-protected cache |
-| `JWKSSecureFetcher` | ✅ Yes | |
-| `JWTKeyRotationManager` | ✅ Yes | |
-| `TOTPReplayCache` | ✅ Yes | Lock-free ring buffer |
-| `TOTPSecretEncryption` | ✅ Yes | |
-| `ZeroTrustAuthVerifier` | ✅ Yes | |
-| `KerberosSecurityValidator` | ✅ Yes | |
-
-### Non-Thread-Safe Components
-
-**GSSAPIAuthenticator:**
-- ❌ Not thread-safe
-- GSSAPI context is stateful
-- Create separate instance per thread or use mutex
-
-**Recommendation:**
-```cpp
-// Per-thread instance (preferred)
-thread_local GSSAPIAuthenticator gssapi_auth;
-
-// Or use mutex
-std::mutex gssapi_mutex;
-{
-    std::lock_guard<std::mutex> lock(gssapi_mutex);
-    auto result = gssapi_auth.authenticateToken(token);
-}
-```
+The public headers do not establish one module-wide thread-safety rule.
+Synchronization and object-lifetime requirements are type-specific; review the
+relevant header and implementation before sharing an instance across threads.
+In particular, do not infer safety from a method being `const` or from the
+presence of an internal mutex.
 
 ---
 
@@ -1087,7 +1077,8 @@ try {
     } else if (error.find("Invalid signature") != std::string::npos) {
         // Invalid token - reject
     } else if (error.find("JWKS HTTP error") != std::string::npos) {
-        // Network issue - retry or fallback
+        // Treat provider/network failures as failures; retry only under an
+        // explicitly configured policy and never bypass validation.
     }
 }
 ```
@@ -1113,24 +1104,22 @@ if (!result.success) {
 
 ### JWT Validation
 - **JWKS Cache:** Default 10-minute TTL (configurable)
-- **Latency:** ~5ms with cached JWKS, ~200ms on cache miss
-- **Optimization:** Increase cache TTL in stable environments
+- **Latency:** No hardware-measured latency is stated in this API reference; see `src/auth/PERFORMANCE_EXPECTATIONS.md`.
 
 ### TOTP Validation
-- **Latency:** ~5-10ms (HMAC-SHA1 computation)
 - **No Network Calls:** All computation local
-- **Optimization:** None needed (already fast)
 
 ### Kerberos Validation
-- **Latency:** ~50-200ms (network-dependent)
 - **KDC Dependency:** Requires KDC connectivity
-- **Optimization:** Connection pooling, local credential cache
 
 ---
 
 ## Compliance
 
-### Standards Implemented
+### Protocol and standards references
+
+The following protocol references appear in auth headers/implementations. This
+list is not a conformance assessment or certification claim.
 
 - ✅ RFC 6238 (TOTP)
 - ✅ RFC 7519 (JWT)
@@ -1140,8 +1129,6 @@ if (!result.success) {
 - ✅ OpenID Connect Core 1.0
 - ✅ SAML 2.0 (Web Browser SSO Profile)
 - ✅ WebAuthn Level 2 / FIDO2
-- ✅ NIST SP 800-63B Level 2
-- ✅ SOC 2 CC6.1
 
 ---
 

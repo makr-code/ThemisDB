@@ -1,4 +1,17 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+**Author:** ThemisDB Contributors
+**Created:** 2026-10-31
+**Last Updated:** 2026-10-31
+**Status:** active
+**Source level:** Level 1 — `include/content/`
+**SOT domain:** `api-contract`
+**Canonical source references:** [public headers](.), [manager implementation](../../src/content/content_manager.cpp), [feature configuration](../../cmake/CMakeLists.txt), [test registration](../../tests/content/CMakeLists.txt), [CMake presets](../../CMakePresets.json)
+**Related milestone:** DOC-WEEKLY-2026-44
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** themisdb-doc-orchestrator
+**Human_Review:** false
+**Human_Author:** ThemisDB Contributors
+**Provenance note:** Exact model backend not verifiable from final document text alone.
 
 <!-- Status: current | validated: 2026-05-11 -->
 <!-- Links: ARCHITECTURE.md · ../../src/content/README.md · ../../src/content/ARCHITECTURE.md · ../../src/content/ROADMAP.md · ../../src/content/FUTURE_ENHANCEMENTS.md · ../../src/content/SECURITY.md · ../../src/content/CHANGELOG.md -->
@@ -7,10 +20,11 @@
 
 **Module Path:** `include/content/`
 **Implementation:** `../../src/content/`
-**Status:** ✅ Production Ready
+**Status authority:** See the [content module roadmap](../../src/content/ROADMAP.md) and root [ROADMAP.md](../../ROADMAP.md); this header inventory does not make a release-readiness claim.
 
 This directory contains the public C++ header files (`.h`) for the `content` module.
-All headers are `#pragma once` guarded and contain no implementation code.
+Headers define the public interfaces and defaults; most implementation is in `src/content/`,
+although some configuration, serialization, and helper methods are inline in headers.
 
 ## Header Overview
 
@@ -51,11 +65,11 @@ All headers are `#pragma once` guarded and contain no implementation code.
 | [`pdf_processor.h`](pdf_processor.h) | `PDFProcessor` | PDF text and metadata extraction via poppler-cpp (layout-preserving, per-page) |
 | [`html_processor.h`](html_processor.h) | `HTMLProcessor` | HTML content extraction with boilerplate removal |
 | [`markdown_processor.h`](markdown_processor.h) | `MarkdownProcessor` | Markdown parsing and frontmatter extraction |
-| [`office_processor.h`](office_processor.h) | `OfficeProcessor` | Office document extraction: DOCX/XLSX/PPTX (libzip+pugixml), ODF, legacy DOC/XLS/PPT (LibreOffice headless) |
+| [`office_processor.h`](office_processor.h) | `OfficeProcessor` | Office document extraction: DOCX/XLSX/PPTX, ODF and RTF; legacy DOC/XLS/PPT handling can use a configured LibreOffice executable |
 | [`image_processor.h`](image_processor.h) | `ImageProcessor` | Image metadata extraction (EXIF, dimensions, colour space), pHash perceptual deduplication |
 | [`ocr_processor.h`](ocr_processor.h) | `OCRProcessor` | Tesseract-based OCR (requires `THEMIS_ENABLE_OCR`); 300 DPI pre-processing via Leptonica |
 | [`audio_processor.h`](audio_processor.h) | `AudioProcessor` | Audio metadata extraction (ID3, duration, codec) and optional STT transcription |
-| [`video_processor.h`](video_processor.h) | `VideoProcessor` | Video metadata extraction and frame extraction (FFmpeg, requires `THEMIS_ENABLE_FFMPEG`) |
+| [`video_processor.h`](video_processor.h) | `VideoProcessor` (`IContentProcessorPlugin`) | Video metadata and optional FFmpeg-backed extraction when FFmpeg is detected by the build |
 | [`stt_processor.h`](stt_processor.h) | `STTProcessor` | Speech-to-text interface (Whisper backend) |
 | [`tts_processor.h`](tts_processor.h) | `TTSProcessor` | Text-to-speech generation interface (Piper backend) |
 | [`cad_processor.h`](cad_processor.h) | `CADProcessor` | CAD file processing: DXF/DWG/STEP metadata and assembly hierarchy |
@@ -63,12 +77,18 @@ All headers are `#pragma once` guarded and contain no implementation code.
 | [`archive_processor.h`](archive_processor.h) | `ArchiveProcessor` | ZIP/TAR archive extraction with bomb protection (max 100× ratio, max 1 000 entries) |
 | [`mock_clip_processor.h`](mock_clip_processor.h) | `MockCLIPProcessor` | Test/no-GPU stub for CLIP vision-language embedding (not for production use) |
 
+This header inventory is not a `ContentManager` dispatch guarantee. In the current
+manager implementation, raw-blob extraction paths include HTML/XHTML, Markdown, opt-in
+OCR, and the separately registered archive processor. The other format-specific classes
+are public components, but their end-to-end caller/server integration is not established
+by their headers; see the [dispatch boundary](../../src/content/API.md#format-dispatch-boundary).
+
 ### Deduplication and Embeddings
 
 | Header | Primary Class / Interface | Purpose |
 |--------|--------------------------|---------|
 | [`deduplication_checker.h`](deduplication_checker.h) | `DeduplicationChecker` | SHA-256 exact dedup; pHash (images) and MinHash+band-LSH (text) near-duplicate detection |
-| [`embedding_pipeline.h`](embedding_pipeline.h) | `EmbeddingPipeline` | Text/image embedding generation: batch API, model dispatch, normalised vectors |
+| [`embedding_pipeline.h`](embedding_pipeline.h) | `EmbeddingPipeline` | LLM-backed text embedding and batch API; `model_name` enables the path but does not select a model or promise normalization |
 
 ### Observability and Utilities
 
@@ -88,7 +108,7 @@ All headers are `#pragma once` guarded and contain no implementation code.
 | [`pipeline/multimodal_chunker.h`](pipeline/multimodal_chunker.h) | `MultiModalChunker` | Multi-modal chunk assembly (text + image + metadata) for RAG pipelines |
 | [`pipeline/zstd_compression.h`](pipeline/zstd_compression.h) | `ZstdCompression` | zstd codec wrapper (levels 1–22, max 1 GB input, 4 GB decompressed) |
 | [`pipeline/bulk_upload_interface.h`](pipeline/bulk_upload_interface.h) | `BulkUploadInterface` | Base interface for batch content upload |
-| [`pipeline/async_bulk_uploader.h`](pipeline/async_bulk_uploader.h) | `AsyncBulkUploader` | Production async batch uploader wrapping `ContentManager::ingest()` |
+| [`pipeline/async_bulk_uploader.h`](pipeline/async_bulk_uploader.h) | `AsyncBulkUploader` | Async batch-uploader wrapper over `AsyncIngestionWorker` |
 
 ### Adapters (`adapters/`)
 
@@ -98,14 +118,14 @@ All headers are `#pragma once` guarded and contain no implementation code.
 
 ## Build Conditionals
 
-| CMake Symbol | Headers / Components Affected | Required Dependency |
+| Build definition | Headers / Components Affected | Dependency / behavior |
 |---|---|---|
-| `THEMIS_ENABLE_OCR` | `ocr_processor.h` — `OCRProcessor` | Tesseract, Leptonica |
-| `THEMIS_ENABLE_PDF` | `pdf_processor.h` — `PDFProcessor` | poppler-cpp |
-| `THEMIS_ENABLE_FFMPEG` | `video_processor.h` — `VideoProcessor` frame extraction | FFmpeg |
-| `THEMIS_ENABLE_LLM` | `content_manager.h` — `analyzeContent()`, `summarizeContent()`, `classifyContent()`, `generateTags()`, `extractEntities()` | LLM integration (`src/llm/`) |
-| `THEMIS_ENABLE_LIBREOFFICE` | `office_processor.h` — legacy DOC/XLS/PPT via LibreOffice headless | LibreOffice runtime |
-| `THEMIS_HAS_ZSTD` | `pipeline/zstd_compression.h` — `ZstdCompression` | libzstd |
+| `THEMIS_ENABLE_OCR` | `ocr_processor.h` — `OCRProcessor` | Explicit CMake option; requires Tesseract and Leptonica |
+| `THEMIS_ENABLE_PDF` | `pdf_processor.h` — `PDFProcessor` | Explicit CMake option; requires poppler-cpp |
+| `THEMIS_HAS_FFMPEG` | `video_processor.h` and FFmpeg-backed paths | Defined when the CMake dependency check detects FFmpeg |
+| `THEMIS_ENABLE_LLM` | LLM-backed content-manager implementation | CMake option controlling LLM integration |
+| `THEMIS_HAS_ZSTD` | `pipeline/zstd_compression.h` | Defined when the zstd dependency is available |
+| Runtime `OfficeProcessor::Config::libreoffice_path` | Legacy DOC/XLS/PPT handling | Optional configured LibreOffice executable; no `THEMIS_ENABLE_LIBREOFFICE` option was found in the current CMake files |
 
 ## Documentation
 
@@ -150,7 +170,8 @@ auto result = manager->ingestRawBlob(
 
 if (result.success) {
     std::string content_id = result.primary_content_id;
-    // content_id is now stored, chunked, and indexed
+    // Inspect IngestResult::stage_outcomes and metadata for this input.
+    // Optional enrichment/index paths depend on configuration and dependencies.
 }
 ```
 
@@ -165,6 +186,11 @@ nlohmann::json config = {{"chunk_size_bytes", 4 * 1024 * 1024}};  // 4 MB chunks
 
 auto result = manager->ingestStream(stream, "large_dataset.ndjson", "", "user-123", config);
 ```
+
+The line-oriented streaming path is for selected text formats (including NDJSON); other
+formats are buffered before the raw-blob path, up to the configured `max_buffered_bytes`
+(default 256 MiB). See [streaming behavior](../../src/content/IMPLEMENTATION.md#stream)
+before assuming every large file is processed incrementally.
 
 ### Semantic and Hybrid Search
 
@@ -196,6 +222,10 @@ manager->setEmbeddingPipeline(pipeline);
 std::vector<float> vec = manager->generateEmbedding("ThemisDB hybrid database");
 ```
 
+An empty result can mean that no pipeline is attached or embedding generation failed.
+The `model_name` argument on the manager API is not currently used for model selection;
+see the [embedding API caveat](../../src/content/API.md#embedding-api-caveat).
+
 ### Async Batch Ingestion
 
 ```cpp
@@ -208,11 +238,10 @@ config.max_queue_depth = 256;
 AsyncIngestionWorker worker(manager, config);
 worker.start();
 
-IngestionJob job;
-job.job_id    = "batch-001";
-job.type      = IngestionJobType::BATCH_FILES;
-// ... populate job.files
-worker.submitJob(job);
+std::vector<std::pair<std::string, std::string>> files = {
+    {"report.pdf", pdf_bytes}
+};
+std::string job_id = worker.submitBatch(files, "user-123");
 ```
 
 ### Deduplication
@@ -223,8 +252,8 @@ worker.submitJob(job);
 auto dedup = std::make_shared<DeduplicationChecker>();
 manager->setDeduplicationChecker(dedup);
 
-// ingestRawBlob() automatically rejects near-duplicates and returns
-// the existing content_id in IngestResult::primary_content_id
+// Near-duplicate checking requires an enabled deduplication policy and this checker.
+// When detected, the existing ID is reported in IngestResult::primary_content_id.
 ```
 
 ### Configuring the Processor Chain
@@ -233,19 +262,41 @@ manager->setDeduplicationChecker(dedup);
 #include "content/processor_chain_config.h"
 
 ProcessorChainConfig chain;
-chain.disableStageForCategory(ContentCategory::IMAGE, "embedding");
+chain.category_configs[ContentCategory::IMAGE].embedding.enabled = false;
 manager->setProcessorChainConfig(chain);
 ```
+
+`ProcessorChainConfig` resolves the exact MIME entry first, then the content-category
+entry, then `default_config`; it does not merge partial entries. Each stage is enabled by
+default. `StageConfig` also carries retry count/delay and `continue_on_error`; see
+[`processor_chain_config.h`](processor_chain_config.h) for the JSON schema and defaults.
+
+## Building and focused tests
+
+The content tests are registered from `tests/content/test_*.cpp`; their target and CTest
+names are derived from each filename stem in
+[`tests/content/CMakeLists.txt`](../../tests/content/CMakeLists.txt). For example, with
+the system-package `community-debug` preset:
+
+```bash
+cmake --preset community-debug -DTHEMIS_BUILD_TESTS=ON
+cmake --build --preset community-debug --target module_content_test_content_pipeline_focused
+ctest --test-dir build-community-debug -R '^test_content_pipeline_content_FocusedTests$'
+```
+
+Optional processor availability depends on the configured build and detected runtime
+dependencies; a successful compile of the public header alone does not establish that a
+format backend is enabled.
 
 ## Troubleshooting
 
 | Symptom | Likely Cause | Resolution |
 |---------|-------------|------------|
-| `ingestRawBlob()` returns `success = false` with "Unsupported MIME type" | MIME type not in allowlist or content type undetectable | Add MIME type to `config/data_management/mime_types.yaml`; ensure magic bytes are valid |
-| PDF ingestion fails with "poppler not available" | Built without `THEMIS_ENABLE_PDF` | Rebuild with `-DTHEMIS_ENABLE_PDF=ON` |
+| Ingestion cannot route a MIME type | MIME type/category is not recognized or no processor is registered for the category | Check `ContentTypeRegistry`, the supplied MIME/filename, and processor registration; do not assume a YAML edit alone adds a processor route |
+| Direct `PDFProcessor` extraction is unavailable | Built without `THEMIS_ENABLE_PDF` or poppler-cpp | Rebuild with `-DTHEMIS_ENABLE_PDF=ON`; this does not by itself add a PDF route to `ContentManager::ingestRawBlob()` |
 | OCR not activated for images | `ContentPolicy::ocrEnabled()` returns false | Enable OCR in policy config or set `THEMIS_ENABLE_OCR=ON` at build time |
-| `ingestStream()` blocks indefinitely | Worker queue depth at `max_queue_depth` | Increase `max_queue_depth` in `AsyncIngestionConfig` or reduce ingestion rate |
-| Archive extraction rejected as zip bomb | Decompression ratio > 100× or > 1 000 entries | Adjust `content.archive.max_size_mb` / `content.archive.max_depth` in config, or split the archive |
+| Async stream submission waits under load | Queue back-pressure threshold reached | Check worker state and queue statistics; tune `AsyncIngestionConfig` or producer concurrency |
+| Archive extraction rejected | Archive safety limits or processor configuration rejected the input | Check the active archive/security configuration and source error; avoid raising limits without security review |
 | LLM analysis methods return empty results | Built without `THEMIS_ENABLE_LLM` | Rebuild with `-DTHEMIS_ENABLE_LLM=ON` and configure the LLM backend |
 | `generateEmbedding()` returns empty vector | No `EmbeddingPipeline` attached | Call `manager->setEmbeddingPipeline(pipeline)` before ingestion |
-| Legacy Office file (`.doc`/`.xls`/`.ppt`) extraction fails | LibreOffice not installed or `THEMIS_ENABLE_LIBREOFFICE` not set | Install LibreOffice runtime and rebuild with `-DTHEMIS_ENABLE_LIBREOFFICE=ON` |
+| Legacy Office file (`.doc`/`.xls`/`.ppt`) extraction fails | Optional LibreOffice executable is unavailable or not configured | Check `OfficeProcessor::Config::libreoffice_path` and the installed runtime |

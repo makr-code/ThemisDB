@@ -1,64 +1,49 @@
-# Audit Report - CDC Module
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source level: "level1"
+SOT domain: "module-behavior"
+Canonical source references: "src/cdc/ROADMAP.md; tests/cdc/CMakeLists.txt; benchmarks/CMakeLists.txt"
+Related milestone: "DOC-WEEKLY-2026-44"
+---
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+# CDC source and documentation audit
 
-## Summary
+## Review scope
 
-| Metric | Result |
-|---|---|
-| Build registration | pass |
-| Source set size | 13 implementation files in src/cdc |
-| Focused test presence | pass |
-| Open hardening findings | yes |
-| Critical blockers | none identified |
+This review checked the CDC documentation against the current headers,
+implementations, test registration, and benchmark registration. It is a source
+inspection only: no CDC configure, build, unit-test, or benchmark run was
+performed as part of this documentation update.
 
-## Verified Files
+## Verified inventory
 
-- src/cdc/changefeed.cpp
-- src/cdc/changefeed_buffer.cpp
-- src/cdc/tenant_buffer_manager.cpp
-- src/cdc/cdc_ws_handler.cpp
-- src/cdc/ws_transport.cpp
-- src/cdc/kafka_cdc_producer.cpp
-- src/cdc/consumer_group.cpp
-- src/cdc/delivery_tracker.cpp
-- src/cdc/dead_letter_queue.cpp
-- src/cdc/outbox.cpp
-- src/cdc/cross_collection_stream.cpp
-- src/cdc/cdc_materialized_view.cpp
-- src/cdc/cdc_admin.cpp
+- The module currently has 13 implementation `.cpp` files under `src/cdc/`.
+- `tests/cdc/CMakeLists.txt` discovers `test_*.cpp` files and registers
+  `module_cdc_<test-name>_focused` targets with CTest.
+- `benchmarks/CMakeLists.txt` registers `bench_cdc_pipeline` and
+  `bench_cdc_delivery_gates` when their sources are present.
+- CDC-specific delivery, replay, diagnostics, and outbox tests are present
+  under `tests/cdc/`; file presence does not establish a passing test result.
 
-## Findings
+## Open work and limits
 
-### Open
+The canonical [`ROADMAP.md`](./ROADMAP.md) continues to track transport/replay
+hardening, DLQ/outbox contract hardening, diagnostics, and benchmark
+re-baselining. Existing implementations and focused tests do not establish that
+all release gates or long-duration operational validation have passed.
 
-1. [CDC-AUD-01] transport and replay edge-hardening remains active.
-- Severity: medium
-- Evidence: roadmap/future retain active tasks for degraded transport and replay consistency.
-- Action: close remaining failover and replay-edge regressions.
+## Evidence boundary
 
-2. [CDC-AUD-02] delivery diagnostics taxonomy requires continued tightening.
-- Severity: medium
-- Evidence: planned work remains for redelivery, lag, and timeout failure-class consistency.
-- Action: unify error taxonomy and expand deterministic fault-path coverage.
+This page does not certify runtime health, CI status, benchmark thresholds, or
+production readiness. Use the relevant build/test output and release evidence
+for those claims.
 
-3. [CDC-AUD-03] benchmark hardening remains pending for selected CDC pathways.
-- Severity: low
-- Evidence: mapped benchmark coverage exists but deeper baseline hardening remains tracked.
-- Action: expand dedicated CDC benchmark depth and calibrate release thresholds.
-
-### Closed
-
-- core CDC runtime surfaces are present and source-verified.
-- documentation set is synchronized to source-verifiable claims.
-- changelog/roadmap role separation is aligned to governance pattern.
-
-## Compliance Snapshot
-
-| Requirement | Status |
-|---|---|
-| Source-verifiable behavior claims | pass |
-| Structured forward planning in roadmap/future | pass |
-| Historical completion tracked in changelog | pass |
-| Core module docs synchronized | pass |
+**Exact model backend not verifiable from final document text alone.**

@@ -1,18 +1,47 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-07-28"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Distributed Knowledge Module - Test Inventory
 
 ## Overview
 
-**Status:** Q3 2026 Test Infrastructure (Created 2026-07-28)
+**Historical origin:** Q3 2026 test infrastructure (created 2026-07-28)
 
-**Total Tests:** 58 focused unit tests across 5 surfaces
+**Current source count:** 107 GoogleTest declarations across 9 translation units. Static source inventory only; no build or test result is implied.
 
 **Test Pattern:** `module_distributed_knowledge_<stem>_focused`
 
-**Registration:** All tests registered via `themis_register_module_focused_test()` with tier=unit, timeout=120s
+**Registration:** `tests/distributed_knowledge/CMakeLists.txt` globs `test_*.cpp` and registers each generated target with `themis_register_module_focused_test()` (tier=unit, timeout=120s).
+
+## Current Source Inventory
+
+| Source file | Cases | Scope / limitation |
+|---|---:|---|
+| `test_adapter_capability_announcement_focused.cpp` | 16 | 10 ACA cases, inbound dispatch, and 5 trust-policy cases |
+| `test_lora_federation_coordinator_focused.cpp` | 12 | LoRA coordinator |
+| `test_federated_rag_merger_focused.cpp` | 12 | RAG merger |
+| `test_cross_shard_feedback_sync_focused.cpp` | 12 | Feedback synchronization |
+| `test_federated_distillation_coordinator_focused.cpp` | 15 | 12 FDC cases and 3 bounded-policy cases |
+| `test_dk_contract_hardening_focused.cpp` | 16 | Contract tests; several scenarios are implemented with local mocks/simulations |
+| `test_dk_diagnostics_focused.cpp` | 14 | Diagnostic emitter and merge-policy semantics |
+| `test_distributed_knowledge_llm_focused.cpp` | 7 | RAG merge and prompt-context path |
+| `test_distributed_knowledge_highcardinality_stress.cpp` | 3 | In-process stubs; not a real-shard or module-runtime stress result |
+| **Total** | **107** | Static declarations in current test sources |
 
 ## Test Suite Details
 
-### 1. Adapter Capability Announcement Tests (ACA-01..ACA-10)
+### 1. Adapter Capability Announcement Tests (16 declarations)
 
 **File:** `test_adapter_capability_announcement_focused.cpp`
 
@@ -30,6 +59,12 @@
 | ACA-08 | ShardIdOverwrittenByPublisher | Publisher overwrites shard ID in announcements |
 | ACA-09 | EmptyAdapterIdHandling | Edge case: empty adapter ID handling |
 | ACA-10 | MultiplePublishersForSameShard | Multiple publishers for same shard |
+| — | InboundAnnouncementIsDeserializedAndDispatched | Inbound JSON is parsed and callback invoked |
+| — | AlwaysPermitAllowsAll | Always-permit trust policy result |
+| — | CustomPolicyCanRejectAnnouncement | Custom trust policy rejection |
+| — | TrustDecisionEnumValuesAreDistinct | Trust decision values |
+| — | TrustGateRejectedErrorCodeIsUnique | Trust rejection error code |
+| — | PolymorphicDispatchThroughBasePointer | Trust policy dispatch through interface |
 
 **Hardening Targets:**
 - Policy-edge semantics for announcement filtering
@@ -114,7 +149,7 @@
 | CSS-08 | MultipleDistinctSummariesAllReceived | Five distinct summaries all processed |
 | CSS-09 | InboundPolicyCheckRejectsSummary | Policy false drops summary, increments rejected count |
 | CSS-10 | ZeroTrustEnforcerThrowsOnHighRisk | ZeroTrust false throws runtime_error |
-| CSS-11 | GetStatsReturnsJsonWithCounters | getStats() JSON contains published_count |
+| CSS-11 | GetStatsReturnsJsonWithCounters | getStats() JSON contains the `published` counter |
 | CSS-12 | FeedbackSyncConfigValidation | Valid config passes; dim==0 rejected |
 
 **Hardening Targets:**
@@ -126,7 +161,7 @@
 
 ---
 
-### 5. Federated Distillation Coordinator Tests (FDC-01..FDC-12)
+### 5. Federated Distillation Coordinator Tests (15 declarations)
 
 **File:** `test_federated_distillation_coordinator_focused.cpp`
 
@@ -134,18 +169,21 @@
 
 | Test ID | Name | Coverage |
 |---------|------|----------|
-| FDC-01 | SoftLabelCreationAndAccess | SoftLabel creation, field access |
-| FDC-02 | DistillationConfigValidation | Valid config passes; invalid rejects |
-| FDC-03 | SoftLabelJsonSerialization | SoftLabel toJson/fromJson round-trip |
+| FDC-01 | CreateSoftLabel | SoftLabel creation and field access |
+| FDC-02 | ValidConfigReportsValid | Valid config passes validation |
+| FDC-03 | SoftLabelJsonRoundTrip | SoftLabel toJson/fromJson round-trip |
 | FDC-04 | CoordinatorInitialState | Coordinator starts at round 0, no submissions |
 | FDC-05 | SubmitAndBroadcastAdvancesRound | submitSoftLabels() + broadcastToStudents() advances round |
 | FDC-06 | BroadcastWithoutSubmitThrows | broadcastToStudents() before submitSoftLabels() throws |
 | FDC-07 | RegisteredStudentReceivesBroadcast | registerStudent() callback receives broadcast |
-| FDC-08 | BroadcastVerifiesBudget | broadcastToStudents() verifies privacy budget |
-| FDC-09 | PolicyGateBlocksSubmission | setPolicyGate() returning false blocks submitSoftLabels() |
-| FDC-10 | BudgetRemainingDecrementsAfterBroadcast | budgetRemaining() decreases after each round |
-| FDC-11 | MultipleStudentCallbacksAllCalled | All registered students receive same payload |
-| FDC-12 | GenerateModelCardReturnsJson | generateModelCard() produces well-formed JSON |
+| FDC-08 | PrivacyBudgetVerificationUnlimited | verifyPrivacyBudget() with the unlimited default |
+| FDC-09 | PolicyGateBlocksBroadcast | setPolicyGate() returning false blocks broadcast |
+| FDC-10 | PrivacyBudgetRemainingUnlimited | privacyBudgetRemaining() with the unlimited default |
+| FDC-11 | MultipleStudentsAllReceiveBroadcast | All registered students receive the broadcast |
+| FDC-12 | GenerateModelCardAfterBroadcast | Model card reflects a broadcast |
+| — | BoundedPolicyMaxRoundsEnforced | Bounded policy rejects a round beyond its configured limit |
+| — | BoundedPolicyPrivacyBudgetEnforced | Bounded policy rejects a broadcast exceeding its budget |
+| — | BoundedPolicyUnconstrainedAllowsBroadcast | Unconstrained bounded policy permits broadcast |
 
 **Hardening Targets:**
 - Policy-gated workflow enforcement
@@ -168,6 +206,10 @@ module_distributed_knowledge_test_lora_federation_coordinator_focused
 module_distributed_knowledge_test_federated_rag_merger_focused
 module_distributed_knowledge_test_cross_shard_feedback_sync_focused
 module_distributed_knowledge_test_federated_distillation_coordinator_focused
+module_distributed_knowledge_test_dk_contract_hardening_focused
+module_distributed_knowledge_test_dk_diagnostics_focused
+module_distributed_knowledge_test_distributed_knowledge_llm_focused
+module_distributed_knowledge_test_distributed_knowledge_highcardinality_stress_focused
 ```
 
 ### CTest Registration
@@ -208,29 +250,32 @@ ctest -L distributed_knowledge --output-on-failure
 | Timeout Semantics | ✓ | ✓ | ✓ | - | - |
 | Dedup/Replay | - | - | ✓ | ✓ | - |
 | Privacy/Policy | - | - | - | ✓ | ✓ |
-| Concurrent Ops | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Concurrent Ops | Not established | Not established | Not established | Not established | Not established |
 | JSON Serialization | ✓ | ✓ | ✓ | ✓ | ✓ |
 
 ---
 
-## Q3 2026 Hardening Targets
+## Original Q3 2026 Hardening Notes
+
+The following summaries describe the original focused suites, not the complete
+current inventory. The contract-hardening suite includes mock/simulated
+scenarios, and the high-cardinality stress file explicitly uses stubs; neither
+establishes runtime behavior for a deployed shard topology.
 
 ### Implemented Test Coverage
 
-1. **Timeout and Partial-Failure Semantics** (ACA, LFC, FRM, CSS)
-   - Timeout transitions verified in state machine tests
-   - Partial response handling in merge and aggregation tests
-   - Dedup correctness under replay scenarios (CSS)
+1. **Timeout and Partial-Failure Scenarios** (LFC, FRM)
+   - These are in-process component cases, not real peer-topology tests
+   - CSS covers inbound dedup/policy cases, not timeout behavior
 
 2. **Policy-Edge Semantics** (FDC, CSS, ACA)
    - Policy gates for distillation (FDC-09)
-   - Privacy filtering enforcement (CSS-11)
-   - Capability announcement policy constraints (future enhancement)
+   - Inbound policy check (CSS-09)
+   - Capability trust-policy interface cases (unlabeled supplemental ACA cases)
 
-3. **Deterministic Behavior** (All)
-   - Consistent state transitions
-   - Concurrent operation isolation
-   - Reproducible merge/aggregation results
+3. **Deterministic Scenarios** (selected cases)
+   - State and merge assertions cover selected component inputs
+   - Concurrent production behavior is not established by these cases; the high-cardinality stress file uses local stubs
 
 4. **Cross-Shard Federation** (LFC, FRM, FDC)
    - Multi-shard coordination (LFC-11, FRM-11, FDC-11)
@@ -239,11 +284,11 @@ ctest -L distributed_knowledge --output-on-failure
 
 ---
 
-## Future Test Extensions (Q4 2026+)
+## Follow-up Test Evidence (Q4 2026+)
 
-- Stress tests for sustained multi-shard scenarios
+- Replace stub-only high-cardinality stress checks with tests of the real module components
 - Deterministic property-based testing for permutation matrixes
-- Benchmark-backed regression tests for hot paths
+- Execute existing benchmark targets and record baseline-comparison evidence
 - Integration tests with actual shard topology
 - Chaos engineering tests for degradation scenarios
 - Performance regression gates
@@ -269,13 +314,13 @@ Uses `themis_register_module_focused_test()` CMake macro for consistent registra
 
 ## Maintenance Notes
 
-**Last Updated:** 2026-07-28
+**Last Updated:** 2026-10-31
 
-**Test Infrastructure Status:** Production-ready for build integration
+**Test source status:** CMake registration is present; build and execution were not performed for this audit.
 
 **Known Limitations:**
-- Tests are unit-level; integration tests pending Phase 4 Q4 2026
-- Benchmark regression gates pending Phase 5 Q4 2026
+- Test sources in this directory are local/in-process; no real shard-topology integration test is present in the current inventory
+- Benchmark sources exist, but this inventory does not establish a successful run or release-baseline comparison.
 - Full property-based permutation coverage pending extended suite
 
 **Expected Enhancement:** Tests will be automatically discovered and registered by CMake glob pattern in `tests/distributed_knowledge/CMakeLists.txt`

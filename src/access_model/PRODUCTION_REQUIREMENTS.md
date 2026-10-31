@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-09-21"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -54,8 +54,9 @@ Current implementation limits are called out explicitly below.
 
 - The application owns authorization, tenant isolation, adapter initialization,
   telemetry export, and deployment rollback.
-- Cache/storage adapters and their listener pointers must remain valid while
-  callbacks can occur.
+- Cache/storage adapters and the host-owned listener bridge pointers must remain
+  valid while callbacks can occur; bridges must not forward to a destroyed
+  coordinator.
 
 ## Operational Bounds
 

@@ -1,4 +1,20 @@
-> **Status:** 2026-06-01 – mit aktuellem Content-Code (`abuse_detector.cpp`) abgeglichen.
+**Author:** ThemisDB Contributors
+**Created:** 2026-10-31
+**Last Updated:** 2026-10-31
+**Status:** active
+**Source level:** Level 1 — `src/content/`
+**SOT domain:** `security`
+**Canonical source references:** [security API](../../include/content/content_security.h), [manager API](../../include/content/content_manager.h), [security implementation](content_security.cpp), [trust-boundary review](TRUST.md)
+**Related milestone:** DOC-WEEKLY-2026-44
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** themisdb-doc-orchestrator
+**Human_Review:** false
+**Human_Author:** ThemisDB Contributors
+**Provenance note:** Exact model backend not verifiable from final document text alone.
+
+> Historischer Review-Marker (2026-06-01): zuvor als mit `abuse_detector.cpp` abgeglichen
+> dokumentiert; dieser Marker belegt nicht die aktuell offene Deployment-Verdrahtung.
 
 # ThemisDB Content Module - Production Requirements
 
@@ -6,6 +22,24 @@
 
 Dieses Dokument ist der **kanonische Referenzpunkt für produktive Mindestanforderungen** des Content-Moduls.
 Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Abuse-Detektor, Async-Ingestion-Worker, Content-Processing.
+
+### Evidenzgrenze und offene Verifikation
+
+Die nachfolgenden **MUST**-Punkte sind verbindliche Produktionsanforderungen, keine
+Aussage, dass das Content-Modul sie automatisch erfüllt. `ContentManager` nimmt keinen
+`ContentSecurityManager` entgegen; die Security-API hat separat konfigurierbare Detektoren
+und einige Prüfungen sind standardmäßig deaktiviert. Aus den hier verlinkten Modulquellen
+ist außerdem keine allgemeine Startzeit-Validierung aller sicherheitsrelevanten
+Deployment-Konfigurationen ableitbar.
+
+- **TODO (blocking):** Für jede tatsächlich genutzte Intake-Route nachweisen, dass
+  benötigte Detektoren/Policies verdrahtet sind und Fehler wie vorgeschrieben fail-closed
+  behandeln.
+- **TODO (blocking):** Startzeit-Validierung, Audit-Logging und Produktionsmodus für das
+  jeweilige Deployment anhand der owning service/configuration sources belegen.
+
+Bis diese Nachweise vorliegen, dürfen diese Punkte nicht als durch den Modulcode
+implementiert oder erfüllt dargestellt werden.
 
 ## Dokumentabgrenzung (Canonical Split)
 

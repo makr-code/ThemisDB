@@ -5138,7 +5138,7 @@ themis_add_standard_benchmark(bench_crud                   storage/bench_crud.cp
 themis_add_standard_benchmark(bench_edge_cases_comprehensive base/bench_edge_cases_comprehensive.cpp)
 themis_add_standard_benchmark(bench_embedded_llm           llm/bench_embedded_llm.cpp)
 themis_add_standard_benchmark(bench_encryption             security/bench_encryption.cpp)
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/bench_ethics_ai_plugin.cpp")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/ethics_ai/bench_ethics_ai_plugin.cpp")
     if(NOT TARGET bench_ethics_ai_plugin)
         add_executable(bench_ethics_ai_plugin ethics_ai/bench_ethics_ai_plugin.cpp)
         install(TARGETS bench_ethics_ai_plugin RUNTIME DESTINATION bin/benchmarks)

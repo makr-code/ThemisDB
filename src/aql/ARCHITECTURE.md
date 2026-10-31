@@ -1,89 +1,82 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Architecture - AQL Module
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Links: README.md · API.md · IMPLEMENTATION.md -->
 
 ## Overview
 
-The AQL module composes assistance-oriented components around AQL authoring and LLM-augmented workflows. It sits beside the core query execution stack and focuses on generation quality, validation confidence, and developer/operator support surfaces.
+`src/aql/` implements AQL authoring assistance and related helper surfaces. It
+does not own the core parser or query execution engine; public declarations are
+in [`include/aql/`](../../include/aql/) and parser/execution services are owned
+by [`src/query/`](../query/). The assistance APIs do not replace execution-time
+authorization.
 
-## Main Execution Planes
+## Component groups
 
-1. Translation and command plane
-- NL-to-AQL and LLM command orchestration
-- integration with model/provider-facing paths
+1. **Translation and validation:** `LLMAQLHandler` coordinates prompt input,
+   LLM-backed candidate generation, candidate validation, and configured
+   validation/retry behavior. `AQLQueryValidator` separately provides
+   string/builder checks, optionally using supplied collection metadata.
+2. **Context and quality helpers:** conversation history, few-shot example
+   selection, confidence scoring, syntax highlighting, and query-building
+   helpers support authoring workflows.
+3. **Adapters and orchestration:** embedding, classification, ingestion, and
+   agent helpers connect selected AQL assistance paths to other interfaces.
 
-2. Validation and quality plane
-- structural and schema-aware checks
-- syntax highlighting and annotation support
-- confidence scoring and explainability helpers
+These are component responsibilities, not guarantees that every deployment
+enables every provider or helper.
 
-3. Context and tooling plane
-- conversation context and few-shot retrieval
-- template/query-builder and assistant utility paths
-- agent and bridge utilities for composed workflows
+## Translation dataflow
 
-## Core Contracts
+For `LLMAQLHandler::translateNLToAQL()` the implementation currently:
 
-| Contract | Behavior |
-|---|---|
-| translation interfaces | transform NL and command inputs into AQL-oriented outputs |
-| validation interfaces | enforce structural/schema checks and issue reporting |
-| context/scoring interfaces | manage quality signals and bounded conversation state |
-| tooling interfaces | expose helper utilities for docs, templates, and orchestration |
+1. Applies input sanitization and configured length limits to the natural
+   language request and schema context.
+2. Builds the prompt and invokes the configured chat/provider path.
+3. Removes Markdown fences from the response and validates the candidate.
+   When a `query::AQLParserService` is available, validation calls its
+   `parse()` method. Otherwise, it falls back to `AQLQueryValidator`'s
+   string-level checks; that is not equivalent to parser-backed validation.
+4. Applies the configured validation mode and retry limit. Retry feedback is
+   sanitized/delimited before being used in a later prompt.
+5. Performs collection-access and schema-scope checks before returning the
+   generated query.
 
-## Integration with Query Module (src/query/)
+Parser acceptance is not execution, semantic correctness, or an authorization
+decision. See [`API.md`](API.md) for the documented contract/implementation
+drift around empty input and the internal validation helper.
 
-This module is **intentionally layered on top** of the core Query Engine. It depends on but is not depended upon:
+## Optional few-shot embedding path
 
-**Dependency:**
-```
-src/aql/ (LLM Assistance)
-    └─→ calls AQLParserService::parse() [from src/query/]
-    └─→ reads FunctionRegistry [from src/query/]
-    └─→ uses QueryOptimizer::estimateCost() [from src/query/]
+`AQLFewShotExampleLibrary` filters examples and ranks them using lexical
+Jaccard relevance by default. When an `IEmbeddingProvider` is supplied, it can
+rank using cosine similarity and falls back to lexical relevance when an
+embedding is unavailable. `LLMAQLEmbeddingBridge` adapts
+`LLMAQLHandler::executeEmbed()` and returns an empty vector for empty input or
+handler exceptions.
 
-src/query/ (Query Engine)
-    └─→ NEVER imports from src/aql/
-```
+## Integration boundary
 
-**Validation Pipeline:**
-When LLM generates candidate AQL (in `llm_aql_handler.cpp`):
-1. Generate NL→AQL via LLM client
-2. **Call `AQLParserService::parse(aql_string)` → validate syntax** (NEW)
-3. On failure: attempt retry with corrective feedback (max 1×)
-4. Return only validated AQL to user
-5. Emit metrics to Prometheus
+- Public types and configuration: [`include/aql/`](../../include/aql/).
+- Parser service contract and execution: [`include/query/`](../../include/query/)
+  and [`src/query/`](../query/).
+- Focused module tests: [`tests/aql/`](../../tests/aql/).
+- Benchmark sources and target registration:
+  [`benchmarks/aql/`](../../benchmarks/aql/).
 
-**For Details:** See [`src/query/AQL_LLM_INTEGRATION_CONTRACT.md`](../query/AQL_LLM_INTEGRATION_CONTRACT.md) (canonical integration specification)
-
-## Failure Semantics
-
-- malformed or unsupported flows return structured errors rather than silent acceptance.
-- validation/highlighting/scoring stages provide bounded diagnostics surfaces.
-- capability-dependent flows degrade through explicit fallback behavior paths.
-
-## Sourcecode Verification (Module: aql/architecture)
-
-- Verified files:
-  - src/aql/llm_aql_handler.cpp
-  - src/aql/aql_query_validator.cpp
-  - src/aql/aql_query_builder.cpp
-  - src/aql/aql_syntax_highlighter.cpp
-  - src/aql/aql_confidence_scorer.cpp
-  - src/aql/aql_conversation_context.cpp
-  - src/aql/aql_fewshot_example_library.cpp
-- Verified architecture claims:
-  - separation of translation, validation, and tooling planes
-  - dedicated quality/diagnostic helper surfaces
-  - capability-sensitive integration behavior in assistance paths
----
-
-### Direct Downstream Consumers (modules that use this module)
-
-| Module | Via | Notes |
-|--------|-----|-------|
-| `server` | `include/aql/llm_aql_handler.h`, `include/aql/llm_error_codes.h` | HTTP LLM API endpoint dispatches NL→AQL requests through `LLMAQLHandler` (`src/server/llm_api_handler.cpp`) |
-| `query` | `include/aql/llm_query_context.h`, `include/aql/classify_bridge.h` | `LLMGenerateOperator` uses LLM query context for in-plan generation; `FunctionRegistry` calls classify bridge for AQL classification (`include/query/llm_generate_operator.h`, `src/query/functions/function_registry.cpp`) |
-| `metadata` | `include/aql/aql_schema_provider.h` | `AQLSchemaBridge` maps schema metadata into AQL-aware provider surfaces (`include/metadata/aql_schema_bridge.h:16`) |
-| `toolbox` | `include/aql/aql_ingestion_bridge.h` | `ToolboxBuilder` uses AQL ingestion bridge for data-pipeline toolbox composition (`src/toolbox/toolbox_builder.cpp`) |
+The exact composition of optional implementations depends on build targets and
+feature configuration; inspect `cmake/ModularBuild.cmake` and the relevant
+module CMake files for a particular build.

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -33,6 +33,17 @@ The library target is `themis_distributed_knowledge`, uses C++17, and links
 JSON and threads publicly. Optional `fmt`, `yaml-cpp`, `themis_core`, and
 `themis_security` target integrations are wired by
 [CMakeLists.txt](./CMakeLists.txt).
+
+**Build-registration limitation:** the current module
+[`CMakeLists.txt`](./CMakeLists.txt) lists the capability, LoRA, RAG, and
+feedback implementation files, but not
+`federated_distillation_coordinator.cpp`, although that source and its public
+header exist. The module test CMake file includes it only in its fallback
+source list when `themis_distributed_knowledge` is not a target; separate
+top-level test registration also references it. This source inspection does
+not establish whether the production library is intended to provide this
+implementation through another target. Do not infer library-link coverage
+from the file's presence; confirm the target ownership/build wiring.
 
 ## State and invariants
 

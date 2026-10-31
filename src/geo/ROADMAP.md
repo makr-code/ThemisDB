@@ -1,7 +1,7 @@
 # Geo Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-29 -->
+<!-- Status: current | validated: 2026-10-31 (documentation/source alignment; no build or test run) -->
 <!-- Issue: #5646 (Development Status 2026-07-18) -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
@@ -9,9 +9,11 @@
 
 Production geo runtime exists across CPU/GPU backends, spatial indexing, GeoJSON geometry processing, spatial joins, clustering, raster queries, temporal-spatial workflows, and tile integration.
 
-Issue #5646 remains open with partial closure coverage: roadmap/future synchronization is refreshed, the earlier cross-module `ai_snapshot_cleanup.h` source bug is resolved, and a header-only revalidation now passes. What still remains open is refreshed focused executable evidence for the current cycle because the current Linux environment still lacks required build dependencies (`spdlog`, and for full module coverage also RocksDB).
+The following issue #5646 status was recorded in the historical 2026-07-29
+sync and updated with evidence dated 2026-08-17. It is not a verified statement
+of the issue's status or the current build environment.
 
-## In Progress
+## Implementation status recorded in the prior sync
 
 - [x] GPU memory safety hardening: RAII wrappers for CUDA/HIP device memory, goto-pattern removal (Phase 1, 2026-07-29)
 - [x] Performance hot-path fixes: GeoJSON serialization O(n²) → ostringstream, reserve() for R-Tree/GH arrays (Phase 2, 2026-07-29)
@@ -21,7 +23,7 @@ Issue #5646 remains open with partial closure coverage: roadmap/future synchroni
 - [x] diagnostics consistency improvements for validation and backend-switch incidents (Target: Q3 2026)
 - [x] GPU geospatial backend CUDA: Haversine distance and point-in-polygon kernels (Target: Q3 2026)
 - [x] GPU geospatial backend CUDA: Vincenty distance path for batched per-pair kernel dispatch (Target: Q3 2026) (2026-08-08)
-- [~] GPU geospatial backend HIP: AMD ROCm feature-parity implementation (Target: Q3 2026)
+- [~] GPU geospatial backend HIP: AMD ROCm feature-parity work (Target: Q3 2026; status recorded in the prior sync, not revalidated here)
 
 ## Planned Features
 
@@ -57,10 +59,10 @@ Issue #5646 remains open with partial closure coverage: roadmap/future synchroni
 
 ### Phase 5: Performance and Hardening
 - [x] Lock benchmark-backed release gates for geo hot paths: GRG-01..GRG-06 in benchmarks/geo/bench_geo_release_gates.cpp (point-in-polygon 1k p99≤5ms, bbox query 10k p99≤1ms, GeoJSON parse p99≤500µs, Haversine p99≤10µs, spatial join p99≤50ms, backend selection p99≤50µs) (Target: Q4 2026)
-- [x] Validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026) — Release-gate benchmarks validated and documented (2026-08-07)
+- [x] Add and document release-gate benchmark fixtures (2026-08-07). The fixture source uses CPU-only mock implementations; this completion does not establish current production-path p95/p99 or GPU performance.
 
-### Phase 6: Documentation and Acceptance
-- [x] core geo module docs aligned to source-verifiable behavior
+### Phase 6: Documentation and Acceptance (status reported 2026-07-29)
+- [x] core geo module docs reported aligned to source-verifiable behavior (as recorded 2026-07-29; this 2026-10-31 audit corrected further drift)
 - [x] roadmap/future planning separated from historical changelog entries
 - [x] Contract header frozen: include/geo/geo_api_contract.h
 - [x] Contract-hardening tests delivered: tests/geo/test_geo_contract_hardening_focused.cpp (GCH-01..GCH-16)
@@ -69,7 +71,11 @@ Issue #5646 remains open with partial closure coverage: roadmap/future synchroni
 - [x] Q3 2026 status sync: roadmap and future priorities revalidated against full module docs (2026-07-29)
 - [~] focused build/test evidence refresh attempted; explicit dependency blocker documented (2026-07-29)
 
-## Production Readiness Checklist
+## Production Readiness Checklist (recorded 2026-07-29; not a current sign-off)
+
+The checkboxes below preserve the prior status record. They were not
+re-validated as release-readiness evidence during this documentation-only
+sync; current issue and execution status remain unverified.
 
 - [x] core geo surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
@@ -78,30 +84,30 @@ Issue #5646 remains open with partial closure coverage: roadmap/future synchroni
 - [x] Contract-hardening tests: tests/geo/test_geo_contract_hardening_focused.cpp (Phase 4, GCH-01..GCH-16)
 - [x] Release-gate benchmarks: benchmarks/geo/bench_geo_release_gates.cpp (Phase 5, GRG-01..GRG-06)
 - [x] Benchmark CMakeLists registered: benchmarks/geo/CMakeLists.txt
-- [x] remaining hardening tasks closed for fallback/validation/advanced-query edge paths (Phase 1–3 complete: GPU RAII, performance fixes, geo_policy, temporal R-Tree optimization, RFC 7946 annotations)
+- [x] Deliver the listed hardening changes (GPU buffer guards, geo policy, and temporal/index updates). This does not establish that every backend/operation has parity; see the open implementation notes and current source.
 - [x] release benchmark stabilization complete (Phase 5, 2026-08-07)
 
-## Evidence Summary (Issue #5646 Sync — 2026-07-29)
+## Historical Evidence Summary (Issue #5646 Sync — 2026-07-29; later note 2026-08-17)
 
 - Configure attempt 1: `cmake --preset community-release`
   - Result: now passes after installing required system dependencies (`librocksdb-dev`, `libfmt-dev`, `libspdlog-dev`, `nlohmann-json3-dev`, `libmimalloc-dev`, `libgtest-dev`, `libtbb-dev`, `libyaml-cpp-dev`, `libboost-system-dev`, `libboost-filesystem-dev`, `libcurl4-openssl-dev`).
 - Configure attempt 2: `cmake --preset community-release-allow-missing-rocksdb -DCMAKE_DISABLE_FIND_PACKAGE_RocksDB=TRUE`
   - Result: passes and confirms RocksDB fallback detection via pkg-config dynamic path.
-- Build attempt (historical, 2026-07-29): `cmake --build /home/runner/work/ThemisDB/ThemisDB/build-community-release-allow-missing-rocksdb --target module_geo_test_aql_st_functions_focused`
+- Build attempt (historical, 2026-07-29): `cmake --build <build-dir> --target module_geo_test_aql_st_functions_focused`
   - Result at that time: blocked by the then-open cross-module `include/security/ai_snapshot_cleanup.h:63` constructor issue.
 - Revalidation attempt (2026-08-17): header-only compile for `include/security/ai_snapshot_cleanup.h` passes under `g++ -std=c++17`, confirming the former constructor blocker is source-seitig closed.
-- Revalidation attempt (2026-08-17): focused configure/build refresh remains blocked in this environment because `community-release-allow-missing-rocksdb` still fails without `spdlog`; full geo/security target validation additionally depends on RocksDB availability.
-- Current status: the `ai_snapshot_cleanup.h` source defect is closed; this roadmap keeps the evidence refresh open until a fresh focused geo build/test run is recorded in a dependency-complete environment.
+- Revalidation attempt (2026-08-17): the recorded focused configure/build refresh was blocked because `community-release-allow-missing-rocksdb` failed without `spdlog`; the note also identified RocksDB as a dependency for broader coverage.
+- Status at that historical update: the `ai_snapshot_cleanup.h` source defect was recorded as closed; the note left a fresh focused geo build/test run open.
 - Last known focused target evidence from issue context: PASS on `module_geo_test_aql_st_functions_focused.exe --gtest_brief=1` (`82` tests, exit `0`, validated `2026-07-18`).
 
-## Open Work (Issue #5646)
+## Open Work (Issue #5646; status recorded 2026-08-17)
 
 - [x] validate and refine extracted roadmap priorities against full module docs in `src/geo/ROADMAP.md`
 - [x] validate and refine extracted future focus points against full module docs in `src/geo/FUTURE_ENHANCEMENTS.md`
-- [~] add/refresh focused build and test evidence for this module (historical non-geo compile blocker is resolved; current-cycle executable evidence now depends on a dependency-complete environment with at least `spdlog`, and for full coverage RocksDB)
+- [~] add/refresh focused build and test evidence for this module (the 2026-08-17 note recorded the then-current dependency blockers; this is not a statement about the current environment)
 - [x] mark completed synced items and risks with explicit status transitions
 
-## Closure Criteria (Issue #5646)
+## Closure Criteria (Issue #5646; status recorded in the historical update)
 
 - [x] all module acceptance criteria updated and traceable
 - [x] evidence updated with explicit justified gap in this environment
@@ -114,6 +120,10 @@ Issue #5646 remains open with partial closure coverage: roadmap/future synchroni
 - behavior depends on runtime capability and build flag combinations.
 - selected advanced geo paths still require ongoing hardening and benchmark expansion.
 - spherical/ellipsoid and additional kernel-depth work remains long-term.
+- `GeoBackendDispatcher::computeVincentyBatch()` currently computes with the CPU
+  implementation; its source explicitly leaves GPU dispatch integration open.
+- Current issue state and fresh build/test execution evidence were not verified
+  by this documentation-only synchronization.
 
 ## Breaking Changes
 
@@ -128,7 +138,7 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 
 ### Wave D Contribution for `geo`
 - [ ] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [I] **GPU Batch Distance Kernels**: Integrate Vincenty CUDA kernel with `GeoBackendDispatch::batchVincentyDistance()` when `THEMIS_GEO_CUDA=ON`. Currently falls through to CPU path (wave4 gap-closure 2026-08-31). (Target: Q1 2027)
+- [I] **GPU Vincenty batch dispatch**: connect the CUDA formula dispatch to `GeoBackendDispatcher::computeVincentyBatch()`. The current method retains the CPU implementation and source comments identify the missing GPU integration. (Target: Q1 2027; retain as an open task until verified)
 - [ ] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
 - [ ] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
 
@@ -141,3 +151,8 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
 - [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
 - [ ] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+
+---
+
+**AI_Used:** true · **AI_Models:** unknown · **AI_Contributor:** GitHub Copilot coding agent · **Human_Review:** false · **Human_Author:** ThemisDB Contributors
+Exact model backend not verifiable from final document text alone.

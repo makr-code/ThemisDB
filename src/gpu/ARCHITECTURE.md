@@ -1,6 +1,6 @@
 # Architecture - GPU Module
 
-<!-- Status: current | validated: 2026-08-17 -->
+<!-- Source-reviewed: 2026-10-31; no runtime validation performed -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · PRODUCTION_REQUIREMENTS.md · PERFORMANCE_EXPECTATIONS.md · SECURITY.md -->
 
 ## Overview
@@ -25,44 +25,40 @@ The GPU module composes resource governance, backend abstraction, execution orch
 - circuit-breaker fallback and degraded-mode behavior
 - metrics/profiling/admin operational observability surfaces
 
-## Unified GPU Memory Manager Hierarchy
+## VRAM accounting and subsystem boundaries
 
-All GPU memory managers in ThemisDB share a consolidated `IVRAMPolicy` interface
-(`include/themis/gpu/ivram_policy.h`) so that edition limits, tenant quotas, and OOM
-handling are enforced at a single control point.
+`themis::gpu::GPUMemoryManager` implements `IVRAMPolicy` and provides
+edition-wide accounting plus tenant-aware overloads. Its `TryAllocateGPU` /
+`DeallocateGPU` methods account for reservations; they do not allocate physical
+device memory.
 
-```
-IVRAMPolicy  (themis::gpu)
-└── GPUMemoryManager   — canonical singleton, edition-aware
-    ├── themis::llm::GPUMemoryManager   — multi-model/multi-GPU LLM serving manager
-    │   delegates allocateGPU() / freeGPU() / freeModel() through canonical policy
-    └── themis::llm::lora::VRAMAllocator — LoRA training VRAM allocator
-        delegates allocate() / deallocate() through canonical policy (GPU backends only)
-```
+The current LLM manager and LoRA `VRAMAllocator` contain call sites that use
+this canonical manager for GPU-backed accounting. In the inspected paths, the
+LLM manager supplies a model ID as the allocation tag, and the LoRA allocator
+supplies `"lora-vram"`; neither passes a tenant ID to the tenant-aware overload.
+Those call sites therefore do not automatically enforce registered
+tenant-specific quotas. Do not generalize these integrations to every GPU
+allocator or workload.
 
-### Delegation Contract
+Both integrations conditionally call the canonical accounting gate when
+`isGPUEnabled()` is true. That method currently reflects whether the compiled
+edition VRAM cap is greater than zero; a zero-cap build skips the accounting
+gate. The Community cap is configured as 16 GiB by edition configuration, but
+the code does not require or identify a particular physical GPU model.
 
-- Every GPU allocation in `themis::llm::GPUMemoryManager` is pre-checked via
-  `themis::gpu::GPUMemoryManager::TryAllocateGPU()`.  On physical allocation failure
-  the canonical reservation is undone via `DeallocateGPU()`.
-- Every GPU deallocation in `themis::llm::GPUMemoryManager` calls
-  `themis::gpu::GPUMemoryManager::DeallocateGPU()` to keep global accounting consistent.
-- `themis::llm::lora::VRAMAllocator` applies the same gate for GPU backends (CUDA, HIP,
-  Vulkan, DirectX, ROCm, ZLUDA).  CPU-backed allocators skip the policy check.
-- The canonical manager is a no-op gate when `isGPUEnabled()` returns false (e.g.
-  Community edition with a 16 GB VRAM limit (1× Tesla T4)), preserving backward compatibility.
+### OOM and ownership
 
-### Tenant Isolation
-
-Tenant VRAM quotas are registered on the canonical `GPUMemoryManager` singleton via
-`SetTenantQuota(tenant_id, quota_bytes)`.  All subsystem managers that delegate through
-the canonical gate automatically inherit this quota enforcement.
+The canonical manager's admission methods return `false` on rejection. Physical
+allocation and lifetime remain the responsibility of each subsystem; some
+integrations undo accounting after a later allocation failure. Review the
+owning allocator before relying on rollback, tenant propagation, or RAII
+behavior.
 
 ### OOM Policy
 
-The canonical `GPUMemoryManager::canAllocate()` / `TryAllocateGPU()` methods fail fast
-(return `false`) instead of throwing, providing deterministic OOM signaling.  Subsystem
-managers map this to `nullptr` returns or error-log paths as appropriate.
+The canonical manager's admission methods return `false` on rejection.
+Subsystem handling is implementation-specific; inspect the owning allocator
+for its return, rollback, and error-reporting behavior.
 
 ## Core Contracts
 
@@ -70,14 +66,14 @@ managers map this to `nullptr` returns or error-log paths as appropriate.
 |---|---|
 | resource contract | bounded allocation and deterministic quota behavior |
 | backend contract | explicit capability-aware backend selection and execution |
-| acceleration contract | deterministic accelerated path semantics with fallback guards |
+| acceleration contract | backend-specific execution; fallback behavior depends on the caller-supplied path |
 | operations contract | explicit telemetry/profiling/admin/coordination behavior |
 
 ## Failure Semantics
 
-- unsupported or unavailable GPU capability paths degrade deterministically.
+- unsupported or unavailable GPU capability paths may fail or invoke a caller-supplied fallback; CPU computation is not universal.
 - safety policy or quota violations fail before unsafe execution proceeds.
-- backend/stream failures trigger explicit bounded fallback behavior.
+- backend/stream failures are surfaced through their owning path; fallback execution and its bounds are not universal.
 
 ## Sourcecode Verification (Module: gpu/architecture)
 
@@ -98,9 +94,9 @@ managers map this to `nullptr` returns or error-log paths as appropriate.
   - src/llm/lora_framework/vram_allocator.cpp
 - Verified architecture claims:
   - explicit resource/backend/execution/operations planes
-  - deterministic fallback/degraded behavior boundaries
+  - fallback/degraded behavior boundaries in selected paths
   - module-local ownership of GPU orchestration surfaces
-  - unified IVRAMPolicy hierarchy across namespaces
+  - canonical IVRAMPolicy accounting implementation and selected LLM/LoRA call sites
 ---
 
 ### Direct Downstream Consumers (modules that use this module)

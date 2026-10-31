@@ -1,14 +1,14 @@
 **Author:** ThemisDB Team
 **Created:** 2026-10-30
-**Last Updated:** 2026-10-30
+**Last Updated:** 2026-10-31
 **Status:** active
 **Source level:** Level 1 — `src/content/`
 **SOT domain:** `module-behavior`
-**Canonical source references:** [README](README.md), [architecture](ARCHITECTURE.md), [performance expectations](PERFORMANCE_EXPECTATIONS.md), [manager implementation](content_manager.cpp), [processor contract](../../include/content/content_processor.h), [pipeline tests](../../tests/content/test_content_pipeline.cpp)
+**Canonical source references:** [README](README.md), [architecture](ARCHITECTURE.md), [performance expectations](PERFORMANCE_EXPECTATIONS.md), [benchmark registration](../../benchmarks/content/CMakeLists.txt), [processor-path benchmark](../../benchmarks/content/bench_content_processor_paths.cpp), [manager implementation](content_manager.cpp), [processor contract](../../include/content/content_processor.h), [pipeline tests](../../tests/content/test_content_pipeline.cpp)
 **Related issue:** #7109
 **AI_Used:** true
 **AI_Models:** unknown
-**AI_Contributor:** GitHub Copilot
+**AI_Contributor:** GitHub Copilot; themisdb-doc-orchestrator
 **Human_Review:** false
 **Human_Author:** ThemisDB Team
 **Provenance note:** Exact model backend not verifiable from final document text alone.
@@ -51,7 +51,7 @@ that a particular corpus has been evaluated.
 |---|---|---|
 | Can chunking preserve byte content and boundaries? | [pipeline tests](../../tests/content/test_content_pipeline.cpp) and [streaming tests](../../tests/content/test_content_streaming_ingestion.cpp) exercise exact-size boundaries, overlap configuration, and reassembly. | Several streaming tests exercise helper logic or mirrors of implementation; they are not proof of end-to-end production throughput. |
 | How are stage options represented? | [processor-chain contract](../../include/content/processor_chain_config.h) and [hardening tests](../../tests/content/test_content_pipeline_hardening.cpp) cover stage defaults, MIME/category overrides, and JSON compatibility. | These tests do not establish format-specific extraction quality. |
-| What performance cases are specified? | [performance expectations](PERFORMANCE_EXPECTATIONS.md) names extraction and concurrent cases and release comparison rules. | Its listed benchmark source paths are not present in this checkout; no benchmark result artifact or hardware record was verified for this task. |
+| What performance cases are specified? | [performance expectations](PERFORMANCE_EXPECTATIONS.md) lists the current benchmark sources and release comparison rules. | CMake registers only the processor-path, versioning, and API-contract targets; some mapped extraction sources are unregistered mocks. No benchmark result artifact or hardware record is established here. |
 | What does embedding evaluation need to capture? | [embedding tests](../../tests/content/test_content_embedding_pipeline.cpp) cover disabled state, config clamping, result shape, and failure-counter export. | Tests do not score semantic quality or verify that the configured model name selects a particular backend. |
 
 No sample corpus, labeling protocol, semantic-quality score, or reproducible performance

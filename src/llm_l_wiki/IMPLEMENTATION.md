@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -19,6 +19,9 @@ This page is the implementation inventory for developers deciding whether
 not a planned design or the neighboring `llm_wiki` implementation.
 
 ## Verified inventory
+
+Checked against the repository checkout on 2026-10-31. This snapshot does not
+establish the state of other revisions.
 
 | Artifact | State |
 |---|---|

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -58,9 +58,10 @@ its transaction policy, authorization, lifecycle, and transport deployment.
   keep them alive for as long as the CDC component uses them.
 - A group’s committed offset is durable, while its in-flight delivery state is
   in memory. Design reconnect/restart handling with that distinction in mind.
-- Kafka support is build-dependent. The header includes a no-op stub when the
-  compile definition is absent; the type being available does not establish a
-  live Kafka connection.
+- Kafka support is build-dependent. Without `THEMIS_ENABLE_KAFKA`, the header
+  provides a fallback whose `start()` and `publish()` return `false` unless its
+  injectable callbacks are configured; it does not connect to Kafka. The
+  current sources do not specify a removal milestone for that fallback.
 - Avoid changing event identity, sequence, and acknowledgement handling in an
   adapter without checking
   [`cdc_delivery_contract.h`](../../include/cdc/cdc_delivery_contract.h).

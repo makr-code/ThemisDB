@@ -1,9 +1,23 @@
-# CHAOS DOXYGEN
-
+---
 Author: ThemisDB Contributors
 Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+Last Updated: 2026-10-31
+Status: archived
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: OpenAI
+Human_Review: false
+Human_Author: ThemisDB Contributors
+---
+
+Exact model backend not verifiable from final document text alone.
+
+# CHAOS DOXYGEN
+
+> Historical generated snapshot. The referenced XML and Windows paths are not
+> available in this checkout, and the counts/functions below have not been
+> regenerated or checked against the current three-file runtime inventory.
+> **TODO:** regenerate from the current Doxygen build before using these metrics.
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
@@ -1485,4 +1499,3 @@ Status: active
   - `dur` (std::chrono::milliseconds): n/a
   - `prob` (double): n/a
   - `desc` (std::string): n/a
-

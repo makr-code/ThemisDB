@@ -1,6 +1,6 @@
 > WARNING: Historical changelog entries describe implementation state at the time they were recorded.
 
-<!-- Status: current | validated: 2026-09-16 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog - Base Module
@@ -30,6 +30,12 @@ The format is based on Keep a Changelog.
 
 ### Changed
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
+
+### Changed — Documentation audit (2026-10-31)
+- Reconciled module documentation with current headers, implementations, and build definitions; see [AUDIT.md](AUDIT.md).
+- Clarified that modular CMake creates `themis_base` and exposes `themis_core` as an interface target; the benchmark directory contains sources of differing scopes.
+- `tests/CMakeLists.txt` auto-discovers `tests/base/CMakeLists.txt`; its focused unit tests and focused two-hour soak target are registered with module/tier/kind/focus labels (plus `base` and `soak`). Registration does not assert that the targets build or tests pass.
+- Runbook metric and management-command examples are illustrative, not built-in contracts; benchmark gate thresholds are definitions, not measured results. See [RUNBOOK.md](RUNBOOK.md) and [the benchmark notes](../../benchmarks/base/README.md).
 
 ## [1.8.0] - 2026-03-22
 

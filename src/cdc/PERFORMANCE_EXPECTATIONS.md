@@ -1,49 +1,60 @@
-# PERFORMANCE_EXPECTATIONS - src/cdc
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source level: "level1"
+SOT domain: "module-behavior"
+Canonical source references: "benchmarks/cdc/bench_changefeed_throughput.cpp; benchmarks/cdc/bench_cdc_pipeline.cpp; benchmarks/cdc/bench_cdc_delivery_gates.cpp; benchmarks/replication/bench_replication_throughput.cpp; benchmarks/CMakeLists.txt"
+Related milestone: "DOC-WEEKLY-2026-44"
+---
 
-## Scope
+# CDC performance expectations
 
-- Module: src/cdc
-- This file defines measurable CDC module performance expectations for release gating.
+This page maps CDC performance expectations to benchmark sources. It is not
+evidence that a benchmark was run or that a release baseline passed.
 
-## Benchmark Reference
+## Benchmark sources and cases
 
-- Relevant benchmark files:
-  - benchmarks/bench_changefeed_throughput.cpp
-  - benchmarks/bench_replication_throughput.cpp
+| Source | Cases / coverage |
+|---|---|
+| [`benchmarks/cdc/bench_changefeed_throughput.cpp`](../../benchmarks/cdc/bench_changefeed_throughput.cpp) | `BM_EventTypeMix`, `BM_BurstWrites`, `BM_ReplicationLag`, `BM_ReplicationLagWAN`, `BM_RecordEventLatency`, `BM_ListEventsLatency` |
+| [`benchmarks/cdc/bench_cdc_pipeline.cpp`](../../benchmarks/cdc/bench_cdc_pipeline.cpp) | Consumer-group create/delete, fetch, acknowledgement, and concurrent-fetch paths |
+| [`benchmarks/cdc/bench_cdc_delivery_gates.cpp`](../../benchmarks/cdc/bench_cdc_delivery_gates.cpp) | `DeliveryTracker`, `ConsumerGroupManager`, and replay gates CDG-01..06 |
+| [`benchmarks/replication/bench_replication_throughput.cpp`](../../benchmarks/replication/bench_replication_throughput.cpp) | Related WAL serialization, replication-manager, conflict-detection, and merge cases; these are replication benchmarks, not CDC benchmarks |
 
-## Specific Expectations
+`benchmarks/CMakeLists.txt` registers `bench_cdc_pipeline` and
+`bench_cdc_delivery_gates` when their source files are present. It does not
+register `bench_changefeed_throughput.cpp` as a CMake target in this checkout;
+do not infer a runnable target from the source file alone.
 
-| Target ID | Expectation | Benchmark case |
+## Expectations
+
+| Target | Expectation | Evidence to evaluate |
 |---|---|---|
-| CDC-1 | mixed event-type and burst write paths remain within release baseline budget | BM_EventTypeMix, BM_BurstWrites |
-| CDC-2 | replication lag paths remain bounded for local and WAN profiles | BM_ReplicationLag, BM_ReplicationLagWAN |
-| CDC-3 | event record and list latency paths remain bounded | BM_RecordEventLatency, BM_ListEventsLatency |
-| CDC-4 | WAL entry serialization/deserialization paths remain bounded | BM_WALEntry_Serialize, BM_WALEntry_Deserialize |
-| CDC-5 | replication manager initialization and leadership promotion paths remain bounded | BM_ReplicationManager_Initialize, BM_ReplicationManager_PromoteToLeader |
-| CDC-6 | conflict detection and merge paths remain bounded in release profile | BM_HLCConflictDetection, BM_CRDTMerge |
+| CDC-1 | Mixed event-type and burst writes remain within the approved release baseline | Repeated benchmark runs and baseline comparison |
+| CDC-2 | Local and WAN replication-lag cases remain within their approved envelopes | Reported latency distribution and run profile |
+| CDC-3 | Event record/list latency remains within the approved release budget | `BM_RecordEventLatency` and `BM_ListEventsLatency` |
+| CDC-4 | Delivery-gate cases remain within documented thresholds | CDG-01..06 definitions in `bench_cdc_delivery_gates.cpp` |
+| CDC-5 | No required release benchmark case is missing | Benchmark run manifest |
 
-## Module Hard Gates (v1.0 docs baseline)
-
-| Gate ID | Expectation | Measurement |
-|---|---|---|
-| CG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
-| CG-2 | CDC hot-path p99 <= release threshold | p99 from mapped changefeed/replication benchmark cases |
-| CG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
+Thresholds and release-gate results are maintained by the benchmark source,
+baseline, and release workflow. The module roadmap records outstanding
+re-baselining work; do not treat these expectations as a current production
+SLO or a verified pass without run evidence.
 
 ## Validation
 
-- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
-- For proxy-only targets, keep follow-up benchmark hardening explicitly tracked.
+- Use the `bench_cdc_pipeline` and `bench_cdc_delivery_gates` targets in a build
+  configured with benchmarks enabled.
+- Record the build profile, hardware, sample count, run variance, and baseline
+  used for comparisons.
+- Track proxy mappings and missing CDC-specific cases as follow-up work rather
+  than interpreting related replication benchmarks as direct CDC measurements.
 
-## Sourcecode Verification (Module: cdc/performance)
-
-- Verified benchmark sources:
-  - benchmarks/bench_changefeed_throughput.cpp
-  - benchmarks/bench_replication_throughput.cpp
-- Verified mapping surfaces:
-  - event mix/burst, record/list latency, and replication lag paths
-  - WAL serialize/deserialize and replication manager control paths
-  - conflict detection and merge benchmark paths
-- Result:
-  - Referenced benchmark cases exist in current benchmark sources.
-  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.
+**Exact model backend not verifiable from final document text alone.**

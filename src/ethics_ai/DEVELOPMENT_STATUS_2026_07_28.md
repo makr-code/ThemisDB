@@ -1,3 +1,20 @@
+---
+Author: ThemisDB Team
+Created: 2026-07-28
+Last Updated: 2026-10-31
+Status: archived
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
+
+Exact model backend not verifiable from final document text alone.
+
+> **Historical snapshot:** This document records an issue #5642 status on 2026-07-28. It is not current implementation or release evidence. Use `ROADMAP.md` and the current source/tests for present status.
+> Some paths named in this historical record, including `cluster_discourse_engine.cpp`, are not present in the current in-tree source.
+
 # Ethics AI Module Development Status - 2026-07-28
 
 ## Module Identity

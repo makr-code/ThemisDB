@@ -1,74 +1,53 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+---
+Author: "ThemisDB Contributors"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
 
-# Base Module — Public Headers
+Exact model backend not verifiable from final document text alone.
 
-**Module Path:** `include/base/`
-**Implementation:** `../../src/base/`
+# Base Resource-Pool Headers
 
-## Purpose
+`include/base/` currently contains the public declarations for shared resource
+pools; the module lifecycle interfaces are under `include/themis/base/`.
 
-Public interfaces and declarations for ThemisDB's foundational runtime infrastructure, including module loading, sandboxing, hot reload, dependency handling, and plugin lifecycle management.
+| Header | Public surface |
+|---|---|
+| [`buffer_pool.h`](buffer_pool.h) | `themis::resource::BufferPool` and move-only `BufferHandle`; six slab size classes through 4 KiB, with allocator fallback for larger requests. |
+| [`resource_pool_manager.h`](resource_pool_manager.h) | `themis::resource::AdaptiveConnectionPool` (generic integer slots) and `ResourcePoolManager` (connection and buffer pools). |
 
-## Canonical Module Documentation
+`ResourcePoolManager` does not expose a thread-pool member or leak-reclamation
+path in the inspected class/implementation. The header's stated thread-pool
+facade and leak-detection design goals are not implemented there; its
+`Config::leak_timeout` field is unused. `AdaptiveConnectionPool` pools integer
+slots, not connection objects.
 
-`include/base/` contains public header contracts. Canonical module behavior, architecture, and operations docs live in `src/base/`:
+These are not module-loader or sandbox headers. See
+[`../../src/base/API.md`](../../src/base/API.md) for a cross-surface summary
+and [`../../src/base/README.md`](../../src/base/README.md) for source/build
+registration caveats.
 
-- [`../../src/base/README.md`](../../src/base/README.md)
-- [`../../src/base/ARCHITECTURE.md`](../../src/base/ARCHITECTURE.md)
-- [`../../src/base/ROADMAP.md`](../../src/base/ROADMAP.md)
-- [`../../src/base/FUTURE_ENHANCEMENTS.md`](../../src/base/FUTURE_ENHANCEMENTS.md)
+## Build integration status
 
-## Header Files
+The matching implementation files exist at `src/base/buffer_pool.cpp` and
+`src/base/resource_pool_manager.cpp`, but neither appears in
+`THEMIS_BASE_SOURCES`, the explicit source list used to create `themis_base` in
+modular mode, or in the monolithic `THEMIS_CORE_SOURCES` list inspected. In
+modular mode, `themis_core` is a compatibility interface that links module
+targets; it is not the source list for the base library. The headers and source
+files therefore establish the declared API and implementation, not that these
+symbols are linked into either build mode. The modular library target is named
+`themis_base` (underscore), not `themis-base`.
 
-| Header | Primary Class / Interface |
-|--------|--------------------------|
-| `module_loader.h` | `ModuleLoader` — secure module loading and lifecycle |
-| `module_sandbox.h` | `ModuleSandbox` — runtime isolation and resource bounds |
-| `wasm_plugin_sandbox.h` | `WasmPluginSandbox` — WebAssembly plugin isolation |
-| `wasm_runtime_injector.h` | `WasmRuntimeInjector` — WASM runtime registration |
-| `hot_reload_manager.h` | `HotReloadManager` — module reload and rollback orchestration |
-| `plugin_dependency_graph.h` | `PluginDependencyGraph` — dependency resolution and ordering |
-| `remote_registry_client.h` | `RemoteRegistryClient` — remote plugin retrieval |
-| `ab_test_manager.h` | `ABTestManager` — module-level traffic split and experiments |
-
-## Usage
-
-```cpp
-#include "base/module_loader.h"
-
-auto loader = themis::base::createModuleLoader({
-    .trust_verify = true,
-    .sandbox_enabled = true
-});
-
-auto module = loader->load("path/to/module.so");
-module->initialize();
-```
-
-For full runtime usage examples (loading, sandboxing, hot reload), see [`../../src/base/README.md`](../../src/base/README.md).
-
-## Key Configuration Surface
-
-Important configuration entry points are declared in:
-
-- `module_loader.h` (`ModuleLoader::Config` for trust and lifecycle)
-- `module_sandbox.h` (`ModuleSandbox::Config` for resource limits)
-- `wasm_plugin_sandbox.h` (`WasmPluginSandbox::Config` for WASM isolation)
-- `hot_reload_manager.h` (reload strategy and rollback configuration)
-
-## Build
-
-```cmake
-cmake --preset release && cmake --build build/release --target themis-base
-```
-
-## See Also
-
-- [`../../src/base/README.md`](../../src/base/README.md) — implementation details
-- [`../../src/plugins/README.md`](../../src/plugins/README.md) — plugin system
-
-## Installation
-
-```cmake
-target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
-```
+`tests/CMakeLists.txt` discovers module CMake files with `CONFIGURE_DEPENDS`
+and adds `tests/base/`. That file registers `test_*.cpp` sources as focused
+unit tests and a separate focused soak test with a 7200-second timeout. The
+registration helper adds `module:base`, `tier:<unit|soak>`, `kind:focused`, and
+`focus` labels; the base file adds `base` and the soak target also adds `soak`.
+This confirms CMake registration, not that the targets build or tests pass.

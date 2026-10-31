@@ -1,12 +1,12 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "MAI-Code-1.1-Flash"
-AI_Contributor: "MAI-Code-1.1-Flash"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
@@ -28,12 +28,15 @@ This runbook covers the operator-facing failure modes most likely to appear in t
 
 ### Evidence
 
-Look for parser errors in the request trace and confirm the payload violates GraphQL parser limits in `src/api/graphql.cpp`.
+Inspect the parser result and the limits passed by the caller to `Parser::parse()` in `src/api/graphql.cpp`.
+The module does not guarantee that logs include query size or limit values.
 
 ### Recovery
 
 1. Validate the payload size and nesting structure.
-2. Check whether the request includes unsupported fragments or exceeds the configured depth/field constraints.
+2. Named fragments and spreads (after their definitions) and the `@include`/`@skip` field
+   directives are supported. Inline fragments and other directives are rejected; also check
+   configured size, depth, field, and AST-node limits.
 3. If this is a legitimate query, increase the operational limit only in a controlled change and re-run validation tests.
 4. If the request is malicious or malformed, reject it and collect the trace ID for the incident record.
 

@@ -1,5 +1,26 @@
 # Tensor Delta Log, Manifest Store, and Update Worker - Design Documentation
 
+**Last Updated:** 2026-10-31
+**Source level:** Level 1 — module implementation
+**SOT domain:** module-behavior
+**Canonical references:** `src/distributed_tensor/CMakeLists.txt`, `include/distributed_tensor/`, `src/distributed_tensor/`
+**Related:** Issue #7341
+
+<!--
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot Coding Agent
+Human_Review: false
+Human_Author: unknown
+Exact model backend not verifiable from final document text alone.
+-->
+
+> **Historical design record:** The 2026-07-03 status and implementation
+> descriptions below are preserved as recorded then. They are not current test,
+> production-readiness, or runtime-validation evidence. Use the module
+> [`ROADMAP.md`](ROADMAP.md), current CMake files, and linked source for current
+> state.
+
 ## PHASE 2: CORE IMPLEMENTATION
 
 **Issue:** makr-code/ThemisDB#5471  

@@ -1,6 +1,19 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > ⚠️ **Header Changelog** — entries describe the public API contract changes only. For full implementation changelog see `../../src/api/CHANGELOG.md`.
 
-<!-- Status: current | validated: 2026-05-11 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/api/CHANGELOG.md -->
 
 # Changelog — API Module Public Headers
@@ -17,9 +30,9 @@ For full implementation-level changes (source files, tests, build system) see:
 ## [Unreleased]
 
 ### In Progress
-- Fragment and directive support in `graphql.h::Parser` — Issue #1491
+- `graphql.h::Parser` supports named fragments and `@include`/`@skip`; inline fragments and other directives remain unsupported — Issue #1491
 - `GrpcBridgeImpl` concrete implementation for `IGRPCBridge` — `FUTURE_ENHANCEMENTS.md`
-- `QueryAllowList` production startup warning — `FUTURE_ENHANCEMENTS.md`
+- Verify the `QueryAllowList::enabled_` enforcement contract before adding a production startup warning — `FUTURE_ENHANCEMENTS.md`
 
 ---
 
@@ -50,7 +63,7 @@ For full implementation-level changes (source files, tests, build system) see:
 ## [1.9.0]
 
 ### Added
-- `themisdb_grpc_service_factory.h` (new header): `ThemisDBServiceFactory` fluent builder — `withDb()`, `withTxnMgr()`, `withQueryEngine()`, `withVectorIndex()`, `build()`
+- `themisdb_grpc_service_factory.h` (new header): `ThemisDBGrpcServiceFactory` fluent builder — `withDb()`, `withTxnMgr()`, `withQueryEngine()`, `withVectorIndex()`, `build()`
 - `grpc_server.h`: `GrpcApiServer::start()` now releases `mutex_` before the blocking `BuildAndStart()` socket-bind call
 - `grpc_server.h`: `GrpcApiServer::stop()` applies a 30-second hard deadline to `server_->Shutdown()`
 
@@ -70,7 +83,7 @@ For full implementation-level changes (source files, tests, build system) see:
 ### Added
 - `graphql_ws_handler.h` (new header): `GraphQLWsHandler` — `graphql-transport-ws` protocol handler with `QueryLimits::max_subscriptions` enforcement
 - `grpc_server.h` (new header): `GrpcApiServer`, `GrpcServerConfig`
-- `themisdb_grpc_service.h` (new header): `ThemisDBService` gRPC handler
+- `themisdb_grpc_service.h` (new header): `ThemisDBGrpcService` gRPC handler
 - `grpc_bridge.h` (new header): `IGRPCBridge`, `ServiceDescriptor`, `GRPCRequest`, `GRPCMetadata`
 - `graphql.h`: `QueryLimits::max_subscriptions` field added
 
@@ -83,13 +96,13 @@ For full implementation-level changes (source files, tests, build system) see:
 - `graphql_cache.h` (new header): `QueryPlanCache`, `ResponseCache` with LRU eviction
 - `graphql_metrics.h` (new header): `Metrics`, `QueryTimer`
 - `graphql_schema_builder.h` (new header): `IGraphQLSchemaBuilder`, `GraphQLTypeDescriptor`, `SchemaValidationResult`
-- `graphql_aql_resolver.h` (new header): `GraphQLAQLResolver`
+- `graphql_aql_resolver.h` (new header): `GraphQLAqlResolverFactory` and `GraphQLComplexityEstimator`
 - `ws_handler.h` (new header): `WsChangeHandler`
-- `subscription_multiplexer.h` (new header): `SubscriptionMultiplexer`
+- `subscription_multiplexer.h` (new header): `ISubscriptionMultiplexer` interface
 - `tracing_middleware.h` (new header): `TracingMiddleware`
 - `correlation_id.h` (new header): `CorrelationId`, `ICorrelationIDProvider`
 - `rate_limiter.h` (new header): `RateLimiter`, `OperationRateLimiter`
-- `audit_logger.h` (new header): `AuditLogger`, `AuditLogEntry`, `AuditLogBuilder`
+- `graphql_audit_logger.h` (new header): `themis::graphql::AuditLogger`, `AuditLogEntry`, `AuditLogBuilder`
 - `otlp_exporter.h` (new header): `OtlpExporter`, `OtlpExporterConfig`, `SpanData`
 - `persisted_queries.h` (new header): `PersistedQueryRegistry`, `QueryAllowList`, `QueryHasher`
 - `geo_index_hooks.h` (new header): `GeoIndexHooks`

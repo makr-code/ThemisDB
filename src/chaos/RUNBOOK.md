@@ -1,11 +1,11 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot"
+AI_Contributor: "OpenAI"
 Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
@@ -16,7 +16,15 @@ Exact model backend not verifiable from final document text alone.
 
 ## Purpose and safety boundary
 
-This is a runbook for the in-process chaos simulator used by tests and controlled integration exercises. `FaultInjector` records simulated fault state; it does not suppress real network packets or block real disk I/O. The planned `/admin/chaos/*` routes are not wired into `HttpServer`; do not rely on them as operational controls.
+This is a runbook for the in-process chaos simulator used by tests and controlled
+integration exercises. `FaultInjector` records simulated fault state; it does
+not suppress real network packets or block real disk I/O. Server source contains
+guarded `/admin/chaos/*` route code, but the CMake compile definition is scoped
+to `themis_server` while `http_server.cpp` is compiled into `themis_core`, and
+the route setup calls an unavailable no-argument `ChaosScheduler` constructor.
+**TODO:** verify/fix and build the enabled integration. Do not treat those routes
+as usable operational controls. CMake defaults `THEMIS_CHAOS_ADMIN` to `OFF`
+and warns against shipping it in production.
 
 Run fault injection only in an explicitly approved test/staging process with an owner, target, duration, and recovery observer identified. Do not treat this module as a production fault-control mechanism.
 

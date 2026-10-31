@@ -1,12 +1,12 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "MAI-Code-1.1-Flash"
-AI_Contributor: "MAI-Code-1.1-Flash"
-Human_Review: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
 Human_Author: "ThemisDB Contributors"
 ---
 
@@ -16,7 +16,9 @@ Exact model backend not verifiable from final document text alone.
 
 ## Operational role
 
-The `api` module is the external-facing request and session boundary for ThemisDB. It manages client traffic and transport semantics without owning the storage or query execution engine.
+The `api` module provides protocol adapters and transport components used by ThemisDB's server
+runtime. It does not own the primary HTTP listener, general route dispatch, storage, or query
+execution engine.
 
 ## Key runtime responsibilities
 
@@ -26,9 +28,12 @@ The `api` module is the external-facing request and session boundary for ThemisD
 - tracing context propagation and OTLP handling
 - fail-closed behavior for malformed or unsupported inputs
 
-## Health signals
+## Operational checks
 
-The module is considered healthy when:
+The following are checks for a deployment that uses these API components; they are not a claim
+that every signal is emitted by the API module itself.
+
+Assess the integrated service using its configured runtime signals and verify that:
 
 - GraphQL documents validate quickly and do not exceed configured limits
 - the gRPC listener starts on the configured address without invalid state
@@ -38,7 +43,7 @@ The module is considered healthy when:
 
 ## Monitoring expectations
 
-Operators should verify the following categories:
+Where the host runtime exposes these signals, operators should verify:
 
 - request admission and auth rejection counts
 - malformed payload counts

@@ -1,11 +1,11 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot"
+AI_Contributor: "OpenAI"
 Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
@@ -18,9 +18,9 @@ Exact model backend not verifiable from final document text alone.
 
 This document is for maintainers and operators assessing whether chaos
 simulation is safe to enable. The trust boundary is the process containing
-`FaultInjector` and `ChaosScheduler`. The implementation maintains in-memory
-descriptors and a scheduler queue; it does not perform I/O, cross-process
-communication, authentication, authorization, or persistent audit logging.
+`FaultInjector` and `ChaosScheduler`. The core implementation maintains in-memory descriptors and a scheduler queue;
+it does not perform I/O, cross-process communication, or persistent audit
+logging. The core library itself has no authentication or authorization.
 See the process-local guarantees in
 [`include/chaos/chaos_contract.h`](../../include/chaos/chaos_contract.h).
 
@@ -35,10 +35,13 @@ See the process-local guarantees in
 | Callback behavior destabilizes control flow | Register callbacks before concurrent use; keep them bounded and non-throwing. Recovery callbacks must not re-enter the same injector; scheduler-thread callback exceptions are not caught. |
 | State is mistaken for durable evidence | The registry and queue are process-local. Persist any required event history in the test harness; do not infer state after restart. |
 
-The current module exposes no remote chaos endpoint. A planned or separately
-declared admin integration must not be treated as live, authenticated, or
-authorized unless its server wiring and access controls are independently
-verified.
+Server source contains a guarded remote admin route and an admin-access check.
+The build is not verified: CMake defines `THEMIS_CHAOS_ADMIN` only on
+`themis_server`, but compiles `http_server.cpp` into `themis_core`; the route
+setup also calls a no-argument `ChaosScheduler` constructor that is not declared
+by the public API. CMake defaults the option to `OFF`. **TODO:** fix/build this
+integration before treating the endpoint or its access check as active. No
+deployment enablement or surrounding deployment controls are established here.
 
 ## Incident handling
 

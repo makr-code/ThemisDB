@@ -20,8 +20,8 @@
     },
     {
       "name": "BENCHMARK_COMPARABILITY_PLAN.md",
-      "sha256_prefix": "b70f6619e814db9a",
-      "size_bytes": "5397",
+      "sha256_prefix": "78d87947edee52a5",
+      "size_bytes": "5667",
       "type": "design"
     },
     {
@@ -739,12 +739,12 @@
     {
       "category": "governance",
       "path": "ARCHITECTURE.md",
-      "sha256_prefix": "fd52a0160cf6942e"
+      "sha256_prefix": "8bd47833bcd87a6b"
     },
     {
       "category": "governance",
       "path": "ROADMAP.md",
-      "sha256_prefix": "8fc87beb1e24eed8"
+      "sha256_prefix": "727c00e7c7af8ab4"
     },
     {
       "category": "governance",
@@ -1029,7 +1029,7 @@
     {
       "category": "docs",
       "path": "docs/Home.md",
-      "sha256_prefix": "3aad427dd6b16235"
+      "sha256_prefix": "80aef79cb9902671"
     },
     {
       "category": "docs",
@@ -1124,7 +1124,7 @@
     {
       "category": "docs",
       "path": "docs/README.md",
-      "sha256_prefix": "46223b914ff84e97"
+      "sha256_prefix": "4dedd84658d764a5"
     },
     {
       "category": "docs",
@@ -2494,7 +2494,7 @@
     {
       "category": "docs",
       "path": "docs/code_maturity_report.md",
-      "sha256_prefix": "ac5887e213cba990"
+      "sha256_prefix": "88238d33f9094f01"
     },
     {
       "category": "docs",
@@ -5049,7 +5049,7 @@
     {
       "category": "docs",
       "path": "docs/operability/RUNBOOK_NETWORK_TRANSPORT.md",
-      "sha256_prefix": "e4b9c03db35ecbb1"
+      "sha256_prefix": "f3dbd57bda6fdb32"
     },
     {
       "category": "docs",
@@ -5084,7 +5084,7 @@
     {
       "category": "docs",
       "path": "docs/operability/RUNBOOK_RPC_GRPC.md",
-      "sha256_prefix": "4e0e1dc5174d7943"
+      "sha256_prefix": "5384f9d6c66a395f"
     },
     {
       "category": "docs",
@@ -5865,11 +5865,6 @@
       "category": "docs",
       "path": "docs/reports/LLM_BENCHMARKING_SUMMARY.md",
       "sha256_prefix": "96138318ef0db15d"
-    },
-    {
-      "category": "docs",
-      "path": "docs/reports/PHASE2_COMPLETION_REPORT.md",
-      "sha256_prefix": "57226d9840e99786"
     },
     {
       "category": "docs",
@@ -7002,7 +6997,7 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-10-30T18:19:20.966050+00:00",
+  "generated_at": "2026-10-31T12:03:04.115412+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
     "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-10-26\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `c22f201e19477f22`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
@@ -9078,19 +9073,19 @@
   ],
   "schema_version": "1.0.0",
   "source_hashes": {
-    "ARCHITECTURE.md": "fd52a0160cf6942e",
+    "ARCHITECTURE.md": "8bd47833bcd87a6b",
     "FUTURE_ENHANCEMENTS.md": "ab3cf42244d049f6",
-    "ROADMAP.md": "8fc87beb1e24eed8",
+    "ROADMAP.md": "727c00e7c7af8ab4",
     "ai_context/ARCHITECTURE_CLASSIFICATION.md": "57a7f2182a1193c8",
     "ai_context/MODULES_AND_NAMESPACES.md": "bf42dba44a39f8cb",
     "ai_context/api_contracts/": "ff71327044f8d28f",
-    "ai_context/developer_llm_wiki/": "bf863e8e76227acf",
-    "ai_working/": "7e9802b301f3edbe",
-    "docs/": "8c57c656397e551a"
+    "ai_context/developer_llm_wiki/": "851f846713ba57ee",
+    "ai_working/": "e2d0d0fc1893b314",
+    "docs/": "2f874d52f86f43c6"
   },
   "statistics": {
     "ai_working_artifact_count": 27,
-    "documentation_source_count": 1253,
+    "documentation_source_count": 1252,
     "isolated_module_count": 30,
     "modules_with_api_contracts": 6,
     "modules_with_private_plugin": 4,

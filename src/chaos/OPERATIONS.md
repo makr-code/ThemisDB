@@ -1,11 +1,11 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot"
+AI_Contributor: "OpenAI"
 Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
@@ -18,11 +18,23 @@ Exact model backend not verifiable from final document text alone.
 
 `FaultInjector` and `ChaosScheduler` provide process-local fault-state simulation for test and integration consumers that explicitly query `isFaultActive()`. They do not perform real disk or network manipulation, do not persist state across process restarts, and are not a production control plane.
 
-The admin handler is not connected to `HttpServer` yet. The `THEMIS_CHAOS_ADMIN` gate and planned route names in architecture material are not evidence of a live endpoint; operators must not invoke or expose such routes.
+Server source contains a guarded admin handler and `/admin/chaos/*` route
+dispatch. CMake defaults `THEMIS_CHAOS_ADMIN` to `OFF` and conditionally adds the
+handler source, but the macro is defined only on `themis_server` while
+`http_server.cpp` is compiled into `themis_core`; additionally, the server code
+uses a no-argument `ChaosScheduler` constructor that is not declared by the
+public API. **TODO:** build and fix the enabled integration before treating the
+endpoint as usable. Although the guarded route contains an admin-access check,
+this does not establish a live route or deployment configuration. CMake warns
+not to ship the option in production.
 
 ## Operational signals
 
-There are no built-in Prometheus metrics, logs, traces, or alerts for this module. The supported inspection and control surfaces are:
+The core `FaultInjector`/`ChaosScheduler` implementation exports no Prometheus
+metrics, traces, or alerts and does not emit operational logs. The optional
+server handler contains logging calls, but its build integration is unresolved
+(see above); do not rely on it as an operational signal. The supported core
+inspection and control surfaces are:
 
 | Signal/control | Meaning and action |
 |---|---|

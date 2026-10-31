@@ -1,22 +1,25 @@
-> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
+---
+Author: unknown (original author not verified)
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: AI documentation assistant
+Human_Review: false
+Human_Author: unknown
+---
 
-# SECURITY
+Exact model backend not verifiable from final document text alone.
 
-## Scope
-- Modul/Ordner: `tests/chimera`
-- Sicherheitsrelevante Funktionen, Konfigurationen und Datenflüsse in diesem Verzeichnis.
+# Chimera test security scope
 
-## Bedrohungsmodell (Kurz)
-- Unvalidierte Eingaben
-- Unzureichende Autorisierung/Authentisierung
-- Leakage sensibler Daten in Logs/Artefakten
-- Fehlkonfiguration bei Deployment/Runtime
+**Purpose / audience:** describe security-relevant test boundaries, not runtime controls.
 
-## Mindestanforderungen
-- Eingaben strikt validieren und Fehler explizit behandeln
-- Geheimnisse niemals im Klartext ablegen
-- Security-relevante Änderungen mit Tests absichern
-- Abhängigkeiten regelmäßig auf Schwachstellen prüfen
+The tests in this directory exercise adapter behavior; they do not themselves provide authentication, authorization, secret storage, TLS, or production security enforcement. `test_chimera_highcardinality_stress.cpp` uses local stubs, and the ordinary ThemisDB adapter test fixture is simulation-oriented. Passing such tests would not prove the security of an engine-backed or vendor-driver deployment.
 
-## Incident & Meldung
-- Sicherheitsfunde gemäß Root-`SECURITY.md` melden und behandeln.
+Before using test results as security evidence, identify the exact adapter/build definitions and exercise the real dependency and connection configuration. Do not commit credentials in test fixtures or logs. Report vulnerabilities according to the project-level [`../../SECURITY.md`](../../SECURITY.md).
+
+References: `tests/chimera/*.cpp`, `tests/CMakeLists.txt`, `CMakeLists.txt`, `include/chimera/*.hpp`.
+
+Issue/milestone: #7336 / DOC-WEEKLY-2026-44.

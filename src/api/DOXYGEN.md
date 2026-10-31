@@ -1,14 +1,37 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-09-20"
+Last Updated: "2026-10-31"
+Status: "stale"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # API DOXYGEN
 
-Author: ThemisDB Contributors
-Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+> **Stale generated snapshot:** this artifact was generated on 2026-09-20 from module Doxygen XML
+> whose recorded paths point to a local Windows workspace. Its inventories and symbol details have
+> not been regenerated or validated against the current source; do not use them as a current API
+> reference. With Doxygen installed, regenerate with:
+>
+> ```sh
+> python3 scripts/generate_module_doxygen_xml.py \
+>   --repo-root . \
+>   --modules api \
+>   --output-root /tmp/module-doxygen \
+>   --manifest /tmp/module-doxygen/manifest.json \
+>   --summary-md /tmp/module-doxygen/summary.md \
+>   --write-module-markdown
+> ```
 
 ## Source
-- This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\api\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\api\doxygen-warnings.log`
+- This file is derived from module-scoped Doxygen XML.
+- The source XML index and warnings log were not committed; the historical local paths are not reproducible.
 
 ## Structure Metrics
 - C/C++ Files (scanned): 57
@@ -5867,4 +5890,3 @@ Status: active
   - `name` (std::string): Input parameter.
 - Return: Return value.
 - Details: name Input parameter. Return value. Calls: std::move().
-

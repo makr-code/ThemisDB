@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # ThemisDB Core Headers
@@ -64,10 +78,10 @@ The `concerns/` subdirectory contains all cross-cutting concern interfaces and a
 
 **SpdlogLoggerAdapter** (`spdlog_logger_adapter.h`)
 - Wraps spdlog library for production logging
-- Supports async logging mode
+- Async logging mode is not established by this adapter header.
 - Configurable log levels and patterns
 
-**OtelTracerAdapter** (`otel_tracer_adapter.h`)
+**OpenTelemetryTracerAdapter** (`otel_tracer_adapter.h`)
 - Integrates OpenTelemetry for distributed tracing
 - Supports W3C Trace Context propagation
 - Compatible with Jaeger, Zipkin, and other OTEL backends
@@ -78,8 +92,7 @@ The `concerns/` subdirectory contains all cross-cutting concern interfaces and a
 - Label support for high-dimensional metrics
 
 **NoOpImplementations** (`noop_implementations.h`)
-- Zero-overhead no-op implementations for testing and minimal builds
-- All virtual calls optimized away by compiler
+- No-op implementations for testing and minimal builds
 - Useful for performance-critical paths
 
 #### Secrets Implementations
@@ -147,7 +160,7 @@ public:
     IMetrics& metrics();
     ICache& cache();
 
-    // Thread-safe and immutable after construction
+    // Runtime replacement is supported; resolve<T>() returns owning handles.
 };
 ```
 
@@ -178,20 +191,11 @@ An explicit non-empty adapter value always overrides the boolean flag.
 
 ### Initialization Headers
 
-**storage_initialization.h**
-- Storage layer initialization routines
-- RocksDB configuration and setup
-- Blob storage backend initialization
+**storage_initialization.h** — `StorageEngineBuilder` for storage-engine construction.
 
-**index_initialization.h**
-- Index subsystem initialization
-- HNSW, graph, and spatial index setup
-- GPU acceleration configuration
+**index_initialization.h** — `IndexManagerBuilder` for index-manager construction.
 
-**security_initialization.h**
-- Cryptographic component initialization
-- Key management setup
-- Field-level encryption configuration
+**security_initialization.h** — `SecurityLayerBuilder` for security-layer construction.
 
 **query_engine_builder.h**
 - Query engine construction with dependency injection
@@ -227,24 +231,24 @@ All core headers follow the Dependency Inversion Principle:
 - High-level modules don't depend on low-level implementations
 - Easy to swap implementations without modifying consumers
 - Testable with mock implementations
-- No compile-time dependencies on external frameworks
+- Consumers can program against concern interfaces; concrete adapter headers may
+  include framework-specific dependencies.
 
 ### Thread Safety Guarantees
 
-All interfaces are designed for thread-safe usage:
+Thread-safety guarantees are adapter- and operation-specific; the public headers do not
+establish a blanket guarantee for every interface.
 
-- **ILogger**: Thread-safe (adapters use internal locking)
-- **ITracer**: Thread-safe span creation and attribute setting
-- **IMetrics**: Thread-safe metric updates (atomic operations)
-- **ICache**: Thread-safe get/set/invalidate (implementation-dependent)
-- **ConcernsContext**: Immutable after construction (thread-safe access)
+- **ConcernsContext**: `resolve<T>()` uses a shared mutex; replacement swaps under
+  exclusive lock. Accessor references should not be retained across replacement.
 
 ### Memory Management
 
-- `ConcernsContext` owns adapters via `std::unique_ptr` internally
+- `ConcernsContext` stores adapters in `std::shared_ptr` members after construction
 - Consumers access concerns through references (`logger()`, `tracer()`, etc.)
-- `std::shared_ptr<ConcernsContext>` is used to share one immutable context instance
-- Adapter replacement drains old adapters (`flush`/`shutdown`) before release
+- `std::shared_ptr<ConcernsContext>` shares the context instance
+- Replacement swaps the active pointer, flushes the old adapter, and may call its
+  shutdown hook; outstanding `resolve<T>()` handles can keep the old adapter alive.
 
 ## Integration Points
 
@@ -391,11 +395,14 @@ auto ctx = ConcernsContext::createCustom(
 - **themis/base/interfaces**: Base interface definitions
 - **Standard Library**: `<memory>`, `<string>`, `<optional>`
 
-### External Dependencies (Optional)
-Adapters require external libraries, but core interfaces have no dependencies:
+### External Dependencies
+
+Concrete adapters and some public headers bring their own dependencies. Check the
+included headers for the exact build requirements; these dependencies are not
+uniformly optional at the header level.
 
 - **spdlog**: For SpdlogLoggerAdapter (optional)
-- **OpenTelemetry**: For OtelTracerAdapter (optional)
+- **OpenTelemetry**: For OpenTelemetryTracerAdapter (optional)
 - **Prometheus C++ Client**: For PrometheusMetricsAdapter (optional)
 
 ### Compilation Flags
@@ -411,18 +418,15 @@ target_include_directories(my_target PRIVATE include/core)
 ## Performance Characteristics
 
 ### Header-Only Overhead
-- Core interfaces are pure virtual (vtable indirection only)
-- No-op implementations compile to zero overhead (empty inline functions)
-- Template methods in headers for zero-cost abstractions
+
+This page makes no measured overhead or zero-cost claim.
 
 ### Adapter Overhead
 See [src/core/README.md](../../src/core/README.md) for adapter performance details and implementation context.
 
-**Summary:**
-- No-op adapters: <1ns per call
-- Spdlog adapter: ~50-100ns per log call
-- OTEL tracer: ~1-5μs per span
-- Prometheus metrics: ~200-500ns per update
+No direct Core benchmark result is established by this header overview. See
+[`../../src/core/PERFORMANCE_EXPECTATIONS.md`](../../src/core/PERFORMANCE_EXPECTATIONS.md)
+for the current benchmark inventory and evidence limitations.
 
 ## Known Limitations
 
@@ -458,20 +462,10 @@ See [src/core/README.md](../../src/core/README.md) for adapter performance detai
 
 ## Status
 
-**Production Ready** (as of v1.5.0)
-
-✅ **Stable Interfaces:**
-- ILogger, ITracer, IMetrics, ICache
-- ConcernsContext API
-- All adapter headers
-
-⚠️ **Beta:**
-- Distributed cache interfaces
-- Advanced cache strategy headers
-
-🔬 **Experimental:**
-- Dynamic adapter replacement APIs
-- Contextual logging interfaces
+This header inventory is not a maturity or release-readiness attestation. See
+[`../../src/core/ROADMAP.md`](../../src/core/ROADMAP.md) for delivered scope and
+[`../../src/core/MODULE_EVIDENCE.md`](../../src/core/MODULE_EVIDENCE.md) for build/test
+evidence status.
 
 ## Related Documentation
 

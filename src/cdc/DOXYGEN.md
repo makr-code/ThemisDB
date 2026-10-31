@@ -2,13 +2,22 @@
 
 Author: ThemisDB Contributors
 Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\cdc\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\cdc\doxygen-warnings.log`
+- Snapshot generated: 2026-09-20; source commit was not recorded.
+- The previous XML and warning-log paths were machine-local and are not portable.
+- This page was not regenerated during the 2026-10-31 documentation review because
+  the Doxygen executable is unavailable in that environment. Its signatures,
+  counts, and extracted details are not verified as current.
+- Exact model backend not verifiable from final document text alone.
 
 ## Structure Metrics
 - C/C++ Files (scanned): 79
@@ -10094,4 +10103,3 @@ Status: active
   - `details` (const std::string &): Input parameter.
 - Return: Return value.
 - Details: details Input parameter. Return value. Calls: CDCException().
-

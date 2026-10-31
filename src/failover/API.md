@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -34,11 +34,12 @@ hot-spare, and epoch-fencing managers.
 | `updateConfig()` / `getConfig()` | Replace/read runtime configuration. Review timing and concurrency changes against quorum and fencing behavior. |
 | `getStatistics()`, `resetStatistics()`, `registerEventCallback()` | Read/reset in-process counters and subscribe to lifecycle events. These are not a promise of externally exported metrics. |
 
-Defaults include three consecutive failures before action, two concurrent
-failovers, a 75% queue-pressure threshold, a 5-second health-check call timeout,
-and a 30-second quorum wait. Promotion depends on the injected replication and
-fencing managers. Queue rejection is surfaced to the caller and counted; there
-is no automatic retry of a rejected manual enqueue.
+Defaults include three consecutive failures before action, a queue capacity of
+two pending requests, a 75% queue-pressure threshold, a 5-second health-check
+call timeout, and a 30-second quorum wait. Promotion depends on the injected
+replication and fencing managers. Queue rejection is surfaced to the caller and
+counted; there is no automatic retry of a rejected manual enqueue. A queued
+`target_promote_id` is not currently used to select the promotion candidate.
 
 ## Disaster recovery
 
@@ -74,6 +75,10 @@ prove that a real restore or cutover occurred.
   Recovery can skip invalid records; CRC32 is not an authentication mechanism.
 - `TopologySnapshot` captures node IDs and failure counts for deterministic
   topology comparisons.
+
+The public API documents declarations, not proof of external side effects.
+`AutoFailoverManager::stop()` uses direct thread joins; there is no enforced
+timed-join bound.
 
 ## References
 

@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/failover/FUTURE_ENHANCEMENTS.md -->
 
 # Failover Module — Public Header Future Enhancements
@@ -21,15 +35,15 @@ Planned enhancements to the **public header contract** in `include/failover/`. R
 ## Design Constraints
 
 - `[x]` Public headers must not expose internal implementation types or arena/memory layout details to callers.
-- `[x]` Breaking changes to types in `include/failover/` require a MAJOR version bump per `VERSIONING.md`.
-- `[x]` New entry points should be additive; existing stable APIs remain source-compatible.
-- `[x]` Layer association (**Graph**) must be preserved in all header expansions.
+- `[x]` Breaking changes must follow repository policy in `VERSIONING.md`.
+- `[x]` New entry points should be additive; preserve source compatibility for APIs designated stable by repository policy.
 
 ---
 
 ## Required Interfaces (Header Contract)
 
-Current public surfaces cover: automatic failover management and disaster recovery coordination.
+Current headers cover automatic failover and disaster-recovery coordination,
+shared failover contracts, a local quorum log, and topology snapshots.
 
 Planned extensions follow the same namespace (`themis::failover`) and include-guard conventions.
 
@@ -37,27 +51,10 @@ Planned extensions follow the same namespace (`themis::failover`) and include-gu
 
 ## Planned Enhancements
 
-### Short-Term (Q3 2026)
+### Candidate work (requires owner confirmation)
 
-- [ ] Add `[[deprecated]]` annotations to any legacy entry points with migration notes
-- [ ] Add explicit `noexcept` specifications to query/read paths where safe
-- [ ] Add structured diagnostic types for all thrown exceptions
+- Confirm supported ABI/language/platform promises before adding compatibility annotations or matrices.
+- Consider targeted API documentation improvements when public behavior changes.
+- Add convenience or module-interface APIs only following an approved design; these are proposals, not committed roadmap work.
 
-### Medium-Term (Q4 2026)
-
-- [ ] Expand public surface with convenience factory functions for common usage patterns
-- [ ] Add Concepts (C++20) constraints to template parameters in public headers
-- [ ] Introduce explicit ABI stability markers (`THEMIS_STABLE_ABI`) to long-term interfaces
-
-### Long-Term (2027+)
-
-- [ ] Module-interface (C++20 modules) wrapper for `include/failover/` entry points
-- [ ] Header-only usage path for embedding scenarios (where feasible)
-- [ ] Extended layer-mapping documentation for Graph integration patterns
-
----
-
-## Alignment with Strategic Plan
-
-Enhancements align with `FUTURE_PLAN.md` layer **Graph**. For cross-layer integration planning see:
-→ [`../../src/ai/FUTURE_ENHANCEMENTS.md`](../../src/ai/FUTURE_ENHANCEMENTS.md)
+Runtime limitations and implementation work are tracked in [`../../src/failover/FUTURE_ENHANCEMENTS.md`](../../src/failover/FUTURE_ENHANCEMENTS.md) and [`../../src/failover/ROADMAP.md`](../../src/failover/ROADMAP.md).

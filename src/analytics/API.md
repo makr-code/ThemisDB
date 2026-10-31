@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -65,6 +65,11 @@ states stability within the active v1.x line; contract-breaking changes require
 the documented major-version and migration process.
 
 ## Example: bounded external inference
+
+The example deliberately uses the namespaces declared by the owning headers:
+`MLServingRequest` is in `themisdb::analytics`, while
+`BoundedExecutionPolicy` is in `themis::analytics`. Analytics headers do not
+all share one namespace.
 
 ```cpp
 themisdb::analytics::MLServingRequest request;

@@ -24,7 +24,7 @@ Human_Author: "ThemisDB Team"
 
 ## Contract and implementation
 
-The public header describes available operations and options. Do not assume that every declared option or operation is fully implemented by the current plugin. In particular, the current plugin query does not honor `WikiQueryOptions`, and `ingestWikipediaDump()` does not process its input. See [`../../src/llm_wiki/API.md`](../../src/llm_wiki/API.md) for the current API/implementation comparison and [`../../src/llm_wiki/README.md`](../../src/llm_wiki/README.md) for module context.
+The public header describes available operations and options. Do not assume that every declared option or operation is fully implemented by the current plugin. In particular, the current plugin query does not honor `WikiQueryOptions`, `ingestWikipediaDump()` does not process its input, and the header's thread-safety/lock-free-query claim conflicts with observed locking and unlocked plugin-member access. Until that contract is resolved, serialize plugin calls externally. See [`../../src/llm_wiki/API.md`](../../src/llm_wiki/API.md) for the source comparison and [`../../src/llm_wiki/README.md`](../../src/llm_wiki/README.md) for module context.
 
 ## Build and integration
 

@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Security - Index Module
 
 <!-- Status: current | validated: 2026-05-31 -->
@@ -15,13 +29,15 @@ Security in the index module focuses on safe index mutation/query boundaries, de
 |---|---|
 | unsafe index mutation paths | explicit validation and guarded update/rebuild flows |
 | backend capability mismatch | deterministic GPU/backend fallback and explicit error surfacing |
-| cross-context retrieval leakage | index scoping and bounded lookup behaviors |
+| cross-context retrieval leakage | caller/service authorization; index scoping is not an authorization control |
 | hidden lifecycle regressions | explicit rebuild/tiering observability and operational surfaces |
 | corrupted similarity/distance behavior | quantization/metric validation and benchmark-backed checks |
 
 ## Implemented Security Controls
 
 - guarded index update and rebuild pathways avoid silent corruption.
+- Tenant-qualified logical names and candidate filters do not authenticate or
+  authorize callers; service integrations must enforce tenant and index access.
 - backend-specific flows expose deterministic unsupported/degraded outcomes.
 - metric and quantization paths are bounded by explicit index configuration checks.
 - lifecycle and distribution operations expose observable status and failure surfaces.
