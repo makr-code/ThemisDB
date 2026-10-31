@@ -1,69 +1,85 @@
-> **Sicherheitshinweis:** Security-Angaben gegen aktuelle Build-Flags, Codepfade und Tests validieren.
-
-<!-- Status: current | validated: 2026-09-22 -->
-<!-- Links: README.md · ARCHITECTURE.md · PRODUCTION_REQUIREMENTS.md · ROADMAP.md -->
-
-# Security — ONNX CLIP Plugin
-
-## Threat Model
-
-### 1. Malicious Image Input (Adversarial Images)
-- **Risk:** A caller supplies crafted image bytes designed to exploit the ONNX model
-  or the image decoding library (buffer overflow, integer overflow in JPEG decoder).
-- **Mitigation:** Image decoding is delegated to the system image library (OpenCV /
-  stb_image); all decoded tensors are explicitly shaped to [1, 3, 224, 224] before
-  inference. Inputs exceeding this shape trigger a resize, not a buffer expansion.
-- **Status:** ✅ Fixed-shape tensor prevents shape-based attacks
-
-### 2. Untrusted ONNX Model File
-- **Risk:** An attacker replaces the ONNX model file on disk with a crafted model
-  containing malicious operators or oversized weights.
-- **Mitigation:** ONNX model files should be stored in a read-only, access-controlled
-  directory. SHA-256 hash verification on model load is planned for v0.3.0. Until then,
-  operators must ensure model files are not writable by the ThemisDB process user.
-- **Status:** ⚠️ Hash verification planned Q1 2027; operator path restriction required now
-
-### 3. GPU Memory Exhaustion (CUDA / TensorRT)
-- **Risk:** Large batch inputs or many concurrent callers exhaust GPU memory, causing
-  OOM crashes affecting other GPU workloads on the same device.
-- **Mitigation:** Input images are resized to 224×224 before inference; maximum tensor
-  size is bounded. Batch sizes are capped at 64. The mutex prevents concurrent session
-  runs from the same plugin instance.
-- **Status:** ✅ Input size bounded; concurrent run protection via mutex
-
-### 4. Model Output Leakage
-- **Risk:** Embedding vectors may encode sensitive biometric or visual identity
-  information (face embeddings) that could be used for re-identification.
-- **Mitigation:** CLIP image embeddings are semantic, not biometric. However, operators
-  storing embeddings of human faces in the ThemisDB vector index must conduct a DSGVO
-  Art. 9 assessment and apply appropriate access controls on the vector collection.
-- **Status:** ⚠️ Policy responsibility of the operator; not a code-level control
-
-### 5. Denial of Service via Repeated Warmup or Health Checks
-- **Risk:** A caller invokes `warmup()` or `healthCheck()` in a tight loop to starve
-  inference threads.
-- **Mitigation:** `warmup()` and `healthCheck()` use the same mutex as `generateEmbedding()`;
-  they are serialised and do not bypass rate limiting at the API layer.
-- **Status:** ✅ Mutex-serialised; rate limiting is caller/API-layer responsibility
-
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 ---
 
-## Security Controls Summary
+# Security — ONNX CLIP Reference Backend
 
-| Control | Implementation | Status |
-|---------|---------------|--------|
-| Fixed-shape tensor preprocessing | 224×224 resize before inference | ✅ |
-| Mutex-serialised session runs | `std::mutex` in `Impl` | ✅ |
-| Batch size cap | 64 images maximum per batch call | ✅ |
-| Model file access control | Operator responsibility (read-only path) | ⚠️ |
-| Model integrity hash | Planned v0.3.0 | ❌ |
+Exact model backend not verifiable from final document text alone.
 
----
+## Scope and trust boundaries
 
-## Known Limitations
+This assessment describes the live implementation in
+[`onnx_clip_plugin.cpp`](./onnx_clip_plugin.cpp), not a future ONNX inference
+runtime. The plugin accepts config and caller-controlled byte/text inputs,
+returns deterministic hash/PRNG vectors, and may read or map a configured file.
+It does not decode images, execute model operators, authenticate callers,
+authorize index access, enforce rate limits, persist vectors, or export audit
+events.
 
-| ID | Description | Severity | Status |
-|----|-------------|----------|--------|
-| CLIP-SEC-01 | No SHA-256 verification of ONNX model file on load | High | Open (planned Q1 2027) |
-| CLIP-SEC-02 | Face/biometric embedding storage policy is operator responsibility | Medium | Open (by design) |
-| CLIP-SEC-03 | No per-caller rate limiting on embedding generation | Low | Open |
+The host application remains responsible for authorization, request-size
+limits, vector-store access, retention, privacy review, and incident logging.
+See [`TRUST.md`](./TRUST.md) for a boundary-by-boundary trust model.
+
+## Current risks and controls
+
+| Risk | Current behavior | Required control / limitation |
+|---|---|---|
+| Large/untrusted payloads | The image path accepts opaque byte vectors; text is tokenized in memory. Empty inputs fail, but there is no maximum byte length, total batch count, or text length in this plugin. | Enforce per-request byte and count limits in the host/API layer. |
+| Oversized output allocation | Positive `model.embedding_dim` values and configured `max_batch_size` have no upper clamp. Batch chunking does not limit total result allocation. | Validate maximum dimension and request size before calling the plugin. |
+| Model path substitution | A configured file may be read for hashing or mapped read-only. Mapping does not make the file trusted and its bytes are not used in inference. | Use immutable, access-controlled paths and an artifact digest from a trusted deployment source. |
+| Digest check bypass | Digest checking requires both path and expected digest. OpenSSL builds compute SHA-256; non-OpenSSL builds call the injected `ModelHashFn`, but skip checking if no callback exists. | Hardened builds must ensure an active verifier; test the actual build configuration. |
+| Misleading model/backend labels | `model.name` is reported as a label. `AUTO` selects CPU; other backend enum values are stored but not used to select inference. | Do not infer model loading, provider use, or semantic capability from labels or `isReady()`. |
+| Sensitive input-derived data | Outputs are deterministic and depend on input bytes/text; repeated inputs yield repeatable vectors. | Treat derived vectors and inputs under the host's data-classification, access, encryption, and retention policies. Do not claim anonymity or non-biometric status. |
+| Reload timeout ambiguity | `reloadModel()` publishes a valid new state before waiting for old requests. A drain timeout returns false after the new state is active. | On false, inspect statistics/config before deciding whether to roll back. |
+
+## Integrity and file handling
+
+`model.expected_sha256` is compared byte-for-byte with the computed or injected
+digest. When OpenSSL is enabled, unreadable files or mismatches fail
+initialization/reload. Without OpenSSL, a registered `ModelHashFn` can provide
+the digest; if none is registered, the code proceeds without verification.
+There is no signature, trusted manifest, format validation, or provenance
+check.
+
+`enable_mmap_loading` requests a read-only mapping for a non-empty path on the
+implemented POSIX/Windows code paths. Mapping failures are ignored and
+initialization can still become ready. The mapped pointer is not connected to
+an inference session. Do not treat mmap success as a model-validity or security
+check.
+
+## Incident handling
+
+If an expected digest fails, keep the plugin out of traffic and verify the
+artifact and digest through the trusted deployment pipeline; do not turn off
+verification as an availability workaround. If a non-OpenSSL deployment has
+no callback, classify that as a configuration-control failure when integrity
+verification is required.
+
+For suspected path replacement, preserve deployment metadata and host
+filesystem/audit evidence, then replace the file only through the approved
+artifact deployment process. For possible input/vector exposure, follow the
+host service's privacy/security incident process; the plugin itself cannot
+identify callers or determine whether stored vectors were accessed.
+
+On `reloadModel()` returning false, check `getStatistics()` because a
+post-publication drain timeout leaves the new state active. To revert, use the
+saved prior config in another reload and verify the resulting model label,
+dimension, and readiness.
+
+## Changes requiring security re-review
+
+Introducing actual ONNX model execution changes the risk surface. Reassess
+model provenance and operator execution, graph/resource limits, image
+decoder/preprocessing behavior, tokenizer bounds, provider isolation,
+concurrency, reload rollback, and output sensitivity. Require tests against
+real model files and update [`TRUST.md`](./TRUST.md),
+[`RUNBOOK.md`](./RUNBOOK.md), and [`OPERATIONS.md`](./OPERATIONS.md) with the
+implementation.

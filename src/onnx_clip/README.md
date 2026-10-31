@@ -1,9 +1,23 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 >
-> **Status:** current | validated: 2026-10-08
+> **Status:** current | source-checked: 2026-10-31
 
-<!-- Status: current | validated: 2026-10-08 -->
-<!-- Links: ../../include/onnx_clip/README.md · ARCHITECTURE.md · ROADMAP.md · PRODUCTION_REQUIREMENTS.md · SECURITY.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: current | source-checked: 2026-10-31 -->
+<!-- Links: ../../include/onnx_clip/README.md · ARCHITECTURE.md · ROADMAP.md · PRODUCTION_REQUIREMENTS.md · SECURITY.md · RESEARCH.md · MODELING.md · EMBEDDING.md · IMPLEMENTATION.md · API.md · MODULE_GUIDE.md · RUNBOOK.md · OPERATIONS.md · TRUST.md -->
 
 # ThemisDB ONNX CLIP Plugin
 
@@ -17,34 +31,32 @@
 
 ## Module Purpose
 
-The `onnx_clip` module exposes a deterministic `IImageAnalysisBackend`
-implementation for CLIP-style image and text embeddings. In the current repository
-build it is intentionally a portable reference implementation: it validates config,
-computes deterministic embeddings, enforces bounded batch handling, tracks
-statistics, exposes health checks, supports optional hash verification, and
-implements hot-swap/mmap hooks without assuming a real ONNX Runtime provider is
-available in every environment.
+The `onnx_clip` module exposes an `IImageAnalysisBackend` implementation with
+deterministic reference vectors for image bytes and text. The current source does
+not decode images, execute an ONNX graph, load CLIP weights, or establish semantic
+alignment between image and text vectors. It exercises configuration, batching,
+statistics, health checks, optional digest verification, and lifecycle contracts;
+the model label and backend selection do not prove that a model/provider is active.
 
 ## Subsystem Scope
 
-**In scope:** image embeddings from raw byte payloads, text embeddings for
-cross-modal search, per-plugin statistics, bounded sub-batch processing, optional
-SHA-256 model verification, dynamic plugin export, and focused unit coverage.
+**In scope:** deterministic vectors derived from raw image bytes or text,
+per-plugin statistics, sequential batch chunking, optional SHA-256 verification,
+dynamic plugin export, and focused contract tests.
 
-**Out of scope:** a native ONNX Runtime provider integration in every build profile,
-full GPU-provider probing in `AUTO` mode, and golden-vector integration tests that
-require model assets not shipped with the repo.
+**Out of scope:** pretrained CLIP inference, image decoding/preprocessing, a
+learned shared image-text embedding space, runtime provider probing, and
+model-backed quality evaluation using assets not shipped with the repository.
 
 ## Current Delivery Status
 
-**Current state:** the module implements the full contract surface exercised by the
-core tests and remains source-aligned with the deterministic implementation in
-`onnx_clip_plugin.cpp`. The live code is a portable, production-safe reference
-backend; it is not a native `onnxruntime` session wrapper in the default build.
+**Current state:** the source implements the deterministic reference behavior in
+`onnx_clip_plugin.cpp`. It does not instantiate an ONNX Runtime session or consume
+the configured model bytes for embedding generation.
 
-**Practical interpretation:** this is a contract-validated module for ThemisDB
-integration, not a claim that every deployment environment loads a real ONNX model
-through a hardware provider.
+**Practical interpretation:** the interface and lifecycle are testable, but
+returned vectors are not semantic CLIP embeddings and must not be used to claim
+retrieval quality.
 
 ## Governance and Archive Boundary
 
@@ -55,6 +67,15 @@ The active governance set for this module is limited to:
 - `ROADMAP.md`
 - `PRODUCTION_REQUIREMENTS.md`
 - `SECURITY.md`
+- `TRUST.md`
+- `RESEARCH.md`
+- `MODELING.md`
+- `EMBEDDING.md`
+- `IMPLEMENTATION.md`
+- `API.md`
+- `MODULE_GUIDE.md`
+- `RUNBOOK.md`
+- `OPERATIONS.md`
 - `FUTURE_ENHANCEMENTS.md`
 - `PERFORMANCE_EXPECTATIONS.md`
 - `CHANGELOG.md`
@@ -97,14 +118,16 @@ contract unless a specific release or audit task requires them.
 | `max_batch_size` | integer | `16` on CPU, `64` otherwise | Maximum sub-batch size processed per `generateEmbeddingBatch()` chunk |
 | `model.path` | string | empty | Optional model file used for integrity verification |
 | `model.expected_sha256` | string | empty | Enables hash verification when paired with `model.path` |
-| `enable_mmap_loading` | boolean | false | Optional mmap attempt for model files on supported platforms |
+| `enable_mmap_loading` | boolean | false | Top-level option to map a non-empty model path; the mapped bytes are not used by inference |
 
 ### Current runtime contract
 
 - `BackendType::AUTO` resolves to `CPU` in the current portable implementation.
 - `generateEmbeddingBatch()` preserves request order while processing sub-batches up to `max_batch_size`.
-- `reloadModel()` swaps the implementation snapshot while draining in-flight requests, but it does not imply a native ONNX session migration path.
+- `reloadModel()` publishes a validated replacement before draining requests using the old snapshot. A `false` return caused by the 30-second drain timeout does not roll back the already-published replacement.
 - The optional model-hash validation runs only when `model.path` and `model.expected_sha256` are both present.
+- In builds without OpenSSL, an installed `ModelHashFn` performs that check; if no callback is installed, verification is skipped.
+- Batch chunking bounds each processing chunk, not the total number of inputs or result allocation.
 
 ## Runtime Behavior, Error Cases, and Limits
 
@@ -199,6 +222,15 @@ target_include_directories(your_target PRIVATE
 
 ## Main Source References
 
+- [`RESEARCH.md`](./RESEARCH.md) — evaluation assumptions and required model-backed evidence
+- [`MODELING.md`](./MODELING.md) — deterministic vector-generation method
+- [`EMBEDDING.md`](./EMBEDDING.md) — inputs, outputs, and embedding semantics
+- [`IMPLEMENTATION.md`](./IMPLEMENTATION.md) — state, reload, integrity, and build details
+- [`API.md`](./API.md) — callable interface and configuration contract
+- [`MODULE_GUIDE.md`](./MODULE_GUIDE.md) — integration and change workflow
+- [`RUNBOOK.md`](./RUNBOOK.md) — symptom diagnosis and recovery
+- [`OPERATIONS.md`](./OPERATIONS.md) — routine checks and metric interpretation
+- [`TRUST.md`](./TRUST.md) — trust boundaries and security assumptions
 - [`ARCHITECTURE.md`](./ARCHITECTURE.md) — component layout and runtime contract
 - [`ROADMAP.md`](./ROADMAP.md) — delivery phases and work items
 - [`FUTURE_ENHANCEMENTS.md`](./FUTURE_ENHANCEMENTS.md) — follow-up implementation work
