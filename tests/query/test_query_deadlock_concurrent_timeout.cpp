@@ -213,7 +213,9 @@ TEST_F(ParallelExecutorDeadlockTest, SequentialFallbackPath) {
  * This is a stress test to catch lock-order or nested blocking issues.
  */
 TEST_F(ParallelExecutorDeadlockTest, ConcurrentScansNoDeadlock) {
-    // Create input for multiple threads
+    ParallelExecutor executor(defaultConfig());
+
+    // Create input for multiple concurrent requests using one executor.
     ParallelExecutor::Table input;
     input.reserve(500);
     for (int i = 0; i < 500; ++i) {
@@ -233,7 +235,6 @@ TEST_F(ParallelExecutorDeadlockTest, ConcurrentScansNoDeadlock) {
 
     for (int t = 0; t < 4; ++t) {
         threads.emplace_back([&, t]() {
-            ParallelExecutor executor(defaultConfig());
             auto result = executor.parallelScan(input, filter, 2);
             results[t].store(result.has_value() && result->size() > 0, std::memory_order_release);
         });
