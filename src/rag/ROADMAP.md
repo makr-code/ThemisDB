@@ -1,45 +1,60 @@
+---
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "ThemisDB documentation orchestrator"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # RAG Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: complete | validated: 2026-08-24 | Phase 1-6 Complete with Full Evidence | Production-Ready for Wave B GA -->
+<!-- Historical Phase 1-6 report pointer (2026-08-24); not a current release-readiness claim. -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · PHASE_5_6_ACCEPTANCE_REPORT.md -->
 
 ## Current Status
 
-Production-grade RAG runtime with retrieval fusion, context assembly, evaluation, ingestion bridge integration, and safety controls. Phase 5-6 delivery complete: performance gates locked, operator documentation provided, full test coverage validated. Source hardening now computes exact full-vocabulary TARG entropy by default and only uses `FullEntropyFn` for backend override injection, removing the old top-32 approximation from the default runtime path.
+RAG exposes retrieval fusion, context assembly, evaluation, ingestion, safety,
+and monitoring components. Component presence and historical phase reports do
+not establish end-to-end wiring, production readiness, or measured performance.
+The root `ROADMAP.md` remains authoritative for release readiness. The benchmark
+and evaluation targets listed below require separate current evidence.
 
-**Wave Alignment (see root ROADMAP.md § Program Execution Model):**
-- **Wave B (Q3–Q4 2026):** Phase 1-6 Complete (retrieval fusion, error handling, performance gates, documentation, operator support)
-- **Wave B Exit Criteria:** ✅ SATISFIED - Full 4-layer retrieval chain with stable p95/p99 on representative hardware; Phase A→B migration atomic and rollback-safe
-- **Tier 2 Functional Completeness:** ✅ VERIFIED - High-impact for RAG/LLM workloads; Wave B entry criterion satisfied
+**Wave Alignment:** Wave labels and exit criteria are governed by root
+`ROADMAP.md`. This module roadmap does not certify representative-hardware
+latency, a complete four-layer retrieval chain, or release exit criteria.
 
-**Phase Implementation Status (Phase 1-10 Complete 2026-09-24):**
-- Phase 1-4: ✅ Complete (retrieval fusion, context assembly, evaluation, ingestion bridge) — 9,308 LOC
-- Phase 5-6: ✅ Complete (performance gates: 8/8 locked, documentation: 5 runbooks, tests: 270+, benchmarks: 4 suites) — 6,500 LOC
-- Phase 7: ✅ Complete (Freshness SLA monitoring, staleness-aware routing, refresh scheduling, SLA enforcement) — 2,300 LOC
-- Phase 8: ✅ Complete (Observability SLO, OpenTelemetry span emission, cost attribution, multi-tenant tracking) — 1,200 LOC
-- Phase 9: ✅ Complete (Research Eval: benchmark suite, IR metrics, evaluation result storage) — 1,200 LOC
-- Phase 10: ✅ Complete (Cost Optimizer: gradient descent, cost model fitting, ROI recommendations) — 1,200 LOC
-- **Total RAG Implementation:** 22,308 LOC across all phases with 80+ test cases and CI gate validation
-- **Phase B (Q4 2026):** WikiIndexStore RocksDB integration pending; BM25+ scorer, HNSW index, RRF fusion, persistent cache
+**Implementation inventory:** Source and test files exist for the listed
+retrieval, freshness, evaluation, and cost-model components. This inventory
+does not validate historical LOC/test counts, gate closure, benchmark
+registration, persistent storage, external telemetry, or production readiness.
+- `OTELSpanEmitter` currently serializes local span data; it does not perform
+  OTLP network export.
+- `CostAttributionTracker` retains records in memory; its `Initialize()` method
+  does not open RocksDB or persist records.
+- `CostModelBuilder::EnableAutoRetraining()` stores settings only. Drift
+  detection currently returns a placeholder result, and retraining is invoked
+  explicitly through `RebuildModelWithNewData()`.
 
 ## In Progress
 
 - [x] Ingestion bridge and context-hydration hardening for fail-closed retrieval inputs (Target: Q3 2026)
-  - **Build**: cmake preset `community-release-allow-missing-rocksdb` Debug, target `module_rag_test_rag_ingestion_bridge_hardening_focused_focused`, commit f94af4f0c2, 2026-08-24
-  - **Run**: ctest -R "RagIngestion" — see build evidence section below
+  - **Build**: historical evidence target `module_rag_test_rag_ingestion_bridge_hardening_focused` (the target is generated from `tests/rag/test_rag_ingestion_bridge_hardening_focused.cpp`)
+  - **Run**: CTest entry `test_rag_ingestion_bridge_hardening_focused_RagFocusedTests`; historical run evidence remains dated 2026-08-24.
 - [x] Budget and truncation consistency across assembler, adaptive retrieval, and multi-step orchestration (Target: Q3 2026)
   - **Build**: standalone g++ -std=c++20, commit f94af4f0c2, 2026-08-24
   - **Run**: 15/15 tests passed (Groups A–E), suite `RagBudgetConsistencyFocusedTests`
 - [~] Benchmark and regression gate consolidation for RAG-heavy release profiles (Target: Q3 2026)
-- [~] **Phase C: RAG Evaluation Contract v1** (Target: Q4 2026)
+- [~] **Phase C: RAG Evaluation Contract v1 (specification only; gate/data availability unverified)** (Target: Q4 2026)
   - **Specification Document**: `src/rag/EVALUATION_CONTRACT_V1.md` (2026-09-24 CREATED)
-  - **Baseline Metrics Registry**: `benchmarks/rag/data/baselines_v1.json` with 4 datasets and acceptance criteria
+  - **Baseline Metrics Registry**: `benchmarks/rag/data/baselines_v1.json` exists; its presence is not evidence that the specified datasets were run.
   - **Acceptance Report Template**: `src/rag/RAG_EVAL_ACCEPTANCE_REPORT_TEMPLATE.md` (2026-09-24 CREATED)
   - **Metrics Defined**: Recall@10, nDCG@10, MRR@10, Faithfulness, Relevance, p95/p99 latency, cost/query
-  - **Datasets**: Wikipedia RAG 2K, Code RAG 1K, MultiHop QA 500, CrossLingual IR 500
-  - **Release Gate**: All `release_critical` RAG runs must produce complete metric sets; regression blocks promotion
-  - **CI Gate**: `.github/workflows/gate-pr-rag-eval.yml` validates contract compliance on all RAG changes
+  - **Datasets**: Names in the contract are specifications; `benchmarks/rag/eval_datasets_v1/` is absent from this checkout.
+  - **Release Gate**: `.github/workflows/gate-pr-rag-eval.yml` validates contract/baseline/template files and only checks Recall@10 when `eval_results.json` is supplied. It does not collect the full metric set by itself.
+  - **CI Gate**: The workflow exists; its configured release-critical test job is conditional on PR labels and is not benchmark evidence.
 - [~] **Phase D: Embedding & Index Version Governance** (Target: Q4 2026)
   - **Specification Document**: `src/ingestion/EMBEDDING_VERSION_GOVERNANCE.md` (2026-09-24 CREATED)
   - **Index Manifest Schema**: `src/index/INDEX_MANIFEST_V1_SCHEMA.json` for RocksDB persistence and version tracking
@@ -48,13 +63,13 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
     - Canary deployment pattern (5%→10%→25%→50%→100% over 7+ days, metrics-driven)
     - Dual-read query-time comparison for metric validation during rollout
     - Atomic rollback mechanism with 30-day archival
-  - **CMake Feature Gate**: `THEMIS_EMBEDDING_VERSION_GOVERNANCE` (enables canary logic)
+  - **CMake Feature Gate**: `THEMIS_EMBEDDING_VERSION_GOVERNANCE` is listed in the design; verify source/build wiring before treating it as active behavior.
   - **Acceptance Criteria**: 
     - Reindex decision logic correctly identifies all 4 trigger conditions
     - Canary progression autonomous (no manual stepping required)
     - Rollback atomic and verified atomic via tests
     - Index manifest RocksDB persistence validated
-  - **CI Gate**: `.github/workflows/gate-pr-rag-version.yml` validates version governance on ingestion/index changes
+  - **CI Gate**: `.github/workflows/gate-pr-rag-version.yml` exists and checks governance documentation/schema files; its presence does not establish runtime canary or rollback behavior.
 - [~] **Phase E: RAG Security Guardrails (Deny-by-Default Policy Enforcement)** (Target: Q4 2026)
   - **Specification Document**: `src/security/RETRIEVAL_POLICY_ENFORCEMENT.md` (2026-09-24 CREATED)
   - **Core Components**:
@@ -62,7 +77,7 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
     - `PolicyContextGate` — three-stage gate (credentials → policy fetch → enforcement) with deterministic exceptions on missing policy
     - `TenantRetrievalPolicy` schema for multi-tenant access control
     - OTLP audit trail for all access (tenant_id, policy_version, enforcement_result, timestamp)
-  - **Key Guarantees**:
+  - **Specification targets (not verified as RAG request-path enforcement)**:
     - Zero cross-tenant data leakage (validated via isolation tests)
     - Missing policy → hard DENY (not silent fallback); `NullRetrievalBackend` throws deterministic exception
     - Non-expired policy required (automatic DENY on expiration)
@@ -71,9 +86,13 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
     - 0 cross-tenant leaks in isolation test suite
     - Deny-by-default semantics verified on all control paths
     - OTLP audit trail logs all 6 required fields per access
-  - **CI Gate**: `.github/workflows/gate-pr-rag-security.yml` validates security guardrail compliance on security/RAG changes
+  - **CI Gate**: `.github/workflows/gate-pr-rag-security.yml` exists and checks the retrieval-policy specification; it does not establish that the RAG request path applies those controls.
 
 ## Planned Features
+
+The historical `[x]` phase items below record delivery status in their dated
+source reports. They are not independent evidence of current integration,
+benchmark execution, or release acceptance.
 
 ### Q4 2026 — Phase 7-10: Freshness SLA, Observability, Research Eval, Cost Optimization
 
@@ -107,16 +126,16 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
   - **Key Methods**: RecordQuery(), IsCompliant(), GetHealthScore(), UpdateCompliance()
   - **Metrics**: Per-metric compliance percentages, health score (0-1), state transitions
   
-- [x] **OTELSpanEmitter** — OpenTelemetry OTLP span emission for distributed tracing
+- [x] **OTELSpanEmitter** — local span creation, buffering, and payload serialization; no OTLP network export
   - **Evidence**: `include/rag/otel_span_emitter.h` (176 L), `src/rag/otel_span_emitter.cpp` (112 L)
   - **Test Coverage**: `tests/rag/test_otel_span_emitter.cpp` (9 test cases)
   - **Key Features**: W3C baggage propagation, span lifecycle (SetAttribute, RecordEvent, EndSpan), batch export
   - **Span Types**: rag.query, rag.retrieve, rag.rerank, rag.refresh, rag.sla_check
   
-- [x] **CostAttributionTracker** — Multi-tenant cost tracking, budget enforcement, forecasting
+- [x] **CostAttributionTracker** — In-memory per-tenant cost tracking and calculations
   - **Evidence**: `include/rag/cost_attribution_tracker.h` (212 L), `src/rag/cost_attribution_tracker.cpp` (234 L)
   - **Test Coverage**: `tests/rag/test_cost_attribution_tracker.cpp` (11 test cases)
-  - **Key Features**: Per-tenant cost isolation, 10% budget reserve enforcement, hourly/daily/30-day aggregation
+  - **Key Features**: Per-tenant aggregation over in-memory records; persistence and budget enforcement are not established by this component
   - **Forecasting**: Linear rate projection for budget alerts
   
 - [x] **CI Gate**: `.github/workflows/gate-pr-rag-phase8.yml` validates SLO compliance and span emission
@@ -148,15 +167,15 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
   - **Evidence**: `include/rag/gradient_descent_optimizer.h` (178 L), `src/rag/gradient_descent_optimizer.cpp` (260 L)
   - **Test Coverage**: `tests/rag/test_gradient_descent_optimizer.cpp` (14 test cases)
   - **Key Methods**: Optimize(), SetObjective(), RegisterParameter(), AddConstraint()
-  - **Features**: Learning rate decay (0.999x), convergence detection, L2 penalty term for constraints
+  - **Features**: Source-level optimizer APIs; metrics and constraints require case-specific validation
   - **Algorithm**: Finite difference gradient estimation, ternary operator for type safety
   
-- [x] **CostModelBuilder** — Linear regression cost model fitting with cross-validation
+- [x] **CostModelBuilder** — Cost model APIs with placeholder fitting and drift surfaces
   - **Evidence**: `include/rag/cost_model_builder.h` (212 L), `src/rag/cost_model_builder.cpp` (332 L)
   - **Test Coverage**: `tests/rag/test_cost_model_builder.cpp` (12 test cases)
   - **Key Methods**: BuildModel(), Predict(), Evaluate(), CrossValidationSplit()
-  - **Features**: L2 regularization, 70/15/15 train/val/test split, feature importance tracking
-  - **Regression Modes**: Linear, polynomial (placeholder), ridge regression
+  - **Current implementation**: `BuildModel()` uses a mean-cost intercept and placeholder metrics; `IsModelDriftDetected()` currently returns false, and `EnableAutoRetraining()` does not start a timer or background loop.
+  - **Regression Modes**: Header options exceed the current fitting implementation; verify behavior in source before selecting a model type.
   
 - [x] **RecommendationEngine** — ROI-driven optimization recommendations
   - **Evidence**: `include/rag/recommendation_engine.h` (223 L), `src/rag/recommendation_engine.cpp` (300 L)
@@ -595,27 +614,18 @@ Production-grade RAG runtime with retrieval fusion, context assembly, evaluation
 
 ## Known Issues and Limitations
 
-### Fixed in Phase 7-10 Hardening (2026-09-24)
-- [x] **RocksDB Availability (Phases 8, 10)** — Cost attribution tracking and cost model building use opaque pointers
-  - **Resolution**: Added `Initialize(db_path)` method for explicit RocksDB initialization with graceful fallback to in-memory storage
+### Current implementation gaps
+- [ ] **Cost attribution persistence** — `Initialize(db_path)` creates/checks a directory but does not open RocksDB; records remain in memory
   - **API**: `CostAttributionTracker::Initialize()`, `IsPersistentStorageAvailable()`
-  - **Status**: Production mitigation documented in `KNOWN_ISSUES_MITIGATION.md` § Issue 1
-  - **Deployment Requirements**: RocksDB 8.0+ must be pre-installed; graceful degradation to in-memory if unavailable
-  
-- [x] **OTLP Sender (Phase 8)** — Span data prepared but not emitted to OTLP collector
-  - **Resolution**: Added batch export mechanism with `ExportSpans()` method and span buffering
-  - **API**: `OTELSpanEmitter::ExportSpans()`, `SetBatchExportSize()`, `Flush()`
-  - **Status**: Span batching logic implemented; OTLP library integration (opentelemetry-cpp or gRPC) required by deployment
-  - **Implementation**: TODO at `src/rag/otel_span_emitter.cpp:156-180` requires OTLP protobuf serialization and gRPC client
-  - **Production Mitigation**: Documented in `KNOWN_ISSUES_MITIGATION.md` § Issue 2
+  - **Status**: Durable cost attribution is not implemented by this class; see `KNOWN_ISSUES_MITIGATION.md` § Issue 1.
 
-- [x] **Cost Model Drift (Phase 10)** — No automatic retraining mechanism; model degrades over time
-  - **Resolution**: Added auto-retraining infrastructure with drift detection and incremental training
+- [ ] **OTLP transport** — Span data is serialized locally but not sent to an OTLP collector
+  - **API**: `OTELSpanEmitter::ExportSpans()`, `SetBatchExportSize()`, `Flush()`
+  - **Status**: Local payload generation only; no network exporter or delivery acknowledgement. See `KNOWN_ISSUES_MITIGATION.md` § Issue 2.
+
+- [ ] **Cost model drift/retraining** — No active drift calculation or automatic retraining loop
   - **API**: `CostModelBuilder::EnableAutoRetraining()`, `IsModelDriftDetected()`, `RebuildModelWithNewData()`, `GetModelHealth()`, `GetModelMetadata()`
-  - **Status**: Framework complete; retraining schedule requires orchestration layer (cron/Kubernetes)
-  - **Model Versioning**: Tracks version count, build timestamp, retraining history
-  - **Drift Monitoring**: `GetModelHealth()` exposes model_age_sec, current_rmse, drift_ratio for alerting
-  - **Production Mitigation**: Documented in `KNOWN_ISSUES_MITIGATION.md` § Issue 3
+  - **Status**: `IsModelDriftDetected()` currently returns a placeholder false; `GetModelHealth()` reports placeholder current RMSE/drift values. Rebuilding is an explicit method call.
 
 ### Addressed in Previous Updates (2026-08-06)
 - [x] Lack of focused budget consistency tests → Added 20-test suite (test_rag_budget_consistency_focused.cpp)

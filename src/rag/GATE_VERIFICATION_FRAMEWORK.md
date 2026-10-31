@@ -1,4 +1,23 @@
+---
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "ThemisDB documentation orchestrator"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # RAG Module Performance Gate Verification Framework
+
+> **Current validation status (2026-10-31):** The limits and benchmark cases
+> below are specification targets, not verified gate results. The local
+> benchmark CMake file registers `bench_delegate_evaluator` and
+> `bench_fts_phase_b`; the RAG evaluation, hybrid-retriever, and ethics benchmark
+> sources are not registered as targets. The delegate source does not define a
+> `FallbackPath` case. `test_rag_context_engine` is a test target, not a latency
+> benchmark. Do not treat the commands or approval text below as executable
+> release evidence.
 
 **Purpose:** Define and validate all performance gates for RAG module Phase 5-6 delivery  
 **Date:** 2026-08-18  
@@ -17,13 +36,9 @@
 **Target:** ≤50ms  
 **Rationale:** Dense searches dominate retrieval latency in semantic search workloads
 
-**Benchmark File:** `benchmarks/rag/bench_rag_hybrid_retriever.cpp`  
+**Benchmark Source (not a registered target):** `benchmarks/rag/bench_rag_hybrid_retriever.cpp`
 **Verification Method:**
-```bash
-./benchmarks/rag/bench_rag_hybrid_retriever \
-  --benchmark_filter="DenseSearch/1000" \
-  --benchmark_out=results.json
-```
+No runnable CMake target is registered for this source in the current checkout.
 
 **Pass Criteria:**
 - p95 latency ≤50ms
@@ -41,13 +56,8 @@
 **Target:** ≤10ms  
 **Rationale:** Sparse search must be sub-10ms to keep fusion overhead <20ms
 
-**Benchmark File:** `benchmarks/rag/bench_rag_evaluation.cpp`  
-**Verification Method:**
-```bash
-./benchmarks/rag/bench_rag_evaluation \
-  --benchmark_filter="BM25Search/10000" \
-  --benchmark_out=results.json
-```
+**Benchmark Source (not a registered target):** `benchmarks/rag/bench_rag_evaluation.cpp`
+**Verification Method:** No runnable CMake target is registered for this source in the current checkout.
 
 **Pass Criteria:**
 - p95 latency ≤10ms
@@ -65,13 +75,8 @@
 **Target:** ≤100ms p95  
 **Rationale:** Full retrieval stack must complete within 100ms for responsive UX
 
-**Benchmark File:** `benchmarks/rag/bench_rag_hybrid_retriever.cpp`  
-**Verification Method:**
-```bash
-./benchmarks/rag/bench_rag_hybrid_retriever \
-  --benchmark_filter="FullFusion/1000" \
-  --benchmark_out=results.json
-```
+**Benchmark Source (not a registered target):** `benchmarks/rag/bench_rag_hybrid_retriever.cpp`
+**Verification Method:** No runnable CMake target is registered for this source in the current checkout.
 
 **Pass Criteria:**
 - p95 latency ≤100ms
@@ -91,13 +96,8 @@
 **Target:** ≥100 evaluations/sec  
 **Rationale:** Evaluation must not become throughput bottleneck in high-traffic scenarios
 
-**Benchmark File:** `benchmarks/rag/bench_rag_evaluation.cpp`  
-**Verification Method:**
-```bash
-./benchmarks/rag/bench_rag_evaluation \
-  --benchmark_filter="RelevanceBatch/10" \
-  --benchmark_out=results.json
-```
+**Benchmark Source (not a registered target):** `benchmarks/rag/bench_rag_evaluation.cpp`
+**Verification Method:** No runnable CMake target is registered for this source in the current checkout.
 
 **Pass Criteria:**
 - Throughput ≥100 eval/sec
@@ -115,13 +115,8 @@
 **Target:** ≤50ms  
 **Rationale:** Safety checks must not exceed 50ms per query to stay within E2E budget
 
-**Benchmark File:** `benchmarks/rag/bench_rag_ethics.cpp`  
-**Verification Method:**
-```bash
-./benchmarks/rag/bench_rag_ethics \
-  --benchmark_filter="EthicsCheck/100" \
-  --benchmark_out=results.json
-```
+**Benchmark Source (not a registered target):** `benchmarks/rag/bench_rag_ethics.cpp`
+**Verification Method:** No runnable CMake target is registered for this source in the current checkout.
 
 **Pass Criteria:**
 - p95 latency ≤50ms
@@ -139,13 +134,8 @@
 **Target:** ≤10ms  
 **Rationale:** Fallback must be near-instant to avoid cascading timeouts
 
-**Benchmark File:** `benchmarks/rag/bench_delegate_evaluator.cpp`  
-**Verification Method:**
-```bash
-./benchmarks/rag/bench_delegate_evaluator \
-  --benchmark_filter="FallbackPath" \
-  --benchmark_out=results.json
-```
+**Benchmark File:** `benchmarks/rag/bench_delegate_evaluator.cpp` (registered as a target)
+**Verification Method:** The source has no `FallbackPath` case. Use only its declared benchmark cases, and do not treat them as validating the specified fallback gate.
 
 **Pass Criteria:**
 - Fallback latency ≤10ms
@@ -165,11 +155,7 @@
 **Target:** ≤500ms p95 (for 50K-chunk index)  
 **Rationale:** End-to-end SLO for production RAG workloads
 
-**Integration Test:** `tests/rag/test_rag_context_engine.cpp`  
-**Verification Method:**
-```bash
-ctest -R "test_rag_context_engine" --output-on-failure --verbose
-```
+**Integration Test:** `tests/rag/test_rag_context_engine.cpp` is registered as a focused test; it does not measure the specified end-to-end latency SLA.
 
 **Pass Criteria:**
 - p95 latency ≤500ms
@@ -428,7 +414,8 @@ nvidia-smi --query-gpu=utilization.gpu,utilization.memory --format=csv,noheader 
 
 ## Approval Sign-Off
 
-This performance gate framework is approved for Wave B GA release validation.
+This dated framework is a historical specification, not an approval or proof
+that Wave B release gates passed.
 
 **Framework Version:** 1.0  
 **Effective Date:** 2026-08-18  

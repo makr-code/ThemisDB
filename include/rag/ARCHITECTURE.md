@@ -1,3 +1,13 @@
+---
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "ThemisDB documentation orchestrator"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 <!-- Status: current | validated: 2026-06-01 -->
@@ -13,7 +23,11 @@
 
 ## 1. Overview
 
-`include/rag/` defines the **public Retrieval-Augmented Generation pipeline, evaluation, and quality-control API contract** for ThemisDB. The 65 headers cover retrieval (hybrid, FLARE, RePLUG, TARG, streaming, multi-hop, multimodal, knowledge-graph, ontology-aware, LoRA-enhanced), evaluation (faithfulness, relevance, coherence, completeness, hallucination, bias, fairness, calibration, NLI, G-EVAL, delegate, distributed, batch), quality control, RAG ingestion, continuous learning, LLM judge integration, explainability, and safety.
+`include/rag/` declares public C++ component APIs for retrieval, evaluation,
+quality control, ingestion, learning, and safety. The directory currently
+contains 104 top-level `.h` files. These declarations do not imply one
+mandatory end-to-end pipeline, automatic server wiring, or uniform API
+stability; consult each header and its implementation.
 
 For runtime composition — retriever orchestration, evaluation pipeline scheduling, continuous-learning loop, and LLM judge routing — see:
 → [`../../src/rag/ARCHITECTURE.md`](../../src/rag/ARCHITECTURE.md)
@@ -145,9 +159,9 @@ For runtime composition — retriever orchestration, evaluation pipeline schedul
 
 ## 4. Public Contract Notes
 
-- Retriever headers define stable retrieval-strategy contracts; index and vector-store internals are opaque.
+- Retriever headers expose component APIs; candidate generation and index access may remain caller responsibilities.
 - `IVectorizer` provides the public extension point for custom embedding backends.
-- Evaluation headers model deterministic scoring contracts; LLM judge calls are async and require explicit timeout handling.
+- Evaluation headers define result/configuration types; backend availability and runtime behavior are implementation-specific.
 - Continuous-learning headers expose signal-provider registration and loop control; training triggers remain internal.
-- Quality-control headers define composable pipeline contracts; evaluation ordering and caching are configurable.
-- Safety and injection-detection headers must fail closed on unsupported or adversarial inputs.
+- Quality-control and safety headers expose explicit components; their existence does not establish invocation or enforcement on every request path.
+- Thread-safety, failure handling, and stability must be checked per header; do not infer module-wide guarantees.

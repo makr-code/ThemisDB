@@ -1,13 +1,33 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+---
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "ThemisDB documentation orchestrator"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # ThemisDB RAG (Retrieval-Augmented Generation) Module Headers
 
 <!-- Status: current | validated: 2026-05-13 -->
 <!-- Links: include/rag/README.md · src/rag/README.md · src/rag/ARCHITECTURE.md · src/rag/ROADMAP.md · src/rag/FUTURE_ENHANCEMENTS.md · docs/troubleshooting/rag_troubleshooting.md -->
 
+> **Source-alignment note (2026-10-31):** `include/rag/` declares reusable
+> components; it does not define one automatically wired RAG request pipeline.
+> Treat examples in this legacy guide as illustrative, not as guaranteed
+> signatures or build targets. The current headers and implementations are
+> authoritative. Caller-owned authorization, safety invocation, generation,
+> and result handling are not implied by the presence of a component.
+
 ## Module Purpose
 
-The RAG module provides ThemisDB's comprehensive Retrieval-Augmented Generation system for LLM-powered question answering, featuring intelligent retrieval, quality evaluation, knowledge gap detection, and ethical compliance checking. This module integrates vector search, document retrieval, LLM generation, and multi-dimensional quality assessment to deliver accurate, reliable, and ethically sound AI-generated responses.
+The RAG module declares reusable components for retrieval, context assembly,
+evaluation, ingestion, and safety. Services compose these components with the
+search, storage, and LLM backends they own; this directory does not guarantee
+that every listed stage is connected to every request path.
 
 ### What is RAG?
 
@@ -23,7 +43,7 @@ User Query → LLM → Answer (may hallucinate)
 User Query → Vector Search → Relevant Documents → LLM + Context → Answer (grounded in facts)
 ```
 
-**Key Benefits:**
+**Potential benefits of a correctly integrated RAG workflow:**
 - ✅ **Reduced Hallucinations**: Answers grounded in retrieved documents
 - ✅ **Up-to-date Information**: Query live data vs. training cutoff
 - ✅ **Source Attribution**: Cite specific documents/passages
@@ -32,8 +52,8 @@ User Query → Vector Search → Relevant Documents → LLM + Context → Answer
 
 ## Scope
 
-**In Scope:**
-- RAG pipeline orchestration (retrieval + generation + evaluation)
+**Component capabilities in scope:**
+- Components that callers can compose for retrieval, generation, and evaluation
 - Knowledge gap detection (pre, during, post-generation)
 - LLM-as-Judge multi-dimensional quality evaluation
 - Prompt template management and engineering
@@ -53,6 +73,10 @@ User Query → Vector Search → Relevant Documents → LLM + Context → Answer
 ## Architecture Overview
 
 ### RAG Pipeline Stages
+
+The diagram below is a conceptual workflow, not a description of automatic
+server wiring or mandatory stage order. In this repository, most stages are
+explicit component APIs composed by the calling service.
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -1057,35 +1081,25 @@ The RAG module implements state-of-the-art research:
 
 ## Evaluation Metrics
 
-### Correlation with Human Judgment
-| Dimension | Pearson Correlation | Spearman Correlation |
-|-----------|---------------------|----------------------|
-| Faithfulness | 0.85 | 0.87 |
-| Relevance | 0.82 | 0.84 |
-| Completeness | 0.78 | 0.80 |
-| Coherence | 0.75 | 0.77 |
-| Overall | 0.83 | 0.85 |
-
-### Inter-Judge Agreement (3-Judge Ensemble)
-- **Fleiss' Kappa**: 0.72 (substantial agreement)
-- **Intraclass Correlation**: 0.81
-- **Average Pairwise Cohen's Kappa**: 0.75
+No repository-backed human-correlation or inter-judge agreement measurements
+are established here. Evaluate on a named, versioned dataset before making
+quality or agreement claims; see `src/rag/EVALUATION_CONTRACT_V1.md` for
+specified targets and `src/rag/RESEARCH.md` for current asset limits.
 
 ## Testing
 
 ```bash
-# Unit tests
-./build/tests/test_rag_judge
-./build/tests/test_knowledge_gap_detector
-./build/tests/test_evaluation_cache
-
-# Integration tests
-./build/tests/test_rag_pipeline
-
-# Benchmarks
-./build/benchmarks/bench_rag_evaluation
-./build/benchmarks/bench_knowledge_gap_detection
+# Test targets and CTest names are generated from tests/rag/test_*.cpp.
+cmake --build <build-dir> --target module_rag_test_rag_judge_focused
+ctest --test-dir <build-dir> -R '^test_rag_judge_RagFocusedTests$' --output-on-failure
 ```
+
+The standalone sources `bench_rag_evaluation.cpp` and
+`bench_rag_hybrid_retriever.cpp` are not registered as benchmark targets by
+`benchmarks/rag/CMakeLists.txt`. That file currently registers
+`bench_delegate_evaluator` and `bench_fts_phase_b`; only the latter has a
+registered CTest smoke entry. A source file on disk is not necessarily a
+runnable benchmark target.
 
 ## Migration Guide
 
@@ -1184,9 +1198,8 @@ MIT License - see `../../LICENSE`
 
 ---
 
-*Generated: 2024*
-*Module Version: 1.15.0*
-*23 header files, 19 source files*
+*Inventory checked: 2026-10-31*
+*Current top-level inventory: 104 `include/rag/*.h` headers and 100 `src/rag/*.cpp` implementation files.*
 
 ## Additional Header Files
 
@@ -1235,5 +1248,30 @@ The following headers are present in `include/rag/` and supplement the component
 | `response_parser.h` | Parses structured LLM responses (JSON, scored lists, CoT blocks) for downstream use |
 | `rlaif_trainer.h` | RLAIF (Reinforcement Learning from AI Feedback) trainer for refining retrieval and generation <!-- TODO: verify --> |
 | `streaming_retriever.h` | Streams retrieved document chunks progressively as they become available <!-- TODO: verify --> |
+
+### Additional current headers
+
+The following top-level headers are present but were not covered by the summary
+tables above. Their contracts are defined by the corresponding header comments.
+
+`adaptive_hybrid_router.h`, `benchmark_suite.h`, `budget_allocator.h`,
+`common_types.h`, `cost_attribution_tracker.h`, `cost_forecaster.h`,
+`cost_model_builder.h`, `cross_encoder_orchestrator.h`,
+`delegate_evaluator.h`, `deployment_gate_controller.h`, `dpr_vectorizer.h`,
+`evaluation_result_store.h`, `fairness_detector.h`, `flare_retrieval.h`,
+`freshness_sla_enforcer.h`, `gradient_descent_optimizer.h`,
+`graph_truth_validator.h`, `index_refresh_scheduler.h`,
+`ingestion_latency_monitor.h`, `lora_enhanced_retriever.h`,
+`metric_computation.h`, `metrics_reporter.h`, `model_evaluator.h`,
+`model_promoter.h`, `model_registry.h`, `modular_rag_pipeline.h`,
+`multi_model_selector.h`, `ontology_aware_retriever.h`, `otel_span_emitter.h`,
+`quality_alert_manager.h`, `quality_metrics_collector.h`,
+`query_intent_classifier.h`, `query_planner.h`, `rag_quality_monitor.h`,
+`realtime_slo_tracker.h`, `recommendation_engine.h`,
+`reranker_budget_gate.h`, `reranker_cost_analyzer.h`,
+`retraining_scheduler.h`, `retrieval_guardrail.h`, `router_policy_store.h`,
+`self_rag.h`, `staleness_aware_router.h`, `targ_retrieval.h`,
+`tensor_rag_cost_model.h`, `tensor_rag_pipeline.h`,
+`vectorizer_interface.h`, and `wiki_index_store.h`.
 
 ## Installation

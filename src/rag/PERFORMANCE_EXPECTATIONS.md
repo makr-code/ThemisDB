@@ -1,4 +1,21 @@
+---
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "ThemisDB documentation orchestrator"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # PERFORMANCE_EXPECTATIONS - src/rag
+
+> These are target definitions, not measured results. Current benchmark sources
+> live under `benchmarks/rag/`; CMake registers only
+> `bench_delegate_evaluator` and `bench_fts_phase_b` (with a CTest smoke entry
+> for the latter). The RAG evaluation, hybrid-retriever, and ethics benchmark
+> sources listed below are not registered as runnable targets by
+> `benchmarks/rag/CMakeLists.txt`.
 
 ## Scope
 - Module: src/rag
@@ -6,10 +23,10 @@
 
 ## Benchmark Reference
 - Relevant benchmark files:
-  - benchmarks/bench_rag_evaluation.cpp
-  - benchmarks/bench_rag_hybrid_retriever.cpp
-  - benchmarks/bench_rag_ethics.cpp
-  - benchmarks/bench_delegate_evaluator.cpp
+  - benchmarks/rag/bench_rag_evaluation.cpp (source only; not a CMake target)
+  - benchmarks/rag/bench_rag_hybrid_retriever.cpp (source only; not a CMake target)
+  - benchmarks/rag/bench_rag_ethics.cpp (source only; not a CMake target)
+  - benchmarks/rag/bench_delegate_evaluator.cpp (registered target)
 
 ## Specific Expectations
 | Target ID | Expectation | Benchmark case |
@@ -40,18 +57,18 @@
 ## Sourcecode Verification (Module: rag/performance)
 
 - Verified benchmark sources:
-  - benchmarks/bench_rag_evaluation.cpp
-  - benchmarks/bench_rag_hybrid_retriever.cpp
-  - benchmarks/bench_rag_ethics.cpp
-  - benchmarks/bench_delegate_evaluator.cpp
+  - benchmarks/rag/bench_rag_evaluation.cpp
+  - benchmarks/rag/bench_rag_hybrid_retriever.cpp
+  - benchmarks/rag/bench_rag_ethics.cpp
+  - benchmarks/rag/bench_delegate_evaluator.cpp
 - Verified mapping surfaces:
   - recall and judge latency benchmarks
   - hybrid retrieval and path-comparison benchmarks
   - injection/ethics overhead benchmarks
   - delegate and end-to-end pipeline benchmarks
 - Result:
-  - Referenced benchmark cases exist in current benchmark sources.
-  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.
+  - Referenced cases are source-level targets only; source presence does not mean they are built or runnable.
+  - The release-gate mapping requires CMake target registration and reproducible baseline runs before it can be treated as active.
 
 ## Issue Scope Traceability
 

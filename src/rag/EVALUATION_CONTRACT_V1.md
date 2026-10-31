@@ -1,3 +1,13 @@
+---
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "ThemisDB documentation orchestrator"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # RAG Evaluation Contract v1
 
 **Status:** Active  
@@ -6,11 +16,24 @@
 **Version:** 1.0.0  
 **Scope:** Binding quality and performance metrics for `release_critical` RAG workflows  
 
+> **Implementation status (checked 2026-10-31):** This file specifies intended
+> acceptance criteria; its targets are not measured baselines. The named
+> `benchmarks/rag/eval_datasets_v1/` directory and metric-collection scripts are
+> absent from this checkout. `gate-pr-rag-eval.yml` validates documentation,
+> the baseline JSON, and the report template; its metric comparison runs only
+> when `eval_results.json` is supplied and checks Recall@10. It does not collect
+> or enforce the full metric set by itself. The workflow's header says “6 core
+> metrics” while its check enumerates seven; this count discrepancy remains
+> unresolved.
+
 ---
 
 ## Purpose
 
-This document defines the mandatory evaluation contract for RAG (Retrieval-Augmented Generation) workflows in ThemisDB. All `release_critical` RAG test runs must produce complete metric sets; regression beyond defined thresholds blocks release promotion.
+This document specifies the intended evaluation contract for RAG
+(Retrieval-Augmented Generation) workflows in ThemisDB. Its required metric
+coverage and regression thresholds are acceptance criteria, not evidence that
+current `release_critical` runs collect or enforce them.
 
 ---
 
@@ -51,7 +74,10 @@ This document defines the mandatory evaluation contract for RAG (Retrieval-Augme
 
 ### Domain Categories
 
-All `release_critical` runs must validate against at least one dataset from each category:
+The specification requires `release_critical` runs to validate against at
+least one dataset from each category. The dataset files are not included in
+this checkout, so that acceptance requirement cannot currently be reproduced
+from the repository alone.
 
 #### A. Wikipedia RAG (General Knowledge Retrieval)
 - **Dataset ID:** `wikipedia_rag_2k_v1`
@@ -103,66 +129,30 @@ All `release_critical` runs must validate against at least one dataset from each
 
 ## Test Execution Workflow
 
-### Pre-Test Setup
-
-```bash
-# 1. Load baseline metrics from config file
-#    (baselines_v1.json is located at benchmarks/rag/data/baselines_v1.json)
-export BASELINE_CONFIG="benchmarks/rag/data/baselines_v1.json"
-echo "Using baseline config: ${BASELINE_CONFIG}"
-
-# 2. Provision test datasets
-#    Ensure the following dataset files are available under benchmarks/rag/eval_datasets_v1/:
-#      wikipedia_rag_2k.json, code_rag_1k.json, multihop_qa_500.json
-#    Download or generate them according to your environment's data provisioning process.
-ls benchmarks/rag/eval_datasets_v1/
-
-# 3. Warm up caches and indices
-#    Start the ThemisDB server and run a small pre-warm query batch before timed tests.
-#    Example: ctest -L warmup -R "^rag_warmup" --verbose
-ctest -L warmup -R "^rag_warmup" --verbose || echo "No warmup target defined yet; proceed without warmup."
-```
-
-### Test Execution
-
-```bash
-# Run release_critical RAG gate
-ctest --output-on-failure -L release_critical -R "^rag_" --verbose
-
-# Collect metrics into structured output
-benchmarks/rag/collect_metrics.py \
-  --run_id ${GITHUB_RUN_ID} \
-  --baseline baselines_v1.json \
-  --output metrics_${GITHUB_RUN_ID}.json
-```
-
-### Post-Test Validation
-
-```bash
-# Validate metric completeness and thresholds
-python scripts/validate_rag_metrics.py \
-  --metrics metrics_${GITHUB_RUN_ID}.json \
-  --baseline baselines_v1.json \
-  --strict
-
-# Generate acceptance report
-python scripts/generate_rag_acceptance_report.py \
-  --metrics metrics_${GITHUB_RUN_ID}.json \
-  --template src/rag/RAG_EVAL_ACCEPTANCE_REPORT_TEMPLATE.md \
-  --output RAG_EVAL_REPORT_${GITHUB_RUN_ID}.md
-```
+The commands and scripts previously described for dataset provisioning,
+`collect_metrics.py`, `validate_rag_metrics.py`, and
+`generate_rag_acceptance_report.py` are not present in this checkout. No
+repository command currently executes this full dataset-level contract. The
+focused RAG unit tests are registered from `tests/rag/CMakeLists.txt`; they
+validate component behavior, not these dataset-level thresholds. See
+`src/rag/RESEARCH.md` and `benchmarks/rag/CMakeLists.txt` for current benchmark
+source and registration limitations.
 
 ---
 
 ## Regression Detection & Response
 
-### Automatic Detection
+### Current workflow behavior
 
-- All `release_critical` RAG runs automatically check metrics against baseline
-- If any metric exceeds regression threshold:
-  1. Run immediately flags with `release_critical_BLOCKED` label
-  2. PR status blocked until regression is explained or metric issue is fixed
-  3. Metrics are logged to artifacts for post-mortem analysis
+- The workflow validates this contract, the baseline registry, and the report
+  template.
+- If `benchmarks/rag/data/eval_results.json` is present, it checks Recall@10
+  against the configured threshold; it does not collect results or compare the
+  other specified metrics.
+- The separate release-critical test job runs only when the PR has a
+  `rag-tests` or `release_critical` label.
+- The workflow can apply labels and post a report after its validation job
+  succeeds. The report text is not a measured evaluation result.
 
 ### Investigation Checklist
 
@@ -188,7 +178,9 @@ Automatic re-baselining is allowed only after:
 
 ## Metric Artifact Schema
 
-All metric outputs must conform to this schema:
+The following illustrative JSON shows the proposed schema; its values are
+placeholders, not measured results. Actual metric collection and full-schema
+validation are not implemented by the current evaluation workflow.
 
 ```json
 {
@@ -259,15 +251,15 @@ All metric outputs must conform to this schema:
 
 ### Documentation Sync
 
-- This contract is the source-of-truth for `release_critical` RAG gates
+- This file specifies intended `release_critical` RAG gates; actual workflow enforcement is limited as described above.
 - Module ROADMAPs (`src/rag/ROADMAP.md`, `src/llm/ROADMAP.md`) reference this contract
-- CI workflow (`.github/workflows/gate-pr-rag-eval.yml`) must enforce all metrics
+- CI workflow (`.github/workflows/gate-pr-rag-eval.yml`) currently validates contract artifacts and conditionally compares Recall@10 when a results file is supplied; full-metric enforcement remains unverified.
 
 ### Versioning
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 1.0.0 | 2026-09-24 | Initial contract: 6 core metrics, 4 datasets, Q4 2026 gate |
+| 1.0.0 | 2026-09-24 | Initial specification: 7 listed mandatory metrics, 4 named datasets, intended Q4 2026 gate |
 | 2.0.0 | 2027-02-01 | (Planned) Add domain-specific SLOs, expand adversarial sets |
 
 ---
