@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-18"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -38,11 +38,10 @@ module's capability claims.
 
 ## Evidence
 
-The inventory is limited to `src/llm_l_wiki/` and the repository's build and
-test references. The source inventory is recorded in
-[`tests/TEST_DENSITY_MATRIX.md`](../../tests/TEST_DENSITY_MATRIX.md); it
-identifies `llm_l_wiki` as having no module-owned tests or benchmarks. This
-page makes no claims about retrieval quality, model support, embeddings,
-latency, security controls, or production readiness.
+The source inventory was checked in this checkout; the repository's
+[`tests/TEST_DENSITY_MATRIX.md`](../../tests/TEST_DENSITY_MATRIX.md) records
+that `llm_l_wiki` has no module-owned tests or benchmarks. This page makes no
+claims about retrieval quality, model support, embeddings, latency, security
+controls, or production readiness.
 
 > AI-assisted update. Exact model backend not verifiable from final document text alone.
