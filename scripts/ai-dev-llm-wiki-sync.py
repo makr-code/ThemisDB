@@ -23,6 +23,13 @@ MODULES_MD = WIKI_ROOT / "MODULES_AND_APIS.md"
 OPS_MD = WIKI_ROOT / "BUILD_TEST_CI_AND_OPERATIONS.md"
 GOV_MD = WIKI_ROOT / "GOVERNANCE_AND_ROADMAP.md"
 SOURCES_JSON = WIKI_ROOT / "SOURCE_MANIFEST.json"
+GENERATED_WIKI_SOURCES = {
+    str(INDEX_MD),
+    str(MODULES_MD),
+    str(OPS_MD),
+    str(GOV_MD),
+    str(DELTA_MD),
+}
 
 ROOT_DOCS = [
     "ROADMAP.md",
@@ -148,6 +155,8 @@ def collect_sources(repo_root: Path, full_sync: bool) -> List[SourceEntry]:
     unique_files: Dict[str, Path] = {}
     for file_path in files:
         r = rel(file_path, repo_root)
+        if r in GENERATED_WIKI_SOURCES:
+            continue
         if r.startswith(EXCLUDE_PREFIXES):
             continue
         if "/.git/" in r or r.startswith(".git/"):
@@ -183,7 +192,14 @@ def load_previous_status(path: Path) -> Optional[dict]:
     if not path.exists():
         return None
     try:
-        return json.loads(read_text_safe(path))
+        previous = json.loads(read_text_safe(path))
+        if isinstance(previous, dict) and not isinstance(previous.get("sources"), list):
+            manifest_path = path.with_name("SOURCE_MANIFEST.json")
+            if manifest_path.is_file():
+                manifest = json.loads(read_text_safe(manifest_path))
+                if isinstance(manifest, dict) and isinstance(manifest.get("sources"), list):
+                    previous["sources"] = manifest["sources"]
+        return previous
     except Exception:
         return None
 
@@ -249,12 +265,19 @@ def render_index(entries: Sequence[SourceEntry], generated_at: str, full_sync: b
             f"- Quellen gesamt: {len(entries)}",
             f"- Quellen-Hash: `{aggregate_digest}`",
             "",
+            "## Status And Source-of-Truth Governance",
+            "",
+            "- Release-readiness, GA status, blocker state, and implementation posture are canonical only in `ROADMAP.md` and active governance/release docs.",
+            "- `ai_context/developer_llm_wiki/` is operational context; it must not redefine project status.",
+            "- `ai_working/` artifacts are historical evidence unless explicitly promoted by root governance.",
+            "",
             "## Artefakte",
             "",
             "- [MODULES_AND_APIS.md](MODULES_AND_APIS.md)",
             "- [BUILD_TEST_CI_AND_OPERATIONS.md](BUILD_TEST_CI_AND_OPERATIONS.md)",
             "- [GOVERNANCE_AND_ROADMAP.md](GOVERNANCE_AND_ROADMAP.md)",
             "- [IMPORTERS.md](IMPORTERS.md) — curated importer module context",
+            "- [UPDATES.md](UPDATES.md) — curated updates module context",
             "- [SOURCE_MANIFEST.json](SOURCE_MANIFEST.json)",
             "- [WIKI_STATUS.json](WIKI_STATUS.json)",
             "- [WIKI_DELTA_REPORT.md](WIKI_DELTA_REPORT.md)",
@@ -273,7 +296,7 @@ def render_index(entries: Sequence[SourceEntry], generated_at: str, full_sync: b
             "3. Sonstige docs/ und ai_context/ Wissensseiten",
             "4. CI-/Workflow- und Script-Metadaten",
             "",
-            "Bei widerspruechlichen Aussagen wird markiert statt still ueberschrieben.",
+            "Bei widerspruechlichen Aussagen wird markiert statt still ueberschrieben. Root-SOT und aktive Governance gehen vor Modul-Synthese; Modulquellen gehen vor Wiki-Zusammenfassungen.",
             "",
         ]
     )
@@ -314,6 +337,7 @@ def render_modules_and_apis(repo_root: Path, entries: Sequence[SourceEntry]) -> 
             "## Curated module contexts",
             "",
             "- [Importer module context](IMPORTERS.md) — shared contracts, connector boundaries, focused test evidence, and operational limits.",
+            "- [Updates module context](UPDATES.md) — update lifecycle, rollout and patch contracts, diagnostic evidence, and operator boundaries.",
             "",
             *lines[4:],
         ]

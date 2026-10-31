@@ -45,6 +45,13 @@ Out of scope:
 - unrelated business-domain logic outside update subsystem boundaries
 - non-update storage/network implementations owned by other modules
 
+## Developer Documentation
+
+- [Research and evaluation](RESEARCH.md) · [state and rollout model](MODELING.md) · [integration boundaries](EMBEDDING.md)
+- [Implementation notes](IMPLEMENTATION.md) · [API contracts](API.md) · [Module guide](MODULE_GUIDE.md)
+- [Operator runbook](RUNBOOK.md) · [Operations](OPERATIONS.md) · [Trust boundaries](TRUST.md)
+- [Architecture](ARCHITECTURE.md) · [Security](SECURITY.md) · [Performance expectations](PERFORMANCE_EXPECTATIONS.md)
+
 ## Runtime Behavior and Limits
 
 - update transitions and rollback behavior expose explicit state outcomes.

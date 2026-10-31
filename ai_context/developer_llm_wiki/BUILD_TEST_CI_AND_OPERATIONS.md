@@ -1,18 +1,6 @@
 # Developer LLM Wiki — Build/Test/CI/Operations
 
-> Author: ThemisDB Team
-> Created: 2026-10-26
-> Last Updated: 2026-10-31
-> Status: active
-> AI_Used: true
-> AI_Models: unknown
-> AI_Contributor: GitHub Copilot
-> Human_Review: false
-> Human_Author: ThemisDB Team
->
-> Exact model backend not verifiable from final document text alone.
-
-Datum: 2026-10-26
+Datum: 2026-10-31
 Status: Active
 
 ## CI repair context (2026-10-30)
@@ -133,17 +121,17 @@ guidance; use workflow sources and concrete run logs as evidence.
 
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci
-- Hash: `2ed12a75ae4d88dd`
+- Hash: `aca5342a1a4719e8`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/benchmark-performance-gate.yml
 - Kategorie: build_test_ci
-- Hash: `1a928691320f72d4`
+- Hash: `0dda1e5dc15d07b0`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/benchmark-thematic-suites.yml
 - Kategorie: build_test_ci
-- Hash: `182626faa1ddc164`
+- Hash: `905adfbc3b58957e`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-benchmarks.yml
@@ -153,57 +141,57 @@ guidance; use workflow sources and concrete run logs as evidence.
 
 ## .github/workflows/build-clang-fast.yml
 - Kategorie: build_test_ci
-- Hash: `4aecf3a233329958`
+- Hash: `e3dc5830b7156750`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-content-regression.yml
 - Kategorie: build_test_ci
-- Hash: `c51a96ee1048ccec`
+- Hash: `7d5b8aeba93e383d`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-llm-inference.yml
 - Kategorie: build_test_ci
-- Hash: `c7547a6187686262`
+- Hash: `cdbebf0d599d8288`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-mainline.yml
 - Kategorie: build_test_ci
-- Hash: `52172f1c21512439`
+- Hash: `19f575aa854103d9`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-ollama-router.yml
 - Kategorie: build_test_ci
-- Hash: `f800d02427d19323`
+- Hash: `0f6f7251a556c299`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-sanitizer-nightly.yml
 - Kategorie: build_test_ci
-- Hash: `c33bd2146a991020`
+- Hash: `18496274c11a21a3`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-wave-a-gpu.yml
 - Kategorie: build_test_ci
-- Hash: `3af9c5ba95550907`
+- Hash: `687a7b26386e4b3b`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-wave-b-llm-benchmarks.yml
 - Kategorie: build_test_ci
-- Hash: `a195c2dd33667e40`
+- Hash: `06d4bf8f34a54be2`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-wave-b-transaction.yml
 - Kategorie: build_test_ci
-- Hash: `f9f1e151e548cb58`
+- Hash: `8de8b1d5b9e3ceda`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/build-widget.yml
 - Kategorie: build_test_ci
-- Hash: `b1ced56788a1901a`
+- Hash: `42880b1ffb7f94f7`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/codeql.yml
 - Kategorie: build_test_ci
-- Hash: `695a9366679051b9`
+- Hash: `e578581a55abf58d`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/compliance-governance-gates.yml
@@ -213,27 +201,27 @@ guidance; use workflow sources and concrete run logs as evidence.
 
 ## .github/workflows/compliance-supply-chain.yml
 - Kategorie: build_test_ci
-- Hash: `2bdeddf89793c973`
+- Hash: `bc00b2b0ce899fbe`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/copilot-code-review.yml
 - Kategorie: build_test_ci
-- Hash: `0d1a0649b0997348`
+- Hash: `67df9c187f101b65`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/coverage-report-nightly.yml
 - Kategorie: build_test_ci
-- Hash: `f58981429be9c05d`
+- Hash: `7e846289258c5dc7`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/crda.yml
 - Kategorie: build_test_ci
-- Hash: `97e0d0c08b28c0d6`
+- Hash: `bb919180ff98a17b`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/edition-hyperscaler-ci.yml
 - Kategorie: build_test_ci
-- Hash: `c84cf8571fc357bb`
+- Hash: `b74bf19be67a21e6`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/ga-promotion-signoff.yml
@@ -243,12 +231,12 @@ guidance; use workflow sources and concrete run logs as evidence.
 
 ## .github/workflows/gate-copilot-regression.yml
 - Kategorie: build_test_ci
-- Hash: `7aa9ccd3a7b9db42`
+- Hash: `26b5d8224705f9b9`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-distributed-knowledge.yml
 - Kategorie: build_test_ci
-- Hash: `11f5867f80fa1340`
+- Hash: `8cd46108cf2bbc01`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-benchmark-ctest.yml
@@ -258,52 +246,52 @@ guidance; use workflow sources and concrete run logs as evidence.
 
 ## .github/workflows/gate-pr-community-failclosed.yml
 - Kategorie: build_test_ci
-- Hash: `09dc8cf8ab669cbd`
+- Hash: `a2ab1944bb366743`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-core.yml
 - Kategorie: build_test_ci
-- Hash: `d90e793a97d618ff`
+- Hash: `e35592e861eb5198`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-doc-metadata.yml
 - Kategorie: build_test_ci
-- Hash: `ee49b6c923f6ebb9`
+- Hash: `aa6b2ce8ae57fc0f`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-doxygen-governance.yml
 - Kategorie: build_test_ci
-- Hash: `ca146c1cdd81da59`
+- Hash: `54b2aa7fb8588485`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-edition-license.yml
 - Kategorie: build_test_ci
-- Hash: `897b92df7b05a427`
+- Hash: `90502118f5c9afd8`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-final-runtime-api.yml
 - Kategorie: build_test_ci
-- Hash: `955179ae7e93eeff`
+- Hash: `4c068252ac381b33`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-hash-sbom.yml
 - Kategorie: build_test_ci
-- Hash: `5958152d528c8613`
+- Hash: `dd91b24239ddcf0e`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-merge-readiness.yml
 - Kategorie: build_test_ci
-- Hash: `3cc0761932e8c077`
+- Hash: `95568a45e75c8174`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-module-doxygen-xml.yml
 - Kategorie: build_test_ci
-- Hash: `aa1eb79b9e6324dd`
+- Hash: `900637cefc00be9b`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-plugin-boundary.yml
 - Kategorie: build_test_ci
-- Hash: `1f900fdaeebb02f8`
+- Hash: `a6ea80c1053c5585`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-primary-doc-structure.yml
@@ -313,42 +301,42 @@ guidance; use workflow sources and concrete run logs as evidence.
 
 ## .github/workflows/gate-pr-rag-eval.yml
 - Kategorie: build_test_ci
-- Hash: `168f2d1cfe884ae7`
+- Hash: `e1f94059dac3e030`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-rag-phase10.yml
 - Kategorie: build_test_ci
-- Hash: `27140536dcf45e72`
+- Hash: `1681c0bb656c122b`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-rag-phase7.yml
 - Kategorie: build_test_ci
-- Hash: `950304e9b459c29e`
+- Hash: `df421c7580604c25`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-rag-phase8.yml
 - Kategorie: build_test_ci
-- Hash: `d6924ed3455fcce3`
+- Hash: `a4974e1d52615e80`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-rag-phase9.yml
 - Kategorie: build_test_ci
-- Hash: `049fe9568de0c3a5`
+- Hash: `6e8421e255ac7397`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-rag-security.yml
 - Kategorie: build_test_ci
-- Hash: `5f2ed0a100b984e1`
+- Hash: `2c3a03877b8a4233`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-rag-version.yml
 - Kategorie: build_test_ci
-- Hash: `2efec1f10f872e5c`
+- Hash: `c6460c02ca88e685`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-pr-version-targeting.yml
 - Kategorie: build_test_ci
-- Hash: `cc4abbc2ba324d80`
+- Hash: `fca23062af58da44`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-release-benchmark-validation.yml
@@ -358,12 +346,12 @@ guidance; use workflow sources and concrete run logs as evidence.
 
 ## .github/workflows/gate-wave-closure.yml
 - Kategorie: build_test_ci
-- Hash: `e6e34aadd596225f`
+- Hash: `4b71d91f930e92a8`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/gate-workflow-guidelines.yml
 - Kategorie: build_test_ci
-- Hash: `fda45221825af777`
+- Hash: `5afc2a42edbf47bb`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/maintenance-ai-working.yml
@@ -373,12 +361,12 @@ guidance; use workflow sources and concrete run logs as evidence.
 
 ## .github/workflows/maintenance-architecture-ci.yml
 - Kategorie: build_test_ci
-- Hash: `3bce3d16ac55c655`
+- Hash: `145c04435220c227`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/maintenance-build-issues.yml
 - Kategorie: build_test_ci
-- Hash: `8d6cd2e8dbfd28ce`
+- Hash: `28cc8bae4f130a25`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/maintenance-ci-health.yml
@@ -388,22 +376,22 @@ guidance; use workflow sources and concrete run logs as evidence.
 
 ## .github/workflows/maintenance-compendium-sync.yml
 - Kategorie: build_test_ci
-- Hash: `7ce9c504f18ef119`
+- Hash: `c715e87395b0e850`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/maintenance-docs-db-build.yml
 - Kategorie: build_test_ci
-- Hash: `e7d6836cd74794b5`
+- Hash: `c902cb537996f423`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/maintenance-docs.yml
 - Kategorie: build_test_ci
-- Hash: `cae537e04e5bf088`
+- Hash: `a54b7b05d42b1d71`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/maintenance-housekeeping.yml
 - Kategorie: build_test_ci
-- Hash: `de3d14c60b5ce30a`
+- Hash: `21c263ba1be0aa9a`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/maintenance-issues.yml
@@ -413,12 +401,12 @@ guidance; use workflow sources and concrete run logs as evidence.
 
 ## .github/workflows/maintenance-pr-failure-diagnosis.yml
 - Kategorie: build_test_ci
-- Hash: `6c395f7c16a2d63f`
+- Hash: `79e30b70f70ed0ef`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/maintenance-soll-ist-gap-issues.yml
 - Kategorie: build_test_ci
-- Hash: `23201f8ab2bf1e13`
+- Hash: `82ad329604e11db4`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/maintenance-workflow-guardrails-observe.yml
@@ -428,7 +416,7 @@ guidance; use workflow sources and concrete run logs as evidence.
 
 ## .github/workflows/msvc.yml
 - Kategorie: build_test_ci
-- Hash: `b982946bc0d19bf1`
+- Hash: `90395a27d5c2fffd`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/nightly-governance-audit.yml
@@ -438,12 +426,12 @@ guidance; use workflow sources and concrete run logs as evidence.
 
 ## .github/workflows/publish-wiki.yml
 - Kategorie: build_test_ci
-- Hash: `b742aa6ffe6ac9ce`
+- Hash: `cfbf27bb80fc0f6d`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-build-matrix.yml
 - Kategorie: build_test_ci
-- Hash: `f39f60b713d0f444`
+- Hash: `14500612c5a032b4`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-changelog.yml
@@ -453,12 +441,12 @@ guidance; use workflow sources and concrete run logs as evidence.
 
 ## .github/workflows/release-docker-approval.yml
 - Kategorie: build_test_ci
-- Hash: `bc2aa312fe262501`
+- Hash: `2aef3be51ad35c5c`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-docker-image.yml
 - Kategorie: build_test_ci
-- Hash: `a62d8846c0cb6e65`
+- Hash: `c90c79e3a5308859`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-evidence-chain.yml
@@ -468,57 +456,57 @@ guidance; use workflow sources and concrete run logs as evidence.
 
 ## .github/workflows/release-linux-distribution.yml
 - Kategorie: build_test_ci
-- Hash: `f672eaf5ce2b3257`
+- Hash: `b57790a94b20eeeb`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-linux-distro-approval.yml
 - Kategorie: build_test_ci
-- Hash: `7cb1f9c0e8f91147`
+- Hash: `0d32919331508507`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-mainline-approval.yml
 - Kategorie: build_test_ci
-- Hash: `635081477b6cee78`
+- Hash: `1bd45850e1e6a3ba`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-mainline.yml
 - Kategorie: build_test_ci
-- Hash: `2bb6f74eeac8c896`
+- Hash: `e156f24778d96463`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-nightly.yml
 - Kategorie: build_test_ci
-- Hash: `6a0ddb740eb262a5`
+- Hash: `d30426adfb7a8ed0`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-promote.yml
 - Kategorie: build_test_ci
-- Hash: `b7f541ba60b5c75f`
+- Hash: `a92910e7ccc60f25`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-rollback.yml
 - Kategorie: build_test_ci
-- Hash: `521def4a55065f59`
+- Hash: `9d4c1cac6420e19c`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-windows-distribution.yml
 - Kategorie: build_test_ci
-- Hash: `4ed1a67590a8166e`
+- Hash: `1e353b6b8f278370`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-windows-distro-approval.yml
 - Kategorie: build_test_ci
-- Hash: `0e299ecfbf225e28`
+- Hash: `956b7f63c2049670`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-winget-approval.yml
 - Kategorie: build_test_ci
-- Hash: `54c1b3a806901136`
+- Hash: `bb4f1e6838c842b8`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-winget.yml
 - Kategorie: build_test_ci
-- Hash: `7e12c4fac4d6db6a`
+- Hash: `d97ea10c5b94d9f8`
 - Titel: (binary or unreadable)
 
 ## .github/workflows/release-wordpress-press.yml
@@ -528,5 +516,5 @@ guidance; use workflow sources and concrete run logs as evidence.
 
 ## .github/workflows/reusable-benchmark-build-run-report.yml
 - Kategorie: build_test_ci
-- Hash: `203b7384daa8ef87`
+- Hash: `21d1cddc7405c381`
 - Titel: (binary or unreadable)
