@@ -1,8 +1,20 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+---
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # Timeseries Module — Public API
 
-<!-- Status: current | validated: 2026-05-13 -->
+<!-- Status: review | validated: 2026-10-31 -->
 <!-- Primary: src/timeseries/ | Docs: docs/timeseries/ docs/de/timeseries/ -->
 
 This directory contains public header files for the ThemisDB timeseries module.
@@ -87,8 +99,16 @@ The main time-series storage engine with Gorilla compression, batch write, tag f
 TSStore::Config config;
 config.compression            = TSStore::CompressionType::Gorilla; // or None
 config.chunk_size_hours       = 24;   // Gorilla chunk size in hours
-config.late_arrival_window_ms = 5000; // 0 = accept all out-of-order; >0 = reject too-old
+config.late_arrival_window_ms = 5000; // 0 disables ordering checks; >0 rejects points below watermark-window
 ```
+
+`DataPoint::timestamp_ms`, query bounds, Gorilla timestamps, and the
+late-arrival window use signed Unix epoch milliseconds. Zero and negative
+timestamps are not rejected solely by sign. A non-positive window skips
+ordering validation (use zero to disable it intentionally). With a positive window, points at
+the watermark or exactly at the cutoff are accepted; only timestamps strictly
+below the cutoff are rejected. The watermark is per-series in-memory state and
+is not restored across `TSStore` instances.
 
 **Write APIs:**
 
