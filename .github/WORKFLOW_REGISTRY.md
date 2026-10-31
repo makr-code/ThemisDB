@@ -2,8 +2,8 @@
 
 > Author: ThemisDB Contributors
 > Created: 2026-09-09
-> Last Updated: 2026-10-30
-> Update Note: Repaired summary checkouts, reusable permission contracts, and benchmark/coverage/MSVC prerequisites; workflow inventory unchanged
+> Last Updated: 2026-10-31
+> Update Note: Repaired Linux release sccache backend outage handling; workflow inventory unchanged
 > Status: active
 > Total Workflows: 99 (verified 2026-10-29)
 > AI_Used: true
@@ -17,7 +17,7 @@
 Dieses Repository nutzt ein bewusst strukturiertes, release-orientiertes CI/CD-System.
 Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 
-### CI remediation (2026-10-30)
+### CI remediation (2026-10-31)
 
 - Alle 50 Aufrufe der lokalen Run-Summary-Action führen den Checkout im eigenen Job
   ohne persistierte Zugangsdaten aus; Workflow-Anzahl, Trigger und Gate-Ergebnisse bleiben unverändert.
@@ -50,6 +50,9 @@ Alle Workflows sind dokumentiert und validiert gegen WORKFLOW_GUIDELINES.md.
 - Abgelaufene Ausführungsfreigaben benötigen eine Maintainer-Aktion. Der im
   MSVC-Lauf beobachtete C1060-Analyser-Speicherfehler bleibt separat zu verifizieren;
   die Reparaturen unterdrücken ihn nicht.
+- Linux-Release-Matrix-Lanes verwenden den über Actions-Cache persistierten lokalen
+  sccache-Speicher statt des GHA-Cache-Backends; die Auswahl wird je Plattform
+  explizit durchgereicht, damit ein `false` nicht durch einen Fallback überschrieben wird.
 
 ## Leitprinzipien
 

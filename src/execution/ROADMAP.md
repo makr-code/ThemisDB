@@ -1,17 +1,32 @@
-**Author:** ThemisDB Contributors  
-**Created:** 2026-09-21  
-**Last Updated:** 2026-09-28  
-**Status:** active
+---
+Author: "ThemisDB Team"
+Created: "2026-09-21"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
 
 # Execution Module Roadmap
 
 ## Current Status
 
-The execution module has a working bounded scheduler and a working bounded fixed-size thread pool, plus focused tests and dedicated benchmarks. All governance documentation has been restored and aligned with the live implementation. The next phase of work is to implement true work stealing, elastic worker scaling, and advanced features.
+The execution module has a bounded deadline scheduler and a bounded fixed-worker
+pool. No implementation drift was reported by the issue. The seven governance
+documents are present and their stale status claims have been corrected. The
+checked-in Doxygen XML is stale relative to the current headers, and no
+configured test build is available in this checkout; validation and maintainer
+acceptance evidence remain pending. The next implementation work is true work
+stealing, elastic worker scaling, and other explicitly planned features.
 
 - [x] Live implementation drift in `src/execution/` and `include/execution/` reviewed against current source and tests (Target: Q3 2026)
-- [x] Governance documentation restored and aligned to current behavior (Target: Q3 2026)
-- [x] Source-level Doxygen refreshed to match the live public API contract (Target: Q3 2026)
+- [x] Governance documentation files present and aligned to current behavior (Target: Q4 2026)
+- [ ] Regenerate and validate Doxygen XML against the current public headers (Target: Q4 2026)
 - [ ] Elastic worker scaling and true steal-path activation implemented (Target: Q1 2027)
 - [ ] Request-path server integration advanced beyond construction/teardown wiring (Target: Q1 2027)
 
@@ -19,7 +34,7 @@ The execution module has a working bounded scheduler and a working bounded fixed
 
 - [x] Restore missing governance docs: `AUDIT.md`, `CHANGELOG.md`, `FUTURE_ENHANCEMENTS.md`, `MODULE_GAPS.md`, `PERFORMANCE_EXPECTATIONS.md`, `PRODUCTION_REQUIREMENTS.md`, `SECURITY.md` (Target: Q3 2026)
 - [x] Replace stale module claims about urgent buckets, fairness reservations, dynamic thread retirement, and live work stealing with source-verified descriptions (Target: Q3 2026)
-- [x] Refresh Doxygen comments on `include/execution/query_scheduler.h` and `include/execution/thread_pool_manager.h` so the public contract matches the implementation (Target: Q3 2026)
+- [x] Public-header comments describe the current implementation and reserved configuration fields (Target: Q3 2026)
 - [ ] Activate per-worker queue population and actual cross-worker steal behavior (Target: Q1 2027)
 - [ ] Implement elastic worker growth/shrink semantics or narrow the public naming/contract accordingly (Target: Q1 2027)
 - [ ] Add queue-expiry / cancellation policy for stale scheduler entries where required by upstream consumers (Target: Q1 2027)
@@ -43,30 +58,34 @@ The execution module has a working bounded scheduler and a working bounded fixed
 - [ ] Decide and implement stale-query eviction/cancellation behavior instead of retaining expired entries until dequeue (Target: Q1 2027)
 
 ### Phase 4: Tests
-- [x] Keep focused scheduler behavior coverage in `tests/integration/test_load_balancing.cpp` (Target: Q3 2026)
-- [x] Keep focused thread-pool coverage in `tests/integration/test_resource_pooling.cpp` (Target: Q3 2026)
-- [x] Keep high-cardinality stress coverage in `tests/execution/test_execution_highcardinality_stress.cpp` (Target: Q3 2026)
+- [x] Keep scheduler behavior and metrics coverage in `tests/execution/` (Target: Q3 2026)
+- [x] Keep thread-pool behavior coverage in `tests/integration/test_resource_pooling.cpp` (Target: Q3 2026)
+- [x] Retain the high-cardinality local-model simulation with its non-production scope explicit (Target: Q4 2026)
+- [ ] Add production-runtime capacity stress tests for `QueryScheduler` and `WorkStealingThreadPool` (Target: Q1 2027)
 - [ ] Add focused tests for any future true-steal and elastic-scaling implementation before enabling those behaviors (Target: Q1 2027)
 
 ### Phase 5: Performance/Hardening
 - [x] Maintain dedicated execution benchmark coverage in `benchmarks/execution/bench_execution_dedicated_gates.cpp` (Target: Q3 2026)
-- [x] Re-baseline queue and dispatch latency targets against representative release hardware (Target: Q4 2026)
+- [ ] Establish production-runtime queue and dispatch baselines on representative release hardware; current benchmark artifacts use standalone queue models (Target: Q1 2027)
 - [ ] Add benchmark-backed guardrails for any future elastic-scaling or cancellation behavior (Target: Q1 2027)
 
 ### Phase 6: Documentation & Acceptance
-- [x] Restore the full governance document set for the execution module (Target: Q3 2026)
-- [x] Align README, architecture, roadmap, and Doxygen narratives to the live implementation (Target: Q3 2026)
-- [ ] Attach focused validation evidence for the module-specific acceptance gate and maintainer sign-off (Target: Q3 2026)
+- [x] Keep the full governance document set for the execution module aligned with source (Target: Q4 2026)
+- [x] Align README, architecture, roadmap, and feature narratives to the live implementation (Target: Q4 2026)
+- [ ] Regenerate Doxygen XML and resolve any confirmed public-API findings (Target: Q4 2026)
+- [ ] Attach a successful focused CTest run and maintainer sign-off for the module-specific acceptance gate (Target: Q4 2026)
 
 ## Production Readiness Checklist
 
 - [x] Public API declarations exist for scheduler and thread pool
 - [x] Core implementation exists for bounded scheduler and fixed worker pool
 - [x] Focused regression coverage exists for scheduler/thread-pool paths
-- [x] Dedicated execution benchmark coverage exists
+- [x] A dedicated execution benchmark harness exists; it does not measure the production scheduler or pool
 - [x] Governance documentation set restored and aligned
-- [x] Doxygen contract refreshed for current implementation behavior
-- [ ] Maintainer validation evidence attached for the current documentation-restoration issue
+- [x] Public headers document current implementation behavior
+- [ ] Current Doxygen XML evidence validated against the public headers
+- [ ] Focused CTest validation evidence attached; current checkout has no configured test build
+- [ ] Maintainer acceptance completed for the current documentation issue
 
 ## Known Issues & Limitations
 

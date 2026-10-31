@@ -1,43 +1,58 @@
-**Author:** ThemisDB Contributors  
-**Created:** 2026-09-21  
-**Last Updated:** 2026-09-21  
-**Status:** active
+---
+Author: "ThemisDB Team"
+Created: "2026-09-21"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
 
 # Performance Expectations — Execution Module
 
 ## Scope
 
-This document defines the measurable performance expectations for the current execution-module baseline: bounded scheduler admission/dequeue and bounded fixed-worker dispatch.
+This document records the current performance evidence boundary for bounded
+scheduler admission/dequeue and fixed-worker dispatch. No production-runtime
+baseline has been verified for this module.
 
 ## Benchmark Reference
 
 Relevant benchmark source:
 - `benchmarks/execution/bench_execution_dedicated_gates.cpp`
 
-## Current Benchmark Mapping
+## Benchmark Harness Scope
 
-| Target ID | Expectation | Benchmark case |
+| Case | Harness behavior | Production-runtime evidence |
 |---|---|---|
-| EX-1 | scheduler enqueue latency remains bounded for the in-memory queue baseline | `EX-BM-01/EnqueueP95` |
-| EX-2 | scheduler dequeue latency remains bounded for the in-memory queue baseline | `EX-BM-02/DequeueP95` |
-| EX-3 | shared-queue drain throughput remains bounded under fixed-worker contention | `EX-BM-03/WorkStealThroughput` |
-| EX-4 | concurrent producer dispatch remains bounded for the fixed-worker central queue | `EX-BM-04/ConcurrentDispatchThroughput` |
+| `EX-BM-01/EnqueueP95` | Times enqueue calls against a local `BoundedQueue` model | Does not exercise `QueryScheduler` or compute a production p95 |
+| `EX-BM-02/DequeueP95` | Times dequeue calls against a local `BoundedQueue` model | Does not exercise `QueryScheduler` or compute a production p95 |
+| `EX-BM-03/WorkStealThroughput` | Drains a local `StealPool` model | Does not exercise `WorkStealingThreadPool` |
+| `EX-BM-04/ConcurrentDispatchThroughput` | Eight producer threads enqueue into a local `BoundedQueue` | Does not exercise the production worker pool |
 
-## Hard Gates
+The case names and source comments describe aspirational gates, but the
+benchmark implementation does not validate those thresholds against the
+production scheduler or pool. Treat them as harness metadata, not release gates.
 
-| Gate ID | Expectation | Measurement |
-|---|---|---|
-| EG-1 | enqueue p95 stays within the current release baseline budget | benchmark aggregate for `EX-BM-01/EnqueueP95` |
-| EG-2 | dequeue p95 stays within the current release baseline budget | benchmark aggregate for `EX-BM-02/DequeueP95` |
-| EG-3 | drain/dispatch throughput does not regress beyond the accepted release baseline | benchmark aggregates for `EX-BM-03` and `EX-BM-04` |
-| EG-4 | focused stress coverage continues to complete without queue-loss regressions | `tests/execution/test_execution_highcardinality_stress.cpp` |
+## Expectations Before Production Release Claims
 
-## Interpretation Notes
-
-- `EX-BM-03/WorkStealThroughput` currently measures drain throughput of the dedicated execution benchmark harness; it should **not** be presented as proof that the production thread pool already performs live cross-worker stealing.
-- Release evidence must be tied to the current implementation contract: bounded central-queue dispatch with fixed worker count.
-- Any future activation of elastic scaling or true steal paths requires new baselines before these targets remain authoritative.
+- Establish and publish production-runtime scheduler latency and pool throughput
+  baselines on named representative hardware and a release build.
+- Report the measurement method and distribution (including percentile
+  calculation) rather than inferring p95 from benchmark case names.
+- For future stealing or elastic scaling, compare results against that baseline
+  and document the measured regression or improvement.
+- Keep stress-test completion evidence separate from latency/throughput claims.
 
 ## Validation
 
-Expectations are met when the benchmark cases run in a release-like configuration and remain inside the tracked release baselines, and when the focused stress tests continue to drain all submitted work without loss.
+Relevant source: `benchmarks/execution/bench_execution_dedicated_gates.cpp`.
+Scheduler runtime tests are in `tests/execution/`; the broader
+`tests/integration/test_resource_pooling.cpp` suite exercises the thread pool.
+`tests/execution/test_execution_highcardinality_stress.cpp` is a local-model
+simulation, not a production stress test. A successful run and a production
+runtime baseline have not been attached in this checkout.

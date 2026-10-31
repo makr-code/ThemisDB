@@ -1,32 +1,43 @@
 # Image Analysis Module — Architecture
 
-<!-- Status: IN_PROGRESS | plugin architecture | validated: 2026-10-07 -->
+**Author:** ThemisDB Contributors
+**Created:** 2026-10-31
+**Last Updated:** 2026-10-31
+**Status:** active
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** OpenAI ChatGPT
+**Human_Review:** false
+**Human_Author:** ThemisDB Contributors
+
+Exact model backend not verifiable from final document text alone.
+
+<!-- Status: plugin architecture | source reviewed: 2026-10-31 -->
 
 ## Kontext
 
-The image analysis module is a plugin-based vision capability for ThemisDB. The canonical runtime contract lives under `include/plugins/`, and the module-specific implementation is assembled from `src/image_analysis/*.cpp` plus `src/image_analysis/CMakeLists.txt`.
+The image-analysis source directory builds two optional plugins against the shared contract in `include/plugins/image_analysis_interface.h`. The manager API is declared in `include/plugins/image_analysis_manager.h`; `src/image_analysis/CMakeLists.txt` does not build an `ImageAnalysisManager` implementation.
 
 ## Design Principles
 
-1. **Plugin abstraction:** image analysis backends are selected through `IImageAnalysisBackend` and `ImageAnalysisManager`.
-2. **Optional dependency gating:** Tesseract and ONNX Runtime are compiled in only when present, with explicit error results otherwise.
-3. **Fail-graceful behavior:** backend absence or runtime failures return structured error states instead of crashing the caller.
-4. **Dependency separation:** the core plugin contract stays in `include/plugins/`; module-specific implementation remains in `src/image_analysis/`.
-5. **Source-first validation:** roadmap and performance expectations are treated as target gates, not as claims of already-fixed production status.
+1. **Plugin abstraction:** backend implementations use `IImageAnalysisBackend`; manager APIs are declared separately in `image_analysis_manager.h`.
+2. **Optional dependency gating:** the plugin targets are optional; Tesseract and ONNX Runtime support is compiled only when found.
+3. **OpenCV is independently optional:** without OpenCV, input bytes are not decoded as encoded images (OCR expects raw grayscale bytes; YOLO uses a zero-filled tensor).
+4. **Structured outcomes:** unsupported operations and missing-runtime inference paths return structured failure results.
+5. **Source-first validation:** the checked-in performance benchmarks are synthetic and do not establish OCR/detection performance.
 
 ## Architecture Diagram
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│ ImageAnalysisManager / PluginConfig                          │
-│ • discovers + registers backend implementations               │
-│ • chooses backends by capability and runtime availability     │
+│ Host / PluginConfig                                            │
+│ • creates/configures a backend through the shared contract    │
 └──────────────────────────────┬───────────────────────────────┘
                               │
                               ▼
                    ┌──────────────────────────────┐
                    │ IImageAnalysisBackend        │
-                   │ common contract              │
+                   │ declared in include/plugins/ │
                    └──────────────┬───────────────┘
                                   │
                  ┌────────────────┼────────────────┐
@@ -38,32 +49,19 @@ The image analysis module is a plugin-based vision capability for ThemisDB. The 
       └────────────────────┘ └────────────────────┘ └────────────────────┘
                                   │
                                   ▼
-                   Structured result objects
-                   (DetectionResult, EmbeddingResult,
-                   CaptionResult, PluginInfo)
+                   DetectionResult (implemented operation)
+                   EmbeddingResult (unsupported by these plugins)
 ```
 
 ## Komponenten
 
-### ImageAnalysisManager
+### ImageAnalysisManager declaration
 
-**Purpose:** Maintain the plugin registry and select the best backend for a requested capability.
+`include/plugins/image_analysis_manager.h` declares a manager API for plugin discovery, loading, capability selection, and convenience operations. The `src/image_analysis/CMakeLists.txt` builds no corresponding manager implementation, so this module documentation does not claim that those operations are available in the module's built targets.
 
-**Responsibilities:**
-- discover and load plugins from a configured directory
-- validate plugin metadata and compatibility
-- keep the default plugin selected for common operations
-- provide a manager API for detection and capability queries
+### Backend build targets
 
-### IImageAnalysisBackend Contract
-
-**Purpose:** Define the stable runtime contract for all image-analysis backends.
-
-**Key responsibilities:**
-- initialize / shutdown lifecycle
-- readiness and backend reporting
-- detection and embedding entry points
-- statistics and health checking
+`src/image_analysis/CMakeLists.txt` can build `themis_image_yolov8` and `themis_image_tesseract` when their respective plugin options are enabled. It also defines `themis_image_analysis_test_lib` for test builds. ONNX Runtime, Tesseract, and OpenCV are discovered independently.
 
 ### OCR Backend (Tesseract)
 
@@ -76,6 +74,7 @@ The image analysis module is a plugin-based vision capability for ThemisDB. The 
 **Behavior:**
 - when `HAVE_TESSERACT` is defined, real OCR runs with Tesseract API
 - without the dependency, return a well-formed failure result with an explanatory error message
+- without OpenCV, the input vector is interpreted as raw grayscale pixel bytes rather than decoded from JPEG/PNG
 
 ### Object Detection Backend (YOLOv8 ONNX)
 
@@ -88,11 +87,12 @@ The image analysis module is a plugin-based vision capability for ThemisDB. The 
 **Behavior:**
 - when `HAVE_ONNXRUNTIME` is defined, model inference runs with ONNX Runtime
 - otherwise, the plugin reports a controlled failure rather than failing the process
+- with ONNX Runtime but without OpenCV, preprocessing supplies a zero-filled tensor and does not use the encoded image bytes
 
 ## Schnittstellen
 
 - `include/plugins/image_analysis_interface.h` defines the canonical backend contract.
-- `include/plugins/image_analysis_manager.h` provides discovery, registration, and capability routing.
+- `include/plugins/image_analysis_manager.h` declares discovery, registration, and capability-routing APIs; this module build contains no manager implementation.
 - `src/image_analysis/CMakeLists.txt` gates optional Tesseract / ONNX Runtime dependencies.
 
 ## Datenfluss
@@ -101,37 +101,38 @@ The image analysis module is a plugin-based vision capability for ThemisDB. The 
 
 ```mermaid
 flowchart TD
-    A[Caller / Indexer] --> B[ImageAnalysisManager::getBestPluginForCapability]
-    B --> C[Backend initialize + isReady]
-    C --> D[detectObjects / generateEmbedding]
-    D --> E[Structured Result: success, error_message, detections/embedding]
+    A[Host creates plugin] --> B[initialize + isReady]
+    B --> C[detectObjects]
+    C --> D[Structured DetectionResult]
+    D --> E[success / error_message / detections]
 ```
 
-Kurzinterpretation: Der Manager waehlt einen passenden Backend-Pfad, fuehrt die Analyse aus und liefert immer ein strukturiertes Ergebnisobjekt zurueck.
+Kurzinterpretation: Der Host konfiguriert ein Plugin direkt ueber den gemeinsamen Vertrag. Der Manager-Header beschreibt zusaetzliche APIs, deren Implementierung hier nicht gebaut wird.
 
 ## Sequenz (kritischer Ablauf)
 
-1. Aufrufer waehlt eine Capability (z. B. OCR oder Detection).
-2. `ImageAnalysisManager` bestimmt ein geeignetes Plugin.
-3. Backend initialisiert sich und prueft Readiness.
-4. Analyse-API liefert ein strukturiertes Success-/Failure-Ergebnis.
+1. Der Host erstellt und initialisiert ein Plugin mit `PluginConfig`.
+2. Das Plugin meldet Bereitschaft und Backend-Informationen.
+3. Der Host ruft `detectObjects()` auf.
+4. Das Plugin gibt ein strukturiertes Ergebnis oder einen Fehler zurueck.
 
 ## Performance Characteristics
 
-Performance is treated as target-based evidence rather than solved production status. The module keeps quantitative expectations in `PERFORMANCE_EXPECTATIONS.md`, but the current implementation is still best described as plugin-backed and partially hardened rather than fully release-validated.
+The numerical values in `PERFORMANCE_EXPECTATIONS.md` are unverified proposals. The three checked-in benchmarks use mock/synthetic plugins and do not measure Tesseract or YOLOv8. No real-backend performance result is asserted here.
 
 ## Fehlerpfade und Resilienz
 
 ### Graceful Degradation
 
-1. **Tesseract unavailable** → plugin reports a safe error result
-2. **ONNX Runtime unavailable** → detection returns an explicit failure message
-3. **Invalid inputs** → backend returns `success = false` with context
-4. **Backend startup failure** → manager keeps the module operational while the failure is surfaced to the caller
+1. **Tesseract unavailable** → plugin inference reports a structured error
+2. **ONNX Runtime unavailable** → detection reports a structured error
+3. **OpenCV unavailable** → OCR expects raw grayscale bytes; YOLO's preprocessing uses a zero tensor, not the supplied encoded image
+4. **Invalid/undecodable image with OpenCV** → preprocessing reports failure where checked
+5. **Backend startup failure** → plugin initialization can return false; manager recovery is not established by this module build
 
 ### Error Codes / failures
 
-The operational contract is the plugin interface's structured result types, and the caller-facing behaviour is defined by the live `include/plugins/*` API surface.
+The operational contract is the plugin interface's structured result types and the concrete overrides in the two plugin implementations.
 
 ## Nicht-Ziele
 
@@ -152,6 +153,5 @@ The operational contract is the plugin interface's structured result types, and 
 
 | Module | Via | Notes |
 |--------|-----|-------|
-| `plugins` | `include/plugins/image_analysis_interface.h` | Shared plugin contract for image analysis backends |
-| `onnx_clip` | `include/plugins/image_analysis_interface.h` | Embedding-oriented vision path shares the same interface |
-| `content` | manager + plugin selection | image processing is integrated via plugin resolution rather than a dedicated standalone image header tree |
+| `onnx_clip` | `include/plugins/image_analysis_interface.h` | Separate implementation of the shared contract |
+| Other callers | shared interface | Direct integration with the two backends is not asserted by this module build |

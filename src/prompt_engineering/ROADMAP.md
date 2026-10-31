@@ -74,7 +74,7 @@ Production-capable prompt engineering runtime exists for template lifecycle oper
 - [x] core prompt_engineering docs aligned to source-verifiable behavior (Target: Q3-Q4 2026) — Complete with Phase 1-2 deliverables
 - [x] roadmap/future planning separated from historical changelog entries
 - [x] focused test infrastructure (PE-FT-001..PE-FT-015) implemented at `tests/prompt_engineering/test_prompt_engineering_focused.cpp` (Target: Q3 2026)
-- [x] document and integrate rewrite engine architecture and operational guidance (`docs/architecture/rewrite_engine_architecture.md`) (Target: Q4 2026) — Complete 2026-08-07
+- [x] document RewriteEngine core architecture and operational guidance (`docs/architecture/rewrite_engine_architecture.md`) (Target: Q4 2026) — Documentation complete 2026-08-07; request-pipeline integration remains future work
 - [x] benchmark gates documented: GATE-PE-01..06 (PEG-01..06) in `benchmarks/prompt_engineering/bench_rewrite_engine.cpp` (Target: Q4 2026) — Delivered 2026-08-07
 - [~] acceptance checklist sign-off ready for final human review (Target: Q4 2026)
 
@@ -95,7 +95,7 @@ Production-capable prompt engineering runtime exists for template lifecycle oper
 - runtime behavior depends on template quality, injected context shape, optimizer configuration, and downstream model behavior.
 - selected adversarial and concurrency-heavy edge scenarios need continued hardening.
 - benchmark depth should continue expanding for advanced prompt engineering workflows.
-- rewrite-driven normalization and policy behavior are not yet implemented and remain roadmap work.
+- RewriteEngine core execution and YAML lexical-rule loading exist in the source and are compiled into `themis_core`; integration into prompt/NL→AQL request paths and functional rule-behavior regression coverage remain incomplete. Callers must not assume the integration façade invokes the engine.
 
 ## Breaking Changes
 

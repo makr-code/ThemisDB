@@ -1,7 +1,16 @@
-**Author:** ThemisDB Contributors  
-**Created:** 2026-09-21  
-**Last Updated:** 2026-09-21  
-**Status:** active
+---
+Author: "ThemisDB Team"
+Created: "2026-09-21"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
 
 # Security — Execution Module
 
@@ -23,6 +32,9 @@ Report vulnerabilities via the repository root `SECURITY.md` process.
 - Capacity waits are bounded by caller-provided timeouts rather than unbounded blocking.
 - LOW-priority scheduler work is rejected once the configured shed threshold is reached instead of allowing unbounded queue growth.
 - Worker task exceptions do not crash the process-local worker loop directly; failures are counted for operator inspection.
+- The default scheduler `shed_threshold` (5000) is above its default
+  `max_queue_depth` (1000), so low-priority shedding is not reached with the
+  default configuration; operators must choose an appropriate threshold.
 
 ## Known Limitations
 

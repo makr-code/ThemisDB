@@ -521,6 +521,12 @@ jobs:
 
           PRIMARY_TAG="${tags[0]}"
           echo "primary_tag=${PRIMARY_TAG}" >> "${GITHUB_OUTPUT}"
+          PRIMARY_IMAGE="${PRIMARY_TAG%:*}"
+          case "${PRIMARY_IMAGE}" in
+            ghcr.io/*) ATTESTATION_SUBJECT="${PRIMARY_IMAGE}" ;;
+            *) ATTESTATION_SUBJECT="index.docker.io/${PRIMARY_IMAGE}" ;;
+          esac
+          echo "subject_name=${ATTESTATION_SUBJECT}" >> "${GITHUB_OUTPUT}"
           DIGEST="$(docker buildx imagetools inspect "${PRIMARY_TAG}" --format '{{json .Manifest.Digest}}' | tr -d '\"')"
           echo "digest=${DIGEST}" >> "${GITHUB_OUTPUT}"
           echo "Created multi-arch manifest for ${PRIMARY_TAG} with digest ${DIGEST}"
@@ -529,7 +535,7 @@ jobs:
         if: steps.manifest.outputs.digest != ''
         uses: actions/attest-build-provenance@v1  # v1.4.3
         with:
-          subject-name: ${{ steps.manifest.outputs.primary_tag }}
+          subject-name: ${{ steps.manifest.outputs.subject_name }}
           subject-digest: ${{ steps.manifest.outputs.digest }}
           push-to-registry: true
 

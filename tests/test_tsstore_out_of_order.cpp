@@ -149,6 +149,15 @@ TEST_F(TSStoreOOOFixture, PointExactlyAtWindowBoundaryAccepted) {
     EXPECT_TRUE(result.has_value()) << "Point at boundary should be accepted";
 }
 
+TEST_F(TSStoreOOOFixture, TimestampEqualToWatermarkAccepted) {
+    auto store = makeStore(60000);
+    const int64_t watermark = 1700000000000LL;
+
+    ASSERT_TRUE(store->putDataPoint(makePoint("m", "e", watermark)).has_value());
+    EXPECT_TRUE(store->putDataPoint(makePoint("m", "e", watermark)).has_value());
+    EXPECT_EQ(store->getOutOfOrderStats().out_of_order_accepted, 0u);
+}
+
 // ─── Point one millisecond outside window: rejected ─────────────────────────
 
 TEST_F(TSStoreOOOFixture, PointOneMillisecondOutsideWindowRejected) {

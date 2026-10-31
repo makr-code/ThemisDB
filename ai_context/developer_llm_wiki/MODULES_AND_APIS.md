@@ -1,7 +1,13 @@
 # Developer LLM Wiki — Modules and APIs
 
-Datum: 2026-10-26
+Datum: 2026-10-31
 Status: Active
+
+## Curated module contexts
+
+- [Importer module context](IMPORTERS.md) — shared contracts, connector boundaries, focused test evidence, and operational limits.
+- [Updates module context](UPDATES.md) — update lifecycle, rollout and patch contracts, diagnostic evidence, and operator boundaries.
+
 
 ## include/acceleration/ai_hardware_dispatcher.h
 - Kategorie: modules_and_api
@@ -200,32 +206,32 @@ Status: Active
 
 ## include/access_model/access_coordinator.h
 - Kategorie: modules_and_api
-- Hash: `48b7a69f232bb954`
+- Hash: `c54a9132104d28ec`
 - Titel: (binary or unreadable)
 
 ## include/access_model/access_metrics.h
 - Kategorie: modules_and_api
-- Hash: `4f9a6750cb5a4073`
+- Hash: `1826165720ef8612`
 - Titel: (binary or unreadable)
 
 ## include/access_model/access_model_logging.h
 - Kategorie: modules_and_api
-- Hash: `2f8ab35a4268ad5c`
+- Hash: `bb64851d41e1ce5e`
 - Titel: (binary or unreadable)
 
 ## include/access_model/access_model_trace.h
 - Kategorie: modules_and_api
-- Hash: `19d88b7f70c531af`
+- Hash: `2ea837b9839f0ba0`
 - Titel: (binary or unreadable)
 
 ## include/access_model/access_tier_interface.h
 - Kategorie: modules_and_api
-- Hash: `69409fd871cd835c`
+- Hash: `b9926ccd1179b1ce`
 - Titel: (binary or unreadable)
 
 ## include/access_model/age_based_policy.h
 - Kategorie: modules_and_api
-- Hash: `d361820a329feb07`
+- Hash: `a1b18a500a9c3afe`
 - Titel: (binary or unreadable)
 
 ## include/access_model/promotion_demotion.h

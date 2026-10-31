@@ -660,20 +660,20 @@ Status: active
 
 #### `void registerService(void *service_impl) override`
 - Source: `src/rpc_grpc/grpc_plugin.h`:43
-- Brief: Register Service.
+- Brief: Register an externally owned service before the server starts.
 - Parameters:
-  - `service_impl` (void *): Input/output parameter.
-- Details: service_impl Input/output parameter. Calls: push_back(), size().
+  - `service_impl` (void *): Expected to point to a `grpc::Service`; null is rejected.
+- Details: Calls after start are rejected and duplicate pointers are ignored. The runtime has no service-count cap.
 
 #### `bool reloadTls(const std::string &cert_path, const std::string &key_path, const std::string &ca_path)`
 - Source: `src/rpc_grpc/grpc_plugin.h`:56
-- Brief: -------------------------------------------------------------------- v0.
+- Brief: Rebuild the running TLS listener with replacement credentials.
 - Parameters:
-  - `cert_path` (const std::string &): Path to the cert.
-  - `key_path` (const std::string &): Path to the key.
-  - `ca_path` (const std::string &): Path to the ca.
-- Return: True when the operation succeeds.
-- Details: ============================================================================ v0. cert_path Path to the cert. key_path Path to the key. ca_path Path to the ca. True when the operation succeeds. 2.0 extensions -------------------------------------------------------------------- cert_path Path to the cert. key_path Path to the key. ca_path Path to the ca. True when the operation succeeds. 2.0 — TLS Hot-Reload (Phase 3: Fail-Safe, Deterministic Hardening) ============================================================================
+  - `cert_path` (const std::string &): Path to the replacement certificate chain PEM.
+  - `key_path` (const std::string &): Path to its matching private-key PEM.
+  - `ca_path` (const std::string &): Path to the CA PEM.
+- Return: True only when the replacement listener starts; otherwise false, with rollback attempted after replacement-start failure.
+- Details: Drains and restarts the listener, so this is not zero-downtime. Callers must serialize reload with lifecycle and service-registration operations. If both replacement start and rollback fail, the server remains stopped.
 
 #### `void resetStats() override`
 - Source: `src/rpc_grpc/grpc_plugin.h`:45
@@ -1021,4 +1021,3 @@ Status: active
 - Parameters:
   - `<unnamed>` (RpcGrpcContractHardening): n/a
   - `<unnamed>` (RPC16_MethodNameLengthConstraint): n/a
-

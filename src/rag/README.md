@@ -1,4 +1,18 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
 # ThemisDB RAG Module
+
+AI provenance note: Exact model backend not verifiable from final document text alone.
 
 <!-- Status: PRODUCTION_CANDIDATE | Phase 1-3 complete | validated: 2026-08-10 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
@@ -26,12 +40,11 @@ Out of scope:
 
 ## Quickstart (Build/Run)
 
-The RAG module is built as part of the main ThemisDB library. Enable the RAG build
-target with:
+The RAG sources are included in the standard ThemisDB build:
 
 ```bash
-cmake -S . -B build -DTHEMIS_RAG_MODULE=ON
-cmake --build build --target themisdb
+cmake -S . -B build
+cmake --build build
 ```
 
 To run the focused RAG integration tests:
@@ -50,37 +63,40 @@ ctest --test-dir build -R "test_rag_quality|test_llm_judge_integration" -V
 
 The module exposes the following core public headers:
 
-**`include/rag/hybrid_retriever.h`** — `themisdb::rag::HybridRetriever`
+**`include/rag/hybrid_retriever.h`** — `themis::rag::HybridRetriever`
 ```cpp
-// Fuse BM25 + vector results for a query
-auto results = retriever.retrieve(query, RetrievalConfig{
-    .top_k = 10,
-    .bm25_weight = 0.4f,
-    .vector_weight = 0.6f
-});
+themis::rag::HybridRetrieverConfig config;
+config.top_k = 10;
+config.bm25_weight = 0.4;
+config.vector_weight = 0.6;
+themis::rag::HybridRetriever retriever(config);
+auto result = retriever.fuse(bm25_candidates, vector_candidates);
 ```
 
-**`include/rag/rag_context_assembler.h`** — `themisdb::rag::RagContextAssembler`
+**`include/rag/rag_context_assembler.h`** — `themis::rag::RAGContextAssembler`
 ```cpp
-// Assemble context under a token budget
-auto ctx = assembler.assemble(results, AssemblyConfig{
-    .max_tokens = 2048,
-    .strategy = AssemblyStrategy::DENSE_FIRST
-});
+themis::rag::RAGContextAssemblerConfig config;
+config.model_context_tokens = 4096;
+themis::rag::RAGContextAssembler assembler(config);
+auto context = assembler.assemble(chunks, system_prompt, query);
 ```
 
-**`include/rag/quality_control_pipeline.h`** — `themisdb::rag::QualityControlPipeline`
+**`include/rag/quality_control_pipeline.h`** — `themis::rag::judge::QualityControlPipeline`
 ```cpp
-// Run retrieval + generation quality gate
-auto verdict = pipeline.evaluate(query, ctx, generated_answer);
-if (verdict.score < threshold) { /* handle low-quality result */ }
+themis::rag::judge::QualityControlPipeline pipeline;
+auto verdict = pipeline.runQualityControl(query, generated_answer, documents);
+if (verdict.status != themis::rag::judge::QualityGateStatus::PASSED) {
+    // Apply the caller's retry, escalation, or rejection policy.
+}
 ```
 
-**`include/rag/prompt_injection_detector.h`** — `themisdb::rag::PromptInjectionDetector`
+**`include/rag/prompt_injection_detector.h`** — `themis::rag::security::PromptInjectionDetector`
 ```cpp
-// Detect and sanitize prompt injection
-auto result = detector.inspect(user_input);
-if (result.injection_detected) { /* block or sanitize */ }
+themis::rag::security::PromptInjectionDetector detector;
+auto result = detector.scan(user_input);
+if (result.is_blocked()) {
+    // Block or escalate according to the caller's policy.
+}
 ```
 
 ## Integrationsueberblick
@@ -135,6 +151,7 @@ flowchart LR
 | `src/rag/self_rag.cpp` | Self-RAG retrieval controller with critic-based document refinement (Wave B B1) |
 
 - [`ARCHITECTURE.md`](ARCHITECTURE.md) — component boundaries, data flow, and failure paths
+- [Developer documentation guide](MODULE_GUIDE.md) — API, implementation, research, operations, and trust references
 - [`ROADMAP.md`](ROADMAP.md) — delivery status, remaining gaps, and phased plan
 - [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md) — planned feature upgrades
 - Wave B tracking issue: https://github.com/makr-code/ThemisDB/issues/5039

@@ -11,6 +11,11 @@ The format is based on Keep a Changelog.
 ## [Unreleased]
 
 ### Changed
+- TLS reload now drains and restarts the active listener with prevalidated
+  credentials, attempts rollback on replacement-start failure, and reports
+  failure if rollback cannot restore service. The operation has downtime.
+- Runtime send/receive limits now use shared 100 MiB API-contract constants;
+  documentation no longer claims a service-count cap that is not implemented.
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
 - Performance expectations updated to explicit verified benchmark symbols from bench_wal_apply_grpc coverage.
 

@@ -1,16 +1,38 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
 
-<!-- Status: current | validated: 2026-09-22 -->
+<!-- Status: historical snapshot | source cross-check: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · PRODUCTION_REQUIREMENTS.md · ROADMAP.md -->
 
 # Audit Report — ONNX CLIP Plugin
 
+This file retains an earlier audit inventory and test record. Its historical
+test totals, line counts, and phase references are not current validation
+evidence. The current implementation boundary is summarized below; use the live
+source and focused tests before making release or security decisions.
+
 ## Module Overview
 
-The ONNX CLIP plugin implements `IImageAnalysisBackend` using ONNX Runtime to run
-CLIP ViT-B/32 and ViT-L/14 models. It supports CPU, CUDA, DirectML, and TensorRT
-backends via a thread-safe pImpl design. Text embedding is now supported via
-`generateTextEmbedding()`.
+`ONNXClipPlugin` implements `IImageAnalysisBackend` with deterministic
+reference-vector generation. The current source does not load CLIP weights or
+execute ONNX Runtime. `BackendType` selections and model names are not evidence
+of an active provider/model. Image/text embedding methods, digest hooks, batching,
+statistics, and reload behavior are described in the current
+[`README.md`](./README.md), [`ARCHITECTURE.md`](./ARCHITECTURE.md), and
+[`API.md`](./API.md).
 
 ---
 

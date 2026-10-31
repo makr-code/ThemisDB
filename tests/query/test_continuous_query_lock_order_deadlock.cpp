@@ -134,6 +134,53 @@ TEST_F(ContinuousQueryLockOrderDeadlockTest, ConcurrentInjectionAndEvaluation) {
     THEMIS_INFO("Engine destroyed successfully");
 }
 
+TEST_F(ContinuousQueryLockOrderDeadlockTest, ConcurrentRegistryAndResultAccess) {
+    auto engine = makeContinuousQueryEngine(std::chrono::milliseconds(2));
+    ASSERT_TRUE(engine);
+
+    auto registration = engine->registerQuery(makeTestSpec("registry_result_access"));
+    ASSERT_TRUE(registration);
+    auto stream = engine->subscribe(*registration, ResultMode::DELTA);
+    ASSERT_TRUE(stream);
+
+    std::atomic<size_t> injection_count{0};
+    std::atomic<size_t> registry_read_count{0};
+    std::atomic<size_t> result_read_count{0};
+
+    std::thread injector([&] {
+        for (size_t i = 0; i < 500; ++i) {
+            engine->injectTuple("test_collection",
+                                "{\"value\": " + std::to_string(i) + "}",
+                                static_cast<int64_t>(i));
+            ++injection_count;
+        }
+    });
+
+    std::thread registry_reader([&] {
+        for (size_t i = 0; i < 500; ++i) {
+            const auto queries = engine->listQueries();
+            if (!queries.empty()) {
+                ++registry_read_count;
+            }
+        }
+    });
+
+    std::thread result_reader([&] {
+        for (size_t i = 0; i < 500; ++i) {
+            (void)(*stream)->next(std::chrono::milliseconds(1));
+            ++result_read_count;
+        }
+    });
+
+    injector.join();
+    registry_reader.join();
+    result_reader.join();
+
+    EXPECT_EQ(injection_count.load(), 500u);
+    EXPECT_EQ(registry_read_count.load(), 500u);
+    EXPECT_EQ(result_read_count.load(), 500u);
+}
+
 TEST_F(ContinuousQueryLockOrderDeadlockTest, RapidRegisterDropWithInjection) {
     /**
      * Test: Rapid query registration and dropping while concurrent injections occur.

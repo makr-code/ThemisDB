@@ -1,82 +1,77 @@
-# Architecture - Failover Module
+---
+Author: "ThemisDB Team"
+Created: "2026-10-30"
+Last Updated: "2026-10-30"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: current | validated: 2026-09-09 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+Exact model backend not verifiable from final document text alone.
 
-## Overview
+# Failover Module Architecture
 
-The failover module composes automatic failover orchestration and disaster recovery execution into a bounded runtime contract for recovery-sensitive operations in ThemisDB.
+## Scope and ownership
 
-## Main Execution Planes
+The `failover` module coordinates automatic failover requests and disaster
+recovery plans. Public declarations live in `include/failover/`; implementation
+is in `src/failover/`. It relies on replication, health-monitor, spare, and
+epoch-fencing managers supplied by its caller. It does not own authentication,
+the storage restore implementation, or traffic-management infrastructure.
 
-1. Monitoring and queue plane
-- health/failure observation and failover request queueing
-- worker-driven failover task processing with bounded queue semantics
+## Components and runtime flow
 
-2. Recovery execution plane
-- disaster recovery plan validation and step sequencing
-- dry-run and non-dry-run execution boundaries
+1. `AutoFailoverManager` observes health through its configured dependencies,
+   tracks consecutive failures, and accepts manual requests into a bounded
+   queue. A worker checks quorum and fencing before selecting a healthy
+   non-witness replica and asking the replication manager to trigger failover.
+2. The manager reports lifecycle events, state, statistics, and the latest
+   result through in-process API surfaces. Queue operations and state/statistics
+   use internal synchronization; callers must not treat this as an externally
+   exported metrics contract.
+3. `DisasterRecoveryManager` validates required plan fields, rejects concurrent
+   uncached executions, and runs its fixed ordered step pipeline. A failed step
+   stops later steps; the manager does not compensate earlier steps.
+4. `QuorumLog` optionally appends local pipe-delimited records with CRC32.
+   `TopologySnapshot` copies failure counts and sorts node IDs for stable
+   comparisons.
 
-3. State and telemetry plane
-- lifecycle events, retry telemetry, and queue-pressure counters
-- result snapshots and state transition observability
+## Contracts and failure domains
 
-## Core Contracts
+| Boundary | Contract | Failure result |
+|---|---|---|
+| Request queue | Capacity is bounded by configuration | Submission while stopped or at capacity returns `false`; a full request is counted as dropped |
+| Replication manager | Supplies quorum, replica health/roles, and the promotion request | Missing dependency, unavailable quorum, or failed promotion blocks or fails the operation |
+| Epoch fencing manager | Supplies a non-zero epoch before guarded promotion | Missing manager when required or epoch 0 fails closed |
+| DR plan | Required IDs are checked before step execution | Validation or step failure returns a failed result; completed steps are not rolled back |
+| Optional quorum log | Appends decisions when configured | Append failure blocks the corresponding quorum/promotion path; CRC32 is not authentication |
 
-| Contract | Behavior |
-|---|---|
-| failover manager contract | deterministic queue/worker lifecycle and failover semantics |
-| recovery manager contract | explicit plan validation and ordered DR pipeline execution |
-| telemetry contract | bounded retry/queue-pressure observability behavior |
+## Integration boundary and incomplete actions
 
-## Failure Semantics
+The current implementation does not execute every action implied by the
+orchestration names. Spare activation emits `SPARE_ACTIVATION_FAILED` when a
+spare manager is present, and its failure result is not used to abort the
+overall failover. Metadata update logs the old/new leader but performs no
+metadata write. Built-in disaster-recovery snapshot validation checks only ID
+presence; restore and traffic shift report success without invoking external
+adapters. Catch-up tests quorum, and verification checks health/quorum rather
+than restored contents or recovery-site identity. A successful result therefore
+does not prove those external effects occurred. See
+[IMPLEMENTATION.md](IMPLEMENTATION.md).
 
-- invalid DR plans fail before mutating operational state.
-- unavailable external managers produce explicit recovery failures where required.
-- queue-limit and lifecycle precondition violations fail with explicit non-silent results.
+## Observability boundary
 
-## Module Dependencies
+The current `auto_failover_manager.cpp` and
+`disaster_recovery_manager.cpp` use `spdlog`, callbacks, state, and statistics.
+They do not publish named Prometheus metrics or create trace spans. Deployment
+monitoring must consume an explicitly configured admin/export surface; do not
+configure alerts against metric names or spans that this module does not emit.
 
-### Direct Upstream Dependencies (this module uses)
-| Module | Interface / File | Purpose |
-|--------|-----------------|---------|
-| observability | `include/observability/metrics_collector.h`, `include/observability/tracer.h` | Failover event counters, retry telemetry, and distributed trace spans across recovery steps |
-| storage | `include/storage/` (snapshot, replica-state interfaces) | Reads replica state and storage health signals to drive failover decisions |
-| sharding | `include/sharding/` (health_check interfaces) | Shard-level health checks feed the failure-detection plane used by `AutoFailoverManager` |
+## Related documentation
 
-### Direct Downstream Consumers (modules that use this module)
-| Module | Via | Notes |
-|--------|-----|-------|
-| server | `include/failover/auto_failover_manager.h`, `include/failover/disaster_recovery_manager.h` | Server control plane triggers and monitors failover/DR operations; exposes failover status via admin API |
-
-## Integration Points
-
-### Critical Integration: AutoFailoverManager ↔ Server Control Plane
-**Files:** `include/failover/auto_failover_manager.h` ↔ `src/server/`
-**Contract:** `AutoFailoverManager::enqueue(failover_request)` places a typed request into the bounded work queue; the server's admin API calls this surface and polls `getStatus()` for progress. The `canTransition()` state-machine gate (Wave A, completed 2026-07-29) must return `true` before any promotion is executed.
-**Thread Safety:** Queue operations are mutex-protected; worker threads drain the queue independently of the enqueue callers.
-**Failure Mode:** Queue-full returns `QUEUE_CAPACITY_EXCEEDED` immediately; the server must surface this to the operator without retrying silently. Worker errors emit a `FAILOVER_FAILED` result and leave the primary unchanged (fail-closed).
-
-### Critical Integration: preventSplitBrain() ↔ Storage and Sharding Health
-**Files:** `src/failover/auto_failover_manager.cpp` ↔ `include/storage/`, `include/sharding/` (health_check)
-**Contract:** `AutoFailoverManager::preventSplitBrain()` (Wave A, 2026-07-29) calls into storage and sharding health-check interfaces to confirm quorum before executing a promotion; if quorum cannot be confirmed the method returns `SPLIT_BRAIN_RISK` and promotion is aborted.
-**Thread Safety:** Health-check calls are read-only and non-locking; the decision to abort is recorded atomically in the failover state machine.
-**Failure Mode:** Fail-closed — promotion is never executed when quorum is ambiguous. The conservative bias is intentional to avoid data-loss split-brain scenarios.
-
-### Critical Integration: DisasterRecoveryManager ↔ DR Plan Validation
-**Files:** `include/failover/disaster_recovery_manager.h` ↔ `src/failover/disaster_recovery_manager.cpp`
-**Contract:** `DisasterRecoveryManager::execute(plan, dry_run)` validates the full DR plan (step ordering, dependency checks, resource availability) before any mutation; validation errors abort the run and return a typed `PlanValidationError`. Dry-run mode executes all validation and emits telemetry without applying state changes.
-**Thread Safety:** Each DR execution holds an exclusive lock; concurrent DR executions are rejected with `DR_ALREADY_RUNNING`.
-**Failure Mode:** Step failure halts the pipeline at the failing step; completed steps are not automatically rolled back. The operator is responsible for remediation before re-running.
-
-
-
-- Verified files:
-  - src/failover/auto_failover_manager.cpp
-  - src/failover/disaster_recovery_manager.cpp
-  - include/failover/auto_failover_manager.h
-  - include/failover/disaster_recovery_manager.h
-- Verified architecture claims:
-  - explicit monitoring/queue, recovery, and telemetry planes
-  - bounded failure behavior for invalid plans and manager dependencies
-  - module-local ownership of failover/recovery orchestration contracts
+- [API.md](API.md) — public interface contract
+- [OPERATIONS.md](OPERATIONS.md) — in-process signals and operator safeguards
+- [TRUST.md](TRUST.md) — dependency trust boundaries

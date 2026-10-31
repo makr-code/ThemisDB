@@ -12,6 +12,7 @@
 // Parallel Query Engine implementation
 
 #define _USE_MATH_DEFINES
+#include <atomic>
 #include <iostream>
 #include <stdexcept>
 #include <utility>
@@ -85,7 +86,7 @@ public:
      * @details Calls: emplace_back().
      */
     void run(F&& f) {
-        if (!cancelled_) {
+        if (!cancelled_.load(std::memory_order_acquire)) {
             tasks_.emplace_back(std::forward<F>(f));
         }
     }
@@ -96,6 +97,9 @@ public:
      */
     void wait() {
         for (auto& task : tasks_) {
+            if (cancelled_.load(std::memory_order_acquire)) {
+                break;
+            }
             if (task) {
                 task();
             }
@@ -106,12 +110,12 @@ public:
     /**
      * @brief Request cancellation for the fallback task group.
      * @details Marks the group as cancelled so queued work is skipped and
-     * timeout-driven cancellation can make tg.wait() return promptly.
-     * @note The stop flag is written eagerly and read by the executor without
-     * additional synchronization; it is sufficient for this local fallback.
+     * timeout-driven cancellation skips queued work after any active task returns.
+     * @note The atomic stop flag can be published by the timeout watchdog while
+     * the calling thread is executing a task.
      */
     void cancel_group_execution() noexcept {
-        cancelled_ = true;
+        cancelled_.store(true, std::memory_order_release);
     }
 
     /**
@@ -127,7 +131,7 @@ public:
     }
 
 private:
-    bool cancelled_ = false;
+    std::atomic<bool> cancelled_{false};
     std::vector<std::function<void()>> tasks_;
 };
 
@@ -203,7 +207,8 @@ static void tbbWaitWithTimeout(
     //
     // Replace the post-fact advisory pattern (tg.wait(); then check elapsed)
     // with a watchdog-thread approach that actively cancels the task group
-    // when the deadline fires, so stalled morsels unblock promptly. Use
+    // when the deadline fires, so queued or cooperatively cancellable morsels
+    // stop promptly. Already-running work may still complete normally. Use
     // tg.cancel() for real oneTBB task_group and keep
     // cancel_group_execution() for the local fallback shim.
     auto done = std::make_shared<std::atomic<bool>>(false);

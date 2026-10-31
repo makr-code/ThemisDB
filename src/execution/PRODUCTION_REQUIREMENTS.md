@@ -1,7 +1,16 @@
-**Author:** ThemisDB Contributors  
-**Created:** 2026-09-21  
-**Last Updated:** 2026-09-21  
-**Status:** active
+---
+Author: "ThemisDB Team"
+Created: "2026-09-21"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
 
 # Production Requirements — Execution Module
 
@@ -23,6 +32,7 @@ It applies to:
 - **MUST:** call `reportCompletion()` for dequeued queries if SLA-compliance metrics are used for operational decisions.
 - **MUST NOT:** assume the pool grows beyond `min_threads` at runtime in the current implementation.
 - **MUST NOT:** assume queued scheduler entries are auto-expired or auto-cancelled after their SLA window elapses.
+- **MUST NOT:** assume `HttpServer` routes request work through these primitives; its current integration is construction and teardown only.
 
 ## Configuration Constraints
 

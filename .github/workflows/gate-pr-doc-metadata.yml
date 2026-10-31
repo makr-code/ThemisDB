@@ -359,7 +359,7 @@ jobs:
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
 
-      - name: Close tracker issue on metadata PASS
+      - name: Update tracker issue on metadata PASS
         continue-on-error: true
         if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'PASS'
         uses: ./.github/actions/status-flags-and-issues
@@ -378,7 +378,21 @@ jobs:
             - Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
             - Commit: `${{ github.sha }}`
           labels-to-add: 'status/resolved'
-          status-group: 'quality/doc-metadata-failed,status/needs-attention,status/resolved'
+          allow-missing: 'true'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Clear stale metadata failure labels on PASS
+        continue-on-error: true
+        if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'PASS'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: replace_status_group
+          issue-marker: '<!-- doc-metadata-gate:pr:${{ github.event.pull_request.number }} -->'
+          labels-to-add: 'status/resolved'
+          status-group: 'quality/doc-metadata-failed,status/needs-attention,status/needs-approval,status/resolved'
           allow-missing: 'true'
           source-workflow: ${{ github.workflow }}
           source-run-id: ${{ github.run_id }}

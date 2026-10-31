@@ -8,7 +8,7 @@
 - hardening and refinement of prompt-engineering runtime behavior
 - deterministic reliability improvements for template/version/quality loops
 - stronger benchmark-backed guardrails for prompt hot paths
-- introduce a deterministic rewrite layer for prompt normalization, policy enforcement, NL→AQL preprocessing, and post-generation canonicalization
+- complete production integration and validation of the deterministic rewrite core for prompt normalization, policy enforcement, NL→AQL preprocessing, and post-generation canonicalization
 
 ## Design Constraints
 
@@ -36,7 +36,7 @@
 - standardize diagnostics for optimizer/evaluator/version incident classes.
 - expand resilience tests for prolonged prompt mutation and evaluation traffic.
 - broaden benchmark depth for advanced module-native prompt scenarios.
-- introduce a Markov-style ordered `RewriteEngine` for deterministic rule application.
+- integrate and production-validate the existing ordered `RewriteEngine` core in prompt and downstream request pipelines.
 - keep low-risk lexical rules YAML-configurable and semantic/policy rules in compiled C++.
 - integrate rewrite traces with prompt diagnostics and production audit workflows.
 - phase integration order should start with input normalization, then policy rewrites, then NL→AQL preprocessing, and later post-generation canonicalization.
@@ -68,20 +68,19 @@
 - prevent rewrite paths from transforming blocked or invalid content into executable downstream requests without validation.
 - ensure traces/logging are sanitized before persistence or operator exposure.
 
-## Rewrite Engine Enhancements
+## Rewrite Engine Integration and Enhancements
 
 ### 1. Deterministic Rewrite Engine Foundation
 
-- add `RewriteEngine` core execution with ordered rule evaluation.
-- add `RewriteDocument`, `RewriteContext`, `RewriteResult`, and `RewriteTrace` support types.
-- add `IRewriteRule` as the core extension interface for module-native rules.
-- enforce deterministic priority ordering and stable registration semantics.
+- Core execution, support types, `IRewriteRule`, phase ordering, and priority ordering are implemented in `src/prompt_engineering/rewrite_engine.cpp` and the public rewrite headers.
+- Complete behavior-level tests for rule matching, ordering, idempotence, terminal behavior, step exhaustion, tracing, and malformed rules before relying on the engine in production pipelines.
+- Wire the engine into the intended prompt, NL→AQL, and post-generation boundaries; code presence alone does not mean these paths call it.
 
 ### 2. Low-Risk Configurable Rewrite Rules
 
-- add YAML-backed regex and dictionary rewrite loading for input normalization.
-- validate rule schemas before activation.
-- reject malformed or ambiguous rules deterministically.
+- YAML loading for regex and dictionary rules is implemented; preserve its lexical-only restriction.
+- Validate rule schemas and exercise failure/duplicate behavior through focused tests before activation.
+- Reject malformed or ambiguous rules deterministically.
 - keep policy-sensitive rewrites out of unreviewed YAML-only paths.
 
 ### 3. Policy and Safety Rewrite Layer

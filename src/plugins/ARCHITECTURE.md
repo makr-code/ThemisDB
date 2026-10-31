@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Architecture - Plugins Module
 
-<!-- Status: current | validated: 2026-09-09 -->
+<!-- Status: review | validated: 2026-10-31 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Overview
@@ -69,7 +83,7 @@ The plugins module composes plugin lifecycle orchestration, manifest/security va
 
 ### Critical Integration: Server Plugin Lifecycle
 **Files:** `src/plugins/plugin_manager.cpp` ↔ `server/`
-**Contract:** Server calls `PluginManager::load()` / `unload()` for all extension plugins; plugin manager enforces signature and capability gating before activation.
+**Contract:** Host integrations use `PluginManager::loadPlugin()` / `unloadPlugin()` for manifest-backed extension lifecycle; that path validates the manifest and binary policy and applies edition/license restrictions before activation. Reported capabilities are snapshotted after initialization; negotiation and escalation checks are separate APIs. Explicit-path and OCI loading have distinct manifest-policy semantics; see [TRUST.md](./TRUST.md).
 **Thread Safety:** Load/unload operations are serialised under an internal lifecycle mutex; hot-plug monitor may trigger reload asynchronously but acquires the same lock.
 
 ### Critical Integration: LLM Inference Backend Plugins

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -44,14 +44,16 @@ same fusion. It does not independently retrieve candidates from a dense index.
 
 ## Reranking and context evaluation
 
-The cross-encoder reranker scores a bounded candidate set using query-document
-pairs. Its model file, candidate limit, batch size, and optional cost/budget
-gates affect latency and which candidates are reranked. The reranker should be
-evaluated separately from candidate recall: it can reorder supplied candidates
-but cannot recover relevant documents that candidate generation omitted.
-With the default empty model path, `CrossEncoderReranker` uses its built-in
-heuristic scorer; this is not a learned cross-encoder result. The configured
-sequence-length and batch-size defaults are 512 and 32.
+The reranker scores a bounded candidate set and can reorder supplied
+query-document pairs, but cannot recover relevant documents that candidate
+generation omitted. In the current source, `CrossEncoderReranker::computeScore()`
+always returns its built-in heuristic score; the ONNX forward pass is not
+implemented. `loadModel()` validates the path and file, then sets a loaded flag;
+`RerankResult::used_model` reflects that flag and is not evidence that model
+inference occurred. The exposed `max_length`, `use_gpu`, and model-path settings
+therefore do not establish learned scoring behavior. Treat all current
+reranker scores as heuristic and evaluate them separately from model-based
+cross-encoder results.
 
 The metric implementation and RAG evaluation code expose separate measurements
 for retrieval quality, evidence support, faithfulness, cost, and latency. Record

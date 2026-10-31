@@ -2,10 +2,17 @@
 
 **Author:** ThemisDB Contributors
 **Created:** 2026-09-21
-**Last Updated:** 2026-09-21
+**Last Updated:** 2026-10-31
 **Status:** review
 **Audience:** dev, ops, ai
 **Source of Truth:** true
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot
+**Human_Review:** false
+**Human_Author:** ThemisDB Contributors
+
+Exact model backend not verifiable from final document text alone.
 
 ---
 
@@ -235,8 +242,7 @@ must maintain:
 | `src/<module>/README.md` | Design intent, internal structure, error/timeout/cancellation behavior |
 | `src/<module>/ROADMAP.md` | Status, active work, known issues (may delegate to root ROADMAP) |
 
-Template: [`docs/_standards/module-template.md`](docs/_standards/module-template.md)
-(to be created in Phase 2).
+Template planned for Phase 2: `docs/_standards/module-template.md` (not present yet).
 
 ---
 

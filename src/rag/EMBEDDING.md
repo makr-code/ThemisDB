@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -39,6 +39,10 @@ the dense score before sparse/dense fusion.
   initialized vectorizer. Batch passage encoding accepts an empty batch.
 - A single `DPRVectorizer` instance is documented as not thread-safe; use
   separate instances or external synchronization for concurrent calls.
+- The base `IVectorizer` header says implementations must be thread-safe, which
+  conflicts with the `DPRVectorizer` class contract. Until that interface
+  discrepancy is resolved, follow the stricter DPR rule and externally
+  synchronize each instance.
 - The fallback embedding is deterministic and shape-preserving, but does not
   have the semantic properties of the configured DPR model.
 - The vectorizer's unit tests create placeholder model files and check

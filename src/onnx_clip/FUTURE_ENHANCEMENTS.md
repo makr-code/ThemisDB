@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
 
 <!-- Status: current | validated: 2026-09-22 -->
@@ -34,23 +48,25 @@ batched `Ort::Session::Run()` call for 4–6× throughput improvement on GPU.
 
 ---
 
-## 2. CLIP Text Encoder
+## 2. Model-backed CLIP Text Encoder
 
 ### Scope
-Add `generateTextEmbedding(const std::string& text) -> EmbeddingResult` to enable
-joint image-text similarity search in the ThemisDB vector index.
+The `generateTextEmbedding(const std::string& text) -> EmbeddingResult` API
+already exists, but currently produces a deterministic hash/PRNG reference
+vector. Replace that reference path with a real CLIP text encoder compatible
+with the selected image model before claiming joint image-text similarity.
 
 ### Design Constraints
 - ONNX model: `clip_text_encoder_{variant}.onnx` loaded at init if `text_model_path`
   config key is present.
-- Tokenizer: BPE tokenizer from CLIP (max 77 tokens; truncate/pad).
+- Tokenizer: model-matched CLIP tokenizer (max 77 tokens; truncate/pad).
 - Output dimension must match the image encoder (512 for ViT-B/32, 768 for ViT-L/14).
 - Both encoders may share the same `Ort::Env` but must use separate `Ort::Session`
   objects (different model graphs).
 
 ### Required Interfaces
-- `IImageAnalysisBackend::generateTextEmbedding(const std::string& text)` added to interface.
-- `ONNXClipPlugin::Impl` gains `text_session_` field.
+- Preserve `IImageAnalysisBackend::generateTextEmbedding(const std::string& text)` and its `EmbeddingResult` contract.
+- Add model-specific text session/tokenizer state to `ONNXClipPlugin::Impl`.
 
 ### Test Strategy
 - Unit: "dog" text embedding cosine similarity with dog image embedding > 0.20.
@@ -62,25 +78,29 @@ joint image-text similarity search in the ThemisDB vector index.
 
 ---
 
-## 3. ONNX Model Integrity Verification
+## 3. Hardened ONNX Artifact Integrity
 
 ### Scope
-On `initialize()`, compute SHA-256 hash of the model file and compare against a
-trusted manifest before loading the model into the ONNX session.
+The current source optionally compares a configured digest when both
+`model.path` and `model.expected_sha256` are present. OpenSSL builds compute
+SHA-256; non-OpenSSL builds use `ModelHashFn` when installed and otherwise skip
+the check. Harden this policy so integrity-required deployments cannot
+initialize or reload without an active verifier, and bind the digest to a
+trusted artifact provenance mechanism before any future model session uses the
+file.
 
 ### Design Constraints
-- Manifest file: `{model_path}.sha256` containing a single hex digest.
-- If manifest is absent: log warning, proceed (not a hard failure in dev mode).
-- If manifest present and hash mismatch: `initialize()` returns `false` and logs a
-  security event at ERROR level.
+- Keep current explicit `model.path` and `model.expected_sha256` inputs backward-compatible unless a migration is approved.
+- Missing verifier in an integrity-required mode must fail closed.
+- A mismatch or read failure must reject initialization/reload and surface an actionable diagnostic.
 
 ### Required Interfaces
-- New `config["verify_hash"]` bool key (default: `true` in production config).
-- Internal `verifyModelHash(const std::string& model_path) -> bool`.
+- Define how hardened mode is selected and how verifier availability is reported.
+- Keep the hash callback thread-safe and test failure/mismatch cases.
 
 ### Test Strategy
-- Unit: correct hash → init succeeds; tampered model → init fails.
-- Security test: verify behaviour with absent manifest file.
+- Unit: correct digest succeeds; tampered/unreadable file fails.
+- Security test: absent verifier fails in integrity-required mode and never silently proceeds.
 
 ---
 

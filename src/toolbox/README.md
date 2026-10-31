@@ -1,7 +1,7 @@
 # ThemisDB Toolbox Module
 
 <!-- Status: current | validated: 2026-05-31 | re-verified: 2026-08-07 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · PRODUCTION_REQUIREMENTS.md · PERFORMANCE_EXPECTATIONS.md · SECURITY.md · FUTURE_ENHANCEMENTS.md · CHANGELOG.md -->
+<!-- Links: ARCHITECTURE.md · RESEARCH.md · MODELING.md · EMBEDDING.md · IMPLEMENTATION.md · API.md · MODULE_GUIDE.md · RUNBOOK.md · OPERATIONS.md · TRUST.md · ROADMAP.md · PRODUCTION_REQUIREMENTS.md · PERFORMANCE_EXPECTATIONS.md · SECURITY.md · FUTURE_ENHANCEMENTS.md · CHANGELOG.md -->
 
 ## Module Purpose
 
@@ -40,6 +40,14 @@ Out of scope:
 - extraction and bridge behavior remain bounded and diagnosable under empty or soft-fail inputs.
 - helper utilities return deterministic outputs for chunking, normalization, scoring, and detection paths.
 - streaming behavior is synchronous and explicitly bounded by caller-controlled iteration.
+
+## Developer Documentation
+
+- [Architecture](./ARCHITECTURE.md) describes module boundaries and execution flows.
+- [Research](./RESEARCH.md), [modeling](./MODELING.md), and [embedding](./EMBEDDING.md) explain evidence, heuristic assumptions, and vector handoffs.
+- [Implementation](./IMPLEMENTATION.md), [API](./API.md), and the [module guide](./MODULE_GUIDE.md) support development and integration.
+- [Runbook](./RUNBOOK.md), [operations](./OPERATIONS.md), and [trust](./TRUST.md) cover diagnosis, lifecycle, and security boundaries.
+- Existing deployment, performance, and security details remain in [production requirements](./PRODUCTION_REQUIREMENTS.md), [performance expectations](./PERFORMANCE_EXPECTATIONS.md), and [security](./SECURITY.md).
 
 ## Sourcecode Verification (Module: toolbox/readme)
 

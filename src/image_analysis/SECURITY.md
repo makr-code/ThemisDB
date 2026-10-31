@@ -1,46 +1,55 @@
 # Security - Image Analysis Module
 
-<!-- Status: current | validated: 2026-10-07 -->
+**Author:** ThemisDB Contributors
+**Created:** 2026-10-31
+**Last Updated:** 2026-10-31
+**Status:** active
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** OpenAI ChatGPT
+**Human_Review:** false
+**Human_Author:** ThemisDB Contributors
+
+Exact model backend not verifiable from final document text alone.
+
+<!-- Status: source review: 2026-10-31; security tests not run -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 Report vulnerabilities via the project-level `SECURITY.md` in the repository root.
 
 ## Security Scope
 
-Security for the image-analysis module is focused on safe handling of untrusted image data, backend isolation, dependency gating, and controlled degradation when native tooling is unavailable or inference fails.
+This module accepts image bytes and configurable model/label paths. The source review below describes visible controls and limits; it is not a security certification. Optional dependency fallback behavior does not itself establish safety against malformed or resource-exhausting inputs.
 
 ## Threat Model
 
 | Threat | Current Mitigation Surface |
 |---|---|
-| Malformed image data causing crashes or process instability | plugin paths return structured failure results and do not silently dereference invalid inputs |
-| Dependency-side runtime errors when Tesseract or ONNX Runtime is absent | build-time guards and `success = false` error states keep the system operational |
-| Denial of service via oversized or slow image processing | bounded execution is a pending hardening item; the current plugin contract and caller configuration are the control surface under active review |
-| Model tampering or unsafe custom model execution | reserved for future model-registry work tracked in `FUTURE_ENHANCEMENTS.md` |
-| Injection via OCR text returned to callers | extracted text remains data; callers must apply sanitisation before query construction or display |
-| Backend unavailability escalating to process-wide failure | plugin lifecycle is designed to fail gracefully and surface explicit error states |
+| Malformed or oversized image input | OpenCV decode failure is checked when the OpenCV path is compiled. No explicit input-size limit was found. Without OpenCV, OCR interprets bytes as raw grayscale data and YOLO creates a zero tensor; these are not equivalent encoded-image safety paths. |
+| Missing Tesseract / ONNX Runtime | Compile-time guards produce structured inference errors when the respective runtime is absent. This does not validate real-runtime input handling. |
+| Untrusted model or label paths | YOLO passes `model_path` to ONNX Runtime and opens `labels_path` as a file. No path allowlist or model-integrity check is present in the inspected implementation. |
+| OCR text used in queries or UI | The plugin returns recognized text; consumers must treat it as untrusted data and apply context-appropriate escaping/parameterization. |
+| Resource exhaustion / inference hangs | No explicit input-byte limit, request timeout, or cancellation control was found in the inspected plugin code. |
+| Plugin loading / signature verification | The manager header declares verification APIs, but this module build does not compile a manager implementation; no active image-plugin verification control is claimed here. |
 
-## Implemented Security Controls
+## Controls Observed in Source
 
-- Tesseract and YOLOv8 plugins both implement explicit fail-closed behaviour when their native dependency is missing.
-- The plugin contract uses structured result objects rather than crash-inducing failure modes.
-- Runtime capability checks are aligned with the module manager interface instead of hard-coded assumptions.
-- Backend absence is treated as a known operational condition, not as an undefined state.
+- Tesseract and ONNX Runtime use compile-time feature guards; absent-runtime inference returns an error result.
+- When OpenCV is compiled in, both plugins attempt to decode the provided image bytes and reject decode failures.
+- YOLO catches ONNX Runtime exceptions during model creation/inference and returns an error result for those paths.
+- These controls do not establish that all malformed inputs, exceptions, model files, or resource-exhaustion cases are safely handled.
 
-## Security Follow-ups
+## Required Follow-up
 
-- Continue to enforce sanitisation of OCR output before it is used in user-facing or query-building flows.
-- Add model-integrity validation before any custom-model runtime path is enabled.
-- Keep security requirements in sync with `FUTURE_ENHANCEMENTS.md` and `PRODUCTION_REQUIREMENTS.md`.
+- Set and enforce maximum encoded input size, dimensions, and processing budget before production exposure.
+- Make the no-OpenCV behavior explicit in build policy or reject encoded-image inference when decoding is unavailable.
+- Validate model/label paths and add integrity/authenticity controls before accepting untrusted model artifacts.
+- Add malformed-image, oversized-input, dependency-matrix, and failure-path tests against real plugin builds.
+- Ensure downstream query and display consumers handle OCR text as untrusted.
 
-## Sourcecode Verification (Module: image_analysis/security)
+## Sources Reviewed
 
-- Verified files:
-  - `src/image_analysis/tesseract_ocr_plugin.cpp`
-  - `src/image_analysis/yolov8_onnx_plugin.cpp`
-  - `include/plugins/image_analysis_interface.h`
-  - `include/plugins/image_analysis_manager.h`
-- Verified controls:
-  - Dependency gating is explicit and documented in source.
-  - Structured fallback behaviour is implemented instead of silent failure.
-  - The module does not rely on undocumented native execution paths when optional dependencies are absent.
+- `src/image_analysis/{tesseract_ocr_plugin.cpp,yolov8_onnx_plugin.cpp,CMakeLists.txt}`
+- `include/plugins/{image_analysis_interface.h,image_analysis_manager.h,tesseract_ocr_plugin.h,yolov8_onnx_plugin.h}`
+
+No security tests were executed as part of this review.

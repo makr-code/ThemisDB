@@ -35,7 +35,7 @@ message(STATUS "[wave5] Configuring Wave 5 benchmark targets")
 file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/bench_results")
 
 # ---------------------------------------------------------------------------
-# Helper — adds a Wave 5 benchmark target with standard link deps and CTest
+# Helper — adds a Wave 5 benchmark target with standard link dependencies
 # ---------------------------------------------------------------------------
 function(wave5_add_benchmark target_name source_file label)
     if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${source_file}")
@@ -77,16 +77,7 @@ function(wave5_add_benchmark target_name source_file label)
         COMPONENT benchmarks
     )
 
-    # CTest registration: use canonical benchmark helper
-    themis_register_benchmark_ctest(
-        NAME         "${target_name}"
-        TARGET       "${target_name}"
-        MODULE       "wave5"
-        TIMEOUT      120
-        EXTRA_LABELS "${label}"
-    )
-
-    message(STATUS "[wave5] Registered ${target_name} (label: wave5;${label})")
+    message(STATUS "[wave5] Added ${target_name}")
 endfunction()
 
 # ---------------------------------------------------------------------------
@@ -97,6 +88,13 @@ wave5_add_benchmark(
     bench_w5a_production_workloads.cpp
     w5a
 )
+themis_register_benchmark_ctest(
+    NAME bench_w5a_production_workloads
+    TARGET bench_w5a_production_workloads
+    MODULE wave5
+    TIMEOUT 120
+    EXTRA_LABELS w5a
+)
 
 # ---------------------------------------------------------------------------
 # B5-B: Failure/Degradation Performance Validation
@@ -105,6 +103,13 @@ wave5_add_benchmark(
     bench_w5b_degradation
     bench_w5b_degradation.cpp
     w5b
+)
+themis_register_benchmark_ctest(
+    NAME bench_w5b_degradation
+    TARGET bench_w5b_degradation
+    MODULE wave5
+    TIMEOUT 120
+    EXTRA_LABELS w5b
 )
 
 # ---------------------------------------------------------------------------
@@ -115,6 +120,13 @@ wave5_add_benchmark(
     bench_w5c_determinism.cpp
     w5c
 )
+themis_register_benchmark_ctest(
+    NAME bench_w5c_determinism
+    TARGET bench_w5c_determinism
+    MODULE wave5
+    TIMEOUT 120
+    EXTRA_LABELS w5c
+)
 
 # ---------------------------------------------------------------------------
 # B5-D: Governance, Diagnostics & Maintainability
@@ -123,6 +135,13 @@ wave5_add_benchmark(
     bench_w5d_governance
     bench_w5d_governance.cpp
     w5d
+)
+themis_register_benchmark_ctest(
+    NAME bench_w5d_governance
+    TARGET bench_w5d_governance
+    MODULE wave5
+    TIMEOUT 120
+    EXTRA_LABELS w5d
 )
 
 message(STATUS "[wave5] Wave 5 benchmark suite configured (4 targets)")

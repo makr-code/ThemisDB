@@ -13,6 +13,7 @@ The format is based on Keep a Changelog.
 ### Changed
 - Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
 - Performance expectations updated to explicit verified benchmark symbols from timeseries ingestion and adaptive flush benchmark suites.
+- Timestamp contract aligned with `TSStore`: signed Unix milliseconds and configurable late-arrival validation replace the unimplemented nanosecond/strict-order declarations. Deprecated `kMinPointTimestampNs` and `kMaxPointTimestampNs` for source compatibility; these constants do not constrain `TSStore` timestamps.
 
 ## [2.1.x] - 2026
 

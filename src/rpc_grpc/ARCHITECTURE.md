@@ -5,7 +5,7 @@
 
 ## Overview
 
-The rpc_grpc module encapsulates gRPC server lifecycle management, TLS/mTLS credential provisioning, service registration, bidirectional stream adapter integration, and per-method observability into a bounded RPC transport plugin subsystem.
+The rpc_grpc module encapsulates gRPC server lifecycle management, TLS/mTLS credential provisioning, service registration, bidirectional stream adapter integration, and per-method observability in a scoped RPC transport plugin subsystem.
 
 ## Main Execution Planes
 
@@ -26,13 +26,14 @@ The rpc_grpc module encapsulates gRPC server lifecycle management, TLS/mTLS cred
 | Contract | Behavior |
 |---|---|
 | lifecycle contract | deterministic init/start/stop/reload semantics |
-| credentials contract | fail-closed TLS/mTLS handling with explicit outcomes |
-| service contract | explicit registration and runtime service activation behavior |
+| credentials contract | fail-closed TLS/mTLS handling; reload drains and restarts the listener with rollback attempt |
+| service contract | pre-start pointer registration; null, late, and duplicate pointers rejected or ignored; no count cap |
 | observability contract | per-method RPC metric/log emission behavior |
 
 ## Failure Semantics
 
 - invalid TLS material fails startup/reload explicitly.
+- TLS reload is disruptive and may leave the server stopped if both replacement startup and rollback fail.
 - duplicate/invalid lifecycle transitions return explicit failure outcomes.
 - service registration errors are surfaced deterministically.
 - stream and observability path failures remain non-silent.

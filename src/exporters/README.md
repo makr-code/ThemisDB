@@ -2,6 +2,14 @@
 
 <!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+<!--
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+Exact model backend not verifiable from final document text alone.
+-->
 
 ## Module Purpose
 
@@ -73,3 +81,15 @@ Out of scope:
 - Note:
   - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
   - historical entries remain in CHANGELOG.md
+
+## Developer Documentation
+
+- [Research and evaluation](./RESEARCH.md)
+- [Export data modeling](./MODELING.md)
+- [Embedding data boundary](./EMBEDDING.md)
+- [Implementation guide](./IMPLEMENTATION.md)
+- [Public API reference](./API.md)
+- [Module guide](./MODULE_GUIDE.md)
+- [Incident runbook](./RUNBOOK.md)
+- [Operations](./OPERATIONS.md)
+- [Trust model](./TRUST.md)

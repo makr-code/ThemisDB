@@ -1,7 +1,21 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-30"
+Last Updated: "2026-10-30"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # ThemisDB GPU Module
 
 <!-- Status: current | validated: 2026-08-17 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · PRODUCTION_REQUIREMENTS.md · PERFORMANCE_EXPECTATIONS.md · SECURITY.md -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · PRODUCTION_REQUIREMENTS.md · PERFORMANCE_EXPECTATIONS.md · SECURITY.md · RESEARCH.md · MODELING.md · EMBEDDING.md · IMPLEMENTATION.md · API.md · MODULE_GUIDE.md · RUNBOOK.md · OPERATIONS.md · TRUST.md -->
 
 ## Module Purpose
 
@@ -44,12 +58,24 @@ Out of scope:
 - non-GPU authorization or identity ownership outside GPU policy checks
 - external orchestration platform ownership beyond module interfaces
 
+## Developer Documentation
+
+- Evaluation and resource assumptions: [RESEARCH.md](RESEARCH.md),
+  [MODELING.md](MODELING.md)
+- Workload integration and engineering contracts:
+  [EMBEDDING.md](EMBEDDING.md), [IMPLEMENTATION.md](IMPLEMENTATION.md),
+  [API.md](API.md), [MODULE_GUIDE.md](MODULE_GUIDE.md)
+- Day-2 operations and trust boundaries:
+  [RUNBOOK.md](RUNBOOK.md), [OPERATIONS.md](OPERATIONS.md),
+  [TRUST.md](TRUST.md)
+
 ## Runtime Behavior and Limits
 
 - behavior is bounded by enabled backend support, feature flags, and edition policy limits.
-- GPU-disabled and degraded-hardware paths must remain deterministic and fallback-safe.
+- GPU-disabled and degraded-hardware paths must remain deterministic; callers must verify workload-level fallback rather than infer it from facade status.
 - backend gate denials and fallback transitions emit structured `GPUBackendDispatchDiagnostics` events for parity/debug checks.
 - cluster/topology capabilities can be limited by host/runtime environment features.
+- For `GPUModule::submitWork`, a non-GPU success records that the fallback callback returned success; this facade callback does not itself execute the submitted work item on CPU. Callers must verify workload-level fallback and output correctness.
 
 ## Sourcecode Verification (Module: gpu/readme)
 

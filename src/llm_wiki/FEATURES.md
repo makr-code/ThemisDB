@@ -1,32 +1,41 @@
 ---
 Author: "ThemisDB Team"
-Created: "2026-10-18"
-Last Updated: "2026-10-18"
-Status: "active"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 ---
 
-# Llm-Wiki in ThemisDB
+# LLM Wiki Capabilities
 
-## Ueberblick
-The LLM Wiki module is a standalone ThemisDB core module for semantic wiki retrieval, provenance tracking, and guardrail-enforced knowledge access. It is directly connected to the llm module for orchestration and prompt planning and to llama_cpp for local inference-backed retrieval and summarization flows. It integrates Wikipedia data ingestion with prompt injection detection, workspace state isolation, and edition-based access control for secure multi-tenant deployment. Im Modulkontext werden Aussagen mit [Architekturgrenzen](./ARCHITECTURE.md), [Release-Planung](./ROADMAP.md), [Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md) abgeglichen. Im Betrieb sind dabei insbesondere [Latenz](https://en.wikipedia.org/wiki/Latency_(engineering)), [Observability](https://en.wikipedia.org/wiki/Observability) und [Determinismus](https://en.wikipedia.org/wiki/Deterministic_algorithm) relevante Qualitaetskriterien. Fuer Querschnittskontext wird das Modul mit den relevanten Stellen im [Compendium](./../../docs/compendium/docs/index.md) verknuepft.
+## Module role
 
-## Kern-Features im Detail
-Die erste Kernfaehigkeit ist **based Q&A with safe knowledge retrieval**. Das beschreibt einen konkreten, in den Modulquellen referenzierten Verantwortungsbereich.
+The LLM Wiki module supplies ThemisDB with a typed plugin boundary for wiki-related ingestion, queries, workspace management, and optional Wikipedia dump ingestion. Its current value is the shared interface and the supporting workspace, policy, edition, and guardrail components. Integrating services can use those components to build a controlled knowledge workflow, but the current core implementation does not yet provide complete source parsing or indexed query retrieval.
 
-Die zweite Kernfaehigkeit ist **category guardrail patterns)**. Dadurch bleiben Integrationspfade zwischen Modulgrenzen reproduzierbar und operativ auswertbar.
+## Capabilities present in source
 
-Die dritte Kernfaehigkeit ist **Phase 3 error handling + partial Phase 4 test suite complete**. Das unterstuetzt stabile Abnahme- und Aenderungsprozesse entlang der Modul-Roadmap.
+- **Plugin contract:** `ILLMWikiPlugin` defines initialization, ingest/query operations, workspace helpers, statistics, and Wikipedia dump ingestion result types.
+- **Workspace artifacts:** the workspace orchestrator creates a raw-source directory and wiki page, index, log, and state files; it records page metadata and lightweight provenance/revision data.
+- **Input screening:** a plugin-local fixed-string matcher can flag a subset of query and chunk text. A separate `WikiGuardrails` utility offers broader patterns; the plugin-local matcher does not automatically inherit that full set.
+- **Policy validation:** an optional YAML process policy is checked against its JSON Schema and semantic invariants; optional reload retains the prior in-memory policy if candidate validation fails.
+- **Edition gate:** the core checks a compile-time edition switch. This is not a runtime license or caller-authorization service.
+- **Optional persistence building block:** `RocksDbWikiStore` is compiled and linked when the CMake configuration finds a RocksDB target.
 
-```mermaid
-flowchart LR
-    A[Produktanforderung] --> B[Llm-Wiki Modul]
-    B --> C[Implementierung und Integrationspfade]
-    C --> D[Test- und Betriebsnachweise]
-    D --> E[Kundennutzen im Betrieb]
-```
+## Operational value and boundaries
 
-## Kundennutzen und Abgrenzung
-Kundinnen und Kunden erhalten damit vor allem besser planbares Systemverhalten, kuerzere Eingrenzungszeiten bei Stoerungen und transparentere Release-Risiken. Diese Seite ist ein fachlich-kommunikativer Ueberblick; normative API-, Compliance- und Freigabeaussagen verbleiben in den kanonischen Modulquellen.
+These components give maintainers a concrete contract and workspace format to extend and test. They do not establish tenant authentication, document-level authorization, cryptographic provenance, an audit service, or production performance SLAs. Current plugin ingestion writes a placeholder chunk rather than parsing file contents; query returns in-memory chunks without applying the declared top-k/min-score options; and Wikipedia dump ingestion returns fixed counts.
 
-## Einordnung und Quellen
-Primaere modulnahe Quellen: [README.md](./README.md), [ARCHITECTURE.md](./ARCHITECTURE.md), [ROADMAP.md](./ROADMAP.md), [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md), [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md), [SECURITY.md](./SECURITY.md). Sekundaere Querschnittsquellen: [Compendium Index](./../../docs/compendium/docs/index.md). Aussagen wurden auf diese Quellenbasis begrenzt; bei fehlenden Modulquellen werden keine weitergehenden Produktclaims ergänzt.
+Before deploying an integration, validate the exact build and request path, enforce authorization and resource limits in the service boundary, and review [`SECURITY.md`](SECURITY.md), [`PRODUCTION_REQUIREMENTS.md`](PRODUCTION_REQUIREMENTS.md), and [`MODULE_GAPS.md`](MODULE_GAPS.md).
+
+## Related documentation
+
+- [`README.md`](README.md) — scope and build/test entry points
+- [`ARCHITECTURE.md`](ARCHITECTURE.md) — source-backed component and data-flow map
+- [`ROADMAP.md`](ROADMAP.md) — implementation work and readiness gates
+- [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md) — benchmark scope and pending targets
+
+> Exact model backend not verifiable from final document text alone.
