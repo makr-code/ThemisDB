@@ -1,9 +1,39 @@
 # Distributed Tensor Module — Production Enable Gates
 
 **Module:** Distributed Tensor (`src/distributed_tensor`)  
-**Status:** 🔄 IMPLEMENTATION PHASES COMPLETE; PRODUCTION GATES PENDING  
-**Last Updated:** 2026-08-17  
+**Status:** Historical gate snapshot; current gate status not revalidated
+**Last Updated:** 2026-10-31
 **Target GA Enable Date:** Q1 2027 (Phase A/B) + Q2 2027 (Phase C)
+**Source level:** Level 1 — module implementation
+**SOT domain:** module-behavior, build-test
+**Canonical references:** `src/distributed_tensor/CMakeLists.txt`, `tests/CMakeLists.txt`, `tests/distributed_tensor/CMakeLists.txt`, `tests/epic3_distributed_tensor/CMakeLists.txt`, `tests/integration/CMakeLists.txt`, `benchmarks/CMakeLists.txt`, `benchmarks/distributed_tensor/CMakeLists.txt`, `benchmarks/epic3_distributed_tensor/CMakeLists.txt`
+**Related:** Issue #7341
+
+<!--
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot Coding Agent
+Human_Review: false
+Human_Author: unknown
+Exact model backend not verifiable from final document text alone.
+-->
+
+> **Historical-status notice (2026-10-31):** The dated phase statuses and
+> evidence paths below are retained as a historical gate record, not as current
+> validation. In this checkout, the current module-local CMake files register
+> three focused tests under `tests/distributed_tensor/`; separate
+> `tests/epic3_distributed_tensor/` and
+> `benchmarks/epic3_distributed_tensor/` CMake files are also added by their
+> parent configurations. The local benchmark under
+> `benchmarks/distributed_tensor/` uses in-process stubs. CMake/source
+> registration does not verify the dated pass claims below. No gate was
+> executed or passed as part of this source review; production enablement
+> remains unverified.
+>
+> **Integrity security caveat:** the active module target uses an FNV-1a
+> demonstration hash behind `simple_sha256_hash()`. Its Merkle-shaped
+> structures are not cryptographic SHA-256/Merkle security evidence; historical
+> integrity/security gate claims below must not be used for that purpose.
 
 ## Overview
 
@@ -41,7 +71,7 @@ for production deployment.
 | **GATE-PA-03:** Prometheus metrics emit correctly for all manifest updates | 🔄 Pending | `test_manifest_store_phase_a.cpp` (MS-09..12) | Metrics SLO coverage verified |
 | **GATE-PA-04:** Fallback path tested for corrupted manifest scenarios | ✅ Complete | `test_phase3_failure_semantics.cpp` (FS-01..18) | 18 error-path tests passing |
 | **GATE-PA-05:** Documentation: Advisory-only semantics aligned with query planner behavior | ✅ Complete | `ARCHITECTURE.md`, `SECURITY.md` | Design review approved |
-| **GATE-PA-06:** Security: No advisory artifact can corrupt graph-truth layer | ✅ Complete | Integrity verification suite | Security review approved |
+| **GATE-PA-06:** No advisory artifact can corrupt graph-truth layer | Historical, not revalidated | Integrity suite uses demonstration hashing in the active target; not cryptographic proof | Current security review not verified |
 
 ### Production Enable Sign-Off
 
@@ -225,4 +255,3 @@ are documented but not active. Activation requires:
 - `PHASE_6_ACCEPTANCE_CHECKLIST.md` — Acceptance evidence collection requirements
 - `PRODUCTION_REQUIREMENTS.md` — Security, performance, and operational requirements
 - `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md` — Phase A–D rollout track (issue #5468)
-

@@ -1,7 +1,29 @@
 # Distributed Tensor Module - Future Enhancements
 
+**Last Updated:** 2026-10-31
+**Source level:** Level 1 — module implementation
+**SOT domain:** module-behavior
+**Canonical references:** `src/distributed_tensor/CMakeLists.txt`, `tests/epic3_distributed_tensor/CMakeLists.txt`, `tests/distributed_tensor/CMakeLists.txt`, `benchmarks/epic3_distributed_tensor/CMakeLists.txt`, `benchmarks/distributed_tensor/CMakeLists.txt`, `PERFORMANCE_EXPECTATIONS.md`
+**Related:** Issue #7341
+
+<!--
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot Coding Agent
+Human_Review: false
+Human_Author: unknown
+Exact model backend not verifiable from final document text alone.
+-->
+
 <!-- Status: current | validated: 2026-07-17 -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
+
+> The EPIC 3 phase-5 source paths below exist and are configured by
+> `benchmarks/epic3_distributed_tensor/CMakeLists.txt` when benchmarks are
+> enabled. Their numeric targets are criteria, not measured outcomes. The
+> separate `bench_distributed_tensor_dedicated_gates.cpp` uses in-process
+> stubs and is not production performance evidence. See
+> [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md).
 
 ## Scope
 
@@ -18,7 +40,7 @@
 ## Required Interfaces
 
 - placement, planner, integrity, recovery, and infrastructure runtime APIs must emit benchmarkable metrics
-- benchmark executables must map one-to-one to the planned files in `benchmarks/epic3_distributed_tensor/`
+- planned EPIC 3 benchmark targets should remain mapped to their workload sources in `benchmarks/epic3_distributed_tensor/`
 - result bundles must satisfy the gate schema referenced by `release_gate_manifest_epic3.json`
 
 ## Implementation Notes
@@ -29,7 +51,7 @@
 
 ## Test Strategy
 
-- expand `tests/epic3_distributed_tensor/` for contract, degraded-mode, and fault-path scenarios
+- extend the configured tests in `tests/epic3_distributed_tensor/` for contract, degraded-mode, and fault-path scenarios
 - keep integrity and recovery tests aligned with the benchmark profile topology assumptions
 - require isolated reruns for any failed benchmark gate before thresholds are reconsidered
 

@@ -1,6 +1,32 @@
 # Tensor Storage Strategy Assessment
+
+**Last Updated:** 2026-10-31
+**Source level:** Level 1 — module implementation
+**SOT domain:** module-behavior
+**Canonical references:** `include/distributed_tensor/tensor_storage_strategy.h`, `src/distributed_tensor/CMakeLists.txt`, `tests/distributed_tensor/CMakeLists.txt`
+**Related:** Issue #7341
+
+<!--
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot Coding Agent
+Human_Review: false
+Human_Author: unknown
+Exact model backend not verifiable from final document text alone.
+-->
+
 <!-- Status: validated | Issue: #5443 -->
 <!-- Links: ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+
+> **Evidence boundary:** The API and implementation are present in the current
+> module CMake source list. The accuracy, throughput, memory-savings and
+> hardware-performance figures in this assessment are design estimates or
+> recommendations, not measurements recorded by the current module benchmark.
+> The storage-strategy test source is picked up by the separate EPIC 3 test
+> CMake configuration; source registration is not evidence that it passed.
+> This public API uses `std::span` (C++20), whereas the module target privately
+> requests `cxx_std_17`; see the C++ standard caveat in the public-header
+> README. External consumer requirement propagation is unresolved.
 
 ## Scope
 
@@ -132,7 +158,12 @@ Combines quantization selection with load-mechanism selection:
 
 ## Phase 4 — Tests
 
-Test file: `tests/epic3_distributed_tensor/test_tensor_storage_strategy.cpp`
+The test cases below correspond to
+`tests/epic3_distributed_tensor/test_tensor_storage_strategy.cpp`, which is
+included by the `test_*.cpp` source glob in
+`tests/epic3_distributed_tensor/CMakeLists.txt`. It is separate from the three
+sources listed in `tests/distributed_tensor/CMakeLists.txt`. No test execution
+or pass result is asserted here.
 
 | Group | ID      | Description                                            |
 |-------|---------|--------------------------------------------------------|
@@ -230,7 +261,10 @@ streaming workloads `MMAP_ZERO_COPY` saves RSS.
 
 ### Integration path (Phase 7)
 
-The recommended approach to integrate into the deployment pipeline:
+The following is a historical integration proposal. The storage-strategy
+implementation and public header are already listed in
+`src/distributed_tensor/CMakeLists.txt`; the registration below is not a
+current action item:
 
 1. Add `tensor_storage_strategy.cc` to the `themis_distributed_tensor` library
    target in `src/distributed_tensor/CMakeLists.txt`.
@@ -248,7 +282,8 @@ The recommended approach to integrate into the deployment pipeline:
 
 ### Build integration
 
-Add the following to `src/distributed_tensor/CMakeLists.txt`:
+The source and header are already in the target source/header lists. The
+historical CMake additions shown here are therefore superseded:
 
 ```cmake
 list(APPEND DISTRIBUTED_TENSOR_SOURCES
@@ -266,15 +301,17 @@ list(APPEND DISTRIBUTED_TENSOR_PUBLIC_HEADERS
 
 ### CTest registration
 
-The test target `test_tensor_storage_strategy` is automatically picked up by
-the glob in `tests/epic3_distributed_tensor/CMakeLists.txt` via the
-`test_*.cpp` pattern.
+The local `tests/distributed_tensor/CMakeLists.txt` enumerates three sources.
+The separate `tests/epic3_distributed_tensor/CMakeLists.txt` picks up
+`test_tensor_storage_strategy.cpp` with its `test_*.cpp` glob and creates a
+focused target when its configuration guards are satisfied.
 
 ### Advisory-only invariant
 
-All code paths using `MmapLoader` and `ZeroCopyAccessor` handle
-**advisory-only** tensor data.  They must never be used to override
-graph-verified query results (see `ArtifactManifest` advisory-only invariant).
+The public `tensor_storage_strategy.h` contract designates these APIs as
+handling advisory data and says they must not override graph-verified query
+results. The extent of runtime enforcement across all consumers was not
+validated here.
 
 ---
 

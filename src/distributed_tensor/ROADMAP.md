@@ -1,37 +1,58 @@
 # Distributed Tensor Module Roadmap
 
+**Last Updated:** 2026-10-31
+**Source level:** Level 1 — module implementation
+**SOT domain:** module-behavior
+**Canonical references:** `src/distributed_tensor/CMakeLists.txt`, `cmake/CMakeLists.txt`, `tests/CMakeLists.txt`, `tests/distributed_tensor/CMakeLists.txt`, `tests/epic3_distributed_tensor/CMakeLists.txt`, `tests/integration/CMakeLists.txt`, `benchmarks/CMakeLists.txt`, `benchmarks/distributed_tensor/CMakeLists.txt`, `benchmarks/epic3_distributed_tensor/CMakeLists.txt`
+**Related:** Issue #7341
+
+<!--
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot Coding Agent
+Human_Review: false
+Human_Author: unknown
+Exact model backend not verifiable from final document text alone.
+-->
+
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-13 -->
+<!-- Source inventory reconciled: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Rollout Plan: ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §4 (Phases A–D) -->
 
 ## Current Status
 
-<!-- Status: current | validated: 2026-07-28 -->
+The current module target is `themis_distributed_tensor`, built from the source
+list in `src/distributed_tensor/CMakeLists.txt`. It declares nine public headers.
+The project CMake default is C++20, while this target privately requests
+`cxx_std_17`; `tensor_storage_strategy.h` uses C++20 `std::span`. C++17
+compatibility of the installed public API is therefore not established, and
+external consumer requirement propagation remains unresolved. Local CMake files register three focused test executables and
+one in-process benchmark under `tests/distributed_tensor/` and
+`benchmarks/distributed_tensor/`. Separately, `tests/CMakeLists.txt` adds
+`tests/epic3_distributed_tensor/`, whose CMake registers the EPIC 3
+phase/contract sources and an integrity benchmark test; the integration CMake
+includes the distributed-tensor soak source when present. The benchmark parent
+configuration also adds `benchmarks/epic3_distributed_tensor/` and its
+placement, integrity, recovery, retrieval, partial-refit, and summary-first
+sources.
 
-EPIC 3 distributed tensor contract ownership and core implementation are complete
-for sub-issues 3.1–3.7. Phase 3 runtime failure/degraded-mode semantics are
-implemented and verified. Phase 4 broadened contract and fault-path coverage has
-been delivered: `test_phase4_contract_coverage.cpp` adds 58 tests spanning all 7
-sub-issues (lifecycle, subclasses, manifest, placement, integrity, recovery,
-planner, infrastructure). Benchmark evidence and final acceptance documentation
-remain pending.
+These registrations confirm configured source paths, not the historical test
+counts or pass claims reported below. No test, build, benchmark, or runtime
+validation was performed for this documentation reconciliation.
 
-**Test Infrastructure (2026-07-28 Update)**: Focused test targets are now properly
-configured in `tests/epic3_distributed_tensor/CMakeLists.txt` with:
-- 11 unit test targets: `module_epic3_distributed_tensor_*_focused`
-  - distributed_planner_test_focused (contract)
-  - manifest_store_phase_a_focused (advisory-only store)
-  - lifecycle_staleness_management_focused (lifecycle FSM)
-  - tensor_delta_log_focused (Phase A/B)
-  - tensor_rebuild_fallback_focused (Phase B)
-  - phase3_failure_semantics_focused (error handling)
-  - phase4_contract_coverage_focused (broad coverage, 58 tests)
-  - tensor_storage_strategy_focused (strategy validation)
-  - tensor_training_coordinator_focused (training)
-  - tensor_update_worker_focused (update orchestration)
-  - integrity_verification_test_focused (verification)
-- 1 benchmark target: `module_epic3_distributed_tensor_integrity_verification_bench_focused`
+The source inventory establishes implementation surfaces, but not production
+enablement, release readiness, or measured runtime behavior. Phase labels and
+gate targets below remain planning/status records unless backed by current
+source and separately verified evidence.
+
+**Integrity/training source caveat:** The active library target compiles
+`integrity_verification.cc`, where `simple_sha256_hash()` is FNV-1a demonstration
+code, not SHA-256. Merkle-shaped structures built by that target are not
+cryptographic integrity security. The separate nested SHA-256 implementation
+is not listed in the module target's CMake sources. `TensorTrainingCoordinator`
+executes registered worker callbacks synchronously in-process; it does not
+provide networked or distributed worker coordination.
 
 **Tensor-Update Rollout Track**: dynamic tensor-update infrastructure is staged across four
 phases (A–D) in `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md` (issue #5468). Phase A
@@ -39,9 +60,10 @@ phases (A–D) in `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md` (issue #5468). P
 targets Q3 2026. Phase C (shard summary coordination) targets Q4 2026. Phase D (optional
 acceleration) targets 2027+.
 
-**Module readiness**: implementation and Phase 3/4 validation are complete for the EPIC 3
-core artifact path; benchmark evidence, acceptance documentation, and the follow-on tensor-update
-track remain gated. Focused test targets now properly configured for CI/evidence collection.
+**Module readiness**: the module implementation and test/benchmark source
+registrations are present. Phase 3/4 pass status, benchmark evidence,
+acceptance, and production enablement require execution evidence and remain
+unverified by this source-only review.
 
 ## In Progress
 
@@ -140,7 +162,7 @@ track remain gated. Focused test targets now properly configured for CI/evidence
 
 ### Phase 3: Error Handling and Edge Cases
 - [x] runtime distributed failure semantics implemented and verified
-- [x] corruption and tampering detection implemented
+- [?] Hash/receipt mismatch handling is present, but the active implementation uses an FNV-1a demonstration hash and does not establish cryptographic tamper resistance.
 - [x] partial-receipt and stale-receipt edge case handling implemented
 - [x] recovery coordination hooks implemented (EPIC 3.5 integration ready)
 - [x] Phase B: rebuild fallback triggered on delta log overflow and instability (Target: Q3 2026) ✅ **2026-08-17: delta log overflow detection (95% threshold), instability detection heuristics, fail-closed behavior**
@@ -149,11 +171,9 @@ track remain gated. Focused test targets now properly configured for CI/evidence
 ### Phase 4: Tests
 - [x] focused Phase 3 regression suite implemented in `tests/epic3_distributed_tensor/`
 - [x] broaden contract and fault-path coverage across all EPIC 3 components — `test_phase4_contract_coverage.cpp` (58 tests, sub-issues 3.1–3.7)
-- [x] unit tests for SHA-256 computation and validation (40+ test cases)
-- [x] Merkle proof verification tests (happy path, invalid, tampering)
-- [x] receipt chain verification tests (genesis, appends, tampering)
-- [x] integration tests for full verification workflow
-- [x] integrity verification unit and benchmark sources added for follow-on coverage expansion
+- [?] Historical roadmap entries report SHA-256, Merkle, and receipt-chain tests. Test-source presence/pass status was not revalidated here, and such tests do not establish cryptographic behavior for the active module target's FNV-1a demonstration hash.
+- [?] Historical roadmap reported full verification tests; current behavior and pass status are unverified, and the active FNV-1a demonstration hash does not establish cryptographic integrity.
+- [?] Integrity test and benchmark sources are configured, but their results and cryptographic behavior are unverified.
 - [x] lifecycle & staleness management unit tests — `test_lifecycle_staleness_management.cpp` (31 tests, LSM-01..LSM-31, issue #5442)
 - [x] `test_tensor_delta_log` — Phase A ctest gate ✅ **Done; TDL-01..TDL-18, TDL-A1..A3 (tests/epic3_distributed_tensor/test_tensor_delta_log.cpp)**
 - [x] `test_tensor_rebuild_fallback` — Phase A/B ctest gate ✅ **Done; RFB-01..RFB-10, RFB-A1..A5 (tests/epic3_distributed_tensor/test_tensor_rebuild_fallback.cpp)**
@@ -183,63 +203,47 @@ track remain gated. Focused test targets now properly configured for CI/evidence
 
 ## Production Readiness Checklist
 
-- [x] contract ownership and scope boundaries documented
-- [x] security and performance expectations documented for scaffold phase
-- [x] tensor-update infrastructure rollout track defined (issue #5468)
-- [x] runtime resilience hardening completed for Phase 3 safety gates
-- [x] test gates implemented and passing for Phase 3 and Phase 4 regression suites
-- [~] benchmark gates implemented (sources complete); evidence collection pending (Target: Q4 2026)
-- [~] Phase A advisory-only invariant enforced and verified; production enable gate pending (Target: Q3 2026)
-- [~] Phase B ctest gates (`test_tensor_delta_log`, `test_tensor_rebuild_fallback`, `test_phase_b_edge_cases`) passing; production enable gate pending (Target: Q3 2026)
-- [~] Phase C ctest gates (`test_tensor_shard_summary`) passing; production enable gate pending (Target: Q4 2026)
-- [~] Phase C benchmark gates (`bench_tensor_summary_first`) implemented; evidence collection pending (Target: Q4 2026)
+- Current source registration is summarized below; test-pass and benchmark-pass
+  status is not established by source presence.
+- Earlier checklist entries for Phase A/B/C tests, benchmark outcomes, and
+  dependency gap percentages are dated roadmap assertions. Their cited
+  `epic3_distributed_tensor` paths/targets are absent from the current local
+  module CMake inventories, so those status values are unresolved as current
+  readiness evidence.
 
-## Test Evidence & Acceptance (2026-07-28)
+## Current Test and Benchmark Registration
 
-### Configured Focused Test Targets
-All test sources in `tests/epic3_distributed_tensor/` are now properly registered as focused test
-targets in CMakeLists.txt with explicit MODULE=epic3_distributed_tensor namespace:
+The current configured inventory is maintained in
+[`../../tests/distributed_tensor/CMakeLists.txt`](../../tests/distributed_tensor/CMakeLists.txt)
+and [`../../benchmarks/distributed_tensor/CMakeLists.txt`](../../benchmarks/distributed_tensor/CMakeLists.txt):
 
-#### Unit Tests (TIER=unit, TIMEOUT=120s)
-- ✅ `module_epic3_distributed_tensor_distributed_planner_test_focused` — Planner contract (placement, routing)
-- ✅ `module_epic3_distributed_tensor_manifest_store_phase_a_focused` — ManifestStore (MS-01..12)
-- ✅ `module_epic3_distributed_tensor_lifecycle_staleness_management_focused` — Lifecycle FSM (LSM-01..31)
-- ✅ `module_epic3_distributed_tensor_tensor_delta_log_focused` — DeltaLog schema (TDL-01..18)
-- ✅ `module_epic3_distributed_tensor_tensor_rebuild_fallback_focused` — Rebuild fallback (RFB-01..10)
-- ✅ `module_epic3_distributed_tensor_phase3_failure_semantics_focused` — Failure handling
-- ✅ `module_epic3_distributed_tensor_phase4_contract_coverage_focused` — Contract coverage (58 tests)
-- ✅ `module_epic3_distributed_tensor_tensor_storage_strategy_focused` — Storage strategy
-- ✅ `module_epic3_distributed_tensor_tensor_training_coordinator_focused` — Training coordination
-- ✅ `module_epic3_distributed_tensor_tensor_update_worker_focused` — Update worker orchestration
-- ✅ `module_epic3_distributed_tensor_integrity_verification_test_focused` — Verification contract
+- `module_distributed_tensor_test_tensor_allocation_focused`
+- `module_distributed_tensor_test_tensor_operations_focused`
+- `module_distributed_tensor_test_tensor_performance_focused`
+- `bench_distributed_tensor_dedicated_gates` (when
+  `THEMIS_BUILD_BENCHMARKS` is enabled; source uses in-process stubs)
 
-#### Benchmarks (TIER=benchmark, TIMEOUT=300s)
-- ✅ `module_epic3_distributed_tensor_integrity_verification_bench_focused` — Integrity benchmark (IV-BENCH-01..08)
+`tests/epic3_distributed_tensor/` additionally configures phase/contract tests
+and an integrity-verification benchmark test; see its `CMakeLists.txt` for
+guards and exact targets. The integration CMake conditionally adds
+`test_distributed_tensor_soak.cpp`. `benchmarks/epic3_distributed_tensor/`
+configures four standard benchmark sources and the partial-refit and
+summary-first targets when benchmarks are enabled.
 
-### Evidence Collection Status
-- [x] Test targets properly configured in tests/epic3_distributed_tensor/CMakeLists.txt (2026-07-28)
-- [x] Test registration via themis_register_module_focused_test with MODULE=epic3_distributed_tensor
-- [ ] Build verification: Tests compile on windows-release preset
-- [ ] Execution verification: All focused tests execute and pass
-- [ ] Performance evidence: Benchmark baseline captured
-- [ ] Coverage verification: All sub-issues (3.1–3.7) exercise in tests
-
-### Closure Path (for issue #5640)
-1. ✅ Roadmap priorities validated against ROADMAP.md source
-2. ✅ Future focus points validated against FUTURE_ENHANCEMENTS.md source
-3. ✅ Test configuration refined: focused targets now properly discoverable
-4. ⏳ Evidence collection: Pending CI run on windows-release preset
-5. ⏳ Acceptance criteria verification: Pending test execution results
-6. ⏳ Issue closure: Pending evidence documentation
+The corresponding CTest registration names and evidence requirements are in
+[`TEST_EVIDENCE_COLLECTION.md`](TEST_EVIDENCE_COLLECTION.md). Registration is
+not evidence of build or test success. The prior EPIC 3 source/target paths are
+present in current CMake; their dated pass-status claims have not been
+revalidated in this source-only review.
 
 ## Known Issues & Limitations
 
 - Benchmark evidence and final acceptance documentation are still pending before default pipeline integration can be enabled.
-- Phase A/B/C tensor-update rollout items remain incomplete and must preserve the advisory-only artifact invariant until their gates pass.
-- Phase C depends on `sharding` reaching 70% gap reduction — currently 35% ready (🔴).
-- Phase D (optional GPU) requires `gpu` reaching 85% error-handling gap reduction — currently 35% ready (🔴).
-- Advisory artifact invariant: tensor summaries and shard summaries are never authoritative truth;
-  Graph Truth Layer remains CPU-first and exact in all phases.
+- Phase A/B/C enablement and the Phase D GPU plan are described in dated
+  planning material; their current gate status and cross-module percentage
+  dependencies were not verified in this source review.
+- Advisory artifact handling is specified in the relevant public headers; its
+  enforcement across all consumers was not validated in this review.
 
 ## Breaking Changes
 
@@ -254,9 +258,11 @@ and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `distributed_tensor`
-- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Wave D: test_distributed_tensor_highcardinality_stress.cpp — 3 cases + RUNBOOK_DISTRIBUTED_TENSOR.md delivered 2026-09-16)
-- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Wave D: test_distributed_tensor_soak.cpp — DistTensorSoak_ShardedOpThroughput, DistTensorSoak_SyncStability, DistTensorSoak_PartitionReliability delivered 2026-09-16)
-- [x] Ensure runbook coverage for operator-critical scenarios in this module (Wave D: RUNBOOK_DISTRIBUTED_TENSOR.md — 5 scenarios with log patterns delivered 2026-09-16)
+- A 2026-09-16 entry reported a high-cardinality test and runbook; their
+  current source/artifact availability was not verified here.
+- `tests/integration/test_distributed_tensor_soak.cpp` is present and
+  `tests/integration/CMakeLists.txt` conditionally registers it with a
+  120-second timeout. Its runtime result was not checked.
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -266,4 +272,4 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 ### Program-Level Success Criteria (contribution)
 - [ ] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
 - [ ] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Wave D: RUNBOOK_DISTRIBUTED_TENSOR.md delivered 2026-09-16)
+- [?] Operator-critical runbook coverage was reported in a 2026-09-16 snapshot; current artifact availability and validation are unresolved.
