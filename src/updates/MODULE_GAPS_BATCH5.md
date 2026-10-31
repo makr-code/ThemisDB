@@ -1,5 +1,13 @@
 # updates Module - Gap Analysis & Wave A Alignment (Batch 5)
 
+> **Historical planning snapshot (2026-08-14):** Gap counts, percentages,
+> implementation findings, and mitigation statements below have not been
+> revalidated against current code. In particular, scanner output and
+> `ai_working/` artifacts are not canonical evidence. Treat every listed
+> finding as an assumption until checked against current headers, implementation,
+> tests, and CMake registration. See [`AUDIT.md`](AUDIT.md) for the current
+> documentation inventory boundary.
+
 <!-- Status: Batch 5 Enhancement | validated: 2026-08-14 -->
 <!-- Scope: 550 verified gaps across MVCC, concurrent updates, conflict resolution -->
 <!-- Wave Context: Wave A (Runtime Reliability Q3-Q4 2026) — Update Determinism + Consistency Verification -->

@@ -1,6 +1,6 @@
 # Security - Updates Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | source checked: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 Report vulnerabilities via project-level SECURITY.md.
@@ -14,16 +14,23 @@ Security in the updates module focuses on deterministic update-state behavior, e
 | Threat | Current Mitigation Surface |
 |---|---|
 | unsafe or inconsistent state transitions | explicit update state machine and rollback behavior |
-| tampered or malformed manifests/patches | deterministic manifest round-trip and delta pipeline behavior |
+| tampered or malformed manifests/patches | signature verification is configurable in `HotReloadEngine`; delta application checks relative paths and supplied hashes/sizes |
 | opaque migration failure during rollout | diagnosable migration and preflight health-check behavior |
 | hidden rollout regression | explicit canary/blue-green and history logging behavior |
 
 ## Implemented Security Controls
 
-- update-state and rollback paths expose explicit outcomes.
-- manifest and patch pipeline behavior remains observable.
-- migration and dependency faults remain diagnosable.
-- rollout/preflight failures are explicit and bounded.
+- `HotReloadEngine::Config` exposes signature-verification and backup settings;
+  configuration alone does not establish that the caller uses a trusted key or
+  enables verification.
+- Delta application validates relative paths and checks base/target hashes and
+  target size when these values are supplied by the manifest.
+- Build-signature verification is a separate `BuildVerifier` path. A channel
+  name is not proof of verification, and unavailable signature material or
+  OpenSSL support does not yield a verified result.
+- Caller authentication, authorization, approval policy, filesystem
+  permissions, and deployment-wide coordination remain integrator
+  responsibilities.
 
 ## Security Follow-ups
 
@@ -31,7 +38,7 @@ Security in the updates module focuses on deterministic update-state behavior, e
 - deepen stress coverage for coordinated cluster and tenant update scenarios.
 - tighten diagnostics taxonomy across update, migration, and rollout incidents.
 
-## Sourcecode Verification (Module: updates/security)
+## Source references checked (2026-10-31)
 
 - Verified files:
   - src/updates/update_state_machine.cpp
@@ -40,7 +47,5 @@ Security in the updates module focuses on deterministic update-state behavior, e
   - src/updates/preflight_health_check.cpp
   - src/updates/canary_rollout.cpp
   - src/updates/update_history_logger.cpp
-- Verified controls:
-  - explicit state/rollback fault signaling
-  - observable manifest and patch behavior
-  - deterministic rollout and preflight outcomes
+- This is a source-backed threat/control summary, not an independent security
+  assessment or proof that a configured deployment enables these controls.

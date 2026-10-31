@@ -2,6 +2,13 @@
 
 # ThemisDB Updates Module - Production Requirements
 
+> These are deployment-policy requirements, not guarantees made by the updates
+> implementation. The static documentation audit did not verify enforcement of
+> all listed controls, including start-up validation, audit logging, production
+> environment variables, or automatic rollback. Integrators must establish
+> enforcement in their own control plane. **TODO:** attach owner-reviewed
+> deployment evidence before describing any item as implemented or enforced.
+
 ## Zweck und Geltungsbereich
 
 Dieses Dokument ist der **kanonische Referenzpunkt für produktive Mindestanforderungen** des Updates-Moduls.
@@ -17,8 +24,14 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Update-Sta
 ## Verbindliche Produktionsanforderungen
 
 - **MUST:** Update-State-Machine mit expliziten Transition-Guards; ungültige Übergänge werden mit Fehlercode abgewiesen.
-- **MUST:** Coordinated-Update-Manager mit Rollback-Pfad konfiguriert; fehlgeschlagene Updates lösen automatischen Rollback aus.
-- **MUST:** Alle sicherheitsrelevanten Konfigurationswerte beim Start validiert; fehlende oder ungültige Werte führen zu Fail-Closed-Verhalten.
+- **MUST (deployment policy):** Use a coordinated update workflow with an
+  explicit rollback policy. **Assumption/TODO:** automatic rollback on every
+  failed coordinated update is not established by the public manager contract;
+  verify the specific manager and caller flow.
+- **MUST (deployment policy):** Validate security-relevant settings before
+  enabling updates and fail closed on invalid values. The module configuration
+  parser's behavior must be checked for each field; this document does not
+  establish universal validation.
 - **MUST NOT:** Sicherheits- oder Autorisierungs-Checks in Produktionspfaden deaktivieren.
 
 ## Verbindliche Sicherheitsanforderungen
@@ -40,7 +53,7 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Update-Sta
 - [ ] Ressourcen-Limits explizit konfiguriert (keine Unlimited-Defaults)
 - [ ] Audit-Logging aktiv
 - [ ] Externe Abhängigkeiten mit Timeout und Retry konfiguriert
-- [ ] Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt
+- [ ] Production mode marker and enforcement mechanism documented for the deployment. **TODO:** `THEMIS_PRODUCTION_MODE` and `THEMIS_ENVIRONMENT` were not verified in the updates source.
 
 ## Review / Sourcecode-Audit-Nachweis
 
@@ -52,7 +65,11 @@ Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Update-Sta
 
 ---
 
-## Final Implementation Completion - v2.4.0 GA Readiness Checklist
+## Historical v2.4.0 GA Readiness Checklist
+
+> **Historical snapshot dated 2026-08-08:** The checklist and performance
+> results below are retained for audit history only. They were not reproduced
+> by this documentation update and do not override the root maturity aggregate.
 
 ### Date: 2026-08-08
 ### Status: ✅ PRODUCTION-READY FOR GA PROMOTION

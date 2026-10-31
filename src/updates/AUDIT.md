@@ -1,96 +1,47 @@
-# Audit Report - Updates Module
+# Updates Module Documentation Audit
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+**Audit date:** 2026-10-31
+**Scope:** Static comparison of scoped module Markdown with current public
+headers, implementation/source inventory, focused test sources, and module
+CMake registration. No build, test, or benchmark run is claimed.
 
-## Summary
+## Verified repository facts
 
-| Metric | Result |
-|---|---|
-| Build registration | pass |
-| Source set size | pass (module core files present) |
-| Focused test presence | pass |
-| Open hardening findings | yes |
-| Critical blockers | none identified |
+- Public interface files are under [`../../include/updates/`](../../include/updates/).
+- Implementations are under this directory; the module overview and API index
+  are [`README.md`](README.md) and [`API.md`](API.md).
+- Focused test sources and registration are under
+  [`../../tests/updates/`](../../tests/updates/).
+- Benchmark sources and conditional registration are under
+  [`../../benchmarks/updates/`](../../benchmarks/updates/).
+- `bench_updates_cluster_stress_q4.cpp` exists but is not included in the
+  benchmark registrations in `benchmarks/updates/CMakeLists.txt`.
+- Historical status/evidence documents contain completion and performance
+  claims that are not established by this static audit.
 
-## Verified Files
+## Findings and follow-up
 
-- src/updates/update_state_machine.cpp
-- src/updates/release_manifest.cpp
-- src/updates/manifest_database.cpp
-- src/updates/delta_update_engine.cpp
-- src/updates/hot_reload_engine.cpp
-- src/updates/coordinated_update_manager.cpp
-- src/updates/cluster_update_manager.cpp
-- src/updates/tenant_update_scheduler.cpp
-- src/updates/in_place_schema_migrator.cpp
-- src/updates/schema_migration.cpp
-- src/updates/schema_migration_tester.cpp
-- src/updates/build_verifier.cpp
-- src/updates/dependency_resolver.cpp
-- src/updates/canary_rollout.cpp
-- src/updates/notification_webhook.cpp
-- src/updates/parallel_downloader.cpp
-- src/updates/preflight_health_check.cpp
-- src/updates/update_history_logger.cpp
-- src/updates/updates_config.cpp
-- src/updates/blue_green_deployment.cpp
-- src/updates/hardware_telemetry.cpp
+1. **Current test execution state is not verified.** CMake registration and
+   source files establish target definitions, not a passing configured build or
+   CTest run. TODO: record exact build preset, CTest inventory, and results.
+2. **Current benchmark gate status is not verified.** Benchmark source and
+   registration are not results. The older `UPDP` values and pass claims do not
+   map to the currently registered case names. TODO: establish baselines,
+   acceptance thresholds, and a release-run manifest.
+3. **Historical maturity statements conflict with the root maturity aggregate.**
+   Root [`../../ROADMAP.md`](../../ROADMAP.md) currently classifies `updates`
+   as `HARDENING`; module-local and historical GA claims must not supersede it.
+4. **Legacy planning/runbook claims need evidence review.** See
+   [`MODULE_GAPS.md`](MODULE_GAPS.md),
+   [`MODULE_GAPS_BATCH5.md`](MODULE_GAPS_BATCH5.md),
+   [`FINAL_IMPLEMENTATION_PLAN.md`](FINAL_IMPLEMENTATION_PLAN.md), and
+   [`RUNBOOK_UPDATES_Q4.md`](RUNBOOK_UPDATES_Q4.md). They are retained as
+   historical material and are not current implementation or operational
+   authority.
 
-## Findings
+## Validation boundary
 
-### Open
-
-1. [UPD-AUD-01] rollback and rollout hardening remains active.
-- Severity: medium
-- Evidence: roadmap/future retain active work for coordinated rollout and rollback edge scenarios.
-- Action: extend deterministic failure-path regression and stress coverage.
-
-2. [UPD-AUD-02] diagnostics consistency across state, patch, and rollout incident classes needs tightening.
-- Severity: medium
-- Evidence: active follow-up work for unified update incident taxonomy.
-- Action: standardize diagnostics output across transition, migration, and rollout stages.
-
-3. [UPD-AUD-03] benchmark depth should broaden for coordinated update and migration workloads.
-- Severity: low
-- Evidence: core mapping is valid while wider orchestration diversity remains desirable.
-- Action: add benchmark depth for advanced update pipeline scenarios.
-
-### Closed
-
-- core updates runtime surfaces are present and source-verified.
-- documentation set is synchronized to source-verifiable claims.
-- changelog/roadmap role separation is aligned to module governance pattern.
-
-### Addressed (Block 2-4 Hardening Completion)
-
-- [UPD-AUD-01] rollback and rollout hardening remains active.
-  - Status: ✅ CLOSED
-  - Evidence: Phase 2-3 hardening completed with UPH-01..20 tests (20 test cases)
-  - Evidence: test_updates_phase2_phase3_hardening_focused.cpp with state machine, delta engine, migration, and coordinated update edge cases
-  - Evidence: All hardening tests passing; coordinated update edge paths thoroughly exercised
-
-- [UPD-AUD-02] diagnostics consistency across state, patch, and rollout incident classes needs tightening.
-  - Status: ✅ CLOSED
-  - Evidence: Unified error taxonomy implemented in updates_diagnostics.h
-  - Evidence: Four error classes: StateTransitionError, PatchApplyError, MigrationError, RolloutError
-  - Evidence: Standardized fail-safe behavior across all incident surfaces
-
-- [UPD-AUD-03] benchmark depth should broaden for coordinated update and migration workloads.
-  - Status: ✅ CLOSED
-  - Evidence: 4 new benchmark suites created:
-    - bench_updates_coordinated_hardening.cpp (multi-node coordination)
-    - bench_updates_canary_resilience.cpp (canary failure injection)
-    - bench_updates_schema_diversity.cpp (large dataset migrations)
-    - bench_updates_long_run_stability.cpp (48h+ operational envelope)
-  - Evidence: New performance gates UPDP-4..7 mapped to benchmarks
-  - Evidence: Extended benchmark coverage from 3 gates (UPDP-1..3) to 7 gates
-
-## Compliance Snapshot
-
-| Requirement | Status |
-|---|---|
-| Source-verifiable behavior claims | pass |
-| Structured forward planning in roadmap/future | pass |
-| Historical completion tracked in changelog | pass |
-| Core module docs synchronized | pass |
+This is a documentation/source inventory review, not a security review,
+behavioral test, benchmark run, or production-readiness approval. Consult the
+public header and implementation for the specific path before making a runtime
+claim.

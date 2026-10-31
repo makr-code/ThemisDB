@@ -1,50 +1,40 @@
-# PERFORMANCE_EXPECTATIONS - src/updates
+# Updates Module Benchmark Map
 
-## Scope
+## Scope and evidence
 
-- Module: src/updates
-- This file defines measurable updates module performance expectations for release gating.
+This page maps the benchmark cases currently present in
+[`benchmarks/updates/`](../../benchmarks/updates/) and the CMake registration
+file. It is not evidence that a benchmark has been run, nor does the current
+registration define release-gating thresholds. Earlier UPDP/UPG target values
+and measured results could not be verified against current benchmark
+registration and are not carried forward as active gates.
 
-## Benchmark Reference
+## Registered benchmark sources
 
-- Relevant benchmark files:
-  - benchmarks/updates/bench_update_pipeline.cpp
-  - benchmarks/updates/bench_updates_coordinated_hardening.cpp
-  - benchmarks/updates/bench_updates_canary_resilience.cpp
-  - benchmarks/updates/bench_updates_schema_diversity.cpp
-  - benchmarks/updates/bench_updates_long_run_stability.cpp
+| Source | Registered cases / reported counters |
+|---|---|
+| [`bench_updates_release_gates.cpp`](../../benchmarks/updates/bench_updates_release_gates.cpp) | `BM_VerificationResult_Alloc`, `BM_DeploymentSlot_Switch`, `BM_UpdatesError_Cast`, `BM_VerificationResult_Copy`, `BM_VerificationResult_BatchAlloc`, `BM_UpdatesError_SwitchDispatch` |
+| [`bench_updates_coordinated_hardening.cpp`](../../benchmarks/updates/bench_updates_coordinated_hardening.cpp) | `CoordinatedUpdate_AllNodesSuccessPath`; reports `nodes_updated` |
+| [`bench_updates_canary_resilience.cpp`](../../benchmarks/updates/bench_updates_canary_resilience.cpp) | `NetworkDelayResilience`, `NodeFailureAtStages`, `HealthCheckTimeout`, `AutomaticRollbackOnFailure`; reports latency/stage counters |
+| [`bench_updates_schema_diversity.cpp`](../../benchmarks/updates/bench_updates_schema_diversity.cpp) | `AddColumn`, `AddIndex`; reports `migration_time_ms` and `operation_count` |
+| [`bench_updates_long_run_stability.cpp`](../../benchmarks/updates/bench_updates_long_run_stability.cpp) | `LongRunStability_MixedUpdateWorkload`; reports operation outcomes and `latency_ms` |
 
-## Specific Expectations
+`bench_updates_cluster_stress_q4.cpp` is present in the source tree, but it is
+not registered by [`benchmarks/updates/CMakeLists.txt`](../../benchmarks/updates/CMakeLists.txt).
+Its source contains edge-handler, state-transition, concurrency, and rollback
+statistics cases. Do not describe those as runnable CMake benchmark targets
+until registration is added and verified.
 
-| Target ID | Expectation | Benchmark case |
-|---|---|---|
-| UPDP-1 | update state transition and rollback helper paths remain bounded | BM_UpdateStateMachine_Transition, BM_UpdateStateMachine_CurrentState, BM_UpdateStateMachine_RollbackPath |
-| UPDP-2 | release manifest round-trip path remains bounded | BM_ReleaseManifest_JsonRoundTrip |
-| UPDP-3 | delta patch generation and apply paths remain bounded | DeltaEngineBenchFixture/GeneratePatch, DeltaEngineBenchFixture/ApplyPatch |
-| UPDP-4 | Coordinated updates throughput >= baseline | ops/sec from bench_updates_coordinated_hardening::AllNodesSuccessPath |
-| UPDP-5 | Canary rollout MTTF (mean time to recovery) <= 5 seconds | mttf_ms from bench_updates_canary_resilience::AutomaticRollbackOnFailure |
-| UPDP-6 | Schema migration scalability: 100K rows < 10 seconds | migration_time_ms from bench_updates_schema_diversity::DropColumnWithCascade |
-| UPDP-7 | Long-run stability: no memory growth > 5% | memory_growth_pct from bench_updates_long_run_stability::LongRunStability_1MOperations |
+## Validation requirements
 
-## Module Hard Gates (v1.0 docs baseline)
+- Check `THEMIS_BUILD_BENCHMARKS` and the configured build tree before running
+  targets; CMake registration is conditional.
+- Record the exact target, compiler, build profile, host, workload, and raw
+  output for each run. Counters emitted by a benchmark are measurements, not
+  acceptance thresholds.
+- **TODO:** Define reviewed baseline and threshold values, register any
+  intended cluster-stress benchmark, and add an auditable release-run manifest
+  before claiming performance gates or current pass/fail status.
 
-| Gate ID | Expectation | Measurement |
-|---|---|---|
-| UPG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
-| UPG-2 | update hot-path p99 <= release threshold | p99 from mapped update benchmark cases |
-| UPG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
-
-## Validation
-
-- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
-- Mapping should be expanded as additional update benchmark scenarios are introduced.
-
-## Sourcecode Verification (Module: updates/performance)
-
-- Verified benchmark sources:
-  - benchmarks/bench_update_pipeline.cpp
-- Verified mapping surfaces:
-  - state machine, manifest round-trip, and delta patch behavior
-- Result:
-  - Referenced benchmark cases exist in current benchmark sources.
-  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.
+See [`tests/updates/CMakeLists.txt`](../../tests/updates/CMakeLists.txt) for
+focused test registration. Tests and benchmark targets are separate evidence.

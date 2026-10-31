@@ -1,38 +1,31 @@
 # ThemisDB Updates Module
 
-<!-- Status: Production Ready (Wave A Consistency) | validated: 2026-08-14 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · MODULE_GAPS_BATCH5.md · PRODUCTION_REQUIREMENTS.md -->
-<!-- Wave Context: Wave A (Runtime Reliability Q3-Q4 2026) — MVCC Consistency + Concurrent Updates + Conflict Resolution -->
-
 ## Module Purpose
 
-Production-capable release-manifest handling, state-machine-driven update orchestration, delta update behavior, cluster and tenant scheduling paths, and schema/update lifecycle control for ThemisDB. **Batch 5 enhancement focus: MVCC snapshot correctness, concurrent update coordination, conflict resolution strategies, consistency under partitions**.
+The updates module provides C++ interfaces and implementations for release
+metadata, state tracking, file and delta application, migration, rollout,
+configuration, and diagnostics. This overview describes in-tree surfaces; it
+does not assert release readiness or a deployment-wide consistency guarantee.
 
 ## Relevant Interfaces
 
-| Interface / File | Role |
+| Implementation / public header | Role |
 |---|---|
-| update_state_machine.cpp | update state machine behavior |
-| release_manifest.cpp | release manifest behavior |
-| manifest_database.cpp | manifest storage behavior |
-| delta_update_engine.cpp | delta patch generation and apply behavior |
-| hot_reload_engine.cpp | hot reload behavior |
-| coordinated_update_manager.cpp | coordinated update behavior |
-| cluster_update_manager.cpp | cluster-wide update behavior |
-| tenant_update_scheduler.cpp | tenant update scheduling behavior |
-| in_place_schema_migrator.cpp | in-place schema migration behavior |
-| schema_migration.cpp | schema migration behavior |
-| schema_migration_tester.cpp | schema migration test/dry-run behavior |
-| build_verifier.cpp | build verification behavior |
-| dependency_resolver.cpp | update dependency resolution behavior |
-| canary_rollout.cpp | canary rollout behavior |
-| notification_webhook.cpp | update notification behavior |
-| parallel_downloader.cpp | parallel download behavior |
-| preflight_health_check.cpp | preflight health-check behavior |
-| update_history_logger.cpp | update history behavior |
-| updates_config.cpp | update configuration behavior |
-| blue_green_deployment.cpp | blue/green deployment behavior |
-| hardware_telemetry.cpp | hardware telemetry behavior |
+| `update_state_machine.cpp` / `update_state_machine.h` | state and checkpoint operations |
+| `release_manifest.cpp` / `release_manifest.h` | release/file data and JSON conversion |
+| `manifest_database.cpp` / `manifest_database.h` | manifest persistence and verification surfaces |
+| `delta_update_engine.cpp` / `delta_update_engine.h` | delta patch generation/application |
+| `hot_reload_engine.cpp` / `hot_reload_engine.h` | release download, verification, apply, and rollback |
+| `coordinated_update_manager.cpp` / `coordinated_update_manager.h` | coordinated node update workflow |
+| `cluster_update_manager.cpp` / `cluster_update_manager.h` | cluster update operations |
+| `tenant_update_scheduler.cpp` / `tenant_update_scheduler.h` | tenant update scheduling |
+| `in_place_schema_migrator.cpp`, `schema_migration.cpp`, `schema_migration_tester.cpp` | schema migration interfaces and implementation |
+| `build_verifier.cpp` / `build_verifier.h` | build-signature verification |
+| `dependency_resolver.cpp` / `dependency_resolver.h` | update dependency resolution |
+| `canary_rollout.cpp`, `blue_green_deployment.cpp` | local canary and blue/green control |
+| `notification_webhook.cpp`, `parallel_downloader.cpp`, `preflight_health_check.cpp` | supporting notification, download, and preflight surfaces |
+| `update_history_logger.cpp`, `updates_config.cpp`, `hardware_telemetry.cpp` | history, configuration, and telemetry |
+| `updates_diagnostics.cpp`, `updates_operator_diagnostics.cpp`, `updates_edge_case_handler.cpp` | diagnostics and edge-case classification |
 
 ## Scope
 
@@ -54,10 +47,39 @@ Out of scope:
 
 ## Runtime Behavior and Limits
 
-- update transitions and rollback behavior expose explicit state outcomes.
-- delta patch and manifest behavior remain deterministic and diagnosable.
-- migration and rollout paths are bounded by coordination and preflight constraints.
-- cluster, tenant, and telemetry integration paths remain observable.
+- `UpdateStateMachine` rejects invalid transitions and exposes state/history and
+  checkpoint operations; its checkpoints do not back up installed files.
+- `DeltaUpdateEngine` validates patch paths and supplied hashes/sizes and is
+  documented as not thread-safe. See the public header for exact behavior.
+- Canary membership is local and deterministic; it does not coordinate peers.
+  Cluster/coordinated managers provide separate APIs.
+- Configuration defaults and optional behaviors are defined by
+  [`updates_config.h`](../../include/updates/updates_config.h) and
+  [`updates_config.cpp`](updates_config.cpp).
+
+## Build and verification references
+
+- Focused test sources and registration:
+  [`tests/updates/`](../../tests/updates/) and
+  [`tests/updates/CMakeLists.txt`](../../tests/updates/CMakeLists.txt).
+- Benchmark sources and conditional registration:
+  [`benchmarks/updates/`](../../benchmarks/updates/) and
+  [`benchmarks/updates/CMakeLists.txt`](../../benchmarks/updates/CMakeLists.txt).
+- The benchmark map distinguishes source presence from current run results:
+  [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md).
+
+## Usage
+
+Start with [`MODULE_GUIDE.md`](MODULE_GUIDE.md) to select a public interface,
+then verify the operation's return value and failure behavior in
+[`API.md`](API.md) and its header. The module does not define a universal
+operator CLI or caller-side authorization policy.
+
+## Installation
+
+This directory is part of the repository source tree and has no separate
+module-specific installation procedure. Follow the repository build/packaging
+instructions for the consumer target.
 
 ## Sourcecode Verification (Module: updates/readme)
 
@@ -83,6 +105,10 @@ Out of scope:
   - src/updates/updates_config.cpp
   - src/updates/blue_green_deployment.cpp
   - src/updates/hardware_telemetry.cpp
+  - src/updates/updates_diagnostics.cpp
+  - src/updates/updates_diagnostic_emitter.cpp
+  - src/updates/updates_operator_diagnostics.cpp
+  - src/updates/updates_edge_case_handler.cpp
 - Verified behavior surfaces:
   - update state/manifest/delta/migration/rollout and scheduling paths
 - Note:

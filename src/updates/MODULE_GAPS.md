@@ -2,6 +2,11 @@
 
 > Auto-generated from ai_working\gap_scan_results.json.
 > This file is overwritten on each regeneration.
+>
+> **Historical scan snapshot:** The scan date and findings below are not current
+> implementation verification. `ai_working/` is historical evidence, not the
+> source of truth for present behavior or release/security status. Re-run the
+> scanner and verify findings against current code before acting on them.
 
 ## Scan Snapshot
 

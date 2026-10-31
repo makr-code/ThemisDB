@@ -1,6 +1,4 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: planning snapshot | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/updates/FUTURE_ENHANCEMENTS.md -->
 
 # Updates Module — Public Header Future Enhancements
@@ -23,7 +21,6 @@ Planned enhancements to the **public header contract** in `include/updates/`. Ru
 - `[x]` Public headers must not expose internal implementation types or arena/memory layout details to callers.
 - `[x]` Breaking changes to types in `include/updates/` require a MAJOR version bump per `VERSIONING.md`.
 - `[x]` New entry points should be additive; existing stable APIs remain source-compatible.
-- `[x]` Layer association (**Graph**) must be preserved in all header expansions.
 
 ---
 
@@ -59,5 +56,8 @@ Planned extensions follow the same namespace (`themis::updates`) and include-gua
 
 ## Alignment with Strategic Plan
 
-Enhancements align with `FUTURE_PLAN.md` layer **Graph**. For cross-layer integration planning see:
-→ [`../../src/ai/FUTURE_ENHANCEMENTS.md`](../../src/ai/FUTURE_ENHANCEMENTS.md)
+Enhancement priorities and current implementation status must be checked against
+[`../../src/updates/FUTURE_ENHANCEMENTS.md`](../../src/updates/FUTURE_ENHANCEMENTS.md)
+and the active project roadmap. The former `FUTURE_PLAN.md`/Graph-layer links
+were not verifiable in this repository and are intentionally not treated as
+current planning authority.

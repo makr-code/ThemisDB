@@ -1,6 +1,4 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: planning snapshot | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/updates/ROADMAP.md -->
 
 # Updates Module — Public Header Roadmap
@@ -20,7 +18,12 @@ Tracks public `updates` API contract stability, header-level coverage work, and 
 
 ## Current Status
 
-All headers in `include/updates/` are present and expose the hot-reload, blue-green and canary deployments, cluster update coordination, schema migration, manifest management, hardware telemetry, and preflight checks surface.
+The header directory contains public interfaces for hot reload, blue/green and
+canary control, cluster/coordinated update management, schema migration,
+manifest handling, telemetry, and preflight checks. See
+[`README.md`](README.md) for the header index. This file tracks header
+documentation work only; runtime delivery status is in the
+[`implementation roadmap`](../../src/updates/ROADMAP.md).
 
 ---
 
@@ -28,7 +31,6 @@ All headers in `include/updates/` are present and expose the hot-reload, blue-gr
 
 - [x] Public header surfaces documented in `ARCHITECTURE.md`
 - [x] Canonical cross-links to `src/updates/` implementation docs established
-- [x] Layer association (**Graph**) marked and verified against `FUTURE_PLAN.md`
 - [x] Namespace layout (`themis::updates`) documented
 
 ---
@@ -41,14 +43,18 @@ All headers in `include/updates/` are present and expose the hot-reload, blue-gr
 
 ## Planned
 
-- [ ] API contract index for high-frequency entry points with usage examples (Target: 2026-Q3)
+- [x] API contract index for high-frequency entry points (see `../../src/updates/API.md`)
 - [ ] Compatibility matrix (C++17/20 and platform coverage) per header group (Target: 2026-Q4)
 - [ ] CI-enforced compile checks for all public headers (Target: 2026-Q4)
 
 ---
 
-## Production Readiness Checklist
+## Header documentation checklist
 
-- [x] Public header surfaces documented
+- [x] Public header surfaces indexed
 - [x] Canonical links to implementation docs set
-- [ ] Deprecation annotations consistent
+- [ ] Deprecation annotations and compatibility status reviewed per header
+
+> TODO: Reconcile the remaining historical target dates and checkbox states
+> with a maintainer-approved header API plan. This checklist is not runtime or
+> release-readiness evidence.

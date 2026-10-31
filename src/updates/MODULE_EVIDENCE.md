@@ -1,4 +1,10 @@
 # Module Evidence - Updates Module
+
+> **Historical snapshot (2026-08-08):** The build, test, benchmark, coverage,
+> and readiness numbers below record claims made at that time. They were not
+> reproduced by the 2026-10-31 documentation audit. Do not use them as current
+> CI results, performance gates, or release approval; see
+> [`AUDIT.md`](AUDIT.md) and the root [`../../ROADMAP.md`](../../ROADMAP.md).
 ## v1.1.0 GA Readiness Verification
 
 **Date**: 2026-08-08  
@@ -287,4 +293,3 @@ All tests and benchmarks are fully reproducible:
 - Fixed random seeds in benchmarks
 - Deterministic scheduling in multi-threaded tests
 - No timing-dependent assertions
-

@@ -1,5 +1,12 @@
 # UPDATES DOXYGEN
 
+> **Generated historical snapshot (2026-09-20):** The recorded Windows XML and
+> warning-log paths are machine-local and are not available in this repository.
+> The symbol/coverage inventory below is therefore not verified against the
+> current headers or a reproducible Doxygen run. Regenerate it before using it
+> for API, test, or coverage claims. Public contracts are in
+> [`../../include/updates/`](../../include/updates/).
+
 Author: ThemisDB Contributors
 Created: 2026-09-20
 Last Updated: 2026-09-20
@@ -6821,4 +6828,3 @@ Status: active
   - `<unnamed>` (UpdatesPerformanceBatch4): n/a
   - `<unnamed>` (UP_PER_25_IntegrationNoRegression): n/a
 - Details: Test UP-PER-25: Comprehensive integration - no performance regression Final verification that all changes work together without slowdown
-

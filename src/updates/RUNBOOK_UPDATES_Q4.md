@@ -1,5 +1,13 @@
 # Updates Module Operator Runbook (Q4 2026)
 
+> **Historical, unverified draft — do not execute as an operational runbook.**
+> The commands, service names, CLI syntax, endpoint/port assumptions, timings,
+> alert names, and recovery procedures below could not be verified against a
+> current deployment interface. No universal `themis_cli` contract is declared
+> by the updates C++ headers. Use [`RUNBOOK.md`](RUNBOOK.md) and the
+> deployment-owned control-plane documentation; validate any retained
+> procedure with its service owner before use.
+
 ## Overview
 
 This runbook provides structured guidance for detecting, analyzing, and recovering from the 8 critical failure scenarios identified during Phase 4-5 hardening of the Updates module. Each scenario includes symptom patterns, root cause analysis procedures, recovery steps, and prevention recommendations.
