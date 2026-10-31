@@ -1,4 +1,24 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-08-06
+Last Updated: 2026-10-31
+Status: archived
+Source_Level: level 1
+SOT_Domain: module-behavior
+Canonical_Sources: include/process/*.h; tests/process/CMakeLists.txt; benchmarks/process/CMakeLists.txt; src/process/ROADMAP.md; src/process/PRODUCTION_REQUIREMENTS.md
+Related_Issue: "#7368"
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
+
 # Process Module Phase 6 Acceptance Checklist
+
+> Historical report dated 2026-08-06; not current readiness evidence. Counts, checkmarks, approval language, and claims that tests/benchmarks passed below are retained only as assertions made in that report; they have not been independently revalidated and are not current implementation or release status. Current source evidence and unresolved verification items are summarized in [`ROADMAP.md`](ROADMAP.md).
+>
+> AI provenance: Exact model backend not verifiable from final document text alone.
 
 **Module:** Process Module (src/process)  
 **Phase:** 6 - Documentation & Acceptance  
@@ -304,4 +324,3 @@ This acceptance checklist validates that all Phase 6 deliverables have been comp
 **Document Version:** 1.0  
 **Last Updated:** 2026-08-06  
 **Status:** ✓ COMPLETE & APPROVED
-

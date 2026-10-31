@@ -6,13 +6,12 @@ Status: review
 Source_Level: level 1
 SOT_Domain: module-behavior
 Canonical_Sources: include/process/*.h; src/process/*.cpp; tests/process/CMakeLists.txt; benchmarks/process/CMakeLists.txt; src/process/API.md; src/process/IMPLEMENTATION.md
-Related_Issue: "#7139"
-Related_Milestone: DOC-WEEKLY-2026-44
+Related_Issue: "#7368"
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: OpenAI documentation assistant
+AI_Contributor: GitHub Copilot
 Human_Review: false
-Human_Author: unknown
+Human_Author: ThemisDB Team
 ---
 
 # ThemisDB Process Module
@@ -27,6 +26,12 @@ The module contains process-model record lifecycle and format import/export, gra
 
 The source tree also includes federation, audit, diagnostics, and telemetry components. Their existence is not a maturity or deployment guarantee. Some sources explicitly describe alpha/core or simplified behavior; verify each implementation and its tests before relying on design-contract claims.
 
+## Developer quickstart
+
+1. Start with the [API guide](API.md) and the relevant declaration under [`include/process/`](../../include/process/).
+2. Confirm behavior in the matching implementation and inspect the closest existing test before changing a contract.
+3. Use the focused build/test examples below; successful CMake registration alone does not establish a passing result.
+
 ## Key documented behavior and caveats
 
 - `ProcessLightRetriever` supports LOCAL/GLOBAL/AUTO selection; AUTO is keyword-based and GLOBAL falls back to LOCAL if no persisted communities are usable. The resource budget declarations are not enforced by the current `retrieve()` implementation.
@@ -40,6 +45,26 @@ The source tree also includes federation, audit, diagnostics, and telemetry comp
 - Tests are declared from `test_*.cpp` in [`tests/process/CMakeLists.txt`](../../tests/process/CMakeLists.txt). There is no `src/process/CMakeLists.txt`.
 - Benchmarks are conditionally registered in [`benchmarks/process/CMakeLists.txt`](../../benchmarks/process/CMakeLists.txt) when `THEMIS_BUILD_BENCHMARKS` is enabled. Not every benchmark source in that directory is registered there.
 - Registration is not evidence of a successful build, test run, benchmark result, or production status.
+
+### Example focused commands
+
+On Linux/macOS with the system dependencies installed, `community-debug` enables process benchmarks. Tests are normally disabled by the preset; pass `THEMIS_BUILD_TESTS=ON` when configuring to build a focused test:
+
+```sh
+cmake --preset community-debug -DTHEMIS_BUILD_TESTS=ON
+cmake --build --preset community-debug --target module_process_test_process_light_retriever_focused
+ctest --test-dir build-community-debug -R '^test_process_light_retriever_ProcessFocusedTests$' --output-on-failure
+```
+
+For a benchmark-only configuration:
+
+```sh
+cmake --preset community-debug
+cmake --build --preset community-debug --target bench_process_parser_gates
+./build-community-debug/bin/bench_process_parser_gates --benchmark_list_tests=true
+```
+
+The focused test target/name and benchmark target come from the module CMake files; a successful registration or build is not a test or benchmark result.
 
 ## Developer documentation
 

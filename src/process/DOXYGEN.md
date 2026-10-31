@@ -1,9 +1,29 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-09-20
+Last Updated: 2026-10-31
+Status: archived
+Source_Level: level 1
+SOT_Domain: api-contract
+Canonical_Sources: generated Doxygen XML snapshot identified below; current include/process/*.h
+Related_Issue: "#7368"
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
+
 # PROCESS DOXYGEN
+
+> Historical generated snapshot only; not current readiness evidence. The Windows-local XML path and fixed file/type/namespace counts below are from the 2026-09-20 generation and are not a current API inventory or status report. Regenerate from the current headers before relying on this output.
+>
+> AI provenance: Exact model backend not verifiable from final document text alone.
 
 Author: ThemisDB Contributors
 Created: 2026-09-20
 Last Updated: 2026-09-20
-Status: active
+Status: archived snapshot
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
@@ -9844,4 +9864,3 @@ Status: active
 - Source: `include/process/process_federation_stress_scenarios.h`:325
 - Brief: n/a
 - Parameters: none
-

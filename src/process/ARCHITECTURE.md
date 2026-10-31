@@ -6,13 +6,12 @@ Status: review
 Source_Level: level 1
 SOT_Domain: architecture-governance
 Canonical_Sources: include/process/*.h; src/process/*.cpp; tests/process/CMakeLists.txt; benchmarks/process/CMakeLists.txt; src/process/API.md; src/process/IMPLEMENTATION.md
-Related_Issue: "#7139"
-Related_Milestone: DOC-WEEKLY-2026-44
+Related_Issue: "#7368"
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: OpenAI documentation assistant
+AI_Contributor: GitHub Copilot
 Human_Review: false
-Human_Author: unknown
+Human_Author: ThemisDB Team
 ---
 
 # Process Module Architecture
@@ -43,6 +42,18 @@ The public declarations in [`include/process/`](../../include/process/) and thei
 4. `ProcessOrchestrationRegistry` stores profile revisions and an active-domain pointer separately. Activation/rollback comprise multiple writes, with no transactional guarantee stated by the API.
 
 The audit and federation components have source implementations, but source presence does not establish production readiness. In particular, audit storage/patch operations and telemetry export contain simplified behavior, and federation sources identify themselves as alpha/core implementation. Consult the current code and tests before relying on advertised design targets.
+
+## Failure paths
+
+- Invalid or malformed process data is handled through operation results and diagnostics; exact failure behavior is operation-specific.
+- GLOBAL light retrieval may fall back to LOCAL when community reports are unavailable. Callers should inspect the effective mode.
+- Profile activation and rollback span separate persistence writes. A failed operation may require inspection of the stored profile and active-domain pointer; there is no transaction guarantee.
+- Resource limits declared by `ProcessLightRetriever` are not enforced by the current `retrieve()` path.
+
+## Non-goals
+
+- The process module does not own a general workflow execution service.
+- Source or contract presence does not establish production maturity, external service configuration, or successful release evidence.
 
 ## Build and validation ownership
 

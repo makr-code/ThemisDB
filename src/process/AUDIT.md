@@ -6,13 +6,12 @@ Status: review
 Source_Level: level 1
 SOT_Domain: module-behavior
 Canonical_Sources: include/process/process_diagnostics.h; include/process/process_diagnostics_api.h; src/process/process_diagnostics.cpp; src/process/process_audit_logger.cpp; src/process/process_telemetry_integration.cpp; tests/process/CMakeLists.txt; benchmarks/process/CMakeLists.txt
-Related_Issue: "#7139"
-Related_Milestone: DOC-WEEKLY-2026-44
+Related_Issue: "#7368"
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: OpenAI documentation assistant
+AI_Contributor: GitHub Copilot
 Human_Review: false
-Human_Author: unknown
+Human_Author: ThemisDB Team
 ---
 
 # Process Module Source Audit Notes

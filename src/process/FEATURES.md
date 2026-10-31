@@ -1,32 +1,43 @@
 ---
-Author: "ThemisDB Team"
-Created: "2026-10-18"
-Last Updated: "2026-10-18"
-Status: "active"
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+Source_Level: level 1
+SOT_Domain: module-behavior
+Canonical_Sources: include/process/process_model_manager.h; include/process/process_graph_rag.h; include/process/process_light_retriever.h; include/process/process_orchestration_registry.h; include/process/process_diagnostics.h; src/process/*.cpp
+Related_Issue: "#7368"
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
 ---
 
-# Process in ThemisDB
+# Process Module Features
 
-## Ueberblick
-Production-capable process modeling runtime with hardened edge-case behavior, unified diagnostics framework, and bounded resource constraints. Provides process-model import/export, lifecycle operations, process-linking, and process-oriented retrieval/RAG support surfaces for ThemisDB. Batch 5 enhancement focus: Recovery determinism, phase isolation, crash consistency. Im Modulkontext werden Aussagen mit [Architekturgrenzen](./ARCHITECTURE.md), [Release-Planung](./ROADMAP.md), [Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md) abgeglichen. Im Betrieb sind dabei insbesondere [Latenz](https://en.wikipedia.org/wiki/Latency_(engineering)), [Observability](https://en.wikipedia.org/wiki/Observability) und [Determinismus](https://en.wikipedia.org/wiki/Deterministic_algorithm) relevante Qualitaetskriterien. Fuer Querschnittskontext wird das Modul mit den relevanten Stellen im [Compendium](./../../docs/compendium/docs/index.md) verknuepft.
+**AI provenance:** Exact model backend not verifiable from final document text alone.
 
-## Kern-Features im Detail
-Die erste Kernfaehigkeit ist **Wins with version clocks)**. Das beschreibt einen konkreten, in den Modulquellen referenzierten Verantwortungsbereich.
+This index lists source-visible capabilities, not maturity, performance, or release status. Consult public headers and implementations for exact contracts.
 
-Die zweite Kernfaehigkeit ist **oriented retrieval, descriptors, and RAG support surfaces**. Dadurch bleiben Integrationspfade zwischen Modulgrenzen reproduzierbar und operativ auswertbar.
+## Module role and scenarios
 
-Die dritte Kernfaehigkeit ist **15% conflict probability under >500 concurrent ops)**. Das unterstuetzt stabile Abnahme- und Aenderungsprozesse entlang der Modul-Roadmap.
+The process module provides process-model management and related retrieval, linking, import/export, and analytics surfaces to ThemisDB. Typical integration scenarios include importing a process definition, assembling context for a stored process instance, and associating process instances with external objects or documents.
 
-```mermaid
-flowchart LR
-    A[Produktanforderung] --> B[Process Modul]
-    B --> C[Implementierung und Integrationspfade]
-    C --> D[Test- und Betriebsnachweise]
-    D --> E[Kundennutzen im Betrieb]
-```
+## Capabilities
 
-## Kundennutzen und Abgrenzung
-Kundinnen und Kunden erhalten damit vor allem besser planbares Systemverhalten, kuerzere Eingrenzungszeiten bei Stoerungen und transparentere Release-Risiken. Diese Seite ist ein fachlich-kommunikativer Ueberblick; normative API-, Compliance- und Freigabeaussagen verbleiben in den kanonischen Modulquellen.
+- Process model import/export, persistence, lifecycle, search, optional embedding/index integrations, and deployment to a supplied `ProcessGraphManager`.
+- Process graph retrieval, node-focused context, similar-case lookup, optional PPR scoring, and LOCAL/GLOBAL/AUTO light retrieval.
+- Process-object and process-process links, required-document checks, and related analytics/helpers.
+- Format-specific serializers/importers, DMN evaluation, OCEL export, and object-centric tracing.
+- Agentic retrieval and model descriptor generation; embedding behavior and generated content depend on supplied integrations/input.
+- External orchestration profiles with staged/active/archived state, optional catalog synchronization, and prediction output.
+- Diagnostics, audit, federation, conflict-resolution, and telemetry interfaces/implementation files.
 
-## Einordnung und Quellen
-Primaere modulnahe Quellen: [README.md](./README.md), [ARCHITECTURE.md](./ARCHITECTURE.md), [ROADMAP.md](./ROADMAP.md), [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md), [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md), [SECURITY.md](./SECURITY.md). Sekundaere Querschnittsquellen: [docs/process/README.md](./../../docs/process/README.md), [Compendium Index](./../../docs/compendium/docs/index.md). Aussagen wurden auf diese Quellenbasis begrenzt; bei fehlenden Modulquellen werden keine weitergehenden Produktclaims ergänzt.
+## Operational value and limitations
+
+These components support process-data integration and retrieval, but do not by themselves provide a general workflow execution service or production deployment controls. The light-retriever resource budgets are currently unenforced; profile activation/rollback is not transactional; audit persistence/delta handling and telemetry export are simplified; federation maturity and guarantees are not independently established.
+
+## Developer references
+
+See the [API guide](API.md), [implementation notes](IMPLEMENTATION.md), [architecture](ARCHITECTURE.md), and [production requirements](PRODUCTION_REQUIREMENTS.md).

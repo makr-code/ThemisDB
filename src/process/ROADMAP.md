@@ -6,13 +6,12 @@ Status: review
 Source_Level: level 1
 SOT_Domain: module-behavior
 Canonical_Sources: DOCUMENTATION_GOVERNANCE.md; include/process/*.h; src/process/*.cpp; tests/process/CMakeLists.txt; benchmarks/process/CMakeLists.txt; ROADMAP.md
-Related_Issue: "#7139"
-Related_Milestone: DOC-WEEKLY-2026-44
+Related_Issue: "#7368"
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: OpenAI documentation assistant
+AI_Contributor: GitHub Copilot
 Human_Review: false
-Human_Author: unknown
+Human_Author: ThemisDB Team
 ---
 
 # Process Module Roadmap
@@ -21,17 +20,41 @@ Human_Author: unknown
 
 This roadmap is an evidence-aware planning index, not a release approval. Earlier versions contained fixed test/benchmark totals, pass claims, and readiness assertions that do not follow from the current source tree. No current completion percentage or release status is asserted here.
 
-## Current source-backed scope
+## Current Status
 
 Current code includes process-model management and format handlers, linking and retrieval components, external orchestration profiles, and additional federation, conflict-resolution, audit, diagnostics, and telemetry surfaces. The public headers and implementation files are the authoritative behavior references; their presence does not establish that planned guarantees are complete or production-ready.
 
-Known implementation caveats currently documented:
+## In Progress
 
-- The resource limits declared by `ProcessLightRetriever` are not enforced by its current `retrieve()` path.
-- Orchestration profile activation/rollback is multiple writes without a transaction guarantee.
-- Audit logger persistence and delta encoding are simplified/in-memory in the current implementation.
-- Telemetry export currently uses simplified serialization and logging rather than a verified external collector transport.
-- Federation implementation sources identify themselves as alpha/core implementation; safety and production readiness remain unverified.
+- [~] Reconcile public contracts and module documentation with implementation behavior; keep unsupported guarantees explicitly marked (Target: TBD).
+
+## Planned Features
+
+- [ ] Enforce or remove the declared `ProcessLightRetriever` resource budgets, with tests for timeout, size, and traversal limits (Target: TBD).
+- [ ] Define and test recovery behavior for partial orchestration-profile state updates (Target: TBD).
+- [ ] Verify audit persistence, delta encoding, and telemetry transport against their public contracts before claiming those guarantees (Target: TBD).
+- [ ] Establish reproducible build, test, and benchmark evidence before publishing module readiness or performance status (Target: TBD).
+
+## Implementation Phases
+
+### Phase 1: Design / API Contract
+- [x] Check current process API descriptions against the public headers; keep the headers authoritative for signatures and defaults.
+
+### Phase 2: Core Implementation
+- [ ] Implement the declared light-retrieval budgets or narrow the API contract to match actual behavior (Target: TBD).
+
+### Phase 3: Error Handling & Edge Cases
+- [ ] Specify and verify partial-write and failure recovery for orchestration profile activation and rollback (Target: TBD).
+
+### Phase 4: Tests
+- [ ] Add or identify focused tests for retrieval-budget enforcement and partial profile updates; record actual results (Target: TBD).
+
+### Phase 5: Performance / Hardening
+- [ ] Reconcile benchmark cases with release thresholds and capture a reproducible baseline; the current gate count is unresolved (Target: TBD).
+
+### Phase 6: Documentation & Acceptance
+- [x] Audit the in-scope process Markdown against current source and CMake registration.
+- [ ] Obtain maintainer review of the remaining TODOs and any release-readiness statement (Target: TBD).
 
 ## Planning and evidence gaps
 
@@ -43,13 +66,25 @@ Known implementation caveats currently documented:
 | Federation, audit, telemetry | Contracts and implementation files exist; implementations contain explicit placeholders/simplifications | Feature-by-feature verification and maturity assessment TODO |
 | Security and operations | See [security notes](SECURITY.md), [trust boundaries](TRUST.md), and [runbook](RUNBOOK.md) | Deployment-specific controls and release evidence TODO |
 
-## Follow-up items
+## Production Readiness Checklist
 
-- [ ] Record a reproducible current build/test run and its exact configuration before making pass or release-gate claims.
-- [ ] Validate benchmark names, actual measurements, and baseline provenance against current benchmark code/output; do not infer results from registrations.
-- [ ] Reconcile federation, audit, and telemetry design contracts with implementation behavior and test coverage.
-- [ ] Track enforcement of `ProcessLightRetriever` resource budgets as an implementation issue; do not document them as enforced.
-- [ ] Establish an owner-approved release/maturity status from the root [`ROADMAP.md`](../../ROADMAP.md) and current release evidence before publishing one here.
+- [x] Document current source-visible behavior and known implementation caveats.
+- [ ] Record a reproducible focused build/test run and exact configuration; registration is not a pass.
+- [ ] Validate benchmark thresholds and baseline provenance against active code and raw output.
+- [ ] Verify deployment security, observability, and recovery controls in their owning components.
+- [ ] Establish any release/maturity status from the root [`ROADMAP.md`](../../ROADMAP.md) and current release evidence before publishing it here.
+
+## Known Issues & Limitations
+
+- `ProcessLightRetriever::retrieve()` does not enforce the resource budgets declared in its header.
+- Profile activation and rollback use multiple writes and provide no transaction guarantee.
+- Audit persistence/delta encoding and telemetry export are simplified; their design guarantees are not verified.
+- Federation source comments identify alpha/core implementation status; this does not establish production readiness.
+- The process benchmark gate count, enforced thresholds, and current passing status remain TODO.
+
+## Breaking Changes
+
+No public API or runtime behavior changes are part of this documentation update.
 
 ## Related documentation
 
