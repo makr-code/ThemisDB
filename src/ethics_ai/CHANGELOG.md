@@ -1,6 +1,20 @@
+---
+Author: ThemisDB Team
+Created: 2026-03-22
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > WARNING: Historical changelog entries describe implementation state at the time they were recorded.
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | updated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog - Ethics AI Module
@@ -11,8 +25,7 @@ The format is based on Keep a Changelog.
 ## [Unreleased]
 
 ### Changed
-- Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
-- Performance expectations updated to explicit existing ethics_ai benchmark symbols from bench_ethics_ai_plugin.
+- Issue #7343: synchronized module documentation with current source, headers, focused test/benchmark code, and CMake registration; separated LDM helper/design claims from verified production integration.
 
 ## [0.3.0] - 2026-04-09
 

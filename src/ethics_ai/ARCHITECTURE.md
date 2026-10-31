@@ -1,6 +1,20 @@
+---
+Author: ThemisDB Team
+Created: 2026-07-28
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Architecture - Ethics AI Module
 
-<!-- Status: current | validated: 2026-09-09 -->
+<!-- Status: current | source review: 2026-10-31 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 <!-- Research: docs/research/ethics_discourse_process_equality.md -->
 
@@ -8,11 +22,11 @@
 
 The ethics_ai module composes philosophy profile ingestion, argument persistence, discourse orchestration, context assembly, evaluation, and plugin lifecycle wiring into a coherent ethics reasoning runtime for ThemisDB.
 
-The current production mode is `SELECTION_ONLY` (Top-N school pre-selection via
-`EthicsSelectionRouter`). The **Layered Discourse Model (LDM)** adds
-`LAYERED_FULL` and `LAYERED_FAST` modes that satisfy Habermas participatory fairness
-while remaining computationally tractable. See `FUTURE_ENHANCEMENTS.md` and
-`docs/research/ethics_discourse_process_equality.md` for design details.
+`RouterConfig` defaults to `SELECTION_ONLY`; `EthicsSelectionRouter::route()` is the existing selection path. The source also exposes `LAYERED_FULL` and `LAYERED_FAST` planning/helper paths. They are not wired into the plugin decision flow: `ethics_ai_plugin.cpp` and `discourse_engine.cpp` do not call the LDM helper APIs. The LDM design rationale is in `FUTURE_ENHANCEMENTS.md` and `docs/research/ethics_discourse_process_equality.md`.
+
+Root `ROADMAP.md` designates the external `plugins/themisdb_ethic_ai/` submodule as the canonical plugin implementation. This architecture description is scoped to the in-tree source path and is not a statement about that external implementation.
+
+The fixed `ETHICS_AI_SOURCES` list compiles 12 translation units, including the LDM helper implementations; compilation does not imply runtime wiring. `EthicsAIPlugin` delegates to `EthicalDiscourseEngine`, and the plugin decision flow does not call `EthicsSelectionRouter`, `DiscourseOrchestrator`, `MetaVerdictBuilder`, or `MirrorSchoolHandler`. Without an injected inference callback, the orchestrator ignores dilemma text and produces deterministic synthetic output from `school_id.size() % 3` (the source comment describes this as hash-based); the mirror helper also has a deterministic fallback. Ebene-2 creates cluster summaries and tension-axis records without the described multi-round cluster dialogue, and `MetaVerdictBuilder` ignores its cluster-position input and uses unit vote counts. The current plugin entrypoint does not inject a real LLM callback or legal retriever. The source directory contains additional `.cpp` files outside the fixed target list and does not contain `cluster_discourse_engine.cpp`.
 
 ## Main Execution Planes
 
@@ -44,12 +58,10 @@ while remaining computationally tractable. See `FUTURE_ENHANCEMENTS.md` and
 - **LDM extension:** MetaVerdict audit fields (`participating_schools`, `convergence_score`,
   `discourse_mode`) for EU AI Act Art. 13 transparency compliance
 
-### 5. Cultural Self-Reflection Plane (LDM Mirror-School-Modus)
-- non-western schools (islamische_ethik, konfuzianismus, buddhistische_ethik,
-  juedische_bioethik) participate as structural self-reflection mirrors
-- activated per-domain via `cross_cultural_sensitivity` policy
-- output: `minority_dissent[]` in MetaVerdict — always present in audit trail
-- cost: ≤ 1 LLM inference step per mirror school (parallel to Ebene-2)
+### 5. Cultural Self-Reflection Helper (LDM)
+- helper activation is represented by `MirrorSchoolPolicy`; runtime use depends on caller wiring
+- supplied mirror outputs are copied to `MetaVerdict.minority_dissent`
+- default inference is deterministic stub output, not a live LLM call
 
 ## Core Contracts
 
@@ -57,32 +69,30 @@ while remaining computationally tractable. See `FUTURE_ENHANCEMENTS.md` and
 |---|---|
 | profile contract | explicit profile validation/load and lookup behavior |
 | discourse contract | deterministic debate and decision orchestration semantics |
-| **process equality contract (LDM)** | all N schools participate in Ebene-1 with equal initial weight |
-| **audit completeness contract (LDM)** | MetaVerdict lists all N schools incl. ABSTAIN |
+| LDM planning contract | non-`SELECTION_ONLY` planning enumerates registry results and computes `1/N` initial weight |
+| MetaVerdict input contract | `MetaVerdictBuilder` lists every supplied Ebene-1 result, including ABSTAIN; it cannot guarantee every loaded school was supplied |
 | context contract | bounded argument memory and context retrieval behavior |
 | evaluation/ops contract | explicit scoring, metrics, and plugin lifecycle surfaces |
-| legal grounding contract | MetaVerdict grounding uses DB citations, never LLM paraphrase |
+| legal grounding input | `MetaVerdictBuilder` accepts a caller-supplied `LegalGrounding`; it does not retrieve legal documents itself |
 
 ## LDM Discourse Mode Overview
 
 ```
-DiscourseMode::SELECTION_ONLY   (current production)
+DiscourseMode::SELECTION_ONLY   (RouterConfig default)
   └─ EthicsSelectionRouter: Top-N pre-selection
-  └─ Discourse: top_n schools only
-  └─ MetaVerdict: weighted aggregate
+  └─ Selection router returns selected candidates; debate execution is handled separately by the existing discourse engine
 
-DiscourseMode::LAYERED_FULL     (implemented)
+DiscourseMode::LAYERED_FULL     (planning/helper APIs present; integration incomplete)
   └─ Ebene-1: all N schools, parallel, equal w₀=1/N         O(N)
-  └─ Ebene-2: K≤6 clusters × 3 rounds, tension-axis routing  O(K²·R)
-  └─ Ebene-3: convergence-count + legal-DB grounding          O(1)+lookup
-  └─ Mirror: non-western schools, 1 step parallel to Ebene-2
+  └─ Ebene-2: cluster-majority summaries + tension-axis records (not multi-round dialogue)
+  └─ Ebene-3: counts supplied non-ABSTAIN outputs; accepts grounding as input
+  └─ Mirror: helper runs supplied mirror IDs; default output is deterministic stub
   └─ MetaVerdict: convergence_score + cross_cultural_flag + minority_dissent
 
-DiscourseMode::LAYERED_FAST     (implemented)
+DiscourseMode::LAYERED_FAST     (planning/helper APIs present; integration incomplete)
   └─ Ebene-1: all N schools parallel (identical to LAYERED_FULL)
-  └─ Ebene-2: axis-1 only (Kant↔Utilitarismus) + domain-relevant cluster
-  └─ Ebene-3: MetaVerdict from Ebene-1 convergence + legal-DB
-  └─ Target: P95 ≤ 1.2 s end-to-end
+  └─ no full cluster map is created by the router plan
+  └─ Ebene-3 helper can assemble a MetaVerdict from supplied Ebene-1 outputs and grounding
 ```
 
 ## Failure Semantics
@@ -91,7 +101,7 @@ DiscourseMode::LAYERED_FAST     (implemented)
 - missing storage/context inputs produce explicit non-silent failure behavior.
 - lifecycle misuse (uninitialized plugin paths) fails deterministically.
 - **LDM:** LLM timeout in Ebene-1 → school receives `ABSTAIN` (fail-closed); never silent drop.
-- **LDM:** Legal-DB unavailable → MetaVerdict emitted without grounding with explicit observable flag.
+- **LDM:** a caller-supplied unavailable `LegalGrounding` results in empty grounding and an unavailable flag; no retrieval occurs in the builder.
 - **LDM:** All N schools ABSTAIN → `DISSENT` MetaVerdict; never silently promoted to `SELECTION_ONLY`.
 
 ## Sourcecode Verification (Module: ethics_ai/architecture)
@@ -106,37 +116,33 @@ DiscourseMode::LAYERED_FAST     (implemented)
   - src/ethics_ai/ethics_profile_registry.cpp
   - src/ethics_ai/ethics_selection_router.cpp
   - src/ethics_ai/discourse_orchestrator.cpp (DiscourseMode + DiscourseOrchestratorPlan)
-  - src/ethics_ai/cluster_discourse_engine.cpp (Ebene-2 cluster routing)
-  - src/ethics_ai/meta_verdict_builder.cpp (Ebene-3 convergence-count + legal grounding)
-  - src/ethics_ai/mirror_school_handler.cpp (Mirror-School-Modus)
+  - src/ethics_ai/meta_verdict_builder.cpp (MetaVerdict assembly from supplied inputs)
+  - src/ethics_ai/mirror_school_handler.cpp (mirror helper; deterministic fallback)
 - Verified architecture claims:
   - explicit profile/discourse/context/evaluation planes
   - bounded deterministic failure behavior in lifecycle and profile paths
-  - module-local orchestration for ethics reasoning runtime flows
+  - LDM helper paths; production inference/legal-retrieval integration is not established by this review
 
 ## Module Dependencies
 
-### Direct Upstream Dependencies (this module uses)
+### Direct Upstream Dependencies (source-level interfaces)
 | Module | Interface / File | Purpose |
 |--------|-----------------|---------|
-| llm | `include/llm/` | LLM inference used for ethics evaluation scoring and discourse generation |
+| llm | `include/llm/` | LLM-facing types/integration surfaces; current LDM helper runtime does not inject a live inference function |
 | observability (utils) | `include/utils/tracing.h`, `audit_logger.h` | Audit trail for ethics decisions and discourse outcomes |
 | utils | `include/utils/` | Logging and thread services |
 
-### Direct Downstream Consumers (modules that use this module)
+### Downstream consumers
 | Module | Via | Notes |
 |--------|-----|-------|
-| llm | `include/ethics_ai/` | LLM module enforces ethics evaluation on generated outputs before delivery |
+| llm | `include/ethics_ai/` | Header-level integration surface; current source evidence for runtime invocation is not established by this module review |
 
 ## Integration Points
 
-### Critical Integration: LLM Ethics Enforcement
-**Files:** `src/ethics_ai/ethics_evaluator.cpp`, `ethics_ai_plugin.cpp` ↔ `llm/`
-**Contract:** LLM invokes ethics evaluation after inference; a failing ethics verdict blocks output delivery. `EthicsSelectionRouter` selects active schools; discourse mode is configured per-deployment.
-**Thread Safety:** Ethics evaluation is stateless for a given input; concurrent evaluation calls are safe. `DiscourseOrchestrator` internal state is protected under its own mutex.
+### Plugin decision flow and LDM helpers
+**Files:** `src/ethics_ai/ethics_ai_plugin.cpp`, `discourse_engine.cpp`, `discourse_orchestrator.cpp`, `meta_verdict_builder.cpp`.
+**Observed boundary:** the plugin decision flow delegates to `EthicalDiscourseEngine`; these entrypoint files do not call `DiscourseOrchestrator` or `MetaVerdictBuilder`. `DiscourseOrchestrator` stores mutable callback/configuration state without an internal mutex, and its header does not promise concurrent cross-thread calls.
 
 ### Critical Integration: RAG Context Engine
 **Files:** `src/ethics_ai/rag_context_engine.cpp` ↔ `rag/` (indirect, via LLM context pipeline)
-**Contract:** RAG context engine assembles supporting evidence for ethics discourse arguments; evidence is treated as read-only input to discourse reasoning.
-**Thread Safety:** Context assembly is read-only; concurrent calls are safe.
-  - LDM Ebene-1/2/3 and Mirror-School-Modus implemented and verified
+**Observed behavior:** the context engine provides retrieval/context assembly methods used by module runtime code. This review does not establish a general thread-safety guarantee across its backing store or other dependencies.
