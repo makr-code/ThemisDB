@@ -10,6 +10,7 @@
 - Relevant benchmark files:
   - benchmarks/bench_gpu_training_cycle.cpp
   - benchmarks/bench_lora_training.cpp
+  - benchmarks/training/bench_lora_data_paths.cpp
 
 ## Specific Expectations
 
@@ -19,9 +20,10 @@
 | TRNP-2 | LoRA layer construction and forward/backward paths remain bounded | BM_LoRALayer_Construction, BM_LoRALayer_Forward, BM_LoRALayer_Backward, BM_LoRALayer_RankImpact |
 | TRNP-3 | attention and sequential LoRA composition paths remain bounded | BM_AttentionLoRA_Construction, BM_AttentionLoRA_Forward, BM_AttentionLoRA_Backward, BM_Sequential_Construction, BM_Sequential_Forward, BM_Sequential_Backward, BM_CompositePattern_Overhead |
 | TRNP-4 | parameter and memory efficiency paths remain bounded | BM_LoRALayer_ParameterCount, BM_LoRALayer_ParameterAccess, BM_Sequential_ParameterCollection, BM_LoRALayer_MemoryUsage, BM_Compare_LoRAvsFullFinetuning |
-| TRNP-5 | DB-backed sample acquisition is bounded and deterministic | BM_TrainingDataIterator_AQL, BM_IncrementalLoRA_CollectionRead |
-| TRNP-6 | full DB-backed labeling-to-training path reports stage costs independently | BM_TrainingPipeline_DB_EndToEnd |
-| TRNP-7 | non-DB inputs remain separately measurable and are not labeled DB-backed | BM_LoRAData_Builtin, BM_LoRAData_Custom, BM_LoRAData_JSON, BM_LoRAData_Batch |
+| TRNP-5 | DB-backed sample acquisition is bounded and deterministic | BM_LoRADataPath_TrainingDataIteratorAql/128, BM_LoRADataPath_TrainingDataIteratorAql/512, BM_LoRADataPath_IncrementalTrainerCollection/32, BM_LoRADataPath_IncrementalTrainerCollection/128 |
+| TRNP-6 | DB-backed labeling, selection, and training report stage costs independently; only selected IDs are trained | BM_LoRADataPath_TrainingPipelineEndToEnd |
+| TRNP-7 | non-DB inputs remain separately measurable and are not labeled DB-backed | BM_LoRADataPath_AQLBuiltin, BM_LoRADataPath_CustomSamples, BM_LoRADataPath_JsonObject, BM_LoRADataPath_JsonFile, BM_LoRADataPath_PreparedBatchMerge |
+| TRNP-8 | model-backed LoRA training identifies the source path and requires a real GGUF artifact; missing artifacts are not measurements | BM_LoRATrainFromAQLBuiltin, BM_LoRATrainFromCustomSamples, BM_LoRATrainFromJsonObject, BM_LoRATrainFromJsonFile, BM_LoRATrainFromPreparedBatch, BM_LoRADataPath_TrainBatchWithModel |
 
 ## Data-Path Metrics
 

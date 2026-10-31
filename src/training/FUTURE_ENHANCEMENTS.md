@@ -22,7 +22,7 @@ Exact model backend not verifiable from final document text alone.
 - hardening and refinement of training runtime behavior
 - deterministic reliability improvements for dataset/training/adapter paths
 - stronger benchmark-backed guardrails for training hot paths
-- actual bounded DB-backed sample readers for IncrementalLoRATrainer, TrainingDataIterator, and TrainingPipeline
+- bounded DB-backed sample readers and selection-aware training for IncrementalLoRATrainer, TrainingDataIterator, and TrainingPipeline
 - per-source benchmark coverage for built-in, in-memory/custom, JSON, trainBatch, AQL iterator, collection, and full-pipeline paths
 
 ## Design Constraints
@@ -50,6 +50,7 @@ Exact model backend not verifiable from final document text alone.
 - expand resilience tests for prolonged adapter lifecycle workloads.
 - broaden benchmark depth for training-pipeline and checkpoint scenarios.
 - persist auto-labeled samples before training and consume the configured target collection rather than an empty vector.
+- pass the selected sample `_key` values from data selection into the trainer query; an empty selection must not fall through to full-collection or synthetic training.
 - keep DB read/convert/train timing separate; never label deterministic synthetic fallback as DB-backed training.
 
 ### Wave B B3: Multi-Task LoRA Training Enablement
@@ -98,9 +99,11 @@ Exact model backend not verifiable from final document text alone.
 - `TrainingDataIterator` must execute a read-only AQL query and return bounded stable batches.
 - `IncrementalLoRATrainer` and `TrainingPipeline` must accept a non-owning `QueryEngine` while preserving existing constructor call sites.
 - Auto-labeled sample persistence and trainer reads must use the configured source/target collections.
+- When data selection is enabled, training must be restricted to the returned sample IDs; no selected IDs or an unavailable DB engine is an explicit failure.
 
 ### Test Strategy
 - Verify exact sample counts and content for each DB reader; cover empty, malformed, limited, and failed-query cases.
+- Verify that the training sample count equals the selected ID count when data selection is enabled.
 - Run each benchmark path in CTest with temporary DB cleanup and valid JSON output.
 
 ### Performance Targets

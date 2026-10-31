@@ -35,10 +35,11 @@ The training module composes auto-labeling and enrichment behavior, LoRA/AdaLoRA
 ## Training Data Paths
 
 - Prepared input paths: AQL built-in samples, custom/in-memory samples, JSON import, and `TrainingData` batch composition.
-- DB-backed paths: `LegalAutoLabeler` reads a source collection through an injected `QueryEngine`; generated samples are persisted to the configured target collection; `IncrementalLoRATrainer` reads that collection; `TrainingDataIterator` executes AQL and yields batches.
-- End-to-end path: `TrainingPipeline` wires the same `QueryEngine` through labeling, sample persistence, selection, and training.
+- DB-backed paths: `LegalAutoLabeler` reads a source collection through an injected `QueryEngine`; generated samples are persisted to the configured target collection; `IncrementalLoRATrainer` reads bounded, validated samples from that collection; `TrainingDataIterator` executes AQL and yields batches.
+- Selection-to-training path: `TrainingPipeline` passes selected sample `_key` values to `IncrementalLoRATrainer`, which filters its collection query to those IDs and fails closed on empty or unavailable selections.
+- End-to-end path: `TrainingPipeline` wires the same `QueryEngine` through labeling, sample persistence, selection, and training; stage timings remain observable independently.
 - Data-source timings are reported separately from LoRA updates; DB failures never count as a successful DB-backed run.
-- Until the DB reader implementations land, the iterator, trainer collection read, and pipeline selection paths are not considered production DB paths.
+- The benchmark covers preparation-only and DB-backed CPU paths without a model artifact. Actual model-backed LoRA cases require a real GGUF and remain unmeasured when the preflight cannot find one.
 
 ## Core Contracts
 

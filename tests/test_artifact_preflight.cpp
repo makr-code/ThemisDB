@@ -102,6 +102,19 @@ private:
     bool had_old_;
 };
 
+struct ScopedCurrentPath {
+    explicit ScopedCurrentPath(const fs::path& path) : old_path_(fs::current_path()) {
+        fs::current_path(path);
+    }
+    ~ScopedCurrentPath() { fs::current_path(old_path_); }
+
+    ScopedCurrentPath(const ScopedCurrentPath&) = delete;
+    ScopedCurrentPath& operator=(const ScopedCurrentPath&) = delete;
+
+private:
+    fs::path old_path_;
+};
+
 /// Creates a tiny regular file at `path` (including parent directories).
 void touchFile(const fs::path& path) {
     fs::create_directories(path.parent_path());
@@ -272,6 +285,29 @@ TEST(ArtifactPreflight, PF12_Preflight_OkWhenModelPresent) {
     EXPECT_TRUE(pf.errorMessage().empty());
 
     fs::remove_all(base);
+}
+
+// ---------------------------------------------------------------------------
+// PF-13 – resolveModelPath() discovers a repository-local default GGUF
+// ---------------------------------------------------------------------------
+TEST(ArtifactPreflight, PF13_ResolveModelPath_RepositoryLocalModel) {
+    const fs::path root = fs::temp_directory_path() / "themis_pf13_repo";
+    const fs::path model = root / "models" / "default.gguf";
+    const fs::path working_directory = root / "build" / "run";
+    fs::remove_all(root);
+    touchFile(model);
+    fs::create_directories(working_directory);
+
+    {
+        ScopedCurrentPath cwd(working_directory);
+        ScopedUnsetEnv model_dir("THEMIS_MODEL_DIR");
+        ScopedUnsetEnv model_path("THEMIS_LLM_MODEL_PATH");
+        ScopedUnsetEnv stub_flag("THEMIS_LLM_STUB_MODELS");
+        ScopedUnsetEnv home("HOME");
+
+        EXPECT_EQ(resolveModelPath(), model.string());
+    }
+    fs::remove_all(root);
 }
 
 // ---------------------------------------------------------------------------

@@ -5940,7 +5940,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_changefeed_throughput
       TARGET bench_changefeed_throughput
       MODULE "base"
-      TIMEOUT 120
+      TIMEOUT 240
     )
   endif()
   if(TARGET bench_chaos_microbenchmarks)
@@ -7354,6 +7354,14 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_lora_training
       TARGET bench_lora_training
       MODULE "lora_training"
+      TIMEOUT 120
+    )
+  endif()
+  if(TARGET bench_lora_data_paths)
+    themis_register_benchmark_ctest(
+      NAME   bench_lora_data_paths
+      TARGET bench_lora_data_paths
+      MODULE "lora_data_paths"
       TIMEOUT 120
     )
   endif()
