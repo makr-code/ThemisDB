@@ -1,11 +1,23 @@
 # Image Analysis Module - Production Requirements
 
-<!-- Status: current | validated: 2026-10-07 -->
+**Author:** ThemisDB Contributors
+**Created:** 2026-10-31
+**Last Updated:** 2026-10-31
+**Status:** active
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** OpenAI ChatGPT
+**Human_Review:** false
+**Human_Author:** ThemisDB Contributors
+
+Exact model backend not verifiable from final document text alone.
+
+<!-- Status: source review: 2026-10-31; production acceptance not run -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 ## Purpose and Scope
 
-This document defines the mandatory production requirements for the `image_analysis` module as it exists in the current source tree. The live implementation is plugin-based and uses `include/plugins/` as the canonical contract; the module-specific production requirements therefore focus on lifecycle, dependency gates, and fail-safe behaviour.
+This document defines acceptance requirements, not a claim that the module currently satisfies them. The canonical backend contract is in `include/plugins/image_analysis_interface.h`; concrete OCR and detection implementations are dependency-gated in `src/image_analysis/`.
 
 ## Document Boundary (Canonical Split)
 
@@ -18,14 +30,14 @@ This document defines the mandatory production requirements for the `image_analy
 ## Mandatory Backend Requirements
 
 - **MUST:** Each plugin must expose a clear lifecycle (`initialize`, `shutdown`, `isReady`, `healthCheck`).
-- **MUST:** When a native dependency is absent, the plugin must return a structured error result and remain operational rather than crashing the process.
-- **MUST:** The manager layer must prefer valid capability-based routing over hard-coded assumptions.
-- **MUST:** Input handling and backend dispatch must remain explicit and fail-closed when unsupported or malformed input is encountered.
+- **MUST:** When a native dependency is absent, inference must return an explicit structured error rather than silently reporting successful analysis.
+- **MUST:** If the manager API is integrated, capability routing must be tested against registered backends; the header declaration alone is not evidence that manager behavior is built or validated.
+- **MUST:** Reject malformed or unsupported input before inference and surface failure through the result contract.
 
 ## Mandatory Resource Requirements
 
-- **MUST:** Memory and latency should remain within the explicit thresholds stated in `PERFORMANCE_EXPECTATIONS.md` for the active build profile.
-- **MUST:** Module behaviour must remain bounded even when the native runtime dependency is not installed.
+- **MUST:** Establish and measure memory/latency budgets for real plugin implementations before adopting release gates. `PERFORMANCE_EXPECTATIONS.md` currently lists prior numeric values as unverified proposals.
+- **MUST:** Enforce input size, image dimension, and execution-time limits for untrusted workloads.
 - **MUST NOT:** A missing optional backend silently removes the feature without surfacing an error state to the caller.
 
 ## Mandatory Reliability Requirements
@@ -33,23 +45,21 @@ This document defines the mandatory production requirements for the `image_analy
 - **MUST:** OCR/detection results must be returned as structured result objects with explicit success/error information.
 - **MUST:** Dependency or inference failures must be surfaced to the caller without taking down the broader process.
 - **MUST NOT:** The module assumes the presence of Tesseract or ONNX Runtime without checking the build and runtime configuration.
+- **MUST:** Encoded-image inference must use a supported decoder; the current no-OpenCV paths do not decode encoded images.
+- **MUST:** Model and label file paths must follow deployment policy and model artifacts must be integrity-checked before being treated as trusted.
 
 ## Minimal Production Checklist (Audit-Capable)
 
-- [ ] Native dependencies are guarded by explicit build-time checks
-- [ ] Missing dependency paths are surfaced as structured errors
-- [ ] Module manager routing is capability-based and explicit
-- [ ] No silent crash or undefined-state fallback exists in dependency-missing paths
-- [ ] Performance gates are revalidated in the active build profile before a final GA claim
+- [x] Optional native runtime paths are guarded by compile-time checks in the plugin sources
+- [x] Missing-runtime inference paths return structured error results
+- [ ] OpenCV decoding is enabled or the no-OpenCV encoded-image behavior is rejected explicitly
+- [ ] Input size, dimensions, and processing budget are enforced
+- [ ] Model/label path policy and model integrity are enforced
+- [ ] Manager routing implementation and capability selection are built and tested where used
+- [ ] Real-plugin performance gates are established and run in the target release profile
 
-## Sourcecode Verification (Module: image_analysis/production)
+## Evidence Boundary
 
-- Verified files:
-  - `src/image_analysis/tesseract_ocr_plugin.cpp`
-  - `src/image_analysis/yolov8_onnx_plugin.cpp`
-  - `include/plugins/image_analysis_interface.h`
-  - `include/plugins/image_analysis_manager.h`
-- Verified controls:
-  - Dependency gating is explicit in source.
-  - Plugin lifecycle and error handling are implemented in the current source tree.
-  - The module contract remains aligned to the actual public API surface instead of a stale standalone image-analysis header tree.
+- Source reviewed: `src/image_analysis/{tesseract_ocr_plugin.cpp,yolov8_onnx_plugin.cpp,CMakeLists.txt}` and the canonical plugin headers under `include/plugins/`.
+- The focused test sources and benchmark sources were inspected, but no build, test, or benchmark was run for this production-readiness review.
+- The project-level `ROADMAP.md` records `image_analysis` as a production candidate; this does not replace the module's outstanding checks above or establish release acceptance.
