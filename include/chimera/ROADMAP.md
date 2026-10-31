@@ -1,54 +1,40 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/chimera/ROADMAP.md -->
-
-# Chimera Adapter Module — Public Header Roadmap
-
-**Module Path:** `include/chimera/`  
-**Canonical implementation roadmap:** [`../../src/chimera/ROADMAP.md`](../../src/chimera/ROADMAP.md)
-
+---
+Author: unknown (original author not verified)
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: AI documentation assistant
+Human_Review: false
+Human_Author: unknown
 ---
 
-## Overview
+Exact model backend not verifiable from final document text alone.
 
-Tracks public `chimera` API contract stability, header-level coverage work, and future public entry points. Runtime implementation work remains in:
+# Chimera public-header roadmap notes
 
-→ [`../../src/chimera/ROADMAP.md`](../../src/chimera/ROADMAP.md)
+**Status basis:** current header and CMake inspection only. No public API gate, compatibility build, or release review was run.
 
----
+## Current state
 
-## Current Status
+Headers declare adapter, retry, batch, transaction, streaming, and prepared-statement surfaces. `database_adapter.hpp` selects an external header when available and otherwise defines a minimal fallback shim. Therefore API details and enum compatibility depend on the actual include path and must be checked in the configured build.
 
-All headers in `include/chimera/` are present and expose the database adapter abstraction layer for multi-engine interoperability surface.
+## Candidate work
 
----
+- [ ] Record and test the supported external CHIMERA header revision and fallback behavior.
+- [ ] Add evidence-backed per-adapter capability and build-configuration documentation.
+- [ ] Validate public headers and actual implementation signatures in each supported configuration.
+- [ ] Establish ABI/API compatibility policy from the real dependency and distribution requirements.
 
-## Completed ✅
+## Readiness checklist and known issues
 
-- [x] Public header surfaces documented in `ARCHITECTURE.md`
-- [x] Canonical cross-links to `src/chimera/` implementation docs established
-- [x] Layer association (**Graph**) marked and verified against `FUTURE_PLAN.md`
-- [x] Namespace layout (`themis::chimera`) documented
+- [ ] Verify external-header and fallback-shim configurations.
+- [ ] Confirm compiled adapter implementations match the selected public declarations.
+- [ ] Record API and dependency compatibility evidence for each supported build.
 
----
+Known issue: the public base contract differs according to header selection. No breaking-change plan is established by the current source review.
 
-## In Progress
+These are candidates, not dated commitments. See [`CHIMERA_ADAPTER_CONTRACT.md`](CHIMERA_ADAPTER_CONTRACT.md) and [`../../src/chimera/ROADMAP.md`](../../src/chimera/ROADMAP.md).
 
-- [ ] Per-header deprecation and breaking-change notices aligned with `VERSIONING.md` (Target: 2026-Q3)
-
----
-
-## Planned
-
-- [ ] API contract index for high-frequency entry points with usage examples (Target: 2026-Q3)
-- [ ] Compatibility matrix (C++17/20 and platform coverage) per header group (Target: 2026-Q4)
-- [ ] CI-enforced compile checks for all public headers (Target: 2026-Q4)
-
----
-
-## Production Readiness Checklist
-
-- [x] Public header surfaces documented
-- [x] Canonical links to implementation docs set
-- [ ] Deprecation annotations consistent
+Issue/milestone: #7336 / DOC-WEEKLY-2026-44.

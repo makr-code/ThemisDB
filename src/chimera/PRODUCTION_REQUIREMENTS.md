@@ -1,50 +1,36 @@
-> **Status:** 2026-06-01 – mit aktuellem Chimera-Code (`themisdb_adapter.cpp`) abgeglichen.
+---
+Author: unknown (original author not verified)
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: AI documentation assistant
+Human_Review: false
+Human_Author: unknown
+---
 
-# ThemisDB Chimera Module - Production Requirements
+Exact model backend not verifiable from final document text alone.
 
-## Zweck und Geltungsbereich
+# Chimera production-use assessment boundary
 
-Dieses Dokument ist der **kanonische Referenzpunkt für produktive Mindestanforderungen** des Chimera-Moduls.
-Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für ThemisDB-Adapter für externe System-Integration.
+**Purpose / audience:** prevent module documentation from being mistaken for an operational sign-off. This document states evidence required before a deployment decision; it does not assert production readiness.
 
-## Dokumentabgrenzung (Canonical Split)
+## Evidence required before production use
 
-- **`src/chimera/PRODUCTION_REQUIREMENTS.md` (dieses Dokument):** verpflichtende Produktionsanforderungen (MUST/MUST NOT), Sicherheitsannahmen, Betriebsgrenzen.
-- **`src/chimera/README.md`:** Funktionsübersicht, Architekturkontext, API- und Nutzungsbeispiele.
-- **`src/chimera/ROADMAP.md`:** Lieferphasen, offene/abgeschlossene Features, Readiness-Planung.
-- **`src/chimera/FUTURE_ENHANCEMENTS.md`:** mittelfristige/langfristige Erweiterungen und Forschungsfelder.
+- Identify the exact adapter and compile-time feature definitions in the deployed binary.
+- Confirm dependency versions and connection/authentication/TLS configuration against the chosen backend's requirements.
+- Validate connection, timeout, retry, resource-limit, and error behavior for that adapter; do not assume configuration options are honored just because an interface accepts them.
+- Establish whether operations are simulated or engine-backed. `THEMIS_BUILD_CHIMERA` defaults to `OFF`, and its enabled CMake source list includes external CHIMERA sources plus the local ThemisDB adapter.
+- Verify that the required focused tests and deployment-specific integration tests actually ran for the same configuration.
+- Obtain a security and operational review of the real deployment and record its evidence separately.
 
-## Verbindliche Produktionsanforderungen
+## Known source boundaries
 
-- **MUST:** Adapter-Konfiguration mit expliziten Timeout- und Auth-Werten; kein Open-Relay.
-- **MUST:** Externe System-Verbindungen mit TLS und Auth-Token konfiguriert.
-- **MUST:** Alle sicherheitsrelevanten Konfigurationswerte beim Start validiert; fehlende oder ungültige Werte führen zu Fail-Closed-Verhalten.
-- **MUST NOT:** Sicherheits- oder Autorisierungs-Checks in Produktionspfaden deaktivieren.
+The local MongoDB, Neo4j, and Qdrant code has compile-time conditional driver paths. `THEMISDB_ENGINE_AVAILABLE` gates engine-specific ThemisDB code. Neither condition alone proves a particular production feature is configured or supported. The checked-in benchmark stubs are not production measurements.
 
-## Verbindliche Sicherheitsanforderungen
+## References
 
-- Sicherheitsrelevante Operationen werden über dedizierte Kontroll-Surfaces geleitet.
-- Fehler in sicherheitskritischen Pfaden werden als explizite Fehlercodes propagiert; kein Silent-Permit.
-- Audit-Logging für sicherheitsrelevante Operationen aktiv in Produktionsdeployments.
+`CMakeLists.txt`, `cmake/ChimeraAdapters.cmake`, `include/chimera/*.hpp`, `src/chimera/*.cpp`, [`SECURITY.md`](SECURITY.md), [`ARCHITECTURE.md`](ARCHITECTURE.md).
 
-## Betriebsgrenzen
-
-- Konfigurationswerte müssen deployment-spezifisch gesetzt sein; Default-Werte gelten nicht als produktionssicher.
-- Ressourcen-Limits (Größen, Counts, Timeouts) müssen mit den Deployment-Anforderungen übereinstimmen.
-- Externe Abhängigkeiten müssen mit expliziten Verbindungs-Timeouts und Retry-Policies konfiguriert sein.
-
-## Minimaler Produktions-Check (Audit-fähig)
-
-- [ ] Modul-Konfiguration vollständig und beim Start validiert
-- [ ] Sicherheits- und Autorisierungs-Checks aktiv
-- [ ] Ressourcen-Limits explizit konfiguriert (keine Unlimited-Defaults)
-- [ ] Audit-Logging aktiv
-- [ ] Externe Abhängigkeiten mit Timeout und Retry konfiguriert
-- [ ] Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt
-
-## Review / Sourcecode-Audit-Nachweis
-
-### Betroffene Dateien im Review
-
-- `src/chimera/PRODUCTION_REQUIREMENTS.md`
-- `src/chimera/themisdb_adapter.cpp`
+Issue/milestone: #7336 / DOC-WEEKLY-2026-44.

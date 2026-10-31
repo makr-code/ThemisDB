@@ -1,63 +1,41 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/chimera/FUTURE_ENHANCEMENTS.md -->
-
-# Chimera Adapter Module — Public Header Future Enhancements
-
-**Module Path:** `include/chimera/`  
-**Canonical implementation enhancements:** [`../../src/chimera/FUTURE_ENHANCEMENTS.md`](../../src/chimera/FUTURE_ENHANCEMENTS.md)
-
+---
+Author: unknown (original author not verified)
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: AI documentation assistant
+Human_Review: false
+Human_Author: unknown
 ---
 
-## Scope
+Exact model backend not verifiable from final document text alone.
 
-Planned enhancements to the **public header contract** in `include/chimera/`. Runtime, algorithm, and benchmark work remains tracked in:
+# Chimera public API follow-up candidates
 
-→ [`../../src/chimera/FUTURE_ENHANCEMENTS.md`](../../src/chimera/FUTURE_ENHANCEMENTS.md)
+**Purpose / audience:** possible header-level work inferred from current declarations, not approved milestones.
 
----
+## Scope, constraints, and required interfaces
 
-## Design Constraints
+Keep declarations aligned with the actual external-or-fallback base contract, document ownership and error behavior, and avoid asserting ABI stability until the selected upstream dependency is identified.
 
-- `[x]` Public headers must not expose internal implementation types or arena/memory layout details to callers.
-- `[x]` Breaking changes to types in `include/chimera/` require a MAJOR version bump per `VERSIONING.md`.
-- `[x]` New entry points should be additive; existing stable APIs remain source-compatible.
-- `[x]` Layer association (**Graph**) must be preserved in all header expansions.
+- Establish which `database_adapter.hpp` contract version is authoritative when the external header is present and the fallback shim is selected.
+- Document which public methods are simulated, engine-backed, or unavailable for each build configuration.
+- Specify ownership, lifetime, thread-safety, and exception/error semantics for adapter, async, stream, statement, retry, batch, and transaction types from implementations rather than broad class-level claims.
+- Define compatibility policy only after the external dependency/version and actual ABI requirements are established.
+- Add compile-only/public-header validation to the relevant build configuration if adopted by maintainers.
 
----
+## Implementation notes and test strategy
 
-## Required Interfaces (Header Contract)
+Record compile definitions and dependency requirements alongside any public declaration change. Validate signatures and include behavior using the same include paths as the supported target; no compile-only check was run for this update.
 
-Current public surfaces cover: database adapter abstraction layer for multi-engine interoperability.
+## Performance and security / reliability
 
-Planned extensions follow the same namespace (`themis::chimera`) and include-guard conventions.
+No performance target is proposed. Keep adapter error semantics explicit, avoid exposing secrets through public diagnostics, and specify thread-safety/lifetime guarantees only when supported by implementations.
 
----
+## References
 
-## Planned Enhancements
+`database_adapter.hpp`, `themisdb_adapter.hpp`, `retry_executor.hpp`, `batch_executor.hpp`, `transaction.hpp`, and [`../../src/chimera/FUTURE_ENHANCEMENTS.md`](../../src/chimera/FUTURE_ENHANCEMENTS.md).
 
-### Short-Term (Q3 2026)
-
-- [ ] Add `[[deprecated]]` annotations to any legacy entry points with migration notes
-- [ ] Add explicit `noexcept` specifications to query/read paths where safe
-- [ ] Add structured diagnostic types for all thrown exceptions
-
-### Medium-Term (Q4 2026)
-
-- [ ] Expand public surface with convenience factory functions for common usage patterns
-- [ ] Add Concepts (C++20) constraints to template parameters in public headers
-- [ ] Introduce explicit ABI stability markers (`THEMIS_STABLE_ABI`) to long-term interfaces
-
-### Long-Term (2027+)
-
-- [ ] Module-interface (C++20 modules) wrapper for `include/chimera/` entry points
-- [ ] Header-only usage path for embedding scenarios (where feasible)
-- [ ] Extended layer-mapping documentation for Graph integration patterns
-
----
-
-## Alignment with Strategic Plan
-
-Enhancements align with `FUTURE_PLAN.md` layer **Graph**. For cross-layer integration planning see:
-→ [`../../src/ai/FUTURE_ENHANCEMENTS.md`](../../src/ai/FUTURE_ENHANCEMENTS.md)
+Issue/milestone: #7336 / DOC-WEEKLY-2026-44.

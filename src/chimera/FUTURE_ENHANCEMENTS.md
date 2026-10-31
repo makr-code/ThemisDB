@@ -1,52 +1,43 @@
-# Chimera Module - Future Enhancements
+---
+Author: unknown (original author not verified)
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: AI documentation assistant
+Human_Review: false
+Human_Author: unknown
+---
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
+Exact model backend not verifiable from final document text alone.
 
-## Scope
+# Chimera future enhancements
 
-- hardening and refinement of adapter lifecycle and dispatch behavior
-- expansion of deterministic reliability for simulation-vs-engine paths
-- stricter benchmark-backed guardrails for adapter compatibility hot paths
+**Purpose / audience:** evidence-led areas for future engineering work. Items below are candidates inferred from current source limitations, not approved commitments or dated roadmap promises.
 
-## Design Constraints
+## Scope and design constraints
 
-- adapter contracts remain backward compatible within major release line.
-- capability declarations remain consistent with observable runtime behavior.
-- unsupported dispatch states remain explicit and non-silent.
-- simulation and engine-backed semantics remain auditable.
+Keep simulation, injected-engine, and vendor-driver behavior distinct; unavailable paths must remain explicit. Do not promise backend parity, transaction atomicity, or performance without implementation and test evidence.
 
-## Required Interfaces
+## Candidate work and required interfaces
 
-| Interface | Requirement |
-|---|---|
-| adapter lifecycle interfaces | deterministic connect/disconnect/state semantics |
-| dispatch interfaces | bounded behavior across simulation and engine-backed paths |
-| capability interfaces | accurate and stable feature reporting |
+- Make retry classification depend on the result's actual error code and test each policy case; current `RetryExecutor::should_retry` does not inspect that code.
+- Decide and document whether transaction helpers are bookkeeping only or should coordinate backend operations; do not describe the current helper as distributed two-phase commit.
+- Establish explicit support/build policy for local MongoDB, Neo4j, and Qdrant implementations, including dependency discovery, compile definitions, and behavior when a driver is unavailable.
+- Align the main `THEMIS_BUILD_CHIMERA` CMake source list and focused-test registrations with the local source files and the external checkout, then validate each supported configuration.
+- Add benchmarks that exercise actual adapter operations. Existing dedicated-gate cases use local stubs; existing adapter benchmarks use the in-process ThemisDB adapter.
 
-## Implementation Notes
+## Test strategy
 
-- tighten parity and diagnostics between simulation and engine-backed dispatch.
-- standardize error classes for connection, capability, and dispatch failures.
-- expand resilience tests for engine-injection and fallback permutations.
-- add dedicated chimera adapter benchmarks beyond current proxy compatibility paths.
+Exercise concrete retryable/non-retryable errors, transaction-state transitions, adapter capability reporting, and each explicitly supported driver/build combination. Record exact CMake option and test targets.
 
-## Test Strategy
+## Performance and security / reliability
 
-- unit and focused integration suites for adapter lifecycle and dispatch paths.
-- edge regressions for unsupported and conditional engine-backed behavior.
-- deterministic tests for capability/reporting consistency.
-- release-profile benchmark runs for mapped adapter targets.
+Any future performance target should identify a real benchmark case, reproducible configuration, baseline, and enforced gate. Review external connection configuration, secret handling, resource limits, timeouts, retry behavior, and explicit failure paths for each enabled backend.
 
-## Performance Targets
+## References
 
-- adapter parse/build/roundtrip compatibility paths remain within regression budgets.
-- adapter hot paths remain stable at p95/p99 versus baseline.
-- benchmark manifests for mapped chimera targets reach no-missing-case status.
+`include/chimera/retry_executor.hpp`, `src/chimera/retry_executor.cpp`, `include/chimera/transaction.hpp`, `cmake/ChimeraAdapters.cmake`, `tests/CMakeLists.txt`, `benchmarks/chimera/*.cpp`.
 
-## Security / Reliability
-
-- maintain strict connection-state and dispatch precondition checks.
-- preserve explicit failure signaling for unsupported paths.
-- enforce bounded process-local adapter runtime behavior.
-- keep diagnostics actionable for adapter integration incidents.
+Issue/milestone: #7336 / DOC-WEEKLY-2026-44.
