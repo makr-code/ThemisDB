@@ -67,14 +67,15 @@ integration behavior. Public signatures remain defined by the
 
 ## Change and test workflow
 
-For scheduler changes, update and run
-`tests/integration/test_load_balancing.cpp`. For pool changes, update and run
-`tests/integration/test_resource_pooling.cpp`. Queue contention or capacity
+For scheduler changes, run the three focused CTest cases registered by
+`tests/execution/CMakeLists.txt`; the README gives their exact filter. The
+separate `test_resource_pooling` integration test covers pool behavior and is
+registered from `tests/integration/CMakeLists.txt`. Queue contention or capacity
 changes should add or run tests against the production scheduler or pool. The
-high-cardinality test and dedicated benchmark use local models, so they are not
-production runtime validation. When changing server lifecycle wiring, inspect
-both `include/server/http_server.h` and
-`src/server/http_server.cpp`.
+high-cardinality stress source is not registered as a CTest target and, like the
+dedicated benchmark, uses local models rather than production runtime code. When
+changing server lifecycle wiring, inspect both
+`include/server/http_server.h` and `src/server/http_server.cpp`.
 
 Do not claim active work stealing, elastic scaling, cancellation, deadline
 eviction, or exported metrics until those paths are implemented and covered by
