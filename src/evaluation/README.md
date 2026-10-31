@@ -1,87 +1,86 @@
-# Evaluation Module Documentation
+# Evaluation Module
 
-<!-- Status: PRODUCTION_CANDIDATE | Phase 1-3 complete | aligned with status issue #5643 | validated: 2026-08-10 -->
+> **Update provenance (2026-10-31):** AI_Used: true; AI_Models: unknown;
+> AI_Contributor: OpenAI ChatGPT; Human_Review: false; Human_Author: ThemisDB
+> Contributors. Exact model backend not verifiable from final document text alone.
 
-## Purpose
+<!-- Last Updated: 2026-10-31 · Source level: level1 · SOT domain: module-behavior -->
+<!-- Issue: #7344 · Milestone: DOC-WEEKLY-2026-44 -->
 
-`src/evaluation` is the EPIC 2 surface for making retrieval decisions measurable,
-hardware-aware, and policy-governed. The hardware-profile component and the EPIC 2.5
-hybrid query planner are implemented. Other EPIC 2 surfaces remain mixed-stage and
-continue to advance behind their own phase gates.
+## Purpose and scope
 
-## Development-Plan Alignment (EPIC 2)
+The evaluation module provides C++ contracts and code for computing supplied
+retrieval/evidence metrics, recording benchmark values, validating hardware
+profiles and approximation boundaries, running ablation calculations,
+selecting query execution paths, and deriving artifact lifecycle states.
+Callers supply the data and perform retrieval, persistence, rebuild work and
+downstream observability.
 
-| Sub-issue | Planned contract | Planned source | Primary planning docs |
-|---|---|---|---|
-| 2.1 Hardware profiles | `include/hardware_profile.h` | `src/hardware_profile.cc` | `docs/EPIC2_HARDWARE_PROFILES.md` |
-| 2.2 Benchmark framework | `include/benchmark_matrix.h` | `src/benchmark_matrix.cc` | `docs/EPIC2_BENCHMARK_FRAMEWORK.md` |
-| 2.3 Evaluation metrics | `include/evaluation_metrics.h` | `src/evaluation_metrics.cc` | `docs/EPIC2_EVALUATION_METRICS.md` |
-| 2.4 Approximation governance | `include/approximation_rules.h` | `src/approximation_rules.cc` | `docs/EPIC2_APPROXIMATION_GOVERNANCE.md` |
-| 2.5 Hybrid query planner | `include/query_planner.h` | `src/query_planner.cc` | `docs/EPIC2_QUERY_PLANNER.md` |
-| 2.6 Artifact lifecycle | `include/artifact_lifecycle.h` | `src/artifact_lifecycle.cc` | `docs/EPIC2_ARTIFACT_LIFECYCLE.md` |
-| 2.7 Storage strategy | `include/storage_strategy.h` | `src/storage_strategy.cc` | `docs/EPIC2_ARCHITECTURE.md` |
+The query planner returns a decision; it is not a query executor. The
+`BenchmarkMatrix` stores values; it does not run benchmarks. The public-path
+`include/evaluation/evaluation.h` currently does not include component
+declarations. The component headers are in `src/evaluation/include/`.
 
-## Current Delivery State
+## Source and build overview
 
-- Wave A complete: EPIC 2 architecture and sub-issue docs are in `docs/EPIC2_*.md`.
-- Wave B complete at source level: runtime-owned contracts and sources exist for
-  hardware profile, benchmark matrix, retrieval metrics, ablation, approximation,
-  query planning, and artifact lifecycle.
-- Wave C partial: focused tests and benchmark entry points exist in source, but
-  current-cycle executable evidence is still incomplete for status issue #5643.
-- Phase 3-6 closure remains open until runtime policy hardening, refreshed build/test
-  evidence, and benchmark-backed acceptance gates are all recorded.
+`src/evaluation/CMakeLists.txt` defines `themis_evaluation` from the benchmark
+matrix, hardware profile, retrieval metrics, ablation and artifact lifecycle
+sources. Query planning and approximation rules are separate conditional
+libraries; artifact lifecycle also has a separately declared conditional
+target. The CMake file's presence does not establish that a target is included
+in a particular configured build.
 
-## Seven-Phase Gate (module view)
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full source/target map and
+[IMPLEMENTATION.md](./IMPLEMENTATION.md) for target and test registration
+details.
 
-- [x] Phase 1: design and API contract baselines captured
-- [x] Phase 2: core implementation surfaces landed in source
-- [~] Phase 3: planner-centric policy behavior exists, but module-wide runtime hardening remains open
-- [~] Phase 4: source-level focused tests exist, but refreshed executable evidence is still pending
-- [~] Phase 5: benchmark entry points exist, but measured gates are not yet captured for this issue cycle
-- [~] Phase 6: acceptance docs exist, but closure evidence remains incomplete
-- [ ] Phase 7: default workflow integration remains gated
+## Quick start for developers
 
-## Module Boundaries
+1. Read the relevant declaration in `src/evaluation/include/` and its matching
+   implementation in `src/evaluation/src/`.
+2. Check `src/evaluation/CMakeLists.txt` to identify which library owns the
+   implementation and whether its target is conditional.
+3. Check `tests/evaluation/CMakeLists.txt` or
+   `tests/epic2_evaluation/CMakeLists.txt` for the actual test registration and
+   dependencies before selecting a target.
+4. Treat source presence and CMake registration as distinct from build, test or
+   benchmark execution evidence.
 
-In scope:
-- evaluation contracts for hardware, metrics, planner policy, and artifact lifecycle decisions
-- governance hooks for approximation and storage strategy selection
-- interfaces consumed by EPIC 1 retrieval and EPIC 3 distributed artifact planning
+## Build and run
 
-Out of scope (current delivery stage):
-- learned or cost-model-based planner selection
-- production tuning policy beyond the current typed thresholds and benchmarks
-- downstream workflow integrations that are explicitly marked deferred in `docs/EPIC2_QUERY_PLANNER.md`
+The module is a library, not a standalone executable or service. After
+configuring a build, check that the desired target is present and then build it,
+for example:
 
-## Installation
+```bash
+cmake --build <build-dir> --target themis_evaluation
+```
 
-No standalone installation step is required for this module. Active planner and
-hardware-profile targets are wired through the local CMake surfaces.
+The query-planner, approximation and lifecycle targets have separate
+availability conditions; their target names and prerequisites are listed in
+`src/evaluation/CMakeLists.txt`. No module-owned runtime command or service
+configuration is defined here.
 
-## Usage
+No build, test or benchmark was run for this documentation-only update.
 
-Use this module documentation to:
-- map EPIC 2 sub-issues to owned files
-- plan implementation and test sequencing
-- review whether phase gates are met before enabling default workflow integration
-- trace the shipped planner contract across `include/query_planner.h`,
-  `src/query_planner.cc`, tests, and benchmarks
-- review current-cycle blockers in `MODULE_EVIDENCE.md`
+## Current evidence and limitations
 
-## References
+The local module CMake files contain component-library and test/benchmark
+registrations, some guarded by dependency or option checks. The module evidence
+documents historical validation attempts; they are not current execution
+results. The EPIC 2 root maturity summary and the checked-in module source/build
+inventory have an unresolved storage-strategy and maturity-status discrepancy;
+see [ROADMAP.md](./ROADMAP.md).
 
-- [Research and reproducibility](./RESEARCH.md)
-- [Modeling assumptions and metrics](./MODELING.md)
-- [Embedding evaluation](./EMBEDDING.md)
-- [Implementation guide](./IMPLEMENTATION.md)
+## Related documentation
+
 - [API contracts](./API.md)
-- [Developer module guide](./MODULE_GUIDE.md)
-- [Runbook](./RUNBOOK.md)
-- [Operations](./OPERATIONS.md)
-- [Trust model](./TRUST.md)
-- `docs/IMPLEMENTATION_ROADMAP.md`
-- `docs/EPIC2_ARCHITECTURE.md`
-- `docs/EPIC1_2_3_DEPENDENCIES.md`
-- `src/evaluation/include/README.md`
-- `src/evaluation/src/README.md`
+- [Architecture](./ARCHITECTURE.md)
+- [Implementation guide](./IMPLEMENTATION.md)
+- [Developer guide](./MODULE_GUIDE.md)
+- [Research and evaluation assumptions](./RESEARCH.md)
+- [Modeling](./MODELING.md)
+- [Embedding evaluation](./EMBEDDING.md)
+- [Operations](./OPERATIONS.md) and [runbook](./RUNBOOK.md)
+- [Security](./SECURITY.md) and [trust model](./TRUST.md)
+- [Roadmap](./ROADMAP.md) and [evidence record](./MODULE_EVIDENCE.md)

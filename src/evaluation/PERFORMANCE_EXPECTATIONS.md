@@ -1,15 +1,46 @@
 # Evaluation Module Performance Expectations
 
-<!-- Status: Phase 5 guardrails DEFINED | validated: 2026-08-18 -->
+> **Update provenance (2026-10-31):** AI_Used: true; AI_Models: unknown;
+> AI_Contributor: OpenAI ChatGPT; Human_Review: false; Human_Author: ThemisDB
+> Contributors. Exact model backend not verifiable from final document text alone.
+
+> **Evidence status (2026-10-31):** Numeric values and gate language in this
+> document are proposed expectations, not measured baselines, verified SLAs, or
+> proof of a release gate. The source under `benchmarks/evaluation/` uses
+> in-process stubs and does not measure evaluation implementations. The separate
+> `benchmarks/epic2_evaluation/` suite is conditionally registered and has
+> distinct harnesses: the planner programs report percentiles for in-process
+> `selectPath()` calls, the matrix program includes synthetic workloads explicitly
+> marked non-release, and storage placement calls
+> `DefaultShardPlacementStrategy` with synthetic node inputs. The artifact-
+> staleness source exercises `ArtifactLifecycleManager` with Google Benchmark
+> but is not registered. No benchmark was run for issue #7344; none of these
+> source capabilities constitutes measured evidence.
+
+<!-- Historical status: proposed Phase 5 guardrails; validation dated 2026-08-18 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · MODULE_EVIDENCE.md · benchmarks/epic2_evaluation/README.md -->
 
-## Current Baseline
+## Current Evidence
 
-Evaluation module behavior is no longer documentation-first only: the repository now
-contains benchmark entry points for planner decision overhead, benchmark-matrix
-scenarios, artifact staleness, and storage-strategy follow-up paths. Phase 5 defines
-explicit guardrails for these measurements. Measured baselines are blocked by build
-environment (vcpkg/RocksDB gap, documented in `src/evaluation/MODULE_EVIDENCE.md`).
+The EPIC 2 CMake file returns unless benchmarks are enabled. Planner decision
+and error-path executables additionally require `epic2_evaluation_lib`; the
+matrix target requires Google Benchmark and `themis_evaluation`; storage source
+is passed to the standard benchmark helper and its wrapper is registered if the
+target exists. The artifact-staleness source is not registered. The
+`BASELINES.md` tables are blank. The 2026-08 vcpkg/RocksDB blocker recorded in
+`MODULE_EVIDENCE.md` is historical and does not establish the current build
+environment.
+
+The EV-BM-01..04 benchmark under `benchmarks/evaluation/` measures stub
+functions only. It cannot validate the planner, matrix, lifecycle or metric
+implementation targets described below. This is separate from the EPIC 2
+planner harnesses, which call `selectPath()` with fixed in-process inputs and
+report p50/p95/p99, and the matrix/storage harnesses, which have their own
+synthetic workload semantics. EPIC 2's unregistered
+`artifact_staleness_bench.cc` exercises `ArtifactLifecycleManager` through
+Google Benchmark; the storage benchmark calls the actual
+`DefaultShardPlacementStrategy`, but supplies synthetic node inputs rather than
+a live cluster.
 
 ## Phase-Gated Performance Expectations
 
@@ -17,11 +48,12 @@ environment (vcpkg/RocksDB gap, documented in `src/evaluation/MODULE_EVIDENCE.md
 - establish deterministic correctness and stability baselines for EPIC 2 contracts
 - validate planner and policy semantics with contract-focused regressions
 
-### Phase 5 (performance hardening) — ✅ GUARDRAILS DEFINED
-- define latency/throughput budgets for planner and evaluation paths ✅
-- define storage and hardware-profile evaluation budget expectations ✅
-- lock benchmark matrices for representative workload classes ✅
-- capture measured baselines and fallback-rate guardrails (blocked by vcpkg)
+### Phase 5 (performance hardening) — historical proposed targets
+- define latency/throughput budgets for planner and evaluation paths (proposed)
+- define storage and hardware-profile evaluation budget expectations (proposed)
+- lock benchmark matrices for representative workload classes (proposed)
+- capture measured baselines and fallback-rate guardrails (the 2026-08 snapshot
+  records this as blocked; current environment status is unknown)
 
 ### Phase 6-7 (acceptance + integration)
 - publish only benchmark-backed performance claims
@@ -30,11 +62,11 @@ environment (vcpkg/RocksDB gap, documented in `src/evaluation/MODULE_EVIDENCE.md
 
 ---
 
-## Phase 5 Performance Guardrails (Defined)
+## Phase 5 Performance Targets (Proposed; Not Measured)
 
-### 1. Planner Decision Latency — GUARDRAIL
+### 1. Planner Decision Latency — proposed target, not measured
 
-**What:** Wall-clock time for `QueryPlanner::selectPath()` operation across all five execution paths.
+**What:** Wall-clock time for `QueryPlanner::selectPath()` in the fixed path-selection scenarios implemented by `planner_decision_bench.cc`.
 
 **Targets (latency budget for ADR E2-003 SLA):**
 - **p50:** ≤ 100 µs (fast-path typical case)
@@ -42,23 +74,27 @@ environment (vcpkg/RocksDB gap, documented in `src/evaluation/MODULE_EVIDENCE.md
 - **p99:** ≤ 1000 µs (pathological edge case with all safety checks active)
 
 **Measurement strategy:**
-- Run `planner_decision_bench.cc` with N=100,000 iterations per path.
-- Compute percentiles over the per-call wall-clock times (captured in nanoseconds).
-- Test on **representative hardware:** 2+ GHz Intel/ARM CPU, 16GB+ RAM.
-- Report latency for each of the 5 paths separately:
-  - Path 1 (ANN Only): expected ~50–150 µs
-  - Path 2 (ANN + Tensor Summary): expected ~100–300 µs
-  - Path 4 (Stale Tensor): expected ~80–250 µs
-  - Path 4 (force_exact): expected ~75–200 µs
-  - Path 5 (Distributed): expected ~200–500 µs
+- The source runs six fixed eligibility/freshness cases (ANN-only,
+  ANN-plus-tensor, stale-tensor fallback, force-exact, module-gap fallback, and
+  distributed selection), repeats `QueryPlanner::selectPath()` calls, and
+  reports avg/p50/p95/p99/min/max for each case. It has no direct Path 3 latency
+  case and does not execute downstream ANN, tensor, graph, or distributed
+  retrieval.
+- Its final nonzero regression check compares maximum p95 with 800 µs. It prints
+  p99 and a 1 ms limit but does not fail on p99. These source-level checks are
+  not measured results or a verified release gate.
+- Capture actual results on representative hardware (proposed class: 2+ GHz
+  Intel/ARM CPU, 16GB+ RAM) before comparing them to the proposed targets.
 
-**Success criteria:** All paths achieve p95 ≤ 500 µs and p99 ≤ 1000 µs. Regression threshold: if any path p95 > 800 µs (>60% regression from baseline).
+**Proposed criteria, not established by this harness:** p95 ≤ 500 µs and p99
+≤ 1000 µs. The source's implemented failure threshold is p95 > 800 µs; its p99
+limit is printed but not enforced.
 
 **Environment dependency:** Linux x86_64 with GCC 11+ / Clang 14+ (no GPU required).
 
 ---
 
-### 2. Planner Fallback Rate Benchmark — GUARDRAIL
+### 2. Planner Fallback Rate Benchmark — proposed target, not measured
 
 **What:** Fraction of planner decisions that fall back from preferred path due to module gap thresholds or eligibility mismatches.
 
@@ -71,15 +107,12 @@ environment (vcpkg/RocksDB gap, documented in `src/evaluation/MODULE_EVIDENCE.md
   - Forced exact downgrade, force_exact flag, resource exhaustion.
 
 **Measurement strategy:**
-- Run `planner_decision_bench.cc` CountingObserver over 100,000 sampled decision contexts.
-- Vary eligibility mixes to simulate real workflow distributions:
-  - Scenario 1: Full eligibility (all modules available, CUDA enabled).
-  - Scenario 2: GPU unavailable (cuda_available=false, requires fallback to CPU).
-  - Scenario 3: Distributed multi-shard (manifests available).
-  - Scenario 4: Stale tensor + artifact rebuild (forces fallback to fresh-exact).
-  - Scenario 5: Mixed module gaps (index_buffer_safety_ok=false, etc.).
-- Compute fallback rate as `(fallback_count / total_decisions) * 100%` per scenario.
-- Record which `FallbackReason` category each fallback belongs to.
+- `planner_decision_bench.cc` runs a fixed set of eligibility/freshness cases;
+  its observer counts selected paths and `ModuleGapThreshold` decisions. It does
+  not sample workflow distributions or report per-scenario fallback rates.
+- Do not infer production fallback rates from these fixed in-process cases.
+  Define representative workloads and capture their results separately before
+  evaluating the proposed rate boundaries.
 
 **Success criteria:**
 - Scenario 1 (full): ≤ 2% fallback rate.
@@ -93,7 +126,7 @@ environment (vcpkg/RocksDB gap, documented in `src/evaluation/MODULE_EVIDENCE.md
 
 ---
 
-### 3. Benchmark Matrix Throughput — GUARDRAIL
+### 3. Benchmark Matrix Throughput — proposed target, not measured
 
 **What:** Scenario × dimension matrix fill and query throughput under synthetic representative workloads.
 
@@ -108,14 +141,14 @@ environment (vcpkg/RocksDB gap, documented in `src/evaluation/MODULE_EVIDENCE.md
   - Retrieve all dimensions for one scenario.
 
 **Measurement strategy:**
-- Run `benchmark_matrix_bench.cc` via Google Benchmark with --benchmark_min_time=0.1.
-- Profile each operation separately:
-  - BM_Matrix_Record_* : measure single-entry insertion latency.
-  - BM_Matrix_Lookup_* : measure single-entry retrieval latency.
-  - BM_Matrix_FillAll_* : measure full-matrix population latency.
-  - BM_Matrix_ScenarioSlice : measure per-scenario slicing.
-- Report time/operation (ns) and ops/sec for each benchmark.
-- Memory footprint should remain < 10 MB for the full matrix.
+- Run `benchmark_matrix_bench.cc` through Google Benchmark for its
+  `BenchmarkMatrix` operations. The source also contains synthetic HNSW,
+  DiskANN, tensor, graph, commit, and routing simulations and labels them
+  non-release signals. Google Benchmark output is not p50/p95/p99 release
+  evidence for those underlying systems.
+- Capture time/operation and ops/sec for each actual matrix operation; evaluate
+  synthetic simulation cases only as smoke/overhead measurements, not as
+  production retrieval performance.
 
 **Success criteria:**
 - record() avg ≤ 1000 ns/op (1M ops/s equivalent).
@@ -127,7 +160,7 @@ environment (vcpkg/RocksDB gap, documented in `src/evaluation/MODULE_EVIDENCE.md
 
 ---
 
-### 4. Artifact Staleness Detection Overhead — GUARDRAIL
+### 4. Artifact Staleness Detection Overhead — proposed target; source not registered in EPIC 2 CMake
 
 **What:** Incremental latency overhead introduced by artifact staleness state computation and batch detection.
 
@@ -141,21 +174,19 @@ environment (vcpkg/RocksDB gap, documented in `src/evaluation/MODULE_EVIDENCE.md
 - **Rebuild identification overhead:** ≤ 10 µs per artifact
   - Filter-and-rebuild-select operation.
 
-**Measurement strategy:**
-- Run `artifact_staleness_bench.cc` via Google Benchmark.
-- Create 10, 50, 100 artifacts with varied freshness states:
-  - Fresh (age < max_staleness_ms).
-  - Stale (age > max_staleness_ms).
-  - Rebuilding (rebuild_in_progress=true).
-  - Delta-lag exceeded (delta_lag > threshold).
-- Measure per-artifact and amortized times separately.
-- Policy configurations:
-  - EmptyPolicy: no thresholds (baseline).
-  - WithAgeThreshold: single age check.
-  - WithMultipleThresholds: full age/delta/residual/rank policy.
+**Measurement strategy (proposed; no current target):**
+- The source `benchmarks/epic2_evaluation/artifact_staleness_bench.cc` exists,
+  but `benchmarks/epic2_evaluation/CMakeLists.txt` does not register it. The
+  source uses Google Benchmark to exercise `ArtifactLifecycleManager` methods,
+  including state computation and batch filtering, but do not describe it as a
+  CMake-registered runnable target until wired.
+- The source currently includes single-artifact cases and batches of 100 and
+  1000 records with selected policies/states. Add other sizes or workload
+  distributions only as an explicit benchmark change; do not imply they are
+  already measured.
 
 **Success criteria:**
-- Single artifact with full policy ≤ 50 µs (achieved at p95).
+- Proposed target: single artifact with full policy ≤ 50 µs at p95.
 - Batch of 100 artifacts amortized ≤ 50 µs per artifact.
 - No quadratic behavior (if 10 artifacts = 500 µs, 100 artifacts must be ≤ 5000 µs, not 50,000 µs).
 - Regression threshold: if any amortized time > 1.5x baseline.
@@ -164,7 +195,7 @@ environment (vcpkg/RocksDB gap, documented in `src/evaluation/MODULE_EVIDENCE.md
 
 ---
 
-### 5. Storage Strategy Efficiency — GUARDRAIL
+### 5. Storage Strategy Efficiency — proposed target; implementation status unresolved
 
 **What:** Time and memory overhead for distributed placement strategy computation and optimization.
 
@@ -178,8 +209,16 @@ environment (vcpkg/RocksDB gap, documented in `src/evaluation/MODULE_EVIDENCE.md
 - **Total end-to-end placement cycle (compute + validate + optimize):** ≤ 800 µs
   - Amortized per 32-shard artifact.
 
-**Measurement strategy:**
-- Run `storage_strategy_bench.cc` via Google Benchmark.
+**Measurement strategy (proposed):**
+- The EPIC 2 CMake file passes `storage_strategy_bench.cc` to the standard
+  benchmark helper under target name
+  `bench_epic2_evaluation_storage_strategy_bench`, when benchmark configuration
+  and the helper's prerequisites allow target creation. This is separate from
+  an evaluation-module storage-strategy implementation, which is not present in
+  the reviewed `src/evaluation` inventory.
+- The source calls the actual `DefaultShardPlacementStrategy` for compute,
+  validation and optimization, but constructs synthetic node inputs; this is
+  not a live-cluster performance measurement.
 - Test with representative shard topologies:
   - Node count: 4, 12, 24 (small, medium, large cluster).
   - Constraint modes: NO_CONSTRAINT, ACCELERATOR_PREFERRED, ACCELERATOR_REQUIRED.
@@ -197,7 +236,7 @@ environment (vcpkg/RocksDB gap, documented in `src/evaluation/MODULE_EVIDENCE.md
 
 ---
 
-### 6. Planner Error Path Overhead — GUARDRAIL (New)
+### 6. Planner Error Path Overhead — proposed target, not measured
 
 **What:** Latency impact of Category C enforcement (forced exact downgrade, resource exhaustion handling).
 
@@ -210,14 +249,15 @@ environment (vcpkg/RocksDB gap, documented in `src/evaluation/MODULE_EVIDENCE.md
   - End-to-end error handling in worst case.
 
 **Measurement strategy:**
-- Run `planner_error_path_bench.cc` (new benchmark).
-- Test error scenarios:
-  - Query exception handling disabled (query_exception_handling_ok=false).
-  - Index buffer safety check failed (index_buffer_safety_ok=false).
-  - Thread safety check failed (query_thread_safety_ok=false).
-  - Resource pool exhausted (simulated via mock).
-- Measure decision latency under each error scenario.
-- Compare against nominal path latency to isolate error overhead.
+- `planner_error_path_bench.cc` is a conditional EPIC 2 target when
+  `epic2_evaluation_lib` exists. It times in-process `selectPath()` calls for a
+  nominal case and fixed exception-handling, index-buffer, thread-safety, and
+  compound-error inputs; it reports avg/p50/p95/p99 and compares an error p95
+  with nominal p95.
+- Its implemented check returns failure when the representative error p95
+  exceeds 150 µs or its p95 overhead exceeds 50%. It does not exercise a
+  resource-pool mock or downstream execution. These are harness checks, not
+  captured results.
 
 **Success criteria:**
 - Error overhead ≤ 150 µs p95.
@@ -240,10 +280,12 @@ environment (vcpkg/RocksDB gap, documented in `src/evaluation/MODULE_EVIDENCE.md
 
 ## Baseline Tracking & Regression Gates
 
-- **Baseline capture:** Run full benchmark suite on reference hardware (2+ GHz x86_64, 16GB+ RAM, Linux) before release.
-- **Regression detection:** If measured value exceeds guardrail p95 by > 20%, trigger regression alert.
-- **Gate enforcement:** Benchmark gates are `release_critical` and must remain green before GA.
-- **Blocked evidence:** Current build environment lacks vcpkg/RocksDB initialization; measured baselines deferred (see `MODULE_EVIDENCE.md` justified gap).
+- **Baseline capture proposal:** Run the relevant registered benchmarks on
+  recorded reference hardware before making a release comparison.
+- **Regression detection proposal:** Compare measured values against an
+  accepted baseline; no alerting integration is established by this document.
+- **Gate enforcement:** Any release-critical status must be confirmed from current root governance/CI configuration; this document alone does not establish gate enforcement.
+- **Historical blocker:** The vcpkg/RocksDB validation issue recorded in `MODULE_EVIDENCE.md` is dated 2026-08 and must not be presented as the current environment state.
 
 ## Non-Goals (Current Stage)
 

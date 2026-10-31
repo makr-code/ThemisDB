@@ -1,14 +1,16 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot"
+AI_Contributor: "GitHub Copilot; OpenAI ChatGPT/themisdb-doc-orchestrator"
 Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
+
+> Exact model backend not verifiable from final document text alone.
 
 # Evaluation Implementation Guide
 
@@ -29,6 +31,12 @@ Test executables have additional build prerequisites; their registration is
 conditional. Confirm that the target exists in the configured build before
 relying on a test or optional library.
 
+The public-path `include/evaluation/evaluation.h` currently includes no
+component declarations. Component headers listed by the module CMake file are
+installed to `include/evaluation` only as part of the relevant install step;
+header-path presence alone does not establish that the matching implementation
+is linked.
+
 ## Implementation responsibilities
 
 | Surface | Implementation responsibility | Contract to preserve |
@@ -40,6 +48,20 @@ relying on a test or optional library.
 | `query_planner.cc` | Policy-based execution-path selection | Return a typed path and reason; exact graph is the safe fallback; do not treat tensor output as truth |
 | `approximation_rules.cc` | Zone, exactness, and policy-boundary decisions | Deny or escalate unsafe truth-bearing and Category C requests; retain policy-version context |
 | `artifact_lifecycle.cc` | Lifecycle state computation and metadata transitions | Make stale, invalidated, rebuilding, and failed states distinguishable |
+
+`src/evaluation/CMakeLists.txt` has no storage-strategy source or target. The
+separately located `benchmarks/epic2_evaluation/artifact_staleness_bench.cc`
+exists, but `benchmarks/epic2_evaluation/CMakeLists.txt` does not register it.
+That directory declares planner-decision and planner-error-path executables
+when `epic2_evaluation_lib` is available, a matrix target when Google Benchmark
+and `themis_evaluation` are available, and passes the storage-strategy source
+to the standard benchmark helper (with its CTest wrapper if the target exists).
+The unregistered artifact-staleness source exercises `ArtifactLifecycleManager`
+through Google Benchmark. The planner harnesses time in-process `selectPath()`
+calls and report latency percentiles; the matrix source includes explicitly
+synthetic workload simulations; and the storage harness calls
+`DefaultShardPlacementStrategy` with synthetic node inputs. These target
+declarations and output capabilities are not execution evidence.
 
 `query_planner.h` documents five path identifiers: ANN-only, ANN with tensor
 summary, ANN with tensor and exact graph validation, direct exact graph, and

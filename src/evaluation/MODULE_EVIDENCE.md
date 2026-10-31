@@ -1,14 +1,61 @@
 # Evaluation Module - Build and Test Evidence
 
-<!-- Status: current | validated: 2026-07-29 -->
+> **Update provenance (2026-10-31):** AI_Used: true; AI_Models: unknown;
+> AI_Contributor: OpenAI ChatGPT; Human_Review: false; Human_Author: ThemisDB
+> Contributors. Exact model backend not verifiable from final document text alone.
+
+<!-- Historical execution evidence below; current scoped source audit: 2026-10-31 -->
 <!-- Issue: #5643 (Development Status 2026-07-18) -->
 <!-- Links: ROADMAP.md · FUTURE_ENHANCEMENTS.md · README.md · PRODUCTION_REQUIREMENTS.md -->
 
+## Current Source and Registration Review (2026-10-31, issue #7344)
+
+This section records source/CMake presence only. No build, test, or benchmark was
+run for the documentation-only update; none of the registrations below is
+presented as a passing execution result.
+
+- `src/evaluation/CMakeLists.txt` lists five sources in `themis_evaluation`:
+  `benchmark_matrix.cc`, `hardware_profile.cc`, `retrieval_metrics.cc`,
+  `ablation_framework.cc`, and `artifact_lifecycle.cc`. Query planning and
+  approximation are separately gated targets; artifact lifecycle has an
+  additional conditional target. There is no storage-strategy source/target in
+  this module CMake file.
+- `tests/evaluation/CMakeLists.txt` globs five local test files. Four focused
+  tests add their corresponding module implementation sources; the
+  high-cardinality stress test uses local stubs.
+- `tests/epic2_evaluation/CMakeLists.txt` declares hardware-profile, planner,
+  approximation, matrix, metrics, lifecycle, ablation and query-cache tests
+  under separate target/dependency conditions.
+- `benchmarks/evaluation/CMakeLists.txt` discovers the local dedicated-gates
+  benchmark only when benchmarks are enabled. Its cases are stub-based and the
+  source does not calculate p50/p95/p99 percentiles.
+- `benchmarks/epic2_evaluation/CMakeLists.txt` returns unless
+  `THEMIS_BUILD_BENCHMARKS` is enabled. It declares planner-decision and
+  planner-error-path executables when `epic2_evaluation_lib` exists; the matrix
+  executable requires Google Benchmark and `themis_evaluation`; and it passes
+  the storage-strategy source to the standard benchmark helper, registering its
+  CTest wrapper if that target exists. The artifact-staleness source is not
+  registered there, although it exercises `ArtifactLifecycleManager` using
+  Google Benchmark. The planner harnesses report percentiles for in-process
+  planner calls; the matrix source labels its workload simulations synthetic
+  and non-release evidence; the storage harness calls
+  `DefaultShardPlacementStrategy` with synthetic node inputs. These are source
+  behaviors, not benchmark results for this update.
+- `include/evaluation/evaluation.h` currently contains no component includes.
+
+The root `ROADMAP.md` aggregate currently labels evaluation EPIC 2 complete and
+lists storage strategy. That claim and its test-count summary are not reconciled
+with the module-local source/build evidence above. See [ROADMAP.md](./ROADMAP.md)
+and [AUDIT.md](./AUDIT.md); the root file was not changed because it is outside
+the requested scope.
+
+The dated evidence and blocker notes below are retained as historical records.
+Their 2026-07/2026-08 environment state and target inventory must not be read as
+current validation results.
+
 ## Evidence Summary
 
-This document tracks the current evidence state for the evaluation module status issue
-and records both the canonical issue snapshot and the current-environment validation
-attempt performed during this refresh.
+Historical issue #5643 snapshots and validation attempts are retained below.
 
 ## Canonical Snapshot (from issue context, validated 2026-07-18)
 

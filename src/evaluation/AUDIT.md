@@ -1,10 +1,44 @@
 # Audit Report - Evaluation Module
 
-<!-- Status: current | validated: 2026-07-29 -->
+> **Update provenance (2026-10-31):** AI_Used: true; AI_Models: unknown;
+> AI_Contributor: OpenAI ChatGPT; Human_Review: false; Human_Author: ThemisDB
+> Contributors. Exact model backend not verifiable from final document text alone.
+
+<!-- Historical audit snapshot: validated 2026-07-29; see current scoped review below -->
 <!-- Issue: #5643 (Development Status 2026-07-18) -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · MODULE_EVIDENCE.md · PRODUCTION_REQUIREMENTS.md -->
 
+## Current Scoped Documentation Audit (2026-10-31)
+
+This source/CMake review was performed for documentation issue #7344. It was
+not a code security audit and did not configure or run a build, test, or
+benchmark.
+
+| Surface | Source/CMake finding |
+|---|---|
+| Module implementation | Seven `.cc` files are present. `themis_evaluation` lists five; query planning and approximation are separate conditional libraries; artifact lifecycle is also declared as a conditional library. No `storage_strategy` implementation is present in the module inventory. |
+| Local tests | `tests/evaluation/CMakeLists.txt` globs five `test_*.cpp` files, including one stub-only stress test. Registration does not prove execution. |
+| EPIC 2 tests | `tests/epic2_evaluation/CMakeLists.txt` declares additional tests behind target/dependency conditions. Its registrations are not equivalent to a passing run. |
+| Local benchmark | `benchmarks/evaluation/bench_evaluation_dedicated_gates.cpp` benchmarks in-process stubs, not evaluation implementations. |
+| EPIC 2 benchmarks | Separate CMake: planner decision/error targets require `epic2_evaluation_lib`; matrix requires Google Benchmark plus `themis_evaluation`; storage source goes through the standard benchmark helper. Artifact-staleness exercises `ArtifactLifecycleManager` with Google Benchmark but is not registered. Planner harnesses report in-process call percentiles; matrix workload simulations are explicitly synthetic/non-release; storage calls `DefaultShardPlacementStrategy` with synthetic nodes. No measurements were made for this update. |
+| Public include entry point | `include/evaluation/evaluation.h` currently contains no component includes or declarations. |
+
+### Blocking documentation/status gap
+
+Root `ROADMAP.md` states that evaluation EPIC 2 is complete and includes
+storage strategy among delivered components. The checked module source and
+CMake do not establish that claim or its aggregate test count. Root roadmap is
+out of scope here; maintainer reconciliation is required. See
+[ROADMAP.md](./ROADMAP.md). Do not use the historical findings below as current
+validation evidence.
+
+---
+
 ## Summary
+
+The following summary and findings are a dated issue #5643 snapshot from
+2026-07-29. They are retained for audit history and are not the current
+source/CMake assessment above.
 
 | Metric | Result |
 |---|---|
