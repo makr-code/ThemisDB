@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -61,9 +61,11 @@ best-effort drain timeout; task bodies are not forcibly cancelled.
 After changes to queue limits, thread counts, server wiring, or worker behavior:
 
 1. Run focused scheduler and pool integration tests.
-2. Run the high-cardinality stress test when changing capacity or contention.
-3. Compare dedicated benchmark cases against the baseline on the same
-   configuration and representative hardware.
+2. Add or run a stress test against the production scheduler/pool when changing
+   capacity or contention; the existing high-cardinality test uses local models.
+3. Use the dedicated benchmark harness only for its local queue models. Compare
+   production-runtime benchmarks against a representative-hardware baseline
+   once that baseline is established.
 4. Confirm the host still exports rejection, shed, task-failure, and queue
    health signals as intended.
 

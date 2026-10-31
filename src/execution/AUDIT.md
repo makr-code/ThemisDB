@@ -1,65 +1,76 @@
-**Author:** ThemisDB Contributors  
-**Created:** 2026-09-21  
-**Last Updated:** 2026-09-21  
-**Status:** active
+---
+Author: "ThemisDB Team"
+Created: "2026-09-21"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
 
 # Audit Report — Execution Module
 
-## Module Identity
+## Scope and status
 
-| Field | Value |
+This review covers the execution module's source-facing documentation and
+documented contracts. The seven governance files requested by the current issue
+are present in this checkout. Earlier issue findings that list those files as
+missing are stale; this pass updates the active gap and roadmap status rather
+than treating the old report as current evidence.
+
+| Area | Evidence |
 |---|---|
-| Module | execution |
-| Source path | `src/execution/`, `include/execution/`, `tests/execution/`, `benchmarks/execution/` |
-| Audit date | 2026-09-21 |
-| Audited by | Copilot (source-verification pass) |
-| Status | Documentation drift corrected; no new implementation drift identified in touched paths |
+| Public API | `include/execution/query_scheduler.h`, `include/execution/thread_pool_manager.h` |
+| Implementation | `src/execution/query_scheduler.cpp`, `src/execution/thread_pool_manager.cpp` |
+| Focused tests | `tests/execution/test_execution_engine.cpp`, `tests/execution/test_execution_performance.cpp`, `tests/execution/test_query_compilation.cpp` |
+| Stress simulation | `tests/execution/test_execution_highcardinality_stress.cpp` |
+| Benchmark harness | `benchmarks/execution/bench_execution_dedicated_gates.cpp` |
+| Server lifecycle | `include/server/http_server.h`, `src/server/http_server.cpp` |
 
-## Summary
+## Source-aligned behavior
 
-| Metric | Result |
-|---|---|
-| Core implementation reviewed | `query_scheduler.cpp`, `thread_pool_manager.cpp` |
-| Public API reviewed | `query_scheduler.h`, `thread_pool_manager.h` |
-| Focused tests reviewed | `tests/integration/test_load_balancing.cpp`, `tests/integration/test_resource_pooling.cpp`, `tests/execution/test_execution_highcardinality_stress.cpp` |
-| Benchmarks reviewed | `benchmarks/execution/bench_execution_dedicated_gates.cpp` |
-| Critical implementation findings in audited scope | None newly introduced |
-| Documentation findings addressed by this pass | Missing governance docs; stale claims about elastic scaling, active work stealing, and urgent/fairness scheduling |
+- `QueryScheduler` uses bounded admission, timeout-based backpressure,
+  low-priority shedding, earliest-deadline-first dequeue, and query-id
+  tie-breaking. Priority labels do not implement separate scheduling buckets.
+- `urgent_window_ms` and `default_sla_ms` are reserved configuration fields.
+- `WorkStealingThreadPool` starts a fixed worker set and dispatches through one
+  bounded central queue. Per-worker queue structures are not a live work path;
+  `max_threads` does not provide elastic scaling and `idle_timeout_ms` is a
+  worker wait interval.
+- Shutdown rejects new submissions. Queued scheduler entries do not expire
+  automatically, and running pool callables are not cancelled.
+- `HttpServer` conditionally constructs and tears down the primitives. This is
+  not request-level submission or an automatic scheduler-to-pool integration.
 
-## Sourcecode Verification (Module: execution)
+## Findings and validation status
 
-- Verified files:
-  - `src/execution/query_scheduler.cpp`
-  - `src/execution/thread_pool_manager.cpp`
-  - `include/execution/query_scheduler.h`
-  - `include/execution/thread_pool_manager.h`
-  - `src/server/http_server.cpp`
-  - `include/server/http_server.h`
-- Verified behavior surfaces:
-  - deadline-ordered dequeue with FIFO tie-breaking for equal deadlines
-  - bounded scheduler admission with timeout-based backpressure and low-priority shedding
-  - fixed-size worker startup, bounded central dispatch queue, graceful shutdown, and exception accounting
-  - server-side construction/teardown wiring under `THEMIS_EXECUTION_MODULE`
-- Verified evidence surfaces:
-  - scheduler behavior and metrics tests in `tests/integration/test_load_balancing.cpp`
-  - thread-pool behavior tests in `tests/integration/test_resource_pooling.cpp`
-  - stress coverage in `tests/execution/test_execution_highcardinality_stress.cpp`
-  - benchmark gates in `benchmarks/execution/bench_execution_dedicated_gates.cpp`
+- Documentation findings: the gap list incorrectly described all seven
+  governance files as absent, and the feature summary contained unsupported,
+  malformed claims. Those statements are corrected in this documentation pass.
+- The issue reports no implementation findings; this documentation-only change
+  does not alter runtime code.
+- The benchmark source uses local queue models; its names and comments are not
+  evidence of production-runtime latency, work stealing, or validated release
+  thresholds.
+- The high-cardinality stress file also exercises local stub queue/pool models,
+  not `QueryScheduler` or `WorkStealingThreadPool`.
+- The requested `ctest --preset windows-release -R execution
+  --output-on-failure` command discovered no tests in this checkout because no
+  configured test build is available. A passing CTest run and maintainer
+  acceptance therefore remain outstanding.
+- Direct Doxygen validation is tracked in the module roadmap and gap list; do
+  not infer a pass from the issue's historical status.
 
-## Findings
+## Follow-up
 
-### Resolved documentation drift
-- Earlier execution docs overstated the live implementation by describing dynamic priority promotion, fairness reservations, elastic worker retirement, and active work stealing.
-- The current source implements a simpler and smaller contract: deadline ordering, low-priority shedding, bounded central queueing, and fixed worker count.
-- Governance docs and Doxygen comments must therefore reflect the smaller live contract until future implementation work lands.
-
-### No newly introduced code defects found in the touched scope
-- The audited execution paths continue to reject submissions after shutdown.
-- Scheduler metrics and thread-pool statistics remain bounded in-memory snapshots.
-- The thread-pool implementation still intentionally catches task exceptions and counts them rather than crashing workers.
-
-## Open Review Points
-
-- Decide whether to implement true work stealing and elastic scaling or to narrow the public naming/configuration contract in a future release.
-- Re-baseline the dedicated execution benchmarks on representative release hardware before relying on them as final Wave-D evidence.
-- Keep the server integration narrative synchronized if request-path wiring begins to use these primitives directly.
+- Attach a successful focused test run from a configured build and obtain
+  maintainer sign-off before closing the documentation issue.
+- Revisit the `WorkStealingThreadPool` name and reserved configuration contract
+  if true stealing or elastic scaling is not implemented.
+- Supplemental execution Markdown files were retained because they provide
+  distinct API, implementation, embedding, operations, runbook, trust, and
+  research guidance; none qualified as stale or redundant for archival.

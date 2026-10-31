@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -70,9 +70,10 @@ integration behavior. Public signatures remain defined by the
 For scheduler changes, update and run
 `tests/integration/test_load_balancing.cpp`. For pool changes, update and run
 `tests/integration/test_resource_pooling.cpp`. Queue contention or capacity
-changes also warrant `tests/execution/test_execution_highcardinality_stress.cpp`
-and the dedicated benchmark gates. When changing server lifecycle wiring,
-inspect both `include/server/http_server.h` and
+changes should add or run tests against the production scheduler or pool. The
+high-cardinality test and dedicated benchmark use local models, so they are not
+production runtime validation. When changing server lifecycle wiring, inspect
+both `include/server/http_server.h` and
 `src/server/http_server.cpp`.
 
 Do not claim active work stealing, elastic scaling, cancellation, deadline
