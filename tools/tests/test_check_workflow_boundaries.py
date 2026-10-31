@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import os
+import json
 import sys
 import subprocess
 from pathlib import Path
@@ -445,6 +446,70 @@ def test_release_matrix_honors_sccache_backend_selection():
         workflow["jobs"]["release-platform-matrix"]["with"]["enable_sccache_gha"]
         == "${{ matrix.enable_sccache_gha }}"
     )
+
+
+@pytest.mark.parametrize(
+    ("build_matrix", "os_selector", "arch_selector"),
+    [("linux-arm64-only", "all", "all"), ("os", "linux", "arm64")],
+)
+def test_arm64_release_commands_keep_local_sccache_backend(
+    tmp_path: Path, build_matrix: str, os_selector: str, arch_selector: str
+):
+    workflows = Path(__file__).resolve().parents[2] / ".github" / "workflows"
+    matrix = yaml.safe_load((workflows / "release-build-matrix.yml").read_text(encoding="utf-8"))
+    plan = matrix["jobs"]["prepare-release-matrix"]["steps"][0]
+    output = tmp_path / "outputs"
+    env = {
+        **os.environ,
+        "BUILD_MATRIX": build_matrix,
+        "OS_SELECTOR": os_selector,
+        "ARCH_SELECTOR": arch_selector,
+        "EDITION": "community",
+        "BUILD_TYPE": "Release",
+        "PACKAGING": "auto",
+        "DISTRIBUTION": "all",
+        "RUN_NUMBER": "1",
+        "GITHUB_OUTPUT": str(output),
+    }
+    subprocess.run(["bash", "-c", plan["run"]], env=env, check=True, capture_output=True)
+    lanes = json.loads(output.read_text(encoding="utf-8").removeprefix("matrix="))["include"]
+    assert len(lanes) == 1
+    lane = lanes[0]
+    assert lane["id"] == "linux-arm64"
+    assert lane["runs_on"] == "ubuntu-24.04-arm"
+    assert lane["enable_sccache_gha"] is False
+    assert "pkg-config sccache ccache" in lane["setup_command"]
+
+    reusable = yaml.safe_load((workflows / "reusable-cmake-build.yml").read_text(encoding="utf-8"))
+    job = reusable["jobs"]["build"]
+    assert job["env"]["SCCACHE_GHA_ENABLED"] == "${{ inputs.enable_sccache_gha }}"
+    for name in ("Configure sccache environment", "Install sccache"):
+        step = next(step for step in job["steps"] if step.get("name") == name)
+        assert step["if"] == "inputs.enable_sccache_gha"
+
+    bin_dir = tmp_path / "bin"
+    bin_dir.mkdir()
+    cmake = bin_dir / "cmake"
+    cmake.write_text(
+        '#!/bin/bash\n'
+        'test "$SCCACHE_GHA_ENABLED" = false || exit 1\n'
+        'test "$CMAKE_C_COMPILER_LAUNCHER" = sccache || exit 1\n'
+        'test "$CMAKE_CXX_COMPILER_LAUNCHER" = sccache || exit 1\n'
+        'echo "local sccache backend preserved"\n',
+        encoding="utf-8",
+    )
+    cmake.chmod(0o755)
+    env.update({
+        "GITHUB_WORKSPACE": str(tmp_path),
+        "PATH": f"{bin_dir}{os.pathsep}{os.environ['PATH']}",
+        "SCCACHE_GHA_ENABLED": str(lane["enable_sccache_gha"]).lower(),
+    })
+    for command in ("configure_command", "build_command"):
+        result = subprocess.run(
+            ["bash", "-c", lane[command]], cwd=tmp_path, env=env,
+            check=True, capture_output=True, text=True,
+        )
+        assert "local sccache backend preserved" in result.stdout
 
 
 def test_custom_cmake_callers_declare_binary_directories():
