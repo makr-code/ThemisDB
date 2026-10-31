@@ -1,7 +1,7 @@
 # rpc_grpc Module — Phase 6 Acceptance Checklist
 
 <!-- Status: validated | 2026-08-06 -->
-<!-- Links: ROADMAP.md · FUTURE_ENHANCEMENTS.md · OPERATOR_RUNBOOK.md -->
+<!-- Links: ROADMAP.md · FUTURE_ENHANCEMENTS.md · RUNBOOK.md -->
 
 ## Overview
 
@@ -26,10 +26,10 @@ This document captures the Phase 6 (Documentation and Acceptance) requirements f
 
 | Item | Evidence | Status |
 |------|----------|--------|
-| TLS reload with fail-safe semantics | `src/rpc_grpc/grpc_plugin.cpp:217-305` (Phase 3 hardened) | ✅ PASS |
+| TLS reload validates, restarts, and attempts previous-config rollback | `src/rpc_grpc/grpc_plugin.cpp` (`reloadTls`) | ✅ PASS |
 | Server start lifecycle hardening | `src/rpc_grpc/grpc_plugin.cpp:75-164` (Phase 3 hardened) | ✅ PASS |
 | Server stop graceful shutdown | `src/rpc_grpc/grpc_plugin.cpp:165-192` (Phase 3 hardened) | ✅ PASS |
-| Service registration bounds checking | `src/rpc_grpc/grpc_plugin.cpp:210-238` (Phase 3 hardened) | ✅ PASS |
+| Service registration preconditions (no count limit) | `src/rpc_grpc/grpc_plugin.cpp` (`registerService`) | ✅ PASS |
 | Credential configuration fail-closed | `src/rpc_grpc/grpc_plugin.cpp:419-447` (Phase 3 hardened) | ✅ PASS |
 | SSL/TLS credential building | `src/rpc_grpc/grpc_plugin.cpp:449-496` (Phase 3 hardened) | ✅ PASS |
 | Admin port optional binding | `src/rpc_grpc/grpc_plugin.cpp:104-120` | ✅ PASS |
@@ -144,4 +144,3 @@ This document captures the Phase 6 (Documentation and Acceptance) requirements f
 **Date Completed:** 2026-08-06
 
 **Next Phase:** Human sign-off (§9) → Production release
-

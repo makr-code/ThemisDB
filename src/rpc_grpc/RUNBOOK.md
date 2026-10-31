@@ -74,14 +74,17 @@ then verify the listener is no longer reachable.
 
 `reloadTls(cert, key, ca)` returns false if the server is stopped, TLS is
 disabled, a path is empty, a file cannot be loaded, or credential construction
-fails. On these failure paths the `credentials_` member is not replaced.
+fails. Those validation failures leave the active listener untouched. After
+validation, reload drains and stops the listener before starting it with the
+new files, so plan for temporary unavailability and in-flight RPC draining.
 
-The current implementation only assigns a new credential object to the
-server's member; it does not rebuild the active gRPC listener. A true result
-does not prove that new credentials are being served. Verify the presented
-certificate from a client. If the expected certificate is not served, use the
-deployment's controlled stop/recreate/start procedure with a known-good
-configuration. Retain the previous files until verification succeeds.
+If the new listener fails to start, the method attempts to start the old
+configuration again and still returns false. If rollback fails, the server is
+left stopped; inspect `[RPC-E8302]`/`[RPC-E8306]` diagnostics and recover through
+the host's controlled start procedure. A true result means the server start
+path succeeded with the new files, but operators should still verify the
+presented certificate from a client before retiring the old files. Serialize
+reload with other lifecycle and service-registration calls.
 
 ## Request, stream, and metrics symptoms
 
@@ -106,9 +109,10 @@ the host's normal shutdown sequence to finish; if it does not, collect logs
 and process diagnostics before applying the deployment's approved forced-stop
 procedure.
 
-For rollback, restore the last known-good plugin binary and configuration
-together, then recreate the server through the host. Do not assume a TLS
-reload or a configuration-file edit updates an already-built listener.
+For rollback after a failed reload, the method attempts to restart using its
+previous configuration. If it reports that both the new start and rollback
+failed, restore the last known-good plugin binary and configuration together,
+then recreate the server through the host.
 
 ## Escalation
 

@@ -52,8 +52,13 @@ Out of scope:
 - when TLS is enabled, missing or unreadable TLS files reject initialization
   and credential setup failures reject startup; when TLS is disabled, the
   implementation explicitly selects insecure credentials.
+- TLS reload drains and restarts the listener with validated replacement
+  credentials; this causes downtime and attempts to restore the prior
+  configuration if the new listener fails to start.
 - server lifecycle transitions (init/start/stop) are deterministic.
-- service registration and stream adapter paths expose explicit outcomes.
+- service registration rejects null, late, and duplicate pointers but has no
+  service-count cap. Rejections are reported through diagnostics because the
+  interface returns void; stream adapter paths expose explicit outcomes.
 - observability helpers provide method-level counters and an optional log sink;
   they do not install an HTTP metrics endpoint or automatic request interceptor.
 

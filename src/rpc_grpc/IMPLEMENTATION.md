@@ -41,7 +41,8 @@ request an OS-selected port. The method does not validate all generic
 
 `start` configures the main listener's credentials, adds supported keepalive
 arguments, optionally adds the insecure `admin_port` listener, registers
-service pointers, and applies 100 MiB send/receive message-size limits. With no
+service pointers, and applies the shared 100 MiB send/receive message-size
+limits. With no
 registered services it creates an idle completion queue, allowing the server
 builder to start without a service. A null service pointer causes start to
 fail if one is already present in the internal service list; the public
@@ -62,14 +63,18 @@ certificate; application-level authorization is outside this class. If TLS is
 disabled, the code deliberately returns insecure credentials and logs a
 warning—this is not a TLS configuration fallback.
 
-`reloadTls` requires a running server, TLS enabled, and non-empty new paths. It
-loads all three files and constructs a new credential object before assigning
-it to `credentials_`; errors return false and leave the member unchanged.
-However, the implementation does not rebuild or replace the already running
-gRPC listener after that pointer assignment. A true return therefore proves
-that the new credential object was constructed and stored, not that an active
-listener has begun using it. Treat live certificate rotation as unverified;
-confirm the served certificate from a client or use a controlled server restart.
+`reloadTls` requires a running TLS server and non-empty new paths. It reads all
+three files and constructs credentials before stopping the listener, so
+validation failures leave the active listener untouched. It then drains and
+stops that listener and starts a replacement using the new file paths. A true
+return means the new `BuildAndStart()` completed successfully. If the new start
+fails, the method restores the old configuration and attempts to restart it;
+if that rollback also fails, the server remains stopped. This is a disruptive
+restart, not an in-place or zero-downtime rotation. Hosts must serialize
+`reloadTls` with `initialize`, `start`, `stop`, and service registration.
+
+The plugin stores service pointers without owning them, rejects null, late, and
+duplicate-pointer registrations, and does not impose a service-count limit.
 
 ## Configuration applied by this implementation
 
@@ -107,7 +112,8 @@ underlying stream. Callers must coordinate stream lifetime and cancellation.
 Use the existing test cases rather than adding a second behavioral test layer:
 
 - lifecycle and TLS startup: [`tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp`](../../tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp)
-- integration and stress paths: [`tests/rpc_grpc/test_rpc_grpc_integration_focused.cpp`](../../tests/rpc_grpc/test_rpc_grpc_integration_focused.cpp), [`tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp`](../../tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp)
+- TLS listener restart and integration paths: [`tests/rpc_grpc/test_rpc_grpc_integration_focused.cpp`](../../tests/rpc_grpc/test_rpc_grpc_integration_focused.cpp)
+- local registry and stream stress harness: [`tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp`](../../tests/rpc_grpc/test_rpc_grpc_highcardinality_stress.cpp); it does not test `GRPCServer::registerService`
 - stream adapter: [`tests/test_bidi_stream_adapter.cpp`](../../tests/test_bidi_stream_adapter.cpp)
 - metrics/access log: [`tests/test_grpc_observability.cpp`](../../tests/test_grpc_observability.cpp)
 

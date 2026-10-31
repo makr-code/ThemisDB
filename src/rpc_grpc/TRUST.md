@@ -58,10 +58,11 @@ registration operations.
 - The admin listener remains insecure even when the main listener uses TLS.
   Do not bind it to a reachable interface unless network controls prevent
   untrusted access.
-- The source's `reloadTls` method stores a newly built credential object but
-  does not replace the credentials of an already-created listener. Confirm
-  rotation by observing a client handshake; use a controlled restart if the
-  served certificate remains unchanged.
+- `reloadTls` stops and drains the current listener, then starts a replacement
+  with the new credentials. This creates downtime. If the replacement fails,
+  the old configuration is restarted when possible; if rollback also fails,
+  the listener remains stopped. Verify the served certificate from a client
+  before retiring the previous credential files.
 - Error messages can include file paths. Keep path names free of embedded
   secrets and restrict log access.
 
@@ -83,9 +84,10 @@ remote health or metrics guarantees.
 For suspected exposure, isolate or remove the insecure admin listener and
 restrict ingress to the main listener while preserving encrypted transport.
 For key compromise, follow the deployment's secret-rotation procedure, stage
-replacement material with restrictive permissions, recreate the server, and
-verify the certificate from a client before deleting prior material. Preserve
-sanitized logs and configuration metadata; do not attach private keys.
+replacement material with restrictive permissions, use the listener-restart
+reload or a controlled host restart, and verify the certificate from a client
+before deleting prior material. Preserve sanitized logs and configuration
+metadata; do not attach private keys.
 
 Report vulnerabilities through the project [security policy](../../SECURITY.md).
 Operational steps are in [`RUNBOOK.md`](RUNBOOK.md); interface semantics are

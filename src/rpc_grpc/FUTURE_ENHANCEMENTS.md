@@ -28,6 +28,9 @@
 ## Implementation Notes
 
 - tighten parity between credential reload and active-service safety checks.
+- define a service-count limit and observable registration failure contract
+  before introducing a runtime cap; current `registerService` has no count
+  limit and returns `void`.
 - standardize diagnostics for lifecycle/registration/stream incident classes.
 - expand resilience tests for prolonged RPC traffic and reload churn.
 - broaden benchmark depth for additional gRPC transport workflows.

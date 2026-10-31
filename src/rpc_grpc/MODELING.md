@@ -94,16 +94,14 @@ not maintain a time-based sliding window.
 
 The API contract header is useful for intended invariants, but it must not be
 mistaken for proof that each invariant is wired into the runtime. For example,
-the contract header declares a 4 MiB receive limit, while `GRPCServer::start`
-sets both send and receive limits to 100 MiB. The runtime source and tests are
-the evidence for current behavior; update both sources together when changing
-that boundary.
+the contract header and `GRPCServer::start` now share 100 MiB send and receive
+limits. The runtime consumes these constants directly; update the shared
+defaults and boundary test together if the limit changes.
 
-The module roadmap also describes registration bounds. The current
-`registerService` implementation rejects null pointers, late registration,
-and duplicate pointers, but does not enforce a service-count limit. Treat that
-roadmap claim as unresolved source/documentation drift rather than a runtime
-guarantee.
+`registerService` rejects null pointers, late registration, and duplicate
+pointers, but does not enforce a service-count limit. This distinction is
+reflected in the roadmap; the high-cardinality stress fixture uses a separate
+local registry and is not evidence of a plugin registration cap.
 
 See [`ARCHITECTURE.md`](ARCHITECTURE.md), [`IMPLEMENTATION.md`](IMPLEMENTATION.md),
 and [`TRUST.md`](TRUST.md) for related boundaries.

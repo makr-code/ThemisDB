@@ -44,17 +44,18 @@ runtime call path.
 | `createPlugin()` / `destroyPlugin()` | C-linkage plugin factory/destructor defined by `grpc_plugin.cpp`. |
 | `GRPCServer::initialize(config)` / `start()` / `stop()` | Configures and controls one gRPC server instance; check `initialize` and `start` results. |
 | `registerService(void*)` | Expects a `grpc::Service*`; registration is pre-start and the server does not own the service. |
-| `reloadTls(cert, key, ca)` | Returns false on validation/build error. A true result only confirms the new credential object was stored; active-listener replacement is not implemented. |
+| `reloadTls(cert, key, ca)` | Validates new credentials, stops/drains the listener, and starts it with the replacement files. Returns true only when that restart succeeds. If the new start fails, it attempts to restore the previous listener configuration; failed rollback leaves the server stopped. |
 | `getMetricsText()` / `setAccessLogSink()` | Provides an in-process metrics snapshot and optional callback, not an HTTP endpoint. |
 
 `registerService` has a `void` return type. Null pointers and calls after
 start are rejected by diagnostic messages, not an error result. Registering
-the identical service pointer twice is a no-op.
+the identical service pointer twice is a no-op. Registration is not capped by
+service count; the separate descriptor type in the contract header does not
+add a runtime bound.
 
-The roadmap describes bounded service registration, but the current
-`GRPCServer::registerService` implementation has no service-count cap. Treat
-that planned/recorded bound as unresolved documentation drift, not an API
-guarantee.
+Lifecycle operations, including `reloadTls`, must be serialized by the host.
+Reload temporarily makes the listener unavailable while in-flight RPCs drain
+and the server rebinds; it is not zero-downtime rotation.
 
 ## Configuration
 
@@ -82,10 +83,9 @@ listener uses insecure credentials on the configured host.
 
 ## Message size and contract notes
 
-`GRPCServer::start` sets both gRPC send and receive message limits to 100 MiB.
-The separately published `rpc_grpc_api_contract.h` declares a 4 MiB receive
-constant. This mismatch is a contract/documentation issue: callers must not
-infer the live server limit from that constant until the sources are reconciled.
+`GRPCServer::start` uses the shared contract constants for a 100 MiB maximum
+send message and a 100 MiB maximum receive message. The values in
+`rpc_grpc_api_contract.h` are now the same constants consumed by the runtime.
 
 ## Stream adapter
 

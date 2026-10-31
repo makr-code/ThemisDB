@@ -63,9 +63,13 @@ as `rpc_grpc/...` because in-tree builds expose `src/` on the include path.
   not silently downgrade to insecure credentials.
 - If TLS is disabled, the module logs an explicit security warning and runs
   insecure transport.
-- Message-size limit is 100 MiB for both receive and send.
-- `reloadTls()` updates credentials for future connections only; existing
-  sessions continue with already negotiated parameters.
+- Message-size limits are 100 MiB for both receive and send, shared with the
+  runtime through `rpc_grpc_api_contract.h`.
+- `reloadTls()` drains and restarts the listener with the replacement
+  credentials. The operation has downtime and attempts to restore the prior
+  configuration if the replacement listener fails to start.
+- Service registration is pre-start and deduplicates identical service
+  pointers; the runtime does not enforce a service-count limit.
 - `recordRPC()`-based metrics are manual instrumentation hooks; metrics are empty
   until at least one RPC is recorded.
 - Access logs are sink-driven JSON lines; no sink means no log emission.

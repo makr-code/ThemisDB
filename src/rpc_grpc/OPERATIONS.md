@@ -78,9 +78,11 @@ Use [`RUNBOOK.md`](RUNBOOK.md) for failure triage. In brief:
 
 ## Recovery constraints
 
-- Failed TLS reload returns false and leaves the stored credential member
-  unchanged. A successful return is not proof of active-listener rotation;
-  verify the certificate from a client or recreate the listener.
+- TLS reload is a disruptive listener restart. Validation errors leave the
+  listener unchanged; failure to start with new files triggers an attempt to
+  restore the old configuration. If that rollback fails, the server remains
+  stopped. Verify the presented certificate from a client before retiring old
+  credential files.
 - `stop()` has no module-configurable shutdown deadline. A forced process stop
   belongs to the host's approved deployment procedure.
 - The optional admin listener uses insecure gRPC credentials. Isolate it with

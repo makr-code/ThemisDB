@@ -5,7 +5,7 @@
  * @file test_rpc_grpc_integration_focused.cpp
  * @brief gRPC plugin integration tests: server start, loopback call, graceful shutdown.
  *
- * Test IDs: GRPC-INT-01 through GRPC-INT-08
+ * Test IDs: GRPC-INT-01 through GRPC-INT-09
  *
  * These tests exercise the GRPCServer and GRPCPlugin lifecycle without
  * requiring a real network connection.  When gRPC is available, a loopback
@@ -25,6 +25,7 @@
 #include "plugins/rpc_plugin_interface.h"
 
 #include <chrono>
+#include <filesystem>
 #include <string>
 #include <thread>
 
@@ -162,6 +163,44 @@ TEST(GrpcPluginIntegration, INT07_StartStopCycle) {
     } else {
         EXPECT_FALSE(server.isRunning());
     }
+#endif
+}
+
+// ============================================================================
+// GRPC-INT-09 — TLS reload restarts the listener with validated credentials
+// ============================================================================
+
+TEST(GrpcPluginIntegration, INT09_TlsReloadRestartsListener) {
+#if defined(THEMIS_ENABLE_GRPC)
+    const auto repository_root =
+        std::filesystem::path(__FILE__).parent_path().parent_path().parent_path();
+    const auto certificate_dir = repository_root / "tests" / "data" / "certificates";
+
+    RPCServerConfig config = makeLoopbackConfig();
+    config.tls_enabled = true;
+    config.auth_required = false;
+    config.tls_cert_path = (certificate_dir / "test_cert.pem").string();
+    config.tls_key_path = (certificate_dir / "test_key_2048.pem").string();
+    config.tls_ca_cert_path = (certificate_dir / "ca_cert.pem").string();
+
+    GRPCServer server;
+    ASSERT_TRUE(server.initialize(config));
+    ASSERT_TRUE(server.start());
+
+    EXPECT_TRUE(server.reloadTls(
+        (certificate_dir / "test_cert_3072.pem").string(),
+        (certificate_dir / "test_key_3072.pem").string(),
+        (certificate_dir / "ca_cert.pem").string()));
+    EXPECT_TRUE(server.isRunning());
+
+    EXPECT_FALSE(server.reloadTls(
+        (certificate_dir / "missing_cert.pem").string(),
+        (certificate_dir / "missing_key.pem").string(),
+        (certificate_dir / "missing_ca.pem").string()));
+    EXPECT_TRUE(server.isRunning());
+    server.stop();
+#else
+    GTEST_SKIP() << "TLS reload requires the gRPC runtime";
 #endif
 }
 
