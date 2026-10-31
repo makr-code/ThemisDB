@@ -1,71 +1,33 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-# LLM Wiki Module — Public Headers
+# LLM Wiki Public Headers
 
-**Module Path:** `include/llm_wiki/`
-**Implementation:** `../../src/llm_wiki/`
+`include/llm_wiki/` contains the public SDK contract and supporting declarations. The primary plugin interface and request/result types are in [`llm_wiki_plugin_interface.h`](llm_wiki_plugin_interface.h); status values are in [`llm_wiki_status.h`](llm_wiki_status.h).
 
-## Purpose
+## Supporting headers
 
-Public interfaces and declarations for ThemisDB's LLM-powered knowledge base and wiki integration subsystem, providing unified knowledge retrieval and semantic search capabilities.
+| Header | Declared responsibility |
+|---|---|
+| `workspace_state_manager.h` | Workspace JSON state persistence contract |
+| `process_policy_manager.h` | Process policy types and validation interface |
+| `rocksdb_wiki_store.h` | Optional RocksDB key/value store interface |
 
-## Canonical Module Documentation
+## Contract and implementation
 
-`include/llm_wiki/` contains public header contracts. Canonical module behavior, architecture, and operations docs live in `src/llm_wiki/`:
+The public header describes available operations and options. Do not assume that every declared option or operation is fully implemented by the current plugin. In particular, the current plugin query does not honor `WikiQueryOptions`, and `ingestWikipediaDump()` does not process its input. See [`../../src/llm_wiki/API.md`](../../src/llm_wiki/API.md) for the current API/implementation comparison and [`../../src/llm_wiki/README.md`](../../src/llm_wiki/README.md) for module context.
 
-- [`../../src/llm_wiki/README.md`](../../src/llm_wiki/README.md)
-- [`../../src/llm_wiki/ARCHITECTURE.md`](../../src/llm_wiki/ARCHITECTURE.md)
-- [`../../src/llm_wiki/ROADMAP.md`](../../src/llm_wiki/ROADMAP.md)
-- [`../../src/llm_wiki/FUTURE_ENHANCEMENTS.md`](../../src/llm_wiki/FUTURE_ENHANCEMENTS.md)
+## Build and integration
 
-## Header Files
+The implementation target is `themis_llm_wiki`, defined in [`../../src/llm_wiki/CMakeLists.txt`](../../src/llm_wiki/CMakeLists.txt). RocksDB linkage is optional and depends on the configured build. Use the repository CMake preset and link against the target exported by that build; the public declarations alone do not guarantee that an optional backend is enabled.
 
-| Header | Primary Class / Interface |
-|--------|--------------------------|
-| `llm_wiki_plugin_interface.h` | `ILLMWikiPlugin` contract + request/response types |
-| `llm_wiki_status.h` | Lightweight `Status` type used across plugin APIs |
-| `workspace_state_manager.h` | `WorkspaceStateManager` state persistence + recovery |
-| `process_policy_manager.h` | YAML process policy loading + validation |
-| `rocksdb_wiki_store.h` | `RocksDbWikiStore` persistent key-value storage |
-
-## Usage
-
-```cpp
-#include "llm_wiki/llm_wiki_plugin_interface.h"
-
-auto wiki_plugin = themis::llm_wiki::createWikiPlugin({
-    .index_path = "/path/to/wiki/index",
-    .semantic_search_enabled = true
-});
-
-auto workspace = wiki_plugin->createWorkspace("project_name");
-auto results = workspace->search("query", 10);
-```
-
-For full runtime usage examples (workspace management, search, synthesis), see [`../../src/llm_wiki/README.md`](../../src/llm_wiki/README.md).
-
-## Key Configuration Surface
-
-Important configuration entry points are declared in:
-
-- `llm_wiki_plugin_interface.h` (`initialize(config_json)` contract)
-- `workspace_state_manager.h` (workspace state persistence contract)
-- `rocksdb_wiki_store.h` (RocksDB-backed persistence backend)
-
-## Build
-
-```cmake
-cmake --preset release && cmake --build build/release --target themis-llm_wiki
-```
-
-## See Also
-
-- [`../../src/llm_wiki/README.md`](../../src/llm_wiki/README.md) — implementation details
-- [`../../src/llm/README.md`](../../src/llm/README.md) — LLM module integration
-- [`../../src/rag/README.md`](../../src/rag/README.md) — RAG system integration
-
-## Installation
-
-```cmake
-target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
-```
+> Exact model backend not verifiable from final document text alone.
