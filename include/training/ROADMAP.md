@@ -20,7 +20,7 @@ Tracks public training API contract stability, header coverage, and future publi
 
 ## Current Status
 
-All 15 training headers are present. Public entry points exist for LoRA and AdaLoRA adapters, TT-bridge, adapter merging, checkpoint management, incremental and data-selection training, training pipeline and interfaces, modality parsing, auto-labelling, knowledge-graph enrichment, provenance tracking, and adapter serving.
+All 21 training headers are present. Public declarations cover LoRA and AdaLoRA adapters, TT-bridge, adapter merging, checkpoint management, incremental and multi-task training, data selection, pipeline/interfaces, modality parsing, auto-labeling, knowledge-graph enrichment, provenance, adapter serving, and shared error/diagnostic/failsafe contracts.
 
 ---
 

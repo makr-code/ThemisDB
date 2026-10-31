@@ -21,7 +21,7 @@ Planned enhancements to the **public header contract** in `include/training/`. R
 ## Design Constraints
 
 - `[x]` LoRA adapter headers must define stable serialisation contracts; weight-tensor layout must remain opaque.
-- `[x]` `ITrainer` and `IDataIterator` must remain the public extension points for custom training backends and data sources.
+- `[x]` `training_interfaces.h` provides explicit checkpoint, provenance, enrichment, calibration, asynchronous pipeline, and lineage contracts; component-specific trainer/data APIs remain in their corresponding headers.
 - `[x]` Checkpoint headers must expose stable versioned save/restore contracts.
 - `[x]` Provenance headers must define immutable recording contracts; storage backends remain internal.
 
@@ -31,11 +31,12 @@ Planned enhancements to the **public header contract** in `include/training/`. R
 
 | Interface | Declared In | Consumer | Status |
 |-----------|------------|----------|--------|
-| `LoRAAdapter` config / serialise | `lora_adapter.h` | LLM serving and adapter deployment | ✅ Stable |
-| `ITrainer` train / evaluate | `training_interfaces.h` | Training pipeline orchestration | ✅ Stable |
-| `IncrementalLoRATrainer` step API | `incremental_lora_trainer.h` | Online fine-tuning services | ✅ Stable |
-| `AdapterServing` serve / register | `adapter_serving.h` | LLM adapter hot-serve | ✅ Stable |
-| `ProvenanceTracker` record API | `provenance_tracker.h` | Compliance and audit services | ✅ Stable |
+| `LoRAAdapter` configuration / serialization | `lora_adapter.h` | Adapter lifecycle and persistence | Declared |
+| `ITrainingPipeline` submit / cancel / status | `training_interfaces.h` | Asynchronous job orchestration contract | Declared |
+| `IncrementalLoRATrainer` training API | `incremental_lora_trainer.h` | Incremental adapter-training operations | Declared |
+| `ILLMRouter` and `DeployResult` | `adapter_serving.h` | Adapter traffic handoff and result reporting | Declared |
+| `ProvenanceTracker` record API | `provenance_tracker.h` | Sample lineage and provenance | Declared |
+| `ILoRACheckpointManager`, `ISampleProvenanceTracker`, `IKGEnrichmentInterface`, `IConfidenceCalibrator`, `ILineageQueryAPI` | `training_interfaces.h` | Checkpoint, lineage, enrichment, and calibration contracts | Declared |
 
 ---
 
