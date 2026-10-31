@@ -1,6 +1,19 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-05-11 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/api/FUTURE_ENHANCEMENTS.md -->
 
 # API Module — Public Header Future Enhancements
@@ -24,7 +37,7 @@ This document covers planned enhancements to the **public header contract** in `
 - `[x]` `#pragma once` guard required on every header; no include-guard macros.
 - `[x]` No implementation code in headers (exception: `constexpr` helpers, template bodies, and header-only utilities explicitly documented as such).
 - `[x]` All factory functions and error-returning methods must be `[[nodiscard]]`.
-- `[x]` Build-conditional headers (`THEMIS_ENABLE_GRPC`, `THEMIS_ENABLE_WEBSOCKET`, `THEMIS_ENABLE_OTEL`) must not be included unconditionally by other headers.
+- `[x]` gRPC and WebSocket header surfaces use `THEMIS_ENABLE_GRPC` and `THEMIS_ENABLE_WEBSOCKET`. `otlp_exporter.h` has no `THEMIS_ENABLE_OTEL` guard and includes libcurl directly.
 
 ---
 
@@ -35,35 +48,32 @@ This document covers planned enhancements to the **public header contract** in `
 | `graphql::Parser::parse()` | `graphql.h` | GraphQL HTTP handler, tests | ✅ Stable |
 | `graphql::Executor::execute()` | `graphql.h` | GraphQL HTTP handler, tests | ✅ Stable |
 | `api::GrpcApiServer::initialize() / start() / stop()` | `grpc_server.h` | gRPC bootstrap | ✅ Stable |
-| `api::ThemisDBServiceFactory::build()` | `themisdb_grpc_service_factory.h` | gRPC wiring | ✅ Stable |
+| `api::ThemisDBGrpcServiceFactory::build()` | `themisdb_grpc_service_factory.h` | gRPC wiring | ✅ Stable |
 | `api::WsChangeHandler::validate()` | `ws_handler.h` | WebSocket upgrade path | ✅ Stable |
 | `api::TracingMiddleware::processRequest()` | `tracing_middleware.h` | HTTP middleware pipeline | ✅ Stable |
-| `api::RateLimiter::allow()` | `rate_limiter.h` | All request handlers | ✅ Stable |
-| `api::AuditLogger::log()` | `audit_logger.h` | Security event path | ✅ Stable |
+| `graphql::RateLimiter::allow()` | `rate_limiter.h` | Caller-selected request paths | ✅ Stable |
+| `graphql::AuditLogger::log()` | `graphql_audit_logger.h` | Security event path | ✅ Stable |
 | `api::OtlpExporter::enqueue()` | `otlp_exporter.h` | Tracing middleware | ✅ Stable |
 | `api::IGRPCBridge::registerService()` | `grpc_bridge.h` | gRPC service registry | ⚠️ Interface only — no concrete impl |
-| `api::QueryAllowList::isAllowed()` | `persisted_queries.h` | Query validation path | ⚠️ `enabled_=false` by default |
+| `graphql::QueryAllowList::isAllowed()` | `persisted_queries.h` | Caller-owned query validation | ⚠️ Membership check; `enabled_` is separate state |
 
 ---
 
 ## Planned Header Enhancements
 
-### 1. `graphql.h` — Fragment and Directive Support
+### 1. `graphql.h` — Remaining Fragment and Directive Syntax
 
 **Priority:** Medium
 **Target Version:** v2.1.0
 **Tracks:** `src/api/FUTURE_ENHANCEMENTS.md` — GraphQL Schema Completion section
 
-The `Parser` class documents "Not yet supported: Fragments, Directives, Inline fragments." Adding these requires new public types:
+The current parser already reads fragment definitions and expands named fragment spreads that
+appear after their definition. It also parses the field directives `@include` and `@skip`.
+Inline fragments and other directives are rejected. Any extension must preserve the existing
+`FragmentDefinition` and `Field::Directive` representations.
 
 ```cpp
-// New types in graphql.h
-struct FragmentDefinition {
-    std::string name;
-    std::string on_type;
-    SelectionSet selection_set;
-};
-
+// Potential representation for the remaining inline-fragment syntax.
 struct InlineFragment {
     std::string on_type;           // empty = applies to any type
     SelectionSet selection_set;
@@ -71,9 +81,12 @@ struct InlineFragment {
 };
 ```
 
+TODO: Confirm the required type-condition and directive semantics before finalizing a public AST
+contract; the current source does not establish those semantics.
+
 **Acceptance criteria:**
-- `Parser::parse()` no longer rejects queries containing `fragment Foo on Bar { ... }` or `... on Bar { ... }`.
-- `Document` carries a `fragments` map; inline fragments are embedded in `SelectionSet`.
+- `Parser::parse()` continues to accept named fragments and `@include`/`@skip`, and supports inline fragments under an explicitly defined contract.
+- `Document` preserves fragment definitions and execution behavior without changing existing named-fragment handling.
 - Existing callers that do not use fragments are unaffected.
 
 ---
@@ -130,36 +143,31 @@ private:
 **Target Version:** v2.1.0
 **Tracks:** `src/api/FUTURE_ENHANCEMENTS.md` — Security/Reliability section
 
-`QueryAllowList` defaults to `enabled_ = false`. A startup warning must be emitted when the allow-list is disabled in a production build.
+`QueryAllowList` defaults to `enabled_ = false`. The current `isAllowed()` method checks set
+membership independently of that flag, and no public method couples the flag to enforcement.
+Define and verify the production call-site contract before adding a startup warning or describing
+the flag as a security control.
 
 **Header change:**
 ```cpp
 // In QueryAllowList:
-/// Enable or disable allow-list enforcement.
-/// @warning Production builds should call setEnabled(true) to prevent ad-hoc query injection.
-///          A THEMIS_WARN is emitted at startup if disabled in a NDEBUG build.
+/// Set the allow-list enabled-state flag.
+/// TODO: Define how this flag participates in request enforcement before documenting it as a control.
 void setEnabled(bool enabled);
 [[nodiscard]] bool isEnabled() const noexcept;
 ```
 
 ---
 
-### 5. `grpc_server.h` — `GrpcServerConfig::max_message_size_bytes` Runtime Knob
+### 5. `grpc_server.h` — Runtime Message-Size Configuration (Implemented)
 
 **Priority:** Low
 **Target Version:** v2.1.0
 **Tracks:** `src/api/FUTURE_ENHANCEMENTS.md` — gRPC API Surface section
 
-`GrpcServerConfig::max_message_size_bytes` is currently a compile-time constant. Exposing it as a runtime configuration field allows operators to tune without recompilation.
-
-**Header change:**
-```cpp
-struct GrpcServerConfig {
-    // ...existing fields...
-    /// Maximum gRPC message size in bytes. Default: 4 MiB. Set via config key grpc.max_message_size_mb.
-    int max_message_size_bytes = 4 * 1024 * 1024;
-};
-```
+`GrpcServerConfig::max_message_size_bytes` is already a runtime field with a 100 MiB default.
+`GrpcApiServer` reads `grpc.max_message_size_mb` from `config/networking/grpc.yaml`; invalid
+values are normalized by the implementation. No additional public-header field is pending.
 
 ---
 
@@ -187,7 +195,7 @@ struct GrpcServerConfig {
 
 ## Security / Reliability
 
-- `[ ]` `QueryAllowList::enabled_ = false` by default; see enhancement #4 above for the production activation plan.
+- `[!]` `QueryAllowList::enabled_` defaults to false, but `isAllowed()` does not consult it; establish and verify a production enforcement call site before treating it as a security control.
 - `[x]` `RateLimiter::allow()` uses `std::shared_mutex` (shared for reads, exclusive for writes) — no nested lock contention.
 - `[x]` `AuditLogger::log()` copies handlers under lock and invokes them outside the critical section.
 - `[x]` `GrpcApiServer::start()` releases mutex before `BuildAndStart()`; `stop()` applies a 30-second deadline.
