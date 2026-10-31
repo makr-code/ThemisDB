@@ -1,85 +1,80 @@
 ---
-Author: "ThemisDB Team"
+Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
 Human_Review: false
-Human_Author: "ThemisDB Team"
+Human_Author: "ThemisDB Contributors"
 ---
 
 Exact model backend not verifiable from final document text alone.
 
-# Config Module Runbook
+# Config Module Triage Notes
 
 ## Purpose and safety
 
-Use this runbook to triage path-resolution, validation, watcher, metrics, audit,
-and encrypted-store incidents. It covers the config module only; coordinate
-changes to live application settings with the owning service. Do not disable
-authorization, switch secrets to plaintext, or treat a failed resolution as
-permission to continue.
+These are diagnostic boundaries for `src/config`, not a replacement for the
+owning service's recovery/runbook or project security process. Do not include
+plaintext secrets or serialized encrypted-store snapshots in general logs or
+tickets. A resolver miss or validation failure is not authorization to continue.
 
-## Triage by symptom
+## Path lookup returns no result
 
-### A required config file cannot be found
+1. Capture the requested path and, if using `resolve()`, the attempted paths
+   exposed by `ConfigNotFoundException`. Redact sensitive path components as
+   required by the service's logging policy.
+2. Check active `ConfigPathResolver::getEnvironment()` and filesystem access.
+   `THEMIS_CONFIG_ENV` is read at process initialization; absent or unrecognized
+   values select production.
+3. Check whether a mapping exists with `isLegacyPath()` and inspect the
+   resolver's metrics/deprecation report. A legacy mapping is a candidate path,
+   not proof that the corresponding file exists.
+4. Correct the source path or deployment input, then confirm the consuming
+   service successfully loads and validates the expected file.
 
-1. Record the caller's requested path and the attempted paths exposed by
-   `ConfigNotFoundException`; avoid including secret values in tickets or logs.
-2. Confirm the deployment's `THEMIS_CONFIG_ENV` is intended (`dev`, `staging`,
-   or `prod`). Unknown values default to production; production does not use an
-   environment overlay.
-3. Check filesystem existence, ownership, permissions, and the expected
-   legacy-to-new mapping. Use resolver counters and the deprecation report to
-   distinguish unmapped requests from legacy fallback.
-4. Correct the path or deployment setting, then re-run resolution and validate
-   the loaded config. Do not add an unreviewed compatibility mapping as an
-   incident workaround.
+## Validation returns errors
 
-### Validation rejects a file
+1. Inspect `ValidationResult.config_path`, `schema_path`, `errors`, and
+   `warnings`; parse/load failures and schema mismatches have different
+   diagnostic contexts.
+2. Review local `$ref` targets and the schema keywords implemented in
+   `config_schema_validator.cpp`. External references are not fetched, and
+   unsupported keywords must not be assumed to enforce a constraint.
+3. Use the owning service's approved rollback/reload path. Validate the
+   candidate before applying it.
 
-1. Collect `ValidationResult.config_path`, `schema_path`, errors, and warnings.
-2. Separate parse/load errors from schema mismatch; inspect local `$ref`
-   targets and supported schema keywords.
-3. Restore the last known-good config only through the service's approved
-   rollout procedure, and validate it before applying it.
-4. If the schema references an external URI or depends on an unsupported
-   keyword, do not assume it was fetched or enforced; escalate to the config
-   maintainer.
+## Watch notification or reload issue
 
-### Hot reload does not occur
+1. Confirm `startHotReload()` returned true and the watched path exists.
+2. Confirm the file event uses `.yaml`, `.yml`, or `.json`, and account for the
+   configured debounce interval.
+3. The resolver callback clears its path cache only. Verify separately that the
+   owning service reloaded, validated and applied the final file contents.
+4. `registerSighupHandler()` is an optional POSIX registration; the application
+   must call it. SIGHUP causes a cache clear on a later resolver call, not a
+   configuration reload. If watcher startup fails, the resolver logs that
+   SIGHUP-only fallback is available; availability still depends on application
+   registration and handling.
 
-1. Check that the watched path exists and `startHotReload()` returned true.
-   Startup failure is logged and the resolver advertises SIGHUP-only fallback.
-2. Confirm the modified file has a watched extension (`.yaml`, `.yml`, `.json`)
-   and allow for configured debounce time.
-3. Confirm the event invalidated the resolver cache, then explicitly verify
-   that the owning service reloaded and validated the file. Cache invalidation
-   alone is not evidence that new settings were applied.
-4. If needed, use the registered SIGHUP handler on supported POSIX systems to
-   clear resolver cache; it does not apply the config. Restart only if the
-   owning service's recovery procedure requires it.
+## Encrypted-store failure
 
-### Encrypted-store read or rotation fails
-
-1. Preserve the failing error class and key version. Authentication, malformed
-   metadata, and missing-key errors need different recovery actions.
-2. Stop writes if integrity is uncertain. Keep a protected copy of the exact
-   snapshot before attempting restore or rotation; serialized snapshots
-   contain key bytes.
-3. Restore only from a trusted snapshot through an approved secret-handling
-   process. Do not manually edit IV, tag, ciphertext, or key-version fields.
-4. Escalate decryption/authentication failures as potential integrity incidents.
+1. Preserve the exception type/message and key version without copying secret
+   values into logs.
+2. `get()` throws for a missing key and propagates crypto failures.
+   `tryGet()` returns `std::nullopt` only for absence and propagates crypto
+   failures as `ConfigEncryptionException`.
+3. Treat authentication failure as an integrity signal. Do not hand-edit
+   ciphertext, IV, tag, or key-version fields.
+4. Any serialized snapshot contains key bytes. Restore only through the
+   owning service's reviewed secret-handling procedure.
 
 ## Escalation
 
-Escalate repeated fallback growth, invalid-path/security signals, watcher
-startup failures across hosts, persistent schema rejection, or any
-authentication-tag/decryption failure to the config maintainer and the owning
-service's incident lead. Follow the project-level `SECURITY.md` process for
-suspected secret exposure or tampering.
-
-See [`OPERATIONS.md`](OPERATIONS.md) for routine health checks and
-[`TRUST.md`](TRUST.md) for secret and trust boundaries.
+Escalate repeated fallback use, unexpected misses, watcher startup failure,
+schema uncertainty, crypto/authentication errors, or snapshot exposure to the
+module maintainer and the owning service. Follow project-level
+[`../../SECURITY.md`](../../SECURITY.md) for suspected exposure or tampering.
+See [`OPERATIONS.md`](OPERATIONS.md) for routine component boundaries.

@@ -1,47 +1,58 @@
-# Security - Config Module
+---
+Author: "ThemisDB Contributors"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+Exact model backend not verifiable from final document text alone.
 
-Report vulnerabilities via project-level SECURITY.md.
+# Security Notes — Config Module
 
-## Security Scope
+Report vulnerabilities through the project-level
+[`SECURITY.md`](../../SECURITY.md).
 
-Security in the config module focuses on safe path resolution, robust schema validation, bounded watcher/metrics behavior, and protected storage of sensitive configuration values.
+## Scope and trust boundaries
 
-## Threat Model
+The config components receive caller-selected paths and JSON/YAML/schema
+content, observe filesystem events, and may hold encrypted-store state. They do
+not authenticate callers, authorize service actions, provide external key
+management, or define the consuming application's reload policy.
 
-| Threat | Current Mitigation Surface |
-|---|---|
-| unsafe config path usage and fallback ambiguity | controlled resolver paths with explicit mapping semantics |
-| malformed configuration payloads | schema validator and structured validation failures |
-| silent config-operational drift | metrics export and audit-log observability surfaces |
-| sensitive config exposure | encrypted-store paths and key rotation support |
-| watcher-trigger misuse under churn | bounded file-watcher and explicit update signaling paths |
+## Implemented controls and limits
 
-## Implemented Security Controls
+- The resolver normalizes paths, checks path constraints in its own code, and
+  returns an optional result or throws rather than silently reporting an
+  unavailable file as resolved. Do not infer sandboxing from path mapping.
+- The validator supports document-local `$ref`; external refs are rejected.
+  It evaluates a subset of schema keywords. Unknown formats are accepted and
+  the implementation uses simplified regular-expression checks for some
+  formats; this is not a security policy engine.
+- Watcher notification clears the resolver cache through its callback; it does
+  not reload or atomically apply settings. Debouncing may combine event bursts.
+- The resolver audit log is disabled by default and stores path metadata in
+  bounded process memory. It is not a durable, operator-attributed security
+  audit trail.
+- `ConfigEncryptedStore` uses AES-256-GCM and verifies IV/tag lengths during
+  decryption. `serialize()` contains the current key bytes (base64-encoded);
+  protect the entire snapshot as key material. This component is not an
+  external KMS.
+- `tryGet()` returns `std::nullopt` only for an absent key and propagates
+  decryption/decoding failures as `ConfigEncryptionException`.
 
-- resolver and validator paths fail with explicit structured errors.
-- audit/metrics surfaces increase visibility of config access and drift.
-- encrypted-store runtime provides bounded sensitive-value protection surfaces.
-- watcher behavior is constrained to explicit config-change pathways.
+## Verification gap
 
-## Security Follow-ups
+`include/config/config_contract.h` declares additional bounds and failure
+semantics. The contract-to-code audit found several declarations that are policy
+targets rather than enforced controls, and focused tests do not establish every
+listed limit. Do not treat those declarations as runtime protections; see the
+itemized results in [`MODULE_GAPS.md`](MODULE_GAPS.md).
 
-- continue hardening schema edge behavior and watcher race handling.
-- maintain deterministic failure taxonomy for resolver/validator/store paths.
-- keep diagnostics actionable for config and secret-handling incidents.
-
-## Sourcecode Verification (Module: config/security)
-
-- Verified files:
-  - src/config/config_path_resolver.cpp
-  - src/config/config_schema_validator.cpp
-  - src/config/config_metrics_exporter.cpp
-  - src/config/config_file_watcher.cpp
-  - src/config/config_encrypted_store.cpp
-  - src/config/config_audit_log.cpp
-- Verified controls:
-  - explicit resolver/validator failure behavior
-  - observability and audit paths for config operations
-  - bounded encrypted-store and watcher integration surfaces
+For incidents, preserve redacted diagnostics, restrict access to affected
+artifacts, and follow the owning service's response procedure and the project
+security reporting process.

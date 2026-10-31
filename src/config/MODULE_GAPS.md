@@ -1,76 +1,66 @@
-# config — MODULE_GAPS.md (Phase 5 Verified)
-
-This file documents all documentation and code quality gaps in the **config** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
-
-## Summary
-
-- **Total Gaps**: 895
-- **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
-- **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)
-
-### By Severity
-
-- **CRITICAL**: 13
-- **HIGH**: 33
-- **MEDIUM**: 847
-- **LOW**: 2
-
-### By Type
-
-- braces_imbalance: 2
-- copy_overhead: 1
-- db_connection_leak: 4
-- exception_in_destructor: 2
-- hardcoded_path: 3
-- legacy_or_compat_path: 12
-- lock_contention: 4
-- manual_cleanup: 17
-- memory_order: 1
-- missing_dtor: 4
-- missing_noexcept_on_move: 3
-- missing_volatile: 2
-- module_doc_linkset_drift: 2
-- no_timeout: 4
-- null_dereference: 5
-- path_traversal: 1
-- posix_only_api: 1
-- range_temporary: 3
-- resource_leaked_in_exception: 3
-- scope_mismatch: 797
-- size_assumption: 1
-- smart_ptr_misuse: 1
-- stale_doc_section_reference: 1
-- string_concat_loop: 2
-- todo_as_productionlogic: 12
-- unchecked_array_index: 2
-- uninitialized_access: 3
-- uninitialized_array: 2
-
-## Top 20 Gaps
-
-- [braces_imbalance] config_file_watcher.cpp:1 (CRITICAL)
-- [braces_imbalance] config_path_resolver.cpp:1 (CRITICAL)
-- [missing_dtor] config_metrics_exporter.cpp:40 (CRITICAL)
-- [missing_dtor] config_metrics_exporter.cpp:62 (CRITICAL)
-- [no_timeout] config_file_watcher.cpp:244 (CRITICAL)
-- [no_timeout] config_file_watcher.cpp:249 (CRITICAL)
-- [exception_in_destructor] config_encrypted_store.cpp:348 (CRITICAL)
-- [exception_in_destructor] config_encrypted_store.cpp:401 (CRITICAL)
-- [no_timeout] config_file_watcher.cpp:422 (CRITICAL)
-- [missing_dtor] config_file_watcher.cpp:428 (CRITICAL)
-- [missing_dtor] config_file_watcher.cpp:429 (CRITICAL)
-- [no_timeout] config_file_watcher.cpp:475 (CRITICAL)
-- [smart_ptr_misuse] config_path_resolver.cpp:1348 (CRITICAL)
-- [uninitialized_access] config_audit_log.cpp:16 (HIGH)
-- [uninitialized_access] config_metrics_exporter.cpp:16 (HIGH)
-- [memory_order] config_audit_log.cpp:53 (HIGH)
-- [db_connection_leak] config_file_watcher.cpp:86 (HIGH)
-- [posix_only_api] config_file_watcher.cpp:110 (HIGH)
-- [lock_contention] config_path_resolver.cpp:141 (HIGH)
-- [resource_leaked_in_exception] config_metrics_exporter.cpp:209 (HIGH)
-
-... and 875 more gaps.
-
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
 ---
 
-**Phase 5 Verification Notes**: External GitHub submodules (llama.cpp, whisper.cpp, vcpkg, etc.) are explicitly excluded from this analysis via Phase 5 filtering. This ensures all gaps are from themis_core (100% scope accuracy).
+Exact model backend not verifiable from final document text alone.
+
+# Config Module Gaps
+
+## Scope and evidence status
+
+This is a small, source-review gap list, not a fresh automated scanner result.
+The former counts (895 gaps from a `C:\Projects\...` scan) are stale and are
+not evidence of current findings. No current whole-repository gap scan was run.
+
+## Contract guarantee audit
+
+| Declared policy | Implementation and test evidence | Status |
+|---|---|---|
+| Config file / schema / key / value size limits | No corresponding boundary checks found in the file loaders or encrypted store. Existing hardening tests assert constants or schema `maxLength`, not global limits. | Not enforced |
+| Resolver path length limit | `validatePath()` rejects traversal, embedded NULs, and unsupported absolute paths; no length check found. | Not enforced |
+| Top-level key count, nesting depth, validation-error cap | The validator recursively evaluates schemas and appends errors; no checks against these constants found. Hardening tests for key count/depth do not assert rejection. | Not enforced |
+| Watcher intervals / operation timeout | Watcher uses platform event APIs. Constants do not configure its backend; tests mostly check constant values, and the deletion test checks continued running rather than callback delivery. | Not enforced as stated |
+| Failure classes | `ConfigFailureClass` and `isFailClosedClass()` are standalone declarations; `ConfigException` types do not carry the enum or share a classifier. | Policy only |
+| Schema behavior | Source handles `$ref`, `type`, `enum`, `const`, `allOf`, `anyOf`, `oneOf`, `not`, `required`, `properties`, `additionalProperties`, array constraints, string constraints/formats, and numeric bounds. External `$ref` is rejected. `enum` and `const` return before sibling validation; formats use regex checks, including a simplified IPv6 check. | Partial subset; not Draft 7 conformance |
+| Encrypted-store crypto | AES-256-GCM is used; decrypt validates 12-byte IV and 16-byte tag and verifies the authentication tag. Snapshot decoding does not enforce an entry-size cap. | Verified, with size limitation |
+| Key rotation | `rotateKey()` prepares new encrypted entries while holding a unique lock, then replaces key/store; prior key bytes are overwritten with `std::fill`. Reads/writes wait during rotation. | Atomic data replacement; blocking; zeroization strength not established |
+| `tryGet()` | Missing entry returns `std::nullopt`; decryption exceptions now propagate. Focused tests cover absent and corrupted-tag cases. | Resolved |
+
+## Open verification items
+
+1. Implement or formally remove the unenforced size, nesting, top-level-key,
+   validation-error, and watcher timing policies. Their constants must not be
+   treated as security limits in the meantime.
+2. Expand tests for actual watcher callback delivery and each platform backend;
+   current tests do not establish end-to-end reload/apply behavior.
+3. Build the corrected release-gate benchmark once required dependencies are
+   available, then retain results before treating labels as performance
+   evidence. Standard configuration was blocked by missing RocksDB; diagnostic
+   configuration was blocked by missing `fmt`. Focused tests are also
+   unexecuted because the test and JSON headers are unavailable.
+4. Doxygen was regenerated with Doxygen 1.9.8 and `Doxyfile.audit`: PASS for
+   config (30 C/C++ files, 104 compounds, 51 classes/structs, 15 namespaces).
+   The generated warning log contains 109 warnings, primarily duplicate
+   `@param` sections and some undocumented arguments; no generation errors
+   occurred. Raw XML and logs were kept outside the repository.
+
+## Evidence reviewed
+
+- `src/config/*.cpp`
+- `include/config/*.h`
+- `tests/config/test_config_*.cpp`
+- `tests/CMakeLists.txt`
+- `benchmarks/config/*.cpp`
+- [`IMPLEMENTATION.md`](IMPLEMENTATION.md)
+
+The table above is a source review, not a proof of runtime behavior for
+unexecuted tests. Follow-up implementation work should add boundary assertions
+and record reproducible test/build evidence.

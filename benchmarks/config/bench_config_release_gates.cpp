@@ -129,7 +129,7 @@ protected:
 BENCHMARK_DEFINE_F(ConfigValidateHotPathFixture, GATE_CFG_02_ValidateCoreSchema)
 (benchmark::State& state) {
     for (auto _ : state) {
-        auto result = ConfigSchemaValidator::validate(config_, schema_);
+        auto result = ConfigSchemaValidator::validateFromString(config_.dump(), false, schema_);
         benchmark::DoNotOptimize(result);
     }
     state.SetLabel("target: p99 ≤ 500 µs");
