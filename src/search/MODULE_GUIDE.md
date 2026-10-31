@@ -1,14 +1,27 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "GitHub Copilot"
-AI_Contributor: "GitHub Copilot"
-Human_Review: true
-Human_Author: "ThemisDB Team"
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "include/search/hybrid_search.h"
+  - "include/search/distributed_hybrid_search.h"
+  - "include/search/layered_retrieval_orchestrator.h"
+  - "cmake/ModularBuild.cmake"
+  - "tests/search/CMakeLists.txt"
+  - "tests/CMakeLists.txt"
+Related_Issue: "#7378"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
+
+Exact model backend not verifiable from final document text alone.
 
 # Search Module Guide
 
@@ -71,6 +84,10 @@ Then verify the impact on:
 - `fusion_failed`
 - `primary_error_code`
 
+The latter two fields are declared in `HybridSearch::SearchStats` but are not
+populated by the current `HybridSearch::search()` implementation; treat them
+as an open implementation gap rather than an existing behavior.
+
 ### Debugging distributed shard issues
 
 Read:
@@ -100,6 +117,12 @@ Check the fallback logic and verify the backend contract and score output remain
 - Treat degraded results as explicit states, not hidden outcomes.
 - Preserve observability when a component is partial or fallback-based.
 - Keep the public API contract in sync with the source behavior.
+
+## Build and test navigation
+
+- The root query-source list is `cmake/ModularBuild.cmake`; check that file and the target being built before assuming all search `.cpp` files are linked.
+- The current `tests/search/` directory contains focused and integration-named test sources. `tests/search/CMakeLists.txt` uses a `test_*.cpp` glob and declares `module_search_<stem>_focused` targets; `tests/CMakeLists.txt` auto-discovers and adds this module when tests are configured. Target visibility, compilation, and execution still require verification in a configured build.
+- The test source `test_search_integration_phase4.cpp` includes simulated helper scenarios; the filename “integration” alone does not establish live service/backend integration. Test definitions are not runtime evidence.
 
 ## Related docs
 

@@ -1,14 +1,26 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "GitHub Copilot"
-AI_Contributor: "GitHub Copilot"
-Human_Review: true
-Human_Author: "ThemisDB Team"
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "include/search/hybrid_search.h"
+  - "include/search/search_error_codes.h"
+  - "src/search/hybrid_search.cpp"
+  - "src/search/distributed_hybrid_search.cpp"
+  - "src/search/llm_reranker.cpp"
+Related_Issue: "#7378"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
+
+Exact model backend not verifiable from final document text alone.
 
 # Search Module Research Notes
 
@@ -42,7 +54,13 @@ The search stack assumes that a user query often contains lexical specificity an
 
 ### 2. Failure transparency matters more than perfect recall
 
-The module explicitly tracks partial-result states (`SearchStats::partial_result`, `fusion_failed`, `rerank_fallback`, `failed_shard_reasons`) rather than silently returning a best-effort score. This design preference is rooted in how the error taxonomy is defined in `include/search/search_error_codes.h` and how `HybridSearch::search()` and `DistributedHybridSearch::search()` handle backend timeouts or failures.
+`HybridSearch::search()` currently populates backend status, partial-result,
+and candidate-count fields. `fusion_failed`, `rerank_fallback`, and
+`primary_error_code` are declared in its stats struct but are not written by
+the inspected implementation. `DistributedHybridSearch` does populate shard
+counts/reasons and selected merge flags. `SearchErrorCode` is declared but is
+not referenced by the inspected search implementation files. Distinguish
+declared diagnostics from runtime-populated diagnostics.
 
 The design principle is: return the most useful data available while preserving enough metadata for the caller to understand whether the answer was degraded.
 
@@ -63,7 +81,10 @@ The module uses a pragmatic evaluation model rather than an academic benchmark-o
 - distributed search is expected to be partially degraded rather than hard-failing under shard loss
 - layer execution is bounded with timeouts and guardrails in `LayeredRetrievalOrchestrator`
 
-This aligns with the implemented contracts around `SearchErrorCode`, `SearchStats`, and the layered orchestration pipeline.
+This is a qualitative evaluation posture. No benchmark or relevance dataset
+was inspected here to substantiate comparative quality statements; the error
+taxonomy declaration should not be read as proof of runtime error-code
+integration.
 
 ## Trade-offs
 

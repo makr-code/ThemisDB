@@ -1,14 +1,29 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "GitHub Copilot"
-AI_Contributor: "GitHub Copilot"
-Human_Review: true
-Human_Author: "ThemisDB Team"
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "api-contract"
+Canonical_References:
+  - "include/search/hybrid_search.h"
+  - "include/search/distributed_hybrid_search.h"
+  - "include/search/search_result_stream.h"
+  - "include/search/layered_retrieval_orchestrator.h"
+  - "include/search/search_error_codes.h"
+  - "src/search/hybrid_search.cpp"
+  - "src/search/distributed_hybrid_search.cpp"
+  - "tests/search/CMakeLists.txt"
+Related_Issue: "#7378"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
+
+Exact model backend not verifiable from final document text alone.
 
 # Search Module API Contract
 
@@ -38,8 +53,16 @@ Contract highlights:
 
 - constructor validates configuration and may throw `std::invalid_argument`
 - `search()` is implemented as a fail-safe operation and does not propagate backend exceptions
-- the result includes `SearchStats` metadata for partial results and degradation visibility
+- `SearchStats` declares source-health, partial-result, count, and degradation fields
 - `Result` carries lexical, vector, and hybrid scoring information
+
+**Current implementation detail:** `HybridSearch::search()` writes `bm25_ok`,
+`vector_ok`, `partial_result`, `bm25_count`, and `vector_count`. The declared
+`primary_error_code`, `fusion_failed`, and `rerank_fallback` fields are not
+populated in the current `src/search/hybrid_search.cpp` path. The error enum
+exists as a public taxonomy, but the inspected search implementation files do
+not currently reference it. **TODO:** wire and test those diagnostics before
+describing them as active runtime signals.
 
 ### DistributedHybridSearch
 
@@ -58,7 +81,7 @@ Important invariants:
 
 File: `include/search/search_result_stream.h`
 
-This API provides streaming result delivery with cursor-style pagination. It keeps result materialization bounded and exposes timeout settings for long-running queries.
+This API provides cursor-style pagination over a result vector. `open()` calls `HybridSearch::search()` for `total_k` and stores that full vector; page-sized return values do not make underlying result materialization streaming or bounded to one page. The current header declares an `open_timeout_ms` setting; consult the implementation before treating it as cancellation of backend work.
 
 ### LayeredRetrievalOrchestrator
 
@@ -85,7 +108,9 @@ It is grouped into:
 - utility errors (`0x3000-0x3FFF`)
 - analytics errors (`0x4000-0x4FFF`)
 
-The string conversion helper `searchErrorCodeToString()` makes these states easier to log and interpret in deployments.
+The string conversion helper `searchErrorCodeToString()` maps declared values
+to strings. This declaration alone does not establish that the current
+`HybridSearch`/`DistributedHybridSearch` paths populate or log those codes.
 
 ## Threading and safety expectations
 
