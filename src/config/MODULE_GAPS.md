@@ -41,10 +41,16 @@ not evidence of current findings. No current whole-repository gap scan was run.
    treated as security limits in the meantime.
 2. Expand tests for actual watcher callback delivery and each platform backend;
    current tests do not establish end-to-end reload/apply behavior.
-3. Run the release-gate benchmark target and retain results before treating its
-   labels as performance evidence.
-4. Regenerate and review config Doxygen XML; this page records the result when
-   that run is completed.
+3. Build the corrected release-gate benchmark once required dependencies are
+   available, then retain results before treating labels as performance
+   evidence. Standard configuration was blocked by missing RocksDB; diagnostic
+   configuration was blocked by missing `fmt`. Focused tests are also
+   unexecuted because the test and JSON headers are unavailable.
+4. Doxygen was regenerated with Doxygen 1.9.8 and `Doxyfile.audit`: PASS for
+   config (30 C/C++ files, 104 compounds, 51 classes/structs, 15 namespaces).
+   The generated warning log contains 109 warnings, primarily duplicate
+   `@param` sections and some undocumented arguments; no generation errors
+   occurred. Raw XML and logs were kept outside the repository.
 
 ## Evidence reviewed
 

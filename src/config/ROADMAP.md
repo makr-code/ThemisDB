@@ -39,18 +39,20 @@ The previous "completed Phase 1–6" statements described contract and benchmark
 work as fully delivered without current run evidence. Completion status is
 therefore unverified and is not carried forward as a fact.
 
-1. **Design / API contract:** TODO—reconcile `config_contract.h` with code and
-   public API comments.
+1. **Design / API contract:** the contract audit and public encrypted-store
+   comments were reconciled; implementing the verified missing bounds remains
+   open.
 2. **Core implementation:** source files exist; contract-wide behavior is
    unverified.
 3. **Error handling and edge cases:** selected behavior has focused tests;
    completeness is unverified.
-4. **Tests:** focused test sources and root CMake registrations exist; run the
-   encrypted-store tests for the updated absence/error semantics.
+4. **Tests:** regression assertions cover the updated absence/error semantics,
+   but the focused test target could not be built because required dependencies
+   are unavailable in this environment.
 5. **Performance and hardening:** benchmark sources exist; measured baselines
    and pass/fail gates are unverified.
-6. **Documentation and acceptance:** this documentation set was reconciled
-   against source; human review and acceptance remain pending.
+6. **Documentation and acceptance:** source-facing docs and Doxygen evidence
+   were reconciled; human review and acceptance remain pending.
 
 ## Production Readiness Checklist
 

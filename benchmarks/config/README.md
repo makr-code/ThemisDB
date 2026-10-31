@@ -38,6 +38,9 @@ constants and the metrics-overhead case is explicitly a placeholder. See
 [`../../src/config/PERFORMANCE_EXPECTATIONS.md`](../../src/config/PERFORMANCE_EXPECTATIONS.md)
 for evidence requirements.
 
-The release-gate source also has a documented validator call/API mismatch.
-Target registration is not proof that the benchmark compiles; resolve that
-source-level gap before treating it as executable release evidence.
+The release-gate source now serializes its fixture and calls
+`ConfigSchemaValidator::validateFromString()`, matching the public API.
+Compilation remains unverified: the standard community configure requires
+RocksDB, while the diagnostic configure used for this check requires `fmt`.
+Target registration and a corrected call site do not prove that the benchmark
+compiles or provide executable release evidence.

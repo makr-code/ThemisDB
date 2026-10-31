@@ -43,11 +43,14 @@ Public headers: `include/config/*.h`. Focused test sources and registration:
   not verified for every declaration.
 - The validator implements selected schema behavior; full Draft 7 support is
   not established.
-- `ConfigEncryptedStore::tryGet()` returns `std::nullopt` both for absence and
-  caught decrypt/decoding exceptions.
+- `ConfigEncryptedStore::tryGet()` now returns `std::nullopt` only for absence
+  and propagates decrypt/decoding exceptions. Regression assertions were added
+  for corrupted authentication tags; they have not yet been executed.
 - Watcher cache invalidation does not establish consumer reload/apply success.
-- Benchmark source labels do not establish measured thresholds or passing
-  release gates; no benchmark was run for this review.
+- The release-gate benchmark's schema call now uses `validateFromString()`;
+  compilation remains unverified because the available environment lacks
+  required dependencies. Benchmark labels do not establish measured thresholds
+  or passing release gates.
 
 See [`MODULE_GAPS.md`](MODULE_GAPS.md) for the action list. No severity or
 compliance score is assigned in the absence of a current, reproducible audit

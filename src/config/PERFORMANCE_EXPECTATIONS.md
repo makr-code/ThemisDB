@@ -35,12 +35,12 @@ measurement observes contract constants and the metrics-overhead case is
 explicitly a placeholder. No `release_gate_manifest_config.json` exists in the
 scoped benchmark directory.
 
-**Buildability TODO:** the release-gate source passes a `nlohmann::json` value
-to `ConfigSchemaValidator::validate()`, but the reviewed public header declares
-`validate(const std::string&, const nlohmann::json&)` and
-`validateFromString(...)`; no matching JSON-value overload was found. The
-target is registered, but its compilation was not tested and should not be
-assumed successful until this mismatch is resolved.
+**Buildability status:** the release-gate source now calls
+`validateFromString(config_.dump(), false, schema_)`, matching the declared
+validator API. A standard `community-release` configure was blocked because
+RocksDB is not installed; the diagnostic configure proceeded past RocksDB but
+was blocked by missing `fmt`. The benchmark target has therefore not been
+compiled, and buildability remains unverified in this environment.
 
 ## Evidence required before claims
 
