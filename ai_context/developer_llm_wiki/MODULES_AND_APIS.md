@@ -3,6 +3,10 @@
 Datum: 2026-10-26
 Status: Active
 
+## Curated module contexts
+
+- [Importer module context](IMPORTERS.md) — shared contracts, connector boundaries, focused test evidence, and operational limits.
+
 ## include/acceleration/ai_hardware_dispatcher.h
 - Kategorie: modules_and_api
 - Hash: `8bc387f785588675`

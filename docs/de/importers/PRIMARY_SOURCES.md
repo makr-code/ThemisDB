@@ -1,29 +1,25 @@
-[docs](../../index.md) > [de](../index.md) > [importers](./index.md) > [PRIMARY_SOURCES](./PRIMARY_SOURCES.md)  
-**Datum:** 2026-10-29  
-**Status:** draft  
+[docs](../../README.md) > [de](../README.md) > [importers](../../importers/README.md) > [reference](./PRIMARY_SOURCES.md)
+**Author:** ThemisDB Team
+**Created:** 2026-10-30
+**Last Updated:** 2026-10-30
+**Status:** stable
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot
+**Human_Review:** false
+**Human_Author:** ThemisDB Team
+**Provenance note:** Exact model backend not verifiable from final document text alone.
+**Datum:** 2026-10-30
+**Status:** stable
 **Primary (Quelle der Wahrheit):**
-- `include/importers/ARCHITECTURE.md`
-- `include/importers/FUTURE_ENHANCEMENTS.md`
-- `include/importers/README.md`
-- `include/importers/ROADMAP.md`
-- `src/importers/ARCHITECTURE.md`
-- `src/importers/AUDIT.md`
-- `src/importers/BUILD_STATUS.md`
-- `src/importers/CHANGELOG.md`
-- `src/importers/DOXYGEN.md`
-- `src/importers/FEATURES.md`
-- `src/importers/FUTURE_ENHANCEMENTS.md`
-- `src/importers/MODULE_GAPS.md`
-- `src/importers/MODULE_GAPS_BATCH5.md`
-- `src/importers/PERFORMANCE_EXPECTATIONS.md`
-- `src/importers/PRODUCTION_REQUIREMENTS.md`
 - `src/importers/README.md`
-- `src/importers/ROADMAP.md`
-- `src/importers/SECURITY.md`
+- `include/importers/importer_interface.h`
+- `include/importers/importers_api_contract.h`
+- `tools/module_docs_builder.py`
 
 **Bezug / Reference:**
-- Tool: `tools/module_docs_builder.py`
-- Kontext: Automatisch generierter Index aller Primary-Markdown-Dateien des Moduls `importers`
+- Issue: `makr-code/ThemisDB#7124`
+- Kontext: Generierter Quellenindex und Navigation für das Importer-Modul.
 
 ---
 
@@ -46,21 +42,30 @@ Dieser Index listet alle Markdown-Dokumentationsdateien des Moduls **`importers`
 
 | Datei | Pfad |
 |-------|------|
+| `API.md` | [`src/importers/API.md`](../../../src/importers/API.md) |
 | `ARCHITECTURE.md` | [`src/importers/ARCHITECTURE.md`](../../../src/importers/ARCHITECTURE.md) |
 | `AUDIT.md` | [`src/importers/AUDIT.md`](../../../src/importers/AUDIT.md) |
 | `BUILD_STATUS.md` | [`src/importers/BUILD_STATUS.md`](../../../src/importers/BUILD_STATUS.md) |
 | `CHANGELOG.md` | [`src/importers/CHANGELOG.md`](../../../src/importers/CHANGELOG.md) |
 | `DOXYGEN.md` | [`src/importers/DOXYGEN.md`](../../../src/importers/DOXYGEN.md) |
+| `EMBEDDING.md` | [`src/importers/EMBEDDING.md`](../../../src/importers/EMBEDDING.md) |
 | `FEATURES.md` | [`src/importers/FEATURES.md`](../../../src/importers/FEATURES.md) |
 | `FUTURE_ENHANCEMENTS.md` | [`src/importers/FUTURE_ENHANCEMENTS.md`](../../../src/importers/FUTURE_ENHANCEMENTS.md) |
+| `IMPLEMENTATION.md` | [`src/importers/IMPLEMENTATION.md`](../../../src/importers/IMPLEMENTATION.md) |
+| `MODELING.md` | [`src/importers/MODELING.md`](../../../src/importers/MODELING.md) |
 | `MODULE_GAPS.md` | [`src/importers/MODULE_GAPS.md`](../../../src/importers/MODULE_GAPS.md) |
 | `MODULE_GAPS_BATCH5.md` | [`src/importers/MODULE_GAPS_BATCH5.md`](../../../src/importers/MODULE_GAPS_BATCH5.md) |
+| `MODULE_GUIDE.md` | [`src/importers/MODULE_GUIDE.md`](../../../src/importers/MODULE_GUIDE.md) |
+| `OPERATIONS.md` | [`src/importers/OPERATIONS.md`](../../../src/importers/OPERATIONS.md) |
 | `PERFORMANCE_EXPECTATIONS.md` | [`src/importers/PERFORMANCE_EXPECTATIONS.md`](../../../src/importers/PERFORMANCE_EXPECTATIONS.md) |
 | `PRODUCTION_REQUIREMENTS.md` | [`src/importers/PRODUCTION_REQUIREMENTS.md`](../../../src/importers/PRODUCTION_REQUIREMENTS.md) |
 | `README.md` | [`src/importers/README.md`](../../../src/importers/README.md) |
+| `RESEARCH.md` | [`src/importers/RESEARCH.md`](../../../src/importers/RESEARCH.md) |
 | `ROADMAP.md` | [`src/importers/ROADMAP.md`](../../../src/importers/ROADMAP.md) |
+| `RUNBOOK.md` | [`src/importers/RUNBOOK.md`](../../../src/importers/RUNBOOK.md) |
 | `SECURITY.md` | [`src/importers/SECURITY.md`](../../../src/importers/SECURITY.md) |
+| `TRUST.md` | [`src/importers/TRUST.md`](../../../src/importers/TRUST.md) |
 
 ---
 
-*Automatisch generiert von `tools/module_docs_builder.py` · 2026-10-29*
+*Automatisch generiert von `tools/module_docs_builder.py` · 2026-10-30*

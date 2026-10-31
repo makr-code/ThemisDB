@@ -254,6 +254,7 @@ def render_index(entries: Sequence[SourceEntry], generated_at: str, full_sync: b
             "- [MODULES_AND_APIS.md](MODULES_AND_APIS.md)",
             "- [BUILD_TEST_CI_AND_OPERATIONS.md](BUILD_TEST_CI_AND_OPERATIONS.md)",
             "- [GOVERNANCE_AND_ROADMAP.md](GOVERNANCE_AND_ROADMAP.md)",
+            "- [IMPORTERS.md](IMPORTERS.md) — curated importer module context",
             "- [SOURCE_MANIFEST.json](SOURCE_MANIFEST.json)",
             "- [WIKI_STATUS.json](WIKI_STATUS.json)",
             "- [WIKI_DELTA_REPORT.md](WIKI_DELTA_REPORT.md)",
@@ -306,7 +307,17 @@ def _render_section(repo_root: Path, entries: Sequence[SourceEntry], title: str,
 
 def render_modules_and_apis(repo_root: Path, entries: Sequence[SourceEntry]) -> str:
     lines = _render_section(repo_root, entries, "Developer LLM Wiki — Modules and APIs", "modules_and_api")
-    return "\n".join(lines)
+    return "\n".join(
+        [
+            *lines[:4],
+            "",
+            "## Curated module contexts",
+            "",
+            "- [Importer module context](IMPORTERS.md) — shared contracts, connector boundaries, focused test evidence, and operational limits.",
+            "",
+            *lines[4:],
+        ]
+    )
 
 
 def render_ops(repo_root: Path, entries: Sequence[SourceEntry]) -> str:

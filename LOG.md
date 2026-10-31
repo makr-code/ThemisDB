@@ -91,3 +91,10 @@ Diese Chronologie wurde aus den kanonischen Quelldokumenten neu aufgebaut, um fu
 
 ---
 Zuletzt geprueft (Root-Sync): 2026-07-28
+
+## [2026-10-31] importer-module-context | Importers in Developer LLM Wiki verankert
+
+- Quellen: `include/importers/importer_interface.h`, `include/importers/importers_api_contract.h`, `src/importers/README.md`, `src/importers/API.md`, `src/importers/IMPLEMENTATION.md`, `tests/importers/CMakeLists.txt`.
+- Aktion: Source-grounded Modulkontext in `ai_context/developer_llm_wiki/IMPORTERS.md` angelegt und in Wiki-Index sowie Modules-and-APIs-Navigation verlinkt; der Index-Generator behält beide Einträge bei.
+- Abgrenzung: Der erzeugte Gesamtquellenbestand und `WIKI_STATUS.json` wurden nicht neu synchronisiert; sie bleiben der ausgewiesene Snapshot vom 2026-10-26.
+- Relevanz fuer AI-Wiki: Importer-API-Vertrag, Connector-spezifische Grenzen, fokussierte Testevidenz und Betriebsrisiken sind auffindbar, ohne den breiten Generatorlauf auszuführen.
