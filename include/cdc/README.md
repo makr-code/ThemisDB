@@ -1,125 +1,120 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source level: "level1"
+SOT domain: "api-contract"
+Canonical source references: "include/cdc/changefeed.h; include/cdc/consumer_group.h; include/cdc/outbox.h; include/cdc/kafka_cdc_producer.h; include/cdc/cdc_ws_handler.h; tests/cdc/CMakeLists.txt"
+Related milestone: "DOC-WEEKLY-2026-44"
+---
 
-# CDC Module — Public Headers
+# CDC public headers
 
-**Module Path:** `include/cdc/`
-**Implementation:** `../../src/cdc/`
+The headers in this directory expose the CDC feed, delivery, replay, transport,
+and administration interfaces. `Changefeed` is declared in namespace `themis`;
+most other CDC types are in `themis::cdc`. The headers and
+[`cdc_delivery_contract.h`](./cdc_delivery_contract.h) define the normative
+contracts. Optional transport declarations do not mean the backend is enabled
+in a particular build.
 
-## Purpose
+## Header map
 
-Public interfaces for ThemisDB's Change Data Capture (CDC) subsystem — streaming change events, delivery guarantees, and fan-out pipelines.
+| Header | Main public type(s) | Purpose |
+|---|---|---|
+| `changefeed.h` | `themis::Changefeed` | Event persistence, sequence queries, subscriptions, retention |
+| `changefeed_buffer.h` | `themis::ChangefeedBuffer` | Configurable buffering and batch flush |
+| `consumer_group.h` | `themis::cdc::ConsumerGroupManager` | Durable group configuration/offsets and partitioned fetch/ack |
+| `delivery_tracker.h` | `themis::cdc::DeliveryTracker` | In-memory pending delivery, acknowledgement, redelivery |
+| `icdc_replay_controller.h` | `ICDCReplayController` | Bounded replay sessions |
+| `outbox.h` | `OutboxWriter`, `OutboxRelay` | Transaction-aware enqueue and asynchronous feed relay |
+| `dead_letter_queue.h` | `DeadLetterQueue` | Failed-event storage and replay operations |
+| `icdc_transport.h` | `ICDCTransport` | Minimal `start`/`stop`/single-event `publish` interface |
+| `kafka_cdc_producer.h` | `KafkaCDCProducer`, `KafkaProducerConfig` | Optional Kafka transport (`THEMIS_ENABLE_KAFKA`) |
+| `ws_transport.h` | `WsTransport` | Optional WebSocket polling and subscription transport |
+| `cdc_ws_handler.h` | `CdcWebSocketHandler` | WebSocket frame handling and feed polling |
+| `debezium_format.h` | `DebeziumFormatter` | Debezium-compatible event envelope formatting |
+| `schema_registry.h` | `SchemaRegistryClient`, `CdcSchemaEncoder` | Schema registry abstraction and encoding |
+| `icdc_event_schema.h` | `ICDCEventSchema` | Event schema interface |
+| `icdc_filter_pipeline.h` | `ICDCFilterPipeline` | Composable event filtering |
+| `icdc_fan_in.h` | `ICDCFanIn` | Multi-source event aggregation |
+| `icdc_batch_commit_coordinator.h` | `ICDCBatchCommitCoordinator` | Batch commit coordination |
+| `icdc_backpressure_signal.h` | `ICDCBackpressureSignal` | Backpressure signaling |
+| `icdc_pause_control.h` | `ICDCPauseControl` | Pause/resume control |
+| `idelivery_guarantee_config.h` | `IDeliveryGuaranteeConfig` | Delivery configuration interface |
+| `cross_collection_stream.h` | `CrossCollectionStream` | Cross-collection stream operations |
+| `tenant_buffer_manager.h` | `TenantBufferManager` | Tenant-scoped buffer management |
+| `change_stream_compressor.h` | `ChangeStreamCompressor` | Change-event compression |
+| `cdc_materialized_view.h` | `CDCMaterializedViewMaintainer` | CDC event application to incremental views |
+| `cdc_admin.h` | `CDCAdmin` | Purge, replay, compaction, redaction, health, and diagnostics |
+| `cdc_metrics.h` | `CDCMetrics` | CDC counters, rates, and latency summaries |
+| `cdc_error.h` | `CDCException`, `ErrorCode` | Typed CDC errors |
+| `cdc_delivery_contract.h` | Contract constants and failure classes | Shared sequence, delivery, replay, and failure invariants |
 
-## Header Files
+## Configuration and runtime limits
 
-| Header | Primary Class / Interface |
-|--------|--------------------------|
-| `changefeed.h` | `Changefeed` — primary CDC stream entry point |
-| `changefeed_buffer.h` | `ChangefeedBuffer` — in-memory change event buffer |
-| `icdc_transport.h` | `ICDCTransport` — abstract transport interface |
-| `icdc_event_schema.h` | `ICDCEventSchema` — event serialization contract |
-| `icdc_filter_pipeline.h` | `ICDCFilterPipeline` — composable event filter chain |
-| `icdc_fan_in.h` | `ICDCFanIn` — multi-source event aggregation |
-| `icdc_batch_commit_coordinator.h` | `ICDCBatchCommitCoordinator` — atomic batch delivery |
-| `icdc_backpressure_signal.h` | `ICDCBackpressureSignal` — consumer flow-control interface |
-| `icdc_pause_control.h` | `ICDCPauseControl` — pause/resume stream control |
-| `icdc_replay_controller.h` | `ICDCReplayController` — offset-based event replay |
-| `idelivery_guarantee_config.h` | `IDeliveryGuaranteeConfig` — at-least-once / exactly-once config |
-| `consumer_group.h` | `ConsumerGroup` — coordinated multi-consumer group |
-| `cross_collection_stream.h` | `CrossCollectionStream` — multi-collection CDC stream |
-| `dead_letter_queue.h` | `DeadLetterQueue` — failed-event DLQ |
-| `delivery_tracker.h` | `DeliveryTracker` — per-event delivery state tracking |
-| `tenant_buffer_manager.h` | `TenantBufferManager` — per-tenant isolated change buffers |
-| `kafka_cdc_producer.h` | `KafkaCDCProducer` — Kafka transport adapter |
-| `ws_transport.h` | `WsTransport` — WebSocket CDC transport |
-| `debezium_format.h` | `DebeziumFormat` — Debezium-compatible event serializer |
-| `schema_registry.h` | `SchemaRegistry` — Avro/Protobuf schema registry client |
-| `outbox.h` | `Outbox` — transactional outbox pattern implementation |
-| `change_stream_compressor.h` | `ChangeStreamCompressor` — delta compression for change events |
-| `cdc_materialized_view.h` | `CDCMaterializedView` — CDC-driven incremental materialized view |
-| `cdc_ws_handler.h` | `CDCWsHandler` — WebSocket handler for CDC subscriptions |
-| `cdc_admin.h` | `CDCAdmin` — administrative API (pause, resume, reset) |
-| `cdc_metrics.h` | `CDCMetrics` — throughput, lag and error counters |
-| `cdc_error.h` | `CDCError`, `CDCException` — structured CDC error types |
+- `Changefeed::RetentionPolicy` uses `max_age_hours`, `max_event_count`,
+  `max_size_bytes`, `cleanup_interval`, and `compact_on_cleanup`. Automatic
+  cleanup is disabled by default.
+- `DeliveryTrackerConfig` includes acknowledgement timeout, recheck interval,
+  redelivery-attempt limit, and pending-event cap. `trackDelivery` accepts a
+  vector of events and returns `false` when delivery cannot be tracked.
+- `ConsumerGroupManager::fetchEventsAtLeastOnce` accepts a limit and
+  acknowledgement timeout; committed offsets persist, while in-flight records
+  are process-local.
+- `KafkaProducerConfig` supplies broker, topic, acknowledgement, idempotence,
+  polling, security, and flush settings. Kafka requires `THEMIS_ENABLE_KAFKA`
+  and librdkafka. Without that flag, `KafkaCDCProducer::start()` and
+  `publish()` return `false` unless the fallback's injectable callbacks are
+  explicitly configured; the fallback does not connect to Kafka.
+- `WsTransport` is declared only when `THEMIS_ENABLE_WEBSOCKET` is enabled.
+- Example deployment configuration files are
+  [`cdc_retention.yaml`](../../config/data_management/cdc_retention.yaml) and
+  [`cdc_kafka.yaml`](../../config/data_management/cdc_kafka.yaml). The Kafka
+  configuration contains credentials as placeholders; resolve secrets through
+  the documented `ConfigPathResolver` instead of committing credentials.
 
-## Public API by Concern
+## Build and focused tests
 
-- **Core stream ingestion/replay:** `changefeed.h`, `changefeed_buffer.h`
-- **Delivery guarantees and replay control:** `delivery_tracker.h`, `consumer_group.h`, `icdc_replay_controller.h`, `idelivery_guarantee_config.h`
-- **Flow control and pipeline orchestration:** `icdc_pause_control.h`, `icdc_backpressure_signal.h`, `icdc_filter_pipeline.h`, `icdc_batch_commit_coordinator.h`, `icdc_fan_in.h`
-- **Transports:** `icdc_transport.h`, `ws_transport.h`, `cdc_ws_handler.h`, `kafka_cdc_producer.h`
-- **Operational/admin surfaces:** `cdc_admin.h`, `dead_letter_queue.h`, `tenant_buffer_manager.h`, `cdc_metrics.h`, `cdc_error.h`
-- **Integration/data-shape helpers:** `debezium_format.h`, `schema_registry.h`, `change_stream_compressor.h`, `cross_collection_stream.h`, `outbox.h`, `cdc_materialized_view.h`, `icdc_event_schema.h`
+The repository presets are defined in [`CMakePresets.json`](../../CMakePresets.json).
+Configure with a preset supported on the host and enable tests:
 
-## Runtime Configuration Surfaces
-
-Public header APIs expose the CDC knobs used by runtime configuration:
-
-- `changefeed.h` → `Changefeed::RetentionPolicy` (`enabled`, `max_age`, `max_entries`, `max_bytes`, `cleanup_interval`, `compact_on_cleanup`)
-- `delivery_tracker.h` → `DeliveryTrackerConfig` (`ack_timeout`, `max_redelivery_attempts`, sweep intervals)
-- `consumer_group.h` → `fetchEventsAtLeastOnce(..., ack_timeout_ms)` and group offset controls
-- `kafka_cdc_producer.h` → `KafkaProducerConfig` (`brokers`, `topic_prefix`, batching/auth settings)
-- `cdc_admin.h` → retention/admin read/write status endpoints and operator controls
-
-## Build
-
-```cmake
-cmake --preset release && cmake --build build/release --target themis-cdc
+```sh
+cmake --preset linux-debug -DTHEMIS_BUILD_TESTS=ON
+cmake --build build-gcc-linux-debug --target module_cdc_test_cdc_admin_focused
+ctest --test-dir build-gcc-linux-debug -R '^test_cdc_admin_cdc_FocusedTests$' --output-on-failure
 ```
 
-## Usage
+`tests/cdc/CMakeLists.txt` creates a `module_cdc_<test-name>_focused` target for
+each `test_*.cpp`; use the corresponding target and CTest name for another
+focused test. Required dependencies must be available to the selected preset.
 
-### C++: create a delivery tracker and acknowledge events
+To configure the two registered CDC benchmarks, enable benchmarks in the
+chosen preset and build `bench_cdc_pipeline` or `bench_cdc_delivery_gates`.
+`bench_changefeed_throughput.cpp` is a benchmark source in this directory but
+is not registered as a CMake target in `benchmarks/CMakeLists.txt`.
 
-```cpp
-#include "cdc/delivery_tracker.h"
+## Delivery and transaction boundaries
 
-themis::cdc::DeliveryTrackerConfig cfg;
-cfg.ack_timeout = std::chrono::milliseconds(30'000);
-cfg.max_redelivery_attempts = 5;
+CDC delivery is at-least-once where specified by the delivery contract, so
+consumers must account for redelivery. An outbox record is written using the
+caller's RocksDB transaction; forwarding it to the changefeed and updating its
+outbox state are later, separate operations. Do not treat the outbox relay as
+an atomic transaction spanning the application write, feed append, and relay
+state update.
 
-themis::cdc::DeliveryTracker tracker(cfg);
-tracker.trackDelivery("ops-bot", 12345, "orders/42");
-tracker.acknowledge("ops-bot", 12345);
-```
+## Related documentation
 
-### C++: configure Kafka producer topic prefix
+- [`../../src/cdc/README.md`](../../src/cdc/README.md) — module overview
+- [`../../src/cdc/ARCHITECTURE.md`](../../src/cdc/ARCHITECTURE.md) — data flow and implementation boundaries
+- [`../../src/cdc/API.md`](../../src/cdc/API.md) — public API contracts
+- [`../../src/cdc/ROADMAP.md`](../../src/cdc/ROADMAP.md) — canonical implementation status
+- [`../../src/cdc/SECURITY.md`](../../src/cdc/SECURITY.md) — security context
+- [`../../benchmarks/cdc/README.md`](../../benchmarks/cdc/README.md) — benchmark sources and targets
 
-```cpp
-#include "cdc/kafka_cdc_producer.h"
-
-themis::cdc::KafkaProducerConfig cfg;
-cfg.brokers = "kafka-1:9092,kafka-2:9092";
-cfg.topic_prefix = "themis.cdc.";
-```
-
-## Runtime Behavior, Errors, and Limits
-
-- CDC delivery semantics are at-least-once; duplicate deliveries are expected across reconnect/timeouts.
-- Slow consumers can trigger backlog growth and redelivery cycles; use ack and backpressure controls.
-- Kafka publishing is available only when built with `THEMIS_ENABLE_KAFKA`; no-op stub otherwise.
-- DLQ persistence captures retry-exhausted events for later replay or drain.
-
-## Troubleshooting
-
-- **`start()`/`publish()` returns `false` for Kafka producer:** verify build uses `THEMIS_ENABLE_KAFKA` and librdkafka is present.
-- **Unexpected duplicates:** confirm consumer acknowledgement logic and deduplication behavior for at-least-once mode.
-- **Replay gaps:** check retention policy limits and whether source events aged out before replay.
-
-## See Also
-
-- [`../../src/cdc/README.md`](../../src/cdc/README.md) — implementation details
-- [`../../src/cdc/ARCHITECTURE.md`](../../src/cdc/ARCHITECTURE.md) — architecture guide
-- [`../../src/cdc/SECURITY.md`](../../src/cdc/SECURITY.md) — threat model and controls
-- [`../../src/cdc/AUDIT.md`](../../src/cdc/AUDIT.md) — build/test/compliance snapshot
-- [`../../src/cdc/CHANGELOG.md`](../../src/cdc/CHANGELOG.md) — module history
-- [`../../src/cdc/PERFORMANCE_EXPECTATIONS.md`](../../src/cdc/PERFORMANCE_EXPECTATIONS.md) — benchmark targets
-- [`../../src/cdc/ROADMAP.md`](../../src/cdc/ROADMAP.md) — status and implementation phases
-- [`../../src/cdc/FUTURE_ENHANCEMENTS.md`](../../src/cdc/FUTURE_ENHANCEMENTS.md) — long-term backlog
-- [`../../docs/en/cdc/PRIMARY_SOURCES.md`](../../docs/en/cdc/PRIMARY_SOURCES.md) — canonical source index (EN)
-- [`../../docs/de/cdc/PRIMARY_SOURCES.md`](../../docs/de/cdc/PRIMARY_SOURCES.md) — Quellenindex (DE)
-
-## Installation
-
-```cmake
-target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
-```
+**Exact model backend not verifiable from final document text alone.**

@@ -1,12 +1,30 @@
-# cdc — MODULE_GAPS.md (Phase 5 Verified)
+---
+Author: "ThemisDB Contributors"
+Created: "unknown"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
 
-This file documents all documentation and code quality gaps in the **cdc** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
+# cdc — MODULE_GAPS.md (historical scan snapshot)
+
+**Snapshot status:** The original scan date and source commit were not recorded.
+The counts, severity totals, and locations below have not been regenerated or
+validated against the current tree. Do not treat this file as the current CDC
+gap inventory; rerun the repository gap scan before prioritizing or closing
+findings.
+
+**Exact model backend not verifiable from final document text alone.**
 
 ## Summary
 
 - **Total Gaps**: 1091
-- **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
-- **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)
+- **Status**: Historical output (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
+- **Original scan timestamp / source commit**: unknown
 
 ### By Severity
 

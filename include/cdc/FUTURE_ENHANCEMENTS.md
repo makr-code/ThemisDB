@@ -1,63 +1,68 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/cdc/FUTURE_ENHANCEMENTS.md -->
-
-# CDC (Change Data Capture) Module — Public Header Future Enhancements
-
-**Module Path:** `include/cdc/`  
-**Canonical implementation enhancements:** [`../../src/cdc/FUTURE_ENHANCEMENTS.md`](../../src/cdc/FUTURE_ENHANCEMENTS.md)
-
 ---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source level: "level1"
+SOT domain: "api-contract"
+Canonical source references: "src/cdc/FUTURE_ENHANCEMENTS.md; src/cdc/ROADMAP.md; include/cdc/cdc_delivery_contract.h; include/cdc/README.md"
+Related milestone: "DOC-WEEKLY-2026-44"
+---
+
+# CDC public API future enhancements
 
 ## Scope
 
-Planned enhancements to the **public header contract** in `include/cdc/`. Runtime, algorithm, and benchmark work remains tracked in:
+This page covers public-header contracts only. It does not define a separate
+feature backlog; implementation and benchmark work is tracked in
+[`src/cdc/FUTURE_ENHANCEMENTS.md`](../../src/cdc/FUTURE_ENHANCEMENTS.md) and
+[`src/cdc/ROADMAP.md`](../../src/cdc/ROADMAP.md).
 
-→ [`../../src/cdc/FUTURE_ENHANCEMENTS.md`](../../src/cdc/FUTURE_ENHANCEMENTS.md)
+## Design constraints
 
----
+- Preserve the sequence, delivery, replay, and failure invariants in
+  [`cdc_delivery_contract.h`](./cdc_delivery_contract.h).
+- Review public signature or compatibility changes against the repository's
+  versioning policy before implementation.
+- Describe build-conditional transports with their actual feature guards;
+  declaration availability alone does not establish runtime support.
 
-## Design Constraints
+## Required interfaces
 
-- `[x]` Public headers must not expose internal implementation types or arena/memory layout details to callers.
-- `[x]` Breaking changes to types in `include/cdc/` require a MAJOR version bump per `VERSIONING.md`.
-- `[x]` New entry points should be additive; existing stable APIs remain source-compatible.
-- `[x]` Layer association (**Graph/Tensor**) must be preserved in all header expansions.
+The current public declarations are indexed in
+[`README.md`](./README.md). Consult the corresponding header for exact
+signatures, ownership, configuration, and failure behavior rather than
+duplicating those details here.
 
----
+## Implementation notes
 
-## Required Interfaces (Header Contract)
+Keep API changes source-compatible unless a breaking change is explicitly
+approved and documented. Keep build guards and ownership/failure behavior
+consistent with the implementation and delivery contract.
 
-Current public surfaces cover: change feeds, delivery guarantees, Kafka CDC, Debezium format, fan-in, replay, pause/resume, WebSocket transport, and outbox pattern.
+## Test strategy
 
-Planned extensions follow the same namespace (`themis::cdc`) and include-guard conventions.
+Validate changes with the focused CDC tests under
+[`tests/cdc/`](../../tests/cdc/) and update API-facing documentation in the
+same change. Do not treat a proposed enhancement or an existing header
+declaration as evidence that a runtime capability is complete.
 
----
+## Performance targets
 
-## Planned Enhancements
+No separate public-header performance target is defined here. Performance
+changes and benchmark evidence are tracked in
+[`src/cdc/PERFORMANCE_EXPECTATIONS.md`](../../src/cdc/PERFORMANCE_EXPECTATIONS.md)
+and the canonical implementation roadmap.
 
-### Short-Term (Q3 2026)
+## Security and reliability
 
-- [ ] Add `[[deprecated]]` annotations to any legacy entry points with migration notes
-- [ ] Add explicit `noexcept` specifications to query/read paths where safe
-- [ ] Add structured diagnostic types for all thrown exceptions
+Preserve the contract's acknowledgement and fail-closed rules. Authentication
+and authorization remain the responsibility of the hosting service unless a
+specific CDC interface documents otherwise.
 
-### Medium-Term (Q4 2026)
-
-- [ ] Expand public surface with convenience factory functions for common usage patterns
-- [ ] Add Concepts (C++20) constraints to template parameters in public headers
-- [ ] Introduce explicit ABI stability markers (`THEMIS_STABLE_ABI`) to long-term interfaces
-
-### Long-Term (2027+)
-
-- [ ] Module-interface (C++20 modules) wrapper for `include/cdc/` entry points
-- [ ] Header-only usage path for embedding scenarios (where feasible)
-- [ ] Extended layer-mapping documentation for Graph/Tensor integration patterns
-
----
-
-## Alignment with Strategic Plan
-
-Enhancements align with `FUTURE_PLAN.md` layer **Graph/Tensor**. For cross-layer integration planning see:
-→ [`../../src/ai/FUTURE_ENHANCEMENTS.md`](../../src/ai/FUTURE_ENHANCEMENTS.md)
+**Exact model backend not verifiable from final document text alone.**
