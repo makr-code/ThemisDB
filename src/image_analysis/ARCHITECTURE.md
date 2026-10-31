@@ -6,17 +6,18 @@
 **Status:** active
 **AI_Used:** true
 **AI_Models:** unknown
-**AI_Contributor:** OpenAI ChatGPT
+**AI_Contributor:** GitHub Copilot
 **Human_Review:** false
 **Human_Author:** ThemisDB Contributors
 
 Exact model backend not verifiable from final document text alone.
 
 <!-- Status: plugin architecture | source reviewed: 2026-10-31 -->
+<!-- Source level: level 1 | SOT domain: module-behavior -->
 
 ## Kontext
 
-The image-analysis source directory builds two optional plugins against the shared contract in `include/plugins/image_analysis_interface.h`. The manager API is declared in `include/plugins/image_analysis_manager.h`; `src/image_analysis/CMakeLists.txt` does not build an `ImageAnalysisManager` implementation.
+The image-analysis source directory contains two plugin implementations against the shared contract in `include/plugins/image_analysis_interface.h`. Its local `CMakeLists.txt` defines optional plugin targets, but the root CMake files do not currently add `src/image_analysis/` or declare its `THEMIS_PLUGIN_IMAGE_YOLOV8` / `THEMIS_PLUGIN_IMAGE_TESSERACT` options. The manager API is declared in `include/plugins/image_analysis_manager.h`; the module CMake file does not build an `ImageAnalysisManager` implementation.
 
 ## Design Principles
 
@@ -61,7 +62,7 @@ The image-analysis source directory builds two optional plugins against the shar
 
 ### Backend build targets
 
-`src/image_analysis/CMakeLists.txt` can build `themis_image_yolov8` and `themis_image_tesseract` when their respective plugin options are enabled. It also defines `themis_image_analysis_test_lib` for test builds. ONNX Runtime, Tesseract, and OpenCV are discovered independently.
+When configured directly with its plugin options, `src/image_analysis/CMakeLists.txt` can build `themis_image_yolov8` and `themis_image_tesseract`. It also defines `themis_image_analysis_test_lib` when test builds are enabled. ONNX Runtime, Tesseract, and OpenCV are discovered independently. The root test tree separately auto-discovers `tests/image_analysis/CMakeLists.txt`; this does not add the plugin shared-library targets to the root build.
 
 ### OCR Backend (Tesseract)
 
@@ -118,7 +119,7 @@ Kurzinterpretation: Der Host konfiguriert ein Plugin direkt ueber den gemeinsame
 
 ## Performance Characteristics
 
-The numerical values in `PERFORMANCE_EXPECTATIONS.md` are unverified proposals. The three checked-in benchmarks use mock/synthetic plugins and do not measure Tesseract or YOLOv8. No real-backend performance result is asserted here.
+The numerical values in `PERFORMANCE_EXPECTATIONS.md` are unverified proposals. The three checked-in benchmark programs use mock/synthetic plugins and do not measure Tesseract or YOLOv8. Only two are registered under benchmark module `image_analysis`; `benchmark_image_analysis` is registered under `benchmark_image`. No real-backend performance result is asserted here.
 
 ## Fehlerpfade und Resilienz
 
@@ -146,6 +147,8 @@ The operational contract is the plugin interface's structured result types and t
 - [`ROADMAP.md`](ROADMAP.md) — implementation phases and open items
 - [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md) — planned module enhancements
 - [`../../include/plugins/image_analysis_interface.h`](../../include/plugins/image_analysis_interface.h) — canonical contract
+- [`../../CMakeLists.txt`](../../CMakeLists.txt) and [`../../cmake/CMakeLists.txt`](../../cmake/CMakeLists.txt) — root build integration check
+- [`../../tests/CMakeLists.txt`](../../tests/CMakeLists.txt) and [`../../benchmarks/CMakeLists.txt`](../../benchmarks/CMakeLists.txt) — test and benchmark registration
 
 ---
 
