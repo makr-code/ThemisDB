@@ -251,6 +251,20 @@ def render_index(entries: Sequence[SourceEntry], generated_at: str, full_sync: b
     mode = "FULL_SYNC" if full_sync else "INCREMENTAL"
     return "\n".join(
         [
+            "---",
+            'Author: "ThemisDB Team"',
+            'Created: "2026-10-31"',
+            f'Last Updated: "{generated_at[:10]}"',
+            'Status: "active"',
+            "AI_Used: true",
+            'AI_Models: "unknown"',
+            'AI_Contributor: "GitHub Copilot"',
+            "Human_Review: false",
+            'Human_Author: "ThemisDB Team"',
+            "---",
+            "",
+            "> Exact model backend not verifiable from final document text alone.",
+            "",
             "# Developer LLM Wiki — Index",
             "",
             f"Datum: {generated_at[:10]}",
@@ -280,6 +294,7 @@ def render_index(entries: Sequence[SourceEntry], generated_at: str, full_sync: b
             "- [Ethics AI module context](ETHICS_AI.md) — in-tree API/runtime boundaries, LDM helper limits, test/benchmark registration, and canonical plugin source boundary.",
             "- [IMPORTERS.md](IMPORTERS.md) — curated importer module context",
             "- [UPDATES.md](UPDATES.md) — curated updates module context",
+            "- [DISTRIBUTED_TENSOR.md](DISTRIBUTED_TENSOR.md) — curated distributed tensor module context",
             "- [SOURCE_MANIFEST.json](SOURCE_MANIFEST.json)",
             "- [WIKI_STATUS.json](WIKI_STATUS.json)",
             "- [WIKI_DELTA_REPORT.md](WIKI_DELTA_REPORT.md)",
@@ -334,6 +349,20 @@ def render_modules_and_apis(repo_root: Path, entries: Sequence[SourceEntry]) -> 
     lines = _render_section(repo_root, entries, "Developer LLM Wiki — Modules and APIs", "modules_and_api")
     return "\n".join(
         [
+            "---",
+            'Author: "ThemisDB Team"',
+            'Created: "2026-10-31"',
+            f'Last Updated: "{datetime.now(UTC).strftime("%Y-%m-%d")}"',
+            'Status: "active"',
+            "AI_Used: true",
+            'AI_Models: "unknown"',
+            'AI_Contributor: "GitHub Copilot"',
+            "Human_Review: false",
+            'Human_Author: "ThemisDB Team"',
+            "---",
+            "",
+            "> Exact model backend not verifiable from final document text alone.",
+            "",
             *lines[:4],
             "",
             "## Curated module contexts",
@@ -342,6 +371,7 @@ def render_modules_and_apis(repo_root: Path, entries: Sequence[SourceEntry]) -> 
             "- [Ethics AI module context](ETHICS_AI.md) — in-tree API/runtime boundaries, LDM helper limits, test/benchmark registration, and canonical plugin source boundary.",
             "- [Importer module context](IMPORTERS.md) — shared contracts, connector boundaries, focused test evidence, and operational limits.",
             "- [Updates module context](UPDATES.md) — update lifecycle, rollout and patch contracts, diagnostic evidence, and operator boundaries.",
+            "- [Distributed tensor module context](DISTRIBUTED_TENSOR.md) — tensor artifact contracts, planning boundaries, C++ requirements, and verified test/benchmark evidence.",
             "",
             *lines[4:],
         ]

@@ -336,16 +336,19 @@ struct LoadedModule {
 /**
  * @brief Module loader with security verification
  * 
- * This class is responsible for loading ThemisDB modular libraries
- * with mandatory signature verification to prevent corrupted or
- * malicious DLL injection.
+ * This class loads ThemisDB modular libraries after applying the configured
+ * file-hash, metadata/signature, trust, and blacklist/whitelist checks. Whether
+ * unsigned modules are accepted depends on the active security policy and
+ * explicit loader settings.
  * 
  * Key features:
  * - SHA-256 hash verification
  * - Digital signature verification (X.509)
  * - Blacklist/whitelist support
- * - Certificate chain validation
  * - Audit logging of all load attempts
+ *
+ * The normal verifier path does not perform certificate-chain or CRL/OCSP
+ * validation; those checks belong to the separate enhanced full-chain verifier.
  */
 class ModuleLoader {
 public:
@@ -1063,11 +1066,17 @@ struct PluginBundleLoadResult {
  * loadBundle() orchestrates the following steps:
  *  1. Unpack the ZIP archive to a unique temporary directory.
  *  2. Parse manifest.json.
- *  3. Verify the Ed25519 signature of manifest.json (skipped when no public key
- *     has been configured — development/test mode only).
+ *  3. If a public key is configured, verify the Ed25519 signature of the exact
+ *     manifest.json bytes. If no key is configured, loading fails unless
+ *     setAllowUnsignedBundles(true) was explicitly called.
  *  4. Select the native library for the running platform (currentPlatform()).
  *     Falls back to the WASM entry if no native library is present.
- *  5. Delegate the actual binary load to the supplied ModuleLoader instance.
+ *  5. Delegate native-library loading to the supplied ModuleLoader. For a WASM
+ *     fallback, return the extracted path for the caller to hand to its runtime.
+ *
+ * The Ed25519 signature authenticates the manifest bytes, not the referenced
+ * binary bytes directly. Native libraries also pass through ModuleLoader's
+ * configured verification path.
  *
  * Thread-Safety: An individual PluginBundleLoader instance is NOT thread-safe.
  * Create one instance per loading thread or serialise access externally.
@@ -1084,9 +1093,10 @@ public:
      * @brief Set the PEM-encoded Ed25519 public key used to verify bundle
      *        signatures.
      *
-     * When no key is set (the default) signature verification is skipped,
-     * which is only suitable for development / unit-testing.  In production,
-     * always set a public key before calling loadBundle().
+     * A missing key does not skip verification: loadBundle() fails unless
+     * setAllowUnsignedBundles(true) was explicitly called. That opt-in is
+     * intended for development / testing only; production callers should
+     * configure a trusted key before loading a bundle.
      *
      * @param publicKeyPem  PEM-encoded Ed25519 public key.
      */

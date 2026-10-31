@@ -1,63 +1,49 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/config/FUTURE_ENHANCEMENTS.md -->
-
-# Config Module — Public Header Future Enhancements
-
-**Module Path:** `include/config/`  
-**Canonical implementation enhancements:** [`../../src/config/FUTURE_ENHANCEMENTS.md`](../../src/config/FUTURE_ENHANCEMENTS.md)
-
 ---
+Author: "ThemisDB Contributors"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+# Config Public API — Candidate Work
 
 ## Scope
 
-Planned enhancements to the **public header contract** in `include/config/`. Runtime, algorithm, and benchmark work remains tracked in:
+This page records candidate work at the `include/config/` API boundary.
+Nothing here is a committed implementation or compatibility promise. Runtime
+behavior and current verification gaps are tracked in
+[`../../src/config/ROADMAP.md`](../../src/config/ROADMAP.md).
 
-→ [`../../src/config/FUTURE_ENHANCEMENTS.md`](../../src/config/FUTURE_ENHANCEMENTS.md)
+## Candidate API documentation tasks
 
----
+- [ ] Audit public declarations for useful Doxygen contracts: inputs, results,
+  exceptions, ownership/lifetime and thread-safety.
+- [ ] Publish a per-header compile and platform-support matrix after checking
+  the actual CI/build configuration.
+- [ ] Decide and document the intended public stability/ABI policy against
+  [`../../VERSIONING.md`](../../VERSIONING.md); do not infer ABI stability from
+  header placement alone.
+- [ ] Keep `config_contract.h` claims synchronized with implementation and
+  focused tests.
 
-## Design Constraints
+## Constraints
 
-- `[x]` Public headers must not expose internal implementation types or arena/memory layout details to callers.
-- `[x]` Breaking changes to types in `include/config/` require a MAJOR version bump per `VERSIONING.md`.
-- `[x]` New entry points should be additive; existing stable APIs remain source-compatible.
-- `[x]` Layer association (**Graph**) must be preserved in all header expansions.
+- Avoid adding convenience APIs or C++ language-level constraints without a
+  demonstrated caller need and compatibility review.
+- Preserve the separation between public declarations and internal
+  implementation.
+- Distinguish the `cms` migration-scanner helper from the runtime API.
 
----
+## Validation references
 
-## Required Interfaces (Header Contract)
-
-Current public surfaces cover: runtime configuration management, validation, encryption, hot-reload, audit logging, and metrics export.
-
-Planned extensions follow the same namespace (`themis::config`) and include-guard conventions.
-
----
-
-## Planned Enhancements
-
-### Short-Term (Q3 2026)
-
-- [ ] Add `[[deprecated]]` annotations to any legacy entry points with migration notes
-- [ ] Add explicit `noexcept` specifications to query/read paths where safe
-- [ ] Add structured diagnostic types for all thrown exceptions
-
-### Medium-Term (Q4 2026)
-
-- [ ] Expand public surface with convenience factory functions for common usage patterns
-- [ ] Add Concepts (C++20) constraints to template parameters in public headers
-- [ ] Introduce explicit ABI stability markers (`THEMIS_STABLE_ABI`) to long-term interfaces
-
-### Long-Term (2027+)
-
-- [ ] Module-interface (C++20 modules) wrapper for `include/config/` entry points
-- [ ] Header-only usage path for embedding scenarios (where feasible)
-- [ ] Extended layer-mapping documentation for Graph integration patterns
-
----
-
-## Alignment with Strategic Plan
-
-Enhancements align with `FUTURE_PLAN.md` layer **Graph**. For cross-layer integration planning see:
-→ [`../../src/ai/FUTURE_ENHANCEMENTS.md`](../../src/ai/FUTURE_ENHANCEMENTS.md)
+- Header inventory: [`README.md`](README.md)
+- Runtime behavior: [`../../src/config/API.md`](../../src/config/API.md)
+- Contract gaps: [`../../src/config/MODULE_GAPS.md`](../../src/config/MODULE_GAPS.md)
+- Focused test registrations: [`../../tests/config/README.md`](../../tests/config/README.md)

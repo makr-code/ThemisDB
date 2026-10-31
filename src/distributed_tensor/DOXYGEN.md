@@ -5,6 +5,29 @@ Created: 2026-09-20
 Last Updated: 2026-09-20
 Status: active
 
+<!--
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot Coding Agent
+Human_Review: false
+Human_Author: unknown
+Exact model backend not verifiable from final document text alone.
+-->
+
+> **Generated snapshot notice (2026-10-31):** This file records output dated
+> 2026-09-20 from the XML path listed below. It was not regenerated or validated
+> against the current build in this task and is not the canonical current API
+> reference. Consult `include/distributed_tensor/*.h` and
+> `src/distributed_tensor/CMakeLists.txt` for current declarations and build
+> membership.
+>
+> Integrity caveat: this generated snapshot contains SHA-256/Merkle API names.
+> The default module target currently compiles a root-level implementation
+> whose `simple_sha256_hash()` is FNV-1a demonstration code; do not infer
+> cryptographic protection from this snapshot. The current training coordinator
+> invokes registered worker callbacks synchronously in-process, not over a
+> network.
+
 ## Source
 - This file is generated from module-scoped Doxygen XML.
 - XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\distributed_tensor\xml\index.xml`
@@ -4201,4 +4224,3 @@ Status: active
 - Source: `include/distributed_tensor/tensor_storage_strategy.h`:280
 - Brief: n/a
 - Parameters: none
-

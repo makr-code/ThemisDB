@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -43,6 +43,10 @@ interfaces are in `include/failover/`; implementation ownership is in
    enabled. Promotion selects a healthy non-witness replica and asks the
    replication manager to trigger failover.
 5. Completion is checked with the replication manager's quorum result.
+
+`stop()` notifies the worker and joins both threads directly. The deadline
+calculations in the source do not impose a timeout on `join()`, so there is no
+enforced maximum stop duration.
 
 Operational boundary: current spare handling does not activate a spare. If a
 spare manager is supplied, the method emits `SPARE_ACTIVATION_FAILED` and returns

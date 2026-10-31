@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Failover Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-07-29 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: ARCHITECTURE.md · README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 
 ## Scope
@@ -13,7 +27,7 @@
 
 - failover/recovery contracts remain backward compatible within major release line.
 - unsafe transition scenarios remain fail-closed and explicitly observable.
-- queue/retry/dependency behavior remains bounded and diagnosable.
+- queue capacity and configured retry counts remain bounded; dependency call and thread-join duration require separate enforcement.
 - recovery step transitions remain auditable.
 
 ## Required Interfaces
@@ -22,31 +36,35 @@
 |---|---|
 | failover manager interface | deterministic queue/worker lifecycle behavior |
 | recovery manager interface | explicit plan validation and ordered execution semantics |
-| telemetry interface | bounded queue/retry/state observability |
+| state/event interface | in-process queue, retry, and lifecycle observability; external export is a deployment integration |
 
-## Implementation Notes
+## Candidate work (not a committed schedule)
 
-- tighten dependency/fencing edge behavior across failover and recovery workflows (Q4 2026).
-- standardize diagnostics for queue saturation, retry escalation, and DR-step failures — partial delivery complete (Q3 2026), remaining scope in Q4 2026.
-- expand resilience tests for repeated failover/recovery cycle pressure (Q4 2026).
-- add dedicated failover-specific benchmarks to replace broad proxy reliance — FRG-01..FRG-06 delivered (Q3 2026); p95/p99 re-baseline planned Q1 2027.
+- Establish and test an actually bounded shutdown contract if required.
+- Integrate and verify external adapters for restore, traffic movement, metadata,
+  spare activation, and recovered-state validation.
+- Define whether quorum-log replay should restore manager state.
+- Run workload and end-to-end benchmarks on representative hardware before
+  promoting target thresholds to measured performance claims.
 
 ## Test Strategy
 
 - unit and integration suites for failover queue and DR-step execution flows.
 - regressions for invalid plans, unavailable dependencies, and timeout scenarios.
-- deterministic stress runs for multi-node failover queue pressure.
-- release-profile benchmark runs for mapped failover targets.
+- stress tests for multi-node queue/dependency pressure, with the tested
+  topology and execution result recorded.
+- release-profile benchmark runs with actual output and hardware context.
 
 ## Performance Targets
 
 - failover/recovery orchestration paths remain within regression budgets.
-- queue/retry paths remain stable at p95/p99 envelopes.
-- benchmark manifests for mapped failover targets reach no-missing-case status.
+- performance budgets are targets until an explicit measurement procedure and
+  release threshold checker are established.
 
 ## Security / Reliability
 
 - maintain strict validation and guarded transitions for recovery actions.
 - preserve explicit failure signaling for dependency-degraded states.
-- enforce bounded queue and retry behavior under pressure.
+- preserve bounded queue capacity and configured retry counts; do not imply
+  that all dependency or shutdown waits are bounded.
 - keep diagnostics actionable for production failover incidents.

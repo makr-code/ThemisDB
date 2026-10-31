@@ -115,8 +115,8 @@ public:
     };
 
     struct Config {
-        std::size_t initial_per_class = 32;
-        std::size_t max_per_class     = 256;
+        std::size_t initial_per_class = 32;  ///< Blocks preallocated for each slab class.
+        std::size_t max_per_class     = 256; ///< Maximum cached free blocks per class, not an allocation cap.
     };
 
     BufferPool();

@@ -1,32 +1,39 @@
 ---
-Author: "ThemisDB Team"
-Created: "2026-10-18"
-Last Updated: "2026-10-18"
-Status: "active"
+Author: ThemisDB Contributors
+Created: 2026-10-18
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
 ---
 
-# Failover in ThemisDB
+Exact model backend not verifiable from final document text alone.
 
-## Ueberblick
-Production-capable automatic failover orchestration and disaster recovery execution surfaces for ThemisDB, including failover queueing, health detection, promotion strategy, recovery workflow execution, and operational state/telemetry handling. Batch 5 enhancement focus: Detection determinism, promotion timing, split-brain prevention, topology validation. Im Modulkontext werden Aussagen mit [Architekturgrenzen](./ARCHITECTURE.md), [Release-Planung](./ROADMAP.md), [Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md) abgeglichen. Im Betrieb sind dabei insbesondere [Latenz](https://en.wikipedia.org/wiki/Latency_(engineering)), [Observability](https://en.wikipedia.org/wiki/Observability) und [Determinismus](https://en.wikipedia.org/wiki/Deterministic_algorithm) relevante Qualitaetskriterien. Fuer Querschnittskontext wird das Modul mit den relevanten Stellen im [Compendium](./../../docs/compendium/docs/index.md) verknuepft.
+# Failover Features
 
-## Kern-Features im Detail
-Die erste Kernfaehigkeit ist **failover monitoring, queueing, and worker orchestration**. Das beschreibt einen konkreten, in den Modulquellen referenzierten Verantwortungsbereich.
+This inventory describes implemented module surfaces, not proof of end-to-end
+recovery or a production SLO.
 
-Die zweite Kernfaehigkeit ist **disaster recovery plan validation and step execution**. Dadurch bleiben Integrationspfade zwischen Modulgrenzen reproduzierbar und operativ auswertbar.
+| Surface | Source-backed behavior |
+|---|---|
+| Automatic failover | Health-check outcomes update consecutive-failure tracking. Requests enter a bounded queue; the worker checks quorum and configured fencing, selects a healthy non-witness replica, and asks the replication manager to trigger failover. |
+| Health behavior | `health_check_call_timeout_ms` bounds the monitoring thread's wait for a health call; adaptive intervals and GC-grace handling are optional configuration paths. A timed-out health task may continue in the background. |
+| Quorum/fencing | Optional local quorum log; append failures block the associated promotion path. Invalid epoch 0 is rejected. Log recovery is not manager-state restoration. |
+| Disaster recovery | Plan validation, ordered seven-step coordination, injectable step hooks, per-step results, in-memory result caching for non-empty plan IDs, and aggregate statistics. |
+| Topology snapshot | Captures a version and failure map with sorted node IDs; helpers compare node-set membership. |
 
-Die dritte Kernfaehigkeit ist **failover manager API/contracts**. Das unterstuetzt stabile Abnahme- und Aenderungsprozesse entlang der Modul-Roadmap.
+**Not implemented by built-in handlers:** storage restore, traffic cutover,
+metadata writes, and spare activation. The DR catch-up check is quorum-based,
+and recovery verification does not validate restored data or site identity.
 
-```mermaid
-flowchart LR
-    A[Produktanforderung] --> B[Failover Modul]
-    B --> C[Implementierung und Integrationspfade]
-    C --> D[Test- und Betriebsnachweise]
-    D --> E[Kundennutzen im Betrieb]
-```
+## Sources
 
-## Kundennutzen und Abgrenzung
-Kundinnen und Kunden erhalten damit vor allem besser planbares Systemverhalten, kuerzere Eingrenzungszeiten bei Stoerungen und transparentere Release-Risiken. Diese Seite ist ein fachlich-kommunikativer Ueberblick; normative API-, Compliance- und Freigabeaussagen verbleiben in den kanonischen Modulquellen.
-
-## Einordnung und Quellen
-Primaere modulnahe Quellen: [README.md](./README.md), [ARCHITECTURE.md](./ARCHITECTURE.md), [ROADMAP.md](./ROADMAP.md), [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md), [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md), [SECURITY.md](./SECURITY.md). Sekundaere Querschnittsquellen: [docs/failover/README.md](./../../docs/failover/README.md), [Compendium Index](./../../docs/compendium/docs/index.md). Aussagen wurden auf diese Quellenbasis begrenzt; bei fehlenden Modulquellen werden keine weitergehenden Produktclaims ergänzt.
+See [`API.md`](API.md), [`IMPLEMENTATION.md`](IMPLEMENTATION.md), and the public
+headers `include/failover/auto_failover_manager.h`,
+`include/failover/disaster_recovery_manager.h`,
+`include/failover/failover_api_contract.h`,
+`include/failover/quorum_log.h`, and
+`include/failover/topology_snapshot.h` for exact behavior.

@@ -1,25 +1,53 @@
-# base — MODULE_GAPS.md (Phase 5 Verified + Re-Scan Aligned)
+---
+Author: "ThemisDB Contributors"
+Created: "2026-08-24"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
 
-This file documents all documentation and code quality gaps in the **base** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
+Exact model backend not verifiable from final document text alone.
 
-## Re-Scan / Count-Abgleich (2026-08-24)
+# base — MODULE_GAPS.md (historical snapshot; not current gap evidence)
+
+This file preserves the historical Phase 5 baseline and records a current,
+module-scoped scan separately. Scanner output is a heuristic inventory, not a
+verified count of implementation defects. The earlier 2026-08-24 module scan
+remains historical and must not be compared directly with the new scan because
+its input discovery and summary calculation were incomplete.
+
+## Current module scan (2026-10-31)
+
+- **Command**: `python3 tools/gap_scanner.py --repo . --output /tmp/base-gap-followup --module base`
+- **Result**: 4 heuristic findings (3 critical, 1 high); this is not a count of confirmed defects.
+- **Locations**: 3 in `tests/base/`, 1 in `benchmarks/base/`; none in the scanned `src/base/` or `include/base/` files.
+- **Categories**: 1 `stub` marker and 3 `unimplemented` pattern matches. The two empty-return matches and the mock marker require manual interpretation before being treated as implementation gaps.
+- **Artifact**: `/tmp/base-gap-followup/gap_scan_base.json` (temporary; not committed).
+- The scanner now recursively discovers `.cpp` files under module-specific test and benchmark directories and computes summaries for `--module` runs. Historical totals below were produced by earlier scanner behavior and are not directly comparable.
+
+## Historical module re-scan report (2026-08-24; not current)
 
 - **Re-scan command**: `python tools/gap_scanner.py --repo . --output ai_working --module base`
-- **Current scanner artifact**: `ai_working/gap_scan_base.json`
-- **Current scanner counts**: Total **0** = CRITICAL **0** + HIGH **0** + MEDIUM **0** + LOW **0**
+- **Referenced artifact**: `ai_working/gap_scan_base.json` (not present in the checkout reviewed here)
+- **Historical reported counts**: Total **0** = CRITICAL **0** + HIGH **0** + MEDIUM **0** + LOW **0**. Preserved as a prior report only; the referenced artifact is unavailable here, so these counts cannot be independently checked.
 - **Category split**: none
 - **Scope split**: none
 
-> Note: `tools/gap_scanner.py` currently writes the gap list correctly but leaves
-> `summary` empty; counts above are reconciled directly from the regenerated
-> `gaps` entries.
+> Historical note: prior documentation reported that `tools/gap_scanner.py`
+> wrote the gap list but left `summary` empty, and that the total was counted
+> from `gaps`. That reconciliation cannot be independently verified without
+> the referenced artifact.
 
-## Summary
+## Historical count records (2026-08-24; not current)
 
-- **Total Gaps (Phase 5 baseline)**: 801 *(was 803; 2 closed 2026-08-24 in batch D)*
-- **Total Gaps (current module re-scan)**: 0 *(see re-scan section above)*
-- **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
-- **Last Updated**: 2026-08-24 (base-gap-closures-batch-d + re-scan count alignment)
+- **Phase 5 baseline**: 801 *(reported as 803 before two batch-D closures)*
+- **Separate module re-scan report**: 0 *(historical result only; not a current count or a demonstrated replacement for the Phase 5 baseline)*
+- **Current scanner result**: 4 heuristic findings from the 2026-10-31 scan above; the number of confirmed implementation defects remains unknown.
+- **Historical report date**: 2026-08-24 (base-gap-closures-batch-d and module re-scan report)
 
 ### By Severity (Phase 5 baseline)
 
@@ -28,7 +56,7 @@ This file documents all documentation and code quality gaps in the **base** modu
 - **MEDIUM**: 741 *(was 739)* — +2 (analysis notes from batch C; no new regressions in batch D)
 - **LOW**: 2
 
-### By Severity (current module re-scan)
+### By Severity (2026-08-24 module re-scan; historical)
 
 - **CRITICAL**: 0
 - **HIGH**: 0

@@ -1,11 +1,11 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot"
+AI_Contributor: "GitHub Copilot coding agent"
 Human_Review: false
 Human_Author: "ThemisDB Team"
 Source_Level: "L1"
@@ -64,9 +64,13 @@ Out of scope:
 
 ## Quickstart: build and run a focused check
 
-Geo is compiled into the parent ThemisDB build; `src/geo` does not provide a
-standalone server executable. From a configured build tree with tests enabled,
-build and run the GeoJSON geometry suite:
+The integrated Geo implementation is compiled into the parent ThemisDB build;
+`src/geo` does not provide a standalone server executable. The parent CMake can
+select the optional external Geo plugin with `THEMIS_EXTERNALIZE_GEO_PLUGIN`
+when its plugin feature and submodule are available; in that mode this
+integrated-source guide is not evidence about the plugin implementation. From
+the default integrated build tree with tests enabled, build and run the
+GeoJSON geometry suite:
 
 ```sh
 cmake --build <build-dir> --target module_geo_test_geo_json_geometry_focused

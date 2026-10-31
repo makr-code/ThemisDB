@@ -1,26 +1,24 @@
-# ROADMAP (`tests/config/`)
+# Config Test Directory Status
 
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+## Current inventory
 
-## Current Status
+Focused test sources are present for resolver, validator, watcher, encrypted
+store, metrics/audit/supporting types, hardening cases and the migration
+scanner. Root CMake target/CTest registrations are listed in
+[`README.md`](README.md).
 
-- [x] Developer-Einstieg für `tests/config/` vereinheitlicht (Target: 2026-Q2)
-- [x] Preset-Referenzen auf vorhandene `linux-release`-Flows ausgerichtet (Target: 2026-Q2)
+This inventory records source and build wiring only; no test suite was run for
+this documentation update. A test source, target, or test label is not evidence
+that a test currently passes.
 
-## In Progress
+## Follow-up verification
 
-- [ ] Policy-Änderungsregeln pro kritischer Testsuite dokumentieren (Target: 2026-Q3)
-- [ ] Mapping `Policy-Key -> betroffene Tests` ergänzen (Target: 2026-Q3)
+- [ ] Reconcile contract constants and clauses against runtime assertions in
+  each focused suite.
+- [ ] Confirm platform coverage for watcher tests from CI run evidence.
+- [ ] Resolve the unregistered `test_lru_boundary_focused.cpp` source or record
+  the intended reason for its exclusion.
+- [ ] Keep test target and CTest names synchronized with root
+  `tests/CMakeLists.txt`.
 
-## Planned Features
-
-- [ ] Versionierungs-/Migrationshinweise für Test-Policies dokumentieren (Target: 2026-Q3)
-- [ ] Änderungs-Checkliste für Review von Konfigurationsänderungen ergänzen (Target: 2026-Q4)
-
-## Production Readiness Checklist
-
-- [x] Einstieg, Architektur und Rolloutdokumente vorhanden
-- [x] Kommandoreferenzen sind preset-konsistent
-- [ ] Policy-Impact auf Test-Suites transparent dokumentiert
-- [ ] Änderungsakzeptanzkriterien pro Konfigurationsbereich definiert
+The root `ROADMAP.md` remains authoritative for project release readiness.

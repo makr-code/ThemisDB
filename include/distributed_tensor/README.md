@@ -1,73 +1,87 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+# Distributed Tensor Public Headers
 
-# Distributed Tensor Module — Public Headers
+**Last Updated:** 2026-10-31
+**Source level:** Level 1 — public API
+**SOT domain:** api-contract
+**Canonical references:** `include/distributed_tensor/*.h`, `src/distributed_tensor/CMakeLists.txt`
+**Related:** Issue #7341
 
-**Module Path:** `include/distributed_tensor/`
-**Implementation:** `../../src/distributed_tensor/`
+<!--
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot Coding Agent
+Human_Review: false
+Human_Author: unknown
+Exact model backend not verifiable from final document text alone.
+-->
 
-## Purpose
+`include/distributed_tensor/` contains the public C++ interfaces for the
+distributed tensor module. The canonical module implementation and status
+documentation is in [`../../src/distributed_tensor/README.md`](../../src/distributed_tensor/README.md)
+and [`../../src/distributed_tensor/ROADMAP.md`](../../src/distributed_tensor/ROADMAP.md).
 
-Public interfaces and declarations for ThemisDB's distributed tensor sharding, placement, and computation subsystem, providing abstractions for tensor distribution across nodes and integrity verification.
+## Public headers
 
-## Canonical Module Documentation
+| Header | Declared interface area |
+|---|---|
+| `artifact_manifest.h` | Artifact manifests, shard placements, integrity receipts, reconstruction metadata |
+| `distributed_planner.h` | Distributed retrieval plans, summary-first routing and exact-on-demand request interfaces |
+| `integrity_verification.h` | Integrity receipts, hash algorithm enumeration, verification engine interfaces |
+| `recovery_manager.h` | Recovery strategies and manager interface |
+| `shard_placement.h` | Placement constraints, node capacity and placement strategy |
+| `tensor_artifact_classes.h` | Artifact classes, lifecycle and artifact metadata |
+| `tensor_infrastructure.h` | Node/infrastructure management interfaces |
+| `tensor_storage_strategy.h` | Quantization assessment, memory mapping and storage strategy APIs |
+| `tensor_training_coordinator.h` | In-process training-job coordinator and worker callback interface |
 
-`include/distributed_tensor/` contains public header contracts. Canonical module behavior, architecture, and operations docs live in `src/distributed_tensor/`:
+These are declarations, not a guarantee that every strategy or integration is
+enabled in a production deployment. Consult the corresponding header and the
+module CMake source list for current details.
+
+**Integrity caveat:** The module CMake target uses the root-level
+`src/distributed_tensor/integrity_verification.cc`, whose `simple_sha256_hash()`
+is an FNV-1a demonstration hash, not SHA-256. The separate nested
+`src/distributed_tensor/src/integrity_verification.cc` with SHA-256 calls is
+not part of that target's source list. Do not treat the default target's
+Merkle-shaped structures or receipts as cryptographic security.
+
+**Training caveat:** `TensorTrainingCoordinator` runs registered worker
+callbacks synchronously in-process; it does not provide networked or
+distributed worker execution.
+
+## Minimal API example
+
+```cpp
+#include "distributed_tensor/artifact_manifest.h"
+
+themis::distributed_tensor::ArtifactManifest manifest(
+    "artifact-1", themis::distributed_tensor::ArtifactClass::PRIMARY);
+manifest.set_version("v1");
+```
+
+## Build
+
+The module CMake target is `themis_distributed_tensor`; its configured public
+headers are listed in `src/distributed_tensor/CMakeLists.txt`. The repository
+does not define the previously documented `themis-distributed_tensor` target
+alias or the sample `createDistributedPlanner()` API.
+
+After configuring a repository build with this module enabled:
+
+```sh
+cmake --build <build-dir> --target themis_distributed_tensor
+```
+
+## C++ standard
+
+The public `tensor_storage_strategy.h` includes `<span>` and exposes
+`std::span`, so consumers of the installed headers require C++20. The
+`themis_distributed_tensor` CMake target declares `cxx_std_20` as a `PUBLIC`
+compile feature, which propagates the requirement to CMake consumers linking
+that target.
+
+## Related documentation
 
 - [`../../src/distributed_tensor/README.md`](../../src/distributed_tensor/README.md)
 - [`../../src/distributed_tensor/ARCHITECTURE.md`](../../src/distributed_tensor/ARCHITECTURE.md)
 - [`../../src/distributed_tensor/ROADMAP.md`](../../src/distributed_tensor/ROADMAP.md)
-- [`../../src/distributed_tensor/FUTURE_ENHANCEMENTS.md`](../../src/distributed_tensor/FUTURE_ENHANCEMENTS.md)
-
-## Header Files
-
-| Header | Primary Class / Interface |
-|--------|--------------------------|
-| `artifact_manifest.h` | `ArtifactManifest` — distributed tensor metadata and placement info |
-| `distributed_planner.h` | `DistributedPlanner` — tensor distribution and placement strategy |
-| `integrity_verification.h` | `IntegrityVerification` — checksum and verification for distributed tensors |
-| `shard_coordinator.h` | `ShardCoordinator` — orchestration of tensor shards across nodes |
-| `tensor_replication.h` | `TensorReplication` — replication policies and cross-node synchronization |
-
-## Usage
-
-```cpp
-#include "distributed_tensor/distributed_planner.h"
-
-auto planner = themis::distributed_tensor::createDistributedPlanner();
-
-auto placement = planner->planPlacement(tensor, nodes, {
-    .replication_factor = 3,
-    .locality_aware = true
-});
-
-planner->execute(placement);
-```
-
-For full runtime usage examples (planning, verification, coordination), see [`../../src/distributed_tensor/README.md`](../../src/distributed_tensor/README.md).
-
-## Key Configuration Surface
-
-Important configuration entry points are declared in:
-
-- `distributed_planner.h` (`DistributedPlanner::Config` for placement strategy)
-- `tensor_replication.h` (`TensorReplication::Config` for replication policies)
-- `shard_coordinator.h` (coordinator configuration and tuning)
-- `integrity_verification.h` (checksum algorithms and verification options)
-
-## Build
-
-```cmake
-cmake --preset release && cmake --build build/release --target themis-distributed_tensor
-```
-
-## See Also
-
-- [`../../src/distributed_tensor/README.md`](../../src/distributed_tensor/README.md) — implementation details
-- [`../../src/tensor/README.md`](../../src/tensor/README.md) — base tensor module
-- [`../../src/sharding/README.md`](../../src/sharding/README.md) — sharding coordination
-
-## Installation
-
-```cmake
-target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
-```

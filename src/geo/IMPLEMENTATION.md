@@ -1,13 +1,13 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 Source_Level: "L1"
-SOT_Domain: "module-behavior"
+SOT_Domain: "build-test"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot"
+AI_Contributor: "GitHub Copilot coding agent"
 Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
@@ -24,6 +24,15 @@ not an automatic guarantee that every contract constant is enforced by every
 operation.
 
 ## Source layout and dispatch
+
+The build is integrated from `src/geo/` by
+default. The parent CMake can select the optional plugin source (default path
+`plugins/themisdb_geo`, configurable via `THEMIS_GEO_PLUGIN_SUBMODULE_DIR`) with
+`THEMIS_EXTERNALIZE_GEO_PLUGIN=ON` when
+`THEMIS_PLUGIN_GEO` is enabled and the configured submodule has a
+`CMakeLists.txt`; otherwise it retains the integrated sources. This guide and
+the source mapping below describe the integrated implementation. The optional
+plugin's API/test parity was not validated here.
 
 [`CMakeLists.txt`](./CMakeLists.txt) lists geometry parsing, CPU execution,
 indexing, joins, clustering, raster, temporal-spatial queries, tiles, policy,

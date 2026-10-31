@@ -54,15 +54,16 @@ struct ConfigEncryptedBlob {
     std::vector<uint8_t> tag;         ///< 16 bytes (AES-GCM authentication tag)
 
     /**
-     * @brief To Json.
-     * @return Return value.
+     * @brief Serializes this encrypted entry as a JSON object.
+     * @return JSON text containing the key version, IV, ciphertext, and tag.
      */
     std::string toJson() const;
 
     /**
-     * @brief From Json.
-     * @param[in] json_str Input parameter.
-     * @return Return value.
+     * @brief Parses an encrypted entry from its JSON representation.
+     * @param[in] json_str JSON object containing the encrypted entry fields.
+     * @return The decoded encrypted entry.
+     * @throws ConfigEncryptionException if a required field is missing or invalid.
      */
     static ConfigEncryptedBlob fromJson(const std::string& json_str);
 };
@@ -84,54 +85,59 @@ public:
     // -------------------------------------------------------------------------
 
     /**
-     * @brief Set.
-     * @param[in] config_key Input parameter.
-     * @param[in] plaintext Input parameter.
+     * @brief Encrypts and stores a value under a non-empty configuration key.
+     * @param[in] config_key Non-empty key identifying the configuration value.
+     * @param[in] plaintext Value to encrypt and retain in memory.
+     * @throws std::invalid_argument if config_key is empty.
+     * @throws ConfigEncryptionException if encryption fails.
      */
     void set(const std::string& config_key, const std::string& plaintext);
 
     /**
-     * @brief Get.
-     * @param[in] config_key Input parameter.
-     * @return Return value.
+     * @brief Decrypts and returns the value associated with a key.
+     * @param[in] config_key Key to look up.
+     * @return The authenticated plaintext value.
+     * @throws ConfigKeyNotFoundException if the key is absent.
+     * @throws ConfigEncryptionException if the stored blob cannot be decrypted.
      */
     std::string get(const std::string& config_key) const;
 
     /**
-     * @brief Try Get.
-     * @param[in] config_key Input parameter.
-     * @return Return value.
+     * @brief Retrieve a value when the key is present.
+     * @param[in] config_key Key to look up.
+     * @return The plaintext value, or std::nullopt only when the key is absent.
+     * @throws ConfigEncryptionException if the stored blob cannot be decrypted.
      */
     std::optional<std::string> tryGet(const std::string& config_key) const;
 
     /**
-     * @brief Remove.
-     * @param[in] config_key Input parameter.
-     * @return True when the operation succeeds.
+     * @brief Removes an entry if present.
+     * @param[in] config_key Key to remove.
+     * @return True if an entry existed and was removed; otherwise false.
      */
     bool remove(const std::string& config_key);
 
     /**
-     * @brief Contains.
-     * @param[in] config_key Input parameter.
-     * @return True when the operation succeeds.
+     * @brief Checks whether an entry exists without decrypting it.
+     * @param[in] config_key Key to look up.
+     * @return True if the key is present; otherwise false.
      */
     bool contains(const std::string& config_key) const;
 
     /**
-     * @brief Keys.
-     * @return Return value.
+     * @brief Returns the keys of all stored entries.
+     * @return A snapshot of the current key set.
      */
     std::vector<std::string> keys() const;
 
     /**
-     * @brief Size.
-     * @return Return value.
+     * @brief Returns the number of stored entries.
+     * @return The current entry count.
      */
     std::size_t size() const;
 
     /**
-     * @brief Clear.
+     * @brief Removes all stored entries.
      */
     void clear();
 
@@ -140,14 +146,18 @@ public:
     // -------------------------------------------------------------------------
 
     /**
-     * @brief Rotate Key.
-     * @return Return value.
+     * @brief Re-encrypt all entries with a newly generated key.
+     * @return The new key version.
+     * @throws ConfigEncryptionException if key generation or re-encryption fails;
+     *         on failure the existing key and entries remain unchanged.
+     * @note Rotation holds the exclusive store lock for the full operation, so
+     *       concurrent reads and writes wait until rotation completes.
      */
     uint32_t rotateKey();
 
     /**
-     * @brief Current Key Version.
-     * @return Return value.
+     * @brief Returns the version of the active encryption key.
+     * @return The active key version.
      */
     uint32_t currentKeyVersion() const;
 
@@ -156,14 +166,16 @@ public:
     // -------------------------------------------------------------------------
 
     /**
-     * @brief Serialize.
-     * @return Return value.
+     * @brief Serializes the key and encrypted entries to JSON.
+     * @return JSON snapshot containing the current key bytes and store entries.
+     * @note The snapshot contains sensitive key material and is not ciphertext-only.
      */
     std::string serialize() const;
 
     /**
-     * @brief Deserialize.
-     * @param[in] json_str Input parameter.
+     * @brief Replaces the store state from a serialized JSON snapshot.
+     * @param[in] json_str JSON snapshot previously produced by serialize().
+     * @throws ConfigEncryptionException if the snapshot is malformed or invalid.
      */
     void deserialize(const std::string& json_str);
 

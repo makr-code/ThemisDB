@@ -1,54 +1,38 @@
-# Audit Report - Failover Module
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
 
-<!-- Status: current | validated: 2026-08-24 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+Exact model backend not verifiable from final document text alone.
 
-## Summary
+# Failover Module Source Audit
 
-| Metric | Result |
-|---|---|
-| Build registration | pass |
-| Source set size | 2 implementation files in src/failover |
-| Focused test presence | pass |
-| Open hardening findings | none (all closed 2026-08-24) |
-| Critical blockers | none |
+**Audit date:** 2026-10-31
+**Scope:** failover headers, implementation, focused tests, benchmark registration, and module documentation.
 
-## Verified Files
+## Current source findings
 
-- src/failover/auto_failover_manager.cpp
-- src/failover/disaster_recovery_manager.cpp
-- include/failover/auto_failover_manager.h
-- include/failover/disaster_recovery_manager.h
+| Area | Verified in repository | Limitation / risk |
+|---|---|---|
+| Automatic orchestration | `AutoFailoverManager` monitors health, tracks failures, queues work, checks quorum/fencing, requests replica promotion, and exposes events/statistics. | Spare activation and metadata update do not perform the implied external actions. `target_promote_id` is stored in the queued task but not used to select the candidate. |
+| Health timeout | `getClusterHealth()` is invoked asynchronously and the monitoring cycle waits up to `health_check_call_timeout_ms`. A timed-out future may continue running; another health cycle is skipped while it remains pending. | `stop()` calls `join()` directly. Its source comments calculate deadlines, but those deadlines do not limit the join. |
+| Quorum log | Optional `QuorumLog` appends delimited records with CRC32 and skips malformed or CRC-invalid records during recovery. Append/flush failure blocks the relevant path. | Startup logs recovered data; the manager does not restore epoch/quorum state from it. CRC32 is not authentication. |
+| Disaster recovery | Plan strings are validated; seven steps run in fixed order; failed steps stop later steps; named results are cached in memory; concurrent uncached execution is rejected. | Built-in restore/traffic shift do not invoke adapters. Catch-up tests quorum, verification tests health/quorum, and there is no compensation for prior steps. |
+| Topology | Snapshots copy failure counts and sort node IDs; the detector retries once if its before/after node sets differ. | `has_topology_change()` compares node sets, not version values; this is not a general concurrent-topology stress guarantee. |
+| Tests/build | `tests/failover/CMakeLists.txt` globs `test_failover_*.cpp` and registers focused targets with `failover;release_critical` labels. Benchmark CMake defines three benchmark targets behind `THEMIS_BUILD_BENCHMARKS`. | This documentation audit checked source/registration only; it did not build targets or execute tests/benchmarks. |
+| Observability | Manager state, statistics, callbacks, and `spdlog` calls exist. | No named Prometheus exporter or trace-span implementation was found in the failover runtime. |
 
-## Findings
+## Audit status and references
 
-### Open
-
-*No open findings.*
-
-### Closed
-
-- core failover runtime surfaces are present and source-verified.
-- documentation set is synchronized to source-verifiable claims.
-- changelog/roadmap role separation is aligned to governance pattern.
-- [FO-AUD-01] dependency-degraded recovery behavior hardening — **CLOSED 2026-08-24**.
-  Evidence: `stop()` bounded wait contracts, `processFailover()` fail-closed state transitions,
-  unavailable-manager guards in `checkAndWaitForQuorum()`, `preventSplitBrain()`, and
-  `selectAndPromoteReplica()`; covered by P23-01..08 and FCH-01..16 test suites.
-- [FO-AUD-02] queue-pressure and retry diagnostics — **CLOSED 2026-08-24**.
-  Evidence: `emitDiagnostic(FailoverErrorCode, node_id, detail)` unifies log+event dispatch;
-  queue-saturation metrics tracked in `stats_` (batch stats flush, `tasks_dropped_queue_full`,
-  `queue_pressure_events`); covered by chaos scenario test suite (17 cases).
-- [FO-AUD-03] benchmark coverage for failover-native hot paths — **CLOSED 2026-08-24**.
-  Evidence: `benchmarks/failover/bench_failover_release_gates.cpp` (FRG-01..06),
-  `benchmarks/failover/bench_failover_phase2_phase3_gates.cpp` (FP23-01..06),
-  `benchmarks/failover/bench_failover_wave_b_gates.cpp` (FWB-01..08).
-
-## Compliance Snapshot
-
-| Requirement | Status |
-|---|---|
-| Source-verifiable behavior claims | pass |
-| Structured forward planning in roadmap/future | pass |
-| Historical completion tracked in changelog | pass |
-| Core module docs synchronized | pass |
+This report records repository inspection, not a CI result, production-readiness
+certification, or human approval. For aggregate maturity, use root
+[`../../ROADMAP.md`](../../ROADMAP.md); module behavior is documented in
+[`README.md`](README.md), [`ARCHITECTURE.md`](ARCHITECTURE.md), and
+[`IMPLEMENTATION.md`](IMPLEMENTATION.md).

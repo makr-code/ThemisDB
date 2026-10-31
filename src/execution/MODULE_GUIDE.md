@@ -47,7 +47,8 @@ Research and evidence-oriented references:
 |---|---|
 | Public declarations | `include/execution/query_scheduler.h`, `include/execution/thread_pool_manager.h` |
 | Internal implementation | `src/execution/query_scheduler.cpp`, `src/execution/thread_pool_manager.cpp` |
-| Focused scheduler and pool tests | `tests/integration/test_load_balancing.cpp`, `tests/integration/test_resource_pooling.cpp` |
+| Registered focused execution tests | `tests/execution/test_execution_engine.cpp`, `tests/execution/test_execution_performance.cpp`, `tests/execution/test_query_compilation.cpp` |
+| Separate pool integration test | `tests/integration/test_resource_pooling.cpp` |
 | Capacity stress simulation (local models) | `tests/execution/test_execution_highcardinality_stress.cpp` |
 | Dedicated benchmark harness (local models) | `benchmarks/execution/bench_execution_dedicated_gates.cpp` |
 | Conditional server lifecycle wiring | `include/server/http_server.h`, `src/server/http_server.cpp` |
@@ -60,10 +61,12 @@ runtime behavior without implementation and regression coverage.
 
 ## Build and validate
 
-The module README documents the CMake configuration and CTest filters. Run
-focused scheduler tests for admission/order changes and the integration tests
-for pool worker/lifecycle changes. The stress and benchmark artifacts use local
-models and must not substitute for production-runtime capacity or performance
+The module README documents exact CTest filters. The three tests registered by
+`tests/execution/CMakeLists.txt` cover focused scheduler behavior;
+`test_resource_pooling` is registered separately by the integration test
+configuration for pool behavior. The high-cardinality stress source is not
+registered as a CTest target and uses local models. The stress and benchmark
+artifacts must not substitute for production-runtime capacity or performance
 evidence. Record the configuration and result; the execution primitives do not
 expose a standalone CLI or network endpoint.
 

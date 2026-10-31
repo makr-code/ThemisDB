@@ -1,57 +1,57 @@
-# Audit Report - Config Module
+---
+Author: "ThemisDB Contributors"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+Exact model backend not verifiable from final document text alone.
 
-## Summary
+# Config Module Source Review
 
-| Metric | Result |
-|---|---|
-| Build registration | pass |
-| Source set size | 6 implementation files in src/config |
-| Focused test presence | pass |
-| Open hardening findings | yes |
-| Critical blockers | none identified |
+## Scope and limitation
 
-## Verified Files
+This is a documentation review inventory, not a fresh security audit, build
+result, benchmark run, coverage report, or production-readiness sign-off. The
+earlier report's pass/fail metrics and severity labels are not reproduced
+without current supporting artifacts.
 
-- src/config/config_path_resolver.cpp
-- src/config/config_schema_validator.cpp
-- src/config/config_metrics_exporter.cpp
-- src/config/config_file_watcher.cpp
-- src/config/config_encrypted_store.cpp
-- src/config/config_audit_log.cpp
+## Source and test inventory checked
 
-## Findings
+Implementation files:
 
-### Open
+- `src/config/config_path_resolver.cpp`
+- `src/config/config_schema_validator.cpp`
+- `src/config/config_file_watcher.cpp`
+- `src/config/config_metrics_exporter.cpp`
+- `src/config/config_audit_log.cpp`
+- `src/config/config_encrypted_store.cpp`
 
-1. [CFG-AUD-01] resolver/validator edge hardening remains active.
-- Severity: medium
-- Evidence: roadmap/future retain active tasks for fallback and validation edge consistency.
-- Action: close remaining deterministic edge regressions across mapping and schema behavior.
+Public headers: `include/config/*.h`. Focused test sources and registration:
+`tests/config/test_config_*.cpp`, `tests/CMakeLists.txt`. Benchmark sources:
+`benchmarks/config/*.cpp`, with target registration in
+`benchmarks/CMakeLists.txt`.
 
-2. [CFG-AUD-02] watcher and secure-store long-running diagnostics require tightening.
-- Severity: medium
-- Evidence: planned work remains for churn/race and rotation diagnostics alignment.
-- Action: unify error taxonomy and expand deterministic stress/fault-path tests.
+## Findings requiring follow-up
 
-3. [CFG-AUD-03] benchmark breadth remains narrow.
-- Severity: low
-- Evidence: current mapping is resolver-heavy with limited module-wide benchmark depth.
-- Action: add dedicated benchmarks for broader config runtime paths and recalibrate release thresholds.
+- The contract header declares multiple input/resource bounds; enforcement is
+  not verified for every declaration.
+- The validator implements selected schema behavior; full Draft 7 support is
+  not established.
+- `ConfigEncryptedStore::tryGet()` now returns `std::nullopt` only for absence
+  and propagates decrypt/decoding exceptions. Regression assertions were added
+  for corrupted authentication tags; they have not yet been executed.
+- Watcher cache invalidation does not establish consumer reload/apply success.
+- The release-gate benchmark's schema call now uses `validateFromString()`;
+  compilation remains unverified because the available environment lacks
+  required dependencies. Benchmark labels do not establish measured thresholds
+  or passing release gates.
 
-### Closed
-
-- core config runtime surfaces are present and source-verified.
-- documentation set is synchronized to source-verifiable claims.
-- changelog/roadmap role separation is aligned to governance pattern.
-
-## Compliance Snapshot
-
-| Requirement | Status |
-|---|---|
-| Source-verifiable behavior claims | pass |
-| Structured forward planning in roadmap/future | pass |
-| Historical completion tracked in changelog | pass |
-| Core module docs synchronized | pass |
+See [`MODULE_GAPS.md`](MODULE_GAPS.md) for the action list. No severity or
+compliance score is assigned in the absence of a current, reproducible audit
+record.

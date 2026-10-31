@@ -32,6 +32,13 @@ class CuratedModuleIndexTests(unittest.TestCase):
         self.assertIn("[Importer module context](IMPORTERS.md)", modules)
         self.assertIn("[Updates module context](UPDATES.md)", modules)
         self.assertIn("[Ethics AI module context](ETHICS_AI.md)", modules)
+        self.assertIn("[DISTRIBUTED_TENSOR.md](DISTRIBUTED_TENSOR.md)", index)
+        self.assertIn("AI_Used: true", index)
+        self.assertIn("must not redefine project status", index)
+        self.assertIn("[Importer module context](IMPORTERS.md)", modules)
+        self.assertIn("[Updates module context](UPDATES.md)", modules)
+        self.assertIn("[Distributed tensor module context](DISTRIBUTED_TENSOR.md)", modules)
+        self.assertIn("AI_Used: true", modules)
 
     def test_previous_source_manifest_is_used_for_delta(self):
         wiki_sync = _load_module()
@@ -91,6 +98,7 @@ class CuratedModuleIndexTests(unittest.TestCase):
                 "ETHICS_AI.md",
                 "IMPORTERS.md",
                 "UPDATES.md",
+                "DISTRIBUTED_TENSOR.md",
             ):
                 (wiki_dir / name).write_text(f"# {name}\n", encoding="utf-8")
 
@@ -103,6 +111,7 @@ class CuratedModuleIndexTests(unittest.TestCase):
                 "ai_context/developer_llm_wiki/IMPORTERS.md",
                 "ai_context/developer_llm_wiki/ETHICS_AI.md",
                 "ai_context/developer_llm_wiki/UPDATES.md",
+                "ai_context/developer_llm_wiki/DISTRIBUTED_TENSOR.md",
             },
         )
 

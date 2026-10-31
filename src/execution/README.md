@@ -19,7 +19,7 @@ The execution module provides two bounded runtime primitives that higher-level c
 - `themis::execution::QueryScheduler` implements a thread-safe earliest-deadline-first queue with backpressure, low-priority shedding, and SLA-completion metrics.
 - `themis::resource::WorkStealingThreadPool` executes submitted work on a fixed worker set behind a bounded central dispatch queue.
 
-The current implementation is intentionally compact and deterministic. It does **not** yet implement elastic worker scaling or per-worker dequeue stealing, even though the thread-pool type keeps those extension points reserved in its public contract.
+The current implementation is intentionally compact and deterministic. It does **not** yet implement elastic worker scaling or per-worker dequeue stealing. The per-worker queue objects are private implementation scaffolding, not part of the public API contract.
 
 ## Scope
 
@@ -47,20 +47,27 @@ cmake -S . -B build -DTHEMIS_EXECUTION_MODULE=ON
 cmake --build build --target themisdb
 ```
 
-To run the focused execution tests after configuring and building with tests:
+`tests/execution/CMakeLists.txt` registers these three focused CTest cases:
 
 ```bash
-ctest --test-dir build -R "execution" --output-on-failure
+ctest --test-dir build -R '^(test_execution_engine|test_execution_performance|test_query_compilation)_ExecutionFocusedTests$' --output-on-failure
 ```
+
+The broader pool integration suite is registered separately as
+`test_resource_pooling` by `tests/integration/CMakeLists.txt`:
+
+```bash
+ctest --test-dir build -R '^test_resource_pooling$' --output-on-failure
+```
+
+`tests/execution/test_execution_highcardinality_stress.cpp` is a local-model
+simulation and is not registered by `tests/execution/CMakeLists.txt` as a CTest target.
 
 The dedicated benchmark target can be run when benchmarks are enabled:
 
 ```bash
 ./build/benchmarks/execution/bench_execution_dedicated_gates
 ```
-
-`tests/execution/test_execution_highcardinality_stress.cpp` is a local-model
-simulation and is not registered as a CTest target.
 
 ## API/CLI Einstieg
 
@@ -71,11 +78,15 @@ The module exposes two public headers:
 // Enqueue work with a 500 ms SLA and 100 ms admission timeout
 auto id = scheduler.enqueue(my_task, SLAPriority::MEDIUM, 500, "example",
                             std::chrono::milliseconds{100});
-// Dequeue the next entry (earliest deadline first)
-QueryEntry entry;
-bool ok = scheduler.dequeue(entry, std::chrono::milliseconds{200});
-// Report completion for SLA metrics
-scheduler.reportCompletion(id);
+// Only dequeue after successful admission so a rejected submission does not
+// consume an unrelated entry already in the queue.
+if (id != 0) {
+    QueryEntry entry;
+    if (scheduler.dequeue(entry, std::chrono::milliseconds{200})) {
+        entry.execute();
+        scheduler.reportCompletion(entry.id);
+    }
+}
 ```
 
 **`include/execution/thread_pool_manager.h`** — `themis::resource::WorkStealingThreadPool`
@@ -83,7 +94,8 @@ scheduler.reportCompletion(id);
 // Submit a task with a 100 ms queue-wait timeout
 bool accepted = pool.submit([]{ /* work */ }, "example",
                             std::chrono::milliseconds{100});
-// Wait for all queued tasks to complete
+// Wait for the pending dispatch queue to empty; a worker may still be executing
+// an item it has already popped.
 pool.waitAll(std::chrono::milliseconds{5000});
 // Retrieve runtime statistics
 auto stats = pool.statistics();
@@ -91,8 +103,9 @@ auto stats = pool.statistics();
 
 ## Integrationsueberblick
 
-The following diagram distinguishes server lifecycle ownership from a consumer's
-optional scheduler-to-pool handoff:
+The server currently owns only primitive construction and teardown. The
+scheduler-to-pool handoff below is optional host-consumer composition, not a live
+`HttpServer` request path:
 
 ```mermaid
 flowchart LR

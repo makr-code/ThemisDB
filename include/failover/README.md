@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset release && cmake --build build/release`
 
 # include failover module
@@ -11,8 +25,11 @@ Public header surface for failover orchestration and disaster recovery.
 
 | Header | Primary API | Runtime Role |
 |--------|-------------|--------------|
-| `auto_failover_manager.h` | `AutoFailoverManager`, `AutoFailoverConfig`, `FailoverResult`, `FailoverEventType`, `FailoverOrchestratorState` | Automatic failover orchestration, queue management, event callbacks, retry and pressure telemetry |
-| `disaster_recovery_manager.h` | `DisasterRecoveryManager`, `DisasterRecoveryConfig`, `DisasterRecoveryPlan`, `DisasterRecoveryResult`, `DisasterRecoveryStep` | Disaster-recovery plan validation, 7-step execution pipeline, step-hook injection, aggregate run statistics |
+| `auto_failover_manager.h` | `AutoFailoverManager`, `AutoFailoverConfig`, `FailoverResult`, event/state/statistics types | Health/failure monitoring, bounded queue, quorum/fencing gates, replica-promotion request, callbacks and in-process statistics |
+| `disaster_recovery_manager.h` | `DisasterRecoveryManager`, config/plan/result/step types | DR plan validation, ordered seven-step coordination, step hooks and run statistics |
+| `failover_api_contract.h` | `NodeRole`, `FailoverErrorCode`, timing/epoch/quorum/retry helpers | Shared contract declarations |
+| `quorum_log.h` | `QuorumLog`, `QuorumEntry`, `QuorumState` | Optional local append/recovery log |
+| `topology_snapshot.h` | `TopologySnapshot` | Failure-map snapshot and node-set comparison |
 
 ## Public API Behavior
 
@@ -27,7 +44,7 @@ Public header surface for failover orchestration and disaster recovery.
 Important runtime semantics:
 
 - `triggerManualFailover()` returns `false` if the manager is stopped or the queue is already full.
-- Queue-pressure events are emitted when queue fill ratio reaches `queue_pressure_threshold`.
+- A `QUEUE_PRESSURE` event is emitted for an enqueue whose queue fill ratio meets or exceeds `queue_pressure_threshold`.
 - `Statistics` include processed failovers, queue depth/drop counters, network-partition counts, and retry counters.
 
 ### `DisasterRecoveryManager`
@@ -49,24 +66,35 @@ Important runtime semantics:
 
 | Field | Effect |
 |------|--------|
-| `failure_detection_interval`, `health_check_interval` | Monitoring cadence for failure tracking |
-| `failover_timeout`, `spare_activation_timeout`, `leader_election_timeout` | Time bounds for key failover phases |
+| `health_check_interval` | Initial monitoring interval; adaptive mode may subsequently change it |
 | `consecutive_failures_before_action` | Node-failure threshold before orchestration triggers |
-| `max_concurrent_failovers` | Queue capacity for pending failovers |
-| `queue_pressure_threshold` | Emits `QUEUE_PRESSURE` once queue fill ratio reaches the configured fraction |
-| `enable_automatic_failover`, `enable_spare_activation`, `enable_leader_election` | Enable/disable major orchestration behaviors |
-| `enable_network_partition_detection`, `enable_split_brain_prevention` | Control partition detection and epoch-fencing safeguards |
+| `max_concurrent_failovers` | Maximum number of pending requests in the queue |
+| `queue_pressure_threshold` | Emits `QUEUE_PRESSURE` on enqueues at or above the configured fill fraction |
+| `enable_spare_activation`, `enable_network_partition_detection`, `enable_split_brain_prevention` | Control the implemented spare, partition-detection, and fencing paths |
 | `enable_automatic_recovery`, `recovery_retry_interval`, `max_recovery_attempts` | Control best-effort post-failover recovery retries |
+| `health_check_call_timeout_ms`, `quorum_timeout_ms` | Bound the monitoring thread's health-call wait and quorum-check wait, respectively; a timed-out async health call may continue |
+| `quorum_log_path` | Enables the optional local quorum log |
+| `adaptive_check_interval`, `adaptive_check_samples`, `adaptive_check_interval_min`, `adaptive_check_interval_max` | Enable adaptive monitoring cadence and set its sample window and bounds |
+| `gc_grace_failure_count`, `gc_grace_window`, `gc_grace_period` | Configure the failure-count window and grace period |
+| `deterministic_tie_breaking` | Controls deterministic candidate tie-breaking |
+
+The following fields are declared in `AutoFailoverConfig` but are not read by
+the current runtime implementation: `failure_detection_interval`,
+`failover_timeout`, `spare_activation_timeout`, `leader_election_timeout`,
+`enable_automatic_failover`, `enable_leader_election`, and
+`max_heartbeats_per_second`. Do not rely on them to change runtime behavior.
 
 ### `DisasterRecoveryConfig`
 
 | Field | Effect |
 |------|--------|
-| `precheck_timeout`, `catchup_timeout`, `verification_timeout` | Upper bounds for prechecks, replica catchup, and verification windows |
+| `precheck_timeout` | Declared in the configuration but not read by the current runtime |
+| `catchup_timeout` | Deadline for quorum polling; time spent inside a blocking dependency call is not bounded by it |
+| `verification_timeout` | Divided across retry sleeps; it does not bound dependency-call duration or guarantee a strict overall deadline |
 | `max_verification_retries` | Max health/quorum verification attempts before failure |
 | `require_quorum` | Requires cluster quorum during prechecks/catchup/verification |
 | `enforce_epoch_fencing` | Requires epoch fencing before restore / traffic cutover |
-| `allow_dry_run_without_managers` | Declared compatibility flag; current implementation already permits dry-run execution without external managers regardless of this field |
+| `allow_dry_run_without_managers` | Currently has no effect; built-in dry-run steps bypass their manager checks regardless of this field |
 
 ## Installation
 

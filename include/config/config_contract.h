@@ -1,15 +1,14 @@
 /**
  * @file config_contract.h
- * @brief Frozen config-module semantics for the active v1.x release line.
+ * @brief Intended config-module semantics for the active v1.x release line.
  *
- * This header defines the normative contract for config resolution,
- * schema validation, file watching, and encrypted storage that all config
- * module components must honour in the current major release line.
+ * This header records intended config-module policy. Constants and policy
+ * statements are not proof of enforcement; implementation and test coverage
+ * are tracked in src/config/MODULE_GAPS.md.
  *
  * ## Contract Scope
  *
- * The contracts below are binding for all implementations that participate in
- * the ThemisDB configuration pipeline:
+ * The policy areas below apply to implementations in the config pipeline:
  *   - Path resolvers (ConfigPathResolver with fallback mapping)
  *   - Schema validators (ConfigSchemaValidator with JSON Schema Draft 7 subset)
  *   - File watchers (ConfigFileWatcher with bounded signaling)
@@ -38,38 +37,36 @@ namespace config {
 // ============================================================================
 // § 1  Configuration size constraints
 //
-// These limits are enforced at every inbound boundary (file paths, schema
-// documents, config values, config keys).  Inputs exceeding these limits
-// are rejected immediately; the caller receives a CONFIG_PARSE_ERROR or
-// CONFIG_VALIDATION_ERROR.  Oversized inputs are logged and audited.
+// These are intended policy limits. Current code does not enforce every limit;
+// see src/config/MODULE_GAPS.md before relying on any bound not covered there.
 // ============================================================================
 
-/// Maximum accepted config file size in bytes (100 MiB).
-/// Files exceeding this limit are rejected before parsing.
+/// Intended maximum config-file size in bytes (100 MiB); enforcement is not
+/// currently implemented by ConfigSchemaValidator.
 inline constexpr std::size_t kMaxConfigFileSizeBytes = 100 * 1024 * 1024;
 
-/// Maximum accepted config path length in UTF-8 bytes (4 KiB).
-/// Paths exceeding this limit are rejected with CONFIG_INVALID_PATH.
+/// Intended maximum config path length in UTF-8 bytes (4 KiB); the resolver
+/// validates path contents but does not currently enforce this length.
 inline constexpr std::size_t kMaxConfigPathBytes = 4096;
 
-/// Maximum accepted JSON Schema document size in bytes (10 MiB).
-/// Schemas exceeding this limit are rejected before validation.
+/// Intended maximum JSON Schema document size in bytes (10 MiB); enforcement
+/// is not currently implemented by ConfigSchemaValidator.
 inline constexpr std::size_t kMaxSchemaSizeBytes = 10 * 1024 * 1024;
 
-/// Maximum accepted config key length in UTF-8 bytes (256 bytes).
-/// Keys exceeding this limit cause CONFIG_INVALID_KEY errors.
+/// Intended maximum config key length in UTF-8 bytes (256 bytes); enforcement
+/// is not currently implemented.
 inline constexpr std::size_t kMaxConfigKeyBytes = 256;
 
-/// Maximum accepted config value length in UTF-8 bytes (1 MiB).
-/// Values exceeding this limit cause CONFIG_VALUE_OVERFLOW errors.
+/// Intended maximum config value length in UTF-8 bytes (1 MiB); enforcement
+/// is not currently implemented independently of schema constraints.
 inline constexpr std::size_t kMaxConfigValueBytes = 1024 * 1024;
 
-/// Maximum number of top-level keys in a config document.
-/// Documents exceeding this count cause CONFIG_STRUCTURE_TOO_LARGE.
+/// Intended maximum number of top-level keys; enforcement is not currently
+/// implemented by ConfigSchemaValidator.
 inline constexpr std::size_t kMaxConfigTopLevelKeys = 10000;
 
-/// Maximum nesting depth for config objects and arrays.
-/// Nested structures exceeding this depth cause CONFIG_NESTING_TOO_DEEP.
+/// Intended maximum nesting depth; enforcement is not currently implemented
+/// by ConfigSchemaValidator.
 inline constexpr std::size_t kMaxConfigNestingDepth = 100;
 
 // ============================================================================
@@ -79,39 +76,36 @@ inline constexpr std::size_t kMaxConfigNestingDepth = 100;
 // comparisons are consistent and monotonic within a single process lifetime.
 // ============================================================================
 
-/// File watcher polling interval (configurable; default 5 seconds).
-/// Actual watcher implementations must honor a bounded polling interval
-/// to prevent excessive system resource consumption.
+/// Reserved policy interval. The current watcher uses platform event APIs,
+/// not configurable polling.
 inline constexpr std::chrono::seconds kFileWatcherDefaultPollInterval{5};
 
-/// Absolute maximum watcher polling interval before raising a diagnostic.
+/// Reserved policy maximum; the current watcher does not poll at this interval.
 inline constexpr std::chrono::seconds kFileWatcherMaxPollInterval{60};
 
-/// Minimum watcher polling interval to prevent CPU thrashing.
+/// Reserved policy minimum; the current watcher does not poll at this interval.
 inline constexpr std::chrono::milliseconds kFileWatcherMinPollInterval{100};
 
-/// Encrypted-store key rotation check interval (default 24 hours).
-/// Rotation candidates are evaluated every interval; no in-flight rotations block client access.
+/// Reserved policy interval for rotation scheduling. ConfigEncryptedStore does
+/// not schedule rotations; callers invoke rotateKey() explicitly.
 inline constexpr std::chrono::hours kEncryptedStoreRotationInterval{24};
 
-/// Maximum staleness of cached config state that is still considered
-/// authoritative when the primary source (file/store) is temporarily unavailable.
+/// Reserved policy value; ConfigPathResolver does not implement last-known-good
+/// config caching or use this staleness bound.
 inline constexpr std::chrono::seconds kConfigCacheMaxStaleness{120};
 
 // ============================================================================
 // § 3  Failure classification
 //
-// All config components must map their internal error states to one of these
-// canonical failure classes.  This enables uniform operator diagnostics and
-// consistent fail-closed resolution behavior.
+// These values are policy categories. Current ConfigException types do not
+// carry this enum, and no module-wide classifier maps exceptions to it.
 // ============================================================================
 
 /**
  * @brief Canonical failure classes for config operations.
  *
- * Every ConfigException thrown by a config component must carry one of these
- * classes (encoded as the high-level ConfigErrorCode category) so that callers
- * can apply uniform policy regardless of the underlying adapter.
+ * This enum is not currently attached to ConfigException or ConfigErrorCode.
+ * Callers must classify concrete exception types themselves.
  */
 enum class ConfigFailureClass : int {
     /// Input is structurally malformed (bad format, size violation, encoding).
@@ -159,19 +153,11 @@ enum class ConfigFailureClass : int {
 /**
  * @brief Returns true when the given failure class mandates fail-closed denial.
  *
- * Use this predicate in catch blocks to decide whether to use a fallback or cache:
+ * This predicate only classifies the supplied value. The module does not yet
+ * map its thrown exceptions to ConfigFailureClass or implement the cache policy.
  *
  * @code
- *   try {
- *       return resolver->resolve(path);
- *   } catch (const ConfigException& ex) {
- *       if (isFailClosedClass(classifyError(ex.error().code()))) {
- *           // Hard denial — use last-known-good or deny request
- *           throw;
- *       }
- *       // Structurally-invalid input — also deny
- *       throw;
- *   }
+ *   const bool deny = isFailClosedClass(ConfigFailureClass::StorageDegraded);
  * @endcode
  */
 [[nodiscard]] inline constexpr bool isFailClosedClass(ConfigFailureClass fc) noexcept {
@@ -182,16 +168,12 @@ enum class ConfigFailureClass : int {
 // ============================================================================
 // § 5  Schema validation contract
 //
-// All schema validators MUST satisfy:
-//   - validate() is deterministic and idempotent for identical input.
-//   - External $ref URIs are NOT resolved (prevent SSRF, restrict to document-internal #/paths).
-//   - Unsupported JSON Schema keywords are silently ignored (graceful degradation).
-//   - Validation failures are collected and reported together (not fail-first).
-//   - Format validators (email, date, uri, ipv4, ipv6) use RFC-compliant implementations.
+// The validator supports a bounded keyword subset and rejects external $ref.
+// It collects diagnostics, but has no kMaxValidationErrorsCollected cap.
+// Format checks are regex-based; RFC conformance is not established.
 // ============================================================================
 
-/// Maximum number of distinct validation errors collected before short-circuiting.
-/// Validators that hit this limit must stop and report the collected errors.
+/// Intended validation-error cap. The current validator does not enforce it.
 inline constexpr std::size_t kMaxValidationErrorsCollected = 1000;
 
 /// Supported JSON Schema Draft version in use (Draft 7 subset).
@@ -200,28 +182,20 @@ inline constexpr const char* kJsonSchemaDraftVersion = "draft7-subset";
 // ============================================================================
 // § 6  File watcher availability contract
 //
-// File watchers MUST satisfy all of the following:
-//   - Polling interval is bounded and configurable within [kFileWatcherMinPollInterval, kFileWatcherMaxPollInterval].
-//   - File modifications are signaled within kFileWatcherDefaultPollInterval + latency (typically < 10 seconds).
-//   - If a watched file is deleted, the watcher signals a change event; callers MAY treat deletion as an error.
-//   - Watcher does NOT block main application threads for file I/O; all I/O is non-blocking or threaded.
-//   - Concurrent modifications during a watch interval are eventually consistent; no intermediate state
-//     is guaranteed to be observed (races are resolved in favor of the final state).
+// The current watcher uses platform event APIs, not configurable polling.
+// Interval constants do not establish or bound event latency.
 // ============================================================================
 
-/// File watcher timeout for internal operations (e.g., stat, open, read).
-/// If an operation exceeds this timeout, it is logged and retried next cycle.
+/// Reserved policy timeout; current watcher code does not enforce it.
 inline constexpr std::chrono::milliseconds kFileWatcherOperationTimeout{5000};
 
 // ============================================================================
 // § 7  Encrypted-store consistency contract
 //
-// Encrypted stores MUST obey all of the following:
-//   - All stored values are encrypted with AES-256-GCM (authenticated encryption).
-//   - Decryption failures return a CONFIG_DECRYPTION_ERROR (never silent failure).
-//   - Key rotation is non-blocking to client reads/writes (old + new keys accepted during transition).
-//   - Metadata (IV, nonce, ciphertext length) is validated before decryption attempt.
-//   - Store does not support partial reads; entire value is decrypted or operation fails.
+// ConfigEncryptedStore uses AES-256-GCM and validates IV/tag lengths. Rotation
+// re-encrypts under an exclusive lock and blocks concurrent operations.
+// get()/tryGet() propagate decryption errors; tryGet() returns nullopt only
+// when absent. Snapshot/entry size bounds are not otherwise enforced.
 // ============================================================================
 
 /// Encryption algorithm in use: AES-256 in GCM mode (256-bit key).
@@ -233,25 +207,23 @@ inline constexpr std::size_t kGcmAuthTagBytes = 16;
 /// GCM IV (Initialization Vector) length in bytes (typically 12 bytes, 96 bits).
 inline constexpr std::size_t kGcmIvBytes = 12;
 
-/// Maximum number of old encryption keys retained during rotation.
-/// Older keys are securely zeroed after this many generations.
+/// Policy ceiling for old key generations. Current rotation keeps no old
+/// generations and overwrites the active key buffer before replacing it.
 inline constexpr std::size_t kMaxEncryptionKeyRotationHistorySize = 3;
 
 // ============================================================================
 // § 8  Audit and observability contract
 //
-// All audit and metrics paths MUST satisfy:
-//   - Audit logs NEVER block config resolution or validation on write failures.
-//   - Metrics collection is always-on but bounded in cardinality (no unbounded label explosion).
-//   - Failed config operations are logged with sufficient context for debugging
-//     (path, schema context, error details) but WITHOUT sensitive values or secrets.
+// Audit and metrics implementations are in-memory/locally exported surfaces.
+// The constants below are policy ceilings; no event-cardinality aggregation
+// based on these limits is implemented in the current code.
 // ============================================================================
 
-/// Maximum number of distinct audit event types tracked in metrics.
-/// After this limit, overflow events are batched under a generic "audit_event_overflow" counter.
+/// Intended maximum number of distinct audit event types tracked in metrics;
+/// no overflow aggregation currently uses this value.
 inline constexpr std::size_t kMaxAuditEventTypeCardinality = 100;
 
-/// Maximum metrics label cardinality before aggregation to prevent memory exhaustion.
+/// Intended maximum metrics label cardinality; no aggregation currently uses it.
 inline constexpr std::size_t kMaxMetricsLabelCardinality = 10000;
 
 } // namespace config

@@ -1,32 +1,42 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-18"
-Last Updated: "2026-10-18"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References: "include/exporters/*.h; src/exporters/*.cpp"
+Related: "Issue #7346; DOC-WEEKLY-2026-44"
 ---
 
-# Exporters in ThemisDB
+# Exporters capabilities
 
-## Ueberblick
-Das Modul exporters stellt data export runtime surfaces for ThemisDB, including JSONL/Parquet/Arrow/HuggingFace formats, streaming and incremental export, join export workflows, encryption, template transformation, and export policy controls. Im Modulkontext werden Aussagen mit [Architekturgrenzen](./ARCHITECTURE.md), [Release-Planung](./ROADMAP.md), [Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md) abgeglichen. Im Betrieb sind dabei insbesondere [Latenz](https://en.wikipedia.org/wiki/Latency_(engineering)), [Observability](https://en.wikipedia.org/wiki/Observability) und [Determinismus](https://en.wikipedia.org/wiki/Deterministic_algorithm) relevante Qualitaetskriterien. Fuer Querschnittskontext wird das Modul mit den relevanten Stellen im [Compendium](./../../docs/compendium/docs/index.md) verknuepft.
+Exact model backend not verifiable from final document text alone.
 
-## Kern-Features im Detail
-Die erste Kernfaehigkeit ist **JSONL export for LLM training workflows**. Das beschreibt einen konkreten, in den Modulquellen referenzierten Verantwortungsbereich.
+The exporters module serializes caller-provided `BaseEntity` records; it does
+not query source collections or generate embeddings. Its public interfaces
+provide:
 
-Die zweite Kernfaehigkeit ist **Parquet export pipeline**. Dadurch bleiben Integrationspfade zwischen Modulgrenzen reproduzierbar und operativ auswertbar.
+- JSONL formats and named LLM-data templates, with configurable field mapping,
+  quality checks, and optional PII detection/redaction.
+- Parquet and Arrow IPC file/stream paths, subject to build-time Arrow support.
+- Local Hugging Face dataset-directory generation and a separate Hub upload
+  client.
+- Cursor-based streaming, sequence-watermark incremental output, and a
+  memory-budgeted in-process join.
+- Optional encryption, AQL predicate filtering on supported export paths,
+  format registration, and in-process metrics.
 
-Die dritte Kernfaehigkeit ist **Arrow IPC export paths**. Das unterstuetzt stabile Abnahme- und Aenderungsprozesse entlang der Modul-Roadmap.
+Streaming consumes cursor pages through a buffered writer; its configured
+`max_buffer_bytes` value triggers flushes but is not a total-process-memory cap.
+Incremental export receives an entity vector from its caller. Join export holds
+its right-side records in memory. These distinctions matter when sizing input
+and resource limits.
 
-```mermaid
-flowchart LR
-    A[Produktanforderung] --> B[Exporters Modul]
-    B --> C[Implementierung und Integrationspfade]
-    C --> D[Test- und Betriebsnachweise]
-    D --> E[Kundennutzen im Betrieb]
-```
-
-## Kundennutzen und Abgrenzung
-Kundinnen und Kunden erhalten damit vor allem besser planbares Systemverhalten, kuerzere Eingrenzungszeiten bei Stoerungen und transparentere Release-Risiken. Diese Seite ist ein fachlich-kommunikativer Ueberblick; normative API-, Compliance- und Freigabeaussagen verbleiben in den kanonischen Modulquellen.
-
-## Einordnung und Quellen
-Primaere modulnahe Quellen: [README.md](./README.md), [ARCHITECTURE.md](./ARCHITECTURE.md), [ROADMAP.md](./ROADMAP.md), [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md), [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md), [SECURITY.md](./SECURITY.md). Sekundaere Querschnittsquellen: [docs/exporters/README.md](./../../docs/exporters/README.md), [Compendium Index](./../../docs/compendium/docs/index.md). Aussagen wurden auf diese Quellenbasis begrenzt; bei fehlenden Modulquellen werden keine weitergehenden Produktclaims ergänzt.
+See [README.md](./README.md), [ARCHITECTURE.md](./ARCHITECTURE.md),
+[API.md](./API.md), and [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md).

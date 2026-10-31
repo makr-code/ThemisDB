@@ -1,96 +1,82 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+# Geo public headers
 
-# Geo Module Headers
+This directory declares public geo interfaces. Implementations are primarily
+under `src/geo/`; shared EWKB and parsed
+geometry types are also declared in
+`include/utils/geo/`.
 
-This directory contains header files (.h) for the geo module.
+## Interface map
 
-## Purpose
+| Header | Public surface |
+|---|---|
+| `geo_api_contract.h` | `GeoErrorCode` and contract constants |
+| `geo_policy.h` | Per-query policy fields, validation, and advisory collection filtering |
+| `geo_json_geometry.h` | `IGeoJSONGeometry`, concrete GeoJSON geometry types, CRS identifiers, validation |
+| `geo_math.h` | Geodesic and geometry math helpers |
+| `geo_ops_ext.h` | `IGeoOpsExtension` extension-discovery interface |
+| `spatial_backend.h` | `ISpatialComputeBackend`, precision mode, backend registry/getters and diagnostic reports |
+| `geo_backend_dispatch.h` | `GeoBackendDispatcher` batched Haversine, Vincenty and point-in-polygon methods |
+| `gpu_kernel_dispatcher.h` | `GpuKernelDispatcher` CUDA/HIP-facing distance and containment dispatch |
+| `device_detector.h` | Geo device capability detection |
+| `geo_rtree.h`, `rtree_cursor.h` | In-memory R-tree and cursor/index interfaces |
+| `spatial_join.h`, `spatial_join_filter.h` | Spatial joins, iterator and filter predicates |
+| `geo_clustering.h` | `dbscanCluster()` and `kmeansCluster()` |
+| `geo_faiss_knn.h` | Point-only geographic nearest-neighbor and radius search |
+| `raster.h`, `raster_query_interface.h` | Raster grid and typed raster query/status interfaces |
+| `temporal_spatial_query.h`, `temporal_spatial_query_builder.h` | Versioned-geometry query and builder |
+| `tile_server.h` | XYZ/Web Mercator helpers and vector-tile encoding |
+| `geo_edge_case_handler.h`, `geo_operator_diagnostics.h`, `gpu_buffer_guard.h`, `phase2_phase3_hardening.h` | Hardening, diagnostics and resource-guard interfaces |
 
-Public interfaces and declarations for geo functionality. Implementation source files are in `../../src/geo/`.
+The interface names above are a navigation aid, not a promise that every
+operation uses the same backend or is enabled in every build. Consult the
+specific declaration and implementation for input order, units, status/error
+behavior, ownership, and fallback details.
 
-## Public Header Entry Points
+## Build-selection notes
 
-| Header | Description |
-|--------|-------------|
-| `spatial_backend.h` | Core backend API: `ISpatialComputeBackend`, `GeoPrecisionMode`, `getBackendForPrecision()`, GPU backend getters, backend stats/device JSON |
-| `geo_ops_ext.h` | Optional extension interface `IGeoOpsExtension` for geometry operations (`ST_BUFFER`, `ST_UNION`, `ST_DIFFERENCE`) |
-| `geo_rtree.h` | `GeoRTree` in-memory spatial index for MBR `intersects`/`contains` queries |
-| `rtree_cursor.h` | Pull-based index API: `IRTreeCursor`, `IGeoIndex`, `GeoRTreeIndex`, `CursorStatus` |
-| `gpu_kernel_dispatcher.h` | CUDA/HIP dispatch wrapper for geospatial batch kernels (distance/containment) |
-| `spatial_join.h` | Spatial join API and Haversine helper for distance-threshold join processing |
-| `spatial_join_filter.h` | Composable spatial predicates: `IntersectsFilter`, `ContainsFilter`, `WithinFilter`, `TouchesFilter`, `DWithinFilter` and combinators |
-| `geo_clustering.h` | Geo clustering entry points (`dbscanCluster()`, `kmeansCluster()`) |
-| `geo_faiss_knn.h` | FAISS-based geo k-NN/radius interface via ECEF projection |
-| `geo_json_geometry.h` | RFC 7946 geometry OOP API (`IGeoJSONGeometry`, `GeoPoint`, `GeoPolygon`, `GeoMultiPolygon`, `ValidationResult`, `CrsId`) |
-| `geo_math.h` | Geodesic helpers (`haversine`, bearing and related math primitives) |
-| `raster.h` | Raster grid abstraction for elevation sampling, bbox extraction and heatmaps |
-| `raster_query_interface.h` | Typed raster interface (`IRasterQueryInterface`, `RasterGridQueryImpl`, `NoOpRasterQueryImpl`, `RasterStatus`) |
-| `temporal_spatial_query.h` | Temporal-spatial query execution API for versioned datasets |
-| `temporal_spatial_query_builder.h` | Fluent query builder (`ITemporalSpatialQueryBuilder`, `TemporalSpatialQueryBuilder`, `BuiltTemporalSpatialQuery`) |
-| `tile_server.h` | Tile server integration API |
-| `device_detector.h` | Runtime GPU capability/discovery interface for geo backend routing |
+- The parent build uses the integrated `src/geo/` implementation by default.
+  `THEMIS_EXTERNALIZE_GEO_PLUGIN=ON` selects the optional plugin only when
+  `THEMIS_PLUGIN_GEO` is enabled and its configured submodule has a
+  `CMakeLists.txt`; otherwise the integrated implementation remains active.
+  The external plugin's behavior is outside this header inventory.
+- The integrated geo CMake sources select CUDA when `THEMIS_GEO_CUDA` is enabled; otherwise
+  HIP when `THEMIS_GEO_HIP` is enabled; otherwise the CPU dispatcher is selected.
+  The repository configuration makes CUDA take precedence over HIP.
+- `THEMIS_GEO_BOOST_BACKEND` is a compile definition used for the optional
+  Boost-backed implementation.
+- `raster_query_interface.h` declares `THEMIS_ENABLE_RASTER` as a compile-time
+  guard and provides `NoOpRasterQueryImpl`, which returns
+  `RasterStatus::NOT_SUPPORTED`. The inspected geo CMake feature file does not
+  define a matching user-facing option. **TODO:** verify the owning build's
+  raster enablement mechanism before documenting a configuration switch.
+- Compile-time support does not prove runtime device availability or execution
+  on a GPU. In particular, `GeoBackendDispatcher::computeVincentyBatch()`
+  currently runs its CPU implementation.
 
-## Runtime Behavior, Errors, and Limits
+No `geo.backend`, `geo.precision_mode`, or `geo.gpu.batch_size` runtime setting
+was found in the inspected geo declarations or CMake configuration.
 
-- `GeoPrecisionMode::Exact` uses full geometric checks; `GeoPrecisionMode::Approximate` uses MBR pre-filtering (faster, may include false positives).
-- GPU backend selection is runtime-safe: unavailable/erroring devices fall back to CPU with circuit-breaker behavior.
-- `IRasterQueryInterface` returns explicit `RasterStatus` values (`NOT_SUPPORTED`, `INVALID_BBOX`, `TILE_TOO_LARGE`, `BACKEND_ERROR`, ...).
-- `IRTreeCursor::next()` returns `CursorStatus::STALE` if the underlying index changed while iterating.
-- Current limits (also tracked in module docs): GPU DBSCAN defaults to finite max-n threshold; `ST_UNION`/`ST_DIFFERENCE` use CUDA kernels for Point×Point and now attempt Polygon×Polygon CUDA dispatch first for GPU-eligible single-ring polygons, while CPU exact fallback remains the correctness path for unsupported/failing polygon clipping cases (including hole/self-intersecting inputs).
+## Include usage
 
-## Configuration Options (Build/Runtime)
-
-- `THEMIS_GEO_BOOST_BACKEND` — enable Boost.Geometry-backed exact operations where available.
-- `THEMIS_GEO_CUDA` / `THEMIS_GEO_HIP` — enable CUDA/HIP geo kernel dispatch builds.
-- `THEMIS_ENABLE_HIP` — enable ROCm/HIP backend integration.
-- `THEMIS_ENABLE_RASTER` — enable full raster query implementation; otherwise `NoOpRasterQueryImpl` reports `NOT_SUPPORTED`.
-- Runtime tuning references (`geo.backend`, `geo.precision_mode`, `geo.gpu.batch_size`) are documented in `../../src/geo/ARCHITECTURE.md`.
-
-## Documentation
-
-- `../../src/geo/README.md` — module overview and feature list
-- `../../src/geo/ARCHITECTURE.md` — component architecture, data flow, threading model
-- `../../src/geo/ROADMAP.md` — module roadmap and implementation phases
-- `../../src/geo/FUTURE_ENHANCEMENTS.md` — planned enhancements with scientific references
-- `../../docs/de/geo/` — German-language developer documentation
-
-## Installation
-
-This module is included as part of ThemisDB. Add the module headers to your include path:
-
-```cmake
-target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
-```
-
-## Usage
-
-Include the relevant headers from this module:
+The parent project exposes the repository `include/` directory to its
+consumers. For example:
 
 ```cpp
-#include "geo/spatial_backend.h"
-#include "geo/rtree_cursor.h"
+#include "geo/geo_api_contract.h"
 #include "geo/geo_json_geometry.h"
+#include "geo/spatial_backend.h"
 ```
 
-> Assumes your target include path contains the repository `include/` directory (for example via `target_include_directories(... ${THEMISDB_INCLUDE_DIR})`).
+## Canonical documentation
 
-Minimal precision-mode backend selection:
+- Contract/interface guide:
+  `src/geo/API.md`.
+- Component and build boundaries:
+  `src/geo/ARCHITECTURE.md`.
+- Implementation and test registration:
+  `src/geo/IMPLEMENTATION.md` and `tests/geo/CMakeLists.txt`.
 
-```cpp
-using namespace themis::geo;
-auto* backend = getBackendForPrecision(GeoPrecisionMode::Exact);
-```
+---
 
-## Troubleshooting
-
-- Runtime operational issues and fallback behavior: [`../../docs/troubleshooting/geo_troubleshooting.md`](../../docs/troubleshooting/geo_troubleshooting.md)
-- GPU backend runbook and on-call procedures: [`../../docs/de/features/gpu_runbooks.md`](../../docs/de/features/gpu_runbooks.md)
-
-## Related Documentation
-
-- [`../../src/geo/README.md`](../../src/geo/README.md) — module overview, component map, usage
-- [`../../src/geo/ARCHITECTURE.md`](../../src/geo/ARCHITECTURE.md) — architecture, data flow, configuration and limits
-- [`../../src/geo/ROADMAP.md`](../../src/geo/ROADMAP.md) — delivery status and phased roadmap
-- [`../../src/geo/FUTURE_ENHANCEMENTS.md`](../../src/geo/FUTURE_ENHANCEMENTS.md) — planned enhancements and scientific references
-- [`../../docs/en/geo/README.md`](../../docs/en/geo/README.md) — English geo module documentation
-- [`../../docs/de/geo/README.md`](../../docs/de/geo/README.md) — German geo module documentation
+**AI_Used:** true · **AI_Models:** unknown · **AI_Contributor:** GitHub Copilot coding agent · **Human_Review:** false · **Human_Author:** ThemisDB Contributors
+Exact model backend not verifiable from final document text alone.

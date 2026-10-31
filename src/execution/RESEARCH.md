@@ -67,10 +67,11 @@ or production observability.
 
 ## Reproducible validation
 
-From the repository root, run the focused scheduler tests and
-`tests/integration/test_resource_pooling.cpp` as documented in [README.md](README.md).
-The high-cardinality test and benchmark can inform local queue-model changes,
-but do not validate production capacity or performance. Record the build
+From the repository root, run the three registered focused execution CTest
+cases and the separately registered `test_resource_pooling` integration test
+using the exact filters in [README.md](README.md). The high-cardinality source
+is not registered as a CTest target and, like the benchmark, uses local models;
+neither validates production capacity or performance. Record the build
 configuration, hardware, runtime test result, and production benchmark baseline
 together; do not compare results across different configurations as if they
 were equivalent.

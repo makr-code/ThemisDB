@@ -1,32 +1,50 @@
-# Test Configuration Architecture (`tests/config/`)
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
 
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+Exact model backend not verifiable from final document text alone.
 
-## Kontext
+# Config Test Architecture
 
-`tests/config/` kapselt testnahe Konfigurationsartefakte, die von Testläufen konsistent referenziert werden.
+## Purpose and data flow
 
-## Architektur-Surfaces
+The tests under `tests/config/` exercise public config interfaces and
+implementation behavior using temporary files/directories, in-memory JSON/YAML,
+test-local store instances, and assertions. They do not consume a shared
+`policies.test.yaml`; no such file exists in the directory inventory.
 
-| Surface | Ort |
+Focused executables are registered in the root `tests/CMakeLists.txt`; the
+per-directory `tests/config/CMakeLists.txt` has a separate target-generation
+pattern. For the actual root target and CTest names, see
+[`README.md`](README.md).
+
+## Test responsibility map
+
+| Test group | Inputs and observable behavior |
 |---|---|
-| Test-Policy-Konfiguration | `tests/config/policies.test.yaml` |
-| Aufrufkontext | `tests/CMakeLists.txt` + `ctest`-Presets |
+| Resolver | Paths/files, mapping, cache, environment and audit/metrics state |
+| Schema validator | JSON/YAML strings/files, schema results and parse diagnostics |
+| Watcher | Temporary directories, event delivery, callback and lifecycle |
+| Encrypted store | In-memory values, rotation, serialization and crypto errors |
+| Hardening | Selected path, schema, watcher and store boundary cases |
+| Metrics/coverage | Export output, counters, cache, audit and supporting types |
+| Migration scanner | Temporary text files, legacy references and scan/fix helpers |
 
-## Laufzeitmodell
+## Limits
 
-1. Tests laden Konfigurationen aus `tests/config/`.
-2. Policy-Parameter steuern Verhalten/Assertions in den betroffenen Suiten.
-3. Änderungen werden über Standard-Testflow (`cmake` + `ctest`) verifiziert.
+Contract-oriented test names and comments are descriptions, not proof that each
+contract statement is covered. In particular, the hardening watcher suite
+contains checks of declared timing constants as well as runtime behavior.
+Cross-platform event delivery and consumer-level reload/apply are not
+established by these test sources alone.
 
-## Nicht-Ziele
-
-- keine produktive Runtime-Konfiguration
-- keine Duplikation globaler App-Konfiguration aus `config/`
-
-## Sourcecode Verification (Scope: tests/config)
-
-- Verifiziert:
-  - `tests/config/policies.test.yaml`
-  - Referenz auf `tests/` Testlaufkontext (`tests/README.md`)
+Sources: `tests/config/*.cpp`, `tests/CMakeLists.txt`,
+`include/config/config_contract.h`, and `src/config/*.cpp`.

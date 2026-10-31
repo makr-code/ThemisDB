@@ -2,98 +2,111 @@
 
 **Module:** Distributed Tensor Module (`src/distributed_tensor`)  
 **Phase:** 6 - Documentation & Acceptance  
-**Status:** ⏳ PENDING MEASURED EVIDENCE (2026-08-10)  
+**Status:** ⏳ PENDING SOURCE-ALIGNED EVIDENCE
+**Last Updated:** 2026-10-31
 **Target Date:** 2027-01-31  
-**Current Owner:** Distributed Tensor Engineering
+**Source level:** Level 1 — module implementation
+**SOT domain:** module-behavior, build-test
+**Canonical references:** `src/distributed_tensor/CMakeLists.txt`, `tests/CMakeLists.txt`, `tests/distributed_tensor/CMakeLists.txt`, `tests/epic3_distributed_tensor/CMakeLists.txt`, `tests/integration/CMakeLists.txt`, `benchmarks/CMakeLists.txt`, `benchmarks/distributed_tensor/CMakeLists.txt`, `benchmarks/epic3_distributed_tensor/CMakeLists.txt`
+**Related:** Issue #7341
+
+<!--
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot Coding Agent
+Human_Review: false
+Human_Author: unknown
+Exact model backend not verifiable from final document text alone.
+-->
 
 ## Purpose
 
-This checklist defines the evidence required to close Phase 6 for the EPIC 3
-distributed tensor module. Phase 1-4 implementation and validation artifacts
-exist, and the Phase 5 benchmark package is implemented. Phase 6 stays open
-until measured result bundles are attached and every benchmark gate receives an
-explicit pass/fail outcome.
+This checklist defines evidence needed for Phase 6 acceptance. Historical
+phase reports are not treated as current evidence unless their referenced
+sources and result artifacts are available and verified.
 
 ## Current State Summary
 
-- [x] Phase 1 contract ownership documented
-- [x] Phase 2 core implementation delivered
-- [x] Phase 3 failure/degraded-mode semantics verified
-- [x] Phase 4 focused and broad contract coverage delivered
-- [x] Phase 5 benchmark sources, workload profiles, gate manifest, and runbooks exist
-- [~] Phase 5 measured benchmark evidence pending
-- [~] Phase 6 sign-off document created, awaiting attached evidence
+- [x] Module source and public interface files are registered in the current module CMake file
+- [x] Three focused test executables are registered in `tests/distributed_tensor/CMakeLists.txt`
+- [x] EPIC 3 phase/contract test sources are registered in `tests/epic3_distributed_tensor/CMakeLists.txt`
+- [x] Integration soak test is included conditionally from `tests/integration/CMakeLists.txt`
+- [x] One in-process benchmark source is selected by `benchmarks/distributed_tensor/CMakeLists.txt`
+- [x] EPIC 3 workload benchmarks are configured in `benchmarks/epic3_distributed_tensor/CMakeLists.txt`
+- [ ] Build/test execution evidence collected
+- [ ] Representative performance evidence collected
+- [ ] Phase 6 acceptance decision recorded
 
-## Phase 5 Benchmark Package Coverage
+## Current Benchmark Coverage
 
-### Workload profiles with runtime benchmark sources
-- [x] `planner_latency_healthy` → `/home/runner/work/ThemisDB/ThemisDB/benchmarks/epic3_distributed_tensor/distributed_retrieval_bench.cc`
-- [x] `placement_throughput_balanced` → `/home/runner/work/ThemisDB/ThemisDB/benchmarks/epic3_distributed_tensor/placement_strategy_bench.cc`
-- [x] `integrity_under_manifest_churn` → `/home/runner/work/ThemisDB/ThemisDB/benchmarks/epic3_distributed_tensor/integrity_verification_bench.cc`
-- [x] `recovery_rebuild_degraded` → `/home/runner/work/ThemisDB/ThemisDB/benchmarks/epic3_distributed_tensor/recovery_rebuild_bench.cc`
-- [x] `infrastructure_control_plane_stability` → `/home/runner/work/ThemisDB/ThemisDB/benchmarks/epic3_distributed_tensor/infrastructure_bench.cc`
+### Current module-local benchmark source
 
-### Supporting benchmark sources outside the release-gate profile list
-- [x] Phase B partial-refit source → `/home/runner/work/ThemisDB/ThemisDB/benchmarks/epic3_distributed_tensor/bench_tensor_partial_refit.cc`
-- [x] Phase C summary-first source → `/home/runner/work/ThemisDB/ThemisDB/benchmarks/epic3_distributed_tensor/bench_tensor_summary_first.cc`
-- [x] Phase D CPU baseline source → `/home/runner/work/ThemisDB/ThemisDB/benchmarks/epic3_distributed_tensor/bench_tensor_cpu_gpu_breakeven.cc`
+`benchmarks/distributed_tensor/bench_distributed_tensor_dedicated_gates.cpp`
+contains DT-BM-01..04 source-level thresholds for dispatch latency, sync
+round-trip, routing latency, and concurrent operation throughput. Its comments
+state that it uses in-process stubs. The source is not representative
+distributed/GPU performance evidence and does not provide recorded results.
+
+The EPIC 3 benchmark CMake file configures the placement, integrity, recovery,
+distributed-retrieval, partial-refit, and summary-first sources when
+benchmarks are enabled. CMake registration confirms configured sources, not
+historical pass claims or measured results. Result artifacts were not checked
+in this documentation task.
 
 ## Required Evidence Artifacts
 
 ### 1. Focused test evidence
-- [ ] Build log for EPIC 3 focused tests
-- [ ] Passing CTest output for `epic3_distributed_tensor` targets
-- [ ] Focused benchmark binary list for EPIC 3 outputs
+- [ ] Build log for the three local focused targets and configured EPIC 3 test targets
+- [ ] CTest output for the local, EPIC 3, and integration test registrations in scope
+- [ ] Benchmark build/output, separating EPIC 3 workloads from in-process stub results
 
 ### 2. Phase 5 benchmark evidence
-- [ ] Aggregated result bundle conforming to `epic3_phase5_results_v1`
-- [ ] Gate summary generated by `/home/runner/work/ThemisDB/ThemisDB/benchmarks/epic3_distributed_tensor/report_variance_epic3.py`
-- [ ] Raw benchmark output for each workload profile
-- [ ] Hardware/topology disclosure for each run
+- [ ] Raw output and run configuration for any benchmark execution
+- [ ] Hardware/topology disclosure for representative distributed results
 - [ ] Variance notes for any re-run or retry
 
 ### 3. CPU/GPU break-even evidence
-- [x] CPU baseline benchmark source exists
 - [ ] CPU baseline result bundle attached
 - [ ] GPU comparison run attached
 - [ ] Hardware disclosure for accelerator run attached
-- [ ] `>= 4x` speedup gate at `N=1024` explicitly recorded before any GPU-ready claim
+- [ ] Any CPU/GPU speedup gate and accelerator result explicitly recorded before a GPU-ready claim
 
 ## Gate Decision Table
 
 | Gate | Profile | Threshold | Evidence path | Status |
 |---|---|---|---|---|
-| `GATE-E3-P5-01` | `planner_latency_healthy` | `latency_p99_us <= 750` | _pending result bundle_ | ⏳ Pending |
-| `GATE-E3-P5-02` | `placement_throughput_balanced` | `throughput_ops_per_sec >= 25000` | _pending result bundle_ | ⏳ Pending |
-| `GATE-E3-P5-03` | `integrity_under_manifest_churn` | `verification_success_ratio >= 0.999` | _pending result bundle_ | ⏳ Pending |
-| `GATE-E3-P5-04` | `recovery_rebuild_degraded` | `recovery_time_ms <= 30000` | _pending result bundle_ | ⏳ Pending |
-| `GATE-E3-P5-05` | `infrastructure_control_plane_stability` | `availability_ratio >= 0.99` | _pending result bundle_ | ⏳ Pending |
-| `GATE-E3-P5-06` | `planner_latency_healthy` | `coefficient_of_variation_pct <= 5.0` | _pending result bundle_ | ⏳ Pending |
+| DT-BM-01 | Stub sharded-op dispatch | Source comment: `≤ 1 µs` | No result produced in this review | Not run in this review |
+| DT-BM-02 | Stub tensor-sync round trip | Source comment: `≤ 10 µs` | No result produced in this review | Not run in this review |
+| DT-BM-03 | Stub partition routing | Source comment: `≤ 1 µs` | No result produced in this review | Not run in this review |
+| DT-BM-04 | Stub concurrent sharded ops (8 workers) | Source comment: `≥ 500 ops/s` | No result produced in this review | Not run in this review |
 
 ## Acceptance Rules
 
 Phase 6 may be marked complete only when all of the following are true:
 
-1. every focused EPIC 3 test target builds and passes
-2. every Phase 5 workload profile appears in the aggregated result bundle
-3. every gate in `release_gate_manifest_epic3.json` has a recorded pass/fail decision
-4. every failed gate has an attached triage note
-5. CPU/GPU break-even remains marked pending unless accelerator-backed evidence is attached
-6. roadmap, performance, audit, and README status remain synchronized with the measured evidence
+1. local and EPIC 3 focused targets, plus the integration soak target where
+   enabled, have build and execution evidence
+2. benchmark results are distinguished by source and supported by run configuration
+3. any applicable gate has an explicit result and failed gates have triage notes
+4. representative-hardware results are attached before making performance claims
+5. roadmap, performance, audit, and README status are synchronized with evidence
 
 ## Update Workflow
 
-1. Run the EPIC 3 benchmark package.
-2. Aggregate raw results into a single `epic3_phase5_results_v1` bundle.
-3. Generate the gate summary with `report_variance_epic3.py`.
-4. Replace the pending evidence placeholders in this document with artifact paths.
-5. Update `/home/runner/work/ThemisDB/ThemisDB/src/distributed_tensor/ROADMAP.md` readiness checkboxes to reflect measured outcomes.
+1. Build and execute the relevant currently registered test and benchmark
+   targets using the repository's normal build configuration.
+2. Record the exact commit, configuration, commands, results, hardware, and
+   topology; keep benchmark output distinct from test output.
+3. Attach result artifacts and triage notes for failures.
+4. Update this checklist, `ROADMAP.md`, `AUDIT.md`, and
+   `PERFORMANCE_EXPECTATIONS.md` from the recorded evidence.
 
 ## Related Files
 
-- `/home/runner/work/ThemisDB/ThemisDB/src/distributed_tensor/ROADMAP.md`
-- `/home/runner/work/ThemisDB/ThemisDB/src/distributed_tensor/PRODUCTION_ENABLE_GATES.md` ⭐ **NEW: Production enable gate criteria for Phase A/B/C (2026-08-17)**
-- `/home/runner/work/ThemisDB/ThemisDB/src/distributed_tensor/PERFORMANCE_EXPECTATIONS.md`
-- `/home/runner/work/ThemisDB/ThemisDB/src/distributed_tensor/TEST_EVIDENCE_COLLECTION.md`
-- `/home/runner/work/ThemisDB/ThemisDB/benchmarks/epic3_distributed_tensor/RUNBOOK_EPIC3_PHASE5.md`
-- `/home/runner/work/ThemisDB/ThemisDB/benchmarks/epic3_distributed_tensor/release_gate_manifest_epic3.json`
+- [`ROADMAP.md`](ROADMAP.md)
+- [`PRODUCTION_ENABLE_GATES.md`](PRODUCTION_ENABLE_GATES.md) (historical gate
+  criteria; current status requires revalidation)
+- [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md)
+- [`TEST_EVIDENCE_COLLECTION.md`](TEST_EVIDENCE_COLLECTION.md)
+- [`../../benchmarks/distributed_tensor/CMakeLists.txt`](../../benchmarks/distributed_tensor/CMakeLists.txt)
+- [`../../benchmarks/distributed_tensor/bench_distributed_tensor_dedicated_gates.cpp`](../../benchmarks/distributed_tensor/bench_distributed_tensor_dedicated_gates.cpp)

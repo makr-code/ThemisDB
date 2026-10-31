@@ -175,11 +175,6 @@ void ConfigEncryptedStore::set(const std::string &config_key, const std::string 
 }
 
 std::string ConfigEncryptedStore::get(const std::string &config_key) const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     auto it = store_.find(config_key);
     if (it == store_.end()) {
@@ -194,29 +189,12 @@ std::string ConfigEncryptedStore::get(const std::string &config_key) const {
 }
 
 std::optional<std::string> ConfigEncryptedStore::tryGet(const std::string &config_key) const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     auto it = store_.find(config_key);
     if (it == store_.end()) {
         return std::nullopt;
     }
-    try {
-        return decryptBlob(it->second);
-    } catch (const ConfigEncryptionException &) {
-        return std::nullopt;
-    } catch (const nlohmann::json::exception &) {
-        return std::nullopt;
-    } catch (const std::exception &) {
-        return std::nullopt;
-    } catch (const std::string &) {
-        return std::nullopt;
-    } catch (const char *) {
-        return std::nullopt;
-    }
+    return decryptBlob(it->second);
 }
 
 /**
@@ -231,21 +209,11 @@ bool ConfigEncryptedStore::remove(const std::string &config_key) {
 }
 
 bool ConfigEncryptedStore::contains(const std::string &config_key) const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     return store_.count(config_key) > 0;
 }
 
 std::vector<std::string> ConfigEncryptedStore::keys() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     std::vector<std::string> result = {};
 
@@ -257,11 +225,6 @@ std::vector<std::string> ConfigEncryptedStore::keys() const {
 }
 
 std::size_t ConfigEncryptedStore::size() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     return store_.size();
 }
@@ -325,11 +288,6 @@ uint32_t ConfigEncryptedStore::rotateKey() {
 }
 
 uint32_t ConfigEncryptedStore::currentKeyVersion() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
     return key_.version;
 }
@@ -339,11 +297,6 @@ uint32_t ConfigEncryptedStore::currentKeyVersion() const {
 // ---------------------------------------------------------------------------
 
 std::string ConfigEncryptedStore::serialize() const {
-    /**
-     * @brief Lock.
-     * @param[in] mutex_ Input parameter.
-     * @return Return value.
-     */
     std::shared_lock<std::shared_mutex> lock(mutex_);
 
     nlohmann::json j;

@@ -1,5 +1,26 @@
 # Phase 3: Failure Handling & Edge Cases - Design Documentation
 
+**Last Updated:** 2026-10-31
+**Source level:** Level 1 — module implementation
+**SOT domain:** module-behavior
+**Canonical references:** `src/distributed_tensor/CMakeLists.txt`, `include/distributed_tensor/`, `src/distributed_tensor/`
+**Related:** Issue #7341
+
+<!--
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot Coding Agent
+Human_Review: false
+Human_Author: unknown
+Exact model backend not verifiable from final document text alone.
+-->
+
+> **Historical design record:** This document's date and status describe the
+> 2026-07-03 design snapshot. Its proposed behavior, gate counts, and
+> implementation claims are not current verification evidence. Consult the
+> module [`ROADMAP.md`](ROADMAP.md) and current source/CMake registration for
+> current status.
+
 **Status:** IN PROGRESS  
 **Date:** 2026-07-03  
 **Author:** ThemisDB EPIC 3 Implementation Team
