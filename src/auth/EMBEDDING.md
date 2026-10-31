@@ -1,18 +1,18 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-21
-Last Updated: 2026-10-21
+Last Updated: 2026-10-31
 Status: active
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: unknown
-Human_Review: true
-Human_Author: ThemisDB Contributors
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: unknown
 ---
 
 # Auth Module Embedding Guide
 
-AI provenance note: Exact model backend not verifiable from final document text alone.
+Exact model backend not verifiable from final document text alone.
 
 This document explains how to embed the auth module into higher-level ThemisDB components without violating its fail-closed semantics or revocation expectations.
 
@@ -57,27 +57,34 @@ For a service that needs auth context, the safer pattern is:
 A minimal integration usually follows the following shape:
 
 ```cpp
-JWTValidator validator(cfg);
+JWTValidator validator(jwt_config);
 SessionManager sessions;
-AuthRateLimiter limiter;
 TokenBlacklist revocations;
 
-const auto auth_result = validator.validate(token);
-if (!auth_result.is_valid) {
-    return AuthErrorCode::INVALID_TOKEN;
+JWTClaims claims;
+try {
+    claims = validator.parseAndValidate(token);
+} catch (const std::runtime_error&) {
+    // Reject the request. JWTValidator reports validation failures by exception.
+    return;
 }
 
-const auto session_id = sessions.createSession(auth_result.user_id, device_fingerprint, ip, ua);
+const auto session_id = sessions.createSession(
+    claims.sub, device_fingerprint, ip, user_agent);
 if (!sessions.validateSession(session_id, ip).valid) {
-    return AuthErrorCode::SESSION_INVALID;
+    return;
 }
 
-if (revocations.isRevoked(jti)) {
-    return AuthErrorCode::TOKEN_REVOKED;
+if (!claims.jti.empty() && revocations.isRevoked(claims.jti)) {
+    return;
 }
 ```
 
-This pattern is intentionally conservative. A failed auth check should exit early rather than allowing partial downstream execution.
+This is an illustrative sequence, not a complete request pipeline. `JWTValidator`
+does not create sessions, and `SessionManager` does not consult the token
+blacklist. Callers must wire the required revocation backend explicitly. The
+URL-only JWT validator constructor disables issuer/audience requirements; use a
+configured `JWTValidatorConfig` when those checks are required.
 
 ## 4. Dependency and lifecycle expectations
 
@@ -100,7 +107,9 @@ The following conditions should never be silently downgraded by embedding caller
 - unknown realm or provider capability mismatch
 - rate-limit exhaustion or a suddenly degraded backend
 
-The source consistently reports these through typed error classes rather than generic exceptions or implicit fallbacks.
+Failure representation varies by adapter. JWT validation throws
+`std::runtime_error`; other APIs may return result values or throw
+`AuthException`. Handle each interface according to its header contract.
 
 ## 6. Operational safety rules
 

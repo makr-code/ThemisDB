@@ -1,9 +1,16 @@
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/auth/ROADMAP.md -->
 
 # Auth Module — Public Header Roadmap
+
+- **AI_Used:** true
+- **AI_Models:** unknown
+- **AI_Contributor:** GitHub Copilot
+- **Human_Review:** false
+- **Human_Author:** unknown
+Exact model backend not verifiable from final document text alone.
 
 **Module Path:** `include/auth/`
 **Canonical implementation roadmap:** [`../../src/auth/ROADMAP.md`](../../src/auth/ROADMAP.md)
@@ -20,7 +27,7 @@ Tracks public auth API contract stability, header-level hardening work, and futu
 
 ## Current Status
 
-All 37 auth headers are present and public entry points exist for JWT/OIDC, Kerberos, OAuth, SAML, LDAP, API-key, mTLS, MFA, passkeys, session/revocation, and authorization policy enforcement.
+All 41 auth headers are present. Public entry points cover JWT/OIDC, Kerberos, OAuth, SAML, LDAP, API-key, mTLS, MFA, passkeys, session/revocation, and authorization policy.
 
 ---
 
@@ -49,14 +56,14 @@ All 37 auth headers are present and public entry points exist for JWT/OIDC, Kerb
 - [x] `auth_decision_context.h` — shared decision object deferred; covered by auth_principal_contract.h ProviderCapability and AuthFailureClass (Target: 2026-Q4 → partially addressed Q3 2026)
 - [ ] Mark legacy password-only flows as discouraged once passkey/WebAuthn rollout guidance is complete (Target: 2026-Q4)
 - [x] Document benchmark-backed compatibility guarantees for token/session hot paths in header docs (Target: 2026-Q4 → delivered Q3 2026)
-  - Done: `session_manager.h` bounded runtime contract section added; AHP-01..08 benchmarks with GATE-AHP-01..06
+  - Done: `session_manager.h` bounded runtime contract section added; AHP-02..11 benchmark cases with GATE-AHP-01..06 (AHP-01 is comment-only)
 
 ---
 
 ## Implementation Phases
 
 ### Phase 1: Public API Stabilization (✅ Complete — Q2 2026)
-- Baseline all 37 public auth headers with complete Doxygen documentation
+- Baseline all 41 public auth headers and track Doxygen coverage in the generated API evidence
 - Define JWT/OIDC, OAuth, SAML, LDAP public contracts
 - Establish revocation and blacklist surface expectations
 
@@ -90,46 +97,37 @@ All 37 auth headers are present and public entry points exist for JWT/OIDC, Kerb
 ## Production Readiness Checklist
 
 ### Code Quality
-- [x] All 37 headers have `#pragma once` guards
-- [x] Complete Doxygen documentation with examples
+- [x] 41 public auth headers are present
+- [x] Auth Doxygen snapshot is available; complete current-symbol coverage is not established by this roadmap
 - [x] Error code taxonomy with dedicated error.h
-- [x] No compiler warnings (MSVC /W4, GCC -Wall -Wextra)
-- [x] All public types and functions documented
+- [ ] Compiler-warning status (not assessed in this documentation audit)
+- [ ] Complete documentation coverage for all public declarations (not asserted)
 
 ### Testing & Verification
-- [x] Unit tests for JWT/OIDC validators with real tokens
-- [x] Integration tests for SAML/LDAP with mock providers
-- [x] MFA flow testing (TOTP, WebAuthn, passkey)
-- [x] Session revocation tests across Redis/RocksDB backends
-- [x] Rate-limiter backend compatibility tests
-- [x] Audit logger output format validation
+- [x] Focused auth test sources are present under `tests/auth/` and are registered by the module CMake file
+- [ ] Test execution and integration coverage across provider/backend configurations are not established by source inventory alone
 
-### Security & Compliance
-- [x] All credentials handled via SecureMemory (zero-copy clearing)
-- [x] TOTP replay cache prevents timing attacks
+### Security Controls
+- [x] `SecureMemory` helper and TOTP replay-cache interfaces exist; use and guarantees are component-specific
+- [x] Replay-cache behavior has focused auth tests
 - [x] JWT key rotation manager with graceful key expiry
 - [x] OAuth PKCE flow and device-code flow implemented
-- [x] LDAP connection pool with SSL/TLS enforcement
-- [x] mTLS peer validation with certificate chain walk
+- [x] LDAP connection pool and mTLS certificate-validation implementations exist; transport TLS configuration is deployment-specific
 
 ### Performance & Benchmarks
-- [x] Session lookup latency ≤5ms @ 1K sessions (cached)
-- [x] Token validation ≤1ms (JWKS cached, local verification)
-- [x] Rate-limiter decision ≤100μs (lock-free, if available)
-- [x] Benchmark suite: `AHP-01..08` with GATE targets
+- [x] Auth hot-path source registers AHP-02..11; only GATE-AHP-01..06 are defined (AHP-01 appears in a comment only)
 
 ### Documentation & Maintenance
 - [x] Public API contract documentation (include/auth/README.md)
 - [x] Provider degradation guidance for federated flows
 - [x] Revocation failure scenarios documented
-- [x] Backward compatibility statement in VERSIONING.md
-- [x] Migration guide for deprecated legacy flows
+- [x] Compatibility policy is governed by root release documentation
+- [ ] A module-specific migration guide for deprecated legacy flows is not verified
 
 ### Deployment & Operations
-- [x] No external runtime dependencies (headers only; implementations link externals)
-- [x] Graceful fallback for unavailable external providers
+- [x] Provider and backend dependencies are explicit in their component configuration; there is no general provider-fallback guarantee
 - [x] Distributed blacklist eventual-consistency model documented
-- [x] Hot-key rotation without service restart
+- [x] JWT key-rotation management surface exists; deployment-level restart behavior is not established by this header roadmap
 
 ---
 

@@ -1,18 +1,18 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-21
-Last Updated: 2026-10-21
+Last Updated: 2026-10-31
 Status: active
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: unknown
-Human_Review: true
-Human_Author: ThemisDB Contributors
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: unknown
 ---
 
 # Auth Module Operations
 
-AI provenance note: Exact model backend not verifiable from final document text alone.
+Exact model backend not verifiable from final document text alone.
 
 This document is the operational companion to `src/auth/RUNBOOK.md` and the module architecture docs. It focuses on the most common operational failure modes in auth, how to recognize them, and the recovery path that preserves fail-closed semantics.
 
@@ -65,7 +65,7 @@ Symptoms:
 
 Diagnosis:
 
-- inspect `SessionManager` state and metrics
+- inspect available `SessionManager` queries (`size()`, `listSessions()`); metrics are embedding-specific
 - confirm whether idle timeout or absolute timeout is too aggressive
 - detect whether a client loop is repeatedly creating sessions without invalidating old ones
 
@@ -84,14 +84,14 @@ Failure posture:
 Symptoms:
 
 - blacklist check results appear inconsistent with policy decisions
-- `ProviderDegraded` or revocation-backend error states are logged
+- revocation/backend errors may be reported by the selected implementation; no universal log or metric name is defined by this module
 - users who should be revoked still pass validation temporarily
 
 Diagnosis:
 
 - inspect distributed blacklist or RocksDB-backed state
 - confirm whether the local or cluster node is in a degraded state
-- verify that sync or leader election still has a quorum or an active node
+- inspect the configured peer set and local synchronization result; this implementation does not use quorum consensus
 
 Recovery:
 
@@ -135,7 +135,7 @@ Diagnosis:
 
 - inspect rate limiter backend metrics and recent status changes
 - determine whether the issue is distributed or local-only
-- check for a backend failover event or in-memory fallback mode
+- check the selected backend's documented failure behavior; a universal in-memory fallback mode is not established
 
 Recovery:
 

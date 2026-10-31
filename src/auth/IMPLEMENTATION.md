@@ -1,18 +1,18 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-21
-Last Updated: 2026-10-21
+Last Updated: 2026-10-31
 Status: active
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: unknown
-Human_Review: true
-Human_Author: ThemisDB Contributors
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: unknown
 ---
 
 # Auth Module Implementation Notes
 
-AI provenance note: Exact model backend not verifiable from final document text alone.
+Exact model backend not verifiable from final document text alone.
 
 This document summarizes how the implementation in `src/auth` maps to the auth module’s execution model and safety constraints.
 
@@ -60,11 +60,16 @@ The implementation deals with several recurring edge cases explicitly:
 - distributed state sync timeouts
 - per-user session limits and resource exhaustion
 
-The module consistently maps these to typed auth errors or explicit structured failure states instead of suppressing them.
+Failure representation is component-specific. For example,
+`JWTValidator::parseAndValidate()` throws `std::runtime_error`, while some
+provider and distributed APIs use `AuthException` or result objects; callers
+must use the contract of the specific adapter.
 
 ## 4. Provider-specific design patterns
 
-Each protocol adapter follows a common pattern: validate input, call provider-specific logic, classify exceptions, and return a typed auth outcome. This is visible in the various authenticator implementations and in the common error taxonomy in `auth_error.h` / `auth_error.cpp`.
+Adapters generally validate inputs and expose failures, but they do not share
+one error representation or uniform exception-classification path. The
+`auth_error.h` taxonomy is used by some components, not every auth method.
 
 Examples:
 

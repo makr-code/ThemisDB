@@ -4,11 +4,22 @@ Author: ThemisDB Contributors
 Created: 2026-09-20
 Last Updated: 2026-09-20
 Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: unknown
+
+Exact model backend not verifiable from final document text alone.
 
 ## Source
-- This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\auth\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\auth\doxygen-warnings.log`
+- This file is a generated snapshot, not a live inventory of the current headers.
+- Archived XML index: `../../ai_context/developer_llm_wiki/module_doxygen_artifacts/auth/xml/index.xml`
+- The original warnings log was generated outside the repository and is not available here.
+
+The structure counts below describe the source scan that generated this
+snapshot; they have not been regenerated or verified against the current
+`include/auth`, `src/auth`, `tests/auth`, and benchmark trees.
 
 ## Structure Metrics
 - C/C++ Files (scanned): 106
@@ -8165,13 +8176,13 @@ Status: active
 - Parameters:
   - `v` (const std::vector< T > &): n/a
 
-#### `const T & operator[](std::size_t i) const noexcept`
+#### `const T & operator[] (std::size_t i) const noexcept`
 - Source: `include/auth/secure_memory.h`:276
 - Brief: n/a
 - Parameters:
   - `i` (std::size_t): n/a
 
-#### `T & operator[](std::size_t i) noexcept`
+#### `T & operator[] (std::size_t i) noexcept`
 - Source: `include/auth/secure_memory.h`:275
 - Brief: n/a
 - Parameters:
@@ -11274,4 +11285,3 @@ Status: active
 - Source: `include/auth/ldap_connection_pool.h`:63
 - Brief: n/a
 - Parameters: none
-
