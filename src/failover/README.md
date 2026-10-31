@@ -1,12 +1,25 @@
-# ThemisDB Failover Module
+---
+Author: "ThemisDB Team"
+Created: "2026-10-30"
+Last Updated: "2026-10-30"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: Production Ready (Wave A Hardening) | validated: 2026-08-14 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · PRODUCTION_REQUIREMENTS.md · MODULE_GAPS_BATCH5.md -->
+Exact model backend not verifiable from final document text alone.
+
+# ThemisDB Failover Module
 <!-- Wave Context: Wave A (Runtime Reliability Q3-Q4 2026) — Detection Accuracy + Promotion Timing + Split-Brain Prevention -->
 
 ## Module Purpose
 
-Production-capable automatic failover orchestration and disaster recovery execution surfaces for ThemisDB, including failover queueing, health detection, promotion strategy, recovery workflow execution, and operational state/telemetry handling. **Batch 5 enhancement focus: Detection determinism, promotion timing, split-brain prevention, topology validation**.
+Automatic failover orchestration and disaster-recovery plan coordination for ThemisDB. The module provides bounded queueing, health/failure tracking, quorum and fencing gates, replica-promotion requests, ordered recovery steps, and in-process results/events.
+
+**Implementation boundary:** several built-in actions are not external operations. Spare activation reports failure when a spare manager is configured; metadata update only logs; disaster-recovery restore and traffic shift report success without calling storage or traffic adapters. See [IMPLEMENTATION.md](IMPLEMENTATION.md) before treating a successful result as proof of a completed external action.
 
 ## Relevant Interfaces
 
@@ -14,6 +27,8 @@ Production-capable automatic failover orchestration and disaster recovery execut
 |---|---|
 | auto_failover_manager.cpp | failover monitoring, queueing, and worker orchestration |
 | disaster_recovery_manager.cpp | disaster recovery plan validation and step execution |
+| quorum_log.cpp | optional local quorum decision log |
+| topology_snapshot.cpp | deterministic topology snapshots and change comparison |
 | include/failover/auto_failover_manager.h | failover manager API/contracts |
 | include/failover/disaster_recovery_manager.h | disaster recovery API/contracts |
 
@@ -21,12 +36,17 @@ Production-capable automatic failover orchestration and disaster recovery execut
 
 - [RUNBOOK.md](RUNBOOK.md) — incident diagnosis and safe recovery
 - [OPERATIONS.md](OPERATIONS.md) — runtime signals and operating safeguards
+- [API.md](API.md) — public interfaces and caller behavior
+- [IMPLEMENTATION.md](IMPLEMENTATION.md) — execution paths and current limits
+- [MODULE_GUIDE.md](MODULE_GUIDE.md) — code map and focused tests
+- [RESEARCH.md](RESEARCH.md) · [MODELING.md](MODELING.md) · [EMBEDDING.md](EMBEDDING.md) — method, decision, and embedding scope
+- [TRUST.md](TRUST.md) — trust boundaries and controls
 
 ## Scope
 
 In scope:
 - automatic failover state machine and task queue behavior
-- disaster recovery plan validation and ordered execution
+- disaster recovery plan validation and ordered step coordination
 - failover/recovery statistics and lifecycle event surfaces
 
 Out of scope:
@@ -37,8 +57,9 @@ Out of scope:
 ## Runtime Behavior and Limits
 
 - failover behavior depends on configured thresholds, queue limits, and external manager availability.
-- disaster recovery enforces plan validation before non-dry-run state mutation.
+- disaster recovery validates required plan strings before executing its ordered steps; current built-in snapshot validation checks only that an ID is present.
 - monitoring and worker loops are concurrency-sensitive and bounded by configured queue/retry settings.
+- `DisasterRecoveryManager` does not roll back completed steps; built-in restore and traffic-shift handlers do not perform those external operations.
 
 ## Sourcecode Verification (Module: failover/readme)
 

@@ -25,6 +25,12 @@ Use this runbook for incidents in `AutoFailoverManager` and `DisasterRecoveryMan
 3. Preserve the current topology and quorum-log evidence. If `quorum_log_path` is configured, confirm the log can be read and appended.
 4. Use the deployment's authenticated admin control surface. The manager APIs are not a shell command interface.
 
+The current built-in implementation does not activate a configured spare or
+write updated cluster metadata. Its DR restore and traffic-shift steps report
+success without calling storage or traffic-management adapters. Confirm those
+external actions independently; a successful manager result alone does not
+prove that a restore or cutover occurred.
+
 ## Incident procedures
 
 ### Failure detection or heartbeat alarms
@@ -62,7 +68,7 @@ The default configuration allows two concurrent failovers and emits queue pressu
 1. Stop at the reported failed step. Do not start a second execution while the first is running; concurrent executions are rejected.
 2. For plan-validation errors, correct the plan fields and validate the recovery site and snapshot before execution.
 3. For an execution failure, inventory every completed step and any state it changed. Completed steps are not automatically rolled back.
-4. A dry run performs prechecks but deliberately skips snapshot validation, fencing, restore, catch-up, traffic shift, and verification mutations; a passing dry run is not proof of a completed recovery.
+4. A built-in dry run validates plan fields but its precheck handler returns without querying quorum; the remaining built-in handlers report dry-run outcomes without validating snapshot existence, fencing, restoring data, checking catch-up, shifting traffic, or verifying recovered state. A passing dry run is not proof of a completed recovery. Registered step hooks replace built-in handlers, so confirm their behavior before running a dry run.
 5. After a failed execution, the result for a non-empty `plan_id` is cached. Reusing that ID returns the cached result; do not treat it as a retry. Assign a new plan ID only after reconciling partial state and obtaining recovery-owner approval.
 
 ## Recovery verification
