@@ -1,95 +1,74 @@
-# Architecture - CDC Module
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source level: "level1"
+SOT domain: "module-behavior"
+Canonical source references: "include/cdc/changefeed.h; include/cdc/consumer_group.h; include/cdc/outbox.h; include/cdc/cdc_delivery_contract.h; src/cdc/changefeed.cpp; src/cdc/consumer_group.cpp; src/cdc/outbox.cpp"
+Related milestone: "DOC-WEEKLY-2026-44"
+---
 
-<!-- Status: current | validated: 2026-09-09 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+# CDC module architecture
 
-## Overview
+The CDC module records change events in a RocksDB-backed feed and provides
+separate interfaces for subscriptions, replay, consumer-group delivery,
+transport adapters, buffering, and administration. The source does not establish
+a universal storage commit hook or a deployment-specific server topology; host
+applications decide when to record events and how to expose administrative or
+transport operations.
 
-The cdc module composes event capture, buffering, replay, and transport delivery into a unified change-stream runtime. It provides structured reliability and operational control for downstream consumers and integration planes.
+## Data flow and state
 
-## Main Execution Planes
+1. A host calls `themis::Changefeed::recordEvent`. The feed assigns a sequence,
+   supplies a timestamp when needed, serializes the event, persists it in
+   RocksDB, and notifies registered push subscribers. `listEvents` reads events
+   using sequence bounds and optional filters. See
+   [`changefeed.h`](../../include/cdc/changefeed.h) and
+   [`changefeed.cpp`](./changefeed.cpp).
+2. Replay controllers and consumer groups read from the feed. A
+   `ConsumerGroupManager` persists group configuration and committed offsets in
+   RocksDB; its per-consumer in-flight delivery records are process-local and
+   are not restored after restart. See
+   [`consumer_group.h`](../../include/cdc/consumer_group.h) and
+   [`consumer_group.cpp`](./consumer_group.cpp).
+3. Transport adapters publish or poll feed events independently of capture.
+   Kafka support is guarded by `THEMIS_ENABLE_KAFKA`; `WsTransport` is guarded
+   by `THEMIS_ENABLE_WEBSOCKET`. Their presence in the public headers does not
+   prove that a particular build enables the backend.
+4. `OutboxWriter` writes an outbox record through the caller-provided RocksDB
+   transaction. `OutboxRelay` later forwards pending records to the changefeed
+   and updates their state in separate operations. The relay therefore does not
+   make the feed append and outbox state update one atomic operation. See
+   [`outbox.h`](../../include/cdc/outbox.h) and [`outbox.cpp`](./outbox.cpp).
 
-1. Capture and event plane
-- change capture and event construction paths
-- event buffering and retention-oriented retrieval behavior
+## Main implementation areas
 
-2. Delivery and transport plane
-- SSE/WebSocket/Kafka-facing transport integration surfaces
-- consumer-group and acknowledgement/retry control paths
-
-3. Reliability and recovery plane
-- dead-letter handling and replay-aware delivery tracking
-- transactional outbox and backpressure-aware buffering support
-
-4. Integration and operations plane
-- cross-collection stream and materialized-view integration
-- CDC admin controls and operational diagnostics surfaces
-
-## Core Contracts
-
-| Contract | Behavior |
+| Area | Source |
 |---|---|
-| capture/replay interfaces | record and replay change events deterministically |
-| delivery interfaces | manage acknowledgement, redelivery, and ordering contracts |
-| transport interfaces | expose CDC events to external/internal consumers |
-| admin interfaces | provide retention/control and operational visibility |
+| Feed persistence, sequence assignment, subscriptions, retention | [`changefeed.cpp`](./changefeed.cpp) |
+| Buffering and tenant-scoped buffers | [`changefeed_buffer.cpp`](./changefeed_buffer.cpp), [`tenant_buffer_manager.cpp`](./tenant_buffer_manager.cpp) |
+| Replay, delivery tracking, and consumer groups | [`delivery_tracker.cpp`](./delivery_tracker.cpp), [`consumer_group.cpp`](./consumer_group.cpp) |
+| WebSocket and optional Kafka adapters | [`ws_transport.cpp`](./ws_transport.cpp), [`kafka_cdc_producer.cpp`](./kafka_cdc_producer.cpp) |
+| Outbox and dead-letter handling | [`outbox.cpp`](./outbox.cpp), [`dead_letter_queue.cpp`](./dead_letter_queue.cpp) |
+| Admin, cross-collection streams, and materialized views | [`cdc_admin.cpp`](./cdc_admin.cpp), [`cross_collection_stream.cpp`](./cross_collection_stream.cpp), [`cdc_materialized_view.cpp`](./cdc_materialized_view.cpp) |
 
-## Failure Semantics
+`Changefeed` is declared in namespace `themis`; most other public CDC types
+are in `themis::cdc`. The public headers and
+[`cdc_delivery_contract.h`](../../include/cdc/cdc_delivery_contract.h) define
+the interface and delivery invariants. Consult those sources before inferring
+behavior from a transport or host integration.
 
-- malformed or unsupported CDC artifacts fail with structured errors.
-- transport/backend degradation remains explicit and observable.
-- delivery/replay failure classes remain bounded by configured controls.
+## Focused tests
 
-## Module Dependencies
+CDC tests are under [`tests/cdc/`](../../tests/cdc/). Its CMake file discovers
+each `test_*.cpp` and registers a `module_cdc_<test-name>_focused` target with
+CTest. The target links `themis_core` and the shared test libraries; runtime
+execution still depends on the configured build and its dependencies.
 
-### Direct Upstream Dependencies (this module uses)
-| Module | Interface / File | Purpose |
-|--------|-----------------|---------|
-| storage | `include/storage/rocksdb_wrapper.h` | Reads committed write batches from RocksDB to construct change events |
-| utils | `include/utils/` (time, serialization, concurrency helpers) | Event timestamping, payload serialisation, and buffer synchronisation primitives |
-| sharding | `include/sharding/` (shard routing) | Routes change events to the correct shard-local consumer partitions |
-
-### Direct Downstream Consumers (modules that use this module)
-| Module | Via | Notes |
-|--------|-----|-------|
-| server | `include/cdc/cdc_ws_handler.h`, `include/cdc/changefeed.h`, `include/cdc/consumer_group.h`, `include/cdc/delivery_tracker.h`, `include/cdc/icdc_transport.h` | WebSocket CDC push, changefeed management, consumer-group registration, and transport dispatch at the HTTP/WS boundary |
-| transaction | `include/cdc/changefeed.h` | Transactional changefeed integration; MVCC commit triggers CDC event emission |
-| storage | `include/cdc/changefeed.h` | Storage-layer write events feed the CDC capture pipeline |
-| replication | `include/cdc/schema_registry.h` | Schema registry consumed by replication to deserialise CDC event payloads |
-
-## Integration Points
-
-### Critical Integration: ChangeFeed ↔ Storage Write Path
-**Files:** `include/cdc/changefeed.h` ↔ `src/storage/` write commit path
-**Contract:** `ChangeFeed::onCommit(write_batch)` is called synchronously during the storage commit finalisation phase; the change event is appended to `ChangeBuffer` before the commit acknowledgement is returned to the transaction layer.
-**Thread Safety:** `ChangeFeed::onCommit()` is called under the storage commit lock; the `ChangeBuffer` append is lock-free via a SPSC queue per shard.
-**Failure Mode:** If `ChangeBuffer` is full the commit still proceeds but the change event is dropped and a `cdc.buffer_overflow` counter is incremented; downstream consumers must handle sequence gaps via resume-token replay.
-
-### Critical Integration: ConsumerGroup ↔ Server WebSocket Handler
-**Files:** `include/cdc/consumer_group.h`, `include/cdc/cdc_ws_handler.h` ↔ `src/server/`
-**Contract:** `ConsumerGroup::subscribe(session_id, filter)` registers a WebSocket session for filtered change delivery; `DeliveryTracker` tracks per-session ack positions and handles redelivery on reconnect.
-**Thread Safety:** Consumer registration and event fan-out run on separate thread pools; access to the consumer registry is protected by a `std::shared_mutex`.
-**Failure Mode:** Client disconnection triggers graceful consumer removal; unacknowledged events within the retention window are replayed on reconnect. Events beyond the retention window produce a `CURSOR_EXPIRED` error.
-
-### Critical Integration: SchemaRegistry ↔ Replication
-**Files:** `include/cdc/schema_registry.h` ↔ `src/replication/`
-**Contract:** The replication layer calls `SchemaRegistry::getSchema(schema_id)` to decode CDC event payloads at the replica; schema IDs embedded in events must be resolvable before the payload is applied.
-**Thread Safety:** `SchemaRegistry` caches resolved schemas in a read-optimised concurrent map.
-**Failure Mode:** Unresolvable schema ID halts replication for the affected partition and emits a `SCHEMA_NOT_FOUND` error to the replication error log.
-
-
-
-- Verified files:
-  - src/cdc/changefeed.cpp
-  - src/cdc/changefeed_buffer.cpp
-  - src/cdc/consumer_group.cpp
-  - src/cdc/delivery_tracker.cpp
-  - src/cdc/dead_letter_queue.cpp
-  - src/cdc/ws_transport.cpp
-  - src/cdc/kafka_cdc_producer.cpp
-  - src/cdc/outbox.cpp
-  - src/cdc/cdc_admin.cpp
-- Verified architecture claims:
-  - explicit capture, delivery, reliability, and operations planes
-  - bounded failure behavior for transport and delivery paths
-  - dedicated CDC-layer runtime composition for stream pipelines
+**Exact model backend not verifiable from final document text alone.**
