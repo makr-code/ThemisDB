@@ -1,60 +1,63 @@
-# PERFORMANCE_EXPECTATIONS - src/access_model
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: current | validated: 2026-09-21 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+# Access Model Performance Expectations
 
-## Scope
+## Scope and benchmark source
 
-- Module: src/access_model
-- This file defines measurable access_model performance expectations for release gating.
+This page records the numeric targets declared by
+`benchmarks/access_model/bench_access_coordinator_gates.cpp` and distinguishes
+those targets from measured evidence. The benchmark currently runs event
+callbacks without setting an `AgeBasedPolicy`; the coordinator takes its
+no-policy observation path. The current cases therefore do not establish
+end-to-end transfer or policy-decision performance.
 
-## Benchmark Reference
+## Declared targets and current coverage
 
-- Relevant benchmark files:
-  - `benchmarks/access_model/bench_access_coordinator_gates.cpp`
+| Gate | Intended target | Benchmark case | Current source behavior |
+|---|---|---|---|
+| GATE-ACM-01 | L1→L2 promotion ≤ 50 µs p99 | `GATE_ACM_01_L1ToL2Promotion` | Calls `onStorageAccess(STORAGE_COLD, ...)` without a policy; no promotion is queued. |
+| GATE-ACM-02 | Cache-eviction feedback ≤ 100 µs p99 | `GATE_ACM_02_CacheEvictionToStorageFeedback` | Calls `onCacheEvicted(...)` without a policy; no demotion is queued. |
+| GATE-ACM-03 | Cold→warm transition ≤ 100 ms p99 | `GATE_ACM_03_ColdToWarmPromotion` | Sends three cold-storage access events per key without a policy; no adapter I/O occurs. |
+| GATE-ACM-04 | Event throughput ≥ 10,000 events/sec | `GATE_ACM_04_EventProcessingThroughput` | Measures alternating callback calls on the no-policy path. |
+| GATE-ACM-05 | Coordinator memory ≤ 50 MB for 1 M events | `GATE_ACM_05_MemoryOverhead` | Sends event batches and sleeps; it does not measure RSS or assert a memory bound. |
+| GATE-ACM-06 | Policy decision ≤ 10 µs/event | `GATE_ACM_06_PolicyDecisionOverhead` | Calls `onCacheEvicted(...)` without a policy; the policy-decision path is not run. |
 
-## Specific Expectations
+The latency cases calculate elapsed wall-clock time divided by the number of
+iterations; this is an average, not a p99 measurement. The benchmark's
+`reportViolation()` prints a diagnostic when the measured value exceeds its
+constant target. It does not compare against a stored baseline or fail the
+process, so neither the declared ±10% tolerance nor a release-gate pass is
+enforced by this source.
 
-| Target ID | Expectation | Benchmark case |
-|---|---|---|
-| ACM-1 | L1→L2 promotion p99 <= 50 µs | GATE-ACM-01 |
-| ACM-2 | Cache eviction→storage feedback p99 <= 100 µs | GATE-ACM-02 |
-| ACM-3 | Cold→warm promotion p99 <= 100 ms | GATE-ACM-03 |
-| ACM-4 | Event processing throughput >= 10 K events/sec | GATE-ACM-04 |
-| ACM-5 | Coordinator memory overhead <= 50 MB | GATE-ACM-05 |
-| ACM-6 | Age-based policy decision p99 <= 10 µs | GATE-ACM-06 |
+## Available runtime metrics
 
-## Module Hard Gates (v1.0 docs baseline)
+`AccessModelMetrics::counters` exposes `pending_queue_depth` and
+`max_queue_depth`. The queue-depth gauge covers waiting tasks, not in-flight
+workers. Worker-thread utilization is not exposed by the access-model API.
 
-| Gate ID | Expectation | Measurement |
-|---|---|---|
-| CG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
-| CG-2 | Promotion/demotion hot-path p99 <= release threshold | p99 from mapped GATE-ACM-01..06 cases |
-| CG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
-| CG-4 | Event queue depth remains bounded under sustained load | gauge: event_queue_depth |
-| CG-5 | Worker thread utilization < 100% at rated event throughput | gauge: worker_thread_utilization |
+## Validation required before claiming a gate passes
 
-## Validation
+- Configure a valid policy in the benchmark fixture and verify that each case
+  reaches the intended decision or adapter operation.
+- Measure the intended percentile for latency gates and include the actual
+  adapter I/O path when the target claims a tier transfer.
+- Measure resident memory externally for the memory target.
+- Compare recorded results with an explicit baseline and make threshold
+  violations fail the validation job.
+- Capture reproducible release-profile results on representative hardware.
 
-- Expectations are met when mapped benchmarks run reproducibly in release profile and remain
-  inside configured thresholds.
-- Gates GATE-ACM-01..06 are defined in `bench_access_coordinator_gates.cpp`; re-capture on
-  representative hardware is required before Wave B GA promotion.
-- Regression baseline: ±10% tolerance on all mapped benchmark cases.
-- Full hardware run instructions and Wave B exit checklist:
-  [`WAVE_B_BENCHMARK_EVIDENCE_BUNDLE.md`](./WAVE_B_BENCHMARK_EVIDENCE_BUNDLE.md)
+Until that evidence exists, the constants are target definitions only. See
+[`WAVE_B_BENCHMARK_EVIDENCE_BUNDLE.md`](./WAVE_B_BENCHMARK_EVIDENCE_BUNDLE.md)
+for the current evidence status.
 
-## Sourcecode Verification (Module: access_model/performance)
-
-- Verified benchmark sources:
-  - `benchmarks/access_model/bench_access_coordinator_gates.cpp`
-- Verified mapping surfaces:
-  - L1→L2 promotion latency path in `access_coordinator.cpp`
-  - cache eviction→storage feedback path (eviction listener → coordinator → storage)
-  - cold→warm promotion path (storage hot detection → coordinator → cache)
-  - event processing throughput (background worker pool and event queue)
-  - memory overhead tracking via `access_metrics.cpp`
-  - policy decision path in `age_based_policy.cpp`
-- Result:
-  - All six GATE-ACM benchmark cases are defined in the benchmark source.
-  - Release gates remain tied to reproducible benchmark runs and hardware baselines.
+**AI provenance:** Exact model backend not verifiable from final document text alone.

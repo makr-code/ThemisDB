@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -38,13 +38,14 @@ inventory is also registered in `cmake/CMakeLists.txt`.
    default worker count is four.
 2. Call `initialize()` with the tier map, set an `AgeBasedPolicy`, then call
    `start()` to create workers.
-3. Cache and storage adapters can send events through the listener interfaces.
-   The coordinator applies its event-specific thresholds and queues eligible
-   work.
+3. Host-owned bridge objects implement the cache/storage listener interfaces and
+   forward notifications to the coordinator's public event methods. The
+   coordinator applies its event-specific thresholds and queues eligible work;
+   it does not itself implement those listener interfaces.
 4. Read aggregate counters/histograms and recent transition records through the
    coordinator; structured records use the project logger.
-5. Unregister external listeners before destroying the coordinator, then call
-   `shutdown()` to stop and join its workers.
+5. Unregister listener bridges before destroying them or the coordinator, then
+   call `shutdown()` to stop and join its workers.
 
 ## Runtime contracts and remaining limits
 

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -36,7 +36,8 @@ logger; absence of a log line is not proof that no event occurred.
 
 - At startup, confirm that the owning application constructed the expected
   worker count, registered the intended tiers, set a validated policy, started
-  the coordinator, and registered listener pointers with safe lifetimes.
+  the coordinator, and registered host-owned listener bridges with safe
+  lifetimes.
 - During operation, compare event-observation counters and transition records
   with the owning cache/storage adapter's own metrics and backend state.
 - Track the benchmark metrics listed in
@@ -64,12 +65,12 @@ source invalidation after destination placement can leave duplicates. Follow
 
 ## Shutdown and rollback
 
-Unregister event listeners before destroying the coordinator. `shutdown()`
-rejects new queue admission, drains accepted tasks, and joins workers. An
-adapter call without a timeout may delay shutdown; capture diagnostic state
-first. Rollback is controlled by the application that owns the integration:
-this module defines no runtime feature flag, remote endpoint, or release
-rollback command.
+Unregister event listener bridges before destroying them or the coordinator.
+`shutdown()` rejects new queue admission, drains accepted tasks, and joins
+workers. An adapter call without a timeout may delay shutdown; capture
+diagnostic state first. Rollback is controlled by the application that owns the
+integration: this module defines no runtime feature flag, remote endpoint, or
+release rollback command.
 
 ---
 

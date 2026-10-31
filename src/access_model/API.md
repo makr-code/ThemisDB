@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -54,8 +54,12 @@ event-handler decisions.
 
 `EvictionListener::onCacheEvicted` carries key, source tier, size, access count,
 age since access, and reason. `PromotionListener::onStorageAccess` carries key,
-source tier, access count, and access window. `AccessCoordinator` adapts these
-callbacks to `EvictionEvent` and `AccessEvent`.
+source tier, access count, and access window. `AccessCoordinator` exposes
+same-signature forwarding methods that normalize these calls to `EvictionEvent`
+and `AccessEvent`, but it does not derive from either listener interface.
+Adapters take raw pointers to listener implementations, so the host must provide
+bridge objects that forward to the coordinator and unregister them before their
+lifetimes end.
 
 Other operations are `promoteAsync`, `planDemotion`, `executeDemotion`,
 `getKeyMetrics`, `getTierMetrics`, `getAccessModelMetrics`, and

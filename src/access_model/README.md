@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-08-03"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -12,9 +12,9 @@ Human_Author: "ThemisDB Team"
 
 # Access Model Module
 
-**Version:** 1.0.0  
+**Version:** 1.0.0<br>
 **Status:** Active; see [`ROADMAP.md`](./ROADMAP.md) for program status and [`IMPLEMENTATION.md`](./IMPLEMENTATION.md) for source-verified limits
-**Validated:** 2026-10-30
+**Validated:** 2026-10-31
 
 ---
 
@@ -62,17 +62,21 @@ remain owned by the embedding cache/storage modules.
 
 ```mermaid
 flowchart LR
-    Cache["Cache tiers"] -->|eviction event| Coordinator["AccessCoordinator"]
-    Storage["Storage tiers"] -->|hot-access event| Coordinator
+    Cache["Cache adapter"] -->|EvictionListener| Bridge["Host-owned listener bridge"]
+    Storage["Storage adapter"] -->|PromotionListener| Bridge
+    Bridge -->|onCacheEvicted / onStorageAccess| Coordinator["AccessCoordinator"]
     Coordinator -->|bounded work| Source["Source AccessTier"]
     Source -->|get key| Coordinator
     Coordinator -->|put value| Destination["Destination AccessTier"]
     Coordinator -->|metrics and transition history| Telemetry["Observers"]
 ```
 
-Kurzinterpretation: Cache and storage adapters emit events to the coordinator.
-For accepted transitions, the coordinator reads from the source and writes to
-the destination; adapter ownership and persistence are unchanged.
+Kurzinterpretation: Cache and storage adapters notify host-owned bridge objects
+that implement `EvictionListener` and `PromotionListener`. `AccessCoordinator`
+does not derive from either listener interface; the bridge forwards notifications
+to its `onCacheEvicted()` or `onStorageAccess()` methods. For accepted
+transitions, the coordinator reads from the source and writes to the
+destination; adapter ownership and persistence are unchanged.
 
 ## Quickstart (Build/Run)
 
@@ -93,6 +97,8 @@ cache and storage adapters before starting workers. See
 
 ## API/CLI Einstieg
 
+### Usage
+
 There is no module-specific CLI. The public C++ entry points are declared in
 `include/access_model/access_coordinator.h`; tier adapters implement
 `include/access_model/access_tier_interface.h`.
@@ -102,18 +108,27 @@ There is no module-specific CLI. The public C++ entry points are declared in
 ```cpp
 #include "access_model/access_coordinator.h"
 
-auto coordinator = themis::access_model::createAccessCoordinator(4);  // 4 workers
+#include <map>
+#include <memory>
+#include <stdexcept>
 
-std::map<TierLevel, std::shared_ptr<AccessTier>> tiers = {
-    {TierLevel::L1_WORKING, cache_l1},
-    {TierLevel::L2_EPISODIC, cache_l2},
-    {TierLevel::L3_SEMANTIC, cache_l3},
-    {TierLevel::STORAGE_HOT, storage_hot},
-    {TierLevel::STORAGE_WARM, storage_warm},
-    {TierLevel::STORAGE_COLD, storage_cold},
+namespace access_model = themis::access_model;
+
+auto coordinator = access_model::createAccessCoordinator(4);  // 4 workers
+
+// Application-owned adapters implement AccessTier and are initialized by the host.
+std::map<access_model::TierLevel, std::shared_ptr<access_model::AccessTier>> tiers = {
+    {access_model::TierLevel::L1_WORKING, cache_l1},
+    {access_model::TierLevel::L2_EPISODIC, cache_l2},
+    {access_model::TierLevel::L3_SEMANTIC, cache_l3},
+    {access_model::TierLevel::STORAGE_HOT, storage_hot},
+    {access_model::TierLevel::STORAGE_WARM, storage_warm},
+    {access_model::TierLevel::STORAGE_COLD, storage_cold},
 };
 
-coordinator->initialize(tiers);
+if (!coordinator->initialize(tiers)) {
+    throw std::runtime_error("AccessCoordinator tier initialization failed");
+}
 ```
 
 ### 2. Set Unified Policy
@@ -121,7 +136,9 @@ coordinator->initialize(tiers);
 ```cpp
 #include "access_model/age_based_policy.h"
 
-AgeBasedPolicy policy;
+namespace access_model = themis::access_model;
+
+access_model::AgeBasedPolicy policy;
 policy.hot_to_warm_days = 30;
 policy.warm_to_cold_days = 90;
 policy.l1_promotion_threshold = 10;
@@ -129,24 +146,21 @@ policy.l1_promotion_threshold = 10;
 coordinator->setAgePolicy(policy);
 ```
 
-### 3. Start and Register Listeners
+### 3. Start and Connect Listener Bridges
 
-```cpp
-coordinator->start();
-
-// Cache tier notifies on eviction
-cache_l1->setEvictionListener(coordinator.get());
-
-// Storage tier notifies on hot access
-storage_hot->setPromotionListener(coordinator.get());
-```
+After successful initialization and policy configuration, call
+`coordinator->start()`. The application must provide listener bridge objects
+implementing `EvictionListener` and `PromotionListener`; each bridge forwards
+the corresponding callback to the coordinator. Register those bridge pointers
+with the cache/storage adapters, not `coordinator.get()`. Unregister the raw
+listener pointers before destroying either the bridges or coordinator.
 
 ### 4. Initiate Promotion (Optional)
 
 ```cpp
 auto result = coordinator->promoteAsync("key_abc",
-                                        TierLevel::STORAGE_COLD,
-                                        TierLevel::L3_SEMANTIC,
+                                        access_model::TierLevel::STORAGE_COLD,
+                                        access_model::TierLevel::L3_SEMANTIC,
                                         4096).get();
 ```
 
@@ -200,11 +214,17 @@ correlation_id=promo-task-1 | thread_id=...
 The module source is registered in the core build and its local CMake file
 defines a standalone `themis_access_model` target when needed. The module does
 not define a CMake or runtime feature-flag option; integration is enabled by
-constructing the coordinator and registering its listeners.
+constructing the coordinator and wiring host-owned listener bridges.
 
 The module does not parse a runtime configuration file. Map application
 settings to `createAccessCoordinator(thread_pool_size)` and the
 `AgeBasedPolicy` fields before starting the coordinator.
+
+### Installation
+
+The module does not define a separate install/export workflow. Use the root
+ThemisDB build and packaging flow; in source builds, include headers from
+`include/access_model/` and link through the targets exposed by that build.
 
 ---
 

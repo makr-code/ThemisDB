@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-08-03"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -12,7 +12,7 @@ Human_Author: "ThemisDB Team"
 
 # Architecture - Access Model Module
 
-**Version:** 1.0.0  
+**Version:** 1.0.0<br>
 **Status:** Active; this document describes the implemented boundaries
 **Validated:** 2026-10-30
 
@@ -41,9 +41,11 @@ transaction boundary.
 - The host calls `initialize(tiers)`, configures a policy, and then calls
   `start()`. The tier registry must contain healthy, non-null, correctly
   identified cache and storage tiers.
-- Cache eviction and storage hot-access adapters may notify the coordinator via
-  the listener interfaces. These callbacks return `void`; they do not return
-  queue-admission status.
+- Cache eviction and storage hot-access adapters notify listener implementations
+  supplied by the host. `AccessCoordinator` does not derive from
+  `EvictionListener` or `PromotionListener`; a host-owned bridge forwards to its
+  `onCacheEvicted()` / `onStorageAccess()` methods. These callbacks return
+  `void`; they do not return queue-admission status.
 - Explicit asynchronous promotions return a future with a success/error result.
   Promotion reads the source and writes the destination while retaining the
   source. Demotion writes the destination before invalidating the source.

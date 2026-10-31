@@ -1,6 +1,18 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
 # Access Model Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-09-21 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 
 ## Scope
@@ -14,7 +26,10 @@
 
 - access_model contracts remain backward compatible within major release line.
 - `AccessTier` interface must not change in a breaking way without a migration note and CHANGELOG entry.
-- coordinator must remain opt-in via feature flag; existing cache/storage APIs must remain unaffected.
+- Integration remains opt-in through host-side coordinator construction and
+  listener wiring; the module currently defines no feature flag or runtime
+  configuration-file parser. Existing cache/storage APIs should remain usable
+  when the host does not wire the coordinator.
 - no legacy or compatibility shim paths without explicit human approval.
 - trace context propagation must remain non-blocking in hot-path operations.
 
@@ -43,6 +58,9 @@
 - improve benchmark coverage:
   - per-tier latency benchmarks for all six tier transition types.
   - memory overhead benchmark under sustained high-frequency promotion events.
+  - configure a valid policy and exercise the real adapter transfer path before
+    treating promotion/demotion measurements as representative; use an external
+    RSS profiler for memory acceptance.
 
 ## Test Strategy
 
@@ -79,3 +97,7 @@
 - reliability gate intent:
   - degraded tier states must remain observable, bounded, and explicitly surfaced to operators.
   - partial tier participation must never silently report success for a promotion/demotion.
+
+---
+
+**AI provenance:** Exact model backend not verifiable from final document text alone.

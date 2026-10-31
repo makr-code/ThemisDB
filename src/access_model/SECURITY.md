@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-09-21"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -47,10 +47,13 @@ cross-tier transactionality, or backend recovery.
 
 ## Security Follow-ups
 
-- Validate the tier map and policy before accepting production events.
-- Add bounded queue/backpressure behavior and define shutdown handling for queued work.
-- Implement real tier transfer semantics and surface backend failures before treating results as successful.
-- Ensure application-level authorization, log access controls, and key redaction are in place.
+- The embedding application should initialize the coordinator and set a valid
+  policy before registering event producers; callbacks received before a policy
+  is set are counted but do not produce transition decisions.
+- Define adapter-level timeouts or cancellation where needed. The coordinator
+  drains accepted work on shutdown, but a blocked adapter call can delay return.
+- Keep authorization, tenant isolation, log access controls, and key redaction in
+  the embedding application; the coordinator does not provide these controls.
 
 ## Sourcecode Verification (Module: access_model/security)
 

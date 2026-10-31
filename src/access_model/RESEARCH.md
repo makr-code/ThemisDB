@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -67,12 +67,22 @@ evidence that a run passed.
 
 - Count-and-age rules are explainable and inexpensive, but do not adapt to
   changing workloads or account for cost, tenant, or key-specific policy.
-- `AgeBasedPolicy::isValid()` checks threshold relationships, but
-  `AccessCoordinator::setAgePolicy()` does not call it.
-- The current coordinator worker records a successful promotion result without
-  invoking tier `get`/`put` operations. Its event and benchmark evidence must
-  therefore not be interpreted as proof that bytes were moved between tiers.
-- The coordinator queue has no configured depth limit in the implementation.
+- `AccessCoordinator::setAgePolicy()` calls `AgeBasedPolicy::isValid()` and
+  throws `std::invalid_argument` for an invalid policy. The threshold setter
+  validates a candidate policy before applying its two updated fields.
+- Worker transfers call the source adapter's `get()` and destination adapter's
+  `put()`; demotions also invalidate the source after a successful destination
+  write. These sequential calls are not an atomic transaction and do not provide
+  rollback, retry, or deduplication.
+- The pending-task queue and pending-plan registry each have a separate bound.
+  The default for both is 10,000; the two-argument coordinator factory lets the
+  host set the limits. This is a resource bound, not a workload-sizing
+  recommendation.
+- The benchmark fixture currently starts without setting an `AgeBasedPolicy`.
+  Event callbacks therefore take the no-policy observation path; the named
+  promotion/demotion and policy gates do not exercise transfer or policy
+  decisions. The memory case does not measure RSS. Treat its thresholds as
+  intended targets, not evidence that the measured end-to-end paths meet them.
 
 The canonical interface is in [`API.md`](./API.md); implementation limits and
 validation commands are in [`IMPLEMENTATION.md`](./IMPLEMENTATION.md).
