@@ -41,8 +41,9 @@ OperationalAuditLogger ──> bounded event storage / export / correlation help
 The diagram represents independent module surfaces, not an automatic pipeline.
 In particular, calling `PolicyEngine::checkQueryPermission()` does not itself
 mask a response or execute/cancel a query. OPA REST failure can produce
-`std::nullopt`, after which `PolicyEngine` uses native evaluation. The built-in
-WASM stub is not policy evaluation and must not be used for authorization; see
+`std::nullopt`, after which `PolicyEngine` uses native evaluation. Explicit
+WASM mode uses only an injected evaluator and otherwise returns an explicit
+strict deny, preventing native fallback; see
 [`TRUST.md`](TRUST.md).
 
 ## Component ownership
@@ -83,10 +84,9 @@ call graph.
   do not infer that a failed reload replaced policy state.
 - OPA REST failures can fall back to native evaluation. This is not equivalent
   to evaluating the external policy.
-- Without an injected WASM evaluator, the current built-in WASM stub can return
-  a permissive observe-mode result if a bundle file exists and the real runtime
-  is unavailable. Maintainer confirmation of any replacement target remains
-  pending.
+- Without an injected WASM evaluator, explicit WASM mode returns an enforced
+  strict deny. Bundle-file presence does not produce an allow, and the adapter
+  does not fall back to REST or native evaluation in this mode.
 - `DataLineageTracker` and `OperationalAuditLogger` retain bounded in-process
   data; they are not documented here as durable stores.
 - Compliance and audit result types depend on caller-provided evidence, keys,

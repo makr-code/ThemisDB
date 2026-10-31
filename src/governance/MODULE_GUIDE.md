@@ -22,26 +22,28 @@ benchmark registration relevant to a change. Public declarations are in
 | Change area | Start with | Focused source evidence |
 |---|---|---|
 | Policy evaluation/configuration | `policy_engine.h`, `policy_engine.cpp` | `test_governance_policy_simulation.cpp`, `test_governance_policy_hot_reload.cpp`, `test_governance_opa_adapter.cpp` |
-| Lifecycle, review, versioning | `policy_manager.h`, `policy_review.h`, versioning headers | `test_governance_review_scheduler.cpp`, `test_governance_phase2_phase3_focused.cpp`; `test_policy_versioning_and_approval.cpp` is currently excluded from the module-focused CMake loop |
+| Lifecycle, review, versioning | `policy_manager.h`, `policy_review.h`, versioning headers | `test_governance_review_scheduler.cpp`, `test_governance_phase2_phase3_focused.cpp`; versioning/approval source is excluded until its implementation/link dependencies are resolved |
 | Compliance framework | compliance framework/mapping/validator headers | `test_compliance_framework.cpp`; registered by the module-focused loop |
 | Masking, lineage, model governance | `data_masker.h`, `data_lineage.h`, `model_governance.h` | `test_governance_phase2c_lineage_backpressure_focused.cpp`, `test_governance_phase3b_extended_focused.cpp`; verify exact cases before claiming coverage |
 | Audit integrity | `governance_audit_integrity.h`, `audit_batch_writer.h` | `test_audit_integrity.cpp` is registered by the module-focused loop |
-| Operational audit/evidence | `operational_audit.h` | `test_operational_audit_evidence.cpp` exists but is currently excluded from the module-focused CMake loop |
+| Operational audit/evidence | `operational_audit.h` | `test_operational_audit_evidence.cpp` exists but is excluded because `operational_audit.cpp` does not compile against the public header |
 | Governance contract types | `governance_api_contract.h` | `test_governance_contract_hardening_focused.cpp` |
 | Policy evaluation performance | `PolicyEngine` APIs | `bench_governance_policy_latency.cpp`; registration in `benchmarks/governance/CMakeLists.txt` |
 
-The test directory has additional suites. The exact current module-focused
+The test directory has additional suites. The current module-focused
 registration is controlled by
 [`../../tests/governance/CMakeLists.txt`](../../tests/governance/CMakeLists.txt).
-That file skips `test_operational_audit_evidence` and
-`test_policy_versioning_and_approval`; source presence is not test registration,
-execution, or a passing result. For an already configured build, list matching
+That file retains both suites as excluded: the operational-audit implementation
+has broad public-header/API drift, and versioning/approval implementation units
+are not linked into `themis_core`. They must not be reported as runnable tests
+until those build/link defects are repaired and focused execution succeeds.
+Registration is not evidence of execution or a pass.
+For an already configured build, list matching
 tests with `ctest --test-dir <build-dir> -N -R governance`. For example, the
 compliance framework source currently maps to target
 `module_governance_test_compliance_framework_focused` and CTest name
 `test_compliance_framework_governance_FocusedTests`; confirm names in the
-selected build before running. No build/test/benchmark command is run as part
-of this documentation update.
+selected build before running.
 
 ## Development workflow
 
@@ -62,9 +64,9 @@ of this documentation update.
 - `PolicyEngine` returns decisions; callers enforce them.
 - OPA REST unavailability may lead to native evaluation, which is not equivalent
   to the external policy.
-- Without an injected WASM evaluator, the existing built-in WASM stub can return
-  a permissive observe result when a bundle exists and the real runtime is
-  unavailable; do not use it to authorize production operations.
+- WASM mode only returns an allow decision from an injected evaluator. Without
+  one, or when it fails, it returns an enforced strict deny; it does not switch
+  to REST or native evaluation. Bundle presence alone never authorizes.
 - Masking disabled or with no rules leaves input unchanged; matching applies to
   JSON string fields.
 - Lineage and operational audit data are bounded in-process state, not evidence

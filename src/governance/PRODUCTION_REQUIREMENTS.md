@@ -34,7 +34,8 @@ interfaces and are withdrawn.
   the output path requires it. A policy decision alone does not enforce the
   downstream operation.
 - If OPA is used, verify endpoint, policy path, timeout, response shape, and
-  active mode. The built-in WASM stub is not a production evaluator.
+  active mode. WASM mode requires an injected evaluator and otherwise returns
+  an enforced strict deny without switching to REST/native evaluation.
 - If lineage/audit forwarding is needed, configure and verify the corresponding
   sink separately. In-memory records are not a durable retention guarantee.
 - Treat compliance reports as software output based on supplied configuration

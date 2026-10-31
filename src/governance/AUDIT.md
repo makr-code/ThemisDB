@@ -25,20 +25,24 @@ release audit. No build, test, linter, or benchmark was run for Issue #7349.
 | Implementation files | 35 `.cpp` files directly under `src/governance/` at review time |
 | Public headers | 36 `.h` files directly under `include/governance/` at review time |
 | Focused test sources | 16 `.cpp` files directly under `tests/governance/` at review time |
-| Module-focused test registration | CMake loops over test sources but explicitly skips `test_operational_audit_evidence` and `test_policy_versioning_and_approval` |
+| Module-focused test registration | CMake excludes `test_operational_audit_evidence` and `test_policy_versioning_and_approval` until the implementation/link issues are resolved |
 | Benchmarks | Four `.cpp` sources under `benchmarks/governance/`; this directory's CMake registers policy-latency and release-gate targets, while top-level CMake also handles other benchmark sources |
 
 These are source-tree/CMake observations, not proof of successful compilation or
-passing execution. In particular, registration must be distinguished from the
-two quarantined test files and benchmark presence from benchmark execution.
+passing execution. Test registration must be distinguished from execution, and
+benchmark presence from benchmark execution.
 
 ## Documentation findings corrected for this snapshot
 
 - Public header list and exact type spellings aligned to the current headers.
 - Stale downstream architecture claims and build/test/benchmark instructions
   removed or qualified.
-- WASM stub, policy configuration, and bounded in-memory audit/lineage limits
-  made explicit.
+- Fail-closed WASM evaluator selection, RSA key requirements, policy
+  configuration, and bounded in-memory audit/lineage limits made explicit.
+- `RSA_SHA256` now uses OpenSSL EVP with an unencrypted PEM RSA private key
+  (minimum 2048 bits) for signing; verification accepts the private PEM or its
+  public-key PEM. Focused source tests cover signature verification, tampering,
+  and malformed-key failure; this does not establish key custody or lifecycle.
 - Legacy compliance, audit-integrity, conflict, and versioning guarantees are
   withdrawn where they exceed current implementation evidence.
 

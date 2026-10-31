@@ -53,17 +53,18 @@ declarations in `operational_audit.h`.
    required by the deployment.
 4. Treat fingerprints and audit-related output as module data, not proof that
    a legal retention, key-management, or chain-of-custody process is configured.
-5. Confirm current test registration before relying on focused test coverage.
-   `tests/governance/CMakeLists.txt` currently skips
-   `test_operational_audit_evidence.cpp` in its module-focused loop; the source
-   file's presence is not a registered/running test result.
+5. Confirm the selected build's test registration and result before relying on
+   focused test coverage. `test_operational_audit_evidence.cpp` is currently
+   excluded because `operational_audit.cpp` does not compile against the public
+   header; source presence is not runnable coverage.
 
 ## Validation and performance
 
 The operational-audit focused test source is
-`tests/governance/test_operational_audit_evidence.cpp`. It is currently
-quarantined from the module-focused CMake registration. No overhead percentage,
-query-latency target, or test pass is asserted here. For audit integrity and
+`tests/governance/test_operational_audit_evidence.cpp`, but it is excluded from
+the module-focused CMake loop until the implementation/header mismatch is
+resolved. No overhead percentage, query-latency target, or test pass is
+asserted here. For audit integrity and
 batch writing, see
 [`AUDIT_INTEGRITY_DESIGN.md`](AUDIT_INTEGRITY_DESIGN.md) and
 [`governance_audit_integrity.h`](../../include/governance/governance_audit_integrity.h)

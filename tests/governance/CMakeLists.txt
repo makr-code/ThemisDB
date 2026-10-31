@@ -10,8 +10,10 @@ foreach(_src IN LISTS GOVERNANCE_MODULE_TEST_SOURCES)
     set(_ctest "${_stem}_governance_FocusedTests")
     set(_labels governance)
 
-    # Temporarily quarantine this suite while operational_audit.h/.cpp API
-    # convergence is in progress; otherwise it blocks unrelated build waves.
+    # These suites are not safe to register yet. operational_audit.cpp does not
+    # compile against its public header, and the versioning/approval sources
+    # required by the latter suite are not part of themis_core. Re-enable only
+    # after their implementation/link dependencies and focused execution pass.
     if(_stem STREQUAL "test_operational_audit_evidence"
        OR _stem STREQUAL "test_policy_versioning_and_approval")
         continue()

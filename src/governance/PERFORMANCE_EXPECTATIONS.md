@@ -42,10 +42,9 @@ in this file listed different cases and thresholds and are superseded.
 - The YAML-backed benchmark calls `loadFromYAML()` best-effort and does not
   assert success. Some runs may therefore measure fallback behavior rather than
   the configured profiles.
-- The source documents `config/governance.yaml` as its default path and attempts
-  a `GOVERNANCE_YAML_PATH` override; the current helper does not reliably return
-  the environment value. Verify the source and test configuration before
-  treating a run as YAML-backed.
+- The source documents `config/governance.yaml` as its default path and uses
+  `GOVERNANCE_YAML_PATH` when set. Verify YAML-load success before treating a
+  run as YAML-backed.
 - The benchmark measures selected module calls, not end-to-end authorization,
   audit persistence, compliance-report generation, or caller-side masking.
 - No benchmark result, release baseline, hardware specification, or current CI

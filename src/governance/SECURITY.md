@@ -27,9 +27,9 @@ assert product-wide certification or guarantee that every caller applies them.
   this does not establish fail-closed behavior across every evaluator and caller.
 - OPA REST failure can fall back to native evaluation. This is not equivalent to
   approval by the unavailable OPA policy.
-- Without an injected WASM evaluator, the built-in WASM stub may return a
-  permissive `observe` decision when a bundle exists and the real runtime is
-  unavailable. Do not use this path for production authorization.
+- Without an injected WASM evaluator, explicit WASM mode returns an enforced
+  strict deny; bundle-file presence alone cannot authorize. WASM mode does not
+  silently switch to REST or native evaluation.
 - `DataMasker` returns input unchanged when masking is disabled or no rules are
   present. It applies configured rules to matching JSON string fields; callers
   must invoke it on every relevant output path.

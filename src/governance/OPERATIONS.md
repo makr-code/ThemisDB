@@ -24,7 +24,9 @@ This page covers routine deployment, monitoring, policy rollout, and evidence re
 - Load the intended policy file and verify `PolicyEngine::loadFromYAML()` succeeds. Review profile, route mapping, mode, and masking configuration from the deployed artifact.
 - Confirm each production request path supplies trusted classification/identity context and consumes export/cache/ANN/masking decisions.
 - Configure audit and lineage sinks where evidence forwarding is required. Understand that lineage is bounded in-memory state, not durable storage.
-- Verify OPA endpoint, policy path, timeout, and response contract. Confirm the active evaluator mode. Never use the built-in non-evaluating WASM stub for enforcement.
+- Verify OPA endpoint, policy path, timeout, and response contract. Confirm the
+  active evaluator mode. WASM mode returns a strict deny without an injected
+  evaluator and never substitutes REST/native evaluation.
 - Verify masking secrets are non-placeholder and securely supplied. Empty tokenization secrets result in unkeyed SHA-256 fallback.
 - Confirm downstream handlers can safely fail closed when a decision is missing or denied.
 
@@ -42,7 +44,7 @@ Do not edit policy files directly during an incident in a way that bypasses revi
 
 | Signal | Operational meaning | Response |
 |---|---|---|
-| `governance_opa_fallback_total` | OPA did not return a usable result and native evaluation was used. | Check endpoint, policy path, timeout, and response format; verify the native result is acceptable. |
+| `governance_opa_fallback_total` | An evaluator returned no decision and `PolicyEngine` used native evaluation (for example, REST `nullopt`). | Check endpoint, policy path, timeout, and response format; verify the native result is acceptable. Explicit WASM failures return a strict deny instead of incrementing this native-fallback path. |
 | `governance_lineage_events_total` | Locally recorded lineage event volume by event type. | Compare with expected ingest/export activity and configured retention bounds. |
 | `governance_fields_masked_total` | Masked string-field count by strategy. | Compare with the expected output path and policy; absence can mean no matching fields or an unapplied/disabled policy. |
 | OPA diagnostics and error counters | Timeout, connection, HTTP, or response-parse failures. | Use the diagnostic component/context to distinguish service failure from invalid policy output. |

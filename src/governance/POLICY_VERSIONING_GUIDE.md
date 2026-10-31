@@ -63,11 +63,11 @@ provided by this summary.
 5. Persist/export history only through an explicitly configured storage path;
    preserve records according to the deployment's own retention policy.
 
-Do not treat example code from earlier revisions as a complete runbook. No
-versioning/approval test currently participates in the governance module-focused
-CMake loop: `test_policy_versioning_and_approval.cpp` is explicitly skipped
-there. The test source remains useful evidence but is not a registered test
-result.
+Do not treat example code from earlier revisions as a complete runbook.
+`test_policy_versioning_and_approval.cpp` remains excluded from the governance
+module-focused CMake loop: its required change-manager/approval implementation
+units are not part of `themis_core`. Re-enable only after the target's
+implementation/link dependencies are repaired and the focused test runs.
 
 ## References
 

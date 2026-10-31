@@ -49,8 +49,9 @@ configured build tree; its exact path depends on the selected generator and
 build directory. There is no governance-specific `ENABLE_GOVERNANCE` option or
 portable preset command established by this module.
 
-The policy-latency source attempts to use `GOVERNANCE_YAML_PATH` and otherwise
-uses `config/governance.yaml`; check the source before relying on its environment
-override, because the current helper does not reliably return the supplied
-environment value. A failed YAML load is ignored in several benchmark cases,
-so a run may measure fallback behavior rather than loaded YAML profiles.
+The policy-latency source uses `GOVERNANCE_YAML_PATH` when set and otherwise
+uses `config/governance.yaml`. A failed YAML load is ignored in several benchmark
+cases, so a run may measure fallback behavior rather than loaded YAML profiles;
+verify the selected file and benchmark setup when comparing results. This
+benchmark source does not currently have a dedicated C++ test target for its
+path helper.

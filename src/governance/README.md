@@ -50,8 +50,9 @@ every binary or automatically used by a downstream module.
 
 - `PolicyEngine` reads supported YAML sections and returns structured decisions;
   callers apply restrictions.
-- OPA REST failure can fall back to native evaluation. The built-in WASM stub
-  does not evaluate Rego and is unsafe for production authorization.
+- OPA REST failure can fall back to native evaluation. Explicit WASM mode uses
+  only an injected evaluator; without one it returns an enforced strict deny
+  and does not fall back. A bundle file alone does not produce an allow.
 - Masking, lineage, model export, subject-rights, transfer, tenant-inheritance,
   compliance, and audit APIs are distinct interfaces, not an automatic pipeline.
 - Lineage and operational-audit records include bounded/in-memory behavior;

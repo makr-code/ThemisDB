@@ -36,9 +36,10 @@ compliance rules/reporting, masking/lineage/model governance, audit-related
 utilities, and OPA integration. This is a source inventory, not a production
 readiness or release gate.
 
-The built-in OPA WASM path remains a permissive non-evaluating stub in the
-no-runtime/no-injected-evaluator case. A real evaluator and its release target
-remain unverified pending maintainer confirmation. See
+There is no built-in OPA WASM runtime. Without an injected evaluator, explicit
+WASM mode now returns an enforced strict deny and does not fall through to REST
+or native evaluation. A real evaluator and its release target remain
+unverified pending maintainer confirmation. See
 [`TRUST.md`](TRUST.md).
 
 Root [`../../ROADMAP.md`](../../ROADMAP.md) remains authoritative for aggregate
@@ -57,15 +58,15 @@ gates.
   continue focused regression coverage.
 - [ ] Verify persistent storage, audit/key lifecycle, and deployment integration
   where required; module declarations alone do not establish them.
-- [?] Replace the permissive built-in OPA WASM stub only after runtime approval
-  and fail-closed behavior are verified. Release target: unverified.
+- [~] Implement and approve a real local OPA WASM runtime. Until an evaluator is
+  injected, selected WASM mode returns an enforced strict deny and never
+  substitutes REST or native policy evaluation.
 
 ## Implementation and evidence notes
 
-- Focused test source files exist under `tests/governance/`. The module CMake
-  loop currently skips `test_operational_audit_evidence` and
-  `test_policy_versioning_and_approval`; their presence is not registered test
-  evidence.
+- The module CMake loop excludes operational audit/evidence and policy
+  versioning/approval until implementation/header and link dependencies are
+  resolved; their source files are not runnable-test evidence.
 - The policy-latency benchmark target is registered conditionally when
   `THEMIS_BUILD_BENCHMARKS` is enabled. Its YAML load is best-effort; see
   [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md).
@@ -78,8 +79,8 @@ gates.
 
 - A failed OPA REST evaluation can lead to native evaluation; native fallback
   is not the same as evaluating the external policy.
-- In the built-in WASM stub path, an existing bundle can lead to a permissive
-  `observe` result. Do not use it for production authorization.
+- Explicit WASM mode requires an injected evaluator. Missing/failed evaluation
+  returns an enforced strict deny without REST or native substitution.
 - Lineage and operational audit surfaces have bounded in-process data; durable
   audit/evidence storage is not implied.
 - Compliance report output is not independent certification.

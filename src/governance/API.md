@@ -38,7 +38,7 @@ in each header.
 |---|---|---|---|
 | `PolicyEngine` | [`policy_engine.h`](../../include/governance/policy_engine.h) | Loads YAML; evaluates headers plus route into `PolicyDecision`; offers query/inference checks and dry-run simulation. | Apply returned export/cache/ANN/redaction restrictions. Unknown/missing classification is strict in native evaluation. Simulation is dry-run and does not write an audit entry. |
 | `PolicyManager` | [`policy_manager.h`](../../include/governance/policy_manager.h) | Loads/saves `PolicyRule` sets and manages rule state/version operations. | Check `PolicyResult` and lifecycle transitions; invalid transition, missing rule, conflict, or audit failure is not success. |
-| `OpaAdapter` | [`opa_adapter.h`](../../include/governance/opa_adapter.h) | Evaluates request headers and route against configured OPA REST endpoint/policy path; returns `optional<PolicyDecision>`. | `nullopt` represents unavailable, non-2xx, or invalid response. Engine fallback is native evaluation. Built-in WASM stub is not policy evaluation. |
+| `OpaAdapter` | [`opa_adapter.h`](../../include/governance/opa_adapter.h) | Evaluates request headers and route using configured OPA REST mode or an injected WASM evaluator; returns `optional<PolicyDecision>`. | REST `nullopt` may lead the engine to native fallback. In explicit WASM mode, missing/failing evaluator returns an enforced strict deny, not `nullopt`, so native fallback cannot bypass the selected mode. A bundle file alone is never evaluated. |
 | `DataMasker` | [`data_masker.h`](../../include/governance/data_masker.h) | Applies a `FieldMaskingPolicy` to a JSON document or array. | Disabled/empty policy is a no-op; only matching string fields are transformed. |
 | `DataLineageTracker` | [`data_lineage.h`](../../include/governance/data_lineage.h) | Records `LineageEvent`; queries dataset/upstream/downstream lineage and exports JSON. | Check `LineageRecordResult`; audit circuit-open can mean locally recorded but not forwarded. Limits can evict oldest events. |
 | `ModelGovernancePolicy` | [`model_governance.h`](../../include/governance/model_governance.h) | Checks `ModelTrainingExportRequest` and returns permit/deny plus optional lineage event ID. | Restricted collections and strict classifications are denied; configure the audit and lineage sinks required by the deployment. |
@@ -50,7 +50,7 @@ in each header.
 
 - Treat a returned decision/result as structured data: check `allowed`/`is_permitted`, error code, explanatory reason, and related reports as applicable.
 - Do not infer success from a non-throwing call or a non-empty report alone.
-- For policy evaluation, distinguish native, OPA REST, injected WASM, and built-in WASM stub paths. Native fallback is not equivalent to the unavailable external policy.
+- For policy evaluation, distinguish native, OPA REST, and injected WASM. Explicit WASM mode does not silently select another evaluator.
 - For subject erasure, report completion only when `fully_erased` is true and all `store_results` are successful.
 - For masking and transfer controls, the caller owns enforcement at the operation/output boundary.
 
@@ -66,6 +66,7 @@ Thread-safety is interface-specific. The frozen API contract states internal syn
 - [Implementation guide](IMPLEMENTATION.md)
 - [Architecture](ARCHITECTURE.md)
 - [Trust boundaries](TRUST.md)
-- Test registration: `tests/governance/CMakeLists.txt` skips
+- `tests/governance/CMakeLists.txt` currently excludes
   `test_operational_audit_evidence` and `test_policy_versioning_and_approval`
-  from its module-focused test loop; source presence is not registration.
+  until implementation/header and link dependencies are resolved. Neither
+  source is currently a runnable module-focused test.
