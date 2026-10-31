@@ -1,59 +1,41 @@
 # ThemisDB Document Module
 
-<!-- Status: current | validated: 2026-07-28 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · DEVELOPMENT_STATUS_2026_07_28.md -->
+<!-- Status: current | validated: 2026-10-31 -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · SECURITY.md -->
 
-## Module Purpose
+## Purpose and implementation boundary
 
-The document module provides document-centric runtime surfaces for ThemisDB, including store and manager abstractions, lifecycle hooks, schema evolution, diff/merge support, XDOMEA exchange, and round-trip snapshot editing.
+The document module defines C++ interfaces and in-memory reference implementations for document storage and management, lifecycle hooks, schema validation, field-level diff/three-way merge, encrypted-entity helpers, XDOMEA exchange, and round-trip snapshots. The public headers are predominantly inline; `src/document/round_trip_editor.cpp` supplies the store-backed round-trip implementation. The presence of `IDocumentStore` does not itself provide a durable backend.
 
-## Relevant Interfaces
+## Main interfaces
 
-| Interface / File | Role |
+| Source | Responsibility |
 |---|---|
-| include/document/document_store.h | store contract and in-memory CRUD primitives |
-| include/document/document_manager.h | manager orchestration on top of document store interfaces |
-| include/document/document_lifecycle.h | before/after lifecycle hook integration |
-| include/document/document_schema_evolution.h | schema registry, sealing, and validation reports |
-| include/document/document_diff_merge.h | diff and merge strategies across versions |
-| include/document/xdomea_connector.h | XDOMEA import/export and repository operations |
-| include/document/round_trip_editor.h | round-trip editor interface contract |
-| src/document/round_trip_editor.cpp | store-backed round-trip snapshot persistence |
+| `include/document/document_store.h` | `IDocumentStore` contract and mutex-protected `InMemoryDocumentStore` |
+| `include/document/document_manager.h` | `IDocumentManager`, in-memory CRUD orchestration, lifecycle dispatch, and encrypted-entity factory |
+| `include/document/document_lifecycle.h` | `IDocumentLifecycleHook` and CRUD lifecycle events |
+| `include/document/document_schema_evolution.h` | In-memory schema-version registry, sealing, and field validation |
+| `include/document/document_diff_merge.h` | Store-backed field diff and three-way merge strategies |
+| `include/document/document_diagnostics.h` | Error classification/formatting and in-memory diagnostic counts |
+| `include/document/xdomea_connector.h` | XDOMEA connector contract and in-memory XML/repository implementation |
+| `include/document/round_trip_editor.h`, `src/document/round_trip_editor.cpp` | Store-backed relay snapshots and interaction lookup |
+| `include/document/encrypted_entities.h` | JSON helpers for entities containing `EncryptedField<T>` values |
 
-## Scope
+## Behavior and limits
 
-In scope:
-- document store/manager and lifecycle orchestration contracts
-- schema evolution, diff/merge, and document snapshot workflows
-- XDOMEA exchange interfaces and document round-trip persistence paths
+- Store and manager operations use `Result<T>` and optional results for reads; the XDOMEA in-memory connector also has methods that throw for invalid or duplicate stored IDs.
+- `InMemoryDocumentStore`, `InMemoryDocumentManager`, the schema reference implementation, and `InMemoryXDOMEAConnector` are in-memory implementations, not durable production backends.
+- Schema validation checks the registered field descriptors; round-trip persistence stores a JSON record and does not invoke schema validation itself.
+- `MergeStrategy::FAIL` returns a conflict error; the other merge strategies select the configured branch's value for conflicts.
+- Snapshot IDs are formed from the relay ID and interaction index. Store errors are propagated by the round-trip implementation.
+- `InMemoryEncryptedEntity::reencrypt()` records a key ID only; it does not re-cipher document bytes.
+- `InMemoryDocumentManager::createEncrypted()` stores the supplied JSON body in its in-memory store and returns an in-memory handle; it does not encrypt that body.
+- The in-memory XDOMEA parser is not an XSD validator. See [SECURITY.md](SECURITY.md) for security boundaries.
 
-Out of scope:
-- non-document domain ownership in unrelated modules
-- storage-engine internals outside document interface boundaries
-- external protocol ownership not mapped to document contracts
+## Build and test entry points
 
-## Runtime Behavior and Limits
+The repository build is configured from the root; the public-header guide gives the documented `linux-release` build command. `tests/document/CMakeLists.txt` matches the six direct `test_document_*.cpp` sources and registers focused unit-test targets (120-second timeout); the high-cardinality test receives additional stress labels. `benchmarks/document/CMakeLists.txt` conditionally registers four benchmark executables. These are build/test registration facts, not evidence that a build or test run passed.
 
-- public document paths are Result-based and primarily non-throwing.
-- in-memory/reference implementations are process-local by default.
-- merge and schema paths return explicit conflict/validation errors.
-- round-trip persistence uses deterministic relay-indexed snapshot IDs.
+## Verification basis
 
-## Sourcecode Verification (Module: document/readme)
-
-- Verified files:
-  - include/document/document_store.h
-  - include/document/document_manager.h
-  - include/document/document_lifecycle.h
-  - include/document/document_schema_evolution.h
-  - include/document/document_diff_merge.h
-  - include/document/xdomea_connector.h
-  - include/document/round_trip_editor.h
-  - src/document/round_trip_editor.cpp
-- Verified behavior surfaces:
-  - store/manager contracts and lifecycle integration boundaries
-  - schema evolution plus diff/merge runtime semantics
-  - XDOMEA and round-trip editor persistence integration
-- Note:
-  - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
-  - historical entries remain in CHANGELOG.md
+Reviewed public headers, `src/document/round_trip_editor.cpp`, `tests/document/*.cpp`, `tests/document/CMakeLists.txt`, and `benchmarks/document/` plus its CMake registration on 2026-10-31. This was source/configuration inspection; no test or benchmark execution is claimed here. Current planning is in [ROADMAP.md](ROADMAP.md); prior snapshots are historical.

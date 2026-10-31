@@ -1,5 +1,11 @@
 # Document Module Development Status - 2026-07-28
 
+> Historical issue #5641 validation snapshot (2026-07-28). Its reported test result,
+> roadmap status, and sign-off statements describe evidence recorded at that time;
+> they are not current build/test evidence. Use [ROADMAP.md](ROADMAP.md) for active
+> module planning and [AUDIT.md](AUDIT.md) for the current source/configuration
+> inspection. No historical completion claim is re-certified by this note.
+
 ## Module Identity
 - Module: document
 - Issue: makr-code/ThemisDB#5641

@@ -2,13 +2,14 @@
 
 Author: ThemisDB Contributors
 Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+Last Updated: 2026-10-31
+Status: archived
 
-## Source
-- This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\document\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\document\doxygen-warnings.log`
+## Source and currency
+- This file is a generated snapshot from module-scoped Doxygen XML, produced on 2026-09-20.
+- The original machine-local XML and warnings-log paths are intentionally omitted.
+- This inventory has not been regenerated during the 2026-10-31 source review. It is historical reference material, not current API or test evidence.
+- TODO: regenerate with the repository's current Doxygen configuration and replace this snapshot only after validating the generated inventory.
 
 ## Structure Metrics
 - C/C++ Files (scanned): 22
@@ -2855,4 +2856,3 @@ Status: active
 - Source: `include/document/document_schema_evolution.h`:106
 - Brief: n/a
 - Parameters: none
-

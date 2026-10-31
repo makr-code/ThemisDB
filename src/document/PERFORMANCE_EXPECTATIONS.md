@@ -1,46 +1,35 @@
-# PERFORMANCE_EXPECTATIONS - src/document
+# Performance Expectations — Document Module
 
-## Scope
+<!-- Status: current | source/configuration inspection: 2026-10-31 -->
 
-- Module: src/document
-- This file defines measurable document module performance expectations for release gating.
+## Scope and evidence status
 
-## Benchmark Reference
+The module benchmark directory contains three suites over in-memory document interfaces and one separate synthetic serialization-gates executable. Threshold declarations are not benchmark results. No baseline output or release-gate execution was validated for this update.
 
-- Relevant benchmark files:
-  - benchmarks/bench_api_endpoints.cpp
-  - benchmarks/bench_crud.cpp
+## Source-backed cases
 
-## Specific Expectations
-
-| Target ID | Expectation | Benchmark case |
+| Suite | Source | Exercise |
 |---|---|---|
-| DOCP-1 | single-document JSON serialization path remains within release baseline budget | BM_Json_Serialize_SingleDocument |
-| DOCP-2 | persistent documents listing path remains bounded under endpoint benchmark profile | BM_HttpServer_Documents_List_Persistent |
-| DOCP-3 | document CRUD throughput regression remains bounded vs release baseline | bench_crud proxy mapping |
+| Store | `benchmarks/document/bench_document_store.cpp` | In-memory `put/get/list/count/update/remove` and schema validation |
+| Diff/merge | `benchmarks/document/bench_document_diff_merge.cpp` | `InMemoryDocumentDiffMerge` over `InMemoryDocumentStore` |
+| Round-trip | `benchmarks/document/bench_document_round_trip.cpp` | `StoreBackedRoundTripEditor` over `InMemoryDocumentStore` |
+| Serialization gates | `benchmarks/document/bench_document_serialization_gates.cpp` | Synthetic string/vector stubs; not production serialization, store, diff, or merge implementations |
 
-## Module Hard Gates (v1.0 docs baseline)
+The first three suites declare six `GATE-DOC-01..06` runtime checks. Their latency-named checks compare measured mean time to the configured threshold; the source does not calculate per-iteration p99. The serialization-gates suite emits four `DOC-BM-01..04` threshold counters but does not enforce those thresholds with a failing check.
 
-| Gate ID | Expectation | Measurement |
-|---|---|---|
-| DOG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
-| DOG-2 | document hot-path p99 <= release threshold | p99 from mapped document benchmark cases |
-| DOG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
+## Threshold inventory
 
-## Validation
+| Gate | Declared threshold | Source |
+|---|---:|---|
+| GATE-DOC-01 | mean diff time ≤ 500 µs | `bench_document_diff_merge.cpp` |
+| GATE-DOC-02 | mean clean-merge time ≤ 200 µs | `bench_document_diff_merge.cpp` |
+| GATE-DOC-03 | mean `beginRelay()` time ≤ 1,000 µs | `bench_document_round_trip.cpp` |
+| GATE-DOC-04 | mean `loadInteraction()` time ≤ 200 µs | `bench_document_round_trip.cpp` |
+| GATE-DOC-05 | `put()` throughput ≥ 100,000 ops/s | `bench_document_store.cpp` |
+| GATE-DOC-06 | mean `get()` time ≤ 100 µs | `bench_document_store.cpp` |
 
-- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
-- Mapping should be expanded as additional document-native benchmark scenarios are introduced.
+TODO: establish representative-hardware baselines, select a statistically supported percentile method, and verify how the release workflow consumes these cases before claiming p95/p99 or release readiness.
 
-## Sourcecode Verification (Module: document/performance)
+## Build registration
 
-- Verified benchmark sources:
-  - benchmarks/bench_api_endpoints.cpp
-  - benchmarks/bench_crud.cpp
-- Verified mapping surfaces:
-  - document serialization benchmark path
-  - persistent documents-list endpoint benchmark path
-  - document CRUD proxy throughput path
-- Result:
-  - Referenced benchmark cases exist in current benchmark sources.
-  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.
+`benchmarks/document/CMakeLists.txt` registers four executable targets when benchmarks are enabled and Google Benchmark is found. See [DOCUMENT_BENCHMARK_COVERAGE.md](../../benchmarks/document/DOCUMENT_BENCHMARK_COVERAGE.md) and [RELEASE_GATES.md](../../benchmarks/document/RELEASE_GATES.md) for case details and declared threshold behavior.

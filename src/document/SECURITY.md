@@ -1,47 +1,30 @@
-# Security - Document Module
+# Security — Document Module
 
-<!-- Status: current | validated: 2026-07-28 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · DEVELOPMENT_STATUS_2026_07_28.md -->
+<!-- Status: current | validated: 2026-10-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · PRODUCTION_REQUIREMENTS.md · ROADMAP.md -->
 
-Report vulnerabilities via project-level SECURITY.md.
+Report vulnerabilities through the project-level `SECURITY.md`.
 
-## Security Scope
+## Scope and implemented behavior
 
-Security in the document module focuses on safe document mutation boundaries, schema/lifecycle policy correctness, controlled merge conflict handling, and protected exchange/persistence behavior across XDOMEA and round-trip flows.
+The document APIs provide typed operation boundaries, schema field validation, merge conflict reporting, lifecycle callbacks, and error classification. These behaviors are not a substitute for deployment authorization, durable storage security, or XML schema validation.
 
-## Threat Model
+| Area | Source-backed behavior | Limit |
+|---|---|---|
+| Store and manager | Result-based store/manager operations; in-memory store uses a mutex | In-memory implementation is not durable and does not implement an authorization policy |
+| Schema | In-memory registry checks required fields and configured JSON types | Round-trip editor does not invoke schema validation automatically |
+| Diff/merge | Conflict-aware merge strategies and structured errors | Interface does not define authorization or audit policy |
+| Encrypted entities | `encrypted_entities.h` serializes fields when represented as encrypted; the manager helper returns an in-memory entity handle | `createEncrypted()` stores its supplied JSON body as-is in the in-memory store; `InMemoryEncryptedEntity` only records a key ID and has no bytes to re-cipher |
+| XDOMEA | Typed import/export and repository interfaces | In-memory XML handling is not XSD validation |
+| Round-trip | Snapshot IDs combine relay ID and interaction index; store errors propagate | Persistence and access control depend on the supplied store/integration |
 
-| Threat | Current Mitigation Surface |
-|---|---|
-| invalid or malformed document payloads | schema validation and explicit Result error signaling |
-| unsafe lifecycle side effects | deterministic lifecycle hook ordering and manager boundaries |
-| merge inconsistency and conflict abuse | conflict-aware merge strategies and fail-fast conflict paths |
-| exchange misuse in document import/export | explicit XDOMEA contract boundaries and typed behavior |
-| snapshot replay/collision in round-trip flows | relay-scoped deterministic snapshot IDs and store-level lookups |
+## Deployment follow-ups
 
-## Implemented Security Controls
+- TODO: verify authorization and collection isolation in the concrete store/manager integration.
+- TODO: define and validate the XML/XSD boundary for production XDOMEA use.
+- TODO: document durable-store encryption, retention, backup, and audit controls in the owning deployment/integration documentation.
+- TODO: establish whether key rotation must re-encrypt persisted document bytes; the in-memory helper alone does not do so.
 
-- document operations propagate explicit Result-based errors.
-- schema and merge boundaries expose deterministic validation/conflict behavior.
-- lifecycle orchestration is explicit and bounded by manager contracts.
-- exchange and round-trip paths are constrained by typed interfaces.
+These are integration questions, not claims that a vulnerability has been demonstrated. See [PRODUCTION_REQUIREMENTS.md](PRODUCTION_REQUIREMENTS.md) for the distinction between module behavior and deployment obligations.
 
-## Security Follow-ups
-
-- continue hardening edge-case validation in schema and merge paths.
-- improve diagnostics around exchange and round-trip failure classes.
-- extend stress coverage for large document and conflict-heavy workflows.
-
-## Sourcecode Verification (Module: document/security)
-
-- Verified files:
-  - include/document/document_store.h
-  - include/document/document_manager.h
-  - include/document/document_schema_evolution.h
-  - include/document/document_diff_merge.h
-  - include/document/xdomea_connector.h
-  - src/document/round_trip_editor.cpp
-- Verified controls:
-  - Result-based explicit error propagation for document paths
-  - schema/merge validation and conflict-aware bounded behavior
-  - constrained exchange and round-trip persistence interfaces
+Operational reference: [`docs/operability/RUNBOOK_DOCUMENT_STORE.md`](../../docs/operability/RUNBOOK_DOCUMENT_STORE.md). The runbook's presence does not establish that alerts, tracing, or deployment controls are wired or exercised.
