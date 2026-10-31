@@ -5,7 +5,7 @@ Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot"
+AI_Contributor: "GitHub Copilot; themisdb-doc-orchestrator"
 Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
@@ -18,14 +18,14 @@ Human_Author: "ThemisDB Team"
 
 1. **Configuration and seed/catalog input:** seed URLs, URL patterns, catalog overlays, queries, and renderer command are configuration inputs. Treat them as privileged; limit who can change them.
 2. **External network and page content:** fetched HTML, JSON, redirects, links, metadata, and API responses are untrusted. Parsing or LLM evaluation does not establish factual accuracy or permission to reuse content.
-3. **Renderer process:** `SubprocessJSRenderer` launches a configured external command and passes a URL to it. Restrict command configuration and execution environment; never derive the renderer command from scraped content.
+3. **Renderer process:** `SubprocessJSRenderer` launches a configured external command and passes a URL to it. On Unix-like systems it builds an argv vector; the Windows path constructs a command string for `_popen`. Treat renderer command and URL handling as privileged configuration, restrict the execution environment, and never derive the renderer command from scraped content. The adapter passes the configured timeout argument but does not independently terminate a hung child.
 4. **LLM boundary:** page text is included in an evaluation prompt. Treat instructions or claims in the page as untrusted data, constrain model access, and do not use model scores as authorization or legal review.
 5. **Persistence and downstream consumers:** written data carries `is_scraper_ingested`, `ingestion_source_type`, and plugin-version provenance. Consumers must preserve and interpret these fields rather than treating scraped data as trusted first-party records.
 
 ## Controls present and limits
 
-- `UrlPolicy` rejects schemes other than HTTP/HTTPS, applies blacklist before whitelist, and supports simple string-prefix or limited `*` matching. An empty whitelist permits any HTTP(S) URL. Use narrow allowlists and do not treat string prefixes as robust hostname validation.
-- The libcurl paths enable TLS peer and hostname verification and follow redirects. The destination reached after a redirect is not rechecked by the plugin's `UrlPolicy`; a source allowlist alone is therefore not a complete network-egress/SSRF boundary. Enforce egress restrictions outside the process and avoid broad or attacker-controlled seed inputs.
+- `UrlPolicy` rejects schemes other than HTTP/HTTPS, applies blacklist before whitelist, and supports simple string-prefix or limited `*` matching. An empty whitelist permits any HTTP(S) URL. The plugin applies it to explicit seeds and HTML search-result URLs, but does not check selected catalog seed URLs; the exact API endpoint is exempted during API-result filtering. Use narrow allowlists and do not treat string prefixes as robust hostname validation.
+- The libcurl paths enable TLS peer and hostname verification and follow redirects without rechecking the destination against `UrlPolicy`. A source allowlist is not a complete SSRF/effective-destination boundary; enforce egress restrictions outside the process and avoid broad or attacker-controlled seed inputs.
 - Although `respect_robots` and `same_domain_only` are parsed, the main plugin orchestration does not enforce them. Standalone `RobotsTxtCache` and `SitemapCrawler` types do not change this unless an integration explicitly invokes them.
 - Catalog API keys are read from the environment variable named by `api_key_env` and placed in an Authorization bearer header. Restrict environment access, redact headers, and rotate exposed keys. Do not put secret values in catalog files.
 - Provenance is built into relational, graph, and vector records. The vector builder does not generate an embedding; empty vectors must not be interpreted as verified semantic evidence.

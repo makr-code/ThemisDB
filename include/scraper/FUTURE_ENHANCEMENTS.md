@@ -1,7 +1,19 @@
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/scraper/FUTURE_ENHANCEMENTS.md -->
+
+**Author:** ThemisDB Contributors<br>
+**Created:** 2026-10-31<br>
+**Last Updated:** 2026-10-31<br>
+**Status:** review
+
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot; themisdb-doc-orchestrator
+**Human_Review:** false
+**Human_Author:** unknown
+Exact model backend not verifiable from final document text alone.
 
 # Scraper Module — Public Header Future Enhancements
 
@@ -23,7 +35,6 @@ Planned enhancements to the **public header contract** in `include/scraper/`. Ru
 - `[x]` Public headers must not expose internal implementation types or arena/memory layout details to callers.
 - `[x]` Breaking changes to types in `include/scraper/` require a MAJOR version bump per `VERSIONING.md`.
 - `[x]` New entry points should be additive; existing stable APIs remain source-compatible.
-- `[x]` Layer association (**ANN Frontdoor**) must be preserved in all header expansions.
 
 ---
 
@@ -37,27 +48,26 @@ Planned extensions follow the same namespace (`themis::scraper`) and include-gua
 
 ## Planned Enhancements
 
-### Short-Term (Q3 2026)
+### TODO (priority/date not established)
 
-- [ ] Add `[[deprecated]]` annotations to any legacy entry points with migration notes
-- [ ] Add explicit `noexcept` specifications to query/read paths where safe
-- [ ] Add structured diagnostic types for all thrown exceptions
+- [ ] Review deprecated entry points and add migration notes if applicable.
+- [ ] Review `noexcept` specifications on query/read paths where justified.
+- [ ] Connect diagnostic types to runtime errors where required. `scraper_diagnostics.h` currently defines standalone primitives; `ScraperPlugin` does not emit events.
 
-### Medium-Term (Q4 2026)
+### Additional TODOs (priority/date not established)
 
-- [ ] Expand public surface with convenience factory functions for common usage patterns
-- [ ] Add Concepts (C++20) constraints to template parameters in public headers
-- [ ] Introduce explicit ABI stability markers (`THEMIS_STABLE_ABI`) to long-term interfaces
+- [ ] Consider convenience factories only where a verified caller use case requires them.
+- [ ] Revisit language-standard constraints before any C++20-only public API; the module target currently requests C++17.
+- [ ] Define ABI markers only if the project adopts an ABI stability policy.
 
-### Long-Term (2027+)
+### Longer-Term TODOs (uncommitted)
 
-- [ ] Module-interface (C++20 modules) wrapper for `include/scraper/` entry points
-- [ ] Header-only usage path for embedding scenarios (where feasible)
-- [ ] Extended layer-mapping documentation for ANN Frontdoor integration patterns
+- [ ] Assess a C++20 module wrapper if repository language support permits it.
+- [ ] Assess a header-only usage path only if an embedding use case is established.
+- [ ] Document a layer mapping only after an authoritative architecture source establishes one.
 
 ---
 
 ## Alignment with Strategic Plan
 
-Enhancements align with `FUTURE_PLAN.md` layer **ANN Frontdoor**. For cross-layer integration planning see:
-→ [`../../src/ai/FUTURE_ENHANCEMENTS.md`](../../src/ai/FUTURE_ENHANCEMENTS.md)
+No canonical scraper-to-architecture layer assignment was verified in the reviewed scraper headers or module CMake files. Treat any proposed layer mapping as an assumption until an authoritative architecture source establishes it.

@@ -5,7 +5,7 @@ Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot"
+AI_Contributor: "GitHub Copilot; themisdb-doc-orchestrator"
 Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
@@ -20,7 +20,9 @@ Human_Author: "ThemisDB Team"
 
 `scrape()` is synchronous and throws `std::runtime_error` if called before initialization. It collects allowed explicit/catalog seeds, optionally consumes one token per seed from an injected `BurstCrawlController`, selects the API or HTML/JS path, processes returned documents, flushes the writer, and returns run statistics. The call holds the plugin mutex across the run, including fetch/render work; do not invoke lifecycle methods concurrently or assume cancellation is available.
 
-For HTML, the path is fetch/render → optional first discovered search form and configured/effective queries → result parsing and URL filtering → per-document fetch → text extraction → evaluation → record construction/write. Setting `search_options.enabled` false selects direct processing of each seed page. The API path calls `IScraperApiClient::fetchAll()` and applies evaluation and record writing to returned results.
+For HTML, the path is fetch/render → optional first discovered search form and configured/effective queries → result parsing and URL filtering → per-document fetch → text extraction → evaluation → record construction/write. Setting `search_options.enabled` false selects direct processing of each seed page. The API path calls `IScraperApiClient::fetchAll()` and applies evaluation and record writing to returned results. `api_options` is parsed but not used to configure this path; catalog-backed endpoint settings come from `GovDataSource`, while other endpoint settings use `ApiEndpointConfig` defaults. `search_options.results_per_page`, `llm_options.model_path`, and `llm_options.temperature` are also parsed but unused by the current plugin path. The evaluator selects the default LLM plugin and fixes the request temperature at 0.1. The plugin does not apply `request_delay_ms` to API pagination.
+
+`reset()` clears results and counters but leaves the plugin initialized and retains its configuration and injected dependencies. `initialize()` stores a configuration and resets run state; use it when selecting a new config.
 
 ## Source ownership
 
@@ -35,7 +37,9 @@ For HTML, the path is fetch/render → optional first discovered search form and
 | Relational/graph/vector record builders | `scraper_metadata_writer.cpp` | [`scraper_metadata_writer.h`](../../include/scraper/scraper_metadata_writer.h) |
 | Built-in and overlaid sources | `gov_source_catalog.cpp` | [`gov_source_catalog.h`](../../include/scraper/gov_source_catalog.h) |
 
-`scraper_robots.*` and `scraper_sitemap.*` provide standalone helper types. The current `ScraperPlugin` orchestration does not call them. Likewise, `max_depth`, `max_pages`, `respect_robots`, and `same_domain_only` are parsed config fields but are not enforced by the main orchestration path. Do not treat those fields as active runtime protections; `UrlPolicy`, configured search-page limits, and API-client pagination limits are separate controls.
+`scraper_robots.*` and `scraper_sitemap.*` provide helper declarations and implementations, but neither `.cpp` file is listed in `src/scraper/CMakeLists.txt` and neither is added by `tests/scraper/CMakeLists.txt`. Their symbols are therefore not supplied by the normal `scraper_plugin` target, and the scoped scraper tests do not cover them. TODO: add the sources to a build target and focused tests, or document and support a separate target before treating these helpers as generally linkable.
+
+The current `ScraperPlugin` orchestration does not call these helpers. Likewise, `max_depth`, crawl `max_pages`, `respect_robots`, and `same_domain_only` are parsed config fields but are not enforced by the main orchestration path. `request_delay_ms` is used only in the HTML search path. Do not treat these fields as active runtime protections; `UrlPolicy`, configured HTML result-page limits, and API-client endpoint pagination limits are separate controls.
 
 ## Failure and data invariants
 
@@ -48,9 +52,9 @@ For HTML, the path is fetch/render → optional first discovered search form and
 
 ## Build and regression strategy
 
-`src/scraper/CMakeLists.txt` builds the C++17 static target `scraper_plugin`. yaml-cpp, pugixml, and libcurl are optional: without yaml-cpp YAML loads throw; without pugixml HTML form/result extraction is empty; without libcurl the built-in HTTP client returns empty content. LLM evaluation requires `THEMIS_ENABLE_LLM`; otherwise the heuristic evaluator is used.
+`src/scraper/CMakeLists.txt` builds the C++17 static target `scraper_plugin` from its explicit `SCRAPER_SOURCES` list. That list omits `scraper_robots.cpp` and `scraper_sitemap.cpp`; their headers do not make their implementation symbols available through this archive. yaml-cpp, pugixml, and libcurl are optional: without yaml-cpp YAML loads throw; without pugixml HTML form discovery/result-list parsing is empty (direct text extraction has a fallback tag stripper); without libcurl the built-in HTTP client returns empty content. nlohmann_json is discovered optionally, with a repository-header fallback. `THEMIS_ENABLE_LLM` enables the LLM evaluator path; otherwise the heuristic evaluator is used.
 
-Use the focused sources in [`tests/scraper/`](../../tests/scraper/) for contract, plugin, rendering/pagination, burst, and run-summary regressions. Add tests for changed failure branches and inspect `ScraperRunStats`; do not rely on live web sources for deterministic unit coverage.
+Use the focused sources in [`tests/scraper/`](../../tests/scraper/) for contract, plugin, rendering/pagination, burst, and run-summary regressions. The test CMake file does not add the robots/sitemap implementations, and no scoped test references those helper types. Add build registration and focused tests before relying on them; do not rely on live web sources for deterministic unit coverage.
 
 Related: [API.md](./API.md), [MODULE_GUIDE.md](./MODULE_GUIDE.md), [TRUST.md](./TRUST.md).
 

@@ -1,7 +1,19 @@
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/scraper/ARCHITECTURE.md -->
+
+**Author:** ThemisDB Contributors<br>
+**Created:** 2026-10-31<br>
+**Last Updated:** 2026-10-31<br>
+**Status:** review
+
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot; themisdb-doc-orchestrator
+**Human_Review:** false
+**Human_Author:** unknown
+Exact model backend not verifiable from final document text alone.
 
 # Scraper Module — Public Header Architecture
 
@@ -27,17 +39,17 @@ For runtime composition and implementation internals see:
 | Header | Public Type | Purpose |
 |--------|------------|---------|
 | `scraper_config.h` | `ScraperConfig` | Scraper configuration and rate-limit settings |
-| `scraper_api_client.h` | `ScraperAPIClient` | External scraping API client adapter |
-| `scraper_js_renderer.h` | `ScraperJSRenderer` | Headless JS rendering for SPAs |
-| `scraper_search_engine.h` | `ScraperSearchEngine` | Search-engine-based scrape orchestration |
+| `scraper_api_client.h` | `IScraperApiClient`, `HttpScraperApiClient` | JSON REST/GraphQL client interface and HTTP implementation |
+| `scraper_js_renderer.h` | `IScraperJSRenderer`, `SubprocessJSRenderer` | Optional external JS renderer interface and adapter |
+| `scraper_search_engine.h` | `IScraperSearchEngine`, `HtmlSearchEngine` | HTML form discovery and result parsing |
 ### 2.2 Content Quality and Security
 
 | Header | Public Type | Purpose |
 |--------|------------|---------|
-| `scraper_llm_evaluator.h` | `ScraperLLMEvaluator` | LLM-based scraped content quality judge |
-| `scraper_metadata_writer.h` | `ScraperMetadataWriter` | Scraped content metadata persistence |
-| `scraper_plugin.h` | `IScraperPlugin` | Pluggable scraper backend interface |
-| `gov_source_catalog.h` | `GovSourceCatalog` | Government and open-data source catalogue |
+| `scraper_llm_evaluator.h` | `IScraperLLMEvaluator`, `ScraperLLMEvaluator` | LLM-or-heuristic content evaluation |
+| `scraper_metadata_writer.h` | `IScraperMetadataWriter`, `InMemoryScraperMetadataWriter`, `ScraperRecordBuilder` | Writer contract and record construction |
+| `scraper_plugin.h` | `IScraperPlugin`, `ScraperPlugin` | Synchronous plugin lifecycle and orchestration |
+| `gov_source_catalog.h` | `GovSourceCatalog`, `GovDataSource` | Built-in source catalog and overlays |
 
 ---
 
@@ -49,7 +61,7 @@ All public types reside in the `themis::scraper` namespace (or a sub-namespace).
 
 ## 4. Contract Notes
 
-- Headers in `include/scraper/` expose the **stable public API**; internal types live in `src/scraper/`.
-- Clients depend only on types declared here; implementation details in `src/` may change without notice.
+- Headers in `include/scraper/` declare the public C++ surface; compatibility and change policy are governed by the project versioning rules, not by this page's presence.
+- `ScraperPlugin` composes seed/catalog selection, fetch/render, optional HTML search or API retrieval, evaluation, and writer calls. Public helper headers for diagnostics, run summaries, renderer contracts, robots, and sitemaps are not automatically wired into that orchestration.
+- `scraper_diagnostics.h` provides event/sink types, but the plugin does not emit events. `scraper_render_contract.h` helpers likewise are not called by the plugin.
 - For breaking-change policy see [`../../VERSIONING.md`](../../VERSIONING.md).
-- Layer association: **ANN Frontdoor**.
