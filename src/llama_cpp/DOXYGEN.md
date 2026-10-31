@@ -1,21 +1,31 @@
-# LLAMA_CPP DOXYGEN
+---
+Author: "ThemisDB Team"
+Created: "2026-09-20"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
 
-Author: ThemisDB Contributors
-Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+> Exact model backend not verifiable from final document text alone.
+
+# llama_cpp Doxygen Evidence
 
 ## Source
-- This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\llama_cpp\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\llama_cpp\doxygen-warnings.log`
+- The current checked-in XML artifact is
+  [`ai_context/developer_llm_wiki/module_doxygen_artifacts/llama_cpp/xml/index.xml`](../../ai_context/developer_llm_wiki/module_doxygen_artifacts/llama_cpp/xml/index.xml).
+- Public declarations and their source comments remain authoritative; generated
+  XML is evidence, not a replacement for the headers.
+- Do not rely on historical machine-local XML or warning-log paths.
 
-## Structure Metrics
-- C/C++ Files (scanned): 12
-- Compounds: 37
-- Classes/Structs: 8
-- Namespaces: 8
-- File Compounds: 12
+## Validation
+
+Run `python scripts/check_module_direct_doxygen.py --module llama_cpp` to inspect
+current direct Doxygen markers. The command reports symbol and documentation
+counts; this page does not store a stale copy of those generated metrics.
 
 ## Namespaces
 - benchmark
@@ -1559,4 +1569,3 @@ Status: active
 - Source: `tests/llama_cpp/test_llama_cpp_highcardinality_stress.cpp`:56
 - Brief: n/a
 - Parameters: none
-

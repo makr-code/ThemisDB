@@ -1,167 +1,129 @@
-> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
+
+> Exact model backend not verifiable from final document text alone.
 
 # llama_cpp Plugin Roadmap
 
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Roadmap-Status: current | validated: 2026-04-12 | Primary: src/llama_cpp/ -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+The roadmap records module work against the current implementation in
+`src/llama_cpp/llama_cpp_plugin.cpp` and `llama_cpp_registrar.cpp`. The plugin
+reports version `2.1.0`; its advertised capabilities and loaded flag do not prove
+that a real model backend is usable. Production gates are in
+[`PRODUCTION_REQUIREMENTS.md`](PRODUCTION_REQUIREMENTS.md).
 
 ## Current Status
 
-v2.2.0 — Real `LlamaWrapper` inference wired in behind `THEMIS_LLM_ENABLED`.
-`generate()`, `embed()`, `exportLoRA`, and `importLoRA` all delegate to
-`LlamaWrapper` when a non-empty model path is provided and the macro is set.
-Stub mode (empty path / CI without model) is preserved as a transparent fallback.
+The module implements the `ILLMPlugin` interface, with optional real inference
+through `LlamaWrapper` when the parent build enables `THEMIS_ENABLE_LLM`
+(`THEMIS_LLM_ENABLED` in the plugin). The module CMake target is a static C++17
+library. `THEMIS_LLAMA_CPP_STUB_MODE` is used by focused test targets; it is not a
+production backend.
 
-## Completed ✅
-
-- [x] `THEMIS_LLM_PLUGIN()` export macro
-- [x] `LlamaCppPlugin : ILLMPlugin` — full interface (generate, RAG, embed, LoRA, stats)
-- [x] `loadModel` / `unloadModel` with stub mode and real `LlamaWrapper` initialisation
-- [x] Thread-safe LoRA registry (`std::mutex`)
-- [x] `getCapabilities()` — `supports_lora`, `supports_embeddings`, `plugin_version`
-- [x] `getMemoryStats()` / `getPerformanceStats()` — JSON
-- [x] `themis_llm_create` / `themis_llm_destroy` C-linkage entry points
-- [x] 50 unit tests (`LlamaCppPluginFocusedTests`, groups A–N)
-- [x] Plugin manifest + CMake registration
-- [x] Streaming token output via `InferenceRequest::stream_callback` (v2.1.0)
-- [x] `generateStream(request, callback)` convenience method (v2.1.0)
-- [x] `generateBatch(requests)` batch inference method (v2.1.0)
-- [x] `LlamaCppPluginRegistrar` — PluginManager hot-plug integration (v2.1.0)
-- [x] `getCapabilities().supports_streaming = true` (v2.1.0)
-- [x] `getCapabilities().supports_batching = true` (v2.1.0)
-- [x] Real llama.cpp inference via `LlamaWrapper` behind `THEMIS_LLM_ENABLED` (v2.2.0)
-- [x] Real embedding vectors via `LlamaWrapper::embed()` (v2.2.0)
-- [x] `exportLoRA` / `importLoRA` delegated to `LlamaWrapper` (v2.2.0)
-- [x] `tests/CMakeLists.txt` updated — registrar + deps added for N1–N6 (v2.2.0)
-- [x] Gap-Closure Wave 2 (2026-08-31): `generate()` STUB/SIMULATION NOTE completed with `Removal Plan` field; all 7 STUB blocks in `llama_cpp_plugin.cpp` and 2 in `llama_cpp_registrar.cpp` have complete documentation templates (Purpose, Activation, Production Delta, Removal Plan)
+`loadModel()` can return success when wrapper initialization or model loading
+failed, leaving the wrapper unavailable while the plugin's loaded flag is true.
+Consequently, a real inference probe is required for deployment readiness.
 
 ## In Progress
 
-*(none — all previously in-progress items are now complete)*
+None currently tracked.
 
 ## Planned Features
 
-- [x] Function/tool calling (Target: Q4 2026)
-- [x] Per-request cancellation token (Target: Q4 2026)
+None currently approved. Record new implementation work only after its interfaces,
+failure behavior, validation evidence, and measurable performance target (where
+applicable) are defined.
 
 ## Implementation Phases
 
-### Phase 1 — Design / API Contract ✅
-- [x] `ILLMPlugin` interface reviewed; all methods implemented
+### Phase 1 — Design / API Contract
 
-### Phase 2 — Core Implementation ✅
-- [x] `LlamaCppPlugin` stub with load/generate/embed/LoRA lifecycle
-- [x] Real `LlamaWrapper` delegation behind `THEMIS_LLM_ENABLED` (v2.2.0)
+- [x] Implement the `ILLMPlugin` contract in `include/llama_cpp/llama_cpp_plugin.h`.
+- [x] Define registrar creation and server-config integration in
+  `include/llama_cpp/llama_cpp_registrar.h`.
 
-### Phase 3 — Error Handling & Edge Cases ✅
-- [x] `generate()` returns error when model not loaded
-- [x] `embed()` returns empty when model not loaded
-- [x] Thread-safe LoRA registry (duplicate id replacement)
-- [x] `generateStream()` swallows callback exceptions; increments `error_count_`
-- [x] `generateBatch()` propagates per-request errors without aborting the batch
-- [x] Stub fallback when `LlamaWrapper::loadModel()` fails (file not found, etc.) (v2.2.0)
+### Phase 2 — Core Implementation
 
-### Phase 4 — Tests ✅
-- [x] 50 unit tests across groups A–N
-- [x] 3 group-O structured-error tests (O1–O3): generate() without model loaded
-- [x] Registrar link fixed in `tests/CMakeLists.txt` (v2.2.0)
+- [x] Implement optional wrapper-backed generation and embeddings behind
+  `THEMIS_LLM_ENABLED`.
+- [x] Implement RAG context assembly through `RAGContextAssembler`.
+- [x] Implement plugin registration, generation callbacks, sequential batching,
+  capability reporting, and performance counters.
 
-### Phase 5 — Performance / Hardening ✅
-- [x] Real llama.cpp inference benchmark (`benchmarks/bench_llama_cpp_inference.cpp`; stub path exercised in CI; 6 benchmark scenarios) (Target: Q3 2026)
-- [x] Concurrency test P1: 8 threads × 10 `generate()` calls — no race, no deadlock (Target: Q3 2026)
-- [x] Concurrency test P2: 4 threads concurrent `generateBatch(5)` — correct response count (Target: Q3 2026)
-- [x] Concurrency test P3: interleaved `loadLoRA()` + `generate()` from 6 threads — all succeed (Target: Q3 2026)
+### Phase 3 — Error Handling & Edge Cases
 
-### Phase 6 — Documentation & Acceptance ✅
-- [x] README, CHANGELOG, ROADMAP, ARCHITECTURE, FUTURE_ENHANCEMENTS, AUDIT, SECURITY
+- [x] Return structured generation failures for policy denial, pre-dispatch
+  cancellation, unloaded state, and unavailable backends in non-stub builds.
+- [x] Bound LoRA import size and check GGUF magic before wrapper delegation.
+- [x] Keep embedding fallback behavior and wrapper-load limitations explicit in
+  the module contract.
 
-### Phase 7 — Security & Concurrency Hardening ✅ (v2.4.0 — 2026-08-09)
-- [x] `inference_count_` / `error_count_` converted to `std::atomic<uint64_t>` — lock-free reads (A1)
-- [x] `stream_retry_count_` added as `std::atomic<uint64_t>` — exposed in `getPerformanceStats()` (A1)
-- [x] `generateRAG()` data-race fixed: shared state (`model_loaded_`, `context_length_`) snapshotted under mutex at entry (A2)
-- [x] `generateStream()` stream-callback retry: up to 3 attempts for transient exceptions; `bad_alloc` non-retryable; `stream_retry_count_` incremented per transient retry (D1)
-- [x] `thread_join_no_timeout` findings triaged as false positives; no helper retained because the module has no owned join sites (D2)
-- [x] `importLoRA` GGUF magic-bytes check (`0x47 0x47 0x55 0x46`) + 2 GB size bound — fail-closed (B2)
-- [x] `loadModel()` opt-in model-file integrity gate via `verify_model_digest` + `expected_model_digest` config keys (B3)
-- [x] `setPolicyFn(PolicyFn)` — pluggable inference policy hook; `generate()` / `generateRAG()` gate on denial (B4)
-- [x] `LlamaCppPluginRegistrar::initFromServerConfig(server_config)` — server-startup integration point; reads `config["llm"]["model_path"]` (C1)
-- [x] `defaultReloadCallback()` fixed — calls `loadModel()` when path present; returns `true` in stub mode (C2)
-- [x] LLCPG-1..4 release gate benchmarks added (TTFT, batch-embed, LoRA-load P99, regression baseline) (E1)
-- [x] Tests Groups U (concurrency, 4), V (security, 6), W (registrar integration, 8), X (retry/join, 3) — 21 new tests (Q3 2026)
+### Phase 4 — Tests
+
+- [x] Provide focused lifecycle, inference-contract, registrar, and validation
+  tests under `src/llama_cpp/tests/`.
+- [x] Provide focused model-loading, inference, and stress tests under
+  `tests/llama_cpp/`.
+- [x] Register llama_cpp CTest targets in `tests/llama_cpp/CMakeLists.txt`.
+
+### Phase 5 — Performance / Hardening
+
+- [x] Expose inference, error, and stream-retry counters.
+- [x] Add the module inference benchmark at
+  `benchmarks/llama_cpp/bench_llama_cpp_inference.cpp`.
+- [x] Keep batch execution sequential and document that it is not parallel
+  batching; validate production performance separately with a real model.
+
+### Phase 6 — Documentation & Acceptance
+
+- [x] Align the README, architecture, roadmap, and production requirements with
+  the live implementation.
+- [x] Record test-fixture, fallback, validator, and deployment-readiness limits.
+- [x] Provide focused CTest and direct Doxygen validation commands.
 
 ## Production Readiness Checklist
 
-- [x] Unit tests present (89 tests: groups A–X)
-- [x] Stub mode for CI without model file
-- [x] Thread-safe LoRA registry
-- [x] Capabilities correctly reported
-- [x] `context_length` read from config JSON (`n_ctx`/`context_length` keys, fallback 4096)
-- [x] `ModelInfo::context_length` populated from config on `loadModel()`
-- [x] `generateRAG()` uses `RAGContextAssembler` — no naive document concatenation
-- [x] `InferenceRequest::max_tokens` capped by `RAGContextAssembler::computeMaxTokens()`
-- [x] `generateStream()` honours callback with 3-attempt transient-exception retry
-- [x] `generateBatch()` preserves request order in response vector
-- [x] `LlamaCppPluginRegistrar` provides PluginManager hot-plug integration
-- [x] `LlamaCppPluginRegistrar::initFromServerConfig()` provides server-startup integration point
-- [x] Real llama.cpp inference wired in (`THEMIS_LLM_ENABLED`)
-- [x] Real embeddings via `LlamaWrapper::embed()` with L2 normalisation
-- [x] `exportLoRA` / `importLoRA` delegated to `LlamaWrapper`; `importLoRA` GGUF-validated before delegation
-- [x] Concurrency hardening verified: 8-thread generate(), 4-thread generateBatch(), 6-thread LoRA+generate() race — all pass (P1–P3)
-- [x] `inference_count_` / `error_count_` / `stream_retry_count_` are `std::atomic<uint64_t>` — lock-free reads
-- [x] `generateRAG()` shared-state data-race eliminated (mutex snapshot at entry)
-- [x] `supports_function_call = true`; tool-call stub synthesised in test/stub mode; tools forwarded through bridge path (S1–S3)
-- [x] Per-request cancellation token (`InferenceRequest::cancellation_token`); pre-inference check returns `success=false` / `"Request cancelled"` (T1–T2)
-- [x] Model file integrity check: opt-in via `"verify_model_digest": true` + `"expected_model_digest"` config keys
-- [x] LoRA adapter integrity: GGUF magic bytes + 2 GB size bound validated in `importLoRA`
-- [x] Inference policy gate: `setPolicyFn(fn)` pluggable hook; denial returns `success=false`
-- [x] LLCPG-1..4 release gate benchmarks present (TTFT, batch-embed throughput, LoRA P99, regression baseline)
+- [x] Implement model lifecycle and runtime configuration in `LlamaCppPlugin`.
+- [x] Provide wrapper-backed generation and embedding when the LLM backend is
+  enabled and a model successfully loads.
+- [x] Apply an installed `PolicyFn` to generation and RAG dispatch.
+- [x] Bound and format-check imported LoRA bytes before optional wrapper
+  delegation.
+- [x] Provide focused module tests and a module inference benchmark.
+- [ ] Verify a real-backend inference and embedding probe for each deployed model
+  and configuration before enabling production traffic.
+- [ ] Validate model provenance with deployment-controlled cryptographic
+  evidence; the plugin's FNV-64 check is not an authenticity control.
+
+The checked implementation items do not constitute production sign-off. See
+[`PRODUCTION_REQUIREMENTS.md`](PRODUCTION_REQUIREMENTS.md) for deployment gates.
 
 ## Known Issues & Limitations
 
-- `generateBatch()` is sequential; true parallel batch requires real llama.cpp.
-- Stub mode is active when compiled without `THEMIS_LLM_ENABLED` or when the
-  model path is empty / the file does not exist.
+- `loadModel()` may return `true` after a wrapper load failure; `model_loaded_`,
+  `getModelInfo()`, and static capability flags are not readiness signals.
+- Without a live wrapper or injected `GenerateFn`, generation fails in normal
+  builds. The synthetic generation response is limited to builds defining
+  `THEMIS_LLAMA_CPP_STUB_MODE`.
+- `embed()` may return a 384-element zero vector after wrapper or callback
+  failure; this is not a semantic embedding.
+- The LoRA registry stores metadata. In a no-wrapper path, successful payload
+  checks do not load adapter weights.
+- `generateBatch()` processes requests sequentially and preserves their order.
+- The opt-in model digest uses FNV-64, not a cryptographic digest. The separate
+  validation helpers are not automatically invoked by `loadModel()`.
+- Focused test fixtures and the integration soak do not establish production
+  model quality, throughput, or load reliability.
 
 ## Breaking Changes
 
-v2.1.0 — `getCapabilities().plugin_version` changed from `"2.0.0"` to `"2.1.0"`.
-`getPluginVersion()` similarly returns `"2.1.0"`.
-
-## Latente Symbole (Unused-Functions-Audit)
-
-_Stand: 2026-08-09 – Quelle: [`src/UNUSED_FUNCTIONS_REPORT.md`](../UNUSED_FUNCTIONS_REPORT.md)_
-
-### 🧪 NUR_TESTS (implementiert, kein Produktions-Aufrufer)
-
-- `LlamaCppPlugin` – LLM-Plugin-Implementierung für llama.cpp; vollständig implementiert
-  (`generate`, `embed`, `generateRAG`, `generateStream`, `generateBatch`, LoRA-Lifecycle,
-  Memory/Performance-Stats, Policy-Gate, Security-Validation). 89 Unit-Tests + Benchmark vorhanden.
-
-> **✅ Produktionslücke geschlossen (v2.4.0):** `LlamaCppPluginRegistrar::initFromServerConfig(server_config)`
-> ist als sauberer Server-Startup-Integrationspunkt implementiert. Der Server-Startup-Code kann
-> `LlamaCppPluginRegistrar::initFromServerConfig(config)` aufrufen, um `LlamaCppPlugin` in den
-> `LLMPluginManager` zu registrieren, wenn `config["llm"]["model_path"]` gesetzt ist.
-> `defaultReloadCallback()` delegiert nun korrekt an `loadModel()` statt eines Stub-Kommentars.
-
-## Program Execution Model — Wave Context
-
-This module is a **contributing module** in the program-level Wave A → B → C → D execution model.
-It does not own a primary wave deliverable but must remain `release_critical`-green throughout all waves
-and must deliver Wave D operability improvements in Q1 2027.
-See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
-
-### Wave D Contribution for `llama_cpp`
-- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
-
-### Cross-Wave Requirements
-- `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
-- p95/p99 benchmarks must be refreshed on representative hardware before Wave D sign-off (Target: Q1 2027)
-- No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
-
-### Program-Level Success Criteria (contribution)
-- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
+No public API change is introduced by this documentation update. The plugin
+currently reports version `2.1.0` through its capability and version methods.
