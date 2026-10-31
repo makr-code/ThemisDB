@@ -1,52 +1,49 @@
-> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+---
+Author: "ThemisDB Team"
+Created: "2026-04-17"
+Last Updated: "2026-10-31"
+Status: "active"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_Sources:
+  - "tests/performance/CMakeLists.txt"
+  - "tests/CMakeLists.txt"
+  - "tests/cmake/RegisterModuleTests.cmake"
+Related_Issue: "#7366"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-# ROADMAP
+# Performance Test Roadmap
 
-## Current Status
-- [~] Modul `tests/performance` dokumentiert; Backlog für weitere Härtung und Ausbau wird gepflegt.
+## Current registration state
 
-## In Progress
-- [ ] Dokumentations- und Qualitätslücken schließen (Target: 2026-Q2)
+The module CMake file selects root-level `test_*.cpp` files. Nested
+`phase3/` and `phase4/` sources are present but not registered there. The
+`test_performance_*.cpp` root sources are selected twice under separate target
+names (`_focused` and `_autofocused`). No statement here asserts that a test
+has passed.
 
-## Planned Features
-- [ ] Schnittstellen und Verantwortlichkeiten präzisieren (Target: 2026-Q3)
-- [ ] Testabdeckung für kritische Pfade erweitern (Target: 2026-Q3)
-- [ ] Betriebs- und Security-Härtung abschließen (Target: 2026-Q4)
+## Follow-up
 
-## Implementation Phases
-### Phase 1: Design / API-Vertrag
-- [ ] Öffentliche und interne Interfaces des Moduls konsolidieren (Target: 2026-Q2)
-- [ ] Eingabe-/Ausgabeverträge und Fehlermodelle festlegen (Target: 2026-Q2)
+- [ ] Decide whether to register the phase3/phase4 tests through explicit
+  subdirectory CMake files or a documented alternative test path.
+  (Target: DOC-WEEKLY-2026-44)
+- [ ] Resolve duplicate registrations for the root `test_performance_*.cpp`
+  sources, or document why both targets are required.
+  (Target: DOC-WEEKLY-2026-44)
+- [ ] After a configured build is available, capture `ctest -N` output and
+  execute the registered focused tests relevant to each changed component.
+  (Target: DOC-WEEKLY-2026-44)
 
-### Phase 2: Core-Implementierung
-- [ ] Kernlogik gemäß Schnittstellenvertrag vervollständigen (Target: 2026-Q3)
-- [ ] Integrationspunkte zu abhängigen Modulen stabilisieren (Target: 2026-Q3)
+## Validation boundary
 
-### Phase 3: Fehlerbehandlung & Edge Cases
-- [ ] Fehlerfälle systematisch abdecken (Target: 2026-Q3)
-- [ ] Edge-Case-Handling und Guardrails ergänzen (Target: 2026-Q3)
+The parent CMake file skips test configuration when `THEMIS_BUILD_TESTS` is
+off, and returns if GoogleTest is unavailable. Actual registered tests depend
+on the configured build. See [`README.md`](README.md) for target and test-name
+patterns.
 
-### Phase 4: Tests
-- [ ] Unit-Tests für Kernpfade ausbauen (Target: 2026-Q3)
-- [ ] Integrations- und Regressionstests ergänzen (Target: 2026-Q3)
-
-### Phase 5: Performance/Hardening
-- [ ] Performance-Bottlenecks messen und reduzieren (Target: 2026-Q4)
-- [ ] Security- und Reliability-Hardening abschließen (Target: 2026-Q4)
-
-### Phase 6: Dokumentation & Abnahme
-- [ ] Betriebs- und Entwicklerdokumentation aktualisieren (Target: 2026-Q4)
-- [ ] Modulabnahme anhand Checklisten und Akzeptanzkriterien durchführen (Target: 2026-Q4)
-
-## Production Readiness Checklist
-- [ ] Definierte Fehlersemantik und Recovery-Pfade
-- [ ] Ausreichende Testabdeckung inkl. Regression
-- [ ] Security-Review und Dependency-Checks abgeschlossen
-- [ ] Monitoring/Observability-Anforderungen erfüllt
-- [ ] Dokumentation für Betrieb und Entwicklung vollständig
-
-## Known Issues & Limitations
-- [!] Detailtiefe der Modul-spezifischen Akzeptanzkriterien variiert und wird sukzessive geschärft.
-
-## Breaking Changes
-- Keine bekannten Breaking Changes dokumentiert.
+Exact model backend not verifiable from final document text alone.

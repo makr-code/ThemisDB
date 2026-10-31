@@ -1,68 +1,58 @@
-# Audit Report - Performance Module
+---
+Author: "ThemisDB Team"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "active"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_Sources:
+  - "src/performance/*.cpp"
+  - "include/performance/*.h"
+  - "tests/performance/CMakeLists.txt"
+  - "benchmarks/performance/CMakeLists.txt"
+  - "src/performance/ROADMAP.md"
+Related_Issue: "#7366"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+# Audit Notes — Performance Module
 
-## Summary
+## Scope and evidence
 
-| Metric | Result |
-|---|---|
-| Build registration | pass |
-| Source set size | 15+ implementation files in src/performance |
-| Focused test presence | pass |
-| Open hardening findings | yes |
-| Critical blockers | none identified |
-
-## Verified Files
-
-- src/performance/cycle_metrics.cpp
-- src/performance/prometheus_exporter.cpp
-- src/performance/async_metrics_exporter.cpp
-- src/performance/chimera_exporter.cpp
-- src/performance/numa_topology.cpp
-- src/performance/numa_memory_manager.cpp
-- src/performance/workload_predictor.cpp
-- src/performance/workload_adaptive_optimizer.cpp
-- src/performance/advanced_cache_manager.cpp
-- src/performance/hardware_accelerator.cpp
-- src/performance/intelligent_prefetcher.cpp
-- src/performance/phase2_feature_flags.cpp
-- src/performance/wisckey.cpp
-- src/performance/dostoevsky.cpp
-- src/performance/cicada.cpp
-- src/performance/rabitq.cpp
-- src/performance/ligra.cpp
+This is a static documentation/code-registration consistency check, not a
+security audit, build result, or test run. The current module tree contains
+performance headers and implementations; individual API behavior is defined
+by the corresponding header and implementation. No runtime tests or benchmarks
+were executed for this documentation update.
 
 ## Findings
 
-### Open
+1. **Nested performance tests are not registered by the module CMake file.**
+   `tests/performance/CMakeLists.txt` globs only root-level `test_*.cpp`;
+   phase3/phase4 test sources are present but not included by that glob.
+2. **Some root test sources receive two registrations.** The `_focused` glob
+   includes all root `test_*.cpp` files, while the separate `_autofocused`
+   glob includes root `test_performance_*.cpp` files under a different target
+   name.
+3. **Benchmark source and build coverage differ.** The performance benchmark
+   CMake file registers `bench_performance_release_gates.cpp`; it does not
+   register the sibling `bench_random_access_prefetch.cpp`.
+4. **No numeric release threshold was verified in the local benchmark source.**
+   The six `GATE-PFM-*` labels identify microbenchmark cases, not executable
+   pass/fail thresholds or a recorded baseline.
 
-1. [PRF-AUD-01] adaptive optimization edge-case hardening remains active.
-- Severity: medium
-- Evidence: roadmap/future retain active work for deterministic behavior under workload shifts.
-- Action: close deterministic regressions across adaptive strategy transitions.
+## Status and follow-up
 
-2. [PRF-AUD-02] hardware fallback diagnostics need further tightening.
-- Severity: medium
-- Evidence: active follow-up work for unsupported capability and fallback observability.
-- Action: unify taxonomy and diagnostics for hardware-dependent fault classes.
+The findings above are source-visible registration/documentation gaps. This
+check does not determine whether they are intentional or whether separate
+external test/benchmark workflows cover them. Resolve the ownership question
+in the relevant CMake/test issue before describing nested tests or the
+unregistered benchmark as part of the standard run. See
+[`ROADMAP.md`](ROADMAP.md) and
+[`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md).
 
-3. [PRF-AUD-03] benchmark depth should broaden for distributed/high-contention scenarios.
-- Severity: low
-- Evidence: core mapping is valid while broader mixed and distributed paths need deeper coverage.
-- Action: add benchmark depth for advanced performance workflows.
-
-### Closed
-
-- core performance runtime surfaces are present and source-verified.
-- documentation set is synchronized to source-verifiable claims.
-- changelog/roadmap role separation is aligned to module governance pattern.
-
-## Compliance Snapshot
-
-| Requirement | Status |
-|---|---|
-| Source-verifiable behavior claims | pass |
-| Structured forward planning in roadmap/future | pass |
-| Historical completion tracked in changelog | pass |
-| Core module docs synchronized | pass |
+Exact model backend not verifiable from final document text alone.

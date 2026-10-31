@@ -3,6 +3,16 @@ Author: "ThemisDB Team"
 Created: "2026-10-31"
 Last Updated: "2026-10-31"
 Status: "active"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_Sources:
+  - "src/performance/async_metrics_exporter.cpp"
+  - "src/performance/prometheus_exporter.cpp"
+  - "src/performance/chimera_exporter.cpp"
+  - "benchmarks/performance/CMakeLists.txt"
+  - "benchmarks/performance/bench_performance_release_gates.cpp"
+  - "src/performance/ROADMAP.md"
+Related_Issue: "#7366"
 AI_Used: true
 AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
@@ -39,18 +49,15 @@ according to the deployment's observability policy and the controls in
 
 ## Release performance gates
 
-The current module gates in [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md)
-require:
-
-- no more than 10% regression against the mapped release baseline;
-- p99 values within the configured release threshold for mapped cases; and
-- no missing mapped benchmark case in the release run manifest.
-
-The values are per benchmark/release configuration; do not substitute a single
-module-wide threshold. Run the release-profile cases on representative
-hardware, record the baseline and manifest, and compare the same workload and
-configuration. The roadmap calls for refreshing p95/p99 baselines and widening
-mixed/distributed coverage in Q1 2027.
+The current module benchmark source defines six contract microbenchmarks, but
+does not encode a regression percentage, p99 threshold, or baseline comparison.
+The benchmark CMake file registers only that executable; a sibling random
+access/prefetch benchmark source is present but is not registered there. See
+[PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md) for the exact cases
+and limits of the current evidence. If a release process imposes additional
+thresholds, record the owning policy, baseline, and run manifest; do not imply
+that these are enforced by the module benchmark itself. The roadmap calls for
+representative p95/p99 baseline work and broader coverage in Q1 2027.
 
 ## Recovery and change control
 

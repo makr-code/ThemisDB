@@ -3,6 +3,16 @@ Author: "ThemisDB Team"
 Created: "2026-10-31"
 Last Updated: "2026-10-31"
 Status: "active"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_Sources:
+  - "include/performance/workload_predictor.h"
+  - "include/performance/workload_adaptive_optimizer.h"
+  - "include/performance/rabitq.h"
+  - "include/performance/phase3/diskann.h"
+  - "benchmarks/performance/CMakeLists.txt"
+  - "benchmarks/performance/bench_performance_release_gates.cpp"
+Related_Issue: "#7366"
 AI_Used: true
 AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
@@ -51,14 +61,17 @@ on ThemisDB workloads.
    throughput, CPU and memory consumption, allocation locality, cache and disk
    activity, and result quality where approximation is used.
 3. Use focused tests for correctness and edge cases, then run mapped
-   release-profile benchmarks. The release expectations are in
-   [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md); named release
-   gates are implemented in
-   [`bench_performance_release_gates.cpp`](../../benchmarks/performance/bench_performance_release_gates.cpp).
-4. Compare against the same release baseline and retain the benchmark manifest.
-   The module expectations require regression no greater than 10%, mapped
-   p99 values within their configured release thresholds, and no missing mapped
-   benchmark cases.
+   release-profile benchmarks. The current module benchmark registration builds
+   the contract microbenchmarks in
+   [`bench_performance_release_gates.cpp`](../../benchmarks/performance/bench_performance_release_gates.cpp);
+   its six named cases do not encode baseline or pass/fail thresholds. The
+   sibling `bench_random_access_prefetch.cpp` is present but is not registered
+   by `benchmarks/performance/CMakeLists.txt`.
+4. Compare against an explicitly selected and documented release baseline and
+   retain the run manifest. The source reviewed here does not define a
+   module-wide regression percentage or p99 threshold, so do not claim one is
+   enforced by these benchmark targets. See the current inventory in
+   [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md).
 
 The roadmap identifies baseline refresh, mixed/distributed benchmark depth,
 and sustained workload-shift testing as Q1 2027 work. Current mappings do not

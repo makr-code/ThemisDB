@@ -3,6 +3,14 @@ Author: "ThemisDB Team"
 Created: "2026-10-31"
 Last Updated: "2026-10-31"
 Status: "active"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_Sources:
+  - "src/performance/*.cpp"
+  - "include/performance/*.h"
+  - "tests/performance/CMakeLists.txt"
+  - "benchmarks/performance/CMakeLists.txt"
+Related_Issue: "#7366"
 AI_Used: true
 AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
@@ -65,10 +73,22 @@ Avoid converting a real failure into a successful-looking metric or result.
 
 ## Test and benchmark evidence
 
-Focused C++ tests are under [`tests/performance`](../../tests/performance).
-The module CMake file registers those test sources and derives focused target
-names from their source filenames. Tests relevant to the changed implementation
-should be run alongside the affected release benchmark cases in
+The module CMake file
+[`tests/performance/CMakeLists.txt`](../../tests/performance/CMakeLists.txt)
+globs root-level `test_*.cpp` files only. It derives executable names as
+`module_performance_<stem>_focused` and CTest names as
+`<stem>_PerformanceFocusedTests`; a second root-level glob adds
+`_autofocused` targets for `test_performance_*.cpp` files. The phase3/phase4
+test sources are not included by these globs and no nested performance test
+CMakeLists currently registers them. Confirm target/test discovery after
+configuring with tests enabled:
+
+```bash
+cmake --build <build-dir> --target help
+ctest --test-dir <build-dir> -N -L 'module:performance'
+```
+
+Run relevant registered tests alongside the mapped benchmark cases in
 [`benchmarks/performance/bench_performance_release_gates.cpp`](../../benchmarks/performance/bench_performance_release_gates.cpp).
 The repository's docs validation command is:
 

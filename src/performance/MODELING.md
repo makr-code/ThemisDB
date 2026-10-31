@@ -3,6 +3,16 @@ Author: "ThemisDB Team"
 Created: "2026-10-31"
 Last Updated: "2026-10-31"
 Status: "active"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_Sources:
+  - "include/performance/workload_predictor.h"
+  - "include/performance/workload_adaptive_optimizer.h"
+  - "include/performance/phase3/per_query_cost_model.h"
+  - "src/performance/workload_predictor.cpp"
+  - "src/performance/workload_adaptive_optimizer.cpp"
+  - "src/performance/phase3/per_query_cost_model.cpp"
+Related_Issue: "#7366"
 AI_Used: true
 AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
@@ -75,15 +85,17 @@ reviewed against a stable baseline before operational use.
 
 ## Validation
 
-Use the focused suites
-[`test_workload_predictor.cpp`](../../tests/performance/test_workload_predictor.cpp),
-[`test_performance_contract_hardening_focused.cpp`](../../tests/performance/test_performance_contract_hardening_focused.cpp),
+The source files
+[`test_workload_predictor.cpp`](../../tests/performance/test_workload_predictor.cpp)
 and
-[`test_per_query_cost_model.cpp`](../../tests/performance/phase3/test_per_query_cost_model.cpp).
-Include too-few-observation, noisy and steady input, threshold boundaries,
-invalid configuration, and sustained workload-shift cases. For performance
-claims, compare identical traces and hardware using the release gate and
-baseline rules in [RESEARCH.md](RESEARCH.md) and
-[PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md).
+[`test_performance_contract_hardening_focused.cpp`](../../tests/performance/test_performance_contract_hardening_focused.cpp)
+are root-level and included by the current module CMake glob.
+[`phase3/test_per_query_cost_model.cpp`](../../tests/performance/phase3/test_per_query_cost_model.cpp)
+exists but is not registered by `tests/performance/CMakeLists.txt`. Include
+too-few-observation, noisy and steady input, threshold boundaries, invalid
+configuration, and sustained workload-shift cases when adding or registering
+coverage. For performance claims, compare identical traces and hardware using
+the measurement guidance in [RESEARCH.md](RESEARCH.md) and the benchmark
+inventory in [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md).
 
 Exact model backend not verifiable from final document text alone.

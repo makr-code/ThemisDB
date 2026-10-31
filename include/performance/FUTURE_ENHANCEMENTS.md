@@ -1,7 +1,20 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/performance/FUTURE_ENHANCEMENTS.md -->
+---
+Author: "ThemisDB Team"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "active"
+Source_Level: "level1"
+SOT_Domain: "api-contract"
+Canonical_Sources:
+  - "include/performance/*.h"
+  - "src/performance/FUTURE_ENHANCEMENTS.md"
+Related_Issue: "#7366"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
 # Performance Module — Public Header Future Enhancements
 
@@ -31,22 +44,22 @@ Planned enhancements to the **public header contract** in `include/performance/`
 
 | Interface | Declared In | Consumer | Status |
 |-----------|------------|----------|--------|
-| cycle/expected metrics APIs | `cycle_metrics.h`, `expected_cycles.h` | Benchmarks and diagnostics | ✅ Stable |
-| adaptive optimizer APIs | `workload_adaptive_optimizer.h`, `adaptive_query_compiler.h` | Query and server layers | ✅ Stable |
-| NUMA/cache control APIs | `numa_memory_manager.h`, `advanced_cache_manager.h` | Runtime tuning | ✅ Stable |
-| accelerator capability APIs | `hardware_accelerator.h`, `phase4/pmu_counters.h` | Hardware-aware execution | ✅ Stable |
+| cycle/expected metrics APIs | `cycle_metrics.h`, `expected_cycles.h` | Benchmarks and diagnostics | Present; compatibility status is not inferred here |
+| adaptive optimizer APIs | `workload_adaptive_optimizer.h`, `adaptive_query_compiler.h` | Query and server layers | Present; verify each caller contract in the header |
+| NUMA/cache control APIs | `numa_memory_manager.h`, `advanced_cache_manager.h` | Runtime tuning | Present; host support is implementation-dependent |
+| accelerator capability APIs | `hardware_accelerator.h`, `phase4/pmu_counters.h` | Hardware-aware execution | Present; compile/runtime/host support must be checked |
 
 ---
 
 ## Planned Enhancements
 
-### Short-Term (Q3 2026)
+### Near-Term (Q4 2026)
 
 - Document unsupported-hardware, degraded-feature, and fallback semantics consistently across accelerator-facing headers.
 - Standardize naming for performance incident, capability, and optimizer-result DTOs.
 - Clarify which phase-3/phase-4 headers are experimental versus broadly consumable.
 
-### Medium-Term (Q4 2026)
+### Medium-Term (Q4 2026+)
 
 - Introduce `performance_capability_profile.h` and `optimizer_incident.h` for shared diagnostics/capability exchange.
 - Document benchmark-reference expectations for adaptive optimization, measurement, and fallback hot paths.
@@ -56,3 +69,10 @@ Planned enhancements to the **public header contract** in `include/performance/`
 
 - Add deployer extension hooks for custom cost models and accelerator-selection policies.
 - Unify experimental phase component capability negotiation under a single performance profile contract.
+
+The proposed `performance_capability_profile.h` and `optimizer_incident.h`
+listed in the public roadmap are not present in the current header tree. These
+items are proposals, not available APIs. See
+[`ROADMAP.md`](ROADMAP.md) for the canonical public-header plan.
+
+Exact model backend not verifiable from final document text alone.
