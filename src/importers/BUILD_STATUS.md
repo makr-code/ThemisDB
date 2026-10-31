@@ -24,8 +24,13 @@ Related_Reference: "makr-code/ThemisDB#7353"
 
 This update verifies checked-in configuration and registration declarations.
 The contract-hardening test source was compiled directly with GCC and GoogleTest
-1.14, and all 16 tests passed. No CMake configure, CTest run, full project build,
-or benchmark run was performed.
+1.14; all 16 tests from 16 suites passed. Both importer benchmark sources were
+also compiled directly and run with Google Benchmark 1.8.3. The benchmark library
+reported that it was built as DEBUG, so these runs are exploratory only. A
+diagnostic CMake configure succeeded and CTest listed the focused case, but the
+target build was stopped before linking after it started a 1,220-step dependency
+build. No CTest execution, full project build, live connector/runtime test, or
+release-profile benchmark was completed.
 
 - `community-release` is Release with `THEMIS_BUILD_TESTS=OFF` and
   `THEMIS_BUILD_BENCHMARKS=OFF`. `community-release-allow-missing-rocksdb`
@@ -50,11 +55,13 @@ or benchmark run was performed.
   the mock). The versioned contract enum is not consumed by a coordinator in
   `src/importers/`; this mock does not prove live connector conformance.
 - The six IMRG labels and thresholds are benchmark-source targets, not proof of
-  current measurements or a pass/fail CI gate. See
+  a pass/fail CI gate. The standalone run did not calculate p99 values or
+  validate thresholds; it used in-memory and synthetic data. See
   [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md).
 
-TODO: run a configured build/test/benchmark job and retain its logs before
-publishing any pass, performance, or production-readiness claim.
+TODO: complete the registered CMake test target and a release-profile benchmark
+run with retained logs before publishing connector/runtime, performance, or
+production-readiness claims.
 
 ## Historical build/test snapshot (2026-08; not revalidated)
 

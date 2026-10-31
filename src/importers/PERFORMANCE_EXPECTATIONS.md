@@ -22,7 +22,11 @@ Related_Reference: "makr-code/ThemisDB#7353"
 
 > Thresholds below are target labels declared by benchmark sources. They are
 > not current measured results, computed p99 values, or enforced release gates.
-> No benchmark was run for this documentation update.
+> On 2026-10-31 both benchmark sources were compiled directly with GCC 13.3.0
+> and run with Google Benchmark 1.8.3 on a 4-vCPU runner. The benchmark library
+> reported that it was built as DEBUG. These exploratory runs use synthetic or
+> in-memory work; they do not establish production performance or threshold
+> compliance. See [`BUILD_STATUS.md`](./BUILD_STATUS.md).
 
 ## Scope
 
@@ -77,6 +81,9 @@ calculate p99 or contain threshold assertions.
   - Source labels and repeated runs alone do not define a pass/fail threshold.
   - Only the duplicate-key gate uses the seed constant for generated key selection;
     do not infer a benchmark-wide seeded data generator.
+  - The 2026-10-31 standalone run completed all six cases, but its DEBUG
+    Google Benchmark library and small repetition count make it unsuitable as
+    release-profile or p99 evidence.
   
 - Historical IMPP-1..IMPP-7 references from earlier versions are not treated as
   current cases; use only symbols present in the benchmark sources above.
@@ -89,8 +96,9 @@ calculate p99 or contain threshold assertions.
 - Source-declared benchmark cases: IMRG-01..IMRG-06 (6 cases)
   - CSV parser, schema validator, dedup checker, row commit, quota check, schema evolution check
   - All six use in-memory/mock work; the seed constant is used for duplicate-key selection
-- Status: implemented benchmark cases. No current run result or threshold
-  enforcement is established by the source file alone.
+- Status: implemented benchmark cases; the 2026-10-31 standalone run is
+  exploratory only. No threshold enforcement or production performance claim
+  is established by the source or that run.
 
 ### Throughput benchmark cases
 - Verified benchmark sources:

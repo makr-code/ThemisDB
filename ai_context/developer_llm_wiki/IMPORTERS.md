@@ -95,7 +95,14 @@ or production database atomicity. The registration file currently skips three
 focused suites because of known test-only API/assertion drift; check its current
 contents before selecting a test target.
 
-For measured performance, use the matching benchmark output and build
+The contract-hardening source was directly compiled with GCC and GoogleTest
+1.14; all 16 tests passed on 2026-10-31. The importer benchmark sources were
+also compiled and run standalone with Google Benchmark 1.8.3. Its library
+reported a DEBUG build, and the workloads are synthetic/in-memory; this is not
+live connector or release-performance evidence. The CMake target was registered
+but its project build and CTest execution were not completed.
+
+For performance evidence, require the matching output and release build
 configuration. Source-declared thresholds in
 [`bench_importers_release_gates.cpp`](../../benchmarks/importers/bench_importers_release_gates.cpp)
 are in-memory/mock gates, not end-to-end connector measurements.

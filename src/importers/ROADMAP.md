@@ -25,8 +25,10 @@ Related_Reference: "makr-code/ThemisDB#7353"
 The importer sources and public headers are present in this checkout, but this
 page does not certify module maturity or release readiness. The local focused
 test registration discovers 12 test sources and excludes three; two benchmark
-targets are declared when benchmark building is enabled. No fresh build, test,
-or performance run was made for this update. See [`BUILD_STATUS.md`](./BUILD_STATUS.md).
+targets are declared when benchmark building is enabled. The focused mock test
+passed directly (16/16); standalone benchmark sources ran, but the benchmark
+library was built as DEBUG. No CTest execution, live connector/runtime test, or
+release-profile benchmark was completed. See [`BUILD_STATUS.md`](./BUILD_STATUS.md).
 
 TODO: review the plans and completion percentages below against current source,
 root `ROADMAP.md`, and reproducible test/benchmark evidence before treating them

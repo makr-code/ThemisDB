@@ -29,3 +29,7 @@ the labels are not themselves computed p99s, threshold assertions, or proof of a
 passing run. The throughput source uses generated payloads/scans and does not
 call production importer connectors for all its cases. See
 [`../../src/importers/PERFORMANCE_EXPECTATIONS.md`](../../src/importers/PERFORMANCE_EXPECTATIONS.md).
+
+On 2026-10-31 both sources were compiled and run standalone with GCC 13.3.0 and
+Google Benchmark 1.8.3. The library reported a DEBUG build; this exploratory run
+is not release-profile, connector-runtime, or p99 threshold evidence.
