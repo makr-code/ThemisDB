@@ -99,7 +99,7 @@ statuses against current code, tests, build configuration, and release evidence.
 
 ### Phase 1: Design / API Contract
 - [x] freeze assistance contract semantics for translation/validation outputs (2026-08-09: AQL_ASSISTANCE_CONTRACT.md created; semantics frozen in src/aql/AQL_ASSISTANCE_CONTRACT.md §2-3)
-- [x] define explicit failure contracts for unsupported provider/capability modes (2026-08-09: PROVIDER_UNSUPPORTED=6001, CAPABILITY_UNSUPPORTED=6002 added to llm_error_codes.h; contracts in AQL_ASSISTANCE_CONTRACT.md §4)
+- [x] document intended failure semantics and add provider/capability error-code values (2026-08-09); runtime throw-sites remain unverified per [`AQL_ASSISTANCE_CONTRACT.md`](AQL_ASSISTANCE_CONTRACT.md)
 
 ### Phase 2: Core Implementation
 - [x] complete remaining hardening in translation and bridge execution paths (Target: Q4 2026) **COMPLETED v1.6.0**

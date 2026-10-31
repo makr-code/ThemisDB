@@ -309,9 +309,6 @@ def write_module_markdown(
 
     rel_index = result.get("xml_index", "")
     rel_warn = result.get("warnings_log", "")
-    artifact_index = (output_root / rel_index).resolve() if rel_index else None
-    artifact_warn = (output_root / rel_warn).resolve() if rel_warn else None
-
     lines: list[str] = []
     lines.append(f"# {module.upper()} DOXYGEN")
     lines.append("")
@@ -322,10 +319,10 @@ def write_module_markdown(
     lines.append("")
     lines.append("## Source")
     lines.append("- This file is generated from module-scoped Doxygen XML.")
-    if artifact_index is not None:
-        lines.append(f"- XML index: `{artifact_index}`")
-    if artifact_warn is not None:
-        lines.append(f"- Warnings log: `{artifact_warn}`")
+    if rel_index:
+        lines.append(f"- XML index (relative to the artifact output root): `{Path(rel_index).as_posix()}`")
+    if rel_warn:
+        lines.append(f"- Warnings log (relative to the artifact output root): `{Path(rel_warn).as_posix()}`")
     lines.append("")
     lines.append("## Structure Metrics")
     lines.append(f"- C/C++ Files (scanned): {result.get('cpp_file_count', 0)}")
@@ -415,7 +412,7 @@ def write_module_markdown(
     else:
         lines.append("No function-level Doxygen descriptions found in XML.")
 
-    module_doc.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    module_doc.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
 
 
 def collect_cpp_files(root: Path) -> list[Path]:

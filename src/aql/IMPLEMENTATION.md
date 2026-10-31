@@ -43,23 +43,19 @@ authorization.
 - The handler's parser-validation function is an internal helper. It uses
   `AQLParserService` when configured and falls back to string-level
   `AQLQueryValidator` checks when not; the fallback has weaker guarantees.
-  The current empty-input and fallback behavior differ from parts of the
-  frozen [`AQL_ASSISTANCE_CONTRACT.md`](AQL_ASSISTANCE_CONTRACT.md), as
-  detailed in [`API.md`](API.md).
-- The frozen contract documents empty-input and parser-validation semantics
-  that diverge from current implementation behavior. **TODO:** Reconcile the
-  contract and implementation in a reviewed change; do not describe the frozen
-  text as an implementation guarantee meanwhile. Other frozen error semantics
-  also require per-path verification before being treated as runtime behavior.
+- The former frozen contract has been reconciled with observed implementation
+  behavior in [`AQL_ASSISTANCE_CONTRACT.md`](AQL_ASSISTANCE_CONTRACT.md).
+  Provider/capability trigger guarantees and shared-instance thread safety remain
+  unverified; do not infer them from the former frozen prose.
 - Provider/capability errors that are non-retryable must not be retried with
-  unchanged configuration. Retry policies and limits are configurable; avoid
-  unbounded loops.
+  unchanged configuration **if a caller receives those errors**. Retry policies
+  and limits are configurable; avoid unbounded loops.
 - Conversation history and generated output must remain within their
   configured bounds. Context eviction is expected when a configured limit is
   reached.
-- The frozen assistance contract states that concurrent translation calls
-  require separate `LLMAQLHandler` instances; shared-instance concurrency is
-  unsupported.
+- No shared-instance concurrency guarantee is established by the current
+  assistance contract review; follow explicit ownership/thread-safety notes in
+  individual headers and avoid assuming concurrent calls are safe.
 
 ## Validation and tests
 

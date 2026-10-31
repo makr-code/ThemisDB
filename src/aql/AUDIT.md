@@ -36,9 +36,9 @@ benchmark inventories are under `tests/aql/` and `benchmarks/aql/`.
 
 ## Findings and follow-up
 
-- **TODO:** Reconcile the frozen assistance contract with current implementation
-  behavior documented in [`API.md`](API.md). This requires a reviewed contract
-  decision; this inventory does not change the frozen contract.
+- The assistance contract was reconciled with current source behavior in
+  [`AQL_ASSISTANCE_CONTRACT.md`](AQL_ASSISTANCE_CONTRACT.md); this inventory
+  remains neither a runtime audit nor a contract/versioning approval.
 - **TODO:** Re-run a security audit and focused validation before making current
   audit-completion or release-readiness claims.
 - Historical gap-scan counts and line-number findings in

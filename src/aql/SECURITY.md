@@ -44,8 +44,9 @@ correctness, intent fidelity, or permission.
 
 ## Security follow-up
 
-- **TODO:** Reconcile the current handler behavior with the frozen assistance
-  contract; see [`API.md`](API.md).
+- The handler behavior and former frozen contract are reconciled in
+  [`AQL_ASSISTANCE_CONTRACT.md`](AQL_ASSISTANCE_CONTRACT.md); this does not
+  replace the remaining host authorization review.
 - **TODO:** Verify authorization coverage through each host execution route and
   every registered agent tool.
 - Preserve bounded input/context behavior and avoid exposing raw prompts,

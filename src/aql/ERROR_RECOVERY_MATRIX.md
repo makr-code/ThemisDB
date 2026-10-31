@@ -61,11 +61,10 @@ Current source files include:
 The list above indicates source presence only; no test execution or pass result
 is asserted here.
 
-## Unresolved verification
+## Remaining verification
 
-- **TODO:** Reconcile the frozen `AQL_ASSISTANCE_CONTRACT.md` with the current
-  empty-input, parser-fallback, and validation-helper behavior described in
-  [`API.md`](API.md).
+- The current contract/source reconciliation is documented in
+  [`AQL_ASSISTANCE_CONTRACT.md`](AQL_ASSISTANCE_CONTRACT.md).
 - **TODO:** Audit each provider/bridge path before publishing fixed retry,
   backoff, timeout, circuit-breaker, metric-name, or recovery guarantees.
 - **TODO:** Rebuild a component-by-component error matrix from implementation

@@ -45,8 +45,9 @@ fallback. `AQLQueryValidator` also offers string/builder overloads with
 optional `CollectionMetadata`. Neither interface executes a query or replaces
 the host application's authorization checks.
 
-See [`../../src/aql/API.md`](../../src/aql/API.md) for the current method
-inventory and the unresolved divergence from the frozen assistance contract.
+See [`../../src/aql/API.md`](../../src/aql/API.md) and
+[`../../src/aql/AQL_ASSISTANCE_CONTRACT.md`](../../src/aql/AQL_ASSISTANCE_CONTRACT.md)
+for the method inventory and implementation-reviewed behavior.
 
 ## Build and compatibility
 

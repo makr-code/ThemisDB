@@ -54,9 +54,10 @@ equivalent to parsing. A valid parse does not execute a query or grant access.
 The host application remains responsible for authorization at the execution
 and tool-call boundaries.
 
-The current implementation and frozen assistance contract differ on some
-semantics. See [`../../src/aql/API.md`](../../src/aql/API.md) and do not infer
-that the frozen text is implemented until the TODO there is reconciled.
+The contract review in [`../../src/aql/AQL_ASSISTANCE_CONTRACT.md`](../../src/aql/AQL_ASSISTANCE_CONTRACT.md)
+distinguishes former intended semantics from current implementation behavior.
+Use it with [`../../src/aql/API.md`](../../src/aql/API.md); neither replaces the
+public header declarations.
 
 ## Test and benchmark build configuration
 

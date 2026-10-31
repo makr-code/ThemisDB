@@ -70,19 +70,17 @@ service configuration through `setParserService()`. The
 - Confidence is a review signal in `[0.0, 1.0]`; an unscored value is not a
   successful safety check.
 
-## Contract drift requiring reconciliation
+## Contract and implementation review
 
-[`AQL_ASSISTANCE_CONTRACT.md`](AQL_ASSISTANCE_CONTRACT.md) currently describes
-empty-input behavior and `validateAQLWithParser()` as a public method, and says
-that validation without a parser returns `false`. Those statements do not
-match the current implementation described above. This page does not change
-the frozen contract; callers and maintainers should not treat the conflicting
-statements as interchangeable. Reconcile the contract and implementation in a
-dedicated reviewed change before relying on either behavior as a stable API.
+[`AQL_ASSISTANCE_CONTRACT.md`](AQL_ASSISTANCE_CONTRACT.md) now distinguishes
+the former frozen intended semantics from the behavior observed in source,
+including empty input, validation modes, parser-service fallback, and the
+unverified provider/capability error codes. Use it with this API map and the
+public headers; do not infer guarantees beyond the implementation evidence.
 
-For error codes, retry conditions, thread-safety, and compatibility rules,
-consult the frozen contract while accounting for the drift noted above. Public
-error categories and recovery strategies are defined in
+For error-code declarations, retry conditions, thread-safety, and compatibility
+limits, consult the contract review and relevant implementation path. Public
+error categories are defined in
 [`include/aql/aql_error_types.h`](../../include/aql/aql_error_types.h) and
 [`include/aql/llm_error_codes.h`](../../include/aql/llm_error_codes.h).
 
