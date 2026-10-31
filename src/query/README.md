@@ -1,9 +1,32 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "OpenAI API assistant (model unknown)"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+> Original creation date was not recorded; this provenance block was first recorded on 2026-10-31.
+> Exact model backend not verifiable from final document text alone.
+
+Source level: 1
+SOT domain: module-behavior
+Canonical references: `../../ROADMAP.md`, `ROADMAP.md`, `.` source tree, `../../include/query/`
+Related issue: #7371
+Related milestone: `DOC-WEEKLY-2026-44`
+
 # ThemisDB Query Module
 
-**Status:** PRODUCTION_CANDIDATE  
+**Status:** See the current implementation posture in `../../ROADMAP.md` and the module status in `ROADMAP.md`; this overview contains dated feature and readiness snapshots.
 **Phase:** 6 (Documentation & Acceptance) — ✅ COMPLETE  
-**Last Updated:** 2026-08-10  
+**Last Updated:** 2026-10-31
 **Owner:** Query Engine Team
+
+> Current status cross-reference (2026-10-31): [`../../ROADMAP.md`](../../ROADMAP.md) records Query Phase B as complete and identifies cross-feature integration tests and representative-hardware baseline refresh as remaining evidence. This module overview is not a GA-readiness declaration; dated readiness statements below remain historical snapshots.
 
 ---
 
@@ -1025,7 +1048,7 @@ engine->dropQuery("my_query");
 - Runtime re-optimization from execution statistics
 - **Continuous Query Language (CQL)** — `ContinuousQueryEngine`, `WindowSpec`, `SynopsisStore`, `IncrementalAgg`, `CQWatermark` (v2.0.0)
 
-**Production Readiness Status (Batch 3 verified 2026-08-14):**
+**Historical production-readiness snapshot (Batch 3, 2026-08-14; not current status):**
 - **Ready for production:** AQL parser/optimizer/executor (all 6 phases complete), SQL/SPARQL compatibility, query caching (exact-match), federation (single-shard), CTEs, window functions
 - **Production-ready with limits:** Semantic cache (requires embedding model), federated queries (cross-shard performance gates pending), query federation (single-node stress-tested)
 - **Not yet production-ready:** Parallel query optimization (Wave B target Q4 2026), ANN+graph hybrid planning (Wave B target Q4 2026), distributed query cost model (Wave B target Q1 2027)
@@ -1056,7 +1079,7 @@ engine->dropQuery("my_query");
 - [Implementation Summary: Query Optimizer](../../docs/de/implementation/IMPLEMENTATION_SUMMARY_OPTIMIZER.md) - Query optimizer internals
 - [arasu_cql_2006.md](../../research/papers/arasu_cql_2006.md) - CQL formal semantics (Arasu, Babu & Widom 2006)
 
-*Last Updated: April 2026*
+*Historical footer retained from the original overview; current document metadata is above.*
 *Module Version: v2.0.0*
 *Next Review: v2.1.0 Release*
 

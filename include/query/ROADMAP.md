@@ -1,6 +1,27 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "OpenAI API assistant (model unknown)"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+> Original creation date was not recorded; this provenance block was first recorded on 2026-10-31.
+> Exact model backend not verifiable from final document text alone.
+
+Source level: 1
+SOT domain: api-contract
+Canonical references: `.`, `../../src/query/ROADMAP.md`, `../../ROADMAP.md`, `../../CMakePresets.json`
+Related issue: #7371
+Related milestone: `DOC-WEEKLY-2026-44`
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Historical planning snapshot: last status refresh 2026-06-01; use src/query/ROADMAP.md and root ROADMAP.md for current delivery posture. -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/query/ROADMAP.md -->
 
 # Query Module — Public Header Roadmap
@@ -20,7 +41,7 @@ This document tracks public query API contract stability, planned header additio
 
 ## Current Status
 
-All production query headers are present and `#pragma once` guarded. `AQLParser` is stateless and thread-safe. SQL, Cypher, SPARQL, and Gremlin parsers are production-stable. Tensor-aware query headers are present and production-enabled pending full cost-model benchmarks.
+The inventory and planning items below were last status-refreshed on 2026-06-01. Header presence can be checked in this directory; this document does not establish current production stability or feature delivery. Use `src/query/ROADMAP.md` and the root `ROADMAP.md` for current implementation posture.
 
 ---
 

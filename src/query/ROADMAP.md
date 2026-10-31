@@ -1,3 +1,24 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "OpenAI API assistant (model unknown)"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+> Original creation date was not recorded; this provenance block was first recorded on 2026-10-31.
+> Exact model backend not verifiable from final document text alone.
+
+Source level: 1
+SOT domain: module-behavior
+Canonical references: `../../ROADMAP.md`, `ROADMAP.md`, `AQL_CONSOLIDATION_INDEX.md`
+Related issue: #7371
+Related milestone: `DOC-WEEKLY-2026-44`
+
 > **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks ueberfuehren. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
@@ -56,7 +77,7 @@ Production-ready multi-model query stack with parser, optimizer, execution, fede
     - ✅ Build verification: All dependencies resolved (fmt, boost, spdlog, etc.)
     - ✅ SLA validation: All 8 tests pass; performance targets confirmed met
     - ✅ Detailed results: PHASE_6B_SLA_VALIDATION_REPORT.md
-  - Full detailed roadmap: [AQL_CONSOLIDATION_AUDIT_2026_06_18.md](./AQL_CONSOLIDATION_AUDIT_2026_06_18.md)
+  - Historical consolidation audit: [AQL_CONSOLIDATION_AUDIT_2026_06_18.md](../../docs/ARCHIVED/ai-working-history/reports/root_cleanup/AQL_CONSOLIDATION_AUDIT_2026_06_18.md)
 - [x] **AQL Mutations Language Extension** — Phase 1-5 Complete (v2.0.0, 2026-07-15)
   - INSERT, UPDATE, REPLACE, REMOVE, UPSERT statements implemented and tested
   - Transaction block integration (BEGIN...COMMIT) with atomic multi-statement batching
@@ -70,7 +91,7 @@ Production-ready multi-model query stack with parser, optimizer, execution, fede
 - [~] **AQL v2.0.0 Remaining Work** — Geospatial + FTS wiring (Target: Q3–Q4 2026)
   - Full language roadmap: [AQL_V2_0_0_COMPLETE_ROADMAP.md](./AQL_V2_0_0_COMPLETE_ROADMAP.md)
   - [x] DDL (CREATE/DROP COLLECTION/INDEX/VIEW) — parser + executor + 32 tests delivered 2026-07-22
-  - [x] Geospatial parser Phase 1 COMPLETE 2026-07-27: ST_* already work in FILTER/SORT/RETURN via qe_evalFunction; 26 tests in test_aql_st_predicates.cpp; Phase 2 (optimizer hints) next (Target: Q3 2026)
+  - [x] Geospatial parser Phase 1 COMPLETE 2026-07-27: ST_* already work in FILTER/SORT/RETURN via qe_evalFunction; 26 cases are recorded in `tests/aql/test_aql_st_predicates.cpp`; Phase 2 (optimizer hints) next (Target: Q3 2026)
   - [x] FTS query enhancement (phrase/proximity queries; ≤100ms on 100K documents) (Target: Q3–Q4 2026)
     - [x] SEARCH/PHRASE/NEAR/STARTS_WITH/BOOST/ANALYZER tokens added to lexer (2026-08-09)
     - [x] FtsPredType enum, FtsPredicateNode, SearchClauseNode structs added to aql_parser.h (2026-08-09)

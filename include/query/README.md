@@ -1,4 +1,25 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "OpenAI API assistant (model unknown)"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+> Original creation date was not recorded; this provenance block was first recorded on 2026-10-31.
+> Exact model backend not verifiable from final document text alone.
+
+Source level: 1
+SOT domain: api-contract
+Canonical references: `include/query/`, `src/query/`, `src/query/PERFORMANCE_EXPECTATIONS.md`, `benchmarks/query/CMakeLists.txt`
+Related issue: #7371
+Related milestone: `DOC-WEEKLY-2026-44`
+
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 # ThemisDB Query Module Headers
 
@@ -145,6 +166,8 @@ auto results = engine.executeVectorGeoQuery(hybrid_query);
 - Graph traversals: 10-500ms (depends on depth, branching factor)
 - Vector queries: 5-50ms (with HNSW index)
 - Hybrid queries: 20-200ms (depends on selectivity)
+
+> These figures are legacy illustrative estimates, not measured release guarantees. Use `src/query/PERFORMANCE_EXPECTATIONS.md` and reproducible benchmark results for current gate decisions.
 
 ### AQL Parser
 **Location:** `aql_parser.h`, `../../src/query/aql_parser.cpp`

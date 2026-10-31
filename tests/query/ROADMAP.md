@@ -1,52 +1,47 @@
-> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "OpenAI API assistant (model unknown)"
+Human_Review: false
+Human_Author: "unknown"
+---
 
-# ROADMAP
+> Original creation date was not recorded; this provenance block was first recorded on 2026-10-31.
+> Exact model backend not verifiable from final document text alone.
 
-## Current Status
-- [~] Modul `tests/query` dokumentiert; Backlog für weitere Härtung und Ausbau wird gepflegt.
+Source level: 1
+SOT domain: module-behavior
+Canonical references: `tests/query/CMakeLists.txt`, `tests/CMakeLists.txt`, `src/query/ROADMAP.md`
+Related issue: #7371
+Related milestone: `DOC-WEEKLY-2026-44`
 
-## In Progress
-- [ ] Dokumentations- und Qualitätslücken schließen (Target: 2026-Q2)
+# Query test roadmap
 
-## Planned Features
-- [ ] Schnittstellen und Verantwortlichkeiten präzisieren (Target: 2026-Q3)
-- [ ] Testabdeckung für kritische Pfade erweitern (Target: 2026-Q3)
-- [ ] Betriebs- und Security-Härtung abschließen (Target: 2026-Q4)
+## Current inventory
 
-## Implementation Phases
-### Phase 1: Design / API-Vertrag
-- [ ] Öffentliche und interne Interfaces des Moduls konsolidieren (Target: 2026-Q2)
-- [ ] Eingabe-/Ausgabeverträge und Fehlermodelle festlegen (Target: 2026-Q2)
+There are 61 C++ test source files in `tests/query/`. The directory CMake file
+conditionally registers module-focused targets when their source files exist;
+the root test CMake configuration also contains query-related targets. Neither
+source-file count nor CMake registration is evidence that tests passed.
 
-### Phase 2: Core-Implementierung
-- [ ] Kernlogik gemäß Schnittstellenvertrag vervollständigen (Target: 2026-Q3)
-- [ ] Integrationspunkte zu abhängigen Modulen stabilisieren (Target: 2026-Q3)
+## Maintenance priorities
 
-### Phase 3: Fehlerbehandlung & Edge Cases
-- [ ] Fehlerfälle systematisch abdecken (Target: 2026-Q3)
-- [ ] Edge-Case-Handling und Guardrails ergänzen (Target: 2026-Q3)
+- Keep this inventory and the test-target documentation aligned with the
+  current sources and CMake registration.
+- For query behavior changes, add or update focused regressions and confirm
+  the target is registered in the active build.
+- Record build and test-run evidence separately from source/registration
+  inventory.
+- Use [`../../src/query/ROADMAP.md`](../../src/query/ROADMAP.md) for feature
+  delivery and implementation status; this file does not create a separate
+  query implementation roadmap.
 
-### Phase 4: Tests
-- [ ] Unit-Tests für Kernpfade ausbauen (Target: 2026-Q3)
-- [ ] Integrations- und Regressionstests ergänzen (Target: 2026-Q3)
+## Open verification
 
-### Phase 5: Performance/Hardening
-- [ ] Performance-Bottlenecks messen und reduzieren (Target: 2026-Q4)
-- [ ] Security- und Reliability-Hardening abschließen (Target: 2026-Q4)
-
-### Phase 6: Dokumentation & Abnahme
-- [ ] Betriebs- und Entwicklerdokumentation aktualisieren (Target: 2026-Q4)
-- [ ] Modulabnahme anhand Checklisten und Akzeptanzkriterien durchführen (Target: 2026-Q4)
-
-## Production Readiness Checklist
-- [ ] Definierte Fehlersemantik und Recovery-Pfade
-- [ ] Ausreichende Testabdeckung inkl. Regression
-- [ ] Security-Review und Dependency-Checks abgeschlossen
-- [ ] Monitoring/Observability-Anforderungen erfüllt
-- [ ] Dokumentation für Betrieb und Entwicklung vollständig
-
-## Known Issues & Limitations
-- [!] Detailtiefe der Modul-spezifischen Akzeptanzkriterien variiert und wird sukzessive geschärft.
-
-## Breaking Changes
-- Keine bekannten Breaking Changes dokumentiert.
+This documentation pass inspected CMake registration but did not configure a
+build or run the query test targets. Test execution status is therefore not
+asserted here.

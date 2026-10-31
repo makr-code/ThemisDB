@@ -1,3 +1,25 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "OpenAI API assistant (model unknown)"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+> Original creation date was not recorded; this provenance block was first recorded on 2026-10-31.
+> Exact model backend not verifiable from final document text alone.
+> This roadmap contains dated planning estimates; use `src/query/ROADMAP.md` and root `ROADMAP.md` for current delivery and release posture.
+
+Source level: 1
+SOT domain: module-behavior
+Canonical references: `ROADMAP.md`, `AQL_CONSOLIDATION_INDEX.md`, `../../ROADMAP.md`
+Related issue: #7371
+Related milestone: `DOC-WEEKLY-2026-44`
+
 # AQL v2.0.0 — Complete Language Standard Roadmap
 
 **Status**: In Progress (2026-07-27)  
@@ -6,7 +28,7 @@
 **Effort**: 20-25 calendar weeks (5-6 months)  
 **Teams Required**: 2-3 parallel workstreams  
 
-> ⚠️ **PREREQUISITE**: [AQL Architecture Consolidation Audit](../../AQL_CONSOLIDATION_AUDIT_2026_06_18.md) — 70 hours, must complete BEFORE Phase 1 kickoff. See: src/query ↔ src/aql integration boundary formalization.
+> ⚠️ **Historical prerequisite record**: [AQL Architecture Consolidation Audit](../../docs/ARCHIVED/ai-working-history/reports/root_cleanup/AQL_CONSOLIDATION_AUDIT_2026_06_18.md) — this archived planning estimate is retained as historical evidence, not a current gate.
 
 ---
 

@@ -1,3 +1,24 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-18"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "OpenAI API assistant (model unknown)"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+> Provenance metadata was first recorded on 2026-10-31.
+> Exact model backend not verifiable from final document text alone.
+
+Source level: 1
+SOT domain: api-contract
+Canonical references: `src/query/ROADMAP.md`, `src/query/AQL_MUTATIONS_ROADMAP.md`, archived consolidation audit
+Related issue: #7371
+Related milestone: `DOC-WEEKLY-2026-44`
+
 # AQL ↔ LLM Integration Contract
 
 **Version:** 1.0  
@@ -604,6 +625,6 @@ prometheus::Gauge aql_validation_confidence{
 
 ## References
 
-- [AQL_CONSOLIDATION_AUDIT_2026_06_18.md](../../AQL_CONSOLIDATION_AUDIT_2026_06_18.md) — Architecture audit
-- [AQL_MUTATIONS_ROADMAP.md](./AQL_MUTATIONS_ROADMAP.md) — Feature roadmap (blocked until Phase 0 complete)
+- [AQL_CONSOLIDATION_AUDIT_2026_06_18.md](../../docs/ARCHIVED/ai-working-history/reports/root_cleanup/AQL_CONSOLIDATION_AUDIT_2026_06_18.md) — Historical architecture audit
+- [AQL_MUTATIONS_ROADMAP.md](./AQL_MUTATIONS_ROADMAP.md) — Feature roadmap; current delivery status is maintained in that roadmap and `src/query/ROADMAP.md`
 - [AQL_V2_0_0_COMPLETE_ROADMAP.md](./AQL_V2_0_0_COMPLETE_ROADMAP.md) — Master v2.0.0 roadmap
