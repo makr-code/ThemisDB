@@ -1,3 +1,22 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-08-14
+Last Updated: 2026-10-31
+Status: archived
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
+
+Exact model backend not verifiable from final document text alone.
+
+> **Historical snapshot (validated 2026-08-14; not current status):** Gap totals,
+> severities, exit criteria, targets, and estimates below are retained as Batch 5
+> planning evidence and have not been revalidated. Use the current
+> [module roadmap](ROADMAP.md) and [audit](AUDIT.md) for source-checked status.
+
 # maintenance Module - Gap Analysis & Wave A Alignment (Batch 5)
 
 <!-- Status: Batch 5 Enhancement | validated: 2026-08-14 -->

@@ -28,7 +28,7 @@ All headers in `include/maintenance/` are present and expose the database mainte
 
 - [x] Public header surfaces documented in `ARCHITECTURE.md`
 - [x] Canonical cross-links to `src/maintenance/` implementation docs established
-- [x] Layer association (**Graph**) marked and verified against `FUTURE_PLAN.md`
+- [?] Layer association (**Graph**) inherited from legacy header planning notes; **TODO:** verify against the owning architecture source before treating as normative.
 - [x] Namespace layout (`themis::maintenance`) documented
 
 ---
@@ -52,3 +52,8 @@ All headers in `include/maintenance/` are present and expose the database mainte
 - [x] Public header surfaces documented
 - [x] Canonical links to implementation docs set
 - [ ] Deprecation annotations consistent
+
+> **TODO/Assumption:** The legacy Graph layer association and the helper API
+> contract are not verified runtime guarantees. See
+> [`ARCHITECTURE.md`](ARCHITECTURE.md) and
+> [`../../src/maintenance/README.md`](../../src/maintenance/README.md).

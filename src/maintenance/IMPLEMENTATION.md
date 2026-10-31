@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -17,7 +17,7 @@ Exact model backend not verifiable from final document text alone.
 ## Purpose and ownership
 
 This guide is for developers implementing maintenance tasks or changing the
-orchestrator. Public contracts live under `include/maintenance/`; runtime
+orchestrator. Public declarations live under `include/maintenance/`; runtime
 orchestration and schedule persistence live under `src/maintenance/`. HTTP
 routing and access checks are owned by `src/server/http_server.cpp`; request
 translation is in `src/server/maintenance_api_handler.cpp`.
@@ -34,9 +34,10 @@ At startup:
 1. Register task handlers and health probes before schedules can dispatch.
    Handler implementations may be called from execution threads and are
    expected to be thread-safe.
-2. Optionally call `registerDefaultMaintenanceSetup`. It creates daily, weekly,
-   monthly, and quarterly schedules disabled; operators must explicitly enable
-   any defaults they intend to run.
+2. Optionally call `registerDefaultMaintenanceSetup`. It attempts to create daily,
+   weekly, monthly, and quarterly schedules disabled; the current implementation
+   ignores individual create errors. Operators must explicitly enable any
+   defaults they intend to run.
 3. Call `start()`. It reloads persisted schedules when a store exists, then
    re-registers enabled entries. A failed storage scan is logged and startup
    continues with existing in-memory schedules; a null scheduler returns an
@@ -99,7 +100,7 @@ When changing implementation, extend the focused test in
 [`tests/maintenance/`](../../tests/maintenance/) that matches the contract:
 
 - CRUD, JSON conversion, windows, cancellation, and handlers:
-  [`tests/test_database_maintenance_orchestrator.cpp`](../../tests/test_database_maintenance_orchestrator.cpp)
+  [`tests/database/test_database_maintenance_orchestrator.cpp`](../../tests/database/test_database_maintenance_orchestrator.cpp)
 - DAG, defaults, and serialization:
   [`test_maintenance_hardening_phase23_focused.cpp`](../../tests/maintenance/test_maintenance_hardening_phase23_focused.cpp)
 - churn and concurrent invocation:
@@ -112,7 +113,7 @@ When changing implementation, extend the focused test in
 For performance-sensitive changes, use the mapped release benchmarks and
 thresholds in [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md).
 For production corruption recovery, use `MaintenanceScheduleStoreTest` in
-[`tests/test_database_maintenance_orchestrator.cpp`](../../tests/test_database_maintenance_orchestrator.cpp);
+[`tests/database/test_database_maintenance_orchestrator.cpp`](../../tests/database/test_database_maintenance_orchestrator.cpp);
 the separate stress fixture uses a mock store with different corruption
 semantics.
 
@@ -122,3 +123,8 @@ semantics.
 - [Module integration guide](MODULE_GUIDE.md)
 - [Architecture and failure boundaries](ARCHITECTURE.md)
 - [Trust boundaries](TRUST.md)
+
+> **TODO/Assumption:** `maintenance_api_contract.h` currently defines helper
+> taxonomy/descriptor types that are not the runtime schedule or error contract.
+> Reconcile that header before relying on its timeout, fail-closed, or atomic
+> reload guarantees.

@@ -1,6 +1,20 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-05-13 | Commit: HEAD -->
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
+
+Exact model backend not verifiable from final document text alone.
+
+<!-- Status: current | validated: 2026-10-31 -->
 
 # Maintenance Module — Public Headers
 
@@ -9,12 +23,12 @@
 
 ## Purpose
 
-Public headers for the ThemisDB maintenance orchestration subsystem. The module
-provides centralized scheduling, execution, and observability for recurring
-database maintenance operations: storage compaction, MVCC garbage collection,
-replica validation, index rebuild, health reporting, RocksDB schedule
-persistence, DAG-based task dependency resolution, distributed lock
-coordination, and multi-tenant maintenance isolation.
+Public declarations for the maintenance orchestrator. It provides schedule and
+job management, task dispatch, optional schedule persistence, health reporting,
+dependency ordering, optional distributed-lock integration, and tenant
+configuration. Compaction, MVCC cleanup, and other delegated work run only when
+an appropriate task handler is registered; selected index task tokens call
+`IndexMaintenanceManager::triggerMaintenanceCheck()`.
 
 ## Header Entry-Points
 
@@ -23,10 +37,10 @@ coordination, and multi-tenant maintenance isolation.
 | `database_maintenance_orchestrator.h` | `DatabaseMaintenanceOrchestrator`, `TenantMaintenanceConfig` | Central coordinator: schedule CRUD, cron execution, job tracking, health aggregation, distributed lock integration |
 | `maintenance_task.h` | `MaintenanceTaskType` (19 types), `OrchestratorJob`, `MaintenanceJobState` | Core data types: task enum, job struct, job lifecycle states; used across all module headers |
 | `maintenance_schedule.h` | `MaintenanceScheduleEntry`, `ScheduleFrequency`, `MaintenanceTaskDependency` | Durable schedule entity with JSON CRUD serialisation (`toJson`/`fromJson`/`applyPatch`) and DAG dependency declarations |
-| `maintenance_schedule_store.h` | `MaintenanceScheduleStore` | RocksDB-backed write-through persistence for schedule entries; key prefix `maint_sched::` |
-| `maintenance_health_report.h` | `MaintenanceHealthReport`, `ModuleHealthSignal`, `ModuleHealthStatus` | Per-module health signal aggregation returned by `GET /api/v1/maintenance/health` |
+| `maintenance_schedule_store.h` | `MaintenanceScheduleStore` | `IStorageEngine`-backed JSON write-through persistence for schedule entries; key prefix `maint_sched::` |
+| `maintenance_health_report.h` | `MaintenanceHealthReport`, `ModuleHealthSignal`, `ModuleHealthStatus`, `DispatchOutcome` | Per-module health signal aggregation and bounded dispatch outcomes |
 | `i_maintenance_task_handler.h` | `IMaintenanceTaskHandler` | Pluggable interface for delegating task execution to module-specific handlers |
-| `maintenance_task_handler_impls.h` | `StorageCompactionHandler`, `ReplicaValidationHandler`, `MvccCleanupHandler`, `FunctionTaskHandler` | Built-in handler implementations for STORAGE_COMPACTION, REPLICA_VALIDATION, and MVCC_CLEANUP |
+| `maintenance_task_handler_impls.h` | `StorageCompactionHandler`, `ReplicaValidationHandler`, `MvccCleanupHandler`, `FunctionMaintenanceTaskHandler` | Optional handler implementations for delegated task types; not automatically registered |
 | `i_distributed_lock.h` | `IDistributedLock`, `InProcessDistributedLock` | Strategy interface for TTL-based distributed locks; `InProcessDistributedLock` ships for single-node and test use |
 
 ## Public API Behavior
@@ -47,10 +61,10 @@ coordination, and multi-tenant maintenance isolation.
   `patch` are applied; all other fields retain their current values.
 
 **Schedule enabling/disabling:**
-- `enableSchedule(id)` / `disableSchedule(id)` toggle the `enabled` flag and
-  immediately update the `TaskScheduler` registration.
+- Use `updateSchedule` or JSON `patchSchedule` to change the `enabled` flag;
+  there are no `enableSchedule` / `disableSchedule` methods in this API.
 - A disabled schedule is stored but never fired by the cron mechanism;
-  `triggerNow(id)` bypasses this check.
+  `triggerNow(id)` does not check the `enabled` flag and can still run it.
 
 ### Job Lifecycle (`OrchestratorJob`)
 
@@ -58,18 +72,21 @@ coordination, and multi-tenant maintenance isolation.
 PENDING → RUNNING → SUCCEEDED
                   → FAILED
                   → CANCELLED   (operator-initiated via cancelJob)
-                  → SKIPPED     (outside maintenance window, or distributed lock held by peer)
+                  → SKIPPED     (window, lock, concurrency guard, or tenant quota)
 ```
 
-- Completed jobs are retained in-memory for **24 hours** (configurable via
-  `kJobRetentionMs`) and then pruned automatically.
+- Completed jobs are retained in-memory for **24 hours** (`kJobRetentionMs` is
+  a compile-time constant, not a runtime setting) and pruned on a later
+  completed-job pruning pass.
 - `triggerNow(id, force=true)` bypasses the UTC maintenance window check;
   the resulting `OrchestratorJob` has `forced = true`.
-- When `halt_on_task_failure = true` on the schedule, any task that returns
-  an error causes all subsequent tasks in the same job to be skipped.
+- When `halt_on_task_failure = true` on the schedule, a task in `FAILED` state
+  stops subsequent tasks. A `SKIPPED_NO_HANDLER` task is not treated as failure
+  by the aggregate loop.
 - DAG task dependencies declared in `task_dependencies` are resolved via
-  Kahn's topological sort before execution. A cycle or a reference to an
-  unknown task type throws `std::invalid_argument`.
+  Kahn's topological sort before execution. Every dependency reference must name
+  a task present in `tasks`, and the dependency graph must be acyclic; either
+  violation throws `std::invalid_argument`.
 
 ### Maintenance Window Enforcement
 
@@ -84,7 +101,7 @@ PENDING → RUNNING → SUCCEEDED
 ### Distributed Lock (`IDistributedLock`)
 
 - Inject an `IDistributedLock` implementation via `setDistributedLock(lock)`.
-- Before each scheduled job fires, the orchestrator calls
+- Before each execution, the orchestrator calls
   `lock->tryAcquire(schedule_id, ttl_ms)`.
 - If `tryAcquire` returns `false`, the job state is set to `SKIPPED`; a
   DEBUG-level log message records which peer holds the lock.
@@ -99,17 +116,18 @@ PENDING → RUNNING → SUCCEEDED
 - Modules register a `HealthProbe` callable once at startup.
 - Probes are called **synchronously** during `getHealthReport()` — they must
   complete in under 10 ms and must not block on I/O or take locks.
-- The overall `MaintenanceHealthReport::overall_status` is the worst
-  `ModuleHealthStatus` across all registered probes (`OK < DEGRADED < CRITICAL`).
+- The overall status follows the enum ordering (`OK < DEGRADED < CRITICAL <
+  UNKNOWN`); an `UNKNOWN` probe signal can therefore become the aggregate status.
 
-### RocksDB Schedule Persistence (`MaintenanceScheduleStore`)
+### Schedule Persistence (`MaintenanceScheduleStore`)
 
-- Every `createSchedule`, `updateSchedule`, `patchSchedule`, and
-  `deleteSchedule` call is written through to RocksDB synchronously before the
+- When storage is configured, every `createSchedule`, `updateSchedule`, `patchSchedule`, and
+  `deleteSchedule` call is written through to the configured `IStorageEngine` synchronously before the
   caller's mutex is released.
-- On `start()`, all stored schedules are reloaded from the `maint_sched::`
-  prefix.  Entries with corrupt or unparseable JSON are skipped with a
-  WARN-level log; all valid entries are loaded.
+- On `start()`, schedules are reloaded from the `maint_sched::` prefix. Entries
+  with corrupt JSON are skipped and logged; valid entries are retained. A prefix
+  scan error is returned by the store, logged by `start()`, and startup continues
+  with the in-memory schedule set.
 - Pass `storage = nullptr` to the orchestrator constructor for in-memory-only
   operation (suitable for tests).
 
@@ -124,12 +142,21 @@ PENDING → RUNNING → SUCCEEDED
 | `halt_on_task_failure` | `false` | Stop subsequent tasks if any task fails |
 | `lock_ttl_ms` | `0` (auto) | Distributed lock TTL; 0 = window duration + 30 s |
 | `TenantMaintenanceConfig::max_concurrent_jobs` | `0` (unlimited) | Per-tenant concurrent job cap |
-| `kJobRetentionMs` | 24 h | How long completed jobs are kept in memory |
+| `kJobRetentionMs` | 24 h | Compile-time completed-job retention threshold; pruning runs after a normal execution completes |
+| `max_schedule_changes_per_interval` | `0` | Declared schedule policy field; **TODO:** current mutation paths do not call `checkChurnLimit()`, so this does not enforce a rate limit |
+
+`maintenance_api_contract.h` separately declares helper `MaintenanceError`,
+`MaintenanceScheduleDescriptor`, and `MaintenanceHealthSnapshot` types. The
+orchestrator does not use these as its runtime schedule/error contract; its
+runtime uses `MaintenanceScheduleEntry` and repository `Result`/`Error`.
+**TODO:** reconcile the helper header's documented timeout, fail-closed, and
+atomic-reload guarantees before treating them as implemented behavior.
 
 ## Installation
 
-This module is included as part of ThemisDB. Add the include directory to your
-target:
+The maintenance implementation is registered in the modular build when
+`THEMIS_ENABLE_HTTP_SERVER` is enabled. Its benchmark subdirectory is enabled by
+`THEMIS_BUILD_BENCHMARKS`. Add the public include directory to your target:
 
 ```cmake
 target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
@@ -164,7 +191,7 @@ schedule.halt_on_task_failure = true;
 auto result = orchestrator.createSchedule(schedule);
 if (!result) { /* handle error */ }
 
-// Trigger ad-hoc run (force = bypass window)
+// Trigger ad-hoc run (force = bypass the UTC maintenance window only)
 auto job = orchestrator.triggerNow(result->id, /*force=*/true);
 
 // Query health
@@ -194,20 +221,23 @@ entry.task_dependencies = { dep };
 #include "maintenance/i_maintenance_task_handler.h"
 #include "maintenance/database_maintenance_orchestrator.h"
 
-class MyIndexHandler : public IMaintenanceTaskHandler {
+class MyMaintenanceHandler : public IMaintenanceTaskHandler {
 public:
     Result<std::string> execute(const std::string& job_id,
                                 MaintenanceTaskType) override {
-        // … perform index rebuild …
-        return Ok(std::string("Index rebuilt successfully"));
+        // … perform delegated maintenance work …
+        return Ok(std::string("Maintenance task completed"));
     }
-    std::string handlerName() const override { return "MyIndexHandler"; }
+    std::string handlerName() const override { return "MyMaintenanceHandler"; }
 };
 
 orchestrator.registerTaskHandler(
-    MaintenanceTaskType::INDEX_REBUILD,
-    std::make_shared<MyIndexHandler>());
+    MaintenanceTaskType::DISASTER_RECOVERY_DRILL,
+    std::make_shared<MyMaintenanceHandler>());
 ```
+
+`INDEX_REBUILD` is handled directly through `IndexMaintenanceManager`;
+registering a custom handler for that task token does not replace that path.
 
 ### Registering a health probe
 
@@ -233,7 +263,7 @@ orchestrator.registerHealthProbe("my_module", []() -> ModuleHealthSignal {
 auto lock = std::make_shared<InProcessDistributedLock>("node-1");
 orchestrator.setDistributedLock(lock);
 
-// Production: inject your Raft-backed IDistributedLock implementation
+// TODO/Assumption: inject a deployment-provided cluster-capable lock
 // orchestrator.setDistributedLock(raft_lock_impl);
 ```
 
@@ -260,8 +290,8 @@ orchestrator.setTenantMaintenanceConfig("tenant-acme", cfg);
 | Job state is `SKIPPED` with log "lock held by peer" | Another node holds the distributed lock | Expected in multi-node clusters; only one node runs each schedule at a time |
 | `resolveTaskExecutionOrder` throws `std::invalid_argument` | A cycle exists in `task_dependencies`, or a dependency references a task not listed in `tasks` | Verify DAG structure: all dependency targets must appear in `tasks`; break any cycles |
 | Health probe data is stale | Probe callable is slow (> 10 ms) or blocks | Keep probes fast and non-blocking; return cached signals if live queries are expensive |
-| Schedules lost after server restart | `IStorageEngine` was not provided to the orchestrator | Pass a non-null `IStorageEngine*` (e.g., `StorageEngine`) to enable RocksDB persistence |
-| `listJobs` returns no completed jobs | 24-hour retention window elapsed | Completed jobs are pruned after `kJobRetentionMs` (24 h); query sooner or persist externally |
+| Schedules lost after server restart | `IStorageEngine` was not provided to the orchestrator | Pass a non-null `IStorageEngine*` (e.g., `StorageEngine`) to enable schedule persistence |
+| `listJobs` returns no completed jobs | 24-hour retention threshold elapsed and a pruning pass ran | Query sooner or persist incident evidence externally |
 
 ## Related Docs
 

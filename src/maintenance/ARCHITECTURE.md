@@ -1,11 +1,24 @@
 # Architecture - Maintenance Module
 
-<!-- Status: current | validated: 2026-09-09 -->
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
+
+Exact model backend not verifiable from final document text alone.
+
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Overview
 
-The maintenance module provides a bounded orchestration layer for maintenance schedule definition, job execution, persistence/reload, and handler-driven task dispatch.
+The maintenance module provides an orchestration layer for schedule definition, job execution, optional persistence/reload, and handler-driven task dispatch.
 
 ## Main Execution Planes
 
@@ -14,11 +27,11 @@ The maintenance module provides a bounded orchestration layer for maintenance sc
 - job state tracking and execution sequencing
 
 2. Persistence and recovery plane
-- maintenance schedule storage and reload behavior
-- deterministic restoration of persisted schedule state
+- optional maintenance schedule storage and reload behavior
+- valid entries are restored; malformed JSON entries are skipped and scan errors are surfaced by the store
 
 3. Registry and setup plane
-- default schedule bundle registration
+- creation of four disabled default schedules
 - maintenance bootstrap and integration hooks
 
 ## Core Contracts
@@ -26,51 +39,43 @@ The maintenance module provides a bounded orchestration layer for maintenance sc
 | Contract | Behavior |
 |---|---|
 | schedule contract | deterministic create/update/delete/list and run behavior |
-| execution contract | bounded job dispatch, tracking, and error propagation |
-| persistence contract | explicit save/load semantics for schedule state |
+| execution contract | per-schedule in-flight guard, optional lock/quota/window checks, tracking, and error propagation |
+| persistence contract | write-through schedule mutations and partial reload of valid records |
 | registry contract | deterministic default setup registration behavior |
 
 ## Failure Semantics
 
-- invalid schedule input or missing prerequisites fail with explicit outcomes.
-- persistence failures are surfaced as explicit orchestration errors.
-- unavailable handlers fail deterministically rather than silently bypassing execution.
+- invalid schedule input and failed writes return errors; malformed stored JSON is skipped, while a failed prefix scan is logged and startup can continue.
+- a missing delegated handler yields a task-level skip (`SKIPPED_NO_HANDLER`), not a schedule-creation rejection.
+- a failure from an available handler or missing direct index dependency marks the task failed; prior task side effects are not rolled back.
 
 ## Module Dependencies
 
 ### Direct Upstream Dependencies (this module uses)
 | Module | Interface / File | Purpose |
 |--------|-----------------|---------|
-| storage | `include/storage/compaction_manager.h` | Triggers RocksDB compaction jobs as scheduled maintenance tasks |
-| transaction | `include/transaction/mvcc_cleanup.h` | Invokes MVCC version-chain garbage collection during maintenance windows |
-| observability | `include/observability/metrics_collector.h`, `include/observability/audit_logger.h` | Records job execution counters and emits maintenance-event audit entries |
+| scheduler | `include/scheduler/task_scheduler.h` | Registers and removes recurring cron tasks |
+| index maintenance | `include/storage/index_maintenance.h` | Handles selected index task tokens through `IndexMaintenanceManager::triggerMaintenanceCheck()` |
+| storage | `include/themis/base/interfaces/storage_interface.h` | Schedule-store persistence through `IStorageEngine` |
+| observability | `include/observability/metrics_collector.h`, `include/utils/audit_logger.h` | Emits metrics and optional maintenance audit events |
 
 ### Direct Downstream Consumers (modules that use this module)
 | Module | Via | Notes |
 |--------|-----|-------|
-| server | `include/maintenance/maintenance_api_handler.h`, `include/maintenance/database_maintenance_orchestrator.h` | Exposes maintenance schedule CRUD and on-demand job trigger endpoints via the HTTP API |
+| server | `include/server/maintenance_api_handler.h`, `include/maintenance/database_maintenance_orchestrator.h` | Translates HTTP requests to orchestrator calls; route authorization is owned by the HTTP server |
 
 ## Integration Points
 
 ### Critical Integration: DatabaseMaintenanceOrchestrator ↔ Server API Handler
-**Files:** `include/maintenance/database_maintenance_orchestrator.h`, `include/maintenance/maintenance_api_handler.h` ↔ `src/server/`
-**Contract:** `MaintenanceApiHandler` translates HTTP requests into typed `OrchestratorCommand` calls; `DatabaseMaintenanceOrchestrator` owns the authoritative schedule state and dispatches handlers. All mutations are serialised through the orchestrator — the API handler holds no independent state.
-**Thread Safety:** The orchestrator uses an internal job-dispatch queue; concurrent API calls are safely serialised.
-**Failure Mode:** Handler unavailability propagates as `HANDLER_NOT_FOUND`; the orchestrator rejects the schedule entry rather than enqueuing an unexecutable job.
+**Files:** `include/maintenance/database_maintenance_orchestrator.h`, `include/server/maintenance_api_handler.h` ↔ `src/server/`
+**Contract:** `MaintenanceApiHandler` translates HTTP requests into orchestrator calls; the orchestrator owns the in-memory schedule state and dispatches task work. The handler does not own schedule state. Authorization is enforced by HTTP route registration, not by the handler or orchestrator.
+**Execution:** Scheduled callbacks call `executeSchedule`; `triggerNow` starts a detached worker thread. Orchestrator state access is guarded by its mutexes; this is not a separate serialized dispatch queue.
+**Failure Mode:** A missing delegated task handler produces `SKIPPED_NO_HANDLER` at task level. Direct index tasks fail when `IndexMaintenanceManager` is unavailable. Neither condition rejects schedule creation solely because the capability is absent.
 
-### Critical Integration: Compaction Job ↔ Storage
-**Files:** `src/maintenance/database_maintenance_orchestrator.cpp` ↔ `include/storage/compaction_manager.h`
-**Contract:** The compaction maintenance handler calls `CompactionManager::triggerCompaction(db_path, options)` within the scheduled execution window; compaction is async relative to the maintenance orchestrator (fires and monitors via callback).
-**Thread Safety:** `CompactionManager` is thread-safe; concurrent maintenance and organic compaction triggers are serialised internally by RocksDB.
-**Failure Mode:** Compaction errors are surfaced as `CompactionFailed` in the orchestrator job result log; the maintenance schedule advances to the next interval regardless.
-
-### Critical Integration: MVCC Cleanup ↔ Transaction Module
-**Files:** `src/maintenance/database_maintenance_orchestrator.cpp` ↔ `include/transaction/mvcc_cleanup.h`
-**Contract:** The MVCC-cleanup handler calls `MvccCleanup::purgeBeforeHorizon(snapshot_horizon)` to reclaim obsolete version chains; the horizon is determined by the oldest active read snapshot at dispatch time.
-**Thread Safety:** `MvccCleanup` operations hold an MVCC read lock for the duration of the purge window to prevent new snapshots from racing below the horizon.
-**Failure Mode:** If the transaction module cannot supply a valid horizon the cleanup is skipped for the current window and a `MVCC_HORIZON_UNAVAILABLE` warning is emitted to the maintenance log.
-
-
+### Task dispatch ↔ owning module
+**Contract:** `INDEX_REBUILD`, `INDEX_REORGANIZE`, `STATISTICS_UPDATE`, `ORPHAN_CLEANUP`, `FRAGMENTATION_MONITORING`, `VECTOR_REINDEX`, and `CONSISTENCY_CHECK` are handled directly using `IndexMaintenanceManager` (the first four and vector re-index trigger `triggerMaintenanceCheck`; the latter two report active index-job counts). Other task types, including `STORAGE_COMPACTION` and `MVCC_CLEANUP`, require a registered `IMaintenanceTaskHandler`.
+**Boundary:** `StorageCompactionHandler` calls `CompactionManager::compactAll()` and `MvccCleanupHandler` calls `MVCCStore::gcAllBefore()`. These are optional handler implementations, not direct storage/transaction calls in `DatabaseMaintenanceOrchestrator`.
+**Failure Mode:** Missing handlers create a task-level skip; delegated errors and unavailable direct index dependencies are reported as task failures. A later task failure does not roll back earlier side effects.
 
 - Verified files:
   - src/maintenance/database_maintenance_orchestrator.cpp

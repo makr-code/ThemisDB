@@ -1,6 +1,20 @@
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
+
+Exact model backend not verifiable from final document text alone.
+
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/maintenance/ARCHITECTURE.md -->
 
 # Maintenance Module — Public Header Architecture
@@ -26,22 +40,22 @@ For runtime composition and implementation internals see:
 
 | Header | Public Type | Purpose |
 |--------|------------|---------|
-| `database_maintenance_orchestrator.h` | `DatabaseMaintenanceOrchestrator` | Coordinates maintenance tasks across shards |
-| `maintenance_task.h` | `MaintenanceTask` | Maintenance task descriptor |
-| `maintenance_task_handler_impls.h` | `MaintenanceTaskHandlerImpls` | Built-in task handler implementations |
+| `database_maintenance_orchestrator.h` | `DatabaseMaintenanceOrchestrator`, `TenantMaintenanceConfig`, `HealthProbe` | Schedule/job lifecycle, policy configuration, and module health registration |
+| `maintenance_task.h` | `MaintenanceTaskType`, `MaintenanceJobState`, `OrchestratorJob` | Task tokens and job-state/data representation |
+| `maintenance_task_handler_impls.h` | `StorageCompactionHandler`, `ReplicaValidationHandler`, `MvccCleanupHandler`, `FunctionMaintenanceTaskHandler` | Optional handler implementations; delegated work executes only when registered |
 | `i_maintenance_task_handler.h` | `IMaintenanceTaskHandler` | Task handler interface |
 ### 2.2 Scheduling and Locking
 
 | Header | Public Type | Purpose |
 |--------|------------|---------|
-| `maintenance_schedule.h` | `MaintenanceSchedule` | Cron-based maintenance schedule |
-| `maintenance_schedule_store.h` | `MaintenanceScheduleStore` | Persistent schedule storage |
+| `maintenance_schedule.h` | `MaintenanceScheduleEntry`, `ScheduleFrequency`, `MaintenanceTaskDependency` | Schedule data, frequency presets, and optional task dependencies |
+| `maintenance_schedule_store.h` | `MaintenanceScheduleStore` | Optional JSON persistence through `IStorageEngine` |
 | `i_distributed_lock.h` | `IDistributedLock` | Distributed lock interface for task exclusivity |
 ### 2.3 Health and Reporting
 
 | Header | Public Type | Purpose |
 |--------|------------|---------|
-| `maintenance_health_report.h` | `MaintenanceHealthReport` | Post-maintenance health status report |
+| `maintenance_health_report.h` | `MaintenanceHealthReport`, `ModuleHealthSignal`, `DispatchOutcome` | Aggregate health and bounded dispatch diagnostics |
 
 ---
 
@@ -55,5 +69,7 @@ All public types reside in the `themis::maintenance` namespace (or a sub-namespa
 
 - Headers in `include/maintenance/` expose the **stable public API**; internal types live in `src/maintenance/`.
 - Clients depend only on types declared here; implementation details in `src/` may change without notice.
+- `maintenance_api_contract.h` also declares helper `MaintenanceError`, descriptor, and health-snapshot types. **TODO:** its documented timeout, fail-closed, and reload guarantees are not implemented by the current orchestrator; do not treat them as runtime guarantees until reconciled.
 - For breaking-change policy see [`../../VERSIONING.md`](../../VERSIONING.md).
-- Layer association: **Graph**.
+- **TODO/Assumption:** The legacy **Graph** layer association is not verified
+  against current maintenance ownership; see the public-header roadmap.
