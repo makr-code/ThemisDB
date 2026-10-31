@@ -36,7 +36,7 @@ operation is not an end-to-end measurement of those surfaces.
 | Do the auth, rate-limit, accept, and WebSocket helpers stay bounded? | The same benchmark, NRG-02 through NRG-05 | These isolate helper paths; NRG-05 is explicitly a mock accept check. |
 | Are routing, breaker, connection-limit, queue, and session-guard paths measurable? | [`bench_network_routing_gates.cpp`](../../benchmarks/network/bench_network_routing_gates.cpp), NRG-07 through NRG-12 | Small in-memory/fast-path checks; not a full cluster or loaded listener test. |
 | What does the proposed protocol-path work cost? | [`bench_network_protocol_path.cpp`](../../benchmarks/network/bench_network_protocol_path.cpp), NRG-P1 through NRG-P4 | These implementations are marked as stubs in the benchmark source. Their output is not evidence of real socket, TLS, QUIC, or gRPC performance. |
-| Do failure and contract cases remain correct? | Focused suites listed in [`ROADMAP.md`](ROADMAP.md) and [`tests/network/CMakeLists.txt`](../../tests/network/CMakeLists.txt) | These provide regression evidence, not throughput or production-capacity evidence. |
+| Do failure and contract cases remain correct? | Focused suites listed in [`ROADMAP.md`](ROADMAP.md) and [`tests/network/CMakeLists.txt`](../../tests/network/CMakeLists.txt) | These provide regression evidence, not throughput or production-capacity evidence. The transport-resilience suite explicitly uses no live sockets. |
 
 Use the benchmark’s own source and labels to establish whether a scenario
 executes real code or a modeled/stub path before interpreting results. In
@@ -73,15 +73,17 @@ For a meaningful comparison:
 
 ## Validation path
 
-Use the focused network tests for the property being changed, then the
-corresponding benchmark when one measures the real code path. Relevant suites
-include `test_network_contract_hardening_focused.cpp`,
+Use focused network tests for the property being changed, then a benchmark
+that measures the real code path. Relevant suites include
+`test_network_contract_hardening_focused.cpp`,
 `test_network_transport_resilience_focused.cpp`,
 `test_network_lifecycle_guardrails_focused.cpp`, and
 `test_network_routing_hardening_focused.cpp` under `tests/network/`.
-For operational claims, pair these with the integration soak test
-`tests/integration/test_network_protocol_soak.cpp`; its TCP and WebSocket
-scenarios are distinct from helper microbenchmarks.
+These tests exercise deterministic contracts and stand-ins; the transport
+resilience suite uses no live sockets. The integration soak test
+`tests/integration/test_network_protocol_soak.cpp` also states that its TCP,
+WebSocket, and lifecycle scenarios are in-process stubs. Neither test family
+establishes live-network capacity or production tail latency.
 
 See also [`MODELING.md`](MODELING.md),
 [`IMPLEMENTATION.md`](IMPLEMENTATION.md), and the module

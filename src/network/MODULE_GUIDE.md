@@ -22,6 +22,9 @@ Exact model backend not verifiable from final document text alone.
 - Integration soak test: `tests/integration/test_network_protocol_soak.cpp`
 - Benchmarks: `benchmarks/network/`
 
+[`README.md`](README.md) provides the existing module overview and examples.
+For current release posture, use the root [`ROADMAP.md`](../../ROADMAP.md) and
+source evidence rather than the maturity wording in older module summaries.
 Read [`ARCHITECTURE.md`](ARCHITECTURE.md) for component boundaries,
 [`API.md`](API.md) for caller contracts, and
 [`IMPLEMENTATION.md`](IMPLEMENTATION.md) before changing lifecycle or
@@ -35,7 +38,7 @@ target and run its registered CTest case:
 
 ```sh
 cmake --build build-linux-ninja-release \
-  --target module_network_test_network_contract_hardening_focused
+  --target module_network_test_network_contract_hardening_focused_focused
 ctest --test-dir build-linux-ninja-release \
   -R '^test_network_contract_hardening_focused_network_FocusedTests$' \
   --output-on-failure

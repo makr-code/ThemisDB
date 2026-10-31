@@ -121,6 +121,5 @@ relevant statistics, client/protocol versions, and the timeline. Escalate
 suspected credential or key exposure to security response; escalate repeatable
 wire incompatibility to the network/API maintainers.
 
-See [`OPERATIONS.md`](OPERATIONS.md),
-[`TRUST.md`](TRUST.md), and the detailed cross-module
-[network transport runbook](../../docs/operability/RUNBOOK_NETWORK_TRANSPORT.md).
+See [`OPERATIONS.md`](OPERATIONS.md), [`TRUST.md`](TRUST.md), and the
+source-defined interfaces in [`API.md`](API.md).

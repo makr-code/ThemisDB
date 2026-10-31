@@ -22,6 +22,10 @@ boundary: its source does not tokenize text, call an embedding model, or
 transform content into vectors. There are no network-owned embedding models,
 embedding dimensions, or vectorization quality metrics to tune here.
 
+Here, “embedding” means machine-learning/vector embedding. Embedding this
+network library into a host process is a separate integration topic covered
+by [`IMPLEMENTATION.md`](IMPLEMENTATION.md).
+
 ## What the module does
 
 The wire-protocol session dispatch contains a `VECTOR_SEARCH` handler and the
