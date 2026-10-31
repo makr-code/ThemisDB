@@ -157,15 +157,28 @@ class GapScanner:
             for filepath in inc_path.rglob("*.h"):
                 result["include"].extend(self.scan_file(filepath))
         
-        # Scan tests/
-        for filepath in self.tests_dir.glob(f"*{module}*.cpp"):
-            result["tests"].extend(self.scan_file(filepath))
-        
-        # Scan benchmarks/
-        for filepath in self.benchmarks_dir.glob(f"*{module}*.cpp"):
-            result["benchmarks"].extend(self.scan_file(filepath))
+        # Preserve top-level module-named files and include nested module trees.
+        for location, root in (("tests", self.tests_dir),
+                               ("benchmarks", self.benchmarks_dir)):
+            candidates = set(root.glob(f"*{module}*.cpp"))
+            module_root = root / module
+            if module_root.exists():
+                candidates.update(module_root.rglob("*.cpp"))
+            for filepath in sorted(candidates):
+                result[location].extend(self.scan_file(filepath))
         
         return result
+
+    @staticmethod
+    def summarize_gaps(gaps: Dict[str, List[CodeGap]]) -> Dict[str, int]:
+        all_gaps = [gap for location_gaps in gaps.values() for gap in location_gaps]
+        return {
+            "total": len(all_gaps),
+            "critical": sum(1 for gap in all_gaps if gap.severity == "critical"),
+            "high": sum(1 for gap in all_gaps if gap.severity == "high"),
+            "medium": sum(1 for gap in all_gaps if gap.severity == "medium"),
+            "low": sum(1 for gap in all_gaps if gap.severity == "low"),
+        }
     
     def run_full_scan(self) -> Dict[str, Dict]:
         """Scan all modules"""
@@ -182,13 +195,7 @@ class GapScanner:
             
             results[module] = {
                 "gaps_by_location": gaps,
-                "summary": {
-                    "total": total_gaps,
-                    "critical": sum(1 for v in gaps.values() for g in v if g.severity == "critical"),
-                    "high": sum(1 for v in gaps.values() for g in v if g.severity == "high"),
-                    "medium": sum(1 for v in gaps.values() for g in v if g.severity == "medium"),
-                    "low": sum(1 for v in gaps.values() for g in v if g.severity == "low"),
-                }
+                "summary": self.summarize_gaps(gaps),
             }
         
         return results
@@ -244,7 +251,12 @@ def main():
     if args.module:
         print(f"Scanning module: {args.module}")
         gaps = scanner.scan_module(args.module)
-        results = {args.module: {"gaps_by_location": gaps, "summary": {}}}
+        results = {
+            args.module: {
+                "gaps_by_location": gaps,
+                "summary": scanner.summarize_gaps(gaps),
+            }
+        }
     else:
         results = scanner.run_full_scan()
     
@@ -258,9 +270,8 @@ def main():
     for module, data in results.items():
         summary = data["summary"]
         total = summary["total"]
-        if total > 0:
-            print(f"\n{module:25} {total:3} gaps "
-                  f"(C:{summary['critical']} H:{summary['high']} M:{summary['medium']})")
+        print(f"\n{module:25} {total:3} gaps "
+              f"(C:{summary['critical']} H:{summary['high']} M:{summary['medium']})")
 
 if __name__ == "__main__":
     main()

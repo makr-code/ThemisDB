@@ -36,10 +36,10 @@ pool implementations are not part of these two benchmark targets.
   in this documentation audit.
 - `src/base/ROADMAP.md` states that the baseline JSON contains thresholds but
   hardware measurement/sign-off remains pending.
-- `src/base/buffer_pool.cpp` and `resource_pool_manager.cpp` do not appear in
-  the inspected modular `THEMIS_BASE_SOURCES` or monolithic
-  `THEMIS_CORE_SOURCES` lists; performance of their integrated build path
-  remains unverified.
+- `src/base/buffer_pool.cpp` and `resource_pool_manager.cpp` are registered in
+  modular and monolithic builds. Performance measurements for their integrated
+  build path remain unverified; source registration does not establish benchmark
+  results.
 
 ## Canonical references
 

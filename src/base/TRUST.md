@@ -41,7 +41,7 @@ The module separates trust into four zones:
    - network, filesystem, and syscall restrictions that may be skipped with warnings.
 
 4. Operational trust
-   - reload outcome, rollback state, and a possible contract/implementation discrepancy around atomic replacement,
+   - reload outcome, rollback state, and the known availability gap during replacement,
    - rollback availability only when configured and a backup path is retained,
    - registry authentication/checksum checks; HTTP transport is accepted with a warning.
 
@@ -59,11 +59,12 @@ deployment enables or invokes them.
 loads metadata, verifies a supplied signature, and checks trust level according
 to policy. The loader also supports an explicitly loaded SHA-256 manifest;
 only modules with a matching manifest entry receive that additional comparison.
-The separate `PluginBundleLoader` verifies an Ed25519 manifest signature when a
-public key is configured; without a key it rejects bundles unless unsigned
-bundles are explicitly allowed. Its header overview says verification is
-skipped when no key is set, which conflicts with the setter documentation and
-implementation; the source and setter describe fail-closed behavior by default.
+The separate `PluginBundleLoader` verifies the exact `manifest.json` bytes with
+Ed25519 when a public key is configured; without a key it rejects bundles unless
+unsigned bundles are explicitly allowed. The signature authenticates the
+manifest, not the referenced binary bytes directly. Native binaries are
+subsequently passed to `ModuleLoader`; the WASM fallback is returned for handoff
+to its runtime.
 
 `module_security.cpp` mutates a local policy after constructing the verifier
 with a copy and does not update that copy in its constructor. The initial
@@ -164,13 +165,10 @@ Mitigation:
 
 Mitigation:
 
-- The public header contracts an atomic swap: the old handle remains until the
-  new module is initialized, and failure keeps the old module running. The
-  inspected implementation first loads a candidate, then unloads the old
-  module, unloads the candidate entry, and loads the candidate again under the
-  canonical name. The final-load failure path attempts to restore the prior
-  path. Treat the difference as a contract/implementation discrepancy; do not
-  promise uninterrupted availability until it is reconciled;
+- The implementation loads a candidate under a temporary key, unloads the old
+  and temporary modules, and loads the candidate again under the canonical name.
+  This creates an availability gap; final-load failure triggers a best-effort
+  restoration attempt from the previous path;
 - rollback is available only when enabled and a backup path was retained.
   `rollback()` unloads the current module before loading the backup;
 - candidates pass through the registered `ModuleLoader`; the

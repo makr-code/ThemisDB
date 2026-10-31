@@ -25,7 +25,7 @@ For maintainers changing shared runtime helpers, resource pools, module loading,
 
 ## Find the matching API
 
-- Memory buffers and connection slots: `include/base/`; corresponding `.cpp` files exist under `src/base/` but are absent from modular `THEMIS_BASE_SOURCES` and the monolithic `THEMIS_CORE_SOURCES` list inspected.
+- Memory buffers and connection slots: `include/base/`; corresponding `.cpp` files are registered in modular `THEMIS_BASE_SOURCES` and in the monolithic core through `cmake/MiscellaneousFeatures.cmake`.
 - Module loading and replacement: `include/themis/base/module_loader.h`, `hot_reload_manager.h`, `plugin_dependency_graph.h`.
 - Test declarations: `tests/CMakeLists.txt` auto-discovers module CMake files and adds `tests/base/CMakeLists.txt`. The local file registers focused unit tests and a focused 7200-second soak target; `RegisterModuleTests.cmake` supplies `module:base`, tier, kind, and focus labels. The root file separately registers reload-regression and BaseEntity field tests. Registration does not imply tests were run or passed.
 

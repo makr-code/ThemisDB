@@ -38,10 +38,10 @@ depends on platform support and setup. Network, filesystem, and syscall
 restrictions may be skipped. Check `launchWarnings()` and `lastError()`; a
 successful launch alone does not prove that every requested control took effect.
 `HotReloadManager::Config::sandboxConfig` is optional; when unset, the manager
-does not create its sandbox. The public header contracts an atomic swap, but the
-inspected implementation unloads the old module and temporary candidate before
-reloading under the canonical name. Treat this as a contract/implementation
-discrepancy and do not promise uninterrupted availability until reconciled.
+does not create its sandbox. Reload loads a candidate under a temporary key,
+unloads the old and temporary modules, then reloads under the canonical name.
+This creates an availability gap; restoration from the previous path after a
+failed final load is best-effort.
 
 The normal `ModuleLoader` verifier path supports a caller-configured hash
 manifest; only modules listed in it receive the additional SHA-256 comparison.
@@ -182,9 +182,9 @@ Operator action:
   retained and the result/configuration indicates rollback is available,
 - check logs for candidate load failures,
 - review the callback state and whether `preserveState` is viable for the module.
-  The header promises an atomic swap, while the implementation's unload/reload
-  sequence appears to leave a gap; resolve this discrepancy before relying on
-  continuous availability.
+  the implementation unloads the old and candidate modules before loading the
+  candidate under the canonical name. Plan for an availability gap and treat
+  emergency restoration after final-load failure as best-effort.
 
 ### Registry or download issues
 

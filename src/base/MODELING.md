@@ -69,7 +69,7 @@ Execution boundaries are modeled as a layered concept:
 
 ### 4. Reload model
 
-The hot reload model is an operational state machine rather than a simple file replacement. The public header contracts an atomic swap, but the inspected implementation sequence appears inconsistent with that contract; uninterrupted availability is unresolved. Its key steps include:
+The hot reload model is an operational state machine rather than a simple file replacement. Its current implementation creates an availability gap while replacing a module; emergency restoration after a failed final load is best-effort. Its key steps include:
 
 1. validate the registered module and ensure the old version is still the current one,
 2. save state where configured,
@@ -79,7 +79,7 @@ The hot reload model is an operational state machine rather than a simple file r
 6. load the candidate again under the canonical name,
 7. preserve rollback information according to configuration and operation outcome.
 
-The implementation has explicit transition/error handling, but availability during the unload/reload interval and every rollback outcome must not be inferred as realized guarantees until the contract/implementation discrepancy is resolved.
+The implementation has explicit transition/error handling, but it does not guarantee uninterrupted availability or successful emergency restoration.
 
 ## Invariants
 

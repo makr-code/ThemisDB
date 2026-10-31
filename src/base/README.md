@@ -20,7 +20,7 @@ The base area groups module lifecycle and sandbox facilities with general
 resource-pool utilities. It does not own plugin-specific business behavior.
 Runtime capabilities depend on the configured platform and registered optional
 backends; this documentation does not imply that every loaded module is
-sandboxed or that all resource-pool sources are linked into the main library.
+sandboxed or that all controls are enabled.
 
 ## Scope
 
@@ -46,9 +46,9 @@ if (!buffer.valid()) {
 }
 ```
 
-`BufferHandle` is move-only and auto-releases by default. This snippet
-illustrates the header contract only; the source-list omission below means
-linkage through the base module target is not confirmed.
+`BufferHandle` is move-only and auto-releases by default. The pool implementation
+files are registered in both the modular base target and the monolithic core
+source list.
 
 ## Source and interface map
 
@@ -63,14 +63,13 @@ linkage through the base module target is not confirmed.
 
 `src/base/` currently contains ten `.cpp` files. In modular mode,
 `cmake/ModularBuild.cmake` uses `THEMIS_BASE_SOURCES` to create the shared
-`themis_base` target. That list includes seven lifecycle, sandbox, registry,
-and WASM/dependency implementation files under `src/base/`, plus the canonical
-loader at `src/themis/module_loader.cpp` and its platform/security companions.
-It omits the deprecated `src/base/module_loader.cpp` and the two resource-pool
-`.cpp` files. The monolithic `THEMIS_CORE_SOURCES` list inspected also omits the
-resource-pool files. In modular mode `themis_core` is an interface target that
-links module targets; it is not the base source list. Resource-pool linkage
-remains unconfirmed.
+`themis_base` target. That list includes the lifecycle, sandbox, registry,
+WASM/dependency, and resource-pool implementations under `src/base/`, plus the
+canonical loader at `src/themis/module_loader.cpp` and its platform/security
+companions. It omits the deprecated `src/base/module_loader.cpp`. The monolithic
+core registers the same two resource-pool sources through
+`cmake/MiscellaneousFeatures.cmake`. In modular mode `themis_core` is an
+interface target that links module targets; it is not the base source list.
 
 ## Runtime flow and limits
 
@@ -82,14 +81,14 @@ remains unconfirmed.
 3. WASM binaries can be validated without an injected runtime; execution through
    `callExport()` requires a runtime implementation.
 4. Hot reload reports a `HotReloadResult` and retains rollback information
-   according to its configuration. The public header contracts an atomic swap,
-   but the implementation sequence appears inconsistent with that contract;
-   uninterrupted availability remains unresolved pending reconciliation.
+   according to its configuration. It loads a candidate under a temporary key,
+   unloads the old and temporary modules, then reloads under the canonical key;
+   this creates an availability gap. A failed final load triggers best-effort
+   restoration from the previous path.
 5. Registry requests accept HTTP or HTTPS; plain HTTP is permitted with a
    warning, so transport encryption is not universal.
-6. Buffer-pool requests above 4 KiB use the system allocator; buffer-pool
-   sources are not present in the explicit base/monolithic source lists noted
-   above.
+6. Buffer-pool requests above 4 KiB use the system allocator; both pool sources
+   are registered in modular and monolithic builds.
 7. `AdaptiveConnectionPool` represents integer slots rather than live
    connections. `ResourcePoolManager` owns connection and buffer pools only;
    the header's thread-pool/leak-detection design goals are not implemented in
@@ -104,8 +103,8 @@ remains unconfirmed.
 - No separate base-only configure/build recipe was found. The root build
   defaults `THEMIS_BUILD_BENCHMARKS` to OFF and defaults
   `THEMIS_BUILD_TESTS` to ON for Debug and OFF otherwise (unless overridden).
-  Use the repository's configured build profile, and verify target linkage
-  before relying on the resource-pool APIs.
+  Use the repository's configured build profile; the focused pool tests under
+  `tests/base/` exercise the public pool targets.
 - `tests/CMakeLists.txt` discovers module `*/CMakeLists.txt` files with
   `CONFIGURE_DEPENDS` and adds `tests/base/`; the base file registers its
   `test_*.cpp` sources as focused unit tests and a separate soak test.
@@ -115,8 +114,9 @@ remains unconfirmed.
   seconds (two hours), and it is selectable with `ctest -L soak`.
 - The root test CMake file separately registers a hot-reload regression test
   and a BaseEntity field test (the latter exercises the entity/storage path).
-- Registration is established by the CMake definitions; no build or test run
-  was performed for this documentation audit.
+- `tests/base/test_resource_pools.cpp` is registered by the module's
+  `test_*.cpp` glob. Registration establishes test discovery, not compilation
+  or execution success.
 
 See [API.md](API.md), [ARCHITECTURE.md](ARCHITECTURE.md),
 [MODULE_GUIDE.md](MODULE_GUIDE.md), [ROADMAP.md](ROADMAP.md), and

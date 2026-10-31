@@ -31,10 +31,10 @@ implemented CRL/OCSP methods, so this runbook does not assert revocation checks.
 The canonical loader also supports an explicitly loaded hash manifest and a
 separate `PluginBundleLoader` Ed25519-signature path when a key is configured;
 it defines revoked-certificate error/reporting values, which do not prove that
-the normal path checks revocation. Unsigned bundles require explicit opt-in in
-the implementation, although the bundle-loader class overview comment says
-signature checking is skipped without a key; that header wording conflicts with
-the setter documentation and implementation.
+the normal path checks revocation. The bundle signature covers the exact
+manifest bytes, not the referenced binary bytes directly. Unsigned bundles
+require explicit opt-in; without a public key and opt-in the loader rejects the
+bundle.
 The repository sources inspected do not define a `themisdb-admin` executable,
 the example Prometheus metric names below, or the referenced deployment
 configuration keys. Treat those commands, metric names, and settings as
@@ -260,13 +260,12 @@ journalctl -u themisdb --since "1 hour ago" | grep BASE_SANDBOX
    has been unloaded.
 3. Fix the new binary's issue and retry the deployment.
 
-The `HotReloadManager` header contracts an atomic swap: the old handle remains
-until the new module is initialized, and failure keeps the old module running.
-The inspected implementation later unloads the old module and temporary
-candidate before loading under the canonical name; on failure it attempts a
-best-effort restore from the prior path. Treat the API contract and this
-implementation sequence as unreconciled rather than promising uninterrupted
-availability. `Config::sandboxConfig` is optional and empty by default.
+The `HotReloadManager` loads a candidate under a temporary key, unloads the old
+and candidate modules, then loads under the canonical name. This creates an
+availability gap; after a failed final load, restoration from the prior path is
+best-effort. `Config::sandboxConfig` is optional and empty by default, and
+`Config::verifySignature` is currently unused; verification is controlled by
+the associated `ModuleLoader` policy.
 
 **1203 — STATE\_RESTORE\_FAILED**
 1. Examine the state-restore callback logs for the specific failure.

@@ -11,7 +11,7 @@
 
 // Hot-reload manager for ThemisDB plugins and modules.
 //
-// Provides atomic module replacement, state preservation, and rollback
+// Provides module replacement, optional state callbacks, and rollback
 // capabilities so plugins can be updated without a database restart.
 //
 // See src/base/ROADMAP.md – Phase 2: Dynamic Loading & Dependency Management
@@ -95,15 +95,18 @@ struct HotReloadResult {
 };
 
 // =============================================================================
-// HotReloadManager – atomic plugin hot-swap with rollback
+// HotReloadManager – plugin reload with rollback
 // =============================================================================
 
 /**
  * @brief Manages hot-reloading of ThemisDB modules without a database restart.
  *
  * Key features:
- *  - **Atomic swap**: the old module handle stays alive until the new one is
- *    fully initialised; failure keeps the old module running.
+ *  - **Candidate-first reload**: a candidate is loaded under a temporary key
+ *    before the current module is unloaded. The candidate is then unloaded and
+ *    loaded again under the canonical key, so reload is not an atomic swap and
+ *    module availability can be interrupted. If that final load fails, the
+ *    manager attempts to restore the previous path; restoration is best-effort.
  *  - **State preservation**: optional save/restore callbacks allow stateful
  *    plugins to survive a reload.
  *  - **Rollback**: one backup slot is kept per module; calling rollback()
@@ -111,10 +114,9 @@ struct HotReloadResult {
  *  - **Reload notifications**: registered callbacks are invoked at each phase
  *    (BEFORE_UNLOAD, AFTER_UNLOAD, AFTER_LOAD, ROLLBACK).
  *
- * Thread safety: all public methods are thread-safe. Read-only queries hold
- * a shared lock (std::shared_lock) to allow concurrent readers; write
- * operations (reloadModule, rollback, registration) hold an exclusive lock
- * (std::unique_lock) on the internal std::shared_mutex.
+ * Thread safety: manager slot state and callback registration are protected by
+ * an internal shared mutex. Loader operations and callbacks run outside that
+ * lock; callers must coordinate concurrent operations on a shared ModuleLoader.
  *
  * Typical usage:
  * @code
@@ -141,7 +143,7 @@ public:
      * @brief Configuration options for HotReloadManager.
      */
     struct Config {
-        bool     verifySignature    = true;  ///< Verify new module before swap
+        bool     verifySignature    = true;  ///< Currently unused; ModuleLoader policy controls verification.
         bool     preserveState      = true;  ///< Invoke state save/restore if set
         bool     enableRollback     = true;  ///< Retain backup for rollback
 
@@ -161,7 +163,7 @@ public:
      */
     enum class ReloadPhase {
         BEFORE_UNLOAD, ///< Old module about to be unloaded
-        AFTER_UNLOAD,  ///< Old module unloaded; new one not yet live
+        AFTER_UNLOAD,  ///< Old module unloaded; candidate not yet installed under the canonical key
         AFTER_LOAD,    ///< New module live (reload succeeded)
         ROLLBACK       ///< Rollback completed
     };
@@ -214,19 +216,21 @@ public:
     // -------------------------------------------------------------------------
 
     /**
-     * @brief Hot-reload a module from a new path without stopping the database.
+     * @brief Reload a module from a new path without requiring a database restart.
      *
-     * Steps:
-     *  1. Optionally save state (if StateSaveCallback is set).
-     *  2. Emit BEFORE_UNLOAD.
-     *  3. Load new binary via the registered ModuleLoader.
-     *  4. On success: unload old binary, emit AFTER_UNLOAD, emit AFTER_LOAD,
-     *     optionally restore state.
-     *  5. On failure: keep old binary running, return error result.
+     * The candidate is first loaded under a temporary key. If that fails, the
+     * current module remains loaded. Otherwise the current module and temporary
+     * candidate are unloaded, then the candidate is loaded again under the
+     * canonical key. This sequence creates an availability gap. If the final
+     * load fails, restoration from the previous path is attempted but its
+     * result is not guaranteed. State callbacks and rollback retention are
+     * controlled by Config.
      *
      * @param module_name  Logical module name (must be registered).
      * @param new_path     Filesystem path to the updated binary.
      * @return HotReloadResult describing outcome, duration, and versions.
+     *         A failed final load reports failure even if emergency restoration
+     *         is attempted; inspect the manager/loader state before retrying.
      */
     HotReloadResult reloadModule(const std::string& module_name,
                                  const std::string& new_path);

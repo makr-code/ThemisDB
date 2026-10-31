@@ -1478,10 +1478,9 @@ TEST(PluginBundleLoader, LoadBundleNonexistentFileReturnsError) {
     EXPECT_FALSE(result.errorMessage.empty());
 }
 
-TEST(PluginBundleLoader, LoadBundleFailsClosedWithoutPublicKeyOrOptIn) {
-    // Default state: no public key and allowUnsignedBundles defaults to false.
-    // loadBundle() must fail fast (fail-closed) rather than silently skipping
-    // signature verification.
+TEST(PluginBundleLoader, LoadBundleReturnsErrorWithoutUnsignedOptIn) {
+    // The nonexistent archive is rejected during extraction before signature
+    // verification; this does not exercise the fail-closed key-policy branch.
     PluginBundleLoader bundleLoader;
     ModuleLoader moduleLoader;
     auto result = bundleLoader.loadBundle("/nonexistent/path/plugin.tdb", moduleLoader);

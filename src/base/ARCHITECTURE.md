@@ -51,9 +51,9 @@ The base area contains two related foundations: module/plugin lifecycle APIs und
 1. A caller passes an artifact path to `ModuleLoader`; the loader checks existence and runs its configured verification, metadata, and activation steps.
 2. `PluginDependencyGraph` can analyze a resolver or registry snapshot and report cycles/order; it is a separate API, not evidence that every load path automatically consults it.
 3. Sandbox constraints apply only when configured and depend on platform support. WASM execution additionally requires an injected/registered runtime.
-4. Hot reload loads a candidate under a temporary key before unloading the current module, but subsequently unloads the candidate and loads it under the canonical key. The public header contracts an atomic swap; this implementation sequence appears inconsistent with that contract. Inspect result and rollback state, and do not claim uninterrupted availability until the discrepancy is reconciled.
+4. Hot reload loads a candidate under a temporary key before unloading the current module, then unloads that candidate and loads it again under the canonical key. This sequence creates an availability gap. If the final load fails, restoration from the previous path is attempted but is best-effort. `HotReloadManager::Config::verifySignature` is currently unused; the associated `ModuleLoader` policy controls verification.
 5. Remote registry download is a separate intake path. HTTP and HTTPS URLs are accepted; HTTP triggers a warning, so transport encryption is not guaranteed.
-6. Independent resource-pool callers can acquire/release buffers or connection slots and inspect statistics; the pool implementation sources are absent from the modular `THEMIS_BASE_SOURCES` and the monolithic `THEMIS_CORE_SOURCES` lists inspected.
+6. Independent resource-pool callers can acquire/release buffers or connection slots and inspect statistics; both implementation sources are registered in the modular `THEMIS_BASE_SOURCES` and the monolithic core source list in `cmake/MiscellaneousFeatures.cmake`.
 
 Evidence: [`module_loader.cpp`](../themis/module_loader.cpp), [`module_sandbox.cpp`](module_sandbox.cpp), [`hot_reload_manager.cpp`](hot_reload_manager.cpp), [`plugin_dependency_graph.cpp`](plugin_dependency_graph.cpp), [`buffer_pool.cpp`](buffer_pool.cpp), and [`resource_pool_manager.cpp`](resource_pool_manager.cpp).
 
@@ -76,10 +76,11 @@ Evidence: [`module_loader.cpp`](../themis/module_loader.cpp), [`module_sandbox.c
 ## Build and test registration evidence
 
 In modular mode, `cmake/ModularBuild.cmake` uses `THEMIS_BASE_SOURCES` to build
-`themis_base` from the lifecycle/sandbox/registry/WASM sources under `src/base/`
-and the canonical loader at `src/themis/module_loader.cpp`. It omits
-`src/base/module_loader.cpp`, `buffer_pool.cpp`, and
-`resource_pool_manager.cpp`. In that mode, `cmake/CMakeLists.txt` defines
+`themis_base` from the lifecycle/sandbox/registry/WASM and resource-pool sources
+under `src/base/` and the canonical loader at `src/themis/module_loader.cpp`. It
+omits `src/base/module_loader.cpp`. The monolithic core adds the resource-pool
+sources through `cmake/MiscellaneousFeatures.cmake`. In modular mode,
+`cmake/CMakeLists.txt` defines
 `themis_core` as an interface target linking the modules. `tests/CMakeLists.txt`
 discovers module CMake files using `CONFIGURE_DEPENDS` and adds
 `tests/base/CMakeLists.txt`. That file registers `test_*.cpp` as focused unit

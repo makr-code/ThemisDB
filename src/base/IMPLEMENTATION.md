@@ -29,7 +29,7 @@ For developers changing shared runtime resources and module lifecycle facilities
 - `AdaptiveConnectionPool` manages generic integer slots and provides timed acquisition, release, shutdown, scaling, and statistics; it does not own connection objects.
 - `ResourcePoolManager` owns only connection-slot and buffer pools. Although its header describes a thread-pool facade and includes `leak_timeout`, the class has no thread-pool member and the implementation does not read that field or reclaim timed-out borrows.
 - The canonical loader is `src/themis/module_loader.cpp`; `src/base/module_loader.cpp` is a deprecated legacy copy. `hot_reload_manager.cpp` implements reload behavior declared under `include/themis/base/`.
-- `buffer_pool.cpp` and `resource_pool_manager.cpp` implement the two public headers under `include/base/`. These files are absent from the modular `THEMIS_BASE_SOURCES` list in `cmake/ModularBuild.cmake` and from the monolithic `THEMIS_CORE_SOURCES` list inspected; normal-library integration is unconfirmed.
+- `buffer_pool.cpp` and `resource_pool_manager.cpp` implement the two public headers under `include/base/`. Both are registered in `THEMIS_BASE_SOURCES` in `cmake/ModularBuild.cmake` and in the monolithic core through `cmake/MiscellaneousFeatures.cmake`.
 
 ## Invariants and failure cases
 

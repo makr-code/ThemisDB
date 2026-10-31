@@ -80,9 +80,9 @@ Production runtime foundations exist for secure module loading, sandboxing, depe
 ## Known Issues and Limitations
 
 - behavior remains partly capability-dependent on enabled runtime backends/options.
-- wasm execution paths require an injected WasmRuntime for execution; test source coverage and module-local CMake registration are present, but test execution was not verified in this documentation audit.
+- wasm execution paths require an injected WasmRuntime for execution; test source coverage and module-local CMake registration are present, but the current base C++ test targets could not be configured because the diagnostic CMake run stopped at the missing `fmt` dependency.
 - `tests/CMakeLists.txt` discovers module CMake files with `CONFIGURE_DEPENDS` and adds `tests/base/`. Base `test_*.cpp` targets are focused unit tests; the focused soak target has a 7200-second timeout. The helper labels tests with `module:base`, `tier:unit`/`tier:soak`, `kind:focused`, and `focus`; the local file adds `base` and `soak`. Registration does not establish build or test success.
-- `src/base/buffer_pool.cpp` and `resource_pool_manager.cpp` are absent from the inspected modular `THEMIS_BASE_SOURCES` and monolithic `THEMIS_CORE_SOURCES` lists; intended integration is unresolved.
+- `src/base/buffer_pool.cpp` and `resource_pool_manager.cpp` are registered in modular `THEMIS_BASE_SOURCES` and the monolithic core source list; focused coverage is in `tests/base/test_resource_pools.cpp`. The sources pass a direct C++ syntax check, but the CMake test target remains unbuilt because configuration is blocked by missing `fmt`.
 - GATE-BASE-07..12 thresholds are benchmark labels; CI enforcement requires a benchmark-comparison step. Wave D delivers `benchmarks/baselines/base/wave_d_baselines.json` with defined thresholds; wiring the comparison step into CI is tracked as a post-Wave-D follow-up. p95/p99 values on representative hardware are a prerequisite for closing the benchmark Program-Level Success Criterion (see ROADMAP.md §Program-Level Success Criteria).
 
 ## Breaking Changes

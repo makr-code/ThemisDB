@@ -12,12 +12,13 @@ Human_Author: ThemisDB Contributors
 
 Exact model backend not verifiable from final document text alone.
 
-> Historical generated snapshot from 2026-09-20T09:10:36Z; it was not
-> regenerated for this source audit. A current source-selection check confirms
-> 36 C/C++ inputs (2 under `include/base`, 10 under `src/base`, 7 under
-> `tests/base`, and 17 under `benchmarks/base`), and their names match the
-> snapshot's 36 file compounds. The 165-compound count and the remaining symbol
-> inventory are historical and have not been revalidated against current code.
+> Historical generated snapshot from 2026-09-20T09:10:36Z; it is not the current
+> API contract or a current symbol inventory. A source-selection check confirms
+> 37 C/C++ inputs (2 under `include/base`, 10 under `src/base`, 8 under
+> `tests/base`, and 17 under `benchmarks/base`). On 2026-10-31, generation was
+> attempted but could not run because Doxygen is not installed in the environment.
+> The 165-compound count and remaining symbol inventory therefore remain
+> historical and are not current validation.
 
 ## Source
 - Generator: `scripts/generate_module_doxygen_xml.py`, using `Doxyfile.audit`.
@@ -32,8 +33,8 @@ Exact model backend not verifiable from final document text alone.
 - To regenerate this Markdown as well, add `--write-module-markdown`. The
   generator currently writes absolute resolved XML/log paths into the Markdown;
   normalize those to repository-relative paths before publishing, or fix the
-  generator to emit portable paths first. Do not treat compound or symbol
-  counts as current until that Doxygen run completes successfully.
+  generator to emit portable paths first. The latest generation attempt failed
+  before parsing, so no current compound or symbol counts are available.
 
 ## Historical Structure Metrics (2026-09-20)
 - C/C++ Files (scanned): 36

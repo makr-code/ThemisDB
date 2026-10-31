@@ -23,7 +23,7 @@ The base module is embedded into the wider system as the runtime boundary for mo
 The module is connected to the rest of ThemisDB through a small set of operational surfaces:
 
 - `ModuleLoader` handles module discovery, verification, activation, and unloading.
-- `HotReloadManager` coordinates candidate loading, reload results, and configured rollback. The public header contracts an atomic swap, but the implementation's unload/reload sequence appears inconsistent with that contract; uninterrupted availability remains unresolved.
+- `HotReloadManager` coordinates candidate loading, reload results, and configured rollback. Replacement unloads the old and temporary candidate modules before loading under the canonical key, so availability is interrupted; restoration after final-load failure is best-effort.
 - `PluginDependencyGraph` exposes ordering and cycle analysis; callers must invoke/use the analysis where needed.
 - `RemoteRegistryClient` supports credentials and artifact validation. HTTP and HTTPS are accepted, with a warning for plaintext HTTP.
 - `ModuleSandbox` and `WasmPluginSandbox` expose configurable, platform/runtime-dependent controls; they do not imply universal isolation.

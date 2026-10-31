@@ -28,7 +28,7 @@ Related issues: #7093, #7167
 ## Module lifecycle APIs
 
 - `ModuleLoader` declares staged load states (`UNLOADED`, verification/validation/staging/activation states, `ACTIVE`, and failure/unload states) plus typed module errors.
-- `HotReloadManager` returns a `HotReloadResult` for reload/rollback operations. Callers must inspect `success` and preserve failure/rollback information. The public header contracts an atomic swap, but the implementation later unloads and reloads under the canonical key; record this contract/implementation discrepancy and do not claim uninterrupted availability until reconciled.
+- `HotReloadManager` returns a `HotReloadResult` for reload/rollback operations. Callers must inspect `success` and preserve failure/rollback information. Reload first loads under a temporary key, then unloads the old and candidate modules before loading again under the canonical key; availability is interrupted, and restoration after a failed final load is best-effort. The `Config::verifySignature` field is currently unused; verification is controlled by the associated `ModuleLoader` policy.
 - `PluginDependencyGraph` provides dependency/cycle/order analysis; use its result rather than assuming caller-supplied module order is valid.
 
 ## Caller obligations and edge cases

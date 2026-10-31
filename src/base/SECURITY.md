@@ -28,14 +28,14 @@ Security-related base APIs cover module verification, artifact integrity, option
 | dependency abuse and unsafe activation order | dependency graph analysis is available; callers must use it where required |
 | plugin escape or resource abuse | optional, platform-dependent sandbox and WASM controls |
 | unsafe remote module intake | URL-scheme validation, optional auth headers, and hash comparison when an expected hash is supplied; HTTP is accepted with a warning |
-| reload-induced instability | header contract specifies an atomic swap, but the inspected implementation sequence appears inconsistent; reconcile before promising uninterrupted availability |
+| reload-induced instability | reload unloads the old and temporary candidate modules before loading the candidate under its canonical name, creating an availability gap; emergency restoration is best-effort |
 
 ## Implemented Security Controls
 
 - loader checks depend on the configured verification path; do not assume every optional check is mandatory in every configuration.
 - sandbox/WASM controls are optional and have platform/runtime limitations.
 - The normal `ModuleLoader` path delegates through `ModuleSecurityVerifier` to `PluginSecurityVerifier::verifyPlugin()`. It checks file/hash and metadata/signature/trust conditions; `setHashManifest()` can additionally enable SHA-256 comparison for module names present in a loaded manifest. The normal path does not call the CRL/OCSP methods. Those calls appear in the separate `EnhancedPluginSecurityVerifier` full-chain path when requested with certificate metadata and revocation checking enabled. Do not claim revocation enforcement for every module load.
-- The separate `PluginBundleLoader` verifies an Ed25519 manifest signature when a public key is configured. Without a key, the implementation rejects by default and permits unsigned bundles only after explicit opt-in. The class overview comment in the header says verification is skipped when no key is configured, which conflicts with the setter documentation and implementation; reconcile that header wording.
+- The separate `PluginBundleLoader` verifies the exact `manifest.json` bytes with Ed25519 when a public key is configured. Without a key, it rejects by default and permits unsigned bundles only after explicit opt-in. The manifest signature does not itself directly authenticate the bytes of the referenced native/WASM binary; native binaries additionally pass through `ModuleLoader`.
 - `module_security.cpp` changes a local policy after constructing `PluginSecurityVerifier` with a copy and does not update that copy in the constructor. Effective compile-mode defaults should not be inferred from those local assignments alone.
 - The canonical loader defines certificate-revoked/expired error values and verification-failure accounting; these are error/reporting paths, not evidence that the normal load path performs revocation checks.
 - `ModuleSignatureVerifier` is a separate platform-signature helper, not evidence that the normal `ModuleLoader` path uses Authenticode/GPG; its Windows implementation sets `WTD_REVOKE_NONE`.
@@ -68,4 +68,4 @@ Security-related base APIs cover module verification, artifact integrity, option
 - Verified controls:
   - loader hash/metadata/signature/trust checks, optional hash-manifest comparison, and bundle-signature path; effective policy and revocation enforcement are not universal
   - resource limits are best-effort/platform-dependent and apply to the current process; network/filesystem/syscall restrictions can be skipped with warnings
-  - reload and registry intake result/error paths; the reload header's atomic-swap contract and implementation sequence need reconciliation, and TLS depends on configuration
+  - reload and registry intake result/error paths; reload has an availability gap and best-effort restoration, and TLS depends on configuration

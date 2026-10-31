@@ -37,8 +37,8 @@ guarantees of these controls depend on configuration and runtime integration.
 The central design tension is clear from the source: extension modules need
 verification, execution controls, and managed replacement. The APIs separate
 these concerns; they do not establish that each is automatically enabled or
-that replacement realizes the header's atomic-swap contract or preserves
-uninterrupted availability.
+that replacement preserves uninterrupted availability. The current reload
+implementation has a documented availability gap and best-effort restoration.
 
 The source evidence is explicit:
 
@@ -46,7 +46,7 @@ The source evidence is explicit:
 - `LoadStage` enumerates a staged lifecycle from `UNLOADED` through `VERIFYING`, `VALIDATED`, `STAGING`, `ACTIVATING`, and `ACTIVE`.
 - `AbiChecker` validates ABI compatibility and required symbol presence before switching a module into usage.
 - `ModuleSandbox` constrains OS-level execution with memory, CPU, and cgroup-aware protections when the platform supports them.
-- `HotReloadManager` loads a candidate before unloading the old module, then performs a second load under the canonical key. The header contracts an atomic swap, but the implementation sequence appears inconsistent; uninterrupted availability remains unresolved.
+- `HotReloadManager` loads a candidate before unloading the old module, then performs a second load under the canonical key. This creates an availability gap; restoration after final-load failure is best-effort.
 - `PluginDependencyGraph` can detect cycles and compute an order; caller integration determines whether the analysis gates activation.
 - `RemoteRegistryClient` supports configured authentication and checksum validation. It accepts both HTTP and HTTPS, so transport encryption is not universal.
 
@@ -72,12 +72,10 @@ The implementation treats trust and execution as different responsibilities. A m
 
 ### 3. Why is hot reload designed around rollback?
 
-The header contracts an atomic swap, but the implementation loads a temporary
-candidate, unloads the old and temporary modules, then loads under the canonical
-name. Treat the difference as an unresolved contract/implementation discrepancy,
-not as grounds to discard the API contract or to promise uninterrupted
-availability. State callbacks and rollback are configuration- and
-outcome-dependent.
+The implementation loads a temporary candidate, unloads the old and temporary
+modules, then loads under the canonical name. This creates an availability gap;
+emergency restoration after final-load failure is best-effort. State callbacks
+and rollback are configuration- and outcome-dependent.
 
 ## Assumptions and constraints
 
@@ -106,7 +104,7 @@ The design is good when the following remain true:
 - invalid/incompatible modules fail closed when the relevant checks are enabled,
 - module ordering remains deterministic and cycle-safe when the graph analysis is used,
 - configured sandbox limits are enforced when the OS provides the primitives,
-- reload reports failure and handles the previous-version/rollback path according to the implementation; the header's atomic-swap contract and implementation sequence need reconciliation before uninterrupted availability can be claimed,
+- reload reports failure and handles the previous-version/rollback path according to the implementation; the unload/reload sequence creates an availability gap and emergency restoration is best-effort,
 - operators can diagnose failure with explicit error codes and remediation hints.
 
 The relevant measurable surfaces and defined gates are listed in
@@ -130,10 +128,9 @@ not universal guarantees across all platforms or runtime configurations.
 
 ### Availability vs. correctness
 
-The header contracts atomic replacement, while the implementation's subsequent
-unload/reload under the canonical key appears inconsistent with that contract.
-Callers must inspect the result and configured rollback state; uninterrupted
-availability remains unresolved pending reconciliation.
+The implementation unloads the old and temporary modules before reloading under
+the canonical key. Callers must inspect the result and configured rollback
+state; uninterrupted availability is not guaranteed.
 
 ## Conclusion
 

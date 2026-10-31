@@ -14,12 +14,20 @@ Exact model backend not verifiable from final document text alone.
 
 # base — MODULE_GAPS.md (historical snapshot; not current gap evidence)
 
-This file preserves gap-scanner and baseline figures reported as of
-2026-08-24. They are historical records, not a current code audit or evidence of
-current gap status. **The current gap count is unknown; zero must not be read as
-the current count or as superseding the 801-gap baseline.** The document does
-not establish that those two historical tallies used identical inputs or
-filters. No gap scanner was run for this documentation review.
+This file preserves the historical Phase 5 baseline and records a current,
+module-scoped scan separately. Scanner output is a heuristic inventory, not a
+verified count of implementation defects. The earlier 2026-08-24 module scan
+remains historical and must not be compared directly with the new scan because
+its input discovery and summary calculation were incomplete.
+
+## Current module scan (2026-10-31)
+
+- **Command**: `python3 tools/gap_scanner.py --repo . --output /tmp/base-gap-followup --module base`
+- **Result**: 4 heuristic findings (3 critical, 1 high); this is not a count of confirmed defects.
+- **Locations**: 3 in `tests/base/`, 1 in `benchmarks/base/`; none in the scanned `src/base/` or `include/base/` files.
+- **Categories**: 1 `stub` marker and 3 `unimplemented` pattern matches. The two empty-return matches and the mock marker require manual interpretation before being treated as implementation gaps.
+- **Artifact**: `/tmp/base-gap-followup/gap_scan_base.json` (temporary; not committed).
+- The scanner now recursively discovers `.cpp` files under module-specific test and benchmark directories and computes summaries for `--module` runs. Historical totals below were produced by earlier scanner behavior and are not directly comparable.
 
 ## Historical module re-scan report (2026-08-24; not current)
 
@@ -38,7 +46,7 @@ filters. No gap scanner was run for this documentation review.
 
 - **Phase 5 baseline**: 801 *(reported as 803 before two batch-D closures)*
 - **Separate module re-scan report**: 0 *(historical result only; not a current count or a demonstrated replacement for the Phase 5 baseline)*
-- **Current gap status**: unknown; this file is not current gap evidence.
+- **Current scanner result**: 4 heuristic findings from the 2026-10-31 scan above; the number of confirmed implementation defects remains unknown.
 - **Historical report date**: 2026-08-24 (base-gap-closures-batch-d and module re-scan report)
 
 ### By Severity (Phase 5 baseline)
