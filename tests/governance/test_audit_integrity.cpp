@@ -17,9 +17,62 @@
 
 #include <chrono>
 #include <thread>
+#include <memory>
+
+#include <openssl/bio.h>
+#include <openssl/evp.h>
+#include <openssl/pem.h>
+#include <openssl/rsa.h>
 
 namespace themis {
 namespace governance {
+
+namespace {
+
+struct RsaPemKeyPair {
+    std::string private_key;
+    std::string public_key;
+};
+
+RsaPemKeyPair generateRsaPemKeyPair() {
+    using PkeyContext = std::unique_ptr<EVP_PKEY_CTX, decltype(&EVP_PKEY_CTX_free)>;
+    using Pkey = std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>;
+    using Bio = std::unique_ptr<BIO, decltype(&BIO_free)>;
+
+    PkeyContext context(EVP_PKEY_CTX_new_id(EVP_PKEY_RSA, nullptr), EVP_PKEY_CTX_free);
+    if (!context || EVP_PKEY_keygen_init(context.get()) <= 0 ||
+        EVP_PKEY_CTX_set_rsa_keygen_bits(context.get(), 2048) <= 0) {
+        return {};
+    }
+
+    EVP_PKEY* generated = nullptr;
+    if (EVP_PKEY_keygen(context.get(), &generated) <= 0) {
+        return {};
+    }
+    Pkey key(generated, EVP_PKEY_free);
+
+    Bio private_bio(BIO_new(BIO_s_mem()), BIO_free);
+    Bio public_bio(BIO_new(BIO_s_mem()), BIO_free);
+    if (!private_bio || !public_bio ||
+        PEM_write_bio_PrivateKey(private_bio.get(), key.get(), nullptr, nullptr, 0, nullptr, nullptr) != 1 ||
+        PEM_write_bio_PUBKEY(public_bio.get(), key.get()) != 1) {
+        return {};
+    }
+
+    BUF_MEM* private_buffer = nullptr;
+    BUF_MEM* public_buffer = nullptr;
+    BIO_get_mem_ptr(private_bio.get(), &private_buffer);
+    BIO_get_mem_ptr(public_bio.get(), &public_buffer);
+    if (!private_buffer || !public_buffer) {
+        return {};
+    }
+    return {
+        std::string(private_buffer->data, private_buffer->length),
+        std::string(public_buffer->data, public_buffer->length)
+    };
+}
+
+} // namespace
 
 // ============================================================================
 // Test Fixtures
@@ -133,6 +186,51 @@ TEST_F(AuditIntegrityTest, VerifyWrongKey) {
     
     bool is_valid = wrong_signer->verifySignature(entry, signature_info);
     EXPECT_FALSE(is_valid);
+}
+
+TEST_F(AuditIntegrityTest, RsaSha256SignsAndVerifiesPemKey) {
+    const auto key_pair = generateRsaPemKeyPair();
+    ASSERT_FALSE(key_pair.private_key.empty());
+    ASSERT_FALSE(key_pair.public_key.empty());
+
+    AuditSigner private_key_signer(
+        AuditSigner::SignatureAlgorithm::RSA_SHA256, "rsa-key", key_pair.private_key);
+    AuditSigner public_key_verifier(
+        AuditSigner::SignatureAlgorithm::RSA_SHA256, "rsa-key", key_pair.public_key);
+    const auto entry = createTestEntry("rsa-entry", "rule-rsa", "update", "auditor");
+    const auto signature = private_key_signer.signEntry(entry);
+
+    ASSERT_FALSE(signature.signature.empty());
+    EXPECT_EQ(signature.algorithm, "RSA-SHA256");
+    EXPECT_TRUE(private_key_signer.verifySignature(entry, signature));
+    EXPECT_TRUE(public_key_verifier.verifySignature(entry, signature));
+}
+
+TEST_F(AuditIntegrityTest, RsaSha256RejectsTamperedEntryAndSignature) {
+    const auto key_pair = generateRsaPemKeyPair();
+    ASSERT_FALSE(key_pair.private_key.empty());
+    AuditSigner signer(
+        AuditSigner::SignatureAlgorithm::RSA_SHA256, "rsa-key", key_pair.private_key);
+    auto entry = createTestEntry("rsa-entry", "rule-rsa", "update", "auditor");
+    auto signature = signer.signEntry(entry);
+    ASSERT_FALSE(signature.signature.empty());
+
+    auto tampered_entry = entry;
+    tampered_entry.details["change"] = "tampered";
+    EXPECT_FALSE(signer.verifySignature(tampered_entry, signature));
+
+    signature.signature[0] = signature.signature[0] == 'A' ? 'B' : 'A';
+    EXPECT_FALSE(signer.verifySignature(entry, signature));
+}
+
+TEST_F(AuditIntegrityTest, RsaSha256MalformedPemFailsClosed) {
+    AuditSigner malformed_signer(
+        AuditSigner::SignatureAlgorithm::RSA_SHA256, "bad-rsa-key", "not a PEM key");
+    const auto entry = createTestEntry("rsa-entry", "rule-rsa", "update", "auditor");
+    const auto signature = malformed_signer.signEntry(entry);
+
+    EXPECT_TRUE(signature.signature.empty());
+    EXPECT_FALSE(malformed_signer.verifySignature(entry, signature));
 }
 
 // ============================================================================
