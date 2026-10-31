@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Historical validation annotation: 2026-06-01; planned target status was source-checked 2026-10-31. -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/core/FUTURE_ENHANCEMENTS.md -->
 
 # Core Module — Public Header Future Enhancements
@@ -23,7 +37,7 @@ This document covers planned enhancements to the **public header contract** in `
 - `[x]` Headers must remain backward-compatible within a major version.
 - `[x]` `#pragma once` guard required on every header.
 - `[x]` No implementation code in headers (exception: `constexpr` helpers and header-only utilities).
-- `[x]` All factory functions and error-returning methods must be `[[nodiscard]]`.
+- `[ ]` Apply `[[nodiscard]]` consistently to all factory functions and error-returning methods. Current declarations such as `StorageEngineBuilder::build()` do not all carry the attribute.
 - `[x]` Bootstrap headers must be includable independently (no hidden include-order dependency).
 
 ---
@@ -33,9 +47,9 @@ This document covers planned enhancements to the **public header contract** in `
 | Interface | Declared In | Consumer | Status |
 |-----------|------------|----------|--------|
 | `ConfigValidator::*` validation helpers | `config_validator.h` | Server entrypoint, tests | ✅ Stable |
-| `StorageInitializationBuilder::build()` | `storage_initialization.h` | Server entrypoint, tests | ✅ Stable |
+| `StorageEngineBuilder::build()` | `storage_initialization.h` | Server entrypoint, tests | ✅ Stable |
 | `SecurityLayerBuilder::build()` | `security_initialization.h` | Server entrypoint, tests | ✅ Stable |
-| `IndexInitializationBuilder::build()` | `index_initialization.h` | Server entrypoint, tests | ✅ Stable |
+| `IndexManagerBuilder::build()` | `index_initialization.h` | Server entrypoint, tests | ✅ Stable |
 | `QueryEngineBuilder::build()` | `query_engine_builder.h` | Server entrypoint, tests | ✅ Stable |
 | `IHealthProbeRegistry::checkAll()` | `health_probe.h` | HTTP health endpoint | ✅ Stable |
 | `IConfigHotReloader::watch()` / `reload()` | `config_hot_reloader.h` | Server runtime | ✅ Stable |
@@ -44,6 +58,9 @@ This document covers planned enhancements to the **public header contract** in `
 ---
 
 ## Planned Enhancements
+
+> The Q3 2026 target period below has elapsed. Items not present in the current
+> public headers remain planned; delivery dates/status require maintainer review.
 
 ### Short-Term (Q3 2026)
 

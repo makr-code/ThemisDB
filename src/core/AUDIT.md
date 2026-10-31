@@ -1,13 +1,32 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 > ⚠️ **Historischer Auditbericht** – Befunde ohne aktuellen Codebeleg mit `<!-- TODO: add source file evidence -->` markieren. Veraltete Befunde entfernen.
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: historical snapshot | last validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Audit Report — Core Module
 
 **Last Audit:** 2026-05-31  
 **Auditor:** Copilot  
-**Status:** ✅ Pass
+**Status:** Historical snapshot; not a current audit result
+
+> The metrics, test-coverage statements, compliance conclusions, and source findings
+> below describe the 2026-05-31 audit snapshot only. This documentation review
+> checked selected current source, CMake, test, and benchmark definitions; it did
+> not execute a build or tests and does not refresh or certify those old findings.
 
 ## Summary
 
@@ -91,7 +110,10 @@
 - **Secrets interface** — `InMemorySecrets` and `EnvSecretsProvider` implemented; config-driven selection via `Config::secretsAdapter`; `ConfigValidator` extended; 30+ tests (Issue #1417).
 
 ### Open
-- **Plugin-based adapter loading** — recompile required to change adapter implementations (Issue #1706).
+- **Historical finding:** plugin-based loading was listed as open in this 2026-05-31
+  snapshot. Current source now implements `AdapterRegistry::loadFromPlugin()` in
+  `src/core/concerns/adapter_registry.cpp`; see `src/core/ROADMAP.md`. No current
+  executable test result is asserted here.
 
 ## Compliance
 

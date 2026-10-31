@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Historical validation annotation: 2026-06-01; current header inventory is source-cross-checked below. -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/core/ARCHITECTURE.md -->
 
 # Core Module — Public Header Architecture
@@ -24,37 +38,32 @@ For threading model, subsystem wiring, and runtime data flows see:
 
 | Header | Public Type / Function | Purpose |
 |--------|----------------------|---------|
-| `config_hot_reloader.h` | `ConfigHotReloader` | Live configuration reload without restart |
+| `config_hot_reloader.h` | `IConfigHotReloader`, `ConfigChange`, `HotReloadResult` | Configuration reload contract and result types |
 | `config_validator.h` | `ConfigValidator` | Pre-start configuration validation |
-| `health_probe.h` | `HealthProbe` | Readiness / liveness probe interface |
-| `index_initialization.h` | `IndexInitializer` | Index subsystem bootstrap |
-| `production_mode.h` | `ProductionModeGuard` | Production-safety flag enforcement |
+| `health_probe.h` | `IHealthProbe`, `IHealthProbeRegistry`, health result types | Health probe contracts |
+| `index_initialization.h` | `IndexManagerBuilder` | Index subsystem builder |
+| `production_mode.h` | `ProductionMode` | Environment-based production-mode check |
 | `query_engine_builder.h` | `QueryEngineBuilder` | Fluent builder for the query engine |
-| `security_initialization.h` | `SecurityInitializer` | Security subsystem bootstrap |
-| `storage_initialization.h` | `StorageInitializer` | Storage subsystem bootstrap |
+| `security_initialization.h` | `SecurityLayerBuilder` | Security-layer construction |
+| `storage_initialization.h` | `StorageEngineBuilder` | Storage subsystem builder |
+| `timestamp.h` | `HLCTimestamp` alias | Timestamp compatibility alias |
 
 ---
 
 ## 3. Namespace Layout
 
-All types reside in `themis::core::`.
+Namespaces vary by header: for example, `ProductionMode` is in `themis::core`,
+while the initialization builders are declared in `themis`. See each header for
+its exact namespace.
 
 ---
 
 ## 4. Initialization Sequence Contract
 
-The public headers encode the following expected call order:
-
-```
-ConfigValidator::validate()          // fail-fast on bad config
-SecurityInitializer::initialize()    // crypto / ACL bootstrap
-StorageInitializer::initialize()     // RocksDB / WAL open
-IndexInitializer::initialize()       // ANN / graph index warm-up
-QueryEngineBuilder::build()          // query layer wiring
-HealthProbe::markReady()             // signal readiness
-```
-
-Callers must not call later stages if an earlier stage returns an error.
+The headers expose independent builder and probe contracts. The current headers
+do not establish the fixed cross-subsystem initialization sequence asserted in
+older versions of this page. Follow each builder's result/error contract and the
+owning application's startup order.
 
 ---
 
@@ -64,17 +73,17 @@ None of the core headers carry optional feature guards. All are unconditionally 
 
 ---
 
-## 6. Relationship to Strategic Architecture
+## 6. Architecture Boundary
 
-The `core/` module implements the bootstrap path for all four strategic layers described in `FUTURE_PLAN.md`:
-
-- ANN Frontdoor: `IndexInitializer` wires HNSW/DiskANN indices
-- Tensor Mid-Layer: future `TensorLayerInitializer` will be added here
-- Graph Truth Layer: `StorageInitializer` opens the graph-truth RocksDB store
-- LLM/LoRA Final Layer: `QueryEngineBuilder` can register LLM backends
+This document inventories public headers only. Strategic subsystem architecture
+and release status are outside this header inventory; use the corresponding
+canonical module and root architecture sources instead.
 
 ---
 
 ## 7. Concerns Subdirectory
 
-`include/core/concerns/` holds policy-level interfaces (e.g., `IInitializationConcern`) that allow plugging additional startup validators without modifying core bootstrap code.
+`include/core/concerns/` holds cross-cutting concern interfaces and their adapter
+contracts, including logging, tracing, metrics, cache, secrets, and adapter
+registration. Startup-builder declarations remain in the top-level `include/core/`
+headers.

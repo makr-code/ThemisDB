@@ -1,15 +1,29 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 > **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
 
 # Core Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-28 -->
+<!-- Historical validation annotation: 2026-07-28; unresolved evidence is identified in current entries below. -->
 <!-- Issue: #5638 (Development Status 2026-07-18) -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · MODULE_EVIDENCE.md -->
 
 ## Current Status
 
-Core runtime foundations are delivered: `ConcernsContext`, observability/caching/security concern interfaces, runtime concern replacement APIs, production adapters (spdlog, OpenTelemetry-family tracers, Prometheus, Redis cache path), plugin-based adapter loading via dlopen/LoadLibrary (Issue #1706), and cryptographic adapter signing via `SignedAdapterValidator`.
+Core runtime foundations are delivered: `ConcernsContext`, observability/caching/security concern interfaces, runtime concern replacement APIs, production adapters (spdlog, OpenTelemetry-family tracers, Prometheus, Redis cache path), and plugin-based adapter loading via dlopen/LoadLibrary (Issue #1706). Adapter metadata-digest validation and optional SHA-256 plugin-file integrity checks are available; these checks do not authenticate a publisher (see [`TRUST.md`](TRUST.md)).
 
 ## In Progress
 
@@ -18,7 +32,7 @@ Core runtime foundations are delivered: `ConcernsContext`, observability/caching
 ## Planned Features
 
 - [x] Plugin-based adapter loading (no recompile needed) (Issue: #1706 — Implemented: 2026-07-28)
-- [x] Adapter plugin hardening and signing workflow (Implemented: 2026-07-28)
+- [x] Adapter metadata-digest validation and optional plugin-file SHA-256 integrity checking (Implemented: 2026-07-28; not publisher authentication; see `TRUST.md`)
 
 ## Implementation Phases
 
@@ -26,7 +40,7 @@ Core runtime foundations are delivered: `ConcernsContext`, observability/caching
 - [x] Stabilize current concern interfaces (`ILogger`, `ITracer`, `IMetrics`, `ICache`, `ISecrets`, `IFeatureFlags`, `IAuditLog`) as the active baseline
 - [x] Define `AdapterMetadata` / `AdapterValidator` / `AdapterSignature` structs (`include/core/concerns/adapter_metadata.h`) (Implemented: 2026-07-28)
 - [x] Define `AdapterRegistry` class with `registerAdapter`, `resolve<T>`, `hotSwap`, `count`, `hasAdapter` (`include/core/concerns/adapter_registry.h`) (Implemented: 2026-07-28)
-- [x] Define signed plugin adapter contract and validation envelope — `AdapterSignature`, `SignedAdapterValidator`, `canonicalString()`, `sha256Hex()` (Implemented: 2026-07-28)
+- [x] Define adapter metadata-digest contract and validation envelope — `AdapterSignature`, `SignedAdapterValidator`, `canonicalString()`, `sha256Hex()` (Implemented: 2026-07-28; not publisher authentication)
 
 ### Phase 2: Core Implementation
 - [x] Deliver `ConcernsContext` creation and runtime replacement surfaces
@@ -39,7 +53,7 @@ Core runtime foundations are delivered: `ConcernsContext`, observability/caching
 - [x] `registerAdapter` rejects empty id, null adapter pointers, and `apiVersion < kCurrentApiVersion` with `std::invalid_argument` (Implemented: 2026-07-28)
 - [x] `hotSwap` drain timeout emits structured warning to `std::cerr` (Implemented: 2026-07-28)
 - [x] `ICircuitBreaker::call(fn, fallback)` inline template — guards fn with `allowRequest()`, records success/failure (Implemented: 2026-07-28)
-- [x] Harden plugin load/unload failure semantics (signature mismatch, ABI mismatch, bootstrap errors) — `AdapterTrustPolicy::kRequireSignature`, `.sig` file check, non-zero init return handling (Implemented: 2026-07-28)
+- [x] Harden plugin load/unload failure semantics (digest mismatch, ABI mismatch, bootstrap errors) — `AdapterTrustPolicy::kRequireSignature`, `.sig` digest-file check, non-zero init return handling (Implemented: 2026-07-28; digest check is not publisher authentication)
 
 ### Phase 4: Tests
 - [x] Focused module test registration in `tests/core/CMakeLists.txt` (`module_core_<test_stem>_focused`)
@@ -51,8 +65,8 @@ Core runtime foundations are delivered: `ConcernsContext`, observability/caching
 ### Phase 5: Performance and Hardening
 - [x] `AdapterRegistry::kHotSwapTimeoutMs{100}` SLO constant defined; drain loop uses 1 ms sleep × 100 iterations (Implemented: 2026-07-28)
 - [x] `kCurrentApiVersion = 1` constant in `adapter_metadata.h`; registration enforces `apiVersion >= kCurrentApiVersion` (Implemented: 2026-07-28)
-- [x] `AdapterSignature` production struct defined in `adapter_metadata.h` and enforced by `SignedAdapterValidator` in signing flows (Implemented: 2026-07-28)
-- [x] Add adapter signing and trust policy validation to release hardening flow — `SignedAdapterValidator`, `AdapterTrustPolicy`, `loadFromPlugin` SHA-256 file verification (Implemented: 2026-07-28)
+- [x] `AdapterSignature` digest record defined in `adapter_metadata.h` and checked by `SignedAdapterValidator` (Implemented: 2026-07-28; not publisher authentication)
+- [x] Add adapter metadata-digest validation and plugin-file integrity checking to release hardening flow — `SignedAdapterValidator`, `AdapterTrustPolicy`, `loadFromPlugin` SHA-256 file verification (Implemented: 2026-07-28; not publisher authentication)
 
 ### Phase 6: Documentation and Acceptance
 - [x] Keep roadmap/future/architecture synchronization explicit and source-traceable
@@ -67,7 +81,7 @@ Core runtime foundations are delivered: `ConcernsContext`, observability/caching
 - [x] Focused core tests are configured (`tests/core/CMakeLists.txt`)
 - [x] Three focused test suites added: `test_concerns_context_focused`, `test_adapter_registry_focused`, `test_circuit_breaker_focused` (2026-07-28)
 - [~] Fresh executable-level focused build/test evidence refreshed for this cycle (see `MODULE_EVIDENCE.md`)
-- [x] Plugin runtime loading and signing hardening completed — Issue #1706 resolved + Q4 2026 hardening delivered (2026-07-28)
+- [x] Plugin runtime loading and digest-integrity hardening completed — Issue #1706 resolved + Q4 2026 hardening delivered (2026-07-28; not publisher authentication)
 
 ## Known Issues & Limitations
 
@@ -76,7 +90,7 @@ Core runtime foundations are delivered: `ConcernsContext`, observability/caching
 ## Breaking Changes
 
 - No breaking core-module contract planned in this cycle
-- Future plugin-signing enforcement may require adapter packaging/signature metadata for external adapters (migration notes required before rollout)
+- Future publisher-signature enforcement may require trusted signing keys and adapter packaging metadata for external adapters (migration notes required before rollout)
 
 ## Program Execution Model — Wave Context
 
@@ -97,5 +111,5 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 
 ### Program-Level Success Criteria (contribution)
 - [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-- [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
+- [!] Core benchmark-backed p95/p99 baselines on representative hardware are not verifiable from the scoped `benchmarks/core/bench_core_performance.cpp`, which has no direct Core concern cases. Root [`ROADMAP.md`](../../ROADMAP.md) schedules a cross-module p95/p99 refresh set for Q4 2026, but does not confirm Core-specific inclusion or acceptance criteria.
 - [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)

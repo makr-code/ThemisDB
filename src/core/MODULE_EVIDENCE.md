@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Core Module - Build and Test Evidence
 
-<!-- Status: current | validated: 2026-07-28 -->
+<!-- Historical validation annotation: 2026-07-28; current source registration is summarized below. -->
 <!-- Issue: #5638 (Development Status 2026-07-18) -->
 <!-- Links: ROADMAP.md · FUTURE_ENHANCEMENTS.md · ARCHITECTURE.md -->
 
@@ -25,7 +39,7 @@ This document tracks the current evidence state for the core module status issue
 - Expected focused target from current source:
   - `module_core_test_core_smoke_focused`
 
-## Current Local Build/Test Attempt (2026-07-28)
+## Historical Local Build/Test Attempt (2026-07-28)
 
 - Command: `cmake --preset linux-release`
 - Result: failed before generation
@@ -33,11 +47,29 @@ This document tracks the current evidence state for the core module status issue
   - Ninja build program not found
 - Impact: no local focused core binary could be built in this environment during this validation pass
 
+## Current Source Registration Check (2026-10-31)
+
+`tests/core/CMakeLists.txt` globs `test_*.cpp`; the eight current sources produce
+these executable target names using `module_core_${_stem}_focused`:
+
+- `module_core_test_adapter_registry_focused_focused`
+- `module_core_test_adapter_signing_focused_focused`
+- `module_core_test_circuit_breaker_focused_focused`
+- `module_core_test_concerns_context_focused_focused`
+- `module_core_test_concerns_value_boundary_focused_focused`
+- `module_core_test_core_highcardinality_stress_focused`
+- `module_core_test_core_smoke_focused`
+- `module_core_test_plugin_loading_focused_focused`
+
+Registration is source/build-definition evidence only. No build or test was run for
+this documentation review, so no current executable pass is claimed.
+
 ## Status Assessment
 
 - [x] Roadmap/future/architecture synchronization refreshed for issue #5638
 - [x] Focused test registration path verified in source
-- [~] Fresh executable-level focused build/test evidence remains blocked by local toolchain/generator setup
+- [~] Fresh executable-level focused build/test evidence remains unverified; the
+  2026-07-28 configure failure is historical, not a result from this review
 - [ ] New executable run evidence for `module_core_test_*_focused` captured for this cycle
 
 ## Implementation Coverage (added 2026-07-28)
@@ -46,12 +78,12 @@ This document tracks the current evidence state for the core module status issue
 
 | File | Purpose |
 |---|---|
-| `include/core/concerns/adapter_metadata.h` | `AdapterMetadata`, `AdapterValidator`, `AdapterSignature` (production), `kCurrentApiVersion` |
+| `include/core/concerns/adapter_metadata.h` | `AdapterMetadata`, `AdapterValidator`, `AdapterSignature` digest record, `kCurrentApiVersion` |
 | `include/core/concerns/adapter_registry.h` | `AdapterRegistry` — typed registry, `registerAdapter<T>`, `resolve<T>`, `hotSwap<T>`, `kHotSwapTimeoutMs`, `loadFromPlugin()` (production), `PluginHandle` RAII, `AdapterTrustPolicy` |
 | `src/core/concerns/adapter_registry.cpp` | Non-template implementations: `count()`, `hasAdapter()`, `loadFromPlugin()` (dlopen/LoadLibraryA), `setTrustPolicy()`, destructor |
 | `include/core/concerns/plugin_api.h` | Plugin ABI contract: `ThemisPluginRegisterFn`, `kPluginInitSymbol`, `kPluginAbiVersion`, `THEMIS_DEFINE_PLUGIN_INIT` macro |
 | `include/core/concerns/adapter_signing.h` | `SignedAdapterValidator` — `validate()`, `canonicalString()`, `sha256Hex()` |
-| `src/core/concerns/adapter_signing.cpp` | SHA-256 signing implementation via OpenSSL EVP |
+| `src/core/concerns/adapter_signing.cpp` | SHA-256 metadata-digest validation via OpenSSL EVP |
 | `tests/core/test_adapter_registry_focused.cpp` | 10 focused tests (AR_01..AR_10) |
 | `tests/core/test_plugin_loading_focused.cpp` | 8 focused tests (PL_01..PL_08) |
 | `tests/core/test_adapter_signing_focused.cpp` | 10 focused tests (SGN_01..SGN_10) |
@@ -81,11 +113,12 @@ This document tracks the current evidence state for the core module status issue
 
 - `AdapterRegistry` uses `std::shared_mutex` (C++17 reader-writer) so concurrent `resolve()` calls hold only a shared lock.
 - `hotSwap()` releases the write lock before draining so new resolvers get the new adapter immediately; drain polls use_count() in 1 ms steps up to 100 ms.
-- `ConcernsContext::resolve<T>()` for built-in concern types returns a no-op-deleter `shared_ptr`; callers must not store beyond context lifetime.
+- `ConcernsContext::resolve<T>()` for built-in concern types returns an owning
+  `shared_ptr` snapshot; the context stores its adapters in shared pointers.
 - `ICircuitBreaker::call()` uses `if constexpr (std::is_void_v<decltype(fn())>)` to correctly handle both void and non-void callable return types.
 - `loadFromPlugin()` uses `dlopen(RTLD_NOW | RTLD_LOCAL)` on POSIX and `LoadLibraryA` on Windows; holds library handles alive until registry destruction via RAII `PluginHandle`.
 - `AdapterTrustPolicy::kRequireSignature` enforces a SHA-256 digest file (`.sig` suffix) comparison before any `dlopen` call; `kTrustAll` is the development default.
-- `SignedAdapterValidator` computes `sha256Hex(id:apiVersion:description)` and uses `CRYPTO_memcmp` for constant-time comparison to resist timing side-channels.
+- `SignedAdapterValidator` computes `sha256Hex(id:apiVersion:description)` and uses `CRYPTO_memcmp` for constant-time digest comparison; this does not authenticate a publisher.
 - Plugin ABI is a single C-linkage function `themis_plugin_register`; plugins call `registry->registerAdapter<T>()` for full type safety.
 
 ## Next Evidence Actions
