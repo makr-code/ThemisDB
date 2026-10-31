@@ -1,32 +1,45 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-29"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Vector Search Module
 
-<!-- Status: current | validated: 2026-10-29 -->
-<!-- Links: ../../../src/vector_search/README.md · ../../../src/vector_search/ARCHITECTURE.md -->
+## Überblick
 
-## Overview
+`src/vector_search/` ist die Dokumentations- und Governance-Grenze des Moduls.
+Die Laufzeitimplementierung befindet sich im gemeinsamen Index-Subsystem unter
+`src/index/` und `include/index/`; dieses Verzeichnis enthält keinen eigenen
+Vector-Search-Runtime-Code.
 
-The `vector_search` module implements nearest-neighbor and embedding-driven search flows for structured and semantic queries. It supports candidate generation, search index logic, and vector retrieval strategies with fallback behavior.
+## Kernquellen
 
-## Primary sources
+- `include/index/vector_index.h` und `src/index/vector_index.cpp` —
+  `VectorIndexManager`, RocksDB-Namespace, Such- und Lifecycle-APIs
+- `include/index/multi_vector_search.h` und
+  `src/index/multi_vector_search.cpp` — Mehrvektor- und Fusionssuche
+- `include/index/distributed_vector_index.h` —
+  In-Process-Sharding; keine Zusicherung für persistente Replikation oder einen
+  Multi-Node-Produktionsdienst
 
-- `src/vector_search/` — vector search runtime, index logic, and query flow
-- `src/vector_search/ARCHITECTURE.md` — algorithmic and runtime layout
-- `src/vector_search/IMPLEMENTATION.md` — implementation details and constraints
-- `src/vector_search/FUTURE_ENHANCEMENTS.md` — collect planned hardening work
+## Validierung
 
-## Key responsibilities
+Der High-Cardinality-Test und der Integration-Soak-Test verwenden lokale
+Flat-Index-Fixtures. Auch der dedizierte Gate-Benchmark misst einen synthetischen
+Flat-Index. Diese Artefakte sind kein Nachweis für Laufzeitperformance oder
+Produktionsreife des tatsächlichen Index-Subsystems.
 
-- vector index and query planning
-- embedding search orchestration and retrieval flow
-- integration with downstream retrieval and analytics features
-- performance-focused optimization and fault handling
-
-## Related documentation
-
-- [src/vector_search/README.md](../../../src/vector_search/README.md)
-- [src/vector_search/ARCHITECTURE.md](../../../src/vector_search/ARCHITECTURE.md)
-- [src/vector_search/IMPLEMENTATION.md](../../../src/vector_search/IMPLEMENTATION.md)
-
-## Validation
-
-This document keeps the German module overview synchronized with the vector search implementation and architecture references in source.
+Ein fokussierter CTest-Lauf muss mit einem testfähigen, konfigurierten und im
+Repository verfügbaren CMake-Preset erfolgen; `windows-release` deaktiviert
+Tests. Siehe [Roadmap](../../../src/vector_search/ROADMAP.md),
+[Performance-Erwartungen](../../../src/vector_search/PERFORMANCE_EXPECTATIONS.md)
+und [Lückenregister](../../../src/vector_search/MODULE_GAPS.md).
