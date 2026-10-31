@@ -121,6 +121,15 @@ guidance; use workflow sources and concrete run logs as evidence.
   sccache's local cache directory persisted by `actions/cache`. The release matrix
   passes the per-lane boolean directly; a fallback must not turn explicit `false`
   into `true`.
+- ARM64 job [124497145202](https://github.com/makr-code/ThemisDB/actions/runs/41163259618/job/124497145202)
+  failed for the same reason: sccache's `ghac` backend returned HTTP 400 during
+  Arrow compilation. Ninja was executing those compilation commands; the later
+  outer CMake Ninja diagnostic was secondary. This run used the older
+  `0f6f0c9def30b95adff8475a143432876e6ae56d` revision, not the current backend fix.
+  Executable regression coverage in `tools/tests/test_check_workflow_boundaries.py`
+  checks both ARM64 selectors, apt-provided sccache, and local-backend environment
+  inheritance through the generated configure/build commands. Full native ARM64
+  release verification still requires a new CI run on the corrected revision.
 
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci
