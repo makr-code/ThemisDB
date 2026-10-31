@@ -1,13 +1,14 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
 Human_Review: false
 Human_Author: "ThemisDB Contributors"
+Related: "Issue #7349"
 ---
 
 Exact model backend not verifiable from final document text alone.
@@ -17,6 +18,19 @@ Exact model backend not verifiable from final document text alone.
 ## Purpose and contract
 
 This is the module-level guide to the C++ interfaces under `include/governance/`. The public headers are the API source of truth; this page summarizes caller-visible behavior and important limits. Include `governance/<header>.h`; do not include implementation files from `src/governance/`.
+
+## Complete public-header index
+
+The current `include/governance/` inventory has 36 headers. This index covers
+all files in that directory; declarations and exact types remain authoritative
+in each header.
+
+| Area | Headers |
+|---|---|
+| Policy decisions and lifecycle | [`policy_engine.h`](../../include/governance/policy_engine.h), [`policy_manager.h`](../../include/governance/policy_manager.h), [`policy_manager_versioned.h`](../../include/governance/policy_manager_versioned.h), [`policy_coordinator.h`](../../include/governance/policy_coordinator.h), [`policy_file_watcher.h`](../../include/governance/policy_file_watcher.h), [`policy_template.h`](../../include/governance/policy_template.h), [`policy_validation.h`](../../include/governance/policy_validation.h), [`policy_validator.h`](../../include/governance/policy_validator.h), [`policy_version_history.h`](../../include/governance/policy_version_history.h), [`policy_conflict_detector.h`](../../include/governance/policy_conflict_detector.h), [`policy_approval_workflow.h`](../../include/governance/policy_approval_workflow.h), [`policy_change_manager.h`](../../include/governance/policy_change_manager.h), [`policy_review.h`](../../include/governance/policy_review.h), [`review_scheduler.h`](../../include/governance/review_scheduler.h) |
+| Compliance rules, mapping, and reports | [`compliance_framework.h`](../../include/governance/compliance_framework.h), [`compliance_mapping.h`](../../include/governance/compliance_mapping.h), [`compliance_validator.h`](../../include/governance/compliance_validator.h), [`compliance_reporter.h`](../../include/governance/compliance_reporter.h), [`compliance_reporting.h`](../../include/governance/compliance_reporting.h), [`ccpa_rules.h`](../../include/governance/ccpa_rules.h), [`gdpr_subject_rights.h`](../../include/governance/gdpr_subject_rights.h), [`hipaa_rules.h`](../../include/governance/hipaa_rules.h), [`iso27001_rules.h`](../../include/governance/iso27001_rules.h), [`pci_dss_rules.h`](../../include/governance/pci_dss_rules.h), [`soc2_controls.h`](../../include/governance/soc2_controls.h), [`cross_border_transfer.h`](../../include/governance/cross_border_transfer.h) |
+| Data governance and evaluator integration | [`data_masker.h`](../../include/governance/data_masker.h), [`data_lineage.h`](../../include/governance/data_lineage.h), [`cross_tenant_policy_inheritance.h`](../../include/governance/cross_tenant_policy_inheritance.h), [`model_governance.h`](../../include/governance/model_governance.h), [`opa_adapter.h`](../../include/governance/opa_adapter.h) |
+| Audit, diagnostics, and contract types | [`audit_batch_writer.h`](../../include/governance/audit_batch_writer.h), [`governance_audit_integrity.h`](../../include/governance/governance_audit_integrity.h), [`governance_diagnostics.h`](../../include/governance/governance_diagnostics.h), [`operational_audit.h`](../../include/governance/operational_audit.h), [`governance_api_contract.h`](../../include/governance/governance_api_contract.h) |
 
 ## Main interfaces
 
@@ -52,3 +66,6 @@ Thread-safety is interface-specific. The frozen API contract states internal syn
 - [Implementation guide](IMPLEMENTATION.md)
 - [Architecture](ARCHITECTURE.md)
 - [Trust boundaries](TRUST.md)
+- Test registration: `tests/governance/CMakeLists.txt` skips
+  `test_operational_audit_evidence` and `test_policy_versioning_and_approval`
+  from its module-focused test loop; source presence is not registration.

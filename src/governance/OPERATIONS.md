@@ -1,13 +1,14 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
 Human_Review: false
 Human_Author: "ThemisDB Contributors"
+Related: "Issue #7349"
 ---
 
 Exact model backend not verifiable from final document text alone.
@@ -32,7 +33,7 @@ This page covers routine deployment, monitoring, policy rollout, and evidence re
 1. Review and validate the policy in the normal policy lifecycle; preserve its author, version, rationale, and audit trail.
 2. Stage the YAML or managed rule update and test representative allowed, denied, unknown-classification, and opt-out cases.
 3. Deploy through the controlled configuration path. `loadFromYAML()` builds replacement state before swapping it under lock; if it returns false, keep the prior active configuration and investigate the parse/load error.
-4. After reload, check route-to-classification mapping and a representative query permission result. Confirm that audit records report the intended evaluator and enforcement mode.
+4. After reload, check route-to-classification mapping and a representative query permission result. Inspect the available decision, diagnostics, and audit fields; do not assume every event identifies the evaluator or its mode.
 5. If behavior regresses, use the versioned manager's safety check and preview before rollback; record the reason and verify the restored decisions.
 
 Do not edit policy files directly during an incident in a way that bypasses review/version history. Emergency procedures and their authority are defined by the project incident process.
@@ -54,7 +55,7 @@ Metric absence is not proof of healthy behavior: some paths emit a counter only 
 
 Lineage has configurable per-dataset and global event limits. At a limit, the implementation retains recent events by FIFO eviction and emits a size-limit diagnostic. Choose limits based on evidence-retention requirements and memory budget; if an event has been evicted, the in-memory tracker cannot reconstruct it. Durable retention and backup are responsibilities of the configured audit/evidence store.
 
-Use [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md) for benchmark mappings and release budgets. Re-baseline p95/p99 only with workload, build profile, hardware, and comparison baseline recorded.
+Use [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md) for benchmark case mappings and the source-commented target. It does not publish a current measured baseline or confirmed release budget. Record workload, build profile, hardware, effective YAML, and comparison baseline before interpreting p95/p99.
 
 ## Escalation and recovery
 

@@ -1,76 +1,53 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/governance/ARCHITECTURE.md -->
-
-# Governance Module — Public Header Architecture
-
-**Module Path:** `include/governance/`  
-**Implementation:** `../../src/governance/`  
-**Canonical architecture doc:** [`../../src/governance/ARCHITECTURE.md`](../../src/governance/ARCHITECTURE.md)
-
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Related: "Issue #7349"
 ---
 
-## 1. Overview
+Exact model backend not verifiable from final document text alone.
 
-`include/governance/` defines the **public data governance, regulatory compliance (GDPR, HIPAA, CCPA, PCI-DSS, SOC2, ISO27001), policy engine, data lineage, model governance, and OPA integration API contract** for ThemisDB.
+# Governance Public-Header Architecture
 
-For runtime composition and implementation internals see:
-→ [`../../src/governance/ARCHITECTURE.md`](../../src/governance/ARCHITECTURE.md)
+This page describes the organization of declarations under `include/governance/`.
+It is not a module dependency graph. Runtime flows and ownership boundaries are
+summarized in [`../../src/governance/ARCHITECTURE.md`](../../src/governance/ARCHITECTURE.md).
 
----
+## Public header groups
 
-## 2. Header Groups
+| Group | Headers / representative declared types |
+|---|---|
+| Policy decisions and management | `policy_engine.h` (`PolicyEngine`, `PolicyDecision`); `policy_manager.h` (`PolicyManager`, `PolicyRule`, `PolicyState`); `policy_manager_versioned.h` (`PolicyManagerWithVersioning`); `policy_conflict_detector.h` (`PolicyConflictDetector`); `policy_version_history.h` (`PolicyVersionHistory`); `policy_change_manager.h` (`PolicyChangeManager`); `policy_approval_workflow.h` (`PolicyApprovalWorkflow`); `policy_coordinator.h`; `policy_file_watcher.h`; `policy_template.h`; `policy_validation.h`; `policy_validator.h`; `policy_review.h`; `review_scheduler.h` |
+| Compliance | `compliance_framework.h` (`ComplianceFrameworkRegistry`, `ComplianceRequirement`, `ComplianceControl`); `compliance_mapping.h`; `compliance_validator.h`; `compliance_reporter.h`; `compliance_reporting.h`; `ccpa_rules.h` (`CcpaRuleSet`); `gdpr_subject_rights.h` (`GdprSubjectRightsManager`); `hipaa_rules.h` (`HipaaRuleSet`); `iso27001_rules.h` (`Iso27001ControlSet`); `pci_dss_rules.h` (`PciDssRuleSet`); `soc2_controls.h` (`Soc2ControlSet`); `cross_border_transfer.h` (`CrossBorderTransferPolicy`) |
+| Data governance and evaluator integration | `data_masker.h` (`DataMasker`); `data_lineage.h` (`DataLineageTracker`); `cross_tenant_policy_inheritance.h` (`CrossTenantPolicyInheritance`); `model_governance.h` (`ModelGovernancePolicy`); `opa_adapter.h` (`OpaAdapter`) |
+| Audit, diagnostics, and contract types | `governance_audit_integrity.h` (`AuditSigner`, `AuditIntegrityManager`, `AuditTamperDetector`, `AuditRetentionManager`); `audit_batch_writer.h` (`AuditBatchWriter`); `operational_audit.h` (`OperationalAuditLogger`, `EventCorrelationEngine`, `ComplianceEvidenceCollector`); `governance_diagnostics.h`; `governance_api_contract.h` |
 
-### 2.1 Policy Engine
+The inventory is based on the current header declarations. Type spellings are
+case-sensitive; older names such as `GDPRSubjectRights`, `OPAAdapter`,
+`ComplianceReporting`, or `DataLineage` are not the declared class names in the
+referenced headers.
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `policy_engine.h` | `PolicyEngine` | Core policy evaluation engine |
-| `policy_manager.h` | `PolicyManager` | Policy lifecycle management |
-| `policy_manager_versioned.h` | `PolicyManagerVersioned` | Versioned policy management |
-| `policy_coordinator.h` | `PolicyCoordinator` | Cross-tenant policy coordination |
-| `policy_file_watcher.h` | `PolicyFileWatcher` | Hot-reload watcher for policy files |
-| `policy_template.h` | `PolicyTemplate` | Policy template library |
-| `policy_validation.h` | `PolicyValidation` | Policy syntax and semantic validation |
-| `policy_validator.h` | `PolicyValidator` | Policy evaluation validator |
-| `policy_version_history.h` | `PolicyVersionHistory` | Audit trail for policy changes |
-| `policy_review.h` | `PolicyReview` | Workflow for policy review and approval |
-| `review_scheduler.h` | `ReviewScheduler` | Scheduled policy review triggers |
-| `opa_adapter.h` | `OPAAdapter` | Open Policy Agent integration adapter |
-| `cross_tenant_policy_inheritance.h` | `CrossTenantPolicyInheritance` | Policy inheritance across tenant boundaries |
-### 2.2 Regulatory Compliance
+## Contract and limits
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `gdpr_subject_rights.h` | `GDPRSubjectRights` | GDPR data-subject rights (erasure, access, portability) |
-| `hipaa_rules.h` | `HIPAARules` | HIPAA safeguard rule enforcement |
-| `ccpa_rules.h` | `CCPARules` | CCPA consumer rights enforcement |
-| `pci_dss_rules.h` | `PCIDSSRules` | PCI-DSS cardholder data controls |
-| `soc2_controls.h` | `SOC2Controls` | SOC 2 Trust Services Criteria controls |
-| `iso27001_rules.h` | `ISO27001Rules` | ISO 27001 information-security controls |
-| `cross_border_transfer.h` | `CrossBorderTransfer` | Cross-border data transfer compliance checks |
-| `compliance_reporter.h` | `ComplianceReporter` | Compliance evidence collection and reporting |
-| `compliance_reporting.h` | `ComplianceReporting` | Structured compliance report generation |
-### 2.3 Data Lineage and Masking
+- The headers expose caller-facing C++ interfaces; this page does not certify
+  ABI stability or promise that every declared surface has production evidence.
+- The policy engine returns structured decisions; downstream callers are
+  responsible for applying decision fields.
+- The operational-audit and lineage surfaces include bounded/in-memory state;
+  consult their headers and implementations before assuming durable retention.
+- `OpaAdapter` supports REST and a WASM-related API hook, but its built-in WASM
+  fallback is not real policy evaluation. See
+  [`TRUST.md`](../../src/governance/TRUST.md).
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `data_lineage.h` | `DataLineage` | Column/row-level data lineage tracking |
-| `data_masker.h` | `DataMasker` | Dynamic data masking for policy-controlled access |
-| `model_governance.h` | `ModelGovernance` | ML model governance and audit trails |
+## References
 
----
-
-## 3. Namespace Layout
-
-All public types reside in the `themis::governance` namespace (or a sub-namespace).
-
----
-
-## 4. Contract Notes
-
-- Headers in `include/governance/` expose the **stable public API**; internal types live in `src/governance/`.
-- Clients depend only on types declared here; implementation details in `src/` may change without notice.
-- For breaking-change policy see [`../../VERSIONING.md`](../../VERSIONING.md).
-- Layer association: **Graph**.
+- [Complete public-header inventory](README.md)
+- [Governance public API summary](../../src/governance/API.md)
+- [Implementation and configuration behavior](../../src/governance/IMPLEMENTATION.md)
+- [Module runtime architecture](../../src/governance/ARCHITECTURE.md)

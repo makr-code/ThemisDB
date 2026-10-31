@@ -1,75 +1,58 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
 AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
 Human_Review: false
 Human_Author: "ThemisDB Contributors"
+Related: "Issue #7349"
 ---
 
 Exact model backend not verifiable from final document text alone.
 
 # Security - Governance Module
 
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · TRUST.md -->
+Report vulnerabilities privately via [project SECURITY.md](../../SECURITY.md).
+This page describes module-level security-relevant interfaces; it does not
+assert product-wide certification or guarantee that every caller applies them.
 
-Report vulnerabilities privately via [project SECURITY.md](../../SECURITY.md). This page describes governance controls, not product-wide certification.
+## Trust and enforcement limits
 
-## Security Scope
+- `PolicyEngine` returns decision data. Every consuming caller must enforce the
+  relevant allow/export/cache/ANN/redaction restrictions at its operation
+  boundary. Native handling of missing or unknown classification is strict, but
+  this does not establish fail-closed behavior across every evaluator and caller.
+- OPA REST failure can fall back to native evaluation. This is not equivalent to
+  approval by the unavailable OPA policy.
+- Without an injected WASM evaluator, the built-in WASM stub may return a
+  permissive `observe` decision when a bundle exists and the real runtime is
+  unavailable. Do not use this path for production authorization.
+- `DataMasker` returns input unchanged when masking is disabled or no rules are
+  present. It applies configured rules to matching JSON string fields; callers
+  must invoke it on every relevant output path.
+- Tokenization uses HMAC-SHA-256 when a nonempty collection secret is provided;
+  the current fallback can use unkeyed SHA-256. That fallback does not provide
+  keyed pseudonym separation.
+- Subject-rights erasure operates on registered targets independently and can
+  partially fail. Inspect `fully_erased` and each store result; there is no
+  cross-store rollback.
+- Lineage and operational audit data may be bounded/in-memory. Their presence
+  does not establish durable audit retention or key custody.
 
-Security in governance focuses on safe policy enforcement boundaries, compliance control integrity, privacy-preserving masking/lineage controls, and explicit failure behavior for unsafe governance outcomes.
+## Security follow-ups
 
-## Threat Model
+- Validate integration and caller enforcement at each protected operation.
+- Verify audit storage, key management, and retention in the deployment.
+- Continue focused regression coverage for evaluator failures, masking,
+  lineage, and multi-store erasure.
 
-| Threat | Current Mitigation Surface |
-|---|---|
-| policy bypass or weak enforcement outcomes | explicit policy-engine checks and fail-closed denial behavior |
-| compliance drift or missing control evidence | dedicated control evaluators and reporting surfaces |
-| leakage of sensitive data in governed outputs | masking/redaction and governance permission gates |
-| degraded external policy integration behavior | bounded fallback behavior with explicit outcomes |
-| hidden governance regressions | versioning, review, and observability/audit surfaces |
+## References
 
-## Implemented Security Controls
-
-- policy and query permission paths gate protected operations.
-- compliance evaluators and reporters provide control/evidence traces.
-- data masking and governance checks constrain sensitive output exposure.
-- integration fallbacks surface deterministic non-silent outcomes.
-
-## Security Follow-ups
-
-- continue hardening cross-tenant and model-governance edge behavior.
-- tighten diagnostics for fallback, denial, and policy-conflict paths.
-- expand stress coverage for high-volume governance evaluation scenarios.
-- Policy and masking depend on validated policy inputs and correct use by every caller; a disabled masking policy or empty rules returns data without masking.
-- When configured OPA evaluation is unavailable, `PolicyEngine` falls back to native evaluation and emits a fallback metric. Missing classifications default to the strictest class, but standard configured classifications retain their policy-defined permissions.
-- Do not use the current OPA WASM stub for enforcement: with WASM mode and an existing bundle, when no evaluator is injected and `THEMIS_ENABLE_OPA_WASM` is absent, it returns a permissive observe-mode decision without evaluating the bundle.
-- Subject erasure is per-store and can partially fail; inspect `fully_erased` and each store result before reporting completion. The operation has no cross-store rollback.
-
-## Incident Handling
-
-For suspected policy bypass, masking failure, or incomplete erasure, stop the affected export/mutation path, preserve policy versions and audit evidence, identify the route/classification and evaluator/fallback in use, and verify corrected decisions and per-store erasure results before resuming. Follow [SOP-05](../../SOP.md) and [SOP-08](../../SOP.md).
-
-## Sourcecode Verification (Module: governance/security)
-
-- Verified files:
-  - src/governance/policy_engine.cpp
-  - src/governance/data_masker.cpp
-  - src/governance/compliance_reporter.cpp
-  - src/governance/compliance_reporting.cpp
-  - src/governance/model_governance.cpp
-  - src/governance/opa_adapter.cpp
-- Verified controls:
-  - fail-closed policy enforcement and governance permission checks
-  - compliance evidence/control evaluation paths
-  - masking and fallback-aware security behavior
-
-- Additional source references:
-  - `src/governance/policy_engine.cpp`
-  - `src/governance/opa_adapter.cpp`
-  - `src/governance/data_masker.cpp`
-  - `src/governance/gdpr_subject_rights.cpp`
-  - [Trust and risk model](TRUST.md)
+- [Trust boundaries](TRUST.md) · [Runbook](RUNBOOK.md)
+- [`policy_engine.h`](../../include/governance/policy_engine.h)
+- [`opa_adapter.h`](../../include/governance/opa_adapter.h)
+- [`data_masker.h`](../../include/governance/data_masker.h)
+- [`gdpr_subject_rights.h`](../../include/governance/gdpr_subject_rights.h)
