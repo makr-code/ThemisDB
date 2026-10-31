@@ -1,46 +1,56 @@
-# Security - Scheduler Module
+---
+Author: ThemisDB Team
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+Source level: 1
+SOT domain: security
+Canonical references: include/scheduler/task_scheduler.h; src/scheduler/task_scheduler.cpp; include/scheduler/task_audit_manager.h; src/scheduler/task_audit_manager.cpp
+Related issue: #7376; DOC-WEEKLY-2026-44
+---
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+Exact model backend not verifiable from final document text alone.
 
-Report vulnerabilities via project-level SECURITY.md.
+# Scheduler security notes
 
-## Security Scope
+Report vulnerabilities through the project-level [SECURITY.md](../../SECURITY.md).
+This page records controls visible in scheduler source; it is not a threat-model
+approval or a claim that deployment authorization is complete.
 
-Security in the scheduler module focuses on explicit task lifecycle validation, bounded execution behavior, deterministic coordination outcomes, and observable audit/result tracking for scheduler actions.
+## Source-visible controls
 
-## Threat Model
+- Task registration checks `task:register` and validates applicable AQL,
+  resource, cron, and CDC configuration. `executeTaskNow` checks
+  `task:execute` and applies a per-task rate limit. Function registration checks
+  `task:register_function` and the `system_admin` role.
+- `TaskScheduler::RequestContext` carries permissions and roles. **Important:**
+  `hasPermission` and `hasRole` fall back to allow when no request context is
+  present. The header instructs callers to set context before audited
+  operations. The invoking server/API boundary must therefore be reviewed; do
+  not treat these helpers alone as an authorization boundary.
+- `sandbox_execution`, audit logging, anomaly detection, result storage, and
+  GDPR masking are configurable. Sandbox execution and result storage default
+  to disabled; audit/anomaly behavior can also be disabled by configuration.
+- `TaskAuditConfig` exposes audit/security logging, HMAC, retention, archival,
+  and corruption-recovery settings. These options do not by themselves prove
+  that a deployment enables or correctly provisions them.
 
-| Threat | Current Mitigation Surface |
-|---|---|
-| unsafe task registration or invalid lifecycle transitions | validation-gated scheduler lifecycle behavior |
-| hidden execution failures in scheduled workloads | explicit execute/stats and outcome signaling |
-| unobserved coordination/adaptation faults | deterministic distributed/external adapter diagnostics |
-| missing accountability for task actions | audit/result/anomaly observability surfaces |
+## Limits and follow-up
 
-## Implemented Security Controls
+- The coordination-health check in `executeTaskNow` is a commented placeholder;
+  do not rely on it to block execution during coordinator failure.
+- The scheduler implementation does not establish a `THEMIS_PRODUCTION_MODE`
+  or `THEMIS_ENVIRONMENT` gate. No production mode should be inferred from this
+  module.
+- A deployment review should verify request-context propagation, API
+  authentication/authorization, audit configuration and key management,
+  sandbox policy, storage lifetime, and rate-limit behavior for its own
+  configuration.
 
-- task lifecycle operations are validation-gated.
-- execution results and stats are explicit and retrievable.
-- coordination and adapter paths surface explicit failures.
-- audit/result/anomaly paths preserve runtime accountability.
-
-## Security Follow-ups
-
-- expand negative coverage for malformed task config and trigger edges.
-- tighten diagnostics taxonomy for distributed coordination incidents.
-- deepen stress coverage for concurrent registration/execution workloads.
-
-## Sourcecode Verification (Module: scheduler/security)
-
-- Verified files:
-  - src/scheduler/task_scheduler.cpp
-  - src/scheduler/distributed_task_coordinator.cpp
-  - src/scheduler/external_scheduler_adapter.cpp
-  - src/scheduler/task_audit_manager.cpp
-  - src/scheduler/task_result_store.cpp
-  - src/scheduler/task_anomaly_detector.cpp
-- Verified controls:
-  - validation-gated lifecycle/execution behavior
-  - deterministic coordination and adapter failure signaling
-  - explicit observability for task accountability paths
+**TODO:** security and deployment owners must define and review the normative
+production controls. This source review cannot supply those requirements.

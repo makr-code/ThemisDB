@@ -1,9 +1,28 @@
-# SCHEDULER DOXYGEN
-
+---
 Author: ThemisDB Contributors
 Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+Source level: 1
+SOT domain: module-behavior
+Canonical references: include/scheduler/*.h; src/scheduler/*.cpp; tests/scheduler/*.cpp; benchmarks/scheduler/*.cpp
+Related issue: #7376; DOC-WEEKLY-2026-44
+---
+
+Exact model backend not verifiable from final document text alone.
+
+# SCHEDULER DOXYGEN SNAPSHOT
+
+> **Historical generated snapshot — not a current API reference.** The XML
+> source paths, structure metrics, and source line references below have not
+> been regenerated or validated in this refresh. Verify declarations and
+> behavior against current headers and implementation. Regenerate this artifact
+> with its documented generator before using it as current Doxygen output.
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
@@ -2568,4 +2587,3 @@ Status: active
 - Source: `tests/scheduler/test_scheduler_stress_burst_retention.cpp`:35
 - Brief: n/a
 - Parameters: none
-

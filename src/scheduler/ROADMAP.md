@@ -1,93 +1,65 @@
-# Scheduler Module Roadmap
+---
+Author: ThemisDB Team
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+Source level: 1
+SOT domain: module-behavior
+Canonical references: include/scheduler/*.h; src/scheduler/*.cpp; tests/scheduler/CMakeLists.txt; benchmarks/scheduler/CMakeLists.txt
+Related issue: #7376; DOC-WEEKLY-2026-44
+---
 
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+Exact model backend not verifiable from final document text alone.
 
-## Current Status
+# Scheduler module roadmap
 
-Production-capable scheduler runtime exists for task lifecycle operations, execution/listing/stats behavior, distributed and external coordination, and audit/result/anomaly/trigger observability surfaces.
+This is a source-informed engineering follow-up list, not a release-readiness
+statement. Completion claims require implementation evidence and tests that
+exercise the production behavior.
 
-## In Progress
+## Current surfaces
 
-- [~] hardening concurrency-heavy registration/execution edge behavior (Target: Q3 2026)
-- [~] improving coordination/adapter diagnostics consistency across incident classes (Target: Q3 2026)
-- [~] stabilizing benchmark-backed release guardrails for scheduler hot paths (Target: Q3 2026)
+The source contains task scheduling, coordination, external-adapter, retention,
+changefeed-trigger, audit, result-store, and anomaly-detection components. Their
+interfaces and implementation map is summarized in [README.md](README.md).
 
-## Planned Features
+## Open work
 
-### Short-term (3-6 months)
-- [x] tighten deterministic behavior under sustained queue and burst workloads (Completed 2026-09-16 — test_scheduler_highcardinality_stress.cpp, HighCardinalityTaskRegistration/ConcurrentTriggerStress)
-- [x] expand stress coverage for trigger/anomaly and coordination edge scenarios (Completed 2026-09-16 — test_scheduler_highcardinality_stress.cpp, DistributedCoordinationLoad)
-- [x] improve operator-facing diagnostics for task scheduling incident triage (Completed 2026-09-16 — RUNBOOK_SCHEDULER.md)
+- [ ] Implement and verify the coordination-availability behavior currently
+  left as a placeholder in `TaskScheduler::executeTaskNow`.
+- [ ] Replace skipped coordination failure scenarios and simulated
+  burst/retention cases with tests that exercise the actual implementation.
+- [ ] Resolve the intended condition-parser behavior for malformed/unknown
+  trigger predicates and align code, header comments, and tests.
+- [ ] Confirm authorization behavior when no `RequestContext` exists and
+  document the server/API boundary; current permission helpers allow in that
+  case.
+- [ ] Define a real benchmark release workflow, statistic, thresholds, and
+  representative-hardware baseline. Existing stub/generic cases do not establish
+  production scheduler gates.
+- [ ] Obtain security/deployment-owner review for production requirements and
+  configuration defaults; see [PRODUCTION_REQUIREMENTS.md](PRODUCTION_REQUIREMENTS.md).
 
-### Mid-term (6-12 months)
-- [~] re-baseline p95/p99 envelopes for register/execute/list/stats paths (Target: Q1 2027 — bench_scheduler_dedicated_gates.cpp SC-BM-01..SC-BM-04 in place; hardware run required)
-- [~] broaden benchmark depth for distributed and external scheduler integrations (Target: Q1 2027 — bench_scheduler_dedicated_gates.cpp SC-BM-01..SC-BM-04 in place)
-- [x] harden long-run reliability under sustained scheduler traffic pressure (Completed 2026-09-16 — tests/integration/test_scheduler_soak.cpp)
+## Evidence inventory
 
-## Implementation Phases
+- Focused test CMake registration globs `tests/scheduler/test_scheduler_*.cpp`.
+  The coordination fixture skips, and some stress tests use simulation or
+  placeholder logic. See [AUDIT.md](AUDIT.md).
+- Benchmark CMake registration globs `benchmarks/scheduler/bench_*.cpp` when
+  `THEMIS_BUILD_BENCHMARKS` is enabled. See
+  [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md) for what each
+  benchmark measures.
+- No assertion is made here that the open work above is scheduled for a
+  particular release or milestone beyond this documentation refresh.
 
-### Phase 1: Design / API Contract
-- [x] freeze scheduler lifecycle/execution/coordination contracts for current major line (Target: Q3 2026) — evidence: include/scheduler/scheduler_api_contract.h
-- [x] define explicit error taxonomy for scheduler failure classes (Target: Q3 2026) — evidence: include/scheduler/scheduler_api_contract.h
+## Contract changes
 
-### Phase 2: Core Implementation
-- [x] complete hardening for task scheduler and retention internals (Completed 2026-09-16 — soak/stress coverage validates runtime contracts)
-- [x] align distributed/external integration behavior to bounded runtime contracts (Completed 2026-09-16 — DistributedCoordinationLoad stress test)
-
-### Phase 3: Error Handling and Edge Cases
-- [x] standardize fail-safe behavior for registration, execution, and coordination faults (Completed 2026-09-16 — ConcurrentTriggerStress / DistributedCoordinationLoad)
-- [x] unify diagnostics across scheduler lifecycle/coordination/observability incidents (Completed 2026-09-16 — RUNBOOK_SCHEDULER.md)
-
-### Phase 4: Tests
-- [x] expand focused regressions for concurrent register/execute and trigger edge scenarios (Target: Q4 2026) — evidence: tests/scheduler/test_scheduler_contract_hardening_focused.cpp
-- [x] extend deterministic stress fixtures for scheduler burst and retention workloads (Target: Q4 2026) — evidence: tests/scheduler/test_scheduler_contract_hardening_focused.cpp
-
-### Phase 5: Performance and Hardening
-- [x] lock benchmark-backed release gates for scheduler hot paths (Target: Q4 2026) — evidence: benchmarks/scheduler/bench_scheduler_release_gates.cpp
-- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026) — evidence: benchmarks/scheduler/bench_scheduler_release_gates.cpp
-
-### Phase 6: Documentation and Acceptance
-- [x] core scheduler module docs aligned to source-verifiable behavior
-- [x] roadmap/future planning separated from historical changelog entries
-
-## Production Readiness Checklist
-
-- [x] core scheduler surfaces documented and source-verified
-- [x] module-level security and failure behavior documented
-- [x] benchmark mapping documented in performance expectations
-- [x] remaining hardening tasks closed for concurrency/coordination edge paths (Completed 2026-09-16 — Wave D soak/stress/runbook pass)
-- [x] release benchmark stabilization complete
-
-## Known Issues and Limitations
-
-- runtime behavior depends on workload shape and scheduler configuration.
-- selected concurrency and integration edge scenarios need continued hardening.
-- benchmark depth should continue expanding for advanced scheduler workflows.
-
-## Breaking Changes
-
-No breaking scheduler contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.
-
-## Program Execution Model — Wave Context
-
-This module is a **contributing module** in the program-level Wave A → B → C → D execution model.
-It does not own a primary wave deliverable but must remain `release_critical`-green throughout all waves
-and must deliver Wave D operability improvements in Q1 2027.
-See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
-
-### Wave D Contribution for `scheduler`
-- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Completed 2026-09-16 — test_scheduler_highcardinality_stress.cpp, bench_scheduler_dedicated_gates.cpp, RUNBOOK_SCHEDULER.md)
-- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Completed 2026-09-16 — tests/integration/test_scheduler_soak.cpp)
-- [x] Ensure runbook coverage for operator-critical scenarios in this module (Completed 2026-09-16 — docs/operability/RUNBOOK_SCHEDULER.md)
-
-### Cross-Wave Requirements
-- `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
-- p95/p99 benchmarks must be refreshed on representative hardware before Wave D sign-off (Target: Q1 2027)
-- No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
-
-### Program-Level Success Criteria (contribution)
-- [x] This module's distributed/acceleration paths fail closed (Completed 2026-09-16 — coordination/trigger fail-safe validated in soak/stress)
-- [~] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027 — bench_scheduler_dedicated_gates.cpp SC-BM-01..SC-BM-04; hardware run required)
-- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Completed 2026-09-16 — RUNBOOK_SCHEDULER.md)
+Review changes to public declarations in `include/scheduler/` against
+`include/scheduler/scheduler_api_contract.h` and the relevant implementation
+before documenting a behavior as guaranteed. Keep historical release notes in
+[CHANGELOG.md](CHANGELOG.md).

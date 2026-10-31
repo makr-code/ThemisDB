@@ -1,54 +1,56 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/scheduler/ROADMAP.md -->
-
-# Scheduler Module — Public Header Roadmap
-
-**Module Path:** `include/scheduler/`  
-**Canonical implementation roadmap:** [`../../src/scheduler/ROADMAP.md`](../../src/scheduler/ROADMAP.md)
-
+---
+Author: ThemisDB Team
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+Source level: 1
+SOT domain: api-contract
+Canonical references: include/scheduler/*.h; include/scheduler/README.md; src/scheduler/ROADMAP.md
+Related issue: #7376; DOC-WEEKLY-2026-44
 ---
 
-## Overview
+Exact model backend not verifiable from final document text alone.
 
-Tracks public `scheduler` API contract stability, header-level coverage work, and future public entry points. Runtime implementation work remains in:
+# Scheduler public-header roadmap
 
-→ [`../../src/scheduler/ROADMAP.md`](../../src/scheduler/ROADMAP.md)
+This file tracks documentation and contract-review work for
+`include/scheduler/`. Runtime work belongs in the
+[implementation roadmap](../../src/scheduler/ROADMAP.md). No release date or
+ABI commitment is implied by this list.
 
----
+## Current inventory
 
-## Current Status
+The public-header directory contains ten headers:
+`task_scheduler.h`, `scheduler_api_contract.h`,
+`distributed_task_coordinator.h`, `event_trigger.h`,
+`external_scheduler_adapter.h`, `hybrid_retention_manager.h`,
+`task_audit_event.h`, `task_audit_manager.h`, `task_result_store.h`, and
+`task_anomaly_detector.h`.
 
-All headers in `include/scheduler/` are present and expose the distributed task scheduling, event-triggered execution, anomaly detection, audit management, and external scheduler integration surface.
+The [header index](README.md) maps their declared types and current cautions.
+Namespace placement varies between `themis` and `themis::scheduler`; check each
+header rather than assuming one namespace for the whole directory.
 
----
+## Open documentation work
 
-## Completed ✅
+- [ ] Keep API examples and signatures derived from current headers; avoid
+  duplicated full class declarations in summaries.
+- [ ] Review the contract/header comments against implementation where the
+  implementation differs, especially coordination checks and trigger failure
+  behavior.
+- [ ] Obtain explicit API-owner guidance before adding ABI-stability or
+  compatibility claims.
+- [ ] Confirm a supported per-header compile-check workflow before documenting
+  it as a CI guarantee.
 
-- [x] Public header surfaces documented in `ARCHITECTURE.md`
-- [x] Canonical cross-links to `src/scheduler/` implementation docs established
-- [x] Layer association (**Graph**) marked and verified against `FUTURE_PLAN.md`
-- [x] Namespace layout (`themis::scheduler`) documented
+## Relationship to implementation
 
----
-
-## In Progress
-
-- [ ] Per-header deprecation and breaking-change notices aligned with `VERSIONING.md` (Target: 2026-Q3)
-
----
-
-## Planned
-
-- [ ] API contract index for high-frequency entry points with usage examples (Target: 2026-Q3)
-- [ ] Compatibility matrix (C++17/20 and platform coverage) per header group (Target: 2026-Q4)
-- [ ] CI-enforced compile checks for all public headers (Target: 2026-Q4)
-
----
-
-## Production Readiness Checklist
-
-- [x] Public header surfaces documented
-- [x] Canonical links to implementation docs set
-- [ ] Deprecation annotations consistent
+`include/scheduler/scheduler_api_contract.h` declares the scheduler error
+enumeration, but error handling is operation-specific. The
+`TaskScheduler::executeTaskNow` coordination-health check is currently a
+commented placeholder. See the [implementation architecture](../../src/scheduler/ARCHITECTURE.md).

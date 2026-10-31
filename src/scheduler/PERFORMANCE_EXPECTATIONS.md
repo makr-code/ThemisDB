@@ -1,42 +1,47 @@
-# PERFORMANCE_EXPECTATIONS - src/scheduler
+---
+Author: ThemisDB Team
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+Source level: 1
+SOT domain: module-behavior
+Canonical references: benchmarks/scheduler/*.cpp; benchmarks/scheduler/CMakeLists.txt; include/scheduler/task_scheduler.h; tests/scheduler/CMakeLists.txt
+Related issue: #7376; DOC-WEEKLY-2026-44
+---
 
-## Scope
+Exact model backend not verifiable from final document text alone.
 
-- Module: src/scheduler
-- This file defines measurable scheduler module performance expectations for release gating.
+# Scheduler performance benchmark map
 
-## Benchmark Reference
+This page maps existing benchmark source to the code it measures. The existence
+of a benchmark is not evidence that a release gate runs in CI or that a
+hardware-specific target has been met.
 
-- Relevant benchmark files:
-  - benchmarks/bench_task_scheduler.cpp
+## Benchmark sources
 
-## Specific Expectations
-
-| Target ID | Expectation | Benchmark case |
+| File / cases | What the source measures | Scope caveat |
 |---|---|---|
-| SCHP-1 | task lifecycle registration paths remain bounded | TaskSchedulerBenchFixture/RegisterUnregister, TaskSchedulerBenchFixture/ConcurrentRegister |
-| SCHP-2 | execution and management query paths remain bounded | TaskSchedulerBenchFixture/ExecuteTaskNow, TaskSchedulerBenchFixture/ListTasks, TaskSchedulerBenchFixture/GetStats |
-| SCHP-3 | scheduler behavior remains stable across registered-task scale args | TaskSchedulerBenchFixture/ListTasks (Args: 10, 50, 100) |
+| `benchmarks/scheduler/bench_task_scheduler.cpp`: `TaskSchedulerBenchFixture/{RegisterUnregister,ExecuteTaskNow,ListTasks,GetStats,ConcurrentRegister}` | Calls the production `TaskScheduler` APIs. `ListTasks` registers 10, 50, or 100 tasks. | The fixture uses a real in-process storage/query setup and disables persistence/audit/anomaly features. |
+| `benchmarks/scheduler/bench_scheduler_dedicated_gates.cpp`: `BM_SC_BM_01_RegisterP95` through `BM_SC_BM_04_StatsQueryP95` | A local `stubs::TaskScheduler` with a mutex and queue. | Does not call production `TaskScheduler`. “p95” appears in case names/labels; no percentile computation is configured in this source. |
+| `benchmarks/scheduler/bench_scheduler_release_gates.cpp`: `BM_SCH01`–`BM_SCH04` | Enum cast/switch, a locally declared descriptor allocation, and batch enum casts. | Not measurements of task registration, execution, or end-to-end scheduler behavior. The labels state targets; this source does not enforce them as pass/fail assertions. |
+| `benchmarks/scheduler/bench_thread_pool_saturation.cpp` | `ThreadPoolManager` submission, saturation, ordering, producer, stats, and shutdown cases. | Generic thread-pool measurements, not scheduler task lifecycle benchmarks. |
 
-## Module Hard Gates (v1.0 docs baseline)
+`benchmarks/scheduler/CMakeLists.txt` registers `bench_*.cpp` through
+`themis_add_standard_benchmark` when `THEMIS_BUILD_BENCHMARKS` is enabled.
 
-| Gate ID | Expectation | Measurement |
-|---|---|---|
-| SCHG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
-| SCHG-2 | scheduler hot-path p99 <= release threshold | p99 from mapped scheduler benchmark cases |
-| SCHG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
+## Expectations and gates
 
-## Validation
+No current scheduler CI threshold, baseline manifest, or representative-hardware
+result was verified in the scoped benchmark/CMake sources. Treat the numeric
+targets embedded in benchmark comments/labels as proposed benchmark metadata,
+not as demonstrated release acceptance criteria.
 
-- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
-- Mapping should be expanded as additional scheduler benchmark scenarios are introduced.
-
-## Sourcecode Verification (Module: scheduler/performance)
-
-- Verified benchmark sources:
-  - benchmarks/bench_task_scheduler.cpp
-- Verified mapping surfaces:
-  - register/unregister, concurrent register, execute now, list tasks, stats retrieval
-- Result:
-  - Referenced benchmark cases exist in current benchmark source.
-  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.
+**TODO:** identify the owner and CI workflow for release baselines, define the
+statistic actually reported (including percentile methodology if required), and
+confirm which benchmarks must gate a release. Until then, do not claim a
+verified p95/p99 or regression budget.

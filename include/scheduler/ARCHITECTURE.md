@@ -1,60 +1,56 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/scheduler/ARCHITECTURE.md -->
-
-# Scheduler Module — Public Header Architecture
-
-**Module Path:** `include/scheduler/`  
-**Implementation:** `../../src/scheduler/`  
-**Canonical architecture doc:** [`../../src/scheduler/ARCHITECTURE.md`](../../src/scheduler/ARCHITECTURE.md)
-
+---
+Author: ThemisDB Team
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+Source level: 1
+SOT domain: api-contract
+Canonical references: include/scheduler/*.h; src/scheduler/README.md
+Related issue: #7376; DOC-WEEKLY-2026-44
 ---
 
-## 1. Overview
+Exact model backend not verifiable from final document text alone.
 
-`include/scheduler/` defines the **public distributed task scheduling, event-triggered execution, anomaly detection, audit management, and external scheduler integration API contract** for ThemisDB.
+# Scheduler public-header architecture
 
-For runtime composition and implementation internals see:
-→ [`../../src/scheduler/ARCHITECTURE.md`](../../src/scheduler/ARCHITECTURE.md)
+`include/scheduler/` declares API types and component interfaces. It does not
+make every integration enabled by default, nor does the presence of a header
+establish ABI stability. For runtime behavior and known limitations, see the
+[implementation architecture](../../src/scheduler/ARCHITECTURE.md).
 
----
+## Header map
 
-## 2. Header Groups
+| Header | Declared surface | Namespace |
+|---|---|---|
+| `task_scheduler.h` | `ScheduledTask`, `TaskScheduler`, task config, execution results, and stats | `themis` |
+| `distributed_task_coordinator.h` | Coordinator that uses a `TaskScheduler` and `sharding::DistributedCoordinator` | `themis` |
+| `event_trigger.h` | `CDCTriggerConfig`, `EventTrigger`, `EventTriggerManager` | `themis` |
+| `hybrid_retention_manager.h` | Retention config/stats and `HybridRetentionManager` | `themis` |
+| `scheduler_api_contract.h` | `SchedulerError`, constants, and `isSchedulerFailClosed` | `themis::scheduler` (with `SchedulerError` re-exported by `themis`) |
+| `external_scheduler_adapter.h` | External platform/config types and `ExternalSchedulerAdapter` | `themis::scheduler` |
+| `task_audit_event.h` | Audit/security event and metrics types | `themis::scheduler` |
+| `task_audit_manager.h` | Audit config/query/export types and `TaskAuditManager` | `themis::scheduler` |
+| `task_result_store.h` | `TaskExecutionResult` and `TaskResultStore` | `themis::scheduler` |
+| `task_anomaly_detector.h` | Detector config/statistics and `TaskAnomalyDetector` | `themis::scheduler` |
 
-### 2.1 Core Scheduling
+## Contract cautions
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `task_scheduler.h` | `TaskScheduler` | Cron/interval/event-driven task scheduler |
-| `distributed_task_coordinator.h` | `DistributedTaskCoordinator` | Cross-node distributed task coordination |
-| `event_trigger.h` | `EventTrigger` | Event-driven task trigger definitions |
-| `external_scheduler_adapter.h` | `ExternalSchedulerAdapter` | Integration adapter for external schedulers |
-### 2.2 Retention and Anomalies
+- Read each declaration and its implementation before treating comments in
+  another module document as a guarantee.
+- `SchedulerError` is not the return type for all scheduler failures.
+- `TaskScheduler::executeTaskNow` has no active distributed-coordinator health
+  check in its implementation; the check is a commented placeholder.
+- `isSchedulerFailClosed()` identifies only `kCoordinationError` and
+  `kInternalError` as fail-closed. It does not encode every operation-specific
+  rejection policy.
+- Request-context permission helpers in `task_scheduler.h` fall back to allow
+  when the context is unset. API callers must establish the intended security
+  boundary.
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `hybrid_retention_manager.h` | `HybridRetentionManager` | Hot/warm/cold data retention scheduling |
-| `task_anomaly_detector.h` | `TaskAnomalyDetector` | Scheduled task anomaly detection |
-### 2.3 Auditing and Storage
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `task_audit_event.h` | `TaskAuditEvent` | Immutable task execution audit event |
-| `task_audit_manager.h` | `TaskAuditManager` | Task audit trail management |
-| `task_result_store.h` | `TaskResultStore` | Persistent task result storage |
-
----
-
-## 3. Namespace Layout
-
-All public types reside in the `themis::scheduler` namespace (or a sub-namespace).
-
----
-
-## 4. Contract Notes
-
-- Headers in `include/scheduler/` expose the **stable public API**; internal types live in `src/scheduler/`.
-- Clients depend only on types declared here; implementation details in `src/` may change without notice.
-- For breaking-change policy see [`../../VERSIONING.md`](../../VERSIONING.md).
-- Layer association: **Graph**.
+The canonical implementation-level discussion is
+[src/scheduler/ARCHITECTURE.md](../../src/scheduler/ARCHITECTURE.md).
