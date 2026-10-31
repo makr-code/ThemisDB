@@ -1,7 +1,21 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # ThemisDB Plugins Module
 
-<!-- Status: current | validated: 2026-08-05 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: review | validated: 2026-10-31 -->
+<!-- Links: ARCHITECTURE.md · IMPLEMENTATION.md · API.md · RUNBOOK.md · TRUST.md -->
 
 ## Module Purpose
 
@@ -21,7 +35,22 @@ The plugins module provides dynamic plugin loading, registration, lifecycle mana
 | oci_registry_client.cpp | OCI-based remote plugin retrieval |
 | rpc_service_registry.cpp | RPC service registration for plugins |
 | wasm_plugin_loader.cpp | WASM plugin loading pathway |
-| huggingface_ingestion_plugin.cpp | first-party reference ingestion plugin |
+
+## Developer Documentation
+
+| Document | Use it for |
+|---|---|
+| [ARCHITECTURE.md](./ARCHITECTURE.md) | Runtime boundaries, contracts, and failure domains |
+| [RESEARCH.md](./RESEARCH.md) | Evaluation method and runtime trade-offs |
+| [MODELING.md](./MODELING.md) | Lifecycle and capability state model |
+| [EMBEDDING.md](./EMBEDDING.md) | Embedding interface boundary and evaluation ownership |
+| [IMPLEMENTATION.md](./IMPLEMENTATION.md) | Runtime load, reload, and cleanup invariants |
+| [API.md](./API.md) | Public plugin interfaces and return/error behavior |
+| [MODULE_GUIDE.md](./MODULE_GUIDE.md) | Plugin author integration and test checklist |
+| [RUNBOOK.md](./RUNBOOK.md) | Incident diagnosis, recovery, and escalation |
+| [OPERATIONS.md](./OPERATIONS.md) | Deployment controls and monitoring |
+| [SECURITY.md](./SECURITY.md) · [TRUST.md](./TRUST.md) | Security controls and trust boundaries |
+| [ROADMAP.md](./ROADMAP.md) · [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md) | Planned and future work |
 
 ## Scope
 
@@ -54,9 +83,11 @@ Out of scope:
   - src/plugins/oci_registry_client.cpp
   - src/plugins/rpc_service_registry.cpp
   - src/plugins/wasm_plugin_loader.cpp
-  - src/plugins/huggingface_ingestion_plugin.cpp
 - Verified behavior surfaces:
   - lifecycle, security, hot-plug, health, and integration paths
+- `include/plugins/huggingface_ingestion_plugin.h` declares an ingestion
+  interface, but no matching implementation file is present in the current
+  `src/plugins` source set.
 - Note:
   - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
   - historical entries remain in CHANGELOG.md
