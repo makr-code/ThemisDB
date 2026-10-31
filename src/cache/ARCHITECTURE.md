@@ -1,7 +1,9 @@
 # Architecture - Cache Module
 
-<!-- Status: current | validated: 2026-09-09 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+<!-- AI_Used: true | AI_Models: unknown | AI_Contributor: GitHub Copilot Coding Agent | Human_Review: false | Human_Author: ThemisDB Team
+Exact model backend not verifiable from final document text alone. -->
 
 ## Overview
 
@@ -30,15 +32,15 @@ The cache module composes query and embedding cache behaviors into bounded, obse
 | Contract | Behavior |
 |---|---|
 | cache facade interfaces | provide get/put/invalidate style cache semantics |
-| isolation interfaces | enforce tenant and bounded access constraints |
-| coordination interfaces | propagate invalidation/replication intents safely |
+| tenant-aware interfaces | apply tenant context and quotas where supported and configured; isolation is not universal across cache classes |
+| coordination interfaces | publish entries and invalidation events through the selected coordinator; remote delivery can be asynchronous or partial |
 | observability interfaces | expose health/SLO and operational counters |
 
 ## Failure Semantics
 
-- invalid or incompatible cache operations fail with structured error behavior.
-- degraded coordination backends surface explicit runtime degradation.
-- invalidation/warmup failures remain bounded and observable.
+- `cache_contract.h` defines canonical failure classes and fail-closed classification. Individual cache APIs still expose different result forms (`optional`, `bool`, counts, or diagnostic structures); do not assume every API returns a shared error envelope.
+- Coordinator diagnostics expose connection and delivery state. A successful local cache operation is not proof of remote delivery.
+- Warmup reports loaded, skipped, and failed records through `WarmupResult`; callers must inspect that result rather than treating invocation as complete success.
 
 ## Module Dependencies
 
@@ -51,30 +53,19 @@ The cache module composes query and embedding cache behaviors into bounded, obse
 | Module | Via | Notes |
 |--------|-----|-------|
 | `server` | `include/cache/semantic_cache.h`, `include/cache/adaptive_query_cache.h`, `include/cache/cache_hit_rate_slo_monitor.h` | Semantic result reuse and SLO monitoring for HTTP query responses |
-| `query` | `include/cache/adaptive_query_cache.h`, `include/cache/workload_cache_strategy.h` (via `include/query/query_cache_manager.h`, `include/query/workload_cache_strategy.h`) | Plan-level result reuse and workload-adaptive cache strategy before execution engine invocation |
-| `llm` | `include/cache/semantic_cache.h`, `include/cache/embedding_cache.h` | Embedding and inference-result caching to reduce model call volume; LLM prefix cache (`src/llm/llm_prefix_cache.cpp`) also uses `cache/` headers |
+| `query` | `include/cache/adaptive_query_cache.h` (used via `include/query/query_cache_manager.h`; workload strategy is declared in `include/query/workload_cache_strategy.h`) | Query result reuse and workload-adaptive strategy integration |
+| `llm` | `include/cache/embedding_cache.h` | `LLMPrefixCache` uses `EmbeddingCache` for prefix-vector similarity lookup; embedding generation remains outside this cache module |
 | `sharding` | `include/cache/bounded_lru_cache.h` | Bounded LRU shard-routing metadata cache for consistent-hash ring lookups |
 | `content` | `include/cache/bounded_lru_cache.h` | `deduplication_checker` uses bounded LRU for fingerprint deduplication (`include/content/deduplication_checker.h:20`) |
 
-## Integration Points
+## Runtime Data Flow and Boundaries
 
-### Critical Integration: SemanticCache ↔ Server Query Path
-**Files:** `include/cache/semantic_cache.h` ↔ `src/server/http_server.cpp`
-**Contract:** `SemanticCache::lookup(embedding_key)` returns a cached result or `MISS`; on `MISS` the server executes the full query and calls `SemanticCache::insert()` with the result. Invalidation events (from storage writes) must precede any subsequent `lookup()` seeing stale data.
-**Thread Safety:** `SemanticCache` is concurrency-safe via internal `std::shared_mutex`; `insert()` and `lookup()` may be called from any request thread.
-**Failure Mode:** Cache backend degradation (Redis unavailable) falls back to `MISS` behavior; the server continues with full execution. A `cache.backend_errors` counter is incremented.
+- **Adaptive query cache:** callers create a fingerprint and pass it with query parameters and tenant context to `get()` / `put()`. Reads search the available L1/L2/L3 paths; L3 is absent when its path is empty or initialization fails. `enable_write_through` is opt-in. When a coordinator is configured, entry and invalidation events are published separately from local cache operations.
+- **Semantic cache:** `query(prompt, params)` and `put(prompt, params, response, metadata, ttl)` use a key derived from SHA-256 of the prompt concatenated with serialized parameters and access the caller-supplied RocksDB `TransactionDB` and optional column family. This is an exact prompt/parameter key, not embedding-similarity lookup; the database and column-family handles are borrowed.
+- **Embedding cache:** callers supply the embedding vector. A configured vector index searches one nearest item and applies the configured similarity threshold; if no index is active, lookup scans the in-memory entries. The cache does not generate embeddings or establish application-level semantic equivalence.
+- **SLO monitor:** `evaluate(CacheMetrics)` evaluates supplied metrics; `recordLatency()` and `recordTenantEvictionRate()` are separate reporting calls. The monitor is not an implicit hook on every cache operation.
 
-### Critical Integration: AdaptiveQueryCache ↔ Query Module
-**Files:** `include/cache/adaptive_query_cache.h` ↔ `src/query/` execution entry point
-**Contract:** `AdaptiveQueryCache::get(query_fingerprint)` is called before the query planner; a hit returns a pinned result set that the query layer forwards directly. `put()` is called post-execution with the result and a computed eviction score.
-**Thread Safety:** Cache entries are reference-counted; concurrent reads are lock-free, writes serialised per bucket.
-**Failure Mode:** Cache corruption or capacity overflow causes silent eviction; the query layer always falls through to execution on a miss.
-
-### Critical Integration: CacheHitRateSloMonitor ↔ Server SLO Reporting
-**Files:** `include/cache/cache_hit_rate_slo_monitor.h` ↔ `src/server/` metrics pipeline
-**Contract:** `CacheHitRateSloMonitor::record(hit_or_miss)` updates a rolling hit-rate window; `checkSlo()` returns a breach signal consumed by the server's SLO alerting path.
-**Thread Safety:** Counter updates are atomic; `checkSlo()` reads are linearisable.
-**Failure Mode:** Monitor failure is non-fatal; SLO breach reporting may be delayed but cache operation continues.
+The cache owns reuse, expiry, tier placement, and cache-specific diagnostics. Callers and data-owning modules remain responsible for authorization, freshness, and ordering invalidations with writes.
 
 
 

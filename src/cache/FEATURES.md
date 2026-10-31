@@ -1,9 +1,16 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-18"
-Last Updated: "2026-10-18"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot Coding Agent"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 ---
+
+Exact model backend not verifiable from final document text alone.
 
 # Cache in ThemisDB
 
@@ -15,7 +22,7 @@ Die erste Kernfaehigkeit ist **multi-tier adaptive cache facade and policies**. 
 
 Die zweite Kernfaehigkeit ist **bounded in-memory LRU cache tier behavior**. Dadurch bleiben Integrationspfade zwischen Modulgrenzen reproduzierbar und operativ auswertbar.
 
-Die dritte Kernfaehigkeit ist **semantic fingerprint/similarity cache support**. Das unterstuetzt stabile Abnahme- und Aenderungsprozesse entlang der Modul-Roadmap.
+Die dritte Kernfaehigkeit umfasst zwei getrennte Pfade: **exakte Prompt-und-Parameter-Schlüssel** in `SemanticCache` und **embedding-basierte Ähnlichkeitssuche** in `EmbeddingCache`. `SemanticCache` erzeugt selbst keine Embeddings; die jeweiligen Verträge stehen in [API.md](./API.md) und [EMBEDDING.md](./EMBEDDING.md).
 
 ```mermaid
 flowchart LR
