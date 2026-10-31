@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # ThemisDB Tensor Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · THEMIS_BRAIN_MEMORY_COMPARATIVE_PAPER.md -->
 
 ## Module Purpose
@@ -39,10 +53,38 @@ Out of scope:
 
 ## Runtime Behavior and Limits
 
-- tensor routing/index behavior is bounded by index and bridge configuration.
+- `TensorIndexManager::routeFor()` derives a `TensorRouter::DataProfile` from the dimension and vector count, estimates compressibility from dimension, and returns a route. The current `createIndex()` implementation creates a flat TT index without consuming that route; see [API contract caveat](./API.md).
 - fingerprint graph behavior remains explicit and observable under insert/query/export operations.
-- dedup and replay-adjacent behavior is diagnosable through dedicated test/benchmark paths.
-- advanced tensor paths remain configuration-sensitive and require explicit enablement.
+- `findSimilar()` ranks registered TT trains using TT inner products; `findSimilarByFingerprint()` scans matching entries using approximate cosine similarity with zero-padding for unequal fingerprint lengths. Neither path uses LSH in the current implementation.
+- `TensorCoreStorageBridge` uses an injected storage backend or registered factory; without either, it falls back to `InMemoryTensorBackend` and does not persist across process restarts.
+- `TensorIndexManager::mapCores()` defaults to anonymous mapped memory populated by copying TT core data. File-backed `MAP_SHARED` mapping is a separate `buildFromFd()`/injected-mapper path, not the manager's default.
+
+## Installation
+
+This is an in-tree module guide; use the main ThemisDB build configuration rather
+than treating `themis_tensor` as a separately packaged installation.
+
+## Usage
+
+Include the relevant public header from `include/tensor/` and follow its current
+contract. The [public header inventory](../../include/tensor/README.md) and
+[API notes](./API.md) identify runtime behavior and known discrepancies.
+
+## Build and Test
+
+The module is a C++17 static library target. From an existing configured build directory:
+
+```sh
+cmake --build <build-dir> --target themis_tensor
+cmake --build <build-dir> --target module_tensor_test_tensor_contract_hardening_focused
+ctest --test-dir <build-dir> -L tensor --output-on-failure
+```
+
+Module tests are discovered from `tests/tensor/test_*.cpp`; the focused CTest name is
+`<source-stem>_tensor_FocusedTests`. The stress target has a 300-second timeout.
+Tensor benchmarks are discovered from `benchmarks/tensor/bench_*.cpp` only when
+`THEMIS_BUILD_BENCHMARKS` is enabled. CMake registration is not evidence that a
+test or benchmark has built or passed.
 
 ## Sourcecode Verification (Module: tensor/readme)
 

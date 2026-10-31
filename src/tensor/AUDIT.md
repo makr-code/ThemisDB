@@ -1,6 +1,25 @@
-# Audit Report - Tensor Module
+---
+Author: "ThemisDB Contributors"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "archived"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
 
-<!-- Status: current | validated: 2026-05-31 -->
+> Exact model backend not verifiable from final document text alone.
+>
+> Historical audit snapshot validated 2026-05-31; its findings and compliance
+> results are not a current audit. The module CMake files and source-linked
+> documentation establish current interfaces; use the active [roadmap](./ROADMAP.md)
+> for open work.
+
+# Audit Report - Tensor Module (Historical Snapshot)
+
+<!-- Status: archived | snapshot: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 ## Summary

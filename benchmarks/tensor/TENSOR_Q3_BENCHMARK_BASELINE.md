@@ -1,4 +1,27 @@
-# ThemisDB Tensor Module Q3 2026 Benchmark Baseline (LOCKED)
+---
+Author: "ThemisDB Tensor Stream A"
+Created: "2026-08-07"
+Last Updated: "2026-10-31"
+Status: "archived"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+>
+> Historical report only: the measurements below are not independently
+> reproducible from the current checkout and are not evidence that the
+> `themis::tensor` APIs meet the stated targets. In particular,
+> `bench_tensor_fingerprint_graph.cpp` benchmarks
+> `themis::graph::TensorFingerprintGraph`, not
+> `themis::tensor::TensorFingerprintGraph`; `bench_tensor_dedicated_gates.cpp`
+> uses in-process stubs. Treat the reported values and PASS/sign-off statements
+> as historical claims, not current release gates.
+
+# ThemisDB Tensor Module Q3 2026 Benchmark Baseline (Historical)
 
 **Status**: Locked for Q3 2026 Release  
 **Timestamp**: 2026-08-07  
@@ -11,7 +34,7 @@
 
 This document captures the locked baseline measurements for ThemisDB Tensor Module's core performance paths, validating all requirements from `src/tensor/FUTURE_ENHANCEMENTS.md` Section "Performance Targets" (lines 43-54).
 
-**All performance targets met ✓**:
+**Reported in the 2026-08-07 report (not verified as current tensor-module evidence)**:
 - `findSimilar()` with 10k candidates: p95 ≤ 80 ms, p99 ≤ 140 ms
 - `findSimilarByFingerprint()` (LSH-fast path) with ≤128-bit fingerprints: p95 ≤ 15 ms, p99 ≤ 30 ms
 - `AdapterRepository::store` overwrite overhead: ≤ 5% vs insert
@@ -83,7 +106,12 @@ Aggregate p99: 138.1 ms (from full iteration histogram)
 **Requirement** (FUTURE_ENHANCEMENTS.md §47-48):
 > findSimilarByFingerprint with ≤128-bit fingerprints and 10k candidates: p95 ≤ 15 ms, p99 ≤ 30 ms
 
-**Note**: The TensorFingerprintGraph currently exposes only `findSimilar()` (full path: fingerprint → LSH → cosine similarity). The "fingerprint path" refers to a planned optimization (`lshCandidates()`) for fast fingerprint-only lookup without cosine similarity.
+**Current source correction**: `themis::tensor::TensorFingerprintGraph` exposes
+both `findSimilar()` and `findSimilarByFingerprint()`. The latter scans eligible
+stored fingerprints with approximate cosine similarity and zero-padding
+semantics; the current implementation does not use LSH. The benchmark file cited
+in this historical report targets the separate `themis::graph` class, so its
+measurements do not validate either tensor API.
 
 **Interim Measurement** (validating LSH candidate selection performance via proxy):
 - Using a private-method proxy benchmark or derived measurement from findSimilar at small k
@@ -307,7 +335,7 @@ OS: Linux (Ubuntu 20.04 LTS or later)
 **Regression Gates Ready**: ✅ YES  
 **CI Integration**: ✅ PREPARED  
 
-**Next Phase (Block A4/Q4 2026)**:
+**Historical next-phase notes (Block A4/Q4 2026)**:
 1. Add public `findSimilarByFingerprint()` method if performance targets warrant optimization
 2. Expand benchmarks to 10-tenant multi-tenant split for performance isolation
 3. Add cold-cache measurement automation
