@@ -1,66 +1,47 @@
 # Audit Report - Temporal Module
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+<!-- Status: documentation/source inventory reviewed 2026-10-31 -->
 
-## Summary
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
 
-| Metric | Result |
-|---|---|
-| Build registration | pass |
-| Source set size | pass (module core files present) |
-| Focused test presence | pass |
-| Open hardening findings | yes |
-| Critical blockers | none identified |
+Exact model backend not verifiable from final document text alone.
 
-## Verified Files
+## Scope and evidence
 
-- src/temporal/temporal_query_engine.cpp
-- src/temporal/bi_temporal.cpp
-- src/temporal/bitemporal_join.cpp
-- src/temporal/system_versioned_table.cpp
-- src/temporal/temporal_index.cpp
-- src/temporal/interval_tree_index.cpp
-- src/temporal/temporal_aggregator.cpp
-- src/temporal/temporal_conflict_resolver.cpp
-- src/temporal/snapshot_manager.cpp
-- src/temporal/retention_manager.cpp
-- src/temporal/temporal_cdc.cpp
-- src/temporal/temporal_compressor.cpp
-- src/temporal/temporal_migrator.cpp
-- src/temporal/temporal_tier_manager.cpp
-- src/temporal/temporal_cold_store.cpp
+This update checked the temporal headers and implementation files, focused test
+registration, benchmark sources/registration, and the in-scope Markdown claims.
+It did not run a build, tests, benchmarks, a security scan, or a full repository
+audit.
 
-## Findings
+| Area | Source evidence | What it establishes |
+|---|---|---|
+| Runtime API | `include/temporal/*.h`, `src/temporal/*.cpp` | The declared interfaces and implementation files are present. Presence alone does not establish release readiness. |
+| Focused tests | `tests/temporal/test_*.cpp`, `tests/temporal/CMakeLists.txt` | Test sources are glob-registered into focused targets; `test_temporal_*.cpp` files receive a second target registration with a different suffix. No test result is asserted here. |
+| Benchmarks | `benchmarks/temporal/bench_*.cpp`, `benchmarks/temporal/CMakeLists.txt` | Four benchmark sources are registered when benchmarks are enabled. Two suites use stubs/mocks and are not measurements of the production temporal implementation. |
+| Release posture | Root `ROADMAP.md` | The root maturity aggregate currently labels temporal `PRODUCTION_CANDIDATE`; this report does not override it. |
 
-### Open
+## Findings and follow-up
 
-1. [TMP-AUD-01] temporal lifecycle edge hardening remains active.
-- Severity: medium
-- Evidence: roadmap/future keep active work for snapshot/retention/concurrency edge scenarios.
-- Action: extend deterministic failure-path regression and stress coverage.
+- The old audit text referred to lifecycle, diagnostics, and benchmark gaps as
+  current findings without recording reproducible evidence. Those statements
+  are not retained as verified findings.
+- The dedicated and release-gate benchmark source files include stub/mock
+  workloads. **TODO:** attach runtime benchmark results and the applicable
+  release configuration before describing their thresholds as validated gates.
+- **TODO:** verify module-specific CI, sanitizer, and representative-hardware
+  evidence before making temporal release-readiness claims. No such result is
+  established by this documentation-only inspection.
 
-2. [TMP-AUD-02] diagnostics consistency across query/lifecycle/conflict incident classes needs tightening.
-- Severity: medium
-- Evidence: active follow-up work for unified temporal incident taxonomy.
-- Action: standardize diagnostics output across query, retention, snapshot, and conflict stages.
+## Canonical references
 
-3. [TMP-AUD-03] benchmark depth should broaden for advanced temporal workloads.
-- Severity: low
-- Evidence: core mapping is valid while wider temporal workload diversity remains desirable.
-- Action: add benchmark depth for complex history-query and retention-pressure scenarios.
-
-### Closed
-
-- core temporal runtime surfaces are present and source-verified.
-- documentation set is synchronized to source-verifiable claims.
-- changelog/roadmap role separation is aligned to module governance pattern.
-
-## Compliance Snapshot
-
-| Requirement | Status |
-|---|---|
-| Source-verifiable behavior claims | pass |
-| Structured forward planning in roadmap/future | pass |
-| Historical completion tracked in changelog | pass |
-| Core module docs synchronized | pass |
+- [Root `ROADMAP.md`](../../ROADMAP.md) — aggregate maturity and release authority.
+- [`ROADMAP.md`](ROADMAP.md) — module planning, subordinate to the root roadmap.
+- [`ARCHITECTURE.md`](ARCHITECTURE.md) — source and integration boundaries.

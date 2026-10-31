@@ -1,51 +1,51 @@
-> **Status:** 2026-06-01 – mit aktuellem Temporal-Code (`snapshot_manager.cpp`) abgeglichen.
+# Temporal production integration requirements
 
-# ThemisDB Temporal Module - Production Requirements
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
 
-## Zweck und Geltungsbereich
+Exact model backend not verifiable from final document text alone.
 
-Dieses Dokument ist der **kanonische Referenzpunkt für produktive Mindestanforderungen** des Temporal-Moduls.
-Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für Snapshot-Manager, Retention-Manager, Temporal-Daten-Verwaltung.
+## Scope
 
-## Dokumentabgrenzung (Canonical Split)
+This page records integration constraints visible in the temporal C++ APIs. It
+does not define a repository-wide production policy, deployment configuration,
+or release approval. The root [`ROADMAP.md`](../../ROADMAP.md) is authoritative
+for module maturity and release readiness.
 
-- **`src/temporal/PRODUCTION_REQUIREMENTS.md` (dieses Dokument):** verpflichtende Produktionsanforderungen (MUST/MUST NOT), Sicherheitsannahmen, Betriebsgrenzen.
-- **`src/temporal/README.md`:** Funktionsübersicht, Architekturkontext, API- und Nutzungsbeispiele.
-- **`src/temporal/ROADMAP.md`:** Lieferphasen, offene/abgeschlossene Features, Readiness-Planung.
-- **`src/temporal/FUTURE_ENHANCEMENTS.md`:** mittelfristige/langfristige Erweiterungen und Forschungsfelder.
+## Source-backed operating constraints
 
-## Verbindliche Produktionsanforderungen
+- **Retention:** choose a policy that matches the required history horizon.
+  Enforcement may remove historical versions; changing a policy does not restore
+  data already purged. The in-memory archive is not durable backup storage.
+- **Scheduled tables:** `RetentionManager::scheduleTable` retains a reference to
+  a `SystemVersionedTable`. Keep that object alive until it is unscheduled or
+  the scheduler is stopped.
+- **Snapshots:** `TemporalSnapshotManager` captures table scans in process
+  memory. Release handles or use its garbage-collection methods to bound
+  retention; snapshots are not process-restart recovery points.
+- **CDC:** the default in-memory log is bounded and may overwrite old events.
+  Check overflow before treating replay as complete. `CDCPersistentLog` is a
+  separate filesystem WAL API; callers own its lifecycle and filesystem
+  protection.
+- **Payloads and callbacks:** temporal records are JSON payloads; CDC events can
+  include before/after values. Restrict subscriber access and review
+  application-provided callbacks at the service boundary.
 
-- **MUST:** Temporal-Snapshot-Retention mit expliziten Retention-Windows konfiguriert; kein unbegrenztes Snapshot-Wachstum.
-- **MUST:** Retention-Manager aktiv; abgelaufene Temporal-Daten werden nach Policy bereinigt.
-- **MUST:** Alle sicherheitsrelevanten Konfigurationswerte beim Start validiert; fehlende oder ungültige Werte führen zu Fail-Closed-Verhalten.
-- **MUST NOT:** Sicherheits- oder Autorisierungs-Checks in Produktionspfaden deaktivieren.
+## Configuration and assurance boundary
 
-## Verbindliche Sicherheitsanforderungen
+The inspected temporal headers do not define a module configuration namespace,
+`THEMIS_PRODUCTION_MODE`/`THEMIS_ENVIRONMENT` switch, authentication or
+authorization control, audit-log policy, or deployment metric exporter.
+**TODO:** document these only when the owning service or canonical operations
+source provides the actual configuration contract.
 
-- Sicherheitsrelevante Operationen werden über dedizierte Kontroll-Surfaces geleitet.
-- Fehler in sicherheitskritischen Pfaden werden als explizite Fehlercodes propagiert; kein Silent-Permit.
-- Audit-Logging für sicherheitsrelevante Operationen aktiv in Produktionsdeployments.
-
-## Betriebsgrenzen
-
-- Konfigurationswerte müssen deployment-spezifisch gesetzt sein; Default-Werte gelten nicht als produktionssicher.
-- Ressourcen-Limits (Größen, Counts, Timeouts) müssen mit den Deployment-Anforderungen übereinstimmen.
-- Externe Abhängigkeiten müssen mit expliziten Verbindungs-Timeouts und Retry-Policies konfiguriert sein.
-
-## Minimaler Produktions-Check (Audit-fähig)
-
-- [ ] Modul-Konfiguration vollständig und beim Start validiert
-- [ ] Sicherheits- und Autorisierungs-Checks aktiv
-- [ ] Ressourcen-Limits explizit konfiguriert (keine Unlimited-Defaults)
-- [ ] Audit-Logging aktiv
-- [ ] Externe Abhängigkeiten mit Timeout und Retry konfiguriert
-- [ ] Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt
-
-## Review / Sourcecode-Audit-Nachweis
-
-### Betroffene Dateien im Review
-
-- `src/temporal/PRODUCTION_REQUIREMENTS.md`
-- `src/temporal/snapshot_manager.cpp`
-- `src/temporal/retention_manager.cpp`
+Build and test registration are described in the repository CMake files; this
+page does not claim that a build, test suite, benchmark, or production
+acceptance gate was run.

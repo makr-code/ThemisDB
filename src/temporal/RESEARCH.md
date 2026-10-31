@@ -40,8 +40,9 @@ until an integration explicitly maps them.
 - `test_temporal_contract_hardening_focused.cpp` documents the contract-header
   test families. Its helpers are test-local models, not implementations of the
   runtime classes.
-- `test_temporal_highcardinality_stress.cpp` exercises retention, conflict,
-  and CDC paths under stress; the integration soak suite is
+- `test_temporal_highcardinality_stress.cpp` contains stub-based versioned-write,
+  conflict-resolution, and CDC examples; it does not exercise retention or the
+  temporal runtime. The integration soak suite is
   [`test_temporal_store_soak.cpp`](../../tests/integration/test_temporal_store_soak.cpp).
 - [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md) maps mutation,
   as-of/valid-time query, and history cases to `benchmarks/temporal/bench_temporal_queries.cpp`.

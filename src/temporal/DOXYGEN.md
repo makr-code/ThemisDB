@@ -2,13 +2,28 @@
 
 Author: ThemisDB Contributors
 Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+
+Exact model backend not verifiable from final document text alone.
+
+> **Generated snapshot, not refreshed in this update.** Doxygen is unavailable
+> in the current workspace, so the semantic listing below was not regenerated.
+> A source-reference check found 1,081 references, with no missing source files
+> or line numbers beyond end-of-file; that check does not verify each extracted
+> signature or description. Use the current headers and implementation as the
+> authority and regenerate this artifact before relying on its detailed API
+> text.
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\temporal\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\temporal\doxygen-warnings.log`
+- Historical XML index path: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\temporal\xml\index.xml`
+- Historical warnings-log path: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\temporal\doxygen-warnings.log`
 
 ## Structure Metrics
 - C/C++ Files (scanned): 56
@@ -7978,4 +7993,3 @@ Status: active
   - `filters` (const std::vector< RowFilter > &): Input parameter.
 - Return: Return value.
 - Details: Cached AS-OF query. Returns the cached result if available; otherwise executes TemporalQueryEngine::queryAsOf(), caches the result, and returns it. The cache is keyed on (table.tableName(), as_of); field-level filters are applied after cache lookup so that the cache stores unfiltered result sets and multiple filter combinations can reuse the same entry. table Source table. as_of Point-in-time (ms since epoch). cache Shared QueryCache instance. filters Optional field-level row filters (applied post-cache). table Input parameter. as_of Input parameter. cache Input/output parameter. filters Input parameter. Return value. Calls: get(), tableName(), has_value(), std::move(), value(), TemporalQueryEngine::queryAsOf(), put(), empty().
-
