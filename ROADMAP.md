@@ -1428,8 +1428,8 @@ Audit method:
 >
 > Prior baseline (2026-05-27 before improved pipeline): 185,190 raw gaps (pre-dedup, different counting method).
 >
-> See current triage and scanner documentation in `docs/ARCHIVED/ai-working-history/`:
-> - [gap_scan_report_2026-06-13.md](ai_working/gap_scan_report_2026-06-13.md) — konsolidierter Arbeitsstand + aktive Worklist
+> Historical scanner snapshots are retained in `docs/ARCHIVED/ai-working-history/`; they are not current triage or release-status sources:
+> - [Gap Scanner Current Report (2026-06-09)](docs/ARCHIVED/ai-working-history/GAP_SCANNER_CURRENT_REPORT_2026-06-09.md) — historical management snapshot
 > - [scanner_improvements_mapping.md](docs/ARCHIVED/ai-working-history/scanner_improvements_mapping.md) — 27 Regelverbesserungen (Phase 1–6 Mapping)
 > - [scanner_integration_guide.md](docs/ARCHIVED/ai-working-history/scanner_integration_guide.md) — Phase-by-Phase Integration Guide
 > - [scanner_improvements_implementation_summary.md](docs/ARCHIVED/ai-working-history/scanner_improvements_implementation_summary.md) — Implementation Summary Phase 1–2 detail
