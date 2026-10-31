@@ -21,6 +21,12 @@ behavior; this summary is not a substitute for their Doxygen comments.
 
 ## Build and edition contracts
 
+- [`themis_api_contract.h`](../../include/themis/themis_api_contract.h):
+  declares only `themis::engine::ThemisError` and `themis::engine::Edition`
+  enums. Its file comment describes `BuildInfo`, version/commit accessors, and
+  capability discovery, but those declarations are not present in this header.
+  Use the separately declared APIs in `build_info.h`, `edition.h`, and
+  `edition_manager.h`; do not treat the comment as a complete contract.
 - [`build_info.h`](../../include/themis/build_info.h): query build/module
   configuration, format a summary, and export or verify a build manifest.
   Manifest export creates or overwrites the destination; verification returns
