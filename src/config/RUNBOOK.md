@@ -64,8 +64,8 @@ tickets. A resolver miss or validation failure is not authorization to continue.
 1. Preserve the exception type/message and key version without copying secret
    values into logs.
 2. `get()` throws for a missing key and propagates crypto failures.
-   `tryGet()` returns `std::nullopt` for absence and caught decrypt/decoding
-   errors; use `get()` when distinguishing failure is necessary.
+   `tryGet()` returns `std::nullopt` only for absence and propagates crypto
+   failures as `ConfigEncryptionException`.
 3. Treat authentication failure as an integrity signal. Do not hand-edit
    ciphertext, IV, tag, or key-version fields.
 4. Any serialized snapshot contains key bytes. Restore only through the

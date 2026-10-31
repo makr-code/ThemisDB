@@ -42,16 +42,16 @@ management, or define the consuming application's reload policy.
   decryption. `serialize()` contains the current key bytes (base64-encoded);
   protect the entire snapshot as key material. This component is not an
   external KMS.
-- `tryGet()` catches decryption/decoding failures and returns `std::nullopt`;
-  use `get()` where callers must distinguish absence from crypto failure.
+- `tryGet()` returns `std::nullopt` only for an absent key and propagates
+  decryption/decoding failures as `ConfigEncryptionException`.
 
 ## Verification gap
 
 `include/config/config_contract.h` declares additional bounds and failure
-semantics. The current focused tests and implementation have not been compared
-against every declaration. **TODO:** complete a contract-to-code audit before
-claiming these declarations as enforced security controls. See
-[`MODULE_GAPS.md`](MODULE_GAPS.md).
+semantics. The contract-to-code audit found several declarations that are policy
+targets rather than enforced controls, and focused tests do not establish every
+listed limit. Do not treat those declarations as runtime protections; see the
+itemized results in [`MODULE_GAPS.md`](MODULE_GAPS.md).
 
 For incidents, preserve redacted diagnostics, restrict access to affected
 artifacts, and follow the owning service's response procedure and the project

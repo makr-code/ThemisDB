@@ -85,11 +85,11 @@ bytes; it is not safe to treat the snapshot as ciphertext-only backup.
 - File parse errors become validation diagnostics; `loadAsJson()` throws
   `SchemaValidationException`.
 - `ConfigEncryptedStore::get()` reports missing keys and crypto failures by
-  exceptions; `tryGet()` collapses caught decrypt/parse failures into
-  `std::nullopt`.
-- The contract header declares limits and behaviors that are not all established
-  by focused tests. See [`MODULE_GAPS.md`](MODULE_GAPS.md); verify enforcement
-  before documenting them as runtime guarantees.
+  exceptions; `tryGet()` returns `std::nullopt` only for an absent key and
+  propagates decryption failures as `ConfigEncryptionException`.
+- The contract header declares limits and behaviors that are not all enforced
+  or established by focused tests. See [`MODULE_GAPS.md`](MODULE_GAPS.md) for
+  the contract-to-code audit; do not treat policy targets as runtime guarantees.
 
 ## Source references
 

@@ -49,8 +49,8 @@ availability; those properties depend on the consuming service.
 
 - `tryResolve()` returns no value for both invalid and unavailable paths; use
   diagnostics or the throwing API when the distinction matters.
-- `tryGet()` collapses missing and caught decrypt/decoding failures to
-  `std::nullopt`; `get()` retains error distinction.
+- `tryGet()` returns `std::nullopt` only for an absent key and propagates
+  decryption failures as `ConfigEncryptionException`.
 - Watch notifications are not a reload transaction and can be debounced.
 - Schema contract limits and full keyword conformance need implementation/test
   verification; see [`MODULE_GAPS.md`](MODULE_GAPS.md).
