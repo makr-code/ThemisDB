@@ -329,6 +329,11 @@ def test_cmake_cache_recovery_propagates_status(tmp_path: Path, stage, retry_sta
         'echo "$*" >> "$CALLS_FILE"\n'
         'if [[ "$*" == *"-DTHEMIS_ENABLE_COMPILER_CACHE=OFF"* ]]; then\n'
         '  if [[ "$TEST_STAGE" == Configure && ( -v CMAKE_C_COMPILER_LAUNCHER || -v CMAKE_CXX_COMPILER_LAUNCHER ) ]]; then exit 8; fi\n'
+        '  # Arrow rediscovers sccache after the compiler-probe retry clears launchers.\n'
+        '  if [[ "$SCCACHE_GHA_ENABLED" != false ]]; then\n'
+        '    echo "sccache: error: Server startup failed: cache storage failed to read"\n'
+        '    exit 8\n'
+        '  fi\n'
         '  touch "$RETRY_DONE"\n'
         '  exit "$RETRY_STATUS"\n'
         'fi\n'
@@ -361,6 +366,8 @@ def test_cmake_cache_recovery_propagates_status(tmp_path: Path, stage, retry_sta
         "NESTED_ERROR": str(nested_error),
         "CMAKE_C_COMPILER_LAUNCHER": "sccache",
         "CMAKE_CXX_COMPILER_LAUNCHER": "sccache",
+        "SCCACHE_GHA_ENABLED": "true",
+        "GITHUB_ENV": str(tmp_path / "github-env"),
     }
     result = subprocess.run(["bash", "-c", script], env=env, capture_output=True, text=True)
     assert result.returncode == retry_status, result.stdout + result.stderr
@@ -368,6 +375,7 @@ def test_cmake_cache_recovery_propagates_status(tmp_path: Path, stage, retry_sta
     assert len(commands) == (3 if stage == "Build" and retry_status == 0 else 2)
     assert "-DTHEMIS_ENABLE_COMPILER_CACHE=OFF" in commands[1]
     assert "-DCMAKE_TOOLCHAIN_FILE=" not in commands[1]
+    assert (tmp_path / "github-env").read_text(encoding="utf-8") == "SCCACHE_GHA_ENABLED=false\n"
     if nested_error:
         assert "config-x64-linux-rel-err.log" in result.stdout
         assert "sccache: error: Server startup failed" in result.stdout
@@ -394,12 +402,15 @@ def test_cmake_compiler_diagnostics_do_not_retry_unrelated_errors(tmp_path: Path
         "RUNNER_ARCH": "X64",
         "CONFIGURE_COMMAND": command + f"exit {configure_status}",
         "COMPILER_LOG": str(log),
+        "SCCACHE_GHA_ENABLED": "true",
+        "GITHUB_ENV": str(tmp_path / "github-env"),
     }
     result = subprocess.run(["bash", "-c", script], env=env, capture_output=True, text=True)
     assert result.returncode == configure_status, result.stdout + result.stderr
     assert ("compiler syntax error" in result.stdout) == (configure_status != 0 and not stale_log)
     assert "sccache: error: Server startup failed" not in result.stdout
     assert "Transient sccache backend failure" not in result.stdout
+    assert not (tmp_path / "github-env").exists()
 
 
 @pytest.mark.parametrize("directory", ["", "build-fast", "/tmp/rag-build"])
