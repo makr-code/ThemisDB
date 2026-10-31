@@ -1,32 +1,50 @@
 ---
-Author: "ThemisDB Team"
-Created: "2026-10-18"
-Last Updated: "2026-10-18"
-Status: "active"
+Author: ThemisDB Contributors
+Created: 2026-10-18
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot Coding Agent
+Human_Review: false
+Human_Author: unknown
+Source level: Level 1 — module implementation
+SOT domain: module-behavior
+Canonical references: src/distributed_tensor/CMakeLists.txt; include/distributed_tensor/*.h; tests/CMakeLists.txt; tests/distributed_tensor/CMakeLists.txt; tests/epic3_distributed_tensor/CMakeLists.txt; tests/integration/CMakeLists.txt; benchmarks/CMakeLists.txt; benchmarks/distributed_tensor/bench_distributed_tensor_dedicated_gates.cpp; benchmarks/epic3_distributed_tensor/CMakeLists.txt
+Related: Issue #7341
 ---
 
-# Distributed-Tensor in ThemisDB
+Exact model backend not verifiable from final document text alone.
 
-## Ueberblick
-src/distributed_tensor implements EPIC 5428 Phase 2 (Core Implementation), delivering portable tensor artifacts, manifest semantics, shard placement, integrity verification, and recovery planning for ThemisDB's distributed sharding fabric. Im Modulkontext werden Aussagen mit [Architekturgrenzen](./ARCHITECTURE.md), [Release-Planung](./ROADMAP.md), [Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md) abgeglichen. Im Betrieb sind dabei insbesondere [Latenz](https://en.wikipedia.org/wiki/Latency_(engineering)), [Observability](https://en.wikipedia.org/wiki/Observability) und [Determinismus](https://en.wikipedia.org/wiki/Deterministic_algorithm) relevante Qualitaetskriterien. Fuer Querschnittskontext wird das Modul mit den relevanten Stellen im [Compendium](./../../docs/compendium/docs/index.md) verknuepft.
+# Distributed Tensor Features
 
-## Kern-Features im Detail
-Die erste Kernfaehigkeit ist **ready C++17 code with comprehensive documentation,**. Das beschreibt einen konkreten, in den Modulquellen referenzierten Verantwortungsbereich.
+The module source and public headers define these capability areas:
 
-Die zweite Kernfaehigkeit ist **ready API contracts**. Dadurch bleiben Integrationspfade zwischen Modulgrenzen reproduzierbar und operativ auswertbar.
+- Artifact classes, manifest metadata, shard-placement plans, integrity
+  verification interfaces, and recovery interfaces.
+- Distributed retrieval planning, including summary-first routing and
+  exact-on-demand request structures.
+- Tensor infrastructure, synchronous in-process training-job coordination
+  through registered worker callbacks, and storage-strategy assessment
+  interfaces. The coordinator does not provide networked worker execution.
+- Additional internal update and coordination components listed in
+  `src/distributed_tensor/CMakeLists.txt`.
 
-Die dritte Kernfaehigkeit ist **closed integrity checks for partial receipts and invalid manifests**. Das unterstuetzt stabile Abnahme- und Aenderungsprozesse entlang der Modul-Roadmap.
+The configured module target's integrity implementation uses an FNV-1a
+demonstration hash behind `simple_sha256_hash()`. It does not provide
+cryptographic SHA-256; Merkle-shaped data structures are not a cryptographic
+security guarantee. See [`SECURITY.md`](SECURITY.md).
 
-```mermaid
-flowchart LR
-    A[Produktanforderung] --> B[Distributed-Tensor Modul]
-    B --> C[Implementierung und Integrationspfade]
-    C --> D[Test- und Betriebsnachweise]
-    D --> E[Kundennutzen im Betrieb]
-```
+The current module-local CMake configuration registers three focused test
+executables. The separate EPIC 3 test configuration registers phase/contract
+tests, and the integration configuration includes the distributed-tensor soak
+source when present. The module-local benchmark source defines four in-process
+dedicated gates; the EPIC 3 benchmark configuration separately provides
+workload benchmark sources. Neither source registration nor API declarations
+establish successful test execution, production deployment, or measured
+runtime performance.
 
-## Kundennutzen und Abgrenzung
-Kundinnen und Kunden erhalten damit vor allem besser planbares Systemverhalten, kuerzere Eingrenzungszeiten bei Stoerungen und transparentere Release-Risiken. Diese Seite ist ein fachlich-kommunikativer Ueberblick; normative API-, Compliance- und Freigabeaussagen verbleiben in den kanonischen Modulquellen.
-
-## Einordnung und Quellen
-Primaere modulnahe Quellen: [README.md](./README.md), [ARCHITECTURE.md](./ARCHITECTURE.md), [ROADMAP.md](./ROADMAP.md), [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md), [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md), [SECURITY.md](./SECURITY.md). Sekundaere Querschnittsquellen: [docs/distributed_tensor/README.md](./../../docs/distributed_tensor/README.md), [Compendium Index](./../../docs/compendium/docs/index.md). Aussagen wurden auf diese Quellenbasis begrenzt; bei fehlenden Modulquellen werden keine weitergehenden Produktclaims ergänzt.
+For exact APIs and current evidence limits, see
+[`README.md`](README.md), [`ARCHITECTURE.md`](ARCHITECTURE.md),
+[`AUDIT.md`](AUDIT.md), and
+[`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md).

@@ -1,47 +1,74 @@
-# Distributed Tensor Module Security
+# Distributed Tensor Module Security Notes
 
-<!-- Status: current | validated: 2026-07-17 -->
-<!-- Links: README.md · ARCHITECTURE.md · AUDIT.md -->
+**Last Updated:** 2026-10-31
+**Source level:** Level 1 — module implementation
+**SOT domain:** security
+**Canonical references:** `include/distributed_tensor/integrity_verification.h`, `include/distributed_tensor/distributed_planner.h`, `include/distributed_tensor/tensor_storage_strategy.h`, `src/distributed_tensor/integrity_verification.cc`, `src/distributed_tensor/CMakeLists.txt`
+**Related:** Issue #7341
 
-## Scope
+<!--
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot Coding Agent
+Human_Review: false
+Human_Author: unknown
+Exact model backend not verifiable from final document text alone.
+-->
 
-Security posture for EPIC 3 distributed tensor scaffolding. Current module state is
-contract ownership plus skeleton implementation files; production distributed behavior is
-tracked in later phases.
+## Scope and evidence boundary
 
-## Security Posture (Current)
+The public API declares artifact-integrity verification, retrieval planning,
+and storage-strategy interfaces. The storage-strategy header explicitly
+describes the handled tensor data as advisory and says it must not override
+graph-verified query results. The planner header exposes graph-validator and
+fallback-related interfaces.
 
-- module documentation files are present and reviewed
-- interface headers (`*.h`) and scaffold files (`*.cc`) are planned but deferred to the implementation PR
-- no production security guarantees are claimed before runtime implementation exists
-- phase-gated progression requires explicit tests before integration enablement
-- Phase 5 benchmark governance assets define deterministic degraded-mode and recovery checks without
-  claiming runtime pass status yet
+## Integrity implementation limitation
 
-## Primary Risks to Track
+The active module target's CMake source list includes
+`src/distributed_tensor/integrity_verification.cc`. Its
+`simple_sha256_hash()` implementation is explicitly a demonstration hash using
+FNV-1a, despite its name and 64-character output. The target does not list the
+separate `src/distributed_tensor/src/integrity_verification.cc` implementation,
+which contains OpenSSL SHA-256 calls. The default module target therefore does
+not provide cryptographic SHA-256, and its Merkle-shaped tree/receipt data must
+not be described as cryptographic integrity or security protection.
 
-1. integrity-check bypasses during manifest/placement/recovery runtime evolution
-2. inconsistent failure semantics across placement, planner, and recovery components
-3. insufficient degraded-mode behavior during distributed fault scenarios
-4. uncontrolled variance or missing benchmark evidence before acceptance promotion
+The public enum and API names (including SHA-256 and Merkle terminology) do not
+change that implementation fact. No cryptographic security guarantee is
+established by the current module target.
 
-## Required Controls for Phase Advancement
+The training coordinator is also limited: `TensorTrainingCoordinator` invokes
+registered `ITensorTrainingWorker::processShard` callbacks synchronously
+in-process. It does not implement network transport or distributed worker
+coordination.
 
-- explicit validation and failure semantics in EPIC 3 contracts
-- fail-safe behavior for integrity and recovery failure classes
-- contract/fault-path tests in `tests/epic3_distributed_tensor/`
-- benchmark/fault-injection evidence before default enablement
-- deterministic gate tracking via `benchmarks/epic3_distributed_tensor/release_gate_manifest_epic3.json`
+More generally, declarations do not establish that every runtime path enforces
+advisory-only behavior or that the module has passed a security review. The
+test configurations include integrity-related sources, but no tests or
+security checks were executed for this documentation task.
 
-## Phase 5 Hardening Scenarios
+## Risks to validate
 
-- degraded-node retrieval planning must record availability and retry pressure
-- integrity verification under manifest churn must surface any residual failures
-- rebuild/recovery scenarios must record convergence time and retry budget usage
-- control-plane overload must not be hidden by missing benchmark result coverage
+- Verify integrity checks against corruption, malformed manifests, and
+  inconsistent shard metadata.
+- Verify that advisory tensor data cannot override authoritative graph results
+  on every consuming path.
+- Verify behavior when the graph validator or fragment fetcher is absent or
+  reports failure.
+- Validate recovery and concurrency behavior under fault injection before
+  making availability or fail-closed guarantees.
+
+## Current status
+
+Security properties and production guarantees remain unverified by this
+documentation-only source review. No tests, security scans, or runtime
+experiments were run. Historical security and phase-gate reports are not
+current validation evidence unless their referenced artifacts are checked.
 
 ## References
 
-- `src/distributed_tensor/include/README.md`
-- `src/distributed_tensor/src/README.md`
-- `src/distributed_tensor/ROADMAP.md`
+- [`../../include/distributed_tensor/integrity_verification.h`](../../include/distributed_tensor/integrity_verification.h)
+- [`../../include/distributed_tensor/distributed_planner.h`](../../include/distributed_tensor/distributed_planner.h)
+- [`../../include/distributed_tensor/tensor_storage_strategy.h`](../../include/distributed_tensor/tensor_storage_strategy.h)
+- [`ROADMAP.md`](ROADMAP.md)
