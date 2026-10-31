@@ -25,7 +25,7 @@ release audit. No build, test, linter, or benchmark was run for Issue #7349.
 | Implementation files | 35 `.cpp` files directly under `src/governance/` at review time |
 | Public headers | 36 `.h` files directly under `include/governance/` at review time |
 | Focused test sources | 16 `.cpp` files directly under `tests/governance/` at review time |
-| Module-focused test registration | CMake excludes `test_operational_audit_evidence` and `test_policy_versioning_and_approval` until the implementation/link issues are resolved |
+| Module-focused test registration | CMake quarantines `test_operational_audit_evidence` and `test_policy_versioning_and_approval` pending canonical project configure/build/run validation; operational audit passed a standalone local run (26/26), while project configuration is blocked by missing RocksDB and versioning/approval has not been linked or run |
 | Benchmarks | Four `.cpp` sources under `benchmarks/governance/`; this directory's CMake registers policy-latency and release-gate targets, while top-level CMake also handles other benchmark sources |
 
 These are source-tree/CMake observations, not proof of successful compilation or

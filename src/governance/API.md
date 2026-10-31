@@ -66,7 +66,9 @@ Thread-safety is interface-specific. The frozen API contract states internal syn
 - [Implementation guide](IMPLEMENTATION.md)
 - [Architecture](ARCHITECTURE.md)
 - [Trust boundaries](TRUST.md)
-- `tests/governance/CMakeLists.txt` currently excludes
+- `tests/governance/CMakeLists.txt` keeps
   `test_operational_audit_evidence` and `test_policy_versioning_and_approval`
-  until implementation/header and link dependencies are resolved. Neither
-  source is currently a runnable module-focused test.
+  quarantined pending canonical project configure/build/run validation. The
+  operational-audit implementation and suite were built and run standalone
+  locally (26/26 passed); project CMake configuration is blocked by missing
+  RocksDB, and the versioning/approval suite has not been linked or run.

@@ -64,10 +64,12 @@ provided by this summary.
    preserve records according to the deployment's own retention policy.
 
 Do not treat example code from earlier revisions as a complete runbook.
-`test_policy_versioning_and_approval.cpp` remains excluded from the governance
-module-focused CMake loop: its required change-manager/approval implementation
-units are not part of `themis_core`. Re-enable only after the target's
-implementation/link dependencies are repaired and the focused test runs.
+`test_policy_versioning_and_approval.cpp` remains quarantined from the
+governance module-focused CMake loop pending canonical project configure,
+build, and run validation. The focused target now lists its change-manager and
+approval implementation units explicitly, and stale source API references
+were reconciled, but the suite has not been linked or run in this environment.
+The project configure currently stops because RocksDB is unavailable.
 
 ## References
 
