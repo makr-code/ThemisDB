@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-30"
+Last Updated: "2026-10-30"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # ThemisDB Governance Module
 
 <!-- Status: current | validated: 2026-07-18 -->
@@ -53,6 +67,17 @@ Out of scope:
 - policy outcomes depend on loaded policy definitions and runtime headers/context.
 - compliance/masking/model-governance behavior is driven by configured rule sets.
 - integration fallback behavior (e.g. OPA) follows explicit bounded failure paths.
+
+## Developer Documentation
+
+| Document | Use it for |
+|---|---|
+| [Architecture](ARCHITECTURE.md) | Ownership boundaries, runtime planes, contracts, and failure semantics |
+| [Research](RESEARCH.md) and [Modeling](MODELING.md) | Evaluation evidence, domain models, assumptions, and limitations |
+| [Embedding boundary](EMBEDDING.md) | Governance decisions consumed by vector/model paths; governance does not generate embeddings |
+| [Implementation](IMPLEMENTATION.md), [API](API.md), and [Module Guide](MODULE_GUIDE.md) | Runtime behavior, public interfaces, and developer workflow |
+| [Runbook](RUNBOOK.md) and [Operations](OPERATIONS.md) | Incident diagnosis, recovery, rollout, and monitoring |
+| [Security](SECURITY.md) and [Trust](TRUST.md) | Threat model, trust boundaries, and security incident handling |
 
 ## Sourcecode Verification (Module: governance/readme)
 
