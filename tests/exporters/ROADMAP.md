@@ -1,52 +1,66 @@
-> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References: "tests/exporters/CMakeLists.txt; src/exporters/ROADMAP.md"
+Related: "Issue #7346; DOC-WEEKLY-2026-44"
+---
 
-# ROADMAP
+# Exporter tests roadmap
+
+Exact model backend not verifiable from final document text alone.
 
 ## Current Status
-- [~] Modul `tests/exporters` dokumentiert; Backlog für weitere Härtung und Ausbau wird gepflegt.
 
-## In Progress
-- [ ] Dokumentations- und Qualitätslücken schließen (Target: 2026-Q2)
+The folder contains focused tests registered dynamically from top-level
+`test_*.cpp` files by [`CMakeLists.txt`](./CMakeLists.txt). Runtime/API
+priorities remain in [`../../src/exporters/ROADMAP.md`](../../src/exporters/ROADMAP.md);
+this test-directory roadmap does not set separate delivery dates.
 
 ## Planned Features
-- [ ] Schnittstellen und Verantwortlichkeiten präzisieren (Target: 2026-Q3)
-- [ ] Testabdeckung für kritische Pfade erweitern (Target: 2026-Q3)
-- [ ] Betriebs- und Security-Härtung abschließen (Target: 2026-Q4)
+
+- [ ] Add focused regression cases for newly changed exporter contracts alongside
+  their owning test source; no independent delivery date is established.
 
 ## Implementation Phases
+
 ### Phase 1: Design / API-Vertrag
-- [ ] Öffentliche und interne Interfaces des Moduls konsolidieren (Target: 2026-Q2)
-- [ ] Eingabe-/Ausgabeverträge und Fehlermodelle festlegen (Target: 2026-Q2)
+- [ ] Identify the changed public contract and its owning test suite before
+  adding test-only work.
 
 ### Phase 2: Core-Implementierung
-- [ ] Kernlogik gemäß Schnittstellenvertrag vervollständigen (Target: 2026-Q3)
-- [ ] Integrationspunkte zu abhängigen Modulen stabilisieren (Target: 2026-Q3)
+- [ ] Keep test helpers and fixtures within the existing focused-test target.
 
 ### Phase 3: Fehlerbehandlung & Edge Cases
-- [ ] Fehlerfälle systematisch abdecken (Target: 2026-Q3)
-- [ ] Edge-Case-Handling und Guardrails ergänzen (Target: 2026-Q3)
+- [ ] Cover applicable invalid-input, error, limit, and recovery behavior.
 
 ### Phase 4: Tests
-- [ ] Unit-Tests für Kernpfade ausbauen (Target: 2026-Q3)
-- [ ] Integrations- und Regressionstests ergänzen (Target: 2026-Q3)
+- [ ] Register each new top-level `test_*.cpp` through the module CMake file's
+  stem-based target and CTest naming.
 
 ### Phase 5: Performance/Hardening
-- [ ] Performance-Bottlenecks messen und reduzieren (Target: 2026-Q4)
-- [ ] Security- und Reliability-Hardening abschließen (Target: 2026-Q4)
+- [ ] Add stress or hardening coverage only for a named runtime requirement or
+  observed regression; this roadmap defines no performance threshold.
 
 ### Phase 6: Dokumentation & Abnahme
-- [ ] Betriebs- und Entwicklerdokumentation aktualisieren (Target: 2026-Q4)
-- [ ] Modulabnahme anhand Checklisten und Akzeptanzkriterien durchführen (Target: 2026-Q4)
+- [ ] Record the focused build/CTest command and actual result with the change.
 
 ## Production Readiness Checklist
-- [ ] Definierte Fehlersemantik und Recovery-Pfade
-- [ ] Ausreichende Testabdeckung inkl. Regression
-- [ ] Security-Review und Dependency-Checks abgeschlossen
-- [ ] Monitoring/Observability-Anforderungen erfüllt
-- [ ] Dokumentation für Betrieb und Entwicklung vollständig
+- [ ] Tests cover the changed contract and relevant failure behavior.
+- [ ] CTest registration and labels match the module CMake convention.
+- [ ] Execution evidence records environment blockers rather than inferring success.
 
 ## Known Issues & Limitations
-- [!] Detailtiefe der Modul-spezifischen Akzeptanzkriterien variiert und wird sukzessive geschärft.
+- [!] Test-only milestones and dated gaps require an accepted runtime roadmap item.
 
 ## Breaking Changes
-- Keine bekannten Breaking Changes dokumentiert.
+- None known for the test-directory structure; runtime API changes belong in the
+  canonical module roadmap.

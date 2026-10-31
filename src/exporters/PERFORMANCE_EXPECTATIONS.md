@@ -1,4 +1,22 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References: "benchmarks/exporters/CMakeLists.txt; benchmarks/exporters/bench_exporters.cpp"
+Related: "Issue #7346; DOC-WEEKLY-2026-44"
+---
+
 # PERFORMANCE_EXPECTATIONS - src/exporters
+
+Exact model backend not verifiable from final document text alone.
 
 ## Scope
 
@@ -8,7 +26,7 @@
 ## Benchmark Reference
 
 - Relevant benchmark files:
-  - benchmarks/bench_exporters.cpp
+  - benchmarks/exporters/bench_exporters.cpp
 
 ## Specific Expectations
 
@@ -36,7 +54,7 @@
 ## Sourcecode Verification (Module: exporters/performance)
 
 - Verified benchmark sources:
-  - benchmarks/bench_exporters.cpp
+  - benchmarks/exporters/bench_exporters.cpp
 - Verified mapping surfaces:
   - JSONL batch/template/compressed benchmark cases
   - streaming and incremental benchmark cases
