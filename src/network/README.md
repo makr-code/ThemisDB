@@ -1,3 +1,15 @@
+---
+Author: "ThemisDB Contributors"
+Created: "unknown (pre-existing document; creation date not recorded)"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+---
+
 > **Build:** `cmake --preset linux-ninja-release && cmake --build build-linux-ninja-release --target <target>`
 
 # ThemisDB Network Module - Implementation
@@ -42,7 +54,7 @@ The Network module implements ThemisDB's high-performance, secure networking lay
 
 ## Current Delivery Status
 
-**Maturity:** 🟢 Production-Ready — Transport infrastructure, connection pooling, multiplexing, compression, WebSocket, QUIC, gRPC, and service mesh operational. Core Wire Protocol V1 operation handlers (HELLO, AUTH, GET, PUT, DELETE, VECTOR_SEARCH) fully implemented; QUERY_AQL and GEO_QUERY return structured errors directing clients to the HTTP REST API (engine integration pending).
+**Maturity:** PRODUCTION_CANDIDATE (per the root [roadmap](../../ROADMAP.md)). Transport and protocol capabilities vary by build option, runtime configuration, and integration; this status does not assert that every listed transport or feature is enabled or production-ready in every deployment. Core Wire Protocol V1 handlers (HELLO, AUTH, GET, PUT, DELETE, VECTOR_SEARCH) are implemented; QUERY_AQL and GEO_QUERY return structured errors directing clients to the HTTP REST API while engine integration remains pending.
 
 **Validated:** 2026-03-10 (Reality-Check against Sourcecode; see [docs/de/network/MISSING_IMPLEMENTATIONS.md](../../docs/de/network/MISSING_IMPLEMENTATIONS.md))
 
