@@ -1,19 +1,31 @@
-**Author:** ThemisDB Contributors  
-**Created:** 2026-09-21  
-**Last Updated:** 2026-09-28  
-**Status:** active
+---
+Author: "ThemisDB Team"
+Created: "2026-09-21"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
 
 # Execution Module — Future Enhancements
 
 ## Scope
 
-Forward-looking work for the execution module after the current bounded baseline: true work stealing, elastic worker management, richer scheduler policies, and stronger observability/export surfaces.
+Forward-looking work for the bounded in-process scheduler and fixed-worker pool:
+true work stealing, elastic worker management, queue expiry/cancellation policy,
+and operator observability. Current runtime behavior is defined by the public
+headers and `ARCHITECTURE.md`.
 
 ## Design Constraints
 
 - Preserve the current fail-closed submission behavior when capacity or shutdown conditions reject work.
 - Keep queue growth and worker lifecycle bounded by explicit configuration; no hidden unbounded retries.
-- Maintain deterministic dequeue order for equal deadlines and deterministic steal/selection rules once new behavior is added.
+- Preserve earliest-deadline ordering and query-id tie-breaking; specify deterministic selection rules before adding steal behavior.
 - Avoid introducing compatibility-only legacy paths; new execution behavior must replace or clearly supersede the current reserved extension hooks.
 
 ## Required Interfaces
@@ -30,7 +42,7 @@ Forward-looking work for the execution module after the current bounded baseline
 **Priority:** High  
 **Target:** Q1 2027
 
-- populate per-worker deques during submission instead of routing everything through `dispatch_queue_`
+- route work into per-worker deques instead of relying exclusively on `dispatch_queue_`
 - implement cross-worker steal attempts before returning idle from `tryGetWork()`
 - add deterministic steal-order rules to avoid starvation and lock-order regressions
 
@@ -67,9 +79,13 @@ Forward-looking work for the execution module after the current bounded baseline
 
 ## Performance Targets
 
-- maintain bounded enqueue/dequeue overhead after adding steal-path logic
-- keep worker wake-up and drain latency within benchmarked release envelopes
-- ensure elastic-scaling changes do not regress steady-state throughput for small fixed workloads
+- Establish and record a production-runtime baseline for scheduler enqueue/dequeue
+  latency and pool dispatch/drain throughput on named representative hardware
+  before enabling new paths. The current benchmark source uses standalone queue
+  models and does not provide that baseline.
+- For each future steal or elastic-scaling change, compare the same production
+  benchmark cases against the recorded baseline and publish measured latency and
+  throughput deltas; no validated numeric release target is currently available.
 
 ## Security / Reliability
 

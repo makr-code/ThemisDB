@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -48,8 +48,8 @@ Research and evidence-oriented references:
 | Public declarations | `include/execution/query_scheduler.h`, `include/execution/thread_pool_manager.h` |
 | Internal implementation | `src/execution/query_scheduler.cpp`, `src/execution/thread_pool_manager.cpp` |
 | Focused scheduler and pool tests | `tests/integration/test_load_balancing.cpp`, `tests/integration/test_resource_pooling.cpp` |
-| Capacity stress test | `tests/execution/test_execution_highcardinality_stress.cpp` |
-| Dedicated benchmarks | `benchmarks/execution/bench_execution_dedicated_gates.cpp` |
+| Capacity stress simulation (local models) | `tests/execution/test_execution_highcardinality_stress.cpp` |
+| Dedicated benchmark harness (local models) | `benchmarks/execution/bench_execution_dedicated_gates.cpp` |
 | Conditional server lifecycle wiring | `include/server/http_server.h`, `src/server/http_server.cpp` |
 
 Public API changes belong in `include/execution/` and must update
@@ -61,10 +61,11 @@ runtime behavior without implementation and regression coverage.
 ## Build and validate
 
 The module README documents the CMake configuration and CTest filters. Run
-focused scheduler tests for admission/order changes, focused pool tests for
-worker/lifecycle changes, and stress/benchmark coverage for capacity or
-performance changes. Record the configuration and result; the execution
-primitives do not expose a standalone CLI or network endpoint.
+focused scheduler tests for admission/order changes and the integration tests
+for pool worker/lifecycle changes. The stress and benchmark artifacts use local
+models and must not substitute for production-runtime capacity or performance
+evidence. Record the configuration and result; the execution primitives do not
+expose a standalone CLI or network endpoint.
 
 ## Current implementation boundary
 

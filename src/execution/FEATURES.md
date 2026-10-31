@@ -1,32 +1,45 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-18"
-Last Updated: "2026-10-18"
+Last Updated: "2026-10-31"
 Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 ---
 
-# Execution in ThemisDB
+# Execution Capabilities
 
-## Ueberblick
-Das Modul execution stellt two bounded runtime primitives that higher-level components can compose for in-process execution control: Im Modulkontext werden Aussagen mit [Architekturgrenzen](./ARCHITECTURE.md), [Release-Planung](./ROADMAP.md), [Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md) abgeglichen. Im Betrieb sind dabei insbesondere [Latenz](https://en.wikipedia.org/wiki/Latency_(engineering)), [Observability](https://en.wikipedia.org/wiki/Observability) und [Determinismus](https://en.wikipedia.org/wiki/Deterministic_algorithm) relevante Qualitaetskriterien. Fuer Querschnittskontext wird das Modul mit den relevanten Stellen im [Compendium](./../../docs/compendium/docs/index.md) verknuepft.
+## Problem and module role
 
-## Kern-Features im Detail
-Die erste Kernfaehigkeit ist **breaking for equal deadlines**. Das beschreibt einen konkreten, in den Modulquellen referenzierten Verantwortungsbereich.
+The execution module provides bounded, in-process queueing primitives for
+components that need explicit admission and task-dispatch limits. It is a library
+component, not a distributed scheduler or a request-execution service.
 
-Die zweite Kernfaehigkeit ist **priority shedding once the configured shed threshold is reached**. Dadurch bleiben Integrationspfade zwischen Modulgrenzen reproduzierbar und operativ auswertbar.
+## Capabilities
 
-Die dritte Kernfaehigkeit ist **enqueued queries or tasks**. Das unterstuetzt stabile Abnahme- und Aenderungsprozesse entlang der Modul-Roadmap.
+- `QueryScheduler` admits work to a bounded queue and dequeues entries by earliest
+  absolute deadline, breaking equal-deadline ties by query id.
+- Low-priority entries can be rejected at a configured shed threshold.
+- `WorkStealingThreadPool` runs submitted callables on a fixed worker set from a
+  bounded central dispatch queue.
+- Both primitives expose in-memory metrics and reject new work after shutdown.
 
-```mermaid
-flowchart LR
-    A[Produktanforderung] --> B[Execution Modul]
-    B --> C[Implementierung und Integrationspfade]
-    C --> D[Test- und Betriebsnachweise]
-    D --> E[Kundennutzen im Betrieb]
-```
+## Operational value and limitations
 
-## Kundennutzen und Abgrenzung
-Kundinnen und Kunden erhalten damit vor allem besser planbares Systemverhalten, kuerzere Eingrenzungszeiten bei Stoerungen und transparentere Release-Risiken. Diese Seite ist ein fachlich-kommunikativer Ueberblick; normative API-, Compliance- und Freigabeaussagen verbleiben in den kanonischen Modulquellen.
+Bounded admission and explicit rejection outcomes let a host apply its own
+backpressure policy. The module does not currently implement per-worker stealing,
+elastic worker scaling, task cancellation, automatic expiry, tenant isolation, or
+a metrics exporter. `HttpServer` conditionally constructs and tears down the
+primitives, but does not currently route request work through them.
 
-## Einordnung und Quellen
-Primaere modulnahe Quellen: [README.md](./README.md), [ARCHITECTURE.md](./ARCHITECTURE.md), [ROADMAP.md](./ROADMAP.md), [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md), [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md), [SECURITY.md](./SECURITY.md). Sekundaere Querschnittsquellen: [Compendium Index](./../../docs/compendium/docs/index.md). Aussagen wurden auf diese Quellenbasis begrenzt; bei fehlenden Modulquellen werden keine weitergehenden Produktclaims ergänzt.
+## Developer references
+
+- [README.md](README.md) — scope, quickstart, interfaces, and known limitations
+- [ARCHITECTURE.md](ARCHITECTURE.md) — components, runtime flow, and failure paths
+- [ROADMAP.md](ROADMAP.md) — current status and remaining work
+- [SECURITY.md](SECURITY.md) — trust boundaries and controls
+
+Exact model backend not verifiable from final document text alone.

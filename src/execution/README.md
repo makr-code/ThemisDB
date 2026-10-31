@@ -1,6 +1,6 @@
 **Author:** ThemisDB Contributors
 **Created:** 2026-09-21
-**Last Updated:** 2026-10-30
+**Last Updated:** 2026-10-31
 **Status:** active
 **AI_Used:** true
 **AI_Models:** unknown
@@ -39,25 +39,28 @@ Out of scope in the current implementation:
 
 ## Quickstart (Build/Run)
 
-The execution module is built as part of the main ThemisDB library. To include it, enable the `THEMIS_EXECUTION_MODULE` CMake option:
+The execution module is built as part of the main ThemisDB library. It is enabled
+by default; configure with `THEMIS_EXECUTION_MODULE=ON` to enable it explicitly:
 
 ```bash
 cmake -S . -B build -DTHEMIS_EXECUTION_MODULE=ON
 cmake --build build --target themisdb
 ```
 
-To run the focused integration tests:
+To run the focused execution tests after configuring and building with tests:
 
 ```bash
-ctest --test-dir build -R "test_load_balancing|test_resource_pooling" -V
+ctest --test-dir build -R "execution" --output-on-failure
 ```
 
-To run the Wave-D stress test and dedicated benchmarks:
+The dedicated benchmark target can be run when benchmarks are enabled:
 
 ```bash
-ctest --test-dir build -R "test_execution_highcardinality_stress" -V
 ./build/benchmarks/execution/bench_execution_dedicated_gates
 ```
+
+`tests/execution/test_execution_highcardinality_stress.cpp` is a local-model
+simulation and is not registered as a CTest target.
 
 ## API/CLI Einstieg
 
@@ -66,10 +69,11 @@ The module exposes two public headers:
 **`include/execution/query_scheduler.h`** — `themis::execution::QueryScheduler`
 ```cpp
 // Enqueue work with a 500 ms SLA and 100 ms admission timeout
-auto id = scheduler.enqueue(my_task, SLAPriority::MEDIUM, 500, 100);
+auto id = scheduler.enqueue(my_task, SLAPriority::MEDIUM, 500, "example",
+                            std::chrono::milliseconds{100});
 // Dequeue the next entry (earliest deadline first)
 QueryEntry entry;
-bool ok = scheduler.dequeue(entry, /*timeout_ms=*/200);
+bool ok = scheduler.dequeue(entry, std::chrono::milliseconds{200});
 // Report completion for SLA metrics
 scheduler.reportCompletion(id);
 ```
@@ -77,30 +81,37 @@ scheduler.reportCompletion(id);
 **`include/execution/thread_pool_manager.h`** — `themis::resource::WorkStealingThreadPool`
 ```cpp
 // Submit a task with a 100 ms queue-wait timeout
-bool accepted = pool.submit([]{ /* work */ }, /*timeout_ms=*/100);
+bool accepted = pool.submit([]{ /* work */ }, "example",
+                            std::chrono::milliseconds{100});
 // Wait for all queued tasks to complete
-pool.waitAll(/*timeout_ms=*/5000);
+pool.waitAll(std::chrono::milliseconds{5000});
 // Retrieve runtime statistics
-auto stats = pool.getStatistics();
+auto stats = pool.statistics();
 ```
 
 ## Integrationsueberblick
 
-The following diagram shows how the execution module integrates with the server and test layers:
+The following diagram distinguishes server lifecycle ownership from a consumer's
+optional scheduler-to-pool handoff:
 
 ```mermaid
 flowchart LR
-    Server["HttpServer\n(src/server/http_server.cpp)"] -->|"THEMIS_EXECUTION_MODULE"| QS["QueryScheduler"]
-    Server --> TP["WorkStealingThreadPool"]
-    QS -->|"EDF dequeue"| IL["Integration Layer"]
-    IL --> TP
-    IT["Integration Tests\ntest_load_balancing\ntest_resource_pooling"] -->|"direct API"| QS
-    IT --> TP
-    ST["Stress / Benchmarks\ntest_execution_highcardinality_stress\nbench_execution_dedicated_gates"] --> QS
-    ST --> TP
+    Server["HttpServer\n(conditional construction/teardown)"] -.-> QS["QueryScheduler"]
+    Server -.-> TP["WorkStealingThreadPool"]
+    Caller["Consumer / integration layer"] -->|"enqueue / dequeue"| QS
+    Caller -->|"submit"| TP
+    QS -.->|"optional consumer-owned handoff"| TP
+    IT["Scheduler-focused tests"] -->|"direct API"| QS
+    POOL_TEST["Thread-pool integration tests"] -->|"direct API"| TP
+    MODEL["Stress / benchmark queue models\n(no production runtime path)"]
 ```
 
-**Kurzinterpretation:** The `HttpServer` owns both primitives and coordinates their shutdown. Integration tests exercise each primitive directly against its public API. Stress tests and benchmarks validate Wave-D capacity and dedicated gate thresholds.
+**Kurzinterpretation:** When enabled, `HttpServer` constructs and tears down both
+primitives. It does not currently submit request work through them. A separate
+consumer must implement any scheduler-to-pool handoff. Scheduler-focused tests
+exercise `QueryScheduler`, while the broader integration suite covers
+`WorkStealingThreadPool`. The stress test and benchmark use local models, not
+production runtime code (see [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md)).
 
 ## Runtime Behavior and Limits
 
@@ -119,7 +130,7 @@ flowchart LR
 
 ## Integration Notes
 
-- `src/server/http_server.cpp` and `include/server/http_server.h` instantiate both execution primitives when `THEMIS_EXECUTION_MODULE` is enabled.
+- `src/server/http_server.cpp` and `include/server/http_server.h` conditionally instantiate both execution primitives when `THEMIS_EXECUTION_MODULE` is enabled. Request-level submission and the scheduler-to-pool handoff are not wired there.
 - Scheduler and thread-pool shutdown are coordinated during `HttpServer` teardown.
 - The current integration initializes the primitives and exposes them to the server, but request-level query submission/wiring remains higher-level integration work.
 
@@ -138,12 +149,16 @@ flowchart LR
 | `src/execution/query_scheduler.cpp` | Scheduler implementation with queue-depth backpressure and low-priority shedding |
 | `include/execution/thread_pool_manager.h` | Public API for bounded task submission, drain/wait, statistics, and shutdown |
 | `src/execution/thread_pool_manager.cpp` | Fixed-size worker pool implementation backed by a central dispatch queue |
-| `tests/integration/test_load_balancing.cpp` | Focused scheduler behavior and metrics coverage |
-| `tests/integration/test_resource_pooling.cpp` | Focused thread-pool behavior, shutdown, exception, and throughput coverage |
-| `tests/execution/test_execution_highcardinality_stress.cpp` | Wave-D stress evidence for queue saturation and high-cardinality dispatch |
-| `benchmarks/execution/bench_execution_dedicated_gates.cpp` | Dedicated execution benchmark gates (EX-BM-01..04) |
+| `tests/execution/test_execution_engine.cpp` | Scheduler execution, ordering, and completion behavior |
+| `tests/execution/test_execution_performance.cpp` | Focused scheduler throughput and metric regressions |
+| `tests/execution/test_query_compilation.cpp` | Scheduler id, ordering, shutdown, and timeout behavior |
+| `tests/integration/test_load_balancing.cpp` | Broader integration suite that includes scheduler behavior and metrics coverage |
+| `tests/integration/test_resource_pooling.cpp` | Broader integration suite that includes thread-pool behavior, shutdown, and exception coverage |
+| `tests/execution/test_execution_highcardinality_stress.cpp` | Stress simulation using local queue and pool models; not production-runtime evidence |
+| `benchmarks/execution/bench_execution_dedicated_gates.cpp` | Benchmark harness using local queue models; not a production-runtime gate |
 
 - [`ARCHITECTURE.md`](ARCHITECTURE.md) — component boundaries, state flow, and failure paths
+- [`FEATURES.md`](FEATURES.md) — capability summary and limitations
 - [`MODULE_GUIDE.md`](MODULE_GUIDE.md) — index to developer documentation and source ownership
 - [`ROADMAP.md`](ROADMAP.md) — delivery status, remaining gaps, and phased plan
 - [`CHANGELOG.md`](CHANGELOG.md) — implementation and documentation history

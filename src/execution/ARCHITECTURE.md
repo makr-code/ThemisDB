@@ -1,7 +1,16 @@
-**Author:** ThemisDB Contributors  
-**Created:** 2026-09-21  
-**Last Updated:** 2026-09-22  
-**Status:** active
+---
+Author: "ThemisDB Team"
+Created: "2026-09-21"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
 
 # Execution Module — Architecture
 
@@ -149,8 +158,9 @@ sequenceDiagram
 | Module | Integration point | Current state |
 |---|---|---|
 | `server` | `include/server/http_server.h`, `src/server/http_server.cpp` | Instantiates `QueryScheduler` and `WorkStealingThreadPool` under `THEMIS_EXECUTION_MODULE` |
-| integration tests | `tests/integration/test_load_balancing.cpp`, `tests/integration/test_resource_pooling.cpp` | Active focused regression coverage |
-| stress / benchmark evidence | `tests/execution/test_execution_highcardinality_stress.cpp`, `benchmarks/execution/bench_execution_dedicated_gates.cpp` | Active Wave-D and benchmark evidence |
+| execution-focused tests | `tests/execution/test_execution_engine.cpp`, `tests/execution/test_execution_performance.cpp`, `tests/execution/test_query_compilation.cpp` | Registered focused scheduler behavior and metrics coverage |
+| broader integration tests | `tests/integration/test_load_balancing.cpp`, `tests/integration/test_resource_pooling.cpp` | Legacy integration suites also cover unrelated load-balancing and pooling behavior |
+| stress / benchmark artifacts | `tests/execution/test_execution_highcardinality_stress.cpp`, `benchmarks/execution/bench_execution_dedicated_gates.cpp` | Both use local queue/pool models and are not production-runtime evidence |
 
 - [`README.md`](README.md) — module overview, quickstart, and known limitations
 - [`ROADMAP.md`](ROADMAP.md) — delivery status and phased plan

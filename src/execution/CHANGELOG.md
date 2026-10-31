@@ -1,7 +1,16 @@
-**Author:** ThemisDB Contributors  
-**Created:** 2026-09-21  
-**Last Updated:** 2026-09-28  
-**Status:** active
+---
+Author: "ThemisDB Team"
+Created: "2026-09-21"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
 
 > ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
 
@@ -16,8 +25,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `src/execution/AUDIT.md`, `src/execution/CHANGELOG.md`, `src/execution/FUTURE_ENHANCEMENTS.md`, `src/execution/MODULE_GAPS.md`, `src/execution/PERFORMANCE_EXPECTATIONS.md`, `src/execution/PRODUCTION_REQUIREMENTS.md`, and `src/execution/SECURITY.md`: restored the required execution governance document set.
 
 ### Changed
-- `src/execution/README.md`, `src/execution/ARCHITECTURE.md`, and `src/execution/ROADMAP.md`: aligned the execution narrative with the live bounded scheduler and fixed-size central-queue worker pool implementation.
-- `include/execution/query_scheduler.h` and `include/execution/thread_pool_manager.h`: refreshed Doxygen comments so the public API documents current behavior, reserved configuration fields, and shutdown/error semantics.
+- `src/execution/README.md`, `src/execution/ARCHITECTURE.md`, and `src/execution/ROADMAP.md`: clarified lifecycle-only server wiring, focused test registration, and pending validation/maintainer gates.
+- `src/execution/AUDIT.md`, `src/execution/MODULE_GAPS.md`, `src/execution/PERFORMANCE_EXPECTATIONS.md`, and related governance documents: replaced stale missing-file claims and distinguished benchmark harnesses from production-runtime evidence.
+- `src/execution/FEATURES.md`: replaced malformed, unsupported capability claims with source-aligned scope and limitations.
+- No source or public API code changed in this documentation update.
 
 ## [1.0.0] — 2026-08-08
 
@@ -29,8 +40,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [1.1.0] — 2026-09-16
 
 ### Added
-- `tests/execution/test_execution_highcardinality_stress.cpp`: Wave-D stress coverage for high-cardinality dispatch and queue contention.
-- `benchmarks/execution/bench_execution_dedicated_gates.cpp`: dedicated execution benchmark gates for enqueue, dequeue, drain, and dispatch throughput.
+- `tests/execution/test_execution_highcardinality_stress.cpp`: Wave-D high-cardinality stress simulation using local queue/pool models.
+- `benchmarks/execution/bench_execution_dedicated_gates.cpp`: dedicated benchmark harness for local queue-model enqueue, dequeue, and dispatch throughput.
 
 ### Changed
 - `src/server/http_server.cpp` and `include/server/http_server.h`: instantiate and tear down the execution scheduler and thread pool under `THEMIS_EXECUTION_MODULE`.
