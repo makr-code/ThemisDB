@@ -39,9 +39,9 @@ The main translation flow can be reasoned about as the following sequence:
 
 The public result type `LLMAQLHandler::AQLTranslationResult` pairs an AQL
 string with an `AQLConfidenceScore`; the public score field is
-`overall_confidence`. The frozen contract defines the confidence value in
-`[0.0, 1.0]`, with `0.0` meaning unscored when the scorer is unavailable.
-Callers must not infer calibrated correctness from the numeric value.
+`overall_confidence`. Consult the score type and scorer implementation for its
+range and fallback behavior. The score is not a calibrated correctness or
+authorization signal.
 
 ## Context and example state
 

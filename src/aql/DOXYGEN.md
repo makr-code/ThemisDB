@@ -1,14 +1,14 @@
 # AQL DOXYGEN
 
 Author: ThemisDB Contributors
-Created: 2026-09-20
-Last Updated: 2026-09-20
+Created: 2026-10-31
+Last Updated: 2026-10-31
 Status: active
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\aql\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\aql\doxygen-warnings.log`
+- XML index (relative to the artifact output root): `aql/xml/index.xml`
+- Warnings log (relative to the artifact output root): `aql/doxygen-warnings.log`
 
 ## Structure Metrics
 - C/C++ Files (scanned): 139
@@ -18,9 +18,9 @@ Status: active
 - File Compounds: 139
 
 ## Namespaces
-- @027367332016000064021236363352041157175255206266
-- @047267165255315025341064346233356363144321164074
-- @262016150027300145002147277054353057166053262272
+- @122
+- @137
+- @67
 - MutationExecutor
 - benchmark
 - llm
@@ -30,19 +30,19 @@ Status: active
 - testing
 - themis
 - themis::aql
-- themis::aql::@006030217040023025224342126115220324311153037067
-- themis::aql::@040131074221201017053374232266250230072322122201
-- themis::aql::@061350071064110262234266344301122043325234151371
-- themis::aql::@077132344124342074005362244023367037272370335164
-- themis::aql::@101256224220332064123355206346273166303135204103
-- themis::aql::@121033043266007203045200264115013245275213251333
-- themis::aql::@122105232021230125232225212315036205010303375154
-- themis::aql::@123264254143044275276275226026274336062300164151
-- themis::aql::@240160117040266026114160326173356032272126206353
-- themis::aql::@245270322307065374371356203104364075223344137110
-- themis::aql::@342331141300155042330251352300364150167202361260
-- themis::aql::@343275260235242005043036054225136132206357274012
-- themis::aql::@360216354330210104074211071150033354323274153350
+- themis::aql::@36
+- themis::aql::@38
+- themis::aql::@39
+- themis::aql::@40
+- themis::aql::@41
+- themis::aql::@46
+- themis::aql::@47
+- themis::aql::@50
+- themis::aql::@53
+- themis::aql::@55
+- themis::aql::@56
+- themis::aql::@57
+- themis::aql::@58
 - themis::aql::BridgeError
 - themis::aql::ProviderError
 - themis::aql::TranslationError
@@ -330,7 +330,7 @@ Status: active
 - Regenerate via scripts/generate_module_doxygen_xml.py --write-module-markdown.
 
 ## Detailed Function Documentation (Soll-Ist)
-- Functions extracted: 2288
+- Functions extracted: 2296
 
 ### AQLAgentTest
 
@@ -516,21 +516,21 @@ Status: active
 ### ExplainAqlTest
 
 #### `void SetUp() override`
-- Source: `tests/aql/test_aql_explain.cpp`:72
+- Source: `tests/aql/test_aql_explain.cpp`:74
 - Brief: n/a
 - Parameters: none
 
 ### ExplainMockIndexManager
 
 #### `Result< IGraphIndex * > createGraphIndex(std::string_view, const std::string &) override`
-- Source: `tests/aql/test_aql_explain.cpp`:46
+- Source: `tests/aql/test_aql_explain.cpp`:48
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (std::string_view): n/a
   - `<unnamed>` (const std::string &): n/a
 
 #### `Result< ISecondaryIndex * > createSecondaryIndex(std::string_view, std::string_view, const std::string &) override`
-- Source: `tests/aql/test_aql_explain.cpp`:38
+- Source: `tests/aql/test_aql_explain.cpp`:40
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (std::string_view): n/a
@@ -538,7 +538,7 @@ Status: active
   - `<unnamed>` (const std::string &): n/a
 
 #### `Result< IVectorIndex * > createVectorIndex(std::string_view, uint32_t, const std::string &) override`
-- Source: `tests/aql/test_aql_explain.cpp`:42
+- Source: `tests/aql/test_aql_explain.cpp`:44
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (std::string_view): n/a
@@ -546,37 +546,49 @@ Status: active
   - `<unnamed>` (const std::string &): n/a
 
 #### `Result< void > dropIndex(std::string_view) override`
-- Source: `tests/aql/test_aql_explain.cpp`:59
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (std::string_view): n/a
-
-#### `Result< IGraphIndex * > getGraphIndex(std::string_view) const override`
-- Source: `tests/aql/test_aql_explain.cpp`:56
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (std::string_view): n/a
-
-#### `Result< IndexType > getIndexType(std::string_view) const override`
 - Source: `tests/aql/test_aql_explain.cpp`:61
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (std::string_view): n/a
 
+#### `std::optional< IndexCapabilities > getCapabilities(std::string_view) const override`
+- Source: `tests/aql/test_aql_explain.cpp`:38
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (std::string_view): n/a
+
+#### `Result< IGraphIndex * > getGraphIndex(std::string_view) const override`
+- Source: `tests/aql/test_aql_explain.cpp`:58
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (std::string_view): n/a
+
+#### `std::optional< IndexStatistics > getIndexSummary(std::string_view) const override`
+- Source: `tests/aql/test_aql_explain.cpp`:39
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (std::string_view): n/a
+
+#### `Result< IndexType > getIndexType(std::string_view) const override`
+- Source: `tests/aql/test_aql_explain.cpp`:63
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (std::string_view): n/a
+
 #### `Result< ISecondaryIndex * > getSecondaryIndex(std::string_view) const override`
-- Source: `tests/aql/test_aql_explain.cpp`:50
+- Source: `tests/aql/test_aql_explain.cpp`:52
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (std::string_view): n/a
 
 #### `Result< IVectorIndex * > getVectorIndex(std::string_view) const override`
-- Source: `tests/aql/test_aql_explain.cpp`:53
+- Source: `tests/aql/test_aql_explain.cpp`:55
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (std::string_view): n/a
 
 #### `std::vector< std::string > listIndexes() const override`
-- Source: `tests/aql/test_aql_explain.cpp`:60
+- Source: `tests/aql/test_aql_explain.cpp`:62
 - Brief: n/a
 - Parameters: none
 
@@ -615,7 +627,7 @@ Status: active
 ### FewShotFixture
 
 #### `void SetUp(const benchmark::State &) override`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:183
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:184
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (const benchmark::State &): n/a
@@ -910,12 +922,12 @@ Status: active
 ### MultiStatementAqlRunnerTest
 
 #### `void SetUp() override`
-- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:142
+- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:176
 - Brief: n/a
 - Parameters: none
 
 #### `void TearDown() override`
-- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:169
+- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:203
 - Brief: n/a
 - Parameters: none
 
@@ -1481,199 +1493,199 @@ Status: active
 ### bench_hybrid_aql_sugar.cpp
 
 #### `BENCHMARK(BM_ConfidenceScorer_NoSchema)`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:144
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:145
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_ConfidenceScorer_NoSchema): n/a
 
 #### `BENCHMARK(BM_ConfidenceScorer_Scale) -> Range(1, 64) ->Complexity()`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:175
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:176
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_ConfidenceScorer_Scale): n/a
 
 #### `BENCHMARK(BM_ConfidenceScorer_Simple)`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:160
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:161
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_ConfidenceScorer_Simple): n/a
 
 #### `BENCHMARK(BM_ConfidenceScorer_WithSchema)`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:152
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:153
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_ConfidenceScorer_WithSchema): n/a
 
 #### `BENCHMARK(BM_Highlighter_AnnotateErrors_Malformed)`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:124
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:125
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_Highlighter_AnnotateErrors_Malformed): n/a
 
 #### `BENCHMARK(BM_Highlighter_AnnotateErrors_Valid)`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:114
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:115
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_Highlighter_AnnotateErrors_Valid): n/a
 
 #### `BENCHMARK(BM_Highlighter_FormatLLMResponse)`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:132
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:133
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_Highlighter_FormatLLMResponse): n/a
 
 #### `BENCHMARK(BM_Highlighter_HighlightBlock_ANSI)`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:106
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:107
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_Highlighter_HighlightBlock_ANSI): n/a
 
 #### `BENCHMARK(BM_Highlighter_HighlightBlock_Plain)`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:98
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:99
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_Highlighter_HighlightBlock_Plain): n/a
 
 #### `BENCHMARK(BM_Highlighter_Tokenize_Complex)`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:74
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:75
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_Highlighter_Tokenize_Complex): n/a
 
 #### `BENCHMARK(BM_Highlighter_Tokenize_Scale) -> Range(1, 64) ->Complexity()`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:90
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:91
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_Highlighter_Tokenize_Scale): n/a
 
 #### `BENCHMARK(BM_Highlighter_Tokenize_Simple)`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:66
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:67
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_Highlighter_Tokenize_Simple): n/a
 
 #### `BENCHMARK_F(FewShotFixture, BuildPromptSection)(benchmark`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:211
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:212
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (FewShotFixture): n/a
   - `<unnamed>` (BuildPromptSection): n/a
 
 #### `BENCHMARK_F(FewShotFixture, FindByDomain_Graph)(benchmark`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:218
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:219
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (FewShotFixture): n/a
   - `<unnamed>` (FindByDomain_Graph): n/a
 
 #### `BENCHMARK_F(FewShotFixture, FindByDomain_Vector)(benchmark`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:225
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:226
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (FewShotFixture): n/a
   - `<unnamed>` (FindByDomain_Vector): n/a
 
 #### `BENCHMARK_F(FewShotFixture, FindRelevant_DomainFilter)(benchmark`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:203
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:204
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (FewShotFixture): n/a
   - `<unnamed>` (FindRelevant_DomainFilter): n/a
 
 #### `BENCHMARK_F(FewShotFixture, FindRelevant_Top3)(benchmark`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:189
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:190
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (FewShotFixture): n/a
   - `<unnamed>` (FindRelevant_Top3): n/a
 
 #### `BENCHMARK_F(FewShotFixture, FindRelevant_Top5)(benchmark`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:196
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:197
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (FewShotFixture): n/a
   - `<unnamed>` (FindRelevant_Top5): n/a
 
 #### `BENCHMARK_F(FewShotFixture, FormatForPrompt)(benchmark`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:232
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:233
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (FewShotFixture): n/a
   - `<unnamed>` (FormatForPrompt): n/a
 
 #### `BENCHMARK_MAIN()`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:244
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:245
 - Brief: n/a
 - Parameters: none
 
 #### `void BM_ConfidenceScorer_NoSchema(benchmark::State &state)`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:138
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:139
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_ConfidenceScorer_Scale(benchmark::State &state)`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:163
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:164
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_ConfidenceScorer_Simple(benchmark::State &state)`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:154
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:155
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_ConfidenceScorer_WithSchema(benchmark::State &state)`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:146
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:147
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_Highlighter_AnnotateErrors_Malformed(benchmark::State &state)`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:116
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:117
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_Highlighter_AnnotateErrors_Valid(benchmark::State &state)`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:108
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:109
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_Highlighter_FormatLLMResponse(benchmark::State &state)`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:126
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:127
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_Highlighter_HighlightBlock_ANSI(benchmark::State &state)`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:100
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:101
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_Highlighter_HighlightBlock_Plain(benchmark::State &state)`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:92
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:93
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_Highlighter_Tokenize_Complex(benchmark::State &state)`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:68
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:69
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_Highlighter_Tokenize_Scale(benchmark::State &state)`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:77
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:78
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_Highlighter_Tokenize_Simple(benchmark::State &state)`
-- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:60
+- Source: `benchmarks/aql/bench_hybrid_aql_sugar.cpp`:61
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
@@ -2517,7 +2529,7 @@ Status: active
 ### test_aql_bm25.cpp
 
 #### `TEST_F(AQLBm25Test, BM25ScoresDecreaseWithRelevance)`
-- Source: `tests/aql/test_aql_bm25.cpp`:139
+- Source: `tests/aql/test_aql_bm25.cpp`:143
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLBm25Test): n/a
@@ -2531,14 +2543,14 @@ Status: active
   - `<unnamed>` (BasicBM25FunctionParsing): n/a
 
 #### `TEST_F(AQLBm25Test, ExecuteAndKeysWithScores)`
-- Source: `tests/aql/test_aql_bm25.cpp`:113
+- Source: `tests/aql/test_aql_bm25.cpp`:117
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLBm25Test): n/a
   - `<unnamed>` (ExecuteAndKeysWithScores): n/a
 
 #### `TEST_F(AQLBm25Test, NoScoresForNonFulltextQuery)`
-- Source: `tests/aql/test_aql_bm25.cpp`:173
+- Source: `tests/aql/test_aql_bm25.cpp`:177
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLBm25Test): n/a
@@ -2547,105 +2559,105 @@ Status: active
 ### test_aql_confidence_scorer.cpp
 
 #### `TEST(AQLConfidenceScorerAcceptanceTest, CompleteQueryReturnsAbove0Point7)`
-- Source: `tests/aql/test_aql_confidence_scorer.cpp`:320
+- Source: `tests/aql/test_aql_confidence_scorer.cpp`:336
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLConfidenceScorerAcceptanceTest): n/a
   - `<unnamed>` (CompleteQueryReturnsAbove0Point7): n/a
 
 #### `TEST(AQLConfidenceScorerAcceptanceTest, EmptyQueryReturnsExactlyZero)`
-- Source: `tests/aql/test_aql_confidence_scorer.cpp`:314
+- Source: `tests/aql/test_aql_confidence_scorer.cpp`:330
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLConfidenceScorerAcceptanceTest): n/a
   - `<unnamed>` (EmptyQueryReturnsExactlyZero): n/a
 
 #### `TEST(AQLConfidenceScorerCalibrateTest, CalibrateDoesNotCrashOnEmptyInput)`
-- Source: `tests/aql/test_aql_confidence_scorer.cpp`:331
+- Source: `tests/aql/test_aql_confidence_scorer.cpp`:347
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLConfidenceScorerCalibrateTest): n/a
   - `<unnamed>` (CalibrateDoesNotCrashOnEmptyInput): n/a
 
 #### `TEST(AQLConfidenceScorerCalibrateTest, CalibrateIgnoresEmptyQueryPairs)`
-- Source: `tests/aql/test_aql_confidence_scorer.cpp`:336
+- Source: `tests/aql/test_aql_confidence_scorer.cpp`:352
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLConfidenceScorerCalibrateTest): n/a
   - `<unnamed>` (CalibrateIgnoresEmptyQueryPairs): n/a
 
 #### `TEST(AQLConfidenceScorerCalibrateTest, CalibrateWeightsAreInZeroOneRange)`
-- Source: `tests/aql/test_aql_confidence_scorer.cpp`:363
+- Source: `tests/aql/test_aql_confidence_scorer.cpp`:379
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLConfidenceScorerCalibrateTest): n/a
   - `<unnamed>` (CalibrateWeightsAreInZeroOneRange): n/a
 
 #### `TEST(AQLConfidenceScorerCalibrateTest, CalibrateWeightsSumToOne)`
-- Source: `tests/aql/test_aql_confidence_scorer.cpp`:344
+- Source: `tests/aql/test_aql_confidence_scorer.cpp`:360
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLConfidenceScorerCalibrateTest): n/a
   - `<unnamed>` (CalibrateWeightsSumToOne): n/a
 
 #### `TEST(AQLConfidenceScorerConfigTest, ConfigAccessorReturnsCurrentConfig)`
-- Source: `tests/aql/test_aql_confidence_scorer.cpp`:268
+- Source: `tests/aql/test_aql_confidence_scorer.cpp`:284
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLConfidenceScorerConfigTest): n/a
   - `<unnamed>` (ConfigAccessorReturnsCurrentConfig): n/a
 
 #### `TEST(AQLConfidenceScorerConfigTest, CustomKeywordBonusesAreUsed)`
-- Source: `tests/aql/test_aql_confidence_scorer.cpp`:257
+- Source: `tests/aql/test_aql_confidence_scorer.cpp`:273
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLConfidenceScorerConfigTest): n/a
   - `<unnamed>` (CustomKeywordBonusesAreUsed): n/a
 
 #### `TEST(AQLConfidenceScorerConfigTest, CustomNoSchemaNeutralIsUsed)`
-- Source: `tests/aql/test_aql_confidence_scorer.cpp`:238
+- Source: `tests/aql/test_aql_confidence_scorer.cpp`:254
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLConfidenceScorerConfigTest): n/a
   - `<unnamed>` (CustomNoSchemaNeutralIsUsed): n/a
 
 #### `TEST(AQLConfidenceScorerConfigTest, CustomWeightsAreApplied)`
-- Source: `tests/aql/test_aql_confidence_scorer.cpp`:224
+- Source: `tests/aql/test_aql_confidence_scorer.cpp`:240
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLConfidenceScorerConfigTest): n/a
   - `<unnamed>` (CustomWeightsAreApplied): n/a
 
 #### `TEST(AQLConfidenceScorerConfigTest, CustomZeroMatchFloorIsUsed)`
-- Source: `tests/aql/test_aql_confidence_scorer.cpp`:247
+- Source: `tests/aql/test_aql_confidence_scorer.cpp`:263
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLConfidenceScorerConfigTest): n/a
   - `<unnamed>` (CustomZeroMatchFloorIsUsed): n/a
 
 #### `TEST(AQLConfidenceScorerConfigTest, DefaultConfigMatchesHardCodedBehaviour)`
-- Source: `tests/aql/test_aql_confidence_scorer.cpp`:210
+- Source: `tests/aql/test_aql_confidence_scorer.cpp`:226
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLConfidenceScorerConfigTest): n/a
   - `<unnamed>` (DefaultConfigMatchesHardCodedBehaviour): n/a
 
 #### `TEST(AQLConfidenceScorerKeywordTest, StandaloneInsertIsMatched)`
-- Source: `tests/aql/test_aql_confidence_scorer.cpp`:299
+- Source: `tests/aql/test_aql_confidence_scorer.cpp`:315
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLConfidenceScorerKeywordTest): n/a
   - `<unnamed>` (StandaloneInsertIsMatched): n/a
 
 #### `TEST(AQLConfidenceScorerKeywordTest, UpsertDoesNotTriggerInsertBonus)`
-- Source: `tests/aql/test_aql_confidence_scorer.cpp`:280
+- Source: `tests/aql/test_aql_confidence_scorer.cpp`:296
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLConfidenceScorerKeywordTest): n/a
   - `<unnamed>` (UpsertDoesNotTriggerInsertBonus): n/a
 
 #### `TEST_F(AQLConfidenceScorerTest, AllCollectionsMatchedGivesFullSchemaScore)`
-- Source: `tests/aql/test_aql_confidence_scorer.cpp`:136
+- Source: `tests/aql/test_aql_confidence_scorer.cpp`:144
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLConfidenceScorerTest): n/a
@@ -2687,14 +2699,14 @@ Status: active
   - `<unnamed>` (MinimalValidQueryScoresHigh): n/a
 
 #### `TEST_F(AQLConfidenceScorerTest, MissingRequiredKeywordsWarningInReasoning)`
-- Source: `tests/aql/test_aql_confidence_scorer.cpp`:183
+- Source: `tests/aql/test_aql_confidence_scorer.cpp`:199
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLConfidenceScorerTest): n/a
   - `<unnamed>` (MissingRequiredKeywordsWarningInReasoning): n/a
 
 #### `TEST_F(AQLConfidenceScorerTest, NoCollectionMatchGivesLowSchemaScore)`
-- Source: `tests/aql/test_aql_confidence_scorer.cpp`:128
+- Source: `tests/aql/test_aql_confidence_scorer.cpp`:132
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLConfidenceScorerTest): n/a
@@ -2708,7 +2720,7 @@ Status: active
   - `<unnamed>` (NoSchemaGivesNeutralSchemaScore): n/a
 
 #### `TEST_F(AQLConfidenceScorerTest, OverallConfidenceIsBoundedBetweenZeroAndOne)`
-- Source: `tests/aql/test_aql_confidence_scorer.cpp`:151
+- Source: `tests/aql/test_aql_confidence_scorer.cpp`:163
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLConfidenceScorerTest): n/a
@@ -2743,21 +2755,21 @@ Status: active
   - `<unnamed>` (QueryWithoutReturnHasLowStructuralScore): n/a
 
 #### `TEST_F(AQLConfidenceScorerTest, ReasoningIsNonEmptyForValidQuery)`
-- Source: `tests/aql/test_aql_confidence_scorer.cpp`:177
+- Source: `tests/aql/test_aql_confidence_scorer.cpp`:193
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLConfidenceScorerTest): n/a
   - `<unnamed>` (ReasoningIsNonEmptyForValidQuery): n/a
 
 #### `TEST_F(AQLConfidenceScorerTest, ScoringIsCaseInsensitive)`
-- Source: `tests/aql/test_aql_confidence_scorer.cpp`:194
+- Source: `tests/aql/test_aql_confidence_scorer.cpp`:210
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLConfidenceScorerTest): n/a
   - `<unnamed>` (ScoringIsCaseInsensitive): n/a
 
 #### `TEST_F(AQLConfidenceScorerTest, WellFormedQueryWithSchemaHasHighOverallConfidence)`
-- Source: `tests/aql/test_aql_confidence_scorer.cpp`:158
+- Source: `tests/aql/test_aql_confidence_scorer.cpp`:170
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLConfidenceScorerTest): n/a
@@ -2986,154 +2998,154 @@ Status: active
 ### test_aql_explain.cpp
 
 #### `TEST_F(ExplainAqlTest, AnalyzeMode_IncludesActualTimeField)`
-- Source: `tests/aql/test_aql_explain.cpp`:124
+- Source: `tests/aql/test_aql_explain.cpp`:126
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ExplainAqlTest): n/a
   - `<unnamed>` (AnalyzeMode_IncludesActualTimeField): n/a
 
 #### `TEST_F(ExplainAqlTest, DOT_ContainsNodeLabels)`
-- Source: `tests/aql/test_aql_explain.cpp`:230
+- Source: `tests/aql/test_aql_explain.cpp`:232
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ExplainAqlTest): n/a
   - `<unnamed>` (DOT_ContainsNodeLabels): n/a
 
 #### `TEST_F(ExplainAqlTest, DOT_InvalidAql_ReturnsError)`
-- Source: `tests/aql/test_aql_explain.cpp`:240
+- Source: `tests/aql/test_aql_explain.cpp`:242
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ExplainAqlTest): n/a
   - `<unnamed>` (DOT_InvalidAql_ReturnsError): n/a
 
 #### `TEST_F(ExplainAqlTest, DOT_IsValidDigraph)`
-- Source: `tests/aql/test_aql_explain.cpp`:220
+- Source: `tests/aql/test_aql_explain.cpp`:222
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ExplainAqlTest): n/a
   - `<unnamed>` (DOT_IsValidDigraph): n/a
 
 #### `TEST_F(ExplainAqlTest, GraphTraversal_AnalyzeMode_IncludesActualTimeSentinel)`
-- Source: `tests/aql/test_aql_explain.cpp`:334
+- Source: `tests/aql/test_aql_explain.cpp`:336
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ExplainAqlTest): n/a
   - `<unnamed>` (GraphTraversal_AnalyzeMode_IncludesActualTimeSentinel): n/a
 
 #### `TEST_F(ExplainAqlTest, GraphTraversal_AttributesIncludeStartDepthDirectionAlgorithm)`
-- Source: `tests/aql/test_aql_explain.cpp`:269
+- Source: `tests/aql/test_aql_explain.cpp`:271
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ExplainAqlTest): n/a
   - `<unnamed>` (GraphTraversal_AttributesIncludeStartDepthDirectionAlgorithm): n/a
 
 #### `TEST_F(ExplainAqlTest, GraphTraversal_DOT_ContainsGraphTraversalLabel)`
-- Source: `tests/aql/test_aql_explain.cpp`:325
+- Source: `tests/aql/test_aql_explain.cpp`:327
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ExplainAqlTest): n/a
   - `<unnamed>` (GraphTraversal_DOT_ContainsGraphTraversalLabel): n/a
 
 #### `TEST_F(ExplainAqlTest, GraphTraversal_PlanHasCostAndRows)`
-- Source: `tests/aql/test_aql_explain.cpp`:258
+- Source: `tests/aql/test_aql_explain.cpp`:260
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ExplainAqlTest): n/a
   - `<unnamed>` (GraphTraversal_PlanHasCostAndRows): n/a
 
 #### `TEST_F(ExplainAqlTest, GraphTraversal_ProducesGraphTraversalNode)`
-- Source: `tests/aql/test_aql_explain.cpp`:249
+- Source: `tests/aql/test_aql_explain.cpp`:251
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ExplainAqlTest): n/a
   - `<unnamed>` (GraphTraversal_ProducesGraphTraversalNode): n/a
 
 #### `TEST_F(ExplainAqlTest, GraphTraversal_ShortestPath_AlgorithmIsBFS)`
-- Source: `tests/aql/test_aql_explain.cpp`:345
+- Source: `tests/aql/test_aql_explain.cpp`:347
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ExplainAqlTest): n/a
   - `<unnamed>` (GraphTraversal_ShortestPath_AlgorithmIsBFS): n/a
 
 #### `TEST_F(ExplainAqlTest, GraphTraversal_ShortestPath_UsesBFS)`
-- Source: `tests/aql/test_aql_explain.cpp`:299
+- Source: `tests/aql/test_aql_explain.cpp`:301
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ExplainAqlTest): n/a
   - `<unnamed>` (GraphTraversal_ShortestPath_UsesBFS): n/a
 
 #### `TEST_F(ExplainAqlTest, GraphTraversal_Text_ContainsGraphTraversalKeyword)`
-- Source: `tests/aql/test_aql_explain.cpp`:317
+- Source: `tests/aql/test_aql_explain.cpp`:319
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ExplainAqlTest): n/a
   - `<unnamed>` (GraphTraversal_Text_ContainsGraphTraversalKeyword): n/a
 
 #### `TEST_F(ExplainAqlTest, InvalidAql_ReturnsError)`
-- Source: `tests/aql/test_aql_explain.cpp`:173
+- Source: `tests/aql/test_aql_explain.cpp`:175
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ExplainAqlTest): n/a
   - `<unnamed>` (InvalidAql_ReturnsError): n/a
 
 #### `TEST_F(ExplainAqlTest, MultiplePredicates_MultipleFilterNodes)`
-- Source: `tests/aql/test_aql_explain.cpp`:151
+- Source: `tests/aql/test_aql_explain.cpp`:153
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ExplainAqlTest): n/a
   - `<unnamed>` (MultiplePredicates_MultipleFilterNodes): n/a
 
 #### `TEST_F(ExplainAqlTest, NoPredicates_ProducesSeqScan)`
-- Source: `tests/aql/test_aql_explain.cpp`:136
+- Source: `tests/aql/test_aql_explain.cpp`:138
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ExplainAqlTest): n/a
   - `<unnamed>` (NoPredicates_ProducesSeqScan): n/a
 
 #### `TEST_F(ExplainAqlTest, SimpleConjunctive_HasFilterChild)`
-- Source: `tests/aql/test_aql_explain.cpp`:112
+- Source: `tests/aql/test_aql_explain.cpp`:114
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ExplainAqlTest): n/a
   - `<unnamed>` (SimpleConjunctive_HasFilterChild): n/a
 
 #### `TEST_F(ExplainAqlTest, SimpleConjunctive_PlanRootIsReturn)`
-- Source: `tests/aql/test_aql_explain.cpp`:102
+- Source: `tests/aql/test_aql_explain.cpp`:104
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ExplainAqlTest): n/a
   - `<unnamed>` (SimpleConjunctive_PlanRootIsReturn): n/a
 
 #### `TEST_F(ExplainAqlTest, SimpleConjunctive_ReturnsValidJson)`
-- Source: `tests/aql/test_aql_explain.cpp`:90
+- Source: `tests/aql/test_aql_explain.cpp`:92
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ExplainAqlTest): n/a
   - `<unnamed>` (SimpleConjunctive_ReturnsValidJson): n/a
 
 #### `TEST_F(ExplainAqlTest, Text_AnalyzeMode_ContainsActualTime)`
-- Source: `tests/aql/test_aql_explain.cpp`:201
+- Source: `tests/aql/test_aql_explain.cpp`:203
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ExplainAqlTest): n/a
   - `<unnamed>` (Text_AnalyzeMode_ContainsActualTime): n/a
 
 #### `TEST_F(ExplainAqlTest, Text_ContainsExplainHeader)`
-- Source: `tests/aql/test_aql_explain.cpp`:182
+- Source: `tests/aql/test_aql_explain.cpp`:184
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ExplainAqlTest): n/a
   - `<unnamed>` (Text_ContainsExplainHeader): n/a
 
 #### `TEST_F(ExplainAqlTest, Text_ContainsReturnAndFilter)`
-- Source: `tests/aql/test_aql_explain.cpp`:191
+- Source: `tests/aql/test_aql_explain.cpp`:193
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ExplainAqlTest): n/a
   - `<unnamed>` (Text_ContainsReturnAndFilter): n/a
 
 #### `TEST_F(ExplainAqlTest, Text_InvalidAql_ReturnsError)`
-- Source: `tests/aql/test_aql_explain.cpp`:211
+- Source: `tests/aql/test_aql_explain.cpp`:213
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (ExplainAqlTest): n/a
@@ -3456,7 +3468,7 @@ Status: active
 ### test_aql_general_traversal.cpp
 
 #### `TEST_F(AQLGeneralTraversalTest, AnyDirection)`
-- Source: `tests/aql/test_aql_general_traversal.cpp`:185
+- Source: `tests/aql/test_aql_general_traversal.cpp`:194
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLGeneralTraversalTest): n/a
@@ -3470,28 +3482,28 @@ Status: active
   - `<unnamed>` (BasicOutboundTraversal): n/a
 
 #### `TEST_F(AQLGeneralTraversalTest, DepthZeroIncludesStart)`
-- Source: `tests/aql/test_aql_general_traversal.cpp`:240
+- Source: `tests/aql/test_aql_general_traversal.cpp`:255
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLGeneralTraversalTest): n/a
   - `<unnamed>` (DepthZeroIncludesStart): n/a
 
 #### `TEST_F(AQLGeneralTraversalTest, InboundDirection)`
-- Source: `tests/aql/test_aql_general_traversal.cpp`:157
+- Source: `tests/aql/test_aql_general_traversal.cpp`:163
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLGeneralTraversalTest): n/a
   - `<unnamed>` (InboundDirection): n/a
 
 #### `TEST_F(AQLGeneralTraversalTest, MinDepthFiltering)`
-- Source: `tests/aql/test_aql_general_traversal.cpp`:137
+- Source: `tests/aql/test_aql_general_traversal.cpp`:140
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLGeneralTraversalTest): n/a
   - `<unnamed>` (MinDepthFiltering): n/a
 
 #### `TEST_F(AQLGeneralTraversalTest, PathAndEdgeTracking)`
-- Source: `tests/aql/test_aql_general_traversal.cpp`:213
+- Source: `tests/aql/test_aql_general_traversal.cpp`:225
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AQLGeneralTraversalTest): n/a
@@ -3499,225 +3511,260 @@ Status: active
 
 ### test_aql_graphql_integration.cpp
 
+#### `TEST(GraphQLApiHandlerVariableMappingTests, ConvertsLargeUnsignedToFloat)`
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:259
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (GraphQLApiHandlerVariableMappingTests): n/a
+  - `<unnamed>` (ConvertsLargeUnsignedToFloat): n/a
+
+#### `TEST(GraphQLApiHandlerVariableMappingTests, ConvertsNestedObjectsAndArrays)`
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:217
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (GraphQLApiHandlerVariableMappingTests): n/a
+  - `<unnamed>` (ConvertsNestedObjectsAndArrays): n/a
+
 #### `TEST(GraphQLAqlCostModelTests, AqlFieldCarriesHeavyCost)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:62
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:65
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlCostModelTests): n/a
   - `<unnamed>` (AqlFieldCarriesHeavyCost): n/a
 
 #### `TEST(GraphQLAqlCostModelTests, LimitsForHighComplexity)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:89
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:92
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlCostModelTests): n/a
   - `<unnamed>` (LimitsForHighComplexity): n/a
 
 #### `TEST(GraphQLAqlCostModelTests, LimitsForLowComplexity)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:76
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:79
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlCostModelTests): n/a
   - `<unnamed>` (LimitsForLowComplexity): n/a
 
 #### `TEST(GraphQLAqlCostModelTests, LimitsForMediumComplexity)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:82
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:85
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlCostModelTests): n/a
   - `<unnamed>` (LimitsForMediumComplexity): n/a
 
 #### `TEST(GraphQLAqlCostModelTests, NestedFieldsMultipliedByDepth)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:69
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:72
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlCostModelTests): n/a
   - `<unnamed>` (NestedFieldsMultipliedByDepth): n/a
 
 #### `TEST(GraphQLAqlCostModelTests, OverBudgetThrows)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:95
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:98
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlCostModelTests): n/a
   - `<unnamed>` (OverBudgetThrows): n/a
 
 #### `TEST(GraphQLAqlCostModelTests, SingleFieldScore)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:50
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:53
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlCostModelTests): n/a
   - `<unnamed>` (SingleFieldScore): n/a
 
 #### `TEST(GraphQLAqlCostModelTests, TwoFieldsAtRootScore)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:56
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:59
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlCostModelTests): n/a
   - `<unnamed>` (TwoFieldsAtRootScore): n/a
 
 #### `TEST(GraphQLAqlFunctionTests, ComplexityOverBudgetThrows)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:260
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:366
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlFunctionTests): n/a
   - `<unnamed>` (ComplexityOverBudgetThrows): n/a
 
 #### `TEST(GraphQLAqlFunctionTests, EmptyQueryThrows)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:216
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:322
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlFunctionTests): n/a
   - `<unnamed>` (EmptyQueryThrows): n/a
 
 #### `TEST(GraphQLAqlFunctionTests, InvalidGraphQLSyntaxReturnsErrorNode)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:228
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:334
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlFunctionTests): n/a
   - `<unnamed>` (InvalidGraphQLSyntaxReturnsErrorNode): n/a
 
 #### `TEST(GraphQLAqlFunctionTests, NonStringFirstArgThrows)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:222
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:328
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlFunctionTests): n/a
   - `<unnamed>` (NonStringFirstArgThrows): n/a
 
 #### `TEST(GraphQLAqlFunctionTests, SignatureCostIsExternal)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:205
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:311
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlFunctionTests): n/a
   - `<unnamed>` (SignatureCostIsExternal): n/a
 
 #### `TEST(GraphQLAqlFunctionTests, SignatureName)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:200
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:306
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlFunctionTests): n/a
   - `<unnamed>` (SignatureName): n/a
 
 #### `TEST(GraphQLAqlFunctionTests, SignatureNotParallelizable)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:211
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:317
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlFunctionTests): n/a
   - `<unnamed>` (SignatureNotParallelizable): n/a
 
 #### `TEST(GraphQLAqlFunctionTests, VariablesArgumentAccepted)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:251
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:357
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlFunctionTests): n/a
   - `<unnamed>` (VariablesArgumentAccepted): n/a
 
 #### `TEST(GraphQLAqlFunctionTests, VersionQueryReturnsData)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:239
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:345
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlFunctionTests): n/a
   - `<unnamed>` (VersionQueryReturnsData): n/a
 
 #### `TEST(GraphQLAqlHandlerTests, ComplexityErrorMessageContainsBudget)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:185
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:291
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlHandlerTests): n/a
   - `<unnamed>` (ComplexityErrorMessageContainsBudget): n/a
 
 #### `TEST(GraphQLAqlHandlerTests, ExactBudgetBoundaryAccepted)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:175
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:281
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlHandlerTests): n/a
   - `<unnamed>` (ExactBudgetBoundaryAccepted): n/a
 
 #### `TEST(GraphQLAqlHandlerTests, OneBeyondBudgetRejected)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:179
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:285
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlHandlerTests): n/a
   - `<unnamed>` (OneBeyondBudgetRejected): n/a
 
 #### `TEST(GraphQLAqlResolverTests, ApiVersionResolverReturnsString)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:116
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:119
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlResolverTests): n/a
   - `<unnamed>` (ApiVersionResolverReturnsString): n/a
 
+#### `TEST(GraphQLAqlResolverTests, AqlResolverAcceptsObjectVariablesWithoutEngine)`
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:180
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (GraphQLAqlResolverTests): n/a
+  - `<unnamed>` (AqlResolverAcceptsObjectVariablesWithoutEngine): n/a
+
+#### `TEST(GraphQLAqlResolverTests, AqlResolverRejectsNonObjectVariablesArgument)`
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:167
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (GraphQLAqlResolverTests): n/a
+  - `<unnamed>` (AqlResolverRejectsNonObjectVariablesArgument): n/a
+
+#### `TEST(GraphQLAqlResolverTests, AqlResolverRejectsNonStringCollectionBindVariable)`
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:196
+- Brief: n/a
+- Parameters:
+  - `<unnamed>` (GraphQLAqlResolverTests): n/a
+  - `<unnamed>` (AqlResolverRejectsNonStringCollectionBindVariable): n/a
+
 #### `TEST(GraphQLAqlResolverTests, AqlResolverThrowsOnMissingQueryArg)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:154
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:157
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlResolverTests): n/a
   - `<unnamed>` (AqlResolverThrowsOnMissingQueryArg): n/a
 
 #### `TEST(GraphQLAqlResolverTests, AqlResolverWithoutEngineReturnsNull)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:142
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:145
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlResolverTests): n/a
   - `<unnamed>` (AqlResolverWithoutEngineReturnsNull): n/a
 
 #### `TEST(GraphQLAqlResolverTests, InjectResolversPopulatesContext)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:105
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:108
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlResolverTests): n/a
   - `<unnamed>` (InjectResolversPopulatesContext): n/a
 
 #### `TEST(GraphQLAqlResolverTests, SchemaVersionResolverReturnsString)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:129
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:132
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlResolverTests): n/a
   - `<unnamed>` (SchemaVersionResolverReturnsString): n/a
 
 #### `TEST(GraphQLAqlSchemaTests, ApiVersionFieldIsNonNull)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:327
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:433
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlSchemaTests): n/a
   - `<unnamed>` (ApiVersionFieldIsNonNull): n/a
 
 #### `TEST(GraphQLAqlSchemaTests, AqlMutationFieldHasQueryArgument)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:313
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:419
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlSchemaTests): n/a
   - `<unnamed>` (AqlMutationFieldHasQueryArgument): n/a
 
 #### `TEST(GraphQLAqlSchemaTests, MutationTypeHasAqlMutationField)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:280
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:386
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlSchemaTests): n/a
   - `<unnamed>` (MutationTypeHasAqlMutationField): n/a
 
 #### `TEST(GraphQLAqlSchemaTests, QueryTypeHasApiVersionField)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:291
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:397
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlSchemaTests): n/a
   - `<unnamed>` (QueryTypeHasApiVersionField): n/a
 
 #### `TEST(GraphQLAqlSchemaTests, QueryTypeHasSchemaVersionField)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:302
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:408
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlSchemaTests): n/a
   - `<unnamed>` (QueryTypeHasSchemaVersionField): n/a
 
 #### `TEST(GraphQLAqlSchemaTests, VersionFieldsResolvedByExecutor)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:341
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:447
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (GraphQLAqlSchemaTests): n/a
   - `<unnamed>` (VersionFieldsResolvedByExecutor): n/a
 
 #### `Document mustParse(const std::string &query)`
-- Source: `tests/aql/test_aql_graphql_integration.cpp`:40
+- Source: `tests/aql/test_aql_graphql_integration.cpp`:43
 - Brief: Parse a GraphQL query string; abort test on failure.
 - Parameters:
   - `query` (const std::string &): n/a
@@ -5493,28 +5540,28 @@ Status: active
 ### test_aql_multi_statement_transaction.cpp
 
 #### `TEST(AqlMultiStatementTransactionParser, EmptyBlockCommit)`
-- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:82
+- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:103
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AqlMultiStatementTransactionParser): n/a
   - `<unnamed>` (EmptyBlockCommit): n/a
 
 #### `TEST(AqlMultiStatementTransactionParser, ErrorMissingBegin)`
-- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:61
+- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:79
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AqlMultiStatementTransactionParser): n/a
   - `<unnamed>` (ErrorMissingBegin): n/a
 
 #### `TEST(AqlMultiStatementTransactionParser, ErrorMissingTerminator)`
-- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:68
+- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:86
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AqlMultiStatementTransactionParser): n/a
   - `<unnamed>` (ErrorMissingTerminator): n/a
 
 #### `TEST(AqlMultiStatementTransactionParser, ErrorTrailingTokensAfterTerminator)`
-- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:75
+- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:96
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AqlMultiStatementTransactionParser): n/a
@@ -5528,84 +5575,84 @@ Status: active
   - `<unnamed>` (ParseBeginCommit): n/a
 
 #### `TEST(AqlMultiStatementTransactionParser, ParseBeginRollback)`
-- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:32
+- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:36
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AqlMultiStatementTransactionParser): n/a
   - `<unnamed>` (ParseBeginRollback): n/a
 
 #### `TEST(AqlMultiStatementTransactionParser, ParseMultipleStatements)`
-- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:41
+- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:49
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AqlMultiStatementTransactionParser): n/a
   - `<unnamed>` (ParseMultipleStatements): n/a
 
 #### `TEST(AqlMultiStatementTransactionParser, ParsePostgresStyleSemicolons)`
-- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:52
+- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:65
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AqlMultiStatementTransactionParser): n/a
   - `<unnamed>` (ParsePostgresStyleSemicolons): n/a
 
 #### `TEST(AqlMultiStatementTransactionParser, ParseWithCteSingleStatement)`
-- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:112
+- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:141
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AqlMultiStatementTransactionParser): n/a
   - `<unnamed>` (ParseWithCteSingleStatement): n/a
 
 #### `TEST(AqlMultiStatementTransactionParser, ToJsonCommit)`
-- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:92
+- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:113
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AqlMultiStatementTransactionParser): n/a
   - `<unnamed>` (ToJsonCommit): n/a
 
 #### `TEST(AqlMultiStatementTransactionParser, ToJsonRollback)`
-- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:103
+- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:128
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (AqlMultiStatementTransactionParser): n/a
   - `<unnamed>` (ToJsonRollback): n/a
 
 #### `TEST_F(MultiStatementAqlRunnerTest, CommitReturnsCombinedResults)`
-- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:177
+- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:211
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MultiStatementAqlRunnerTest): n/a
   - `<unnamed>` (CommitReturnsCombinedResults): n/a
 
 #### `TEST_F(MultiStatementAqlRunnerTest, CommitWithSemicolonsReturnsCombinedResults)`
-- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:186
+- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:225
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MultiStatementAqlRunnerTest): n/a
   - `<unnamed>` (CommitWithSemicolonsReturnsCombinedResults): n/a
 
 #### `TEST_F(MultiStatementAqlRunnerTest, EmptyCommitSucceeds)`
-- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:204
+- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:252
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MultiStatementAqlRunnerTest): n/a
   - `<unnamed>` (EmptyCommitSucceeds): n/a
 
 #### `TEST_F(MultiStatementAqlRunnerTest, ParseErrorReturnsErr)`
-- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:212
+- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:260
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MultiStatementAqlRunnerTest): n/a
   - `<unnamed>` (ParseErrorReturnsErr): n/a
 
 #### `TEST_F(MultiStatementAqlRunnerTest, RollbackReturnsMetadataOnly)`
-- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:195
+- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:239
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (MultiStatementAqlRunnerTest): n/a
   - `<unnamed>` (RollbackReturnsMetadataOnly): n/a
 
 #### `std::string tmpPath(const std::string &name)`
-- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:130
+- Source: `tests/aql/test_aql_multi_statement_transaction.cpp`:164
 - Brief: n/a
 - Parameters:
   - `name` (const std::string &): n/a
@@ -10124,7 +10171,7 @@ Status: active
 - Details: s Input parameter. Return value. Calls: std::transform(), begin(), end(), std::tolower().
 
 #### `std::unordered_map< std::string, float > buildTermFrequency(const std::vector< std::pair< std::string, std::string > > &msgs)`
-- Source: `src/aql/llm_extractive_compressor.cpp`:296
+- Source: `src/aql/llm_extractive_compressor.cpp`:301
 - Brief: n/a
 - Parameters:
   - `msgs` (const std::vector< std::pair< std::string, std::string > > &): n/a
@@ -10195,7 +10242,7 @@ Status: active
 - Details: c Input parameter. True when the operation succeeds. Calls: std::isalnum().
 
 #### `float l2Norm(const std::unordered_map< std::string, float > &tf)`
-- Source: `src/aql/llm_extractive_compressor.cpp`:320
+- Source: `src/aql/llm_extractive_compressor.cpp`:325
 - Brief: n/a
 - Parameters:
   - `tf` (const std::unordered_map< std::string, float > &): n/a
@@ -10215,7 +10262,7 @@ Status: active
 - Details: s Input parameter. Return value. Calls: std::transform(), begin(), end(), std::tolower().
 
 #### `std::pair< bool, std::string > validateAQLWithParser(const std::string &aql_query, const std::shared_ptr< query::AQLParserService > &parser_service_ptr)`
-- Source: `src/aql/llm_aql_handler.cpp`:1801
+- Source: `src/aql/llm_aql_handler.cpp`:1798
 - Brief: n/a
 - Parameters:
   - `aql_query` (const std::string &): n/a
@@ -13057,24 +13104,24 @@ Status: active
 - Details: cfg Input parameter. Return value.
 
 #### `sharding::CircuitBreaker & getBreaker(const std::string &key)`
-- Source: `src/aql/llm_aql_handler.cpp`:593
+- Source: `src/aql/llm_aql_handler.cpp`:590
 - Brief: n/a
 - Parameters:
   - `key` (const std::string &): n/a
 
 #### `const sharding::CircuitBreaker & getBreaker(const std::string &key) const`
-- Source: `src/aql/llm_aql_handler.cpp`:597
+- Source: `src/aql/llm_aql_handler.cpp`:594
 - Brief: n/a
 - Parameters:
   - `key` (const std::string &): n/a
 
 #### `llm::LLMPluginManager & getPluginManager()`
-- Source: `src/aql/llm_aql_handler.cpp`:601
+- Source: `src/aql/llm_aql_handler.cpp`:598
 - Brief: n/a
 - Parameters: none
 
 #### `void wireShardLoadCallback()`
-- Source: `src/aql/llm_aql_handler.cpp`:659
+- Source: `src/aql/llm_aql_handler.cpp`:656
 - Brief: Wire the shard-load callback between batch_scheduler_ and adaptive_shard_router_ whenever either is changed.
 - Parameters: none
 - Details: Both must be non-null and local_shard_id_ must be non-empty for wiring to happen. Calls: empty(), setShardLoadCallback(), updateShardLLMLoad().
@@ -13128,16 +13175,23 @@ Status: active
 
 ### themis::aql::LLMExtractiveCompressor
 
-#### `LLMExtractiveCompressor(LLMAQLHandler &handler, LLMInteractionStore *store=nullptr, const Config &config=Config())`
-- Source: `include/aql/llm_extractive_compressor.h`:46
+#### `LLMExtractiveCompressor(LLMAQLHandler &handler, LLMInteractionStore *store, const Config &config)`
+- Source: `include/aql/llm_extractive_compressor.h`:50
 - Brief: n/a
 - Parameters:
   - `handler` (LLMAQLHandler &): n/a
   - `store` (LLMInteractionStore *): n/a
   - `config` (const Config &): n/a
 
+#### `LLMExtractiveCompressor(LLMAQLHandler &handler, LLMInteractionStore *store=nullptr)`
+- Source: `include/aql/llm_extractive_compressor.h`:46
+- Brief: n/a
+- Parameters:
+  - `handler` (LLMAQLHandler &): n/a
+  - `store` (LLMInteractionStore *): n/a
+
 #### `std::unique_ptr< CompressionResult > compressHistory(const std::vector< std::pair< std::string, std::string > > &history, int32_t max_tokens, float min_similarity=0.85f) override`
-- Source: `include/aql/llm_extractive_compressor.h`:52
+- Source: `include/aql/llm_extractive_compressor.h`:56
 - Brief: n/a
 - Parameters:
   - `history` (const std::vector< std::pair< std::string, std::string > > &): n/a
@@ -13145,44 +13199,44 @@ Status: active
   - `min_similarity` (float): n/a
 
 #### `float computeSimilarity(const std::vector< std::pair< std::string, std::string > > &original, const std::vector< std::pair< std::string, std::string > > &compressed)`
-- Source: `include/aql/llm_extractive_compressor.h`:79
+- Source: `include/aql/llm_extractive_compressor.h`:83
 - Brief: n/a
 - Parameters:
   - `original` (const std::vector< std::pair< std::string, std::string > > &): n/a
   - `compressed` (const std::vector< std::pair< std::string, std::string > > &): n/a
 
 #### `std::string formatTurnsForPrompt(const std::vector< std::pair< std::string, std::string > > &history, const std::vector< int32_t > &selected_indices)`
-- Source: `include/aql/llm_extractive_compressor.h`:89
+- Source: `include/aql/llm_extractive_compressor.h`:93
 - Brief: n/a
 - Parameters:
   - `history` (const std::vector< std::pair< std::string, std::string > > &): n/a
   - `selected_indices` (const std::vector< int32_t > &): n/a
 
 #### `std::string generateUUID()`
-- Source: `include/aql/llm_extractive_compressor.h`:97
+- Source: `include/aql/llm_extractive_compressor.h`:101
 - Brief: Generate UUID.
 - Parameters: none
 - Return: Return value.
 - Details: Return value. Return value. Calls: utils::generate_uuid_v4().
 
 #### `std::string getStatistics() const override`
-- Source: `include/aql/llm_extractive_compressor.h`:58
+- Source: `include/aql/llm_extractive_compressor.h`:62
 - Brief: n/a
 - Parameters: none
 
 #### `bool isAvailable() const override`
-- Source: `include/aql/llm_extractive_compressor.h`:57
+- Source: `include/aql/llm_extractive_compressor.h`:61
 - Brief: n/a
 - Parameters: none
 
 #### `std::vector< int32_t > rankTurnsByImportance(const std::vector< std::pair< std::string, std::string > > &history)`
-- Source: `include/aql/llm_extractive_compressor.h`:71
+- Source: `include/aql/llm_extractive_compressor.h`:75
 - Brief: n/a
 - Parameters:
   - `history` (const std::vector< std::pair< std::string, std::string > > &): n/a
 
 #### `std::vector< int32_t > selectTopTurns(const std::vector< int32_t > &ranked_indices, const std::vector< std::pair< std::string, std::string > > &history, int32_t max_tokens)`
-- Source: `include/aql/llm_extractive_compressor.h`:74
+- Source: `include/aql/llm_extractive_compressor.h`:78
 - Brief: n/a
 - Parameters:
   - `ranked_indices` (const std::vector< int32_t > &): n/a
@@ -13190,7 +13244,7 @@ Status: active
   - `max_tokens` (int32_t): n/a
 
 #### `void storeEpisode(const CompressionResult &result)`
-- Source: `include/aql/llm_extractive_compressor.h`:87
+- Source: `include/aql/llm_extractive_compressor.h`:91
 - Brief: Store Episode.
 - Parameters:
   - `result` (const CompressionResult &): Input parameter.
@@ -14352,7 +14406,7 @@ Status: active
 
 #### `TEST_F(LLMValidationPipelineTest, ParseErrorRetriesExhausted)`
 - Source: `tests/aql/test_aql_llm_validation_pipeline.cpp`:239
-- Brief: Test 5: Parse error with retries configured (but exhausted).
+- Brief: Test 5: Parse error with retries configured (but exhausted)
 - Parameters:
   - `<unnamed>` (LLMValidationPipelineTest): n/a
   - `<unnamed>` (ParseErrorRetriesExhausted): n/a
@@ -14387,7 +14441,7 @@ Status: active
 
 #### `TEST_F(LLMValidationPipelineTest, SuccessfulValidationNoRetries)`
 - Source: `tests/aql/test_aql_llm_validation_pipeline.cpp`:168
-- Brief: Test 1: Successful validation (no retries needed).
+- Brief: Test 1: Successful validation (no retries needed)
 - Parameters:
   - `<unnamed>` (LLMValidationPipelineTest): n/a
   - `<unnamed>` (SuccessfulValidationNoRetries): n/a
@@ -15234,7 +15288,7 @@ Status: active
 
 #### `void transitionToHalfOpen()`
 - Source: `tests/aql/test_aql_circuit_breaker_policy.cpp`:94
-- Brief: Manually transition OPEN → HALF_OPEN (simulates timeout expiry).
+- Brief: Manually transition OPEN → HALF_OPEN (simulates timeout expiry)
 - Parameters: none
 
 ### themis::aql::testing::MockCircuitBreakerRegistry
@@ -15566,7 +15620,7 @@ Status: active
 
 #### `SchemaContextBuilder invalid_missing_required()`
 - Source: `tests/aql/fixtures/schema_context_builder.h`:166
-- Brief: Invalid: required fields missing (partial schema).
+- Brief: Invalid: required fields missing (partial schema)
 - Parameters: none
 
 #### `std::string invalid_no_fields()`
@@ -15576,34 +15630,34 @@ Status: active
 
 #### `SchemaContextBuilder invalid_type_mismatch()`
 - Source: `tests/aql/fixtures/schema_context_builder.h`:159
-- Brief: Invalid: field with unknown type (triggers TypeMismatch).
+- Brief: Invalid: field with unknown type (triggers TypeMismatch)
 - Parameters: none
 
 #### `SchemaContextBuilder large_schema(int field_count=200)`
 - Source: `tests/aql/fixtures/schema_context_builder.h`:174
-- Brief: Large schema: collection with N fields (configurable).
+- Brief: Large schema: collection with N fields (configurable)
 - Parameters:
   - `field_count` (int): n/a
 
 #### `std::string multi_collection_context(const std::vector< std::string > &collection_names)`
 - Source: `tests/aql/fixtures/schema_context_builder.h`:189
-- Brief: Multi-collection context string (simulates join-like queries).
+- Brief: Multi-collection context string (simulates join-like queries)
 - Parameters:
   - `collection_names` (const std::vector< std::string > &): n/a
 
 #### `SchemaContextBuilder preset_orders()`
 - Source: `tests/aql/fixtures/schema_context_builder.h`:129
-- Brief: Preset: orders collection (id, user_id, items, total, status).
+- Brief: Preset: orders collection (id, user_id, items, total, status)
 - Parameters: none
 
 #### `SchemaContextBuilder preset_products()`
 - Source: `tests/aql/fixtures/schema_context_builder.h`:118
-- Brief: Preset: products collection (id, name, price, category, stock).
+- Brief: Preset: products collection (id, name, price, category, stock)
 - Parameters: none
 
 #### `SchemaContextBuilder preset_users()`
 - Source: `tests/aql/fixtures/schema_context_builder.h`:107
-- Brief: Preset: users collection (id, name, email, age, created_at).
+- Brief: Preset: users collection (id, name, email, age, created_at)
 - Parameters: none
 
 ### themis::aql::testing::ThreadSafeConversationContext
@@ -15702,7 +15756,7 @@ Status: active
 
 #### `uint32_t sumTokenCounts() const`
 - Source: `tests/aql/test_aql_token_policy.cpp`:106
-- Brief: Sum of all turn token counts (consistency check).
+- Brief: Sum of all turn token counts (consistency check)
 - Parameters: none
 
 #### `std::size_t turnCount() const`
@@ -16185,49 +16239,49 @@ Status: active
 ### themis::bench::aql_gates
 
 #### `BENCHMARK(BM_AG4_TranslationComplex) -> UseRealTime() ->Repetitions(kRepetitions)`
-- Source: `benchmarks/aql/bench_aql_assistance_gates.cpp`:235
+- Source: `benchmarks/aql/bench_aql_assistance_gates.cpp`:233
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_AG4_TranslationComplex): n/a
 
 #### `BENCHMARK(BM_AG4_TranslationSimple) -> UseRealTime() ->Repetitions(kRepetitions)`
-- Source: `benchmarks/aql/bench_aql_assistance_gates.cpp`:215
+- Source: `benchmarks/aql/bench_aql_assistance_gates.cpp`:213
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_AG4_TranslationSimple): n/a
 
 #### `BENCHMARK(BM_AG5_ValidationBatch) -> UseRealTime() ->Repetitions(kRepetitions)`
-- Source: `benchmarks/aql/bench_aql_assistance_gates.cpp`:282
+- Source: `benchmarks/aql/bench_aql_assistance_gates.cpp`:275
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_AG5_ValidationBatch): n/a
 
 #### `BENCHMARK(BM_AG5_ValidationSingle) -> UseRealTime() ->Repetitions(kRepetitions)`
-- Source: `benchmarks/aql/bench_aql_assistance_gates.cpp`:302
+- Source: `benchmarks/aql/bench_aql_assistance_gates.cpp`:295
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_AG5_ValidationSingle): n/a
 
 #### `BENCHMARK(BM_AG6_TokenEstimation_1turn) -> UseRealTime() ->Repetitions(kRepetitions)`
-- Source: `benchmarks/aql/bench_aql_assistance_gates.cpp`:363
+- Source: `benchmarks/aql/bench_aql_assistance_gates.cpp`:352
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_AG6_TokenEstimation_1turn): n/a
 
 #### `BENCHMARK(BM_AG6_TokenEstimation_20turns) -> UseRealTime() ->Repetitions(kRepetitions)`
-- Source: `benchmarks/aql/bench_aql_assistance_gates.cpp`:341
+- Source: `benchmarks/aql/bench_aql_assistance_gates.cpp`:330
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_AG6_TokenEstimation_20turns): n/a
 
 #### `BENCHMARK(BM_AllGates_Sequential) -> UseRealTime() ->Repetitions(kRepetitions)`
-- Source: `benchmarks/aql/bench_aql_assistance_gates.cpp`:409
+- Source: `benchmarks/aql/bench_aql_assistance_gates.cpp`:398
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (BM_AllGates_Sequential): n/a
 
 #### `void BM_AG4_TranslationComplex(benchmark::State &state)`
-- Source: `benchmarks/aql/bench_aql_assistance_gates.cpp`:220
+- Source: `benchmarks/aql/bench_aql_assistance_gates.cpp`:218
 - Brief: Gate AG-4 Complex: NL→AQL complex translation p95 ≤ 5.0 ms.
 - Parameters:
   - `state` (benchmark::State &): n/a
@@ -16240,33 +16294,33 @@ Status: active
 - Details: Verifies that simple NL→AQL translation overhead stays within budget. Locked baseline: 1.89 ms (5.5% margin) Test: Mock translation pipeline with validation Status: 🔒 LOCKED
 
 #### `void BM_AG5_ValidationBatch(benchmark::State &state)`
-- Source: `benchmarks/aql/bench_aql_assistance_gates.cpp`:249
+- Source: `benchmarks/aql/bench_aql_assistance_gates.cpp`:247
 - Brief: Gate AG-5: AQL validation batch throughput ≥ 100,000 q/s.
 - Parameters:
   - `state` (benchmark::State &): n/a
 - Details: Verifies that batch validation maintains required throughput. Locked baseline: 112,500 q/s (12.8k q/s buffer) Test: Batch validation of 32 queries Status: 🔒 LOCKED
 
 #### `void BM_AG5_ValidationSingle(benchmark::State &state)`
-- Source: `benchmarks/aql/bench_aql_assistance_gates.cpp`:287
+- Source: `benchmarks/aql/bench_aql_assistance_gates.cpp`:280
 - Brief: Gate AG-5 Single: Single query validation p95 ≤ 200 µs.
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_AG6_TokenEstimation_1turn(benchmark::State &state)`
-- Source: `benchmarks/aql/bench_aql_assistance_gates.cpp`:346
+- Source: `benchmarks/aql/bench_aql_assistance_gates.cpp`:335
 - Brief: Gate AG-6 Single: Token estimation for single turn.
 - Parameters:
   - `state` (benchmark::State &): n/a
 
 #### `void BM_AG6_TokenEstimation_20turns(benchmark::State &state)`
-- Source: `benchmarks/aql/bench_aql_assistance_gates.cpp`:316
+- Source: `benchmarks/aql/bench_aql_assistance_gates.cpp`:309
 - Brief: Gate AG-6: Token estimation p95 ≤ 50 µs for 20-turn history.
 - Parameters:
   - `state` (benchmark::State &): n/a
 - Details: Verifies that token estimation for conversation history stays within budget. Locked baseline: 42.5 µs (17% safety margin) Test: Estimate tokens for 20-turn conversation Status: 🔒 LOCKED
 
 #### `void BM_AllGates_Sequential(benchmark::State &state)`
-- Source: `benchmarks/aql/bench_aql_assistance_gates.cpp`:375
+- Source: `benchmarks/aql/bench_aql_assistance_gates.cpp`:364
 - Brief: Consolidated gate verification: run all gates sequentially.
 - Parameters:
   - `state` (benchmark::State &): n/a
@@ -16422,7 +16476,7 @@ Status: active
 
 #### `uint32_t estimate(const std::string &text)`
 - Source: `benchmarks/aql/bench_aql_helper_paths.cpp`:227
-- Brief: Estimate token count: 1 token ≈ 4 characters (GPT-3.5/4 approximation).
+- Brief: Estimate token count: 1 token ≈ 4 characters (GPT-3.5/4 approximation)
 - Parameters:
   - `text` (const std::string &): n/a
 
@@ -16434,7 +16488,7 @@ Status: active
 
 #### `uint32_t estimateTurn(const std::string &nl, const std::string &aql)`
 - Source: `benchmarks/aql/bench_aql_helper_paths.cpp`:232
-- Brief: Estimate for a conversation turn (NL + AQL).
+- Brief: Estimate for a conversation turn (NL + AQL)
 - Parameters:
   - `nl` (const std::string &): n/a
   - `aql` (const std::string &): n/a
@@ -16504,13 +16558,13 @@ Status: active
 
 #### `TranslationResult translateComplex(const std::string &nl_query)`
 - Source: `benchmarks/aql/bench_aql_translation.cpp`:86
-- Brief: Simulate complex multi-clause translation (JOIN + FILTER + SORT + LIMIT).
+- Brief: Simulate complex multi-clause translation (JOIN + FILTER + SORT + LIMIT)
 - Parameters:
   - `nl_query` (const std::string &): n/a
 
 #### `TranslationResult translateSimple(const std::string &nl_query)`
 - Source: `benchmarks/aql/bench_aql_translation.cpp`:65
-- Brief: Simulate simple single-clause translation (FOR … RETURN …).
+- Brief: Simulate simple single-clause translation (FOR … RETURN …)
 - Parameters:
   - `nl_query` (const std::string &): n/a
 
@@ -16564,4 +16618,3 @@ Status: active
 - Source: `tests/aql/test_p2_d06_benchmarks.cpp`:419
 - Brief: n/a
 - Parameters: none
-

@@ -1,50 +1,66 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-07-19"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # AQL Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-07-19 -->
+<!-- Historical status snapshot validated 2026-07-19; not current readiness evidence. -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 
-## Current Implementation Status (v1.6.0 + 2026-07-19 Sync)
+## Historical Implementation Snapshot (v1.6.0 + 2026-07-19)
 
-All v1.6.0 enhancements are production-ready and have been verified with comprehensive testing.
-Additional documentation expansion completed in Issue #5628 on 2026-07-19.
+The checkmarks and status language in this section record a 2026-07-19 planning
+snapshot; they are not current production-readiness or test-pass evidence.
+Current behavior must be checked against implementation, headers, and tests.
+**TODO:** Reconcile remaining backlog items and completion states with the
+current module roadmap before using this file as an active delivery plan.
 
-### Production-Ready Implementations
+### Items reported as implemented in the historical snapshot
 
 - [x] **Post-Generation AQL Validation in `translateNLToAQL()`** (v1.6.0)
   - AST validation post-generation with configurable error handling modes
   - Injection attempt detection in LLM-generated queries
   - Malformed AQL rejected early based on validation mode (WARN_ONLY, REJECT_ON_ERROR, RETRY_ON_ERROR)
   - Implemented in `llm_aql_handler.cpp` lines 1488-1527
-  - Status: ✅ PRODUCTION-READY
+  - Historical reported status: implemented; current validation policy is configurable.
 
 - [~] **Thread Leak Elimination in `LLMTimeoutManager::executeWithTimeout()`** (v1.6.0)
   - Fixed thread creation without proper cleanup using std::jthread
   - Timeout thread properly joins or is detached with cleanup wrapper
   - Documented in `llm_timeout_manager.h` lines 95-122
-  - Status: ✅ VERIFIED - proper RAII pattern in place
+  - Historical reported status only; implementation/source review is required for a current lifecycle claim.
 
 - [x] **Per-Operation-Type Circuit Breakers** (v1.6.0)
   - Implemented circuit breaker pattern per operation (infer, rag, embed, finetune)
   - Independent failure tracking and state management per operation type
   - Fail-closed when error threshold exceeded
   - Implemented in `llm_aql_handler.cpp` lines 451-458, 1300+
-  - Status: ✅ PRODUCTION-READY
+  - Historical reported status only; see `include/aql/llm_aql_handler.h` for current configuration.
 
 - [x] **Bounded Conversation History with Context-Window Budget** (v1.6.0)
   - Sliding window for conversation history with token budget enforcement
   - Configurable max_turns and max_history_tokens limits
   - OOM prevention through automatic eviction of oldest pairs
   - Implemented in `aql_conversation_context.cpp` lines 111-183
-  - Status: ✅ PRODUCTION-READY
+  - Historical reported status only; see `include/aql/aql_conversation_context.h` for current bounds.
 
-## Documentation & Roadmap Synchronization (Issue #5628, 2026-07-19)
+## Historical Documentation & Roadmap Synchronization Report (Issue #5628, 2026-07-19)
 
 - [x] **Doxygen API Documentation Expansion**
   - All public classes and methods now have @brief + @param + @return/@throws documentation
   - All .cpp and .h files have @file headers with maturity metadata
-  - Coverage: 100% of header files in include/aql/ (33 files)
-  - Coverage: 100% of implementation files in src/aql/ (34 files)
-  - Status: ✅ COMPLETE
+  - Reported coverage at that time: 33 header files and 34 implementation files; these counts do not match the current directory inventory.
+  - Current coverage: **TODO** — regenerate/verify Doxygen coverage from the current source set.
 
 - [x] **Roadmap Synchronization**
   - ROADMAP.md updated with v1.6.0 completion status
@@ -52,7 +68,7 @@ Additional documentation expansion completed in Issue #5628 on 2026-07-19.
   - Phase 2 (Parser Integration) marked as ✅ COMPLETED 2026-07-19
   - Phase 3 (Documentation Consolidation) marked as ✅ COMPLETED 2026-07-19
   - Validation date updated from 2026-06-10 to 2026-07-19
-  - Status: ✅ COMPLETE
+  - Historical report only; it does not establish current synchronization.
 
 ## Phase 4: Error Handling and Edge Cases (2026-07-19)
 

@@ -1,16 +1,30 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-07-20"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # AQL Module Testing Coverage
 
 <!--
-  ThemisDB | File: TESTING_COVERAGE.md | Version: 0.0.1
-  Author: copilot-swe-agent[bot] | Phase 5: Unified Testing Documentation
-  Updated: 2026-07-20
+  Historical phase-4/5 case catalog, originally assembled 2026-07-20.
+  File existence and registration have since been checked against current
+  tests/aql/ and tests/aql/CMakeLists.txt; this is not a test execution report.
 -->
 
 ## Overview
 
-This document tracks all test cases for the AQL module across Phases 4-5 of
-Issue #5628 (AQL Error Handling & Unified Testing). Tests are self-contained
-and require only GTest + `include/aql/aql_error_types.h`.
+This document catalogs focused regression cases for selected AQL components.
+The inventory below is not an exhaustive catalog of all AQL-related tests
+elsewhere in `tests/`, and listing a test does not mean it was run or passed.
 
 ---
 
@@ -153,7 +167,7 @@ and require only GTest + `include/aql/aql_error_types.h`.
 
 | Category | Test Count | Source Files Covered |
 |----------|-----------|----------------------|
-| Validation error taxonomy | 14 | `include/aql/aql_error_types.h` |
+| Validation error taxonomy | 8 | `include/aql/aql_error_types.h` |
 | Translation recovery | 8  | `src/aql/llm_aql_handler.cpp` |
 | Bridge/context degradation | 7 | `src/aql/llm_aql_embedding_bridge.cpp` |
 | Schema edge cases | 6  | `include/aql/aql_error_types.h` |
@@ -161,22 +175,29 @@ and require only GTest + `include/aql/aql_error_types.h`.
 | Provider degradation | 8  | Mock provider failure modes |
 | Token policy | 6  | Token budget enforcement |
 | Circuit breaker | 6  | State machine transitions |
-| **Total Phase 4-5** | **63** | |
+| **Total Phase 4-5 case catalog** | **57** | |
 
 ---
 
 ## CMake Integration
 
-All `test_aql_*.cpp` files in `tests/aql/` are auto-discovered by the
-`tests/aql/CMakeLists.txt` glob pattern and registered as
-`module_aql_*_focused` targets. No CMakeLists.txt edits required for
-new test files.
+`tests/aql/CMakeLists.txt` uses `file(GLOB ...)` for `test_aql_*.cpp`, creates
+`module_aql_<test-stem>_focused` executables, and registers the corresponding
+CTest entries with the `aql` label and a 120-second timeout. The glob does not
+use `CONFIGURE_DEPENDS`; reconfigure CMake after changing the matching file set.
+Target creation is conditional on the repository's test configuration and
+linkable dependencies. This source-level registration is not evidence that a
+target built or that its tests passed.
 
 ---
 
 ## Known Gaps / Planned Extensions
 
-- Integration tests with real `LLMAQLHandler` (requires provider mock injection)
-- Fuzz tests for injection detection edge cases
-- Mutation testing for circuit breaker state transitions
-- Performance regression tests for schema validation at scale (Phase 6)
+- **TODO:** Reconcile this historical case catalog with the full current test
+  inventory and implementation coverage.
+- **TODO:** Verify whether focused fuzz and mutation-testing targets exist
+  before describing them as missing; this document has not audited tests outside
+  `tests/aql/`.
+- Performance targets and measured values are documented separately in
+  [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md); the catalog
+  here does not establish that they were run.

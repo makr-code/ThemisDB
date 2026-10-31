@@ -47,7 +47,8 @@ surfaces, not for implementing the core parser or query execution engine.
 1. Identify whether the change affects a public interface, internal behavior,
    provider integration, or operational contract.
 2. Read the corresponding source and tests; do not treat planning or audit
-   summaries as stronger evidence than source and frozen contracts.
+   summaries as stronger evidence than source, public declarations, and the
+   implementation-reviewed contract.
 3. Preserve bounded inputs/context, explicit provider failure behavior, and
    the distinction between parser validity and authorization.
 4. Add or update a focused test under `tests/aql/` for the changed behavior.

@@ -1,51 +1,78 @@
-> **Status:** 2026-06-01 – mit aktuellem Aql-Code (`aql_agent.cpp`) abgeglichen.
+---
+Author: "ThemisDB Team"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-# ThemisDB Aql Module - Production Requirements
+Exact model backend not verifiable from final document text alone.
 
-## Zweck und Geltungsbereich
+# AQL Assistance Production Requirements
 
-Dieses Dokument ist der **kanonische Referenzpunkt für produktive Mindestanforderungen** des Aql-Moduls.
-Es definiert verbindliche Betriebs- und Sicherheitsanforderungen für AQL-Agent, AQL-Ingestion-Bridge, AQL-Konfidenz-Scorer.
+## Purpose and evidence boundary
 
-## Dokumentabgrenzung (Canonical Split)
+This page records operational requirements for applications deploying AQL
+assistance. The requirements are policy guidance; their presence here does not
+prove that every application path or deployment enforces them. Verify
+implementation and host integration separately.
 
-- **`src/aql/PRODUCTION_REQUIREMENTS.md` (dieses Dokument):** verpflichtende Produktionsanforderungen (MUST/MUST NOT), Sicherheitsannahmen, Betriebsgrenzen.
-- **`src/aql/README.md`:** Funktionsübersicht, Architekturkontext, API- und Nutzungsbeispiele.
-- **`src/aql/ROADMAP.md`:** Lieferphasen, offene/abgeschlossene Features, Readiness-Planung.
-- **`src/aql/FUTURE_ENHANCEMENTS.md`:** mittelfristige/langfristige Erweiterungen und Forschungsfelder.
+The AQL assistance module is not the core query executor and is not, by itself,
+an authorization authority. The implementation exposes configurable input
+validation limits, parser validation, collection access/scope checks, timeouts,
+retry settings, and circuit-breaker configuration. Exact values and behavior
+depend on the configured handler and host application.
 
-## Verbindliche Produktionsanforderungen
+## Requirements for a deployment
 
-- **MUST:** AQL-Agent-Prompts safety-validiert bevor Execution.
-- **MUST:** AQL-Ingestion-Bridge mit Autorisierung; kein unauthentifizierter Ingestion-Trigger.
-- **MUST:** Alle sicherheitsrelevanten Konfigurationswerte beim Start validiert; fehlende oder ungültige Werte führen zu Fail-Closed-Verhalten.
-- **MUST NOT:** Sicherheits- oder Autorisierungs-Checks in Produktionspfaden deaktivieren.
+- **MUST:** Authenticate the caller and authorize the final query at the host
+  execution boundary. Do not treat generated AQL, parser acceptance, confidence,
+  or supplied schema context as permission.
+- **MUST:** Keep input bounds, validation mode, retry count, and timeout policy
+  explicit and reviewed for the deployment.
+- **MUST:** Treat user prompts, provider output, schema context, and tool
+  arguments as untrusted; do not execute partial streamed output.
+- **MUST:** Use reviewed application callbacks and authorize each operation
+  exposed through an agent/tool integration.
+- **MUST:** Protect provider credentials and avoid retaining raw prompts or
+  sensitive query values in logs unless covered by an approved incident process.
+- **MUST NOT:** Disable application authorization or bypass validation to
+  recover provider availability.
 
-## Verbindliche Sicherheitsanforderungen
+## Configuration and build boundary
 
-- Sicherheitsrelevante Operationen werden über dedizierte Kontroll-Surfaces geleitet.
-- Fehler in sicherheitskritischen Pfaden werden als explizite Fehlercodes propagiert; kein Silent-Permit.
-- Audit-Logging für sicherheitsrelevante Operationen aktiv in Produktionsdeployments.
+Relevant public configuration is declared in
+[`include/aql/llm_aql_handler.h`](../../include/aql/llm_aql_handler.h),
+[`include/aql/aql_conversation_context.h`](../../include/aql/aql_conversation_context.h),
+and the applicable adapter headers. No universal production-mode environment
+variable, admin command, or set of production defaults is established by these
+module sources.
 
-## Betriebsgrenzen
+Build inclusion is feature/configuration dependent; consult the selected CMake
+configuration and `cmake/ModularBuild.cmake`. Do not infer that a particular
+provider or bridge is compiled or enabled solely because its public header
+exists.
 
-- Konfigurationswerte müssen deployment-spezifisch gesetzt sein; Default-Werte gelten nicht als produktionssicher.
-- Ressourcen-Limits (Größen, Counts, Timeouts) müssen mit den Deployment-Anforderungen übereinstimmen.
-- Externe Abhängigkeiten (Backends, Registries, Koordinatoren) müssen mit expliziten Verbindungs-Timeouts und Retry-Policies konfiguriert sein.
+## Verification checklist
 
-## Minimaler Produktions-Check (Audit-fähig)
+- [ ] Host authentication and execution authorization are verified in the
+  deployed request path.
+- [ ] Handler validation, input limits, retry, timeout, context, and
+  circuit-breaker configuration are reviewed.
+- [ ] Optional parser/provider/embedding services and their failure behavior are
+  verified for the deployed build.
+- [ ] Logging, metrics, access, and retention controls are verified in the
+  host application.
+- [ ] Focused tests and deployment-specific checks have been run and recorded.
 
-- [ ] Modul-Konfiguration vollständig und beim Start validiert
-- [ ] Sicherheits- und Autorisierungs-Checks aktiv
-- [ ] Ressourcen-Limits explizit konfiguriert (keine Unlimited-Defaults)
-- [ ] Audit-Logging aktiv
-- [ ] Externe Abhängigkeiten mit Timeout und Retry konfiguriert
-- [ ] Produktionsmodus via `THEMIS_PRODUCTION_MODE` oder `THEMIS_ENVIRONMENT` gesetzt
+## Source references
 
-## Review / Sourcecode-Audit-Nachweis
-
-### Betroffene Dateien im Review
-
-- `src/aql/PRODUCTION_REQUIREMENTS.md`
-- `src/aql/aql_agent.cpp`
-- `src/aql/aql_ingestion_bridge.cpp`
+- [`llm_aql_handler.h`](../../include/aql/llm_aql_handler.h)
+- [`aql_conversation_context.h`](../../include/aql/aql_conversation_context.h)
+- [`aql_agent.h`](../../include/aql/aql_agent.h)
+- [`SECURITY.md`](SECURITY.md)
+- [`TRUST.md`](TRUST.md)
