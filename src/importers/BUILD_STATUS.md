@@ -1,12 +1,64 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-08-02"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "build-test"
+Canonical_References: "CMakePresets.json; cmake/CMakeLists.txt; tests/importers/CMakeLists.txt; benchmarks/importers/CMakeLists.txt; tests/importers/test_importers_contract_hardening_focused.cpp; benchmarks/importers/bench_importers_release_gates.cpp"
+Related_Reference: "makr-code/ThemisDB#7353"
+---
+
+> Creation-date note: Original creation date is not recorded in the available checkout; the front-matter `Created` date is a metadata placeholder, not independently verified.
+
+> Exact model backend not verifiable from final document text alone.
+
 # Importers Module - Build and Test Status
 
-**Last Updated:** 2026-08-02  
-**Issue Reference:** #5650  
-**Status:** In Progress (Q3 2026 hardening tasks active)
+## Current repository evidence (2026-10-31)
 
-## Evidence Summary
+This update verifies checked-in configuration and registration declarations; no
+CMake configure, compilation, CTest run, or benchmark run was performed.
 
-This document provides build and test evidence for the importers module, addressing the evidence gap noted in issue #5650. All infrastructure is verified and test/benchmark registration is confirmed through CMake configuration.
+- `community-release` is Release with `THEMIS_BUILD_TESTS=OFF` and
+  `THEMIS_BUILD_BENCHMARKS=OFF`. `community-release-allow-missing-rocksdb`
+  inherits it, changes to Debug and enables diagnostic missing-RocksDB mode,
+  but does not override those test/benchmark options. Do not use that preset as
+  evidence that importer tests or benchmarks are enabled.
+- `tests/importers/CMakeLists.txt` globs `test_*.cpp`; 12 files are present.
+  The local focused registration skips `test_importers_phase2b_exception_safety_focused`,
+  `test_importers_phase2_phase3_integration_focused`, and
+  `test_importers_phase2a_data_race_focused` before defining local focused
+  targets. The other nine are registered by this file with a 120-second timeout
+  and `importers phase4` labels (with additional labels on selected tests).
+- `benchmarks/importers/CMakeLists.txt` returns unless
+  `THEMIS_BUILD_BENCHMARKS` is enabled; it declares
+  `bench_importer_throughput` and `bench_importers_release_gates` using
+  `themis_add_standard_benchmark()`. Google Benchmark must be found by the
+  parent benchmark configuration.
+- The contract test is a self-contained mock, not live connector or database
+  atomicity evidence. Its duplicate `import_id` test rejects replay while
+  `importers_api_contract.h` states replay is idempotent: TODO, reconcile this
+  API/test discrepancy in a source-code change.
+- The six IMRG labels and thresholds are benchmark-source targets, not proof of
+  current measurements or a pass/fail CI gate. See
+  [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md).
+
+TODO: run a configured build/test/benchmark job and retain its logs before
+publishing any pass, performance, or production-readiness claim.
+
+## Historical build/test snapshot (2026-08; not revalidated)
+
+The remainder of this file records claims made in an earlier issue #5650
+snapshot. Its machine versions, test inventory, preset behavior, benchmark
+results, roadmap status, and dependency claims are not current evidence.
+
+### Historical evidence summary
 
 ## Build Infrastructure
 

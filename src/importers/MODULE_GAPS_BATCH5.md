@@ -1,6 +1,33 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-08-14"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References: "src/importers/*.cpp; include/importers/*.h; tests/importers/CMakeLists.txt; benchmarks/importers/CMakeLists.txt; src/importers/BUILD_STATUS.md"
+Related_Reference: "makr-code/ThemisDB#7353"
+---
+
+> Creation-date note: Original creation date is not recorded in the available checkout; the front-matter `Created` date is a metadata placeholder, not independently verified.
+
+> Exact model backend not verifiable from final document text alone.
+> Historical planning/scanner snapshot only. The reported counts, percentages,
+> issue IDs, performance targets, "verified" labels, and Wave B completion state
+> below are not established by current source, test registration, or retained
+> run output in this repository. Do not treat them as current blockers, fixes,
+> or release gates.
+> TODO: re-audit the listed claims against current code and attach primary
+> evidence before republishing any as active status.
+
 # importers Module - Gap Analysis & Wave B Alignment (Batch 5)
 
-<!-- Status: Batch 5 Enhancement | validated: 2026-08-14 -->
+<!-- Historical status marker from 2026-08-14; claims are not revalidated. -->
 <!-- Scope: 644 verified gaps across error recovery, streaming performance, large-file handling -->
 <!-- Wave Context: Wave B (Performance Consolidation Q3-Q4 2026) — Performance Under Sustained Load + Streaming Reliability -->
 

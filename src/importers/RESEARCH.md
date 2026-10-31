@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -10,8 +10,8 @@ Human_Review: false
 Human_Author: "ThemisDB Team"
 Source_Level: "level1"
 SOT_Domain: "module-behavior"
-Canonical_References: "include/importers/importers_api_contract.h; tests/importers/test_importers_contract_hardening_focused.cpp; benchmarks/importers/bench_importers_release_gates.cpp; src/importers/PERFORMANCE_EXPECTATIONS.md"
-Related_Reference: "makr-code/ThemisDB#7124"
+Canonical_References: "include/importers/importers_api_contract.h; tests/importers/test_importers_contract_hardening_focused.cpp; tests/importers/CMakeLists.txt; benchmarks/importers/bench_importers_release_gates.cpp; benchmarks/importers/CMakeLists.txt; src/importers/PERFORMANCE_EXPECTATIONS.md"
+Related_Reference: "makr-code/ThemisDB#7353"
 ---
 
 > Exact model backend not verifiable from final document text alone.
@@ -50,12 +50,13 @@ header states that external interactions are mocked and the suite is
 self-contained; it is contract-regression evidence, not a live connector test.
 
 [`bench_importers_release_gates.cpp`](../../benchmarks/importers/bench_importers_release_gates.cpp)
-declares six hot-path gates: CSV parsing at 5M rows/s, schema validation at
+declares six hot-path cases with target labels: CSV parsing at 5M rows/s, schema validation at
 p99 50 µs, duplicate checks at p99 100 µs, mock row-buffer commit at p99 5 ms,
 quota checks at p99 50 µs, and schema evolution checks at p99 200 µs. The
-benchmark source uses in-memory/mock work for these cases. Treat these numbers
-as configured gates for those microbenchmarks, not as measured end-to-end
-connector throughput or a result for a particular machine.
+benchmark source uses in-memory/mock work and sets five repetitions with 200
+explicit warmup calls in each benchmark body. The source does not implement a
+threshold assertion or compute p99. Treat these labels as intended targets,
+not passing CI gates, measured p99 values, or end-to-end connector results.
 
 The broader
 [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md) maps additional
@@ -85,7 +86,10 @@ strategies change record semantics and must be part of the test case, not an
 unstated benchmark default.
 
 The contract tests intentionally model the coordinator and do not replace
-connector integration, failure-injection, or recovery tests. Consult the
+connector integration, failure-injection, or recovery tests. Their mock rejects
+a repeated `import_id`, whereas the contract header describes idempotent replay.
+This API/test discrepancy is unresolved (TODO: reconcile outside this
+documentation-only change). Consult the
 [focused-test registration](../../tests/importers/CMakeLists.txt), the
 [module roadmap](./ROADMAP.md), and the connector-specific suites before
 making a release or compatibility claim.

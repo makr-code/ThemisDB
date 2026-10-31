@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -10,8 +10,8 @@ Human_Review: false
 Human_Author: "ThemisDB Team"
 Source_Level: "level1"
 SOT_Domain: "module-behavior"
-Canonical_References: "include/importers/wikipedia_config.hpp; include/importers/wikipedia_types.hpp; src/importers/wikipedia_transform.cpp; src/importers/wikipedia_project_vector.cpp; src/importers/huggingface_ingest_plugin.cpp"
-Related_Reference: "makr-code/ThemisDB#7124"
+Canonical_References: "include/importers/wikipedia_config.hpp; include/importers/wikipedia_types.hpp; src/importers/wikipedia_transform.cpp; src/importers/wikipedia_project_vector.cpp; src/importers/huggingface_ingest_plugin.cpp; include/importers/huggingface_ingest_plugin.h"
+Related_Reference: "makr-code/ThemisDB#7353"
 ---
 
 > Exact model backend not verifiable from final document text alone.

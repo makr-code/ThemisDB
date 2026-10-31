@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -10,33 +10,32 @@ Human_Review: false
 Human_Author: "ThemisDB Team"
 Source_Level: "level1"
 SOT_Domain: "module-behavior"
-Canonical_References: "src/importers/README.md; include/importers/README.md; include/importers/importers_api_contract.h; tests/importers/test_importers_contract_hardening_focused.cpp"
-Related_Reference: "makr-code/ThemisDB#7124"
+Canonical_References: "src/importers/*.cpp; include/importers/*.h; include/importers/*.hpp; tests/importers/CMakeLists.txt; benchmarks/importers/CMakeLists.txt"
+Related_Reference: "makr-code/ThemisDB#7353"
 ---
 
-Exact model backend not verifiable from final document text alone.
+> Exact model backend not verifiable from final document text alone.
 
 # ThemisDB Importers Module
 
-<!-- Status: Production Ready (Wave B Performance) | validated: 2026-08-14 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · BUILD_STATUS.md · MODULE_GAPS_BATCH5.md · PERFORMANCE_EXPECTATIONS.md -->
-<!-- Wave Context: Wave B (Performance Consolidation Q3-Q4 2026) — Error Recovery + Streaming Performance + Large-File Handling -->
+<!-- This page inventories source surfaces; it is not a maturity or release-readiness certification. -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · BUILD_STATUS.md · PERFORMANCE_EXPECTATIONS.md -->
 
 ## Module Purpose
 
-Production-capable source-to-ThemisDB ingestion capabilities for relational, document, stream, and file/object sources, including schema handling, conflict resolution, validation, auditability, and optional MDM/post-processing paths. **Batch 5 enhancement focus: Error recovery determinism, streaming performance under load, large-file handling with backpressure**.
+Importer implementations cover relational, document, streaming, file, and object-source paths plus shared schema, conflict, quality, audit, and optional MDM helpers. Availability and behavior vary by connector, build options, and runtime capability. Documentation and registration are not evidence of production readiness or successful runtime tests.
 
 ## Relevant Interfaces
 
 | Interface / File | Role |
 |---|---|
-| postgres_importer.cpp | PostgreSQL import execution and schema extraction |
+| postgres_importer.cpp | PostgreSQL dump import execution and schema extraction |
 | mysql_importer.cpp | MySQL/MariaDB import paths |
 | sqlite_importer.cpp | SQLite import paths |
 | oracle_importer.cpp | Oracle import paths |
 | mongo_importer.cpp | MongoDB document import paths |
 | kafka_importer.cpp | streaming import entry points |
-| flatfile_importer.cpp | CSV/TSV/Parquet/flat-file ingestion |
+| flatfile_importer.cpp | CSV/TSV/JSONL/NDJSON and conditional Parquet ingestion |
 | s3_importer.cpp | object-storage backed import surfaces |
 | schema_validator.cpp | schema validation logic |
 | schema_inference.cpp | schema inference and relationship hints |
@@ -74,9 +73,10 @@ Out of scope:
 
 ## Runtime Behavior and Limits
 
-- behavior depends on enabled connectors and build/runtime feature flags.
+- behavior depends on enabled connectors and build/runtime feature flags; `ARROW_ENABLED` gates Parquet code, while some connector sources are conditionally included by CMake.
 - conflict strategy and validation options strongly influence import outcomes.
-- optional CDC/streaming/object-source paths degrade deterministically when unavailable.
+- connector capability failures and fallback behavior are implementation-specific;
+  verify the selected connector rather than assuming deterministic degradation.
 - Wikipedia MVP exports a portable `wikipedia.db` JSON artifact plus `manifest.json` and `wikipedia.db.verify.json` sidecars for verification.
 
 ## Installation
@@ -99,9 +99,9 @@ Out of scope:
 - `exportAdaLoraJsonl(...)` for deterministic AdaLoRA JSONL output (`instruction/input/target/system` or `prompt/response`)
 - `fetchRawRows(...)` currently returns the rows supplied by the caller; this is not a live HuggingFace API connector or durable database writer
 
-## Sourcecode Verification (Module: importers/readme)
+## Source References (inventory, not a full audit)
 
-- Verified files:
+- Selected implementation files referenced above:
   - src/importers/postgres_importer.cpp
   - src/importers/mysql_importer.cpp
   - src/importers/sqlite_importer.cpp
@@ -137,13 +137,13 @@ Out of scope:
   - src/importers/wikipedia_project_timeseries.cpp
   - src/importers/wikipedia_checkpoint.cpp
   - src/importers/wikipedia_validator.cpp
-- Verified behavior surfaces:
-  - source import execution, schema/validation/conflict handling, audit/MDM and advanced helper integration
+- Behavior surfaces represented in these sources:
+  - source import execution, schema/validation/conflict handling, audit/MDM and helper components
   - Wikipedia XML full/delta processing, dirty-page projection rebuild and portable validation/export
   - HuggingFace caller-supplied row normalization, validation, checkpoint token, and JSONL export behavior
 - Note:
-  - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
-  - historical entries remain in CHANGELOG.md
+  - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md; release history is recorded separately in CHANGELOG.md
+  - TODO: reconcile contract wording and mock behavior for duplicate `import_id` replay before claiming connector-wide idempotency
 
 
 ## Developer Documentation

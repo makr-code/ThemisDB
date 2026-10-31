@@ -1,6 +1,24 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+---
+Author: "ThemisDB Team"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+Source_Level: "level1"
+SOT_Domain: "api-contract"
+Canonical_References: "include/importers/importer_interface.h; include/importers/importer_interfaces.h; include/importers/importer_plugin.h; include/importers/flatfile_importer.h"
+Related_Reference: "makr-code/ThemisDB#7353"
+---
 
-<!-- Status: current | validated: 2026-06-01 -->
+> Creation-date note: Original creation date is not recorded in the available checkout; the front-matter `Created` date is a metadata placeholder, not independently verified.
+
+> Exact model backend not verifiable from final document text alone.
+
+<!-- Header inventory; not a compatibility or build-verification report. -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/importers/ARCHITECTURE.md -->
 
 # Importers Module — Public Header Architecture
@@ -27,8 +45,8 @@ For runtime composition and implementation internals see:
 | Header | Public Type | Purpose |
 |--------|------------|---------|
 | `importer_interface.h` | `IImporter` | Base importer contract |
-| `importer_interfaces.h` | `ImporterInterfaces` | Extended importer interface set |
-| `importer_plugin.h` | `IImporterPlugin` | Plugin-based importer interface |
+| `importer_interfaces.h` | `IImporterPlugin`, `IImporterPluginRegistry`, `IIncrementalImportCursor`, and related interfaces | Plugin, cursor, consumer-source, schema-detector, and conflict-resolver contracts |
+| `importer_plugin.h` | `THEMIS_IMPORTER_PLUGIN_V1` C ABI descriptor | Versioned third-party plugin ABI |
 | `importer_plugin_api.h` | `ImporterPluginAPI` | Plugin API registration |
 | `importer_common.h` | `ImporterCommon` | Shared importer utilities |
 | `adaptive_import.h` | `AdaptiveImport` | Adaptive batch-size import |
@@ -47,7 +65,7 @@ For runtime composition and implementation internals see:
 
 | Header | Public Type | Purpose |
 |--------|------------|---------|
-| `flatfile_importer.h` | `FlatFileImporter` | CSV/TSV/fixed-width flat file import |
+| `flatfile_importer.h` | `FlatFileImporter` | CSV/TSV/JSONL and conditional Parquet import |
 | `kafka_importer.h` | `KafkaImporter` | Kafka topic streaming import |
 | `s3_importer.h` | `S3Importer` | S3-compatible object storage import |
 ### 2.4 Data Quality and Matching
@@ -85,13 +103,16 @@ For runtime composition and implementation internals see:
 
 ## 3. Namespace Layout
 
-All public types reside in the `themis::importers` namespace (or a sub-namespace).
+Types are declared under `themis::importers`; individual headers may use
+sub-namespaces.
 
 ---
 
 ## 4. Contract Notes
 
-- Headers in `include/importers/` expose the **stable public API**; internal types live in `src/importers/`.
-- Clients depend only on types declared here; implementation details in `src/` may change without notice.
+- Headers in `include/importers/` expose declarations intended for consumers;
+  compatibility guarantees are defined by the relevant contract and release policy,
+  not by this inventory.
+- Connector behavior and optional-feature availability must be checked against
+  the matching implementation and build configuration.
 - For breaking-change policy see [`../../VERSIONING.md`](../../VERSIONING.md).
-- Layer association: **ANN/Tensor**.
