@@ -1,14 +1,16 @@
 # ai_working — MODULE_GAPS.md
 
-<!-- Status: current | validated: 2026-09-21 -->
+<!-- Status: current | validated: 2026-10-31 -->
+<!-- AI_Used: true | AI_Models: unknown | AI_Contributor: GitHub Copilot | Human_Review: false | Human_Author: unknown -->
+<!-- Exact model backend not verifiable from final document text alone. -->
 
 This file documents all documentation and code quality gaps in the **ai_working** module.
 
 ## Summary
 
 - **Total Open Gaps**: 0
-- **Status**: Resolved (2026-09-21)
-- **Last Updated**: governance documentation restoration PR
+- **Status**: No known open source or build gaps; documentation claims need source-based review
+- **Last Updated**: 2026-10-31
 
 ### By Severity
 
@@ -27,4 +29,6 @@ This file documents all documentation and code quality gaps in the **ai_working*
 
 ## Open Follow-ups
 
-None. AW-AUD-01 and AW-AUD-02 are both resolved — see AUDIT.md for details.
+- No runtime, test, or benchmark implementation is present or currently required.
+- AW-AUD-01 and AW-AUD-02 tooling exists; note that the “freshness” check validates required-document presence/content size, while archive selection does not determine semantic staleness. See AUDIT.md.
+- Historical compliance percentages and a zero-gap claim are not current measurements; a current scoring run is not available in the module sources.

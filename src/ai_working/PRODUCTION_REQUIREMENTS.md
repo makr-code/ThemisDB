@@ -1,7 +1,9 @@
 # PRODUCTION_REQUIREMENTS — ai_working Module
 
-<!-- Status: current | validated: 2026-09-21 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+<!-- AI_Used: true | AI_Models: unknown | AI_Contributor: GitHub Copilot | Human_Review: false | Human_Author: unknown -->
+<!-- Exact model backend not verifiable from final document text alone. -->
 
 ## Purpose and Scope
 
@@ -24,8 +26,10 @@ The `ai_working` module is a documentation-only artifact container. It has no C+
 
 ## Compliance Check (Audit-capable)
 
-- [ ] Full governance documentation set present and substantive
-- [ ] No placeholder-only content in required governance files
-- [ ] Stale batch artifacts archived, not deleted
-- [ ] Secret scanning applied and clean
-- [ ] Module purpose, scope, and artifact lifecycle documented
+The following is a review checklist, not evidence that a check has already passed:
+
+- [ ] Confirm the required governance documents exist and are substantive; `scripts/archive_ai_working.py --check-freshness` checks presence, one placeholder pattern, and minimum size only.
+- [ ] Review claims against current scripts, workflows, and repository configuration; the freshness command does not check factual accuracy.
+- [ ] Review `--archive-stale` candidates before movement because it selects all non-protected top-level Markdown files, not semantically stale files.
+- [ ] Run the repository's configured secret-scanning check on changed working artifacts; this module's maintenance workflow does not itself run a secret scanner.
+- [ ] Keep module purpose, scope, and separate root/module artifact lifecycles documented.
