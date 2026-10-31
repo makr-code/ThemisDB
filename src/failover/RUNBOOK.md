@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -50,7 +50,7 @@ prove that a restore or cutover occurred.
 2. Check whether an existing failover is progressing and whether its target remains healthy.
 3. Restore the dependency causing slow processing. Retry only after queue pressure clears and the failed-node/topology state is revalidated.
 
-The default configuration allows two concurrent failovers and emits queue pressure at 75% of that configured limit. Do not increase limits during an incident without the failover owner: concurrency can increase the promotion blast radius.
+The default configuration allows two pending failover requests and emits queue pressure at 75% of that configured limit. The current worker processes queued requests serially, so this setting bounds backlog rather than simultaneous promotion operations. Do not increase the limit during an incident without the failover owner; a larger backlog can leave stale requests queued.
 
 ### Quorum, fencing, or promotion failure
 

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -36,8 +36,10 @@ the storage restore implementation, or traffic-management infrastructure.
    uncached executions, and runs its fixed ordered step pipeline. A failed step
    stops later steps; the manager does not compensate earlier steps.
 4. `QuorumLog` optionally appends local pipe-delimited records with CRC32.
-   `TopologySnapshot` copies failure counts and sorts node IDs for stable
-   comparisons.
+   Startup logs the last valid record, but does not restore an epoch or quorum
+   decision into the manager. `TopologySnapshot` copies failure counts and sorts
+   node IDs for stable ordering; topology-change comparison checks node-set
+   changes, not snapshot-version differences.
 
 ## Contracts and failure domains
 
@@ -69,6 +71,12 @@ The current `auto_failover_manager.cpp` and
 They do not publish named Prometheus metrics or create trace spans. Deployment
 monitoring must consume an explicitly configured admin/export surface; do not
 configure alerts against metric names or spans that this module does not emit.
+
+## Shutdown boundary
+
+`AutoFailoverManager::stop()` signals the worker and then calls `join()` on its
+threads. The calculated deadlines in source comments are not enforced by a
+timed-join mechanism, so shutdown duration is not bounded by those comments.
 
 ## Related documentation
 
