@@ -1,52 +1,34 @@
-> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Creation_Date_Note: Creation date of this rewritten page; the original file creation date is unknown.
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: themisdb-doc-orchestrator
+Human_Review: false
+Human_Author: unknown
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References:
+  - tests/security/CMakeLists.txt
+  - tests/CMakeLists.txt
+  - tests/security/README.md
+  - src/security/ROADMAP.md
+Related_Issue: "#7379"
+Related_Milestone: DOC-WEEKLY-2026-W44
+---
 
-# ROADMAP
+Exact model backend not verifiable from final document text alone.
 
-## Current Status
-- [~] Modul `tests/security` dokumentiert; Backlog für weitere Härtung und Ausbau wird gepflegt.
+# Security test-suite roadmap
 
-## In Progress
-- [ ] Dokumentations- und Qualitätslücken schließen (Target: 2026-Q2)
+This file summarizes test-suite structure; it does not set independent
+milestones. Earlier generic phase dates and completion checklists were not
+evidence-backed and are withdrawn.
 
-## Planned Features
-- [ ] Schnittstellen und Verantwortlichkeiten präzisieren (Target: 2026-Q3)
-- [ ] Testabdeckung für kritische Pfade erweitern (Target: 2026-Q3)
-- [ ] Betriebs- und Security-Härtung abschließen (Target: 2026-Q4)
-
-## Implementation Phases
-### Phase 1: Design / API-Vertrag
-- [ ] Öffentliche und interne Interfaces des Moduls konsolidieren (Target: 2026-Q2)
-- [ ] Eingabe-/Ausgabeverträge und Fehlermodelle festlegen (Target: 2026-Q2)
-
-### Phase 2: Core-Implementierung
-- [ ] Kernlogik gemäß Schnittstellenvertrag vervollständigen (Target: 2026-Q3)
-- [ ] Integrationspunkte zu abhängigen Modulen stabilisieren (Target: 2026-Q3)
-
-### Phase 3: Fehlerbehandlung & Edge Cases
-- [ ] Fehlerfälle systematisch abdecken (Target: 2026-Q3)
-- [ ] Edge-Case-Handling und Guardrails ergänzen (Target: 2026-Q3)
-
-### Phase 4: Tests
-- [ ] Unit-Tests für Kernpfade ausbauen (Target: 2026-Q3)
-- [ ] Integrations- und Regressionstests ergänzen (Target: 2026-Q3)
-
-### Phase 5: Performance/Hardening
-- [ ] Performance-Bottlenecks messen und reduzieren (Target: 2026-Q4)
-- [ ] Security- und Reliability-Hardening abschließen (Target: 2026-Q4)
-
-### Phase 6: Dokumentation & Abnahme
-- [ ] Betriebs- und Entwicklerdokumentation aktualisieren (Target: 2026-Q4)
-- [ ] Modulabnahme anhand Checklisten und Akzeptanzkriterien durchführen (Target: 2026-Q4)
-
-## Production Readiness Checklist
-- [ ] Definierte Fehlersemantik und Recovery-Pfade
-- [ ] Ausreichende Testabdeckung inkl. Regression
-- [ ] Security-Review und Dependency-Checks abgeschlossen
-- [ ] Monitoring/Observability-Anforderungen erfüllt
-- [ ] Dokumentation für Betrieb und Entwicklung vollständig
-
-## Known Issues & Limitations
-- [!] Detailtiefe der Modul-spezifischen Akzeptanzkriterien variiert und wird sukzessive geschärft.
-
-## Breaking Changes
-- Keine bekannten Breaking Changes dokumentiert.
+The current suite inventory and CMake target-generation behavior are documented
+in [`README.md`](README.md) and defined in `tests/security/CMakeLists.txt` and
+`tests/CMakeLists.txt`. Product implementation status and milestones belong to
+the canonical [`src/security/ROADMAP.md`](../../src/security/ROADMAP.md).
