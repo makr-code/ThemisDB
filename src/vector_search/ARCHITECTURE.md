@@ -28,8 +28,10 @@ directory.
   entity mutation, KNN and filtered search, statistics, reindex/rebuild, and
   save/load operations. HNSW acceleration is optional and build-dependent;
   brute-force search is also supported.
-- **MultiVectorSearch:** combines results from vector queries, fields, query
-  expansions, or auxiliary scores using configured fusion strategies.
+- **MultiVectorSearch:** combines results from vector queries, query expansions,
+  or keyword scores using configured fusion strategies. The current
+  `searchMultiField()` implementation does not select field-specific indexes;
+  it repeats one query vector through the shared manager.
 - **AdvancedVectorIndex:** optional backend integration configured through the
   shared index API. Unsupported build capabilities are reported through the
   API's `Status`; do not describe them as guaranteed runtime features.
@@ -47,21 +49,35 @@ caller
 ```
 
 Vector inputs and index configuration are passed through the shared public
-interfaces. The manager checks initialization, dimensions, and operation
-results and reports failures through `Status`; the API does not define the
-numeric E5400-series error taxonomy claimed by older module documents.
+interfaces. The manager reports failures through `Status`; `searchKnn()` checks
+query dimensions, and the `WriteBatchWrapper` and MVCC `addEntity` overloads
+check inserted dimensions. The direct-commit `addEntity` overload does not
+currently check vector length. The API does not define the numeric E5400-series
+error taxonomy claimed by older module documents.
 
 ## Failure and capability boundaries
 
 - Initialization rejects an empty namespace or a non-positive dimension.
-- Search rejects a query dimension that does not match the initialized index.
+- `searchKnn()` rejects a query dimension that does not match the initialized
+  index. Search does not accept a separate metric argument; the index metric is
+  selected at initialization.
 - Entity operations can fail when the manager is uninitialized, the vector
   field is absent or malformed, storage operations fail, or optional encryption
   fails.
 - Advanced index configuration can return an error when the requested support
   is unavailable in the build.
+- FAISS advanced configurations require `THEMIS_GPU_ENABLED`; ScaNN is
+  initialized without that flag. If DiskANN support is not compiled in,
+  initialization warns, disables that advanced configuration, and continues
+  on the standard indexing path.
+- `MultiVectorSearch::SearchConfig::index_name` and `ef_search` are declared
+  but are not read by the current implementation.
+- Finite-value (`NaN`/`Inf`) validation is not established by the current source
+  and remains unverified.
 - HNSW availability is conditional; callers must not assume a particular
   backend solely from the module name.
+- `searchMultiField()` and `MultiQuery` field metadata do not currently implement
+  field-specific routing or `require_all_fields` behavior.
 - Persistence APIs exist for the HNSW index, and vector entities are stored
   through the RocksDB-backed namespace. This does not establish distributed
   persistence or replication.

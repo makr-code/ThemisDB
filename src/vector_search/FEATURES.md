@@ -26,8 +26,10 @@ standalone runtime.
   mutation, KNN and filtered search, reindex/rebuild operations, and index
   save/load APIs. Optional HNSW and advanced-index behavior depends on build
   support.
-- `MultiVectorSearch` combines results from multiple vectors, fields, query
-  expansions, or keyword scores using the configured fusion strategy.
+- `MultiVectorSearch` combines results from multiple vectors, query expansions,
+  or keyword scores using the configured fusion strategy. The current
+  `searchMultiField()` implementation does not route to field-specific indexes;
+  see [API contract](API.md).
 - `DistributedVectorIndex` provides in-process shard routing and scatter-gather
   search. It is not a durable or replicated multi-node deployment service.
 

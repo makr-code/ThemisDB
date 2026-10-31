@@ -1,14 +1,16 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "GitHub Copilot"
-AI_Contributor: "GitHub Copilot"
-Human_Review: true
-Human_Author: "ThemisDB Team"
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
 ---
+
+Exact model backend not verifiable from final document text alone.
 
 # Vector Search API Contract
 
@@ -25,25 +27,36 @@ This page documents the public contract visible in the shared index layer, not a
 
 `VectorIndexManager` is constructed from a `RocksDBWrapper&` and then initialized with an object namespace and vector dimension.
 
-Core lifecycle functions:
+Core lifecycle functions and declarations:
 
-- `init(objectName, dim, metric, M, efConstruction, efSearch, savePath)`
-- `setAdvancedIndexConfig(config)`
-- `setEfSearch(efSearch)`
-- `rebuildFromStorage()`
-- `incrementalReindex(rebuild_threshold, vectorField)`
-- `shutdown()`
-- `saveIndex(directory)`
-- `loadIndex(directory)`
+- `Status init(std::string_view objectName, int dim, Metric metric = COSINE, int M = 16, int efConstruction = 200, int efSearch = 64, const std::string& savePath = "")`
+- `Status setAdvancedIndexConfig(const AdvancedIndexConfig& config)` (configure before `init`)
+- `Status setEfSearch(int efSearch)`
+- `Status rebuildFromStorage()`
+- `std::pair<Status, IncrementalReindexStats> incrementalReindex(float rebuild_threshold = 0.20f, std::string_view vectorField = "embedding")`
+- `Status shutdown()`
+- `Status saveIndex(const std::string& directory) const`
+- `Status loadIndex(const std::string& directory)`
 
-### Status model
+Entity mutation is available as direct-commit, `WriteBatchWrapper`, and
+`TransactionWrapper` overloads of `addEntity`, `updateEntity`, and `removeByPk`.
+Each returns `Status`. The direct-commit `addEntity` overload currently checks
+that the manager is initialized and that the vector field can be extracted, but
+does not check the vector length against the configured dimension. The batch and
+MVCC `addEntity` overloads do check that length.
+
+### Status and search model
 
 `VectorIndexManager::Status` is the canonical error/status object. It contains:
 
 - `ok` (boolean)
 - `message` (string)
 
-The implementation uses explicit statuses instead of silently adjusting invalid state.
+`searchKnn(const std::vector<float>& query, size_t k, const std::vector<std::string>* whitelistPks = nullptr)`
+returns `std::pair<Status, std::vector<Result>>`. A query whose dimension differs
+from the initialized index returns a failed status. `Result` contains the
+primary key and distance; lower distances rank first. L2 returns squared L2,
+COSINE returns `1 - cosine`, and DOT returns the negative dot product.
 
 ### Metric model
 
@@ -53,7 +66,9 @@ The implementation uses explicit statuses instead of silently adjusting invalid 
 - `COSINE`
 - `DOT`
 
-This must be set consistently for the index lifecycle. A mismatch is treated as an operational failure path, not an accepted compatibility scenario.
+The metric is selected at initialization and determines distance semantics.
+Search calls do not accept a separate metric argument, so there is no
+per-query metric mismatch to validate.
 
 ### Result model
 
@@ -66,15 +81,17 @@ This keeps the search result narrow and predictable. It is a ranking object, not
 
 ## `MultiVectorSearch`
 
-`MultiVectorSearch` is the higher-level aggregation layer around one or more vector queries.
+`MultiVectorSearch` is in namespace `themis::vector` and aggregates results
+from one or more calls to the shared `VectorIndexManager`.
 
 ### Core search types
 
-- `search(query, config)`
-- `searchMultiField(query_vector, field_names, config)`
-- `searchWithExpansion(query_variants, config)`
-- `hybridSearch(query_vector, keyword_scores, config)`
-- `batchSearch(queries, config)`
+- `Result<MultiSearchResult> search(const MultiQuery&, const SearchConfig&)`
+- `Result<MultiSearchResult> searchMultiField(const std::vector<float>&, const std::vector<std::string>&, const SearchConfig&)`
+- `Result<MultiSearchResult> searchWithExpansion(const std::vector<std::vector<float>>&, const SearchConfig&)`
+- `Result<MultiSearchResult> hybridSearch(const std::vector<float>&, const std::unordered_map<std::string, float>&, const SearchConfig&)`
+- `Result<std::vector<MultiSearchResult>> batchSearch(const std::vector<MultiQuery>&, const SearchConfig&)`
+- `Result<std::vector<float>> optimizeWeights(const std::vector<MultiQuery>&, const std::vector<std::vector<std::string>>&)`
 
 ### Configuration surface
 
@@ -85,8 +102,12 @@ This keeps the search result narrow and predictable. It is a ranking object, not
 - `top_k`,
 - `rrf_k`,
 - `normalize_scores`,
-- optional index name,
+- `index_name`,
 - `ef_search`.
+
+The current implementation uses `fusion`, `weights`, `top_k`, `rrf_k`, and
+`normalize_scores`. It does not read `index_name` or `ef_search`; ANN tuning is
+controlled on `VectorIndexManager` instead.
 
 ### Fusion strategies
 
@@ -98,7 +119,13 @@ The implementation documents the following strategies:
 - `AVG_SCORE`
 - `RANK_FUSION`
 - `RECIPROCAL_RANK`
-- `LEARNED_FUSION` (documented as future work rather than a guaranteed production mode)
+- `LEARNED_FUSION` (uses weights from `optimizeWeights()` or caller-supplied weights
+  with linear combination; this is not a trained model inference path)
+
+`searchMultiField()` currently validates that `field_names` is non-empty, then
+repeats the same query vector and delegates to `search()`. It does not route
+searches to field-specific indexes. `MultiQuery::field_names` and
+`require_all_fields` are not consumed by `search()`.
 
 ### Result envelope
 
@@ -115,9 +142,11 @@ The implementation documents the following strategies:
 The API expects the following invariants to hold:
 
 - each index must have a fixed dimension,
-- each query must respect that dimension and metric semantics,
+- each query must match the initialized index dimension; metric semantics are
+  selected on the index,
 - invalid states surface as status failures,
-- advanced backends require support and should not silently degrade,
+- backend availability and fallback behavior depend on the selected backend and
+  build configuration,
 - reindex, rebuild, and persistence paths remain explicit and recoverable.
 
 ## Edge cases and failure expectations
@@ -125,12 +154,20 @@ The API expects the following invariants to hold:
 A caller should treat the following as expected failure cases rather than as hidden non-failures:
 
 - invalid dimension mismatch,
-- invalid metric requests,
+- vector-dimension mismatch (query and batch/MVCC entity-write overloads),
 - malformed input vectors,
-- backend support missing for a selected advanced mode,
+- unsupported advanced backend configuration (not every unavailable backend
+  fails initialization; for example, unavailable DiskANN falls back to the
+  standard indexing path),
 - storage drift requiring rebuild or reindex,
 - resource exhaustion under high cardinality or sustained concurrency.
 
+The implementation does not currently establish that NaN/Inf values are
+rejected. Treat finite-value validation as unverified. The unchecked dimension
+in the direct-commit `addEntity` overload is an open implementation gap.
+
 ## Conclusion
 
-The vector-search API is explicit and conservative. It favors stable lifecycle behavior, measurable ranking, and fail-closed validation over magic defaults. The public contract is intentionally narrow and operationally explainable.
+These descriptions reflect the current shared-index implementation, including
+the field-routing and direct-commit dimension-validation gaps above; they are
+not guarantees of production readiness.

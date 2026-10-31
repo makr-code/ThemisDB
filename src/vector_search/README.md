@@ -23,9 +23,11 @@ must not be treated as a second implementation or an independent release claim.
 
 The primary runtime interfaces are `VectorIndexManager` and `MultiVectorSearch`.
 The former stores vectors in a RocksDB-backed namespace and can use optional
-HNSW acceleration; the latter combines results from multiple vector queries or
-fields. Optional advanced and distributed index implementations also live in
-the shared index subsystem and have separate capability and readiness limits.
+HNSW acceleration; the latter combines results from multiple vector queries,
+query expansions, or keyword scores. Its `searchMultiField()` API does not
+currently route to field-specific indexes. Optional advanced and distributed
+index implementations also live in the shared index subsystem and have
+separate capability and readiness limits.
 
 ## Build and focused validation
 
