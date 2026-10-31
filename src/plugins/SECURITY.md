@@ -1,9 +1,27 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Security - Plugins Module
 
-<!-- Status: current | validated: 2026-08-05 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+<!-- Status: review | validated: 2026-10-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · TRUST.md · ROADMAP.md -->
 
 Report vulnerabilities via project-level SECURITY.md.
+
+For the implementation-specific distinction between manifest hash checks,
+pinned-key Ed25519 catalog verification, OCI layer digests, and WASM hashes,
+see [TRUST.md](./TRUST.md).
 
 ## Security Scope
 
