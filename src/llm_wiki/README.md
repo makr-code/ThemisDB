@@ -26,10 +26,11 @@ The program-level release posture remains governed by the root [`ROADMAP.md`](..
 | Core library, edition gate, workspace manager, policy manager, plugin implementation | `src/llm_wiki/` |
 | Entity and process-policy schemas | `src/llm_wiki/schema/` |
 | Process-policy example | `src/llm_wiki/process/llm_wiki_process_policy.yaml` |
+| Knowledge-sphere design artifacts (not loaded by the plugin) | `src/llm_wiki/schema/knowledge_spheres.schema.json`, `src/llm_wiki/process/knowledge_spheres_policy.yaml`, and `src/llm_wiki/runtime/knowledge_spheres.runtime.json` |
 | Tests | `tests/llm_wiki/`, `tests/llm/`, and `tests/integration/test_llm_wiki_soak.cpp` |
 | Benchmarks | `benchmarks/llm_wiki/` |
 
-The module CMake file defines the `themis_llm_wiki` static library. RocksDB compile definitions and linkage are added only when a recognized RocksDB target is available.
+The module CMake file defines the `themis_llm_wiki` static library. RocksDB compile definitions and linkage are added when CMake finds a supported RocksDB target, an explicit `THEMIS_ROCKSDB_TARGET`, or a recognized RocksDB package/library result.
 
 ## Quickstart (Build/Run)
 
@@ -70,6 +71,8 @@ The diagram shows current component calls, not production-quality indexed retrie
 - `ingest()` creates a generic placeholder chunk for a matching path and delegates workspace-file handling. It does not parse the source file into content chunks.
 - `query()` uses a small plugin-local substring filter and returns the current in-memory chunks. It ignores `WikiQueryOptions` and does not perform index retrieval. With `fail_open=true`, a flagged query is allowed to continue.
 - `ingestWikipediaDump()` currently returns fixed result counts without reading the supplied dump.
+- Knowledge-sphere schema, policy, and runtime JSON files are static design/configuration artifacts; the plugin and process-policy loader do not currently load or enforce them.
+- The public header declares thread-safe methods and lock-free concurrent queries, but implementation locking does not meet that claim: `query()` takes an exclusive lock, while `wikiLint()` and `stats()` access plugin state without the plugin mutex. Serialize plugin calls externally until the API/source contract is reconciled; see [`API.md`](API.md).
 - Workspace pages and state/log files are managed by the workspace orchestrator. `WorkspaceStateManager` is a separate persistence component; its checksum is 64-bit FNV-1a formatted with a `sha256:` prefix and is not cryptographic integrity protection.
 - `RocksDbWikiStore` is an optional low-level store. Its presence does not by itself prove that the plugin's ingest/query path uses RocksDB.
 

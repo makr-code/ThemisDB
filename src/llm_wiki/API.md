@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -58,6 +58,28 @@ public header. Key option groups include file recursion/glob, chunk size and
 overlap, embedding provider/model/dimension, skip-existing and workspace root;
 query top-k, minimum score and optional saved page; and Wikipedia language,
 batch size, article limit, projections, checkpoint and category filters.
+
+## Thread-safety contract: unresolved implementation mismatch
+
+The public header declares that all methods are thread-safe after successful
+initialization and that concurrent `query()` calls are lock-free. That is the
+declared contract, not the synchronization observed in this implementation:
+
+- `initialize()`, `shutdown()`, `ingest()`, `query()`, and `wikiInit()` acquire
+  an exclusive `unique_lock` on the plugin mutex. `query()` is therefore not
+  lock-free, and concurrent query calls serialize. `wikiIngest()` and
+  `wikiQuery()` delegate to the corresponding locked methods.
+- `wikiLint()` and `stats()` do not acquire the plugin mutex before accessing
+  `workspace_` and, for `stats()`, `workspace_root_`. The orchestrator's own
+  mutex protects its individual `lint()`/`stats()` calls, but not the plugin's
+  member access or lifecycle of the `workspace_` pointer.
+
+Consequently, the header's blanket thread-safety claim is not verified by the
+implementation. Until the API and implementation owners reconcile the
+contract, callers should serialize plugin calls—including `wikiLint()` and
+`stats()`—with each other and with initialization/shutdown. The public header
+cannot be corrected within this documentation-only scope; track this as an
+unresolved API/source contract issue.
 
 ## Factory contract
 

@@ -21,6 +21,7 @@ This audit compares module documentation with the current source tree under `inc
 - Public interface: `include/llm_wiki/llm_wiki_plugin_interface.h` and `llm_wiki_status.h`.
 - Implementation: `src/llm_wiki/wikipedia/llm_wiki_plugin_impl.cpp`, `wiki_workspace_orchestrator.cpp`, `edition_gate.cpp`, `process_policy_manager.cpp`, `workspace_state_manager.cpp`, and `rocksdb_wiki_store.cpp`.
 - Policy/schema: `src/llm_wiki/process/llm_wiki_process_policy.yaml` and `src/llm_wiki/schema/`.
+- Knowledge-sphere artifacts: `schema/knowledge_spheres.schema.json`, `process/knowledge_spheres_policy.yaml`, and `runtime/knowledge_spheres.runtime.json`; source-reference inspection found no plugin loader or module tests consuming them.
 - Tests: focused module tests in `tests/llm_wiki/`, integration and policy/edition/backend tests in `tests/llm/`, and `tests/integration/test_llm_wiki_soak.cpp`.
 - Benchmarks: `benchmarks/llm_wiki/bench_llm_wiki_dedicated_gates.cpp` and `bench_wikipedia_throughput.cpp`.
 
@@ -33,6 +34,8 @@ This audit compares module documentation with the current source tree under `inc
 | Wikipedia dump operation returns fixed counts without processing its arguments | `src/llm_wiki/wikipedia/llm_wiki_plugin_impl.cpp`, `ingestWikipediaDump()` | Recorded as an open implementation gap |
 | Edition gate is compile-time controlled and does not independently validate runtime licenses | `src/llm_wiki/edition_gate.cpp` | Recorded as a boundary, not a production authorization guarantee |
 | Workspace-state checksum is 64-bit FNV-1a with a `sha256:` prefix | `src/llm_wiki/workspace_state_manager.cpp` | Recorded as non-cryptographic |
+| Knowledge-sphere schema, policy, and runtime example exist but are not integrated into plugin execution | Static files under `src/llm_wiki/{schema,process,runtime}/`; no corresponding loader/registry use or focused tests found | Identified as design/configuration artifacts, not runtime guarantees |
+| Public thread-safety/lock-free-query claim conflicts with plugin synchronization | Header says all methods are thread-safe and concurrent queries lock-free; plugin query takes an exclusive lock, while `wikiLint()`/`stats()` access plugin members without it | Documented as an unresolved API/source contract mismatch; callers are advised to serialize calls |
 | Dedicated benchmark cases use in-process stubs; Wikipedia throughput benchmark uses synthetic articles | `benchmarks/llm_wiki/*.cpp` | Performance evidence is explicitly limited to synthetic workloads |
 
 ## Validation results

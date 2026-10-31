@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -39,7 +39,8 @@ operation's declared behavior.
 ## Build and configuration orientation
 
 The module-local CMake file defines the `themis_llm_wiki` static target and
-conditionally links RocksDB when a recognized RocksDB target is available.
+conditionally links RocksDB when it finds a supported RocksDB target, an
+explicit `THEMIS_ROCKSDB_TARGET`, or a recognized package/library result.
 `THEMIS_USE_ROCKSDB` and `THEMISDB_WIKI_PHASE_B` are set by that conditional
 path. A build without RocksDB does not provide the same persistence behavior;
 check compile definitions and runtime configuration rather than assuming a
@@ -64,6 +65,10 @@ never persist them in wiki workspace content.
   entity schema, process policy, or persistence format.
 - Preserve edition checks and policy invariants; fail closed on invalid
   configured policy.
+- Do not rely on the public header's blanket thread-safety or lock-free-query
+  statement: observed plugin locking differs, and `wikiLint()`/`stats()` do not
+  lock plugin member access. Serialize calls externally and track the contract
+  mismatch before changing concurrency behavior.
 - Consider empty inputs, malformed policy, missing workspace, corrupt state,
   partial ingestion, and unavailable optional RocksDB.
 - Add focused tests for the changed path and its negative/error cases.
