@@ -1,6 +1,24 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Audit Report - Analytics Module
 
-<!-- Status: current | validated: 2026-08-19 -->
+> **Evidence date:** This audit's findings and pass/fail metrics are a snapshot
+> validated on 2026-08-19, not a new audit performed by this documentation
+> update. Revalidate open findings before treating them as current.
+
+<!-- Historical audit snapshot: 2026-08-19; current source inventory checked 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · MODULE_EVIDENCE.md -->
 
 ## Summary
@@ -8,12 +26,14 @@
 | Metric | Result |
 |---|---|
 | Build registration | pass |
-| Source set size | 24 implementation files in src/analytics |
+| Source set size | 28 top-level `.cpp` files in `src/analytics` (inventory checked 2026-10-31) |
 | Focused test presence | pass |
 | Open hardening findings | yes |
 | Critical blockers | none identified |
 
-## Verified Files
+## Representative Files Verified in the 2026-08-19 Audit
+
+The following paths are examples from that audit, not a complete source inventory.
 
 - src/analytics/olap.cpp
 - src/analytics/cep_engine.cpp

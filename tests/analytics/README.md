@@ -1,17 +1,59 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-# analytics
+Exact model backend not verifiable from final document text alone.
 
-Pfad: `tests/analytics`
+# Analytics focused tests
 
-## Zweck
-Dieser Ordner enthält 0 Unterordner und 20 Dateien und bildet einen abgegrenzten Teil der Repository-Struktur.
+This directory contains GoogleTest sources for analytics behavior. It tests the
+public interfaces in [`../../include/analytics/`](../../include/analytics/)
+and does not define runtime APIs.
 
-## Dateien nach Kategorien
-- **Sourcecode**: `test_analytics_memory_pool.cpp`, `test_anomaly_detection.cpp`, `test_arrow_export.cpp`, `test_arrow_flight.cpp`, `test_automl.cpp`, `test_cep_engine.cpp`, `test_columnar_execution.cpp`, `test_distributed_analytics.cpp`, `test_forecasting.cpp`, `test_incremental_view.cpp`, `test_jit_aggregation.cpp`, `test_llm_process_analyzer.cpp`, `test_ml_serving.cpp`, `test_model_serving.cpp`, `test_olap_lru_cache.cpp`, `test_process_discovery_conformance.cpp`, `test_process_mining_llm.cpp`, `test_process_pattern_matcher.cpp`, `test_streaming_join.cpp`, `test_streaming_window.cpp`
+## CMake registration
 
-## Hinweise
-- Änderungen in diesem Ordner sollten mit den übergeordneten Architektur- und Sicherheitsrichtlinien des Projekts abgestimmt werden.
-- Für tieferliegende Teilbereiche existieren ggf. zusätzliche README- und Moduldokumente.
+[`CMakeLists.txt`](./CMakeLists.txt) discovers each top-level `test_*.cpp` and
+creates one executable named
+`module_analytics_<source-stem>_focused`. It registers a CTest case named
+`<source-stem>_AnalyticsFocusedTests` with labels `module:analytics`,
+`tier:unit`, `kind:focused`, and `focus`, and a 120-second timeout. CMake may
+add implementation sources to a test target where required; consult the target
+definition for exact linkage.
 
-_Automatisch erzeugt/aktualisiert am 2026-04-17._
+For example, `test_analytics_memory_pool.cpp` produces
+`module_analytics_test_analytics_memory_pool_focused`.
+
+## Installation
+
+Focused test executables are build artifacts and are not installed as runtime
+components. Configure the repository with tests enabled to create them.
+
+## Usage
+
+Configure a build with tests enabled (and the repository's required
+dependencies), then build a focused target and run its CTest case:
+
+```bash
+cmake -S . -B build-analytics-tests -DTHEMIS_BUILD_TESTS=ON
+cmake --build build-analytics-tests --target module_analytics_test_analytics_memory_pool_focused
+ctest --test-dir build-analytics-tests -R 'test_analytics_memory_pool_AnalyticsFocusedTests' --output-on-failure
+```
+
+List the registered analytics tests with:
+
+```bash
+ctest --test-dir build-analytics-tests -N -L 'module:analytics'
+```
+
+Use the test source and owning public header as the authority for fixtures,
+assertions, and exact API behavior. The configured build determines which
+optional integrations are available. For runtime contracts and recommended
+validation sequence, see [`../../src/analytics/MODULE_GUIDE.md`](../../src/analytics/MODULE_GUIDE.md).
