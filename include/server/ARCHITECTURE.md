@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/server/ARCHITECTURE.md -->
 
 # Server Module — Public Header Architecture
@@ -13,7 +27,7 @@
 
 ## 1. Overview
 
-`include/server/` defines the **public C++ contract** for ThemisDB's multi-protocol server layer. With 124 headers, this is the largest public surface in `include/`. Headers cover the HTTP/2+HTTP/3/gRPC/WebSocket/MQTT/Postgres server, all REST API handlers, middleware, rate limiting, policy enforcement, session management, and server-side monitoring.
+`include/server/` defines the **public C++ contract** for ThemisDB's server layer. It currently contains 129 top-level headers. Header groups below are representative rather than an exhaustive inventory; consult the directory and [`README.md`](README.md) for the current header set. Headers cover HTTP, HTTP/2, HTTP/3, gRPC, WebSocket, MQTT, PostgreSQL wire sessions, API handlers, middleware, rate limiting, policy enforcement, session management, and monitoring.
 
 For full pipeline details — request routing, middleware chain, gRPC reflection, HTTP/3 QUIC, WebSocket back-pressure — see:
 → [`../../src/server/ARCHITECTURE.md`](../../src/server/ARCHITECTURE.md)
@@ -118,7 +132,7 @@ For full pipeline details — request routing, middleware chain, gRPC reflection
 |--------|------------|---------|
 | `auth_middleware.h` | `AuthMiddleware` | JWT/API-key authentication |
 | `auth_scope_mapper.h` | `AuthScopeMapper` | Scope → permission mapping |
-| `rate_limiter.h` / `rate_limiter_v2.h` | `RateLimiter`, `RateLimiterV2` | Token-bucket rate limiting |
+| `rate_limiter.h` / `rate_limiter_v2.h` | `RateLimiter`, `TokenBucketRateLimiter` | Token-bucket rate limiting |
 | `adaptive_rate_limiter.h` | `AdaptiveRateLimiter` | Workload-adaptive rate limiting |
 | `cost_based_rate_limiter.h` | `CostBasedRateLimiter` | Query-cost-based rate limiting |
 | `rate_limiting_middleware.h` | `RateLimitingMiddleware` | Middleware wrapper |

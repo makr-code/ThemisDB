@@ -1,8 +1,22 @@
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
+---
+Author: "ThemisDB Contributors"
+Created: "2026-03-10"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # ThemisDB Server Module Headers
 
-**Status:** `current` | **Validated:** 2026-03-10 (Commit `a04b89b`) | **Version:** v1.7.0
+**Status:** `current` | **Validated:** 2026-10-31
 
 ## Module Purpose
 
@@ -31,19 +45,17 @@ This directory contains public interfaces and declarations for ThemisDB's Server
 #### http_server.h
 **Main HTTP/HTTPS server interface**
 
-Exposes the primary server class with configuration options for HTTP/1.1, HTTP/2, and HTTP/3 protocols.
+Exposes the primary server class and its runtime configuration. HTTP/2 and
+HTTP/3 session implementations are separate components in the server module.
 
 **Key Classes:**
-- `HTTPServer` - Main server class
-- `HTTPServer::Config` - Server configuration
-- `HTTPSession` - Per-connection session handler
+- `HttpServer` - Main HTTP server class
+- `HttpServer::Config` - Server configuration
 
 **Features:**
-- TLS 1.3 support
-- Multi-threading with Boost.Asio
-- Connection pooling
-- Graceful shutdown
-- Compression (gzip, brotli, zstd)
+- Optional TLS and HTTP/2/HTTP/3 settings
+- Worker-thread request dispatch
+- Explicit `start()` and `stop()` lifecycle
 
 ---
 
@@ -54,7 +66,6 @@ Implements HTTP/2 multiplexing, server push, and header compression (HPACK).
 
 **Key Classes:**
 - `HTTP2Session` - HTTP/2 session management
-- `HTTP2Stream` - Individual request/response stream
 
 ---
 
@@ -65,7 +76,6 @@ Implements HTTP/3 with QUIC transport for improved performance and 0-RTT connect
 
 **Key Classes:**
 - `HTTP3Session` - HTTP/3 session over QUIC
-- `QUICConnection` - QUIC connection management
 
 ---
 
@@ -275,7 +285,7 @@ Enhanced rate limiting with priority lanes, per-client tracking, and optional Re
 
 **Backends:**
 - `Backend::LOCAL` – In-process token bucket (default, backward-compatible)
-- `Backend::REDIS` – Cluster-wide atomic token bucket via Redis `EVALSHA`; automatic fallback to local on Redis error
+- `Backend::REDIS` – Cluster-wide atomic token bucket via Redis `EVALSHA`; a Redis error rejects the triggering request, then the limiter marks Redis unhealthy and can use local fallback behavior
 
 **Usage example (distributed):**
 ```cpp
@@ -312,6 +322,10 @@ Reject low-priority requests under overload conditions.
 ### API Handlers (40+ Endpoints)
 
 All handlers implement a consistent interface for request processing:
+
+The public surface also includes AI plugin, chaos administration, encrypted
+storage, model-integrity, and server API contract headers; these are separate
+from the endpoint examples below.
 
 #### entity_api_handler.h
 **Entity CRUD operations**
@@ -711,7 +725,7 @@ Adapters between Boost.Beast types and internal types.
    - Clear dependency boundaries
 
 3. **Consistent Naming**
-   - Classes: PascalCase (e.g., `HTTPServer`)
+   - Classes: PascalCase (e.g., `HttpServer`)
    - Methods: camelCase (e.g., `registerHandler`)
    - Constants: UPPER_SNAKE_CASE (e.g., `MAX_CONNECTIONS`)
 
@@ -799,7 +813,7 @@ private:
 ## Troubleshooting
 
 - **Header wird nicht gefunden (`server/...`)**: Sicherstellen, dass das Projekt `${CMAKE_SOURCE_DIR}/include` im Include-Path führt.
-- **Typkonflikte zwischen Handlern und Middleware**: Für Handler-Signaturen ausschließlich die in `http_handler.h`/`auth_middleware.h` definierten Request-/Auth-Typen verwenden.
+- **Typkonflikte zwischen Handlern und Middleware**: Für Handler-Signaturen ausschließlich die in `http_server.h`/`auth_middleware.h` definierten Request-/Auth-Typen verwenden.
 - **Rate-Limit-Konfiguration greift nicht clusterweit**: In `rate_limiter_v2.h` `Backend::REDIS` plus gültige Redis-Verbindungsdaten setzen.
 
 ---
