@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -54,8 +54,10 @@ the zero-access age or write-age threshold is exceeded. Other predicates,
 `isValid()` requires nonzero access thresholds, strictly decreasing cache
 promotion thresholds, strictly increasing L1/L2/L3 age thresholds, and
 `hot_to_warm_days < warm_to_cold_days`. It does not validate every duration or
-threshold field. The coordinator does not enforce this check when a policy is
-set.
+threshold field. `AccessCoordinator::setAgePolicy()` calls this check and throws
+`std::invalid_argument` without replacing the current policy when it fails.
+`setPromotionThresholds()` validates a candidate policy before updating the two
+requested fields.
 
 The coordinator's event decisions are narrower than this policy API. See
 [`RESEARCH.md`](./RESEARCH.md) for the exact eviction and hot-access behavior.
@@ -64,12 +66,13 @@ used by the event loop.
 
 ## State and evaluation boundaries
 
-The coordinator retains a tier map, one policy value, a FIFO task queue,
+The coordinator retains a tier map, one policy value, a FIFO pending-task queue,
 pending demotion plans, aggregate counters/histograms, and transition records.
-The queue has no bound. Event-handler paths trim their history after 1,000
-records, but worker-completion records do not apply the same trimming rule; the
-history therefore has no consistent cap. No per-key policy table or learned
-state is defined.
+The pending-task queue and pending-plan registry each have a separate configured
+limit, defaulting to 10,000 entries; the two-argument factory overload sets the
+limit. In-flight worker tasks are not part of the pending-task depth. Transition
+history is capped at 1,000 records for both event-handler and worker-completion
+paths. No per-key policy table or learned state is defined.
 
 Unit tests in `tests/access_model/` cover threshold boundaries, event handling,
 concurrency, and observed outcomes. Tests using fake tiers establish coordinator
