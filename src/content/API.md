@@ -1,14 +1,14 @@
 **Author:** ThemisDB Team
 **Created:** 2026-10-30
-**Last Updated:** 2026-10-30
+**Last Updated:** 2026-10-31
 **Status:** active
 **Source level:** Level 1 — `src/content/`
 **SOT domain:** `api-contract`
-**Canonical source references:** [ContentManager API](../../include/content/content_manager.h), [processor API](../../include/content/content_processor.h), [scoped AbuseDetector/ArchiveProcessor contract](../../include/content/content_api_contract.h), [contract tests](../../tests/content/test_content_contract_hardening_focused.cpp)
+**Canonical source references:** [ContentManager API](../../include/content/content_manager.h), [manager implementation](content_manager.cpp), [server manager setup](../server/http_server.cpp), [processor API](../../include/content/content_processor.h), [scoped AbuseDetector/ArchiveProcessor contract](../../include/content/content_api_contract.h), [contract tests](../../tests/content/test_content_contract_hardening_focused.cpp)
 **Related issue:** #7109
 **AI_Used:** true
 **AI_Models:** unknown
-**AI_Contributor:** GitHub Copilot
+**AI_Contributor:** GitHub Copilot; themisdb-doc-orchestrator
 **Human_Review:** false
 **Human_Author:** ThemisDB Team
 **Provenance note:** Exact model backend not verifiable from final document text alone.
@@ -48,6 +48,23 @@ ingestion returns `IngestResult`, not `Status`.
 whether required stages succeeded; it does not guarantee every optional enrichment ran.
 Callers should inspect the per-stage details before reporting completion or scheduling
 follow-up work.
+
+### Format dispatch boundary
+
+The public format-processor headers do not imply that `ContentManager` dispatches all
+formats through `IContentProcessor`. In the current `ingestRawBlob()` implementation,
+HTML/XHTML, Markdown, and opt-in OCR have direct processing paths; the archive path
+consults a registered `ArchiveProcessor`. The manager source does not directly invoke the
+PDF, Office, image, audio, video, CAD, or geospatial extraction classes. Other callers
+may process content separately and pass a structured specification to `importContent()`,
+but that caller path is not established by this API page.
+
+The current server setup registers a `TextProcessor`; this registration alone does not
+establish that `ingestRawBlob()` dispatches every text MIME type through it.
+
+**TODO:** Verify server/plugin integration for the remaining format processors before
+documenting end-to-end manager extraction support. Do not treat header inventory as
+evidence that a format is extracted by `ingestRawBlob()`.
 
 `ContentManager::getMetrics()` returns manager-owned compression counters and compression
 ratio buckets, plus deduplication check/hit counters. These are separate from
