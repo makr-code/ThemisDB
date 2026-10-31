@@ -1,7 +1,25 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+Source_Level: "L1"
+SOT_Domain: "module-behavior"
+Issue: "makr-code/ThemisDB#7145"
+Milestone: "DOC-WEEKLY-2026-W44"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # ThemisDB RPC gRPC Module
 
-<!-- Status: current | validated: 2026-08-06 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+<!-- Status: review | source-verified: 2026-10-31 -->
+<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · RESEARCH.md · MODELING.md · EMBEDDING.md · IMPLEMENTATION.md · API.md · MODULE_GUIDE.md · RUNBOOK.md · OPERATIONS.md · TRUST.md -->
 
 ## Module Purpose
 
@@ -31,10 +49,33 @@ Out of scope:
 
 ## Runtime Behavior and Limits
 
-- startup behavior is explicit and fail-closed for invalid TLS material.
+- when TLS is enabled, missing or unreadable TLS files reject initialization
+  and credential setup failures reject startup; when TLS is disabled, the
+  implementation explicitly selects insecure credentials.
+- TLS reload drains and restarts the listener with validated replacement
+  credentials; this causes downtime and attempts to restore the prior
+  configuration if the new listener fails to start.
 - server lifecycle transitions (init/start/stop) are deterministic.
-- service registration and stream adapter paths expose explicit outcomes.
-- observability hooks provide method-level RPC counters/log surfaces.
+- service registration rejects null, late, and duplicate pointers but has no
+  service-count cap. Rejections are reported through diagnostics because the
+  interface returns void; stream adapter paths expose explicit outcomes.
+- observability helpers provide method-level counters and an optional log sink;
+  they do not install an HTTP metrics endpoint or automatic request interceptor.
+
+## Developer Documentation
+
+- [Architecture](ARCHITECTURE.md) — boundaries, runtime flow, and failure domains
+- [Research](RESEARCH.md) — evaluation evidence and validation limits
+- [Modeling](MODELING.md) — lifecycle, listener, stream, and observability models
+- [Embedding](EMBEDDING.md) — integrating the plugin into a host process
+- [Implementation](IMPLEMENTATION.md) — source-level runtime behavior
+- [API](API.md) — interfaces, configuration, and edge cases
+- [Module Guide](MODULE_GUIDE.md) — service integration checklist
+- [Runbook](RUNBOOK.md) — source-verified failure triage and recovery
+- [Operations](OPERATIONS.md) — readiness, monitoring, and recovery constraints
+- [Trust](TRUST.md) — transport trust boundaries and security controls
+- [Security](SECURITY.md) — module threat summary
+- [Operator Runbook (superseded)](OPERATOR_RUNBOOK.md) — legacy page retained as a redirect
 
 ## Sourcecode Verification (Module: rpc_grpc/readme)
 

@@ -10,6 +10,7 @@
 
 
 #include "grpc_plugin.h"
+#include "rpc_grpc/rpc_grpc_api_contract.h"
 #include <spdlog/spdlog.h>
 #include <fstream>
 #include <filesystem>
@@ -165,26 +166,35 @@ bool GRPCServer::initialize(const RPCServerConfig& config) {
  * @details Calls: configureCredentials(), what(), clear(), AddListeningPort(), find(), end(), tryParseConfigInt(), AddChannelArgument().
  */
 bool GRPCServer::start() {
-    // Phase 3: Hardened lifecycle and fail-safe semantics
     if (running_) {
         std::cerr << "[RPC-E8300] Server start rejected: already running" << std::endl;
         return false;
     }
 
     try {
+        return startWithCredentials(configureCredentials());
+    } catch (const std::exception& e) {
+        std::cerr << "[RPC-E8302] Server start failed: credentials configuration error — "
+                  << e.what() << std::endl;
+        admin_address_.clear();
+        return false;
+    }
+}
+
+bool GRPCServer::startWithCredentials(
+    std::shared_ptr<grpc::ServerCredentials> credentials) {
+    if (running_) {
+        std::cerr << "[RPC-E8300] Server start rejected: already running" << std::endl;
+        return false;
+    }
+    if (!credentials) {
+        std::cerr << "[RPC-E8302] Server start failed: credentials are null" << std::endl;
+        admin_address_.clear();
+        return false;
+    }
+
+    try {
         grpc::ServerBuilder builder;
-
-        // Configure credentials (TLS or insecure) — fail-closed on errors
-        std::shared_ptr<grpc::ServerCredentials> credentials;
-        try {
-            credentials = configureCredentials();
-        } catch (const std::exception& e) {
-            std::cerr << "[RPC-E8302] Server start failed: credentials configuration error — "
-                      << e.what() << std::endl;
-            admin_address_.clear();
-            return false;
-        }
-
         builder.AddListeningPort(server_address_, credentials);
 
         // ---- v0.2.0: keepalive tuning ----------------------------------------
@@ -239,12 +249,18 @@ bool GRPCServer::start() {
         }
 
         // Max message sizes
-        builder.SetMaxReceiveMessageSize(100 * 1024 * 1024); // 100 MB
-        builder.SetMaxSendMessageSize(100 * 1024 * 1024);    // 100 MB
+        builder.SetMaxReceiveMessageSize(
+            static_cast<int>(::themis::rpc_grpc::kDefaultMaxReceiveMessageBytes));
+        builder.SetMaxSendMessageSize(
+            static_cast<int>(::themis::rpc_grpc::kDefaultMaxSendMessageBytes));
 
         server_ = builder.BuildAndStart();
 
         if (server_) {
+            {
+                std::lock_guard<std::mutex> lock(tls_mutex_);
+                credentials_ = std::move(credentials);
+            }
             running_ = true;
             start_time_ = std::chrono::steady_clock::now();
             std::cout << "gRPC server listening on " << server_address_ << std::endl;
@@ -377,21 +393,10 @@ void GRPCServer::resetStats() {
     stats_ = RPCServerStats{};
 }
 
-/**
- * @brief ============================================================================ v0.
- * @param[in] cert_path Path to the cert.
- * @param[in] key_path Path to the key.
- * @param[in] ca_path Path to the ca.
- * @return True when the operation succeeds.
- * @details 2.0 — TLS Hot-Reload (Phase 3: Fail-Safe, Deterministic Hardening) ============================================================================
- */
-
 bool GRPCServer::reloadTls(const std::string& cert_path,
                              const std::string& key_path,
                              const std::string& ca_path)
 {
-    // Phase 3: Standardized fail-safe behavior
-    // ---- Precondition checks (fail-closed) ----
     if (!running_) {
         std::cerr << "[RPC-E8300] TLS reload rejected: server not running" << std::endl;
         return false;
@@ -405,9 +410,7 @@ bool GRPCServer::reloadTls(const std::string& cert_path,
         return false;
     }
 
-    // ---- Atomic validation (old credentials remain active if any step fails) ----
     try {
-        // Step 1: Load all files (fail-closed: no partial state)
         std::string cert, key, ca;
         try {
             cert = loadFile(cert_path);
@@ -415,46 +418,74 @@ bool GRPCServer::reloadTls(const std::string& cert_path,
             ca   = loadFile(ca_path);
         } catch (const std::exception& e) {
             std::cerr << "[RPC-E8302] TLS reload failed: file load error — "
-                      << e.what() << " (old credentials retained)" << std::endl;
+                      << e.what() << " (listener unchanged)" << std::endl;
             return false;
         }
 
-        // Step 2: Validate certificate contents (fail-closed)
         if (cert.empty() || key.empty()) {
             std::cerr << "[RPC-E8302] TLS reload failed: certificate or key is empty "
-                      << "(old credentials retained)" << std::endl;
+                      << "(listener unchanged)" << std::endl;
             return false;
         }
 
-        // Step 3: Build new credentials (isolated operation)
-        std::shared_ptr<grpc::ServerCredentials> new_creds;
-        try {
-            new_creds = buildSslCredentials(cert, key, ca, config_.auth_required);
-        } catch (const std::exception& e) {
-            std::cerr << "[RPC-E8302] TLS reload failed: credential build error — "
-                      << e.what() << " (old credentials retained)" << std::endl;
+        const auto candidate_credentials =
+            buildSslCredentials(cert, key, ca, config_.auth_required);
+        if (!candidate_credentials) {
+            std::cerr << "[RPC-E8302] TLS reload failed: credential construction returned null "
+                      << "(listener unchanged)" << std::endl;
             return false;
         }
 
-        // Step 4: Atomic swap (only on success, old credentials remain if lock fails)
+        auto previous_config = config_;
+        auto updated_config = previous_config;
+        updated_config.tls_cert_path = cert_path;
+        updated_config.tls_key_path = key_path;
+        updated_config.tls_ca_cert_path = ca_path;
+
+        std::shared_ptr<grpc::ServerCredentials> previous_credentials;
         {
-            /**
-             * @brief Lock.
-             * @param[in] tls_mutex_ Input parameter.
-             * @return Return value.
-             */
             std::lock_guard<std::mutex> lock(tls_mutex_);
-            credentials_ = std::move(new_creds);
+            previous_credentials = credentials_;
         }
 
-        std::cerr << "[RPC-I] TLS certificates reloaded successfully (cert_path="
-                  << cert_path << ")" << std::endl;
-        return true;
+        std::map<std::string, bool> previous_health_states;
+        {
+            std::lock_guard<std::mutex> lock(health_mutex_);
+            previous_health_states = health_states_;
+        }
+        const auto restore_health_states = [this, &previous_health_states]() noexcept {
+            std::lock_guard<std::mutex> lock(health_mutex_);
+            health_states_.swap(previous_health_states);
+        };
+
+        // A gRPC listener cannot adopt credentials after BuildAndStart().
+        // Drain it and start a new listener using this validated credential
+        // object so the files cannot change between validation and activation.
+        stop();
+        config_ = std::move(updated_config);
+        if (startWithCredentials(candidate_credentials)) {
+            restore_health_states();
+            std::cerr << "[RPC-I] TLS listener restarted with new certificates (cert_path="
+                      << cert_path << ")" << std::endl;
+            return true;
+        }
+
+        // Preserve availability when new credentials cannot start the listener.
+        config_ = std::move(previous_config);
+        if (previous_credentials && startWithCredentials(previous_credentials)) {
+            restore_health_states();
+            std::cerr << "[RPC-E8302] TLS reload failed to start with new credentials; "
+                         "previous listener configuration restored" << std::endl;
+            return false;
+        }
+
+        std::cerr << "[RPC-E8306] TLS reload and rollback both failed; server remains stopped"
+                  << std::endl;
+        return false;
 
     } catch (const std::exception& e) {
-        // Catch-all: unexpected exception (fail-closed)
         std::cerr << "[RPC-E8306] TLS reload failed: unexpected error — "
-                  << e.what() << " (old credentials retained)" << std::endl;
+                  << e.what() << std::endl;
         return false;
     }
 }
@@ -736,17 +767,7 @@ GRPCServer::configureCredentials() {
             throw std::runtime_error("TLS certificate or key is empty");
         }
 
-        auto creds = buildSslCredentials(cert, key, ca, config_.auth_required);
-        {
-            /**
-             * @brief Lock.
-             * @param[in] tls_mutex_ Input parameter.
-             * @return Return value.
-             */
-            std::lock_guard<std::mutex> lock(tls_mutex_);
-            credentials_ = creds;
-        }
-        return creds;
+        return buildSslCredentials(cert, key, ca, config_.auth_required);
 
     } catch (const std::exception& e) {
         std::cerr << "[RPC-E8302] CRITICAL: Failed to configure TLS: " << e.what() 

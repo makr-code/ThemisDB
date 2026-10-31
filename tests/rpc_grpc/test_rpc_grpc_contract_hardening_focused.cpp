@@ -309,9 +309,10 @@ TEST(RpcGrpcContractHardening, RPC13_KeepaliveTimingConstants) {
 // ============================================================================
 
 TEST(RpcGrpcContractHardening, RPC14_MessageSizeBounds) {
-    // Verify receive/send message size bounds are reasonable
-    EXPECT_GE(kDefaultMaxReceiveMessageBytes, 1024 * 1024);     // At least 1 MiB
-    EXPECT_LE(kDefaultMaxReceiveMessageBytes, 1024 * 1024 * 100); // At most 100 MiB
+    // Keep published defaults aligned with the runtime's configured limits.
+    constexpr std::size_t kRuntimeMessageLimit = 100u * 1024u * 1024u;
+    EXPECT_EQ(kDefaultMaxReceiveMessageBytes, kRuntimeMessageLimit);
+    EXPECT_EQ(kDefaultMaxSendMessageBytes, kRuntimeMessageLimit);
 }
 
 // ============================================================================
