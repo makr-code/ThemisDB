@@ -29,11 +29,13 @@
  * 
  * ## Write Contract (§1 of timeseries_api_contract.h)
  * 
- * 1. **Monotonic Timestamps**: Within a series, each new timestamp > previous
- * 2. **Null Timestamp Rejection**: Zero or negative timestamp → TIMESTAMP_OUT_OF_ORDER
- * 3. **Out-of-Order Handling**: Late-arrival window configurable (default 0 = strict)
- * 4. **Metric/Entity Validation**: Empty names rejected at write-time
- * 5. **Watermark Tracking**: Per-series tracking prevents double-counting
+ * Timestamps are signed Unix epoch milliseconds. Empty metric/entity names are
+ * rejected, but zero/negative timestamps are not rejected solely by sign.
+ * A non-positive `late_arrival_window_ms` disables watermark ordering checks. A positive
+ * window accepts timestamps at or above the per-series watermark minus the
+ * window, including equality, and rejects older points with
+ * `ERR_TIMESERIES_LATE_ARRIVAL`. Watermarks are process-local and are not
+ * persisted.
  * 
  * ## Thread Safety
  * 
@@ -55,9 +57,8 @@
  * 
  * All public methods return Result<T> with explicit error codes:
  * - **ERR_API_INVALID_REQUEST**: Empty metric/entity, or parameter validation failure
- * - **ERR_TIMESERIES_LATE_ARRIVAL**: Timestamp outside late-arrival window
  * - **ERR_STORAGE_TRANSACTION_FAILED**: RocksDB write or storage operation failure
- * - **TIMESTAMP_OUT_OF_ORDER**: Duplicate or decreasing timestamp detected
+ * - **ERR_TIMESERIES_LATE_ARRIVAL**: Timestamp is below the configured window cutoff
  * 
  * @see include/timeseries/timeseries_api_contract.h
  * @see include/timeseries/adaptive_flush_controller.h
@@ -140,10 +141,9 @@ public:
         CompressionType compression = CompressionType::Gorilla;
         int chunk_size_hours = 24;  // Gorilla chunk size (hours)
         // Late-arrival window for out-of-order writes (milliseconds).
-        // 0 = disabled (accept all timestamps regardless of order).
-        // When > 0, data points whose timestamp is older than
-        //   (high_watermark - late_arrival_window_ms) are rejected with
-        //   ERR_TIMESERIES_LATE_ARRIVAL.
+        // 0 is the default and disables watermark validation; non-positive values
+        // skip the check. Any timestamp order is accepted when validation is skipped.
+        // When > 0, timestamps below (high_watermark - window) are rejected.
         int64_t late_arrival_window_ms = 0;
     };
     
@@ -225,21 +225,26 @@ public:
     ~TSStore() = default;
     
     /**
-     * @brief Get current compression configuration
+     * @brief Get the current store configuration.
      */
     const Config& getConfig() const { return config_; }
     
     /**
-     * @brief Update compression configuration
+     * @brief Update store configuration.
      * @note Changes only affect new data points; existing data remains unchanged
      * @param[in] config Input parameter.
      */
     void setConfig(const Config& config) { config_ = config; }
     
     /**
-     * @brief Write a data point
-     * @param point Data point to store
-     * @return Result<void> - success or error with detailed context
+     * @brief Write a data point with a millisecond Unix-epoch timestamp.
+     * @param point Data point to store; metric and entity must be non-empty.
+     * @return Success, or an input, late-arrival-window, or storage error.
+     * @note A non-positive late-arrival window disables ordering checks. With a
+     *       positive window, a timestamp is rejected only when it is strictly
+     *       below the current per-series watermark minus that window.
+     *       Zero/negative timestamps and equality with the watermark are not
+     *       rejected by timestamp validation.
      * 
      * @note STORAGE METHOD: Singular RocksDB Entity
      * Single data points are always stored as individual RocksDB entities

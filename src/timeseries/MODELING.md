@@ -70,16 +70,16 @@ watermarks are persisted by `ContinuousAggWatermarkStore` under the
 `wm:cagg:` key prefix. Consumers must account for refresh lag and the
 watermark rather than assuming a policy is fully materialized.
 
-## Time-unit and ordering caveat
+## Timestamp and ordering semantics
 
-The concrete `TSStore` and Gorilla interfaces use milliseconds. The separate
-frozen contract header describes nanoseconds, and its mock contract cases
-expect strict ordering. In the implementation, a zero
-`late_arrival_window_ms` disables the watermark check; with a positive window,
-the check rejects timestamps strictly older than the watermark minus that
-window. Equal timestamps are not rejected by that comparison. Do not convert
-units or infer one API's ordering semantics from another without checking its
-header and implementation.
+`TSStore` and Gorilla timestamps are signed Unix epoch milliseconds. The
+`late_arrival_window_ms` setting is also in milliseconds. A zero window disables
+watermark validation (negative values also skip the check in the current
+implementation; use zero to disable it intentionally). A positive window accepts timestamps at or above the
+watermark minus the configured window and rejects only smaller values.
+Duplicate timestamps are therefore not rejected by the watermark comparison.
+The watermark is maintained in memory per series and starts with that series'
+first accepted write; it is not recovered across `TSStore` instances.
 
 ## No native embedding representation
 

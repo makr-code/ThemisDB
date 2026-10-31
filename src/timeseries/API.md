@@ -51,28 +51,32 @@ Exact model backend not verifiable from final document text alone.
   retention boundary is intended, and preserve a separate backup/recovery
   path before invoking it operationally.
 
-## Timestamp contract mismatch
+## Timestamp and ordering contract
 
-There is a material mismatch that callers must not paper over:
+`TSStore::DataPoint::timestamp_ms`, query bounds, Gorilla timestamps, and
+`late_arrival_window_ms` use signed Unix epoch milliseconds. The store does not
+convert these values to nanoseconds or reject zero/negative timestamps based
+only on sign.
 
-1. `TSStore::DataPoint` and its storage key use milliseconds.
-2. `timeseries_api_contract.h` describes Unix nanoseconds and strict
-   increasing timestamps.
-3. In `TSStore::putDataPoint()`, a zero late-arrival window skips the
-   watermark check; a positive window rejects only values older than
-   `watermark - window`, and equal timestamps pass that comparison.
-
-Until the public contract and concrete implementation are reconciled, follow
-the units declared by the exact method being called and add tests against that
-implementation. Do not infer server endpoint units or ordering behavior from
-the mock-only contract tests.
+With the default `late_arrival_window_ms == 0`, all timestamp ordering is
+accepted. The current implementation also skips this check for negative values;
+callers should use zero to explicitly disable it. A positive window rejects a write only when its timestamp is strictly
+less than the current per-series watermark minus the window. Equality with the
+watermark or cutoff is accepted; accepted older points do not move the
+watermark. The watermark is in memory and is not restored when a new
+`TSStore` instance is created. The storage-backed
+[`TSStore ordering tests`](../../tests/test_tsstore_out_of_order.cpp) exercise
+these rules; mock-only tests are not evidence of persisted-store behavior.
 
 ## Compatibility
 
-The contract header describes the current v1.x line as stable and calls for a
-major-version bump, migration notes, and a changelog entry for breaking
-changes. Persisted keys, Gorilla chunk framing, encryption envelopes, and
-continuous-aggregate watermarks are also storage compatibility surfaces.
+The contract header previously declared nanosecond timestamp constants that
+were not used by repository code and contradicted `TSStore`. They remain
+deprecated for source compatibility but do not constrain TSStore timestamps;
+use application-owned millisecond values or `kMaxPointTimestampMs` for an
+open-ended range.
+Persisted keys, Gorilla chunk framing, encryption envelopes, and
+continuous-aggregate watermarks are separate storage compatibility surfaces.
 Review the relevant serializer and readers before changing them.
 
 ## References

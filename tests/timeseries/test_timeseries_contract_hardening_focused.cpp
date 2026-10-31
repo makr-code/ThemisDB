@@ -11,11 +11,11 @@
  *
  * ## Test families
  *
- * ### TSCH-01..04 — Write contract
- *   TSCH-01  Monotonic timestamps are accepted
- *   TSCH-02  Out-of-order timestamp → TIMESTAMP_OUT_OF_ORDER
- *   TSCH-03  Null (zero) timestamp → TIMESTAMP_OUT_OF_ORDER
- *   TSCH-04  Duplicate timestamp → TIMESTAMP_OUT_OF_ORDER
+ * ### TSCH-01..04 — Write contract model
+ *   TSCH-01  In-order timestamps are accepted with a positive window
+ *   TSCH-02  Timestamp below the positive-window cutoff is rejected
+ *   TSCH-03  Zero timestamp is not rejected by sign
+ *   TSCH-04  Duplicate timestamp is accepted by the watermark comparison
  *
  * ### TSCH-05..08 — Range-query contract
  *   TSCH-05  Inclusive bounds: [start, end] returns all points in range
@@ -64,33 +64,28 @@ static constexpr uint64_t kTimeseriesContractSeed = 42;
 // ============================================================================
 
 struct TimePoint {
-    std::int64_t ts_ns = {};
+    std::int64_t timestamp = {};
     double       value = {};
 };
 
-/// Validates that the new point's timestamp is strictly greater than tail.
-static std::optional<TimeseriesErrorCode> mockWritePoint(
-        std::int64_t tail_ts, std::int64_t new_ts) {
-    if (new_ts <= 0LL) {
-      return TimeseriesErrorCode::TIMESTAMP_OUT_OF_ORDER;
-    }
-    if (new_ts <= tail_ts) {
-      return TimeseriesErrorCode::TIMESTAMP_OUT_OF_ORDER;
-    }
-    return std::nullopt;
+/// Models TSStore's window comparison; concrete storage behavior is tested separately.
+static bool mockWritePoint(std::int64_t watermark,
+                           std::int64_t new_ts,
+                           std::int64_t window_ms) {
+    return window_ms <= 0 || new_ts >= watermark - window_ms;
 }
 
-/// Range query: returns all points in [start_ns, end_ns] inclusive.
+/// Range query: returns all points in [start, end] inclusive.
 static std::vector<TimePoint> mockRangeQuery(
         const std::vector<TimePoint>& series,
-        std::int64_t start_ns,
-        std::int64_t end_ns,
+        std::int64_t start,
+        std::int64_t end,
         bool series_exists = true) {
     if (!series_exists) return {}; // caller checks SERIES_NOT_FOUND separately
     std::vector<TimePoint> result = {};
 
     for (const auto& p : series) {
-        if (p.ts_ns >= start_ns && p.ts_ns <= end_ns) {
+        if (p.timestamp >= start && p.timestamp <= end) {
             result.push_back(p);
         }
     }
@@ -132,7 +127,7 @@ static std::optional<TimeseriesErrorCode> mockDownsample(
     }
     std::map<std::int64_t, std::pair<double, int>> buckets;
     for (const auto& p : input) {
-        std::int64_t bucket = (p.ts_ns / resolution_ns);
+        std::int64_t bucket = (p.timestamp / resolution_ns);
         auto& [sum, cnt] = buckets[bucket];
         sum += p.value;
         ++cnt;
@@ -148,38 +143,29 @@ static std::optional<TimeseriesErrorCode> mockDownsample(
 // TSCH-01..04 — Write contract tests
 // ============================================================================
 
-/// TSCH-01: Monotonic timestamps are accepted without error.
-TEST(TimeseriesContractHardening, TSCH01_MonotonicTimestampsAccepted) {
-    std::int64_t tail = 0LL;
-    for (std::int64_t ts = 1000LL; ts <= 5000LL; ts += 1000LL) {
-        auto err = mockWritePoint(tail, ts);
-        EXPECT_FALSE(err.has_value()) << "ts=" << ts;
-        tail = ts;
+/// TSCH-01: In-order timestamps are accepted with a positive late-arrival window.
+TEST(TimeseriesContractHardening, TSCH01_InOrderTimestampsAccepted) {
+    constexpr std::int64_t window_ms = 1000LL;
+    std::int64_t watermark = 1000LL;
+    for (std::int64_t ts = 2000LL; ts <= 5000LL; ts += 1000LL) {
+        EXPECT_TRUE(mockWritePoint(watermark, ts, window_ms)) << "ts=" << ts;
+        watermark = ts;
     }
 }
 
-/// TSCH-02: Out-of-order timestamp raises TIMESTAMP_OUT_OF_ORDER.
-TEST(TimeseriesContractHardening, TSCH02_OutOfOrderTimestampError) {
-    std::int64_t tail = 5000LL;
-    auto err = mockWritePoint(tail, 3000LL); // 3000 < 5000
-    ASSERT_TRUE(err.has_value());
-    EXPECT_EQ(*err, TimeseriesErrorCode::TIMESTAMP_OUT_OF_ORDER);
-    EXPECT_TRUE(isHardTimeseriesError(*err));
+/// TSCH-02: A timestamp below watermark-window is rejected.
+TEST(TimeseriesContractHardening, TSCH02_BeyondWindowTimestampRejected) {
+    EXPECT_FALSE(mockWritePoint(5000LL, 3999LL, 1000LL));
 }
 
-/// TSCH-03: Zero (null) timestamp raises TIMESTAMP_OUT_OF_ORDER.
-TEST(TimeseriesContractHardening, TSCH03_ZeroTimestampError) {
-    auto err = mockWritePoint(0LL, 0LL);
-    ASSERT_TRUE(err.has_value());
-    EXPECT_EQ(*err, TimeseriesErrorCode::TIMESTAMP_OUT_OF_ORDER);
+/// TSCH-03: Zero is not rejected just because of its sign.
+TEST(TimeseriesContractHardening, TSCH03_ZeroTimestampAccepted) {
+    EXPECT_TRUE(mockWritePoint(0LL, 0LL, 1000LL));
 }
 
-/// TSCH-04: Duplicate timestamp (== tail) raises TIMESTAMP_OUT_OF_ORDER.
-TEST(TimeseriesContractHardening, TSCH04_DuplicateTimestampError) {
-    std::int64_t tail = 1000LL;
-    auto err = mockWritePoint(tail, tail); // equal, not strictly greater
-    ASSERT_TRUE(err.has_value());
-    EXPECT_EQ(*err, TimeseriesErrorCode::TIMESTAMP_OUT_OF_ORDER);
+/// TSCH-04: Equality with the watermark passes the late-arrival comparison.
+TEST(TimeseriesContractHardening, TSCH04_DuplicateTimestampAccepted) {
+    EXPECT_TRUE(mockWritePoint(1000LL, 1000LL, 1000LL));
 }
 
 // ============================================================================
@@ -194,8 +180,8 @@ TEST(TimeseriesContractHardening, TSCH05_InclusiveBoundsQuery) {
     };
     auto result = mockRangeQuery(series, 2000LL, 4000LL);
     ASSERT_EQ(result.size(), 3u);
-    EXPECT_EQ(result[0].ts_ns, 2000LL);
-    EXPECT_EQ(result[2].ts_ns, 4000LL);
+    EXPECT_EQ(result[0].timestamp, 2000LL);
+    EXPECT_EQ(result[2].timestamp, 4000LL);
 }
 
 /// TSCH-06: Empty range (no points in [start, end]) → empty result, no error.
@@ -220,8 +206,8 @@ TEST(TimeseriesContractHardening, TSCH08_BoundaryPointsIncluded) {
     };
     auto result = mockRangeQuery(series, 1000LL, 2000LL);
     ASSERT_EQ(result.size(), 2u);
-    EXPECT_EQ(result.front().ts_ns, 1000LL);
-    EXPECT_EQ(result.back().ts_ns,  2000LL);
+    EXPECT_EQ(result.front().timestamp, 1000LL);
+    EXPECT_EQ(result.back().timestamp,  2000LL);
 }
 
 // ============================================================================

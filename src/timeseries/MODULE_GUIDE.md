@@ -54,9 +54,10 @@ Exact model backend not verifiable from final document text alone.
 
 ## Important edge cases
 
-- The timestamp unit in concrete `TSStore` APIs is milliseconds, while the
-  separate frozen contract header says nanoseconds. Ordering semantics also
-  differ; see [API.md](API.md).
+- `TSStore` and its contract use signed millisecond timestamps. A non-positive
+  late-arrival window disables ordering checks; a positive window accepts
+  points on the cutoff and rejects only timestamps below it. See [API.md](API.md)
+  and the concrete storage tests before changing these semantics.
 - Batch Gorilla chunks retain tags and metadata from the first point in each
   metric/entity group.
 - Full non-blocking buffer pushes take a direct-write fallback in

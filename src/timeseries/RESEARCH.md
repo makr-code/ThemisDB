@@ -60,16 +60,15 @@ record the compiler, preset, CPU, seed, warmup, and repetitions with any
 measurement before comparing it to a baseline. Do not interpret the
 2026-08-07 values in `PERFORMANCE_BASELINE.md` as a current-hardware result.
 
-## Contract discrepancy to resolve
+## Timestamp behavior under evaluation
 
-`include/timeseries/timeseries_api_contract.h` describes positive Unix
-nanosecond timestamps and strictly increasing writes. The concrete
-`TSStore::DataPoint` API uses `timestamp_ms`; `TSStore::putDataPoint()` only
-checks the configured late-arrival window when it is positive, and the
-watermark comparison accepts a timestamp equal to the watermark. The contract
-hardening tests use local mock helpers. Reconcile this difference in the API
-contract and implementation before using the frozen contract as a description
-of concrete `TSStore` behavior.
+The public contract and `TSStore` now describe the same millisecond timestamp
+unit and configurable watermark policy. Storage-backed tests cover default
+out-of-order acceptance, positive-window boundaries, rejection outside the
+window, and a zero first timestamp. When changing this policy, add concrete
+tests for each affected write path (`putDataPoint()`, `putDataPoints()`, and
+`putBatch()`); the contract-hardening test file uses local helpers and does not
+prove RocksDB behavior.
 
 ## References
 

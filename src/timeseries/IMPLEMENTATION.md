@@ -68,15 +68,17 @@ synchronization where the header states they are not thread-safe.
   `TsEncryptedKeyRotation` scans encrypted Gorilla chunks and replaces a
   stale-key value before the old value can be discarded.
 
-## Invariants and known contract gap
+## Timestamp and write invariants
 
-Keep timestamp units explicit at each interface: `TSStore::DataPoint` uses
-milliseconds, while `include/timeseries/timeseries_api_contract.h` states
-nanoseconds. The contract also describes strict monotonicity, but
-`TSStore::putDataPoint()` only checks ordering when `late_arrival_window_ms`
-is positive and its watermark helper accepts equality. The mock-based
-contract-hardening tests do not establish concrete `TSStore` behavior for
-these cases. Reconcile this mismatch before changing either contract.
+`TSStore::DataPoint`, query bounds, Gorilla timestamps, and
+`late_arrival_window_ms` use signed milliseconds. Writes do not reject
+timestamps solely because they are zero or negative. With a non-positive window,
+watermark validation is disabled. A positive window compares against the
+per-series high watermark, accepts timestamps equal to the watermark or cutoff,
+rejects timestamps strictly below the cutoff, and advances the watermark only
+for a larger timestamp. This watermark is in-memory state, not persisted state.
+The focused storage-backed cases in `tests/test_tsstore_out_of_order.cpp` verify
+the behavior; mock contract helpers cannot substitute for them.
 
 Do not silently change chunk key formats, serialized JSON fields, Gorilla
 headers, encryption envelope fields, or watermark keys: existing stored data
