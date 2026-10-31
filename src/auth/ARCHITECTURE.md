@@ -1,6 +1,13 @@
 # Architecture - Auth Module
 
-<!-- Status: current | validated: 2026-09-09 -->
+- **AI_Used:** true
+- **AI_Models:** unknown
+- **AI_Contributor:** GitHub Copilot
+- **Human_Review:** false
+- **Human_Author:** unknown
+Exact model backend not verifiable from final document text alone.
+
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Overview
@@ -42,49 +49,37 @@ The auth module composes multiple authentication and verification planes behind 
 
 ## Module Dependencies
 
-### Direct Upstream Dependencies (this module uses)
+### Implementation dependencies (examples verified in source)
 | Module | Interface / File | Purpose |
 |--------|-----------------|---------|
-| utils | `include/utils/jwt_utils.h`, `include/utils/mfa_utils.h`, `include/utils/session_utils.h` | JWT parsing/signing helpers, MFA token utilities, session ID and TTL helpers |
-| security | `include/security/key_provider.h` | Cryptographic key provisioning for JWT signature verification and mTLS cert handling |
-| observability | `include/observability/audit_logger.h` | Emits structured audit events for authentication decisions and revocation actions |
+| utils | `include/utils/audit_logger.h` | Optional audit integration used by auth components |
+| external libraries | OpenSSL, RocksDB, and feature-conditional LDAP/Kerberos/Redis integrations | Concrete cryptographic, persistence, and provider operations; availability depends on build configuration |
 
 ### Direct Downstream Consumers (modules that use this module)
 | Module | Via | Notes |
 |--------|-----|-------|
-| server | `include/auth/jwt_validator.h`, `include/auth/mtls_authenticator.h`, `include/auth/oauth_pkce_flow.h`, `include/auth/oidc_provider.h`, `include/auth/saml_authenticator.h`, `include/auth/session_manager.h` | HTTP server validates every inbound request identity before routing; all six auth surfaces are consumed at request ingestion time |
+| server | `src/server/auth_middleware.cpp`, `src/server/session_api_handler.cpp`, `src/server/oauth2_provider.cpp`, `src/server/saml_auth_provider.cpp` | These source files include and use the corresponding auth interfaces; this does not imply every request uses every provider. |
 
-## Integration Points
+## Verified integration points
 
-### Critical Integration: JWT Validation ↔ HTTP Server
-**Files:** `include/auth/jwt_validator.h` ↔ `src/server/http_server.cpp`
-**Contract:** `JwtValidator::validate()` must return a fully-resolved `PrincipalContext` or a typed `AuthError`; the server treats any non-success result as a 401 and does not continue routing.
-**Thread Safety:** `JwtValidator` instances are read-shared across request threads after construction; JWKS key rotation is protected by an internal `std::shared_mutex`.
-**Failure Mode:** Fail-closed — expired/invalid tokens produce structured `AuthError`; no partial principal context is forwarded downstream.
+### JWT validation
 
-### Critical Integration: Session Manager ↔ Token Blacklist
-**Files:** `include/auth/session_manager.h` ↔ `src/auth/token_blacklist.cpp`
-**Contract:** `SessionManager::revoke()` atomically inserts the token JTI into the distributed blacklist before returning; subsequent `validate()` calls for the same JTI return `REVOKED` without contacting the upstream IdP.
-**Thread Safety:** Blacklist entries are written under a distributed lock; reads are lock-free via a local in-process Bloom filter.
-**Failure Mode:** If the distributed store is unreachable during revocation the operation fails with `BlacklistUnavailable`; the session is NOT marked revoked locally, preserving correctness over availability.
+`JWTValidator::parseAndValidate()` returns `JWTClaims` and reports validation
+failures by throwing `std::runtime_error`. `src/server/auth_middleware.cpp`
+constructs and uses `JWTValidator`; its HTTP response mapping is server behavior,
+not a contract of this module architecture page.
 
-### Critical Integration: mTLS Authenticator ↔ Key Provider
-**Files:** `include/auth/mtls_authenticator.h` ↔ `include/security/key_provider.h`
-**Contract:** `MtlsAuthenticator` calls `KeyProvider::getCertChain()` per handshake; the key provider is responsible for CRL/OCSP freshness.
-**Thread Safety:** `KeyProvider` implementations must be thread-safe; the authenticator holds no cert state between requests.
-**Failure Mode:** `KeyProvider` errors propagate as `CertProviderUnavailable`; the mTLS handshake is rejected.
+### Sessions and revocation
 
+`SessionManager` owns in-memory session lifecycle operations. `TokenBlacklist`
+implements the in-memory JTI blacklist; RocksDB, Redis, and distributed
+blacklists are separate types. The public `SessionManager` API does not expose a
+`revoke()` operation or atomically update a token blacklist. Applications must
+wire session and token-revocation checks explicitly.
 
+### mTLS
 
-- Verified files:
-  - src/auth/jwt_validator.cpp
-  - src/auth/oidc_provider.cpp
-  - src/auth/federated_identity_manager.cpp
-  - src/auth/session_manager.cpp
-  - src/auth/token_blacklist.cpp
-  - src/auth/zero_trust_auth_verifier.cpp
-  - src/auth/auth_rate_limiter.cpp
-- Verified architecture claims:
-  - multi-plane authentication composition
-  - explicit session/revocation and policy layers
-  - dedicated trust and observability surfaces in module
+`MTLSAuthenticator` is configured and used by server auth middleware. No
+`KeyProvider::getCertChain()` integration is established by the auth headers or
+the inspected server integration; certificate freshness and transport-layer
+TLS policy remain deployment-specific.

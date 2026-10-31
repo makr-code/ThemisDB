@@ -1,13 +1,13 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-21
-Last Updated: 2026-10-30
+Last Updated: 2026-10-31
 Status: active
 AI_Used: true
 AI_Models: unknown
 AI_Contributor: GitHub Copilot
 Human_Review: false
-Human_Author: ThemisDB Contributors
+Human_Author: unknown
 ---
 
 Exact model backend not verifiable from final document text alone.
@@ -39,7 +39,7 @@ The implementation requires the following assumptions to hold for safe operation
 - revocation state remains available or the system remains in a fail-closed mode
 - session boundaries are bounded and not allowed to grow unobservably
 - provider errors are classified and are not transformed into silent success
-- issuer and audience checks are configured when required: the default JWT validator does not require either check unless explicitly configured
+- issuer and audience behavior depends on the constructor: the URL-only `JWTValidator` disables both checks, while `JWTValidatorConfig` defaults both requirements to true and requires expected values
 - operators account for the configured JWKS cache lifetime (600 seconds by default) when responding to issuer-key rotation or revocation
 
 Violating these assumptions creates direct trust issues for downstream authorization and business execution.
@@ -56,7 +56,7 @@ Control surface:
 
 Impact reduction:
 
-- verify signature and claim semantics against the current trust set
+- verify signature and configured claim semantics against the current trust set
 - reject unknown or stale signing keys
 - reject expired or misissued tokens before principal creation
 
@@ -70,7 +70,7 @@ Control surface:
 
 Impact reduction:
 
-- maintain revocation state and check it before trust is granted
+- configure and check a revocation backend where the embedding flow requires revocation enforcement
 - prefer explicit denial over ambiguous fallback
 - keep distributed sync and local state consistent enough for accurate enforcement
 
@@ -108,7 +108,7 @@ Impact reduction:
 The module keeps several design controls in place:
 
 - explicit denial over silent default acceptance
-- typed auth errors rather than generic or suppressed failures
+- explicit failures using the error representation of the specific adapter (which is not uniform across the module)
 - audit emission for security-relevant decisions
 - bounded session lifetime and rate-limiting enforcement
 - provider-specific capability and realm checks before trust is extended

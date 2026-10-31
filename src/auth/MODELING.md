@@ -1,18 +1,18 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-21
-Last Updated: 2026-10-21
+Last Updated: 2026-10-31
 Status: active
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: unknown
-Human_Review: true
-Human_Author: ThemisDB Contributors
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: unknown
 ---
 
 # Auth Module Modeling
 
-AI provenance note: Exact model backend not verifiable from final document text alone.
+Exact model backend not verifiable from final document text alone.
 
 This document describes the model that the auth module implements in practice, using the concrete source under `src/auth` and the public contracts in `include/auth` as the source of truth.
 
@@ -88,7 +88,10 @@ The model distinguishes between four major failure domains:
 - provider errors: unreachable IdP, failed JWKS fetch, LDAP timeout, mTLS validation failure
 - security-state errors: revocation backend outage, replay detection, unknown key ID, policy edge mismatch
 
-These are not all equal. The code intentionally routes unknown or malformed state into typed auth error codes so that the caller can decide whether to deny, retry, or escalate.
+These are not all equal. Failure representation varies by API: JWT validation
+currently throws `std::runtime_error`, while some provider and revocation
+operations use `AuthException` or structured result values. Callers must inspect
+the relevant interface rather than assuming a uniform typed-error contract.
 
 ## 5. Risk and invariants
 
@@ -115,9 +118,9 @@ The code strongly suggests that correctness is defined by explicit denial paths 
 
 The model should remain consistent with the concrete sources:
 
-- `JWTValidator` is the trust anchor for JWT/OIDC and key-material checks
+- `JWTValidator` validates JWT claims/signatures against its configured JWKS and policy; the URL-only constructor disables issuer/audience requirements by default
 - `SessionManager` is the lifecycle estimator for active user sessions
-- `TokenBlacklist` and `DistributedTokenBlacklist` carry revocation state across process and cluster boundaries
+- `TokenBlacklist` is in-memory; persistent and distributed revocation require the separately configured Redis, RocksDB, or distributed implementations
 - `AuthRateLimiter` and backend implementations bound the system under attack or abuse
 - `AuthAuditLogger` and related metrics are the operator-facing evidence layer
 

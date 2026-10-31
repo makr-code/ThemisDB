@@ -1,6 +1,13 @@
 # Auth Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-07-27 -->
+- **AI_Used:** true
+- **AI_Models:** unknown
+- **AI_Contributor:** GitHub Copilot
+- **Human_Review:** false
+- **Human_Author:** unknown
+Exact model backend not verifiable from final document text alone.
+
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 
 ## Scope
@@ -35,44 +42,38 @@
 
 ### v1.2.0: Async Operations & Connection Pooling
 
-**Completed Components (v1.2.0 — production-ready):**
+**Implemented API surfaces (maturity and deployment readiness are not asserted):**
 
 1. **AsyncHTTPAuth** (`http_auth_async.h/.cpp`)
-   - Non-blocking HTTP GET/POST for OAuth, OIDC, SAML discovery
+   - Future-returning HTTP GET/POST helpers
    - Uses AuthWorkerThreadPool for concurrent operations
-   - Retry logic with exponential backoff for transient failures
-   - Timeout configuration per request type
-   - SSL certificate validation options
+   - Retry, timeout, and certificate-verification settings are exposed in `HTTPAuthConfig`
 
 2. **LDAPAuthenticator::authenticateAsync()**
    - Async wrapper for LDAP bind operations
    - Dispatches blocking calls to worker thread pool
    - Returns std::future<LDAPAuthResult>
-   - P99 latency target: ≤50ms visible to callers
+   - No measured caller-latency guarantee is established by the API
 
 3. **LDAPConnectionPool** (already implemented)
-   - Pre-warmed pool of idle LDAP connections
-   - Health checks on every checkout
-   - Stale connection eviction and recreation
-   - Configurable min_idle, max_size, checkout_timeout_ms
+   - Configurable `pool_min_idle`, `pool_max_size`, and `pool_checkout_timeout_ms`
 
 ### v1.3.0: Distributed Token Blacklist
 
-**Completed Components (v1.3.0 — production-ready, TBLK/v1 RPC fully shipped):**
+**Implemented components (not a production-readiness or cluster-consistency certification):**
 
 1. **DistributedTokenBlacklist** (`distributed_token_blacklist.h/.cpp`)
    - [x] RocksDB persistence layer (extends RocksDBTokenBlacklist)
    - [x] Background purge thread for expired entries
    - [x] Background replication thread for cluster sync
-   - [x] Leader election using node ID ordering (local O(#peers) string comparison)
-   - [x] Pull-based synchronization from followers to leader — production TBLK/v1 TCP implementation
-   - [x] Push-based synchronization from leader to all followers — production TBLK/v1 TCP implementation
+   - [x] Local leader selection by node ID ordering
+   - [x] Pull and push paths using the TBLK/v1 TCP protocol
    - [x] TCP server listener (`serveIncomingConnections` / `handlePeerConnection`) for inbound PUSH and PULL_REQ
    - [x] `getAllEntries()` — full RocksDB iterator scan, filtered to non-expired entries
-   - [x] `applyEntries()` — LWW batch write, expired entries dropped silently
+   - [x] `applyEntries()` — batch writes received entries; expired entries are dropped
 
 2. **TBLK/v1 Binary Wire Protocol**
-   - Header layout: `magic[4]("TBLK") | version[1](0x01) | type[1] | count[4 BE]` = 10 bytes
+   - Header layout: `magic (4 bytes, "TBLK") | version (1 byte, value 0x01) | type (1 byte) | count (4-byte big-endian)` = 10 bytes
    - Entry layout per entry: `jti_len[2 BE] | jti[jti_len] | expiry_unix_secs[8 BE int64]`
    - Message types: PUSH(0x01) = leader→follower, PULL_REQ(0x02) = follower→leader,
      PULL_RESP(0x03) = leader→follower, ACK(0x04) = any direction
@@ -83,17 +84,17 @@
 
 3. **Cluster Architecture**
    - Local node: persists JTI revocations to RocksDB
-   - Peer nodes: maintain synchronized copy of blacklist
+   - Peer nodes: can receive synchronized blacklist entries when peer communication succeeds
    - Leader: node with lexicographically lowest `node_id`; acts as source of truth
    - Followers: pull updates from leader via PULL_REQ / PULL_RESP exchange
    - Leader also pushes: leader initiates PUSH to each follower in `performClusterSync()`
-   - Conflict resolution: Last-Write-Wins — `applyEntries()` overwrites without comparing
+   - `applyEntries()` overwrites received keys without comparing timestamps; conventional last-write-wins conflict resolution is not established
 
 4. **Fault Tolerance**
    - Continues operating if peers are temporarily unavailable (bind failure is non-fatal)
    - Leader re-election on each `performClusterSync()` call (stateless, purely local)
    - Bounded `peer_rpc_timeout_ms` prevents cascading delays
-   - Graceful degradation: `performClusterSync()` returns `false` when no peers are reachable
+   - `performClusterSync()` reports whether any peer sync succeeded; no quorum or complete-peer success is established
 
 ## Test Strategy
 
@@ -112,18 +113,17 @@
 ## Performance Targets
 
 ### v1.2.0
-- LDAP bind latency P99 ≤ 50 ms visible to callers (backend may take 200 ms)
-- OAuth token requests never block caller's thread
-- OIDC discovery fetches run in background, cached results available immediately
-- HTTP retry logic completes within configured timeout (default 30 sec)
+- The future-returning LDAP and HTTP APIs expose async dispatch; no latency SLO is established here.
+- `HTTPAuthConfig` defaults `request_timeout_seconds` to 30; this is a configured request timeout, not a completion guarantee.
 
 ### v1.3.0
-- isRevoked() remains O(1) lookup in RocksDB (constant-time, < 1 µs warm cache)
-- add() to RocksDB negligible overhead (< 1 ms, single RocksDB Put)
+- `isRevoked()` performs a local RocksDB point read; no constant-time or measured-latency guarantee is established.
+- `add()` performs a local RocksDB write; no sub-millisecond guarantee is established.
 - Cluster sync every 30 seconds without blocking revocation checks (configurable sync_interval_seconds)
-- Token validation hot path unaffected by replication activity (background threads)
+- Replication runs on background threads; contention and token-validation latency under concurrent writes have not been measured here
 - Purge thread runs independently; does not compete with validation
-- Leader election converges locally (O(#peers) string comparison, < 1 ms)
+- Leader selection is local by node-ID ordering; no election convergence-time guarantee is established.
+- `waitForClusterConvergence()` returns after at least one successful sync and does not prove that every peer has converged.
 - `pushRevisionsToFollower()` / `pullRevisionsFromLeader()` bounded by `peer_rpc_timeout_ms` (default 5 s)
 
 ## Security / Reliability
@@ -132,10 +132,10 @@
 - preserve auditable decision paths for authn/authz and trust checks.
 - enforce bounded resource behavior in rate-limiter and session/revocation components.
 - keep diagnostics actionable for production incident response.
-- **async ops**: exceptions propagated through futures, never silently dropped
+- **async ops**: inspect each future-returning method's result and exception contract; behavior is API-specific
 - **connection pool**: stale connections detected and evicted before use
-- **distributed blacklist**: RocksDB WAL ensures durability; no data loss on restart
-- **cluster sync**: RPC failures cause follower to retry; leader continues accepting revocations
+- **distributed blacklist**: RocksDB persistence is used; restart durability and recovery guarantees are not certified here
+- **cluster sync**: failed sync attempts are retried by later background cycles; there is no quorum guarantee
 
 ## Migration Path
 
@@ -149,4 +149,5 @@ New async code can opt-in:
 - Configure AsyncHTTPAuth for OAuth/OIDC operations
 - Enable `DistributedTokenBlacklist` for cluster deployments
 
-No database migration required; RocksDB schema is auto-created on first use.
+The RocksDB implementation creates its database/column family when configured to
+do so. Cross-version schema migration compatibility is not established here.

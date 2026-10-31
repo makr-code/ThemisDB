@@ -1,18 +1,18 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-21
-Last Updated: 2026-10-21
+Last Updated: 2026-10-31
 Status: active
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: unknown
-Human_Review: true
-Human_Author: ThemisDB Contributors
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: unknown
 ---
 
 # Auth Module Research Notes
 
-AI provenance note: Exact model backend not verifiable from final document text alone.
+Exact model backend not verifiable from final document text alone.
 
 This module is grounded in the concrete auth implementation under `src/auth`, the public contracts in `include/auth`, and the operational docs in `ARCHITECTURE.md`, `ROADMAP.md`, and `SECURITY.md`.
 
@@ -35,13 +35,16 @@ The primary proof is in the following source files:
 
 ### 1. Can identity validation be performed without trusting unbounded caller input?
 
-The `JWTValidator` implementation does not trust a token on the basis of its presence alone. It decodes the token, validates issuer and audience when configured, applies JWKS selection and rotation rules, checks the signing key against the current trust set, and rejects invalid or expired state before returning a principal context.
+The `JWTValidator` implementation parses the token, validates its signature
+using JWKS material, applies issuer/audience policy when enabled, and rejects
+invalid or expired state before returning `JWTClaims`. It does not return a
+`PrincipalContext`.
 
 The implementation also makes the trust configuration explicit in constructor validation:
 
 - empty issuer or audience settings are normalized away when not required
-- explicit validation requests throw if the required configuration is missing
-- a warning is logged when the validator intentionally accepts a broad trust domain
+- the `JWTValidatorConfig` constructor defaults issuer/audience requirements to true and throws if expected values are missing
+- the URL-only constructor disables those two requirements and logs a warning for the broad trust configuration
 
 This design keeps the token path deterministic and fail-closed rather than silently permissive.
 
@@ -55,15 +58,20 @@ This is not merely convenience logic: it is part of identity-state control. Sess
 
 The module separates the local blacklist and distributed revocation path:
 
-- `TokenBlacklist` provides a local, in-process or persistent revocation store
-- `DistributedTokenBlacklist` extends that with leader/follower replication with RocksDB-backed persistence
+- `TokenBlacklist` provides an in-memory revocation store
+- Redis, RocksDB, and `DistributedTokenBlacklist` are separate implementations; the latter adds best-effort peer synchronization to RocksDB persistence
 - `TotpReplayCache` and related auth state helpers add replay protection for MFA flows
 
-The implementation treats revocation state as an availability-sensitive but safety-critical input. A stale or missing blacklist does not silently grant access; the auth code is designed to deny or escalate rather than accept the unknown state.
+Revocation only applies when the embedding caller configures and checks a
+blacklist implementation. The source does not establish that every JWT or
+session path is automatically wired to a revocation backend.
 
 ### 4. Can external provider integrations degrade gracefully without producing unsafe auth decisions?
 
-`FederatedIdentityManager`, `LDAPConnectionPool`, and the async HTTP/OIDC adapters all treat provider error modes as explicit failure domains. The source distinguishes between unknown realms, provider degradation, capability mismatch, and network-level issues. That classification matters: provider outages or malformed responses are mapped to typed auth errors rather than being melted into generic success/failure values.
+`FederatedIdentityManager`, `LDAPConnectionPool`, and HTTP/OIDC adapters treat
+provider errors as failure conditions, but failure representation is
+component-specific. For example, federated validation classifies some provider
+failures as `AuthException`; JWT validation uses `std::runtime_error`.
 
 This means the module keeps the claim that provider availability is not equivalent to trust. In practice, degraded IdP endpoints either fail closed or return a specific error that can be traced back to the provider and the exact request path.
 

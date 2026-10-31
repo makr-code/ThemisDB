@@ -1,18 +1,18 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-21
-Last Updated: 2026-10-21
+Last Updated: 2026-10-31
 Status: active
 AI_Used: true
 AI_Models: unknown
-AI_Contributor: unknown
-Human_Review: true
-Human_Author: ThemisDB Contributors
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: unknown
 ---
 
 # Auth Module API Reference
 
-AI provenance note: Exact model backend not verifiable from final document text alone.
+Exact model backend not verifiable from final document text alone.
 
 This page is a compact guide to the public auth surface and the contract semantics visible from `include/auth` and the module implementation under `src/auth`.
 
@@ -31,7 +31,7 @@ Purpose:
 Key behavior and constraints:
 
 - invalid or unsigned tokens are rejected
-- missing issuer/audience configuration is treated as an explicit configuration error when validation is required
+- with the `JWTValidatorConfig` constructor, required issuer/audience values are checked during construction; the URL-only constructor disables those two requirements unless configured through another path
 - JWKS refresh is single-flight and cache-aware to avoid concurrent fetch races
 
 ### Session lifecycle
@@ -62,7 +62,11 @@ Purpose:
 - answer revocation lookups fast and deterministically
 - enable distributed sync when multi-node auth is in use
 
-These APIs are part of the authorization boundary. The module treats revocation as a safety-critical property instead of best-effort state.
+`TokenBlacklist` is the in-memory implementation. Redis, RocksDB, and
+`DistributedTokenBlacklist` are separate implementations with their own
+configuration and failure behavior; callers must select and wire the intended
+backend. Do not infer that session lifecycle automatically invokes token
+revocation.
 
 ### Replay protection
 
@@ -87,7 +91,10 @@ The module exposes a wide range of protocol adapters, including:
 - `gssapi_authenticator.h` and `kerberos_security.h` — Kerberos/GSSAPI flows
 - `api_key_authenticator.h` — static API-key authentication
 
-The major design rule across these interfaces is the same: malformed requests, provider failures, and unsupported capability states must be surfaced as typed failures.
+Return and error contracts vary by adapter. For example,
+`JWTValidator::parseAndValidate()` returns `JWTClaims` and throws
+`std::runtime_error` on validation errors, while other adapters return result
+objects or use `AuthException`. Do not assume every failure is an `AuthError`.
 
 ## 4. Trust and policy APIs
 
@@ -120,7 +127,9 @@ This is the canonical typed error layer for auth failures. The module uses it to
 
 Source: `include/auth/auth_audit_logger.h`, `include/auth/auth_metrics.h`, `include/auth/auth_event_bus.h`
 
-These APIs provide the required operational signal for auth success/failure, key rotation, session lifecycle changes, and security-relevant events.
+These APIs expose audit and metrics facilities. Whether a component emits a
+particular event or metric depends on its implementation and whether a logger
+or metrics object is configured.
 
 ## 6. Compatibility posture
 

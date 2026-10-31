@@ -1,4 +1,17 @@
-# auth — MODULE_GAPS_BATCH4.md (Batch 4 Wave C Analysis)
+# auth — MODULE_GAPS_BATCH4.md (Batch 4 Wave C Historical Snapshot)
+
+- **AI_Used:** true
+- **AI_Models:** unknown
+- **AI_Contributor:** GitHub Copilot
+- **Human_Review:** false
+- **Human_Author:** unknown
+Exact model backend not verifiable from final document text alone.
+
+> **Historical snapshot:** This batch-4 analysis was recorded on 2026-08-15.
+> Its proposed gaps, counts, checkboxes, and maturity conclusions are historical
+> evidence only and must not be used as current implementation status. Check
+> `include/auth`, `src/auth`, `tests/auth`, and `src/auth/ROADMAP.md` for current
+> behavior.
 
 **Batch:** Tier 3 Batch 4
 **Wave:** C (Security Production Validation)

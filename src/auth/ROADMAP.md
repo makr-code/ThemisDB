@@ -1,22 +1,33 @@
 # Auth Module Roadmap
 
+- **AI_Used:** true
+- **AI_Models:** unknown
+- **AI_Contributor:** GitHub Copilot
+- **Human_Review:** false
+- **Human_Author:** unknown
+Exact model backend not verifiable from final document text alone.
+
+> Roadmap checkmarks identify implementation or test artifacts cited below;
+> they do not prove that a build, CI run, benchmark, or production deployment
+> passed. CI status and hardware measurements are not inferred from source.
+
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-07-27 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
 Production authentication runtime exists across JWT/OIDC, Kerberos, MFA, OAuth, SAML, LDAP, API-key, mTLS, WebAuthn, session/revocation, and zero-trust verification paths.
-v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, leader push, follower pull, server listener, LWW merge — all shipped and covered by DBL-01..DBL-17.
+The distributed blacklist has a TBLK/v1 TCP protocol, leader push/follower pull paths, a server listener, and DBL-01..DBL-17 test cases. The source does not establish conventional LWW conflict resolution or a cluster-wide convergence guarantee.
 
 ## In Progress
 
 - [x] hardening of distributed revocation, federation, and policy-edge behavior (Target: Q3 2026)
 - [x] benchmark and release-gate consolidation for token/session hot paths (Target: Q3 2026)
 - [x] consistency hardening for async/provider-integration reliability (Target: Q3 2026)
-- [~] Wave C benchmark gate execution and evidence capture in CI (AUTH-GRG-01..06) (Target: Q4 2026)
-  - Dispatched: `CI — Benchmarks` run `#40` (`32765349559`) on `develop` with filter `bench_auth_hotpaths|AHP-`
-  - Pending: run completion on representative hardware and artifact-to-gate mapping evidence
+- [?] Representative-hardware benchmark results and CI gate evidence (Target: Q4 2026)
+  - Source defines `GATE-AHP-01..06` in `benchmarks/auth/bench_auth_hotpaths.cpp`; this source tree contains no result artifact establishing a passing run.
+  - The status of previously dispatched CI runs is not verifiable from the source tree.
 
 ## v1.2.0 Async Operations & Connection Pooling (Completed)
 
@@ -30,15 +41,15 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
 
 - [x] Token blacklist persistence to RocksDB (RocksDBTokenBlacklist)
 - [x] Leader election for distributed deployments (node-ID ordering, performLeaderElection)
-- [x] Atomic blacklist validation during cluster sync (fail-closed isRevoked with RocksDB read)
+- [x] Local blacklist lookup uses a RocksDB read and treats non-`NotFound` read errors as revoked; this is not a cross-node atomic transaction
 - [x] Distributed token blacklist with cluster synchronization — TBLK/v1 binary TCP protocol:
   - TCP server listener on `local_node.rpc_port`; bind is non-fatal (outbound still works)
   - Leader PUSH: serializes all non-expired JTI entries and pushes to each follower
-  - Follower PULL: sends PULL_REQ, receives PULL_RESP, applies entries with LWW semantics
+  - Follower PULL: sends PULL_REQ, receives PULL_RESP, and applies received entries
   - `performClusterSync()`: leader election → push to all peers (leader) or pull from leader (follower)
   - `pushRevisionsToFollower()` / `pullRevisionsFromLeader()`: full production implementation
   - `serveIncomingConnections()` / `handlePeerConnection()`: server-side PUSH and PULL_REQ dispatch
-  - `getAllEntries()` / `applyEntries()`: RocksDB helpers with LWW conflict resolution
+  - `getAllEntries()` / `applyEntries()`: RocksDB helpers; `applyEntries()` overwrites received keys without timestamp comparison
   - Wire format: 10-byte header (magic "TBLK", version 0x01, type, count) + variable entries
   - Files: `include/auth/distributed_token_blacklist.h`, `src/auth/distributed_token_blacklist.cpp`
 - [x] Comprehensive test coverage for distributed scenarios (tests/auth/test_auth_distributed_blacklist.cpp, DBL-01..DBL-17)
@@ -145,7 +156,7 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
 - [x] RocksDB persistence layer for token blacklisting (RocksDBTokenBlacklist, DistributedTokenBlacklist)
 - [x] TBLK/v1 binary TCP RPC protocol — `pushRevisionsToFollower()`, `pullRevisionsFromLeader()`, `serveIncomingConnections()`, `handlePeerConnection()` (src/auth/distributed_token_blacklist.cpp)
 - [x] Leader election based on node-ID lexicographic ordering (performLeaderElection)
-- [x] LWW (Last-Write-Wins) conflict resolution in `applyEntries()` — lower-timestamp entries silently overwritten
+- [x] Received entries are batch-written by `applyEntries()`; the implementation does not compare timestamps, so conventional LWW conflict resolution is not established
 - [x] complete remaining hardening in revocation/federation/provider execution paths (Target: Q3 2026)
   - `add()` now validates JTI empty/size early with REVOCATION_ENTRY_INVALID (fail-closed)
   - `validateToken()` / `realmProvider()` / `exchangeToken()` now throw FEDERATION_UNKNOWN_REALM
@@ -202,18 +213,18 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
   - Delivered: `tests/auth/test_auth_wavec_rate_limiting.cpp` (AUTH-RateLimit-01..06: AuthRateLimiter per-user, concurrency, reset)
 
 ### Phase 5: Performance and Hardening
-- [x] isRevoked() confirmed O(1) RocksDB point read (< 1 µs warm cache); hot path unaffected by background sync
-- [x] add() confirmed < 1 ms (single RocksDB Put)
+- [x] `isRevoked()` uses a local RocksDB point read; asymptotic and measured-latency guarantees are not claimed here
+- [x] `add()` writes to RocksDB locally; a sub-millisecond latency is not established without a measured run
 - [x] cluster sync every 30 s (configurable sync_interval_seconds); background thread
-- [x] leader election local-only (O(#peers) string comparison) converges < 1 s
+- [x] leader selection is local by node-ID ordering; a convergence-time guarantee is not established
 - [x] lock benchmark-backed release gates for token/session/revocation hotspots (Target: Q3 2026)
-  - Delivered: `benchmarks/auth/bench_auth_hotpaths.cpp` — AHP-01..08 with GATE-AHP-01..06
+  - Delivered: `benchmarks/auth/bench_auth_hotpaths.cpp` — AHP-02..11 registered cases with GATE-AHP-01..06; AHP-01 is not implemented/registered
     (blacklist hit/miss p99 ≤ 1 µs, session create p99 ≤ 5 ms, session validate p99 ≤ 1 ms,
      distributed add p99 ≤ 2 ms, distributed isRevoked warm p99 ≤ 1 µs)
   - Registered in `benchmarks/CMakeLists.txt` as `bench_auth_hotpaths`
 - [x] validate p95/p99 and throughput behavior against release baselines (Target: Q3 2026)
   - Gate thresholds documented in AHP benchmark file and PERFORMANCE_EXPECTATIONS.md
-  - 2026-09-09: `bench_auth_hotpaths.cpp` now exports p50/p95/p99 and gate counters so the broad baseline refresh lane can publish reusable artifacts; first refresh run queued as `Build: Benchmarks` run `34345454063`.
+  - The source exports p50/p95/p99 and gate counters; no measured artifact is recorded here.
 
 ### Phase 6: Documentation and Acceptance
 - [x] core auth module docs aligned to source-verifiable behavior
@@ -232,21 +243,21 @@ v1.3.0 distributed token blacklist is complete: TBLK/v1 binary TCP protocol, lea
 - [x] benchmark mapping documented in performance expectations
 - [x] distributed blacklist RPC layer (TBLK/v1) fully implemented and tested (DBL-01..DBL-17)
 - [x] remaining hardening tasks closed for provider edge cases
-- [x] release-gate benchmark stabilization complete
+- [?] Representative-hardware release-gate results are not evidenced in this source tree
 - [x] PasskeyAuthenticator TODO stubs replaced with real CBOR/OpenSSL verification logic (2026-08-19)
 - [x] Wave C test gates delivered: AUTH-Auth-01..08, AUTH-Token-01..08, AUTH-Provider-01..06, AUTH-AuthZ-01..08, AUTH-RateLimit-01..06 (2026-08-19)
 - [x] Batch 5 gap closure: resource_leaked_in_exception (jwks_security.cpp RAII), unchecked_result (ldap_authenticator.cpp), catch_all_swallow (rate_limiter_backend.cpp, http_auth_async.cpp, auth_rate_limiter.cpp), circular_lock_ordering (auth_rate_limiter.cpp reset()) — delivered 2026-08-24
-- [x] audit_logger.h filename collision resolved: include/api/audit_logger.h renamed to include/api/graphql_audit_logger.h; ws_handler.cpp updated — delivered 2026-08-24 (unblocks build validation for AUTH-GRG gate evidence)
-- [~] Wave C benchmark gates executed (AUTH-GRG-01..06) — CI run `CI — Benchmarks` #40 (`32765349559`) pending completion as of 2026-08-24T19:20Z; evidence capture follows artifact publication
+- [x] Audit logger header filename collision was resolved in the source tree; no auth benchmark execution result is implied
+- [?] No representative-hardware benchmark result artifact is recorded in this repository; CI run status is unresolved
 - [x] Short-term hardening complete: fail-closed provider-degraded, protocol matrix regression tests, operator diagnostics decision_class — delivered 2026-09-16
-- [x] Mid-term items complete: AHP-09..11 auth microbenchmarks (bench_auth_protocol_micro), p95/p99 design targets in PERFORMANCE_EXPECTATIONS.md, multi-realm syncTrustState() — delivered 2026-09-16
+- [x] Mid-term code items: AHP-09..11 cases are present in `bench_auth_hotpaths.cpp` (`bench_auth_protocol_micro` is a label, not a separate executable); AHP-01 remains comment-only; design targets are listed in `PERFORMANCE_EXPECTATIONS.md`; `syncTrustState()` is declared in `federated_identity_manager.h`
 - [x] Wave D contributions complete: high-cardinality stress tests (test_auth_highcardinality_stress.cpp), soak tests (test_auth_soak.cpp), operator runbook (RUNBOOK.md), operator_hint JSON field in 9420–9452 error registry entries — delivered 2026-09-16
 
 ## Known Issues and Limitations
 
 - behavior remains partially capability-dependent on configured identity providers and backends.
 - Hardware-measured p95/p99 benchmark baselines are design-target-only pending a dedicated benchmark hardware run (see `PERFORMANCE_EXPECTATIONS.md §Re-baseline procedure`).
-- Wave C benchmark gate evidence (AUTH-GRG-01..06) pending CI artifact publication from run `32765349559`.
+- Representative-hardware benchmark gate evidence is not present in the source tree; CI run status is unresolved.
 
 ## Breaking Changes
 
@@ -272,7 +283,7 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 ### Program-Level Success Criteria (contribution)
 - [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
   - Validated: PROVIDER_DEGRADED fail-closed on empty sub, HTTP 5xx, and provider exceptions; syncTrustState() for multi-realm distribution; all revocation backends are fail-closed by default.
-- [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-  - Design targets established in `src/auth/PERFORMANCE_EXPECTATIONS.md` GATE-AHP-01..10; hardware-measured baselines pending dedicated CI benchmark hardware run (see re-baseline procedure in PERFORMANCE_EXPECTATIONS.md).
-- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
-  - `src/auth/RUNBOOK.md` covers all 5 operator-critical scenarios; `decision_class` field in audit events; structured `operator_hint` JSON in all 9420–9452 error registry entries.
+- [?] Benchmark-backed p95/p99 baselines on representative hardware (Target: Q1 2027)
+  - Source thresholds are defined for GATE-AHP-01..06; hardware-measured baselines are not recorded in `PERFORMANCE_EXPECTATIONS.md`.
+- [~] Operator diagnostics and runbook coverage (Target: Q1 2027)
+  - `src/auth/RUNBOOK.md` documents source-backed JWT/JWKS, blacklist, session, provider, and rate-limiter triage limits. The auth source does not establish a universal metrics/alert schema or admin CLI.

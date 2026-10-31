@@ -1,12 +1,24 @@
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/auth/FUTURE_ENHANCEMENTS.md -->
 
 # Auth Module — Public Header Future Enhancements
 
+- **AI_Used:** true
+- **AI_Models:** unknown
+- **AI_Contributor:** GitHub Copilot
+- **Human_Review:** false
+- **Human_Author:** unknown
+Exact model backend not verifiable from final document text alone.
+
 **Module Path:** `include/auth/`
 **Canonical implementation enhancements:** [`../../src/auth/FUTURE_ENHANCEMENTS.md`](../../src/auth/FUTURE_ENHANCEMENTS.md)
+
+> Planning note: this is a header-contract planning snapshot. Verify current
+> implementation and completion status against the public headers and the
+> canonical implementation roadmap before treating a listed item as open or
+> delivered.
 
 ---
 
@@ -31,11 +43,11 @@ Planned enhancements to the **public header contract** in `include/auth/`. Runti
 
 | Interface | Declared In | Consumer | Status |
 |-----------|------------|----------|--------|
-| `JWTValidator::parseAndValidate()` | `jwt_validator.h` | HTTP/gRPC auth middleware | ✅ Stable |
-| `SessionManager` lifecycle APIs | `session_manager.h` | Session endpoints and middleware | ✅ Stable |
-| `TokenBlacklist` backend contract | `token_blacklist.h` | Revocation services | ✅ Stable |
-| `AuthorizationPolicy::evaluate()` | `authorization_policy.h` | Server policy gates | ✅ Stable |
-| `ZeroTrustAuthVerifier` checks | `zero_trust_auth_verifier.h` | Per-request trust enforcement | ✅ Stable |
+| `JWTValidator::parseAndValidate()` | `jwt_validator.h` | Token validation callers | Declared |
+| `SessionManager` lifecycle APIs | `session_manager.h` | Session callers | Declared |
+| `ITokenBlacklist` backend contract | `token_blacklist.h` | Revocation callers | Declared |
+| `AuthorizationPolicy` | `authorization_policy.h` | Policy callers | Declared |
+| `ZeroTrustAuthVerifier` checks | `zero_trust_auth_verifier.h` | Trust-verification callers | Declared |
 
 ---
 

@@ -1,4 +1,16 @@
-# auth — MODULE_GAPS.md (Phase 5 Verified)
+# auth — MODULE_GAPS.md (Phase 5 Snapshot)
+
+- **AI_Used:** true
+- **AI_Models:** unknown
+- **AI_Contributor:** GitHub Copilot
+- **Human_Review:** false
+- **Human_Author:** unknown
+Exact model backend not verifiable from final document text alone.
+
+> **Historical snapshot:** The counts and gap statuses below were recorded on
+> 2026-08-24 and are not a current source audit. Several statements below
+> describe planned work as open even though later module sources/tests may
+> differ. Use current code, tests, and `src/auth/ROADMAP.md` for present status.
 
 This file documents all documentation and code quality gaps in the **auth** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
 
