@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Security - Distributed Knowledge Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | source review: 2026-10-31; not a security assessment -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 Report vulnerabilities via project-level SECURITY.md.
@@ -13,7 +27,7 @@ Security in distributed_knowledge focuses on cross-shard federation boundaries, 
 
 | Threat | Current Mitigation Surface |
 |---|---|
-| unauthorized federation actions | policy and trust-gate checks before propagation |
+| unauthorized federation actions | component-specific policy/trust callbacks where exposed and configured; caller-side authorization remains required |
 | privacy leakage through cross-shard payloads | privacy-aware federation interfaces and controls |
 | replay/duplicate summary propagation | deduplication controls in feedback synchronization |
 | timeout-driven merge instability | bounded merge behavior with partial-failure semantics |
@@ -21,10 +35,11 @@ Security in distributed_knowledge focuses on cross-shard federation boundaries, 
 
 ## Implemented Security Controls
 
-- policy and trust gates guard federation and sync operations.
-- invalid payload and unsafe state transitions are rejected explicitly.
-- dedup and bounded retry/timeout paths reduce replay amplification risk.
+- selected federation, distillation, and feedback paths expose policy, bounded-policy, cross-border, or trust callbacks; these controls are component-specific and several are optional, not a uniform gate on every operation.
+- component-specific invalid values and unsafe state transitions can be rejected explicitly; JSON conversion helpers may default missing fields and are not a complete schema-validation boundary.
+- deduplication and timeout handling bound some repeat/latency cases; the module does not implement a retry protocol.
 - module observability surfaces support incident analysis.
+- the module does not authenticate remote senders or encrypt serialized payloads; the integrating service owns transport security and authorization.
 
 ## Security Follow-ups
 
@@ -41,6 +56,6 @@ Security in distributed_knowledge focuses on cross-shard federation boundaries, 
   - src/distributed_knowledge/federated_distillation_coordinator.cpp
   - src/distributed_knowledge/adapter_capability_announcement.cpp
 - Verified controls:
-  - policy/privacy and trust-gate guarded federation actions
+  - component-specific privacy checks and optional policy/trust/cross-border callbacks
   - deduplicated and bounded cross-shard synchronization behavior
   - explicit structured failure behavior for unsafe distributed inputs

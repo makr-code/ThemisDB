@@ -1,18 +1,49 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-07-28"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Distributed Knowledge Module Tests
 
 ## Overview
 
 Focused unit test suite for the distributed knowledge federation module, covering cross-shard capability exchange, federated coordination, merge orchestration, feedback synchronization, and privacy-aware distillation.
 
-**Status:** Q3 2026 Test Infrastructure (58 tests, 5 surfaces)
+**Current source inventory:** 107 GoogleTest declarations across 9 translation units. This is a static source count, not evidence that tests passed.
 
 **Location:** This directory (`tests/distributed_knowledge/`)
 
+## Current Test Source Inventory
+
+The directory CMake file discovers `test_*.cpp`; the current source set is:
+
+| Source file | Declared cases | Scope and evidence boundary |
+|---|---:|---|
+| `test_adapter_capability_announcement_focused.cpp` | 16 | Capability announcements and trust-policy interface cases |
+| `test_lora_federation_coordinator_focused.cpp` | 12 | LoRA aggregation coordinator |
+| `test_federated_rag_merger_focused.cpp` | 12 | Federated RAG merge |
+| `test_cross_shard_feedback_sync_focused.cpp` | 12 | Feedback publish/receive, dedup, and policy callbacks |
+| `test_federated_distillation_coordinator_focused.cpp` | 15 | Distillation and bounded-policy cases |
+| `test_dk_contract_hardening_focused.cpp` | 16 | Contract checks; several cases model behavior with local mocks/simulations |
+| `test_dk_diagnostics_focused.cpp` | 14 | Diagnostic emitter and hardening-policy semantics |
+| `test_distributed_knowledge_llm_focused.cpp` | 7 | RAG merge and prompt-context path |
+| `test_distributed_knowledge_highcardinality_stress.cpp` | 3 | In-process stub stress; not real shard or module-runtime validation |
+| **Total** | **107** | Static count of `TEST`/`TEST_F` declarations |
+
 ## Test Structure
 
-### Test Files (5 focused test suites)
+### Original component-suite summaries
 
-1. **test_adapter_capability_announcement_focused.cpp** (10 tests: ACA-01..ACA-10)
+1. **test_adapter_capability_announcement_focused.cpp** (16 declared cases; ACA-01..ACA-10 plus inbound and trust-policy cases)
    - Adapter capability announcement and gossip exchange
    - Cross-shard capability discovery
    - Domain type handling and serialization
@@ -32,7 +63,7 @@ Focused unit test suite for the distributed knowledge federation module, coverin
    - Dedup and replay prevention
    - Privacy-aware feedback filtering
 
-5. **test_federated_distillation_coordinator_focused.cpp** (12 tests: FDC-01..FDC-12)
+5. **test_federated_distillation_coordinator_focused.cpp** (15 declared cases; FDC-01..FDC-12 plus bounded-policy cases)
    - Federated knowledge distillation with privacy guards
    - Differential privacy budget tracking
    - Policy-gated distillation workflows
@@ -74,7 +105,7 @@ All tests registered with consistent parameters:
 # Using community-release preset
 cmake --preset community-release -B build-community-release
 cd build-community-release
-cmake --build . --target module_distributed_knowledge_*_focused
+cmake --build .  # or select an exact target listed in TEST_INVENTORY.md
 ```
 
 ### Run All Distributed Knowledge Tests
@@ -103,27 +134,27 @@ ctest -R "test_lora_federation_coordinator_distributed_knowledge_FocusedTests"
 
 ## Test Coverage
 
-### Q3 2026 Hardening Priorities Addressed
+### Original five-suite coverage summary
 
 | Priority | Coverage | Test IDs |
 |----------|----------|----------|
-| Timeout/partial-failure semantics | ✓ | ACA, LFC, FRM, CSS |
-| Benchmark stabilization | ✓ | Hot path markers in all suites |
-| Diagnostics consistency | ✓ | Failure scenario tests (CSS-06, FRM-05, LFC-10) |
-| Policy-edge semantics | ✓ | FDC-09, CSS-11, ACA-08 |
-| Deterministic behavior | ✓ | All concurrent operation tests (LFC-11, FRM-11, etc.) |
+| Timeout/partial-failure semantics | Partial | Direct timeout/partial-response cases are in LFC and FRM; no real peer topology is exercised |
+| Benchmark execution/baseline | Not established | See benchmark sources; unit tests do not establish benchmark results |
+| Diagnostics behavior | Separate suite | `test_dk_diagnostics_focused.cpp` covers the event emitter |
+| Policy-edge semantics | Some cases | FDC policy/bounded-policy and CSS inbound-policy cases; trust-policy interface cases in ACA |
+| Deterministic behavior | Scenario assertions | Does not establish production concurrency or distributed determinism |
 
 ### Test Summary
 
 | Suite | Focus Area | Test Count | Key Scenarios |
 |-------|-----------|-----------|----------------|
-| ACA | Capability Announcement | 10 | Gossip publish, domain types, edge cases |
-| LFC | LoRA Aggregation | 12 | State machine, timeouts, concurrent aggregations |
+| ACA | Capability Announcement | 16 | Gossip publish, domain types, inbound dispatch, trust-policy behavior |
+| LFC | LoRA Aggregation | 12 | Round lifecycle, participant thresholds, timeouts |
 | FRM | RAG Merge | 12 | Merge strategy, dedup, partial failures, top-K |
 | CSS | Feedback Sync | 12 | Batch handling, dedup, replay detection, privacy |
-| FDC | Distillation | 12 | DP params, policy gates, budget enforcement |
+| FDC | Distillation | 15 | DP params, policy gates, budget enforcement |
 
-**Total: 58 focused unit tests**
+**Subtotal for these five source files: 67 declarations.** The four supplemental files in the current inventory above bring the source total to 107.
 
 ## Dependencies
 
@@ -186,32 +217,32 @@ module_distributed_knowledge_test_my_surface_focused -> test_my_surface_distribu
 ### Current Status
 
 - **Created:** 2026-07-28
-- **Q3 2026 Coverage:** Complete (58 tests across 5 surfaces)
+- **Current source inventory:** 107 declarations across 9 files; source inventory only, not a test result
 - **Build Integration:** Configured per module test pattern
-- **Status:** Ready for build execution once environment dependencies resolved
+- **Status:** CMake registration is present; build and execution were not performed for this audit
 
 ### Known Limitations
 
 1. **Environment-Dependent Build:**
    - Full build requires: RocksDB, fmt, spdlog, nlohmann_json, GTest, mimalloc
-   - Test files created and verified; CMakeLists.txt configured
-   - Actual build execution pending environment setup
+   - Test sources and CMake registration are present; compilation is not established by this inventory
+   - This documentation audit did not execute a build
 
 2. **Unit-Level Tests Only:**
-   - Integration tests with real shard topology pending Q4 2026 Phase 4
-   - Property-based stress tests pending extended suite
-   - Benchmark regression gates pending Phase 5 Q4 2026
+   - No real shard-topology test source is present in this directory; broader integration evidence may exist elsewhere and was not assessed here
+   - Property-based stress tests are not present in the current source inventory
+   - Benchmark source targets exist; successful execution and baseline-comparison evidence are not established by this test-source inventory
 
 3. **Simulation Mode:**
-   - Tests use in-memory structures; distributed behavior is mocked
-   - Production behavior validation pending integration test suite
+   - Contract-hardening cases use local mocks/simulations; the high-cardinality stress file explicitly uses stubs
+   - These test sources do not validate production behavior across real shards
 
 ### Next Steps
 
 1. **Build Verification:** Execute CMake configure and build when dependencies available
 2. **Test Execution:** Run full test suite to generate coverage reports
-3. **Integration Tests:** Create cross-shard topology tests in Q4 2026 Phase 4
-4. **Performance Benchmarks:** Add regression benchmarks in Q4 2026 Phase 5
+3. **Integration Tests:** Establish whether real shard-topology coverage exists elsewhere; add coverage if it does not
+4. **Performance Benchmarks:** Run the mapped benchmark targets and record their results against the release baseline
 5. **Chaos Engineering:** Add fault injection tests for degradation scenarios
 
 ## Documentation
