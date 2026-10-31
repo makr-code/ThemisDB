@@ -48,7 +48,7 @@ For suspected malicious model/adapter, unexpected output, unauthorized inference
 4. Escalate artifact/parser concerns to security and model-runtime owners; authorization incidents to the policy/API owner. Follow root [`../../SECURITY.md`](../../SECURITY.md) for reporting and coordinated response.
 5. Restore only a previously approved artifact/configuration using the deployment rollback process. The plugin does not provide an atomic rollback API.
 
-See [`RUNBOOK.md`](RUNBOOK.md) for operational triage and [`SECURITY.md`](SECURITY.md) for existing module security notes, which are older and must be reconciled with this live-source description before relying on them.
+See [`RUNBOOK.md`](RUNBOOK.md) for operational triage and [`SECURITY.md`](SECURITY.md) for the module's source-aligned security summary. Both pages distinguish controls implemented by the plugin from caller and deployment responsibilities.
 
 ## Related module documents
 
