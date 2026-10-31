@@ -16,7 +16,9 @@ query-path selection and artifact lifecycle metadata. CMake declares
 `themis_evaluation` for five sources, plus conditional query-planner,
 approximation and lifecycle targets. There is no `storage_strategy` header,
 source or module-library target in the `src/evaluation` inventory checked for
-this update. The `StorageStrategyAssessor` implementation is in
+this update. EPIC 2 item 2.7 is traceable to sub-issue #5443 under parent EPIC
+#5436, which defines the quantization/mmap/zero-copy assessment. The resulting
+`StorageStrategyAssessor` implementation is in
 `src/distributed_tensor/src/tensor_storage_strategy.cc`, built by
 `themis_distributed_tensor`; its focused test source is included by the
 distributed-tensor test registration. It is not an evaluation-module target.
@@ -49,13 +51,14 @@ component declarations. Detailed paths and target ownership are in
 
 ### Root aggregate status and evidence
 
-Root `ROADMAP.md` now records the related implementation locations without
-claiming a verified mapping from these APIs to item 2.7, and does not claim
-EPIC 2 acceptance as complete. The storage assessor and its focused-test
-registration are owned by `distributed_tensor`; the EPIC 2 benchmark is a
-separate synthetic placement harness. Neither registration proves execution.
-The aggregate 220+ passing-test count and completed benchmark evidence remain
-unverified. This documentation update does not close or reclassify issue #5643.
+Root `ROADMAP.md` now links item 2.7 to sub-issue #5443 and its merged
+implementation PR #5606. The storage assessor and focused-test registration are
+owned by `distributed_tensor`; the EPIC 2 benchmark is a separate synthetic
+placement harness. The CI run attached to PR #5606 failed during configure, so
+build and test steps were skipped. No captured benchmark run/result was found.
+Consequently, neither 220+ passing tests nor completed benchmark runs are
+verified acceptance evidence. This documentation update does not close or
+reclassify issue #5643.
 
 ## In Progress
 
@@ -149,7 +152,8 @@ do not mean a release gate passed.
   configured environment.
 - [ ] Capture and review benchmark results with hardware/build context; do not
   use stub or synthetic simulation results as module baselines.
-- [ ] Confirm intended ownership and delivery status of storage strategy.
+- [x] Confirm item 2.7 traceability and cross-module implementation ownership
+  through EPIC #5436, sub-issue #5443 and merged PR #5606.
 - [ ] Verify downstream integration and acceptance gates before describing
   production readiness.
 

@@ -68,8 +68,8 @@ No build, test or benchmark was run for this documentation-only update.
 The local module CMake files contain component-library and test/benchmark
 registrations, some guarded by dependency or option checks. The module evidence
 documents historical validation attempts; they are not current execution
-results. The source inventory locates the storage assessor under `distributed_tensor`,
-but does not establish that it is the exact root-roadmap item 2.7. The root
+results. EPIC 2 item 2.7 is tracked by sub-issue #5443 under EPIC #5436; its storage
+assessor is implemented in `distributed_tensor`, not this module. The root
 roadmap does not claim aggregate EPIC 2 acceptance without execution evidence.
 The separate EPIC 2 storage benchmark measures synthetic shard placement, not
 the assessor; see [ROADMAP.md](./ROADMAP.md).

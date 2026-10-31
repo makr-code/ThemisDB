@@ -47,13 +47,17 @@ presented as a passing execution result.
   behaviors, not benchmark results for this update.
 - `include/evaluation/evaluation.h` currently contains no component includes.
 
-Root `ROADMAP.md` now records related implementation locations and distinguishes
-registered source from verified execution, while leaving the exact mapping to
-item 2.7 unverified. The EPIC 2 `storage_strategy_bench` calls
-`DefaultShardPlacementStrategy` with synthetic nodes, not
-`StorageStrategyAssessor`. The aggregate 220+ passing-test count and completed
-benchmark evidence remain unverified. See [ROADMAP.md](./ROADMAP.md) and
-[AUDIT.md](./AUDIT.md).
+EPIC #5436 defines quantization/mmap/zero-copy assessment as a scope item, and
+sub-issue #5443 tracks it; merged PR #5606 adds the `distributed_tensor`
+implementation and focused-test source. In the PR's CMake multi-platform
+workflow run, configuration failed in the build matrix and the build/test steps
+were skipped ([run #29581923742](https://github.com/makr-code/ThemisDB/actions/runs/29581923742)).
+The PR's available check set does not include benchmark result output, and no
+benchmark result artifact was found in the reviewed repository evidence. The
+separate EPIC 2 `storage_strategy_bench` calls `DefaultShardPlacementStrategy`
+with synthetic nodes, not `StorageStrategyAssessor`. Thus source count,
+registration, and PR description are not evidence of 220+ passing tests or
+completed benchmark runs. See [ROADMAP.md](./ROADMAP.md) and [AUDIT.md](./AUDIT.md).
 
 The dated evidence and blocker notes below are retained as historical records.
 Their 2026-07/2026-08 environment state and target inventory must not be read as

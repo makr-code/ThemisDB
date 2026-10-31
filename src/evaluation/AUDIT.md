@@ -25,14 +25,15 @@ benchmark.
 
 ### Current aggregate evidence gap
 
-Root `ROADMAP.md` now records related storage APIs in `distributed_tensor` but
-does not claim that they establish the exact item 2.7 mapping or EPIC 2
-acceptance. The storage assessor and focused-test source/registration are
-present there; the EPIC 2 benchmark instead calls `DefaultShardPlacementStrategy`
-with synthetic nodes. Source/CMake registration does not verify the aggregate
-220+ passing-test count or completed benchmark runs. See
-[ROADMAP.md](./ROADMAP.md). Do not use the historical findings below as current
-execution evidence.
+EPIC #5436 and sub-issue #5443 establish the item 2.7 mapping to quantization,
+mmap, and zero-copy assessment; merged PR #5606 adds the storage assessor under
+`distributed_tensor`. The CI run attached to that PR failed during configure
+and skipped build/test, while no benchmark result output was found. The separate
+EPIC 2 placement benchmark uses synthetic nodes and exercises
+`DefaultShardPlacementStrategy`, not `StorageStrategyAssessor`. Accordingly,
+the 220+ passing-test count and completed benchmark runs remain unverified.
+See [ROADMAP.md](./ROADMAP.md). Do not use historical checklist examples as
+current execution evidence.
 
 ---
 

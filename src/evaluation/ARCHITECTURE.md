@@ -64,7 +64,9 @@ umbrella-header path alone.
 
 ## Cross-module ownership and aggregate evidence
 
-The storage-strategy implementation is not part of the evaluation module:
+EPIC 2 item 2.7 is the quantization/mmap/zero-copy assessment defined by
+sub-issue #5443 of parent EPIC #5436. Its storage-strategy implementation is
+not part of the evaluation module:
 `StorageStrategyAssessor` is declared in
 `include/distributed_tensor/tensor_storage_strategy.h`, implemented in
 `src/distributed_tensor/src/tensor_storage_strategy.cc`, and included in the
@@ -73,10 +75,11 @@ focused-test glob in `tests/epic3_distributed_tensor/CMakeLists.txt`.
 
 The EPIC 2 `storage_strategy_bench` is a distinct harness that calls
 `DefaultShardPlacementStrategy` with synthetic node inputs; it does not measure
-`StorageStrategyAssessor`. Root `ROADMAP.md` now records these implementation
-locations but leaves the exact mapping to item 2.7 and aggregate acceptance
-unverified: source and CMake registrations do not prove 220+ passing tests or
-completed benchmark runs.
+`StorageStrategyAssessor`. Root `ROADMAP.md` records this mapping and the
+implementation locations. The CI run attached to merged PR #5606 failed during
+configure and skipped build/test; no benchmark result artifact was found.
+Source and CMake registrations do not prove 220+ passing tests or completed
+benchmark runs.
 
 ## References
 

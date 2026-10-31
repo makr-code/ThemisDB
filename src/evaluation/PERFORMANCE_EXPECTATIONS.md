@@ -195,7 +195,7 @@ limit is printed but not enforced.
 
 ---
 
-### 5. Storage Strategy Efficiency — proposed target; implementation status unresolved
+### 5. Storage Strategy Placement Efficiency — proposed target; run evidence unavailable
 
 **What:** Time and memory overhead for distributed placement strategy computation and optimization.
 
@@ -214,11 +214,12 @@ limit is printed but not enforced.
   benchmark helper under target name
   `bench_epic2_evaluation_storage_strategy_bench`, when benchmark configuration
   and the helper's prerequisites allow target creation. This is separate from
-  an evaluation-module storage-strategy implementation, which is not present in
-  the reviewed `src/evaluation` inventory.
+  the quantization/mmap/zero-copy assessment tracked by EPIC #5436, issue #5443,
+  whose `StorageStrategyAssessor` implementation is under `distributed_tensor`.
 - The source calls the actual `DefaultShardPlacementStrategy` for compute,
   validation and optimization, but constructs synthetic node inputs; this is
-  not a live-cluster performance measurement.
+  not a live-cluster performance measurement or a measurement of
+  `StorageStrategyAssessor`. No completed benchmark run/result is recorded.
 - Test with representative shard topologies:
   - Node count: 4, 12, 24 (small, medium, large cluster).
   - Constraint modes: NO_CONSTRAINT, ACCELERATOR_PREFERRED, ACCELERATOR_REQUIRED.
