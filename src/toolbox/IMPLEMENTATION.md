@@ -42,9 +42,9 @@ The toolbox façade and registry accessors synchronize their shared state, and w
 
 ## Change validation
 
-- Helper changes: `ctest --preset linux-release -R test_toolbox_primitives --output-on-failure`.
-- Builder, registry, and bridge contracts: `ctest --preset linux-release -R test_toolbox_contract_hardening_focused --output-on-failure`.
-- Ingestion integration: `ctest --preset linux-release -R test_toolbox_ingestion --output-on-failure`.
+- Helper changes: `ctest --preset linux-release -R test_toolbox_primitives_toolbox_FocusedTests --output-on-failure`.
+- Builder, registry, and bridge contracts: `ctest --preset linux-release -R test_toolbox_contract_hardening_focused_toolbox_FocusedTests --output-on-failure`.
+- Ingestion integration: `ctest --preset linux-release -R test_toolbox_ingestion_toolbox_FocusedTests --output-on-failure`.
 - Performance-sensitive changes: use `bench_toolbox_native_workloads` and the procedure in [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md); report actual hardware and raw results.
 
 ## References

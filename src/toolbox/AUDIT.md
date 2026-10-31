@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "archived"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
 # Audit Report - Toolbox Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+> **Historical audit snapshot — not a current finding register.** The open findings and summary below are preserved from the dated review and have not been independently re-audited here. Do not treat them as active findings or as evidence that findings are resolved. Re-evaluate against current source before making audit or release decisions.
+
+<!-- Status: historical | validated: 2026-05-31; not current audit evidence -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 ## Summary
@@ -60,3 +74,5 @@
 | Structured forward planning in roadmap/future | pass |
 | Historical completion tracked in changelog | pass |
 | Core module docs synchronized | pass |
+
+> Exact model backend not verifiable from final document text alone.

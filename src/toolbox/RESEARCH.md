@@ -34,11 +34,11 @@ These are implementation facts, not claims about corpus-wide accuracy or product
 
 ## Reproducible evaluation
 
-1. Run the focused primitive suite: `ctest --preset linux-release -R test_toolbox_primitives --output-on-failure`.
-2. Run the workflow and bridge contract suites when changing extraction or integration behavior: `ctest --preset linux-release -R "test_toolbox_(contract_hardening|ingestion)" --output-on-failure`.
+1. Run the focused primitive suite: `ctest --preset linux-release -R test_toolbox_primitives_toolbox_FocusedTests --output-on-failure`.
+2. Run the workflow and bridge contract suites when changing extraction or integration behavior: `ctest --preset linux-release -R "test_toolbox_(contract_hardening_focused|ingestion)_toolbox_FocusedTests" --output-on-failure`.
 3. For performance claims, build and run `bench_toolbox_native_workloads` as described in [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md). Record the commit, compiler/build preset, CPU, operating system, sample sizes, repetitions, and raw output alongside any new baseline.
 
-The performance document contains declared target envelopes and historical completion statements but does not embed a current-run artifact. Treat its values as targets until a reproducible run on the intended reference hardware is available. The bridge benchmark named `BM_BridgeEnrichment_Placeholder` is not evidence of production embedding latency.
+The performance document now lists measured source symbols and their limits; it does not establish certified thresholds or current baselines. `BM_BridgeProxy_EntitySetLatency` measures `IngestionToolbox::extractEntitySet()` only, not bridge or embedding latency. See [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md).
 
 ## Trade-offs and limits
 
