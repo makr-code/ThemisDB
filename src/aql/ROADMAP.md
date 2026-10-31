@@ -1,14 +1,33 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # AQL Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-09-16 -->
+<!-- Historical validation notes below are not current build/test evidence. -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
-Production AQL-assistance surfaces exist across translation, validation, tooling, context, and scoring support paths.
+Source files and public interfaces exist across translation, validation,
+tooling, context, and scoring support paths. Current release readiness and
+completion of the historical roadmap items below have not been independently
+verified in this documentation-only review.
 
-**Latest Sync (2026-07-19)**: Full module documentation expansion and roadmap synchronization completed per Issue #5628.
+**Historical sync report (2026-07-19):** The following completion and evidence
+claims reflect that report, not a current audit. **TODO:** Reconcile these
+statuses against current code, tests, build configuration, and release evidence.
 - All public APIs have comprehensive Doxygen documentation
 - ROADMAP and FUTURE_ENHANCEMENTS synchronized with v1.6.0 implementation status
 - Phase 2 (Parser Integration) marked as completed with all subtasks verified
@@ -158,7 +177,12 @@ Production AQL-assistance surfaces exist across translation, validation, tooling
   - AG-5 (Batch validation): 112,500 q/s locked (< 5% variance)
   - AG-6 (Token estimation): 42.5 µs p95 locked (< 5% variance)
 
-## Module Evidence & Validation (2026-07-19)
+## Historical Module Evidence & Validation Report (2026-07-19)
+
+The build, test, Doxygen coverage, and pass claims in this section are retained
+as dated history only. Their cited file counts and test inventory do not match
+the current source layout, and this review did not rerun or verify the reported
+results.
 
 **Build & Test Verification:**
 - Build Preset: community-release (Linux x64, Release mode)
@@ -191,7 +215,7 @@ Production AQL-assistance surfaces exist across translation, validation, tooling
 - Phase 3 (Documentation): ✅ COMPLETED with roadmap/future synced
 - Phase 4 (Testing/SLA): 📋 PLANNED (next target Q3 2026)
 
-## Known Issues and Limitations
+## Known Issues and Limitations (historical list; reconcile)
 
 - behavior remains partially capability-dependent on configured providers and integrations.
 - some benchmark coverage still relies on broader assistance benchmarks rather than fully isolated micro-paths.
@@ -201,7 +225,11 @@ Production AQL-assistance surfaces exist across translation, validation, tooling
 
 No breaking module contract planned. Any contract change requires migration notes and changelog entry before merge.
 
-## Issue #5628 Closure Status (2026-07-19)
+## Issue #5628 Historical Closure Report (2026-07-19)
+
+The following issue-closure statements and validation counts are historical
+reports, not current status evidence. References to tests, runbooks, or test
+artifacts should be checked for current existence before use.
 
 **Closure Criteria - All Met:**
 - [x] All module acceptance criteria updated and traceable
@@ -237,7 +265,11 @@ It does not own a primary wave deliverable but must remain `release_critical`-gr
 and must deliver Wave D operability improvements in Q1 2027.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
-## Wave A–D Gap Closure (2026-08-24)
+## Wave A–D Historical Gap-Closure Report (2026-08-24)
+
+This section records reported changes at that time. The linked scan is now
+historical (`MODULE_GAPS.md`); re-check source and test paths before treating
+these entries as current evidence.
 
 The following production-code gaps identified in `MODULE_GAPS.md` were addressed in this batch:
 
@@ -273,10 +305,11 @@ The following production-code gaps identified in `MODULE_GAPS.md` were addressed
 - [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027) — AG-4/AG-5/AG-6 locked 2026-08-02; soak evidence added 2026-09-16
 - [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — `RUNBOOK_AQL_ASSISTANCE.md` published 2026-09-16
 
-## Wave D Closure Batch (2026-09-16)
+## Wave D Historical Closure Report (2026-09-16)
 
-The following items were delivered to complete the Wave D open `[ ]` items for the `aql` module.
-All work targets the `develop` branch.
+The following items were reported as delivered in the 2026-09-16 snapshot.
+Their current presence/status and reported test outcomes were not independently
+verified in this documentation-only review.
 
 ### Delivered
 
@@ -290,4 +323,3 @@ All work targets the `develop` branch.
 | Translation confidence diagnostics | `src/aql/llm_aql_handler.cpp` | `[TRANSLATION:Confidence]` log line after `translateNLToAQL()` success: `confidence_score`, `retries_used` |
 | CMakeLists registrations | `tests/aql/CMakeLists.txt`, `tests/integration/CMakeLists.txt` | Stress test auto-registered by GLOB; label override added; soak test added to Wave D soak foreach loop |
 | ROADMAP update | `src/aql/ROADMAP.md` (this file) | All 3 Wave D `[ ]` items marked `[x]`; 2 Planned Features marked `[x]`; `[~] align helper` closed; validated date updated to 2026-09-16 |
-

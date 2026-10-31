@@ -46,9 +46,11 @@ authorization.
   The current empty-input and fallback behavior differ from parts of the
   frozen [`AQL_ASSISTANCE_CONTRACT.md`](AQL_ASSISTANCE_CONTRACT.md), as
   detailed in [`API.md`](API.md).
-- Preserve the frozen contract for empty input, prompt limits, injection
-  rejection, unavailable providers, invalid model responses, and unsupported
-  capabilities.
+- The frozen contract documents empty-input and parser-validation semantics
+  that diverge from current implementation behavior. **TODO:** Reconcile the
+  contract and implementation in a reviewed change; do not describe the frozen
+  text as an implementation guarantee meanwhile. Other frozen error semantics
+  also require per-path verification before being treated as runtime behavior.
 - Provider/capability errors that are non-retryable must not be retried with
   unchanged configuration. Retry policies and limits are configurable; avoid
   unbounded loops.
@@ -67,8 +69,9 @@ regressions include
 [`test_aql_validation_error_handling.cpp`](../../tests/aql/test_aql_validation_error_handling.cpp),
 [`test_aql_conversation_context.cpp`](../../tests/aql/test_aql_conversation_context.cpp),
 and [`test_aql_bridge_degradation.cpp`](../../tests/aql/test_aql_bridge_degradation.cpp).
-`tests/aql/CMakeLists.txt` registers `test_aql_*.cpp` as focused module tests;
-preserve the existing registration and linking conventions when adding tests.
+`tests/aql/CMakeLists.txt` globs `test_aql_*.cpp` into focused module targets;
+the glob has no `CONFIGURE_DEPENDS`, so reconfigure after adding/removing a
+matching file. Preserve the existing registration and linking conventions.
 
 Before changing a contract, update its frozen specification, matching tests,
 and [`CHANGELOG.md`](CHANGELOG.md). See [`API.md`](API.md) for the public

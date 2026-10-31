@@ -1,32 +1,63 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-18"
-Last Updated: "2026-10-18"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 ---
 
-# Aql in ThemisDB
+Exact model backend not verifiable from final document text alone.
 
-## Ueberblick
-Das Modul AQL stellt language-assistance and LLM-adjacent capabilities around ThemisDB AQL workflows, including NL-to-AQL translation support, query validation/linting support, assistant tooling, and related runtime bridges. Im Modulkontext werden Aussagen mit [Architekturgrenzen](./ARCHITECTURE.md), [Release-Planung](./ROADMAP.md), [Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md) abgeglichen. Im Betrieb sind dabei insbesondere [Latenz](https://en.wikipedia.org/wiki/Latency_(engineering)), [Observability](https://en.wikipedia.org/wiki/Observability) und [Determinismus](https://en.wikipedia.org/wiki/Deterministic_algorithm) relevante Qualitaetskriterien. Fuer Querschnittskontext wird das Modul mit den relevanten Stellen im [Compendium](./../../docs/compendium/docs/index.md) verknuepft.
+# AQL Assistance Features
 
-## Kern-Features im Detail
-Die erste Kernfaehigkeit ist **LLM command and NL-to-AQL orchestration**. Das beschreibt einen konkreten, in den Modulquellen referenzierten Verantwortungsbereich.
+## Overview
 
-Die zweite Kernfaehigkeit ist **structural and schema-aware validation checks**. Dadurch bleiben Integrationspfade zwischen Modulgrenzen reproduzierbar und operativ auswertbar.
+The AQL module provides assistance components around AQL authoring. Its
+source-supported areas include LLM-backed NL-to-AQL translation, query
+builder/validator helpers, conversation context, few-shot examples, confidence
+scoring, syntax highlighting, and selected adapters. The core parser and query
+execution engine are outside `src/aql/`; see
+[`ARCHITECTURE.md`](ARCHITECTURE.md).
 
-Die dritte Kernfaehigkeit ist **programmatic AQL construction**. Das unterstuetzt stabile Abnahme- und Aenderungsprozesse entlang der Modul-Roadmap.
+## Feature areas
 
-```mermaid
-flowchart LR
-    A[Produktanforderung] --> B[Aql Modul]
-    B --> C[Implementierung und Integrationspfade]
-    C --> D[Test- und Betriebsnachweise]
-    D --> E[Kundennutzen im Betrieb]
-```
+- **Translation:** `LLMAQLHandler` exposes translation, streaming, confidence,
+  batch, and example-assisted entry points. Provider calls and validation
+  behavior depend on handler configuration.
+- **Validation and authoring:** `AQLQueryValidator` checks strings/builders and
+  can use supplied collection metadata; `AQLQueryBuilder` constructs queries.
+- **Context and examples:** `AQLConversationContext` maintains bounded
+  conversation history. `AQLFewShotExampleLibrary` ranks examples lexically by
+  default and can use an optional embedding provider.
+- **Supporting tools:** public headers also declare highlighting, confidence,
+  autocomplete, agent, model-routing, migration, rollback-suggestion,
+  classification, ingestion, and token/metrics helpers.
 
-## Kundennutzen und Abgrenzung
-Kundinnen und Kunden erhalten damit vor allem besser planbares Systemverhalten, kuerzere Eingrenzungszeiten bei Stoerungen und transparentere Release-Risiken. Diese Seite ist ein fachlich-kommunikativer Ueberblick; normative API-, Compliance- und Freigabeaussagen verbleiben in den kanonischen Modulquellen.
+These features do not imply that every deployment enables each integration or
+that generated AQL is authorized or semantically correct.
 
-## Einordnung und Quellen
-Primaere modulnahe Quellen: [README.md](./README.md), [ARCHITECTURE.md](./ARCHITECTURE.md), [ROADMAP.md](./ROADMAP.md), [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md), [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md), [SECURITY.md](./SECURITY.md). Sekundaere Querschnittsquellen: [docs/aql/README.md](./../../docs/aql/README.md), [Compendium Index](./../../docs/compendium/docs/index.md). Aussagen wurden auf diese Quellenbasis begrenzt; bei fehlenden Modulquellen werden keine weitergehenden Produktclaims ergänzt.
+## Dataflow and evidence
+
+The translation path sanitizes bounded inputs, requests a candidate from the
+configured provider, validates it (parser-backed when a parser service is
+available, otherwise with a weaker string-level fallback), and applies
+configured validation/retry and collection-scope checks. Parsing does not
+execute a query. Detailed behavior and known contract drift are recorded in
+[`API.md`](API.md) and [`IMPLEMENTATION.md`](IMPLEMENTATION.md).
+
+Focused source and test references:
+
+- Public interface declarations: [`include/aql/`](../../include/aql/).
+- Focused tests: [`tests/aql/`](../../tests/aql/).
+- Benchmarks: [`benchmarks/aql/`](../../benchmarks/aql/).
+
+## Scope and sources
+
+This page is a feature index, not a production-readiness or customer-outcome
+claim. For current design boundaries, consult
+[`ARCHITECTURE.md`](ARCHITECTURE.md); for change planning, consult
+[`ROADMAP.md`](ROADMAP.md) and [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md).

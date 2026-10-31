@@ -1,83 +1,58 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/aql/ARCHITECTURE.md -->
-
-# AQL (AI Query Language) Module — Public Header Architecture
-
-**Module Path:** `include/aql/`  
-**Implementation:** `../../src/aql/`  
-**Canonical architecture doc:** [`../../src/aql/ARCHITECTURE.md`](../../src/aql/ARCHITECTURE.md)
-
+---
+Author: "ThemisDB Team"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 ---
 
-## 1. Overview
+Exact model backend not verifiable from final document text alone.
 
-`include/aql/` defines the **public AQL query building, validation, autocomplete, LoRA fine-tuning, LLM routing, and multi-modal inference bridges API contract** for ThemisDB.
+# AQL Module — Public Header Map
 
-For runtime composition and implementation internals see:
-→ [`../../src/aql/ARCHITECTURE.md`](../../src/aql/ARCHITECTURE.md)
+**Module path:** `include/aql/`
+**Implementation overview:** [`../../src/aql/ARCHITECTURE.md`](../../src/aql/ARCHITECTURE.md)
 
----
+## Scope
 
-## 2. Header Groups
+These headers declare public-facing AQL authoring, validation, translation
+assistance, context, and adapter types. They are not the core AQL parser or query
+execution implementation; those sources are in `include/query/` and `src/query/`.
+Check each header for its exact namespace, ownership, and API contract.
 
-### 2.1 Query Authoring
+## Header groups
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `aql_query_builder.h` | `AQLQueryBuilder` | Fluent AQL query construction |
-| `aql_query_validator.h` | `AQLQueryValidator` | Syntactic and semantic validation |
-| `aql_query_template_library.h` | `AQLQueryTemplateLibrary` | Pre-built query template registry |
-| `aql_token_stream.h` | `AQLTokenStream` | Token streaming for incremental parsing |
-| `aql_syntax_highlighter.h` | `AQLSyntaxHighlighter` | Token-level syntax colouring |
-| `aql_query_diff_explainer.h` | `AQLQueryDiffExplainer` | Human-readable diff between two AQL queries |
-### 2.2 AI Assistance
+| Area | Headers |
+|---|---|
+| Authoring and validation | `aql_query_builder.h`, `aql_query_validator.h`, `aql_query_template_library.h`, `aql_query_diff_explainer.h`, `aql_rollback_suggester.h`, `aql_syntax_highlighter.h`, `aql_token_stream.h`, `aql_autocomplete.h` |
+| Translation and context | `llm_aql_handler.h`, `llm_query_context.h`, `aql_conversation_context.h`, `aql_fewshot_example_library.h`, `aql_confidence_scorer.h`, `llm_validation_pipeline.h`, `llm_semantic_validator.h` |
+| Provider and runtime support | `iasync_llm_backend.h`, `llm_aql_embedding_bridge.h`, `llm_error_codes.h`, `aql_error_types.h`, `llm_extractive_compressor.h`, `i_history_compressor.h`, `llm_metrics_collector.h`, `llm_timeout_manager.h`, `llm_token_estimator.h`, `multimodal_infer_request.h` |
+| Adapters and domain helpers | `aql_agent.h`, `aql_ingestion_bridge.h`, `aql_lora_finetuner.h`, `aql_migration_assistant.h`, `aql_model_router.h`, `aql_optimizer_advisor.h`, `aql_schema_provider.h`, `classify_bridge.h`, `docs_assistant_functions.h` |
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `aql_autocomplete.h` | `AQLAutocomplete` | Context-aware query autocompletion |
-| `aql_agent.h` | `AQLAgent` | Agentic AQL query planner |
-| `aql_confidence_scorer.h` | `AQLConfidenceScorer` | Confidence scoring for generated queries |
-| `aql_fewshot_example_library.h` | `AQLFewshotExampleLibrary` | Few-shot examples for query generation |
-| `aql_conversation_context.h` | `AQLConversationContext` | Multi-turn conversation context manager |
-| `aql_optimizer_advisor.h` | `AQLOptimizerAdvisor` | LLM-assisted query optimisation hints |
-### 2.3 LLM Routing and Backends
+This list groups current header filenames; it does not assert that every type
+is used by every build or deployment.
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `aql_model_router.h` | `AQLModelRouter` | Multi-LLM routing and load balancing |
-| `iasync_llm_backend.h` | `IAsyncLLMBackend` | Async LLM backend interface |
-| `llm_aql_handler.h` | `LLMAQLHandler` | LLM request handler for AQL context |
-| `llm_aql_embedding_bridge.h` | `LLMAQLEmbeddingBridge` | Embedding computation bridge |
-| `llm_error_codes.h` | `LLMError` | LLM error code taxonomy |
-| `llm_metrics_collector.h` | `LLMMetricsCollector` | Per-request LLM telemetry |
-| `llm_timeout_manager.h` | `LLMTimeoutManager` | Deadline propagation for LLM calls |
-| `llm_token_estimator.h` | `LLMTokenEstimator` | Token count estimation utilities |
-### 2.4 Bridges and Adapters
+## Translation and validation boundary
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `aql_ingestion_bridge.h` | `AQLIngestionBridge` | AQL→ingestion pipeline bridge |
-| `aql_lora_finetuner.h` | `AQLLoRAFinetuner` | AQL-driven LoRA fine-tuning trigger |
-| `aql_migration_assistant.h` | `AQLMigrationAssistant` | Query migration and upgrade assistant |
-| `aql_rollback_suggester.h` | `AQLRollbackSuggester` | Rollback suggestion for failed queries |
-| `aql_schema_provider.h` | `AQLSchemaProvider` | Schema introspection for query context |
-| `classify_bridge.h` | `ClassifyBridge` | Text-classification routing bridge |
-| `docs_assistant_functions.h` | `DocsAssistantFunctions` | Documentation-aware helper functions |
-| `multimodal_infer_request.h` | `MultimodalInferRequest` | Multi-modal inference request structure |
+`LLMAQLHandler` exposes natural-language translation methods and parser-service
+configuration. The implementation uses `query::AQLParserService` when one is
+available and otherwise uses the weaker string-level `AQLQueryValidator`
+fallback. `AQLQueryValidator` also offers string/builder overloads with
+optional `CollectionMetadata`. Neither interface executes a query or replaces
+the host application's authorization checks.
 
----
+See [`../../src/aql/API.md`](../../src/aql/API.md) for the current method
+inventory and the unresolved divergence from the frozen assistance contract.
 
-## 3. Namespace Layout
+## Build and compatibility
 
-All public types reside in the `themis::aql` namespace (or a sub-namespace).
-
----
-
-## 4. Contract Notes
-
-- Headers in `include/aql/` expose the **stable public API**; internal types live in `src/aql/`.
-- Clients depend only on types declared here; implementation details in `src/` may change without notice.
-- For breaking-change policy see [`../../VERSIONING.md`](../../VERSIONING.md).
-- Layer association: **LLM/Graph**.
+Build composition is controlled by root CMake options and the selected
+configuration; `cmake/ModularBuild.cmake` conditionally groups AQL sources.
+`tests/aql/CMakeLists.txt` and `benchmarks/aql/CMakeLists.txt` describe the
+focused test and benchmark targets. Do not infer a stable ABI or universal
+platform/language compatibility guarantee from the presence of a public header;
+consult the repository versioning policy and the relevant build configuration.

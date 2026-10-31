@@ -17,9 +17,11 @@ Exact model backend not verifiable from final document text alone.
 ## Audience and source of truth
 
 This page is an integration map for developers calling the AQL assistance
-interfaces. The declarations in [`include/aql/`](../../include/aql/) and the
-frozen semantics in [`AQL_ASSISTANCE_CONTRACT.md`](AQL_ASSISTANCE_CONTRACT.md)
-are authoritative; this summary does not expand or override their contracts.
+interfaces. The declarations in [`include/aql/`](../../include/aql/) are the
+source of truth for signatures. [`AQL_ASSISTANCE_CONTRACT.md`](AQL_ASSISTANCE_CONTRACT.md)
+records intended frozen semantics, but source review found unresolved
+implementation drift; it does not establish that the current implementation
+meets every stated behavior.
 
 ## Main interfaces
 

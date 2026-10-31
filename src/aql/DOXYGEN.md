@@ -2,8 +2,20 @@
 
 Author: ThemisDB Contributors
 Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+Last Updated: 2026-10-31
+Status: archived
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+
+Exact model backend not verifiable from final document text alone.
+
+> **Archived generated snapshot:** generated 2026-09-20. The source paths,
+> structure metrics, and locked benchmark claims below are historical and are
+> not validated against current source. Regenerate from current module-scoped
+> Doxygen output before relying on its API inventory or measurements.
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
@@ -16564,4 +16576,3 @@ Status: active
 - Source: `tests/aql/test_p2_d06_benchmarks.cpp`:419
 - Brief: n/a
 - Parameters: none
-

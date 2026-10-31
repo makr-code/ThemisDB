@@ -1,9 +1,31 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # AQL Assistance Module — Frozen Contract Semantics
 
 **Version:** 1.0.0 (Frozen)  
 **Status:** FROZEN — Q3 2026 gate delivery  
 **Last Validated:** 2026-08-09  
 **Frozen By:** Copilot agent (roadmap gate: Phase 1 Design / API Contract)
+
+> **Implementation status (2026-10-31):** This document records intended frozen
+> semantics, not verified current runtime behavior. Source review found unresolved
+> differences in empty natural-language input handling, the visibility of
+> `validateAQLWithParser()`, and validation when a parser service is unavailable.
+> See [`API.md`](API.md). **TODO:** Reconcile the frozen contract with the
+> implementation in a reviewed change before presenting these semantics as
+> implemented guarantees.
 
 ---
 

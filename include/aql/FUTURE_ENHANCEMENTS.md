@@ -1,6 +1,18 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+---
+Author: "ThemisDB Team"
+Created: "2026-06-01"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: current | validated: 2026-06-01 -->
+Exact model backend not verifiable from final document text alone.
+
+<!-- Historical planning list; proposed items and target dates are not approved or current commitments. -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/aql/FUTURE_ENHANCEMENTS.md -->
 
 # AQL (AI Query Language) Module — Public Header Future Enhancements
@@ -37,6 +49,11 @@ Planned extensions follow the same namespace (`themis::aql`) and include-guard c
 
 ## Planned Enhancements
 
+The items below are unverified proposals from the original planning snapshot;
+they are not committed API work. **TODO:** Reconcile with
+[`../../src/aql/ROADMAP.md`](../../src/aql/ROADMAP.md) and current API review
+before assigning delivery status or dates.
+
 ### Short-Term (Q3 2026)
 
 - [ ] Add `[[deprecated]]` annotations to any legacy entry points with migration notes
@@ -59,5 +76,6 @@ Planned extensions follow the same namespace (`themis::aql`) and include-guard c
 
 ## Alignment with Strategic Plan
 
-Enhancements align with `FUTURE_PLAN.md` layer **LLM/Graph**. For cross-layer integration planning see:
-→ [`../../src/ai/FUTURE_ENHANCEMENTS.md`](../../src/ai/FUTURE_ENHANCEMENTS.md)
+For current module-level implementation planning, see
+[`../../src/aql/FUTURE_ENHANCEMENTS.md`](../../src/aql/FUTURE_ENHANCEMENTS.md)
+and [`../../src/aql/ROADMAP.md`](../../src/aql/ROADMAP.md).
