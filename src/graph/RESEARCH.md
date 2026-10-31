@@ -1,16 +1,17 @@
 > Author: ThemisDB Team
 > Created: 2026-10-30
-> Last Updated: 2026-10-30
+> Last Updated: 2026-10-31
 > Status: active
 > AI_Used: true
 > AI_Models: unknown
-> AI_Contributor: GitHub Copilot
+> AI_Contributor: ThemisDB documentation orchestration specialist
 > Human_Review: false
 > Human_Author: ThemisDB Team
 > Source level: level1
 > SOT domain: module-behavior
-> Canonical source references: [graph roadmap](ROADMAP.md), [graph headers](../../include/graph/), [graph tests](../../tests/graph/)
+> Canonical source references: [module graph roadmap](ROADMAP.md), [root maturity roadmap](../../ROADMAP.md), [graph headers](../../include/graph/), [graph tests](../../tests/graph/)
 > Related issue: #7122
+> Related milestone: DOC-WEEKLY-2026-44
 >
 > Exact model backend not verifiable from final document text alone.
 
@@ -52,7 +53,7 @@ These are evaluation questions, not claims that one route is faster or more accu
 ## Open evidence gaps
 
 - The tests expose deterministic behavior and acceptance assertions, but this page has no captured run output proving current results.
-- Older `ROADMAP.md` text lists RotatE gates of MRR ≥ 0.35 and Hits@10 ≥ 0.55. Those values are not asserted by the current acceptance test, which asserts MRR ≥ 0.10, Hits@10 ≥ 0.40, relative-to-TransE bounds, and p99 top-20 latency below 50 ms. Treat the older values as an unresolved stale-doc discrepancy, not current evaluation evidence.
+- The repository-level [ROADMAP.md](../../ROADMAP.md) lists RotatE gates of MRR ≥ 0.35 and Hits@10 ≥ 0.55. Those values are not asserted by the current acceptance test, which asserts MRR ≥ 0.10, Hits@10 ≥ 0.40, relative-to-TransE bounds, and p99 top-20 latency below 50 ms. Treat the root values as an unresolved stale-doc discrepancy, not current evaluation evidence; reconciliation is outside this scoped update.
 - Broad external graph datasets, workload distributions, cross-hardware parity, and sustained multi-tenant load are not established by the small in-repository fixtures cited above.
 - The `IGraphEmbeddingProvider` declaration has no matching `src/graph/graph_embedding.cpp` implementation in the inspected graph source inventory. Do not infer a production backend from the interface or its enum.
 
