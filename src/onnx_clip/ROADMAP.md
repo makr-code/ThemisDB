@@ -1,15 +1,31 @@
-> **Status:** current | validated: 2026-10-08
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: current | validated: 2026-10-08 -->
-<!-- Links: README.md · ARCHITECTURE.md · PRODUCTION_REQUIREMENTS.md · SECURITY.md · FUTURE_ENHANCEMENTS.md -->
+Exact model backend not verifiable from final document text alone.
+
+> **Status:** current | source-checked: 2026-10-31
+
+<!-- Status: current | source-checked: 2026-10-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · PRODUCTION_REQUIREMENTS.md · SECURITY.md · TRUST.md · FUTURE_ENHANCEMENTS.md -->
 
 # ONNX CLIP Plugin Roadmap
 
 ## Current Status
 
 - [x] `ONNXClipPlugin` is present in the current source tree and matches the active `IImageAnalysisBackend` contract in `src/onnx_clip/onnx_clip_plugin.h`.
-- [x] The current implementation is a deterministic portable reference backend with explicit config validation, bounded batch processing, hot-swap support, and optional mmap/hash verification hooks.
-- [x] The canonical module docs are aligned with the live implementation and no stale governance doc remains missing.
+- [x] The current implementation generates deterministic reference vectors; it does not load CLIP weights or execute ONNX Runtime.
+- [x] Batch requests are processed sequentially in configured chunks; chunk size is clamped to at least 1, but total request size and configured upper bounds are not enforced here.
+- [x] Optional digest checking and read-only mmap hooks exist; mmap bytes are not used by an inference session, and no-verifier non-OpenSSL builds skip digest checking.
+- [x] The module's developer documentation set describes the current source behavior and identifies the model-backed gaps below.
 - [x] Historical Phase 3B/4B reports and generated gap artifacts are retained only under `src/onnx_clip/archive/` and are excluded from the active production governance set.
 
 ## In Progress
@@ -38,7 +54,8 @@
 ### Phase 3: Error Handling & Edge Cases
 - [x] Reject empty payloads before processing
 - [x] Fail closed on hash mismatch when `model.path` and `model.expected_sha256` are configured
-- [x] Preserve the previous implementation snapshot during hot-swap drain failures
+- [~] Ensure non-OpenSSL builds fail closed when no `ModelHashFn` is registered (current source skips the check)
+- [x] Publish a validated new implementation before draining old-snapshot requests; a drain timeout returns false without rolling back that publication
 - [x] Treat mmap enablement as a best-effort optional optimization rather than a required runtime dependency
 
 ### Phase 4: Tests
@@ -61,12 +78,12 @@
 | Area | Status | Notes |
 |------|--------|-------|
 | API contract | [x] | Source-aligned with the current `IImageAnalysisBackend` declaration |
-| Validation | [x] | Config validation and structured fail-closed behavior are in place |
+| Configuration handling | [~] | Defaults and dimension/batch minimums are applied; general schema validation and upper bounds are not implemented |
 | Batch handling | [x] | `generateEmbeddingBatch()` processes bounded sub-batches |
 | Threading | [x] | Request serialization and in-flight drain guard are implemented |
-| Integrity checks | [x] | Model hash verification is enforced when configured |
-| Hot swap | [x] | `reloadModel()` validates and swaps snapshots while draining requests |
-| mmap support | [x] | Best-effort and non-blocking when unsupported |
+| Integrity checks | [~] | OpenSSL or injected verifier checks configured digest; non-OpenSSL builds without callback skip it |
+| Hot swap | [x] | New snapshot is published before old requests drain; a drain timeout returns false while new state remains active |
+| mmap support | [~] | Read-only mapping is best-effort but mapped bytes are not used for inference |
 | Benchmark coverage | [ ] | Pending fixture-backed evidence when real model assets are available |
 | Documentation | [x] | Canonical governance docs are present and aligned |
 
@@ -75,6 +92,8 @@
 - [ ] Real-model golden embedding fixtures remain unavailable in the default test environment; broader provider-specific validation depends on asset availability.
 - [ ] Provider acceleration paths are intentionally not treated as mandatory for the portable build contract.
 - [ ] Additional benchmark evidence should be captured before claiming broader production throughput targets.
+- [ ] Integrate and validate actual ONNX inference, image preprocessing, and CLIP tokenization before claiming semantic embeddings (Target: after model/runtime design approval)
+- [ ] Add model-backed cross-modal retrieval and provider benchmarks before production semantic use (Target: after inference integration)
 
 ## Breaking Changes
 
