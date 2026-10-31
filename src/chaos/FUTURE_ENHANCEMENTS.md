@@ -1,52 +1,36 @@
-# Chaos Module - Future Enhancements
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: OpenAI
+Human_Review: false
+Human_Author: ThemisDB Contributors
+---
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
+Exact model backend not verifiable from final document text alone.
 
-## Scope
+# Chaos module future enhancements
 
-- hardening and refinement of in-process fault injection and scheduler behavior
-- expansion of deterministic reliability under callback/concurrency stress
-- stricter benchmark-backed guardrails for chaos runtime hot paths
+This is a proposal list, not an approved delivery plan. Dates, priority, and
+performance targets are **TODO/assumption** until backed by an issue or
+milestone.
 
-## Design Constraints
+## Candidate work
 
-- chaos contracts remain backward compatible within major release line.
-- fault simulation remains process-local and bounded by explicit configuration.
-- scheduler behavior remains deterministic under supported wake strategies.
-- callback/event semantics remain explicit and observable.
+- Enforce and test recommended descriptor, tick, queue, and callback limits from
+  [`../../include/chaos/chaos_contract.h`](../../include/chaos/chaos_contract.h).
+- Define callback exception and scheduler-worker failure handling without
+  changing the current synchronous callback contract silently.
+- Add reproducible benchmark execution and a verified threshold/baseline policy.
+- Expand deterministic tests for scheduling, callback, and lifecycle edge cases.
 
-## Required Interfaces
+## Constraints and evidence
 
-| Interface | Requirement |
-|---|---|
-| fault injector interfaces | deterministic inject/recover/query lifecycle behavior |
-| scheduler interfaces | bounded pending queue and trigger semantics |
-| callback interfaces | clear event ordering and non-silent failure signaling |
-
-## Implementation Notes
-
-- tighten concurrency semantics for pending queue and callback dispatch.
-- standardize diagnostics for schedule/stop/restart transition classes.
-- expand stress behavior coverage across wake strategy permutations.
-- add benchmark breadth for additional fault and callback mix scenarios.
-
-## Test Strategy
-
-- unit and stress suites for inject/recover/query/schedule paths.
-- concurrency regressions for callback-heavy and queue-heavy scenarios.
-- deterministic tests for wake strategy and shutdown edge behavior.
-- release-profile benchmark runs for mapped chaos targets.
-
-## Performance Targets
-
-- callback dispatch and scheduler schedule hot paths remain within regression budgets.
-- concurrent stress path remains stable at p95/p99 versus baseline.
-- benchmark manifests for mapped chaos targets reach no-missing-case status.
-
-## Security / Reliability
-
-- maintain strict input validation for fault descriptors.
-- preserve process-local blast-radius boundaries for simulation behavior.
-- enforce bounded scheduler and callback runtime behavior under load.
-- keep diagnostics actionable for resilience-test operations.
+The current implementation is process-local; it does not enact real network or
+disk failures. Queue capacity and the contract's recommended input limits are
+not enforced. Current benchmark sources and their CMake wiring are summarized in
+[`../../benchmarks/chaos/README.md`](../../benchmarks/chaos/README.md); source
+presence does not establish a successful measurement.

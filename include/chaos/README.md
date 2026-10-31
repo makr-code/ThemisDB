@@ -1,4 +1,16 @@
-> **Build:** `cmake --preset linux-ninja-release && cmake --build --preset linux-ninja-release`
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: OpenAI
+Human_Review: false
+Human_Author: ThemisDB Contributors
+---
+
+Exact model backend not verifiable from final document text alone.
 
 # include chaos module
 
@@ -32,7 +44,8 @@ Public header surface for in-process chaos/fault injection.
 
 ## Installation
 
-Headers are included with ThemisDB. Ensure your target can include the project include directory:
+Headers are included with ThemisDB. For example, ensure your target can include
+the project include directory:
 
 ```cmake
 target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
@@ -50,7 +63,9 @@ injector.injectFault({themis::chaos::FaultType::NODE_FAILURE, "node-1"});
 ## Configuration Notes
 
 - `FaultSpec::duration = 0ms` creates a permanent fault until recovery.
-- `FaultSpec::probability` must be within `[0.0, 1.0]`.
+- `FaultSpec::probability` is intended to be within `[0.0, 1.0]`. The runtime
+  rejects ordinary out-of-range values but its current comparisons do not
+  reject NaN; callers should supply a finite value.
 - `ChaosSchedulerConfig::tick_interval` controls wake/check cadence.
 - `ChaosSchedulerConfig::wake_strategy` controls polling vs condvar wakeups.
 

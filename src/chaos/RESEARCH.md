@@ -1,11 +1,11 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot"
+AI_Contributor: "OpenAI"
 Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
@@ -34,8 +34,8 @@ process, or cluster operations. The system under test must explicitly query
 - Tests control the process using the injector and scheduler APIs; the fault
   descriptors themselves do not cause application behavior.
 - A `FaultType` is a label for test logic. For example, `DISK_FAILURE` does not
-  intercept disk I/O, and `probability` is validated but not sampled by this
-  runtime.
+  intercept disk I/O. Probability comparisons reject values below 0 or above 1,
+  but NaN passes those comparisons; probability is not sampled by this runtime.
 - All timing is process-local and uses `std::chrono::steady_clock`; restart
   discards registry and queue state.
 - The relevant research question is whether consumers observe the intended
@@ -44,8 +44,8 @@ process, or cluster operations. The system under test must explicitly query
 
 ## Evidence and evaluation
 
-Use the deterministic unit and stress tests as the primary reproducible
-evidence:
+The unit and stress test sources provide candidate reproducible evidence; this
+document does not assert that they were built or passed:
 
 - [framework tests](../../tests/chaos/test_chaos_framework.cpp) cover registry
   lifecycle, expiry, validation, callbacks, and scheduled firing.
@@ -65,8 +65,8 @@ distributed failure behavior from these tests.
 
 ## Limitations and trade-offs
 
-The model is deliberately small and deterministic, but leaves effect semantics
-to test consumers. The runtime does not enforce the recommended duration,
+The model leaves effect semantics to test consumers. Scheduler processing is
+tick-based rather than an exact-time guarantee. The runtime does not enforce the recommended duration,
 tick, queue, identifier-length, or callback-count limits in
 [chaos_contract.h](../../include/chaos/chaos_contract.h). Callers must bound
 their own workloads. See [model assumptions](MODELING.md),

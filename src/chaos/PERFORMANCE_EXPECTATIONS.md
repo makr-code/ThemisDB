@@ -1,42 +1,36 @@
-# PERFORMANCE_EXPECTATIONS - src/chaos
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: OpenAI
+Human_Review: false
+Human_Author: ThemisDB Contributors
+---
 
-## Scope
+Exact model backend not verifiable from final document text alone.
 
-- Module: src/chaos
-- This file defines measurable chaos module performance expectations for release gating.
+# Chaos performance expectations
 
-## Benchmark Reference
+## Source and build mapping
 
-- Relevant benchmark file:
-  - benchmarks/bench_chaos_stress.cpp
-
-## Specific Expectations
-
-| Target ID | Expectation | Benchmark case |
+| Source | Example cases | Current CMake status |
 |---|---|---|
-| CHS-1 | callback dispatch path remains bounded across configured callback fan-out levels | BM_CallbackDispatch |
-| CHS-2 | concurrent stress path remains bounded under benchmark thread range | BM_ConcurrentStress |
-| CHS-3 | scheduler enqueue path remains bounded in release profile | BM_ChaosScheduler_Schedule |
+| [`../../benchmarks/chaos/bench_chaos_stress.cpp`](../../benchmarks/chaos/bench_chaos_stress.cpp) | `BM_CallbackDispatch`, `BM_ConcurrentStress`, `BM_ChaosScheduler_Schedule` | **TODO:** source exists, but `benchmarks/CMakeLists.txt` checks for the file at the wrong root path, so `bench_chaos_stress` is not added by that conditional. |
+| [`../../benchmarks/chaos/bench_chaos_release_gates.cpp`](../../benchmarks/chaos/bench_chaos_release_gates.cpp) | `BM_GATE_CHS01_InjectThroughput` through `BM_GATE_CHS06_CallbackOverhead` | CMake conditionally adds and registers `bench_chaos_release_gates` when the source exists. |
+| [`../../benchmarks/chaos/bench_chaos_microbenchmarks.cpp`](../../benchmarks/chaos/bench_chaos_microbenchmarks.cpp) | inject/recover latency and concurrent throughput scenarios | CMake conditionally adds and registers `bench_chaos_microbenchmarks` when the source exists. |
 
-## Module Hard Gates (v1.0 docs baseline)
+## Declared thresholds versus verified performance
 
-| Gate ID | Expectation | Measurement |
-|---|---|---|
-| CHG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
-| CHG-2 | concurrent/scheduler path p99 <= release threshold | p99 from mapped chaos-stress benchmark cases |
-| CHG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
+The release-gate source declares counter thresholds including inject/recover
+throughput, query latency, concurrent throughput, scheduler enqueue throughput,
+and callback overhead. The microbenchmark source declares p99 and throughput
+threshold counters. These values are source declarations, not proof of measured
+results, a baseline comparison, or automatic pass/fail enforcement.
 
-## Validation
-
-- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
-- For proxy-only targets, keep follow-up benchmark hardening explicitly tracked.
-
-## Sourcecode Verification (Module: chaos/performance)
-
-- Verified benchmark source:
-  - benchmarks/bench_chaos_stress.cpp
-- Verified mapping surfaces:
-  - callback dispatch, concurrent stress, and scheduler schedule paths
-- Result:
-  - Referenced benchmark cases exist in current benchmark source.
-  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.
+**TODO:** repair/confirm the stress-target CMake condition; then build and run
+each benchmark on representative hardware, retain results, and document the CI
+comparison/enforcement mechanism before calling any threshold a release gate.
+No performance result is asserted by this document.

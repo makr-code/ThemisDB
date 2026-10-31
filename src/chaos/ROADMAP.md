@@ -1,41 +1,53 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: OpenAI
+Human_Review: false
+Human_Author: ThemisDB Contributors
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Chaos Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-10-30 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
-<!-- AI_Used: true | AI_Models: unknown | AI_Contributor: GitHub Copilot | Human_Review: false | Human_Author: ThemisDB Team -->
-<!-- Exact model backend not verifiable from final document text alone. -->
+
+> **Verification note:** Historical checkboxes below are planning records, not
+> proof that tests or benchmarks passed. Claims not evidenced by current source
+> or build wiring are **TODO/assumption** pending a fresh run or issue reference.
 
 ## Current Status
 
-Production-ready in-process fault injection and scheduler surfaces are available for deterministic resilience simulation workflows.
+The in-process fault registry and scheduler APIs are present. Production
+readiness and deterministic behavior under all supported workloads are not
+established by source presence; **TODO:** validate through approved test and
+deployment evidence.
 
 ## In Progress
 
 - [x] hardening concurrency and callback edge behavior under sustained stress profiles (Target: Q3 2026)
   - Delivered: CCH-01..08 in test_chaos_concurrency_hardening.cpp; CCD-01..08 in test_chaos_callback_determinism.cpp
-- [x] benchmark stabilization for scheduler and concurrent stress pathways (Target: Q3 2026)
-  - Delivered: GATE-CHS-01..06 in bench_chaos_release_gates.cpp
-- [x] diagnostics consistency improvements for injected/recovered fault lifecycle events (Target: Q3 2026)
-  - Delivered: ChaosFailureClass taxonomy + isFailClosedClass() in chaos_contract.h; unified callback/FSM contracts § 5/§ 6
+- [ ] **TODO:** benchmark build/run stabilization. Gate source declares counters, but no run is evidenced; the stress target's CMake condition checks the wrong path.
+- [ ] **TODO:** runtime diagnostic taxonomy. `ChaosFailureClass` and `isFailClosedClass()` exist in the contract header, but are not used by `chaos_framework.cpp`.
 
 ## Planned Features
 
 ### Short-term (3-6 months)
-- [x] tighten deterministic behavior for callback-heavy and pending-queue edge permutations (Target: Q4 2026)
+- [~] Callback and pending-queue cases are present in test sources; **TODO:** execute and verify their results before marking behavioral hardening complete.
   - Delivered: CCD-01..08 (test_chaos_callback_determinism.cpp) + CTI-01..08 (test_chaos_scheduler_timing.cpp)
-- [x] expand resilience regressions for schedule/stop/restart timing races (Target: Q4 2026)
+- [~] Schedule/stop/restart case names are present in test sources; **TODO:** verify test outcomes.
   - Delivered: CTI-01..08 (test_chaos_scheduler_timing.cpp)
-- [x] improve operator-facing diagnostics for fault lifecycle and scheduler state transitions (Target: Q4 2026)
-  - Delivered: ChaosFailureClass taxonomy (§ 3) + isFailClosedClass() (§ 4) + FSM invariants (§ 6) in chaos_contract.h
+- [ ] **TODO:** the contract declares a failure taxonomy, but the runtime does not implement that taxonomy or operator diagnostics.
 
 ### Mid-term (6-12 months)
-- [x] re-baseline p95/p99 envelopes for scheduler and concurrent stress benchmarks (Target: Q1 2027)
-  - Delivered: CHAOS-MB-01 (inject p99 ≤ 5 µs) and CHAOS-MB-02 (recover p99 ≤ 5 µs) in bench_chaos_microbenchmarks.cpp (2026-09-16)
-- [x] add dedicated chaos microbenchmarks for additional fault classes and timing modes (Target: Q1 2027)
-  - Delivered: CHAOS-MB-01..03 in benchmarks/chaos/bench_chaos_microbenchmarks.cpp — inject latency p99, recover latency p99, concurrent fault throughput (2026-09-16)
+- [ ] **TODO:** record p95/p99 measurements and baselines; the microbenchmark source only declares threshold counters.
+- [~] Microbenchmark source scenarios exist in `benchmarks/chaos/bench_chaos_microbenchmarks.cpp`; CMake target/run results remain unverified.
 - [~] evaluate controlled distributed-chaos coordination strategy for future extension (Target: Q1 2027)
-  - Deferred to Q2 2027: process-local blast-radius constraint (§ 7 of chaos_contract.h) must be formally relaxed before distributed strategy can be specified; design note filed for Q2 2027 planning cycle
+  - **TODO/assumption:** any deferral date or design note is not verified by the inspected module source.
 
 ## Implementation Phases
 
@@ -49,69 +61,59 @@ Production-ready in-process fault injection and scheduler surfaces are available
     TemporalViolation, CapacityExceeded, InternalError) with `isFailClosedClass()` predicate
 
 ### Phase 2: Core Implementation
-- [x] complete remaining hardening for registry and scheduler internals (Target: Q4 2026)
-  - Delivered: `include/chaos/chaos_contract.h` § 1–§ 7 governs all registry and scheduler internals;
-    current runtime enforcement documented at injectFault() boundaries (empty node_id/probability),
-    with additional frozen guardrail constants for scheduler/queue hardening follow-up
-- [x] align callback/state transition behavior to bounded runtime contracts (Target: Q4 2026)
-  - Delivered: § 5 callback semantics (FIFO order, no re-entry, bounded dispatch) +
-    § 6 scheduler FSM (STOPPED / RUNNING, idempotent start/stop)
+- [~] Contract header defines recommended constraints, but runtime enforcement is partial: injection checks only empty IDs and probability range; queue/tick/size bounds are not enforced.
+- [ ] **TODO:** establish and test runtime enforcement for any required bounds; callback dispatch is not bounded or exception-isolated by the current implementation.
 
 ### Phase 3: Error Handling and Edge Cases
-- [x] standardize fail-closed behavior for invalid timing and descriptor states (Target: Q4 2026)
-  - Delivered: `chaos_contract.h` § 4 — all ChaosFailureClass variants mandate fail-closed no-op;
-    `isFailClosedClass()` predicate available for policy enforcement
-- [x] unify diagnostics across scheduler queue and callback failure classes (Target: Q4 2026)
-  - Delivered: unified `ChaosFailureClass` taxonomy used by both FaultInjector and ChaosScheduler;
-    § 5 callback semantics and § 6 scheduler state contract documented in contract header
+- [ ] **TODO:** reconcile contract failure classes with runtime behavior; the taxonomy is declared in `chaos_contract.h` but is not used by the implementation.
+- [ ] **TODO:** define runtime diagnostics for queue and callback failure cases; current callbacks are allowed to throw and scheduler worker exceptions are uncaught.
 
 ### Phase 4: Tests
-- [x] expand focused regressions for high-concurrency scheduler and callback scenarios (Target: Q4 2026)
+- [~] Test source files for concurrency and callback scenarios are present; **TODO:** verify case mappings and execute the tests.
   - Delivered: `tests/chaos/test_chaos_concurrency_hardening.cpp` — CCH-01..CCH-08
     (concurrent inject/recover/query, callback ordering, clearAllFaults under churn, snapshot safety)
   - Delivered: `tests/chaos/test_chaos_callback_determinism.cpp` — CCD-01..CCD-08
     (recover callback, duplicate inject, invalid descriptor rejection, clearAllFaults no-callback,
      scheduleIn(0) fires, clearPending lifecycle, multi-schedule sequential fire)
-- [x] extend deterministic fixture coverage for wake-strategy and queue edge matrixes (Target: Q4 2026)
+- [~] Scheduler timing test source is present; **TODO:** verify case mappings and execute the tests.
   - Delivered: `tests/chaos/test_chaos_scheduler_timing.cpp` — CTI-01..CTI-08
     (stop/start timing races, restart cycles, schedule-after-stop, idempotent double-start/stop,
      CONDVAR latency bound, FIXED_TICK fire window, mixed-strategy concurrent schedulers)
 
 ### Phase 5: Performance and Hardening
-- [x] lock benchmark-backed release gates for scheduler/concurrency hot paths (Target: Q4 2026)
-  - Delivered: `benchmarks/chaos/bench_chaos_release_gates.cpp` — GATE-CHS-01..GATE-CHS-06
-    (injectFault ≥500k ops/s, isFaultActive latency ≤1µs, recoverFault ≥200k ops/s,
-     concurrent 8-thread ≥200k ops/s, schedule() ≥100k ops/s, callback overhead ≤2×)
-- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
-  - Delivered: gate self-checks embedded in bench_chaos_release_gates.cpp; benchmarks exit
-    non-zero when measured throughput falls below gate threshold
+- [~] Gate benchmark source declares GATE-CHS-01..06 threshold counters; **TODO:** verify target execution and external threshold enforcement. Source counters alone are not release gates.
+- [ ] **TODO:** run and retain p95/p99 and throughput comparisons against representative release baselines.
 
 ### Phase 6: Documentation and Acceptance
-- [x] core chaos module docs aligned to source-verifiable behavior
-- [x] roadmap/future planning separated from historical changelog entries
-- [x] Phase 1-6 delivery evidence recorded in this roadmap (2026-07-27)
+- [~] This documentation set has been source-reviewed; **TODO:** complete human review and validate outstanding claims recorded in this roadmap.
+- [x] Roadmap and changelog have separate files; this structural fact is not delivery evidence.
+- [ ] **TODO:** independently validate historical Phase 1-6 delivery statements and their evidence.
 
 ## Production Readiness Checklist
 
-- [x] core chaos surfaces documented and source-verified
-- [x] module-level security and failure behavior documented
-- [x] benchmark mapping documented in performance expectations
-- [x] remaining hardening tasks closed for concurrency/callback edge cases
-  - CCH-01..08, CCD-01..08, CTI-01..08 delivered (2026-07-27)
-- [x] release benchmark stabilization complete
-  - GATE-CHS-01..06 delivered in bench_chaos_release_gates.cpp (2026-07-27)
+- [x] Core headers and runtime source are referenced by module docs.
+- [ ] **TODO:** complete an independent security and failure-mode review; this document does not establish one.
+- [x] Benchmark source mapping documented; built/running status is tracked separately.
+- [ ] **TODO:** independently verify that listed concurrency/callback test cases are registered and passing; source presence alone is not closure evidence.
+- [ ] **TODO:** benchmark stabilization is not established; source counters and CMake target presence are not run results.
 
 ## Known Issues and Limitations
 
 - behavior is intentionally process-local and non-persistent.
 - direct external sabotage is outside scope of the in-process simulation model.
 - benchmark depth remains limited to current chaos stress coverage and needs expansion.
+- the stress benchmark source's CMake existence check currently points to the wrong path; see `../benchmarks/chaos/README.md`.
 
 ## Breaking Changes
 
-No breaking chaos-module contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.
+**TODO/assumption:** no approved breaking-change plan was verified. Any contract-breaking change requires migration notes and a changelog entry before merge.
 
 ## Program Execution Model — Wave Context
+
+**TODO/assumption:** this module's contribution to the program-level Wave A → B → C → D execution model was not verifiable from chaos source/build wiring.
+The following Wave sections are historical planning notes; their delivery claims
+and external references are not verified in this source review and must not be
+treated as current status until independently checked.
 
 This module is a **contributing module** in the program-level Wave A → B → C → D execution model.
 It does not own a primary wave deliverable but must remain `release_critical`-green throughout all waves
@@ -132,10 +134,8 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-  - Validated: fail-closed behavior confirmed via ChaosFailureClass taxonomy (§ 4 of chaos_contract.h); all stress tests confirm no silent failures under load
-- [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-  - Delivered: CHAOS-MB-01..03 in bench_chaos_microbenchmarks.cpp; full hardware baselines pending Wave D sign-off
+- [ ] **TODO/assumption:** no distributed/acceleration path or stress-test outcome is established by the reviewed chaos runtime.
+- [ ] **TODO:** benchmark sources declare thresholds, but no representative-hardware p95/p99 baseline is provided.
 - [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
   - Delivered: `src/chaos/RUNBOOK.md` and `src/chaos/OPERATIONS.md`; the runtime currently has no native chaos trace spans, exported metrics, or alert rules.
 

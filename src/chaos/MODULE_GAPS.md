@@ -1,3 +1,22 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: archived
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: OpenAI
+Human_Review: false
+Human_Author: ThemisDB Contributors
+---
+
+Exact model backend not verifiable from final document text alone.
+
+> Historical scanner snapshot, not a current verified gap report. Its Windows
+> scan path, counts, and line references have not been re-run against this
+> checkout. **TODO:** regenerate or replace with current source/build evidence
+> before using these findings for prioritization.
+
 # chaos — MODULE_GAPS.md (Phase 5 Verified)
 
 This file documents all documentation and code quality gaps in the **chaos** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
