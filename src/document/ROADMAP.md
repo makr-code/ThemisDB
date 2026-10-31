@@ -1,17 +1,17 @@
 # Document Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-09-16 -->
+<!-- Status: current | validated: 2026-10-31 (source/configuration inspection; no tests run) -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · DEVELOPMENT_STATUS_2026_07_28.md -->
 
 ## Current Status
 
-Production document runtime exists across store/manager contracts, lifecycle hooks, schema evolution, diff/merge, XDOMEA connector interfaces, and store-backed round-trip snapshot editing.
+Document runtime interfaces and in-memory/reference implementations exist for store/manager, lifecycle, schema validation, diff/merge, XDOMEA, diagnostics, encrypted-entity helpers, and store-backed round-trip snapshots. This source review does not certify production deployment readiness.
 
-## In Progress
+## Delivered source surfaces
 
 - [x] hardening edge-case consistency for schema validation and merge conflict semantics (Target: Q3 2026)
-- [x] benchmark stabilization for document serialization and document-list paths (Target: Q3 2026)
+- [x] benchmark source cases for in-memory store/list and diff/merge paths (Target: Q3 2026)
 - [x] diagnostics consistency improvements for store and round-trip persistence failures (Target: Q3 2026)
 
 ## Planned Features
@@ -22,17 +22,17 @@ Production document runtime exists across store/manager contracts, lifecycle hoo
 - [x] improve operator diagnostics for document round-trip and exchange failures (Target: Q4 2026)
 
 ### Mid-term (6-12 months)
-- [x] re-baseline p95/p99 envelopes for document serialization and list/read paths (Target: Q1 2027)
-  - Delivered: DOC-BM-01..04 in bench_document_serialization_gates.cpp (2026-09-16)
+- [~] re-baseline measured latency/throughput envelopes on representative hardware (Target: Q1 2027)
+  - The `DOC-BM-01..04` source emits thresholds for synthetic stubs; it is not production-path p95/p99 evidence. See PERFORMANCE_EXPECTATIONS.md.
 - [x] add dedicated benchmark coverage for diff/merge and round-trip workflows (Target: Q1 2027)
-  - Delivered: DOC-BM-03 (diff p95) and DOC-BM-04 (merge p95) in bench_document_serialization_gates.cpp (2026-09-16)
+  - Delivered as in-memory interface benchmarks in `bench_document_diff_merge.cpp` and `bench_document_round_trip.cpp`; hardware baselines remain separate evidence.
 - [~] harden long-running reliability under document churn and conflict-heavy workloads (Target: Q1 2027)
   - Soak test created: tests/integration/test_document_store_soak.cpp (2026-09-16); full 60-min hardware run pending Wave D sign-off
 
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [x] freeze store/manager/lifecycle/schema contracts for active major line (Target: Q3 2026)
+- [x] document store/manager/lifecycle/schema interfaces and error behavior (Target: Q3 2026; this does not assert ABI or source-compatibility guarantees)
 - [x] define explicit error taxonomy for not-found, conflict, and schema-violation classes (Target: Q3 2026)
 
 ### Phase 2: Core Implementation
@@ -40,7 +40,7 @@ Production document runtime exists across store/manager contracts, lifecycle hoo
 - [x] align schema/merge behavior to bounded runtime contracts (Target: Q4 2026)
 
 ### Phase 3: Error Handling and Edge Cases
-- [x] standardize fail-closed behavior for invalid document and schema-transition scenarios (Target: Q4 2026)
+- [x] expose explicit errors/reports for invalid arguments, missing schemas, and merge conflicts (Target: Q4 2026)
 - [x] unify diagnostics across store, lifecycle, merge, and exchange failure paths (Target: Q4 2026)
 
 ### Phase 4: Tests
@@ -48,8 +48,9 @@ Production document runtime exists across store/manager contracts, lifecycle hoo
 - [x] extend deterministic fixture coverage for XDOMEA and multi-version document cases (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
-- [x] lock benchmark-backed release gates for document serialization and list/read hot paths (Target: Q4 2026)
-- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [x] define source-level benchmark checks for in-memory store, diff/merge, and round-trip paths (Target: Q4 2026)
+- [~] validate measured latency/throughput against representative release baselines (Target: Q4 2026)
+  - TODO: attach benchmark output and the release workflow's gate-consumption evidence; the source definitions alone do not prove a baseline run.
 
 ### Phase 6: Documentation and Acceptance
 - [x] core document module docs aligned to source-verifiable behavior
@@ -61,32 +62,31 @@ Production document runtime exists across store/manager contracts, lifecycle hoo
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
 - [x] remaining hardening tasks closed for schema/merge/round-trip edge paths
-- [x] release benchmark stabilization complete
+- [~] representative-hardware benchmark stabilization complete
 
 ## Known Issues and Limitations
 
 - module implementation is largely header-first with selected src-level persistence wiring.
-- selected schema/merge edge paths require continued hardening and benchmark expansion.
-- dedicated module-native benchmark breadth should grow beyond current proxy mappings.
+- representative-hardware benchmark output and full soak execution/sign-off are not established by this source/configuration review.
+- the four `DOC-BM` serialization-gate cases are synthetic stubs; do not treat them as production-path measurements.
 
 ## Breaking Changes
 
-No breaking document-module contract planned. Any contract-breaking change requires migration notes and changelog entry before merge.
+No breaking change is identified by this source review; planned compatibility policy is not established by the headers. Any approved contract-breaking change requires migration notes and a changelog entry before merge.
 
 ## Program Execution Model — Wave Context
 
 This module is a **contributing module** in the program-level Wave A → B → C → D execution model.
-It does not own a primary wave deliverable but must remain `release_critical`-green throughout all waves
-and must deliver Wave D operability improvements in Q1 2027.
+It does not own a primary wave deliverable. This roadmap does not independently certify CI status or Wave D sign-off.
 See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
 
 ### Wave D Contribution for `document`
-- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027)
-  - Delivered: test_document_highcardinality_stress.cpp (1500 keys, 8-thread CRUD, schema-version churn, merge-under-load); RUNBOOK_DOCUMENT_STORE.md (2026-09-16)
-- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027)
-  - Delivered: tests/integration/test_document_store_soak.cpp — WriteReadThroughput, DiffMergeStability, SchemaRoundTripReliability (2026-09-16)
-- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027)
-  - Delivered: docs/operability/RUNBOOK_DOCUMENT_STORE.md — 5 scenarios: store unavailability, merge conflict storm, schema migration failure, round-trip persistence loss, XDOMEA exchange failure (2026-09-16)
+- [~] Validate applicable high-cardinality stress and operator guidance (Target: Q1 2027)
+  - Source artifacts exist: `tests/document/test_document_highcardinality_stress.cpp` and `docs/operability/RUNBOOK_DOCUMENT_STORE.md`. Execution and operational sign-off are not verified here.
+- [~] Validate long-duration soak coverage for primary paths (Target: Q1 2027)
+  - `tests/integration/test_document_store_soak.cpp` exists. TODO: attach a completed run record and reviewer sign-off.
+- [x] Provide a module runbook artifact for operator-critical scenarios (Target: Q1 2027)
+  - `docs/operability/RUNBOOK_DOCUMENT_STORE.md` exists; this file's presence is not proof of alert/trace integration.
 
 ### Cross-Wave Requirements
 - `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
@@ -94,17 +94,16 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit crit
 - No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
 
 ### Program-Level Success Criteria (contribution)
-- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027)
-  - Validated: fail-closed behavior confirmed in store/schema/merge contracts; stress tests confirm no silent failures
-- [x] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027)
-  - Delivered: DOC-BM-01..04 in bench_document_serialization_gates.cpp; full hardware baselines pending Wave D sign-off
-- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027)
-  - Delivered: docs/operability/RUNBOOK_DOCUMENT_STORE.md (5 scenarios, D1 trace span cross-links, alert reference)
+- [ ] Distributed/acceleration criteria: no such document-module path was identified in the reviewed headers or implementation. TODO: confirm applicability with the program owner before assigning a status.
+- [~] Representative-hardware benchmark baselines exist (Target: Q1 2027)
+  - Threshold definitions exist; representative-hardware results and sign-off remain TODO.
+- [~] Operator-critical paths have verified diagnostics/alerts/runbook integration (Target: Q1 2027)
+  - Runbook exists; alert and trace wiring require confirmation in the owning integration sources.
 
 ### Wave D Closure Batch (2026-09-16)
 
-All three Wave D `[ ]` items closed. Evidence:
-- `tests/integration/test_document_store_soak.cpp` — 3 soak cases (WriteReadThroughput ≥ 5000 ops/sec, DiffMergeStability conflict=0, SchemaRoundTripReliability mismatch=0)
-- `tests/document/test_document_highcardinality_stress.cpp` — 3 stress cases (1500 keys, 8-thread CRUD, schema-version churn, merge-under-load)
-- `docs/operability/RUNBOOK_DOCUMENT_STORE.md` — 5 operator scenarios with [DOCUMENT:*]/[MERGE:*]/[SCHEMA:*]/[XDOMEA:*] log-tag patterns and Wave D D1 trace span cross-links
-- `benchmarks/document/bench_document_serialization_gates.cpp` — DOC-BM-01..04 p95 gate benchmarks
+Artifacts present at the paths below; this is not an execution/sign-off record:
+- `tests/integration/test_document_store_soak.cpp` — soak test source.
+- `tests/document/test_document_highcardinality_stress.cpp` — stress test source.
+- `docs/operability/RUNBOOK_DOCUMENT_STORE.md` — operator runbook source.
+- `benchmarks/document/bench_document_serialization_gates.cpp` — four synthetic stub cases that emit threshold counters, not production-path p95 measurements.

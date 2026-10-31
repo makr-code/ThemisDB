@@ -1,82 +1,34 @@
-# Architecture - Document Module
+# Architecture — Document Module
 
-<!-- Status: current | validated: 2026-09-09 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
-## Overview
+## Composition
 
-The document module composes store, lifecycle, schema, merge, exchange, and snapshot-editing surfaces into a coherent document runtime contract. It centralizes document management behavior while exposing explicit validation and conflict semantics.
+The module is header-first. Its public contracts are in `include/document/`; the only module-local `.cpp` implementation is `src/document/round_trip_editor.cpp`. Reference implementations use in-memory state. `IDocumentStore` is an abstraction that callers may implement; this module does not bind it to a particular durable storage engine.
 
-## Main Execution Planes
+## Runtime planes
 
-1. Store and manager plane
-- document CRUD and manager-level orchestration contracts
-- collection/id-scoped document persistence semantics
+| Plane | Implementation evidence | Behavior |
+|---|---|---|
+| Store and manager | `document_store.h`, `document_manager.h` | Collection/ID operations; in-memory reference store is mutex-protected; manager dispatches lifecycle hooks |
+| Lifecycle and schema | `document_lifecycle.h`, `document_schema_evolution.h` | Synchronous hook callbacks; schema registration, sealing, and validation against field descriptors |
+| Diff and merge | `document_diff_merge.h` | Loads documents through `IDocumentStore`; reports field changes and supports `OURS_WINS`, `THEIRS_WINS`, and `FAIL` |
+| Exchange | `xdomea_connector.h` | XDOMEA import/export and repository operations; in-memory XML handling is not XSD validation |
+| Round-trip snapshots | `round_trip_editor.h`, `round_trip_editor.cpp` | Stores relay/index records through `IDocumentStore`; propagates store errors |
+| Diagnostics and entity helpers | `document_diagnostics.h`, `encrypted_entities.h`, `document_manager.h` | Classifies/formats error codes; in-memory re-encryption records a key ID but does not transform stored bytes |
 
-2. Lifecycle and schema plane
-- lifecycle callback sequencing around create/update/delete operations
-- schema registration, sealing, and validation behavior
+## Error and concurrency boundaries
 
-3. Diff/merge and exchange plane
-- document diff and merge resolution strategies
-- XDOMEA import/export and repository exchange flows
+- Store/manager, schema, diff/merge, and round-trip APIs expose `Result` return values; absent reads are represented as `std::optional`.
+- The in-memory store and schema registry protect their own state with mutexes. The interface does not prescribe thread-safety for third-party `IDocumentStore` implementations.
+- Lifecycle hooks are invoked synchronously in registration order. Hook methods are declared `noexcept`; `afterDelete` is dispatched even when store removal reports failure.
+- `InMemoryDocumentDiffMerge` reports missing documents and merge conflicts through errors. Non-object JSON payloads do not receive field-level diff/merge processing.
 
-4. Round-trip persistence plane
-- relay-scoped snapshot write/load/count workflows
-- deterministic snapshot ID generation and lookup semantics
+## Integration boundary
 
-## Core Contracts
+`StoreBackedRoundTripEditor` depends on `IDocumentStore`, and `InMemoryDocumentDiffMerge` reads through the same interface. The headers depend on shared utility/error types and, for encrypted entity helpers, the security encryption types. No direct metadata-module schema registry, persistent storage adapter, server consumer, or stable-ABI guarantee is established by the module sources reviewed here. TODO: record those relationships only after confirming them in their owning canonical sources.
 
-| Contract | Behavior |
-|---|---|
-| store/manager contract | explicit Result-based document operation behavior |
-| lifecycle/schema contract | deterministic hook/validation semantics |
-| diff/merge contract | bounded conflict-aware merge behavior |
-| exchange/snapshot contract | explicit XDOMEA and round-trip persistence flows |
+## Verification basis
 
-## Failure Semantics
-
-- invalid schema or merge conflict paths return structured Result errors.
-- not-found document paths return explicit absent/error states.
-- invalid round-trip persistence operations fail with explicit store error propagation.
-
-## Sourcecode Verification (Module: document/architecture)
-
-- Verified files:
-  - include/document/document_store.h
-  - include/document/document_manager.h
-  - include/document/document_lifecycle.h
-  - include/document/document_schema_evolution.h
-  - include/document/document_diff_merge.h
-  - include/document/xdomea_connector.h
-  - src/document/round_trip_editor.cpp
-- Verified architecture claims:
-  - explicit store/lifecycle/schema and diff/merge planes
-  - bounded Result-based failure semantics for document operations
-  - module-local ownership of round-trip document snapshot persistence
-
-## Module Dependencies
-
-### Direct Upstream Dependencies (this module uses)
-| Module | Interface / File | Purpose |
-|--------|-----------------|---------|
-| storage | `include/storage/` | Persists document objects and snapshot state |
-| metadata | `include/metadata/` | Schema evolution and versioning checks for document schemas |
-| utils | `include/utils/` | Logging, audit, and serialisation helpers |
-
-### Direct Downstream Consumers (modules that use this module)
-| Module | Via | Notes |
-|--------|-----|-------|
-| server | `include/document/` | Server exposes document store, lifecycle, and schema APIs |
-
-## Integration Points
-
-### Critical Integration: Storage Document Persistence
-**Files:** `src/document/round_trip_editor.cpp`, `include/document/document_store.h` ↔ `storage/`
-**Contract:** Document store delegates all persistence to storage interfaces; round-trip snapshot IDs are generated deterministically and must be stable within a session.
-**Thread Safety:** Document CRUD operations use Result-based error propagation; concurrent access to the same document ID is serialised by the storage layer.
-
-### Critical Integration: Metadata Schema Evolution
-**Files:** `include/document/document_schema_evolution.h` ↔ `metadata/`
-**Contract:** Schema evolution checks query metadata for registered schema versions before allowing structural mutations; schema seal is enforced by metadata module.
-**Thread Safety:** Schema reads are concurrent-safe; schema mutations require the metadata write lock.
+Reviewed the public headers, round-trip implementation, focused test sources, and CMake definitions on 2026-10-31. This page describes source-level structure, not a claim that the full module or external integrations were built or executed.

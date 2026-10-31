@@ -1,64 +1,29 @@
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/document/ARCHITECTURE.md -->
 
 # Document Module — Public Header Architecture
 
-**Module Path:** `include/document/`  
-**Implementation:** `../../src/document/`  
-**Canonical architecture doc:** [`../../src/document/ARCHITECTURE.md`](../../src/document/ARCHITECTURE.md)
+`include/document/` contains the document contracts and reference implementations. The namespace for these APIs is `themis::document` (the entity examples in `encrypted_entities.h` are in `themis`). Runtime composition is summarized in the [implementation architecture](../../src/document/ARCHITECTURE.md).
 
----
+## Header groups
 
-## 1. Overview
+| Group | Headers | Source-backed purpose |
+|---|---|---|
+| Store and manager | `document_store.h`, `document_manager.h`, `document_manager_deprecated.h` | Store/manager interfaces, in-memory implementations, and a deprecated compatibility shim |
+| Lifecycle and schema | `document_lifecycle.h`, `document_schema_evolution.h` | Synchronous CRUD hooks and in-memory schema registration/sealing/field validation |
+| Diff and diagnostics | `document_diff_merge.h`, `document_diagnostics.h` | Field-level diff, three-way merge, error classification, and diagnostic counters |
+| Round-trip and exchange | `round_trip_editor.h`, `xdomea_connector.h` | Store-backed snapshot contract and XDOMEA connector contract/reference implementation |
+| Entity helpers | `encrypted_entities.h` | JSON helpers for entities using `EncryptedField<T>` |
 
-`include/document/` defines the **public document lifecycle management, versioning, schema evolution, encrypted entities, round-trip editing, and XDOMEA connector API contract** for ThemisDB.
+## Contract boundaries
 
-For runtime composition and implementation internals see:
-→ [`../../src/document/ARCHITECTURE.md`](../../src/document/ARCHITECTURE.md)
+- `IDocumentStore` is a backend interface, not a persistent store implementation. The included `InMemoryDocumentStore` is process-local.
+- The public API includes reference implementations; no stable ABI or supported-platform matrix is declared by these headers.
+- `InMemoryDocumentSchemaEvolution` validates descriptors; it does not implement a general migration engine.
+- `InMemoryEncryptedEntity` tracks a new key ID but has no encrypted bytes to re-cipher.
+- The in-memory XDOMEA implementation does not validate XML against an XSD.
+- TODO: confirm any module-layer classification and public compatibility policy in their owning canonical governance sources before documenting them here.
 
----
-
-## 2. Header Groups
-
-### 2.1 Document Lifecycle
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `document_lifecycle.h` | `DocumentLifecycle` | Create/update/archive/delete lifecycle |
-| `document_manager.h` | `DocumentManager` | Primary document CRUD entry point |
-| `document_manager_deprecated.h` | `DocumentManagerDeprecated` | Deprecated document API shim |
-| `document_store.h` | `DocumentStore` | Pluggable persistent document store |
-| `round_trip_editor.h` | `RoundTripEditor` | Lossless edit-serialise-deserialise round-trip |
-### 2.2 Versioning and Evolution
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `document_schema_evolution.h` | `DocumentSchemaEvolution` | Backward-compatible schema migration |
-| `document_diff_merge.h` | `DocumentDiffMerge` | Three-way diff and merge for documents |
-### 2.3 Security and Compliance
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `encrypted_entities.h` | `EncryptedEntities` | Field-level encryption for document entities |
-### 2.4 Connectors
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `xdomea_connector.h` | `XdomeaConnector` | XDOMEA e-government file format connector |
-
----
-
-## 3. Namespace Layout
-
-All public types reside in the `themis::document` namespace (or a sub-namespace).
-
----
-
-## 4. Contract Notes
-
-- Headers in `include/document/` expose the **stable public API**; internal types live in `src/document/`.
-- Clients depend only on types declared here; implementation details in `src/` may change without notice.
-- For breaking-change policy see [`../../VERSIONING.md`](../../VERSIONING.md).
-- Layer association: **Graph**.
+For versioning policy see [`../../VERSIONING.md`](../../VERSIONING.md).

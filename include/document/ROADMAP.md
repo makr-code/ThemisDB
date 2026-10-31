@@ -1,6 +1,6 @@
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-07-28 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/document/ROADMAP.md -->
 
 # Document Module — Public Header Roadmap
@@ -20,7 +20,7 @@ Tracks public `document` API contract stability, header-level coverage work, and
 
 ## Current Status
 
-All headers in `include/document/` are present and expose the document lifecycle management, versioning, schema evolution, encrypted entities, round-trip editing, and XDOMEA connector surface.
+The direct-scope public headers currently expose store/manager, lifecycle, schema validation, diff/merge, diagnostics, encrypted-entity helpers, round-trip, and XDOMEA APIs. See `ARCHITECTURE.md` for current names and implementation limits.
 
 ---
 
@@ -28,22 +28,19 @@ All headers in `include/document/` are present and expose the document lifecycle
 
 - [x] Public header surfaces documented in `ARCHITECTURE.md`
 - [x] Canonical cross-links to `src/document/` implementation docs established
-- [x] Layer association (**Graph**) marked and verified against `FUTURE_PLAN.md`
-- [x] Namespace layout (`themis::document`) documented
+- [x] Namespace layout documented from current headers (`themis::document`, with entity examples in `themis`)
 
 ---
 
 ## In Progress
 
-- [ ] Per-header deprecation and breaking-change notices aligned with `VERSIONING.md` (Target: 2026-Q3)
+- [~] Confirm public compatibility guarantees and deprecation/migration policy for each API; only `document_manager_deprecated.h` is explicitly a deprecated shim. TODO: record maintainer-approved policy and issue/milestone.
 
 ---
 
 ## Planned
 
-- [ ] API contract index for high-frequency entry points with usage examples (Target: 2026-Q3)
-- [ ] Compatibility matrix (C++17/20 and platform coverage) per header group (Target: 2026-Q4)
-- [ ] CI-enforced compile checks for all public headers (Target: 2026-Q4)
+- [ ] Decide whether a header compatibility matrix and standalone public-header compile checks are required. No approved issue or target date was confirmed in this review.
 
 ---
 
@@ -51,4 +48,4 @@ All headers in `include/document/` are present and expose the document lifecycle
 
 - [x] Public header surfaces documented
 - [x] Canonical links to implementation docs set
-- [ ] Deprecation annotations consistent
+- [ ] Compatibility/deprecation policy confirmed by maintainers

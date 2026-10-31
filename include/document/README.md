@@ -7,7 +7,7 @@
 
 ## Purpose
 
-Public interfaces and in-memory reference implementations for document storage, lifecycle hooks, schema evolution, diff/merge, encrypted entity helpers, and XDOMEA connectivity.
+Public interfaces and in-memory reference implementations for document storage, lifecycle hooks, schema validation, diff/merge, diagnostics, encrypted-entity helpers, round-trip snapshots, and XDOMEA connectivity. See the [implementation overview](../../src/document/README.md) for module limits and evidence status.
 
 ## Header Entry-Points
 
@@ -20,6 +20,7 @@ Public interfaces and in-memory reference implementations for document storage, 
 | `document_diff_merge.h` | `IDocumentDiffMerge`, `InMemoryDocumentDiffMerge` | Field-level diff and three-way merge on store-backed JSON docs |
 | `round_trip_editor.h` | `IRoundTripEditor`, `StoreBackedRoundTripEditor` | Store-backed persistence for DELEGATE-52 round-trip seed/intermediate snapshots |
 | `xdomea_connector.h` | `IXDOMEAConnector`, `InMemoryXDOMEAConnector` | XDOMEA XML import/export and document repository operations |
+| `document_diagnostics.h` | `DocumentErrorClass`, `DocumentDiagnosticSink`, formatting helpers | Error classification/description and mutex-protected in-memory counters |
 | `encrypted_entities.h` | `User`, `Customer`, `SecureDocument` | Example encrypted entity payloads using `EncryptedField<T>` |
 | `document_manager_deprecated.h` | Deprecated alias shim | Legacy forwarding to `projects/DocumentManager` |
 
@@ -32,6 +33,7 @@ Public interfaces and in-memory reference implementations for document storage, 
 - Missing reads return success with `std::nullopt`.
 - Missing updates return `ERR_DOC_NOT_FOUND`.
 - `remove()` is idempotent (success even when entry is absent).
+- `list()` returns IDs for the requested collection; `count()` returns its current number of records.
 
 ### Lifecycle Hooks (`IDocumentLifecycleHook`)
 
@@ -44,6 +46,7 @@ Public interfaces and in-memory reference implementations for document storage, 
 - Versions are immutable once registered.
 - `seal()` blocks future registrations (`ERR_DOC_SCHEMA_SEALED`).
 - Validation returns structured field violations (`MISSING_REQUIRED_FIELD`, `TYPE_MISMATCH`).
+- The in-memory validator checks declared required fields and JSON types; a field's `default_value` is informational and is not applied.
 
 ### Diff/Merge (`IDocumentDiffMerge`)
 
@@ -58,12 +61,20 @@ Public interfaces and in-memory reference implementations for document storage, 
 - `storeDocument()` throws on empty IDs or duplicate IDs.
 - In-memory connector uses lightweight tag scanning (no XSD validation).
 
+### Diagnostics (`document_diagnostics.h`)
+
+- `classifyDocumentError()` maps the document error codes to seven named classes; unrecognized codes map to `UNKNOWN`.
+- `formatDocumentError()` formats a code, class, description, and optional context.
+- `DocumentDiagnosticSink` counts errors in memory; applications must connect it to their own telemetry if needed.
+
 ## Configuration and Limits
 
 - No module-global runtime config file is required; behavior is controlled via API parameters and enum strategy choices.
-- In-memory implementations are intended for tests/dev and are non-persistent.
+- In-memory implementations are process-local and non-persistent; the interfaces do not provide a production storage adapter.
 - `InMemoryEncryptedEntity` tracks key rotation IDs but does not re-cipher persisted bytes.
+- `InMemoryDocumentManager::createEncrypted()` stores the supplied JSON body in its in-memory store; it does not encrypt that body.
 - `InMemoryXDOMEAConnector` is not a full XML validator; production systems should use XSD-validating connectors.
+- `StoreBackedRoundTripEditor` persists through `IDocumentStore` but does not validate the document against a schema.
 
 ## Installation
 

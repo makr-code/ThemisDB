@@ -1,4 +1,11 @@
-# document — MODULE_GAPS.md (Phase 5 Verified)
+# document — MODULE_GAPS.md (historical scan snapshot)
+
+> Historical scanner output retained for traceability. The scan host path below
+> is not a date or reproducible current scan result. Its count, classifications,
+> and line references have not been revalidated against the 2026-10-31 tree.
+> Do not use this file as current implementation or release status; see
+> [AUDIT.md](AUDIT.md) and [ROADMAP.md](ROADMAP.md). TODO: run the current
+> supported gap scanner and replace these findings only with reproducible output.
 
 This file documents all documentation and code quality gaps in the **document** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
 
