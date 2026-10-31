@@ -1,7 +1,20 @@
 # ingestion Module - Developer Gap Note
 
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot
+**Human_Review:** false
+**Human_Author:** ThemisDB Team
+
+> Exact model backend not verifiable from final document text alone.
+
 > Auto-generated from ai_working\gap_scan_results.json.
 > This file is overwritten on each regeneration.
+>
+> **Historical snapshot:** generated 2026-06-04. Counts and findings below are
+> scanner output from that date, not verified current defects or current module
+> status. Use current headers, implementation, focused tests, and CMake as the
+> source of truth; regenerate and review the scanner evidence before acting.
 
 ## Scan Snapshot
 

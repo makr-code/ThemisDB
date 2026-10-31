@@ -1,13 +1,26 @@
 # Ingestion Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-09-24 -->
-<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
+<!-- Status: planning/backlog; implementation not implied | validated: 2026-10-31 -->
+<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md · EMBEDDING.md -->
+
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot
+**Human_Review:** false
+**Human_Author:** ThemisDB Team
+
+> Exact model backend not verifiable from final document text alone.
 
 ## Scope
 
 - hardening and refinement of multi-source ingestion runtime behavior
 - expansion of deterministic reliability under sustained connector and workflow load
 - stronger benchmark-backed guardrails for ingestion hot paths
+
+> The items below are proposals/backlog, not claims that the behavior is
+> implemented. The RAG lifecycle items in the final section are not covered by
+> `ReindexDecisionEngine` alone; see [`EMBEDDING.md`](./EMBEDDING.md) for current
+> source-backed behavior and limits.
 
 ## Design Constraints
 
