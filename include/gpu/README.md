@@ -1,88 +1,52 @@
-> **Build:** `cmake --preset release && cmake --build build/release`
+# GPU Public Headers
 
-# GPU Module — Public Headers
+This directory contains GPU dispatch-contract and lower-level CUDA/resource
+helpers. The module facade and most public GPU interfaces are declared under
+`include/themis/gpu/`; implementation code is under `src/gpu/`.
 
-**Module Path:** `include/gpu/`
-**Implementation:** `../../src/gpu/`
+## Public interface locations
 
-## Purpose
+| Concern | Canonical declaration |
+|---|---|
+| Module facade, initialization, work submission, accounting | [`../themis/gpu/gpu_module.h`](../themis/gpu/gpu_module.h) |
+| Configuration and feature flags | [`../themis/gpu/config.h`](../themis/gpu/config.h), [`../themis/gpu/feature_flags.h`](../themis/gpu/feature_flags.h) |
+| Launcher and work item | [`../themis/gpu/launcher.h`](../themis/gpu/launcher.h) |
+| Edition-aware VRAM accounting and `IVRAMPolicy` | [`../themis/gpu/memory_manager.h`](../themis/gpu/memory_manager.h), [`../themis/gpu/ivram_policy.h`](../themis/gpu/ivram_policy.h) |
+| Bounded dispatch error taxonomy | [`gpu_backend_dispatch_contract.h`](gpu_backend_dispatch_contract.h) |
+| CUDA RAII utilities | [`cuda_raii.h`](cuda_raii.h) |
 
-Public interfaces and declarations for ThemisDB's hardware-accelerated execution and GPU resource governance, including device discovery, memory management, execution dispatch, and fallback handling.
+## Facade example
 
-## Canonical Module Documentation
-
-`include/gpu/` contains public header contracts. Canonical module behavior, architecture, and operations docs live in `src/gpu/`:
-
-- [`../../src/gpu/README.md`](../../src/gpu/README.md)
-- [`../../src/gpu/ARCHITECTURE.md`](../../src/gpu/ARCHITECTURE.md)
-- [`../../src/gpu/GPU_CONTRACT.md`](../../src/gpu/GPU_CONTRACT.md)
-- [`../../src/gpu/ROADMAP.md`](../../src/gpu/ROADMAP.md)
-- [`../../src/gpu/FUTURE_ENHANCEMENTS.md`](../../src/gpu/FUTURE_ENHANCEMENTS.md)
-
-## Header Files
-
-| Header | Primary Class / Interface |
-|--------|--------------------------|
-| `gpu_module.h` | `GPUModule` — integration facade for policy, allocation, execution |
-| `gpu_memory_manager.h` | `GPUMemoryManager` — VRAM allocation and quota management |
-| `memory_pool.h` | `MemoryPool` — slab/pool allocation and fragmentation control |
-| `device_discovery.h` | `DeviceDiscovery` — CUDA/ROCm device enumeration and probing |
-| `stream_manager.h` | `StreamManager` — stream lifecycle and synchronization |
-| `launcher.h` | `Launcher` — execution dispatch and backend launch |
-| `safe_fail.h` | `SafeFail` — circuit-breaker and GPU-to-CPU fallback |
-| `query_accelerator.h` | `QueryAccelerator` — accelerated query operations |
-| `training_loop.h` | `TrainingLoop` — accelerated training orchestration |
-| `tensor_buffer.h` | `TensorBuffer` — tensor memory layout and transfer |
-| `rocm_backend.h` | `ROCmBackend` — ROCm/HIP backend adapter |
-| `vulkan_backend.h` | `VulkanBackend` — Vulkan backend adapter |
-| `cluster_coordinator.h` | `ClusterCoordinator` — multi-GPU/multi-node coordination |
-| `cluster_topology.h` | `ClusterTopology` — topology-aware scheduling metadata |
-| `mig_manager.h` | `MIGManager` — MIG partition management |
-| `gpu_metrics.h` | `GPUMetrics` — GPU metrics and telemetry |
-| `gpu_profiler.h` | `GPUProfiler` — profiling markers and measurement |
-
-## Usage
+The facade accepts a `GPUConfig` and an optional launcher backend callback.
+Feature flags and build-time backend availability are separate conditions.
+`submitWork` returns status; a non-GPU success from its current fallback
+callback does **not** mean that the work item was computed on the CPU.
 
 ```cpp
-#include "gpu/gpu_module.h"
+#include "themis/gpu/gpu_module.h"
 
-auto gpu_module = themis::gpu::createGPUModule({
-    .backends = {GPU_BACKEND_CUDA, GPU_BACKEND_ROCM},
-    .fallback_enabled = true,
-    .device_limit = 4
-});
-
-auto device = gpu_module->getDevice(0);
-auto stream = device->createStream();
-gpu_module->launch(kernel, args, stream);
+themis::gpu::GPUModule module;
+themis::gpu::GPUConfig config;
+auto initialized = module.initialize(config);
+if (initialized.ok) {
+    themis::gpu::GPULauncher::WorkItem item{/* populate for the workload */};
+    auto result = module.submitWork("trusted-caller", "tenant-id", item);
+    // Verify workload output at the caller boundary; do not infer CPU
+    // computation from result.submitted or result.via_gpu alone.
+}
 ```
 
-For full runtime usage examples (device management, execution, fallback), see [`../../src/gpu/README.md`](../../src/gpu/README.md).
-
-## Key Configuration Surface
-
-Important configuration entry points are declared in:
-
-- `gpu_module.h` (`GPUModule::Config` for backend selection and policy)
-- `gpu_memory_manager.h` (`GPUMemoryManager::Config` for quota and allocation)
-- `safe_fail.h` (`SafeFail::Config` for fallback behavior)
-- `stream_manager.h` (stream configuration and lifecycle)
-- `cluster_coordinator.h` (multi-node coordination settings)
+See [`../../src/gpu/API.md`](../../src/gpu/API.md) for facade behavior and
+[`../../src/gpu/README.md`](../../src/gpu/README.md) for module boundaries.
 
 ## Build
 
-```cmake
-cmake --preset release && cmake --build build/release --target themis-gpu
-```
+GPU sources are included through the repository's CMake configuration when
+`THEMIS_ENABLE_GPU` is enabled. Build the configured project target; there is no
+standalone `themis-gpu` target documented by the current build files.
 
-## See Also
+## Related documentation
 
-- [`../../src/gpu/README.md`](../../src/gpu/README.md) — implementation details
-- [`../../src/gpu/GPU_CONTRACT.md`](../../src/gpu/GPU_CONTRACT.md) — GPU execution contract
-- [`../../src/query/README.md`](../../src/query/README.md) — query execution integration
-
-## Installation
-
-```cmake
-target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
-```
+- [`../../src/gpu/ARCHITECTURE.md`](../../src/gpu/ARCHITECTURE.md)
+- [`GPU_CONTRACT.md`](GPU_CONTRACT.md)
+- [`../../src/gpu/ROADMAP.md`](../../src/gpu/ROADMAP.md)

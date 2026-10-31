@@ -1,11 +1,11 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot"
+AI_Contributor: "ThemisDB documentation orchestration specialist"
 Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
@@ -20,8 +20,8 @@ This page summarizes the module-facing C++ facade for integrators. Header
 declarations are canonical: [`gpu_module.h`](../../include/themis/gpu/gpu_module.h),
 [`config.h`](../../include/themis/gpu/config.h),
 [`launcher.h`](../../include/themis/gpu/launcher.h), and
-[`policy.h`](../../include/themis/gpu/policy.h). The separately frozen
-allocation/dispatch taxonomy is in
+[`policy.h`](../../include/themis/gpu/policy.h). The separate
+allocation/dispatch contract reference is in
 [`GPU_CONTRACT.md`](../../include/gpu/GPU_CONTRACT.md).
 
 ## `themis::gpu::GPUModule`
@@ -54,8 +54,9 @@ resolver checks ROCm and then Vulkan availability; callers can inject a
 backend function during initialization. Feature flags can gate subsystem
 creation independently of CMake backend compilation.
 
-For allocation and dispatch error codes, retryability, and diagnostic
-expectations, use the frozen
+For allocation and dispatch error codes and diagnostic expectations, use the
+current
 [`GPU_CONTRACT.md`](../../include/gpu/GPU_CONTRACT.md) and
 [`gpu_backend_dispatch_contract.h`](../../include/gpu/gpu_backend_dispatch_contract.h).
-Do not renumber frozen codes or silently convert a denial/timeout into success.
+Treat existing enum values as compatibility-sensitive; do not silently convert
+a denial or timeout into success.

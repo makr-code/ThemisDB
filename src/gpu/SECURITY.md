@@ -1,6 +1,6 @@
 # Security - GPU Module
 
-<!-- Status: current | validated: 2026-08-17 -->
+<!-- Source-reviewed: 2026-10-31; no security audit or runtime validation performed -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · PRODUCTION_REQUIREMENTS.md · PERFORMANCE_EXPECTATIONS.md -->
 
 Report vulnerabilities via project-level SECURITY.md.
@@ -15,7 +15,7 @@ Security in the GPU module focuses on resource isolation, policy-gated accelerat
 |---|---|
 | unauthorized GPU usage | policy/feature gate checks before execution |
 | tenant quota escape and noisy-neighbor pressure | edition-aware VRAM quotas and pool governance |
-| unsafe degraded execution | circuit-breaker with deterministic fallback behavior |
+| unsafe degraded execution | circuit-breaker invokes a configured fallback callback when enabled; workload correctness remains caller-owned |
 | cross-device data exposure risk | bounded transfer/topology handling and explicit feature gating |
 | hidden operational regressions | telemetry/profiling/audit/admin observability surfaces |
 
@@ -23,7 +23,7 @@ Security in the GPU module focuses on resource isolation, policy-gated accelerat
 
 - default-deny style capability/policy checks gate GPU access.
 - quota and pool controls constrain memory allocation surfaces.
-- fallback manager enforces bounded behavior on backend or capability failures.
+- safe-fail tracks failures and may invoke a configured callback; it does not guarantee CPU computation, parity, or a universal fallback bound.
 - feature-gated advanced surfaces (e.g. P2P/topology) prevent accidental activation.
 
 ## Security Follow-ups
@@ -45,5 +45,5 @@ Security in the GPU module focuses on resource isolation, policy-gated accelerat
   - src/gpu/admin_api.cpp
 - Verified controls:
   - policy-gated access and bounded quota behavior
-  - deterministic fallback and controlled advanced feature activation
+  - configured fallback-callback handling and feature-gated advanced surfaces
   - operational telemetry coverage for security-relevant incidents

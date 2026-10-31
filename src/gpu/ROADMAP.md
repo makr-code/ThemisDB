@@ -1,20 +1,24 @@
 # GPU Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-08-17 -->
+<!-- Source-reviewed: 2026-10-31; roadmap statuses and runtime evidence not revalidated -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · PRODUCTION_REQUIREMENTS.md · PERFORMANCE_EXPECTATIONS.md · SECURITY.md -->
 <!-- Rollout Plan: ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §4 (Phase D), §7 (risk) -->
 
 ## Current Status
 
-Production GPU runtime exists across device discovery, allocation/governance, backend execution, stream/launcher orchestration, fallback management, and accelerated query/training paths.  The GPU memory manager hierarchy has been consolidated under a unified `IVRAMPolicy` interface (issue #5385).
+GPU runtime, resource accounting, backend, stream/launcher, fallback, and
+accelerated query/training surfaces exist in the source tree. Runtime readiness
+and release acceptance depend on the enabled backend, edition, feature flags,
+workload, and validation evidence; this roadmap is not proof that each path is
+production-ready. The canonical GPU accounting manager implements
+`IVRAMPolicy`, but selected LLM/LoRA integrations do not pass tenant IDs through
+to its tenant-aware overloads; see [ARCHITECTURE.md](ARCHITECTURE.md).
 
-**Hybrid Retrieval Rollout Readiness**: 35% 🔴 (issue #5468).
-- Phase A (exact-first): ❌ No GPU used.
-- Phase B (ANN + CPU validation): ❌ GPU not recommended — 340 unchecked CUDA calls remain.
-- Phase C (bounded GPU refinement): 🟡 Q3 2026 after error handling hardening.
-- Phase D (optional acceleration): ✅ Q4 2026 after 85% gap reduction.
-- **Critical**: All 340 unchecked CUDA calls must be addressed before any production GPU path.
+**Hybrid Retrieval Rollout Readiness**: 35% (issue #5468; historical tracked estimate, not revalidated here).
+- Phase A (exact-first), Phase B (ANN + CPU validation), and Phase C/D readiness are recorded in the rollout plan; current phase completion is not established by this document.
+- The 340-call baseline and 85% reduction target are historical planning metrics, not current source-tree counts or measured results.
+- **Critical**: Re-run the CUDA-call audit before using its historical counts as a current release decision.
 - GPU is advisory-only in all phases; Graph Truth Layer remains CPU-first unconditionally.
 - Rollout risk detail: `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §7`
 
@@ -46,29 +50,29 @@ Production GPU runtime exists across device discovery, allocation/governance, ba
 - [ ] Phase D gate: resource exhaustion injection test suite (Target: Q4 2026)
 - [ ] Phase D gate: all GPU failures degrade to CPU cleanly (Target: Q4 2026)
 - [~] Phase D gate: CPU/GPU break-even benchmark results reviewed (Target: 2027)
-- [ ] Phase D ctest gate: `test_gpu_error_handling` (Target: Q4 2026)
-- [~] Phase D ctest gate: `test_gpu_resource_exhaustion` (Target: Q4 2026)
+- [ ] Phase D ctest gate: `test_gpu_error_handling` (currently quarantined in `tests/gpu/CMakeLists.txt`; target is not registered)
+- [~] Phase D ctest gate: `test_gpu_resource_exhaustion` (source exists; currently quarantined and not registered by CMake)
 - [~] Phase D ctest gate: `test_gpu_fallback_all_paths` (Target: Q4 2026)
   - 2026-08-18: test_gpu_resource_exhaustion.cpp (GPU-EXHAUST-01..12) and test_gpu_fallback_all_paths.cpp (GPU-FALLBACK-01..12) implemented
-  - 2026-08-18: both suites promoted to `release_critical` via `tests/gpu/CMakeLists.txt`; green-on-`develop` evidence still pending
+  - Current CMake check: `test_gpu_resource_exhaustion` is quarantined and skipped; `test_gpu_fallback_all_paths` is registered with `release_critical`. Neither registration alone is execution evidence.
 - [~] Phase D benchmark gate: `bench_gpu_cpu_breakeven_category_a` (Target: 2027)
 - [~] Phase D benchmark gate: `bench_gpu_cpu_breakeven_category_b` (Target: 2027)
 
 ### Short-term (3-6 months)
 - [ ] tighten deterministic behavior for multi-device dispatch under heterogeneous hardware states (Target: Q4 2026)
-- [x] extend stress coverage for sustained mixed query/training acceleration workloads (Wave D: test_gpu_highcardinality_stress.cpp — 3 cases delivered 2026-09-16)
-- [x] improve operator-facing incident diagnostics for fallback and capability mismatch scenarios (Wave D: RUNBOOK_GPU_MANAGER.md — 5 scenarios delivered 2026-09-16)
+- [x] extend stress coverage for sustained mixed query/training acceleration workloads (Wave D report: `tests/gpu/test_gpu_highcardinality_stress.cpp`, delivered 2026-09-16; source is in the current GPU test glob)
+- [x] improve operator-facing incident diagnostics for fallback and capability mismatch scenarios (Wave D report: `docs/operability/RUNBOOK_GPU_MANAGER.md`, delivered 2026-09-16)
 
 ### Mid-term (6-12 months)
 - [ ] re-baseline p95/p99 envelopes for backend and acceleration pathways (Target: Q1 2027)
 - [x] broaden benchmark depth for topology, partition, and high-volume concurrency scenarios (Wave D: bench_gpu_dedicated_gates.cpp — GPU-BM-01..04 delivered 2026-09-16)
-- [x] harden long-running reliability under sustained multi-tenant acceleration pressure (Wave D: test_gpu_manager_soak.cpp — 3 soak cases delivered 2026-09-16)
+- [x] harden long-running reliability under sustained multi-tenant acceleration pressure (Wave D report: `tests/integration/test_gpu_manager_soak.cpp`, delivered 2026-09-16; this is not a `tests/gpu/` focused-suite source)
 
 ## Implementation Phases
 
 ### Phase 1: Design / API Contract
-- [x] freeze resource/backend/acceleration/operations contracts for active major line (2026-08-09: GPU_CONTRACT.md created; allocation bounds, device selection, RAII, kernel SLA, diagnostics frozen)
-- [x] define explicit error taxonomy for quota, degradation, and fallback classes (2026-08-09: GPU_CONTRACT.md §6 references frozen GPUDispatchErrorCode in gpu_backend_dispatch_contract.h)
+- [x] document resource/backend/dispatch contract reference (2026-08-09: `include/gpu/gpu_backend_dispatch_contract.h` declares latency targets and an error enum; it does not freeze every numeric slot or prove universal fallback behavior)
+- [x] define explicit error taxonomy for quota, degradation, and fallback classes (2026-08-09: see the current enum declaration and [`include/gpu/GPU_CONTRACT.md`](../../include/gpu/GPU_CONTRACT.md))
 
 ### Phase 2: Core Implementation
 - [x] complete hardening for allocation, backend selection, and dispatch internals (Delivered: Q3 2026)
@@ -76,7 +80,7 @@ Production GPU runtime exists across device discovery, allocation/governance, ba
   - Canonical lock order documented: allocation_mutex → device_state_mutex → dispatch_mutex
   - selectDevice() emits BACKEND_NO_DEVICE_AVAILABLE diagnostic on fail-closed
   - allocate() validates parameters early with fail-closed error codes (ALLOC_SIZE_EXCEEDS_LIMIT, ALLOC_INVALID_PARAMS)
-  - SLA timing verification built into load_balancer.cpp and gpu_memory_allocator.cpp
+  - Timing checks are present in selected code; they do not prove every operation remains within a hard real-time bound.
   - GPUBackendDispatchDiagnostics infrastructure added for unified event emission
   - Contract header: `include/gpu/gpu_backend_dispatch_contract.h` (v1.0.0)
   - Diagnostics header: `include/gpu/gpu_backend_dispatch_diagnostics.h` (v1.0.0)
@@ -88,21 +92,20 @@ Production GPU runtime exists across device discovery, allocation/governance, ba
 ### Phase 3: Error Handling and Edge Cases
 - [x] standardize fail-safe behavior for capability mismatch and backend errors (Delivered: Q3 2026)
   - All error codes inherit from GPUDispatchErrorCode enum with fail-closed classification
-  - isFailClosedClass() predicate ensures all errors trigger CPU degradation
+  - isFailClosedClass() classifies non-success enum values; a classification does not itself execute CPU work.
   - BACKEND_CAPABILITY_MISMATCH maps to distinct event type for operator observability
   - Backend selection failures never silently retry; always emit diagnostic and return nullptr
 - [x] unify diagnostics across denial, fallback, and degraded execution incidents (Delivered: Q3 2026)
   - emitDiagnostic() helper unifies log + event-callback emission for all error paths
   - All error codes have human-readable strings via errorCodeToString()
-  - Event callback registration supports multiple diagnostic consumers
+  - Event callback registration is available; emission depends on call sites.
   - Diagnostic latency bounded to ≤100µs per contract
 
 ### Phase 4: Tests
 - [x] expand focused regressions for mixed-backend/mixed-capability edge scenarios (Delivered: Q3 2026)
 - [x] extend deterministic stress fixtures for multi-tenant and multi-device workloads (Delivered: Q3 2026)
-  - Test file: `tests/gpu/test_gpu_phase2_phase3_focused.cpp`
-  - Test cases: P23-01..P23-08 (backend selection fail-closed, bounded latency, diagnostic emission, error mapping)
-  - kPhase23Seed = 42; all tests self-contained, no external I/O
+  - Test source: `tests/gpu/test_gpu_phase2_phase3_focused.cpp`; current CMake quarantines it, so it has no registered focused target.
+  - Historical cases: P23-01..P23-08 (backend selection, latency, diagnostics, error mapping); source presence is not current execution evidence.
 
 ### Phase 5: Performance and Hardening
 - [x] lock benchmark-backed release gates for GPU hot paths (Delivered: Q3 2026)
@@ -149,7 +152,7 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 
 ### Wave A Scope for `gpu`
 - [~] Gpu: reduce unchecked CUDA-call exposure, close RAII lifecycle gaps, enforce kernel timeouts, and guarantee clean CPU degradation on every GPU failure (Target: Q3–Q4 2026)
-  - 2026-08-24: CUDA-call audit complete; `cuda_raii.h` wrappers added; KernelSLAGuard confirmed at 11 sites; GPU-TIMEOUT/EXHAUST/FALLBACK tests registered `release_critical`.
+  - 2026-08-24 report: CUDA-call audit and wrapper work recorded; current CMake registers the timeout and fallback suites with `release_critical`, but quarantines the resource-exhaustion suite.
 
 ### Wave A Exit Criteria (this module's contribution)
 - [ ] Deterministic chaos evidence complete for recovery and failover paths (Target: Q4 2026)
@@ -162,15 +165,15 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 
 ### Wave A Closure Evidence Block
 - [x] Focused regression closure: Phase 2/3 focused tests (P23-01..08) and release-gate benchmarks (GP23-01..06) are already delivered.
-- [x] Kernel SLA timeout enforcement: `KernelSLAGuard` delivered in `include/themis/gpu/gpu_timeout.h`; 12 deterministic timeout-enforcement tests (GPU-TIMEOUT-01..12) implemented in `tests/gpu/test_gpu_wave_a_timeout_closure.cpp` (registered `release_critical` 2026-08-19). See `WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`.
-- [x] Resource-exhaustion and all-path CPU-fallback: `test_gpu_resource_exhaustion.cpp` (GPU-EXHAUST-01..12) and `test_gpu_fallback_all_paths.cpp` (GPU-FALLBACK-01..12) registered `release_critical` 2026-08-18.
-- [x] Chaos/fault-injection evidence: GPU-TIMEOUT-01..12 (kernel SLA enforcement), GPU-EXHAUST-01..12 (resource exhaustion), GPU-FALLBACK-01..12 (CPU-fallback all paths) delivered; coordinator crash and partition-tolerance covered by KernelSLAGuard + fallback path tests in `tests/gpu/`.
-- [x] Fail-closed verification: all GPU acceleration paths fail closed — kernel SLA timeout triggers CPU fallback, resource exhaustion returns controlled error (no panic/UB), GPU-FALLBACK tests confirm 100% CPU-path coverage on CUDA-unavailable environment. See `WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`.
+- [x] Kernel SLA test source exists: `KernelSLAGuard` is declared in `include/themis/gpu/gpu_timeout.h`; `test_gpu_wave_a_timeout_closure.cpp` is registered with `release_critical`. The historical execution status is in `WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md`.
+- [~] Resource-exhaustion and all-path fallback test sources exist: `test_gpu_resource_exhaustion.cpp` is currently quarantined in CMake; `test_gpu_fallback_all_paths.cpp` is registered with `release_critical`. Current green execution evidence is not established by registration.
+- [~] Fault-injection/test evidence: historical test sources exist, but current CMake quarantines the resource-exhaustion suite. Revalidate each test and execution result before claiming coverage.
+- [~] Fail-closed/fallback verification: no universal CPU-computation fallback is established. `GPUModule::submitWork` currently records fallback and returns success without executing its work item on CPU; verify workload-specific fallback separately.
   - 2026-08-24: audit pass complete; `include/gpu/cuda_raii.h` delivers `CudaStreamGuard`/`CudaEventGuard`/`CudaDeviceMemoryGuard`; all `src/gpu/` raw call sites catalogued (see `WAVE_A_CLOSURE_EVIDENCE_BUNDLE.md §CUDA Call Reduction Audit`).
 - [~] RAII lifecycle gap closure: 57 gaps identified; `gpu_safe_raii.h` + `gpu_raii_wrappers.hpp` + `cuda_raii.h` (2026-08-24) deliver wrapper infrastructure; `CudaStreamGuard::adopt()` factory added + `stream_manager.cpp` migrated from `uintptr_t` registry to `CudaStreamGuard` (2026-08-24); full gap closure in progress.
 - [~] Representative-hardware p95/p99 baselines: `bench_gpu_a8_baselines.cpp` now emits gate counters and the dedicated Wave-A GPU workflow now has an explicit opt-in self-hosted representative-hardware artifact job; authoritative A100/H100-class execution evidence is still pending because run `34322900559` had no available `gpu-cuda` runner. (Target: Q4 2026)
   - EVIDENCE-NOTE: sandbox environment does not provide CUDA-capable hardware; CI on `develop` remains the authoritative baseline record.
-- [~] `release_critical` coverage: Wave A targets registered; green-on-`develop` execution evidence still pending.
+- [~] `release_critical` coverage: timeout/fallback-related targets are registered; resource-exhaustion is quarantined, and green-on-`develop` execution evidence remains pending.
 
 ### Wave D Contribution for `gpu`
 - [x] Deliver high-cardinality stress coverage for GPU manager hot paths (Wave D: test_gpu_highcardinality_stress.cpp — HighCardinalityKernelSubmit, ConcurrentMemoryAllocStress, MultiGPURoutingStress delivered 2026-09-16)
