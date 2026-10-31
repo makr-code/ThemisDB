@@ -48,7 +48,7 @@ The Network module implements ThemisDB's networking layer for distributed commun
 | `raft_load_balancer.cpp` | `RaftLoadBalancer` — 5 routing strategies, health-based failover, consistent hashing (port 8774) |
 | `io_uring_batcher.cpp` | `IoUringBatchedSender` — single `io_uring_enter` for N concurrent writev SQEs (guarded by `THEMIS_ENABLE_IO_URING`) |
 | `kernel_bypass.cpp` | `DPDKServer` + `IoUringServer` + `CpuPinner` + `NumaAllocator` + `ZeroCopyDmaBuffer` |
-| `network_audit_log.cpp` | `NetworkAuditLog` — standalone event buffer/callback implementation; production call-site integration is not verified |
+| `network_audit_log.cpp` | `NetworkAuditLog` — bounded audit-event buffer/callback, compiled into `themis_core` and integrated with `WireProtocolServer` |
 | `quic_server.cpp` | `QUICServer` + `QUICClient` — QUIC/HTTP3 server with 0-RTT, BBR/Cubic congestion control (guarded by `THEMIS_ENABLE_HTTP3`) |
 | `adaptive_io_scaler.h` | `AdaptiveIOScaler` — background I/O thread scaler based on active connection ratio (header-only) |
 
@@ -747,8 +747,10 @@ message StartProcessResponse { ... }
 - Shared-token AUTH handler; `auth_mechanism` currently accepts the
   `SCRAM-SHA-256` configuration label but does not implement a SCRAM exchange
 - Rate limiting and connection limits
-- `NetworkAuditLog` exists as a standalone buffer/callback API; production
-  event wiring remains unverified (see `PRODUCTION_REQUIREMENTS.md`)
+- `WireProtocolServer::getAuditLog()` exposes the per-server bounded log, which
+  records accepted connection open/close, AUTH outcomes, and rate-limit
+  rejections. Its default 10,000-event buffer is in-memory only; configure a
+  non-blocking callback before `start()` to forward events to a durable sink.
 
 ### Performance Module
 - Connection pooling reduces handshake overhead

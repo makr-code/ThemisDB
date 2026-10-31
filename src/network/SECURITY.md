@@ -51,7 +51,7 @@ Exact model backend not verifiable from final document text alone.
 
 ## Incident Handling
 
-On suspected listener, certificate, or credential compromise, disable the affected listener or revoke the credential, preserve available server logs and any audit events where `NetworkAuditLog` has been wired by the owning service, and verify transport and auth settings before reopening traffic. Do not assume the standalone audit API is automatically connected. Use [SOP-05](../../SOP.md) and [SOP-08](../../SOP.md).
+On suspected listener, certificate, or credential compromise, disable the affected listener or revoke the credential, preserve available server logs and `WireProtocolServer` audit events, and verify transport and auth settings before reopening traffic. The wire-server audit buffer is bounded and in-memory; preserve/export events through a configured callback sink when durable incident evidence is required. Other network transports do not automatically share this log. Use [SOP-05](../../SOP.md) and [SOP-08](../../SOP.md).
 
 ## Sourcecode Verification (Module: network/security)
 

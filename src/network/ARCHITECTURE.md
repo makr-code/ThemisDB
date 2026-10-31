@@ -67,7 +67,7 @@ The network module provides the wire-protocol server runtime, transport adapters
 - Feature-rich transport surfaces exist, but availability can depend on build/runtime wiring.
 - Query/geospatial execution over wire protocol is integration-dependent (`query_engine_`, spatial index/bridge callback).
 - Network-specific release/routing benchmark gates are in `benchmarks/network/`; they exercise in-process helper paths. The protocol-path cases are stubs, and no live-transport hardware baseline is established (see `RESEARCH.md`).
-- `NetworkAuditLog` has a standalone implementation, but production call-site integration is not verified in the inspected build/source wiring.
+- `WireProtocolServer` owns a `NetworkAuditLog`, records connection lifecycle, authentication outcomes, and rate-limit rejections, and exposes it through `getAuditLog()`. The event buffer is bounded and in-memory; external persistence/export requires a callback sink.
 
 ## 7. Sourcecode Verification (Module: network/architecture)
 

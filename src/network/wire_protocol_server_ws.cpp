@@ -113,10 +113,14 @@ uint32_t wsCrc32Update(uint32_t crc, const uint8_t* data, size_t len) {
 WireProtocolWebSocketSession::WireProtocolWebSocketSession(
     tcp::socket socket,
     WireProtocolServer* server,
-    const std::string& client_ip)
+    const std::string& client_ip,
+    uint64_t audit_connection_id,
+    bool audit_open_recorded)
     : ws_(std::move(socket))
     , server_(server)
     , session_id_(server->session_id_counter_.fetch_add(1, std::memory_order_acq_rel))
+    , audit_connection_id_(audit_connection_id)
+    , audit_open_recorded_(audit_open_recorded)
 {
     // Use the IP passed from the binary session if available; otherwise extract
     // from the (moved) socket.  The passed IP is preferred because it ensures the
@@ -146,6 +150,7 @@ WireProtocolWebSocketSession::WireProtocolWebSocketSession(
 }
 
 WireProtocolWebSocketSession::~WireProtocolWebSocketSession() {
+    recordAuditClose();
     THEMIS_INFO("[WireWS] session {} destroyed", session_id_);
 }
 
@@ -171,6 +176,7 @@ void WireProtocolWebSocketSession::run(http::request<http::string_body> req) {
 void WireProtocolWebSocketSession::onAccept(beast::error_code ec) {
     if (ec) {
         THEMIS_ERROR("[WireWS] session {} accept error: {}", session_id_, ec.message());
+        recordAuditClose();
         return;
     }
 
@@ -225,6 +231,7 @@ void WireProtocolWebSocketSession::onRead(beast::error_code ec,
     if (ec == websocket::error::closed) {
         THEMIS_INFO("[WireWS] session {} closed by client", session_id_);
         active_.store(false, std::memory_order_release);
+        recordAuditClose();
 
         // Decrement per-IP count and remove session under the same lock so the
         // two changes are atomic from the perspective of checkConnectionLimit.
@@ -241,6 +248,7 @@ void WireProtocolWebSocketSession::onRead(beast::error_code ec,
     if (ec) {
         THEMIS_ERROR("[WireWS] session {} read error: {}", session_id_, ec.message());
         active_.store(false, std::memory_order_release);
+        recordAuditClose();
 
         {
             std::lock_guard<std::mutex> lock(server_->connections_mutex_);
@@ -754,6 +762,7 @@ void WireProtocolWebSocketSession::onWrite(beast::error_code ec,
  */
 void WireProtocolWebSocketSession::close() {
     if (!active_.exchange(false, std::memory_order_acq_rel)) {
+        recordAuditClose();
         return;  // Already closed
     }
 
@@ -764,6 +773,7 @@ void WireProtocolWebSocketSession::close() {
     } else {
         THEMIS_INFO("[WireWS] session {} closed", session_id_);
     }
+    recordAuditClose();
 
     // Decrement the per-IP connection count and remove the session atomically
     // under connections_mutex_ (same lock used by checkConnectionLimit).
@@ -775,6 +785,7 @@ void WireProtocolWebSocketSession::close() {
             it->second--;
             was_registered = true;
         }
+
         server_->active_ws_sessions_.erase(session_id_);
     }
 
@@ -792,6 +803,13 @@ void WireProtocolWebSocketSession::close() {
                       << (prev - 1) << " (limit=" << server_->config_.max_connections
                       << "). Accepting new connections again.\n";
         }
+    }
+}
+
+void WireProtocolWebSocketSession::recordAuditClose() {
+    if (audit_open_recorded_.exchange(false, std::memory_order_acq_rel)) {
+        server_->audit_log_.recordConnectionClose(
+            client_ip_, audit_connection_id_);
     }
 }
 
@@ -815,4 +833,3 @@ std::string WireProtocolWebSocketSession::makeError(const std::string& id,
 } // namespace themis
 
 #endif // THEMIS_ENABLE_WEBSOCKET
-

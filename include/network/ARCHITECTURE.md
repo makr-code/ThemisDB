@@ -90,7 +90,7 @@ Full design — io_uring ring sizing, QUIC flow control, circuit breaker state m
 
 | Header | Public Type | Purpose |
 |--------|------------|---------|
-| `network_audit_log.h` | `NetworkAuditLog` | Standalone audit-event buffer/callback API; production call-site integration is not verified |
+| `network_audit_log.h` | `NetworkAuditLog` | Bounded audit-event buffer/callback API; integrated with `WireProtocolServer` connection, authentication, and rate-limit paths |
 
 ---
 

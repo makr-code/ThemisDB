@@ -39,7 +39,7 @@ Exact model backend not verifiable from final document text alone.
 
 ## Incident handling
 
-Disable or isolate the affected listener first; revoke exposed credentials/certificates, retain available connection logs and any audit events where the owning service wired `NetworkAuditLog`, identify impacted protocol and time range, and restore only after validating the corrected listener configuration and authentication path. Report vulnerabilities through [project SECURITY.md](../../SECURITY.md), using [SOP-05](../../SOP.md) and [SOP-08](../../SOP.md).
+Disable or isolate the affected listener first; revoke exposed credentials/certificates, retain available connection logs and `WireProtocolServer` audit events, identify impacted protocol and time range, and restore only after validating the corrected listener configuration and authentication path. The default audit buffer is bounded and in-memory, so configure an external callback sink when durable evidence is required; other transports are not automatically captured. Report vulnerabilities through [project SECURITY.md](../../SECURITY.md), using [SOP-05](../../SOP.md) and [SOP-08](../../SOP.md).
 
 ## Source references
 

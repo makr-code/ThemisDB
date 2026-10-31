@@ -784,7 +784,7 @@ timeout_manager.setAlertCallback([](SocketHealthState state, const std::string& 
 | `kernel_bypass.h` | Optional DPDK/io_uring server paths |
 | `multipath_tcp.h` | MPTCP subflow management |
 | `network_api_contract.h` | Network error categories and contract constants |
-| `network_audit_log.h` | Standalone network audit event buffer and callbacks; production call-site integration is not verified |
+| `network_audit_log.h` | Bounded network audit event buffer and callback API; `WireProtocolServer` records connection, authentication, and rate-limit events |
 | `network_observability.h` | Optional network event sink and counters |
 | `qos_manager.h` | Per-connection and tenant QoS controls |
 | `quic_server.h` | Optional QUIC server and client (`THEMIS_ENABLE_HTTP3`) |

@@ -17,6 +17,7 @@
 #include <iomanip>
 #include <sstream>
 #include <stdexcept>
+#include <spdlog/spdlog.h>
 
 // ---------------------------------------------------------------------------
 // Minimal portable SHA-256 implementation (no external dependencies)
@@ -189,7 +190,13 @@ void NetworkAuditLog::record(AuditEvent event) {
 
     // Invoke callback outside the lock to avoid priority inversion.
     if (cb_copy) {
-        cb_copy(event);
+        try {
+            cb_copy(event);
+        } catch (const std::exception&) {
+            spdlog::error("NetworkAuditLog event callback failed");
+        } catch (...) {
+            spdlog::error("NetworkAuditLog event callback failed with an unknown exception");
+        }
     }
 }
 

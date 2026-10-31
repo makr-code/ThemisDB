@@ -12,10 +12,10 @@ Human_Author: "ThemisDB Contributors"
 
 > Exact model backend not verifiable from final document text alone.
 >
-> **Source review (2026-10-31):** This document defines requirements, not proof
-> that every requirement is wired into the runtime. In particular,
-> `NetworkAuditLog` has a standalone implementation but no production call-site
-> integration was found in the inspected network sources/build registration.
+> **Source review (2026-10-31):** `NetworkAuditLog` is compiled into `themis_core`
+> and owned by `WireProtocolServer`. The server records connection lifecycle,
+> authentication outcomes, and rate-limit rejections. Events are retained in a
+> bounded in-memory buffer; durable storage/export requires a configured callback.
 
 # ThemisDB Network Module - Production Requirements
 
@@ -55,7 +55,8 @@ Es definiert verbindliche Anforderungen für Transportabsicherung, Authentifizie
 ### 3) Netzwerk-Audit-Logging
 
 - **MUST:** `NetworkAuditLog` in Produktionspfade integrieren, damit sicherheitsrelevante Verbindungsereignisse protokolliert werden.
-- **Current gap:** Der Typ und die Implementierung existieren, aber die Integration in Wire-Protocol-Produktionspfade ist im geprüften Source/CMake nicht nachgewiesen. Die Anforderung bleibt offen.
+- **Status:** Im `WireProtocolServer` integriert; `getAuditLog()` bietet Zugriff auf die servereigene, begrenzte Ereignis-Queue und den optionalen Callback.
+- **Betriebsgrenze:** Ohne Callback verbleiben Ereignisse ausschließlich im Arbeitsspeicher (Standardkapazität: 10.000); Persistenz/Export muss der Betreiber über einen nicht-blockierenden Sink konfigurieren.
 
 ## Betriebsgrenzen (aktuelles Network-Verhalten)
 
@@ -72,7 +73,7 @@ Es definiert verbindliche Anforderungen für Transportabsicherung, Authentifizie
 - [ ] Connection-Limits pro IP konfiguriert
 - [ ] Socket-Timeout-Manager aktiv
 - [ ] Circuit-Breaker konfiguriert und beobachtbar
-- [ ] Network-Audit-Log in Produktionspfaden integriert und mit Tests belegt
+- [x] Network-Audit-Log in Wire-Protocol-Produktionspfaden integriert und mit fokussiertem Integrationstest belegt
 - [ ] Produktionsmodus durch den aufrufenden Prozess gemäß `TransportSecurityChecker` konfiguriert; konkrete Startparameter außerhalb dieses Moduls verifizieren
 
 ## Review / Sourcecode-Audit-Nachweis
