@@ -16618,4 +16618,3 @@ Status: active
 - Source: `tests/aql/test_p2_d06_benchmarks.cpp`:419
 - Brief: n/a
 - Parameters: none
-
