@@ -18,10 +18,15 @@ Exact model backend not verifiable from final document text alone.
 
 `src/llm_streaming/` is documentation-only apart from `.gitkeep`. The
 source-backed helper is `themis::llm::StreamingHandler` in
-`include/llm/streaming_handler.h` and `src/llm/streaming_handler.cpp`. It
-formats SSE event strings and HTTP chunk-framing strings and can adapt a token
-callback to an SSE-formatted sink call. This is not evidence of an end-to-end
-streaming service, server integration, or production lifecycle management.
+`include/llm/streaming_handler.h` and `src/llm/streaming_handler.cpp`; it
+formats SSE event strings and HTTP chunk-framing strings and adapts a token
+callback to a caller-provided sink. Separately, an HTTP/SSE inference route is
+implemented in `src/server/llm_api_handler.cpp`. It calls
+`EmbeddedLLM::generateStreamingSSE`, formats callback values through
+`LlamaWrapper::formatStreamTokenAsSSE`, accumulates the events in a string, and
+returns a `http::string_body` response after generation. The route does not use
+`StreamingHandler` and does not send each event to the network as it is
+generated.
 
 `tests/llm/test_streaming_handler.cpp` directly tests the formatting helper and
 callback adapter. Separately, the stress/soak files in
@@ -29,7 +34,7 @@ callback adapter. Separately, the stress/soak files in
 plus the benchmark in `benchmarks/llm_streaming/`, use local stubs; those
 fixtures do not call the helper or a network/model backend.
 
-## Concrete helper flow
+## Concrete helper and runtime flows
 
 ```text
 caller token
@@ -37,6 +42,23 @@ caller token
     -> formatSseEvent(token, request_id, generated_index, false)
     -> caller-provided sink
 ```
+
+The HTTP route has a separate flow:
+
+```text
+GET /api/v1/llm/stream
+    -> LLMApiHandler::handleStreamInference
+    -> EmbeddedLLM::generateStreamingSSE
+    -> EmbeddedLLM::generateStreaming / generateFull
+    -> inference backend stream_callback
+    -> SSE formatter -> in-memory response string
+    -> HTTP string_body response (after generation completes)
+```
+
+With a loaded Llama backend, token callbacks can occur during generation. The
+server handler nevertheless buffers their SSE events until the complete
+`string_body` response is returned. The non-LLM stub implementation is not
+token-by-token: it generates once and emits a terminal callback event.
 
 The helper's atomic counter allocates increasing indices across copies of that
 callback. It does not serialize sink calls, so concurrent calls are not proven
@@ -47,12 +69,13 @@ between them is implemented here.
 
 ## Design topics, not implemented guarantees
 
-Lifecycle ownership, cancellation and disconnect propagation, bounded
-backpressure, stream registries, ordering at the transport, retries, metrics,
-and operator recovery are design requirements only. The repository evidence
-examined for this page does not define their runtime APIs, error-code taxonomy,
-timeouts, or production configuration. Do not treat the state names or
-failure-handling guidance elsewhere in this directory as delivered behavior.
+The HTTP route has no verified per-stream cancellation or disconnect
+propagation, backpressure, retry, or stream registry. Its `max_tokens` query
+parameter defaults to 512 and accepts values through 4096; no dedicated
+streaming configuration keys or streaming metrics were found. The broader
+helper lifecycle, concurrent sink ordering, and operator recovery remain
+unestablished. Do not treat the state names or failure-handling guidance
+elsewhere in this directory as delivered behavior.
 
 ## Validation boundary
 
@@ -74,6 +97,10 @@ streaming or transport validation.
 
 - `include/llm/streaming_handler.h`
 - `src/llm/streaming_handler.cpp`
+- `include/llm/embedded_llm.h`
+- `src/llm/embedded_llm.cpp`
+- `src/server/llm_api_handler.cpp`
+- `src/llm/embedded_llm_stub.cpp`
 - `cmake/ModularBuild.cmake`
 - `tests/llm/test_streaming_handler.cpp`
 - `tests/llm_streaming/CMakeLists.txt`
@@ -81,5 +108,6 @@ streaming or transport validation.
 - `tests/integration/CMakeLists.txt`
 - `benchmarks/llm_streaming/CMakeLists.txt`
 
-**TODO / assumption:** identify and document the runtime owner and any actual
-server-to-sink integration when source and integration tests establish them.
+**TODO / assumption:** verify the HTTP handler's buffering and failure behavior
+with route-level tests, then decide whether incremental transport writes and
+disconnect cancellation are required.

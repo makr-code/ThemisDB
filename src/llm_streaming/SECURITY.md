@@ -23,22 +23,26 @@ and `id` JSON string values in `formatSseEvent`. It emits a structured SSE
 the fixed `data: [DONE]\n\n` string. `makeStreamCallback` rejects an empty sink
 by throwing `std::invalid_argument`.
 
-These are narrow formatting/input checks. They do not establish authentication,
-authorization, request-ID validation, payload size limits, rate limits,
-transport security, client isolation, or a complete defense against
-application-level injection. The caller owns transport and sink behavior.
+These are narrow formatting/input checks. The route is protected by the LLM
+handler's bearer-token validation and accepts prompt/request data in URL query
+parameters; this does not establish request-ID validation, payload size limits,
+rate limits, transport encryption, client isolation, or a complete defense
+against application-level injection. The handler buffers the full SSE response,
+and the caller/HTTP server owns transport behavior.
 
 ## Unverified trust boundaries
 
-The helper interface receives a token, request ID, and callback sink. The
-checked code does not show who supplies or validates them, whether a network
-boundary exists, or how diagnostics are protected. Do not assume HTTP/gRPC
-integration, lifecycle checks, cancellation, or backpressure controls.
+The helper interface receives a token, request ID, and callback sink, but the
+server's HTTP/SSE path uses `EmbeddedLLM` and `LlamaWrapper` directly rather than
+this helper. The route validates bearer authentication before dispatch; no
+route-level evidence was found for request-ID validation, cancellation,
+backpressure controls, or diagnostic redaction.
 
 ## Security review requirements for future integration
 
 - Validate or constrain request identifiers and sensitive text before logging.
 - Review maximum token/event sizes and the caller's buffering behavior.
+- Review prompt and request-ID exposure through the query string and logs.
 - Verify that the actual transport applies the intended authentication and
   authorization policies.
 - Exercise JSON escaping and error behavior through direct tests and any real
@@ -46,7 +50,7 @@ integration, lifecycle checks, cancellation, or backpressure controls.
 - Document concurrency and sink ownership before concurrent use.
 
 `tests/llm/test_streaming_handler.cpp` checks selected escaping and helper
-behavior, but does not validate transport security or a production path. The
+behavior, but does not validate the HTTP route or transport security. The
 stress/soak fixtures and benchmark use local stubs and provide no production
 security validation.
 
@@ -54,5 +58,6 @@ security validation.
 
 - `include/llm/streaming_handler.h`
 - `src/llm/streaming_handler.cpp`
+- `src/server/llm_api_handler.cpp`
 - `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`
 - `tests/integration/test_llm_streaming_soak.cpp`

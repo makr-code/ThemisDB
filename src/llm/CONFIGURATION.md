@@ -160,9 +160,7 @@ inference:
   default_timeout_ms: 300000      # 5 min
   max_concurrent_requests: 1024   # -1 = unlimited
   continuous_batching: true
-  streaming:
-    token_buffer_size: 64
-    callback_timeout_ms: 5000
+  # No streaming subsection is consumed by the runtime configuration parser.
   sampling:
     temperature: 0.7
     top_p: 0.9
@@ -236,6 +234,18 @@ advanced:
   debug_mode: false
   num_threads: -1                  # Worker thread count (-1 = auto)
 ```
+
+### Streaming-specific settings
+
+No runtime configuration keys for token buffering, callback timeout,
+cancellation, or network flush behavior were found. Do not configure
+`inference.streaming.token_buffer_size` or
+`inference.streaming.callback_timeout_ms` based on older examples; these are not
+implemented settings. The HTTP route `GET /api/v1/llm/stream` takes
+`prompt`, `request_id`, and `max_tokens` as query parameters. Its `max_tokens`
+default is 512, and values from 1 through 4096 are accepted; other supplied
+values leave the default unchanged. SSE output is accumulated into a complete
+response body before the handler returns.
 
 ---
 

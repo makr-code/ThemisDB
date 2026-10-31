@@ -15,36 +15,38 @@ Exact model backend not verifiable from final document text alone.
 # LLM Streaming — Future Work
 
 All items below are proposals, not commitments or descriptions of delivered
-runtime behavior. The source-backed surface remains the helper in
-`include/llm/streaming_handler.h` and `src/llm/streaming_handler.cpp`;
+runtime behavior. The source-backed surface includes the helper in
+`include/llm/streaming_handler.h` and `src/llm/streaming_handler.cpp`, plus a
+separate buffered HTTP/SSE inference route at `GET /api/v1/llm/stream`.
 `src/llm_streaming/` contains no runtime implementation.
 
 ## Scope
 
-**Proposed / unverified:** identify an approved product owner and canonical
-runtime owner before expanding the helper into a broader streaming feature.
-The current caller, transport integration, and delivery milestone are TODO.
+**Proposed / unverified:** decide whether the existing route's complete-body
+buffering is acceptable or whether incremental transport delivery is required.
+Product owner and delivery milestone are TODO.
 
 ## Design Constraints
 
 **Proposed / unverified:** any future design should state ownership and sink
 concurrency explicitly. The helper's relaxed atomic index does not serialize
 sink calls or guarantee delivery order. Do not infer lifecycle, cancellation,
-backpressure, disconnect handling, or transport guarantees from the current API.
+backpressure, disconnect handling, or incremental transport guarantees from
+the current API. The existing route returns a `string_body` after generation.
 
 ## Required Interfaces
 
 **Proposed / pending owner:** determine whether the owning runtime needs
-session/lifecycle, cancellation, backpressure, transport, configuration, or
-diagnostic interfaces. No such interfaces are established by the current
+session/lifecycle, cancellation, backpressure, incremental transport,
+configuration, or diagnostic interfaces. No such interfaces are established by the current
 `StreamingHandler` API; details remain TODO rather than specified contracts.
 
 ## Implementation Notes
 
-**Proposed / unverified:** map the actual caller and runtime boundary first.
-Implement only the behaviors approved for that owner, and document them from
-source. No product ownership, implementation assignment, or delivery milestone
-has been verified.
+**Proposed / unverified:** add route-level tests for current buffered response,
+terminal/error behavior, and backend differences. If incremental writes are
+required, implement only the behaviors approved for the server owner and
+document them from source. No product owner or delivery milestone is verified.
 
 ## Test Strategy
 

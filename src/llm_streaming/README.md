@@ -22,10 +22,19 @@ a runtime source module. The source-backed helper is declared in
 `src/llm/streaming_handler.cpp`. It formats SSE event strings and HTTP chunk
 framing and adapts a token callback to a caller-provided string sink.
 
-The checked sources do not establish an end-to-end server/LLM streaming path,
-HTTP or gRPC integration, session lifecycle, cancellation, production
-backpressure, or runtime metrics. Do not treat requirements elsewhere in this
-directory as delivered behavior.
+An HTTP/SSE path is implemented separately from this helper:
+`GET /api/v1/llm/stream` in `src/server/llm_api_handler.cpp` calls
+`EmbeddedLLM::generateStreamingSSE`, which formats inference callback values
+with `LlamaWrapper::formatStreamTokenAsSSE`. The handler appends events to a
+`std::string` and returns an HTTP `string_body` response after generation
+finishes. This is SSE-formatted output, not incremental network delivery.
+`StreamingHandler` is not used by that route.
+
+The route reads `prompt`, `request_id`, and `max_tokens` from the query string;
+`max_tokens` defaults to 512 and accepted values are capped at 4096. No
+stream-specific configuration keys, cancellation/disconnect propagation,
+backpressure controller, or streaming metrics were verified. The module tests,
+soak, and benchmark remain local stub scenarios, not tests of this server path.
 
 ## Evidence paths
 
@@ -33,6 +42,8 @@ directory as delivered behavior.
 |---|---|
 | `include/llm/streaming_handler.h` | Public `themis::llm::StreamingHandler` declarations |
 | `src/llm/streaming_handler.cpp` | String formatting and callback adapter implementation |
+| `src/llm/embedded_llm.cpp` | Inference callback and SSE event formatting |
+| `src/server/llm_api_handler.cpp` | Buffered HTTP/SSE route and response construction |
 | `tests/llm/test_streaming_handler.cpp` | Direct helper unit tests (not runtime integration) |
 | `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp` | In-process stub stress tests |
 | `tests/integration/test_llm_streaming_soak.cpp` | In-process stub soak tests |
@@ -72,5 +83,6 @@ documentation update.
 - `ROADMAP.md` — planned work and current limitations
 - `PRODUCTION_REQUIREMENTS.md` — proposed acceptance evidence
 
-**TODO:** document a runtime owner, caller, and end-to-end integration if source
-and test evidence establish them.
+**TODO:** add transport-level tests and establish whether true incremental
+network delivery, client-disconnect cancellation, and bounded buffering are
+required. The current handler buffers the complete response.

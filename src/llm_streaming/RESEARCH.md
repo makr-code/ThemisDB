@@ -30,29 +30,36 @@ claim a complete runtime or an external research review.
   `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp` define
   separate in-process stubs. They do not use the helper or real network/model
   backends.
+- `GET /api/v1/llm/stream` in `src/server/llm_api_handler.cpp` invokes
+  `EmbeddedLLM::generateStreamingSSE`, which formats inference callback values
+  as SSE and accumulates them into a string response body.
+- The route returns `http::string_body` after generation completes; this is
+  not incremental network delivery and it does not call `StreamingHandler`.
+- The route parses `prompt`, `request_id`, and `max_tokens`; the default token
+  limit is 512 and accepted query values are capped at 4096.
 
 The helper's atomic callback index does not establish ordered concurrent sink
 delivery. The source reviewed does not establish session lifecycle,
-backpressure, cancellation, gRPC, a server route, or runtime metrics.
+backpressure, disconnect cancellation, gRPC, or streaming metrics.
 
 ## Open design questions
 
-1. Which runtime component calls the helper, and what are the sink's ownership
-   and thread-safety requirements?
-2. Is the callback invoked concurrently? If so, where is delivery order
-   serialized or otherwise specified?
-3. Which component, if any, owns cancellation, disconnect, buffering, and
-   cleanup?
-4. Which integration tests exercise the actual helper and transport boundary?
+1. Is buffered SSE sufficient, or must the route write events incrementally?
+2. Which route-level tests verify the actual inference-to-response path?
+3. Which component should own disconnect cancellation, backpressure, and
+   cleanup if incremental delivery is required?
+4. Is the helper callback invoked concurrently, and what sink ordering contract
+   should callers observe?
 5. Are the benchmark labels intended product requirements, or merely
    illustrative stub thresholds?
 
 ## Conclusion
 
-The current evidence supports documentation of a small formatting utility and
-separate stub scenarios. It does not support claims about a full streaming
-service, deployment behavior, or release performance. The answers above remain
-unverified until connected to canonical implementation and test evidence.
+The current evidence supports a formatting utility, a buffered HTTP/SSE
+inference route, and separate stub scenarios. It does not support claims about
+incremental network delivery, cancellation/backpressure guarantees, deployment
+behavior, or release performance. The open questions require canonical
+implementation and test evidence.
 
 **TODO:** add external papers or measured research references only if a
 specific design decision requires them; none is asserted here.

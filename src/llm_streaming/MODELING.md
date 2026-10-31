@@ -14,8 +14,8 @@ Exact model backend not verifiable from final document text alone.
 
 # Modeling Notes: LLM Streaming
 
-This page separates the source-backed formatter behavior from proposed models
-for a future end-to-end streaming runtime.
+This page separates the source-backed formatter behavior, the existing
+buffered HTTP/SSE path, and proposed models for future runtime capabilities.
 
 ## Implemented behavior
 
@@ -27,14 +27,23 @@ Neither lifecycle state nor queue, ordering enforcement, or transport state is
 managed by this helper. Concurrent invocation may call the sink out of index
 order.
 
+## Existing HTTP/SSE path
+
+`GET /api/v1/llm/stream` calls `EmbeddedLLM::generateStreamingSSE`, which
+passes a callback into inference and formats callback values as SSE events.
+`LLMApiHandler` accumulates those events in a string, appends a terminal event
+on success (or an error event if generation throws), then returns a
+`http::string_body` response. This is buffered SSE output, not incremental
+transport delivery. The route has query parameters `prompt`, `request_id`, and
+`max_tokens` (default 512, accepted maximum 4096).
+
 ## Proposed runtime model (not established)
 
 The states `open`, `active`, `cancelled`, and `closed`, plus per-stream
 ownership, ordered delivery, cancellation/disconnect behavior, bounded
-backpressure, and diagnostic retention, are design proposals in this
-documentation set. No source-backed implementation or public API for these
-concepts was identified in the checked header and implementation. Do not
-describe these as current runtime guarantees.
+backpressure, and diagnostic retention, remain design proposals. No source-backed
+API for these capabilities was identified. Do not describe them as current
+runtime guarantees.
 
 ## Validation boundary
 
@@ -49,11 +58,12 @@ unit or stub scenarios described.
 
 ## Unverified items
 
-- Runtime owner and production call path for `StreamingHandler`.
+- Route-level integration tests for the actual `LLMApiHandler` response.
+- Whether buffered HTTP delivery is acceptable or incremental writes are needed.
 - Whether callback invocations can be concurrent and the sink's thread-safety
   contract.
-- Whether any runtime performs backpressure, cancellation, retry, cleanup, or
-  telemetry, and what its configuration and limits are.
+- Whether any runtime provides backpressure, disconnect cancellation, retry,
+  cleanup, or telemetry, and what configuration and limits apply.
 
 These details require implementation and integration-test evidence before
 being added to this model.

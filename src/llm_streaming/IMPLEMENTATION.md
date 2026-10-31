@@ -29,10 +29,29 @@ with declarations in `include/llm/streaming_handler.h`. It provides:
    uses `std::memory_order_relaxed`; a null/empty sink throws
    `std::invalid_argument`.
 
-The implementation does not open a stream, invoke inference, provide a server
-transport, emit a final event automatically, or implement cancellation,
-backpressure, retries, or session cleanup. Concurrent sink invocation ordering
-and sink thread safety are not guaranteed by the atomic counter.
+This helper does not invoke inference, open a server transport, emit a final
+event automatically, or implement cancellation, backpressure, retries, or
+session cleanup. Concurrent sink invocation ordering and sink thread safety
+are not guaranteed by the atomic counter.
+
+## Separate inference and HTTP/SSE path
+
+`LLMApiHandler::handleStreamInference` serves `GET /api/v1/llm/stream` and
+invokes `EmbeddedLLM::generateStreamingSSE`. With the Llama backend,
+`EmbeddedLLM::generateStreaming` passes a callback through `generateFull` to
+the inference request; `LlamaWrapper::generate` invokes that callback as token
+text is produced. `generateStreamingSSE` formats callback values through
+`LlamaWrapper::formatStreamTokenAsSSE`.
+
+The server handler appends SSE events to an in-memory string, appends a done
+event after normal generation (or an error event if generation throws), then
+returns an HTTP `string_body` response with `text/event-stream`. The HTTP body
+is therefore buffered until generation completes. The handler parses
+`prompt`, optional `request_id`, and `max_tokens`; the default is 512, and only
+values from 1 through 4096 replace that default. The `EmbeddedLLM` stub path
+does not generate token events: it calls `generate` once and invokes its
+callback with a terminal-style event. No stream-specific runtime configuration,
+client-disconnect cancellation, or bounded transport backpressure was found.
 
 ## Tests and benchmark: scope
 
@@ -56,7 +75,8 @@ and sink thread safety are not guaranteed by the atomic counter.
   gates, or evidence of production performance.
 
 The three stub-based files do not call `StreamingHandler` and are not
-integration tests for this implementation.
+integration tests for the HTTP/SSE path. A route-level test exercising the
+actual request-to-response behavior was not identified.
 
 ## Build/test registration references
 
@@ -82,6 +102,7 @@ The helper implementation is included in the LLM source list in
 `src/llm_streaming/`. Consult the repository's normal configure/build workflow
 for invocation; validation was not run as part of this documentation update.
 
-**TODO:** extend helper coverage for callback copies and concurrent invocation,
-then identify the runtime caller and the owner for any broader streaming
-lifecycle.
+**TODO:** add route-level tests for response buffering and error/terminal
+events; decide whether incremental network writes, disconnect cancellation,
+and bounded buffering are required. Extend helper coverage for callback copies
+and concurrent invocation separately.

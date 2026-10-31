@@ -16,16 +16,21 @@ Exact model backend not verifiable from final document text alone.
 
 ## Current Status
 
-`src/llm_streaming/` is docs-only. The checked implementation is a formatting
-and callback helper in `src/llm/streaming_handler.cpp`, declared in
-`include/llm/streaming_handler.h`; its actual production caller and transport
-integration were not established. The module stress test, integration soak,
-and dedicated benchmark use in-process stubs and do not call this helper.
+`src/llm_streaming/` is docs-only. `StreamingHandler` is a formatting and
+callback helper in `src/llm/streaming_handler.cpp`, declared in
+`include/llm/streaming_handler.h`. A separate production HTTP/SSE path exists:
+`GET /api/v1/llm/stream` calls `EmbeddedLLM::generateStreamingSSE`, buffers
+events in memory, and returns a `string_body` response after generation. It
+does not use `StreamingHandler` and does not provide incremental network
+delivery. The module stress test, integration soak, and dedicated benchmark
+use in-process stubs and do not test this route.
 
 - [~] Document the helper API and its limits.
-- [ ] Identify and document the runtime owner, caller, and transport integration.
-- [~] Maintain direct helper unit coverage; add runtime integration tests if an
-      owning path is established.
+- [x] Identify the HTTP route, inference callback, and buffered response path.
+- [ ] Decide whether incremental network delivery is required and implement it
+      only with explicit cancellation/backpressure semantics.
+- [~] Maintain direct helper unit coverage; add route-level integration tests
+      for the existing HTTP path.
 - [ ] Establish verified runtime behavior and release evidence before making
       production-readiness claims.
 
@@ -35,7 +40,8 @@ and dedicated benchmark use in-process stubs and do not call this helper.
   `.h` implementation files.
 - The helper supports SSE string formatting, a `[DONE]` string, HTTP chunk
   framing, and a sink callback adapter. It does not implement session
-  lifecycle, cancellation, backpressure, server routing, or gRPC.
+  lifecycle, cancellation, backpressure, or gRPC. The separate server route
+  buffers callback events and returns the completed body.
 - The stub tests model counters, a bounded queue, and synthetic sequence checks.
   Their metrics and outcomes are not evidence of runtime performance.
 - `tests/llm/test_streaming_handler.cpp` tests the helper directly, but not
@@ -47,7 +53,9 @@ and dedicated benchmark use in-process stubs and do not call this helper.
 ## In Progress / Planned
 
 - [~] Maintain source-backed API documentation and explicitly mark unknowns.
-- [ ] Trace the helper's real caller and determine the canonical runtime owner.
+- [x] Trace the server route and inference callback; the route does not call
+      `StreamingHandler`.
+- [ ] Determine whether the buffered HTTP response meets product requirements.
 - [ ] Specify callback concurrency and whether the sink must preserve order.
 - [ ] Decide whether lifecycle, cancellation, disconnect, backpressure, and
       diagnostics are in scope for the owning runtime.
@@ -60,15 +68,17 @@ and dedicated benchmark use in-process stubs and do not call this helper.
 ### Phase 1: API and ownership clarification
 
 - [x] Inventory the public `StreamingHandler` declarations and implementation.
-- [~] Record a provisional ownership map; actual caller/integration remains
-      unverified.
+- [x] Record the route owner (`LLMApiHandler`) and inference boundary
+      (`EmbeddedLLM`); helper ownership remains caller-provided.
 - [ ] Confirm callback concurrency and sink contract.
 
-### Phase 2: Runtime integration (planned; owner not established)
+### Phase 2: Transport behavior (planned)
 
-- [ ] Identify approved canonical runtime owner and actual request-to-sink path.
-- [ ] Implement only the lifecycle and transport behavior assigned to that owner.
-- [ ] Define cancellation, completion, and error propagation based on source.
+- [x] Document the existing GET route, query parameters, inference callback,
+      response buffering, and terminal/error events.
+- [ ] Decide whether incremental network writes are required; if so, assign the
+      transport lifecycle to `LLMApiHandler` and define cancellation/backpressure.
+- [ ] Test the actual request-to-response path and backend/stub behavior.
 
 ### Phase 3: Reliability and security validation (planned)
 
@@ -81,8 +91,8 @@ and dedicated benchmark use in-process stubs and do not call this helper.
 
 - [x] Direct unit tests for `StreamingHandler` exist.
 - [ ] Extend direct helper tests for callback copies and concurrent invocation.
-- [ ] Add integration coverage only after a canonical runtime owner and actual
-      request-to-sink path are established.
+- [ ] Add route integration coverage for the existing request-to-response path
+      and any future incremental transport implementation.
 - [ ] Keep stub stress and soak coverage clearly separate from helper/runtime
       evidence.
 
@@ -100,14 +110,16 @@ and dedicated benchmark use in-process stubs and do not call this helper.
 ### Phase 6: Documentation & Acceptance (planned)
 
 - [ ] Align public API and operational docs with verified runtime behavior.
-- [ ] Document the approved runtime owner, caller, configuration, and supported
-      transport from canonical sources.
+- [x] Document the current HTTP route, its query parameters, and response mode.
+- [ ] Document any future streaming-specific configuration only after it is
+      implemented and tested.
 - [ ] Require traceable implementation, tests, and operational evidence for
       any production claim.
 
 ## Production Readiness Checklist
 
-- [ ] Runtime owner, caller, and supported transport are source-traceable.
+- [x] Current HTTP route, inference caller, and buffered response are
+      source-traceable.
 - [ ] Public helper is directly tested; integration behavior is tested where
       applicable.
 - [ ] Any lifecycle, cancellation, backpressure, and ordering guarantees are
@@ -118,11 +130,13 @@ and dedicated benchmark use in-process stubs and do not call this helper.
 
 ## Known Issues & Limitations
 
-1. `src/llm_streaming/` has no runtime implementation.
+1. `StreamingHandler` is not used by the server route; the route buffers its
+   SSE body instead of delivering events incrementally.
 2. The helper's atomic index does not serialize concurrent sink delivery.
 3. Stress/soak fixtures and benchmark operate on local stubs, not the helper.
-4. No runtime configuration, lifecycle/error API, metrics, or deployment
-   limits were established by the sources reviewed.
+4. No stream-specific runtime configuration, disconnect cancellation,
+   backpressure controller, streaming metrics, or deployment limits were
+   established by the sources reviewed.
 5. Values printed by the stub benchmark are labels, not executable gates,
    verified thresholds, release targets, or results.
 

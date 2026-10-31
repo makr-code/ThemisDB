@@ -14,10 +14,10 @@ Exact model backend not verifiable from final document text alone.
 
 # API Contract: LLM Streaming
 
-This page records the small, source-backed formatting-helper API in
-`include/llm/streaming_handler.h`. It is not a contract for a complete streaming
-service: `src/llm_streaming/` contains no runtime implementation, and this
-header does not establish server, network, cancellation, or backpressure APIs.
+This page records the source-backed formatting-helper API in
+`include/llm/streaming_handler.h` and identifies the separate inference/HTTP
+streaming interfaces. `src/llm_streaming/` contains no runtime implementation;
+the helper is not the implementation used by the server route.
 
 ## Public helper surface
 
@@ -56,13 +56,29 @@ responsibilities.
 
 No public API is present here for opening/closing sessions, cancellation,
 backpressure, stream registries, gRPC, error codes, or lifecycle state
-transitions. Those remain design topics unless implemented and tested in an
-owning runtime path. The current stub tests are not proof of those behaviors.
+transitions. The separate `EmbeddedLLM` API declares
+`generateStreaming(prompt, callback, max_tokens=512)` and
+`generateStreamingSSE(prompt, callback, request_id="", max_tokens=512)` in
+`include/llm/embedded_llm.h`. They synchronously return generated text and
+accept callbacks; the SSE method formats callback values, but does not manage a
+network transport.
+
+`GET /api/v1/llm/stream` is implemented in
+`LLMApiHandler::handleStreamInference`. It accepts `prompt`, optional
+`request_id`, and optional `max_tokens` query parameters (default 512, maximum
+4096). The handler accumulates the complete SSE body before returning an HTTP
+`string_body` response, so this endpoint does not provide incremental network
+delivery. The route-level lifecycle, disconnect cancellation, backpressure, and
+route integration test coverage remain unverified. The module stress/soak tests
+are stubs and do not test this route.
 
 ## Source references
 
 - `include/llm/streaming_handler.h`
 - `src/llm/streaming_handler.cpp`
+- `include/llm/embedded_llm.h`
+- `src/llm/embedded_llm.cpp`
+- `src/server/llm_api_handler.cpp`
 - Direct helper unit tests: `tests/llm/test_streaming_handler.cpp`
 - Validation stubs: `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`
   and `tests/integration/test_llm_streaming_soak.cpp`

@@ -172,7 +172,7 @@ For runtime composition — inference engine internals, LoRA hot-swap, paged-all
 
 | Header | Public Type | Purpose |
 |--------|------------|---------|
-| `streaming_handler.h` | `StreamingHandler` | Server-sent-events / websocket streaming handler |
+| `streaming_handler.h` | `StreamingHandler` | SSE event and HTTP chunk string formatting plus a caller-supplied sink callback adapter |
 | `grafana_metrics.h` | `GrafanaMetrics` | Grafana-compatible metrics emission |
 | `llm_interaction_store.h` | `LLMInteractionStore` | Persistent interaction log for observability |
 | `llm_ingestion_bridge.h` | `LLMIngestionBridge` | Bridge for LLM-augmented data ingestion |

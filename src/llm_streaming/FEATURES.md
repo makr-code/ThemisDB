@@ -16,8 +16,8 @@ Exact model backend not verifiable from final document text alone.
 
 ## Aktueller, belegter Umfang
 
-Der Pfad `src/llm_streaming/` ist dokumentationsbasiert und enthält keine
-Streaming-Runtime. Belegt ist ein Hilfs-API in
+Der Pfad `src/llm_streaming/` ist dokumentationsbasiert. Belegt ist ein
+Hilfs-API in
 `include/llm/streaming_handler.h` mit Implementierung in
 `src/llm/streaming_handler.cpp`:
 
@@ -28,10 +28,13 @@ Streaming-Runtime. Belegt ist ein Hilfs-API in
 - `makeStreamCallback` weist Token-Aufrufen atomare Indizes zu und ruft einen
   vom Aufrufer bereitgestellten Sink mit SSE-formatierten Strings auf.
 
-Das belegt weder eine Serverroute noch die Integration mit LLM-Inferenz,
-gRPC, HTTP-Verbindungen oder einem Produktions-Backpressure-Mechanismus.
-Insbesondere stellt die atomare Indexvergabe bei parallelen Aufrufen keine
-Reihenfolge der Sink-Zustellung sicher.
+Zusätzlich existiert eine HTTP/SSE-Route `GET /api/v1/llm/stream` in
+`src/server/llm_api_handler.cpp`. Sie ruft `EmbeddedLLM::generateStreamingSSE`
+auf, sammelt SSE-Ereignisse in einem String und liefert nach Abschluss der
+Generierung einen HTTP-`string_body`-Response. Das ist SSE-formatierte Ausgabe,
+aber keine inkrementelle Übertragung zum Client; die Route nutzt den
+`StreamingHandler`-Helper nicht. Die atomare Indexvergabe des Helpers stellt
+bei parallelen Aufrufen keine Reihenfolge der Sink-Zustellung sicher.
 
 ## Validierung und Grenzen
 
@@ -42,21 +45,25 @@ eigene In-Process-Stubs. Sie rufen den `StreamingHandler` nicht auf. Die dort
 genannten Last- oder Performance-Schwellen sind daher keine gemessenen
 Eigenschaften einer Streaming-Runtime.
 
-Lebenszyklus, Abbruch, Disconnect-Behandlung, End-to-End-Reihenfolge,
-Backpressure, Telemetrie und Wiederaufnahme sind derzeit Design- bzw.
-Validierungsthemen; ihre Runtime-Umsetzung ist mit den hier geprüften Quellen
-nicht belegt.
+Der Route-Code verarbeitet `prompt`, `request_id` und `max_tokens` als
+Query-Parameter; `max_tokens` ist standardmäßig 512 und akzeptiert Werte bis
+4096. Es wurden keine speziellen Streaming-Konfigurationsschlüssel,
+Disconnect-Abbruch, Backpressure-Steuerung oder Streaming-Metriken gefunden.
+Lebenszyklus und Wiederaufnahme sind weiterhin nicht als Runtime-Vertrag
+belegt.
 
 ## Geplante Klärung
 
-Vor Aussagen über eine produktive Funktion müssen der tatsächliche Aufrufer,
-die Transportintegration, Konfiguration und End-to-End-Tests in einem
-kanonischen Runtime-Pfad nachgewiesen und dokumentiert werden.
+Vor Aussagen über inkrementelle Übertragung oder Produktionsreife müssen die
+geforderte Transportsemantik sowie End-to-End-Tests für den vorhandenen
+gepufferten HTTP/SSE-Pfad nachgewiesen und dokumentiert werden.
 
 ## Quellen
 
 - `include/llm/streaming_handler.h`
 - `src/llm/streaming_handler.cpp`
+- `src/llm/embedded_llm.cpp`
+- `src/server/llm_api_handler.cpp`
 - `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp`
 - `tests/integration/test_llm_streaming_soak.cpp`
 - `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp`

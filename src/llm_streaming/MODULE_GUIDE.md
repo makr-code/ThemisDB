@@ -28,6 +28,11 @@ Exact model backend not verifiable from final document text alone.
 - `src/llm_streaming/` contains documentation and `.gitkeep`, not runtime code.
 - The source-backed helper is in `src/llm/streaming_handler.cpp`, declared in
   `include/llm/streaming_handler.h`.
+- The server route `GET /api/v1/llm/stream` is implemented in
+  `src/server/llm_api_handler.cpp`; it calls
+  `EmbeddedLLM::generateStreamingSSE` and buffers the complete SSE body before
+  returning an HTTP `string_body` response. It does not call `StreamingHandler`
+  or deliver events incrementally over the network.
 - `tests/llm_streaming/test_llm_streaming_highcardinality_stress.cpp` and
   `tests/integration/test_llm_streaming_soak.cpp` use in-process stubs.
 - `tests/llm/test_streaming_handler.cpp` directly tests the formatting helper
@@ -35,8 +40,9 @@ Exact model backend not verifiable from final document text alone.
 - `benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp` benchmarks
   stubs rather than the helper.
 
-The checked evidence does not establish a `src/server/` integration path or a
-header under `include/llm_streaming/`.
+No header under `include/llm_streaming/` was found. The route has no verified
+disconnect cancellation, bounded backpressure, stream-specific configuration,
+or route-level integration test.
 
 ## Build/test registration
 
@@ -63,11 +69,10 @@ See those CMake files for the exact project build workflow.
 
 ## How to assess future readiness
 
-Before making a runtime or release claim, identify the production caller and
-owner, extend direct helper coverage where needed, test any transport
-integration, and verify cancellation, ordering, backpressure, configuration,
-and observability in that runtime. The existing stubs alone do not satisfy
-these criteria.
+Before making a runtime or release claim, test the existing HTTP route and its
+buffered response behavior, extend direct helper coverage where needed, and
+verify cancellation, ordering, backpressure, configuration, and observability
+in the owning runtime. The existing stubs alone do not satisfy these criteria.
 
-**TODO:** update this map when a concrete runtime integration is found and
-covered by tests.
+**TODO:** add route-level test coverage and document any future change from
+buffered responses to incremental transport delivery.

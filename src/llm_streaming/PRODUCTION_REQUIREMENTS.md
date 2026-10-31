@@ -16,38 +16,46 @@ Exact model backend not verifiable from final document text alone.
 
 ## Current status
 
-`src/llm_streaming/` is docs-only. The checked runtime source is the
-`StreamingHandler` formatting/callback helper in `src/llm/streaming_handler.cpp`
-and `include/llm/streaming_handler.h`. There is no verified end-to-end streaming
-runtime, cancellation API, backpressure configuration, or network integration
-in the examined sources. Requirements below are acceptance proposals, not
-implemented product behavior.
+`src/llm_streaming/` is docs-only. The helper is in
+`src/llm/streaming_handler.cpp` and `include/llm/streaming_handler.h`. A separate
+HTTP/SSE inference route exists at `GET /api/v1/llm/stream`; it buffers the
+complete response body before returning it, rather than delivering events
+incrementally over the network. The route has no verified disconnect
+cancellation or backpressure implementation, and the stub-based module
+tests/benchmark do not validate it. Requirements below distinguish this current
+behavior from proposed acceptance work.
 
 ## Proposed ownership and behavior requirements
 
-- Identify the canonical owner and actual caller before assigning lifecycle
-  responsibilities.
+- Treat `LLMApiHandler` as the owner of the current HTTP route and
+  `EmbeddedLLM` as its inference callback boundary; assign any new transport
+  lifecycle behavior to the relevant owner.
 - Define and test stream identity, completion, cancellation, disconnect, and
   cleanup behavior in that owner.
 - Specify ordering semantics under concurrent callback invocations; the
   helper's atomic index does not serialize sink delivery.
-- Define backpressure limits, error propagation, configuration, and recovery
-  only if a runtime queue/controller is implemented.
+- Decide whether buffered `string_body` delivery is acceptable; if not, define
+  incremental writes and their backpressure, disconnect, cancellation, and
+  cleanup behavior before implementing them.
 - Add diagnostics and operator procedures that correspond to observable
   source behavior.
 
 ## Acceptance evidence (not yet demonstrated)
 
-- [ ] runtime owner and caller are mapped to source and a supported transport
+- [x] current HTTP route, caller, and buffered response are mapped to source
 - [x] direct helper unit tests exist for escaping, indexes, sink behavior, and
       empty-sink exception semantics
 - [ ] execute/maintain those tests and extend coverage for callback copies and
       concurrency semantics
-- [ ] runtime integration tests exercise actual delivery, terminal behavior,
-      cancellation, disconnect, and any backpressure implementation
+- [ ] route integration tests exercise actual inference callbacks, response
+      buffering, terminal/error events, and the selected transport behavior
+- [ ] cancellation, disconnect, and backpressure are implemented and tested if
+      incremental network delivery is required
 - [ ] performance criteria are confirmed, measured, and reported on a stated
       hardware profile; stub benchmark labels are not baselines
-- [ ] configuration, diagnostics, and operational procedures are verified
+- [ ] streaming-specific configuration is either implemented/documented or
+      explicitly excluded; current route parameters are documented
+- [ ] diagnostics and operational procedures are verified
 - [ ] release claims are traceable to the owning implementation and evidence
 
 ## Existing validation and build references
@@ -68,5 +76,5 @@ The unit test is evidence for its individual helper cases. The stub stress,
 soak, and benchmark sources are not acceptance evidence for a production
 runtime.
 
-**TODO / assumption:** product owner, deployment profile, exact runtime
-integration, and release milestone are not established by the sources reviewed.
+**TODO / assumption:** product owner, deployment profile, incremental-delivery
+requirement, and release milestone are not established by the sources reviewed.

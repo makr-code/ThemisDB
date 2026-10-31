@@ -16,8 +16,9 @@ Exact model backend not verifiable from final document text alone.
 
 ## Status
 
-This is a placeholder for a future, source-verified operator runbook, not
-instructions for a currently verified streaming service. The helper API
+This is a placeholder for a complete operator runbook. The server implements
+`GET /api/v1/llm/stream`, but buffers SSE events and returns the body after
+generation; it does not provide incremental network writes. The helper API
 formats strings and invokes a supplied sink; it does not expose a stream ID
 registry, connection state, metrics, queue, or recovery operations. The
 test/benchmark stubs do not establish production incident behavior.
@@ -29,20 +30,24 @@ command, dashboard, alert, or remediation was found for them:
 
 ### Sink or transport failure
 
-Document detection, the actual request correlation field, caller behavior,
-and cleanup only after confirming the runtime path and its tests.
+The handler logs `request_id` (if supplied), prompt length, max token count,
+completion/body size, and caught generation errors. Document detection,
+caller behavior, and cleanup from the deployed runtime and its tests.
 
 ### Slow consumer or backpressure
 
 Document queue limits, admission/failure semantics, and safe recovery only if
-an owning runtime implements them. Stub queue capacity is test data, not a
-deployment setting.
+an owning runtime implements them. The current HTTP handler accumulates the
+complete response body; it exposes no queue capacity or bounded-buffer setting.
+Stub queue capacity is test data, not a deployment setting.
 
 ### Cancellation or completion
 
-The formatter can produce an independent `[DONE]` string, but the callback
-adapter does not emit it automatically. Record who decides terminal behavior
-and how it is delivered only after verifying the caller.
+The helper callback adapter does not emit its `[DONE]` sentinel automatically.
+The current HTTP route appends its own terminal `event: done` after normal
+generation and an `event: error` when generation throws. Verify how the deployed
+backend behaves for unsuccessful responses, since that is not equivalent to a
+transport failure.
 
 ### Ordering
 

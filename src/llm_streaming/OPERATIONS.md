@@ -16,24 +16,27 @@ Exact model backend not verifiable from final document text alone.
 
 ## Status and scope
 
-This is design-time operational guidance, not a verified production runbook.
-The source-backed `StreamingHandler` formats strings and calls a supplied
-sink; it does not expose a stream registry, metrics, queue depth, cancellation,
-or server connection. The tests and benchmark use local stubs.
+This is design-time operational guidance, not a complete production runbook.
+The HTTP route `GET /api/v1/llm/stream` is implemented, but buffers the complete
+SSE body before returning it. The separate `StreamingHandler` helper formats
+strings and calls a supplied sink; it does not expose a stream registry, metrics,
+queue depth, cancellation, or server connection. The module tests and benchmark
+use local stubs.
 
 ## Signals currently supported by source
 
-The helper emits a debug log when `formatDoneEvent(request_id)` is called. It
-does not define the `[LLM_STREAM:...]` event names listed in older drafts, nor
-does the current test source emit those as runtime logs; similar strings occur
-in test assertion messages only. No stream count, latency, throughput,
-buffer-occupancy, or cleanup metric was verified.
+The helper emits a debug log when `formatDoneEvent(request_id)` is called. The
+route logs request ID, prompt length, max tokens, completion, response byte
+count, and caught generation errors. No stream count, latency, throughput,
+buffer-occupancy, or cleanup metric was verified. The route's query parameters
+are `prompt`, `request_id`, and `max_tokens` (default 512; maximum accepted
+value 4096).
 
 ## Proposed incident triage (unverified)
 
-If a future runtime provides streaming, operators will need an owner-specific
-procedure to identify the request, distinguish model/sink/transport failures,
-and verify termination and cleanup. The available sources do not identify
+Operators still need an owner-specific procedure to identify the request,
+distinguish model and response-construction failures, and verify termination
+and cleanup. The available sources do not identify
 commands, dashboards, configuration, retry actions, or a supported recovery
 procedure. Do not use the checklist below as an operational instruction until
 it is populated from the deployed implementation:
@@ -44,7 +47,8 @@ it is populated from the deployed implementation:
 - escalate using the owning service's established procedure.
 
 **TODO:** replace this provisional checklist with verified signals, commands,
-owners, and recovery steps after runtime integration exists.
+owners, and recovery steps for the deployed route; current source evidence does
+not establish streaming-specific diagnostics or transport recovery.
 
 ## Readiness boundary
 
