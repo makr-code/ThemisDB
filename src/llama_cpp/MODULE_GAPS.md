@@ -1,3 +1,28 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "archived"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_Sources: "src/llama_cpp/llama_cpp_plugin.cpp; src/llama_cpp/llama_cpp_registrar.cpp; src/llama_cpp/tests; tests/llama_cpp/CMakeLists.txt"
+Related_Issue: "#7356"
+Related_Milestone: "DOC-WEEKLY-2026-44"
+---
+
+> Exact model backend not verifiable from final document text alone.
+>
+> Historical scanner snapshot only: the findings below are dated 2026-06-04
+> (with a marker-validation note dated 2026-08-31) and are not a current gap
+> count or current implementation status. Re-scan before using them as active
+> work items; current code and tests take precedence. Regeneration may replace
+> this annotation.
+
 # llama_cpp Module - Developer Gap Note
 
 > Auto-generated from ai_working\gap_scan_results.json.
@@ -502,7 +527,7 @@ Total findings: 2
   Description: Container element access before initialization
   Remediation: Review finding and apply recommended module-specific fix.
   Scanner: Uniform::container
-  Context: return [](LlamaCppPlugin& plugin, const json& config) -> bool {
+  Context: return &#91;&#93;(LlamaCppPlugin& plugin, const json& config) -> bool {
 - Line 79: severity=MEDIUM; category=stale_doc_section_reference
   Description: Code comment references section 'LlamaCpp Plugin Model Reload' that was not found in 'src/llm/FUTURE_ENHANCEMENTS.md'
   Remediation: Review finding and apply recommended module-specific fix.
