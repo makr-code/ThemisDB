@@ -2,7 +2,7 @@
 
 > Author: ThemisDB Team
 > Created: 2026-10-26
-> Last Updated: 2026-10-30
+> Last Updated: 2026-10-31
 > Status: active
 > AI_Used: true
 > AI_Models: unknown
@@ -33,7 +33,7 @@ guidance; use workflow sources and concrete run logs as evidence.
   [benchmark-gate.yml](../../.github/workflows/benchmark-gate.yml).
 - Coverage requires real RocksDB; thematic benchmarks require Boost.Filesystem.
   MSVC requires nlohmann-json headers and importer generation before analysis.
-  See the [repair scope](../../.github/WORKFLOW_REGISTRY.md#ci-remediation-2026-10-30).
+  See the [repair scope](../../.github/WORKFLOW_REGISTRY.md#ci-remediation-2026-10-31).
 - Invalid nested-workflow permissions and expired execution approvals are different
   failure classes. Only the former are fixed by workflow code; approvals require
   maintainer intervention. MSVC analyzer C1060 remains a separate resource risk.
@@ -98,6 +98,16 @@ guidance; use workflow sources and concrete run logs as evidence.
   [coverage prerequisite](https://github.com/makr-code/ThemisDB/actions/runs/40990478535),
   [expired approval](https://github.com/makr-code/ThemisDB/actions/runs/40960673012).
   Local validation is not evidence that these historical runs have turned green.
+
+## CI repair context (2026-10-31)
+
+- Run [41166806169](https://github.com/makr-code/ThemisDB/actions/runs/41166806169)
+  failed in Linux AMD64 and ARM64 release lanes when the GitHub Actions artifact
+  cache returned an outage response to sccache while vcpkg compiled Arrow.
+- Linux release lanes now disable the remote sccache GHA backend while retaining
+  sccache's local cache directory persisted by `actions/cache`. The release matrix
+  passes the per-lane boolean directly; a fallback must not turn explicit `false`
+  into `true`.
 
 ## .github/workflows/benchmark-gate.yml
 - Kategorie: build_test_ci

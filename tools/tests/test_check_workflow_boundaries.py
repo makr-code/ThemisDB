@@ -421,6 +421,21 @@ def test_cmake_resolver_honors_explicit_binary_directory(tmp_path: Path, directo
     assert f"cmake -S . -B {expected} -G Ninja" in output.read_text(encoding="utf-8")
 
 
+def test_release_matrix_honors_sccache_backend_selection():
+    workflows = Path(__file__).resolve().parents[2] / ".github" / "workflows"
+    workflow = yaml.safe_load((workflows / "release-build-matrix.yml").read_text(encoding="utf-8"))
+    plan_step = workflow["jobs"]["prepare-release-matrix"]["steps"][0]
+    matrix_script = plan_step["run"]
+    assert '"id": "linux-amd64",\n        "enable_sccache_gha": False' in matrix_script
+    assert '"id": "linux-arm64",\n        "enable_sccache_gha": False' in matrix_script
+    assert '"id": "windows-amd64",\n        "enable_sccache_gha": True' in matrix_script
+    assert '"id": "macos-arm64",\n        "enable_sccache_gha": True' in matrix_script
+    assert (
+        workflow["jobs"]["release-platform-matrix"]["with"]["enable_sccache_gha"]
+        == "${{ matrix.enable_sccache_gha }}"
+    )
+
+
 def test_custom_cmake_callers_declare_binary_directories():
     workflows = Path(__file__).resolve().parents[2] / ".github" / "workflows"
     expected = {

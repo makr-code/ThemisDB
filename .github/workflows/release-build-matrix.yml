@@ -203,6 +203,7 @@ jobs:
           entries = [
               {
                   "id": "linux-amd64",
+                  "enable_sccache_gha": False,
                   "enabled": lane_enabled("linux-amd64"),
                   "runs_on": "ubuntu-24.04",
                   "arch": "x64",
@@ -223,6 +224,7 @@ jobs:
               },
               {
                   "id": "linux-arm64",
+                  "enable_sccache_gha": False,
                   "enabled": lane_enabled("linux-arm64"),
                   "runs_on": "ubuntu-24.04-arm",
                   "arch": "arm64",
@@ -243,6 +245,7 @@ jobs:
               },
               {
                   "id": "windows-amd64",
+                  "enable_sccache_gha": True,
                   "enabled": lane_enabled("windows-amd64"),
                   "runs_on": "windows-latest",
                   "arch": "x64",
@@ -264,6 +267,7 @@ jobs:
               },
               {
                   "id": "macos-arm64",
+                  "enable_sccache_gha": True,
                   "enabled": lane_enabled("macos-arm64"),
                   "runs_on": "macos-14",
                   "arch": "arm64",
@@ -309,7 +313,7 @@ jobs:
 
     uses: ./.github/workflows/reusable-cmake-build.yml
     with:
-      enable_sccache_gha: ${{ matrix.enable_sccache_gha || true }}
+      enable_sccache_gha: ${{ matrix.enable_sccache_gha }}
       runs_on: ${{ matrix.runs_on }}
       cache_arch: ${{ matrix.arch }}
       cache_compiler: ${{ matrix.compiler }}
