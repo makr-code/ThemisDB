@@ -449,11 +449,17 @@ def test_release_matrix_honors_sccache_backend_selection():
 
 
 @pytest.mark.parametrize(
-    ("build_matrix", "os_selector", "arch_selector"),
-    [("linux-arm64-only", "all", "all"), ("os", "linux", "arm64")],
+    ("build_matrix", "os_selector", "arch_selector", "lane_id", "runs_on"),
+    [
+        ("linux-amd64-only", "all", "all", "linux-amd64", "ubuntu-24.04"),
+        ("os", "linux", "amd64", "linux-amd64", "ubuntu-24.04"),
+        ("linux-arm64-only", "all", "all", "linux-arm64", "ubuntu-24.04-arm"),
+        ("os", "linux", "arm64", "linux-arm64", "ubuntu-24.04-arm"),
+    ],
 )
-def test_arm64_release_commands_keep_local_sccache_backend(
-    tmp_path: Path, build_matrix: str, os_selector: str, arch_selector: str
+def test_linux_release_commands_keep_local_sccache_backend(
+    tmp_path: Path, build_matrix: str, os_selector: str, arch_selector: str,
+    lane_id: str, runs_on: str
 ):
     workflows = Path(__file__).resolve().parents[2] / ".github" / "workflows"
     matrix = yaml.safe_load((workflows / "release-build-matrix.yml").read_text(encoding="utf-8"))
@@ -475,8 +481,8 @@ def test_arm64_release_commands_keep_local_sccache_backend(
     lanes = json.loads(output.read_text(encoding="utf-8").removeprefix("matrix="))["include"]
     assert len(lanes) == 1
     lane = lanes[0]
-    assert lane["id"] == "linux-arm64"
-    assert lane["runs_on"] == "ubuntu-24.04-arm"
+    assert lane["id"] == lane_id
+    assert lane["runs_on"] == runs_on
     assert lane["enable_sccache_gha"] is False
     assert "pkg-config sccache ccache" in lane["setup_command"]
 

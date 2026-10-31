@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Developer LLM Wiki — Build/Test/CI/Operations
 
 Datum: 2026-10-31
@@ -92,6 +106,19 @@ guidance; use workflow sources and concrete run logs as evidence.
   [test_check_workflow_boundaries.py](../../tools/tests/test_check_workflow_boundaries.py)
   verifies backend isolation, persistence, and fatal retry errors. A full release
   run on the corrected revision is still required.
+- Retry job
+  [124572236426](https://github.com/makr-code/ThemisDB/actions/runs/41163259618/job/124572236426)
+  ran the old recovery logic: it cleared compiler launchers after a compiler-probe
+  sccache failure but did not disable the GitHub cache backend. Arrow 25.0.1 then
+  rediscovered sccache and failed with `cache storage failed to read` because the
+  remote service was unavailable. Ninja successfully started Arrow's build; the
+  outer missing-Ninja message followed the failed vcpkg install and was not the
+  root cause. The current workflow already disables that backend during recovery,
+  and the release matrix selects local caching for both Linux architectures.
+  The command-level regression test now covers AMD64 and ARM64, through both
+  architecture-only and OS-filtered matrix selection. This verifies workflow
+  behavior, not a successful full release build; validation requires a new run
+  on the corrected revision rather than another retry of the old commit.
 - Evidence window: 2026-10-29 05:23 to 2026-10-30 05:23 UTC.
   Representative runs:
   [missing summary checkout](https://github.com/makr-code/ThemisDB/actions/runs/41003835208),
