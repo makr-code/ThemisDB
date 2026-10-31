@@ -1,4 +1,22 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # core — MODULE_GAPS.md (Phase 5 Verified)
+
+> Historical scanner snapshot only. The counts, severities, source locations, and
+> Windows path below have not been independently revalidated against the current
+> source tree; no current gap scan was run for this documentation review.
 
 This file documents all documentation and code quality gaps in the **core** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
 

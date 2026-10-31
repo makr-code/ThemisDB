@@ -1,9 +1,23 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 > **Architektur-Hinweis:** Klassen/Typen/Namespaces mit aktuellem Sourcecode abgleichen. Symbole, die nicht im Source gefunden werden, mit `<!-- TODO: verify symbol -->` markieren.
 
 # Core Module — Architecture Guide
 
 **Version:** 1.1
-**Last Updated:** 2026-09-09
+**Last Updated:** 2026-10-31
 **Module Path:** `src/core/`
 
 ---
@@ -29,8 +43,8 @@ This allows test code to inject silent/mock adapters without touching production
   production mode rejects `createNoOp()` and no-op tracing/metrics.
 - **Thread-Safe Runtime Replacement** – `ConcernsContext` supports runtime replacement
   for logger/tracer/metrics/cache/secrets/feature flags/audit sink with guarded swap semantics.
-- **Environment Detection** – factory methods inspect environment variables to choose
-  production vs. test adapters automatically.
+- **Environment Detection** – production-mode checks use environment variables to
+  enforce production constraints; adapter selection is controlled by `Config`.
 - **Single Source of Truth** – all cross-cutting concern access flows through
   `ConcernsContext`; no direct spdlog or OTel calls in domain code.
 
@@ -62,9 +76,9 @@ This allows test code to inject silent/mock adapters without touching production
 │                    ConcernsContext (service container)            │
 │                                                                  │
 │  logger()  → ILogger*  → SpdlogLoggerAdapter | NoopLogger       │
-│  tracer()  → ITracer*  → OtelTracerAdapter   | NoopTracer       │
-│  metrics() → IMetrics* → PrometheusAdapter   | NoopMetrics      │
-│  cache()   → ICache*   → RedisAdapter        | LocalCacheAdapter│
+│  tracer()  → ITracer*  → OpenTelemetry/Jaeger/Zipkin | NoopTracer │
+│  metrics() → IMetrics* → PrometheusMetricsAdapter    | NoopMetrics│
+│  cache()   → ICache*   → RedisCache | InMemoryCacheImpl | NoOpCache│
 │  secrets() → ISecrets* → InMemory/Env/NoOp                      │
 │  featureFlags() → IFeatureFlags* → InMemory/NoOp                │
 │  auditLog() → IAuditLog* → NoOp/adapter                         │
@@ -106,7 +120,7 @@ context->tracer()->startSpan("api_request")  → Span
   (calls query engine...)
     │
     ▼
-span.end()  → OtelTracerAdapter → OpenTelemetry exporter → Jaeger/Zipkin
+span.end()  → configured tracer adapter → configured exporter/backend
 ```
 
 ### 4.3 Context Propagation
@@ -140,7 +154,9 @@ All logger/tracer calls on this thread include the trace ID automatically
 
 ## 6. Threading & Concurrency Model
 
-- `ConcernsContext` is immutable after `create()`; all reads are lock-free.
+- `ConcernsContext` owns its adapters and supports runtime replacement. `resolve<T>()`
+  takes a shared lock and returns an owning handle; replacement takes an exclusive lock
+  for the pointer swap. Accessor references are not lifetime handles across replacement.
 - Adapters are responsible for their own thread safety (spdlog and OTel are thread-safe).
 - `context_propagation.cpp` uses thread-local storage for the active trace context.
 - `security_initialization.cpp` must be called once on the main thread before any TLS/crypto
@@ -152,9 +168,9 @@ All logger/tracer calls on this thread include the trace ID automatically
 
 | Technique | Detail |
 |---|---|
-| No-op defaults | Logging/tracing disabled in test mode with zero overhead |
+| No-op defaults | No-op adapters are available for development/tests; no measured zero-overhead claim is made here |
 | Thread-local context | Trace context propagation uses TLS — no shared state |
-| Lazy adapter init | Optional adapters (Redis cache) initialized on first use |
+| Adapter selection | Factory construction selects adapters from `ConcernsContext::Config` |
 
 ---
 
@@ -196,7 +212,7 @@ All logger/tracer calls on this thread include the trace ID automatically
 - Redis cache adapter (`RedisCache`) is implemented in `include/core/concerns/redis_cache.h` / `src/core/concerns/redis_cache.cpp` with consistent hashing, TTL, and pub/sub invalidation.
 - OTel baggage propagation is partial; full W3C Baggage support is planned.
 - Log sampling (high-frequency event suppression) is not yet implemented.
-- Plugin-based adapter loading without recompilation is implemented (`AdapterRegistry::loadFromPlugin`, `plugin_api.h`) with SHA-256 signature enforcement available via `AdapterTrustPolicy::kRequireSignature`; remaining work focuses on advanced trust-policy controls and key-management lifecycle hardening.
+- Plugin-based adapter loading without recompilation is implemented (`AdapterRegistry::loadFromPlugin`, `plugin_api.h`) with optional SHA-256 file-integrity checking via `AdapterTrustPolicy::kRequireSignature`; this does not authenticate a publisher. Remaining work includes stronger trust-policy controls and key-management lifecycle hardening; see [`TRUST.md`](TRUST.md).
 
 ---
 

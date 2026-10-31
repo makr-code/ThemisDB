@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 > **Hinweis:** Vage Einträge ohne messbares Ziel, Interface-Spezifikation oder Teststrategie mit `<!-- TODO: add measurable target, interface spec, test strategy -->` markieren.
 
-<!-- Status: current | validated: 2026-07-28 -->
+<!-- Status: backlog snapshot | source cross-check: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
 
 # Core Module - Future Enhancements
@@ -16,7 +30,7 @@
 ## 2026-07-28 Sync Snapshot (Issue #5638)
 
 - [x] Plugin-based adapter loading (no recompile needed) implemented via Issue #1706 (2026-07-28)
-- [x] Adapter plugin hardening and signing workflow delivered (2026-07-28)
+- [x] Adapter metadata-digest validation and optional plugin-file SHA-256 integrity checking delivered (2026-07-28; not publisher authentication; see `TRUST.md`)
 - [x] `AdapterRegistry::hotSwap()` drains in-flight refs within ≤ 100 ms (`kHotSwapTimeoutMs{100}`) (Implemented: 2026-07-28)
 - [x] `ConcernsContext::resolve<T>()` uses `std::shared_mutex` reader-writer lock and returns owning `std::shared_ptr` snapshots for built-in adapters (Implemented: 2026-07-28)
 
@@ -25,23 +39,27 @@
 ## Design Constraints
 
 - `[x]` Adapter hot-swap must complete in ≤ 100 ms and must not drop in-flight requests; callers hold a ref-counted handle (Implemented: 2026-07-28)
-- `[x]` `ConcernsContext` must be fully thread-safe; concurrent adapter resolution must not require a global lock (Implemented: 2026-07-28)
+- `[?]` Blanket thread-safety of all `ConcernsContext` access paths is not established; `resolve<T>()` uses a shared mutex, while accessor references must not be retained across replacement.
 - `[ ]` Circuit breaker state transitions (closed → open → half-open) must be observable via metrics and loggable at DEBUG level
-- `[x]` No adapter may be registered without passing a synchronous `AdapterValidator::validate()` check; invalid adapters are rejected at registration time (Implemented: 2026-07-28)
+- `[ ]` Require a synchronous `AdapterValidator::validate()` check for every registration. The current `registerAdapter()` API accepts a null optional validator, so this is not enforced universally.
 - `[ ]` DI context construction must complete in ≤ 50 ms at server startup with up to 32 registered adapters
-- `[x]` All adapter interfaces versioned with a `uint32_t` API version; version mismatch at registration returns a structured error (Implemented: 2026-07-28)
+- `[?]` Plugin registration checks `AdapterMetadata::apiVersion` against `kCurrentApiVersion`; uniform version fields on all concern interfaces are not established by the current headers.
 - `[ ]` Distributed cache adapter must not be a hard dependency; core must function correctly when no cache adapter is registered
 
 ---
 
-## Required Interfaces
+## Candidate Interfaces for Planned Work
+
+The rows below mix current APIs and proposed shapes; entries such as
+`DistributedCache` and `ObservabilityBus` are proposals, not evidence that those
+types exist in the current Core API.
 
 | Interface | Consumer | Notes |
 |---|---|---|
 | `ConcernsContext::resolve<T>()` | All modules | Returns shared adapter handle; thread-safe; ref-counted |
 | `AdapterRegistry::registerAdapter(id, adapter, validator)` | Server startup / admin API | Validates before insertion |
 | `AdapterRegistry::hotSwap(id, new_adapter)` | Admin API / config watcher | Drains in-flight refs before replacing |
-| `CircuitBreaker::call(fn, fallback)` | Adapter call sites | Configurable failure threshold and reset timeout |
+| `ICircuitBreaker::call(fn, fallback)` | Adapter call sites | Existing helper; configurable failure threshold and reset timeout |
 | `DistributedCache::get/set/invalidate(key)` | Query executor, analytics | Optional adapter; no-op stub when absent |
 | `ObservabilityBus::emit(event)` | All adapters | Routes to logger/tracer/metrics based on event type |
 
@@ -49,7 +67,7 @@
 
 ## Implementation Notes
 
-- Plugin runtime loading and signature verification are delivered; next hardening block is richer trust policy enforcement (key management, signer rotation, and rejection telemetry).
+- Plugin runtime loading and optional SHA-256 integrity checking are delivered; publisher-signature verification is not implemented. Further trust work includes key management, signer rotation, and rejection telemetry.
 - Preserve backwards-compatible concern interfaces while introducing adapter package signing and structured registration errors.
 - Keep runtime swap and distributed cache improvements measurable via the test/performance constraints below.
 
@@ -196,7 +214,7 @@ Further reduce logging overhead for high-cardinality workloads.
 **Current:** string_view hot path with thread-local format buffer
 **Target:** bounded queue backpressure and adaptive flush policy by latency target
 
-**Expected Improvement:** 30-50% reduction in logging overhead
+**Expected improvement:** Not specified; establish a reproducible baseline and target before implementation.
 
 ---
 
@@ -211,7 +229,7 @@ Extend lock-free metrics pipeline for predictable p99 under burst load.
 - Add low-contention exporter fan-out for multi-sink metric backends.
 - Add saturation metrics and adaptive flush interval.
 
-**Expected Improvement:** 80% reduction in metric update latency
+**Expected improvement:** Not specified; establish a reproducible baseline and target before implementation.
 
 ---
 
@@ -224,7 +242,7 @@ Reuse span objects instead of allocating on every trace.
 **Current:** Allocate new span for every operation
 **Target:** Object pool with 1000 pre-allocated spans
 
-**Expected Improvement:** 60% reduction in tracing overhead
+**Expected improvement:** Not specified; establish a reproducible baseline and target before implementation.
 
 ---
 
@@ -250,7 +268,7 @@ Batch multiple metric updates before sending to Prometheus.
 **Current:** Export every metric update immediately
 **Target:** Buffer updates and export every 100ms
 
-**Expected Improvement:** 90% reduction in network overhead
+**Expected improvement:** Not specified; establish a reproducible baseline and target before implementation.
 
 ---
 

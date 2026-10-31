@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Core Module Development Status - Issue #5638 Closure Checklist
 
 **Issue**: makr-code/ThemisDB#5638 - [module:core] Development Status 2026-07-18  
@@ -40,7 +54,7 @@
 
 Delivered items:
 - [x] Plugin-based adapter loading (Issue #1706) — implemented via `loadFromPlugin()`, `plugin_api.h`, `THEMIS_DEFINE_PLUGIN_INIT` macro (2026-07-28)
-- [x] Adapter plugin hardening and signing workflow — `SignedAdapterValidator`, `AdapterTrustPolicy`, SHA-256 file verification (2026-07-28)
+- [x] Adapter plugin metadata-digest validation and SHA-256 file-integrity checking — `SignedAdapterValidator`, `AdapterTrustPolicy` (2026-07-28; these checks do not authenticate a publisher; see `src/core/TRUST.md`)
 
 Remaining open:
 - Fresh executable-level focused build/test evidence capture after environment/toolchain restoration
