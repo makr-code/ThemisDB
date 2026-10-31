@@ -1,89 +1,55 @@
-# Architecture - Process Module
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+Source_Level: level 1
+SOT_Domain: architecture-governance
+Canonical_Sources: include/process/*.h; src/process/*.cpp; tests/process/CMakeLists.txt; benchmarks/process/CMakeLists.txt; src/process/API.md; src/process/IMPLEMENTATION.md
+Related_Issue: "#7139"
+Related_Milestone: DOC-WEEKLY-2026-44
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: OpenAI documentation assistant
+Human_Review: false
+Human_Author: unknown
+---
 
-<!-- Status: current | validated: 2026-09-09 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+# Process Module Architecture
 
-## Overview
+**Purpose:** Source-checked orientation to the module's current components. This is a summary, not an exhaustive component inventory or a deployment-readiness statement.
 
-The process module composes process-model lifecycle management, process format import/export, process graph retrieval, and linking/compliance support into a bounded process-modeling subsystem for ThemisDB.
+**AI provenance:** Exact model backend not verifiable from final document text alone.
 
-## Main Execution Planes
+## Boundaries and components
 
-1. Model lifecycle and format plane
-- process model CRUD and versioned storage behavior
-- BPMN/EPK/VCC/ARIS/CMMN/FIM import-export paths
+The process module includes process-model storage/import/export, runtime graph-context retrieval, process-object linking, format-specific serializers/importers, analytics helpers, and integration contracts. `ProcessModelManager::deployToEngine()` bridges stored models to `ProcessGraphManager`; this is an integration surface, not a claim that this module owns a general workflow orchestration service.
 
-2. Retrieval and descriptor plane
-- process graph and agentic retrieval context assembly
-- descriptor and prompt generation behavior
+The public declarations in [`include/process/`](../../include/process/) and their implementations under this directory define the supported surfaces. The files below are examples of current components, not a finite inventory:
 
-3. Linking and compliance plane
-- process-object/process-process linking behavior
-- DMN/OCEL and object-centric tracing support
-
-4. External orchestration plane
-- YAML/JSON process orchestration profiles (staged/active/archived) managed by runtime registry
-- explicit invariant: RAG remains an internal pipeline stage (`internal_rag_stage=true`) and is not exposed as primary external control logic
-- prediction outputs for orchestration decisions (SLA breach, compliance risk, completion confidence, recommended submodel)
-
-## Core Contracts
-
-| Contract | Behavior |
+| Concern | Source evidence |
 |---|---|
-| lifecycle contract | deterministic process model load/save/import/export semantics |
-| retrieval contract | bounded process context retrieval and assembly behavior |
-| linking contract | explicit link registration and lookup behavior |
-| compliance contract | deterministic DMN/evaluation/export support surfaces |
+| Model lifecycle and optional search integrations | [`process_model_manager.h`](../../include/process/process_model_manager.h), `process_model_manager.cpp` |
+| Graph and iterative retrieval | [`process_graph_rag.h`](../../include/process/process_graph_rag.h), [`process_agentic_rag.h`](../../include/process/process_agentic_rag.h), [`process_light_retriever.h`](../../include/process/process_light_retriever.h) |
+| External orchestration profiles | [`process_orchestration_registry.h`](../../include/process/process_orchestration_registry.h), `process_orchestration_registry.cpp` |
+| Diagnostics and audit/telemetry contracts | [`process_diagnostics.h`](../../include/process/process_diagnostics.h), [`process_diagnostics_api.h`](../../include/process/process_diagnostics_api.h), [`process_audit_logger.h`](../../include/process/process_audit_logger.h), [`process_telemetry_contract.h`](../../include/process/process_telemetry_contract.h) |
+| Federation and conflict-resolution surfaces | `federation_consensus_manager.cpp`, `federation_replica_manager.cpp`, `process_conflict_resolver.cpp`; corresponding declarations under `include/process/` |
 
-## Failure Semantics
+## Data flow and limits
 
-- invalid process input or malformed models fail with explicit outcomes.
-- retrieval path failures are surfaced explicitly.
-- linking and evaluation errors remain observable and non-silent.
-- external orchestration profiles fail closed when required invariants are violated (missing id/domain or `internal_rag_stage=false`).
+1. Import or caller-provided records are normalized/validated and stored by `ProcessModelManager`; optional embedder and index callbacks are caller-wired.
+2. Runtime graph retrieval combines instance/model data and, where requested and available, link and similarity evidence.
+3. `ProcessLightRetriever` selects LOCAL/GLOBAL/AUTO; GLOBAL can fall back to LOCAL when community reports are unavailable. Its declared resource limits are not enforced by the current `retrieve()` path; see [`IMPLEMENTATION.md`](IMPLEMENTATION.md).
+4. `ProcessOrchestrationRegistry` stores profile revisions and an active-domain pointer separately. Activation/rollback comprise multiple writes, with no transactional guarantee stated by the API.
 
-## Sourcecode Verification (Module: process/architecture)
+The audit and federation components have source implementations, but source presence does not establish production readiness. In particular, audit storage/patch operations and telemetry export contain simplified behavior, and federation sources identify themselves as alpha/core implementation. Consult the current code and tests before relying on advertised design targets.
 
-- Verified files:
-  - src/process/process_model_manager.cpp
-  - src/process/bpmn_serializer.cpp
-  - src/process/epk_serializer.cpp
-  - src/process/process_graph_rag.cpp
-  - src/process/process_agentic_rag.cpp
-  - src/process/process_linker.cpp
-  - src/process/dmn_evaluator.cpp
-  - src/process/ocel_exporter.cpp
-- Verified architecture claims:
-  - explicit lifecycle/retrieval/linking/compliance planes
-  - deterministic failure boundaries across process workflows
-  - module-local ownership of process modeling behavior
-    - runtime orchestration registry with activation/rollback state transitions and internal-RAG enforcement
+## Build and validation ownership
 
-## Module Dependencies
+- Tests are discovered/registered by [`tests/process/CMakeLists.txt`](../../tests/process/CMakeLists.txt), which globs `test_*.cpp`; there is no `src/process/CMakeLists.txt`.
+- Process benchmarks are conditionally registered by [`benchmarks/process/CMakeLists.txt`](../../benchmarks/process/CMakeLists.txt) when `THEMIS_BUILD_BENCHMARKS` is enabled. The registered set is not identical to every `bench_*.cpp` file in the directory.
+- Neither registration is evidence that a target was built or passed. See the [API guide](API.md), [implementation notes](IMPLEMENTATION.md), and current registration files for validation scope.
 
-### Direct Upstream Dependencies (this module uses)
-| Module | Interface / File | Purpose |
-|--------|-----------------|---------|
-| storage | `include/storage/` | Persists process models and versioned snapshots |
-| graph | `include/graph/` | Graph traversal for process-graph retrieval and path queries |
-| llm | `include/llm/` | LLM provides descriptors and prompt context for agentic process retrieval |
-| rag | `include/rag/` | RAG module provides graph-RAG context for process model search |
+## Related documentation
 
-### Direct Downstream Consumers (modules that use this module)
-| Module | Via | Notes |
-|--------|-----|-------|
-| server | `server/bpmn_api_handler.h` | Server exposes BPMN/process model APIs including import/export/query |
-
-## Integration Points
-
-### Critical Integration: Server BPMN API
-**Files:** `src/process/process_model_manager.cpp` ↔ `server/bpmn_api_handler.h`
-**Contract:** Server routes all BPMN/process CRUD and compliance evaluation through the process module; process module owns model format parsing.
-**Thread Safety:** Model mutations are serialised under an internal version lock; concurrent reads use snapshot isolation.
-
-### Critical Integration: LLM Descriptor Generation
-**Files:** `src/process/process_agentic_rag.cpp` ↔ `llm/`
-**Contract:** LLM is called to generate descriptor embeddings for process model search; descriptor results are cached per-model-version.
-**Thread Safety:** Descriptor cache is protected by a read-write lock; concurrent reads are allowed; regeneration acquires a write lock.
-
-> **Production Status:** Phases 1–6 COMPLETE 2026-08-06; production-ready.
+[Module overview](README.md) · [API guide](API.md) · [Implementation notes](IMPLEMENTATION.md) · [Governance](../../DOCUMENTATION_GOVERNANCE.md)
