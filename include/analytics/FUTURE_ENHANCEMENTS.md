@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 <!-- Status: current | validated: 2026-08-19 -->
@@ -31,11 +45,16 @@ Planned enhancements to the **public header contract** in `include/analytics/`. 
 
 | Interface | Declared In | Consumer | Status |
 |-----------|------------|----------|--------|
-| `OLAPEngine::execute()` | `olap.h` | Query layer, API handlers | ✅ Stable |
-| `CEPEngine` event-pattern API | `cep_engine.h` | Streaming event processors | ✅ Stable |
-| `ForecastingEngine::predict()` | `forecasting.h` | Monitoring and alerting services | ✅ Stable |
-| `ModelServingManager` lifecycle | `model_serving.h` | ML inference middleware | ✅ Stable |
-| `ArrowFlightServer` serve/bind | `arrow_flight.h` | Bulk analytics consumers | ✅ Stable |
+| `OLAPEngine` | `olap.h` |
+| `CEPEngine` | `cep_engine.h` |
+| `ForecastModel` | `forecasting.h` |
+| `ModelServingEngine` | `model_serving.h` |
+| `MLServingClient` | `ml_serving.h` |
+| `ArrowFlightServer` | `arrow_flight.h` |
+
+This is a representative type map, not a complete API reference or a per-type
+stability guarantee. Consult each header for its namespace, signatures, and
+error behavior.
 
 ---
 

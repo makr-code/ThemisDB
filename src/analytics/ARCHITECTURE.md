@@ -1,290 +1,66 @@
-# Architecture - Analytics Module
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: current | validated: 2026-09-09 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+Exact model backend not verifiable from final document text alone.
 
-## Overview
+# Analytics runtime architecture
 
-The analytics module is a multi-surface runtime for analytical workloads. It combines OLAP execution, streaming/CEP processing, forecasting, anomaly detection, and model-serving integrations behind shared analytics interfaces.
+The analytics module is a set of related runtime components, not one mandatory
+pipeline. Public declarations live in [`../../include/analytics/`](../../include/analytics/),
+implementations are in this directory, and focused tests are in
+[`../../tests/analytics/`](../../tests/analytics/).
 
-## Main Execution Planes
+## Runtime areas
 
-1. OLAP and aggregation plane
-- group-by and analytical aggregation execution
-- columnar and export-related execution paths
-
-2. Streaming and CEP plane
-- windowed streaming computation
-- pattern detection and rule-driven CEP processing
-- stream join coordination
-
-3. Predictive and ML integration plane
-- forecasting and anomaly scoring
-- in-process and external model-serving integration
-
-4. Distributed orchestration plane
-- shard fan-out execution
-- partial-result aggregation and coordination
-
-## Core Contracts
-
-| Contract | Behavior |
+| Area | Main interfaces and implementations |
 |---|---|
-| analytics execution APIs | perform analytical computations and result shaping |
-| streaming/CEP APIs | evaluate windows and event patterns |
-| forecasting/anomaly APIs | provide predictive and outlier analysis flows |
-| model serving APIs | connect analytics requests to model inference paths |
-| distributed analytics APIs | coordinate multi-shard execution and result merge |
+| Aggregation, OLAP, and columnar execution | `aggregation.*`, `olap.*`, `columnar_execution.*`, `jit_aggregation.*`, `incremental_view.*` |
+| Event streams | `streaming_window.*`, `streaming_join.*`, `cep_engine.*` |
+| Predictive analysis and model integration | `forecasting.*`, `anomaly_detection.*`, `automl.*`, `model_serving.*`, `ml_serving.*` |
+| Process, text, and knowledge analysis | `process_mining.*`, `process_pattern_matcher.*`, `nlp_text_analyzer.*`, `knowledge_base.*`, `expert_system_engine.*`, `llm_process_analyzer.*`, `lora_pattern_classifier.*` |
+| Export and distributed coordination | `analytics_export.*`, `arrow_export.*`, `arrow_flight.*`, `distributed_analytics.*` |
 
-## Failure Semantics
+These are source-file groupings, not guarantees that every optional backend is
+compiled or available at runtime.
 
-- optional-backend paths fail with structured errors when capabilities are unavailable.
-- runtime execution paths preserve fail-closed behavior on invalid inputs or unsupported operations.
-- distributed analytics paths can return partial outcomes according to module policy.
-- model artifact import supports explicit SHA-256 integrity verification and fail-closed rejection on mismatch.
-- external TF Serving integration enforces secure transport defaults and blocks plaintext HTTP unless explicitly enabled.
-- LLM analytics output is schema-validated with type, range, and payload-bound checks before response materialization.
-- export, serving, and distributed result objects surface correlation identifiers, canonical failure classes, and operator hints so runbooks can link code-level failures to operational remediation.
+## Data flow and module boundaries
 
-## Gap Closure Work (Phase 2, 2026-08-15)
+- Callers construct component-specific requests using the public header
+  declarations. The shared `analytics_api_contract.h` defines cross-cutting
+  errors, limits, and selected runtime semantics.
+- Each component validates its inputs and performs its own operation; there is
+  no requirement that a request pass through every runtime area listed above.
+- Export and serving paths return component-specific status and result metadata.
+  Optional capabilities must be checked rather than inferred from the presence
+  of a header.
+- Distributed execution fans requests out to shard executors and aggregates
+  their outcomes. A partial result is distinct from a result covering all
+  shards.
+- Query parsing, storage internals, server authentication, and authorization
+  remain owned by their respective modules and integration boundaries.
 
-### Overview
+## Failure and resource behavior
 
-Phase 2 (Core Implementation) delivered 28+ production implementations across 11 files,
-closing 40 identified gaps in the analytics module. All implementations follow RAII patterns,
-comprehensive error handling, and full Doxygen documentation.
+- Use the component's declared result/status and the shared contract where
+  applicable. Unsupported optional capabilities and invalid input are explicit
+  failure conditions; do not reinterpret them as successful output.
+- Streaming callers must handle configured window/resource limits,
+  backpressure, and late-event outcomes.
+- Serving and export callers must honor configured integrity, transport, and
+  bounded-execution policies. A zero policy limit means unconstrained where the
+  shared policy defines it that way.
+- Distributed callers must inspect shard outcomes before treating an aggregate
+  as complete.
 
-### Batch Implementations
-
-#### Batch 2A: Process Mining Core (6 functions)
-- **createDFG()**: Builds directly-follows graph from event log
-  - Input: EventLog with activity sequences
-  - Output: Directed graph with edge frequencies
-  - Complexity: O(n log n) where n = event count
-  - Key Feature: Efficient edge-frequency computation using hash map
-
-- **discoverProcess()**: Discovers process model from event log
-  - Input: EventLog
-  - Output: ProcessModel (node/edge list with metadata)
-  - Complexity: O(n log n) DFG construction + O(m) model generation
-  - Key Feature: Token replay validation integrated
-
-- **analyzeVariants()**: Identifies distinct process variants
-  - Input: EventLog
-  - Output: Variant list with frequencies and trace counts
-  - Complexity: O(n) single pass
-  - Key Feature: Efficient path grouping without double iteration
-
-- **clusterVariants()**: Groups similar variants
-  - Input: Variant list
-  - Output: Clustered variants with distance metrics
-  - Complexity: O(k²) where k = variant count
-  - Key Feature: Configurable distance threshold
-
-- **checkConformance()**: Validates log conformance to model
-  - Input: EventLog + ProcessModel
-  - Output: ConformanceScore (0.0–1.0)
-  - Complexity: O(n × m) token replay
-  - Key Feature: Deterministic scoring, early exit on perfect conformance
-
-#### Batch 2B: AutoML & Forecasting (6 functions)
-- **selectMetalearner()**: Heuristic metalearner selection
-  - Input: Dataset, candidate models
-  - Output: Selected metalearner ID + confidence score
-  - Complexity: O(k) where k = model count
-  - Key Feature: Scoring based on dataset characteristics (size, dimensionality)
-
-- **selectEnsembleMethod()**: Chooses ensemble strategy
-  - Input: Candidate models
-  - Output: EnsembleMethod enum (STACKING, VOTING, etc.)
-  - Complexity: O(k)
-  - Key Feature: Strategy selection based on model diversity
-
-- **seasonalityDuration()**: Estimates periodic pattern length
-  - Input: TimeSeries
-  - Output: Period length (int, 0 if non-seasonal)
-  - Complexity: O(n log n) FFT-based detection
-  - Key Feature: Autocorrelation analysis with confidence threshold
-
-- **exponentialSmoothing()**: Smooths time series
-  - Input: TimeSeries, alpha (smoothing factor)
-  - Output: std::pair<bool, std::string> (success, error_message)
-  - Complexity: O(n) single pass
-  - Key Feature: Numerical stability verified, handles boundary conditions
-
-- **validateTrainingData()**: Pre-training validation
-  - Input: Dataset
-  - Output: ValidationResult (valid/error)
-  - Complexity: O(n)
-  - Key Feature: NaN/Inf detection, dimension checking
-
-- **validateTestData()**: Pre-testing validation
-  - Input: TestDataset
-  - Output: ValidationResult
-  - Complexity: O(n)
-  - Key Feature: Distribution similarity check vs training set
-
-#### Batch 2C: Streaming & CEP (5 functions)
-- **buildNFA()**: Constructs non-deterministic finite automaton
-  - Input: Pattern (regex-like string)
-  - Output: NFA state machine
-  - Complexity: O(|pattern|) construction
-  - Key Feature: State reuse for memory efficiency
-
-- **processWindows()**: Processes event stream with sliding windows
-  - Input: EventStream, window configuration
-  - Output: WindowedResults (aggregated events per window)
-  - Complexity: O(n) where n = event count
-  - Key Feature: Memory-efficient rolling window
-
-- **updateWindow()**: Updates single window state
-  - Input: Window, new event
-  - Output: Updated window
-  - Complexity: O(1) amortized
-  - Key Feature: Stateful aggregation preservation
-
-- **flushWindow()**: Finalizes window and outputs result
-  - Input: Window, flush timestamp
-  - Output: FinalizedWindow
-  - Complexity: O(w) where w = window size
-  - Key Feature: Late-arrival handling
-
-- **updateAggregation()**: Incremental aggregation (O(1) per element)
-  - Input: Aggregation state, new element
-  - Output: Updated aggregation
-  - Complexity: O(1)
-  - Key Feature: Uses algebraic properties (sum, count, avg)
-
-#### Batch 2D: Knowledge Base (4 functions)
-- **assertFact()**: Stores fact in knowledge base
-  - Input: Fact (subject, predicate, object)
-  - Output: std::string (fact id)
-  - Complexity: O(1) amortized hash insertion
-  - Key Feature: Duplicate detection, FIFO eviction
-
-- **getFacts()**: Retrieves facts matching predicate
-  - Input: Predicate filter (empty = all facts)
-  - Output: FactVector
-  - Complexity: O(k) where k = matching fact count
-  - Key Feature: Predicate-indexed O(1) average lookup
-
-- **getFactById()**: Retrieves specific fact
-  - Input: Fact ID
-  - Output: std::optional<Fact>
-  - Complexity: O(1) amortized
-  - Key Feature: Direct ID-based retrieval
-
-- **queryFacts()**: Backward-compatible query interface
-  - Input: Pattern (wildcards supported)
-  - Output: FactList
-  - Complexity: O(k) where k = matching fact count
-  - Key Feature: Pattern matching support
-
-#### Batch 2E: Utilities (7+ functions)
-- **computeColumnBatches()**: Partitions columnar data
-  - Input: ColumnStore, batch size
-  - Output: Batch list
-  - Complexity: O(n / batch_size)
-  - Key Feature: SIMD-aligned memory layout
-
-- **mergePartialResults()**: Aggregates shard results
-  - Input: Result list from shards
-  - Output: Merged result
-  - Complexity: O(n log n) for sorted merge
-  - Key Feature: Associative aggregation preservation
-
-- **analyzeTextFeatures()**: NLP feature extraction
-  - Input: Text document
-  - Output: FeatureVector (TF-IDF, embeddings)
-  - Complexity: O(n) where n = document length
-  - Key Feature: Tokenization + TF-IDF weighting
-
-- **extractLoRAPatterns()**: LoRA pattern identification
-  - Input: Time-series data
-  - Output: PatternList with similarity scores
-  - Complexity: O(n²) pattern matching
-  - Key Feature: Edit distance + correlation metrics
-
-- **matchActivityPattern()**: Activity sequence matching
-  - Input: EventLog, pattern regex
-  - Output: MatchList
-  - Complexity: O(n × |pattern|) NFA traversal
-  - Key Feature: Early termination on match
-
-### Error Handling Patterns
-
-All 40 gap-closure functions follow standardized error handling:
-
-1. **Input Validation**: All functions validate inputs for null/empty/invalid ranges
-2. **RAII Compliance**: 100% — no manual new/delete in implementations
-3. **Exception Safety**: Strong or basic guarantee depending on operation
-4. **Return Status**: Use std::pair<bool, string> or std::optional for structured error reporting
-5. **Fallback Behavior**: Deterministic fallback on partial failures (e.g., ARIMA → exponential smoothing)
-
-### Quality Metrics (Phase 2 Complete)
-
-| Metric | Target | Achieved |
-|--------|--------|----------|
-| Functions Implemented | 40 | 40 (100%) |
-| Doxygen Coverage | 100% | 100% |
-| Compiler Warnings | 0 | 0 |
-| RAII Compliance | 100% | 100% |
-| Error Handling | Comprehensive | Complete |
-| Unit Tests | 80+ | 80+ |
-| Integration Tests | 15+ | 15+ |
-| Code Coverage | ≥70% | ≥70% |
-| Benchmarks | 6+ | 6+ |
-| Performance Regression | <10% | <10% |
-
-## Sourcecode Verification (Module: analytics/architecture)
-
-- Verified implementation files:
-  - src/analytics/olap.cpp
-  - src/analytics/streaming_window.cpp
-  - src/analytics/streaming_join.cpp
-  - src/analytics/cep_engine.cpp
-  - src/analytics/forecasting.cpp
-  - src/analytics/model_serving.cpp
-  - src/analytics/distributed_analytics.cpp
-  - src/analytics/process_mining.cpp
-  - src/analytics/automl.cpp
-  - src/analytics/knowledge_base.cpp
-  - src/analytics/anomaly_detection.cpp
-- Verified architecture claims:
-  - multi-plane analytics runtime composition
-  - optional dependency and capability-sensitive execution paths
-  - distributed coordination present in dedicated implementation file
-  - gap closure implementations maintain API contracts
-
-## Module Dependencies
-
-### Direct Upstream Dependencies (this module uses)
-| Module | Interface / File | Purpose |
-|--------|-----------------|---------|
-| storage | `include/storage/` | Reads datasets and writes analytical result sets |
-| query | `include/query/columnar_execution.h`, `incremental_view.h`, `process_mining.h` | Columnar execution, incremental materialised views, process-mining query feeds |
-| observability (utils) | `include/utils/tracing.h`, `audit_logger.h` | Metrics emission and audit tracing for analytical jobs |
-
-### Direct Downstream Consumers (modules that use this module)
-| Module | Via | Notes |
-|--------|-----|-------|
-| server | `include/analytics/` (diff_engine.h and result APIs) | Exposes analytical results and diff-engine surfaces to the REST/wire API layer |
-| query | `include/analytics/` (columnar_execution.h, incremental_view.h, process_mining.h) | Query planner and execution engine consume analytics surfaces for cost and plan rewriting |
-
-## Integration Points
-
-### Critical Integration: Query Columnar Execution
-**Files:** `src/analytics/olap.cpp` ↔ `query/columnar_execution.h`
-**Contract:** Analytics OLAP plane reads columnar execution results fed by the query engine; result schemas must match the columnar row format agreed in `columnar_execution.h`.
-**Thread Safety:** Result handoff is serialised through shared result-set ownership; concurrent writes to the same result set require external locking by the caller.
-
-### Critical Integration: Storage Result Feeds
-**Files:** `src/analytics/distributed_analytics.cpp` ↔ `storage/`
-**Contract:** Distributed analytics shard fan-out reads and writes through standard storage interfaces; partial-result aggregation does not bypass storage transactional boundaries.
-**Thread Safety:** Each shard operation uses an independent storage session; aggregation coordinator serialises final merge under an internal mutex.
-
-### Critical Integration: Server diff_engine Surface
-**Files:** `server/diff_engine.h` → `include/analytics/`
-**Contract:** Server registers a diff-engine callback against analytics result sets; the analytics module must not mutate published result objects after registration.
-**Thread Safety:** Published result-set objects are immutable after handoff; internal analytics state remains module-private.
-  - comprehensive error handling with RAII patterns
+For exact declarations and integration notes, see [API.md](./API.md) and
+[IMPLEMENTATION.md](./IMPLEMENTATION.md). For focused build/test instructions,
+see [MODULE_GUIDE.md](./MODULE_GUIDE.md).

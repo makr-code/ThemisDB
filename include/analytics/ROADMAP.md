@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 <!-- Status: current | validated: 2026-08-19 -->
@@ -20,7 +34,12 @@ Tracks public analytics API contract stability, header-level coverage work, and 
 
 ## Current Status
 
-All 24 analytics headers are present. Public entry points exist for OLAP, columnar/JIT execution, CEP, streaming joins/windows, forecasting, anomaly detection, AutoML, ML serving, NLP, process mining, Arrow export, and distributed analytics coordination.
+There are 31 top-level analytics headers in the current include tree. The
+[header map](./README.md#header-map) is the source-local index; exact declarations
+and namespaces are defined by each header. Public entry points cover OLAP,
+columnar/JIT execution, CEP, streaming joins/windows, forecasting, anomaly
+detection, AutoML, ML serving, NLP, process mining, Arrow export, and
+distributed analytics coordination.
 
 ---
 

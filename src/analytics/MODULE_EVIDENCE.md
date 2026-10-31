@@ -1,4 +1,24 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Analytics Module - Build and Test Evidence
+
+> **Historical evidence record:** The build and test output below is from
+> 2026-07-18. This documentation update did not rerun that build or test, so
+> this record is not evidence that the current revision passes. The test-source
+> inventory and header counts below were checked on 2026-10-31; they do not
+> establish test or Doxygen coverage.
 
 <!-- Status: current | validated: 2026-08-19 -->
 <!-- Issue: #5627 (Development Status 2026-07-18) -->
@@ -79,7 +99,12 @@ EXIT CODE: 0
 
 ## Focused Analytics Test Suite
 
-The analytics module includes 20+ focused test files:
+The historical validation inventory below lists 20 focused test files; it is
+not the complete current suite. CMake discovers all top-level `test_*.cpp`
+files in `tests/analytics/`. There are 41 such files in the tree as of
+2026-10-31. See [`../../tests/analytics/README.md`](../../tests/analytics/README.md)
+for current target naming and execution instructions. The list below records
+the files cited in the historical evidence:
 
 | Test File | Purpose | Status |
 |---|---|---|
@@ -106,22 +131,22 @@ The analytics module includes 20+ focused test files:
 
 ## Documentation Validation
 
-**Verification Checklist**
+**Historical Verification Checklist (2026-08-19)**
 - [x] ROADMAP.md synchronized (validated 2026-08-19)
 - [x] FUTURE_ENHANCEMENTS.md synchronized (validated 2026-08-19)
 - [x] README.md updated with current date (validated 2026-08-19)
 - [x] ARCHITECTURE.md current (validated 2026-08-19)
 - [x] SECURITY.md current (validated 2026-08-19)
 - [x] PRODUCTION_REQUIREMENTS.md current (validated 2026-08-19)
-- [x] All 24 header files have Doxygen @file documentation
+- [ ] Current Doxygen `@file` coverage has not been measured in this update
 - [x] All public APIs documented with @brief, @param, @return, @code examples
 - [x] Maturity metadata present in all headers (version, score, status)
 
-**Doxygen Coverage**
-- Header Files: 24/24 (100%)
-- Implementation Files: 24/24 (100%)
-- Public API Methods: >90% documented
-- Detail Headers: 4/4 (100%)
+**Current source inventory (2026-10-31)**
+- Public top-level headers: 31
+- Detail headers: 4
+- Top-level implementation `.cpp` files: 28
+- No current Doxygen coverage percentage is asserted by this inventory.
 
 ## Module Acceptance Criteria Status
 
