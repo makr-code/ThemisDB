@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -17,9 +17,9 @@ Exact model backend not verifiable from final document text alone.
 
 ## Module Purpose
 
-Automatic failover orchestration and disaster-recovery plan coordination for ThemisDB. The module provides bounded queueing, health/failure tracking, quorum and fencing gates, replica-promotion requests, ordered recovery steps, and in-process results/events.
+Automatic failover orchestration and disaster-recovery plan coordination for ThemisDB. The module provides bounded queueing, health/failure tracking, quorum and configured fencing gates, replica-promotion requests, ordered recovery steps, and in-process results/events.
 
-**Implementation boundary:** several built-in actions are not external operations. Spare activation reports failure when a spare manager is configured; metadata update only logs; disaster-recovery restore and traffic shift report success without calling storage or traffic adapters. See [IMPLEMENTATION.md](IMPLEMENTATION.md) before treating a successful result as proof of a completed external action.
+**Implementation boundary:** orchestration results do not prove every implied external action. Spare activation emits a failure event when a spare manager is configured (its return value is ignored by the main path); metadata update only logs; built-in DR restore and traffic-shift handlers do not call storage or traffic adapters. See [IMPLEMENTATION.md](IMPLEMENTATION.md).
 
 ## Relevant Interfaces
 
@@ -31,6 +31,9 @@ Automatic failover orchestration and disaster-recovery plan coordination for The
 | topology_snapshot.cpp | deterministic topology snapshots and change comparison |
 | include/failover/auto_failover_manager.h | failover manager API/contracts |
 | include/failover/disaster_recovery_manager.h | disaster recovery API/contracts |
+| include/failover/failover_api_contract.h | shared error, epoch, role, and retry contract helpers |
+| include/failover/quorum_log.h | optional local quorum log declarations |
+| include/failover/topology_snapshot.h | topology snapshot declarations |
 
 ## Operations
 
@@ -58,7 +61,7 @@ Out of scope:
 
 - failover behavior depends on configured thresholds, queue limits, and external manager availability.
 - disaster recovery validates required plan strings before executing its ordered steps; current built-in snapshot validation checks only that an ID is present.
-- monitoring and worker loops are concurrency-sensitive and bounded by configured queue/retry settings.
+- the request queue is bounded, but a queue limit does not bound dependency call duration or `stop()` join time. `stop()` calls `join()` directly; it has no enforced timed join.
 - `DisasterRecoveryManager` does not roll back completed steps; built-in restore and traffic-shift handlers do not perform those external operations.
 
 ## Sourcecode Verification (Module: failover/readme)

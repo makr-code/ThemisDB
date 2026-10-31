@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
@@ -20,29 +20,29 @@ This guide describes the operational surfaces and safe operating boundaries for 
 
 ## Signals and alert actions
 
-The inspected failover runtime does not publish named Prometheus metrics or create trace spans. The architecture and Wave D evidence pages describe such instrumentation, but it is not present in the current `auto_failover_manager.cpp` or `disaster_recovery_manager.cpp`; do not configure alerts against those claimed series/spans until runtime instrumentation is verified. Use the manager's state/statistics, lifecycle events, and structured `spdlog` output, and ensure the server's configured admin surface makes these visible to operators.
+The inspected failover runtime does not publish named Prometheus metrics or create trace spans. Do not configure alerts against metric series or spans that this module does not emit. Use the manager's state/statistics, lifecycle events, and `spdlog` messages; visibility through an administrative/export surface depends on deployment integration.
 
 | Signal | Source | Action |
 |---|---|---|
 | Current state, in-progress flag, last result, failing nodes | `AutoFailoverManager::getState()`, `isFailoverInProgress()`, `getLastFailoverResult()`, `getFailingNodes()` | Verify the detected failure and the current operation before submitting another request. |
 | Failover success/failure, duration, retry/recovery totals | `AutoFailoverManager::getStatistics()` | Investigate sustained failures or retry growth; confirm success with a healthy replica and quorum. |
 | Queue depth, dropped-full requests, queue-pressure events | `AutoFailoverManager::getStatistics()` and `QUEUE_PRESSURE` callbacks | Stop duplicate submissions; repair slow dependencies before retrying. |
-| Quorum/partition/fencing and node lifecycle events | Registered `FailoverEventCallback` and structured `spdlog` messages | Treat quorum uncertainty, log append failure, or split-brain risk as promotion blockers. |
+| Quorum/partition/fencing and node lifecycle events | Registered `FailoverEventCallback` and `spdlog` messages | Treat quorum uncertainty, log append failure, or split-brain risk as promotion blockers. |
 | DR state, result, failed step, and duration | `DisasterRecoveryManager::getState()`, `getStatistics()`, and `DisasterRecoveryResult::step_results` | Stop at the failed step and reconcile completed mutations before recovery resumes. |
 
-These are in-process API surfaces, not metric names guaranteed to be scraped by an external backend. Configure alerts in the deployment's monitoring layer from exported status/events; do not assume an alert rule is built into this module.
+These are in-process API surfaces, not metric names guaranteed to be scraped by an external backend. Configure external monitoring only from signals actually exported by the deployment integration.
 
 ## Routine checks
 
 - Confirm the manager is running and the last result is understood.
 - Track the `current_queue_depth`, `tasks_dropped_queue_full`, `failed_failovers`, retry totals, and `failed_runs` trends.
 - Verify quorum, replica health, and fencing before planned failover/DR activity.
-- Run a dry-run plan review before non-dry-run recovery, but do not treat it as a quorum or snapshot-availability check: built-in DR prechecks return early, snapshot validation only checks ID presence on a non-dry-run, and built-in restore/traffic handlers do not perform external actions. Review registered step hooks separately because they replace built-in handlers.
+- A built-in dry run skips quorum checks, snapshot lookup, fencing, restore, catch-up, traffic shift, and verification. Non-dry-run snapshot validation checks only that the ID is non-empty. Review registered step hooks separately because they replace built-in handlers.
 - Retain quorum-log and DR step-result evidence through incident closure.
 
 ## Operating safeguards
 
-- Defaults include three consecutive failures before action, a 5-second health-check call timeout, a 30-second quorum timeout, and two concurrent failovers. Tune only with owner review and after checking deployment-specific quorum and latency.
+- Defaults include three consecutive failures before action, a 5-second health-check call timeout, a 30-second quorum timeout, and a queue capacity of two pending requests. Tune only with owner review and after checking deployment-specific quorum and latency.
 - Queue pressure is diagnostic, not permission to increase concurrency.
 - Quorum/fencing/log append failures must remain fail-closed.
 - Failed DR steps can leave prior steps applied. The manager does not provide a compensating rollback.

@@ -1,9 +1,23 @@
-# PERFORMANCE_EXPECTATIONS - src/failover
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+# Failover Benchmark Workloads and Proposed Budgets
 
 ## Scope
 
 - Module: src/failover
-- This file defines measurable failover module performance expectations for release gating.
+- The tables below reproduce workload names and target thresholds declared in benchmark sources. They are targets, not evidence that a release run passed.
 
 ## Benchmark Reference
 
@@ -13,16 +27,16 @@
 
 ## Specific Expectations
 
-| Target ID | Expectation | Benchmark case |
+| Target ID | Benchmark-source workload | Declared target |
 |---|---|---|
-| FOP-1 | heartbeat send overhead p99 ≤ 500 µs | BM_FRG01_HeartbeatSendOverhead (FRG-01) |
-| FOP-2 | leader election decision p99 ≤ 5 ms | BM_FRG02_ElectionDecision (FRG-02) |
-| FOP-3 | state sync message serialize p99 ≤ 200 µs | BM_FRG03_StateSyncSerialize (FRG-03) |
-| FOP-4 | health check evaluation p99 ≤ 100 µs | BM_FRG04_HealthCheckEvaluation (FRG-04) |
-| FOP-5 | in-flight request buffer check p99 ≤ 50 µs | BM_FRG05_InFlightBufferCheck (FRG-05) |
-| FOP-6 | epoch increment + persist (mock) p99 ≤ 1 ms | BM_FRG06_EpochIncrementPersist (FRG-06) |
+| FRG-01 | Mock heartbeat message work (no network send) | p99 ≤ 500 µs |
+| FRG-02 | Deterministic in-memory mock election (no network consensus) | p99 ≤ 5 ms |
+| FRG-03 | Fixed-size mock state-sync message construction | p99 ≤ 200 µs |
+| FRG-04 | Synthetic health predicate evaluation | p99 ≤ 100 µs |
+| FRG-05 | Mock in-flight buffer occupancy check | p99 ≤ 50 µs |
+| FRG-06 | Atomic epoch increment (mock persist; no storage I/O) | p99 ≤ 1 ms |
 
-## Module Hard Gates (v1.0 docs baseline)
+## Additional declared thresholds
 
 | Gate ID | Expectation | Measurement |
 |---|---|---|
@@ -33,17 +47,18 @@
 | GATE-FRG-05 | buffer check p99 ≤ 50 µs | FRG-05 |
 | GATE-FRG-06 | epoch persist p99 ≤ 1 ms | FRG-06 |
 
-## Validation
+The Phase 2/3 (FP23) and Wave B (FWB) benchmark files declare additional thresholds. Those targets do not themselves implement CI pass/fail comparisons.
 
-- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
-- Dedicated failover benchmarks (FRG-01..FRG-06) delivered in Q3 2026; proxy reliance reduced.
-- p95/p99 re-baseline planned for Q1 2027 (see ROADMAP.md mid-term planned features).
+## Validation status
+
+- `benchmarks/failover/CMakeLists.txt` registers three Google Benchmark executables when `THEMIS_BUILD_BENCHMARKS` is enabled.
+- The FRG and FP23 cases use synthetic or inline-mocked workloads; FWB uses simulations for several cases and excludes real log file I/O in its stated append case. They are not end-to-end failover/recovery measurements.
+- The source labels declare p99 thresholds but do not configure a percentile statistic or a threshold assertion in these benchmark registrations. FWB-02 also has inconsistent source targets: the overview says p99 ≤ 1 ms (with ≤100 µs for the in-memory path), while its gate table says ≤100 µs.
+- No benchmark execution or measured p95/p99 results are asserted by this document. Run release-profile benchmarks on the target hardware before making latency or release-gate claims.
 
 ## Sourcecode Verification (Module: failover/performance)
 
-- Verified benchmark sources:
+- Audited benchmark sources:
   - benchmarks/failover/bench_failover_release_gates.cpp (FRG-01..FRG-06)
   - benchmarks/bench_replication_throughput.cpp (supplemental proxy)
-- Result:
-  - Dedicated failover benchmark cases delivered. Proxy reliance is supplemental only.
-  - All six GATE-FRG gates are mapped to concrete benchmark registrations.
+- Result: the FRG IDs map to registrations in `bench_failover_release_gates.cpp`; this confirms source presence, not a passed performance gate.

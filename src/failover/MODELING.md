@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -31,7 +31,7 @@ The manager's decision inputs are:
 | `consecutive_failures_before_action` | Failure threshold before a request is considered | Default is 3; tune with the health-check interval and deployment latency. |
 | Replication manager quorum | Promotion prerequisite | Quorum semantics are supplied by the replication manager. |
 | Replica health and role | Candidate eligibility; unhealthy and witness replicas are excluded | Candidate state can change after observation, so promotion must still pass fencing. |
-| Fencing manager epoch token | Split-brain guard | Epoch 0 is invalid and blocks promotion. |
+| Fencing manager epoch token | Split-brain guard when configured/enabled | Epoch 0 is invalid and blocks the guarded promotion path; if prevention is disabled and no fencing manager is supplied, that guard is absent. |
 | Queue capacity and pressure threshold | Bounds pending work and reports saturation | Queue-full submission returns `false`; it is counted as dropped. |
 
 The `FailoverErrorCode` contract identifies quorum, fencing, timeout, and
