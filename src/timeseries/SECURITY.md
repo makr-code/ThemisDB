@@ -1,47 +1,45 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "security"
+Canonical_References: "src/timeseries/TRUST.md; include/timeseries/tsstore.h; include/timeseries/encrypted_chunk_store.h; include/timeseries/prometheus_remote_write.h"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Security - Timeseries Module
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+Report vulnerabilities through the project-level [`SECURITY.md`](../../SECURITY.md).
+This page describes module boundaries; it is not a security certification or
+deployment checklist.
 
-Report vulnerabilities via project-level SECURITY.md.
+## Relevant boundaries
 
-## Security Scope
+- `TSStore` accepts caller-provided data and a non-owned RocksDB
+  `TransactionDB`. The module does not establish caller identity or
+  authorization.
+- `PromWriteRequest` parses untrusted protobuf payloads. Parsing does not
+  provide HTTP authentication, TLS, endpoint authorization, or request
+  rate/size policy.
+- `EncryptedChunkStore` relies on caller-supplied key and audit dependencies.
+  An audit sink is not guaranteed unless the integrating application configures
+  and verifies one.
+- Retention operations delete data. The timeseries APIs do not define an
+  undelete operation.
+- Tags, metadata, metric/entity names, and diagnostics may contain sensitive
+  or high-cardinality values; apply application-level access and redaction
+  policy before export.
 
-Security in the timeseries module focuses on deterministic ingest and retention behavior, explicit encrypted-chunk lifecycle handling, bounded remote-write ingest behavior, and observable failure signaling across flush and query paths.
-
-## Threat Model
-
-| Threat | Current Mitigation Surface |
-|---|---|
-| silent data-loss in ingest/flush paths | explicit ingest and adaptive flush outcomes |
-| opaque encrypted chunk/key-rotation failure | diagnosable encrypted chunk and key-rotation behavior |
-| malformed or abusive remote-write payloads | explicit remote-write validation and rejection behavior |
-| hidden retention/downsampling corruption | observable lifecycle and query-stage failures |
-
-## Implemented Security Controls
-
-- ingest, flush, and query paths expose explicit results.
-- encrypted chunk and rotation behavior remains observable.
-- remote-write faults remain explicit and bounded.
-- retention and aggregation lifecycle failures are diagnosable.
-
-## Security Follow-ups
-
-- broaden fault-injection coverage for encrypted chunk and key-rotation edge cases.
-- deepen stress coverage for concurrent adaptive flush and remote-write pressure.
-- tighten diagnostics taxonomy across ingest, retention, and remote-write incidents.
-
-## Sourcecode Verification (Module: timeseries/security)
-
-- Verified files:
-  - src/timeseries/tsstore.cpp
-  - src/timeseries/ts_auto_buffer.cpp
-  - src/timeseries/ts_auto_buffer_adaptive.cpp
-  - src/timeseries/encrypted_chunk_store.cpp
-  - src/timeseries/ts_encrypted_key_rotation.cpp
-  - src/timeseries/prometheus_remote_write.cpp
-  - src/timeseries/retention.cpp
-- Verified controls:
-  - explicit ingest/flush and query fault signaling
-  - observable encrypted chunk lifecycle behavior
-  - deterministic remote-write validation behavior
+For code-specific trust boundaries, encryption behavior, and incident handling,
+see [TRUST.md](TRUST.md). Deployment obligations are summarized in
+[PRODUCTION_REQUIREMENTS.md](PRODUCTION_REQUIREMENTS.md); verify enforcement in
+the owning server and platform sources. This documentation pass did not
+perform a security audit or execute security tests.
