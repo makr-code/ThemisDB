@@ -1,37 +1,45 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-18"
-Last Updated: "2026-10-21"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "GitHub Copilot"
-AI_Contributor: "GitHub Copilot"
-Human_Review: true
-Human_Author: "ThemisDB Team"
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
 ---
 
-# Vector-Search in ThemisDB
+Exact model backend not verifiable from final document text alone.
 
-## Ueberblick
-This module documents the operational contract and release-readiness evidence for ThemisDB vector-search behavior. The implementation itself is not colocated under src/vector_search/; it is owned by the shared index subsystem under src/index/ and include/index/. Im Modulkontext werden Aussagen mit [Architekturgrenzen](./ARCHITECTURE.md), [Release-Planung](./ROADMAP.md), [Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md) abgeglichen. Im Betrieb sind dabei insbesondere [Latenz](https://en.wikipedia.org/wiki/Latency_(engineering)), [Observability](https://en.wikipedia.org/wiki/Observability) und [Determinismus](https://en.wikipedia.org/wiki/Deterministic_algorithm) relevante Qualitaetskriterien. Fuer Querschnittskontext wird das Modul mit den relevanten Stellen im [Compendium](./../../docs/compendium/docs/index.md) verknuepft.
+# Vector Search Capabilities
 
-## Kern-Features im Detail
-Die erste Kernfaehigkeit ist **vector search contract and module governance**. Das beschreibt einen konkreten, in den Modulquellen referenzierten Verantwortungsbereich.
+## Role
 
-Die zweite Kernfaehigkeit ist **ANN/index query expectations for retrieval workflows**. Dadurch bleiben Integrationspfade zwischen Modulgrenzen reproduzierbar und operativ auswertbar.
+Vector search is implemented by the shared `index` subsystem. This module
+documents its contracts and validation evidence; it does not contain a
+standalone runtime.
 
-Die dritte Kernfaehigkeit ist **operational limits and release gates**. Das unterstuetzt stabile Abnahme- und Aenderungsprozesse entlang der Modul-Roadmap.
+## Capabilities represented by the public interfaces
 
-```mermaid
-flowchart LR
-    A[Produktanforderung] --> B[Vector-Search Modul]
-    B --> C[Implementierung und Integrationspfade]
-    C --> D[Test- und Betriebsnachweise]
-    D --> E[Kundennutzen im Betrieb]
-```
+- `VectorIndexManager` provides a RocksDB-backed vector namespace, entity
+  mutation, KNN and filtered search, reindex/rebuild operations, and index
+  save/load APIs. Optional HNSW and advanced-index behavior depends on build
+  support.
+- `MultiVectorSearch` combines results from multiple vectors, fields, query
+  expansions, or keyword scores using the configured fusion strategy.
+- `DistributedVectorIndex` provides in-process shard routing and scatter-gather
+  search. It is not a durable or replicated multi-node deployment service.
 
-## Kundennutzen und Abgrenzung
-Kundinnen und Kunden erhalten damit vor allem besser planbares Systemverhalten, kuerzere Eingrenzungszeiten bei Stoerungen und transparentere Release-Risiken. Diese Seite ist ein fachlich-kommunikativer Ueberblick; normative API-, Compliance- und Freigabeaussagen verbleiben in den kanonischen Modulquellen.
+## Trade-offs and limits
 
-## Einordnung und Quellen
-Primaere modulnahe Quellen: [README.md](./README.md), [ARCHITECTURE.md](./ARCHITECTURE.md), [ROADMAP.md](./ROADMAP.md), [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md), [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md), [SECURITY.md](./SECURITY.md). Sekundaere Querschnittsquellen: [Compendium Index](./../../docs/compendium/docs/index.md). Aussagen wurden auf diese Quellenbasis begrenzt; bei fehlenden Modulquellen werden keine weitergehenden Produktclaims ergänzt.
+Backend capability is build-dependent. Module-specific stress/soak tests and the
+dedicated benchmark use synthetic flat indexes, so their results must not be
+presented as production-runtime performance evidence.
+
+## Source references
+
+- [`VectorIndexManager`](../../include/index/vector_index.h)
+- [`MultiVectorSearch`](../../include/index/multi_vector_search.h)
+- [`DistributedVectorIndex`](../../include/index/distributed_vector_index.h)
+- [Architecture](ARCHITECTURE.md) · [Performance expectations](PERFORMANCE_EXPECTATIONS.md)

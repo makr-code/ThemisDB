@@ -1,88 +1,86 @@
 ---
 Author: "ThemisDB Team"
-Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Created: "2026-10-18"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "GitHub Copilot"
-AI_Contributor: "GitHub Copilot"
-Human_Review: true
-Human_Author: "ThemisDB Team"
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
 ---
+
+Exact model backend not verifiable from final document text alone.
 
 # Vector Search Module
 
-## Purpose
+## Purpose and ownership
 
-This module documents the governance-facing contract for ThemisDB vector search. The live implementation is not maintained under `src/vector_search/`; the canonical code lives in the shared index subsystem under `src/index/` and `include/index/`.
+This directory is the documentation and governance boundary for vector search.
+It contains no vector-search implementation source. The shared runtime is owned
+by the `index` subsystem under `include/index/` and `src/index/`; this module
+must not be treated as a second implementation or an independent release claim.
 
-The directory therefore serves as the module boundary for release evidence, operational expectations, and documented limits rather than as a duplicate implementation tree.
+The primary runtime interfaces are `VectorIndexManager` and `MultiVectorSearch`.
+The former stores vectors in a RocksDB-backed namespace and can use optional
+HNSW acceleration; the latter combines results from multiple vector queries or
+fields. Optional advanced and distributed index implementations also live in
+the shared index subsystem and have separate capability and readiness limits.
 
-## Scope
+## Build and focused validation
 
-In scope:
-- vector-search governance and contract boundaries
-- release evidence and benchmark gate references
-- operational limits and known gaps
-- alignment to the live shared-index implementation
-
-Out of scope:
-- duplicating vector-search implementation in `src/vector_search/`
-- claiming future capabilities as deployed features without source evidence
-- shadowing subsystem ownership in `src/index/` and `include/index/`
-
-## Quickstart (Build/Run)
+Use a configure preset available in the repository's `CMakePresets.json`:
 
 ```bash
-# list available presets and select the one that matches your platform
 cmake --list-presets
-
-# example: a platform-matching preset such as linux-release or windows-release
-cmake --preset <your-preset>
-cmake --build --preset <your-preset> --target test_vector_search_highcardinality_stress
-
-# focused validation
-ctest --preset <your-preset> -R 'vector_search' --output-on-failure
+cmake --preset <available-preset>
+cmake --build --preset <available-preset> --target test_vector_search_highcardinality_stress
+ctest --preset <available-preset> -R 'vector_search' --output-on-failure
 ```
 
-The repository's live artifacts for this module are the shared index sources, the validation test in `tests/vector_search/`, and the release benchmark in `benchmarks/vector_search/`.
+The release configure preset may disable tests. Use a test-enabled preset when
+building this test target.
 
-## API / CLI Entry Points
+The high-cardinality stress test and soak test use in-process flat-index
+implementations. They validate those test fixtures, not the production
+`VectorIndexManager` runtime. The dedicated vector-search gate benchmark also
+uses an in-process flat index and emits threshold counters; it is not measured
+production-runtime performance evidence. See [performance expectations](PERFORMANCE_EXPECTATIONS.md)
+and [module gaps](MODULE_GAPS.md) for evidence boundaries.
 
-- Canonical implementation: `include/index/vector_index.h`, `include/index/multi_vector_search.h`
-- Shared runtime sources: `src/index/vector_index.cpp`, `src/index/advanced_vector_index.cpp`, `src/index/multi_vector_search.cpp`
-- Stress coverage: `tests/vector_search/test_vector_search_highcardinality_stress.cpp`
-- Benchmark gate: `benchmarks/vector_search/bench_vector_search_dedicated_gates.cpp`
+## Live source and evidence
 
-This module should be read as the governance and evidence layer for those real APIs, not as a second code path.
+- API: [`include/index/vector_index.h`](../../include/index/vector_index.h),
+  [`include/index/multi_vector_search.h`](../../include/index/multi_vector_search.h)
+- Runtime: [`src/index/vector_index.cpp`](../index/vector_index.cpp),
+  [`src/index/multi_vector_search.cpp`](../index/multi_vector_search.cpp)
+- Stress test fixture: [`tests/vector_search/test_vector_search_highcardinality_stress.cpp`](../../tests/vector_search/test_vector_search_highcardinality_stress.cpp)
+- Soak test fixture: [`tests/integration/test_vector_search_soak.cpp`](../../tests/integration/test_vector_search_soak.cpp)
+- Dedicated gate benchmark: [`benchmarks/vector_search/bench_vector_search_dedicated_gates.cpp`](../../benchmarks/vector_search/bench_vector_search_dedicated_gates.cpp)
+- Runtime benchmark: [`benchmarks/ann/bench_vector_search.cpp`](../../benchmarks/ann/bench_vector_search.cpp)
 
-## Integration Overview
+## Known limitations
 
-```mermaid
-flowchart LR
-    A[Client / Retrieval / Service] --> B[vector search contract]
-    B --> C[shared index subsystem]
-    C --> D[metric validation + search execution]
-    D --> E[tests and benchmark evidence]
-    E --> F[release readiness review]
-```
+- Optional HNSW and advanced-index behavior depends on build-time support.
+- `DistributedVectorIndex` is a shared-index implementation, not evidence of
+  durable, replicated, multi-node production service. Its `RANGE` strategy is
+  currently hash-based and replication is marked future work in its API.
+- The dedicated gate benchmark and named stress/soak fixtures do not establish
+  production latency, throughput, recall, or release readiness.
+- Production readiness requires runtime-specific validation and maintainer
+  sign-off; this module's documentation does not grant that sign-off.
 
-Interpretation: the vector search module coordinates governance and validation around the shared index subsystem. Runtime behavior, performance gates, and API contracts are still owned by the index implementation under `src/index/` and `include/index/`.
+## Related documentation
 
-## Known Limitations
-
-- The module does not contain a separate implementation tree; it documents the contract around the shared index subsystem.
-- Distributed indexing and persistent sharding remain planned work rather than current capabilities.
-- Performance and reliability expectations must be validated against the real benchmark/test artifacts and not inferred from historical documentation alone.
-
-## References
-
-- [ARCHITECTURE.md](ARCHITECTURE.md)
-- [ROADMAP.md](ROADMAP.md)
-- [FUTURE_ENHANCEMENTS.md](FUTURE_ENHANCEMENTS.md)
-- [AUDIT.md](AUDIT.md)
-- [SECURITY.md](SECURITY.md)
-- [PRODUCTION_REQUIREMENTS.md](PRODUCTION_REQUIREMENTS.md)
-- [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md)
-- [MODULE_GAPS.md](MODULE_GAPS.md)
-- [CHANGELOG.md](CHANGELOG.md)
+- [Architecture](ARCHITECTURE.md)
+- [API contract](API.md)
+- [Implementation notes](IMPLEMENTATION.md)
+- [Roadmap](ROADMAP.md)
+- [Audit](AUDIT.md)
+- [Changelog](CHANGELOG.md)
+- [Future enhancements](FUTURE_ENHANCEMENTS.md)
+- [Module gaps](MODULE_GAPS.md)
+- [Performance expectations](PERFORMANCE_EXPECTATIONS.md)
+- [Production requirements](PRODUCTION_REQUIREMENTS.md)
+- [Security](SECURITY.md)
+- [Runbook](RUNBOOK.md)
