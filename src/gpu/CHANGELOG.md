@@ -1,6 +1,6 @@
 > WARNING: Historical changelog entries describe implementation state at the time they were recorded.
 
-<!-- Status: current | validated: 2026-08-17 -->
+<!-- Historical validation stamp: 2026-08-17; changelog entries are not test evidence -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 # Changelog - GPU Module
@@ -11,8 +11,7 @@ The format is based on Keep a Changelog.
 ## [Unreleased]
 
 ### Changed
-- Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
-- Performance expectations updated to explicit verified GPU benchmark symbols from GPU benchmark suites.
+- GPU documentation audited against public declarations, implementation, test CMake, benchmark sources, and CMake registration; corrected public header paths, allocation/fallback claims, benchmark mapping, and historical test evidence.
 
 ## [1.8.0] - 2026-03-21
 

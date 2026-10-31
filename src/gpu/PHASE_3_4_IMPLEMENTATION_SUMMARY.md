@@ -1,5 +1,9 @@
 # Phase 3 & 4 Implementation: Baseline Capture & GA Sign-Off
 
+> Historical implementation/status report dated 2026-09-23. Its deployment,
+> non-blocking, fallback, and acceptance claims are not current validation;
+> generated example measurements are illustrative, not observed results.
+
 **Status:** ✅ INFRASTRUCTURE COMPLETE  
 **Date:** 2026-09-23  
 **Wave:** Wave A GPU Reduction (#6575)  
