@@ -1,13 +1,13 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 Source_Level: "L1"
 SOT_Domain: "api-contract"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot"
+AI_Contributor: "GitHub Copilot coding agent"
 Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
@@ -31,7 +31,7 @@ handling described by that header.
 | [`utils/geo/ewkb.h`](../../include/utils/geo/ewkb.h) | `GeometryInfo`, `Coordinate`, `MBR`, `EWKBParser` | Parse/serialize EWKB, WKT, and GeoJSON; carry geometry data |
 | [`geo_json_geometry.h`](../../include/geo/geo_json_geometry.h) | `IGeoJSONGeometry`, `GeoPoint`, `GeoLineString`, `GeoPolygon`, collections | Typed geometry validation and GeoJSON serialization |
 | [`spatial_backend.h`](../../include/geo/spatial_backend.h) | `ISpatialComputeBackend`, `GeoPrecisionMode` | Exact/approximate compute backend interface and registry functions |
-| [`geo_backend_dispatch.h`](../../include/geo/geo_backend_dispatch.h) | `GeoBackendDispatcher` | Batched Haversine, Vincenty, and point-in-polygon dispatch |
+| [`geo_backend_dispatch.h`](../../include/geo/geo_backend_dispatch.h) | `GeoBackendDispatcher` | Batched Haversine, Vincenty, and point-in-polygon operations; Vincenty batch currently uses the CPU implementation |
 | [`geo_rtree.h`](../../include/geo/geo_rtree.h), [`rtree_cursor.h`](../../include/geo/rtree_cursor.h) | `GeoRTree`, cursor/index interface | Insert, bulk load, bbox/predicate lookup, and continuation |
 | [`spatial_join.h`](../../include/geo/spatial_join.h) | `SpatialJoin`, `SpatialJoinIterator` | Key-pair join with threshold distance and pair cap |
 | [`geo_clustering.h`](../../include/geo/geo_clustering.h) | `dbscanCluster`, `kmeansCluster` | Point clustering with CPU/GPU configuration |

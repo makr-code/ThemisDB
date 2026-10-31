@@ -1,94 +1,63 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+# Geo public-header architecture
 
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/geo/ARCHITECTURE.md -->
+## Scope
 
-# Geo Module — Public Header Architecture
+`include/geo/` declares geo-facing types and
+interfaces. The implementation and module build selection are in
+`src/geo/`. The public headers do not imply
+that all geo operations share one execution pipeline or are available in every
+build.
 
-**Module Path:** `include/geo/`
-**Implementation:** `../../src/geo/`
-**Canonical architecture doc:** [`../../src/geo/ARCHITECTURE.md`](../../src/geo/ARCHITECTURE.md)
+## Header boundaries
 
----
+| Responsibility | Representative headers |
+|---|---|
+| Contracts and policy declarations | `geo_api_contract.h`, `geo_policy.h` |
+| Geometry, coordinates and math | `geo_json_geometry.h`, `geo_math.h`, plus shared `include/utils/geo/ewkb.h` |
+| Compute dispatch | `spatial_backend.h`, `geo_backend_dispatch.h`, `gpu_kernel_dispatcher.h`, `device_detector.h` |
+| Indexing and joins | `geo_rtree.h`, `rtree_cursor.h`, `spatial_join.h`, `spatial_join_filter.h` |
+| Additional geo operations | `geo_clustering.h`, `geo_faiss_knn.h`, `raster.h`, `raster_query_interface.h`, `temporal_spatial_query.h`, `temporal_spatial_query_builder.h`, `tile_server.h` |
+| Supporting controls | `geo_edge_case_handler.h`, `geo_operator_diagnostics.h`, `gpu_buffer_guard.h`, `phase2_phase3_hardening.h`, `geo_ops_ext.h` |
 
-## 1. Overview
+`IGeoOpsExtension` declares an extension name/support interface; it does not
+declare the `ST_*` operation implementations. `ISpatialComputeBackend` is a
+compute abstraction, not a persistent spatial-index abstraction.
 
-`include/geo/` defines the **public spatial storage, indexing, query, and GPU-accelerated analytics API contract** for ThemisDB. The 17 headers cover GeoJSON geometry types, R-tree indexing and cursors, spatial joins, KNN with FAISS GPU acceleration, raster storage and query, geo math, clustering, device detection, temporal-spatial queries, and tile serving.
+## Build and runtime boundaries
 
-For runtime composition — R-tree node splits, FAISS index build/update, raster tile caching, and GPU dispatch internals — see:
-→ [`../../src/geo/ARCHITECTURE.md`](../../src/geo/ARCHITECTURE.md)
+The default integrated module CMake selection is in
+`src/geo/CMakeLists.txt`: CUDA, HIP, or a
+CPU dispatcher source is selected at build time, with CUDA taking precedence
+in the repository configuration. Backend availability and actual execution are
+runtime facts and must be checked for the specific operation.
 
----
+The parent build can select the optional external Geo plugin with
+`THEMIS_EXTERNALIZE_GEO_PLUGIN=ON` when its feature and configured submodule
+are available. In that mode the integrated `src/geo/` implementation is not
+the active implementation; plugin API/test parity was not audited here.
 
-## 2. Header Groups
+The geo headers declare both status-returning interfaces and APIs with other
+result/error shapes. For example, raster queries use `RasterStatus`, while the
+shared `GeoErrorCode` is declared in `geo_api_contract.h`. Do not infer a
+uniform error model or a common limit-enforcement path from the header set.
 
-### 2.1 Geometry and Core Types
+## Integration boundary
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `geo_json_geometry.h` | `GeoJSONGeometry` | GeoJSON geometry parsing, representation, and serialisation |
-| `geo_math.h` | `GeoMath` | Geodetic distance, bearing, and projection utilities |
-| `geo_ops_ext.h` | `GeoOpsExt` | Extended spatial operations (buffer, simplify, convex hull) |
+`SpatialQueryPolicy::allowed_collections` is advisory; authorization belongs
+to the server boundary. The policy type is a declaration consumed by callers
+and does not itself enforce resource limits. Likewise, the raster header names
+`THEMIS_ENABLE_RASTER`, but the inspected geo feature CMake file does not
+declare a matching user-facing option (**TODO:** verify the owning build path).
 
-### 2.2 Indexing and Spatial Access
+## Canonical sources
 
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `geo_rtree.h` | `GeoRTree` | R-tree spatial index for bounding-box and point lookups |
-| `rtree_cursor.h` | `RTreeCursor` | Iterative cursor over R-tree range results |
-| `spatial_backend.h` | `ISpatialBackend` | Backend abstraction for swappable spatial index implementations |
-
-### 2.3 Spatial Joins and Filtering
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `spatial_join.h` | `SpatialJoin` | Spatial join between two geometry collections |
-| `spatial_join_filter.h` | `SpatialJoinFilter` | Predicate-based filter applied during spatial joins |
-
-### 2.4 GPU-Accelerated KNN and Clustering
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `geo_faiss_knn.h` | `GeoFAISSKNN` | FAISS-backed GPU-accelerated KNN for geospatial points |
-| `geo_clustering.h` | `GeoClustering` | Spatial clustering (k-means / DBSCAN variants) |
-| `gpu_kernel_dispatcher.h` | `GPUKernelDispatcher` | Device-agnostic GPU kernel dispatch for spatial operations |
-| `device_detector.h` | `DeviceDetector` | CUDA / HIP / CPU capability detection for spatial backends |
-
-### 2.5 Raster Storage and Query
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `raster.h` | `RasterStore` | Raster tile storage and band management |
-| `raster_query_interface.h` | `RasterQueryInterface` | Query API for raster band extraction and resampling |
-
-### 2.6 Temporal-Spatial Queries
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `temporal_spatial_query.h` | `TemporalSpatialQuery` | Combined spatial + bi-temporal query execution |
-| `temporal_spatial_query_builder.h` | `TemporalSpatialQueryBuilder` | Builder for composing temporal-spatial query predicates |
-
-### 2.7 Tile Serving
-
-| Header | Public Type | Purpose |
-|--------|------------|---------|
-| `tile_server.h` | `TileServer` | XYZ/TMS tile serving for vector and raster data |
+- Binding API contract: `include/geo/geo_api_contract.h`.
+- Geo implementation architecture:
+  `src/geo/ARCHITECTURE.md`.
+- Build selection:
+  `src/geo/CMakeLists.txt` and `cmake/features/GeoFeatures.cmake`.
 
 ---
 
-## 3. Namespace Layout
-
-| Namespace | Scope |
-|-----------|-------|
-| `themis::geo` | All spatial geometry, indexing, query, and serving types |
-
----
-
-## 4. Public Contract Notes
-
-- Geometry headers follow the GeoJSON (RFC 7946) geometry model; callers should not assume internal coordinate precision.
-- R-tree headers provide stable index-access contracts; node split strategies and page layout remain internal.
-- `ISpatialBackend` defines the extension point for alternative spatial index implementations.
-- GPU acceleration headers are conditional on device availability; `DeviceDetector` must be consulted before dispatching GPU kernels.
-- Temporal-spatial headers integrate with `include/temporal/` period semantics for AS OF spatial queries.
-- Tile-server header provides an XYZ/TMS-compatible serving contract for map consumer integrations.
+**AI_Used:** true · **AI_Models:** unknown · **AI_Contributor:** GitHub Copilot coding agent · **Human_Review:** false · **Human_Author:** ThemisDB Contributors
+Exact model backend not verifiable from final document text alone.

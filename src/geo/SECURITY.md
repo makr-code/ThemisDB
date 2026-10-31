@@ -7,23 +7,30 @@ Report vulnerabilities via project-level SECURITY.md.
 
 ## Security Scope
 
-Security in geo focuses on safe geometry input handling, controlled backend fallback behavior, deterministic query execution boundaries, and explicit failure behavior under unsupported or invalid geospatial conditions.
+Security review for geo focuses on geometry inputs, request-policy boundaries,
+backend capability/fallback behavior, and diagnostic data. The geo module is
+not the authorization boundary; server integration and project-level policy
+own access decisions.
 
 ## Threat Model
 
 | Threat | Current Mitigation Surface |
 |---|---|
-| malformed or adversarial geometry payloads | geometry parsing/validation and structured rejection |
-| unsafe GPU execution path assumptions | capability checks with explicit CPU fallback behavior |
-| excessive resource pressure in spatial workflows | bounded execution paths and controlled feature gates |
-| hidden failure paths in advanced geo operations | explicit error reporting and runtime observability surfaces |
+| malformed or adversarial geometry payloads | path-specific parsing/validation and operation error/status handling; trace the concrete request path |
+| unsafe GPU execution path assumptions | compile-time selection and runtime capability reporting; fallback is operation-specific |
+| excessive resource pressure in spatial workflows | API/policy limits where consumed; verify each execution path rather than assuming global enforcement |
+| sensitive data in diagnostics or reports | redact payloads and identifiers before export; diagnostic strings may be retained as supplied |
+| unauthorized collection access | enforce at the owning server boundary; `SpatialQueryPolicy::allowed_collections` is advisory |
 
 ## Implemented Security Controls
 
-- geometry inputs are validated before critical execution paths.
-- backend selection is capability-aware with deterministic fallback behavior.
-- unsupported feature paths return explicit non-silent outcomes.
-- runtime diagnostics support production incident triage.
+- `GeoJSONGeometry` exposes validation; callers must invoke the relevant
+  validator and must not assume every API path performs the same checks.
+- Backend/device report interfaces are available; compiling a GPU backend does
+  not establish runtime availability or GPU execution.
+- `NoOpRasterQueryImpl` returns `RasterStatus::NOT_SUPPORTED`.
+- The geo policy documentation places authoritative authorization at the
+  server boundary and identifies the collection list as advisory.
 
 ## Security Follow-ups
 
@@ -41,6 +48,27 @@ Security in geo focuses on safe geometry input handling, controlled backend fall
   - src/geo/gpu_backend_hip.cpp
   - src/geo/device_detector.cpp
 - Verified controls:
-  - input validation and explicit geometry error handling
-  - deterministic capability-aware backend fallback behavior
-  - explicit unsupported/degraded path signaling
+  - public geometry validation declarations and their typed validation result
+  - geo policy's advisory collection-list boundary
+  - explicit raster unsupported status and backend/device report declarations
+
+These are control surfaces, not proof of uniform enforcement in every geo
+operation or deployment.
+
+## Canonical source references
+
+- GeoJSON validation types:
+  `include/geo/geo_json_geometry.h`.
+- Policy fields and validation:
+  `include/geo/geo_policy.h` and `src/geo/geo_policy.cpp`.
+- Raster result status:
+  `include/geo/raster_query_interface.h`.
+- Backend reporting:
+  `include/geo/spatial_backend.h`.
+- Trust boundary and authorization details:
+  `src/geo/TRUST.md`.
+
+---
+
+**AI_Used:** true · **AI_Models:** unknown · **AI_Contributor:** GitHub Copilot coding agent · **Human_Review:** false · **Human_Author:** ThemisDB Contributors
+Exact model backend not verifiable from final document text alone.
