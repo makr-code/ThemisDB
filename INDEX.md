@@ -1,9 +1,18 @@
+---
+Author: ThemisDB Team
+Created: 2026-09-23
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
+
 # ThemisDB Root Index
 
-Datum: 2026-09-23
-Status: Active
-Bezug: Root-Navigation, Onboarding-Reihenfolge und AI-Wiki-Betrieb
-Primary (Quelle der Wahrheit): README.md, ROADMAP.md, DOCUMENTATION_GOVERNANCE.md, AI_WIKI_INTEGRATION_PLAYBOOK.md
+Exact model backend not verifiable from final document text alone.
 
 > Canonical root navigation and onboarding order.
 
@@ -32,6 +41,34 @@ Primary (Quelle der Wahrheit): README.md, ROADMAP.md, DOCUMENTATION_GOVERNANCE.m
 - [CONTRIBUTING.md](CONTRIBUTING.md) — contribution process
 - [CMakePresets.json](CMakePresets.json) — canonical configure/build/test presets
 - [VERSION](VERSION) — current project version marker
+
+## Root Documentation Library
+
+### Product and development
+
+- [ARCHITECTURE.md](ARCHITECTURE.md) — generated module and dependency overview
+- [TARGET_ARCHITECTURE.md](TARGET_ARCHITECTURE.md) — target retrieval and reasoning architecture
+- [MODULE_INDEX.md](MODULE_INDEX.md) — module navigation
+- [CMAKE.md](CMAKE.md) — build-system overview
+- [CTEST.md](CTEST.md) — dated test evidence and focused test guidance
+
+### Contribution and operations
+
+- [CONTRIBUTING.md](CONTRIBUTING.md) — contribution workflow
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) — community expectations
+- [CODE_REVIEW_PROTOCOL.md](CODE_REVIEW_PROTOCOL.md) — review protocol for Wave 10 Phase 1
+- [GOVERNANCE.md](GOVERNANCE.md) — project roles and decision-making
+- [MAINTAINERS.md](MAINTAINERS.md) — maintainer and ownership information
+- [SOP.md](SOP.md) — recurring project procedures
+
+### Documentation and AI operations
+
+- [DOCUMENTATION_GOVERNANCE.md](DOCUMENTATION_GOVERNANCE.md) — documentation source-of-truth and sync rules
+- [DOCUMENTATION_RESTRUCTURING_PLAN.md](DOCUMENTATION_RESTRUCTURING_PLAN.md) — documentation migration plan
+- [AI_WIKI_INTEGRATION_PLAYBOOK.md](AI_WIKI_INTEGRATION_PLAYBOOK.md) — AI-wiki operating model
+- [LOG.md](LOG.md) — append-only AI-wiki operations history
+- [docs/README.md](docs/README.md) — documentation hub
+- [docs/ARCHIVED/root-reports/2026-10-31/README.md](docs/ARCHIVED/root-reports/2026-10-31/README.md) — archived root reports and prompts
 
 ---
 
@@ -198,4 +235,4 @@ External research and analysis documents:
 - [audit/docs/audit-framework/AUDIT_RUNBOOK.md](audit/docs/audit-framework/AUDIT_RUNBOOK.md)
 
 ---
-Zuletzt geprueft (Root-Sync): 2026-09-23
+Zuletzt geprueft (Root-Sync): 2026-10-31
