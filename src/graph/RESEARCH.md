@@ -53,7 +53,7 @@ These are evaluation questions, not claims that one route is faster or more accu
 ## Open evidence gaps
 
 - The tests expose deterministic behavior and acceptance assertions, but this page has no captured run output proving current results.
-- The repository-level [ROADMAP.md](../../ROADMAP.md) lists RotatE gates of MRR ≥ 0.35 and Hits@10 ≥ 0.55. Those values are not asserted by the current acceptance test, which asserts MRR ≥ 0.10, Hits@10 ≥ 0.40, relative-to-TransE bounds, and p99 top-20 latency below 50 ms. Treat the root values as an unresolved stale-doc discrepancy, not current evaluation evidence; reconciliation is outside this scoped update.
+- The repository-level [ROADMAP.md](../../ROADMAP.md) distinguishes the RotatE quality targets of MRR ≥ 0.35 and Hits@10 ≥ 0.55 from the current acceptance-test floor: MRR ≥ 0.10, Hits@10 ≥ 0.40, relative-to-TransE bounds, and p99 top-20 latency below 50 ms. The acceptance assertions are thresholds, not captured evaluation results; the higher quality targets remain unverified until separately measured and recorded.
 - Broad external graph datasets, workload distributions, cross-hardware parity, and sustained multi-tenant load are not established by the small in-repository fixtures cited above.
 - The `IGraphEmbeddingProvider` declaration has no matching `src/graph/graph_embedding.cpp` implementation in the inspected graph source inventory. Do not infer a production backend from the interface or its enum.
 

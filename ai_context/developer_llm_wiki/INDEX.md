@@ -11,6 +11,7 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 - Laufmodus: FULL_SYNC
 - Quellen gesamt: 9419
 - Quellen-Hash: `d8a35a984a466683d714b65e1660ade3e2cfecca591a1d1a9c623f47aeda2d1a`
+- The curated Graph page and navigation were added after the `WIKI_STATUS.json` snapshot; the source manifest was not regenerated in this follow-up.
 
 ## Status And Source-of-Truth Governance
 
@@ -24,6 +25,7 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 - [BUILD_TEST_CI_AND_OPERATIONS.md](BUILD_TEST_CI_AND_OPERATIONS.md)
 - [GOVERNANCE_AND_ROADMAP.md](GOVERNANCE_AND_ROADMAP.md)
 - [AQL module context](AQL.md) — AQL assistance API boundaries, validation behavior, and test/benchmark registration
+- [Graph module context](GRAPH.md) — graph execution boundaries, RotatE evidence, focused tests, and archived artifacts
 - [IMPORTERS.md](IMPORTERS.md) — curated importer module context
 - [UPDATES.md](UPDATES.md) — curated updates module context
 - [SOURCE_MANIFEST.json](SOURCE_MANIFEST.json)

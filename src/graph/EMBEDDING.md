@@ -39,7 +39,7 @@ Implementation details visible in the current source:
 
 ### Acceptance-gate discrepancy
 
-The current acceptance test asserts MRR ≥ 0.10, Hits@10 ≥ 0.40, relative-to-TransE bounds, and top-20 p99 < 50 ms. The repository-level [ROADMAP.md](../../ROADMAP.md) lists MRR ≥ 0.35 and Hits@10 ≥ 0.55; those are not current test assertions and must not be presented as evaluation results. Reconcile that root roadmap entry with its owner; it is outside this scoped update.
+The current acceptance test asserts MRR ≥ 0.10, Hits@10 ≥ 0.40, relative-to-TransE bounds, and top-20 p99 < 50 ms. The repository-level [ROADMAP.md](../../ROADMAP.md) now distinguishes those acceptance-test floors from the higher quality targets MRR ≥ 0.35 and Hits@10 ≥ 0.55. The assertions are not captured evaluation results, and the higher targets remain unverified pending a separately recorded evaluation.
 
 ## Similar names, different behavior
 

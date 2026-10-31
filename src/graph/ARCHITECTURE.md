@@ -47,9 +47,10 @@ AI_Model_Note: Exact model backend not verifiable from final document text alone
 - `rotate_completion::entityEmbedding()` (line 95): Untrained model → empty vector (defensive guard)
 
 **Analysis recorded by the snapshot**: Findings were described as defensive patterns. This
-analysis was not rechecked against current code. The referenced historical path was
-`ai_working/gap_scanner_verified_graph.json`; TODO: restore or identify that snapshot if a reader
-needs to inspect its evidence.
+analysis was not rechecked against current code. An archived copy of the historical scan is
+available at
+[`gap_scanner_verified_graph.json`](../../docs/ARCHIVED/ai-working-history/gap_scanner_verified_graph.json);
+it is not current audit evidence.
 
 ---
 

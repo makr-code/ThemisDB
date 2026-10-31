@@ -27,7 +27,11 @@ class CuratedModuleIndexTests(unittest.TestCase):
 
         self.assertIn("[IMPORTERS.md](IMPORTERS.md)", index)
         self.assertIn("[UPDATES.md](UPDATES.md)", index)
+        self.assertIn("[AQL module context](AQL.md)", index)
+        self.assertIn("[Graph module context](GRAPH.md)", index)
         self.assertIn("must not redefine project status", index)
+        self.assertIn("[AQL module context](AQL.md)", modules)
+        self.assertIn("[Graph module context](GRAPH.md)", modules)
         self.assertIn("[Importer module context](IMPORTERS.md)", modules)
         self.assertIn("[Updates module context](UPDATES.md)", modules)
 
@@ -86,6 +90,8 @@ class CuratedModuleIndexTests(unittest.TestCase):
                 "BUILD_TEST_CI_AND_OPERATIONS.md",
                 "GOVERNANCE_AND_ROADMAP.md",
                 "WIKI_DELTA_REPORT.md",
+                "AQL.md",
+                "GRAPH.md",
                 "IMPORTERS.md",
                 "UPDATES.md",
             ):
@@ -98,6 +104,8 @@ class CuratedModuleIndexTests(unittest.TestCase):
             source_paths,
             {
                 "ai_context/developer_llm_wiki/IMPORTERS.md",
+                "ai_context/developer_llm_wiki/AQL.md",
+                "ai_context/developer_llm_wiki/GRAPH.md",
                 "ai_context/developer_llm_wiki/UPDATES.md",
             },
         )

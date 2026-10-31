@@ -57,6 +57,9 @@ AI_Model_Note: Exact model backend not verifiable from final document text alone
 
 ---
 
-*Historical source path recorded by the snapshot: `ai_working/gap_scan_results_verified_L0.5_enhanced.json`
-(missing from the current worktree; its contents and findings were not verified). TODO: recover the
-artifact or have the owner confirm how to retain this historical audit claim.*
+*The original historical source path recorded by the snapshot,
+`ai_working/gap_scan_results_verified_L0.5_enhanced.json`, is absent from the current worktree and
+no archived copy of that JSON was found. The related
+[historical graph verifier report](../../docs/ARCHIVED/ai-working-history/gap_verifier_report_graph.md)
+is a different artifact and is not a substitute for the missing raw scan. Its contents and findings
+remain unverified; maintainer confirmation is needed before retaining this audit claim.*

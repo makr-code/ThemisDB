@@ -24,8 +24,9 @@ AI_Model_Note: Exact model backend not verifiable from final document text alone
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 
 > Planning notes below preserve the prior roadmap scope, not approved commitments or current
-> implementation status. In particular, RotatE is present in current source; its historic target
-> thresholds conflict with current test assertions and need owner reconciliation.
+> implementation status. RotatE is present in current source; the root roadmap now distinguishes
+> its higher quality targets from the lower acceptance-test assertions. The higher targets remain
+> unverified pending a separately recorded evaluation.
 
 ## Scope
 
@@ -89,16 +90,17 @@ AI_Model_Note: Exact model backend not verifiable from final document text alone
 
 ## Wave B Acceptance Gates (B2)
 
-> **Historical target values:** these are not current assertions or evaluation results. The
-> discrepancy with the root roadmap is noted below for maintainer reconciliation.
+> **Quality targets:** these are not current test assertions or evaluation results. The root
+> roadmap distinguishes them from the current acceptance-test floor.
 
-The thresholds below are not current assertions in
+The current assertions in
 [`test_rotate_completion_acceptance.cpp`](../../tests/graph/test_rotate_completion_acceptance.cpp)
-and are not evaluation results. The discrepancy with root `ROADMAP.md` remains a TODO for the
-roadmap owner.
+are MRR ≥ 0.10, Hits@10 ≥ 0.40, relative-to-TransE bounds, and p99 top-20 latency < 50 ms. These
+are test thresholds, not captured outcomes. The higher quality targets below remain unverified
+until a separate evaluation is recorded.
 
-- ✅ mrr ≥ 0.35 and hits@10 ≥ 0.55 on the deterministic acceptance fixture
-- ✅ inference latency ≤ 50 ms for top-20 predictions
+- [ ] mrr ≥ 0.35 and hits@10 ≥ 0.55 on a documented evaluation fixture
+- [ ] inference latency ≤ 50 ms for top-20 predictions under a separately documented evaluation
 - ✅ no backward compatibility breaks in graph/reasoner APIs
 
 ## Related Documents

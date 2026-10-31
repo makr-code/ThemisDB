@@ -56,10 +56,10 @@ presence does not establish feature parity, production readiness, or passing tes
 
 **L0.5 Analysis**: All findings follow standard defensive programming patterns with semantic correctness. No implementation blockers.
 
-**Historical reference recorded by the snapshot**: `ai_working/gap_scanner_verified_graph.json`
-(timestamp: 2026-06-25T14:45:00; missing from the current worktree, so its evidence is
-unavailable). TODO: recover the artifact or have the owner confirm how to retain this historical
-claim.
+**Historical reference recorded by the snapshot**: the archived copy of
+[`gap_scanner_verified_graph.json`](../../docs/ARCHIVED/ai-working-history/gap_scanner_verified_graph.json)
+(timestamp: 2026-06-25T14:45:00). The original `ai_working/` path is no longer active; this
+archived scan is historical only and does not establish current readiness.
 
 ---
 
@@ -79,9 +79,9 @@ historical summary is not a current readiness assessment.
 - Phase C (hybrid planning): ✅ Ready for exact graph layer; Category B kernels conditional.
 - **Invariant**: Category C kernels (policy, provenance, transactions) are CPU-first permanently.
   GPU acceleration is never permitted on policy enforcement or transaction paths.
-- Historical rollout-risk reference: `ai_working/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md §7` (missing
-  from the current worktree; its contents were not verified). TODO: recover the artifact or remove
-  this reference after owner review.
+- Historical rollout-risk reference: the archived
+  [Hybrid Retrieval Rollout Plan](../../docs/ARCHIVED/ai-working-history/HYBRID_RETRIEVAL_ROLLOUT_PLAN.md),
+  §7. The plan is a historical snapshot, not current rollout or readiness evidence.
 
 ## In Progress
 
@@ -117,7 +117,9 @@ historical summary is not a current readiness assessment.
 - [~] broaden benchmark depth for semantic reasoning and incremental refresh workflows (Target: Q1 2027)
 - [~] harden reliability under sustained multi-tenant graph execution pressure (Target: Q1 2027)
 - [x] RotatE link-prediction implementation and reasoner-injection surface exist in current source;
-  the old target date is historical. Current test thresholds differ from the older values below.
+  the old target date is historical. The root roadmap now distinguishes the acceptance-test floor
+  from the higher MRR/Hits@10 targets, which remain unverified pending a separately recorded
+  evaluation.
 
 ### Distributed Maturity Phase 3 — Track 2 Items (Q3–Q4 2026)
 
@@ -201,9 +203,10 @@ These items are part of the next-phase **Track 2: Distributed Systems Maturity �
 - [x] Benchmark vs TransE baseline
 
 ### Acceptance Gates
-- Historical target: MRR ≥ 0.35, Hits@10 ≥ 0.55. Current acceptance-test assertions are MRR ≥
-  0.10, Hits@10 ≥ 0.40, relative-to-TransE bounds, and p99 top-20 latency < 50 ms; assertion
-  thresholds are not captured outcomes. Root roadmap reconciliation remains TODO.
+- Historical quality targets: MRR ≥ 0.35 and Hits@10 ≥ 0.55. The current acceptance test asserts
+  MRR ≥ 0.10, Hits@10 ≥ 0.40, relative-to-TransE bounds, and p99 top-20 latency < 50 ms; these
+  thresholds are not captured outcomes. The root roadmap now records this distinction; the higher
+  targets remain unverified until a separate evaluation is recorded.
 - [x] Zero backward compatibility breaks
 
 ### Dependencies
