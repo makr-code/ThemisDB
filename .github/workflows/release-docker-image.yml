@@ -182,15 +182,14 @@ jobs:
   prepare-release-context:
     name: "Release: Prepare Docker Context"
     needs: mark-release-pending
-    if: >
-      always() && (
-        github.event_name == 'workflow_dispatch' ||
-        github.event_name == 'workflow_call'
-      )
+    if: always()
     runs-on: ubuntu-latest
     timeout-minutes: 20
     outputs:
       version: ${{ steps.version.outputs.version }}
+      source_sha: ${{ steps.version.outputs.source_sha }}
+      edition: ${{ steps.version.outputs.edition }}
+      release_type: ${{ steps.version.outputs.release_type }}
       tag_list: ${{ steps.tags.outputs.value }}
       push_requested: ${{ steps.push-policy.outputs.push_requested }}
       registry: ${{ steps.push-policy.outputs.registry }}
@@ -211,7 +210,7 @@ jobs:
         run: |
           set -euo pipefail
           chmod +x .github/scripts/version-release-type-manager.sh
-          .github/scripts/version-release-type-manager.sh validate
+          bash .github/scripts/version-release-type-manager.sh validate
 
       - name: Determine version
         id: version
@@ -219,7 +218,9 @@ jobs:
           EVENT_NAME: ${{ github.event_name }}
           GIT_REF: ${{ github.ref }}
           TAG_INPUT: ${{ inputs.tag_name || github.event.inputs.tag_name || '' }}
+          PUSH_INPUT: ${{ inputs.push_to_registry }}
         run: |
+          set -euo pipefail
           echo "──────────────────────────────────────────────"
           echo "  Version detection"
           RELEASE_TAG_NAME="$(jq -r '.release.tag_name // empty' "${GITHUB_EVENT_PATH}" 2>/dev/null || true)"
@@ -239,20 +240,11 @@ jobs:
             echo "${VERSION}"
           }
 
-          if [[ "${EVENT_NAME}" == "workflow_call" ]]; then
-            if [[ -n "${TAG_INPUT}" ]]; then
-              if ! echo "${TAG_INPUT}" | grep -Eq "${TAG_REGEX}"; then
-                echo "::error::workflow_call tag_name has invalid release format: ${TAG_INPUT}"
-                exit 1
-              fi
-              VERSION="${TAG_INPUT}"
-              echo "  Source   : workflow_call input tag_name"
-            else
-              VERSION="v$(resolve_version_from_file)"
-              echo "  Source   : canonical VERSION file"
+          if [[ -n "${TAG_INPUT}" ]]; then
+            if [[ "${TAG_INPUT}" =~ ${SEMVER_REGEX} ]]; then
+              TAG_INPUT="v${TAG_INPUT}"
             fi
-
-            echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
+            VERSION="${TAG_INPUT}"
           elif [[ "${GIT_REF}" == refs/tags/* ]]; then
             VERSION="${GIT_REF}"
             VERSION="${VERSION#refs/tags/}"
@@ -263,10 +255,41 @@ jobs:
             echo "  Source   : release event"
             echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
           else
+            if [[ "${PUSH_INPUT}" == "true" ]]; then
+              echo "::error::An explicit release tag is required for registry publication."
+              exit 1
+            fi
             VERSION="v$(resolve_version_from_file)"
             echo "  Source   : canonical VERSION file"
             echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
           fi
+          if ! [[ "${VERSION}" =~ ${TAG_REGEX} ]]; then
+            echo "::error::Invalid release tag: ${VERSION}"; exit 1
+          fi
+          case "${VERSION}" in
+            minimal-v*) EDITION=MINIMAL ;;
+            v*) EDITION=COMMUNITY ;;
+            *) echo "::error::Private-edition images require a provisioned private delivery pipeline."; exit 1 ;;
+          esac
+          if [[ -n "${TAG_INPUT}" || "${GIT_REF}" == refs/tags/* || "${EVENT_NAME}" == "release" ]]; then
+            SOURCE_SHA="$(git rev-parse --verify "refs/tags/${VERSION}^{commit}")"
+            git checkout --detach "${SOURCE_SHA}"
+          else
+            SOURCE_SHA="$(git rev-parse HEAD)"
+          fi
+          bash .github/scripts/version-release-type-manager.sh validate
+          RELEASE_TYPE=stable
+          BASE_VERSION="${VERSION#minimal-v}"
+          BASE_VERSION="${BASE_VERSION#v}"
+          case "${BASE_VERSION}" in
+            *-nightly*) RELEASE_TYPE=nightly ;;
+            *-alpha*) RELEASE_TYPE=alpha ;;
+            *-beta*) RELEASE_TYPE=beta ;;
+            *-rc*) RELEASE_TYPE=rc ;;
+            *-*) echo "::error::Unsupported prerelease channel: ${VERSION}"; exit 1 ;;
+          esac
+          printf 'version=%s\nsource_sha=%s\nedition=%s\nrelease_type=%s\n' \
+            "${VERSION}" "${SOURCE_SHA}" "${EDITION}" "${RELEASE_TYPE}" >> "${GITHUB_OUTPUT}"
           echo "  Version  : ${VERSION}"
           echo "──────────────────────────────────────────────"
 
@@ -287,12 +310,9 @@ jobs:
           GHCR_REPO="ghcr.io/${REPO_LC}"
           DOCKERHUB_REPO="themisdb/themisdb"
           TARGET_REGISTRY="${TARGET_REGISTRY_INPUT:-ghcr.io}"
-          RELEASE_TYPE="$(tr -d '\r\n' < RELEASE_TYPE 2>/dev/null || echo stable)"
+          RELEASE_TYPE="${{ steps.version.outputs.release_type }}"
           RELEASE_TYPE="$(printf '%s' "${RELEASE_TYPE}" | tr '[:upper:]' '[:lower:]' | tr -cd 'a-z0-9')"
 
-          if [[ -z "${RELEASE_TYPE}" ]]; then
-            RELEASE_TYPE="stable"
-          fi
           case "${RELEASE_TYPE}" in
             nightly|alpha|beta|rc|stable) ;;
             *)
@@ -321,6 +341,11 @@ jobs:
           }
 
           BASE_VERSION="$(normalize_version "${VERSION}")"
+          IMAGE_PREFIX=""
+          if [[ "${{ steps.version.outputs.edition }}" == "MINIMAL" ]]; then
+            IMAGE_PREFIX="minimal-"
+          fi
+          BASE_VERSION="${IMAGE_PREFIX}${BASE_VERSION}"
           MINOR_VERSION="$(echo "${BASE_VERSION}" | cut -d. -f1-2)"
           TODAY="$(date -u +%Y%m%d)"
 
@@ -329,31 +354,31 @@ jobs:
               if [[ "${TARGET_REGISTRY}" == "docker.io" || "${TARGET_REGISTRY}" == "both" ]]; then
                 append_tag "${DOCKERHUB_REPO}:${BASE_VERSION}"
                 append_tag "${DOCKERHUB_REPO}:${MINOR_VERSION}"
-                append_tag "${DOCKERHUB_REPO}:latest"
+                append_tag "${DOCKERHUB_REPO}:${IMAGE_PREFIX}latest"
               fi
               if [[ "${TARGET_REGISTRY}" == "ghcr.io" || "${TARGET_REGISTRY}" == "both" ]]; then
                 append_tag "${GHCR_REPO}:${BASE_VERSION}"
                 append_tag "${GHCR_REPO}:${MINOR_VERSION}"
-                append_tag "${GHCR_REPO}:latest"
+                append_tag "${GHCR_REPO}:${IMAGE_PREFIX}latest"
               fi
             elif [[ "${RELEASE_TYPE}" == "nightly" ]]; then
               if [[ "${TARGET_REGISTRY}" == "docker.io" || "${TARGET_REGISTRY}" == "both" ]]; then
-                append_tag "${DOCKERHUB_REPO}:nightly"
-                append_tag "${DOCKERHUB_REPO}:nightly-${TODAY}"
-                append_tag "${DOCKERHUB_REPO}:${BASE_VERSION}-nightly-${TODAY}"
+                append_tag "${DOCKERHUB_REPO}:${BASE_VERSION}"
+                append_tag "${DOCKERHUB_REPO}:${IMAGE_PREFIX}nightly"
+                append_tag "${DOCKERHUB_REPO}:${IMAGE_PREFIX}nightly-${TODAY}"
               fi
               if [[ "${TARGET_REGISTRY}" == "ghcr.io" || "${TARGET_REGISTRY}" == "both" ]]; then
-                append_tag "${GHCR_REPO}:nightly"
-                append_tag "${GHCR_REPO}:nightly-${TODAY}"
-                append_tag "${GHCR_REPO}:${BASE_VERSION}-nightly-${TODAY}"
+                append_tag "${GHCR_REPO}:${BASE_VERSION}"
+                append_tag "${GHCR_REPO}:${IMAGE_PREFIX}nightly"
+                append_tag "${GHCR_REPO}:${IMAGE_PREFIX}nightly-${TODAY}"
               fi
             else
               if [[ "${TARGET_REGISTRY}" == "docker.io" || "${TARGET_REGISTRY}" == "both" ]]; then
-                append_tag "${DOCKERHUB_REPO}:${BASE_VERSION}-${RELEASE_TYPE}"
+                append_tag "${DOCKERHUB_REPO}:${BASE_VERSION}"
                 append_tag "${DOCKERHUB_REPO}:${MINOR_VERSION}-${RELEASE_TYPE}"
               fi
               if [[ "${TARGET_REGISTRY}" == "ghcr.io" || "${TARGET_REGISTRY}" == "both" ]]; then
-                append_tag "${GHCR_REPO}:${BASE_VERSION}-${RELEASE_TYPE}"
+                append_tag "${GHCR_REPO}:${BASE_VERSION}"
                 append_tag "${GHCR_REPO}:${MINOR_VERSION}-${RELEASE_TYPE}"
               fi
             fi
@@ -382,40 +407,23 @@ jobs:
       - name: Determine push policy
         id: push-policy
         shell: bash
+        env:
+          PUSH_REQUESTED: ${{ inputs.push_to_registry }}
+          REGISTRY: ${{ inputs.registry }}
+          INCLUDE_TINYLLAMA: ${{ inputs.include_tinyllama }}
+          LLM_MODEL: ${{ inputs.llm_model }}
+          LLM_MODEL_URL: ${{ inputs.llm_model_url }}
+          LLM_MODEL_FILE: ${{ inputs.llm_model_file }}
+          FORCE_DOWNLOAD: ${{ inputs.tinyllama_force_download }}
         run: |
           set -euo pipefail
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            if [[ "${{ github.event.inputs.push_to_registry || 'false' }}" == "true" ]]; then
-              echo "push_requested=true" >> "${GITHUB_OUTPUT}"
-            else
-              echo "push_requested=false" >> "${GITHUB_OUTPUT}"
-            fi
-            echo "registry=${{ github.event.inputs.registry || 'ghcr.io' }}" >> "${GITHUB_OUTPUT}"
-          elif [[ "${{ github.event_name }}" == "workflow_call" ]]; then
-            if [[ "${{ inputs.push_to_registry }}" == "true" ]]; then
-              echo "push_requested=true" >> "${GITHUB_OUTPUT}"
-            else
-              echo "push_requested=false" >> "${GITHUB_OUTPUT}"
-            fi
-            echo "registry=${{ inputs.registry || 'ghcr.io' }}" >> "${GITHUB_OUTPUT}"
-          else
-            echo "push_requested=true" >> "${GITHUB_OUTPUT}"
-            echo "registry=ghcr.io" >> "${GITHUB_OUTPUT}"
-          fi
-          if [[ "${{ github.event_name }}" == "workflow_call" ]]; then
-            INCLUDE_TINYLLAMA="${{ inputs.include_tinyllama || 'true' }}"
-            LLM_MODEL="${{ inputs.llm_model || 'tinyllama' }}"
-            LLM_MODEL_URL="${{ inputs.llm_model_url || '' }}"
-            LLM_MODEL_FILE="${{ inputs.llm_model_file || '' }}"
-            FORCE_DOWNLOAD="${{ inputs.tinyllama_force_download || 'false' }}"
-          else
-            INCLUDE_TINYLLAMA="${{ github.event.inputs.include_tinyllama || 'true' }}"
-            LLM_MODEL="${{ github.event.inputs.llm_model || 'tinyllama' }}"
-            LLM_MODEL_URL="${{ github.event.inputs.llm_model_url || '' }}"
-            LLM_MODEL_FILE="${{ github.event.inputs.llm_model_file || '' }}"
-            FORCE_DOWNLOAD="${{ github.event.inputs.tinyllama_force_download || 'false' }}"
-          fi
+          case "$REGISTRY" in
+            ghcr.io|docker.io|both) ;;
+            *) echo "::error::Unsupported registry: $REGISTRY"; exit 1 ;;
+          esac
           {
+            echo "push_requested=${PUSH_REQUESTED}"
+            echo "registry=${REGISTRY}"
             echo "include_tinyllama=${INCLUDE_TINYLLAMA}"
             echo "llm_model=${LLM_MODEL}"
             echo "llm_model_url=${LLM_MODEL_URL}"
@@ -423,14 +431,23 @@ jobs:
             echo "tinyllama_force_download=${FORCE_DOWNLOAD}"
           } >> "${GITHUB_OUTPUT}"
 
+      - name: Require a published GitHub release before registry publication
+        if: steps.push-policy.outputs.push_requested == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          draft="$(gh release view "$RELEASE_TAG" --repo "${{ github.repository }}" --json isDraft --jq '.isDraft')"
+          if [[ "$draft" != "false" ]]; then
+            echo "::error::GitHub Release must be published before Docker publication."; exit 1
+          fi
+
   build-platforms:
     name: "Build: Docker Platform Images"
     needs: [mark-release-pending, prepare-release-context]
     if: >
-      always() && (
-        github.event_name == 'workflow_dispatch' ||
-        github.event_name == 'workflow_call'
-      ) && needs.prepare-release-context.result == 'success'
+      always() && needs.prepare-release-context.result == 'success'
     strategy:
       fail-fast: false
       matrix:
@@ -448,7 +465,8 @@ jobs:
       llm_model_file: ${{ needs.prepare-release-context.outputs.llm_model_file }}
       tinyllama_force_download: ${{ needs.prepare-release-context.outputs.tinyllama_force_download == 'true' }}
       source_run_id: ${{ github.run_id }}
-      source_sha: ${{ github.sha }}
+      source_sha: ${{ needs.prepare-release-context.outputs.source_sha }}
+      edition: ${{ needs.prepare-release-context.outputs.edition }}
     secrets: inherit
 
   merge-image-manifest:
@@ -503,11 +521,24 @@ jobs:
             refs+=("$(tr -d '\r\n' < "${digest_file}")")
           done
 
-          expected_platform_count=1
-          if [ "${#refs[@]}" -lt "${expected_platform_count}" ]; then
-            echo "::error::Expected at least ${expected_platform_count} platform digest(s) to assemble the final manifest, but found ${#refs[@]}."
+          expected_platform_count=2
+          if [ "${#refs[@]}" -ne "${expected_platform_count}" ]; then
+            echo "::error::Expected exactly ${expected_platform_count} platform digests to assemble the final manifest, but found ${#refs[@]}."
             ls -la ./docker-digests || true
             exit 1
+          fi
+          for platform in linux-amd64 linux-arm64; do
+            if [ ! -s "./docker-digests/docker-digest-${platform}.txt" ]; then
+              echo "::error::Missing digest for ${platform}"; exit 1
+            fi
+          done
+          for ref in "${refs[@]}"; do
+            if ! [[ "$ref" =~ @sha256:[0-9a-f]{64}$ ]]; then
+              echo "::error::Invalid platform digest reference: $ref"; exit 1
+            fi
+          done
+          if [ "${refs[0]##*@}" = "${refs[1]##*@}" ] || [ "${#tags[@]}" -eq 0 ]; then
+            echo "::error::Distinct platform digests and at least one tag are required."; exit 1
           fi
 
           create_cmd=(docker buildx imagetools create)

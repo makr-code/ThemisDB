@@ -90,7 +90,6 @@ jobs:
     name: "Release: Mark WinGet Status"
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'workflow_call' || github.event_name == 'release'
     permissions:
       contents: read
       issues: write
@@ -141,79 +140,33 @@ jobs:
           chmod +x .github/scripts/version-release-type-manager.sh
           .github/scripts/version-release-type-manager.sh validate
 
-      - name: Validate explicit version matches canonical contract
-        if: github.event_name == 'workflow_call' || github.event_name == 'workflow_dispatch'
-        shell: bash
-        run: |
-          set -euo pipefail
-          chmod +x .github/scripts/version-release-type-manager.sh
-          .github/scripts/version-release-type-manager.sh validate-input-version "${{ inputs.version || github.event.inputs.version }}"
-
       - name: Detect release details
         id: detect
+        env:
+          VERSION_INPUT: ${{ inputs.version }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          
-          VERSION=""
-          RELEASE_TYPE=""
-          IS_STABLE="false"
-          SHOULD_SUBMIT="false"
-          
-          if [[ "${{ github.event_name }}" == "workflow_call" ]]; then
-            # Reusable workflow trigger
-            VERSION="${{ inputs.version }}"
-            RELEASE_TYPE="stable"
-            IS_STABLE="true"
-            SHOULD_SUBMIT="true"
-
-          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            # Manual trigger
-            VERSION="${{ github.event.inputs.version }}"
-            RELEASE_TYPE="stable"
-            IS_STABLE="true"
-            SHOULD_SUBMIT="true"
-          
-          elif [[ "${{ github.event_name }}" == "release" ]]; then
-            # Triggered by release event
-            VERSION="${{ github.event.release.tag_name }}"
-            IS_PRERELEASE="${{ github.event.release.prerelease }}"
-            
-            # Extract version from tag (v2.4.0 → 2.4.0)
-            VERSION="${VERSION#v}"
-            VERSION="${VERSION#enterprise-v}"
-            VERSION="${VERSION#hyperscaler-v}"
-            VERSION="${VERSION#military-v}"
-            VERSION="${VERSION#minimal-v}"
-            
-            # Only submit stable (non-prerelease) releases for community WinGet
-            if [[ "$IS_PRERELEASE" == "false" ]]; then
-              RELEASE_TYPE="stable"
-              IS_STABLE="true"
-              SHOULD_SUBMIT="true"
-            else
-              echo "::notice::Skipping WinGet submission for prerelease: $VERSION"
-            fi
+          VERSION="${VERSION_INPUT#v}"
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::WinGet requires a stable community version."; exit 1
           fi
-          
+          release="$(gh release view "v${VERSION}" --repo "${{ github.repository }}" --json isDraft,isPrerelease)"
+          if [[ "$(jq -r '.isDraft or .isPrerelease' <<< "$release")" != "false" ]]; then
+            echo "::error::WinGet requires an already published stable release."; exit 1
+          fi
           {
             echo "version=$VERSION"
-            echo "release-type=$RELEASE_TYPE"
-            echo "is-stable=$IS_STABLE"
-            echo "should-submit=$SHOULD_SUBMIT"
+            echo "release-type=stable"
+            echo "is-stable=true"
+            echo "should-submit=true"
           } >> "$GITHUB_OUTPUT"
-          
-          echo "::notice::Release Detection:"
-          echo "  Version: $VERSION"
-          echo "  Is Stable: $IS_STABLE"
-          echo "  Should Submit: $SHOULD_SUBMIT"
 
   download-artifacts:
     name: "Release: Download Artifacts"
     needs: detect-release
     runs-on: ubuntu-latest
     if: needs.detect-release.outputs.should-submit == 'true'
-    outputs:
-      artifact-dir: ${{ steps.download.outputs.artifact-dir }}
     steps:
       - name: Download release assets
         id: download
@@ -228,7 +181,14 @@ jobs:
             echo "::error::No release assets downloaded for tag $TAG"
             exit 1
           fi
-          echo "artifact-dir=release-artifacts" >> "$GITHUB_OUTPUT"
+
+      - name: Transfer release assets to downstream jobs
+        uses: actions/upload-artifact@v5
+        with:
+          name: winget-release-assets
+          path: release-artifacts/
+          if-no-files-found: error
+          retention-days: 7
 
       - name: List downloaded artifacts
         run: |
@@ -246,12 +206,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
+      - name: Download release assets
+        uses: actions/download-artifact@v5
+        with:
+          name: winget-release-assets
+          path: release-artifacts/
+
       - name: Generate checksums
         id: checksums
         shell: pwsh
         run: |
           .github/scripts/generate-winget-checksums.ps1 `
-            -ArtifactDir "${{ needs.download-artifacts.outputs.artifact-dir }}" `
+            -ArtifactDir "release-artifacts" `
             -OutputDir "${{ runner.temp }}/checksums" `
             -IncludeSBOM
 
@@ -261,6 +227,7 @@ jobs:
           name: winget-checksums
           path: ${{ runner.temp }}/checksums/checksums.json
           retention-days: 90
+          if-no-files-found: error
 
   generate-manifests:
     name: "Build: Generate WinGet Manifests"
@@ -278,110 +245,32 @@ jobs:
         with:
           name: winget-checksums
 
+      - name: Download release assets for ZIP layout validation
+        uses: actions/download-artifact@v5
+        with:
+          name: winget-release-assets
+          path: release-artifacts/
+
       - name: Generate WinGet manifests
         id: generate
         shell: pwsh
         run: |
           $Version = "${{ needs.detect-release.outputs.version }}"
           $ManifestDir = "packaging/winget/manifests/t/ThemisDB/ThemisDB/$Version"
-          
-          # Create manifest directory
-          New-Item -ItemType Directory -Path $ManifestDir -Force | Out-Null
-          
-          # Read checksums
           $Checksums = Get-Content checksums.json | ConvertFrom-Json
-          
-          # Find Windows installers in artifacts
-          $Zip64 = $Checksums.artifacts | Where-Object { $_.filename -match "windows.*x64.*\.zip" } | Select-Object -First 1
-          $Zip86 = $Checksums.artifacts | Where-Object { $_.filename -match "windows.*x86.*\.zip" } | Select-Object -First 1
-          
-          if (-not $Zip64) {
-            Write-Error "No x64 Windows ZIP artifact found"
-            exit 1
+          $Zip64 = @($Checksums.artifacts | Where-Object { $_.filename -match '(?i)windows.*(x64|amd64).*\.zip$' })
+          if ($Zip64.Count -ne 1) {
+            throw "Expected exactly one Windows AMD64 ZIP artifact, found $($Zip64.Count)."
           }
-          
-          # Build download URLs
-          $DownloadUrl64 = "https://github.com/${{ github.repository }}/releases/download/v${Version}/$($Zip64.filename)"
-          $DownloadUrl86 = if ($Zip86) { "https://github.com/${{ github.repository }}/releases/download/v${Version}/$($Zip86.filename)" } else { "" }
-          
-          # Generate root manifest (ThemisDB.ThemisDB.yaml)
-          $RootManifest = @"
-          PackageIdentifier: ThemisDB.ThemisDB
-          PackageVersion: $Version
-          PackageLocale: en-US
-          PackageName: ThemisDB
-          PackagePublisher: ThemisDB Contributors
-          PackageUrl: https://github.com/makr-code/ThemisDB
-          License: Apache-2.0
-          LicenseUrl: https://github.com/makr-code/ThemisDB/blob/develop/LICENSE
-          ShortDescription: Distributed knowledge graph database
-          Description: |
-            ThemisDB is a distributed, high-performance knowledge graph database
-            with built-in LLM integration and advanced graph algorithms.
-          Moniker: themisdb
-          Tags:
-            - database
-            - knowledge-graph
-            - distributed
-            - graph
-            - llm
-          "@
-          
-          $RootManifest | Set-Content -Path "$ManifestDir/ThemisDB.ThemisDB.yaml" -Encoding UTF8
-          
-          # Generate installer manifest
-          $InstallerManifest = @"
-          PackageIdentifier: ThemisDB.ThemisDB
-          PackageVersion: $Version
-          Platform:
-            - Windows.Desktop
-          MinimumOSVersion: '10.0.14393.0'
-          Scope: Machine
-          Installers:
-          "@
-          
-          # x64 installer entry
-          $InstallerManifest += @"
-          
-            - Architecture: x64
-              InstallerType: zip
-              InstallerUrl: $DownloadUrl64
-              InstallerSha256: $($Zip64.sha256)
-              ReleaseNotes: |
-                Build: #${{ github.run_number }} ($(Get-Date -Format 'yyyy-MM-dd'))
-                Release Type: stable
-                Commit: $(git rev-parse --short HEAD)
-          "@
-          
-          # x86 installer entry (if available)
-          if ($Zip86) {
-            $InstallerManifest += @"
-          
-            - Architecture: x86
-              InstallerType: zip
-              InstallerUrl: $DownloadUrl86
-              InstallerSha256: $($Zip86.sha256)
-              ReleaseNotes: |
-                Build: #${{ github.run_number }} ($(Get-Date -Format 'yyyy-MM-dd'))
-                Release Type: stable
-                Commit: $(git rev-parse --short HEAD)
-            "@
-          }
-          
-          $InstallerManifest | Set-Content -Path "$ManifestDir/ThemisDB.ThemisDB.installer.yaml" -Encoding UTF8
-          
-          # Generate locale manifest (en-US)
-          $LocaleManifest = @"
-          PackageIdentifier: ThemisDB.ThemisDB
-          PackageVersion: $Version
-          PackageLocale: en-US
-          LicenseUrl: https://github.com/makr-code/ThemisDB/blob/develop/LICENSE
-          ReleaseNotesUrl: https://github.com/makr-code/ThemisDB/releases/tag/v${Version}
-          "@
-          
-          $LocaleManifest | Set-Content -Path "$ManifestDir/ThemisDB.ThemisDB.locale.en-US.yaml" -Encoding UTF8
-          
-          Write-Host "✓ Generated manifests in: $ManifestDir"
+          $Artifact = $Zip64[0]
+          python3 scripts/release/validate_runtime_payload.py (Join-Path "release-artifacts" $Artifact.filename)
+          if ($LASTEXITCODE -ne 0) { throw 'Windows ZIP must contain compiled docs.db and TinyLlama.' }
+          & ./scripts/release/new-winget-manifest.ps1 `
+            -Version $Version `
+            -InstallerUrl "https://github.com/${{ github.repository }}/releases/download/v${Version}/$($Artifact.filename)" `
+            -InstallerSha256 $Artifact.sha256 `
+            -InstallerArchivePath (Join-Path "release-artifacts" $Artifact.filename) `
+            -IncludeGermanLocale
           echo "manifest-dir=$ManifestDir" >> $env:GITHUB_OUTPUT
 
       - name: Upload WinGet manifests
@@ -390,15 +279,22 @@ jobs:
           name: winget-manifests-${{ needs.detect-release.outputs.version }}
           path: ${{ steps.generate.outputs.manifest-dir }}
           retention-days: 90
+          if-no-files-found: error
 
   validate-manifests:
     name: "Validate: WinGet Manifests"
-    needs: generate-manifests
+    needs: [detect-release, generate-manifests]
     runs-on: windows-latest
     if: needs.generate-manifests.outputs.manifest-dir != ''
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+
+      - name: Download generated manifests
+        uses: actions/download-artifact@v5
+        with:
+          name: winget-manifests-${{ needs.detect-release.outputs.version }}
+          path: ${{ needs.generate-manifests.outputs.manifest-dir }}
 
       - name: Validate manifests with winget
         shell: pwsh
@@ -421,6 +317,7 @@ jobs:
     name: "Publish: Create PR to WinGet Community Repository"
     needs: [detect-release, validate-manifests, generate-manifests]
     runs-on: windows-latest
+    environment: winget-production
     if: needs.generate-manifests.outputs.manifest-dir != '' && needs.detect-release.outputs.should-submit == 'true'
     steps:
       - name: Checkout
@@ -430,24 +327,17 @@ jobs:
         uses: actions/download-artifact@87c55149d96e628cc2ef7e6fc2aab372015aec85
         with:
           name: winget-manifests-${{ needs.detect-release.outputs.version }}
-          path: ${{ runner.temp }}\winget-manifests
+          path: ${{ needs.generate-manifests.outputs.manifest-dir }}
 
       - name: Restore manifest layout
         shell: pwsh
         run: |
-          $sourceRoot = Join-Path $env:RUNNER_TEMP 'winget-manifests'
           $expectedDir = Join-Path $env:GITHUB_WORKSPACE 'packaging\winget\manifests\t\ThemisDB\ThemisDB\${{ needs.detect-release.outputs.version }}'
-
-          $manifestRoot = Get-ChildItem -Path $sourceRoot -Directory -Recurse |
-            Where-Object { Test-Path (Join-Path $_.FullName 'ThemisDB.ThemisDB.yaml') } |
-            Select-Object -First 1
-
-          if (-not $manifestRoot) {
-            throw 'Winget manifest artifact was not restored correctly.'
+          foreach ($file in @('ThemisDB.ThemisDB.yaml', 'ThemisDB.ThemisDB.installer.yaml', 'ThemisDB.ThemisDB.locale.en-US.yaml')) {
+            if (-not (Test-Path (Join-Path $expectedDir $file))) {
+              throw "WinGet manifest artifact is missing $file."
+            }
           }
-
-          New-Item -ItemType Directory -Force -Path $expectedDir | Out-Null
-          Copy-Item -Path (Join-Path $manifestRoot.FullName '*') -Destination $expectedDir -Force
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -455,9 +345,12 @@ jobs:
       - name: Submit WinGet PR
         shell: pwsh
         env:
-          GH_TOKEN: ${{ secrets.winget_pr_token || github.token }}
+          GH_TOKEN: ${{ secrets.winget_pr_token }}
           WINGET_FORK_OWNER: ${{ inputs.fork_owner || vars.WINGET_FORK_OWNER }}
         run: |
+          if ([string]::IsNullOrWhiteSpace($env:GH_TOKEN)) {
+            throw 'winget_pr_token with write access to the configured WinGet fork is required.'
+          }
           if ([string]::IsNullOrWhiteSpace($env:WINGET_FORK_OWNER)) {
             throw 'Missing WINGET_FORK_OWNER. Configure the repository variable or pass workflow input fork_owner.'
           }
@@ -466,6 +359,7 @@ jobs:
             -Version "${{ needs.detect-release.outputs.version }}" `
             -ForkOwner "$env:WINGET_FORK_OWNER" `
             -GitHubToken "$env:GH_TOKEN"
+          if ($LASTEXITCODE -ne 0) { throw 'WinGet submission script failed.' }
 
       - name: Summarize PR submission
         shell: pwsh
@@ -482,6 +376,9 @@ jobs:
       contents: read
       issues: write
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
       - name: Resolve final WinGet outcome
         id: status
         shell: bash
@@ -501,7 +398,7 @@ jobs:
               echo "status_reason=release type did not require WinGet submission"
               echo "status_markers="
             } >> "${GITHUB_OUTPUT}"
-          elif [ "${MANIFEST_RESULT}" = "success" ] && [ "${VALIDATE_RESULT}" = "success" ] && [ "${PR_RESULT}" != "failure" ]; then
+          elif [ "${MANIFEST_RESULT}" = "success" ] && [ "${VALIDATE_RESULT}" = "success" ] && [ "${PR_RESULT}" = "success" ]; then
             {
               echo "status_label=ci/build-ok"
               echo "status_text=passing"
