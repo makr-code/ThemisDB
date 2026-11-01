@@ -19,7 +19,12 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
+#include <cctype>
+#include <limits>
+#include <openssl/bio.h>
+#include <openssl/pem.h>
 #include <openssl/rand.h>
+#include <openssl/x509v3.h>
 #include <rocksdb/db.h>
 #include <rocksdb/options.h>
 #include <rocksdb/utilities/transaction_db.h>
@@ -31,6 +36,67 @@
 
 namespace themis {
 namespace updates {
+
+namespace {
+
+std::string normalizeDistinguishedName(const std::string& distinguished_name) {
+    std::string normalized;
+    normalized.reserve(distinguished_name.size());
+    for (const unsigned char character : distinguished_name) {
+        if (!std::isspace(character)) {
+            normalized.push_back(static_cast<char>(character));
+        }
+    }
+    return normalized;
+}
+
+bool isTrustedManifestSigner(
+    acceleration::PluginSecurityVerifier& verifier,
+    const std::string& certificate_pem
+) {
+    const auto& trusted_issuers = verifier.getPolicy().trustedIssuers;
+    if (certificate_pem.empty()
+        || certificate_pem.size() > static_cast<size_t>(std::numeric_limits<int>::max())
+        || trusted_issuers.empty()
+        || !verifier.verifyCertificateChain(certificate_pem)) {
+        return false;
+    }
+
+    std::unique_ptr<BIO, decltype(&BIO_free)> certificate_bio(
+        BIO_new_mem_buf(certificate_pem.data(), static_cast<int>(certificate_pem.size())),
+        BIO_free);
+    if (!certificate_bio) {
+        return false;
+    }
+
+    std::unique_ptr<X509, decltype(&X509_free)> certificate(
+        PEM_read_bio_X509(certificate_bio.get(), nullptr, nullptr, nullptr),
+        X509_free);
+    if (!certificate) {
+        return false;
+    }
+
+    std::unique_ptr<BIO, decltype(&BIO_free)> issuer_bio(BIO_new(BIO_s_mem()), BIO_free);
+    if (!issuer_bio
+        || X509_NAME_print_ex(issuer_bio.get(), X509_get_issuer_name(certificate.get()), 0, XN_FLAG_RFC2253) < 0) {
+        return false;
+    }
+
+    char* issuer_data = nullptr;
+    const long issuer_size = BIO_get_mem_data(issuer_bio.get(), &issuer_data);
+    if (issuer_size <= 0 || issuer_data == nullptr) {
+        return false;
+    }
+
+    const std::string actual_issuer(issuer_data, static_cast<size_t>(issuer_size));
+    const std::string normalized_actual = normalizeDistinguishedName(actual_issuer);
+    return std::any_of(trusted_issuers.begin(), trusted_issuers.end(), [&](const std::string& trusted_issuer) {
+        return !trusted_issuer.empty()
+            && normalizeDistinguishedName(trusted_issuer) == normalized_actual;
+    });
+}
+
+} // namespace
 
 // ============================================================================
 // RAII wrapper for temporary file cleanup
@@ -255,96 +321,85 @@ std::vector<std::string> ManifestDatabase::listVersions() const {
  * @brief Verify Manifest.
  * @param[in] manifest Input parameter.
  * @return True when the operation succeeds.
- * @details Calls: calculateHash(), LOG_ERROR(), empty(), getCachedSignatureVerification(), std::filesystem::temp_directory_path(), RAND_bytes(), std::setw(), std::setfill().
+ * @details Calls: calculateHash(), LOG_ERROR(), empty(), verifyCertificateChain(), std::filesystem::temp_directory_path(), RAND_bytes(), std::setw(), std::setfill().
  */
 bool ManifestDatabase::verifyManifest(const ReleaseManifest& manifest) {
     // Calculate hash
     std::string calculated_hash = manifest.calculateHash();
     
     // Check if hash matches
-    if (calculated_hash != manifest.manifest_hash) {
+    if (calculated_hash.empty() || manifest.manifest_hash.empty() || calculated_hash != manifest.manifest_hash) {
         LOG_ERROR("Manifest hash mismatch for version {}: expected {}, got {}",
             manifest.version, manifest.manifest_hash, calculated_hash);
         return false;
     }
-    
-    // Verify signature if verifier is available
-    if (verifier_ && !manifest.signature.empty()) {
-        // Check cache first
-        auto cached = getCachedSignatureVerification(manifest.manifest_hash);
-        if (cached) {
-            return *cached;
-        }
-        
-        // Create a PluginSignature from manifest data for verification
-        acceleration::PluginSignature sig;
-        sig.sha256Hash = manifest.manifest_hash;
-        sig.signature = manifest.signature;
-        sig.signingCertificate = manifest.signing_certificate;
-        sig.verified = false;
-        
-        // Verify signature using the plugin security verifier
-        // Note: We're verifying the manifest hash signature, not a file
-        // For this, we create a temporary file containing the hash
-        try {
-            // Get system temporary directory and create cryptographically secure random filename
-            auto tempDir = std::filesystem::temp_directory_path();
-            
-            // Generate cryptographically secure random filename using OpenSSL
-            unsigned char randomBytes[16];
-            if (RAND_bytes(randomBytes, sizeof(randomBytes)) != 1) {
-                LOG_ERROR("Failed to generate secure random bytes using OpenSSL RAND_bytes for temp filename");
-                return false;
-            }
-            
-            // Convert random bytes to hex string
-            std::ostringstream oss = {};
-            oss << "themis_";
-            for (size_t i = 0; i < sizeof(randomBytes); ++i) {
-                oss << std::hex << std::setw(2) << std::setfill('0') 
-                    << static_cast<int>(randomBytes[i]);
-            }
-            oss << ".tmp";
-            std::string uniqueName = oss.str();
-            std::string tempPath = (tempDir / uniqueName).string();
-            
-            // RAII wrapper ensures cleanup on all paths (Error 7409)
-            TempFileRaii temp_guard(tempPath);
-            
-            // Create temporary file with restricted permissions
-            std::ofstream temp(tempPath, std::ios::binary | std::ios::trunc);
-            if (!temp) {
-                LOG_ERROR("Failed to create temporary file for manifest verification");
-                return false;
-            }
-            temp << manifest.manifest_hash;
-            temp.close();
-            
-            // Set file permissions to owner-only (Unix-like systems)
-            #ifndef _WIN32
-            std::filesystem::permissions(tempPath, 
-                std::filesystem::perms::owner_read | std::filesystem::perms::owner_write,
-                std::filesystem::perm_options::replace);
-            #endif
-            
-            bool verified = verifier_->verifySignature(tempPath, sig);
-            
-            // Cleanup via RAII guard happens automatically on scope exit
-            
-            // Cache the result
-            cacheSignatureVerification(manifest.manifest_hash, verified, manifest.signing_certificate);
-            
-            if (!verified) {
-                LOG_ERROR("Manifest signature verification failed for version {}", manifest.version);
-                return false;
-            }
-            
-            LOG_INFO("Manifest signature verified for version {}", manifest.version);
-        } catch (const std::exception& e) {
-            // RAII cleanup ensures temp file is removed even on exception (Error 7409)
-            LOG_ERROR("Exception during manifest signature verification: {}", e.what());
+
+    if (!verifier_) {
+        LOG_ERROR("Manifest verification rejected for version {}: no signature verifier is configured",
+            manifest.version);
+        return false;
+    }
+    if (manifest.signature.empty() || manifest.signing_certificate.empty()) {
+        LOG_ERROR("Manifest verification rejected for version {}: signature or signing certificate is missing",
+            manifest.version);
+        return false;
+    }
+    if (!isTrustedManifestSigner(*verifier_, manifest.signing_certificate)) {
+        LOG_ERROR("Manifest verification rejected for version {}: signing certificate is not trusted",
+            manifest.version);
+        return false;
+    }
+
+    acceleration::PluginSignature sig;
+    sig.sha256Hash = manifest.manifest_hash;
+    sig.signature = manifest.signature;
+    sig.signingCertificate = manifest.signing_certificate;
+    sig.verified = false;
+
+    try {
+        auto temp_dir = std::filesystem::temp_directory_path();
+        unsigned char random_bytes[16];
+        if (RAND_bytes(random_bytes, sizeof(random_bytes)) != 1) {
+            LOG_ERROR("Failed to generate secure random bytes using OpenSSL RAND_bytes for temp filename");
             return false;
         }
+
+        std::ostringstream name_stream;
+        name_stream << "themis_";
+        for (const unsigned char byte : random_bytes) {
+            name_stream << std::hex << std::setw(2) << std::setfill('0') << static_cast<int>(byte);
+        }
+        name_stream << ".tmp";
+        const std::string temp_path = (temp_dir / name_stream.str()).string();
+        TempFileRaii temp_guard(temp_path);
+
+        std::ofstream temp(temp_path, std::ios::binary | std::ios::trunc);
+        if (!temp) {
+            LOG_ERROR("Failed to create temporary file for manifest verification");
+            return false;
+        }
+        temp << manifest.manifest_hash;
+        temp.close();
+        if (!temp) {
+            LOG_ERROR("Failed to write manifest hash to temporary verification file");
+            return false;
+        }
+
+#ifndef _WIN32
+        std::filesystem::permissions(temp_path,
+            std::filesystem::perms::owner_read | std::filesystem::perms::owner_write,
+            std::filesystem::perm_options::replace);
+#endif
+
+        if (!verifier_->verifySignature(temp_path, sig)) {
+            LOG_ERROR("Manifest signature verification failed for version {}", manifest.version);
+            return false;
+        }
+
+        LOG_INFO("Manifest signature verified for version {}", manifest.version);
+    } catch (const std::exception& e) {
+        LOG_ERROR("Exception during manifest signature verification: {}", e.what());
+        return false;
     }
     
     return true;
@@ -698,5 +753,3 @@ bool ManifestDatabase::deleteManifest(const std::string& version) {
 
 } // namespace updates
 } // namespace themis
-
-

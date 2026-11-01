@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -21,7 +21,7 @@ It complements [`SECURITY.md`](SECURITY.md); public interface details are in
 
 | Boundary | Trust assumption and control |
 |---|---|
-| Release metadata and file assets | Treat downloaded manifest fields, paths, hashes, signatures, and patch bytes as untrusted until the configured verifier accepts them. `ReleaseManifest` carries integrity/signing fields; parsing those fields is not itself proof of a valid signature. |
+| Release metadata and file assets | Treat downloaded manifest fields, paths, hashes, signatures, and patch bytes as untrusted. `ManifestDatabase::verifyManifest()` requires a matching hash, configured verifier, non-empty signature and certificate, a certificate chain accepted by the system trust store, an issuer DN allowed by `PluginSecurityPolicy::trustedIssuers`, and a valid signature. Missing verifier/trust material or any mismatch rejects the manifest. |
 | Delta patch application | `DeltaUpdateEngine` validates relative paths and checks base/target hashes and output size when present. Require complete, trusted manifest values; preserve atomic replacement and reject malformed paths or mismatched content. |
 | Build identity | `verifyBuildSignature()` verifies the embedded compile-time Ed25519 signature when signature material and OpenSSL support are available. Community builds have no embedded signature; a missing signature or unavailable OpenSSL yields `verified == false`. `buildChannel()` alone is not verification. |
 | Update initiators and policy | Callers own authentication, authorization, approval, tenant isolation, and admission control. The update library does not make an authenticated API request an authorized deployment decision. |
@@ -30,11 +30,12 @@ It complements [`SECURITY.md`](SECURITY.md); public interface details are in
 
 ## Security controls and limits
 
-The module offers state-transition guards, optional signature verification,
-file hash checks, path checks for deltas, backup/rollback hooks, and structured
-failure reporting. These controls are only effective when enabled and when
-their expected keys, manifest fields, paths, backups, and caller policies are
-correct. Do not treat a parsed manifest, a `community` channel label, an
+The module offers state-transition guards, mandatory manifest signature
+verification, file hash checks, path checks for deltas, backup/rollback hooks,
+and structured failure reporting. Unsigned-update overrides are unsupported;
+`HotReloadEngine::Config::verify_signatures=false` fails the download rather
+than bypassing verification. The signature cache is not consulted to authorize
+manifests. Do not treat a parsed manifest, a `community` channel label, an
 operator-diagnostics classification, or a successful state transition as
 standalone proof of artifact authenticity.
 
@@ -66,6 +67,8 @@ and recovery verification while excluding secret values.
 Canonical implementation references:
 [`build_verifier.cpp`](build_verifier.cpp),
 [`delta_update_engine.cpp`](delta_update_engine.cpp),
+[`manifest_database.cpp`](manifest_database.cpp),
+[`hot_reload_engine.cpp`](hot_reload_engine.cpp),
 [`updates_config.cpp`](updates_config.cpp),
 [`update_state_machine.cpp`](update_state_machine.cpp), and
 [`PRODUCTION_REQUIREMENTS.md`](PRODUCTION_REQUIREMENTS.md).

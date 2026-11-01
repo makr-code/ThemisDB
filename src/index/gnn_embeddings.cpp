@@ -1014,7 +1014,10 @@ GNNEmbeddingManager::Status GNNEmbeddingManager::generateNodeEmbeddingsBatch(
         
         for (size_t j = i; j < end; ++j) {
             auto st = updateNodeEmbedding(node_pks[j], graph_id, model_name);
-            // Silently continue on error (for batch processing)
+            if (!st.ok) {
+                return Status::Error("Failed to update node embedding '" + node_pks[j] +
+                                     "': " + st.message);
+            }
         }
     }
     

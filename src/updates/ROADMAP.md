@@ -33,17 +33,19 @@ aggregate takes precedence over older module-local GA/readiness statements.
   `THEMIS_BUILD_BENCHMARKS` is enabled. The cluster-stress benchmark is
   separately registered by `benchmarks/CMakeLists.txt`, with a conditional
   CTest smoke entry.
-- Diagnostic CMake configuration succeeded and exposed the focused updates
-  test targets. The focused build did not complete, so no passing test or
-  benchmark run is claimed. Source/test/benchmark presence does not establish
-  passing CI, representative hardware results, or an approved release gate.
+- The Windows Debug build of `module_updates_test_updates_production_focused`
+  succeeded. Its seven SEC-01 regression tests pass directly; the full target
+  runs 125 tests, with 124 passing and one unrelated ZSTD fallback expectation
+  failing. Linux/release evidence and representative benchmark results remain
+  open; test-source presence does not establish a release gate.
 
 ## Planned Features
 
-All items below are evidence or documentation tasks; no runtime implementation or
-release readiness is implied. Target timing requires maintainer approval.
+Items below cover source hardening, evidence, and documentation; no release
+readiness is implied. Target timing requires maintainer approval.
 
 - [x] Record the configured focused test targets and CTest names from `tests/updates/CMakeLists.txt` (Target: 2026-11-01).
+- [~] Close audit finding SEC-01: require a configured verifier, signed manifest, system-trusted certificate chain, and policy-allowed issuer; reject cache/config bypasses (Target: M1 · 2026-12-15).
 - [ ] Complete the focused updates test build and record the CTest results (Target: next release-evidence cycle).
 - [ ] Define reviewed benchmark baselines and acceptance thresholds in `PERFORMANCE_EXPECTATIONS.md` (Target: next release-evidence cycle).
 - [x] Confirm `bench_updates_cluster_stress_q4` and its CTest smoke entry are registered by the repository-level benchmark CMake file (Target: 2026-11-01).
@@ -53,15 +55,19 @@ release readiness is implied. Target timing requires maintainer approval.
 
 ### Phase 1 — Design / API contract
 - [ ] Confirm the reviewed public lifecycle, patch, migration, rollout, and diagnostics contracts against `include/updates/` and focused test sources (Target: next release-evidence cycle).
+- [x] Define the SEC-01 trust contract: system trust-store chain plus exact normalized issuer-DN allowlist; unsigned overrides are unsupported (Target: 2026-11-01).
 
 ### Phase 2 — Core implementation
 - [x] Confirm the cluster-stress benchmark target and CTest smoke entry are registered at repository level; avoid duplicate registration in the module CMake file (Target: 2026-11-01).
+- [x] Enforce manifest hash, verifier, signature, signing certificate, certificate-chain, and issuer-policy checks; prevent signature-cache and `verify_signatures=false` bypasses (Target: 2026-11-01).
 
 ### Phase 3 — Error handling and edge cases
 - [ ] Map failure and rollback cases to focused tests and record any uncovered public contract path (Target: next release-evidence cycle).
+- [x] Reject missing trust material, self-signed/expired signers, and tampered manifest payloads without accepting cached success (Target: 2026-11-01).
 
 ### Phase 4 — Tests
 - [x] Capture the configured updates test target and CTest inventory (Target: 2026-11-01).
+- [~] Windows Debug SEC-01 regressions pass 7/7; investigate the unrelated ZSTD fallback test failure in the 125-test target and obtain Linux/release evidence (Target: M1 · 2026-12-15).
 - [ ] Build and execute the focused updates tests; record exact results (Target: next release-evidence cycle).
 
 ### Phase 5 — Performance and hardening
@@ -69,10 +75,12 @@ release readiness is implied. Target timing requires maintainer approval.
 
 ### Phase 6 — Documentation and acceptance
 - [ ] Reconcile historical module evidence and readiness assertions with current root governance and verified run artifacts (Target: next roadmap review).
+- [x] Synchronize the manifest verification contract across API, trust, operations, and developer-wiki documentation (Target: 2026-11-01).
 
 ## Production Readiness Checklist
 
 - [ ] Current focused test results recorded for a named build configuration.
+- [ ] SEC-01 signature-verification tests pass in Linux and release configurations.
 - [ ] Representative benchmark results and approved thresholds recorded.
 - [ ] Operational and deployment-specific controls verified by their owners.
 - [ ] Root maturity aggregate and module-local readiness statements reconciled.
@@ -83,19 +91,22 @@ release readiness is implied. Target timing requires maintainer approval.
 - The cluster-stress target is registered at repository level, but no successful benchmark run is established here.
 - Throughput values in the benchmark source are candidate expectations only; approved thresholds and representative-hardware results remain open.
 - Deployment-wide authentication, authorization, topology, and recovery policy are outside the module's standalone C++ contract.
+- Unsigned update manifests are rejected in every mode; deployments must configure the system trust store and allowed signing issuer. Linux/release validation is still pending.
 
 ## Compatibility and change control
 
 Public API compatibility follows the repository versioning policy. A public
 contract change should update the applicable header comments, `API.md`, focused
-tests, and the relevant operational documentation. Do not infer a future
-breaking-change plan from this roadmap.
+tests, and the relevant operational documentation. SEC-01 intentionally changes
+runtime behavior: unsigned manifests and `verify_signatures=false` are rejected.
+No C++ function signature changed.
 
 ## Breaking Changes
 
-No public API change was made or proposed in this documentation update. A future
-breaking change must follow the repository versioning policy and be documented
-in the affected header and API contract.
+No C++ function signature changed. The SEC-01 runtime behavior change is
+documented above; any future source-level breaking change must follow the
+repository versioning policy and be documented in the affected header and API
+contract.
 
 ## Historical status notes
 

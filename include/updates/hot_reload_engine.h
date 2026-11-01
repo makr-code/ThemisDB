@@ -71,6 +71,7 @@ public:
         std::string download_directory = "/tmp/themis_updates";
         std::string backup_directory = "/var/lib/themisdb/rollback";
         std::string install_directory = ".";  // Current directory by default
+        /// Must remain true; downloadRelease rejects false because unsigned-update overrides are unsupported.
         bool verify_signatures = true;
         bool create_backup = true;
         bool dry_run = false;  // Don't actually apply changes

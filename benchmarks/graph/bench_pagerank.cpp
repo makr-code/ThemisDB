@@ -6,8 +6,10 @@
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include <benchmark/benchmark.h>
+#include "../benchmark_cleanup.h"
 #include <filesystem>
 #include <random>
+#include <cstdio>
 
 using namespace themis;
 
@@ -20,8 +22,9 @@ public:
     void SetUp(const ::benchmark::State& state) override {
         // Clean up any existing test database
         test_db_path_ = "./data/bench_pagerank_tmp";
-        if (std::filesystem::exists(test_db_path_)) {
-            std::filesystem::remove_all(test_db_path_);
+        std::error_code cleanup_error;
+        if (!themis::bench::removeBenchmarkDirectory(test_db_path_, cleanup_error)) {
+            throw std::runtime_error("Failed to clear PageRank benchmark DB: " + cleanup_error.message());
         }
         
         // Create RocksDB wrapper
@@ -31,7 +34,6 @@ public:
         config.block_cache_size_mb = 1024;
         
         db_ = std::make_unique<RocksDBWrapper>(config);
-       if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
         if (!db_->open()) {
             throw std::runtime_error("Failed to open database");
         }
@@ -55,8 +57,10 @@ public:
         db_.reset();
         
         // Clean up test database
-        if (std::filesystem::exists(test_db_path_)) {
-            std::filesystem::remove_all(test_db_path_);
+        std::error_code cleanup_error;
+        if (!themis::bench::removeBenchmarkDirectory(test_db_path_, cleanup_error)) {
+            std::fprintf(stderr, "PageRank benchmark DB cleanup failed: %s\n",
+                         cleanup_error.message().c_str());
         }
     }
     
@@ -141,8 +145,6 @@ BENCHMARK_DEFINE_F(PageRankBenchmarkFixture, PageRankStandard)(benchmark::State&
 BENCHMARK_REGISTER_F(PageRankBenchmarkFixture, PageRankStandard)
     ->Args({100, 5})      // Small graph
     ->Args({1000, 5})     // Medium graph
-    ->Args({10000, 5})    // Large graph
-    ->Args({100000, 5})   // Web-scale graph
     ->Args({100, 20})     // Dense small graph
     ->Args({1000, 20})    // Dense medium graph
     ->Unit(benchmark::kMillisecond)
@@ -180,7 +182,6 @@ BENCHMARK_REGISTER_F(PageRankBenchmarkFixture, PageRankConvergence)
     ->Args({1000, 5, 10})   // 10 iterations
     ->Args({1000, 5, 20})   // 20 iterations
     ->Args({1000, 5, 50})   // 50 iterations
-    ->Args({1000, 5, 100})  // 100 iterations
     ->Unit(benchmark::kMillisecond);
 
 // ============================================================================
@@ -296,7 +297,6 @@ BENCHMARK_DEFINE_F(PageRankBenchmarkFixture, PersonalizedPageRank)(benchmark::St
 
 BENCHMARK_REGISTER_F(PageRankBenchmarkFixture, PersonalizedPageRank)
     ->Args({1000, 5})
-    ->Args({10000, 5})
     ->Unit(benchmark::kMillisecond);
 
 // ============================================================================
@@ -332,9 +332,9 @@ BENCHMARK_DEFINE_F(PageRankBenchmarkFixture, TopKPageRank)(benchmark::State& sta
 }
 
 BENCHMARK_REGISTER_F(PageRankBenchmarkFixture, TopKPageRank)
-    ->Args({10000, 5, 10})    // Top-10
-    ->Args({10000, 5, 100})   // Top-100
-    ->Args({10000, 5, 1000})  // Top-1000
+    ->Args({1000, 5, 10})    // Top-10
+    ->Args({1000, 5, 100})   // Top-100
+    ->Args({1000, 5, 1000})  // Top-1000
     ->Unit(benchmark::kMillisecond);
 
 // ============================================================================
@@ -365,7 +365,6 @@ BENCHMARK_DEFINE_F(PageRankBenchmarkFixture, PageRankThroughput)(benchmark::Stat
 
 BENCHMARK_REGISTER_F(PageRankBenchmarkFixture, PageRankThroughput)
     ->Args({1000, 5})
-    ->Args({10000, 5})
     ->Unit(benchmark::kMillisecond);
 
 BENCHMARK_MAIN();

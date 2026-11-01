@@ -2809,6 +2809,7 @@ function(themis_build_modular)
             add_dependencies(themis_sharding themis_shard_proto)
             target_link_libraries(themis_sharding PRIVATE themis_shard_proto protobuf::libprotobuf)
             if(THEMIS_ENABLE_GRPC AND TARGET gRPC::grpc++)
+                target_compile_definitions(themis_sharding PRIVATE THEMIS_ENABLE_GRPC=1)
                 # Ensure Abseil package is found before referencing component targets.
                 if(NOT TARGET absl::abseil_dll)
                     find_package(absl CONFIG REQUIRED)

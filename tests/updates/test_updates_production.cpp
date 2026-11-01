@@ -22,6 +22,9 @@
 
 #include <gtest/gtest.h>
 
+#include "acceleration/plugin_security.h"
+#include "storage/rocksdb_wrapper.h"
+#include "updates/manifest_database.h"
 #include "updates/release_manifest.h"
 #include "updates/updates_config.h"
 #include "updates/hot_reload_engine.h"
@@ -32,10 +35,19 @@
 #include "utils/update_checker.h"
 
 #include <chrono>
+#include <array>
 #include <string>
 #include <vector>
 #include <filesystem>
 #include <fstream>
+#include <memory>
+#include <stdexcept>
+#include <openssl/bio.h>
+#include <openssl/evp.h>
+#include <openssl/pem.h>
+#include <openssl/rsa.h>
+#include <openssl/sha.h>
+#include <openssl/x509.h>
 
 namespace fs = std::filesystem;
 
@@ -188,6 +200,228 @@ TEST_F(ReleaseManifestTest, Dependencies_RoundTrip) {
     ASSERT_EQ(parsed->dependencies.size(), 2u);
     EXPECT_EQ(parsed->dependencies[0], "core>=1.0.0");
     EXPECT_EQ(parsed->dependencies[1], "storage>=2.0.0");
+}
+
+namespace {
+
+struct ManifestTestSigner {
+    std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)> key{nullptr, EVP_PKEY_free};
+    std::string certificate_pem;
+};
+
+ManifestTestSigner createManifestTestSigner(bool expired = false) {
+    std::unique_ptr<EVP_PKEY_CTX, decltype(&EVP_PKEY_CTX_free)> key_context(
+        EVP_PKEY_CTX_new_id(EVP_PKEY_RSA, nullptr), EVP_PKEY_CTX_free);
+    if (!key_context
+        || EVP_PKEY_keygen_init(key_context.get()) <= 0
+        || EVP_PKEY_CTX_set_rsa_keygen_bits(key_context.get(), 2048) <= 0) {
+        throw std::runtime_error("Failed to initialize manifest test signing key");
+    }
+
+    EVP_PKEY* raw_key = nullptr;
+    if (EVP_PKEY_keygen(key_context.get(), &raw_key) <= 0) {
+        throw std::runtime_error("Failed to generate manifest test signing key");
+    }
+
+    ManifestTestSigner signer;
+    signer.key.reset(raw_key);
+    std::unique_ptr<X509, decltype(&X509_free)> certificate(X509_new(), X509_free);
+    if (!certificate
+        || X509_set_version(certificate.get(), 2) != 1
+        || ASN1_INTEGER_set(X509_get_serialNumber(certificate.get()), 1) != 1
+        || X509_gmtime_adj(X509_getm_notBefore(certificate.get()), expired ? -7200 : -60) == nullptr
+        || X509_gmtime_adj(X509_getm_notAfter(certificate.get()), expired ? -3600 : 3600) == nullptr
+        || X509_set_pubkey(certificate.get(), signer.key.get()) != 1) {
+        throw std::runtime_error("Failed to initialize manifest test certificate");
+    }
+
+    X509_NAME* subject = X509_get_subject_name(certificate.get());
+    const auto add_name_field = [subject](const char* field, const char* value) {
+        return X509_NAME_add_entry_by_txt(
+            subject, field, MBSTRING_ASC,
+            reinterpret_cast<const unsigned char*>(value), -1, -1, 0) == 1;
+    };
+    if (!subject
+        || !add_name_field("C", "DE")
+        || !add_name_field("O", "ThemisDB")
+        || !add_name_field("CN", "ThemisDB Official Plugins")
+        || X509_set_issuer_name(certificate.get(), subject) != 1
+        || X509_sign(certificate.get(), signer.key.get(), EVP_sha256()) <= 0) {
+        throw std::runtime_error("Failed to sign manifest test certificate");
+    }
+
+    std::unique_ptr<BIO, decltype(&BIO_free)> certificate_bio(BIO_new(BIO_s_mem()), BIO_free);
+    if (!certificate_bio || PEM_write_bio_X509(certificate_bio.get(), certificate.get()) != 1) {
+        throw std::runtime_error("Failed to serialize manifest test certificate");
+    }
+
+    char* certificate_data = nullptr;
+    const long certificate_size = BIO_get_mem_data(certificate_bio.get(), &certificate_data);
+    if (certificate_size <= 0 || certificate_data == nullptr) {
+        throw std::runtime_error("Manifest test certificate serialization was empty");
+    }
+    signer.certificate_pem.assign(certificate_data, static_cast<size_t>(certificate_size));
+    return signer;
+}
+
+std::string createManifestTestSignature(const std::string& manifest_hash, EVP_PKEY* key) {
+    std::array<unsigned char, SHA256_DIGEST_LENGTH> file_hash{};
+    SHA256(
+        reinterpret_cast<const unsigned char*>(manifest_hash.data()),
+        manifest_hash.size(),
+        file_hash.data());
+
+    std::unique_ptr<EVP_MD_CTX, decltype(&EVP_MD_CTX_free)> context(EVP_MD_CTX_new(), EVP_MD_CTX_free);
+    if (!context
+        || EVP_DigestSignInit(context.get(), nullptr, EVP_sha256(), nullptr, key) != 1
+        || EVP_DigestSignUpdate(context.get(), file_hash.data(), file_hash.size()) != 1) {
+        throw std::runtime_error("Failed to initialize manifest test signature");
+    }
+
+    size_t signature_size = 0;
+    if (EVP_DigestSignFinal(context.get(), nullptr, &signature_size) != 1) {
+        throw std::runtime_error("Failed to size manifest test signature");
+    }
+    std::vector<unsigned char> signature(signature_size);
+    if (EVP_DigestSignFinal(context.get(), signature.data(), &signature_size) != 1) {
+        throw std::runtime_error("Failed to sign manifest test hash");
+    }
+    signature.resize(signature_size);
+
+    static constexpr char kHex[] = "0123456789abcdef";
+    std::string encoded;
+    encoded.reserve(signature.size() * 2);
+    for (const unsigned char byte : signature) {
+        encoded.push_back(kHex[byte >> 4]);
+        encoded.push_back(kHex[byte & 0x0f]);
+    }
+    return encoded;
+}
+
+} // namespace
+
+class ManifestSignatureSecurityTest : public ::testing::Test {
+protected:
+    void SetUp() override {
+        const auto tick = std::chrono::steady_clock::now().time_since_epoch().count();
+        test_root_ = fs::temp_directory_path()
+            / ("themis_manifest_signature_" + std::to_string(tick));
+        fs::create_directories(test_root_);
+
+        themis::RocksDBWrapper::Config config;
+        config.db_path = (test_root_ / "db").string();
+        config.memtable_size_mb = 16;
+        config.block_cache_size_mb = 32;
+        storage_ = std::make_shared<themis::RocksDBWrapper>(config);
+        if (!storage_->open()) {
+            GTEST_SKIP() << "Failed to open manifest test database at " << config.db_path;
+        }
+
+        verifier_ = std::make_shared<themis::acceleration::PluginSecurityVerifier>(
+            themis::acceleration::PluginSecurityPolicy{});
+        database_ = std::make_shared<ManifestDatabase>(storage_, verifier_);
+    }
+
+    void TearDown() override {
+        database_.reset();
+        verifier_.reset();
+        storage_.reset();
+        fs::remove_all(test_root_);
+    }
+
+    ReleaseManifest makeManifest() const {
+        ReleaseManifest manifest;
+        manifest.version = "1.2.3";
+        manifest.tag_name = "v1.2.3";
+        manifest.release_notes = "security verification test";
+        manifest.manifest_hash = manifest.calculateHash();
+        return manifest;
+    }
+
+    fs::path writeHashFile(const ReleaseManifest& manifest) const {
+        const fs::path path = test_root_ / "manifest_hash";
+        std::ofstream output(path, std::ios::binary | std::ios::trunc);
+        output << manifest.manifest_hash;
+        if (!output) {
+            throw std::runtime_error("Failed to write manifest hash test file");
+        }
+        return path;
+    }
+
+    fs::path test_root_;
+    std::shared_ptr<themis::RocksDBWrapper> storage_;
+    std::shared_ptr<themis::acceleration::PluginSecurityVerifier> verifier_;
+    std::shared_ptr<ManifestDatabase> database_;
+};
+
+TEST_F(ManifestSignatureSecurityTest, MissingVerifierRejectsManifest) {
+    ManifestDatabase database_without_verifier(storage_, nullptr);
+    EXPECT_FALSE(database_without_verifier.verifyManifest(makeManifest()));
+}
+
+TEST_F(ManifestSignatureSecurityTest, MissingSignatureRejectsManifestEvenWhenCacheSaysValid) {
+    const auto manifest = makeManifest();
+    database_->cacheSignatureVerification(manifest.manifest_hash, true, "cached-certificate");
+
+    EXPECT_FALSE(database_->verifyManifest(manifest));
+}
+
+TEST_F(ManifestSignatureSecurityTest, MissingSigningCertificateRejectsManifest) {
+    auto manifest = makeManifest();
+    manifest.signature = "00";
+
+    EXPECT_FALSE(database_->verifyManifest(manifest));
+}
+
+TEST_F(ManifestSignatureSecurityTest, SelfSignedSignerIsRejectedEvenWithValidSignature) {
+    auto manifest = makeManifest();
+    auto signer = createManifestTestSigner();
+    manifest.signature = createManifestTestSignature(manifest.manifest_hash, signer.key.get());
+    manifest.signing_certificate = signer.certificate_pem;
+
+    themis::acceleration::PluginSignature signature;
+    signature.sha256Hash = manifest.manifest_hash;
+    signature.signature = manifest.signature;
+    signature.signingCertificate = manifest.signing_certificate;
+    EXPECT_TRUE(verifier_->verifySignature(writeHashFile(manifest).string(), signature));
+    EXPECT_FALSE(database_->verifyManifest(manifest));
+}
+
+TEST_F(ManifestSignatureSecurityTest, ExpiredSignerCertificateIsRejected) {
+    auto manifest = makeManifest();
+    auto signer = createManifestTestSigner(true);
+    manifest.signature = "00";
+    manifest.signing_certificate = signer.certificate_pem;
+
+    themis::acceleration::PluginSignature signature;
+    signature.signature = manifest.signature;
+    signature.signingCertificate = manifest.signing_certificate;
+    EXPECT_FALSE(verifier_->verifySignature(writeHashFile(manifest).string(), signature));
+    EXPECT_FALSE(database_->verifyManifest(manifest));
+}
+
+TEST_F(ManifestSignatureSecurityTest, PayloadTamperingInvalidatesManifestHash) {
+    auto manifest = makeManifest();
+    manifest.signature = "00";
+    manifest.signing_certificate = "certificate";
+    manifest.release_notes = "tampered payload";
+
+    EXPECT_FALSE(database_->verifyManifest(manifest));
+}
+
+TEST_F(ManifestSignatureSecurityTest, DisablingSignatureVerificationDoesNotEnableDownload) {
+    const auto manifest = makeManifest();
+    ASSERT_TRUE(database_->storeManifest(manifest));
+
+    HotReloadEngine::Config config;
+    config.verify_signatures = false;
+    config.download_directory = (test_root_ / "downloads").string();
+    HotReloadEngine engine(database_, nullptr, config);
+
+    const auto result = engine.downloadRelease(manifest.version);
+    EXPECT_FALSE(result.success);
+    EXPECT_NE(result.error_message.find("cannot be disabled"), std::string::npos);
+    EXPECT_FALSE(fs::exists(fs::path(config.download_directory) / manifest.version));
 }
 
 // ============================================================================

@@ -58,7 +58,9 @@ using themis_ssize_t = std::ptrdiff_t;
  * @return Return value.
  * @details Calls: _open().
  */
-static int themis_open_fd(const char* path, int flags, int mode) { return _open(path, flags, mode); }
+static int themis_open_fd(const char* path, int flags, int mode) {
+    return _open(path, flags | _O_BINARY, mode);
+}
 /**
  * @brief Themis close fd.
  * @param[in] fd Input parameter.

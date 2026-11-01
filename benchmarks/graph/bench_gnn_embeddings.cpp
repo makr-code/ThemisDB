@@ -7,8 +7,10 @@
 #include "storage/rocksdb_wrapper.h"
 #include "storage/base_entity.h"
 #include <benchmark/benchmark.h>
+#include "../benchmark_cleanup.h"
 #include <filesystem>
 #include <random>
+#include <cstdio>
 
 using namespace themis;
 
@@ -21,8 +23,9 @@ public:
     void SetUp(const ::benchmark::State& state) override {
         // Clean up any existing test database
         test_db_path_ = "./data/bench_gnn_embeddings_tmp";
-        if (std::filesystem::exists(test_db_path_)) {
-            std::filesystem::remove_all(test_db_path_);
+        std::error_code cleanup_error;
+        if (!themis::bench::removeBenchmarkDirectory(test_db_path_, cleanup_error)) {
+            throw std::runtime_error("Failed to clear GNN benchmark DB: " + cleanup_error.message());
         }
         
         // Create RocksDB wrapper
@@ -32,7 +35,6 @@ public:
         config.block_cache_size_mb = 1024;
         
         db_ = std::make_unique<RocksDBWrapper>(config);
-       if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
         if (!db_->open()) {
             throw std::runtime_error("Failed to open database");
         }
@@ -41,6 +43,14 @@ public:
         property_graph_ = std::make_unique<PropertyGraphManager>(*db_);
         vector_index_ = std::make_unique<VectorIndexManager>(*db_);
         gnn_manager_ = std::make_unique<GNNEmbeddingManager>(*db_, *property_graph_, *vector_index_);
+        for (const auto& model : {std::pair{"gcn_v1", "GCN"},
+                                  std::pair{"graphsage_v1", "GraphSAGE"},
+                                  std::pair{"gat_v1", "GAT"}}) {
+            const auto status = gnn_manager_->registerModel(model.first, model.second, 64);
+            if (!status.ok) {
+                throw std::runtime_error("Failed to register GNN benchmark model: " + status.message);
+            }
+        }
         
         // Build test graph
         int num_nodes = state.range(0);
@@ -56,8 +66,10 @@ public:
         db_.reset();
         
         // Clean up test database
-        if (std::filesystem::exists(test_db_path_)) {
-            std::filesystem::remove_all(test_db_path_);
+        std::error_code cleanup_error;
+        if (!themis::bench::removeBenchmarkDirectory(test_db_path_, cleanup_error)) {
+            std::fprintf(stderr, "GNN benchmark DB cleanup failed: %s\n",
+                         cleanup_error.message().c_str());
         }
     }
     
@@ -76,9 +88,11 @@ public:
             node.setField("name", "User " + std::to_string(i));
             node.setField("age", static_cast<int>(age_dist(rng)));
             node.setField("followers", static_cast<int64_t>(rng() % 10000));
-            
-            // Note: addVertex is not needed in current PropertyGraphManager API
-            // Vertices are created implicitly when edges reference them
+            node.setField("id", node_id);
+            auto node_status = property_graph_->addNode(node, "social");
+            if (!node_status.ok) {
+                throw std::runtime_error("Failed to add GNN benchmark node: " + node_status.message);
+            }
         }
         
         // Create edges (follows relationships)
@@ -188,7 +202,8 @@ BENCHMARK_DEFINE_F(GNNEmbeddingsBenchmarkFixture, SimilaritySearch)(benchmark::S
     // Generate embeddings first
     auto gen_status = gnn_manager_->generateNodeEmbeddings("social", "Person", model_name);
     if (!gen_status.ok) {
-        state.SkipWithError("Failed to generate embeddings");
+        const std::string error = "Failed to generate embeddings: " + gen_status.message;
+        state.SkipWithError(error.c_str());
         return;
     }
     
@@ -202,7 +217,8 @@ BENCHMARK_DEFINE_F(GNNEmbeddingsBenchmarkFixture, SimilaritySearch)(benchmark::S
         auto [status, similar] = gnn_manager_->findSimilarNodes(query_node, "social", k, model_name);
         
         if (!status.ok) {
-            state.SkipWithError("Similarity search failed");
+            const std::string error = "Similarity search failed: " + status.message;
+            state.SkipWithError(error.c_str());
         }
         
         benchmark::DoNotOptimize(similar);
@@ -242,7 +258,8 @@ BENCHMARK_DEFINE_F(GNNEmbeddingsBenchmarkFixture, IncrementalUpdate)(benchmark::
         auto status = gnn_manager_->updateNodeEmbedding(node_id, "social", model_name);
         
         if (!status.ok) {
-            state.SkipWithError("Incremental update failed");
+            const std::string error = "Incremental update failed: " + status.message;
+            state.SkipWithError(error.c_str());
         }
     }
     
@@ -287,8 +304,11 @@ BENCHMARK_REGISTER_F(GNNEmbeddingsBenchmarkFixture, EdgeEmbeddingGeneration)
 static void BM_EmbeddingDimensions(benchmark::State& state) {
     // Setup
     std::string test_db_path = "./data/bench_gnn_dim_tmp";
-    if (std::filesystem::exists(test_db_path)) {
-        std::filesystem::remove_all(test_db_path);
+    std::error_code cleanup_error;
+    if (!themis::bench::removeBenchmarkDirectory(test_db_path, cleanup_error)) {
+        state.SkipWithError(("Failed to clear GNN dimensions DB: " +
+                             cleanup_error.message()).c_str());
+        return;
     }
     
     RocksDBWrapper::Config config;
@@ -296,11 +316,21 @@ static void BM_EmbeddingDimensions(benchmark::State& state) {
     config.memtable_size_mb = 256;
     
     auto db = std::make_unique<RocksDBWrapper>(config);
-    db->open();
+    if (!db->open()) {
+        state.SkipWithError("Failed to open GNN dimensions RocksDB");
+        return;
+    }
     
     auto property_graph = std::make_unique<PropertyGraphManager>(*db);
     auto vector_index = std::make_unique<VectorIndexManager>(*db);
     auto gnn_manager = std::make_unique<GNNEmbeddingManager>(*db, *property_graph, *vector_index);
+    const int embedding_dim = static_cast<int>(state.range(0));
+    const std::string model_name = "model_dim" + std::to_string(embedding_dim);
+    const auto model_status = gnn_manager->registerModel(model_name, "GCN", embedding_dim);
+    if (!model_status.ok) {
+        state.SkipWithError(model_status.message.c_str());
+        return;
+    }
     
     // Build small graph
     const int num_nodes = 1000;
@@ -312,12 +342,13 @@ static void BM_EmbeddingDimensions(benchmark::State& state) {
         
         BaseEntity node(node_id);
         node.setField("label", "Test");
-        // Note: addVertex is not needed in current PropertyGraphManager API
-        // Vertices are created implicitly when edges reference them
+        node.setField("id", node_id);
+        auto node_status = property_graph->addNode(node, "test");
+        if (!node_status.ok) {
+            state.SkipWithError(node_status.message.c_str());
+            return;
+        }
     }
-    
-    const int embedding_dim = state.range(0);
-    std::string model_name = "model_dim" + std::to_string(embedding_dim);
     
     for (auto _ : state) {
         auto status = gnn_manager->generateNodeEmbeddings("test", "Test", model_name);
@@ -330,9 +361,9 @@ static void BM_EmbeddingDimensions(benchmark::State& state) {
     property_graph.reset();
     db->close();
     db.reset();
-    
-    if (std::filesystem::exists(test_db_path)) {
-        std::filesystem::remove_all(test_db_path);
+    if (!themis::bench::removeBenchmarkDirectory(test_db_path, cleanup_error)) {
+        std::fprintf(stderr, "GNN dimensions DB cleanup failed: %s\n",
+                     cleanup_error.message().c_str());
     }
     
     state.SetItemsProcessed(state.iterations() * num_nodes);

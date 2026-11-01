@@ -8,10 +8,12 @@
 #include "index/graph_index.h"
 #include "index/vector_index.h"
 #include <benchmark/benchmark.h>
+#include "../benchmark_cleanup.h"
 #include <filesystem>
 #include <atomic>
 #include <chrono>
 #include <thread>
+#include <cstdio>
 
 using namespace themis;
 
@@ -24,8 +26,9 @@ public:
     void SetUp(const ::benchmark::State& /*state*/) override {
         // Clean up any existing test database
         test_db_path_ = "./data/bench_saga_tmp";
-        if (std::filesystem::exists(test_db_path_)) {
-            std::filesystem::remove_all(test_db_path_);
+        std::error_code cleanup_error;
+        if (!themis::bench::removeBenchmarkDirectory(test_db_path_, cleanup_error)) {
+            throw std::runtime_error("Failed to clear Saga benchmark DB: " + cleanup_error.message());
         }
         
         // Create RocksDB wrapper
@@ -35,7 +38,6 @@ public:
         config.block_cache_size_mb = 256;
         
         db_ = std::make_unique<RocksDBWrapper>(config);
-       if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
         if (!db_->open()) {
             throw std::runtime_error("Failed to open database");
         }
@@ -54,8 +56,10 @@ public:
         db_.reset();
         
         // Clean up test database
-        if (std::filesystem::exists(test_db_path_)) {
-            std::filesystem::remove_all(test_db_path_);
+        std::error_code cleanup_error;
+        if (!themis::bench::removeBenchmarkDirectory(test_db_path_, cleanup_error)) {
+            std::fprintf(stderr, "Saga benchmark DB cleanup failed: %s\n",
+                         cleanup_error.message().c_str());
         }
     }
     

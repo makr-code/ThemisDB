@@ -15,6 +15,20 @@ foreach(_src IN LISTS NETWORK_MODULE_TEST_SOURCES)
     endif()
 
     add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_transport_security_checker")
+        set(_network_test_gmock_link "")
+        if(TARGET GTest::gmock)
+            set(_network_test_gmock_link GTest::gmock)
+        elseif(TARGET gmock::gmock)
+            set(_network_test_gmock_link gmock::gmock)
+        endif()
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/tests/test_gtest_main.cpp
+        )
+        set(_network_test_gtest_libs GTest::gtest ${_network_test_gmock_link})
+    else()
+        set(_network_test_gtest_libs ${TEST_LIBS})
+    endif()
     if(_stem STREQUAL "test_udp_server")
         target_sources(${_target} PRIVATE
             ${THEMIS_ROOT_DIR}/src/network/udp_server.cpp
@@ -25,7 +39,7 @@ foreach(_src IN LISTS NETWORK_MODULE_TEST_SOURCES)
         ${THEMIS_ROOT_DIR}/src
     )
     target_link_libraries(${_target} PRIVATE
-        ${TEST_LIBS}
+        ${_network_test_gtest_libs}
         themis_core
         spdlog::spdlog
         Threads::Threads

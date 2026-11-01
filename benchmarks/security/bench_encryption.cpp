@@ -15,6 +15,7 @@
 #include "index/secondary_index.h"
 #include "storage/base_entity.h"
 #include "utils/hkdf_helper.h"
+#include "themis/runtime_license_gate.h"
 
 using themis::MockKeyProvider;
 using themis::FieldEncryption;
@@ -49,6 +50,16 @@ bool cleanupPath(const std::string& path, std::error_code& error) {
             std::this_thread::sleep_for(std::chrono::milliseconds(10 * (1 << attempt)));
         }
     }
+    return false;
+}
+
+bool requireFieldEncryption(benchmark::State& state) {
+    std::string error;
+    if (themis::license::RuntimeLicenseGate::instance().isFeatureAllowed(
+            "field_encryption", error)) {
+        return true;
+    }
+    state.SkipWithError(error.c_str());
     return false;
 }
 
@@ -144,6 +155,9 @@ BENCHMARK(BM_Decrypt_String_UsingKey)->Arg(64)->Arg(256)->Arg(1024)->Unit(benchm
 // --- Entity encryption + JSON serialization ---
 
 static void BM_UserEntity_Encrypt_Serialize(benchmark::State& state) {
+    if (!requireFieldEncryption(state)) {
+        return;
+    }
     auto& c = CryptoEnv::instance(); c.initOnce();
     for (auto _ : state) {
         themis::User u;
@@ -166,6 +180,9 @@ BENCHMARK(BM_UserEntity_Encrypt_Serialize)->Unit(benchmark::kMicrosecond);
 // --- RocksDB ingest of encrypted documents ---
 
 static void BM_DB_Ingest_Encrypted(benchmark::State& state) {
+    if (!requireFieldEncryption(state)) {
+        return;
+    }
     auto& c = CryptoEnv::instance(); c.initOnce();
     DBEnv db; db.open();
     const size_t N = static_cast<size_t>(state.range(0));

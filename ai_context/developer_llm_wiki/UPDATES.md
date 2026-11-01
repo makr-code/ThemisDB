@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -51,16 +51,20 @@ planes. Detailed engineering references include the
   reveal an interrupted update, but that signal is not an automatic recovery.
   Checkpoint snapshots are not substitutes for installed-file backups.
 - `ReleaseManifest` and `ReleaseFile` expose JSON conversion and manifest hash
-  calculation. Parsing structured fields does not by itself establish artifact
-  authenticity; callers must apply the verifier used by their update path.
+  calculation. `ManifestDatabase::verifyManifest()` rejects a missing verifier,
+  signature, or certificate; it requires a system-trusted certificate chain,
+  an issuer allowed by verifier policy, a matching payload hash, and a valid
+  signature. Parsed fields and cached verification results are not proof of
+  authenticity.
 - `DeltaUpdateEngine` checks relative paths and, when supplied, base/target
   hashes and target size. Dependency ordering is applied only when
   `DeltaManifest::enforce_order` is set. The engine is not thread-safe, and
   callers fetch patch assets before apply.
 - `HotReloadEngine` owns file-level download/apply and rollback behavior.
-  Configuration controls signature verification, backups, dry-run, and
-  post-update health-check rollback. Callers must inspect results and retain
-  rollback IDs.
+  Signature verification is mandatory; `verify_signatures=false` rejects a
+  download and no unsigned-update override is supported. Configuration also
+  controls backups, dry-run, and post-update health-check rollback. Callers
+  must inspect results and retain rollback IDs.
 - Canary membership is deterministic from version and node ID, but the
   controller does not coordinate nodes. Blue/green deployment tracks local
   active/standby slots. Multi-node consistency belongs to cluster/coordinated

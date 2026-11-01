@@ -73,9 +73,14 @@ public:
     std::vector<std::string> listVersions() const;
     
     /**
-     * @brief Verify manifest integrity
-     * @param manifest Manifest to verify
-     * @return true if manifest is valid and signature checks out
+     * @brief Verify manifest integrity and authenticity before an update is trusted.
+     * @param manifest Manifest whose calculated hash and detached signature are checked.
+     *        A signing certificate and a configured verifier are required.
+     * @return True only when the hash matches, the certificate chains to the system
+     *         trust store, its issuer is allowed by the verifier policy, and the
+     *         signature is valid. Returns false for missing trust material,
+     *         untrusted or expired certificates, malformed signatures, or any
+     *         verification error. Cached results are not used to authorize manifests.
      */
     bool verifyManifest(const ReleaseManifest& manifest);
     
@@ -107,10 +112,13 @@ public:
     bool storeFile(const ReleaseFile& file, const std::string& version);
     
     /**
-     * @brief Cache signature verification result
-     * @param hash SHA-256 hash
-     * @param verified Verification result
-     * @param certificate Certificate used for verification
+     * @brief Store a signature-verification cache record for diagnostics or callers.
+     * @param hash SHA-256 hash used as the cache key.
+     * @param verified Verification result to store.
+     * @param certificate Certificate associated with the record.
+     * @note This cache is not consulted by verifyManifest() and cannot authorize an
+     *       update, because a cached result is not bound to the current signature
+     *       and verifier policy.
      */
     void cacheSignatureVerification(
         const std::string& hash,
@@ -119,9 +127,10 @@ public:
     );
     
     /**
-     * @brief Check if signature is cached
-     * @param hash SHA-256 hash
-     * @return Verification result if cached
+     * @brief Read a signature-verification cache record.
+     * @param hash SHA-256 hash used as the cache key.
+     * @return The stored result if present; this result is not an authorization
+     *         decision and is never used by verifyManifest().
      */
     std::optional<bool> getCachedSignatureVerification(const std::string& hash);
     

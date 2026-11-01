@@ -10,12 +10,26 @@ foreach(_src IN LISTS SECURITY_MODULE_TEST_SOURCES)
     set(_ctest "${_stem}_SecurityFocusedTests")
 
     add_executable(${_target} "${_src}")
+    if(_stem STREQUAL "test_hsm_security_checker")
+        set(_security_test_gmock_link "")
+        if(TARGET GTest::gmock)
+            set(_security_test_gmock_link GTest::gmock)
+        elseif(TARGET gmock::gmock)
+            set(_security_test_gmock_link gmock::gmock)
+        endif()
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/tests/test_gtest_main.cpp
+        )
+        set(_security_test_gtest_libs GTest::gtest ${_security_test_gmock_link})
+    else()
+        set(_security_test_gtest_libs ${TEST_LIBS})
+    endif()
     target_include_directories(${_target} PRIVATE
         ${THEMIS_ROOT_DIR}/include
         ${THEMIS_ROOT_DIR}/src
     )
     target_link_libraries(${_target} PRIVATE
-        ${TEST_LIBS}
+        ${_security_test_gtest_libs}
         themis_core
         spdlog::spdlog
         Threads::Threads

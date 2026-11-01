@@ -11,6 +11,9 @@
  */
 
 #include <gtest/gtest.h>
+#include <deque>
+#include <map>
+#include <memory>
 #include <vector>
 #include <string>
 #include <atomic>
@@ -172,7 +175,7 @@ TEST(AutoFailoverRecoveryTest, HeartbeatFailureDetection) {
     constexpr int HEARTBEAT_INTERVAL_MS = 20;
     constexpr int FAILURE_TIMEOUT_MS = 100;
     
-    std::vector<MockReplicaNode> cluster = {};
+    std::deque<MockReplicaNode> cluster = {};
 
     for (int i = 0; i < NUM_NODES; ++i) {
         cluster.emplace_back(i);
@@ -193,7 +196,8 @@ TEST(AutoFailoverRecoveryTest, HeartbeatFailureDetection) {
     cluster[0].setHealth(false);
     
     // No more heartbeats after failure
-    std::this_thread::sleep_for(std::chrono::milliseconds(HEARTBEAT_INTERVAL_MS * 3));
+    std::this_thread::sleep_for(
+        std::chrono::milliseconds(FAILURE_TIMEOUT_MS + HEARTBEAT_INTERVAL_MS));
     
     bool heartbeat_ok = cluster[0].checkHeartbeat(
         std::chrono::milliseconds(FAILURE_TIMEOUT_MS));
@@ -237,7 +241,7 @@ TEST(AutoFailoverRecoveryTest, DataRecoveryAfterRestart) {
  */
 TEST(AutoFailoverRecoveryTest, ReplicaSyncAfterPartition) {
     constexpr int NUM_NODES = 4;
-    std::vector<MockReplicaNode> cluster;
+    std::deque<MockReplicaNode> cluster;
     
     for (int i = 0; i < NUM_NODES; ++i) {
         cluster.emplace_back(i);
@@ -260,8 +264,9 @@ TEST(AutoFailoverRecoveryTest, ReplicaSyncAfterPartition) {
     cluster[3].setHealth(true);
     
     // Separated nodes sync from leader
-    cluster[2].syncFrom(cluster[0]);
-    cluster[3].syncFrom(cluster[0]);
+    for (int i = 1; i < NUM_NODES; ++i) {
+        cluster[i].syncFrom(cluster[0]);
+    }
     
     // Verify all nodes have same data
     for (const auto& node : cluster) {
@@ -282,7 +287,7 @@ TEST(AutoFailoverRecoveryTest, QuorumBasedOperations) {
     constexpr int NUM_NODES = 5;
     constexpr int QUORUM_SIZE = 3;
     
-    std::vector<MockReplicaNode> cluster = {};
+    std::deque<MockReplicaNode> cluster = {};
 
     for (int i = 0; i < NUM_NODES; ++i) {
         cluster.emplace_back(i);
@@ -339,7 +344,7 @@ TEST(AutoFailoverRecoveryTest, QuorumBasedOperations) {
  */
 TEST(AutoFailoverRecoveryTest, CascadingFailureHandling) {
     constexpr int NUM_NODES = 7;
-    std::vector<MockReplicaNode> cluster;
+    std::deque<MockReplicaNode> cluster;
     
     for (int i = 0; i < NUM_NODES; ++i) {
         cluster.emplace_back(i);
@@ -361,16 +366,20 @@ TEST(AutoFailoverRecoveryTest, CascadingFailureHandling) {
             }
         }
         
-        // After each failure, verify cluster state
-        if (healthy >= NUM_NODES / 2 + 1) {
-            // Still have majority - should elect new leader if needed
-            if (node_id == 0) {
-                // Original leader failed, elect new one
-                for (size_t i = 1; i < cluster.size(); ++i) {
-                    if (cluster[i].isHealthy()) {
-                        cluster[i].setRole(MockReplicaNode::Role::LEADER);
-                        break;
-                    }
+        bool healthy_leader_exists = false;
+        for (const auto& node : cluster) {
+            if (node.isHealthy() && node.getRole() == MockReplicaNode::Role::LEADER) {
+                healthy_leader_exists = true;
+                break;
+            }
+        }
+
+        // Keep one healthy leader while the cluster retains a majority.
+        if (!healthy_leader_exists && healthy >= NUM_NODES / 2 + 1) {
+            for (auto& node : cluster) {
+                if (node.isHealthy()) {
+                    node.setRole(MockReplicaNode::Role::LEADER);
+                    break;
                 }
             }
         }
@@ -397,7 +406,7 @@ TEST(AutoFailoverRecoveryTest, CascadingFailureHandling) {
  */
 TEST(AutoFailoverRecoveryTest, SplitBrainPrevention) {
     constexpr int NUM_NODES = 6;
-    std::vector<MockReplicaNode> cluster;
+    std::deque<MockReplicaNode> cluster;
     
     for (int i = 0; i < NUM_NODES; ++i) {
         cluster.emplace_back(i);
@@ -455,7 +464,7 @@ TEST(AutoFailoverRecoveryTest, SplitBrainPrevention) {
  */
 TEST(AutoFailoverRecoveryTest, RecoveryAfterTemporaryFailure) {
     constexpr int NUM_NODES = 3;
-    std::vector<MockReplicaNode> cluster;
+    std::deque<MockReplicaNode> cluster;
     
     for (int i = 0; i < NUM_NODES; ++i) {
         cluster.emplace_back(i);
@@ -498,8 +507,6 @@ TEST(AutoFailoverRecoveryTest, RecoveryAfterTemporaryFailure) {
  * @brief Test leader election with priorities
  */
 TEST(AutoFailoverRecoveryTest, PriorityBasedLeaderElection) {
-    constexpr int NUM_NODES = 5;
-    
     struct PriorityNode {
         MockReplicaNode node;
         int priority = {};
@@ -507,7 +514,7 @@ TEST(AutoFailoverRecoveryTest, PriorityBasedLeaderElection) {
         PriorityNode(int id, int prio) : node(id), priority(prio) {}
     };
     
-    std::vector<PriorityNode> cluster;
+    std::deque<PriorityNode> cluster;
     cluster.emplace_back(0, 10); // Highest priority
     cluster.emplace_back(1, 7);
     cluster.emplace_back(2, 5);
@@ -521,18 +528,18 @@ TEST(AutoFailoverRecoveryTest, PriorityBasedLeaderElection) {
     cluster[0].node.setHealth(false);
     
     // Election: choose healthy node with highest priority
-    int new_leader_idx = -1;
+    std::size_t new_leader_idx = cluster.size();
     int max_priority = -1;
     
-    for (size_t i = 0; i < cluster.size(); ++i) {
+    for (std::size_t i = 0; i < cluster.size(); ++i) {
         if (cluster[i].node.isHealthy() && cluster[i].priority > max_priority) {
             max_priority = cluster[i].priority;
             new_leader_idx = i;
         }
     }
     
-    ASSERT_NE(new_leader_idx, -1);
-    EXPECT_EQ(new_leader_idx, 1); // Node 1 has second-highest priority
+    ASSERT_LT(new_leader_idx, cluster.size());
+    EXPECT_EQ(new_leader_idx, 1U); // Node 1 has second-highest priority
     
     cluster[new_leader_idx].node.setRole(MockReplicaNode::Role::LEADER);
     EXPECT_EQ(cluster[new_leader_idx].node.getRole(), MockReplicaNode::Role::LEADER);

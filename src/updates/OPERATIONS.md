@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -26,7 +26,10 @@ before enabling any update path; in particular:
 
 - Set install, download, backup, and history locations to deployment-owned
   directories with appropriate capacity and access controls.
-- Keep signature verification and backup enabled unless a reviewed deployment
+- Configure the system trust store and `PluginSecurityPolicy::trustedIssuers`
+  for release-signing certificates before enabling updates. Manifest signatures
+  are mandatory; `verify_signatures=false` is rejected and no unsigned-update
+  override is supported. Keep backups enabled unless a reviewed deployment
   requirement explicitly changes that policy.
 - Configure approval timeout and critical-only behavior deliberately; a zero
   approval timeout has the special meaning documented by the configuration

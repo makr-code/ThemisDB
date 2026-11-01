@@ -155,7 +155,12 @@ HotReloadEngine::DownloadResult HotReloadEngine::downloadRelease(const std::stri
     
     // Verify manifest
     reportProgress(10, "Verifying manifest");
-    if (config_.verify_signatures && !manifest_db->verifyManifest(*manifest)) {
+    if (!config_.verify_signatures) {
+        result.error_message = "Update signature verification cannot be disabled";
+        LOG_ERROR("{}", result.error_message);
+        return result;
+    }
+    if (!manifest_db->verifyManifest(*manifest)) {
         result.error_message = "Manifest verification failed";
         LOG_ERROR("{}", result.error_message);
         return result;

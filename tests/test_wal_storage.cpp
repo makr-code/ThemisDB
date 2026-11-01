@@ -268,7 +268,7 @@ TEST_F(WALStorageTest, Rotation_RecoveryAcrossSegments) {
         entries.push_back(e);
         return true;
     });
-    ASSERT_TRUE(wal2.has_value());
+    ASSERT_TRUE(wal2.has_value()) << (wal2 ? "" : wal2.error().message());
     EXPECT_EQ(entries.size(), 10u);
 }
 

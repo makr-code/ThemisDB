@@ -2,44 +2,71 @@
 // Measures single and batch ingestion performance into RocksDBWrapper
 
 #include <benchmark/benchmark.h>
+#include "../benchmark_cleanup.h"
 #include "storage/rocksdb_wrapper.h"
+#include <array>
 #include <filesystem>
 #include <random>
+#include <mutex>
 
 using namespace themis;
 
 namespace {
 
+std::mutex ingestion_db_open_mutex;
+
 class IngestionBenchFixture : public benchmark::Fixture {
 public:
-    void SetUp(const ::benchmark::State& /*state*/) override {
-        db_path_ = "./data/bench_ingestion_kv";
-        std::filesystem::remove_all(db_path_);
+    void SetUp(const ::benchmark::State& state) override {
+        const auto thread_index = static_cast<size_t>(state.thread_index());
+        if (thread_index >= dbs_.size()) {
+            throw std::runtime_error("Unsupported ingestion benchmark thread index");
+        }
+        db_paths_[thread_index] = "./data/bench_ingestion_kv_t" +
+            std::to_string(state.thread_index());
+        std::error_code cleanup_error;
+        if (!themis::bench::removeBenchmarkDirectory(db_paths_[thread_index], cleanup_error)) {
+            throw std::runtime_error("Failed to clear ingestion benchmark DB: " +
+                                     cleanup_error.message());
+        }
 
         RocksDBWrapper::Config cfg;
-        cfg.db_path = db_path_;
+        cfg.db_path = db_paths_[thread_index];
         cfg.enable_wal = false; // benchmark mode
         cfg.disable_wal_for_benchmark = true;
         cfg.memtable_size_mb = 128;
         cfg.block_cache_size_mb = 512;
         cfg.enable_high_parallel_tuning = true;
         cfg.max_background_jobs = 8;
-        db_ = std::make_unique<RocksDBWrapper>(cfg);
-       if (!db_->open()) { throw std::runtime_error("Failed to open RocksDB in benchmark"); }
-        if (!db_->open()) {
+        auto db = std::make_unique<RocksDBWrapper>(cfg);
+        std::lock_guard<std::mutex> open_lock(ingestion_db_open_mutex);
+        if (!db->open()) {
             throw std::runtime_error("Failed to open RocksDB for ingestion benchmark");
+        }
+        dbs_[thread_index] = std::move(db);
+    }
+
+    void TearDown(const ::benchmark::State& state) override {
+        const auto thread_index = static_cast<size_t>(state.thread_index());
+        if (thread_index >= dbs_.size() || !dbs_[thread_index]) {
+            return;
+        }
+        dbs_[thread_index]->close();
+        dbs_[thread_index].reset();
+        std::error_code cleanup_error;
+        if (!themis::bench::removeBenchmarkDirectory(db_paths_[thread_index], cleanup_error)) {
+            throw std::runtime_error("Ingestion benchmark DB cleanup failed: " +
+                                     cleanup_error.message());
         }
     }
 
-    void TearDown(const ::benchmark::State& /*state*/) override {
-        db_->close();
-        db_.reset();
-        std::filesystem::remove_all(db_path_);
+    RocksDBWrapper& dbForThread(const ::benchmark::State& state) {
+        return *dbs_.at(static_cast<size_t>(state.thread_index()));
     }
 
 protected:
-    std::string db_path_ = {};
-    std::unique_ptr<RocksDBWrapper> db_;
+    std::array<std::string, 8> db_paths_;
+    std::array<std::unique_ptr<RocksDBWrapper>, 8> dbs_;
 };
 
 BENCHMARK_DEFINE_F(IngestionBenchFixture, SingleIngest)(benchmark::State& state) {
@@ -50,7 +77,7 @@ BENCHMARK_DEFINE_F(IngestionBenchFixture, SingleIngest)(benchmark::State& state)
         auto id = dist(rng);
         std::string key = "doc_" + std::to_string(id);
         std::string value(256, 'a');
-        bool ok = db_->put(key, value);
+        bool ok = dbForThread(state).put(key, value);
         benchmark::DoNotOptimize(ok);
         if (!ok) {
             state.SkipWithError("put failed");
@@ -79,7 +106,7 @@ BENCHMARK_DEFINE_F(IngestionBenchFixture, BatchIngest)(benchmark::State& state) 
             auto id = dist(rng);
             std::string key = "batch_" + std::to_string(id) + "_" + std::to_string(i);
             std::string value(512, 'b');
-            bool ok = db_->put(key, value);
+            bool ok = dbForThread(state).put(key, value);
             benchmark::DoNotOptimize(ok);
             if (!ok) {
                 state.SkipWithError("put failed");

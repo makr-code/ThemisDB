@@ -3,7 +3,7 @@
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
 
 **Version:** 2.4.0-alpha  
-**Last Updated:** 2026-10-31 (pointer to audit-derived production-readiness roadmap; Wave C evidence status unchanged since 2026-10-30)
+**Last Updated:** 2026-11-01 (TST-03: Geo duplicate targets removed and Windows Debug build/CTest verified; baseline review remains open; Wave C evidence status unchanged since 2026-10-30)
 **Scope:** Aggregated roadmap across tracked modules in `src/` (improved scanner pipeline Phase 1–6 complete; Phase 1–6 execution contract evidence closure COMPLETE). Wave C (Security Production Validation) remains open: the latest tracked closure manifest (2026-10-01) records C1/C2 as successful, C3 sustained-load evidence as pending, and C4 compliance sign-off as in progress. Its linked validation artifact expired 2026-10-30; refresh the evidence before promoting these gates. GA promotion also remains gated by unresolved Wave-A/B evidence and final human sign-off at `docs/governance/GA_PROMOTION_SIGN_OFF.md` §9. **Q3 2026 quarterly pentest complete (2026-09-28): 0 critical findings, 1 high finding (30-day remediation deadline), gate PASS. See `security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md`.**
 <!--
 AI_Used: true
@@ -532,6 +532,7 @@ This execution contract is the active implementation sequence to close hardening
 - [~] Re-run Wave 7 and archive evidence for all six PASS gates (Target: 2026-07)
 - [~] Remove open configure/CMake blockers affecting `linux-release` and `community-release` reproducibility — DEF-01 confirmed deferred, not blocking GA; SETUP.md troubleshooting documented (Target: 2026-07, deferred to post-GA)
 - [x] Treat the `release_critical` suite on `develop` as a non-optional release entry gate (Target: 2026-07)
+- [~] Enforce fail-closed C++ test registration in PRs: changed test sources must appear in the configured CMake build, new source-existence guards and CMake-only deregistrations must fail, and each changed source may have at most one focused target; full inventory and exact target mapping remain open in `audit/ROADMAP.md` (Target: 2026-11-20)
 
 ### Phase 1 — Top-Risk Module Hardening
 - [x] `server`: close retry, timeout, graceful-shutdown, and fault-recovery gaps with documented error paths and recovery semantics — P5-S01 (wire-protocol retry + backoff) and P5-S02 (HTTP timeout + graceful shutdown) delivered; 28 WSR+HST tests PASS (`tests/server/test_server_phase5_hardening.cpp`) (Target: 2026-08)

@@ -180,7 +180,8 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
   - 3–5 Knoten (Docker Compose oder kind) in CI; Netzfehler über `tc netem`/Toxiproxy (Latenz, Reordering, Duplikate,
     asymmetrische Partition); `kill -9` von Koordinator/Participants/Leader.
   - History-Checker für Serialisierbarkeit bzw. Linearisierbarkeit (z. B. Elle-kompatibles Historienformat).
-  - `tests/test_auto_failover_recovery.cpp` registrieren (derzeit ausgeschlossen, `tests/CMakeLists.txt:315`).
+  - `tests/test_auto_failover_recovery.cpp` ist separat registriert, deckt jedoch nur In-Memory-Mocks ab; die
+    geforderte 3–5-Knoten-Multi-Prozess-Chaos-Suite bleibt offen.
   - Exit: 72 h nightly ohne Invariantenverletzung; Ergebnisse als Release-Evidenz.
 - [~] **P0 · DIS-07 – Spare-Aktivierung auswerten** (Target: M2) – Rückgabe von `activateSpareIfNeeded()`
   (`src/failover/auto_failover_manager.cpp:613-614`) wird geprüft; fehlgeschlagene Aktivierung blockiert den Abschluss
@@ -200,7 +201,11 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
 
 ### WS3 – Security Defaults & Supply Chain
 
-- [ ] **P0 · SEC-14 – Kanonische Produktionsmodus-Erkennung + mTLS fail-closed** (Target: M1 · 2026-12-15)
+- [~] **P0 · SEC-14 – Kanonische Produktionsmodus-Erkennung + mTLS fail-closed** (Target: M1 · 2026-12-15)
+  - [x] 2026-11-01: Direktparser zentralisiert, unbekannte Produktionsmodus-Werte fail-closed behandelt und
+    Shard-RPC-Client/Server im Produktionsmodus gegen mTLS- oder Zertifikatsprüfungs-Bypass abgesichert.
+  - [x] 2026-11-01: Windows-Debug-Build mit aktivem Shard-gRPC; 52 Produktionsmodus-/mTLS-Tests bestanden.
+  - [ ] Linux-/Release-Build und Release-Gate-Evidenz ergänzen (Target: M1).
   - Alle Direktparser von `THEMIS_PRODUCTION_MODE`/`THEMIS_ENVIRONMENT` (`src/sharding/shard_rpc_server.cpp:330`,
     `src/sharding/shard_rpc_client.cpp:224-226`, `src/storage/storage_engine.cpp:39-50`,
     `src/storage/ggml_tensor_bridge.cpp:51`, `src/security/timestamp_authority.cpp:52`,
@@ -209,10 +214,12 @@ Jedes Item verweist auf die Finding-ID im Audit-Bericht. Notation: `[ID]` → Ab
     (`1|true|yes|on|production` bzw. `THEMIS_ENVIRONMENT=production|prod`); unbekannte Werte → Startfehler.
   - `shard_rpc_server.cpp:320-326`: Zertifikats-/Key-Ladefehler bei aktiviertem mTLS → Exception (kein Insecure-Fallback).
   - Tests: Parametrisierter Test über alle Werteformen; Test „mTLS aktiviert + fehlende Datei → Start schlägt fehl“.
-- [ ] **P0 · SEC-01 – Signaturpflicht für Update-Manifeste** (Target: M1 · 2026-12-15)
-  - `src/updates/manifest_database.cpp:272`: fehlender Verifier oder leere Signatur → Ablehnung.
-  - Override nur außerhalb des Produktionsmodus über `updates.allow_unsigned=true` (Audit-Event).
-  - Gepinnte Trust-Anchors; Negativtests: unsigniert, unbekannter Signer, abgelaufenes Zertifikat, manipulierte Payload.
+- [~] **P0 · SEC-01 – Signaturpflicht für Update-Manifeste** (Target: M1 · 2026-12-15)
+  - [x] 2026-11-01: Manifestprüfung lehnt fehlenden Verifier, Signatur oder Zertifikat, Hash-Abweichung sowie untrusted/abgelaufene Zertifikate ab; Zertifikatskette muss im System-Trust-Store verankert und der Issuer in der Verifier-Policy erlaubt sein.
+  - [x] 2026-11-01: Signatur-Cache und `verify_signatures=false` können die Prüfung nicht umgehen; unsignierte Overrides werden bewusst nicht unterstützt.
+  - [x] 2026-11-01: Windows-Debug-Regressionstests 7/7 bestanden (fehlender Verifier, unsignierte Manifeste trotz gecachtem Erfolg, fehlendes Zertifikat, gültige Selbstsignatur/unbekannter Trust-Anchor, abgelaufenes Zertifikat, manipulierte Payload, `verify_signatures=false`).
+  - [!] Gesamtes Production-Updates-Target: 124/125 bestanden; der unabhängige `DeltaUpdateEngineTest.GenerateApplyPatch_ZstdDict_SmallDiff` erwartet ZSTD-Kompression, während der Runtime-Fallback 4.112 Bytes statt <4.096 Bytes erzeugt.
+  - [ ] Linux-/Release-Build und Release-Gate-Evidenz ergänzen (Target: M1).
 - [ ] **P0 · DIS-02 – gRPC-Admin-Listener absichern** (Target: M1 · 2026-12-15) – `src/rpc_grpc/grpc_plugin.cpp:216-228`, `:743-747`:
   Admin-Listener nutzt dieselben TLS/mTLS-Credentials wie der Hauptlistener; Plaintext nur bei Bind auf Loopback;
   Produktionsmodus verweigert Plaintext auf Nicht-Loopback. Test je Kombination.
@@ -296,11 +303,33 @@ Ziel: AI/LLM-Module bleiben „Preview“, werden aber sicher betreibbar (keine 
   (`storage`, `transaction`, `query`, `aql`, `server`, `auth`, `network`, `sharding`); Laufzeitbudget ≤ 45 min;
   TSan nightly für `transaction`, `sharding`, `llm`.
 - [~] **P0 · TST-03 – Test-Registrierung fail-closed** (Target: M0 · 2026-11-20)
-  - [~] 2026-11-01: Der tote WAL-Fokustest-Pfad zeigt jetzt auf `tests/test_wal_storage.cpp` und registriert diesen
-    Test wieder. Offen: `tests/test_auto_failover_recovery.cpp` registrieren und alle gelisteten `if(EXISTS …)`-Guards
-    fail-closed machen.
-  - Stilles `if(EXISTS …)` für gelistete Testquellen durch `message(FATAL_ERROR …)` ersetzen; CI-Check: jede
-    `tests/**/test_*.cpp` ist registriert oder steht mit Begründung auf einer Ausschlussliste.
+  - [x] 2026-11-01: Der WAL-Fokustest-Pfad zeigt auf `tests/test_wal_storage.cpp`; `tests/test_auto_failover_recovery.cpp`
+    ist separat als Legacy-/Mock-Szenario registriert. Der Windows-Debug-Build und alle 9 Tests bestanden; der Test
+    ist ausdrücklich nicht release-kritisch und belegt kein reales Multi-Node-Failover.
+  - [x] Der WAL-Test wird ohne `if(EXISTS ...)` konfiguriert; fehlende Quelle bricht die CMake-Konfiguration statt
+    die Registrierung stillschweigend auszulassen.
+  - [x] Das fokussierte Produktionsmodus-/Shard-mTLS-Testtarget wird ebenfalls ohne dateibasierte
+    `if(EXISTS ...)`-Auslassung konfiguriert; CMake meldet fehlende Quelldateien als Konfigurationsfehler.
+  - [x] Inkrementeller PR-Gate: geänderte `tests/**/test_*.cpp` müssen in der CMake-Compilation-Database des
+    Release-Critical-Builds vorkommen; ein fehlender Eintrag lässt den Gate fehlschlagen. Positive/negative
+    Unit-Tests, ein lokaler Compilation-Database-Lauf und Workflow-Lint bestehen; der erste Ubuntu-PR-Lauf steht aus.
+  - [x] PR-Gate lehnt neu hinzugefügte explizite `if(EXISTS … test_*.cpp)`- und
+    `elseif(... EXISTS ... test_*.cpp)`-CMake-Guards ab, die eine Testregistrierung still auslassen könnten.
+  - [x] PR-Gate erkennt entfernte CMake-Quellreferenzen, wenn die Testdatei weiter existiert, aber im
+    Release-Critical-Build nicht mehr kompiliert wird; ersetzte Registrierungen bleiben erlaubt, sofern die
+    Quelle weiterhin in der Compilation-Database erscheint.
+  - [x] Für geänderte Testquellen werden mehrere eigenständige CMake-Testtargets abgewiesen. Das notwendige
+    Sammelziel `themis_tests` ist davon ausgenommen; ein Fokus-Testtarget zusätzlich zum Sammelziel ist erlaubt.
+  - [x] PR-CI veröffentlicht ein JSON-Inventar aller `test_*.cpp`-Quellen für das konfigurierte Build-Profil,
+    einschließlich Status `compiled`/`not_in_profile` und der erkannten CMake-Targets.
+  - [x] 2026-11-01: Redundante Geo-Autofocused-Registrierung entfernt. Das Windows-Debug-Profil enthält danach
+    41 kompilierte Geo-Testquellen ohne doppelte fokussierte Geo-Targets; `module_geo_test_geo_3d_functions_focused`
+    baut erfolgreich und `test_geo_3d_functions_GeoFocusedTests` besteht.
+  - Offen: Baseline bereinigen und begründete Ausschlussliste erstellen. Das lokale Windows-Debug-Profil findet
+    4.235 Quellen, davon 2.815 kompiliert und 1.420 außerhalb des Profils; von den kompilierten Quellen haben
+    228 mehrere fokussierte Targets (zuvor 254 vor der Geo-Deduplizierung). Diese Profil-abhängigen Bestandslücken
+    und Mehrfachregistrierungen müssen einzeln geprüft werden, bevor ein globales Inventar-Gate fail-closed
+    geschaltet wird. Historische Guards (teils mit fehlenden Quellen) sind ebenfalls noch einzeln zu bewerten.
 - [ ] **P0 · OPS-07 – Fuzz-Smoke auf PRs** (Target: M1 · 2027-01-31) – 5 min je Parser-Fuzzer (AQL, HTTP, Wire-Protokoll, Importer)
   bei Änderungen in den jeweiligen Pfaden; Korpus-Pflege in `security-fuzzing.yml`.
 - [ ] **P1 · TST-01 – Skip-/Assert-Budget** (Target: M1 · 2027-03-31) – Skip-Budget je Modul (Ziel: −50 % der 2.965
@@ -472,11 +501,11 @@ Bis zur Umsetzung der jeweiligen Items gilt für Betrieb und Evaluierung:
   `WALStorage`-Nutzern ([STO-01](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#sto-01)). Der RocksDB-Primärspeicher ist nicht betroffen.
 - **Failover/DR nicht vertrauenswürdig:** Handler melden Erfolg ohne Aktion ([DIS-08](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#dis-08)); Multi-Node nur für Tests.
 - **Shard-Transfer simuliert** ohne verdrahteten Transport ([DIS-03](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#dis-03)).
-- **Transport-Security abhängig von exakter Env-Schreibweise:** Shard-mTLS-Zwang nur bei `THEMIS_PRODUCTION_MODE=1`;
-  mTLS-Zertifikatsfehler → Plaintext ([SEC-14](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#sec-14)). Bis zur Behebung
-  `THEMIS_PRODUCTION_MODE=1` setzen und Shard-Zertifikate vor dem Start prüfen.
+- **SEC-14 lokal umgesetzt, Release-Evidenz offen:** Produktionsmodus-Erkennung ist zentralisiert und Shard-RPC
+  fällt bei fehlenden/ungültigen mTLS-Credentials nicht mehr auf Plaintext zurück. Der Windows-Debug-Fokustest lief
+  mit aktivem gRPC und bestand (52/52); Linux-/Release-Verifikation bleibt bis zum M1-Gate ausstehend.
 - **gRPC-Admin-Listener immer Plaintext** ([DIS-02](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#dis-02)) – nur auf Loopback/isoliertem Netz betreiben.
-- **Unsignierte Update-Manifeste werden akzeptiert** ([SEC-01](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#sec-01)) – Auto-Update deaktivieren.
+- **SEC-01 lokal fail-closed umgesetzt, Release-Evidenz offen:** Update-Manifeste benötigen einen konfigurierten Verifier, eine gültige Signatur und ein system-verankertes Zertifikat mit erlaubtem Issuer. Ohne passende Trust-Store-Konfiguration schlagen Updates fehl; Linux-/Release-Verifikation steht aus ([SEC-01](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#sec-01)).
 - **`LIMIT` ohne Early Termination** ([QRY-01](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#qry-01)) – große Scans mit kleinem Limit sind speicherintensiv.
 - **AI/LLM ist Preview:** Real-Model-Tests überwiegend übersprungen ([AI-03](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#ai-03)).
 - **Keine gültige aktuelle Test-Evidenz** ([EVD-01](FULL_DEEP_DIVE_AUDIT_2026-10-31.md#evd-01)).

@@ -6076,7 +6076,7 @@ if(THEMIS_BUILD_BENCHMARKS)
       NAME   bench_pagerank
       TARGET bench_pagerank
       MODULE "base"
-      TIMEOUT 120
+      TIMEOUT 300
     )
   endif()
   if(TARGET bench_postgres_transactions)

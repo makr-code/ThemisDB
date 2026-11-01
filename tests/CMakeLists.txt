@@ -312,6 +312,7 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_manual.*\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*benchmark.*\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_wire_protocol_manual\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_env\\.cpp$")
+# This mock-only scenario is built as a separate non-release-critical target below.
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_auto_failover_recovery\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_feature_flags\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_io_uring_zero_copy\\.cpp$")
@@ -341,6 +342,31 @@ list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_behavioral_anomaly_detector\\
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_chaos_framework\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_chaos_stress\\.cpp$")
 list(FILTER ALL_TEST_SOURCES EXCLUDE REGEX ".*test_columnar_cache\\.cpp$")
+
+set(_auto_failover_recovery_source
+    "${CMAKE_CURRENT_SOURCE_DIR}/test_auto_failover_recovery.cpp")
+if(NOT EXISTS "${_auto_failover_recovery_source}")
+    message(FATAL_ERROR
+        "Required failover recovery test source is missing: ${_auto_failover_recovery_source}")
+endif()
+
+set(_auto_failover_recovery_libs ${TEST_LIBS})
+list(REMOVE_ITEM _auto_failover_recovery_libs GTest::gtest_main)
+add_executable(test_auto_failover_recovery_focused
+    "${_auto_failover_recovery_source}"
+    "${CMAKE_CURRENT_LIST_DIR}/test_gtest_main.cpp")
+target_link_libraries(test_auto_failover_recovery_focused PRIVATE
+    ${_auto_failover_recovery_libs}
+    Threads::Threads)
+target_compile_definitions(test_auto_failover_recovery_focused PRIVATE
+    THEMIS_TEST_BUILD=1)
+themis_register_module_focused_test(
+    MODULE failover
+    NAME auto_failover_recovery_FocusedTests
+    TARGET test_auto_failover_recovery_focused
+    TIER unit
+    TIMEOUT 120
+    LABELS "legacy_simulation;not_release_critical")
 
 # vulkan/test_vulkan_glsl_compiler_fn.cpp requires setVulkanGlslCompilerFn symbol from vulkan_backend_full.cpp,
 # which is only compiled when THEMIS_ENABLE_VULKAN=ON. 
@@ -1546,46 +1572,61 @@ if(NOT THEMIS_ENABLE_VOICE_ASSISTANT)
 endif()
 
 set(_themis_test_core_libs)
-if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_wal_storage.cpp")
-    message(STATUS "Adding Storage: WALStorage focused tests")
-    add_executable(test_wal_storage_focused "${CMAKE_CURRENT_LIST_DIR}/test_wal_storage.cpp")
-    target_include_directories(test_wal_storage_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
-    target_link_libraries(test_wal_storage_focused PRIVATE ${TEST_LIBS} themis_core spdlog::spdlog Threads::Threads)
-    target_compile_definitions(test_wal_storage_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(NAME WALStorageFocusedTests COMMAND $<TARGET_FILE:test_wal_storage_focused>)
-    set_tests_properties(WALStorageFocusedTests PROPERTIES LABELS "storage;wal;focused;unit" TIMEOUT 60)
-    message(STATUS "  WALStorage: replay, rotation, fsync/write failure semantics")
+set(_focused_test_gmock_link "")
+if(TARGET GTest::gmock)
+    set(_focused_test_gmock_link GTest::gmock)
+elseif(TARGET gmock::gmock)
+    set(_focused_test_gmock_link gmock::gmock)
 endif()
 
-if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_production_mode_enforcement.cpp" AND
-   EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_shard_mtls_enforcement.cpp" AND
-   EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_shard_rpc_mtls_config.cpp")
-    message(STATUS "Adding Security: production-mode and shard mTLS focused tests")
-    add_executable(test_production_mode_security_focused
-        "${CMAKE_CURRENT_LIST_DIR}/test_production_mode_enforcement.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/test_shard_mtls_enforcement.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/test_shard_rpc_mtls_config.cpp"
-    )
-    target_include_directories(test_production_mode_security_focused PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${CMAKE_CURRENT_LIST_DIR}
-    )
-    target_link_libraries(test_production_mode_security_focused PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        spdlog::spdlog
-        Threads::Threads
-    )
-    target_compile_definitions(test_production_mode_security_focused PRIVATE THEMIS_TEST_BUILD=1)
-    add_test(
-        NAME ProductionModeSecurityFocusedTests
-        COMMAND $<TARGET_FILE:test_production_mode_security_focused>
-    )
-    set_tests_properties(ProductionModeSecurityFocusedTests PROPERTIES
-        LABELS "security;sharding;mtls;production;focused;unit"
-        TIMEOUT 120
-    )
+message(STATUS "Adding Storage: WALStorage focused tests")
+add_executable(test_wal_storage_focused "${CMAKE_CURRENT_LIST_DIR}/test_wal_storage.cpp")
+target_include_directories(test_wal_storage_focused PRIVATE ${THEMIS_ROOT_DIR}/include)
+target_link_libraries(test_wal_storage_focused PRIVATE
+    GTest::gtest
+    ${_focused_test_gmock_link}
+    themis_core
+    spdlog::spdlog
+    Threads::Threads
+)
+target_sources(test_wal_storage_focused PRIVATE
+    "${CMAKE_CURRENT_LIST_DIR}/test_gtest_main.cpp"
+)
+target_compile_definitions(test_wal_storage_focused PRIVATE THEMIS_TEST_BUILD=1)
+add_test(NAME WALStorageFocusedTests COMMAND $<TARGET_FILE:test_wal_storage_focused>)
+set_tests_properties(WALStorageFocusedTests PROPERTIES LABELS "storage;wal;focused;unit" TIMEOUT 60)
+message(STATUS "  WALStorage: replay, rotation, fsync/write failure semantics")
+
+message(STATUS "Adding Security: production-mode and shard mTLS focused tests")
+add_executable(test_production_mode_security_focused
+    "${CMAKE_CURRENT_LIST_DIR}/test_production_mode_enforcement.cpp"
+    "${CMAKE_CURRENT_LIST_DIR}/test_shard_mtls_enforcement.cpp"
+    "${CMAKE_CURRENT_LIST_DIR}/test_shard_rpc_mtls_config.cpp"
+    "${CMAKE_CURRENT_LIST_DIR}/test_gtest_main.cpp"
+)
+target_include_directories(test_production_mode_security_focused PRIVATE
+    ${THEMIS_ROOT_DIR}/include
+    ${CMAKE_CURRENT_LIST_DIR}
+)
+target_link_libraries(test_production_mode_security_focused PRIVATE
+    GTest::gtest
+    ${_focused_test_gmock_link}
+    themis_core
+    spdlog::spdlog
+    Threads::Threads
+)
+target_compile_definitions(test_production_mode_security_focused PRIVATE THEMIS_TEST_BUILD=1)
+if(THEMIS_ENABLE_GRPC AND TARGET themis_shard_proto AND TARGET gRPC::grpc++)
+    target_compile_definitions(test_production_mode_security_focused PRIVATE THEMIS_ENABLE_GRPC=1)
 endif()
+add_test(
+    NAME ProductionModeSecurityFocusedTests
+    COMMAND $<TARGET_FILE:test_production_mode_security_focused>
+)
+set_tests_properties(ProductionModeSecurityFocusedTests PROPERTIES
+    LABELS "security;sharding;mtls;production;focused;unit"
+    TIMEOUT 120
+)
 
 if(THEMIS_BUILD_MODULAR)
     if(DEFINED THEMIS_CORE_SOURCES AND THEMIS_CORE_SOURCES)

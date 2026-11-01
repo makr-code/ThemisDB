@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -24,7 +24,8 @@ entry points and edge cases most relevant to callers.
 | `UpdateStateMachine` | `transition()` returns false for an invalid edge. `FAILED` requires explicit `reset()`. Optional transaction and checkpoint logs are configured at construction. State callbacks are invoked after releasing the internal lock. See [`update_state_machine.h`](../../include/updates/update_state_machine.h). |
 | `ReleaseManifest` / `ReleaseFile` | Convert between structured fields and JSON with `toJson()` / `fromJson()`; parsing returns `std::optional`. `calculateHash()` excludes signature fields. See [`release_manifest.h`](../../include/updates/release_manifest.h). |
 | `DeltaUpdateEngine` | `findDelta()` may return no manifest; `applyDelta()` returns per-file successes/fallbacks and an overall status. Instance is not thread-safe. Callers fetch patch assets before apply. See [`delta_update_engine.h`](../../include/updates/delta_update_engine.h). |
-| `HotReloadEngine` | Downloads/verifies releases, applies file updates, exposes rollback IDs, and can invoke a post-update health check. `verify_signatures`, backup, dry-run, and health-check rollback are explicit configuration choices. See [`hot_reload_engine.h`](../../include/updates/hot_reload_engine.h). |
+| `ManifestDatabase` | `verifyManifest()` requires a matching manifest hash, a configured verifier, a non-empty signature and certificate, a certificate chain trusted by the system store, an issuer allowed by verifier policy, and a valid signature. Cached results never authorize a manifest. See [`manifest_database.h`](../../include/updates/manifest_database.h). |
+| `HotReloadEngine` | Downloads/verifies releases, applies file updates, exposes rollback IDs, and can invoke a post-update health check. Signature verification is mandatory; `verify_signatures=false` causes downloads to fail. Backup, dry-run, and health-check rollback remain explicit configuration choices. See [`hot_reload_engine.h`](../../include/updates/hot_reload_engine.h). |
 | `CanaryRollout` / `BlueGreenDeployment` | Wrap a hot-reload engine for local progressive or slot-based deployments. Canary membership is deterministic per version/node ID; neither controller supplies cross-node coordination. See their respective headers. |
 | `UpdatesConfig` | YAML/JSON conversion for checker, auto-update, hot reload, notifications, canary, and telemetry. A failed YAML load returns defaults after logging; validate configuration at the application boundary. See [`updates_config.h`](../../include/updates/updates_config.h). |
 | Diagnostics | `DiagnosticEmitter` distributes structured `ErrorContext`; `OperatorDiagnostics` classifies scenarios and returns alert/recovery descriptions. See [`updates_diagnostic_emitter.h`](../../include/updates/updates_diagnostic_emitter.h) and [`updates_operator_diagnostics.h`](../../include/updates/updates_operator_diagnostics.h). |

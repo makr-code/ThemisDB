@@ -32,6 +32,11 @@ on:
       - cmake/**/*.cmake
       - cmake/**/*.txt
       - cmake/**/*.in
+      - tests/*.cpp
+      - tests/**/*.cpp
+      - tests/CMakeLists.txt
+      - tests/**/CMakeLists.txt
+      - tests/test_test_registration.py
       - .github/workflows/**/*.yml
       - .github/workflows/**/*.yaml
       - .github/actions/**/action.yml
@@ -52,6 +57,12 @@ on:
       - cmake/**/*.cmake
       - cmake/**/*.txt
       - cmake/**/*.in
+      - tests/*.cpp
+      - tests/**/*.cpp
+      - tests/CMakeLists.txt
+      - tests/**/CMakeLists.txt
+      - tests/test_test_registration.py
+      - tools/ci/check_test_registration.py
       - .github/workflows/gate-pr-core.yml
       - .github/WORKFLOW_GUIDELINES.md
   workflow_dispatch:
@@ -169,6 +180,9 @@ jobs:
           print(f"Workflow preflight passed for {len(changed_wf)} changed workflow file(s).")
           PY
 
+      - name: Test test-registration guard
+        run: python3 tests/test_test_registration.py
+
   quality-test-build:
     name: "Build: PR Release-Critical Test Quality Line"
     needs: preflight-ci-policy
@@ -223,6 +237,34 @@ jobs:
         with:
           name: pr-release-critical-build-dir
           path: .
+
+      - name: Check changed C++ test source registration
+        shell: bash
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          set -euo pipefail
+          git fetch origin "${BASE_REF}:refs/remotes/origin/${BASE_REF}" --depth=1
+          git diff --name-only --diff-filter=ACMRT \
+            "origin/${BASE_REF}...HEAD" -- 'tests/*.cpp' 'tests/**/*.cpp' \
+            > "$RUNNER_TEMP/changed-test-files.txt"
+          git diff --unified=0 "origin/${BASE_REF}...HEAD" -- \
+            'tests/**/CMakeLists.txt' 'tests/CMakeLists.txt' \
+            > "$RUNNER_TEMP/test-cmake.diff"
+          python3 tools/ci/check_test_registration.py \
+            --compile-commands build-pr-release-critical/compile_commands.json \
+            --changed-files "$RUNNER_TEMP/changed-test-files.txt" \
+            --cmake-diff "$RUNNER_TEMP/test-cmake.diff" \
+            --inventory-report "$RUNNER_TEMP/test-registration-inventory.json"
+
+      - name: Upload test-registration inventory
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: test-registration-inventory-${{ github.run_number }}
+          path: ${{ runner.temp }}/test-registration-inventory.json
+          retention-days: 7
+          if-no-files-found: ignore
 
       - name: Run release-critical CTest gate
         id: ctest_gate

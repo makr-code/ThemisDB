@@ -23,8 +23,16 @@ foreach(_src IN LISTS UPDATES_PREFIX_TEST_SOURCES)
     target_include_directories(${_target} PRIVATE ${_test_includes})
     target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
 
+    set(_updates_test_libs ${TEST_LIBS})
+    if(_stem STREQUAL "test_updates_production")
+        target_sources(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/tests/test_gtest_main.cpp
+        )
+        list(REMOVE_ITEM _updates_test_libs GTest::gtest_main)
+    endif()
+
     target_link_libraries(${_target} PRIVATE
-        ${TEST_LIBS}
+        ${_updates_test_libs}
         themis_core
         spdlog::spdlog
         Threads::Threads
