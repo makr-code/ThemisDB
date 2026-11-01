@@ -1557,6 +1557,36 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_wal_storage.cpp")
     message(STATUS "  WALStorage: replay, rotation, fsync/write failure semantics")
 endif()
 
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_production_mode_enforcement.cpp" AND
+   EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_shard_mtls_enforcement.cpp" AND
+   EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_shard_rpc_mtls_config.cpp")
+    message(STATUS "Adding Security: production-mode and shard mTLS focused tests")
+    add_executable(test_production_mode_security_focused
+        "${CMAKE_CURRENT_LIST_DIR}/test_production_mode_enforcement.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/test_shard_mtls_enforcement.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/test_shard_rpc_mtls_config.cpp"
+    )
+    target_include_directories(test_production_mode_security_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${CMAKE_CURRENT_LIST_DIR}
+    )
+    target_link_libraries(test_production_mode_security_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        spdlog::spdlog
+        Threads::Threads
+    )
+    target_compile_definitions(test_production_mode_security_focused PRIVATE THEMIS_TEST_BUILD=1)
+    add_test(
+        NAME ProductionModeSecurityFocusedTests
+        COMMAND $<TARGET_FILE:test_production_mode_security_focused>
+    )
+    set_tests_properties(ProductionModeSecurityFocusedTests PROPERTIES
+        LABELS "security;sharding;mtls;production;focused;unit"
+        TIMEOUT 120
+    )
+endif()
+
 if(THEMIS_BUILD_MODULAR)
     if(DEFINED THEMIS_CORE_SOURCES AND THEMIS_CORE_SOURCES)
         message(STATUS "THEMIS_BUILD_MODULAR=ON: building themis_tests with THEMIS_CORE_SOURCES for full symbol coverage")

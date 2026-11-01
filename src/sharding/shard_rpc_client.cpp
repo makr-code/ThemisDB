@@ -13,6 +13,7 @@
 // Licensed under MIT License
 
 #include "sharding/shard_rpc_client.h"
+#include "core/production_mode.h"
 #include "sharding/circuit_breaker.h"
 #include "sharding/mtls_connection_pool.h"
 #include "sharding/operational_metrics.h"
@@ -173,11 +174,14 @@ struct ShardRPCClient::Impl {
         
         // Create channel with appropriate credentials
         std::shared_ptr<grpc::ChannelCredentials> credentials;
+        const bool production_mode = themis::core::ProductionMode::isEnabled();
+        if (production_mode && (!config.enable_mtls || !config.tls_verify_server)) {
+            throw std::runtime_error(
+                "ShardRPCClient: production mode requires mTLS with server certificate verification");
+        }
         
         if (config.enable_mtls) {
-            // mTLS enabled - create SSL credentials. Any cert load failure is a
-            // security boundary event: the channel must fail closed unless the
-            // caller explicitly opted into a local/test-only insecure override.
+            // Certificate failures may use an explicit insecure override only outside production.
             try {
                 grpc::SslCredentialsOptions ssl_opts;
                 
@@ -202,6 +206,10 @@ struct ShardRPCClient::Impl {
                 }
                 
                 credentials = grpc::SslCredentials(ssl_opts);
+                if (!credentials) {
+                    throw std::runtime_error(
+                        "ShardRPCClient: gRPC rejected the configured TLS credentials");
+                }
                 THEMIS_INFO("mTLS enabled for shard RPC communication (server verification: {})", 
                            config.tls_verify_server);
                 
@@ -210,7 +218,7 @@ struct ShardRPCClient::Impl {
                 }
                 
             } catch (const std::exception& e) {
-                if (config.allow_insecure) {
+                if (config.allow_insecure && !production_mode) {
                     THEMIS_WARN("[SECURITY] ShardRPCClient: mTLS material is incomplete; using explicit local/test insecure override for {} ({})", config.endpoint, e.what());
                     credentials = grpc::InsecureChannelCredentials();
                 } else {
@@ -221,25 +229,12 @@ struct ShardRPCClient::Impl {
                 }
             }
         } else {
-            const bool prod_mode = []() {
-                const char* prod = getenv("THEMIS_PRODUCTION_MODE");
-                return prod && std::string(prod) == "1";
-            }();
-            const bool env_override = []() {
-                const char* override_flag = getenv("THEMIS_SHARD_MTLS_DISABLED");
-                return override_flag && std::string(override_flag) == "1";
-            }();
-
-            if (prod_mode && !env_override && !config.allow_insecure) {
+            if (production_mode) {
                 throw std::runtime_error(
-                    "ShardRPCClient: mTLS must be enabled in production mode "
-                    "(THEMIS_PRODUCTION_MODE=1). Set enable_mtls=true or set "
-                    "allow_insecure=true / THEMIS_SHARD_MTLS_DISABLED=1 for local/test override.");
+                    "ShardRPCClient: mTLS must be enabled in production mode");
             }
 
-            if (!prod_mode || env_override || config.allow_insecure) {
-                THEMIS_WARN("ShardRPCClient: insecure transport enabled for {} (local/test override active)", config.endpoint);
-            }
+            THEMIS_WARN("ShardRPCClient: insecure transport enabled for {} outside production mode", config.endpoint);
             credentials = grpc::InsecureChannelCredentials();
         }
         

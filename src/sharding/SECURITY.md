@@ -27,9 +27,10 @@ Related_Milestone: DOC-WEEKLY-2026-W44
 Report vulnerabilities via project-level SECURITY.md.
 
 > **Scope limitation:** This is a threat-surface overview, not a security audit or assurance that
-> the described mitigations are enforced on every path. No authentication, authorization,
-> transport, or cryptographic review was performed for this issue. No deployment endpoint,
-> configuration, or runtime telemetry was available, so deployed controls remain unverified.
+> the described mitigations are enforced on every path. This update verifies only canonical
+> production-mode parsing and shard-RPC mTLS failure paths; it is not a full authentication,
+> authorization, transport, or cryptographic review. No deployment endpoint, configuration,
+> or runtime telemetry was available, so deployed controls remain unverified.
 > **TODO:** validate security controls against a named deployment, its concrete configuration,
 > and relevant executed tests before using this page as deployment assurance.
 
@@ -55,6 +56,9 @@ that they are complete, invoked on every path, or enabled in a deployed configur
 - coordinator/quorum code has failure-reporting paths.
 - repair/rebalance/migration code exposes job or error state.
 - health and operational metrics provide observability surfaces.
+- shard-RPC startup uses the canonical production-mode parser; production requires mTLS and client
+  certificate verification, and missing/invalid credentials do not fall back to plaintext.
+- unsupported production-mode values are rejected rather than interpreted as development mode.
 
 ## Security Follow-ups
 
@@ -71,5 +75,8 @@ that they are complete, invoked on every path, or enabled in a deployed configur
   - src/sharding/shard_repair_engine.cpp
   - src/sharding/auto_rebalancer.cpp
   - src/sharding/health_monitor.cpp
+  - include/core/production_mode.h
+  - src/sharding/shard_rpc_server.cpp
+  - src/sharding/shard_rpc_client.cpp
 - The public contract and component sources are starting points for review; their presence does
   not prove these controls are complete or uniformly applied.
