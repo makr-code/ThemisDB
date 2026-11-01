@@ -1,7 +1,29 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References: "src/timeseries/; include/timeseries/; tests/timeseries/CMakeLists.txt; benchmarks/timeseries/CMakeLists.txt"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Audit Report - Timeseries Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Historical audit snapshot dated 2026-05-31; not a current audit result. -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+
+> **Scope note:** The summary, findings, and pass/blocker labels below are
+> historical assertions from 2026-05-31. They were not re-established by the
+> 2026-10-31 documentation review, which did not run builds, tests, benchmarks,
+> or a security audit. Do not treat this file as current sign-off.
 
 ## Summary
 
