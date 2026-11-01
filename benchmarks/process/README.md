@@ -20,6 +20,18 @@ Human_Author: ThemisDB Team
 
 This page describes CMake registration, not benchmark validity, performance, or pass status. Previous versions included stale gate totals, target names, commands, thresholds, and validation claims; none are asserted as current evidence.
 
+## Installation and build
+
+The standard benchmark helper installs targets in the `benchmarks` component
+under `bin/benchmarks`. After configuring and building a Process benchmark with
+the `community-debug` preset, install that component with:
+
+```sh
+cmake --install build-community-debug --component benchmarks
+```
+
+Google Benchmark and the configured project dependencies must be available.
+
 ## Sources registered for the process module
 
 [`CMakeLists.txt`](CMakeLists.txt) calls `themis_add_standard_benchmark()` for the following sources when `THEMIS_BUILD_BENCHMARKS` is enabled:
@@ -46,13 +58,18 @@ Other `bench_*.cpp` files in this directory are not automatically registered by 
 - Source registration and benchmark compilation do not demonstrate a passing threshold or release baseline.
 - The registered CMake target names match the source stems listed above. The `community-debug` preset enables benchmarks and uses system packages; Google Benchmark and the other configured dependencies must be available.
 
-  ```sh
-  cmake --preset community-debug
-  cmake --build --preset community-debug --target bench_process_parser_gates
-  ./build-community-debug/bin/bench_process_parser_gates --benchmark_list_tests=true
-  ```
+## Usage
+
+To list the cases in a focused benchmark executable:
+
+```sh
+cmake --preset community-debug
+cmake --build --preset community-debug --target bench_process_parser_gates
+./build-community-debug/bin/bench_process_parser_gates --benchmark_list_tests=true
+```
 
 - The Process performance comparator currently discovers zero expectation rows because `src/process/PERFORMANCE_EXPECTATIONS.md` has no `## Specific Expectations` section. The four PM-BM numeric targets in `bench_process_dedicated_gates.cpp` are comments over in-process stubs, not enforced performance thresholds.
+- No canonical aggregate Process performance-gate count is defined; the registration and coverage counts below are separate measurements.
 - The separate release coverage audit requires 95% CTest registration for non-critical modules. Process was mapped at 14/14 (100%) in both the latest audit report and the preceding successful workflow run; these are coverage results, not benchmark execution.
 - The tracked mining JSON is a 2026-04-15 historical sample, not a current baseline or performance pass. The latest visible weekly performance run failed during configure before benchmark execution. See [performance evidence](../../src/process/PERFORMANCE_EXPECTATIONS.md) for run links and scope.
 - The process source `process_light_retriever.cpp` currently leaves resource counters at zero and does not enforce the header-declared retrieval budgets; benchmark results must not be used to imply those guarantees.

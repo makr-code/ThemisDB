@@ -1,6 +1,6 @@
 # Developer LLM Wiki — Governance and Roadmap
 
-Datum: 2026-10-31
+Datum: 2026-11-01
 Status: Active
 
 ## AI_WIKI_INTEGRATION_PLAYBOOK.md
@@ -50,12 +50,12 @@ Status: Active
 
 ## INDEX.md
 - Kategorie: governance_and_docs
-- Hash: `82990b187fb2f317`
+- Hash: `018c281cfed99f40`
 - Titel: ThemisDB Root Index
 - Auszug:
-  - Datum: 2026-09-23
-  - Status: Active
-  - Bezug: Root-Navigation, Onboarding-Reihenfolge und AI-Wiki-Betrieb
+  - ---
+  - Author: ThemisDB Team
+  - Created: 2026-09-23
 
 ## RELEASE_STRATEGY.md
 - Kategorie: governance_and_docs
@@ -68,7 +68,7 @@ Status: Active
 
 ## ROADMAP.md
 - Kategorie: governance_and_docs
-- Hash: `8fc87beb1e24eed8`
+- Hash: `727c00e7c7af8ab4`
 - Titel: ThemisDB Project Roadmap
 - Auszug:
   - <!-- Status: [ ] open  [~] in progress  [x] done  [I] Issue  [P] PR  [?] blocked  [!] unclear -->
@@ -372,6 +372,33 @@ Status: Active
   - Status: Active
   - Bezug: ThemisDB-weites Provenienz- und Degradationsmodell fuer menschliche, hybride und LLM-synthetische Inhalte
 
+## ai_context/developer_llm_wiki/AQL.md
+- Kategorie: governance_and_docs
+- Hash: `888a3c0d0909f4fc`
+- Titel: AQL — Developer LLM Wiki
+- Auszug:
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-10-31"
+
+## ai_context/developer_llm_wiki/DISTRIBUTED_TENSOR.md
+- Kategorie: governance_and_docs
+- Hash: `167b78362aee22b3`
+- Titel: Distributed Tensor — Developer LLM Wiki
+- Auszug:
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-10-31"
+
+## ai_context/developer_llm_wiki/ETHICS_AI.md
+- Kategorie: governance_and_docs
+- Hash: `5f63b2a306085ad1`
+- Titel: Ethics AI — Developer LLM Wiki
+- Auszug:
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-10-31"
+
 ## ai_context/developer_llm_wiki/IMPORTERS.md
 - Kategorie: governance_and_docs
 - Hash: `aba92d33f74af838`
@@ -383,12 +410,12 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/MODULE_DIRECT_DOXYGEN_CHECK.md
 - Kategorie: governance_and_docs
-- Hash: `8f89b3097fca08c5`
-- Titel: Direct Doxygen Check: access_model
+- Hash: `3d30d546388ef585`
+- Titel: Direct Doxygen Check: vector_search
 - Auszug:
   - - Source mode: direct_doxygen_markers
-  - - Source files scanned: 21
-  - - Source symbols (raw/filter): 154 / 154
+  - - Source files scanned: 2
+  - - Source symbols (raw/filter): 2 / 2
 
 ## ai_context/developer_llm_wiki/MODULE_DOXYGEN_BASELINE_SUMMARY.md
 - Kategorie: governance_and_docs
@@ -410,12 +437,12 @@ Status: Active
 
 ## ai_context/developer_llm_wiki/MODULE_DOXYGEN_COVERAGE_SUMMARY.md
 - Kategorie: governance_and_docs
-- Hash: `5f96073a2437f9a3`
+- Hash: `e0dfe8624bb3756e`
 - Titel: Module Doxygen Coverage Summary
 - Auszug:
-  - - Module: access_model
+  - - Module: vector_search
   - - Source mode: direct_doxygen_markers
-  - - Symbol presence ratio: 0.9606
+  - - Symbol presence ratio: 0.5
 
 ## ai_context/developer_llm_wiki/MODULE_DOXYGEN_SMOKE_SUMMARY.md
 - Kategorie: governance_and_docs
@@ -425,6 +452,15 @@ Status: Active
   - Datum: 2026-09-23
   - Status: Generated
   - Bezug: Automated module doxygen analysis and documentation inventory
+
+## ai_context/developer_llm_wiki/PROCESS.md
+- Kategorie: governance_and_docs
+- Hash: `151107d3e0260d67`
+- Titel: Process — Developer LLM Wiki
+- Auszug:
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-11-01"
 
 ## ai_context/developer_llm_wiki/RETRIEVAL_DIRECT_DOXYGEN_CHECK.md
 - Kategorie: governance_and_docs
@@ -686,39 +722,3 @@ Status: Active
   - **Status:** 🟡 IN PROGRESS (Phases 2-5 completion awaited)
   - **Generated:** 2026-08-15T09:11:07Z
   - **Module:** Analytics (`src/analytics/`)
-
-## docs/ARCHIVED/ai-working-history/ANALYTICS_GAP_CLOSURE_INDEX.md
-- Kategorie: governance_and_docs
-- Hash: `fc997e2601a360fa`
-- Titel: Analytics Module Gap Closure — Master Index
-- Auszug:
-  - **Project**: ThemisDB Analytics Module Gap Closure
-  - **Status**: 🟢 **WEEK 1 COMPLETE** (Phases 1-5 delivered, Phase 6 initial review done)
-  - **Timeline**: 4-5 weeks (target completion 2026-09-13)
-
-## docs/ARCHIVED/ai-working-history/ANALYTICS_GAP_CLOSURE_MASTER_TRACKER.md
-- Kategorie: governance_and_docs
-- Hash: `524c1f8b7b082505`
-- Titel: Analytics Module Gap Closure - Master Execution Tracker
-- Auszug:
-  - **Start Date**: 2026-08-15 10:46:00 UTC
-  - **Target Completion**: 2026-08-15 11:45:00 UTC (60 minutes total)
-  - **Framework**: Phase 1-6 Implementation Framework with Parallel Subagent Execution
-
-## docs/ARCHIVED/ai-working-history/ANALYTICS_GAP_CLOSURE_PR_SUMMARY.md
-- Kategorie: governance_and_docs
-- Hash: `7e038c3107fb7623`
-- Titel: Analytics Module Gap Closure Implementation [Phases 1-6 Complete]
-- Auszug:
-  - **Title**: Analytics: Implement 40 gap closures (35 critical + 5 stubs) - Complete Process Mining, AutoML, Forecasting, CEP, Knowledge Base
-  - **Type**: Feature / Gap Closure
-  - **Priority**: P0 (Critical)
-
-## docs/ARCHIVED/ai-working-history/ANALYTICS_GAP_CLOSURE_STATUS_2026_08_15.md
-- Kategorie: governance_and_docs
-- Hash: `6312067c8df73e4a`
-- Titel: Analytics Module Gap Closure — Status Report
-- Auszug:
-  - **Date**: 2026-08-15 (Week 1)
-  - **Status**: 🟢 ON TRACK
-  - The Analytics Module gap closure project is executing across 6 coordinated phases using subagent framework. Phase 1 (CRITICAL validation) is **COMPLETE**. Phase 2 Batch A-1 (circular_lock_ordering) is **COMPLETE**. Phases 2-6 executing in parallel.

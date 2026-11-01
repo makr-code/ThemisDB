@@ -81,8 +81,8 @@ benchmarks use in-process stub manager and signal-bus types, not OS process
 operations. The tracked
 [mining JSON](../../artifacts/nightly/bench_process_mining.json) is a
 2026-04-15 sample with 22 results, not a current baseline or threshold pass.
-The separate release coverage audit reports 14/14 Process source-to-CMake-to-
-CTest mappings. Its [2026-10-30 run](https://github.com/makr-code/ThemisDB/actions/runs/41001268780)
+The separate release coverage audit reports 14/14 Process source/CMake/CTest
+mappings. Its [2026-10-30 run](https://github.com/makr-code/ThemisDB/actions/runs/41001268780)
 passed overall; its latest visible [2026-11-01 run](https://github.com/makr-code/ThemisDB/actions/runs/41271872461)
 also reports Process 14/14 but fails overall on an unregistered Training source.
 These are coverage outcomes, not performance runs. The latest visible

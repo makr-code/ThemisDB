@@ -40,6 +40,7 @@ The current CMake file contains **12 benchmark target registrations**. Those 12 
 - `bench_process_dedicated_gates.cpp`
 
 Registration does not prove that a benchmark source measures production behavior, that a named gate is enforced, or that any run passed. For example, inspect the benchmark implementation before interpreting simulated or stubbed operations as module performance.
+The repository defines no canonical aggregate Process performance-gate count; keep source registrations, comment-only targets, comparator expectations, and coverage-audit mappings as separate measures.
 
 ## Interpretation and follow-up
 
