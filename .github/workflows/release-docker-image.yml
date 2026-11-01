@@ -305,7 +305,6 @@ jobs:
           else
             SOURCE_SHA="$(git rev-parse HEAD)"
           fi
-          bash .github/scripts/version-release-type-manager.sh validate
           RELEASE_TYPE="${CANONICAL_RELEASE_TYPE:-stable}"
           if [[ -z "${CANONICAL_RELEASE_TYPE}" ]]; then
             BASE_VERSION="${VERSION#minimal-v}"

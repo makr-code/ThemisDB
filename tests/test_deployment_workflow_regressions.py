@@ -75,6 +75,37 @@ class DeploymentWorkflowTests(unittest.TestCase):
                     self.assertEqual(values["release_type"], "beta" if "beta" in tag else "stable")
                     self.assertEqual((directory / "VERSION").read_text().strip(), "2.4.0")
 
+    def test_docker_tag_checkout_does_not_require_version_manager_in_tag(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            (directory / "VERSION").write_text("2.4.0\n")
+            (directory / "RELEASE_TYPE").write_text("stable\n")
+            for arguments in [
+                ["init", "-q"], ["config", "user.name", "Test"],
+                ["config", "user.email", "test@example.invalid"], ["add", "VERSION", "RELEASE_TYPE"],
+                ["commit", "-qm", "historical release"], ["tag", "v2.4.0"],
+            ]:
+                subprocess.run(["git", *arguments], cwd=directory, check=True, capture_output=True)
+
+            scripts = directory / ".github/scripts"
+            scripts.mkdir(parents=True)
+            shutil.copy(ROOT / ".github/scripts/version-release-type-manager.sh", scripts)
+            subprocess.run(["git", "add", "."], cwd=directory, check=True, capture_output=True)
+            subprocess.run(
+                ["git", "commit", "-qm", "add version manager"], cwd=directory, check=True, capture_output=True
+            )
+
+            result, values = run_bash(
+                step("release-docker-image.yml", "prepare-release-context", "version")["run"],
+                directory, EVENT_NAME="workflow_dispatch", GIT_REF="refs/heads/develop",
+                TAG_INPUT="v2.4.0", PUSH_INPUT="true", GITHUB_EVENT_PATH="/dev/null",
+            )
+            self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+            self.assertEqual(values["version"], "v2.4.0")
+            self.assertEqual(values["source_sha"], subprocess.check_output(
+                ["git", "rev-parse", "v2.4.0^{commit}"], cwd=directory, text=True
+            ).strip())
+
     def test_docker_publication_rejects_missing_invalid_or_private_tags(self):
         script = step("release-docker-image.yml", "prepare-release-context", "version")["run"]
         for tag in ["", "v2.4.99", "develop", "enterprise-v2.4.0"]:
