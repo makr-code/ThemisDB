@@ -1,67 +1,41 @@
-# ThemisDB Prompt Engineering Module
-
-**Status:** PRODUCTION_CANDIDATE  
-**Phase:** 6 (Documentation & Acceptance) — ✅ COMPLETE  
-**Last Updated:** 2026-08-10  
-**Owner:** Prompt Engineering Team
-
+---
+Author: "ThemisDB Team"
+Created: "2026-08-10"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
 ---
 
-## Module Purpose
+> Exact model backend not verifiable from final document text alone.
 
-The prompt_engineering module provides prompt template lifecycle management, context injection, validation, version control, optimization/evaluation loops, feedback collection, and module-local prompt engineering metrics for ThemisDB. Phase 3-6 complete with all release gates validated.
+# ThemisDB Prompt Engineering Module
 
-## Relevant Interfaces
+## Purpose and ownership
 
-| Interface / File | Role |
-|---|---|
-| prompt_manager.cpp | create/get/inject/validate prompt templates |
-| prompt_version_control.cpp | commit/history/version tracking for prompts |
-| prompt_optimizer.cpp | iterative prompt optimization behavior |
-| prompt_evaluator.cpp | prompt output quality evaluation behavior |
-| feedback_collector.cpp | feedback ingestion and aggregate stats |
-| prompt_engineering_metrics.cpp | prompt runtime metrics recording/export support |
-| prompt_template_compiler.cpp | prompt template compilation behavior |
-| prompt_template_validator.cpp | template structural and semantic validation |
-| prompt_regression_runner.cpp | regression execution for prompt variants |
-| prompt_performance_tracker.cpp | prompt performance tracking surfaces |
-| prompt_ab_experiment.cpp | A/B experimentation support surfaces |
+The module provides C++ library interfaces for prompt templates, context substitution, validation, version history, scoring and optimization, feedback, prompt-specific metrics, and rewrite rules. It does not own model serving, inference transport, or the policy decisions of the calling service.
 
-## Scope
+## Runtime flow and boundaries
 
-In scope:
-- prompt template CRUD/injection/validation behavior
-- prompt versioning, optimization, evaluation, and feedback paths
-- prompt engineering metrics, regressions, and performance tracking surfaces
+For the integration façade, the host calls `PromptEngineeringIntegration::beforeExecution()`, sends the returned `ExecutionContext::enhanced_prompt` through its own LLM adapter, and then calls `afterExecution()`. The module does not make the model call, and callers define their own authorization, retry, and output-validation policies.
 
-Out of scope:
-- external LLM serving ownership outside module contracts
-- non-prompt domain orchestration in other subsystems
-- transport concerns outside module-local interfaces
+`RewriteEngine` is a separate implemented API. Its code is built into `themis_core`, but the integration hooks do not invoke it automatically. See [`IMPLEMENTATION.md`](./IMPLEMENTATION.md) before assuming a request path applies rewrite rules.
 
-## Runtime Behavior and Limits
+## Source map
 
-- template operations are validation-gated and deterministic.
-- version history and commit paths are explicit and auditable.
-- optimization/evaluation behavior remains bounded by module configs.
-- feedback and metrics paths remain observable and non-silent.
+- Public contracts: [`../../include/prompt_engineering/`](../../include/prompt_engineering/)
+- Implementations: this directory
+- Focused tests: [`../../tests/prompt_engineering/`](../../tests/prompt_engineering/)
+- Benchmarks: [`../../benchmarks/prompt_engineering/`](../../benchmarks/prompt_engineering/)
+- API, implementation, and runtime guidance: [`API.md`](./API.md), [`IMPLEMENTATION.md`](./IMPLEMENTATION.md), [`MODULE_GUIDE.md`](./MODULE_GUIDE.md)
 
-## Sourcecode Verification (Module: prompt_engineering/readme)
+The public-header index lists all current interfaces. Source declarations and implementation are authoritative for exact signatures and behavior.
 
-- Verified files:
-  - src/prompt_engineering/prompt_manager.cpp
-  - src/prompt_engineering/prompt_version_control.cpp
-  - src/prompt_engineering/prompt_optimizer.cpp
-  - src/prompt_engineering/prompt_evaluator.cpp
-  - src/prompt_engineering/feedback_collector.cpp
-  - src/prompt_engineering/prompt_engineering_metrics.cpp
-  - src/prompt_engineering/prompt_template_compiler.cpp
-  - src/prompt_engineering/prompt_template_validator.cpp
-  - src/prompt_engineering/prompt_regression_runner.cpp
-  - src/prompt_engineering/prompt_performance_tracker.cpp
-  - src/prompt_engineering/prompt_ab_experiment.cpp
-- Verified behavior surfaces:
-  - template lifecycle, versioning, optimization/evaluation, feedback, metrics
-- Note:
-  - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
-  - historical entries remain in CHANGELOG.md
+## Build and verification
+
+The root CMake configuration registers prompt-engineering implementation sources in `themis_core`. Focused test targets are discovered from `tests/prompt_engineering/CMakeLists.txt`; benchmark targets are registered by the repository benchmark build when enabled. Use [`MODULE_GUIDE.md`](./MODULE_GUIDE.md) for the existing configure, build, and CTest commands.
+
+Code presence and documentation do not establish release readiness. Test results, benchmark baselines, and human acceptance must be verified independently.

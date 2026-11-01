@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="protegi__optimizer_8cpp" kind="file" language="C++">
     <compoundname>protegi_optimizer.cpp</compoundname>
     <includes refid="protegi__optimizer_8h" local="yes">prompt_engineering/protegi_optimizer.h</includes>
@@ -107,7 +107,6 @@
     </detaileddescription>
     <programlisting>
 <codeline lineno="1"><highlight class="normal"></highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight></codeline>
 <codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="protegi__optimizer_8h" kindref="compound">prompt_engineering/protegi_optimizer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/logger.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="13"><highlight class="normal"></highlight></codeline>
@@ -117,18 +116,18 @@
 <codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="18"><highlight class="normal"></highlight></codeline>
 <codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
-<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering" kindref="compound">prompt_engineering</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">prompt_engineering<sp/>{</highlight></codeline>
 <codeline lineno="21"><highlight class="normal"></highlight></codeline>
 <codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HeuristicProTeGiProvider</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="25"><highlight class="normal"></highlight></codeline>
-<codeline lineno="32"><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_gradient" kindref="compound">ProTeGiGradient</ref><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_heuristic_pro_te_gi_provider_1a5b504c3ef952b90f37a44b91bbdd930f" kindref="member">HeuristicProTeGiProvider::computeGradient</ref>(</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">ProTeGiGradient<sp/><ref refid="classthemis_1_1prompt__engineering_1_1HeuristicProTeGiProvider_1a5b504c3ef952b90f37a44b91bbdd930f" kindref="member">HeuristicProTeGiProvider::computeGradient</ref>(</highlight></codeline>
 <codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt,</highlight></codeline>
 <codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>errors)</highlight></codeline>
 <codeline lineno="35"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>ProTeGiGradient<sp/>gradient;</highlight></codeline>
-<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>gradient.<ref refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_gradient_1a0e00370f7fd546e1516b151959fd8f34" kindref="member">errors</ref><sp/><sp/><sp/><sp/>=<sp/>errors;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>gradient.<ref refid="structthemis_1_1prompt__engineering_1_1ProTeGiGradient_1a0e00370f7fd546e1516b151959fd8f34" kindref="member">errors</ref><sp/><sp/><sp/><sp/>=<sp/>errors;</highlight></codeline>
 <codeline lineno="38"><highlight class="normal"></highlight></codeline>
 <codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Count<sp/>non-empty<sp/>error<sp/>strings</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_errors<sp/>=<sp/>0;</highlight></codeline>
@@ -167,9 +166,9 @@
 <codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>gradient;</highlight></codeline>
 <codeline lineno="74"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="75"><highlight class="normal"></highlight></codeline>
-<codeline lineno="83"><highlight class="normal">std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_heuristic_pro_te_gi_provider_1ac496c7650808e1cdfb990868ef132d18" kindref="member">HeuristicProTeGiProvider::generateCandidates</ref>(</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1HeuristicProTeGiProvider_1ac496c7650808e1cdfb990868ef132d18" kindref="member">HeuristicProTeGiProvider::generateCandidates</ref>(</highlight></codeline>
 <codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt,</highlight></codeline>
-<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_gradient" kindref="compound">ProTeGiGradient</ref>&amp;<sp/>gradient,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProTeGiGradient&amp;<sp/>gradient,</highlight></codeline>
 <codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k)</highlight></codeline>
 <codeline lineno="87"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>candidates;</highlight></codeline>
@@ -218,7 +217,7 @@
 <codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ProTeGiOptimizer<sp/>–<sp/>construction</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="133"><highlight class="normal"></highlight></codeline>
-<codeline lineno="134"><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1a4f03388ccf10b173efbb3627dec2611f" kindref="member">ProTeGiOptimizer::ProTeGiOptimizer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_config" kindref="compound">ProTeGiConfig</ref>&amp;<sp/>config)</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1ProTeGiOptimizer_1a4f03388ccf10b173efbb3627dec2611f" kindref="member">ProTeGiOptimizer::ProTeGiOptimizer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProTeGiConfig&amp;<sp/>config)</highlight></codeline>
 <codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>config_(config)</highlight></codeline>
 <codeline lineno="136"><highlight class="normal">{}</highlight></codeline>
 <codeline lineno="137"><highlight class="normal"></highlight></codeline>

@@ -5,22 +5,16 @@ Last Updated: "2026-11-01"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot coding agent"
+AI_Contributor: "GitHub Copilot"
 Human_Review: false
-Human_Author: "ThemisDB Contributors"
-Source_Level: "level2"
-SOT_Domain: "module-behavior"
-Canonical_References:
-  - "DOCUMENTATION_GOVERNANCE.md"
-  - "ai_context/developer_llm_wiki/MODULES_AND_APIS.md"
-  - "ai_context/developer_llm_wiki/STORAGE.md"
+Human_Author: "ThemisDB Team"
 ---
 
 > Exact model backend not verifiable from final document text alone.
 
 # Developer LLM Wiki — Index
 
-Datum: 2026-10-31 inventory snapshot; curated temporal context added 2026-11-01
+Datum: 2026-11-01
 Status: Active
 Bezug: CI-verwaltete Entwickler-Wissensbasis fuer Coder-LLMs
 Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_ENHANCEMENTS.md, ai_context/COPILOT_INSTRUCTIONS.md
@@ -49,6 +43,7 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 - [AQL module context](AQL.md) — assistance API boundaries, validation behavior, and test/benchmark registration.
 - [Graph module context](GRAPH.md) — graph execution boundaries, RotatE evidence, focused tests, and archived artifacts
 - [Ethics AI module context](ETHICS_AI.md) — in-tree API/runtime boundaries, LDM helper limits, test/benchmark registration, and canonical plugin source boundary.
+- [Prompt engineering module context](PROMPT_ENGINEERING.md) — prompt runtime boundaries, trust caveats, and test/benchmark registration.
 - [IMPORTERS.md](IMPORTERS.md) — curated importer module context
 - [UPDATES.md](UPDATES.md) — curated updates module context
 - [DISTRIBUTED_TENSOR.md](DISTRIBUTED_TENSOR.md) — curated distributed tensor module context
@@ -61,9 +56,9 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 
 ## Source Distribution
 
-- modules_and_api: 3820
+- modules_and_api: 3821
 - build_test_ci: 203
-- governance_and_docs: 5484
+- governance_and_docs: 5489
 - misc: 0
 
 ## Source-Priority / Konfliktregel

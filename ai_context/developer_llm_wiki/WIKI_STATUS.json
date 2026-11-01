@@ -1,21 +1,20 @@
 {
   "tool": "ai-dev-llm-wiki-sync",
   "version": "1.0.0",
-  "generated_at": "2026-11-01T07:25:49+00:00",
+  "generated_at": "2026-11-01T08:30:56+00:00",
   "mode": "full_sync",
-  "source_count": 9507,
-  "source_hash": "d41e0ee1cf698c701e36d0761f403beac873780108456fd36266f6e7b2f72a7d",
+  "source_count": 9513,
+  "source_hash": "a7be132e0eaadb96b11583e3792d602d53408d3d9ea3c2f37fcbeb6e15496dce",
   "delta": {
     "added_count": 0,
     "removed_count": 0,
-    "changed_count": 2,
+    "changed_count": 1,
     "added_preview": [],
     "removed_preview": [],
     "changed_preview": [
-      "src/user_storage_encrypted/DOXYGEN.md",
-      "src/user_storage_encrypted/MODULE_GAPS.md"
+      "scripts/ai-dev-llm-wiki-sync.py"
     ]
   },
   "manifest_path": "ai_context/developer_llm_wiki/SOURCE_MANIFEST.json",
-  "manifest_sha256": "a9e1c0ac6f1b48d39bca04a183f0c33355b937e7c3e48577cf1b489c1158f4a6"
+  "manifest_sha256": "3783cfceb57777291425f9e7d9b4b344433d15dc1d68aeae474c708b19842576"
 }

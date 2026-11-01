@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="prompt__engineering__metrics_8cpp" kind="file" language="C++">
     <compoundname>prompt_engineering_metrics.cpp</compoundname>
     <includes refid="prompt__engineering__metrics_8h" local="yes">prompt_engineering/prompt_engineering_metrics.h</includes>
@@ -82,15 +82,14 @@
     </detaileddescription>
     <programlisting>
 <codeline lineno="1"><highlight class="normal"></highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight></codeline>
 <codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="prompt__engineering__metrics_8h" kindref="compound">prompt_engineering/prompt_engineering_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iomanip&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="14"><highlight class="normal"></highlight></codeline>
 <codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
-<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering" kindref="compound">prompt_engineering</ref><sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">prompt_engineering<sp/>{</highlight></codeline>
 <codeline lineno="17"><highlight class="normal"></highlight></codeline>
-<codeline lineno="18"><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_engineering_metrics_1a4cbc3449d98c42ce44047e4ffd9cd39c" kindref="member">PromptEngineeringMetrics::PromptEngineeringMetrics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Config&amp;<sp/>config)</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1PromptEngineeringMetrics_1a4cbc3449d98c42ce44047e4ffd9cd39c" kindref="member">PromptEngineeringMetrics::PromptEngineeringMetrics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Config&amp;<sp/>config)</highlight></codeline>
 <codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>config_(config)</highlight></codeline>
 <codeline lineno="20"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="21"><highlight class="normal">}</highlight></codeline>
@@ -100,8 +99,8 @@
 <codeline lineno="25"><highlight class="normal">{</highlight></codeline>
 <codeline lineno="26"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="27"><highlight class="normal"></highlight></codeline>
-<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Optimization<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>PromptEngineeringMetrics::recordOptimizationAttempt(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Optimization<sp/>metrics</highlight></codeline>
+<codeline lineno="34"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>PromptEngineeringMetrics::recordOptimizationAttempt(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id)<sp/>{</highlight></codeline>
 <codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!config_.enabled)<sp/>{</highlight></codeline>
 <codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -214,8 +213,8 @@
 <codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>active_ab_tests_.store(count,<sp/>std::memory_order_relaxed);</highlight></codeline>
 <codeline lineno="200"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="201"><highlight class="normal"></highlight></codeline>
-<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Performance<sp/>tracking<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="210"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>PromptEngineeringMetrics::recordPromptExecution(</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Performance<sp/>tracking<sp/>metrics</highlight></codeline>
+<codeline lineno="210"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>PromptEngineeringMetrics::recordPromptExecution(</highlight></codeline>
 <codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,</highlight></codeline>
 <codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success,</highlight></codeline>
 <codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>latency_ms</highlight></codeline>
@@ -283,8 +282,8 @@
 <codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>prompt_execution_counts_[prompt_id]<sp/>=<sp/>count;</highlight></codeline>
 <codeline lineno="294"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="295"><highlight class="normal"></highlight></codeline>
-<codeline lineno="296"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Feedback<sp/>collection<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="303"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>PromptEngineeringMetrics::recordFeedback(</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Feedback<sp/>collection<sp/>metrics</highlight></codeline>
+<codeline lineno="303"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>PromptEngineeringMetrics::recordFeedback(</highlight></codeline>
 <codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,</highlight></codeline>
 <codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>type</highlight></codeline>
 <codeline lineno="306"><highlight class="normal">)<sp/>{</highlight></codeline>
@@ -368,8 +367,8 @@
 <codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-prompt<sp/>positive<sp/>ratio</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="414"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="415"><highlight class="normal"></highlight></codeline>
-<codeline lineno="416"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Version<sp/>control<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="423"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>PromptEngineeringMetrics::recordVersionCommit(</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Version<sp/>control<sp/>metrics</highlight></codeline>
+<codeline lineno="423"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>PromptEngineeringMetrics::recordVersionCommit(</highlight></codeline>
 <codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt_id,</highlight></codeline>
 <codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>branch</highlight></codeline>
 <codeline lineno="426"><highlight class="normal">)<sp/>{</highlight></codeline>
@@ -424,8 +423,8 @@
 <codeline lineno="498"><highlight class="normal"><sp/><sp/><sp/><sp/>prompt_version_counts_[prompt_id]<sp/>=<sp/>count;</highlight></codeline>
 <codeline lineno="499"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="500"><highlight class="normal"></highlight></codeline>
-<codeline lineno="501"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Integration<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="507"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>PromptEngineeringMetrics::recordIntegrationExecution(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>before)<sp/>{</highlight></codeline>
+<codeline lineno="501"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Integration<sp/>metrics</highlight></codeline>
+<codeline lineno="507"><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>PromptEngineeringMetrics::recordIntegrationExecution(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>before)<sp/>{</highlight></codeline>
 <codeline lineno="508"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!config_.enabled)<sp/>{</highlight></codeline>
 <codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="510"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
@@ -748,7 +747,7 @@
 <codeline lineno="840"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,</highlight></codeline>
 <codeline lineno="841"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>help,</highlight></codeline>
 <codeline lineno="842"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>type,</highlight></codeline>
-<codeline lineno="843"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>value,</highlight></codeline>
+<codeline lineno="843"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="prompt__template__compiler_8cpp_1a5c33da5929c9f2f9ef8d006d2350e6ec" kindref="member">value</ref>,</highlight></codeline>
 <codeline lineno="844"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>labels</highlight></codeline>
 <codeline lineno="845"><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
 <codeline lineno="846"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ostringstream<sp/>oss;</highlight></codeline>
@@ -764,7 +763,7 @@
 <codeline lineno="856"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!labels.empty())<sp/>{</highlight></codeline>
 <codeline lineno="862"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/>formatLabels(labels);</highlight></codeline>
 <codeline lineno="863"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="864"><highlight class="normal"><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::fixed<sp/>&lt;&lt;<sp/>std::setprecision(2)<sp/>&lt;&lt;<sp/>value<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="864"><highlight class="normal"><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::fixed<sp/>&lt;&lt;<sp/>std::setprecision(2)<sp/>&lt;&lt;<sp/><ref refid="prompt__template__compiler_8cpp_1a5c33da5929c9f2f9ef8d006d2350e6ec" kindref="member">value</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="865"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
 <codeline lineno="866"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>oss.str();</highlight></codeline>
 <codeline lineno="867"><highlight class="normal">}</highlight></codeline>
@@ -773,20 +772,20 @@
 <codeline lineno="870"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,</highlight></codeline>
 <codeline lineno="871"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>help,</highlight></codeline>
 <codeline lineno="872"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>type,</highlight></codeline>
-<codeline lineno="873"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>value,</highlight></codeline>
+<codeline lineno="873"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="prompt__template__compiler_8cpp_1a5c33da5929c9f2f9ef8d006d2350e6ec" kindref="member">value</ref>,</highlight></codeline>
 <codeline lineno="874"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>labels</highlight></codeline>
 <codeline lineno="875"><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="876"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>formatMetric(name,<sp/>help,<sp/>type,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(value),<sp/>labels);</highlight></codeline>
+<codeline lineno="876"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>formatMetric(name,<sp/>help,<sp/>type,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="prompt__template__compiler_8cpp_1a5c33da5929c9f2f9ef8d006d2350e6ec" kindref="member">value</ref>),<sp/>labels);</highlight></codeline>
 <codeline lineno="877"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="878"><highlight class="normal"></highlight></codeline>
 <codeline lineno="879"><highlight class="normal">std::string<sp/>PromptEngineeringMetrics::formatMetric(</highlight></codeline>
 <codeline lineno="880"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,</highlight></codeline>
 <codeline lineno="881"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>help,</highlight></codeline>
 <codeline lineno="882"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>type,</highlight></codeline>
-<codeline lineno="883"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>value,</highlight></codeline>
+<codeline lineno="883"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="prompt__template__compiler_8cpp_1a5c33da5929c9f2f9ef8d006d2350e6ec" kindref="member">value</ref>,</highlight></codeline>
 <codeline lineno="884"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>labels</highlight></codeline>
 <codeline lineno="885"><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="886"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>formatMetric(name,<sp/>help,<sp/>type,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(value),<sp/>labels);</highlight></codeline>
+<codeline lineno="886"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>formatMetric(name,<sp/>help,<sp/>type,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="prompt__template__compiler_8cpp_1a5c33da5929c9f2f9ef8d006d2350e6ec" kindref="member">value</ref>),<sp/>labels);</highlight></codeline>
 <codeline lineno="887"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="888"><highlight class="normal"></highlight></codeline>
 <codeline lineno="889"><highlight class="normal">std::string<sp/>PromptEngineeringMetrics::formatLabels(</highlight></codeline>
@@ -799,11 +798,11 @@
 <codeline lineno="896"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ostringstream<sp/>oss<sp/>=<sp/>{};</highlight></codeline>
 <codeline lineno="897"><highlight class="normal"><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;{&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="898"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>first<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="899"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[key,<sp/>value]<sp/>:<sp/>labels)<sp/>{</highlight></codeline>
+<codeline lineno="899"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[key,<sp/><ref refid="prompt__template__compiler_8cpp_1a5c33da5929c9f2f9ef8d006d2350e6ec" kindref="member">value</ref>]<sp/>:<sp/>labels)<sp/>{</highlight></codeline>
 <codeline lineno="900"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!first)<sp/>{</highlight></codeline>
 <codeline lineno="901"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;,&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="902"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="903"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/>key<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;=\&quot;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>value<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="903"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/>key<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;=\&quot;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="prompt__template__compiler_8cpp_1a5c33da5929c9f2f9ef8d006d2350e6ec" kindref="member">value</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="904"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>first<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="905"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="906"><highlight class="normal"><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;}&quot;</highlight><highlight class="normal">;</highlight></codeline>

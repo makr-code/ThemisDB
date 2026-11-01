@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="dspy__module_8cpp" kind="file" language="C++">
     <compoundname>dspy_module.cpp</compoundname>
     <includes refid="dspy__module_8h" local="yes">prompt_engineering/dspy_module.h</includes>
@@ -94,7 +94,6 @@
     </detaileddescription>
     <programlisting>
 <codeline lineno="1"><highlight class="normal"></highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight></codeline>
 <codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="dspy__module_8h" kindref="compound">prompt_engineering/dspy_module.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/logger.h&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="13"><highlight class="normal"></highlight></codeline>
@@ -103,13 +102,13 @@
 <codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="17"><highlight class="normal"></highlight></codeline>
 <codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
-<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering" kindref="compound">prompt_engineering</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">prompt_engineering<sp/>{</highlight></codeline>
 <codeline lineno="20"><highlight class="normal"></highlight></codeline>
 <codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DspyField</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="24"><highlight class="normal"></highlight></codeline>
-<codeline lineno="25"><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_dspy_field_1a9baf863c1b3349a0ad4986adbd6162f8" kindref="member">DspyField::DspyField</ref>(std::string<sp/>nm,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1DspyField_1a9baf863c1b3349a0ad4986adbd6162f8" kindref="member">DspyField::DspyField</ref>(std::string<sp/>nm,</highlight></codeline>
 <codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>desc,</highlight></codeline>
 <codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8" kindref="member">DspyFieldType</ref><sp/>t,</highlight></codeline>
 <codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>req,</highlight></codeline>
@@ -237,13 +236,13 @@
 <codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="161"><highlight class="normal"></highlight></codeline>
 <codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trim<sp/>trailing<sp/>whitespace</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>value<sp/>=<sp/>response.substr(value_start,<sp/>value_end<sp/>-<sp/>value_start);</highlight></codeline>
-<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(!value.empty()<sp/>&amp;&amp;<sp/>(value.back()<sp/>==<sp/></highlight><highlight class="charliteral">&apos;\n&apos;</highlight><highlight class="normal"><sp/>||<sp/>value.back()<sp/>==<sp/></highlight><highlight class="charliteral">&apos;\r&apos;</highlight><highlight class="normal"><sp/>||</highlight></codeline>
-<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>value.back()<sp/>==<sp/></highlight><highlight class="charliteral">&apos;<sp/>&apos;</highlight><highlight class="normal"><sp/>||<sp/>value.back()<sp/>==<sp/></highlight><highlight class="charliteral">&apos;\t&apos;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
-<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>value.pop_back();</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="prompt__template__compiler_8cpp_1a5c33da5929c9f2f9ef8d006d2350e6ec" kindref="member">value</ref><sp/>=<sp/>response.substr(value_start,<sp/>value_end<sp/>-<sp/>value_start);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(!<ref refid="prompt__template__compiler_8cpp_1a5c33da5929c9f2f9ef8d006d2350e6ec" kindref="member">value</ref>.empty()<sp/>&amp;&amp;<sp/>(<ref refid="prompt__template__compiler_8cpp_1a5c33da5929c9f2f9ef8d006d2350e6ec" kindref="member">value</ref>.back()<sp/>==<sp/></highlight><highlight class="charliteral">&apos;\n&apos;</highlight><highlight class="normal"><sp/>||<sp/><ref refid="prompt__template__compiler_8cpp_1a5c33da5929c9f2f9ef8d006d2350e6ec" kindref="member">value</ref>.back()<sp/>==<sp/></highlight><highlight class="charliteral">&apos;\r&apos;</highlight><highlight class="normal"><sp/>||</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="prompt__template__compiler_8cpp_1a5c33da5929c9f2f9ef8d006d2350e6ec" kindref="member">value</ref>.back()<sp/>==<sp/></highlight><highlight class="charliteral">&apos;<sp/>&apos;</highlight><highlight class="normal"><sp/>||<sp/><ref refid="prompt__template__compiler_8cpp_1a5c33da5929c9f2f9ef8d006d2350e6ec" kindref="member">value</ref>.back()<sp/>==<sp/></highlight><highlight class="charliteral">&apos;\t&apos;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="prompt__template__compiler_8cpp_1a5c33da5929c9f2f9ef8d006d2350e6ec" kindref="member">value</ref>.pop_back();</highlight></codeline>
 <codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="168"><highlight class="normal"></highlight></codeline>
-<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>parsed[field.name]<sp/>=<sp/>value;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>parsed[field.name]<sp/>=<sp/><ref refid="prompt__template__compiler_8cpp_1a5c33da5929c9f2f9ef8d006d2350e6ec" kindref="member">value</ref>;</highlight></codeline>
 <codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="171"><highlight class="normal"></highlight></codeline>
 <codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>parsed;</highlight></codeline>
