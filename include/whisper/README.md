@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-05-13 | Primary: include/whisper/ -->
+<!-- Status: current | validated: 2026-10-31 | Primary: include/whisper/ -->
 <!-- Links: ../../src/whisper/README.md · ../../src/whisper/ARCHITECTURE.md · ../../src/whisper/ROADMAP.md · ../../src/whisper/FUTURE_ENHANCEMENTS.md -->
 
 # whisper — Public Headers
@@ -8,12 +22,12 @@
 **Module Path:** `include/whisper/`
 **Implementation Overview:** [`../../src/whisper/README.md`](../../src/whisper/README.md)
 **Namespace:** `themis::whisper`
-**Status:** 🟢 Production-Ready (implementation state v2.3.0; runtime `plugin_version` = `"2.3.0"`)
+**Implementation version:** `2.3.0`; this identifies the implementation, not a production-readiness certification.
 
 The `whisper` module provides audio transcription and language-detection capabilities
-for ThemisDB via [whisper.cpp](https://github.com/ggerganov/whisper.cpp). The design is
-stub-first: a zero-dependency stub transcriber ships with the module so that CI builds
-without a model file always produce valid `TranscriptionResult` objects.
+for ThemisDB via [whisper.cpp](https://github.com/ggerganov/whisper.cpp). A zero-dependency
+stub transcriber is selected when whisper.cpp support is not compiled in; builds with the real
+backend enabled require a valid model file.
 
 ---
 
@@ -23,8 +37,8 @@ without a model file always produce valid `TranscriptionResult` objects.
 |---|---|---|
 | `whisper_plugin.h` | `WhisperPlugin` | Top-level `IAudioBackend` implementation — entry point for all transcription and language-detection calls. |
 | `whisper_config.h` | `WhisperConfig` | JSON-backed runtime configuration for the transcription engine. |
-| `whisper_transcriber.h` | `IWhisperTranscriber`, `WhisperStubTranscriber`, `InMemoryWhisperTranscriber` | Strategy interface for the core inference engine plus stub and test-double implementations. |
-| `audio_chunk_reader.h` | `IAudioChunkReader`, `WavAudioChunkReader`, `FfmpegAudioChunkReader`, `CompositeAudioChunkReader` | Audio file I/O abstraction supporting WAV (built-in) and MP3/OGG/FLAC via FFmpeg. |
+| `whisper_transcriber.h` | `IWhisperTranscriber`, `WhisperCppTranscriber` (conditional), `WhisperStubTranscriber`, `InMemoryWhisperTranscriber` | Strategy interface for the core inference engine plus optional production, stub, and test-double implementations. |
+| `audio_chunk_reader.h` | `IAudioChunkReader`, `WavAudioChunkReader`, `FfmpegAudioChunkReader`, `CompositeAudioChunkReader` | Audio file I/O abstraction supporting WAV directly and MP3/OGG/FLAC/M4A/AAC/Opus/WMA/WebM through FFmpeg. |
 | `voice_activity_detector.h` | `IVoiceActivityDetector`, `EnergyThresholdVad`, `VadConfig`, `SpeechSegment` | Voice Activity Detection strategy for skipping silent segments before inference. |
 | `whisper_plugin_registrar.h` | `WhisperPluginAdapter`, `WhisperPluginRegistrar` | `IThemisPlugin` adapter and factory helper for integration with `plugins::PluginManager`, including hot-plug support. |
 
@@ -48,13 +62,14 @@ Top-level audio-transcription plugin implementing `audio::IAudioBackend`.
 | `WhisperPlugin(transcriber, reader)` | Injection constructor for tests; both dependencies are transferred by unique_ptr. |
 | `initialize(model_path, config_json)` | Load a model and apply JSON configuration. Returns `false` if initialization fails. |
 | `transcribe(pcm_samples, sample_rate)` | Transcribe mono float32 PCM. Thread-safe. |
-| `transcribeFile(path)` | Read and transcribe a WAV/MP3/OGG/FLAC file via the installed `IAudioChunkReader`. |
-| `transcribeStream(pcm, rate, callback)` | Transcribe with incremental per-token callback. Skips silent segments when a VAD is installed. |
+| `transcribeFile(path)` | Read and transcribe a supported audio file via the installed `IAudioChunkReader`. |
+| `transcribeStream(pcm, rate, callback)` | Callback API. The default and current whisper.cpp transcriber emit the completed transcript as one token. Skips silent segments when VAD is installed. |
 | `detectLanguage(pcm_samples, sample_rate)` | Returns the detected language and confidence. Applies `language_confidence_threshold` filter from `WhisperConfig`. |
-| `getStatistics()` | Returns a JSON object with `transcription_count`, `error_count`, and `model_id`. |
+| `transcribeWithDiarisation(pcm, rate, cfg)` | Calls the optional diarisation method; current whisper.cpp implementation returns one whole-transcript segment with one speaker ID. |
+| `getStatistics()` | Returns a JSON object with `transcription_count`, `error_count`, `model_id`, and `last_error`. |
 | `setVoiceActivityDetector(vad, cfg)` | Inject a `IVoiceActivityDetector`; pass `nullptr` to disable VAD. |
 
-**Thread-safety:** `transcribe()`, `transcribeFile()`, `transcribeStream()`, and `detectLanguage()` serialize through an internal mutex. Counters are `std::atomic`.
+**Thread-safety:** calls into the transcriber are serialized through an internal mutex; file decoding in `transcribeFile()` occurs before that lock and may run concurrently. Counters are `std::atomic`.
 
 ---
 
@@ -68,14 +83,15 @@ JSON-backed runtime configuration for the transcription engine.
 
 | Field | Type | Default | Description |
 |---|---|---|---|
-| `model_path` | `std::string` | `""` | Path to the `.bin` model file. Empty = stub mode. |
-| `language` | `std::string` | `"auto"` | BCP-47 language code or `"auto"` for automatic detection. |
-| `n_threads` | `int` | `4` | Number of inference threads. Clamped to `[1, 64]`. |
+| `model_path` | `std::string` | `""` | Path to the `.bin` model file. An empty path does not select stub mode: it fails initialization with the real backend; the default stub is selected when whisper.cpp is not enabled. |
+| `language` | `std::string` | `"auto"` | Passed to whisper.cpp; no format validation is performed by `WhisperConfig`. |
+| `n_threads` | `int` | `4` | Number of inference threads. Values below `1` are clamped to `1`; there is no upper clamp. |
 | `translate` | `bool` | `false` | Translate output to English when `true`. |
-| `beam_size` | `int` | `5` | Beam search width. |
+| `beam_size` | `int` | `5` | Beam search width. Values below `1` are clamped to `1`; there is no upper clamp. |
 | `print_progress` | `bool` | `false` | Print progress to stderr during inference. |
-| `quality_threshold` | `float` | `0.0f` | Minimum transcription confidence to accept (0 = accept all). |
+| `quality_threshold` | `float` | `0.0f` | Serialized configuration field; no filtering behavior is implemented in the current transcriber. |
 | `language_confidence_threshold` | `float` | `0.0f` | Minimum language-detection confidence to accept (0 = accept all). |
+| `model_sha256` | `std::string` | `""` | Optional expected model digest; checked by the whisper.cpp backend before model load. |
 
 **Static factory / serialization:**
 
@@ -115,7 +131,11 @@ class IWhisperTranscriber {
 };
 ```
 
-`transcribeStream()` has a default implementation that calls `transcribe()` and emits the full text as a single token; real backends override it to emit per-word tokens.
+`transcribeStream()` has a default implementation that calls `transcribe()` and emits the full text
+as a single token. `WhisperCppTranscriber` does not override it; `InMemoryWhisperTranscriber`
+supports a preloaded multi-token test path. The default implementation catches any callback
+exception and returns a failed result. The plugin catches `std::exception` thrown by a transcriber;
+non-standard exceptions escaping an overriding transcriber method may propagate.
 
 ---
 
@@ -130,7 +150,7 @@ Extension point for audio file ingestion. `WhisperPlugin` uses `CompositeAudioCh
 | Class | Supported formats | Notes |
 |---|---|---|
 | `WavAudioChunkReader` | RIFF/WAV (16-bit PCM, 32-bit float) | No external dependencies. Throws on malformed WAV. |
-| `FfmpegAudioChunkReader` | MP3, OGG, FLAC, M4A, and any FFmpeg-supported format | Requires `ffmpeg` on `PATH`. Degrades gracefully when absent. Max output: 500 MB. |
+| `FfmpegAudioChunkReader` | MP3, OGG, FLAC, M4A, AAC, Opus, WMA, WebM (extension-based routing) | Requires `ffmpeg` on `PATH`; reads fail if unavailable. Max output: 500 MiB. |
 | `CompositeAudioChunkReader` | Delegates by file extension | Tries registered readers in insertion order; throws if no reader accepts the file. |
 
 **Core interface:**
@@ -142,7 +162,8 @@ class IAudioChunkReader {
 };
 ```
 
-`readFile()` returns mono float32 PCM samples at the native sample rate.
+`readFile()` returns mono float32 PCM samples. WAV preserves the file's sample rate; FFmpeg output is
+resampled to 16 kHz.
 
 ---
 
@@ -159,9 +180,13 @@ Detects speech-active segments in a PCM buffer before forwarding audio to the tr
 | `SpeechSegment` | Half-open sample range `[start_sample, end_sample)` identified as speech. |
 | `VadConfig` | `energy_threshold` (default 0.01), `min_speech_ms` (default 50 ms), `frame_ms` (default 20 ms). |
 | `IVoiceActivityDetector` | Strategy interface: `detect(pcm, sample_rate, cfg) -> vector<SpeechSegment>`. |
-| `EnergyThresholdVad` | RMS-energy-threshold implementation. < 5 ms per 1-second chunk at 16 kHz. |
+| `EnergyThresholdVad` | RMS-energy-threshold implementation. The header states a < 5 ms target per 1-second chunk at 16 kHz; no benchmark result is documented here. |
 
-Inject into `WhisperPlugin` via `setVoiceActivityDetector()`. When installed, `transcribeStream()` (and `transcribe()` with VAD config) concatenates only speech segments before inference.
+Inject into `WhisperPlugin` via `setVoiceActivityDetector()`. The current implementation applies
+VAD from `transcribeStream()` and concatenates detected speech segments before inference;
+`transcribe()` does not apply VAD. The comment on `setVoiceActivityDetector()` in
+`whisper_plugin.h` also mentions a `transcribe()` VAD path, but that behavior is not implemented
+by the current `WhisperPlugin::transcribe()`.
 
 ---
 
@@ -212,7 +237,8 @@ Adapts `WhisperPlugin` for use with the unified `plugins::PluginManager`.
 }
 ```
 
-Set `language_confidence_threshold > 0` to reject low-confidence `detectLanguage()` results and return `{"language":"unknown","confidence":0.0}` instead.
+Set `language_confidence_threshold > 0` to label low-confidence `detectLanguage()` results as
+`"unknown"`; the returned confidence remains the underlying confidence value.
 
 ### `VadConfig` Quick Reference
 
@@ -229,18 +255,19 @@ vad_cfg.frame_ms         = 20.0f; // analysis frame length
 
 | Condition | Behavior |
 |---|---|
-| Plugin not initialized (`initialize()` not called or returned `false`) | `transcribe*()` and `detectLanguage()` return `success=false`, `error_message="not initialized"`. |
+| Plugin not initialized (`initialize()` not called or returned `false`) | Transcription methods return `success=false` with an error message. `detectLanguage()` returns its default result (empty language and zero confidence), which has no success/error fields. |
 | File not found | `transcribeFile()` returns `success=false`, `error_message=<filesystem error>`. |
 | Invalid WAV format (bad magic / truncated data) | `WavAudioChunkReader::readFile()` throws `std::runtime_error`; `WhisperPlugin` catches it and returns `success=false`. |
 | `ffmpeg` not on PATH | `FfmpegAudioChunkReader::readFile()` throws `std::runtime_error("ffmpeg not available")`; caught by `WhisperPlugin`. |
-| FFmpeg output exceeds 500 MB | `FfmpegAudioChunkReader` throws `std::runtime_error("ffmpeg output too large")`. |
-| Path with NUL byte or unsafe characters | `FfmpegAudioChunkReader::shellEscape()` throws `std::runtime_error`. |
-| Transcriber throws during inference | `WhisperPlugin` catches, sets `success=false` and `error_message=<exception.what()>`, increments error counter. |
-| All-silent PCM with VAD installed | `transcribeStream()` skips inference and returns `success=true` with empty text. |
+| FFmpeg output exceeds 500 MiB | `FfmpegAudioChunkReader` throws `std::runtime_error("FfmpegAudioChunkReader: output exceeds maximum size limit")`. |
+| FFmpeg path contains a NUL byte | `FfmpegAudioChunkReader::shellEscape()` throws `std::runtime_error`; other shell characters are quoted/escaped. |
+| Transcriber throws `std::exception` during inference | `WhisperPlugin` catches, sets `success=false` and `error_message=<exception.what()>`, increments error counter. |
+| All-silent PCM with VAD installed | `transcribeStream()` passes empty PCM to the transcriber; the result depends on the selected backend. |
 | `CompositeAudioChunkReader` with no matching reader | `readFile()` throws `std::runtime_error`. |
-| `language_confidence_threshold` filter triggered | `detectLanguage()` returns `{"language":"unknown","confidence":0.0}` instead of the raw result. |
+| `language_confidence_threshold` filter triggered | `detectLanguage()` returns language `"unknown"` while preserving the measured confidence. |
 
-**Provenance stamps** (always applied by `WhisperPlugin`, never omitted):
+**Provenance stamps:** successful plugin transcriptions receive these fields; error results carry
+the source type and plugin version, but may not have a generation timestamp.
 
 | Field | Value |
 |---|---|
@@ -250,8 +277,8 @@ vad_cfg.frame_ms         = 20.0f; // analysis frame length
 
 **Limits:**
 
-- Max FFmpeg output: 500 MB (≈ 3.5 h at 16 kHz mono float32)
-- `n_threads` clamped to `[1, 64]`
+- Max FFmpeg output: 500 MiB (about 2 h 16 min at 16 kHz mono float32)
+- `n_threads` and `beam_size` have a lower bound of `1` in JSON parsing; no upper bound is applied
 - Concurrent `transcribe*()` / `detectLanguage()` calls serialize through `transcriber_mutex_`
 
 ---
@@ -376,7 +403,8 @@ cmake --build build --target themisdb
 → Install `ffmpeg` and ensure it is on `PATH`. WAV files bypass FFmpeg entirely.
 
 **Empty transcription text in stub mode**
-→ Expected. The stub transcriber (`WhisperStubTranscriber`) returns an empty string unless a `TranscribeFn` is injected via `setTranscribeFn()`.
+→ Expected. The stub transcriber (`WhisperStubTranscriber`) returns empty text, language `"unknown"`,
+and confidence `0`; tests may inject a `TranscribeFn` using `setTranscribeFn()`.
 
 **`detectLanguage()` returns `"unknown"` with confidence 0**
 → Either the audio is silent/too short, or `language_confidence_threshold` in `WhisperConfig` is set above the raw confidence. Lower the threshold or use longer audio.
