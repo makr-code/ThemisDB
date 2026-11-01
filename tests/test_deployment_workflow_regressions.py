@@ -36,12 +36,12 @@ def run_bash(script, directory, **environment):
 
 
 class DeploymentWorkflowTests(unittest.TestCase):
-    def make_source(self, directory):
+    def make_source(self, directory, release_type="stable"):
         scripts = directory / ".github/scripts"
         scripts.mkdir(parents=True)
         shutil.copy(ROOT / ".github/scripts/version-release-type-manager.sh", scripts)
         (directory / "VERSION").write_text("2.4.0\n")
-        (directory / "RELEASE_TYPE").write_text("stable\n")
+        (directory / "RELEASE_TYPE").write_text(f"{release_type}\n")
         for arguments in [
             ["init", "-q"], ["config", "user.name", "Test"],
             ["config", "user.email", "test@example.invalid"], ["add", "."],
@@ -112,6 +112,62 @@ class DeploymentWorkflowTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertEqual(values["version"], "v9.9.9")
             self.assertEqual(values["source_sha"], sha)
+
+    def test_docker_without_tag_uses_canonical_version_and_release_type(self):
+        script = step("release-docker-image.yml", "prepare-release-context", "version")["run"]
+        expected_versions = {
+            "stable": "v9.9.9",
+            "alpha": "v9.9.9-alpha",
+            "beta": "v9.9.9-beta",
+            "rc": "v9.9.9-rc",
+        }
+        for release_type, expected_version in expected_versions.items():
+            with self.subTest(release_type=release_type), tempfile.TemporaryDirectory() as temp:
+                directory = Path(temp)
+                self.make_source(directory, release_type=release_type)
+                result, values = run_bash(
+                    script, directory, EVENT_NAME="workflow_dispatch", GIT_REF="refs/heads/develop",
+                    TAG_INPUT="", PUSH_INPUT="false", GITHUB_EVENT_PATH="/dev/null",
+                    GITHUB_RUN_NUMBER="123",
+                )
+                self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+                self.assertEqual(values["version"], expected_version)
+                self.assertEqual(values["release_type"], release_type)
+
+    def test_docker_without_tag_publishing_resolves_canonical_release_tag(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            self.make_source(directory, release_type="alpha")
+            source_sha = subprocess.check_output(
+                ["git", "rev-parse", "HEAD"], cwd=directory, text=True
+            ).strip()
+            subprocess.run(
+                ["git", "tag", "v9.9.9-alpha"], cwd=directory, check=True, capture_output=True
+            )
+            result, values = run_bash(
+                step("release-docker-image.yml", "prepare-release-context", "version")["run"],
+                directory, EVENT_NAME="workflow_dispatch", GIT_REF="refs/heads/develop",
+                TAG_INPUT="", PUSH_INPUT="true", GITHUB_EVENT_PATH="/dev/null",
+                GITHUB_RUN_NUMBER="123",
+            )
+            self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+            self.assertEqual(values["version"], "v9.9.9-alpha")
+            self.assertEqual(values["release_type"], "alpha")
+            self.assertEqual(values["source_sha"], source_sha)
+
+    def test_docker_without_tag_generates_canonical_nightly_version(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = Path(temp)
+            self.make_source(directory, release_type="nightly")
+            result, values = run_bash(
+                step("release-docker-image.yml", "prepare-release-context", "version")["run"],
+                directory, EVENT_NAME="workflow_dispatch", GIT_REF="refs/heads/develop",
+                TAG_INPUT="", PUSH_INPUT="false", GITHUB_EVENT_PATH="/dev/null",
+                GITHUB_RUN_NUMBER="123",
+            )
+            self.assertEqual(result.returncode, 0, result.stderr + result.stdout)
+            self.assertRegex(values["version"], r"^v9\.9\.9-nightly\.\d{8}\.123$")
+            self.assertEqual(values["release_type"], "nightly")
 
     def test_prerelease_and_minimal_docker_tags_do_not_overwrite_community_latest(self):
         script = step("release-docker-image.yml", "prepare-release-context", "tags")["run"]

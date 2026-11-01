@@ -28,7 +28,7 @@ on:
         default: "ghcr.io"
         type: string
       tag_name:
-        description: "Release tag to use for version detection"
+        description: "Optional release tag; if omitted, VERSION and RELEASE_TYPE files are used"
         required: false
         default: ""
         type: string
@@ -77,7 +77,7 @@ on:
           - "docker.io"
           - "both"
       tag_name:
-        description: "Optional release tag (e.g. v2.4.0-alpha)"
+        description: "Optional release tag (e.g. v2.4.0-alpha); if omitted, VERSION and RELEASE_TYPE files are used"
         required: false
         type: string
       include_tinyllama:
@@ -227,19 +227,46 @@ jobs:
           TAG_REGEX='^(v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|enterprise-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|hyperscaler-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|military-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?|minimal-v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?)$'
           SEMVER_REGEX='^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z][0-9A-Za-z.-]*)?$'
 
-          resolve_version_from_file() {
-            if [[ ! -f VERSION ]]; then
-              echo "::error::VERSION file is missing at repository root; the canonical product version source is required." >&2
-              exit 1
-            fi
-            VERSION="$(tr -d '\r\n' < VERSION)"
-            if ! echo "${VERSION}" | grep -Eq "${SEMVER_REGEX}"; then
-              echo "::error::VERSION file contains an invalid canonical version: ${VERSION}" >&2
-              exit 1
-            fi
-            echo "${VERSION}"
+          resolve_version_from_files() {
+            local canonical_version
+            local canonical_release_type
+            local version_suffix
+
+            canonical_version="$(bash .github/scripts/version-release-type-manager.sh read-version)"
+            canonical_release_type="$(bash .github/scripts/version-release-type-manager.sh read-release-type)"
+            CANONICAL_RELEASE_TYPE="${canonical_release_type}"
+
+            case "${canonical_release_type}" in
+              stable)
+                if [[ "${canonical_version}" == *-* ]]; then
+                  echo "::error::VERSION contains a prerelease suffix but RELEASE_TYPE is stable." >&2
+                  exit 1
+                fi
+                VERSION="v${canonical_version}"
+                ;;
+              alpha|beta|rc)
+                if [[ "${canonical_version}" == *-* ]]; then
+                  version_suffix="${canonical_version#*-}"
+                  if ! [[ "${version_suffix}" =~ ^${canonical_release_type}([0-9A-Za-z.-]*)?$ ]]; then
+                    echo "::error::VERSION prerelease suffix does not match RELEASE_TYPE=${canonical_release_type}." >&2
+                    exit 1
+                  fi
+                  VERSION="v${canonical_version}"
+                else
+                  VERSION="v${canonical_version}-${canonical_release_type}"
+                fi
+                ;;
+              nightly)
+                VERSION="v$(bash .github/scripts/version-release-type-manager.sh generate-nightly-version "${GITHUB_RUN_NUMBER}")"
+                ;;
+              *)
+                echo "::error::Unsupported canonical RELEASE_TYPE: ${canonical_release_type}" >&2
+                exit 1
+                ;;
+            esac
           }
 
+          CANONICAL_RELEASE_TYPE=""
           if [[ -n "${TAG_INPUT}" ]]; then
             if [[ "${TAG_INPUT}" =~ ${SEMVER_REGEX} ]]; then
               TAG_INPUT="v${TAG_INPUT}"
@@ -255,12 +282,8 @@ jobs:
             echo "  Source   : release event"
             echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
           else
-            if [[ "${PUSH_INPUT}" == "true" ]]; then
-              echo "::error::An explicit release tag is required for registry publication."
-              exit 1
-            fi
-            VERSION="v$(resolve_version_from_file)"
-            echo "  Source   : canonical VERSION file"
+            resolve_version_from_files
+            echo "  Source   : canonical VERSION and RELEASE_TYPE files"
             echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
           fi
           if ! [[ "${VERSION}" =~ ${TAG_REGEX} ]]; then
@@ -271,7 +294,7 @@ jobs:
             v*) EDITION=COMMUNITY ;;
             *) echo "::error::Private-edition images require a provisioned private delivery pipeline."; exit 1 ;;
           esac
-          if [[ -n "${TAG_INPUT}" || "${GIT_REF}" == refs/tags/* || "${EVENT_NAME}" == "release" ]]; then
+          if [[ -n "${TAG_INPUT}" || "${GIT_REF}" == refs/tags/* || "${EVENT_NAME}" == "release" || "${PUSH_INPUT}" == "true" ]]; then
             TAG_REF="refs/tags/${VERSION}"
             if ! git show-ref --verify --quiet "${TAG_REF}"; then
               echo "::error::Requested release tag '${VERSION}' does not exist in the checked-out repository; push the tag before starting Docker publication." >&2
@@ -283,16 +306,18 @@ jobs:
             SOURCE_SHA="$(git rev-parse HEAD)"
           fi
           bash .github/scripts/version-release-type-manager.sh validate
-          RELEASE_TYPE=stable
-          BASE_VERSION="${VERSION#minimal-v}"
-          BASE_VERSION="${BASE_VERSION#v}"
-          case "${BASE_VERSION}" in
-            *-nightly*) RELEASE_TYPE=nightly ;;
-            *-alpha*) RELEASE_TYPE=alpha ;;
-            *-beta*) RELEASE_TYPE=beta ;;
-            *-rc*) RELEASE_TYPE=rc ;;
-            *-*) echo "::error::Unsupported prerelease channel: ${VERSION}"; exit 1 ;;
-          esac
+          RELEASE_TYPE="${CANONICAL_RELEASE_TYPE:-stable}"
+          if [[ -z "${CANONICAL_RELEASE_TYPE}" ]]; then
+            BASE_VERSION="${VERSION#minimal-v}"
+            BASE_VERSION="${BASE_VERSION#v}"
+            case "${BASE_VERSION}" in
+              *-nightly*) RELEASE_TYPE=nightly ;;
+              *-alpha*) RELEASE_TYPE=alpha ;;
+              *-beta*) RELEASE_TYPE=beta ;;
+              *-rc*) RELEASE_TYPE=rc ;;
+              *-*) echo "::error::Unsupported prerelease channel: ${VERSION}"; exit 1 ;;
+            esac
+          fi
           printf 'version=%s\nsource_sha=%s\nedition=%s\nrelease_type=%s\n' \
             "${VERSION}" "${SOURCE_SHA}" "${EDITION}" "${RELEASE_TYPE}" >> "${GITHUB_OUTPUT}"
           echo "  Version  : ${VERSION}"
