@@ -1,18 +1,33 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "GitHub Copilot"
-AI_Contributor: "GitHub Copilot"
-Human_Review: true
-Human_Author: "ThemisDB Team"
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "include/search/hybrid_search.h"
+  - "include/search/distributed_hybrid_search.h"
+  - "include/search/llm_reranker.h"
+  - "include/search/layered_retrieval_orchestrator.h"
+  - "src/search/hybrid_search.cpp"
+  - "src/search/distributed_hybrid_search.cpp"
+Related_Issue: "#7378"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
+
+Exact model backend not verifiable from final document text alone.
 
 # Search Module Runbook
 
-This runbook captures how to diagnose and recover from the most common search-module production faults. It is grounded in the existing hybrid, distributed, reranking, and layered retrieval logic.
+This runbook captures source-grounded diagnosis paths. Recovery settings are
+operator choices, not validated universal recommendations; test in the owning
+deployment before changing timeouts or candidate limits.
 
 ## Scenario 1 — BM25 or vector backend is empty or degraded
 
@@ -20,7 +35,7 @@ This runbook captures how to diagnose and recover from the most common search-mo
 
 - search queries return near-empty result sets
 - log output shows backend warnings or partial-result diagnostics
-- `SearchStats::partial_result` or `primary_error_code` indicates degradation
+- `SearchStats::partial_result` indicates one source failed while another returned candidates; `primary_error_code` is declared but is not populated by the current `HybridSearch::search()` implementation
 
 ### Diagnosis
 

@@ -1,4 +1,34 @@
-# Wave B Block 4 Closure — LayeredRetrievalOrchestrator Documentation Complete
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "include/search/layered_retrieval_orchestrator.h"
+  - "src/search/layered_retrieval_orchestrator.cpp"
+  - "tests/search/test_layered_retrieval_integration_phase4.cpp"
+  - "benchmarks/search/CMakeLists.txt"
+Related_Issue: "#7378"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+# Wave B Block 4 Closure — Historical Documentation Record
+
+> **Not current evidence:** This closure record preserves historical Wave B
+> claims. Its approval, performance/SLA, test coverage, and baseline statements
+> were not revalidated for issue #7378. In particular, the layered test currently
+> inspected uses an ANN stub callback, tests are included through CMake auto-discovery
+> when tests are configured, and detached timed-out work is not cancelled. No benchmark or test runtime
+> result is claimed here.
 
 **Date:** 2026-08-18  
 **Status:** ✅ COMPLETE  

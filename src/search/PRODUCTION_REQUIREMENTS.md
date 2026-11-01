@@ -1,15 +1,47 @@
-> **Status:** 2026-08-06 – Phase 4-6 Production Requirements (v2.0.0)  
-> **Updated:** August 2026 with Phase 4-6 deliverables  
-> **Scope:** All 14 search components (Phase 1-6 complete)
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "include/search/*.h"
+  - "cmake/ModularBuild.cmake"
+  - "tests/search/CMakeLists.txt"
+  - "benchmarks/search/CMakeLists.txt"
+Related_Issue: "#7378"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+> **Historical planning document; not a current production specification.**
+> The hardware, SLA, availability, corpus-size, test-count, and maturity
+> assertions below were not established by the current headers/CMake/test
+> definitions inspected for #7378. In particular, test/benchmark source
+> presence does not establish a successful run. Treat numeric limits as
+> **assumptions/TODOs** pending implementation and measured evidence. The
+> current API contracts are in `include/search/`; release status is governed
+> by the root roadmap.
+
+> **Historical snapshot:** August 2026; Phase 4-6 claims require re-validation
+> **Scope in original snapshot:** All 14 search components (completion status unverified)
 
 # ThemisDB Search Module - Production Requirements
 
 ## Purpose and Scope
 
-This document is the **canonical reference for production minimum requirements** for the ThemisDB Search Module (v2.0.0).  
-It defines mandatory operational, performance, and SLA requirements covering all 14 search components across Phases 1-6.
+This document records a historical proposal for production requirements; it is
+not the canonical implementation contract and its MUST statements are not
+validated operational requirements.
 
-## Document Boundaries (Canonical Split)
+## Document Boundaries (historical split)
 
 - **`src/search/PRODUCTION_REQUIREMENTS.md` (this document):** Production-minimum operational requirements (MUST/MUST NOT), SLA targets, hardware profiles, data constraints, operational procedures.
 - **`src/search/README.md`:** Feature overview, architecture context, API examples.
@@ -18,7 +50,7 @@ It defines mandatory operational, performance, and SLA requirements covering all
 
 ## Mandatory Production Requirements
 
-### Phase 1-6 Completion Criteria
+### Phase 1-6 historical completion claims (not verified by this document)
 - [x] **Phase 1 (Design/API Contract):** v2.0.0 frozen contracts for HybridSearch, DistributedHybridSearch, SearchResultStream
 - [x] **Phase 2 (Core Implementation):** Distributed merge hardening with shard-failure handling
 - [x] **Phase 3 (Error Handling):** Unified error codes and fail-safe patterns across all 14 components
@@ -117,7 +149,7 @@ It defines mandatory operational, performance, and SLA requirements covering all
 
 ## Review and Verification
 
-### Verification Checklist (Pre-Deployment)
+### Historical Verification Checklist (not current run evidence)
 - [x] Phase 1: API contracts frozen (v2.0.0)
 - [x] Phase 2: Core implementation hardened
 - [x] Phase 3: Error handling patterns implemented

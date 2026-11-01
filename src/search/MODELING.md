@@ -1,14 +1,25 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-21"
-Last Updated: "2026-10-21"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
 AI_Used: true
-AI_Models: "GitHub Copilot"
-AI_Contributor: "GitHub Copilot"
-Human_Review: true
-Human_Author: "ThemisDB Team"
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "include/search/hybrid_search.h"
+  - "include/search/search_error_codes.h"
+  - "src/search/hybrid_search.cpp"
+  - "src/search/distributed_hybrid_search.cpp"
+Related_Issue: "#7378"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
+
+Exact model backend not verifiable from final document text alone.
 
 # Search Module Modeling Notes
 
@@ -24,7 +35,7 @@ The effective search model is:
 4. merge the two candidate sets using RRF or linear combination
 5. apply optional LLM reranking
 6. enforce candidate counts and final `k` caps
-7. report outcome health through `SearchStats` and error codes
+7. report outcome health through the fields actually populated in `SearchStats`
 
 This flow is visible in `HybridSearch::search()` and in the distributed variant.
 
@@ -69,7 +80,7 @@ This conversion makes dense similarity comparable with lexical ranking before fu
 The default model in `HybridSearch::reciprocalRankFusion()` is the standard approach:
 
 - each result receives a score based on its position in the lexical and vector lists
-- the final score is the sum of the reciprocal rank contributions
+- the final score is the weighted sum of reciprocal-rank contributions from the configured sources
 - the constant `rrf_k` controls sensitivity to rank differences
 
 This approach is robust when both retrieval sources have noisy or incomplete rankings.
@@ -122,7 +133,11 @@ The guardrail design in `LayeredRetrievalOrchestrator` acknowledges this by boun
 
 ## The model is intentionally fail-safe
 
-This module does not treat retrieval as a single all-or-nothing call. It is modeled as a degraded signal pipeline with explicit observability. The required contract is not simply "best result set" but "best result set with explicit quality metadata and bounded failure modes." This is why the code uses the `SearchErrorCode` taxonomy and `SearchStats` diagnostics so directly.
+The module can return partial results, and `SearchStats` exposes backend status,
+partial-result, and count fields. Although `SearchErrorCode` and additional
+degradation flags are declared, the current hybrid implementation does not
+populate them. Treat error-code integration and full degradation observability
+as an implementation gap, not an established runtime guarantee.
 
 ## Source-grounded references
 

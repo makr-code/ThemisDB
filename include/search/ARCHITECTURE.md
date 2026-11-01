@@ -1,4 +1,24 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "api-contract"
+Canonical_References:
+  - "include/search/*.h"
+  - "src/search/ARCHITECTURE.md"
+  - "cmake/ModularBuild.cmake"
+Related_Issue: "#7378"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
+
+Exact model backend not verifiable from final document text alone.
 
 <!-- Status: current | validated: 2026-08-06 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ../../src/search/ARCHITECTURE.md -->
@@ -57,9 +77,13 @@ For runtime composition details — hybrid merge, reranking, and distributed sea
 
 ## 3. Namespace Layout
 
-| Namespace | Scope |
-|-----------|-------|
-| `themis::search` | Retrieval, fusion, and search-utility types |
+| Namespace | Declared types |
+|---|---|
+| `themis` | Most public search APIs, including `HybridSearch` and the utilities listed above |
+| `themis::search` | `LayeredRetrievalOrchestrator` and its layer/result/config types |
+
+This is not a promise that all search headers use a common namespace; the
+individual declarations in each public header are authoritative.
 
 ---
 
@@ -69,3 +93,7 @@ For runtime composition details — hybrid merge, reranking, and distributed sea
 - Distributed and federated search contracts expose explicit degraded/partial-result behavior for multi-shard and multi-backend use cases.
 - Query-shaping, ranking, and multimodal headers stay public so deployers can customize retrieval pipelines without replacing core search orchestration.
 - Analytics and streaming surfaces provide operational visibility and incremental result delivery to higher layers.
+
+The header directory is a contract surface, not evidence that each component is
+compiled into every executable. Check the target's active source list in
+`cmake/ModularBuild.cmake` or its owning CMake target before inferring linkage.
