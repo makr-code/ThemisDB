@@ -22,7 +22,7 @@ Exact model backend not verifiable from final document text alone.
 - Reused canonical focused executables for AutoFocused CTest names across the affected modules, avoiding duplicate test-source compilation while preserving test names and labels.
 - Made missing canonical targets fail CMake configuration and deferred transaction aliases until all module targets are defined.
 - Propagated GNN embedding persistence failures to the caller instead of silently reporting success.
-- Verified the RAG cleanup removed 39 duplicate-source pairs; 71 profile-wide multiple focused registrations remain for individual triage.
+- Reused canonical focused executables for 66 LLM AutoFocused names while preserving labels; the focused API-contract target and both associated CTest names pass. The Windows Debug inventory now reports 5 (down from 71) test sources with multiple focused targets. Three LLM provider variants, the tensor shard-summary source-set pair, and the shared GTest runner remain for individual triage.
 
 <!--
 AI_Used: true
