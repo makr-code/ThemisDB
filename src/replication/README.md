@@ -1,231 +1,109 @@
-# ThemisDB Replication Module
-
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
-
-## Module Purpose
-
-The replication module provides leader-follower and multi-writer replication behavior, WAL shipping, failover/promotion paths, conflict resolution, logical replication slots, and replication observability surfaces for ThemisDB.
-
-## Relevant Interfaces
-
-| Interface / File | Role |
-|---|---|
-| replication_manager.cpp | replication orchestration, init, promote, runtime control |
-| raft_v2.cpp | Raft v2 state and membership behavior |
-| logical_replication.cpp | logical slot/filter and stream behavior |
-| multi_tier_replication.cpp | tiered replication path management |
-| conflict_resolution.cpp | HLC/LWW/CRDT conflict resolution behavior |
-| event_stream.cpp | replication event subscription/dispatch behavior |
-| replication_slot.cpp | slot lifecycle and persistence behavior |
-| schema_cdc.cpp | schema-aware CDC bridge behavior |
-| observability.cpp | lag/topology/health snapshots and metrics |
-| policy.cpp | replication policy validation and assignment |
-
-## Scope
-
-In scope:
-- replication lifecycle, failover, and leader promotion behaviors
-- WAL/logical replication and conflict resolution surfaces
-- replication observability, policy, and CDC integration paths
-
-Out of scope:
-- transport protocol ownership outside replication module contracts
-- storage engine internals owned by storage subsystem
-- authn/authz ownership outside module boundaries
-
-## Runtime Behavior and Limits
-
-- replication mode and topology drive consistency/performance behavior.
-- promotion/failover paths are explicit and diagnosable.
-- conflict resolution paths are deterministic per configured strategy.
-- lag and health behavior remains observable via module metrics snapshots.
-
-## Sourcecode Verification (Module: replication/readme)
-
-- Verified files:
+---
+Author: ThemisDB Contributors
+Created: 2026-10-18
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References:
+  - include/replication/replication_manager.h
+  - include/replication/async_wal_shipper.h
+  - include/replication/lag_alert_manager.h
+  - include/replication/logical_replication.h
   - src/replication/replication_manager.cpp
-  - src/replication/raft_v2.cpp
-  - src/replication/logical_replication.cpp
-  - src/replication/multi_tier_replication.cpp
-  - src/replication/conflict_resolution.cpp
-  - src/replication/event_stream.cpp
-  - src/replication/replication_slot.cpp
-  - src/replication/schema_cdc.cpp
-  - src/replication/observability.cpp
-  - src/replication/policy.cpp
-- Verified behavior surfaces:
-  - orchestration/failover, conflict resolution, CDC/logical replication, observability
-- Note:
-  - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
-  - historical entries remain in CHANGELOG.md
-## Configuration Keys
+  - src/replication/async_wal_shipper.cpp
+  - tests/CMakeLists.txt
+Related_Issue: "#7373"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
 
-### Async Cross-Region WAL Shipping (Wave A Block 2)
+Exact model backend not verifiable from final document text alone.
 
-Configuration for async WAL shipping to remote datacenters:
+# Replication module
 
-```
-replication:
-  wal_shipping:
-    # Maximum acceptable WAL shipping lag in milliseconds
-    # When the shipping lag exceeds this value, a lag alert is emitted
-    # Default: 1000 (1 second)
-    max_lag_ms: 1000
+## Purpose and boundaries
 
-    # Number of histogram buckets for Prometheus lag metric
-    # Default: 16
-    histogram_buckets: 16
+`include/replication/` declares replication APIs; the corresponding runtime code is in
+`src/replication/`. The implemented source files cover manager and Raft-v2 paths,
+logical replication, slots, asynchronous WAL shipping, geographic placement, conflict
+resolution, policy, event streams, lag alerts, observability, tiering, and schema CDC.
+Storage and network transports are dependencies or injected boundaries, not all owned
+by this module.
 
-    # Remote datacenter endpoint (host:port or symbolic name)
-    remote_dc_endpoint: "dc-eu-west:9876"
+## Public API map
 
-    # Local datacenter identifier
-    local_dc_id: "dc-us-east"
+| Interface | Current surface |
+|---|---|
+| `ReplicationManager` (`replication_manager.h`) | `initialize()`, `shutdown()`, `replicate()`, `waitForReplication()`, replica/witness management, promotion/failover, health/quorum, read preference, and placement-policy methods. |
+| `RaftV2ClusterConfig`, `MembershipChangeManager` (`raft_v2.h`) | Joint-consensus membership transitions and quorum checks. |
+| `LogicalReplicationManager` (`logical_replication.h`) | Slot creation/listing, filtered `readChanges()`, `advanceSlot()`, and DDL recording. |
+| `ReplicationSlotManager`, `ReplicationSlot` (`replication_slot.h`) | Persisted slot lifecycle and confirmed-LSN progress. |
+| `AsyncWalShipper` (`async_wal_shipper.h`) | Background segment dispatch through an injected handler; bounded queue and `enqueueSegment()` backpressure result. |
+| `LagAlertManager` (`lag_alert_manager.h`) | Caller-updated lag tracking, threshold evaluation, callbacks, snapshots, and metric export. |
+| `GeoReplicaPlacementManager` (`geo_placement.h`) | Stateless candidate selection and placement validation over caller-supplied topology. |
+| Other declared surfaces | `ReplicationEventStream`, `SchemaAwareCDCBridge`, `MultiTierReplicationManager`, `ReplicationPolicy`, `ReplicationObserver`, conflict/CRDT types, diagnostics, and Kafka change-stream declarations. See the matching headers. |
 
-    # Maximum number of segments that may queue before backpressure
-    # Default: 4096
-    max_queue_depth: 4096
-```
+These are component APIs, not a guarantee that every surface is wired into one
+end-to-end production topology. In particular, `kafka_change_stream.h` and
+`multi_master_replication.h` have no same-named implementation file under
+`src/replication/`; their implementation/integration boundary needs confirmation.
 
-### Lag Alert Manager Configuration
+## WAL shipping and lag behavior
 
-Configuration for replication lag monitoring and SLO thresholds:
+`WalShippingConfig` defaults are `max_lag_ms = 1000`, `max_queue_depth = 4096`, and
+`histogram_buckets = 16`. `AsyncWalShipper` starts a worker at construction. Its default
+ship handler counts bytes without sending them; callers requiring transport must install
+a real handler with `setShipHandler()`. `enqueueSegment()` returns `false` at queue
+capacity. The API reports statistics through `stats()` and exports text metrics through
+`exportPrometheusMetrics()`.
 
-```
-replication:
-  lag_alert:
-    # Alert threshold (milliseconds): Initial warning-level notification
-    # Default: 10000 (10 seconds)
-    alert_threshold_ms: 10000
+`LagAlertManager` defaults are 10,000 ms alert, 30,000 ms critical, 60,000 ms failover
+threshold, and 300,000 ms failover duration. The caller updates lag and invokes
+`checkAndAlertLagViolations()`; `replicasEligibleForFailover()` reports eligible IDs.
+The header does not establish that this class automatically invokes
+`ReplicationManager::triggerFailover()`.
 
-    # Critical threshold (milliseconds): Escalated error-level notification
-    # Default: 30000 (30 seconds)
-    critical_threshold_ms: 30000
+## Configuration boundary
 
-    # Failover threshold (milliseconds): Consider automatic failover
-    # Default: 60000 (60 seconds)
-    failover_threshold_ms: 60000
+The `WalShippingConfig`, `SLOThresholds`, and `ReplicationConfig` types are C++ APIs.
+The reviewed module source does not establish a YAML parser mapping
+`replication.wal_shipping.*` or `replication.lag_alert.*` into these types. Treat such
+YAML snippets in older material as illustrative only until parser wiring is verified.
 
-    # Failover duration (milliseconds): How long critical lag must persist
-    # before triggering automatic failover
-    # Default: 300000 (5 minutes)
-    failover_duration_ms: 300000
-```
+[`../../config/distributed/replication/basic.example.yaml`](../../config/distributed/replication/basic.example.yaml) is a
+separate server-side configuration path:
+`src/main_server.cpp` reads keys such as `shipper_enabled`, `primary_id`, `replicas`,
+batch/retry values, and compression into `themis::sharding::WALShipperConfig`. It is not
+evidence that the example configures `themisdb::replication::AsyncWalShipper`.
 
-## Prometheus Metrics
+**TODO:** Confirm and document the supported user-facing configuration schema and the
+runtime wiring for the replication module's C++ config types.
 
-### WAL Shipping Metrics
+## Build, tests, and benchmarks
 
-- `replication_wal_lag_ms` — Histogram of WAL shipping lag from enqueue to dispatch (ms)
-  - Buckets: Geometric series from 1 ms to 10× max_lag_ms
-  - Labels: `local_dc`, `remote_dc`
-  
-- `replication_wal_segments_enqueued_total` — Total WAL segments accepted (counter)
-- `replication_wal_segments_shipped_total` — Total WAL segments dispatched (counter)
-- `replication_wal_segments_dropped_total` — WAL segments dropped due to queue full (counter)
-- `replication_wal_lag_alerts_total` — Times WAL lag exceeded configured limit (counter)
-- `replication_wal_bytes_shipped_total` — Total bytes dispatched (counter)
+The root `tests/CMakeLists.txt` contains explicit replication test registrations,
+including focused tests for manager guards, geo placement/WAL shipping, Raft v2, CRDT
+types, and newer module features. `tests/replication/CMakeLists.txt` also contains
+module-local registration logic; whether that extracted file is included in every
+current configure path is not established here.
 
-### Lag Alert Manager Metrics
+The benchmark files under `benchmarks/replication/` are added by the replication
+benchmark CMake directory when `THEMIS_BUILD_BENCHMARKS` is enabled. See
+[`../../benchmarks/replication/README.md`](../../benchmarks/replication/README.md) for
+the current benchmark inventory.
 
-- `replication_lag_ms{replica_id}` — Current replication lag per replica (gauge)
-- `lag_alert_triggered_total{replica_id}` — Total alert threshold crossings (counter)
-- `lag_critical_triggered_total{replica_id}` — Total critical threshold crossings (counter)
-- `failover_initiated_total{replica_id}` — Total failover initiations due to lag (counter)
+No build, benchmark, or test execution is claimed by this documentation update.
 
-## API Usage
+## Related module documentation
 
-### Async WAL Shipper
-
-```cpp
-#include "replication/async_wal_shipper.h"
-
-// Configure
-WalShippingConfig cfg;
-cfg.remote_dc_endpoint = "dc-eu-west:9876";
-cfg.local_dc_id        = "dc-us-east";
-cfg.max_lag_ms         = 1000;
-
-// Create shipper (starts background worker thread)
-AsyncWalShipper shipper(cfg);
-
-// Set up handlers
-shipper.setAlertCallback([](uint64_t lag_ms) {
-    std::cerr << "WAL lag alert: " << lag_ms << " ms\n";
-});
-
-shipper.setShipHandler([](const WalSegment& seg) -> bool {
-    // Implement actual transport (gRPC, TCP, cloud storage, etc.)
-    return transportToRemoteDC(seg);
-});
-
-// Enqueue segments for async shipping
-WalSegment seg;
-seg.sequence_number = 1;
-seg.data            = wal_bytes;
-seg.enqueue_time    = std::chrono::steady_clock::now();
-seg.target_dc       = "dc-eu-west";
-
-if (!shipper.enqueueSegment(std::move(seg))) {
-    // Queue full; implement backpressure strategy
-}
-
-// Export metrics
-std::cout << shipper.exportPrometheusMetrics();
-```
-
-### Lag Alert Manager
-
-```cpp
-#include "replication/lag_alert_manager.h"
-
-// Create manager
-LagAlertManager lag_monitor;
-
-// Configure SLO thresholds
-SLOThresholds thresholds;
-thresholds.alert_threshold_ms = 5000;      // 5 seconds
-thresholds.critical_threshold_ms = 15000;  // 15 seconds
-lag_monitor.setThresholds(thresholds);
-
-// Set up alert callback
-lag_monitor.setAlertCallback([](const AlertEvent& evt) {
-    std::cerr << "LAG ALERT: replica=" << evt.replica_id 
-              << " lag=" << evt.lag_ms << "ms level=" << (int)evt.level << "\n";
-});
-
-// Periodically update replica lag
-lag_monitor.updateReplicaLag("replica-1", 5500);
-lag_monitor.updateReplicaLag("replica-2", 12000);
-
-// Check and emit alerts
-if (lag_monitor.checkAndAlertLagViolations()) {
-    // At least one alert was fired
-}
-
-// Query status
-auto in_critical = lag_monitor.replicasInCritical();
-auto failover_eligible = lag_monitor.replicasEligibleForFailover();
-```
-
-## Testing
-
-Comprehensive test suite for async WAL shipping and lag alerts:
-
-`tests/replication/test_replication_async_wal_lag_alerts.cpp`
-
-Test coverage includes:
-- Basic enqueue and dispatch
-- Lag alert threshold crossing
-- Backpressure handling when queue full
-- Transport handler failures and recovery
-- Concurrent multi-threaded shipping
-- Prometheus metrics export validation
-- Single and multiple replica lag tracking
-- Critical lag detection and failover eligibility
-- Batch lag updates
-- Callback exception handling
-- End-to-end integration
-
-See ROADMAP.md §3.1 for acceptance criteria and implementation evidence.
+- [API contract notes](API.md)
+- [Architecture](ARCHITECTURE.md)
+- [Implementation map](IMPLEMENTATION.md)
+- [Maintainer guide](MODULE_GUIDE.md)
+- [Operations notes](OPERATIONS.md)
+- [Module roadmap/backlog](ROADMAP.md)
