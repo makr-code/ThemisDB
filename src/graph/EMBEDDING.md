@@ -1,16 +1,17 @@
 > Author: ThemisDB Team
 > Created: 2026-10-30
-> Last Updated: 2026-10-30
+> Last Updated: 2026-10-31
 > Status: active
 > AI_Used: true
 > AI_Models: unknown
-> AI_Contributor: GitHub Copilot
+> AI_Contributor: ThemisDB documentation orchestration specialist
 > Human_Review: false
 > Human_Author: ThemisDB Team
 > Source level: level1
 > SOT domain: module-behavior
-> Canonical source references: [RotatE header](../../include/graph/rotate_completion.h), [RotatE implementation](rotate_completion.cpp), [RotatE tests](../../tests/graph/test_rotate_completion.cpp)
+> Canonical source references: [RotatE header](../../include/graph/rotate_completion.h), [RotatE implementation](rotate_completion.cpp), [RotatE tests](../../tests/graph/test_rotate_completion.cpp), [root roadmap](../../ROADMAP.md)
 > Related issue: #7122
+> Related milestone: DOC-WEEKLY-2026-44
 >
 > Exact model backend not verifiable from final document text alone.
 
@@ -38,7 +39,7 @@ Implementation details visible in the current source:
 
 ### Acceptance-gate discrepancy
 
-The current acceptance test asserts MRR ≥ 0.10, Hits@10 ≥ 0.40, relative-to-TransE bounds, and top-20 p99 < 50 ms. Older [ROADMAP.md](ROADMAP.md) text lists MRR ≥ 0.35 and Hits@10 ≥ 0.55; those are not current test assertions and must not be presented as evaluation results. Reconcile the stale roadmap entry separately.
+The current acceptance test asserts MRR ≥ 0.10, Hits@10 ≥ 0.40, relative-to-TransE bounds, and top-20 p99 < 50 ms. The repository-level [ROADMAP.md](../../ROADMAP.md) now distinguishes those acceptance-test floors from the higher quality targets MRR ≥ 0.35 and Hits@10 ≥ 0.55. The assertions are not captured evaluation results, and the higher targets remain unverified pending a separately recorded evaluation.
 
 ## Similar names, different behavior
 

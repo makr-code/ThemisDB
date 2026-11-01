@@ -1,32 +1,32 @@
 ---
-Author: "ThemisDB Team"
-Created: "2026-10-18"
-Last Updated: "2026-10-18"
-Status: "active"
+Author: ThemisDB Team
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+Source level: 1
+SOT domain: module-behavior
+Canonical references: include/scheduler/*.h; src/scheduler/*.cpp; src/scheduler/README.md
+Related issue: #7376; DOC-WEEKLY-2026-44
 ---
 
-# Scheduler in ThemisDB
+Exact model backend not verifiable from final document text alone.
 
-## Ueberblick
-Das Modul scheduler stellt task registration/execution orchestration, retention workflows, distributed coordination adapters, audit/result tracking, anomaly detection, and event-trigger integration for scheduled automation in ThemisDB. Im Modulkontext werden Aussagen mit [Architekturgrenzen](./ARCHITECTURE.md), [Release-Planung](./ROADMAP.md), [Produktionsanforderungen](./PRODUCTION_REQUIREMENTS.md) abgeglichen. Im Betrieb sind dabei insbesondere [Latenz](https://en.wikipedia.org/wiki/Latency_(engineering)), [Observability](https://en.wikipedia.org/wiki/Observability) und [Determinismus](https://en.wikipedia.org/wiki/Deterministic_algorithm) relevante Qualitaetskriterien. Fuer Querschnittskontext wird das Modul mit den relevanten Stellen im [Compendium](./../../docs/compendium/docs/index.md) verknuepft.
+# Scheduler feature map
 
-## Kern-Features im Detail
-Die erste Kernfaehigkeit ist **core task registration, execution, and scheduler runtime behavior**. Das beschreibt einen konkreten, in den Modulquellen referenzierten Verantwortungsbereich.
+The following implementation surfaces are present in the scheduler module:
 
-Die zweite Kernfaehigkeit ist **retention lifecycle orchestration behavior**. Dadurch bleiben Integrationspfade zwischen Modulgrenzen reproduzierbar und operativ auswertbar.
+- task registration, validation, execution, scheduling, statistics, and optional
+  persistence in `TaskScheduler`;
+- separate distributed-leadership and external-scheduler adapter classes;
+- configurable hybrid time-series retention stages;
+- changefeed event filtering, condition matching, debounce, and callbacks;
+- audit/security event recording, result storage, and anomaly metrics.
 
-Die dritte Kernfaehigkeit ist **distributed task coordination and leadership behavior**. Das unterstuetzt stabile Abnahme- und Aenderungsprozesse entlang der Modul-Roadmap.
-
-```mermaid
-flowchart LR
-    A[Produktanforderung] --> B[Scheduler Modul]
-    B --> C[Implementierung und Integrationspfade]
-    C --> D[Test- und Betriebsnachweise]
-    D --> E[Kundennutzen im Betrieb]
-```
-
-## Kundennutzen und Abgrenzung
-Kundinnen und Kunden erhalten damit vor allem besser planbares Systemverhalten, kuerzere Eingrenzungszeiten bei Stoerungen und transparentere Release-Risiken. Diese Seite ist ein fachlich-kommunikativer Ueberblick; normative API-, Compliance- und Freigabeaussagen verbleiben in den kanonischen Modulquellen.
-
-## Einordnung und Quellen
-Primaere modulnahe Quellen: [README.md](./README.md), [ARCHITECTURE.md](./ARCHITECTURE.md), [ROADMAP.md](./ROADMAP.md), [FUTURE_ENHANCEMENTS.md](./FUTURE_ENHANCEMENTS.md), [PRODUCTION_REQUIREMENTS.md](./PRODUCTION_REQUIREMENTS.md), [SECURITY.md](./SECURITY.md). Sekundaere Querschnittsquellen: [docs/scheduler/README.md](./../../docs/scheduler/README.md), [Compendium Index](./../../docs/compendium/docs/index.md). Aussagen wurden auf diese Quellenbasis begrenzt; bei fehlenden Modulquellen werden keine weitergehenden Produktclaims ergänzt.
+These are component capabilities, not a guarantee that every path is enabled,
+integrated, or production-ready in a given build. For source-specific
+limitations see [README.md](README.md) and [ARCHITECTURE.md](ARCHITECTURE.md).

@@ -1,27 +1,59 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: ThemisDB documentation orchestration specialist
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source level: level1
+SOT domain: module-behavior
+Canonical source references:
+  - CMakeLists.txt
+  - ../cmake/RegisterModuleTests.cmake
+  - ../../CMakePresets.json
+  - ../../include/graph/
+  - ../../src/graph/
+Related milestone: DOC-WEEKLY-2026-44
+AI_Model_Note: Exact model backend not verifiable from final document text alone.
+---
+
 # ThemisDB Graph Module - Tests
 
-<!-- Status: current | validated: 2026-07-17 -->
-<!-- Links: ../src/graph/README.md · ../src/graph/ROADMAP.md · ../src/graph/ARCHITECTURE.md -->
+<!-- File/category inventory is descriptive; CMake globs are authoritative. -->
+<!-- Links: ../../src/graph/README.md · ../../src/graph/ROADMAP.md · ../../src/graph/ARCHITECTURE.md -->
 
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
+> **Build:** use the explicit test-enabled `community-debug` configure below;
+> `linux-release` disables tests and benchmarks.
 
 ## Current Status
 
-- The earlier graph gap alert was closed on 2026-06-25: canonical source verification in
-  `src/graph/README.md` and `src/graph/ROADMAP.md` reports **0 verified gaps** in the backing
-  implementation.
-- The tests in this directory are no longer blocked by `explain_plan`, `ontology_manager`, or
-  `rotate_completion` follow-up work.
+> This section describes current CMake registration only; no test run or coverage-completeness
+> audit was performed.
+
+> **Historical status snapshot (2026-06-25; not current verification):** the prior README said the
+> graph gap alert was closed, reported zero verified gaps, and said `explain_plan`,
+> `ontology_manager`, and `rotate_completion` follow-up work no longer blocked these tests. Those
+> statements reproduce that snapshot only; they were not revalidated and are not current readiness
+> or test-result claims.
+
 - Focused graph tests are registered through `tests/graph/CMakeLists.txt` and can be selected with
-  the label `module:graph`.
+  the `module:graph` label supplied by the registration helper.
 
 ---
 
 ## Overview
 
-This directory contains comprehensive test suites for ThemisDB's Graph module, including unit tests, integration tests, and benchmark fixtures for all graph execution planes: query planning, traversal (parallel/distributed/GPU), constraint validation, semantic reasoning, and tensor-fingerprint graph utilities.
+This directory contains focused C++ tests for ThemisDB's Graph module, including query planning,
+traversal, constraint validation, semantic reasoning, and tensor-fingerprint utilities. CMake
+registration is authoritative for the discovered test executables and their labels.
 
 ## Test Files by Category
+
+> Parenthetical category counts are historical, non-exhaustive labels; some tests appear in more
+> than one category. CMake globs are authoritative for the current inventory.
 
 ### Query Planning & Optimization (5 tests)
 - `test_graph_query_optimizer.cpp` — cost-based planning, algorithm selection, plan caching
@@ -61,22 +93,41 @@ This directory contains comprehensive test suites for ThemisDB's Graph module, i
 - `test_graph_index_comprehensive.cpp` — comprehensive indexing
 - `test_graph_edge_empty_fields_qw45.cpp` — edge validation
 
+The current directory also includes focused regression files for parity, exact traversal,
+high-cardinality stress, phase-gate orchestration, query caches, plan-cache hardening, resource
+pooling, load balancing, error taxonomy, phase-3 optimization, entity-type constraints, and RotatE
+acceptance. The complete set is discovered by `test_*.cpp`; this list is not a second registration
+source.
+
 ## Build & Run
 
 ```bash
-# Build one focused graph test target (repeat with other `module_graph_*` targets as needed)
-cmake --build --preset linux-release --target module_graph_test_graph_query_optimizer_focused
+# Configure using system packages (use a fresh binary directory for a clean build).
+# community-debug inherits tests=OFF, so enable tests explicitly; disable benchmarks for a
+# test-only build. Requires GoogleTest (GTest CONFIG).
+cmake --preset community-debug -DTHEMIS_BUILD_TESTS=ON -DTHEMIS_BUILD_BENCHMARKS=OFF
+
+# Build one focused graph test target
+cmake --build --preset community-debug --target module_graph_test_graph_query_optimizer_focused
 
 # Run all graph-focused tests
-ctest --preset linux-release -L "module:graph" --output-on-failure
+ctest --preset community-debug -L "module:graph" --output-on-failure
 
 # Run specific test
-ctest --preset linux-release -R "test_graph_query_optimizer_GraphFocusedTests" --output-on-failure
+ctest --preset community-debug -R "test_graph_query_optimizer_GraphFocusedTests" --output-on-failure
 ```
+
+The system-package preset requires the Linux/macOS compiler, Ninja, and development dependencies
+listed in `SETUP.md`. `linux-debug` also inherits tests-off in the current preset chain. Both
+`file(GLOB)` blocks lack `CONFIGURE_DEPENDS`, so re-run configure after adding/removing matching
+test files.
 
 ## Notes
 
-- All tests integrate with ThemisDB's ACID transaction and distributed coordination layers.
-- GPU tests (test_gpu_traversal.cpp) require CUDA or HIP backend; fall back to CPU if unavailable.
-- Distributed tests assume access to sharding and consensus layers.
+- Test coverage is per-fixture; file presence does not imply integration with every storage or
+  distributed subsystem.
+- GPU traversal tests cover the code's fallback behavior; a hardware-backed GPU result requires
+  the relevant runtime/build support.
+- Distributed tests use the executor interfaces/fixtures in their source; do not infer a live
+  cluster requirement or consensus coverage from the filename.
 - For development/debugging, use `--gtest_filter` to isolate specific test cases.

@@ -1,4 +1,30 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: archived
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: ThemisDB documentation orchestration specialist
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source level: level1
+SOT domain: module-behavior
+Canonical source references:
+  - AUDIT.md
+  - ../../include/graph/
+  - ../../src/graph/
+  - ../../tests/graph/
+Related milestone: DOC-WEEKLY-2026-44
+AI_Model_Note: Exact model backend not verifiable from final document text alone.
+---
+
 # graph — MODULE_GAPS.md (Phase 5 Verified)
+
+> **Historical scanner snapshot (2026-07-01):** Counts, source line references, and "resolved"
+> classifications below are not current verified findings. The linked report is scanner
+> evidence, not canonical current-release or security evidence. A current finding requires a
+> source location, reproducer/test, and present disposition.
 
 This file documents all documentation and code quality gaps in the **graph** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
 
@@ -67,7 +93,7 @@ This file documents all documentation and code quality gaps in the **graph** mod
    - Issue: YamlEntry struct flagged as missing destructor (CRITICAL)
    - Fix: Added comprehensive Doxygen documentation explaining RAII semantics; clarified that implicit STL container destructors handle all cleanup
    - Status: ✅ RESOLVED
-   - Documentation: 
+   - Documentation:
      - Explains RAII semantics for unordered_map members
      - Clarifies stack-allocation and implicit destructors
      - Documents lifetime constraints and thread-safety model
@@ -97,7 +123,7 @@ This file documents all documentation and code quality gaps in the **graph** mod
    - Fix: Changed to proper vector iterator-range constructor
    - Impact: Now correctly materializes relation phase embedding into new vector
    - Status: ✅ RESOLVED
-   
+
 3. **Gap 2.1.3** - `iterator_invalidation` (related to rankAll cache usage)
    - Issue: Potential cache invalidation during multi-plane rotation completion
    - Fix: Added cache safety documentation to rankAll(), ensuring returned results are independent vectors

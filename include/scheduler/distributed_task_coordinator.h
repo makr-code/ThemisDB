@@ -23,6 +23,7 @@
 #include <map>
 #include <functional>
 #include <chrono>
+#include <cstdint>
 
 namespace themis {
 
@@ -39,13 +40,10 @@ namespace themis {
  * All public methods are thread-safe through the lock ordering hierarchy.
  *
  * ### Lock ordering (deadlock prevention)
- * MUST acquire locks in this strict order (never reverse):
- *   Level 0: heartbeat_mutex_ (health monitoring - acquired first)
- *   Level 1: registry_mutex_ (task registry)
- *   Level 2: leadership_mutex_ (leadership state - acquired last)
- * 
- * Any method acquiring multiple locks MUST follow this hierarchy.
- * Acquiring in reverse order can cause deadlock.
+ * Lifecycle transitions acquire transition_mutex_ first. They may then acquire
+ * registry_mutex_ or leadership_mutex_, but never acquire transition_mutex_
+ * while holding either of those locks. heartbeat_mutex_ is used independently
+ * for monitor waiting and is never nested with the lifecycle locks.
  *
  * ### Ownership model
  * The coordinator holds **non-owning raw pointers** to both the TaskScheduler
@@ -67,6 +65,9 @@ public:
          * deactivateScheduler().
          */
         bool auto_manage_scheduler = true;
+
+        /// Maximum delay before detecting a coordinator health loss.
+        std::chrono::milliseconds heartbeat_check_interval{1000};
     };
 
     /**
@@ -114,7 +115,9 @@ public:
      *
      * Registers a leadership callback with the DistributedCoordinator.  If
      * this node is already the leader at start time, the TaskScheduler is
-     * activated immediately.
+     * activated immediately. It also starts health monitoring using
+     * Config::heartbeat_check_interval; monitoring failure closes the execution
+     * gate and deactivates local scheduling.
      *
      * The underlying DistributedCoordinator must already be running (or will
      * be started externally).  This method does NOT call
@@ -126,7 +129,10 @@ public:
      * @brief Stop the coordinator.
      *
      * Deactivates the local scheduler (if running) and removes the leadership
-     * callback from the DistributedCoordinator.  Safe to call multiple times.
+     * callback from the DistributedCoordinator. Safe to call multiple times.
+     * If another scheduler transition is already in progress, shutdown closes
+     * the gate immediately and that transition reconciles to the stopped state
+     * without making this call wait while scheduler threads are being joined.
      */
     void stop();
 
@@ -162,6 +168,8 @@ public:
      * for testing and custom integration scenarios.
      *
      * Idempotent – calling it when the scheduler is already active is a no-op.
+     * If another lifecycle transition is in progress, the requested state is
+     * reconciled by that transition after its blocking scheduler operation ends.
      */
     void activateScheduler();
 
@@ -173,6 +181,8 @@ public:
      * and will be re-registered the next time activateScheduler() is called.
      *
      * Idempotent – calling it when the scheduler is already inactive is a no-op.
+     * If another lifecycle transition is in progress, the requested state is
+     * reconciled by that transition after its blocking scheduler operation ends.
      */
     void deactivateScheduler();
 
@@ -289,6 +299,8 @@ public:
     /**
      * @brief Start a background heartbeat thread to detect coordinator failure.
      *
+     * `start()` invokes this automatically with the configured interval.
+     *
      * This method spawns a background thread that periodically checks the health
      * of the underlying DistributedCoordinator.  If the coordinator becomes
      * unresponsive (heartbeat timeout), the method automatically deactivates the
@@ -329,12 +341,30 @@ public:
     SchedulerError handleSplitBrainDetection();
 
 private:
+    struct LeadershipCallbackState {
+        std::mutex mutex;
+        std::condition_variable cv;
+        DistributedTaskCoordinator* owner = nullptr;
+        size_t active_callbacks = 0;
+    };
+
     TaskScheduler*                      scheduler_;
     sharding::DistributedCoordinator*   coordinator_;
     Config                              config_;
+    // Shared with TaskScheduler so dispatch checks never capture this object's
+    // lifetime or dereference a destroyed coordinator.
+    std::shared_ptr<std::atomic<bool>>  execution_gate_;
+    std::shared_ptr<LeadershipCallbackState> callback_state_;
 
+    // Serializes scheduler transitions and every execution-gate transition.
+    mutable std::mutex transition_mutex_;
+    std::condition_variable transition_cv_;
     std::atomic<bool>   running_{false};
     std::atomic<bool>   scheduler_active_{false};
+    bool                desired_scheduler_active_ = false;
+    bool                desired_execution_gate_open_ = false;
+    bool                transition_in_progress_ = false;
+    uint64_t            transition_epoch_ = 0;
 
     // Local task registry – tasks stored here regardless of leader status.
     mutable std::mutex                              registry_mutex_;
@@ -359,6 +389,15 @@ private:
 
     // Helper: runs heartbeat monitoring in a background thread
     void heartbeatMonitorThread(std::chrono::milliseconds interval_ms);
+    // The following state helper requires transition_mutex_ to be held.
+    bool hasHealthyLocalLeadershipLocked() const noexcept;
+    static void dispatchLeadershipCallback(
+        const std::shared_ptr<LeadershipCallbackState>& state,
+        const std::string& leader_id);
+    void detachLeadershipCallbackOwnerAndWait() noexcept;
+    // Reconciles desired scheduler state without holding transition_mutex_
+    // across TaskScheduler::start()/stop() and their thread joins.
+    void runSchedulerTransitions();
 };
 
 } // namespace themis

@@ -1,12 +1,35 @@
-> **Roadmap-Hinweis:** Vage Bullets ohne Akzeptanzkriterien in Checkbox-Tasks überführen. Format: `- [ ] <Task> (Target: <Q/Jahr>)`.
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: ThemisDB documentation orchestration specialist
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source level: level1
+SOT domain: module-behavior
+Canonical source references:
+  - ../../ROADMAP.md
+  - ../../src/graph/ROADMAP.md
+  - CMakeLists.txt
+Related milestone: DOC-WEEKLY-2026-44
+AI_Model_Note: Exact model backend not verifiable from final document text alone.
+---
+
+> **Historical planning template:** the 2026-Q2/Q3/Q4 phase dates and checklist states below
+> are not current commitments. Root `ROADMAP.md` is the project maturity aggregate; current test
+> registration is defined by this directory's CMake file.
 
 # ROADMAP
 
 ## Current Status
-- [~] Modul `tests/graph` dokumentiert; Backlog für weitere Härtung und Ausbau wird gepflegt.
+- Focused tests are discovered by `tests/graph/CMakeLists.txt`; this file does not establish
+  coverage completeness or a test-only milestone.
 
 ## In Progress
-- [ ] Dokumentations- und Qualitätslücken schließen (Target: 2026-Q2)
+- TODO: add only maintainer-approved test work tied to a source contract and acceptance evidence.
 
 ## Planned Features
 - [ ] Schnittstellen und Verantwortlichkeiten präzisieren (Target: 2026-Q3)

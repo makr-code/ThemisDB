@@ -5863,6 +5863,27 @@ http::response<http::string_body> HttpServer::routeRequest(
         return false;
     };
 
+    auto makeSchedulerContext = [&](const std::string& permission,
+                                    const std::string& justification) {
+        TaskScheduler::RequestContext context;
+        context.client_ip = extractClientIP(req);
+        context.authorization_justification = justification;
+        context.granted_permissions.insert(permission);
+        if (auth_ && auth_->isEnabled()) {
+            const auto auth_context = extractAuthContext(req);
+            context.user_id =
+                auth_context.user_id.empty() ? "http-server" : auth_context.user_id;
+            for (const auto& group : auth_context.groups) {
+                context.roles.insert(group);
+            }
+        } else {
+            // requireAccess() explicitly allows this configured mode; attribute
+            // it to the server rather than trusting caller-supplied identity data.
+            context.user_id = "http-server";
+        }
+        return context;
+    };
+
     try {
         switch (classifyRoute(req)) {
             case Route::Health:
@@ -8304,10 +8325,10 @@ http::response<http::string_body> HttpServer::routeRequest(
                 break;
             }
             auto& task_scheduler_api = *task_scheduler_api_;
-            bool scheduler_ctx_set = false;
+            std::optional<TaskScheduler::ScopedRequestContext> scheduler_ctx_scope;
+            TaskScheduler::RequestContext scheduler_ctx;
             if (auth_ && auth_->isEnabled()) {
                 auto auth_ctx = extractAuthContext(req);
-                TaskScheduler::RequestContext scheduler_ctx;
                 scheduler_ctx.user_id = auth_ctx.user_id;
                 scheduler_ctx.client_ip = extractClientIP(req);
                 scheduler_ctx.authorization_justification = "task:register permission check";
@@ -8344,13 +8365,13 @@ http::response<http::string_body> HttpServer::routeRequest(
                         }
                     }
                 }
-                TaskScheduler::setRequestContext(scheduler_ctx);
-                scheduler_ctx_set = true;
+                scheduler_ctx_scope.emplace(scheduler_ctx);
+            } else {
+                scheduler_ctx = makeSchedulerContext(
+                    "task:register", "trusted unauthenticated server operation");
+                scheduler_ctx_scope.emplace(scheduler_ctx);
             }
             auto result = task_scheduler_api.registerTask(body);
-            if (scheduler_ctx_set) {
-                TaskScheduler::clearRequestContext();
-            }
             if (result.value("status", "") == "error") {
                 response = makeErrorResponse(http::status::bad_request, result.value("error", "Unknown error"), req);
             } else {
@@ -8429,6 +8450,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                 break;
             }
             auto& task_scheduler_api = *task_scheduler_api_;
+            TaskScheduler::ScopedRequestContext scheduler_context(
+                makeSchedulerContext("task:update", "tasks.update authorization"));
             auto result = task_scheduler_api.updateTask(task_id, body);
             if (result.value("status", "") == "error") {
                 response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
@@ -8453,6 +8476,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                 break;
             }
             auto& task_scheduler_api = *task_scheduler_api_;
+            TaskScheduler::ScopedRequestContext scheduler_context(
+                makeSchedulerContext("task:unregister", "tasks.delete authorization"));
             auto result = task_scheduler_api.unregisterTask(task_id);
             if (result.value("status", "") == "error") {
                 response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
@@ -8478,6 +8503,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                 break;
             }
             auto& task_scheduler_api = *task_scheduler_api_;
+            TaskScheduler::ScopedRequestContext scheduler_context(
+                makeSchedulerContext("task:update", "tasks.enable authorization"));
             auto result = task_scheduler_api.enableTask(task_id);
             if (result.value("status", "") == "error") {
                 response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
@@ -8503,6 +8530,8 @@ http::response<http::string_body> HttpServer::routeRequest(
                 break;
             }
             auto& task_scheduler_api = *task_scheduler_api_;
+            TaskScheduler::ScopedRequestContext scheduler_context(
+                makeSchedulerContext("task:update", "tasks.disable authorization"));
             auto result = task_scheduler_api.disableTask(task_id);
             if (result.value("status", "") == "error") {
                 response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
@@ -8528,10 +8557,10 @@ http::response<http::string_body> HttpServer::routeRequest(
                 break;
             }
             auto& task_scheduler_api = *task_scheduler_api_;
-            bool scheduler_ctx_set = false;
+            std::optional<TaskScheduler::ScopedRequestContext> scheduler_ctx_scope;
+            TaskScheduler::RequestContext scheduler_ctx;
             if (auth_ && auth_->isEnabled()) {
                 auto auth_ctx = extractAuthContext(req);
-                TaskScheduler::RequestContext scheduler_ctx;
                 scheduler_ctx.user_id = auth_ctx.user_id;
                 scheduler_ctx.client_ip = extractClientIP(req);
                 scheduler_ctx.authorization_justification = "task:execute permission check";
@@ -8570,13 +8599,13 @@ http::response<http::string_body> HttpServer::routeRequest(
                         }
                     }
                 }
-                TaskScheduler::setRequestContext(scheduler_ctx);
-                scheduler_ctx_set = true;
+                scheduler_ctx_scope.emplace(scheduler_ctx);
+            } else {
+                scheduler_ctx = makeSchedulerContext(
+                    "task:execute", "trusted unauthenticated server operation");
+                scheduler_ctx_scope.emplace(scheduler_ctx);
             }
             auto result = task_scheduler_api.executeTask(task_id);
-            if (scheduler_ctx_set) {
-                TaskScheduler::clearRequestContext();
-            }
             if (result.value("status", "") == "error") {
                 response = makeErrorResponse(http::status::not_found, result.value("error", "Not found"), req);
             } else {

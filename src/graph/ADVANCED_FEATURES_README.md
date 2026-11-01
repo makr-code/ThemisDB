@@ -1,13 +1,42 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: active
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: ThemisDB documentation orchestration specialist
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source level: level1
+SOT domain: module-behavior
+Canonical source references:
+  - ../../include/graph/path_constraints.h
+  - ../../src/graph/path_constraints.cpp
+  - ../../include/graph/graph_query_optimizer.h
+  - ../../tests/graph/test_path_constraints_semantic.cpp
+Related milestone: DOC-WEEKLY-2026-44
+AI_Model_Note: Exact model backend not verifiable from final document text alone.
+---
+
 # Graph Advanced Features
 
 <!-- Status: synchronized 2026-05-13 | Audit: AUDIT.md (last 2026-04-21, S1 fixed 2026-05-04) -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · ARCHITECTURE.md · SECURITY.md · AUDIT.md · PERFORMANCE_EXPECTATIONS.md -->
 
-> **Status:** 2026-05-13 – Inhalt mit Graph-Codebasis synchronisiert. Alle `<!-- TODO -->` Markierungen aufgelöst. Bezug zu zentralen Modul-Dokumenten hergestellt.
+> **Source status:** The examples, implementation-status claims, complexity estimates, and performance
+> figures on this page are a 2026-05 snapshot, not verified current contracts. Confirm current
+> signatures in `include/graph/` and behavior in implementation/tests before reusing examples.
+> See [API.md](API.md) and [IMPLEMENTATION.md](IMPLEMENTATION.md) for current source maps.
+
+> **Current-source correction (2026-10-31):** `PathConstraints` mutators include `void` return
+> methods, so these examples' `Result<T>` error-handling pattern must not be generalized to them.
+> Current optimizer, path-constraint, and index declarations are authoritative; no performance
+> result is claimed here.
 
 This directory contains advanced graph analytics and query features for ThemisDB. These modules extend the basic graph query capabilities with sophisticated algorithms for path analysis.
 
-## Implementation Status ✅
+## Implementation Status (2026-05 snapshot; not current verification)
 
 **PathConstraints Module:** Fully Implemented
 **GraphQueryOptimizer Integration:** Fully Implemented

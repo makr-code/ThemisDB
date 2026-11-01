@@ -37,6 +37,13 @@ using namespace std::chrono_literals;
 class SchedulerIntegrationTest : public ::testing::Test {
 protected:
     void SetUp() override {
+        TaskScheduler::RequestContext test_context;
+        test_context.user_id = "scheduler-integration-test";
+        test_context.granted_permissions = {
+            "task:register", "task:unregister", "task:update", "task:execute",
+            "task:register_function"};
+        test_context.roles.insert("system_admin");
+        TaskScheduler::setRequestContext(test_context);
         auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
         db_path_ = (std::filesystem::temp_directory_path() /
                     std::filesystem::path("themis_integ_" + std::to_string(now))).string();
@@ -66,6 +73,7 @@ protected:
         }
         storage_.reset();
         std::filesystem::remove_all(db_path_);
+        TaskScheduler::clearRequestContext();
     }
 
     void makeScheduler(bool persist = false) {

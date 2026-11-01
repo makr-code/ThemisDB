@@ -16,6 +16,7 @@
 #include <sstream>
 #include <cctype>
 #include <unordered_map>
+#include <vector>
 
 namespace themis {
 
@@ -32,7 +33,7 @@ namespace themis {
 //   ... (same operators applied to "value" field)
 //
 // Unquoted RHS tokens are also accepted.
-// On any parse / evaluation error the condition is treated as a match (fail-open).
+// Parse / evaluation errors are rejected (fail-closed).
 
 namespace {
 
@@ -50,6 +51,34 @@ static std::string stripQuotes(const std::string& s) {
         return s.substr(1, s.size() - 2);
     }
     return s;
+}
+
+static bool splitConditionClauses(
+    const std::string& condition,
+    std::vector<std::string>& clauses) {
+    static const std::string and_separator = " AND ";
+    bool inside_quotes = false;
+    size_t clause_start = 0;
+
+    for (size_t i = 0; i < condition.size(); ++i) {
+        if (condition[i] == '"') {
+            inside_quotes = !inside_quotes;
+            continue;
+        }
+        if (!inside_quotes &&
+            condition.compare(i, and_separator.size(), and_separator) == 0) {
+            clauses.push_back(themis::utils::trim(
+                condition.substr(clause_start, i - clause_start)));
+            i += and_separator.size() - 1;
+            clause_start = i + 1;
+        }
+    }
+
+    if (inside_quotes) {
+        return false;
+    }
+    clauses.push_back(themis::utils::trim(condition.substr(clause_start)));
+    return true;
 }
 
 /**
@@ -73,8 +102,50 @@ static bool evalOp(const std::string& lhs, const std::string& op, const std::str
     } else if (op == "CONTAINS") {
         return lhs.find(rhs) != std::string::npos;
     }
-    // Unknown operator – fail-open
-    THEMIS_WARN("EventTrigger: unknown condition operator '{}', matching by default", op);
+    THEMIS_WARN("EventTrigger: unknown condition operator '{}', rejecting event", op);
+    return false;
+}
+
+static bool isSupportedCondition(const std::optional<std::string>& condition) {
+    if (!condition || condition->empty()) {
+        return true;
+    }
+
+    static const std::set<std::string> fields{"key", "value"};
+    static const std::set<std::string> operators{
+        "==", "!=", "STARTS_WITH", "ENDS_WITH", "CONTAINS"};
+
+    const auto& text = *condition;
+    std::vector<std::string> clauses;
+    if (!splitConditionClauses(text, clauses)) {
+        return false;
+    }
+    for (const auto& raw : clauses) {
+        if (raw.empty() || std::count(raw.begin(), raw.end(), '"') % 2 != 0) {
+            return false;
+        }
+
+        std::istringstream tokens(raw);
+        std::string field;
+        std::string op;
+        if (!(tokens >> field >> op) ||
+            fields.count(field) == 0 || operators.count(op) == 0) {
+            return false;
+        }
+        std::string rhs;
+        std::getline(tokens, rhs);
+        rhs = themis::utils::trim(rhs);
+        if (rhs.empty()) {
+            return false;
+        }
+        const auto quote_count = std::count(rhs.begin(), rhs.end(), '"');
+        if ((rhs.front() == '"' &&
+             (rhs.size() < 2 || rhs.back() != '"' || quote_count != 2)) ||
+            (rhs.front() != '"' && quote_count != 0)) {
+            return false;
+        }
+
+    }
     return true;
 }
 
@@ -82,7 +153,8 @@ static bool evalOp(const std::string& lhs, const std::string& op, const std::str
 
 
 bool CDCTriggerConfig::isValid() const {
-    return !key_prefix.empty() && !event_types.empty();
+    return !key_prefix.empty() && !event_types.empty() &&
+           isSupportedCondition(condition);
 }
 
 std::string CDCTriggerConfig::getValidationError() const {
@@ -91,6 +163,9 @@ std::string CDCTriggerConfig::getValidationError() const {
     }
     if (event_types.empty()) {
         return "At least one event type must be specified";
+    }
+    if (!isSupportedCondition(condition)) {
+        return "Condition must contain valid key/value predicates and supported operators";
     }
     return "";
 }
@@ -230,6 +305,7 @@ void EventTrigger::updateConfig(const CDCTriggerConfig& config) {
         // Level 2: Acquire condition cache lock (safe to acquire after Level 0 is released)
         std::lock_guard<std::mutex> clock(condition_cache_mutex_);
         condition_parsed_ = false;
+        condition_valid_ = true;
         parsed_clauses_.clear();
     }
 
@@ -484,6 +560,10 @@ bool EventTrigger::matchesCondition(const Changefeed::ChangeEvent& event) const 
             rebuildConditionCache_();
             condition_parsed_ = true;
         }
+        if (!condition_valid_) {
+            THEMIS_ERROR("EventTrigger: invalid condition rejected; event will not trigger");
+            return false;
+        }
     }
     
     // GAP 3 FIX: Detect circular dependencies early
@@ -524,30 +604,29 @@ bool EventTrigger::matchesCondition(const Changefeed::ChangeEvent& event) const 
 void EventTrigger::rebuildConditionCache_() const {
     // Must be called under condition_cache_mutex_
     parsed_clauses_.clear();
+    condition_valid_ = true;
 
     if (!config_.condition || config_.condition->empty()) {
         return;
     }
+    if (!isSupportedCondition(config_.condition)) {
+        condition_valid_ = false;
+        return;
+    }
 
     const std::string& condition = *config_.condition;
-    static const std::string AND_SEP = " AND ";
 
-    // Split on AND
+    // Split on AND only when it is outside a quoted literal.
     std::vector<std::string> raw_clauses;
-    size_t pos = 0;
-    while (pos < condition.size()) {
-        size_t found = condition.find(AND_SEP, pos);
-        if (found == std::string::npos) {
-            raw_clauses.push_back(themis::utils::trim(condition.substr(pos)));
-            break;
-        }
-        raw_clauses.push_back(themis::utils::trim(condition.substr(pos, found - pos)));
-        pos = found + AND_SEP.size() ;
+    if (!splitConditionClauses(condition, raw_clauses)) {
+        condition_valid_ = false;
+        return;
     }
 
     for (const auto& raw : raw_clauses) {
         if (raw.empty()) {
-          continue;
+            condition_valid_ = false;
+            return;
         }
 
         // Tokenise the clause
@@ -579,8 +658,9 @@ void EventTrigger::rebuildConditionCache_() const {
         }
 
         if (tokens.size() < 3) {
-            THEMIS_WARN("EventTrigger: malformed condition clause '{}', skipping", raw);
-            continue;
+            THEMIS_WARN("EventTrigger: malformed condition clause '{}', rejecting condition", raw);
+            condition_valid_ = false;
+            return;
         }
 
         ParsedClause pc;
@@ -594,6 +674,13 @@ void EventTrigger::rebuildConditionCache_() const {
             rhs += tokens[k];
         }
         pc.rhs = stripQuotes(rhs);
+        if ((pc.field != "key" && pc.field != "value") ||
+            (pc.op != "==" && pc.op != "!=" && pc.op != "STARTS_WITH" &&
+             pc.op != "ENDS_WITH" && pc.op != "CONTAINS")) {
+            THEMIS_WARN("EventTrigger: unsupported condition field/operator in '{}'", raw);
+            condition_valid_ = false;
+            return;
+        }
 
         parsed_clauses_.push_back(std::move(pc));
     }
@@ -766,4 +853,3 @@ void EventTriggerManager::stopAll() {
 }
 
 } // namespace themis
-
