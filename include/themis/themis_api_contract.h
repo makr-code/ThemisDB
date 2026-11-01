@@ -4,37 +4,30 @@
 
 /**
  * @file themis_api_contract.h
- * @brief Frozen API contract for the ThemisDB themis (engine core) module.
+ * @brief Edition identifiers and error codes for the ThemisDB engine core.
  * @version 1.0.0
  *
  * @section purpose Purpose
- * The themis module exposes the engine's build metadata, edition identifiers,
- * and capability discovery.  It is the authoritative source of version and
- * edition information at runtime.
+ * This header declares only the `ThemisError` and `Edition` enumerations in
+ * `themis::engine`. It does not declare build metadata accessors or runtime
+ * capability-discovery functions. See `themis/build_info.h` and
+ * `themis/edition.h` for those separate interfaces.
  *
  * @section contracts API Contracts
  *
- * ### BuildInfo
- * - `version()` returns a non-empty semver string.
- * - `commitHash()` returns a non-empty 40-char SHA-1 or "unknown" in
- *   development builds.
- * - `buildTimestamp()` is in ISO 8601 format.
- *
- * ### Edition
- * - `current()` returns the compiled edition; it CANNOT be changed at runtime.
- * - `isFeatureEnabled()` is deterministic for a given edition + feature key.
+ * `ThemisError` names the edition-mismatch (7800) and unknown-feature (7801)
+ * error categories. `Edition` identifies MINIMAL (1), COMMUNITY (2),
+ * ENTERPRISE (3), HYPERSCALER (4), and MILITARY (5). These declarations do not
+ * implement runtime validation or report errors by themselves.
  *
  * @section error_taxonomy Error Taxonomy
- * | Code                      | Meaning                                      |
- * |---------------------------|----------------------------------------------|
- * | THEMIS_EDITION_MISMATCH   | Runtime edition differs from compiled        |
- * | THEMIS_FEATURE_UNKNOWN    | Feature key not registered                   |
+ * | Enumerator                    | Meaning |
+ * |------------------------------|---------|
+ * | `ThemisError::kEditionMismatch` | Error category for an edition mismatch |
+ * | `ThemisError::kFeatureUnknown`   | Error category for an unknown feature |
  *
- * @section threading Threading Guarantees
- * - All methods are const/stateless; fully thread-safe.
- *
- * @section contract_freeze Contract Freeze
- * Frozen for ThemisDB v2.x.
+ * @note This header contains no functions or runtime state. Compatibility
+ *       expectations are governed by the repository versioning policy.
  */
 
 #include <cstdint>

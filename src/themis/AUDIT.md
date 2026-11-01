@@ -1,17 +1,37 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Model_Attribution: "Exact model backend not verifiable from final document text alone."
+AI_Contributor: "themisdb-doc-orchestrator"
+Human_Review: false
+Human_Author: "unknown"
+---
+
 # Audit Report - Themis Core Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: review | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
 
 ## Summary
 
 | Metric | Result |
 |---|---|
-| Build registration | pass |
+| Source registration | pass (central CMake source lists) |
 | Source set size | pass (module core files present) |
-| Focused test presence | pass |
-| Open hardening findings | yes |
-| Critical blockers | none identified |
+| Focused test source/registration presence | pass (five test sources are registered by glob) |
+| Open hardening findings | not revalidated by this documentation-only review |
+| Critical blockers | not assessed; no security audit or tests were run |
+
+> **Validation boundary (2026-10-31):** This is a source inventory, not a
+> security audit or release-readiness finding. The follow-up items below are
+> retained from the prior review; their current severity and closure status
+> have not been independently established. See the current
+> [build/test inventory](./BUILD_TEST_EVIDENCE.md) and root `ROADMAP.md` for
+> current evidence boundaries.
 
 ## Verified Files
 
@@ -29,7 +49,7 @@
 
 ## Findings
 
-### Open
+### Follow-up proposals (status not revalidated)
 
 1. [THM-AUD-01] loader and verification edge hardening remains active.
 - Severity: medium
@@ -46,7 +66,7 @@
 - Evidence: core mapping is valid while wider workload diversity remains desirable.
 - Action: add benchmark depth for advanced load/session profiles.
 
-### Closed
+### Previously recorded as closed (not re-audited here)
 
 - core themis runtime surfaces are present and source-verified.
 - documentation set is synchronized to source-verifiable claims.
