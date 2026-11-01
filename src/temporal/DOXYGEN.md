@@ -20,6 +20,11 @@ Exact model backend not verifiable from final document text alone.
 > [warning log](../../ai_context/developer_llm_wiki/module_doxygen_artifacts/temporal/doxygen-warnings.log)
 > before relying on generated descriptions. The listing includes module,
 > test, and benchmark sources; it is not an API-only inventory.
+> The direct Doxygen check found 25 missing symbols, 710 missing briefs, 345
+> missing parameter descriptions, and 336 missing return descriptions among
+> 379 filtered source symbols. See the
+> [coverage summary](../../ai_context/developer_llm_wiki/module_doxygen_artifacts/temporal/direct_doxygen_coverage.md)
+> and [detailed report](../../ai_context/developer_llm_wiki/module_doxygen_artifacts/temporal/direct_doxygen_summary.md).
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.

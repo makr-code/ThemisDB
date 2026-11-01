@@ -99,6 +99,14 @@ source, tests, and benchmarks. Generation passed with 218 warnings; review the
 checking extracted prose and parameter documentation. Public headers remain the
 source of truth for signatures and behavior.
 
+The direct coverage check filtered 379 source symbols and found 25 missing
+symbols, 710 missing briefs, 345 missing parameter descriptions, and 336 missing
+return descriptions. These are documentation coverage findings, not proof that
+the declarations are absent from the source. See the
+[coverage summary](module_doxygen_artifacts/temporal/direct_doxygen_coverage.md)
+and [detailed report](module_doxygen_artifacts/temporal/direct_doxygen_summary.md)
+before relying on extracted descriptive text.
+
 ## Source priority and freshness
 
 For exact declarations use the public headers; for behavior, inspect the
