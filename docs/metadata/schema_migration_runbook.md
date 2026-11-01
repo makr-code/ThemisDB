@@ -1,23 +1,42 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-11-01"
+Last Updated: "2026-11-01"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
 # Schema Migration Runbook
 
 **Module:** `src/metadata` — `SchemaVersionManager`  
-**Maintained by:** ThemisDB Contributors  
-**Last Updated:** April 2026
+**Maintained by:** ThemisDB Contributors
+
+> This source-backed revision replaces an older runbook; its original creation
+> date was not recorded. Exact model backend not verifiable from final document text alone.
 
 ---
 
 ## Overview
 
-This runbook describes how to safely perform schema changes on a live ThemisDB instance using the `SchemaVersionManager` API.  All schema mutations are recorded as immutable version snapshots, enabling safe rollback if a migration causes problems.
+This runbook describes the implemented schema HTTP routes and
+`SchemaVersionManager` API. Snapshots are recorded only when the version API is
+called; `PUT` and `PATCH` schema requests do not automatically create version
+records. The API supports rollback through the C++ manager, but not through an
+HTTP route.
 
 ---
 
 ## Prerequisites
 
-- Running ThemisDB instance (v1.8.0+)
-- Admin HTTP access (`/api/v1/schema/*` endpoints)
+- Running ThemisDB instance with storage initialized and schema routes enabled
 - `curl` or equivalent HTTP client
 - Operator understands the target schema change
+- If a metadata security provider is configured, an authenticated identity with
+  the required metadata operation/resource grant
 
 ---
 
@@ -117,26 +136,15 @@ curl -s http://localhost:8080/api/v1/schema/tables/users | jq .tables[0].propert
 curl -s 'http://localhost:8080/api/v1/schema/diff/users?from=1&to=2' | jq .
 ```
 
-Expected diff format:
-```json
-{
-  "status": "success",
-  "diff": {
-    "table_name": "users",
-    "version_a": 1,
-    "version_b": 2,
-    "added":    [{"name": "phone", "type": "string", ...}],
-    "removed":  [],
-    "modified": []
-  }
-}
-```
+The response contains the version manager's diff under `diff`; inspect the
+returned JSON rather than assuming a fixed field layout.
 
 ### Run integration tests (if available)
 
+Run the registered metadata test target from the configured build:
+
 ```bash
-# Adjust path to your test runner
-cd tests && ./run_schema_tests.sh users
+ctest --test-dir build --output-on-failure -R SchemaVersionManagerFocusedTests
 ```
 
 ---
@@ -145,16 +153,9 @@ cd tests && ./run_schema_tests.sh users
 
 If the migration causes problems, roll back to the baseline version:
 
-```bash
-BASELINE_VERSION=1
-TABLE_NAME=users
-
-curl -s -X PATCH "http://localhost:8080/api/v1/schema/versions/${TABLE_NAME}" \
-  -H 'Content-Type: application/json' \
-  -d "{\"rollback_to\": ${BASELINE_VERSION}, \"author\": \"ops-engineer\"}"
-```
-
-> **Note:** The rollback endpoint is not yet exposed via HTTP; use the C++ API directly via `SchemaVersionManager::rollbackToVersion()` until the endpoint is wired.
+> **HTTP limitation:** `POST /api/v1/schema/versions/{table}` only creates a
+> version snapshot. No HTTP rollback route is registered; do not send a
+> `PATCH` request to that path.
 
 Alternatively call the API in code:
 
@@ -206,7 +207,8 @@ ALTER TABLE users ALTER COLUMN amount TYPE DOUBLE PRECISION;
 ALTER TABLE users ALTER COLUMN email SET NOT NULL;
 ```
 
-The method supports both **upgrade** (`from < to`) and **downgrade** (`from > to`) scripts.
+The method returns generated SQL text; it does not execute the script against
+ThemisDB. Review and apply it through the separately supported migration path.
 
 ---
 
