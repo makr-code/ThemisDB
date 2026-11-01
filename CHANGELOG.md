@@ -17,6 +17,21 @@ Human_Review: false
 Human_Author: ThemisDB Team
 Exact model backend not verifiable from final document text alone.
 -->
+### TST-03 Test Registration Consolidation (2026-11-01)
+
+- Reused canonical focused executables for AutoFocused CTest names across the affected modules, avoiding duplicate test-source compilation while preserving test names and labels.
+- Made missing canonical targets fail CMake configuration and deferred transaction aliases until all module targets are defined.
+- Propagated GNN embedding persistence failures to the caller instead of silently reporting success.
+- Verified the RAG cleanup removed 39 duplicate-source pairs; 71 profile-wide multiple focused registrations remain for individual triage.
+
+<!--
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+Exact model backend not verifiable from final document text alone.
+-->
 ### Scheduler safety hardening
 
 - Scheduler authorization now denies security-sensitive operations without an explicit `RequestContext`; HTTP, persistence restoration, and distributed-coordinator operations use scoped, narrow contexts.
