@@ -8,16 +8,100 @@
 #include "governance/governance_audit_integrity.h"
 
 #include <openssl/hmac.h>
-#include <openssl/sha.h>
 #include <openssl/evp.h>
 #include <openssl/rand.h>
 #include <openssl/err.h>
+#include <openssl/pem.h>
 
 #include <algorithm>
 #include <chrono>
+#include <climits>
 #include <iomanip>
 #include <sstream>
 #include <cstring>
+#include <memory>
+#include <vector>
+
+namespace {
+
+using BioPtr = std::unique_ptr<BIO, decltype(&BIO_free)>;
+using PkeyPtr = std::unique_ptr<EVP_PKEY, decltype(&EVP_PKEY_free)>;
+using MdCtxPtr = std::unique_ptr<EVP_MD_CTX, decltype(&EVP_MD_CTX_free)>;
+
+int rejectPemPassword(char*, int, int, void*) {
+    return 0;
+}
+
+BioPtr makePemBio(const std::string& pem) {
+    if (pem.empty() || pem.size() > static_cast<size_t>(INT_MAX)) {
+        return BioPtr(nullptr, BIO_free);
+    }
+    return BioPtr(BIO_new_mem_buf(pem.data(), static_cast<int>(pem.size())), BIO_free);
+}
+
+PkeyPtr loadRsaPrivateKey(const std::string& pem) {
+    auto bio = makePemBio(pem);
+    if (!bio) {
+        return PkeyPtr(nullptr, EVP_PKEY_free);
+    }
+    PkeyPtr key(
+        PEM_read_bio_PrivateKey(bio.get(), nullptr, rejectPemPassword, nullptr),
+        EVP_PKEY_free);
+    if (!key || EVP_PKEY_base_id(key.get()) != EVP_PKEY_RSA ||
+        EVP_PKEY_get_bits(key.get()) < 2048) {
+        return PkeyPtr(nullptr, EVP_PKEY_free);
+    }
+    return key;
+}
+
+PkeyPtr loadRsaVerificationKey(const std::string& pem) {
+    if (auto key = loadRsaPrivateKey(pem)) {
+        return key;
+    }
+
+    ERR_clear_error();
+    auto bio = makePemBio(pem);
+    if (!bio) {
+        return PkeyPtr(nullptr, EVP_PKEY_free);
+    }
+    PkeyPtr key(PEM_read_bio_PUBKEY(bio.get(), nullptr, nullptr, nullptr), EVP_PKEY_free);
+    if (!key || EVP_PKEY_base_id(key.get()) != EVP_PKEY_RSA ||
+        EVP_PKEY_get_bits(key.get()) < 2048) {
+        return PkeyPtr(nullptr, EVP_PKEY_free);
+    }
+    return key;
+}
+
+std::vector<unsigned char> decodeBase64Signature(const std::string& encoded) {
+    if (encoded.empty() || encoded.size() % 4 != 0 ||
+        encoded.size() > static_cast<size_t>(INT_MAX)) {
+        return {};
+    }
+
+    std::vector<unsigned char> decoded((encoded.size() / 4) * 3);
+    const int decoded_size = EVP_DecodeBlock(
+        decoded.data(),
+        reinterpret_cast<const unsigned char*>(encoded.data()),
+        static_cast<int>(encoded.size()));
+    if (decoded_size < 0) {
+        return {};
+    }
+
+    size_t padding = 0;
+    if (!encoded.empty() && encoded.back() == '=') {
+        ++padding;
+        if (encoded.size() > 1 && encoded[encoded.size() - 2] == '=') {
+            ++padding;
+        }
+    }
+    if (static_cast<size_t>(decoded_size) < padding) {
+        return {};
+    }
+    decoded.resize(static_cast<size_t>(decoded_size) - padding);
+    return decoded;
+}
+
+} // namespace
 
 // Base64 encoding helper
 /**
@@ -208,14 +292,18 @@ AuditSigner::AuditSigner(
 }
 
 std::string AuditSigner::computeSha256Hash(const std::string& content) const {
-    unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256_CTX sha256;
-    SHA256_Init(&sha256);
-    SHA256_Update(&sha256, content.c_str(), content.length());
-    SHA256_Final(hash, &sha256);
+    unsigned char hash[EVP_MAX_MD_SIZE];
+    unsigned int hash_size = 0;
+    MdCtxPtr context(EVP_MD_CTX_new(), EVP_MD_CTX_free);
+    if (!context ||
+        EVP_DigestInit_ex(context.get(), EVP_sha256(), nullptr) != 1 ||
+        EVP_DigestUpdate(context.get(), content.data(), content.size()) != 1 ||
+        EVP_DigestFinal_ex(context.get(), hash, &hash_size) != 1) {
+        return "";
+    }
     
     std::stringstream ss = {};
-    for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
+    for (unsigned int i = 0; i < hash_size; i++) {
         ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
     }
     return ss.str();
@@ -240,15 +328,29 @@ std::string AuditSigner::computeHmacSha256(const std::string& content) const {
 }
 
 std::string AuditSigner::computeRsaSha256(const std::string& content) const {
-    // RSA signing would use EVP_PKEY_sign with private key
-    // For now, simplified implementation - in production, use full RSA
-    unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256_CTX sha256;
-    SHA256_Init(&sha256);
-    SHA256_Update(&sha256, content.c_str(), content.length());
-    SHA256_Final(hash, &sha256);
-    
-    return base64_encode(hash, SHA256_DIGEST_LENGTH);
+    auto key = loadRsaPrivateKey(secret_key_);
+    if (!key) {
+        return "";
+    }
+
+    MdCtxPtr context(EVP_MD_CTX_new(), EVP_MD_CTX_free);
+    if (!context ||
+        EVP_DigestSignInit(context.get(), nullptr, EVP_sha256(), nullptr, key.get()) != 1 ||
+        EVP_DigestSignUpdate(context.get(), content.data(), content.size()) != 1) {
+        return "";
+    }
+
+    size_t signature_size = 0;
+    if (EVP_DigestSignFinal(context.get(), nullptr, &signature_size) != 1 ||
+        signature_size == 0) {
+        return "";
+    }
+
+    std::vector<unsigned char> signature(signature_size);
+    if (EVP_DigestSignFinal(context.get(), signature.data(), &signature_size) != 1) {
+        return "";
+    }
+    return base64_encode(signature.data(), signature_size);
 }
 
 bool AuditSigner::verifyHmacSha256(
@@ -263,10 +365,33 @@ bool AuditSigner::verifyRsaSha256(
     const std::string& content,
     const std::string& signature
 ) const {
-    // RSA verification would use EVP_PKEY_verify with public key
-    // Simplified for now
-    std::string expected_hash = computeRsaSha256(content);
-    return expected_hash == signature;
+    auto key = loadRsaVerificationKey(secret_key_);
+    if (!key) {
+        return false;
+    }
+
+    const int key_signature_size = EVP_PKEY_get_size(key.get());
+    if (key_signature_size <= 0) {
+        return false;
+    }
+    const size_t encoded_signature_size =
+        ((static_cast<size_t>(key_signature_size) + 2) / 3) * 4;
+    if (signature.size() != encoded_signature_size) {
+        return false;
+    }
+    auto decoded_signature = decodeBase64Signature(signature);
+    if (decoded_signature.size() != static_cast<size_t>(key_signature_size)) {
+        return false;
+    }
+
+    MdCtxPtr context(EVP_MD_CTX_new(), EVP_MD_CTX_free);
+    if (!context ||
+        EVP_DigestVerifyInit(context.get(), nullptr, EVP_sha256(), nullptr, key.get()) != 1 ||
+        EVP_DigestVerifyUpdate(context.get(), content.data(), content.size()) != 1) {
+        return false;
+    }
+    return EVP_DigestVerifyFinal(
+        context.get(), decoded_signature.data(), decoded_signature.size()) == 1;
 }
 
 /**
@@ -1222,4 +1347,3 @@ std::string AuditIntegrityManager::getPreviousEntryHash() const {
 
 } // namespace governance
 } // namespace themis
-

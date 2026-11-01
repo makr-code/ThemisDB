@@ -1,9 +1,16 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-18"
-Last Updated: "2026-10-18"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
 ---
+
+Exact model backend not verifiable from final document text alone.
 
 # User-Storage-Encrypted in ThemisDB
 
@@ -13,9 +20,9 @@ Das Modul user_storage_encrypted stellt encrypted user-storage behavior for Them
 ## Kern-Features im Detail
 Die erste Kernfaehigkeit ist **gocryptfs-backed container lifecycle behavior**. Das beschreibt einen konkreten, in den Modulquellen referenzierten Verantwortungsbereich.
 
-Die zweite Kernfaehigkeit ist **per-container key derivation behavior**. Dadurch bleiben Integrationspfade zwischen Modulgrenzen reproduzierbar und operativ auswertbar.
+Die zweite Kernfaehigkeit ist der **standalone key-derivation service**. Die Modulquellen zeigen keine KDF-Injektion in den Multi-Level-Plugin-Backend-Konstruktor.
 
-Die dritte Kernfaehigkeit ist **scheduled rotation behavior by security level**. Das unterstuetzt stabile Abnahme- und Aenderungsprozesse entlang der Modul-Roadmap.
+Die dritte Kernfaehigkeit ist ein **separater key-rotation scheduler**. Die Rotation ist derzeit nicht automatisch an die Multi-Level-Orchestrierung angebunden; Details stehen in [Roadmap](./ROADMAP.md).
 
 ```mermaid
 flowchart LR

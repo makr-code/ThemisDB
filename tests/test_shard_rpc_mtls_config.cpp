@@ -4,6 +4,12 @@
 
 using namespace themis::sharding;
 
+#if defined(THEMIS_ENABLE_GRPC) && __has_include("shard_rpc.grpc.pb.h")
+#define THEMIS_TEST_HAS_SHARD_GRPC 1
+#else
+#define THEMIS_TEST_HAS_SHARD_GRPC 0
+#endif
+
 /**
  * Test suite for mTLS configuration in ShardRPCClient and ShardRPCServer
  * 
@@ -20,8 +26,8 @@ TEST(ShardRPCClientMTLSTest, DefaultConfigurationNoMTLS) {
     ShardRPCClient::Config config;
     config.endpoint = "shard1:50051";
     
-    // By default, mTLS should be disabled
-    EXPECT_FALSE(config.enable_mtls);
+    // Shard RPC transport requires mTLS by default.
+    EXPECT_TRUE(config.enable_mtls);
     EXPECT_TRUE(config.tls_cert_path.empty());
     EXPECT_TRUE(config.tls_key_path.empty());
     EXPECT_TRUE(config.tls_ca_cert_path.empty());
@@ -66,11 +72,17 @@ TEST(ShardRPCClientMTLSTest, ClientCreationWithMTLSConfig) {
     config.tls_key_path = "/nonexistent/key.pem";
     config.tls_ca_cert_path = "/nonexistent/ca.pem";
     
-    // Client creation should succeed even with invalid paths
-    // (actual connection will fail when attempted, but config is valid)
+#if THEMIS_TEST_HAS_SHARD_GRPC
+    EXPECT_THROW(
+        {
+            ShardRPCClient client(config);
+        },
+        std::runtime_error);
+#else
     EXPECT_NO_THROW({
         ShardRPCClient client(config);
     });
+#endif
 }
 
 // ============================================================================
@@ -81,8 +93,8 @@ TEST(ShardRPCServerMTLSTest, DefaultServerConfigurationNoMTLS) {
     ShardRPCServer::Config config;
     config.listen_address = "0.0.0.0:50051";
     
-    // By default, mTLS should be disabled
-    EXPECT_FALSE(config.enable_mtls);
+    // Shard RPC transport requires mTLS by default.
+    EXPECT_TRUE(config.enable_mtls);
     EXPECT_TRUE(config.tls_cert_path.empty());
     EXPECT_TRUE(config.tls_key_path.empty());
     EXPECT_TRUE(config.tls_ca_cert_path.empty());

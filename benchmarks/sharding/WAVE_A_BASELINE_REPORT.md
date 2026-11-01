@@ -1,4 +1,32 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-08-17
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References:
+  - bench_sharding_release_gates.cpp
+  - CMakeLists.txt
+Related_Milestone: DOC-WEEKLY-2026-W44
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Wave A p95/p99 Baseline Measurements Report
+
+> **Historical snapshot only:** This report records a documented benchmark run on 2026-08-17.
+> Its results, hardware profile, build mode, and gate-completion statements have not been
+> re-executed or verified against the current configuration. The described 2PC and WAL operations
+> are in-memory microbenchmarks, not measurements of networked transactions or durable `fsync`.
+> The report's `>20%` regression recommendation is historical, not an enforced sharding gate.
+> Do not use this report as current release evidence. **TODO:** regenerate a report from the
+> current benchmark target and retain the exact build/run manifest.
 **ThemisDB Sharding Module — Release Gates SRG-01..SRG-06**
 
 **Report Date:** 2026-08-17  

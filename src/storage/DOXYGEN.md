@@ -1,14 +1,31 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-11-01"
+Last Updated: "2026-11-01"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # STORAGE DOXYGEN
 
 Author: ThemisDB Contributors
-Created: 2026-09-20
-Last Updated: 2026-09-20
+Created: 2026-11-01
+Last Updated: 2026-11-01
 Status: active
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\storage\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\storage\doxygen-warnings.log`
+- Generated 2026-11-01 with Doxygen 1.9.8 using `Doxyfile.audit` and `scripts/generate_module_doxygen_xml.py`.
+- Reproduce with: `python3 scripts/generate_module_doxygen_xml.py --repo-root . --modules storage --output-root /tmp/themis-storage-doxygen --manifest /tmp/themis-storage-doxygen/manifest.json --summary-md /tmp/themis-storage-doxygen/summary.md --doxyfile Doxyfile.audit --module-timeout-seconds 300 --write-module-markdown`.
+- XML index (relative to the artifact output root): `storage/xml/index.xml`
+- Warnings log (relative to the artifact output root): `storage/doxygen-warnings.log`
+- Doxygen completed successfully; the warning log contains 656 warnings that have not been triaged.
 
 ## Structure Metrics
 - C/C++ Files (scanned): 164
@@ -18,19 +35,19 @@ Status: active
 - File Compounds: 164
 
 ## Namespaces
-- @041270124372221233365030045160276077305042116252
-- @116015205123227314263177340074102366034211150137
-- @131343215174203240037223377125177066034103337150
-- @134003120000114207317027144250364366023241330265
-- @137204263256331022336327204035365120375273204243
-- @206054336337360303040277106300252203132056037150
-- @213342300022330114247073303300007211233202017127
-- @227027270336322322134265364032151045077100324215
-- @272036036356016013262213167036321062310375305272
-- @307041050114267364245276327245076071042316031314
-- @325204060107134003325351111317046021257216372303
-- @337261040162171103305317363005355050054220024024
-- @363333141022121005012073156055334106336262047334
+- @132
+- @137
+- @142
+- @145
+- @147
+- @148
+- @151
+- @159
+- @160
+- @161
+- @162
+- @163
+- @67
 - analytics
 - benchmark
 - rocksdb
@@ -38,15 +55,15 @@ Status: active
 - std::chrono_literals
 - testing
 - themis
-- themis::@155370034123005054270240263075320123044354122303
-- themis::@213205123372334330246106346147015127211124107174
-- themis::@251254363166073323143062122134203043036342177007
-- themis::@266013254361111353362005001217313175213150106237
-- themis::@300074244007302062350370360044362171241047234175
-- themis::@330314355053236041145254374302071123107104213063
+- themis::@100
+- themis::@101
+- themis::@102
+- themis::@123
+- themis::@125
+- themis::@83
 - themis::bench
 - themis::bench::sgrg
-- themis::bench::sgrg::@347122172307335145253136034357161241034054144321
+- themis::bench::sgrg::@156
 - themis::bench::st_dg
 - themis::compression
 - themis::graph
@@ -55,32 +72,32 @@ Status: active
 - themis::query
 - themis::rcu
 - themis::sharding
-- themis::sharding::@330026040257005125046023270376226154002370045122
+- themis::sharding::@89
 - themis::storage
-- themis::storage::@030072065075070010340112142372035213056023370205
-- themis::storage::@033204303115343356007142270017377040256242001254
-- themis::storage::@105362251035176257121120270250125066121041352311
-- themis::storage::@106316111355305307175233066067365231364313047374
-- themis::storage::@137365311161104162152151223304122230077324256167
-- themis::storage::@161114371265054033317215010065315372027373214102
-- themis::storage::@204324247163052324104233060264014361247216010262
-- themis::storage::@234240222167361000063164343061310206375236005364
-- themis::storage::@250305006212222253314343202272223105013101344324
-- themis::storage::@256106206202137347101163314040043304226142164206
-- themis::storage::@263140105047072365367125046155241322072167232175
-- themis::storage::@264320353003100246272060334323052362010213107315
-- themis::storage::@333133303127240272242130076356223006306172265302
-- themis::storage::@355005163004321244277221341104206106220013301116
+- themis::storage::@107
+- themis::storage::@109
+- themis::storage::@122
+- themis::storage::@126
+- themis::storage::@130
+- themis::storage::@69
+- themis::storage::@70
+- themis::storage::@73
+- themis::storage::@79
+- themis::storage::@86
+- themis::storage::@91
+- themis::storage::@92
+- themis::storage::@93
+- themis::storage::@94
 - themis::storage::disk_utils
 - themis::storage::test
 - themis::tensor
-- themis::tensor::@375025264341243074267131200042174167253260340145
+- themis::tensor::@97
 - themis::test
 - themis::test::wave_d
 - themis::transaction
 - themisdb
 - themisdb::storage
-- themisdb::storage::@150055135130030122331034004036165123166210062130
+- themisdb::storage::@128
 - themisdb::temporal
 
 ## Types
@@ -845,19 +862,19 @@ Status: active
 ### bench_ssm_phase0_baseline.cpp
 
 #### `Arg(100) -> Arg(1000) ->Arg(10000) ->Unit(benchmark::kMillisecond) ->Iterations(10)`
-- Source: `benchmarks/storage/bench_ssm_phase0_baseline.cpp`:197
+- Source: `benchmarks/storage/bench_ssm_phase0_baseline.cpp`:199
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (100): n/a
 
 #### `Arg(512) -> Arg(2048) ->Arg(8192) ->Unit(benchmark::kMillisecond) ->Iterations(10)`
-- Source: `benchmarks/storage/bench_ssm_phase0_baseline.cpp`:104
+- Source: `benchmarks/storage/bench_ssm_phase0_baseline.cpp`:106
 - Brief: n/a
 - Parameters:
   - `<unnamed>` (512): n/a
 
 #### `Args({1, 512}) -> Args({1, 2048}) ->Args({10, 512}) ->Args({10, 2048}) ->Unit(benchmark::kMillisecond) ->Iterations(5)`
-- Source: `benchmarks/storage/bench_ssm_phase0_baseline.cpp`:150
+- Source: `benchmarks/storage/bench_ssm_phase0_baseline.cpp`:152
 - Brief: n/a
 - Parameters:
   - `<unnamed>` ({1, 512}): n/a
@@ -868,14 +885,14 @@ Status: active
 - Parameters: none
 
 #### `void bench_context_quality_metrics_computation(benchmark::State &state)`
-- Source: `benchmarks/storage/bench_ssm_phase0_baseline.cpp`:165
+- Source: `benchmarks/storage/bench_ssm_phase0_baseline.cpp`:167
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
 - Details: Measurement Point: Phase 1 observability baseline for Agentic Memory layer transitions. Purpose: Establish baseline cost of context quality scoring before Phase 3 optimization.
 
 #### `void bench_drift_metrics_prometheus_export(benchmark::State &state)`
-- Source: `benchmarks/storage/bench_ssm_phase0_baseline.cpp`:211
+- Source: `benchmarks/storage/bench_ssm_phase0_baseline.cpp`:213
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
@@ -889,7 +906,7 @@ Status: active
 - Details: SIMULATION NOTE (Stub Path): Purpose: Measure CPU Infini-attention synthetic latency and VRAM footprint during Phase 1 Activation: Benchmark execution; InfiniAttentionCpuFallback invoked Production Delta: Actual CUDA kernel measurements will replace these synthetic metrics in Phase 2 Removal Plan: Superseded by P2-D02 CUDA kernel benchmarks (Q4/2026)
 
 #### `void bench_ssm_stub_checkpoint_resume(benchmark::State &state)`
-- Source: `benchmarks/storage/bench_ssm_phase0_baseline.cpp`:121
+- Source: `benchmarks/storage/bench_ssm_phase0_baseline.cpp`:123
 - Brief: n/a
 - Parameters:
   - `state` (benchmark::State &): n/a
@@ -3307,7 +3324,7 @@ Status: active
 
 #### `void clearGeometry()`
 - Source: `include/storage/base_entity.h`:205
-- Brief: Clear geometry (remove geo capability).
+- Brief: Clear geometry (remove geo capability)
 - Parameters: none
 - Details: Clear Geometry. Calls: reset().
 
@@ -3341,13 +3358,13 @@ Status: active
 
 #### `Attributes extractFieldsWithPrefix(std::string_view prefix) const`
 - Source: `include/storage/base_entity.h`:218
-- Brief: Extract fields matching a prefix (e.g., "metadata.*").
+- Brief: Extract fields matching a prefix (e.g., "metadata.*")
 - Parameters:
   - `prefix` (std::string_view): n/a
 
 #### `std::optional< std::vector< float > > extractVector(std::string_view field_name="embedding") const`
 - Source: `include/storage/base_entity.h`:185
-- Brief: Extract vector embedding field (for ANN index).
+- Brief: Extract vector embedding field (for ANN index)
 - Parameters:
   - `field_name` (std::string_view): n/a
 
@@ -3362,7 +3379,7 @@ Status: active
 
 #### `BaseEntity fromJson(std::string_view pk, std::string_view json_str)`
 - Source: `include/storage/base_entity.h`:165
-- Brief: Create from JSON string (using simdjson for speed).
+- Brief: Create from JSON string (using simdjson for speed)
 - Parameters:
   - `pk` (std::string_view): Input parameter.
   - `json_str` (std::string_view): Input parameter.
@@ -3371,7 +3388,7 @@ Status: active
 
 #### `FieldMap getAllFields() const`
 - Source: `include/storage/base_entity.h`:154
-- Brief: Get all fields (full parse).
+- Brief: Get all fields (full parse)
 - Parameters: none
 
 #### `const Blob & getBlob() const`
@@ -3386,7 +3403,7 @@ Status: active
 
 #### `std::optional< Value > getField(std::string_view field_name) const`
 - Source: `include/storage/base_entity.h`:108
-- Brief: Get field value (returns nullopt if not found).
+- Brief: Get field value (returns nullopt if not found)
 - Parameters:
   - `field_name` (std::string_view): n/a
 
@@ -3410,7 +3427,7 @@ Status: active
 
 #### `std::optional< std::string > getFieldAsString(std::string_view field_name) const`
 - Source: `include/storage/base_entity.h`:122
-- Brief: Get field as string (with type conversion).
+- Brief: Get field as string (with type conversion)
 - Parameters:
   - `field_name` (std::string_view): n/a
 
@@ -3424,7 +3441,7 @@ Status: active
 
 #### `std::optional< std::vector< float > > getFieldAsVector(std::string_view field_name) const`
 - Source: `include/storage/base_entity.h`:134
-- Brief: Get field as float vector (for embeddings).
+- Brief: Get field as float vector (for embeddings)
 - Parameters:
   - `field_name` (std::string_view): n/a
 
@@ -3449,12 +3466,12 @@ Status: active
 
 #### `const std::optional< geo::GeoSidecar > & getGeoSidecar() const`
 - Source: `include/storage/base_entity.h`:199
-- Brief: Get geo sidecar (MBR, centroid, z-range).
+- Brief: Get geo sidecar (MBR, centroid, z-range)
 - Parameters: none
 
 #### `const std::optional< Blob > & getGeometry() const`
 - Source: `include/storage/base_entity.h`:193
-- Brief: Get geometry blob (EWKB format).
+- Brief: Get geometry blob (EWKB format)
 - Parameters: none
 
 #### `const std::string & getPrimaryKey() const`
@@ -3499,7 +3516,7 @@ Status: active
 
 #### `void invalidateCache()`
 - Source: `include/storage/base_entity.h`:280
-- Brief: Invalidate cache (after blob modification).
+- Brief: Invalidate cache (after blob modification)
 - Parameters: none
 - Details: Invalidate Cache. Calls: reset().
 
@@ -3531,7 +3548,7 @@ Status: active
 
 #### `void setBlob(Blob blob, Format format=Format::BINARY)`
 - Source: `include/storage/base_entity.h`:97
-- Brief: Set binary blob (invalidates cache).
+- Brief: Set binary blob (invalidates cache)
 - Parameters:
   - `blob` (Blob): Input parameter.
   - `format` (Format): Input parameter.
@@ -3547,14 +3564,14 @@ Status: active
 
 #### `void setGeoSidecar(const geo::GeoSidecar &sidecar)`
 - Source: `include/storage/base_entity.h`:202
-- Brief: Set geo sidecar (computed from geometry).
+- Brief: Set geo sidecar (computed from geometry)
 - Parameters:
   - `sidecar` (const geo::GeoSidecar &): Input parameter.
 - Details: Set Geo Sidecar. sidecar Input parameter. Implements setGeoSidecar without additional internal calls.
 
 #### `void setGeometry(const Blob &ewkb)`
 - Source: `include/storage/base_entity.h`:196
-- Brief: Set geometry blob (EWKB format).
+- Brief: Set geometry blob (EWKB format)
 - Parameters:
   - `ewkb` (const Blob &): Input parameter.
 - Details: ===== Geo Support (Cross-Cutting Capability) ===== ewkb Input parameter. Calls: geo::EWKBParser::parse(), geo::EWKBParser::computeSidecar(), reset().
@@ -4456,7 +4473,7 @@ Status: active
 
 #### `Result< MaintenanceJobStatus > rebuildIndex(const std::string &index_name, bool async=true)`
 - Source: `include/storage/index_maintenance.h`:217
-- Brief: Rebuild an index (full reconstruction).
+- Brief: Rebuild an index (full reconstruction)
 - Parameters:
   - `index_name` (const std::string &): Name of the index.
   - `async` (bool): Input parameter.
@@ -4465,7 +4482,7 @@ Status: active
 
 #### `Result< MaintenanceJobStatus > reorganizeIndex(const std::string &index_name, bool async=true)`
 - Source: `include/storage/index_maintenance.h`:225
-- Brief: Reorganize an index (in-place defragmentation).
+- Brief: Reorganize an index (in-place defragmentation)
 - Parameters:
   - `index_name` (const std::string &): Name of the index.
   - `async` (bool): Input parameter.
@@ -4523,7 +4540,7 @@ Status: active
 
 #### `Result< MaintenanceJobStatus > vectorIncrementalReindex(float rebuild_threshold=0.20f, std::string_view vector_field="embedding")`
 - Source: `include/storage/index_maintenance.h`:301
-- Brief: Run incremental HNSW re-index (sync in-memory index with storage).
+- Brief: Run incremental HNSW re-index (sync in-memory index with storage)
 - Parameters:
   - `rebuild_threshold` (float): Input parameter.
   - `vector_field` (std::string_view): Input parameter.
@@ -4565,7 +4582,7 @@ Status: active
 
 #### `std::string makeGraphIndexKey(std::string_view pk_target, std::string_view pk_edge)`
 - Source: `include/storage/key_schema.h`:88
-- Brief: Construct key for graph index (incoming edges).
+- Brief: Construct key for graph index (incoming edges)
 - Parameters:
   - `pk_target` (std::string_view): Input parameter.
   - `pk_edge` (std::string_view): Input parameter.
@@ -4582,7 +4599,7 @@ Status: active
 
 #### `std::string makeGraphOutdexKey(std::string_view pk_start, std::string_view pk_edge)`
 - Source: `include/storage/key_schema.h`:82
-- Brief: Construct key for graph outdex (outgoing edges).
+- Brief: Construct key for graph outdex (outgoing edges)
 - Parameters:
   - `pk_start` (std::string_view): Input parameter.
   - `pk_edge` (std::string_view): Input parameter.
@@ -4745,7 +4762,7 @@ Status: active
 - Parameters:
   - `base_key` (std::string_view): Input parameter.
 - Return: Return value.
-- Details: Encode Version Prefix. Format: <base_key>'\\0' base_key Input parameter. Return value. Calls: reserve(), size(), append(), data(), push_back().
+- Details: Encode Version Prefix. Format: <base_key>\0'` base_key Input parameter. Return value. Calls: reserve(), size(), append(), data(), push_back().
 
 #### `std::string encodeVersionedKey(std::string_view base_key, HLCTimestamp ts)`
 - Source: `include/storage/mvcc_store.h`:257
@@ -4754,7 +4771,7 @@ Status: active
   - `base_key` (std::string_view): Input parameter.
   - `ts` (HLCTimestamp): Input parameter.
 - Return: Return value.
-- Details: Encode Versioned Key. Format: <base_key>'\\0'<8-byte-big-endian-ts> base_key Input parameter. ts Input parameter. Return value. Calls: reserve(), size(), append(), data(), push_back(), encodeToString().
+- Details: Encode Versioned Key. Format: <base_key>\0'<8-byte-big-endian-ts>` base_key Input parameter. ts Input parameter. Return value. Calls: reserve(), size(), append(), data(), push_back(), encodeToString().
 
 #### `uint64_t gcAllBefore(HLCTimestamp min_ts)`
 - Source: `include/storage/mvcc_store.h`:225
@@ -4969,7 +4986,7 @@ Status: active
 
 #### `RestorePreview previewRestore(uint64_t target_sequence, const RestoreOptions &options) const`
 - Source: `include/storage/pitr_manager.h`:233
-- Brief: Preview restore operation (dry-run).
+- Brief: Preview restore operation (dry-run)
 - Parameters:
   - `target_sequence` (uint64_t): Sequence to restore to
   - `options` (const RestoreOptions &): Restore options (only tables filter is used)
@@ -6215,7 +6232,7 @@ Status: active
 
 #### `IExpressionEvaluatorPtr createDefaultEvaluator()`
 - Source: `include/storage/storage_engine.h`:310
-- Brief: Create default implementations (for testing and builder).
+- Brief: Create default implementations (for testing and builder)
 - Parameters: none
 - Return: Shared pointer to the default evaluator.
 - Details: Factory methods for default implementations. These factory methods create default implementations of interfaces. Used by createDefault() factory and StorageEngineBuilder::standard() Create the default expression evaluator implementation. Shared pointer to the default evaluator. Return value. Implements createDefaultEvaluator without additional internal calls.
@@ -6519,7 +6536,7 @@ Status: active
 ### themis::WALStorage
 
 #### `WALStorage(const Config &cfg)`
-- Source: `include/storage/wal_storage.h`:204
+- Source: `include/storage/wal_storage.h`:259
 - Brief: n/a
 - Parameters:
   - `cfg` (const Config &): n/a
@@ -6531,7 +6548,7 @@ Status: active
   - `<unnamed>` (const WALStorage &): n/a
 
 #### `Result< uint64_t > appendBatch(std::vector< BatchEntry > entries)`
-- Source: `include/storage/wal_storage.h`:169
+- Source: `include/storage/wal_storage.h`:185
 - Brief: Group-commit: write multiple entries with a single fsync.
 - Parameters:
   - `entries` (std::vector< BatchEntry >): Input parameter.
@@ -6539,15 +6556,15 @@ Status: active
 - Details: Append Batch. All entries in entries are serialised and written in sequence, then the WAL file is fsynced exactly once (when Config::fsync_on_write is true). This amortises fsync overhead across many writes, allowing sustained throughput in the 100k+ ops/s range while retaining ACID durability. If the batch spans a segment boundary, a rotation is performed between segments and each segment is individually fsynced before rotation. entries Non-empty span of entries to write atomically. The sequence number of the last entry in the batch, or an error. entries Input parameter. Return value. Calls: empty(), lock(), rotateIfNeeded(), THEMIS_WARN(), error(), context(), code(), appendEntryLocked().
 
 #### `Result< uint64_t > appendDelete(std::string_view key)`
-- Source: `include/storage/wal_storage.h`:153
-- Brief: Append a DELETE entry.
+- Source: `include/storage/wal_storage.h`:169
+- Brief: Append a DELETE entry to the active WAL segment.
 - Parameters:
   - `key` (std::string_view): Input parameter.
-- Return: The sequence number assigned to this entry.
-- Details: Append Delete. The sequence number assigned to this entry. key Input parameter. Return value. Calls: appendEntry().
+- Return: The assigned sequence number on success, or an error describing why the delete could not be serialized.
+- Details: Append Delete. The delete is treated as a durable tombstone and will be replayed during recovery to remove any prior value for key. key Logical key to remove. Empty keys are rejected and reported as an error in the returned Result. The assigned sequence number on success, or an error describing why the delete could not be serialized. This API does not throw; failures are surfaced through Result. key Input parameter. Return value. Calls: appendEntry().
 
 #### `Result< uint64_t > appendEntry(EntryType type, std::string_view key, std::string_view value)`
-- Source: `include/storage/wal_storage.h`:210
+- Source: `include/storage/wal_storage.h`:265
 - Brief: Append Entry.
 - Parameters:
   - `type` (EntryType): Input parameter.
@@ -6557,7 +6574,7 @@ Status: active
 - Details: type Input parameter. key Input parameter. value Input parameter. Return value. Calls: lock(), rotateIfNeeded(), error(), code(), context(), appendEntryLocked(), syncIfRequired().
 
 #### `Result< uint64_t > appendEntryLocked(EntryType type, std::string_view key, std::string_view value)`
-- Source: `include/storage/wal_storage.h`:215
+- Source: `include/storage/wal_storage.h`:270
 - Brief: Write one entry to fd_ WITHOUT locking or syncing.
 - Parameters:
   - `type` (EntryType): Input parameter.
@@ -6567,16 +6584,16 @@ Status: active
 - Details: type Input parameter. key Input parameter. value Input parameter. Return value. Caller holds mutex_. Calls: size(), encode_u32(), encode_u64(), crc32_update(), data(), write_all_fd(), std::to_string(), Ok().
 
 #### `Result< uint64_t > appendPut(std::string_view key, std::string_view value)`
-- Source: `include/storage/wal_storage.h`:146
-- Brief: Append a PUT entry.
+- Source: `include/storage/wal_storage.h`:155
+- Brief: Append a PUT entry to the active WAL segment.
 - Parameters:
   - `key` (std::string_view): Input parameter.
   - `value` (std::string_view): Input parameter.
-- Return: The sequence number assigned to this entry.
-- Details: Append Put. The sequence number assigned to this entry. key Input parameter. value Input parameter. Return value. Calls: appendEntry().
+- Return: The assigned sequence number on success, or an error describing why the append could not be completed.
+- Details: Append Put. Stores the key/value pair durably according to the current fsync policy, then assigns the next monotonically increasing sequence number. key Logical key to persist. Empty keys are rejected by the WAL layer and reported as an error in the returned Result. value Value payload to store. Empty values are permitted and are serialized as a valid zero-length payload. The assigned sequence number on success, or an error describing why the append could not be completed. This API does not throw; failures are surfaced through Result. key Input parameter. value Input parameter. Return value. Calls: appendEntry().
 
 #### `Result< uint64_t > checkpoint(bool delete_old_segments=true)`
-- Source: `include/storage/wal_storage.h`:182
+- Source: `include/storage/wal_storage.h`:198
 - Brief: Write a CHECKPOINT entry and optionally delete old segments.
 - Parameters:
   - `delete_old_segments` (bool): Input parameter.
@@ -6584,17 +6601,18 @@ Status: active
 - Details: Checkpoint. After a successful checkpoint the primary store is guaranteed to contain all mutations up to the returned sequence number. Old WAL segments whose highest sequence number is ≤ the checkpoint sequence may be safely removed. delete_old_segments If true, remove fully-checkpointed segments. The sequence number of the checkpoint entry. delete_old_segments Input parameter. Return value. Calls: lock(), rotateIfNeeded(), error(), code(), context(), appendEntryLocked(), syncIfRequired(), push_back().
 
 #### `Result< void > flush()`
-- Source: `include/storage/wal_storage.h`:193
-- Brief: Flush.
+- Source: `include/storage/wal_storage.h`:231
+- Brief: Flush buffered writes to the OS file layer.
 - Parameters: none
-- Return: Return value.
-- Details: Flush buffered I/O to the OS (but not necessarily to disk). Return value. Calls: lock(), OkVoid(), std::chrono::steady_clock::now(), std::chrono::seconds(), themis_fsync_fd(), THEMIS_WARN(), count(), ErrVoid().
+- Return: Empty success result, or an error if the flush could not complete.
+- Details: Flush. The call guarantees that all pending writes are handed off to the OS, but it does not guarantee the underlying storage device has physically committed the data to stable media unless the fsync policy is enabled. Empty success result, or an error if the flush could not complete. Return value. Calls: lock(), OkVoid(), std::chrono::steady_clock::now(), std::chrono::seconds(), themis_fsync_fd(), THEMIS_WARN(), count(), ErrVoid().
 
 #### `uint64_t lastSequence() const`
-- Source: `include/storage/wal_storage.h`:187
-- Brief: n/a
+- Source: `include/storage/wal_storage.h`:210
+- Brief: Return the highest sequence number assigned to any WAL entry.
 - Parameters: none
-- Details: Return the sequence number of the last written entry.
+- Return: The most recent sequence number, or 0 when the WAL is empty.
+- Details: This value reflects the latest successfully appended record and is used to determine how far the log has advanced. The most recent sequence number, or 0 when the WAL is empty.
 
 #### `Result< std::unique_ptr< WALStorage > > open(const Config &config, RecoveryCallback on_recover=nullptr)`
 - Source: `include/storage/wal_storage.h`:128
@@ -6606,7 +6624,7 @@ Status: active
 - Details: Factory method: Strong Exception Guarantee (W5-Storage Hardening) Exception Safety: - If openOrCreate() throws or returns an error, the partial WALStorage object is destroyed (unique_ptr cleanup) before returning Err<>. On first open, an empty WAL is created. On subsequent opens, existing segments are replayed via on_recover. config WAL configuration (directory, rotation threshold, fsync). on_recover Callback invoked for each recovered entry; may be null. Result<std::unique_ptr<WALStorage>> on success, Error on failure. config Input parameter. on_recover Input parameter. Return value. Caller receives a Result<> that indicates success/failure. - No exception escapes open(); all errors are captured in Result. Thread Safety: - Factory method (static); no concurrent access during construction. no_timeout scanner alert: WALStorage::open is a local-file factory method; it opens a WAL directory on block storage — no network I/O, no timeout needed. Calls: WALStorage(), openOrCreate(), error(), code(), context(), Ok(), std::move().
 
 #### `Result< void > openNewSegment(uint64_t segment_id)`
-- Source: `include/storage/wal_storage.h`:209
+- Source: `include/storage/wal_storage.h`:264
 - Brief: Close-Path Locking and Exception Safety (W5-Storage Hardening) openNewSegment() transitions file descriptor and segment state atomically under mutex_: 1.
 - Parameters:
   - `segment_id` (uint64_t): Identifier of the segment.
@@ -6614,7 +6632,7 @@ Status: active
 - Details: segment_id Identifier of the segment. Return value. Acquire mutex_ (all caller paths hold mutex_ via appendEntry/appendEntryLocked). 2. If fd_ >= 0, fsync old segment (may timeout, but continue anyway). 3. Close old fd_; set fd_ = -1. 4. Open new segment file with O_CLOEXEC (prevents FD leak in fork). 5. On error, return Err<>; caller must retry or abort. 6. On success, update current_segment_, segment_bytes_, fd_. Exception Safety: Strong Guarantee - ScopedFileDescriptor (next_fd) ensures new fd is closed if exception occurs before fd_ = next_fd.release(). - Old segment is closed before opening new one (no orphaned fds). - State transition is atomic under mutex_; no partial updates visible to readers. - If any step fails, fd_ remains valid (either old or -1), ready for retry. Thread Safety: Race Prevention - Caller must hold mutex_ (enforced by callers appendEntry, rotateIfNeeded). - Concurrent writers cannot access fd_/segment state during transition. - fd_ ≥ 0 check is stable under mutex_ (no concurrent close). Calls: std::chrono::steady_clock::now(), std::chrono::seconds(), themis_fsync_fd(), THEMIS_WARN(), count(), ErrVoid(), std::string(), std::strerror().
 
 #### `Result< void > openOrCreate(RecoveryCallback &on_recover)`
-- Source: `include/storage/wal_storage.h`:206
+- Source: `include/storage/wal_storage.h`:261
 - Brief: Open Or Create.
 - Parameters:
   - `on_recover` (RecoveryCallback &): Input/output parameter.
@@ -6628,15 +6646,15 @@ Status: active
   - `<unnamed>` (const WALStorage &): n/a
 
 #### `uint64_t parseSegmentId(const std::string &filename)`
-- Source: `include/storage/wal_storage.h`:201
-- Brief: Parse Segment Id.
+- Source: `include/storage/wal_storage.h`:256
+- Brief: Parse the segment identifier from a WAL filename.
 - Parameters:
   - `filename` (const std::string &): Input parameter.
-- Return: Return value.
-- Details: Parse the segment ID from a WAL segment file name (returns 0 on error). filename Input parameter. Return value. Calls: re(), std::regex_match(), std::stoull().
+- Return: Parsed segment ID, or 0 when the filename is malformed.
+- Details: Parse Segment Id. The helper accepts the canonical naming scheme emitted by segmentName() and returns the numeric segment ID. Invalid or unexpected names return 0. filename Candidate WAL filename to parse. Parsed segment ID, or 0 when the filename is malformed. filename Input parameter. Return value. Calls: re(), std::regex_match(), std::stoull().
 
 #### `Result< void > replaySegment(const std::string &path, RecoveryCallback &cb)`
-- Source: `include/storage/wal_storage.h`:207
+- Source: `include/storage/wal_storage.h`:262
 - Brief: Replay Segment.
 - Parameters:
   - `path` (const std::string &): Input parameter.
@@ -6645,28 +6663,29 @@ Status: active
 - Details: path Input parameter. cb Input/output parameter. Return value. Calls: f(), is_open(), ErrVoid(), std::chrono::steady_clock::now(), std::chrono::minutes(), good(), THEMIS_WARN(), count().
 
 #### `Result< void > rotateIfNeeded()`
-- Source: `include/storage/wal_storage.h`:208
+- Source: `include/storage/wal_storage.h`:263
 - Brief: Rotate If Needed.
 - Parameters: none
 - Return: Return value.
 - Details: Return value. Calls: OkVoid(), openNewSegment().
 
 #### `size_t segmentCount() const`
-- Source: `include/storage/wal_storage.h`:190
-- Brief: n/a
+- Source: `include/storage/wal_storage.h`:220
+- Brief: Return the number of WAL segment files currently present on disk.
 - Parameters: none
-- Details: Return the number of WAL segment files currently on disk.
+- Return: Number of WAL segment files currently present for this instance.
+- Details: This count includes the active segment and any retained historical segments that have not yet been cleaned up by checkpoint rotation. Number of WAL segment files currently present for this instance.
 
 #### `std::string segmentName(uint64_t segment_id)`
-- Source: `include/storage/wal_storage.h`:198
-- Brief: Segment Name.
+- Source: `include/storage/wal_storage.h`:244
+- Brief: Build the canonical on-disk file name for a WAL segment.
 - Parameters:
   - `segment_id` (uint64_t): Identifier of the segment.
-- Return: Return value.
-- Details: Build the file name for a WAL segment. segment_id Identifier of the segment. Return value. Calls: std::setw(), std::setfill(), str().
+- Return: Canonical segment filename in the form wal_000001.log.
+- Details: Segment Name. Segment IDs are zero-padded to six digits to provide stable ordering in filesystem listings. segment_id Monotonic segment identifier to encode into the filename. Canonical segment filename in the form wal_000001.log. segment_id Identifier of the segment. Return value. Calls: std::setw(), std::setfill(), str().
 
 #### `Result< void > syncIfRequired()`
-- Source: `include/storage/wal_storage.h`:218
+- Source: `include/storage/wal_storage.h`:273
 - Brief: Sync If Required.
 - Parameters: none
 - Return: Return value.
@@ -7119,14 +7138,14 @@ Status: active
 
 ### themis::compression
 
-#### `bool is_known_tag(uint8_t tag) noexcept`
+#### `constexpr bool is_known_tag(uint8_t tag) noexcept`
 - Source: `include/storage/codec_tags.h`:47
 - Brief: n/a
 - Parameters:
   - `tag` (uint8_t): n/a
 - Details: Returns true if tag is a recognised codec tag in this version of ThemisDB. Unknown tags should be treated as a framing error.
 
-#### `uint8_t method_to_tag(CompressionMethod m) noexcept`
+#### `constexpr uint8_t method_to_tag(CompressionMethod m) noexcept`
 - Source: `include/storage/compression_strategy.h`:318
 - Brief: Map a CompressionMethod to its canonical wire-format tag byte.
 - Parameters:
@@ -7134,7 +7153,7 @@ Status: active
 - Return: One of the kTag* constants from storage/codec_tags.h.
 - Details: GPU variants are mapped to the same tag as their CPU counterpart because the on-wire format is identical. Methods without a tag-byte representation (RLE, DELTA, DICTIONARY, SPARSE_CSR, ADAPTIVE) fall back to kTagPassthrough so that payloads are always decodable. m Method to convert. One of the kTag* constants from storage/codec_tags.h.
 
-#### `std::optional< CompressionMethod > tag_to_method(uint8_t tag) noexcept`
+#### `constexpr std::optional< CompressionMethod > tag_to_method(uint8_t tag) noexcept`
 - Source: `include/storage/compression_strategy.h`:345
 - Brief: Map a canonical wire-format tag byte back to a CompressionMethod.
 - Parameters:
@@ -7159,14 +7178,14 @@ Status: active
 
 #### `CompressionResult compress(const std::string &data, std::optional< DataType > hint=std::nullopt)`
 - Source: `include/storage/compression_strategy.h`:131
-- Brief: Compress string data (convenience overload).
+- Brief: Compress string data (convenience overload)
 - Parameters:
   - `data` (const std::string &): n/a
   - `hint` (std::optional< DataType >): n/a
 
 #### `CompressionResult compress(const std::vector< uint8_t > &data, std::optional< DataType > hint=std::nullopt)`
 - Source: `include/storage/compression_strategy.h`:121
-- Brief: Compress vector data (convenience overload).
+- Brief: Compress vector data (convenience overload)
 - Parameters:
   - `data` (const std::vector< uint8_t > &): n/a
   - `hint` (std::optional< DataType >): n/a
@@ -7635,14 +7654,14 @@ Status: active
 - Return: Short descriptive name (e.g., "RECOVERY_FAULT")
 - Details: type Incident type Short descriptive name (e.g., "RECOVERY_FAULT")
 
-#### `bool isDurabilityThreat(StorageErrorCode code) noexcept`
+#### `constexpr bool isDurabilityThreat(StorageErrorCode code) noexcept`
 - Source: `include/storage/storage_api_contract.h`:252
 - Brief: Returns true when code represents a durability-threatening failure.
 - Parameters:
   - `code` (StorageErrorCode): n/a
 - Details: Durability-threatening codes mandate immediate operator alert and MUST NOT be silently retried: WAL_WRITE_FAILED, WAL_CORRUPTED, STORAGE_EXHAUSTED.
 
-#### `bool isRetryableConflict(StorageErrorCode code) noexcept`
+#### `constexpr bool isRetryableConflict(StorageErrorCode code) noexcept`
 - Source: `include/storage/storage_api_contract.h`:263
 - Brief: Returns true when code is a transaction conflict that the caller SHOULD retry with exponential backoff.
 - Parameters:
@@ -8614,7 +8633,7 @@ Status: active
 
 #### `void cancel()`
 - Source: `include/storage/database_connection_manager.h`:351
-- Brief: Cancel timeout (call when operation completes).
+- Brief: Cancel timeout (call when operation completes)
 - Parameters: none
 - Details: Cancel. Implements cancel without additional internal calls.
 
@@ -9074,7 +9093,7 @@ Status: active
 
 #### `std::pair< std::string, std::string > parseKey(std::string_view composite) const`
 - Source: `include/storage/distributed_transaction_manager.h`:293
-- Brief: Parse "shard_id:logical_key" → (shard_id, logical_key).
+- Brief: Parse "shard_id:logical_key" → (shard_id, logical_key)
 - Parameters:
   - `composite` (std::string_view): n/a
 
@@ -10610,7 +10629,7 @@ Status: active
 
 #### `std::string detectLanguage(const std::string &text) const`
 - Source: `include/storage/nlp_metadata_extractor.h`:153
-- Brief: Detect language only (fast path).
+- Brief: Detect language only (fast path)
 - Parameters:
   - `text` (const std::string &): Input text
 - Return: Language code (en, de, fr, etc.)
@@ -10627,7 +10646,7 @@ Status: active
 
 #### `std::map< std::string, std::vector< std::string > > extractEntities(const std::string &text) const`
 - Source: `include/storage/nlp_metadata_extractor.h`:161
-- Brief: Extract named entities only (fast path).
+- Brief: Extract named entities only (fast path)
 - Parameters:
   - `text` (const std::string &): Input text
 - Return: Map of entity type -> list of entities
@@ -10635,7 +10654,7 @@ Status: active
 
 #### `std::vector< std::string > extractKeywords(const std::string &text, size_t max_keywords=10) const`
 - Source: `include/storage/nlp_metadata_extractor.h`:143
-- Brief: Extract keywords only (fast path).
+- Brief: Extract keywords only (fast path)
 - Parameters:
   - `text` (const std::string &): Input text
   - `max_keywords` (size_t): Maximum keywords to return
@@ -10784,7 +10803,7 @@ Status: active
 
 #### `double compressionRatio() const noexcept`
 - Source: `include/storage/tt_quantizer.h`:93
-- Brief: Compression ratio: (dense float32 elements × 4) / totalBytes().
+- Brief: Compression ratio: (dense float32 elements × 4) / totalBytes()
 - Parameters: none
 
 #### `std::optional< QuantizedTrain > deserialize(const std::vector< uint8_t > &bytes)`
@@ -11441,7 +11460,7 @@ Status: active
 
 #### `std::string serialize() const`
 - Source: `include/storage/security_signature.h`:39
-- Brief: Serialize to binary (for RocksDB storage).
+- Brief: Serialize to binary (for RocksDB storage)
 - Parameters: none
 
 #### `nlohmann::json toJson() const`
@@ -11521,7 +11540,7 @@ Status: active
 
 #### `std::string normalizeResourceId(const std::string &path)`
 - Source: `include/storage/security_signature_manager.h`:103
-- Brief: Normalize resource identifier (resolve relative paths, symlinks).
+- Brief: Normalize resource identifier (resolve relative paths, symlinks)
 - Parameters:
   - `path` (const std::string &): Input parameter.
 - Return: Return value.
@@ -11945,7 +11964,7 @@ Status: active
 
 #### `double compressionRatio() const noexcept`
 - Source: `include/storage/tensor_train_decomposer.h`:88
-- Brief: Compression ratio vs. dense storage (∏ n_k / totalParams).
+- Brief: Compression ratio vs. dense storage (∏ n_k / totalParams)
 - Parameters: none
 
 #### `std::optional< TTTrain > deserialize(const std::vector< uint8_t > &bytes)`
@@ -11965,12 +11984,12 @@ Status: active
 
 #### `std::size_t order() const noexcept`
 - Source: `include/storage/tensor_train_decomposer.h`:79
-- Brief: Order (number of dimensions).
+- Brief: Order (number of dimensions)
 - Parameters: none
 
 #### `std::vector< float > reconstruct() const`
 - Source: `include/storage/tensor_train_decomposer.h`:91
-- Brief: Reconstruct full dense tensor (use only for testing; cost = O(n^d)).
+- Brief: Reconstruct full dense tensor (use only for testing; cost = O(n^d))
 - Parameters: none
 
 #### `std::vector< uint8_t > serialize() const`
@@ -13800,7 +13819,7 @@ Status: active
 - Return: Return value.
 - Details: Classify Error. error_message Input parameter. Return value. Calls: std::transform(), begin(), end(), std::tolower(), find().
 
-#### `decltype(operation()) executeWithRetry(Func &&operation, const std::string &operation_name, const RetryPolicy *policy=nullptr)`
+#### `auto executeWithRetry(Func &&operation, const std::string &operation_name, const RetryPolicy *policy=nullptr) -> decltype(operation())`
 - Source: `include/storage/transaction_retry_manager.h`:208
 - Brief: Execute operation with automatic retry.
 - Parameters:
@@ -13849,13 +13868,13 @@ Status: active
 
 #### `void recordFailure()`
 - Source: `include/storage/transaction_retry_manager.h`:359
-- Brief: Record failed operation (for circuit breaker).
+- Brief: Record failed operation (for circuit breaker)
 - Parameters: none
 - Details: Record Failure. Calls: lock(), std::chrono::steady_clock::now(), transitionCircuitState(), invokeAlertCallback().
 
 #### `void recordSuccess()`
 - Source: `include/storage/transaction_retry_manager.h`:354
-- Brief: Record successful operation (for circuit breaker).
+- Brief: Record successful operation (for circuit breaker)
 - Parameters: none
 - Details: Record Success. Calls: lock(), transitionCircuitState(), invokeAlertCallback().
 
@@ -13883,4 +13902,3 @@ Status: active
 - Source: `include/storage/transaction_retry_manager.h`:196
 - Brief: Destructor.
 - Parameters: none
-

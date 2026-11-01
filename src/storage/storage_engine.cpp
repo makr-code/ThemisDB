@@ -11,13 +11,13 @@
 
 #include "storage/storage_engine.h"
 #include "storage/rocksdb_wrapper.h"
+#include "core/production_mode.h"
 #include "utils/expected.h"
 #include "utils/tracing.h"
 #include "utils/logger.h"
 #include <fmt/format.h>
 #include <spdlog/spdlog.h>
 #include <stdexcept>
-#include <cstdlib>
 #include <chrono>
 
 namespace themis {
@@ -32,28 +32,12 @@ namespace themis {
 namespace {
 
 /**
- * @brief Flag to track if production mode is enabled Set via environment variable THEMIS_PRODUCTION_MODE=1 or THEMIS_ENVIRONMENT=production Note: For testing, use the test-only reset function below
- * @return True when the operation succeeds.
- * @details Calls: std::getenv(), mode_str(), std::string().
+ * @brief Checks whether the canonical production safeguards are enabled.
+ * @return True when production mode is enabled.
+ * @throws std::runtime_error if a configured production-mode value is unknown.
  */
 bool is_production_mode() {
-    const char* mode_env = std::getenv("THEMIS_PRODUCTION_MODE");
-    const char* env_env = std::getenv("THEMIS_ENVIRONMENT");
-    
-    // Check THEMIS_PRODUCTION_MODE first (accepts "1", "true", "production")
-    if (mode_env) {
-        std::string mode_str(mode_env);
-        if (mode_str == "1" || mode_str == "true" || mode_str == "production") {
-            return true;
-        }
-    }
-    
-    // Check THEMIS_ENVIRONMENT (accepts "production")
-    if (env_env && std::string(env_env) == "production") {
-        return true;
-    }
-    
-    return false;
+    return themis::core::ProductionMode::isEnabled();
 }
 
 class DefaultExpressionEvaluator : public IExpressionEvaluator {

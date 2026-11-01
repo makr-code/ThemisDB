@@ -1,12 +1,33 @@
-# EPIC 2.5 Evaluation Module — Performance Baselines
+# EPIC 2.5 Evaluation Module — Baseline Capture Template
 
-This file stores the captured benchmark baselines for the evaluation module path-selection
-decision and error-path benchmarks. Baselines are captured on representative hardware before
-each GA promotion and used as the comparison target for regression detection.
+> **Update provenance (2026-10-31):** AI_Used: true; AI_Models: unknown;
+> AI_Contributor: OpenAI ChatGPT; Human_Review: false; Human_Author: ThemisDB
+> Contributors. Exact model backend not verifiable from final document text alone.
+
+> **No measurements are recorded in this file.** The blank tables and numeric
+> thresholds below are planning/template material, not captured baselines or
+> validated regression gates. Example configure/build paths must be checked
+> against the active preset and target registration before use. No benchmark was
+> run for issue #7344.
+
+Use this page to record measured benchmark results only after retaining the
+complete output and hardware/build context.
 
 > **Note**: This file is the Phase 6 deliverable referenced by
-> `benchmarks/epic2_evaluation/README.md §7.1`. Update it after every qualifying
+> the historical `benchmarks/epic2_evaluation/README.md §7.1` plan. Update it after every qualifying
 > baseline capture run.
+
+The EPIC 2 CMake file declares planner decision and error-path executables when
+`epic2_evaluation_lib` exists, and the matrix executable when Google Benchmark
+and `themis_evaluation` exist. It passes the storage-strategy source through the
+standard benchmark helper and registers its CTest wrapper if the target exists.
+The artifact-staleness source exercises `ArtifactLifecycleManager` through
+Google Benchmark but is not registered there. Planner executables report
+measured per-call percentiles when run; matrix simulations are synthetic, and
+the storage harness calls `DefaultShardPlacementStrategy` with synthetic node
+inputs. This template records no results. See
+`benchmarks/epic2_evaluation/CMakeLists.txt` and the benchmark sources before
+interpreting any output.
 
 ---
 
@@ -71,4 +92,6 @@ cmake --build --preset linux-release --target planner_error_path_bench
 | p99 latency   | > baseline × 1.30   | > 1,000,000 ns (1 ms)|
 | Any path Δ    | > 50%               | requires root-cause  |
 
-Reference: `src/evaluation/PERFORMANCE_EXPECTATIONS.md §6`, `benchmarks/epic2_evaluation/README.md §7`.
+Reference: `src/evaluation/PERFORMANCE_EXPECTATIONS.md §6`. The values above
+remain proposed until measured and reviewed; they are not current performance
+guarantees.

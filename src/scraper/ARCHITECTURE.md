@@ -1,11 +1,23 @@
 # Architecture - Scraper Module
 
-<!-- Status: current | validated: 2026-05-31 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+
+**Author:** ThemisDB Contributors<br>
+**Created:** 2026-10-31<br>
+**Last Updated:** 2026-10-31<br>
+**Status:** review
+
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot; themisdb-doc-orchestrator
+**Human_Review:** false
+**Human_Author:** unknown
+Exact model backend not verifiable from final document text alone.
 
 ## Overview
 
-The scraper module composes seed-source expansion, multi-mode fetch/render, crawl/search extraction, evaluation, and metadata/provenance writing into a bounded ingestion-oriented scraping subsystem.
+The scraper module composes seed-source selection, fetch/render, optional HTML search or API retrieval, evaluation, and metadata/provenance writing into a synchronous ingestion subsystem. Limits vary by path; several parsed crawl controls are not enforced by the main loop.
 
 ## Main Execution Planes
 
@@ -25,17 +37,17 @@ The scraper module composes seed-source expansion, multi-mode fetch/render, craw
 
 | Contract | Behavior |
 |---|---|
-| seed/fetch contract | deterministic source expansion and bounded fetch behavior |
+| seed/fetch contract | explicit seed/catalog selection and mode-dependent fetch behavior |
 | extraction contract | explicit form/result extraction semantics |
 | evaluation contract | explicit relevance/quality outcomes with fallback behavior |
-| write contract | deterministic metadata/provenance construction and write signaling |
+| write contract | metadata/provenance construction and write signaling |
 
 ## Failure Semantics
 
-- fetch failures are explicit and non-silent.
-- parse/evaluation errors surface deterministic outcomes.
-- write failures are observable and accounted in run stats.
-- unsupported modes/inputs fail explicitly under config constraints.
+- fetch failures can result in empty content and are not uniformly surfaced in logs or run statistics.
+- search/parser empty outcomes are not necessarily distinguishable from unsupported or unmatched page structure.
+- evaluation outcomes are returned; accepted documents are passed to the writer.
+- individual writer failures increment `write_errors`; `flush()` failure is not represented in returned stats.
 
 ## Sourcecode Verification (Module: scraper/architecture)
 
@@ -48,12 +60,14 @@ The scraper module composes seed-source expansion, multi-mode fetch/render, craw
   - src/scraper/gov_source_catalog.cpp
 - Verified architecture claims:
   - seed/fetch + parse/evaluation + persistence/provenance plane split
-  - explicit failure boundaries for fetch/parse/evaluate/write paths
+  - path-specific fetch/parse/evaluate/write outcomes; failures are not uniformly surfaced as diagnostics
   - module-local ownership of scraper ingestion behavior
 
-## Diagnostics Layer
+## Diagnostics Primitives (not wired into the plugin)
 
-The diagnostics layer was introduced in Q3 2026 to provide unified, non-silent fault reporting across all scraper pipeline stages.
+The public headers provide diagnostic event/sink types, fault-classification helpers, and a run-summary collector. These are standalone integration primitives: `ScraperPlugin` has no diagnostic-sink dependency and does not emit these events. Do not interpret the declarations or associated tests as end-to-end plugin instrumentation.
+
+`scraper_robots.h` and `scraper_sitemap.h` also declare standalone helpers. Their implementations are omitted from the `scraper_plugin` target's CMake source list and the focused scraper test registration; the normal archive does not provide their symbols. See [IMPLEMENTATION.md](./IMPLEMENTATION.md) for the build/test TODO.
 
 ### Components
 
@@ -63,12 +77,12 @@ The diagnostics layer was introduced in Q3 2026 to provide unified, non-silent f
 | IScraperDiagnosticSink | include/scraper/scraper_diagnostics.h | Thread-safe emit interface for operator sinks |
 | ListeningScraperDiagnosticSink | include/scraper/scraper_diagnostics.h | Recording sink with listener callbacks for tests and metrics |
 | faultClassOf() / defaultSeverityOf() | include/scraper/scraper_diagnostics.h | Error-to-fault-class routing helpers |
-| BurstCrawlController | include/scraper/scraper_burst_controller.h | Token-bucket burst limiter for multi-source crawl bursts |
-| ScraperRunSummary / ScraperRunSummaryCollector | include/scraper/scraper_run_summary.h | Operator-facing aggregate triage view of a completed scrape run |
+| BurstCrawlController | include/scraper/scraper_burst_controller.h | Optional token-bucket gate applied once per seed |
+| ScraperRunSummary / ScraperRunSummaryCollector | include/scraper/scraper_run_summary.h | Aggregate counters for events explicitly sent to a listening sink; callers must provide event and run-stat inputs |
 
 ### Fault Classes
 
-All scraper errors are routed to a `ScraperFaultClass` via `faultClassOf()`:
+When an integration calls `faultClassOf()`, its `ScraperError` is mapped to a `ScraperFaultClass`:
 - `kFetchPath` — HTTP fetch / DNS / TLS failures
 - `kRenderPath` — JS renderer timeout / crash
 - `kParsePath` — HTML/DOM parse errors
@@ -78,16 +92,12 @@ All scraper errors are routed to a `ScraperFaultClass` via `faultClassOf()`:
 - `kInternal` — Unclassified errors
 ---
 
-### Direct Downstream Consumers (modules that use this module)
+### Declared integration surface (not a wired downstream consumer)
 
-> **Production consumer route: INTEGRATION-READY (plugin host + HTTP handler)**
-> Handler header `include/server/scraper_plugin_api_handler.h` has been created as
-> the production HTTP consumer route. The scraper module is built as an opt-in
-> plugin target via `THEMIS_PLUGIN_SCRAPER`. Wiring `ScraperPluginApiHandler` into
-> `HttpServer` and the plugin host are the remaining steps.
+`include/server/scraper_plugin_api_handler.h` declares an HTTP handler and labels its integration to `HttpServer` and plugin loading as pending. The scraper module's own `CMakeLists.txt` builds `scraper_plugin`; it does not define or consume `THEMIS_PLUGIN_SCRAPER`. The handler's actual target registration, route wiring, and runtime behavior are not established by the scraper module sources reviewed here.
 
 | Module | Via | Notes |
 |--------|-----|-------|
-| `server` | `include/server/scraper_plugin_api_handler.h` → `ScraperPluginApiHandler` | Planned HTTP routes: `POST /scraper/crawl`, `GET /scraper/jobs`, `GET /scraper/jobs/{id}/status`, `GET /scraper/jobs/{id}/result`, `DELETE /scraper/jobs/{id}`. Gate: `THEMIS_PLUGIN_SCRAPER`. Handler header implemented; `HttpServer` wiring pending. |
-| `plugin_host` | CMake flag `THEMIS_PLUGIN_SCRAPER` → plugin registry load | Plugin loaded at startup when `THEMIS_PLUGIN_SCRAPER=ON`. |
-| _(tests)_ | `include/scraper/scraper_plugin.h`, `include/scraper/scraper_diagnostics.h`, etc. | `tests/scraper/` test files — current only direct verified consumers. |
+| `server` | `include/server/scraper_plugin_api_handler.h` → `ScraperPluginApiHandler` declaration | Header documents proposed routes; `HttpServer` wiring is marked pending. Do not treat these as available production endpoints. |
+| `plugin_host` | TODO | No scraper-module CMake registration or verified plugin-host load path is established by the sources referenced above. |
+| _(tests)_ | Public `include/scraper/` headers | `tests/scraper/` contains focused test consumers; the separately declared server handler has no verified runtime wiring in this review. |

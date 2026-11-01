@@ -2,7 +2,7 @@
 Author: "ThemisDB Contributors"
 Created: "unknown (pre-existing document; creation date not recorded)"
 Last Updated: "2026-10-31"
-Status: "active"
+Status: "review"
 AI_Used: true
 AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
@@ -10,17 +10,17 @@ Human_Review: false
 Human_Author: "unknown"
 ---
 
-> **Build:** `cmake --preset linux-ninja-release && cmake --build build-linux-ninja-release --target <target>`
+> **Build/tests:** `cmake --preset linux-release -DTHEMIS_BUILD_TESTS=ON`, then build in `build-gcc-linux-release`.
 
 # ThemisDB Network Module - Implementation
 
-<!-- Status: PRODUCTION_CANDIDATE | Phase 1-3 complete | validated: 2026-08-10 -->
+<!-- Status: PRODUCTION_CANDIDATE per root roadmap; source review: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md · docs/de/network/README.md -->
 <!-- Primärdokumentation: src/network/ -->
 
 ## Module Purpose
 
-The Network module implements ThemisDB's high-performance, secure networking layer for distributed communication, client connections, and inter-node messaging. It provides TCP/IP socket management, connection pooling, TLS/mTLS security, protocol handling, and distributed communication patterns optimized for low latency and high throughput.
+The Network module implements ThemisDB's networking layer for distributed communication, client connections, and inter-node messaging. It provides TCP/IP socket management, connection pooling, TLS/mTLS configuration, protocol handling, and distributed communication patterns. Performance depends on build options and deployment; see the benchmark evidence notes below.
 
 ## Relevant Interfaces
 
@@ -48,7 +48,7 @@ The Network module implements ThemisDB's high-performance, secure networking lay
 | `raft_load_balancer.cpp` | `RaftLoadBalancer` — 5 routing strategies, health-based failover, consistent hashing (port 8774) |
 | `io_uring_batcher.cpp` | `IoUringBatchedSender` — single `io_uring_enter` for N concurrent writev SQEs (guarded by `THEMIS_ENABLE_IO_URING`) |
 | `kernel_bypass.cpp` | `DPDKServer` + `IoUringServer` + `CpuPinner` + `NumaAllocator` + `ZeroCopyDmaBuffer` |
-| `network_audit_log.cpp` | `NetworkAuditLog` — structured audit log for network-level security events |
+| `network_audit_log.cpp` | `NetworkAuditLog` — bounded audit-event buffer/callback, compiled into `themis_core` and integrated with `WireProtocolServer` |
 | `quic_server.cpp` | `QUICServer` + `QUICClient` — QUIC/HTTP3 server with 0-RTT, BBR/Cubic congestion control (guarded by `THEMIS_ENABLE_HTTP3`) |
 | `adaptive_io_scaler.h` | `AdaptiveIOScaler` — background I/O thread scaler based on active connection ratio (header-only) |
 
@@ -56,7 +56,9 @@ The Network module implements ThemisDB's high-performance, secure networking lay
 
 **Maturity:** PRODUCTION_CANDIDATE (per the root [roadmap](../../ROADMAP.md)). Transport and protocol capabilities vary by build option, runtime configuration, and integration; this status does not assert that every listed transport or feature is enabled or production-ready in every deployment. Core Wire Protocol V1 handlers (HELLO, AUTH, GET, PUT, DELETE, VECTOR_SEARCH) are implemented; QUERY_AQL and GEO_QUERY return structured errors directing clients to the HTTP REST API while engine integration remains pending.
 
-**Validated:** 2026-03-10 (Reality-Check against Sourcecode; see [docs/de/network/MISSING_IMPLEMENTATIONS.md](../../docs/de/network/MISSING_IMPLEMENTATIONS.md))
+**Historical validation:** 2026-03-10. This date is not evidence of the current
+implementation; verify behavior against the linked headers/source and focused
+tests when making changes.
 
 ### Current Security & Validation Notes
 
@@ -69,13 +71,14 @@ The Network module implements ThemisDB's high-performance, secure networking lay
 
 **In Scope:**
 - Wire Protocol Server (binary TCP protocol)
-- Connection pool management for client-side and server-side
+- Client-side connection pool management
 - Socket timeout management with circuit breaker pattern
 - TLS/SSL and mutual TLS (mTLS) support
 - Protocol buffer wire format helpers (lightweight parser/serializer)
 - Network security (authentication, rate limiting, connection limits)
 - Health checking and keepalive mechanisms
-- Network error handling with automatic retry logic
+- Bounded retry policy contexts for eligible transient failures; application
+  request replay remains caller-owned
 - Connection lifecycle management
 - Performance monitoring and statistics collection
 
@@ -88,14 +91,15 @@ The Network module implements ThemisDB's high-performance, secure networking lay
 
 ### Wire Protocol Server
 **Location:** `wire_protocol_server.cpp` (1224 lines)
-**Header:** `../include/network/wire_protocol_server.h`
+**Header:** `../../include/network/wire_protocol_server.h`
 
 High-performance binary TCP server for native client communication with ThemisDB.
 
 **Purpose:**
 - Provides low-latency binary protocol alternative to HTTP/REST
 - Enables efficient bulk operations and streaming
-- Supports all ThemisDB operations (CRUD, AQL, vector search, graph, timeseries, BPMN)
+- Supports implemented wire opcodes; query/geospatial operations depend on
+  their configured engine/backend integrations
 - Implements comprehensive security (TLS, authentication, rate limiting)
 - Isolates network I/O from request processing via separate thread pools
 
@@ -127,14 +131,15 @@ config.max_requests_per_minute = 10000;
 WireProtocolServer server(
     config, storage, secondary_index, graph_index,
     vector_index, tx_manager, process_graph,
-    ts_store, agg_manager
+    ts_store, agg_manager, query_engine
 );
 
 // Validate transport security before starting
 if (!server.validateTransportSecurity(argc, argv)) {
-    exit(1);
+    throw std::runtime_error("Wire Protocol transport security validation failed");
 }
 
+// start() also requires query_engine and a geospatial backend/bridge.
 server.start();
 ```
 
@@ -152,22 +157,22 @@ server.start();
 │         │                         │ accept()              │
 │         │                         ▼                       │
 │         │              ┌──────────────────┐              │
-│         │              │  Session Pool     │              │
-│         │              │  (per connection) │              │
+│         │              │ Session objects   │              │
+│         │              │ (per connection)  │              │
 │         │              └──────────────────┘              │
 │         │                         │                       │
 │         │                         │ async_read/write      │
 │         ▼                         ▼                       │
 │  ┌──────────────┐       ┌────────────────┐              │
 │  │ IO Threads   │       │  Sessions      │              │
-│  │ (4 threads)  │──────▶│  (1000 max)    │              │
+│  │ (configured) │──────▶│ (configured cap)│              │
 │  └──────────────┘       └────────────────┘              │
 │                                  │                        │
 │                                  │ dispatch               │
 │                                  ▼                        │
 │                         ┌────────────────┐               │
 │                         │ Worker Pool    │               │
-│                         │ (16 threads)   │               │
+│                         │ (configured)   │               │
 │                         └────────────────┘               │
 │                                  │                        │
 │                                  │ execute                │
@@ -221,8 +226,10 @@ void handleBpmnQueryInstance();
    - Production safety enforcement (validates TLS in production mode)
 
 2. **Authentication:**
-   - SCRAM-SHA-256 challenge-response authentication
-   - Session-based authentication state
+   - `auth_mechanism` accepts the configured `SCRAM-SHA-256` label, while the
+     current wire AUTH handler validates a pre-shared JSON token; it does not
+     perform a SCRAM challenge-response exchange
+   - Per-session authentication state
    - Configurable auth timeout (default 10s)
    - Failed auth attempt tracking
 
@@ -230,7 +237,6 @@ void handleBpmnQueryInstance();
    - Per-IP connection limits
    - Per-IP request rate limits (per second, per minute)
    - Automatic rejection of excessive connections
-   - Circuit breaker pattern for problematic IPs
 
 4. **Connection Protection:**
    - Maximum frame size limit (prevents memory exhaustion)
@@ -241,47 +247,29 @@ void handleBpmnQueryInstance();
 **Performance Optimizations:**
 - **Thread Pool Isolation:** Separate I/O and worker threads prevent blocking
 - **Zero-Copy I/O:** Direct buffer access where possible
-- **Lock-Free Statistics:** Atomic counters for metrics
+- **Statistics:** Component snapshots with synchronization where shared state is accessed
 - **Async I/O:** Boost.Asio for efficient event-driven I/O
 - **Connection Pooling:** Reuse connections to reduce handshake overhead
 
 **Wire Protocol Format:**
 ```
 Frame Structure:
-┌──────────┬─────────┬──────────┬─────────┬──────────┐
-│ Magic    │ Flags   │ OpCode   │ Payload │ Checksum │
-│ (4 bytes)│ (2 byte)│ (2 bytes)│ (N byte)│ (4 bytes)│
-└──────────┴─────────┴──────────┴─────────┴──────────┘
+┌──────────┬─────────┬─────────┬──────────┬─────────────┬────────────┐
+│ Magic    │ Version │ OpCode  │ Flags    │ PayloadSize │ Payload+CRC│
+│ 4 bytes  │ 1 byte  │ 1 byte  │ 2 bytes  │ 4 bytes     │ variable   │
+└──────────┴─────────┴─────────┴──────────┴─────────────┴────────────┘
 
-Header (12 bytes):
-- Magic: 0x54484d53 ("THMS")
-- Flags: Compression, encryption, streaming bits
-- OpCode: Operation identifier (HELLO=1, GET=10, PUT=11, etc.)
-- PayloadSize: Length of payload (uint32)
-
-Payload:
-- Protobuf-encoded message based on OpCode
-
-Checksum:
-- CRC32 of header + payload
+The TCP wire server uses a 12-byte header: magic `TMDB` (`0x544D4442`),
+version, opcode, flags, and a big-endian payload length. The body is JSON for
+the current server handlers; a CRC32 follows the payload and covers the header
+and payload. This is separate from the standalone `PacketParser` format in
+`include/network/wire_protocol.h` (`0xDB 0x01`, 7-byte header).
 ```
 
 **Error Handling:**
 ```cpp
-// Error codes
-enum class ErrorCode : uint32_t {
-    SUCCESS = 0,
-    AUTH_REQUIRED = 1,
-    AUTH_FAILED = 2,
-    INVALID_OPCODE = 3,
-    INVALID_FRAME = 4,
-    PAYLOAD_TOO_LARGE = 5,
-    TIMEOUT = 6,
-    RATE_LIMIT_EXCEEDED = 7,
-    INTERNAL_ERROR = 100
-};
-
-// Error response format
+// The server API accepts a numeric response code; NetworkErrorCode is a
+// separate canonical contract taxonomy in network_api_contract.h.
 void sendError(uint32_t error_code, const std::string& message);
 ```
 
@@ -299,16 +287,18 @@ struct Stats {
 };
 
 auto stats = server.getStats();
-double error_rate = (double)stats.total_errors / stats.total_requests;
+double error_rate = stats.total_requests == 0 ? 0.0 :
+    static_cast<double>(stats.total_errors) / stats.total_requests;
 ```
 
-**Thread Safety:** Fully thread-safe with internal locking for shared state
+Shared server state uses synchronization, but callers must not infer that every
+returned snapshot or callback is safe for concurrent mutation.
 
 ---
 
 ### Wire Protocol Connection Pool
 **Location:** `wire_protocol_connection_pool.cpp` (599 lines)
-**Header:** `../include/network/wire_protocol_connection_pool.h`
+**Header:** `../../include/network/wire_protocol_connection_pool.h`
 
 Client-side connection pooling for efficient reuse of TCP connections.
 
@@ -345,7 +335,7 @@ pool.warmup("server2.example.com:8766");
 // Acquire connection (RAII handle)
 {
     auto conn = pool.acquireConnection("server1.example.com:8766");
-    // Use connection via conn.socket() or conn.socketWrapper()
+    // socket() is plain TCP only; use socketWrapper() for SSL connections.
 
     // Connection automatically returned to pool when `conn` goes out of scope
 }
@@ -440,24 +430,23 @@ std::cout << "Connection reuse rate: " << (stats.getReuseRate() * 100) << "%\n";
 ```
 
 **Performance Benefits:**
-- **50-80% latency reduction** for subsequent requests (no handshake)
-- **2-3x throughput improvement** under high concurrency
-- **Reduced server load** from fewer handshakes
-- **Better resource utilization** via connection reuse
+- Reuse avoids a new connection handshake when an eligible connection is
+  available. The module has no benchmark proving a fixed latency or throughput
+  improvement; results depend on workload and deployment.
 
 **TLS/mTLS Support:**
-- Configurable SSL/TLS cipher suites
+- Configured TLS certificate/key and CA paths
 - Client certificate authentication (mTLS)
-- Certificate validation with CA trust store
-- Session resumption for faster TLS handshakes
+- Exact verification/session behavior depends on the transport implementation
 
-**Thread Safety:** Fully thread-safe with per-target mutexes
+The pool synchronizes shared per-target state. A checked-out connection handle
+is owned by its caller and should not be used concurrently by multiple threads.
 
 ---
 
 ### Socket Timeout Manager
 **Location:** `socket_timeout_manager.cpp` (422 lines)
-**Header:** `../include/network/socket_timeout_manager.h`
+**Header:** `../../include/network/socket_timeout_manager.h`
 
 Cross-platform socket timeout management with circuit breaker pattern.
 
@@ -573,10 +562,11 @@ std::cout << "Timeout rate: " << (stats.getTimeoutRate() * 100) << "%\n";
 
 **RAII Guard:**
 ```cpp
+auto manager = std::make_shared<SocketTimeoutManager>(config);
 SocketTimeoutGuard guard(manager, client_socket);
 
 // Perform operations
-auto bytes = manager.readWithTimeout(guard.get(), buffer, size);
+auto bytes = manager->readWithTimeout(guard.get(), buffer, size);
 
 if (success) {
     guard.release();  // Keep socket open
@@ -584,13 +574,14 @@ if (success) {
 // Otherwise socket is automatically closed on scope exit
 ```
 
-**Thread Safety:** Thread-safe for concurrent socket operations
+Do not overlap operations on the same socket. The public interface does not
+promise blanket synchronization for a shared manager or socket.
 
 ---
 
 ### Wire Protocol Helpers
 **Location:** `wire_protocol_helpers.cpp` (320 lines)
-**Header:** `../include/network/wire_protocol_helpers.h`
+**Header:** `../../include/network/wire_protocol_helpers.h`
 
 Lightweight protobuf wire format parser/serializer without protobuf library dependency.
 
@@ -672,13 +663,12 @@ struct TimeSeriesQueryResponse {
 };
 ```
 
-**Performance:**
-- **5-10x faster** than full protobuf library for simple messages
-- **Zero external dependencies** (no libprotobuf)
-- **Minimal memory overhead** (stack-based parser)
-- **Zero-copy where possible** (string_view for parsing)
+**Performance:** No current network benchmark compares these helpers with
+libprotobuf or establishes a speedup/allocation guarantee.
 
-**Thread Safety:** Stateless functions, thread-safe
+`ProtobufParser` holds a reference to input bytes and a mutable cursor;
+`ProtobufSerializer` owns a mutable output buffer. Use separate instances for
+concurrent operations; neither class provides internal synchronization.
 
 ---
 
@@ -754,14 +744,18 @@ message StartProcessResponse { ... }
 
 ### Security Module
 - Transport security validation (TLS enforcement)
-- SCRAM-SHA-256 authentication
+- Shared-token AUTH handler; `auth_mechanism` currently accepts the
+  `SCRAM-SHA-256` configuration label but does not implement a SCRAM exchange
 - Rate limiting and connection limits
-- Audit logging for security events
+- `WireProtocolServer::getAuditLog()` exposes the per-server bounded log, which
+  records accepted connection open/close, AUTH outcomes, and rate-limit
+  rejections. Its default 10,000-event buffer is in-memory only; configure a
+  non-blocking callback before `start()` to forward events to a durable sink.
 
 ### Performance Module
 - Connection pooling reduces handshake overhead
 - Zero-copy I/O where possible
-- Lock-free statistics collection
+- Synchronized/atomic statistics where declared by component interfaces
 - Async I/O for efficient event handling
 
 ---
@@ -851,15 +845,15 @@ pool_config.ssl_ca_cert_path = "/etc/themisdb/ca.crt";
 
 ### Authentication
 ```cpp
-// Token-based authentication (implemented, 2026-03-10).
+// Token-based authentication in the current wire AUTH handler.
 // handleAuthRequest() validates {"token":"...","username":"..."} payload.
-// Config::auth_token sets the expected pre-shared token; leave empty to accept
-// any non-empty token (development mode only).
+// Config::auth_token sets the expected pre-shared token. When authentication is
+// required, server startup rejects an empty or blank token.
 // On success: authenticated_ = true; username_ is recorded.
 // On failure: error 0x0401; stats_.auth_failures incremented.
 config.require_auth = true;
 config.auth_timeout_sec = 10;
-config.auth_token = "my-secret-token";  // optional pre-shared token
+config.auth_token = "my-secret-token";  // required when require_auth is true
 ```
 
 ### Rate Limiting
@@ -868,11 +862,7 @@ config.auth_token = "my-secret-token";  // optional pre-shared token
 config.max_requests_per_second = 1000;
 config.max_requests_per_minute = 10000;
 
-// Automatic rejection if exceeded
-if (!checkRateLimit(remote_ip)) {
-    sendError(ErrorCode::RATE_LIMIT_EXCEEDED, "Rate limit exceeded");
-    return;
-}
+// The server applies these configured per-IP limits before request dispatch.
 ```
 
 ### Connection Limits
@@ -931,6 +921,10 @@ manager.setAlertCallback([](SocketHealthState state, const std::string& msg) {
 ```
 
 ### Prometheus Integration
+
+The network module does not bundle a Prometheus exporter. A consuming service
+may adapt component snapshots or register its own observability sink.
+
 ```cpp
 // Export metrics to Prometheus
 prometheus::Counter& requests_total = /* ... */;
@@ -965,15 +959,17 @@ void handleError(const std::string& context, const boost::system::error_code& ec
 }
 ```
 
-### Timeout Handling
+### Authentication Timeout Handling
 ```cpp
-void startTimeout(std::chrono::seconds timeout) {
+void startAuthTimeout(std::chrono::seconds timeout) {
     timeout_timer_ = std::make_unique<net::steady_timer>(*io_context_);
     timeout_timer_->expires_after(timeout);
     timeout_timer_->async_wait([self = shared_from_this()](const error_code& ec) {
         if (!ec) {
-            // Timeout expired
-            self->sendError(ErrorCode::TIMEOUT, "Request timeout");
+            // Authentication timeout expired
+            self->sendError(
+                static_cast<uint32_t>(NetworkErrorCode::AUTH_TIMEOUT),
+                "Authentication timeout");
             self->close();
         }
     });
@@ -982,57 +978,34 @@ void startTimeout(std::chrono::seconds timeout) {
 
 ### Retry Logic
 ```cpp
-// Connection pool automatic retry
-for (size_t retry = 0; retry < config_.max_retries; ++retry) {
-    try {
-        auto socket = createConnection(target);
-        if (socket && socket->is_open()) {
-            return socket;  // Success
-        }
-    } catch (const std::exception& e) {
-        if (retry == config_.max_retries - 1) {
-            throw;  // Last retry failed
-        }
-        std::this_thread::sleep_for(std::chrono::milliseconds(100 * (retry + 1)));
-    }
+auto policy = WireRetryPolicy::forConnectionIO();
+RetryContext retry_context(policy);
+auto delay = retry_context.nextDelay(WireErrorClass::kTransient);
+if (delay) {
+    std::this_thread::sleep_for(*delay);
 }
+// RetryContext computes bounded backoff; it does not replay application
+// requests or guarantee that a failed write was not delivered.
 ```
 
 ---
 
 ## Testing Recommendations
 
-### Unit Tests (existing test files)
-- **`test_wire_protocol_v1_handlers.cpp`** — Config defaults, auth decision logic (3 modes), HELLO/AUTH/GET/PUT/DELETE/VECTOR_SEARCH response contracts, QUERY_AQL/GEO_QUERY structured-error shape
-- Socket timeout behaviour with mock sockets (`test_socket_timeout.cpp`, `test_network_timeout.cpp`)
-- Protocol parser/serializer correctness (`test_wire_protocol_integration.cpp`)
-- Connection pool lifecycle: acquire, release, stale removal (`test_wire_protocol_connection_pool.cpp`)
-- Circuit breaker state transitions (`test_network_timeout.cpp`)
-- Rate limiting / QoS logic (`test_qos_manager.cpp`)
-- V2 frame types, stream state machine, flow control (`test_wire_protocol_v2.cpp`)
-- UDP opcode filter and response builder (`test_udp_fast_path.cpp`)
-- QUIC/gRPC/Geo-Topology configuration (`test_quic_transport.cpp`, `test_grpc_transport.cpp`, `test_geo_topology_router.cpp`)
+### Focused Tests
 
-### Integration Tests
-- End-to-end wire protocol communication
-- TLS/mTLS handshake and verification
-- Authentication flow (SCRAM-SHA-256)
-- Connection pool under load
-- Timeout handling in real network conditions
+Network tests are discovered from `tests/network/test_*.cpp`; focused suites
+include `test_network_contract_hardening_focused.cpp`,
+`test_network_transport_resilience_focused.cpp`,
+`test_network_lifecycle_guardrails_focused.cpp`,
+`test_network_routing_hardening_focused.cpp`, and
+`test_qos_manager_command_injection.cpp`. See
+[`MODULE_GUIDE.md`](MODULE_GUIDE.md) for the current focused CTest command.
 
-### Performance Tests
-- Connection pooling speedup measurement
-- Zero-copy I/O verification
-- Thread pool scalability
-- Rate limiting enforcement
-- Memory usage under high connection count
-
-### Security Tests
-- TLS cipher suite validation
-- mTLS certificate verification
-- Authentication bypass attempts
-- Rate limiting circumvention attempts
-- Connection limit enforcement
+These are primarily contract, component, and in-process resilience checks; do
+not assume they exercise live sockets, TLS handshakes, multi-node routing, or
+deployment-scale throughput. Consult the benchmark source and
+[`RESEARCH.md`](RESEARCH.md) for the evidence boundary.
 
 ---
 
@@ -1057,36 +1030,22 @@ for (size_t retry = 0; retry < config_.max_retries; ++retry) {
 
 ## Build Configuration
 
-```cmake
-# Network sources in cmake/CMakeLists.txt (within themis_core / themis_network)
-../src/network/wire_protocol_server.cpp
-../src/network/wire_protocol_helpers.cpp
-../src/network/wire_protocol_connection_pool.cpp
-../src/network/wire_protocol_v2.cpp
-../src/network/wire_protocol_performance.cpp
-../src/network/socket_timeout_manager.cpp
-../src/network/qos_manager.cpp
-../src/network/udp_fast_path.cpp
-$<$<BOOL:${THEMIS_ENABLE_WEBSOCKET}>:../src/network/wire_protocol_server_ws.cpp>
-$<$<BOOL:${THEMIS_ENABLE_HTTP3}>:../src/network/quic_transport.cpp>
-$<$<BOOL:${THEMIS_ENABLE_GRPC}>:../src/network/grpc_transport.cpp>
-../src/network/geo_topology_router.cpp
-$<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/service_mesh.cpp>
-$<$<BOOL:${THEMIS_ENABLE_SERVICE_MESH}>:../src/network/envoy_xds.cpp>
-```
+The canonical source registration and feature guards are in
+[`cmake/CMakeLists.txt`](../../cmake/CMakeLists.txt). Optional transport
+sources depend on their `THEMIS_ENABLE_*` flags; do not treat every public
+header as an enabled runtime listener. Network test targets are discovered
+from `tests/network/test_*.cpp`; benchmarks require
+`THEMIS_BUILD_BENCHMARKS=ON` and Google Benchmark.
 
 ---
 
-## Performance Characteristics
+## Performance Evidence
 
-| Operation | Latency | Throughput | Notes |
-|-----------|---------|------------|-------|
-| TCP accept | 1-5 ms | 10K conn/s | Platform dependent |
-| TLS handshake | 10-50 ms | 1K conn/s | CPU intensive |
-| Frame read/write | 100-500 μs | 100K ops/s | Zero-copy |
-| Connection pool acquire | 10-100 μs | 1M ops/s | Lock-free fast path |
-| Keepalive check | 1-10 ms | N/A | Periodic (every 60s) |
-| Circuit breaker check | 1 μs | N/A | Lock-free atomic |
+The network benchmark sources define in-process release/routing regression
+gates; protocol-path cases are stubs. They do not establish deployment
+latency, throughput, or capacity. See
+[`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md) and
+[`RESEARCH.md`](RESEARCH.md) for case-level limits and measurement guidance.
 
 ---
 

@@ -1,7 +1,36 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "include/search/layered_retrieval_orchestrator.h"
+  - "src/search/layered_retrieval_orchestrator.cpp"
+  - "tests/search/test_layered_retrieval_integration_phase4.cpp"
+  - "tests/search/CMakeLists.txt"
+Related_Issue: "#7378"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Layered Retrieval Architecture — 4-Layer Chain Design
 
-<!-- Status: current | validated: 2026-08-18 -->
 <!-- Links: README.md · ROADMAP.md · ARCHITECTURE.md · LAYERED_RETRIEVAL_SLA.md -->
+
+> **Evidence boundary:** Runtime stages and configuration are documented from
+> the header and implementation. The per-layer deadline is a wait deadline:
+> the implementation detaches a worker thread on timeout and does not cancel
+> the backend operation. It therefore is not a hard resource/cancellation
+> guarantee. Performance and availability figures in related historical notes
+> are assumptions until measured and recorded.
 
 ## Overview
 
@@ -23,7 +52,7 @@ Final Answer + Diagnostics
 
 **Key Design Principles:**
 - Each layer is independently optional, configurable, and fail-safe
-- Hard per-layer time budgets prevent cascading latency
+- Per-layer wait deadlines bound how long the caller waits; timed-out work may continue
 - Per-query guardrails bound memory and fan-out at every stage
 - Full tracing and diagnostics propagate through the entire chain
 - Graceful degradation when any layer is unavailable or fails
@@ -47,7 +76,7 @@ Final Answer + Diagnostics
 **Execution Model:**
 1. Validate `query_vector` is non-empty; skip layer if not provided
 2. Clamp `top_k` to guardrail `max_ann_candidates` if enabled
-3. Execute `AdvancedVectorIndex::search(query_vector, top_k)` with hard timeout
+3. Execute `AdvancedVectorIndex::search(query_vector, top_k)` under a wait deadline
 4. Convert distances to normalized scores
 5. Emit tracing span with latency and output count
 
@@ -83,7 +112,7 @@ Final Answer + Diagnostics
 **Execution Model:**
 1. Validate `tensor_query_key` is non-empty; skip layer if not provided
 2. Clamp `top_k` to guardrail `max_tensor_candidates` if enabled
-3. Execute `TensorFingerprintGraph::findSimilar(query_key, top_k)` with hard timeout
+3. Execute `TensorFingerprintGraph::findSimilar(query_key, top_k)` under a wait deadline
 4. Return adapted candidates with similarity scores
 5. Emit tracing span with latency and output count
 
@@ -112,7 +141,7 @@ Final Answer + Diagnostics
 
 **Execution Model:**
 1. Validate `graph_subject_id` is non-empty; skip layer if not provided
-2. Execute `KnowledgeGraphReasoner::infer(subject, max_hops)` with hard timeout
+2. Execute `KnowledgeGraphReasoner::infer(subject, max_hops)` under a wait deadline
 3. If `lora_adapter_id` is provided, apply adapter scoring via `applyLoRAScore()`
 4. Clamp results to guardrail `max_graph_edges` if enabled
 5. Emit tracing span with latency and output count
@@ -157,7 +186,7 @@ Final Answer + Diagnostics
 **Execution Model:**
 1. Validate `query` is non-empty; skip layer if not provided
 2. Build composite prompt from upstream results
-3. Execute `LLMClient::generate(prompt, options)` with hard timeout
+3. Execute `LLMClient::generate(prompt, options)` under a wait deadline
 4. If generation fails or returns empty, use fallback answer (first ANN/Tensor/Graph result)
 5. Emit tracing span with latency and output size
 
@@ -182,7 +211,7 @@ Final Answer + Diagnostics
 
 ### Per-Layer Deadline Enforcement
 
-Each layer is wrapped in a **hard timeout** (configured via `LayeredRetrievalConfig::layer_timeout_ms`):
+Each layer is wrapped in a **wait deadline** (configured via `LayeredRetrievalConfig::layer_timeout_ms`):
 
 ```cpp
 runWithDeadline(
@@ -195,10 +224,11 @@ runWithDeadline(
 **Implementation:**
 - Each layer spawns its execution in a detached thread
 - Main thread waits for completion or deadline
-- On timeout, thread continues in background (fire-and-forget)
+- On timeout, the detached thread continues in the background; the operation is
+  not cancelled and may continue consuming backend resources
 - Layer marked as TIMEOUT_SKIP; chain continues
 
-**Default Timeout:** 50ms per layer (configurable)
+**Default Wait Deadline:** 50ms per layer (configurable; does not bound detached work)
 
 **Total Latency Budget:** Up to 200ms for full 4-layer chain at default 50ms per layer
 
@@ -329,8 +359,8 @@ struct LayeredRetrievalConfig {
 
 ### Deployment Topologies
 
-**Option A: Full 4-Layer Pipeline (Default)**
-- All layers enabled, 50ms timeout per layer
+**Option A: Full 4-Layer Pipeline (default config)**
+- All layers enabled, 50ms wait deadline per layer (timed-out work is not cancelled)
 - Suitable for high-quality retrieval, e.g. high-value customer queries
 - Expected latency: 150–250ms (accounting for variance)
 
@@ -411,27 +441,21 @@ Per-query memory consumption:
 
 ## Testing & Validation
 
-### Unit Tests
+### Tests currently evidenced in this scope
 
-- `test_layered_retrieval_ann_layer.cpp` — ANN execution, fallback, timeout
-- `test_layered_retrieval_tensor_layer.cpp` — Tensor matching, pruning
-- `test_layered_retrieval_graph_layer.cpp` — Graph inference, LoRA scoring
-- `test_layered_retrieval_llm_layer.cpp` — Answer generation, fallback
-- `test_layered_retrieval_guardrails.cpp` — Per-query limit enforcement
-- `test_layered_retrieval_timeouts.cpp` — Deadline enforcement, deadline race conditions
-
-### Integration Tests
-
-- `test_layered_retrieval_full_chain.cpp` — All 4 layers in sequence
-- `test_layered_retrieval_partial_failures.cpp` — Shard failure, timeout, guardrail interaction
-- `test_layered_retrieval_concurrency.cpp` — Multiple concurrent execute() calls
-- `test_layered_retrieval_tracing.cpp` — OpenTelemetry span emission
-
-### Chaos/Fault-Injection Tests
-
-- Backend timeouts (injected via layer-level deadline violations)
-- Partial results (backend returns fewer candidates than requested)
-- Guardrail overflow (query exceeds max_prompt_chars)
+- `tests/search/test_layered_retrieval_integration_phase4.cpp` defines tests
+  for four-layer execution/spans, deadline handling, and guardrails. Its ANN
+  backend is supplied through stub callbacks; this file alone does not establish
+  end-to-end testing against production ANN/tensor/graph/LLM services.
+- `tests/search/CMakeLists.txt` declares a focused executable for that test
+  stem and appends the orchestrator and tensor fingerprint implementation.
+  `tests/CMakeLists.txt` auto-discovers the module CMake file and adds the
+  `search` subdirectory when tests are configured. Compilation and execution
+  are not established by these declarations.
+- The additional test filenames in the former unit/integration/chaos lists are
+  not present in the current `tests/search/` directory; remove them from future
+  test plans only after confirming ownership elsewhere.
+- These are test definitions, not evidence that compilation or execution passed.
 
 ---
 

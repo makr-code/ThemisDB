@@ -11,10 +11,10 @@
 
 #pragma once
 
+#include "core/production_mode.h"
 #include "security/hsm_provider.h"
 #include "utils/logger.h"
 #include <string>
-#include <cstdlib>
 
 namespace themis {
 namespace security {
@@ -28,38 +28,12 @@ namespace security {
 class HSMSecurityChecker {
 public:
     /**
-     * Check if running in production mode
-     * @return true if production mode is active
-     * @brief Is Production Mode.
-     * @details Calls: std::getenv(), mode(), environment().
+     * @brief Reports whether canonical production safeguards must be enforced.
+     * @return True when production mode is enabled; otherwise false.
+     * @throws std::runtime_error if either production-mode variable has an unknown value.
      */
-    static bool isProductionMode() {
-        // Check environment variable
-        const char* env_mode = std::getenv("THEMIS_PRODUCTION_MODE");
-        if (env_mode) {
-            /**
-             * @brief Mode.
-             * @param[in] env_mode Input parameter.
-             * @return Return value.
-             */
-            std::string mode(env_mode);
-            return mode == "true" || mode == "1" || mode == "production";
-        }
-        
-        // Check another common env var
-        const char* env = std::getenv("THEMIS_ENVIRONMENT");
-        if (env) {
-            /**
-             * @brief Environment.
-             * @param[in] env Input parameter.
-             * @return Return value.
-             */
-            std::string environment(env);
-            return environment == "production" || environment == "prod";
-        }
-        
-        // Default to false (development mode)
-        return false;
+    [[nodiscard]] static bool isProductionMode() {
+        return themis::core::ProductionMode::isEnabled();
     }
     
     /**

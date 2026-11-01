@@ -1,6 +1,20 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Header inventory reviewed: 2026-10-31. -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/training/ROADMAP.md -->
 
 # Training Module — Public Header Roadmap
@@ -20,7 +34,7 @@ Tracks public training API contract stability, header coverage, and future publi
 
 ## Current Status
 
-All 15 training headers are present. Public entry points exist for LoRA and AdaLoRA adapters, TT-bridge, adapter merging, checkpoint management, incremental and data-selection training, training pipeline and interfaces, modality parsing, auto-labelling, knowledge-graph enrichment, provenance tracking, and adapter serving.
+All 21 training headers are present. Public declarations cover LoRA and AdaLoRA adapters, TT-bridge, adapter merging, checkpoint management, incremental and multi-task training, data selection, pipeline/interfaces, modality parsing, auto-labeling, knowledge-graph enrichment, provenance, adapter serving, and shared error/diagnostic/failsafe contracts.
 
 ---
 

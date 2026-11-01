@@ -1,8 +1,15 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "active"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_Sources:
+  - "include/performance/*.h"
+  - "src/performance/*.cpp"
+  - "tests/performance/CMakeLists.txt"
+Related_Issue: "#7366"
 AI_Used: true
 AI_Models: "unknown"
 AI_Contributor: "GitHub Copilot"
@@ -52,14 +59,23 @@ Useful current test sources include:
 - `tests/performance/test_workload_predictor.cpp` for prediction behavior;
 - `tests/performance/test_performance_hardware_accelerator.cpp` for dispatch;
 - `tests/performance/test_numa_topology.cpp` for topology behavior;
-- `tests/performance/test_rabitq_product_quantizer.cpp` and
-  `tests/performance/phase3/test_diskann.cpp` for vector paths.
+- `tests/performance/test_rabitq_product_quantizer.cpp` for the RaBitQ path.
 
-The CMake module file builds focused targets from the test filenames and
-registers them with CTest. Inspect the configured build's registered tests
-before selecting a target; the project build configuration determines which
-optional dependencies and module flags are available. For docs-only changes,
-run the metadata gate command in [IMPLEMENTATION.md](IMPLEMENTATION.md).
+`tests/performance/CMakeLists.txt` globs root-level `test_*.cpp` files and
+recursively includes phase3/phase4 test files. Root tests use targets
+`module_performance_<stem>_focused`; nested names include a stable hash of the
+relative source path. A separate root-only glob also creates `_autofocused`
+targets for root-level `test_performance_*.cpp` sources. Confirm available tests
+in the configured build instead of assuming every source is runnable through
+CTest:
+
+```bash
+ctest --test-dir <build-dir> -N -R performance
+```
+
+The project build configuration determines which optional dependencies and
+module flags are available. For docs-only changes, run the metadata gate
+command in [IMPLEMENTATION.md](IMPLEMENTATION.md).
 
 ## Review checklist
 

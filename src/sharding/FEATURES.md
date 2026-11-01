@@ -1,9 +1,25 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-18"
-Last Updated: "2026-10-18"
-Status: "active"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References: `README.md`, `ARCHITECTURE.md`, `../../include/sharding/sharding_api_contract.h`
+Related_Issue: "#7381"
+Related_Milestone: DOC-WEEKLY-2026-W44
 ---
+
+> Exact model backend not verifiable from final document text alone.
+>
+> Capabilities below describe code surfaces, not a guarantee that every deployment enables each
+> backend or achieves the stated operational outcome. **TODO:** attach configuration/test evidence
+> before making deployment-specific availability or performance claims.
 
 # Sharding in ThemisDB
 

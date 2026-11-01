@@ -1,14 +1,14 @@
 # SERVER DOXYGEN
 
 Author: ThemisDB Contributors
-Created: 2026-09-20
-Last Updated: 2026-09-20
+Created: 2026-10-31
+Last Updated: 2026-10-31
 Status: active
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\server\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\server\doxygen-warnings.log`
+- XML index (relative to the artifact output root): `server/xml/index.xml`
+- Artifact output root in this checkout: `ai_context/developer_llm_wiki/module_doxygen_artifacts/`
 
 ## Structure Metrics
 - C/C++ Files (scanned): 294
@@ -21665,4 +21665,3 @@ Status: active
 - Parameters: none
 - Return: Return value.
 - Details: Return value. Calls: simulateVectorSearchWindow(), PLANNED(), std::chrono::high_resolution_clock::now(), computeFingerprint(), count(), assert(), pattern_str(), mockFingerprintHash().
-

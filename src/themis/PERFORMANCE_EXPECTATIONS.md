@@ -1,3 +1,16 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Model_Attribution: "Exact model backend not verifiable from final document text alone."
+AI_Contributor: "themisdb-doc-orchestrator"
+Human_Review: false
+Human_Author: "unknown"
+---
+
 # PERFORMANCE_EXPECTATIONS - src/themis
 
 ## Scope
@@ -8,7 +21,9 @@
 ## Benchmark Reference
 
 - Relevant benchmark files:
-  - benchmarks/bench_themis_core.cpp
+  - benchmarks/themis/bench_themis_core.cpp
+  - benchmarks/themis/bench_themis_dedicated_gates.cpp
+  - benchmarks/themis/bench_themis_release_gates.cpp
 
 ## Specific Expectations
 
@@ -31,11 +46,17 @@
 
 - Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
 - Mapping should be expanded as additional themis core benchmark scenarios are introduced.
+- The CMake file currently registers three benchmark targets when
+  `THEMIS_BUILD_BENCHMARKS` is enabled. Registration and benchmark case
+  definitions do not prove a benchmark was built or run. The numeric release
+  baseline/threshold values and execution artifacts were not available in this
+  review; the 10% comparison in this document is a stated expectation, not a
+  verified gate result.
 
 ## Sourcecode Verification (Module: themis/performance)
 
 - Verified benchmark sources:
-  - benchmarks/bench_themis_core.cpp
+  - benchmarks/themis/bench_themis_core.cpp
 - Verified mapping surfaces:
   - module load/verify, build-info, license/edition gating, and wire-session behavior
 - Result:

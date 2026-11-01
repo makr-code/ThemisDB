@@ -62,6 +62,26 @@ Out of scope:
 - observability helpers provide method-level counters and an optional log sink;
   they do not install an HTTP metrics endpoint or automatic request interceptor.
 
+## Build and installation
+
+The shared-library target is added only when `THEMIS_PLUGIN_RPC_GRPC` is
+enabled and CMake finds gRPC; Protobuf is required after that. Build target:
+`themis_rpc_grpc`. The module installs the plugin library and generated
+`plugin.json` under `lib/themis/plugins/rpc`. Its CMake file does not install
+the public headers.
+
+## Usage and validation
+
+The plugin creates a server through `GRPCPlugin::createServer()`. Configure the
+returned `IRPCServer` with `RPCServerConfig`, register service objects before
+starting, and check both `initialize()` and `start()` results. See
+[`MODULE_GUIDE.md`](MODULE_GUIDE.md) for ownership, TLS, and lifecycle
+requirements.
+
+Focused tests and benchmark source boundaries are documented in
+[`../../tests/rpc_grpc/README.md`](../../tests/rpc_grpc/README.md) and
+[`../../benchmarks/rpc_grpc/README.md`](../../benchmarks/rpc_grpc/README.md).
+
 ## Developer Documentation
 
 - [Architecture](ARCHITECTURE.md) — boundaries, runtime flow, and failure domains

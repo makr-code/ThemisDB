@@ -1,18 +1,32 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-08-06"
+Last Updated: "2026-10-31"
+Status: "active"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # Projects Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-08-06 -->
+<!-- Status: current | validated: 2026-10-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
-Production-capable project-domain runtime with hardened lifecycle transitions, immutable project snapshots, structural diff/merge behavior, template-based initialization, and bounded collaboration metrics/audit surfaces. Phase 2 and Phase 3 hardening complete with unified error diagnostics and fail-safe guards across lifecycle/versioning/collaboration paths (as of 2026-08-06).
+The module contains implementations for lifecycle transitions, document-metadata snapshots, structural diff/merge, template instantiation, collaboration, metrics, and bounded in-memory audit logging. This status describes code surfaces, not a production-readiness approval. Project-specific runtime performance gates are not currently evidenced by the registered benchmarks.
 
 ## In Progress
 
 - [x] hardening edge-case behavior for snapshot restore and conflict-heavy merge scenarios (Target: Q3 2026)
 - [x] collaboration lock contention and permission diagnostic consistency improvements (Target: Q3 2026)
-- [~] benchmark coverage expansion for module-native collaboration/template paths (Target: Q3 2026)
+- [!] add module-native benchmarks for project runtime operations; the registered projects benchmark currently covers only `ProjError` enum operations (Target: TBD)
 
 ## Planned Features
 
@@ -45,8 +59,8 @@ Production-capable project-domain runtime with hardened lifecycle transitions, i
 - [x] extend deterministic stress fixtures for snapshot/version mutation workloads (Target: Q4 2026)
 
 ### Phase 5: Performance and Hardening
-- [x] lock benchmark-backed release gates for project module hot paths (Target: Q4 2026)
-- [x] validate p95/p99 and throughput behavior against release baselines (Target: Q4 2026)
+- [!] define and register benchmark-backed gates for project runtime hot paths (Target: TBD)
+- [!] validate p95/p99 and throughput against a project-specific release baseline (Target: TBD)
 
 ### Phase 6: Documentation and Acceptance
 - [x] core projects module docs aligned to source-verifiable behavior
@@ -57,14 +71,15 @@ Production-capable project-domain runtime with hardened lifecycle transitions, i
 - [x] core project-domain surfaces documented and source-verified
 - [x] module-level security and failure behavior documented
 - [x] benchmark mapping documented in performance expectations
-- [x] remaining hardening tasks closed for lifecycle/snapshot/collaboration edge paths
-- [x] release benchmark stabilization complete
+- [!] confirm remaining lifecycle/snapshot/collaboration hardening work against focused tests (Target: TBD)
+- [ ] establish project-runtime benchmark baselines and release thresholds (Target: TBD)
 
 ## Known Issues and Limitations
 
 - runtime behavior depends on workload shape, snapshot size, and collaboration contention profile.
 - dedicated benchmark depth for collaboration/template internals is still incomplete.
 - conflict-heavy merge scenarios require continued deterministic hardening.
+- current `projects` benchmarks do not exercise project runtime APIs; performance claims must not be inferred from content or query benchmark cases.
 
 ## Breaking Changes
 

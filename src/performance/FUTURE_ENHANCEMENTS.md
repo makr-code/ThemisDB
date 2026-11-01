@@ -1,7 +1,21 @@
-# Performance Module - Future Enhancements
-
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
+---
+Author: "ThemisDB Team"
+Created: "2026-05-31"
+Last Updated: "2026-10-31"
+Status: "active"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_Sources:
+  - "src/performance/ROADMAP.md"
+  - "src/performance/PERFORMANCE_EXPECTATIONS.md"
+  - "include/performance/*.h"
+Related_Issue: "#7366"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
 ## Scope
 
@@ -51,3 +65,5 @@
 - preserve explicit failure signaling for unsupported capability states.
 - enforce bounded behavior under malformed configuration input.
 - keep diagnostics actionable for production performance incidents.
+
+Exact model backend not verifiable from final document text alone.

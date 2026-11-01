@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -38,6 +38,10 @@ information, and external component pointers; they do not establish deployment
 identity or authorization by themselves. Integrators must authorize reads and
 writes, validate configuration at startup, protect checkpoint and audit
 storage, and keep credentials out of configuration snapshots and diagnostics.
+`QueryEngine::setCollectionAccessChecker()` is an optional integration hook;
+training does not configure it, and query access is not enforced by that hook
+unless the caller installs a checker. Do not treat the hook's presence as
+evidence that a training deployment has authorization enabled.
 Never disable production authorization checks to make an offline/test path work.
 
 ## Incident handling

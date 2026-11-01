@@ -1,3 +1,27 @@
+---
+Author: ThemisDB Contributors
+Created: unknown
+Creation_Date_Note: Original document creation date is not established; no date is inferred.
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: themisdb-doc-orchestrator
+Human_Review: false
+Human_Author: unknown
+Source_Level: level1
+SOT_Domain: module-behavior
+Canonical_References:
+  - benchmarks/security/CMakeLists.txt
+  - benchmarks/CMakeLists.txt
+  - benchmarks/security/bench_security.cpp
+  - benchmarks/security/bench_security_release_gates.cpp
+Related_Issue: "#7379"
+Related_Milestone: DOC-WEEKLY-2026-W44
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # PERFORMANCE_EXPECTATIONS — src/security
 
 ## Scope
@@ -10,7 +34,13 @@
   - `benchmarks/security/bench_security_release_gates.cpp`
   - `benchmarks/security/bench_security_phase2_crypto_gates.cpp`
   - `benchmarks/security/bench_security_phase3_policy_gates.cpp`
-  - `benchmarks/security/bench_security.cpp` (breitere Modul-Baseline)
+  - `benchmarks/security/bench_security.cpp` (breitere Modul-Baseline; source exists, but is not registered by the security subdirectory's auto-glob)
+
+`bench_security.cpp` is explicitly skipped by
+`benchmarks/security/CMakeLists.txt`'s auto-discovery loop. When benchmarks are
+enabled, `benchmarks/CMakeLists.txt` separately registers the source as target
+`bench_security`. Thus the source exists and is a broad baseline, but it is not
+an auto-registered target from the security subdirectory.
 
 ## Harte Release-Gates (aktuell)
 
@@ -48,6 +78,9 @@
   - `benchmarks/security/bench_security_phase2_crypto_gates.cpp`
   - `benchmarks/security/bench_security_phase3_policy_gates.cpp`
   - `benchmarks/security/bench_security.cpp`
+- Gepruefte Target-Registrierung:
+  - `benchmarks/security/CMakeLists.txt` excludes `bench_security` from its auto-glob.
+  - `benchmarks/CMakeLists.txt` separately creates target `bench_security` when the source exists.
 - Gepruefte Ziel-Fall-Zuordnung:
   - `SRG-01..SRG-06` release-gate mappings
   - Phase-2 crypto gate mappings

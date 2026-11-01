@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Contributors
 Created: 2026-10-18
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: active
 AI_Used: true
 AI_Models: unknown
@@ -26,8 +26,10 @@ recovery or a production SLO.
 | Topology snapshot | Captures a version and failure map with sorted node IDs; helpers compare node-set membership. |
 
 **Not implemented by built-in handlers:** storage restore, traffic cutover,
-metadata writes, and spare activation. The DR catch-up check is quorum-based,
-and recovery verification does not validate restored data or site identity.
+metadata writes, and spare activation. Non-dry-run operations without their
+required hooks now fail closed; hook implementations must verify actual
+effects. See [`IMPLEMENTATION.md`](IMPLEMENTATION.md) for the remaining adapter
+work.
 
 ## Sources
 

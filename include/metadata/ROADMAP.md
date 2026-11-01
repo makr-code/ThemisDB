@@ -1,9 +1,25 @@
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
-<!-- Status: current | validated: 2026-06-01 -->
+<!-- Header inventory and stale-contract note reconciled 2026-10-31; remaining planning status not revalidated -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md · ../../src/metadata/ROADMAP.md -->
 
 # Metadata Module — Public Header Roadmap
+
+**Author:** ThemisDB Contributors  
+**Created:** 2026-10-31  
+**Last Updated:** 2026-10-31  
+**Status:** review  
+**AI_Used:** true  
+**AI_Models:** unknown  
+**AI_Contributor:** GitHub Copilot coding agent / ThemisDB documentation orchestrator  
+**Human_Review:** false  
+**Human_Author:** ThemisDB Contributors  
+**Source level:** level1 — module-local  
+**SOT domain:** api-contract  
+**Canonical source references:** [metadata public headers](./), [runtime roadmap](../../src/metadata/ROADMAP.md), [API reference](../../src/metadata/API.md)  
+**Related issue / milestone:** [#7362](https://github.com/makr-code/ThemisDB/issues/7362) · DOC-WEEKLY-2026-W44
+
+> Exact model backend not verifiable from final document text alone.
 
 **Module Path:** `include/metadata/`
 **Canonical implementation roadmap:** [`../../src/metadata/ROADMAP.md`](../../src/metadata/ROADMAP.md)
@@ -20,7 +36,11 @@ Tracks public metadata API contract stability, schema/export header coverage, an
 
 ## Current Status
 
-All 19 metadata headers are present and cover schema management, consistency checking, versioning, lineage/export, distributed catalog access, and metadata security/provider extension points.
+All 20 metadata headers are present. They cover schema management,
+consistency checking, versioning, lineage/export, distributed catalog access,
+snapshots, and provider interfaces. `metadata_api_contract.h` is a frozen
+artifact whose method names and behavioral text do not match the current runtime
+API; see [`../../src/metadata/API.md`](../../src/metadata/API.md).
 
 ---
 
@@ -35,8 +55,8 @@ All 19 metadata headers are present and cover schema management, consistency che
 
 ## In Progress
 
-- [ ] Clarify compatibility guidance for distributed-catalog and export-policy extension interfaces (Target: 2026-Q3)
-- [ ] Add stronger malformed-schema and degraded-export notes to public governance headers (Target: 2026-Q3)
+- [?] Reconfirm compatibility guidance for distributed-catalog and export-policy extension interfaces (Target: 2026-Q3; status not revalidated)
+- [?] Reconfirm malformed-schema and degraded-export notes in public governance headers (Target: 2026-Q3; status not revalidated)
 
 ---
 

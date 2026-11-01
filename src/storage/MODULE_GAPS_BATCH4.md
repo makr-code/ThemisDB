@@ -1,4 +1,29 @@
-# storage — MODULE_GAPS.md (Batch 4 Wave A Analysis)
+---
+Author: "ThemisDB Contributors"
+Created: "2026-08-14"
+Last Updated: "2026-10-31"
+Status: "archived"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "ROADMAP.md"
+  - "MODULE_GAPS.md"
+  - "WAVE_3A_CLOSURE_EVIDENCE.md"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
+
+Exact model backend not verifiable from final document text alone.
+
+> Historical Batch 4 planning/scanner snapshot from 2026-08-14. Gap totals,
+> severities, tasks, and projected dates below are not current source findings
+> or active milestone status. TODO: re-scan and source-verify before reuse.
+
+# storage — MODULE_GAPS.md (Historical Batch 4 Wave A snapshot)
 
 **Batch:** Tier 3 Batch 4  
 **Wave:** A (Runtime Reliability First)  

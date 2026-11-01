@@ -80,6 +80,48 @@ TEST_F(ProductionModeTest, DetectsProductionFromEnvironmentVar) {
     EXPECT_TRUE(ProductionMode::isEnabled());
 }
 
+TEST_F(ProductionModeTest, DetectsDocumentedProductionValuesCaseInsensitively) {
+    for (const char* value : {"1", "TRUE", "Yes", "On", "Production"}) {
+        EnvGuard guard("THEMIS_PRODUCTION_MODE", value);
+        EXPECT_TRUE(ProductionMode::isEnabled()) << value;
+    }
+
+    for (const char* value : {"PRODUCTION", "Prod"}) {
+        EnvGuard guard("THEMIS_ENVIRONMENT", value);
+        EXPECT_TRUE(ProductionMode::isEnabled()) << value;
+    }
+}
+
+TEST_F(ProductionModeTest, AcceptsDocumentedNonProductionValues) {
+    for (const char* value : {"0", "false", "NO", "Off"}) {
+        EnvGuard guard("THEMIS_PRODUCTION_MODE", value);
+        EXPECT_FALSE(ProductionMode::isEnabled()) << value;
+    }
+
+    for (const char* value : {
+             "development", "Dev", "test", "Testing", "staging", "Stage", "CI", "local"}) {
+        EnvGuard guard("THEMIS_ENVIRONMENT", value);
+        EXPECT_FALSE(ProductionMode::isEnabled()) << value;
+    }
+}
+
+TEST_F(ProductionModeTest, RejectsUnknownModeAndEnvironmentValues) {
+    {
+        EnvGuard guard("THEMIS_PRODUCTION_MODE", "sometimes");
+        EXPECT_THROW(ProductionMode::isEnabled(), std::runtime_error);
+    }
+    {
+        EnvGuard guard("THEMIS_ENVIRONMENT", "preprod");
+        EXPECT_THROW(ProductionMode::isEnabled(), std::runtime_error);
+    }
+}
+
+TEST_F(ProductionModeTest, RejectsUnknownEnvironmentEvenWhenProductionIsEnabled) {
+    EnvGuard production("THEMIS_PRODUCTION_MODE", "1");
+    EnvGuard environment("THEMIS_ENVIRONMENT", "preprod");
+    EXPECT_THROW(ProductionMode::isEnabled(), std::runtime_error);
+}
+
 TEST_F(ProductionModeTest, RecognizesDevelopmentMode) {
     // No env vars set
     EXPECT_FALSE(ProductionMode::isEnabled());

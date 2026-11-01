@@ -18,6 +18,9 @@
     },
     "llm": {
       "binary_regex": "bench_(llm_.*|lora_.*|embedded_llm|phase1_flash_attention|raid_lora|legal_lora_pipeline)"
+    },
+    "metadata": {
+      "binary_regex": "^bench_metadata_cache$"
     }
   }
 }

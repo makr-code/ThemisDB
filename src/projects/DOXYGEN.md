@@ -1,9 +1,25 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-09-20"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # PROJECTS DOXYGEN
 
-Author: ThemisDB Contributors
-Created: 2026-09-20
-Last Updated: 2026-09-20
-Status: active
+> Generated snapshot dated 2026-09-20; not validated against the current
+> checkout. The XML and warning-log paths below belong to the original
+> generation environment and are not available here. Do not treat extracted
+> signatures, metrics, or status labels in this artifact as current API truth.
+> Regenerate with `scripts/generate_module_doxygen_xml.py` when Doxygen is
+> installed.
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
@@ -1428,4 +1444,3 @@ Status: active
 - Parameters:
   - `success` (bool): n/a
   - `msg` (std::string): n/a
-

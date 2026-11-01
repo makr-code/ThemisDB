@@ -1,3 +1,21 @@
+---
+Author: "ThemisDB Contributors"
+Created: "unknown (pre-existing document; creation date not recorded)"
+Last Updated: "2026-10-31"
+Status: "historical"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+>
+> **Historical scanner snapshot:** This report contains raw scanner totals and
+> a Wave 3-D triage dated 2026-08-25. Those counts and classifications are not
+> current status; verify each finding against current source and tests.
+
 # network — MODULE_GAPS.md (Phase 5 Verified, Wave 3-D Updated)
 
 This file documents all documentation and code quality gaps in the **network** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
@@ -6,7 +24,7 @@ This file documents all documentation and code quality gaps in the **network** m
 
 - **Total Gaps**: 2083 (raw scanner output — see Wave 3-D note below)
 - **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
-- **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)
+- **Scan provenance**: Windows-generated L0 full scan with Phase 5; exact scan date/commit not retained.
 
 ## Wave 3-D Gap Triage (2026-08-25)
 

@@ -1,4 +1,21 @@
+---
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "ThemisDB documentation orchestrator"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 # PERFORMANCE_EXPECTATIONS - src/rag
+
+> These are target definitions, not measured results. The root
+> `benchmarks/CMakeLists.txt` conditionally registers
+> `bench_rag_evaluation`, `bench_rag_hybrid_retriever`, and `bench_rag_ethics`
+> when Google Benchmark and the sources are available. CTest smoke entries are
+> also conditional on target creation. Neither registration nor a smoke run
+> establishes the performance gates below.
 
 ## Scope
 - Module: src/rag
@@ -6,10 +23,10 @@
 
 ## Benchmark Reference
 - Relevant benchmark files:
-  - benchmarks/bench_rag_evaluation.cpp
-  - benchmarks/bench_rag_hybrid_retriever.cpp
-  - benchmarks/bench_rag_ethics.cpp
-  - benchmarks/bench_delegate_evaluator.cpp
+  - benchmarks/rag/bench_rag_evaluation.cpp (`bench_rag_evaluation`)
+  - benchmarks/rag/bench_rag_hybrid_retriever.cpp (`bench_rag_hybrid_retriever`)
+  - benchmarks/rag/bench_rag_ethics.cpp (`bench_rag_ethics`)
+  - benchmarks/rag/bench_delegate_evaluator.cpp (registered target)
 
 ## Specific Expectations
 | Target ID | Expectation | Benchmark case |
@@ -40,18 +57,18 @@
 ## Sourcecode Verification (Module: rag/performance)
 
 - Verified benchmark sources:
-  - benchmarks/bench_rag_evaluation.cpp
-  - benchmarks/bench_rag_hybrid_retriever.cpp
-  - benchmarks/bench_rag_ethics.cpp
-  - benchmarks/bench_delegate_evaluator.cpp
+  - benchmarks/rag/bench_rag_evaluation.cpp
+  - benchmarks/rag/bench_rag_hybrid_retriever.cpp
+  - benchmarks/rag/bench_rag_ethics.cpp
+  - benchmarks/rag/bench_delegate_evaluator.cpp
 - Verified mapping surfaces:
   - recall and judge latency benchmarks
   - hybrid retrieval and path-comparison benchmarks
   - injection/ethics overhead benchmarks
   - delegate and end-to-end pipeline benchmarks
 - Result:
-  - Referenced benchmark cases exist in current benchmark sources.
-  - Release gates remain tied to reproducible benchmark runs and baseline comparisons.
+  - CMake target registration is conditional on Google Benchmark being found and each source being present.
+  - The release-gate mapping still requires reproducible baseline runs and matching cases before it can be treated as measured evidence.
 
 ## Issue Scope Traceability
 

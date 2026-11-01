@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -28,17 +28,25 @@ Exact model backend not verifiable from final document text alone.
 
 - Native policy evaluation defaults an absent classification to `streng-geheim` and treats unknown classifications strictly. Known classification profiles still apply their configured export, cache, encryption, and redaction permissions.
 - Cross-tenant policy combination uses restrictive AND semantics for allow/export/cache decisions; any denying input remains denying.
-- If an external OPA evaluation is unavailable, `PolicyEngine` falls back to native evaluation and records a fallback metric. Operators must know which evaluator produced a decision.
+- If OPA REST evaluation is unavailable, `PolicyEngine` falls back to native
+  evaluation and records a fallback metric. Explicit WASM mode returns an
+  enforced strict deny when its injected evaluator is unavailable. Operators
+  must know which evaluator produced a decision.
 - `DataMasker` returns the input unchanged when masking is disabled or no rules are configured; ensure policies are loaded and all output paths apply masking.
 - Erasure reports set `fully_erased=false` when any store fails and retain per-store results. Retry and verify failed stores; do not treat partial completion as successful erasure.
 
-## Explicit non-production OPA WASM path
+## Explicit OPA WASM mode
 
-- **Purpose:** local bundle evaluation without an OPA sidecar.
-- **Activation:** `EvalMode::WASM`, a configured bundle path, no injected `WasmEvalFn`, and a build without `THEMIS_ENABLE_OPA_WASM`.
-- **Behavior difference:** the current stub checks only that the bundle exists, then returns a permissive `offen`/`observe` decision; it does not evaluate Rego.
-- **Operational rule:** do not rely on this path for production authorization or export controls. Use the supported external/native evaluator and verify the active mode.
-- **Removal condition:** replace the stub with a real WASM evaluator and verify enforcement before enabling this mode. The prior source-comment target `v1.6.0` is stale; the module roadmap and future-enhancements plan now explicitly mark the release target as unverified pending maintainer confirmation.
+- **Purpose:** local evaluation of an OPA policy bundle without an OPA sidecar;
+  a built-in runtime is not currently provided.
+- **Activation:** `EvalMode::WASM`; the bundle path alone does not execute policy.
+- **Behavior:** only an injected `WasmEvalFn` may produce an allow decision.
+  Without one, or when it fails, the adapter returns an enforced strict deny
+  and does not fall back to REST or native evaluation.
+- **Operational rule:** verify the injected evaluator and mode before relying
+  on local policy enforcement. The failure path intentionally denies.
+- **Future work:** select and approve a real WASM runtime, then verify policy
+  evaluation and enforcement before enabling it.
 
 ## Incident handling
 

@@ -1,46 +1,36 @@
-# PERFORMANCE_EXPECTATIONS - src/scraper
+# Scraper Performance Expectations
 
-## Scope
+<!-- Source: benchmarks/scraper/; scope is the benchmark cases currently registered for this module. -->
 
-- Module: src/scraper
-- This file defines measurable scraper module performance expectations for release gating.
+**Author:** ThemisDB Contributors<br>
+**Created:** 2026-10-31<br>
+**Last Updated:** 2026-10-31<br>
+**Status:** review
 
-## Benchmark Reference
+**AI_Used:** true
+**AI_Models:** unknown
+**AI_Contributor:** GitHub Copilot; themisdb-doc-orchestrator
+**Human_Review:** false
+**Human_Author:** unknown
+Exact model backend not verifiable from final document text alone.
 
-- Relevant benchmark files:
-  - benchmarks/bench_text_extraction.cpp
-  - benchmarks/bench_content_processor_paths.cpp
-  - benchmarks/bench_ingestion_extraction.cpp
+## Benchmark Coverage
 
-## Specific Expectations
+`benchmarks/scraper/CMakeLists.txt` registers two benchmark targets when `THEMIS_BUILD_BENCHMARKS` is enabled. The current cases measure diagnostic primitives, small value-type allocation, and run-summary helpers; they do not measure end-to-end scraping, network fetch, HTML extraction, evaluator quality, or durable writes.
 
-| Target ID | Expectation | Benchmark case |
+| Target | Cases | Source-declared label |
 |---|---|---|
-| SCRP-1 | text extraction throughput paths remain bounded across content formats | BM_PDFExtraction, BM_DOCXExtraction, BM_HTMLExtraction, BM_PlainTextExtraction, BM_ConcurrentExtraction |
-| SCRP-2 | processor-path extraction behavior remains bounded across common processor routes | BM_OfficeProcessorPath, BM_OcrProcessorPath, BM_ArchiveProcessorPath |
-| SCRP-3 | ingestion extraction and adapter-sensitive paths remain bounded | DeonticExtractionFixture/SingleSentence_Obligation, DeonticExtractionFixture/SingleSentence_AllCategories, DeonticExtractionFixture/BatchExtraction_Scaling, DeonticExtractionFixture/LongText_MultiParagraph, DeonticExtractionFixture/ExtractEntities_FullDocument, LlmAdapterFixture/BuildExtractorFn, LlmAdapterFixture/BuildExtractor_Factory, LlmAdapterFixture/ExtractorFn_Throughput, BM_DetectBinaryMimeType, BM_CheckpointStore |
+| `bench_scraper_release_gates` | `BM_SCR01_ErrorEnumCast`, `BM_SCR02_SwitchDispatch`, `BM_SCR03_StructAlloc`, `BM_SCR04_BatchCast`, `BM_SCR05_BurstAcquire`, `BM_SCR06_SummaryRead` | GATE-SCR-01..06; target labels include p99 bounds (5 ns, 10 ns, 500 ns, 5 µs/batch, 100 ns, 1 µs respectively) |
+| `bench_scraper_pipeline_depth` | `BM_PIPE01_BatchEmit1000`, `BM_PIPE02_SummaryAggregation10k`, `BM_PIPE03_ScrapeRequestBatchAlloc`, `BM_PIPE04_FaultClassLoop10k` | PIPE-01..04; target labels include 500 µs/batch, 5 ms total, 200 µs/batch, and 10 µs/batch respectively |
 
-## Module Hard Gates (v1.0 docs baseline)
+These are source-declared label strings, not measured results or demonstrated release baselines; the labels do not establish that the benchmark calculates p99 percentiles. A benchmark run, suitable measurement method, hardware profile, and baseline evidence are required before claiming that a threshold is met.
 
-| Gate ID | Expectation | Measurement |
-|---|---|---|
-| SCRG-1 | Regression <= 10 percent vs release baseline | (current - baseline) / baseline |
-| SCRG-2 | scraper hot-path p99 <= release threshold | p99 from mapped scraper benchmark cases |
-| SCRG-3 | No mapped benchmark case missing in release run | benchmark run manifest completeness |
+## Limits and Follow-up
 
-## Validation
+- The current benchmark set does not establish scraper fetch/parse/evaluate/write throughput or p95/p99 for an end-to-end scrape.
+- Do not map the adjacent generic extraction/ingestion benchmarks to scraper performance without a documented workload and an explicit mapping.
+- TODO: add deterministic scraper-pipeline workloads if release decisions require end-to-end performance evidence.
 
-- Expectations are met when mapped benchmarks run reproducibly in release profile and remain inside configured thresholds.
-- Mapping should be expanded as dedicated scraper benchmark scenarios are introduced.
+## Build Registration
 
-## Sourcecode Verification (Module: scraper/performance)
-
-- Verified benchmark sources:
-  - benchmarks/bench_text_extraction.cpp
-  - benchmarks/bench_content_processor_paths.cpp
-  - benchmarks/bench_ingestion_extraction.cpp
-- Verified mapping surfaces:
-  - extraction format throughput, processor paths, ingestion/extractor adapter behavior
-- Result:
-  - Referenced benchmark cases exist in current benchmark sources.
-  - Current mapping uses verified adjacent benchmark suites until dedicated scraper benchmarks are expanded.
+The benchmark subdirectory returns without adding targets unless `THEMIS_BUILD_BENCHMARKS` is enabled. The two module targets are registered via `themis_add_standard_benchmark`; see [the benchmark CMake file](../../benchmarks/scraper/CMakeLists.txt).

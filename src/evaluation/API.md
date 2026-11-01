@@ -1,14 +1,16 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot"
+AI_Contributor: "GitHub Copilot; OpenAI ChatGPT/themisdb-doc-orchestrator"
 Human_Review: false
 Human_Author: "ThemisDB Team"
 ---
+
+> Exact model backend not verifiable from final document text alone.
 
 # Evaluation API Contracts
 
@@ -20,6 +22,9 @@ This page is an integration summary for developers using the evaluation headers.
 The declarations under `src/evaluation/include/` define the API. Build ownership
 is split across targets in `src/evaluation/CMakeLists.txt`; the public-looking
 header list does not mean every implementation is linked into `themis_evaluation`.
+The checked-in `include/evaluation/evaluation.h` currently includes no component
+headers, so it is not a usable umbrella for these declarations. The component
+header and target mappings below are the integration reference.
 
 ## Metric functions
 
@@ -34,7 +39,8 @@ non-empty ground truth, `1 <= k <= ranked.size()`, and unique IDs in both lists.
 It throws `MetricError` with a `MetricErrorKind` on invalid inputs. Relevance is
 binary membership in `ground_truth`; `ranked` order determines rank, and score
 fields do not replace that ordering. Candidate reduction is zero when no valid
-candidate total is supplied.
+candidate total is supplied; the implementation also returns zero when
+`total_candidates < k`.
 
 Other metric functions similarly validate domain constraints (including
 non-finite values and probability ranges) and may throw `MetricError`; callers
@@ -81,7 +87,8 @@ structure.
 
 ## Integration checklist
 
-1. Include the relevant header from `src/evaluation/include/`.
+1. Include the component header from `src/evaluation/include/` (or its installed
+   counterpart when installation has been performed).
 2. Link the target that actually contains the implementation; see
    `src/evaluation/CMakeLists.txt` and the configured target list.
 3. Preserve thrown metric errors, planner fallback reasons, and approximation
@@ -102,3 +109,4 @@ structure.
 - `src/evaluation/include/benchmark_matrix.h`
 - `src/evaluation/include/hardware_profile.h`
 - `src/evaluation/include/artifact_lifecycle.h`
+- `include/evaluation/evaluation.h` (currently an empty placeholder umbrella)

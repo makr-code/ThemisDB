@@ -1,15 +1,15 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-10-30"
-Last Updated: "2026-10-30"
+Last Updated: "2026-10-31"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot coding agent"
+AI_Contributor: "themisdb-doc-orchestrator"
 Human_Review: false
 Human_Author: "ThemisDB Contributors"
 Source_Level: "level1"
-SOT_Domain: "security"
+SOT_Domain: "architecture-governance"
 Canonical_References:
   - "README.md"
   - "API.md"
@@ -17,12 +17,14 @@ Canonical_References:
   - "../../include/security/encryption.h"
   - "../../include/security/rbac.h"
   - "../../include/security/aql_injection_detector.h"
+  - "../../include/security/row_level_security.h"
+  - "../../include/query/aql_parser.h"
   - "../../include/security/query_masking_policy.h"
   - "../../include/security/security_evidence_collector.h"
   - "field_encryption.cpp"
   - "rbac.cpp"
   - "aql_injection_detector.cpp"
-Related_Issue: "#7167 (closes #7091)"
+Related_Issue: "#7167 (closes #7091), #7379"
 Related_Milestone: "DOC-WEEKLY-2026-W44"
 ---
 
@@ -39,7 +41,7 @@ Exact model backend not verifiable from final document text alone.
 | Component | Public interface | Source-backed responsibility |
 |---|---|---|
 | Key and encryption | [`KeyProvider`](../../include/security/key_provider.h), [`encryption.h`](../../include/security/encryption.h) | Key metadata/provider access and field encryption/decryption operations. |
-| Authorization and policy | [`RBAC`](../../include/security/rbac.h), [`AccessControlManager`](../../include/security/access_control_manager.h), [`ZeroTrustPolicyEnforcer`](../../include/security/zero_trust_policy_enforcer.h), [`RowLevelSecurity`](../../include/security/row_level_security.h) | Role/permission decisions and request/row policy checks. |
+| Authorization and policy | [`RBAC`](../../include/security/rbac.h), [`AccessControlManager`](../../include/security/access_control_manager.h), [`ZeroTrustPolicyEnforcer`](../../include/security/zero_trust_policy_enforcer.h), [`RLSManager`](../../include/security/row_level_security.h) | Role/permission decisions and request/row policy checks. |
 | Query and data protection | [`AQLInjectionDetector`](../../include/security/aql_injection_detector.h), [`QueryMaskingPolicy`](../../include/security/query_masking_policy.h), [`PIIRedactionPolicy`](../../include/security/pii_redaction_policy.h) | Parameterized-query validation, result masking, and redaction policies. |
 | Evidence and specialized controls | [`SecurityEvidenceCollector`](../../include/security/security_evidence_collector.h), [`MalwareScanner`](../../include/security/malware_scanner.h), [`AiOperationGuard`](../../include/security/ai_operation_guard.h) | Evidence export, scanning, and AI-operation guard decisions. |
 
@@ -73,7 +75,7 @@ For example, `AQLInjectionDetector` accepts query text and parameters; `FieldEnc
 
 | Boundary | Evidence and link |
 |---|---|
-| Query | `aql_injection_detector.h` consumes query parser types and `aql_runner.cpp` includes security policy interfaces; see [query architecture](../query/ARCHITECTURE.md). |
+| Query | [`aql_injection_detector.h`](../../include/security/aql_injection_detector.h) directly includes `query/aql_parser.h` and consumes parser types; `aql_runner.cpp` includes security policy interfaces. See [query architecture](../query/ARCHITECTURE.md). |
 | Storage | Storage has its own signature and encrypted-blob components; no direct `FieldEncryption` hand-off from storage was confirmed in the inspected source. See [storage architecture](../storage/ARCHITECTURE.md). |
 | API/server | `AccessControlManager` includes server authentication/policy interfaces; `api/ws_handler.cpp` uses server `AuthMiddleware`. See [API architecture](../api/ARCHITECTURE.md). |
 | Audit utilities | Security evidence code uses the utility audit logger; this page does not claim an observability-module dependency. |

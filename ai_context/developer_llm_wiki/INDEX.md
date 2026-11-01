@@ -5,9 +5,15 @@ Last Updated: "2026-11-01"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot"
+AI_Contributor: "GitHub Copilot coding agent"
 Human_Review: false
-Human_Author: "ThemisDB Team"
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level2"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "DOCUMENTATION_GOVERNANCE.md"
+  - "ai_context/developer_llm_wiki/MODULES_AND_APIS.md"
+  - "ai_context/developer_llm_wiki/STORAGE.md"
 ---
 
 > Exact model backend not verifiable from final document text alone.
@@ -25,6 +31,8 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 - Laufmodus: FULL_SYNC
 - Quellen gesamt: 9419
 - Quellen-Hash: `d8a35a984a466683d714b65e1660ade3e2cfecca591a1d1a9c623f47aeda2d1a`
+- The Storage page is manually curated and is not included in these generated
+  counts or the source manifest until a full wiki sync is run.
 
 ## Status And Source-of-Truth Governance
 
@@ -37,21 +45,22 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 - [MODULES_AND_APIS.md](MODULES_AND_APIS.md)
 - [BUILD_TEST_CI_AND_OPERATIONS.md](BUILD_TEST_CI_AND_OPERATIONS.md)
 - [GOVERNANCE_AND_ROADMAP.md](GOVERNANCE_AND_ROADMAP.md)
-- [AQL module context](AQL.md) — AQL assistance API boundaries, validation behavior, and test/benchmark registration
-- [Ethics AI module context](ETHICS_AI.md) — in-tree API/runtime boundaries, LDM helper limits, test/benchmark registration, and canonical plugin source boundary
+- [AQL module context](AQL.md) — assistance API boundaries, validation behavior, and test/benchmark registration.
+- [Ethics AI module context](ETHICS_AI.md) — in-tree API/runtime boundaries, LDM helper limits, test/benchmark registration, and canonical plugin source boundary.
 - [IMPORTERS.md](IMPORTERS.md) — curated importer module context
 - [UPDATES.md](UPDATES.md) — curated updates module context
 - [DISTRIBUTED_TENSOR.md](DISTRIBUTED_TENSOR.md) — curated distributed tensor module context
 - [TEMPORAL.md](TEMPORAL.md) — temporal runtime/API boundaries, test and benchmark evidence limits
+- [STORAGE.md](STORAGE.md) — curated storage API boundaries, test evidence, and contract gaps
 - [SOURCE_MANIFEST.json](SOURCE_MANIFEST.json)
 - [WIKI_STATUS.json](WIKI_STATUS.json)
 - [WIKI_DELTA_REPORT.md](WIKI_DELTA_REPORT.md)
 
 ## Source Distribution
 
-- modules_and_api: 3744
+- modules_and_api: 3820
 - build_test_ci: 203
-- governance_and_docs: 5472
+- governance_and_docs: 5484
 - misc: 0
 
 ## Source-Priority / Konfliktregel

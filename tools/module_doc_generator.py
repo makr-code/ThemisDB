@@ -275,12 +275,12 @@ class ModuleDocumentationGenerator:
     @staticmethod
     def _health_status(summary: ModuleSummary) -> str:
         if summary.total == 0:
-            return "No Findings"
+            return "No scanner candidates"
         if summary.critical > 0:
-            return "Critical Findings Present"
+            return "Critical scanner candidates present"
         if summary.high > 0:
-            return "High-Priority Findings Present"
-        return "Findings Present"
+            return "High-priority scanner candidates present"
+        return "Scanner candidates present"
 
     def _sort_findings(self, findings: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
         return sorted(
@@ -321,11 +321,45 @@ class ModuleDocumentationGenerator:
 
     def _generate_doc_content(self, summary: ModuleSummary) -> str:
         generated = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        canonical_references = "; ".join(
+            f"src/{summary.name}/{name}"
+            for name in ("README.md", "ARCHITECTURE.md", "API.md")
+            if (self.src_dir / summary.name / name).is_file()
+        )
+        related_metadata = (
+            ['Related: "#7392; DOC-WEEKLY-2026-44"']
+            if summary.name == "user_storage_encrypted"
+            else []
+        )
         out: List[str] = [
+            "---",
+            'Author: "ThemisDB Contributors"',
+            f'Created: "{generated[:10]}"',
+            f'Last Updated: "{generated[:10]}"',
+            'Status: "review"',
+            "AI_Used: true",
+            'AI_Models: "unknown"',
+            'AI_Contributor: "GitHub Copilot"',
+            "Human_Review: false",
+            'Human_Author: "ThemisDB Contributors"',
+            'Source_Level: "level1"',
+            'SOT_Domain: "module-behavior"',
+            f'Canonical_References: "{canonical_references}"',
+            f'source: "{self.input_source}"',
+            'source_class: "generated"',
+            "source_weight: 60",
+        ]
+        out.extend(related_metadata)
+        out.extend([
+            "---",
+            "",
+            "> Exact model backend not verifiable from final document text alone.",
+            "",
             f"# {summary.name} Module - Developer Gap Note",
             "",
             f"> Auto-generated from {self.input_source}.",
             "> This file is overwritten on each regeneration.",
+            "> Scanner findings are heuristic candidates, not independently confirmed defects or security findings.",
             "",
             "## Scan Snapshot",
             "",
@@ -349,7 +383,7 @@ class ModuleDocumentationGenerator:
             "",
             "| Category | Count |",
             "|---|---:|",
-        ]
+        ])
 
         for category, count in sorted(summary.by_category.items(), key=lambda item: (-item[1], item[0])):
             out.append(f"| {category} | {count} |")

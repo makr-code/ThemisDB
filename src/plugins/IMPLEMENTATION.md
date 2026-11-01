@@ -83,9 +83,10 @@ state transitions are checked under the entry's state synchronization.
 `plugin.json.sig` to the SHA-256 hash of the manifest in production builds; it
 does not perform asymmetric signature verification. The separate
 `SignedPluginRepository` uses Ed25519 with pinned keys. Keep these mechanisms
-distinct in code and docs. WASM modules are checked against an expected
-SHA-256 value; this detects content mismatch but does not authenticate a
-publisher by itself. Full details are in [`TRUST.md`](./TRUST.md).
+distinct in code and docs. The built-in WASM loader checks an expected SHA-256
+after first consulting any registered `WasmPluginLoadFn`; the callback owns
+its own validation policy. A hash detects content mismatch but does not
+authenticate a publisher by itself. Full details are in [`TRUST.md`](./TRUST.md).
 
 ## Validation
 

@@ -687,6 +687,37 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_metadata_security_provider.cpp")
     message(STATUS "  MetadataSecurityProvider: NoOp allows all, RBAC grant/revoke/revokeAll, wildcard resource, ADMIN implies all, assertPermission throws, thread-safety")
 endif()
 
+# Metadata HTTP handler authorization integration tests
+if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_schema_api_metadata_security.cpp")
+    add_executable(test_schema_api_metadata_security_focused
+        test_schema_api_metadata_security.cpp
+    )
+
+    target_include_directories(test_schema_api_metadata_security_focused PRIVATE
+        ${THEMIS_ROOT_DIR}/include
+        ${THEMIS_ROOT_DIR}/src
+    )
+
+    target_link_libraries(test_schema_api_metadata_security_focused PRIVATE
+        ${TEST_LIBS}
+        themis_core
+        Threads::Threads
+    )
+
+    target_compile_definitions(test_schema_api_metadata_security_focused PRIVATE
+        THEMIS_TEST_BUILD=1
+    )
+
+    themis_register_module_focused_test(
+        MODULE metadata
+        NAME SchemaApiMetadataSecurityFocusedTests
+        TARGET test_schema_api_metadata_security_focused
+        TIER unit
+        TIMEOUT 60
+        LABELS security rbac http access-control
+    )
+endif()
+
 # Metadata - IMetadataChangeListener focused tests
 if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_metadata_change_listener.cpp")
     message(STATUS "Adding Metadata ChangeListener focused tests")

@@ -1,25 +1,63 @@
+---
+Author: "ThemisDB Contributors"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot coding agent"
+Human_Review: false
+Human_Author: "unknown"
+Source_Level: "level1"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "DOCUMENTATION_GOVERNANCE.md"
+  - "cmake/ModularBuild.cmake"
+  - "tests/search/CMakeLists.txt"
+  - "tests/CMakeLists.txt"
+  - "benchmarks/search/CMakeLists.txt"
+Related_Issue: "#7378"
+Related_Milestone: "DOC-WEEKLY-2026-W44"
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # Search Module Roadmap
 
 <!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-08-17 | Wave B COMPLETE -->
 <!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
 
 ## Current Status
 
-Production-ready search runtime (v2.0.0 GA) with complete build configuration integration and Wave B retrieval chain integration verification:
-- Phase 1 (Design/API Contract Freeze) ✅ COMPLETE as of 2026-08-06
-- Phase 2 (Core Implementation Hardening) ✅ COMPLETE as of 2026-08-06
-- Phase 3 (Error Handling & Edge Cases) ✅ COMPLETE as of 2026-08-06
-- Phase 4 (Test Expansion: 128+ test cases) ✅ COMPLETE as of 2026-08-06
-- Phase 5 (Performance Gatekeeping: SRCP-1..6 + ADV-1..3) ✅ COMPLETE as of 2026-08-06
-- Phase 6 (Documentation & GA Acceptance) ✅ COMPLETE as of 2026-08-06
-- Build Configuration Integration ✅ COMPLETE as of 2026-08-08
-- **Wave B (Retrieval Chain Integration) ✅ COMPLETE as of 2026-08-17**
+This roadmap contains dated historical delivery notes and forward planning.
+Those entries are not current build, test-run, performance, maturity, or release
+evidence. The search contracts are defined by the current public headers and
+implementation; release status must be taken from root [`ROADMAP.md`](../../ROADMAP.md).
 
-**Module Status:** 🟡 **Phase 1-6 dokumentiert; Härtung Phase 7 offen** (Maturity: 65% laut `audit/MATURITY_REPORT_2026-08.md` — Ziel GA nach Q3/Q4 2026 Härtungswelle; Issue #5468 thread-safety offen)
+### Current source/build/test evidence (2026-10-31)
 
-### Build Configuration Completion (2026-08-08)
-- [x] All 20 search module implementations added to cmake/ModularBuild.cmake
+- `cmake/ModularBuild.cmake` includes a query-source list containing a subset
+  of `src/search/*.cpp`; do not infer all 20 listed historically are in every
+  target.
+- `tests/search/` currently has 16 `test_*.cpp` files. Its own CMake file
+  declares globbed focused targets, 120-second timeouts, and a default
+  `search` label (with conditional labels for selected test stems).
+  `tests/CMakeLists.txt` auto-discovers eligible module CMake files and adds
+  `search` when tests are configured. Target compilation and execution are not
+  verified here.
+- The test source files and CMake declarations are not runtime evidence. No
+  test pass is claimed by this roadmap.
+- `benchmarks/search/CMakeLists.txt` declares seven local benchmark targets
+  and two conditional CTest smoke registrations; root CMake separately declares
+  the two `benchmark_*hybrid_search` targets. No benchmark run or threshold
+  pass is asserted here.
+
+The dated Phase 1–6, Wave, maturity, test-count, and performance statements
+below are historical records and require re-validation before being used as
+current status.
+
+### Historical Build Configuration Note (2026-08-08; re-validation required)
+- [x] Historical note claimed all 20 search module implementations were added to cmake/ModularBuild.cmake
   - [x] conversational_search.cpp (new, 126 lines)
   - [x] federated_search.cpp (new, 198 lines)
   - [x] search_result_stream.cpp (new, 171 lines)
@@ -331,16 +369,14 @@ No breaking search contract planned. Any contract-breaking change requires migra
 ## Evidence and Verification
 
 ### Build Infrastructure
-- Build target: module_search_* targets registered in tests/search/CMakeLists.txt
-- Test framework: GTest with module_search_<test_stem>_focused naming convention
-- Compilation model: source files required: hybrid_search.cpp, distributed_hybrid_search.cpp, faceted_search.cpp, query_expander.cpp (per tests/search/CMakeLists.txt:18-23)
-- Build status: Verified 2026-08-06 — search module test infrastructure is correctly registered with themis_register_module_focused_test() and TIMEOUT 120s
+- `tests/search/CMakeLists.txt` declares `module_search_<test_stem>_focused` executables from a `test_*.cpp` glob and calls `themis_register_module_focused_test()` with `TIMEOUT 120`; it does not select the four implementation files named in the former text as a common source set.
+- The file also appends `fuzzy_matcher.cpp` or layered-retrieval support sources for specific tests, and adds conditional labels. This describes the file's declarations only.
+- `tests/CMakeLists.txt` auto-discovers eligible `tests/*/CMakeLists.txt` files and adds the `search` subdirectory when tests are configured. Target generation, compilation, and execution still require verification in a configured build.
 
 ### Test Evidence
-- Focused test suite: tests/search/test_search_analytics.cpp, test_search_future_interfaces.cpp, test_search_highlighter.cpp
-- Test labels: search module tests registered with LABELS search for ctest filtering
-- Test tier: unit tier (per tests/search/CMakeLists.txt:40)
-- Evidence gap: Full build/test run evidence pending RocksDB and fmt dependency resolution (documented 2026-08-06)
+- Current scoped source inventory: 16 `tests/search/test_*.cpp` files, including utility, analytics, hybrid/degradation, distributed, layered, high-cardinality, and integration-named cases.
+- The two `*_integration*` filenames do not alone prove live multi-service integration; inspect each test fixture for callbacks, fakes, or simulated state.
+- No build or test execution was performed for this documentation update. A previous dependency-blocker note is historical and not current run evidence.
 
 ### Audit and Documentation Evidence
 - AUDIT.md: Module source verification completed; core search surfaces present and documented
@@ -355,9 +391,9 @@ No breaking search contract planned. Any contract-breaking change requires migra
 - [x] release benchmark stabilization complete — Wave D dedicated gates delivered in `benchmarks/search/bench_search_dedicated_gates.cpp` (SE-BM-01..04) (Delivered: 2026-09-16)
 
 ### Evidence Justification
-- Full build/test run: Currently blocked by transitive dependency (librocksdb-dev); module structure and test registration verified as conformant to module testing policy (2026-08-06)
-- Test coverage depth: Audit report indicates focused test presence with unit tier classification; integration and wave-level coverage tracked separately in top-level test integration suite
-- Benchmark evidence: Performance expectations documented and benchmarks defined; release gate execution evidence pending Q3 2026 stabilization completion
+- Build/test status: not verified by execution in this update. CMake declarations and the auto-discovery path were inspected; target generation, compilation, and execution remain unverified.
+- Test coverage: filenames and source-defined test cases are not evidence of compilation or passing execution.
+- Benchmark status: source definitions and registrations were inspected; no measured values, baseline comparison, or gate pass was verified.
 ---
 
 ## Program Execution Model — Wave Context

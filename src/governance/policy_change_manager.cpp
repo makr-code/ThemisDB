@@ -13,8 +13,8 @@
 
 #include <algorithm>
 #include <chrono>
+#include <fstream>
 #include <fmt/format.h>
-#include <uuid.h>
 
 namespace themis {
 namespace governance {
@@ -335,7 +335,7 @@ RollbackOperation PolicyChangeManager::performRollback(
     RollbackOperation operation;
     operation.operation_id   = generateOperationId();
     operation.rule_id        = rule_id;
-    operation.target_version = target_version;
+    operation.to_version = target_version;
     operation.operator_user  = operator_user;
     operation.reason         = reason;
     operation.started_at     = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -394,7 +394,7 @@ RollbackOperation PolicyChangeManager::performCoordinatedRollback(
     operation.operation_id   = generateOperationId();
     operation.rule_id        = rule_ids[0];
     operation.multi_rule_ids = rule_ids;
-    operation.target_version = target_version;
+    operation.to_version = target_version;
     operation.operator_user  = operator_user;
     operation.reason         = reason;
     operation.started_at     = std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -488,7 +488,7 @@ std::optional<RollbackOperation> PolicyChangeManager::reverseRollback(
         return std::nullopt;
     }
     
-    if (!it->is_reversible) {
+    if (!it->success || it->from_version.empty() || it->to_version.empty()) {
         return std::nullopt;
     }
     

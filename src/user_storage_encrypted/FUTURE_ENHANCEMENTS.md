@@ -1,6 +1,20 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-08-08
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+---
+
+Exact model backend not verifiable from final document text alone.
+
 # User Storage Encrypted Module - Future Enhancements
 
-<!-- Status: current | validated: 2026-08-08 -->
+<!-- Status: aspirational; not evidence of implemented behavior -->
 <!-- Links: README.md · ROADMAP.md · PERFORMANCE_EXPECTATIONS.md -->
 
 ## Scope
@@ -39,6 +53,8 @@
 - release-profile benchmark runs for mapped encrypted-storage targets.
 
 ## Performance Targets
+
+These are desired future targets, not currently measured or enforced gates.
 
 - encrypted storage hot paths remain inside regression budgets.
 - mount lifecycle latency and dispatch overhead remain stable at p95/p99 envelopes.

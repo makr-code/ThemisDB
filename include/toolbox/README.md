@@ -1,3 +1,15 @@
+---
+Author: "ThemisDB Team"
+Created: "2026-10-31"
+Last Updated: "2026-10-31"
+Status: "review"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
 > **Build:** `cmake --preset release && cmake --build build/release`
 
 # Toolbox Module Headers
@@ -24,9 +36,10 @@ Public API for the ThemisDB `toolbox` module (`themis::toolbox` namespace).
 | `toolbox_registry.h` | `ToolboxRegistry`, `initializeToolbox`, `globalToolbox`, `extractEntities`, `extractEntitySet`, `getMetricsText` | Controlled process-global toolbox access. |
 | `text_chunker.h` | `TextChunker`, `chunkText` | Token-based chunking facade over `rag::DocumentSplitter`. |
 | `text_normalizer.h` | `TextNormalizer`, `normalizeText` | Unicode/umlaut normalization helper facade. |
-| `content_fingerprinter.h` | `ContentFingerprinter`, `ContentFingerprint`, `fingerprint` | Canonical SHA-256 content fingerprint contract for deduplication. |
-| `text_quality_scorer.h` | `TextQualityScorer`, `TextQualityScore`, `scoreText` | Lightweight quality gate before expensive extraction/LLM steps. |
+| `content_fingerprinter.h` | `ContentFingerprinter`, `ContentFingerprint`, `fingerprint` | SHA-256 fingerprint helper; does not perform deduplication itself. |
+| `text_quality_scorer.h` | `TextQualityScorer`, `TextQualityScore`, `scoreText` | Heuristic text-quality signals; callers decide whether to use them as a gate. |
 | `language_detector.h` | `ILanguageDetector`, `DefaultLanguageDetector`, `detectLanguage` | ISO-639-1 language detection interface + default stopword heuristic. |
+| `toolbox_api_contract.h` | `ToolboxError`, `Fingerprint` | Declares only the error-code enum and fixed-size 32-byte fingerprint alias. Its Doxygen narrative about `ContentToolboxBridge::process()` and a processor registry is stale/unresolved and is not an active API contract. |
 | `toolbox_composite.h` | `ToolboxComposite`, `ToolboxCompositeBuilder` | MIME-prefix routing across multiple `IngestionToolbox` instances. |
 | `toolbox_streaming.h` | `extractEntitiesStream` | Callback-based, chunk-wise streaming extraction API. |
 
@@ -110,3 +123,5 @@ This module is included as part of ThemisDB. Add the module headers to your incl
 ```cmake
 target_include_directories(your_target PRIVATE ${THEMISDB_INCLUDE_DIR})
 ```
+
+> Exact model backend not verifiable from final document text alone.

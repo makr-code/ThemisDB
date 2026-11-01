@@ -6,8 +6,10 @@ list(APPEND THEMIS_CORE_SOURCES
     ../src/plugins/plugin_system_edition.cpp
 )
 
-# Enterprise sharding manager
-if(THEMIS_EDITION STREQUAL "ENTERPRISE" OR THEMIS_EDITION STREQUAL "HYPERSCALER")
+# Edition-aware sharding manager
+if(THEMIS_EDITION STREQUAL "ENTERPRISE" OR
+   THEMIS_EDITION STREQUAL "MILITARY" OR
+   THEMIS_EDITION STREQUAL "HYPERSCALER")
     list(APPEND THEMIS_CORE_SOURCES
         ../src/sharding/sharding_manager_edition.cpp
     )
@@ -20,7 +22,7 @@ endif()
 # facade, stream manager, query accelerator, tensor buffer, training loop.
 # gpu_memory_manager_edition.cpp implements edition-aware VRAM allocation; it
 # uses edition::GPU_MAX_VRAM_GB at runtime so it compiles correctly for every
-# GPU-enabled edition (Community, Enterprise, Hyperscaler).
+# GPU-enabled edition (Community, Enterprise, Military, Hyperscaler).
 if(THEMIS_ENABLE_GPU)
     list(APPEND THEMIS_CORE_SOURCES
         ../src/gpu/device_discovery.cpp

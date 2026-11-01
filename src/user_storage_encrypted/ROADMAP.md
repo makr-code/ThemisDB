@@ -1,93 +1,60 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-08-08
+Last Updated: 2026-10-31
+Status: review
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Contributors
+---
+
 # User Storage Encrypted Module Roadmap
 
-<!-- Status: [ ] open  [~] in progress  [x] done  [I] issue  [P] PR  [?] blocked  [!] unclear -->
-<!-- Status: current | validated: 2026-08-08 -->
-<!-- Links: README.md · ARCHITECTURE.md · FUTURE_ENHANCEMENTS.md -->
+Exact model backend not verifiable from final document text alone.
 
-## Current Status
+Status below is limited to repository source evidence. Source presence or CMake
+registration is not evidence that a test passed, a benchmark met a threshold,
+or a feature is production-ready. Related documentation sync: issue #7392.
 
-Production-usable encrypted user-storage behavior exists for gocryptfs-backed backend lifecycle, key derivation, rotation scheduling, and multi-level encrypted storage orchestration.
+## Current implementation
 
-## In Progress
+The repository contains a gocryptfs backend, KDF interfaces and implementation,
+a separate rotation scheduler/store, and a multi-level plugin for JSON
+user/group records. The operational boundaries and known discrepancies are in
+[API.md](API.md), [ARCHITECTURE.md](ARCHITECTURE.md), and
+[AUDIT.md](AUDIT.md).
 
-- [~] hardening mount and unmount failure handling across hostile or degraded host environments (Target: Q3 2026)
-- [~] tightening scheduler reliability and recovery diagnostics for rotation execution paths (Target: Q3 2026)
-- [~] aligning benchmark-backed release expectations to real encrypted storage hot paths (Target: Q3 2026)
+## Follow-up work
 
-## Planned Features
+| Status | Work | Evidence / qualification |
+|---|---|---|
+| [!] | Reconcile frozen contract guarantees with operational behavior | Different namespaces/error types; atomicity/cleanup claims are not demonstrated on all code paths. Owner decision required. |
+| [~] | Improve mount/unmount recovery and result propagation | `unmountAll()` ignores per-level errors; some rotation unmount errors are ignored. |
+| [~] | Make rotation execution/reporting reliable | Rotation config is parsed but scheduler wiring is absent; callback exceptions are swallowed and schedule state advances after an attempt. |
+| [ ] | Implement executable end-to-end encrypted lifecycle integration tests | Current E2E cases unconditionally skip. |
+| [ ] | Capture representative-hardware performance baselines and enforce gates | Current lifecycle benchmarks simulate operations; source labels are not fail/pass thresholds. |
+| [ ] | Define deployment/security requirements supported by enforcement | Existing source does not enforce production-mode variables, audit policy, all permissions/resource controls, or provider retry policy. |
 
-### Short-term (3-6 months)
-- [ ] expand integration coverage for end-to-end create, mount, write, unmount, and remount lifecycle behavior (Target: Q4 2026)
-- [ ] harden path validation and error reporting for encrypted container operations (Target: Q4 2026)
-- [ ] improve operator-facing observability for mount and rotation incidents (Target: Q4 2026)
+Target dates and completion status for these follow-ups require maintainer
+confirmation. Earlier Q3/Q4 2026 and Q1 2027 status snapshots are not carried
+forward as verified delivery evidence.
 
-### Mid-term (6-12 months)
-- [~] extend per-user isolation and quota enforcement behavior without widening failure domains (Target: Q1 2027)
-- [~] re-baseline p95/p99 envelopes for encrypted mount lifecycle workloads (Target: Q1 2027)
-- [~] deepen resilience tests for sustained multi-tier encrypted storage operation (Target: Q1 2027)
+## Test and benchmark evidence map
 
-## Implementation Phases
+- Focused test CMake registration: `tests/user_storage_encrypted/CMakeLists.txt`
+- Test limitations and skips: `tests/user_storage_encrypted/README.md`
+- Benchmark target registration: `benchmarks/user_storage_encrypted/CMakeLists.txt`
+- Benchmark measurement limits: `benchmarks/user_storage_encrypted/README.md`
+- No build, test, or benchmark execution results are claimed in this roadmap.
 
-### Phase 1: Design / API Contract
-- [x] freeze backend, key derivation, and scheduler contracts for the current major line (Target: Q3 2026) — evidence: include/user_storage_encrypted/user_storage_encrypted_api_contract.h
-- [x] define explicit error taxonomy for mount, unmount, and rotation failures (Target: Q3 2026) — evidence: include/user_storage_encrypted/user_storage_encrypted_api_contract.h
+## References
 
-### Phase 2: Core Implementation
-- [ ] complete backend and scheduler hardening for adverse host-environment behavior (Target: Q4 2026)
-- [ ] align multi-tier orchestration to bounded per-level failure contracts (Target: Q4 2026)
-
-### Phase 3: Error Handling and Edge Cases
-- [ ] standardize fail-safe behavior for unavailable backend, invalid path, and rotation callback failures (Target: Q4 2026)
-- [ ] unify diagnostics across backend, key-management, and orchestration incidents (Target: Q4 2026)
-
-### Phase 4: Tests
-- [x] expand focused regressions for mount-state, key derivation, and scheduler edge scenarios (Target: Q4 2026) — evidence: tests/user_storage_encrypted/test_user_storage_encrypted_contract_hardening_focused.cpp
-- [x] extend integration tests for full encrypted storage lifecycle flows (Target: Q4 2026) — evidence: tests/user_storage_encrypted/test_user_storage_encrypted_contract_hardening_focused.cpp
-
-### Phase 5: Performance and Hardening
-- [x] lock benchmark-backed release gates for encrypted mount lifecycle hot paths (Target: Q4 2026) — evidence: benchmarks/user_storage_encrypted/bench_user_storage_encrypted_release_gates.cpp
-- [x] validate p95/p99 latency and throughput behavior against release baselines (Target: Q4 2026) — evidence: benchmarks/user_storage_encrypted/bench_user_storage_encrypted_release_gates.cpp
-
-### Phase 6: Documentation and Acceptance
-- [x] core user_storage_encrypted module docs aligned to source-verifiable behavior
-- [x] roadmap/future planning separated from historical changelog entries
-
-## Production Readiness Checklist
-
-- [x] core encrypted storage surfaces documented and source-verified
-- [x] module-level security and failure behavior documented
-- [x] benchmark mapping documented in performance expectations
-- [x] release benchmark stabilization complete
-- [x] end-to-end lifecycle integration coverage broadened
-
-## Known Issues and Limitations
-
-- runtime behavior depends on host gocryptfs and FUSE availability.
-- backend and scheduler edge handling still need broader hardening coverage.
-- benchmark depth should continue expanding beyond current mount-latency-focused cases.
-
-## Breaking Changes
-
-No breaking contract change planned. Any change to backend, key, or tier-orchestration contracts requires migration notes and changelog entry before merge.
-
-## Program Execution Model — Wave Context
-
-This module is a **contributing module** in the program-level Wave A → B → C → D execution model.
-It does not own a primary wave deliverable but must remain `release_critical`-green throughout all waves
-and must deliver Wave D operability improvements in Q1 2027.
-See [`../../ROADMAP.md`](../../ROADMAP.md) for the full wave model and exit criteria.
-
-### Wave D Contribution for `user_storage_encrypted`
-- [x] Deliver or validate distributed tracing, high-cardinality stress coverage, exporter reliability, and operator remediation hints as applicable to this module (Target: Q1 2027) — evidence: tests/integration/test_user_storage_encrypted_soak.cpp, tests/user_storage_encrypted/test_user_storage_encrypted_highcardinality_stress.cpp, docs/operability/RUNBOOK_USER_STORAGE_ENCRYPTED.md, benchmarks/user_storage_encrypted/bench_encrypted_storage_dedicated_gates.cpp
-- [x] Contribute to or validate long-duration soak test coverage for this module's primary paths (Target: Q1 2027) — evidence: tests/integration/test_user_storage_encrypted_soak.cpp (EncryptedStorageSoak_WriteReadThroughput, EncryptedStorageSoak_KeyRotationStability, EncryptedStorageSoak_EncDecReliability)
-- [x] Ensure runbook coverage for operator-critical scenarios in this module (Target: Q1 2027) — evidence: docs/operability/RUNBOOK_USER_STORAGE_ENCRYPTED.md (5 scenarios: KeyRotationFailed, BackendUnavailable, DecryptionOOM, KeystoreCorruption, AuditOverflow)
-
-### Cross-Wave Requirements
-- `release_critical` CI must remain green on `develop` throughout all waves (Target: ongoing)
-- p95/p99 benchmarks must be refreshed on representative hardware before Wave D sign-off (Target: Q1 2027)
-- No behavioral regression may be introduced into modules in Wave A/B/C scope from changes in this module.
-
-### Program-Level Success Criteria (contribution)
-- [x] This module's distributed/acceleration paths fail closed (Target: Q1 2027) — evidence: Wave D soak + stress + runbook delivered
-- [~] Benchmark-backed p95/p99 baselines exist on representative hardware (Target: Q1 2027) — evidence: bench_encrypted_storage_dedicated_gates.cpp (ES-BM-01..04); representative-hardware capture pending
-- [x] Operator-critical paths have diagnostics, alerts, and runbooks (Target: Q1 2027) — evidence: docs/operability/RUNBOOK_USER_STORAGE_ENCRYPTED.md
+- `include/user_storage_encrypted/user_storage_encrypted_api_contract.h`
+- `include/user_storage_encrypted/multi_level_storage.hpp`
+- `src/user_storage_encrypted/multi_level_storage.cpp`
+- `src/user_storage_encrypted/key_rotation_scheduler.cpp`
+- `src/user_storage_encrypted/CMakeLists.txt`
+- [Future enhancements](FUTURE_ENHANCEMENTS.md)
+- [Performance evidence status](PERFORMANCE_EXPECTATIONS.md)

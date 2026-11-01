@@ -44,7 +44,7 @@ The corresponding implementation is [`content_toolbox_bridge.cpp`](./content_too
 
 ## Evaluation
 
-Test the complete integration with a deterministic workflow and test vector writer. Assert that expected records reach the writer, writer errors increment `vectorWriteFailuresTotal()`, absent writers do not cause a hard failure, and empty text skips enrichment. Measure embedding quality and model-specific latency in the subsystem that owns the embedding implementation; do not use the toolbox placeholder bridge benchmark as an embedding-quality or model-latency result.
+Test the complete integration with a deterministic workflow and test vector writer. Assert that expected records reach the writer, writer errors increment `vectorWriteFailuresTotal()`, absent writers do not cause a hard failure, and empty text skips enrichment. Measure embedding quality and model-specific latency in the subsystem that owns the embedding implementation; do not use `BM_BridgeProxy_EntitySetLatency` as an embedding-quality or bridge-latency result because it measures `IngestionToolbox::extractEntitySet()` without `ContentToolboxBridge` or `ContentManager`.
 
 ## References
 

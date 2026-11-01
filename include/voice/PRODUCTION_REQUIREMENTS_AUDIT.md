@@ -1,4 +1,26 @@
-# Voice Module Audit Logging — Production Specification
+---
+Author: "ThemisDB Team"
+Created: "2026-08-18"
+Last Updated: "2026-10-31"
+Status: "archived"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+>
+> **Historical, unverified specification snapshot.** Function signatures,
+> event schemas, file/syslog configuration, persistence/tamper guarantees,
+> compliance statements, test results, and claimed audit coverage below are
+> not established by current source. Treat them as proposals only; current
+> behavior is defined by `voice_audit_logger.h/.cpp`, `voice_security.h/.cpp`,
+> and the integrating service. Do not copy its sample paths/commands into a
+> deployment without independent verification.
+
+# Voice Module Audit Logging — Historical Snapshot
 ## Wave A Block 2 Implementation
 
 **Status:** Production Ready  

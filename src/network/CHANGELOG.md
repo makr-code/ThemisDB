@@ -1,3 +1,17 @@
+---
+Author: "ThemisDB Contributors"
+Created: "unknown (pre-existing document; creation date not recorded)"
+Last Updated: "2026-10-31"
+Status: "historical"
+AI_Used: true
+AI_Models: "unknown"
+AI_Contributor: "GitHub Copilot"
+Human_Review: false
+Human_Author: "ThemisDB Contributors"
+---
+
+> Exact model backend not verifiable from final document text alone.
+>
 > ⚠️ **Historisches Changelog** – Einträge beschreiben den Stand zum Zeitpunkt der Erstellung.
 
 <!-- Status: current | validated: 2026-04-06 -->
@@ -6,12 +20,9 @@
 # Changelog — Network Module
 
 ## [Unreleased]
-- Documentation governance sync: ROADMAP/FUTURE moved to future-only planning, and module docs aligned with source-verified wording (`README`, `ARCHITECTURE`, `SECURITY`, `PERFORMANCE_EXPECTATIONS`, `AUDIT`).
-- Full binary frame dispatch over WebSocket (in progress)
-- Integration tests for TLS + WebSocket
-- Performance benchmarks for all transports
-- IPv6 CIDR policies in ZeroTrustPolicyEnforcer
-- Full distributed multi-node Raft consensus for RaftLoadBalancer
+
+No unreleased changes are recorded here. Work in progress and unverified
+transport or benchmark coverage are tracked in [`ROADMAP.md`](ROADMAP.md).
 
 ---
 
