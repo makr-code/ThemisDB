@@ -320,9 +320,9 @@ RUN --mount=type=cache,id=llm-model-cache-${TARGETARCH},target=/opt/themis-model
             llama3.2|llama-3.2|llama-3.2-3b-instruct|llama-3.2-3b) \
                 MODEL_URL="${MODEL_URL:-https://huggingface.co/unsloth/Meta-Llama-3.2-3B-Instruct-GGUF/resolve/main/Meta-Llama-3.2-3B-Instruct-Q4_K_M.gguf}"; \
                 ;; \
-            custom|none|disabled) \
-                echo "LLM model selection '${MODEL_KEY}' is disabled for this build; skipping model download"; \
-                exit 0; \
+            none|disabled) \
+                echo "ERROR: Distributable images cannot disable the bundled model"; \
+                exit 1; \
                 ;; \
             *) \
                 if [ -z "${MODEL_URL}" ]; then \
@@ -337,8 +337,18 @@ RUN --mount=type=cache,id=llm-model-cache-${TARGETARCH},target=/opt/themis-model
             echo "Reusing cached LLM model: /opt/themis-models/${MODEL_FILE}"; \
         fi; \
     else \
-        echo "INCLUDE_TINYLLAMA is disabled; skipping model download"; \
-    fi
+        echo "ERROR: Every distributable image requires TinyLlama"; \
+        exit 1; \
+    fi; \
+    if [ "${MODEL_KEY}" != "tinyllama" ] || [ "${MODEL_FILE}" != "tinyllama.gguf" ]; then \
+        MODEL_DIR=/opt/themis-models OUTPUT_NAME=tinyllama.gguf \
+            /usr/local/bin/download-tinyllama-hf.sh; \
+    fi; \
+    mkdir -p /opt/bundled-models; \
+    cp "/opt/themis-models/${MODEL_FILE}" /opt/bundled-models/; \
+    cp /opt/themis-models/tinyllama.gguf /opt/bundled-models/tinyllama.gguf; \
+    test -s /opt/bundled-models/tinyllama.gguf; \
+    ln -sf tinyllama.gguf /opt/bundled-models/default.gguf
 
 # ============================================================================
 # Stage 4: build - Compile ThemisDB
@@ -368,6 +378,8 @@ COPY external ./external
 COPY plugins ./plugins
 COPY scripts ./scripts
 COPY tools ./tools
+COPY docs ./docs
+COPY ai_context ./ai_context
 RUN --mount=type=bind,source=.,target=/tmp/build-context,readonly \
     set -eux; \
     mkdir -p /src/internal; \
@@ -461,7 +473,7 @@ RUN set -eux; \
         -DTHEMIS_EDITION="${THEMIS_EDITION}" \
         -DTHEMIS_ENABLE_LLM="${ENABLE_LLM}" \
         -DTHEMIS_AUTO_BOOTSTRAP_DEPS=OFF \
-        -DTHEMIS_DOCS_DB_MODE=OFF \
+        -DTHEMIS_DOCS_DB_MODE=BUILD \
         -DCMAKE_TOOLCHAIN_FILE="${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" \
         -DVCPKG_MANIFEST_MODE=OFF \
         -DVCPKG_MANIFEST_INSTALL=OFF \
@@ -471,7 +483,11 @@ RUN set -eux; \
         -DOPENSSL_ROOT_DIR="/src/vcpkg_installed/${TRIPLET}" \
         -DOpenSSL_DIR="/src/vcpkg_installed/${TRIPLET}/share/openssl" \
         ${EXTRA_ARGS} && \
-    cmake --build "${THEMIS_BUILD_DIR}" --target "${THEMIS_BUILD_TARGET}" --parallel "${CMAKE_BUILD_PARALLEL_LEVEL:-4}"
+    cmake --build "${THEMIS_BUILD_DIR}" --target "${THEMIS_BUILD_TARGET}" docs_database --parallel "${CMAKE_BUILD_PARALLEL_LEVEL:-4}" && \
+    cmake --install "${THEMIS_BUILD_DIR}" --prefix /opt/themis-runtime --component documentation
+
+COPY --from=llama /opt/bundled-models /opt/themis-runtime/models
+RUN python3 scripts/release/validate_runtime_payload.py /opt/themis-runtime
 
 # ============================================================================
 # Stage 5: runtime - Production image (optimized for size and startup)
@@ -501,12 +517,13 @@ RUN --mount=type=cache,id=apt-cache-runtime-${TARGETARCH},target=/var/cache/apt,
 
 # Copy binary
 COPY --from=build /src/build-gcc-linux-release/bin/themis_server /app/themis_server
+COPY --from=build /opt/themis-runtime/data/docs.db /app/data/docs.db
 
 # Copy llama.cpp libraries
 COPY --from=llama /opt/llama.cpp/build/lib* /usr/local/lib/
 
-# Optional TinyLlama model (present only when provided or downloaded in llama stage)
-COPY --from=llama /opt/themis-models/ /models/
+# Mandatory TinyLlama baseline, plus the explicitly selected model.
+COPY --from=llama /opt/bundled-models/ /models/
 
 RUN ldconfig
 
@@ -552,12 +569,13 @@ RUN --mount=type=cache,id=apt-cache-debug-${TARGETARCH},target=/var/cache/apt,sh
 # Copy binary and sources
 COPY --from=build /src /src
 COPY --from=build /src/build-gcc-linux-release/bin/themis_server /app/themis_server
+COPY --from=build /opt/themis-runtime/data/docs.db /app/data/docs.db
 
 # Copy llama.cpp libraries
 COPY --from=llama /opt/llama.cpp/build/lib* /usr/local/lib/
 
-# Optional TinyLlama model (present only when provided or downloaded in llama stage)
-COPY --from=llama /opt/themis-models/ /models/
+# Mandatory TinyLlama baseline, plus the explicitly selected model.
+COPY --from=llama /opt/bundled-models/ /models/
 
 RUN ldconfig
 

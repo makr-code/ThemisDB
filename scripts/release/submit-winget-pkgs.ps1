@@ -30,6 +30,7 @@ Require-Command "git"
 if (-not [string]::IsNullOrWhiteSpace($GitHubToken)) {
     $env:GH_TOKEN = $GitHubToken
     gh auth setup-git | Out-Null
+    if ($LASTEXITCODE -ne 0) { throw "gh auth setup-git failed." }
 } elseif ([string]::IsNullOrWhiteSpace($env:GH_TOKEN)) {
     throw "Ein GH_TOKEN oder -GitHubToken ist fuer die automatische Fork-/PR-Erstellung erforderlich."
 }
@@ -77,6 +78,7 @@ $forkExists = gh repo view "$ForkOwner/winget-pkgs" 2>&1
 if ($LASTEXITCODE -ne 0) {
     Write-Host "[INFO] Fork nicht gefunden, wird erstellt ..." -ForegroundColor Yellow
     gh repo fork microsoft/winget-pkgs --clone=false
+    if ($LASTEXITCODE -ne 0) { throw "WinGet fork creation failed." }
 }
 
 # Arbeitsverzeichnis: temporaerer Klon des eigenen Forks
@@ -85,17 +87,21 @@ if (Test-Path $workDir) { Remove-Item -Recurse -Force $workDir }
 
 Write-Host "[STEP] Klone Fork $ForkOwner/winget-pkgs ..." -ForegroundColor Cyan
 git clone "https://github.com/$ForkOwner/winget-pkgs.git" $workDir --depth=1 --quiet
+if ($LASTEXITCODE -ne 0) { throw "WinGet fork clone failed." }
 Push-Location $workDir
 
 try {
     # Upstream direkt per URL fetchen (kein benanntes Remote nötig)
     Write-Host "[STEP] Sync mit upstream master ..." -ForegroundColor Cyan
     git fetch https://github.com/microsoft/winget-pkgs.git master --quiet
+    if ($LASTEXITCODE -ne 0) { throw "WinGet upstream fetch failed." }
     git reset --hard FETCH_HEAD --quiet
+    if ($LASTEXITCODE -ne 0) { throw "WinGet fork synchronization failed." }
 
     # Feature-Branch
     $branch = "add-ThemisDB-$Version"
     git checkout -b $branch --quiet
+    if ($LASTEXITCODE -ne 0) { throw "WinGet submission branch creation failed." }
 
     # Manifest-Dateien kopieren
     $destDir = "manifests\t\ThemisDB\ThemisDB\$Version"
@@ -103,11 +109,14 @@ try {
     Copy-Item -Path (Join-Path $srcDir "*") -Destination $destDir -Force
 
     git add $destDir
+    if ($LASTEXITCODE -ne 0) { throw "WinGet manifest staging failed." }
     git commit -m "Add ThemisDB version $Version" --quiet
+    if ($LASTEXITCODE -ne 0) { throw "WinGet manifest commit failed." }
 
     # Push in den Fork
     Write-Host "[STEP] Push Branch $branch nach $ForkOwner/winget-pkgs ..." -ForegroundColor Cyan
     git push origin $branch --quiet
+    if ($LASTEXITCODE -ne 0) { throw "WinGet manifest push failed." }
 
     # PR-Text
     $prTitle = "New package: ThemisDB version $Version"
@@ -149,6 +158,7 @@ ThemisDB is a high-performance multi-model database system with ACID transaction
 
     Write-Host "[STEP] Erstelle Pull Request ..." -ForegroundColor Cyan
     gh @prFlags
+    if ($LASTEXITCODE -ne 0) { throw "WinGet pull request creation failed." }
 
 } finally {
     Pop-Location
