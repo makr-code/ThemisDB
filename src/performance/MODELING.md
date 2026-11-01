@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "active"
 Source_Level: "level1"
 SOT_Domain: "module-behavior"
@@ -91,10 +91,12 @@ and
 [`test_performance_contract_hardening_focused.cpp`](../../tests/performance/test_performance_contract_hardening_focused.cpp)
 are root-level and included by the current module CMake glob.
 [`phase3/test_per_query_cost_model.cpp`](../../tests/performance/phase3/test_per_query_cost_model.cpp)
-exists but is not registered by `tests/performance/CMakeLists.txt`. Include
-too-few-observation, noisy and steady input, threshold boundaries, invalid
-configuration, and sustained workload-shift cases when adding or registering
-coverage. For performance claims, compare identical traces and hardware using
+is included by the recursive phase3 test glob in
+`tests/performance/CMakeLists.txt`; registration alone does not establish that
+it builds or passes. Include too-few-observation, noisy and steady input,
+threshold boundaries, invalid configuration, and sustained workload-shift
+cases when extending coverage. For performance claims, compare identical traces
+and hardware using
 the measurement guidance in [RESEARCH.md](RESEARCH.md) and the benchmark
 inventory in [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md).
 

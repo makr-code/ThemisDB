@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-05-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "active"
 Source_Level: "level1"
 SOT_Domain: "module-behavior"
@@ -31,28 +31,29 @@ were executed for this documentation update.
 
 ## Findings
 
-1. **Nested performance tests are not registered by the module CMake file.**
-   `tests/performance/CMakeLists.txt` globs only root-level `test_*.cpp`;
-   phase3/phase4 test sources are present but not included by that glob.
+1. **Resolved: nested performance tests are now registered.**
+   `tests/performance/CMakeLists.txt` recursively includes the phase3/phase4 test
+   files and generates path-derived names to avoid collisions. An isolated CMake
+   harness confirmed 31 registrations; it did not build or execute the tests.
 2. **Some root test sources receive two registrations.** The `_focused` glob
    includes all root `test_*.cpp` files, while the separate `_autofocused`
    glob includes root `test_performance_*.cpp` files under a different target
    name.
-3. **Benchmark source and build coverage differ.** The performance benchmark
-   CMake file registers `bench_performance_release_gates.cpp`; it does not
-   register the sibling `bench_random_access_prefetch.cpp`.
+3. **Resolved: both performance benchmark executables are registered.**
+   The module CMake file now registers `bench_performance_release_gates` and
+   `bench_random_access_prefetch`.
 4. **No numeric release threshold was verified in the local benchmark source.**
    The six `GATE-PFM-*` labels identify microbenchmark cases, not executable
    pass/fail thresholds or a recorded baseline.
 
-## Status and follow-up
+## Remaining limitation
 
-The findings above are source-visible registration/documentation gaps. This
-check does not determine whether they are intentional or whether separate
-external test/benchmark workflows cover them. Resolve the ownership question
-in the relevant CMake/test issue before describing nested tests or the
-unregistered benchmark as part of the standard run. See
-[`ROADMAP.md`](ROADMAP.md) and
+No representative run results, numeric acceptance thresholds, or performance
+module cross-run baseline are available. The six contract microbenchmarks and
+the prefetch benchmark produce measurements but do not enforce performance
+limits. Establish those limits only after collecting repeated measurements on
+declared representative hardware. The duplicate root-level registrations also
+remain for review. See [`ROADMAP.md`](ROADMAP.md) and
 [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md).
 
 Exact model backend not verifiable from final document text alone.

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-05-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "active"
 Source_Level: "level1"
 SOT_Domain: "module-behavior"
@@ -40,17 +40,21 @@ Evidence currently present in source:
 
 ## Build and coverage gaps
 
-- [ ] Register or explicitly exclude the 12 phase3/phase4 test sources. The
-  current `tests/performance/CMakeLists.txt` globs only root-level
-  `  test_*.cpp`; it does not add nested test files. (Target: DOC-WEEKLY-2026-44)
+- [x] Register the phase3/phase4 test sources through recursive CMake globs
+  with path-derived names to prevent target/test collisions. An isolated CMake
+  harness confirmed registration; compilation and execution remain unverified.
+  (Completed: 2026-11-01)
 - [ ] Decide whether root-level `test_performance_*.cpp` files should be
   registered twice: the current module CMake creates both `_focused` and
   `_autofocused` targets for those sources. (Target: DOC-WEEKLY-2026-44)
-- [ ] Document a reproducible release baseline and explicit benchmark
-  acceptance thresholds if they are intended to be enforced. The current
-  performance benchmark CMake registration includes only
-  `bench_performance_release_gates`; it does not include
-  `bench_random_access_prefetch.cpp`. (Target: DOC-WEEKLY-2026-44)
+- [x] Register `bench_random_access_prefetch.cpp` as
+  `bench_random_access_prefetch`. Its paired enabled/disabled cases are now
+  available for measurement, but no threshold or pass/fail comparison is
+  implied. (Completed: 2026-11-01)
+- [ ] Capture repeated performance-module benchmark results on declared
+  representative hardware, then establish evidence-based thresholds and a
+  comparison baseline. Numeric limits must not be inferred from source comments.
+  (Target: Q1 2027)
 - [ ] Expand representative workload and sustained workload-shift evaluation
   before making broad module-wide performance claims. (Target: Q1 2027)
 
@@ -69,9 +73,10 @@ Evidence currently present in source:
 ## Verification status
 
 This roadmap was checked against current headers, implementations, and the
-module-local test/benchmark CMake files. No tests or benchmarks were executed
-for this documentation update; passing status and measured thresholds remain
-unverified. Historical milestone completion claims should be checked against
-their original run evidence before being used as current acceptance evidence.
+module-local test/benchmark CMake files. An isolated CMake harness verified
+registration, but no performance test binaries or benchmarks were executed;
+passing status and measured thresholds remain unverified. Historical milestone
+completion claims should be checked against their original run evidence before
+being used as current acceptance evidence.
 
 Exact model backend not verifiable from final document text alone.

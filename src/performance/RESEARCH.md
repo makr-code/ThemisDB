@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "active"
 Source_Level: "level1"
 SOT_Domain: "module-behavior"
@@ -63,14 +63,14 @@ on ThemisDB workloads.
 3. Use focused tests for correctness and edge cases, then run mapped
    release-profile benchmarks. The current module benchmark registration builds
    the contract microbenchmarks in
-   [`bench_performance_release_gates.cpp`](../../benchmarks/performance/bench_performance_release_gates.cpp);
-   its six named cases do not encode baseline or pass/fail thresholds. The
-   sibling `bench_random_access_prefetch.cpp` is present but is not registered
-   by `benchmarks/performance/CMakeLists.txt`.
+   [`bench_performance_release_gates.cpp`](../../benchmarks/performance/bench_performance_release_gates.cpp)
+   and the registered
+   [`bench_random_access_prefetch.cpp`](../../benchmarks/performance/bench_random_access_prefetch.cpp).
+   Neither executable encodes a cross-run baseline or pass/fail threshold.
 4. Compare against an explicitly selected and documented release baseline and
    retain the run manifest. The source reviewed here does not define a
-   module-wide regression percentage or p99 threshold, so do not claim one is
-   enforced by these benchmark targets. See the current inventory in
+   measured performance-module baseline or numeric threshold, so do not claim
+   one is enforced by these benchmark targets. See the current inventory in
    [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md).
 
 The roadmap identifies baseline refresh, mixed/distributed benchmark depth,

@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "active"
 Source_Level: "level1"
 SOT_Domain: "module-behavior"
@@ -49,15 +49,17 @@ according to the deployment's observability policy and the controls in
 
 ## Release performance gates
 
-The current module benchmark source defines six contract microbenchmarks, but
-does not encode a regression percentage, p99 threshold, or baseline comparison.
-The benchmark CMake file registers only that executable; a sibling random
-access/prefetch benchmark source is present but is not registered there. See
+The module benchmark CMake file registers the six contract microbenchmarks and
+the random-access/prefetch benchmark. Neither executable encodes a regression
+percentage, p99 threshold, or cross-run baseline comparison; the paired
+prefetch cases only provide measurements. See
 [PERFORMANCE_EXPECTATIONS.md](PERFORMANCE_EXPECTATIONS.md) for the exact cases
 and limits of the current evidence. If a release process imposes additional
-thresholds, record the owning policy, baseline, and run manifest; do not imply
-that these are enforced by the module benchmark itself. The roadmap calls for
-representative p95/p99 baseline work and broader coverage in Q1 2027.
+thresholds, establish them from repeated runs on declared representative
+hardware, and record the owning policy, baseline, and run manifest. Do not infer
+thresholds from source comments or imply that a gate is enforced before that
+evidence exists. The roadmap calls for representative p95/p99 baseline work and
+broader coverage in Q1 2027.
 
 ## Recovery and change control
 

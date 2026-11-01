@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "active"
 Source_Level: "level1"
 SOT_Domain: "module-behavior"
@@ -61,14 +61,11 @@ Useful current test sources include:
 - `tests/performance/test_numa_topology.cpp` for topology behavior;
 - `tests/performance/test_rabitq_product_quantizer.cpp` for the RaBitQ path.
 
-`tests/performance/phase3/test_diskann.cpp` is a present test source but is not
-registered by the current performance test CMake file.
-
-`tests/performance/CMakeLists.txt` only globs root-level `test_*.cpp` files.
-It registers target `module_performance_<stem>_focused` with CTest name
-`<stem>_PerformanceFocusedTests`; a separate glob also creates `_autofocused`
-targets for root-level `test_performance_*.cpp` sources. The phase3/phase4 test
-files exist but are not registered by this CMake file. Confirm available tests
+`tests/performance/CMakeLists.txt` globs root-level `test_*.cpp` files and
+recursively includes phase3/phase4 test files. Root tests use targets
+`module_performance_<stem>_focused`; nested names include a stable hash of the
+relative source path. A separate root-only glob also creates `_autofocused`
+targets for root-level `test_performance_*.cpp` sources. Confirm available tests
 in the configured build instead of assuming every source is runnable through
 CTest:
 

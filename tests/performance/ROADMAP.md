@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-04-17"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "active"
 Source_Level: "level1"
 SOT_Domain: "module-behavior"
@@ -21,23 +21,24 @@ Human_Author: "ThemisDB Team"
 
 ## Current registration state
 
-The module CMake file selects root-level `test_*.cpp` files. Nested
-`phase3/` and `phase4/` sources are present but not registered there. The
-`test_performance_*.cpp` root sources are selected twice under separate target
-names (`_focused` and `_autofocused`). No statement here asserts that a test
-has passed.
+The module CMake file selects root-level `test_*.cpp` files and recursively
+registers `phase3/` and `phase4/` sources with path-derived target/test names.
+The `test_performance_*.cpp` root sources are still selected twice under
+separate target names (`_focused` and `_autofocused`). No statement here asserts
+that a test has passed.
 
 ## Follow-up
 
-- [ ] Decide whether to register the phase3/phase4 tests through explicit
-  subdirectory CMake files or a documented alternative test path.
-  (Target: DOC-WEEKLY-2026-44)
+- [x] Register phase3/phase4 test sources through the module CMake file with
+  path-derived names to avoid collisions. Registration was verified in an
+  isolated CMake harness; compilation and execution remain unverified.
+  (Completed: 2026-11-01)
 - [ ] Resolve duplicate registrations for the root `test_performance_*.cpp`
   sources, or document why both targets are required.
   (Target: DOC-WEEKLY-2026-44)
-- [ ] After a configured build is available, capture `ctest -N` output and
-  execute the registered focused tests relevant to each changed component.
-  (Target: DOC-WEEKLY-2026-44)
+- [ ] In a dependency-complete build, compile and execute the newly registered
+  nested tests, then retain `ctest -N` and test-run evidence.
+  (Target: Q1 2027)
 
 ## Validation boundary
 

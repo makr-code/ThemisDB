@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-05-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "active"
 Source_Level: "level1"
 SOT_Domain: "module-behavior"
@@ -68,8 +68,8 @@ for the verified option inventory.
 
 Focused test registration is described in
 [`../../tests/performance/README.md`](../../tests/performance/README.md). The
-module test CMake glob currently covers root-level `test_*.cpp` files only;
-phase3/phase4 test sources are present but are not registered by that file.
+module test CMake file includes root-level tests and recursively registers
+phase3/phase4 sources with path-derived names.
 Benchmark registration is described in
 [`../../benchmarks/performance/README.md`](../../benchmarks/performance/README.md).
 

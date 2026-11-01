@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-04-17"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "active"
 Source_Level: "level1"
 SOT_Domain: "module-behavior"
@@ -32,17 +32,19 @@ passed.
 
 `tests/CMakeLists.txt` auto-discovers `tests/performance/CMakeLists.txt` when
 tests are enabled and GoogleTest is found. The performance module CMake file
-uses root-only `test_*.cpp` globs:
+uses root-level globs for the primary test set and recursive globs for
+`phase3/` and `phase4/`:
 
 - Each root `test_<name>.cpp` gets target
   `module_performance_test_<name>_focused` and CTest name
   `test_<name>_PerformanceFocusedTests`.
+- Nested phase3/phase4 files are included in the focused set. Their target and
+  CTest names include the source stem and a stable hash of the relative path so
+  equal basenames cannot collide.
 - A second glob creates `_autofocused` targets for root
   `test_performance_*.cpp` sources. Those have CTest names ending in
   `_performance_AutoFocusedTests`; they are distinct from the first targets,
   not deduplicated by source.
-- The nested `phase3/` and `phase4/` sources are not matched by either glob and
-  are not registered by this module CMake file.
 
 Configured dependencies and build options can change which targets are
 available. Inspect the active build:
@@ -54,7 +56,8 @@ ctest --test-dir <build-dir> -R test_workload_predictor_PerformanceFocusedTests
 ```
 
 The sample target is built only when that test source was registered in the
-configured tree. The nested-test registration gap is tracked in
-[`ROADMAP.md`](ROADMAP.md).
+configured tree. Registration does not prove that a test target builds or
+passes; the isolated CMake registration check confirmed 31 entries, but did not
+compile or execute them.
 
 Exact model backend not verifiable from final document text alone.
