@@ -1,63 +1,59 @@
-> **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
-
-<!-- Status: current | validated: 2026-06-01 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md · ../../src/process/FUTURE_ENHANCEMENTS.md -->
-
-# Process Mining Module — Public Header Future Enhancements
-
-**Module Path:** `include/process/`  
-**Canonical implementation enhancements:** [`../../src/process/FUTURE_ENHANCEMENTS.md`](../../src/process/FUTURE_ENHANCEMENTS.md)
-
+---
+Author: ThemisDB Contributors
+Created: 2026-10-31
+Last Updated: 2026-10-31
+Status: review
+Source_Level: level 1
+SOT_Domain: api-contract
+Canonical_Sources: include/process/*.h; src/process/FUTURE_ENHANCEMENTS.md; src/process/ROADMAP.md; DOCUMENTATION_GOVERNANCE.md
+Related_Issue: "#7368"
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
 ---
 
-## Scope
+# Process Public-Header Future Work
 
-Planned enhancements to the **public header contract** in `include/process/`. Runtime, algorithm, and benchmark work remains tracked in:
+**AI provenance:** Exact model backend not verifiable from final document text alone.
 
-→ [`../../src/process/FUTURE_ENHANCEMENTS.md`](../../src/process/FUTURE_ENHANCEMENTS.md)
+The items below are candidates, not scheduled or approved commitments. Older target-quarter and checkmark claims are not treated as current delivery status.
 
----
+## process
 
-## Design Constraints
+### Scope
 
-- `[x]` Public headers must not expose internal implementation types or arena/memory layout details to callers.
-- `[x]` Breaking changes to types in `include/process/` require a MAJOR version bump per `VERSIONING.md`.
-- `[x]` New entry points should be additive; existing stable APIs remain source-compatible.
-- `[x]` Layer association (**Graph/LLM**) must be preserved in all header expansions.
+Track candidate changes to the public process API contract in `include/process/`. Runtime implementation planning remains in [`../../src/process/FUTURE_ENHANCEMENTS.md`](../../src/process/FUTURE_ENHANCEMENTS.md).
 
----
+### Design Constraints
 
-## Required Interfaces (Header Contract)
+- Public comments must describe the actual behavior of the matching implementation.
+- Do not claim every header is stable ABI or supported on every platform without current CI/versioning evidence.
+- Additive changes and compatibility policy must follow the root versioning documents.
 
-Current public surfaces cover: BPM/BPMN/CMMN/DMN process modelling, EPK, XPDL, OCEL, object-centric tracing, LLM process descriptors, and RAG integration.
+### Required Interfaces
 
-Planned extensions follow the same namespace (`themis::process`) and include-guard conventions.
+- Public declarations and contract comments in `include/process/`.
+- Matching implementations under `src/process/` and focused tests under `tests/process/`.
 
----
+### Implementation Notes
 
-## Planned Enhancements
+- Align public comments with implementation behavior, especially resource-budget, audit, telemetry, and federation guarantees.
+- Add or refresh examples only after compiling them against the current API.
+- Verify deprecation/ABI/versioning policy against root versioning documents before making compatibility claims.
 
-### Short-Term (Q3 2026)
+### Test Strategy
 
-- [ ] Add `[[deprecated]]` annotations to any legacy entry points with migration notes
-- [ ] Add explicit `noexcept` specifications to query/read paths where safe
-- [ ] Add structured diagnostic types for all thrown exceptions
+- Use focused process test registrations in `tests/process/CMakeLists.txt`.
+- Establish current CI evidence for public-header compilation and supported compiler/platform coverage before claiming coverage.
 
-### Medium-Term (Q4 2026)
+### Performance Targets
 
-- [ ] Expand public surface with convenience factory functions for common usage patterns
-- [ ] Add Concepts (C++20) constraints to template parameters in public headers
-- [ ] Introduce explicit ABI stability markers (`THEMIS_STABLE_ABI`) to long-term interfaces
+No public API performance target is currently verified here. Do not copy historical benchmark thresholds without a source mapping and reproducible result.
 
-### Long-Term (2027+)
+### Security / Reliability
 
-- [ ] Module-interface (C++20 modules) wrapper for `include/process/` entry points
-- [ ] Header-only usage path for embedding scenarios (where feasible)
-- [ ] Extended layer-mapping documentation for Graph/LLM integration patterns
+Document failure, ownership, and lifetime expectations in public contracts. Verify authorization, data handling, and deployment security in the owning server or deployment components.
 
----
-
-## Alignment with Strategic Plan
-
-Enhancements align with `FUTURE_PLAN.md` layer **Graph/LLM**. For cross-layer integration planning see:
-→ [`../../src/ai/FUTURE_ENHANCEMENTS.md`](../../src/ai/FUTURE_ENHANCEMENTS.md)
+Runtime behavior and delivery planning belong in [`../../src/process/FUTURE_ENHANCEMENTS.md`](../../src/process/FUTURE_ENHANCEMENTS.md) and [`../../src/process/ROADMAP.md`](../../src/process/ROADMAP.md). See [`ARCHITECTURE.md`](ARCHITECTURE.md) for the public-header boundary.

@@ -1,7 +1,27 @@
+---
+Author: ThemisDB Contributors
+Created: 2026-08-06
+Last Updated: 2026-10-31
+Status: archived
+Source_Level: level 1
+SOT_Domain: api-contract
+Canonical_Sources: include/process/*.h; Doxyfile.audit; src/process/DOXYGEN.md
+Related_Issue: "#7368"
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
+
 # Process Module Doxygen Documentation Summary
 
+> Historical documentation snapshot dated 2026-08-06; not current readiness evidence. Fixed API/header totals, coverage percentages, method inventories, compilation outcomes, and checkmarks below describe what the original report asserted; they have not been independently revalidated and are not current status claims. Re-audit the current public headers and Doxygen configuration before relying on them.
+>
+> AI provenance: Exact model backend not verifiable from final document text alone.
+
 **Phase:** 6 - Documentation & Acceptance  
-**Status:** ✓ COMPLETE (2026-08-06)  
+**Status at time of report:** ✓ COMPLETE (2026-08-06)
 **Coverage:** 27 public API headers with complete Doxygen documentation
 
 ## Overview
@@ -470,4 +490,3 @@ doxygen Doxyfile.audit
 **Document Version:** 1.0  
 **Last Updated:** 2026-08-06  
 **Status:** ✓ COMPLETE
-

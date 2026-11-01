@@ -1,13 +1,12 @@
 ---
 Author: ThemisDB Team
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: review
 Source_Level: level 1
 SOT_Domain: module-behavior
-Canonical_Sources: DOCUMENTATION_GOVERNANCE.md; .github/MODULE_DEVELOPER_DOCUMENTATION_GUIDELINES.md; .github/copilot/module-quick-rules.md; src/process/PRODUCTION_REQUIREMENTS.md; include/process/process_orchestration_registry.h
-Related_Issue: "#7139"
-Related_Milestone: DOC-WEEKLY-2026-44
+Canonical_Sources: DOCUMENTATION_GOVERNANCE.md; .github/MODULE_DEVELOPER_DOCUMENTATION_GUIDELINES.md; .github/copilot/module-quick-rules.md; src/process/PRODUCTION_REQUIREMENTS.md; include/process/process_orchestration_registry.h; benchmarks/process/CMakeLists.txt; benchmarks/process/*.cpp
+Related_Issue: "#7368"
 AI_Used: true
 AI_Models: unknown
 AI_Contributor: GitHub Copilot
@@ -19,7 +18,7 @@ Human_Author: ThemisDB Team
 
 **Purpose and audience:** Deployment and maintenance checklist for teams operating process-model data and orchestration profiles. This page describes operational ownership and verification, not a deployment command reference.
 
-**Provenance:** Source level: level 1 (`src/process`); SOT domain: module-behavior; issue: #7139; milestone: `DOC-WEEKLY-2026-44`. Governance: [DOCUMENTATION_GOVERNANCE.md](../../DOCUMENTATION_GOVERNANCE.md), [module documentation guidelines](../../.github/MODULE_DEVELOPER_DOCUMENTATION_GUIDELINES.md), and [Copilot quick rules](../../.github/copilot/module-quick-rules.md). Exact model backend not verifiable from final document text alone.
+**Provenance:** Source level: level 1 (`src/process`); SOT domain: module-behavior; issue: #7368. Governance: [DOCUMENTATION_GOVERNANCE.md](../../DOCUMENTATION_GOVERNANCE.md), [module documentation guidelines](../../.github/MODULE_DEVELOPER_DOCUMENTATION_GUIDELINES.md), and [Copilot quick rules](../../.github/copilot/module-quick-rules.md). Exact model backend not verifiable from final document text alone.
 
 ## Before enabling process workloads
 
@@ -53,7 +52,7 @@ Activation is implemented as separate writes to profile records and an active-do
 
 - The process module has explicit diagnostic types and result fields, but monitoring thresholds and platform-level observability must be verified in the consuming deployment.
 - The light-retriever header describes configurable resource budgets and graceful degradation; its current `retrieve()` implementation does not invoke those checks. Treat resource-budget enforcement through that API as an unresolved implementation gap.
-- Performance expectations include stated gate targets, but module docs disagree on total gate counts and statuses. Use current benchmark source/output for release decisions rather than this page or an unverified summary.
+- `benchmarks/process/CMakeLists.txt` registers 12 targets with 88 source-level Google Benchmark registration macro declarations; these do not define a performance-gate total. The performance comparator currently finds zero Process expectation rows, and four PM-BM numeric targets are comments above in-process stubs. Separately, the release source-to-CMake-to-CTest coverage audit reports Process at 14/14 mappings; this checks registration, not benchmark execution. The latest weekly performance run failed during configure, and the tracked April 2026 mining JSON is not a current performance baseline or pass. See [Performance expectations](PERFORMANCE_EXPECTATIONS.md).
 - Stale process links require explicit remediation; no cascading delete is performed.
 
 ## Ownership and escalation

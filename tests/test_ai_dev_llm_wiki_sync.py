@@ -27,6 +27,7 @@ class CuratedModuleIndexTests(unittest.TestCase):
 
         self.assertIn("[IMPORTERS.md](IMPORTERS.md)", index)
         self.assertIn("[UPDATES.md](UPDATES.md)", index)
+        self.assertIn("[PROCESS.md](PROCESS.md)", index)
         self.assertIn("[AQL module context](AQL.md)", index)
         self.assertIn("[Graph module context](GRAPH.md)", index)
         self.assertIn("[Ethics AI module context](ETHICS_AI.md)", index)
@@ -36,6 +37,8 @@ class CuratedModuleIndexTests(unittest.TestCase):
         self.assertIn("[Ethics AI module context](ETHICS_AI.md)", modules)
         self.assertIn("[Importer module context](IMPORTERS.md)", modules)
         self.assertIn("[Updates module context](UPDATES.md)", modules)
+        self.assertIn("[Process module context](PROCESS.md)", modules)
+        self.assertIn("[Ethics AI module context](ETHICS_AI.md)", modules)
         self.assertIn("[DISTRIBUTED_TENSOR.md](DISTRIBUTED_TENSOR.md)", index)
         self.assertIn("[MAINTENANCE.md](MAINTENANCE.md)", index)
         self.assertIn("[Maintenance module context](MAINTENANCE.md)", modules)
@@ -107,6 +110,7 @@ class CuratedModuleIndexTests(unittest.TestCase):
                 "IMPORTERS.md",
                 "UPDATES.md",
                 "DISTRIBUTED_TENSOR.md",
+                "PROCESS.md",
                 "MAINTENANCE.md",
                 "TEMPORAL.md",
                 "STORAGE.md",
@@ -126,6 +130,7 @@ class CuratedModuleIndexTests(unittest.TestCase):
                 "ai_context/developer_llm_wiki/ETHICS_AI.md",
                 "ai_context/developer_llm_wiki/UPDATES.md",
                 "ai_context/developer_llm_wiki/DISTRIBUTED_TENSOR.md",
+                "ai_context/developer_llm_wiki/PROCESS.md",
                 "ai_context/developer_llm_wiki/MAINTENANCE.md",
                 "ai_context/developer_llm_wiki/TEMPORAL.md",
                 "ai_context/developer_llm_wiki/STORAGE.md",

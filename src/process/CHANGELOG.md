@@ -1,4 +1,22 @@
-> WARNING: Historical changelog entries describe implementation state at the time they were recorded.
+---
+Author: ThemisDB Contributors
+Created: 2026-05-31
+Last Updated: 2026-10-31
+Status: active
+Source_Level: level 1
+SOT_Domain: release-versioning
+Canonical_Sources: src/process/CHANGELOG.md; DOCUMENTATION_GOVERNANCE.md
+Related_Issue: "#7368"
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: GitHub Copilot
+Human_Review: false
+Human_Author: ThemisDB Team
+---
+
+> Historical entries record earlier module activity and are not a claim that current performance symbols or release status have been verified. See the current [source audit](AUDIT.md) and [roadmap](ROADMAP.md).
+>
+> AI provenance: Exact model backend not verifiable from final document text alone.
 
 <!-- Status: current | validated: 2026-05-31 -->
 <!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
@@ -11,8 +29,7 @@ The format is based on Keep a Changelog.
 ## [Unreleased]
 
 ### Changed
-- Documentation governance sync: README, ARCHITECTURE, SECURITY, ROADMAP, FUTURE_ENHANCEMENTS, AUDIT, and PERFORMANCE_EXPECTATIONS aligned to source-verifiable module behavior.
-- Performance expectations updated to explicit verified benchmark symbols across process import/retrieval/mining benchmark suites.
+- Process developer documentation aligned with current headers, implementations, and CMake registration; historical test/readiness claims and unresolved benchmark-gate totals are identified as unverified.
 
 ## [2.1.x] - 2026
 

@@ -23,8 +23,8 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 
 - Ziel: Onboarding- und Coding-relevantes Wissen fuer Entwickler-LLMs
 - Laufmodus: FULL_SYNC
-- Quellen gesamt: 9515
-- Quellen-Hash: `a21ea00e6fba7d62e398dbc850f5b782b258746340b23c97655a08a1b2a7934d`
+- Quellen gesamt: 9516
+- Quellen-Hash: `7560acd9adf14df58c30dc5d8a5b69a3632d25faa02723b73c8868b9a813f02d`
 
 ## Status And Source-of-Truth Governance
 
@@ -44,6 +44,7 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 - [IMPORTERS.md](IMPORTERS.md) — curated importer module context
 - [UPDATES.md](UPDATES.md) — curated updates module context
 - [DISTRIBUTED_TENSOR.md](DISTRIBUTED_TENSOR.md) — curated distributed tensor module context
+- [PROCESS.md](PROCESS.md) — curated Process module context
 - [TEMPORAL.md](TEMPORAL.md) — temporal runtime/API boundaries, test and benchmark evidence limits
 - [STORAGE.md](STORAGE.md) — curated storage API boundaries, test evidence, and contract gaps
 - [USER_STORAGE_ENCRYPTED.md](USER_STORAGE_ENCRYPTED.md) — encrypted user-storage architecture, configuration, and evidence boundaries
@@ -56,7 +57,7 @@ Primary (Quelle der Wahrheit): DOCUMENTATION_GOVERNANCE.md, ROADMAP.md, FUTURE_E
 
 - modules_and_api: 3821
 - build_test_ci: 203
-- governance_and_docs: 5491
+- governance_and_docs: 5492
 - misc: 0
 
 ## Source-Priority / Konfliktregel

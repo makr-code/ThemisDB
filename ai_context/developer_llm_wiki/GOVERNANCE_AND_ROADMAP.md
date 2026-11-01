@@ -471,6 +471,15 @@ Status: Active
   - Status: Generated
   - Bezug: Automated module doxygen analysis and documentation inventory
 
+## ai_context/developer_llm_wiki/PROCESS.md
+- Kategorie: governance_and_docs
+- Hash: `151107d3e0260d67`
+- Titel: Process — Developer LLM Wiki
+- Auszug:
+  - ---
+  - Author: "ThemisDB Team"
+  - Created: "2026-11-01"
+
 ## ai_context/developer_llm_wiki/PROMPT_ENGINEERING.md
 - Kategorie: governance_and_docs
 - Hash: `cb4e42e9e8d1328e`
@@ -713,12 +722,3 @@ Status: Active
   - **Status**: ✅ **READY FOR DELIVERY**
   - ---
   - - [x] src/replication/async_wal_shipper.cpp
-
-## docs/ARCHIVED/ai-working-history/AI_DECISION_AUDITING_IMPLEMENTATION_SUMMARY.md
-- Kategorie: governance_and_docs
-- Hash: `cab49ac2e9386905`
-- Titel: AI Decision Auditing and Explainability - Implementation Summary
-- Auszug:
-  - This document summarizes the implementation of AI Decision Auditing and Explainability features for ThemisDB, ensuring compliance with EU AI Act, GDPR Article 22, and eIDAS regulations.
-  - **Issue**: #TBD - Enhance AI Decision Auditing and Explainability
-  - **Priority**: HIGH

@@ -1,7 +1,7 @@
 ---
 Author: ThemisDB Team
 Created: 2026-10-31
-Last Updated: 2026-10-31
+Last Updated: 2026-11-01
 Status: review
 Source_Level: level 1
 SOT_Domain: module-behavior
@@ -48,7 +48,7 @@ The headers cite HippoRAG for PPR and LightRAG for the LOCAL/GLOBAL retrieval pa
 4. Evaluate model-vector similarity only with a known embedder, compatible vector dimensions, and an explicitly configured vector index; record which fallback path was used.
 5. Report sample size, fixture provenance, build/configuration, percentile method, and raw result summary. Do not equate a configured target or a passing unit test with a user-facing quality result.
 
-The repository's [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md) records performance targets and benchmark gate descriptions. Its gate totals and status statements are not fully consistent with other module summaries; verify the current benchmark implementation and output before treating any stated threshold or result as release evidence.
+The repository's [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md) distinguishes benchmark registrations from four numeric PM-BM comments, comparator-enforced expectations, and the separate source-to-CMake-to-CTest coverage audit. The comparator discovers zero Process expectation rows. Coverage reports show 14/14 Process mappings, but that is not runtime performance. The tracked April 2026 mining output is historical, and the latest visible weekly performance run did not reach benchmark execution; neither establishes a current baseline, performance pass, or retrieval-quality result.
 
 ## Validation references
 

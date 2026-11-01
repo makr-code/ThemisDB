@@ -26,6 +26,7 @@ Status: Active
 - [Importer module context](IMPORTERS.md) — shared contracts, connector boundaries, focused test evidence, and operational limits.
 - [Updates module context](UPDATES.md) — update lifecycle, rollout and patch contracts, diagnostic evidence, and operator boundaries.
 - [Distributed tensor module context](DISTRIBUTED_TENSOR.md) — tensor artifact contracts, planning boundaries, C++ requirements, and verified test/benchmark evidence.
+- [Process module context](PROCESS.md) — process model lifecycle, retrieval boundaries, test registration, and benchmark evidence.
 - [Temporal module context](TEMPORAL.md) — runtime/API separation, persistence boundaries, test and benchmark evidence limits.
 - [Storage module context](STORAGE.md) — component boundaries, contract-vs-evidence gaps, and focused test/benchmark limits.
 - [Encrypted user storage module context](USER_STORAGE_ENCRYPTED.md) — runtime architecture, configuration, build/test boundaries, and scanner/Doxygen evidence limits.
