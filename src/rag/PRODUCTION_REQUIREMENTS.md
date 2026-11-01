@@ -60,10 +60,11 @@ must use the returned budget when constructing the generation request.
 ## Validation references
 
 Focused tests are registered from `tests/rag/CMakeLists.txt`; test sources
-validate their covered behavior, not complete deployment wiring. Benchmark
-source files are not all runnable targets: `benchmarks/rag/CMakeLists.txt`
-currently registers `bench_delegate_evaluator` and `bench_fts_phase_b`, with a
-CTest smoke registration for the latter.
+validate their covered behavior, not complete deployment wiring. The root
+`benchmarks/CMakeLists.txt` conditionally registers `bench_rag_evaluation`,
+`bench_rag_hybrid_retriever`, and `bench_rag_ethics` when Google Benchmark and
+the corresponding source files are available. This registration does not
+provide representative evaluation corpora or prove any performance target.
 
 For source-level API contracts, see [API.md](API.md) and
 [IMPLEMENTATION.md](IMPLEMENTATION.md). For trust boundaries, see

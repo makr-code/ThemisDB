@@ -49,10 +49,11 @@ registration, persistent storage, external telemetry, or production readiness.
 - [~] Benchmark and regression gate consolidation for RAG-heavy release profiles (Target: Q3 2026)
 - [~] **Phase C: RAG Evaluation Contract v1 (specification only; gate/data availability unverified)** (Target: Q4 2026)
   - **Specification Document**: `src/rag/EVALUATION_CONTRACT_V1.md` (2026-09-24 CREATED)
-  - **Baseline Metrics Registry**: `benchmarks/rag/data/baselines_v1.json` exists; its presence is not evidence that the specified datasets were run.
+  - **Baseline Metrics Registry**: `benchmarks/rag/data/baselines_v1.json` exists; its targets are not measured results.
   - **Acceptance Report Template**: `src/rag/RAG_EVAL_ACCEPTANCE_REPORT_TEMPLATE.md` (2026-09-24 CREATED)
   - **Metrics Defined**: Recall@10, nDCG@10, MRR@10, Faithfulness, Relevance, p95/p99 latency, cost/query
-  - **Datasets**: Names in the contract are specifications; `benchmarks/rag/eval_datasets_v1/` is absent from this checkout.
+  - **Datasets**: Four project-authored synthetic smoke fixtures are checked in under `benchmarks/rag/eval_datasets_v1/` (four records each). Full-size representative corpora named by the contract are still absent; no retrieval metrics are claimed.
+  - **Benchmark targets**: The root `benchmarks/CMakeLists.txt` conditionally registers the evaluation, hybrid-retriever, and ethics benchmark executables. Fixture/target presence is not metric evidence.
   - **Release Gate**: `.github/workflows/gate-pr-rag-eval.yml` validates contract/baseline/template files and only checks Recall@10 when `eval_results.json` is supplied. It does not collect the full metric set by itself.
   - **CI Gate**: The workflow exists; its configured release-critical test job is conditional on PR labels and is not benchmark evidence.
 - [~] **Phase D: Embedding & Index Version Governance** (Target: Q4 2026)

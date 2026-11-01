@@ -10,12 +10,12 @@ Human_Author: "ThemisDB Team"
 
 # PERFORMANCE_EXPECTATIONS - src/rag
 
-> These are target definitions, not measured results. Current benchmark sources
-> live under `benchmarks/rag/`; CMake registers only
-> `bench_delegate_evaluator` and `bench_fts_phase_b` (with a CTest smoke entry
-> for the latter). The RAG evaluation, hybrid-retriever, and ethics benchmark
-> sources listed below are not registered as runnable targets by
-> `benchmarks/rag/CMakeLists.txt`.
+> These are target definitions, not measured results. The root
+> `benchmarks/CMakeLists.txt` conditionally registers
+> `bench_rag_evaluation`, `bench_rag_hybrid_retriever`, and `bench_rag_ethics`
+> when Google Benchmark and the sources are available. CTest smoke entries are
+> also conditional on target creation. Neither registration nor a smoke run
+> establishes the performance gates below.
 
 ## Scope
 - Module: src/rag
@@ -23,9 +23,9 @@ Human_Author: "ThemisDB Team"
 
 ## Benchmark Reference
 - Relevant benchmark files:
-  - benchmarks/rag/bench_rag_evaluation.cpp (source only; not a CMake target)
-  - benchmarks/rag/bench_rag_hybrid_retriever.cpp (source only; not a CMake target)
-  - benchmarks/rag/bench_rag_ethics.cpp (source only; not a CMake target)
+  - benchmarks/rag/bench_rag_evaluation.cpp (`bench_rag_evaluation`)
+  - benchmarks/rag/bench_rag_hybrid_retriever.cpp (`bench_rag_hybrid_retriever`)
+  - benchmarks/rag/bench_rag_ethics.cpp (`bench_rag_ethics`)
   - benchmarks/rag/bench_delegate_evaluator.cpp (registered target)
 
 ## Specific Expectations
@@ -67,8 +67,8 @@ Human_Author: "ThemisDB Team"
   - injection/ethics overhead benchmarks
   - delegate and end-to-end pipeline benchmarks
 - Result:
-  - Referenced cases are source-level targets only; source presence does not mean they are built or runnable.
-  - The release-gate mapping requires CMake target registration and reproducible baseline runs before it can be treated as active.
+  - CMake target registration is conditional on Google Benchmark being found and each source being present.
+  - The release-gate mapping still requires reproducible baseline runs and matching cases before it can be treated as measured evidence.
 
 ## Issue Scope Traceability
 

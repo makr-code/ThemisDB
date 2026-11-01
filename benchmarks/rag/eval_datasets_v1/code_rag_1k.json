@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "dataset_id": "code_rag_1k_v1",
+  "domain": "code_search",
+  "data_kind": "synthetic_smoke_fixture",
+  "provenance": "Project-authored synthetic examples; no external repository corpus or licensed dataset is included.",
+  "limitations": "Four records only. This fixture validates dataset plumbing and is not representative evidence for code-search quality or the named 1K corpus target.",
+  "query_language": "en",
+  "corpus_language": "en",
+  "records": [
+    {
+      "id": "code-smoke-001",
+      "query": "How can C++ transfer exclusive ownership of an object?",
+      "documents": [
+        {"id": "code-doc-unique", "text": "std::unique_ptr represents exclusive ownership and can transfer it with std::move."},
+        {"id": "code-doc-shared", "text": "std::shared_ptr shares ownership using a reference count."}
+      ],
+      "relevant_document_ids": ["code-doc-unique"]
+    },
+    {
+      "id": "code-smoke-002",
+      "query": "Which standard algorithm sorts a range in place?",
+      "documents": [
+        {"id": "code-doc-sort", "text": "std::sort orders the elements in the half-open range [first, last)."},
+        {"id": "code-doc-find", "text": "std::find searches a range for a value equal to the requested value."}
+      ],
+      "relevant_document_ids": ["code-doc-sort"]
+    },
+    {
+      "id": "code-smoke-003",
+      "query": "How does a C++ mutex protect a critical section with RAII?",
+      "documents": [
+        {"id": "code-doc-lock-guard", "text": "std::lock_guard acquires a mutex at construction and releases it when the guard leaves scope."},
+        {"id": "code-doc-atomic", "text": "std::atomic provides operations on a value that can be used safely between threads."}
+      ],
+      "relevant_document_ids": ["code-doc-lock-guard"]
+    },
+    {
+      "id": "code-smoke-004",
+      "query": "What prevents a null pointer from being used as a valid object pointer in modern C++?",
+      "documents": [
+        {"id": "code-doc-nullptr", "text": "nullptr is the dedicated null pointer literal in modern C++."},
+        {"id": "code-doc-optional", "text": "std::optional represents a value that may be absent."}
+      ],
+      "relevant_document_ids": ["code-doc-nullptr"]
+    }
+  ]
+}

@@ -1094,12 +1094,18 @@ cmake --build <build-dir> --target module_rag_test_rag_judge_focused
 ctest --test-dir <build-dir> -R '^test_rag_judge_RagFocusedTests$' --output-on-failure
 ```
 
-The standalone sources `bench_rag_evaluation.cpp` and
-`bench_rag_hybrid_retriever.cpp` are not registered as benchmark targets by
-`benchmarks/rag/CMakeLists.txt`. That file currently registers
-`bench_delegate_evaluator` and `bench_fts_phase_b`; only the latter has a
-registered CTest smoke entry. A source file on disk is not necessarily a
-runnable benchmark target.
+The root `benchmarks/CMakeLists.txt` conditionally registers the targets
+`bench_rag_evaluation`, `bench_rag_hybrid_retriever`, and `bench_rag_ethics`
+when Google Benchmark and their sources are available. CTest smoke entries are
+also conditional on target creation. Build a target by name, for example
+`cmake --build <build-dir> --target bench_rag_hybrid_retriever`; successful
+registration or a smoke run is not performance-gate evidence.
+
+Four small synthetic evaluation fixtures are available under
+`benchmarks/rag/eval_datasets_v1/`. They support schema and validator smoke
+checks only, not the full-size representative corpora or dataset-level quality
+results described in the evaluation contract. Validate them with
+`python3 benchmarks/rag/validate_eval_datasets.py`.
 
 ## Migration Guide
 

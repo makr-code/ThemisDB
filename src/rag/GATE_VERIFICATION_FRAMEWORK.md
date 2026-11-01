@@ -10,14 +10,14 @@ Human_Author: "ThemisDB Team"
 
 # RAG Module Performance Gate Verification Framework
 
-> **Current validation status (2026-10-31):** The limits and benchmark cases
-> below are specification targets, not verified gate results. The local
-> benchmark CMake file registers `bench_delegate_evaluator` and
-> `bench_fts_phase_b`; the RAG evaluation, hybrid-retriever, and ethics benchmark
-> sources are not registered as targets. The delegate source does not define a
-> `FallbackPath` case. `test_rag_context_engine` is a test target, not a latency
-> benchmark. Do not treat the commands or approval text below as executable
-> release evidence.
+> **Current validation status (2026-11-01):** The limits and benchmark cases
+> below are specification targets, not verified gate results. The root
+> `benchmarks/CMakeLists.txt` conditionally registers the RAG evaluation,
+> hybrid-retriever, and ethics targets when Google Benchmark and their sources
+> are available. The delegate source does not define a `FallbackPath` case.
+> `test_rag_context_engine` is a test target, not a latency benchmark. Do not
+> treat target registration, the commands, or the historical approval text
+> below as executable release evidence.
 
 **Purpose:** Define and validate all performance gates for RAG module Phase 5-6 delivery  
 **Date:** 2026-08-18  
@@ -36,9 +36,8 @@ Human_Author: "ThemisDB Team"
 **Target:** ≤50ms  
 **Rationale:** Dense searches dominate retrieval latency in semantic search workloads
 
-**Benchmark Source (not a registered target):** `benchmarks/rag/bench_rag_hybrid_retriever.cpp`
-**Verification Method:**
-No runnable CMake target is registered for this source in the current checkout.
+**Benchmark target:** `bench_rag_hybrid_retriever`
+**Verification Method:** The source is registered conditionally; its declared microbenchmark cases do not establish the specified 1K-document dense-index search gate.
 
 **Pass Criteria:**
 - p95 latency ≤50ms
@@ -56,8 +55,8 @@ No runnable CMake target is registered for this source in the current checkout.
 **Target:** ≤10ms  
 **Rationale:** Sparse search must be sub-10ms to keep fusion overhead <20ms
 
-**Benchmark Source (not a registered target):** `benchmarks/rag/bench_rag_evaluation.cpp`
-**Verification Method:** No runnable CMake target is registered for this source in the current checkout.
+**Benchmark target:** `bench_rag_evaluation`
+**Verification Method:** The source is registered conditionally; it does not execute the specified 10K-document BM25 search.
 
 **Pass Criteria:**
 - p95 latency ≤10ms
@@ -75,8 +74,8 @@ No runnable CMake target is registered for this source in the current checkout.
 **Target:** ≤100ms p95  
 **Rationale:** Full retrieval stack must complete within 100ms for responsive UX
 
-**Benchmark Source (not a registered target):** `benchmarks/rag/bench_rag_hybrid_retriever.cpp`
-**Verification Method:** No runnable CMake target is registered for this source in the current checkout.
+**Benchmark target:** `bench_rag_hybrid_retriever`
+**Verification Method:** The source is registered conditionally; its candidate-fusion cases do not execute the specified end-to-end dense+sparse+rerank database path.
 
 **Pass Criteria:**
 - p95 latency ≤100ms
@@ -96,8 +95,8 @@ No runnable CMake target is registered for this source in the current checkout.
 **Target:** ≥100 evaluations/sec  
 **Rationale:** Evaluation must not become throughput bottleneck in high-traffic scenarios
 
-**Benchmark Source (not a registered target):** `benchmarks/rag/bench_rag_evaluation.cpp`
-**Verification Method:** No runnable CMake target is registered for this source in the current checkout.
+**Benchmark target:** `bench_rag_evaluation`
+**Verification Method:** The source is registered conditionally; its synthetic judge inputs do not establish the specified throughput gate.
 
 **Pass Criteria:**
 - Throughput ≥100 eval/sec
@@ -115,8 +114,8 @@ No runnable CMake target is registered for this source in the current checkout.
 **Target:** ≤50ms  
 **Rationale:** Safety checks must not exceed 50ms per query to stay within E2E budget
 
-**Benchmark Source (not a registered target):** `benchmarks/rag/bench_rag_ethics.cpp`
-**Verification Method:** No runnable CMake target is registered for this source in the current checkout.
+**Benchmark target:** `bench_rag_ethics`
+**Verification Method:** The source is registered conditionally; its hand-authored inputs do not establish the specified latency or false-negative gates.
 
 **Pass Criteria:**
 - p95 latency ≤50ms
@@ -232,9 +231,9 @@ cd build-rag-gates
 # Capture baseline on clean run
 for i in {1..3}; do
   echo "=== Run $i ==="
-  ./benchmarks/rag/bench_rag_hybrid_retriever --benchmark_out=baseline-run-$i.json
-  ./benchmarks/rag/bench_rag_evaluation --benchmark_out=baseline-run-$i.json
-  ./benchmarks/rag/bench_rag_ethics --benchmark_out=baseline-run-$i.json
+  ./benchmarks/bench_rag_hybrid_retriever --benchmark_out=baseline-hybrid-$i.json
+  ./benchmarks/bench_rag_evaluation --benchmark_out=baseline-evaluation-$i.json
+  ./benchmarks/bench_rag_ethics --benchmark_out=baseline-ethics-$i.json
   ./benchmarks/rag/bench_delegate_evaluator --benchmark_out=baseline-run-$i.json
 done
 
@@ -263,7 +262,7 @@ EOF
 #### Step 3: Regression Detection
 ```bash
 # Run current benchmarks and compare
-./benchmarks/rag/bench_rag_hybrid_retriever --benchmark_out=current.json
+./benchmarks/bench_rag_hybrid_retriever --benchmark_out=current.json
 
 # Check for violations
 python3 <<EOF
@@ -358,7 +357,7 @@ EOF
 ls -lah indexes/
 
 # 2. Profile execution
-perf record -g -F 99 -- ./benchmarks/rag/bench_rag_hybrid_retriever
+perf record -g -F 99 -- ./benchmarks/bench_rag_hybrid_retriever
 perf report
 
 # 3. Check system load

@@ -16,10 +16,12 @@ Human_Author: "ThemisDB Team"
 **Version:** 1.0.0  
 **Scope:** Binding quality and performance metrics for `release_critical` RAG workflows  
 
-> **Implementation status (checked 2026-10-31):** This file specifies intended
-> acceptance criteria; its targets are not measured baselines. The named
-> `benchmarks/rag/eval_datasets_v1/` directory and metric-collection scripts are
-> absent from this checkout. `gate-pr-rag-eval.yml` validates documentation,
+> **Implementation status (checked 2026-11-01):** This file specifies intended
+> acceptance criteria; its targets are not measured baselines. Four small,
+> project-authored synthetic smoke fixtures now exist under
+> `benchmarks/rag/eval_datasets_v1/`. They do not contain the 2,000/1,000/500
+> query corpora named below and are not representative retrieval-quality data.
+> `gate-pr-rag-eval.yml` validates documentation,
 > the baseline JSON, and the report template; its metric comparison runs only
 > when `eval_results.json` is supplied and checks Recall@10. It does not collect
 > or enforce the full metric set by itself. The workflow's header says “6 core
@@ -75,9 +77,17 @@ current `release_critical` runs collect or enforce them.
 ### Domain Categories
 
 The specification requires `release_critical` runs to validate against at
-least one dataset from each category. The dataset files are not included in
-this checkout, so that acceptance requirement cannot currently be reproduced
-from the repository alone.
+least one dataset from each category. The checked-in files are smoke fixtures
+only; the full-size external datasets described below are not included, so the
+dataset-level release acceptance requirement is not yet reproducible here.
+
+The four JSON files use `schema_version`, `dataset_id`, `data_kind`,
+`provenance`, `limitations`, and `records`. Each record contains a stable `id`,
+`query`, candidate `documents` (`id` and `text`), and
+`relevant_document_ids`. Run
+`python3 benchmarks/rag/validate_eval_datasets.py` to validate file presence,
+schema, unique identifiers, and relevance references. The validator does not
+run retrieval or calculate evaluation metrics.
 
 #### A. Wikipedia RAG (General Knowledge Retrieval)
 - **Dataset ID:** `wikipedia_rag_2k_v1`
