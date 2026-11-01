@@ -1,3 +1,13 @@
+---
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "ThemisDB documentation orchestrator"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
+
+> Exact model backend not verifiable from final document text alone.
+
 > **Build:** `cmake --preset linux-release && cmake --build --preset linux-release`
 
 <!-- Status: current | validated: 2026-06-01 -->
@@ -20,7 +30,10 @@ Tracks public RAG API contract stability, header coverage, and future public ent
 
 ## Current Status
 
-All 65 RAG headers are present. Public entry points exist for hybrid/adaptive/FLARE/RePLUG/TARG/streaming/multi-hop/multimodal/KG/ontology/LoRA retrieval, DPR vectorisation, re-ranking, context assembly, document processing, agentic RAG, faithfulness/relevance/coherence/hallucination/bias/fairness evaluation, G-EVAL, judge ensembles, quality-control pipelines, continuous learning, RLAIF, Bayesian optimisation, A/B testing, LLM judge integration, and ingestion bridges.
+All 104 top-level `include/rag/*.h` headers are present in this checkout. This
+is a file inventory only; presence does not establish API stability, runtime
+integration, or production readiness. See each header and its implementation
+for current behavior.
 
 ---
 

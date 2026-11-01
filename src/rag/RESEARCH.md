@@ -67,9 +67,10 @@ answer is faithful to its context.
   ordering, validation, and edge-case behavior, not relevance on a production
   corpus.
 - `RESEARCH_EVAL_HARNESS_SPECIFICATION.md` describes an evaluation design.
-  Dataset files named by the RAG evaluation contract were not present in the
-  repository inventory, so those dataset-level results are not reproducible
-  from this checkout.
+  Four small synthetic smoke fixtures now exist at
+  `benchmarks/rag/eval_datasets_v1/`. They validate fixture structure only;
+  they are not the full-size datasets named by the contract and cannot support
+  dataset-level retrieval-quality results.
 
 ## Evidence and reproduction
 
@@ -91,12 +92,14 @@ cmake --build <build-dir> --target module_rag_test_rag_hybrid_retriever_focused 
 ctest --test-dir <build-dir> -R 'test_(rag_hybrid_retriever|dpr_vectorizer|metric_computation)_RagFocusedTests' --output-on-failure
 ```
 
-The benchmark source files provide deterministic microbenchmark fixtures, not a
-quality evaluation on the named external datasets. In particular,
-`benchmarks/rag/CMakeLists.txt` currently registers only `bench_delegate_evaluator`
-and `bench_fts_phase_b`; it does not register the two RAG benchmark source files
-listed above as build targets. Do not report their declared performance targets
-as measured results.
+The benchmark source files provide microbenchmark fixtures, not a quality
+evaluation on the named external datasets. The root
+`benchmarks/CMakeLists.txt` now registers `bench_rag_evaluation`,
+`bench_rag_hybrid_retriever`, and `bench_rag_ethics` when Google Benchmark and
+their source files are available; CTest smoke entries are conditional on those
+targets. Successful target registration or execution does not constitute
+dataset-level or release-gate evidence. Do not report declared performance
+targets as measured results without reproducible runs and artifacts.
 
 ## References
 

@@ -1,115 +1,77 @@
-# Security - RAG Module
+---
+AI_Used: true
+AI_Models: unknown
+AI_Contributor: "ThemisDB documentation orchestrator"
+Human_Review: false
+Human_Author: "ThemisDB Team"
+---
 
-<!-- Status: current | validated: 2026-05-31 -->
-<!-- Links: README.md · ARCHITECTURE.md · ROADMAP.md -->
+> Exact model backend not verifiable from final document text alone.
 
-Report vulnerabilities via SECURITY.md.
+# Security — RAG Module
 
-## Threat Model
+<!-- Status: source-aligned | reviewed: 2026-10-31 -->
 
-| Threat | Mitigation surface |
+Report vulnerabilities through the repository's root `SECURITY.md`.
+
+## Security boundary
+
+RAG exposes retrieval, context, evaluation, ingestion, and safety components.
+Their presence does not mean every request path invokes them. The service that
+composes these components owns authentication, authorization, control ordering,
+and response policy.
+
+| Risk | Current boundary |
 |---|---|
-| prompt-injection payloads in retrieved content | prompt injection detector and sanitizer paths |
-| unsafe context propagation to generation or judge stages | bounded context assembly and guardrail checks |
-| unauthorized retrieval scope expansion | upstream authorization and scoped retrieval integration |
-| low-quality or unverifiable responses leaking to clients | judge and quality-control pipeline gates |
-| cache/result cross-contamination risks | deterministic keying and scoped runtime integration |
+| Prompt injection in queries or retrieved content | `PromptInjectionDetector` and `PromptInjectionSanitizer` are explicit, heuristic APIs. The caller chooses where to scan, block, or sanitize. |
+| Unauthorized or cross-tenant retrieval | `HybridRetriever` accepts candidate lists and `RAGContextAssembler` accepts chunks; neither accepts an authenticated principal or authorization policy. Filter candidates in the owning search/access-control layer. |
+| Ingestion into an unauthorized collection | `RAGIngestionBridge` validates input shape and limits, but does not authorize collection writes. |
+| Unsafe or low-confidence generated output | Evaluation APIs return results; the caller must apply its response policy. They are not automatically enforced by every server path. |
+| Sensitive data in logs and telemetry | The quality-control implementation logs up to the first 50 query characters. Review application log access and retention; do not add raw content or credentials to telemetry. |
+| Model artifact integrity | The reranker checks a `.sha256` sidecar if present and warns if absent. Its `require_model_checksum` and `expected_model_checksum` configuration fields are not enforced. Verify model digests independently. |
 
-## Security Controls
+## Current controls and limits
 
-- prompt-injection detection and sanitization is enforced on dedicated RAG paths
-- evaluation and quality-gate flows detect unsupported or low-trust outputs
-- retrieval and ingestion bridge surfaces expose explicit failure signaling
-- audit and reporting surfaces provide evidence for operational triage
+- The injection detector uses pattern/heuristic checks. A clean scan is not
+  proof that input is safe; sanitizing one path does not establish that another
+  path received sanitized data.
+- The quality-control pipeline does not itself enforce authorization or block
+  every response. A caller must inspect its returned status.
+- The ingestion bridge has input-size and metadata validation, but vector and
+  graph writes are optional. A result with `ok == true` does not by itself prove
+  that every configured sink persisted data.
+- `CrossEncoderReranker::computeScore()` currently uses the heuristic scorer.
+  `loadModel()` does not establish ONNX inference; `used_model` is not proof of
+  a model-scored result.
+- `OTELSpanEmitter` does not send spans over the network. Avoid treating its
+  in-process counters as collector acknowledgements.
 
-## Defense-in-Depth: Input Validation Boundaries
+## Required integration practices
 
-RAG module implements a layered security model for all user-supplied input (query, documents, generated_answer):
+1. Authenticate and authorize tenant, collection, document, and model access in
+   the owning service/search/storage layers.
+2. Apply access-control filters before candidate documents enter RAG. Prompt
+   sanitization and quality scoring are not authorization controls.
+3. Treat retrieved text as untrusted data. Invoke scanning and any blocking or
+   sanitization policy on each relevant query/document path.
+4. Preserve source IDs and retrieval provenance. Verify partial writes and
+   model artifacts independently.
+5. Redact logs, constrain access and retention, and avoid raw queries,
+   retrieved content, prompts, and credentials in telemetry fields.
+6. On uncertain authorization or failed safety evaluation, apply the
+   integration's explicit fail-closed policy; the module does not supply a
+   universal policy.
 
-### Boundary 1: Size Validation (Lines 205-234 in rag_judge.cpp)
+## Source references
 
-**Location**: `RAGJudge::evaluateWithConfig()` entry point
-**Protection**: Reject oversized inputs (DoS prevention)
-**Enforced on**:
-- `input.query` (max 100KB)
-- `input.generated_answer` (max 100KB)
-- `input.documents` (max 1000 documents)
-
-**Rationale**: Prevents memory exhaustion and uncontrolled resource consumption before downstream processing.
-
-### Boundary 2: Injection Detection (Lines 256-316 in rag_judge.cpp)
-
-**Location**: `RAGJudge::evaluateWithConfig()` after size validation
-**Protection**: Active scanning for prompt injection patterns in retrieved documents
-**Behavior**:
-- `PromptInjectionDetector::scanDocuments()` identifies injection patterns (HIGH/CRITICAL severity)
-- Optionally blocks evaluation if high-severity injection detected (configurable via `block_on_high_severity_injection`)
-- Logs all findings for audit/observability
-
-**Rationale**: Early detection prevents injection patterns from reaching downstream evaluation and LLM integration.
-
-### Boundary 3: Injection Sanitization (Lines 320-360 in rag_judge.cpp)
-
-**Location**: After injection detection, before dimension evaluations
-**Protection**: Explicit sanitization of user input via `PromptInjectionSanitizer`
-**Enforced on**:
-- `safe_input.query = injection_sanitizer->sanitize(input.query)`
-- `safe_input.generated_answer = injection_sanitizer->sanitize(input.generated_answer)`
-- `safe_input = injection_sanitizer->sanitizeInput(input)` (document set sanitization)
-
-**Rationale**: Escapes special characters and removes known injection payloads before input reaches LLM calls.
-
-### Boundary 4: Safe Evaluation (Lines 370+ in rag_judge.cpp)
-
-**Location**: All dimension evaluation calls (faithfulness, relevance, coherence, etc.)
-**Protection**: Dimension evaluators receive only `safe_input` (sanitized copy)
-**Guarantee**: No unsanitized user data reaches any LLM prompt or security-sensitive operation
-
-**Rationale**: Complete isolation between raw input and evaluated/judged output ensures no injection patterns leak through.
-
-### Batch Evaluator & Adversarial Tester
-
-**batch_evaluator.cpp**: Implements identical size validation + dual sanitization (PromptInjectionSanitizer + shared LLM safety policy)
-**adversarial_tester.cpp**: Uses shared `sanitizeEvaluationInput()` helper for consistent protection across test case variants
-
----
-
-## Thread Safety Boundaries
-
-All shared data structures are protected by dedicated mutexes with RAII lock guards:
-
-| Structure | Mutex | Protected Operations |
-|-----------|-------|---|
-| `impl_->cache` | `cache_mutex` | Read (lines 244-249), Write (lines 574-576) |
-| `impl_->eval_history` | `bias_history_mutex` | Append (lines 581-585) |
-| `eval_queue_` | `queue_mutex_` | Enqueue (lines 607-614) |
-
-All locks use `std::lock_guard<std::mutex>` (RAII) to ensure release even on exception paths.
-
----
-
-- guard effectiveness depends on deployment configuration and active backend mix
-- heuristic detection paths may require periodic calibration under new attack patterns
-- distributed deployment combinations require continuous regression evidence
-
-## Sourcecode Verification (Module: rag/security)
-
-- Verified files:
-  - src/rag/prompt_injection_detector.cpp
-  - src/rag/rag_judge.cpp
-  - src/rag/quality_control_pipeline.cpp
-  - src/rag/rag_context_assembler.cpp
-  - src/rag/rag_ingestion_bridge.cpp
-  - src/rag/bias_detector.cpp
-  - src/rag/adversarial_tester.cpp
-  - src/rag/evaluation_report_exporter.cpp
-- Verified controls:
-  - prompt and context safety gates
-  - quality/evaluation guard behavior
-  - operational evidence and reliability-related signals
-
-## Issue Scope Traceability
-
-- Wave B tracking issue: `https://github.com/makr-code/ThemisDB/issues/5039`
-- dependent Wave A issue: `https://github.com/makr-code/ThemisDB/issues/5038`
-- follow-on Wave C issue: `https://github.com/makr-code/ThemisDB/issues/5040`
+- `include/rag/prompt_injection_detector.h`
+- `src/rag/prompt_injection_detector.cpp`
+- `include/rag/rag_ingestion_bridge.h`
+- `src/rag/rag_ingestion_bridge.cpp`
+- `include/rag/quality_control_pipeline.h`
+- `src/rag/quality_control_pipeline.cpp`
+- `include/rag/reranker.h`
+- `src/rag/reranker.cpp`
+- `src/rag/otel_span_emitter.cpp`
+- [Trust boundaries](TRUST.md)
+- [Production requirements and implementation limits](PRODUCTION_REQUIREMENTS.md)
