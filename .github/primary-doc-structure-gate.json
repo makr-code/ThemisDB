@@ -43,5 +43,25 @@
         "Interpretation"
       ]
     }
+  },
+  "path_rules": {
+    "src/metadata/README.md": {
+      "required_headings": [
+        "Module Purpose",
+        "Scope",
+        "Quickstart (Build/Run)",
+        "API/CLI Entry Points",
+        "Integration Overview",
+        "Known Limitations",
+        "References"
+      ],
+      "require_mermaid": true,
+      "max_mermaid_blocks": 3,
+      "require_interpretation_after_mermaid": true,
+      "interpretation_keywords": [
+        "Kurzinterpretation",
+        "Interpretation"
+      ]
+    }
   }
 }

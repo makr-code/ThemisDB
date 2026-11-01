@@ -2,7 +2,7 @@
 
 **Author:** ThemisDB Contributors  
 **Created:** 2026-10-31  
-**Last Updated:** 2026-11-01
+**Last Updated:** 2026-11-01  
 **Status:** review  
 **AI_Used:** true  
 **AI_Models:** unknown  
@@ -16,7 +16,7 @@
 
 > Exact model backend not verifiable from final document text alone.
 
-## Zweck
+## Module Purpose
 
 The metadata module provides schema discovery, metadata management, statistics surfaces, consistency tooling, and metadata export/integration behavior for ThemisDB.
 
@@ -51,7 +51,7 @@ cmake --build <build-dir> --target test_schema_manager_focused
 ctest --test-dir <build-dir> --output-on-failure -R '^SchemaManagerFocusedTests$'
 ```
 
-## API/CLI Einstieg
+## API/CLI Entry Points
 
 | Concern | Public contract | Implementation |
 |---|---|---|
@@ -71,7 +71,7 @@ routes are owned by the server module; metadata consumers use the C++ contracts
 linked above. The public headers define the exact ownership, threading, and
 error behavior.
 
-## Integrationsueberblick
+## Integration Overview
 
 ```mermaid
 flowchart LR
@@ -106,7 +106,7 @@ Index-Manager ergänzt Indexinformationen, er ersetzt nicht die Schemaquelle.
 - Consult the owning public header for per-class thread-safety, ownership, and
   error contracts; the module has no single global concurrency guarantee.
 
-## Verweise
+## References
 
 - Compiled metadata source files are registered in
   [`cmake/CMakeLists.txt`](../../cmake/CMakeLists.txt); modular build ownership

@@ -370,6 +370,7 @@ public:
      * @note The pointer is valid only while this server retains its content
      *       manager. Metric fields provide their own atomic reads; this method
      *       does not return a snapshot.
+     * @note Test helper; this method is not a stable public API contract.
      */
     const themis::content::ContentManager::Metrics* contentMetrics() const {
         return content_manager_ ? &content_manager_->getMetrics() : nullptr;
