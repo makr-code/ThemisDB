@@ -1203,26 +1203,60 @@ file(GLOB METADATA_AUTOGEN_PREFIX_TEST_SOURCES
 )
 
 foreach(_src IN LISTS METADATA_AUTOGEN_PREFIX_TEST_SOURCES)
-    # Skip sources already wired by explicit focused targets in this module file.
-    set(_src_already_registered FALSE)
+    get_filename_component(_src_real "${_src}" REALPATH)
+    set(_registered_targets "")
     get_property(_metadata_dir_targets DIRECTORY PROPERTY BUILDSYSTEM_TARGETS)
     foreach(_metadata_tgt IN LISTS _metadata_dir_targets)
+        if(_metadata_tgt STREQUAL "themis_tests")
+            continue()
+        endif()
+        get_target_property(_metadata_tgt_type ${_metadata_tgt} TYPE)
+        if(NOT _metadata_tgt_type STREQUAL "EXECUTABLE")
+            continue()
+        endif()
         get_target_property(_metadata_tgt_sources ${_metadata_tgt} SOURCES)
-        if(_metadata_tgt_sources)
-            list(FIND _metadata_tgt_sources "${_src}" _metadata_src_idx)
-            if(NOT _metadata_src_idx EQUAL -1)
-                set(_src_already_registered TRUE)
+        foreach(_metadata_tgt_source IN LISTS _metadata_tgt_sources)
+            if(_metadata_tgt_source MATCHES "\\$<")
+                continue()
+            endif()
+            if(NOT IS_ABSOLUTE "${_metadata_tgt_source}")
+                get_filename_component(
+                    _metadata_tgt_source
+                    "${_metadata_tgt_source}"
+                    ABSOLUTE
+                    BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}"
+                )
+            endif()
+            get_filename_component(_metadata_tgt_source_real "${_metadata_tgt_source}" REALPATH)
+            if(_metadata_tgt_source_real STREQUAL _src_real)
+                list(APPEND _registered_targets "${_metadata_tgt}")
                 break()
             endif()
-        endif()
+        endforeach()
     endforeach()
-    if(_src_already_registered)
-        continue()
-    endif()
 
     get_filename_component(_stem "${_src}" NAME_WE)
     set(_target "module_metadata_${_stem}_autofocused")
     set(_ctest "${_stem}_metadata_AutoFocusedTests")
+
+    list(LENGTH _registered_targets _registered_target_count)
+    if(_registered_target_count GREATER 1)
+        message(FATAL_ERROR
+            "Metadata test source ${_src} is already compiled by multiple executable targets: "
+            "${_registered_targets}"
+        )
+    elseif(_registered_target_count EQUAL 1)
+        list(GET _registered_targets 0 _registered_target)
+        themis_register_module_focused_test(
+            MODULE metadata
+            NAME ${_ctest}
+            TARGET ${_registered_target}
+            TIER unit
+            TIMEOUT 120
+            LABELS metadata autogen
+        )
+        continue()
+    endif()
 
     if(TARGET ${_target})
         continue()

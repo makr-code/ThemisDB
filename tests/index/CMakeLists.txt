@@ -69,7 +69,7 @@ file(GLOB INDEX_AUTOGEN_PREFIX_TEST_SOURCES
 
 foreach(_src IN LISTS INDEX_AUTOGEN_PREFIX_TEST_SOURCES)
     get_filename_component(_stem "${_src}" NAME_WE)
-    set(_target "module_index_${_stem}_autofocused")
+    set(_target "module_index_${_stem}_focused")
     set(_ctest "${_stem}_index_AutoFocusedTests")
 
      if(_stem STREQUAL "test_index_gpu_memory_safety"
@@ -79,51 +79,26 @@ foreach(_src IN LISTS INDEX_AUTOGEN_PREFIX_TEST_SOURCES)
     endif()
 
     if(TARGET ${_target})
-        continue()
-    endif()
-
-    add_executable(${_target} "${_src}")
-    target_include_directories(${_target} PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-    target_link_libraries(${_target} PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        spdlog::spdlog
-        Threads::Threads
-    )
-    target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
-    
-    # Apply strict compilation flags (Phase 5: -Werror for ThemisDB targets only)
-    themis_apply_strict_build_flags(${_target})
-    
-    # Phase 5: GPU tests require CUDA linkage if available
-    if(_stem MATCHES "gpu_memory" AND THEMIS_CUDA_ENABLED)
-        target_link_libraries(${_target} PRIVATE CUDA::cudart)
-        target_compile_definitions(${_target} PRIVATE THEMIS_CUDA_ENABLED=1)
-    endif()
-
-    if(_stem STREQUAL "test_index_phase2_a2_iterator_safety")
-        target_sources(${_target} PRIVATE
-            ${THEMIS_ROOT_DIR}/src/index/partition_manager.cpp
-            ${THEMIS_ROOT_DIR}/src/index/vector_index_manager_safety.cpp
+        # Preserve strict compilation on the canonical executable without a duplicate target.
+        themis_apply_strict_build_flags(${_target})
+        themis_register_module_focused_test(
+            MODULE index
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER unit
+            TIMEOUT 120
+            LABELS index autogen
+        )
+    else()
+        message(FATAL_ERROR
+            "AutoFocused index test '${_src}' has no canonical target '${_target}'"
         )
     endif()
-
-    themis_register_module_focused_test(
-        MODULE index
-        NAME ${_ctest}
-        TARGET ${_target}
-        TIER unit
-        TIMEOUT 120
-        LABELS index autogen
-    )
 endforeach()
 
 # Phase 5: Explicit GPU memory safety test with CUDA support
-if(THEMIS_CUDA_ENABLED AND TARGET module_index_test_index_gpu_memory_safety_autofocused)
-    target_compile_definitions(module_index_test_index_gpu_memory_safety_autofocused
+if(THEMIS_CUDA_ENABLED AND TARGET module_index_test_index_gpu_memory_safety_focused)
+    target_compile_definitions(module_index_test_index_gpu_memory_safety_focused
         PRIVATE THEMIS_CUDA_ENABLED=1
     )
 endif()

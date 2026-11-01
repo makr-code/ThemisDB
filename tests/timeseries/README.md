@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-04-17"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -34,13 +34,11 @@ registers a focused unit-test target through
 named `test_<stem>.cpp`, the target is `module_timeseries_<stem>_focused` and
 the CTest name is `<stem>_TimeseriesFocusedTests`.
 
-The file also has a separate autogen loop for `test_timeseries_*.cpp`. It
-computes distinct `_autofocused` target and `*_timeseries_AutoFocusedTests`
-names. Its `if(TARGET ${_target})` guard checks for that `_autofocused` target;
-it does not match the primary loop's `_focused` target. Thus, for sources
-matching both globs, the primary focused registration does not by itself cause
-the autogen loop to skip. The autogen target is skipped only if that exact
-`_autofocused` target has already been declared elsewhere.
+The autogen loop also selects `test_timeseries_*.cpp`, but reuses each source's
+canonical `_focused` executable and adds the legacy
+`*_timeseries_AutoFocusedTests` CTest name with the `autogen` label. This keeps
+existing CTest selection stable while compiling each source only once. If an
+autogen source has no canonical focused target, CMake configuration fails.
 
 Example commands, after the repository has been configured. Use the same
 configured `<build-dir>` for building the target and selecting its registered

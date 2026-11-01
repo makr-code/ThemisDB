@@ -86,6 +86,38 @@ list(APPEND PERFORMANCE_AUTOGEN_PREFIX_TEST_SOURCES
 )
 
 foreach(_src IN LISTS PERFORMANCE_AUTOGEN_PREFIX_TEST_SOURCES)
+    get_filename_component(_src_real "${_src}" REALPATH)
+    set(_registered_targets "")
+    get_property(_performance_dir_targets DIRECTORY PROPERTY BUILDSYSTEM_TARGETS)
+    foreach(_performance_tgt IN LISTS _performance_dir_targets)
+        if(_performance_tgt STREQUAL "themis_tests")
+            continue()
+        endif()
+        get_target_property(_performance_tgt_type ${_performance_tgt} TYPE)
+        if(NOT _performance_tgt_type STREQUAL "EXECUTABLE")
+            continue()
+        endif()
+        get_target_property(_performance_tgt_sources ${_performance_tgt} SOURCES)
+        foreach(_performance_tgt_source IN LISTS _performance_tgt_sources)
+            if(_performance_tgt_source MATCHES "\\$<")
+                continue()
+            endif()
+            if(NOT IS_ABSOLUTE "${_performance_tgt_source}")
+                get_filename_component(
+                    _performance_tgt_source
+                    "${_performance_tgt_source}"
+                    ABSOLUTE
+                    BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}"
+                )
+            endif()
+            get_filename_component(_performance_tgt_source_real "${_performance_tgt_source}" REALPATH)
+            if(_performance_tgt_source_real STREQUAL _src_real)
+                list(APPEND _registered_targets "${_performance_tgt}")
+                break()
+            endif()
+        endforeach()
+    endforeach()
+
     get_filename_component(_stem "${_src}" NAME_WE)
     file(RELATIVE_PATH _relative_source "${CMAKE_CURRENT_SOURCE_DIR}" "${_src}")
     if(_relative_source MATCHES "^phase[34]/")
@@ -104,6 +136,25 @@ foreach(_src IN LISTS PERFORMANCE_AUTOGEN_PREFIX_TEST_SOURCES)
         list(APPEND _extra_sources
             ${THEMIS_ROOT_DIR}/src/performance/hardware_accelerator.cpp
         )
+    endif()
+
+    list(LENGTH _registered_targets _registered_target_count)
+    if(_registered_target_count GREATER 1)
+        message(FATAL_ERROR
+            "Performance test source ${_src} is already compiled by multiple executable targets: "
+            "${_registered_targets}"
+        )
+    elseif(_registered_target_count EQUAL 1)
+        list(GET _registered_targets 0 _registered_target)
+        themis_register_module_focused_test(
+            MODULE performance
+            NAME ${_name_stem}_performance_AutoFocusedTests
+            TARGET ${_registered_target}
+            TIER unit
+            TIMEOUT 120
+            LABELS performance autogen
+        )
+        continue()
     endif()
 
     if(TARGET ${_target})

@@ -398,64 +398,106 @@ if(EXISTS "${CMAKE_CURRENT_LIST_DIR}/test_transaction_stress.cpp")
     )
 endif()
 
-file(GLOB TRANSACTION_AUTOGEN_PREFIX_TEST_SOURCES
-    "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_*.cpp"
-)
+function(themis_register_transaction_autofocused_tests)
+    file(GLOB _transaction_autogen_sources
+        "${CMAKE_CURRENT_SOURCE_DIR}/test_transaction_*.cpp"
+    )
 
-foreach(_src IN LISTS TRANSACTION_AUTOGEN_PREFIX_TEST_SOURCES)
-    # Skip sources already wired by explicit focused targets in this module file.
-    set(_src_already_registered FALSE)
-    get_property(_tx_dir_targets DIRECTORY PROPERTY BUILDSYSTEM_TARGETS)
-    foreach(_tx_tgt IN LISTS _tx_dir_targets)
-        get_target_property(_tx_tgt_sources ${_tx_tgt} SOURCES)
-        if(_tx_tgt_sources)
-            list(FIND _tx_tgt_sources "${_src}" _tx_src_idx)
-            if(NOT _tx_src_idx EQUAL -1)
-                set(_src_already_registered TRUE)
-                break()
-            endif()
+    foreach(_src IN LISTS _transaction_autogen_sources)
+        if(_src MATCHES ".*/test_transaction_(chaos|stress|timeout_determinism)\\.cpp$" OR
+           _src MATCHES ".*\\\\test_transaction_(chaos|stress|timeout_determinism)\\.cpp$")
+            continue()
         endif()
+
+        get_filename_component(_src_real "${_src}" REALPATH)
+        set(_registered_targets "")
+        get_property(
+            _tx_dir_targets
+            DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+            PROPERTY BUILDSYSTEM_TARGETS
+        )
+        foreach(_tx_tgt IN LISTS _tx_dir_targets)
+            if(_tx_tgt STREQUAL "themis_tests")
+                continue()
+            endif()
+            get_target_property(_tx_tgt_type ${_tx_tgt} TYPE)
+            if(NOT _tx_tgt_type STREQUAL "EXECUTABLE")
+                continue()
+            endif()
+            get_target_property(_tx_tgt_sources ${_tx_tgt} SOURCES)
+            foreach(_tx_tgt_source IN LISTS _tx_tgt_sources)
+                if(_tx_tgt_source MATCHES "\\$<")
+                    continue()
+                endif()
+                if(NOT IS_ABSOLUTE "${_tx_tgt_source}")
+                    get_filename_component(
+                        _tx_tgt_source
+                        "${_tx_tgt_source}"
+                        ABSOLUTE
+                        BASE_DIR "${CMAKE_CURRENT_SOURCE_DIR}"
+                    )
+                endif()
+                get_filename_component(_tx_tgt_source_real "${_tx_tgt_source}" REALPATH)
+                if(_tx_tgt_source_real STREQUAL _src_real)
+                    list(APPEND _registered_targets "${_tx_tgt}")
+                    break()
+                endif()
+            endforeach()
+        endforeach()
+
+        list(LENGTH _registered_targets _registered_target_count)
+        if(_registered_target_count GREATER 1)
+            message(FATAL_ERROR
+                "Transaction test source ${_src} is already compiled by multiple executable targets: "
+                "${_registered_targets}"
+            )
+        endif()
+
+        get_filename_component(_stem "${_src}" NAME_WE)
+        set(_ctest "${_stem}_transaction_AutoFocusedTests")
+        if(_registered_target_count EQUAL 1)
+            list(GET _registered_targets 0 _registered_target)
+            themis_register_module_focused_test(
+                MODULE transaction
+                NAME ${_ctest}
+                TARGET ${_registered_target}
+                TIER unit
+                TIMEOUT 120
+                LABELS transaction autogen
+            )
+            continue()
+        endif()
+
+        set(_target "module_transaction_${_stem}_autofocused")
+        if(TARGET ${_target})
+            continue()
+        endif()
+
+        add_executable(${_target} "${_src}")
+        target_include_directories(${_target} PRIVATE
+            ${THEMIS_ROOT_DIR}/include
+            ${THEMIS_ROOT_DIR}/src
+        )
+        target_link_libraries(${_target} PRIVATE
+            ${TEST_LIBS}
+            themis_core
+            spdlog::spdlog
+            Threads::Threads
+        )
+        target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
+
+        themis_register_module_focused_test(
+            MODULE transaction
+            NAME ${_ctest}
+            TARGET ${_target}
+            TIER unit
+            TIMEOUT 120
+            LABELS transaction autogen
+        )
     endforeach()
-    if(_src_already_registered)
-        continue()
-    endif()
+endfunction()
 
-    # Skip already-registered and placeholder tests (timeout_determinism not yet implemented)
-    if(_src MATCHES ".*/test_transaction_(chaos|stress|timeout_determinism)\\.cpp$" OR
-       _src MATCHES ".*\\\\test_transaction_(chaos|stress|timeout_determinism)\\.cpp$")
-        continue()
-    endif()
-
-    get_filename_component(_stem "${_src}" NAME_WE)
-    set(_target "module_transaction_${_stem}_autofocused")
-    set(_ctest "${_stem}_transaction_AutoFocusedTests")
-
-    if(TARGET ${_target})
-        continue()
-    endif()
-
-    add_executable(${_target} "${_src}")
-    target_include_directories(${_target} PRIVATE
-        ${THEMIS_ROOT_DIR}/include
-        ${THEMIS_ROOT_DIR}/src
-    )
-    target_link_libraries(${_target} PRIVATE
-        ${TEST_LIBS}
-        themis_core
-        spdlog::spdlog
-        Threads::Threads
-    )
-    target_compile_definitions(${_target} PRIVATE THEMIS_TEST_BUILD=1)
-
-    themis_register_module_focused_test(
-        MODULE transaction
-        NAME ${_ctest}
-        TARGET ${_target}
-        TIER unit
-        TIMEOUT 120
-        LABELS transaction autogen
-    )
-endforeach()
+cmake_language(DEFER CALL themis_register_transaction_autofocused_tests)
 
 # ===== PHASE 1 HARDENING TESTS (Q3-Q4 2026) =====
 

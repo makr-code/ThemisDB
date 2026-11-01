@@ -524,7 +524,10 @@ GNNEmbeddingManager::Status GNNEmbeddingManager::updateNodeEmbedding(
     embEntity.setField("embedding", embedding);
     
     // Store in database (for retrieval)
-    db_.put(embKey, embEntity.serialize());
+    const auto serialized_embedding = embEntity.serialize();
+    if (!db_.put(embKey, serialized_embedding)) {
+        return Status::Error("Failed to persist embedding entity '" + embKey + "'");
+    }
     
     // Add to vector index (for similarity search)
     auto stAdd = vim_.addEntity(embEntity, "embedding");

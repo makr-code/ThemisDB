@@ -11,7 +11,11 @@ function(themis_register_module_test)
     cmake_parse_arguments(TRM "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
     if(WIN32 AND TARGET "${TRM_TARGET}")
-        themis_sync_runtime_dlls_for_target("${TRM_TARGET}")
+        get_property(_runtime_dlls_synced TARGET "${TRM_TARGET}" PROPERTY THEMIS_RUNTIME_DLLS_SYNCED)
+        if(NOT _runtime_dlls_synced)
+            themis_sync_runtime_dlls_for_target("${TRM_TARGET}")
+            set_property(TARGET "${TRM_TARGET}" PROPERTY THEMIS_RUNTIME_DLLS_SYNCED TRUE)
+        endif()
     endif()
 
     if(COMMAND themis_set_test_out_dir)

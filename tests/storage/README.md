@@ -1,7 +1,7 @@
 ---
 Author: "ThemisDB Contributors"
 Created: "2026-04-17"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "review"
 AI_Used: true
 AI_Models: "unknown"
@@ -29,9 +29,10 @@ layout advice, and focused hardening cases. At this audit, 21 matching
 `test_*.cpp` files are present.
 
 [`CMakeLists.txt`](CMakeLists.txt) discovers `test_*.cpp` files and registers
-focused unit-test targets. It also has a `test_storage_*.cpp` auto-focused
-pass that skips targets already created by the first pass. Registration does
-not mean a test was built or passed.
+focused unit-test targets. A second `test_storage_*.cpp` pass registers the
+legacy AutoFocused CTest names and labels against those same executables, so
+each source is compiled once. A missing canonical target fails configuration.
+Registration does not mean a test was built or passed.
 
 ## Build preset caveat
 
