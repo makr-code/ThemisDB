@@ -1,20 +1,26 @@
 ---
 Author: "ThemisDB Team"
 Created: "2026-10-31"
-Last Updated: "2026-10-31"
+Last Updated: "2026-11-01"
 Status: "active"
 AI_Used: true
 AI_Models: "unknown"
-AI_Contributor: "GitHub Copilot"
+AI_Contributor: "GitHub Copilot coding agent"
 Human_Review: false
-Human_Author: "ThemisDB Team"
+Human_Author: "ThemisDB Contributors"
+Source_Level: "level2"
+SOT_Domain: "module-behavior"
+Canonical_References:
+  - "DOCUMENTATION_GOVERNANCE.md"
+  - "ai_context/developer_llm_wiki/STORAGE.md"
+  - "ai_context/developer_llm_wiki/INDEX.md"
 ---
 
 > Exact model backend not verifiable from final document text alone.
 
 # Developer LLM Wiki — Modules and APIs
 
-Datum: 2026-10-31
+Datum: 2026-11-01
 Status: Active
 
 ## Curated module contexts
@@ -24,6 +30,7 @@ Status: Active
 - [Importer module context](IMPORTERS.md) — shared contracts, connector boundaries, focused test evidence, and operational limits.
 - [Updates module context](UPDATES.md) — update lifecycle, rollout and patch contracts, diagnostic evidence, and operator boundaries.
 - [Distributed tensor module context](DISTRIBUTED_TENSOR.md) — tensor artifact contracts, planning boundaries, C++ requirements, and verified test/benchmark evidence.
+- [Storage module context](STORAGE.md) — component boundaries, contract-vs-evidence gaps, and focused test/benchmark limits.
 
 
 ## include/acceleration/ai_hardware_dispatcher.h
